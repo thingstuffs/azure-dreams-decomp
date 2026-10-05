@@ -28,7 +28,7 @@ typedef struct S_8001D188_1 {
 
 typedef struct S_8001D188_2 {
     u8 pad_00[0x3700];
-    union { u8 s; volatile u8 u; } unk_3700;   /* accessed as both */
+    u8 unk_3700;
 } S_8001D188_2;   /* temp_a2 in func_8001D188 */
 
 
@@ -53,7 +53,7 @@ void func_8001D188(s32 entry_index, s32 lookup_arg1, s32 lookup_arg2, s32 lookup
     S_8001D188_1 *cursor;
     s16 *entries;
     s32 next_count;
-    u8 count;
+    s32 count;
 
     do {
         page = (u8 *)0x80010000;
@@ -69,14 +69,14 @@ void func_8001D188(s32 entry_index, s32 lookup_arg1, s32 lookup_arg2, s32 lookup
         group_id = *(s16 *)((u8 *)entries + (entry_id * 0x14));
     } while (0);
     group_state = state_base + group_id;
-    next_count = group_state->unk_3700.s;
+    next_count = group_state->unk_3700;
     next_count += 1;
-    group_state->unk_3700.s = next_count;
-    count = group_state->unk_3700.u;
+    group_state->unk_3700 = next_count;
+    count = group_state->unk_3700;
     ASM_USE(count);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     limits = D_8001902C;
     if (count >= *(s16 *)((u8 *)limits + (((group_id * 3) + variant) * 8))) {
-        group_state->unk_3700.s = 0U;
+        group_state->unk_3700 = 0U;
     }
     slot_index = 0;
     history = (u8 *)((s16)group_id * 0xC) + state_base + 0x3640;

@@ -27,33 +27,16 @@ s32 func_800ACE34(StructArg0 *object_arg, s32 unused, StructArg2 *effect_arg) {
     StructArg0 *object = object_arg;
     StructArg2 *effect = effect_arg;
     u8 phase = object->unk9B;
-    u8 red;
-    u8 green;
-    s32 green_step;
-    u8 blue;
-    s32 blue_step;
     u16 effect_count;
     StructArg0 *owner;
 
     switch (phase) {
     case 0:
-        red = effect->unk0C;
         effect->unk0F++;
-        unused = 0x80 - red;
-        unused = unused / *(volatile u8 *)&effect->unk0F;
-        green = effect->unk0D;
-        green_step = 0x80 - green;
-        green_step = green_step / *(u8 *)&effect->unk0F;
-        blue = effect->unk0E;
-        blue_step = 0x80 - blue;
-        blue_step = blue_step / *(volatile u8 *)&effect->unk0F;
-        red += unused;
-        effect->unk0C = red;
-        green += green_step;
-        effect->unk0D = green;
-        blue += blue_step;
-        effect->unk0E = blue;
-        if (*(u8 *)&effect->unk0F >= 8) {
+        effect->unk0C += (0x80 - effect->unk0C) / effect->unk0F;
+        effect->unk0D += (0x80 - effect->unk0D) / effect->unk0F;
+        effect->unk0E += (0x80 - effect->unk0E) / effect->unk0F;
+        if (effect->unk0F >= 8) {
             effect->unk0E = 0x80;
             effect->unk0D = 0x80;
             effect->unk0C = 0x80;

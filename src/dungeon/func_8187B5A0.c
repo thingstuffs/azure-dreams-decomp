@@ -5,8 +5,6 @@
 #define FIELD_U16(base, off) (*(u16 *)((u8 *)(base) + (off)))
 #define FIELD_U32(base, off) (*(u32 *)((u8 *)(base) + (off)))
 #define FIELD_PTR(base, off) (*(u8 **)((u8 *)(base) + (off)))
-#define VOL_U32(base, off) (*(volatile u32 *)((u8 *)(base) + (off)))
-#define VOL_PTR(base, off) (*(u8 * volatile *)((u8 *)(base) + (off)))
 
 extern u8 D_80080000[];
 extern u32 func_80065420();
@@ -38,7 +36,7 @@ s32 func_8187B5A0(u8 *render_data, u8 *source_vertex)
     FIELD_PTR(scratch, 0x18) = FIELD_PTR(context, 0x8D0);
     FIELD_PTR(scratch, 0x20) = context + 0xB0;
     do {
-        point_packet = VOL_PTR(scratch, 0x18);
+        point_packet = FIELD_PTR(scratch, 0x18);
         vertex_x = FIELD_U16(vertex, 2);
         FIELD_U16(scratch, 0) = vertex_x;
         FIELD_U16(scratch, 2) = FIELD_U16(vertex, 6);
@@ -60,12 +58,12 @@ s32 func_8187B5A0(u8 *render_data, u8 *source_vertex)
             FIELD_U8(point_packet, 6) = blue;
 
             FIELD_U32(point_packet, 0) = (FIELD_U32(point_packet, 0) & length_mask) |
-                (*(u32 *)((VOL_U32(scratch, 0xC0) * 4) + (u32)VOL_PTR(scratch, 0x20)) & address_mask);
+                (*(u32 *)((FIELD_U32(scratch, 0xC0) * 4) + (u32)FIELD_PTR(scratch, 0x20)) & address_mask);
             {
                 u32 *ot_entry;
                 u32 ot_tag;
-                ot_entry = (u32 *)((VOL_U32(scratch, 0xC0) * 4) +
-                                   (u32)VOL_PTR(scratch, 0x20));
+                ot_entry = (u32 *)((FIELD_U32(scratch, 0xC0) * 4) +
+                                   (u32)FIELD_PTR(scratch, 0x20));
                 ot_tag = *ot_entry;
                 *ot_entry = (ot_tag & length_mask) |
                            ((u32)point_packet & address_mask);
@@ -76,8 +74,8 @@ s32 func_8187B5A0(u8 *render_data, u8 *source_vertex)
             func_80067F20(mode_packet, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
 
             FIELD_U32(mode_packet, 0) = (FIELD_U32(mode_packet, 0) & length_mask) |
-                (*(u32 *)((VOL_U32(scratch, 0xC0) * 4) + (u32)VOL_PTR(scratch, 0x20)) & address_mask);
-            mode_ot_entry = (u32 *)((VOL_U32(scratch, 0xC0) * 4) + (u32)VOL_PTR(scratch, 0x20));
+                (*(u32 *)((FIELD_U32(scratch, 0xC0) * 4) + (u32)FIELD_PTR(scratch, 0x20)) & address_mask);
+            mode_ot_entry = (u32 *)((FIELD_U32(scratch, 0xC0) * 4) + (u32)FIELD_PTR(scratch, 0x20));
             *mode_ot_entry = (*mode_ot_entry & length_mask) | ((u32)mode_packet & address_mask);
         }
 

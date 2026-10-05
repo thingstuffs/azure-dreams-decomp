@@ -46,10 +46,11 @@ void func_80124728(TownObject *town_obj)
     func_80123ECC(town_obj);
     D_80126A0D[0] = D_80126A01[0];
 
-    if (*(volatile u8 *)&town_obj->index == 0x31) {
+    if (town_obj->index == 0x31) {
         *town_obj->town->slots[21] = D_80128038;
     } else {
-        *town_obj->town->slots[21] = D_80126988[town_obj->index >> 4];
+        u32 t = town_obj->index;
+        *town_obj->town->slots[21] = D_80126988[t >> 4];
     }
 
     D_80129780[0]->src->f8 =

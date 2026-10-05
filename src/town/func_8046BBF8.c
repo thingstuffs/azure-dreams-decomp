@@ -32,7 +32,7 @@ TownRecord *func_8001CBF8(void)
     source = source_table[D_80016000->unk_20->callback_2D4(0)];
     index = 0;
     values = value_table[D_80016000->unk_20->callback_2D4(index)];
-    if ((((volatile TownRecord *)D_80018A18)->flags & 0xC0) != 0x80) {
+    if (((((TownRecord *)((s32)(index * sizeof(TownRecord)) + (s32)D_80018A18)))->flags & 0xC0) != 0x80) {
         register s32 next_addr_or_end;
         u8 value_or_flags;
         s32 record_flags;
@@ -49,9 +49,9 @@ TownRecord *func_8001CBF8(void)
             write_record->value = value_or_flags;
             index++;
             next_addr_or_end = (s32)(index * sizeof(TownRecord)) + (s32)D_80018A18;
-            value_or_flags = *(volatile u8 *)&((TownRecord *)next_addr_or_end)->flags;
-            record_flags = value_or_flags;
+            value_or_flags = ((TownRecord *)next_addr_or_end)->flags;
             next_addr_or_end = 128;
+            record_flags = value_or_flags;
             record_flags &= 0xC0;
         } while (record_flags != next_addr_or_end);
     }

@@ -122,8 +122,8 @@ void func_800D07C8(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
     u8 *part_uv;
     u8 *part;
     u8 *packet;
-    s32 vertex_x;
-    s32 vertex_y;
+    s16 vertex_x;
+    s16 vertex_y;
     s32 first_three_visible;
     s32 first_pair_visible;
     s32 color;
@@ -176,27 +176,29 @@ void func_800D07C8(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
             ((S_800D07C8_0 *)scratch)->unk_10.s32 = (*(u8 *)((u8 *)part_uv + 2));
             ((S_800D07C8_0 *)scratch)->unk_14.s32 = (*(u8 *)((u8 *)part_uv + 3));
             if ((((S_800D07C8_4 *)part)->unk_00.u ^ ((S_800D07C8_0 *)scratch)->unk_24) & 1) {
-                vertex_x = (0 - (s8)(*(volatile u8 *)((u8 *)part_uv + -6))) - ((S_800D07C8_0 *)scratch)->unk_108;
+                vertex_x = (0 - (s8)(*(u8 *)((u8 *)part_uv + -6))) - ((S_800D07C8_0 *)scratch)->unk_108;
                 ((S_800D07C8_0 *)scratch)->unk_80 = vertex_x;
                 ((S_800D07C8_0 *)scratch)->unk_70 = vertex_x;
                 vertex_x -= ((S_800D07C8_0 *)scratch)->unk_10.u16;
+                ((S_800D07C8_0 *)scratch)->unk_88 = vertex_x;
+                ((S_800D07C8_0 *)scratch)->unk_78 = vertex_x;
             } else {
-                vertex_x = (s8)(*(volatile u8 *)((u8 *)part_uv + -6)) - ((S_800D07C8_0 *)scratch)->unk_108;
+                vertex_x = (s8)(*(u8 *)((u8 *)part_uv + -6)) - ((S_800D07C8_0 *)scratch)->unk_108;
                 ((S_800D07C8_0 *)scratch)->unk_80 = vertex_x;
                 ((S_800D07C8_0 *)scratch)->unk_70 = vertex_x;
                 vertex_x = vertex_x + ((S_800D07C8_0 *)scratch)->unk_10.u16;
+                ((S_800D07C8_0 *)scratch)->unk_88 = vertex_x;
+                ((S_800D07C8_0 *)scratch)->unk_78 = vertex_x;
             }
-            ((S_800D07C8_0 *)scratch)->unk_88 = vertex_x;
-            ((S_800D07C8_0 *)scratch)->unk_78 = vertex_x;
             if ((((S_800D07C8_4 *)part)->unk_00.u ^ ((S_800D07C8_0 *)scratch)->unk_24) & 2) {
-                vertex_y = (0 - (s8)(*(volatile u8 *)((u8 *)part_uv + -5))) - ((S_800D07C8_0 *)scratch)->unk_10A;
+                vertex_y = (0 - (s8)(*(u8 *)((u8 *)part_uv + -5))) - ((S_800D07C8_0 *)scratch)->unk_10A;
                 ((S_800D07C8_0 *)scratch)->unk_7A = vertex_y;
                 ((S_800D07C8_0 *)scratch)->unk_72 = vertex_y;
                 vertex_y -= ((S_800D07C8_0 *)scratch)->unk_14.u16;
                 ((S_800D07C8_0 *)scratch)->unk_8A = vertex_y;
                 ((S_800D07C8_0 *)scratch)->unk_82 = vertex_y;
             } else {
-                vertex_y = (s8)(*(volatile u8 *)((u8 *)part_uv + -5)) - ((S_800D07C8_0 *)scratch)->unk_10A;
+                vertex_y = (s8)(*(u8 *)((u8 *)part_uv + -5)) - ((S_800D07C8_0 *)scratch)->unk_10A;
                 ((S_800D07C8_0 *)scratch)->unk_7A = vertex_y;
                 ((S_800D07C8_0 *)scratch)->unk_72 = vertex_y;
                 vertex_y = vertex_y + ((S_800D07C8_0 *)scratch)->unk_14.u16;

@@ -75,7 +75,6 @@ s32 func_8080DAB8(void *first_record) {
     u8 *depths;
     u8 *transform_scratch;
     u8 *primitive_base;
-    u8 *mode_base;
     u32 buffer_limit;
     u32 buffer_limit_2;
 
@@ -84,7 +83,7 @@ s32 func_8080DAB8(void *first_record) {
     screen_coords = (u8 *)0x1F800000;
     depths = (u8 *)0x1F800100;
     transform_scratch = (u8 *)0x1F800180;
-    do {
+    for (;;) {
         func_8006BFA0(record + 8, screen_coords, depths, transform_scratch, transform_scratch, 2);
         primitive_cursor = 0;
         primitive = ((S_8080DAB8_0 *)(*render_root))->unk_8D0;
@@ -98,12 +97,11 @@ s32 func_8080DAB8(void *first_record) {
         mode_cursor = 0;
         primitive_base = ((S_8080DAB8_0 *)(*render_root))->unk_8D0;
         draw_mode = primitive_base;
-        mode_base = (u8 *)*render_root;
+        depth1_shifted = (u32)*render_root;
         if (draw_mode != 0) {
             mode_end = (u8 *)draw_mode + 0xC;
-            ASM_KEEP_NV(mode_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             buffer_limit = 0x108D4;
-            mode_cursor = mode_end & (0 - ((u32)(mode_base + buffer_limit) >= mode_end));
+            mode_cursor = mode_end & (0 - ((u32)(depth1_shifted + buffer_limit) >= mode_end));
         }
         ((S_8080DAB8_0 *)(*render_root))->unk_8D0 = mode_cursor;
         func_8006F49C((s32 *)draw_mode, 0, 0, func_8006D9DC(0, 0, 0, 0) & 0xFFFF, 0);
@@ -145,8 +143,11 @@ s32 func_8080DAB8(void *first_record) {
             tag_word = ((S_8080DAB8_4 *)((u8 *)ot_slot))->unk_B0;
             setaddr((u8 *)ot_slot + 0xB0, packet_addr);
         }
-        mode_base = (u8 *)((S_8080DAB8_2 *)((u8 *)record - 0x8))->unk_00;
-        record = mode_base + 0x20;
-    } while (mode_base != 0);
+        first_record = (void *)((S_8080DAB8_2 *)((u8 *)record - 0x8))->unk_00;
+        if (first_record == 0) {
+            break;
+        }
+        record = (u8 *)first_record + 0x20;
+    }
     return 0;
 }

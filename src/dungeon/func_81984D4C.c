@@ -50,8 +50,8 @@ void func_81984D4C(void *tracker) {
     if (((S_81984D4C_1 *)timer)->unk_00.u != 0) {
         ((S_81984D4C_1 *)timer)->unk_00.s = (s8) (((S_81984D4C_1 *)timer)->unk_00.u - 1);
     }
-    target = (*(void * volatile *)((u8 *)tracker + 0xC));
     (*(u16 *)((u8 *)tracker + 4)) = (u16) ((S_81984D4C_4 *)((*(void **)((u8 *)tracker + 0xC))))->unk_02;
+    target = (*(void **)((u8 *)tracker + 0xC));
     (*(u16 *)((u8 *)tracker + 6)) = (u16) target->unk_06;
     (*(u16 *)((u8 *)tracker + 8)) = (u16) target->unk_0A;
     state->unk_0A4 = (u16) ((u16)state->unk_0A4) + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 4)) - state->unk_0A4) >> 2);
@@ -67,5 +67,6 @@ void func_81984D4C(void *tracker) {
 }
 
 /* MECHANISM: Frameless leaf; tracker stays in a1 and D_80083178 in a2 across the CFG.
-   A volatile cached read of tracker+0xC prevents CSE with the direct first-use load,
-   producing retail's paired lw v0/v1 and keeping v1 live for offsets 6/0xA. */
+   The tracker+0xC pointer is read a second time, after the first-use load and the store to
+   tracker+4: the u16 store invalidates the earlier read (cse invalidate_memory), giving retail's
+   paired lw v0/v1 and keeping v1 live for offsets 6/0xA. */

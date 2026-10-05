@@ -33,18 +33,16 @@ typedef struct S_80171D74_2 {
 typedef struct S_80171D74_3 {
     union {
         struct { s32 v; } at00;
-        struct { volatile s32 v; } at00u;
         struct { u8 pad[0x2]; u16 v; } at02;
     } unk_00;   /* overlapping accesses */
     union {
         struct { s32 v; } at00;
-        struct { volatile s32 v; } at00u;
         struct { u8 pad[0x2]; s16 v; } at02;
         struct { u8 pad[0x2]; u16 v; } at02u;
     } unk_04;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-    union { s32 n; volatile s32 v; } unk_0C;   /* accessed as both */
-    union { s32 n; volatile s32 v; } unk_10;   /* accessed as both */
+    s32 unk_0C;
+    s32 unk_10;
     s32 unk_14;
 } S_80171D74_3;   /* arg1 in func_80171D74 */
 
@@ -188,7 +186,6 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
     s16 owner_height;
     s16 turn_value;
     s16 facing_angle;
-    s32 move_component;
     s32 speed;
     MapGrid *map_info;
     s32 map_tiles;
@@ -250,19 +247,19 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
         if ((s16) wait_frame >= 0x1E) {
             ((S_80171D74_1 *)state_in)->unk_96 = 0U;
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
-            ((S_80171D74_3 *)motion_in)->unk_10.n = (s32) 0xFFF80000;
+            ((S_80171D74_3 *)motion_in)->unk_10 = (s32) 0xFFF80000;
         }
         func_8016F5D8(state_in, motion_in, sprite_in);
         break;
     case 1:
         ((S_80171D74_3 *)motion_in)->unk_04.at00.v = ((S_80171D74_3 *)motion_in)->unk_04.at00.v
-        + ((S_80171D74_3 *)motion_in)->unk_10.n;
+        + ((S_80171D74_3 *)motion_in)->unk_10;
         rise_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
         ((S_80171D74_1 *)state_in)->unk_96 = rise_frame;
         if ((s16) rise_frame >= 0x38) {
             ((S_80171D74_1 *)state_in)->unk_96 = 0U;
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
-            ((S_80171D74_3 *)motion_in)->unk_0C.n = 0;
+            ((S_80171D74_3 *)motion_in)->unk_0C = 0;
         }
         func_8016F5D8(state_in, motion_in, sprite_in);
         break;
@@ -296,20 +293,20 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
         if ((s16) ((S_80171D74_1 *)state_in)->unk_96 == 0x1E) {
             ((S_80171D74_1 *)state_in)->unk_96 = 0U;
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
-            ((S_80171D74_3 *)motion_in)->unk_0C.n = 0;
-            ((S_80171D74_3 *)motion_in)->unk_10.n = (s32) 0xFFF80000;
+            ((S_80171D74_3 *)motion_in)->unk_0C = 0;
+            ((S_80171D74_3 *)motion_in)->unk_10 = (s32) 0xFFF80000;
         }
         func_8016F5D8(state_in, motion_in, sprite_in);
         break;
     case 4:
         ((S_80171D74_3 *)motion_in)->unk_04.at00.v = ((S_80171D74_3 *)motion_in)->unk_04.at00.v
-        + ((S_80171D74_3 *)motion_in)->unk_10.n;
+        + ((S_80171D74_3 *)motion_in)->unk_10;
         lift_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
         ((S_80171D74_1 *)state_in)->unk_96 = lift_frame;
         if ((s16) lift_frame >= 0x10) {
             ((S_80171D74_1 *)state_in)->unk_96 = 0U;
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
-            ((S_80171D74_3 *)motion_in)->unk_0C.n = 0;
+            ((S_80171D74_3 *)motion_in)->unk_0C = 0;
         }
         func_8016F5D8(state_in, motion_in, sprite_in);
         break;
@@ -319,17 +316,17 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
             + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 3);
         ((S_80171D74_1 *)state_in)->unk_96 = 0U;
         ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
-        ((S_80171D74_3 *)motion_in)->unk_0C.n = (s32) 0x00020000;
+        ((S_80171D74_3 *)motion_in)->unk_0C = (s32) 0x00020000;
         break;
     case 7:
         ((S_80171D74_3 *)motion_in)->unk_00.at00.v = (s32) (((S_80171D74_3 *)motion_in)->unk_00.at00.v
-            + ((S_80171D74_3 *)motion_in)->unk_0C.n);
+            + ((S_80171D74_3 *)motion_in)->unk_0C);
         slide_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
         ((S_80171D74_1 *)state_in)->unk_96 = slide_frame;
         if ((s16) slide_frame >= 8) {
             ((S_80171D74_1 *)state_in)->unk_96 = 0U;
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
-            ((S_80171D74_3 *)motion_in)->unk_0C.n = 0;
+            ((S_80171D74_3 *)motion_in)->unk_0C = 0;
             ((S_80171D74_5 *)sprite_in)->unk_14 = (u16) (((S_80171D74_5 *)sprite_in)->unk_14 | 0x80);
             ((S_80171D74_3 *)motion_in)->unk_04.at02.v = 1;
             ((S_80171D74_3 *)motion_in)->unk_00.at02.v = 1U;
@@ -375,8 +372,8 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
             func_80047784(sprite_in, D_80173DB4[((s32) (((S_80171D74_6 *)((s16 *)(&gameWork.view.viewAngle)))->unk_00
                 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
             direction_base = (u8 *)&direction_table;
-            ((S_80171D74_3 *)motion_in)->unk_0C.n = (s32) (0 - (SP2_X_AT(direction_base, owner_state->unk_2A.n) << 0x10));
-            ((S_80171D74_3 *)motion_in)->unk_10.n = (void *) (0 - (SP2_Y_AT(direction_base, owner_state->unk_2A.n)
+            ((S_80171D74_3 *)motion_in)->unk_0C = (s32) (0 - (SP2_X_AT(direction_base, owner_state->unk_2A.n) << 0x10));
+            ((S_80171D74_3 *)motion_in)->unk_10 = (void *) (0 - (SP2_Y_AT(direction_base, owner_state->unk_2A.n)
                 << 0x10));
             func_801715D0();
             func_8016F5D8(state_in, motion_in, sprite_in);
@@ -385,9 +382,9 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
     case 11:
         {
             s32 pos_x = ((S_80171D74_3 *)motion_in)->unk_00.at00.v;
-            s32 vel_x = ((S_80171D74_3 *)motion_in)->unk_0C.n;
+            s32 vel_x = ((S_80171D74_3 *)motion_in)->unk_0C;
             s32 pos_y = ((S_80171D74_3 *)motion_in)->unk_04.at00.v;
-            s32 vel_y = ((S_80171D74_3 *)motion_in)->unk_10.n;
+            s32 vel_y = ((S_80171D74_3 *)motion_in)->unk_10;
             ((S_80171D74_3 *)motion_in)->unk_00.at00.v = pos_x + vel_x;
             ((S_80171D74_3 *)motion_in)->unk_04.at00.v = pos_y + vel_y;
         }
@@ -409,29 +406,16 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
         ((S_80171D74_1 *)state_in)->unk_96 = 0U;
         ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
         target_state->unk_27 = 3;
-        goto update_height;
+        goto shared_tail;
     case 15:
         ((S_80171D74_1 *)state_in)->unk_96 = 0x1EU;
         ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
                     /* fallthrough */
     case 16:
-        {
-            s32 target_x = ((Rec_D_800E3D7C *)(((s32 *)(&D_80083780))))->unk_00.at00_vs32.v;
-            move_component = ((S_80171D74_3 *)motion_in)->unk_00.at00u.v;
-            ((S_80171D74_3 *)motion_in)->unk_0C.n = (target_x - move_component) / (s16) ((S_80171D74_1 *)state_in)->unk_96;
-        }
-        {
-            s32 next_y = (((Rec_D_800E3D7C *)(((s32 *)(&D_80083780))))->unk_04.at00_s32.v
-                - ((S_80171D74_3 *)motion_in)->unk_04.at00.v) / (s16) ((S_80171D74_1 *)state_in)->unk_96;
-            s32 vel_x = ((S_80171D74_3 *)motion_in)->unk_0C.v;
-            s32 pos_y = ((S_80171D74_3 *)motion_in)->unk_04.at00u.v;
-            s32 next_x;
-            ((S_80171D74_3 *)motion_in)->unk_10.v = next_y;
-            next_x = move_component;
-            move_component = ((S_80171D74_3 *)motion_in)->unk_10.v;
-            ((S_80171D74_3 *)motion_in)->unk_00.at00.v = next_x + vel_x;
-            ((S_80171D74_3 *)motion_in)->unk_04.at00.v = pos_y + move_component;
-        }
+        ((S_80171D74_3 *)motion_in)->unk_0C = (((Rec_D_800E3D7C *)(((s32 *)(&D_80083780))))->unk_00.at00_vs32.v - ((S_80171D74_3 *)motion_in)->unk_00.at00.v) / (s16) ((S_80171D74_1 *)state_in)->unk_96;
+        ((S_80171D74_3 *)motion_in)->unk_10 = (((Rec_D_800E3D7C *)(((s32 *)(&D_80083780))))->unk_04.at00_s32.v - ((S_80171D74_3 *)motion_in)->unk_04.at00.v) / (s16) ((S_80171D74_1 *)state_in)->unk_96;
+        ((S_80171D74_3 *)motion_in)->unk_00.at00.v += ((S_80171D74_3 *)motion_in)->unk_0C;
+        ((S_80171D74_3 *)motion_in)->unk_04.at00.v += ((S_80171D74_3 *)motion_in)->unk_10;
         return_frames = ((S_80171D74_1 *)state_in)->unk_96 - 1;
         ((S_80171D74_1 *)state_in)->unk_96 = return_frames;
         if ((return_frames << 0x10) <= 0) {
@@ -454,17 +438,17 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
             direction_offset &= 0x1C;
             direction_entry = (u8 *)&direction_table;
             direction_entry += direction_offset;
-            ((S_80171D74_3 *)motion_in)->unk_0C.n = (s32) (((S_80171D74_11 *)direction_entry)->unk_00 << 0x10);
-            ((S_80171D74_3 *)motion_in)->unk_10.n = (s32) (((S_80171D74_11 *)direction_entry)->unk_02 << 0x10);
+            ((S_80171D74_3 *)motion_in)->unk_0C = (s32) (((S_80171D74_11 *)direction_entry)->unk_00 << 0x10);
+            ((S_80171D74_3 *)motion_in)->unk_10 = (s32) (((S_80171D74_11 *)direction_entry)->unk_02 << 0x10);
         }
         func_8016F5D8(state_in, motion_in, sprite_in);
         break;
     case 17:
         {
             s32 pos_x = ((S_80171D74_3 *)motion_in)->unk_00.at00.v;
-            s32 vel_x = ((S_80171D74_3 *)motion_in)->unk_0C.n;
+            s32 vel_x = ((S_80171D74_3 *)motion_in)->unk_0C;
             s32 pos_y = ((S_80171D74_3 *)motion_in)->unk_04.at00.v;
-            s32 vel_y = ((S_80171D74_3 *)motion_in)->unk_10.n;
+            s32 vel_y = ((S_80171D74_3 *)motion_in)->unk_10;
             ((S_80171D74_3 *)motion_in)->unk_00.at00.v = pos_x + vel_x;
             ((S_80171D74_3 *)motion_in)->unk_04.at00.v = pos_y + vel_y;
         }
@@ -482,8 +466,8 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
         if ((s16) arc_frame >= 0x28) {
             ((S_80171D74_1 *)state_in)->unk_96 = 0U;
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
-            ((S_80171D74_3 *)motion_in)->unk_10.n = NULL;
-            ((S_80171D74_3 *)motion_in)->unk_0C.n = 0;
+            ((S_80171D74_3 *)motion_in)->unk_10 = NULL;
+            ((S_80171D74_3 *)motion_in)->unk_0C = 0;
         }
         turn_frame = (s16) ((S_80171D74_1 *)state_in)->unk_96;
         if ((turn_frame == 0xA) || (turn_frame == 0x14) || (turn_frame == 0x1E)) {
@@ -522,14 +506,14 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
         tile_s->unk_04 = (u16) (tile_s->unk_04 & 0x7FFF);
         tile_se = ((0x21 << map_info->shiftX) * 6) + map_tiles + 0xC6;
         tile_se->unk_04 = (u16) (tile_se->unk_04 & 0x7FFF);
-        ((S_80171D74_3 *)motion_in)->unk_0C.n = (s32) target_pos->unk_00.at00.v;
-        ((S_80171D74_3 *)motion_in)->unk_10.n = (void *) target_pos->unk_04.at00.v;
+        ((S_80171D74_3 *)motion_in)->unk_0C = (s32) target_pos->unk_00.at00.v;
+        ((S_80171D74_3 *)motion_in)->unk_10 = (void *) target_pos->unk_04.at00.v;
         ((S_80171D74_3 *)motion_in)->unk_14 = (void *) target_pos->unk_08;
                     /* fallthrough */
     case 20:
-        ((S_80171D74_3 *)motion_in)->unk_00.at00.v += (((S_80171D74_3 *)motion_in)->unk_0C.n
+        ((S_80171D74_3 *)motion_in)->unk_00.at00.v += (((S_80171D74_3 *)motion_in)->unk_0C
             - ((S_80171D74_3 *)motion_in)->unk_00.at00.v) / (s16) ((S_80171D74_1 *)state_in)->unk_96;
-        ((S_80171D74_3 *)motion_in)->unk_04.at00.v += (((S_80171D74_3 *)motion_in)->unk_10.n
+        ((S_80171D74_3 *)motion_in)->unk_04.at00.v += (((S_80171D74_3 *)motion_in)->unk_10
             - ((S_80171D74_3 *)motion_in)->unk_04.at00.v) / (s16) ((S_80171D74_1 *)state_in)->unk_96;
         ((S_80171D74_3 *)motion_in)->unk_08.at00.v += (((S_80171D74_3 *)motion_in)->unk_14
             - ((S_80171D74_3 *)motion_in)->unk_08.at00.v) / (s16) ((S_80171D74_1 *)state_in)->unk_96;
@@ -607,16 +591,16 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
             func_80047784(sprite_in, D_80173DA4[((s32) (((S_80171D74_6 *)((s16 *)(&gameWork.view.viewAngle)))->unk_00
                 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
             direction_base = (u8 *)&direction_table;
-            ((S_80171D74_3 *)motion_in)->unk_0C.n = (s32) (SP2_X_AT(direction_base, owner_state->unk_2A.n) << 0x14);
-            ((S_80171D74_3 *)motion_in)->unk_10.n = (s32) (SP2_Y_AT(direction_base, owner_state->unk_2A.n) << 0x14);
+            ((S_80171D74_3 *)motion_in)->unk_0C = (s32) (SP2_X_AT(direction_base, owner_state->unk_2A.n) << 0x14);
+            ((S_80171D74_3 *)motion_in)->unk_10 = (s32) (SP2_Y_AT(direction_base, owner_state->unk_2A.n) << 0x14);
             ((S_80171D74_3 *)motion_in)->unk_14 = (void *)0xFFF00000;
         }
         break;
     case 25:
-        launch_vel_y = ((S_80171D74_3 *)motion_in)->unk_10.n;
+        launch_vel_y = ((S_80171D74_3 *)motion_in)->unk_10;
         launch_vel_z = ((S_80171D74_3 *)motion_in)->unk_14;
         ((S_80171D74_3 *)motion_in)->unk_00.at00.v = (s32) (((S_80171D74_3 *)motion_in)->unk_00.at00.v
-            + ((S_80171D74_3 *)motion_in)->unk_0C.n);
+            + ((S_80171D74_3 *)motion_in)->unk_0C);
         ((S_80171D74_3 *)motion_in)->unk_04.at00.v = (void *) (((S_80171D74_3 *)motion_in)->unk_04.at00.v + launch_vel_y);
         ((S_80171D74_3 *)motion_in)->unk_08.at00.v = (void *) (((S_80171D74_3 *)motion_in)->unk_08.at00.v + launch_vel_z);
         launch_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
@@ -633,19 +617,19 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
             u16 direction_y;
             angle = owner_state->unk_2A.v;
             direction_base = (u8 *)&direction_table;
-            ((S_80171D74_3 *)motion_in)->unk_0C.n = (s32) (SP2_X_AT(direction_base, angle) << 0x13);
+            ((S_80171D74_3 *)motion_in)->unk_0C = (s32) (SP2_X_AT(direction_base, angle) << 0x13);
             direction_y = SP2_Y_AT(direction_base, owner_state->unk_2A.n);
             ((S_80171D74_3 *)motion_in)->unk_14 = (void *)0xFFFB0000;
-            ((S_80171D74_3 *)motion_in)->unk_10.n = (void *) (direction_y << 0x13);
+            ((S_80171D74_3 *)motion_in)->unk_10 = (void *) (direction_y << 0x13);
             ((S_80171D74_1 *)state_in)->unk_96 = 0;
             ((S_80171D74_1 *)state_in)->unk_9A++;
             break;
         }
     case 31:
-        hop_vel_y = ((S_80171D74_3 *)motion_in)->unk_10.n;
+        hop_vel_y = ((S_80171D74_3 *)motion_in)->unk_10;
         hop_vel_z = ((S_80171D74_3 *)motion_in)->unk_14;
         ((S_80171D74_3 *)motion_in)->unk_00.at00.v = (s32) (((S_80171D74_3 *)motion_in)->unk_00.at00.v
-            + ((S_80171D74_3 *)motion_in)->unk_0C.n);
+            + ((S_80171D74_3 *)motion_in)->unk_0C);
         ((S_80171D74_3 *)motion_in)->unk_04.at00.v = (void *) (((S_80171D74_3 *)motion_in)->unk_04.at00.v + hop_vel_y);
         ((S_80171D74_3 *)motion_in)->unk_08.at00.v = (void *) (((S_80171D74_3 *)motion_in)->unk_08.at00.v + hop_vel_z);
         hop_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
@@ -654,8 +638,8 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
             ((S_80171D74_1 *)state_in)->unk_96 = 0U;
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
             ((S_80171D74_3 *)motion_in)->unk_14 = NULL;
-            ((S_80171D74_3 *)motion_in)->unk_10.n = NULL;
-            ((S_80171D74_3 *)motion_in)->unk_0C.n = 0;
+            ((S_80171D74_3 *)motion_in)->unk_10 = NULL;
+            ((S_80171D74_3 *)motion_in)->unk_0C = 0;
         }
         break;
     case 32:
@@ -704,8 +688,8 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
             frame_or_height = ((S_80171D74_3 *)motion_in)->unk_08.at02.v;
             ((S_80171D74_3 *)motion_in)->unk_14 = NULL;
-            ((S_80171D74_3 *)motion_in)->unk_10.n = NULL;
-            ((S_80171D74_3 *)motion_in)->unk_0C.n = 0;
+            ((S_80171D74_3 *)motion_in)->unk_10 = NULL;
+            ((S_80171D74_3 *)motion_in)->unk_0C = 0;
             owner_height = owner_state->unk_88;
             ((S_80171D74_1 *)state_in)->unk_9E = 0;
             ((S_80171D74_1 *)state_in)->unk_A0.at00.v = 0;
@@ -740,14 +724,14 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
             {
                 u8 *direction_base = (u8 *)&direction_table;
                 s32 direction_x = SP2_X_AT(direction_base, owner_state->unk_2A.n);
-                ((S_80171D74_3 *)motion_in)->unk_0C.n = speed * direction_x;
+                ((S_80171D74_3 *)motion_in)->unk_0C = speed * direction_x;
                 angle_tmp = (s32)&direction_table;
                 {
                     s16 direction_y = (s16) SP2_Y_AT(angle_tmp, owner_state->unk_2A.n);
-                    ((S_80171D74_3 *)motion_in)->unk_10.n = speed * direction_y;
+                    ((S_80171D74_3 *)motion_in)->unk_10 = speed * direction_y;
                 }
-                ((S_80171D74_3 *)motion_in)->unk_00.at00.v += ((S_80171D74_3 *)motion_in)->unk_0C.n;
-                ((S_80171D74_3 *)motion_in)->unk_04.at00.v += ((S_80171D74_3 *)motion_in)->unk_10.n;
+                ((S_80171D74_3 *)motion_in)->unk_00.at00.v += ((S_80171D74_3 *)motion_in)->unk_0C;
+                ((S_80171D74_3 *)motion_in)->unk_04.at00.v += ((S_80171D74_3 *)motion_in)->unk_10;
             }
             if ((s16) ((S_80171D74_1 *)state_in)->unk_96 >= 0x58) {
                 ((S_80171D74_1 *)state_in)->unk_96 = 0U;
@@ -803,7 +787,6 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
     case 12:
     case 14:
     case 18:
-update_height:
         goto shared_tail;
 
     case 42:

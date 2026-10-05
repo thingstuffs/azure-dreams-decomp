@@ -3,11 +3,11 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_80046884();     /* extern */
-s32 func_80046C20(); /* extern */
-M2C_UNK func_80064624();                    /* extern */
-M2C_UNK func_80064D20();                      /* extern */
-M2C_UNK func_80064D50();                      /* extern */
+extern void func_80046884(void *, void *, s32);
+extern s32 func_80046C20(s32, s32 *, u16 *);
+extern void func_80064624(s32, s32);
+extern void func_80064D20(void *);
+extern void func_80064D50(void *);
 void func_800AD138();                         /* extern */
 extern u8 D_8006ADBC[];
 extern s32 D_800D1548[3];
@@ -255,7 +255,7 @@ void func_800AC4C4(void) {
     register s32 work_bits ASM_REG("$3");
     s32 work_value;
     s32 column_rounding;
-    M2C_UNK * lookup_value;
+    void * lookup_value;
     s32 edge_index;
     s8 *tile_map;
     s32 row_rounding;
@@ -336,7 +336,7 @@ void func_800AC4C4(void) {
     scratch->unk_14C = 0xFFFF;
     scratch->unk_174 = 4;
     scratch->unk_164 = (u8 *) packet + 0xCCCC;
-    scratch->unk_0C = (s16) func_80046C20(work_ptr, coord_offset, edge_count);
+    scratch->unk_0C = (s16) func_80046C20((s32) work_ptr, (s32 *) coord_offset, (u16 *) edge_count);
     if (scratch->unk_174 != 0) {
         one = 1;
         vertex_input = (u8 *)scratch + 0xE0;
@@ -761,7 +761,16 @@ void func_800AC4C4(void) {
                             break;
                         }
                         if ((u32) scratch->unk_164 < packet) {
-                            goto finish_draw;
+                            ((S_func_800AED64_6 *)(render_state->unk_00))->unk_8D0 = packet;
+                            {
+                                S_func_800AED64_17 *scene_state;
+                                scene_state = D_8006ADBC;
+                                if ((scene_state->unk_18 == 0xC) && ((u32) (scene_state->unk_1A - 0x25) >= 5U)
+                                    && ((s16) scene_state->unk_1A != 0x34)) {
+                                    func_800AD138(scratch->unk_164);
+                                }
+                            }
+                            return;
                         }
                     }
                     scratch->unk_134 += 1;
@@ -787,7 +796,6 @@ void func_800AC4C4(void) {
             }
         } while (scratch->unk_174 != 0);
     }
-finish_draw:
     ((S_func_800AED64_6 *)(render_state->unk_00))->unk_8D0 = packet;
     {
         S_func_800AED64_17 *scene_state;

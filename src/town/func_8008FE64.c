@@ -114,25 +114,18 @@ s32 func_8008D5C4(s32 world_x, s32 world_y, s16 height) {
     scratch->base_x = offset_x;
     grid = global->map.grid;
     vertices = map->vertices;
-    {
-        s32 step_x = scratch->x;
-        if (step_x >= 0x20) {
-            offset_x = 0;
-            step_x = 0x40;
-        }
-        else
-            step_x = -0x40;
-        *(volatile s32 *)&scratch->step_x = step_x;
+    if (scratch->x >= 0x20) {
+        offset_x = 0;
+        scratch->step_x = 0x40;
+    } else {
+        scratch->step_x = -0x40;
     }
-    {
-        s32 step_y = *(volatile s16 *)&scratch->y < 0x20;
-        if (step_y == 0)
-            step_y = 0x40;
-        else
-            step_y = -0x40;
-        *(volatile s32 *)&scratch->step_y = step_y;
+    if (scratch->y < 0x20) {
+        scratch->step_y = -0x40;
+    } else {
+        scratch->step_y = 0x40;
     }
-    *(volatile s32 *)&scratch->outer_count = 0;
+    scratch->outer_count = 0;
     scratch->orig_x = scan_x;
     scratch->orig_y = scan_y;
     scratch->outer_delta = 0;

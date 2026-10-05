@@ -15,7 +15,7 @@ typedef struct {
 void func_80049F2C(S_80049F2C *position) {
     s32 delta_x, delta_y;
     delta_x = position->target_x - position->x;
-    position->x = *(volatile s16 *)&position->x + (delta_x >> 1);
+    position->x = position->x + (delta_x >> 1);
     delta_y = position->target_y - position->y;
-    position->y = *(volatile s16 *)&position->y + (delta_y >> 1);
+    position->y = position->y + (delta_y >> 1);
 }

@@ -40,10 +40,11 @@ void func_8004D294(void *target_position, void *target_rotation, s32 transition_
             angle_delta = (*((s16 *) (((u8 *) target_rotation) + 0))) - current_angle_wide_m;
         }
         if (angle_delta < 0) {
-            angle_delta = -angle_delta;
+            within_half_turn = (-angle_delta < 0x801);
+        } else {
+            within_half_turn = (angle_delta < 0x801);
         }
-        within_half_turn = (angle_delta < 0x801);
-        angle_bits = *((volatile u16 *) (((u8 *) target_rotation) + 0));
+        angle_bits = *((u16 *) (((u8 *) target_rotation) + 0));
         if (!within_half_turn) {
             *((s16 *) (((u8 *) target_rotation) + 0)) = (current_angle & 0xF000) | (angle_bits & 0xFFF);
         }
@@ -69,10 +70,11 @@ void func_8004D294(void *target_position, void *target_rotation, s32 transition_
             angle_delta = (*((s16 *) (((u8 *) target_rotation) + 2))) - current_angle_wide_m;
         }
         if (angle_delta < 0) {
-            angle_delta = -angle_delta;
+            within_half_turn = (-angle_delta < 0x801);
+        } else {
+            within_half_turn = (angle_delta < 0x801);
         }
-        within_half_turn = (angle_delta < 0x801);
-        angle_bits = *((volatile u16 *) (((u8 *) target_rotation) + 2));
+        angle_bits = *((u16 *) (((u8 *) target_rotation) + 2));
         if (!within_half_turn) {
             *((s16 *) (((u8 *) target_rotation) + 2)) = (current_angle & 0xF000) | (angle_bits & 0xFFF);
         }
@@ -98,10 +100,11 @@ void func_8004D294(void *target_position, void *target_rotation, s32 transition_
             angle_delta = (*((s16 *) (((u8 *) target_rotation) + 4))) - current_angle_wide_m;
         }
         if (angle_delta < 0) {
-            angle_delta = -angle_delta;
+            within_half_turn = (-angle_delta < 0x801);
+        } else {
+            within_half_turn = (angle_delta < 0x801);
         }
-        within_half_turn = (angle_delta < 0x801);
-        angle_bits = *((volatile u16 *) (((u8 *) target_rotation) + 4));
+        angle_bits = *((u16 *) (((u8 *) target_rotation) + 4));
         if (!within_half_turn) {
             *((s16 *) (((u8 *) target_rotation) + 4)) = (current_angle & 0xF000) | (angle_bits & 0xFFF);
         }

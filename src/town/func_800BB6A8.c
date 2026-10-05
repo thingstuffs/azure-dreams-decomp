@@ -33,7 +33,7 @@ void func_800B7A6C(s32, s32, void *, s32);
 void func_800B8E08(s32 draw_param) {
     Event6 *event;
     Event6 *event_table;
-    volatile u8 *draw_state;
+    u8 *draw_state;
     u8 *status_page;
     s32 entry_kind;
     s32 draw_x;
@@ -44,7 +44,7 @@ void func_800B8E08(s32 draw_param) {
     draw_state = D_800D3814;
     if (draw_state[6] != 0) {
         draw_x = draw_state[0];
-        entry_kind = D_800D2FB4[draw_state[6] << 5];
+        entry_kind = D_800D2FB4[draw_state[6] * 32];
         draw_kind = entry_kind;
         func_800B7978(draw_x, draw_state[1], draw_kind, draw_param);
         if (draw_kind == 0x26) {

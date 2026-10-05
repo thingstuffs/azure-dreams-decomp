@@ -8,11 +8,9 @@ s32 func_8009FB34(s32 point_x, s32 point_y) {
     u8 *record;
     s32 index;
     s32 initial_count;
-    u16 bound_base;
-    u16 bound_span;
     s32 count;
-    u32 x;
-    u32 y;
+    s32 x;
+    s32 y;
 
     initial_count = D_8008146E;
     index = 0;
@@ -24,18 +22,10 @@ s32 func_8009FB34(s32 point_x, s32 point_y) {
 loop_0:
         {
             if ((*(s16 *)(record + 10) != 0) &&
-                (x >= *(u16 *)(record + 0)) &&
-                ({
-                 bound_base = *(volatile u16 *)(record + 0);
-                 bound_span = *(volatile u16 *)(record + 4);
-                 (s32)x < (s32)bound_span + (s32)bound_base;
-                 }) &&
-                (y >= *(u16 *)(record + 2)) &&
-                ({
-                 bound_base = *(volatile u16 *)(record + 2);
-                 bound_span = *(volatile u16 *)(record + 6);
-                 (s32)y < (s32)bound_span + (s32)bound_base;
-                 })) {
+                ((u16)x >= *(u16 *)(record + 0)) &&
+                (x < *(u16 *)(record + 0) + *(u16 *)(record + 4)) &&
+                ((u16)y >= *(u16 *)(record + 2)) &&
+                (y < *(u16 *)(record + 2) + *(u16 *)(record + 6))) {
                 return (s16)index;
             }
             index++;

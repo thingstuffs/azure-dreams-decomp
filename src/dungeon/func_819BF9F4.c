@@ -118,13 +118,7 @@ extern M2C_UNK D_800DE870;
 void func_800251F4(s32 unused, s32 center_x, s16 center_y, s16 center_z)
 {
     s32 saved_x;
-    volatile struct {
-        s16 coord2;
-        u8 pad0[6];
-        s16 coord3;
-        u8 pad1[6];
-        s16 iteration;
-    } stack;
+    s16 iteration;
     void *particle;
     u8 *particle_work;
     void *transform;
@@ -134,28 +128,20 @@ void func_800251F4(s32 unused, s32 center_x, s16 center_y, s16 center_z)
     s32 uv_span;
     s32 tile_size;
     s32 min_u;
-    s32 end_u;
+    u16 end_u;
     s32 min_v;
-    s32 end_v;
+    u16 end_v;
     s32 tile_offset;
     s32 uv_scratch;
-    register s32 tile_end_offset ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 tile_max;
+    s32 tile_end_offset;
+    s16 tile_max;
     s16 tile_min;
-    s32 signed_z;
-    u32 template_x = 0;
-    s32 template_y;
-    register u32 coord_bits ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    void *y_position;
-    void *z_position;
     s32 brightness;
     s32 position_jitter;
     s32 min_x;
-    register s32 quad_word_4 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s16 quad_word_4;
 
-    stack.coord2 = center_y;
-    stack.coord3 = center_z;
-    stack.iteration = 0;
+    iteration = 0;
     saved_x = center_x;
     brightness = 0x80;
     do {
@@ -173,30 +159,17 @@ void func_800251F4(s32 unused, s32 center_x, s16 center_y, s16 center_z)
 
             position_jitter = func_80069EF8();
             min_x = saved_x - 0x20;
-            ((S_800251F4_5 *)(((S_800251F4_1 *)particle)->unk_08))->unk_02 =
-                min_x + (position_jitter & 0x3F);
-            position_jitter = func_80069EF8();
-            template_x = (u16)saved_x;
-            position_jitter &= 0x3F;
-            template_y = stack.coord2 & 0xFFFF;
-            coord_bits = (u16)stack.coord2;
-            y_position = ((S_800251F4_1 *)particle)->unk_08;
-            ASM_KEEP(y_position);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            quad_word_4 = coord_bits - 0x20;
-            quad_word_4 += position_jitter;
-            ((S_800251F4_3 *)y_position)->unk_06 = quad_word_4;
-            coord_bits = (u16)stack.coord3;
-            z_position = ((S_800251F4_1 *)particle)->unk_08;
-            signed_z = (s16)coord_bits;
-            ((S_800251F4_4 *)z_position)->unk_0A = coord_bits;
-
-            quad_template = func_80024064(template_x, template_y,
-                                          (s16)signed_z);
+            ((S_800251F4_5 *)(((S_800251F4_1 *)particle)->unk_08))->unk_02 = min_x + (position_jitter & 0x3F);
+            position_jitter = func_80069EF8() & 0x3F;
+            quad_word_4 = center_y - 0x20;
+            ((S_800251F4_3 *)(((S_800251F4_1 *)particle)->unk_08))->unk_06 = quad_word_4 + position_jitter;
+            ((S_800251F4_4 *)(((S_800251F4_1 *)particle)->unk_08))->unk_0A = center_z;
+            quad_template = func_80024064((u16)saved_x, (u16)center_y, center_z);
             *(QuadUV *)((u8 *)particle + 0x52) = *(QuadUV *)quad_template;
 
             if (((S_800251F4_0 *)particle_work)->unk_3A > ((S_800251F4_0 *)particle_work)->unk_44) {
                 min_u = ((S_800251F4_0 *)particle_work)->unk_44;
-                end_u = (*(volatile u8 *)((u8 *)particle_work + 0x3A)) + 1;
+                end_u = ((S_800251F4_0 *)particle_work)->unk_3A + 1;
             } else {
                 min_u = ((S_800251F4_0 *)particle_work)->unk_3A;
                 end_u = ((S_800251F4_0 *)particle_work)->unk_44 + 1;
@@ -204,7 +177,7 @@ void func_800251F4(s32 unused, s32 center_x, s16 center_y, s16 center_z)
 
             if (((S_800251F4_0 *)particle_work)->unk_3B > ((S_800251F4_0 *)particle_work)->unk_3F) {
                 min_v = ((S_800251F4_0 *)particle_work)->unk_3F;
-                end_v = (*(volatile u8 *)((u8 *)particle_work + 0x3B)) + 1;
+                end_v = ((S_800251F4_0 *)particle_work)->unk_3B + 1;
             } else {
                 min_v = ((S_800251F4_0 *)particle_work)->unk_3B;
                 end_v = ((S_800251F4_0 *)particle_work)->unk_3F + 1;
@@ -291,11 +264,8 @@ void func_800251F4(s32 unused, s32 center_x, s16 center_y, s16 center_z)
             ((S_800251F4_2 *)transform)->unk_0D = brightness;
             ((S_800251F4_2 *)transform)->unk_0C = brightness;
             func_8003DB94(transform, &D_800DE870, 0);
-            coord_bits = (u16)stack.iteration;
-        } else {
-            coord_bits = (u16)stack.iteration;
         }
-        tile_max = coord_bits + 1;
-        stack.iteration = tile_max;
-    } while ((s16)tile_max < 4);
+        tile_max = iteration + 1;
+        iteration = tile_max;
+    } while (tile_max < 4);
 }

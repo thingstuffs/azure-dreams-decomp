@@ -73,9 +73,8 @@ void func_80124188(TownObject *menu)
         sprite_slot = 33;
         entry_index = 0;
         selected_digits = (void **)D_801269A8;
-        digit_base = *(volatile u8 *)&obj->digit;
+        digit_base = obj->digit << 4;
         normal_digits = (void **)D_801269D0;
-        digit_base <<= 4;
         entry_id = digit_base;
         entry_number = digit_base | 1;
         do {
@@ -115,9 +114,8 @@ void func_80124188(TownObject *menu)
         sprite_slot = 33;
         entry_index = 0;
         selected_digits = (void **)D_801269A8;
-        digit_base = *(volatile u8 *)&obj->digit;
+        digit_base = obj->digit << 4;
         normal_digits = (void **)D_801269D0;
-        digit_base <<= 4;
         entry_id = digit_base;
         entry_number = digit_base | 1;
         do {

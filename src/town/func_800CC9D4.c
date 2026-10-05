@@ -29,7 +29,7 @@ typedef struct S_800CA134_3 {
     s16 unk_02;
     u8 pad_04[0x2];
     s16 unk_06;
-} S_800CA134_3;   /* (*(void * volatile *)((u8 *)base + (8))) in func_800CA134 */
+} S_800CA134_3;   /* target_table->unk_08 in func_800CA134 */
 
 /* Decrement the lifetime and ease the position toward the target with a vertical offset. */
 void func_800CA134(void *state, void *position) {
@@ -45,13 +45,13 @@ void func_800CA134(void *state, void *position) {
         return;
     }
     target_table = &D_80083498;
-    x_delta = ((S_800CA134_3 *)((*(void * volatile *)((u8 *)target_table + (8)))))->unk_02
+    x_delta = ((S_800CA134_3 *)(target_table->unk_08))->unk_02
         - ((S_800CA134_1 *)position)->unk_02;
     if (x_delta < 0) {
         x_delta += 3;
     }
     (*(s16 *)((u8 *)position + (2))) = (s16) ((u16) ((S_800CA134_1 *)position)->unk_02 + (x_delta >> 2));
-    y_delta = ((S_800CA134_3 *)((*(void * volatile *)((u8 *)target_table + (8)))))->unk_06
+    y_delta = ((S_800CA134_3 *)(target_table->unk_08))->unk_06
         - ((S_800CA134_1 *)position)->unk_06;
     if (y_delta < 0) {
         y_delta += 3;
@@ -62,7 +62,7 @@ void func_800CA134(void *state, void *position) {
         s32 z_step;
         s32 target_z;
 
-        target = (*(void * *)((u8 *)target_table + (8)));
+        target = target_table->unk_08;
         z_step = ((S_800CA134_1 *)position)->unk_0A.n;
         target_z = ((S_800CA134_2 *)target)->unk_0A;
         z_step += 0xD0;

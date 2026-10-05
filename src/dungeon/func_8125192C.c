@@ -40,7 +40,7 @@ typedef struct S_8017112C_0 {
     u8 pad_20[0xA];
     s16 unk_2A;
     u8 pad_2C[0x41];
-    union { u8 n; volatile u8 v; s8 n2; } unk_6D;   /* accessed as both */
+    union { u8 n; s8 n2; } unk_6D;   /* accessed as both */
     u8 pad_6E[0x3];
     u8 unk_71;
     u8 pad_72[0x16];
@@ -96,7 +96,6 @@ void func_8017112C(void *entity_arg, void *motion_arg, void *monster_arg)
 {
     void *actor = entity_arg;
     u16 state_direction;
-    u8 raw_state;
     void *call_entity;
     void *call_motion;
     void *call_monster;
@@ -132,8 +131,7 @@ void func_8017112C(void *entity_arg, void *motion_arg, void *monster_arg)
     if (global_flags & 8) {
         s32 slot_index = 1;
         slot = ((u8 *)D_800E3D7C) + 4;
-loop_0:
-        {
+        do {
             node = ((S_8017112C_1 *)slot)->unk_AC;
             if (node != 0) {
                 record = ((S_8017112C_2_pre *)node)[-1].unk_00;
@@ -141,9 +139,7 @@ loop_0:
             }
             slot_index--;
             slot -= 4;
-        }
-        if (slot_index >= 0)
-            goto loop_0;
+        } while (slot_index >= 0);
     }
 
     if (dungeonStatus.flags & 0x2000) {
@@ -159,8 +155,7 @@ loop_0:
     call_entity = entity_arg;
     call_motion = motion_arg;
     call_monster = monster_arg;
-    raw_state = ((S_8017112C_0 *)actor)->unk_6D.v;
-    state_direction = ((s32)raw_state << 24) >> 24;
+    state_direction = ((S_8017112C_0 *)actor)->unk_6D.n2;
     if (func_800A9E70(call_entity, call_motion, call_monster, actor) != 0) {
         return;
     }

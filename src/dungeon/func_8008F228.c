@@ -64,17 +64,6 @@ typedef struct S_80094988_1 {
     s32 unk_FC;
 } S_80094988_1;   /* dungeon in func_80094988 */
 
-typedef struct S_80094988_2 {
-    u8 pad_00[0x2238];
-    u8 unk_2238;
-    u8 pad_2239[0x13];
-    u8 unk_224C;
-} S_80094988_2;   /* src_ptr in func_80094988 */
-
-typedef struct S_80094988_3 {
-    s32 unk_00;
-} S_80094988_3;   /* table_ptr in func_80094988 */
-
 typedef struct S_80094988_4 {
     u8 pad_00[0x29C];
     s32 unk_29C;
@@ -95,12 +84,6 @@ typedef struct S_80094988_7 {
     u8 unk_21E0;
     u8 unk_21E1;
 } S_80094988_7;   /* (void *)probe in func_80094988 */
-
-typedef struct S_80094988_8 {
-    u8 pad_00[0x21E0];
-    volatile u8 unk_21E0;
-    volatile u8 unk_21E1;
-} S_80094988_8;   /* dispatch_ptr in func_80094988 */
 
 typedef struct S_80094988_9_pre {
     u8 unk_00;
@@ -149,16 +132,10 @@ void func_80094988(S_80094988_1 *dungeon, EntityRec *actor, u16 base_x, u16 base
     u16 flag_was_set;
     u8 *slot_flags;
     u8 *page_base;
-    u8 *entry_dst;
-    u8 *tile_ptr;
-    u8 *src_ptr;
-    register u8 *rec_src ASM_REG("$12");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u8 *table_ptr;
     s32 kind;
     u32 scratch;
     s32 slot_i;
     s32 i;
-    register s32 probe_i ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *slot_ptr;
     S_80094988_12 *slot_rec;
     S_80094988_13 *spawned;
@@ -166,17 +143,11 @@ void func_80094988(S_80094988_1 *dungeon, EntityRec *actor, u16 base_x, u16 base
     u8 *cursor_ptr;
     s16 entry_idx;
     u32 entry_idx32;
-    void *entry_addr;
-    s32 ff;
     u8 *save_page;
     void **dispatch_table;
     s32 ff2;
     s32 scaled_i;
-    u32 probe;
-    u32 probe_idx;
-    u32 probe2;
     u8 *dispatch_ptr;
-    u32 dispatch_slot;
     s32 sign_shift;
     s32 slot_index;
     s32 slot_offset;
@@ -189,51 +160,26 @@ void func_80094988(S_80094988_1 *dungeon, EntityRec *actor, u16 base_x, u16 base
     spawn_y = base_y;
     func_800A6A9C();
     func_80041E28(actor, (s32)cursor_ptr | 0x2194);
-    i = 0;
-    ff = 0xFF;
-    table_ptr = D_800E3DF0;
-    src_ptr = cursor_ptr;
-    rec_src = src_ptr;
-    scratch = (u32)D_800E3E48;
-    entry_dst = (u8 *)scratch;
     dungeon->unk_F8 = (u16)((S_80094988_0 *)cursor_ptr)->unk_2D50;
-    tile_ptr = src_ptr;
     dungeon->unk_FC = (s32)((S_80094988_0 *)cursor_ptr)->unk_2D58;
-
-loop_1:
-    (*(Unaligned4 *)((u8 *)tile_ptr + 0x248)) =
-        (*(Unaligned4 *)((u8 *)tile_ptr + 0x21E8));
-    cursor_ptr = (u8 *)(((S_80094988_2 *)src_ptr)->unk_2238);
-    if (((u8)cursor_ptr) != ff) {
-        (*(s32 *)((u8 *)tile_ptr + 0x29C)) =
-            (s32)((void **)0x80010248 + ((u8)cursor_ptr));
-    } else {
-        (*(s32 *)((u8 *)tile_ptr + 0x29C)) = 0;
-    }
-    (*(S_800E3E48 *)((u8 *)entry_dst + 0)) =
-        (*(S_800E3E48 *)((u8 *)rec_src + 0x2260));
-    entry_idx = ((S_80094988_2 *)src_ptr)->unk_224C;
-    if (entry_idx != ff) {
-        entry_idx32 = entry_idx;
-        entry_addr = (void *)((u32)(entry_idx32 * sizeof(S_800E3E48)) +
-                              (u32)scratch);
-        ((S_80094988_3 *)table_ptr)->unk_00 = (s32)entry_addr;
-        table_ptr += 4;
-        src_ptr += 1;
-        rec_src += 0x8C;
-        entry_dst += 0x8C;
-    } else {
-        ((S_80094988_3 *)table_ptr)->unk_00 = 0;
-        table_ptr += 4;
-        src_ptr += 1;
-        rec_src += 0x8C;
-        entry_dst += 0x8C;
-    }
-    i += 1;
-    tile_ptr += 4;
-    if (i < 0x14) {
-        goto loop_1;
-    }
+    i = 0;
+    do {
+        *(Unaligned4 *)(cursor_ptr + 0x248 + i * 4) = *(Unaligned4 *)(cursor_ptr + 0x21E8 + i * 4);
+        if (cursor_ptr[0x2238 + i] != 0xFF) {
+            *(s32 *)(cursor_ptr + 0x29C + i * 4) = (s32)((void **)0x80010248 + cursor_ptr[0x2238 + i]);
+        } else {
+            *(s32 *)(cursor_ptr + 0x29C + i * 4) = 0;
+        }
+        D_800E3E48[i] = *(S_800E3E48 *)(cursor_ptr + 0x2260 + i * 0x8C);
+        entry_idx = cursor_ptr[0x224C + i];
+        if (entry_idx != 0xFF) {
+            entry_idx32 = entry_idx;
+            D_800E3DF0[i] = (s32)&D_800E3E48[entry_idx32];
+        } else {
+            D_800E3DF0[i] = 0;
+        }
+        i++;
+    } while (i < 0x14);
 
     save_page = (u8 *)0x80010000;
     scaled_i = i * 4;
@@ -259,28 +205,14 @@ loop_0:
     if (i < 2)
         goto loop_0;
 
-    probe_idx = 0x80010000;
-    probe_idx = ((S_80094988_7 *)((void *)probe_idx))->unk_21E0;
-    if (probe_idx != 0xFF) {
-        dispatch_ptr = (u8 *)0x80010000;
-        probe = (u32)dispatch_ptr;
-        probe |= 0x248;
-        dispatch_slot = ((S_80094988_8 *)dispatch_ptr)->unk_21E0;
-        dispatch_slot <<= 2;
-        slot_ptr = (u8 *)(dispatch_slot + probe);
+    if (((S_80094988_7 *)0x80010000)->unk_21E0 != 0xFF) {
+        slot_ptr = (u8 *)((void **)0x80010248 + ((S_80094988_7 *)0x80010000)->unk_21E0);
     } else {
         slot_ptr = NULL;
     }
     func_800982A8(actor, slot_ptr);
-    probe_idx = 0x80010000;
-    probe_idx = ((S_80094988_7 *)((void *)probe_idx))->unk_21E1;
-    if (probe_idx != 0xFF) {
-        dispatch_ptr = (u8 *)0x80010000;
-        probe2 = (u32)dispatch_ptr;
-        probe2 |= 0x248;
-        dispatch_slot = ((S_80094988_8 *)dispatch_ptr)->unk_21E1;
-        dispatch_slot <<= 2;
-        slot_ptr = (u8 *)(dispatch_slot + probe2);
+    if (((S_80094988_7 *)0x80010000)->unk_21E1 != 0xFF) {
+        slot_ptr = (u8 *)((void **)0x80010248 + ((S_80094988_7 *)0x80010000)->unk_21E1);
     } else {
         slot_ptr = NULL;
     }
@@ -290,20 +222,17 @@ loop_0:
     slot_flags = (u8 *)0x8001024B;
     do {
         if (((S_80094988_9_pre *)slot_flags)[-1].unk_00 == 0x13) {
-            probe_i = 0;
+            i = 0;
             if (((S_80094988_9 *)slot_flags)->unk_00 & 0x20) {
                 scratch = 0;
                 cursor = dungeon;
-loop_1_:
-                {
+                do {
                     if (((S_80094988_10 *)cursor)->unk_D0 == slot_ptr) {
-                        scratch = probe_i + 1;
+                        scratch = i + 1;
                     }
-                    probe_i += 1;
+                    i += 1;
                     cursor += 4;
-                }
-                if (probe_i < 2)
-                    goto loop_1_;
+                } while (i < 2);
                 if ((scratch << 0x10) != 0) {
                     scratch -= 1;
                     kind = func_800A1618(*slot_ptr, 3);
