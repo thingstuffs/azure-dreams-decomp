@@ -164,3 +164,12 @@ temp (2727) and swap $s2/$s3 (dist 50). Reading unk_88 through `entity` in both 
 Needs an allocation-level fix (Opus): one fewer entity_base ref that still loads through $19, or retail's store order
 kept with one more live unit. 80095160: retail keeps its `li -1; j` failure stub MID-function (jump2 merge target);
 a plain final `return -1` falls into the epilogue (dist 9).
+
+**Solved (r93_opus_ct2, 5/5 rows, 10 gotos):** (a) the copy-tail clones: after writing the shared tail in both arms, a
+callee-saved swap where the pointer's floor_log2(refs)*refs/live sits just above a competitor is fixed by a REF-FREE
+duplicate statement in both arms at a barrier-led join inside the pointer's live range (here the motion update
+`motion->x.v += ..; motion->y.v += ..;`): it adds live length, no refs, and jump2 deletes it after allocation. Ties
+break by allocno number. (b) goto to a mid-function `li -1; j` stub + a trailing goto: put the shared tail after the
+nested range checks, give each check `else { return -1; }`, and write the one inline `if (f(..) != 0) return -1;`
+right after its test - jump.c cross-jump needs 2 matching insns for a stub right after a conditional branch (survives)
+but 1 for a label-headed stub (merges), so every else-stub merges into the surviving mid-function one.
