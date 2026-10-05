@@ -50,7 +50,20 @@ relocations the target lacks - keep the page macros on slus rows.
     plain twins (FIELD_U32, S16_AT ...) - try that first (vb8/vb9: 8187B5A0, 813315CC, 81910EC0).
 13. A ladder of m2c temps with volatile on 1-2 members around field RMWs: one compound assignment per field in the
     order retail stores them (permute a handful of natural orders; 8186EDA8, 80921A44).
+14. LOAD-ORDER volatiles (r93_opus_so1, 8/8 rows, 16 volatiles). Erasing the volatile swaps two independent memory ops
+    in one block; plain C has no edge between them, so look for what ELSE decided the order:
+    (a) birthing-boost tie at a block head (both prio 1): `why.py <row> --pass sched --block bN --trace --variant
+        plain.c` shows the load that retail emits FIRST being picked `[launched: birthing boost]` at a later tick than
+        the other. cdk schedules backwards, so the boosted load is emitted LATER: give the load that must come SECOND a
+        single-set destination. Typical cause: m2c reuses one pointer for two objects (`packet = scratch->current;` at the
+        loop head and again for the draw-mode packet) - one variable per object fixes it (6 clones 80C8D084..80BE5084,
+        818CE83C). A fresh temp on the load that must come FIRST does nothing (it is already single-set). Signature:
+        `*(T * volatile *)&s->f` / `*(volatile u16 *)&p[k]` at a loop head where the assigned variable is set again later.
+    (b) store vs later load, disjoint offsets of one base, right after an if/else join whose arms both end in the same
+        read (`} else { x = p->f; }` - m2c's copy of a jump2 cross-jump): the store belongs IN BOTH ARMS next to that
+        read; jump2 merges the tail back in front of the join and sched1 never sees the store and the load in one block
+        (818F9B98). Struct/non-struct spellings cannot help here: same base + disjoint offsets has no alias edge.
+    Never order them with a dead load/store or a fake dependency.
 Open: volatile u8* STORES through an induction pointer (80284068: loop.c biv->giv); volatiles that only order a
-read-modify-write triple in sched1 (8105F098); SPU/GPU/CD hardware registers are REAL volatiles; volatiles that only order two
-independent loads in sched1 (6-row clone family 80C8D084..80BE5084, 818CE83C, 818F9B98); frame-pad volatile locals (no
+read-modify-write triple in sched1 (8105F098); SPU/GPU/CD hardware registers are REAL volatiles; frame-pad volatile locals (no
 evidence for a real local); a dead store combine would merge (8132F204).
