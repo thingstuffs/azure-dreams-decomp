@@ -4,9 +4,12 @@
 agy Gemini 3.8 flash for grunt work; goal = fewer pins, compiler alignment, cleanliness (gotos, do-while(0) ...).
 Native Agent lanes (not agy-Claude: the r92 agy pilot was content-filter-blocked on every try).
 
-**Numbers (10-05 ~03:30Z):** pins 357/143 -> 331/131 (Opus p11 +1 and p12 pending). Rows off their build 20 -> 14.
-Goto files 587 -> 415; computed-goto files 69 -> 16; m2c-name files 758 -> 404; ~2,000 M2C_UNK prototypes / data externs
-typed (t138 785 + t139 + lanes); t140 named argN prototype params in 299 files.
+**Numbers (10-05 ~05:45Z):** pins 357/143 -> 306/126. Rows off their build 20 -> 14. Volatiles 539 -> ~420.
+Goto sites now 1,388 in 414 files (587 files at pickup); computed-goto files 69 -> 16; m2c-name files 758 -> ~400;
+~2,000 M2C_UNK prototypes / data externs typed (t138 785 + t139 + lanes); t140 named argN prototype params (299 files).
+**Fable -> Opus relay solved dungeon/func_800C9858 15 -> 0** (r93_fable_c9858 74 -> 29, r93_opus_c9858 exact). Its
+mechanisms opened the VOLATILE family: tools/lanes/brief_paragraphs/volatile_removal.md (11 measured shapes incl. the
+four reload gates from r93_opus_rl1); Opus vb2/vb3 -8 pins on byte-volatile rows; Sonnet vb1-vb9 ports.
 **Best pin lever this round: Opus on rows whose text was RESTRUCTURED by cleanup lanes** (r93_opus_p7 -4, p8 -1, p9 -7,
 p10 -3, p11 -1): earlier analyses at the old text are stale once real loops/switches replace m2c gotos. The near-miss
 queue (r91 open_rows.tsv) is exhausted (p4-p6: 1 pin over 11 rows).
@@ -38,8 +41,7 @@ Prototype lanes respelled some `M2C_UNK` params/fields as `s32`/`s32 *` (same C 
 3. r93_agy_goto4/5 80BC1BA8 80BC7BA8 80BCDBA8 80BD9BA8 and r93_sonnet_pg1 8009E0EC: goto into a label inside another
    block (labels-into-blocks rule) - held/.
 4. r92_agyO_p2 80095160 landed with `move_failed:` (pre-existing label inside an if block) now reached by more gotos.
-6. r93_sonnet_vb4 town/func_808110CC (held/): 4 volatiles -> 0 only with a visible dead store `unk_A2 = 16;` before
-   `phase3 = unk_A6; unk_A2 = phase3;` (retail HAS the store; without volatile cse deletes it). Accept or keep volatile?
+6. town/func_808110CC: owner ACCEPTED (10-05) the visible redundant store `unk_A2 = 16;` (retail emits it) - landed.
 5. Refused (ledger/refused_trades.jsonl): 81910A9C `& addr_mask & addr_mask` double mask = fake dependency.
 
 **Leads:** 80DE48EC pin-free spill text total 35 (16 frame bytes unexplained -> gdb assign_stack_local; r92_agyO_al1);
