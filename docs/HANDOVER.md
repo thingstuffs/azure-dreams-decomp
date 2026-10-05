@@ -33,7 +33,10 @@ landing logs _r94/land_*.log; usage recorded for every Agent lane (record_usage.
   mapped every pin (tools/learnings/fable_r94_de48ec.md), proved reload-time sources cannot make retail's 20 orphan
   frame bytes, new lanekit tools frame_trace.py/frame_gdb.py/frame_slack.py, and a kit correction (fidelity_first:
   MEASURE definition prototypes - a K&R TU regresses). Opus relay r94_opus_de48ec running on the struct-home lead.
-**Kit gaps seen:** slus/w_80041588 base text not exact in the lane kit (total 153 length-drift; SLUS computed-goto
+**Levers harvested:** tools/learnings/pin_leads_r94.md (name it in every pin-lane question next round).
+**Kit gaps seen:** lab.py --subs IndexError on `"@base": "pinned"` (p36); tools/gate/rowbase.py preflight crashes on a
+missing town overlay_first_pass_results file and lab.py cannot score at a non-registered link base (p34);
+slus/w_80041588 base text not exact in the lane kit (total 153 length-drift; SLUS computed-goto
 .rodata owner path, the r93 lead). Fable wanted: prio/alloc_need on a PROPOSED edit, two-text sched trace, frame bucket
 in diff --classify.
 **Trades recorded** (ledger/recipe_trades.jsonl, round 94): 800B5DFC two-role temp, 8180C3C0 merged message_text,
@@ -42,6 +45,9 @@ in diff --classify.
 800AED64 6 -> 5 (frontier cand/a2.c 0 pins at dist 32: needs scratch opaque to sched1 alias while combine sees its low
 bits - the r84 opaque-base class; ~20 pinned rows use the 0x1F800000 base). Opus yield fell to ~1 pin / 330k tokens on
 the last four lanes - the remaining rows are tie-class near-misses; prefer new MECHANISM questions over row retries.
+**Debts created:** 800CA184 face pointer named `height_shift` / address_mask named `column_mask` (KEEP4 operand text;
+rename back when KEEP4 falls); func_800039C8 still in config/noreturn_syms.town.txt (raw/ declares it; a
+noreturn_false_members record would retire it).
 **Next:** 800CA184 (3 left: column+row priority swap, draw_mode $12 has no owner, KEEP4 = combine + sched barrier - p35 REPORT);
 old_nearmiss.py rows not yet revived (80D68308, 80B467DC, 800A1020, 8081FCE0, w_80054B08 analysed in p36 REPORT); 800AED64 (6, lhu/sll/sra family + sched tie; p28 + vb5 negatives);
 809548E4 (x_step/other_x need $t0/$t1 preferences, p30); 8182C800 keep (full Y live across two calls without code).
