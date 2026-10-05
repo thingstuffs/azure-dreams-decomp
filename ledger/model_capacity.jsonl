@@ -416,3 +416,5 @@
 {"date": "2026-10-05T11:49Z", "codex": {"pack": "r94_agy_goto12", "model": "gemini-3.8-flash-high", "candidates": 5}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
 {"date": "2026-10-05T11:49Z", "codex": {"pack": "r94_agy_goto13", "model": "gemini-3.8-flash-high", "candidates": 3}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
 {"date": "2026-10-05T23:40Z", "codex": {"pack": "r94_agy_goto15", "model": "gemini-3.8-flash-high", "candidates": 4}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-05T23:44Z", "codex": {"pack": "r94_agy_goto14", "model": "gemini-3.8-flash-high", "candidates": 4}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-05T23:45Z", "codex": {"pack": "r94_agy_goto16", "model": "gemini-3.8-flash-high", "candidates": 6}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
