@@ -2,10 +2,8 @@
 #include "shared/game_work.h"
 
 #define U8(p, o) (*(u8 *)((u8 *)(p) + (o)))
-#define VU8(p, o) (*(volatile u8 *)((u8 *)(p) + (o)))
 #define S8(p, o) (*(s8 *)((u8 *)(p) + (o)))
 #define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
-#define VU16(p, o) (*(volatile u16 *)((u8 *)(p) + (o)))
 #define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define P32(p, o) (*(void **)((u8 *)(p) + (o)))
@@ -74,10 +72,10 @@ void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
     s32 tex_result;
     s32 y_component;
 
-    VU16(scratch, 0x8C) = 0;
-    VU16(scratch, 0x84) = 0;
-    VU16(scratch, 0x7C) = 0;
-    VU16(scratch, 0x74) = 0;
+    U16(scratch, 0x8C) = 0;
+    U16(scratch, 0x84) = 0;
+    U16(scratch, 0x7C) = 0;
+    U16(scratch, 0x74) = 0;
     packet = root->record;
     mode_bits = draw_mode << 16;
     S32(scratch, 0x20) = depth;
@@ -136,6 +134,8 @@ void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
         scratch = (Scratch *)0x1F800000;
         if (!(U8(part, 0) & 0x20)) {
             s32 edge;
+            s16 edge1;
+            s16 edge2;
             S32(scratch, 8) = U8(part, 8);
             S32(scratch, 0xC) = U8(part, 9);
             S32(scratch, 0x10) = U8(part, 0xA);
@@ -144,54 +144,56 @@ void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
             {
                 if (((U8(part, 0) ^ U16(scratch, 0x24)) & 1) != 0) {
 
-                    edge_byte = VU8(part, 2);
+                    edge_byte = U8(part, 2);
                     y_component = U16(scratch, 0x108);
                     extent = U16(scratch, 0x10);
-                    edge = (s8)edge_byte;
-                    edge = -edge - y_component;
-                    U16(scratch, 0x80) = edge;
-                    U16(scratch, 0x70) = edge;
-                    edge -= extent;
+                    edge1 = (s8)edge_byte;
+                    edge1 = -edge1 - y_component;
+                    U16(scratch, 0x80) = edge1;
+                    U16(scratch, 0x70) = edge1;
+                    edge1 -= extent;
+                    U16(scratch, 0x88) = edge1;
+                    U16(scratch, 0x78) = edge1;
                 } else {
 
-                    edge_byte = VU8(part, 2);
+                    edge_byte = U8(part, 2);
                     y_component = U16(scratch, 0x108);
                     extent = U16(scratch, 0x10);
-                    edge = (s8)edge_byte;
-                    edge -= y_component;
-                    U16(scratch, 0x80) = edge;
-                    U16(scratch, 0x70) = edge;
-                    edge += extent;
+                    edge1 = (s8)edge_byte;
+                    edge1 -= y_component;
+                    U16(scratch, 0x80) = edge1;
+                    U16(scratch, 0x70) = edge1;
+                    edge1 += extent;
+                    U16(scratch, 0x88) = edge1;
+                    U16(scratch, 0x78) = edge1;
                 }
-                U16(scratch, 0x88) = edge;
-                U16(scratch, 0x78) = edge;
             }
 
             {
                 if (((U8(part, 0) ^ U16(scratch, 0x24)) & 2) != 0) {
 
-                    edge_byte = VU8(part, 3);
+                    edge_byte = U8(part, 3);
                     y_component = U16(scratch, 0x10A);
                     extent = U16(scratch, 0x14);
-                    edge = (s8)edge_byte;
-                    edge = -edge - y_component;
-                    U16(scratch, 0x7A) = edge;
-                    U16(scratch, 0x72) = edge;
-                    edge -= extent;
-                    U16(scratch, 0x8A) = edge;
-                    U16(scratch, 0x82) = edge;
+                    edge2 = (s8)edge_byte;
+                    edge2 = -edge2 - y_component;
+                    U16(scratch, 0x7A) = edge2;
+                    U16(scratch, 0x72) = edge2;
+                    edge2 -= extent;
+                    U16(scratch, 0x8A) = edge2;
+                    U16(scratch, 0x82) = edge2;
                 } else {
 
-                    edge_byte = VU8(part, 3);
+                    edge_byte = U8(part, 3);
                     y_component = U16(scratch, 0x10A);
                     extent = U16(scratch, 0x14);
-                    edge = (s8)edge_byte;
-                    edge -= y_component;
-                    U16(scratch, 0x7A) = edge;
-                    U16(scratch, 0x72) = edge;
-                    edge += extent;
-                    U16(scratch, 0x8A) = edge;
-                    U16(scratch, 0x82) = edge;
+                    edge2 = (s8)edge_byte;
+                    edge2 -= y_component;
+                    U16(scratch, 0x7A) = edge2;
+                    U16(scratch, 0x72) = edge2;
+                    edge2 += extent;
+                    U16(scratch, 0x8A) = edge2;
+                    U16(scratch, 0x82) = edge2;
                 }
             }
 

@@ -35,7 +35,7 @@ void func_8001A51C(u16 *source, S_8001A51C_1 *rect) {
     u16 *dst_base;
     s8 *grid_info;
     void *buffer_state;
-    volatile u16 *src_cursor;
+    u16 *src_cursor;
 
     src_cursor = source;
     buffer_state = ((S_8001A51C_4 *)(D_80016000->unk_24))->unk_70;

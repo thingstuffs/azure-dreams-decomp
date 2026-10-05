@@ -39,11 +39,10 @@ extern u8 D_8001605C[];
 s32 func_80018F20(s32 *slot_list)
 {
     u8 used_slots[0x100];
-    volatile s32 *slot_cursor;
+    s32 *slot_cursor;
     s32 slot_base;
     s32 slot_addr;
     s32 free_slot;
-    u32 next_slot_addr;
     u8 *used_map;
     u8 *used_flag;
     u8 *initial_page;
@@ -62,10 +61,9 @@ s32 func_80018F20(s32 *slot_list)
 
         used_map = used_slots;
         page = (u8 *)0x80010000;
-        next_slot_addr = *slot_cursor;
         do {
             message = D_8001605C;
-            if (used_map[(u32)(next_slot_addr - slot_base) >> 2] != 0) {
+            if (used_map[(u32)(*slot_cursor - slot_base) >> 2] != 0) {
                 u8 *root;
                 u8 *call_table;
                 TownCall3 report_error;
@@ -77,15 +75,12 @@ s32 func_80018F20(s32 *slot_list)
                 report_error = (*(TownCall3 *)((u8 *)call_table + 0x168));
                 report_error(name, message, 0x71);
                 (*(TownCall1 *)((u8 *)(((S_80018F20_4 *)(((S_80018F20_2 *)page)->unk_6000.p2))->unk_20) + 0x174))(1);
-                slot_addr = *slot_cursor;
-            } else {
-                slot_addr = *slot_cursor;
             }
+            slot_addr = *slot_cursor;
             used_flag = used_map + ((u32)(slot_addr - slot_base) >> 2);
             *used_flag = 1;
             slot_cursor++;
-            next_slot_addr = *slot_cursor;
-        } while (next_slot_addr != 0);
+        } while (*slot_cursor != 0);
     }
 
     free_slot = 0;

@@ -22,22 +22,14 @@ extern Unk39C8 D_800E39C8[0x20];
 
 /* Create purple markers at eligible entry positions. */
 void func_8009EF78(void) {
-    volatile Unk3648 *entry_state;
-    volatile Unk39C8 *entry_position;
-    s32 entry_index;
+    s32 i;
 
     func_8009EEAC();
-    entry_index = 0;
-    entry_position = D_800E39C8;
-    entry_state = D_800E3648;
-    do {
-        if ((entry_state->unk1 != 0) && (entry_state->unk0 != 0) &&
-            !(entry_state->unk3 & 0x40)) {
-            func_8009F3D4(entry_position->unk6, entry_position->unk7,
-                          0x802080, 8, entry_index);
+    for (i = 0; i < 0x20; i++) {
+        if ((D_800E3648[i].unk1 != 0) && (D_800E3648[i].unk0 != 0) &&
+            !(D_800E3648[i].unk3 & 0x40)) {
+            func_8009F3D4(D_800E39C8[i].unk6, D_800E39C8[i].unk7,
+                          0x802080, 8, i);
         }
-        entry_position++;
-        entry_index++;
-        entry_state++;
-    } while (entry_index < 0x20);
+    }
 }
