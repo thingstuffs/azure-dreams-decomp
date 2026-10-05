@@ -45,7 +45,7 @@ extern u8 D_800DEAE0[];
 void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
     s16 origin_offset[4];
     OffsetPair direction_offsets[8];
-    register u8 *display ASM_REG("$17") = effect_display;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *display = effect_display;
     u8 *owner;
     u8 *entity;
     u8 *source;
@@ -108,21 +108,33 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
             U16_AT(effect_pos, 0x02) += (u16)origin_offset[0];
             U16_AT(effect_pos, 0x06) += (u16)origin_offset[1];
             U16_AT(effect_pos, 0x0A) += (u16)origin_offset[2];
+            {
+                u8 *task = effect_data - 0x20;
+
+                if (!(U8_AT(effect_data, 0x7A) & 4)) {
+                    func_8004491C(task, func_80045340);
+                    U16_AT(display, 0x10) = 0x20;
+                    U8_AT(display, 0x0E) = 0x14;
+                    U8_AT(display, 0x0D) = 0x14;
+                    U8_AT(display, 0x0C) = 0x14;
+                    U16_AT(display, 0x14) |= 0x0C;
+                    U8_AT(effect_data, 0x7A) |= 4;
+                }
+            }
         } else {
             U16_AT(effect_pos, 0x0A) = (u16)(state - 0x40);
-        }
+            {
+                u8 *task = effect_data - 0x20;
 
-        {
-            u8 *task = effect_data - 0x20;
-
-            if (!(U8_AT(effect_data, 0x7A) & 4)) {
-                func_8004491C(task, func_80045340);
-                U16_AT(display, 0x10) = 0x20;
-                U8_AT(display, 0x0E) = 0x14;
-                U8_AT(display, 0x0D) = 0x14;
-                U8_AT(display, 0x0C) = 0x14;
-                U16_AT(display, 0x14) |= 0x0C;
-                U8_AT(effect_data, 0x7A) |= 4;
+                if (!(U8_AT(effect_data, 0x7A) & 4)) {
+                    func_8004491C(task, func_80045340);
+                    U16_AT(display, 0x10) = 0x20;
+                    U8_AT(display, 0x0E) = 0x14;
+                    U8_AT(display, 0x0D) = 0x14;
+                    U8_AT(display, 0x0C) = 0x14;
+                    U16_AT(display, 0x14) |= 0x0C;
+                    U8_AT(effect_data, 0x7A) |= 4;
+                }
             }
         }
 

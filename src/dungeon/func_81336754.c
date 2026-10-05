@@ -60,6 +60,14 @@ extern void func_800A56E0(s32);
 extern void func_801676CC(DungeonWork *);
 extern void func_801685CC(DungeonState *, DungeonWork *, DungeonObject *, u8 *, s32);
 
+static __inline__ void set_direction_table(DungeonObject *object, DungeonInput *input, u8 *table) {
+    u32 direction_index;
+
+    object->unk_2C = table;
+    direction_index = ((s32)(gameWork.view.viewAngle + input->unk_2A + 0x100) >> 9) & 7;
+    func_80047784(object, *((u8 *)((u32)direction_index + (u32)table)), 0);
+}
+
 /* Advance the timed dungeon object sequence and update its direction table. */
 void func_8016D754(DungeonState *state, DungeonWork *work,
                    DungeonObject *object, DungeonInput *input) {
@@ -69,32 +77,22 @@ void func_8016D754(DungeonState *state, DungeonWork *work,
     case 1:
     {
         s32 mode;
-        register u8 *direction_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        u32 direction_index;
-
         mode = state->mode;
         switch (mode) {
         case 0:
-            direction_table = D_801739E0;
+            set_direction_table(object, input, D_801739E0);
             break;
         case 1:
-            direction_table = D_801739E8;
+            set_direction_table(object, input, D_801739E8);
             break;
         case 2:
-            direction_table = D_801739F0;
+            set_direction_table(object, input, D_801739F0);
             break;
         case 3:
-            direction_table = D_801739E0 + 0x18;
+            set_direction_table(object, input, D_801739E0 + 0x18);
             break;
-        default:
-            goto case1_common;
         }
-        object->unk_2C = direction_table;
-        direction_index = ((s32)(gameWork.view.viewAngle + input->unk_2A + 0x100) >> 9) & 7;
-        func_80047784(object,
-            *((u8 *)((u32)direction_index + (u32)direction_table)), 0);
     }
-case1_common:
         func_801676CC(work);
         state->timer.unsigned_value = 6;
         state->state = state->state + 1;
@@ -131,9 +129,11 @@ case1_common:
                     func_801685CC(state, work, object, ((u8 *)(&D_80083780)), 2);
             }
         }
-        if (state->timer.signed_value != 0xB)
-            return;
-        goto case0;
+        if (state->timer.signed_value == 0xB) {
+            state->timer.unsigned_value = 0;
+            state->state = state->state + 1;
+        }
+        return;
     }
 
     case 4:
@@ -141,7 +141,6 @@ case1_common:
         s32 mode;
         u8 *direction_table;
         u8 *previous_table;
-        u32 direction_index;
 
         if (!(object->flags & 0xE000))
             return;
@@ -171,12 +170,11 @@ case1_common:
             goto case0;
         }
         if (previous_table != direction_table) {
-            object->unk_2C = direction_table;
-            direction_index = ((s32)(gameWork.view.viewAngle + input->unk_2A + 0x100) >> 9) & 7;
-            func_80047784(object,
-                *((u8 *)((u32)direction_index + (u32)direction_table)), 0);
+            set_direction_table(object, input, direction_table);
         }
-        goto case0;
+        state->timer.unsigned_value = 0;
+        state->state = state->state + 1;
+        return;
     }
 
     case 5:
