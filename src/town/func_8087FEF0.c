@@ -28,20 +28,16 @@ extern u8 D_80700B44[];
 /* Runs the flag test, stores and returns its result, and marks flgtst.c line 201. */
 s32 func_8087FEF0(void) {
     s32 *test_data = D_807013A4;
-    register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
-#ifdef NON_MATCHING
-    zero = 0;
-#endif
     func_80700BC4(test_data[0]);
-    func_80700C54(zero);
+    func_80700C54(0);
     func_80700E98();
     {
         s32 test_result = func_80700E3C();
         CallbackTable *callback_table = D_807013B4;
 
         D_807009B0 = test_result;
-        callback_table->func68(D_80700B30, D_80700B44, zero | 0xC9);
+        callback_table->func68(D_80700B30, D_80700B44, 0xC9);
     }
     func_80700BC4(test_data[0]);
     func_80701298(D_807009B0, D_807009B4);
