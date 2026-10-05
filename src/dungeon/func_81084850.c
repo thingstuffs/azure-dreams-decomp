@@ -49,7 +49,7 @@ extern u8 D_80175F48;
 /* Attempts an actor action and initializes its output and directional display on success. */
 s32 func_80172050(void *action_out, s32 action_param, void *actor_info, void *acting_actor)
 {
-    u8 frame_pad[8];
+    s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
     u8 *direction_table;
     s32 computed_angle;
     s32 result;

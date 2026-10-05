@@ -27,7 +27,7 @@ extern u8 D_80174F28;
 
 /* Check movement conditions and initialize the actor action and directional animation. */
 s32 func_80171E00(void *action_state, void *action_ctx, void *sprite, EntityRec *actor) {
-    volatile s64 frame_pad;
+    s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
     u8 *direction_table;
     s32 move_heading;
     u16 flags;

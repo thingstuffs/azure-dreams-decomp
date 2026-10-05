@@ -14,7 +14,7 @@ extern void func_800C7930(void *, s32, s32, s32);
 
 /* Attempts an action toward the target and initializes the action state on success. */
 s32 func_8016B954(Rec_func_800A9E70_arg0 *action_state, s32 action_id, Rec_D_80082E80 *target, EntityRec *actor) {
-    volatile u64 frame_pad;
+    s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
     s32 target_direction;
 
     actor->unk_71 &= 0x7F;
@@ -67,7 +67,7 @@ s32 func_8016B954(Rec_func_800A9E70_arg0 *action_state, s32 action_id, Rec_D_800
     return -1;
 }
 
-/* MECHANISM: An unused volatile u64 frame object plus the natural long-lived
+/* MECHANISM: An unused 8-byte local (unused[2]) plus the natural long-lived
    args/result/global base produce the retail 0x40 frame and s0-s5 roles.
    A shared mid-function failure block restores both branch targets and polarity;
    explicit (0 - call) + 0x40 emits retail's negu/addiu arithmetic in v0. */

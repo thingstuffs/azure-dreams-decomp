@@ -29,7 +29,7 @@ s32 func_80171DA0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *
     s32 target_angle;
     u16 status_flags;
     u8 actor_flags;
-    s32 frame_pad[2];
+    s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
 
     actor_flags = actor->unk_71;
     actor_flags &= 0x7F;

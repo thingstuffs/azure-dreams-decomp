@@ -28,7 +28,7 @@ extern void func_800C7930(void *, s32, s32, s32);
 
 /* Attempt an action toward the target and update actor state on success. */
 s32 func_80172920(S_80172920_3 *action_state, s32 effect_arg, Rec_D_80082E80 *target, void *actor) {
-    volatile u64 frame_pad;
+    s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
     s32 target_direction;
 
     ((EntityRec *)actor)->unk_71 &= 0x7F;
@@ -81,7 +81,7 @@ s32 func_80172920(S_80172920_3 *action_state, s32 effect_arg, Rec_D_80082E80 *ta
     return -1;
 }
 
-/* MECHANISM: An unused volatile u64 frame object plus the natural long-lived
+/* MECHANISM: An unused 8-byte local (unused[2]) plus the natural long-lived
    args/result/global base produce the retail 0x40 frame and s0-s5 roles.
    The early failure paths return -1 directly and the success block sits inside the
    final test's true arm (a failure-first `!= 0` return measured dist 9); explicit (0 - call) + 0x40 emits retail's negu/addiu arithmetic in v0. */

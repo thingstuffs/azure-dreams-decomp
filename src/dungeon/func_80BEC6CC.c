@@ -25,7 +25,7 @@ extern u8 D_80174214[];
 s32 func_80171ECC(void *action_state, s32 action_id, void *source_obj, EntityRec *actor)
 {
     s32 target_angle;
-    volatile long long frame_pad;
+    s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
 
     actor->unk_71 &= 0x7F;
     if (dungeonStatus.flags & 0x2000) {
@@ -68,5 +68,5 @@ s32 func_80171ECC(void *action_state, s32 action_id, void *source_obj, EntityRec
 }
 
 /* MECHANISM: The true-rowbase CFG holds arg2 in $s3 and the status base in $s2 at cdk-G0.
-   A volatile eight-byte frame object raises the otherwise exact 0x38 frame to retail's 0x40
+   An unused 8-byte local (unused[2]) raises the otherwise exact 0x38 frame to retail's 0x40
    without emitting body code; source-based byte indexing preserves the final call operands. */
