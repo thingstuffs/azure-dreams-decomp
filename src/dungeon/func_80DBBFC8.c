@@ -95,17 +95,20 @@ void func_801737C8(void *controller, EntityRec *motion, void *actor, void *objec
                 use_player = 1;
                 /* fallthrough */
             case 3:
-                goto kind_3;
+                item_slot = (u8 *)object + 0xE;
+                break;
             case 6:
                 use_player = 1;
                 /* fallthrough */
             case 2:
-                goto kind_2;
+                item_slot = (u8 *)object + 0xB;
+                break;
             case 5:
                 use_player = 1;
                 /* fallthrough */
             case 1:
-                goto kind_1;
+                item_slot = (u8 *)object + 8;
+                break;
             default:
                 item_slot = 0;
                 break;
@@ -113,15 +116,12 @@ void func_801737C8(void *controller, EntityRec *motion, void *actor, void *objec
         } else {
             switch ((*(u16 *)((u8 *)object + 0x46)) & 0x3FFF) {
             case 3:
-kind_3:
                 item_slot = (u8 *)object + 0xE;
                 break;
             case 2:
-kind_2:
                 item_slot = (u8 *)object + 0xB;
                 break;
             case 1:
-kind_1:
                 item_slot = (u8 *)object + 8;
                 break;
             default:

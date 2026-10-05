@@ -87,17 +87,20 @@ void func_801727C8(void *action, EntityRec *motion, void *sprite, EntityRec *act
                 is_special = 1;
                 /* fallthrough */
             case 3:
-                goto block_18;
+                entry = (u8 *)actor + 0xE;
+                break;
             case 6:
                 is_special = 1;
                 /* fallthrough */
             case 2:
-                goto block_19;
+                entry = (u8 *)actor + 0xB;
+                break;
             case 5:
                 is_special = 1;
                 /* fallthrough */
             case 1:
-                goto block_20;
+                entry = (u8 *)actor + 8;
+                break;
             default:
                 entry = NULL;
                 break;
@@ -106,15 +109,12 @@ void func_801727C8(void *action, EntityRec *motion, void *sprite, EntityRec *act
             slot = actor->unk_46 & 0x3FFF;
             switch (slot) {
             case 3:
-block_18:
                 entry = (u8 *)actor + 0xE;
                 break;
             case 2:
-block_19:
                 entry = (u8 *)actor + 0xB;
                 break;
             case 1:
-block_20:
                 entry = (u8 *)actor + 8;
                 break;
             default:

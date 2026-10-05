@@ -146,18 +146,14 @@ void func_801749A8(void *sequence, EntityRec *position, Rec_D_80082E80 *actor, v
     case 2:
         direction = ((s32) (gameWork.view.viewAngle + (s16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v + 0x100)
             >> 9) & 7;
-        if (D_80174FCC[0] != 0) {
+        if (D_80174FCC[0] == 0 || direction != 2) {
             if (direction == 2) {
-                goto start_fade;
+                return;
             }
-        }
-        if (direction == 2) {
+            turn_angle = ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v + 0x200;
+            ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v = turn_angle;
             return;
         }
-        turn_angle = ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v + 0x200;
-        ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v = turn_angle;
-        return;
-start_fade:
         func_80041588(&D_80174FAC, &D_80174FCC, 1);
         func_8003F540(0, *D_8006CD58, 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, func_800445E0(), NULL);
@@ -217,12 +213,10 @@ start_fade:
     case 5:
         object = ((S_801749A8_0 *)sequence)->unk_A4;
         object = object->unk_0C.s;
-        if (!(object->unk_14 & 0xE000)) {
-            goto check_movement;
+        if (object->unk_14 & 0xE000) {
+            ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
         }
-        ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
     case 6:
-check_movement:
         if (((S_801749A8_0 *)sequence)->unk_9B != 6) {
             return;
         }

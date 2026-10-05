@@ -149,24 +149,8 @@ void func_80172FFC(void *action, void *motion, void *sprite, EntityRec *actor) {
     effect_work.copy = *direction_source;
     owner = action - 0x20;
     state = ((S_80172FFC_0 *)action)->unk_9B;
-    if (state == 1) {
-        goto wait;
-    }
-    if ((s32) state < 2) {
-        if (state == 0) {
-            goto init;
-        }
-        return;
-    }
-    if (state == 2) {
-        goto emit;
-    }
-    if (state == 3) {
-        goto finish;
-    }
-    return;
-
-init:
+    switch (state) {
+    case 0:
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
         ((S_80172FFC_0 *)action)->unk_9B = 3U;
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v | 0x6000);
@@ -180,7 +164,7 @@ init:
     ((S_80172FFC_0 *)action)->unk_9B = (u8) (((S_80172FFC_0 *)action)->unk_9B + 1);
     return;
 
-wait:
+    case 1:
     wait_tick = ((S_80172FFC_0 *)action)->unk_96 + 1;
     ((S_80172FFC_0 *)action)->unk_96 = wait_tick;
     if (((s16) wait_tick != 4) && !(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
@@ -189,12 +173,11 @@ wait:
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80174EB8;
     func_80047784(sprite, D_80174EB8[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
 
-advance:
     ((S_80172FFC_0 *)action)->unk_96 = 0U;
     ((S_80172FFC_0 *)action)->unk_9B = (u8) (((S_80172FFC_0 *)action)->unk_9B + 1);
     return;
 
-emit:
+    case 2:
     effect_tick = ((S_80172FFC_0 *)action)->unk_96 + 1;
     ((S_80172FFC_0 *)action)->unk_96 = effect_tick;
     if (((s16) effect_tick == 0x11) || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
@@ -290,7 +273,7 @@ emit:
     }
     return;
 
-finish:
+    case 3:
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
         func_800AD594(actor, 0x100);
         ((S_80172FFC_0 *)action)->unk_8C = &D_80171760;
@@ -298,6 +281,8 @@ finish:
         func_800A4ACC(actor);
         actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
     }
-
     return;
+    default:
+        return;
+    }
 }

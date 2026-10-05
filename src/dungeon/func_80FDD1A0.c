@@ -134,57 +134,45 @@ void func_801729A0(S_func_80FDD1A0_1 *actor, VecData *motion, S_func_80FDD1A0_2 
     phase = actor->unk_9B;
     switch (phase) {
     case 0:
-        if (!(actor_data->unk_1C & 0x2000)) {
-            goto not_special;
-        }
-        kind_index = (actor_data->unk_46 & 0x3FFF) - 1;
-        switch (kind_index) {
-        case 6:
-            use_player = 1;
-            goto kind_3;
-        case 5:
-            use_player = 1;
-            goto kind_2;
-        case 4:
-            use_player = 1;
-            goto kind_1;
-
-not_special:
-            {
-                s32 action_kind;
-
-                action_kind = actor_data->unk_46 & 0x3FFF;
-                if (action_kind == 2) {
-                    goto kind_2;
-                }
-                if (action_kind < 3) {
-                    item_slot = 0;
-                    if (action_kind == 1) {
-                        goto kind_1;
-                    }
-                    break;
-                }
-                if (action_kind != 3) {
-                    item_slot = 0;
-                    break;
-                }
+        if (actor_data->unk_1C & 0x2000) {
+            kind_index = (actor_data->unk_46 & 0x3FFF) - 1;
+            switch (kind_index) {
+            case 6:
+                use_player = 1;
+            case 2:
+                item_slot = &actor_data->unk_0E;
+                break;
+            case 5:
+                use_player = 1;
+            case 1:
+                item_slot = &actor_data->unk_0B;
+                break;
+            case 4:
+                use_player = 1;
+            case 0:
+                item_slot = &actor_data->unk_08;
+                break;
+            case 3:
+            default:
+                item_slot = 0;
+                break;
             }
-
-        case 2:
-kind_3:
-            item_slot = &actor_data->unk_0E;
-            break;
-        case 1:
-kind_2:
-            item_slot = &actor_data->unk_0B;
-            break;
-        case 0:
-kind_1:
-            item_slot = &actor_data->unk_08;
-            break;
-        case 3:
-        default:
-            item_slot = 0;
+        } else {
+            s32 action_kind = actor_data->unk_46 & 0x3FFF;
+            switch (action_kind) {
+            case 3:
+                item_slot = &actor_data->unk_0E;
+                break;
+            case 2:
+                item_slot = &actor_data->unk_0B;
+                break;
+            case 1:
+                item_slot = &actor_data->unk_08;
+                break;
+            default:
+                item_slot = 0;
+                break;
+            }
         }
 
         if (*item_slot != 0) {

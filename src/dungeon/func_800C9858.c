@@ -374,28 +374,27 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
                     packet_next->unk_18 = (u16) (packet_next->unk_18 + scratch->unk_0F0);
                     packet_next->unk_20.u = (u16) (packet_next->unk_20.u + scratch->unk_0F0);
                     packet_next->unk_1A = (u16) (packet_next->unk_1A + scratch->unk_0F2);
-                    goto coord_last;
+                    packet_next->unk_22 = (u16) (packet_next->unk_22 + scratch->unk_0F2);
+                } else {
+                    packet_next->unk_18 = (u16) (packet_next->unk_18 + scratch->unk_0B8);
+                    packet_next->unk_20.u = (u16) (packet_next->unk_20.u + scratch->unk_0B8);
+                    packet_next->unk_1A = (u16) (packet_next->unk_1A + scratch->unk_0BA);
+                    packet_next->unk_22 = (u16) (packet_next->unk_22 + scratch->unk_0BA);
+                    packet_next->unk_08.u = (u16) (packet_next->unk_08.u + scratch->unk_0F0);
+                    packet_next->unk_10 = (u16) (packet_next->unk_10 + scratch->unk_0F0);
+                    packet_next->unk_0A = (u16) (packet_next->unk_0A + scratch->unk_0F2);
+                    packet_next->unk_12 = (u16) (packet_next->unk_12 + scratch->unk_0F2);
                 }
+            } else {
                 packet_next->unk_18 = (u16) (packet_next->unk_18 + scratch->unk_0B8);
-                packet_next->unk_20.u = (u16) (packet_next->unk_20.u + scratch->unk_0B8);
                 packet_next->unk_1A = (u16) (packet_next->unk_1A + scratch->unk_0BA);
-                packet_next->unk_22 = (u16) (packet_next->unk_22 + scratch->unk_0BA);
-                packet_next->unk_08.u = (u16) (packet_next->unk_08.u + scratch->unk_0F0);
                 packet_next->unk_10 = (u16) (packet_next->unk_10 + scratch->unk_0F0);
-                packet_next->unk_0A = (u16) (packet_next->unk_0A + scratch->unk_0F2);
                 packet_next->unk_12 = (u16) (packet_next->unk_12 + scratch->unk_0F2);
-                goto coord_done;
+                packet_next->unk_08.u = (u16) (packet_next->unk_08.u + scratch->unk_0B8);
+                packet_next->unk_0A = (u16) (packet_next->unk_0A + scratch->unk_0BA);
+                packet_next->unk_20.u = (u16) (packet_next->unk_20.u + scratch->unk_0F0);
+                packet_next->unk_22 = (u16) (packet_next->unk_22 + scratch->unk_0F2);
             }
-            packet_next->unk_18 = (u16) (packet_next->unk_18 + scratch->unk_0B8);
-            packet_next->unk_1A = (u16) (packet_next->unk_1A + scratch->unk_0BA);
-            packet_next->unk_10 = (u16) (packet_next->unk_10 + scratch->unk_0F0);
-            packet_next->unk_12 = (u16) (packet_next->unk_12 + scratch->unk_0F2);
-            packet_next->unk_08.u = (u16) (packet_next->unk_08.u + scratch->unk_0B8);
-            packet_next->unk_0A = (u16) (packet_next->unk_0A + scratch->unk_0BA);
-            packet_next->unk_20.u = (u16) (packet_next->unk_20.u + scratch->unk_0F0);
-coord_last:
-            packet_next->unk_22 = (u16) (packet_next->unk_22 + scratch->unk_0F2);
-coord_done:
             visible_a = 0;
             if ((u32) ((packet_next->unk_08.u + 0x20) & 0xFFFF) < 0x181U) {
                 coord_work = (packet_next->unk_0A + 0x20) & 0xFFFF;

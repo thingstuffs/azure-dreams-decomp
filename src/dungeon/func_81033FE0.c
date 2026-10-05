@@ -235,7 +235,6 @@ void func_801757E0(void *actor, void *motion, void *animation, EntityRec *entity
             ((S_801757E0_1 *)animation)->unk_14 &= 0xF7FF;
         }
 
-check_effect_trigger:
         if (!(((S_801757E0_0 *)actor)->unk_96.s != 0x0A && !(((S_801757E0_1 *)animation)->unk_14 & 0x8000))) {
             directions = D_8017610C;
             ((S_801757E0_0 *)actor)->unk_AD.s = 0;
@@ -325,7 +324,9 @@ check_effect_trigger:
         if (((S_801757E0_0 *)actor)->unk_96.s != 0x13) {
             return;
         }
-        goto bump_state;
+        ((S_801757E0_0 *)actor)->unk_96.u = 0;
+        ((S_801757E0_0 *)actor)->unk_9B++;
+        return;
 
     case 4:
         timer = ((S_801757E0_0 *)actor)->unk_96.u + 1;
@@ -347,7 +348,8 @@ check_effect_trigger:
             func_80047784(animation,
                 D_8017609C[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
-            goto bump_state;
+            ((S_801757E0_0 *)actor)->unk_96.u = 0;
+            ((S_801757E0_0 *)actor)->unk_9B++;
         }
         return;
 
@@ -357,7 +359,9 @@ check_effect_trigger:
         if (timer < 0x14 && !(((S_801757E0_1 *)animation)->unk_14 & 0x8000)) {
             return;
         }
-        goto bump_state;
+        ((S_801757E0_0 *)actor)->unk_96.u = 0;
+        ((S_801757E0_0 *)actor)->unk_9B++;
+        return;
 
     case 7:
     {
@@ -378,15 +382,15 @@ check_effect_trigger:
         if (((S_801757E0_0 *)actor)->unk_96.s != 0x13) {
             return;
         }
-        goto bump_state;
+        ((S_801757E0_0 *)actor)->unk_96.u = 0;
+        ((S_801757E0_0 *)actor)->unk_9B++;
+        return;
 
     case 8:
         if (((S_801757E0_0 *)actor)->unk_AC.s != 0x4D) {
             return;
         }
-bump_state:
         ((S_801757E0_0 *)actor)->unk_96.u = 0;
-bump_state_loaded:
         ((S_801757E0_0 *)actor)->unk_9B++;
         return;
 
