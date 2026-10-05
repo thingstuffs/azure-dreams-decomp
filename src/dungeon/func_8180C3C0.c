@@ -8,7 +8,7 @@ typedef struct S_800253C0_0 {
     u8 pad_00[0x8C];
     void * unk_8C;
     u8 pad_90[0x6];
-    union { volatile s16 v; s16 n; } unk_96;   /* accessed as both */
+    union { s16 v; s16 n; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     union { u8 n; u8 v; } unk_9B;   /* accessed as both */
     u8 pad_9C[0x10];

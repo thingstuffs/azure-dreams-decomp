@@ -3,7 +3,7 @@
 typedef struct {
     u8 pad[0x20];
     volatile u8 unk20;
-    volatile u8 unk21;
+    u8 unk21;
 } S_800565D8;
 
 /* Computes a signed 16-bit value using separate scales below and above 0x40. */

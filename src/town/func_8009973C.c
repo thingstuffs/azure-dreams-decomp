@@ -6,7 +6,7 @@ extern s32 D_800FE520[];
 s32 func_80096E9C(s32 *x, s32 *y) {
     s32 nearest_side[2];
     s32 edge_dist[4];
-    volatile s32 *bounds;
+    s32 *bounds;
     s32 hit_sides;
     s32 bounds_index;
     s32 first_min_x;

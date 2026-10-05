@@ -28,8 +28,8 @@ void func_800B9260(void) {
     }
     buttons = D_800D185D;
     buttons -= buttons / 67 * 67;
-    *(volatile u8 *) &D_800D185D = buttons;
-    buttons = *(volatile s32 *) &input_state->buttons;
+    *(u8 *) &D_800D185D = buttons;
+    buttons = *(s32 *) &input_state->buttons;
     masked_buttons = buttons & 0x500000;
     if (masked_buttons == 0x500000) {
         func_800B9204(D_800D185D);

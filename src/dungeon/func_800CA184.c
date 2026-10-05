@@ -572,9 +572,9 @@ L_CFE98:
                                 vertex_value = ((S_800CF8E4_7 *)((void *)vertex_value))->unk_04;
                                 vertex_xy &= 0xFFFF;
                                 vertex_value -= vertex_offset;
-                                *(volatile u16 *)(ram_base + 0x0E4) = (u16)vertex_value;
+                                *(u16 *)(ram_base + 0x0E4) = (u16)vertex_value;
                                 vertex_value = *(u16 *)(ram_base + 0x166);
-                                vertex_offset = *(volatile s32 *)(ram_base + 0x00C);
+                                vertex_offset = *(s32 *)(ram_base + 0x00C);
                                 vertex_value = (s16)vertex_value;
                                 vertex_offset += vertex_value;
                                 vertex_offset <<= 16;
@@ -595,9 +595,9 @@ L_CFE98:
                                 vertex_value = ((S_800CF8E4_7 *)((void *)vertex_value))->unk_04;
                                 vertex_xy &= 0xFFFF;
                                 vertex_value -= vertex_offset;
-                                *(volatile u16 *)(ram_base + 0x0EC) = (u16)vertex_value;
+                                *(u16 *)(ram_base + 0x0EC) = (u16)vertex_value;
                                 vertex_value = *(u16 *)(ram_base + 0x166);
-                                vertex_offset = *(volatile s32 *)(ram_base + 0x00C);
+                                vertex_offset = *(s32 *)(ram_base + 0x00C);
                                 vertex_value = (s16)vertex_value;
                                 vertex_offset += vertex_value;
                                 vertex_offset <<= 16;

@@ -2,7 +2,7 @@
 
 #include "common.h"
 
-extern volatile s32 D_8006CD50[];
+extern s32 D_8006CD50[];
 extern s32 D_80189394;
 extern s32 D_801B8EB8;
 

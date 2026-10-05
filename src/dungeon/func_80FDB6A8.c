@@ -40,7 +40,7 @@ typedef struct S_80170EA8_0 {
     u8 pad_00[0x8C];
     s32 unk_8C;
     u8 pad_90[0x8];
-    union { u16 n; volatile u16 v; } unk_98;   /* accessed as both */
+    union { u16 n; u16 v; } unk_98;   /* accessed as both */
     u8 unk_9A;
     u8 unk_9B;
 } S_80170EA8_0;   /* arg0 in func_80170EA8 */
