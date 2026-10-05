@@ -4,7 +4,7 @@
 sol/astra one or two at a time, efficiently; cleanup (compiler alignment, m2c artifacts, gotos) counts for pins.
 Mid-round: "if there's something nothing, not even astra, is able to figure out, try 1 Fable agent with its freedom
 and capture its insights".
-**Numbers:** pins 225/108 -> 198/105 (-27). Lanes in work/native_lane/r94_*; questions in work/native_lane/_r94/q_*.md;
+**Numbers:** pins 225/108 -> 187/103 (-38) by ~15:30Z. Lanes in work/native_lane/r94_*; questions in work/native_lane/_r94/q_*.md;
 landing logs _r94/land_*.log; usage recorded for every Agent lane (record_usage.py).
 **What paid:**
 - **Opus on rows just restructured / never fidelity-served:** r94_opus_p32 dungeon/func_800C4A80 16 -> 0 AT THE MODULE
@@ -16,6 +16,14 @@ landing logs _r94/land_*.log; usage recorded for every Agent lane (record_usage.
 - **Sonnet prep at equal pins** (fp6 800CA184 gotos 24 -> 10, fp7, fp8 807B0B3C 14 -> 4, vb28 800CDFD8 volatiles 6 -> 1)
   fed the Opus wins; fp9/fp10 mostly negative: remaining scaffolding on small rows is pin-tied, and backward goto loops
   where retail has NO loop notes are the source's own (17+ spellings, 0 exact) - stop serving those.
+- **Later (14:00-15:30Z):** revival of OLD fewer-pin near-miss texts (tools/lanes/old_nearmiss.py; p32's lesson):
+  r94_opus_p34 800B2D84 3 -> 0 + town/func_808B8184 2 -> 0 at its TRUE base (retail word = `j` into its own join; the
+  "noreturn call" func_800039C8 was a phantom - true_name func_80003984 registered, rowbase minted + proven by helper
+  r94_tb_8184; config/noreturn_syms.town.txt still lists func_800039C8 because raw/ declares it - harmless, a
+  noreturn_false_members record would retire it), r94_opus_p36 818F2800 4 -> 2 (s16 local + in-place `(s8)` keeps
+  lbu;sll;sra); r94_opus_p35 800CA184 6 -> 3 (setup values hosted in loop variables that own the same retail
+  registers; the face pointer is NAMED height_shift only because KEEP4's operand text - rename back when KEEP4 falls),
+  r94_opus_p33 80084340 3 -> 2. Relay r94_opus_de48ec: nothing staged, frame question narrowed (learnings file).
 - **sol 6.1** s1 2/5 (800B5DFC, 8181214C 1 -> 0), s2 0/5 (best dist 6-20).
 - **Gemini (agy) goto pools** r94_agy_goto1-13: 46 pin-free rows landed (~140 gotos); capacity ran out at goto14
   (goto14-16 built, unlaunched - relaunch after the agy reset with pool.py r94g3 --model agy --no-land).
@@ -28,8 +36,8 @@ landing logs _r94/land_*.log; usage recorded for every Agent lane (record_usage.
 in diff --classify.
 **Trades recorded** (ledger/recipe_trades.jsonl, round 94): 800B5DFC two-role temp, 8180C3C0 merged message_text,
 8182C800 role merge + __builtin_abs, 800CA184 shared vertex_x + in-place OT address, 800C4A80 coherence line.
-**Next:** 800CA184 setup group ($8-$12 + KEEP4: five map values were global allocnos in retail; find a cross-block
-host already in $8-$12 - r94_opus_p31 REPORT); 800AED64 (6, lhu/sll/sra family + sched tie; p28 + vb5 negatives);
+**Next:** 800CA184 (3 left: column+row priority swap, draw_mode $12 has no owner, KEEP4 = combine + sched barrier - p35 REPORT);
+old_nearmiss.py rows not yet revived (80D68308, 80B467DC, 800A1020, 8081FCE0, w_80054B08 analysed in p36 REPORT); 800AED64 (6, lhu/sll/sra family + sched tie; p28 + vb5 negatives);
 809548E4 (x_step/other_x need $t0/$t1 preferences, p30); 8182C800 keep (full Y live across two calls without code).
 
 # Handover (2026-10-04 ~17:20, round 93: native Claude lanes + luna/Gemini pools; IN PROGRESS, updated 10-05 03:30Z) - start here
