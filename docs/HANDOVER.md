@@ -4,12 +4,15 @@
 agy Gemini 3.8 flash for grunt work; goal = fewer pins, compiler alignment, cleanliness (gotos, do-while(0) ...).
 Native Agent lanes (not agy-Claude: the r92 agy pilot was content-filter-blocked on every try).
 
-**Numbers (10-05 ~05:45Z):** pins 357/143 -> 306/126. Rows off their build 20 -> 14. Volatiles 539 -> ~420.
-Goto sites now 1,388 in 414 files (587 files at pickup); computed-goto files 69 -> 16; m2c-name files 758 -> ~400;
-~2,000 M2C_UNK prototypes / data externs typed (t138 785 + t139 + lanes); t140 named argN prototype params (299 files).
-**Fable -> Opus relay solved dungeon/func_800C9858 15 -> 0** (r93_fable_c9858 74 -> 29, r93_opus_c9858 exact). Its
-mechanisms opened the VOLATILE family: tools/lanes/brief_paragraphs/volatile_removal.md (11 measured shapes incl. the
-four reload gates from r93_opus_rl1); Opus vb2/vb3 -8 pins on byte-volatile rows; Sonnet vb1-vb9 ports.
+**Numbers (10-05 ~09:30Z):** pins 357/143 -> 239/114 (-118). Volatiles 539 -> 203. Gotos 1,388 (414 files) -> 1,086 (353
+files); computed-goto files 69 -> 16; one-trip blocks 225 -> 158; 241 unused externs deleted (t141); ~2,000 prototypes/externs
+typed; argN/m2c renames (luna rename19-26, nm3-8). Rows off their build 20 -> 14.
+**What paid (in order):** Opus on rows RESTRUCTURED first (fidelity-first: real loops with ONE walker per pointer, types and
+prototypes from definitions, narrow params used directly, struct-member reads, copied tails) - p16 15 pins, p18 10, p17 7,
+ty1 4, p20 9, p21 4, p22 6, vb4/vb5 8, c9858 15; Sonnet prep lanes on pinned rows at equal pins (fp1 800A8714 109 -> 7 gotos);
+Sonnet volatile lanes vb1-vb27 (shapes 1-25 in brief_paragraphs/volatile_removal.md) and one-trip lanes ot3-ot14
+(one_trip.md round-93 list); CPU generators t136-t142. Residual near-misses (nm1, p23, p17/p21 continuations) are the
+scheduler/allocator tie class - leads in tools/learnings/pin_leads_r93.md, not solved.
 **Best pin lever this round: Opus on rows whose text was RESTRUCTURED by cleanup lanes** (r93_opus_p7 -4, p8 -1, p9 -7,
 p10 -3, p11 -1): earlier analyses at the old text are stale once real loops/switches replace m2c gotos. The near-miss
 queue (r91 open_rows.tsv) is exhausted (p4-p6: 1 pin over 11 rows).
