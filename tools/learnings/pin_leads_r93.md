@@ -100,3 +100,11 @@ Per barrier, what it holds (do not retry the natural spellings): town/8096D944 f
   global is invisible to it (row took $a0, retail $a1 -> retail had a block-local value there). combine refuses to
   fold a copy of a call's return value (combine.c:943). Next: a re-read of one height after a store (reload deletes
   it) to lower its local priority below ~1100. Prototypes from sibling 8195FB34 are exact (cleanup only).
+
+## r93_opus_ty1 (81832800 typing; 8009B70C 4 -> 0)
+- A stepwise `x -= K; x <<= 16; x >>= 16;` feeding a call = the conversion into the callee's s16 parameter: declare the
+  callee from its definition and write `x = a - K` plainly.
+- A byte-offset table read `*(T*)((u8*)tbl + (x & mask))` hides an index: `tbl[(x >> s) & m]`.
+- Two-value register swap where a loop-hoisted value sits just above a REG_EQUIV-doubled parameter (single-set parameter
+  live counts double): a duplicated narrow copy in both arms of an in-loop if/else lengthens the hoisted value's live at
+  global-alloc; jump2 merges the tails afterwards (type of the copy matters: s8 exact, u8 1, s16/s32 5).
