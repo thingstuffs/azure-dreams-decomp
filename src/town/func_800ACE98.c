@@ -1,14 +1,14 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-extern s32 func_80064584(s32 arg0);
-extern void func_80094378(void *arg0, void *arg1, s32 arg2);
+extern s32 func_80064584(s32 wave_input);
+extern void func_80094378(void *controller, void *object, s32 update_value);
 extern void func_80095094(void *record);
 extern s16 func_80095978(void *position, void *out_value);
 extern void func_80095A94(void *obj, s16 base_value, void *vec_ptr);
 extern void func_80095C80(void *position);
 extern void func_800A9F14(void *origin);
-extern void func_800AAA58(void *arg0, void *arg1, s32 arg2);
+extern void func_800AAA58(void *controller, void *object, s32 update_value);
 
 extern u8 D_800CFCEF;
 extern s32 D_800D0B14;

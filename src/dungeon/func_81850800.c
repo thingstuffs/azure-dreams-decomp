@@ -218,9 +218,9 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
     s32 tiles_ahead;
     s32 off_x;
     s32 off_y;
-    register s32 facing_shift ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 facing_shift;
     s32 dx;
-    register u32 magnitude ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u32 magnitude;
     s32 tile_x;
     s32 tile_y;
     s32 color;
@@ -229,7 +229,6 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
     u32 tile_step_x;
     s32 tile_step_y;
     s32 pixel_step_x;
-    s32 pixel_offset;
     u16 timer;
     u16 flags;
     u32 base_y;
@@ -249,8 +248,6 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
     s32 origin_y;
     u8 origin_x;
     s32 pix_y;
-    s32 next_state;
-    static void *const keepalive[] = { &&state_0_after };
     caster_data = owner->unk_00;
     step_x_table = (u8 *)((s8 *)dirStepX);
     magnitude = (u16)caster_data->unk_2A.unk_2A_u16;
@@ -276,7 +273,6 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
         target = caster_data->unk_60;
         tiles_ahead = 0;
         if (target == 0) {
-            s32 tile_pixel_x;
             s32 min_height;
             s32 probe_y;
 
@@ -284,14 +280,8 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
             off_x = 0;
             do {
                 min_height = -0x400;
-                ASM_KEEP(min_height);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                tile_pixel_x = caster_sprite->unk_24;
-                magnitude = caster_sprite->unk_25;
-                tile_pixel_x = (tile_pixel_x + off_x) << 6;
-                dx = tile_pixel_x + 0x20;
-                magnitude = (magnitude + off_y) << 6;
-                ASM_KEEP(magnitude);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                facing_shift = magnitude + 0x20;
+                dx = ((caster_sprite->unk_24 + off_x) << 6) + 0x20;
+                facing_shift = ((caster_sprite->unk_25 + off_y) << 6) + 0x20;
                 obj = (S_81850800_9 *)((u16)dx);
                 probe_y = (u16)facing_shift;
                 ground_height = func_800BCB04((s32)obj, probe_y, min_height);
@@ -324,12 +314,9 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
             }
         }
         effect_data.value = abs(dx);
-        pixel_offset = facing_shift;
-        if (facing_shift < 0) {
-            pixel_offset = -pixel_offset;
-        }
-        if (effect_data.value < pixel_offset) {
-            effect_data.value = pixel_offset;
+        state = abs(facing_shift);
+        if (effect_data.value < state) {
+            effect_data.value = state;
         }
         magnitude = effect_data.value * 4;
         owner->unk_50.unk_50_u16 = magnitude;
@@ -351,26 +338,25 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
         default:
             dx = 1;
             facing_shift = 0;
-state_0_after:
             owner->unk_50.unk_50_u16 -= 2;
             break;
         }
         tile_step_x = step_x * dx;
-        pixel_offset = facing_shift << 4;
-        pixel_step_x = step_x * pixel_offset;
+        state = facing_shift << 4;
+        pixel_step_x = step_x * state;
         tile_step_y = step_y * dx;
         origin_x = caster_sprite->unk_24;
         pix_x = (origin_x + tile_step_x) << 6;
-        tile_step_x = step_y * pixel_offset;
-        pixel_offset = pixel_step_x + 0x20;
-        pix_x += pixel_offset;
+        tile_step_x = step_y * state;
+        state = pixel_step_x + 0x20;
+        pix_x += state;
         motion->unk_00.unk_02_view_u16.unk_02_u16 = pix_x;
         origin_y = caster_sprite->unk_25;
         motion->unk_0C.unk_0E_view_u16.unk_0E_u16 = step_x << 4;
         motion->unk_10.unk_12_view_u16.unk_12_u16 = step_y << 4;
         pix_y = (origin_y + tile_step_y) << 6;
-        pixel_offset = tile_step_x + 0x20;
-        pix_y += pixel_offset;
+        state = tile_step_x + 0x20;
+        pix_y += state;
         motion->unk_04.unk_06_view_u16.unk_06_u16 = pix_y;
         func_800A56E0(0x300);
         owner->unk_0A.unk_0A_u16++;
@@ -527,7 +513,7 @@ state_0_after:
 
     case 3:
         flags = owner->unk_52.unk_52_u16;
-        if (((s16)((u8 *)owner->unk_52.unk_52_s16)) & 0x8000) {
+        if (owner->unk_52.unk_52_s16 & 0x8000) {
             owner->unk_52.unk_52_u16 = flags & 0x7FFF;
             return;
         }

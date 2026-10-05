@@ -50,9 +50,9 @@ s32 func_8005A778(S_8005A778_Arg0 *header, s16 requested_slot, void *payload)
     header_fields = header;
 
     if (requested_slot == -1) {
-        for (;;) {
+        while (1) {
             if (D_80086A40[slot].unk00 == -1) {
-                goto found;
+                break;
             }
             slot = slot + 1;
             if (slot >= 16) {
@@ -73,8 +73,6 @@ s32 func_8005A778(S_8005A778_Arg0 *header, s16 requested_slot, void *payload)
             func_8005A1D0(old_entry->unk10);
         }
     }
-
-found:
     entry = &D_80086A40[slot];
     entry->unk00 = (s16)slot;
     entry->unk04 = header;

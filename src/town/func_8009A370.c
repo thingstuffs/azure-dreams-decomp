@@ -59,43 +59,37 @@ void func_80097AD0(S_80097AD0_0 *origin, S_80097AD0_1 *spread, s32 count) {
 
     if (count != 0) {
         angle_step = 0x1000 / count;
-        do {
-            object_index = 0;
-        } while (0);
         angle = rand();
         initial_y = origin->unk_0A;
         record.field16 = -4;
         record.y = initial_y;
-        if (count > 0) {
-            do {
-                record.x = (origin->unk_02 +
-                            func_800374F4(spread->unk_00.u16)) -
-                           (spread->unk_00.s32 / 2);
-                record.z = (origin->unk_06 +
-                            func_800374F4(spread->unk_04.u16)) -
-                           (spread->unk_04.s32 / 2);
-                y = (origin->unk_0A -
-                     func_800374F4(spread->unk_08.u16)) -
-                    (spread->unk_08.s32 / 2);
-                record.y = y;
-                record.fieldC = func_80064584(angle) << 5;
-                first_trig_value = func_800644B8(angle);
-                {
-                    void *record_ptr = &record;
-                    first_trig_value <<= 5;
-                    record.field10 = first_trig_value;
-                    object = func_8009792C(record_ptr, angle);
+        for (object_index = 0; object_index < count; object_index++) {
+            record.x = (origin->unk_02 +
+                        func_800374F4(spread->unk_00.u16)) -
+                       (spread->unk_00.s32 / 2);
+            record.z = (origin->unk_06 +
+                        func_800374F4(spread->unk_04.u16)) -
+                       (spread->unk_04.s32 / 2);
+            y = (origin->unk_0A -
+                 func_800374F4(spread->unk_08.u16)) -
+                (spread->unk_08.s32 / 2);
+            record.y = y;
+            record.fieldC = func_80064584(angle) << 5;
+            first_trig_value = func_800644B8(angle);
+            {
+                void *record_ptr = &record;
+                first_trig_value <<= 5;
+                record.field10 = first_trig_value;
+                object = func_8009792C(record_ptr, angle);
+            }
+            if (object != 0) {
+                angle_component = func_800644B8(angle) << 5;
+                if (angle_component < 0) {
+                    angle_component = -angle_component;
                 }
-                if (object != 0) {
-                    angle_component = func_800644B8(angle) << 5;
-                    if (angle_component < 0) {
-                        angle_component = -angle_component;
-                    }
-                    ((S_80097AD0_3 *)(object->unk_08))->unk_14 = -angle_component;
-                }
-                object_index++;
-                angle += angle_step;
-            } while (object_index < count);
+                ((S_80097AD0_3 *)(object->unk_08))->unk_14 = -angle_component;
+            }
+            angle += angle_step;
         }
     }
 }

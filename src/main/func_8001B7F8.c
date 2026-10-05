@@ -15,10 +15,10 @@ typedef struct S_804027F8_0 {
 
 extern u8 D_80408ADE[];
 
-extern s32 func_80056450(s32 arg0, s32 arg1, u8 arg2);
-extern void func_80063FF8(s32 arg0);
-extern void func_8040274C(void *arg0);
-extern s32 func_8040343C(s32 arg0);
+extern s32 func_80056450(s32 selection, s32 step, u8 table_value);
+extern void func_80063FF8(s32 code);
+extern void func_8040274C(void *menu);
+extern s32 func_8040343C(s32 value);
 
 /* Handles menu actions and directional selection with key repeat. */
 void func_804027F8(void *menu)

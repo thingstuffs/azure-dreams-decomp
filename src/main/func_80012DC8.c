@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern void func_800241D4(void *arg0, s32 arg1);
-extern void func_80024274(void *arg0);
-extern void func_80024F3C(void *arg0, s32 arg1, s32 arg2);
+extern void func_800241D4(void *ptr, s32 value);
+extern void func_80024274(void *ptr);
+extern void func_80024F3C(void *ptr, s32 index, s32 value);
 
 /* Update the five entries according to the selected index. */
 void func_80025DC8(void *state) {

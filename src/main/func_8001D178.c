@@ -11,22 +11,22 @@ void func_804040C8();                       /* extern */
 extern s32 D_800A0000[];
 __asm__(".set D_800A0000, 0x800A0000");
 
-void func_80404178(s32 *arg0) {
-    s32 idx;
+void func_80404178(s32 *ptr) {
+    s32 offset;
 
-    func_80403F1C((u8 *)arg0 + 0xB0, 0x80, 0x18);
-    func_80403F1C((u8 *)arg0 + 0x128, 0x2C, 0x14);
+    func_80403F1C((u8 *)ptr + 0xB0, 0x80, 0x18);
+    func_80403F1C((u8 *)ptr + 0x128, 0x2C, 0x14);
 
-    idx = *arg0 << 7;
-    if (*(s32 *)((u8 *)D_800A0000 + idx - 0x2228) != 0) {
-        func_80403F7C(arg0);
+    offset = *ptr << 7;
+    if (*(s32 *)((u8 *)D_800A0000 + offset - 0x2228) != 0) {
+        func_80403F7C(ptr);
 
-        idx = *arg0 << 7;
-        if (*(s32 *)((u8 *)D_800A0000 + idx - 0x2220) != 0) {
-            func_804040C8(arg0);
+        offset = *ptr << 7;
+        if (*(s32 *)((u8 *)D_800A0000 + offset - 0x2220) != 0) {
+            func_804040C8(ptr);
             return;
         }
     } else {
-        func_80403E54(arg0);
+        func_80403E54(ptr);
     }
 }

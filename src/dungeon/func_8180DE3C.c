@@ -44,13 +44,9 @@ void func_80026E3C(void *effect, M2C_UNK ticks_left, S_80026E3C_1 *color)
     color->unk_0C = (s8) shade;
     intensity = ((S_80026E3C_0 *)effect)->unk_6A.u16;
     decay = (s16)intensity >> 4;
-    ticks_left = ((S_80026E3C_0 *)effect)->unk_66;
-    do {
-        intensity -= decay;
-    } while (0);
-    ticks_left--;
+    ((S_80026E3C_0 *)effect)->unk_6A.u16 = intensity - decay;
+    ticks_left = ((S_80026E3C_0 *)effect)->unk_66 - 1;
     ((S_80026E3C_0 *)effect)->unk_66 = ticks_left;
-    ((S_80026E3C_0 *)effect)->unk_6A.u16 = intensity;
     if ((ticks_left << 0x10) <= 0) {
         ((S_80026E3C_0_pre *)effect)[-1].unk_00 =
             (u16)(((S_80026E3C_0_pre *)effect)[-1].unk_00 | 0x8000);

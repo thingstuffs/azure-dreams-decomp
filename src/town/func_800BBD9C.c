@@ -41,9 +41,6 @@ void func_800B94FC(void) {
     }
     map_records = D_800D2FB4;
     switch (map_records[D_800D3814[6] << 5]) {
-    default:
-        i = 0;
-        goto fallback;
     case 5:
         switch ((*(u8 *)0x800136B8)) {
         default: D_800718E4[count++] = D_800D1D54; break;
@@ -71,17 +68,16 @@ void func_800B94FC(void) {
         }
         D_800718E4[count++] = D_800D1E7C;
         break;
+    default:
+        i = 0;
+        records = (u32)D_800D2FB4;
+        state = D_800D3814;
+        table = (u32)D_800D1A0C;
+        do {
+            D_800718E4[count++] = ((void **)((*(u8 *)((state[6] << 5) + records) << 3) + table))[i];
+            i++;
+        } while (i < 2);
+        break;
     }
-    D_800718E4[count] = 0;
-    return;
-
-fallback:
-    records = (u32)D_800D2FB4;
-    state = D_800D3814;
-    table = (u32)D_800D1A0C;
-    do {
-        D_800718E4[count++] = ((void **)((*(u8 *)((state[6] << 5) + records) << 3) + table))[i];
-        i++;
-    } while (i < 2);
     D_800718E4[count] = 0;
 }

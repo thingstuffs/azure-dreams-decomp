@@ -23,9 +23,6 @@ unsigned int func_800CEE0C(void *object, s16 entry_index)
         return 1;
         result = 1;
     } else {
-#ifdef NON_MATCHING
-        state_page = ((u8 *)(&dungeonStatus)) - 0x3460;
-#endif
         state = &dungeonStatus;
         entries = D_800E3648;
         entry = (u8 *)(((s32)(entry_index << 0x10) >> 0xE) + (u32)entries);

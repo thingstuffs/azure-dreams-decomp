@@ -35,18 +35,9 @@ s32 func_800AC1B0(s16 direction, s16 start_x, s16 start_y, s32 unused) {
     flagged_count = 0;
     config = &gameWork.map;
     tiles = *(u16 **)((Config *)((u8 *)&gameWork + 476));
-    if (start_x >= 0) {
-        if (start_x < (1 << config->shiftX)) {
-            if (start_y < 0) {
-                return 0;
-            }
-            if (start_y < (1 << config->shiftY)) {
-                goto scan_start;
-            }
-        }
+    if (start_x < 0 || start_x >= (1 << config->shiftX) || start_y < 0 || start_y >= (1 << config->shiftY)) {
+        return 0;
     }
-    return 0;
-scan_start:
     direction_shifted = direction << 0x10;
     x_steps = (u8 *)dirStepX;
     direction_offset = direction_shifted >> 0xF;

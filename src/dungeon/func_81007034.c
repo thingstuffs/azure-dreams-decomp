@@ -60,44 +60,38 @@ void func_80172834(void *action_state, EntityRec *motion, void *sprite, EntityRe
             case 7:
                 is_special = 1;
             case 3:
-                goto kind_3;
+                action_data = (u8 *)actor + 0xE;
+                break;
             case 6:
                 is_special = 1;
             case 2:
-                goto kind_2;
+                action_data = (u8 *)actor + 0xB;
+                break;
             case 5:
                 is_special = 1;
             case 1:
-                goto kind_1;
+                action_data = (u8 *)actor + 8;
+                break;
             default:
-                goto kind_none;
+                action_data = 0;
+                break;
+            }
+        } else {
+            switch (actor->unk_46 & 0x3FFF) {
+            case 3:
+                action_data = (u8 *)actor + 0xE;
+                break;
+            case 2:
+                action_data = (u8 *)actor + 0xB;
+                break;
+            case 1:
+                action_data = (u8 *)actor + 8;
+                break;
+            default:
+                action_data = 0;
+                break;
             }
         }
-
-        switch (actor->unk_46 & 0x3FFF) {
-    case 2:
-            goto kind_2;
-    case 1:
-            goto kind_1;
-    case 3:
-            break;
-    default:
-            goto kind_none;
-        }
-
-    kind_3:
-        action_data = (u8 *)actor + 0xE;
-        goto have_choice;
-    kind_2:
-        action_data = (u8 *)actor + 0xB;
-        goto have_choice;
-    kind_1:
-        action_data = (u8 *)actor + 8;
-        goto have_choice;
-    kind_none:
-        action_data = 0;
-
-    have_choice:
         if (*action_data != 0) {
             x = ((S_80172834_0 *)action_state)->unk_98;
             x &= 0xFF7F;

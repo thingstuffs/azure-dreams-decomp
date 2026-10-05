@@ -355,8 +355,7 @@ inner_top:
 
                 {
                     index = 0;
-                    if (((S_80022768_0 *)state)->unk_64 == 0)
-                        goto count_done;
+                    if (((S_80022768_0 *)state)->unk_64 != 0) {
                     {
                         s16 *payout_table = D_800244E8;
                         register s16 *payouts = payout_table;
@@ -435,8 +434,8 @@ inner_top:
                             index++;
                         } while (index < ((S_80022768_0 *)state)->unk_64);
                     }
+                    }
                 }
-count_done:
             }
             if (((S_80022768_0 *)state)->unk_58 == 0) {
                 ((S_80022768_0 *)state)->unk_5E.u = 10;

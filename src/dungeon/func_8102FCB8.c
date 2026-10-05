@@ -221,7 +221,8 @@ void func_801714B8(void *actor_arg, void *context_arg, void *sprite_arg, void *s
     if (((S_801714B8_1 *)stats)->unk_6D > 0) {
         if (!(((S_801714B8_1 *)stats)->unk_1C & 0x20)) {
             if (((S_801714B8_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-                goto ordinary_cleanup;
+                func_80171E80(actor, context, sprite, stats);
+                return;
             }
             if (!(((S_801714B8_1 *)stats)->unk_46 & 0x8000)) {
                 if (dungeonStatus.flags & 0x2000) {
@@ -235,7 +236,8 @@ void func_801714B8(void *actor_arg, void *context_arg, void *sprite_arg, void *s
                 }
                 ((S_801714B8_1 *)stats)->unk_46 |= 0x4000;
                 if (!(((S_801714B8_1 *)stats)->unk_46 & 0x8000)) {
-                    goto ordinary_cleanup;
+                    func_80171E80(actor, context, sprite, stats);
+                    return;
                 }
             }
 
@@ -265,16 +267,17 @@ void func_801714B8(void *actor_arg, void *context_arg, void *sprite_arg, void *s
                 player = D_800814A8;
                 ((S_801714B8_1 *)stats)->unk_2A.s = heading;
                 if (player->unk_9A == 0x11) {
-                    goto aaf_cleanup;
+                    func_800AAF00(actor, context, sprite, D_801760DC, &D_801714B8);
+                    return;
                 }
-                goto special_cleanup;
+                break;
             }
             case 1:
             case 2:
             case 3:
                 goto aaf_cleanup;
             case 12:
-                goto special_cleanup;
+                break;
             default:
                 goto ordinary_cleanup;
             }

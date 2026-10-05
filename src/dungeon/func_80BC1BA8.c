@@ -86,11 +86,13 @@ void func_801713A8(void *entity, EntityRec *motion, void *sprite)
         state_compare >>= 16;
         if (state_compare != (*(s8 *)((u8 *)entity + 0x6D))) {
             func_800AA36C(entity, motion, sprite, entity);
+            motion->x.v += motion->unk_0C;
+            motion->y.v += motion->unk_10;
+        } else {
+            motion->x.v += motion->unk_0C;
+            motion->y.v += motion->unk_10;
         }
     }
-
-    motion->x.v += motion->unk_0C;
-    motion->y.v += motion->unk_10;
 
     if (!((*(s32 *)((u8 *)entity + 0x1C)) & 0x40000) &&
         !((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
@@ -182,10 +184,18 @@ void func_801713A8(void *entity, EntityRec *motion, void *sprite)
             height_accum += height_work;
             (*(s32 *)((u8 *)entity + 0x90)) = height_accum;
             height_offset = motion_flags & 8;
-            if (height_offset != 0) {
-                goto finish_motion;
+            if (height_offset == 0) {
+                ground_height = func_800BCB04(((u16)motion->x.w.i),
+                                              ((u16)motion->y.w.i),
+                                              (s16)(((S_801713A8_2 *)entity_base)->unk_88 - 0x20)) -
+                            ((S_801713A8_2 *)entity_base)->unk_88;
+                if (ground_height < (*(s16 *)((u8 *)entity + 0x92))) {
+                    (*(s16 *)((u8 *)entity + 0x92)) = ground_height;
+                    (*(u8 *)((u8 *)entity + 0x9D)) = 0;
+                    motion->flags14 = 0;
+                    ((S_801713A8_2 *)entity_base)->unk_1C |= 0x08000000;
+                }
             }
-            goto ground_call;
         }
     } else {
         if (initial_flags & 0x800) {
@@ -206,7 +216,6 @@ void func_801713A8(void *entity, EntityRec *motion, void *sprite)
             (*(s32 *)((u8 *)entity + 0x90)) = height_accum;
             height_offset = motion_flags & 8;
             if (height_offset == 0) {
-ground_call:
                 ground_height = func_800BCB04(((u16)motion->x.w.i),
                                               ((u16)motion->y.w.i),
                                               (s16)(((S_801713A8_2 *)entity_base)->unk_88 - 0x20)) -
@@ -253,7 +262,6 @@ ground_call:
             }
         }
     }
-finish_motion:
     entity_flags = ((S_801713A8_2 *)entity_base)->unk_1C;
     if (entity_flags & 0x40000000) {
         ((S_801713A8_2 *)entity_base)->unk_1C = entity_flags & 0xBFFFFFFF;

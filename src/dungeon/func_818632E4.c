@@ -59,13 +59,8 @@ typedef struct Controller {
 typedef union WideProduct {
     long long value;
     struct {
-#ifdef NON_MATCHING
-        s32 lower;
-        s32 upper;
-#else
         s32 upper;
         s32 lower;
-#endif
     } word;
 } WideProduct;
 

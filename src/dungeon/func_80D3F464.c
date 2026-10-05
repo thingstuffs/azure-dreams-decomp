@@ -191,7 +191,9 @@ void func_80174C64(S_80174C64_0 *motion, void *position, Rec_D_80082E80 *record,
 
                 motion->unk_A8 = elapsed_ticks + 1;
                 if ((signed short)elapsed_ticks >= 300) {
-                    goto set_state3;
+                    motion->unk_B3 = 3;
+                    motion->unk_B1 = 0;
+                    goto state3_test;
                 }
             }
 
@@ -204,7 +206,9 @@ void func_80174C64(S_80174C64_0 *motion, void *position, Rec_D_80082E80 *record,
                          (*(signed short *)((u8 *)history_base + 0x68)) != 0) &&
                         (*(signed short *)((u8 *)history_base + 0x62)) == (*(signed short *)((u8 *)position + 2)) &&
                         (*(signed short *)((u8 *)history_base + 0x64)) == (*(signed short *)((u8 *)position + 6))) {
-                        goto set_state3;
+                        motion->unk_B3 = 3;
+                        motion->unk_B1 = 0;
+                        goto state3_test;
                     }
 
                     {
@@ -225,7 +229,9 @@ void func_80174C64(S_80174C64_0 *motion, void *position, Rec_D_80082E80 *record,
                                     if (history_x == (*(signed short *)((u8 *)history_entry + 0x62)) &&
                                         (*(signed short *)((u8 *)history_base + 0x68))
                                         == (*(signed short *)((u8 *)history_entry + 0x64))) {
-                                        goto set_state3;
+                                        motion->unk_B3 = 3;
+                                        motion->unk_B1 = 0;
+                                        goto state3_test;
                                     }
                                     history_index++;
                                 } while (history_index < 6);
@@ -393,14 +399,6 @@ state1_minus_angle:
             default:
                 break;
             }
-            goto state1_done;
-
-set_state3:
-            motion->unk_B3 = 3;
-            motion->unk_B1 = 0;
-            goto state3_test;
-
-state1_done:;
         }
         state = motion->unk_B3;
     }

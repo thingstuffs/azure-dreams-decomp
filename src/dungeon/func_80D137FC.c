@@ -99,10 +99,6 @@ typedef struct {
     Packed32 copy;
 } WorkMid;
 
-typedef struct {
-    s32 words[4];
-} Copy16;
-
 s32 func_8003DE58();     /* extern */
 void *func_8003FD64();            /* extern */
 s32 func_8004491C(); /* extern */
@@ -148,9 +144,6 @@ void func_80172FFC(void *action, void *motion, void *sprite, EntityRec *actor) {
     void *effect_sprite;
     void *effect_data;
     void *effect;
-    Copy16 *copy_dst;
-    Copy16 *copy_src;
-    Copy16 *copy_end;
     Packed32 *direction_source = &D_80170838;
 
     effect_work.copy = *direction_source;
@@ -232,16 +225,9 @@ emit:
                 ((S_80172FFC_4 *)effect_data)->unk_9E = 0x19;
                 ((S_80172FFC_5 *)effect)->unk_10 = &D_80170874;
                 ((S_80172FFC_4 *)effect_data)->unk_A8 = motion;
-                copy_src = (Copy16 *)sprite;
-                copy_end = (Copy16 *)sprite + 3;
                 ((S_80172FFC_4 *)effect_data)->unk_94 = (u16) actor->facing;
                 effect_sprite = ((S_80172FFC_5 *)effect)->unk_0C;
-                copy_dst = (Copy16 *)effect_sprite;
-                do {
-                    *copy_dst = *copy_src;
-                    copy_src++;
-                    copy_dst++;
-                } while (copy_src != copy_end);
+                *(S_80172FFC_6 *)effect_sprite = *(S_80172FFC_6 *)sprite;
                 ((S_80172FFC_6 *)effect_sprite)->unk_1E = 0;
                 ((S_80172FFC_6 *)effect_sprite)->unk_1C = 0;
                 ((S_80172FFC_6 *)effect_sprite)->unk_0E = 0x80;

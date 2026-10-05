@@ -7,15 +7,9 @@ s32 func_800B2214(s32 *values, s32 target_value, s32 count) {
 
     current_value = values;
     index = 0;
-    if (count > 0) {
-loop_1:
-        if (target_value != *current_value) {
-            index += 1;
-            current_value += 1;
-            if (index < count) {
-                goto loop_1;
-            }
-        }
+    while (index < count && target_value != *current_value) {
+        index += 1;
+        current_value += 1;
     }
     return index;
 }

@@ -1,10 +1,6 @@
 #include "common.h"
 
-#ifdef NON_MATCHING
-#define LOCAL_ASM_REG(reg)
-#else
 #define LOCAL_ASM_REG(reg) asm(reg)
-#endif
 
 typedef struct {
     s32 flag;

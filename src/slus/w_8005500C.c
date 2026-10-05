@@ -57,10 +57,8 @@ void func_8005500C(s32 code)
         S_800847D0 *state = &D_800847D0;
         s32 low_byte = packed_code & 0xFF;
 
-        do {
-        } while (0);
-        code = packed_code & 0xF000;
         state->field26 = (s16)low_byte;
+        code = packed_code & 0xF000;
         if (code != 0) {
             state->field26 = (s16)(low_byte | code);
         }

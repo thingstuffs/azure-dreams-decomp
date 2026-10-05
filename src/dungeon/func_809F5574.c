@@ -103,53 +103,38 @@ void func_80172D74(void *action, EntityRec *motion, void *sprite, EntityRec *act
             case 6:
                 special_item = 1;
             case 2:
-                goto kind3;
+                item_slot = (u8 *)actor + 0xE;
+                break;
             case 5:
                 special_item = 1;
             case 1:
-                goto kind2;
+                item_slot = (u8 *)actor + 0xB;
+                break;
             case 4:
                 special_item = 1;
             case 0:
-                goto kind1;
+                item_slot = (u8 *)actor + 8;
+                break;
             default:
-                goto kind4;
-            }
-        }
-
-        {
-            s32 item_kind = actor->unk_46 & 0x3FFF;
-
-            if (item_kind == 2) {
-                goto kind2;
-            }
-            if (item_kind < 3) {
-                if (item_kind == 1) {
-                    goto kind1;
-                }
                 item_slot = 0;
-                goto selected;
+                break;
             }
-            if (item_kind == 3) {
-                goto kind3;
+        } else {
+            switch (actor->unk_46 & 0x3FFF) {
+            case 3:
+                item_slot = (u8 *)actor + 0xE;
+                break;
+            case 2:
+                item_slot = (u8 *)actor + 0xB;
+                break;
+            case 1:
+                item_slot = (u8 *)actor + 8;
+                break;
+            default:
+                item_slot = 0;
+                break;
             }
-            item_slot = 0;
-            goto selected;
         }
-
-kind3:
-        item_slot = (u8 *)actor + 0xE;
-        goto selected;
-kind2:
-        item_slot = (u8 *)actor + 0xB;
-        goto selected;
-kind1:
-        item_slot = (u8 *)actor + 8;
-        goto selected;
-kind4:
-        item_slot = 0;
-
-selected:
         if (*item_slot != 0) {
             ((S_80172D74_1 *)action)->unk_98 &= 0xFF7F;
             {

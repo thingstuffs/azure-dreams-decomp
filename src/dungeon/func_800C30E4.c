@@ -9,10 +9,10 @@ extern s32 func_800A48F0(State *, s32, s8);
 extern s32 func_800A6D30(void);
 extern s32 func_800C7FFC(State *);
 
-s32 func_800C8844(State *arg0, s16 arg1, s8 arg2_in) {
-    State *state = arg0;
-    s16 value = arg1;
-    s8 arg2 = arg2_in;
+s32 func_800C8844(State *state_ptr, s16 limit_input, s8 byte_input) {
+    State *state = state_ptr;
+    s16 limit = limit_input;
+    s8 byte_value = byte_input;
     s32 result;
     s32 dividend;
     s32 dispatch_v1;
@@ -28,19 +28,19 @@ s32 func_800C8844(State *arg0, s16 arg1, s8 arg2_in) {
         dispatch_v1 = 0;
     }
     {
-        s32 signed_value;
+        s32 signed_limit;
 
-        result = (s32)value << 16;
-        signed_value = result >> 16;
-        result = dispatch_v1 < signed_value;
+        result = (s32)limit << 16;
+        signed_limit = result >> 16;
+        result = dispatch_v1 < signed_limit;
         if (result == 0) {
             result = 0xFF;
-            if (signed_value != result) {
+            if (signed_limit != result) {
                 goto failure;
             }
         }
         dispatch_v1 =
-            (s32)((u32)func_800A48F0(state, 5, arg2) << 16);
+            (s32)((u32)func_800A48F0(state, 5, byte_value) << 16);
         result = 1;
         if (dispatch_v1 >= 0) {
             goto done;

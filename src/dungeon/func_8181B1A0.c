@@ -60,19 +60,16 @@ typedef struct S_8181B1A0_3 {
 } S_8181B1A0_3;   /* temp_v1 in func_8181B1A0 */
 
 /* Creates an effect at an offset from the source and initializes its state and appearance. */
-void func_8181B1A0(void *source, s32 offset_x, s32 offset_y, s32 offset_z, s32 effect_value) {
-    s32 saved_value = effect_value;
+void func_8181B1A0(void *source, s32 offset_x, s32 offset_y, s32 offset_z, s16 effect_value) {
     S_8181B1A0_2 *render;
     S_8181B1A0_0 *state;
     void *effect;
     S_8181B1A0_3 *position;
 
     effect = func_8003FC64(0x212);
-    do {
-        state = effect + 0x20;
-    } while (0);
     if (effect != NULL) {
-        state->unk_02 = (s16) saved_value;
+        state = effect + 0x20;
+        state->unk_02 = effect_value;
         state->unk_60 = (s32) ((rand() & 0x1FFFF) + 0x10000);
         ((S_8181B1A0_1 *)effect)->unk_10 = &D_80024878;
         func_8004491C(effect, func_80045340);
@@ -92,8 +89,3 @@ void func_8181B1A0(void *source, s32 offset_x, s32 offset_y, s32 offset_z, s32 e
         render->unk_08 = (void *) (effect + 0x40);
     }
 }
-
-/* MECHANISM: The 48-byte frame holds arg0-arg3 in s3-s6, stack arg4 in pinned s2,
-   the allocation result in s1, and a pinned +0x20 base in s0 with an entry-block fence.
-   One pinned a3 name spans the two record-pointer live ranges; u8 fields preserve li 0x80.
-   Fixed-size memcpy plus 2.7.2-cdk-G0 selects retail's 12-byte unaligned-copy temp colors. */

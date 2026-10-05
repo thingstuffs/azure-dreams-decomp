@@ -70,9 +70,6 @@ void func_80173280(void *actor, EntityRec *motion, void *tile_arg, EntityRec *ac
     s16 effect_flags;
     s16 action_dep;
 
-#ifdef NON_MATCHING
-    action_dep = 0;
-#endif
     state = ((S_80173280_0 *)actor)->unk_9B;
     effect_flags = 0;
     if (state != 1) {

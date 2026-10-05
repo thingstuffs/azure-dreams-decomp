@@ -81,11 +81,7 @@ typedef struct {
     s32 unk1FC;
 } S_800A1600_D80083160;
 
-#ifdef NON_MATCHING
-#define READ_ZERO(var) ((var) = 0)
-#else
 #define READ_ZERO(var) ASM_UNDEF(var)
-#endif
 
 extern s32 func_80065420();
 extern void func_80066640();

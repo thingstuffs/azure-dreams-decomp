@@ -18,7 +18,6 @@ typedef struct S_800232F4_1 {
 
 
 extern void func_800537D0(s32, s32, void *);
-
 /* Updates the display value, then moves the object outward and flags it when out of bounds. */
 void func_800232F4(void *object)
 {
@@ -31,12 +30,8 @@ void func_800232F4(void *object)
     state = ((S_800232F4_0 *)obj)->unk_00.s;
     owner = ((S_800232F4_0 *)obj)->unk_0C;
 
-    if (state != 0) {
-        if (state == 1) {
-            goto state_one;
-        }
-        return;
-    }
+    switch (state) {
+    case 0:
     step = *((S_800232F4_0 *)obj)->unk_08;
     func_800537D0(step * 100, 5,
                   ((S_800232F4_0 *)obj)->unk_04 + 4);
@@ -50,15 +45,15 @@ void func_800232F4(void *object)
         ((S_800232F4_0 *)obj)->unk_02.s = 8;
     }
     ((S_800232F4_0 *)obj)->unk_00.u++;
-    return;
+        break;
 
-state_one:
+    case 1:
     ((S_800232F4_0 *)obj)->unk_16 += ((S_800232F4_0 *)obj)->unk_02.s;
     ((S_800232F4_0 *)obj)->unk_16 += ((S_800232F4_0 *)obj)->unk_02.s >> 2;
     if ((u16)(((S_800232F4_0 *)obj)->unk_16 + 8) >= 249) {
         (*(u16 *)((u8 *)obj + -2)) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
     }
-
-    return;
+        break;
+    }
 }

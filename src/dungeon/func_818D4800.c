@@ -26,9 +26,9 @@ typedef struct PrimTag818D4800 {
     u32 len : 8;
 } PrimTag818D4800;
 
-extern u32 func_80065420(void *arg0, void *arg1, void *arg2, void *arg3);
-extern s32 func_80066460(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-extern void func_80067F20(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+extern u32 func_80065420(void *scratch, void *prim_output, void *scratch_90, void *scratch_94);
+extern s32 func_80066460(s32 value0, s32 value1, s32 value2, s32 value3);
+extern void func_80067F20(void *prim, s32 value0, s32 value1, s32 draw_mode, s32 value2);
 
 #ifdef __mips__
 static const u32 split_prefix[] __asm__("func_818D4800")

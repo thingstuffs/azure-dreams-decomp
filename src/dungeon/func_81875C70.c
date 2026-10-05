@@ -12,9 +12,9 @@ extern UnkCopy12 D_80026658;
 extern s16 D_80026664;
 
 /* Per-state particle step: the c4 state spawns 0x20 randomised sparks in one do-while. */
-void func_81875C70(u8 *arg0, void *arg1, u8 *arg2)
+void func_81875C70(u8 *data, void *unused, u8 *context)
 {
-    u8 *p = arg0;
+    u8 *p = data;
     s16 old;
     u16 temp;
     u16 h0;
@@ -114,7 +114,7 @@ void func_81875C70(u8 *arg0, void *arg1, u8 *arg2)
 
     case 4:
         *(UnkCopy12 *)(p + 0x2C) = D_80026658;
-        *(u8 **)(arg2 + 8) = p + 0x2C;
+        *(u8 **)(context + 8) = p + 0x2C;
         temp = *(u16 *)p;
         *(u16 *)(p + 2) = 0;
         *(u16 *)p = temp + 1;
@@ -144,12 +144,12 @@ void func_81875C70(u8 *arg0, void *arg1, u8 *arg2)
         return;
 
     case 6:
-        if (arg2[0xC] >= 5) {
-            arg2[0xC] -= 5;
-            arg2[0xD] -= 5;
-            arg2[0xE] -= 5;
+        if (context[0xC] >= 5) {
+            context[0xC] -= 5;
+            context[0xD] -= 5;
+            context[0xE] -= 5;
         }
-        if (arg2[0xC] < 6) {
+        if (context[0xC] < 6) {
             adv = *(u16 *)p;
             *(u16 *)(p + 2) = 0;
             *(u16 *)p = adv + 1;

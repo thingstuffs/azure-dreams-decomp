@@ -31,8 +31,8 @@ typedef struct S_func_800362D0_1 {
 extern u8 D_80082040[];
 extern u8 D_80082538[];
 
-extern void func_80036ED4(void *arg0, void *arg1, s32 *arg2, s16 arg3,
-                          s16 arg4, s32 arg5);
+extern void func_80036ED4(void *data_ptr_a, void *data_ptr_b, s32 *object, s16 value,
+                          s16 index_offset, s32 field_value);
 extern void func_80036350(void);
 
 /* Initializes the object from its child data and sets the next callback. */

@@ -15,10 +15,10 @@ void func_8003F624(void) {
     D_800814D4 = 0x84;
     for (attempts_left = 0x10; attempts_left != 0; attempts_left--) {
         if (CdControlB(0xE, &D_800814D3[1], 0) != 0) {
-            goto done;
+            func_8003F5EC();
+            return;
         }
     }
     func_8003E70C();
-done:
     func_8003F5EC();
 }

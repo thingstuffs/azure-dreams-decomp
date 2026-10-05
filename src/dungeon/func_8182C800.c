@@ -559,9 +559,7 @@ spawn_trail:
             particle->unk_00 = effect;
             particle->unk_48 = (s16) (func_80069EF8() & 3);
             particle->unk_4C = 0;
-            goto next_trail;
         }
-next_trail:
         distance_x -= 1;
         if (distance_x < 0) {
             ((S_8182C800_5 *)motion)->unk_0C = (s32) (((S_8182C800_5 *)motion)->unk_0C
@@ -598,12 +596,10 @@ next_trail:
                 if (tile_y_coord < 0) {
                     tile_y_coord += 0x3F;
                 }
-                if (((tile_y_coord >> 6) != (s8) ((S_8182C800_1 *)owner)->unk_73.s) || ((s16) steps_left >= 0)) {
-                    goto check_timeout;
+                if (((tile_y_coord >> 6) == (s8) ((S_8182C800_1 *)owner)->unk_73.s) && ((s16) steps_left < 0)) {
+                    goto arrive;
                 }
-                goto arrive;
             }
-check_timeout:
             if ((s16) ((EntityRec *)effect)->unk_50 < -0x20) {
 arrive:
                 if (((S_8182C800_1 *)owner)->unk_60 == 0) {

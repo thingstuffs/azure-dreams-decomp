@@ -12,8 +12,8 @@ typedef struct MainPacket12 {
     u8 a;
 } MainPacket12;
 
-extern s16 func_80078570(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-extern s16 func_80078640(s32 arg0, s32 arg1);
+extern s16 func_80078570(s32 first_value, s32 second_value, s32 third_value, s32 fourth_value);
+extern s16 func_80078640(s32 first_value, s32 second_value);
 
 /* Initializes four drawing packets and returns the next free packet. */
 MainPacket12 *func_8001DA3C(MainPacket12 *packet) {

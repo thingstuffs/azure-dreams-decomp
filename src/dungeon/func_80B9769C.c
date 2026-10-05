@@ -161,81 +161,76 @@ void func_80170E9C(void *entity, s32 context, void *sprite, void *state) {
     }
     terrain_index = func_8009FB34(((S_80170E9C_2 *)sprite)->unk_24.at00.v, ((S_80170E9C_2 *)sprite)->unk_24.at01.v);
     ((S_80170E9C_2 *)sprite)->unk_26 = terrain_index;
-    if (((S_80170E9C_1 *)state)->unk_6D <= 0) {
-        goto block_52;
-    }
-    if (((S_80170E9C_1 *)state)->unk_1C & 0x20) {
-        goto block_44;
-    }
-    if (((S_80170E9C_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-        goto block_50;
-    }
-    if (!(((S_80170E9C_1 *)state)->unk_46 & 0x8000)) {
-        if (dungeonStatus.flags & 0x2000) {
-            if ((func_8009A180(state, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0) {
+    if (((S_80170E9C_1 *)state)->unk_6D > 0) {
+        if (((S_80170E9C_1 *)state)->unk_1C & 0x20) {
+            func_800A9A0C(state);
+            return;
+        }
+        if (((S_80170E9C_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
+            func_80171410(entity, context, sprite, state);
+            return;
+        }
+        if (!(((S_80170E9C_1 *)state)->unk_46 & 0x8000)) {
+            if (dungeonStatus.flags & 0x2000) {
+                if ((func_8009A180(state, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0) {
+                    return;
+                }
+            }
+            if ((func_80173A08(entity, context, sprite, 0) << 0x10) == 0) {
+                return;
+            }
+            action_flags = ((S_80170E9C_1 *)state)->unk_46 | 0x4000;
+            ((S_80170E9C_1 *)state)->unk_46 = action_flags;
+            if (!(action_flags & 0x8000)) {
+                func_80171410(entity, context, sprite, state);
                 return;
             }
         }
-        if ((func_80173A08(entity, context, sprite, 0) << 0x10) == 0) {
+        action_id = ((S_80170E9C_1 *)state)->unk_46 & 0x3FFF;
+        switch (action_id) {
+        case 8:
+        case 9:
+            if ((func_80171E00(entity, context, sprite, state) << 0x10) != 0) {
+                return;
+            }
+            func_80171FC4(entity, context, sprite, state);
+            return;
+        case 5:
+        case 6:
+        case 7:
+            target_angle = func_800A0818(((S_80170E9C_2 *)sprite)->unk_24.at00.v, ((S_80170E9C_2 *)sprite)->unk_24.at01.v,
+                D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
+            reference_entity = D_800814A8;
+            ((S_80170E9C_1 *)state)->unk_2A = target_angle;
+            if (reference_entity->unk_9A == 0x11) {
+                resume_handler = (s32 *)func_80170E9C;
+                func_800AAF00(entity, context, sprite, &D_80174F08, resume_handler);
+                return;
+            }
+        case 12:
+            func_800A9A0C(state);
+            return;
+        case 1:
+        case 2:
+        case 3:
+            resume_handler = (s32 *)func_80170E9C;
+            func_800AAF00(entity, context, sprite, &D_80174F08, resume_handler);
+            return;
+        case 11:
+        default:
+            func_80171410(entity, context, sprite, state);
             return;
         }
-        action_flags = ((S_80170E9C_1 *)state)->unk_46 | 0x4000;
-        ((S_80170E9C_1 *)state)->unk_46 = action_flags;
-        if (!(action_flags & 0x8000)) {
-            goto block_50;
-        }
     }
-    action_id = ((S_80170E9C_1 *)state)->unk_46 & 0x3FFF;
-    switch (action_id) {
-    case 8:
-    case 9:
-        if ((func_80171E00(entity, context, sprite, state) << 0x10) != 0) {
-            return;
-        }
-        func_80171FC4(entity, context, sprite, state);
-        return;
-    case 5:
-    case 6:
-    case 7:
-        target_angle = func_800A0818(((S_80170E9C_2 *)sprite)->unk_24.at00.v, ((S_80170E9C_2 *)sprite)->unk_24.at01.v,
-            D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
-        reference_entity = D_800814A8;
-        ((S_80170E9C_1 *)state)->unk_2A = target_angle;
-        if (reference_entity->unk_9A == 0x11) {
-            goto block_46;
-        }
-    case 12:
-block_44:
-        func_800A9A0C(state);
-        return;
-    case 1:
-    case 2:
-    case 3:
-block_46:
-        resume_handler = (s32 *)func_80170E9C;
-block_47:
-        func_800AAF00(entity, context, sprite, &D_80174F08, resume_handler);
-        return;
-    case 11:
-    default:
-block_49:
-block_50:
-        func_80171410(entity, context, sprite, state);
-        return;
-    }
-block_52:
     idle_flags = ((S_80170E9C_1 *)state)->unk_1C;
     if (!(idle_flags & 0x2000)) {
-        if (terrain_index >= 0) {
-            if (D_800E2970[terrain_index].flags & 2) {
-                goto block_59;
-            }
-        }
-        if (!(idle_flags & 0x430)) {
-            if ((func_8009FD7C(((S_80170E9C_2 *)sprite)->unk_24.at00.v, ((S_80170E9C_2 *)sprite)->unk_24.at01.v,
-                D_80082E80.tileX, D_80082E80.tileY) << 0x10) != 0) {
-                ((S_80170E9C_1 *)state)->unk_2A = func_800A0818(((S_80170E9C_2 *)sprite)->unk_24.at00.v,
-                    ((S_80170E9C_2 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
+        if (terrain_index < 0 || !(D_800E2970[terrain_index].flags & 2)) {
+            if (!(idle_flags & 0x430)) {
+                if ((func_8009FD7C(((S_80170E9C_2 *)sprite)->unk_24.at00.v, ((S_80170E9C_2 *)sprite)->unk_24.at01.v,
+                    D_80082E80.tileX, D_80082E80.tileY) << 0x10) != 0) {
+                    ((S_80170E9C_1 *)state)->unk_2A = func_800A0818(((S_80170E9C_2 *)sprite)->unk_24.at00.v,
+                        ((S_80170E9C_2 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
+                }
             }
         }
     }

@@ -20,11 +20,8 @@ struct Dst;
 struct Elem;
 
 typedef struct {
-    s32 w0;
-    s32 w1;
-    s32 w2;
-    s32 w3;
-} Copy16;
+    void *entries[9];
+} AnimTable;
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
@@ -58,24 +55,11 @@ typedef struct S_800BE214_2 {
 /* Advances the actor animation state and applies a timed pose offset. */
 void func_800BE214(S_800BE214_0 *actor, S_800BE214_2 *pose, Rec_D_80082E80 *animation) {
     void *animations[9];
-    Copy16 *copy_src;
-    Copy16 *copy_dst;
-    Copy16 *copy_end;
     s16 animation_index;
     s32 state;
     u16 elapsed_frames;
 
-    copy_dst = (Copy16 *)animations;
-    copy_src = (Copy16 *)&D_80089684;
-    copy_end = copy_src + 2;
-    do {
-        *copy_dst = *copy_src;
-        copy_src++;
-        copy_dst++;
-    } while (copy_src != copy_end);
-    copy_dst->w0 = copy_src->w0;
-    do {
-    } while (0);
+    *(AnimTable *)animations = *(AnimTable *)D_80089684;
     func_800478B8(animation);
     state = actor->unk_68;
     switch (state) {

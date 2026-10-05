@@ -5,7 +5,7 @@ extern int abs(int);
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define PTR_AT(p, o) (*(void **)((u8 *)(p) + (o)))
 #define SC32(p, o)   (*(s32 *)((u8 *)(p) + (o)))
-#define VSC32(p, o)  (*(volatile s32 *)((u8 *)(p) + (o)))
+#define VSC32(p, o)  (*(s32 *)((u8 *)(p) + (o)))
 #define SCU8(p, o)   (*(u8 *)((u8 *)(p) + (o)))
 #define SCPTR(p, o)  (*(void **)((u8 *)(p) + (o)))
 #define VSPTR(p, o)  (*(void * volatile *)((u8 *)(p) + (o)))
@@ -59,12 +59,12 @@ void func_8008F664(void *collider, void *position) {
             s32 other_edge;
             s32 other_offset;
 
-            self_box = VSPTR(scratch, 0);
+            self_box = SCPTR(scratch, 0);
             do {
                 separation = S32_AT(position, 0);
             } while (0);
             self_offset = S32_AT(self_box, 0);
-            axis_operand = (s32)VSPTR(scratch, 8);
+            axis_operand = (s32)SCPTR(scratch, 8);
             separation += self_offset;
             other_edge = S32_AT(axis_operand, 0);
             other_offset = S32_AT(other_bounds, 0);
@@ -85,7 +85,7 @@ void func_8008F664(void *collider, void *position) {
             s32 self_size;
             s32 other_edge;
 
-            box_operand = VSPTR(scratch, 0);
+            box_operand = SCPTR(scratch, 0);
             separation = S32_AT(position, 0);
             self_offset = S32_AT(box_operand, 0);
             self_size = S32_AT(box_operand, 0xC);
@@ -111,14 +111,14 @@ void func_8008F664(void *collider, void *position) {
             s32 self_offset;
             s32 other_edge;
 
-            self_box = VSPTR(scratch, 0);
+            self_box = SCPTR(scratch, 0);
             do {
                 separation = S32_AT(position, 4);
                 self_offset = S32_AT(self_box, 4);
             } while (0);
-            other_box = VSPTR(scratch, 0xC);
+            other_box = SCPTR(scratch, 0xC);
             separation += self_offset;
-            other_pos = VSPTR(scratch, 8);
+            other_pos = SCPTR(scratch, 8);
             box_operand = (void *)S32_AT(other_box, 4);
             other_edge = S32_AT(other_pos, 4);
             axis_operand = S32_AT(other_box, 0x10);
@@ -138,7 +138,7 @@ void func_8008F664(void *collider, void *position) {
             s32 self_size;
             s32 other_edge;
 
-            box_operand = VSPTR(scratch, 0);
+            box_operand = SCPTR(scratch, 0);
             separation = S32_AT(position, 4);
             self_offset = S32_AT(box_operand, 4);
             self_size = S32_AT(box_operand, 0x10);
@@ -164,14 +164,14 @@ void func_8008F664(void *collider, void *position) {
             s32 self_offset;
             s32 other_edge;
 
-            self_box = VSPTR(scratch, 0);
+            self_box = SCPTR(scratch, 0);
             do {
                 separation = S32_AT(position, 8);
                 self_offset = S32_AT(self_box, 8);
             } while (0);
-            other_box = VSPTR(scratch, 0xC);
+            other_box = SCPTR(scratch, 0xC);
             separation += self_offset;
-            other_pos = VSPTR(scratch, 8);
+            other_pos = SCPTR(scratch, 8);
             box_operand = (void *)S32_AT(other_box, 8);
             other_edge = S32_AT(other_pos, 8);
             axis_operand = S32_AT(other_box, 0x14);
@@ -191,7 +191,7 @@ void func_8008F664(void *collider, void *position) {
             s32 self_size;
             s32 other_edge;
 
-            box_operand = VSPTR(scratch, 0);
+            box_operand = SCPTR(scratch, 0);
             separation = S32_AT(position, 8);
             self_offset = S32_AT(box_operand, 8);
             self_size = S32_AT(box_operand, 0x14);

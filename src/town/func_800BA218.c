@@ -12,18 +12,8 @@ void func_800B7978(s32 dst_x, s32 dst_y, s32 image_id, void *dst) {
     u16 width;
     u16 value;
     u16 origin_y;
-    u8 *base;
-    u8 *entry_address;
-    s32 table_offset;
 
-    table_offset = image_id << 0x10;
-    do {
-        base = (u8 *)D_800D1868;
-    } while (0);
-    table_offset >>= 0xE;
-    entry_address = (u8 *)table_offset;
-    entry_address = (u8 *)((s32)entry_address + (s32)base);
-    src = *(u16 **)entry_address;
+    src = D_800D1868[(s16)image_id];
     row = 0;
     width = *src++;
     height = *src++;

@@ -1,13 +1,8 @@
 #include "common.h"
 
 
-#ifdef NON_MATCHING
-#define ASM_REG(reg)
-#define ASM_KEEP(var)   ((void)0)
-#else
 #define ASM_REG(reg)    asm(reg)
 #define ASM_KEEP(var)   __asm__ __volatile__("" : "+r"(var))
-#endif
 typedef struct S_80084918
 {
     s32 field0;

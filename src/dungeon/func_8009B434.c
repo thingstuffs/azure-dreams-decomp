@@ -84,7 +84,6 @@ s32 func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read) {
 
         if (entry[0] != 2) {
             D_800E3DA0[entry[3]] = -asset_id;
-            goto done;
         }
     } else {
         if (entry[0] != 2) {
@@ -100,6 +99,5 @@ s32 func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read) {
         }
         result = *(s32 *)data;
     }
-done:
     return result;
 }

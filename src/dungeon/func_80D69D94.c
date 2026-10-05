@@ -215,12 +215,9 @@ void func_80175594(void *motion, void *position, void *entity, void *object_in)
         old_x = ((Rec_func_800D6DC0_arg2 *)entity)->unk_24;
         old_y = ((Rec_func_800D6DC0_arg2 *)entity)->unk_25;
         do {
-loop_3:
-            {
+            do {
                 tile_result = func_800A4E2C((u8 *)entity + 0x24, (u8 *)entity + 0x25);
-            }
-            if (tile_result < 0)
-                goto loop_3;
+            } while (tile_result < 0);
 
             dx = D_80082E80.tileX;
             dy = ((Rec_func_800D6DC0_arg2 *)entity)->unk_24;
@@ -235,13 +232,14 @@ loop_3:
                 dy = -dy;
             }
             if (dx + dy >= 0x21) {
-                goto coordinates_ready;
+                break;
             }
         } while (--tries_left >= 0);
-        ((Rec_func_800D6DC0_arg2 *)entity)->unk_24 = old_x;
-        ((Rec_func_800D6DC0_arg2 *)entity)->unk_25 = old_y;
+        if (dx + dy < 0x21) {
+            ((Rec_func_800D6DC0_arg2 *)entity)->unk_24 = old_x;
+            ((Rec_func_800D6DC0_arg2 *)entity)->unk_25 = old_y;
+        }
 
-coordinates_ready:
         ((S_80175594_1 *)position)->unk_02.s = (((Rec_func_800D6DC0_arg2 *)entity)->unk_24 << 6) + 0x20;
         ((S_80175594_1 *)position)->unk_06.s = (((Rec_func_800D6DC0_arg2 *)entity)->unk_25 << 6) + 0x20;
         ground_z = func_800BCB04(((S_80175594_1 *)position)->unk_02.u, ((S_80175594_1 *)position)->unk_06.u,

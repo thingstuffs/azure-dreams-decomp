@@ -9,9 +9,7 @@ s32 func_80018C4C(void *entry, s32 callback_mode) {
     s32 total;
     Callback callback;
 
-    do {
-        total = 0;
-    } while (0);
+    total = 0;
     while (((u8 *)entry)[1] != 0) {
         if (((u8 *)entry)[3] & 0x20) {
             if (callback_mode == 0) {

@@ -154,11 +154,7 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
             render->unk_0C = color;
             render_flags |= 0xC;
             render->unk_14 = render_flags;
-#ifndef NON_MATCHING
             func_8004491C(*slot, (void *)D_800C9034);
-#else
-            func_8004491C(*slot, D_800C9034);
-#endif
 
             current_object = *slot;
             data_entry = (u8 *)current_object + 0x20;

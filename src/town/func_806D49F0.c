@@ -1,8 +1,8 @@
 #include "common.h"
 
 extern void *func_80016D98(s32 id);
-extern s32 func_800178A8(void *arg0, s32 arg1, s32 arg2);
-extern void *func_80017960(void *arg0, void *arg1, s32 arg2, s32 arg3);
+extern s32 func_800178A8(void *entry_table, s32 entry_id, s32 entry_type);
+extern void *func_80017960(void *entry_table, void *aux_table, s32 entry_id, s32 entry_type);
 
 extern u8 D_800189FC[16];
 extern u8 D_80018B98[16];

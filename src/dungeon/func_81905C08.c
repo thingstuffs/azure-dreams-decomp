@@ -56,11 +56,7 @@ void func_80025408(void *context, void *unused, void *effect_data) {
 
     rect_template = (Box *)(void *)&D_80024004;
     image_rect = *rect_template;
-#ifdef NON_MATCHING
-    rect_template = (Box *)(void *)&D_8002400C;
-#else
     rect_template = (Box *)((u8 *)&D_8002400C);
-#endif
     mask_rect = *rect_template;
     state = *(s16 *)context;
     D_800267B8 = 1;

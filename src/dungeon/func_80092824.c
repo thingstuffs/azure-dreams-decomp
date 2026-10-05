@@ -35,22 +35,14 @@ void *func_80097F84(void *arg0, void *arg1, void *arg2, s16 arg3)
     s32 entry_base_s;
     void *global_object;
 
-    if (arg0 != (void *)&D_80081484 &&
-        arg0 != (void *)D_80081470 &&
-        arg0 != *(void **)((u8 *)D_800814A8 + 0xF0)) {
-        goto done;
-    }
-
+    if (arg0 == (void *)&D_80081484 ||
+        arg0 == (void *)D_80081470 ||
+        arg0 == *(void **)((u8 *)D_800814A8 + 0xF0)) {
     first = func_80098FB0();
     second = func_80098FF8();
     index = (s16)first;
 
-    if (index >= 0) {
-        if ((s16)second >= 0) {
-            goto valid_index;
-        }
-    }
-    {
+    if (index < 0 || (s16)second < 0) {
         object = func_800990FC();
         func_80099290(func_80099194(arg2,
             func_8009955C(arg0,
@@ -59,7 +51,6 @@ void *func_80097F84(void *arg0, void *arg1, void *arg2, s16 arg3)
         return 0;
     }
 
-valid_index:
     object = func_800990FC();
     func_80099290(func_80099194(D_800E07EF,
         func_80099368(arg0, object)));
@@ -104,6 +95,6 @@ valid_index:
     narrowed >>= 14;
     narrowed += (s32)entry_base;
     *(void **)(narrowed + 0x29c) = arg0;
-done:
+    }
     return arg0;
 }

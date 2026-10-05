@@ -11,10 +11,6 @@ typedef struct S_800B0BD0_0 {
 typedef struct S_800B0BD0_1 {
     u8 pad_00[0x24];
     s32 unk_24;
-#ifdef NON_MATCHING
-#define LOCAL_ASM_REG(reg)
-#else
-#endif
 } S_800B0BD0_1;
 
 extern void func_800B09EC(void *object, s32 index);

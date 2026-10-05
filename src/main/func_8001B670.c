@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern void func_804025B8(void *arg0, void *arg1, s32 arg2);
-extern void func_804025F8(s32 arg0, s32 arg1, s32 arg2);
+extern void func_804025B8(void *object, void *position, s32 mode);
+extern void func_804025F8(s32 row_value, s32 value, s32 mode);
 
 static __inline__ void store_first_coord(
     s32 *record,

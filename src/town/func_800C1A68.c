@@ -102,8 +102,12 @@ void func_800BF1C8(Obj *self, Arg1 *position, Arg2 *cursor_data) {
             register s32 cursor = cursor_data->cursor;
             cursor -= 0x20;
             cursor_data->cursor = cursor;
-            goto wait_for_counter;
         }
+        if ((s16)self->counter > 0) {
+            return;
+        }
+        self->state = (u16)self->state + 1;
+        break;
 
     case 2:
     case 5:
@@ -120,10 +124,10 @@ void func_800BF1C8(Obj *self, Arg1 *position, Arg2 *cursor_data) {
 
     case 4:
         cursor_data->cursor += 0x20;
-wait_for_counter:
         if ((s16)self->counter > 0) {
             return;
         }
         self->state = (u16)self->state + 1;
+        break;
     }
 }

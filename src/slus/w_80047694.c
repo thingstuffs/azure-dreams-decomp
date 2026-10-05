@@ -20,9 +20,9 @@ struct S_800482C8_Entry {
     u8 pad[0xB];
 };
 
-extern void func_8004761C(struct S_8004761C_Entry *arg0, s32 *arg1);
-extern void func_800482C8(struct S_800482C8_Entry *arg0, s32 *arg1);
-extern void func_800475A4(struct S_8004761C_Entry *arg0, s32 *arg1);
+extern void func_8004761C(struct S_8004761C_Entry *entries, s32 *cursor);
+extern void func_800482C8(struct S_800482C8_Entry *entries, s32 *cursor);
+extern void func_800475A4(struct S_8004761C_Entry *entries, s32 *cursor);
 
 /* S_80047694: caller-side view of an entity/state struct.
  *   field_8  (0x08): pointer to the 0xC-byte entry array (passed on to callees)
