@@ -66,7 +66,7 @@ void func_800BB55C(void *effect, S_800BB55C_2 *position, s32 restore_link) {
     s16 end_y;
     s16 line_angle;
     s16 arc_length;
-    register s32 arc_angle ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 arc_angle;
     s32 base_angle;
     s32 start_angle = -0x400;
     s32 radius_decay;
@@ -101,7 +101,8 @@ void func_800BB55C(void *effect, S_800BB55C_2 *position, s32 restore_link) {
         end_xy[0] = (func_80064584(packet_or_angle) >> 7) + 0x362;
         end_y = (func_800644B8(packet_or_angle) >> 7) + 0x122;
         end_xy[1] = end_y;
-        line_angle = func_800A07D0(start_xy[0], start_xy[1], end_xy[0], end_y);
+        arc_angle = func_800A07D0(start_xy[0], start_xy[1], end_xy[0], end_y);
+        line_angle = arc_angle;
         end_xy[0] = (u16) start_xy[0] + ((s32) (func_80064584(line_angle) * ((DungeonWork *)effect)->field_30[point_index])
             >> 0xB);
         end_xy[1] = (u16) start_xy[1] + ((s32) (func_800644B8(line_angle) * ((DungeonWork *)effect)->field_30[point_index])

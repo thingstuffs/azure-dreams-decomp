@@ -50,58 +50,47 @@ void func_8008E0C4(S_8008E0C4_0 *context, void *unused, S_8008E0C4_1 *input, Ent
 
     work = &gameWork;
     state = context->unk_9B;
-    if (state == 1) {
-        goto state_1;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto state_0;
+    switch (state) {
+    case 0:
+        if (input->unk_14 & 0xE000) {
+            func_80099844(entity, &D_800E0672);
+            context->unk_96 = 0x80;
+            context->unk_9B++;
         }
-        return;
-    }
-    if (state == 2) {
-        return;
-    }
-    if (state == 0x10) {
-        goto state_16;
-    }
-    return;
+        break;
 
-state_0:
-    if (input->unk_14 & 0xE000) {
-        func_80099844(entity, &D_800E0672);
-        context->unk_96 = 0x80;
-        context->unk_9B++;
-    }
-    return;
-
-state_1:
-    remaining = context->unk_96 - 1;
-    context->unk_96 = remaining;
-    if ((remaining << 0x10) > 0) {
-        return;
-    }
-    if (*(u16 *)0x80013714 & 4) {
-        if (((S_8008E0C4_2 *)D_800E3CD0)->unk_00 == 0) {
-            ((S_8008E0C4_2 *)D_800E3CD0)->unk_00 = state;
-            func_80040AA0(3);
-            return;
+    case 1:
+        remaining = context->unk_96 - 1;
+        context->unk_96 = remaining;
+        if ((remaining << 0x10) > 0) {
+            break;
         }
-    } else {
-        func_800945E8(context);
-        func_800948BC();
-        D_80082E76 = 0xC000;
-        func_80041094(6, 0, 0, 0, 0xC000);
-        context->unk_9B++;
-        return;
-    }
-    return;
+        if (*(u16 *)0x80013714 & 4) {
+            if (((S_8008E0C4_2 *)D_800E3CD0)->unk_00 == 0) {
+                ((S_8008E0C4_2 *)D_800E3CD0)->unk_00 = state;
+                func_80040AA0(3);
+                break;
+            }
+        } else {
+            func_800945E8(context);
+            func_800948BC();
+            D_80082E76 = 0xC000;
+            func_80041094(6, 0, 0, 0, 0xC000);
+            context->unk_9B++;
+            break;
+        }
+        break;
 
-state_16:
-    if (input->unk_14 & 0xE000) {
-        entity->unk_28 = entity->unk_29;
-        entity->facing = 0x400 - ((((u16)work->view.viewAngle) + 0x100) & 0xE00);
-        context->unk_8C = D_8008ACDC;
-        dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
+    case 2:
+        break;
+
+    case 0x10:
+        if (input->unk_14 & 0xE000) {
+            entity->unk_28 = entity->unk_29;
+            entity->facing = 0x400 - ((((u16)work->view.viewAngle) + 0x100) & 0xE00);
+            context->unk_8C = D_8008ACDC;
+            dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
+        }
+        break;
     }
 }

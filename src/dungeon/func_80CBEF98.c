@@ -66,17 +66,20 @@ void func_80172798(void *action, EntityRec *motion, void *sprite, void *actor)
                 special = 1;
                 /* fallthrough */
             case 3:
-                goto kind_3;
+                selection = (u8 *)actor + 0xE;
+                break;
             case 6:
                 special = 1;
                 /* fallthrough */
             case 2:
-                goto kind_2;
+                selection = (u8 *)actor + 0xB;
+                break;
             case 5:
                 special = 1;
                 /* fallthrough */
             case 1:
-                goto kind_1;
+                selection = (u8 *)actor + 8;
+                break;
             default:
                 selection = 0;
                 break;
@@ -84,15 +87,12 @@ void func_80172798(void *action, EntityRec *motion, void *sprite, void *actor)
         } else {
             switch ((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF) {
             case 3:
-kind_3:
                 selection = (u8 *)actor + 0xE;
                 break;
             case 2:
-kind_2:
                 selection = (u8 *)actor + 0xB;
                 break;
             case 1:
-kind_1:
                 selection = (u8 *)actor + 8;
                 break;
             default:

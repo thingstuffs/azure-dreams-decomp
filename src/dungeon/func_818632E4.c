@@ -276,15 +276,15 @@ void func_80024AE4(Controller *ctrl, Motion *motion, void *render_data)
         if (ctrl->timer < 24) {
             break;
         }
-        goto advance2;
+        ctrl->timer = 0;
+        ctrl->state++;
+        break;
 
     case 4:
         if (ctrl->timer < 36) {
             break;
         }
         func_80024060(ctrl->cell_x, ctrl->cell_y, root, ctrl->kind);
-
-advance2:
         ctrl->timer = 0;
         ctrl->state++;
         break;

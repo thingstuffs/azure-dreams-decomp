@@ -171,34 +171,31 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
             ((S_80025CE8_0 *)data_entry)->unk_36 = angle;
             ((S_80025CE8_0 *)data_entry)->unk_3A = 0;
             ((S_80025CE8_0 *)data_entry)->unk_38 = 0xF;
-            goto continue_loop;
-        }
-        failure_index = object_index - 1;
-        failure_test = failure_index << 16;
-        object_index = failure_index;
-        failure_index = failure_test;
-        if (failure_index >= 0) {
-            do {
-                slot_offset = (s32)((u32)object_index << 16);
-                alloc_parent = object_index - 1;
-                predecessor_test = (s32)(alloc_parent << 16);
-                object_index = alloc_parent;
-                slot_offset >>= 14;
-                alloc_page = (u8 *)((uptr)slot_offset + (uptr)objects);
-                alloc_parent = predecessor_test;
-                cleanup_object = *(Object **)alloc_page;
-                cleanup_flags = ((S_80025CE8_4 *)cleanup_object)->unk_1E;
-                flag_work = objectFlagBlock.flags;
-                flag_work |= 0x8000;
-                objectFlagBlock.flags = flag_work;
-                cleanup_flags |= 0x8000;
-                ((S_80025CE8_4 *)cleanup_object)->unk_1E = cleanup_flags;
-            } while ((s32)alloc_parent >= 0);
-            return 0;
         } else {
+            failure_index = object_index - 1;
+            failure_test = failure_index << 16;
+            object_index = failure_index;
+            failure_index = failure_test;
+            if (failure_index >= 0) {
+                do {
+                    slot_offset = (s32)((u32)object_index << 16);
+                    alloc_parent = object_index - 1;
+                    predecessor_test = (s32)(alloc_parent << 16);
+                    object_index = alloc_parent;
+                    slot_offset >>= 14;
+                    alloc_page = (u8 *)((uptr)slot_offset + (uptr)objects);
+                    alloc_parent = predecessor_test;
+                    cleanup_object = *(Object **)alloc_page;
+                    cleanup_flags = ((S_80025CE8_4 *)cleanup_object)->unk_1E;
+                    flag_work = objectFlagBlock.flags;
+                    flag_work |= 0x8000;
+                    objectFlagBlock.flags = flag_work;
+                    cleanup_flags |= 0x8000;
+                    ((S_80025CE8_4 *)cleanup_object)->unk_1E = cleanup_flags;
+                } while ((s32)alloc_parent >= 0);
+            }
             return 0;
         }
-continue_loop:
         failure_index = object_index + 1;
         object_index = failure_index;
         failure_index <<= 16;

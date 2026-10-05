@@ -101,7 +101,8 @@ void func_800CABA8(void *effect, s32 context, void *record, void *actor) {
         phase_or_ticks = ((S_800CABA8_0 *)effect)->unk_9B;
         next_duration = 8;
         ((S_800CABA8_0 *)effect)->timer.half.ticks = next_duration;
-        goto block_9_done;
+        ((S_800CABA8_0 *)effect)->unk_9B = (u8) (phase_or_ticks + 1);
+        return;
     case 2:
         effect_base = effect - 0x20;
         ((S_800CABA8_0 *)effect)->unk_A0.at00.v = (s32) (((S_800CABA8_0 *)effect)->unk_A0.at00.v
@@ -129,8 +130,7 @@ void func_800CABA8(void *effect, s32 context, void *record, void *actor) {
         phase_or_ticks = ((S_800CABA8_0 *)effect)->unk_9B;
         next_duration = 4;
         ((S_800CABA8_0 *)effect)->timer.half.ticks = next_duration;
-block_9_done:
-        ;
+
         ((S_800CABA8_0 *)effect)->unk_9B = (u8) (phase_or_ticks + 1);
         return;
     case 3:
@@ -175,15 +175,11 @@ block_9_done:
         func_800A4ACC(actor_state);
         cycles_left = ((S_800CABA8_0 *)effect)->unk_B6 - 1;
         ((S_800CABA8_0 *)effect)->unk_B6 = cycles_left;
-        if ((cycles_left << 0x10) > 0) {
-            if (!((*(u16 *)0x80013714) & 8)) {
-                goto block_22;
-            }
+        if ((cycles_left << 0x10) <= 0 || ((*(u16 *)0x80013714) & 8)) {
+            func_800CAA94(effect, context, record);
+        } else {
+            ((S_800CABA8_0 *)effect)->unk_8C = &D_800C9F34;
         }
-        func_800CAA94(effect, context, record);
-        return;
-block_22:
-        ((S_800CABA8_0 *)effect)->unk_8C = &D_800C9F34;
         return;
     default:
         return;

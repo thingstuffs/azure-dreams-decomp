@@ -70,8 +70,6 @@ void *func_8016A870(s16 spawn_flags, s16 part_b_value_24, s16 part_b_value_25, s
     s8 saved_value_24;
     register s16 saved_part_value;
     s8 saved_value_25;
-    register void *init_obj;
-    register void *query_part;
 
     work = 0;
     saved_value_24 = part_b_value_24;
@@ -104,20 +102,14 @@ void *func_8016A870(s16 spawn_flags, s16 part_b_value_24, s16 part_b_value_25, s
             work->unk_14 = flags_14;
             work->unk_1C = flags_1c;
         } else {
-            init_obj = obj;
             if (((spawn_flags & ~3) << 16) == 0 && !(work->unk_14 & 0x200)) {
-                query_part = part_a;
                 work->unk_1C |= 0x200;
                 func_800A48F0(work, 1,
                               (func_800A6D30() & 0x3F) | 0x20);
                 part_b->unk_2C = D_8016E1DC;
-            } else {
-                goto init_actor;
             }
         }
-        init_obj = obj;
-init_actor:
-        func_800A9C18(init_obj, part_a, part_b, spawn_flags);
+        func_800A9C18(obj, part_a, part_b, spawn_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_8016AE68;

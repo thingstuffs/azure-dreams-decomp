@@ -1,8 +1,6 @@
 #include "shared/runtime_dispatch.h"
 #include "common.h"
 
-#include "common.h"
-
 typedef struct MainMemoryPage {
     u8 pad_0000[0x20A];
     u16 status_020A;
@@ -64,7 +62,10 @@ void func_8003B470(void)
     if (runtime_flags & 0x4000) {
         func_8003B42C(0);
         func_8003B988();
-        goto shared_setup;
+        chg_map_second_house_sel();
+        reserve_twch_load(1);
+        reserve_tw_mon_load(1);
+        file_load_com(&D_80080EA0);
     } else if (runtime_flags & 0x8000) {
         func_8003B42C(1);
         func_8003B92C();
@@ -74,13 +75,16 @@ void func_8003B470(void)
         } else if (func_80033B2C(0xA3) == 0) {
             func_8003BA9C();
         } else {
-            goto shared_setup;
+            chg_map_second_house_sel();
         }
         reserve_twch_load(1);
         reserve_tw_mon_load(1);
         file_load_com(&D_80080EA0);
     } else if (runtime_flags & 4) {
-        goto shared_setup;
+        chg_map_second_house_sel();
+        reserve_twch_load(1);
+        reserve_tw_mon_load(1);
+        file_load_com(&D_80080EA0);
     } else {
         page = (MainMemoryPage *)0x80010000;
         if (runtime_flags & 2) {
@@ -89,7 +93,6 @@ void func_8003B470(void)
                 func_8003B42C(1);
                 page->status_020A = 0;
                 func_8003B9B8();
-shared_setup:
                 chg_map_second_house_sel();
             } else {
                 func_8003BA24();

@@ -166,14 +166,15 @@ void *BODY_NAME(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 part_a
         ((S_80FC9000_4 *)pin_actor)->unk_AE = actor_value;
 
         entry = part_b->unk_08;
-scan_entries:
-        double_index = index << 1;
-        if (*entry & 0x20) {
-            entry += 12;
-            index += 1;
-            goto scan_entries;
-        }
-
+        do {
+            double_index = index << 1;
+            if (*entry & 0x20) {
+                entry += 12;
+                index += 1;
+            } else {
+                break;
+            }
+        } while (1);
         count = ((CountView *)(part_b->unk_08 + (double_index + index) * 4))->count >> 6;
         values[0] = 0;
         values[1] = count;

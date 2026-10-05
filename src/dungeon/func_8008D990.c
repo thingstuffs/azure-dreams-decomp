@@ -139,7 +139,9 @@ void func_800930F0(EntityRec *state, s32 unused, S_800930F0_1 *tile, S_800930F0_
             if (((S_800930F0_8 *)transition_base)->unk_3CD0.s != 0) {
                 break;
             }
-            goto set_wait;
+            ((S_800930F0_8 *)transition_base)->unk_3CD0.u = 1;
+            func_80040AA0(3U);
+            break;
         }
         func_800945E8(state);
         func_800948BC();
@@ -161,11 +163,12 @@ void func_800930F0(EntityRec *state, s32 unused, S_800930F0_1 *tile, S_800930F0_
                 ((S_800930F0_4 *)saved_state_base)->unk_234 = (s32) (((S_800930F0_4 *)saved_state_base)->unk_234 + 1);
                 func_80043568();
                 ((S_800930F0_4 *)saved_state_base)->unk_2090 = 0;
-                goto block_13;
+            } else {
+                ((S_800930F0_4 *)saved_state_base)->unk_234 = (s32) (((S_800930F0_4 *)saved_state_base)->unk_234 + 1);
             }
+        } else {
+            ((S_800930F0_4 *)saved_state_base)->unk_234 = (s32) (((S_800930F0_4 *)saved_state_base)->unk_234 + 1);
         }
-        ((S_800930F0_4 *)saved_state_base)->unk_234 = (s32) (((S_800930F0_4 *)saved_state_base)->unk_234 + 1);
-block_13:
         func_800A56E0(0x514);
         ((S_800930F0_5 *)(&D_800E4938))->unk_00.s = &D_80021268;
         D_80082E80.unk_038 = 0;
@@ -199,18 +202,14 @@ block_13:
         break;
     case 16:
         transition_base = (M2C_UNK *)0x800E0000;
-        if (!(((S_800930F0_7 *)(((M2C_UNK *)&D_80013714)))->unk_00 & 4)) {
-            goto block_23;
-        }
-block_21:
-        if (((S_800930F0_8 *)transition_base)->unk_3CD0.s != 0) {
+        if (((S_800930F0_7 *)(((M2C_UNK *)&D_80013714)))->unk_00 & 4) {
+            if (((S_800930F0_8 *)transition_base)->unk_3CD0.s != 0) {
+                break;
+            }
+            ((S_800930F0_8 *)transition_base)->unk_3CD0.u = 1;
+            func_80040AA0(3U);
             break;
         }
-set_wait:
-        ((S_800930F0_8 *)transition_base)->unk_3CD0.u = 1;
-        func_80040AA0(3U);
-        break;
-block_23:
         func_800945E8(state);
         func_800948BC();
         {

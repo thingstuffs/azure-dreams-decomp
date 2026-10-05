@@ -229,10 +229,7 @@ void func_800165B8(void) {
 retry_position:
         do {
         } while (func_800A4E2C(&pos_x, &pos_y) < 0);
-        if (D_80012090 != 0) {
-            goto position_selected;
-        }
-        if (func_80033BC0(0x1389) != 0) {
+        if (D_80012090 != 0 || func_80033BC0(0x1389) != 0) {
             goto position_selected;
         }
         call_target = actor;
@@ -276,12 +273,10 @@ check_neighbor:
         if (entry_index < 2) {
             goto check_neighbor;
         }
-        call_target = actor;
-        goto initialize_position;
+    } else {
+        pos_x = ((S_800165B8_2 *)room)->unk_10;
+        pos_y = ((S_800165B8_2 *)room)->unk_12;
     }
-
-    pos_x = ((S_800165B8_2 *)room)->unk_10;
-    pos_y = ((S_800165B8_2 *)room)->unk_12;
 position_selected:
     call_target = actor;
 initialize_position:

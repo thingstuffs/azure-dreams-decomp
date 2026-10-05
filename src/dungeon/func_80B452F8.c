@@ -78,17 +78,20 @@ void func_80172AF8(void *action, void *transform, void *sprite, EntityRec *actor
                 special_motion = 1;
                 /* fallthrough */
             case 3:
-                goto third_motion;
+                motion = (u8 *)actor + 0xE;
+                break;
             case 6:
                 special_motion = 1;
                 /* fallthrough */
             case 2:
-                goto second_motion;
+                motion = (u8 *)actor + 0xB;
+                break;
             case 5:
                 special_motion = 1;
                 /* fallthrough */
             case 1:
-                goto first_motion;
+                motion = (u8 *)actor + 8;
+                break;
             default:
                 motion = (u8 *)0;
                 break;
@@ -96,15 +99,12 @@ void func_80172AF8(void *action, void *transform, void *sprite, EntityRec *actor
         } else {
             switch (actor->unk_46 & 0x3FFF) {
             case 3:
-third_motion:
                 motion = (u8 *)actor + 0xE;
                 break;
             case 2:
-second_motion:
                 motion = (u8 *)actor + 0xB;
                 break;
             case 1:
-first_motion:
                 motion = (u8 *)actor + 8;
                 break;
             default:

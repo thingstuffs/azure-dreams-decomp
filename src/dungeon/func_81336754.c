@@ -105,12 +105,9 @@ void func_8016D754(DungeonState *state, DungeonWork *work,
 
         timer = state->timer.unsigned_value - 1;
         state->timer.unsigned_value = timer;
-        if ((timer << 16) > 0) {
-            if (object->flags & 0xE000)
-                goto case0;
-            return;
-        }
-        goto case0;
+        if ((timer << 16) <= 0 || (object->flags & 0xE000))
+            goto case0;
+        return;
     }
 
     case 3:

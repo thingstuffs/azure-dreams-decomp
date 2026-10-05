@@ -150,23 +150,16 @@ void func_8001EF0C(void) {
     trap_budget = D_8008146C[0] / 2 + (value & 0x3F);
     meta = D_800E3648;
 
-    do {
+    for (; slot < 0x20; slot++) {
         if (meta[slot].state == trap_state) {
             x = position[slot].x;
             y = position[slot].y;
-            {
-                s32 saved_trap_type = meta[slot].type;
-                s32 saved_variant = meta[slot].unk2;
-                s32 saved_marker = meta[slot].unk3;
-                trap_type = saved_trap_type;
-                spawn_variant = saved_variant;
-                spawn_marker = saved_marker;
-                spawn_height = -0x400;
-                goto restore_spawn;
-            }
-        }
-
-        if (!(D_800E3D6C[0] & 8) && slot < spawn_limit) {
+            trap_type = meta[slot].type;
+            spawn_variant = meta[slot].unk2;
+            spawn_marker = meta[slot].unk3;
+            spawn_height = -0x400;
+        } else {
+            if ((D_800E3D6C[0] & 8) || slot >= spawn_limit) continue;
             meta[slot].state = 0;
             meta[slot].type = 0;
             trap_budget += func_800A6D30() & 0xF;
@@ -175,57 +168,51 @@ void func_8001EF0C(void) {
             flags = *(u16 *)(D_800735C4[0] + (trap_type * 0xC));
             flag_bits = flags & 0x3000;
             shifted_flag_bits = flag_bits << 16;
-            if (flag_bits != 0x3000) {
-                trap_cost = (shifted_flag_bits >> 26) + 4;
-                if (trap_budget >= trap_cost) {
-                    trap_budget -= trap_cost;
-                    if ((D_800E296C & 0x20000000) ||
-                        ((u8)(trap_type - 0xF) >= 2)) {
-                        meta[slot].state = trap_state;
-                        meta[slot].type = store_type;
-                        do {
-                        } while ((s16)func_800A4E2C(&x, &y) < 0);
-                        position[slot].x = x;
-                        position[slot].y = y;
-                        spawn_variant = (func_800A6D30() & 7) | 4;
-                        spawn_marker = 0x80;
-                        spawn_height = -0x400;
-restore_spawn:
-                        meta[slot].unk2 = spawn_variant;
-                        meta[slot].unk3 = spawn_marker;
-                        floor_height = func_800BCB04((x << 6) | 0x20,
-                                               (y << 6) | 0x20,
-                                               spawn_height);
-                        position[slot].unk12 = floor_height;
-                        position[slot].unk10 = floor_height;
-                        position[slot].flags = 0;
-                        func_8009A21C(x, y, 0x20);
-                        {
-                            u8 *lookup_base = 0;
-                            s32 table_index;
-
-                            table_index = trap_type;
-                            lookup_base = D_800DF258;
-                            value = *(s32 *)(lookup_base + (table_index << 2));
-                        }
-                        if (value < 0) {
-                            func_8003DB94(&position[slot], value, 0);
-                            flags = position[slot].flags;
-                            position[slot].flags = flags | 0x840;
-                            if (value & 0x20000000) {
-                                position[slot].flags = flags | 0x940;
-                            }
-                        } else {
-                            if (value != 0) {
-                                position[slot].value = value | 0x80000000;
-                            }
-                            position[slot].flags |= 0x800;
-                        }
-                        position[slot].zero = 0;
-                    }
-                }
-            }
+            if (flag_bits == 0x3000) continue;
+            trap_cost = (shifted_flag_bits >> 26) + 4;
+            if (trap_budget < trap_cost) continue;
+            trap_budget -= trap_cost;
+            if (!((D_800E296C & 0x20000000) || ((u8)(trap_type - 0xF) >= 2))) continue;
+            meta[slot].state = trap_state;
+            meta[slot].type = store_type;
+            do {
+            } while ((s16)func_800A4E2C(&x, &y) < 0);
+            position[slot].x = x;
+            position[slot].y = y;
+            spawn_variant = (func_800A6D30() & 7) | 4;
+            spawn_marker = 0x80;
+            spawn_height = -0x400;
         }
-        slot++;
-    } while (slot < 0x20);
+        meta[slot].unk2 = spawn_variant;
+        meta[slot].unk3 = spawn_marker;
+        floor_height = func_800BCB04((x << 6) | 0x20,
+                               (y << 6) | 0x20,
+                               spawn_height);
+        position[slot].unk12 = floor_height;
+        position[slot].unk10 = floor_height;
+        position[slot].flags = 0;
+        func_8009A21C(x, y, 0x20);
+        {
+            u8 *lookup_base = 0;
+            s32 table_index;
+
+            table_index = trap_type;
+            lookup_base = D_800DF258;
+            value = *(s32 *)(lookup_base + (table_index << 2));
+        }
+        if (value < 0) {
+            func_8003DB94(&position[slot], value, 0);
+            flags = position[slot].flags;
+            position[slot].flags = flags | 0x840;
+            if (value & 0x20000000) {
+                position[slot].flags = flags | 0x940;
+            }
+        } else {
+            if (value != 0) {
+                position[slot].value = value | 0x80000000;
+            }
+            position[slot].flags |= 0x800;
+        }
+        position[slot].zero = 0;
+    }
 }

@@ -136,17 +136,20 @@ void func_80172BCC(S_func_80C953CC_1 *work, S_func_80C953CC_2 *position, S_func_
                 alternate = 1;
                 /* fallthrough */
             case 3:
-                goto part_e;
+                part = (S_func_80C953CC_9 *)((u8 *)actor + 0xE);
+                break;
             case 6:
                 alternate = 1;
                 /* fallthrough */
             case 2:
-                goto part_b;
+                part = (S_func_80C953CC_9 *)((u8 *)actor + 0xB);
+                break;
             case 5:
                 alternate = 1;
                 /* fallthrough */
             case 1:
-                goto part_8;
+                part = (S_func_80C953CC_9 *)((u8 *)actor + 8);
+                break;
             default:
                 part = 0;
                 break;
@@ -154,15 +157,12 @@ void func_80172BCC(S_func_80C953CC_1 *work, S_func_80C953CC_2 *position, S_func_
         } else {
             switch (actor->unk_46 & 0x3FFF) {
             case 3:
-part_e:
                 part = (S_func_80C953CC_9 *)((u8 *)actor + 0xE);
                 break;
             case 2:
-part_b:
                 part = (S_func_80C953CC_9 *)((u8 *)actor + 0xB);
                 break;
             case 1:
-part_8:
                 part = (S_func_80C953CC_9 *)((u8 *)actor + 8);
                 break;
             default:
