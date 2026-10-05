@@ -6,7 +6,6 @@ s32 func_80026FA8();
 void *func_80027110();
 s32 func_8004B404();
 M2C_UNK func_80069E88();
-extern M2C_UNK D_800157C0;
 
 /* Builds a page of fixed-width text entries, with five special entries on the first page. */
 s32 func_8002714C(s32 context, s32 scroll_y, s32 entry_count, M2C_UNK list_type) {

@@ -6,7 +6,6 @@ typedef void (*UseFunc)(s16, s8);
 
 extern s8 *D_80018880[];
 extern s16 D_8001888C[];
-extern s8 *D_80018A1C;
 
 extern s32 func_8001E670(u16);
 

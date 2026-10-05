@@ -33,7 +33,6 @@ typedef struct {
 } TargetState;
 
 extern s16 D_80025E80[5];
-extern u8 D_80020000[];
 
 /* Advances an eight-frame animation and flags expiration when its countdown ends. */
 M2C_UNK func_818FEDEC(void *anim_state, s32 unused_arg, void *render_state) {

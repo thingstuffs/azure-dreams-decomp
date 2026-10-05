@@ -56,7 +56,6 @@ typedef struct Global814A0 {
 } Global814A0;
 
 extern void func_8002569C(s32, s32, s32, s32, void *);
-extern u8 D_80020000[0x10000];
 extern Global26326 D_80026326;
 extern Global26328 D_80026328;
 

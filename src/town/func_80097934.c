@@ -6,7 +6,6 @@ extern int abs(int);
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 s32 func_80065F90(s32, s32);             /* extern */
-extern M2C_UNK D_80000001;
 
 
 static __inline__ s32 clamp_min(s32 value, s32 bound) { if (bound < value) return value; return bound; }

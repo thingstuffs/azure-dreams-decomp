@@ -98,7 +98,6 @@ extern void func_80093CEC(void *);
 extern void func_80093D48(void *, void *, void *);
 extern s16 func_800C2AE8(void *);
 
-extern u16 D_800135C2;
 extern u8 D_80023934[];
 extern u8 D_80023994[];
 extern u8 D_80023B14[];

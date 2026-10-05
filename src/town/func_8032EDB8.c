@@ -34,7 +34,6 @@ typedef struct S_800195B8_5 {
 } S_800195B8_5;   /* ((S_800195B8_4 *)(((S_800195B8_3 *)page)->unk_6000))->unk_20 in func_800195B8 */
 
 
-extern u8 D_80010000[];
 extern s32 D_80016064[];
 extern s32 D_8001608C[];
 

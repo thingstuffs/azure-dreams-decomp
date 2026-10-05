@@ -21,11 +21,6 @@ extern void func_8009FAC4(void);
 extern void func_800499BC(void);
 
 extern s32 D_8001022C;
-extern s32 D_80010234;
-extern s32 D_80012090;
-extern s16 D_8001209C;
-extern s16 D_80013624;
-extern s32 D_80013628;
 extern s32 D_80080A80;
 extern s8 D_80080A88;
 extern s16 D_8008146C;

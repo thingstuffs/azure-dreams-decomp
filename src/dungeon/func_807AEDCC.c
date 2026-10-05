@@ -39,7 +39,6 @@ struct S_80082E60 {
 typedef struct S_80082E60 S_80082E60;
 extern s16 *D_800F8A44[];
 
-extern u8 D_80013720[];
 extern u8 D_800F6544[];
 extern u8 D_800F8A4C[];
 struct S_10 {

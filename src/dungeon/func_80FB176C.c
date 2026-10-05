@@ -150,8 +150,6 @@ extern u8 D_80175260[];
 extern u8 D_80175290[];
 extern u8 D_80175298[];
 extern u8 D_801752A0[];
-extern void *D_80170808[];
-extern void *D_80170820[];
 
 void func_80170F6C(void *self_object, void *aux_entity, void *sprite, void *entity)
 {

@@ -20,8 +20,6 @@ extern void func_800AAA54();
 extern void func_800AD4D0();
 
 extern u8 D_800D8C64[];
-extern u8 D_8017586C[];
-extern u8 D_8017588C[];
 
 
 /* Updates directional movement, decelerates it, and settles the entity at its tile. */

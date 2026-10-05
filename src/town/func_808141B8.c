@@ -73,7 +73,6 @@ extern s32 D_805305A8;
 extern s32 D_805305AC;
 extern s32 D_805305B0;
 extern s32 D_805305B4;
-extern void *D_805267C8[6];
 
 /* Per-frame town-state step: run the arrival/idle/departure machine and drive its actors. */
 void func_8052EDB8(TownState *town_state)

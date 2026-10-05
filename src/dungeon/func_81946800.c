@@ -9,14 +9,6 @@
 #include "shared/entity.h"
 
 
-extern int D_800814C8;
-extern int D_80081550;
-extern int D_80081558;
-extern int D_80081554;
-extern unsigned char D_80071298[];
-extern volatile int D_80071250[];
-extern int D_800712B4[];
-extern int D_80084130[3];
 /* Row head: the 884-byte row begins with one raw data word (0x80024004)
  * ahead of the code entry. Landed idiom (overlays/dungeon/first_pass_matched/
  * func_8199A800.c): label the row symbol at the head of the function's own

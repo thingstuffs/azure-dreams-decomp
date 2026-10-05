@@ -33,7 +33,6 @@ extern void func_8017476C(void *, void *, void *, void *);
 
 extern u8 D_80171760[];
 extern u8 D_80174E88[];
-extern u8 D_8017555C[];
 extern u8 D_80174E98[];
 extern u8 D_80174EE0[];
 extern u8 D_80174EE8[];

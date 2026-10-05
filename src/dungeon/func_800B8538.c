@@ -5,7 +5,6 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
-extern u8 D_8008000A[];
 extern u8 D_800E0F2D[];
 extern u8 D_800E0F44[];
 extern u8 D_800E0F65[];

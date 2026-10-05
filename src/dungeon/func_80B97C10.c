@@ -6,15 +6,6 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-extern int D_800814C8;
-extern int D_80081550;
-extern int D_80081558;
-extern int D_80081554;
-extern unsigned char D_80071298[];
-extern volatile int D_80071250[];
-extern int D_800712B4[];
-extern int D_80084130[3];
-extern struct S_80083178State D_80083CE8;
 extern s32 func_8009A180();
 extern void func_8009A21C();
 extern void func_8009A3D0();

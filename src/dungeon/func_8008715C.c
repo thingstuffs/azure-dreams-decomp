@@ -17,7 +17,6 @@ s32 func_8009B25C();
 M2C_UNK func_8009C93C();
 void func_8009F644();
 s32 func_800A5C70();
-extern u8 D_80013186;
 
 
 typedef struct S_8008C8BC_0 {

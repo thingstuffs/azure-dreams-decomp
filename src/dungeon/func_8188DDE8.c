@@ -12,7 +12,6 @@ extern void func_80064CF0(void *);
 extern void func_80064D80(void *);
 extern void func_80065320(void *, void *, void *);
 extern void func_80065820(void *, void *);
-extern u16 D_80026472[5];
 
 /* Rotate and move four effect vertices, fade their colors, and mark the effect expired when its lifetime ends. */
 void func_800255E8(void *effect, void *motion, void *rotation)

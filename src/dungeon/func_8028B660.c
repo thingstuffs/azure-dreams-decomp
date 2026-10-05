@@ -6,7 +6,6 @@
 extern s32 func_8001EAA4(s8 *, s8 *);
 extern s32 func_80033BC0(s32);
 extern s32 func_800A697C(s32, s32);
-extern s32 D_80012090[];
 extern u8 D_8001F6F0[];
 extern s16 D_8008146C[];
 

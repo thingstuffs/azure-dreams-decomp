@@ -18,7 +18,6 @@ extern void func_8009DC8C(void *object, void *part_b, s32 value,
                           void *callback);
 extern void del_t_item_w_ptr(void *arg0);
 
-extern Copy84 D_800102F0[];
 extern s32 D_8006E240;
 extern u8 D_8009DEBC[];
 extern u8 D_800D073C[];

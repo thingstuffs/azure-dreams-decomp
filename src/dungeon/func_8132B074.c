@@ -59,7 +59,6 @@ typedef struct S_80172874_7 {
 
 
 extern u8 D_80174C8C[];
-extern s32 D_80174CE0;
 
 /* Advances the effect through growth, position tracking, and shrinkage. */
 void func_80172874(void *effect, EntityRec *position, S_80172874_2 *transform)

@@ -9,7 +9,6 @@ extern void func_800AE414(void *parameters);
 extern s32 func_800B0214(void *init_value);
 extern s32 func_800B0718(void);
 extern s32 func_800B1BEC(void *setup_value, s32 x, s32 y);
-extern u8 D_8001029C[];
 
 
 typedef struct S_800AE324_0 {

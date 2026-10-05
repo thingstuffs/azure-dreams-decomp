@@ -7,7 +7,6 @@
 
 extern s32 D_8003E140[];
 extern s32 D_8006CD58[];
-extern u16 D_8008000A;
 extern u8 *D_800DCEEC[];
 extern s32 D_800DCF5C;
 extern u8 D_8014A000[200000];

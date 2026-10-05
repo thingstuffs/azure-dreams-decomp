@@ -28,7 +28,6 @@ typedef struct Obj {
 extern u8 D_80080A84[];
 extern u8 D_80080A78[];
 extern u8 D_80088930[];
-extern u8 D_80012094[];
 
 extern s32 func_80053428();
 extern s32 func_80053604();

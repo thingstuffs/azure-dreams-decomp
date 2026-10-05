@@ -15,7 +15,6 @@ typedef struct S_800BF72C_4 {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 void func_800BC574(void *, s16);
-extern s32 D_80012D5C;
 
 /* The final state reset is coupled to the non-overflow path.  This is a
  * defined source-level guard whose natural branch leader is the epilogue. */

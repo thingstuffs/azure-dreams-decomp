@@ -278,7 +278,6 @@ s32 func_800AA36C(); /* extern */
 s32 func_800BCB04();                   /* extern */
 s32 func_800F6D28();    /* extern */
 void *func_800F6DFC();                /* extern */
-extern u8 D_80010248[];
 extern u16 D_80013714[8];
 extern u8 D_8006EE9C[16];
 extern u8 D_8006F47A[16];

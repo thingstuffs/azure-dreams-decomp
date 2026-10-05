@@ -1,6 +1,5 @@
 #include "common.h"
 
-extern u8 D_800133E6;
 extern u8 D_80089260[];
 
 /* Returns the target byte's index in the copied list, or the terminator's index. */

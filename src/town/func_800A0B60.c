@@ -3,7 +3,6 @@
 #include "records/Rec_D_800CFCC4.h"
 M2C_UNK func_80041E28();           /* extern */
 s32 func_8004B8DC(); /* extern */
-extern u8 D_80010A80[];
 extern Rec_D_800CFCC4 *D_800CFCC4;
 extern M2C_UNK D_80100A10;
 extern s32 D_80100AF4;

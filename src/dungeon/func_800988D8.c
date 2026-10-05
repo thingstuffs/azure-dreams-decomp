@@ -10,8 +10,6 @@ void func_8009DF0C();
 s32 func_800A2C34();
 void *func_800A634C();
 void func_800A67F4();
-extern s16 D_80013630[4];
-extern M2C_UNK D_8001363C;
 
 typedef struct S_func_8009E038_0 {
     u8 pad_00[4];

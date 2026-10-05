@@ -7,7 +7,6 @@ extern s32 func_8001A510(s16);
 
 extern s32 D_8001A99C;
 extern s32 D_8001B1F8;
-extern s32 D_8001B208;
 extern s8 D_8001B7AE;
 extern s8 D_8001EDD0;
 extern s8 D_8001EF6C;

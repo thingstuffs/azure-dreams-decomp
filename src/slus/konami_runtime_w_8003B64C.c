@@ -3,7 +3,6 @@
 #include "common.h"
 
 extern u8 *D_8001029C[];
-extern s8 D_80010333[];
 extern void itm_mon_koyaw_set(s32, u8 *, u8 *, s32);
 extern void del_t_item_w_ptr(u8 *entry);
 

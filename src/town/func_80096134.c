@@ -39,7 +39,6 @@ extern s32 func_8009FF50(s32 state_index);
 extern s32 func_800A0608(void);
 extern s32 func_800B28A0(void);
 
-extern u8 D_80010980[];
 extern u8 D_80088C0C[];
 extern u8 D_80088C48[];
 extern u8 D_80088C8C[];

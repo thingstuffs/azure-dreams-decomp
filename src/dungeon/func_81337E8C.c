@@ -40,10 +40,6 @@ typedef struct S_8016EE8C_5 {
 
 void func_8009A028();                         /* extern */
 void func_8016E998();                   /* extern */
-extern s16 D_80013716;
-extern s16 D_80013718;
-extern s16 D_8001371A;
-extern s32 D_8001371C;
 extern s32 D_80173C94;
 extern s32 D_80173D5C;
 extern s32 D_80175D50;

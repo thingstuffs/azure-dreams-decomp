@@ -84,7 +84,6 @@ typedef struct {
 void *func_8003FC64();
 s32 func_8004491C();
 s32 func_80069EF8();
-extern u8 D_80013611[];
 extern M2C_UNK D_800777F4;
 extern u8 D_8016E528;
 extern void *D_80174704[];

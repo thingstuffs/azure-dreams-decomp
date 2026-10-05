@@ -48,7 +48,6 @@ extern u8 D_80082E6B[];
  * shared %hi at compile time instead of via 6 independent extern symbols. */
 
 /* mirror/shadow copies of the same three D_80013180-group fields */
-extern u32 D_80081494[3];
 
 extern u32 D_80081478[3];
 extern u8 D_801D8D7A[12];

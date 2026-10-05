@@ -262,7 +262,6 @@ extern u8 D_8006CCE8[];
 extern s32 D_800814A0[3];
 extern u8 D_800DE870[];
 extern u8 D_800DE9D0[];
-extern u8 D_80024028;
 
 /* Updates a projectile effect through travel, impact, particles, and cleanup. */
 void func_80024BE8(void *effect, void *motion, void *sprite) {

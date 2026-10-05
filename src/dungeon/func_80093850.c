@@ -1,7 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-extern M2C_UNK D_8001004C;
 
 typedef struct S_80098FB0_0 {
     u8 pad_00[0x249];

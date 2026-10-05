@@ -62,7 +62,6 @@ typedef struct S_80175CD8_6 {
 } S_80175CD8_6;   /* global_ptr in func_80175CD8 */
 
 
-extern s32 D_80010234;
 typedef struct WorldStatePage {
     u8 pad_0000[0x2090];
     s32 actionMode;

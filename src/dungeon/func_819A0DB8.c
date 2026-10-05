@@ -27,7 +27,6 @@ typedef struct S_func_819A0DB8_1 {
     s16 unk_61B0;
 } S_func_819A0DB8_1;
 
-extern s16 D_800261B0[];
 extern u8 D_80020000[];
 extern u8 D_80080000[];
 

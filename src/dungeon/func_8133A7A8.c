@@ -25,7 +25,6 @@ typedef struct {
 } __attribute__((packed)) PhaseHeights;
 
 extern PhaseHeights D_80164A54;
-extern void *D_80164A68[];
 extern u8 *D_80175D50;
 extern u16 D_800DCE60[4];
 extern s16 D_801760E0[4];

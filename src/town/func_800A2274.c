@@ -2,7 +2,6 @@
 
 extern void func_8009F71C(void *entry, s32 entry_count);
 extern s32 func_800B28A0(void);
-extern u8 D_80010980[];
 extern s32 D_800D0728[];
 
 /* sarch_koyaw_free: search for a free entry using the selected capacity. */

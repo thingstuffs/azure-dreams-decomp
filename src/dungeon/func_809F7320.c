@@ -117,7 +117,6 @@ typedef struct S_80174B20_12 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void *D_801708B8[];
 void func_8003DB94();     /* extern */
 s32 Control_CD(); /* extern */
 void func_8003F540(); /* extern */

@@ -8,7 +8,6 @@ typedef struct {
 } Obj;
 
 extern Obj *D_80175D58[];
-extern Obj *D_80175D5C[];
 
 /* Sets the selected object value and clears its timer. */
 void func_8016F96C(s32 state_selector, s16 value) {

@@ -18,8 +18,6 @@ extern u8 D_80044BB0[];
 extern u8 D_8016F99C[];
 extern u8 D_80173B1C[];
 extern u8 D_80173B28[];
-extern void *D_80175D58[];
-extern void *D_80175D5C[];
 extern u8 D_80170000[];
 
 

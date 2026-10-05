@@ -1,6 +1,5 @@
 #include "common.h"
 
-extern u8 *D_800DCF60;
 
 /* Copies encoded text, expanding table indices into two-byte characters. */
 u8 *func_80099194(u8 *src, u8 *dst)

@@ -31,11 +31,9 @@ typedef struct S_80022C8C_2 {
 
 #define NULL ((void *)0)
 
-extern u16 D_800135C2;
 extern s32 D_80020054;
 extern s32 D_80022F60;
 extern s32 D_8002390C;
-extern s32 D_80023920;
 extern s32 D_800240B0;
 extern s32 D_80026F0C;
 extern s32 D_800F9B40;

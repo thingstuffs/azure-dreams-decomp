@@ -14,7 +14,6 @@ typedef struct S_80099734_3 {
 } S_80099734_3;   /* (u8 *)((S_80099734_2 *)table_page)->unk_359C + offset * 4 in func_80099734 */
 
 
-extern s32 D_8007359C;
 extern s32 D_800DD728;
 
 /* Copies the selected record text without its terminator and returns the output end. */

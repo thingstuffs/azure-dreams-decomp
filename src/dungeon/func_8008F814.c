@@ -45,7 +45,6 @@ typedef struct Unit {
 
 extern u8 D_80081485[16];
 extern u16 D_80012094;
-extern u16 D_80012096;
 extern Slot D_800E3548[];
 extern Ent D_800E36C8[];
 extern char D_80088A80[];

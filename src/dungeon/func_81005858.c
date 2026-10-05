@@ -46,7 +46,6 @@ extern u8 D_801748C8;
 extern u8 D_801748D8[];
 extern u8 D_801748E0[];
 extern DungeonRecord D_800E2970[];
-extern void *D_80170808[];
 void func_80171058(void *, void *, void *, void *);
 /* Update creature animation and dispatch its dungeon action. */
 void func_80171058(void *actor, void *context, void *sprite_arg, void *creature)

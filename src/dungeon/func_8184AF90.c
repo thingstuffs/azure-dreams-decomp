@@ -8,7 +8,6 @@ s32 func_8004491C();           /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 extern M2C_UNK D_800246AC;
-extern M2C_UNK D_800DEB28;
 extern u8 D_800E0000[];
 
 typedef struct S_80024790_0 {

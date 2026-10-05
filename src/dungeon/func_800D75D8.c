@@ -13,7 +13,6 @@ extern void func_8004491C(void *, void *);
 extern void func_800DC988(void *);
 extern s32 func_800DCBE4(void *, s32);
 extern void func_800DCCF4(void *, s32);
-extern s32 D_800133A0[];
 extern u8 D_8004CAA0[];
 extern u8 D_800DC8F8[];
 extern void *D_800E5910[];

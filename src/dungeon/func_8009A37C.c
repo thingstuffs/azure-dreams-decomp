@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 
-extern void *D_80010248[];
 extern u8 D_80081484[];
 
 /* Selects a table entry address, fixed buffer, or current data pointer by ID. */
