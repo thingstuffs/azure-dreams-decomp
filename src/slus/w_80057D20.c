@@ -99,7 +99,6 @@ extern s32 func_800563B0(s32 a0, u16 a1, u16 a2);
 extern void func_80056A08(void);
 extern void func_8005E97C(s32 a0, s32 a1);
 extern s32 func_8005EB78(s32 a0);
-extern void *jtbl_80032F04[];
 /* Applies a channel control change and updates affected voices. */
 void func_80057D20(u8 channel, u8 control, u32 value)
 {
@@ -110,25 +109,10 @@ void func_80057D20(u8 channel, u8 control, u32 value)
     u32 control_value;
     s32 entry_idx;
     s32 voice_status;
-    s32 control_index;
-    static void *const case_labels[] = {
-        &&L_case_1, &&L_case_2, &&L_case_3, &&L_case_4, &&L_case_5, &&L_case_7,
-        &&L_case_10, &&L_case_11, &&L_case_12, &&L_case_20, &&L_case_21, &&L_case_22,
-        &&L_case_23, &&L_case_25, &&L_case_26, &&L_case_27, &&L_case_28, &&L_case_30,
-        &&L_case_64, &&L_case_91, &&L_case_6, &&L_case_98, &&L_case_99, &&L_case_120,
-        &&L_case_121, &&L_case_123, &&L_case_126,
-        &&L_default
-    };
     s32 pending_voices;
-    (void)case_labels;
     control_value = value;
-    control_index = (s32)control - 1;
-    if ((u32)control_index >= 0x7E) {
-        goto after_switch;
-    }
-    goto *jtbl_80032F04[control_index];
-    {
-L_case_1:
+    switch (control) {
+    case 1:
         if (((u32) settings->f48) < 0x40) {
             settings->f08 = control_value & 0xFF;
             settings->f40 = ((u8) control_value) << 1;
@@ -176,80 +160,80 @@ L_case_1:
             }
         }
         func_80055E7C(4, channel, settings->f08);
-        goto after_switch;
+        break;
 
-L_case_2:
+    case 2:
         if (((u32) settings->f48) < 0x40) {
             settings->f44 = (u8) control_value;
         }
         else {
             settings->f40 = (control_value & 0xFF) << 1;
         }
-        goto after_switch;
+        break;
 
-L_case_3:
+    case 3:
         settings->f48 = control_value & 0xFF;
-        goto after_switch;
+        break;
 
-L_case_4:
+    case 4:
         settings->f28 = control_value & 0xFF;
-        goto after_switch;
+        break;
 
-L_case_5:
+    case 5:
         settings->f50 = control_value & 0xFF;
-        goto after_switch;
+        break;
 
-L_case_7:
+    case 7:
         {
             settings->f0c = control_value & 0xFF;
             pending_voices = 1;
             refresh_notes = pending_voices;
             func_80055E7C(3, channel, control_value & 0xFF);
-            goto after_switch;
+            break;
         }
 
-L_case_10:
+    case 10:
         {
             settings->f04 = ((control_value & 0xFF) == 0) ? (1) : (control_value & 0xFF);
             pending_voices = 1;
             refresh_notes = pending_voices;
             func_80055E7C(2, channel, settings->f04);
-            goto after_switch;
+            break;
         }
 
-L_case_11:
+    case 11:
         {
             settings->f14 = control_value & 0xFF;
             pending_voices = 1;
             refresh_notes = pending_voices;
             func_80055E7C(5, channel, control_value & 0xFF);
-            goto after_switch;
+            break;
         }
 
-L_case_12:
+    case 12:
         {
             settings->f2c = control_value & 0xFF;
             pending_voices = 1;
             refresh_notes = pending_voices;
-            goto after_switch;
+            break;
         }
 
-L_case_20:
+    case 20:
         settings->f6c = control_value << 1;
-        goto after_switch;
+        break;
 
-L_case_21:
+    case 21:
         settings->f6e = control_value;
-        goto after_switch;
+        break;
 
-L_case_22:
+    case 22:
         settings->f68 = (control_value & 0xFF) << 4;
         settings->f64 = (control_value & 0xFF) << 4;
         settings->f6d = 0;
         settings->f5d = 1;
-        goto after_switch;
+        break;
 
-L_case_23:
+    case 23:
         settings->f6d = control_value;
         if (((control_value & 0xFF) != 0) && (settings->f68 != 0)) {
             settings->f70 = settings->f68 / (control_value & 0xFF);
@@ -257,24 +241,24 @@ L_case_23:
                 settings->f70 = 1;
             }
         }
-        goto after_switch;
+        break;
 
-L_case_25:
+    case 25:
         settings->f88 = control_value << 1;
-        goto after_switch;
+        break;
 
-L_case_26:
+    case 26:
         settings->f8a = control_value;
-        goto after_switch;
+        break;
 
-L_case_27:
+    case 27:
         settings->f84 = (control_value & 0xFF) << 7;
         settings->f80 = (control_value & 0xFF) << 7;
         settings->f89 = 0;
         settings->f78 = 1;
-        goto after_switch;
+        break;
 
-L_case_28:
+    case 28:
         settings->f89 = control_value;
         if (((control_value & 0xFF) != 0) && (settings->f84 != 0)) {
             settings->f8c = settings->f84 / (control_value & 0xFF);
@@ -282,14 +266,14 @@ L_case_28:
                 settings->f8c = 1;
             }
         }
-        goto after_switch;
+        break;
 
-L_case_30:
+    case 30:
         D_80073738.f0 = control_value & 0xFF;
         func_800564A8();
-        goto after_switch;
+        break;
 
-L_case_64:
+    case 64:
         for (entry_idx = 0; entry_idx < D_80073734; entry_idx++) {
             if (channel == D_80085458[entry_idx].f06) {
                 if (((u32) (control_value & 0xFF)) < 0x40) {
@@ -326,44 +310,42 @@ L_case_64:
         else {
             D_80084960[channel].f18 = 1;
         }
-        goto after_switch;
+        break;
 
-L_case_91:
+    case 91:
         settings->f30 = control_value & 0x7F;
-        goto after_switch;
+        break;
 
-L_case_6:
+    case 6:
         settings->f4e = control_value;
         if ((settings->f4d != 0x14) && (settings->f4d != 0x1E)) {
             func_80057A94(settings);
         }
-        goto after_switch;
+        break;
 
-L_case_98:
+    case 98:
         settings->f4c = control_value;
-        goto after_switch;
+        break;
 
-L_case_99:
+    case 99:
         settings->f4d = control_value;
-        goto after_switch;
+        break;
 
-L_case_120:
+    case 120:
 
-L_case_121:
+    case 121:
 
-L_case_123:
+    case 123:
         func_80056A08();
-        goto after_switch;
+        break;
 
-L_case_126:
+    case 126:
         settings->f98 = control_value;
-        goto after_switch;
+        break;
 
-L_default:
-        goto after_switch;
+    default:
+        break;
     }
-after_switch:
-    ;
 
     {
         s32 stop_mask = stopped_voices;

@@ -905,3 +905,5 @@
 {"at":"2026-10-05T01:18:48Z","result":"MATCH","tus":860,"recipe_sha256":"b9477d5056fc9555cda9c9b82701fad7dde8b2b266ed6a89db2a689b71d9597c","recipe_vs_pinned":"identical","secs":32,"gate":"sha1sum -c config/slus_006.14.sha1 (ninja)"}
 {"at":"2026-10-05T01:48:12Z","result":"MATCH","tus":860,"recipe_sha256":"b9477d5056fc9555cda9c9b82701fad7dde8b2b266ed6a89db2a689b71d9597c","recipe_vs_pinned":"identical","secs":0,"gate":"sha1sum -c config/slus_006.14.sha1 (ninja)"}
 {"at":"2026-10-05T01:53:59Z","result":"MATCH","tus":860,"recipe_sha256":"b9477d5056fc9555cda9c9b82701fad7dde8b2b266ed6a89db2a689b71d9597c","recipe_vs_pinned":"identical","secs":0,"gate":"sha1sum -c config/slus_006.14.sha1 (ninja)"}
+{"at":"2026-10-05T01:55:19Z","result":"MATCH","tus":860,"recipe_sha256":"cdcdf423bd0cf0774a2a131cc6fe6d291b0d02ccd0d104c4a922fc78177630cf","recipe_vs_pinned":"DIFFERS","secs":32,"gate":"sha1sum -c config/slus_006.14.sha1 (ninja)"}
+{"at":"2026-10-05T01:55:19Z","result":"MATCH","tus":860,"recipe_sha256":"cdcdf423bd0cf0774a2a131cc6fe6d291b0d02ccd0d104c4a922fc78177630cf","recipe_vs_pinned":"identical","secs":0,"gate":"sha1sum -c config/slus_006.14.sha1 (ninja)"}

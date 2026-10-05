@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-05T01:54:23Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-05T01:56:04Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -62,6 +62,8 @@ Baseline NOT exact: 0 rows
 | jtbl_80042BDC | 1 | not certified | include/common.h |
 | jtbl_8005F134 | 1 | not certified | include/common.h |
 | jtbl_8005EDA0 | 1 | not certified | include/common.h |
+| jtbl_80052144 | 1 | not certified | include/common.h |
+| jtbl_80057D20 | 1 | not certified | include/common.h |
 
 Not certified means no placement certificate has been issued; ownership and retail-byte proofs are separate. Partition owners do not grant whole-row placement.
 
@@ -75,8 +77,8 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | M2C_FIELD raw offsets | 2950 | 1,456,820 | 57.0% | 0 | 0 | 0.0% |
 | m2c local names | 5182 | 2,172,128 | 84.9% | 404 | 183,156 | 7.2% |
 | ASM_ pins | 2135 | 1,464,792 | 57.3% | 137 | 187,536 | 7.3% |
-| goto | 1545 | 1,318,412 | 51.5% | 418 | 463,824 | 18.1% |
-| computed-goto jump table | 317 | 437,288 | 17.1% | 18 | 31,840 | 1.2% |
+| goto | 1545 | 1,318,412 | 51.5% | 416 | 457,184 | 17.9% |
+| computed-goto jump table | 317 | 437,288 | 17.1% | 16 | 25,200 | 1.0% |
 | inline asm outside macros | 361 | 255,656 | 10.0% | 235 | 200,348 | 7.8% |
 | fidelity blocking site (LABEL_AS_CALL/PASSTHRU_NO_ARGS) | 1489 | 680,132 | 26.6% | 308 | 157,064 | 6.1% |
 | any fidelity site | 2654 | 1,286,064 | 50.3% | 1777 | 959,904 | 37.5% |
@@ -85,7 +87,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 190 | 132,748 | 5.2% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 2 | 820 | 0.0% |
 | local address-named struct | 633 | 346,988 | 13.6% | 2978 | 1,559,088 | 61.0% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 5892 | 1,869,920 | 73.1% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 5893 | 1,871,676 | 73.2% |
 
 Pin sites now: 342 in 137 rows; REG 201, KEEP_NV 50, KEEP 40, SCHED_BARRIER 14, USE2_NV 8, USE 6, USE_NV 5, SET 3.  At the pin: 25,755; REG 12,776, KEEP 6,852, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
