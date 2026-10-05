@@ -11,7 +11,7 @@ typedef struct DungeonArea {
     u8 pad[8];
 } DungeonArea;
 
-extern s32 func_8009A350(s16 x, s16 y, s32 value, u16 *tile);
+extern s32 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern s32 func_800A6D30(void);
 extern s16 D_80081468[3];
 

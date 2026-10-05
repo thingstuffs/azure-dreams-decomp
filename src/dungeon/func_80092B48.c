@@ -21,16 +21,16 @@ typedef struct {
 extern u8 D_800E07C0[];
 extern u8 D_800E07D3[];
 extern s32 *D_800E3D18[];
-extern Item *func_80097F84(Item *, u8 *, u8 *, s32);
+extern Item *func_80097F84(void *arg0, void *arg1, void *arg2, s16 arg3);
 /* Retail sets a3 to 10 at 0x80099114 before reading it; no incoming argument. */
 extern s32 func_800990FC(void);
-extern s32 func_80099194(u8 *, s32);
-extern void func_80099290(s32);
-extern s32 func_8009929C(s32, s32);
+extern s32 func_80099194(u8 *src, u8 *dst);
+extern void func_80099290(s8 *byte_ptr);
+extern s32 func_8009929C(s8 value, s8 *dest);
 extern s32 func_80099368(Item *, s32);
-extern s32 func_80099734(Arg0 *, s32);
+extern s32 func_80099734(void *record, u8 *out);
 extern void func_800A56E0(s32);
-extern void func_800A5720(s32);
+extern void func_800A5720(s8 *text);
 extern void func_800483AC(s32);
 extern void func_80048568(s32);
 extern void func_80048590(s32);

@@ -12,7 +12,7 @@ typedef struct {
     u8 pad[8];
 } DungeonArea;
 
-extern s32 func_8001CE14(s16 value, s32 low, s32 high);
+extern s32 func_8001CE14(s16 value, s32 lower_bound, s16 upper_bound);
 extern void func_8001E108(s32 x, s32 y, s16 *tile, s32 kind, s32 amount);
 
 extern u8 D_800EA000[];

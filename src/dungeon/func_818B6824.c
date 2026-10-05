@@ -3,10 +3,10 @@
 #include "shared/entity.h"
 
 extern s32 func_8009D218(void *, s32);
-extern s32 func_800A6870(s32);
+extern s32 func_800A6870(s16 input_value);
 extern void func_800AD4D0(void *);
 extern s16 func_800AD568(void *);
-extern void *func_800B4C7C(s32, void *, s32, s32);
+extern void *func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
 
 /* Adds a computed gain to the target's stored value, doubling it when flagged. */

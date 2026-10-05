@@ -98,7 +98,7 @@ extern s32 func_80069EF8(void);
 extern s32 func_800644B8(s16);
 extern s32 func_80064584(s16);
 extern void func_8009C12C(void *, void *, s16, s16);
-extern void func_800C77D0(void *, void *, s32, s32);
+extern void func_800C77D0(s32 slot_id, void *target, s32 target_id, s16 slot_value);
 extern void func_80175A90(Vec3Work *, Vec3Work *);
 
 extern u8 D_800DDC40[];

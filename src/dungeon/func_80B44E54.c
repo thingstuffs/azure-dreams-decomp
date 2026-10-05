@@ -65,7 +65,7 @@ s32 func_8003DE58(s32, void *, s16 *, s16);
 void *func_8003FD64(s32, void *);
 void func_8004491C(void *, void *);
 void func_80047784(void *, u8, s32);
-void func_8009C12C(void *, void *, s16, s32);
+void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 void func_800A2B04(void *, u8, u8);
 void func_800A4ACC(void *);
 void func_800A56E0(s32);

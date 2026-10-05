@@ -19,8 +19,8 @@ extern void func_80094E34(void);
 extern s16 func_80098C80(void *);
 extern void func_80099F04(s32);
 extern void func_80099F70(s32);
-extern s16 func_800B500C(s32, s32, s16);
-extern void func_800B627C(s32, void *, s16, s32);
+extern s16 func_800B500C(s16 x, s16 y, s16 z);
+extern void func_800B627C(s32 handler_id, void *object_ptr, s32 slot_id, s8 update_state);
 extern void func_800B7B60(void *, void *, s16);
 extern void func_800BCFBC(s32, u32, s32);
 

@@ -23,7 +23,7 @@ typedef struct S_80154C54_0 {
 
 extern void func_80047784(void *, s32, s32);
 extern s32 func_800644B8(s32);
-extern s16 func_800A0818(s32, s32, s32, s32, void *);
+extern s16 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void func_800A2B04(void *, s32, s32);
 extern void func_800A4ACC(void *);
 extern void func_800A9A04(void *);

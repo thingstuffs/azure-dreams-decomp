@@ -163,7 +163,7 @@ extern u8 D_800DECF8[];
 
 extern void *func_8003FD64(s32, void *);
 extern s32 func_80069EF8(void);
-extern s32 func_800A3820(s32);
+extern s32 func_800A3820(s16 entry_index);
 extern void *func_800A05A4(void *, u8, u8, s16, s16);
 extern void func_8009CE1C(void *, s32, s32, s32, s32, void *, s32);
 extern void *func_8003DE58(void *, void *, Vec3 *, s32);

@@ -33,8 +33,8 @@ typedef struct {
 #define PTR_AT(p, o) (*(u8 **)((u8 *)(p) + (o)))
 #define PACKED_AT(p, o) (((PackedWord *)((u8 *)(p) + (o)))->value)
 
-extern void func_80025648(void *, s32, s32, s32, s32);
-extern void func_80025710(void *, u32, u32, s32, s32);
+extern void func_80025648(s32 object, s32 raw_x, s32 raw_y, s32 raw_upper, s16 lower_bound);
+extern void func_80025710(void *list_head, s32 x, s32 y, s16 upper_bound, s16 lower_bound);
 extern void func_80025FB0(void *, s32);
 extern void func_80026060(void *, void *, s32, s32);
 extern void func_8002612C(void *, s32);

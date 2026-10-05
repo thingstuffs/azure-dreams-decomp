@@ -30,16 +30,16 @@ extern void func_80041E70(DungeonObject *);
 extern void func_8008D330(DungeonObject *, u8 *, u8 *, DungeonObject *);
 extern void func_80098B38(u8 *);
 extern s32 func_800990FC(void);
-extern s32 func_80099194(const void *, s32);
-extern void func_80099290(u32);
-extern s32 func_80099734(DungeonObject *, s32);
-extern void func_800A5720(s32);
+extern s32 func_80099194(u8 *src, u8 *dst);
+extern void func_80099290(s8 *byte_ptr);
+extern s32 func_80099734(void *record, u8 *out);
+extern void func_800A5720(s8 *text);
 extern void func_800A5F38(DungeonObject *, u8 *);
 extern void func_800A63B8(DungeonObject *, u8 *, s16);
 extern s32 func_800A6D30(void);
 extern s32 func_800AD568(DungeonObject *);
 extern s32 func_800AD6FC(DungeonObject *, u32, s32);
-extern void func_800B4C7C(s32, DungeonObject *, s16, s32);
+extern void func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 extern void func_800C4AFC(s32, s32, DungeonObject *);
 
 /* Applies an item effect, selects its amount, and displays the result. */

@@ -80,7 +80,7 @@ extern void func_800A2B04(void *, s32, s32);
 extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, u16 *);
-extern void func_800DA840(u16 *, s32);
+extern void func_800DA840(void *payload, s16 value_scale);
 
 extern u8 D_80170E7C;
 extern u8 D_80174D4C[];

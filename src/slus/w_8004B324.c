@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern void func_8004B298(void *a0, void *a1);
-extern void func_8004B2E0(void *a0, void *a1);
+extern void func_8004B2E0(unsigned short *entry_data, int *counter);
 
 /* Passes both pointers through func_8004B298 and func_8004B2E0 in order. */
 void func_8004B324(void *first_ptr, void *second_ptr)

@@ -7,10 +7,10 @@ typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
 extern s32 func_800990FC(void);
-extern s32 func_80099194(void *, s32);
-extern s32 func_80099734(s32, s32);
-extern void func_80099290(s32);
-extern void func_800A5720(s32);
+extern s32 func_80099194(u8 *src, u8 *dst);
+extern s32 func_80099734(void *record, u8 *out);
+extern void func_80099290(s8 *byte_ptr);
+extern void func_800A5720(s8 *text);
 extern u8 D_80176440[9];
 extern u8 D_80176455[9];
 /* Builds and displays a message containing the record's name between fixed text. */

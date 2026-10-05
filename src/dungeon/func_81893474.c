@@ -66,7 +66,7 @@ extern u8 D_80082E80_early[] __asm__("D_80082E80");
 extern s16 func_800A0818(u8, u8, s16, s16, s16 *);
 extern s32 func_8003DE58(void *, void *, void *, s32);
 extern s16 func_800BCAD0(void *);
-extern s32 func_8009A350(s16, s16, s32, u16 *);
+extern s32 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern s32 func_800A45D8(s32, s32, s32);
 extern s32 func_800A5690(void);
 extern void func_800A56E0(s32);

@@ -31,7 +31,7 @@ extern s8 func_8009FB34(u8, u8);
 extern void func_800A2B04(void *, u8, u8);
 extern s16 func_800BCB04(u16, u16, s16);
 extern void func_80099FDC(void *);
-extern void func_8009A21C(u8, u8, s32);
+extern void func_8009A21C(s16 x, s16 y, u16 flags);
 extern void func_800BC26C(void *, s32, void *, void *);
 
 /* Initialize the entity sprite position, scale, color, and active state. */

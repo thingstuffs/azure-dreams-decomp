@@ -10,7 +10,7 @@ extern void func_800478B8(void *);
 extern void func_8003DB94(void *, void *, s32);
 extern void func_800252B8(s32, s32, s32, s32);
 extern void func_800253BC(void *, s32, s32);
-extern void func_80026CE4(s32);
+extern void func_80026CE4(s16 value);
 extern void func_8008F134(void *);
 
 typedef struct B {

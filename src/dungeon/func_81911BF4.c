@@ -26,7 +26,7 @@ typedef struct Obj81911BF4 {
 
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
-extern void func_8002429C(Obj81911BF4 *, s32 *, s32, s32);
+extern void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_factor);
 extern void func_800246C0(Obj81911BF4 *, s32 *, s32, s32);
 extern void func_80024ACC(Obj81911BF4 *, s32 *, s32, s32);
 extern void func_8002539C(Obj81911BF4 *);

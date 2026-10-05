@@ -2,7 +2,7 @@
 #include "shared/dungeon_status.h"
 
 extern void func_800A9A0C(void *);
-extern void func_800AAA54(s32, s32, s32, s32);
+extern void func_800AAA54(void *actor, void *unused, void *display, u8 *facing_variants);
 extern void func_800AA6B4(s32, s32, s32, s32);
 
 /* Processes active status, counts completed transitions, and dispatches follow-up work. */

@@ -25,7 +25,7 @@ extern S_800848F8 D_800848F8;
 extern s32 D_800848FC[3];
 extern s32 func_8005405C(s16);
 extern void func_800553D4(s32);
-extern s16 func_8005B470(s16, void *);
+extern s16 func_8005B470(s16 idx, u8 *dst);
 extern void func_8005537C(s32);
 extern s16 func_8005AE08(void *, s32);
 extern int func_8005B3D8(s16, s16);

@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 
-void func_80018D14(void *);
+void func_80018D14(u8 *object_ref);
 
 // Clears the indexed object and marks its slot unused, with cleanup for type 0x13.
 void func_80018E34(s32 slotIndex) {

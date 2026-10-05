@@ -89,15 +89,15 @@ extern void func_800945E8(void *);
 extern void func_800948BC(void);
 extern void func_80094E34(void);
 extern s32 func_800990FC(void);
-extern s32 func_80099194(void *, s32);
-extern void func_80099290(s32);
-extern s32 func_8009929C(s32, s32);
-extern s32 func_80099734(void *, s32);
+extern s32 func_80099194(u8 *src, u8 *dst);
+extern void func_80099290(s8 *byte_ptr);
+extern s32 func_8009929C(s8 value, s8 *dest);
+extern s32 func_80099734(void *record, u8 *out);
 extern void func_800A56E0(s32);
-extern void func_800A5720(s32);
+extern void func_800A5720(s8 *text);
 extern void func_800A6780(void);
 extern void func_800AD594(void *, s32);
-extern void func_800C542C(void *, s16, s32, s32);
+extern void func_800C542C(void *owner, s16 effect_value, s16 direction, s16 effect_mode);
 
 /* Updates the actor's approach, descent, and return sequence. */
 void func_80175CD8(void *action, void *motion, void *sprite, void *actor)

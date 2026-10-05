@@ -109,7 +109,7 @@ typedef struct S_800970FC_14 {
 } S_800970FC_14;   /* temp_s0_8 in func_800970FC */
 
 
-extern void func_80044D24(void *, void *, s32);
+extern void func_80044D24(void *unused, u8 *sprite, s32 ot_depth);
 extern void func_800453E0(void *, void *, void *, s16);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_8006658C(void *, void *);

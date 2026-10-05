@@ -68,9 +68,9 @@ extern s32 func_8004E298(void *, s32, s32);
 extern s32 func_80069E98(s32);
 extern void *func_800B12F4(void);
 extern void func_800B1320(u8 *, s32, s32);
-extern void func_800B135C(void *, s32);
+extern void func_800B135C(u8 *record, s32 flags);
 extern void func_800B13CC(void *, s32);
-extern void func_800B1400(void *, s32);
+extern void func_800B1400(u8 *record, s32 flags);
 extern void *func_800B1434(void *, void *);
 
 /* Build the floating number/icon widget: allocate it and lay out its digit sprites for the given style. */

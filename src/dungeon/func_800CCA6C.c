@@ -41,7 +41,7 @@ typedef struct {
 extern u8 D_800D20D8[];
 
 extern void func_800A2B04(CcaMotion *, u8, u8);
-extern void func_800AAA54(CcaState *, CcaMotion *, CcaInfo *, s32);
+extern void func_800AAA54(void *actor, void *unused, void *display, u8 *facing_variants);
 extern void func_800AD4D0(CcaAnim *);
 
 /* Decelerate motion, then align to the target tile and advance the state. */

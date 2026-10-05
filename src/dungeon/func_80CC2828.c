@@ -9,9 +9,9 @@
 
 extern void func_80093E74(void *, void *, void *, void *);
 extern void func_8009A028(void *);
-extern void func_8009A21C(u8, u8, s32);
+extern void func_8009A21C(s16 x, s16 y, u16 flags);
 extern void func_8009A3D0(u8, u8, s32);
-extern void func_800A18E8(u8, s32);
+extern void func_800A18E8(s16 requested_id, s16 requested_type);
 extern u8 func_800A1BD0(void *);
 extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);

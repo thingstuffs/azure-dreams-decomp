@@ -68,8 +68,8 @@ extern void *func_800BA224();
 extern void func_800BA2A0(void);
 extern void func_800BA308(void);
 extern s32 func_800BA33C(s32);
-extern void func_800B1768(s32, s32, s32, s32, s32, s32);
-extern void func_800B1B10(void *, s32, s32, s32, s16, s32);
+extern void func_800B1768(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u16 unused_flags);
+extern void func_800B1B10(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact, u16 flags);
 
 extern u8 D_80045C34[];
 extern u8 D_80079444[];

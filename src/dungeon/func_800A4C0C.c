@@ -5,7 +5,7 @@ extern u32 func_800A2BDC(void *entity);
 extern s32 func_800A41F0(void *entity);
 extern s32 func_8009B7E4(void *object, void *context);
 extern void func_8009A3D0(s32 x, s32 y, s32 flag_mask);
-extern void func_8009A21C(s32 x, s32 y, s32 flags);
+extern void func_8009A21C(s16 x, s16 y, u16 flags);
 extern void func_800AA508(void *entity, void *unused_1, void *unused_2, void *unused_3);
 extern void func_800AA5E4(void *entity, void *unused, void *position, void *entity_state);
 

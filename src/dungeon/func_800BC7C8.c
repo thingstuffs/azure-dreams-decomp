@@ -39,10 +39,10 @@ extern u8 D_800C1EC4;
 extern void *func_8003FC64(s32);
 extern s32 func_800429E4(void *);
 extern void func_8009A3D0(u8, u8, s32);
-extern s32 func_8009B88C(s32, u8, u8, s16 *, s16 *);
+extern s32 func_8009B88C(u8 *entry, s16 target_x, s16 target_y, s16 *out_x, s16 *out_y);
 extern u16 func_800BCB04(s32, s32, s16);
-extern void func_800C542C(void *, s16, s16, s32);
-extern void func_8009A21C(u8, u8, s32);
+extern void func_800C542C(void *owner, s16 effect_value, s16 direction, s16 effect_mode);
+extern void func_8009A21C(s16 x, s16 y, u16 flags);
 
 /* Creates a relocation task and updates the object's tile and height. */
 void *func_800C1F28(void *object, s16 action_arg) {

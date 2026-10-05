@@ -93,7 +93,7 @@ typedef struct {
 
 extern Entity *func_8003FC64(s32);
 extern void func_8004491C(Entity *, void *);
-extern s32 func_801745B4(DungeonArg *, DungeonObjectArg *);
+extern s32 func_801745B4(DungeonArg *selection, u8 *context);
 
 extern DungeonGroup D_80073414[];
 extern s32 D_8007361C[256];

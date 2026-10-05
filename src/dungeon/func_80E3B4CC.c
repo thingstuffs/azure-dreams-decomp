@@ -102,9 +102,9 @@ extern void func_80042640(void *, s32);
 extern void func_80047784(void *, s32, s32);
 extern void func_800478B8(void *);
 extern s32 func_800644B8(s32);
-extern void func_800A152C(s32, s32);
+extern void func_800A152C(s16 entry_type, s16 entry_key);
 extern s32 func_800A1618(s32, s32);
-extern void *func_801708B4(s32, s16, s16, s16);
+extern void *func_801708B4(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 height);
 
 /* Advances the motion arc and creates a linked object when the arrival effect completes. */
 void func_80174CCC(void *motion, S_80174CCC_1 *position, Rec_D_80082E80 *record)

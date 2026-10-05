@@ -48,7 +48,7 @@ S_8005FA34;
 extern S_80079958 D_80079958;
 extern u16 D_80079520[256];
 extern s32 D_80079980[3];
-extern s32 func_8005F90C(s32 a0, s32 a1, s32 a2);
+extern s32 func_8005F90C(u16 center_note, u16 center_fine, u16 pitch);
 /* Read volume, pitch, addresses, and envelope settings for the first selected voice. */
 void func_8005FA34(S_8005FA34 *voice_attr)
 {

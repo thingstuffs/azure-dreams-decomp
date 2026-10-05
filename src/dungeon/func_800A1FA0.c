@@ -22,7 +22,7 @@ typedef struct DungeonDescriptor {
 } DungeonDescriptor;
 
 extern M2C_UNK D_800A7548;
-extern DungeonDescriptor *func_800A8608(u8 *, s32 *, s32, s32, s32);
+extern DungeonDescriptor *func_800A8608(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z);
 
 /* Create a dungeon descriptor centered on the given tile at the specified z coordinate. */
 DungeonDescriptor *func_800A7700(s32 tile_x, s32 tile_y, s32 z, s32 *init_data) {

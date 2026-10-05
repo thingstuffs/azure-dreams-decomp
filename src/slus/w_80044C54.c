@@ -11,7 +11,7 @@ typedef struct {
 } Entry80044C54;
 
 extern void RotTransPers(void *a0, void *a1, void *a2, void *a3);
-extern void func_80044D24(void *a0, Entry80044C54 *a1, s32 a2);
+extern void func_80044D24(void *unused, u8 *sprite, s32 ot_depth);
 extern s32 func_80045310(u32 a0);
 
 /* Projects coordinates and processes linked entries whose 0x80 flag is clear. */

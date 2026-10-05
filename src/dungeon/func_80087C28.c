@@ -8,9 +8,9 @@ extern u8 D_800E04E6[];
 
 extern void func_800997FC(void *data_ptr);
 extern void func_80099844(s32 value, void *data_ptr);
-extern void func_800C77D0(void *actor_ptr, s32 action, s32 parameter, s32 parameter2);
+extern void func_800C77D0(s32 slot_id, void *target, s32 target_id, s16 slot_value);
 extern s16 func_80098C80(s32 actor_value);
-extern void func_8009F644(void *target, s32 value1, s32 value2, s32 value3);
+extern void func_8009F644(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
 
 /* Start the actor action and apply its target effect unless a blocking flag is set. */
 s32 func_8008D388(void *actor, s32 action_arg, s32 unused, void *target) {

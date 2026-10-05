@@ -74,7 +74,7 @@ typedef struct S_8016FC4C_8 {
 void func_80047738();
 void func_800478B8();
 s32 func_80069EF8();
-u16 func_800A0818(u8, u8, u8, u8, s32 *);
+u16 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 s32 func_800A56E0();
 void func_80164ED0();
 void func_801655EC(void *, s32, s32, s32);

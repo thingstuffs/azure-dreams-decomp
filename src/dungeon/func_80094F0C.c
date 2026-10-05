@@ -24,8 +24,8 @@ typedef struct {
     u8 tail[6];
 } FuncMonster;
 
-extern s32 func_8009A350(s32, s32, s32, u16 *);
-extern s32 func_8009A540(s32, s32, s32, s16);
+extern s32 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
+extern s32 func_8009A540(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s32 func_8009B25C(FuncArg2 *, s32, s32, s16);
 extern s16 func_8009FB34(u16, u16);
 extern s32 func_800BCB04(s32, s32, s16);

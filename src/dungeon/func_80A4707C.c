@@ -93,7 +93,7 @@ extern void func_800478E8(void *, void *, s32);
 extern void func_800AA36C(void *, void *, void *, void *);
 extern void func_800D78C0(void *, void *, void *, void *);
 extern void *func_80170A7C(void);
-extern void func_80170BB8(void *, void *, void *);
+extern void func_80170BB8(u8 *actor, u8 *motion, u8 *entity);
 extern void func_8017140C(void *, void *, void *, void *);
 
 extern u8 D_800D71A8[];

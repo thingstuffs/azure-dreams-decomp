@@ -44,7 +44,7 @@ extern void func_800A5720(u8 *);
 extern s32 func_800A6D30(void);
 extern s32 func_800A6DA4(s32, s32);
 extern s16 func_800A9400(s16);
-extern void func_800B4C7C(s32, void *, s32, s32);
+extern void func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 extern s32 func_800C8980(Entity800B4194 *, s32, s32);
 extern s32 func_800C8C1C(Entity800B4194 *, s32, s32);
 s32 func_800B4194(s16 arg0, Entity800B4194 *entityp, Context800B4194 *contextp)

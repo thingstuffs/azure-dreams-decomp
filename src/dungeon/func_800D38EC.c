@@ -5,10 +5,10 @@
 
 
 extern void func_8003DB94(void *, void *, s32);
-extern void func_8009A21C(s32, s32, s32);
+extern void func_8009A21C(s16 x, s16 y, u16 flags);
 extern void func_8009A3D0(s32, s32, s32);
 extern s16 func_8009A66C(s16, void *, void *, s32);
-extern s16 func_800A0818(s32, s32, s32, s32, void *);
+extern s16 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void func_800D9820(void *, s32, void *, void *);
 
 extern u8 D_800E260C[];

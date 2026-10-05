@@ -5,8 +5,8 @@ extern void obj_disp23_cancel_sw_set(u32 arg0);
 extern void came_bright_set(s32 arg0);
 extern void func_800B2A38(void *arg0);
 extern void func_800B3A80(s32 arg0);
-extern void func_800B46CC(s32 object);
-extern void func_800B50BC(s32 object);
+extern void func_800B46CC(u8 *object);
+extern void func_800B50BC(u8 *object);
 
 /* Apply three record values, set status flags, and process the record. */
 void func_800B2C6C(void *record)

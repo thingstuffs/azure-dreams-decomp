@@ -3,7 +3,7 @@
 #include "records/Rec_func_800C9F34_arg0.h"
 
 
-extern s16 func_800A0818(s32, s32, s32, s32, void *);
+extern s16 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 
 
 typedef struct S_800CA0DC_0 {

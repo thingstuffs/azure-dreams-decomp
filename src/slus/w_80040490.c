@@ -8,7 +8,7 @@ typedef struct S_80040490_RECT {
 } S_80040490_RECT;
 
 extern void *func_80040574(s32 size);
-extern void func_8004068C(u8 *src, void *dst);
+extern void func_8004068C(u8 *src, u8 *dst);
 extern s32 LoadImage(S_80040490_RECT *rect, void *p);
 
 /* Decompresses image data into an allocated buffer and uploads it to the VRAM rectangle. */

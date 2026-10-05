@@ -6,14 +6,14 @@ typedef struct S_func_8186E800_0 {
 } S_func_8186E800_0;
 
 extern s32 func_800990FC(void);
-extern s32 func_80099194(void *, s32);
-extern void func_80099290(s32);
-extern s32 func_80099734(void *, s32);
+extern s32 func_80099194(u8 *src, u8 *dst);
+extern void func_80099290(s8 *byte_ptr);
+extern s32 func_80099734(void *record, u8 *out);
 extern void func_80099844(void *, void *);
 extern s32 func_8009D218(void *, s32);
 extern s32 func_800A48F0(void *, s32, s8);
-extern void func_800A5720(s32);
-extern s32 func_800A6870(s32);
+extern void func_800A5720(s8 *text);
+extern s32 func_800A6870(s16 input_value);
 
 extern s32 D_80024004;
 extern s32 D_80024034;

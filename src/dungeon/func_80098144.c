@@ -17,7 +17,7 @@ extern u8 D_800E50A8[];
 extern u8 D_800EA000[];
 
 extern void func_800672D8(PackedPair *, u8 *);
-extern void func_8009BF7C(s32, s32);
+extern void func_8009BF7C(s32 flag, s8 value);
 
 /* Pack dungeon cell height levels into nibbles and submit the buffer. */
 void func_8009D8A4(void) {

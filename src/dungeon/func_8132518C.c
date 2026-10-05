@@ -14,7 +14,7 @@ typedef struct S_8016C98C_0 {
 
 extern s32 func_800A2BDC(void *);
 extern void func_800A9A0C(void *);
-extern s16 func_800ADDA0(s32, s32, void *, s32, s32, void *);
+extern s16 func_800ADDA0(void *context, void *position, void *entity, s16 near_range, s16 far_range, s32 state_out_addr);
 extern void func_8016BF74(void *, s32, s32, void *);
 
 /* Dispatches the actor's action state and updates its activity flags. */

@@ -45,7 +45,7 @@ extern s32 func_8003DF74(void *, void *, void *, s32);
 extern void func_8004491C(void *, void *);
 extern s32 func_80069EF8(void);
 extern void func_80024470(void *, s32, s32, s32, s32, s32, s32);
-extern s32 func_800A4778(s32, s32, s32, void *);
+extern s32 func_800A4778(u16 x, u16 y, s32 z, void *skip_check);
 extern void func_800A56E0(s32);
 extern void func_800B8FC8(void *, void *, void *, s32, s32);
 extern void *func_8003FC64(s32);

@@ -12,7 +12,7 @@ typedef struct Obj800A5BC0 {
     s16 value;
 } Obj800A5BC0;
 
-extern void func_800A2FCC(void *ctx, s32 x, s32 y, s32 value);
+extern void func_800A2FCC(s32 center_source, s32 radius_a, s32 radius_b, s16 segment_arg);
 
 /* Advance the object's motion and timer-scaled value, or mark it expired. */
 void func_800A3320(Obj800A5BC0 *obj, void *ctx)

@@ -17,7 +17,7 @@ typedef struct S_800232F4_1 {
 } S_800232F4_1;   /* owner in func_800232F4 */
 
 
-extern void func_800537D0(s32, s32, void *);
+extern void func_800537D0(s32 value, s32 width, char *buf);
 /* Updates the display value, then moves the object outward and flags it when out of bounds. */
 void func_800232F4(void *object)
 {

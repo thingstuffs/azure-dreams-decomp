@@ -134,10 +134,10 @@ extern s32 func_80069EF8(void);
 extern void func_80024784(void *, s32);
 extern void func_800419EC(s32, s32);
 extern void *func_800A05A4();
-extern s32 func_800A3820(s32);
+extern s32 func_800A3820(s16 entry_index);
 extern s32 func_8009D218(void *, s32, void *);
 extern void func_800A56E0(s32);
-extern s32 func_800BCB04(s32, s32, s32);
+extern s32 func_800BCB04(s32 x, s32 y, s16 min_height);
 extern void func_800C8900(void *, s32, s32);
 
 extern u8 D_800DEC28[];

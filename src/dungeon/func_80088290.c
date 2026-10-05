@@ -13,7 +13,7 @@ extern s16 D_800814E8;
 extern s16 func_80042900(void *, s32);
 extern void func_80048A44(void *, u8, s32, s32);
 extern s16 func_800A4474(u8, u8);
-extern s16 func_8003F794(s32, s32);
+extern s16 func_8003F794(s16 slot_id, s16 slot_value);
 extern void func_800A9024(s32);
 
 

@@ -8,7 +8,7 @@ typedef struct {
 
 extern s32 D_80082A38[];
 
-extern s32 func_800C2B6C(s32);
+extern s32 func_800C2B6C(s16 angle);
 
 /* anyone_org_ang_get: store the actor's converted original angle in the script variables. */
 void anyone_org_ang_get(s32 actor_id, void *script_context) {

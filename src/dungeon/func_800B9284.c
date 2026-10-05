@@ -14,7 +14,7 @@ extern void func_800A5F38(void *, s32);
 extern void func_800A63B8(void *, s32, s16);
 extern s32 func_800A6D30(void);
 extern s32 func_800AD6FC(void *, s32, s32);
-extern void func_800D5460(void *, s32, s32);
+extern void func_800D5460(void *source, s32 color, unsigned short event_id);
 
 extern u8 D_800E10C0[];
 extern u8 D_800E10F2[];

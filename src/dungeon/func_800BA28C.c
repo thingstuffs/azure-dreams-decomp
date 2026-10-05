@@ -11,7 +11,7 @@ extern s32 D_800835E8[];
 extern u8 D_800E131C[];
 
 extern s32 func_80042900(void *, s32);
-extern void func_8008D344(void *, void *, void *, void *);
+extern void func_8008D344(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
 extern s32 func_80098864(s32, s32);
 extern void func_80098B38(s32);
 extern void func_800997FC(void *);
@@ -19,7 +19,7 @@ extern void func_800A1D4C(void *, s32);
 extern void func_800A5F38(void *, s32);
 extern void func_800A6480(void *, s32, s16);
 extern s32 func_800AD6FC(void *, s32, s32);
-extern void func_800B4C7C(s32, void *, s32, s32);
+extern void func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 extern void func_800C4D78(s32, s16);
 
 

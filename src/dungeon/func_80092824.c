@@ -5,14 +5,14 @@ extern s32 func_800422A8(void *, void *, s32, s32);
 extern s32 func_80098FB0(void);
 extern s32 func_80098FF8(void);
 extern void *func_800990FC(void);
-extern s32 func_80099194(void *, s32);
-extern void func_80099290(s32);
-extern s32 func_8009929C(s32, s32);
+extern s32 func_80099194(u8 *src, u8 *dst);
+extern void func_80099290(s8 *byte_ptr);
+extern s32 func_8009929C(s8 value, s8 *dest);
 extern s32 func_80099368(void *, s32);
 extern s32 func_8009955C(void *, s32);
 extern void func_8009A3D0(u8, u8, s32);
 extern void func_800A56E0(s32);
-extern void func_800A5720(s32);
+extern void func_800A5720(s8 *text);
 
 extern u8 D_80081470[];
 extern void *D_80081484;

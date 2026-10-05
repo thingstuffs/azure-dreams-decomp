@@ -16,7 +16,7 @@ extern s32 D_80081480;
 extern s32 D_8008148C;
 
 extern void DrawSync(s32 mode);
-extern void *func_8004068C(void *src, void *dst);
+extern void *func_8004068C(u8 *src, u8 *dst);
 extern s32 LoadImage(void *rect, void *data);
 
 /* Uploads a null-terminated image list to VRAM through a staging buffer. */

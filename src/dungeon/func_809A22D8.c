@@ -9,7 +9,7 @@
 #define FIELD_PTR(p, o) (*(void **)((u8 *)(p) + (o)))
 
 extern void func_800A2B04(void *, u8, u8);
-extern void func_800AAA54(void *, void *, void *, void *);
+extern void func_800AAA54(void *actor, void *unused, void *display, u8 *facing_variants);
 extern void func_800AD4D0(void *);
 extern s32 D_801710EC[];
 extern u8 D_80175E90[];

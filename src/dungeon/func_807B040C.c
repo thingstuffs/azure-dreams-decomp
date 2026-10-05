@@ -90,13 +90,13 @@ typedef struct DirectionOffsets {
 extern u8 D_800F6050[sizeof(DirectionOffsets)];
 extern s32 D_800FBE1C;
 
-extern void func_8009A21C(u8, u8, s32);
+extern void func_8009A21C(s16 x, s16 y, u16 flags);
 extern void func_8009A350(u8, u8, s16, u16 *);
 extern void func_8009A3D0(u8, u8, s32);
 extern void func_800A2B04(void *, u8, u8);
 extern s32 func_800A45D8(s32, s32, s16);
-extern s16 func_800BCB04(s32, s32, s32);
-extern s32 func_800F6D28(void *);
+extern s16 func_800BCB04(s32 x, s32 y, s16 min_height);
+extern s32 func_800F6D28(s16 *target_pos);
 
 /* Move the entity to a passable tile near the room and update tile occupancy. */
 s32 func_807B040C(void) {

@@ -69,7 +69,7 @@ extern OffsetTable D_80170884;
 
 extern void func_800419EC(u16, u32);
 extern void func_80099C58(s16, s16, s16, s16, s32);
-extern void func_8009C12C(void *, void *, s16, s32);
+extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void func_800A56E0(s32);
 
 /* Process nodes at the target tile and height, triggering type-specific effects. */

@@ -18,7 +18,7 @@ typedef struct {
 } S_80047270_hdr;
 
 extern void DrawSync(s32 a0);
-extern void *func_800407C0(void *a0, void *a1);
+extern void *func_800407C0(u8 *src_start, u8 *dst_start);
 extern int LoadImage(void *rect, void *p);
 
 /* Decodes and uploads an image, wrapping the decode buffer and waiting for the GPU when full. */

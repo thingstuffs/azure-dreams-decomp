@@ -8,10 +8,10 @@ extern u16 D_800DCE8C[];
 
 extern void func_8003DB4C(void *, s32);
 extern s32 func_80065F90(s32, s32);
-extern s32 func_8009A350(s32, s32, s32, u16 *);
+extern s32 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern s32 func_800A0134(void *, void *);
 extern s32 func_800A0548(s32, s32);
-extern s32 func_800BCB04(s32, s32, s32);
+extern s32 func_800BCB04(s32 x, s32 y, s16 min_height);
 
 static __inline__ s16 offset_tile(u16 center, u16 offset)
 {

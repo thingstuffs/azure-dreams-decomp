@@ -33,7 +33,7 @@ typedef struct { volatile u16 *ptr; u32 pad2[2]; } S_80079958;
 extern S_80079958 D_80079958;
 extern u16 D_80079520[24];
 
-extern s16 func_8005F7D0(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s16 func_8005F7D0(u16 center_note, u16 center_fine, u16 note, u16 fine);
 extern s32 func_8005D598(s32 reg, u32 val);
 
 /* Apply masked voice attributes to the selected SPU voices. */

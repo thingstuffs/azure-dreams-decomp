@@ -31,8 +31,8 @@ typedef struct S_800CA93C_3 {
 } S_800CA93C_3;   /* other in func_800CA93C */
 
 
-extern s32 func_8009B4B0(void *, u8, u8);
-extern s16 func_800A0818(u8, u8, u8, u8, void *);
+extern s32 func_8009B4B0(u8 *entry, s16 x, s16 y);
+extern s16 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void *func_800A3D18();
 extern void func_800CA444(void *, s32, void *, void *);
 extern void func_800CA788(void *, s32, void *, void *);

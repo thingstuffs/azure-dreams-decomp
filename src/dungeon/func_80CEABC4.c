@@ -18,7 +18,7 @@ typedef struct S_801743C4_0 {
 
 
 extern void func_80047784(void *, s32, s32);
-extern void func_8009C12C(void *, void *, s32, s32);
+extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);

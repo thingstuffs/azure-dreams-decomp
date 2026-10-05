@@ -14,16 +14,16 @@ extern void func_80041E70(void *);
 extern void func_8008D330(void *, void *, void *, void *);
 extern void func_80098B38(s32);
 extern s32 func_800990FC(void);
-extern s32 func_80099194(void *, s32);
-extern s32 func_80099290(s32);
-extern s32 func_80099734(void *, s32);
+extern s32 func_80099194(u8 *src, u8 *dst);
+extern s32 func_80099290(s8 *byte_ptr);
+extern s32 func_80099734(void *record, u8 *out);
 extern void func_800997FC(void *);
 extern void func_800A56E0(s32);
-extern void func_800A5720(s32);
+extern void func_800A5720(s8 *text);
 extern void func_800A5F38(void *, s32);
 extern void func_800A63B8(void *, s32, s16);
 extern s32 func_800AD6FC(void *, s32, s32);
-extern void func_800D5460(void *, u32, s32);
+extern void func_800D5460(void *source, s32 color, unsigned short event_id);
 
 /* Applies an entity action, updates its state, and displays the result. */
 s32 func_800BDC98(void *entity, s32 action_id, s16 action_arg) {

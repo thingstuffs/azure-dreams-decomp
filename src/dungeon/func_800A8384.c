@@ -25,8 +25,8 @@ typedef struct Ctx {
 
 extern Ent D_800E3648[];
 
-extern s32 func_800B500C(s32 a, s32 b, s32 c);
-extern s32 func_800B627C(s32 a, Ctx *b, s32 c, s32 d);
+extern s32 func_800B500C(s16 x, s16 y, s16 z);
+extern s32 func_800B627C(s32 handler_id, void *object_ptr, s32 slot_id, s8 update_state);
 
 /* Process the actor's matching entry if enabled, clearing its enable bit unless retained. */
 s32 func_800ADAE4(Actor *actor, Ctx *ctx)

@@ -10,7 +10,7 @@ s32 func_80042900(void *, s32);
 s32 func_800A1C58(void *);
 void func_800A1D4C(void *, s32);
 void func_800A56E0(s32);
-void func_800C77D0(void *, s32, s32, s32);
+void func_800C77D0(s32 slot_id, void *target, s32 target_id, s16 slot_value);
 extern s32 D_8007359C;
 extern s8 D_80080A88;
 extern s8 D_80080AA0;

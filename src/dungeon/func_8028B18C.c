@@ -31,12 +31,12 @@ extern s32 func_8001E110(s32, u8, u8);
 extern s32 func_8001E660(u8 *, u8 *, s32, s32);
 extern void func_8001E824(DungeonState *);
 extern void func_8001EC54(void);
-extern void func_8009A21C(u8, u8, s32);
+extern void func_8009A21C(s16 x, s16 y, u16 flags);
 extern s32 func_800A4E2C(u8 *, u8 *);
 extern s16 func_800A6928(s32, s32);
 extern s32 func_800A6D30(void);
 extern s32 func_800A71F4(void);
-extern s32 func_800A7A38(DungeonState *);
+extern s32 func_800A7A38(u8 *item);
 extern s16 func_800BCA68(s32, s32);
 
 extern s8 D_8001F6F0[];

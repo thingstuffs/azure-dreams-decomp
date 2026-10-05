@@ -53,7 +53,7 @@ extern void *func_800A05A4(void *, u8, u8, s16, s32);
 extern void func_800A2B04(void *, u8, u8);
 extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
-extern s32 func_800A94A0(void *, u8 *, s32, void *);
+extern s32 func_800A94A0(void *actor, EntityRec *effect_record, s16 mode, void *context);
 extern void func_800DA840(void *, s16);
 
 extern u8 D_80170E70[];

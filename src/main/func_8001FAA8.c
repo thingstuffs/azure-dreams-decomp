@@ -19,7 +19,7 @@ typedef struct S_func_80406AA8_1 {
     void (*unk_10)(void);
 } S_func_80406AA8_1;
 
-extern void func_80406844(s32 dest, s32 index, s32 mode);
+extern void func_80406844(short *dest, int index, int mode);
 extern s32 func_80402084(s32 entry_id, s32 request_id);
 extern void func_80403144(void *value);
 extern void func_80405A00(s32 object, s32 value);

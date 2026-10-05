@@ -55,7 +55,7 @@ extern s32 func_800A05A4(void *, u8, u8, s16, u8);
 extern s32 func_800A2B5C(void *);
 extern void func_800A4ACC(void *);
 extern s32 func_800A6D30(void);
-extern void func_800C77D0(void *, s32, s32, s32);
+extern void func_800C77D0(s32 slot_id, void *target, s32 target_id, s16 slot_value);
 
 /* Prepares an entity action, updates its directional animation, and advances the counter. */
 void func_801717D0(u8 *entity, s32 action_param, u8 *action_sprite, u8 *frame_table, s32 fallback_state)

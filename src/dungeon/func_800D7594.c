@@ -14,7 +14,7 @@ typedef struct S_800DCCF4_0 {
 } S_800DCCF4_0;   /* arg0 in func_800DCCF4 */
 
 
-void func_800DCC3C(S_800DCCF4_0 *);
+void func_800DCC3C(u8 *object);
 /* Assign the object tables and mode, then initialize the object. */
 s32 func_800DCCF4(S_800DCCF4_0 *object, s32 mode) {
     object->unk_04 = &D_800E2828;

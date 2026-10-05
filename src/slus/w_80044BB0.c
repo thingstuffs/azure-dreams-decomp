@@ -3,7 +3,7 @@
 #define U16_AT(base, offset) (*(u16 *)((s8 *)(base) + (offset)))
 #define PTR_AT(base, offset) (*(void **)((s8 *)(base) + (offset)))
 
-extern void func_80044D24(void *, void *, s32);
+extern void func_80044D24(void *unused, u8 *sprite, s32 ot_depth);
 
 /* Process linked entries with flag 0x80 clear using their coordinates and combined offset. */
 s32 func_80044BB0(void *first_payload, void *first_coords, void *first_record) {

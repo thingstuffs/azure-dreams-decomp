@@ -1,10 +1,10 @@
 #include "common.h"
 
 extern s32 func_800990FC(void);
-extern s32 func_80099194(void *, s32);
-extern s32 func_80099290(s32);
-extern s32 func_80099734(void *, s32);
-extern void func_800A5720(s32);
+extern s32 func_80099194(u8 *src, u8 *dst);
+extern s32 func_80099290(s8 *byte_ptr);
+extern s32 func_80099734(void *record, u8 *out);
+extern void func_800A5720(s8 *text);
 
 extern u8 D_800E1F7B[];
 extern u8 D_800E1F93[];

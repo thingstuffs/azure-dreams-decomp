@@ -10,15 +10,15 @@ typedef struct Target {
 } Target;
 
 extern s32 func_800990FC(void);
-extern s32 func_80099194(M2C_UNK *, s32);
-extern s32 func_80099290(s32);
-extern s32 func_8009929C(s32, s32);
-extern s32 func_80099734(Target *, s32);
+extern s32 func_80099194(u8 *src, u8 *dst);
+extern s32 func_80099290(s8 *byte_ptr);
+extern s32 func_8009929C(s8 value, s8 *dest);
+extern s32 func_80099734(void *record, u8 *out);
 extern s32 func_80099844(Target *, M2C_UNK *);
 extern s32 func_8009D218(Target *, s32);
-extern s32 func_800A5720(s32);
+extern s32 func_800A5720(s8 *text);
 extern s32 func_800A6D30(void);
-extern s32 func_800B4C7C(s32, Target *, s32, s32);
+extern s32 func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 extern M2C_UNK D_800E2096;
 extern M2C_UNK D_800E20BC;
 

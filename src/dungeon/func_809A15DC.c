@@ -8,12 +8,12 @@
 
 extern void func_80047784(void *, s32, s32);
 extern s32 func_800644B8(s32);
-extern void func_8009C12C(void *, void *, s16, s32);
+extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void func_800A2B04(void *, u8, u8);
 extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
-extern void func_80174DA0(void *, void *, void *);
+extern void func_80174DA0(EntityRec *parent, s32 effect_param, u8 *effect_data);
 
 extern u8 D_801710EC[9];
 extern u8 D_80175E78[8];

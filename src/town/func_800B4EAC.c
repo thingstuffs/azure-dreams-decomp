@@ -9,7 +9,7 @@ typedef struct S_800B260C_1 {
 
 extern void SD_Call(s32);
 extern void func_800B1DCC(void *);
-extern void func_800B1F80(void *, s32);
+extern void func_800B1F80(s8 *state, s32 input);
 extern void func_800B2068(void *);
 extern void func_800B2394(void *, s32);
 extern s32 func_800B2400(void *);

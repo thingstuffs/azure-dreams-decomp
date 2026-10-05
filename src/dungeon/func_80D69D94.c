@@ -55,13 +55,13 @@ extern s32 D_80171F1C;
 
 extern void func_80047784(void *, u8, s32);
 extern s32 func_80069EF8(void);
-extern void func_8009A21C(s32, s32, s32);
+extern void func_8009A21C(s16 x, s16 y, u16 flags);
 extern void func_8009A3D0(s32, s32, s32);
 extern s16 func_800A4E2C(u8 *, u8 *);
 extern void func_800A56E0(s32);
-extern void func_800AA53C(void *);
+extern void func_800AA53C(u8 *context);
 extern void func_800AD594(void *, s32);
-extern s16 func_800BCB04(s32, s32, s32);
+extern s16 func_800BCB04(s32 x, s32 y, s16 min_height);
 extern void func_800D6DC0(void *, void *, void *, void *);
 extern void func_80170A44(void *, void *, void *, void *);
 extern void func_80170BB8(void *, void *, void *, void *, s32);

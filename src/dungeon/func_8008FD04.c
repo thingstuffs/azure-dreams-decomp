@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s16 func_800B500C(s32, s32, s16);
+extern s16 func_800B500C(s16 x, s16 y, s16 z);
 
 typedef struct {
     u8 pad[3];

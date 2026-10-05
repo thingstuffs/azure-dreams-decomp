@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern void func_80401BF4(void *target, s32 entry_index);
-extern s32 func_80401AA4(s32 count, void *text);
+extern s32 func_80401AA4(s32 count, u8 *text);
 extern s32 func_80401C70(void *file_path, void *buffer, s32 block_count, s32 block_offset);
 extern s32 D_804094EC[];
 extern s32 D_80136140[];

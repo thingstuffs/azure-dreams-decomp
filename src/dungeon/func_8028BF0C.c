@@ -55,15 +55,15 @@ extern u8 D_800DF258[];
 
 extern void func_8003DB94(void *, s32, s32);
 extern void func_80042640(void *, s32);
-extern void func_8009A21C(s32, s32, s32);
-extern SpawnFunc func_800A0B94(s32, s32, s32);
+extern void func_8009A21C(s16 x, s16 y, u16 flags);
+extern SpawnFunc func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read);
 extern void func_800A152C(s32, s32);
 extern s32 func_800A1618(s32, s32);
 extern void func_800A1D4C(void *, s32);
 extern s32 func_800A4E2C(u8 *, u8 *);
 extern s32 func_800A6D30(void);
 extern s32 func_800A6DA4(s32, s32);
-extern s16 func_800BCB04(s32, s32, s32);
+extern s16 func_800BCB04(s32 x, s32 y, s16 min_height);
 
 __asm__(".set D_800835E8, 0x800835E8");
 

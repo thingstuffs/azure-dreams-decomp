@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_8009A350(s32, s32, s32, s16 *);
+extern s32 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern s32 func_800BCB04(s32, s32, s16);
 
 /* Checks the left tile and tests the height at the current tile center. */

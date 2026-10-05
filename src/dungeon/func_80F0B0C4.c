@@ -42,7 +42,7 @@ extern u8 D_80170F74[];
 extern u8 D_80173D58[];
 
 void func_80047784(void *, u8, s32);
-void func_8009C12C(void *, void *, s16, s32);
+void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 void func_800A2B04(void *, u8, u8);
 void func_800A4ACC(void *);
 void func_800A56E0(s32);

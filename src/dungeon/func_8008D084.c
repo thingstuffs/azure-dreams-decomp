@@ -18,7 +18,7 @@ extern s32 func_80099734();
 extern void func_80099F04();
 extern void func_80099F70();
 extern void func_800A5720();
-extern void *func_800A8608(void *, void *, s32, s32, s32);
+extern void *func_800A8608(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z);
 
 extern u8 D_8008ACDC[12];
 extern u8 D_8008D470[12];

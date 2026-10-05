@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern s32 func_8009FB34();
-extern s32 func_800A0818(s32, s32, s32, s32, s16 *);
+extern s32 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 
 /* Tests whether distinct neighboring positions share a lookup value or pass the relation check. */
 s32 func_8009FD7C(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y) {

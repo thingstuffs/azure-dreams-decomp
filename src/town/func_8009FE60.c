@@ -42,7 +42,7 @@ extern u8 D_800D401C[];
 extern TownState D_801131B8;
 extern void func_80034F88(void *, void *);
 extern void func_8008AC84(s32);
-extern void func_8008B23C(void *);
+extern void func_8008B23C(u8 *entries_in);
 
 /* Sets up town state and runs initialization and list callbacks. */
 void func_8009D5C0(void **entries) {

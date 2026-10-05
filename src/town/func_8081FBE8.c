@@ -7,7 +7,7 @@ typedef struct {
 
 extern s32 D_80024628[];
 extern s32 strlen(s32 arg0);
-extern void func_800537D0(s32 value, s32 width, s32 buf);
+extern void func_800537D0(s32 value, s32 width, char *buf);
 
 // Clamp the value to 999999 and format it into the text buffer.
 void func_800223E8(UnkStruct800223E8 *textEntry)

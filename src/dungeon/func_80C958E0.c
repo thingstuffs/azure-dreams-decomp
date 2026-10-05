@@ -17,7 +17,7 @@ typedef struct S_801730E0_0 {
 extern u8 D_8017102C[];
 extern M2C_UNK D_801752E4;
 extern void func_800A2B04(void *, u8, u8);
-extern void func_800AAA54(void *, void *, void *, void *);
+extern void func_800AAA54(void *actor, void *unused, void *display, u8 *facing_variants);
 extern void func_800AD4D0(void *);
 extern void func_800B66C8(void *);
 extern void func_800419EC(s32, s32);

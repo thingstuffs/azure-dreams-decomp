@@ -96,7 +96,7 @@ extern s32 D_80053858[4];
 extern s32 D_80053A88;
 extern u8 D_800F7968[];
 
-extern void func_80026CE4(s32);
+extern void func_80026CE4(s16 value);
 extern void func_8003DB94(void *, void *, s32);
 extern void func_8003E188(s32, s32);
 extern void *func_8003FC64(s32);

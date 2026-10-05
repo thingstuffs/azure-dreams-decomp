@@ -31,7 +31,7 @@ typedef struct TownInitialPosition {
 
 extern void func_801235EC(void);
 extern void func_80123700(void);
-extern void func_801237E8(void *);
+extern void func_801237E8(u8 *state);
 extern void func_80123898(void *);
 extern void func_801238E4(void *);
 extern void func_80124728(void *);

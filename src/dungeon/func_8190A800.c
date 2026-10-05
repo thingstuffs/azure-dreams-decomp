@@ -32,7 +32,7 @@ extern s32 func_8009D218(void *entity, s32 flags);
 extern s32 func_800A6DA4(s32 bound_a, s32 bound_b);
 extern s32 func_800A2424(void *entity_data, s32 show_message);
 extern void func_80099844(void *context, void *source);
-extern void func_800B4C7C(s32 flags, void *source_data, s32 value, s32 callback_mode);
+extern void func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 extern u8 D_80024004[];
 
 BODY_STORAGE void BODY_NAME(void *target, s32 threshold_arg) BODY_ATTR;

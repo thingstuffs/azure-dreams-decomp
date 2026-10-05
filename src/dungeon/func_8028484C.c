@@ -15,7 +15,7 @@ typedef struct {
 } MapCell;
 
 extern u16 func_800A4E2C(u8 *, u8 *);
-extern void func_8009A21C(s32, s32, s32);
+extern void func_8009A21C(s16 x, s16 y, u16 flags);
 extern s32 func_800A6D30(void);
 
 extern s16 D_8008146C;

@@ -9,7 +9,7 @@ typedef struct {
 extern u8 D_8016A87C[];
 extern void func_8009A3D0(u8, u8, s32);
 extern void func_800A2B04(s32, u8, u8);
-extern void func_8009A21C(u8, u8, s32);
+extern void func_8009A21C(s16 x, s16 y, u16 flags);
 
 typedef struct S_80171168_0 {
     u8 pad_00[0x8];

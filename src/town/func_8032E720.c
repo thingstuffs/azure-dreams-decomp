@@ -31,7 +31,7 @@ typedef struct S_80018F20_4 {
 } S_80018F20_4;   /* ((S_80018F20_2 *)page)->unk_6000.p2 in func_80018F20 */
 
 
-extern void func_800193F4(void *, s32);
+extern void func_800193F4(s8 *buffer, s32 length);
 extern u8 D_80016034[16];
 extern u8 D_8001605C[];
 

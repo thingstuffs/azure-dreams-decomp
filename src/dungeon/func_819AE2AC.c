@@ -11,7 +11,7 @@ typedef struct Entry {
 extern u8 D_800274C0[];
 extern void func_8002590C(Entry *, s32);
 extern void func_800257D0(void *, s32);
-extern void func_800C9088(void *, s32, Entry *, s32);
+extern void func_800C9088(void *parent_matrix, void *translation, void *model, s16 depth_bias);
 
 /* Processes twelve buffer slots for each entry in a linked state chain. */
 s32 func_80025AAC(void *initial_state, s32 initial_value, Entry *initial_entry)

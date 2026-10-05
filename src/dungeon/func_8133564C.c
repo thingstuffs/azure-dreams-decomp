@@ -58,7 +58,7 @@ typedef struct S_func_8016C64C_5 {
 extern s16 func_800A0818(u8, u8, u8, u8, s16 *);
 extern void func_80047784(void *, u8, s32);
 extern void func_800A56E0(s32);
-extern void func_800AAA54(void *, void *, void *, void *);
+extern void func_800AAA54(void *actor, void *unused, void *display, u8 *facing_variants);
 extern void func_800A2B04(void *, u8, u8);
 
 extern u8 D_8016A36C[];

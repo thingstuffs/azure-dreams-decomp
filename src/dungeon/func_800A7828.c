@@ -12,12 +12,12 @@ extern u8 D_800E0458[];
 extern u8 D_800E0C78[];
 
 extern s32 func_800990FC(void);
-extern s32 func_80099194(void *, s32);
-extern s32 func_80099254(void *, s32);
-extern void func_80099290(s32);
-extern s32 func_8009929C(s32, s32);
-extern s32 func_80099734(void *, s32);
-extern void func_800A5720(s32);
+extern s32 func_80099194(u8 *src, u8 *dst);
+extern s32 func_80099254(u8 *src, u8 *dst);
+extern void func_80099290(s8 *byte_ptr);
+extern s32 func_8009929C(s8 value, s8 *dest);
+extern s32 func_80099734(void *record, u8 *out);
+extern void func_800A5720(s8 *text);
 
 /* Conditionally advances the dungeon counter and processes the input through the result chain. */
 void func_800ACF88(void *input_data, void *context) {

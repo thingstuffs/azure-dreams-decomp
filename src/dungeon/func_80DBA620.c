@@ -56,9 +56,9 @@ extern void func_800AA258(void *, void *, void *, void *);
 extern s32 func_800AA6B4(void *, void *, void *, void *);
 extern void func_800AA79C(void *, void *, void *, void *);
 extern void func_800AA888(void *, void *, void *, void *);
-extern s32 func_800AA924(void *, void *, void *, void *);
+extern s32 func_800AA924(void *actor, s32 unused, void *sprite, u8 *direction_frames);
 extern void func_800AAB10(void *, void *, void *, void *);
-extern void func_800AAF00(void *, void *, void *, void *, void *);
+extern void func_800AAF00(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state);
 
 extern void func_80172384(void *, void *, void *, void *);
 extern void func_801725C8(void *, void *, void *, void *);

@@ -14,7 +14,7 @@ typedef struct {
     u8 pad6[6];
 } PositionEntry;
 
-extern void func_8009A350(s16, s16, s32, u16 *);
+extern void func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern u8 D_800E3548[];
 extern u8 D_800E36C8[];
 

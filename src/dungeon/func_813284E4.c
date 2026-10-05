@@ -72,19 +72,19 @@ typedef struct S_8016FCE4_8 {
 
 
 s32 func_8009A180(void *, void *);
-void func_8009A21C(s32, s32, s32);
+void func_8009A21C(s16 x, s16 y, u16 flags);
 void func_8009A3D0(s32, s32, s32);
 s32 func_8009A66C(s32, void *, void *, s32);
 s32 func_8009FD7C(s32, s32, s32, s32);
-void *func_800A02AC(void *, s32, s32);
+void *func_800A02AC(void *entity, u16 x, u16 y);
 s32 func_800A04F0(void *, s32, s32, s32);
 s16 func_800A0818(s32, s32, s32, s32, void *);
-void func_800A0E6C(void *, s32, void *, void *);
-void func_800A19E4(void *, void *, s32, s32, void *);
+void func_800A0E6C(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
+void func_800A19E4(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 s32 func_800A6D30(void);
 void func_800A9A0C(void *);
 extern void call_800A9A0C_top(void *) __asm__("func_800A9A0C");
-s16 func_800BCB04(s32, s32, s32);
+s16 func_800BCB04(s32 x, s32 y, s16 min_height);
 extern s16 D_8006CD00[];
 extern u8 D_80082E80_b[] __asm__("D_80082E80");
 extern u8 D_80082E80_c[] __asm__("D_80082E80");

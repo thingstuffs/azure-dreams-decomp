@@ -32,7 +32,7 @@ typedef struct S_80174320_2 {
 
 extern void func_80047784(void *, u8, s32);
 extern void func_8009A3D0(u8, u8, s32);
-extern void func_800A152C(s32, s32);
+extern void func_800A152C(s16 entry_type, s16 entry_key);
 extern void func_800A9A0C(void *);
 extern void func_8016FCE4(void *, void *, void *, void *);
 extern void func_80171594(u8, u8, s16);

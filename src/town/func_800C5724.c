@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_800C2CB0(void *object, void *target, s32 value, s32 flags);
+extern void func_800C2CB0(void *object, int target, int value, s16 flags);
 extern s32 func_800C2E1C(s16 referenceAngle, s16 sectorCount);
 
 typedef struct {

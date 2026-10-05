@@ -39,7 +39,7 @@ extern u8 D_80026470[];
 extern u8 D_80026474[];
 extern u8 D_80080A87[];
 
-extern void func_8002596C(s32, s32, s32);
+extern void func_8002596C(s16 x, s16 y, s16 z);
 extern void func_80026010(void);
 extern s32 func_80069EF8(void);
 

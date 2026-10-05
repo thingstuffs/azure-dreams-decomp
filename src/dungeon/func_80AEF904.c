@@ -12,7 +12,7 @@ extern void func_800478B8(void *);
 extern void func_800A020C(s32, void *);
 extern s32 func_800A9E70(void *, void *, void *, void *);
 extern void func_800AA36C(void *, void *, void *, void *);
-extern s16 func_800BCB04(s32, s32, s32);
+extern s16 func_800BCB04(s32 x, s32 y, s16 min_height);
 
 extern u8 D_801717F4;
 extern u8 D_80175988[8];

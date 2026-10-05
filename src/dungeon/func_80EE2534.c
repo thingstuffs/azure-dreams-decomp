@@ -14,7 +14,7 @@ typedef struct S_80173D34_0 {
 
 
 extern void func_800A2B04(void *, s32, s32);
-extern void func_800AAA54(void *, void *, void *, s32);
+extern void func_800AAA54(void *actor, void *unused, void *display, u8 *facing_variants);
 extern void func_800AD4D0(void *);
 extern s32 D_80171CE8;
 

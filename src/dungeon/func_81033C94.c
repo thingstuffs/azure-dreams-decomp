@@ -91,8 +91,8 @@ extern AllocationObject *func_8003FC64(s32 size);
 extern void func_8004491C(AllocationObject *allocation, void *callback);
 extern void func_8009A3D0(u8 x, u8 y, s32 mode);
 extern s32 func_800BCB04(u16 x, u16 y, s16 height);
-extern void func_800C77D0(AllocationObject *allocation, PayloadObject *payload, s32 value2, s32 value3);
-extern void *func_801748FC(void *owner, u32 x, u32 y, s16 value);
+extern void func_800C77D0(s32 slot_id, void *target, s32 target_id, s16 slot_value);
+extern void *func_801748FC(u8 *current, s32 wanted_24, s32 wanted_25, s32 height_center);
 
 /* Creates an object offset from the origin in the owner's facing direction and links its secondary object. */
 void func_80175494(Arg0Object *owner, Arg1Object *height_source, Arg2Object *origin) {
