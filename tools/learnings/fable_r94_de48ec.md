@@ -41,3 +41,19 @@ work/native_lane/r94_fable_de48ec/cand/g3_novol_nogoto.c (0 pins, 0 volatiles, 0
 - New kit tools: lanekit/frame_trace.py (+ frame_gdb.py), lanekit/frame_slack.py.
 Wanted (not built): prio.py/alloc_need.py on a PROPOSED edit (refs/live before compiling); why.py --pass sched
 --trace for two texts side by side; a frame-shift bucket in diff.py --scorer --classify.
+
+## Opus relay r94_opus_de48ec (same day) - nothing staged; the frame question narrowed to one measurement
+- Pin-free text with the RIGHT frame (80): work/native_lane/r94_opus_de48ec/cand/v1_e4clean.c - the 24-byte struct
+  local stays as the saved pointer's home (`state.saved_ptr = actor - 0x20;` passed, read back at the tail), no
+  volatiles, no goto, `return result;` - total 13 at cdk and 2.8.0 (Fable's 19 for this shape still had the scaffolding).
+  Residue: entry `addiu a0` vs retail `addiu t0; move a0,t0`; the `move a0,s1` position (pin 4); tail load order.
+- One hypothesis covers frame + entry + tail: retail = the struct text with two BLOCK-LOCAL pseudos made equivalent to
+  state.saved_ptr (store-equivalence local-alloc.c 1008-1021 at entry, load-equivalence 1086-1092 at the tail) and left
+  unallocated, so reload emits `addiu t0; sw t0,16(sp); move a0,t0` and `lw a0,16(sp)`. Blocker: cdk local-alloc
+  (472-477) allocates every block-local pseudo with reg_n_deaths == 1; validate_equiv_mem (583) refuses an
+  equivalence across a call. DECIDING MEASUREMENT (not yet run): can an honest shape make reg_n_deaths != 1 for that
+  pseudo (flow.c 2156 counts a REG_UNUSED set as a death; combine.c 2116-2312 adjusts it)? Needs a gdb probe printing
+  reg_n_deaths / reg_basic_block / reg_qty at local_alloc entry (frame_gdb.py has the plumbing) - kit gap.
+- Partials at 2.8.0 (not exact): q1_no12.c (REG $20/$6 erased, 3 pins) total 2 = only `li a2,8` behind
+  KEEP(update_flags); q7_no125.c (2 pins) total 4.
+- Third unreferenced-slot path (also excluded): reload1.c 6629 output reload of a REG_UNUSED pseudo is never stored.
