@@ -22,17 +22,15 @@ typedef struct S_80026C54_1 {
 void func_80026C54(void *effect) {
     S_80026C54_1 *linked_object;
     s16 state;
-    u16 state_value;
     s32 fade_value;
 
     linked_object = ((S_80026C54_0 *)effect)->unk_04;
     state = ((S_80026C54_0 *)effect)->unk_00.s;
-    state_value = *(volatile u16 *)effect;
 
     switch (state) {
     case 0:
         if (linked_object->unk_1A & 8) {
-            ((S_80026C54_0 *)effect)->unk_00.u = state_value + 1;
+            ((S_80026C54_0 *)effect)->unk_00.u++;
         }
         break;
 

@@ -27,7 +27,6 @@ typedef struct TownRoot {
 /* Invoke town callbacks and initialize state values with mode-dependent adjustments. */
 void func_800174E8(void) {
     TownRoot **root_ptr;
-    u8 *root_page;
     TownRoot *root;
     TownState *state;
 
@@ -52,7 +51,7 @@ void func_800174E8(void) {
         state->value4--;
         return;
     }
-    root_page = (u8 *) 0x80010000;
-    state = (*(TownRoot * volatile *) (root_page + 0x6000))->state;
+    root_ptr = (TownRoot **) ((s8 *)(&D_80016000));
+    state = (*root_ptr)->state;
     state->value8--;
 }

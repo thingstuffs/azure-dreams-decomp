@@ -22,17 +22,15 @@ typedef struct S_80024A30_1 {
 void func_80024A30(void *state) {
     S_80024A30_1 *trigger;
     s16 phase;
-    u16 phase_bits;
     s32 level;
 
     trigger = ((S_80024A30_0 *)state)->unk_04;
     phase = ((S_80024A30_0 *)state)->unk_00.s;
-    phase_bits = *(volatile u16 *)state;
 
     switch (phase) {
     case 0:
         if (trigger->unk_0C & 2) {
-            ((S_80024A30_0 *)state)->unk_00.u = phase_bits + 1;
+            ((S_80024A30_0 *)state)->unk_00.u++;
         }
         break;
 

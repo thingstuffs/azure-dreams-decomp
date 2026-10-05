@@ -22,17 +22,15 @@ typedef struct S_800203D8_1 {
 void func_800203D8(void *fade) {
     S_800203D8_1 *linked_obj;
     s16 state;
-    u16 state_value;
     s32 color;
 
     linked_obj = ((S_800203D8_0 *)fade)->unk_04;
     state = ((S_800203D8_0 *)fade)->unk_00.s;
-    state_value = *(volatile u16 *)fade;
 
     switch (state) {
     case 0:
         if (linked_obj->unk_04 & -32768) {
-            ((S_800203D8_0 *)fade)->unk_00.u = state_value + 1;
+            ((S_800203D8_0 *)fade)->unk_00.u++;
         }
         break;
 

@@ -7,7 +7,7 @@ typedef struct S_8002017C_0_pre {
 } S_8002017C_0_pre;   /* the 0x2 bytes before arg0 in func_8002017C, addressed as arg0[-1] */
 
 typedef struct S_8002017C_0 {
-    union { s16 s; volatile u16 u; } unk_00;   /* accessed as both */
+    union { s16 s; u16 u; } unk_00;   /* accessed as both */
     u16 unk_02;
     void * unk_04;
     s32 unk_08;
@@ -27,13 +27,11 @@ void func_8002017C(void *effect) {
     s32 fade_rgb;
     u16 delay;
     void *linked_object;
-    u16 state_snapshot;
     s16 next_state;
     u16 flags;
 
     linked_object = ((S_8002017C_0 *)effect)->unk_04;
     state = ((S_8002017C_0 *)effect)->unk_00.s;
-    state_snapshot = ((S_8002017C_0 *)effect)->unk_00.u;
     switch (state) {
     case 0:
         delay = ((S_8002017C_0 *)effect)->unk_02 - 1;
@@ -50,9 +48,7 @@ void func_8002017C(void *effect) {
         return;
     case 1:
         if (((S_8002017C_1 *)linked_object)->unk_2A & 1) {
-            do {
-                ((S_8002017C_0 *)effect)->unk_00.s = (s16) (state_snapshot + 1);
-            } while (0);
+            ((S_8002017C_0 *)effect)->unk_00.s++;
             return;
         }
         break;

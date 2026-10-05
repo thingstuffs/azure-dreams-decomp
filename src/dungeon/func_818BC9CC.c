@@ -134,6 +134,8 @@ s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
     S_func_818BC9CC_4 *draw_mode;
     S_func_818BC9CC_4 *draw_mode_2;
     S_func_818BC9CC_5 *render_ctx;
+    S_func_818BC9CC_5 *full_ctx;
+    S_func_818BC9CC_5 *tile_ctx;
     GameWork *render_state;
     s32 page_depth;
     s32 page_blend;
@@ -149,8 +151,8 @@ s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
     u16 texture_v;
     u16 coord;
     u8 intensity;
-    volatile s16 tile_window[4];
-    volatile s16 full_window[4];
+    s16 tile_window[4];
+    s16 full_window[4];
 
     render_state = &gameWork;
     scratch = (S_func_818BC9CC_2 *)0x1F800000;
@@ -305,11 +307,11 @@ s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
         if (scratch->unk_B4 < 0x1E0U) {
             full_window[1] = 0;
             full_window[0] = 0;
-            render_ctx = ((volatile S_func_818BC9CC_6 *)render_state)->unk_00;
+            full_ctx = ((S_func_818BC9CC_6 *)render_state)->unk_00;
             full_window[3] = 0xFF;
             full_window[2] = 0xFF;
-            draw_mode = render_ctx->unk_8D0;
-            render_ctx->unk_8D0 = (u8 *)draw_mode + 0x0C;
+            draw_mode = full_ctx->unk_8D0;
+            full_ctx->unk_8D0 = (u8 *)draw_mode + 0x0C;
             func_80067F20(draw_mode, 0, 0, func_80066460(0, 1, 0x280, 0x100), full_window);
             page_depth = 0;
 
@@ -343,11 +345,11 @@ s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
 
             tile_window[0] = 0;
             tile_window[1] = 0x80;
-            render_ctx = ((volatile S_func_818BC9CC_6 *)render_state)->unk_00;
+            tile_ctx = ((S_func_818BC9CC_6 *)render_state)->unk_00;
             tile_window[3] = 0x40;
             tile_window[2] = 0x40;
-            draw_mode_2 = render_ctx->unk_8D0;
-            render_ctx->unk_8D0 = (u8 *)draw_mode_2 + 0x0C;
+            draw_mode_2 = tile_ctx->unk_8D0;
+            tile_ctx->unk_8D0 = (u8 *)draw_mode_2 + 0x0C;
             func_80067F20(draw_mode_2, 0, 0, func_80066460(page_depth, page_blend, page_x, 0x100), tile_window);
 
             {
