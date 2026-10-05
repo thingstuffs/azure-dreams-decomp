@@ -268,7 +268,20 @@ python3 .../erase.py <row>                       # lone + all + every pair (<= 8
 python3 .../erase.py <row> --mode subset --budget 60
 python3 .../erase.py <row> --variant experiments/func_X/v7.c
 python3 .../erase.py <row> --variant cand.c --cfg "2.7.2-cdk-G0"   # byte totals at another cell
+python3 .../erase.py <row> --with-scaffold [--mode pair|subset] [--budget 60]   # + volatile / one-trip blocks as sites
 ```
+
+**`--with-scaffold`** (round 93; owner insight in `brief_paragraphs/fidelity_first.md`: pins fall TOGETHER with
+decompiler scaffolding): every `volatile` qualifier (`VOL#n`, erase = delete the word, `*(volatile T *)` -> `*(T *)`)
+and every one-trip block (`ONETRIP#n`: `do { } while (0)`, `while (0) { }`, `for (;0;) { }`; erase = drop the wrapper,
+BODY keeps a bare `{ }` so its locals keep their scope; nested blocks are separate sites; braceless bodies are not
+matched) becomes an erasable site after the pins, listed as `VOL#3 line 120`, and goes through lone / all / pair /
+subset like a pin. Comments and strings are ignored; a site inside a pin's own span is skipped. With the flag the
+pair set is not capped by `--pair-pins` (that would hide every pin x scaffold pair): it is the groups first (all pins,
+all VOL, all ONETRIP, all scaffold), the pin-only subsets, then every pin x scaffold pair (`--mode subset` adds each
+pin with a whole kind, and scaffold x scaffold pairs); `--budget` cuts from the end. The report ends with a "Pin +
+scaffold groups that fall together" line when a mixed group's residue is no larger than its best member. Without the
+flag nothing changes. (kitlib's `ONE_TRIP`/`BANNED` stay the admission-gate regexes; erase.py uses brace-matched spans.)
 
 Prints, and writes `erase_<func>.md`: every site with its line, its pin, its statement and the
 listing distance of erasing it **alone**; the distance with **all** pins erased; and the subsets -

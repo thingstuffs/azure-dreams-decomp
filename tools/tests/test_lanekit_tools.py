@@ -903,5 +903,84 @@ class CombineToolTests(unittest.TestCase):
         self.assertIsNone(self.CB.dump_stats(dump, "h"))
 
 
+class TestEraseScaffold(unittest.TestCase):
+    """erase.py --with-scaffold: VOL / ONETRIP site parsing and mixed erasure (no compile)."""
+
+    TEXT = (
+        "void f(void) {\n"
+        "    /* volatile in a comment; do { } while (0); */\n"
+        "    char *s = \"volatile\";\n"
+        "    x = *(volatile u8 *)(p + 1);\n"
+        "    u8 volatile y;\n"
+        "    do {\n"
+        "        a = 1;\n"
+        "        do {\n"
+        "            b = 2;\n"
+        "        } while (0);\n"
+        "    } while (0);\n"
+        "    while (0) {\n"
+        "        c = 3;\n"
+        "    }\n"
+        "    for (;0;) {\n"
+        "        d = 4;\n"
+        "    }\n"
+        "    do { e = 5; } while (1);\n"
+        "}\n")
+
+    def test_parse(self):
+        s = ER.scaffold_sites(self.TEXT)
+        self.assertEqual([(x[1], x[2]) for x in s], [("VOL", "#1"), ("VOL", "#2"), ("ONETRIP", "#1"),
+                         ("ONETRIP", "#2"), ("ONETRIP", "#3"), ("ONETRIP", "#4")])
+        self.assertEqual([x[5] for x in s], [4, 5, 6, 8, 12, 15])
+        self.assertEqual(ER.site_label(s[0]), "VOL#1 line 4")
+        self.assertEqual(ER.site_label(s[2]), "ONETRIP#1 line 6")
+
+    def test_erase_volatile(self):
+        s = ER.scaffold_sites(self.TEXT)
+        out = ER.erase_mixed(self.TEXT, [s[0], s[1]])
+        self.assertIn("*(u8 *)(p + 1)", out)
+        self.assertIn("u8 y;", out)
+        self.assertIn('"volatile"', out)                        # strings and comments stay untouched
+        self.assertIn("/* volatile in a comment", out)
+
+    def test_erase_one_trip_nested(self):
+        s = ER.scaffold_sites(self.TEXT)
+        inner = ER.erase_mixed(self.TEXT, [s[3]])
+        self.assertEqual(inner.count("while (0)"), self.TEXT.count("while (0)") - 1 + 0)
+        both = ER.erase_mixed(self.TEXT, [s[2], s[3]])
+        self.assertNotIn("a = 1;\n    } while (0)", both)
+        self.assertEqual(both.count("while (0)"), self.TEXT.count("while (0)") - 2)
+        self.assertEqual(both.count("{"), self.TEXT.count("{"))   # bodies keep their braces (scope)
+        self.assertIn("b = 2;", both)
+        allx = ER.erase_mixed(self.TEXT, s)
+        for tok in ("volatile u8", "u8 volatile", "do {\n        a", "while (0) {", "for (;0;)"):
+            self.assertNotIn(tok, allx)
+        self.assertIn("do { e = 5; } while (1);", allx)          # a real loop stays
+
+    def test_pin_inside_and_pin_mix(self):
+        text = ("void g(void) {\n    register s32 i ASM_REG(\"$22\");\n    do {\n        ASM_KEEP(i);\n"
+                "        x = *(volatile u8 *)p;\n    } while (0);\n}\n")
+        pins = kitlib.sites(text)
+        s = ER.scaffold_sites(text, pins)
+        self.assertEqual([x[1] for x in s], ["ONETRIP", "VOL"])
+        out = ER.erase_mixed(text, pins + s)
+        self.assertNotIn("ASM_", out)
+        self.assertNotIn("volatile", out)
+        self.assertNotIn("while (0)", out)
+        self.assertIn("x = *(u8 *)p;", out)
+
+    def test_subsets_and_default_unchanged(self):
+        sites = [("stmt", "ASM_KEEP", "a", 0, 1, 1, ""), ("stmt", "ASM_KEEP", "b", 2, 3, 2, ""),
+                 ("scaf", "VOL", "#1", 4, 5, 3, []), ("scaf", "ONETRIP", "#1", 6, 7, 4, [])]
+        want = ER.scaffold_subsets(sites, 2, 8, "pair")
+        self.assertIn((0, 1), want)
+        self.assertIn((2, 3), want)
+        self.assertIn((0, 2), want)
+        self.assertIn((1, 3), want)
+        self.assertNotIn((0, 1, 2, 3), want)
+        self.assertEqual(ER.site_label(("stmt", "ASM_KEEP", "x", 0, 1, 1, "")), "ASM_KEEP(x)")
+        self.assertEqual(ER.site_label(("reg", "ASM_REG", "22", 0, 1, 1, "")), "ASM_REG 22")
+
+
 if __name__ == "__main__":
     unittest.main()
