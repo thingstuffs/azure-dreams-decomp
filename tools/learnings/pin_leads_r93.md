@@ -63,3 +63,13 @@ Totals at 2.7.2-cdk-G0: inherited 1-pin text 6; spill text 35 (frame shift domin
 
 ## L8. Scaffolding (s1: 6 rows, 0 of ~120 respellings removed one barrier alone)  [confirms one_trip.md]
 Per barrier, what it holds (do not retry the natural spellings): town/8096D944 five `do { entry_index++; } while (0)`: ++ barrier = global.c loop-depth weight on the counter ($a0/$a1 swap dist 12); `entry = *slot` blocks dist 2 with a jtbl word. dungeon/80286AF8: `goto tally -> break` dist 161 (jump.c rotates the exit test and renumbers regs); empty `do {} while (0)` after `rh = jr;` dist 2 (cse copy-propagates jr->rh: `sll $2,$21,16` vs `$2,$2,16`; respellings if/else, test on rh, `rh = jr = f()+5`: all 2). town/80953900: two EMPTY barriers after `entity->quantity` +/- 1: dist 11/16 (sched hoists `timer = 0x10` and `lhu state` above the D_80012D5C load; the barrier orders store(quantity) -> load -> rest). main/func_80402A1C (8001BA1C): `loop: do { body } while (0); if (id_ptr < stack_end) goto loop;` -> do/while(cond) 135-144 (loop.c): this goto-loop is how the row avoids loop.c; `opcode = 0x48` wrapper dist 6 (the note splits the basic block, retail `li $14` sits before `lui $13`). slus/w_8003931C: the one-trips raise the ref weight of variables inside (index_byte/entry_index $s2/$s3 swap, 16-20). town/808B3620: 4-word copy loop avoiding loop.c; the 13-word struct assignment gives the identical loop (MIPS block-move expander, dist 7 with the right 4th arg) - retail wrote an explicit pointer copy loop. See goto_recipes.md section 8 for the joint-removal cases that DID work.
+
+## r93_opus_ca184 (dungeon/func_800CA184 11 -> 10, gotos 32 -> 24) - base-pointer facts
+- A REG-pinned (ASM_REG) constant base blocks loop.c's giv reduction (`li $5,K; addu` instead of `addiu $4,$16,K`):
+  walkers at base+K*stride are reduced givs of index loops over a PSEUDO base - type the scratchpad as a struct, index
+  loops, then erase the base pin (207 listing lines -> 10).
+- sched1 alias: a single-set constant base carries REG_EQUAL, so its stores are disjoint from symbol loads; retail
+  order (loads after scratch stores) = an unknown base. A COPY of the base made after a join label has no REG_EQUAL,
+  is free when global.c coalesces it, and must stay live while competing pointers are (owner review: ledger trade).
+- Keep a goto loop where retail does not strength-reduce (two bivs in one for(;;) split a register).
+- Exemplar with the same scratch layout, pin-free: src/town/func_800AF9D8.c.
