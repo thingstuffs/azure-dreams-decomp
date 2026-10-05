@@ -22,7 +22,7 @@ typedef struct S_80173E94_1 {
 
 typedef struct S_80173E94_2 {
     u8 pad_00[0x2];
-    volatile u16 unk_02;
+    u16 unk_02;
     u8 pad_04[0x2];
     u16 unk_06;
     u8 pad_08[0x2];
@@ -76,6 +76,7 @@ s32 func_80173E94(u8 *node, void *vertex_arg)
     register u8 *final_state;
     register u8 *packet_end;
     register u8 *packet;
+    u8 *mode_packet;
     u8 *vertex;
     void *previous;
     u32 depth_index;
@@ -91,7 +92,7 @@ s32 func_80173E94(u8 *node, void *vertex_arg)
 
     do {
         vertex_x = ((S_80173E94_2 *)vertex)->unk_02;
-        packet = *(u8 * volatile *)(scratch + 0x18);
+        packet = *(u8 * *)(scratch + 0x18);
         ((S_80173E94_1 *)scratch)->unk_00 = vertex_x;
         ((S_80173E94_1 *)scratch)->unk_02 = ((S_80173E94_2 *)vertex)->unk_06;
         ((S_80173E94_1 *)scratch)->unk_04 = ((S_80173E94_2 *)vertex)->unk_0A;
@@ -150,19 +151,19 @@ s32 func_80173E94(u8 *node, void *vertex_arg)
                 *ot_entry = ((u32)((ot_tag & 0xFF000000) | ((u32)((u32)packet & 0x00FFFFFF))));
             }
 
-            packet = *(u8 * *)(scratch + 0x18);
-            ((S_80173E94_1 *)scratch)->unk_18 = packet + 0xC;
+            mode_packet = *(u8 * *)(scratch + 0x18);
+            ((S_80173E94_1 *)scratch)->unk_18 = mode_packet + 0xC;
             shade_or_page = func_80066460(pixel_mode, blend_mode, page_x, pixel_mode);
-            func_80067F20(packet, 0, 0, (u16)shade_or_page, 0);
+            func_80067F20(mode_packet, 0, 0, (u16)shade_or_page, 0);
 
-            ((OrderingTag *)packet)->addr =
+            ((OrderingTag *)mode_packet)->addr =
                 ((OrderingTag *)(((S_80173E94_1 *)scratch)->unk_20.p2
                     + ((S_80173E94_1 *)scratch)->unk_C0))->addr;
-            packet = (u8 *)((u32)packet & 0x00FFFFFF);
+            mode_packet = (u8 *)((u32)mode_packet & 0x00FFFFFF);
             (*(u32 *)((u8 *)(((S_80173E94_1 *)scratch)->unk_20.p2) + ((S_80173E94_1 *)scratch)->unk_C0 * 4)) =
                 ((*(u32 *)((u8 *)(((S_80173E94_1 *)scratch)->unk_20.p2)
                     + ((S_80173E94_1 *)scratch)->unk_C0 * 4)) & 0xFF000000) |
-                (u32)packet;
+                (u32)mode_packet;
         }
 
         previous = ((S_80173E94_4_pre *)node)[-1].unk_00;

@@ -58,7 +58,6 @@ void func_80170A98(void *entity, S_80170A98_2 *motion, void *monster)
     s32 direction;
     s16 direction_copy;
     s16 old_direction;
-    u32 old_direction_raw;
     s32 facing_angle;
     Callback callback;
     u16 monster_flags;
@@ -79,9 +78,7 @@ void func_80170A98(void *entity, S_80170A98_2 *motion, void *monster)
     }
 
 
-    old_direction_raw = (*(volatile u8 *)((u8 *)entity + 0x6D));
-    old_direction_raw = old_direction_raw << 24;
-    old_direction = (s32)old_direction_raw >> 24;
+    old_direction = (*(s8 *)((u8 *)entity + 0x6D));
     if (func_800A9E70(entity, motion, monster, entity) != 0) {
         return;
     }

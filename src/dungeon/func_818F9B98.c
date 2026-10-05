@@ -2,7 +2,7 @@
 #include "shared/object_flags.h"
 
 typedef struct S_80025398_0 {
-    union { s16 s; volatile u16 u; u16 p; } unk_00;   /* accessed as both */
+    union { s16 s; u16 u; u16 p; } unk_00;   /* accessed as both */
     s16 unk_02;
     union { s16 s; u16 u; } unk_04;   /* accessed as both */
     u8 pad_06[0x4];
@@ -11,7 +11,7 @@ typedef struct S_80025398_0 {
     void * unk_34;
     u8 pad_38[0x60];
     u16 unk_98;
-    volatile s16 unk_9A;
+    s16 unk_9A;
 } S_80025398_0;   /* arg0 in func_80025398 */
 
 typedef struct S_80025398_1 {
@@ -119,10 +119,11 @@ void func_80025398(void *effect, void *unused, void *primitive)
             shade_cursor = (u8 *)shade_cursor - 1;
         } while (shade_index >= 0);
         state = ((S_80025398_0 *)effect)->unk_00.s;
+        ((S_80025398_0 *)effect)->unk_9A = 0x64;
     } else {
         state = ((S_80025398_0 *)effect)->unk_00.s;
+        ((S_80025398_0 *)effect)->unk_9A = 0x64;
     }
-    ((S_80025398_0 *)effect)->unk_9A = 0x64;
     next_state = ((S_80025398_0 *)effect)->unk_00.u + 1;
     switch (state) {
     case 0:
