@@ -150,3 +150,10 @@ Backward gotos that STAY (loop.c / loop notes act; rows and the pass that decide
 
 Pattern: scaffolding comes out in the same edit that restructures the goto next to it (the removed barrier was standing in for the structure the goto had), and almost never alone
 (s1: 0 of ~120 respellings, mechanisms: NOTE_INSN_LOOP_BEG/END = sched1 barrier + loop-depth ref weight + cse block end; goto->break dist 161; goto loop -> do/while 32-144).
+
+**Round 93 correction (r93_opus_vb4, dungeon/func_800D1A48 4 pins + 12 volatiles + 2 one-trips + 2 gotos -> 0):**
+a goto loop that measures 'retail-faithful' by `why.py --pass loop` loop count when structured may only look that way
+because m2c's text keeps TWO lockstep walkers per object (`p` and `p2 = p + K`). Rewrite with ONE walker per pointer
+(`quad[k+1]`, `packet + K` as expressions) before concluding: loop.c then combines every giv into retail's single
+register (`addiu $18,$20,1`), substitutes single-use invariants into call arguments, and loop-depth ref weighting fixes
+colours. Same lesson: r93_opus_p9 (800A02F0 one struct walker), r93_opus_p5.

@@ -15,3 +15,10 @@ analyses at the m2c text were stale); typing a callee from its definition / the 
    combine.py, prefs.py, alloc_need, dbr.py).
 Each step must stay byte-exact on its own (stage it: fewer leftovers/gotos/scaffolding stages even with equal pins), so
 the pin work starts from a clean, landed base.
+
+**Round 93 correction (r93_opus_vb4, dungeon/func_800D1A48 4 pins + 12 volatiles + 2 one-trips + 2 gotos -> 0):**
+a goto loop that measures 'retail-faithful' by `why.py --pass loop` loop count when structured may only look that way
+because m2c's text keeps TWO lockstep walkers per object (`p` and `p2 = p + K`). Rewrite with ONE walker per pointer
+(`quad[k+1]`, `packet + K` as expressions) before concluding: loop.c then combines every giv into retail's single
+register (`addiu $18,$20,1`), substitutes single-use invariants into call arguments, and loop-depth ref weighting fixes
+colours. Same lesson: r93_opus_p9 (800A02F0 one struct walker), r93_opus_p5.
