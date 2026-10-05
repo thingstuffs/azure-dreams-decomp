@@ -28,9 +28,9 @@ typedef struct S_80171040_1 {
 } S_80171040_1;   /* arg0 in func_80171040 */
 
 
-extern void func_800478B8(void *arg0);
-extern s32 func_800A45D8(u16 arg0, u16 arg1, s16 arg2);
-extern s16 func_800BCB04(u16 arg0, u16 arg1, s16 arg2);
+extern void func_800478B8(void *entity);
+extern s32 func_800A45D8(u16 x, u16 y, s16 z);
+extern s16 func_800BCB04(u16 x, u16 y, s16 min_height);
 
 /* Applies damped motion and height limits, updates the object, and checks its lifetime. */
 void func_80171040(void *state, void *position, void *object)

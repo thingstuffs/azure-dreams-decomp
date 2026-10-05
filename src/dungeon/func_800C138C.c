@@ -6,7 +6,7 @@ typedef struct Func800C138CData {
     void *arg2;
 } Func800C138CData;
 
-extern void func_800C6B40(void *arg0, void *arg1, void *arg2, s32 arg3);
+extern void func_800C6B40(void *context, void *position, void *sprite, s32 depth_bias);
 
 /* Process each linked state with func_800C6B40 in mode zero. */
 s32 func_800C6AEC(void *initial_state, void *context, void *data) {

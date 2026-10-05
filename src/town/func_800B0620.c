@@ -1,12 +1,12 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-extern s32 func_80049E1C(s32 arg0, s32 arg1, s32 arg2);
-extern void SD_Call(s32 arg0);
-extern void func_800ADB30(void *arg0);
-extern void close_twin_shop(void *arg0);
-extern void func_800B1778(s32 arg0, s32 arg1, s32 arg2);
-extern void func_800B17C0(s32 arg0, s32 arg1);
+extern s32 func_80049E1C(s32 selection, s32 step, s32 count);
+extern void SD_Call(s32 sound_id);
+extern void func_800ADB30(void *menu);
+extern void close_twin_shop(void *shop);
+extern void func_800B1778(s32 menu_context, s32 row, s32 selection);
+extern void func_800B17C0(s32 menu_context, s32 selection);
 extern s32 D_80082AB8;
 
 /* Handles grid menu navigation, confirmation, and cancellation. */

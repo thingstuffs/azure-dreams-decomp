@@ -24,8 +24,8 @@ typedef struct {
     TownVtable *vtable;
 } TownObject;
 
-extern void func_8009C120(TownObject *arg0, void *arg1, void *arg2, void *arg3);
-extern void func_8009C148(TownObject *arg0, void *arg1, void *arg2, void *arg3);
+extern void func_8009C120(TownObject *object, void *owner, void *context, void *extra_ptr);
+extern void func_8009C148(TownObject *object, void *owner, void *context, void *extra_ptr);
 
 extern s32 D_800834B8;
 extern u8 D_80091F64[];
@@ -51,7 +51,7 @@ typedef struct S_8009B2C4_1 {
 
 
 /* Dispatches town object actions for the active script and owner state. */
-s32 func_8009B2C4(TownObject *object, void *owner, void *context, void *arg3) {
+s32 func_8009B2C4(TownObject *object, void *owner, void *context, void *extra_ptr) {
     TownControl *control;
     TownControl *control_page;
     TownControl *owner_control;
@@ -71,12 +71,12 @@ s32 func_8009B2C4(TownObject *object, void *owner, void *context, void *arg3) {
                 }
             }
             if (D_800834B8 == (s32)&D_80092698) {
-                func_8009C120(object, owner, context, arg3);
+                func_8009C120(object, owner, context, extra_ptr);
                 return 1;
             }
             if (D_800834B8 == (s32)&D_800927EC) {
                 if (D_800CFCCC == 0) {
-                    func_8009C148(object, owner, context, arg3);
+                    func_8009C148(object, owner, context, extra_ptr);
                     return 1;
                 }
             }

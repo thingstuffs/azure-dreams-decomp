@@ -56,7 +56,7 @@ extern M2C_UNK D_8014CE5C;
 extern u8 D_8014FD0C[];
 extern u8 D_8014FD4C[];
 
-void *func_8014C854(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
+void *func_8014C854(s16 flags, s16 value_24, s16 value_25, s16 value_0A)
 {
     s32 kind;
     S_8014C854_1 *work;
@@ -71,9 +71,9 @@ void *func_8014C854(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
     s8 saved_arg2;
 
     work = 0;
-    saved_arg1 = arg1;
-    saved_arg2 = arg2;
-    saved_arg3 = arg3;
+    saved_arg1 = value_24;
+    saved_arg2 = value_25;
+    saved_arg3 = value_0A;
     obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         work = obj;
@@ -86,7 +86,7 @@ void *func_8014C854(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
         part_a = ((S_8014C854_0 *)obj)->unk_08;
         part_a->unk_0A = saved_arg3;
         part_b = ((S_8014C854_0 *)obj)->unk_0C;
-        kind = arg0 & 3;
+        kind = flags & 3;
         part_b->unk_25 = saved_arg2;
         part_b->unk_2C = D_8014FD0C;
         part_b->unk_24 = saved_arg1;
@@ -102,7 +102,7 @@ void *func_8014C854(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
             work->unk_14 = left;
             work->unk_1C = right;
         } else {
-            if (((arg0 & ~3) << 16) == 0 && !(work->unk_14 & 0x200)) {
+            if (((flags & ~3) << 16) == 0 && !(work->unk_14 & 0x200)) {
                 left = func_800A6D30();
                 if (left & 1) {
                     work->unk_1C |= 0x200;
@@ -113,7 +113,7 @@ void *func_8014C854(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
             }
         }
 
-        func_800A9C18(obj, part_a, part_b, arg0);
+        func_800A9C18(obj, part_a, part_b, flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_8014CE5C;

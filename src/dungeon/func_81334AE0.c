@@ -1,9 +1,9 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 
-s32 func_8009C93C(void *arg0, s32 arg1, s16 arg2, s32 arg3, s32 arg4);
-s16 func_800A2B5C(void *arg0);
-s32 func_800C7930(void *arg0, s32 arg1, s32 arg2, s32 arg3);
+s32 func_8009C93C(void *ptr, s32 value, s16 value_2, s32 value_3, s32 value_4);
+s16 func_800A2B5C(void *ptr);
+s32 func_800C7930(void *ptr, s32 value, s32 value_2, s32 value_3);
 
 /* Clear the entity flag and advance its action when both checks pass. */
 void func_8016BAE0(void *action_state, s32 check_arg, s32 action_arg, void *entity) {

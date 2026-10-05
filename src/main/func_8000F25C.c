@@ -30,16 +30,18 @@ void func_8002225C(
             lead_byte = *text;
             word_length = 0;
             if (lead_byte != space) {
-                s32 scan_space = 0x20;
-scan:
-                if (lead_byte != 0) {
+                do {
+                    s32 scan_space = 0x20;
+                    if (lead_byte == 0) {
+                        break;
+                    }
                     text += 2;
                     lead_byte = *text;
                     word_length++;
-                    if (lead_byte != scan_space) {
-                        goto scan;
+                    if (lead_byte == scan_space) {
+                        break;
                     }
-                }
+                } while (1);
             }
             byte_offset += word_length * 2;
             word_count++;

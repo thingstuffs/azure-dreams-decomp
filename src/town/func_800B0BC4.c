@@ -1,14 +1,14 @@
 #include "common.h"
 
 
-extern void *func_8003FC64(s32 arg0);
-extern void *func_8003FD64(s32 arg0, s32 arg1);
-extern void func_8004DCE0(s32 arg0);
+extern void *func_8003FC64(s32 flags);
+extern void *func_8003FD64(s32 flags, s32 list_head);
+extern void func_8004DCE0(s32 value);
 extern void func_8004DCEC(void);
-extern void func_800AE414(void *arg0);
-extern s32 func_800B0214(void *arg0);
+extern void func_800AE414(void *parameters);
+extern s32 func_800B0214(void *init_value);
 extern s32 func_800B0718(void);
-extern s32 func_800B1BEC(void *arg0, s32 arg1, s32 arg2);
+extern s32 func_800B1BEC(void *setup_value, s32 x, s32 y);
 extern u8 D_8001029C[];
 
 

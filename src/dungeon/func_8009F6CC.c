@@ -11,11 +11,11 @@ typedef struct DungeonArea {
     u8 pad[8];
 } DungeonArea;
 
-extern s32 func_8009A350(s16 x, s16 y, s32 arg2, u16 *tile);
+extern s32 func_8009A350(s16 x, s16 y, s32 value, u16 *tile);
 extern s32 func_800A6D30(void);
 extern s16 D_80081468[3];
 
-s32 func_800A4E2C(u8 *arg0, u8 *arg1)
+s32 func_800A4E2C(u8 *x_out, u8 *y_out)
 {
     u16 tile;
     s16 areaIndex;
@@ -42,8 +42,8 @@ s32 func_800A4E2C(u8 *arg0, u8 *arg1)
             if ((s16)func_8009A350((s16)(x - 1), y, 0, &tile) != 0) {
                 if ((tile & 0xF720) == 0) {
                     result = areaIndex;
-                    *arg0 = x;
-                    *arg1 = y;
+                    *x_out = x;
+                    *y_out = y;
                     return result;
                 }
             }
@@ -56,22 +56,22 @@ s32 func_800A4E2C(u8 *arg0, u8 *arg1)
             if ((s16)func_8009A350((s16)(x - 1), y, 0, &tile) != 0) {
                 if ((tile & 0xF720) == 0) {
                     result = 0;
-                    *arg0 = x;
-                    *arg1 = y;
+                    *x_out = x;
+                    *y_out = y;
                     return result;
                 }
             }
         }
     }
 
-    if ((u32)(*arg0 - 1) < 0x3E) {
-        if ((u32)(*arg1 - 1) < 0x3E) {
+    if ((u32)(*x_out - 1) < 0x3E) {
+        if ((u32)(*y_out - 1) < 0x3E) {
             result = 0;
             return result;
         }
     }
-    *arg0 = 1;
-    *arg1 = 1;
+    *x_out = 1;
+    *y_out = 1;
     result = 0;
     return result;
 }

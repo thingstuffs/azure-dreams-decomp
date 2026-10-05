@@ -60,7 +60,7 @@ extern u8 D_801714D4[16];
 extern u8 D_801740E0[16];
 extern u8 D_80174158[16];
 
-void *func_80170BB0(s16 arg0, s16 arg1, s16 arg2, s32 arg3)
+void *func_80170BB0(s16 mask, s16 value_at_24, s16 value_at_25, s32 value_at_0A)
 {
     s32 kind;
     s32 flags14;
@@ -83,13 +83,13 @@ void *func_80170BB0(s16 arg0, s16 arg1, s16 arg2, s32 arg3)
 
         part_a = ((S_80170BB0_0 *)object)->unk_08;
         handler = D_801740E0;
-        part_a->unk_0A = arg3;
+        part_a->unk_0A = value_at_0A;
         part_b = ((S_80170BB0_0 *)object)->unk_0C;
-        kind = arg0 & 3;
-        part_b->unk_25 = arg2;
+        kind = mask & 3;
+        part_b->unk_25 = value_at_25;
         actor2 = actor;
         part_b->unk_2C = handler;
-        part_b->unk_24 = arg1;
+        part_b->unk_24 = value_at_24;
         actor->unk_9E = 0;
 
         if (kind == 1) {
@@ -102,12 +102,12 @@ void *func_80170BB0(s16 arg0, s16 arg1, s16 arg2, s32 arg3)
             flags1c = actor->unk_1C | 0x2000;
             actor->unk_14 = flags14;
             actor->unk_1C = flags1c;
-        } else if (((arg0 & ~3) << 16) == 0 && !(actor->unk_14 & 0x200) && (func_800A6D30() & 1)) {
+        } else if (((mask & ~3) << 16) == 0 && !(actor->unk_14 & 0x200) && (func_800A6D30() & 1)) {
             func_800A48F0(actor, 1, (func_800A6D30() & 0x3F) | 0x20);
             part_b->unk_2C = D_80174158;
         }
 
-        func_800A9C18(object, part_a, part_b, arg0);
+        func_800A9C18(object, part_a, part_b, mask);
         actor2->unk_9A = 0xFF;
         actor2->unk_9C = -1;
         actor2->unk_8C = D_801714D4;

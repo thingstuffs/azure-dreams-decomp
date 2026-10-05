@@ -1,11 +1,11 @@
 #include "common.h"
 
-extern void func_80095C80(void *arg1);
-extern void func_80095094(void *arg1);
-extern s16 func_80095978(void *arg1, void *arg2);
-extern void func_80095A94(void *arg1, s16 arg2, void *arg3);
-extern void func_80094378(void *arg0, void *arg1, s32 arg2);
-extern void func_800940D0(void *arg0, void *arg1, s32 arg2);
+extern void func_80095C80(void *object);
+extern void func_80095094(void *object);
+extern s16 func_80095978(void *object, void *data);
+extern void func_80095A94(void *object, s16 value, void *data);
+extern void func_80094378(void *state, void *object, s32 context);
+extern void func_800940D0(void *state, void *object, s32 context);
 
 extern u8 D_800FE488[];
 extern u8 D_800CFCEF[];

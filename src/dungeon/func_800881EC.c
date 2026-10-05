@@ -10,22 +10,22 @@ extern void func_80048A44(void *a0, s16 a1, s16 a2, s32 a3);
 
 extern u8 D_800DCFF0[8];
 
-void func_8008D94C(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3) {
+void func_8008D94C(u8 *state_ptr, s32 value, u8 *target_ptr, u8 *angle_ptr) {
     u16 flags;
-    s32 idx;
+    s32 index;
     u8 *table;
 
-    flags = *(u16 *)(arg0 + 0xA2);
-    *(s8 *)(arg0 + 0x9A) = 0x24;
-    *(s8 *)(arg0 + 0x9B) = 0;
-    *(void **)(arg0 + 0x8C) = NULL;
-    *(u16 *)(arg0 + 0xA2) = flags & 0xFEFF;
+    flags = *(u16 *)(state_ptr + 0xA2);
+    *(s8 *)(state_ptr + 0x9A) = 0x24;
+    *(s8 *)(state_ptr + 0x9B) = 0;
+    *(void **)(state_ptr + 0x8C) = NULL;
+    *(u16 *)(state_ptr + 0xA2) = flags & 0xFEFF;
     func_80094E34();
 
     dungeonStatus.unk_04 = dungeonStatus.unk_04 * 2;
     table = &D_800DCFF0[0];
-    *(u8 **)(arg2 + 0x2C) = table;
+    *(u8 **)(target_ptr + 0x2C) = table;
 
-    idx = ((gameWork.view.viewAngle + *(s16 *)(arg3 + 0x2A) + 0x100) >> 9) & 7;
-    func_80048A44(arg2, table[idx], 0, 1);
+    index = ((gameWork.view.viewAngle + *(s16 *)(angle_ptr + 0x2A) + 0x100) >> 9) & 7;
+    func_80048A44(target_ptr, table[index], 0, 1);
 }

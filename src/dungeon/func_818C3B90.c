@@ -254,7 +254,8 @@ void func_818C3B90(State *action, Motion *motion, Motion *aux_arg)
         motion->z.val += motion->dz.val;
         if (action->timer >= action->duration) {
             func_800A56E0(0x300);
-            goto bump_state;
+            action->timer = 0;
+            action->state++;
         }
         break;
 
@@ -269,7 +270,6 @@ void func_818C3B90(State *action, Motion *motion, Motion *aux_arg)
     case 4:
         if (action->timer >= 49) {
             func_80024024(owner->target, action->byte9, owner);
-bump_state:
             action->timer = 0;
             action->state++;
         }

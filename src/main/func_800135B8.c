@@ -8,17 +8,17 @@ typedef struct S_800265B8_0 {
     u8 pad_28[0x4];
     s32 unk_2C;
     s32 unk_30;
-} S_800265B8_0;   /* arg0 in func_800265B8 */
+} S_800265B8_0;   /* menu in func_800265B8 */
 
 
 extern s32 func_8002168C(void);
 extern void func_80021904(void);
-extern void func_80025DC8(void *arg0);
-extern void func_8002651C(void *arg0);
-extern void func_80026920(void *arg0);
-extern void func_80027AFC(s32 arg0, s32 arg1);
-extern s32 func_80049DE8(s32 arg0, s32 arg1, s32 arg2);
-extern void SD_Call(s32 arg0);
+extern void func_80025DC8(void *state);
+extern void func_8002651C(void *context);
+extern void func_80026920(void *object);
+extern void func_80027AFC(s32 request, s32 mode);
+extern s32 func_80049DE8(s32 index, s32 delta, s32 limit);
+extern void SD_Call(s32 flags);
 
 /* Handles menu navigation with button repeat and dispatches the selected action. */
 void func_800265B8(u8 *menu)

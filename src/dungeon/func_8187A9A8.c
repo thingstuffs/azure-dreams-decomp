@@ -380,15 +380,14 @@ void func_8187A9A8(S_func_8187A9A8_4 *mesh, S_func_8187A9A8_2 *transform, S_func
                     if (texture_adjust != 0) {
                         if (scratch->unk_28 & 0x100) {
                             packet->unk_0E = texture_adjust;
-                            goto after_palette;
+                        } else {
+                            palette_id = texture_adjust + texture->clut;
+                            packet->unk_0E = palette_id;
                         }
-                        palette_id = texture_adjust + texture->clut;
                     } else {
                         palette_id = texture->clut;
+                        packet->unk_0E = palette_id;
                     }
-                    packet->unk_0E = palette_id;
-after_palette:
-                    ;
                 }
 
                 packet->unk_0C = scratch->unk_10.as_u16_10 +

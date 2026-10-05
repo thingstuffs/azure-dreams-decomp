@@ -359,7 +359,6 @@ void func_8196C568(Work *work, s32 position_arg, s32 sprite_arg)
                                 sprite->r = 0x80;
                                 *(Template12 *)&effect->motion.pad0[0x38] = D_800269A8;
                                 sprite->image = &effect->motion.pad0[0x38];
-                                goto flag_check;
                             }
                         }
                     }
@@ -402,7 +401,6 @@ void func_8196C568(Work *work, s32 position_arg, s32 sprite_arg)
             }
         }
 
-flag_check:
         if ((D_80082E80.unk_014 & 0x8000) == 0) {
             work->timer--;
             if (work->timer >= 0) {

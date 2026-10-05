@@ -4,11 +4,11 @@
 
 extern u8 D_800E1035[];
 
-extern void func_800A6480(void *arg0);
-extern s32 func_800AD6FC(void *arg0, s32 arg1, s32 arg2);
-extern void func_800A5F38(void *arg0, s32 arg1);
-extern void func_80098B38(s32 arg0);
-extern void func_800997FC(void *arg0);
+extern void func_800A6480(void *actor);
+extern s32 func_800AD6FC(void *state, s32 mode, s32 item);
+extern void func_800A5F38(void *object_context, s32 target);
+extern void func_80098B38(s32 slot);
+extern void func_800997FC(void *context);
 
 /* Handle an item against a target using its type flags, decrementing the counter on fallback. */
 s32 func_800BE4E8(void *target, s32 item) {

@@ -20,22 +20,22 @@ extern Slot D_800E3648[];
 extern Status D_800E39C8[];
 extern s32 func_8009A350(s16, s16, s32, u16 *);
 
-s32 func_800B500C(s16 arg0, s16 arg1, s16 arg2) {
+s32 func_800B500C(s16 x, s16 y, s16 z) {
     s32 rv;
     u16 flags;
     s32 i;
     s32 delta;
 
-    if ((func_8009A350(arg0 - 1, arg1, 0, &flags) << 16) == 0) {
+    if ((func_8009A350(x - 1, y, 0, &flags) << 16) == 0) {
         rv = -1;
         return rv;
     }
     if (flags & 0x20) {
         i = 0;
         do {
-            if (D_800E3648[i].active != 0 && D_800E39C8[i].x == arg0 &&
-                D_800E39C8[i].y == arg1) {
-                delta = arg2 - D_800E39C8[i].z;
+            if (D_800E3648[i].active != 0 && D_800E39C8[i].x == x &&
+                D_800E39C8[i].y == y) {
+                delta = z - D_800E39C8[i].z;
                 if (delta < 0) {
                     delta = -delta;
                 }

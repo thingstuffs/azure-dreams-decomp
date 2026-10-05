@@ -30,10 +30,10 @@ typedef struct {
 extern StructA_8002001C *func_8003C480(s32 arg0);
 extern void func_80402214(void);
 extern void func_804023C4(void);
-extern s32 func_80404C84(StructA_8002001C *arg0, s32 arg1);
-extern s32 func_804057F0(StructA_8002001C *arg0, s32 arg1);
-extern void func_80406F14(void *arg0, s32 arg1);
-extern s32 func_80407C10(StructA_8002001C *arg0);
+extern s32 func_80404C84(StructA_8002001C *init_value, s32 config_value);
+extern s32 func_804057F0(StructA_8002001C *init_option, s32 info_value);
+extern void func_80406F14(void *object, s32 value);
+extern s32 func_80407C10(StructA_8002001C *init_option);
 extern void func_80406F70(void);
 
 /* Allocates and initializes an object and installs its callback. */

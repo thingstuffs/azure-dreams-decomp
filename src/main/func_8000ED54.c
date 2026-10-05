@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern void func_80021B18(void *arg0, s32 arg1);
-extern s32 func_80021A04(s32 arg0, void *arg1);
-extern s32 func_80021B98(void *arg0, void *arg1, s32 arg2, s32 arg3);
+extern void func_80021B18(void *dest, s32 suffix_index);
+extern s32 func_80021A04(s32 count, void *text);
+extern s32 func_80021B98(void *path, void *buffer, s32 read_size, s32 block_offset);
 extern s32 D_800287CC;
 extern s32 D_80084128[];
 extern s32 D_80083E98[];

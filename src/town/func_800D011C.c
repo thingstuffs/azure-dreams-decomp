@@ -1,10 +1,10 @@
 #include "common.h"
 
-extern s32 func_800C30E0(void *arg0, void *arg1, s32 arg2);
+extern s32 func_800C30E0(void *object, void *request_data, s32 request_param);
 extern s32 func_800644B8(s32 angle);
 extern s32 func_80064584(s32 angle);
-extern s32 *func_8008FAC0(void *arg0, void *arg1);
-extern void func_800CDD98(void *arg0, void *arg1, s32 arg2);
+extern s32 *func_8008FAC0(void *box_a, void *box_b);
+extern void func_800CDD98(void *object, void *unusedArg, s32 initValue);
 
 extern u8 D_800CFCB4[];
 

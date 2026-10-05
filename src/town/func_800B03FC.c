@@ -1,14 +1,14 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-extern s32 func_80049E1C(s32 arg0, s32 arg1, s32 arg2);
-extern void SD_Call(s32 arg0);
-extern void func_800AD8CC(s32 *arg0);
-extern void func_800ADA1C(s32 *arg0);
-extern void func_800ADB04(s32 *arg0);
-extern void close_twin_shop(void *arg0);
-extern void func_800B1778(s32 arg0, s32 arg1, s32 arg2);
-extern void func_800B17C0(s32 arg0, s32 arg1);
+extern s32 func_80049E1C(s32 current_selection, s32 selection_step, s32 value);
+extern void SD_Call(s32 sound_id);
+extern void func_800AD8CC(s32 *menu);
+extern void func_800ADA1C(s32 *menu);
+extern void func_800ADB04(s32 *menu);
+extern void close_twin_shop(void *shop_ptr);
+extern void func_800B1778(s32 menu_value, s32 row, s32 selection);
+extern void func_800B17C0(s32 menu_value, s32 selection);
 
 extern s32 D_80082AB8;
 

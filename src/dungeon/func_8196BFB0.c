@@ -46,10 +46,10 @@ typedef struct S_8196BFB0_3 {
 } S_8196BFB0_3;   /* camera in func_8196BFB0 */
 
 
-extern void func_80024AF8(void *arg0, void *arg1, void *arg2,
-                          s16 arg3, s16 arg4, s16 arg5);
-extern s32 func_800A45D8(u16 arg0, u16 arg1, s16 arg2);
-extern s16 func_800BCB04(u16 arg0, u16 arg1, s16 arg2);
+extern void func_80024AF8(void *object, void *position, void *render_state,
+                          s16 x, s16 y, s16 z);
+extern s32 func_800A45D8(u16 x, u16 y, s16 z);
+extern s16 func_800BCB04(u16 x, u16 y, s16 z);
 
 extern s16 D_800269B4;
 

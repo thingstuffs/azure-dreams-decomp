@@ -15,11 +15,11 @@ typedef struct Object {
 extern u8 D_800E18C0[];
 extern u8 D_80088CA8[];
 
-extern s32 func_80042A80(Object *arg0);
-extern s32 func_80099194(void *arg0, s32 arg1);
-extern s32 func_8009929C(s32 arg0, s32 arg1);
-extern s32 func_80099368(void *arg0, s32 arg1);
-extern void func_800A90E8(void *arg0);
+extern s32 func_80042A80(Object *item);
+extern s32 func_80099194(void *src, s32 dst);
+extern s32 func_8009929C(s32 value, s32 dest);
+extern s32 func_80099368(void *data, s32 buffer);
+extern void func_800A90E8(void *selection);
 
 /* Processes an eligible object in two stages and returns the resulting value. */
 s32 func_8009965C(Object *object, s32 input_value) {

@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void *func_80016D98(s32 arg0);
+extern void *func_80016D98(s32 id);
 extern s32 func_800178A8(void *arg0, s32 arg1, s32 arg2);
 extern void *func_80017960(void *arg0, void *arg1, s32 arg2, s32 arg3);
 

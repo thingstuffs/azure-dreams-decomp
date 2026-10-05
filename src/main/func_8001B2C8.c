@@ -5,7 +5,7 @@ extern void func_8007C040(void *arg0, void *arg1, s32 arg2);
 extern void func_8007CAE8(void *arg0);
 extern s32 func_8040153C(void);
 extern void func_80401578(void);
-extern void func_80401BF4(void *arg0, s32 arg1);
+extern void func_80401BF4(void *target, s32 entry_index);
 extern void func_80408654(s32 arg0);
 extern u8 D_80400038[];
 extern u8 D_804000F8[];

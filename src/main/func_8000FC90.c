@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern void func_80022C48(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-extern void func_800226E0(s32 arg0, s32 arg1, s32 arg2);
-extern void func_80022AE8(s32 arg0);
+extern void func_80022C48(s32 record, s32 value_14, s32 entry_index, s32 value_0c, s32 value_20);
+extern void func_800226E0(s32 entity, s32 primary_data, s32 secondary_data);
+extern void func_80022AE8(s32 record);
 
 /* Sets record fields, processes its embedded data, and updates the record. */
 void func_80022C90(s32 record, s32 value_14, s32 entry_index, s32 value_0c, s32 value_20) {

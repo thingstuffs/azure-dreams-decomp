@@ -1,17 +1,17 @@
 #include "common.h"
 
 extern void func_8005A2FC(void);
-extern void func_8005A39C(s32 arg0);
+extern void func_8005A39C(s32 value);
 extern s32 func_8005A3F0(s32 a0);
 extern void func_8005A420(void *a0, s32 a1, s32 a2);
-extern void func_8005ACD0(s16 arg0);
+extern void func_8005ACD0(s16 value);
 extern s32 func_8005B378(s16 a0);
 extern s32 func_8005E7E0(s32 a0);
 extern void func_8005B320(void);
 extern s32 func_8005B3D8(s16 a0, s16 a1);
-extern void func_8005A5C8(s32 arg0, s32 arg1);
+extern void func_8005A5C8(s32 left_volume, s32 right_volume);
 extern void func_8005A4E8(u8 a0, u8 a1, u8 a2);
-extern void func_8005A56C(s32 arg0, s32 arg1, s32 arg2);
+extern void func_8005A56C(s32 mode, s32 value_1, s32 value_2);
 extern void func_80055B44(u8 a0);
 extern void func_800559B4(void);
 extern void func_80055864(void);

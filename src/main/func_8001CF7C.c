@@ -1,9 +1,9 @@
 #include "common.h"
 
-extern s32 func_80051B50(void *arg0, s32 arg1, s32 arg2);
-extern s32 func_80051520(void *arg0, s32 *arg1, s32 arg2);
-extern void func_80051804(s32 arg0, s32 arg1, s32 *arg2);
-extern void func_80051900(s32 *arg0);
+extern s32 func_80051B50(void *ptr, s32 value, s32 value2);
+extern s32 func_80051520(void *ptr, s32 *value_ptr, s32 value2);
+extern void func_80051804(s32 value, s32 value2, s32 *value_ptr);
+extern void func_80051900(s32 *value_ptr);
 extern s32 D_80084158;
 extern s32 D_804005EC;
 

@@ -256,7 +256,6 @@ void func_80172D08(void *action, void *motion, void *record, EntityRec *actor)
                 arc_sample = func_800644B8(((S_80172D08_0 *)action)->unk_96.s << 8) >> 4;
                 ((S_80172D08_0 *)action)->unk_A0 =
                     -(((S_80172D08_0 *)action)->unk_96.s << 19) - (arc_sample << 13);
-                goto vertical_done;
             } else {
                 s32 direction;
                 s32 height_delta;
@@ -290,7 +289,6 @@ void func_80172D08(void *action, void *motion, void *record, EntityRec *actor)
             ((S_80172D08_0 *)action)->unk_A0 = 0;
         }
 
-vertical_done:
         ((S_80172D08_0 *)action)->unk_90 += ((S_80172D08_0 *)action)->unk_A0;
         if (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0xE000) {
             ((Rec_func_80172D08_arg1 *)motion)->unk_14 = 0;

@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern void func_800C3050(void *arg0, s32 arg1, void *arg2, void *arg3,
-                          void *arg4, void *arg5);
-extern void func_800C641C(void *arg0, s32 arg1, s32 arg2);
+extern void func_800C3050(void *object, s32 slot_index, void *field_58_value, void *field_5c_value,
+                          void *field_7c_value, void *field_80_value);
+extern void func_800C641C(void *object, s32 setup_arg1, s32 setup_arg2);
 
 extern u8 D_800D5958[];
 extern u8 D_800D5960[];

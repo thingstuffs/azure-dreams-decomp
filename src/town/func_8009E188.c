@@ -2,10 +2,10 @@
 #include "shared/entity_objects.h"
 
 
-extern void func_8009539C(void *arg0);
-extern void func_8008F294(void *arg0, void *arg1);
-extern void func_8008F664(void *arg0, void *arg1);
-extern void func_8009C1B4(void *arg0, s32 arg1, void *arg2, s32 arg3);
+extern void func_8009539C(void *motion);
+extern void func_8008F294(void *value, void *context);
+extern void func_8008F664(void *collider, void *position);
+extern void func_8009C1B4(void *context, s32 object, void *state, s32 extra);
 
 /* Update target-relative motion and advance when the countdown expires. */
 void func_8009B8E8(void *state, s32 context, void *motion, s32 next_arg) {

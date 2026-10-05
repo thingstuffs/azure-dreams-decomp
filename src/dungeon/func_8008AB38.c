@@ -37,11 +37,11 @@ extern u8 D_800DD0F8[];
 extern void *D_8008B870;
 extern u8 D_800DD0F0;
 
-extern s32 func_80042900(void *arg0, s32 arg1);
-extern void func_80048A44(void *arg0, s32 arg1, s32 arg2, s32 arg3);
-extern void func_80099F04(s32 arg0);
-extern void func_80099F70(s32 arg0);
-extern void func_800A56E0(s32 arg0);
+extern s32 func_80042900(void *entry, s32 effect_id);
+extern void func_80048A44(void *obj, s32 frame_group, s32 frame_index, s32 slot_index);
+extern void func_80099F04(s32 firstEntryBase);
+extern void func_80099F70(s32 firstNodeBase);
+extern void func_800A56E0(s32 query_value);
 extern s32 func_800A5C70(void);
 
 /* Advances actor animation states, periodic events, and handler transitions. */

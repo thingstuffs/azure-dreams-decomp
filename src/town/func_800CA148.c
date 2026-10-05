@@ -1,9 +1,9 @@
 #include "common.h"
 
-extern s32 *func_8008FAC0(void *arg0, void *arg1);
-extern void func_800C3780(void *arg0, void *arg1, s32 arg2);
-extern void func_800C7C3C(void *arg0, void *arg1, s32 arg2);
-extern void func_800C7CAC(void *arg0, void *arg1, s32 arg2);
+extern s32 *func_8008FAC0(void *object, void *ptr);
+extern void func_800C3780(void *object, void *position, s32 update_arg);
+extern void func_800C7C3C(void *object, void *position, s32 update_arg);
+extern void func_800C7CAC(void *object, void *position, s32 update_arg);
 
 extern u8 D_800CFCB4[];
 extern s32 D_80113220[];

@@ -38,17 +38,17 @@ extern u8 D_800DDC9C[4][8];
 extern u8 D_800E3648[12];
 extern u8 D_800E39C8[12];
 
-extern void func_800194C4(s16 arg0);
+extern void func_800194C4(s16 resource_index);
 extern void func_80019648(void);
-extern s32 func_80019684(s16 arg0, s32 arg1, s16 arg2);
+extern s32 func_80019684(s16 object_index, s32 mode, s16 activate);
 extern void func_80019A74(void);
-extern s32 func_80033BC0(s32 arg0);
+extern s32 func_80033BC0(s32 value);
 extern void func_80044698(void);
-extern void func_80048088(s16 arg0);
-extern void SD_Call(s32 arg0);
+extern void func_80048088(s16 entity_type);
+extern void SD_Call(s32 flags);
 extern void func_800542BC(void);
 extern s32 func_800A6D30(void);
-extern s32 func_800A6DA4(s32 arg0, s32 arg1);
+extern s32 func_800A6DA4(s32 bound_a, s32 bound_b);
 
 /* Sets up dungeon floor encounters and monster records, including tutorial and special-floor events. */
 s32 func_80018E80(void)

@@ -43,10 +43,10 @@ extern RuntimeState D_80082A38;
 extern u8 D_800809C0[9];
 extern u8 D_80012D6E[9];
 
-extern void *func_8003FE78(s32 arg0, void *arg1, s16 arg2);
-extern void func_80037F70(RuntimeLinks *arg0);
-extern void func_80037D9C(RuntimeState *arg0, u8 arg1);
-extern void *memset(void *arg0, s32 arg1, u32 arg2);
+extern void *func_8003FE78(s32 flags_or_addr, void *buffer, s16 word_count);
+extern void func_80037F70(RuntimeLinks *context);
+extern void func_80037D9C(RuntimeState *input, u8 mode);
+extern void *memset(void *ptr, s32 value, u32 size);
 
 /* Create the runtime task and initialize its shared state and blocks. */
 void func_80037E58(void)

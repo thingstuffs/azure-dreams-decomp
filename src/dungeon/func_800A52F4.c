@@ -2,10 +2,10 @@
 #include "shared/game_work.h"
 
 
-extern void func_80042518(void *arg0, s32 arg1);
-extern s32 func_80042900(void *arg0, s32 arg1);
-extern void func_80042B68(void *arg0, s32 arg1);
-extern void func_80047784(void *arg0, s32 arg1, s32 arg2);
+extern void func_80042518(void *slots, s32 type);
+extern s32 func_80042900(void *entry, s32 effect_id);
+extern void func_80042B68(void *owner, s32 match_type);
+extern void func_80047784(void *object, s32 table_index, s32 entry_index);
 
 /* Initializes actor state and selects a display variant for its facing direction. */
 void func_800AAA54(void *actor, void *unused, void *display, u8 *facing_variants) {

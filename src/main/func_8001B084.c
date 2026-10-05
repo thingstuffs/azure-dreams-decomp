@@ -1,10 +1,10 @@
 #include "common.h"
 
-extern void func_80401BF4(void *arg0, s32 arg1);
-extern void func_8007CAD8(void *arg0, void *arg1);
-extern void func_80401F98(s32 arg0);
-extern s32 func_80401D28(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-extern void func_80401ED4(s32 arg0, s32 arg1);
+extern void func_80401BF4(void *buffer, s32 index);
+extern void func_8007CAD8(void *buffer_a, void *buffer_b);
+extern void func_80401F98(s32 request_id);
+extern s32 func_80401D28(void *buffer, s32 request_id, s32 value1, s32 value2, s32 entry_value);
+extern void func_80401ED4(s32 entry_id, s32 request_id);
 extern u8 D_8009DDD8[];
 
 /* Processes an entry using its table value and a temporary slot-5 buffer. */

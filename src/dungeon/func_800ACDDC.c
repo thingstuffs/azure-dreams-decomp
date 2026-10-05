@@ -5,8 +5,8 @@
 
 
 extern s32 func_800A2BDC(void *arg0);
-extern void func_800ACB98(void *arg0, s32 arg1, s32 arg2, void *arg3);
-extern void func_800ACD74(void *arg0, s32 arg1, s32 arg2, void *arg3);
+extern void func_800ACB98(void *entity, s32 unused, s32 status, void *event_state);
+extern void func_800ACD74(void *object_state, s32 unused_context, s32 properties, void *status);
 
 extern s16 D_800DCE68;
 

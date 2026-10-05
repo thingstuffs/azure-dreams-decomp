@@ -42,7 +42,7 @@ typedef struct S_8016F2E0_3 {
     u8 pad_20[0xA];
     s16 unk_2A;
     u8 pad_2C[0x41];
-    union { volatile u8 v; s8 n; } unk_6D;   /* accessed as both */
+    s8 unk_6D;
     u8 pad_6E[0x3];
     u8 unk_71;
     u8 pad_72[0x16];
@@ -124,7 +124,7 @@ void func_8016F2E0(void *entity, void *motion, register void *sprite)
         return;
     }
 
-    old_direction = (s8)((S_8016F2E0_3 *)actor)->unk_6D.v;
+    old_direction = ((S_8016F2E0_3 *)actor)->unk_6D;
     if (func_800A9E70(entity, motion, sprite, actor) != 0) {
         return;
     }
@@ -137,7 +137,7 @@ void func_8016F2E0(void *entity, void *motion, register void *sprite)
     }
     D_80174AD4[(*(u8 *)((u8 *)entity + (0x9A)))](entity, motion, sprite, actor);
 
-    if (old_direction != ((S_8016F2E0_3 *)actor)->unk_6D.n) {
+    if (old_direction != ((S_8016F2E0_3 *)actor)->unk_6D) {
         func_800AA36C(entity, motion, sprite, actor);
     }
 
@@ -224,13 +224,12 @@ void func_8016F2E0(void *entity, void *motion, register void *sprite)
                 (*(s16 *)((u8 *)entity + (0x92))) += ((S_8016F2E0_3 *)actor)->unk_88.u - floor_height;
                 ((S_8016F2E0_3 *)actor)->unk_88.u = floor_height;
             }
-            goto finish;
+        } else {
+            ((S_8016F2E0_3 *)actor)->unk_1C &= 0xF7FFFFFF;
         }
+    } else {
+        ((S_8016F2E0_3 *)actor)->unk_1C &= 0xF7FFFFFF;
     }
-
-    ((S_8016F2E0_3 *)actor)->unk_1C &= 0xF7FFFFFF;
-
-finish:
     ((S_8016F2E0_5 *)motion)->unk_0A = ((S_8016F2E0_3 *)actor)->unk_88.u + (*(u16 *)((u8 *)entity + (0x92)));
     ((S_8016F2E0_4 *)sprite)->unk_14.n |= 0x40;
 }

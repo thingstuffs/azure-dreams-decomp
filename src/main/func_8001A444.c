@@ -8,23 +8,23 @@ extern s32 D_80409278[];
 extern s32 D_8040927C[];
 
 s32 func_80401444(void) {
-    s32 var_v0;
+    s32 result;
 
-    var_v0 = 0;
+    result = 0;
     if (func_8007C9C8(D_80409270[0]) != 0) {
-        var_v0 = 1;
+        result = 1;
     } else {
         if (func_8007C9C8(D_80409274[0]) != 0) {
-            var_v0 = 2;
+            result = 2;
         } else {
             if (func_8007C9C8(D_80409278[0]) != 0) {
-                var_v0 = 3;
+                result = 3;
             } else {
                 if (func_8007C9C8(D_8040927C[0]) != 0) {
-                    var_v0 = 4;
+                    result = 4;
                 }
             }
         }
     }
-    return var_v0;
+    return result;
 }

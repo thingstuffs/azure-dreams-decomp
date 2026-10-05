@@ -1,18 +1,18 @@
 #include "common.h"
 
-extern void func_804084DC(void *arg0);
-extern void func_80406678(void *arg0);
-extern void func_8040701C(void *arg0, s32 arg1);
+extern void func_804084DC(void *ptr);
+extern void func_80406678(void *ptr);
+extern void func_8040701C(void *ptr, s32 value);
 
-void func_80407E08(void *arg0) {
-    s32 temp_a1;
+void func_80407E08(void *ptr) {
+    s32 value;
 
-    func_804084DC((u8 *)arg0 - 0x20);
-    temp_a1 = *(s32 *)arg0;
-    if (temp_a1 == 0) {
-        func_80406678(*(void **)((u8 *)arg0 + 0x14));
+    func_804084DC((u8 *)ptr - 0x20);
+    value = *(s32 *)ptr;
+    if (value == 0) {
+        func_80406678(*(void **)((u8 *)ptr + 0x14));
         return;
     } else {
-        func_8040701C(*(void **)((u8 *)arg0 + 0x14), temp_a1);
+        func_8040701C(*(void **)((u8 *)ptr + 0x14), value);
     }
 }

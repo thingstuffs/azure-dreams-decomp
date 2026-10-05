@@ -10,9 +10,9 @@ typedef struct {
     s32 unk8C[7];
 } Unk818110CC;
 
-extern s32 func_80049004(s32 *arg0, s32 arg1, s32 arg2);
-extern s32 func_80048FBC(s32 *arg0, s32 arg1);
-extern void func_800491CC(s32 arg0, s32 *arg1, s32 arg2);
+extern s32 func_80049004(s32 *buffer_slot, s32 entry_count, s32 clear_words);
+extern s32 func_80048FBC(s32 *values, s32 lookup_key);
+extern void func_800491CC(s32 entries, s32 *value, s32 count);
 extern s32 D_8002E5E8[3];
 
 /* Allocates object buffers and links them to the initialized three-word state. */

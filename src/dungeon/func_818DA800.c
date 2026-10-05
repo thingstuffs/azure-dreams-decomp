@@ -200,16 +200,13 @@ void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
         if (target_actor == 0) {
             actor->unk_72.as_u8 = actor_data->unk_24;
             actor->unk_73.as_u8 = actor_data->unk_25;
-            goto update;
-        }
-        {
+        } else {
             prim = ((S_func_818DA800_5 *)((u8 *)target_actor - 0x20))->unk_0C;
             actor->unk_72.as_u8 = ((S_func_818DA800_4 *)prim)->unk_24;
             actor->unk_73.as_u8 = ((S_func_818DA800_4 *)prim)->unk_25;
         }
     }
 
-update:
     motion->unk_00.half.unk_02.as_u16 =
         ((S_func_818DA800_2 *)((S_func_818DA800_5 *)(void *)actor_header)->unk_08)->unk_00.half.unk_02.as_u16;
     motion->unk_04.half.unk_06.as_u16 =
