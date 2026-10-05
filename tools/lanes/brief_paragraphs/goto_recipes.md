@@ -157,3 +157,10 @@ because m2c's text keeps TWO lockstep walkers per object (`p` and `p2 = p + K`).
 (`quad[k+1]`, `packet + K` as expressions) before concluding: loop.c then combines every giv into retail's single
 register (`addiu $18,$20,1`), substitutes single-use invariants into call arguments, and loop-depth ref weighting fixes
 colours. Same lesson: r93_opus_p9 (800A02F0 one struct walker), r93_opus_p5.
+
+**r93_sonnet_ct1 (labels-into-block clones 80BC1BA8 x4):** copying the ground-check tail into both arms removes both
+gotos and jump2 re-merges the copies, but the extra refs raise entity_base's global.c priority (2424 -> 2735) past a
+temp (2727) and swap $s2/$s3 (dist 50). Reading unk_88 through `entity` in both copies = dist 2 (one base register).
+Needs an allocation-level fix (Opus): one fewer entity_base ref that still loads through $19, or retail's store order
+kept with one more live unit. 80095160: retail keeps its `li -1; j` failure stub MID-function (jump2 merge target);
+a plain final `return -1` falls into the epilogue (dist 9).
