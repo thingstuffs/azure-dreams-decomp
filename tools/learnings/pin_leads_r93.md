@@ -113,3 +113,12 @@ Per barrier, what it holds (do not retry the natural spellings): town/8096D944 f
   re-read because the intervening stores use a different base ($6 vs $7; reload1.c ~7705). A global height needs
   priority < 1818 (life > 44 insns). Next: a natural second role that leaves no code and keeps two sets after combine
   (an assignment that reads the variable itself, combine.c ~2361).
+
+## r93_opus_nm1 (near-miss single pins, all open; leads)
+- w_800345B8 ASM_USE_NV (1 word): reorg try_merge_delay_insns deletes the else-arm head `li $8` identical to the
+  fall-through slot fill; the asm stops the merge (stop_search_p). Needs an arm head that is not identical.
+- w_80046C20 ASM_MEM_BARRIER (2): sched2 hazard tie with no birthing boost; ASM_USE's real job is to block combine's
+  copy-into-shift fold. Lead experiments/6c20/h/h8.c (0 pins, dist 2): a real store between copy and shift.
+- 8081FCE0 ASM_SCHED_BARRIER (2): sched1 birthing boost on single-set render_state; lead j2_loopconst (both pins
+  erased, `obj->unk_10 = D_80023DE0` direct, dist 36) needs local-alloc to rank the 0x1000 value above draw_state.
+- 80A20A28 ASM_KEEP_MEMDEP_NV (6): sched2 tie floats the profile_dst init above loop.c-hoisted constants.
