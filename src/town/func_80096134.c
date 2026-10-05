@@ -158,10 +158,6 @@ process:
         if (state_is_12_or_13) {
             s32 zero;
 
-#ifdef NON_MATCHING
-            zero = 0;
-#else
-#endif
             mode = is_available != 0;
         }
         created_entry = func_8009DFD8(((S_80093894_3 *)(&D_80110EB8))->unk_00, &work.pos, mode);

@@ -1,11 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-#ifdef NON_MATCHING
-#define value (value)
-#else
-#endif
-
 M2C_UNK func_80700C08();                     /* extern */
 M2C_UNK func_80701060();                            /* extern */
 

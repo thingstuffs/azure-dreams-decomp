@@ -64,10 +64,6 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
     state = S16_AT(effect_data, 0x0A);
     entity = owner - 0x20;
     source = PTR_AT(entity, 0x08);
-#ifdef NON_MATCHING
-    jump_table = (void **)((u8 *)D_80024058 - 0x4058);
-#else
-#endif
     switch (state) {
     case 0:
         S32_AT(display, 0x0C) = 0x00808080;

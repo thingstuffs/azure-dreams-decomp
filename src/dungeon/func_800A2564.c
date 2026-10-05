@@ -41,11 +41,10 @@ s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
     u8 *sprite;
     s32 world_z, depth, angle_y_offset, sort_depth;
     s32 tex_u, tex_width, tex_v, tex_height;
-    register s32 tex_left ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 tex_left;
     s32 tex_right;
     s32 tex_top;
     s32 tex_bottom;
-    s32 packed_uv;
     s16 quad_left, quad_top, quad_right, quad_bottom;
     u8 offset_x_byte, offset_y_byte;
     s32 visible, visible1, visible2, visible3;
@@ -107,7 +106,6 @@ s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
             sort_depth = U32(scratch, 0xC0);
             if ((u32)sort_depth < 0x1E0) {
                 func_800649A0();
-                tex_left = (s32)(scratch + 0x100);
                 matrix_or_prim = rotation_matrix;
                 U16(scratch, 0xB8) = U16(scratch, 0xB8) - 0xA0;
                 U16(scratch, 0xBA) = U16(scratch, 0xBA) - 0x78;
@@ -117,7 +115,7 @@ s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
                 angle_y = (camera_angles.c + 0x100) & 0x1FF;
                 angle_y_offset = U16(render_params, 0x18) - 0x100;
                 U16(scratch, 0x102) = angle_y + angle_y_offset;
-                func_80065820((u8 *)tex_left, matrix_or_prim);
+                func_80065820(scratch + 0x100, matrix_or_prim);
                 vertex3 = scratch + 0x88;
                 screen0 = scratch + 0xF0;
                 screen1 = scratch + 0xF4;
@@ -193,18 +191,10 @@ s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
                             tex_left = U32(scratch, 8);
                             tex_bottom = U32(scratch, 0x14);
                             tex_top = U32(scratch, 0xC);
-                            tex_right = tex_right + tex_left;
-                            tex_bottom = tex_bottom + tex_top;
-                            U32(scratch, 0x10) = tex_right;
-                            ASM_SET(packed_uv);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                            packed_uv = U32(scratch, 0xC);
-                            tex_bottom = tex_bottom << 8;
-                            packed_uv = packed_uv << 8;
-                            U32(scratch, 0x14) = tex_bottom;
-                            U32(scratch, 0xC) = packed_uv;
-                            packed_uv += tex_left;
-                            packed_uv += U16(sprite, 0x6) << 16;
-                            S32(prim, 0xC) = packed_uv;
+                            U32(scratch, 0x10) = tex_right + tex_left;
+                            U32(scratch, 0x14) = (tex_bottom + tex_top) << 8;
+                            U32(scratch, 0xC) <<= 8;
+                            S32(prim, 0xC) = U32(scratch, 0xC) + U32(scratch, 8) + (U16(sprite, 0x6) << 16);
                             S32(prim, 0x14) = U32(scratch, 0xC) + U32(scratch, 0x10) + (S16(sprite, 0x4) << 16);
                             S16(prim, 0x1C) = U32(scratch, 0x14) + U32(scratch, 8);
                             S16(prim, 0x24) = U32(scratch, 0x14) + U32(scratch, 0x10);
