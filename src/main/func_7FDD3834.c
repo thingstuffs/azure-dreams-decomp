@@ -1,6 +1,11 @@
 #include "common.h"
 #include "shared/game_work.h"
 
+
+typedef struct {
+    struct S_Ctx *ctx;
+} CtxHolder;
+
 typedef struct S_Ctx {
     u8 pad0[0x82C];
     s32 field_82C;
@@ -18,7 +23,7 @@ extern void func_80067F20(void *prim, s32 a1, s32 a2, s32 a3, s32 a4);
 /* Builds layered sprite tiles and texture-page commands for each linked node. */
 s32 func_8008A794(void *node_data, void *scroll_state)
 {
-    S_Ctx **ctx_ptr;
+    CtxHolder *ctx_ptr;
     s32 addr_mask;
     s32 tag_mask;
     s32 layer_offset;
@@ -33,9 +38,9 @@ s32 func_8008A794(void *node_data, void *scroll_state)
     void *sprite;
     void *draw_mode;
     void *next_node;
-    S_Ctx *ctx;
+    struct S_Ctx *ctx;
 
-    ctx_ptr = &gameWork.unk_000;
+    ctx_ptr = (CtxHolder *)&gameWork.unk_000;
     addr_mask = 0xFFFFFF;
     tag_mask = 0xFF000000;
 
@@ -52,8 +57,8 @@ s32 func_8008A794(void *node_data, void *scroll_state)
                 addr_mask += page_x;
                 addr_mask -= page_x;
                 do {
-                    sprite = (*ctx_ptr)->cur;
-                    (*ctx_ptr)->cur = (u8 *)sprite + 0x14;
+                    sprite = ctx_ptr->ctx->cur;
+                    ctx_ptr->ctx->cur = (u8 *)sprite + 0x14;
                     *(s32 *)((u8 *)sprite + 4) = 0x505050;
                     func_80066758(sprite);
                     func_80066640(sprite, 1);
@@ -69,19 +74,19 @@ s32 func_8008A794(void *node_data, void *scroll_state)
                     screen_y = (tile_y - scroll_y) + layer_offset;
                     *(s16 *)((u8 *)sprite + 10) = screen_y;
                     *(s16 *)((u8 *)sprite + 14) = func_8006649C(clut_x, 0x1F0);
-                    *(u32 *)sprite = (*(u32 *)sprite & tag_mask) | ((*ctx_ptr)->field_82C & addr_mask);
-                    *(volatile s32 *)&(*ctx_ptr)->field_82C =
-                        ((*ctx_ptr)->field_82C & tag_mask) | ((u32)sprite & addr_mask);
+                    *(u32 *)sprite = (*(u32 *)sprite & tag_mask) | (ctx_ptr->ctx->field_82C & addr_mask);
+                    ctx_ptr->ctx->field_82C =
+                        (ctx_ptr->ctx->field_82C & tag_mask) | ((u32)sprite & addr_mask);
 
-                    ctx = *(S_Ctx **)ctx_ptr;
+                    ctx = ctx_ptr->ctx;
                     draw_mode = ctx->cur;
                     ctx->cur = (u8 *)draw_mode + 0xC;
                     func_80067F20(draw_mode, 0, 0,
                                   func_80066460(1, 3, page_x, tile_y) & 0xFFFF, 0);
                     tile_col -= 1;
-                    *(u32 *)draw_mode = (*(u32 *)draw_mode & tag_mask) | ((*ctx_ptr)->field_82C & addr_mask);
+                    *(u32 *)draw_mode = (*(u32 *)draw_mode & tag_mask) | (ctx_ptr->ctx->field_82C & addr_mask);
                     page_x -= 0x80;
-                    (*ctx_ptr)->field_82C = ((*ctx_ptr)->field_82C & tag_mask) | ((u32)draw_mode & addr_mask);
+                    ctx_ptr->ctx->field_82C = (ctx_ptr->ctx->field_82C & tag_mask) | ((u32)draw_mode & addr_mask);
                 } while (tile_col >= 0);
                 tile_row += 1;
             } while (tile_row < 2);

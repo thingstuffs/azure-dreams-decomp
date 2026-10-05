@@ -8,7 +8,7 @@ typedef struct S_80037394_0 {
     u8 pad_48[0x2];
     s16 unk_4A;
     u8 pad_4C[0x18];
-    union { u16 s; volatile u16 u; } unk_64;   /* accessed as both */
+    u16 unk_64;
     s16 unk_66;
 } S_80037394_0;   /* arg0 in func_80037394 */
 
@@ -64,8 +64,10 @@ void func_80037394(void *state, s32 mode, void *output) {
     entry_offset = ((S_80037394_0 *)state)->unk_4A;
     entry_flags = ((S_80037394_1 *)(entry_data + entry_offset))->unk_4C;
     if (entry_flags & 0x80) {
-        ((S_80037394_0 *)state)->unk_64.s = ((S_80037394_0 *)state)->unk_64.s + 1;
-        if (((S_80037394_0 *)state)->unk_64.u & 1) {
+        s32 t;
+        ((S_80037394_0 *)state)->unk_64 = ((S_80037394_0 *)state)->unk_64 + 1;
+        t = ((S_80037394_0 *)state)->unk_64;
+        if (t & 1) {
             ((S_80037394_2 *)output)->unk_0C = 0xC0C0C0;
         } else {
             ((S_80037394_2 *)output)->unk_0C = 0;

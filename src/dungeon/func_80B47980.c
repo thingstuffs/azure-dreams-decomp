@@ -45,8 +45,6 @@ typedef struct S_80175180_5 {
 } S_80175180_5;   /* arg1 in func_80175180 */
 
 
-#define VFIELD(p, type, off) (*(volatile type *)((u8 *)(p) + (off)))
-
 extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern u8 D_801749EC[];
@@ -71,12 +69,12 @@ void func_80175180(void *source_arg, void *spawn_pos_arg)
         source_arg = func_80045340;
         func_8004491C(effect, source_arg);
         render_part = ((S_80175180_2 *)effect)->unk_0C;
-        render_part->unk_10 = 0x20;
-        render_flags = VFIELD(render_part, u16, 0x14);
+        render_flags = (*(u16 *)((u8 *)render_part + 0x14));
         render_flags |= 0xC;
-        VFIELD(render_part, u16, 0x14) = render_flags;
+        (*(u16 *)((u8 *)render_part + 0x14)) = render_flags;
+        render_part->unk_10 = 0x20;
         render_flags |= 0x80;
-        VFIELD(render_part, u16, 0x14) = render_flags;
+        (*(u16 *)((u8 *)render_part + 0x14)) = render_flags;
         position = ((S_80175180_2 *)effect)->unk_08;
         position->unk_00 = ((S_80175180_5 *)spawn_pos)->unk_00;
         position->unk_04 = ((S_80175180_5 *)spawn_pos)->unk_04;

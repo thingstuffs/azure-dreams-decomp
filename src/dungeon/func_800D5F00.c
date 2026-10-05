@@ -6,7 +6,6 @@ extern int D_80081550;
 extern int D_80081558;
 extern int D_80081554;
 extern unsigned char D_80071298[];
-extern volatile int D_80071250[];
 extern int D_800712B4[];
 extern int D_80084130[3];
 extern struct S_80083178State D_80083CE8;

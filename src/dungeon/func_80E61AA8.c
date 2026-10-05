@@ -57,7 +57,6 @@ void func_801712A8(void *entity, S_801712A8_2 *motion, void *monster)
     void *actor = entity;
     u16 direction;
     u32 direction_copy;
-    u32 old_direction_raw;
     Callback callback;
     u16 monster_flags;
     s16 floor_height;
@@ -77,9 +76,7 @@ void func_801712A8(void *entity, S_801712A8_2 *motion, void *monster)
     }
 
 
-    old_direction_raw = (*(volatile u8 *)((u8 *)entity + 0x6D));
-    old_direction_raw = old_direction_raw << 24;
-    direction = (s32)old_direction_raw >> 24;
+    direction = *(s8 *)((u8 *)entity + 0x6D);
     if (func_800A9E70(entity, motion, monster, entity) != 0) {
         return;
     }

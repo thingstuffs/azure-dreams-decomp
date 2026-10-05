@@ -83,7 +83,7 @@ void func_80174E78(Source *source, Vec3i *center)
         s32 next_angle;
         s16 radial_offset;
         u16 prim_flags;
-        volatile u16 *prim_flags_ptr;
+        u16 *prim_flags_ptr;
         Entity *setup_entity;
         s32 initial_count;
         s32 unit_scale;
@@ -107,8 +107,8 @@ void func_80174E78(Source *source, Vec3i *center)
         prim_flags_ptr = &prim->field_14;
         prim_flags = *(u16 *)prim_flags_ptr;
         prim_flags |= 0xC;
-        prim->field_10 = base_level;
         *prim_flags_ptr = prim_flags;
+        prim->field_10 = base_level;
         prim_flags |= 0x80;
         *prim_flags_ptr = prim_flags;
 

@@ -55,7 +55,7 @@ extern void *D_80175D68;
 /* Creates a linked object and initializes its position and rendering state. */
 void func_80170A5C(void)
 {
-    u16 object_z;
+    s32 object_z;
     u16 source_z;
     u16 object_y;
     S_func_81339A5C_1 *source_pos;
@@ -80,7 +80,7 @@ void func_80170A5C(void)
         object_pos = object->unk_08;
         object_pos->unk_02.u = source_pos->unk_02.u;
         object_pos->unk_06.u = source_pos->unk_06.u;
-        ((volatile S_func_81339A5C_1 *)object_pos)->unk_0A =
+        object_pos->unk_0A =
             ((S_func_81339A5C_1 *)source_pos)->unk_0A;
         source_z = ((S_func_81339A5C_1 *)source_pos)->unk_0A;
         object_y = ((S_func_81339A5C_1 *)object_pos)->unk_06.u;

@@ -78,12 +78,13 @@ void func_80170A94(void *actor, void *motion, void *sprite)
     }
     if (dirSpriteFlag[direction_index] != 0) {
         sprite_flags = (*((u16 *) (((u8 *) sprite) + 0x14))) | 1;
+        *((u16 *) (((u8 *) sprite) + 0x14)) = sprite_flags;
     }
     else {
         sprite_flags = (*((u16 *) (((u8 *) sprite) + 0x14))) & 0xFFFE;
+        *((u16 *) (((u8 *) sprite) + 0x14)) = sprite_flags;
     }
-    *((u16 *) (((u8 *) sprite) + 0x14)) = sprite_flags;
-    anim_flags = *((volatile u16 *) (((u8 *) sprite) + 0x14));
+    anim_flags = *((u16 *) (((u8 *) sprite) + 0x14));
     /* Select the animation path; afterwards physics_flags carries the flight bit. */
     physics_flags = anim_flags & 0x8000;
     switch (physics_flags) {

@@ -9,7 +9,7 @@ typedef struct S_80172F00_0 {
     u8 pad_00[0x8C];
     u8 * unk_8C;
     u8 pad_90[0x6];
-    union { s16 s; volatile u16 u; u16 p; } unk_96;   /* accessed as both */
+    union { s16 s; u16 p; } unk_96;   /* accessed as both */
     u16 unk_98;
     u8 pad_9A[0x1];
     u8 unk_9B;
@@ -37,6 +37,7 @@ void func_80172F00(void *action, EntityRec *motion, void *sprite, EntityRec *ent
     s32 tracked_entity;
     s32 state;
     u16 timer;
+    s32 timer_wide;
 
     state = ((S_80172F00_0 *)action)->unk_9B;
     direction = (entity->unk_6A >> 9) & 7;
@@ -100,10 +101,9 @@ void func_80172F00(void *action, EntityRec *motion, void *sprite, EntityRec *ent
         motion->unk_10 -= ((s16 *)((s8 *)dirStepY))[direction] << 15;
 
         timer_signed = ((S_80172F00_0 *)action)->unk_96.s;
-        timer = ((S_80172F00_0 *)action)->unk_96.u;
+        timer_wide = ((S_80172F00_0 *)action)->unk_96.p;
         if (timer_signed > 0) {
-            timer -= 1;
-            ((S_80172F00_0 *)action)->unk_96.p = timer;
+            ((S_80172F00_0 *)action)->unk_96.p = timer_wide - 1;
         } else if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
             ((S_80172F00_0 *)action)->unk_96.p = 0;
         }

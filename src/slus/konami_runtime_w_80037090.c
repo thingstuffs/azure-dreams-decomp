@@ -8,7 +8,7 @@ typedef struct {
     u8 unk48[2];
     s16 index;
     u8 unk4c[0x18];
-    volatile u16 counter;
+    u16 counter;
     s16 table_index;
 } Func37090Input;
 
@@ -48,8 +48,11 @@ void func_80037090(Func37090Input *state, void *context, Func37090Output *output
         entry = entries[entry_index];
     }
     if (entry & 0x80) {
+        s32 count;
+
         state->counter++;
-        if (state->counter & 1) {
+        count = state->counter;
+        if (count & 1) {
             output->color = 0xC0C0C0;
         } else {
             output->color = 0;

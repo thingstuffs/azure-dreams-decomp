@@ -126,7 +126,6 @@ static __inline__ s16 interpolate_value(s32 delta, s32 step, u16 start)
 void func_80168C88(u8 *effect, void *origin, void *color_in)
 {
     s16 phase;
-    u16 phase_bits;
     s32 red_scaled;
     s32 green_scaled;
     s32 step;
@@ -156,11 +155,10 @@ void func_80168C88(u8 *effect, void *origin, void *color_in)
     s32 one;
 
     phase = ((S_80168C88_0 *)effect)->unk_12.s;
-    phase_bits = *(volatile u16 *)(effect + 0x12);
     switch (phase) {
     case 0:
         if (((S_80168C88_0 *)effect)->unk_18.s < 6) {
-            ((S_80168C88_0 *)effect)->unk_12.u = phase_bits + 1;
+            ((S_80168C88_0 *)effect)->unk_12.u++;
         }
         break;
     case 1:

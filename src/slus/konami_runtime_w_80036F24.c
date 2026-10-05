@@ -6,7 +6,7 @@ typedef struct {
     u8 enabled;
     s16 data_index;
     u8 pad_4c[0x18];
-    volatile u16 frame;
+    u16 frame;
     s16 table_offset;
 } FuncInput;
 
@@ -43,8 +43,11 @@ void func_80036F24(FuncInput *input, s32 unused, FuncOutput *output) {
     data = input->data;
     flags = ((u8 *)data + input->data_index)[0x4C];
     if ((flags & 0x80) != 0) {
+        s32 frame;
+
         input->frame++;
-        if ((input->frame & 1) != 0) {
+        frame = input->frame;
+        if ((frame & 1) != 0) {
             output->value_0c = 0xC0C0C0;
         } else {
             output->value_0c = 0;

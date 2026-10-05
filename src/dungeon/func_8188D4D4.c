@@ -11,7 +11,7 @@ typedef struct S_80024CD4_0 {
     union { s16 s; u16 u; } unk_0A;   /* accessed as both */
     u8 pad_0C[0xA];
     s16 unk_16;
-    union { u16 s; volatile u16 u; s16 p; } unk_18;   /* accessed as both */
+    union { u16 s; u16 u; s16 p; } unk_18;   /* accessed as both */
     u16 unk_1A;
     u16 unk_1C;
     u8 pad_1E[0x4];
@@ -77,16 +77,11 @@ void func_80024CD4(void *effect, S_80024CD4_2 *transform, S_80024CD4_1 *visual) 
             call_transform = transform;
             base_value = ((S_80024CD4_0 *)effect)->unk_16;
             decaying_value = ((S_80024CD4_0 *)effect)->unk_18.s;
-            do {
-                rising_value = ((S_80024CD4_0 *)effect)->unk_1C;
-            } while (0);
-            decaying_value =
-                (u16) (decaying_value - ((s32) (decaying_value << 0x10) >> 0x13));
-            do {
-            } while (0);
+            decaying_value = (u16) (decaying_value - ((s32) (decaying_value << 0x10) >> 0x13));
+            ((S_80024CD4_0 *)effect)->unk_18.u = decaying_value;
+            rising_value = ((S_80024CD4_0 *)effect)->unk_1C;
             rising_value += 0x80;
             ((S_80024CD4_0 *)effect)->unk_1C = rising_value;
-            ((S_80024CD4_0 *)effect)->unk_18.u = decaying_value;
             func_8002522C(call_transform, base_value,
                 ((S_80024CD4_0 *)effect)->unk_18.p, (s16) rising_value,
                 effect - 0x20);

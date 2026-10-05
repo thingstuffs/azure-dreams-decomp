@@ -396,8 +396,8 @@ void func_800AC4C4(void) {
                 }
             }
             scratch->unk_14.s32 = (scratch->unk_14.s32 - 0x20) & ~0x3F;
-            column_rounding = ((volatile S_func_800AED64_4 *)scratch)->unk_14.s32;
             scratch->unk_18 = (scratch->unk_18 + 0x20) & ~0x3F;
+            column_rounding = scratch->unk_14.s32;
             if (column_rounding < 0) {
                 column_rounding += 0x3F;
             }
@@ -430,6 +430,7 @@ void func_800AC4C4(void) {
                         work_value = scratch->unk_138;
                         work_bits &= 3;
                         work_value += work_bits;
+                        scratch->unk_144 = work_value;
                     } else {
                         lookup_value = scratch->unk_11C;
                         if (work_bits >= (s32) lookup_value) {
@@ -438,14 +439,15 @@ void func_800AC4C4(void) {
                             work_value += (s32) lookup_value;
                             work_value += work_bits;
                             work_value -= 3;
+                            scratch->unk_144 = work_value;
                         } else {
                             work_value = scratch->unk_138;
                             work_value += work_bits;
+                            scratch->unk_144 = work_value;
                         }
                     }
-                    scratch->unk_144 = work_value;
                     tile_id = ((S_func_800AED64_8 *)(tile_map
-                        + (((volatile S_func_800AED64_4 *)(scratch))->unk_144 * 2)))->unk_00 & 0x3FFF;
+                        + (scratch->unk_144 * 2)))->unk_00 & 0x3FFF;
                     scratch->unk_C0 = tile_id;
                     if (tile_id != 0) {
                         tile_flags = ((S_func_800AED64_8 *)(tile_map + (scratch->unk_144 * 2)))->unk_00 & 0xC000;
@@ -456,10 +458,10 @@ void func_800AC4C4(void) {
                             scratch->unk_EC = 0;
                             scratch->unk_E4.s16 = 0;
                             scratch->unk_E0 = (u16) scratch->unk_14.s32 | (scratch->unk_0C << 0x10);
-                            scratch->unk_E8 = ((((volatile S_func_800AED64_4 *)(scratch))->unk_14.u16 + 0x40) & 0xFFFF)
+                            scratch->unk_E8 = ((u16) (scratch->unk_14.s32 + 0x40))
                                 | (scratch->unk_0C << 0x10);
                             scratch->unk_F0 = (u16) scratch->unk_14.s32 | ((scratch->unk_0C + 0x40) << 0x10);
-                            scratch->unk_F8 = ((((volatile S_func_800AED64_4 *)(scratch))->unk_14.u16 + 0x40) & 0xFFFF)
+                            scratch->unk_F8 = ((u16) (scratch->unk_14.s32 + 0x40))
                                 | ((scratch->unk_0C + 0x40) << 0x10);
                             gte_ldv3(vertex_input, (u8 *)scratch + 0xE8, (u8 *)scratch + 0xF0);
                             packet->unk_04.s32 = 0x2C404040;

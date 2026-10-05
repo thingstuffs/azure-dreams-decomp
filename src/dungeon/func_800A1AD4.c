@@ -2,148 +2,54 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-s32 func_8009A350();
-s32 func_800BCB04();
+s16 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
+s32 func_800BCB04(s32 x, s32 y, s16 min_height);
 extern u16 D_800DCE6C[];
 extern u16 D_800DCE8C[];
 
 /* Finds a nearby unblocked position with a distance below 0x200. */
-s32 func_800A7234(s32 x, s32 y, s32 z, s16 *out_x, s16 *out_y, s16 *out_distance) {
+s32 func_800A7234(s16 x, s16 y, s16 z, s16 *out_x, s16 *out_y, s16 *out_distance) {
     u16 tile_flags;
-    s32 tile_valid;
-    s32 packed_x;
-    s32 probe_x;
     s32 distance;
-    s32 shifted_x;
-    s32 shifted_y;
-    s32 inner_x;
-    s32 inner_y;
-    s32 outer_x;
-    s32 inner_count;
-    s32 inner_dir;
-    s32 outer_count;
-    u32 outer_dir;
-    s16 call_dir;
-    register s32 call_x ASM_REG("$4");
-    register s32 call_y ASM_REG("$5");
-    register s32 distance_z ASM_REG("$6");
-    u16 *flags_ptr;
-    s32 inner_offset;
-    s32 outer_offset;
-    s32 zero = 0;
-    u16 *tab_x;
-    u16 *tab_ox;
-    u16 *tab_oy;
-    s32 next_inner_dir;
-    s32 next_outer_dir;
-    register u16 dir_seed ASM_REG("$3");
-    register s32 base_x ASM_REG("$22");
-    register s32 base_y ASM_REG("$23");
-    s32 base_z;
-    u16 *dx;
-    u16 *dy;
-    u16 *oy;
-    s32 probe_y;
-    s32 found_x;
-    s32 found_y;
+    s32 i;
+    s16 dir;
 
-    outer_dir = y;
-    outer_count = z;
-    ASM_KEEP_NV(x);
-    probe_x = (s16)(x - 1);
-    probe_y = (s16)outer_dir;
-    tile_valid = func_8009A350(probe_x, probe_y, 0, &tile_flags);
-    base_x = x;
-    base_y = outer_dir;
-    base_z = outer_count;
-    if ((tile_valid << 0x10) != 0) {
-        if (!(tile_flags & 0x8820)) {
-            packed_x = x << 0x10;
-            distance = func_800BCB04((((packed_x >> 0xA) + 0x20) & 0xFFE0), ((probe_y << 6) + 0x20) & 0xFFE0,
-                (s16)(outer_count - 0x20));
+    if (func_8009A350(x - 1, y, 0, &tile_flags) != 0 && !(tile_flags & 0x8820)) {
+        distance = func_800BCB04(((x << 6) + 0x20) & 0xFFE0, ((y << 6) + 0x20) & 0xFFE0, z - 0x20);
+        if ((s16)distance < 0x200) {
+            *out_x = x;
+            *out_y = y;
+            *out_distance = distance;
+            return 1;
+        }
+    }
+
+    dir = dungeonStatus.unk_1E & 7;
+    for (i = 0; i < 8; i++, dir = (dir + 1) & 7) {
+        if (func_8009A350(x, y, dir, &tile_flags) != 0 && !(tile_flags & 0x8820)) {
+            distance = func_800BCB04((((x + dirStepX[dir]) << 6) + 0x20) & 0xFFE0,
+                (((y + dirStepY[dir]) << 6) + 0x20) & 0xFFE0, z - 0x20);
             if ((s16)distance < 0x200) {
-                *out_x = x;
-                *out_y = outer_dir;
+                *out_x = x + dirStepX[dir];
+                *out_y = y + dirStepY[dir];
                 *out_distance = distance;
                 return 1;
             }
         }
     }
 
-    goto scan_start;
-found:
-    found_x = *dx;
-    outer_offset = base_x + found_x;
-    *out_x = outer_offset;
-    found_y = *dy;
-    inner_offset = base_y + found_y;
-    *out_y = inner_offset;
-    *out_distance = distance;
-    return 1;
-scan_start:
-    tab_x = dirStepX;
-    shifted_x = base_x << 0x10;
-    inner_x = shifted_x >> 0x10;
-    shifted_y = base_y << 0x10;
-    inner_y = shifted_y >> 0x10;
-    inner_count = 0;
-    dir_seed = dungeonStatus.unk_1E;
-    inner_dir = dir_seed & 7;
-scan_inner:
-    call_x = inner_x;
-    call_y = inner_y;
-    call_dir = inner_dir;
-    if (!(((func_8009A350(call_x, call_y, call_dir, &tile_flags) << 0x10) == 0) || (tile_flags & 0x8820))) {
-        inner_offset = call_dir << 1;
-        dx = (u16 *)(inner_offset + (u32)tab_x);
-        distance_z = (s16)(base_z - 0x20);
-        dy = (u16 *)((u8 *)dirStepY + inner_offset);
-        distance = func_800BCB04(((((inner_x + (s16)*dx) << 6) + 0x20) & 0xFFE0), ((((inner_y + (s16)*dy) << 6)
-            + 0x20) & 0xFFE0), distance_z);
-        if ((s16)distance < 0x200) {
-            goto found;
+    dir = dungeonStatus.unk_1E & 0xF;
+    for (i = 0; i < 0x10; i++, dir = (dir + 1) & 0xF) {
+        if (func_8009A350(x + D_800DCE6C[dir] - 1, y + D_800DCE8C[dir], 0, &tile_flags) != 0 && !(tile_flags & 0x8820)) {
+            distance = func_800BCB04((((x + (s16)D_800DCE6C[dir]) << 6) + 0x20) & 0xFFE0,
+                (((y + (s16)D_800DCE8C[dir]) << 6) + 0x20) & 0xFFE0, z - 0x20);
+            if ((s16)distance < 0x200) {
+                *out_x = x + D_800DCE6C[dir];
+                *out_y = y + D_800DCE8C[dir];
+                *out_distance = distance;
+                return 1;
+            }
         }
-    }
-    inner_count += 1;
-    next_inner_dir = inner_dir + 1;
-    inner_dir = next_inner_dir & 7;
-    if (inner_count < 8) {
-        goto scan_inner;
-    }
-
-    outer_count = 0;
-    outer_x = (base_x << 0x10) >> 0x10;
-    dir_seed = dungeonStatus.unk_1E;
-    probe_x = (base_y << 0x10) >> 0x10;
-    outer_dir = dir_seed & 0xF;
-    tab_ox = D_800DCE6C;
-    tab_oy = D_800DCE8C;
-scan_outer:
-    distance_z = zero;
-    outer_offset = outer_dir << 1;
-    dx = (u16 *)(outer_offset + (u32)tab_ox);
-    flags_ptr = &tile_flags;
-    oy = (u16 *)(outer_offset + (u32)tab_oy);
-    call_x = *dx;
-    call_y = *oy;
-    call_x = (s16)(base_x + call_x - 1);
-    call_y = (s16)(base_y + call_y);
-    if (!(((func_8009A350(call_x, call_y, distance_z, flags_ptr) << 0x10) == 0) || (tile_flags & 0x8820))) {
-        call_x = (s16)*dx;
-        call_y = (s16)*oy;
-        call_x = (((outer_x + call_x) << 6) + 0x20) & 0xFFE0;
-        call_y = (((probe_x + call_y) << 6) + 0x20) & 0xFFE0;
-        dy = oy;
-        distance = func_800BCB04(call_x, call_y, (s16)(base_z - 0x20));
-        if ((s16)distance < 0x200) {
-            goto found;
-        }
-    }
-    outer_count += 1;
-    next_outer_dir = outer_dir + 1;
-    outer_dir = next_outer_dir & 0xF;
-    if (outer_count < 0x10) {
-        goto scan_outer;
     }
     return 0;
 }

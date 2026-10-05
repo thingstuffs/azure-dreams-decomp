@@ -124,10 +124,10 @@ void func_80170B50(void *owner_data, S_80170B50_5 *base_position, void *sprite_t
         ((S_80170B50_3 *)sprite)->unk_2C = &D_80173EB4;
         func_80047784(sprite, *((u8 *)&D_80173EB4 + ((((s32) (gameWork.view.viewAngle
             + (s16) ((S_80170B50_2 *)((u8 *)owner_data - 0x14))->unk_3E + 0x100) >> 9) & 7))), 0);
-        ((S_80170B50_3 *)sprite)->unk_10 = 0x20;
         sprite_flags = ((S_80170B50_3 *)sprite)->unk_14 | 0xC;
         ((S_80170B50_3 *)sprite)->unk_14 = sprite_flags;
-        *(volatile u16 *)((s8 *)sprite + 0x14) = sprite_flags | 0x80;
+        ((S_80170B50_3 *)sprite)->unk_10 = 0x20;
+        ((S_80170B50_3 *)sprite)->unk_14 |= 0x80;
         position = ((S_80170B50_0 *)object)->unk_08;
         position->unk_02 = (u16) base_position->unk_02;
         position->unk_06 = (u16) base_position->unk_06;

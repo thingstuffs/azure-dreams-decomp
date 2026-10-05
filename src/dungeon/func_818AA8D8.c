@@ -19,6 +19,7 @@ extern M2C_UNK D_800DECF8;
 void func_800240D8(void *effect, void *position, void *sprite)
 {
     s32 quarter_turn;
+    s32 rot;
     s32 rand_value;
     s32 rounded_random;
     s32 z_upper;
@@ -30,7 +31,8 @@ void func_800240D8(void *effect, void *position, void *sprite)
     *(u16 *)((u8 *) owner + 0x14) = (*(u16 *)((u8 *) owner + 0x14)) + 1;
     *(u16 *)((u8 *) effect + 0x36) = (*(u16 *)((u8 *) effect + 0x36)) + 1;
     *(u16 *)((u8 *) sprite + 0x1A) = (*(u16 *)((u8 *) sprite + 0x1A)) + 0x10;
-    *(u16 *)((u8 *) sprite + 0x1A) = (*(volatile u16 *)((u8 *) sprite + 0x1A)) & 0xFFF;
+    rot = *(u16 *)((u8 *) sprite + 0x1A);
+    *(u16 *)((u8 *) sprite + 0x1A) = rot & 0xFFF;
     switch (*(s16 *)((u8 *) effect + 0x34)) {
     case 0:
         if ((*(s16 *)((u8 *) effect + 0x36)) < (*(s16 *)((u8 *) effect + 0x38))) {

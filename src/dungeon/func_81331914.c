@@ -97,7 +97,7 @@ void func_80168914(S_func_81331914_0 *state, s32 *position, S_func_81331914_4 *c
     ObjectPayload *payload;
     S_func_81331914_2 *sprite;
     S_func_81331914_3 *object_position;
-    volatile ColorEntry *vertex_color;
+    ColorEntry *vertex_color;
     u16 ticks_left;
 
     if ((state->unk_12.s == 0) &&
@@ -140,7 +140,6 @@ void func_80168914(S_func_81331914_0 *state, s32 *position, S_func_81331914_4 *c
             object_position = object->unk_08;
             object_position->unk_00 = position[0];
             object_position->unk_04 = position[1];
-            step = 0;
             vertex_color = (ColorEntry *)payload;
             object_position->unk_08 = position[2];
 
@@ -148,13 +147,11 @@ void func_80168914(S_func_81331914_0 *state, s32 *position, S_func_81331914_4 *c
             sprite->unk_1C = sprite->unk_1E = 0x1000;
             sprite->unk_0C = sprite->unk_0D = sprite->unk_0E = 0x80;
 
-            do {
-                vertex_color->red = colors->unk_0C;
-                vertex_color->green = colors->unk_0D;
-                vertex_color->blue = colors->unk_0E;
-                step++;
-                vertex_color++;
-            } while (step < 4);
+            for (step = 0; step < 4; step++) {
+                vertex_color[step].red = colors->unk_0C;
+                vertex_color[step].green = colors->unk_0D;
+                vertex_color[step].blue = colors->unk_0E;
+            }
 
             if (segment_index == 0) {
                 payload->unk_00 = payload->unk_01 = payload->unk_02 =

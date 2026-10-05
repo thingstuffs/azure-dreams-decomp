@@ -82,8 +82,6 @@ void func_801745E0(Source *source, Vec3i *origin)
         s32 angle;
         s32 next_angle;
         s16 radial_offset;
-        u16 flags;
-        volatile u16 *prim_flags;
         Entity *init_entity;
         s32 lifetime;
         s32 unit_scale;
@@ -105,13 +103,9 @@ void func_801745E0(Source *source, Vec3i *origin)
         func_8004491C(init_entity, func_80045340);
 
         prim = entity->prim;
-        prim_flags = &prim->field_14;
-        flags = *(u16 *)prim_flags;
-        flags |= 0xC;
+        prim->field_14 |= 0xC;
         prim->field_10 = base_color;
-        *prim_flags = flags;
-        flags |= 0x80;
-        *prim_flags = flags;
+        prim->field_14 |= 0x80;
 
         position = entity->vec;
         position->x = origin->x;

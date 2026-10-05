@@ -3,7 +3,7 @@
 
 typedef struct S_80174934_0 {
     u8 pad_00[0x16];
-    union { s16 s; volatile u16 u; u16 p; } unk_16;   /* accessed as both */
+    union { s16 s; u16 u; u16 p; } unk_16;   /* accessed as both */
     u8 pad_18[0x2];
     union { s16 s; u16 u; } unk_1A;   /* accessed as both */
     u8 pad_1C[0x2];
@@ -104,8 +104,8 @@ void func_80174934(u8 *effect, Vec3w *origin, u8 *render_data)
     void *callback;
     u32 *vertex_color;
 
-    phase = ((S_80174934_0 *)effect)->unk_16.s;
     phase_bits = ((S_80174934_0 *)effect)->unk_16.u;
+    phase = ((S_80174934_0 *)effect)->unk_16.s;
     switch (phase) {
     case 0:
         render_data[0xC] = (u8)((effect[4] *

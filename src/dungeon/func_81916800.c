@@ -69,8 +69,8 @@ void BODY_NAME(void *tracker) {
     if (((S_81916800_1 *)countdown)->unk_00.u != 0) {
         ((S_81916800_1 *)countdown)->unk_00.s = (s8) (((S_81916800_1 *)countdown)->unk_00.u - 1);
     }
-    target_values = (*(void * volatile *)((u8 *)tracker + 0xC));
-    (*(u16 *)((u8 *)tracker + 4)) = (u16) ((S_81916800_4 *)((*(void **)((u8 *)tracker + 0xC))))->unk_02;
+    (*(u16 *)((u8 *)tracker + 4)) = (u16) ((S_81916800_4 *)(*(void **)((u8 *)tracker + 0xC)))->unk_02;
+    target_values = (*(void **)((u8 *)tracker + 0xC));
     (*(u16 *)((u8 *)tracker + 6)) = (u16) target_values->unk_06;
     (*(u16 *)((u8 *)tracker + 8)) = (u16) target_values->unk_0A;
     blend_state->unk_0A4 = (u16) ((u16)blend_state->unk_0A4) + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 4))

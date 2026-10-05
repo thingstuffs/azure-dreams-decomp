@@ -15,7 +15,7 @@ typedef struct S_800A2690_0 {
 } S_800A2690_0;   /* arg0 in func_800A2690 */
 
 typedef struct S_800A2690_1 {
-    volatile u16 unk_00;
+    u16 unk_00;
     u16 unk_02;
     u16 unk_04;
     u16 unk_06;
@@ -65,7 +65,7 @@ extern void func_80067F20(void *, s32, s32, u16, s32);
 void func_800A2690(void *effect)
 {
     u16 angle;
-    u16 base_x;
+    s32 base_x;
     u16 base_phase_x;
     u16 base_phase_y;
     u16 ticks_left;
