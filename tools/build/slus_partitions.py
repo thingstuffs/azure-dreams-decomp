@@ -207,7 +207,8 @@ def spans(source, aliases=None):
             if a>=m.start():break
             if re.match(r'#\s*(if|ifdef|ifndef)\b',d):nesting+=1
             elif re.match(r'#\s*endif\b',d):nesting-=1
-        if nesting or any(m.start()<=a<end for a,b,d in directives):
+        # `#line` markers (raw computed-goto texts carry them) only renumber lines; they never make a definition conditional
+        if nesting or any(m.start()<=a<end and not re.match(r'#\s*line\b',d) for a,b,d in directives):
             raise PartitionError('preprocessor-dependent function is unsupported: '+name)
         if name in result:raise PartitionError('duplicate C definition: '+name)
         result[name]=(m.start(),brace,end)
