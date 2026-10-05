@@ -422,65 +422,59 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
         } while (particle_count_m < 4);
 
         ((S_80024BE8_0 *)effect)->unk_7B--;
-        if (((S_80024BE8_0 *)effect)->unk_7B > 0) {
-            goto state_2;
-        }
+        if (((S_80024BE8_0 *)effect)->unk_7B <= 0) {
+            func_80044A50((u8 *)effect - 0x20);
+            color_mode = 4;
+            if (((S_80024BE8_3 *)source)->unk_60 != 0) {
+                ((S_80024BE8_0 *)effect)->unk_86.u = 0;
+                ((S_80024BE8_0 *)effect)->unk_0A.s++;
+                target_position = ((S_80024BE8_23_pre *)(((S_80024BE8_3 *)source)->unk_60))[-1].unk_00;
+                ((S_80024BE8_5 *)motion)->unk_00.at02.v = ((S_80024BE8_9 *)target_position)->unk_02;
+                ((S_80024BE8_5 *)motion)->unk_04.at02.v = ((S_80024BE8_9 *)target_position)->unk_06;
+                ((S_80024BE8_5 *)motion)->unk_08.at02.v = ((S_80024BE8_0 *)effect)->unk_78.u;
+                ((S_80024BE8_23 *)(((S_80024BE8_3 *)source)->unk_60))->unk_1C |= 0x10000000;
+                target_graphics = ((S_80024BE8_23_pre *)(((S_80024BE8_3 *)source)->unk_60))[-1].unk_04;
+                particle_count_m = 0x80;
+                ((S_80024BE8_10 *)target_graphics)->unk_0C = particle_count_m;
+                ((S_80024BE8_10 *)target_graphics)->unk_0D = particle_count_m;
+                ((S_80024BE8_10 *)target_graphics)->unk_0E = particle_count_m;
+                func_800419EC(color_mode, 8, target_graphics);
+                func_800A56E0(0x300);
 
-        func_80044A50((u8 *)effect - 0x20);
-        color_mode = 4;
-        if (((S_80024BE8_3 *)source)->unk_60 != 0) {
-            ((S_80024BE8_0 *)effect)->unk_86.u = 0;
-            ((S_80024BE8_0 *)effect)->unk_0A.s++;
-            target_position = ((S_80024BE8_23_pre *)(((S_80024BE8_3 *)source)->unk_60))[-1].unk_00;
-            ((S_80024BE8_5 *)motion)->unk_00.at02.v = ((S_80024BE8_9 *)target_position)->unk_02;
-            ((S_80024BE8_5 *)motion)->unk_04.at02.v = ((S_80024BE8_9 *)target_position)->unk_06;
-            ((S_80024BE8_5 *)motion)->unk_08.at02.v = ((S_80024BE8_0 *)effect)->unk_78.u;
-            ((S_80024BE8_23 *)(((S_80024BE8_3 *)source)->unk_60))->unk_1C |= 0x10000000;
-            target_graphics = ((S_80024BE8_23_pre *)(((S_80024BE8_3 *)source)->unk_60))[-1].unk_04;
-            particle_count_m = 0x80;
-            ((S_80024BE8_10 *)target_graphics)->unk_0C = particle_count_m;
-            ((S_80024BE8_10 *)target_graphics)->unk_0D = particle_count_m;
-            ((S_80024BE8_10 *)target_graphics)->unk_0E = particle_count_m;
-            func_800419EC(color_mode, 8, target_graphics);
-            func_800A56E0(0x300);
-
-            impact = func_8003FC64(0x212);
-            if (impact != 0) {
-                ((S_80024BE8_11 *)impact)->unk_10 = D_80024B14;
-                func_8004491C(impact, D_80045C34);
-                impact_sprite = (s32)(((S_80024BE8_11 *)impact)->unk_0C);
-                ((S_80024BE8_12 *)(void *)impact_sprite)->unk_10 = 0;
-                ((S_80024BE8_12 *)(void *)impact_sprite)->unk_14 |= 0xC;
-                impact_position = (s32)(((S_80024BE8_11 *)impact)->unk_08);
-                ((S_80024BE8_13 *)(void *)impact_position)->unk_02 = ((S_80024BE8_5 *)motion)->unk_00.at02.v;
-                ((S_80024BE8_13 *)(void *)impact_position)->unk_06 = ((S_80024BE8_5 *)motion)->unk_04.at02.v;
-                ((S_80024BE8_13 *)(void *)impact_position)->unk_08.at00.v = ((S_80024BE8_5 *)motion)->unk_08.at00.v;
-                animation = D_800258FC;
-                impact_sprite = (s32)(((S_80024BE8_11 *)impact)->unk_0C);
-                ((S_80024BE8_12 *)(void *)impact_sprite)->unk_08 = animation;
-                ((S_80024BE8_12 *)(void *)impact_sprite)->unk_0E = particle_count_m;
-                ((S_80024BE8_12 *)(void *)impact_sprite)->unk_0D = particle_count_m;
-                ((S_80024BE8_12 *)(void *)impact_sprite)->unk_0C = particle_count_m;
-                ((S_80024BE8_12 *)(void *)impact_sprite)->unk_1E = 1;
-                ((S_80024BE8_12 *)(void *)impact_sprite)->unk_1C = 1;
-                ((S_80024BE8_12 *)(void *)impact_sprite)->unk_14 ^= 0xC;
-                ((S_80024BE8_13 *)(void *)impact_position)->unk_08.at02.v =
-                    ((S_80024BE8_23 *)(((S_80024BE8_3 *)source)->unk_60))->unk_88;
+                impact = func_8003FC64(0x212);
+                if (impact != 0) {
+                    ((S_80024BE8_11 *)impact)->unk_10 = D_80024B14;
+                    func_8004491C(impact, D_80045C34);
+                    impact_sprite = (s32)(((S_80024BE8_11 *)impact)->unk_0C);
+                    ((S_80024BE8_12 *)(void *)impact_sprite)->unk_10 = 0;
+                    ((S_80024BE8_12 *)(void *)impact_sprite)->unk_14 |= 0xC;
+                    impact_position = (s32)(((S_80024BE8_11 *)impact)->unk_08);
+                    ((S_80024BE8_13 *)(void *)impact_position)->unk_02 = ((S_80024BE8_5 *)motion)->unk_00.at02.v;
+                    ((S_80024BE8_13 *)(void *)impact_position)->unk_06 = ((S_80024BE8_5 *)motion)->unk_04.at02.v;
+                    ((S_80024BE8_13 *)(void *)impact_position)->unk_08.at00.v = ((S_80024BE8_5 *)motion)->unk_08.at00.v;
+                    animation = D_800258FC;
+                    impact_sprite = (s32)(((S_80024BE8_11 *)impact)->unk_0C);
+                    ((S_80024BE8_12 *)(void *)impact_sprite)->unk_08 = animation;
+                    ((S_80024BE8_12 *)(void *)impact_sprite)->unk_0E = particle_count_m;
+                    ((S_80024BE8_12 *)(void *)impact_sprite)->unk_0D = particle_count_m;
+                    ((S_80024BE8_12 *)(void *)impact_sprite)->unk_0C = particle_count_m;
+                    ((S_80024BE8_12 *)(void *)impact_sprite)->unk_1E = 1;
+                    ((S_80024BE8_12 *)(void *)impact_sprite)->unk_1C = 1;
+                    ((S_80024BE8_12 *)(void *)impact_sprite)->unk_14 ^= 0xC;
+                    ((S_80024BE8_13 *)(void *)impact_position)->unk_08.at02.v =
+                        ((S_80024BE8_23 *)(((S_80024BE8_3 *)source)->unk_60))->unk_88;
+                }
+                ((S_80024BE8_5 *)motion)->unk_08.at02.v = ((S_80024BE8_23 *)(((S_80024BE8_3 *)source)->unk_60))->unk_88;
+            } else {
+                ((S_80024BE8_0 *)effect)->unk_0A.s = 8;
+                ((S_80024BE8_0 *)effect)->unk_82 = 0;
+                ((S_80024BE8_2 *)sprite)->unk_0C.at02.v = 0;
+                ((S_80024BE8_2 *)sprite)->unk_0C.at01.v = 0;
+                ((S_80024BE8_2 *)sprite)->unk_0C.at00u.v = 0;
             }
-            ((S_80024BE8_5 *)motion)->unk_08.at02.v = ((S_80024BE8_23 *)(((S_80024BE8_3 *)source)->unk_60))->unk_88;
-        } else {
-            ((S_80024BE8_0 *)effect)->unk_0A.s = 8;
-            ((S_80024BE8_0 *)effect)->unk_82 = 0;
-            ((S_80024BE8_2 *)sprite)->unk_0C.at02.v = 0;
-            ((S_80024BE8_2 *)sprite)->unk_0C.at01.v = 0;
-            ((S_80024BE8_2 *)sprite)->unk_0C.at00u.v = 0;
+            break;
         }
-        break;
-    }
-
-state_2:
         {
-
             ((S_80024BE8_5 *)motion)->unk_00.at00.v += ((S_80024BE8_5 *)motion)->unk_0C;
             ((S_80024BE8_5 *)motion)->unk_04.at00.v += ((S_80024BE8_5 *)motion)->unk_10;
             ((S_80024BE8_5 *)motion)->unk_08.at00.v += ((S_80024BE8_5 *)motion)->unk_14;
@@ -547,6 +541,7 @@ state_2:
                 (s16)((func_80069EF8() & 0xF) - 8));
             break;
         }
+    }
 
     case 3:
     {

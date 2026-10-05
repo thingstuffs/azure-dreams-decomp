@@ -57,7 +57,7 @@ extern s32 func_800654B0(InputPair *, InputPair *, InputPair *, InputPair *,
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_8006658C(void *, void *);
 extern void func_80066640(void *, s32);
-extern void func_80066708(void *, void *);
+extern void func_80066708(void *);
 extern void func_80067F20(void *, s32, s32, u16, s32);
 
 /* Project and enqueue a shaded quad, then enqueue its draw mode packet. */
@@ -92,7 +92,7 @@ void func_800A2E30(InputPair vertex_0, InputPair vertex_1, InputPair vertex_2,
         ((S_800A2E30_1 *)packet)->unk_0E = 0;
         ((S_800A2E30_1 *)packet)->unk_0D = 0;
         ((S_800A2E30_1 *)packet)->unk_0C = 0;
-        func_80066708(packet, quad_ctx);
+        func_80066708(packet);
     }
     func_80066640(packet, 1);
 

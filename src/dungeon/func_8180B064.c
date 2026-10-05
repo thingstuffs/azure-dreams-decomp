@@ -72,7 +72,6 @@ s32 func_80026864(void *objects, void *view_position, void *render_params)
     Face *face;
     u8 *sprite_data;
     u8 *main_object;
-    u8 *object_slot;
     u8 *main_entry;
     u8 *extra_entry;
     u8 *extra_object;
@@ -276,22 +275,17 @@ s32 func_80026864(void *objects, void *view_position, void *render_params)
         func_80026F1C(S32(main_entry, 8), S32(main_entry, 0xC), -2, S32(scratch, 0xC4));
     }
     object_index = 0;
-    object_slot = objects;
     ASM_USE_NV(vertices);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-loop_0:
-    {
-        if (PTR(object_slot, 0xC) != 0) {
+    do {
+        if (PTR(objects, 0xC + object_index * 4) != 0) {
             S32(scratch, 0x13C) = 0;
-            extra_object = PTR(object_slot, 0xC);
+            extra_object = PTR(objects, 0xC + object_index * 4);
             func_800453E0(extra_object + 0x20, S32(extra_object, 8), S32(extra_object, 0xC), (s16) U16(scratch, 0xC4));
-            extra_entry = PTR(object_slot, 0xC);
+            extra_entry = PTR(objects, 0xC + object_index * 4);
             func_80026F1C(S32(extra_entry, 8), S32(extra_entry, 0xC), 0, S32(scratch, 0xC4));
         }
         object_index += 1;
-        object_slot += 4;
-    }
-    if (object_index < 2)
-        goto loop_0;
+    } while (object_index < 2);
 
     sprite = PTR(objects, 0x14);
     if (sprite != 0) {

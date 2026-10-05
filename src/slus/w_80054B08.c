@@ -6,7 +6,7 @@ typedef struct S_800847D0
     u32 field8;
     u32 fieldC;
     u32 field10;
-    volatile u32 field14;
+    u32 field14;
     u32 field18;
     s16 field1C;
     s16 field1E;
@@ -90,11 +90,11 @@ void func_80054B08(s32 message)
         second_tag = (u8) (second_offset >> 24);
         status->field14 = second_offset;
         second_offset = second_offset & offset_mask;
+        status->field33 = second_tag;
         status->field14 = second_offset;
         second_offset = second_offset + 0x20;
-        status->field33 = second_tag;
         flags = D_800847D0.flags1;
-        *(u32 *) &status->field14 = ((u32)(second_offset + offset_base));
+        status->field14 = second_offset + offset_base;
         if (flags & 0x400) {
             D_800847D0.flags1 = flags | 0x4000;
             D_80084864.v = 2;

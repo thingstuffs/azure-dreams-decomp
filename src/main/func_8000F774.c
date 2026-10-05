@@ -42,9 +42,8 @@ void *func_80022774(void *buffer, void *layout)
     record_tag = 0x48;
     texture_data = 0x104058;
     table_sum = (unsigned long)D_800280B4;
-    table_sum += (unsigned long)record;
     entry_index = ((S_80022774_0 *)layout)->unk_08;
-    entry_addr = (entry_index * 0x18 - (unsigned long)record) + table_sum;
+    entry_addr = entry_index * 0x18 + table_sum;
     row_count = *(u8 *)(entry_addr + 0x17);
     width = *(u8 *)(entry_addr + 0x16) * 4;
     height = row_count * 0x11 + row_count - row_count;

@@ -16,14 +16,6 @@ typedef struct S_80047054_1 {
     u8 * unk_00;
 } S_80047054_1;   /* entry in func_80047054 */
 
-typedef struct S_80047054_2_pre {
-    u16 unk_00;
-} S_80047054_2_pre;   /* the 0x2 bytes before coords in func_80047054, addressed as coords[-1] */
-
-typedef struct S_80047054_2 {
-    u16 unk_00;
-} S_80047054_2;   /* coords in func_80047054 */
-
 
 /* Offset coordinates in unprocessed type-2 part chains and mark them processed. */
 void func_80047054(void *data, s32 flagged_x_offset, s32 y_offset, s32 x_offset)
@@ -33,7 +25,6 @@ void func_80047054(void *data, s32 flagged_x_offset, s32 y_offset, s32 x_offset)
     register u32 entry_addr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     u8 *entry;
     u8 *part;
-    u8 *coords;
     s32 part_entry_type;
     u32 entries_end;
     u16 x_or_end_flag;
@@ -53,24 +44,19 @@ void func_80047054(void *data, s32 flagged_x_offset, s32 y_offset, s32 x_offset)
                 flags = *part;
                 if (!(flags & 8)) {
                     *part = flags | 8;
-                    coords = part + 6;
-loop_1:
-                    {
+                    do {
                         if (*part & 0x40) {
-                            x_or_end_flag = ((S_80047054_2_pre *)coords)[-1].unk_00 + flagged_x_offset;
+                            x_or_end_flag = *(u16 *)(part + 4) + flagged_x_offset;
                         } else {
-                            x_or_end_flag = ((S_80047054_2_pre *)coords)[-1].unk_00 + x_offset;
+                            x_or_end_flag = *(u16 *)(part + 4) + x_offset;
                         }
-                        ((S_80047054_2_pre *)coords)[-1].unk_00 = x_or_end_flag;
+                        *(u16 *)(part + 4) = x_or_end_flag;
                         if (!(*part & 0x20)) {
-                            ((S_80047054_2 *)coords)->unk_00 = ((S_80047054_2 *)coords)->unk_00 + y_offset;
+                            *(u16 *)(part + 6) = *(u16 *)(part + 6) + y_offset;
                         }
-                        coords += 0xC;
                         x_or_end_flag = *part & 0x80;
                         part += 0xC;
-                    }
-                    if (!x_or_end_flag)
-                        goto loop_1;
+                    } while (!x_or_end_flag);
                 }
                 entries_end = ((S_80047054_0 *)header)->unk_08;
             } else {
