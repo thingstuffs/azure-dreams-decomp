@@ -39,8 +39,8 @@ Prototype lanes respelled some `M2C_UNK` params/fields as `s32`/`s32 *` (same C 
 1. r93_sonnet_own2: 8195281C / 8195E81C real switches exact only after a ROW RE-CARVE (merge the 28-byte data rows
    func_81952800 / func_8195E800 into the function rows + owner records). LANDING.md in the lane. Row-identity call.
 2. Gemini r93_agy_goto7 8009399C / 8009A108: `goto retry` loop -> self tail recursion (exact). Plausible? held/.
-3. r93_agy_goto4/5 80BC1BA8 80BC7BA8 80BCDBA8 80BD9BA8 (8009E0EC RESOLVED goto-free by r93_opus_p16, see below): goto into a label inside another
-   block (labels-into-blocks rule) - held/.
+3. RESOLVED: 80BC1BA8 80BC7BA8 80BCDBA8 80BD9BA8 + 80095160 goto-free by r93_opus_ct2 (tail in both arms + ref-free
+   duplicate; mid-function return stub); 8009E0EC by r93_opus_p16.
 4. r92_agyO_p2 80095160 landed with `move_failed:` (pre-existing label inside an if block) now reached by more gotos.
 6. town/func_808110CC: owner ACCEPTED (10-05) the visible redundant store `unk_A2 = 16;` (retail emits it) - landed.
 - dungeon/func_800CA184 (r93_opus_ca184, 11 -> 10 pins, gotos 32 -> 24): pointer copy `scratch = view_scratch;` after a join (copy-host shape, byte-free) - admissible? recorded in ledger/recipe_trades.jsonl.
