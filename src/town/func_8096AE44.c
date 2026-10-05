@@ -60,8 +60,8 @@ typedef struct S_801232DC_10 {
 
 typedef struct TownInitialPosition {
     void *data;
-    volatile u16 x;
-    volatile u16 y;
+    u16 x;
+    u16 y;
 } TownInitialPosition;
 
 extern void func_80123238(void);

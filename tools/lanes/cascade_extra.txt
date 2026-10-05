@@ -62,3 +62,4 @@ t137_switchbreak
 t138_protodef
 t139_dataextern
 t140_protoparams
+t125_dropvolatile

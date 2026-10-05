@@ -10,7 +10,7 @@ typedef struct S_800AFFB4_1 {
     union { volatile s32 s32; u16 u16; } unk_08;   /* accessed as both */
     volatile s32 unk_0C;
     union { volatile s32 s32; u16 u16; } unk_10;   /* accessed as both */
-    union { volatile s32 s32; volatile u16 u16; } unk_14;   /* accessed as both */
+    union { volatile s32 s32; u16 u16; } unk_14;   /* accessed as both */
     u8 pad_18[0x8];
     s32 unk_20;
     u8 pad_24[0x50];
