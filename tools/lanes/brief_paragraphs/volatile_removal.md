@@ -88,8 +88,17 @@ relocations the target lacks - keep the page macros on slus rows.
 22. A `volatile s32` stack PARAMETER (5th+ argument) copied into a local used once: make the parameter `s16` (its real
     width) and use it directly, drop the copy - local-alloc update_equiv_regs otherwise moves the single-use load down
     to its use (r93_sonnet_vb27, 4/4: 80095658, 800B3868, 800A3714, 800A2EA8).
+23. (owner 10-05) A dead-looking volatile READ in an otherwise empty arm (`(void)*(volatile u16 *)(e + 0x98)`) is the
+    surviving half of a no-op read-modify-write: write the RMW the siblings use (`entity->unk_98 &= 0xF7FFFFFF;` on a u16
+    field - a copy-paste mask with no effect); reload_cse_noop_set_p deletes the store, the load stays as retail
+    (r93_opus_fp1: 80B97298, 80CBD2E0, 800CE9F8). Take the mask from a sibling; never invent one.
+24. (owner 10-05) A volatile scalar local that retail stores to N($sp) and reloads: an address-taken scalar in the PS1
+    type-pun idiom, `x = K; ... y = *(s32 *)&x;` (8181175C, 81810D28, 81810CD8). A 4-byte struct does NOT work (rodata +
+    unaligned copies, or a register).
+25. (owner 10-05) `volatile u64 frame_pad;` with the slot NEVER accessed: gcc 2.7 reserves frame space only for an unused
+    AGGREGATE local, so retail's untouched bytes are evidence of one. Spell it honestly as
+    `s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */` - no invented type/name.
 Open: volatile u8* STORES through an induction pointer (80284068: loop.c biv->giv); volatiles that only order a
 read-modify-write triple in sched1 (8105F098); SPU/GPU/CD hardware registers are REAL volatiles, and so is library state shared with an interrupt handler (written
 inside EnterCriticalSection, a callback pointer reloaded between test and call) - ledger/real_volatiles.jsonl lists the
-classified sites; check a global's writers (`git grep -n 'D_X\s*=' -- src`) before working one; frame-pad volatile locals (no
-evidence for a real local); a dead store combine would merge (8132F204).
+classified sites; check a global's writers (`git grep -n 'D_X\s*=' -- src`) before working one;  a dead store combine would merge (8132F204).
