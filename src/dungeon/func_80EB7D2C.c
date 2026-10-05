@@ -81,12 +81,8 @@ extern u8 D_80174184[];
 extern u8 D_801741CC[];
 
 /* Updates the actor's animation state, timers, and action transitions. */
-void func_8017352C(void *in_entity, void *in_motion, void *in_sprite, void *in_actor)
+void func_8017352C(void *entity, void *motion, void *sprite, void *actor)
 {
-    void *entity;
-    register void *motion ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *sprite ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    void *actor;
     u8 *body_part;
     u8 *part_anim;
     DungeonGlobalStatus *global_base;
@@ -99,14 +95,10 @@ void func_8017352C(void *in_entity, void *in_motion, void *in_sprite, void *in_a
     u16 timer;
     u16 count;
 
-    entity = in_entity;
-    motion = in_motion;
-    sprite = in_sprite;
     body = ((S_8017352C_0 *)entity)->unk_A4;
     state = ((S_8017352C_0 *)entity)->unk_9B;
     body_part = body + 0x20;
     part_anim = body + 0x28;
-    actor = in_actor;
     switch (state) {
     case 0:
         ((S_8017352C_0 *)entity)->unk_90 += 0x80000;
@@ -193,24 +185,42 @@ void func_8017352C(void *in_entity, void *in_motion, void *in_sprite, void *in_a
             if ((func_80042900(actor, 1) << 16) != 0) {
                 return;
             }
+            (*(void * *)((u8 *)sprite + 0x2C)) = D_80174184;
+            func_80047784(sprite,
+                D_80174184[((gameWork.view.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                0);
+            ((S_8017352C_2 *)actor)->unk_1C.u |= 0x40000;
+            ((S_8017352C_5 *)body_part)->unk_04 |= 0x8000;
+            if (!(((S_8017352C_1 *)sprite)->unk_14 & 0x8000)) {
+                animate_counter_base = (u8 *)3;
+                ((S_8017352C_0 *)entity)->unk_96 = (s32)animate_counter_base;
+                ((S_8017352C_0 *)entity)->unk_98 &= 0xBFFF;
+                animate_counter_base = (u8 *)&dungeonStatus.unk_00;
+                count = ((S_8017352C_3 *)animate_counter_base)->unk_0A + 1;
+                ((S_8017352C_3 *)animate_counter_base)->unk_0A = count;
+                ((S_8017352C_0 *)entity)->unk_9B++;
+                return;
+            }
+            break;
+        } else {
+            (*(void * *)((u8 *)sprite + 0x2C)) = D_80174184;
+            func_80047784(sprite,
+                D_80174184[((gameWork.view.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                0);
+            ((S_8017352C_2 *)actor)->unk_1C.u |= 0x40000;
+            ((S_8017352C_5 *)body_part)->unk_04 |= 0x8000;
+            if (!(((S_8017352C_1 *)sprite)->unk_14 & 0x8000)) {
+                animate_counter_base = (u8 *)3;
+                ((S_8017352C_0 *)entity)->unk_96 = (s32)animate_counter_base;
+                ((S_8017352C_0 *)entity)->unk_98 &= 0xBFFF;
+                animate_counter_base = (u8 *)&dungeonStatus.unk_00;
+                count = ((S_8017352C_3 *)animate_counter_base)->unk_0A + 1;
+                ((S_8017352C_3 *)animate_counter_base)->unk_0A = count;
+                ((S_8017352C_0 *)entity)->unk_9B++;
+                return;
+            }
+            break;
         }
-        (*(void * *)((u8 *)sprite + 0x2C)) = D_80174184;
-        func_80047784(sprite,
-            D_80174184[((gameWork.view.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
-            0);
-        ((S_8017352C_2 *)actor)->unk_1C.u |= 0x40000;
-        ((S_8017352C_5 *)body_part)->unk_04 |= 0x8000;
-        if (!(((S_8017352C_1 *)sprite)->unk_14 & 0x8000)) {
-            animate_counter_base = (u8 *)3;
-            ((S_8017352C_0 *)entity)->unk_96 = (s32)animate_counter_base;
-            ((S_8017352C_0 *)entity)->unk_98 &= 0xBFFF;
-            animate_counter_base = (u8 *)&dungeonStatus.unk_00;
-            count = ((S_8017352C_3 *)animate_counter_base)->unk_0A + 1;
-            ((S_8017352C_3 *)animate_counter_base)->unk_0A = count;
-            ((S_8017352C_0 *)entity)->unk_9B++;
-            return;
-        }
-        break;
     case 2:
         timer = ((S_8017352C_0 *)entity)->unk_96 - 1;
         ((S_8017352C_0 *)entity)->unk_96 = timer;

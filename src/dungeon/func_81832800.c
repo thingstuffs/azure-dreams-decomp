@@ -112,10 +112,6 @@ typedef struct S_func_81832800_7 {
     s32 unk_04;
 } S_func_81832800_7;
 
-typedef struct S_func_81832800_8 {
-    s16 unk_00;
-} S_func_81832800_8;
-
 typedef struct S_func_81832800_9 {
     u16 unk_00;
 } S_func_81832800_9;
@@ -162,16 +158,13 @@ BODY_STORAGE void BODY_NAME(S_func_81832800_1 *effect, S_func_81832800_4 *positi
     s32 height_delta;
     s32 spawn_value;
     s32 height_step;
-    s32 source_y;
     s32 jitter_base;
     s32 scale_random;
-    s32 state_value;
-    s32 delta_x;
     s32 random_x;
     s32 random_y;
     s32 random_height;
     s32 jitter_count;
-    register s32 count ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 count;
     s32 rounded_x;
     s32 rounded_y;
     s32 rounded_height;
@@ -197,20 +190,15 @@ BODY_STORAGE void BODY_NAME(S_func_81832800_1 *effect, S_func_81832800_4 *positi
     S_func_81832800_2 *found_target;
     S_func_81832800_4 *height_position;
     u32 sprite_flags;
-    register s32 init_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 texture_word;
     void *particle_callback;
     S_func_81832800_7 *particle_texture;
 
-    sprite_flags = (u32) dirStepX;
     source = effect->unk_00;
-    init_value = source->unk_2A;
     source_sprite = ((S_func_81832800_3 *) ((u8 *) source - 0x20))->unk_0C;
-    count = (u16) init_value >> 8;
-    spawn_value = count & 0xE;
-    sprite_flags += spawn_value;
-    step_x = (s32) ((S_func_81832800_8 *) (void *) sprite_flags)->unk_00;
-    spawn_value += (s32) dirStepY;
-    step_y = (s32) ((S_func_81832800_8 *) (void *) spawn_value)->unk_00;
+    count = (u16) source->unk_2A >> 8;
+    step_x = *(s16 *) ((u8 *) dirStepX + (count & 0xE));
+    step_y = *(s16 *) ((u8 *) dirStepY + (count & 0xE));
     spawn_state = effect->unk_0A;
     effect->unk_50 = (u16) (effect->unk_50 - 1);
     source_object = (S_func_81832800_3 *) ((u8 *) source - 0x20);
@@ -238,27 +226,21 @@ BODY_STORAGE void BODY_NAME(S_func_81832800_1 *effect, S_func_81832800_4 *positi
                 do {
                     spawn_value = func_80069EF8();
                     jitter_position_x = object->unk_08;
-                    init_value = jitter_position_x->unk_00.parts.unk_02.as_u16;
                     jitter_x = spawn_value;
-                    jitter_base = init_value - 0x10;
+                    jitter_base = jitter_position_x->unk_00.parts.unk_02.as_u16 - 0x10;
                     if (spawn_value < 0) {
                         jitter_x = spawn_value + 0x1F;
                     }
-                    init_value = spawn_value - ((jitter_x >> 5) << 5);
-                    init_value = jitter_base + init_value;
-                    jitter_position_x->unk_00.parts.unk_02.as_u16 = (u16) init_value;
+                    jitter_position_x->unk_00.parts.unk_02.as_u16 = jitter_base + (spawn_value - ((jitter_x >> 5) << 5));
                     spawn_value = func_80069EF8(spawn_value, jitter_position_x, jitter_base);
                     jitter_position_y = object->unk_08;
-                    init_value = jitter_position_y->unk_04.parts.unk_06.as_u16;
                     jitter_y = spawn_value;
-                    jitter_base = init_value - 0x10;
+                    jitter_base = jitter_position_y->unk_04.parts.unk_06.as_u16 - 0x10;
                     if (spawn_value < 0) {
                         jitter_y = spawn_value + 0x1F;
                     }
-                    init_value = spawn_value - ((jitter_y >> 5) << 5);
-                    init_value = jitter_base + init_value;
+                    jitter_position_y->unk_04.parts.unk_06.as_u16 = jitter_base + (spawn_value - ((jitter_y >> 5) << 5));
                     jitter_count -= 1;
-                    jitter_position_y->unk_04.parts.unk_06.as_u16 = (u16) init_value;
                 } while (jitter_count >= 0);
                 particle_position = object->unk_08;
                 ((S_func_81832800_4 *) object->unk_08)->unk_08.parts.unk_0A.as_s16 =
@@ -281,11 +263,11 @@ BODY_STORAGE void BODY_NAME(S_func_81832800_1 *effect, S_func_81832800_4 *positi
                     sprite->unk_00 = particle_texture;
                     sprite_flags |= 0xC;
                     sprite->unk_14 = sprite_flags;
-                    init_value = particle_texture->unk_04;
+                    texture_word = particle_texture->unk_04;
                 }
                 sprite->unk_04 = 0;
                 sprite->unk_05 = 0;
-                sprite->unk_08 = init_value;
+                sprite->unk_08 = texture_word;
                 particle_data->unk_00 = effect;
                 particle_data->unk_4C = 0;
             }
@@ -315,22 +297,12 @@ BODY_STORAGE void BODY_NAME(S_func_81832800_1 *effect, S_func_81832800_4 *positi
             position->unk_00.as_s32 = (s32) ((S_func_81832800_4 *) source_object->unk_08)->unk_00.as_s32;
             position->unk_04.as_s32 = (s32) ((S_func_81832800_4 *) source_object->unk_08)->unk_04.as_s32;
             position->unk_08.as_s32 = (s32) ((S_func_81832800_4 *) source_object->unk_08)->unk_08.as_s32;
-            delta_x = (s8) source->unk_72;
-            state_value = source_sprite->unk_24;
-            source_y = source_sprite->unk_25;
-            delta_x -= state_value;
-            state_value = (s8) source->unk_73;
-            count = delta_x;
-            if (delta_x < 0) {
-                count = 0 - count;
-            }
-            state_value -= source_y;
-            jitter_count = abs(state_value);
+            count = abs((s8) source->unk_72 - source_sprite->unk_24);
+            jitter_count = abs((s8) source->unk_73 - source_sprite->unk_25);
             if (count < jitter_count) {
                 count = jitter_count;
             }
-            init_value = count * 4;
-            effect->unk_50 = init_value;
+            effect->unk_50 = count * 4;
             position->unk_0C = (s32) (step_x << 0x14);
             position->unk_10 = (s32) (step_y << 0x14);
             func_800A56E0(0x300);
@@ -345,8 +317,7 @@ BODY_STORAGE void BODY_NAME(S_func_81832800_1 *effect, S_func_81832800_4 *positi
             position->unk_04.as_s32 += position->unk_10;
             return;
         }
-        delta_x = 6;
-        effect->unk_50 = delta_x;
+        effect->unk_50 = 6;
         effect->unk_0A += 1;
         return;
 
@@ -416,10 +387,10 @@ BODY_STORAGE void BODY_NAME(S_func_81832800_1 *effect, S_func_81832800_4 *positi
                 sprite->unk_00 = D_800DED70;
                 sprite_flags |= 0xC;
                 sprite->unk_14 = sprite_flags;
-                init_value = (s32) ((S_func_81832800_7 *) D_800DED70)->unk_04;
+                texture_word = (s32) ((S_func_81832800_7 *) D_800DED70)->unk_04;
                 sprite->unk_04 = 0;
                 sprite->unk_05 = 0;
-                sprite->unk_08 = init_value;
+                sprite->unk_08 = texture_word;
                 object->unk_20 = effect;
                 particle_data->unk_4C = 0;
             }

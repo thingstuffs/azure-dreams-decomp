@@ -33,7 +33,7 @@ static __inline__ u8 direction_matches(Elem *entry, u8 direction) {
 
 /* Rebuild the actor's reachable-tile bitmap for its current move kind and hand back the chosen step. */
 s32 func_800A0E6C(void *actor, s32 kind, void *work, u16 *out) {
-    register u8 *actor_held ASM_REG("$19") = (u8 *)actor;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register u8 *actor_held ASM_REG("$19") = (u8 *)actor;
     u8 *work_p = (u8 *)work;
     u16 *out_p = out;
     Elem *s1;
@@ -52,7 +52,7 @@ s32 func_800A0E6C(void *actor, s32 kind, void *work, u16 *out) {
     s32 d;
     s32 s5v;
     s16 idx;
-    register s32 tail ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 tail ASM_REG("$2");
     E2970 *ct2;
     E2970 *ct1;
     E2970 *table;
@@ -187,7 +187,7 @@ s32 func_800A0E6C(void *actor, s32 kind, void *work, u16 *out) {
             s5v = masked >> 16;
             offsets = D_8006CD00;
             base_page = 0x800E0000;
-            ASM_KEEP_NV(base_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP_NV(base_page);
             x_offsets = (u16 *)(base_page - 0x3154);
             tail = (s16)(((masked >> 25) - 4) & 7);
             bit_next = &bitmap[tail];
@@ -216,7 +216,7 @@ s32 func_800A0E6C(void *actor, s32 kind, void *work, u16 *out) {
                     sh6 <<= 6;
                     zero += sh6;
                     zero &= 0xFFFF;
-                    ASM_USE(zero);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    ASM_USE(zero);
                     sh6 = (s32)&D_800DCEBC;
                     bitmap_idx += sh6;
                     call_a2 = (s16)(call_a2 - 0x20);
@@ -251,21 +251,22 @@ L_BCB8:
         actor_held[0x27] = s0;
     } else {
         {
-            register s32 final_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            s32 final_a2;
+            s32 dir;
 
             tail = 0xFF;
             actor_held[0x27] = tail;
             final_a2 = *(u16 *)(work_p + 0x88);
             tail = *(s16 *)(work_p + 0x2A);
             mod = *D_8006CD02;
-            final_a2 = (s16)(final_a2 - 0x20);
-            tail -= mod;
-            tail >>= 9;
-            scan_s0 = tail & 7;
-            r = func_800BCB04(D_800DCEAC[scan_s0] + (actor_held[0x24] << 6),
-                              D_800DCEBC[scan_s0] + (actor_held[0x25] << 6), final_a2);
+            final_a2 -= 0x20;
+            final_a2 <<= 16;
+            final_a2 >>= 16;
+            dir = ((tail - mod) >> 9) & 7;
+            r = func_800BCB04(D_800DCEAC[dir] + (actor_held[0x24] << 6),
+                              D_800DCEBC[dir] + (actor_held[0x25] << 6), final_a2);
             if ((s16)r < 0x200) {
-                tail = scan_s0 << 9;
+                tail = dir << 9;
                 *(u16 *)(work_p + 0x2A) = tail;
             }
             return 0;
