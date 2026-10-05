@@ -117,6 +117,18 @@ def mask_branch(line):
     return re.sub(r"0x[0-9a-f]+$", "TGT", line) if BRANCH_RE.match(line) else line
 
 
+JUMP_RE = re.compile(r"^(jal|j)(\s.*)?$")
+
+
+def tag_jumps(line):
+    """Display only: `j 0x39c8` -> `j 0x39c8  ; op2 jump`, `jal 0x36d8` -> `jal 0x36d8  ; op3 call`.  The scorer
+    normalises a j/jal target away but keeps the OPCODE (2 vs 3), so a jump retail vs a call in the C is a real
+    substitution; the tag makes the opcode explicit on every jump-class line.  Same tag on both sides of an
+    equal pair, so the diff alignment and the scorer's numbers are untouched."""
+    m = JUMP_RE.match(line)
+    return line if not m else line + ("  ; op2 jump" if m.group(1) == "j" else "  ; op3 call")
+
+
 def scorer_diff(text, ctx=3, norm_regs=False):
     """Diff lines (`-` retail, `+` generated) of the byte scorer's text; None when it has no
     `[idx] generated | retail` lines (a MATCH message, a SLUS region dump, a scorer error)."""
@@ -126,6 +138,7 @@ def scorer_diff(text, ctx=3, norm_regs=False):
     got, tgt = [r[1] for r in rows], [r[2] for r in rows]
     if norm_regs:
         got, tgt = canon_regs([mask_branch(l) for l in got]), canon_regs([mask_branch(l) for l in tgt])
+    got, tgt = [tag_jumps(l) for l in got], [tag_jumps(l) for l in tgt]
     return list(difflib.unified_diff(tgt, got, "retail", "generated", lineterm="", n=ctx))
 
 
