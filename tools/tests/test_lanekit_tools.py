@@ -809,5 +809,99 @@ class WhyDepsTableTests(unittest.TestCase):
         self.assertIn("birthing_insn_p is off after reload", out2)
 
 
+class CombineToolTests(unittest.TestCase):
+    """combine.py / combine_gdb.py (round 93): the static site tables of the cdk cc1 against its combine.c, and the
+    front end's wording on synthetic attempt records.  No compile and no gdb (the trace itself is validated on the
+    r93 fixtures, see README)."""
+
+    CELL = "2.7.2-cdk"
+
+    def setUp(self):
+        import shutil
+        import combine as CB
+        import combine_gdb as CG
+        self.CB, self.CG = CB, CG
+        self.cc1 = ROOT / "toolchain/compilers" / ("gcc-" + self.CELL) / "cc1"
+        self.have_bin = self.cc1.is_file() and shutil.which("objdump") and shutil.which("nm")
+
+    def test_source_returns_drop_inactive_blocks(self):
+        src = self.CG.source_returns(self.CELL, "try_combine")
+        if src is None:
+            self.skipTest("no combine.c for %s" % self.CELL)
+        self.assertEqual(len(src), 7)                         # the AUTO_INC_DEC return is compiled out on MIPS
+        self.assertEqual(len(self.CG.source_returns(self.CELL, "can_combine_p")), 11)   # HAVE_cc0's too
+        self.assertEqual(len(self.CG.source_returns(self.CELL, "combinable_i3pat")), 3)
+        keys = [self.CG.label_for("try_combine", c)[0] for _, c in src]
+        self.assertEqual(keys, ["not-insn", "can_combine_p", "i3pat", "i3pat-i1", "subst-fail", "no-recog",
+                                "other-no-recog"])
+
+    def test_site_table_pairs_the_cdk_binary_with_its_source(self):
+        if not self.have_bin:
+            self.skipTest("no cdk cc1 / binutils")
+        t = self.CG.site_table(self.cc1, self.CELL)
+        self.assertTrue(all(t["mapped"].values()))
+        ccp = t["routines"]["can_combine_p"]
+        self.assertEqual([s["key"] for s in ccp["sites"]],
+                         ["two-sets", "parallel-other", "no-set", "not-set", "no-set", "chain", "hard-reg",
+                          "dest-not-reg", "i3-clobber", "volatile-src", "volatile-between"])
+        self.assertEqual(ccp["sites"][5]["line"], 943)
+        self.assertEqual(set(ccp["locals"]) >= {"src", "dest", "all_adjacent"}, True)
+        self.assertEqual(len(t["routines"]["try_combine"]["ret"]), 1)
+        callees = {c[2] for c in ccp["calls"]}
+        self.assertTrue({"use_crosses_set_p", "reg_used_between_p", "find_reg_note"} <= callees)
+
+    def _att(self, **kw):
+        a = {"t": "attempt", "n": 250, "i3": 507, "i2": 506, "i1": 498, "ret": 0, "events": [],
+             "pat": {"i3": "(set (reg/v:SI 207) (ashiftrt:SI (reg:SI 215) (const_int 24)))",
+                     "i2": "(set (reg:SI 215) (ashift:SI (subreg:SI (reg/v:QI 210) 0) (const_int 24)))",
+                     "i1": "(set (reg/v:QI 210) (mem/s:QI (plus:SI (reg:SI 411) (const_int 1))))"},
+             "site": {"k": 1, "line": 1420, "key": "can_combine_p", "text": "can_combine_p refused", "cond": "if (...)"}}
+        a.update(kw)
+        return a
+
+    def test_chain_refusal_names_the_clause_and_the_store(self):
+        ev = [{"e": "can_combine_p", "role": "i2", "insn": 506, "succ": None, "ret": 1},
+              {"e": "can_combine_p", "role": "i1", "insn": 498, "succ": 506, "ret": 0, "clause": "use_crosses_set_p",
+               "clause_check": "ok", "src": "(mem/s:QI ...)", "dest": "(reg/v:QI 210)", "all_adjacent": 0,
+               "clause_detail": ["the source reads memory and a store lies between: insn 501 (set (mem:HI ...))"],
+               "site": {"k": 5, "line": 943, "key": "chain", "text": "chain", "cond": "if (...)"}}]
+        a = self._att(events=ev)
+        self.assertEqual(self.CB.reason(a)[0], "can_combine_p(i1): use_crosses_set_p")
+        out = "\n".join(self.CB.detail(a))
+        self.assertIn("can_combine_p(i1 498, succ 506) REFUSED at combine.c:943 - chain clause use_crosses_set_p", out)
+        self.assertIn("insn 501", out)
+        self.assertIn("[combine.c:943]", self.CB.line_of(a))
+
+    def test_combined_and_no_recog(self):
+        a = self._att(ret=432, site=None, new={"i3": "(set (reg/v:SI 199) (sign_extend:SI (mem/s:QI ...)))",
+                                               "i3_kind": "insn", "i2_kind": "note", "i1_kind": "note", "i2": None})
+        out = "\n".join(self.CB.detail(a))
+        self.assertIn("COMBINED", out)
+        self.assertIn("i2 506 deleted (note)", out)
+        self.assertIn("i1 498 deleted", out)
+        b = self._att(i1=None, events=[{"e": "recog_for_combine", "insn": 507, "ret": -1,
+                                        "pat": "(set (reg/v:SI 207) (sign_extend:SI (reg/v:QI 210)))"}],
+                      site={"k": 5, "line": 2081, "key": "no-recog", "text": "NO RECOG", "cond": "if (...)"})
+        self.assertEqual(self.CB.reason(b)[0], "no-recog")
+        self.assertIn("->  -1 (no insn)", "\n".join(self.CB.detail(b)))
+        v = self._att(i1=None, events=[{"e": "recog_for_combine", "insn": 506, "ret": -1,
+                                        "pat": "(set (reg/v:SI 209) (sign_extend:SI (mem/s/v:QI (reg:SI 4))))"}],
+                      site={"k": 5, "line": 2081, "key": "no-recog", "text": "NO RECOG", "cond": "if (...)"})
+        self.assertEqual(self.CB.reason(v)[0], "no-recog (volatile MEM)")
+        self.assertIn("volatile_ok = 0", "\n".join(self.CB.detail(v)))
+        c = self._att(events=[{"e": "subst", "from": "(reg)", "to": "(mem)", "ret": "(clobber:SI (const_int 0))",
+                               "ret_code": "clobber"}], regs0=10, regs1=10,
+                      site={"k": 4, "line": 1667, "key": "subst-fail", "text": "subst", "cond": "if (...)"})
+        self.assertEqual(self.CB.reason(c)[0], "subst-fail: subst returned (clobber (const_int 0))")
+
+    def test_dump_stats(self):
+        dump = (";; Function f\n\n(insn 1 0 0 (nil))\n;; Combiner statistics: 12 attempts, 9 substitutions (1 "
+                "requiring new space),\n;; 3 successes.\n\n;; Function g\n;; Combiner statistics: 1 attempts, 0 "
+                "substitutions (0 requiring new space),\n;; 0 successes.\n")
+        self.assertEqual(self.CB.dump_stats(dump, "f"), (12, 3))
+        self.assertEqual(self.CB.dump_stats(dump, "g"), (1, 0))
+        self.assertIsNone(self.CB.dump_stats(dump, "h"))
+
+
 if __name__ == "__main__":
     unittest.main()

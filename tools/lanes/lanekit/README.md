@@ -26,6 +26,7 @@ every compiler dump lands inside it by construction: `TMPDIR` and `tempfile.temp
 | `diff.py` | the unified cc1-listing diff of one candidate vs pinned / erased / a file (+ `--score`, `--cfg`, `--scorer [--norm-regs]`: the byte scorer's retail-vs-generated diff and score; `--scorer --classify`: ORDER / COLOUR / OPCODE / COUNT per region); journalled to `lab_log.jsonl` |
 | `checks.py` | the four proof checks (sole-ready, launched group, known-constant base, barrier): a verdict per residue insn |
 | `dbr.py` | the delay-slot (reorg.c) explainer: for every branch/jump/call with a delay slot, which routine filled it (fill_simple backward/forward, fill_eager fall-through/target thread, steal, copy + redirect, relax) and every candidate it refused, in order, with the reason (register/memory conflict and the insn behind it, LIVE at the opposite thread and why - flow, first read, an update_block `(use (insn N))` marker -, may trap, not eligible: type/dslot/length, label/jump/asm stop, thread not owned); the mostly_true_jump prediction and the rule that gave it; `--retail`: retail's slot word beside ours and a `DECIDING:` line. The cell's own cc1 under gdb (`dbr_gdb.py`) |
+| `combine.py` | the combine.c explainer (round 93): every try_combine attempt of the function (i3, i2, i1 uids of the `.flow` dump), COMBINED (the new i3 pattern, i2/i1 deleted) or REFUSED with the return site (combine.c line) and the check: can_combine_p's TRUE clause (use_crosses_set_p naming the store / CALL / register that crossed, crosses-call, call-arg, used-between ...), combinable_i3pat, subst-fail, or no-recog with every pattern handed to recog_for_combine and its code; `--insn UID` (as i3, i2 or i1), `--list`, `--all`, default = refusal census. The cell's own cc1 under gdb (`combine_gdb.py`) |
 | `dump.py` | every `-da` pass dump of one text into a lane directory (`--cfg` for another cell) |
 | `prio.py` | the global-allocation priority table of one text at a cfg (refs, live, floor_log2, priority, got) |
 | `regcmp.py` | how many NAMED variables sit in a different register than in a reference text (`--subsets`: every pin-removal subset ranked) |
@@ -34,7 +35,7 @@ every compiler dump lands inside it by construction: `TMPDIR` and `tempfile.temp
 | `prefs.py` | global.c's hard-register PREFERENCES replayed exactly (set_preference, expand_preferences, prune_preferences / regs_someone_prefers, find_reg's copy-then-plain preference override): per allocno WHY it got its register (scan pass 0/1, or the preference and its provenance chain: which insn, which local qty / parameter / call argument / ASM_REG variable, which merge where a partner dies), why not retail's, and every single preference event whose removal gives retail's register (with collateral). `alloc_need.py` calls it on rows with a preference effect. Library: `tools/alloc_prefs.py` |
 | `prefs_gdb.py` | the oracle `prefs.py` is validated against: the cell's cc1 under gdb, the preference sets after set_preference / expand / prune, regs_someone_prefers, regs_used_so_far and every find_reg result |
 | `install.py` | `TOOLS.md` in a lane: the same table with that lane's rows |
-| `sitecustomize.py`, `lane_shim.py`, `env.sh`, `kitlib.py`, `retailmap.py`, `dbr_gdb.py` | plumbing; you never call these |
+| `sitecustomize.py`, `lane_shim.py`, `env.sh`, `kitlib.py`, `retailmap.py`, `dbr_gdb.py`, `combine_gdb.py` | plumbing; you never call these |
 
 ## Pin-removal source-shape possibilities
 
@@ -519,6 +520,7 @@ only): keep it unless you are measuring exactly this.
   sat in `.jump2`, prediction from the loop notes and the condition only). The conflicting register is NAMED from
   the dump's RTL (a static mirror of mark_set/mark_referenced_resources); the decision itself is the compiler's
   return value. The insn "behind" a conflict is the nearest one in the chain as it was when reorg started.
+* `combine.py` needs gdb and binutils (`nm`, `objdump`); one traced compile takes ~10 s on a 2 KB function. It traces the function the row names (`--func` for another one in the unit); egcs (2.91.66 / 2.95.2) have 14 can_combine_p sites and their own chain: read their reasons with the printed condition, not the label.
 * `--trace` reads gcc 2.6-2.8 `sched.c` commentary; the haifa scheduler of 2.91.66 / 2.95.2 prints another
   format and the trace refuses rather than guesses.
 * `alloc_sim`'s `find_reg` model does not reproduce every disposition (30 of 38 on one smoke row).
@@ -529,6 +531,53 @@ only): keep it unless you are measuring exactly this.
   pinned and erased, every allocno is >= 76 and the named pseudos resolve). A future cell without an entry gets
   a message saying so rather than a wrong table. `--pass sched` works on all of them (2.95.2 still prints
   `;; insn[N]: priority`), and falls back to the filtered RTL diff if a future cell does not.
+
+## combine.py - why combine merged, or did not merge, a LOG_LINK chain (combine.c)
+
+```
+python3 .../combine.py <row> [pinned|erased|cand.c] --insn UID [--i3-only] [--cfg CFG] [--func NAME]
+python3 .../combine.py <row> cand.c            # the refusal census (attempts per reason)
+python3 .../combine.py <row> cand.c --list     # one line per attempt;  --all: every attempt in full;  --json OUT
+```
+
+Round 93 (asked for by r93_fable_c9858's RETRO: ~25 fixture compiles to learn what one breakpoint in try_combine
+prints). UIDs are the `.flow` dump's (`dump.py <row> <text> <dir>`; combine runs on flow's output, and the `.combine`
+dump no longer holds the i2/i1 a merge deleted). Each attempt prints the i3/i2/i1 patterns as try_combine saw them,
+the outcome and, when refused, WHICH check and its combine.c line (2.7.2-cdk numbering):
+
+| reason | site | meaning / lever |
+|---|---|---|
+| `can_combine_p(i2 or i1): use_crosses_set_p` | 943 | the insn's source reads a register set again, or MEMORY with a store/CALL (`mem_last_set`), between it and i3 - the line names the insn (`insn 501 (set (mem:HI ...))`). Move the store/call, or keep it there to keep the insns apart |
+| `can_combine_p(..): crosses-call` | 943 | a CALL lies between (INSN_CUID < last_call_cuid) and the source is not constant (names the call) |
+| `call-arg` / `call-src` / `used-between` / `libcall-end` / `no-conflict` / `self-copy` / `volatile-asm` | 943 | the other clauses of the same chain (the first TRUE one, in source order) |
+| `volatile-between` / `volatile-src` | 1005/1013 | a volatile asm / unspec_volatile between (a volatile MEM is NOT one: volatile_insn_p returns 0 for MEM) |
+| `dest-not-reg` / `hard-reg` / `two-sets` / `i3-clobber` | 981-995 | the insn is a store, a hard-register copy, a 2-SET PARALLEL, or i3 clobbers its value |
+| `combinable_i3pat: ...` | 1439/1640 | i3 writes its output partly (subreg / strict_low_part over i2dest/i1dest) or kills two registers |
+| `subst-fail: ...` | 1667 | subst gave up - `(clobber (const_int 0))`, a new pseudo, a new MULT |
+| `no-recog (volatile MEM)` | 2081 | the merged pattern holds a volatile MEM: combine_instructions runs `init_recog_no_volatile`, so general_operand refuses it whatever mips.md says (the pinned base's volatile `lbu; sll 24; sra 24` bytes: `--insn 504` on dungeon/func_800C9858 pinned) |
+| `no-recog (added sets)` | 2081 | i2dest/i1dest is still live after i3, so the merged insn is a PARALLEL that keeps the old SET too - and it matches no insn |
+| `no-recog` | 2081 | the merged pattern matches no mips.md insn (every `recog_for_combine` call is listed: pattern -> code, -1 = none; the split path included) |
+
+2.x combine has NO cost test: what reads as "not profitable" in this compiler is `no-recog`.
+
+How it knows (`combine_gdb.py`): breakpoints only at addresses INSIDE combine_instructions / try_combine /
+can_combine_p / combinable_i3pat - entry, the single `ret`, every `return 0;` site (`mov $0x0,%eax; jmp epilogue`
+in the -O0 cc1, paired by order with the `return 0;` statements of the cell's own `toolchain/gcc-src/<cell>/combine.c`
+ONLY when the counts agree, else printed `unmapped`) and the return address of every call those routines make (the
+arguments at the call, `%eax` after it). can_combine_p's long `||` chain has one return site: the tracer decides it
+clause by clause from the locals `src`/`dest`/`all_adjacent` (their %ebp slots read from the disassembly) and the
+results of the calls that invocation made (`clause check: ok` = the decided call clause was the last call made).
+Never an inferior call, never a write: `trace faithful` compares the traced assembly with a plain compile, and
+`trace vs .combine statistics` compares attempts/successes with the dump's `;; Combiner statistics`.
+
+**Validated** (lane `r93_opus_kit2`, dungeon/func_800C9858, 2.7.2-cdk; faithful, statistics 649/649 30/30 and
+663/663 33/33): `best_k1b.c` - attempt `i3 432 i2 431 i1 430` COMBINED into `(sign_extend:SI (mem/s:QI ...))` = `lb`
+(the 2-insn `431+430` before it: no-recog, `(ashift (subreg:SI (mem:QI)))`); `diag_storebetween.c` (Fable's dummy
+`sh` between the `lbu` and the `sll`) - `i3 507 i2 506 i1 498` REFUSED, can_combine_p(i1 498, succ 506) chain clause
+use_crosses_set_p, `a store lies between: insn 501 (set (mem:HI (plus:SI (reg/v:SI 129) (const_int 128))) (const_int
+0))` - not 504, the volatile `lhu` that also sits there. Other cells: the site tables map on every tree cell (counts
+agree), 2.8.1 ran clean on the same fixture (all clause checks ok), but the chain clause list is cdk's: the header
+says UNVALIDATED.
 
 ## Switch jump tables: `jtbl-mismatch` and `--no-jtbl` (round 82)
 
