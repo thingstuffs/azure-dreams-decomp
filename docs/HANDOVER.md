@@ -1,10 +1,12 @@
-# Handover (2026-10-05 ~14:00Z, round 94: Fable on an unsolved row + Opus/Sonnet fidelity-first lanes; IN PROGRESS) - start here
+# Handover (2026-10-05 ~16:00Z, round 94 DONE: Fable on an unsolved row + Opus/Sonnet fidelity-first lanes; no lanes running) - start here
 
 **Owner brief (10-05):** pick up the round-93 next steps with Opus + Sonnet, luna/agy where they make sense, a few
 sol/astra one or two at a time, efficiently; cleanup (compiler alignment, m2c artifacts, gotos) counts for pins.
 Mid-round: "if there's something nothing, not even astra, is able to figure out, try 1 Fable agent with its freedom
 and capture its insights".
-**Numbers:** pins 225/108 -> 187/103 (-38) by ~15:30Z. Lanes in work/native_lane/r94_*; questions in work/native_lane/_r94/q_*.md;
+**Numbers:** pins 225/108 -> 186/103 (-39). Readability: Gemini 46 rows goto-free/fewer (~140 gotos), Sonnet prep
+~35 gotos + 13 volatiles on pinned rows, t144_divmod (new, Sonnet-written) ~70 rows of m2c `/`/`%` power-of-two
+expansions written back as operators (CPU sweep, 76d1b81a2). Lanes in work/native_lane/r94_*; questions in work/native_lane/_r94/q_*.md;
 landing logs _r94/land_*.log; usage recorded for every Agent lane (record_usage.py).
 **What paid:**
 - **Opus on rows just restructured / never fidelity-served:** r94_opus_p32 dungeon/func_800C4A80 16 -> 0 AT THE MODULE
@@ -36,6 +38,10 @@ landing logs _r94/land_*.log; usage recorded for every Agent lane (record_usage.
 in diff --classify.
 **Trades recorded** (ledger/recipe_trades.jsonl, round 94): 800B5DFC two-role temp, 8180C3C0 merged message_text,
 8182C800 role merge + __builtin_abs, 800CA184 shared vertex_x + in-place OT address, 800C4A80 coherence line.
+**Late:** r94_opus_p37 0/4 (no phantom calls on 8188E3A0/81844F2C; `x % 2^k` cleanup on 8184AF90 noted), r94_opus_p38
+800AED64 6 -> 5 (frontier cand/a2.c 0 pins at dist 32: needs scratch opaque to sched1 alias while combine sees its low
+bits - the r84 opaque-base class; ~20 pinned rows use the 0x1F800000 base). Opus yield fell to ~1 pin / 330k tokens on
+the last four lanes - the remaining rows are tie-class near-misses; prefer new MECHANISM questions over row retries.
 **Next:** 800CA184 (3 left: column+row priority swap, draw_mode $12 has no owner, KEEP4 = combine + sched barrier - p35 REPORT);
 old_nearmiss.py rows not yet revived (80D68308, 80B467DC, 800A1020, 8081FCE0, w_80054B08 analysed in p36 REPORT); 800AED64 (6, lhu/sll/sra family + sched tie; p28 + vb5 negatives);
 809548E4 (x_step/other_x need $t0/$t1 preferences, p30); 8182C800 keep (full Y live across two calls without code).
