@@ -173,3 +173,9 @@ break by allocno number. (b) goto to a mid-function `li -1; j` stub + a trailing
 nested range checks, give each check `else { return -1; }`, and write the one inline `if (f(..) != 0) return -1;`
 right after its test - jump.c cross-jump needs 2 matching insns for a stub right after a conditional branch (survives)
 but 1 for a label-headed stub (merges), so every else-stub merges into the surviving mid-function one.
+
+**r93_sonnet_fp2 (pinned rows at equal pins):** a goto directly before its own label: delete it (3/3); a skip-guard goto
+-> `if (!c) {...}` wrap (4/4); two gotos onto one label -> invert the test so the label falls through (2/2); 2-4 line
+store tails copied at each goto - measure the WHOLE set of copies, single copies were off (3 of 6). A backward goto
+into a loop retail does NOT note (`why.py --pass loop` count goes up when structured) never became a structured loop
+(0/12 across 5 loops) - leave it. Volatile accessor macros: try per SITE, not per macro (15 of 22 sites came off).
