@@ -91,3 +91,12 @@ Per barrier, what it holds (do not retry the natural spellings): town/8096D944 f
   natural spelling that adds one insn (u16 read as (s16)) keeps retail's in-loop `lui`.
 - Multi-role m2c temps: split where alloc_need shows a priority inversion; a block-local chain hosted in a temp a
   second block also uses becomes a global allocno like retail's (spelling trade, owner review).
+
+## r93_opus_p17 (8009F018 7 -> 0; 819613A8 open)
+- Copy V = W where retail still reads W after the copy: cse make_regs_eqv keeps the register with the LATER last use
+  as class head - put the copy before the branch (optimize_reg_copy_1 stops at it) and give W a real later use that
+  combine folds (return through W). Trade recorded.
+- 819613A8: local-alloc assigns lowest-free registers BEFORE global; short high-priority locals take $v0/$v1, and a
+  global is invisible to it (row took $a0, retail $a1 -> retail had a block-local value there). combine refuses to
+  fold a copy of a call's return value (combine.c:943). Next: a re-read of one height after a store (reload deletes
+  it) to lower its local priority below ~1100. Prototypes from sibling 8195FB34 are exact (cleanup only).
