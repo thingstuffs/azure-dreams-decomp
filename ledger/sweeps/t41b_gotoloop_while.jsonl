@@ -9262,3 +9262,4 @@
 {"id":"main/func_8001A2B0","transform":"t41b_gotoloop_while","in_sha":"103b2428c35af8c78c1301a8c49a6cc75a5d99cf35501cc2e5e28f60c49605a7","from_clean":true,"size":248,"outcome":"refused","reason":"no pin sites","at":"2026-10-05T02:38:50Z"}
 {"id":"dungeon/func_81336754","transform":"t41b_gotoloop_while","in_sha":"91dfa6b3cc70c3788726965f315466d1b45e1c1121cbf505c14fd2e14754ff5b","from_clean":true,"size":876,"outcome":"refused","reason":"no pin sites","at":"2026-10-05T02:38:50Z"}
 {"id":"dungeon/func_8186F0C4","transform":"t41b_gotoloop_while","in_sha":"05a0d0a7df5d34d7ed59c269e2a2ee31a146d1937be85761e4f523765e7d0543","from_clean":true,"size":2616,"outcome":"refused","reason":"no pin sites","at":"2026-10-05T02:38:50Z"}
+{"id":"dungeon/func_80088FA0","transform":"t41b_gotoloop_while","in_sha":"7246620b1b8620f037c95fd2368c2f8abe09df2f2d48baf20eeaff1dd8b3ecef","from_clean":true,"size":832,"outcome":"refused","reason":"no pin sites","at":"2026-10-05T03:23:59Z"}

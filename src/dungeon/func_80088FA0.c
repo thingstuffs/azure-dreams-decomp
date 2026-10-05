@@ -3,6 +3,11 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
+typedef struct S_8008E700_0 {
+    u8 pad_00[0x1C];
+    s32 unk_1C;
+} S_8008E700_0;   /* entity in func_8008E700 */
+
 extern void func_80048A44(void *a0, u8 a1, s32 a2, s32 a3);
 extern void func_80099F04(s32 a0);
 extern void func_80099F70(s32 a0);
@@ -10,7 +15,7 @@ extern s16 func_8009AF18(s16 a0, void *a1, void *a2, s32 a3);
 extern void func_8009F644(void *a0, s32 a1, s16 a2, s32 a3);
 extern void func_800A56E0(s32 a0);
 
-extern s32 D_80081484[3];
+extern s32 D_80081484;
 extern s32 D_8008ACDC;
 extern u8 D_8008EAC8[];
 extern u8 D_800DCFD0[8];
@@ -80,39 +85,19 @@ void func_8008E700(u8 *action, u8 *motion, u8 *sprite, u8 *entity) {
                     func_8009F644(entity, 0x30, *(s16 *)(action + 0x96), 0);
 
                     {
-                        s32 clear_mask;
-                        u8 *animations;
-                        s32 anim_mode;
-                        s32 heading;
                         s32 saved_state;
-                        register s32 state_value ASM_REG("$2");
-                        DungeonGlobalStatus *dungeon_state;
+                        s32 angle;
+                        s32 heading;
 
-                        clear_mask = 0xFFEFFFFF;
-                        anim_sprite = sprite;
-                        state_value = *(s32 *)(entity + 0x1C);
-                        saved_state = D_80081484[0];
-                        anim_mode = 5;
-                        D_80081484[0] = 0;
-                        animations = D_800DCFD0;
-                        state_value &= clear_mask;
-                        dungeon_state = &dungeonStatus;
-                        *(s32 *)(entity + 0x1C) = state_value;
-                        clear_mask = *(u16 *)&dungeon_state->unk_0A;
-                        state_value = clear_mask;
-                        state_value++;
-                        *(u16 *)&dungeon_state->unk_0A = state_value;
-                        *(u8 **)(anim_sprite + 0x2C) = animations;
-                        state_value = gameWork.view.viewAngle;
+                        ((S_8008E700_0 *)entity)->unk_1C &= 0xFFEFFFFF;
+                        saved_state = D_80081484;
+                        D_80081484 = 0;
+                        dungeonStatus.unk_0A++;
+                        *(u8 **)(sprite + 0x2C) = D_800DCFD0;
+                        angle = gameWork.view.viewAngle;
                         heading = *(s16 *)(entity + 0x2A);
                         D_800E3540[0] = saved_state;
-                        state_value = ((state_value + heading + 0x100) >> 9) & 7;
-    #ifndef NON_MATCHING
-                        state_value += (s32)animations;
-                        func_80048A44(anim_sprite, *(u8 *)state_value, anim_mode, 1);
-    #else
-                        func_80048A44(anim_sprite, animations[state_value], anim_mode, 1);
-    #endif
+                        func_80048A44(sprite, D_800DCFD0[((angle + heading + 0x100) >> 9) & 7], 5, 1);
                     }
                     func_800A56E0(0x512);
                     return;
