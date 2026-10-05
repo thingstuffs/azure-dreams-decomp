@@ -295,9 +295,7 @@ void func_8009E038(S_func_8009E038_0 *transition, S_func_8009E038_1 *center, S_f
         }
         func_800A67F4();
         flags_mask = 0xFEFFFFFF;
-        do {
-            flags_page = (S_func_8009E038_6 *)0x800E0000;
-        } while (0);
+        flags_page = (S_func_8009E038_6 *)0x800E0000;
         shared_flags = flags_page->unk_296C;
         transition->unk_2C = 0U;
         transition->unk_1A = 0;

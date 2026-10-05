@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-05T07:52:05Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-05T07:59:13Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -84,7 +84,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | any fidelity site | 2654 | 1,286,092 | 50.3% | 1777 | 959,932 | 37.5% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 751 | 560,528 | 21.9% | 125 | 108,736 | 4.3% |
 | maspsx marker pins (scaffolding) | 393 | 351,556 | 13.7% | 1 | 1,176 | 0.0% |
-| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 158 | 116,064 | 4.5% |
+| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 155 | 113,752 | 4.4% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 2 | 820 | 0.0% |
 | local address-named struct | 633 | 346,988 | 13.6% | 2977 | 1,557,180 | 60.9% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 5916 | 1,895,404 | 74.1% |
