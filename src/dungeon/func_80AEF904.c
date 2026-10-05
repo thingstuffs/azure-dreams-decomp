@@ -26,7 +26,7 @@ typedef struct S_80171104_0 {
     u8 pad_00[0x4];
     s8 unk_04;
     u8 pad_05[0xF];
-    union { u16 n; volatile u16 v; } unk_14;   /* accessed as both */
+    u16 unk_14;
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
@@ -60,7 +60,7 @@ void func_80171104(u8 *actor, u8 *motion, u8 *object)
 {
     u8 *actor_copy;
     ActorCallback callback;
-    s32 old_direction;
+    s16 old_direction;
     s16 timer;
     u16 flags;
     s16 height_delta;
@@ -87,7 +87,7 @@ void func_80171104(u8 *actor, u8 *motion, u8 *object)
     }
 
 
-    old_direction = (s8)(*(volatile u8 *)((u8 *)actor + 0x6D));
+    old_direction = (*(s8 *)((u8 *)actor + 0x6D));
     if (func_800A9E70(actor, motion, object, actor) != 0) {
         return;
     }
@@ -99,7 +99,7 @@ void func_80171104(u8 *actor, u8 *motion, u8 *object)
     D_80175A1C[(*(u8 *)((u8 *)actor + 0x9A))](actor, motion, object, actor);
 
     if ((*(u8 *)((u8 *)actor + 0x9A)) != 0xE ||
-        (((S_80171104_0 *)object)->unk_14.n & 0x40) ||
+        (((S_80171104_0 *)object)->unk_14 & 0x40) ||
         ((*(u32 *)((u8 *)actor + 0x1C)) & 0x20)) {
         shifted_direction = (s32)old_direction << 16;
     } else {
@@ -130,7 +130,7 @@ void func_80171104(u8 *actor, u8 *motion, u8 *object)
             timer = (*(u16 *)((u8 *)actor + 0xA0)) - 1;
             (*(s16 *)((u8 *)actor + 0xA0)) = timer;
             if ((timer << 16) <= 0 &&
-                (((S_80171104_0 *)object)->unk_14.n & 0xE000)) {
+                (((S_80171104_0 *)object)->unk_14 & 0xE000)) {
                 (*(u8 * *)((u8 *)object + 0x2C)) = D_801759B0;
                 func_80047784(object,
                     D_801759B0[((gameWork.view.viewAngle + ((S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7], 0);
@@ -146,7 +146,7 @@ void func_80171104(u8 *actor, u8 *motion, u8 *object)
             timer = (*(u16 *)((u8 *)actor + 0xA0)) - 1;
             (*(s16 *)((u8 *)actor + 0xA0)) = timer;
             if ((timer << 16) <= 0 &&
-                (((S_80171104_0 *)object)->unk_14.n & 0xE000)) {
+                (((S_80171104_0 *)object)->unk_14 & 0xE000)) {
                 (*(u8 * *)((u8 *)object + 0x2C)) = D_801759B8;
                 func_80047784(object,
                     D_801759B8[((gameWork.view.viewAngle + ((S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7], 0);
@@ -163,7 +163,7 @@ void func_80171104(u8 *actor, u8 *motion, u8 *object)
             if ((timer << 16) > 0) {
                 shifted_direction = (s32)old_direction << 16;
             } else {
-                if (((S_80171104_0 *)object)->unk_14.n & 0xE000) {
+                if (((S_80171104_0 *)object)->unk_14 & 0xE000) {
                     (*(u8 * *)((u8 *)object + 0x2C)) = D_80175988;
                     func_80047784(object,
                         D_80175988[((gameWork.view.viewAngle + ((S_80171104_1 *)actor_copy)->unk_2A + 0x100)
@@ -180,10 +180,9 @@ void func_80171104(u8 *actor, u8 *motion, u8 *object)
         func_800AA36C(actor, motion, object, actor_copy);
     }
 
-    flags = ((S_80171104_0 *)object)->unk_14.n;
+    flags = ((S_80171104_0 *)object)->unk_14;
     if (!(flags & 0x8000)) {
         s16 view_index;
-        u16 object_flags;
         s32 old_direction;
 
         old_direction = ((gameWork.view.viewAngle + ((S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7;
@@ -198,23 +197,22 @@ void func_80171104(u8 *actor, u8 *motion, u8 *object)
         }
 
         if (dirSpriteFlag[view_index_copy] != 0) {
-            object_flags = ((S_80171104_0 *)object)->unk_14.n | 1;
+            ((S_80171104_0 *)object)->unk_14 |= 1;
         } else {
-            object_flags = ((S_80171104_0 *)object)->unk_14.n & 0xFFFE;
+            ((S_80171104_0 *)object)->unk_14 &= 0xFFFE;
         }
-        ((S_80171104_0 *)object)->unk_14.v = object_flags;
         if (!(((S_80171104_1 *)actor_copy)->unk_1C.u & 0x20)) {
-            if (!(((S_80171104_0 *)object)->unk_14.n & 0x40)) {
+            if (!(((S_80171104_0 *)object)->unk_14 & 0x40)) {
                 func_800478B8(object);
             }
         } else {
-            ((S_80171104_0 *)object)->unk_14.n |= 0x7000;
+            ((S_80171104_0 *)object)->unk_14 |= 0x7000;
         }
         func_800A020C(((S_80171104_1 *)actor_copy)->unk_1C.s, object + 0xC);
     } else if (flags & 0x800) {
-        ((S_80171104_0 *)object)->unk_14.n = flags & 0x8FFF;
+        ((S_80171104_0 *)object)->unk_14 = flags & 0x8FFF;
     } else {
-        ((S_80171104_0 *)object)->unk_14.n = flags | 0x7000;
+        ((S_80171104_0 *)object)->unk_14 = flags | 0x7000;
     }
 
     ((S_80171104_2 *)motion)->unk_00.at00.v += ((S_80171104_2 *)motion)->unk_0C;
@@ -263,7 +261,7 @@ void func_80171104(u8 *actor, u8 *motion, u8 *object)
     }
 
     ((S_80171104_2 *)motion)->unk_0A = ((S_80171104_1 *)actor_copy)->unk_88.u + (*(s16 *)((u8 *)actor + 0x92));
-    ((S_80171104_0 *)object)->unk_14.n |= 0x40;
+    ((S_80171104_0 *)object)->unk_14 |= 0x40;
 
     return;
 }

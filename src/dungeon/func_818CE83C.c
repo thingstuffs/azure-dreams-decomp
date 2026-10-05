@@ -39,7 +39,7 @@ typedef struct S_8002403C_1 {
 
 typedef struct S_8002403C_2 {
     u8 pad_00[0x2];
-    volatile u16 unk_02;
+    u16 unk_02;
     u8 pad_04[0x2];
     u16 unk_06;
     u8 pad_08[0x2];
@@ -78,15 +78,15 @@ typedef struct { u32 addr:24; u32 length:8; } PacketTag;
 /* Project linked nodes and enqueue shaded point primitives with their draw modes. */
 s32 func_8002403C(void *start_node, void *start_coords)
 {
-    register u8 **state_ptr;
-    register u8 *scratch;
-    register u8 *render_state;
-    register u8 *final_state;
-    register u8 *packet_end;
-    register u8 *packet;
-    register u8 *node;
-    register u8 *coords;
-    register void *prev_entry;
+    u8 **state_ptr;
+    u8 *scratch;
+    u8 *render_state;
+    u8 *final_state;
+    u8 *packet_end;
+    u8 *packet;
+    u8 *node;
+    u8 *coords;
+    void *prev_entry;
     u32 depth_index;
     u16 coord_x;
 
@@ -101,7 +101,7 @@ s32 func_8002403C(void *start_node, void *start_coords)
 
     for (;;) {
         coord_x = ((S_8002403C_2 *)coords)->unk_02;
-        packet = *(u8 * volatile *)(scratch + 0x18);
+        packet = *(u8 * *)(scratch + 0x18);
         ((S_8002403C_1 *)scratch)->unk_00 = coord_x;
         ((S_8002403C_1 *)scratch)->unk_02 = ((S_8002403C_2 *)coords)->unk_06;
         ((S_8002403C_1 *)scratch)->unk_04 = ((S_8002403C_2 *)coords)->unk_0A;
@@ -112,11 +112,12 @@ s32 func_8002403C(void *start_node, void *start_coords)
         ((S_8002403C_1 *)scratch)->unk_C0 = depth_index;
 
         if (depth_index < 0x1E0) {
-            register s32 color_or_tpage;
+            s32 color_or_tpage;
             s32 texture_depth;
             s32 blend_mode;
-            register u32 page_x;
+            u32 page_x;
             s32 opcode;
+            u8 *mode_packet;
 
             ((S_8002403C_3 *)packet)->unk_04.at00.v = ((S_8002403C_4 *)node)->unk_08;
             color_or_tpage = ((S_8002403C_3 *)packet)->unk_04.at00u.v * ((S_8002403C_4 *)node)->unk_32;
@@ -159,17 +160,17 @@ s32 func_8002403C(void *start_node, void *start_coords)
                 *ot_entry = ((u32)((ot_tag & 0xFF000000) | ((u32)((u32)packet & 0x00FFFFFF))));
             }
 
-            packet = *(u8 * *)(scratch + 0x18);
-            ((S_8002403C_1 *)scratch)->unk_18 = packet + 0xC;
+            mode_packet = *(u8 * *)(scratch + 0x18);
+            ((S_8002403C_1 *)scratch)->unk_18 = mode_packet + 0xC;
             color_or_tpage = func_80066460(texture_depth, blend_mode, page_x, texture_depth);
-            func_80067F20(packet, 0, 0, (u16)color_or_tpage, 0);
+            func_80067F20(mode_packet, 0, 0, (u16)color_or_tpage, 0);
 
-            ((PacketTag *)packet)->addr =
+            ((PacketTag *)mode_packet)->addr =
                 ((PacketTag *)((u8 *)(((S_8002403C_1 *)scratch)->unk_20.p2) + (((S_8002403C_1 *)scratch)->unk_C0 * 4)))->addr;
-            packet = (u8 *)((u32)packet & 0x00FFFFFF);
+            mode_packet = (u8 *)((u32)mode_packet & 0x00FFFFFF);
             (*(u32 *)((u8 *)(((S_8002403C_1 *)scratch)->unk_20.p2) + (((S_8002403C_1 *)scratch)->unk_C0 * 4))) =
                 ((*(u32 *)((u8 *)(((S_8002403C_1 *)scratch)->unk_20.p2) + (((S_8002403C_1 *)scratch)->unk_C0 * 4))) & 0xFF000000) |
-                (u32)packet;
+                (u32)mode_packet;
         }
 
         prev_entry = ((S_8002403C_4_pre *)node)[-1].unk_00;

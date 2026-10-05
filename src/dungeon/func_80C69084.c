@@ -70,8 +70,8 @@ s32 func_80170884(u8 *node_data, u16 *position)
     scratch->table = (u8 *)render_state + 0xB0;
     scratch->current = (u8 *)first_packet;
     for (;;) {
-        scratch->in0 = *(volatile u16 *)&position[1];
-        packet = (Packet *)*(u8 * volatile *)&scratch->current;
+        scratch->in0 = position[1];
+        packet = (Packet *)scratch->current;
         scratch->in1 = position[3];
         scratch->in2 = position[5];
 
@@ -82,6 +82,7 @@ s32 func_80170884(u8 *node_data, u16 *position)
 
         if ((u32)depth_index < 480U) {
             u16 tpage;
+            Packet *mode_packet;
             u8 r;
             u8 g;
             u8 b;
@@ -102,17 +103,17 @@ s32 func_80170884(u8 *node_data, u16 *position)
                                     (((u32 *)scratch->table)[scratch->index] & length_mask) |
                                     ((u32)packet & address_mask);
 
-            packet = (Packet *)scratch->current;
-            scratch->current = (u8 *)packet + 0xC;
+            mode_packet = (Packet *)scratch->current;
+            scratch->current = (u8 *)mode_packet + 0xC;
             tpage = (u16)func_80066460(0, 1, 0, 0);
-            func_80067F20(packet, 0, 0, tpage, 0);
+            func_80067F20(mode_packet, 0, 0, tpage, 0);
 
-            *(u32 *)packet = (*(u32 *)packet & length_mask) |
+            *(u32 *)mode_packet = (*(u32 *)mode_packet & length_mask) |
                           (((u32 *)scratch->table)[scratch->index] & address_mask);
-            packet = (Packet *)((u32)packet & address_mask);
+            mode_packet = (Packet *)((u32)mode_packet & address_mask);
             ((u32 *)scratch->table)[scratch->index] =
                                     (((u32 *)scratch->table)[scratch->index] & length_mask) |
-                                    (u32)packet;
+                                    (u32)mode_packet;
         }
 
         {
