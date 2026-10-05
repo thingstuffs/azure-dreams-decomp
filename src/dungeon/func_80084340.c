@@ -238,7 +238,8 @@ typedef struct S_80089AA0_27 {
 
 /* Updates the actor, applies movement and input, and processes dungeon actor turns. */
 void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
-    register void *sprite_or_root ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *sprite_or_root;
+    void *root;
     void *motion_or_count;
     GameWork *world_state;
     s32 repeat_pass;
@@ -273,7 +274,6 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
     u16 fall_flags;
     u16 phase_flags;
     u16 next_flags;
-    u16 ground_flags;
     u32 *companion_fraction;
     u32 actor_fraction;
     u32 actor_remainder;
@@ -566,7 +566,7 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
         if (floor_height < 0x200) {
             if (((*(s16 *)((u8 *)linked_actor + 0x92)) + (s16) (*(u16 *)((u8 *)actor + 0x88))) >= floor_height) {
                 if (((*(u16 *)((u8 *)linked_actor + 0x98)) & 4) || (((S_80089AA0_18 *)motion_or_count)->unk_14 < 0)) {
-                    ground_flags =
+                    (*(u16 *)((u8 *)linked_actor + 0xA2)) =
                         (u16)((*(u16 *)((u8 *)linked_actor + 0xA2)) & 0xFFEF);
                 } else {
                     (*(s32 *)((u8 *)linked_actor + 0x90)) = 0;
@@ -578,9 +578,8 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
                         }
                         func_800B66C8(motion_or_count);
                     }
-                    ground_flags = (u16) ((*(u16 *)((u8 *)linked_actor + 0xA2)) | 0x10);
+                    (*(u16 *)((u8 *)linked_actor + 0xA2)) = (u16) ((*(u16 *)((u8 *)linked_actor + 0xA2)) | 0x10);
                 }
-                (*(volatile u16 *)((u8 *)linked_actor + 0xA2)) = ground_flags;
                 (*(u16 *)((u8 *)linked_actor + 0xA2)) =
                     (u16)((*(u16 *)((u8 *)linked_actor + 0xA2)) & 0xF7FF);
             } else {
@@ -674,15 +673,15 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
         if (phase_flags & 0x2000) {
             if ((func_800A2C34(0) << 0x10) == 0) {
                 linked_actor = (*(void **)((u8 *)actor + 0x5C)) + 0x20;
-                sprite_or_root = actor;
+                root = actor;
                 if (linked_actor != actor) {
                     do {
                         ((S_80089AA0_19 *)linked_actor)->unk_8A = (u16) ((S_80089AA0_19 *)linked_actor)->unk_88;
                         ((S_80089AA0_19 *)linked_actor)->unk_6A = (u16) ((S_80089AA0_19 *)linked_actor)->unk_2A;
                         linked_actor = ((S_80089AA0_19 *)linked_actor)->unk_5C.i + 0x20;
-                    } while (linked_actor != sprite_or_root);
+                    } while (linked_actor != root);
                 }
-                sprite_or_root = actor;
+                root = actor;
                 do {
                     record_or_page = (*(void **)((u8 *)actor + 0x5C));
                     linked_actor = (u8 *)record_or_page + 0x20;
@@ -703,16 +702,16 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
                             }
                             record_or_page = D_800E3DE8;
                             linked_actor = (u8 *)record_or_page + 0x20;
-                        } while (linked_actor != sprite_or_root);
+                        } while (linked_actor != root);
                     }
                 } while (companion_index != 0);
                 linked_actor = (*(void **)((u8 *)actor + 0x5C)) + 0x20;
-                sprite_or_root = actor;
+                root = actor;
                 if (linked_actor != actor) {
                     do {
                         func_800A9AFC(((S_80089AA0_19_pre *)linked_actor)[-1].unk_00.i, linked_actor);
                         linked_actor = ((S_80089AA0_19 *)linked_actor)->unk_5C.i + 0x20;
-                    } while (linked_actor != sprite_or_root);
+                    } while (linked_actor != root);
                 }
                 dungeonStatus.flags =
                     (u16)((dungeonStatus.flags & 0xDFFF) | 0x1000);
@@ -720,16 +719,17 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
                 turn_status->flags = (u16) (turn_status->flags & 0xDFFF);
                 linked_actor = (*(void **)((u8 *)actor + 0x5C)) + 0x20;
                 if (linked_actor != actor) {
+                    root = (void *)0x800E0000;
                     do {
                         record_or_page = linked_actor - 0x20;
                         height_or_callback = ((S_80089AA0_1 *)record_or_page)->unk_10;
-                        D_800E3DE8 = ((S_80089AA0_19 *)linked_actor)->unk_5C.p;
+                        ((S_80089AA0_27 *)root)->unk_3DE8 = ((S_80089AA0_19 *)linked_actor)->unk_5C.p;
                         if (height_or_callback > 0) {
                             height_or_callback |= 0x80000000;
                             ((M2C_UNK (*)(void *, s32, s32)) height_or_callback)(linked_actor,
                                 ((S_80089AA0_1 *)record_or_page)->unk_08, ((S_80089AA0_1 *)record_or_page)->unk_0C);
                         }
-                        linked_actor = (u8 *)D_800E3DE8 + 0x20;
+                        linked_actor = (u8 *)((S_80089AA0_27 *)root)->unk_3DE8 + 0x20;
                     } while (linked_actor != actor);
                 }
                 dungeonStatus.flags =
@@ -781,11 +781,11 @@ apply_pending_points:
         }
     }
 begin_linked_pass:
-    sprite_or_root = ((S_80089AA0_26 *)actor_root_page)->unk_3D7C;
-    record_or_page = ((S_80089AA0_16 *)sprite_or_root)->unk_5C;
+    root = ((S_80089AA0_26 *)actor_root_page)->unk_3D7C;
+    record_or_page = ((S_80089AA0_16 *)root)->unk_5C;
     actor = (u8 *)record_or_page + 0x20;
     motion_or_count = NULL;
-    if (actor != sprite_or_root) {
+    if (actor != root) {
         do {
             next_record = (*(void * *)((u8 *)actor + 0x5C));
             page_or_repeat = repeat_pass;
@@ -830,7 +830,7 @@ begin_linked_pass:
                 record_or_page = ((S_80089AA0_27 *)next_record_page)->unk_3DE8;
                 actor = (u8 *)record_or_page + 0x20;
             }
-        } while (actor != sprite_or_root);
+        } while (actor != root);
     }
     loop_flags = ((S_80089AA0_24 *)loop_status)->unk_02;
     if (loop_flags & 0x1000) {
