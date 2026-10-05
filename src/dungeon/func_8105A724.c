@@ -18,7 +18,7 @@ extern u8 D_80173FB8[];
 
 /* Checks action eligibility and updates the actor state and directional animation on success. */
 s32 func_80171F24(void *action_state, s32 action_id, void *sprite, EntityRec *actor) {
-    volatile s64 frame_pad;
+    s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
     s32 target_direction;
     u16 status_flags;
     u16 state_flag;
@@ -74,7 +74,7 @@ s32 func_80171F24(void *action_state, s32 action_id, void *sprite, EntityRec *ac
     return -1;
 }
 
-/* MECHANISM: An unused volatile s64 supplies retail's eight-byte frame object,
+/* MECHANISM: An unused 8-byte local (unused[2]) supplies retail's eight-byte frame object,
    while explicit CFG labels preserve the early-zero and shared late-failure blocks.
    The retained dead flag mask restores three tail words; a fence at the later
    zero-return join prevents jump-threading and closes the final return-slot residue. */
