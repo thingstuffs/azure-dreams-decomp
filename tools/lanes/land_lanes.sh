@@ -111,6 +111,9 @@ for lane in lanes:
         # round 78: a byte-exact candidate that removes scaffolding (volatile, while(0), __asm__, an ASM_* kind)
         # with no pin growth lands too - r78_opus_b1's `volatile ShortArg` parameter was refused for "no pin fell"
         if len(sites_of(cand)) == len(sites_of(cur)) and gc > gu: grew.append("goto")
+        # round 93 (readability lanes named in READABLE_LANES, e.g. struct assignments for m2c's unrolled copies,
+        # callee-typed spellings at equal pins): an equal-pin, nothing-grown candidate lands; the byte gate decides
+        if cand != cur and not fell and lane in os.environ.get("READABLE_LANES", "").split(","): fell.append("readability")
         if len(sites_of(cand)) > len(sites_of(cur)) or grew or (len(sites_of(cand)) == len(sites_of(cur)) and not fell):
             print("skip", lane, rid, "pins", len(sites_of(cur)), "->", len(sites_of(cand)), "grew", grew); continue
         d = "%s/%s/%s" % (stage, lane, rid.split("/")[0]); os.makedirs(d, exist_ok=True)
