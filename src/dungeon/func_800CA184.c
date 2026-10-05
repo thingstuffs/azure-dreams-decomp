@@ -209,8 +209,6 @@ s32 func_80064624();
 s32 func_80064D20();
 s32 func_80064D50();
 s16 func_800BCB04();
-extern s32 D_80013180[0x2000];
-extern s32 D_800DCF58[0x100];
 
 /* Render visible dungeon cells as lit, textured polygons in the ordering table. */
 void func_800CF8E4(void) {
@@ -713,11 +711,9 @@ L_CFE98:
                                                 normal_y = scratch->step.h.y;
                                                 if ((s16) normal_y > 0) {
                                                     row_step = one << scratch->width_shift;
-                                                    goto L_D0130;
-                                                }
-                                                if ((s16) normal_y < 0) {
+                                                    *(s16 *)&scratch->step.h.y = (s16)row_step;
+                                                } else if ((s16) normal_y < 0) {
                                                     row_step = 0 - (one << scratch->width_shift);
-L_D0130:
                                                     *(s16 *)&scratch->step.h.y = (s16)row_step;
                                                 }
                                                 {
@@ -760,30 +756,25 @@ L_D0130:
                                                             }
                                                         }
                                                         scratch->min_height = max_height;
-                                                        goto block_63_done;
-                                                    }
-                                                    if (!(neighbor_flags & 0x40)) {
+                                                    } else if (!(neighbor_flags & 0x40)) {
                                                         scratch->min_height = -(s32) neighbor->offset;
-                                                        goto L_D0234;
+                                                    } else {
+                                                        scratch->min_height = max_height;
                                                     }
+                                                } else {
                                                     scratch->min_height = max_height;
-                                                    goto block_63_done;
                                                 }
+                                            } else {
                                                 scratch->min_height = max_height;
-                                                goto block_63_done;
                                             }
+                                        } else {
+                                            scratch->min_height = max_height;
                                         }
-                                        scratch->min_height = max_height;
-                                        block_63_done:
-                                        ;
-L_D0234:
                                         gte_ldrgb(&scratch->color);
                                         gte_ldv0((u8 *)normals + (scratch->last_normal * 8));
                                         gte_nccs();
                                         gte_strgb(&scratch->lit_color);
-                                        goto block_64;
                                     }
-block_64:
                                     occlusion_height = scratch->min_height;
                                     if (((s16) scratch->v[0].z >= occlusion_height)
                                         && ((s16) scratch->v[1].z >= occlusion_height)
@@ -792,143 +783,134 @@ block_64:
                                         if (((s8) scratch->face_info.b.flags) >= 0) {
                                             face_skip = scratch->face_info.b.skip;
                                             face_skip &= 0xF;
-                                            goto L_D0670;
+                                            face = (u8 *)face + (face_skip * 24);
+                                            goto L_CFE98;
                                         }
-                                        goto block_98;
-                                    }
-                                    scratch->vtx.word =
-                                        ((S_800CF8E4_13 *)((((S_800CF8E4_6 *)face)->unk_06 * 8) + vertices))->unk_00;
-                                    scratch->v[3].xy = (((u16) scratch->min_x.word
-                                        + (u16) scratch->vtx.word) & 0xFFFF)
-                                    | ((scratch->cur_y + (s16) scratch->vtx.h.y) << 0x10);
-                                    gte_ldv0(&scratch->v[3]);
-                                    (*(s32 *)((u8 *)packet_code + 5)) = (s32) ((S_800CF8E4_6 *)face)->unk_08;
-                                    gte_rtps_nn();
-                                    (*(s32 *)((u8 *)packet_code + 0xD)) = (s32) ((S_800CF8E4_6 *)face)->unk_0C;
-                                    (*(u16 *)((u8 *)packet_code + 0x15)) = scratch->face_attr.h.y;
-                                    (*(u16 *)((u8 *)packet_code + 0x1D)) = (u16) scratch->face_info.word;
-                                    gte_stsxy(packet + 0x20);
-                                    gte_stszotz(&scratch->otz4);
-                                    {
-                                        s32 depth_sum;
-                                        s32 twice_depth;
-                                        s32 fourth_depth;
+                                    } else {
+                                        scratch->vtx.word =
+                                            ((S_800CF8E4_13 *)((((S_800CF8E4_6 *)face)->unk_06 * 8) + vertices))->unk_00;
+                                        scratch->v[3].xy = (((u16) scratch->min_x.word
+                                            + (u16) scratch->vtx.word) & 0xFFFF)
+                                        | ((scratch->cur_y + (s16) scratch->vtx.h.y) << 0x10);
+                                        gte_ldv0(&scratch->v[3]);
+                                        (*(s32 *)((u8 *)packet_code + 5)) = (s32) ((S_800CF8E4_6 *)face)->unk_08;
+                                        gte_rtps_nn();
+                                        (*(s32 *)((u8 *)packet_code + 0xD)) = (s32) ((S_800CF8E4_6 *)face)->unk_0C;
+                                        (*(u16 *)((u8 *)packet_code + 0x15)) = scratch->face_attr.h.y;
+                                        (*(u16 *)((u8 *)packet_code + 0x1D)) = (u16) scratch->face_info.word;
+                                        gte_stsxy(packet + 0x20);
+                                        gte_stszotz(&scratch->otz4);
+                                        {
+                                            s32 depth_sum;
+                                            s32 twice_depth;
+                                            s32 fourth_depth;
 
-                                        depth_sum = scratch->otz;
-                                        fourth_depth = scratch->otz4;
-                                        twice_depth = depth_sum << 1;
-                                        depth_sum += twice_depth;
-                                        depth_sum += fourth_depth;
-                                        quad_depth = depth_sum >> 2;
-                                    }
-                                    scratch->otz = quad_depth;
-                                    if ((u32) quad_depth < 0x1BEU) {
-                                        ((S_800CF8E4_9_pre *)packet_code)[-1].unk_00 = 9;
-                                        (*(s32 *)((u8 *)packet_code + -3)) = (s32) scratch->lit_color;
-                                        face_flags = scratch->face_info.b.flags;
-                                        if (face_flags & 1) {
-                                            *(u8 *)packet_code = (u8) (*(u8 *)packet_code | 2);
-                                        } else {
-                                            if ((scratch->blend != 0)
-                                                && (cells[scratch->cell_index].flags & 0x80)
-                                                && !(face_flags & 2)
-                                                && ((view_height = scratch->view_height,
-                                                (((s16) scratch->v[0].z < view_height) != 0))
-                                                    || ((s16) scratch->v[1].z < view_height)
-                                                    || ((s16) scratch->v[2].z < view_height)
-                                                    || ((s16) scratch->v[3].z < view_height))) {
-                                                (*(s32 *)((u8 *)packet_code + 5)) =
-                                                    (s32) (*(s32 *)((u8 *)packet_code + 9));
-                                                (*(s32 *)((u8 *)packet_code + 9)) =
-                                                    (s32) (*(s32 *)((u8 *)packet_code + 0x11));
-                                                (*(s32 *)((u8 *)packet_code + 0xD)) =
-                                                    (s32) (*(s32 *)((u8 *)packet_code + 0x19));
-                                                overlay_color = scratch->overlay_color;
-                                                ((S_800CF8E4_9_pre *)packet_code)[-1].unk_00 = 5;
-                                                (*(s32 *)((u8 *)packet_code + -3)) = overlay_color;
-                                                packet_code += 0x28;
-                                                *(s32 *)packet = (*(s32 *)packet & tag_mask)
-                                                | (*(s32 *)((scratch->otz * 4)
-                                                    + scratch->ot_base) & address_mask);
-                                                overlay_ot_entry =
-                                                    (s32 *)((scratch->otz * 4)
-                                                    + scratch->ot_base);
-                                                {
-                                                    s32 overlay_addr;
+                                            depth_sum = scratch->otz;
+                                            fourth_depth = scratch->otz4;
+                                            twice_depth = depth_sum << 1;
+                                            depth_sum += twice_depth;
+                                            depth_sum += fourth_depth;
+                                            quad_depth = depth_sum >> 2;
+                                        }
+                                        scratch->otz = quad_depth;
+                                        if ((u32) quad_depth < 0x1BEU) {
+                                            ((S_800CF8E4_9_pre *)packet_code)[-1].unk_00 = 9;
+                                            (*(s32 *)((u8 *)packet_code + -3)) = (s32) scratch->lit_color;
+                                            face_flags = scratch->face_info.b.flags;
+                                            if (face_flags & 1) {
+                                                *(u8 *)packet_code = (u8) (*(u8 *)packet_code | 2);
+                                            } else {
+                                                if ((scratch->blend != 0)
+                                                    && (cells[scratch->cell_index].flags & 0x80)
+                                                    && !(face_flags & 2)
+                                                    && ((view_height = scratch->view_height,
+                                                    (((s16) scratch->v[0].z < view_height) != 0))
+                                                        || ((s16) scratch->v[1].z < view_height)
+                                                        || ((s16) scratch->v[2].z < view_height)
+                                                        || ((s16) scratch->v[3].z < view_height))) {
+                                                    (*(s32 *)((u8 *)packet_code + 5)) =
+                                                        (s32) (*(s32 *)((u8 *)packet_code + 9));
+                                                    (*(s32 *)((u8 *)packet_code + 9)) =
+                                                        (s32) (*(s32 *)((u8 *)packet_code + 0x11));
+                                                    (*(s32 *)((u8 *)packet_code + 0xD)) =
+                                                        (s32) (*(s32 *)((u8 *)packet_code + 0x19));
+                                                    overlay_color = scratch->overlay_color;
+                                                    ((S_800CF8E4_9_pre *)packet_code)[-1].unk_00 = 5;
+                                                    (*(s32 *)((u8 *)packet_code + -3)) = overlay_color;
+                                                    packet_code += 0x28;
+                                                    *(s32 *)packet = (*(s32 *)packet & tag_mask)
+                                                    | (*(s32 *)((scratch->otz * 4)
+                                                        + scratch->ot_base) & address_mask);
+                                                    overlay_ot_entry =
+                                                        (s32 *)((scratch->otz * 4)
+                                                        + scratch->ot_base);
+                                                    {
+                                                        s32 overlay_addr;
 
-                                                    overlay_addr = (s32) packet & address_mask;
-                                                    edge_progress = *overlay_ot_entry;
-                                                    packet += 0x28;
-                                                    edge_progress &= tag_mask;
-                                                    edge_progress |= overlay_addr;
-                                                    *overlay_ot_entry = edge_progress;
-                                                }
-                                                ((S_800CF8E4_9_pre *)packet_code)[-1].unk_00 = one;
-                                                {
+                                                        overlay_addr = (s32) packet & address_mask;
+                                                        edge_progress = *overlay_ot_entry;
+                                                        packet += 0x28;
+                                                        edge_progress &= tag_mask;
+                                                        edge_progress |= overlay_addr;
+                                                        *overlay_ot_entry = edge_progress;
+                                                    }
+                                                    ((S_800CF8E4_9_pre *)packet_code)[-1].unk_00 = one;
+                                                    {
 
-                                                    edge_progress = scratch->draw_mode;
-                                                    edge_progress &= 0x9FF;
-                                                    edge_progress |= 0xE1000000;
-                                                    (*(s32 *)((u8 *)packet_code + -3)) = edge_progress;
+                                                        edge_progress = scratch->draw_mode;
+                                                        edge_progress &= 0x9FF;
+                                                        edge_progress |= 0xE1000000;
+                                                        (*(s32 *)((u8 *)packet_code + -3)) = edge_progress;
+                                                    }
                                                 }
                                             }
+                                            packet_code += 0x28;
+                                            packet_addr = (void *) ((s32) packet & address_mask);
+                                        } else if ((u32) quad_depth < 0x1DEU) {
+                                            ((S_800CF8E4_9_pre *)packet_code)[-1].unk_00 = 9;
+                                            (*(s32 *)((u8 *)packet_code + -3)) = (s32) scratch->lit_color;
+                                            packet_addr = (void *) ((s32) packet & address_mask);
+                                            ((S_800CF8E4_9 *)packet_code)->unk_00 =
+                                                (u8) (((S_800CF8E4_9 *)packet_code)->unk_00 | 2);
+                                            packet_code += 0x28;
+                                        } else {
+                                            goto block_98;
                                         }
-                                        packet_code += 0x28;
-                                        packet_addr = (void *) ((s32) packet & address_mask);
-                                        goto L_D057C;
-                                    }
-                                    if ((u32) quad_depth < 0x1DEU) {
-                                        ((S_800CF8E4_9_pre *)packet_code)[-1].unk_00 = 9;
-                                        (*(s32 *)((u8 *)packet_code + -3)) = (s32) scratch->lit_color;
-                                        packet_addr = (void *) ((s32) packet & address_mask);
-                                        ((S_800CF8E4_9 *)packet_code)->unk_00 =
-                                            (u8) (((S_800CF8E4_9 *)packet_code)->unk_00 | 2);
-                                        packet_code += 0x28;
-L_D057C:
                                         *(s32 *)packet = (*(s32 *)packet & tag_mask) | (*(s32 *)((scratch->otz * 4) + scratch->ot_base) & address_mask);
                                         ot_entry = (scratch->otz * 4) + scratch->ot_base;
                                         *ot_entry = (*ot_entry & tag_mask) | (s32) packet_addr;
                                         packet += 0x28;
                                         face_skip = scratch->face_info.b.skip;
                                         if ((face_skip & 0xF) == one) {
-                                            if (((s8) scratch->face_info.b.flags) < 0) {
-                                                goto block_98;
+                                            if (((s8) scratch->face_info.b.flags) >= 0) {
+                                                face = (u8 *)face + ((((u32)face_skip >> 4) * 24) + 24);
+                                                goto L_CFE98;
                                             }
-                                            face = (u8 *)face + ((((u32)face_skip >> 4) * 24) + 24);
+                                        } else {
+                                            face = (u8 *)face + 24;
                                             goto L_CFE98;
                                         }
-                                        goto L_D063C;
                                     }
-                                    goto block_98;
                                 }
-                                goto block_98;
-                            }
-                            if (((S_800CF8E4_10 *)(((scratch->face_attr.h.x * 8) + normals)))->unk_04 >= 0) {
-                                goto L_D0644;
-                            }
-                            {
-                                s32 end_marker;
+                            } else {
+                                if (((S_800CF8E4_10 *)(((scratch->face_attr.h.x * 8) + normals)))->unk_04 < 0) {
+                                    s32 end_marker;
 
-                                end_marker = 0x8001;
-                                edge_progress = scratch->face_info.h.mode & 0x80FF;
-                                if (edge_progress == end_marker) {
-                                    goto block_98;
+                                    end_marker = 0x8001;
+                                    edge_progress = scratch->face_info.h.mode & 0x80FF;
+                                    if (edge_progress != end_marker) {
+                                        face = (u8 *)face + 24;
+                                        goto L_CFE98;
+                                    }
+                                } else {
+                                    face_skip = scratch->face_info.b.skip;
+                                    if ((face_skip & 0xF0) || ((s8) scratch->face_info.b.flags) >= 0) {
+                                        face_skip &= 0xF;
+                                        face = (u8 *)face + (face_skip * 24);
+                                        goto L_CFE98;
+                                    }
                                 }
                             }
-L_D063C:
-                            face = (u8 *)face + 24;
-                            goto L_CFE98;
-L_D0644:
-                            face_skip = scratch->face_info.b.skip;
-                            if (!(face_skip & 0xF0)) {
-                                if (((s8) scratch->face_info.b.flags) < 0) {
-                                    goto block_98;
-                                }
-                            }
-                            face_skip &= 0xF;
-L_D0670:
-                            face = (u8 *)face + (face_skip * 24);
-                            goto L_CFE98;
 block_98:
                             if ((u32) scratch->packet_end < (u32) packet) {
                                 goto block_106;
@@ -954,11 +936,8 @@ block_98:
                         }
                     }
                 }
-                if (scratch->active_edges == 0) {
-                    goto block_106;
-                }
             }
-            } while (1);
+            } while (scratch->active_edges != 0);
         }
 block_106:
         ((S_800CF8E4_14 *)(((S_800CF8E4_0 *)scene)->unk_00))->unk_8D0 = packet;
