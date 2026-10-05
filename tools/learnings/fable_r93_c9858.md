@@ -83,3 +83,11 @@ already scheduled (i.e. later in forward order). birthing_insn_p's "dest live" t
 or live out of it", not "live at block end": plain live-out disagreed with the observed boost on 17 of 27 insns, the
 corrected rule agreed on all 27. `why.py --pass sched --block bN --deps-table` prints both (birth = static test,
 boost = observed) and flags disagreements.
+
+## Volatile reload after a store through another pointer (r93_sonnet_vb1, 818EC800 / 800C13E0 exact)
+A `volatile` that only forces a reload of a field after a store through a DIFFERENT pointer: cse's invalidate_memory
+treats a store through a pointer as a nonscalar write that kills only in_struct entries, so a plain raw-cast read is
+forwarded from the earlier load. Access BOTH the store and the read as struct members (a tiny typedef with a pad up to
+the field is enough: `typedef struct {u8 pad0[0xC0]; u32 depth;} ScratchDepth;`) - exact, no volatile.
+Port results: 5 of 6 pin-free byte-volatile rows went volatile-free (21 volatiles + 2 one-trip blocks). Open: volatile
+u8* STORES through an induction pointer (80284068: loop.c biv->giv elimination changes the base).
