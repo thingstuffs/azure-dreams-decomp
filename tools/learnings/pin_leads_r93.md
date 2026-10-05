@@ -108,3 +108,8 @@ Per barrier, what it holds (do not retry the natural spellings): town/8096D944 f
 - Two-value register swap where a loop-hoisted value sits just above a REG_EQUIV-doubled parameter (single-set parameter
   live counts double): a duplicated narrow copy in both arms of an in-loop if/else lengthens the hoisted value's live at
   global-alloc; jump2 merges the tails afterwards (type of the copy matters: s8 exact, u8 1, s16/s32 5).
+- 819613A8 continuation (p17): best height-pin-erased text R_early (second read of bottom[0] after the field6 store,
+  used by the corner code) = listing 7 / total 5, every other register retail. Residue: reload_cse cannot delete the
+  re-read because the intervening stores use a different base ($6 vs $7; reload1.c ~7705). A global height needs
+  priority < 1818 (life > 44 insns). Next: a natural second role that leaves no code and keeps two sets after combine
+  (an assignment that reads the variable itself, combine.c ~2361).
