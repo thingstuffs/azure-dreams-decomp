@@ -20,13 +20,9 @@ void func_80019394(s32 group_index, s32 entry_index) {
     Entry *groups;
     Entry *entries;
 
-    do {
-        root = D_80016000;
-    } while (0);
+    root = D_80016000;
     level = ((Entry *)root->unk_24);
     groups = *(Entry **)((u8 *)level + 0x6C);
-    do {
-        entries = groups[group_index].next;
-    } while (0);
+    entries = groups[group_index].next;
     func_8001A5E4(entries[entry_index].value);
 }

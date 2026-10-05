@@ -33,7 +33,7 @@ typedef struct S_800CCDA0_3 {
     u8 pad_0F[0x5];
     u16 unk_14;
     u8 pad_16[0x4];
-    union { u16 s; volatile u16 u; } unk_1A;   /* accessed as both */
+    union { u16 s; u16 u; } unk_1A;   /* accessed as both */
 } S_800CCDA0_3;   /* arg2 in func_800CCDA0 */
 
 
@@ -85,7 +85,7 @@ void func_800CCDA0(void *effect, void *motion, void *sprite)
         ((S_800CCDA0_3 *)sprite)->unk_1A.s = angle;
 
         {
-            u16 wobble_angle;
+            s32 wobble_angle;
 
             ticks_or_angle = ((S_800CCDA0_0 *)effect)->unk_06.s;
             wobble_angle = ((S_800CCDA0_3 *)sprite)->unk_1A.u;

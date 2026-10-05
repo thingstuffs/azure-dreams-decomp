@@ -27,7 +27,7 @@ extern void func_800B9144(Position *, s32, void *, s16);
 extern u8 D_801C9E40[16];
 
 /* Queue a clipped sprite with an optional black background, adjusting Y for the active buffer. */
-void func_800B8FC8(s32 sprite, Position *clip_rect, Position *screen_pos, s32 clear_bg, volatile s32 draw_flags)
+void func_800B8FC8(s32 sprite, Position *clip_rect, Position *screen_pos, s32 clear_bg, s16 draw_flags)
 {
     Position draw_pos;
     DrawContext *context;
@@ -36,7 +36,6 @@ void func_800B8FC8(s32 sprite, Position *clip_rect, Position *screen_pos, s32 cl
     Packet *area_packet;
     u16 saved_clear_bg;
     s16 shift_y;
-    s32 saved_draw_flags;
     s32 y;
 
     context = (DrawContext *)gameWork.unk_000;
@@ -46,7 +45,6 @@ void func_800B8FC8(s32 sprite, Position *clip_rect, Position *screen_pos, s32 cl
     ordering_table = context->ordering_table;
     context->next_packet = (Packet *)((u8 *)area_packet + 0xC);
     draw_context = gameWork.unk_000;
-    saved_draw_flags = draw_flags;
     func_80067E2C(area_packet, draw_context);
     func_8006658C(ordering_table, area_packet);
 
@@ -60,7 +58,7 @@ void func_800B8FC8(s32 sprite, Position *clip_rect, Position *screen_pos, s32 cl
         }
         context_slot = (DrawContext **)&gameWork.unk_000;
         draw_pos.y = y;
-        func_800B9144(&draw_pos, sprite, ordering_table, (s16)saved_draw_flags);
+        func_800B9144(&draw_pos, sprite, ordering_table, draw_flags);
 
         if ((u16)saved_clear_bg != 0) {
             Packet *clear_packet;

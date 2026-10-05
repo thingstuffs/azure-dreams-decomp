@@ -47,12 +47,10 @@ void func_801722BC(void *anim, void *motion, void *entity, void *actor)
 {
     s32 direction_aux;
     s32 move_ticks;
-    s32 acceleration;
     s32 origin_x;
     s32 origin_y;
     s32 height_offset;
     s32 height;
-    s32 vertical_speed;
     s32 arc_ticks;
     s32 target_x;
     s16 next_tick;
@@ -91,15 +89,9 @@ void func_801722BC(void *anim, void *motion, void *entity, void *actor)
             ((EntityRec *)motion)->unk_10 =
                 (((((Rec_D_80082E80 *)entity)->unk_25 << 6) - origin_y) << 16) /
                 (s16)((S_801722BC_0 *)anim)->unk_A4.s;
-            do {
-                arc_ticks = ((S_801722BC_0 *)anim)->unk_A4.s;
-            } while (0);
-            vertical_speed = ((EntityRec *)motion)->flags14;
-            acceleration =
-                (arc_ticks << 15) + (arc_ticks << 13);
-            vertical_speed += acceleration;
-            ((EntityRec *)motion)->flags14 = vertical_speed;
-            ((S_801722BC_0 *)anim)->unk_A0 += vertical_speed;
+            arc_ticks = ((S_801722BC_0 *)anim)->unk_A4.s;
+            ((EntityRec *)motion)->flags14 += (arc_ticks << 15) + (arc_ticks << 13);
+            ((S_801722BC_0 *)anim)->unk_A0 += ((EntityRec *)motion)->flags14;
         }
         height = ((S_801722BC_0 *)anim)->unk_90;
         height_offset = ((S_801722BC_0 *)anim)->unk_A0;

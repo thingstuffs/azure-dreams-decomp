@@ -75,11 +75,8 @@ void func_800D7D30(void *effect, void *motion, void *sprite) {
         ((S_800D7D30_1 *)effect)->unk_18.s = (s16)(((S_800D7D30_1 *)effect)->unk_18.u + 0x80 +
             (rand() & 0x3F));
 
-        do {
-        } while (0);
-
-        radius_step = ((S_800D7D30_1 *)effect)->unk_28 + ((S_800D7D30_1 *)effect)->unk_34;
-        ((S_800D7D30_1 *)effect)->unk_28 = radius_step;
+        ((S_800D7D30_1 *)effect)->unk_28 += ((S_800D7D30_1 *)effect)->unk_34;
+        radius_step = ((S_800D7D30_1 *)effect)->unk_28;
         radius = ((S_800D7D30_1 *)effect)->unk_1C.at00.v;
         if (radius <= 0) {
             radius_step >>= 2;

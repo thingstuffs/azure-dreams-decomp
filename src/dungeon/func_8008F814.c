@@ -162,12 +162,10 @@ s32 func_80094F74(Ctx *ctx, char *text, Item *item, Unit *unit) {
                 message))));
             ctx->done = 1;
             state_page = (u16 *) 0x80010000;
-            if (D_80012094 != 3) {
+            if (state_page[0x104A] != 3) {
                 state_page[0x104B] = 3;
             } else {
-                do {
-                    state_page[0x104B] = 5;
-                } while (0);
+                state_page[0x104B] = 5;
             }
             *(u16 *) 0x8001209A = 0;
         } else if (item_kind == 14) {

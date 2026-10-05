@@ -28,8 +28,7 @@ void *func_8009F9E8(s32 wanted_kind, s32 wanted_flag) {
     void *entry;
 
     entries = (void *)0x80010000;
-    kind_group = *(volatile u16 *)&D_80013716;
-    entry_index = kind_group - 1;
+    entry_index = *(u16 *)&D_80013716 - 1;
     entries = (void *)((u32)entries | 0x3720);
     if (entry_index >= 0) {
         group_70 = 0x70;

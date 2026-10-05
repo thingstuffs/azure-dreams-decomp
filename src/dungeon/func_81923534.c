@@ -46,8 +46,6 @@ typedef struct S_80024D34_5 {
 } S_80024D34_5;   /* control2 in func_80024D34 */
 
 
-#define VFIELD(expr, type, offset) (*(volatile type *)((u8 *)(expr) + (offset)))
-
 extern void *func_8003FC64(s32);
 extern void func_8004491C();
 extern s32 rand(void);
@@ -76,10 +74,9 @@ void func_80024D34(void *unused, Rec_func_800247B8_arg1 *origin)
         func_8004491C(effect, func_80045340);
 
         render_control = ((S_80024D34_1 *)effect)->unk_0C;
+        render_control->unk_14 |= 0xC;
         render_control->unk_10 = 0x60;
-        flags = render_control->unk_14 | 0xC;
-        VFIELD(render_control, u16, 0x14) = flags;
-        render_control->unk_14 = flags | 2;
+        render_control->unk_14 |= 2;
 
         position = ((S_80024D34_1 *)effect)->unk_08;
         random_value = rand();

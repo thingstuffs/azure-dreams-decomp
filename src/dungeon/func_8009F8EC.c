@@ -117,7 +117,7 @@ typedef struct S_800A504C_4 {
     u8 pad_18[0x4];
     s32 unk_1C;
     u8 pad_20[0x23];
-    union { volatile u8 v; u8 n; } unk_43;   /* accessed as both */
+    u8 unk_43;
     u8 pad_44[0x8];
     s32 unk_4C;
     s32 unk_50;
@@ -415,9 +415,9 @@ spawn_replacement:
                           replace_call_zero);
             func_80042710(replacement, entity);
 
-            if (((S_800A504C_4 *)replacement)->unk_43.v < 0x40) {
+            if (((S_800A504C_4 *)replacement)->unk_43 < 0x40) {
                 TablePage *table_page = (TablePage *)0x80010000;
-                u8 table_index = ((S_800A504C_4 *)replacement)->unk_43.n;
+                s32 table_index = ((S_800A504C_4 *)replacement)->unk_43;
                 u8 table_value = ((S_800A504C_4 *)replacement)->unk_10.at03.v;
                 table_page->table84[table_index].value = table_value;
                 table_page->table4[table_index].value = table_value;

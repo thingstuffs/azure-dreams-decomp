@@ -74,7 +74,7 @@ void func_800AAF00(void *actor, s32 effect_param, void *target, u8 *direction_ta
     u8 *slot_data;
     u8 *type_data;
     u8 *type_table;
-    volatile u16 *slot_flags;
+    u16 *slot_flags;
     u16 input_flags;
     s32 slot_offset;
     s32 type_index;
@@ -122,7 +122,8 @@ void func_800AAF00(void *actor, s32 effect_param, void *target, u8 *direction_ta
 
             slot_flags = (u16 *)((u8 *)object + 0x46);
             if (!(*slot_flags & 0x4000)) {
-                slot_offset = *slot_flags & 0x3FFF;
+                slot_offset = *slot_flags;
+                slot_offset &= 0x3FFF;
                 type_index = slot_offset;
                 type_index--;
                 type_table = D_8006DE24;

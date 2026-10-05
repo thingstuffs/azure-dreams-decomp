@@ -62,10 +62,8 @@ extern u8 D_80174180[9];
 extern u8 D_80174D08[12];
 
 /* Creates a tinted sprite at the source position with a height offset and random rotation. */
-void func_801741D0(s32 unused_0, S_801741D0_3 *source_pos, s32 unused_2, s8 green, s32 red_blue)
+void func_801741D0(s32 unused_0, S_801741D0_3 *source_pos, s32 unused_2, s8 green, s8 red_blue)
 {
-    s32 saved_red_blue = red_blue;
-    s8 saved_green = green;
     void *node;
     S_801741D0_1 *sprite;
     S_801741D0_2 *position;
@@ -93,18 +91,12 @@ void func_801741D0(s32 unused_0, S_801741D0_3 *source_pos, s32 unused_2, s8 gree
         ((S_801741D0_0 *)node)->unk_20 = 0x70;
         node_params[1] = 0x10;
         node_params[2] = 0x10;
-        sprite->unk_0D = saved_green;
-        do {
-            sprite->unk_0C = saved_red_blue;
-        } while (0);
-        sprite->unk_0E = saved_red_blue;
+        sprite->unk_0D = green;
+        sprite->unk_0C = red_blue;
+        sprite->unk_0E = red_blue;
         sprite->unk_1A = rand() & 0xFFF;
 
         memcpy((u8 *)node + 0x48, D_80174D08, 12);
         sprite->unk_08 = (u8 *)node + 0x48;
     }
 }
-
-/* MECHANISM: The 40-byte frame holds source_pos/node/sprite in s2/s1/s0 and byte args in s4/s3.
-   CDK 2.7.2-G0 gives the retail memcpy temp colors and unaligned 12-byte copy sequence.
-   ASM_KEEP(saved_green) at its last use schedules the prologue saves as s2, s4, then s3. */

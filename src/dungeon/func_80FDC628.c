@@ -106,13 +106,12 @@ s32 func_80171E28(Arg0 *action_state, s32 action_id, Arg2 *sprite, Arg3 *actor) 
         action_state->field_ac = actor->field_03;
         actor->field_03 = 0xFF;
         actor->field_84 = 0x7E;
+        actor->field_85 = 8;
     } else {
         action_state->field_9a = 0x11;
         actor->field_84 = 0x7C;
-    }
-    do {
         actor->field_85 = 8;
-    } while (0);
+    }
 
     direction_frames = D_80174038;
     sprite->field_2c = direction_frames;

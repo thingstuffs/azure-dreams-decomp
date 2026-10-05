@@ -157,7 +157,7 @@ void func_80170AE0(void *entity, S_80170AE0_2 *motion, void *monster)
         if (floor_height < 0x200) {
             actor_height = ((S_80170AE0_1 *)actor)->unk_88.s;
             if ((*(s16 *)((u8 *)entity + 0x92)) + actor_height < floor_height) {
-                (void)(*(volatile u16 *)((u8 *)entity + 0x98));
+                (*(u16 *)((u8 *)entity + 0x98)) &= 0xF7FFFFFF;
             } else {
                 if (floor_height >= actor_height) {
                     (*(s32 *)((u8 *)entity + 0x90)) = 0;

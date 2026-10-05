@@ -151,17 +151,10 @@ void func_800C9AAC(void *state, void *motion, void *part)
             }
         } else {
             s32 height_adjustment = (*(s32 *)((u8 *)state + (0xA0)));
-            s32 height_position = (*(s32 *)((u8 *)state + (0x90)));
-            u32 motion_flags = (*(u16 *)((u8 *)state + (0x98)));
-            do {
-                (*(u16 *)((u8 *)state + (0x9E))) = 0;
-            } while (0);
+            (*(u16 *)((u8 *)state + (0x9E))) = 0;
             (*(s32 *)((u8 *)state + (0xA0))) = 0;
-            height_adjustment = -height_adjustment;
-            height_position += height_adjustment;
-            (*(s32 *)((u8 *)state + (0x90))) = height_position;
-
-            if (!(motion_flags & 8)) {
+            (*(s32 *)((u8 *)state + (0x90))) -= height_adjustment;
+            if (!((*(u16 *)((u8 *)state + (0x98))) & 8)) {
                 target_height = func_800BCB04(((S_800C9AAC_1 *)motion)->unk_00.at02.v,
                     ((S_800C9AAC_1 *)motion)->unk_04.at02.v,
                     (s16)(((S_800C9AAC_2 *)secondary)->unk_88 - 0x20)) -

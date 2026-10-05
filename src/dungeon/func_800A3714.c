@@ -64,16 +64,14 @@ extern void func_800BC26C(void *, s32, s32, s32);
 
 /* Creates a dungeon object at a tile or the supplied coordinates. */
 void *func_800A8E74(s32 object_key, DungeonCoords *source_coords, s32 unused,
-                    DungeonData *source_data, s32 *init_data, volatile s32 tile_id) {
+                    DungeonData *source_data, s32 *init_data, s16 tile_id) {
     DungeonObject *object;
     DungeonData *data;
     DungeonCoords *coords;
     DungeonState *state;
     DungeonTile *tiles;
-    s16 tile_index;
     s32 init_value;
 
-    tile_index = tile_id;
     object = func_8003FD64(0x110, object_key - 0x20);
     if (object != NULL) {
         data = (DungeonData *)((u8 *)object + 0x20);
@@ -81,10 +79,10 @@ void *func_800A8E74(s32 object_key, DungeonCoords *source_coords, s32 unused,
         coords = object->field8;
         state = object->fieldC;
         data->field60 = source_data;
-        if (tile_index >= 0) {
+        if (tile_id >= 0) {
             DungeonTile *tile;
             tiles = D_800E36C8;
-            tile = &tiles[tile_index];
+            tile = &tiles[tile_id];
             coords->field2 = (tile->field0 << 6) + 0x20;
             coords->field6 = (tile->field1 << 6) + 0x20;
             coords->fieldA = tile->field2;

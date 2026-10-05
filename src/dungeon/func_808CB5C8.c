@@ -24,7 +24,7 @@ void func_80123A60(S_80123A60_0 *state) {
     s32 *entry_table_3;
     s32 entry_id;
     s32 slot;
-    u8 group;
+    s32 group;
 
     draw_rect[0] = 0x180;
     draw_rect[1] = 0x80;
@@ -47,9 +47,7 @@ void func_80123A60(S_80123A60_0 *state) {
             func_80123928(*((entry_id * 3) + entry_table_2), 0x1A4, 0xA0);
         }
         func_80067014(0);
-        do {
-            return;
-        } while (0);
+        return;
     }
     group = state->unk_0F;
     entry_id = group * 0x10;

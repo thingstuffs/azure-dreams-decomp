@@ -14,14 +14,10 @@ s32 func_8001AB20(Vec3s *point_a, Vec3s *point_b) {
     diff = point_b->x;
     diff -= point_a->x;
     total = diff * diff;
-    do {
-        diff = point_b->y;
-        diff -= point_a->y;
-    } while (0);
+    diff = point_b->y;
+    diff -= point_a->y;
     total += diff * diff;
-    do {
-        diff = point_b->z;
-        diff -= point_a->z;
-    } while (0);
+    diff = point_b->z;
+    diff -= point_a->z;
     return total + diff * diff;
 }

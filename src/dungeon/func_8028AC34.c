@@ -22,14 +22,12 @@ typedef struct S_8001DC34_1 {
 extern u8 D_800E9FFA[];
 
 /* Clear a padded rectangle of grid entries and reset the region state. */
-void func_8001DC34(void *region_data)
+void func_8001DC34(S_8001DC34_0 *region)
 {
-    S_8001DC34_0 *region;
     s16 row;
     s16 cells_left;
     s16 *cell;
     u8 *cell_tail;
-    s32 row_shifted;
     MapGrid *grid_config;
     u32 grid_base;
     s16 first_row;
@@ -37,7 +35,6 @@ void func_8001DC34(void *region_data)
     s16 end_row;
     s16 remaining;
     s32 row_width;
-    region = region_data;
     grid_config = &gameWork.map;
     region->unk_0A = 0;
     first_row = region->unk_02 - 1;
@@ -46,10 +43,7 @@ void func_8001DC34(void *region_data)
     if ((first_row << 16) < (end_row << 16)) {
         grid_base = (u32)D_800E9FFA;
         do {
-            do {
-                row_shifted = row << 16;
-            } while (0);
-            cell = (s16 *)(((((row_shifted >> 16) << grid_config->shiftX) +
+            cell = (s16 *)((((row << grid_config->shiftX) +
                   region->unk_00) * 6) + grid_base);
             row_width = region->unk_04 + 2;
             cells_left = row_width;

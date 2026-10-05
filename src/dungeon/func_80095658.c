@@ -30,20 +30,18 @@ extern s16 func_800BCB04(s32, s32, s16);
 
 /* Checks the facing cell for valid terrain flags and an acceptable height. */
 s32 func_8009ADB8(S_8009ADB8_0 *facing_state, S_8009ADB8_1 *attributes, s16 tile_x, s16 tile_y,
-    volatile s32 initial_height)
+    s16 initial_height)
 {
     MapCell *map;
     u8 *map_state;
     s16 height;
     s32 next_height;
-    s32 height_hint;
     s32 direction;
     s16 next_x;
     s16 next_y_sum;
     s16 next_y;
     MapCell *next_cell;
 
-    height_hint = initial_height;
     map = ((MapCell *)gameWork.map.cells);
     map_state = (u8 *)((MapCell * *)&gameWork.map.cells);
     direction = (facing_state->unk_2A >> 9) & 7;
@@ -51,7 +49,7 @@ s32 func_8009ADB8(S_8009ADB8_0 *facing_state, S_8009ADB8_1 *attributes, s16 tile
         (height = func_800BCB04(
              (((tile_x << 16) >> 10) + 0x20) & 0xFFE0,
              (((tile_y << 16) >> 10) + 0x20) & 0xFFE0,
-             (s16)height_hint),
+             initial_height),
          height >= 0x200)) {
         return 0;
     }

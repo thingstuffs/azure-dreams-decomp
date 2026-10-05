@@ -21,15 +21,12 @@ void *func_8009B4B0(u8 *entry, s16 x, s16 y)
     u8 *list_head;
     u16 tile_x;
     u16 tile_y;
-    tile_x = x - 1;
+    tile_x = x;
+    tile_y = y;
     list_head = entry;
-    if (((func_8009A350((s16) tile_x, y, 0, &tile_flags) << 0x10) == 0) || ((tile_flags & 0x3300) != 0)) {
+    if (((func_8009A350((s16) (tile_x - 1), y, 0, &tile_flags) << 0x10) == 0) || ((tile_flags & 0x3300) != 0)) {
         entry = ((Rec *) entry)->next + 0x20;
         if (entry != list_head) {
-            do {
-            } while (0);
-            tile_x = x;
-            tile_y = y;
             do {
                 u8 *entry_data = *((u8 **) (entry - 0x14));
                 if ((((*((u8 *) (entry_data + 0x24))) == tile_x) && ((*((u8 *) (entry_data + 0x25))) == tile_y))

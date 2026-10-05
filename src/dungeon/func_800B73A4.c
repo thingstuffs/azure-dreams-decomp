@@ -137,11 +137,14 @@ s32 func_800BCB04(s32 x, s32 y, s16 min_height) {
                         s32 y_term = (s16)normal->y * delta_y;
                         s32 z_term = (s16)normal->z * (s16)vertex->z;
                         s32 height = (x_term + y_term + z_term) / (s16)normal->z;
-                        u16 raw_offset = work->offset;
-                        s32 height_limit = work->limit;
-                        s32 cell_height = height + (s16)raw_offset;
+                        u16 raw_offset;
+                        s32 height_limit;
+                        s32 cell_height;
 
-                        *(volatile s32 *)&work->value = height;
+                        work->value = height;
+                        raw_offset = work->offset;
+                        height_limit = work->limit;
+                        cell_height = height + (s16)raw_offset;
                         work->value = cell_height;
                         if (cell_height >= height_limit) {
                             if (cell_height < work->best) {
