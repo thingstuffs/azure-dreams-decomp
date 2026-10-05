@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_80048E00(void *arg0, void *arg1);
+extern void func_80048E00(void *cursor, void *pattern_data);
 extern s32 D_800D15B8;
 
 /* Initialize the record with global data and set its high flag bit. */

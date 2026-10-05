@@ -3,7 +3,7 @@
 extern s16 func_800C2AE8();
 extern void func_80033D08(void *arg0);
 extern void func_800A7308(void *arg0, void *arg1, s32 arg2);
-extern void func_80095388(void *arg0);
+extern void func_80095388(void *record);
 
 typedef void (*S_800A9C80_Callback)(void *, void *, s32);
 

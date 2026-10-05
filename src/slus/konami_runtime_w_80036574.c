@@ -24,7 +24,7 @@ struct Object {
     Child *child;
 };
 
-extern void func_800364BC(Object *arg0);
+extern void func_800364BC(Object *state);
 extern void func_8003661C(Object *arg0);
 
 /* Decrement the countdown, restoring the callback on expiry or updating the selection from state flags. */

@@ -7,9 +7,9 @@ typedef struct {
 } S_80011A50;
 
 extern u8 D_80083E98;
-extern void func_80024390(S_80011A50 *arg0);
-extern void func_80024818(S_80011A50 *arg0);
-extern void func_800249B4(S_80011A50 *arg0);
+extern void func_80024390(S_80011A50 *record);
+extern void func_80024818(S_80011A50 *context);
+extern void func_800249B4(S_80011A50 *context);
 
 /* Dispatch to a handler based on the object's table entry and state. */
 void func_80024A50(S_80011A50 *object, s32 handler_arg1, s32 handler_arg2, s32 handler_arg3)

@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 
-extern void func_80044A50(void *arg0);
+extern void func_80044A50(void *node);
 extern void func_800478B8(void *arg0);
 
 extern u16 D_801742E0;

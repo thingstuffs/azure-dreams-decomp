@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern s32 func_800352FC(void);
-extern void func_8008F134(void *arg0);
+extern void func_8008F134(void *node);
 extern struct { s32 v; s32 pad[2]; } D_800814A0;
 
 /* On a zero result, process the object and set its flag and the global flag. */

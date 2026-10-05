@@ -4,7 +4,7 @@
 extern void func_8005CA70(void);
 extern void func_80056C30(void);
 extern void func_8005A26C(void);
-extern void func_8005D838(int arg0, void *arg1);
+extern void func_8005D838(int count, void *record);
 
 typedef struct {
     int unk0;

@@ -5,7 +5,7 @@
 extern u8 D_8006A86C[];
 extern u8 D_800809C0[];
 
-extern void func_8003AB14(void *arg0, void *arg1);
+extern void func_8003AB14(void *dest, void *source);
 extern void func_80037D50(u8 *arg0, u8 arg1);
 extern void func_80038A10(void);
 

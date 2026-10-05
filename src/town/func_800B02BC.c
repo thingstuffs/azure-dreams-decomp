@@ -2,11 +2,11 @@
 
 extern void func_8004DD2C(s32 arg0);
 extern void SD_Call(s32 arg0);
-extern void func_800AD7F8(void *arg0);
-extern void func_800AD8CC(void *arg0);
-extern s32 func_800AD99C(void *arg0);
+extern void func_800AD7F8(void *state);
+extern void func_800AD8CC(void *record);
+extern s32 func_800AD99C(void *entry);
 extern void close_twin_shop(void *arg0);
-extern void func_800B17E4(s32 arg0);
+extern void func_800B17E4(s32 object_addr);
 
 extern s32 D_800D1558;
 extern s32 D_800D155C;

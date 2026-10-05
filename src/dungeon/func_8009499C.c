@@ -23,7 +23,7 @@ extern struct {
     s32 pad[2];
 } D_800E296C;
 
-extern void func_80099FDC(void *arg0);
+extern void func_80099FDC(void *entry);
 
 /* Process nodes flagged 0x1000 and clear global bit 28 when D_80012090 is not 1. */
 void func_8009A0FC(void) {

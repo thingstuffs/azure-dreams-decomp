@@ -7,9 +7,9 @@ typedef struct FuncArg {
     s32 field8;
 } FuncArg;
 
-extern void func_800B03B4(s32 arg0);
-extern void func_800B0700(s32 arg0);
-extern void func_800B1DBC(s32 arg0);
+extern void func_800B03B4(s32 object);
+extern void func_800B0700(s32 object);
+extern void func_800B1DBC(s32 object);
 extern void func_8004E130(void);
 extern void func_80093894(void);
 

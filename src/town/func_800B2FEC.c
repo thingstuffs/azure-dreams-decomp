@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_80033AE8(s32 arg0);
+extern void func_80033AE8(s32 flag_id);
 extern s16 D_800D15C0[];
 
 /* Processes the terminated ID list, 54 evenly spaced IDs, and ID 0xD31. */

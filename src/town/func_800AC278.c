@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern s32 func_800A98C4(s32 arg0);
-extern s32 func_800A98F8(s32 arg0);
-extern s32 func_800A9970(s32 arg0);
+extern s32 func_800A98C4(s32 table_index);
+extern s32 func_800A98F8(s32 check_type);
+extern s32 func_800A9970(s32 slot);
 
 s32 func_800A99D8(s32 input, s32 check_value) {
     s32 result;

@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern void func_8001ACE8(s32 arg0);
-extern void func_8001AD60(s32 arg0);
-extern s32 func_8001ADE0(s32 arg0);
+extern void func_8001ACE8(s32 bit_index);
+extern void func_8001AD60(s32 bit_index);
+extern s32 func_8001ADE0(s32 flagIndex);
 
 // Processes the selected entry if the object's handle passes its status check.
 s32 func_80019C68(void *object, s32 entryIndex)

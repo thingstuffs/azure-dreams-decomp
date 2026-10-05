@@ -7,7 +7,7 @@ typedef struct {
     void *object;
 } ObjectSlot;
 
-extern void func_800C4174(void *arg0, s32 arg1, s32 arg2);
+extern void func_800C4174(void *object, s32 update_context, s32 setup_context);
 
 /* Store the object in its slot, mark the slot inactive, and call the next handler. */
 void func_800CCA18(void *object, s32 callback_arg1, s32 callback_arg2) {

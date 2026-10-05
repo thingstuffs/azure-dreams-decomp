@@ -22,9 +22,9 @@ typedef struct S_80025788_1 {
 
 
 extern void func_80020984(void);
-extern s32 func_8002219C(s32 arg0);
-extern void func_8002316C(void *arg0);
-extern void func_80024298(s32 arg0);
+extern s32 func_8002219C(s32 file_index);
+extern void func_8002316C(void *command_arg);
+extern void func_80024298(s32 object_addr);
 extern u8 D_80024F7C[];
 extern u8 D_8002593C[];
 

@@ -10,7 +10,7 @@ typedef struct {
     u16 unk2;
 } Func8009AA20Arg1;
 
-extern void func_80098D60(Func8009AA20Arg0 *arg0, Func8009AA20Arg1 *arg1, s32 arg2);
+extern void func_80098D60(Func8009AA20Arg0 *record, Func8009AA20Arg1 *setup_value, s32 init_context);
 
 /* Decrement the countdown, invoking its handler when exhausted or advancing the cursor by four. */
 void func_80098180(Func8009AA20Arg0 *countdown_state, Func8009AA20Arg1 *cursor_state, s32 context_value) {

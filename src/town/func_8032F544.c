@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern s32 func_800194E4(s32 arg0, s32 arg1);
-extern s32 func_8001ADE0(s32 arg0);
+extern s32 func_800194E4(s32 entries, s32 entry_id);
+extern s32 func_8001ADE0(s32 flagIndex);
 
 /* Resolve a table entry to its referenced flag and query that flag. */
 void func_80019D44(s32 entry_table, void *context, s32 entry_key) {

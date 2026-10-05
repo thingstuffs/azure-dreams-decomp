@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_800A2304(void *arg0, s32 arg1, s32 arg2, u8 arg3);
+extern s32 func_800A2304(void *input_first, s32 input_second, s32 input_third, u8 input_fourth);
 extern s32 D_800A07E8;
 
 /* Install the next object handler when the update call succeeds. */

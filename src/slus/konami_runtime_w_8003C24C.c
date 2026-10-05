@@ -19,7 +19,7 @@ typedef struct {
 } Manager;
 
 extern Manager D_80082D58;
-extern void func_8003C0A4(void *arg0, void *arg1);
+extern void func_8003C0A4(void *dest, void *source);
 extern void func_8003C4C8(void);
 
 /* Prepare the state when needed, set the manager callback, and process the state. */

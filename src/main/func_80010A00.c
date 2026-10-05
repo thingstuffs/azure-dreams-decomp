@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_800239B0(void *arg0);
+extern void func_800239B0(void *record);
 
 /* Processes a nonzero record and sets its flag and the global flag to include bit 15. */
 void func_80023A00(s32 record) {

@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void *func_800A9B2C(s32 arg0, void *arg1);
+extern void *func_800A9B2C(s32 group_id, void *record);
 
 extern u8 D_8006C894[];
 extern u8 D_8006C8F7[];

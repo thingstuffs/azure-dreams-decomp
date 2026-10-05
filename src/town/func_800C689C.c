@@ -15,8 +15,8 @@ typedef struct {
     u16 angle;
 } Position;
 
-extern u16 func_800C2B38(void *arg0);
-extern void func_800C4174(void *arg0, void *arg1, s32 arg2);
+extern u16 func_800C2B38(void *object);
+extern void func_800C4174(void *object, void *update_context, s32 setup_context);
 
 /* Moves the position toward its target over the remaining steps and updates its angle. */
 void func_800C3FFC(void *work_data, void *position_data, s32 completion_arg) {

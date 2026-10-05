@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_800453E0(void *arg0, s32 arg1, void *arg2, s32 arg3);
+extern void func_800453E0(void *context, s32 position, void *entry, s32 depth_bias);
 
 /* Clears the scratchpad counter and processes each record in the linked chain. */
 s32 func_80175D74(u8 *record_data, s32 record_value, u8 *linked_data) {

@@ -10,7 +10,7 @@ typedef struct Func80039C44State {
     u8 byte_27;
 } Func80039C44State;
 
-extern void func_800385D0(void *arg0);
+extern void func_800385D0(void *state);
 
 /* Read an event-script byte and select func_800385D0 as the handler. */
 void func_80039C44(Func80039C44State *state) {

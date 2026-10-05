@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern s32 func_8001ADE0(s32 arg0);
-extern void func_80019958(s32 arg0, s32 arg1);
+extern s32 func_8001ADE0(s32 flagIndex);
+extern void func_80019958(s32 record, s32 entry_index);
 
 s32 func_80016534(s32 dispatch_value, s32 dispatch_option) {
     if (func_8001ADE0(0x1463) != 0) {

@@ -21,7 +21,7 @@ typedef struct TownTransition {
     Vec3i *other;
 } TownTransition;
 
-extern void func_800A4D4C(void *arg0);
+extern void func_800A4D4C(void *state);
 
 /* Reset on target changes or move toward the midpoint of the two targets. */
 void func_800A4E1C(TownTransition *state) {

@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_800A0B74(void *arg0, s32 arg1);
+extern void func_800A0B74(void *map_source, s32 map_table);
 extern void *D_800A08E8;
 
 // Increase the object's ramp value, then finalize and change state at the limit.

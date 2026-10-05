@@ -7,7 +7,7 @@ typedef struct {
     u16 unk14;
 } S_80048AC8;
 
-extern void func_800477F4(void *arg0);
+extern void func_800477F4(void *actor);
 extern void func_80048998(void *arg0, void *arg1);
 
 /* Updates the entity, then dispatches and clears bit 0x20 if any flags in 0x1220 are set. */

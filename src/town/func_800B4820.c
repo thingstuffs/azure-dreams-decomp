@@ -3,9 +3,9 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_800B1DCC_arg0.h"
 
-s32 func_80049E1C(s32 arg0, s32 arg1, s32 arg2);
-void func_800B1F10(s32 arg0, s32 arg1);
-void func_800B1F48(s32 arg0, s32 arg1);
+s32 func_80049E1C(s32 index, s32 step, s32 count);
+void func_800B1F10(s32 context, s32 handler_index);
+void func_800B1F48(s32 context, s32 handler_index);
 
 
 typedef struct S_800B1F80_1 {

@@ -3,9 +3,9 @@
 
 extern u8 *D_80174710;
 
-extern void func_800A32A4(void *arg0);
-extern void func_8009A3D0(s32 arg0, s32 arg1, s32 arg2);
-extern void func_8009A028(void *arg0);
+extern void func_800A32A4(void *record);
+extern void func_8009A3D0(s32 x, s32 y, s32 flag_mask);
+extern void func_8009A028(void *node);
 
 /* Updates the active object, triggers its positional effect, and clears its slot. */
 void func_81254248(void) {

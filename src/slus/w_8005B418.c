@@ -2,7 +2,7 @@
 
 extern s32 D_80073734[4];
 extern s32 D_80073740[64];
-extern void func_8005E97C(s32 arg0, s32 arg1);
+extern void func_8005E97C(s32 key_on, s32 voices);
 
 /* Combines flags from D_80073740 and passes them to func_8005E97C. */
 void func_8005B418(void) {

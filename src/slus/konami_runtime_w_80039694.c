@@ -7,7 +7,7 @@ typedef struct Func80039694State {
     u8 *read_ptr;
 } Func80039694State;
 
-extern s32 func_80033B2C(s32 arg0);
+extern s32 func_80033B2C(s32 bit_id);
 
 /* Branches to the script target when the key check succeeds, otherwise skipping the target. */
 u32 func_80039694(Func80039694State *state) {

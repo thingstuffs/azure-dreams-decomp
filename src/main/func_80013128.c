@@ -9,8 +9,8 @@ extern UA32 D_80028064;
 
 s32 func_80025E54();
 s32 func_80025ECC(void);
-void func_80025F0C(void *arg0, s32 arg1);
-void func_80025FFC(void *arg0, s32 arg1);
+void func_80025F0C(void *record, s32 index);
+void func_80025FFC(void *dest, s32 record_index);
 
 /* Copies the initial word into the buffer and initializes state for the selected mode. */
 void func_80026128(UA32 *buffer, s32 config, s32 mode) {

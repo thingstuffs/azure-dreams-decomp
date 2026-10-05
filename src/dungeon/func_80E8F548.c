@@ -13,7 +13,7 @@ typedef struct {
 
 
 extern void *func_8003FC64(s32);
-extern void func_8004491C(void *arg0, void *arg1);
+extern void func_8004491C(void *entry, void *registration_id);
 extern s32 func_8004A658(s32, s32);
 extern void func_800BC26C(void *, s32, s32, s32);
 

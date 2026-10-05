@@ -15,7 +15,7 @@ typedef struct {
 
 extern Status D_800E39C8[];
 extern Slot D_800E3648[];
-extern void func_800B5F80(s32 arg0);
+extern void func_800B5F80(s32 slot_index);
 
 /* Process each active slot at the given coordinates. */
 void func_800B6008(s32 x, s32 y) {

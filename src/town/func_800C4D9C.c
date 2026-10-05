@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern s32 func_80033B2C(s32 arg0);
-extern void func_80033AA8(s32 arg0);
-extern void func_80033AE8(s32 arg0);
+extern s32 func_80033B2C(s32 bit_id);
+extern void func_80033AA8(s32 bit_id);
+extern void func_80033AE8(s32 flag_id);
 extern s16 D_800D4770[];
 
 /* Dispatches each table pair's second value according to the test of its first value. */

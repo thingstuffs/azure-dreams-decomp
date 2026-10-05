@@ -13,7 +13,7 @@ typedef struct S_func_80405CB8_0 {
     s32 unk_60;
 } S_func_80405CB8_0;
 
-extern s32 func_80402154(s32 arg0, s32 arg1);
+extern s32 func_80402154(s32 index, s32 data_ptr);
 extern void func_8040325C(void *arg0);
 extern void func_80405C44(s32 arg0);
 extern void func_80400908(void);

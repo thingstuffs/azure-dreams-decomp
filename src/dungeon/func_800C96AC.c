@@ -4,7 +4,7 @@
 extern u8 D_800CEA44[];
 extern u8 D_800E3648[];
 
-extern s32 func_8003FA44(s32 arg0);
+extern s32 func_8003FA44(s32 limit);
 extern void *func_8003FC64(s32 arg0);
 extern void SD_Call(s32 arg0);
 

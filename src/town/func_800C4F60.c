@@ -2,8 +2,8 @@
 #include "shared/object_flags.h"
 
 extern s32 func_800352FC(void);
-extern s32 func_800C2A60(void *arg0);
-extern void func_8008F134(void *arg0);
+extern s32 func_800C2A60(void *other);
+extern void func_8008F134(void *node);
 
 /* Process the object and set its header and global flags when both checks pass. */
 void func_800C26C0(void *object, s32 check_value_1, s32 check_value_2, s32 check_value_3) {

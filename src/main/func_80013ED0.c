@@ -2,12 +2,12 @@
 
 extern s32 func_8004B4A8(void *arg0);
 extern void *func_8003FE78(s32 arg0, void *arg1, s32 arg2);
-extern void func_8004491C(void *arg0, void *arg1);
-extern void func_80026FB4(void *arg0);
+extern void func_8004491C(void *entry, void *registration_id);
+extern void func_80026FB4(void *object);
 extern void bzero(void *arg0, s32 arg1);
 extern void func_80026DF0(void *arg0, s32 arg1);
-extern s32 func_80026DC8(void *arg0);
-extern void func_80026E90(void *arg0, s32 arg1);
+extern s32 func_80026DC8(void *nodes);
+extern void func_80026E90(void *record, s32 initial_value);
 
 extern u8 D_8002B850[];
 extern u8 D_80027DD0[];

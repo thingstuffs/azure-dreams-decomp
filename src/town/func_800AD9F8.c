@@ -2,7 +2,7 @@
 #include "shared/entity_objects.h"
 
 extern void func_800AAEFC(void);
-extern s32 func_800AAE98(void *arg0);
+extern s32 func_800AAE98(void *coordinates);
 extern u8 D_800AB1E0[];
 extern u8 D_800AB708[];
 

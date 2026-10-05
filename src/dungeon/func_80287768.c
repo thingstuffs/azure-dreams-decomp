@@ -8,7 +8,7 @@ extern u8 D_8001F6A0;
 extern s8 D_8001F6A4[];
 extern s8 D_8001F6E8[];
 
-extern s32 func_8001ABC8(s16 arg0, s16 arg1);
+extern s32 func_8001ABC8(s16 value_a, s16 value_b);
 extern s32 func_800A6D30(void);
 
 /* Search outward for an eligible tile, updating the facing direction when turning. */

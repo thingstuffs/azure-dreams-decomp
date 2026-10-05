@@ -29,7 +29,7 @@ typedef struct S_800C7930_3 {
 extern u16 D_800DCEAC;
 extern u16 D_800DCEBC;
 extern u8 D_800E58F8;
-extern s32 func_800C77D0(s32 arg0, void *arg1, s32 arg2, s32 arg3);
+extern s32 func_800C77D0(s32 slot_id, void *target, s32 target_id, s32 slot_value);
 
 /* Apply table offsets to a position near the camera and pass it to func_800C77D0. */
 s32 func_800C7930(s32 object_addr, void *source_pos, s32 helper_arg, s32 slot_value)

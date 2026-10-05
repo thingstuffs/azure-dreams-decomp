@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s16 func_8008C570(s32 arg0, s32 arg1, s32 arg2);
+extern s16 func_8008C570(s32 vector, s32 entries, s32 entry_index);
 extern s32 D_800D0414;
 
 /* Call func_8008C570 with the input, D_800D0414, and parameter. */

@@ -16,7 +16,7 @@ typedef struct D_80083460_S {
 
 
 extern s32 func_800A5C70(void);
-extern void func_8009F644(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+extern void func_8009F644(s32 object_ptr, s32 action_code, s32 payload, s32 extra_byte);
 
 /* Sets the object action to 0x33, conditionally sets a global flag, and dispatches the target. */
 void func_800969B8(void *object, s32 unused_1, s32 unused_2, s32 target) {

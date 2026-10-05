@@ -11,7 +11,7 @@ typedef struct {
     s8  pad20[0x08];
 } S_8005A56C_Cmd;
 
-extern void func_8005EDA0(S_8005A56C_Cmd *arg0);
+extern void func_8005EDA0(S_8005A56C_Cmd *attr);
 
 /* Dispatches a mode-selected command containing two values scaled by 256. */
 void func_8005A56C(s32 mode, s32 value_1, s32 value_2)

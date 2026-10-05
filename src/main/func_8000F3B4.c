@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern void func_80022300(void *arg0, void *arg1, s32 arg2);
-extern void func_8002233C(s32 arg0, s32 arg1, s32 arg2);
+extern void func_80022300(void *unused, void *packet, s32 slot_index);
+extern void func_8002233C(s32 entry_base, s32 start_index, s32 entry_count);
 
 static __inline__ u32 calculate_x(
     void *context,

@@ -15,11 +15,11 @@ typedef struct S_80027364_1 {
 
 extern s32 func_8004B4A8(void *arg0);
 extern void *func_8003FE78(s32 arg0, void *arg1, s32 arg2);
-extern void func_8004491C(void *arg0, void *arg1);
-extern void func_80023A00(void *arg0);
+extern void func_8004491C(void *entry, void *registration_id);
+extern void func_80023A00(void *record);
 extern void bzero(void *arg0, s32 arg1);
 extern void func_8002727C(void *arg0, s32 arg1);
-extern s32 func_80027254(void *arg0);
+extern s32 func_80027254(void *input);
 extern void func_80027324(void *arg0, s32 arg1);
 
 extern u8 D_80027DD0[];

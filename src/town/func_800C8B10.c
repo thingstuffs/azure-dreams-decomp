@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_800A71F0(s32 arg0, void *arg1, void *arg2);
+extern void func_800A71F0(s32 position, void *state_value, void *graphic_id);
 extern u8 D_800C6180[];
 extern u8 D_800ED15C[];
 

@@ -11,7 +11,7 @@ typedef struct {
 } S_80048224;
 
 extern S_80048224 D_80083D08[6];
-extern s32 func_80047BC0(s32 arg0);
+extern s32 func_80047BC0(s32 slot_id);
 
 /* Clear flag bit 0 in the slot matching slot_id and return 1 if found, else 0. */
 s32 func_80048224(s16 slot_id) {

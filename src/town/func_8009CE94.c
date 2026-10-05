@@ -6,7 +6,7 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
-extern s32 func_800C2B6C(s16 arg0);
+extern s32 func_800C2B6C(s16 angle);
 extern u8 D_80082660;
 extern s32 D_80082A38[];
 /* player_now_ang_get: Store the current player angle when the player slot is available. */

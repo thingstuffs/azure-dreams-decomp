@@ -7,7 +7,7 @@ typedef unsigned int u32;
 typedef int s32;
 extern u32 D_8006ADBC;
 extern s32 D_800D3824[];
-extern void func_800BC45C(s32 arg0, s16 arg1);
+extern void func_800BC45C(s32 data_id, s16 position_offset);
 /* Calls func_800BC45C with the first table entry matching the state's ID. */
 void func_800C0DE8(void)
 {

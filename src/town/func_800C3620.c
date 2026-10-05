@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_80033AE8(s32 arg0);
+extern void func_80033AE8(s32 flag_id);
 extern s16 D_800D253C[66];
 extern s16 D_800D25C0[66];
 

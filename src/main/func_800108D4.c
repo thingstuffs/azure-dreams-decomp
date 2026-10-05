@@ -16,12 +16,12 @@ typedef struct S_800238D4_1 {
 extern s32 func_8004B4A8(void *arg0);
 extern void *func_8003FE78(s32 arg0, void *arg1, s32 arg2);
 extern void func_8004491C(void *arg0, void *arg1);
-extern void func_80023A00(void *arg0);
+extern void func_80023A00(void *record);
 extern void bzero(void *arg0, s32 arg1);
 extern void func_800237EC(void *arg0, s32 arg1);
-extern s32 func_800237C4(void *arg0);
+extern s32 func_800237C4(void *input);
 extern void func_80023894(void *arg0, s32 arg1);
-extern void func_80023258(void *arg0);
+extern void func_80023258(void *state);
 
 extern u8 D_80027DD0[];
 extern u8 D_800291D0[];

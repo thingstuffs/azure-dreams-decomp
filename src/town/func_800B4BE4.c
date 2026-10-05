@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_800B2280(void *arg0, s32 arg1, s32 arg2);
+extern void func_800B2280(void *used_addrs, s32 pool_index, s32 slot_count);
 
 /* Calls func_800B2280 with D_8001029C and fixed parameters 0 and 20. */
 void func_800B2344(void) {

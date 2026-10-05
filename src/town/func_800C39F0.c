@@ -14,7 +14,7 @@ extern void func_8004425C(s32 arg0);
 extern void func_8004450C(s32 arg0);
 extern void SD_Call(s32 arg0);
 extern void func_800542BC(void);
-extern u16 *func_800C1034(s16 arg0, s16 arg1);
+extern u16 *func_800C1034(s16 unused, s16 index);
 
 /* Loads a four-value record and applies the pending override to its first value. */
 void func_800C1150(void) {

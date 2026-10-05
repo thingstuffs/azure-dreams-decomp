@@ -6,7 +6,7 @@ extern s32 D_807014C8[];
 extern s32 D_80701DC4[];
 extern s32 D_80701DC8[];
 
-extern void func_80702180(s32 index, s32 arg1);
+extern void func_80702180(s32 index, s32 entry_index);
 
 /* Returns the current entry value or fallback address after calling func_80702180. */
 s32 func_80702444(void) {

@@ -14,7 +14,7 @@ typedef struct {
     s32 pad[3];
 } S_8008ECC0_Vec;
 
-extern s16 func_8008CF80(S_8008ECC0_Vec *arg0);
+extern s16 func_8008CF80(S_8008ECC0_Vec *record);
 
 /* Query the summed position and subtract the selected offset's integer z component. */
 s16 func_8008C420(S_8008ECC0 *position, S_8008ECC0 *offsets, s32 offset_index)

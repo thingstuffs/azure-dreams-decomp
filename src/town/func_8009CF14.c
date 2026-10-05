@@ -12,8 +12,8 @@ typedef struct {
     s16 y;
 } Entity;
 
-extern void func_80099754(s32 arg0);
-extern void func_80094984(void *arg0, void *arg1, s32 arg2);
+extern void func_80099754(s32 record);
+extern void func_80094984(void *entries, void *record, s32 handler_param);
 
 extern Entity D_800834B8;
 extern s32 D_80097D2C[3];

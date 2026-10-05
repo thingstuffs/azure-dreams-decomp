@@ -3,8 +3,8 @@
 extern s32 D_80700000[];
 extern s32 D_80701DC4[];
 
-extern void func_80701FEC(s32 arg0);
-extern void func_80702180(s32 index, s32 arg1);
+extern void func_80701FEC(s32 kind);
+extern void func_80702180(s32 index, s32 entry_index);
 
 /* Read the selected row value and process entry 3 before returning it. */
 s32 func_807024B0(void) {

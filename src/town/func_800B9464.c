@@ -7,8 +7,8 @@
 extern int D_800814A0;
 
 extern void func_8004B248(u16 **a0);
-extern void func_800B6B10(s32 arg0);
-extern void func_800B6F54(void *arg0);
+extern void func_800B6B10(s32 entries);
+extern void func_800B6F54(void *owner);
 
 typedef struct S_800B9464_sub {
     u8 pad00[0x98];

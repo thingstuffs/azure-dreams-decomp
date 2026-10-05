@@ -11,7 +11,7 @@ struct S_800505BC {
     /* 0x68 */ void *unk68;
 };
 
-extern void func_80050550(void *arg, s32 arg1, s32 arg2);
+extern void func_80050550(void *arg, s32 numerator, s32 denominator);
 extern void func_800504B4(S_800505BC *arg0, s32 arg1, s32 arg2);
 
 /* Advances the ratio ramp, switches callbacks at count three, and decays the counters. */

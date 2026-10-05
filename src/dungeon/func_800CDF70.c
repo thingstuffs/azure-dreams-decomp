@@ -9,7 +9,7 @@ typedef struct Entry {
     u16 unk14;
 } Entry;
 
-extern void func_800D3738(void *arg0, s32 arg1, Entry *arg2, s16 arg3);
+extern void func_800D3738(void *unused, s32 position, Entry *sprite, s16 depth_bias);
 
 /* Processes unflagged entries while following the state chain. */
 s32 func_800D36D0(void *state_base, s32 entry_data, Entry *entry)

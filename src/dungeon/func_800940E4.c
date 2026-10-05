@@ -7,10 +7,10 @@ typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
 extern s32 func_800990FC(void);
-extern s32 func_80099194(void *arg0, s32 arg1);
-extern void func_80099290(s32 arg0);
-extern s32 func_80099734(s32 arg0, s32 arg1);
-extern void func_800A5720(s32 arg0);
+extern s32 func_80099194(void *src, s32 dst);
+extern void func_80099290(s32 byte_ptr);
+extern s32 func_80099734(s32 record, s32 out);
+extern void func_800A5720(s32 text);
 /* Adjusts a computed value for application to the source and finalizes the original value. */
 void func_80099844(s32 context, void *source, s32 first_input, s32 second_input)
 {

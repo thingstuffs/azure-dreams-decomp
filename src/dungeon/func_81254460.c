@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_8009A028(s32 arg0);
+extern void func_8009A028(s32 node);
 extern s32 D_80174714;
 extern s32 D_80174710;
 extern s16 D_80174718;

@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern void func_80098834(s32 arg0, s32 arg1);
-extern void func_80098928(s32 arg0, s32 arg1, s32 arg2);
+extern void func_80098834(s32 record, s32 source);
+extern void func_80098928(s32 record, s32 setup_value, s32 init_value);
 extern s32 D_80093D48;
 extern s32 *D_800FE5D8;
 

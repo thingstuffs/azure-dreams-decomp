@@ -1,8 +1,8 @@
 #include "common.h"
 
 extern s32 func_80033D38(void *);
-extern void func_800C3780(void *arg0, void *arg1, void *arg2);
-extern void func_800C37C4(void *arg0, void *arg1, void *arg2);
+extern void func_800C3780(void *object, void *unused, void *update_arg);
+extern void func_800C37C4(void *object, void *unusedArg, void *initializationArg);
 
 typedef void (*FuncPtr)(void *, void *, void *);
 

@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern void func_80402A1C(void *arg0, void *arg1);
-extern void func_80402BE0(void *arg0);
+extern void func_80402A1C(void *buffer, void *layout);
+extern void func_80402BE0(void *state);
 extern void func_8040274C(void *arg0);
 extern void func_804027F8(void);
 extern void func_8040293C(void);

@@ -18,8 +18,8 @@ typedef struct S_8009B014_1 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern void func_80094984(void *arg0, void *arg1, s32 arg2);
-extern void func_80099754(void *arg0);
+extern void func_80094984(void *entries, void *record, s32 handler_param);
+extern void func_80099754(void *record);
 extern void *D_8009AFF4[3];
 extern u8 D_800D0078[3];
 extern s32 D_800D0620;

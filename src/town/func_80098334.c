@@ -17,7 +17,7 @@ typedef struct TownVec {
 } TownVec;
 
 extern s8 D_800CFCE9;
-void func_800954F4(TownObj *arg0);
+void func_800954F4(TownObj *source);
 
 /* Computes and clamps a vector-based adjustment, then updates the town object. */
 void func_80095A94(TownObj *obj, s32 base_value, TownVec **vec_ptr)

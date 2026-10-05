@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern void func_8001ACE8(s16 arg0);
-extern void func_8001AD60(s16 arg0);
-extern s32 func_8001ADE0(s16 arg0);
+extern void func_8001ACE8(s16 bit_index);
+extern void func_8001AD60(s16 bit_index);
+extern s32 func_8001ADE0(s16 flagIndex);
 
 /* Updates two dependent IDs according to the checked ID's status, then updates the checked ID. */
 void func_80019860(s16 checked_id, s16 first_id, s16 second_id)

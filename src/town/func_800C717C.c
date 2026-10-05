@@ -6,8 +6,8 @@ typedef struct {
     u8 pad[7];
 } Rec8;
 
-extern void func_800C2E84(void *arg0, s32 arg1, void *arg2);
-extern s16 func_800C2B88(s16 arg0, s16 arg1, s32 arg2);
+extern void func_800C2E84(void *state, s32 output, void *entries);
+extern s16 func_800C2B88(s16 x, s16 y, s32 origin);
 extern void func_800C3C5C(void);
 
 /* Initialize the object's animation, clear its record flag, and update its facing. */

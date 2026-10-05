@@ -46,7 +46,7 @@ typedef struct S_80172F44_4 {
 
 
 extern void *func_8003FC64(s32 arg0);
-extern void func_8004491C(void *arg0, void *arg1);
+extern void func_8004491C(void *entry, void *registration_id);
 extern s32 rand(void);
 extern void func_8003DB94(void *arg0, void *arg1, s32 arg2);
 extern void func_80045340(void);

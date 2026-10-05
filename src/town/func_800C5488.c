@@ -17,7 +17,7 @@ typedef struct {
 extern TownState D_800CFCB4;
 extern s16 D_800D5078[];
 
-extern s16 func_800C2B88(s16 x, s16 z, s32 arg2);
+extern s16 func_800C2B88(s16 x, s16 z, s32 origin);
 
 /* Return the current object's cached value or look it up at the town coordinates. */
 s16 func_800C2BE8(void *object, s32 lookup_mode)

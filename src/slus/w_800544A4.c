@@ -40,7 +40,7 @@ typedef struct S_80084858 {
 extern S_800847D0 D_800847D0;
 extern S_80084858 D_80084858;
 
-extern void func_80054538(S_80084858 *arg0);
+extern void func_80054538(S_80084858 *ramp);
 extern void func_800546B0(void);
 extern void func_80054704(void);
 extern void func_80054E00(s32 arg0);

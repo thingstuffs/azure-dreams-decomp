@@ -8,8 +8,8 @@ typedef struct S_8009A344_1 {
 } S_8009A344_1;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_44 in func_8009A344 */
 
 
-extern void func_80094984(M2C_UNK arg0, void *arg1, M2C_UNK arg2);
-extern void func_8009A1E8(void *arg0, M2C_UNK arg1, M2C_UNK arg2);
+extern void func_80094984(M2C_UNK entries, void *record, M2C_UNK handler_param);
+extern void func_8009A1E8(void *actor, M2C_UNK motion, M2C_UNK context);
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 

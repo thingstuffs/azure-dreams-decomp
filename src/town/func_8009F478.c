@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_8009CB64(void *arg0, void *arg1, void *arg2, void *arg3);
+extern void func_8009CB64(void *actor, void *action_id, void *action_state, void *state_data);
 extern s32 D_800F8B6C[];
 
 /* Initialize the record, clear its counter, and set its flags. */

@@ -43,7 +43,7 @@ extern s32 D_80073734[4];
 extern S_800564A8_85458 D_80085458[64];
 extern S_80084960 D_80084960[16];
 
-extern void func_800561D8(S_800564A8_85458 *arg0, S_80084960 *arg1);
+extern void func_800561D8(S_800564A8_85458 *voice_arg, S_80084960 *sound_params);
 extern s32 func_800563B0(s32 a0, u16 a1, u16 a2);
 
 /* Process each entry with a valid dispatch index using its dispatch record and parameters. */

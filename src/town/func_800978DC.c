@@ -12,8 +12,8 @@ struct S_800978DC_D80083160 {
 };
 
 
-extern s32 func_80094BC8(s32 arg0, s16 arg1);
-extern void func_80094F58(s16 arg0, s32 arg1, s32 arg2);
+extern s32 func_80094BC8(s32 unused, s16 angle_offset);
+extern void func_80094F58(s16 angle, s32 max_length, s32 vector);
 
 /* Passes the valid shared angle, fixed value 0x120000, and context to func_80094F58. */
 void func_8009503C(s32 context)

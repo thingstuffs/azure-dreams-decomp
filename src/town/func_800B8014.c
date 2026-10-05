@@ -5,7 +5,7 @@ extern u8 *func_8004E69C(u8 *text);
 extern u8 *strcat(u8 *dst, const u8 *src);
 extern void func_800B53BC(s32 arg0, const u8 *arg1, s32 arg2, s32 arg3,
                           s32 arg4);
-extern u8 *func_800B544C(u8 *text, void *arg1);
+extern u8 *func_800B544C(u8 *text, void *object);
 
 extern s32 D_80089308[2];
 extern u8 D_80089310[];

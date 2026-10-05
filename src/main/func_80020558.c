@@ -1,7 +1,7 @@
 #include "common.h"
 
 void func_80407160(s32 arg0);
-void func_804072CC(s32 arg0, void *arg1, void *arg2);
+void func_804072CC(s32 state, void *enabled, void *selected);
 void func_80407458(s32);
 void func_804074C4(s32 arg0);
 

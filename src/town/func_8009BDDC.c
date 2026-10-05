@@ -12,7 +12,7 @@ extern u8 D_80098078[];
 extern u8 D_800D01C8[];
 
 extern void func_80094984(void *arg0, void *arg1);
-extern void func_80099754(void *arg0);
+extern void func_80099754(void *record);
 
 /* Initializes object state and resets global state before processing the supplied context. */
 void func_8009953C(Struct_func_8009BDDC_arg0 *object, void *context) {

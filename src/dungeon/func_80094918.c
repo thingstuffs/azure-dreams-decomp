@@ -3,7 +3,7 @@
 #include "shared/record_ptrs.h"
 
 
-extern void func_8009A028(void *arg0);
+extern void func_8009A028(void *node);
 
 /* Mark and process entries without flag 0x4000, then set the global update flag. */
 void func_8009A078(void)

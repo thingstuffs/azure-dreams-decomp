@@ -8,7 +8,7 @@ typedef struct {
     u8 pad3[5];
 } S_80082660;
 
-extern void func_800C2E84(void *arg0, s32 arg1, void *arg2);
+extern void func_800C2E84(void *state, s32 output, void *entries);
 extern u8 D_800CB0F0[];
 extern u8 D_800D68D4[];
 

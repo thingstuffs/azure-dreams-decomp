@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_8009B120(void *arg0);
+extern s32 func_8009B120(void *record);
 extern void func_8004437C(s32 a0, s32 a1);
 extern short SD_Call(int a0);
 extern u8 D_8009B9BC[];

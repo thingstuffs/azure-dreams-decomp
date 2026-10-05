@@ -3,7 +3,7 @@
 
 extern s16 D_80025924[];
 
-extern s16 func_800BCB04(s32 arg0, s32 arg1, s16 arg2);
+extern s16 func_800BCB04(s32 x, s32 y, s16 min_height);
 extern s32 rand(void);
 
 /* Raises the source toward its height limit and flags the object when its counter expires. */

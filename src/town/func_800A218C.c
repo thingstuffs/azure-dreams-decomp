@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_8009F750(void *arg0, void *arg1, s32 arg2);
+extern s32 func_8009F750(void *target_addr, void *slot_addr, s32 slot_count);
 extern s32 D_80010248[];
 
 /* Set the entry flag and save the returned table index on success. */

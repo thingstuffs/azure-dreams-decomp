@@ -11,7 +11,7 @@ typedef struct {
     u8 count;
 } Entry;
 
-extern Entry *func_800A1618(s16 arg0, s16 arg1);
+extern Entry *func_800A1618(s16 requested_id, s16 requested_type);
 
 /* Normalize the entry type and increment the matching entry and dungeon counts. */
 s32 func_800A152C(s16 entry_type, s16 entry_key) {

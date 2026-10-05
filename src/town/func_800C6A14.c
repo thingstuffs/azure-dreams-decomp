@@ -8,7 +8,7 @@ typedef struct S_800C4174_1 {
 } S_800C4174_1;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_80 in func_800C4174 */
 
 
-extern void func_800C2E84(void *arg0, M2C_UNK arg1, M2C_UNK arg2);
+extern void func_800C2E84(void *state, M2C_UNK output, M2C_UNK entries);
 extern void func_800C41D4(void *arg0, M2C_UNK arg1, M2C_UNK arg2);
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))

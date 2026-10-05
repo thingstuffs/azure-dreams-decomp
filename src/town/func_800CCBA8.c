@@ -3,7 +3,7 @@
 #include "shared/entity.h"
 
 
-extern void func_800C4174(void *arg0, void *arg1, s32 arg2);
+extern void func_800C4174(void *object, void *update_context, s32 setup_context);
 
 /* Ease the position toward its target, snapping to it when the timer expires. */
 void func_800CA308(Rec_func_80094268_arg0 *state, EntityRec *position, s32 update_arg) {

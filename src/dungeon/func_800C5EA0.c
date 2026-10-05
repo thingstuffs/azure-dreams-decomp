@@ -13,7 +13,7 @@ typedef struct {
 } D_80083460_t;
 
 
-void func_8009A028(void *arg0);
+void func_8009A028(void *node);
 
 
 typedef struct S_800CB600_0_pre {

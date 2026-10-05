@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_8004E9EC(u8 *arg0, s32 arg1);
+extern s32 func_8004E9EC(u8 *buffer, s32 pair_count);
 extern char *strncpy(char *dest, const char *src, u32 n);
 
 /* Writes a two-character code to a slot, terminates it if needed, and returns the slot. */

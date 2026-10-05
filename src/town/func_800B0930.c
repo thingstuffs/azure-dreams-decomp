@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_800ADB30(void *arg0);
+extern void func_800ADB30(void *entry_table);
 extern void func_800ADB5C(s32 *menu);
 extern void func_800ADD80(s32 *menu);
 

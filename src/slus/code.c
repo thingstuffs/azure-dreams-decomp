@@ -275,7 +275,7 @@ short func_80047714(void)
     return (short)func_80044BB0();
 }
 
-extern void func_800477F4(void *arg0);
+extern void func_800477F4(void *actor);
 extern void func_80047694(void *arg0);
 
 /* Run both update steps on an entity. */

@@ -65,7 +65,7 @@ extern S_80085458 D_80085458[64];
 extern S_80085FA8 D_80085FA8[32];
 
 extern s32 func_80056DB4(s32 arg0);
-extern void func_8005E97C(s32 arg0, s32 arg1);
+extern void func_8005E97C(s32 key_on, s32 voices);
 
 /* Resets global state tables and applies per-entry and combined flags. */
 void func_80056A08(void) {

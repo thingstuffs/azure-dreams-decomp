@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern void func_8008F104(void *arg0, s32 arg1, void *arg2);
-extern void func_8009B218(void *arg0, s32 arg1, void *arg2, void *arg3);
+extern void func_8008F104(void *record, s32 setup_value, void *setup_param);
+extern void func_8009B218(void *object, s32 context, void *state, void *init_value);
 
 extern s32 D_800CFD00[];
 extern s32 D_800F8CEC[];

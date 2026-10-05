@@ -17,7 +17,7 @@ typedef struct S_800B0BD0_1 {
 #endif
 } S_800B0BD0_1;
 
-extern void func_800B09EC(void *arg0, s32 arg1);
+extern void func_800B09EC(void *object, s32 index);
 
 /* Updates up to five entries on the current page and clears unused slots. */
 void func_800B0BD0(void *list) {

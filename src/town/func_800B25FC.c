@@ -16,7 +16,7 @@ typedef struct S_800AFD5C_0 {
 } S_800AFD5C_0;   /* arg0 in func_800AFD5C; pointer addresses record offset 0x10 */
 
 
-void func_800AF9C4(void *arg0);
+void func_800AF9C4(void *obj);
 extern s32 D_800AFD00[];
 
 /* Update the linked value from the current step and advance the state after six steps. */

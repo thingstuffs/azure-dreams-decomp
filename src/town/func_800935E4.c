@@ -10,9 +10,9 @@ typedef s32 M2C_UNK;
 
 extern void func_80090A74(void *, void *, s32);
 extern void func_80093D18(void *arg0, void *arg1, s32 arg2);
-extern s32 func_80094B0C(void *arg0);
-extern void func_8009550C(void *arg0);
-extern void func_80099754(void *arg0);
+extern s32 func_80094B0C(void *context);
+extern void func_8009550C(void *context);
+extern void func_80099754(void *record);
 
 
 /* Run follow-up updates if the record value is unchanged and flag 0x80 is set. */

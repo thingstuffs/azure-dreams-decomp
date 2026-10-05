@@ -101,7 +101,7 @@ extern S_80086A40 D_80086A40[16];
 extern S_80086A40 D_80086A40_C[16] __asm__("D_80086A40");
 extern void func_80056DB4(s32 arg0);
 extern void func_8005E97C(s32 a0, s32 a1);
-extern s32 func_8005EB78(s32 arg0);
+extern s32 func_8005EB78(s32 voice_mask);
 extern void func_8005EC0C(void *a0);
 extern s32 func_8005E4A0(s32 a0, s32 a1);
 /* Allocates and configures voices for program tones matching the requested note. */

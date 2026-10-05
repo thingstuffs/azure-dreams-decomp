@@ -2,7 +2,7 @@
 
 #include "common.h"
 
-extern s32 func_8003C5A4(s32 arg0);
+extern s32 func_8003C5A4(s32 value);
 
 /* Returns the table entry for a sound ID, or null if it is absent. */
 u32 *func_8003C8E4(s32 sound_id)

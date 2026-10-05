@@ -1,8 +1,8 @@
 #include "common.h"
 
 extern u32 func_800B28A0(void);
-extern void func_8009FD68(void *arg0);
-extern void func_80033AA8(s32 arg0);
+extern void func_8009FD68(void *record_ref);
+extern void func_80033AA8(s32 bit_id);
 extern s32 D_800D0728[];
 extern s16 D_800D253C[];
 

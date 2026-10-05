@@ -17,7 +17,7 @@ typedef struct {
 extern TownState D_8006ADBC;
 extern TownEntry D_800D4094[];
 
-extern s32 func_800C0F60(s16 arg0);
+extern s32 func_800C0F60(s16 target_value);
 extern void func_800540A8(void);
 extern void func_8004425C(s32 arg0);
 extern s16 SD_Call(s32 arg0);

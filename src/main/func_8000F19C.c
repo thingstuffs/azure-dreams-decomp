@@ -2,7 +2,7 @@
 
 extern s32 func_800214FC(void);
 extern void func_80021538(void);
-extern void func_80021B18(void *arg0, s32 arg1);
+extern void func_80021B18(void *dest, s32 suffix_index);
 extern void func_800220DC(void);
 extern void func_8005FE18(s32 arg0);
 extern void _card_wait(s32 arg0);
