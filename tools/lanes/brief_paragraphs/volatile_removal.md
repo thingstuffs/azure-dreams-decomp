@@ -25,6 +25,12 @@ Shapes that were exact this round:
    pointer (cse invalidate_from_clobbers drops the stored value on a varying-address store). (8180C3C0)
 9. Byte re-read in a min/max arm that post-reload cse would fold: give the arm an HImode destination (reload_cse skips
    a mode mismatch). (819BF9F4)
+10. Field RE-READ after its own store / an earlier read (retail reloads, plain C forwards): read it into a FRESH s32
+    local (`t = p->f;`) - cse does not forward a zero-extended read (a u8 local IS forwarded); write the field ops as
+    compound assignments on the field (flow keeps the earlier store, cse cannot fold the constant). (r93_opus_vb3:
+    8096C508 4 volatiles -> 0, 8046C188, 818FA12C)
+SLUS rows are scored by object identity vs the pinned TU: replacing a literal page constant with its symbol adds
+relocations the target lacks - keep the page macros on slus rows.
 Open (no exact shape yet): retail reloads a field that plain C forwards from the previous load with no store/call
 between (800A76D4, 8096C360, 8096C290, 800BB6A8, 8080EEC4, 81334230); volatile u8* STORES through an induction pointer
 (80284068: biv -> giv); a reload that post-reload cse deletes because the register already holds it (w_800565D8).
