@@ -130,7 +130,13 @@ typedef struct S_func_800AED64_4 {
             u8 unk_16F;
         } at_16F;
     } unk_16C;
-    s32 unk_170;
+    union {
+        s32 s32;
+        struct {
+            u8 pad_170[0x2];
+            u16 unk_172;
+        } at_172;
+    } unk_170;
     u16 unk_174;
     u16 unk_176;
     u16 unk_178;
@@ -252,8 +258,9 @@ void func_800AC4C4(void) {
     s32 stepped_x;
     s32 span_end_x;
     s32 row_index;
-    register s32 work_bits ASM_REG("$3");
+    s32 work_bits;
     s32 work_value;
+    u16 half_y;
     s32 column_rounding;
     void * lookup_value;
     s32 edge_index;
@@ -403,10 +410,7 @@ void func_800AC4C4(void) {
             }
             row_rounding = scratch->unk_0C;
             scratch->unk_134 = column_rounding >> 6;
-            if (row_rounding < 0) {
-                row_rounding += 0x3F;
-            }
-            row_index = row_rounding >> 6;
+            row_index = (row_rounding / 64);
             scratch->unk_138 = row_index;
             if (row_index < 0) {
                 scratch->unk_138 = 0;
@@ -505,7 +509,7 @@ void func_800AC4C4(void) {
                             if (polygon->unk_0C != 0) {
                                 work_value = polygon->unk_10;
                                 work_ptr = (void *) (u32) scratch->unk_14.u16;
-                                scratch->unk_170 = work_value;
+                                scratch->unk_170.s32 = work_value;
                                 work_value = polygon->unk_00;
                                 work_bits = polygon->unk_14.s32;
                                 work_value <<= 3;
@@ -564,7 +568,8 @@ void func_800AC4C4(void) {
                                 work_value = ((S_func_800AED64_15 *)((void *) work_value))->unk_00;
                                 scratch->unk_168.s32 = work_value;
                                 work_value = scratch->unk_168.u16;
-                                work_bits = ((volatile S_func_800AED64_4 *)(scratch))->unk_168.at_16A.unk_16A;
+                                half_y = ((volatile S_func_800AED64_4 *)(scratch))->unk_168.at_16A.unk_16A;
+                                work_bits = half_y;
                                 work_ptr = (void *) ((u32) work_ptr + (u32) work_value);
                                 work_ptr = (void *) ((u32) work_ptr & 0xFFFF);
                                 work_bits <<= 0x10;
@@ -596,7 +601,7 @@ void func_800AC4C4(void) {
                                     gte_stsxy3_g3(packet);
                                     gte_avsz3();
                                     gte_stotz((u8 *)scratch + 0xC8);
-                                    normal_index = (u16) scratch->unk_170;
+                                    normal_index = (u16) scratch->unk_170.s32;
                                     if (scratch->unk_14C != normal_index) {
                                         scratch->unk_14C = (s32) normal_index;
                                         gte_ldrgb(scratch);
@@ -611,7 +616,8 @@ void func_800AC4C4(void) {
                                     work_value = ((S_func_800AED64_15 *)((void *) work_value))->unk_00;
                                     scratch->unk_168.s32 = work_value;
                                     work_value = scratch->unk_168.u16;
-                                    work_bits = ((volatile S_func_800AED64_4 *)(scratch))->unk_168.at_16A.unk_16A;
+                                    half_y = ((volatile S_func_800AED64_4 *)(scratch))->unk_168.at_16A.unk_16A;
+                                    work_bits = half_y;
                                     work_ptr = (void *) ((u32) work_ptr + (u32) work_value);
                                     work_ptr = (void *) ((u32) work_ptr & 0xFFFF);
                                     work_bits <<= 0x10;
@@ -625,8 +631,7 @@ void func_800AC4C4(void) {
                                     packet->unk_0C = (s32) polygon->unk_08;
                                     gte_rtps_nn();
                                     packet->unk_14 = (s32) polygon->unk_0C;
-                                    packet->unk_1C =
-                                        (u16) *(s32 *)((u8 *)(u8 *)scratch + 0x172);
+                                    packet->unk_1C = scratch->unk_170.at_172.unk_172;
                                     packet->unk_24 =
                                         (u16) scratch->unk_16C.s32;
                                     gte_stsxy(&packet->unk_20);
@@ -655,7 +660,8 @@ void func_800AC4C4(void) {
                                             packet->unk_04.at_07.unk_07 |= 2;
                                         } else {
                                             work_value = 0xC000;
-                                            work_bits = scratch->unk_17C & 0xC000;
+                                            work_bits = scratch->unk_17C;
+                                            work_bits &= 0xC000;
                                             if (work_bits == work_value) {
                                                 work_value = packet->unk_10;
                                                 work_bits = packet->unk_18;
@@ -738,7 +744,7 @@ void func_800AC4C4(void) {
                                     }
                                     break;
                                 }
-                                if (((S_func_800AED64_16 *)((((u16) scratch->unk_170 * 8) + normals)))->unk_04 < 0) {
+                                if (((S_func_800AED64_16 *)((((u16) scratch->unk_170.s32 * 8) + normals)))->unk_04 < 0) {
                                     if (scratch->unk_16C.at_16E.unk_16E != one
                                         || (s32) scratch->unk_16C.at_16F.unk_16F << 0x18 >= 0) {
                                         polygon = (s8 *) (u8 *)polygon + 0x18;
