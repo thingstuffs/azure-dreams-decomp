@@ -2,6 +2,8 @@
 """(round 93, written by Fable lane r93_fable_c9858) usage: python3 tools/retail_listing.py <row> <cand.c> [--cfg CFG] > out.txt
 Prints the byte scorer's generated listing (v["text"]) for a text; on the pinned (exact) text that is retail's listing."""
 import sys, os
+from pathlib import Path
+_ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(_ROOT / "tools/lanes/lanekit"))
 import kitlib
 row_id, path = sys.argv[1], sys.argv[2]

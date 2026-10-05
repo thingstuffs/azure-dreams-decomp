@@ -3,6 +3,8 @@
 Compiles a text with the row's cell exactly as screen.compile_s does and prints the preprocessor / cc1 stderr
 (lab.py only says 'no-build')."""
 import sys, subprocess, tempfile
+from pathlib import Path as _P
+_ROOT = _P(__file__).resolve().parents[3]
 from pathlib import Path
 sys.path.insert(0, str(_ROOT / "tools/lanes/lanekit")); sys.path.insert(0, str(_ROOT / "tools/xform")); sys.path.insert(0, str(_ROOT / "tools"))
 import kitlib, screen
