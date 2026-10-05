@@ -402,3 +402,16 @@
 {"date": "2026-10-05T05:37Z", "codex": {"pack": "r93_luna_nm6", "model": "gpt-6-luna", "candidates": 5}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
 {"date": "2026-10-05T05:39Z", "codex": {"pack": "r93_luna_nm7", "model": "gpt-6-luna", "candidates": 3}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
 {"date": "2026-10-05T05:39Z", "codex": {"pack": "r93_luna_nm8", "model": "gpt-6-luna", "candidates": 3}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-05T11:15Z", "codex": {"pack": "r94_agy_goto2", "model": "gemini-3.8-flash-high", "candidates": 6}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-05T11:20Z", "codex": {"pack": "r94_agy_goto3", "model": "gemini-3.8-flash-high", "candidates": 6}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-05T11:21Z", "codex": {"pack": "r94_agy_goto1", "model": "gemini-3.8-flash-high", "candidates": 5}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-05T11:23Z", "codex": {"pack": "r94_agy_goto4", "model": "gemini-3.8-flash-high", "candidates": 3}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-05T11:30Z", "codex": {"pack": "r94_agy_goto6", "model": "gemini-3.8-flash-high", "candidates": 2}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-05T11:32Z", "codex": {"pack": "r94_agy_goto7", "model": "gemini-3.8-flash-high", "candidates": 4}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-05T11:34Z", "codex": {"pack": "r94_agy_goto8", "model": "gemini-3.8-flash-high", "candidates": 2}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-05T11:36Z", "codex": {"pack": "r94_agy_goto5", "model": "gemini-3.8-flash-high", "candidates": 3}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-05T11:43Z", "codex": {"pack": "r94_agy_goto9", "model": "gemini-3.8-flash-high", "candidates": 1}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-05T11:49Z", "codex": {"pack": "r94_agy_goto10", "model": "gemini-3.8-flash-high", "candidates": 3}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-05T11:49Z", "codex": {"pack": "r94_agy_goto11", "model": "gemini-3.8-flash-high", "candidates": 4}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-05T11:49Z", "codex": {"pack": "r94_agy_goto12", "model": "gemini-3.8-flash-high", "candidates": 5}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-05T11:49Z", "codex": {"pack": "r94_agy_goto13", "model": "gemini-3.8-flash-high", "candidates": 3}, "note": "duck-briefed pool (tools/lanes/pool.py)"}

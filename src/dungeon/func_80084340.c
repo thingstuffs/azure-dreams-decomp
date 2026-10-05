@@ -296,7 +296,7 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
     S_80089AA0_2 *world_object;
     void *companion_counters;
     S_80089AA0_3 *status_base;
-    register DungeonGlobalStatus *callback_status ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    DungeonGlobalStatus *callback_status;
     DungeonGlobalStatus *tail_status;
     void *input_snapshot;
     void *next_record;
@@ -450,27 +450,20 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
                     if ((func_80042900(actor, 0xA) << 0x10) == 0) {
 
                         state_or_address = (s32)&D_8008ACDC;
-                        callback_status = &dungeonStatus;
                         (*(Callback4 *)((u8 *)linked_actor + 0x8C)) = (Callback4)state_or_address;
-                        goto mark_callback_change;
+                        (&dungeonStatus)->flags = (u16)((&dungeonStatus)->flags | 4);
                     }
 
                 } else if (current_callback == (Callback4)&D_8008ACDC) {
                     if ((func_80042900(actor, 0xA) << 0x10) != 0) {
-                        callback_status = &dungeonStatus;
                         (*(Callback4 *)((u8 *)linked_actor + 0x8C)) = (Callback4)D_80096384;
-                        goto mark_callback_change;
+                        (&dungeonStatus)->flags = (u16)((&dungeonStatus)->flags | 4);
                     }
                 }
-                goto clear_turn_flags;
-mark_callback_change:
-                callback_status->flags = (u16)(callback_status->flags | 4);
             }
-clear_turn_flags:
 
-            callback_status = &dungeonStatus;
-            callback_status->flags =
-                (u16)(callback_status->flags & 0xBFFB);
+            (&dungeonStatus)->flags =
+                (u16)((&dungeonStatus)->flags & 0xBFFB);
             (*(u32 *)((u8 *)actor + 0x14)) &= 0x7FFE7FFF;
         } else {
             dungeonStatus.flags = (u16) (dungeonStatus.flags | 4);

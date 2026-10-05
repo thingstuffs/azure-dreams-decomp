@@ -102,13 +102,14 @@ s32 func_800CA1E0(u32 action_flags, S_800CA1E0_0 *position, void *volatile objec
         if (coord_value == 0) {
             return -1;
         }
-        if (!(((1 << ((S_800CA1E0_1 *)bounds)->unk_16) - 1) < coord_value)) {
-            goto check_step;
+        if (((1 << ((S_800CA1E0_1 *)bounds)->unk_16) - 1) < coord_value) {
+            early_result = -1;
+            return early_result;
         }
+    } else {
+        early_result = -1;
+        return early_result;
     }
-    early_result = -1;
-    return early_result;
-check_step:
     coord_value = position->unk_24.u;
     scaled_y = position->unk_25.u;
     call_height_offset = (s32)(object);
