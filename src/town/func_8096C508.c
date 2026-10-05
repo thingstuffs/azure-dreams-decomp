@@ -105,10 +105,12 @@ check_five:
     input_flags = ((u32)input_state->unk_010);
     if (input_flags & 0x8000) {
         u8 selection_group;
+        s32 group;
 
         if (object->field_10 == 0) {
-            (*(volatile u8 *)&object->field_F) += 3;
-            (*(u8 *)&object->field_F) &= 3;
+            object->field_F += 3;
+            group = object->field_F;
+            object->field_F = group & 3;
         }
         selection_group = object->field_F;
         object->field_10 ^= 1;
@@ -120,10 +122,12 @@ check_five:
     }
     if (input_flags & 0x2000) {
         u8 selection_group;
+        s32 group;
 
         if (object->field_10 != 0) {
-            (*(volatile u8 *)&object->field_F) += 1;
-            (*(u8 *)&object->field_F) &= 3;
+            object->field_F += 1;
+            group = object->field_F;
+            object->field_F = group & 3;
         }
         selection_group = object->field_F;
         object->field_10 ^= 1;
@@ -139,15 +143,17 @@ check_five:
         if (object->field_F != 3) {
             u32 selection_value;
             s32 previous_selection;
+            s32 masked;
 
             selection_value = 1;
             (*(s16 *)&object->field_4) = selection_value;
             selection_value = object->field_11;
             previous_selection = selection_value;
             selection_value += 7;
-            *(volatile u8 *)&object->field_11 = selection_value;
+            object->field_11 = selection_value;
             object->field_6 = 4;
-            (*(u8 *)&object->field_11) &= 7;
+            masked = object->field_11;
+            object->field_11 = masked & 7;
             object->field_12 = previous_selection;
             if ((*(u8 *)&object->field_11) != 7) {
                 object->field_A = 2;
@@ -166,13 +172,15 @@ check_five:
         if (object->field_F != 3) {
             u32 selection_value;
             s32 previous_selection;
+            s32 masked;
 
             selection_value = object->field_11;
             previous_selection = selection_value;
             selection_value += 1;
-            *(volatile u8 *)&object->field_11 = selection_value;
+            object->field_11 = selection_value;
             object->field_4 = input_flags;
-            (*(u8 *)&object->field_11) &= 7;
+            masked = object->field_11;
+            object->field_11 = masked & 7;
             object->field_12 = previous_selection;
             object->field_6 = 4;
             if ((*(u8 *)&object->field_11) == 0) {

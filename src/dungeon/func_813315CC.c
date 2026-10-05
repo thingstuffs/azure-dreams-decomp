@@ -5,8 +5,8 @@
 #define NULL 0
 #endif
 
-#define VS16_AT(p, o) (*(volatile s16 *)((u8 *)(p) + (o)))
-#define VPTR_AT(p, o) (*(void * volatile *)((u8 *)(p) + (o)))
+#define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
+#define PTR_AT(p, o) (*(void **)((u8 *)(p) + (o)))
 
 typedef struct {
     s16 values[8][3][3];
@@ -119,9 +119,9 @@ void func_801685CC(EffectSource *source, Vec3 *origin, void *unused,
         payload->vertices[2][2] = -0x14;
         payload->vertices[3][2] = -0x14;
 
-        render = (RenderState *)VPTR_AT(object, 0xC);
-        VS16_AT(render, 0x1E) = 0x1000;
-        VS16_AT(render, 0x1C) = 0x1000;
+        render = (RenderState *)PTR_AT(object, 0xC);
+        S16_AT(render, 0x1E) = 0x1000;
+        S16_AT(render, 0x1C) = 0x1000;
         render->blue = intensity;
         render->green = intensity;
         render->red = intensity;

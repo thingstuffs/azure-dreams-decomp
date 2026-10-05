@@ -12,8 +12,14 @@ typedef struct { s32 w[2]; } Blk8;
 #define SP8(offset) M2C_FIELD(scratch, u8 *, (offset))
 #define SP16(offset) M2C_FIELD(scratch, u16 *, (offset))
 #define SP32(offset) M2C_FIELD(scratch, s32 *, (offset))
-#define SP5A (*(volatile u16 *)((s8 *)(quad_copies) + 50))
 #define SP5D M2C_FIELD(quad_copies, u8 *, 53)
+
+typedef struct QuadTail {
+    u8 pad0[50];
+    u16 y;
+    u8 pad1;
+    u8 flag;
+} QuadTail;
 
 s32 func_800644B8();
 void func_80064840();
@@ -114,14 +120,15 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
     s32 packet_mask;
     u8 flipped_x;
     u8 origin_x;
+    u8 origin_y;
     u8 flipped_y;
     s32 row_index;
     s32 clut_offset;
     s32 tpage_offset;
-    s32 mirrored_x;
-    s32 quad_x;
-    s32 mirrored_y;
-    s32 quad_y;
+    s16 mirrored_x;
+    s16 quad_x;
+    s16 mirrored_y;
+    s16 quad_y;
     s32 wave_phase;
     u8 *(*draw_callback)(void *, s32, void *, void *, u8 *);
     s32 *row_tag;
@@ -226,7 +233,7 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
         *((s32 *) (((s8 *) scratch) + 0x10)) = (s32) (*((u8 *) (((s8 *) frame_data) + 2)));
         *((s32 *) (((s8 *) scratch) + 0x14)) = (s32) (*((u8 *) (((s8 *) frame_data) + 3)));
         if (((*((u8 *) (((s8 *) frame) + 0))) ^ (*((u16 *) (((s8 *) scratch) + 0x24)))) & 1) {
-            flipped_x = *((volatile u8 *) (((s8 *) frame_data) + (-6)));
+            flipped_x = *((u8 *) (((s8 *) frame_data) + (-6)));
             mirrored_x = (0 - ((s8) flipped_x)) - (*((u16 *) (((s8 *) scratch) + 0x108)));
             *((u16 *) (((s8 *) scratch) + 0x80)) = mirrored_x;
             *((u16 *) (((s8 *) scratch) + 0x70)) = mirrored_x;
@@ -235,7 +242,7 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
             *((u16 *) (((s8 *) scratch) + 0x78)) = mirrored_x;
         }
         else {
-            origin_x = *((volatile u8 *) (((s8 *) frame_data) + (-6)));
+            origin_x = *((u8 *) (((s8 *) frame_data) + (-6)));
             quad_x = ((s8) origin_x) - (*((u16 *) (((s8 *) scratch) + 0x108)));
             *((u16 *) (((s8 *) scratch) + 0x80)) = quad_x;
             *((u16 *) (((s8 *) scratch) + 0x70)) = quad_x;
@@ -244,7 +251,7 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
             *((u16 *) (((s8 *) scratch) + 0x78)) = quad_x;
         }
         if (((*((u8 *) (((s8 *) frame) + 0))) ^ (*((u16 *) (((s8 *) scratch) + 0x24)))) & 2) {
-            flipped_y = *((volatile u8 *) (((s8 *) frame_data) + (-5)));
+            flipped_y = *((u8 *) (((s8 *) frame_data) + (-5)));
             mirrored_y = (0 - ((s8) flipped_y)) - (*((u16 *) (((s8 *) scratch) + 0x10A)));
             *((u16 *) (((s8 *) scratch) + 0x7A)) = mirrored_y;
             *((u16 *) (((s8 *) scratch) + 0x72)) = mirrored_y;
@@ -253,8 +260,8 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
             *((u16 *) (((s8 *) scratch) + 0x82)) = mirrored_y;
         }
         else {
-            row_index = *((volatile u8 *) (((s8 *) frame_data) + (-5)));
-            quad_y = ((s8) row_index) - (*((u16 *) (((s8 *) scratch) + 0x10A)));
+            origin_y = *((u8 *) (((s8 *) frame_data) + (-5)));
+            quad_y = ((s8) origin_y) - (*((u16 *) (((s8 *) scratch) + 0x10A)));
             *((u16 *) (((s8 *) scratch) + 0x7A)) = quad_y;
             *((u16 *) (((s8 *) scratch) + 0x72)) = quad_y;
             quad_y = quad_y + (*((u16 *) (((s8 *) scratch) + 0x14)));
@@ -394,10 +401,10 @@ loop_0:
                 + (((s32) (func_800644B8(wave_phase) * (*((u8 *) (((s8 *) row_effect) + 0x50))))) >> 0x10));
             *((u16 *) (((s8 *) packet) + 0x20)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x20)))
                 + (((s32) (func_800644B8(wave_phase) * (*((u8 *) (((s8 *) row_effect) + 0x50))))) >> 0x10));
-            *((u16 *) (((s8 *) packet) + 0xA)) = *((volatile u16 *) (((s8 *) quad_copies) + 50));
-            *((u16 *) (((s8 *) packet) + 0x12)) = *((volatile u16 *) (((s8 *) quad_copies) + 50));
-            *((s16 *) (((s8 *) packet) + 0x1A)) = (s16) ((*((volatile u16 *) (((s8 *) quad_copies) + 50))) + 1);
-            *((s16 *) (((s8 *) packet) + 0x22)) = (s16) ((*((u16 *) (((s8 *) quad_copies) + 50))) + 1);
+            *((u16 *) (((s8 *) packet) + 0xA)) = ((QuadTail *) quad_copies)->y;
+            *((u16 *) (((s8 *) packet) + 0x12)) = ((QuadTail *) quad_copies)->y;
+            *((s16 *) (((s8 *) packet) + 0x1A)) = (s16) (((QuadTail *) quad_copies)->y + 1);
+            *((s16 *) (((s8 *) packet) + 0x22)) = (s16) (((QuadTail *) quad_copies)->y + 1);
             *((u8 *) (((s8 *) packet) + 0xD)) = *((u8 *) (((s8 *) quad_copies) + 53));
             *((u8 *) (((s8 *) packet) + 0x15)) = *((u8 *) (((s8 *) quad_copies) + 53));
             row_index += 1;

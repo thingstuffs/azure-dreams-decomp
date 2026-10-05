@@ -3,7 +3,6 @@
 #include "common.h"
 
 extern s32 D_800814A0;
-extern volatile s32 D_800814A0_store asm("D_800814A0");
 
 typedef struct Group {
     u8 pad00[6];
@@ -46,6 +45,6 @@ void func_800530C4(Main *main)
         child_index++;
     } while (child_index < 16);
 
-    ((volatile u16 *)group_slot)[-1] |= 0x8000;
-    D_800814A0_store = D_800814A0;
+    (*(u16 *)((u8 *)group_slot - 2)) |= 0x8000;
+    D_800814A0 |= 0x8000;
 }

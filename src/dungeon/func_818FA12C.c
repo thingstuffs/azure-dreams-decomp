@@ -77,14 +77,14 @@ typedef struct S_818FA12C_1 {
         struct { u32 v; } at00;
         struct { u8 v; } at00u;
         struct { u8 v; } at00p;
-        struct { u8 pad[0x1]; volatile u8 v; } at01;
+        struct { u8 pad[0x1]; u8 v; } at01;
         struct { u8 pad[0x1]; u8 v; } at01u;
         struct { u8 pad[0x2]; u8 v; } at02;
         struct { u8 pad[0x2]; u8 v; } at02u;
     } unk_0C;   /* overlapping accesses */
     u16 unk_10;
     u8 pad_12[0x2];
-    volatile u16 unk_14;
+    u16 unk_14;
     u8 pad_16[0x4];
     u16 unk_1A;
     union { u16 v; u16 n; } unk_1C;   /* accessed as both */
@@ -245,7 +245,7 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
         s32 index;
         u32 frames_squared;
         s32 *flash_pos;
-        register s32 flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 flags;
         u8 *particle_state;
         s32 angle;
 
@@ -291,6 +291,7 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
         s16 frames_copy;
         u32 target_height;
         s32 tile_distance;
+        s32 tile;
 
         step_result = func_8003DF74(((S_818FA12C_12 *)(((S_818FA12C_0 *)parent_base)->unk_0C))->unk_08,
             ((S_818FA12C_0 *)parent_base)->unk_0C, &out_pair, 0);
@@ -317,14 +318,11 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
             ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_10 = 0x20;
             ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_0C.at02.v = 0x20;
             ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_0C.at00u.v = 0x20;
-            flags = ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_14;
+            ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_14 |= 0x0C;
             ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_0C.at01.v = 0xE0;
             ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_1E.v = 2000;
             ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_1C.v = 2000;
-            flags |= 0x0C;
-            ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_14 = flags;
-            flags &= 0xFFFC;
-            ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_14 = flags;
+            ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_14 &= 0xFFFC;
             (*(u8 *)((u8 *)self + 0x7A)) |= 4;
             target = ((S_818FA12C_2 *)parent)->unk_60.p;
         } else {
@@ -340,13 +338,15 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
             (*(u8 *)((u8 *)self + 0xBB)) = ((S_818FA12C_8 *)parent_data)->unk_25
             + ((u8 *)dirStepY)[(*(s16 *)((u8 *)self + 0x7E)) * 2];
             flags = (s8)((S_818FA12C_2 *)parent)->unk_72;
-            if (flags != ((S_818FA12C_8 *)parent_data)->unk_24) {
-                tile_distance = flags - ((S_818FA12C_8 *)parent_data)->unk_24;
+            tile = ((S_818FA12C_8 *)parent_data)->unk_24;
+            if (flags != tile) {
+                flags = flags - tile;
             } else {
                 flags = (s8)((S_818FA12C_2 *)parent)->unk_73;
-                tile_distance = flags - ((S_818FA12C_8 *)parent_data)->unk_25;
+                tile = ((S_818FA12C_8 *)parent_data)->unk_25;
+                flags = flags - tile;
             }
-            tile_distance = abs(tile_distance);
+            tile_distance = abs(flags);
             (*(u8 *)((u8 *)self + 0x7B)) = tile_distance * 2 - 1;
         } else {
             (*(u16 *)((u8 *)self + 0x78)) = ((S_818FA12C_2 *)parent)->unk_88 - 0x50;
@@ -492,11 +492,10 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
                     (*(u32 *)((u8 *)impact + 0x10)) = (u32)D_80025398;
                     func_8004491C(impact, func_80045340);
                     impact_data = (*(u8 * *)((u8 *)impact + 0x0C));
-                    flags = 0x0C;
-                    ((S_818FA12C_8 *)impact_data)->unk_14 = flags;
+                    ((S_818FA12C_8 *)impact_data)->unk_14 = 0x0C;
                     ((S_818FA12C_8 *)impact_data)->unk_10.s = index;
                     ((S_818FA12C_8 *)impact_data)->unk_06 = 6;
-                    ((S_818FA12C_8 *)impact_data)->unk_14 = flags | 0x80;
+                    ((S_818FA12C_8 *)impact_data)->unk_14 |= 0x80;
                     flash_pos = (*(s32 * *)((u8 *)impact + 8));
                     flash_pos[0] = ((S_818FA12C_4 *)position)->unk_00.at00.v;
                     flash_pos[1] = ((S_818FA12C_4 *)position)->unk_04.at00.v;

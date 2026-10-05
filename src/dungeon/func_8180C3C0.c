@@ -45,7 +45,7 @@ typedef struct S_800253C0_5 {
     u8 pad_00[0x14];
     u32 unk_14;
     u8 pad_18[0x12];
-    union { u16 n; s16 n2; volatile u16 v; } unk_2A;   /* accessed as both */
+    union { u16 n; s16 n2; } unk_2A;   /* accessed as both */
     u8 pad_2C[0x5C];
     union { s16 s; u16 u; } unk_88;   /* accessed as both */
     u16 unk_8A;
@@ -114,7 +114,6 @@ typedef struct S_800253C0_17 {
     u8 pad_00[0xC];
     union {
         struct { u8 v; } at00;
-        struct { volatile u8 v; } at00u;
         struct { u32 v; } at00p;
         struct { u8 pad[0x1]; u8 v; } at01;
         struct { u8 pad[0x2]; u8 v; } at02;
@@ -170,13 +169,9 @@ extern void func_80048A44(void *, s32, s32, s32);
 
 
 /* Advance the paired-object sequence, animating both objects and displaying the result. */
-void func_800253C0(void *sequence_in, void *position_in, void *actor_in, void *owner_in)
+void func_800253C0(void *sequence, void *position, void *actor, void *owner)
 {
     s32 message_id;
-    void *sequence = sequence_in;
-    void *position = position_in;
-    void *actor = actor_in;
-    register void *owner = owner_in;
     u8 *scene = ((u8 *)(&gameWork));
     u8 *anim_entry;
     u8 state;
@@ -565,21 +560,17 @@ animate_objects:
             do {
 
                 u32 red;
+                u32 green;
                 u32 blue;
                 object_m = ((S_800253C0_4 *)object_slot)->unk_AC;
                 child = ((S_800253C0_5_pre *)object_m)[-1].unk_04;
                 red = ((S_800253C0_17 *)child)->unk_0C.at00.v;
-                coord_delta = (s32)(((S_800253C0_17 *)child)->unk_0C.at01.v);
-                red = red - (red >> 1);
-                ((S_800253C0_17 *)child)->unk_0C.at00.v = red;
-                ASM_KEEP(red);
-                coord_delta = (s32)((u32)coord_delta - ((u32)coord_delta >> 1));
+                green = ((S_800253C0_17 *)child)->unk_0C.at01.v;
+                ((S_800253C0_17 *)child)->unk_0C.at00.v = red - (red >> 1);
+                ((S_800253C0_17 *)child)->unk_0C.at01.v = green - (green >> 1);
                 blue = ((S_800253C0_17 *)child)->unk_0C.at02.v;
-                red = ((S_800253C0_17 *)child)->unk_0C.at00u.v;
-                ((S_800253C0_17 *)child)->unk_0C.at01.v = (u32)coord_delta;
-                blue = blue - (blue >> 1);
-                ((S_800253C0_17 *)child)->unk_0C.at02.v = blue;
-                if (red < 5) {
+                ((S_800253C0_17 *)child)->unk_0C.at02.v = blue - (blue >> 1);
+                if (((S_800253C0_17 *)child)->unk_0C.at00.v < 5) {
                     ((S_800253C0_17 *)child)->unk_0C.at02.v = 0;
                     ((S_800253C0_17 *)child)->unk_0C.at01.v = 0;
                     ((S_800253C0_17 *)child)->unk_0C.at00.v = 0;
@@ -751,12 +742,12 @@ loop_7:
                         z_delta / ((S_800253C0_0 *)sequence)->unk_96.n;
                 }
                 saved_angle = ((S_800253C0_5 *)object_m)->unk_8A;
-                ((S_800253C0_5 *)object_m)->unk_2A.v =
+                ((S_800253C0_5 *)object_m)->unk_2A.n =
                     ((S_800253C0_5 *)object_m)->unk_2A.n & 0xFFF;
-                current_angle = ((S_800253C0_5 *)object_m)->unk_2A.n2;
-                old_angle = ((S_800253C0_5 *)object_m)->unk_2A.n;
                 saved_angle = saved_angle & 0xFFF;
                 ((S_800253C0_5 *)object_m)->unk_8A = saved_angle;
+                current_angle = ((S_800253C0_5 *)object_m)->unk_2A.n2;
+                old_angle = ((S_800253C0_5 *)object_m)->unk_2A.n;
                 if (current_angle != (s16)saved_angle) {
                     ((S_800253C0_5 *)object_m)->unk_2A.n = old_angle + 0x200;
                 }

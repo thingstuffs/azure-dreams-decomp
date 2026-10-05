@@ -24,7 +24,7 @@ typedef struct TownSlots {
 
 typedef struct TownObject {
     u8 pad0[0x13];
-    volatile u8 digit;
+    u8 digit;
     u8 pad14[0x44];
     TownSlots *town;
 } TownObject;
@@ -45,7 +45,7 @@ void func_801247F8(TownObject *obj)
     if (obj->digit == 0x31) {
         *obj->town->slots[7] = D_80128038;
     } else {
-        *obj->town->slots[7] = D_80126988[obj->digit >> 4];
+        *obj->town->slots[7] = D_80126988[obj->digit / 16];
     }
 
     D_80129748->src->f8 = (5 - D_80126E98[obj->digit].width) * 6 + 0xD2;

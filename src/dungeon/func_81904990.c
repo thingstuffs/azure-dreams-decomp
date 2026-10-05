@@ -212,22 +212,22 @@ typedef struct S_func_81904990_9 {
 #define D_FIELD(type_ptr, offset) (*(type_ptr)(((u8 *)(&gameWork)) + (offset)))
 #define D_LITERAL(type_ptr, offset) (*(type_ptr)((u8 *)0x80083160 + (offset)))
 
-M2C_UNK func_80064840();
-M2C_UNK func_800649A0();
-M2C_UNK func_80064A40();
-M2C_UNK func_80064BC0();
-M2C_UNK func_80064CF0();
-M2C_UNK func_80064D80();
-M2C_UNK func_800654B0();
-M2C_UNK func_80065820();
-M2C_UNK func_80067EF4();
+extern void func_80064840(void *, void *, void *);
+extern void func_800649A0(s32, s32);
+extern void func_80064A40(s32);
+extern void func_80064BC0(void *, void *);
+extern void func_80064CF0(void *);
+extern void func_80064D80(void *);
+extern void func_800654B0(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+extern void func_80065820(void *, void *);
+extern void func_80067EF4();
 extern u8 D_8006CD10[3];
 
 /* Build textured sprite strips and append their packets to the ordering table. */
 void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw_mode) {
     u16 saved_draw_mode;
     s32 callback_arg;
-    M2C_UNK matrix_arg;
+    s32 matrix_arg;
     s32 origin_byte;
     s32 restore_mode;
     s32 angle_bias;
@@ -456,18 +456,16 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
                 if (clut_override != 0) {
                     if (scratch->unk_24 & 0x100) {
                         packet->unk_0E = clut_override;
-                        packet->unk_0C.as_s16_0C = (s16) ((u16) scratch->unk_0C + (u16) scratch->unk_08);
-                        goto clut_done_done;
+                    } else {
+                        tail_value = clut_override + ((S_func_81904990_3 *)((u8 *)frame_data - 0x8))->unk_06;
+                        packet->unk_0E = tail_value;
                     }
-                    tail_value = clut_override + ((S_func_81904990_3 *)((u8 *)frame_data - 0x8))->unk_06;
                 } else {
                     tail_value = (u16) ((S_func_81904990_3 *)((u8 *)frame_data - 0x8))->unk_06;
+                    packet->unk_0E = tail_value;
                 }
-                packet->unk_0E = tail_value;
             }
             packet->unk_0C.as_s16_0C = (s16) ((u16) scratch->unk_0C + (u16) scratch->unk_08);
-clut_done_done:
-            ;
             packet->unk_14.as_s16_14 = (s16) ((u16) scratch->unk_0C + (u16) scratch->unk_10.as_s32_10);
             tpage_offset = frame->unk_10;
             {
@@ -636,7 +634,7 @@ next_row_done:
     }
     func_80064A40((s32) restore_packet);
     {
-        u8 *state_slot = state_page;
+        u8 *state_slot = (u8 *)state_page;
         u64 state_bits = *(u64 *)state_slot;
         S_func_81904990_5 *final_state = (S_func_81904990_5 *)(u32)state_bits;
         final_state->unk_8D0 = (u8 *)packet;

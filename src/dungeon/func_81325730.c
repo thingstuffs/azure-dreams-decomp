@@ -44,7 +44,7 @@ typedef struct {
 } DungeonEntry;
 
 extern u8 D_8016B778[];
-extern volatile u16 D_80013714;
+extern u16 D_80013714;
 extern u8 D_801746B4[];
 extern u8 D_800F93AA[];
 
@@ -100,7 +100,7 @@ void func_8016CF30(DungeonState *state, Arg1 *motion, Arg2 *animation, Arg3 *act
                 state->unk8c = D_8016B778;
                 dungeonStatus.unk_0C = 0;
                 dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) + 1;
-                ((volatile Arg3 *)actor)->flags46 = ((Arg3 *)actor)->flags46 & 0x7FFF;
+                *(u16 *)((u8 *)actor + 0x46) &= 0x7FFF;
                 *(u16 *)&D_80013714 = D_80013714 | 8;
                 func_800353F4(effect);
                 entry_index = 0;

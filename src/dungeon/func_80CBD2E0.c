@@ -79,9 +79,7 @@ void func_80170AE0(void *entity, S_80170AE0_2 *motion, void *monster)
     }
 
 
-    old_direction_raw = (*(volatile u8 *)((u8 *)entity + 0x6D));
-    old_direction_raw = old_direction_raw << 24;
-    old_direction = (s32)old_direction_raw >> 24;
+    old_direction = (s8)(*(u8 *)((u8 *)entity + 0x6D));
     if (func_800A9E70(entity, motion, monster, entity) != 0) {
         return;
     }

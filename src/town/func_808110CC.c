@@ -37,11 +37,11 @@ typedef struct S_8052BCCC_0 {
 } S_8052BCCC_0;   /* obj in func_8052BCCC */
 
 typedef struct S_8052BCCC_1 {
-    volatile s32 unk_00;
+    s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-    volatile s32 unk_0C;
-    volatile s32 unk_10;
+    s32 unk_0C;
+    s32 unk_10;
     s32 unk_14;
 } S_8052BCCC_1;   /* motion in func_8052BCCC */
 
@@ -83,21 +83,9 @@ void func_8052BCCC(void *obj, void *motion, void *incoming_out) {
     __builtin_memcpy(table, D_805266C0, 12);
     __builtin_memcpy((u8 *)table + 16, D_805266CC, 12);
 
-    {
-        s32 base0;
-        s32 baseC;
-        s32 base4;
-        s32 base8;
-        base0 = ((S_8052BCCC_1 *)motion)->unk_00;
-        baseC = ((S_8052BCCC_1 *)motion)->unk_0C;
-        a0 = ((S_8052BCCC_1 *)motion)->unk_10;
-        a1 = ((S_8052BCCC_1 *)motion)->unk_14;
-        (*(s32 *)((u8 *)(motion) + (0))) = base0 + baseC;
-        base4 = ((S_8052BCCC_1 *)motion)->unk_04;
-        base8 = ((S_8052BCCC_1 *)motion)->unk_08;
-        ((S_8052BCCC_1 *)motion)->unk_04 = base4 + a0;
-        ((S_8052BCCC_1 *)motion)->unk_08 = base8 + a1;
-    }
+    ((S_8052BCCC_1 *)motion)->unk_00 += ((S_8052BCCC_1 *)motion)->unk_0C;
+    ((S_8052BCCC_1 *)motion)->unk_04 += ((S_8052BCCC_1 *)motion)->unk_10;
+    ((S_8052BCCC_1 *)motion)->unk_08 += ((S_8052BCCC_1 *)motion)->unk_14;
     ((S_8052BCCC_0 *)obj)->unk_A2 = ((S_8052BCCC_0 *)obj)->unk_A2 - 1;
     ((S_8052BCCC_2 *)aux)->unk_0C |= 1;
 
@@ -208,8 +196,8 @@ state0_finish:
             ((S_8052BCCC_3 *)out)->unk_05 = 0;
             if (func_80071494() & 7) {
                 u16 phase3;
+                ((S_8052BCCC_0 *)obj)->unk_A2 = 16;
                 phase3 = ((S_8052BCCC_0 *)obj)->unk_A6;
-                (*(volatile u16 *)((u8 *)(obj) + (0xA2))) = 16;
                 ((S_8052BCCC_0 *)obj)->unk_A2 = phase3;
                 ((S_8052BCCC_1 *)motion)->unk_14 = ((s32)0xFF900000 - ((S_8052BCCC_1 *)motion)->unk_08) / ((s16)phase3);
                 ((S_8052BCCC_0 *)obj)->unk_68 = 4;

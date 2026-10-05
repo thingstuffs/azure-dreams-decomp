@@ -68,8 +68,6 @@ void *func_8004BDDC(s32 tint_a, s32 tint_b, void *packet, void *record, void *co
     void *color_record;
     s8 u_end;
     s8 v_end;
-    u8 u_span;
-    u8 v_span;
     void *color_1;
     void *color_2;
     void *color_3;
@@ -79,23 +77,13 @@ void *func_8004BDDC(s32 tint_a, s32 tint_b, void *packet, void *record, void *co
     ((S_8004BDDC_0 *)packet)->unk_20.at00.v = (s32) ((S_8004BDDC_0 *)packet)->unk_18.at00.v;
     ((S_8004BDDC_0 *)packet)->unk_14.at00.v = (s32) ((S_8004BDDC_0 *)packet)->unk_10.at00.v;
     color_record = record;
-    {
-        u8 u_start = *(volatile u8 *) ((u8 *) command + 8);
-        u_span = *(u8 *) ((u8 *) command + 0xA);
-        if ((u_span + u_start) >= 0x100) {
-            ((S_8004BDDC_1 *)command)->unk_0A = (u8) (u_span - 1);
-        }
+    if ((((S_8004BDDC_1 *)command)->unk_08 + ((S_8004BDDC_1 *)command)->unk_0A) >= 0x100) {
+        ((S_8004BDDC_1 *)command)->unk_0A--;
     }
-    {
-        u8 v_start = *(volatile u8 *) ((u8 *) command + 9);
-        v_span = *(u8 *) ((u8 *) command + 0xB);
-        if ((v_span + v_start) >= 0x100) {
-            ((S_8004BDDC_1 *)command)->unk_0B = (u8) (v_span - 1);
-        }
+    if ((((S_8004BDDC_1 *)command)->unk_09 + ((S_8004BDDC_1 *)command)->unk_0B) >= 0x100) {
+        ((S_8004BDDC_1 *)command)->unk_0B--;
     }
-    do {
-        color_record = (void *) ((u8 *) color_record + 0xC);
-    } while (0);
+    color_record = (void *) ((u8 *) color_record + 0xC);
     color_1 = packet + 0x10;
     ((S_8004BDDC_0 *)packet)->unk_10.at00.v = (s32) ((S_8004BDDC_2 *)color_record)->unk_00;
     ((S_8004BDDC_0 *)packet)->unk_04 = (u8) ((S_8004BDDC_0 *)packet)->unk_10.at03.v;

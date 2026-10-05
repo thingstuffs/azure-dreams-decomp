@@ -57,11 +57,6 @@ void func_8186EDA8(DungeonState *anim, S_8186EDA8_0 *position, DungeonEffect *in
     s32 radius_step;
     u16 delay_timer;
     u16 finish_timer;
-    u16 effect_x;
-    u16 effect_y;
-    u8 effect_c;
-    u8 effect_d;
-    u8 effect_e;
     u8 fade_level;
     DungeonEffect *effect = input_effect;
     s32 first_angle = anim->angle;
@@ -104,20 +99,11 @@ void func_8186EDA8(DungeonState *anim, S_8186EDA8_0 *position, DungeonEffect *in
             }
             ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0C = (s16) ((u16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0C
                 - radius_step);
-            effect_x = ((DungeonEffect *)effect)->x1C;
-            effect_c = ((DungeonEffect *)effect)->c;
-            effect_x -= 0x46;
-            ((DungeonEffect *)effect)->x1C = effect_x;
-            effect_y = ((DungeonEffect *)effect)->y1E;
-            effect_c += 4;
-            ((DungeonEffect *)effect)->c = effect_c;
-            effect_e = ((volatile DungeonEffect *)effect)->e;
-            effect_y -= 0x46;
-            ((volatile DungeonEffect *)effect)->y1E = effect_y;
-            effect_d = ((DungeonEffect *)effect)->d;
-            effect_e += 4;
-            ((DungeonEffect *)effect)->e = effect_e;
-            effect->d = effect_d + 4;
+            effect->x1C -= 0x46;
+            effect->y1E -= 0x46;
+            effect->c += 4;
+            effect->d += 4;
+            effect->e += 4;
             break;
         }
         ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 = 0x28U;

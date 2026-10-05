@@ -121,7 +121,7 @@ void func_8016B230(u8 *movement_in, void *action_ctx, u8 *position, u8 *actor) {
     s32 base_angle;
     s16 move_angle;
     u8 next_x;
-    u8 next_y;
+    s32 next_y;
     void *found;
     u8 *object;
 
@@ -307,7 +307,7 @@ void func_8016B230(u8 *movement_in, void *action_ctx, u8 *position, u8 *actor) {
                 *((u8 *)((u32)direction_offset + (u32)x_offsets));
             ((S_8016B230_2 *)position)->unk_24.at01.v += *((u8 *)((s8 *)dirStepY) + direction_offset);
             next_x = ((S_8016B230_2 *)position)->unk_24.at00.v;
-            next_y = *(volatile u8 *)((u8 *)position + 0x25);
+            next_y = ((S_8016B230_2 *)position)->unk_24.at01.v;
             tile_mask = 0x3000;
             if (((S_8016B230_1 *)actor)->unk_1C & 0x2000) {
                 tile_mask = 0x300;

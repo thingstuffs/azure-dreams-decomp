@@ -7,12 +7,12 @@ typedef struct S_808127A4_0_pre {
 
 typedef struct S_808127A4_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
-    union { s16 s; u16 u; volatile u16 p; } unk_02;   /* accessed as both */
+    union { s16 s; u16 u; } unk_02;   /* accessed as both */
     s32 unk_04;
     u16 * unk_08;
     void * unk_0C;
     u8 pad_10[0x6];
-    union { s16 s; u16 u; volatile u16 p; } unk_16;   /* accessed as both */
+    union { s16 s; u16 u; } unk_16;   /* accessed as both */
 } S_808127A4_0;   /* arg0 in func_8052D3A4 */
 
 typedef struct S_808127A4_1 {
@@ -26,9 +26,6 @@ extern s32 D_80084D5C;
 
 void func_8052D3A4(void *record_ptr) {
     s16 state;
-    u32 sum;
-    u16 step;
-    u16 value;
     u16 threshold_value;
     void *related_record;
 
@@ -48,14 +45,9 @@ void func_8052D3A4(void *record_ptr) {
         ((S_808127A4_0 *)record_ptr)->unk_00.u++;
         break;
     case 1:
-        sum = ((S_808127A4_0 *)record_ptr)->unk_16.u;
-        step = ((S_808127A4_0 *)record_ptr)->unk_02.u;
-        value = ((S_808127A4_0 *)record_ptr)->unk_02.p;
-        sum += step;
-        value = sum + ((s32) (value << 0x10) >> 0x12);
-        threshold_value = (value + 8) & 0xFFFF;
-        ((S_808127A4_0 *)record_ptr)->unk_16.p = sum;
-        ((S_808127A4_0 *)record_ptr)->unk_16.u = value;
+        ((S_808127A4_0 *)record_ptr)->unk_16.u += ((S_808127A4_0 *)record_ptr)->unk_02.u;
+        ((S_808127A4_0 *)record_ptr)->unk_16.u += ((S_808127A4_0 *)record_ptr)->unk_02.s >> 2;
+        threshold_value = (((S_808127A4_0 *)record_ptr)->unk_16.u + 8) & 0xFFFF;
         if (threshold_value >= 0xF9U) {
             (*(u16 *)((u8 *)record_ptr + -2)) = (u16) (((S_808127A4_0_pre *)record_ptr)[-1].unk_00 | 0x8000);
             *(s32 *) 0x80084D5C = D_80084D5C | 0x8000;

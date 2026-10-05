@@ -10,8 +10,6 @@
 /* gameWork's own base (0x80083160), formerly spelled as D_80083178 - 0x18.
    Links to identical words. */
 #define GFX_ROOT_SLOT ((u8 *)&gameWork)
-#define VU16_AT(p, o) (*(volatile u16 *)((u8 *)(p) + (o)))
-#define VS32_AT(p, o) (*(volatile s32 *)((u8 *)(p) + (o)))
 
 typedef struct {
     u32 addr : 24;
@@ -70,33 +68,33 @@ void func_81910EC0(u8 *shape, void *position, s16 scale_num, s16 scale_den)
 
         end_point = shape + (((edge + 2) % 5) * 4);
         {
-            u16 start_x = VU16_AT(start_point, 0x1A);
+            u16 start_x = U16_AT(start_point, 0x1A);
 
             U16_AT(scratchpad, 0x74) = start_x;
             U16_AT(scratchpad, 0x64) = start_x;
         }
 
-        coord_delta = S32_AT(end_point, 0x18) - VS32_AT(start_point, 0x18);
+        coord_delta = S32_AT(end_point, 0x18) - S32_AT(start_point, 0x18);
         S32_AT(scratchpad, 0x108) = coord_delta;
         if (interpolate) {
             S32_AT(scratchpad, 0x108) = (coord_delta / divisor) * scale;
         }
 
-        coord = VU16_AT(start_point, 0x1A) + U16_AT(scratchpad, 0x10A);
+        coord = U16_AT(start_point, 0x1A) + U16_AT(scratchpad, 0x10A);
         U16_AT(scratchpad, 0x7C) = coord;
         U16_AT(scratchpad, 0x6C) = coord;
 
-        vertex_y = VU16_AT(start_point, 0x2E);
+        vertex_y = U16_AT(start_point, 0x2E);
         U16_AT(scratchpad, 0x76) = vertex_y;
         U16_AT(scratchpad, 0x66) = vertex_y;
 
-        coord_delta = S32_AT(end_point, 0x2C) - VS32_AT(start_point, 0x2C);
+        coord_delta = S32_AT(end_point, 0x2C) - S32_AT(start_point, 0x2C);
         S32_AT(scratchpad, 0x10C) = coord_delta;
         if (interpolate) {
             S32_AT(scratchpad, 0x10C) = (coord_delta / divisor) * scale;
         }
 
-        vertex_y = VU16_AT(start_point, 0x2E) + U16_AT(scratchpad, 0x10E);
+        vertex_y = U16_AT(start_point, 0x2E) + U16_AT(scratchpad, 0x10E);
         U16_AT(scratchpad, 0x7E) = vertex_y;
         U16_AT(scratchpad, 0x6E) = vertex_y;
 
