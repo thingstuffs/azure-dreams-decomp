@@ -61,3 +61,10 @@ frontier for this row; r86 c6 was 74). Corrections to earlier briefs:
   (2) the `lbu; sll 24; sra 24` class: measure retail siblings (other dungeon rows with `lbu; sll 24; sra 24` on
   non-volatile bytes, e.g. the 800AFA68 world loop) for the C shape that keeps it with SImode arithmetic; the mechanism
   table in REPORT.md narrows it to a store/call between the load and the shift or a multi-set HImode subreg destination.
+
+## Birthing boost: what "live" means (r93_sonnet_kit1, measured on 800C9858 block 1)
+sched.c schedules each block BACKWARDS, so at a pick `bb_live_regs` = the block's live-out set PLUS the sources of insns
+already scheduled (i.e. later in forward order). birthing_insn_p's "dest live" therefore means "used later in the block
+or live out of it", not "live at block end": plain live-out disagreed with the observed boost on 17 of 27 insns, the
+corrected rule agreed on all 27. `why.py --pass sched --block bN --deps-table` prints both (birth = static test,
+boost = observed) and flags disagreements.
