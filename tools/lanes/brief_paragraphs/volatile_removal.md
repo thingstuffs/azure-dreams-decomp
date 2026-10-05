@@ -81,8 +81,10 @@ relocations the target lacks - keep the page macros on slus rows.
 20. `*(volatile s32 *)&G[0]`-style reads of a global vector: declare G as its struct (`Vec3`) and read members (8009D610).
 21. Two stores to the SAME field in a row (`f = x | 0xC; f = f | 2;`, or `f &= ~7; f |= m;`) held by a volatile: flow.c
     (last_mem_set, cygnus dje/8176) deletes the first store when no memory op sits between them in SOURCE order, and cse
-    folds the two ors. Write one independent store (a sibling field) BETWEEN them; sched1 moves it back to retail's place
-    (r93_sonnet_vb24/vb25, 5/5: 81251350, 80B9ADE0, 8092192C, 80B47980, 80A4B678).
+    folds the two ors. Write one independent memory op (a sibling-field store OR a load of another field) BETWEEN them; sched1 moves it back to retail's place
+    (r93_sonnet_vb24/vb25, 5/5: 81251350, 80B9ADE0, 8092192C, 80B47980, 80A4B678; vb26 +4 incl. a load between: 8180E7F4, 800B73A4).
+    NOT this class: a second store deleted by reload_cse_noop_set_p (reload1.c, "register known equal to memory") -
+    8180A990, open.
 Open: volatile u8* STORES through an induction pointer (80284068: loop.c biv->giv); volatiles that only order a
 read-modify-write triple in sched1 (8105F098); SPU/GPU/CD hardware registers are REAL volatiles, and so is library state shared with an interrupt handler (written
 inside EnterCriticalSection, a callback pointer reloaded between test and call) - ledger/real_volatiles.jsonl lists the
