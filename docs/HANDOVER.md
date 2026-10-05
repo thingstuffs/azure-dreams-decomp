@@ -46,6 +46,9 @@ Prototype lanes respelled some `M2C_UNK` params/fields as `s32`/`s32 *` (same C 
 - dungeon/func_800CA184 (r93_opus_ca184, 11 -> 10 pins, gotos 32 -> 24): pointer copy `scratch = view_scratch;` after a join (copy-host shape, byte-free) - admissible? recorded in ledger/recipe_trades.jsonl.
 - dungeon/func_8009E0EC (r93_opus_p16, 8 -> 0 pins, 9 -> 0 gotos; was HELD for labels-into-block, now goto-free): trades `self = actor` copy, move_flags split, two-role shared temps `offset`/`temp` - admissible? (ledger/recipe_trades.jsonl).
 - dungeon/func_800957B8 (r93_opus_p18, 5 -> 0): m2c `u16 tile_info[5]` -> one `u16 tile_flags` (callee definition func_8009A350 writes one u16; retail frame allows <= 8 B; array costs 56). Landed as typing-from-definition, not a dropped local.
+- FAKE-DEPENDENCY DEBT (pre-existing, r93_opus_fd1): main/func_8000F774 `+ row_count - row_count` + `dimensions += height; -= height` x2
+  (one more removed byte-neutral); town/func_800A56D0 `packet + depth_or_page - depth_or_page` guards a dead otz clamp retail
+  emits (combine distribute_notes stops at the clamp label) - no natural shape yet; dungeon/func_81850800 `x ^ (y ^ y)`.
 - AWAITING OWNER (r93_opus_fp1, staged in lane out/): (a) dead volatile read -> `entity->unk_98 &= 0xF7FFFFFF;` on a u16
   field (no-op RMW; reload_cse_noop_set_p deletes the store, the load stays = retail) - 80B97298, 80CBD2E0, 800CE9F8;
   (b) volatile local -> type-pun `y = *(s32 *)&x;` (address taken keeps the stack slot) - 8181175C, 81810D28, 81810CD8.
