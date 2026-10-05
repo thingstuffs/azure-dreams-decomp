@@ -772,5 +772,42 @@ class TestChecks(unittest.TestCase):
         self.assertIsNone(CK.check_launched(p, 21, gen.get, ret.get))                   # no inversion
 
 
+class WhyDepsTableTests(unittest.TestCase):
+    """why.py --deps-table (round 93): LOG_LINK columns and the birthing_insn_p evaluation, on a synthetic block."""
+
+    def setUp(self):
+        import why as W
+        self.W = W
+        self.recs = {
+            10: {"uid": 10, "kind": "insn", "pattern": "(set (reg:SI 100) (mem:SI (reg:SI 90)))", "links": []},
+            11: {"uid": 11, "kind": "insn", "pattern": "(set (reg:SI 101) (plus:SI (reg:SI 100) (const_int 1)))", "links": [(10, "true")]},
+            12: {"uid": 12, "kind": "insn", "pattern": "(set (mem:SI (reg:SI 90)) (reg:SI 101))", "links": [(11, "true"), (10, "REG_DEP_ANTI")]},
+            13: {"uid": 13, "kind": "insn", "pattern": "(set (reg:SI 102) (const_int 0))", "links": []},
+            14: {"uid": 14, "kind": "insn", "pattern": "(set (reg:SI 102) (const_int 1))", "links": []},
+        }
+        self.blk = {"n": 1, "from": 10, "to": 14, "function": "f", "total": 5, "launches": [],
+                    "prio": {u: (1, 1) for u in self.recs},
+                    "ticks": [{"t": i + 1, "pick": u, "ready": [(u, 1)], "launched": []}
+                              for i, u in enumerate((14, 13, 12, 11, 10))]}
+
+    def test_birth_facts(self):
+        flow = "Basic block 1: first insn 10, last 14.\nRegisters live at start: 90\n"
+        b = self.W.birth_facts(self.recs, flow, self.blk)
+        self.assertEqual(b[10][0], "y")                    # reg 100 read by 11
+        self.assertEqual(b[11][0], "y")
+        self.assertEqual(b[12][0], "n")                    # a store
+        self.assertEqual(b[13][0], "n")                    # reg 102 has two sets
+        self.assertIn("2 sets", b[13][1])
+
+    def test_table_rows_and_sched2(self):
+        d = {"flow": "Basic block 1: first insn 10, last 14.\nRegisters live at start: 90\n"}
+        out = "\n".join(self.W.explain_deps_table(d, "sched", self.blk, self.recs, {u: u for u in self.recs}, "test"))
+        self.assertIn("10(anti)", out)
+        self.assertIn("depended on by", out)
+        self.assertIn("birth/boost disagreements", out)
+        out2 = "\n".join(self.W.explain_deps_table(d, "sched2", self.blk, self.recs, {u: u for u in self.recs}, "test"))
+        self.assertIn("birthing_insn_p is off after reload", out2)
+
+
 if __name__ == "__main__":
     unittest.main()

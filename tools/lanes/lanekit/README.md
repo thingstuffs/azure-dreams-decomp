@@ -17,9 +17,9 @@ every compiler dump lands inside it by construction: `TMPDIR` and `tempfile.temp
 
 | tool | what it prints |
 |---|---|
-| `lab.py` | listing distance, pins left, byte score, and the REPORT table; `--base FILE`, `--cfg`, `cellscore`, `stage-cell [--equal-pins]` |
+| `lab.py` | listing distance, pins left, byte score (a no-build candidate prints its cpp/cc1 stderr), and the REPORT table; `--base FILE`, `--cfg`, `cellscore`, `stage-cell [--equal-pins]` |
 | `erase.py` | what each pin holds, and which pins fall together (`--cfg`: byte totals at another cell) |
-| `why.py` | the pass DECISION that changed: priorities, allocnos, loop verdicts, RTL (`--cfg` for another cell); ONE text at TWO cfgs (`<text> --cfg A --vs-cfg B`); `--trace --block`: one block tick by tick; `--deps UID`: one insn's LOG_LINKS and dependents |
+| `why.py` | the pass DECISION that changed: priorities, allocnos, loop verdicts, RTL (`--cfg` for another cell); ONE text at TWO cfgs (`<text> --cfg A --vs-cfg B`); `--trace --block`: one block tick by tick; `--deps UID`: one insn's LOG_LINKS and dependents; `--block --deps-table`: the whole block's dependence table with birthing boost |
 | `listing.py <row> <text.c>` | the normalised cc1 listing of a text (on the pinned exact text = retail's instruction order with register names) - round 93 (Fable) |
 | `retail_listing.py <row> <cand.c> [--cfg]` | the scorer's generated listing of a non-exact candidate (prints nothing on MATCH: use listing.py) |
 | `ccerr.py <row> <text.c>` | the preprocessor / cc1 stderr of a text - why lab.py said `no-build` |
@@ -312,6 +312,7 @@ the 2.8 `addressof` of the address-taken parameter). `--vs` and `--trace`/`--dep
 python3 .../why.py <row> --pass sched2 --block <N|bN|uN|rN> --trace [--variant F] [--cfg X] [--retail]
 python3 .../why.py <row> --pass sched2 --trace --insn 781 --variant cand.c [--block ...]
 python3 .../why.py <row> --deps 781 [--pass sched2] [--variant cand.c] [--cfg X]
+python3 .../why.py <row> --pass sched --block bN --deps-table [--variant cand.c] [--cfg X]
 ```
 
 * **`--trace`** compiles ONE text (`--variant`, default the erased text; `pinned` or a file) with `-dap` and
@@ -336,6 +337,17 @@ python3 .../why.py <row> --deps 781 [--pass sched2] [--variant cand.c] [--cfg X]
   the tick it became ready, what it lost at each tick and why, and the tick it was picked.
 * **`--deps UID`** prints the insn's LOG_LINKS with their kind (true / anti / output) and the insns whose
   LOG_LINKS name it (its `ref_count` owners), at `--pass` (default `sched2`; any pass dump works).
+* **`--deps-table`** (with `--block`, sched or sched2; round 93) is the whole block's dependence graph in one
+  table, the thing r93_fable_c9858 assembled by hand: per insn `pos`, uid, `src`, static `prio` and `refs`,
+  `deps on` (its LOG_LINKS; a bare uid is a true dependence, else `(anti)` / `(output)`), `depended on by`
+  (long lists are cut with `,+N`), `birth` and `boost`.  `birth` is cdk `sched.c birthing_insn_p` evaluated from
+  the dumps: the destination is a single-set PSEUDO (`reg_n_sets == 1`, counted over the dump's insns) that is
+  live when the insn is picked - sched.c fills the block backwards and `bb_live_regs` holds the block's live-out
+  set plus every source of the insns already picked, so "live" = used later in the block or live out (the flow
+  dump's `Registers live at start`).  `boost` is what the scheduler did: `BOOSTED` = the insn sat on a ready list
+  at a LAUNCH priority (adjust_priority), `tail` = a jump/call/use kept at the block end.  A footer lists any
+  insn where the two disagree (the static test approximates; on the r93_fable_c9858 block 1 they agree on all 27
+  insns).  After reload birthing is off, so `--pass sched2` prints `-` in both columns.
 
 Smoke (r80_fable_n1's 819B3414 `g_seed` at 2.7.2-cdk-G0): uid 781 -> gen [180] -> retail [172], ready from
 T-19 after 528, loses T-19 on priority, T-20 on `potential hazard` to 521, T-21..T-23 on priority, and at

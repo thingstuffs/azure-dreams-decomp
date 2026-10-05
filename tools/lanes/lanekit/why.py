@@ -74,13 +74,21 @@ ONE text (`--variant`), one `-dap` compile (round 80, the r80_fable_n1 harvest):
 
     why.py <row> --pass sched2 --block <N|bN|uN|rN> --trace [--variant F] [--cfg X] [--retail] [--insn N]
     why.py <row> --deps <uid> [--pass sched2] [--variant F] [--cfg X]
+    why.py <row> --pass sched --block <N|bN|uN|rN> --deps-table [--variant F] [--cfg X]
 
 `--trace` prints one block's priority/ref_count table in emitted order and, tick by tick, the ready list
 with dynamic priorities and WHY the pick won (sole / priority [launched, tail] / hazard / LUID tie /
 class/stale-sort / tie / stall); `--insn N` only that insn's history (ready when, lost to whom and why,
 picked when); `--retail` byte-scores the text and adds uid -> generated word -> retail word.  `--block N` is
 a uid when a block holds it, else a block number; `bN` block, `uN` uid, `rN` retail word.  `--deps` prints
-an insn's LOG_LINKS with their kind and the insns that depend on it.
+an insn's LOG_LINKS with their kind and the insns that depend on it.  `--deps-table` (round 93, the
+r93_fable_c9858 retro) prints the WHOLE block's dependence graph in one table, one row per insn: uid, source
+rank, the insn, `deps on` (its LOG_LINKS, kind true/anti/output), `depended on by` (the insns whose LOG_LINKS
+name it), sched.c's static priority and ref_count, and the birthing columns: `birth` = the static test of
+cdk sched.c `birthing_insn_p` (single-set pseudo destination, reg_n_sets == 1 counted over the function's
+insns, live at the pick = live out of the block, read from the flow dump's `Registers live at start` of the other blocks) and
+`boost` = what the scheduler DID (the insn sat on a ready list at a LAUNCH priority and is no jump/call/use).
+Birthing is off after reload, so under sched2 both columns read `-`.
 """
 from __future__ import annotations
 
@@ -878,6 +886,93 @@ def explain_deps(d, phase, uid, prio=None):
     return out
 
 
+def birth_facts(recs, flow, blk):
+    """{uid: (static verdict, reason)} - sched.c `birthing_insn_p`, evaluated from the dumps.
+
+    birthing_insn_p: a SET whose destination is a register that is live in `bb_live_regs` and has
+    `reg_n_sets == 1`.  Here: the destination is a PSEUDO (hard registers print with a name), it is set by
+    exactly one insn of the function dump, and it is live at the end of the block (approximated by `Registers
+    live at start` of ANY flow block that is not the block's own fall-in - a single-set pseudo defined here
+    and live into another block is live at this block's end).  Reason strings say which test failed."""
+    sets = collections.Counter()
+    for r in recs.values():
+        for m in re.finditer(r"\(set \(reg(?:/\w+)*:\w+ (\d+)\)", r.get("pattern", "")):
+            sets[int(m.group(1))] += 1
+    live_in = {}
+    for m in re.finditer(r"^Basic block (\d+):.*\n(?:.*\n)??Registers live at start:([ \d]*)", flow or "", re.M):
+        live_in[int(m.group(1))] = {int(x) for x in m.group(2).split()}
+    out = {}
+    dep = dependents(recs)
+    blk_picks = {t["pick"] for t in blk["ticks"] if t["pick"] is not None}
+    for u in set(blk["prio"]) | {t["pick"] for t in blk["ticks"] if t["pick"] is not None}:
+        pat = recs.get(u, {}).get("pattern", "")
+        m = re.match(r"\(set \(reg(?:/\w+)*:\w+ (\d+)\)", pat)
+        if recs.get(u, {}).get("kind") != "insn" or not m:
+            out[u] = ("n", "not a set of a pseudo register")
+            continue
+        n = int(m.group(1))
+        if sets[n] != 1:
+            out[u] = ("n", "reg %d has %d sets" % (n, sets[n]))
+            continue
+        if not flow:
+            out[u] = ("?", "reg %d single-set; no flow dump for liveness" % n)
+        elif any(t == "true" for _, t in dep.get(u, [])) and any(
+                v in blk["prio"] or v in blk_picks for v, t in dep.get(u, []) if t == "true"):
+            out[u] = ("y", "reg %d single-set, used later in the block" % n)
+        elif any(n in live for b, live in live_in.items() if b != blk["n"]) or n in live_in.get(blk["n"], ()):
+            out[u] = ("y", "reg %d single-set, live out of the block" % n)
+        else:
+            out[u] = ("n", "reg %d single-set but never used after this insn" % n)
+    return out
+
+
+def explain_deps_table(d, phase, blk, recs, luid, where):
+    """One row per insn of the block: its LOG_LINKS, its dependents, priority and the birthing boost."""
+    deps = dependents(recs)
+    pos = block_positions(blk)
+    uids = sorted(set(blk["prio"]) | set(pick_ticks(blk)), key=lambda u: pos.get(u, 10 ** 6))
+    src = {u: i for i, u in enumerate(sorted((u for u in uids if u in luid), key=luid.get))}
+    born = birth_facts(recs, d.get("flow"), blk) if phase == "sched" else {}
+    seen = {}                                   # uid -> highest dynamic priority seen on a ready list
+    for t in blk["ticks"]:
+        for u, p in t["ready"]:
+            seen[u] = max(seen.get(u, p), p)
+
+    def kind_list(pairs, cap=8):
+        txt = ["%d%s" % (k, "" if t == "true" else "(%s)" % dep_kind(t)) for k, t in pairs]
+        return ",".join(txt[:cap]) + (",+%d" % (len(txt) - cap) if len(txt) > cap else "") or "-"
+
+    body = []
+    for u in uids:
+        pr, rc = blk["prio"].get(u, (None, None))
+        rec = recs.get(u, {})
+        if phase == "sched":
+            tag = boost_tag(u, seen.get(u), recs, phase)
+            boost = "BOOSTED" if "launched" in tag else ("tail" if "tail" in tag else "-")
+            birth = born.get(u, ("?", ""))[0]
+        else:
+            boost = birth = "-"
+        body.append([pos.get(u, "-"), u, src.get(u, "?"), fmt_prio(pr), rc,
+                     kind_list(rec.get("links", [])), kind_list(deps.get(u, [])), birth, boost,
+                     short(rec.get("pattern", "?"), 56)])
+    out = ["# block %d (%s .. %s) of %s: %d insns - %s" % (blk["n"], blk["from"], blk["to"], blk["function"], len(uids), where),
+           kitlib.fmt_table(["pos", "uid", "src", "prio", "refs", "deps on", "depended on by", "birth", "boost", "insn"], body),
+           "   `deps on` = the insn's LOG_LINKS (a bare uid is a true dependence, else `(anti)` / `(output)`); `depended "
+           "on by` = the insns whose LOG_LINKS name it (its ref_count owners). `prio`/`refs` = sched.c's static table."]
+    if phase == "sched":
+        out.append("   `birth` = sched.c birthing_insn_p by the dumps (y: single-set pseudo destination, reg_n_sets == 1, live at "
+                   "the pick: used later in the block or live out; n: a test fails; ?: no flow dump); `boost` = BOOSTED when the insn sat on a ready list at "
+                   "a LAUNCH priority (adjust_priority raised it), `tail` = a jump/call/use kept at the block end.")
+        odd = ["%d: birth=%s (%s) but boost=%s" % (u, born[u][0], born[u][1], bt)
+               for u, bt in ((u, row_[8]) for u, row_ in zip(uids, body)) if u in born
+               and ((born[u][0] == "y") != (bt == "BOOSTED")) and not (born[u][0] != "y" and bt == "-")]
+        out.append("   birth/boost disagreements (the static test is an approximation of bb_live_regs at the pick): " +
+                   ("; ".join(odd) if odd else "none"))
+    else:
+        out.append("   birthing_insn_p is off after reload (reload_completed), so sched2 has no birthing boost: `birth`/`boost` read `-`.")
+    return out
+
+
 def retail_for(row, text, asm):
     """{by_uid, gen_ret, note} - uid -> generated words -> retail words, or None on an exact text."""
     import retailmap as RM                                               # noqa: E402
@@ -906,7 +1001,7 @@ def run_single(a, row, lane, base):
     kitlib.add_paths()
     import sched_trace                                                   # noqa: E402
     print("# why %s  --pass %s  %s   (%s, recipe %s)" % (row["id"], phase, "--deps %d" % a.deps if a.deps is not None
-          else "--trace", name, row["cfg"]))
+          else "--deps-table" if a.deps_table else "--trace", name, row["cfg"]))
     blocks, others = main_function(sched_trace.block_traces(d[phase]), row) if phase in ("sched", "sched2") else ([], [])
     if others:
         print("# (the dump also schedules %s; only %s is read)" % (", ".join(others), blocks[0]["function"]))
@@ -915,7 +1010,7 @@ def run_single(a, row, lane, base):
         print("\n".join(explain_deps(d, phase, a.deps, prio)))
         return
     if phase not in ("sched", "sched2"):
-        raise SystemExit("why: --trace reads the scheduler: --pass sched or sched2")
+        raise SystemExit("why: --trace / --deps-table read the scheduler: --pass sched or sched2")
     if not blocks:
         raise SystemExit("why: the .%s dump carries no `;; ready list` commentary (haifa-sched cells, 2.91.66/"
                          "2.95.2, print another format); use --pass %s without --trace" % (phase, phase))
@@ -936,6 +1031,9 @@ def run_single(a, row, lane, base):
         print("# NOTE: no .%s dump: LUID = uid order (approximate)" % PRE_PASS[phase])
     if a.insn is not None and a.insn not in blk["prio"] and not any(a.insn == u for t in blk["ticks"] for u, _ in t["ready"]):
         raise SystemExit("why: insn %d is not in block %d" % (a.insn, blk["n"]))
+    if a.deps_table:
+        print("\n".join(explain_deps_table(d, phase, blk, recs, luid, where)))
+        return
     print("\n".join(explain_trace(d, phase, blk, recs, luid, where, a.insn, retail)))
 
 
@@ -974,8 +1072,11 @@ def main():
                     help="with --trace: byte-score the text and add uid -> generated -> retail word columns")
     ap.add_argument("--deps", type=int, metavar="UID",
                     help="ONE text (--variant): this insn's LOG_LINKS (kind) and its dependents, at --pass")
+    ap.add_argument("--deps-table", action="store_true",
+                    help="sched/sched2, ONE text, with --block: the whole block's dependence table (deps on / depended on "
+                         "by / priority / birthing boost), one row per insn")
     a = ap.parse_args()
-    single = a.trace or a.block or a.insn is not None or a.deps is not None
+    single = a.deps_table or a.trace or a.block or a.insn is not None or a.deps is not None
     if a.text is not None and a.variant is not None and a.text != a.variant:
         ap.error("give the text once: positional <text> or --variant, not both")
     if a.text is not None and not a.vs_cfg:
@@ -989,6 +1090,8 @@ def main():
         ap.error("--pass is required (except with --deps or --vs-cfg)")
     if single and a.deps is None and a.block is None and a.insn is None:
         ap.error("--trace needs --block (N, bN, uN or rN) or --insn")
+    if a.deps_table and a.block is None:
+        ap.error("--deps-table needs --block (N, bN, uN or rN)")
     a.variant = a.text if a.text is not None else (a.variant or "erased")
     a.vs = a.vs or "pinned"
 

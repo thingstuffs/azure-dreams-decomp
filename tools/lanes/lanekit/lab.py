@@ -71,6 +71,10 @@ refuses, exit 1, when the candidate is not exact at CFG or not admissible.  Noth
 moves); the kind still follows rule 2, and a candidate identical to the pinned text (a pure recipe switch) is
 handed to `tools/fidelity/land_recipe_move.py`, not `land_coherence.sh` (which would restore its recipe).
 
+NO-BUILD.  A candidate that does not compile prints the first 20 lines of the preprocessor / cc1 stderr
+under its `no-build` line and keeps them in its lab_log record (field `stderr`; round 93, `ccerr.py`'s job
+built in).  The compile is the screen's own (the row's cell and flags, `-w`).
+
 CAP.  More than 60 variants for one row needs `--more`.  One lane produced 209 probe files for two
 of its five rows and left the other three nearly untouched.
 """
@@ -88,6 +92,37 @@ import kitlib                                                             # noqa
 import nojtbl                                                             # noqa: E402
 
 JTBL_STATUSES = ("jtbl-mismatch",)
+STDERR_LINES = 20          # a no-build candidate prints this many lines of preprocessor/cc1 stderr
+
+
+def compile_stderr(row, text, lines=STDERR_LINES):
+    """(first `lines` lines of stderr, was it cut) of compiling `text` with the row's cell, exactly as
+    `screen.compile_s` does (what `ccerr.py` prints): cpp first, cc1 when cpp succeeds.  '' when nothing is
+    said (e.g. the failure was a timeout or a toolchain wrapper error)."""
+    import subprocess
+    import tempfile
+    kitlib.add_paths()
+    import screen                                                         # noqa: E402
+    from common import parse_cfg                                          # noqa: E402
+    cell, flags = parse_cfg(row["cfg"])
+    D = screen.ROOT / "toolchain/compilers" / ("gcc-" + cell)
+    with tempfile.TemporaryDirectory(prefix="labcc_") as td:
+        d = Path(td)
+        f = d / Path(row["c_path"]).name
+        f.write_text(text)
+        steps = [[str(D / "gcc"), "-B" + str(D) + "/", "-E", "-O2", *flags, "-I" + str(screen.INCLUDE), "-w", f.name, "-o", "f.i"],
+                 [str(D / "cc1"), "f.i", "-quiet", "-O2", *flags, "-o", "f.s"]]
+        err = ""
+        for cmd in steps:
+            try:
+                r = subprocess.run(cmd, cwd=d, capture_output=True, text=True, timeout=60)
+            except Exception as e:                                        # noqa: BLE001  (a missing compiler, a timeout)
+                return "(could not run %s: %s)" % (Path(cmd[0]).name, e), False
+            err = r.stderr.strip()
+            if r.returncode != 0:
+                break
+    ls = err.splitlines()
+    return "\n".join(ls[:lines]), len(ls) > lines
 
 
 def jtbl_note(sc):
@@ -187,6 +222,11 @@ class Lab:
                "status": "no-build" if d is None else "measured", "pins": len(kitlib.sites(text))}
         if self.cfg:
             rec["cfg"] = self.cfg
+        if d is None:                  # round 93: say WHY it does not build (cpp / cc1 stderr), in the log and on screen
+            try:
+                rec["stderr"], cut = compile_stderr(scr.row, text)
+            except Exception as e:                                        # noqa: BLE001  (diagnostics must not stop a run)
+                rec["stderr"], cut = "(stderr unavailable: %s)" % e, False
         # round 80: also byte-score near candidates - label ORDER (not numbering) can differ in a byte-identical
         # listing (r79_sonnet_g20 main/func_8000F524: dist 7, verify exact; the lane had to stage it by hand)
         near = int(os.environ.get("LANEKIT_SCORE_NEAR", "24"))
@@ -207,6 +247,10 @@ class Lab:
               % (name, "-" if dist is None else dist, rec.get("pins", "-"),
                  (json.dumps(rec["score"]) + jtbl_note(rec["score"])) if rec["score"] else "",
                  "  -> " + rec["staged"] if rec.get("staged") else ""))
+        if d is None:
+            print("    does not build%s:" % (" (first %d stderr lines)" % STDERR_LINES if cut else ""))
+            print("\n".join("      " + l for l in rec["stderr"].splitlines()) if rec["stderr"] else
+                  "      (the compiler printed nothing; see %s)" % (self.dir / (name + ".diff")))
         return rec
 
     def test_file(self, path, score=False, note=""):
