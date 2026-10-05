@@ -79,10 +79,12 @@ relocations the target lacks - keep the page macros on slus rows.
 19. RMW then reload of the same field (`f += x; f = f & 0xFFF;` held by volatile): a fresh s32 local read between the two
     stores (`f += x; t = f; f = t & 0xFFF;`) (r93_sonnet_vb18, 2/2: town/func_800BC77C, 800BC238).
 20. `*(volatile s32 *)&G[0]`-style reads of a global vector: declare G as its struct (`Vec3`) and read members (8009D610).
+21. Two stores to the SAME field in a row (`f = x | 0xC; f = f | 2;`, or `f &= ~7; f |= m;`) held by a volatile: flow.c
+    (last_mem_set, cygnus dje/8176) deletes the first store when no memory op sits between them in SOURCE order, and cse
+    folds the two ors. Write one independent store (a sibling field) BETWEEN them; sched1 moves it back to retail's place
+    (r93_sonnet_vb24/vb25, 5/5: 81251350, 80B9ADE0, 8092192C, 80B47980, 80A4B678).
 Open: volatile u8* STORES through an induction pointer (80284068: loop.c biv->giv); volatiles that only order a
 read-modify-write triple in sched1 (8105F098); SPU/GPU/CD hardware registers are REAL volatiles, and so is library state shared with an interrupt handler (written
 inside EnterCriticalSection, a callback pointer reloaded between test and call) - ledger/real_volatiles.jsonl lists the
 classified sites; check a global's writers (`git grep -n 'D_X\s*=' -- src`) before working one; frame-pad volatile locals (no
-evidence for a real local); a dead store combine would merge (8132F204); two stores to the SAME address in a row that flow's dead-store
-elimination / reorg redundant_insn deletes in plain C (8180E7F4, 8180A990); `(flags|0xC)|2` folded to one ori by cse
-(81923534, 818CF0E8).
+evidence for a real local); a dead store combine would merge (8132F204).
