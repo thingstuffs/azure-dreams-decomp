@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-05T08:35:52Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-05T09:16:07Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -76,20 +76,20 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | m2c boilerplate block | 2332 | 515,120 | 20.1% | 0 | 0 | 0.0% |
 | M2C_FIELD raw offsets | 2950 | 1,456,876 | 57.0% | 0 | 0 | 0.0% |
 | m2c local names | 5182 | 2,172,184 | 84.9% | 361 | 168,652 | 6.6% |
-| ASM_ pins | 2135 | 1,464,820 | 57.3% | 116 | 160,540 | 6.3% |
-| goto | 1545 | 1,318,468 | 51.5% | 359 | 410,380 | 16.0% |
-| computed-goto jump table | 317 | 437,344 | 17.1% | 14 | 23,508 | 0.9% |
+| ASM_ pins | 2135 | 1,464,820 | 57.3% | 114 | 158,500 | 6.2% |
+| goto | 1545 | 1,318,468 | 51.5% | 353 | 401,092 | 15.7% |
+| computed-goto jump table | 317 | 437,344 | 17.1% | 13 | 22,304 | 0.9% |
 | inline asm outside macros | 361 | 255,656 | 10.0% | 235 | 201,848 | 7.9% |
 | fidelity blocking site (LABEL_AS_CALL/PASSTHRU_NO_ARGS) | 1489 | 680,132 | 26.6% | 308 | 157,064 | 6.1% |
 | any fidelity site | 2654 | 1,286,092 | 50.3% | 1777 | 959,932 | 37.5% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 751 | 560,528 | 21.9% | 125 | 108,736 | 4.3% |
 | maspsx marker pins (scaffolding) | 393 | 351,556 | 13.7% | 1 | 1,176 | 0.0% |
-| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 126 | 103,520 | 4.0% |
+| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 125 | 102,684 | 4.0% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 2 | 820 | 0.0% |
 | local address-named struct | 633 | 346,988 | 13.6% | 2977 | 1,557,180 | 60.9% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 5988 | 1,931,568 | 75.5% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 5990 | 1,933,608 | 75.6% |
 
-Pin sites now: 245 in 116 rows; REG 141, KEEP_NV 35, KEEP 29, SCHED_BARRIER 14, USE2_NV 6, USE 4, USE_NV 4, CLOBBER 2.  At the pin: 25,755; REG 12,776, KEEP 6,852, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
+Pin sites now: 239 in 114 rows; REG 138, KEEP_NV 35, KEEP 29, SCHED_BARRIER 13, USE 4, USE2_NV 4, USE_NV 4, CLOBBER 2.  At the pin: 25,755; REG 12,776, KEEP 6,852, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
 Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 1, calls of local asm wrappers 0, hand-written asm in function bodies 0 (C that is missing); symbol aliases 106 (a second typed name for one symbol: a missing type); file-scope asm directives 359.
 
@@ -114,7 +114,7 @@ Most-pinned rows off their build recipe: dungeon/func_800C4A80 16 pins (2.7.2-G0
 
 Site-for-pin trades (`ledger/recipe_trades.jsonl` records shaped `{"kind":"site_for_pin","id":row,"site":"LABEL_AS_CALL|ITC|PASSTHRU","pin":macro,"residue_without_pin":str,"at":iso,"note":str}` -- one pin, or two when one is not enough (owner ruling 2026-09-22 afternoon, "accept 2 pins") -- charter rule 3, "a pin moved elsewhere is not a removal"; the trade is tracked, and L4 is where pins stop counting toward removal regardless): 27.
 
-Dead-initializer trades (`ledger/recipe_trades.jsonl` records shaped `{"kind":"dead_init","id":row,"site":pins,"init":decl,"lane":lane,"at":iso,"note":str}` -- a never-read `= 0` at a declaration makes the variable multi-set; ordinary C by the owner ruling 2026-09-23, tracked as a spelling trade, informational, the pin count is unchanged; appended by tools/apply_candidates.py at landing): 19.
+Dead-initializer trades (`ledger/recipe_trades.jsonl` records shaped `{"kind":"dead_init","id":row,"site":pins,"init":decl,"lane":lane,"at":iso,"note":str}` -- a never-read `= 0` at a declaration makes the variable multi-set; ordinary C by the owner ruling 2026-09-23, tracked as a spelling trade, informational, the pin count is unchanged; appended by tools/apply_candidates.py at landing): 20.
 
 Void callees (`config/void_callees.txt`, tiers read from its section-header comments -- no per-line marker exists): tier A 30, tier B 1 symbols (matches `census.declared_void_callees()`). Rows whose PASSTHRU_NO_ARGS exemption rests on a tier-B symbol alone (blocked again if tier B were dropped, tier-A/in-tree exemptions do not cover them): 11 rows, 11,864 B.
 
@@ -131,7 +131,7 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 
 On shared record headers (T7, `include/records/`): 808 rows, 473,492 bytes (18.5%); records used: 101.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 116 rows (160,540 B), tail_jump 9 rows (3,452 B), not_in_module 6,745 rows (2,555,072 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 114 rows (158,500 B), tail_jump 9 rows (3,452 B), not_in_module 6,745 rows (2,555,072 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 

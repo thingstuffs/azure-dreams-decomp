@@ -68,29 +68,16 @@ s16 func_800BCB04();
 s32 func_800CA1E0();
 
 /* Find a movement direction, record the tile, and update the actor's position and height. */
-void func_800CA444(void *motion_input, s32 unused, void *tile_input, void *actor_input) {
-    void *motion;
-    S_800CA444_0 *tile;
-    void *actor;
+void func_800CA444(void *motion, s32 unused, S_800CA444_0 *tile, void *actor) {
     s16 next_heading;
     s16 height;
+    s16 scan_result;
     s32 heading;
     s32 heading_offset;
-    register s32 scan_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s16 next_index;
-    register s16 scan_result ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    M2C_UNK direction_index;
-    s8 tile_type;
     s16 *heading_offsets;
     TileObject *map_state;
-    void *scan_tile;
-    unsigned long x_step_addr;
-    u32 trail_count;
-    s32 steps_left;
-
-    motion = motion_input;
-    tile = tile_input;
-    actor = actor_input;
+    s32 direction_index;
+    s8 tile_type;
 
     if (dungeonStatus.flags & 0x4000) {
         func_800A9A0C(actor);
@@ -102,78 +89,40 @@ void func_800CA444(void *motion_input, s32 unused, void *tile_input, void *actor
     func_800A19E4(tile, actor, 3, 6, motion + 0x9C);
     tile_type = tile->unk_26;
     if (tile_type >= 0 && (D_800E2970[tile_type].flags & 2)) {
-        scan_tile = tile;
-        goto scan_call;
+        func_800A0E6C(tile, ((S_800CA444_2 *)motion)->unk_9C, actor, motion + 0x98);
+    } else if (!(((S_800CA444_1 *)actor)->unk_46 & 0x8000)) {
+        func_800A0E6C(tile, ((S_800CA444_2 *)motion)->unk_9C, actor, motion + 0x98);
     }
-    goto scan_start;
-
-    do {
-        ((S_800CA444_1 *)actor)->unk_2A = next_heading;
-        ((S_800CA444_5 *)((actor + (((S_800CA444_1 *)actor)->unk_71 & 0x7F))))->unk_74 = (u8) tile->unk_24.at00.v;
-        ((S_800CA444_5 *)((actor + (((S_800CA444_1 *)actor)->unk_71 & 0x7F))))->unk_7C = (u8) tile->unk_24.at01.v;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        x_step_addr = (unsigned long) ((u8 *)dirStepX);
-        trail_count = ((S_800CA444_1 *)actor)->unk_71;
-        direction_index = ((u16) ((S_800CA444_1 *)actor)->unk_2A >> 8) & 0xE;
-        trail_count++;
-        x_step_addr = direction_index + x_step_addr;
-        ((S_800CA444_1 *)actor)->unk_71 = (u8) trail_count;
-        tile->unk_24.at00.v = (u8) (tile->unk_24.at00.v + *(u8 *) x_step_addr);
-        tile->unk_24.at01.v = (u8) (tile->unk_24.at01.v + ((u8 *)dirStepY)[direction_index]);
-        goto state_done;
-
-scan_start:
-        if (((S_800CA444_1 *)actor)->unk_46 & 0x8000) {
-            scan_result = 0;
-            heading_offsets = D_8006CD00;
-            map_state = &D_80082E80;
-        } else {
-            scan_tile = tile;
-scan_call:
-            func_800A0E6C(scan_tile, ((S_800CA444_2 *)motion)->unk_9C, actor, motion + 0x98);
-            scan_result = 0;
-            heading_offsets = D_8006CD00;
-            map_state = &D_80082E80;
-        }
-scan_loop:
+    scan_result = 0;
+    heading_offsets = D_8006CD00;
+    map_state = &D_80082E80;
+    for (; scan_result < 8; scan_result++) {
         heading = ((S_800CA444_1 *)actor)->unk_2A;
         if (((S_800CA444_2 *)motion)->unk_98 & 2) {
-            heading_offset = ((S_800CA444_3 *)(((s32) (scan_result << 0x10) >> 0xF) + (u32) heading_offsets))->unk_00;
+            heading_offset = heading_offsets[scan_result];
             next_heading = heading - heading_offset;
         } else {
-            heading_offset = ((S_800CA444_3 *)(((s32) (scan_result << 0x10) >> 0xF) + (u32) heading_offsets))->unk_00;
+            heading_offset = heading_offsets[scan_result];
             next_heading = heading + heading_offset;
         }
-    } while ((func_800CA1E0(next_heading, tile, actor, 0x20) << 0x10) > 0);
-    if (scan_result != 0) {
-        next_index = scan_result + 1;
-        scan_result = next_index;
-        if (next_index < 8) {
-            goto scan_loop;
+        if ((func_800CA1E0(next_heading, tile, actor, 0x20) << 0x10) > 0) {
+            ((S_800CA444_1 *)actor)->unk_2A = next_heading;
+            ((S_800CA444_5 *)((actor + (((S_800CA444_1 *)actor)->unk_71 & 0x7F))))->unk_74 = tile->unk_24.at00.v;
+            ((S_800CA444_5 *)((actor + (((S_800CA444_1 *)actor)->unk_71 & 0x7F))))->unk_7C = tile->unk_24.at01.v;
+            ((S_800CA444_1 *)actor)->unk_71++;
+            direction_index = (((u16) ((S_800CA444_1 *)actor)->unk_2A) >> 9) & 7;
+            tile->unk_24.at00.v += dirStepX[direction_index];
+            tile->unk_24.at01.v += dirStepY[direction_index];
+            break;
         }
-    } else {
-        if (*(u16 *)(&map_state->tileX) == tile->unk_24.at00u.v) {
-            next_index = scan_result + 1;
-            scan_result = next_index;
-            if (next_index < 8) {
-                goto scan_loop;
-            }
-        } else {
+        if (scan_result == 0 && *(u16 *)(&map_state->tileX) != tile->unk_24.at00u.v) {
             if ((func_8009A180(actor, ((S_800CA444_4 *)(((int)D_800814A8)))->unk_58 + 0x20) << 0x10) != 0) {
                 return;
             }
-            do {
-                next_index = scan_result + 1;
-            } while (0);
-            scan_result = next_index;
-            if (next_index < 8) {
-                goto scan_loop;
-            }
         }
     }
-state_done:
-    scan_index = ((s32) (scan_result << 0x10)) >> 0x10;
-    if (scan_index >= 8) {
+
+    if (scan_result >= 8) {
         ((S_800CA444_1 *)actor)->unk_71 = (u8) (((S_800CA444_1 *)actor)->unk_71 & 0x7F);
         ((S_800CA444_1 *)actor)->unk_46 = (u16) (((S_800CA444_1 *)actor)->unk_46 & 0x7FFF);
         func_800A9A0C(actor);
@@ -183,17 +132,14 @@ state_done:
     ((S_800CA444_2 *)motion)->unk_9C = (s8) (u8) tile->unk_26;
     ((S_800CA444_1 *)actor)->unk_6D.u = (u8) (((S_800CA444_1 *)actor)->unk_6D.u - 1);
     dungeonStatus.unk_08 = (u16) (((u16)dungeonStatus.unk_08) + 1);
-    steps_left = ((S_800CA444_1 *)actor)->unk_6D.s;
-    if (steps_left == 0) {
+    if (((S_800CA444_1 *)actor)->unk_6D.s == 0) {
         ((S_800CA444_1 *)actor)->unk_71 = (u8) (((S_800CA444_1 *)actor)->unk_71 & 0x7F);
         return;
     }
     scan_result = func_800BCB04((tile->unk_24.at00.v << 6) | 0x20, (tile->unk_24.at01.v << 6) | 0x20,
         (s16) (((S_800CA444_1 *)actor)->unk_88 - 0x20));
-    height = (s16) (((s32) scan_result << 0x10) >> 0x10);
+    height = scan_result;
     if (height < 0x200) {
         ((S_800CA444_1 *)actor)->unk_88 = (u16) scan_result;
     }
-
-    return;
 }

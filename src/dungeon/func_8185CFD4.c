@@ -67,7 +67,6 @@ typedef struct S_800247D4_4 {
 } S_800247D4_4;   /* (void *)scaled_index in func_800247D4 */
 
 
-extern void *D_80024008[];
 
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
@@ -94,27 +93,20 @@ s32 func_800247D4(void *effect_data)
     u8 *scratch;
     s32 lines_left;
     u8 *packet;
-    void *project_work_a;
-    void *project_work_b;
+    void *project_work_a = 0;
+    void *project_work_b = 0;
     s32 fixed_delta;
     s32 angle;
     s32 stage_index;
-    register s32 start_or_fade ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 end_or_blue;
     s32 offset_or_depth;
     s32 y_or_blue;
     s32 start_depth;
     s32 end_depth;
     s32 mean_depth;
+    u32 address_mask = 0;
+    u32 tag_mask = 0;
 
-    static void *const stage_labels[] = {
-        &&case_early,
-        &&case_middle,
-        &&case_late,
-        &&shared,
-    };
-
-    (void)stage_labels;
     lines_left = 7;
     delta_mask = 0xFFFF0000;
     color_base = 0x40;
@@ -143,13 +135,11 @@ s32 func_800247D4(void *effect_data)
         ((S_800247D4_0 *)scratch)->unk_70 = ((S_800247D4_3 *)effect)->unk_5A;
 
         stage_index = ((S_800247D4_3 *)effect)->unk_10 - 1;
-        if ((u32)stage_index >= 15U) {
-            goto shared;
-        }
-        goto *D_80024008[stage_index];
-
-case_early:
+        switch (stage_index) {
+        case 0: case 1: case 2: case 3: case 4: case 5: case 6:
         {
+            s32 start_or_fade;
+
             end_or_blue = ((S_800247D4_0 *)scratch)->unk_6C;
             start_or_fade = ((S_800247D4_0 *)scratch)->unk_64;
             fixed_delta &= 0xFFFF;
@@ -164,7 +154,8 @@ case_early:
             fixed_delta &= 0xFFFF;
             fixed_delta |= (end_or_blue - y_or_blue) << 16;
             fixed_delta &= delta_mask;
-            ((S_800247D4_0 *)scratch)->unk_6C = start_or_fade + offset_or_depth;
+            start_or_fade += offset_or_depth;
+            ((S_800247D4_0 *)scratch)->unk_6C = start_or_fade;
             fixed_delta >>= 3;
             fixed_delta *= ((S_800247D4_3 *)effect)->unk_10 + 1;
 
@@ -178,7 +169,8 @@ case_early:
             ((S_800247D4_0 *)scratch)->unk_6E = y_or_blue;
             fixed_delta >>= 3;
             fixed_delta *= ((S_800247D4_3 *)effect)->unk_10 + 1;
-            ((S_800247D4_0 *)scratch)->unk_70 = start_or_fade + (fixed_delta >> 16);
+            start_or_fade += fixed_delta >> 16;
+            ((S_800247D4_0 *)scratch)->unk_70 = start_or_fade;
 
             start_or_fade = ((S_800247D4_3 *)effect)->unk_10;
             {
@@ -196,22 +188,23 @@ case_early:
                     ((S_800247D4_2 *)packet)->unk_0C = red;
                 }
                 ((S_800247D4_2 *)packet)->unk_0E = 0x40 + y_or_blue;
-                goto shared;
             }
         }
+            break;
 
-case_middle:
+        case 7:
         ((S_800247D4_2 *)packet)->unk_04 = color_base;
         ((S_800247D4_2 *)packet)->unk_05 = color_base;
         ((S_800247D4_2 *)packet)->unk_06 = color_base;
         ((S_800247D4_2 *)packet)->unk_0C = (u8)red_cap;
         ((S_800247D4_2 *)packet)->unk_0D = 0;
         ((S_800247D4_2 *)packet)->unk_0E = 0xFF;
-        goto shared;
+            break;
 
-case_late:
+        case 8: case 9: case 10: case 11: case 12: case 13: case 14:
         {
             s32 color_step;
+            s32 start_or_fade;
 
             end_or_blue = ((S_800247D4_0 *)scratch)->unk_6C;
             start_or_fade = ((S_800247D4_0 *)scratch)->unk_64;
@@ -227,7 +220,8 @@ case_late:
             fixed_delta &= 0xFFFF;
             fixed_delta |= (end_or_blue - y_or_blue) << 16;
             fixed_delta &= delta_mask;
-            ((S_800247D4_0 *)scratch)->unk_64 = start_or_fade + offset_or_depth;
+            start_or_fade += offset_or_depth;
+            ((S_800247D4_0 *)scratch)->unk_64 = start_or_fade;
             fixed_delta >>= 3;
             fixed_delta *= ((S_800247D4_3 *)effect)->unk_10 - 7;
 
@@ -241,7 +235,8 @@ case_late:
             ((S_800247D4_0 *)scratch)->unk_66 = y_or_blue;
             fixed_delta >>= 3;
             fixed_delta *= ((S_800247D4_3 *)effect)->unk_10 - 7;
-            ((S_800247D4_0 *)scratch)->unk_68 = start_or_fade + (fixed_delta >> 16);
+            start_or_fade += fixed_delta >> 16;
+            ((S_800247D4_0 *)scratch)->unk_68 = start_or_fade;
 
             start_or_fade = ((S_800247D4_3 *)effect)->unk_10;
             color_step = start_or_fade - 7;
@@ -253,7 +248,8 @@ case_late:
                 ((S_800247D4_2 *)packet)->unk_0D = 0;
                 color_step = 0xFF;
                 ((S_800247D4_2 *)packet)->unk_0C = (u8)red_cap;
-                start_or_fade = (red_scale - start_or_fade) * 8;
+                start_or_fade = red_scale - start_or_fade;
+                start_or_fade <<= 3;
                 ((S_800247D4_2 *)packet)->unk_0E = (u8)color_step;
                 {
                     red = 0x40 + red_offset;
@@ -264,21 +260,20 @@ case_late:
                 ((S_800247D4_2 *)packet)->unk_06 = 0x40 + y_or_blue;
             }
         }
+        }
 
-shared:
+
         project_work_a = scratch + 0x84;
         project_work_b = scratch + 0x88;
         {
             u8 *start_pos = scratch + 0x64;
             u8 *start_screen = scratch + 0xD8;
-            ASM_USE2_NV(start_pos, start_screen);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             start_depth = func_80065420(start_pos, start_screen, project_work_a, project_work_b);
         }
         ((S_800247D4_0 *)scratch)->unk_F4 = start_depth;
         {
             u8 *end_pos = scratch + 0x6C;
             u8 *end_screen = scratch + 0xDC;
-            ASM_USE2_NV(end_pos, end_screen);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             end_depth = func_80065420(end_pos, end_screen, project_work_a, project_work_b);
         }
         ((S_800247D4_0 *)scratch)->unk_F8 = end_depth;
@@ -299,8 +294,9 @@ shared:
         }
         ((S_800247D4_0 *)scratch)->unk_B4 = offset_or_depth;
         if ((u32)offset_or_depth < 0x1E0U) {
-            u32 address_mask = 0x00FFFFFF;
             u32 *ordering_table;
+
+            address_mask = 0x00FFFFFF;
 
             {
                 u32 bucket_addr =
@@ -309,7 +305,7 @@ shared:
                     ((S_800247D4_0 *)scratch)->unk_18;
 
                 {
-                    u32 tag_mask = 0xFF000000;
+                    tag_mask = 0xFF000000;
 
                     bucket_addr += (u32)table_base;
                     ((S_800247D4_2 *)packet)->unk_00.at00.v =
