@@ -223,6 +223,18 @@ def m2c_count(t):
     return len(M2C_RX.findall(re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", t, flags=re.S))))
 
 
+# round 93 (owner: fake dependencies are refused): arithmetic that cancels itself only to add a use/order -
+# `+ v - v`, `- v + v`, `v ^ v`, `& m & m`.  Removing one is scaffolding removed; adding one is refused.
+_FAKEDEP = [re.compile(r"\+\s*(\w+)\s*-\s*\1\b(?!\s*[\[(.]|\s*->)"), re.compile(r"-\s*(\w+)\s*\+\s*\1\b(?!\s*[\[(.]|\s*->)"),
+            re.compile(r"\b(\w+)\s*\^\s*\1\b"), re.compile(r"&\s*(\w+)\s*&\s*\1\b")]
+
+
+def fakedep_count(text):
+    t = re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", text, flags=re.S))
+    t = "\n".join(l for l in t.split("\n") if not l.lstrip().startswith("#"))
+    return sum(len(rx.findall(t)) for rx in _FAKEDEP)
+
+
 def admissible(base, cand, equal_pins=False):
     """[] when `cand` may be staged against `base`, else the reasons it may not.
 
@@ -244,6 +256,10 @@ def admissible(base, cand, equal_pins=False):
     # locals, argN parameters, spXX stack names, NON_MATCHING) - the same measure land_lanes.sh lands on
     mb, mc = m2c_count(base), m2c_count(cand)
     scaffold_fell = scaffold_fell or mc < mb
+    fb, fc = fakedep_count(base), fakedep_count(cand)
+    scaffold_fell = scaffold_fell or fc < fb
+    if fc > fb:
+        bad.append("adds %d fake dependency(ies) (x + v - v / v ^ v / & m & m)" % (fc - fb))
     if sum(c.values()) == sum(b.values()) and mc > mb:
         bad.append("adds %d decompiler leftover(s) (M2C_/temp_/var_/phi_/argN/spXX/NON_MATCHING)" % (mc - mb))
     if sum(c.values()) > sum(b.values()) or (sum(c.values()) == sum(b.values()) and gc >= gb and not scaffold_fell
