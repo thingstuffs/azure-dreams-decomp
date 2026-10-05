@@ -81,10 +81,7 @@ s32 func_80024134(s32 stored_value, void *input, s16 stored_tag) {
         display->unk_14 = (u16) (display->unk_14 | 0x100);
         rounded_random = rand();
         random_or_w2 = rounded_random;
-        if (random_or_w2 < 0) {
-            rounded_random = random_or_w2 + 0xFFF;
-        }
-        display->unk_1A = (s16) (random_or_w2 - ((rounded_random >> 0xC) << 0xC));
+        display->unk_1A = (s16) (random_or_w2 % 4096);
         display->unk_1E = 0x800;
         display->unk_1C = 0x800;
         func_8004491C(object, func_80045340);

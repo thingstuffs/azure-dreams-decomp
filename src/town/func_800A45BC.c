@@ -90,28 +90,19 @@ void func_800A1D1C(void *object, S_800A1D1C_5 *coords, void *primitive) {
         ((S_800A1D1C_3 *)primitive)->unk_0C.u = ((S_800A1D1C_1 *)render_state)->unk_10.u8;
     } else {
         red_scaled = ((S_800A1D1C_1 *)render_state)->unk_10.s16 * 3;
-        if (red_scaled < 0) {
-            red_scaled += 3;
-        }
-        ((S_800A1D1C_3 *)primitive)->unk_0C.s = (s8) (red_scaled >> 2);
+        ((S_800A1D1C_3 *)primitive)->unk_0C.s = (s8) (red_scaled / 4);
     }
     if (((S_800A1D1C_0 *)object)->unk_3D != 0) {
         ((S_800A1D1C_3 *)primitive)->unk_0D.u = ((S_800A1D1C_1 *)render_state)->unk_10.u8;
     } else {
         green_scaled = ((S_800A1D1C_1 *)render_state)->unk_10.s16 * 3;
-        if (green_scaled < 0) {
-            green_scaled += 3;
-        }
-        ((S_800A1D1C_3 *)primitive)->unk_0D.s = (s8) (green_scaled >> 2);
+        ((S_800A1D1C_3 *)primitive)->unk_0D.s = (s8) (green_scaled / 4);
     }
     if (((S_800A1D1C_0 *)object)->unk_3E != 0) {
         ((S_800A1D1C_3 *)primitive)->unk_0E.u = ((S_800A1D1C_1 *)render_state)->unk_10.u8;
     } else {
         blue_scaled = ((S_800A1D1C_1 *)render_state)->unk_10.s16 * 3;
-        if (blue_scaled < 0) {
-            blue_scaled += 3;
-        }
-        ((S_800A1D1C_3 *)primitive)->unk_0E.s = (s8) (blue_scaled >> 2);
+        ((S_800A1D1C_3 *)primitive)->unk_0E.s = (s8) (blue_scaled / 4);
     }
     ((S_800A1D1C_4 *)scratch)->unk_2C = ((S_800A1D1C_0 *)object)->unk_24;
     ((S_800A1D1C_4 *)scratch)->unk_2E = ((S_800A1D1C_0 *)object)->unk_28;

@@ -27,9 +27,6 @@ s32 func_8001AA50(s32 entry_count) {
         } while (i < entry_count);
     }
     rounded_sum = sum;
-    if (sum < 0) {
-        rounded_sum = sum + 0x1FFF;
-    }
-    sum = rounded_sum >> 0xD;
+    sum = (rounded_sum / 8192);
     return 0xF - sum;
 }

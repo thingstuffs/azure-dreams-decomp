@@ -66,17 +66,11 @@ void func_81977FB8(void)
         motion->field6 = 0x20;
         angle_random = rand();
         angle_quotient = angle_random;
-        if (angle_random < 0) {
-            angle_quotient += 0xFFF;
-        }
-        angle_quotient >>= 0xC;
-        motion->field8 = (s16) (angle_random - (angle_quotient << 0xC));
+        angle_quotient = angle_random / 4096;
+        motion->field8 = (s16) (angle_random % 4096);
         height_random = rand();
         height_quotient = height_random;
-        if (height_random < 0) {
-            height_quotient += 0x1F;
-        }
-        height_quotient >>= 5;
+        height_quotient /= 32;
         height_or_shade = (height_quotient << 5) - height_random;
         {
             TargetData *render_data;

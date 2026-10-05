@@ -220,18 +220,12 @@ update_motion:
     direction_step = (((S_8016E528_0 *)motion)->unk_18 * 4) + direction_table;
     next_tile = ((S_8016E528_0 *)motion)->unk_48 + ((S_8016E528_3 *)direction_step)->unk_00;
     world_x = ((S_8016E528_2 *)position)->unk_00.at02.v;
-    if (world_x < 0) {
-        world_x += 0x3F;
-    }
-    if (next_tile != (world_x >> 6)) {
+    if (next_tile != (world_x / 64)) {
         goto update_height;
     }
     next_tile = ((S_8016E528_0 *)motion)->unk_49 + ((S_8016E528_3 *)direction_step)->unk_02;
     world_y = ((S_8016E528_2 *)position)->unk_04.at02.v;
-    if (world_y < 0) {
-        world_y += 0x3F;
-    }
-    if (next_tile != (world_y >> 6)) {
+    if (next_tile != (world_y / 64)) {
         goto update_height;
     }
     if ((func_800A45D8((u16) ((S_8016E528_2 *)position)->unk_00.at02.v,

@@ -163,9 +163,7 @@ s32 func_8008D5C4(s32 world_x, s32 world_y, s16 height) {
             tile_x = map->x_mask & (biased_x >> 6);
             scratch->tile = tile_x;
             biased_y = scan_y;
-            if (biased_y < 0)
-                biased_y += 0x3F;
-            tile_index = tile_x + ((s16)(map->y_mask & (biased_y >> 6)) << map->shift);
+            tile_index = tile_x + ((s16)(map->y_mask & (biased_y / 64)) << map->shift);
             scratch->tile = tile_index;
 
             if (grid[(s16)scratch->tile] != 0) {

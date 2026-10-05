@@ -114,10 +114,7 @@ void func_818C3448(void *effect, void *motion, Rec_D_80082E80 *visual) {
         func_80024AF4(effect, motion, visual);
         random_bias = func_80069EF8();
         random_value = random_bias;
-        if (random_value < 0) {
-            random_bias = random_value + 0xFFF;
-        }
-        angle = random_value - ((random_bias >> 0xC) << 0xC);
+        angle = (random_value % 4096);
         func_800247AC(effect, motion, angle);
         opposite_angle = angle + 0x800;
         opposite_bias = opposite_angle;

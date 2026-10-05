@@ -50,22 +50,13 @@ void func_800AE630(void *object) {
 
     position = ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_DC;
     scaled_x = ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_24 * ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_34;
-    if (scaled_x < 0) {
-        scaled_x += 3;
-    }
-    position->unk_08 = (s16) (((S_800AE630_0 *)((u8 *)object - 0x10))->unk_1C + (scaled_x >> 2));
+    position->unk_08 = (s16) (((S_800AE630_0 *)((u8 *)object - 0x10))->unk_1C + (scaled_x / 4));
     position = ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_DC;
     scaled_y = ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_26 * ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_34;
-    if (scaled_y < 0) {
-        scaled_y += 3;
-    }
-    position->unk_0A = (s16) (((S_800AE630_0 *)((u8 *)object - 0x10))->unk_1E + (scaled_y >> 2));
+    position->unk_0A = (s16) (((S_800AE630_0 *)((u8 *)object - 0x10))->unk_1E + (scaled_y / 4));
     position = ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_DC;
     scaled_z = ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_28 * ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_34;
-    if (scaled_z < 0) {
-        scaled_z += 3;
-    }
-    position->unk_0C = (s16) (((S_800AE630_0 *)((u8 *)object - 0x10))->unk_20 + (scaled_z >> 2));
+    position->unk_0C = (s16) (((S_800AE630_0 *)((u8 *)object - 0x10))->unk_20 + (scaled_z / 4));
     ((S_800AE630_3 *)(((S_800AE630_2 *)object)->unk_D0))->unk_02 =
         (s16) ((((S_800AE630_0 *)((u8 *)object - 0x10))->unk_34 * 256) - 0x400);
     next_step = ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_34 + 1;

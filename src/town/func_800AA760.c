@@ -85,18 +85,12 @@ void func_800A7EC0(S_func_800AA760_0 *object, S_func_800AA760_1 *out_position)
         if (linked_record != 0) {
             linked_position = linked_record->unk_08;
             x_offset = func_800644B8(linked_entity->unk_72);
-            if (x_offset < 0) {
-                x_offset += 0xFF;
-            }
             out_position->unk_02 =
-                linked_position->unk_02 + (x_offset >> 8);
+                linked_position->unk_02 + (x_offset / 256);
 
             y_offset = func_80064584(linked_entity->unk_72);
-            if (y_offset < 0) {
-                y_offset += 0xFF;
-            }
             out_position->unk_06 =
-                linked_position->unk_06 + (y_offset >> 8);
+                linked_position->unk_06 + (y_offset / 256);
             out_position->unk_0A = linked_position->unk_0A - 0x20;
         }
     }

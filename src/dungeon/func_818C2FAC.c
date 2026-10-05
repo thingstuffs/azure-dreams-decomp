@@ -113,10 +113,7 @@ s32 func_818C2FAC(void *data_addr, Copy24 *position_addr, s32 direction)
 
         variant_seed = (*(s16 *)((u8 *)((void *)data_addr) + 0x12));
         biased_seed = variant_seed;
-        if (variant_seed < 0) {
-            biased_seed = variant_seed + 3;
-        }
-        variant = variant_seed - ((biased_seed >> 2) * 4);
+        variant = variant_seed - ((biased_seed / 4) * 4);
 
         switch (variant) {
         case 0:
@@ -141,10 +138,7 @@ s32 func_818C2FAC(void *data_addr, Copy24 *position_addr, s32 direction)
         }
         random_value = func_80069EF8();
         biased_random = random_value;
-        if (random_value < 0) {
-            biased_random = random_value + 0xFFF;
-        }
-        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_1A = random_value - ((biased_random >> 12) << 12);
+        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_1A = (random_value % 4096);
         ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_1E = 0x1000;
         ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_1C = 0x1000;
         func_8004491C((void *)effect, func_80045340);

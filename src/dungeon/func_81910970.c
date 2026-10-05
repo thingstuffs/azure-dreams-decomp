@@ -86,7 +86,7 @@ s32 func_80024170(Rec_func_80024170_arg0 *owner, void *source_position)
         if (random_value < 0) {
             rounded_random = random_value + 0xFFF;
         }
-        sprite->unk_1A = random_value - ((rounded_random >> 0xC) << 0xC);
+        sprite->unk_1A = (random_value % 4096);
         sprite->unk_1E = 0x400;
         sprite->unk_1C = 0x400;
         func_8004491C(effect, func_80045340);

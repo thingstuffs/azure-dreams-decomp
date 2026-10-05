@@ -644,10 +644,7 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
             tile_div = world_x >> 6;
             effect->unk_40 = (s16) tile_div;
             world_y = motion->unk_04.half.unk_06.s16;
-            if (world_y < 0) {
-                world_y += 0x3F;
-            }
-            next_tile_y = world_y >> 6;
+            next_tile_y = (world_y / 64);
             effect->unk_42 = (s16) next_tile_y;
             if (effect->unk_98 == effect->unk_40) {
                 if (effect->unk_99 == next_tile_y) {

@@ -48,10 +48,7 @@ s32 func_818B1334(S_818B1334_1 *source, S_818B1334_3 *target, void *context) {
     circle_entry = circle_table + 16;
     do {
         index_bias = circle_index;
-        if (circle_index < 0) {
-            index_bias = circle_index + 0xF;
-        }
-        circle_angle = (circle_index - ((index_bias >> 4) * 0x10)) << 8;
+        circle_angle = (circle_index - ((index_bias / 16) * 0x10)) << 8;
         ((S_818B1334_0 *)circle_entry)->unk_00 = (s32) (func_800644B8(circle_angle) >> 4);
         ((S_818B1334_0 *)circle_entry)->unk_44 = (s32) (func_80064584(circle_angle) >> 4);
         circle_entry -= 1;
@@ -61,10 +58,7 @@ s32 func_818B1334(S_818B1334_1 *source, S_818B1334_3 *target, void *context) {
     do {
         phase = source->unk_10 - entry_index;
         phase_bias = phase;
-        if (phase < 0) {
-            phase_bias = phase + 0xF;
-        }
-        radius = (func_800644B8((phase - ((phase_bias >> 4) * 0x10)) << 9) >> 9) + 0x20;
+        radius = (func_800644B8((phase - ((phase_bias / 16) * 0x10)) << 9) >> 9) + 0x20;
         func_80064584(entry_index << 0xA);
         source_arg = source;
         angle_offset = ((S_818B1334_2 *)offset_cursor)->unk_1A;

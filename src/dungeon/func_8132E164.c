@@ -71,20 +71,11 @@ void func_80165164(void *effect, void *position) {
         }
     }
     scaled_red = ((S_80165164_1 *)effect)->unk_00 * ((S_80165164_1 *)effect)->unk_32;
-    if (scaled_red < 0) {
-        scaled_red += 0xFF;
-    }
-    ((S_80165164_1 *)effect)->unk_04.at00.v = (s8) (scaled_red >> 8);
+    ((S_80165164_1 *)effect)->unk_04.at00.v = (s8) (scaled_red / 256);
     scaled_green = ((S_80165164_1 *)effect)->unk_01 * ((S_80165164_1 *)effect)->unk_32;
-    if (scaled_green < 0) {
-        scaled_green += 0xFF;
-    }
-    ((S_80165164_1 *)effect)->unk_04.at01.v = (s8) (scaled_green >> 8);
+    ((S_80165164_1 *)effect)->unk_04.at01.v = (s8) (scaled_green / 256);
     scaled_blue = ((S_80165164_1 *)effect)->unk_02 * ((S_80165164_1 *)effect)->unk_32;
-    if (scaled_blue < 0) {
-        scaled_blue += 0xFF;
-    }
-    ((S_80165164_1 *)effect)->unk_04.at02.v = (s8) (scaled_blue >> 8);
+    ((S_80165164_1 *)effect)->unk_04.at02.v = (s8) (scaled_blue / 256);
     fade_level = (u16) ((S_80165164_1 *)effect)->unk_32 - 8;
     ((S_80165164_1 *)effect)->unk_32 = fade_level;
     ((S_80165164_1 *)effect)->unk_08 = (s32) ((S_80165164_1 *)effect)->unk_04.at00u.v;

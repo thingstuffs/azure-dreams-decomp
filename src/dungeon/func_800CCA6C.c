@@ -80,16 +80,10 @@ void func_800D21CC(CcaState *state, CcaMotion *motion, CcaInfo *info, CcaAnim *a
 
         velocity_x = motion->dx;
         biased_dx = velocity_x;
-        if (velocity_x < 0) {
-            biased_dx = velocity_x + 3;
-        }
-        motion->dx = velocity_x - (biased_dx >> 2);
+        motion->dx = velocity_x - (biased_dx / 4);
         velocity_y = motion->dy;
         biased_dy = velocity_y;
-        if (velocity_y < 0) {
-            biased_dy = velocity_y + 3;
-        }
-        motion->dy = velocity_y - (biased_dy >> 2);
+        motion->dy = velocity_y - (biased_dy / 4);
         frames_left = state->count - 1;
         state->count = frames_left;
         if ((s32)(frames_left << 16) > 0) {

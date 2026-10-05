@@ -78,10 +78,7 @@ void func_80173354(void *action, void *motion, void *sprite, void *actor)
         velocity_y = ((EntityRec *)motion)->unk_10;
         ((EntityRec *)motion)->unk_0C = velocity_x - (rounded_velocity_x >> 2);
         rounded_velocity_y = velocity_y;
-        if (velocity_y < 0) {
-            rounded_velocity_y = velocity_y + 3;
-        }
-        ((EntityRec *)motion)->unk_10 = velocity_y - (rounded_velocity_y >> 2);
+        ((EntityRec *)motion)->unk_10 = velocity_y - (rounded_velocity_y / 4);
         return;
 
     case 1:

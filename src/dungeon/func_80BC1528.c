@@ -108,10 +108,7 @@ void func_80BC1528(
         effect_data->unk_50 = rounded_step_z >> 2;
 
         rounded_step_z = step_z;
-        if (rounded_step_z < 0) {
-            rounded_step_z += 3;
-        }
-        effect_data->unk_54 = rounded_step_z >> 2;
+        effect_data->unk_54 = (rounded_step_z / 4);
 
         effect_data->unk_14 = effect_param;
         effect_data->unk_32 = duration;

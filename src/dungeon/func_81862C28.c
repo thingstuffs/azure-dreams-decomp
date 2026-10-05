@@ -91,15 +91,9 @@ void func_80024428(s32 effect_param, void *origin_arg, s16 radius_arg, u8 *block
             effect_data = blocked_dirs + direction;
             if (effect_data->unk_00 == 0) {
                 source_x = ((S_81862C28_2 *)origin_arg)->unk_02.u;
-                if (source_x < 0) {
-                    source_x += 0x3F;
-                }
-                tile_x = (source_x >> 6) + ((u16)dirStepX[direction] * (u16)radius_arg);
+                tile_x = (source_x / 64) + ((u16)dirStepX[direction] * (u16)radius_arg);
                 source_y = ((S_81862C28_2 *)origin_arg)->unk_06.u;
-                if (source_y < 0) {
-                    source_y += 0x3F;
-                }
-                tile_dy = (source_y >> 6) + (u16)dirStepY[direction] * (u16)radius_arg;
+                tile_dy = (source_y / 64) + (u16)dirStepY[direction] * (u16)radius_arg;
                 origin_z = ((S_81862C28_2 *)origin_arg)->unk_0A.u;
                 target_x = ((tile_x << 0x10) >> 0xA) + 0x20;
                 target_y = ((tile_dy << 0x10) >> 0xA) + 0x20;

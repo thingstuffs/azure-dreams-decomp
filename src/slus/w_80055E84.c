@@ -96,10 +96,7 @@ void func_80055E84(S_80055E84 *voice)
                 }
             }
             if (scaled_offset != 0) {
-                if (scaled_offset < 0) {
-                    scaled_offset = scaled_offset + 0xFF;
-                }
-                voice->unk58 = scaled_offset >> 8;
+                voice->unk58 = (scaled_offset / 256);
             }
             else {
                 voice->unk58 = 0;

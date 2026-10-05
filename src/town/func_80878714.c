@@ -15,10 +15,7 @@ s32 func_80702714(s32 flag_index)
     if (flag_index != 0) {
         if (flag_index != unit_bit) {
             adjusted_index = flag_index;
-            if (flag_index < 0) {
-                adjusted_index = flag_index + 31;
-            }
-            value = adjusted_index >> 5;
+            value = (adjusted_index / 32);
             word_address = value << 2;
             value <<= 5;
             word_address += (unsigned long)D_807030A4[0];

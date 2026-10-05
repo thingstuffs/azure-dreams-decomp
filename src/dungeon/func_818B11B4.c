@@ -47,10 +47,7 @@ s32 func_818B11B4(S_818B11B4_0 *source, S_818B11B4_2 *height_ref, void *context)
     trig_cursor = &trig_table[16];
     do {
         biased_index = table_index;
-        if (table_index < 0) {
-            biased_index = table_index + 0xF;
-        }
-        table_angle = (table_index - ((biased_index >> 4) * 0x10)) << 8;
+        table_angle = (table_index - ((biased_index / 16) * 0x10)) << 8;
         trig_cursor[0] = func_800644B8(table_angle) >> 4;
         trig_cursor[17] = func_80064584(table_angle) >> 4;
         trig_cursor--;
@@ -68,10 +65,7 @@ s32 func_818B11B4(S_818B11B4_0 *source, S_818B11B4_2 *height_ref, void *context)
         do {
             phase = source->unk_10 - segment_index;
             biased_phase = phase;
-            if (phase < 0) {
-                biased_phase = phase + 0xF;
-            }
-            angle = (func_800644B8((phase - ((biased_phase >> 4) * 0x10)) << 9) >> 9) + 0x20;
+            angle = (func_800644B8((phase - ((biased_phase / 16) * 0x10)) << 9) >> 9) + 0x20;
             func_80064584(segment_index << 9);
             segment_source = source;
             height = ((S_818B11B4_1 *)height_cursor)->unk_1A;

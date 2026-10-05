@@ -104,7 +104,7 @@ s32 func_818C3A3C(S_818C3A3C_2 *owner, S_818C3A3C_4 *initial_data) {
         if (random_value < 0) {
             biased_random = random_value + 0xFFF;
         }
-        sprite->unk_1A = random_value - ((biased_random >> 12) << 12);
+        sprite->unk_1A = (random_value % 4096);
 
         scale = 0x1400 / ((S_818C3A3C_1 *)effect_state)->unk_14;
         sprite->unk_1E = scale;

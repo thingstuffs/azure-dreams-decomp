@@ -75,17 +75,11 @@ void func_80172F98(S_80172F98_0 *action, EntityRec *motion, Rec_D_80082E80 *targ
 
         velocity_x = motion->unk_0C;
         biased_x = velocity_x;
-        if (velocity_x < 0) {
-            biased_x = velocity_x + 3;
-        }
-        motion->unk_0C = velocity_x - (biased_x >> 2);
+        motion->unk_0C = velocity_x - (biased_x / 4);
 
         velocity_y = motion->unk_10;
         biased_y = velocity_y;
-        if (velocity_y < 0) {
-            biased_y = velocity_y + 3;
-        }
-        motion->unk_10 = velocity_y - (biased_y >> 2);
+        motion->unk_10 = velocity_y - (biased_y / 4);
 
     case 1:
         motion->unk_0C -=

@@ -24,19 +24,13 @@ void func_80175480(u16 *anim_state, u32 *motion, u16 *sprite) {
         frame_offset = frame + 6;
         frame = ((s16 *)anim_state)[2] + frame_offset;
         rounded_frame = frame;
-        if (frame < 0) {
-            rounded_frame = frame + 7;
-        }
-        sprite[9] = anim_state[3] + (frame - ((rounded_frame >> 3) << 3)) + 8;
+        sprite[9] = anim_state[3] + (frame % 8) + 8;
     } else {
         s32 frame_offset;
         frame_offset = frame + 6;
         frame = ((s16 *)anim_state)[2] + frame_offset;
         rounded_frame = frame;
-        if (frame < 0) {
-            rounded_frame = frame + 7;
-        }
-        sprite[9] = anim_state[3] + (frame - ((rounded_frame >> 3) << 3));
+        sprite[9] = anim_state[3] + (frame % 8);
         motion[0] += motion[3];
         motion[1] += motion[4];
     }

@@ -133,10 +133,7 @@ void func_818BD74C(void *effect_arg, S_func_818BD74C_1 *motion, void *sprite) {
         random_value = (s16)func_80069EF8();
         magnitude_table = D_800DDC40;
         scaled_magnitude = magnitude_table[((S_func_818BD74C_4 *)effect->unk_18)->unk_13] * 3;
-        if (scaled_magnitude < 0) {
-            scaled_magnitude += 3;
-        }
-        func_800249C4(effect, motion, (s16)random_value, 0 - (scaled_magnitude >> 2));
+        func_800249C4(effect, motion, (s16)random_value, 0 - (scaled_magnitude / 4));
         func_800247B0(effect, motion, magnitude_table[((S_func_818BD74C_4 *)effect->unk_18)->unk_13]);
         effect->unk_10.s = 0;
         effect->unk_0E.u = (u16)(effect->unk_0E.u + 1);

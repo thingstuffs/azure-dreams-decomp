@@ -90,15 +90,9 @@ void *func_800A878C(S_800A878C_2 *source_motion, u32 flags) {
         motion->unk_0A = (u16) source_motion->unk_0A;
         velocity_x = 0 - (source_motion->unk_0C * ((rand() & 1) + 2));
         launch = effect + 0x20;
-        if (velocity_x < 0) {
-            velocity_x += 0xF;
-        }
-        motion->unk_0C = (s32) (velocity_x >> 4);
+        motion->unk_0C = (s32) (velocity_x / 16);
         velocity_y = 0 - (source_motion->unk_10 * ((rand() & 1) + 2));
-        if (velocity_y < 0) {
-            velocity_y += 0xF;
-        }
-        motion->unk_10 = (s32) (velocity_y >> 4);
+        motion->unk_10 = (s32) (velocity_y / 16);
         motion->unk_14 = (s32) ((~rand() & 1) << 0xF);
         func_8003DB94(sprite, &D_800F15AC, 0);
         sprite->unk_0E = 0xFF;

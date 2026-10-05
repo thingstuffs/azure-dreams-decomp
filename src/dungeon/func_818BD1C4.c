@@ -97,7 +97,7 @@ s32 func_818BD1C4(s32 *owner_id, void *transform, s16 color_index, s32 y_offset)
         if (phase_value < 0) {
             phase_rounded = phase_value + 0xFFF;
         }
-        visual->unk_1A = (s16) (phase_value - ((phase_rounded >> 0xC) << 0xC));
+        visual->unk_1A = (s16) (phase_value % 4096);
         visual->unk_1E = 0x2000;
         visual->unk_1C = 0x2000;
         func_8004491C(object, func_80045340);

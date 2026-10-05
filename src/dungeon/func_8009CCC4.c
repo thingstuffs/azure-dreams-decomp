@@ -92,10 +92,7 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
         }
         upper_hp_curve = stat_growth[5] * hp_curve;
         upper_hp_growth = lower_hp_curve + (upper_hp_growth >> 4);
-        if (upper_hp_curve < 0) {
-            upper_hp_curve += 0x7FFF;
-        }
-        upper_stat = upper_hp_growth + (upper_hp_curve >> 0xF);
+        upper_stat = upper_hp_growth + (upper_hp_curve / 32768);
 
         stat_value = entity[5] + (lower_stat - upper_stat);
         if (stat_value == 0) {
@@ -240,10 +237,7 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
         xp_factor = base_xp + xp_growth;
         growth_product = level_term_2 * xp_factor;
         xp_given = base_xp + linear_xp;
-        if (growth_product < 0) {
-            growth_product += 0x1FF;
-        }
-        xp_given += growth_product >> 9;
+        xp_given += (growth_product / 512);
         if (xp_given > 0xFFFFU) {
             xp_given = 0xFFFF;
         }

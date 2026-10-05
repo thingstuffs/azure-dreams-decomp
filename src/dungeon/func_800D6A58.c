@@ -19,9 +19,6 @@ void func_800DC1B8(s32 state_value) {
     state = D_800E5910 + 0x20;
     position = state->unk_18;
     adjusted_position = position;
-    if (position < 0) {
-        adjusted_position = position + 0x1F;
-    }
-    state->unk_18 = (s32) ((position - ((adjusted_position >> 5) << 5)) + 0x20);
+    state->unk_18 = (s32) ((position % 32) + 0x20);
     state->unk_2C = state_value;
 }

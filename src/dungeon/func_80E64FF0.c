@@ -220,16 +220,10 @@ flight:
     direction = (((S_801747F0_0 *)motion)->unk_24 * 4) + directions;
     next_cell_x = ((S_801747F0_0 *)motion)->unk_50.s + direction->unk_00;
     x = ((S_801747F0_1 *)position)->unk_00.at02.v;
-    if (x < 0) {
-        x += 0x3F;
-    }
-    if (next_cell_x == (x >> 6)) {
+    if (next_cell_x == (x / 64)) {
         next_cell_y = ((S_801747F0_0 *)motion)->unk_51.s + direction->unk_02;
         y = ((S_801747F0_1 *)position)->unk_04.at02.v;
-        if (y < 0) {
-            y += 0x3F;
-        }
-        if (next_cell_y == (y >> 6)) {
+        if (next_cell_y == (y / 64)) {
             if ((func_800A45D8(((S_801747F0_1 *)position)->unk_00.at02u.v, ((S_801747F0_1 *)position)->unk_04.at02u.v,
                                ((S_801747F0_1 *)position)->unk_08.at02.v) << 16) != 0) {
                 goto blocked;

@@ -22,15 +22,9 @@ void func_8009F374(Rec_D_800CFCB4 *state, M2C_UNK context, EntityRec *position, 
 
     position->z.v = (s32) (state->unk_A0 + (((func_800374F4(0x10) & 0xFFFF) - 8) << 0x10));
     scale_x_wave = func_800644B8(state->unk_6C.as_s16 * 0x199);
-    if (scale_x_wave < 0) {
-        scale_x_wave += 3;
-    }
-    scale->unk_1C = (s16) ((scale_x_wave >> 2) + 0x1000);
+    scale->unk_1C = (s16) ((scale_x_wave / 4) + 0x1000);
     scale_y_wave = func_800644B8(state->unk_6C.as_s16 * 0x199);
-    if (scale_y_wave < 0) {
-        scale_y_wave += 3;
-    }
-    scale->unk_1E = (s16) (0x1000 - (scale_y_wave >> 2));
+    scale->unk_1E = (s16) (0x1000 - (scale_y_wave / 4));
     ticks_left = (u16) state->unk_6C.as_s16 - 1;
     state->unk_6C.as_s16 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {

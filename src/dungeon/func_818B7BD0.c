@@ -103,7 +103,7 @@ s32 func_818B7BD0(S_818B7BD0_2 *owner, S_818B7BD0_3 *transform) {
         if (random < 0) {
             adjusted = random + 0xFFF;
         }
-        render->unk_18.at02.v = (s16) (random - ((adjusted >> 0xC) << 0xC));
+        render->unk_18.at02.v = (s16) (random % 4096);
         render->unk_1E = 0x400;
         render->unk_1C = 0x400;
         func_8004491C(obj, &D_80045C34);

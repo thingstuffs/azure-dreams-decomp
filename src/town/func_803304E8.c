@@ -18,20 +18,14 @@ void func_8001ACE8(s32 bit_index)
         value = ((s32)D_80016000);
 
         biased_index = bit_index;
-        if (bit_index < 0) {
-            biased_index = bit_index + 31;
-        }
-        word_index = biased_index >> 5;
+        word_index = (biased_index / 32);
         table = *(s32 *)(value + 0x18);
         dst_word = (s32 *)(word_index * 4 + table);
 
         src_word = (s32 *)(*(s32 *)(D_80016000_reload[0] + 0x18) + word_index * 4);
 
         value = bit_index;
-        if (bit_index < 0) {
-            value = bit_index + 31;
-        }
-        bit_mask = 1 << (bit_index - ((value >> 5) << 5));
+        bit_mask = 1 << (bit_index % 32);
         *dst_word = bit_mask | *src_word;
     }
 }

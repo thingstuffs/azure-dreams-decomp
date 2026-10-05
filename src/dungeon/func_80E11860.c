@@ -79,10 +79,7 @@ s32 func_80175060(Rec_func_80173DD4_arg0 *owner, EntityRec *initial_state) {
         func_800478B8(part);
         biased_rotation = rand();
         rotation_rand = biased_rotation;
-        if (rotation_rand < 0) {
-            biased_rotation = rotation_rand + 0xFFF;
-        }
-        part->unk_1A = (s16) (rotation_rand - ((biased_rotation >> 0xC) << 0xC));
+        part->unk_1A = (s16) (rotation_rand % 4096);
         part->unk_1E = 0x1000;
         part->unk_1C = 0x1000;
         func_8004491C(object, func_80045340);

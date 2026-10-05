@@ -100,10 +100,7 @@ void func_80172E5C(S810AF65C_0 *animation, S810AF65C_1 *motion,
         velocity_y = motion->field_10;
         motion->field_0c = velocity_x - (biased_x >> 2);
         biased_y = velocity_y;
-        if (velocity_y < 0) {
-            biased_y = velocity_y + 3;
-        }
-        motion->field_10 = velocity_y - (biased_y >> 2);
+        motion->field_10 = velocity_y - (biased_y / 4);
         animation->field_9b = animation->field_9b + 1;
         break;
     case 2:

@@ -93,11 +93,7 @@ s32 func_818B0E10(void *unused_0, void *origin, void *unused_2, s32 point_scale,
     {
       s32 shade_scale = (s32)globals_page;
       s32 saved_shade_scale = shade_scale;
-      if (color_index < 0)
-      {
-        biased_index = color_index + 15;
-      }
-      globals_page = (u8 *)((s32)globals_page * (*((u8 *) (((u8 *) (&D_8002588C)) + (color_index - ((biased_index >> 4) << 4))))));
+      globals_page = (u8 *)((s32)globals_page * (*((u8 *) (((u8 *) (&D_8002588C)) + (color_index % 16)))));
       phase_offset = (s32)globals_page >> 18;
       globals_page = (u8 *)saved_shade_scale;
       initial_z = color_index + 1;

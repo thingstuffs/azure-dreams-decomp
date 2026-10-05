@@ -163,15 +163,9 @@ void func_80168C88(u8 *effect, void *origin, void *color_in)
         break;
     case 1:
         red_scaled = ((S_80168C88_0 *)effect)->unk_00 * ((S_80168C88_0 *)effect)->unk_18.s;
-        if (red_scaled < 0) {
-            red_scaled += 3;
-        }
-        ((S_80168C88_1 *)color_in)->unk_0C = red_scaled >> 2;
+        ((S_80168C88_1 *)color_in)->unk_0C = (red_scaled / 4);
         green_scaled = ((S_80168C88_0 *)effect)->unk_01 * ((S_80168C88_0 *)effect)->unk_18.s;
-        if (green_scaled < 0) {
-            green_scaled += 3;
-        }
-        ((S_80168C88_1 *)color_in)->unk_0D = green_scaled >> 2;
+        ((S_80168C88_1 *)color_in)->unk_0D = (green_scaled / 4);
         break;
     }
     step = 1;

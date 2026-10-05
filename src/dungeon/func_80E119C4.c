@@ -24,19 +24,13 @@ void func_801751C4(u16 *anim, u32 *motion, u16 *sprite) {
         frame_offset = frame_index + 6;
         frame_index = ((s16 *)anim)[2] + frame_offset;
         div_index = frame_index;
-        if (frame_index < 0) {
-            div_index = frame_index + 7;
-        }
-        sprite[9] = anim[3] + (frame_index - ((div_index >> 3) << 3)) + 8;
+        sprite[9] = anim[3] + (frame_index % 8) + 8;
     } else {
         s32 frame_offset;
         frame_offset = frame_index + 6;
         frame_index = ((s16 *)anim)[2] + frame_offset;
         div_index = frame_index;
-        if (frame_index < 0) {
-            div_index = frame_index + 7;
-        }
-        sprite[9] = anim[3] + (frame_index - ((div_index >> 3) << 3));
+        sprite[9] = anim[3] + (frame_index % 8);
         motion[0] += motion[3];
         motion[1] += motion[4];
     }

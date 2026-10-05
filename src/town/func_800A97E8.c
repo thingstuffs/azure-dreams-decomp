@@ -125,16 +125,10 @@ void func_800A6F48(S_800A6F48_10 *owner, S_800A6F48_0 *spawn_state, S_800A6F48_2
     ((S_800A6F48_14 *)(((S_800A6F48_12 *)first_object)->unk_08))->unk_0C = 0x10000;
     first_y_data = first_object->unk_08;
     y_component = first_y_data->unk_10;
-    if (y_component < 0) {
-        y_component += 3;
-    }
-    first_y_data->unk_10 = (s32) (y_component >> 2);
+    first_y_data->unk_10 = (s32) (y_component / 4);
     first_z_data = first_object->unk_08;
     z_component = first_z_data->unk_14;
-    if (z_component < 0) {
-        z_component += 3;
-    }
-    first_z_data->unk_14 = (s32) (z_component >> 2);
+    first_z_data->unk_14 = (s32) (z_component / 4);
     first_object->unk_B0 = 0;
     func_800ABD74(position);
     second_offset_data = spawn_state->unk_0C;

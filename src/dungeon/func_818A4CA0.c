@@ -100,10 +100,7 @@ s32 func_818A4CA0(S_818A4CA0_1 *effect_data, S_818A4CA0_2 *origin, s16 effect_pa
         position = ((S_818A4CA0_0 *)effect)->unk_08;
         random_value = rand();
         biased_random = random_value;
-        if (random_value < 0) {
-            biased_random = random_value + 0xFFF;
-        }
-        angle = random_value - ((biased_random >> 0xC) << 0xC);
+        angle = (random_value % 4096);
         position->unk_02 = (s16) (effect_data->unk_08 + ((s32) (func_800644B8(angle) * 2) >> 8));
         position->unk_06 = (s16) (effect_data->unk_0A + ((s32) (func_80064584(angle) * 2) >> 8));
         height = effect_data->unk_0C;

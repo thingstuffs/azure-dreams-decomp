@@ -128,10 +128,7 @@ void func_8016D204(S_func_81325A04_0 *action, S_func_81325A04_1 *motion, S_func_
             }
             velocity_y = motion->unk_10;
             motion->unk_0C = velocity_x >> 2;
-            if (velocity_y < 0) {
-                velocity_y += 3;
-            }
-            motion->unk_10 = velocity_y >> 2;
+            motion->unk_10 = (velocity_y / 4);
             return;
         }
         timer_ending = timer < 2;

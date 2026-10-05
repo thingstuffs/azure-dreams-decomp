@@ -535,10 +535,7 @@ case_1:
         }
         effect->unk_1C.parts.unk_1E.parts.unk_1E.u8 = tile_coord >> 6;
         tile_coord = motion->unk_04.parts.unk_06.s16;
-        if (tile_coord < 0) {
-            tile_coord += 63;
-        }
-        effect->unk_1C.parts.unk_1E.parts.unk_1F.u8 = tile_coord >> 6;
+        effect->unk_1C.parts.unk_1E.parts.unk_1F.u8 = (tile_coord / 64);
     }
     if (effect->unk_20.s16 == effect->unk_1C.parts.unk_1E.s16) {
         goto end;

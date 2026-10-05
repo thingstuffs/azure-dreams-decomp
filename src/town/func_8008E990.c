@@ -13,8 +13,5 @@ void town_map_mod_read_p(s16 world_x, s16 world_y) {
     }
     tile_y = (s16)world_y;
     tile_x >>= 6;
-    if (tile_y < 0) {
-        tile_y += 0x3F;
-    }
-    func_8008C0AC(tile_x, tile_y >> 6);
+    func_8008C0AC(tile_x, (tile_y / 64));
 }

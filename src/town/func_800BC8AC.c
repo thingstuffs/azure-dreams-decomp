@@ -109,10 +109,7 @@ void func_800BA00C(void *parent, S_800BA00C_3 *position)
     }
     angle_sector = initial_angle >> 9;
     sector_multiple = angle_sector;
-    if (angle_sector < 0) {
-        sector_multiple = angle_sector + 3;
-    }
-    sector_multiple >>= 2;
+    sector_multiple /= 4;
     sector_multiple <<= 2;
     quadrant = angle_sector - sector_multiple;
 

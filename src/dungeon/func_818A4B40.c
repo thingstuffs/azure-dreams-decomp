@@ -48,10 +48,7 @@ void func_818A4B40(S_818A4B40_0 *motion, S_818A4B40_2 *position, Rec_D_80082E80 
     if ((s16) height_offset < -0x80) {
         random_value = rand();
         biased_random = random_value;
-        if (random_value < 0) {
-            biased_random = random_value + 0xFFF;
-        }
-        angle = random_value - ((biased_random >> 0xC) << 0xC);
+        angle = (random_value % 4096);
         position->unk_02 = (s16) (motion->unk_08 + ((s32) (func_800644B8(angle) * 2) >> 8));
         position->unk_06 = (s16) (motion->unk_0A + ((s32) (func_80064584(angle) * 2) >> 8));
         motion->unk_04 = (u16) (motion->unk_04 + 0x80);

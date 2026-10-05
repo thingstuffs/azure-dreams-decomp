@@ -63,10 +63,7 @@ void func_80173AD8(void *action, void *motion, void *actor, void *source) {
         z_velocity = FIELD_S32(motion, 0x10);
         FIELD_S32(motion, 0xC) = x_velocity - (x_rounding >> 2);
         z_rounding = z_velocity;
-        if (z_velocity < 0) {
-            z_rounding = z_velocity + 3;
-        }
-        FIELD_S32(motion, 0x10) = z_velocity - (z_rounding >> 2);
+        FIELD_S32(motion, 0x10) = z_velocity - (z_rounding / 4);
         if (FIELD_S16(action, 0x96) > 0) {
             next_frames = FIELD_U16(action, 0x96) - 1;
             FIELD_S16(action, 0x96) = next_frames;

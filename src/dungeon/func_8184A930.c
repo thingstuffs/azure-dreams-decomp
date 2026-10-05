@@ -74,7 +74,7 @@ s32 func_80024130(s32 context, S_80024130_3 *position)
         if (random_value < 0) {
             rounded_value = random_value + 0xFFF;
         }
-        visual->unk_1A = random_value - ((rounded_value >> 0xC) << 0xC);
+        visual->unk_1A = (random_value % 4096);
         func_8004491C(object, func_80045340);
         object_pos = object->unk_08;
         object_pos->unk_02 = position->unk_02;

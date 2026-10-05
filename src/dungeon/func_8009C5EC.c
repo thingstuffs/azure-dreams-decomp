@@ -71,10 +71,7 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             }
             old_curve = stat_growth[5] * curve_value;
             old_sum = old_base + (old_linear >> 4);
-            if (old_curve < 0) {
-                old_curve += 0x7FFF;
-            }
-            old_stat = old_sum + (old_curve >> 0xF);
+            old_stat = old_sum + (old_curve / 32768);
 
             level_product = level * stat_growth[5];
             curve_value = func_800647A0(level_product << 0xB);
@@ -121,10 +118,7 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             }
             new_scaled = slot * level;
             old_stat = initial_stats[4] + (old_scaled >> 0xA);
-            if (new_scaled < 0) {
-                new_scaled += 0x3FF;
-            }
-            new_stat = initial_stats[4] + (new_scaled >> 0xA);
+            new_stat = initial_stats[4] + (new_scaled / 1024);
             stat = ((u8 *)entity_data)[4];
             old_value = stat;
             stat += new_stat - old_stat;
@@ -257,10 +251,7 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             xp_sum = base_xp + word_growth;
             growth_product = level_product_2 * xp_sum;
             xp_given = base_xp + linear_word;
-            if (growth_product < 0) {
-                growth_product += 0x1FF;
-            }
-            xp_given += growth_product >> 9;
+            xp_given += (growth_product / 512);
             if (xp_given > 0xFFFFU) {
                 xp_given = 0xFFFF;
             }

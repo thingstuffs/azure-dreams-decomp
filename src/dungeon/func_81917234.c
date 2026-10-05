@@ -68,17 +68,11 @@ void func_80024A34(void *object, Rec_func_80024600_arg1 *position, Rec_D_80082E8
     visual->unk_1A.as_s16 = (s16) (rotation_rand - (rotation_quotient << 0xC));
     polar_rand = rand();
     polar_quotient = polar_rand;
-    if (polar_rand < 0) {
-        polar_quotient = polar_rand + 0xFFF;
-    }
-    polar_quotient >>= 0xC;
-    polar_angle = polar_rand - (polar_quotient << 0xC);
+    polar_quotient = polar_rand / 4096;
+    polar_angle = (polar_rand % 4096);
     azimuth_rand = rand();
     azimuth_biased = azimuth_rand;
-    if (azimuth_rand < 0) {
-        azimuth_biased = azimuth_rand + 0xFFF;
-    }
-    azimuth = azimuth_rand - ((azimuth_biased >> 0xC) << 0xC);
+    azimuth = (azimuth_rand % 4096);
     radial_x = func_800644B8(polar_angle);
     position->unk_00 = (s32) (position->unk_00 + ((radial_x >> 4) * (func_800644B8(azimuth) >> 4) * 0x10));
     radial_y = func_800644B8(polar_angle);

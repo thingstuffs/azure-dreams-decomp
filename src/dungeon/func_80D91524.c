@@ -99,10 +99,7 @@ void func_80172D24(void *action, void *motion, void *sprite, void *entity)
         velocity_y = ((EntityRec *)motion)->unk_10;
         ((EntityRec *)motion)->unk_0C = velocity_x - (rounded_velocity_x >> 2);
         rounded_velocity_y = velocity_y;
-        if (velocity_y < 0) {
-            rounded_velocity_y = velocity_y + 3;
-        }
-        ((EntityRec *)motion)->unk_10 = velocity_y - (rounded_velocity_y >> 2);
+        ((EntityRec *)motion)->unk_10 = velocity_y - (rounded_velocity_y / 4);
         timer_or_state = ((S_80172D24_1 *)action)->unk_9B + 1;
         ((S_80172D24_1 *)action)->unk_9B = timer_or_state;
         return;
