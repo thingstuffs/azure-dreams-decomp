@@ -4,6 +4,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "shared/entity.h"
 #include "m2c_compat.h"
 extern int abs(int);
 
@@ -18,8 +19,8 @@ void *func_800A05A4();      /* extern */
 s16 func_800A3820();                         /* extern */
 s32 func_800A56E0();                     /* extern */
 s16 func_800BCB04();                   /* extern */
-extern M2C_UNK D_80024860;
-extern M2C_UNK D_800248F0;
+extern void D_80024860(void *, void *, void *); /* func_81833060: the particle update callback */
+extern void D_800248F0(void *, void *, void *); /* func_818330F0: the burst particle callback */
 
 typedef struct S_func_81832800_1 {
     void *unk_00;
@@ -31,18 +32,6 @@ typedef struct S_func_81832800_1 {
     u16 unk_50;
     union { s16 as_s16; u16 as_u16; } unk_52;
 } S_func_81832800_1;
-
-typedef struct S_func_81832800_2 {
-    u8 pad_00[0x14];
-    union { s32 as_s32; u32 as_u32; } unk_14;
-    u8 pad_18[0x12];
-    u16 unk_2A;
-    u8 pad_2C[0x34];
-    void *unk_60;
-    u8 pad_64[0xE];
-    u8 unk_72;
-    u8 unk_73;
-} S_func_81832800_2;
 
 typedef struct S_func_81832800_3 {
     u8 pad_00[8];
@@ -175,7 +164,7 @@ BODY_STORAGE void BODY_NAME(S_func_81832800_1 *effect, S_func_81832800_4 *positi
     u16 scale_y;
     u16 spawn_state;
     u16 scale_x;
-    S_func_81832800_2 *target;
+    EntityRec *target;
     S_func_81832800_4 *jitter_position_x;
     S_func_81832800_4 *jitter_position_y;
     S_func_81832800_4 *burst_position;
@@ -184,10 +173,10 @@ BODY_STORAGE void BODY_NAME(S_func_81832800_1 *effect, S_func_81832800_4 *positi
     S_func_81832800_5 *source_sprite;
     S_func_81832800_5 *sprite;
     S_func_81832800_6 *particle_data;
-    S_func_81832800_2 *source;
+    EntityRec *source;
     S_func_81832800_3 *object;
     S_func_81832800_4 *particle_position;
-    S_func_81832800_2 *found_target;
+    EntityRec *found_target;
     S_func_81832800_4 *height_position;
     u32 sprite_flags;
     s32 texture_word;
@@ -196,9 +185,9 @@ BODY_STORAGE void BODY_NAME(S_func_81832800_1 *effect, S_func_81832800_4 *positi
 
     source = effect->unk_00;
     source_sprite = ((S_func_81832800_3 *) ((u8 *) source - 0x20))->unk_0C;
-    count = (u16) source->unk_2A >> 8;
-    step_x = *(s16 *) ((u8 *) dirStepX + (count & 0xE));
-    step_y = *(s16 *) ((u8 *) dirStepY + (count & 0xE));
+    count = (source->facing >> 9) & 7;
+    step_x = dirStepX[count];
+    step_y = dirStepY[count];
     spawn_state = effect->unk_0A;
     effect->unk_50 = (u16) (effect->unk_50 - 1);
     source_object = (S_func_81832800_3 *) ((u8 *) source - 0x20);
@@ -278,9 +267,9 @@ BODY_STORAGE void BODY_NAME(S_func_81832800_1 *effect, S_func_81832800_4 *positi
     switch (state) {
     case 0:
         if (*effect->unk_04 & 0x80) {
-            found_target = func_800A05A4(source, source_sprite->unk_24, source_sprite->unk_25, (s16) source->unk_2A,
+            found_target = func_800A05A4(source, source_sprite->unk_24, source_sprite->unk_25, source->facing,
                 (s32) func_800A3820(6));
-            source->unk_60 = found_target;
+            source->target = found_target;
             if (found_target == NULL) {
                 source->unk_72 = (u8) source_sprite->unk_24;
                 source->unk_73 = (u8) source_sprite->unk_25;
@@ -297,8 +286,8 @@ BODY_STORAGE void BODY_NAME(S_func_81832800_1 *effect, S_func_81832800_4 *positi
             position->unk_00.as_s32 = (s32) ((S_func_81832800_4 *) source_object->unk_08)->unk_00.as_s32;
             position->unk_04.as_s32 = (s32) ((S_func_81832800_4 *) source_object->unk_08)->unk_04.as_s32;
             position->unk_08.as_s32 = (s32) ((S_func_81832800_4 *) source_object->unk_08)->unk_08.as_s32;
-            count = abs((s8) source->unk_72 - source_sprite->unk_24);
-            jitter_count = abs((s8) source->unk_73 - source_sprite->unk_25);
+            count = abs(source->unk_72 - source_sprite->unk_24);
+            jitter_count = abs(source->unk_73 - source_sprite->unk_25);
             if (count < jitter_count) {
                 count = jitter_count;
             }
@@ -324,12 +313,12 @@ BODY_STORAGE void BODY_NAME(S_func_81832800_1 *effect, S_func_81832800_4 *positi
     case 2:
         if ((s16) effect->unk_50 <= 0) {
             sprite_flags = 0x100000;
-            target = source->unk_60;
+            target = source->target;
             if (target == NULL) {
                 effect->unk_0A = 0xFF;
                 return;
             }
-            target->unk_14.as_s32 = (s32) (target->unk_14.as_s32 | sprite_flags);
+            target->flags14 |= sprite_flags;
             effect->unk_50 = 0x14U;
             effect->unk_0A += 1;
             return;
@@ -396,7 +385,7 @@ BODY_STORAGE void BODY_NAME(S_func_81832800_1 *effect, S_func_81832800_4 *positi
             }
             count -= 1;
         } while (count >= 0);
-        object = source->unk_60 - 0x20;
+        object = source->target - 0x20;
         target_position = object->unk_08;
         height_delta = target_position->unk_08.parts.unk_0A.as_s16 - 0x18;
         height_delta = ground_height - height_delta;
@@ -416,17 +405,17 @@ BODY_STORAGE void BODY_NAME(S_func_81832800_1 *effect, S_func_81832800_4 *positi
         if ((s16) effect->unk_50 > 0) {
             return;
         }
-        if (source->unk_60 == NULL) {
+        if (source->target == NULL) {
             effect->unk_0A = 0xFF;
             return;
         }
-        func_8009CE1C(source->unk_60, 8, effect->unk_09, 4, (s32) (s16) source->unk_2A, source, 2);
+        func_8009CE1C(source->target, 8, effect->unk_09, 4, (s32) source->facing, source, 2);
         effect->unk_50 = 6U;
         effect->unk_0A = 0xF0;
         return;
 
     case 0xF0:
-        sprite = ((S_func_81832800_3 *) ((u8 *) source->unk_60 - 0x20))->unk_0C;
+        sprite = ((S_func_81832800_3 *) ((u8 *) source->target - 0x20))->unk_0C;
         scale_x = sprite->unk_1C.as_u16;
         scale_y = sprite->unk_1E.as_u16;
         sprite->unk_1C.as_u16 = (u16) (scale_x + ((s32) (0x1000 - scale_x) >> 2));
@@ -435,7 +424,7 @@ BODY_STORAGE void BODY_NAME(S_func_81832800_1 *effect, S_func_81832800_4 *positi
             sprite->unk_1E.as_u16 = 0x1000U;
             sprite->unk_1C.as_u16 = 0x1000U;
             effect->unk_0A = 0xFFU;
-            ((S_func_81832800_2 *) source->unk_60)->unk_14.as_u32 &= ~0x100000U;
+            ((EntityRec *) source->target)->flags14 &= ~0x100000;
             return;
         }
         return;

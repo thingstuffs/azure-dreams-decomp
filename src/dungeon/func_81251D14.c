@@ -157,7 +157,8 @@ void func_80171514(void *obj, void *motion, void *part, void *state)
 
     if (((S_80171514_0 *)state)->unk_6D > 0) {
         if (((S_80171514_0 *)state)->unk_1C & 0x20) {
-            goto case_stop;
+            func_800A9A0C(state);
+            return;
         }
 
         if (((S_80171514_1 *)part)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
@@ -199,7 +200,6 @@ void func_80171514(void *obj, void *motion, void *part, void *state)
         action_kind = ((S_80171514_0 *)state)->unk_46 & 0x3FFF;
         jump_index = action_kind - 1;
         switch (jump_index) {
-case_stop:
         case 11:
             func_800A9A0C(state);
             return;

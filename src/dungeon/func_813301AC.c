@@ -31,21 +31,15 @@ void func_801671AC(void *state_data, void *unused, void *color) {
     s32 red;
     s32 green;
     s32 blue;
-    u16 ticks_left;
     u16 flags;
     u16 next_phase;
 
     flags = ((S_801671AC_0 *)color)->unk_14;
     state = state_data;
     ((S_801671AC_0 *)color)->unk_14 = (u16) (flags & 0xFF7F);
-    ticks_left = ((S_801671AC_1 *)state)->unk_18;
-    do {
-        next_phase = ((S_801671AC_1 *)state)->unk_1C;
-    } while (0);
-    ticks_left--;
-    next_phase++;
-    ((S_801671AC_1 *)state)->unk_1C = next_phase;
-    ((S_801671AC_1 *)state)->unk_18 = ticks_left;
+    ((S_801671AC_1 *)state)->unk_18--;
+    ((S_801671AC_1 *)state)->unk_1C++;
+    next_phase = ((S_801671AC_1 *)state)->unk_1C;
     if ((s16) next_phase == 3) {
         ((S_801671AC_1 *)state)->unk_1C = 0U;
     }

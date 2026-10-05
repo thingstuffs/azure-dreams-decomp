@@ -78,12 +78,9 @@ void func_801260E8(Rec_func_801237A4_arg0 *context)
             clear_base = (u8 *)D_80129728;
             clear_cursor = (s32 **)(clear_base + 0x38);
             do {
-                do {
-                    clear_entry = *clear_cursor;
-                } while (0);
+                clear_entry = *clear_cursor++;
                 clear_index += 1;
                 *clear_entry = 0;
-                clear_cursor = (s32 **)((u8 *)clear_cursor + 4);
             } while (clear_index < 16);
         }
         return;
@@ -135,12 +132,9 @@ void func_801260E8(Rec_func_801237A4_arg0 *context)
             clear_base = (u8 *)D_80129728;
             clear_cursor = (s32 **)(clear_base + 0x38);
             do {
-                do {
-                    clear_entry = *clear_cursor;
-                } while (0);
+                clear_entry = *clear_cursor++;
                 clear_index += 1;
                 *clear_entry = 0;
-                clear_cursor = (s32 **)((u8 *)clear_cursor + 4);
             } while (clear_index < 28);
         }
     case 19:

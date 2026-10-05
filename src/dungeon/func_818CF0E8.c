@@ -85,7 +85,7 @@ typedef struct S_818CF0E8_6 {
     u8 pad_0F[0x1];
     s16 unk_10;
     s16 unk_12;
-    union { u16 s; volatile u16 u; } unk_14;   /* accessed as both */
+    union { u16 s; u16 u; } unk_14;   /* accessed as both */
     u8 pad_16[0x4];
     s16 unk_1A;
     s16 unk_1C;
@@ -362,11 +362,9 @@ void func_818CF0E8(void *entity, S_818CF0E8_1 *pos, S_818CF0E8_3 *gfx)
             ((S_818CF0E8_5 *)obj)->unk_10 = D_800245C8;
             func_8004491C(obj, func_80045340);
             p = ((S_818CF0E8_5 *)obj)->unk_0C;
-            flags = ((S_818CF0E8_6 *)p)->unk_14.s;
-            flags |= 0xC;
+            ((S_818CF0E8_6 *)p)->unk_14.s |= 0xC;
             ((S_818CF0E8_6 *)p)->unk_10 = 0x60;
-            ((S_818CF0E8_6 *)p)->unk_14.s = flags;
-            ((S_818CF0E8_6 *)p)->unk_14.u = flags | 2;
+            ((S_818CF0E8_6 *)p)->unk_14.s |= 2;
             p = ((S_818CF0E8_5 *)obj)->unk_08;
             {
                 s32 r2;

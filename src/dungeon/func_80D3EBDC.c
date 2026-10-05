@@ -147,14 +147,7 @@ void func_801743DC(void *action, void *context, void *sprite, EntityRec *entity)
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
             return;
         }
-        {
-            DungeonGlobalStatus *counter_base;
-
-            do {
-                counter_base = &dungeonStatus;
-            } while (0);
-            (*(u16 *)&counter_base->unk_0A)--;
-        }
+        dungeonStatus.unk_0A--;
         ((S_801743DC_0 *)action)->unk_8C = D_80171A80;
         return;
     default:

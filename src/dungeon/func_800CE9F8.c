@@ -67,7 +67,7 @@ void func_800D4158(void *entity, S_800D4158_1 *motion, Rec_D_80082E80 *sprite) {
         (ground_height = (s16)(ground_height_raw = func_800BCB04(motion->unk_00.at02.v, motion->unk_04.at02.v,
                         (s16)((*(u16 *)((u8 *)entity_ref + 0x88)) - 0x20)))) < 0x200) {
         if (((S_800D4158_2 *)entity)->unk_90.at02.v + (*(s16 *)((u8 *)entity_ref + 0x88)) < ground_height) {
-            (void)*(volatile u16 *)((s8 *)entity + 0x98);
+            ((S_800D4158_2 *)entity)->unk_98 &= 0xF7FFFFFF;
         } else {
             if (ground_height >= (*(s16 *)((u8 *)entity_ref + 0x88))) {
                 ((S_800D4158_2 *)entity)->unk_90.at00.v = 0;

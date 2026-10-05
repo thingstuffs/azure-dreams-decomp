@@ -103,74 +103,60 @@ void func_818BD74C(void *effect_arg, S_func_818BD74C_1 *motion, void *sprite) {
     }
     ((S_func_818BD74C_3 *)sprite)->unk_1A = (u16)(((S_func_818BD74C_3 *)sprite)->unk_1A + 0x300);
     state = effect->unk_0E.s;
-    if (state == 1) {
-        goto state1;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto state0;
+    switch (state) {
+    case 0:
+        pos_x = motion->unk_00;
+        vel_x = motion->unk_0C;
+        vel_y = motion->unk_10;
+        vel_z = motion->unk_14;
+        motion->unk_00 = pos_x + vel_x;
+        pos_y = motion->unk_04;
+        pos_z = motion->unk_08;
+        motion->unk_04 = pos_y + vel_y;
+        motion->unk_08 = pos_z + vel_z;
+        if (effect->unk_10.s < effect->unk_14) {
+            return;
         }
+        effect->unk_10.s = 0;
+        effect->unk_0E.u = (u16)(effect->unk_0E.u + 1);
         return;
-    }
-    state_or_scale = 2;
 
-    if (state != state_or_scale) {
+    case 1:
+        ((S_func_818BD74C_3 *)sprite)->unk_12 = 0;
+        ((S_func_818BD74C_3 *)sprite)->unk_14 = (u16)(((S_func_818BD74C_3 *)sprite)->unk_14 & 0xFEFF);
+        state_or_scale = (0x19 - effect->unk_10.s) << 8;
+        ((S_func_818BD74C_3 *)sprite)->unk_1E = state_or_scale;
+        ((S_func_818BD74C_3 *)sprite)->unk_1C = state_or_scale;
+        if (effect->unk_10.s < 0x10) {
+            return;
+        }
+        random_value = (s16)func_80069EF8();
+        magnitude_table = D_800DDC40;
+        scaled_magnitude = magnitude_table[((S_func_818BD74C_4 *)effect->unk_18)->unk_13] * 3;
+        if (scaled_magnitude < 0) {
+            scaled_magnitude += 3;
+        }
+        func_800249C4(effect, motion, (s16)random_value, 0 - (scaled_magnitude >> 2));
+        func_800247B0(effect, motion, magnitude_table[((S_func_818BD74C_4 *)effect->unk_18)->unk_13]);
+        effect->unk_10.s = 0;
+        effect->unk_0E.u = (u16)(effect->unk_0E.u + 1);
         return;
-    }
-    goto state2;
 
-state0:
-    pos_x = motion->unk_00;
-    vel_x = motion->unk_0C;
-    vel_y = motion->unk_10;
-    vel_z = motion->unk_14;
-    motion->unk_00 = pos_x + vel_x;
-    pos_y = motion->unk_04;
-    pos_z = motion->unk_08;
-    motion->unk_04 = pos_y + vel_y;
-    motion->unk_08 = pos_z + vel_z;
-    if (effect->unk_10.s < effect->unk_14) {
-        return;
-    }
-    effect->unk_10.s = 0;
-    effect->unk_0E.u = (u16)(effect->unk_0E.u + 1);
-    return;
-
-state1:
-    ((S_func_818BD74C_3 *)sprite)->unk_12 = 0;
-    ((S_func_818BD74C_3 *)sprite)->unk_14 = (u16)(((S_func_818BD74C_3 *)sprite)->unk_14 & 0xFEFF);
-    state_or_scale = (0x19 - effect->unk_10.s) << 8;
-    ((S_func_818BD74C_3 *)sprite)->unk_1E = state_or_scale;
-    ((S_func_818BD74C_3 *)sprite)->unk_1C = state_or_scale;
-    if (effect->unk_10.s < 0x10) {
-        return;
-    }
-    random_value = (s16)func_80069EF8();
-    magnitude_table = D_800DDC40;
-    scaled_magnitude = magnitude_table[((S_func_818BD74C_4 *)effect->unk_18)->unk_13] * 3;
-    if (scaled_magnitude < 0) {
-        scaled_magnitude += 3;
-    }
-    func_800249C4(effect, motion, (s16)random_value, 0 - (scaled_magnitude >> 2));
-    func_800247B0(effect, motion, magnitude_table[((S_func_818BD74C_4 *)effect->unk_18)->unk_13]);
-    effect->unk_10.s = 0;
-    effect->unk_0E.u = (u16)(effect->unk_0E.u + 1);
-    return;
-
-state2:
-    func_80024D2C(effect, motion, (s16)(func_80069EF8() % 7), effect->unk_16.s);
-    func_80024D2C(effect, motion, (s16)(func_80069EF8() % 7), (s16)((u16)effect->unk_16.s + 0x400));
-    func_80024D2C(effect, motion, (s16)(func_80069EF8() % 7), (s16)((u16)effect->unk_16.s + 0x800));
-    func_80024D2C(effect, motion, (s16)(func_80069EF8() % 7), (s16)((u16)effect->unk_16.s + 0xC00));
-    if (effect->unk_10.s < 0x30) {
-        return;
-    }
-    effect->unk_10.s = 0;
-    *(u16 *)((u8 *)effect - 2) = (u16)(*(u16 *)((u8 *)effect - 2) | 0x8000);
-    final_state = *(u16 *)((u8 *)effect + 0xE);
-    {
-        s32 global_flags = objectFlagBlock.flags;
-        *(u16 *)((u8 *)effect + 0xE) = (u16)(final_state + 1);
-        objectFlagBlock.flags = global_flags | 0x8000;
+    case 2:
+        func_80024D2C(effect, motion, (s16)(func_80069EF8() % 7), effect->unk_16.s);
+        func_80024D2C(effect, motion, (s16)(func_80069EF8() % 7), (s16)((u16)effect->unk_16.s + 0x400));
+        func_80024D2C(effect, motion, (s16)(func_80069EF8() % 7), (s16)((u16)effect->unk_16.s + 0x800));
+        func_80024D2C(effect, motion, (s16)(func_80069EF8() % 7), (s16)((u16)effect->unk_16.s + 0xC00));
+        if (effect->unk_10.s < 0x30) {
+            return;
+        }
+        effect->unk_10.s = 0;
+        *(u16 *)((u8 *)effect - 2) = (u16)(*(u16 *)((u8 *)effect - 2) | 0x8000);
+        final_state = *(u16 *)((u8 *)effect + 0xE);
+        {
+            s32 global_flags = objectFlagBlock.flags;
+            *(u16 *)((u8 *)effect + 0xE) = (u16)(final_state + 1);
+            objectFlagBlock.flags = global_flags | 0x8000;
+        }
     }
 }

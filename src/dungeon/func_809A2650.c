@@ -59,11 +59,7 @@ void func_80173E50(void *actor, void *context, void *render_record, EntityRec *a
         func_80047784(render_record,
             D_80175EA0[((gameWork.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
             0);
-        {
-            DungeonGlobalStatus *counter_base = &dungeonStatus;
-
-            (*(u16 *)&counter_base->unk_0A)--;
-        }
+        dungeonStatus.unk_0A--;
         do {
             ((S_80173E50_0 *)actor)->unk_9B++;
         } while (0);
@@ -142,26 +138,15 @@ void func_80173E50(void *actor, void *context, void *render_record, EntityRec *a
             ((S_80173E50_0 *)actor)->unk_8C = D_801710EC;
             return;
         }
-        {
-            DungeonGlobalStatus *counter_base = &dungeonStatus;
-
-            ((S_80173E50_0 *)actor)->unk_9B++;
-            (*(u16 *)&counter_base->unk_0A)++;
-        }
+        ((S_80173E50_0 *)actor)->unk_9B++;
+        dungeonStatus.unk_0A++;
         return;
 
     case 2:
         if (!(((Rec_D_80082E80 *)render_record)->unk_14.at00_u16.v & 0xE000)) {
             return;
         }
-        {
-            DungeonGlobalStatus *counter_base;
-
-            do {
-                counter_base = &dungeonStatus;
-            } while (0);
-            (*(u16 *)&counter_base->unk_0A)--;
-        }
+        dungeonStatus.unk_0A--;
 
         ((S_80173E50_0 *)actor)->unk_8C = D_801710EC;
         return;

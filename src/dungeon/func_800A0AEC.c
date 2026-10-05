@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     u8 pad[0x8D0];
@@ -20,7 +21,6 @@ typedef struct {
     s32 end;
 } Work;
 
-extern Arena * volatile D_80083160;
 
 extern void func_80067F20(void *, s32, s32, s32, s32);
 extern void func_800666E0(void *);
@@ -34,10 +34,10 @@ s32 func_800A624C(Input *input) {
     Work *quad;
     s16 color;
 
-    arena = D_80083160;
+    arena = (Arena *)gameWork.unk_000;
     draw_mode = arena->next;
     arena->next = draw_mode + 0xC;
-    arena = D_80083160;
+    arena = (Arena *)gameWork.unk_000;
     quad = (Work *)arena->next;
     arena->next = (u8 *)quad + 0x18;
 
@@ -53,7 +53,7 @@ s32 func_800A624C(Input *input) {
     quad->start = 0xE00000;
     quad->end = 0xE00140;
 
-    func_8006658C((u8 *)D_80083160 + ((input->index * 4) + 0xB0), quad);
-    func_8006658C((u8 *)D_80083160 + ((input->index * 4) + 0xB0), draw_mode);
+    func_8006658C((u8 *)gameWork.unk_000 + ((input->index * 4) + 0xB0), quad);
+    func_8006658C((u8 *)gameWork.unk_000 + ((input->index * 4) + 0xB0), draw_mode);
     return 0;
 }

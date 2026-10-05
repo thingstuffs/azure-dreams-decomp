@@ -66,20 +66,8 @@ void func_800A08A0(s32 spawn_mode) {
         }
 
         if (mode == 0) {
-            s32 tile_y_value;
-            {
-                s32 x_value;
-                do {
-                    dx = reference_object->tileX;
-                    x_value = tile_x;
-                } while (0);
-                tile_y_value = tile_y;
-                dx -= x_value;
-            }
-            dy = reference_object->tileY;
-            dx = abs(dx);
-            dy -= tile_y_value;
-            dy = abs(dy);
+            dx = abs(reference_object->tileX - tile_x);
+            dy = abs(reference_object->tileY - tile_y);
             distance = dx + dy;
         }
         if ((s16)distance < 0x21) {

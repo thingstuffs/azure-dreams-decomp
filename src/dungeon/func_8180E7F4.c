@@ -39,7 +39,7 @@ typedef struct S_800277F4_0 {
     u8 unk_0E;
     u8 pad_0F[0x4];
     u8 unk_13;
-    union { s32 n; volatile s32 v; } unk_14;   /* accessed as both */
+    s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
     u8 pad_20[0x4];
@@ -298,11 +298,11 @@ select_donor:
         clear_abilities = merged_abilities;
         clear_result_seen = merge_buffer;
         clear_donor_seen = donor_seen;
+        clear_shifted = ((S_800277F4_0 *)result)->unk_14 & ~7;
+        ((S_800277F4_0 *)result)->unk_14 = clear_shifted;
         element_mask = merged_element;
-        clear_shifted = ((S_800277F4_0 *)result)->unk_14.n & ~7;
-        ((S_800277F4_0 *)result)->unk_14.v = clear_shifted;
         clear_shifted |= element_mask;
-        ((S_800277F4_0 *)result)->unk_14.n = clear_shifted;
+        ((S_800277F4_0 *)result)->unk_14 = clear_shifted;
 loop_0:
         {
             clear_shifted = ability_count << 0x10;
@@ -544,7 +544,7 @@ next_ability:
                 s32 ability_id = ability_ids[scan_index * 3];
                 if (ability_id != 0) {
                     u8 ability = ability_id;
-                    allowed_elements = ((S_800277F4_0 *)result)->unk_14.n;
+                    allowed_elements = ((S_800277F4_0 *)result)->unk_14;
                     if (!(result_seen[ability].flags & 7 & allowed_elements)) {
                         if (allowed_elements & 1) {
                             ability_ids[scan_index * 3] = (u8) ((((ability - 1) / 3) * 3) + 1);

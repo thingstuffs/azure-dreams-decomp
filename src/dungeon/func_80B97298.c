@@ -151,7 +151,7 @@ void func_80170A98(void *entity, S_80170A98_2 *motion, void *monster)
         if (floor_height < 0x200) {
             actor_height = ((S_80170A98_1 *)actor)->unk_88.s;
             if ((*(s16 *)((u8 *)entity + 0x92)) + actor_height < floor_height) {
-                (void)(*(volatile u16 *)((u8 *)entity + 0x98));
+                (*(u16 *)((u8 *)entity + 0x98)) &= 0xF7FFFFFF;
             } else {
                 if (floor_height >= actor_height) {
                     (*(s32 *)((u8 *)entity + 0x90)) = 0;
@@ -183,7 +183,3 @@ void func_80170A98(void *entity, S_80170A98_2 *motion, void *monster)
     ((S_80170A98_0 *)monster)->unk_14 |= 0x40;
 
 }
-
-/* MECHANISM: The guarded pins preserve retail's 0x30 frame and s2/s4/s3/s1 entity roles.
-   The early callback tests only D_80170E9C and reuses live incoming argument registers.
-   A single D_80174F4C[index] dispatch removes the spurious two-table CFG and nine words. */

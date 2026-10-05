@@ -10,8 +10,7 @@ extern s32 func_800A7A38(void *);
 extern void func_800BC26C(void *, s32, s32, s32);
 
 /* Create a sprite object with the supplied position and default color and scale. */
-void *func_800A8608(s32 parent, s32 sprite_source, s16 x, s32 y, volatile s32 z) {
-    s32 z_value = z;
+void *func_800A8608(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z) {
     void *object;
     void *sprite;
     void *position;
@@ -22,7 +21,7 @@ void *func_800A8608(s32 parent, s32 sprite_source, s16 x, s32 y, volatile s32 z)
         sprite = F(object, void **, 0xC);
         F(position, s16 *, 2) = x;
         F(position, s16 *, 6) = y;
-        F(position, s16 *, 0xA) = (s16)z_value;
+        F(position, s16 *, 0xA) = z;
         func_8004491C(object, func_80045340);
         F(sprite, u8 *, 0xE) = 0x80;
         F(sprite, u8 *, 0xD) = 0x80;
