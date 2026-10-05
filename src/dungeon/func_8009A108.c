@@ -27,8 +27,6 @@ void *func_8009F868(void)
     u16 elapsed_ticks;
 
     state = (u8 *)0x80013710;
-loop_done:
-    ;
     entry = ((S_8009F868_0 *)state)->unk_0C + ((S_8009F868_0 *)state)->unk_0A * 2;
     opcode = entry[1];
 
@@ -49,8 +47,7 @@ loop_done:
     if (opcode == 0xD0) {
         ((S_8009F868_0 *)state)->unk_08 = 0;
         ((S_8009F868_0 *)state)->unk_0A += (s8)entry[0];
-        state = (u8 *)0x80013710;
-        goto loop_done;
+        return func_8009F868();
     }
 
     if ((s8)entry[0] < 0 ||
@@ -62,4 +59,3 @@ loop_done:
     }
     return entry;
 }
-
