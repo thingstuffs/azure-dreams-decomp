@@ -73,3 +73,11 @@ Per barrier, what it holds (do not retry the natural spellings): town/8096D944 f
   is free when global.c coalesces it, and must stay live while competing pointers are (owner review: ledger trade).
 - Keep a goto loop where retail does not strength-reduce (two bivs in one for(;;) split a register).
 - Exemplar with the same scratch layout, pin-free: src/town/func_800AF9D8.c.
+
+## r93_opus_vb5 (dungeon/func_81904990 4 -> 0; town/func_800AED64 volatiles 6 -> 2)
+- Second confirmation of the vb4 recipe: s16 per-block byte arithmetic + ONE walker per pointer in a real loop. A REG
+  pin on a walker stands in for the loop.c offset folding it itself blocks (`frame_header+8` -> retail's $16, 27
+  packet offsets -> retail's $8 that m2c named `quad_end`); KEEP_NV on mask constants falls with it.
+- A variable shared by two blocks that pins to $2 = it became global; retail has one per block.
+- OPEN: halfword `lhu; sll 16; sra 16` (800AED64 unk_16A) is NOT the byte family - HI/u16 hosts 36, only a store
+  between load and extension keeps it (cdk combine.c ~10506); next: combine.py --insn on the pinned text with VOL#5 erased.
