@@ -20,12 +20,10 @@ void *func_80026868(s32 init_value, s32 state_value)
     void *state;
 
     object = func_8003FC64(0);
-    state = (u8 *)object + 0x20;
     if (object != NULL) {
-        do {
-            *(s32 *)((u8 *)state + 0x24) = state_value;
-            func_80026728(state, init_value);
-        } while (0);
+        state = (u8 *)object + 0x20;
+        *(s32 *)((u8 *)state + 0x24) = state_value;
+        func_80026728(state, init_value);
         func_8002223C();
         func_800220DC();
         *(s32 *)((u8 *)object + 0x20) = func_8004F418(object, 0);

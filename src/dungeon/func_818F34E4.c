@@ -54,12 +54,10 @@ typedef struct S_80024CE4_4 {
 void func_80024CE4(void *effect, S_80024CE4_2 *position, S_80024CE4_1 *visual, s32 unused) {
     s16 initialized;
     s16 fade_ticks;
-    s16 next_step;
     s16 height_limit;
     s16 ticks_left;
     s16 angle;
     s16 step;
-    s16 next_angle;
     s32 fade_numerator;
     s32 fade_level;
     s32 wave_height;
@@ -114,22 +112,14 @@ void func_80024CE4(void *effect, S_80024CE4_2 *position, S_80024CE4_1 *visual, s
         visual->unk_1C = (u16) (scale + 0x100);
         visual->unk_1E = (u16) (visual->unk_1E + 0x100);
     }
-    do {
-        step = 0;
-    } while (0);
     angle = (*(u16 *)((u8 *)effect + 0x3A));
     angle_step = (*(u16 *)((u8 *)effect + 0x3C));
-    next_angle = angle + angle_step;
-    do {
-        if (next_angle >= 0x1001) {
-            angle = next_angle - 0x1000;
-        } else {
-            angle = next_angle;
+    for (step = 0; step < 0x20; step++) {
+        angle += angle_step;
+        if (angle >= 0x1001) {
+            angle -= 0x1000;
         }
-        next_step = step + 1;
-        step = next_step;
-        next_angle = angle + angle_step;
-    } while (next_step < 0x20);
+    }
     transform = ((S_80024CE4_3_pre *)((*(void **)((u8 *)effect + 0x2C))))[-1].unk_00;
     wave_height = func_800644B8(angle) * (s16) (*(u16 *)((u8 *)effect + 0x38));
     height_offset = wave_height * 2;
