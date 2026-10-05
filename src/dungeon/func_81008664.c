@@ -314,10 +314,6 @@ void func_81008664(S_func_81008664_1 *actor, S_func_81008664_5 *motion, S_func_8
         func_80047784(sprite, ((S_func_81008664_9 *) fall_anim)->unk_00, 0);
         actor->unk_9B = actor->unk_9B + 1;
         return;
-restore_tile:
-        partner_sprite->unk_24 = saved_x;
-        partner_sprite->unk_25 = saved_y;
-        goto place_actors;
     case 2:
         motion->unk_14 = (s32) (motion->unk_14 + 0xFFFE0000);
         height_adjust = D_800DDC40[partner->unk_13];
@@ -339,7 +335,9 @@ restore_tile:
             attempts -= 1;
             tile_x_ptr = &partner_sprite->unk_24;
             if (attempts <= 0) {
-                goto restore_tile;
+                partner_sprite->unk_24 = saved_x;
+                partner_sprite->unk_25 = saved_y;
+                goto place_actors;
             }
             tile_type = (s16) func_800A4E2C(tile_x_ptr, &partner_sprite->unk_25);
             if (tile_type < 0) {
