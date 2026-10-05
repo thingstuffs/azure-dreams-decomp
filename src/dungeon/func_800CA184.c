@@ -262,7 +262,7 @@ void func_800CF8E4(void) {
     u8 *packet;
     u8 *map;
     u8 *scene;
-    void *face;
+    void *height_shift;
     void *normal;
     CellRec *cell;
     CellRec *neighbor;
@@ -283,6 +283,8 @@ void func_800CF8E4(void) {
     normals = (u8 *)((S_800CF8E4_1 *)map)->unk_0C;
     if (!(render_flags & 2)) {
         s32 corner_arg;
+        s32 column_mask;
+        s32 max_height;
 
         coord = func_800BCB04(((S_800CF8E4_2 *)view)->unk_A4, ((S_800CF8E4_2 *)view)->unk_A6,
             (s16) (((S_800CF8E4_2 *)view)->unk_A8 - 0x20));
@@ -436,10 +438,7 @@ void func_800CF8E4(void) {
             s32 setup_value;
             s32 setup_base;
             s32 width_shift_or_end;
-            register s32 height_shift ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            register s32 column_mask ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             register s32 row_mask ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            register s32 base_color ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             register s32 draw_mode ASM_REG("$12");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             render_input = packet + 8;
@@ -450,11 +449,11 @@ void func_800CF8E4(void) {
             setup_value = (s32)0x80010000;
             setup_base = (s32)((S_800CF8E4_0 *)scene)->unk_00;
             width_shift_or_end = ((S_800CF8E4_1 *)map)->unk_14;
-            height_shift = ((S_800CF8E4_1 *)map)->unk_16;
+            height_shift = (void *)(s32)((S_800CF8E4_1 *)map)->unk_16;
             column_mask = ((S_800CF8E4_1 *)map)->unk_18;
             row_mask = ((S_800CF8E4_1 *)map)->unk_1A;
             ASM_KEEP4(width_shift_or_end, height_shift, column_mask, row_mask);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            base_color = *(s32 *)(setup_value + 0x3180);
+            max_height = *(s32 *)(setup_value + 0x3180);
             draw_mode = *(u8 *)(setup_value + 0x3184);
             setup_value = *(u8 *)(setup_value + 0x3185);
             setup_base += 0xB8;
@@ -466,7 +465,7 @@ void func_800CF8E4(void) {
             scratch->ot_base = setup_base;
             setup_base = 0x40;
             setup_value = setup_base << setup_value;
-            scratch->height_shift = height_shift;
+            scratch->height_shift = (s32)height_shift;
             scratch->map_width = setup_value;
             do {
                 setup_value = scratch->height_shift;
@@ -474,7 +473,7 @@ void func_800CF8E4(void) {
             setup_base <<= setup_value;
             scratch->column_mask = column_mask;
             scratch->row_mask = row_mask;
-            scratch->overlay_color = base_color;
+            scratch->overlay_color = max_height;
             scratch->draw_mode = (u16)draw_mode;
             width_shift_or_end = (s32)((S_800CF8E4_0 *)scene)->unk_00;
             setup_value = 0xAF3A;
@@ -489,16 +488,14 @@ void func_800CF8E4(void) {
                 (void *)width_shift_or_end);
         }
         if (scratch->active_edges != 0) {
-            s32 address_mask;
             s32 one;
-            s32 max_height;
             s32 tag_mask;
             s32 edge_progress;
             s32 error_step;
 
             one = 1;
             max_height = 0x7FFF;
-            address_mask = 0xFFFFFF;
+            column_mask = 0xFFFFFF;
             tag_mask = (s32)0xFF000000;
             do {
             for (render_arg = 3; render_arg >= 0; render_arg--) {
@@ -589,7 +586,7 @@ loop_22:
                         packet_code = packet + 7;
                         if (cell->index != 0) {
                             scratch->cell_height.word = (s32) cell->offset;
-                            face = ((void **)((S_800CF8E4_1 *)map)->unk_04)[cells[scratch->cell_index].index];
+                            height_shift = ((void **)((S_800CF8E4_1 *)map)->unk_04)[cells[scratch->cell_index].index];
 L_CFE98:
                             {
                                 s32 vertex_value;
@@ -597,18 +594,18 @@ L_CFE98:
                                 s32 vertex_xy;
                                 s32 third_x;
 
-                                vertex_value = ((S_800CF8E4_6 *)face)->unk_10;
+                                vertex_value = ((S_800CF8E4_6 *)height_shift)->unk_10;
                                 vertex_xy = scratch->min_x.h.x;
                                 scratch->face_attr.word = vertex_value;
-                                vertex_value = ((S_800CF8E4_6 *)face)->unk_00;
-                                vertex_offset = ((S_800CF8E4_6 *)face)->unk_14;
+                                vertex_value = ((S_800CF8E4_6 *)height_shift)->unk_00;
+                                vertex_offset = ((S_800CF8E4_6 *)height_shift)->unk_14;
                                 vertex_value <<= 3;
                                 vertex_value += (s32)vertices;
                                 scratch->face_info.word = vertex_offset;
                                 vertex_value = ((S_800CF8E4_7 *)((void *)vertex_value))->unk_00;
                                 vertex_offset = scratch->cell_height.h.x;
                                 scratch->vtx.word = vertex_value;
-                                vertex_value = ((S_800CF8E4_6 *)face)->unk_00;
+                                vertex_value = ((S_800CF8E4_6 *)height_shift)->unk_00;
                                 vertex_x = scratch->vtx.h.x;
                                 vertex_value <<= 3;
                                 vertex_value += (s32)vertices;
@@ -622,7 +619,7 @@ L_CFE98:
                                 vertex_value = (s16)vertex_value;
                                 vertex_offset += vertex_value;
                                 vertex_offset <<= 16;
-                                vertex_value = ((S_800CF8E4_6 *)face)->unk_02;
+                                vertex_value = ((S_800CF8E4_6 *)height_shift)->unk_02;
                                 vertex_xy |= vertex_offset;
                                 scratch->v[0].xy = vertex_xy;
 
@@ -631,7 +628,7 @@ L_CFE98:
                                 vertex_value <<= 3;
                                 vertex_value += (s32)vertices;
                                 scratch->vtx.word = ((S_800CF8E4_7 *)((void *)vertex_value))->unk_00;
-                                vertex_value = ((S_800CF8E4_6 *)face)->unk_02;
+                                vertex_value = ((S_800CF8E4_6 *)height_shift)->unk_02;
                                 vertex_x = scratch->vtx.h.x;
                                 vertex_value <<= 3;
                                 vertex_value += (s32)vertices;
@@ -645,7 +642,7 @@ L_CFE98:
                                 vertex_value = (s16)vertex_value;
                                 vertex_offset += vertex_value;
                                 vertex_offset <<= 16;
-                                vertex_value = ((S_800CF8E4_6 *)face)->unk_04;
+                                vertex_value = ((S_800CF8E4_6 *)height_shift)->unk_04;
                                 vertex_xy |= vertex_offset;
                                 scratch->v[1].xy = vertex_xy;
 
@@ -662,7 +659,7 @@ L_CFE98:
                                 vertex_value = ((scratch->cur_y) + vertex_offset) << 16;
                                 vertex_xy |= vertex_value;
                                 scratch->v[2].xy = vertex_xy;
-                                vertex_value = ((S_800CF8E4_6 *)face)->unk_04;
+                                vertex_value = ((S_800CF8E4_6 *)height_shift)->unk_04;
                                 vertex_value <<= 3;
                                 vertex_value += (s32)vertices;
                                 vertex_offset = ((S_800CF8E4_7 *)((void *)vertex_value))->unk_04;
@@ -674,7 +671,7 @@ L_CFE98:
                             {
                                 s32 cell_height;
 
-                                edge_progress = ((S_800CF8E4_12 *)(((((S_800CF8E4_6 *)face)->unk_06 * 8)
+                                edge_progress = ((S_800CF8E4_12 *)(((((S_800CF8E4_6 *)height_shift)->unk_06 * 8)
                                     + vertices)))->unk_04;
                                 cell_height = scratch->cell_height.h.x;
                                 edge_progress -= cell_height;
@@ -746,7 +743,7 @@ L_CFE98:
                                                             if (!(neighbor_face_flags & 2)) {
                                                                 if ((scratch->face_info.b.skip != one)
                                                                     || ((s8) neighbor_face_flags) >= 0) {
-                                                                    face = (u8 *)face + 24;
+                                                                    height_shift = (u8 *)height_shift + 24;
                                                                     scratch->last_normal = 0xFFFF;
                                                                     goto L_CFE98;
                                                                 }
@@ -781,19 +778,19 @@ L_CFE98:
                                         if (((s8) scratch->face_info.b.flags) >= 0) {
                                             face_skip = scratch->face_info.b.skip;
                                             face_skip &= 0xF;
-                                            face = (u8 *)face + (face_skip * 24);
+                                            height_shift = (u8 *)height_shift + (face_skip * 24);
                                             goto L_CFE98;
                                         }
                                     } else {
                                         scratch->vtx.word =
-                                            ((S_800CF8E4_13 *)((((S_800CF8E4_6 *)face)->unk_06 * 8) + vertices))->unk_00;
+                                            ((S_800CF8E4_13 *)((((S_800CF8E4_6 *)height_shift)->unk_06 * 8) + vertices))->unk_00;
                                         scratch->v[3].xy = (((u16) scratch->min_x.word
                                             + (u16) scratch->vtx.word) & 0xFFFF)
                                         | ((scratch->cur_y + (s16) scratch->vtx.h.y) << 0x10);
                                         gte_ldv0(&scratch->v[3]);
-                                        (*(s32 *)((u8 *)packet_code + 5)) = (s32) ((S_800CF8E4_6 *)face)->unk_08;
+                                        (*(s32 *)((u8 *)packet_code + 5)) = (s32) ((S_800CF8E4_6 *)height_shift)->unk_08;
                                         gte_rtps_nn();
-                                        (*(s32 *)((u8 *)packet_code + 0xD)) = (s32) ((S_800CF8E4_6 *)face)->unk_0C;
+                                        (*(s32 *)((u8 *)packet_code + 0xD)) = (s32) ((S_800CF8E4_6 *)height_shift)->unk_0C;
                                         (*(u16 *)((u8 *)packet_code + 0x15)) = scratch->face_attr.h.y;
                                         (*(u16 *)((u8 *)packet_code + 0x1D)) = (u16) scratch->face_info.word;
                                         gte_stsxy(packet + 0x20);
@@ -838,14 +835,14 @@ L_CFE98:
                                                     packet_code += 0x28;
                                                     *(s32 *)packet = (*(s32 *)packet & tag_mask)
                                                     | (*(s32 *)((scratch->otz * 4)
-                                                        + scratch->ot_base) & address_mask);
+                                                        + scratch->ot_base) & column_mask);
                                                     error_step = scratch->otz;
                                                     error_step *= 4;
                                                     error_step += scratch->ot_base;
                                                     {
                                                         s32 overlay_addr;
 
-                                                        overlay_addr = (s32) packet & address_mask;
+                                                        overlay_addr = (s32) packet & column_mask;
                                                         edge_progress = *(s32 *)error_step;
                                                         packet += 0x28;
                                                         edge_progress &= tag_mask;
@@ -863,29 +860,29 @@ L_CFE98:
                                                 }
                                             }
                                             packet_code += 0x28;
-                                            packet_addr = (void *) ((s32) packet & address_mask);
+                                            packet_addr = (void *) ((s32) packet & column_mask);
                                         } else if ((u32) quad_depth < 0x1DEU) {
                                             ((S_800CF8E4_9_pre *)packet_code)[-1].unk_00 = 9;
                                             (*(s32 *)((u8 *)packet_code + -3)) = (s32) scratch->lit_color;
-                                            packet_addr = (void *) ((s32) packet & address_mask);
+                                            packet_addr = (void *) ((s32) packet & column_mask);
                                             ((S_800CF8E4_9 *)packet_code)->unk_00 =
                                                 (u8) (((S_800CF8E4_9 *)packet_code)->unk_00 | 2);
                                             packet_code += 0x28;
                                         } else {
                                             goto block_98;
                                         }
-                                        *(s32 *)packet = (*(s32 *)packet & tag_mask) | (*(s32 *)((scratch->otz * 4) + scratch->ot_base) & address_mask);
+                                        *(s32 *)packet = (*(s32 *)packet & tag_mask) | (*(s32 *)((scratch->otz * 4) + scratch->ot_base) & column_mask);
                                         ot_entry = (scratch->otz * 4) + scratch->ot_base;
                                         *ot_entry = (*ot_entry & tag_mask) | (s32) packet_addr;
                                         packet += 0x28;
                                         face_skip = scratch->face_info.b.skip;
                                         if ((face_skip & 0xF) == one) {
                                             if (((s8) scratch->face_info.b.flags) >= 0) {
-                                                face = (u8 *)face + ((((u32)face_skip >> 4) * 24) + 24);
+                                                height_shift = (u8 *)height_shift + ((((u32)face_skip >> 4) * 24) + 24);
                                                 goto L_CFE98;
                                             }
                                         } else {
-                                            face = (u8 *)face + 24;
+                                            height_shift = (u8 *)height_shift + 24;
                                             goto L_CFE98;
                                         }
                                     }
@@ -898,14 +895,14 @@ L_CFE98:
                                     edge_progress = scratch->face_info.h.mode;
                                     edge_progress &= 0x80FF;
                                     if (edge_progress != end_marker) {
-                                        face = (u8 *)face + 24;
+                                        height_shift = (u8 *)height_shift + 24;
                                         goto L_CFE98;
                                     }
                                 } else {
                                     face_skip = scratch->face_info.b.skip;
                                     if ((face_skip & 0xF0) || ((s8) scratch->face_info.b.flags) >= 0) {
                                         face_skip &= 0xF;
-                                        face = (u8 *)face + (face_skip * 24);
+                                        height_shift = (u8 *)height_shift + (face_skip * 24);
                                         goto L_CFE98;
                                     }
                                 }
