@@ -26,14 +26,13 @@ void *func_8004B954(void *tint_a, void *tint_b, void *primitives,
     s32 angle_step;
     s32 first_segment;
     s32 segment;
-    register s32 angle ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     s32 center_y;
     s32 segment_count;
     s32 radius_y;
     u8 *template;
     u8 *flat_tri;
     u8 *shaded_tri;
-    register u8 *field_ptr ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    u8 *field_ptr;
     u8 flags;
     u32 copied_word;
 
@@ -99,59 +98,50 @@ void *func_8004B954(void *tint_a, void *tint_b, void *primitives,
         func_8004C010(field_ptr, tint_a);
         func_8004C010(field_ptr, tint_b);
         U8_AT(shaded_tri, 0x07) = U8_AT(style, 0x01) & 0x7F;
-        field_ptr = shaded_tri + 0xC;
         if (shaded != 0) {
+            field_ptr = shaded_tri + 0xC;
             color_data = (void *)((u8 *)color_data + 0xC);
             U32_AT(shaded_tri, 0x0C) = U32_AT(color_data, 0);
             func_8004C010(field_ptr, tint_a);
             func_8004C010(field_ptr, tint_b);
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             U32_AT(shaded_tri, 0x14) = U32_AT(shaded_tri, 0x0C);
-            field_ptr = shaded_tri + 0x18;
             segment = first_segment;
             if (segment <= first_segment + segment_count) {
-                angle = segment * angle_step;
                 do {
                     U32_AT(shaded_tri, 0x00) = U32_AT(template, 0x00);
-                    U32_AT(field_ptr, -0x14) = U32_AT(template, 0x04);
-                    U32_AT(field_ptr, -0x10) = U32_AT(template, 0x08);
-                    U32_AT(field_ptr, -0x0C) = U32_AT(template, 0x0C);
+                    U32_AT(shaded_tri, 0x04) = U32_AT(template, 0x04);
+                    U32_AT(shaded_tri, 0x08) = U32_AT(template, 0x08);
+                    U32_AT(shaded_tri, 0x0C) = U32_AT(template, 0x0C);
                     copied_word = U32_AT(template, 0x14);
-                    U32_AT(field_ptr, -0x08) = *(u32 *)&edge_pos;
-                    U32_AT(field_ptr, -0x04) = copied_word;
-                    edge_pos.vx = ((rcos(angle) * radius_x) >> 12) + center_x;
-                    segment++;
-                    shaded_tri += 0x1C;
+                    U32_AT(shaded_tri, 0x10) = *(u32 *)&edge_pos;
+                    U32_AT(shaded_tri, 0x14) = copied_word;
+                    edge_pos.vx = ((rcos(segment * angle_step) * radius_x) >> 12) + center_x;
                     {
-                        s32 offset_y = (rsin(angle) * radius_y) >> 12;
+                        s32 offset_y = (rsin(segment * angle_step) * radius_y) >> 12;
                         edge_pos.vy = offset_y + center_y;
                     }
-                    angle += angle_step;
-                    U32_AT(field_ptr, 0x00) = *(u32 *)&edge_pos;
-                    field_ptr += 0x1C;
+                    U32_AT(shaded_tri, 0x18) = *(u32 *)&edge_pos;
+                    segment++;
+                    shaded_tri += 0x1C;
                 } while (segment <= first_segment + segment_count);
             }
         } else {
             segment = first_segment;
-            field_ptr = flat_tri + 0x10;
             if (segment <= first_segment + segment_count) {
-                angle = segment * angle_step;
                 do {
                     U32_AT(flat_tri, 0x00) = U32_AT(template, 0x00);
-                    U32_AT(field_ptr, -0x0C) = U32_AT(template, 0x04);
+                    U32_AT(flat_tri, 0x04) = U32_AT(template, 0x04);
                     copied_word = U32_AT(template, 0x08);
-                    U32_AT(field_ptr, -0x04) = *(u32 *)&edge_pos;
-                    U32_AT(field_ptr, -0x08) = copied_word;
-                    edge_pos.vx = ((rcos(angle) * radius_x) >> 12) + center_x;
-                    segment++;
-                    flat_tri += 0x14;
+                    U32_AT(flat_tri, 0x0C) = *(u32 *)&edge_pos;
+                    U32_AT(flat_tri, 0x08) = copied_word;
+                    edge_pos.vx = ((rcos(segment * angle_step) * radius_x) >> 12) + center_x;
                     {
-                        s32 offset_y = (rsin(angle) * radius_y) >> 12;
+                        s32 offset_y = (rsin(segment * angle_step) * radius_y) >> 12;
                         edge_pos.vy = offset_y + center_y;
                     }
-                    angle += angle_step;
-                    U32_AT(field_ptr, 0x00) = *(u32 *)&edge_pos;
-                    field_ptr += 0x14;
+                    U32_AT(flat_tri, 0x10) = *(u32 *)&edge_pos;
+                    segment++;
+                    flat_tri += 0x14;
                 } while (segment <= first_segment + segment_count);
             }
         }
