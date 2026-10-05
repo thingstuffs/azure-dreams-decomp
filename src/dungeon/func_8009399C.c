@@ -12,7 +12,6 @@ void *func_800990FC(void) {
     s32 *entry;
     s32 *table;
 
-retry:
     entry_index = 0xA;
     table = D_80082A38;
     entry = table + 10;
@@ -21,7 +20,7 @@ retry:
     do {
         entry_index += 1;
         if (entry[18] == (s32)buffer) {
-            goto retry;
+            return func_800990FC();
         }
         entry += 1;
     } while (entry_index < 0xF);

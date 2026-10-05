@@ -21,9 +21,9 @@ standalone_build:
     out_dir: work/s3_splat/extract
     container_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
   window:
-    file_start: 0x197E81C
+    file_start: 0x197E800
     file_end: 0x197EB88
-    vram_start: 0x8002401C
+    vram_start: 0x80024000
     base_confidence: proven-rowbase
   split_results: overlays/dungeon/overlay_first_pass_results.json
   matched_sources:
