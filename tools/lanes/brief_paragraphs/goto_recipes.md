@@ -185,3 +185,8 @@ into a loop retail does NOT note (`why.py --pass loop` count goes up when struct
 in source order, shared-tail gotos -> `break` (1/1); a label with ONE goto -> inline the block there; shared 2-line
 `store; return K;` stubs -> copy per site, measure each alone then the union (6 of 10 exact; the union of the exact
 six stayed exact); a goto over a statement into an if chain -> invert the first test into a guard.
+
+**Correction (r93_opus_p22):** dungeon/func_800C4CE4 HAS a real loop in retail (the m2c goto web hid it): `for (; i < 8; i++)` with
+`break` on accept solved it 3 -> 0 pins + 6 gotos. Do not trust an earlier 'no loop in retail' note without `why.py --pass loop`
+on a structured candidate. A computed goto through a D_800240xx text-prefix table can become a compiler-owned switch
+(8185CFD4, table read from the retail bytes; the per-row scorer compares table words - window gate confirms ownership).
