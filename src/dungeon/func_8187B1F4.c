@@ -110,7 +110,7 @@ s32 func_8187B1F4(u8 *points, u8 *position, u8 *orientation) {
     u8 *draw_mode_packet;
     u8 *unused_ptr;
     s32 point_index;
-    volatile u16 *point_coords;
+    u16 *point_coords;
     u32 depth;
     s32 point_count;
     s32 hard_zero = 0;
@@ -153,10 +153,10 @@ s32 func_8187B1F4(u8 *points, u8 *position, u8 *orientation) {
         if (((S_8187B1F4_3 *)points)->unk_14 > 0) {
             point_coords = (u16 *)points;
             do {
-                VFIELD(scratch, u16, 4) = point_coords[0xB];
-                VFIELD(scratch, u16, 6) = point_coords[0x22];
+                VFIELD(scratch, u16, 4) = point_coords[point_index + 0xB];
+                VFIELD(scratch, u16, 6) = point_coords[point_index + 0x22];
                 vertex = scratch + 4;
-                component = point_coords[0x39];
+                component = point_coords[point_index + 0x39];
                 cur_state = global->cur;
                 depth_cue = scratch + 0xD0;
                 VFIELD(scratch, u16, 8) = component;
@@ -201,7 +201,6 @@ s32 func_8187B1F4(u8 *points, u8 *position, u8 *orientation) {
                     point_count = ((S_8187B1F4_3 *)points)->unk_14;
                 }
                 point_index += 1;
-                point_coords += 1;
             } while (point_index < point_count);
         }
         func_80064A40();

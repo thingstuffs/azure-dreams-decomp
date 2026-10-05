@@ -84,7 +84,6 @@ void func_80173108(void *actor, s32 unused, void *sprite, void *entity)
     case 2:
     {
         u8 *group_cursor;
-        u8 *sprite_entry;
         s32 fade_delta;
 
         group_index = 0;
@@ -95,11 +94,9 @@ void func_80173108(void *actor, s32 unused, void *sprite, void *entity)
                 sprite_group = (u8 *)PTR(group_cursor, 0xA4) + 0x20;
                 sprite_index = 0;
                 if (S16(sprite_group, 2) > 0) {
-                    sprite_entry = sprite_group;
                     do {
-                        (*(volatile u32 *)((u8 *)sprite_entry + 0x14)) += fade_delta;
+                        (*(u32 *)((u8 *)sprite_group + sprite_index * 0x30 + 0x14)) += fade_delta;
                         sprite_index++;
-                        sprite_entry += 0x30;
                     } while (sprite_index < S16(sprite_group, 2));
                 }
                 group_cursor += 4;

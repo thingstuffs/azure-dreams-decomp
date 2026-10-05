@@ -95,6 +95,8 @@ extern void SetRotMatrix(void *);
 
 #define SP8(base, off)  (*(u8 *)((base) + (off)))
 #define SPS8(base, off) (*(s8 *)((base) + (off)))
+typedef struct { u8 pad0[0xC0]; u32 depth; } ScratchDepth;
+typedef struct { u8 pad0[0x14]; u16 flags; } EntryFlags;
 #define SP16(base, off) (*(u16 *)((base) + (off)))
 #define SPS16(base, off) (*(s16 *)((base) + (off)))
 #define SP32(base, off) (*(u32 *)((base) + (off)))
@@ -144,9 +146,9 @@ void func_800453E0(void *context, void *position, Entry *entry, s16 depth_bias)
     SP16(scratch, 0x04) = *(u16 *)((u8 *)position + 0xA);
     packet = *(Packet **)((u8 *)render_state[0] + 0x8D0);
 
-    SP32(scratch, 0xC0) = RotTransPers(scratch, scratch + 0xB8, scratch + 0x90, scratch + 0x94);
+    ((ScratchDepth *)scratch)->depth = RotTransPers(scratch, scratch + 0xB8, scratch + 0x90, scratch + 0x94);
     E16(entry, 0x14) |= 0x8000;
-    projected_depth = *(volatile u32 *)(scratch + 0xC0);
+    projected_depth = ((ScratchDepth *)scratch)->depth;
     {
         u32 base_depth;
         sort_depth = (base_depth = projected_depth - 10, base_depth - depth_bias);

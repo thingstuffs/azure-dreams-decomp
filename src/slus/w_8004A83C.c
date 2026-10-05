@@ -25,7 +25,7 @@ extern void *func_8004A784(s32 category, s32 item);
 void *func_8004A83C(s32 category, s32 item)
 {
     void *item_data;
-    volatile ItemCategory *categories;
+    ItemCategory *categories;
     ItemRecord *records;
 
     item_data = func_8004A784(category, item);

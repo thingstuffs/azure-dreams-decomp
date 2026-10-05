@@ -15,7 +15,7 @@ typedef struct S_8092192C_1 {
     u8 pad_08[0x8];
     s16 unk_10;
     u8 pad_12[0x2];
-    union { u16 s; volatile u16 u; } unk_14;   /* accessed as both */
+    union { u16 s; u16 u; } unk_14;   /* accessed as both */
 } S_8092192C_1;   /* temp_a0 in func_8092192C */
 
 typedef struct S_8092192C_2 {
@@ -73,10 +73,10 @@ void func_8092192C(S_8092192C_2 *base_pos, s32 offset_x, s32 offset_y, s32 offse
         flags = ((S_8092192C_1 *)render_state)->unk_14.s;
         render_value = 0x20;
         ((S_8092192C_1 *)render_state)->unk_10 = render_value;
-        render_value = 6;
-        ((S_8092192C_1 *)render_state)->unk_06 = render_value;
         flags = set_flag_bits(flags, 0xC);
         ((S_8092192C_1 *)render_state)->unk_14.u = flags;
+        render_value = 6;
+        ((S_8092192C_1 *)render_state)->unk_06 = render_value;
         flags = set_flag_bits(flags, 2);
         ((S_8092192C_1 *)render_state)->unk_14.u = flags;
         position = object->unk_08;

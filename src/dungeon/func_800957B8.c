@@ -2,7 +2,6 @@
 #include "shared/record_ptrs.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
-extern u8 D_800E0000[];
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 typedef struct {
@@ -50,108 +49,66 @@ typedef struct S_8009AF18_4 {
 
 /* Checks successive tiles in a direction and returns the stopping distance. */
 s32 func_8009AF18(u32 direction_flags, FuncArg1 *origin, S_8009AF18_0 *start_tile, u16 max_steps) {
-    u16 tile_info[5];
-    u16 *tile_dx_ptr;
-    s32 tile_dx_base;
+    u16 tile_flags;
     s32 direction_index;
     s32 direction;
-    register s32 direction_offset;
-    s32 next_step;
     s32 height_result;
     s32 check_x;
-    register s32 step ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 step;
     s32 world_y;
     s32 world_x;
-    s32 shifted_step;
     s32 tile_x;
     s32 tile_y;
     S_8009AF18_2 *occupant;
 
     step = 1;
-    ASM_KEEP_NV(step);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     D_800DD7DC = 0;
     tile_x = start_tile->unk_24;
     tile_y = start_tile->unk_25;
     direction_index = (direction_flags >> 9) & 7;
-    tile_info[4] = max_steps;
     world_x = (tile_x << 6) | 0x20;
     world_y = (tile_y << 6) | 0x20;
-    if ((max_steps << 0x10) > 0) {
-        register u16 *tile_dx_reload ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    if ((s16)max_steps > 0) {
         direction = direction_index;
-        tile_dx_base = (s32)dirStepX;
-        direction_offset = direction << 1;
-        tile_dx_ptr = (u16 *)(tile_dx_base + direction_offset);
-check_tile:
-        check_x = (s16) tile_x;
-        if (func_800A0548(check_x, (s16) tile_y) != 0) {
-            return (s16) (step - 1);
-        }
-        if ((func_8009A350(check_x, (s16) tile_y, direction, tile_info) << 0x10) != 0) {
-            {
-
-                tile_dx_reload = tile_dx_ptr;
-                ASM_KEEP_NV(tile_dx_reload);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                tile_x += *tile_dx_reload;
+        do {
+            check_x = (s16) tile_x;
+            if (func_800A0548(check_x, (s16) tile_y) != 0) {
+                return (s16) (step - 1);
             }
-            tile_y += *(u16 *)((u8 *)dirStepY + direction_offset);
-            if (tile_info[0] & 0x3300) {
-                {
-                    S_8009AF18_1 *world;
+            if ((func_8009A350(check_x, (s16) tile_y, direction, &tile_flags) << 0x10) != 0) {
+                tile_x += (u16)dirStepX[direction];
+                tile_y += (u16)dirStepY[direction];
+                if (tile_flags & 0x3300) {
+                    {
+                        S_8009AF18_1 *world;
 
-                    tile_dx_reload = (u16 *)((u8 *)D_800E0000);
-                    world = *(void **)((u8 *)tile_dx_reload + 0x3D7C);
-                    occupant = func_8009B25C(world, tile_x & 0xFFFF, tile_y & 0xFFFF, world->unk_88);
-                }
-                if (occupant != NULL) {
-                    if (occupant->unk_13 == 0x1F) {
-                        if (!(occupant->unk_1C & 0x228)) {
-                            {
-
-                                tile_dx_reload = (u16 *)((u8 *)((u8 *)&D_800E3D7C - 15740));
-                                if (((S_8009AF18_4 *)(((S_8009AF18_3 *)(*(void **)((u8 *)tile_dx_reload
-                                    + 0x3D7C)))->unk_124))->unk_13 < 0) {
+                        world = (S_8009AF18_1 *)D_800E3D7C;
+                        occupant = func_8009B25C(world, tile_x & 0xFFFF, tile_y & 0xFFFF, world->unk_88);
+                    }
+                    if (occupant != NULL) {
+                        if (occupant->unk_13 == 0x1F) {
+                            if (!(occupant->unk_1C & 0x228)) {
+                                if (((S_8009AF18_4 *)(((S_8009AF18_3 *)(void *)D_800E3D7C)->unk_124))->unk_13 < 0) {
                                     D_800DD7DC = 1;
                                     occupant->unk_14 |= 0x800000;
-                                    goto done;
                                 }
                             }
                         }
                     }
                     return (s16)step;
                 }
-                return (s16)step;
-            }
-            world_x += *(u16 *)((u8 *)D_800DCEAC + direction_offset);
-            world_y += *(u16 *)((u8 *)D_800DCEBC + direction_offset);
-            {
-
-                tile_dx_reload = (u16 *)(origin);
-                ASM_KEEP(tile_dx_reload);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                height_result = func_800BCB04(world_x & 0xFFFF, world_y & 0xFFFF, ((FuncArg1 *)tile_dx_reload)->height);
-            }
-            next_step = step + 1;
-            if (height_result >= 0x200) {
+                world_x += D_800DCEAC[direction];
+                world_y += D_800DCEBC[direction];
+                height_result = func_800BCB04(world_x & 0xFFFF, world_y & 0xFFFF, origin->height);
+                if (height_result >= 0x200) {
+                    return (s16) (step - 1);
+                }
+            } else {
                 return (s16) (step - 1);
             }
-        } else {
-            return (s16) (step - 1);
-        }
-        step = next_step;
-        {
-            s32 shifted_next_step;
-
-            tile_dx_reload = (u16 *)((FuncArg1 *)(tile_info[4]));
-            next_step <<= 0x10;
-            shifted_next_step = next_step;
-            shifted_step = (s32)(FuncArg1 *)tile_dx_reload << 0x10;
-            if (shifted_next_step <= shifted_step) {
-                goto check_tile;
-            }
-        }
-        return (s16)step;
+            step++;
+        } while (step <= (s16)max_steps);
     }
-done:
-    shifted_step = step << 0x10;
-    return shifted_step >> 0x10;
+    return (s16)step;
 }
+

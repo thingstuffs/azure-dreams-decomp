@@ -127,7 +127,7 @@ typedef struct S_8016B0E8_14 {
     u8 pad_00[0x4];
     s8 unk_04;
     u8 pad_05[0xF];
-    union { u16 n; volatile u16 v; } unk_14;   /* accessed as both */
+    u16 unk_14;
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
@@ -179,7 +179,6 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
     s32 actor_index;
 
     register u32 level_index;
-    u16 facing_flags;
     register s16 prior_state;
     register u16 height_bits;
     u16 sprite_flags;
@@ -311,7 +310,7 @@ loop_0:
         if ((s16) prior_state != (s8) ((S_8016B0E8_2 *)actor)->unk_6D) {
             func_800AA36C(entity, motion, sprite, actor);
         }
-        sprite_flags = ((S_8016B0E8_14 *)sprite)->unk_14.n;
+        sprite_flags = ((S_8016B0E8_14 *)sprite)->unk_14;
         mode_bits = sprite_flags & 0x8000;
         if (!mode_bits) {
             view_direction = ((s32) (gameWork.view.viewAngle + ((S_8016B0E8_2 *)actor)->unk_2A + 0x100) >> 9) & 7;
@@ -327,18 +326,17 @@ loop_0:
             }
             facing_flip = dirSpriteFlag[direction_index];
             if (facing_flip != 0) {
-                facing_flags = ((S_8016B0E8_14 *)sprite)->unk_14.n | 1;
+                ((S_8016B0E8_14 *)sprite)->unk_14 |= 1;
             } else {
-                facing_flags = ((S_8016B0E8_14 *)sprite)->unk_14.v & 0xFFFE;
+                ((S_8016B0E8_14 *)sprite)->unk_14 &= 0xFFFE;
             }
-            ((S_8016B0E8_14 *)sprite)->unk_14.v = facing_flags;
             if (!(((S_8016B0E8_2 *)actor)->unk_1C & 0x20)) {
-                if (((S_8016B0E8_14 *)sprite)->unk_14.v & 0x40) {
+                if (((S_8016B0E8_14 *)sprite)->unk_14 & 0x40) {
                     goto update_sprite;
                 }
                 func_800478B8(sprite);
             } else {
-                ((S_8016B0E8_14 *)sprite)->unk_14.n = (u16) (((S_8016B0E8_14 *)sprite)->unk_14.n | 0x7000);
+                ((S_8016B0E8_14 *)sprite)->unk_14 = (u16) (((S_8016B0E8_14 *)sprite)->unk_14 | 0x7000);
             }
 update_sprite:
             func_800A020C(((S_8016B0E8_2 *)actor)->unk_1C, sprite + 0xC);
@@ -349,7 +347,7 @@ update_sprite:
             } else {
                 display_flags = sprite_flags | 0x7000;
             }
-            ((S_8016B0E8_14 *)sprite)->unk_14.n = display_flags;
+            ((S_8016B0E8_14 *)sprite)->unk_14 = display_flags;
         }
         ((S_8016B0E8_15 *)motion)->unk_00.at00.v = (s32) (((S_8016B0E8_15 *)motion)->unk_00.at00.v
             + ((S_8016B0E8_15 *)motion)->unk_0C);
@@ -404,7 +402,7 @@ update_sprite:
 update_height:
         ((S_8016B0E8_15 *)motion)->unk_0A = (s16) (((S_8016B0E8_2 *)actor)->unk_88.u
             + (u16) ((S_8016B0E8_0 *)entity)->unk_90.at02.v);
-        ((S_8016B0E8_14 *)sprite)->unk_14.n = (u16) (((S_8016B0E8_14 *)sprite)->unk_14.n | 0x40);
+        ((S_8016B0E8_14 *)sprite)->unk_14 = (u16) (((S_8016B0E8_14 *)sprite)->unk_14 | 0x40);
     }
     return;
 }

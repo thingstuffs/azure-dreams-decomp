@@ -15,7 +15,7 @@ typedef struct S_801690D8_0 {
     u8 pad_20[0x4];
     s32 unk_24;
     u8 pad_28[0x34];
-    union { s32 s; volatile s32 u; } unk_5C;   /* accessed as both */
+    union { s32 s; s32 u; } unk_5C;   /* accessed as both */
     s32 unk_60;
     u8 pad_64[0x10];
     u16 unk_74;
@@ -192,8 +192,8 @@ void func_801690D8(S_801690D8_1 *source, void *origin, s32 unused, s32 effect_va
             if (prev_tip_x < 0) {
                 prev_tip_x += trunc_bias;
             }
-            prev_base_x = effect->unk_5C.u * prev_segment;
             effect->unk_7A = (u16) (effect->unk_7A + (prev_tip_x >> 0x10));
+            prev_base_x = effect->unk_5C.u * prev_segment;
             if (prev_base_x < 0) {
                 prev_base_x += trunc_bias;
             }

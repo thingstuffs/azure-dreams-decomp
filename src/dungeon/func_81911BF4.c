@@ -34,8 +34,6 @@ extern void func_8002539C(Obj81911BF4 *);
 /* Update the five orbiting points and advance the effect animation. */
 void func_800253F4(Obj81911BF4 *effect, s32 *position)
 {
-    s32 phase_offset;
-    volatile Obj81911BF4 *point;
     s32 point_index;
     s32 brightness;
     s32 fade;
@@ -48,19 +46,10 @@ void func_800253F4(Obj81911BF4 *effect, s32 *position)
     effect->inner->field14++;
     effect->timer++;
 
-    point_index = 0;
-    point = effect;
-    phase_offset = 0;
-loop_0:
-    {
-        point->x[0] = position[0] + (((func_800644B8(phase_offset + effect->angle) >> 4) * effect->scale) << 8);
-        point->y[0] = position[1] + (((func_80064584(phase_offset + effect->angle) >> 4) * effect->scale) << 8);
-        point_index++;
-        phase_offset += 0x333;
-        point = (Obj81911BF4 *)((u8 *)point + 4);
+    for (point_index = 0; point_index < 5; point_index++) {
+        effect->x[point_index] = position[0] + (((func_800644B8(point_index * 0x333 + effect->angle) >> 4) * effect->scale) << 8);
+        effect->y[point_index] = position[1] + (((func_80064584(point_index * 0x333 + effect->angle) >> 4) * effect->scale) << 8);
     }
-    if (point_index < 5)
-        goto loop_0;
 
     state = effect->state;
     if ((u32)state >= 7U) {
@@ -166,16 +155,10 @@ loop_0:
         func_800246C0(effect, position, 0, 0);
         effect->scale = (u16)effect->scale * 2;
 
-        point_index = 0;
-        point = effect;
-        phase_offset = 0;
-        do {
-            point->x[0] = position[0] + (((func_800644B8(phase_offset + effect->angle) >> 4) * effect->scale) << 9);
-            point->y[0] = position[1] + (((func_80064584(phase_offset + effect->angle) >> 4) * effect->scale) << 9);
-            point_index++;
-            phase_offset += 0x333;
-            point = (Obj81911BF4 *)((u8 *)point + 4);
-        } while (point_index < 5);
+        for (point_index = 0; point_index < 5; point_index++) {
+            effect->x[point_index] = position[0] + (((func_800644B8(point_index * 0x333 + effect->angle) >> 4) * effect->scale) << 9);
+            effect->y[point_index] = position[1] + (((func_80064584(point_index * 0x333 + effect->angle) >> 4) * effect->scale) << 9);
+        }
 
         func_80024ACC(effect, position, 0, 0);
         effect->scale = ((s32)(u16)effect->scale << 16) >> 17;
