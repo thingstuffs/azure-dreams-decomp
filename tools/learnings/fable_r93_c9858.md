@@ -1,4 +1,19 @@
-# Fable r93 (dungeon/func_800C9858, 15 pins): compiler facts and drop-in guidance
+# dungeon/func_800C9858 (15 pins -> 0, SOLVED r93): compiler facts and drop-in guidance
+
+**SOLVED by the relay r86_fable_mech -> r93_fable_c9858 (total 74 -> 29) -> r93_opus_c9858 (exact, 0 pins, 0 volatile).**
+Opus corrections below supersede the Fable lines marked OPEN/refuted.
+
+## The lbu;sll 24;sra 24 family (REPLACES Fable's 'OPEN class, do not sweep')
+`lbu; sll 24; sra 24` = an s8 byte extended into an HImode (s16) target: cdk extendqihi2 writes
+`(set (subreg:SI (reg:HI)) (ashiftrt ...))` and combine's lb merge is NO RECOG (combine.c 2081; combine.py shows it).
+Do the arithmetic in an s16 variable that does NOT span a join (duplicate the join stores into each arm), and load the
+byte into an s8 local set in each arm if sched1 boosts the byte load ahead of a neighbouring load. A `volatile` on the
+byte is the m2c/lane substitute for this shape (146 rows / 237 volatile narrow-load sites at r93 - family candidates).
+
+## RMW interleave (ADD)
+When retail's chain-B load sits ahead of chain A's add, unboost ONLY the load: host it in a variable that already has a
+real second set (`h = p->b; p->b = h - K;`); `h -= K` also unboosts the add and the chain floats to the block top.
+
 
 Source: work/native_lane/r93_fable_c9858 (RETRO.md, REPORT.md; best pin-free text cand/best_k1b.c, total 29 - the
 frontier for this row; r86 c6 was 74). Corrections to earlier briefs:
