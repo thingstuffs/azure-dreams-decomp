@@ -1,3 +1,51 @@
+# Handover (2026-10-06 ~00:10Z, round 95: MEASUREMENT round, then routed lanes RUNNING) - start here
+
+**Owner brief (10-05 evening):** close to removing all pins + workarounds, "need some measurement/analysis first"; Opus/Sonnet as
+appropriate (<= 1-2 Opus, 2-3 Sonnet at a time), use up astra + sol; Fable only for a targeted one-off if everything else is stuck.
+**Numbers at start:** 186 pins / 103 rows (STATUS's 103 is right: levels.jsonl's 104 = the parked ovmovie/func_80041044, 4 pins -
+r91_luna_offby1/FINDINGS.md fix still unapplied). All rows L3.
+
+**Measurement outputs (read these first, all in work/native_lane/):**
+- `r95_measure/` (CPU): row_census.jsonl (every pinned row all-erased: residue COLOUR 2,520 words / COUNT 1,016 / OPCODE 529 /
+  ORDER 343; bands 1-4: 10 rows, 5-16: 23, 17-64: 41, 65+: 26, jtbl 4; module recipe closer for 1 row only), erase_census (47% of
+  190 sites d0 >= 30), pools.json, strong_kit.json (53 rows / 80 pins served by astra/Opus only at an OLDER text), ledger_by_tier.md,
+  old_nearmiss.txt.
+- `r95_opus_dossier/` (Opus): **pin_dossier.tsv** (one line per row: deciding pass, alloc_need, serves at current text, best old text,
+  mechanism tag, ROUTE), **MECHANISMS.md** (pins by open compiler question), **FIRST_LANES.md** (routing of all 186 pins:
+  sol61 37/52, astra 12/30, Opus mech A OPAQUE-BASE 8/18, Opus mech B LOCAL-GLOBAL 12/18 (NEW class: retail value is a global
+  allocno, ours a block-local qty), revive 3/5, recipe/cell 6/14, owner 4/4, PARK 20/43 with per-row reasons, GIV 1/2 queued).
+  Old fewer-pin texts: 24 re-scored at current base, none exact except 81910A9C's refused double mask.
+- `r95_wa1/CENSUS.md` (Sonnet, toolchain/structure): `tail_call` L5 label is wrong on 112 of 124 rows (composite rows' `asm("func_X")`
+  table symbol - fix levels.py `tail_idiom`); only 8 real noreturn tails (pin-free). inline asm 235 rows / 486 sites, 224 pin-free,
+  1 row hand asm (main/func_8001B4A4): equates 139/70 (one symbol file would retire them), extra-name equates 23/20, typed-name
+  aliases 93/35 (Sonnet type lanes), composite-row func_ alias + .size 113+104 (OWNER RULING on the spelling). NON_MATCHING 52 rows:
+  22 strip, 28 promote (t106_nmpromote). Recipe: real crutch flags 24 rows (18 pin-free) + 5 pin-free off-module -> CPU
+  `--equal-pins` retirement. 10 `_fold_selfinc_la` maspsx_pass rows clear via docs/evidence/selfinc_local_guard.md.
+- `r95_wa2/CENSUS.md` (Sonnet, C scaffolding): volatile scaffolding 122/87 rows (SPU-band 50/15 likely real -> real_volatiles
+  ledger; 9 extern sites need a ruling); one-trip 157/127; gotos 829/314: backward 224 (~85% source's own), shared-exit 219
+  (plausibly original), single-target forward 362 (m2c leftovers, t124/t102/t48 refused), **labels into blocks 76/54 (not allowed)**;
+  fake deps 5 rows (main/func_7FDD3834, 8000F774, town 80098CE0, 800A56D0, dungeon 81850800); 363 m2c-name rows (rename lanes
+  reached 39); S_<addr>/M2C_UNK 2,971; M2C_FIELD defined-unused in 219 rows; r91_types_p12 apply12.sh (201 rows) NEVER APPLIED;
+  t122_gotowhile crashed on 128 of 262 rows in its 09-29 sweep (TypeError, no longer reproduces); 5-row clone family 80EDF000..80F03000.
+- `r95_pt/CENSUS.md` (Sonnet, audit sites): L5 `fidelity_site` cannot clear as defined: 2,894 live sites = 2,489 byte truth +
+  266 phantom (SLUS merged defs) + 103 genuine arity defects (94 rows) + 36 unclear. Proposed predicate in its section 4 (NOT
+  applied): 1,650 -> 94 rows. Burn-down: func_80094984 family (24 town rows call with 2 args, def has 3 - check frame growth, t8c),
+  5 single-callee families, 15 INDIRECT rows (typed slot prototype), 3 JT `goto *` rows. Even then L5 is gated by `not_in_module`
+  (every row: module placement is the global L4/L5 gate).
+
+**RUNNING (00:10Z):** pools r95s (sol61 c=2: r95_sol61_s1-5,s8,s12,s13) and r95a (astra c=3: r95_astra_a1-a9; a5-a9 = rows sol61
+already served at this text), both `--no-land` (logs _r95/pool_r95{s,a}.log; questions _r95/q_<lane>.md from the dossier);
+Opus Agent lanes r95_opus_A (OPAQUE-BASE) and r95_opus_B (LOCAL-GLOBAL) - mechanism lanes, MECHANISM.md required.
+Gemini r94_agy_goto14-16 ran (pool r95g, --no-land): 14 candidates staged.
+**UNCOMMITTED / OWNER:** CPU sweeps t122_gotowhile (--force, 95 pin-free rows) and t142_unwrap (115 pin-free rows) ran at ~23:45Z and
+may have rewritten src/ files (byte-verified per row, journalled in ledger/sweeps/); NOT gated, NOT committed - the session's
+auto-mode classifier refused the read-back. Next session: `git status src`, then gate (land_lanes.sh gate section) + commit, or revert.
+Nothing from r95 lanes has been landed yet; land with LAND_ISOLATED=1 land_gap.sh after the sweep question is settled.
+**Owner decisions surfaced by the measurement:** (1) composite-row asm spelling (`asm("func_X")` + .size, ~114 rows); (2) the L5
+predicate change (r95_pt section 4) and fixing the tail_call label; (3) dead copy/load retail emits on 800A3D40, 8105A724, 81339F68
+(= pending r93_opus_fp1 (a)); (4) 800219C4 is PsyQ PATCH.OBJ - provenance call; (5) apply r91_types_p12; (6) 9 extern-volatile sites;
+(7) park list of 20 rows / 43 pins (FIRST_LANES.md section 7) - accept as tie-class residue unless a mechanism lane reopens them.
+
 # Handover (2026-10-05 ~16:00Z, round 94 DONE: Fable on an unsolved row + Opus/Sonnet fidelity-first lanes; no lanes running) - start here
 
 **Owner brief (10-05):** pick up the round-93 next steps with Opus + Sonnet, luna/agy where they make sense, a few
