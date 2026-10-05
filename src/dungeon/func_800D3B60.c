@@ -153,7 +153,8 @@ void func_800D92C0(void *move_state, void *context, S_800D92C0_2 *position, void
                         }
                         goto loop_entry;
                     }
-                    goto mask_and_return;
+                    ((S_800D92C0_0 *)actor)->unk_71 = (s8) ((u8) ((S_800D92C0_0 *)actor)->unk_71 & 0x7F);
+                    return;
                 }
             } else {
                 room_id = position->unk_26;
@@ -243,15 +244,12 @@ post_loop:
             {
                 dungeonStatus.unk_08 = (u16)(((u16)dungeonStatus.unk_08) + 1);
             }
-            if (((S_800D92C0_0 *)actor)->unk_6D.s != 0) {
-                goto final_update;
+            if (((S_800D92C0_0 *)actor)->unk_6D.s == 0) {
+mask_and_return:
+                ((S_800D92C0_0 *)actor)->unk_71 = (s8) ((u8) ((S_800D92C0_0 *)actor)->unk_71 & 0x7F);
+                return;
             }
 
-mask_and_return:
-            ((S_800D92C0_0 *)actor)->unk_71 = (s8) ((u8) ((S_800D92C0_0 *)actor)->unk_71 & 0x7F);
-            return;
-
-final_update:
             turn_index = func_800BCB04((position->unk_24.at00.v << 6) | 0x20, (position->unk_24.at01.v << 6) | 0x20,
                 (s16) (((S_800D92C0_0 *)actor)->unk_88 - 0x20));
             if (turn_index < 0x200) {

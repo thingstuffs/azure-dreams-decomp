@@ -344,7 +344,8 @@ void func_8008ACDC(void *actor, void *motion, register void *sprite, void *stats
                     target = selected_target;
                     angle_bits = (s32)(((u32)angle_bits) & (0x60));
                     angle_bits = (s32)(((u32)angle_bits) >> (5));
-                    goto apply_target_action;
+                    func_80094270(call_actor, call_motion, call_sprite, target, (u32)angle_bits);
+                    return;
                 case 0x88:
                     call_actor = actor;
                     angle_bits = ((S_8008ACDC_6 *)command)->unk_00;
@@ -353,11 +354,8 @@ void func_8008ACDC(void *actor, void *motion, register void *sprite, void *stats
                     call_motion = motion;
                     slot_addr = (u32)angle_bits << 2;
                     slot_addr = slot_addr + (s32) call_actor;
-                    do {
-                        target = (void *) ((S_8008ACDC_8 *)((void *) slot_addr))->unk_D0;
-                    } while (0);
+                    target = (void *) ((S_8008ACDC_8 *)((void *) slot_addr))->unk_D0;
                     call_sprite = sprite;
-apply_target_action:
                     func_80094270(call_actor, call_motion, call_sprite, target, (u32)angle_bits);
                     return;
                 case 0x70:
@@ -462,34 +460,34 @@ apply_target_action:
                             if (angle_or_flags == 0) {
                                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = (u16) (button_flags & 0xFFBF);
                             }
-                            goto update_idle;
-                        }
-                        angle_or_flags = button_bits & 0x40;
-                        if (angle_or_flags != 0) {
-                            (*(u16 *)((u8 *)actor + 0xA2)) = (u16) (button_flags & 0xFFFE);
-                            if (!(((u32)input->buttons) & 0x20)) {
-                                if ((func_8008C8BC(actor, motion, sprite, stats) << 0x10) != 0) {
-                                    goto update_animation;
-                                }
-                            } else if (func_8008C5C4(actor, motion, sprite, stats) == 0) {
-                                goto update_idle;
-                            }
                         } else {
-update_idle:
-                            if ((*(u16 *)0x80013714) & 9) {
-                                ((Rec_func_8008ACDC_arg0 *)actor)->unk_A4.as_u16 = 0U;
-                            }
-                            if (((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8 == 0xE) {
-                                idle_ticks = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A4.as_u16 + 1;
-                                ((Rec_func_8008ACDC_arg0 *)actor)->unk_A4.as_u16 = idle_ticks;
-                                if ((s16) idle_ticks >= 0x3D) {
-                                    ((Rec_func_8008ACDC_arg0 *)actor)->unk_A4.as_u16 = 0x3CU;
-                                    func_8008CCB0(actor, motion, sprite, stats);
+                            angle_or_flags = button_bits & 0x40;
+                            if (angle_or_flags != 0) {
+                                (*(u16 *)((u8 *)actor + 0xA2)) = (u16) (button_flags & 0xFFFE);
+                                if (!(((u32)input->buttons) & 0x20)) {
+                                    if ((func_8008C8BC(actor, motion, sprite, stats) << 0x10) != 0) {
+                                        goto update_animation;
+                                    }
+                                    return;
+                                }
+                                if (func_8008C5C4(actor, motion, sprite, stats) != 0) {
                                     return;
                                 }
                             }
-                            goto update_facing;
                         }
+                        if ((*(u16 *)0x80013714) & 9) {
+                            ((Rec_func_8008ACDC_arg0 *)actor)->unk_A4.as_u16 = 0U;
+                        }
+                        if (((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8 == 0xE) {
+                            idle_ticks = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A4.as_u16 + 1;
+                            ((Rec_func_8008ACDC_arg0 *)actor)->unk_A4.as_u16 = idle_ticks;
+                            if ((s16) idle_ticks >= 0x3D) {
+                                ((Rec_func_8008ACDC_arg0 *)actor)->unk_A4.as_u16 = 0x3CU;
+                                func_8008CCB0(actor, motion, sprite, stats);
+                                return;
+                            }
+                        }
+                        goto update_facing;
                     }
                 }
             }

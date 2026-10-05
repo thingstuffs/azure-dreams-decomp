@@ -5,7 +5,6 @@ typedef struct S_800981D4_0 {
     union { s16 s; u16 u; } unk_06;   /* accessed as both */
 } S_800981D4_0;   /* arg1 in func_800981D4 */
 
-
 extern s32 func_80098DC0(s32 arg0, S_800981D4_0 *arg1, s32 arg2);
 
 s32 func_800981D4(s32 value, S_800981D4_0 *field_ptr, s32 other_value)
@@ -19,25 +18,22 @@ s32 func_800981D4(s32 value, S_800981D4_0 *field_ptr, s32 other_value)
     if (current < 0x300) {
         current = raw + 4;
         field_ptr->unk_06.s = current;
-        if (current < 0x300) {
-            goto done_return;
-        } else {
-            goto clamp;
+        if (current >= 0x300) {
+            result = 0x300;
+            field_ptr->unk_06.s = result;
+            result = func_80098DC0(value, field_ptr, other_value);
+            return result;
         }
     } else {
         current = raw - 4;
         field_ptr->unk_06.s = current;
         if (current < 0x301) {
-            goto clamp;
+            result = 0x300;
+            field_ptr->unk_06.s = result;
+            result = func_80098DC0(value, field_ptr, other_value);
+            return result;
         }
     }
-done_return:
     result = 0x300;
-    return result;
-
-clamp:
-    result = 0x300;
-    field_ptr->unk_06.s = result;
-    result = func_80098DC0(value, field_ptr, other_value);
     return result;
 }

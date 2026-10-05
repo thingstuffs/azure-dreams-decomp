@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-05T12:48:45Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-05T12:55:01Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -77,17 +77,17 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | M2C_FIELD raw offsets | 2950 | 1,456,876 | 57.0% | 0 | 0 | 0.0% |
 | m2c local names | 5182 | 2,172,184 | 84.9% | 363 | 170,120 | 6.7% |
 | ASM_ pins | 2135 | 1,464,820 | 57.3% | 106 | 149,984 | 5.9% |
-| goto | 1545 | 1,318,468 | 51.5% | 328 | 375,208 | 14.7% |
+| goto | 1545 | 1,318,468 | 51.5% | 317 | 363,008 | 14.2% |
 | computed-goto jump table | 317 | 437,344 | 17.1% | 13 | 22,304 | 0.9% |
 | inline asm outside macros | 361 | 255,656 | 10.0% | 235 | 201,848 | 7.9% |
 | fidelity blocking site (LABEL_AS_CALL/PASSTHRU_NO_ARGS) | 1489 | 680,132 | 26.6% | 308 | 157,064 | 6.1% |
 | any fidelity site | 2654 | 1,286,092 | 50.3% | 1777 | 959,932 | 37.5% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 751 | 560,528 | 21.9% | 125 | 108,736 | 4.3% |
 | maspsx marker pins (scaffolding) | 393 | 351,556 | 13.7% | 1 | 1,176 | 0.0% |
-| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 124 | 102,056 | 4.0% |
+| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 122 | 98,852 | 3.9% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 2 | 820 | 0.0% |
 | local address-named struct | 633 | 346,988 | 13.6% | 2977 | 1,557,180 | 60.9% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 6020 | 1,966,372 | 76.9% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 6030 | 1,978,460 | 77.3% |
 
 Pin sites now: 214 in 106 rows; REG 119, KEEP_NV 35, KEEP 29, SCHED_BARRIER 10, USE 4, USE2_NV 4, USE_NV 3, MEM_BARRIER 2.  At the pin: 25,755; REG 12,776, KEEP 6,852, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 

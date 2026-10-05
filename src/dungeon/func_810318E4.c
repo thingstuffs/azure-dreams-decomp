@@ -122,17 +122,20 @@ void func_801730E4(void *action, EntityRec *position, void *sprite, void *actor)
                 is_special = 1;
                 /* fallthrough */
             case 3:
-                goto select_3;
+                selection = (u8 *)actor + 0xE;
+                break;
             case 6:
                 is_special = 1;
                 /* fallthrough */
             case 2:
-                goto select_2;
+                selection = (u8 *)actor + 0xB;
+                break;
             case 5:
                 is_special = 1;
                 /* fallthrough */
             case 1:
-                goto select_1;
+                selection = (u8 *)actor + 8;
+                break;
             default:
                 selection = 0;
                 break;
@@ -140,15 +143,12 @@ void func_801730E4(void *action, EntityRec *position, void *sprite, void *actor)
         } else {
             switch ((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF) {
             case 3:
-select_3:
                 selection = (u8 *)actor + 0xE;
                 break;
             case 2:
-select_2:
                 selection = (u8 *)actor + 0xB;
                 break;
             case 1:
-select_1:
                 selection = (u8 *)actor + 8;
                 break;
             default:

@@ -145,7 +145,6 @@ void func_80170E54(void *record, EntityRec *entity, void *object, EntityRec *oth
             return;
         }
 
-normal_state:
         if (((Rec_func_800A9E70_arg0 *)record)->unk_9A.as_u8 != 0xE) {
             table = D_80174148;
             if (((S_80170E54_2 *)object)->unk_2C.p != table) {
@@ -184,10 +183,12 @@ normal_state:
 
     if (other_entity->unk_6D > 0) {
         if (((u32)other_entity->flags1C) & 0x20) {
-            goto case_12;
+            func_800A9A0C(other_entity);
+            return;
         }
         if (((S_80170E54_2 *)object)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            goto generic;
+            func_801717B4(record, entity, object, other_entity);
+            return;
         }
         if (!(other_entity->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
@@ -202,7 +203,8 @@ normal_state:
             state = other_entity->unk_46 | 0x4000;
             other_entity->unk_46 = state;
             if (!(state & 0x8000)) {
-                goto generic;
+                func_801717B4(record, entity, object, other_entity);
+                return;
             }
         }
 
@@ -230,25 +232,23 @@ normal_state:
             player = D_800814A8;
             other_entity->facing = coordinate;
             if (player->unk_9A == 0x11) {
-                goto case_123;
+                func_800AAF00(record, entity, object, D_80174140, &D_80170E54);
+                return;
             }
         }
 
         case 12:
-case_12:
             func_800A9A0C(other_entity);
             return;
 
         case 1:
         case 2:
         case 3:
-case_123:
             func_800AAF00(record, entity, object, D_80174140, &D_80170E54);
             return;
 
         case 11:
         default:
-generic:
             func_801717B4(record, entity, object, other_entity);
             return;
         }
