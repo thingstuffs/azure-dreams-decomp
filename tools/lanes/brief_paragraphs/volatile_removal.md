@@ -31,6 +31,20 @@ Shapes that were exact this round:
     8096C508 4 volatiles -> 0, 8046C188, 818FA12C)
 SLUS rows are scored by object identity vs the pinned TU: replacing a literal page constant with its symbol adds
 relocations the target lacks - keep the page macros on slus rows.
-Open (no exact shape yet): retail reloads a field that plain C forwards from the previous load with no store/call
-between (800A76D4, 8096C360, 8096C290, 800BB6A8, 8080EEC4, 81334230); volatile u8* STORES through an induction pointer
-(80284068: biv -> giv); a reload that post-reload cse deletes because the register already holds it (w_800565D8).
+11. RELOAD CLASS - a field reload plain C forwards with no store/call between (r93_opus_rl1, 5/5 rows exact). Find
+    which gate removes the load: dump the plain text and check the second read after .cse, .combine, .greg.
+    (a) cse block: cse continues its table through an `if (c) x = ...;` skip and into a jumped-to else arm; it
+        restarts only at a label reached by FALL-THROUGH -> turn the skip into if/else with the next statement in
+        BOTH arms (jump2 merges them back). w_8004D294.
+    (b) cse table: a store between the reads kills the entry (QImode store, non-struct pointer store); retail's stores
+        may have been sunk by sched1 -> write each store right after its computation (compound `f op= expr`). 800A76D4.
+    (c) narrow then wide: cse forwards a narrow load from an earlier zero_extend load, never the reverse -> make the
+        first access narrow (`(u16)x >= f`, a u8 test, or a store) and the second a widening int read; a u8 `>> k`
+        is narrowed and forwarded, `/ 2^k` or an unsigned-int local is not. 8009A3D4, 8096C360.
+    (d) post-reload: two loads survive combine but one is gone in .greg -> reload_cse deleted it (same register still
+        holds the value): change what writes that register in between (e.g. `t[k * 32]` vs `t[k << 5]` changes expand
+        order). 800BB6A8.
+    Shape 10 (fresh s32 local after a store) is gate (c) + (d). Never kill an entry with a dead store/load/call
+    written only for that - fake dependency.
+Open: volatile u8* STORES through an induction pointer (80284068: loop.c biv->giv); volatiles that only order a
+read-modify-write triple in sched1 (8105F098); SPU/GPU/CD hardware registers are REAL volatiles.
