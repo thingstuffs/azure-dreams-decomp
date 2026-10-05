@@ -67,7 +67,8 @@ void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32
     s32 offset;
     u8 *quad_packet;
     s32 packet_order;
-    register s32 scratch ASM_REG("$8");
+    s32 scratch;
+    DungeonState **state_slot;
     packet_order = (s32)(((u8 *)(&gameWork)) - 0x3160);
     cursor = (*((DungeonState **) (((u8 *)packet_order) + 0x3160)))->cursor;
     scratchpad = (EllipseWork *) 0x1F800000;
@@ -87,6 +88,7 @@ void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32
         angle_step = segment;
 loop_0:
         {
+            state_slot = (DungeonState **)&gameWork;
             scratchpad->prev.xy = scratchpad->cur.xy;
             center_u = (u8)scratchpad->tex_u
                 + (scratchpad->tex_w >> 1);
@@ -101,7 +103,6 @@ loop_0:
             {
                 offset = scratchpad->tex_w;
                 scratch = offset * trig_value;
-                ASM_USE2_NV(offset, scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 offset = scratch >> 13;
                 *((u8 *) (((u8 *) packet_code) + 41)) =
                     (*((u8 *) (((u8 *) packet_code) + 5))) + offset;
@@ -163,9 +164,11 @@ loop_0:
             outer_color3 = parameters->value1;
             *((s32 *) (((u8 *) packet_code) + 33)) = outer_color3;
             func_8006671C(quad_packet);
-            packet_order = draw_order;
             if (blend_setting != 0) {
                 *((u8 *) (((u8 *) packet_code) + 0)) |= 2;
+                packet_order = draw_order;
+            } else {
+                packet_order = draw_order;
             }
             func_8006658C(packet_order, cursor);
             packet_code += 52;
@@ -174,7 +177,5 @@ loop_0:
         if (segment < parameters->count)
             goto loop_0;
     }
-    scratch = (s32) ((u8 *)(&gameWork));
-    ASM_KEEP(scratch);
-    (*((DungeonState **) scratch))->cursor = cursor;
+    (*state_slot)->cursor = cursor;
 }
