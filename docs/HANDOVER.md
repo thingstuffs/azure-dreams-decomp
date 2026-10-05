@@ -42,6 +42,7 @@ Prototype lanes respelled some `M2C_UNK` params/fields as `s32`/`s32 *` (same C 
    block (labels-into-blocks rule) - held/.
 4. r92_agyO_p2 80095160 landed with `move_failed:` (pre-existing label inside an if block) now reached by more gotos.
 6. town/func_808110CC: owner ACCEPTED (10-05) the visible redundant store `unk_A2 = 16;` (retail emits it) - landed.
+- dungeon/func_800CA184 (r93_opus_ca184, 11 -> 10 pins, gotos 32 -> 24): pointer copy `scratch = view_scratch;` after a join (copy-host shape, byte-free) - admissible? recorded in ledger/recipe_trades.jsonl.
 5. Refused (ledger/refused_trades.jsonl): 81910A9C `& addr_mask & addr_mask` double mask = fake dependency.
 
 **Leads:** 80DE48EC pin-free spill text total 35 (16 frame bytes unexplained -> gdb assign_stack_local; r92_agyO_al1);
