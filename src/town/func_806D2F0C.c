@@ -19,8 +19,8 @@ typedef struct S_8001670C_2 {
 
 
 extern s32 func_800161EC(u32, s32);
-extern void func_80016510(s32, s32);
-extern s32 func_80016654(s32);
+extern void func_80016510(s16 sourceId, s16 targetId);
+extern s32 func_80016654(s16 *flag_ids);
 extern void func_80016CCC(s32);
 
 /* Processes the selected record's pair and optional context action, then returns the record's value. */

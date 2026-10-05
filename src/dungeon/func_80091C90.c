@@ -31,7 +31,7 @@ typedef struct {
 extern void func_8009C93C(Actor *, s32, s16, s32, s32);
 extern s32 func_800A6D30(void);
 extern void func_80099F70(u32);
-extern void func_8009F644(Actor *, s32, s32, s32);
+extern void func_8009F644(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
 extern s32 func_800A5C70(void);
 
 /* Reset the entity state and initialize the active dungeon actor. */

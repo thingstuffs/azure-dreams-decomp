@@ -6,7 +6,7 @@
 #define F(e,t,o) (*(t)((s8 *)(e)+(o)))
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
-extern s32 func_800A7A38(void *);
+extern s32 func_800A7A38(u8 *item);
 extern void func_800BC26C(void *, s32, s32, s32);
 
 /* Create a sprite object with the supplied position and default color and scale. */

@@ -7,7 +7,7 @@
 #include "records/Rec_func_8008ACDC_arg0.h"
 
 extern void func_80048A44(void *, u8, s32, s32);
-extern void func_8008D94C(void *, void *, void *, void *);
+extern void func_8008D94C(u8 *state_ptr, s32 value, u8 *target_ptr, u8 *angle_ptr);
 extern s32 func_80094F74(void *, void *, void *, void *);
 extern void func_800A2B04(void *, u8, u8);
 

@@ -57,7 +57,7 @@ extern M2C_UNK D_8016AE84;
 
 #ifdef __mips__
 /* The carved row starts with this 33-word text-local pointer/literal bank. */
-extern void *func_8016A800(s32, s8, s8, s16);
+extern void *func_8016A800(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c);
 extern void *func_8016A884(s16, s16, s16, s16);
 extern void *func_8016B24C(void);
 extern void *func_8016B278(void);

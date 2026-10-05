@@ -2,7 +2,7 @@
 #include "shared/object_flags.h"
 
 extern s32 rand(void);
-extern s16 func_800BCB04(s32, s32, s32);
+extern s16 func_800BCB04(s32 x, s32 y, s16 min_height);
 extern s16 D_80025308;
 
 typedef struct {

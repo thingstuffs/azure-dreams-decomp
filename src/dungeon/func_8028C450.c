@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_8001F354(s32, s32, s32, void *);
+extern void func_8001F354(s16 x, s16 y, s16 tinted, s32 render_param);
 extern void func_8004E634(s16, u8 *);
 
 extern void *D_8001F5B4[];

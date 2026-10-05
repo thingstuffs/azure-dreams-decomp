@@ -7,7 +7,7 @@ extern void func_80026FB4(void *object);
 extern void bzero(void *arg0, s32 arg1);
 extern void func_80026DF0(void *arg0, s32 arg1);
 extern s32 func_80026DC8(void *nodes);
-extern void func_80026E90(void *record, s32 initial_value);
+extern void func_80026E90(s8 *record, s32 initial_value);
 
 extern u8 D_8002B850[];
 extern u8 D_80027DD0[];

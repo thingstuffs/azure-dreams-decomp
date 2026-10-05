@@ -16,7 +16,7 @@ extern u8 *D_80174710;
 
 extern void func_8009A3D0(s32, s32, s32);
 extern void func_800A2B04(void *, s32, s32);
-extern void func_8009A21C(s32, s32, s32);
+extern void func_8009A21C(s16 x, s16 y, u16 flags);
 
 /* Repositions the current entity relative to the origin and updates its motion. */
 void func_8125414C(s32 offset_index)

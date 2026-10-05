@@ -84,7 +84,7 @@ extern s32 *D_80174CCC;
 extern s8 D_801766F0[];
 
 extern s32 func_800A1618(s32, s32);
-extern s32 func_8017506C(s32, s32, s32, s32, u16 *);
+extern s32 func_8017506C(s16 tile_x, s16 tile_y, s32 height, s16 direction, s16 *sample_out);
 extern Object *func_8003FD64(s32, void *);
 extern void func_8003E02C(Vec3s *, Vec3s *);
 extern void func_80047784(void *, s32, s32);

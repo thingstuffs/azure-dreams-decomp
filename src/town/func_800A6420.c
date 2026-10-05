@@ -66,7 +66,7 @@ extern u16 D_80100D8A;
 
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
-extern void *func_800A41D8(void *, void *, void *, void *, s32);
+extern void *func_800A41D8(void *origin, void *render_flags, void *draw_state, void *prim_buffer, u16 texture_index);
 
 /* Emits segments in both angular directions and updates the town output pointer. */
 s32 func_800A3B80(S_800A3B80_3 *object, s32 unused, void *context)

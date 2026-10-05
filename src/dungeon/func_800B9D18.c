@@ -10,7 +10,7 @@
 
 extern u8 D_800E1258[];
 
-extern void func_8008D344(void *, void *, void *, void *);
+extern void func_8008D344(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
 extern s32 func_80098864(s32, s32);
 extern void func_80098B38(s32);
 extern void func_800997FC(void *, s32, s16);

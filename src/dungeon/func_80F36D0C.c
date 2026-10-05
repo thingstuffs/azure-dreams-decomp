@@ -79,7 +79,7 @@ extern u8 D_80174AEC[];
 extern void *D_800E3DE8[];
 
 extern s32 func_800A70E4(s16, s16, s16);
-extern Spawned *func_800A8608(void *, PackedRecord *, s32, s32, s16);
+extern Spawned *func_800A8608(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z);
 extern void func_8009A3D0(s32, s32, s32);
 extern void func_80047784(Effect *, u8, s32);
 extern void func_800A56E0(s32);

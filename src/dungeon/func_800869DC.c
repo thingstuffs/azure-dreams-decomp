@@ -25,10 +25,10 @@ extern void func_80048A44(void *, s32, s32, s32);
 extern void func_80094ED4(void *, s32, void *, void *);
 extern void func_80099F04(s32);
 extern void func_80099F70(s32);
-extern void func_8009A21C(s32, s32, s32);
+extern void func_8009A21C(s16 x, s16 y, u16 flags);
 extern void func_8009A3D0(s32, s32, s32);
 extern s16 func_8009ABA0(s16, s32, void *, s16, s32);
-extern void func_8009F644(void *, s32, s32, s32);
+extern void func_8009F644(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
 extern s32 func_800A5C70(void);
 extern void func_800A67F4(void);
 

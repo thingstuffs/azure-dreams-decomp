@@ -6,7 +6,7 @@ typedef struct {
     u16 flags;
 } DungeonCell;
 
-s32 func_800A6E10(s32, s32);
+s32 func_800A6E10(s16 first_key, s16 second_key);
 
 /* Clears selected cell flags or decrements their encoded value, clamping at zero. */
 void func_8009A3D0(s32 x, s32 y, s32 flag_mask)

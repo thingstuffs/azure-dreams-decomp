@@ -40,7 +40,7 @@ extern u8 D_800E39C8[12];
 
 extern void func_800194C4(s16 resource_index);
 extern void func_80019648(void);
-extern s32 func_80019684(s16 object_index, s32 mode, s16 activate);
+extern s32 func_80019684(s16 object_index, s16 mode, s16 activate);
 extern void func_80019A74(void);
 extern s32 func_80033BC0(s32 value);
 extern void func_80044698(void);

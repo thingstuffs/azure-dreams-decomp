@@ -57,7 +57,7 @@ extern u8 D_80027452[16];
 extern void **D_800E3D18;
 
 extern void func_800255B8(s16, s16, s16, s16);
-extern void func_8002614C(s16, s16, s16, s16, s32);
+extern void func_8002614C(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor);
 extern void *func_8003DE58(void *, void *, u16 *, s32);
 extern void func_800B8D64(s16, s16, s16);
 

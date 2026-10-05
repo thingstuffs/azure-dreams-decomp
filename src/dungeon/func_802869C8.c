@@ -6,7 +6,7 @@ extern s16 D_8008146C[5];
 extern s16 D_800E3CD8[8];
 extern s32 func_80033BC0(s32);
 extern s32 func_800A6928(s32, s32);
-extern void func_8009A21C(s32, s32, s32);
+extern void func_8009A21C(s16 x, s16 y, u16 flags);
 
 /* Check second tower availability and initialize the selected entry when available. */
 s32 func_800199C8(s32 entry_index) {

@@ -3,10 +3,10 @@
 #include "shared/entity.h"
 
 extern s32 func_8009D218(void *entity, s32 flags);
-extern s32 func_800A6870(s32 input_value);
+extern s32 func_800A6870(s16 input_value);
 extern void func_800AD4D0(void *entity);
 extern void func_800AD568(void *entry);
-extern void func_800B4C7C(s32 flags, void *source_data, s32 value, s32 callback_mode);
+extern void func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
 
 /* Applies a flag-adjusted value increase to an eligible entity and updates it. */

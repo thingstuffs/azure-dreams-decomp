@@ -159,7 +159,7 @@ extern s32 func_800429E4(void *);
 extern void func_8004397C(void *);
 extern void func_80044A50(void *);
 extern void func_8004E130(void);
-extern void *func_800A0B94(s32, s32, s32);
+extern void *func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read);
 extern s32 func_800A1618(s32, s32);
 extern void func_8009A028(void *);
 extern void func_8009A3D0(u8, u8, s32);

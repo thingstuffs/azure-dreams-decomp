@@ -136,7 +136,7 @@ typedef struct S_func_818DA800_11 {
 
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
-extern s32 func_800A3820(s32);
+extern s32 func_800A3820(s16 entry_index);
 extern void *func_800A05A4(void *, u8, u8, s16, s16);
 extern s16 func_800BCB04(u16, u16, s16);
 extern void func_800A56E0(s32);

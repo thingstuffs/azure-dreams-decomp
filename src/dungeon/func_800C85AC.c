@@ -15,7 +15,7 @@ extern s32 func_800A6D30(void);
 extern void func_800A6508(void);
 extern void func_800A56E0(s32);
 extern void func_800C8DB0(void *, s32, s32);
-extern void func_800C5E5C(s32, s32, s32, void *, s32);
+extern void func_800C5E5C(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound);
 
 /* Applies a chance-based effect, with visual and sound feedback for unflagged entries. */
 s32 func_800CDD0C(void *state, s32 rng_arg1, s32 rng_arg2, s32 rng_arg3)

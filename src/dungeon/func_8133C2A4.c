@@ -44,10 +44,10 @@ struct Aux {
 };
 
 extern s32 func_80047784(Aux *, u8, s32);
-extern s16 func_800A0818(u8, u8, u8, u8, s32 *);
+extern s16 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void func_800A56E0(s32);
 extern void func_800A9A0C(Entity *);
-extern void func_8016B230(Entity *, s32, Aux *, Entity *);
+extern void func_8016B230(u8 *movement_in, void *action_ctx, u8 *position, u8 *actor);
 extern void func_8016D6F8(Entity *, s32, Aux *, Entity *);
 extern void func_8016DAC0(Entity *, s32, Aux *, Entity *);
 extern void func_8016EB68(void);

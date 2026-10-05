@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern s32 func_8009A540(s32, s32, s32, s16);
+extern s32 func_8009A540(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s16 func_8009FB34(u16, u16);
-extern s16 func_800A0818(s32, s32, s32, s32, void *);
+extern s16 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 
 /* Checks distinct neighboring positions for equal values or a successful fallback check. */
 s32 func_8009FE94(s16 x0, s16 y0, s16 check_param, s16 x1, s16 y1) {

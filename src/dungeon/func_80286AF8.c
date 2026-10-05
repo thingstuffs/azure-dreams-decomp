@@ -54,7 +54,7 @@ extern void func_800176EC(void);
 extern void func_80019A84(s16);
 extern void func_8001A710(void);
 extern s16 func_8001A768(s16 *, s16, s16, s8 *, s32 *, s32, s32);
-extern s16 func_8001AC4C(s16, s16, s32, s16, s8 *);
+extern s16 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room_marks);
 extern void func_8001CE44(Room *, s16);
 extern void func_8001DC34(Room *);
 extern void func_8001DE2C(void);

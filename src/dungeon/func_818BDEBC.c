@@ -63,7 +63,7 @@ extern u8 D_800DDC40[256];
 
 extern s32 func_8003DE58(void *, void *, void *, s32);
 extern s32 func_800A44E0(s32, s32, s32, s32);
-extern u16 func_800BCB04(s32, s32, s32);
+extern u16 func_800BCB04(s32 x, s32 y, s16 min_height);
 extern void func_80025344(EffectState *, Motion *);
 extern void func_8002558C(EffectState *, Motion *);
 extern void func_800A56E0(s32);

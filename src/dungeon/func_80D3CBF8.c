@@ -31,7 +31,7 @@ extern s32 func_8009FD7C();
 extern s16 func_800A0134();
 extern void *func_800A02AC();
 extern void *func_800A04F0();
-extern s16 func_800A0818(s32, s32, s32, s32, void *);
+extern s16 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void func_800A0E6C();
 extern void func_800A19E4();
 extern s32 func_800A6D30();

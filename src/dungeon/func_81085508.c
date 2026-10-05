@@ -38,9 +38,9 @@ typedef struct S_80172D08_5 {
 
 
 extern s32 func_800644B8(s32);
-extern s32 func_8009C12C(void *, void *, s16, s32);
+extern s32 func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void func_800A2B04(void *, u8, u8);
-extern s16 func_800A44E0(s32, s32, s16, s32);
+extern s16 func_800A44E0(u16 x, u16 y, s16 height, u32 flags);
 extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);

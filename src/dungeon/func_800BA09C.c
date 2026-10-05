@@ -17,19 +17,19 @@ typedef struct {
 extern u8 D_800E12D6[];
 extern u8 D_800E1303[];
 
-extern void func_8008D344(void *, void *, void *, void *);
+extern void func_8008D344(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
 extern s32 func_80098864(s32, s32);
 extern void func_80098B38(s32);
 extern s32 func_800990FC(void);
-extern s32 func_80099194(void *, s32);
-extern void func_80099290(s32);
+extern s32 func_80099194(u8 *src, u8 *dst);
+extern void func_80099290(s8 *byte_ptr);
 extern void func_800997FC(void *);
-extern void func_800A5720(s32);
+extern void func_800A5720(s8 *text);
 extern void func_800A5F38(void *, s32);
 extern void func_800A6480(void *, s32, s16);
 extern s32 func_800AD6FC(void *, s32, s32);
 extern void func_800C4D78(s32, s16);
-extern s32 func_800C4EB4(s32, s32, s32, s32, s32);
+extern s32 func_800C4EB4(s32 unused0, s32 unused1, s32 unused2, s16 payloadValueA, s16 payloadValueC);
 
 
 typedef struct S_800BF7FC_0_pre {

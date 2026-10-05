@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern s32 func_8009706C(s32 state);
-extern void func_800970AC(s32 flags, void *state);
+extern void func_800970AC(s32 flags, u8 *state);
 extern void func_800478B8(void *arg0);
 
 typedef struct {

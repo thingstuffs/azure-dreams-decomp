@@ -22,7 +22,7 @@ typedef struct {
 extern void DrawSync(s32 a0);
 /* RLE-style byte decoder; only the argument setup (src/dst pointers) needs
  * to match, so declare it minimally. */
-extern void *func_8004068C(void *a0, void *a1);
+extern void *func_8004068C(u8 *src, u8 *dst);
 extern void func_80048734(u8 *source, u8 *output);
 extern int LoadImage(void *rect, void *p);
 

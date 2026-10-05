@@ -10,7 +10,7 @@ typedef struct {
     s32 flags;
 } Status;
 
-extern void func_8009A21C(s32, s32, s32);
+extern void func_8009A21C(s16 x, s16 y, u16 flags);
 extern void func_8009A3D0(s32, s32, s32);
 extern void func_800A2B04(s32, s32, s32);
 extern Copy12 D_8016A858[];

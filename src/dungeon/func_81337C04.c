@@ -16,7 +16,7 @@ extern u8 *D_80175D50;
 
 extern void func_8009A3D0(s32, s32, s32);
 extern void func_800A2B04(void *, s32, s32);
-extern void func_8009A21C(s32, s32, s32);
+extern void func_8009A21C(s16 x, s16 y, u16 flags);
 
 /* Reposition the current entity relative to the origin using the selected offset. */
 void func_8016EC04(s32 offset_index)

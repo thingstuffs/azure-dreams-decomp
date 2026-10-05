@@ -16,16 +16,16 @@ extern u8 D_800E0B4C[];
 extern s32 func_800A2B5C(s32);
 extern void func_80096088(Actor *, s32);
 extern s32 func_800990FC();
-extern s32 func_80099194(void *, s32);
-extern s32 func_8009929C(s32, s32);
-extern s32 func_80099978(s32);
+extern s32 func_80099194(u8 *src, u8 *dst);
+extern s32 func_8009929C(s8 value, s8 *dest);
+extern s32 func_80099978(u8 *dst);
 extern s32 func_80099368(void *, s32);
 extern void func_800998C0(s32, s32);
 extern s32 func_800999B0(s32);
-extern void func_80099290(s32);
-extern void func_800A5720(s32);
+extern void func_80099290(s8 *byte_ptr);
+extern void func_800A5720(s8 *text);
 extern void func_800954E0(Actor *, s32, s32, s32);
-extern s16 func_800B627C(s32, s32, s16, s32);
+extern s16 func_800B627C(s32 handler_id, void *object_ptr, s32 slot_id, s8 update_state);
 
 /* Advance the actor's entry action and clear pending state when it finishes. */
 void func_80095DFC(Actor *actor, s32 context_a, s32 context_b, s32 target_arg) {

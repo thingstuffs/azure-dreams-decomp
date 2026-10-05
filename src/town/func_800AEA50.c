@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
 
-extern s16 func_800ABEEC(s32, s32, s32);
+extern s16 func_800ABEEC(s32 dir, s16 start_x, s16 start_y);
 
 typedef struct {
     u8 *field0;

@@ -61,18 +61,18 @@ extern char D_800E0B07[];
 s32 func_800A70E4(s32, s32, s32);
 void func_80095DD0(Ctx *, char *, Item *, Unit *);
 s32 func_800990FC(void);
-char *func_8009929C(s32, s32);
+char *func_8009929C(s8 value, s8 *dest);
 char *func_80099194(char *, char *);
 char *func_80099368(Slot *, char *);
 void func_80099290(char *);
-void func_800A5720(s32);
+void func_800A5720(s8 *text);
 s32 func_80098FB0(void);
 s32 func_80098FF8(void);
-void func_8009F644(Unit *, s32, s32, s32);
+void func_8009F644(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
 u8 *func_8009F868(void);
 void func_8009F988(void);
 s32 func_800438E4(Slot *);
-void func_800B4C7C(s32, Unit *, s32, s32);
+void func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 void func_8009A3D0(s32, s32, s32);
 
 /* Picks up an item, applying special effects or moving it into inventory. */

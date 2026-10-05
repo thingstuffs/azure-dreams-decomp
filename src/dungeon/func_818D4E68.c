@@ -138,7 +138,7 @@ extern s32 func_800A4778(u16, u16, s16, void *);
 extern void func_800A56E0(s32);
 extern s32 func_8009D218(void *, s32, void *);
 extern s32 func_800A6D30(void);
-extern void func_800C8B84(void *, s32, s32);
+extern void func_800C8B84(void *entity, s16 chance, s16 effect_value);
 extern void func_80024394(void *, s16, s32, s32, s32, s32, s32);
 extern void func_80024548(void);
 extern void func_80045340(void);

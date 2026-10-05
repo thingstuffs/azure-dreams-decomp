@@ -16,7 +16,7 @@ extern u8 D_800DD0B8[8];
 extern u8 D_800DCFB0[8];
 
 extern void func_800B0F50(void *);
-extern void func_800B1768(s32, s32, s32, s32, s32, s32);
+extern void func_800B1768(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u16 unused_flags);
 extern void func_80048A44(void *, u8, s32, s32);
 
 typedef struct S_8008D024_0 {

@@ -18,7 +18,7 @@ typedef struct {
 
 extern Slot D_800E3648[];
 extern Status D_800E39C8[];
-extern s32 func_8009A350(s16, s16, s32, u16 *);
+extern s32 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
 
 s32 func_800B500C(s16 x, s16 y, s16 z) {
     s32 rv;

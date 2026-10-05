@@ -51,7 +51,7 @@ typedef struct S_80172C90_4 {
 
 
 extern void *func_800A05A4(void *, u8, u8, s16, s32);
-extern s32 func_800A94A0(void *, void *, s32, void *);
+extern s32 func_800A94A0(void *actor, EntityRec *effect_record, s16 mode, void *context);
 extern void func_800A56E0(s32);
 extern void func_800DB2DC(void *, void *, void *, s32);
 extern void func_800A2B04(void *, u8, u8);

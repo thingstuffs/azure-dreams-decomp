@@ -78,7 +78,7 @@ extern void func_8004491C(void *, void *);
 extern void func_80047784();
 extern s32 rand(void);
 extern void func_800A2B04(void *, s32, s32);
-extern void func_800AAA54(void *, void *, void *, void *);
+extern void func_800AAA54(void *actor, void *unused, void *display, u8 *facing_variants);
 extern void func_800AD4D0(void *);
 
 extern u8 D_801711A4[];

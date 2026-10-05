@@ -2,7 +2,7 @@
 
 #include "common.h"
 
-extern s32 func_8005405C(s32 n);
+extern s32 func_8005405C(s16 bit_index);
 extern void func_8005560C(s32 a0, s32 a1);
 extern void func_80055730(void);
 

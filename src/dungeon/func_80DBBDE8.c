@@ -7,7 +7,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 extern u8 D_80171E20[];
-extern void func_8009C12C(void *, void *, s16, s32);
+extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);

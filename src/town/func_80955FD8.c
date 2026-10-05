@@ -14,7 +14,7 @@ typedef struct {
 } Entry;
 
 extern Copy7 D_80020198;
-extern void func_800537D0(s32 value, s32 mode, void *dst);
+extern void func_800537D0(s32 value, s32 width, char *buf);
 
 /* Format an inactive entry's value in units of 30 and propagate its status flag. */
 void func_80022FD8(Entry *entry)

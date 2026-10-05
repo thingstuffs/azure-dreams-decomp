@@ -26,7 +26,7 @@ extern u8 D_80175E44[];
 extern u8 D_80175E4C[];
 
 extern void func_800A2B04(void *, u8, u8);
-extern void func_800AAA54(void *, void *, void *, void *);
+extern void func_800AAA54(void *actor, void *unused, void *display, u8 *facing_variants);
 extern void func_800AD4D0(void *);
 
 /* Updates timed movement toward the entity's tile and selects the next behavior. */

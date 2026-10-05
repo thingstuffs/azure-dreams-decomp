@@ -17,14 +17,14 @@ extern u8 D_800E1375[];
 extern u8 D_800E13B7[];
 
 extern s32 func_80033BC0(s32);
-extern void func_8008D344(void *, void *, void *, s32);
+extern void func_8008D344(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
 extern s32 func_80098864(s32, s32);
 extern void func_80098B38(s32);
 extern void func_800997FC(void *);
 extern void func_800A5F38(void *, s32);
 extern void func_800A6480(void *, s32);
 extern s32 func_800AD6FC(void *, u16, s32);
-extern s32 func_800BBA40(u8, u8, s16, void *, s32, s32, void *);
+extern s32 func_800BBA40(s16 tile_x, s16 tile_y, s16 pos_z, void *transform_data, s16 scale, s32 setup_word_5c, s32 setup_word_60);
 
 /* Apply an event to the target and update the event count on completion. */
 s32 func_800C0230(u8 *entity, s32 event, s16 target_type, s32 target_record) {

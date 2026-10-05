@@ -88,18 +88,18 @@ typedef struct DungeonRecord {
 
 extern s32 func_80171DFC(void *, void *, void *, void *);
 extern void func_800A9A0C(void *);
-extern void func_800A19E4(void *, void *, s32, s32, void *);
+extern void func_800A19E4(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 extern void *func_800A02AC(void *, u8, u8);
-extern s16 func_800A0818(s32, s32, s32, s32, void *);
+extern s16 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern s32 func_800A6D30(void);
 extern void *func_800A04F0(void *, u8, u8, s16);
 extern s16 func_800A0134(void *, void *);
-extern s16 func_8009A540(s32, s32, s32, s16);
+extern s16 func_8009A540(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s16 func_8009FD7C(s32, s32, s32, s32);
-extern void func_800A0E6C(void *, s8, void *, void *);
+extern void func_800A0E6C(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
 extern s16 func_8009A66C(s16, void *, void *, s32);
 extern void func_8009A3D0(s32, s32, s32);
-extern void func_8009A21C(s32, s32, s32);
+extern void func_8009A21C(s16 x, s16 y, u16 flags);
 extern s16 func_8009A180(void *, void *);
 extern s16 func_800BCB04(s32, s32, s16);
 

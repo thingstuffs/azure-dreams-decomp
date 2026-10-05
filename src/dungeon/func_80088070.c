@@ -5,7 +5,7 @@
 #endif
 
 extern void func_80048A44(void *a0, s16 a1, s16 a2, s32 a3);
-extern void *func_800A8608(void *a0, void *a1, s32 a2, s32 a3, s32 a4);
+extern void *func_800A8608(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z);
 extern void func_800A56E0(s32 a0);
 
 extern u8 D_800DD0B8[8];

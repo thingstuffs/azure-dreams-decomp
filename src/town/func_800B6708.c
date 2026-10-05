@@ -5,7 +5,7 @@
  * the sibling install-callback idiom (w_8004ED5C.c, w_80048D60.c). Field
  * accesses stay offsets off arg0 directly (no separate base pointer) so the
  * compiler doesn't materialize an extra address-computation instruction. */
-extern void func_800B3AE4(void *a0);
+extern void func_800B3AE4(u8 *object);
 extern void func_800B3E30(void *a0);
 
 /* Update the sub-object, clamp its color channels to neutral, and switch callbacks at the threshold. */

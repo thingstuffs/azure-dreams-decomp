@@ -19,7 +19,7 @@ typedef struct {
 } DungeonCounters;
 
 extern void func_8009A028(void *);
-extern u16 func_800A0818(u8, u8, u8, u8, s32 *);
+extern u16 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void func_80164BA4(void *);
 extern void func_8017394C(void);
 

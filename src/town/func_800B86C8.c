@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern void func_8004E5A0(s32, s32, void *);
-extern void func_8004E69C(void *);
+extern void func_8004E69C(u8 *string);
 extern void strcat(void *, const void *);
 extern s32 func_800B5E10(s32);
 extern s32 func_8004AC18(s32);

@@ -8,9 +8,9 @@ typedef struct {
 } Obj;
 
 extern s32 func_8009D218(Obj *, s32);
-extern s32 func_800A6870(s32);
+extern s32 func_800A6870(s16 input_value);
 extern void func_800AD568(Obj *);
-extern void func_800B4C7C(s32, Obj *, s16, s32);
+extern void func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 extern void func_800AD4D0(Obj *);
 
 /* Applies a flag-adjusted value increase and updates the target. */

@@ -5,7 +5,7 @@
 #include "shared/dungeon_status.h"
 
 
-extern void func_8009A21C(s32, s32, s32);
+extern void func_8009A21C(s16 x, s16 y, u16 flags);
 extern void func_800A4300(void *, s32);
 extern s16 func_800A71F4(void);
 

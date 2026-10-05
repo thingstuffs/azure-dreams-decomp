@@ -8,7 +8,7 @@ typedef struct {
     u16 flags;
 } DungeonCell;
 
-extern s16 func_800BCB04(s32, s32, s32);
+extern s16 func_800BCB04(s32 x, s32 y, s16 min_height);
 
 /* Finds the eligible tile with the highest sampled value below 0x200 in a rectangle. */
 s32 func_80017F88(s16 rect_index, s16 *out_x, s16 *out_y, s16 check_flags)

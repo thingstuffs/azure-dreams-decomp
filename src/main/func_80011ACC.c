@@ -11,7 +11,7 @@ typedef struct {
     WinSub *field4;
 } WinObj;
 
-extern void func_800242D8(void *packet, s32 x, s32 y);
+extern void func_800242D8(u8 *packet, u32 x, u32 y);
 extern s32 D_80079054;
 extern s32 D_800790B4;
 extern s32 D_80079114;

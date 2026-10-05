@@ -10,11 +10,11 @@ extern u8 D_800DF514[];
 extern u8 D_800E14A6[];
 
 s32 func_80098864(s32, s32);
-void func_8008D344(void *, void *, void *, s32);
+void func_8008D344(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
 void func_800A6480(void *, s32);
 s32 func_800AD6FC(void *, s32, s32);
 void func_800A5F38(void *, s32);
-s32 func_800BBA40(u32, u32, s32, void *, s32, s32, void *);
+s32 func_800BBA40(s16 tile_x, s16 tile_y, s16 pos_z, void *transform_data, s16 scale, s32 setup_word_5c, s32 setup_word_60);
 void func_800997FC(void *);
 void func_80098B38(s32);
 

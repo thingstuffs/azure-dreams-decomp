@@ -29,7 +29,7 @@ typedef struct S_800A794C_2 {
     s16 unk_AE;
 } S_800A794C_2;   /* fields in func_800A794C */
 
-extern void *func_800A8608(void *, void *, s32, s32, s32);
+extern void *func_800A8608(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z);
 
 extern u8 D_800A77AC[];
 

@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_80019894(s32);
+extern s32 func_80019894(s16 resource_index);
 extern void Control_CD(s32, void *, s32);
 extern void func_8003F320(void);
 extern void func_8004425C(s32);

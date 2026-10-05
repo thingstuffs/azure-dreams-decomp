@@ -4,7 +4,7 @@ extern int func_8004713C(s32 a0, u16 a1, s32 a2);
 extern int func_80047AA4(int a0);
 extern int func_8003F80C(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void DrawSync(s32 a0);
-extern int func_80047200(s32 a0, s32 a1, s32 a2);
+extern int func_80047200(u16 *entry, s32 groupCount, s32 contiguousMode);
 extern int func_80046F88(void *a0);
 extern int func_80047054(void *a0, u16 a1, u16 a2, u16 a3);
 

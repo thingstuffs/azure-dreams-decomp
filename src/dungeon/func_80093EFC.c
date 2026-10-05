@@ -16,8 +16,8 @@ extern u8 D_800E18C0[];
 extern u8 D_80088CA8[];
 
 extern s32 func_80042A80(Object *item);
-extern s32 func_80099194(void *src, s32 dst);
-extern s32 func_8009929C(s32 value, s32 dest);
+extern s32 func_80099194(u8 *src, u8 *dst);
+extern s32 func_8009929C(s8 value, s8 *dest);
 extern s32 func_80099368(void *data, s32 buffer);
 extern void func_800A90E8(void *selection);
 

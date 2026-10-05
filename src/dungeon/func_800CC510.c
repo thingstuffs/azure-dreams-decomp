@@ -59,7 +59,7 @@ void func_8003DB94(void *, void *, s32);
 void *func_8003FD64(s32, void *);
 void func_8004491C(void *, void *);
 void func_80099FDC(void *);
-void func_8009A21C(u8, u8, s32);
+void func_8009A21C(s16 x, s16 y, u16 flags);
 s8 func_8009FB34(u8, u8);
 void func_800A2B04(void *, u8, u8);
 s16 func_800BCB04(u16, u16, s16);

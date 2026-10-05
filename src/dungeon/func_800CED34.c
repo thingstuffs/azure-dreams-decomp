@@ -4,7 +4,7 @@
 extern void func_800A9A0C(void *);
 extern void func_800AA258(void);
 extern void func_800AA6B4(s32, s32, s32, s32);
-extern void func_800AAA54(s32, s32, s32, s32);
+extern void func_800AAA54(void *actor, void *unused, void *display, u8 *facing_variants);
 
 /* Updates the actor state, consumes completed counts, and dispatches its action. */
 void func_800D4494(s32 actor, s32 action_arg, s32 action_data, u8 *state) {

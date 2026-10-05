@@ -26,7 +26,7 @@ typedef struct S_80091958_3 {
 extern s32 D_8008ACDC;
 extern u8 D_8008EAC8[];
 
-void *func_800BA074(s32);
+void *func_800BA074(u8 *selection_data);
 
 /* Starts an operation, waits for completion, then selects the next action from context flags. */
 void func_80091958(S_80091958_0 *state, s32 unused_1, s32 unused_2, S_80091958_2 *context)

@@ -13,7 +13,7 @@ typedef struct Record {
     s8 height;
 } Record;
 
-extern void *func_80096A30(void *object, s32 values, s32 index);
+extern void *func_80096A30(void *object, u8 *values, s32 index);
 extern Record *func_8004CAE8(void *entry, u32 target_id);
 extern s32 func_80064584(s32 angle);
 extern s32 func_800644B8(s32 angle);

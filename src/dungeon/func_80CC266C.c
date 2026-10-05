@@ -33,7 +33,7 @@ typedef struct S_80175E6C_6_pre {
 
 void func_80047784(void *, u8, s32);
 void *func_800A04F0(void *, u8, u8, s16);
-s16 func_800A0818(u8, u8, u8, u8, s32 *);
+s16 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 s32 func_800A2C34(void *);
 void func_800A9A0C(void *);
 void func_80175E14(void *);

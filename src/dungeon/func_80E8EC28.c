@@ -55,13 +55,13 @@ extern u16 D_80174FC4[];
 extern u16 D_80174FD4[];
 
 extern void func_80047784(void *, s32, s32);
-extern void func_8009A21C(s32, s32, s32);
+extern void func_8009A21C(s16 x, s16 y, u16 flags);
 extern void func_8009A3D0(s32, s32, s32);
 extern void func_800A2B04(void *, s32, s32);
 extern void func_800A4ACC(void *);
 extern s16 func_800A4E2C(u8 *, u8 *);
 extern void func_800A56E0(s32);
-extern void func_800AA53C(void *);
+extern void func_800AA53C(u8 *context);
 extern void func_800AD594(void *, s32);
 extern s16 func_800BCB04(s32, s32, s16);
 

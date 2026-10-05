@@ -14,7 +14,7 @@ typedef struct {
 
 extern void *jtbl_8002D630[];
 extern u32 D_80080A8C;
-extern void func_8004068C(void *src, void *dst);
+extern void func_8004068C(u8 *src, u8 *dst);
 extern void func_8003F80C(void *src, s32 x, s32 y, s32 flags);
 extern void LoadImage(void *rect, void *data);
 extern void DrawSync(s32 mode);

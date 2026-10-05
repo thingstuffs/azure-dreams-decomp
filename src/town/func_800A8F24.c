@@ -15,7 +15,7 @@ typedef void (*EntityCallback)(void *, void *, void *, void *);
 extern void func_8003DB94(void *, void *, s8);
 extern void func_800478B8(void *);
 extern s32 func_80096FF4(void *);
-extern void func_800970AC(s32, void *);
+extern void func_800970AC(s32 flags, u8 *state);
 extern void func_800A6A94(StackRecord *);
 extern void func_800A6B70(StackRecord *);
 extern s32 func_800C2E1C(s16, s16);

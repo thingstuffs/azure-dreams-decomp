@@ -50,10 +50,10 @@ extern u8 D_800F93AA[];
 
 extern void func_800353F4(void *);
 extern void func_80047784(Arg2 *, u8, s32);
-extern void func_8009C12C(Arg3 *, Arg2 *, s16, s32);
+extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void func_800A4ACC(Arg3 *);
 extern void func_800A56E0(s32);
-extern void func_8016A908(void *);
+extern void func_8016A908(u8 *state);
 extern void func_8016AD00(void);
 extern void func_8016D11C(void) __attribute__((noreturn));
 

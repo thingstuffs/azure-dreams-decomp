@@ -6,8 +6,8 @@
 extern void func_80099844(void *, void *);
 extern void func_800A56E0(s32);
 extern void func_800A6508(void);
-extern void func_800C5BBC(s32, s32, s32, s32, s32, s32);
-extern s32 func_800C8ABC(void *, s32, s32);
+extern void func_800C5BBC(s16 x, s16 y, s16 z, s32 sprite_data, u16 sprite_id, s16 play_sound);
+extern s32 func_800C8ABC(void *record, s16 chance, s8 action);
 extern void func_800DC1B8(s32);
 extern s32 D_800DCF0C;
 extern u8 D_800E1BF3[];

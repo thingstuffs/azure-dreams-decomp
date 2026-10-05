@@ -117,7 +117,7 @@ extern u8 D_800D0128[];
 extern void func_800206F4(void *, TownDraw32 *);
 extern void func_8002082C(void *);
 extern void func_80020948(void *, TownPos *, s32 *, void *);
-extern void func_80022494(void *);
+extern void func_80022494(u8 *effect);
 extern void func_80033B78(s32);
 extern s32 func_800352FC(void);
 extern void func_80043FB8(void *, s32);

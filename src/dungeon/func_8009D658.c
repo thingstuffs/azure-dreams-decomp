@@ -7,8 +7,8 @@
 #endif
 
 
-extern void func_800A2D68(void *, s32);
-extern void func_800B4C7C(s32, void *, s16, s32);
+extern void func_800A2D68(u8 *record, u16 amount);
+extern void func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
 
 typedef struct S_800A2DB8_0 {

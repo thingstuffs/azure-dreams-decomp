@@ -32,7 +32,7 @@ typedef struct S_800AB1C0_2 {
 (*(type_ptr)((s8 *)(expr) + (offset)))
 
 void func_800A2B04(Motion *, s32, s32);
-u16 func_800BCB04(s32, s32, s32);
+u16 func_800BCB04(s32 x, s32 y, s16 min_height);
 
 /* Update motion toward the target tile and finalize movement when the countdown expires. */
 s32 func_800AB1C0(ObjA0 *move_state, Motion *motion, TilePos *target_tile, EntityRec *actor) {

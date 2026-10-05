@@ -13,8 +13,8 @@ typedef struct S_8016BBC0_0 {
 
 extern s32 func_800A2BDC(void *);
 extern void func_800A9A0C(void *);
-extern s16 func_800ADDA0(s32, s32, void *, s32, s32, void *);
-extern void func_8016B230(void *, s32, s32, void *);
+extern s16 func_800ADDA0(void *context, void *position, void *entity, s16 near_range, s16 far_range, s32 state_out_addr);
+extern void func_8016B230(u8 *movement_in, void *action_ctx, u8 *position, u8 *actor);
 
 /* Update the actor's action delay, dispatch movement, and clear completed action flags. */
 s32 func_8016BBC0(Rec_func_800A9E70_arg0 *entity, s32 action_ctx, s32 position, s32 force_move)

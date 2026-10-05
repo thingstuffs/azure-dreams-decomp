@@ -29,7 +29,7 @@ typedef struct S_801721B0_4 {
 
 extern void func_80047784(void *, s16, s16);
 extern s32 func_800644B8(s32);
-extern s16 func_800A0818(u8, u8, u8, u8, void *);
+extern s16 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void func_800A2B04(void *, u8, u8);
 extern void func_800A4ACC(void *);
 extern void func_800A5DFC(void *, void *);

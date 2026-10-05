@@ -9,7 +9,7 @@ extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern s32 func_80069EF8();
 extern s32 func_8003DE58(void *, void *, void *, s32);
-extern s32 func_800A3820(s32);
+extern s32 func_800A3820(s16 entry_index);
 extern s32 func_800A05A4(void *, u8, u8, s16, s32);
 extern s16 func_800BCB04(s32, s32, s16);
 extern void func_800A56E0(s32);

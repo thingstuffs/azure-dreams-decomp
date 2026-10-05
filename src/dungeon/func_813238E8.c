@@ -18,7 +18,7 @@ void func_800A1D4C(void *, s32);             /* extern */
 s32 func_800A9E70(void *, void *, void *, void *);  /* extern */
 void func_800AA36C(void *, void *, void *, void *); /* extern */
 s16 func_800BCB04(u16, u16, s16);                   /* extern */
-void func_8016A908(void *);                         /* extern */
+void func_8016A908(u8 *state);                         /* extern */
 extern u8 D_80013610[0x3612];
 extern u32 D_800835E4[64];
 extern u8 D_800F927E[16];

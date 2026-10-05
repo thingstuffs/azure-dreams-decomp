@@ -17,7 +17,7 @@ typedef struct DungeonEffect {
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 rand(void);
-extern void func_8009A350(s32, s32, s32, u16 *);
+extern void func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern void func_800B653C(DungeonEffect *, s16);
 extern void func_800B6814(void *);
 

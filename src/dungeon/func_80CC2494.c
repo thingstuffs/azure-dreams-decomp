@@ -2,7 +2,7 @@
 #include "shared/dungeon_status.h"
 
 extern void func_800A9A0C(void *);
-extern s16 func_800ADDA0(s32, s32, void *, s32, s32, void *);
+extern s16 func_800ADDA0(void *context, void *position, void *entity, s16 near_range, s16 far_range, s32 state_out_addr);
 extern void func_8017405C(void *, s32, s32, void *);
 
 /* Checks an object action, dispatches its update, and clears flags as needed. */

@@ -27,8 +27,8 @@ typedef struct {
     u8 f3;
 } DungeonSlot;
 
-extern void func_8009A21C(u8, u8, s32);
-extern s32 func_8009A350(s16, s16, s32, u16 *);
+extern void func_8009A21C(s16 x, s16 y, u16 flags);
+extern s32 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern s32 func_800A6D30(void);
 extern s32 func_800A6DA4(s32, s32);
 extern DungeonGroup D_80073414[];

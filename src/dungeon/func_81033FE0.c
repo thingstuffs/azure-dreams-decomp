@@ -18,7 +18,7 @@ extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, s32, s32);
 extern s32 func_80069EF8(void);
-extern void func_8009A350(s32, s32, s32, u16 *);
+extern void func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern void func_800A2B04(void *, s32, s32);
 extern s16 func_800A45D8(u16, u16, s16);
 extern void func_800A56E0(s32);

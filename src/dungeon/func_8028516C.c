@@ -8,7 +8,7 @@ typedef struct DungeonCell {
     u16 flags;
 } DungeonCell;
 
-s16 func_800BCB04(s32, s32, s32);
+s16 func_800BCB04(s32 x, s32 y, s16 min_height);
 
 /* Scans a dungeon record's rectangle for the first qualifying cell result and outputs its coordinates. */
 s32 func_8001816C(s16 record_id, s16 *out_x, s16 *out_y)

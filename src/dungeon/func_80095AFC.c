@@ -14,7 +14,7 @@ struct Node {
     s16 value;
 };
 
-extern s32 func_8009A350(s16, s16, s32, u16 *);
+extern s32 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern s32 func_800A41F0(Node *);
 
 /* Finds an eligible node at the target coordinates with a value difference below 64. */

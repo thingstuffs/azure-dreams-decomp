@@ -91,7 +91,7 @@ typedef struct S_801715F4_10 {
 } S_801715F4_10;   /* (u8 *)arg3 + (((S_801715F4_1 *)arg3)->unk_71.u & 0x7F) in func_801715F4 */
 
 extern s32 func_8009A180(void *, void *);
-extern void func_8009A21C(u8, u8, s32);
+extern void func_8009A21C(s16 x, s16 y, u16 flags);
 extern void func_8009A3D0(u8, u8, s32);
 extern s32 func_8009A540(s32, u8, u8, s16);
 extern s16 func_8009A66C(s16, void *, void *, s32);
@@ -99,9 +99,9 @@ extern s32 func_8009FD7C(u8, u8, u8, u8);
 extern s16 func_800A0134(void *, void *);
 extern void *func_800A02AC(void *, u8, u8);
 extern void *func_800A04F0(void *, u8, u8, s16);
-extern s16 func_800A0818(s32, s32, s32, s32, void *);
-extern void func_800A0E6C(void *, s8, void *, void *);
-extern void func_800A19E4(void *, void *, s32, s32, void *);
+extern s16 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern void func_800A0E6C(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
+extern void func_800A19E4(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 extern s32 func_800A6D30(void);
 extern s16 func_800A6E8C(void *, s32, s16 *, s16 *);
 extern void func_800A9A0C(void *);

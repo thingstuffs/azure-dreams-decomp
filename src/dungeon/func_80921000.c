@@ -18,7 +18,7 @@ typedef struct {
 s32 func_80033BC0(s32);
 void func_8003F80C(void *, s32, s32, s32);
 s32 func_800A4E2C(u8 *, u8 *);
-s32 func_800A7A38(void *);
+s32 func_800A7A38(u8 *item);
 void func_800A7A7C(u8, u8, s16, s32, void *);
 s16 func_800BCB04(s32, s32, s16);
 s32 func_800F61BC(s32, s32);

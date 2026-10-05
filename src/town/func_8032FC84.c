@@ -16,7 +16,7 @@ extern u8 D_8001DA10;
 extern u8 D_8001DC10;
 extern u8 D_8001DCD0;
 
-extern void func_80019860(s32, s32, s32);
+extern void func_80019860(s16 checked_id, s16 first_id, s16 second_id);
 extern void func_80016748(void);
 extern void func_8001A044(s32, void *, void *);
 

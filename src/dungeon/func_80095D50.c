@@ -12,7 +12,7 @@ typedef struct Rec
     u8 *next;
 }
 Rec;
-extern s32 func_8009A350(s16, s16, s32, u16 *);
+extern s32 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern s32 func_800A41F0(u8 *);
 /* Finds an eligible entry at the requested coordinates after checking the tile to the left. */
 void *func_8009B4B0(u8 *entry, s16 x, s16 y)

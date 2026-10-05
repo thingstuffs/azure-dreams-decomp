@@ -9,7 +9,7 @@
 extern u8 D_8017140C[];
 extern void *D_800E3DE8[];
 extern u8 D_8017587C;
-extern s32 func_8009C12C(void *, void *, s16, s32);
+extern s32 func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void func_800A2B04(void *, u8, u8);
 extern void func_800A4ACC(void *);
 extern void func_800A56E0(u32);

@@ -41,9 +41,9 @@ typedef struct {
 
 extern u8 D_800DCF58[9];
 
-extern void func_8009A21C(u8, u8, s32);
+extern void func_8009A21C(s16 x, s16 y, u16 flags);
 extern void func_800A2B04(FuncArg1 *, u8, u8);
-extern s16 func_800BCB04(u16, u16, s32);
+extern s16 func_800BCB04(s32 x, s32 y, s16 min_height);
 extern void func_80096088(FuncArg0 *, FuncArg3 *);
 
 /* Updates a spinning movement sequence and restores the actor's original rotation. */

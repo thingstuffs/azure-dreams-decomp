@@ -37,15 +37,15 @@ typedef struct S_800CE748_3 {
 
 extern u8 D_800E3D40[];
 s32 func_800990FC(void);
-s32 func_80099194(void *, s32);
-void func_80099290(s32);
-s32 func_8009929C(s32, s32);
+s32 func_80099194(u8 *src, u8 *dst);
+void func_80099290(s8 *byte_ptr);
+s32 func_8009929C(s8 value, s8 *dest);
 s32 func_8009955C(void *, s32);
 void func_800A56E0(s32);
-void func_800A5720(s32);
+void func_800A5720(s8 *text);
 void func_800A6508(void);
 s32 func_800A6D30();
-void func_800C5BBC(s32, s32, s32, s32, s32, s32);
+void func_800C5BBC(s16 x, s16 y, s16 z, s32 sprite_data, u16 sprite_id, s16 play_sound);
 s32 func_800C80F0(void *);
 
 extern u8 D_800E1B76[18];

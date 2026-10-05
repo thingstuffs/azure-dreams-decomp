@@ -13,18 +13,18 @@ typedef struct S_800C4030_1 {
 
 
 extern s32 func_8004A658(s32, s32);
-extern void func_8008D344(void *, void *, void *, void *);
+extern void func_8008D344(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
 extern s32 func_80098864(s32, s32);
 extern void func_80098B38(s32);
 extern s32 func_800990FC(void);
-extern s32 func_80099194(void *, s32);
-extern void func_80099290(s32);
+extern s32 func_80099194(u8 *src, u8 *dst);
+extern void func_80099290(s8 *byte_ptr);
 extern s32 func_80099368(s32, s32);
-extern s32 func_80099734(void *, s32);
+extern s32 func_80099734(void *record, u8 *out);
 extern s32 func_800999B0(s32);
-extern void func_8009BF7C(s32, s32);
+extern void func_8009BF7C(s32 flag, s8 value);
 extern void func_800A56E0(s32);
-extern void func_800A5720(s32);
+extern void func_800A5720(s8 *text);
 extern void func_800A5F38(void *, s32);
 extern s8 func_800A6DA4(s32, s32);
 extern s32 func_800AD6FC(void *, s32, s32);

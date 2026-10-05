@@ -17,7 +17,7 @@ typedef struct Task {
     TaskPayload payload;
 } Task;
 
-extern s16 func_8003F794(s32, s32);
+extern s16 func_8003F794(s16 slot_id, s16 slot_value);
 extern Task *func_8003FC64(s32);
 extern void func_80040454(void);
 extern void func_80043FD0(void);

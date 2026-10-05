@@ -16,17 +16,17 @@ extern DungeonRecord D_800E36C8[];
 extern s32 D_800E0B54;
 
 extern s32 func_800990FC(void);
-extern s32 func_80099194(void *, s32);
-extern s32 func_80099290(s32);
+extern s32 func_80099194(u8 *src, u8 *dst);
+extern s32 func_80099290(s8 *byte_ptr);
 extern s32 func_80099368(s32 *, s32);
 extern s32 func_800A4300(void *, void *);
-extern void func_800A5720(s32);
+extern void func_800A5720(s8 *text);
 extern s16 func_800A71F4(void);
-extern s32 func_800A7234(s32, s32, s32, s16 *, s16 *, s16 *);
+extern s32 func_800A7234(s16 x, s16 y, s16 z, s16 *out_x, s16 *out_y, s16 *out_distance);
 extern void func_800A7700(s32, s32, s32, s32 *);
 extern s32 func_800A794C(s32, s32, s32, s32 *, s32, s32, s32);
-extern s32 func_800A7A38(s32 *);
-extern void func_8009A21C(s16, s16, s32);
+extern s32 func_800A7A38(u8 *item);
+extern void func_8009A21C(s16 x, s16 y, u16 flags);
 
 /* Registers an object at a resolved dungeon position or processes its fallback placement. */
 s32 func_800A7A7C(s32 x, s32 y, s32 z, s32 unused, s32 *object_data) {

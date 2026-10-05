@@ -46,7 +46,7 @@ typedef struct S_800C0E88_4 {
 
 
 extern s32 func_8003F270(void);
-extern void func_8008D344(void *, void *, void *, void *);
+extern void func_8008D344(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
 extern s32 func_80098864();
 extern void func_80098B38();
 extern s32 func_800990FC(void);

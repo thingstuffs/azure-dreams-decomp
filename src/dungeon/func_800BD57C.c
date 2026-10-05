@@ -7,19 +7,19 @@
 
 extern s32 func_80042900(void *actor, s32 value);
 extern void func_80042B68(void *actor, s32 value);
-extern void func_8008D344(void *actor, void *data, void *record, void *actor_again);
+extern void func_8008D344(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
 extern void func_80098B38(void *object_data);
 extern s32 func_800990FC(void);
-extern s32 func_80099194(void *table, s32 index);
-extern void func_80099290(s32 value);
-extern s32 func_8009929C(s32 value, s32 handle);
+extern s32 func_80099194(u8 *src, u8 *dst);
+extern void func_80099290(s8 *byte_ptr);
+extern s32 func_8009929C(s8 value, s8 *dest);
 extern s32 func_80099368(void *object_data, s32 value);
-extern s32 func_80099734(void *actor, s32 index);
+extern s32 func_80099734(void *record, u8 *out);
 extern s32 func_800999B0(s32 value);
-extern void func_8009A21C(u8 x, u8 y, s32 flags);
+extern void func_8009A21C(s16 x, s16 y, u16 flags);
 extern void func_8009A3D0(u8 x, u8 y, s32 flags);
 extern void func_800A56E0(s32 value);
-extern void func_800A5720(s32 handle);
+extern void func_800A5720(s8 *text);
 extern s16 func_800B60B8(u8 x, u8 y, s16 value, s32 mode, s32 object);
 extern s32 func_800C7380(u8 x, u8 y, s16 value, s32 mode, s32 object_data_value);
 

@@ -41,7 +41,7 @@ typedef struct S_81958F28_1 {
 } S_81958F28_1;   /* node in func_80024728 */
 
 extern void func_80024024(void *, s16, Vec3i *);
-extern void func_80024654(s16, s16, s16, s16, s16, s16, Vec3s *);
+extern void func_80024654(s16 from_x, s16 from_y, s16 from_z, s16 to_x, s16 to_y, s16 to_z, s16 *angles);
 extern s32 func_80025344(s16, s16, s16, s16);
 extern void func_8003DE58(s32, u8 *, Vec3s *, s32);
 extern void func_8004491C(void *, void *);

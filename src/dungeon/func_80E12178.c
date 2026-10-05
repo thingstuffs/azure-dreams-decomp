@@ -22,7 +22,7 @@ typedef struct {
 
 
 extern s32 func_800644B8(u32);
-extern void func_800C77D0(void *, void *, s32, s32);
+extern void func_800C77D0(s32 slot_id, void *target, s32 target_id, s16 slot_value);
 extern void func_800478B8(void *);
 extern void func_80047784(void *, s32, s32);
 

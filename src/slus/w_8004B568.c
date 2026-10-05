@@ -20,7 +20,7 @@ extern S_8008148C_8004B568 D_8008148C;
 extern void DrawSync(s32 a0);
 extern s32 StoreImage(RECT_8004B568 *rect, void *p);
 /* RLE-style byte decoder; returns the advanced dst pointer ($a1 at exit). */
-extern void *func_8004068C(void *a0, void *a1);
+extern void *func_8004068C(u8 *src, u8 *dst);
 
 /* Reads two adjacent VRAM blocks and decodes their data into a buffer at 0x80016000. */
 void func_8004B568(void)

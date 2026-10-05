@@ -14,8 +14,8 @@ extern void func_80042640(void *, s32);
 extern void func_8009A028(void *);
 extern void func_8009A3D0(s32, s32, s32);
 extern s32 func_8009FB34(s32, s32);
-extern SpawnFunc func_800A0B94(s32, void *, s32);
-extern void func_800A152C(s32, s32);
+extern SpawnFunc func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read);
+extern void func_800A152C(s16 entry_type, s16 entry_key);
 extern void *func_800A1618(s32, s32);
 extern void func_800A1D4C(void *, s32);
 extern void func_800A32A4(void *);
@@ -23,7 +23,7 @@ extern void func_800A4E2C(u8 *, u8 *);
 /* Retail 0x800A6D30 (+0xC15D0 in DUNGEON.BIN), 48 bytes: RNG reads no argument registers, including a3. */
 extern s32 func_800A6D30(void);
 extern s32 func_800A9230(void *);
-extern s32 func_800BCB04(s32, s32, s32);
+extern s32 func_800BCB04(s32 x, s32 y, s16 min_height);
 
 /* Places a monster from the spawn table and raises it to the selected level. */
 void func_800A08A0(s32 spawn_mode) {

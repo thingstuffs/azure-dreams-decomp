@@ -5,7 +5,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
-extern void func_8008D344(void *object, void *unused_1, void *unused_2, void *mode);
+extern void func_8008D344(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
 extern s32 func_80098864(void *request, s32 record_data);
 extern s32 func_80098B38(void *slot);
 extern s32 func_800997FC(void *context, s32 first_input, s32 second_input);

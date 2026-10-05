@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern s32 func_80042900(void *entity, s32 effect_id);
-extern s32 func_8009A350(s32 x, s32 y, s32 offset_index, u16 *flags);
+extern s32 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
 
 /* Checks entity eligibility using status flags and the linked entity's position. */
 s32 func_800A41F0(void *entity) {

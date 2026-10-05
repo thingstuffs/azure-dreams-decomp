@@ -59,7 +59,7 @@ typedef struct ResetFlagWord { u16 flags; } ResetFlagWord;
 
 extern void func_800353F4(void *);
 extern void func_80047784(void *, u8, s32);
-extern void func_8009C12C(void *, void *, s16, s32);
+extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_80164BA4(void *);

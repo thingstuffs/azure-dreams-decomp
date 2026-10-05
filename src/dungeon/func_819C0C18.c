@@ -86,7 +86,7 @@ extern s32 func_80040490(void *, void *);
 extern void func_800542BC(void);
 extern s32 func_80069EF8(void);
 extern void func_800A56E0(s32);
-extern void func_800C77D0(void *, void *, s32, s32);
+extern void func_800C77D0(s32 slot_id, void *target, s32 target_id, s16 slot_value);
 
 /* Advances a particle effect through its timed color fade and cleanup states. */
 void func_819C0C18(S_func_819C0C18_0 *effect)

@@ -7,14 +7,14 @@ extern M2C_UNK D_80024034;
 extern M2C_UNK D_800E1C8A;
 
 extern s32 func_800990FC(void);
-extern s32 func_80099194(void *, s32);
-extern void func_80099290(s32);
-extern s32 func_80099734(void *, s32);
+extern s32 func_80099194(u8 *src, u8 *dst);
+extern void func_80099290(s8 *byte_ptr);
+extern s32 func_80099734(void *record, u8 *out);
 extern void func_80099844(void *, void *);
 extern s32 func_8009D218(void *, s32);
 extern s32 func_800A48F0(void *, s32, s32);
-extern void func_800A5720(s32);
-extern s32 func_800A6870(s32);
+extern void func_800A5720(s8 *text);
+extern s32 func_800A6870(s16 input_value);
 
 #ifdef __mips__
 static const u32 prefix_words[] __asm__("func_81874800")

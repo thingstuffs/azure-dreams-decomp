@@ -4,7 +4,7 @@ extern u8 D_800E3D40[];
 
 extern s32 func_800C8CD8(void *object, s32 amount, s32 slots);
 extern void func_800A6508(void);
-extern void func_800C5BBC(s32, s32, s32, s32, s32, s32);
+extern void func_800C5BBC(s16 x, s16 y, s16 z, s32 sprite_data, u16 sprite_id, s16 play_sound);
 extern void func_800A56E0(s32);
 
 typedef struct {

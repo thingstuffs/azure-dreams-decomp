@@ -8,7 +8,7 @@ typedef struct Spawned Spawned;
 extern u8 D_80081484[];
 extern u8 D_800E3548[];
 
-extern s32 func_8009A540(s32, s32, s32, s32);
+extern s32 func_8009A540(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern Spawned *func_8009B25C(void *, s32, s32, s32);
 extern s32 func_800A4298(Spawned *);
 extern s32 func_800A70E4(s32, s32, s32);

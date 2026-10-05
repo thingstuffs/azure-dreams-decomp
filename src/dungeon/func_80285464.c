@@ -69,8 +69,8 @@ typedef struct RecD {
 extern void Control_CD(s32, s32, s32);
 extern void func_8003F320(void);
 extern s32 func_800199C8(s16);
-extern void func_8009A21C(s32, s32, s32);
-extern s32 func_800A7A38(RecA *);
+extern void func_8009A21C(s16 x, s16 y, u16 flags);
+extern s32 func_800A7A38(u8 *item);
 extern void func_8004068C(u8 *, u8 *);
 extern s32 func_800BCA68(s32, s32);
 
