@@ -1,11 +1,15 @@
-# Handover (2026-10-04 ~17:20, round 93: native Claude lanes + luna/Gemini pools; IN PROGRESS) - start here
+# Handover (2026-10-04 ~17:20, round 93: native Claude lanes + luna/Gemini pools; IN PROGRESS, updated 10-05 03:30Z) - start here
 
 **Owner brief (10-04):** ~12 h of Claude usage left; Sonnet first, 1 Opus at a time, 1-2 Sonnet; minimal sol/astra; luna and
 agy Gemini 3.8 flash for grunt work; goal = fewer pins, compiler alignment, cleanliness (gotos, do-while(0) ...).
 Native Agent lanes (not agy-Claude: the r92 agy pilot was content-filter-blocked on every try).
 
-**Numbers:** pins 357/143 -> 349/140 at this writing (+2 queued: r93_opus_p3). Rows off their build 20 -> 14.
-Goto files 587 -> 443; computed-goto files 69 -> 18; m2c-name files 758 -> 718; ~700 M2C_UNK prototypes typed.
+**Numbers (10-05 ~03:30Z):** pins 357/143 -> 331/131 (Opus p11 +1 and p12 pending). Rows off their build 20 -> 14.
+Goto files 587 -> 415; computed-goto files 69 -> 16; m2c-name files 758 -> 404; ~2,000 M2C_UNK prototypes / data externs
+typed (t138 785 + t139 + lanes); t140 named argN prototype params in 299 files.
+**Best pin lever this round: Opus on rows whose text was RESTRUCTURED by cleanup lanes** (r93_opus_p7 -4, p8 -1, p9 -7,
+p10 -3, p11 -1): earlier analyses at the old text are stale once real loops/switches replace m2c gotos. The near-miss
+queue (r91 open_rows.tsv) is exhausted (p4-p6: 1 pin over 11 rows).
 
 **What paid (and the recipe for each):**
 - **Opus pin lanes** (record_usage.py --prompt; mkq() in the session = build_class_pack + kit_pack --question q_<lane>.md):
@@ -23,6 +27,10 @@ Goto files 587 -> 443; computed-goto files 69 -> 18; m2c-name files 758 -> 718; 
   15 lanes, ~70% rows staged), Sonnet big-row renames + proto lanes pr1-pr16. tools/lanes/proto_check.py guards prototype
   edits (rows are FILED by file offset: callees resolve by true_name; a sibling lane wrote 12 false voids before the check).
 
+**Landed with owner review flagged (recipe_trades.jsonl notes):** 80EB7D2C 16-line join tail copied into both arms;
+8186F0C4 12-line block copied into both arms; 8001A2B0 shared jump-only `fail:` block (gotos 2 -> 6) to drop a KEEP;
+81832800 byte-offset dirStepX read; 8009B70C stepwise `x -= 0x20; x <<= 16; x >>= 16;`; 800971DC u16 narrow copy.
+Prototype lanes respelled some `M2C_UNK` params/fields as `s32`/`s32 *` (same C type, marker lost) - tighten next time.
 **Held for the owner (not landed):**
 1. r93_sonnet_own2: 8195281C / 8195E81C real switches exact only after a ROW RE-CARVE (merge the 28-byte data rows
    func_81952800 / func_8195E800 into the function rows + owner records). LANDING.md in the lane. Row-identity call.
