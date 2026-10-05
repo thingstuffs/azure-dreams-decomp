@@ -58,7 +58,9 @@ Prototype lanes respelled some `M2C_UNK` params/fields as `s32`/`s32 *` (same C 
   Never-accessed 8-byte frame (80B98600, 81334954, 80BEC6CC, 80BC3120, 8105A724): HOLD, no evidence for a local.
 5. Refused (ledger/refused_trades.jsonl): 81910A9C `& addr_mask & addr_mask` double mask = fake dependency.
 
-**Leads:** 80DE48EC pin-free spill text total 35 (16 frame bytes unexplained -> gdb assign_stack_local; r92_agyO_al1);
+**Leads:** dungeon/func_8028906C (r93_opus_p23): func_800A07D0 is DEFINED s16 but this caller uses the result
+unextended (s16 prototype = dist 203) - an original caller with NO prototype in scope (implicit int return) would explain it;
+check other callers. 80DE48EC pin-free spill text total 35 (16 frame bytes unexplained -> gdb assign_stack_local; r92_agyO_al1);
 813274E4 needs an earlier no-code use of the page; 81326794 sched1 reload T-46; SLUS computed gotos (6 rows) need the
 SLUS .rodata owner path (d9f94903e) - Opus; town 806D835C (lui page sharing) / 808119EC (shared pointer across loops);
 type phase 13 (r91_types_p12/DESIGN.md) deferred - touches hundreds of rows, run when no lanes are in flight.
