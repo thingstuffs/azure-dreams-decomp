@@ -76,6 +76,9 @@ relocations the target lacks - keep the page macros on slus rows.
     struct reads. Spell EVERY read of that pointer, from the first one to the volatile site, as the member
     (`gameWork.unk_000`) and drop the volatile; changing only the last read stays off (r93_sonnet_vb14, 4/4: 80C96640,
     81922998, 819A088C, 81970800).
+19. RMW then reload of the same field (`f += x; f = f & 0xFFF;` held by volatile): a fresh s32 local read between the two
+    stores (`f += x; t = f; f = t & 0xFFF;`) (r93_sonnet_vb18, 2/2: town/func_800BC77C, 800BC238).
+20. `*(volatile s32 *)&G[0]`-style reads of a global vector: declare G as its struct (`Vec3`) and read members (8009D610).
 Open: volatile u8* STORES through an induction pointer (80284068: loop.c biv->giv); volatiles that only order a
 read-modify-write triple in sched1 (8105F098); SPU/GPU/CD hardware registers are REAL volatiles; frame-pad volatile locals (no
 evidence for a real local); a dead store combine would merge (8132F204).
