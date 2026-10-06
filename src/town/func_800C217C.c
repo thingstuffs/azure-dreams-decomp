@@ -8,7 +8,7 @@ static __inline__ s16 distance_exceeds(s32 limit, s32 distance) {
     return limit < __builtin_abs(distance);
 }
 
-s32 func_800352FC(s32 arg0, s32 *arg1, s32 arg2, s32 arg3); /* extern */
+s32 func_800352FC(s32, s32 *, s32, s32); /* extern */
 M2C_UNK SD_Call();                     /* extern */
 s32 func_800C2AB4();                          /* extern */
 

@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-extern void func_80047784(void *arg0, s32 arg1, s32 arg2);
+extern void func_80047784(void *, s32, s32);
 extern u8 D_801760B4;
 
 /* Initializes display state and selects a sprite frame from the combined facing angles. */

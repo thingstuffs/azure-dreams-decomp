@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 func_8008AD1C(arg0, arg1, arg2);                                /* extern */
+s32 func_8008AD1C();                                /* extern */
 void func_8008AE4C();                         /* extern */
 s32 func_8008AFB0();      /* extern */
 

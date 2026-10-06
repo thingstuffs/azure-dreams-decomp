@@ -5,7 +5,7 @@ extern char D_8001B9E8[];
 extern char D_8001C6D0[];
 extern char D_80021386[];
 
-extern char *func_80016E48(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+extern char *func_80016E48(s32, s32, s32, s32);
 
 /* Selects a text string, delegating selector 52 to the shared lookup. */
 char *func_80017580(s32 unused, s32 passthru_1, s32 selector_id, s32 passthru_3)

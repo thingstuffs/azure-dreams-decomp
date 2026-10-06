@@ -14,7 +14,7 @@ typedef struct Object13B18 {
 } Object13B18;   /* object in func_80026B18 */
 
 extern void func_800269B4(u8 *state);
-extern void func_8004CBFC(void *arg0, s32 arg1, s32 *arg2);
+extern void func_8004CBFC(void *, s32, s32 *);
 extern u8 D_80027E68[];
 
 /* Updates or clears active records, then refreshes the object if any were active. */

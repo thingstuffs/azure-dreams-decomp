@@ -15,8 +15,8 @@ typedef struct {
     u16 counter;
 } Actor;
 
-extern void func_800478B8(s32 arg0);
-extern void func_8003DB94(s32 arg0, void *arg1, s32 arg2);
+extern void func_800478B8(s32);
+extern void func_8003DB94(s32, void *, s32);
 extern s32 D_800E9E14[];
 extern s32 D_800E9E34[];
 
