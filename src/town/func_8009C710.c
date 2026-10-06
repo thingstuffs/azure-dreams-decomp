@@ -10,13 +10,13 @@ typedef struct S_80099E70_2 {
 } S_80099E70_2;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_44 in func_80099E70 */
 
 
-void func_80094984();                 /* extern */
+void func_80094984(void *, void *, void *);                 /* extern */
 extern M2C_UNK D_80099874;
 
 
 /* Initialize the record from linked data, clear its slot flag, and reset its handler and value. */
-void func_80099E70(Rec_func_80094268_arg0 *record) {
-    func_80094984(((S_80099E70_2 *)(((Rec_func_80094268_arg0 *)record)->unk_44))->unk_14, record);
+void func_80099E70(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2) {
+    func_80094984(((S_80099E70_2 *)(((Rec_func_80094268_arg0 *)record)->unk_44))->unk_14, record, ptr2);
     D_80082660[record->unk_40].unk_00 = 0;
     record->unk_04.as_pm = &D_80099874;
     record->unk_10.as_s16 = 0;

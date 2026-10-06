@@ -41,6 +41,7 @@ extern s32 func_80172BB0();
 
 extern u8 D_8006CCD8[16];
 extern u8 D_8006CCE8[16];
+extern s16 D_8006CD00[];
 extern FallbackCenter D_80082E80_center[] __asm__("D_80082E80");
 
 /* Choose a movement direction, move the actor, and update its path history and height. */
@@ -121,11 +122,8 @@ void func_801723F8(void *work_data, void *action_context, u8 *position, u8 *acto
             }
         }
     } else if (movement_flags & 0x2000) {
-        if (U16_AT(actor, 0x46) & 0x8000) {
-            attempt = 0;
-            work_value = (s32)0x80070000;
-            goto loop_ready_done;
-        } else if (movement_flags & 0x20000) {
+        if (!(U16_AT(actor, 0x46) & 0x8000)) {
+            if (movement_flags & 0x20000) {
             s16 path_angle;
             TileObject *path_center;
             u8 *path_work;
@@ -164,8 +162,9 @@ void func_801723F8(void *work_data, void *action_context, u8 *position, u8 *acto
             if ((work_value << 16) != 0) {
                 limit_turn = 1;
             }
-        } else {
-            func_800A0E6C(position, S8_AT(work_data, 0x9C), actor, (u8 *)work_data + 0x98);
+            } else {
+                func_800A0E6C(position, S8_AT(work_data, 0x9C), actor, (u8 *)work_data + 0x98);
+            }
         }
     } else {
         u8 *tile_records;
@@ -218,8 +217,7 @@ void func_801723F8(void *work_data, void *action_context, u8 *position, u8 *acto
 
     attempt = 0;
     work_value = (s32)0x80070000;
-loop_ready_done:
-    angle_step = (s16 *)(work_value - 0x3300);
+    angle_step = D_8006CD00;
 
     do {
         node = (void *)S16_AT(actor, 0x2A);

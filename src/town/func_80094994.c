@@ -5,7 +5,7 @@
 
 M2C_UNK func_80094330();     /* extern */
 M2C_UNK func_80094910();                            /* extern */
-void func_80094984();           /* extern */
+void func_80094984(void *, void *, s32);           /* extern */
 void func_80094C1C();                      /* extern */
 void func_80094C74();                      /* extern */
 void func_80095388();                      /* extern */
@@ -26,7 +26,7 @@ void func_800920F4(Rec_func_80094268_arg0 *state, EntityRec *entity, s32 context
     counter = state->unk_0A.as_u16 + 1;
     state->unk_0A.as_u16 = counter;
     if ((s16) counter == 6) {
-        func_80094984(&D_800D00B8, state);
+        func_80094984(&D_800D00B8, state, context);
     }
     func_80095C80(entity);
     func_80094C1C(state);

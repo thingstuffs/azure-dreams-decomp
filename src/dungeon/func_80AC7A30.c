@@ -164,31 +164,21 @@ void func_80173230(void *action_in, EntityRec *motion_in, void *sprite, void *ac
 
         if (*item_slot != 0) {
             ((S_80173230_0 *)action_in)->unk_98 &= 0xFF7F;
-            {
-                s16 is_special;
-
-                is_special = special_or_effect;
-                if (is_special != 0) {
-                    item_target = D_800814A8;
-                    (*(void * *)((u8 *)actor + 0x60)) = item_target;
-                    goto copy_active_coords;
-                }
-            }
-
-            {
-                u8 item_id;
-                u8 *item_defs;
-
-                item_id = *item_slot;
-                item_defs = D_8006DE24;
+            if ((s16)special_or_effect != 0) {
+                item_target = D_800814A8;
+                (*(void * *)((u8 *)actor + 0x60)) = item_target;
+                    effect_state = ((S_80173230_1_pre *)item_target)[-1].unk_00;
+                    (*(u8 *)((u8 *)actor + 0x72)) = ((S_80173230_2 *)effect_state)->unk_24;
+                    (*(u8 *)((u8 *)actor + 0x73)) = ((S_80173230_2 *)effect_state)->unk_25;
+            } else {
+                u8 item_id = *item_slot;
+                u8 *item_defs = D_8006DE24;
                 if (item_defs[item_id * 20 + 0x12] == 2) {
                     item_target = (*(void * *)((u8 *)actor + 0x60));
                     if (item_target != 0) {
-
-copy_active_coords:
-                        effect_state = ((S_80173230_1_pre *)item_target)[-1].unk_00;
-                        (*(u8 *)((u8 *)actor + 0x72)) = ((S_80173230_2 *)effect_state)->unk_24;
-                        (*(u8 *)((u8 *)actor + 0x73)) = ((S_80173230_2 *)effect_state)->unk_25;
+                    effect_state = ((S_80173230_1_pre *)item_target)[-1].unk_00;
+                    (*(u8 *)((u8 *)actor + 0x72)) = ((S_80173230_2 *)effect_state)->unk_24;
+                    (*(u8 *)((u8 *)actor + 0x73)) = ((S_80173230_2 *)effect_state)->unk_25;
                     }
                 } else {
                     s32 dx;

@@ -9,12 +9,12 @@ typedef struct S_8009A1A4_2 {
 } S_8009A1A4_2;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_44 in func_8009A1A4 */
 
 
-void func_80094984();                 /* extern */
+void func_80094984(void *, void *, void *);                 /* extern */
 extern M2C_UNK D_80099B70;
 
 
 /* Set up the object using its linked record and assign its next handler. */
-void func_8009A1A4(Rec_func_80094268_arg0 *object) {
-    func_80094984(((S_8009A1A4_2 *)(((Rec_func_80094268_arg0 *)object)->unk_44))->unk_20, object);
+void func_8009A1A4(Rec_func_80094268_arg0 *object, void *ptr, void *ptr2) {
+    func_80094984(((S_8009A1A4_2 *)(((Rec_func_80094268_arg0 *)object)->unk_44))->unk_20, object, ptr2);
     object->unk_04.as_pm = &D_80099B70;
 }

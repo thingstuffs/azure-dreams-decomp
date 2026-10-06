@@ -87,7 +87,6 @@ void func_80170B64(void *actor, void *motion, void *sprite_arg)
     s16 view_direction;
     s16 tile_height;
     s32 hover_floor_offset;
-    s32 height_adjustment;
     s32 animated_flags;
     s32 animation_table;
     s32 static_flags;
@@ -190,7 +189,22 @@ void func_80170B64(void *actor, void *motion, void *sprite_arg)
                     }
                 }
             } else {
-                goto apply_floor_height;
+                s32 height_adjustment = ((S_80170B64_0 *)actor)->unk_AC.at00.v;
+                ((S_80170B64_0 *)actor)->unk_A8 = 0;
+                ((S_80170B64_0 *)actor)->unk_AC.at00.v = 0;
+                ((S_80170B64_0 *)actor)->unk_90.at00.v -= height_adjustment;
+                if (!(((S_80170B64_0 *)actor)->unk_98 & 8)) {
+                    floor_offset = func_800BCB04(((S_80170B64_1 *)motion)->unk_00.at02.v,
+                        ((S_80170B64_1 *)motion)->unk_04.at02.v,
+                        (s16)(((S_80170B64_3 *)actor_base)->unk_88 - 0x20)) -
+                        ((S_80170B64_3 *)actor_base)->unk_88;
+                    if (floor_offset < ((S_80170B64_0 *)actor)->unk_90.at02.v) {
+                        ((S_80170B64_0 *)actor)->unk_90.at02.v = floor_offset;
+                        ((S_80170B64_0 *)actor)->unk_9D.s = 0;
+                        ((S_80170B64_1 *)motion)->unk_14 = 0;
+                        ((S_80170B64_3 *)actor_base)->unk_1C.u |= 0x08000000;
+                    }
+                }
             }
         } else {
             if (sprite_flags & 0x800) {
@@ -201,8 +215,8 @@ void func_80170B64(void *actor, void *motion, void *sprite_arg)
             static_flags = ((S_80170B64_3 *)actor_base)->unk_1C.s & 0xF7FFFFFF;
             ((S_80170B64_3 *)actor_base)->unk_1C.s = static_flags;
             if (!(static_flags & 0x40000)) {
-apply_floor_height:
-                height_adjustment = ((S_80170B64_0 *)actor)->unk_AC.at00.v;
+
+                s32 height_adjustment = ((S_80170B64_0 *)actor)->unk_AC.at00.v;
                 ((S_80170B64_0 *)actor)->unk_A8 = 0;
                 ((S_80170B64_0 *)actor)->unk_AC.at00.v = 0;
                 ((S_80170B64_0 *)actor)->unk_90.at00.v -= height_adjustment;

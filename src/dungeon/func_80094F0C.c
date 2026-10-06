@@ -47,7 +47,7 @@ s32 func_8009A66C(u32 move_flags, FuncArg1 *position, FuncArg2 *actor, s16 heigh
     s32 y_base;
     s32 x_pos;
     s32 y_pos;
-    register u16 height ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u16 height;
     s16 monster_index;
     s32 dest_height;
     s32 signed_height;
@@ -60,7 +60,7 @@ s32 func_8009A66C(u32 move_flags, FuncArg1 *position, FuncArg2 *actor, s16 heigh
     x_base = x_shifted + 0x20;
     y_base = y_shifted + 0x20;
 
-    if ((func_8009A540(direction, x_shifted >> 6, y_shifted >> 6,
+    if ((func_8009A540(direction, (u32)x_base >> 6, (u32)y_base >> 6,
                        (s16)(height - height_offset)) << 16) != 0) {
 
         call_direction = direction;

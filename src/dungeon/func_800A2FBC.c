@@ -235,12 +235,8 @@ void func_800A871C(void *object, register void *motion, void *tile) {
         (*(s32 **)((u8 *)object_data + (0x9C))) = &D_800E3540;
     }
     state = ((S_800A871C_1 *)object)->unk_A0;
-    if (state != 0) {
-        if (state != 1) {
-            goto advance_position;
-        }
-        goto update_motion;
-    }
+    switch (state) {
+    case 0:
     {
         if ((*(s32 *)((u8 *)object_data + (0x1C))) & 0x200000) {
             (*(u16 *)((u8 *)object_data + (0x2A))) = (u16) ((S_800A871C_19 *)((*(void **)((u8 *)object_data
@@ -354,75 +350,80 @@ check_completion:
                 func_8009A028((((S_800A871C_16 *)flags_page)->unk_14A0 = dungeon_flags, finished_object));
                 return;
             }
-            goto advance_position;
+            break;
         }
         return;
     }
-update_motion:
-    move_ticks = ((S_800A871C_1 *)object)->unk_A4;
-    if (move_ticks != 0) {
-        axis_target = ((S_800A871C_4 *)tile)->unk_24.n;
-        axis_origin = ((S_800A871C_3 *)motion)->unk_00.at02.v;
-        axis_target <<= 6;
-        axis_origin -= 0x20;
-        ((S_800A871C_3 *)motion)->unk_0C = (s32) (((axis_target - axis_origin) << 0x10) / move_ticks);
-        axis_target = ((S_800A871C_4 *)tile)->unk_25.n;
-        axis_origin = ((S_800A871C_3 *)motion)->unk_04.at02.v;
-        axis_origin -= 0x20;
-        axis_target <<= 6;
-        ((S_800A871C_3 *)motion)->unk_10 = (s32) (((axis_target - axis_origin)
-            << 0x10) / (s16) ((S_800A871C_1 *)object)->unk_A4);
-    }
-    ticks_left = (u16) ((S_800A871C_1 *)object)->unk_A4 - 1;
-    ((S_800A871C_1 *)object)->unk_A4 = ticks_left;
-    if ((ticks_left << 0x10) > 0) {
-        goto advance_position;
-    }
-    hit_object = func_8009B25C(object_data, ((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n,
-        (*(s16 *)((u8 *)object_data + (0x88))));
-    if (hit_object != NULL) {
-        if ((hit_object->unk_13 == 0x1F) && !(hit_object->unk_1C & 0x228) && (D_800DD7DC[0] != 0)) {
-            hit_object->unk_14 = (s32) (hit_object->unk_14 | 0x800000);
-            hit_object->unk_48 = ((S_800A871C_23 *)(((S_800A871C_1 *)object)->unk_9C))->unk_00;
-            goto finish_collision;
+    case 1:
+        move_ticks = ((S_800A871C_1 *)object)->unk_A4;
+        if (move_ticks != 0) {
+            axis_target = ((S_800A871C_4 *)tile)->unk_24.n;
+            axis_origin = ((S_800A871C_3 *)motion)->unk_00.at02.v;
+            axis_target <<= 6;
+            axis_origin -= 0x20;
+            ((S_800A871C_3 *)motion)->unk_0C = (s32) (((axis_target - axis_origin) << 0x10) / move_ticks);
+            axis_target = ((S_800A871C_4 *)tile)->unk_25.n;
+            axis_origin = ((S_800A871C_3 *)motion)->unk_04.at02.v;
+            axis_origin -= 0x20;
+            axis_target <<= 6;
+            ((S_800A871C_3 *)motion)->unk_10 = (s32) (((axis_target - axis_origin)
+                << 0x10) / (s16) ((S_800A871C_1 *)object)->unk_A4);
         }
-        if (func_80098920(hit_object, ((S_800A871C_1 *)object)->unk_9C, 0xD, object_data) != 0) {
-finish_collision:
-            ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
-            objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
-            func_8009A028(object_data);
-            dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
-            return;
+        ticks_left = (u16) ((S_800A871C_1 *)object)->unk_A4 - 1;
+        ((S_800A871C_1 *)object)->unk_A4 = ticks_left;
+        if ((ticks_left << 0x10) > 0) {
+            break;
         }
-    }
-    if ((func_8009B164((*(s16 *)((u8 *)object_data + (0x6A))), motion, tile) << 0x10) != 0) {
-        steps_left = (*(u16 *)((u8 *)object_data + (0x8A))) - 1;
-        (*(u16 *)((u8 *)object_data + (0x8A))) = steps_left;
-        if ((steps_left << 0x10) > 0) {
-            func_800A2B04(motion, ((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n);
-            next_x_steps = (u8 *)((s8 *)dirStepX);
-            next_dir_offset = ((u16) (*(s16 *)((u8 *)object_data + (0x6A))) >> 8) & 0xE;
-            ((S_800A871C_4 *)tile)->unk_24.n = (u8) (((S_800A871C_4 *)tile)->unk_24.n
-                + ((S_800A871C_18 *)((u8 *)((unsigned long)next_dir_offset
-                + (unsigned long)(u8 *)((s8 *)dirStepX))))->unk_00);
-            next_y_step = (u8 *)((s8 *)dirStepY) + next_dir_offset;
-            ((S_800A871C_4 *)tile)->unk_25.n = (u8) (((S_800A871C_4 *)tile)->unk_25.n + *next_y_step);
-            ((S_800A871C_1 *)object)->unk_A4 = 2;
-            goto advance_position;
+        hit_object = func_8009B25C(object_data, ((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n,
+            (*(s16 *)((u8 *)object_data + (0x88))));
+        if (hit_object != NULL) {
+            if ((hit_object->unk_13 == 0x1F) && !(hit_object->unk_1C & 0x228) && (D_800DD7DC[0] != 0)) {
+                hit_object->unk_14 = (s32) (hit_object->unk_14 | 0x800000);
+                hit_object->unk_48 = ((S_800A871C_23 *)(((S_800A871C_1 *)object)->unk_9C))->unk_00;
+                ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
+                objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+                func_8009A028(object_data);
+                dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
+                return;
+            }
+            if (func_80098920(hit_object, ((S_800A871C_1 *)object)->unk_9C, 0xD, object_data) != 0) {
+                ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
+                objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+                func_8009A028(object_data);
+                dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
+                return;
+            }
         }
+        if ((func_8009B164((*(s16 *)((u8 *)object_data + (0x6A))), motion, tile) << 0x10) != 0) {
+            steps_left = (*(u16 *)((u8 *)object_data + (0x8A))) - 1;
+            (*(u16 *)((u8 *)object_data + (0x8A))) = steps_left;
+            if ((steps_left << 0x10) > 0) {
+                func_800A2B04(motion, ((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n);
+                next_x_steps = (u8 *)((s8 *)dirStepX);
+                next_dir_offset = ((u16) (*(s16 *)((u8 *)object_data + (0x6A))) >> 8) & 0xE;
+                ((S_800A871C_4 *)tile)->unk_24.n = (u8) (((S_800A871C_4 *)tile)->unk_24.n
+                    + ((S_800A871C_18 *)((u8 *)((unsigned long)next_dir_offset
+                    + (unsigned long)(u8 *)((s8 *)dirStepX))))->unk_00);
+                next_y_step = (u8 *)((s8 *)dirStepY) + next_dir_offset;
+                ((S_800A871C_4 *)tile)->unk_25.n = (u8) (((S_800A871C_4 *)tile)->unk_25.n + *next_y_step);
+                ((S_800A871C_1 *)object)->unk_A4 = 2;
+                break;
+            }
+        }
+        land_height = func_800BCB04((((S_800A871C_4 *)tile)->unk_24.n << 6) | 0x20, (((S_800A871C_4 *)tile)->unk_25.n << 6)
+            | 0x20, ((S_800A871C_3 *)motion)->unk_08.at02.v);
+        if (land_height >= 0x201) {
+            land_height = (s16) (u16) ((S_800A871C_3 *)motion)->unk_08.at02.v;
+        }
+        func_800A7A7C(((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n, land_height,
+            ((S_800A871C_4 *)tile)->unk_08, ((S_800A871C_1 *)object)->unk_9C);
+        ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
+        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+        func_8009A028(object_data);
+        dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
+    default:
+        break;
     }
-    land_height = func_800BCB04((((S_800A871C_4 *)tile)->unk_24.n << 6) | 0x20, (((S_800A871C_4 *)tile)->unk_25.n << 6)
-        | 0x20, ((S_800A871C_3 *)motion)->unk_08.at02.v);
-    if (land_height >= 0x201) {
-        land_height = (s16) (u16) ((S_800A871C_3 *)motion)->unk_08.at02.v;
-    }
-    func_800A7A7C(((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n, land_height,
-        ((S_800A871C_4 *)tile)->unk_08, ((S_800A871C_1 *)object)->unk_9C);
-    ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
-    objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
-    func_8009A028(object_data);
-    dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
-advance_position:
     ((S_800A871C_3 *)motion)->unk_00.at00.v = (s32) (((S_800A871C_3 *)motion)->unk_00.at00.v
         + ((S_800A871C_3 *)motion)->unk_0C);
     ((S_800A871C_3 *)motion)->unk_04.at00.v = (s32) (((S_800A871C_3 *)motion)->unk_04.at00.v

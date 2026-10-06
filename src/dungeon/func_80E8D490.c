@@ -265,46 +265,37 @@ void func_80172C90(void *action, S_80172C90_2 *motion, Rec_D_80082E80 *sprite, E
             return;
         }
         {
-            u16 tail_flags;
-            s32 tail_state;
-
             motion->unk_0C.s = dir_x << 19;
             motion->unk_10.s = dir_y << 19;
-            tail_flags = ((S_80172C90_1 *)action)->unk_98;
-            tail_state = ((S_80172C90_1 *)action)->unk_9B;
-            tail_flags |= 0x80;
-            goto UpdateFlags;
+            ((S_80172C90_1 *)action)->unk_98 |= 0x80;
+            ((S_80172C90_1 *)action)->unk_9B++;
+            return;
+        }
 
-            case 4:
-            motion->unk_14.s += 0x20000;
-            if (!((((u32)actor->flags1C) & 0x08000000) && (motion->unk_0A.u <= ((S_80172C90_1 *)action)->unk_AC.u))) {
-                if (motion->unk_0A.u <= ((S_80172C90_1 *)action)->unk_AC.u) {
-                    return;
-                }
-            }
-            {
-                u8 *effect;
-
-                motion->unk_14.s = 0;
-                motion->unk_10.s = 0;
-                motion->unk_0C.s = 0;
-                ((S_80172C90_1 *)action)->unk_96.s = 4;
-                sprite->unk_1C.at00_u16.v = 0x1400;
-                sprite->unk_1C.at02_u16.v = 0x0C00;
-                effect = D_80174F00;
-                sprite->unk_2C.as_pu8 = effect;
-                func_80047784(sprite,
-                    effect[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
-                    0);
-                tail_flags = ((S_80172C90_1 *)action)->unk_98;
-                tail_state = ((S_80172C90_1 *)action)->unk_9B;
-                tail_flags &= 0xFFF7;
-UpdateFlags:
-                tail_state++;
-                ((S_80172C90_1 *)action)->unk_98 = tail_flags;
-                ((S_80172C90_1 *)action)->unk_9B = tail_state;
+    case 4:
+        motion->unk_14.s += 0x20000;
+        if (!((((u32)actor->flags1C) & 0x08000000) && (motion->unk_0A.u <= ((S_80172C90_1 *)action)->unk_AC.u))) {
+            if (motion->unk_0A.u <= ((S_80172C90_1 *)action)->unk_AC.u) {
                 return;
             }
+        }
+        {
+            u8 *effect;
+
+            motion->unk_14.s = 0;
+            motion->unk_10.s = 0;
+            motion->unk_0C.s = 0;
+            ((S_80172C90_1 *)action)->unk_96.s = 4;
+            sprite->unk_1C.at00_u16.v = 0x1400;
+            sprite->unk_1C.at02_u16.v = 0x0C00;
+            effect = D_80174F00;
+            sprite->unk_2C.as_pu8 = effect;
+            func_80047784(sprite,
+                effect[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                0);
+            ((S_80172C90_1 *)action)->unk_98 &= 0xFFF7;
+            ((S_80172C90_1 *)action)->unk_9B++;
+            return;
         }
 
     case 5:

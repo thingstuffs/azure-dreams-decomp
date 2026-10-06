@@ -6,7 +6,7 @@ typedef struct {
     s32 z;
 } InitPosition;
 
-extern void func_80094984(void *arg0, void *arg1);
+void func_80094984(void *, void *, void *);
 
 extern u8 D_800AA5F8[];
 extern u8 D_800D0130[];
@@ -22,11 +22,11 @@ extern s16 D_80100D80;
 extern s16 D_80100D82;
 
 /* Initializes object state and sets its starting position. */
-void func_800AA998(void **object, InitPosition *start_position) {
+void func_800AA998(void **object, InitPosition *start_position, void *ptr2) {
     volatile s16 *rotation;
     s32 *position;
 
-    func_80094984(D_800D0130, object);
+    func_80094984(D_800D0130, object, ptr2);
     *object = D_800AA5F8;
     D_80100D1C = 0;
     D_80100D80 = 8;

@@ -21,7 +21,7 @@ typedef struct S_800B14FC_1 {
     u16 unk_1E;
     u8 pad_20[0x30];
     void * unk_50;
-} S_800B14FC_1;   /* render in func_800B14FC */
+} S_800B14FC_1;   /* render.p in func_800B14FC */
 
 typedef struct S_800B14FC_2 {
     u8 pad_00[0x28];
@@ -40,109 +40,106 @@ extern void func_8004E994(void *arg0);
 /* Updates effect scale and brightness, then releases its objects when fading out ends. */
 void func_800B14FC(void *effect, s32 unused, void *render_arg)
 {
-    void *effect_base = effect;
-    void *render;
+    struct { void *p; } render = {render_arg};
     s32 (**dispatch_table)(void);
     s32 dispatch_entry;
     s16 state;
 
-    ASM_KEEP4_NV(effect_base, render, unused, render_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    render = render_arg;
     dispatch_table = D_800DF030;
-    dispatch_entry = ((S_800B14FC_0 *)effect_base)->unk_24;
+    dispatch_entry = ((S_800B14FC_0 *)effect)->unk_24;
     dispatch_entry = (u32)&dispatch_table[dispatch_entry];
 
     if ((*(s32 (**)(void))dispatch_entry)() != 0 &&
-        ((S_800B14FC_0 *)effect_base)->unk_20.s < 2) {
-        ((S_800B14FC_0 *)effect_base)->unk_22.s = 4;
-        ((S_800B14FC_0 *)effect_base)->unk_20.s = 2;
+        ((S_800B14FC_0 *)effect)->unk_20.s < 2) {
+        ((S_800B14FC_0 *)effect)->unk_22.s = 4;
+        ((S_800B14FC_0 *)effect)->unk_20.s = 2;
     }
 
-    state = ((S_800B14FC_0 *)effect_base)->unk_20.s;
+    state = ((S_800B14FC_0 *)effect)->unk_20.s;
     switch (state) {
     case 1:
         return;
     case 0:
         {
             s16 steps;
-            s16 countdown = ((S_800B14FC_0 *)effect_base)->unk_26.s;
-            u16 countdown_value = ((S_800B14FC_0 *)effect_base)->unk_26.u;
+            s16 countdown = ((S_800B14FC_0 *)effect)->unk_26.s;
+            u16 countdown_value = ((S_800B14FC_0 *)effect)->unk_26.u;
 
             if (countdown != 0) {
                 countdown_value -= 1;
-                ((S_800B14FC_0 *)effect_base)->unk_26.u = countdown_value;
+                ((S_800B14FC_0 *)effect)->unk_26.u = countdown_value;
                 return;
             }
 
-            steps = ((S_800B14FC_0 *)effect_base)->unk_22.s;
+            steps = ((S_800B14FC_0 *)effect)->unk_22.s;
             if (steps == 0) {
                 return;
             }
 
             {
-                u16 scale = ((S_800B14FC_1 *)render)->unk_1E;
-                ((S_800B14FC_1 *)render)->unk_1E = scale + (0x1000 - scale) / steps;
+                u16 scale = ((S_800B14FC_1 *)render.p)->unk_1E;
+                ((S_800B14FC_1 *)render.p)->unk_1E = scale + (0x1000 - scale) / steps;
             }
 
             {
-                u8 brightness = ((S_800B14FC_1 *)render)->unk_0C.at02.v;
-                steps = ((S_800B14FC_0 *)effect_base)->unk_22.s;
+                u8 brightness = ((S_800B14FC_1 *)render.p)->unk_0C.at02.v;
+                steps = ((S_800B14FC_0 *)effect)->unk_22.s;
                 brightness += (0x80 - brightness) / steps;
-                ((S_800B14FC_1 *)render)->unk_0C.at02.v = brightness;
-                ((S_800B14FC_1 *)render)->unk_0C.at01.v = brightness;
-                ((S_800B14FC_1 *)render)->unk_0C.at00.v = brightness;
+                ((S_800B14FC_1 *)render.p)->unk_0C.at02.v = brightness;
+                ((S_800B14FC_1 *)render.p)->unk_0C.at01.v = brightness;
+                ((S_800B14FC_1 *)render.p)->unk_0C.at00.v = brightness;
             }
 
             {
-                s16 remaining_steps = ((S_800B14FC_0 *)effect_base)->unk_22.u - 1;
-                ((S_800B14FC_0 *)effect_base)->unk_22.u = remaining_steps;
+                s16 remaining_steps = ((S_800B14FC_0 *)effect)->unk_22.u - 1;
+                ((S_800B14FC_0 *)effect)->unk_22.u = remaining_steps;
                 if ((s16)remaining_steps != 0) {
                     return;
                 }
             }
 
-            ((S_800B14FC_1 *)render)->unk_1E = 0x1000;
-            ((S_800B14FC_1 *)render)->unk_0C.at00u.v = 0x00808080;
-            ((S_800B14FC_0 *)effect_base)->unk_20.u = ((S_800B14FC_0 *)effect_base)->unk_20.u + 1;
+            ((S_800B14FC_1 *)render.p)->unk_1E = 0x1000;
+            ((S_800B14FC_1 *)render.p)->unk_0C.at00u.v = 0x00808080;
+            ((S_800B14FC_0 *)effect)->unk_20.u = ((S_800B14FC_0 *)effect)->unk_20.u + 1;
             return;
         }
 
     case 2:
         {
             s16 steps;
-            steps = ((S_800B14FC_0 *)effect_base)->unk_22.s;
+            steps = ((S_800B14FC_0 *)effect)->unk_22.s;
             if (steps != 0) {
-                u16 scale = ((S_800B14FC_1 *)render)->unk_1E;
-                ((S_800B14FC_1 *)render)->unk_1E = scale + (-(s32)scale / steps);
+                u16 scale = ((S_800B14FC_1 *)render.p)->unk_1E;
+                ((S_800B14FC_1 *)render.p)->unk_1E = scale + (-(s32)scale / steps);
 
                 {
-                    u8 brightness = ((S_800B14FC_1 *)render)->unk_0C.at02.v;
-                    steps = ((S_800B14FC_0 *)effect_base)->unk_22.s;
+                    u8 brightness = ((S_800B14FC_1 *)render.p)->unk_0C.at02.v;
+                    steps = ((S_800B14FC_0 *)effect)->unk_22.s;
                     brightness += (-(s32)brightness / steps);
-                    ((S_800B14FC_1 *)render)->unk_0C.at02.v = brightness;
-                    ((S_800B14FC_1 *)render)->unk_0C.at01.v = brightness;
-                    ((S_800B14FC_1 *)render)->unk_0C.at00.v = brightness;
+                    ((S_800B14FC_1 *)render.p)->unk_0C.at02.v = brightness;
+                    ((S_800B14FC_1 *)render.p)->unk_0C.at01.v = brightness;
+                    ((S_800B14FC_1 *)render.p)->unk_0C.at00.v = brightness;
                 }
             }
 
             {
-                u16 remaining_steps = ((S_800B14FC_0 *)effect_base)->unk_22.u - 1;
-                ((S_800B14FC_0 *)effect_base)->unk_22.u = remaining_steps;
+                u16 remaining_steps = ((S_800B14FC_0 *)effect)->unk_22.u - 1;
+                ((S_800B14FC_0 *)effect)->unk_22.u = remaining_steps;
                 if ((s16)remaining_steps > 0) {
                     return;
                 }
             }
 
-            render = effect_base;
+            render.p = effect;
             for (;;) {
-                void *object = ((S_800B14FC_1 *)render)->unk_50;
+                void *object = ((S_800B14FC_1 *)render.p)->unk_50;
 
                 if ((s32)object > 0) {
-                    render = (u8 *)render + 4;
+                    render.p = (u8 *)render.p + 4;
                     func_8004E994(object);
                     continue;
                 }
-                render = (u8 *)render + 4;
+                render.p = (u8 *)render.p + 4;
                 if (object == (void *)0) {
                     break;
                 }
@@ -151,7 +148,7 @@ void func_800B14FC(void *effect, s32 unused, void *render_arg)
             {
                 s32 slot_index = 0;
                 u32 *flags_page = (u32 *)0x80080000;
-                void *slot = effect_base;
+                void *slot = effect;
                 for (; slot_index < 4; slot_index++, slot = (u8 *)slot + 4) {
                     void *object = ((S_800B14FC_2 *)slot)->unk_28;
 
@@ -161,7 +158,7 @@ void func_800B14FC(void *effect, s32 unused, void *render_arg)
                     }
                 }
             }
-            (*(u16 *)((u8 *)effect_base + -2)) |= 0x8000;
+            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
             objectFlagBlock.flags |= 0x8000;
             return;
         }

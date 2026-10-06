@@ -142,26 +142,19 @@ void func_801731C8(void *action, EntityRec *motion, void *sprite, void *actor)
 
         if (*item_slot != 0) {
             ((S_801731C8_0 *)action)->unk_98 &= 0xFF7F;
-            {
-                s32 special_flag;
-
-                special_flag = is_special;
-                if (special_flag != 0) {
-                    target = D_800814A8;
-                    (*(void * *)((u8 *)actor + 0x60)) = target;
-                    goto copy_active_coords;
-                }
-            }
-
-            {
+            if (is_special != 0) {
+                target = D_800814A8;
+                (*(void * *)((u8 *)actor + 0x60)) = target;
+                state = (s32)(((S_801731C8_1_pre *)target)[-1].unk_00);
+                (*(u8 *)((u8 *)actor + 0x72)) = ((S_801731C8_2 *)((u8 *)state))->unk_24;
+                (*(u8 *)((u8 *)actor + 0x73)) = ((S_801731C8_2 *)((u8 *)state))->unk_25;
+            } else {
                 u8 item_id;
 
                 item_id = *item_slot;
                 if (((LocalItemInfo *)D_8006DE24)[item_id].kind == 2) {
                     target = (*(void * *)((u8 *)actor + 0x60));
                     if (target != 0) {
-
-    copy_active_coords:
                         state = (s32)(((S_801731C8_1_pre *)target)[-1].unk_00);
                         (*(u8 *)((u8 *)actor + 0x72)) = ((S_801731C8_2 *)((u8 *)state))->unk_24;
                         (*(u8 *)((u8 *)actor + 0x73)) = ((S_801731C8_2 *)((u8 *)state))->unk_25;

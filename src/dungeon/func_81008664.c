@@ -173,7 +173,10 @@ void func_81008664(S_func_81008664_1 *actor, S_func_81008664_5 *motion, S_func_8
     s32 entity_height;
     u32 height_adjust;
     s32 world_coord;
-    register u8 *animation_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u8 *anim_table0;
+    u8 *anim_table1;
+    u8 *anim_table2;
+    u8 *anim_table3;
     u32 launch_anim;
     u32 fall_anim;
     u32 rise_anim;
@@ -269,19 +272,12 @@ void func_81008664(S_func_81008664_1 *actor, S_func_81008664_5 *motion, S_func_8
         motion->unk_10 = y_velocity;
         partner->unk_1C = (s32) (partner->unk_1C & 0xFFFBFFFF);
         partner_actor->unk_98 = (u16) (partner_actor->unk_98 | 0xC);
-        animation_table = D_801748F0;
+        anim_table0 = D_801748F0;
         angle_or_count = &gameWork.view.viewAngle;
-        *(u8 **)((u8 *)sprite + 0x2C) = animation_table;
-        {
-            u32 anim_flags;
-
-            launch_anim = (s16) *angle_or_count;
-            angle = (s16) ((S_func_81008664_3 *)entity)->unk_2A;
-            anim_flags = 0;
-            launch_anim = ((s32) (launch_anim + angle + 0x100) >> 9) & 7;
-            launch_anim = launch_anim + (u32) animation_table;
-            func_80047784(sprite, (*(u8 *)((u8 *)launch_anim + 0)), anim_flags);
-        }
+        *(u8 **)((u8 *)sprite + 0x2C) = anim_table0;
+        launch_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)entity)->unk_2A + 0x100) >> 9) & 7;
+        launch_anim = launch_anim + (u32) anim_table0;
+        func_80047784(sprite, ((S_func_81008664_9 *) launch_anim)->unk_00, 0);
         actor->unk_9B = (u8) (actor->unk_9B + 1);
     case 1:
         launch_ticks = (u16) actor->unk_96 - 1;
@@ -304,13 +300,13 @@ void func_81008664(S_func_81008664_1 *actor, S_func_81008664_5 *motion, S_func_8
         func_800A56E0(0x802);
         {
             fall_anim = 0x10;
-            animation_table = D_801748F8;
+            anim_table1 = D_801748F8;
             actor->unk_96 = fall_anim;
         }
         angle_or_count = &gameWork.view.viewAngle;
-        *(u8 **)((u8 *)sprite + 0x2C) = animation_table;
+        *(u8 **)((u8 *)sprite + 0x2C) = anim_table1;
         fall_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)entity)->unk_2A + 0x100) >> 9) & 7;
-        fall_anim = fall_anim + (u32) animation_table;
+        fall_anim = fall_anim + (u32) anim_table1;
         func_80047784(sprite, ((S_func_81008664_9 *) fall_anim)->unk_00, 0);
         actor->unk_9B = actor->unk_9B + 1;
         return;
@@ -387,11 +383,11 @@ place_actors:
         *(s16 *)((u8 *)actor + 0x96) = 8;
         motion->unk_14 = (s32) ((s32) ((((S_func_81008664_3 *)entity)->unk_88 << 0x10)
             - motion->unk_08.unk_08) / (s16) actor->unk_96);
-        animation_table = D_801748F8;
+        anim_table2 = D_801748F8;
         angle_or_count = &gameWork.view.viewAngle;
-        *(u8 **)((u8 *)sprite + 0x2C) = animation_table;
+        *(u8 **)((u8 *)sprite + 0x2C) = anim_table2;
         rise_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)entity)->unk_2A + 0x100) >> 9) & 7;
-        rise_anim = rise_anim + (u32) animation_table;
+        rise_anim = rise_anim + (u32) anim_table2;
         func_80047784(sprite, ((S_func_81008664_9 *) rise_anim)->unk_00, 0);
         func_800AA53C(entity);
         func_800AA53C(partner);
@@ -502,11 +498,11 @@ place_actors:
             }
             func_8009A21C(restore_x, restore_y, restore_partner_mask);
         }
-        animation_table = D_80174888;
+        anim_table3 = D_80174888;
         angle_or_count = &gameWork.view.viewAngle;
-        *(u8 **)((u8 *)sprite + 0x2C) = animation_table;
+        *(u8 **)((u8 *)sprite + 0x2C) = anim_table3;
         idle_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)entity)->unk_2A + 0x100) >> 9) & 7;
-        idle_anim = idle_anim + (u32) animation_table;
+        idle_anim = idle_anim + (u32) anim_table3;
         func_80047784(sprite, ((S_func_81008664_9 *) idle_anim)->unk_00, 0);
         ((S_func_81008664_3 *)entity)->unk_6D = 0;
         ((S_func_81008664_3 *)entity)->unk_46 = (u16) (((S_func_81008664_3 *)entity)->unk_46 & 0x7FFF);

@@ -30,6 +30,7 @@ void func_8009D8A4(void) {
     u8 *cell;
     s32 zero;
     s32 one;
+    s32 width_shift;
     s16 row;
     s32 column;
     s16 next_row;
@@ -54,15 +55,15 @@ void func_8009D8A4(void) {
 next_row_loop:
         column = 0;
         {
-            s16 width_shift = config->field_14;
+            s16 first_width_shift = config->field_14;
             u16 stride_shift;
-            register s32 row_index ASM_REG("$8");
+            s32 row_index;
             stride_shift = *(volatile u16 *)((u8 *)config + 0x14);
-            if (!(zero < (one << width_shift))) {
+            if (!(zero < (one << first_width_shift))) {
                 goto row_done;
             }
-            value = (u32) row << 16;
-            row_index = value >> 16;
+            row_index = row;
+            row_index = (s16)row_index;
             row_offset = row_index << stride_shift;
 next_cell:
             row_offset += (s16) column;
@@ -84,8 +85,10 @@ next_cell:
                 packed_levels = *write_ptr;
                 if ((s32) column & 1) {
                     value = packed_levels | (level << 4);
+                    *write_ptr = value;
                 } else {
                     value = packed_levels | level;
+                    *write_ptr = value;
                 }
             } else {
                 register s32 odd_column;
@@ -97,22 +100,25 @@ next_cell:
                 } else {
                     value = packed_empty & 0xF0;
                 }
+                *write_ptr = value;
             }
-            *write_ptr = value;
             {
                 s32 odd_column;
                 odd_column = column & 1;
                 if (odd_column) {
                     write_ptr += 1;
+                    value_2 = column + 1;
+                } else {
+                    value_2 = column + 1;
                 }
-                value_2 = column + 1;
             }
             column = value_2;
             value_2 = (u32)value_2 << 16;
             value_2 >>= 16;
             width_shift = config->field_14;
             stride_shift = *(volatile u16 *)((u8 *)config + 0x14);
-            if (value_2 >= (one << width_shift)) {
+            width_shift = one << width_shift;
+            if (value_2 >= width_shift) {
                 goto row_done;
             }
             row_offset = row_index << stride_shift;
@@ -121,7 +127,11 @@ next_cell:
 row_done:
         next_row = row + 1;
         row = next_row;
-        if (row < (one << config->field_16)) {
+        value_2 = (u32)next_row << 16;
+        value_2 >>= 16;
+        width_shift = config->field_16;
+        width_shift = one << width_shift;
+        if (value_2 < width_shift) {
             goto next_row_loop;
         }
     }
