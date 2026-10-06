@@ -39,19 +39,13 @@ static __inline__ u8 particle_alpha_from_random(s32 random_bits)
     return (random_bits & 0x7F) | 0x60;
 }
 
-static __inline__ void *prepare_burst(void *p, void *script, void *animation) {
-    void *tail = (u8 *)p + 0x20;
-    F(tail, s16, 0x2A) = 12;
-    F(p, void *, 0x10) = script;
-    func_8004491C(p, animation);
-    return tail;
-}
-
 /* Updates a dungeon effect, spawning particles and fading the actor model through its states. */
 void func_81941338(void *effect, void *effect_pos, void *effect_data)
 {
     void *position = effect_pos;
-    register void *effect_context ASM_REG("$18") = effect_data;
+    void *effect_context = effect_data;
+    void *burst_tail;
+    u32 sprite_rgb;
     u32 neutral_color;
     void *model_color;
     void *animation_m;
@@ -64,7 +58,6 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
     s32 particle_index;
     s32 initial_color;
     s32 particle_color;
-    s32 particle_alpha;
     void *init_object;
     s32 state;
     s16 timer;
@@ -155,15 +148,15 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
                 particle_index = 0;
                 do
                 {
-                    bits = (u32)func_80069EF8();
+                    sprite_rgb = (u32)func_80069EF8();
                     particle_color = 0x200000;
-                    particle_alpha = particle_alpha_from_random(bits);
+                    sprite_rgb = particle_alpha_from_random(sprite_rgb);
                     particle_level = F(effect, s16, 0x26);
                     particle_x = F(effect, s16, 0xC);
                     particle_color |= 0x20F0;
                     func_80024798((u8 *)D_800814A8 - 0x20,
                                   particle_level, particle_color,
-                                  particle_alpha,
+                                  sprite_rgb,
                                   particle_x, F(effect, s16, 0xE),
                                   F(effect, s16, 0x10));
                     particle_index++;
@@ -172,7 +165,7 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
                 particle_index = 0;
                 spawn_data = D_8002492C;
                 world_offset = &D_80083780;
-                effect_context = 0x80;
+                sprite_rgb = 0x80;
                 do {
                     particle = func_8003FC64(0x212);
                     if (particle != 0) {
@@ -228,9 +221,9 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
                                 func_8003DB94(anim_sprite, animation, anim_context);
                             }
                         }
-                        F(sprite, u8, 0xE) = (u8)effect_context;
-                        F(sprite, u8, 0xD) = (u8)effect_context;
-                        F(sprite, u8, 0xC) = (u8)effect_context;
+                        F(sprite, u8, 0xE) = (u8)sprite_rgb;
+                        F(sprite, u8, 0xD) = (u8)sprite_rgb;
+                        F(sprite, u8, 0xC) = (u8)sprite_rgb;
                     }
                     particle_index++;
                 } while (particle_index < 4);
@@ -243,15 +236,15 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
                         (F(effect, s16, 0x10) + F(effect, s16, 0x16)) / 2;
                     particle_index = 0;
                     do {
-                        bits = (u32)func_80069EF8();
+                        sprite_rgb = (u32)func_80069EF8();
                         particle_color = 0x200000;
-                        particle_alpha = particle_alpha_from_random(bits);
+                        sprite_rgb = particle_alpha_from_random(sprite_rgb);
                         particle_level = F(effect, s16, 0x26);
                         particle_x = F(effect, s16, 0x18);
                         particle_color |= 0x20F0;
                         func_80024798((u8 *)D_800814A8 - 0x20,
                                       particle_level, particle_color,
-                                      particle_alpha,
+                                      sprite_rgb,
                                       particle_x, F(effect, s16, 0x1A),
                                       F(effect, s16, 0x1C));
                         particle_index++;
@@ -259,7 +252,7 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
                     particle_index = 0;
                     spawn_data = D_8002492C;
                     world_offset = &D_80083780;
-                    effect_context = 0x80;
+                    sprite_rgb = 0x80;
                     do
                     {
                         particle = func_8003FC64(0x212);
@@ -308,9 +301,9 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
                                     F((void *)neutral_color, u16, 0x10) = mode_a;
                                     F((void *)neutral_color, u16, 0x1E) = 0x1000;
                                     F((void *)neutral_color, u16, 0x1C) = 0x1000;
-                                    F((void *)neutral_color, u8, 0xE) = (u8)effect_context;
-                                    F((void *)neutral_color, u8, 0xD) = (u8)effect_context;
-                                    F((void *)neutral_color, u8, 0xC) = (u8)effect_context;
+                                    F((void *)neutral_color, u8, 0xE) = (u8)sprite_rgb;
+                                    F((void *)neutral_color, u8, 0xD) = (u8)sprite_rgb;
+                                    F((void *)neutral_color, u8, 0xC) = (u8)sprite_rgb;
                                     func_8003DB94((void *)neutral_color, animation, anim_context);
                                 } else {
                                     void *animation = D_800DEB28;
@@ -319,9 +312,9 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
                                     F((void *)neutral_color, u16, 0x1C) = 0x2000;
                                     mode_b = 0x20;
                                     F((void *)neutral_color, u16, 0x10) = mode_b;
-                                    F((void *)neutral_color, u8, 0xE) = (u8)effect_context;
-                                    F((void *)neutral_color, u8, 0xD) = (u8)effect_context;
-                                    F((void *)neutral_color, u8, 0xC) = (u8)effect_context;
+                                    F((void *)neutral_color, u8, 0xE) = (u8)sprite_rgb;
+                                    F((void *)neutral_color, u8, 0xD) = (u8)sprite_rgb;
+                                    F((void *)neutral_color, u8, 0xC) = (u8)sprite_rgb;
                                     func_8003DB94((void *)neutral_color, animation, anim_context);
                                 }
                             }
@@ -392,11 +385,13 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
             particle_script = D_8002492C;
             spawn_data = ((u8 *)(&D_80082E80));
             world_offset = &D_80083780;
-            effect_context = 0x80;
             do {
                 particle = func_8003FC64(0x212);
                 if (particle != 0) {
-                    effect_context = prepare_burst(particle, particle_script, func_80045340);
+                    burst_tail = (u8 *)particle + 0x20;
+                    F(burst_tail, s16, 0x2A) = 12;
+                    F(particle, void *, 0x10) = particle_script;
+                    func_8004491C(particle, func_80045340);
                     sprite = F(particle, void *, 0xC);
                     F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 0xC);
                     F(sprite, u16, 0x10) = 0x60;
@@ -409,19 +404,22 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
                         F(effect, u16, 0xE) = (u16)(F(effect, u16, 0xE) + F(world_offset, u16, 6));
                         F(effect, u16, 0x10) = (u16)(F(effect, u16, 0x10) + F(world_offset, u16, 0xA));
                         if (particle_index != 0) {
-                            F(effect_context, s16, 0x2A) = 8;
+                            F(burst_tail, s16, 0x2A) = 8;
                             F(sprite, u16, 0x10) = 0x20;
-                            bits = (u32)func_80069EF8() & 0x3F;
+                            sprite_rgb = (u32)func_80069EF8();
+                            bits = sprite_rgb & 0x3F;
                             component = F(effect, u16, 0xC);
                             component -= 0x20;
                             component += bits;
                             F(effect, u16, 0xC) = (u16)component;
-                            bits = (u32)func_80069EF8() & 0x3F;
+                            sprite_rgb = (u32)func_80069EF8();
+                            bits = sprite_rgb & 0x3F;
                             component = F(effect, u16, 0xE);
                             component -= 0x20;
                             component += bits;
                             F(effect, u16, 0xE) = (u16)component;
-                            bits = (u32)func_80069EF8() & 0x3F;
+                            sprite_rgb = (u32)func_80069EF8();
+                            bits = sprite_rgb & 0x3F;
                             component = F(effect, u16, 0x10);
                             component -= 0x20;
                             component += bits;
