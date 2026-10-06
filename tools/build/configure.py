@@ -166,10 +166,10 @@ objs = []
 # files from multiple gcc versions AND per-TU flags; each distinct config gets a TU file.
 CC_VER = {
     "src/code2.c": ("2.8.1", ""),
-    "src/code3.c": ("2.95.2", "-fno-delayed-branch"),
+    "src/code3.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r95sm): retail-proven splitting recipe
     "src/code4.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/code5.c": ("2.7.2", "-G0 -fno-schedule-insns"),
-    "src/code6.c": ("2.7.2", "-fno-schedule-insns -fno-schedule-insns2"),
+    "src/code6.c": ("2.7.2-cdk", "-fno-schedule-insns -fno-schedule-insns2"),  # fidelity step 4 (r95sm): retail-proven splitting recipe
     "src/code7.c": ("2.8.1", "-fno-schedule-insns2"),
     "src/code8.c": ("2.7.2-cdk", ""),
     "src/code9.c": ("2.95.2", "-fstrict-aliasing"),
@@ -374,7 +374,7 @@ CC_VER = {
     "src/w_80042984.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_800448BC.c": ("2.7.2-cdk", ""),  # r86 module recipe move (owned_800448BC)
     "src/w_80048AC8.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
-    "src/w_8004CAA0.c": ("2.7.2", "-fno-schedule-insns2"),
+    "src/w_8004CAA0.c": ("2.7.2-cdk", "-fno-schedule-insns2"),  # fidelity step 4 (r95sm): retail-proven splitting recipe
     "src/w_8004B718.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_8004B774.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_8004B7D0.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
@@ -446,7 +446,7 @@ CC_VER = {
     "src/w_800525D4.c": ("2.7.2-cdk", ""),
     "src/w_80054A7C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_80053F98.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
-    "src/w_8005C710.c": ("2.7.2-cdk", "-G0 -fno-schedule-insns"),
+    "src/w_8005C710.c": ("2.7.2-cdk", "-fno-schedule-insns"),  # fidelity step 4 (r95sm): retail-proven splitting recipe
     "src/w_8005C784.c": ("2.7.2-cdk", ""),
     "src/w_8004761C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_80050308.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
@@ -716,7 +716,7 @@ CC_VER = {
     "src/w_8004491C.c": ("2.7.2-cdk", ""),
     "src/w_800597A8.c": ("2.7.2-cdk", ""),  # fidelity step 4 (sc1): retail-proven splitting recipe
     "src/w_800439F8.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
-    "src/w_8004D880.c": ("2.7.2", "-fno-cse-follow-jumps -fno-cse-skip-blocks"),
+    "src/w_8004D880.c": ("2.7.2-cdk", "-fno-cse-follow-jumps -fno-cse-skip-blocks"),  # fidelity step 4 (r95sm): retail-proven splitting recipe
     "src/w_8005C2C0.c": ("2.7.2-cdk", ""),
     "src/w_8005CC04.c": ("2.7.2", ""),  # fidelity step 4 (r86slusb): retail-proven splitting recipe
     "src/w_8005CE98.c": ("2.7.2", ""),  # fidelity step 4 (r86slusb): retail-proven splitting recipe
