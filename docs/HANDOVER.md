@@ -1,4 +1,16 @@
-# Handover (2026-10-06 ~06:00Z, round 95: measurement round + routed lanes; 186 -> 153 pins / 103 -> 83 rows; no lanes running) - start here
+# Handover (2026-10-06 ~07:00Z, round 95 cont.: 151 pins / 81 rows; lanes RUNNING) - start here
+
+**Owner 10-06 (second looks answered, decisions item 20):** one-trip `do{}while(0)` barriers ACCEPTED where they remove pins, TRACKED in
+ledger/onetrip_barrier_rows.jsonl (land_lanes.sh admits one-trip growth only for listed rows) - w_80048B8C + 8046C188 landed (2b36d537d);
+8184AF90 flag trade kept (alignment next); AUTOCOMMIT LOOP STOPPED (commit after each gated landing yourself); OPAQUE-BASE must not be
+called impossible. Composite rows (item 8): the prefix is overlay-segment DATA (e.g. Shift-JIS message text at the start of
+func_80FB1000's segment) - re-carving it into data rows belongs to the module-placement project (segment layout), not needed for bytes.
+Quiet-time fixes done: status/census tail regex (1a1b7fd7b), func_800039C8 false noreturn member (ce4e2c90c, 711 town windows MATCH).
+**Running 07:00Z:** Fable r95_fable_opaque2 (exhaustive cdk source audit of OPAQUE-BASE: crack or proof), Opus r95_opus_cell (compiler
+alignment: 6 off-recipe pinned rows + retire 8184AF90's flag), Opus r95_opus_equ (equates -> symbol file: design + prototype + patch for
+a quiet window), Sonnet r95_sonnet_slusprov (15 SLUS flag rows: SDK or game?). All stage only.
+
+# (earlier) Handover (2026-10-06 ~06:00Z, round 95: measurement round + routed lanes; 186 -> 153 pins / 103 -> 83 rows)
 
 **Owner (10-06):** decide pending calls yourself on the evidence (docs/evidence/r95_decisions.md, 19 items, SECOND LOOK flags);
 never "park" stubborn rows - they go to the HARD BASKET (ledger/hard_basket.jsonl: 32 rows / ~60 pins, each with why_hard + next).
