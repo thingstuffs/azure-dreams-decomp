@@ -45,8 +45,7 @@ void func_80048B8C(S_80048B8C *entries) {
                     do {
                         value = *value_ptr;
                         masked_value = value & value_mask;
-                        *value_ptr = masked_value;
-                        ASM_KEEP_NV(masked_value);
+                        do { *value_ptr = masked_value; } while (0);
                         *value_ptr = masked_value + 0xE;
                         value_ptr = (u16 *)((u8 *)value_ptr + 0xC);
                     } while (!((node++)->flags & 0x80));

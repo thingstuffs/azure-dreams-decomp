@@ -67,13 +67,12 @@ void func_8001D188(s32 entry_index, s32 lookup_arg1, s32 lookup_arg2, s32 lookup
     entries = cursor->unk_1EC;
     do {
         group_id = *(s16 *)((u8 *)entries + (entry_id * 0x14));
+        group_state = state_base + group_id;
+        next_count = group_state->unk_3700;
+        next_count += 1;
+        group_state->unk_3700 = next_count;
+        count = group_state->unk_3700;
     } while (0);
-    group_state = state_base + group_id;
-    next_count = group_state->unk_3700;
-    next_count += 1;
-    group_state->unk_3700 = next_count;
-    count = group_state->unk_3700;
-    ASM_USE(count);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     limits = D_8001902C;
     if (count >= *(s16 *)((u8 *)limits + (((group_id * 3) + variant) * 8))) {
         group_state->unk_3700 = 0U;
