@@ -11,8 +11,8 @@ typedef struct {
     u8 pad18[4];
 } S_80086A40; /* size 0x1C */
 
-extern s32 func_8005ECA0(s32 arg0);
-extern s32 func_8005EC40(s32 arg0, s32 arg1);
+extern s32 func_8005ECA0(s32 value);
+extern s32 func_8005EC40(s32 dest, s32 size);
 extern S_80086A40 D_80086A40[];
 
 /* Assigns an owner and updates the entry value when its marker matches and its transfer size is accepted. */

@@ -2,7 +2,7 @@
 
 extern s32 D_80408C8C;
 
-extern void func_80051B50(s32 arg0, s32 arg1, s32 arg2);
+extern void func_80051B50(s32 buffer, s32 value, s32 option);
 
 // Process four entries spaced 0x3C bytes apart using consecutive table values.
 void func_8001C7F4(s32 baseAddress) {

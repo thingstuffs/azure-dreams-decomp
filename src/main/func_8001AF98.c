@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_8007C040(s32 *arg0, s32 *arg1, s32 arg2);
+extern void func_8007C040(s32 *ptr_a, s32 *ptr_b, s32 value);
 
 extern s32 D_80400114[];
 extern s32 D_80400120[];

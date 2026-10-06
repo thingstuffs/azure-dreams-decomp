@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern u32 func_8009368C(void *arg0, s32 arg1, s32 arg2);
+extern u32 func_8009368C(void *record, s32 first_value, s32 second_value);
 extern void func_80098868(void *record, s32 setup_value, s32 init_value);
 
 extern s32 D_800834B8;

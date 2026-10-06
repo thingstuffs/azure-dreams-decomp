@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_8007C040(void *arg0, void *arg1, s32 arg2);
+extern void func_8007C040(void *ptr_a, void *ptr_b, s32 value);
 
 extern u8 D_80400114[];
 extern u8 D_80400120[];

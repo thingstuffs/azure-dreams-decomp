@@ -15,7 +15,7 @@ extern s16 func_80095978(TownObject *arg, s32 *table);
 extern void func_80095A94(TownObject *arg, s16 value, s32 *table);
 extern void func_800ABD74(TownObject *arg);
 extern void func_800954F4(TownObject *arg);
-extern void func_80093D48(void *arg0, TownObject *arg1, s32 arg2);
+extern void func_80093D48(void *context, TownObject *object, s32 update_arg);
 extern void func_80095388(TownObject *arg);
 
 extern u8 D_800CFCEF;

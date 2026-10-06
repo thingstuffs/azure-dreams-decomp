@@ -138,38 +138,31 @@ void *BODY_NAME(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
         if (kind == 1) {
             primary_flags = ((S_80FB7000_1 *)work)->unk_14 | 0x6000;
             secondary_flags = ((S_80FB7000_1 *)work)->unk_1C | 0x6000;
-        } else {
-            if (kind < 2) {
-                goto normal_kind;
-            }
+            ((S_80FB7000_1 *)work)->unk_14 = primary_flags;
+            ((S_80FB7000_1 *)work)->unk_1C = secondary_flags;
+        } else if (kind >= 2) {
             primary_flags = ((S_80FB7000_1 *)work)->unk_14 | 0x2000;
             secondary_flags = ((S_80FB7000_1 *)work)->unk_1C | 0x2000;
-        }
-        ((S_80FB7000_1 *)work)->unk_14 = primary_flags;
-        ((S_80FB7000_1 *)work)->unk_1C = secondary_flags;
-        goto post_kind;
-
-normal_kind:
-        {
-            s32 non_kind_mask;
-            non_kind_mask = -4;
-            if (((spawn_flags = (s16)(spawn_flags & non_kind_mask)) << 16) != 0) {
-                goto normal_kind_nonzero;
-            }
-            if (!(((S_80FB7000_1 *)work)->unk_14 & 0x200)) {
-                if (func_800A6D30() & 1) {
-                    ((S_80FB7000_1 *)work)->unk_1C |= 0x200;
-                    func_800A48F0(work, 1,
-                                  (func_800A6D30() & 0x3F) |
-                                  0x20);
-                    part_b->unk_2C = D_8016F298;
+            ((S_80FB7000_1 *)work)->unk_14 = primary_flags;
+            ((S_80FB7000_1 *)work)->unk_1C = secondary_flags;
+        } else {
+            {
+                s32 non_kind_mask;
+                non_kind_mask = -4;
+                if (((spawn_flags = (s16)(spawn_flags & non_kind_mask)) << 16) == 0) {
+                    if (!(((S_80FB7000_1 *)work)->unk_14 & 0x200)) {
+                        if (func_800A6D30() & 1) {
+                            ((S_80FB7000_1 *)work)->unk_1C |= 0x200;
+                            func_800A48F0(work, 1,
+                                          (func_800A6D30() & 0x3F) |
+                                          0x20);
+                            part_b->unk_2C = D_8016F298;
+                        }
+                    }
                 }
             }
         }
 
-normal_kind_nonzero:
-
-post_kind:
         func_800A9C18(obj, pin_part_a, part_b, saved_flags);
 
         entry_index = 0;

@@ -41,9 +41,9 @@ typedef struct S_80051548_Flags
     u8 e;
 }
 S_80051548_Flags;
-extern void func_800478B8(void *arg0);
-extern s32 rsin(s32 arg0);
-extern s32 rcos(s32 arg0);
+extern void func_800478B8(void *flags);
+extern s32 rsin(s32 angle);
+extern s32 rcos(s32 angle);
 extern s32 D_800814A0_abs __attribute__((section(".data")));
 /* Advances staged object motion and marks completion. */
 void func_80051548(S_80051548_Obj *obj, S_80051548_Vec *position, S_80051548_Flags *flags)

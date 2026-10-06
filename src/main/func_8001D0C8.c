@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_80051B50(void *arg0, void *arg1, s32 arg2);
+extern s32 func_80051B50(void *buffer, void *data, s32 option);
 extern s32 D_80084110;
 extern s32 D_804005F0;
 

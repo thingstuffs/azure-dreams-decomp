@@ -3,7 +3,7 @@
 extern u8 D_80408D40[][2];
 extern s32 D_80408D44[];
 
-extern void func_8004DDBC(void *arg0, s32 arg1, s32 *arg2);
+extern void func_8004DDBC(void *base, s32 value, s32 *entry);
 
 /* Updates two object slots using the selected slot mapping and values. */
 void func_80020160(u8 *object) {

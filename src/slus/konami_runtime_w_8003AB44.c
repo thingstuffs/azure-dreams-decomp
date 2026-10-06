@@ -4,8 +4,8 @@
 
 extern s32 D_8006A8C8[];
 extern s32 D_8006A8DC[];
-extern s32 func_8004D880(s32 arg0);
-extern void func_8004D91C(s32 arg0, s16 *arg1);
+extern s32 func_8004D880(s32 code);
+extern void func_8004D91C(s32 value, s16 *rect);
 extern void MoveImage(void *rect, s32 x, s32 y);
 
 /* Copies an image to a table-spaced VRAM position when its destination X is in range. */

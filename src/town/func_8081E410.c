@@ -59,31 +59,19 @@ void func_80020C10(void *state_arg, void *target_arg, void *effect_arg)
     distance = func_80064710(dx_squared + dy_squared);
     S32(state_arg, 0x60) = S32(target_arg, 8);
 
-    if (world_pos->y.v > 0x035FFFFF) {
-        if (distance < 185) {
-            goto close_range;
+    if (world_pos->y.v > 0x035FFFFF ? distance < 185 : distance < 193) {
+        close_pos = &D_80083780;
+        if (S16(close_pos, 0xA) >= S16(target_arg, 0xA)) {
+            close_pos->x.v = S32(state_arg, 4);
+            close_pos->y.v = S32(state_arg, 8);
         }
-    } else if (distance < 193) {
-        goto close_range;
-    }
-    goto middle_range;
-
-close_range:
-    close_pos = &D_80083780;
-    if (S16(close_pos, 0xA) >= S16(target_arg, 0xA)) {
-        close_pos->x.v = S32(state_arg, 4);
-        close_pos->y.v = S32(state_arg, 8);
-    }
-    S32(state_arg, 0x58) = close_pos->x.v;
-    S32(state_arg, 0x5C) = close_pos->y.v;
-    if (distance < 128) {
-        value_close = (128 - distance) >> 1;
-        U16(state_arg, 0x62) = U16(state_arg, 0x62) - value_close;
-    }
-    goto position_done;
-
-middle_range:
-    if (distance < 209) {
+        S32(state_arg, 0x58) = close_pos->x.v;
+        S32(state_arg, 0x5C) = close_pos->y.v;
+        if (distance < 128) {
+            value_close = (128 - distance) >> 1;
+            U16(state_arg, 0x62) = U16(state_arg, 0x62) - value_close;
+        }
+    } else if (distance < 209) {
         EntityRec *mid_pos;
         mid_pos = &D_80083780;
         if (S16(mid_pos, 0xA) >= S16(target_arg, 0xA)) {
@@ -95,33 +83,26 @@ middle_range:
         abs_dx = abs(abs_dx);
         abs_dy = dy;
         abs_dy = abs(abs_dy);
-        if (abs_dx <= abs_dy) {
-            if (mid_pos->y.v > 0x033FFFFF) {
-                goto y_axis;
+        if (abs_dx > abs_dy || mid_pos->y.v <= 0x033FFFFF) {
+            S32(state_arg, 0x5C) = mid_pos->y.v;
+            if (dx > 0) {
+                S32(state_arg, 0x58) = mid_pos->x.v - 0x00280000;
+            } else {
+                S32(state_arg, 0x58) = mid_pos->x.v + 0x00280000;
             }
-        }
-        S32(state_arg, 0x5C) = mid_pos->y.v;
-        if (dx > 0) {
-            S32(state_arg, 0x58) = mid_pos->x.v - 0x00280000;
         } else {
-            S32(state_arg, 0x58) = mid_pos->x.v + 0x00280000;
-        }
-        goto position_done;
-
-y_axis:
-        S32(state_arg, 0x58) = mid_pos->x.v;
-        if (dy > 0) {
-            S32(state_arg, 0x5C) = mid_pos->y.v - 0x00280000;
-        } else {
-            S32(state_arg, 0x5C) = mid_pos->y.v + 0x00280000;
+            S32(state_arg, 0x58) = mid_pos->x.v;
+            if (dy > 0) {
+                S32(state_arg, 0x5C) = mid_pos->y.v - 0x00280000;
+            } else {
+                S32(state_arg, 0x5C) = mid_pos->y.v + 0x00280000;
+            }
         }
     } else {
         S32(state_arg, 0x58) = 0x03600000;
         S32(state_arg, 0x5C) = 0x03600000;
-        goto position_done;
     }
 
-position_done:
     S32(state_arg, 4) = S32(((u8 *)(&D_80083780)), 0);
     S32(state_arg, 8) = S32(((u8 *)(&D_80083780)), 4);
 

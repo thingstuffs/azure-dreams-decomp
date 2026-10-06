@@ -44,7 +44,7 @@ typedef struct S_80084858 {
 extern S_800847D0 D_800847D0;
 extern S_80084858 D_80084858;
 
-extern void func_8005A56C(s32 arg0, s32 arg1, s32 arg2);
+extern void func_8005A56C(s32 mode, s32 level_a, s32 level_b);
 
 /* When status flag 0x400 is set: D_80084858's level, scaled by volume scale [2], goes to func_8005A56C (mode 0). */
 void func_80054D64(void) {

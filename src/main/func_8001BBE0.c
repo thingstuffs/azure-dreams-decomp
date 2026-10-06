@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_80051B50(void *arg0, s32 arg1, s32 arg2);
+extern s32 func_80051B50(void *buffer, s32 value, s32 option);
 extern u8 D_80408B2C[];
 
 /* Position and update four display items using the selected table row. */

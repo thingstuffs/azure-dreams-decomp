@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_8004DDBC(void *arg0, void *arg1, void *arg2);
+extern void func_8004DDBC(void *base, void *data, void *entry);
 extern u8 D_80408A30[];
 
 /* Configures two object entries and initializes them with shared data. */

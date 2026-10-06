@@ -5,7 +5,7 @@ typedef struct S_800981D4_0 {
     union { s16 s; u16 u; } unk_06;   /* accessed as both */
 } S_800981D4_0;   /* arg1 in func_800981D4 */
 
-extern s32 func_80098DC0(s32 arg0, S_800981D4_0 *arg1, s32 arg2);
+extern s32 func_80098DC0(s32 value, S_800981D4_0 *field_ptr, s32 other_value);
 
 s32 func_800981D4(s32 value, S_800981D4_0 *field_ptr, s32 other_value)
 {
