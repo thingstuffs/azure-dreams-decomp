@@ -3,7 +3,7 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 void func_800C4174();    /* extern */
-M2C_UNK func_800CB73C(Rec_func_80094268_arg0 *);                            /* extern */
+void func_800CB73C(Rec_func_80094268_arg0 *);                            /* extern */
 void func_800CBB68();                /* extern */
 
 

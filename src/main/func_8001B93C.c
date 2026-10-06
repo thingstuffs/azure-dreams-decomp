@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-M2C_UNK func_8040343C();                     /* extern */
+s32 func_8040343C();                     /* extern */
 
 typedef struct S_8001B93C_0 {
     u8 pad_00[0x20];

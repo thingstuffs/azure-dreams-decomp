@@ -164,7 +164,6 @@ void func_80174B20(void *state, EntityRec *position, Rec_D_80082E80 *entity, voi
     s32 style_index;
     s16 style;
     s32 position_z;
-    void *call_arg;
     u16 fade_ticks;
     u16 finish_ticks;
     u16 previous_ticks;
@@ -250,15 +249,11 @@ void func_80174B20(void *state, EntityRec *position, Rec_D_80082E80 *entity, voi
         sprite->unk_0C.s = tint;
         style_index = func_800498A0(actor) - 1;
         style = style_index;
-        call_arg = sprite;
         if ((style_index << 0x10) < 0) {
-            random_value = func_80069EF8(call_arg);
+            random_value = func_80069EF8();
             style = random_value % 3;
-            do {
-                call_arg = sprite;
-            } while (0);
         }
-        func_8003DB94(call_arg, &D_8014A000[(*(s32 *)((u8 *)D_80175200 + (s16) style * 4))], 0);
+        func_8003DB94(sprite, &D_8014A000[(*(s32 *)((u8 *)D_80175200 + (s16) style * 4))], 0);
         entity->unk_14.at00_u16.v = (u16) (entity->unk_14.at00_u16.v | 0x80);
         ray_index = 1;
         ((Rec_func_80174800_arg0 *)state)->unk_96 = 0U;

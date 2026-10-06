@@ -106,6 +106,7 @@ typedef struct Item {
     u8 pad2;
 } Item;
 
+extern int abs(int);
 extern u8 D_80170920[];
 extern u8 D_8017102C[];
 extern u8 D_801752B4[8];
@@ -191,20 +192,12 @@ void func_80172BCC(S_func_80C953CC_1 *work, S_func_80C953CC_2 *position, S_func_
                 s32 target_x;
                 s32 target_y;
 
-                do {
-                    actor->unk_60 =
-                        func_800A05A4(actor, entity->unk_24,
-                                      entity->unk_25,
-                                      actor->unk_2A, 0x10);
-                } while (0);
-                target_x = actor->unk_72.s8;
-                target_y = actor->unk_73.s8;
-                if (target_x < 0) {
-                    target_x = -target_x;
-                }
-                if (target_y < 0) {
-                    target_y = -target_y;
-                }
+                actor->unk_60 =
+                    func_800A05A4(actor, entity->unk_24,
+                                  entity->unk_25,
+                                  actor->unk_2A, 0x10);
+                target_x = abs(actor->unk_72.s8);
+                target_y = abs(actor->unk_73.s8);
                 actor->unk_72.u8 = target_x;
                 actor->unk_73.u8 = target_y;
             }

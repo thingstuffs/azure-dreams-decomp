@@ -25,10 +25,8 @@ s32 func_80025AAC(void *initial_state, s32 initial_value, Entry *initial_entry)
     void *entry_or_link;
 
     slot_base = D_800274C0;
-    do {
-        slot_index = 0;
-    } while (0);
     for (;;) {
+        slot_index = 0;
         slot = slot_base;
         entry_or_link = entry;
         do {
@@ -48,7 +46,6 @@ s32 func_80025AAC(void *initial_state, s32 initial_value, Entry *initial_entry)
     state = (u8 *)entry_or_link + 0x20;
     value = *(s32 *)((u8 *)entry_or_link + 8);
     entry = *(Entry **)((u8 *)entry_or_link + 0xC);
-    slot_index = 0;
 }
 return 0;
 }
