@@ -72,11 +72,13 @@ extern void *func_800A41D8(void *origin, void *render_flags, void *draw_state, v
 s32 func_800A3B80(S_800A3B80_3 *object, s32 unused, void *context)
 {
     Scratch *scratch;
-    s32 coord_y;
+    s16 coord_y;
     s32 coord_x;
     s32 coord_value;
-    register s32 angle_or_coord ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 angle_or_coord;
+    s32 result;
+    s32 stepped;
+    s32 view_angle;
     GameWork *global_base;
     void *town;
     void *output;
@@ -89,7 +91,6 @@ s32 func_800A3B80(S_800A3B80_3 *object, s32 unused, void *context)
     s32 forward_angle;
     s32 reverse_angle;
     s32 next_angle;
-    s32 start_angle;
 
     scratch = (Scratch *)0x1F800000;
     global_base = &gameWork;
@@ -103,12 +104,11 @@ s32 func_800A3B80(S_800A3B80_3 *object, s32 unused, void *context)
     scratch->data118 = context_data;
     context_view->unk_0F = context_data->unk_01;
 
-    start_angle = object->unk_06;
-    result = ((u16)gameWork.view.viewAngle);
-    start_angle += 0xC00;
-    result = (result + 0x80) & 0xF00;
-    start_angle -= result;
-    angle_or_coord = start_angle;
+    angle_or_coord = object->unk_06;
+    view_angle = ((u16)gameWork.view.viewAngle);
+    angle_or_coord += 0xC00;
+    view_angle = (view_angle + 0x80) & 0xF00;
+    angle_or_coord -= view_angle;
     reverse_angle = angle_or_coord;
     forward_angle = angle_or_coord;
     angle_or_coord <<= 16;
@@ -121,8 +121,11 @@ s32 func_800A3B80(S_800A3B80_3 *object, s32 unused, void *context)
 forward_segment:
     scratch->data80 = coord_y;
     scratch->data70 = coord_y;
-    result = coord_x << 16;
-    angle_or_coord = result >> 16;
+    {
+        s32 shifted = coord_x << 16;
+
+        angle_or_coord = shifted >> 16;
+    }
     if (object->unk_0C != 0) {
         coord_value = angle_or_coord -
             (func_800644B8(((s32)(forward_angle << 16) >> 14) +
@@ -132,13 +135,16 @@ forward_segment:
             (func_800644B8(((s32)(forward_angle << 16) >> 14) +
                            (object->unk_00 << 5)) >> 1);
     }
-    result = forward_angle + 0x80;
-    forward_angle = result;
-    result <<= 16;
-    next_angle = result >> 16;
+    stepped = forward_angle + 0x80;
+    forward_angle = stepped;
+    stepped <<= 16;
+    next_angle = stepped >> 16;
     scratch->data82 = coord_value;
     scratch->data72 = coord_value;
-    angle_or_coord = func_80064584(next_angle) * 6;
+    coord_value = func_80064584(next_angle);
+    angle_or_coord = coord_value << 1;
+    angle_or_coord += coord_value;
+    angle_or_coord <<= 1;
     angle_or_coord -= origin_y;
     coord_y = angle_or_coord;
     coord_value = func_800644B8(next_angle) * 6;
@@ -163,8 +169,11 @@ forward_segment:
 
         scratch->data80 = coord_y;
         scratch->data70 = coord_y;
-        result = coord_x << 16;
-        angle_or_coord = result >> 16;
+        {
+            s32 shifted = coord_x << 16;
+
+            angle_or_coord = shifted >> 16;
+        }
         if (object->unk_0C != 0) {
             coord_value = angle_or_coord -
                 (func_800644B8(((s32)(forward_angle << 16) >> 14) +
@@ -174,13 +183,16 @@ forward_segment:
                 (func_800644B8(((s32)(forward_angle << 16) >> 14) +
                                (object->unk_00 << 5)) >> 1);
         }
-        result = forward_angle + 0x80;
-        forward_angle = result;
-        result <<= 16;
-        next_angle = result >> 16;
+        stepped = forward_angle + 0x80;
+        forward_angle = stepped;
+        stepped <<= 16;
+        next_angle = stepped >> 16;
         scratch->data82 = coord_value;
         scratch->data72 = coord_value;
-        angle_or_coord = func_80064584(next_angle) * 6;
+        coord_value = func_80064584(next_angle);
+        angle_or_coord = coord_value << 1;
+        angle_or_coord += coord_value;
+        angle_or_coord <<= 1;
         angle_or_coord -= origin_y;
         coord_y = angle_or_coord;
         coord_value = func_800644B8(next_angle) * 6;
@@ -205,7 +217,9 @@ forward_segment:
             goto forward_segment;
         }
     }
-    angle_or_coord = (s16)reverse_angle;
+    angle_or_coord = reverse_angle;
+    angle_or_coord <<= 16;
+    angle_or_coord >>= 16;
     coord_value = func_80064584(angle_or_coord) * 6;
     coord_y = coord_value - origin_y;
     coord_value = func_800644B8(angle_or_coord) * 6;
@@ -214,8 +228,11 @@ forward_segment:
 reverse_segment:
     scratch->data88 = coord_y;
     scratch->data78 = coord_y;
-    result = coord_x << 16;
-    angle_or_coord = result >> 16;
+    {
+        s32 shifted = coord_x << 16;
+
+        angle_or_coord = shifted >> 16;
+    }
     if (object->unk_0C != 0) {
         coord_value = angle_or_coord -
             (func_800644B8(((s32)(reverse_angle << 16) >> 14) +
@@ -225,13 +242,16 @@ reverse_segment:
             (func_800644B8(((s32)(reverse_angle << 16) >> 14) +
                            (object->unk_00 << 5)) >> 1);
     }
-    result = reverse_angle - 0x80;
-    reverse_angle = result;
-    result <<= 16;
-    next_angle = result >> 16;
+    stepped = reverse_angle - 0x80;
+    reverse_angle = stepped;
+    stepped <<= 16;
+    next_angle = stepped >> 16;
     scratch->data8A = coord_value;
     scratch->data7A = coord_value;
-    angle_or_coord = func_80064584(next_angle) * 6;
+    coord_value = func_80064584(next_angle);
+    angle_or_coord = coord_value << 1;
+    angle_or_coord += coord_value;
+    angle_or_coord <<= 1;
     angle_or_coord -= origin_y;
     coord_y = angle_or_coord;
     coord_value = func_800644B8(next_angle) * 6;
@@ -256,8 +276,11 @@ reverse_segment:
 
         scratch->data88 = coord_y;
         scratch->data78 = coord_y;
-        result = coord_x << 16;
-        angle_or_coord = result >> 16;
+        {
+            s32 shifted = coord_x << 16;
+
+            angle_or_coord = shifted >> 16;
+        }
         if (object->unk_0C != 0) {
             coord_value = angle_or_coord -
                 (func_800644B8(((s32)(reverse_angle << 16) >> 14) +
@@ -267,13 +290,16 @@ reverse_segment:
                 (func_800644B8(((s32)(reverse_angle << 16) >> 14) +
                                (object->unk_00 << 5)) >> 1);
         }
-        result = reverse_angle - 0x80;
-        reverse_angle = result;
-        result <<= 16;
-        next_angle = result >> 16;
+        stepped = reverse_angle - 0x80;
+        reverse_angle = stepped;
+        stepped <<= 16;
+        next_angle = stepped >> 16;
         scratch->data8A = coord_value;
         scratch->data7A = coord_value;
-        angle_or_coord = func_80064584(next_angle) * 6;
+        coord_value = func_80064584(next_angle);
+        angle_or_coord = coord_value << 1;
+        angle_or_coord += coord_value;
+        angle_or_coord <<= 1;
         angle_or_coord -= origin_y;
         coord_y = angle_or_coord;
         coord_value = func_800644B8(next_angle) * 6;

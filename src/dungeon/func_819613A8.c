@@ -84,13 +84,14 @@ void func_819613A8(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
     s32 bottom_heights_addr;
     s32 y_offset;
     s32 column;
-    register s32 x_offset ASM_REG("$10");
+    s32 x_offset;
     s32 x_or_height;
     register s32 y_or_color ASM_REG("$4");
     s32 height;
-    register s32 height_bl ASM_REG("$13");
-    register s32 height_br ASM_REG("$14");
-    register s32 origin_height ASM_REG("$15");
+    s32 height_tr;
+    s32 height_bl;
+    s32 height_br;
+    s32 origin_height;
     s16 saved_row;
     s8 *height_row;
     register void *output ASM_REG("$6");
@@ -102,6 +103,8 @@ void func_819613A8(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
     object = func_8003FC64(0x202);
     saved_row = tile_y;
     if (object != NULL) {
+        s32 local_x_or_height;
+        s32 local_height;
         y_or_color = (s32)(object);
         height_row = &D_800264D4;
         object->field10 = height_row;
@@ -123,22 +126,30 @@ void func_819613A8(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
         bottom_heights_addr += (s32)height_row;
         y_offset = (row - 3) << 6;
         output = object->field8;
-        x_or_height = ((s16 *)origin)[1];
+        local_x_or_height = ((s16 *)origin)[1];
         y_or_color = ((s16 *)origin)[3];
-        height = top_heights[0];
-        height_or_child = top_heights[1];
-        height_bl = ((s16 *)bottom_heights_addr)[0];
-        height_br = ((s16 *)bottom_heights_addr)[1];
-        origin_height = ((s16 *)origin)[5];
-        x_or_height += x_offset;
+        local_height = top_heights[0];
+        height_tr = (u16)top_heights[1];
+        height_tr = (u32)height_tr << 16;
+        height_tr >>= 16;
+        height_bl = (u16) ((s16 *)bottom_heights_addr)[0];
+        height_bl = (u32)height_bl << 16;
+        height_bl >>= 16;
+        height_br = (u16)((s16 *)bottom_heights_addr)[1];
+        height_br = (u32)height_br << 16;
+        height_br >>= 16;
+        origin_height = (u16)((s16 *)origin)[5];
+        origin_height = (u32)origin_height << 16;
+        origin_height >>= 16;
+        local_x_or_height += x_offset;
         y_or_color += y_offset;
-        height += height_or_child;
-        height += height_bl;
-        height += height_br;
-        height >>= 2;
-        height += origin_height;
-        ((TempBuffer *)output)->fieldA = height;
-        ((TempBuffer *)output)->field2 = x_or_height;
+        local_height += height_tr;
+        local_height += height_bl;
+        local_height += height_br;
+        local_height >>= 2;
+        local_height += origin_height;
+        ((TempBuffer *)output)->fieldA = local_height;
+        ((TempBuffer *)output)->field2 = local_x_or_height;
         ((TempBuffer *)output)->field6 = y_or_color;
         height_or_child = (s32)object->fieldC;
         output = (void *)&object->field20;
@@ -182,7 +193,8 @@ void func_819613A8(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
         } else {
             height = 0x10;
         }
-        ((TempOutput *)output)->fieldA = height;
+        height_bl = (s8)height;
+        ((TempOutput *)output)->fieldA = height_bl;
         height = saved_row;
         x_or_height = 6;
         if (height == x_or_height) {
@@ -190,7 +202,10 @@ void func_819613A8(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
         } else {
             height = 0x10;
         }
-        ((TempOutput *)output)->fieldB = height;
+        height_tr = height;
+        height_tr = (u32)height_tr << 24;
+        height_tr >>= 24;
+        ((TempOutput *)output)->fieldB = height_tr;
         ((TempChild *)height_or_child)->field8 = output;
         ((TempOutput *)output)->field4C = 8;
         (*(s16 *)D_800273BC) = (s16) ((*(u16 *)D_800273BC) + 1);
