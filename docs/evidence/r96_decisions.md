@@ -34,3 +34,11 @@
    as the old .text prefix arrays had them); every rodata_first_link check passes (one read-only section, relocations
    inside the span, zero cut). Accepted so the computed gotos become real switches. SECOND LOOK: yes (convention
    stretch of overlay_local_gate.rodata_owner's docstring; re-carve with module placement later).
+10. **Pin-free one-trip blocks that are load-bearing -> ledger/onetrip_loadbearing.jsonl (tracked, not re-served).**
+    r96_sonnet_ot1..ot7 served every pin-free one-trip row (~100 rows): 25 cleared with natural shapes; the ~85 rows
+    listed are load-bearing by measured mechanism (loop-weight register priority 35, sched region/tie 32, reorg delay-slot
+    prediction 6, cse block end 5, cross-jump 1, 6 only screened). Plain unwrap was exact on 0 of them. A `do { } while (0)`
+    is exactly what a statement macro body expands to (`#define X(...) do { ... } while (0)`), so these are consistent
+    with original macros - the same pattern accepted for pinned rows (owner 10-06, item 19 / ledger/onetrip_barrier_rows.jsonl).
+    Decision: stop serving them; keep them visible in the ledger. SECOND LOOK: yes (owner: accept as macro bodies, i.e.
+    retire them from the scaffolding count, or keep them as removal targets for a future mechanism idea).
