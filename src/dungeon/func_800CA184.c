@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/game_work.h"
+#include "shared/ot_link.h"
 
 typedef struct S_800CF8E4_0 {
     void * unk_00;
@@ -284,6 +285,7 @@ void func_800CF8E4(void) {
     if (!(render_flags & 2)) {
         s32 corner_arg;
         s32 column_mask;
+        s32 row_mask;
         s32 max_height;
 
         coord = func_800BCB04(((S_800CF8E4_2 *)view)->unk_A4, ((S_800CF8E4_2 *)view)->unk_A6,
@@ -438,7 +440,6 @@ void func_800CF8E4(void) {
             s32 setup_value;
             s32 setup_base;
             s32 width_shift_or_end;
-            register s32 row_mask ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             register s32 draw_mode ASM_REG("$12");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             render_input = packet + 8;
@@ -488,12 +489,11 @@ void func_800CF8E4(void) {
                 (void *)width_shift_or_end);
         }
         if (scratch->active_edges != 0) {
-            s32 one;
             s32 tag_mask;
             s32 edge_progress;
             s32 error_step;
 
-            one = 1;
+            row_mask = 1;
             max_height = 0x7FFF;
             column_mask = 0xFFFFFF;
             tag_mask = (s32)0xFF000000;
@@ -506,7 +506,7 @@ void func_800CF8E4(void) {
                     edge_start_y = scratch->edges[render_arg].start_y;
                     current_y = scratch->cur_y;
                     if (current_y >= edge_start_y) {
-                        scratch->edges[render_arg].state = one;
+                        scratch->edges[render_arg].state = row_mask;
                     }
                 }
             }
@@ -696,7 +696,7 @@ L_CFE98:
                                                 scratch->step.word = normal_xy;
                                                 normal_x = scratch->step.h.x;
                                                 if ((s16) normal_x > 0) {
-                                                    scratch->step.h.x = (u16)one;
+                                                    scratch->step.h.x = (u16)row_mask;
                                                 } else {
                                                     if ((s16) normal_x < 0) {
                                                         *(s16 *)&scratch->step.h.x = -1;
@@ -704,10 +704,10 @@ L_CFE98:
                                                 }
                                                 normal_y = scratch->step.h.y;
                                                 if ((s16) normal_y > 0) {
-                                                    row_step = one << scratch->width_shift;
+                                                    row_step = row_mask << scratch->width_shift;
                                                     *(s16 *)&scratch->step.h.y = (s16)row_step;
                                                 } else if ((s16) normal_y < 0) {
-                                                    row_step = 0 - (one << scratch->width_shift);
+                                                    row_step = 0 - (row_mask << scratch->width_shift);
                                                     *(s16 *)&scratch->step.h.y = (s16)row_step;
                                                 }
                                                 {
@@ -741,7 +741,7 @@ L_CFE98:
                                                         if (cells[scratch->cell_index].flags & 0x80) {
                                                             neighbor_face_flags = scratch->face_info.b.flags;
                                                             if (!(neighbor_face_flags & 2)) {
-                                                                if ((scratch->face_info.b.skip != one)
+                                                                if ((scratch->face_info.b.skip != row_mask)
                                                                     || ((s8) neighbor_face_flags) >= 0) {
                                                                     height_shift = (u8 *)height_shift + 24;
                                                                     scratch->last_normal = 0xFFFF;
@@ -833,9 +833,8 @@ L_CFE98:
                                                     ((S_800CF8E4_9_pre *)packet_code)[-1].unk_00 = 5;
                                                     (*(s32 *)((u8 *)packet_code + -3)) = overlay_color;
                                                     packet_code += 0x28;
-                                                    *(s32 *)packet = (*(s32 *)packet & tag_mask)
-                                                    | (*(s32 *)((scratch->otz * 4)
-                                                        + scratch->ot_base) & column_mask);
+                                                    OT_SETADDR(packet, OT_GETADDR((scratch->otz * 4) + scratch->ot_base, column_mask),
+                                                        tag_mask, column_mask);
                                                     error_step = scratch->otz;
                                                     error_step *= 4;
                                                     error_step += scratch->ot_base;
@@ -849,7 +848,7 @@ L_CFE98:
                                                         edge_progress |= overlay_addr;
                                                         *(s32 *)error_step = edge_progress;
                                                     }
-                                                    ((S_800CF8E4_9_pre *)packet_code)[-1].unk_00 = one;
+                                                    ((S_800CF8E4_9_pre *)packet_code)[-1].unk_00 = row_mask;
                                                     {
 
                                                         edge_progress = scratch->draw_mode;
@@ -871,12 +870,12 @@ L_CFE98:
                                         } else {
                                             goto block_98;
                                         }
-                                        *(s32 *)packet = (*(s32 *)packet & tag_mask) | (*(s32 *)((scratch->otz * 4) + scratch->ot_base) & column_mask);
+                                        OT_SETADDR(packet, OT_GETADDR((scratch->otz * 4) + scratch->ot_base, column_mask), tag_mask, column_mask);
                                         ot_entry = (scratch->otz * 4) + scratch->ot_base;
                                         *ot_entry = (*ot_entry & tag_mask) | (s32) packet_addr;
                                         packet += 0x28;
                                         face_skip = scratch->face_info.b.skip;
-                                        if ((face_skip & 0xF) == one) {
+                                        if ((face_skip & 0xF) == row_mask) {
                                             if (((s8) scratch->face_info.b.flags) >= 0) {
                                                 height_shift = (u8 *)height_shift + ((((u32)face_skip >> 4) * 24) + 24);
                                                 goto L_CFE98;
