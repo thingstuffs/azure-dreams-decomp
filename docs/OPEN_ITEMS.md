@@ -9,15 +9,24 @@ Newest first within each section. Evidence links point at the record that measur
 | # | item | why it matters | next step | evidence |
 |---|---|---|---|---|
 | 3 | generated Rec_D_800E3D7C.h still used (and Rec_D_800814A8.h by func_810AFA04, func_81324774 - pin-lane rows skipped as busy) by dungeon/func_8133AD74 (reads through a volatile view in the generated header) | EntityRec supersedes it | resolve that row's volatile view, then retire the header | phase-6 REPORT |
-| 6 | dungeon/func_800957B8 5 -> 1 held | exact only by reading a callee's 5th halfword from a spill slot (layout-dependent) | find the real 5-element record + source of tile_info[4] | work/native_lane/r78_opus_c16/held/README.md |
-| 7 | early constant call argument (gcc 2.7 calls.c loads constant register args last; retail loads some first) | 37 sites / 34 rows; 11-row `call_one` clone cluster | the 11-row `call_one` cluster IS the F0 family (item 5) - resolve there; the other ~23 rows: the measurement r78_opus_rx1 named (narrow `u8/u16 x = 1` passed as x after a label / in a loop, read .cse/.combine) | work/native_lane/r78_opus_rx1/REPORT.md |
 | 8 | 0x800814A0 declared two ways by the original (22 rows compiled against a scalar int keep `extern int D_800814A0`) | two spellings of one address | revisit if a second readable name is wanted | TYPE_CONSOLIDATION.md phase 2 |
 | 10 | 147 rows keep a `(u8 *)&gameWork` view pointer | readability | only where the local pointer is not retail's base register (128 miss when folded) | TYPE_CONSOLIDATION.md phase 4 |
 | 11 | goto readability debt (1,599 rows) and remaining address-named local views | readability | byte-exact control-flow work in family packs; views via type consolidation | evidence/r78_wave1_report.md |
-| 12 | r77_opus_m6 site-for-pin trade on dungeon/func_81875B38 (4 -> 1) | pins | stage with a trade-ledger entry and review | HANDOVER round 77 |
-| 22 | slus/w_8005F134: a real `switch` removes all 4 ASM_REG pins but leaves one word (`lw v0,32(at)` vs jtbl_8003329C+0): the jump table must be owned as this file's .rodata | 4 pins | SLUS data-ownership move of jtbl_8003329C into w_8005F134 (GP-ownership style: C-owned data, image gate, module/placement evidence) | r78_opus_w11 REPORT |
 | 14 | tools/gate/match.py and tools/fidelity/probe_gp_module.py do not read config/slus_006.14.c_syms.txt | only the SLUS image gate + verify's module/partition gates prove a SLUS candidate naming a C-only symbol | teach both to read it | phase-6 REPORT |
 | 15 | evidence records keyed on the old pinned SLUS recipe sha read stale once (slus_module_evidence, certify_slus_module, prove_slus_ownership, pin_search) | expected after a recipe move | refresh on next use | phase-6 REPORT |
+| 23 | town/func_8047047C (r96_sonnet_pr3/held): candidate gives func_80017E98 a 2-arg prototype while its definition takes 3 | a false prototype hides an arity site | keep held; land only the own-parameter typing half if exact alone; record the call as an arity site (r95_pt burn-down) | work/native_lane/r96_sonnet_pr3/held/WHY.txt |
+| 24 | slus/w_8004CAA0 file-scope register globals ($sp/$3/$8/$5) | `$sp` is real machine state (scratchpad stack switch at 0x1F8003FC); the other three are uncounted pins (keeping only `$sp` bound: total 16, length drift) | provenance call (hand-asm library helper?) or count + route; now visible in STATUS hidden line as `reg-global` | r97 decisions 21 |
+| 25 | main/func_8000F774 fake dependency (2 sites) | the last fake dependency in the tree | Opus mechanism lane: block-0 local-alloc order height-qty > row_count > width-qty without the fakes (`lreg_explain.py --block 0`) | work/native_lane/r96_opus_fd/REPORT.md |
+| 26 | pad words D_801379A8/D_801379B0 declared six ways (s32, volatile s32, PadState) | readability / one type per symbol | type phase 14: PadState { held; unk_04; pressed } (main/func_8001B7F8) as the shared type, volatiles kept where exactness needs them | r97 decisions 18 |
+
+## Closed (round 97 pickup, 2026-10-06)
+
+| item | fix | commit |
+|---|---|---|
+| 6: dungeon/func_800957B8 5 -> 1 held | pin-free since the r95 landings | 7663cc362 |
+| 7: early constant call argument | answered: r96_opus_ca MECHANISM.md is a sourced negative in this cdk cc1; remaining rows in ledger/hard_basket.jsonl (CALL-ARG) | r96 decisions 7 |
+| 12: dungeon/func_81875B38 site-for-pin trade | 4 -> 0 at the module recipe (r81_opus_fc6) | 892dc9de7 |
+| 22: slus/w_8005F134 switch needs jtbl ownership | SLUS switch rows own their jump tables (rodata migration) | d9f94903e |
 
 ## Closed (round 78)
 
