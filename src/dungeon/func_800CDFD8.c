@@ -240,7 +240,7 @@ void func_800D3738(void *unused, S_func_800CDFD8_2 *position, S_func_800CDFD8_5 
     u8 scaled_bottom_v;
     u8 flipped_right_u;
     u8 flipped_bottom_v;
-    S_func_800CDFD8_8 *quad;
+    S_func_800CDFD8_8 *quad_cursor;
     S_func_800CDFD8_1 *scratch;
     S_func_800CDFD8_6 *matrix_or_part;
     S_func_800CDFD8_7 *part;
@@ -281,7 +281,7 @@ void func_800D3738(void *unused, S_func_800CDFD8_2 *position, S_func_800CDFD8_5 
     ot_depth = depth - depth_bias;
     scratch->unk_C0 = ot_depth;
     if (ot_depth < 0x1D6U) {
-        quad = (S_func_800CDFD8_8 *)((u8 *)packet + 7);
+        quad_cursor = (S_func_800CDFD8_8 *)((u8 *)packet + 7);
         func_800649A0();
         angles = (void *)0x1F800100;
         ASM_KEEP_NV(angles);
@@ -318,46 +318,50 @@ void func_800D3738(void *unused, S_func_800CDFD8_2 *position, S_func_800CDFD8_5 
         matrix_or_part = (S_func_800CDFD8_6 *)((u8 *)part + 4);
         scratch->unk_24.unk_24_u16 = (u16) sprite->unk_14;
         for (;;) {
+            void *cursor = 0;
+            S_func_800CDFD8_8 *quad = 0;
+            cursor = matrix_or_part;
+            quad = quad_cursor;
             if (!(part->unk_00 & 0x20)) {
-                part_u = ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_08;
+                part_u = ((S_func_800CDFD8_6 *)((u8 *)cursor - 4))->unk_08;
                 scratch->unk_08 = (u32) part_u;
-                part_width = ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_0A;
+                part_width = ((S_func_800CDFD8_6 *)((u8 *)cursor - 4))->unk_0A;
                 scratch->unk_10 = (u32) part_width;
                 if (((part_u + part_width) >= 0x100) || (sprite->unk_1A != 0)) {
                     scratch->unk_10 = part_width - 1;
                 }
-                part_v = ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_09;
+                part_v = ((S_func_800CDFD8_6 *)((u8 *)cursor - 4))->unk_09;
                 scratch->unk_0C = (u32) part_v;
-                part_height = ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_0B;
+                part_height = ((S_func_800CDFD8_6 *)((u8 *)cursor - 4))->unk_0B;
                 scratch->unk_14.unk_14_u32 = (u32) part_height;
                 if (((part_v + part_height) >= 0x100) || (sprite->unk_1A != 0)) {
                     scratch->unk_14.unk_14_u32 = part_height - 1;
                 }
                 if ((part->unk_00 ^ scratch->unk_24.unk_24_u16) & 1) {
                     flipped_width = scratch->unk_10;
-                    flipped_x = (0 - (s8) ((volatile S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_02)
+                    flipped_x = (0 - (s8) ((volatile S_func_800CDFD8_6 *)((u8 *)cursor - 4))->unk_02)
                         - scratch->unk_108;
                     flipped_top_x = flipped_x + ((s32) ((s16) flipped_x + ((u32) (flipped_x << 0x10) >> 0x1F)) >> 1);
                     half_width = (s32) (flipped_width + (flipped_width >> 0x1F)) >> 1;
                     scratch->unk_70 = flipped_top_x;
                     scratch->unk_78 = (s16) (flipped_top_x - ((u16) scratch->unk_10 + half_width));
-                    scratch->unk_80 = (s16) ((0 - (s8) ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_02)
+                    scratch->unk_80 = (s16) ((0 - (s8) ((S_func_800CDFD8_6 *)((u8 *)cursor - 4))->unk_02)
                         - scratch->unk_108);
                     scratch->unk_88 = (s16) (scratch->unk_80 - (u16) scratch->unk_10);
                 } else {
-                    left_x = (s8) ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_02
+                    left_x = (s8) ((S_func_800CDFD8_6 *)((u8 *)cursor - 4))->unk_02
                         - ((S_func_800CDFD8_1 *)scratch)->unk_108;
                     width = scratch->unk_10;
                     left_x += (s16) left_x / 2;
                     scratch->unk_70 = left_x;
                     left_x += (u16) scratch->unk_10 + (s32) width / 2;
                     scratch->unk_78 = left_x;
-                    bottom_left_x = (s8) ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_02 - scratch->unk_108;
+                    bottom_left_x = (s8) ((S_func_800CDFD8_6 *)((u8 *)cursor - 4))->unk_02 - scratch->unk_108;
                     scratch->unk_80 = bottom_left_x;
                     scratch->unk_88 = (s16) (bottom_left_x + (u16) scratch->unk_10);
                 }
                 if ((part->unk_00 ^ scratch->unk_24.unk_24_u16) & 2) {
-                    edge_y = (0 - (s8) ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_03)
+                    edge_y = (0 - (s8) ((S_func_800CDFD8_6 *)((u8 *)cursor - 4))->unk_03)
                         - ((S_func_800CDFD8_1 *)scratch)->unk_10A;
                     ((S_func_800CDFD8_1 *)scratch)->unk_7A = edge_y;
                     ((S_func_800CDFD8_1 *)scratch)->unk_72 = edge_y;
@@ -365,7 +369,7 @@ void func_800D3738(void *unused, S_func_800CDFD8_2 *position, S_func_800CDFD8_5 
                     scratch->unk_8A = edge_y;
                     scratch->unk_82 = edge_y;
                 } else {
-                    edge_y = (s8) ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_03
+                    edge_y = (s8) ((S_func_800CDFD8_6 *)((u8 *)cursor - 4))->unk_03
                         - ((S_func_800CDFD8_1 *)scratch)->unk_10A;
                     ((S_func_800CDFD8_1 *)scratch)->unk_7A = edge_y;
                     ((S_func_800CDFD8_1 *)scratch)->unk_72 = edge_y;
@@ -418,7 +422,7 @@ void func_800D3738(void *unused, S_func_800CDFD8_2 *position, S_func_800CDFD8_5 
                         ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_0E = (s16) sprite->unk_12;
                     } else {
                         ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_0E =
-                            (s16) (sprite->unk_12 + ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_06);
+                            (s16) (sprite->unk_12 + ((S_func_800CDFD8_6 *)((u8 *)cursor - 4))->unk_06);
                     }
                     ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_0C =
                         (s16) ((u16) scratch->unk_0C + (u16) scratch->unk_08);
@@ -426,11 +430,11 @@ void func_800D3738(void *unused, S_func_800CDFD8_2 *position, S_func_800CDFD8_5 
                         (s16) ((u16) scratch->unk_0C + (u16) scratch->unk_10);
                     if (sprite->unk_10 != 0) {
                         ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_1A =
-                            (u16) (sprite->unk_10 + (((S_func_800CDFD8_6 *)((u8 *)matrix_or_part
+                            (u16) (sprite->unk_10 + (((S_func_800CDFD8_6 *)((u8 *)cursor
                             - 4))->unk_04 & 0xFF9F));
                     } else {
                         ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_1A =
-                            (u16) ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_04;
+                            (u16) ((S_func_800CDFD8_6 *)((u8 *)cursor - 4))->unk_04;
                     }
                     ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_24.unk_24_s16 =
                         (s16) ((u16) scratch->unk_14.unk_14_u32 | (u16) scratch->unk_08);
@@ -489,7 +493,9 @@ void func_800D3738(void *unused, S_func_800CDFD8_2 *position, S_func_800CDFD8_5 
             if ((s8) part->unk_00 < 0) {
                 break;
             }
-            matrix_or_part = (S_func_800CDFD8_6 *)((u8 *)matrix_or_part + 0xC);
+            matrix_or_part = (S_func_800CDFD8_6 *)((u8 *)cursor + 12);
+            cursor = quad;
+            quad_cursor = cursor;
             part = (S_func_800CDFD8_7 *)((u8 *)part + 0xC);
         }
         func_80064A40();
