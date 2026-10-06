@@ -246,6 +246,14 @@ class DataPieceFidelityTest(unittest.TestCase):
         physical = deepcopy(baseline)
         physical["genuine"]["2.79"]["physical"]["missing"] = ["probe"]
         cases.append(("incomplete genuine", physical, None))
+        # an unresolved (masked) word is never accepted, even at diff 0 with exact lengths:
+        # owned .rodata jump-table addresses must be resolved through the manifest anchor instead
+        masked_physical = deepcopy(baseline)
+        masked_physical["maspsx_physical_retail"] = {"diff": 0, "masked": 2, "checked": 1}
+        cases.append(("masked maspsx physical retail", masked_physical, None))
+        masked_genuine = deepcopy(baseline)
+        masked_genuine["genuine"]["2.79"]["physical"]["retail"] = {"diff": 0, "masked": 2, "checked": 1}
+        cases.append(("masked genuine physical retail", masked_genuine, None))
         ambiguous = {"physical_units": [dict(baseline, source=self.module["source"]),
                                         dict(baseline, source=self.module["source"])]}
         cases.append(("ambiguous physical", ambiguous, descriptor))
