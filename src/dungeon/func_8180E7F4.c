@@ -319,10 +319,6 @@ select_donor:
         ability_count = 0;
         result_primary = func_8002773C(result, clear_donor_seen, clear_result_seen, clear_abilities);
         if (result_primary >= 0) {
-#ifdef NON_MATCHING
-            seen_mark = 1;
-            merge_buffer[result_primary] = (u8) seen_mark;
-#else
             {
                 u8 *primary_seen_base =
                     (u8 *) &merged_element + result_primary - 0x28;
@@ -330,7 +326,6 @@ select_donor:
                 seen_mark = 1;
                 primary_seen_base[0x10] = (u8) seen_mark;
             }
-#endif
             result_primary_data = result + (result_primary * 3);
             element_mask = (s16) func_800A57B4(donor, ((S_800277F4_2 *)result_primary_data)->unk_08);
             if (element_mask >= 0) {
@@ -365,9 +360,6 @@ result_primary_done:
 merge_donor_primary:
         donor_primary = func_8002773C(donor);
         if (donor_primary >= 0) {
-#ifdef NON_MATCHING
-            visited_slot = donor_seen + donor_primary;
-#else
             {
                 u8 *frame_base =
                     (u8 *) &merged_element - 0x28;
@@ -375,7 +367,6 @@ merge_donor_primary:
                     frame_base + 0x13;
                 visited_slot = visited_base + donor_primary;
             }
-#endif
             if (*visited_slot == 0) {
                 donor_primary_data = donor + (donor_primary * 3);
                 merge_out = (u8 *)func_800A57B4(result, ((S_800277F4_6 *)donor_primary_data)->unk_08);
@@ -615,11 +606,7 @@ store_ability:
             func_800A18E8(((S_800277F4_8 *)donor)->unk_13, 3);
             slot_index = func_800A1BD0(donor);
             {
-#ifdef NON_MATCHING
                 u8 *slot_page = D_80080000;
-#else
-                u8 *slot_page = (u8 *)D_80080000;
-#endif
                 slot_base = *(u8 **) (slot_page + 0x14A8);
             }
             slot_addr = (u8 *) (((s32) (slot_index << 0x10) >> 0xE) + (s32) slot_base);
@@ -636,18 +623,11 @@ store_ability:
             func_8009A3D0(room_x, room_y, map_mask);
             func_8009A028(donor);
             if (owner_action == 1) {
-#ifdef NON_MATCHING
-                D_80010980[((S_800277F4_8 *)donor)->unk_43 * 4] = ((S_800277F4_0 *)result)->unk_13;
-#else
                 u8 *room_page = (u8 *) 0x80010000;
 
                 room_page[0x980 + (((S_800277F4_8 *)donor)->unk_43 * 4)] = ((S_800277F4_0 *)result)->unk_13;
-#endif
                 ((S_800277F4_8 *)donor)->unk_43 = 0xFF;
             } else if (owner_action == 2) {
-#ifdef NON_MATCHING
-                *(s32 *) &D_80010980[((S_800277F4_8 *)donor)->unk_43 * 4] = 0;
-#else
                 u32 room_base = 0x80010000;
                 s32 room_index;
                 room_index = ((S_800277F4_8 *)donor)->unk_43;
@@ -655,15 +635,10 @@ store_ability:
                 room_base |= 0x980;
 
                 *(s32 *) (room_base + (room_index * 4)) = 0;
-#endif
             }
             slot_index = func_800A1BD0(donor);
             {
-#ifdef NON_MATCHING
                 u8 *slot_page = D_80080000;
-#else
-                u8 *slot_page = (u8 *)D_80080000;
-#endif
                 u8 *runtime_base;
                 u8 *runtime_addr;
                 runtime_base = *(u8 **) (slot_page + 0x14A8);
@@ -691,3 +666,4 @@ return_tail:
     }
     return result;
 }
+

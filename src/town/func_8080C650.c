@@ -114,7 +114,8 @@ void func_8080C650(void *in0, void *arg1, void *in2) {
     s32 temp_v0_6_2;
     s32 temp_v1_4;
     s32 delta;
-    register s32 var_s2 ASM_REG("$18");   /* site_for_pin trade (round l0_goal_20260922): with the ten intra pseudo-calls spelled as goto/loop (now switch/break), var_s2 is live to the trailing var_s2 call on every path, so global.c ranks in0 above it and the pair swaps $s2/$s4 (89 words) */
+    s32 loop_index;
+    s32 var_s2;
     s32 var_s2_2;
     s32 var_v0_2;
     s32 tmpx;
@@ -186,7 +187,10 @@ void func_8080C650(void *in0, void *arg1, void *in2) {
             var_s2 = (s32)D_80289334;
             ((S_8080C650_0 *)in0)->unk_68.s = 2;
         }
-        break;
+        if (var_s2 != 0) {
+            func_80034A1C(arg2, var_s2, 0);
+        }
+        return;
     case 2:
         if (((S_8080C650_3 *)arg2)->unk_14 & 0x6000) {
             var_s2 = (s32)D_802893C4;
@@ -315,7 +319,7 @@ void func_8080C650(void *in0, void *arg1, void *in2) {
             func_80058F88(0x1700);
             func_80058F88(0x1701);
             if (D_80530658[((S_8080C650_1 *)var_s0)->unk_34] == 8) {
-                var_s2 = 1;
+                loop_index = 1;
                 global_s5 = (s32 *)0x1000;
                 ((S_8080C650_0 *)in0)->unk_A8 = (s32) (((S_8080C650_0 *)in0)->unk_A8 | 1);
                 {
@@ -330,9 +334,9 @@ void func_8080C650(void *in0, void *arg1, void *in2) {
                             ((S_8080C650_4 *)temp_v0_3)->unk_22 = 0x78;
                             ((S_8080C650_4 *)temp_v0_3)->unk_24 = arg1;
                             ((S_8080C650_4 *)temp_v0_3)->unk_10 = (s32)D_80529080;
-                            func_80034A1C(var_s0_2, D_8028954C, (s16)(var_s2 * 4));
+                            func_80034A1C(var_s0_2, D_8028954C, (s16)(loop_index * 4));
                         }
-                    } while (--var_s2 >= 0);
+                    } while (--loop_index >= 0);
                 }
             } else {
                 ((S_8080C650_0 *)in0)->unk_A8 = (s32) (((S_8080C650_0 *)in0)->unk_A8 & ~1);
@@ -396,14 +400,14 @@ void func_8080C650(void *in0, void *arg1, void *in2) {
         break;
     case 0xFF:
         var_a0 = 0;
-        var_s2 = 7;
+        loop_index = 7;
         var_v1 = &D_80530658[7];
         do {
             temp_v0_4 = *var_v1;
             var_v1 -= 1;
-            var_s2 -= 1;
+            loop_index -= 1;
             var_a0 += temp_v0_4;
-        } while (var_s2 >= 0);
+        } while (loop_index >= 0);
         if ((D_800133A0[0] < var_a0) || (var_a0 == 0x40)) {
             D_800133A0_store[0] = var_a0;
             func_80050BFC(0x5DA);

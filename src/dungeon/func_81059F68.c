@@ -41,7 +41,7 @@ void func_80171768(u8 *move_work, void *entry_context, u8 *position, u8 *actor)
     void *target_link;
     u16 state_flags;
     s32 actor_flags;
-    register s32 current_angle ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 current_angle;
     s32 turn_limit;
     s32 trial_angle;
     s32 turn_flags;
@@ -86,7 +86,8 @@ void func_80171768(u8 *move_work, void *entry_context, u8 *position, u8 *actor)
                 if (!(turn_flags & 0x80000000)) {
                     S32_AT(actor, 0x14) = turn_flags | 0x80000000;
                     turn_limit = func_800A6D30();
-                    U16_AT(actor, 0x2A) += (turn_limit & 7) << 9;
+                    current_angle = U16_AT(actor, 0x2A) + ((turn_limit & 7) << 9);
+                    U16_AT(actor, 0x2A) = current_angle;
                 }
             }
         } else {
@@ -248,9 +249,10 @@ void func_80171768(u8 *move_work, void *entry_context, u8 *position, u8 *actor)
 
             {
                 s32 move_offset = (U16_AT(actor, 0x2A) >> 8) & 0xE;
-                current_angle = (s32)((u8 *)((s8 *)dirStepX));
+                s32 step = (s32)dirStepX;
 
-                U8_AT(position, 0x24) += U8_AT(((u8 *)current_angle), move_offset);
+                step += move_offset;
+                U8_AT(position, 0x24) += *(u8 *)step;
                 U8_AT(position, 0x25) += U8_AT(((s8 *)dirStepY), move_offset);
             }
             func_8009A21C(

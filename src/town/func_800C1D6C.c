@@ -27,17 +27,12 @@ typedef struct S80083780 {
 extern s32 func_800352FC(s32, s32 *, S1 *);
 extern s32 func_800C2AB4(S0 *);
 extern void SD_Call(s32);
-#ifndef NON_MATCHING
-#else
 static s32 state;
-#endif
 
 
 /* Updates the object state, position, and timed target adjustments. */
 void func_800BF4CC(S0 *self, s32 *position, S1 *target) {
-#ifndef NON_MATCHING
     register s32 state;
-#endif
     S0 *object = self;
     s32 y_limit;
     s32 next_value;
@@ -122,3 +117,4 @@ L_STORE_TARGET:
         return;
     }
 }
+

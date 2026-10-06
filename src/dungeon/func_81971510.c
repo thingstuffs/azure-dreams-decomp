@@ -21,11 +21,7 @@ void func_81971510(void *effect, s32 unused, void *visual)
 
     effect_bytes = (u8 *)effect;
     visual_bytes = (u8 *)visual;
-#ifdef NON_MATCHING
     status_page = (u8 *)&D_80025FF4 - 0x5FF4;
-#else
-    status_page = (u8 *)D_80020000;
-#endif
     countdown = U16_AT(effect_bytes, 0x38);
     *(s16 *)(status_page + 0x5FF4) = 1;
     countdown--;
@@ -58,12 +54,9 @@ void func_81971510(void *effect, s32 unused, void *visual)
     if (S16_AT(effect_bytes, 0x38) > 0) {
         return;
     }
-#ifdef NON_MATCHING
-    flags_page = (u8 *)&objectFlagBlock.flags - 0x14A0;
-#else
     flags_page = (u8 *)0x80080000;
-#endif
     field_value = U16_AT((u8 *)effect_bytes - 2, 0) | 0x8000;
     U16_AT((u8 *)effect_bytes - 2, 0) = field_value;
     *(u32 *)(flags_page + 0x14A0) |= 0x8000;
 }
+
