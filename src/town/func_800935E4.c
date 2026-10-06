@@ -9,7 +9,7 @@ typedef s32 M2C_UNK;
 (*(type_ptr)((u8 *)(expr) + (offset)))
 
 extern void func_80090A74(void *, void *, s32);
-extern void func_80093D18(void *arg0, void *arg1, s32 arg2);
+extern void func_80093D18(void *record, void *context, s32 update_arg);
 extern s32 func_80094B0C(void *context);
 extern void func_8009550C(void *context);
 extern void func_80099754(void *record);

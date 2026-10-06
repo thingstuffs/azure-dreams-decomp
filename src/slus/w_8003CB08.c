@@ -15,10 +15,10 @@ extern s32 VSync(s32 mode);
 extern void PutDispEnv(void *env);
 extern void PutDrawEnv(void *env);
 extern void DrawSync(s32 mode);
-extern s32 rcos(s32 arg0);
-extern s32 rsin(s32 arg0);
+extern s32 rcos(s32 angle);
+extern s32 rsin(s32 angle);
 extern void func_8003D0F0(void);
-extern void func_8003CCB0(s32 arg0);
+extern void func_8003CCB0(s32 layer);
 
 static inline s32 shift10(s32 value)
 {

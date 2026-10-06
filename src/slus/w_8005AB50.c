@@ -21,8 +21,8 @@ typedef struct {
 
 extern S_8007382C D_8007382C;
 
-extern s32 func_8005EC40(s32 arg0, u32 arg1);
-extern void func_8005ECA0(s32 arg0);
+extern s32 func_8005EC40(s32 dest, u32 size);
+extern void func_8005ECA0(s32 value);
 
 /* Reads a bounded chunk from the selected entry and advances its cursor. */
 s32 func_8005AB50(s32 dest, u32 read_size, s16 entry_id)

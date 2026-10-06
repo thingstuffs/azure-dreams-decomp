@@ -2,7 +2,7 @@
 
 extern void func_80035208(void *value);
 extern void func_80094984(void *entries, void *record, s32 handler_param);
-extern void func_800988C8(void *arg0, s32 arg1, s32 arg2);
+extern void func_800988C8(void *block, s32 header_param_08, s32 header_param_0c);
 extern void func_80099754(s32 record);
 
 extern u8 D_8006CADE[];

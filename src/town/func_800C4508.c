@@ -15,7 +15,8 @@ s32 func_800C1C68(s32 value, s16 **range_groups)
 
     group_index = 0;
     if (*range_groups == 0) {
-        goto not_found;
+        return_value = 0;
+        return return_value;
     }
 
     empty_marker = -1;
@@ -53,7 +54,6 @@ range_loop:
         goto group_loop;
     }
 
-not_found:
     return_value = 0;
     return return_value;
 }

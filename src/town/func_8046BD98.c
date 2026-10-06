@@ -42,12 +42,9 @@ loop:
             condition_result = func_8001E670(*(u16 *)(entry + 2));
             if (condition_result == 0) {
                 goto next;
-                root_page = (void **)0x80010000;
-            } else {
-                root_page = (void **)0x80010000;
             }
+            root_page = (void **)0x80010000;
             entry = selected_values + entry_index;
-            goto use_entry;
         } else {
             next_flags = func_8001E670(*(u16 *)(entry + 2));
             if (next_flags == 1) {
@@ -56,8 +53,6 @@ loop:
             root_page = (void **)0x80010000;
             entry = selected_values + entry_index;
         }
-
-use_entry:
         context = *(void **)((s8 *)root_page + 0x6000);
         callbacks = *(void **)((s8 *)context + 0x20);
         apply_value = *(UseFunc *)((s8 *)callbacks + 0x304);

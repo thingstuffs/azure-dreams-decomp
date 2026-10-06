@@ -14,7 +14,7 @@ typedef struct TownPage {
     TownIndexEntry entries[0x40];
 } TownPage;
 
-extern s32 func_8004B854(s32 arg0, void *arg1, s32 arg2);
+extern s32 func_8004B854(s32 first, void *data, s32 value);
 extern u8 *D_800CFCC4[];
 extern s32 D_80100AF0[];
 

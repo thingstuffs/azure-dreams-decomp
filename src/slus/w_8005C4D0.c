@@ -29,8 +29,8 @@ extern S_80085458 D_80085458[64];
 extern s32 D_80073740[];
 extern s32 D_80085F98[3];
 
-extern s32 func_80056D44(s32 arg0, S_80085458 *arg1);
-extern void func_80056DB4(s32 arg0);
+extern s32 func_80056D44(s32 slot_index, S_80085458 *envelope);
+extern void func_80056DB4(s32 slot_index);
 extern void func_8005E97C(s32 key_on, s32 voices);
 extern s32 func_8005EB78(s32 voice_mask);
 

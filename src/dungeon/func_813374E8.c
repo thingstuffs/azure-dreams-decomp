@@ -121,7 +121,8 @@ void func_8016E4E8(void *animation, s32 *origin, void *color)
         if (((S_8016E4E8_0 *)animation)->unk_18.s >= 41) {
             break;
         }
-        goto increment_state_reload;
+        ((S_8016E4E8_0 *)animation)->unk_12.u++;
+        break;
 
     case 2:
         ((S_8016E4E8_0 *)animation)->unk_18.u++;
@@ -148,7 +149,6 @@ void func_8016E4E8(void *animation, s32 *origin, void *color)
         if (((S_8016E4E8_0 *)animation)->unk_18.s > 0) {
             break;
         }
-increment_state_reload:
         ((S_8016E4E8_0 *)animation)->unk_12.u++;
         break;
 
