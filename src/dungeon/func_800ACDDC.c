@@ -11,16 +11,6 @@ extern void func_800ACD74(void *object_state, s32 unused_context, s32 properties
 extern s16 D_800DCE68;
 
 
-typedef struct S_800B253C_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x4];
-    s16 unk_08;
-    u8 pad_0A[0x2];
-    void * unk_0C;
-    s32 unk_10;
-} S_800B253C_2;   /* state in func_800B253C */
-
 /* Updates actor state from pending entity flags when entity processing is allowed. */
 void func_800B253C(Rec_func_800A9E70_arg0 *actor, s32 update_arg1, s32 update_arg2, EntityRec *entity) {
     void *active_entity;

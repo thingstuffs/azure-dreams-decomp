@@ -1,7 +1,7 @@
+#include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 
 extern s32 func_80042900(void *entry, s32 effect_id);
-extern s32 D_8008ACDC;
 extern u8 D_8008EAC8[];
 extern u8 D_80096384[];
 
@@ -25,7 +25,7 @@ void func_80096088(void *target, void *source) {
 
                     {
                         u8 *default_dispatch;
-                        default_dispatch = (u8 *)&D_8008ACDC;
+                        default_dispatch = (u8 *)func_8008ACDC;
                         *(void **)((u8 *)target + 0x8C) = default_dispatch;
                     }
                 }

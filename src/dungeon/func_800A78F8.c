@@ -64,11 +64,6 @@ typedef struct S_800AD058_3 {
 } S_800AD058_3;   /* arg1 in func_800AD058 */
 
 
-typedef struct S_800AD058_5 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800AD058_5;   /* base in func_800AD058 */
-
 /* Fades or spirals an entity away, then removes it and updates dungeon state. */
 s32 func_800AD058(u8 *state, s32 *position, u8 *sprite, u8 *entity_data) {
     s32 sound_id;
@@ -126,9 +121,9 @@ s32 func_800AD058(u8 *state, s32 *position, u8 *sprite, u8 *entity_data) {
         ((Rec_func_800AD058_arg0 *)state)->unk_96 = fade_ticks;
         if (((fade_ticks << 0x10) <= 0) || (finished = 0, ((((S_800AD058_1 *)sprite)->unk_14 & 0x8000) != 0))) {
             if (!(((S_800AD058_2 *)entity)->unk_14 & 0x20000000)) {
-                s32 *shared_state = ((s32 *)(&dungeonStatus));
-                if (shared_state[4] == (s32) (entity - 0x20)) {
-                    shared_state[4] = (s32) (shared_state[4] & 0x7FFFFFFF);
+                DungeonGlobalStatus *shared_state = &dungeonStatus;
+                if (((s32)shared_state->unk_10) == (s32) (entity - 0x20)) {
+                    shared_state->unk_10 = (s32) (((s32)shared_state->unk_10) & 0x7FFFFFFF);
                 }
             }
             entity_flags = ((S_800AD058_2 *)entity)->unk_14;
@@ -192,11 +187,11 @@ s32 func_800AD058(u8 *state, s32 *position, u8 *sprite, u8 *entity_data) {
         ((Rec_func_800AD058_arg0 *)state)->unk_96 = spiral_ticks;
         finished = 0;
         if ((spiral_ticks << 0x10) <= 0) {
-            s32 *shared_state = ((s32 *)(&dungeonStatus));
+            DungeonGlobalStatus *shared_state = &dungeonStatus;
 
-            active_count = ((S_800AD058_5 *)shared_state)->unk_0A;
+            active_count = ((u16)shared_state->unk_0A);
             active_count--;
-            ((S_800AD058_5 *)shared_state)->unk_0A = active_count;
+            shared_state->unk_0A = active_count;
             func_800A2FE0(entity);
             func_800A32A4(entity);
         } else {

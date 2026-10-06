@@ -1,3 +1,4 @@
+#include "shared/runtime_dispatch.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
@@ -12,7 +13,6 @@ extern void *func_8003FC64();
 extern s32 func_8004A330();
 extern void func_800DBF38();
 extern s32 D_80029498;
-extern u8 D_80082E6A;
 
 
 typedef struct S_80025198_0 {
@@ -82,7 +82,7 @@ void *func_80025198(s32 value_00, s32 value_10, s32 value_18, void *descriptor, 
         ((S_80025198_1 *)state)->unk_1C = (s32) ((S_80025198_2 *)descriptor_data)->unk_00;
         func_800250B4(state, descriptor_data, setup_arg);
         (*(s32 *)((u8 *)object + (0x10))) = 0;
-        if (D_80082E6A != 1) {
+        if (D_80082E60.mode != 1) {
             func_800DBF38();
         }
         display_ids = &D_80029498;

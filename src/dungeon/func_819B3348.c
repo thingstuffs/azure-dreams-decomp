@@ -1,9 +1,8 @@
+#include "shared/object_flags.h"
 #include "common.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80080000.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 D_80080000[];
 
 
 typedef struct S_80024B48_0_pre {
@@ -57,6 +56,6 @@ void func_80024B48(void *object) {
     }
     if ((s16) ((S_80024B48_0 *)object)->unk_48 >= 0x20) {
         (*(u16 *)((u8 *)object + (-2))) = (u16) (((S_80024B48_0_pre *)object)[-1].unk_00 | 0x8000);
-        (*(s32 *)((u8 *)D_80080000 + (0x14A0))) = (s32) (((Rec_D_80080000 *)D_80080000)->unk_14A0 | 0x8000);
+        (objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
     }
 }

@@ -13,13 +13,6 @@ typedef struct {
     s32 y;
 } Func97514Object;
 
-typedef struct S_80094C74_0 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0xBC];
-    s16 unk_C8;
-} S_80094C74_0;   /* global_base in func_80094C74 */
-
 /* Adjust the object vector toward the selected angle and limit its magnitude. */
 void func_80094C74(Func97514Object *object) {
     s16 angle;

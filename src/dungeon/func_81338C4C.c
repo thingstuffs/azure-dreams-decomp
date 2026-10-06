@@ -5,7 +5,6 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 extern u8 D_80170000[];
-extern u8 D_80080000[];
 
 typedef struct S_8016FC4C_0 {
     u8 pad_00[0xAC];
@@ -261,7 +260,7 @@ void func_8016FC4C(void *effect, S_8016FC4C_6 *entity, S_8016FC4C_5 *object) {
     if (((S_8016FC4C_8 *)D_80170000)->unk_5D50 != 0) {
         s16 sprite_direction;
         s32 old_direction;
-        common_page = (u32)(s32)((S_8016FC4C_8 *)D_80080000)->unk_3228;
+        common_page = (u32)(s32)gameWork.view.viewAngle;
         direction = (((s32)common_page + (s16)heading->unk_2A + 0x100) >> 9) & 7;
         old_direction = ((S_8016FC4C_3 *)effect)->unk_94;
         sprite_direction = direction;

@@ -1,3 +1,4 @@
+#include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -69,7 +70,6 @@ typedef struct GlobalObj {
     Entity *right;
 } GlobalObj;
 
-extern u8 D_800DDC40[16];
 
 extern s32 func_800644B8();
 extern s32 func_80064584();
@@ -135,7 +135,7 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
                 entity = ((Node *)height_base)->entity;
                 height_addr = (u8 *)(u32)entity->kind;
                 target_height = entity->height;
-                height_addr += (u32)((u8 *)&D_800DDC40);
+                height_addr += (u32)((u8 *)D_800DDC40);
                 height_base = (u8 *)(u32)*height_addr;
                 target_height -= (s32)(u32)height_base;
                 if (entity->flags & 0x40000) {

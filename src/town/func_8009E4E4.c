@@ -1,3 +1,4 @@
+#include "shared/position_query.h"
 #include "common.h"
 
 typedef void (*Callback)(void *, void *, void *, s32);
@@ -14,7 +15,6 @@ extern void SD_Call(s32);
 
 extern u8 D_8009B454[];
 extern s16 D_800D45AA[];
-extern u8 D_800FE488[];
 
 /* Update motion, handle contact callbacks, and play the terrain height sound. */
 void func_8009BC44(void *entity, void *collision, void *motion, s32 callback_arg) {
@@ -26,7 +26,7 @@ void func_8009BC44(void *entity, void *collision, void *motion, s32 callback_arg
         *(s32 *)((u8 *)motion + 0x14) = 0x200000;
     }
     func_8009539C(motion);
-    contact_height = func_8008F170(motion, D_800FE488);
+    contact_height = func_8008F170(motion, ((u8 *)&D_800FE488));
     func_8008F294(collision, motion);
     func_8008F664(collision, motion);
     contact_height_s32 = contact_height;

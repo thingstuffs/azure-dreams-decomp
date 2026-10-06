@@ -1,3 +1,4 @@
+#include "shared/position_query.h"
 #include "common.h"
 #include "shared/entity.h"
 
@@ -30,7 +31,6 @@ extern u8 D_80090A64[];
 extern u8 D_80097D2C[];
 extern u8 D_800A5638[];
 extern M2C_UNK D_800CFCB4;
-extern u8 D_800FE488[];
 extern M2C_UNK D_800FE490;
 
 
@@ -107,7 +107,7 @@ void func_800903FC(void *owner, EntityRec *node_in, s32 mode) {
                 {
                     u8 *update_work;
 
-                    update_work = D_800FE488;
+                    update_work = ((u8 *)&D_800FE488);
                     value = func_80095978(node_in, update_work);
                     func_80095A94(node_in, value, update_work);
                 }

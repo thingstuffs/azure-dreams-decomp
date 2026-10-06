@@ -1,11 +1,6 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
 
-typedef struct {
-    s8 field0;
-    u8 pad1[7];
-} S_80082660;
-
 extern s32 D_800C3A98;
 extern void func_800C2E84();
 

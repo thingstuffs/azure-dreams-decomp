@@ -1,3 +1,4 @@
+#include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
@@ -57,7 +58,6 @@ typedef struct {
     void *field10;
 } FuncItem;
 
-extern u8 D_800DDC40[];
 extern u8 D_800C4640[];
 extern u8 D_800DF564[];
 

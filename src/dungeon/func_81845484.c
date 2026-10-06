@@ -7,11 +7,6 @@ typedef struct {
     s32 vx, vy, vz;
 } VecState;
 
-typedef struct S_800814A0 {
-    s32 val;
-    s32 pad[2];
-} S_800814A0;
-
 
 extern void func_8004491C(void *, u8 *);
 extern void func_800478B8(void *);

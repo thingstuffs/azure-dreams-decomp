@@ -14,11 +14,6 @@ typedef struct S_8008C7B4_0 {
     s8 unk_9B;
 } S_8008C7B4_0;   /* arg0 in func_8008C7B4 */
 
-typedef struct S_8008C7B4_1 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_8008C7B4_1;   /* flags in func_8008C7B4 */
-
 
 extern M2C_UNK func_80048A44();
 extern void func_8009F644();
@@ -29,15 +24,15 @@ extern M2C_UNK D_800DD0B8;
 /* Reset state, update control flags, and select the entity's directional sprite. */
 void func_8008C7B4(void *state, s32 mode, void *sprite, EntityRec *entity) {
     void *entity_arg;
-    u8 *flags;
+    GameWork *flags;
     s32 initial_state;
 
     initial_state = 0x1C;
     ((S_8008C7B4_0 *)state)->unk_9A = initial_state;
-    flags = (u8 *)&gameWork;
+    flags = &gameWork;
     ((S_8008C7B4_0 *)state)->unk_9B = 0;
     ((S_8008C7B4_0 *)state)->unk_8C = 0;
-    if ((((SysPage *)0x80010000)->flags & 2) || ((((S_8008C7B4_1 *)flags)->unk_08 & 0x20) && func_800A5C70() != 0)) {
+    if ((((SysPage *)0x80010000)->flags & 2) || ((flags->buttons & 0x20) && func_800A5C70() != 0)) {
         dungeonStatus.flags = (u16)(dungeonStatus.flags | 0x80);
     }
     entity_arg = entity;

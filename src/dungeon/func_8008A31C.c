@@ -1,3 +1,4 @@
+#include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -16,7 +17,6 @@ extern void func_80048A44(void *, u8, s16, s32);
 extern s16 func_8009AF18(s16, void *, void *, s32);
 
 extern s32 D_80081484[3];
-extern s32 D_8008ACDC;
 extern u8 D_8008EAC8[];
 extern u8 D_800DCFB0[8];
 extern u8 D_800DCFD0[8];
@@ -296,7 +296,7 @@ state_3:
         ((S_8008FA7C_3 *)actor)->unk_8C.p = D_8008EAC8;
         (*(u8 * *)((u8 *)animation + (0x2C))) = D_800DD0B8;
     } else {
-        ((S_8008FA7C_3 *)actor)->unk_8C.p2 = &D_8008ACDC;
+        ((S_8008FA7C_3 *)actor)->unk_8C.p2 = func_8008ACDC;
         (*(u8 * *)((u8 *)animation + (0x2C))) = D_800DCFB0;
     }
     direction = ((gameWork.view.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;

@@ -1,3 +1,4 @@
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 
 typedef struct {
@@ -23,7 +24,6 @@ typedef struct {
     u8 pad14[4];
 } SecondEntry;
 
-extern ActiveEntry D_800E3548[64];
 extern ActiveEntry D_800E3648[32];
 extern FirstEntry D_800E36C8[64];
 extern SecondEntry D_800E39C8[32];
@@ -46,7 +46,7 @@ void func_800CDE40(s16 x, s16 y, s32 amount)
     first_y = y;
     do {
         first_entry = &D_800E36C8[entry_index];
-        first_active = &D_800E3548[entry_index];
+        first_active = &((ActiveEntry *)D_800E3548)[entry_index];
         if (first_active->active != 0 &&
             first_entry->x == first_x &&
             first_entry->y == first_y) {

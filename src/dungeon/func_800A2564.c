@@ -1,3 +1,4 @@
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -16,7 +17,6 @@ extern void func_800666F4();
 extern u8 D_8006CD30[];
 typedef struct { u8 b0, b1, b2, b3; } Ent4;
 typedef struct { u8 b0, b1; u16 h2, h4; u8 *p8; } Ent12;
-extern Ent4 D_800E3548[];
 extern Ent12 D_800E36C8[];
 
 #define U8(p, o)  (*(u8  *)((u8 *)(p) + (o)))
@@ -90,7 +90,7 @@ s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
     camera_angles.c = U16(render_state, 200);
 
     do {
-        if (((Ent4 *)((entity_index * 4) + (s32)D_800E3548))->b1 != 0) {
+        if (((Ent4 *)((entity_index * 4) + (s32)((Ent4 *)D_800E3548)))->b1 != 0) {
             entities = (u8 *)D_800E36C8;
             entity = entities + entity_index * 12;
             U16(scratch, 0) = (U8(entity, 0) << 6) + 0x20;

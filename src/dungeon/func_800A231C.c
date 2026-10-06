@@ -1,3 +1,4 @@
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
@@ -11,7 +12,6 @@ typedef struct {
     s32 value;
 } DungeonRecord;
 
-extern s32 D_800E3548[];
 extern DungeonRecord D_800E36C8[];
 extern s32 D_800E0B54;
 
@@ -51,7 +51,7 @@ s32 func_800A7A7C(s32 x, s32 y, s32 z, s32 unused, s32 *object_data) {
         if (record_index >= 0) {
             if (func_800A794C(x_short, y_short, z_short, object_data,
                               tile_x, tile_y, tile_value) == 0) {
-                D_800E3548[record_index] = *object_data;
+                ((s32 *)D_800E3548)[record_index] = *object_data;
                 record = &D_800E36C8[record_index];
                 record->b0 = (u8)tile_x;
                 record->b1 = (u8)tile_y;

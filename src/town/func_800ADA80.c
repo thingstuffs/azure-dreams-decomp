@@ -20,20 +20,6 @@ extern s32 func_800C2F14(s16, s16);
 extern s32 D_800834A8;
 
 
-typedef struct S_800AB1E0_0 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800AB1E0_0;   /* ref in func_800AB1E0 */
-
-typedef struct S_800AB1E0_1 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_800AB1E0_1;   /* base in func_800AB1E0 */
-
 
 void func_800AB1E0(void *ptr, s32 value, Rec_D_80082E80 *record) {
     GameWork *work = &gameWork;

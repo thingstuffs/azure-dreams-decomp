@@ -1,3 +1,4 @@
+#include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
@@ -73,14 +74,6 @@ typedef struct S_func_81008664_6 {
     void *unk_00;
     void *unk_04;
 } S_func_81008664_6;
-typedef struct S_func_81008664_7 {
-    u8 pad_00[0x26];
-    s8 unk_26;
-} S_func_81008664_7;
-typedef struct S_func_81008664_8 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_func_81008664_8;
 typedef struct S_func_81008664_9 {
     u8 unk_00;
 } S_func_81008664_9;
@@ -117,7 +110,6 @@ void func_800AA53C();
 void func_800AD594();
 s16 func_800BCB04();
 extern s16 D_8008146E;
-extern u8 D_800DDC40[];
 extern M2C_UNK D_80171058;
 extern u8 D_80174888[];
 extern u8 D_801748F0[];
@@ -339,7 +331,7 @@ void func_81008664(S_func_81008664_1 *actor, S_func_81008664_5 *motion, S_func_8
             if (tile_type < 0) {
                 continue;
             }
-            if (tile_type == ((S_func_81008664_7 *)&D_80082E80)->unk_26) {
+            if (tile_type == D_80082E80.unk_026) {
                 angle_or_count = &D_8008146E;
                 if (*angle_or_count >= 2) {
                     continue;

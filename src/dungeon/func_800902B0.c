@@ -1,3 +1,4 @@
+#include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
@@ -110,7 +111,6 @@ s32 func_800A1618();
 s32 func_800A56E0();
 extern M2C_UNK D_8003E140;
 extern s32 D_80081488;
-extern M2C_UNK D_8008ACDC;
 extern u8 D_800DCFB0[];
 extern u8 D_800DD138[];
 extern u8 D_800DD140[];
@@ -244,7 +244,7 @@ store_next_state:
             return;
         }
         func_800956B8(actor, position, animation, resource_info);
-        ((S_80095A10_0 *)actor)->unk_8C = &D_8008ACDC;
+        ((S_80095A10_0 *)actor)->unk_8C = func_8008ACDC;
         func_80099F70(((S_80095A10_2 *)context)->unk_5C);
         func_80099F04(((S_80095A10_2 *)context)->unk_5C);
         dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x812);

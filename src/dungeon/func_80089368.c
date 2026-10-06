@@ -1,3 +1,4 @@
+#include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/tile_object.h"
@@ -45,7 +46,6 @@ s32 func_800A6D30();                          /* extern */
 extern M2C_UNK D_800245A8;
 extern M2C_UNK D_8004F5F4;
 extern M2C_UNK D_80050CAC;
-extern M2C_UNK D_8008ACDC;
 extern M2C_UNK D_800DCFB0;
 extern u8 D_800DD0B8[];
 extern M2C_UNK (*D_800DD830[])(s32, u16);
@@ -168,7 +168,7 @@ void func_8008EAC8(void *object, void *aux_entity, void *sprite, void *entity) {
     if (!(flags1C & 0x100000)) {
         call_arg = sprite;
         {
-            void *callback = &D_8008ACDC;
+            void *callback = func_8008ACDC;
             u8 *table = (u8 *) &D_800DCFB0;
             ((Rec_func_8008ACDC_arg0 *)object)->unk_8C.as_pv = callback;
             (*(u8 **)((u8 *)call_arg + (0x2C))) = table;

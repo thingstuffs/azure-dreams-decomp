@@ -79,7 +79,7 @@ void func_8016D6F0(S_8016D6F0_0 *actor, s32 actor_id, Rec_D_80082E80 *sprite, En
             sprite->unk_2C.as_pu8 = dir_table;
             func_80047784(
                 sprite,
-                dir_table[((((S_8016D6F0_2 *)D_80080000)->unk_3228 +
+                dir_table[((gameWork.view.viewAngle +
                             entity->facing + 0x100) >> 9) & 7],
                 0);
         }
@@ -152,7 +152,7 @@ void func_8016D6F0(S_8016D6F0_0 *actor, s32 actor_id, Rec_D_80082E80 *sprite, En
             sprite->unk_2C.as_pu8 = dir_table;
             func_80047784(
                 sprite,
-                dir_table[((((S_8016D6F0_2 *)D_80080000)->unk_3228 +
+                dir_table[((gameWork.view.viewAngle +
                             entity->facing + 0x100) >> 9) & 7],
                 0);
         }

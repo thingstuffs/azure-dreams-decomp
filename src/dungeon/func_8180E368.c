@@ -1,3 +1,4 @@
+#include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -44,7 +45,6 @@ extern void func_8004491C(void *, void *);
 
 extern s32 D_80027164;
 extern s32 D_80028874;
-extern u8 D_800DDC40[];
 
 /* Creates a sprite object at the given position with a source-dependent Z offset. */
 void *func_80027368(s16 pos_x, s16 pos_y, s16 pos_z, S_80027368_2 *source)

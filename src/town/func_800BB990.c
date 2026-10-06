@@ -10,7 +10,6 @@ typedef int s32;
 extern u8 D_800D3814[12];
 extern u8 D_800D2EA4[];
 
-extern u16 D_80082E76;
 extern s8 D_800D381A;
 extern s32 func_80041094();
 /* Passes the selected entry's bottom-center coordinates to func_80041094 and clears the selection. */
@@ -39,7 +38,7 @@ scan_entries:
         fallback_entries = D_800D2EA4;
         fallback_entry = fallback_entries + (entry_index * 8);
         func_80041094(0xB, ((fallback_entry[0] + (fallback_entry[2] >> 1)) << 6) | 0x20,
-            ((fallback_entry[1] + fallback_entry[3]) << 6) | 0x20, 0, D_80082E76 ^ 1);
+            ((fallback_entry[1] + fallback_entry[3]) << 6) | 0x20, 0, D_80082E60.flags16 ^ 1);
         D_800D381A = 0;
         return;
     }

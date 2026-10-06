@@ -1,3 +1,4 @@
+#include "shared/position_query.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
@@ -21,7 +22,6 @@ extern void func_80095C80();
 
 extern void *D_800CFCC4[3];
 extern u8 D_800CFCEF[9];
-extern u8 D_800FE488[9];
 
 typedef struct S_80092698_2 {
     u8 pad_00[0x14];
@@ -37,7 +37,7 @@ void func_80092698(Rec_func_80094268_arg0 *controller, EntityRec *entity, s32 co
 
     func_80095C80(entity);
     func_80095094(entity);
-    samples = D_800FE488;
+    samples = ((u8 *)&D_800FE488);
     sampled_value = func_80095978(entity, samples);
     if ((sampled_value - entity->z.w.i) >= 4) {
         if (D_800CFCEF[0] == 0) {

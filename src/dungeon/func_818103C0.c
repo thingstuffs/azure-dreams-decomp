@@ -1,3 +1,4 @@
+#include "shared/runtime_dispatch.h"
 #include "common.h"
 
 typedef struct {
@@ -23,7 +24,6 @@ extern void func_80026B94();
 extern void func_8004A464();
 extern void func_800DBF5C();
 extern void strcpy();
-extern u8 D_80082E6A[9];
 
 /* Processes entity fields and copies its string for selected type and state values. */
 void func_800253C0(Entity *entity) {
@@ -35,7 +35,7 @@ void func_800253C0(Entity *entity) {
     func_8004A464(entity->field_2C, 0);
     func_8004A464(entity->field_30, 0);
     func_8004A464(entity->field_34, 0);
-    if (D_80082E6A[0] != 1) {
+    if (D_80082E60.mode != 1) {
         func_800DBF5C();
     }
     if (entity->field_14 == 0x13) {

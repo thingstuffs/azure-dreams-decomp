@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
+#include "shared/entity.h"
 
 typedef struct S_8008D470_0_pre {
     u16 unk_00;
@@ -32,11 +33,6 @@ typedef struct S_8008D470_1 {
     u8 pad_20[0x104];
     void * unk_124;
 } S_8008D470_1;   /* target in func_8008D470 */
-
-typedef struct S_8008D470_2 {
-    u8 pad_00[0x124];
-    void * unk_124;
-} S_8008D470_2;   /* D_800E3D7C[0] in func_8008D470 */
 
 typedef struct S_8008D470_3 {
     u8 pad_00[0xC];
@@ -103,8 +99,7 @@ void func_8008D470(void *effect, S_8008D470_4 *position, S_8008D470_3 *visual) {
         ((S_8008D470_0 *)effect)->unk_A2.s = ((S_8008D470_0 *)effect)->unk_A2.u + 1;
     case 1:
         target = ((S_8008D470_0 *)effect)->unk_90;
-        if (func_8003DE58(target->unk_08, target, offsets, 0) != 0 &&
-            ((S_8008D470_2 *)(D_800E3D7C))->unk_124 != 0) {
+        if (func_8003DE58(target->unk_08, target, offsets, 0) != 0 &&D_800E3D7C->unk_124 != 0) {
             visual->unk_1C = 0x1000;
             steps_left = ((S_8008D470_0 *)effect)->unk_A4.s - 1;
             ((S_8008D470_0 *)effect)->unk_A4.s = steps_left;

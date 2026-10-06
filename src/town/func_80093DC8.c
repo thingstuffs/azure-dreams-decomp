@@ -1,3 +1,4 @@
+#include "shared/position_query.h"
 #include "shared/game_work.h"
 
 typedef unsigned char u8;
@@ -32,7 +33,6 @@ extern void func_80097844(void *actor, s32 value);
 extern void func_80098868(void *action_state, void *actor, s32 context);
 extern s32 D_800CFCB4;
 extern u8 D_800CFCEF;
-extern u8 D_800FE488[];
 /* Updates the actor and dispatches town actions from input and interaction state. */
 void func_80091528(void *action_state, void *actor, s32 context)
 {
@@ -46,7 +46,7 @@ void func_80091528(void *action_state, void *actor, s32 context)
     s32 action_result;
     func_80095C80(actor);
     func_800951B4(actor);
-    map_work = D_800FE488;
+    map_work = ((u8 *)&D_800FE488);
     sampled_height = func_80095978(actor, map_work);
     if ((sampled_height - (*((s16 *) (((u8 *) actor) + 0xA)))) >= 4) {
         if (D_800CFCEF == 0) {

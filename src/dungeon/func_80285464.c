@@ -1,3 +1,4 @@
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -83,7 +84,6 @@ extern s32 D_800DF258[];
 extern Room D_800E2970[];
 extern s32 D_800E296C;
 extern u8 D_800E2C40[];
-extern RecA D_800E3548[];
 extern RecD D_800E3648[];
 extern RecB D_800E36C8[];
 extern RecC D_800E39C8[];
@@ -187,16 +187,16 @@ void func_80018464(s16 layout_number)
         data++;
         D_800E36C8[entry_index].f0 = x_or_marker;
         D_800E36C8[entry_index].f1 = *data++;
-        D_800E3548[entry_index].f0 = *data++;
-        D_800E3548[entry_index].f1 = *data++;
-        D_800E3548[entry_index].f3 = *data++;
-        D_800E3548[entry_index].f2 = *data++;
-        D_800E36C8[entry_index].f8 = func_800A7A38(&D_800E3548[entry_index]);
+        ((RecA *)D_800E3548)[entry_index].f0 = *data++;
+        ((RecA *)D_800E3548)[entry_index].f1 = *data++;
+        ((RecA *)D_800E3548)[entry_index].f3 = *data++;
+        ((RecA *)D_800E3548)[entry_index].f2 = *data++;
+        D_800E36C8[entry_index].f8 = func_800A7A38(&((RecA *)D_800E3548)[entry_index]);
         entry_index++;
     }
     while (entry_index < 64) {
-        D_800E3548[entry_index].f1 = 0;
-        D_800E3548[entry_index].f0 = 0;
+        ((RecA *)D_800E3548)[entry_index].f1 = 0;
+        ((RecA *)D_800E3548)[entry_index].f0 = 0;
         entry_index++;
     }
 
@@ -239,7 +239,7 @@ void func_80018464(s16 layout_number)
     }
 
     func_8004068C(data, D_800EA000);
-    for (entry_index = 0; D_800E3548[entry_index].f1 != 0; entry_index++) {
+    for (entry_index = 0; ((RecA *)D_800E3548)[entry_index].f1 != 0; entry_index++) {
         placed_record = &D_800E36C8[entry_index];
         map_value = func_800BCA68(placed_record->f0 << 6, placed_record->f1 << 6);
         placed_record->f4 = map_value;

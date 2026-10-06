@@ -1,3 +1,4 @@
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -19,7 +20,6 @@ extern void func_8009A21C(s16 x, s16 y, u16 flags);
 extern s32 func_800A6D30(void);
 
 extern s16 D_8008146C;
-extern u8 D_800E3548[];
 extern u8 D_800E3648[];
 extern u8 D_800E36C8[];
 extern u8 D_800E39C8[];
@@ -47,7 +47,7 @@ void func_8001784C(void) {
 
     if ((state == 2) || (D_8008146C != 0x28)) {
         spawn_count = 0;
-        meta_base = D_800E3548;
+        meta_base = ((u8 *)D_800E3548);
 
         do {
 retry:

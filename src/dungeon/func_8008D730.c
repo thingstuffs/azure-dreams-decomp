@@ -1,3 +1,4 @@
+#include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/tile_object.h"
@@ -14,7 +15,6 @@ extern s32 func_800997FC();
 extern s32 func_800A2B04();
 
 extern s32 D_80083460_count __asm__("D_80083460");
-extern s32 D_8008ACDC;
 extern u8 D_800DCFF8[];
 extern u8 D_800E0597;
 extern u8 D_800E05C3;
@@ -149,7 +149,7 @@ void func_80092E90(void *controller, EntityRec *motion, void *actor, void *entry
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         func_800A2B04(motion, ((S_80092E90_1 *)actor)->unk_24, ((S_80092E90_1 *)actor)->unk_25);
-        ((S_80092E90_4 *)controller)->unk_8C = &D_8008ACDC;
+        ((S_80092E90_4 *)controller)->unk_8C = func_8008ACDC;
         dungeonStatus.unk_0A--;
     default:
         return;

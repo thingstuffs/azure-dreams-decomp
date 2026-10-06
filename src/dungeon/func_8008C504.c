@@ -1,3 +1,4 @@
+#include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -36,7 +37,6 @@ s32 func_800644B8();
 s32 func_80064584();
 void func_800A2B04();
 s32 func_800A56E0();
-extern M2C_UNK D_8008ACDC;
 extern M2C_UNK D_8008EAC8;
 extern u8 D_800DD038[];
 extern u8 D_800DD058[];
@@ -139,7 +139,7 @@ void func_80091C64(void *motion, EntityRec *position, void *entity, void *actor)
         if (((S_80091C64_1 *)actor)->unk_1C & 0x100000) {
             next_behavior = &D_8008EAC8;
         } else {
-            next_behavior = &D_8008ACDC;
+            next_behavior = func_8008ACDC;
         }
         ((S_80091C64_0 *)motion)->unk_8C = next_behavior;
         ((S_80091C64_1 *)actor)->unk_14 = (s32) (((S_80091C64_1 *)actor)->unk_14 & 0xFFFDFFFF);

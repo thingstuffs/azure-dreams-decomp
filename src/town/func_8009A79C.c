@@ -1,3 +1,4 @@
+#include "shared/position_query.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
@@ -7,7 +8,6 @@ s16 func_80095978();               /* extern */
 void func_80095A94();      /* extern */
 void func_80095C80();                      /* extern */
 void func_80098B30();        /* extern */
-extern M2C_UNK D_800FE488;
 
 
 /* Updates the record and selects a handler based on its computed threshold. */

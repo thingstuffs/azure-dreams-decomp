@@ -1,3 +1,4 @@
+#include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
@@ -5,7 +6,6 @@
 #include "records/Rec_D_80082EB0.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void *D_8008ACDC[];
 extern void *D_8008EAC8[];
 extern s32 D_80082EB0[];
 extern s16 D_800DCE66[5];
@@ -227,7 +227,7 @@ void func_80091430(void *state, s32 context_a, void *context_b, void *actor_ptr)
                     if (actor->unk_1C & 0x100000) {
                         callback = D_8008EAC8;
                     } else {
-                        callback = D_8008ACDC;
+                        callback =func_8008ACDC;
                     }
                     (*(void **)((u8 *)state + 0x8C)) = callback;
                 }
@@ -245,7 +245,7 @@ void func_80091430(void *state, s32 context_a, void *context_b, void *actor_ptr)
             if (actor->unk_1C & 0x100000) {
                 callback = D_8008EAC8;
             } else {
-                callback = D_8008ACDC;
+                callback =func_8008ACDC;
             }
             (*(void **)((u8 *)state + 0x8C)) = callback;
         }

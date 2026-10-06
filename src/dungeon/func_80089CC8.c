@@ -1,3 +1,4 @@
+#include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -17,7 +18,6 @@ extern s32 func_800A56E0();
 extern s32 func_800A5720();
 extern s16 func_800A6DA4();
 
-extern s32 D_8008ACDC;
 extern u8 D_8008EAC8[];
 extern u8 D_800DCFB0[8];
 extern u8 D_800DD0B8[8];
@@ -159,7 +159,7 @@ void func_8008F428(void *effect_state, void *saved_effect_id, void *animation, v
         func_80099F70(((S_8008F428_4 *)owner)->unk_5C);
         func_80099F04(((S_8008F428_4 *)owner)->unk_5C);
         target = animation;
-        ((S_8008F428_0 *)effect_state)->unk_8C = (u8 *)&D_8008ACDC;
+        ((S_8008F428_0 *)effect_state)->unk_8C = (u8 *)func_8008ACDC;
         (*(u8 * *)((u8 *)target + (0x2C))) = D_800DCFB0;
         func_80048A44(target,
             D_800DCFB0[((gameWork.view.viewAngle + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
@@ -196,7 +196,7 @@ void func_8008F428(void *effect_state, void *saved_effect_id, void *animation, v
         func_80099290(func_80099194(D_800E0683, effect_result));
         func_800A5720(saved_effect_id);
         target = animation;
-        ((S_8008F428_0 *)effect_state)->unk_8C = (u8 *)&D_8008ACDC;
+        ((S_8008F428_0 *)effect_state)->unk_8C = (u8 *)func_8008ACDC;
         (*(u8 * *)((u8 *)target + (0x2C))) = D_800DCFB0;
         func_80048A44(target,
             D_800DCFB0[((gameWork.view.viewAngle + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],

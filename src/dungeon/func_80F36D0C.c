@@ -1,3 +1,4 @@
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -71,7 +72,6 @@ typedef struct {
     u8 state;
 } Spawned;
 
-extern PackedRecord D_800E3548[];
 extern TileRecord D_800E36C8[];
 extern u8 D_80174A74[];
 extern u8 D_80174AE4[];
@@ -108,7 +108,7 @@ void func_80F36D0C(Entity *entity, Motion *motion, Effect *effect, Object *objec
         entity->saved_y = motion->y.half.hi;
         index = (s16)func_800A70E4(effect->x_tile + dirStepX[direction],
                                    effect->y_tile + dirStepY[direction], object->height);
-        records = D_800E3548;
+        records = ((PackedRecord *)D_800E3548);
         record = &records[index];
         if (record->bytes[1] == 0x12) {
             object->copy = *record;

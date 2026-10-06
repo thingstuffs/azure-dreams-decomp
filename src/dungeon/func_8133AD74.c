@@ -1,3 +1,4 @@
+#include "shared/runtime_dispatch.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/dir_step.h"
@@ -164,7 +165,6 @@ void func_801677FC();                  /* extern */
 void func_8016F5D8();      /* extern */
 void func_8016F79C();      /* extern */
 void func_801715D0();                            /* extern */
-extern u16 D_80082E76[8];
 extern Table32 D_8016482C;
 extern Table32 D_80164AC0;
 extern u8 D_80173DA4[16];
@@ -792,14 +792,14 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
     case 42:
         func_800945E8(((s32)D_800E3D7C), target_state);
         func_800948BC();
-        D_80082E76[0] = 0x8000;
+        D_80082E60.flags16 = 0x8000;
         func_80041094(6, 0, 0, 0, 0x8000);
         ((S_80171D74_1 *)state_in)->unk_9A++;
         break;
     case 47:
         func_800945E8(((s32)D_800E3D7C), target_state);
         func_800948BC();
-        D_80082E76[0] = 0x8000;
+        D_80082E60.flags16 = 0x8000;
         func_80041094(6, 0, 0, 0, 0x8000);
         ((S_80171D74_1 *)state_in)->unk_9A++;
         break;

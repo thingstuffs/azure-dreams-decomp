@@ -1,3 +1,4 @@
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 
 extern int abs(int);
@@ -9,11 +10,7 @@ typedef struct {
     s8 kind;
 } Entity;
 
-typedef struct {
-    u8 type;
-    u8 id;
-    u8 pad02[2];
-} RegionFilter;
+
 
 typedef struct {
     u8 x;
@@ -22,7 +19,6 @@ typedef struct {
 } RegionPos;
 
 s32 func_8009FB34();
-extern RegionFilter D_800E3548[];
 extern RegionPos D_800E36C8[];
 
 /* Finds the nearest matching entry in the entity's region and writes its coordinates. */
@@ -48,7 +44,7 @@ u32 func_800A6E8C(Entity *entity, s32 filter, s16 *out_x, s16 *out_y) {
     id = filter & 0xFF;
     type = (s16)filter >> 8;
     for (; i >= 0; i--) {
-        if (D_800E3548[i].id == id && (type == 0 || D_800E3548[i].type == type)) {
+        if (D_800E3548[i].kind == id && (type == 0 || D_800E3548[i].unk_00 == type)) {
             x = D_800E36C8[i].x;
             y = D_800E36C8[i].y;
             if ((s16)func_8009FB34(x, y) == entity->kind) {

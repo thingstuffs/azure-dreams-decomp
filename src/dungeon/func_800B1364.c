@@ -1,3 +1,5 @@
+#include "shared/dungeon_actor_callbacks.h"
+#include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"
@@ -87,11 +89,6 @@ typedef struct S_func_800B1364_5 {
     u8 pad_8A[0xE];
     u16 unk_98;
 } S_func_800B1364_5;
-
-typedef struct S_func_800B1364_6 {
-    u8 pad_00[0xC8];
-    s16 unk_C8;
-} S_func_800B1364_6;
 
 typedef struct S_func_800B1364_7 {
     u8 pad_00[0x2];
@@ -199,7 +196,6 @@ void func_800B8024();
 extern s32 D_8007359C;
 extern s32 D_80081484;
 extern u32 D_800835E4[];
-extern M2C_UNK D_8008ACDC;
 extern M2C_UNK D_800B69DC;
 extern s8 D_800DCF4F;
 extern u8 D_800DD108[];
@@ -208,7 +204,6 @@ extern u8 D_800DD118[];
 extern u8 D_800DD130[];
 extern u8 D_800DD138[];
 extern u8 D_800DD140[];
-extern u8 D_800DDC40;
 extern M2C_UNK D_800E0458;
 extern M2C_UNK D_800E0A2A;
 extern M2C_UNK D_800E0A33;
@@ -242,7 +237,7 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
     u8 *spawn_item;
     S_func_800B1364_12 *worn_item;
     u8 *direction_anim;
-    u8 *view_base;
+    GameWork *view_base;
     u8 state;
     u8 species;
     u8 next_state;
@@ -270,10 +265,10 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
     switch ((u32)(state)) {
     case 0:
     {
-        view_base = (u8 *)&gameWork;
-        if ((((s32) (((S_func_800B1364_6 *)view_base)->unk_C8 + actor->unk_2A + 0x100) >> 9) & 7) == 2) {
+        view_base = &gameWork;
+        if ((((s32) (view_base->view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7) == 2) {
             sprite->unk_2C = D_800DD108;
-            func_80048A44(sprite, D_800DD108[((s32) (((S_func_800B1364_6 *)view_base)->unk_C8 + actor->unk_2A
+            func_80048A44(sprite, D_800DD108[((s32) (view_base->view.viewAngle + actor->unk_2A
                 + 0x100) >> 9) & 7], 0, 1);
             next_state = action->unk_9B;
             action->unk_96 = 0x12U;
@@ -406,7 +401,7 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
         }
         func_80098B38(&D_80081484);
         {
-            void *callback = &D_8008ACDC;
+            void *callback = func_8008ACDC;
             event_flags = ((S_func_800B1364_15 *)&D_800E296C)->unk_00 & 0xFFDFFFFF;
             action->unk_8C = callback;
             (*(s32 *)&D_800E296C) = event_flags;
@@ -428,7 +423,7 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
         if (func_8003DE58(sprite->unk_08, sprite, spawn_offset, 0) == 0) {
             spawn_offset[1] = 0;
             spawn_offset[0] = 0;
-            spawn_offset[2] = 0 - D_800DDC40;
+            spawn_offset[2] = 0 - (*((u8 *)D_800DDC40));
         }
         func_800B8024(position->unk_02 + spawn_offset[0], position->unk_06 + spawn_offset[1],
             position->unk_0A + spawn_offset[2]);
@@ -450,7 +445,7 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
         if (func_8003DE58(sprite->unk_08, sprite, spawn_offset, 0) == 0) {
             spawn_offset[1] = 0;
             spawn_offset[0] = 0;
-            spawn_offset[2] = 0 - D_800DDC40;
+            spawn_offset[2] = 0 - (*((u8 *)D_800DDC40));
         }
         creature_pos = ((S_func_800B1364_18 *)((u8 *)creature - 0x18))->unk_00;
         creature_pos->unk_02 = (s16) ((u16) position->unk_02 + (u16) spawn_offset[0]);
@@ -593,7 +588,7 @@ read_next_state:
             return;
         }
         sprite->unk_14 = (u16) (final_flags & 0xFDFF);
-        action->unk_8C = &D_8008ACDC;
+        action->unk_8C = func_8008ACDC;
         return;
     default:
         return;

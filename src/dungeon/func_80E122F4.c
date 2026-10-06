@@ -1,3 +1,4 @@
+#include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -17,7 +18,6 @@ extern void *func_8003FC64();
 extern void func_8004491C();
 extern void func_80047784();
 
-extern u8 D_800DDC40[];
 extern s32 D_80175978;
 
 

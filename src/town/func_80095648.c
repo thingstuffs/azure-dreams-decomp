@@ -1,3 +1,4 @@
+#include "shared/position_query.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
@@ -15,12 +16,6 @@ void func_80095A94();      /* extern */
 void func_80095C80();                      /* extern */
 void func_800ABD74();                      /* extern */
 extern u8 D_800CFCEF;
-extern u8 D_800FE488[];
-
-typedef struct S_80092DA8_0 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_80092DA8_0;   /* town_state in func_80092DA8 */
 
 
 /* Updates a town object based on its threshold and the global update flag. */

@@ -1,5 +1,5 @@
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
-extern u8 D_800E3548[];
 s32 func_800F6208(s32 key_high, s32 key_low) {
     s32 index;
     s32 key;
@@ -8,7 +8,7 @@ s32 func_800F6208(s32 key_high, s32 key_low) {
     key = (key_high << 8) | (key_low & 0xFF);
     index = 0;
     key &= 0xFFFF;
-    entry = D_800E3548;
+    entry = ((u8 *)D_800E3548);
     while (index < 0x40) {
         if (*(u16 *)entry == key) {
             return 1;

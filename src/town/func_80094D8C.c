@@ -1,3 +1,4 @@
+#include "shared/position_query.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
@@ -22,7 +23,6 @@ extern void func_80095C80(void *);
 
 extern s32 D_800CFCB4;
 extern u8 D_800CFCEF;
-extern u8 D_800FE488[];
 
 /* Update the entity and dispatch its handler according to state flags and checks. */
 void func_800924EC(void *context, EntityRec *entity, s32 update_arg)
@@ -34,7 +34,7 @@ void func_800924EC(void *context, EntityRec *entity, s32 update_arg)
 
     func_80095C80(entity);
     func_80095094(entity);
-    reference_value = func_80095978(entity, D_800FE488);
+    reference_value = func_80095978(entity, ((u8 *)&D_800FE488));
     if ((reference_value - entity->z.w.i) >= 4) {
         if (D_800CFCEF == 0) {
             func_80094378(context, entity, update_arg);
@@ -42,7 +42,7 @@ void func_800924EC(void *context, EntityRec *entity, s32 update_arg)
         }
     }
     else if (D_800CFCEF == 0) {
-        func_80095A94(entity, reference_value, D_800FE488);
+        func_80095A94(entity, reference_value, ((u8 *)&D_800FE488));
     }
 
     state_flags = ((s32)state->unk_010);

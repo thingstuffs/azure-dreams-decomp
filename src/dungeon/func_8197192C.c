@@ -1,3 +1,4 @@
+#include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -188,7 +189,6 @@ extern void *D_80024D10;
 extern void *D_80024544;
 extern Data12 D_80025FD0;
 extern Data12 D_80025FDC;
-extern u8 D_800DDC40[];
 
 extern void *D_800814A8_case0[3] __asm__("D_800814A8");
 extern s16 D_80025FF4[5];

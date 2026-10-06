@@ -1,3 +1,4 @@
+#include "shared/runtime_dispatch.h"
 #include "common.h"
 
 
@@ -19,7 +20,6 @@ typedef struct {
 } Entity;
 
 extern void func_800253C0(Entity *);
-extern u8 D_80082E6A[];
 extern Func D_800294A8[];
 extern struct { s32 v; s32 pad[2]; } D_800814A0;
 
@@ -27,7 +27,7 @@ extern struct { s32 v; s32 pad[2]; } D_800814A0;
 void func_80025480(Entity *entity) {
     if (entity) {
         func_800253C0(entity);
-        if (D_80082E6A[0] == 1 || D_800294A8[entity->field_18](entity->field_0, entity->field_10)) {
+        if (D_80082E60.mode == 1 || D_800294A8[entity->field_18](entity->field_0, entity->field_10)) {
             ((S_80025480_0_pre *)entity)[-1].unk_00 |= 0x8000;
             D_800814A0.v |= 0x8000;
         }

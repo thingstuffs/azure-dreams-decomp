@@ -1,3 +1,4 @@
+#include "shared/runtime_dispatch.h"
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"
@@ -90,7 +91,6 @@ extern UnalignedCopy3 D_80013710;
 extern M2C_UNK D_80021268;
 extern u16 D_8008146C;
 extern u8 D_80082E6B;
-extern u16 D_80082E76;
 extern s16 D_800DCED4[];
 extern s32 D_800DCF64;
 extern M2C_UNK D_800E3CD0;

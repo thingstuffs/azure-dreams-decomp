@@ -107,16 +107,6 @@ typedef struct S_SCRATCH {
     u16 unk_10E;
 } S_SCRATCH;
 
-typedef struct S_800CEFB8_5 {
-    void * unk_00;
-    u8 pad_04[0xB4];
-    s16 unk_B8;
-    u8 pad_BA[0xA];
-    s16 unk_C4;
-    s16 unk_C6;
-    s16 unk_C8;
-} S_800CEFB8_5;   /* temp_s7 in func_800CEFB8 */
-
 typedef struct S_800CEFB8_6 {
     u8 unk_00;
     u8 unk_01;
@@ -209,7 +199,7 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
     S_800CEFB8_8 *draw_packet;
     void *global_base;
     S_800CEFB8_6 *part;
-    void *render_state;
+    GameWork *render_state;
     S_800CEFB8_8 *packet_next;
     
     S_SCRATCH *scratch;
@@ -228,7 +218,7 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
     ((S_800CEFB8_1 *)sprite)->unk_14 = (u16) (((S_800CEFB8_1 *)sprite)->unk_14 | 0x8000);
     scratch->unk_000 = (u16) ((S_800CEFB8_2 *)endpoints)->unk_02;
     scratch->unk_002 = (u16) ((S_800CEFB8_2 *)endpoints)->unk_06;
-    render_state = (void *)&gameWork;
+    render_state = &gameWork;
     scratch->unk_004 = (u16) ((S_800CEFB8_2 *)endpoints)->unk_0A;
     start_depth = func_80065420((void *)0x1F800000, (void *)0x1F8000B8, (void *)0x1F800090, (void *)0x1F800094);
     scratch->unk_0C0 = start_depth;
@@ -260,14 +250,14 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
         scratch->unk_0BA = coord_end - 0x78;
         scratch->unk_0F0 -= 0xA0;
         scratch->unk_0F2 -= 0x78;
-        camera_rot_x = ((S_800CEFB8_5 *)render_state)->unk_C4;
-        camera_rot_z = ((S_800CEFB8_5 *)render_state)->unk_C6;
-        camera_rot_y = ((S_800CEFB8_5 *)render_state)->unk_C8;
+        camera_rot_x = render_state->view.unk_0AC;
+        camera_rot_z = render_state->view.unk_0AE;
+        camera_rot_y = render_state->view.viewAngle;
         scratch->unk_030 = camera_rot_x;
         scratch->unk_034 = camera_rot_z;
         scratch->unk_038 = camera_rot_y;
         scratch->unk_100 = (u16) ((S_800CEFB8_1 *)sprite)->unk_16;
-        rotation_z = (((S_800CEFB8_1 *)sprite)->unk_1A - camera_rot_z) + ((S_800CEFB8_5 *)render_state)->unk_B8;
+        rotation_z = (((S_800CEFB8_1 *)sprite)->unk_1A - camera_rot_z) + render_state->view.unk_0A0;
         if (orient_mode == 0) {
             segment_angle = scratch->unk_10E;
             rotation_z += (s16)segment_angle;
@@ -522,5 +512,5 @@ continuation_coords:
         }
         func_80064A40();
     }
-    ((S_800CEFB8_9 *)(((S_800CEFB8_5 *)render_state)->unk_00))->unk_8D0 = packet_next;
+    ((S_800CEFB8_9 *)(render_state->unk_000))->unk_8D0 = packet_next;
 }

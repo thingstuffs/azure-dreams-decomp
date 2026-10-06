@@ -1,3 +1,4 @@
+#include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/game_work.h"
@@ -16,7 +17,6 @@ extern void func_8009F644(void *a0, s32 a1, s16 a2, s32 a3);
 extern void func_800A56E0(s32 a0);
 
 extern s32 D_80081484;
-extern s32 D_8008ACDC;
 extern u8 D_8008EAC8[];
 extern u8 D_800DCFD0[8];
 extern u8 D_800DD048[8];
@@ -116,7 +116,7 @@ void func_8008E700(u8 *action, u8 *motion, u8 *sprite, u8 *entity) {
                 func_80099F70(*(s32 *)(entity + 0x5C));
                 func_80099F04(*(s32 *)(entity + 0x5C));
             }
-            *(s32 **)(action + 0x8C) = &D_8008ACDC;
+            *(s32 **)(action + 0x8C) = func_8008ACDC;
         }
     }
 }

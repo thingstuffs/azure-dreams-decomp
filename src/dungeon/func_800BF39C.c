@@ -58,7 +58,7 @@ void func_800C4AFC(S_800C4AFC_2 *source, s32 effect_param, s32 state_param)
     void *object;
     s32 init_value;
     S_800C4AFC_3 *components;
-    S_800C4AFC_3 *status;
+    DungeonGlobalStatus *status;
     u8 *state;
     u8 *effect;
     u16 component_x;
@@ -94,8 +94,8 @@ void func_800C4AFC(S_800C4AFC_2 *source, s32 effect_param, s32 state_param)
     ((S_800C4AFC_0 *)state)->unk_1C = source;
     ((S_800C4AFC_0 *)state)->unk_28 = state_param;
     func_800A56E0(0x702);
-    status = (S_800C4AFC_3 *)&dungeonStatus;
-    status->unk_0A++;
+    status = &dungeonStatus;
+    (*(u16 *)&status->unk_0A)++;
 }
 
 /* MECHANISM: The 0x30 frame, s1/s2/s3 argument holds, two-word init record, and callee ABIs

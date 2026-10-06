@@ -1,3 +1,4 @@
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "records/Rec_D_80082E80.h"
@@ -71,7 +72,6 @@ extern s32 func_800A1BD0();
 extern s32 func_800A7A38();
 extern void *func_800B23F8();
 extern s8 D_800E2968;
-extern u8 D_800E3548[];
 
 /* Create an entity from spawn data and update its tracked reference. */
 void *func_80E3C98C(void *unused0, void *unused1, S_80E3C98C_1 *position, Rec_D_80082E80 *spawn_data) {
@@ -93,7 +93,7 @@ void *func_80E3C98C(void *unused0, void *unused1, S_80E3C98C_1 *position, Rec_D_
                                position->unk_24, position->unk_25,
                                spawn_data->unk_88.as_s16,
                                func_800A7A38(((s32)(((u16)spawn_data->unk_60.as_s32 - 1) << 0x10) >> 0xE)
-                                   + D_800E3548));
+                                   + ((u8 *)D_800E3548)));
         if (entity != NULL) {
             ((S_80E3C98C_2 *)entity)->unk_14 = 0;
             ((S_80E3C98C_2 *)entity)->unk_1C = 0;

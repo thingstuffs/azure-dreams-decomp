@@ -1,3 +1,4 @@
+#include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -20,12 +21,10 @@ extern void func_80099F70();
 extern void func_800A5720();
 extern void *func_800A8608(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z);
 
-extern u8 D_8008ACDC[12];
 extern u8 D_8008D470[12];
 extern u8 D_800DD0B8[8];
 extern u8 D_800E06EE[9];
 extern u8 D_800E06F7[9];
-extern u8 D_80080000[];
 
 
 typedef struct S_800927E4_0 {
@@ -45,10 +44,6 @@ typedef struct S_800927E4_1 {
     u8 * unk_2C;
 } S_800927E4_1;   /* callArg in func_800927E4 */
 
-typedef struct S_800927E4_2 {
-    u8 pad_00[0x3228];
-    s16 unk_3228;
-} S_800927E4_2;   /* hitBase in func_800927E4 */
 
 typedef struct S_800927E4_5 {
     u8 pad_00[0x2C];
@@ -115,7 +110,7 @@ void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec
             ((S_800927E4_1 *)anim_sprite)->unk_2C = anim_table;
             func_80048A44(
                 anim_sprite,
-                anim_table[((((S_800927E4_2 *)D_80080000)->unk_3228 +
+                anim_table[((gameWork.view.viewAngle +
                         actor->facing + 0x100) >> 9) & 7],
                 0,
                 1);
@@ -226,7 +221,7 @@ void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec
             func_80099F04(actor->unk_5C);
                            /* Pin: removal changes the whole function shape. */
             dungeonStatus.flags |= 0x812;
-            ((S_800927E4_0 *)action)->unk_8C = D_8008ACDC;
+            ((S_800927E4_0 *)action)->unk_8C =func_8008ACDC;
         }
         return;
     }

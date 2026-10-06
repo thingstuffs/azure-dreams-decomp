@@ -79,10 +79,6 @@ typedef struct S_800C55F4_8 {
     s16 unk_32;
 } S_800C55F4_8;   /* arg0_pin in func_800C55F4 */
 
-typedef struct S_800C55F4_9 {
-    u8 * unk_00;
-} S_800C55F4_9;   /* global_base in func_800C55F4 */
-
 typedef struct S_800C55F4_10 {
     u8 pad_00[0x8D0];
     u8 * unk_8D0;
@@ -142,10 +138,10 @@ void func_800C55F4(u8 *params, u8 *record, void *mesh_data, s32 depth_offset)
     u32 vertex_depth;
     void *perspective_arg;
     void *flags_arg;
-    S_800C55F4_9 *global_base;
+    GameWork *global_base;
 
 
-    global_base = (S_800C55F4_9 *)&gameWork;
+    global_base = &gameWork;
     perspective_out = (void *)0x1F800090;
 
     descriptor = (*(u8 ** *)((u8 *)mesh_data + 8));
@@ -195,7 +191,7 @@ void func_800C55F4(u8 *params, u8 *record, void *mesh_data, s32 depth_offset)
     func_80064D80(scratch + 0xD0);
     func_80064CF0(scratch + 0xD0);
 
-    render_state = global_base->unk_00;
+    render_state = ((u8 *)global_base->unk_000);
     ((S_800C55F4_1 *)scratch)->unk_20 = render_state + 0xB0;
     prim = ((S_800C55F4_5 *)render_state)->unk_8D0;
     packet_code = prim + 7;
@@ -344,5 +340,5 @@ void func_800C55F4(u8 *params, u8 *record, void *mesh_data, s32 depth_offset)
         break;
     }
     func_80064A40();
-    ((S_800C55F4_10 *)(global_base->unk_00))->unk_8D0 = prim;
+    ((S_800C55F4_10 *)(((u8 *)global_base->unk_000)))->unk_8D0 = prim;
 }

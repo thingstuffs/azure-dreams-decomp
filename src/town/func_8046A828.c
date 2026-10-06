@@ -1,3 +1,4 @@
+#include "shared/town_event_state.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -10,11 +11,6 @@ typedef struct S_8001B828_0 {
     void * unk_20;
 } S_8001B828_0;   /* obj in func_8001B828 */
 
-typedef struct S_8001B828_1 {
-    u8 pad_00[0x4];
-    u8 unk_04;
-} S_8001B828_1;   /* final_obj in func_8001B828 */
-
 
 extern void func_80019730(void);
 extern s8 func_8001A4F0(void);
@@ -26,14 +22,14 @@ extern void func_8001E5F0(s32);
 extern s32 D_8001601C;
 extern u8 D_80017774[];
 extern u8 D_8001914C[];
-extern u8 *D_8001E950;
+
 
 /* Dispatches requests by mode, refreshing the state code before selecting a response. */
 void *func_8001B828(s32 request, void *data, s32 mode) {
     u8 new_code;
     s32 status;
     void *context;
-    S_8001B828_1 *state;
+    TownEventState *state;
 
     if (mode == 0) {
         func_8001E5F0(0x402);
@@ -47,7 +43,7 @@ void *func_8001B828(s32 request, void *data, s32 mode) {
                 return D_8001914C;
             }
             new_code = func_8001A4F0();
-            D_8001E950[4] = new_code;
+            D_8001E950->unk_04 = new_code;
         }
         state = D_8001E950;
         if (state->unk_04 != 0) {

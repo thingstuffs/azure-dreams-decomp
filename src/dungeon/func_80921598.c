@@ -1,10 +1,10 @@
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #define ARM_RRX(x, shift) (0)
 
 extern s32 func_80033BC0();
-extern u8 D_800E3548[];
 
 typedef struct S_800F6598_1 {
     u8 pad_00[0x4];
@@ -111,8 +111,8 @@ s32 func_800F6598(void) {
         return 1;
     }
     result = 0;
-    reset_state = D_800E3548;
+    reset_state = ((u8 *)D_800E3548);
     reset_state[1] = 0;
-    D_800E3548[0] = 0;
+    ((u8 *)D_800E3548)[0] = 0;
     return result;
 }

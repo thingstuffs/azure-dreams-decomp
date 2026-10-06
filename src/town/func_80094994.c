@@ -1,3 +1,4 @@
+#include "shared/position_query.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
@@ -16,7 +17,6 @@ void func_80095C80();                      /* extern */
 void func_800ABD74();                      /* extern */
 extern u8 D_800CFCEF;
 extern M2C_UNK D_800D00B8;
-extern M2C_UNK D_800FE488;
 
 /* Advance the state counter and update the entity, handling threshold and flag transitions. */
 void func_800920F4(Rec_func_80094268_arg0 *state, EntityRec *entity, s32 context) {

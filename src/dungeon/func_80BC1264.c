@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80080000.h"
 
 typedef struct S_80BC1264_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -43,7 +42,6 @@ typedef struct S_80BC1264_1 {
 #define M2C_BREAK() ((void)0)
 #define M2C_SYNC() ((void)0)
 
-extern u8 D_80080000[];
 
 /* Advance the effect motion, fade its color, and flag it near its target or when faded out. */
 void func_80BC1264(void *effect, void *position) {
@@ -67,7 +65,7 @@ void func_80BC1264(void *effect, void *position) {
         y_distance = abs(((S_80BC1264_1 *)effect)->unk_38 - ((S_80BC1264_0 *)position)->unk_04.at02.v);
         if (y_distance < 0x10) {
             (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_80BC1264_1_pre *)effect)[-1].unk_00 | 0x8000);
-            (*(s32 *)((u8 *)D_80080000 + 0x14A0)) = (s32) (((Rec_D_80080000 *)D_80080000)->unk_14A0 | 0x8000);
+            objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
         }
     }
     scaled_red = ((S_80BC1264_1 *)effect)->unk_00 * ((S_80BC1264_1 *)effect)->unk_32;
@@ -81,6 +79,6 @@ void func_80BC1264(void *effect, void *position) {
     ((S_80BC1264_1 *)effect)->unk_08 = (s32) ((S_80BC1264_1 *)effect)->unk_04.at00u.v;
     if ((fade_level << 0x10) <= 0) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_80BC1264_1_pre *)effect)[-1].unk_00 | 0x8000);
-        (*(s32 *)((u8 *)D_80080000 + 0x14A0)) = (s32) (((Rec_D_80080000 *)D_80080000)->unk_14A0 | 0x8000);
+        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     }
 }

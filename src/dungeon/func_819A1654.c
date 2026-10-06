@@ -1,3 +1,4 @@
+#include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
@@ -141,7 +142,6 @@ extern s16 D_80082E86[6];
 extern u16 D_80082E94[6];
 extern Coord D_80083780[];
 extern s16 D_800261B0[6];
-extern u8 D_800DDC40[];
 extern PointTable D_80024054[];
 extern Blob12 D_80026180[];
 extern Blob12 D_8002618C[];

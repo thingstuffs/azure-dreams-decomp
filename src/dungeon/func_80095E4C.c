@@ -1,3 +1,4 @@
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/dir_step.h"
@@ -6,7 +7,6 @@ typedef struct Source Source;
 typedef struct Spawned Spawned;
 
 extern u8 D_80081484[];
-extern u8 D_800E3548[];
 
 extern s32 func_8009A540(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern Spawned *func_8009B25C(void *, s32, s32, s32);
@@ -96,7 +96,7 @@ void *func_8009B5AC(Source *source, s16 target_x, s16 target_y) {
     y = (s16)target_y;
     flags3c = (s16)func_800A70E4(x, y, source->height);
     if (flags3c >= 0) {
-        entry = &D_800E3548[flags3c * 4];
+        entry = &((u8 *)D_800E3548)[flags3c * 4];
         spawned = func_800A8E74(source,
                                 ((Context *)((u8 *)source - 0x20))->x,
                                 ((Context *)((u8 *)source - 0x20))->y,

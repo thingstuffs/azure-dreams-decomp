@@ -1,10 +1,10 @@
+#include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 typedef struct { u8 b[12]; } AggU12;
-extern u8 D_80080000[];
 
 typedef struct {
     s16 x;
@@ -34,7 +34,6 @@ extern Copy12 D_80026934;
 extern Copy12 D_80026940;
 extern s16 D_8002694C[5];
 extern u8 D_8007CCD8[];
-extern u8 D_800DDC40[];
 extern s32 func_8003DF74(void *, void *, void *, s32);
 extern void func_8004491C(void *, void *);
 extern void *func_8003FC64(s32);
@@ -429,7 +428,7 @@ finish_fade:
         if (effect_busy == 0) {
             S32(D_8007CCD8 + 13096, 0x346C) = 0;
             U16(effect, -2) |= 0x8000;
-            U32((void *)D_80080000, 0x14A0) |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
             return;
         }
         goto clear_busy;

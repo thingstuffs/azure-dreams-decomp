@@ -1,3 +1,4 @@
+#include "shared/position_query.h"
 #include "common.h"
 
 extern void func_80095C80(void *object);
@@ -9,7 +10,6 @@ extern void func_800946FC(void *state, void *object, s32 context);
 extern s32 func_8009FF50(void);
 
 extern u8 D_800CFCEF[];
-extern u8 D_800FE488[];
 
 /* Update the object, handle its value threshold, and advance the countdown. */
 void func_80092FF0(void *state, void *object, s32 context) {
@@ -19,7 +19,7 @@ void func_80092FF0(void *state, void *object, s32 context) {
     func_80095C80(object);
     func_80095094(object);
     if (func_8009FF50() == 0) {
-        target_value = func_80095978(object, D_800FE488);
+        target_value = func_80095978(object, ((u8 *)&D_800FE488));
         if (target_value - *(s16 *)((u8 *)object + 0xA) >= 4) {
             if (D_800CFCEF[0] == 0) {
                 func_80094378(state, object, context);
@@ -27,7 +27,7 @@ void func_80092FF0(void *state, void *object, s32 context) {
             }
         } else {
             if (D_800CFCEF[0] == 0) {
-                func_80095A94(object, target_value, D_800FE488);
+                func_80095A94(object, target_value, ((u8 *)&D_800FE488));
             }
         }
     }

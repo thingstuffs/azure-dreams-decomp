@@ -1,3 +1,4 @@
+#include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
@@ -14,15 +15,9 @@ void func_8008CAA0(); /* extern */
 void func_8008CBD4(); /* extern */
 void func_800A2B04();              /* extern */
 void func_800AD4D0();                      /* extern */
-extern M2C_UNK D_8008ACDC;
 extern u8 D_800DCFB0[8];
 extern u8 D_800DCFE0[8];
 
-
-typedef struct S_8008DDE8_4 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_8008DDE8_4;   /* temp_global in func_8008DDE8 */
 
 /* Update death movement and animation, then select the next death state. */
 void func_8008DDE8(void *state, void *motion, void *sprite, void *actor) {
@@ -93,7 +88,7 @@ void func_8008DDE8(void *state, void *motion, void *sprite, void *actor) {
         }
         next_timer = 8U;
         ((Rec_func_8008ACDC_arg0 *)state)->unk_96.as_u16 = next_timer;
-        ((Rec_func_8008ACDC_arg0 *)state)->unk_8C.as_pm = &D_8008ACDC;
+        ((Rec_func_8008ACDC_arg0 *)state)->unk_8C.as_pm = func_8008ACDC;
     }
 }
 

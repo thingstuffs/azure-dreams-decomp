@@ -1,3 +1,4 @@
+#include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "m2c_compat.h"
@@ -13,7 +14,6 @@ extern s32 func_8004491C();
 extern s32 D_80026680[3];
 extern TableEntry D_80028820[];
 extern s32 D_800CEEFC[3];
-extern u8 D_800DDC40[9];
 
 typedef struct S_80026C88_0 {
     u8 pad_00[0x8];

@@ -1,3 +1,4 @@
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 
 extern s32 func_80033BC0(s32);
@@ -8,7 +9,6 @@ extern s32 func_800A6DA4(s32, s32);
 extern s32 D_80012090[];
 extern s16 D_8008146C;
 extern s8 D_800DCF5A;
-extern u8 D_800E3548[];
 extern s16 D_800E3CCC;
 
 /* Dungeon item pickup: run the one-off 0x11F9 event, then occasionally take one entry from the floor's item table. */
@@ -53,7 +53,7 @@ s32 func_800A9230(void *actor)
     }
 
     index = func_800A6DA4(1, 0x1F) & 0xFFFF;
-    base = D_800E3548;
+    base = ((u8 *)D_800E3548);
     entry = &base[index * 4];
     kind = entry[1];
     if (kind == 0) {

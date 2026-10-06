@@ -77,7 +77,7 @@ void func_80172F04(S_80172F04_0 *action, S_80172F04_3 *motion, Rec_D_80082E80 *a
         action->unk_96 = timer;
         if (((s16)timer == 4) || (animation->unk_14.at00_u16.v & 0x8000)) {
             animation->unk_2C.as_pu8 = D_801760CC;
-            work = ((S_80172F04_4 *)D_80080000)->unk_3228 + ((S_80172F04_2 *)actor)->unk_2A + 0x100;
+            work = gameWork.view.viewAngle + ((S_80172F04_2 *)actor)->unk_2A + 0x100;
             work = ((s32)work >> 9) & 7;
             work += (u32)D_801760CC;
             func_80047784(animation,

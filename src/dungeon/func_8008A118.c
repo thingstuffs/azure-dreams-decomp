@@ -1,3 +1,4 @@
+#include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -9,7 +10,6 @@ void func_80099F70(s32);                         /* extern */
 s16 func_8009A350(s16, s16, s16, u16 *);          /* extern */
 s32 func_800A56E0(s32);                     /* extern */
 extern M2C_UNK D_80081484;
-extern M2C_UNK D_8008ACDC;
 extern M2C_UNK D_800DD25C;
 extern s32 D_800E3540;
 
@@ -114,7 +114,7 @@ void func_8008F878(S_8008F878_0 *action, void *unused, S_8008F878_1 *action_data
             if (((S_8008F878_2 *)(&D_800DD25C))->unk_00.p != NULL) {
                 ((S_8008F878_8 *)(((S_8008F878_2 *)(&D_800DD25C))->unk_00.p))->unk_6D = 0;
             }
-            action->unk_8C = &D_8008ACDC;
+            action->unk_8C = func_8008ACDC;
             dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
         }
     }

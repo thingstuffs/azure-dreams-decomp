@@ -1,3 +1,4 @@
+#include "shared/position_query.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -16,7 +17,6 @@ extern void func_80095A94(Obj800AD0E4 *, s16, void *);
 extern void func_800A9F14(Obj800AD0E4 *);
 
 extern u8 D_800CFCEF[9];
-extern u8 D_800FE488[9];
 
 /* Update the object and dispatch actions based on its value, timer, and state flags. */
 void func_800AA844(Obj800AD0E4 *timer_obj, Obj800AD0E4 *object, s32 action_arg) {
@@ -26,7 +26,7 @@ void func_800AA844(Obj800AD0E4 *timer_obj, Obj800AD0E4 *object, s32 action_arg) 
 
     func_80095C80(object);
     func_80095094(object);
-    next_value = func_80095978(object, D_800FE488);
+    next_value = func_80095978(object, ((u8 *)&D_800FE488));
 
     if ((next_value - (s16)object->field_A) >= 4) {
         if (D_800CFCEF[0] == 0) {
@@ -34,7 +34,7 @@ void func_800AA844(Obj800AD0E4 *timer_obj, Obj800AD0E4 *object, s32 action_arg) 
             return;
         }
     } else if (D_800CFCEF[0] == 0) {
-        func_80095A94(object, next_value, D_800FE488);
+        func_80095A94(object, next_value, ((u8 *)&D_800FE488));
     }
 
     timer = timer_obj->field_A - 1;

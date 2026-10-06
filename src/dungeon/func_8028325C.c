@@ -1,3 +1,4 @@
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/dungeon_status.h"
@@ -48,7 +49,6 @@ extern s16 D_800DCE68;
 extern s8 D_800DCF4F;
 extern s8 D_800DCF58;
 extern s8 D_800DCF5B;
-extern M2C_UNK D_800E3548;
 extern M2C_UNK D_800E36C8;
 extern s16 D_800E3CCC;
 extern s16 D_800E3CCE;
@@ -62,7 +62,7 @@ void func_8001625C(void) {
     s16 *progress_stats;
     s32 *reset_values;
 
-    bzero(&D_800E3548, 0x100);
+    bzero(((M2C_UNK *)D_800E3548), 0x100);
     bzero(&D_800E36C8, 0x300);
     dungeonStatus.unk_08 = 0;
     dungeonStatus.unk_0A = 0;

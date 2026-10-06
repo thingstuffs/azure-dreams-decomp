@@ -1,3 +1,4 @@
+#include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
@@ -75,7 +76,6 @@ extern u8 D_80045C34[];
 extern u8 D_80079444[];
 extern u8 D_800B9A78[];
 extern s16 D_800DCE66[5];
-extern u8 D_800DDC40[];
 extern u8 D_800DF368[];
 
 

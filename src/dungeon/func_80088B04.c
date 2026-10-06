@@ -1,3 +1,4 @@
+#include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -13,7 +14,6 @@ void func_80099F04();                         /* extern */
 void func_80099F70();                         /* extern */
 void func_800A2B04();              /* extern */
 s32 func_800A56E0();                     /* extern */
-extern M2C_UNK D_8008ACDC;
 extern u8 D_800DD040[];
 extern u8 D_800DD058[];
 
@@ -99,7 +99,7 @@ void func_8008E264(void *actor, EntityRec *motion, void *sprite, EntityRec *mode
                 return;
             }
             if ((func_80094F74(actor, motion, sprite, model) << 0x10) > 0) {
-                ((Rec_func_8008ACDC_arg0 *)actor)->unk_8C.as_pm = &D_8008ACDC;
+                ((Rec_func_8008ACDC_arg0 *)actor)->unk_8C.as_pm = func_8008ACDC;
             }
             return;
         }
@@ -108,7 +108,7 @@ void func_8008E264(void *actor, EntityRec *motion, void *sprite, EntityRec *mode
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
             dungeonStatus.unk_04 = 0;
             if ((func_80094F74(actor, motion, sprite, model) << 0x10) > 0) {
-                ((Rec_func_8008ACDC_arg0 *)actor)->unk_8C.as_pm = &D_8008ACDC;
+                ((Rec_func_8008ACDC_arg0 *)actor)->unk_8C.as_pm = func_8008ACDC;
             }
             return;
         }

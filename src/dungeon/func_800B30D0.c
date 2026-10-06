@@ -23,7 +23,6 @@ extern void func_8004491C(void *, void *);
 extern s32 func_800644B8(s32);
 extern void func_800B8D64(s16, s16, s16);
 extern void func_800B8EA8(void *, s16, s16, s16, ShortVec *, s32, s32, s32, s32);
-extern u8 D_80080000[];
 
 
 typedef struct S_800B8830_0_pre {
@@ -94,11 +93,6 @@ typedef struct S_800B8830_5 {
     s32 unk_00;
     s32 unk_04;
 } S_800B8830_5;   /* target_node in func_800B8830 */
-
-typedef struct S_800B8830_6 {
-    u8 pad_00[0x3228];
-    s16 unk_3228;
-} S_800B8830_6;   /* D_80080000 in func_800B8830 */
 
 
 typedef struct S_800B8830_8 {
@@ -195,7 +189,7 @@ void func_800B8830(void *motion, S_800B8830_3 *coords, S_800B8830_1 *render) {
         target_pos[1] = ((S_800B8830_5 *)pos_record)->unk_04;
         target_pos[2] = (((S_800B8830_0 *)motion)->unk_32 - 0x50) << 16;
 
-        entry_addr = ((((S_800B8830_6 *)D_80080000)->unk_3228 +
+        entry_addr = ((gameWork.view.viewAngle +
                   D_800814A8->facing + 0x100) >> 7) & 0x1C;
         entry_addr += (s32)D_800E3D18;
         entry = ((S_800B8830_8 *)((void *)entry_addr))->unk_00;

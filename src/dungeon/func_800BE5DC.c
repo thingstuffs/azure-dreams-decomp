@@ -1,3 +1,4 @@
+#include "shared/dungeon_item_entries.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
@@ -19,7 +20,6 @@ extern s32 func_800403BC();
 extern s32 func_800997FC();
 extern s32 func_80098B38();
 
-extern u8 D_800E3548[];
 extern u8 D_800E36C8[];
 extern u8 D_800E3648[];
 extern u8 D_800E39C8[];
@@ -77,7 +77,7 @@ s32 func_800C3D3C(void *target, s32 effect_arg, s16 effect_id, s32 context) {
             entity = (void *) (S32(entity, 0x5C) + 0x20);
         } while (entity != first_entity);
         entry_data = D_800E36C8;
-        entry_flags = D_800E3548;
+        entry_flags = ((u8 *)D_800E3548);
         for (effect_counter = 0; effect_counter < 0x40; effect_counter++) {
             if (U8(entry_flags, effect_counter * 4 + 1) != 0) {
                 S16(entry_data, effect_counter * 0xC + 4) = 0;

@@ -1,3 +1,4 @@
+#include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dir_step.h"
@@ -101,7 +102,6 @@ extern void func_8009C12C(void *, void *, s16, s16);
 extern void func_800C77D0(s32 slot_id, void *target, s32 target_id, s16 slot_value);
 extern void func_80175A90(Vec3Work *, Vec3Work *);
 
-extern u8 D_800DDC40[];
 extern u8 D_80175F68;
 
 /* Updates staged movement to a target and back to the actor's base position. */
