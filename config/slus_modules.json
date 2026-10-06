@@ -1533,6 +1533,15 @@
           "size": 4,
           "symbol": "D_800814B4",
           "vram": 2148013236
+        },
+        {
+          "symbol": "jtbl_8002D5C0",
+          "asset": "assets/800.bin",
+          "offset": 1472,
+          "size": 112,
+          "vram": 2147669440,
+          "bytes": "60ee0380f8f10380f8f10380f8f10380f8f10380f8f1038098ee0380f8f10380f8f10380b8ef0380f8f10380f8f10380f8f10380f8f10380f8f10380f8f10380f8f10380f8f10380f8f10380f8f10380f8f10380e4ef0380f8f10380f8f10380f8f10380f8f10380f8f1038088f00380",
+          "section": ".rodata"
         }
       ],
       "data_pieces": [

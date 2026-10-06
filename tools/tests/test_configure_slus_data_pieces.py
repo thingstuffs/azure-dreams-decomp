@@ -61,7 +61,7 @@ class ConfigureSlusDataPiecesTest(unittest.TestCase):
                          "functions": ["func_8003E758"]}],
             "headers": [],
             "recipe": {"ccver": "2.7.2-cdk",
-                       "ccflags": "-G32", "asflags": ""},
+                       "ccflags": "", "asflags": ""},
             "data": [], "evidence": "docs/evidence/tiny_owner.md",
         }
 
@@ -88,13 +88,13 @@ class ConfigureSlusDataPiecesTest(unittest.TestCase):
             {"src": "src/ordinary.c", "out": "build/src/ordinary.o",
              "ccver": "2.7.2", "ccflags": "", "asflags": ""},
             {"src": "src/tiny_owner.c", "out": "build/src/tiny_owner.o",
-             "ccver": "2.7.2-cdk", "ccflags": "-G32",
+             "ccver": "2.7.2-cdk", "ccflags": "",
              "asflags": ""},
         ])
         self.assertEqual(slus_modules.logical_edges(physical, [self.module]), [
             physical[0],
             {"src": "src/w_8003E758.c", "out": "build/src/w_8003E758.o",
-             "ccver": "2.7.2-cdk", "ccflags": "-G32",
+             "ccver": "2.7.2-cdk", "ccflags": "",
              "asflags": ""},
         ])
 

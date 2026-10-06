@@ -11,7 +11,6 @@ typedef struct S_80083164 {
  * live cases 0/6/9/0x15/0x1B, every other index -> the `tail` block).
  * Dispatching through it means this TU emits NO compiler-generated jump table
  * into .text-referenced .rodata, which is what makes the object LINK. */
-extern void *jtbl_8002D5C0[];
 
 extern u8  D_800814D1[1];    /* Observed tail-index byte view; no storage ownership. */
 extern u8  D_800814D8[8];     /* CdReadSync buffer (retail extent 8: small data at -G8) */
@@ -330,15 +329,8 @@ process_queue:
                 break;
             }
         } else if (state == 1) {
-                            /* `dispatch_labels` exists only to stop gcc deleting the case labels; it lands
-             * in .rodata but is unreferenced from .text, so the linker discards it.
-             * Idiom from src/w_800595C0.c / w_8004CECC.c / w_80042BDC.c. */
-            static void *const dispatch_labels[] = {
-                &&complete_noop, &&complete_read, &&complete_pause, &&complete_seek, &&complete_stream
-            };
             u32 opcode;
             int completion_offset;
-            (void)dispatch_labels;
             active_queue = D_80083968;
             head_index = D_800814D0;
                             /* Keep one byte-offset accumulator for this completion lookup. */
@@ -347,11 +339,8 @@ process_queue:
             completion_offset <<= 3;
             active_command = (SlusCdQueueEntry *)((u8 *)active_queue + completion_offset);
             opcode = active_command->unk00;
-            if (opcode >= 0x1C)
-                goto finish;
-            goto *jtbl_8002D5C0[opcode];
-            {
-    complete_noop:
+            switch (opcode) {
+            case 0:
                 {
                     u8 *state_ptr;
                     s16 idle_state;
@@ -366,10 +355,10 @@ process_queue:
                     goto process_queue;
                 }
 
-    complete_read:
+            case 6:
                 sync_result = CdSync(1, CDBUF);
                 if (sync_result == 0)
-                    goto finish;
+                    break;
                 {
                     int disk_error;
                     disk_error = 5;
@@ -378,11 +367,11 @@ process_queue:
                 }
                 D_80080AD8 = CdReadSync(1, D_800814D8);
                 if (D_80080AD8 > 0)
-                    goto finish;
+                    break;
                 if (D_80080AD8 == 0) {
                     if (D_80080AD0 != 0) {
                         if ((*(u32 *)D_800814CC & 0xFFFF0000) == 0x10120000)
-                            goto finish;
+                            break;
                         func_8003E70C();
                         D_800814D2[0] = 0;
                         D_80080AD2 = D_80080AD2 + 1;
@@ -391,7 +380,7 @@ process_queue:
                             func_8003F5EC();
                         }
                         D_800814D3[0] = 0xFF;
-                        goto finish;
+                        break;
                     }
                     {
                         u8 *state_ptr = &D_800814D3[0];
@@ -401,17 +390,17 @@ process_queue:
                         state_ptr[-3] += 1;
                         D_800814D2[0] = D_800814D2[0] | 1;
                         read_driver->unk5 = read_driver->unk5 + 1;
-                        goto finish;
+                        break;
                     }
                 }
                 if (D_80080AD8 >= 0)
-                    goto finish;
+                    break;
                 goto command_failed;
 
-    complete_pause:
+            case 9:
                 sync_result = CdSync(1, CDBUF);
                 if (sync_result == 0)
-                    goto finish;
+                    break;
                 {
                     int disk_error;
                     disk_error = 5;
@@ -420,10 +409,10 @@ process_queue:
                 }
                 goto check_drive_status;
 
-    complete_seek:
+            case 0x15:
                 sync_result = CdSync(1, sync_status);
                 if (sync_result == 0)
-                    goto finish;
+                    break;
                 if (sync_result != 5)
                     goto check_drive_status;
     command_failed:
@@ -431,22 +420,22 @@ process_queue:
                 D_800814D3[0] = 0xFF;
                 D_80083958[0].unk4 = 0;
                 D_800814D2[0] = 0;
-                goto finish;
+                break;
 
     check_drive_status:
                 if (CdControl(1, 0, CDBUF) == 0)
-                    goto finish;
+                    break;
                 if ((D_80081450.bytes[0] & 0xFD) != 0)
-                    goto finish;
+                    break;
                 D_80083958[0].unk4 = 2;
                 D_800814D3[0] = 0xFF;
                 D_800814D0 = D_800814D0 + 1;
-                goto finish;
+                break;
 
-    complete_stream:
+            case 0x1B:
                 if (CdSync(1, CDBUF) == 5) {
                     D_800814D3[0] = 0xFF;
-                    goto finish;
+                    break;
                 }
                 retries = 0x10;
                 for (;;) {
@@ -460,7 +449,7 @@ process_queue:
                 }
                 status = D_80081450.bytes[0];
                 if (status & 0x40)
-                    goto finish;
+                    break;
                 if (status & 0x20) {
                     u8 *status_ptr = &D_800814D2[0];
                     SlusCdQueueEntry *stream_queue;
@@ -477,11 +466,11 @@ process_queue:
                         D_80080AD4 = 1;
                     }
                     status_ptr[-2] += 1;
-                    goto finish;
+                    break;
                 }
                 if (status & 0x80)
                     D_800814D3[0] = 0xFF;
-                goto finish;
+                break;
 
             }
         }

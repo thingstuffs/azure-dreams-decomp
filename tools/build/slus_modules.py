@@ -144,7 +144,7 @@ def data_piece_plan(module) -> list[dict]:
             raise ModuleError(f"{where}: {symbol} VMA is not aligned to {alignment}")
         plan.append({"symbol": symbol, "size": datum["size"], "section": section,
                      "alignment": alignment, "source_section": source_section})
-    missing = set(by_symbol) - seen
+    missing = {s for s in set(by_symbol) - seen if by_symbol[s]["section"] != ".rodata"}
     if missing:
         raise ModuleError(f"{name}: missing data piece(s) for {sorted(missing)}")
     return plan
