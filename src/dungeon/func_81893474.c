@@ -58,11 +58,6 @@ typedef struct Scratch {
 #define result scratch.result
 #define map_flags scratch.map_flags
 
-extern s16 D_8006CCD8_early[] __asm__("D_8006CCD8");
-extern s16 D_8006CCE8_early[] __asm__("D_8006CCE8");
-extern void *D_800814A8_early[4] __asm__("D_800814A8");
-extern u8 D_80082E80_early[] __asm__("D_80082E80");
-
 extern s16 func_800A0818(u8, u8, s16, s16, s16 *);
 extern s32 func_8003DE58(void *, void *, void *, s32);
 extern s16 func_800BCAD0(void *);
@@ -89,7 +84,7 @@ void func_80024C74(EffectState *effect_state, Motion *effect_motion, ColorPart *
     void *owner_node;
     void *owner_motion;
     Scratch scratch;
-    register u8 *origin;
+    register TileObject *origin;
     s32 target_z;
     s32 direction_bits;
     s32 state_id;
@@ -106,15 +101,15 @@ void func_80024C74(EffectState *effect_state, Motion *effect_motion, ColorPart *
     part = color_part;
     switch (state_id) {
     case 0:
-        origin = D_80082E80_early;
+        origin = &D_80082E80;
         {
             u8 *node = PTR_AT((u8 *)owner - 0x20, 0xC);
-            u32 offset = (U16_AT(D_800814A8_early[0], 0x2A) >> 8) & 0xE;
+            u32 offset = (U16_AT(D_800814A8, 0x2A) >> 8) & 0xE;
 
             U16_AT(owner, 0x2A) = func_800A0818(
                 node[0x24], node[0x25],
-                origin[0x24] + U16_AT((u8 *)D_8006CCD8_early + offset, 0),
-                origin[0x25] + U16_AT((u8 *)D_8006CCE8_early + offset, 0), &result);
+                origin->tileX + U16_AT((u8 *)dirStepX + offset, 0),
+                origin->tileY + U16_AT((u8 *)dirStepY + offset, 0), &result);
         }
         state->timer = 0;
         state->state++;

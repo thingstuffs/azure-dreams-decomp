@@ -18,10 +18,6 @@ extern s32 func_80240810();
 
 extern s32 D_80012BCC_load[4] __asm__("D_80012BCC");
 extern s32 D_80012BCC_store[4] __asm__("D_80012BCC");
-extern s32 D_80012BCC_load2[4] __asm__("D_80012BCC");
-extern s32 D_80012BCC_store2[4] __asm__("D_80012BCC");
-extern s32 D_80012BCC_load3[4] __asm__("D_80012BCC");
-extern s32 D_80012BCC_store3[4] __asm__("D_80012BCC");
 extern s32 D_80084D5C;
 extern u8 D_80132AE8[16];
 extern u8 D_80290704[16];
@@ -121,14 +117,14 @@ void func_80812B70(void *obj, void *motion, void *part) {
         }
         call_result = func_80240810(D_8053016C, motion, D_80290704, D_80132AE8);
         if (call_result != 0) {
-            D_80012BCC_store2[0] = valuep[S16_AT(obj, 0x54)] * 1000 + D_80012BCC_load2[0];
+            D_80012BCC_store[0] = valuep[S16_AT(obj, 0x54)] * 1000 + D_80012BCC_load[0];
             U16_AT(obj, 4) = 255;
             return;
         }
         return;
     case 4:
         if (func_80240810(D_8053016C, motion, D_80290704, D_80132AE8) != 0) {
-            D_80012BCC_store3[0] = valuep[S16_AT(obj, 0x54)] * 1000 + D_80012BCC_load3[0];
+            D_80012BCC_store[0] = valuep[S16_AT(obj, 0x54)] * 1000 + D_80012BCC_load[0];
             S16_AT(obj, 4) = 255;
         }
         if ((U16_AT(obj, 6) >> 2) & 1) {

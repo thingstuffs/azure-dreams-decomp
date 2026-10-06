@@ -58,9 +58,6 @@ typedef struct {
 } DungeonEntry;
 
 extern u8 D_80082E80_initial[] __asm__("D_80082E80");
-extern u8 D_80082E80_later[] __asm__("D_80082E80");
-extern u8 D_8006CCD8_bytes[] __asm__("D_8006CCD8");
-extern u8 D_8006CCE8_bytes[] __asm__("D_8006CCE8");
 extern s16 D_8006CD00[];
 void func_8009A3D0();
 s32 func_8009A180();
@@ -137,15 +134,13 @@ void func_800D92C0(void *move_state, void *context, S_800D92C0_2 *position, void
                             (s16)target_y, turn_flags);
                         ((S_800D92C0_0 *)actor)->unk_2A.u = (u16) target_heading;
                         if ((func_8009A66C(target_heading, position, actor, 0x20) << 0x10) <= 0) {
-                            u8 *coord_later = D_80082E80_later;
-                            ((S_800D92C0_0 *)actor)->unk_2A.u = func_800A0818(position->unk_24.at00.v,
-                                position->unk_24.at01.v, coord_later[0x24], coord_later[0x25], turn_flags);
+                                                        ((S_800D92C0_0 *)actor)->unk_2A.u = func_800A0818(position->unk_24.at00.v,
+                                position->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, turn_flags);
                         }
                         {
-                            u8 *coord_later = D_80082E80_later;
-                            s32 distance_result;
+                                                        s32 distance_result;
                             distance_result = func_8009FD7C(position->unk_24.at00.v, position->unk_24.at01.v,
-                                coord_later[0x24], coord_later[0x25]);
+                                D_80082E80.tileX, D_80082E80.tileY);
                             if ((distance_result << 0x10) != 0) {
                                 limit_turn = 1;
                             }
@@ -196,12 +191,12 @@ try_heading:
                                   (((S_800D92C0_0 *)actor)->unk_1C & 0x2000) ? 0x300 : 0x3000);
                     direction_or_x = ((u16) ((S_800D92C0_0 *)actor)->unk_2A.u >> 8) & 0xE;
                     {
-                        u8 *x_table_base = D_8006CCD8_bytes;
+                        u8 *x_table_base = (u8 *)dirStepX;
                         u8 next_x = position->unk_24.at00.v;
                         next_x += x_table_base[direction_or_x];
                         position->unk_24.at00.v = (u8) next_x;
                     }
-                    position->unk_24.at01.v = (u8) (position->unk_24.at01.v + D_8006CCE8_bytes[direction_or_x]);
+                    position->unk_24.at01.v = (u8) (position->unk_24.at01.v + ((u8 *)dirStepY)[direction_or_x]);
                     direction_or_x = position->unk_24.at00.v;
                     next_y = position->unk_24.at01.v;
                     tile_mask = 0x3000;
