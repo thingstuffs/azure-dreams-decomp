@@ -289,7 +289,6 @@ void func_8002401C(void *effect, void *motion, void *sprite) {
     s16 floor_height;
     s32 step_count;
     s32 coord;
-    s32 tile_y_coord;
     s16 height_offset;
     s32 direction_offset;
     s32 distance_fixed;
@@ -585,17 +584,10 @@ spawn_trail:
             if (coord < 0) {
                 coord += 0x3F;
             }
-            if ((coord >> 6) == (s8) ((S_8182C800_1 *)owner)->unk_72.s) {
-                tile_y_coord = ((S_8182C800_5 *)motion)->unk_04.at02.v;
-                if (tile_y_coord < 0) {
-                    tile_y_coord += 0x3F;
-                }
-                if (((tile_y_coord >> 6) == (s8) ((S_8182C800_1 *)owner)->unk_73.s) && ((s16) steps_left < 0)) {
-                    goto arrive;
-                }
-            }
-            if ((s16) ((EntityRec *)effect)->unk_50 < -0x20) {
-arrive:
+            if (((coord >> 6) == (s8) ((S_8182C800_1 *)owner)->unk_72.s
+                    && ((S_8182C800_5 *)motion)->unk_04.at02.v / 64 == (s8) ((S_8182C800_1 *)owner)->unk_73.s
+                    && (s16) steps_left < 0)
+                || (s16) ((EntityRec *)effect)->unk_50 < -0x20) {
                 if (((S_8182C800_1 *)owner)->unk_60 == 0) {
                     ((EntityRec *)effect)->z.w.i = 3;
                     return;
