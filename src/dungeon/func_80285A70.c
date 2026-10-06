@@ -78,7 +78,7 @@ typedef struct {
 } LevelPage;
 
 /* Sets up the run's save state and RNG (new game or continue), then loads the selected dungeon track and waits for it to finish loading. */
-void func_80018A70(void) {
+void func_80018A70(void *caller_state, u32 block_extent, u32 color_command) {
     State13710 *state;
     Page8001 *page1;
     TrackRecord *track;
