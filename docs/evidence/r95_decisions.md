@@ -39,3 +39,8 @@ Each line: decision - evidence - SECOND LOOK? (yes = owner may want to revisit).
     state - verify writers (Sonnet check) before adding to ledger/real_volatiles.jsonl; until then unchanged. SECOND LOOK: no.
 14. Into-block gotos: r95_sonnet_ib1/ib2 measured 13 of 16 rows' into-block gotos as load-bearing (retail loop notes, shared tails,
    jump-table order). Do not serve more into-block lanes; record them as plausibly original.
+15. Volatile verification (r95_sonnet_vol, VERDICTS.tsv): 26 sites / 11 slus rows REAL (SPU/DMA registers, polled SPUCNT/SPUSTAT,
+    busy-wait delay locals) -> appended to ledger/real_volatiles.jsonl. All 9 extern-volatile sites (7 rows) are SCAFFOLDING (no poll
+    loop, no callback writer, siblings use the globals plainly) - removal work, but load-bearing (dist 2-85 when removed), so it needs
+    restructuring lanes. 13 libspu RAM-shadow sites UNSURE (SDK code; left as is). Free win: konami_runtime_w_800345B8 l.154 volatile
+    store removal is byte-exact (land after r95_sol61_s12, which holds that row). SECOND LOOK: the UNSURE libspu shadow set.
