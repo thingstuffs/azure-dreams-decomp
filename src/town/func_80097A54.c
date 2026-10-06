@@ -29,14 +29,12 @@ extern void func_800652AC(Vec3 *, Vec3 *, Vec3 *);
 void func_800951B4(Actor *actor)
 {
     Vec3 direction;
-    volatile Vec3 step;
+    Vec3 step;
     Vec3 position;
     Vec3 side_result;
     s16 direction_index;
     s32 initial_side;
     s32 fixed_coord;
-    s32 step_x;
-    s32 step_y;
     Vec3 *direction_ptr;
     Vec3 *position_ptr;
     Vec3 *call_result;
@@ -70,25 +68,12 @@ void func_800951B4(Actor *actor)
     initial_side = side_result.z;
 
     if (initial_side >= 0) {
-        s32 dir_x;
-        s32 dir_y;
-
-        dir_y = direction.y;
-        dir_x = direction.x;
-        step_x = dir_y << 5;
-        step_y = -dir_x;
+        step.x = direction.y << 5;
+        step.y = (-direction.x) << 5;
     } else {
-        s32 dir_x;
-        s32 dir_y;
-
-        dir_y = direction.y;
-        dir_x = direction.x;
-        step_x = (-dir_y) << 5;
-        step_y = dir_x;
+        step.x = (-direction.y) << 5;
+        step.y = direction.x << 5;
     }
-    step_y <<= 5;
-    step.x = step_x;
-    step.y = step_y;
 
     fixed_coord = actor->x + step.x;
     if (fixed_coord < 0) {

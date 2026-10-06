@@ -23,11 +23,6 @@ typedef struct S_8009E85C_2 {
     union { u16 s; u16 u; } unk_14;   /* accessed as both */
 } S_8009E85C_2;   /* arg2 in func_8009E85C */
 
-typedef struct S_8009E85C_3 {
-    u8 pad_00[0x9C8];
-    volatile s32 unk_9C8;
-} S_8009E85C_3;   /* active_base in func_8009E85C */
-
 typedef struct S_8009E85C_4 {
     u8 pad_00[0x6C];
     s16 unk_6C;
@@ -54,7 +49,6 @@ extern s32 D_800D09C8[];
 /* Initialize the entity from its table entry and invoke its callback. */
 void func_8009E85C(void *entity, S_8009E85C_1 *placement, S_8009E85C_2 *state) {
     u8 *table_page = (u8 *)0x80010000;
-    s32 *active_base;
     s32 active;
     s32 init_flags;
     S_8009E85C_4 *tail_entity;
@@ -80,10 +74,9 @@ void func_8009E85C(void *entity, S_8009E85C_1 *placement, S_8009E85C_2 *state) {
     }
     func_80033CD8(entity, func_80045340);
     init_flags = 0x20;
-    active_base = (s32 *)0x800D0000;
     state->unk_10 = init_flags;
     flags = state->unk_14.s;
-    active = ((S_8009E85C_3 *)active_base)->unk_9C8;
+    active = D_800D09C8[0];
     state->unk_14.u = (u16)(flags | 0x1C);
     tail_entity = entity;
     if (active == 0) {

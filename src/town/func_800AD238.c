@@ -16,15 +16,14 @@ extern s32 D_80100D1C;
 extern InitPosition D_80100D28;
 extern s16 D_80100D40;
 extern s16 D_80100D42;
-extern s16 D_80100D60;
+extern s16 D_80100D60[];
 extern u8 D_80100D68[];
 extern s16 D_80100D80;
 extern s16 D_80100D82;
 
 /* Initializes object state and sets its starting position. */
 void func_800AA998(void **object, InitPosition *start_position, void *ptr2) {
-    volatile s16 *rotation;
-    s32 *position;
+        s32 *position;
 
     func_80094984(D_800D0130, object, ptr2);
     *object = D_800AA5F8;
@@ -34,9 +33,8 @@ void func_800AA998(void **object, InitPosition *start_position, void *ptr2) {
     D_80100D40 = 0;
     D_80100D42 = 0;
     D_80100D18 = 0;
-    rotation = &D_80100D60;
-    rotation[1] = 0;
-    rotation[0] = 0;
+    D_80100D60[1] = 0;
+    D_80100D60[0] = 0;
     D_80100D28.x = start_position->x;
     position = &D_80100D28.x;
     position[1] = start_position->y;

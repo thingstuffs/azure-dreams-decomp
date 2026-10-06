@@ -7,14 +7,12 @@ extern s32 D_8008ACDC;
 void func_80092DFC(void *object) {
     GameWork *shared_data = &gameWork;
     u8 state = *(u8 *)((u8 *)object + 0x9B);
-    u8 current_state;
     u16 timer;
 
     switch (state) {
     case 0:
-        current_state = *(volatile u8 *)((u8 *)object + 0x9B);
         *(u16 *)((u8 *)object + 0x96) = 0x10;
-        *(u8 *)((u8 *)object + 0x9B) = current_state + 1;
+        (*(u8 *)((u8 *)object + 0x9B))++;
         break;
     case 1:
         timer = *(u16 *)((u8 *)object + 0x96) - 1;

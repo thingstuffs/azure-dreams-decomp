@@ -150,14 +150,10 @@ void func_800D8728(S_func_800D8728_0 *entity, S_func_800D8728_1 *motion, S_func_
             entity->unk_94 = state_direction;
         }
 
-        {
-            u16 facing_flags;
-            if (dirSpriteFlag[lookup_direction] != 0) {
-                facing_flags = monster->unk_14 | 1;
-            } else {
-                facing_flags = ((S_func_800D8728_2 *)monster)->unk_14 & 0xFFFE;
-            }
-            ((volatile S_func_800D8728_2 *)monster)->unk_14 = facing_flags;
+        if (dirSpriteFlag[lookup_direction] != 0) {
+            monster->unk_14 |= 1;
+        } else {
+            ((S_func_800D8728_2 *)monster)->unk_14 &= 0xFFFE;
         }
 
         if (!(actor->unk_1C & 0x20)) {

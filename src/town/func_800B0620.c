@@ -50,8 +50,8 @@ void func_800ADD80(s32 *menu) {
     if (!(held_buttons & 0xF000))
         return;
     if (((s32)pad_state->unk_010) & 0xF000) {
-        *(volatile s32 *)&menu[5] = 0;
-        pressed_buttons = *(s32 *)((s32 *)&pad_state->unk_010);
+        menu[5] = 0;
+        pressed_buttons = pad_state->unk_010;
         if (pressed_buttons & 0x8000)
             selection_step = -5;
         else if (pressed_buttons & 0x2000)
