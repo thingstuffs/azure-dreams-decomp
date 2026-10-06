@@ -111,8 +111,11 @@ void func_800A2E30(InputPair vertex_0, InputPair vertex_1, InputPair vertex_2,
     if (depth_or_page >= 0x1E0) {
         depth_or_page = 0x1DF;
     }
+    if (depth_or_page < 0) {
+        depth_or_page = 0;
+    }
 
-    func_8006658C(*(u8 **)((u8 *)(&gameWork)) + 0xD8, packet + depth_or_page - depth_or_page);
+    func_8006658C(*(u8 **)((u8 *)(&gameWork)) + 0xD8, packet);
 
     draw_ctx = *(u8 **)((u8 *)(&gameWork));
     packet = ((S_800A2E30_2 *)draw_ctx)->unk_8D0;

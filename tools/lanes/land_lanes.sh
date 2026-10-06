@@ -108,7 +108,8 @@ for lane in lanes:
         # round 91 (luna cleanup lanes): with pins equal, fewer decompiler leftovers (M2C_* tokens, temp_/var_/phi_
         # locals, argN, spXX, NON_MATCHING; comments excluded) is a landing too, and none may be added
         # round 93: fake dependencies (`+ v - v`, `v ^ v`, `& m & m`) falling is a landing; growing is refused
-        fd = lambda x: (lambda c: len(re.findall(r"\+\s*(\w+)\s*-\s*\1\b(?!\s*[\[(.]|\s*->)|-\s*(\w+)\s*\+\s*\2\b(?!\s*[\[(.]|\s*->)|\b(\w+)\s*\^\s*\3\b|&\s*(\w+)\s*&\s*\4\b", c)))(re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", x, flags=re.S)))
+        # round 96: also `x = x;` and the split pair `d += h; d -= h;` (same patterns as kitlib._FAKEDEP)
+        fd = lambda x: (lambda c: len(re.findall(r"\+\s*(\w+)\s*-\s*\1\b(?!\s*[\[(.]|\s*->)|-\s*(\w+)\s*\+\s*\2\b(?!\s*[\[(.]|\s*->)|\b(\w+)\s*\^\s*\3\b|&\s*(\w+)\s*&\s*\4\b|(?<![\w.>\]])\b(\w+)\s*=\s*\5\s*;|(?<![\w.>\]])\b(\w+)\s*\+=\s*(\w+)\s*;\s*\6\s*-=\s*\7\s*;", c)))(re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", x, flags=re.S)))
         if fd(cand) < fd(cur): fell.append("fakedep")
         if fd(cand) > fd(cur): grew.append("fakedep")
         mc, mu = m2c(cand), m2c(cur)

@@ -214,6 +214,7 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
     s32 step_x;
     s32 step_y;
     s32 state;
+    s32 mode;
     u8 *effect_flags;
     s32 tiles_ahead;
     s32 off_x;
@@ -262,10 +263,10 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
     base_y = *(s16 *)base_y;
     step_y = base_y;
     work = (S_81850800_8 *)((u8 *)caster_data - 0x20);
-    state = owner->unk_0A.unk_0A_s16 ^ (step_x ^ step_x);
+    mode = owner->unk_0A.unk_0A_s16;
     owner->unk_50.unk_50_u16 = timer;
 
-    switch (state) {
+    switch (mode) {
     case 0:
         if ((((S_81850800_3 *)owner->unk_04)->unk_00 & 0x80) == 0) {
             return;
@@ -505,7 +506,7 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
         if (caster_data->unk_60 != 0) {
             func_8009CE1C(caster_data->unk_60, 0x13,
                           owner->unk_09, 2,
-                          caster_data->unk_2A.unk_2A_s16, caster_data, state);
+                          caster_data->unk_2A.unk_2A_s16, caster_data, mode);
         }
         owner->unk_50.unk_50_u16 = 0x10;
         owner->unk_0A.unk_0A_u16++;
