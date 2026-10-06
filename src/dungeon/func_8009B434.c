@@ -1,5 +1,6 @@
 #include "common.h"
 
+extern int abs(int);
 extern s32 Control_CD();
 extern s32 func_8003F320();
 extern s32 func_8003F6D4();
@@ -15,11 +16,11 @@ s32 func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read) {
     u8 *entry = resource_entry;
     s32 asset_id = resource_id;
     s32 wait_mode = wait_for_read;
+    s32 cached_id_abs = entry[0];
     s32 result = 0;
     u8 *data;
     u8 *cd_params;
-    s32 cached_id_abs;
-    register s32 compare_id ASM_REG("$2");
+    s32 compare_id;
     register s32 requested_id;
     register s32 id_high;
     s32 loaded_id;
@@ -30,13 +31,11 @@ s32 func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read) {
     register s32 asset_offset;
     register s32 slot;
 
-    if (entry[0] != 2) {
+    if (cached_id_abs != 2) {
         compare_id = D_800E3DA0[entry[3]];
-        cached_id_abs = compare_id;
-        if (compare_id < 0) {
-            cached_id_abs = -cached_id_abs;
-        }
-        compare_id = (s16)slot_base;
+        cached_id_abs = abs(compare_id);
+        compare_id = (u32)slot_base << 16;
+        compare_id >>= 16;
         if ((cached_id_abs == compare_id) && (cached_id_abs != 0x39)) {
             entry[1] = asset_id;
         }
@@ -77,8 +76,7 @@ s32 func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read) {
             } else {
                 result = *(s32 *)data;
             }
-            entry += 4;
-            *(s32 *)entry = result;
+            *(s32 *)(entry + 4) = result;
             return result;
         }
 

@@ -137,11 +137,14 @@ s32 func_80024930(void *unused_data, S_80024930_1 *center, s32 unused_value, s16
                 func_80066460(0, blend_mode, 0x280, 0x100);
         }
 
+        ((S_80024930_3 *)prim)->unk_0E = 0x7E00;
         {
-            register s32 texture_u_max ASM_REG("$3") = 0x3F;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            register s32 texture_u_max = 0x3F;
 
             ((S_80024930_3 *)prim)->unk_0C = 0;
+            ((S_80024930_3 *)prim)->unk_0D = 0x80;
             ((S_80024930_3 *)prim)->unk_18 = texture_u_max;
+            ((S_80024930_3 *)prim)->unk_19 = 0x80;
             ((S_80024930_3 *)prim)->unk_24 = 0;
             ((S_80024930_3 *)prim)->unk_30 = texture_u_max;
         }
@@ -161,9 +164,6 @@ s32 func_80024930(void *unused_data, S_80024930_1 *center, s32 unused_value, s16
         angle_offset = (s16)segment * 0x100;
         raw_angle = angle_offset + rotation;
         biased_angle = raw_angle;
-        ((S_80024930_3 *)prim)->unk_0E = 0x7E00;
-        ((S_80024930_3 *)prim)->unk_0D = 0x80;
-        ((S_80024930_3 *)prim)->unk_19 = 0x80;
         ((S_80024930_3 *)prim)->unk_25 = 0xBF;
         ((S_80024930_3 *)prim)->unk_31 = 0xBF;
         if (raw_angle < 0) {
