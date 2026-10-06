@@ -1,4 +1,16 @@
-# Handover (2026-10-06 ~11:00Z, round 96 IN PROGRESS: 133 pins / 73 rows landed) - start here
+# Handover (2026-10-06 ~13:50Z, round 96 IN PROGRESS: 116 pins / 62 rows landed) - start here
+
+**13:50Z:** pins 150 -> 116 this round, all gated + committed. Owner ruling 10-06: the OT-link double mask is the
+getaddr-inside-setaddr macro - include/shared/ot_link.h OT_SETADDR/OT_GETADDR (800CA184, 81910A9C; decisions item 13;
+re-masks elsewhere still refused). Type phase 13 APPLIED (a75ce6fe2 sample + 1ed7d9375 full: 203 rows, 105 windows + SLUS
+MATCH; 11 stale rows skipped - do not re-run). 800CDFD8 now at plain cdk-G0 (crutches retired). Opus was the strongest
+tier late in the round (cont 3, p2 4, p3 1, p4 1 pins); astra ~16; sol61 4; BIRTH 3. Decisions 1-14 in
+docs/evidence/r96_decisions.md (SECOND LOOK: 1, 6, 8, 9, 10, 11, 14).
+Running at 13:50Z: r96_fable_6014 (owner-allowed one-off: 81876014, 7 pins), r96_opus_p5 (8182C800, 818B6AFC), astra
+pool r96e (e1-e4: 800CA184, 8180B064, 8095563C, 800A8714, 819613A8, 800995D0, 8028BAA4, 818FA12C, 818F2800, 800CDFD8).
+Still open from the 11:00Z block below: slus/w_8003E758 switch (configure.py patch), w_8004CAA0 hidden register globals.
+
+# (earlier) Handover (2026-10-06 ~11:00Z, round 96 IN PROGRESS: 133 pins / 73 rows landed)
 
 **11:00Z status:** pins 150 -> 133 (astra a1-a7 on tier-unserved rows -12, r96_opus_birth 800991C4 -3, hidden pin
 8069761C), computed gotos -> switches on 8 rows (r96_opus_cg: 7 overlay + slus/w_80041344 via a new jtbl module; 6 dungeon
