@@ -111,7 +111,6 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
             coord = (raw_x * 6) - offset_x;
             raw_y = func_800644B8(call_value);
             call_scratch = scratch;
-            last_result = last_result;
             call_value = (s32)shape;
             call_segment = segment;
             end_y = (raw_y * 6) - offset_y;

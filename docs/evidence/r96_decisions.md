@@ -13,3 +13,11 @@
 3. **dungeon/func_807B08F0 parameters s32 -> s16** (r96_sonnet_ot3, removes a one-trip): no in-tree caller; the third
    parameter was already s16 and the body sign-extends both. SECOND LOOK: no.
 4. **81329AC4 is not an oddity candidate:** the empty-fence test is negative (hard basket `next` updated). SECOND LOOK: no.
+5. **dungeon/func_8196012C `rand(primitive_word)` stays** (r96_opus_ca flagged a phantom argument): dropping it is not exact
+   (total 7) - retail loads $a0 before `jal rand`, so the original call passed a value to an unprototyped rand (K&R-legal).
+   Byte truth, not a defect. SECOND LOOK: no.
+6. **dungeon/func_802831D8 arity** (r96_opus_ca): callee func_80018A70 is defined `void(void)` and this row is its only
+   caller; the arity-0 text is total 9 (allocation row, r91). Left as is; route next as an allocation row with the
+   arity-0 text as base. SECOND LOOK: yes (does the 3-argument call reflect retail's $a1/$a2 loads? the bytes say yes).
+7. **CALL-ARG class -> hard basket** (800C7F80, w_80042560, 8096C508, 800AE09C): r96_opus_ca MECHANISM.md is a sourced
+   negative in this cdk cc1. SECOND LOOK: no.

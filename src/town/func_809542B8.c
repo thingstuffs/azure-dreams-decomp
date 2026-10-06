@@ -230,7 +230,6 @@ s32 func_800212B8(void) {
             AT(void *, owner + index * 4, 0x20) = new_obj;
             obj = new_obj;
             if (obj != 0) {
-                obj = obj;
                 AT(void *, obj, 0x10) = D_80023260;
                 func_8004491C(obj, func_80045340);
                 sprite = AT(u8 *, obj, 0xC);

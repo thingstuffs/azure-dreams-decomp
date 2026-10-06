@@ -13,6 +13,16 @@ typedef struct S_Ctx {
     void *cur;
 } S_Ctx;
 
+typedef struct PacketTag {
+    unsigned addr : 24;
+    unsigned len : 8;
+} PacketTag;
+
+#define setaddr(packet, address) (((PacketTag *)(packet))->addr = (u32)(address))
+#define getaddr(packet) ((u32)(((PacketTag *)(packet))->addr))
+#define addPrim(ordering_table, primitive) \
+(setaddr((primitive), getaddr(ordering_table)), \
+    setaddr((ordering_table), (primitive)))
 
 extern void func_80066758(void *prim);
 extern void func_80066640(void *prim, s32 flag);
@@ -24,8 +34,6 @@ extern void func_80067F20(void *prim, s32 a1, s32 a2, s32 a3, s32 a4);
 s32 func_8008A794(void *node_data, void *scroll_state)
 {
     CtxHolder *ctx_ptr;
-    s32 addr_mask;
-    s32 tag_mask;
     s32 layer_offset;
     s32 tile_row;
     s32 tile_col;
@@ -41,8 +49,6 @@ s32 func_8008A794(void *node_data, void *scroll_state)
     struct S_Ctx *ctx;
 
     ctx_ptr = (CtxHolder *)&gameWork.unk_000;
-    addr_mask = 0xFFFFFF;
-    tag_mask = 0xFF000000;
 
     do {
         layer_offset = 2;
@@ -51,11 +57,7 @@ s32 func_8008A794(void *node_data, void *scroll_state)
             do {
                 tile_col = 1;
                 tile_y = tile_row << 8;
-                addr_mask += tile_col;
-                addr_mask -= tile_col;
                 page_x = 0x280;
-                addr_mask += page_x;
-                addr_mask -= page_x;
                 do {
                     sprite = ctx_ptr->ctx->cur;
                     ctx_ptr->ctx->cur = (u8 *)sprite + 0x14;
@@ -74,9 +76,7 @@ s32 func_8008A794(void *node_data, void *scroll_state)
                     screen_y = (tile_y - scroll_y) + layer_offset;
                     *(s16 *)((u8 *)sprite + 10) = screen_y;
                     *(s16 *)((u8 *)sprite + 14) = func_8006649C(clut_x, 0x1F0);
-                    *(u32 *)sprite = (*(u32 *)sprite & tag_mask) | (ctx_ptr->ctx->field_82C & addr_mask);
-                    ctx_ptr->ctx->field_82C =
-                        (ctx_ptr->ctx->field_82C & tag_mask) | ((u32)sprite & addr_mask);
+                    addPrim(&ctx_ptr->ctx->field_82C, sprite);
 
                     ctx = ctx_ptr->ctx;
                     draw_mode = ctx->cur;
@@ -84,9 +84,8 @@ s32 func_8008A794(void *node_data, void *scroll_state)
                     func_80067F20(draw_mode, 0, 0,
                                   func_80066460(1, 3, page_x, tile_y) & 0xFFFF, 0);
                     tile_col -= 1;
-                    *(u32 *)draw_mode = (*(u32 *)draw_mode & tag_mask) | (ctx_ptr->ctx->field_82C & addr_mask);
+                    addPrim(&ctx_ptr->ctx->field_82C, draw_mode);
                     page_x -= 0x80;
-                    ctx_ptr->ctx->field_82C = (ctx_ptr->ctx->field_82C & tag_mask) | ((u32)draw_mode & addr_mask);
                 } while (tile_col >= 0);
                 tile_row += 1;
             } while (tile_row < 2);
