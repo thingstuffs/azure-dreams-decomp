@@ -108,9 +108,6 @@ extern s8 D_8006BDB8;
 extern s16 D_8006BDD0[];
 extern void *D_800803DC;
 extern u8 D_80081490[];
-extern u8 D_80082E80_initial[] __asm__("D_80081490");
-extern u8 D_80082E80_fallback[] __asm__("D_80081490");
-extern u8 D_80082E80_check[] __asm__("D_80081490");
 extern s8 D_800814B4;
 extern s32 D_80085990;
 extern s8 D_800E1D50[];
@@ -182,7 +179,7 @@ void func_8127C3E0(void *move_state_arg, void *action_context, void *position_ar
                 s32 target_y;
                 u8 *turn_state;
                 {
-                    u8 *target_position = D_80082E80_initial;
+                    u8 *target_position = D_80081490;
                     s32 target_facing = ((S_8127C3E0_4 *)D_800803DC)->unk_2A;
                     s32 direction_offset =
                         ((((S_8127C3E0_1 *)actor_arg)->unk_45 + ((s16)target_facing >> 9)) & 7) << 1;

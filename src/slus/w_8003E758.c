@@ -31,21 +31,8 @@ extern void func_8003E70C(void);
 extern void func_8003F5EC(void);
 extern void func_8003F624(void);
 extern void CdIntToPos(u32 lba, u8 *loc);
-extern u8  D_800814D3_1[1] __asm__("D_800814D3");
-extern u8  D_800814D3_2[1] __asm__("D_800814D3");
-extern u8  D_800814D3_3[1] __asm__("D_800814D3");
-extern u8  D_800814D3_8[1] __asm__("D_800814D3");
-extern u8  D_800814D3_9[1] __asm__("D_800814D3");
-extern u8  D_800814D3_10[1] __asm__("D_800814D3");
-extern u8  D_800814D3_11[1] __asm__("D_800814D3");
-extern u8  D_800814D3_12[1] __asm__("D_800814D3");
-extern u8  D_800814D3_13[1] __asm__("D_800814D3");
-extern u8  D_800814D3_14[1] __asm__("D_800814D3");
-extern u8  D_800814D3_15[1] __asm__("D_800814D3");
-extern u8  D_800814D3_24[1] __asm__("D_800814D3");
+extern u8  D_800814D3[2];   /* CD driver state byte (+0); +1 is the byte at D_800814D4 */
 extern u8  D_800814D2[1];
-extern u8  D_800814D2_P[1] __asm__("D_800814D2");
-extern u8  D_800814D2_R[1] __asm__("D_800814D2");
 
 #define CDBUF (D_80081450.bytes)
 
@@ -69,7 +56,7 @@ process_queue:
     if (D_800814D0 != D_800814D1[0]) {
 
         driver->flags |= 1;
-        state = D_800814D3_1[0];
+        state = D_800814D3[0];
 
         if (state == 0xFF) {
             queue = D_80083968;
@@ -81,7 +68,7 @@ process_queue:
             head_stride = head_index * 3;
             switch (*((u8 *)queue + head_stride * 8)) {
             case 0:
-                D_800814D3_2[0] = 0xFF;
+                D_800814D3[0] = 0xFF;
                 driver->unk4 = 0;
                 D_800814D2[0] = 0;
                 D_800814D0 = (head_index + 1) & 0x1F;
@@ -146,7 +133,7 @@ process_queue:
                     read_addr = read_addr | 0x80000000;
                 sector_count = read_info[0] >> 23;
                 if (sector_count == 0) {
-                    u8 *state_ptr = &D_800814D3_3[0];
+                    u8 *state_ptr = &D_800814D3[0];
                     D_800814D3[0] = 0xFF;
                     state_ptr[-3] += 1;
                     break;
@@ -178,7 +165,7 @@ process_queue:
                 }
                 if (CdRead(sector_count, (u32 *)read_addr, 0x80) == 0)
                     return;
-                D_800814D3_11[0] = 1;
+                D_800814D3[0] = 1;
                 break;
             }
 
@@ -196,7 +183,7 @@ process_queue:
                 driver->unk4 = 0;
                 if (CdControl(9, 0, CDBUF) == 0)
                     break;
-                D_800814D3_11[0] = 1;
+                D_800814D3[0] = 1;
                 break;
 
             case 0xD:
@@ -217,7 +204,7 @@ process_queue:
                     if (CdControl(0xD, command_offset + params, CDBUF) == 0)
                         break;
                 }
-                D_800814D3_8[0] = 0xFF;
+                D_800814D3[0] = 0xFF;
                 D_800814D0 = D_800814D0 + 1;
                 break;
 
@@ -239,7 +226,7 @@ process_queue:
                     if (CdControl(0xE, command_offset + params, CDBUF) == 0)
                         break;
                 }
-                D_800814D3_9[0] = 0xFF;
+                D_800814D3[0] = 0xFF;
                 D_800814D0 = D_800814D0 + 1;
                 break;
 
@@ -259,7 +246,7 @@ process_queue:
                 CdIntToPos(command->unk04, location);
                 if (CdControlF(0x15, location) == 0)
                     break;
-                D_800814D3_11[0] = 1;
+                D_800814D3[0] = 1;
                 break;
 
             case 0x1B:
@@ -304,7 +291,7 @@ process_queue:
                                 goto stream_error;
                         }
                         D_80083958[0].unk4 = 0;
-                        D_800814D3_11[0] = 1;
+                        D_800814D3[0] = 1;
                         goto finish;
                     }
                 }
@@ -370,8 +357,8 @@ process_queue:
                     s16 idle_state;
                     int old_head;
                     idle_state = 0xFF;
-                    D_800814D3_14[0] = idle_state;
-                    state_ptr = &D_800814D3_13[0];
+                    D_800814D3[0] = idle_state;
+                    state_ptr = &D_800814D3[0];
                     old_head = state_ptr[-3];
                     D_80083958[0].unk4 = 0;
                     D_800814D2[0] = 0;
@@ -407,12 +394,12 @@ process_queue:
                         goto finish;
                     }
                     {
-                        u8 *state_ptr = &D_800814D3_15[0];
+                        u8 *state_ptr = &D_800814D3[0];
                         SlusCdDriverPrefix *read_driver = &D_80083958[0];
                         D_800814D3[0] = 0xFF;
                         read_driver->unk4 = 2;
                         state_ptr[-3] += 1;
-                        D_800814D2[0] = D_800814D2_R[0] | 1;
+                        D_800814D2[0] = D_800814D2[0] | 1;
                         read_driver->unk5 = read_driver->unk5 + 1;
                         goto finish;
                     }
@@ -475,7 +462,7 @@ process_queue:
                 if (status & 0x40)
                     goto finish;
                 if (status & 0x20) {
-                    u8 *status_ptr = &D_800814D2_P[0];
+                    u8 *status_ptr = &D_800814D2[0];
                     SlusCdQueueEntry *stream_queue;
                     SlusCdQueueEntry *stream_command;
                     s32 stream_head;
@@ -501,7 +488,7 @@ process_queue:
     } else {
         if (CdSync(1, 0) == 5) {
             if ((func_8003F240() & 0xFF) == 0x1B) {
-                D_800814D3_24[0] = 0xFF;
+                D_800814D3[0] = 0xFF;
                 if (D_800814D0 != 0)
                     D_800814D0 = D_800814D0 - 1;
                 else

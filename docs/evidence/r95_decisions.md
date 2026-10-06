@@ -57,3 +57,9 @@ Each line: decision - evidence - SECOND LOOK? (yes = owner may want to revisit).
 18. Terminology (owner 10-06): no row is "parked" in the pin campaign - stubborn rows go to the HARD BASKET (ledger/hard_basket.jsonl:
     id, pins, class, deciding pass, evidence lane, best text, why_hard, next). Builders/pools should skip basket rows for normal lanes;
     mechanism lanes and every round's dossier re-read the basket. (ovmovie stays owner-parked as a container - a different thing.)
+19. One-trip `do { } while (0)` blocks as pin removers (r95_opus_H): HOLD. Finding: a loop note is a FULL sched1/sched2 barrier
+    (sched_analyze_insn loop_notes branch: depends on every earlier reg use/set, flush_pending_lists), so a macro-style one-trip block
+    around ONE statement reproduces retail on slus/w_80048B8C (either store) and town/func_8046C188 (staged text grows an existing
+    one-trip block over five statements -> held in r95_opus_H/held/). Standing ruling: one-trip blocks are scaffolding (STATUS counts
+    them; r19 keep_astra refused), so neither lands. SECOND LOOK: YES - if the owner accepts a single-statement `do{}while(0)` as a
+    recovered macro body (e.g. a real #define with a name), these two rows (and w_80042560's 6-word diagnostic) become landable.

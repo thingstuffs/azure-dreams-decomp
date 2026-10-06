@@ -173,13 +173,7 @@ extern Slot D_80086A40[16];
 extern s16 D_80086D50[8];
 extern s32 D_80073740[];
 extern s32 D_80073734[4];
-extern s32 D_80073734_1[4] __asm__("D_80073734");
-extern s32 D_80073734_2[4] __asm__("D_80073734");
-extern s32 D_80073734_3[4] __asm__("D_80073734");
-extern s32 D_80073734_4[4] __asm__("D_80073734");
-extern s32 D_80073734_5[4] __asm__("D_80073734");
-extern s32 D_80073734_6[4] __asm__("D_80073734");
-extern s32 D_80073734_7[4] __asm__("D_80073734");
+extern s32 D_80073734_late[4] __asm__("D_80073734");  /* second view: retail hoists the base per voice loop */
 extern Req D_80084918;
 extern s16 D_80084930[];
 
@@ -263,7 +257,7 @@ void func_80056E10(u8 channel_id, s16 note, u8 velocity)
                     if (channel_key == D_80085458[voice_idx].f06) {
                         break;
                     }
-                    if (++voice_idx >= D_80073734_1[0]) {
+                    if (++voice_idx >= D_80073734[0]) {
                         voice_idx = -1;
                         break;
                     }
@@ -281,7 +275,7 @@ void func_80056E10(u8 channel_id, s16 note, u8 velocity)
                         if (func_8005EB78(D_80073740[voice_idx]) == 0) {
                             break;
                         }
-                        if (++voice_idx >= D_80073734_2[0]) {
+                        if (++voice_idx >= D_80073734[0]) {
                             voice_idx = -1;
                             break;
                         }
@@ -296,7 +290,7 @@ void func_80056E10(u8 channel_id, s16 note, u8 velocity)
                             if (voice_status == 0) {
                                 break;
                             }
-                            if (++voice_idx >= D_80073734_3[0]) {
+                            if (++voice_idx >= D_80073734[0]) {
                                 voice_idx = -1;
                                 break;
                             }
@@ -352,7 +346,7 @@ void func_80056E10(u8 channel_id, s16 note, u8 velocity)
                     if (func_8005EB78(D_80073740[voice_idx]) == 0) {
                         break;
                     }
-                    if (++voice_idx >= D_80073734_4[0]) {
+                    if (++voice_idx >= D_80073734[0]) {
                         voice_idx = -1;
                         break;
                     }
@@ -367,7 +361,7 @@ void func_80056E10(u8 channel_id, s16 note, u8 velocity)
                         if (voice_status == 0) {
                             break;
                         }
-                        if (++voice_idx >= D_80073734_5[0]) {
+                        if (++voice_idx >= D_80073734[0]) {
                             voice_idx = -1;
                             break;
                         }
@@ -381,7 +375,7 @@ void func_80056E10(u8 channel_id, s16 note, u8 velocity)
                                 && (D_80085458[voice_idx].f0A == match_note)) {
                                 break;
                             }
-                            if (++voice_idx >= D_80073734_6[0]) {
+                            if (++voice_idx >= D_80073734_late[0]) {
                                 voice_idx = -1;
                                 break;
                             }
@@ -392,7 +386,7 @@ void func_80056E10(u8 channel_id, s16 note, u8 velocity)
                                 if (D_80085458[voice_idx].f1A == 0) {
                                     break;
                                 }
-                                if (++voice_idx >= D_80073734_7[0]) {
+                                if (++voice_idx >= D_80073734_late[0]) {
                                     voice_idx = -1;
                                     break;
                                 }
