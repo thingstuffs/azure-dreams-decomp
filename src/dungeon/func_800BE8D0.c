@@ -82,7 +82,6 @@ s32 func_800C4030(EntityRec *target, s32 action, s16 action_type, s32 action_par
             return 1;
         }
         table_base = (u8 *)0x80080000;
-        goto shared_tail;
     } else {
         func_8009BF7C(1, 8);
         func_800A56E0(0x80F);
@@ -102,15 +101,14 @@ s32 func_800C4030(EntityRec *target, s32 action, s16 action_type, s32 action_par
         slot_state += 4;
         if (slot_index < 0x40) goto loop;
         table_base = (u8 *)0x80080000;
-shared_tail:
-        table_base += 0x3460;
-        result = ((S_800C4030_1 *)table_base)->unk_0A;
-        first_arg = action;
-        result--;
-        ((S_800C4030_1 *)table_base)->unk_0A = result;
-        func_80098B38(first_arg);
-        return 1;
     }
+    table_base += 0x3460;
+    result = ((S_800C4030_1 *)table_base)->unk_0A;
+    first_arg = action;
+    result--;
+    ((S_800C4030_1 *)table_base)->unk_0A = result;
+    func_80098B38(first_arg);
+    return 1;
 
 }
 

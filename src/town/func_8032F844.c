@@ -125,13 +125,8 @@ void func_8001A044(s32 *records, void *ost_w, void *osel_w)
         p = ost_w;
         if (*records != 0) {
             data_page = (u8 *)0x80010000;
-            goto first_record;
             do {
                 scaled_index = record_index * 8;
-                goto read_record;
-first_record:
-                scaled_index = record_index * 8;
-read_record:
                 flag_bits = *(s32 *)(((scaled_index - record_index) * 4) + (u8 *)records);
                 group_bits = flag_bits >> 0x13;
                 flag_bits = flag_bits >> 0x17;
