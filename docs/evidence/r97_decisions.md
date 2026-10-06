@@ -39,4 +39,13 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     DTL-S3040 2.7.2, 2.5.7/2.6.0/2.6.3, 2.8.1 SN 4.0.0010, 2.95.2 4.0.0030, egcs 2.91.66 and our rebuilds).
     Nothing new on disk. Targeted follow-up: the 39 gcc2 trunk snapshots hunt B left built
     (work/fidelity/lostcc/B/bin, 970403-970802 + 2.8.x variants) run on the pin-erased OPAQUE-BASE rows
-    (work/native_lane/r97_trunk_opaque) - result recorded below when it lands.
+    (work/native_lane/r97_trunk_opaque) - **RESULT: NEGATIVE.** Harness calibrated (pinned texts: identical bodies
+    under cdk and r13838-noeh on all six rows; r13838-noeh = cdk on 58/58 erased rows). Over 41 cc1s (hunt-B set +
+    r14477): no snapshot makes 81329AC4 (17), 800AED64 (39), 81910A9C (161), 8196096C fence-free (12), 819112CC (356)
+    or w_800463EC (126) exact, and none changes the deciding order (81329AC4: the D_800E296C RMW still sinks below the
+    lhu + three sh $0 page stores; 8196096C: the D_80027374 lui/addiu + lhu 4($4) still hoist above the scratch sw's),
+    including r14536rev / r14639rev (hunt B's closest model of the lost production compiler). 58-row erased sweep
+    (17 representative cc1s): no row exact anywhere; 52/58 erased bodies = cdk at every snapshot 04-03..07-10; only
+    818B6AFC improves (62 -> 45, FSF 2.8 releases; not an OPAQUE-BASE row). Verdict: "a different 1997 gcc2 revision
+    explains OPAQUE-BASE" is refuted for every compiler we hold; only an unpublished Cygnus-internal branch remains
+    untested (no such cc1 exists locally). OPAQUE-BASE stays in the basket as a source question.

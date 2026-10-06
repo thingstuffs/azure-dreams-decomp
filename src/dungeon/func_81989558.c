@@ -1,45 +1,34 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-typedef struct S_80024D58_0 {
-    u8 pad_00[0x2];
+typedef struct S_80024D58_Point {
+    s16 unk_00;
     s16 unk_02;
-} S_80024D58_0;   /* q in func_80024D58 */
+    u16 unk_04;
+    u8 pad_06[0x2];
+} S_80024D58_Point;   /* source_points / rotated_points entry (8 bytes) in func_80024D58 */
 
-typedef struct S_80024D58_1 {
-    u8 pad_00[0x12];
-    u16 unk_12;
-} S_80024D58_1;   /* var_fp in func_80024D58 */
-
-typedef struct S_80024D58_2 {
+typedef struct S_80024D58_Obj {
     u8 pad_00[0x4];
     s16 unk_04;
     u8 pad_06[0x6];
     s32 unk_0C;
-} S_80024D58_2;   /* obj in func_80024D58 */
+} S_80024D58_Obj;   /* obj in func_80024D58 */
 
-typedef struct S_80024D58_3 {
-    s16 unk_00;
-    u8 pad_02[0x2];
-    u16 unk_04;
-} S_80024D58_3;   /* w in func_80024D58 */
-
-typedef struct S_80024D58_4 {
+typedef struct S_80024D58_RingParam {
     u8 pad_00[0x10];
     u16 unk_10;
-} S_80024D58_4;   /* fq in func_80024D58 */
+    u16 unk_12;
+} S_80024D58_RingParam;   /* ring_params entry (6 bytes apart) in func_80024D58 */
 
-typedef struct S_80024D58_5 {
-    u8 pad_00[0x18];
-    u16 unk_18;
-} S_80024D58_5;   /* &frame.p in func_80024D58 */
-
-typedef struct S_80024D58_6 {
-    u8 pad_00[0x8D0];
+typedef struct S_80024D58_Ctx {
+    u8 pad_00[0xB0];
+    s32 unk_B0;
+    u8 pad_B4[0x81C];
     u8 * unk_8D0;
-} S_80024D58_6;   /* ctx in func_80024D58 */
+} S_80024D58_Ctx;   /* *render_context in func_80024D58 */
 
-typedef struct S_80024D58_7 {
+typedef struct S_80024D58_Quad {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
@@ -57,22 +46,12 @@ typedef struct S_80024D58_7 {
     s32 unk_20;
     u8 unk_24;
     u8 unk_25;
-} S_80024D58_7;   /* o in func_80024D58 */
+} S_80024D58_Quad;   /* o in func_80024D58 */
 
-typedef struct S_80024D58_8 {
+typedef struct S_80024D58_Pair {
     s32 unk_00;
     s32 unk_04;
-} S_80024D58_8;   /* r1 in func_80024D58 */
-
-typedef struct S_80024D58_9 {
-    s32 unk_00;
-    s32 unk_04;
-} S_80024D58_9;   /* r1b in func_80024D58 */
-
-typedef struct S_80024D58_10 {
-    u8 pad_00[0xB0];
-    s32 unk_B0;
-} S_80024D58_10;   /* *gp0 in func_80024D58 */
+} S_80024D58_Pair;   /* r1 / r1b in func_80024D58 */
 
 typedef struct S_80024D58_11_pre {
     void * unk_00;
@@ -144,7 +123,7 @@ s32 func_80024D58(void *node) {
             u8 *source_point = source_points + 120;
             point_index = 15;
             do {
-                ((S_80024D58_0 *)source_point)->unk_02 = point_y;
+                ((S_80024D58_Point *)source_point)->unk_02 = point_y;
                 point_y -= 96;
                 point_index -= 1;
                 source_point -= 8;
@@ -163,12 +142,12 @@ s32 func_80024D58(void *node) {
             s32 half_count = 8 - ring;
             u8 *ring_points = source_points + point_offset;
             ring_x = grid_origin + span_base * 48;
-            frame.p.f51C = ((S_80024D58_1 *)ring_params)->unk_12;
+            frame.p.f51C = ((S_80024D58_RingParam *)ring_params)->unk_12;
             frame.p.f510 = ring_points;
             frame.p.f514 = rotated_points + point_offset;
             frame.p.f528 = half_count * 2;
             {
-                s32 height = ((S_80024D58_2 *)object)->unk_04;
+                s32 height = ((S_80024D58_Obj *)object)->unk_04;
                 *(s16 *)frame.space = (height + ring) << 6;
             }
             point_index = ring;
@@ -177,9 +156,9 @@ s32 func_80024D58(void *node) {
                 u8 *params = ring_params;
                 u8 *point = ring_points;
                 do {
-                    ((S_80024D58_3 *)point)->unk_00 = (s16) point_x;
+                    ((S_80024D58_Point *)point)->unk_00 = (s16) point_x;
                     point_index += 1;
-                    ((S_80024D58_3 *)point)->unk_04 = ((S_80024D58_4 *)params)->unk_10;
+                    ((S_80024D58_Point *)point)->unk_04 = ((S_80024D58_RingParam *)params)->unk_10;
                     point += 8;
                 } while (point_index < (ring + frame.p.f528));
             }
@@ -207,7 +186,7 @@ s32 func_80024D58(void *node) {
                     break;
                 case 1:
                     point_index = ring;
-                    point_count = ((S_80024D58_5 *)(&frame.p))->unk_18;
+                    point_count = frame.p.f528;
                     if (point_index < (point_index + frame.p.f528)) {
                         edge_base = span_base;
                         do {
@@ -218,13 +197,13 @@ s32 func_80024D58(void *node) {
                                           &frame.p.f530, &frame.p.f534);
                             point_index = next_index;
                             ASM_KEEP_NV(ring);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-                            point_count = ((S_80024D58_5 *)(&frame.p))->unk_18;
+                            point_count = frame.p.f528;
                         } while (point_index < (ring + frame.p.f528));
                     }
                     break;
                 case 2:
                     point_index = ring;
-                    point_count = ((S_80024D58_5 *)(&frame.p))->unk_18;
+                    point_count = frame.p.f528;
                     if (point_index < (point_index + frame.p.f528)) {
                         do {
                             s32 next_index;
@@ -234,13 +213,13 @@ s32 func_80024D58(void *node) {
                                               - (next_index = point_index + 1)) * 4),
                                           &frame.p.f530, &frame.p.f534);
                             point_index = next_index;
-                            point_count = ((S_80024D58_5 *)(&frame.p))->unk_18;
+                            point_count = frame.p.f528;
                         } while (point_index < (ring + frame.p.f528));
                     }
                     break;
                 case 3:
                     point_index = ring;
-                    point_count = ((S_80024D58_5 *)(&frame.p))->unk_18;
+                    point_count = frame.p.f528;
                     if (point_index < (point_index + frame.p.f528)) {
                         u8 *grid_row = (u8 *) ((point_index << 6) + (s32) grid);
                         u8 *rotated_point = (u8 *) ((point_index * 8) + (s32) rotated_points);
@@ -249,7 +228,7 @@ s32 func_80024D58(void *node) {
                                           &frame.p.f530, &frame.p.f534);
                             grid_row += 0x40;
                             point_index += 1;
-                            point_count = ((S_80024D58_5 *)(&frame.p))->unk_18;
+                            point_count = frame.p.f528;
                             rotated_point += 8;
                         } while (point_index < (ring + frame.p.f528));
                     }
@@ -275,7 +254,7 @@ s32 func_80024D58(void *node) {
                 do {
                     {
                         void *context = *render_context;
-                        u8 *quad = ((S_80024D58_6 *)context)->unk_8D0;
+                        u8 *quad = ((S_80024D58_Ctx *)context)->unk_8D0;
                         u8 *top_pair;
                         u8 *bottom_pair;
                         u8 *src_base;
@@ -284,40 +263,40 @@ s32 func_80024D58(void *node) {
                         u8 *dst_row;
                         u8 *dst_pair;
                         s32 row_offset;
-                        ((S_80024D58_6 *)context)->unk_8D0 = quad + 0x28;
-                        ((S_80024D58_7 *)quad)->unk_04 = ((S_80024D58_2 *)object)->unk_0C;
+                        ((S_80024D58_Ctx *)context)->unk_8D0 = quad + 0x28;
+                        ((S_80024D58_Quad *)quad)->unk_04 = ((S_80024D58_Obj *)object)->unk_0C;
                         func_800666F4(quad);
                         func_80066640(quad, 1);
-                        ((S_80024D58_7 *)quad)->unk_16 = func_80066460(0, 3, 0x300, 0x100);
-                        ((S_80024D58_7 *)quad)->unk_0E = func_8006649C(0x10, 0x1F8);
+                        ((S_80024D58_Quad *)quad)->unk_16 = func_80066460(0, 3, 0x300, 0x100);
+                        ((S_80024D58_Quad *)quad)->unk_0E = func_8006649C(0x10, 0x1F8);
                         row_offset = point_index << 6;
                         src_base = (u8 *) (row_offset + (s32) source_points);
                         src_row = src_base + 0x100;
                         src_pair = (u8 *) (ring + (s32) src_row);
-                        ((S_80024D58_7 *)quad)->unk_08 = ((S_80024D58_8 *)src_pair)->unk_00;
-                        ((S_80024D58_7 *)quad)->unk_10 = ((S_80024D58_8 *)src_pair)->unk_04;
+                        ((S_80024D58_Quad *)quad)->unk_08 = ((S_80024D58_Pair *)src_pair)->unk_00;
+                        ((S_80024D58_Quad *)quad)->unk_10 = ((S_80024D58_Pair *)src_pair)->unk_04;
                         top_pair = frame.space + 320;
                         dst_row = top_pair + row_offset;
                         dst_pair = (u8 *) (ring + (s32) dst_row);
-                        ((S_80024D58_7 *)quad)->unk_18 = ((S_80024D58_9 *)dst_pair)->unk_00;
+                        ((S_80024D58_Quad *)quad)->unk_18 = ((S_80024D58_Pair *)dst_pair)->unk_00;
                         {
-                            s32 bottom_right = ((S_80024D58_9 *)dst_pair)->unk_04;
-                            ((S_80024D58_7 *)quad)->unk_14 = 0xC0;
-                            ((S_80024D58_7 *)quad)->unk_0C = 0xC0;
-                            ((S_80024D58_7 *)quad)->unk_24 = 0xDF;
-                            ((S_80024D58_7 *)quad)->unk_1C = 0xDF;
-                            ((S_80024D58_7 *)quad)->unk_1D = 0;
-                            ((S_80024D58_7 *)quad)->unk_0D = 0;
-                            ((S_80024D58_7 *)quad)->unk_25 = 0x1F;
-                            ((S_80024D58_7 *)quad)->unk_15 = 0x1F;
-                            ((S_80024D58_7 *)quad)->unk_20 = bottom_right;
+                            s32 bottom_right = ((S_80024D58_Pair *)dst_pair)->unk_04;
+                            ((S_80024D58_Quad *)quad)->unk_14 = 0xC0;
+                            ((S_80024D58_Quad *)quad)->unk_0C = 0xC0;
+                            ((S_80024D58_Quad *)quad)->unk_24 = 0xDF;
+                            ((S_80024D58_Quad *)quad)->unk_1C = 0xDF;
+                            ((S_80024D58_Quad *)quad)->unk_1D = 0;
+                            ((S_80024D58_Quad *)quad)->unk_0D = 0;
+                            ((S_80024D58_Quad *)quad)->unk_25 = 0x1F;
+                            ((S_80024D58_Quad *)quad)->unk_15 = 0x1F;
+                            ((S_80024D58_Quad *)quad)->unk_20 = bottom_right;
                         }
-                        bottom_pair = (u8 *)((((S_80024D58_7 *)quad)->unk_00 & tag_mask)
-                            | (((S_80024D58_10 *)(*render_context))->unk_B0 & address_mask));
+                        bottom_pair = (u8 *)((((S_80024D58_Quad *)quad)->unk_00 & tag_mask)
+                            | (((S_80024D58_Ctx *)(*render_context))->unk_B0 & address_mask));
                         (*(s32 *)quad) = (s32)bottom_pair;
                         point_index += 1;
-                        ((S_80024D58_10 *)(*render_context))->unk_B0 =
-                            (((S_80024D58_10 *)(*render_context))->unk_B0 & tag_mask) | ((s32) quad & address_mask);
+                        ((S_80024D58_Ctx *)(*render_context))->unk_B0 =
+                            (((S_80024D58_Ctx *)(*render_context))->unk_B0 & tag_mask) | ((s32) quad & address_mask);
                     }
                 } while (point_index < 0xF);
                 side += 1;
