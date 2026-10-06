@@ -23,6 +23,8 @@ typedef struct S_807AE960_2 {
 typedef struct S_807AE960_3 {
     u8 pad_00[0x2090];
     s32 unk_2090;
+    u8 pad_2094[0x1686];
+    u16 unk_371A;
 } S_807AE960_3;   /* global in func_807AE960 */
 
 typedef struct S_807AE960_4 {
@@ -95,10 +97,8 @@ void func_807AE960(u8 *state, u8 *actor, u8 *target) {
         }
         remaining = (u16) ((S_807AE960_1 *)state)->unk_04.s - 1;
         ((S_807AE960_1 *)state)->unk_04.u = remaining;
-        do {
-            global = (u8 *)0x80010000;
-        } while (0);
-        if (*(u16 *)(global + 0x371A) < 4U) {
+        global = (u8 *)0x80010000;
+        if (((S_807AE960_3 *)global)->unk_371A < 4U) {
             if (remaining < 0) {
                 ((S_807AE960_1 *)state)->unk_04.s = 0;
             }

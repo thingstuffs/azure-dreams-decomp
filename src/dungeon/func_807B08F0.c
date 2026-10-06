@@ -23,7 +23,7 @@ typedef struct S_807B08F0_1 {
 } S_807B08F0_1;   /* temp_s0 in func_807B08F0 */
 
 /* Allocate and initialize an object at the center of the specified tile. */
-void func_807B08F0(s32 tile_x, s32 tile_y, s16 initial_value) {
+void func_807B08F0(s16 tile_x, s16 tile_y, s16 initial_value) {
     S_807B08F0_1 *state;
     void *object;
 
@@ -32,10 +32,8 @@ void func_807B08F0(s32 tile_x, s32 tile_y, s16 initial_value) {
         ((S_807B08F0_0 *)object)->unk_10 = &D_800F81A0;
         func_8004491C(object, &D_800F833C);
         state = object + 0x20;
-        ((S_807B08F0_0 *)object)->unk_20 = (u16) (((s32) (tile_x << 0x10) >> 0xA) + 0x20);
-        do {
-            state->unk_02 = (u16) (((s32) (tile_y << 0x10) >> 0xA) + 0x20);
-        } while (0);
+        ((S_807B08F0_0 *)object)->unk_20 = (u16) (tile_x * 0x40 + 0x20);
+        state->unk_02 = (u16) (tile_y * 0x40 + 0x20);
         state->unk_04 = func_800BCB04(((S_807B08F0_0 *)object)->unk_20, state->unk_02, -0x400);
         state->unk_06 = initial_value;
         state->unk_08 = 0;

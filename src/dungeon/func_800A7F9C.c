@@ -58,9 +58,8 @@ s32 func_800AD6FC(DungeonState *state, s32 mode, u8 *item, s32 text_arg) {
                                               func_80099194(D_800E0CDC, message)));
         break;
     case 1:
-        do {
-            message = func_80099194(D_800E0CF3, func_80099734(state, message));
-        } while (0);
+        message = func_80099734(state, message);
+        message = func_80099194(D_800E0CF3, message);
         meter += 0x300;
         break;
     case 2:

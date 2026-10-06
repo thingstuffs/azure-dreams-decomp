@@ -8,7 +8,6 @@ typedef s32 M2C_UNK;
 #endif
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-#define M2C_FIELD_V(expr, type_ptr, offset) (*(volatile type_ptr)((s8 *)(expr) + (offset)))
 
 void *func_8003FC64();
 s32 func_8004491C();

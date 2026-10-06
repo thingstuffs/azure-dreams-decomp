@@ -114,6 +114,7 @@ extern u8 D_800930E4[];
 extern s32 D_80097D2C[3];
 extern u8 D_800D0128[];
 
+extern int abs(int);
 extern void func_800206F4(void *, TownDraw32 *);
 extern void func_8002082C(void *);
 extern void func_80020948(void *, TownPos *, s32 *, void *);
@@ -395,24 +396,9 @@ void func_8002191C(void *scene)
             if ((node_flags & 3) == 0) {
                 s32 delta0;
                 s32 delta1;
-                s32 x0;
-                s32 y0;
-                s32 y1;
 
-                x0 = ((S_8002191C_8 *)node_pos)->unk_02;
-                do {
-                    y0 = ((S_8002191C_9 *)compare)->unk_02;
-                } while (0);
-                delta0 = x0 - y0;
-                y0 = ((S_8002191C_8 *)node_pos)->unk_06;
-                y1 = ((S_8002191C_9 *)compare)->unk_06;
-                if (delta0 < 0) {
-                    delta0 = -delta0;
-                }
-                delta1 = y0 - y1;
-                if (delta1 < 0) {
-                    delta1 = -delta1;
-                }
+                delta0 = abs(((S_8002191C_8 *)node_pos)->unk_02 - ((S_8002191C_9 *)compare)->unk_02);
+                delta1 = abs(((S_8002191C_8 *)node_pos)->unk_06 - ((S_8002191C_9 *)compare)->unk_06);
                 if (delta0 + delta1 < 0x20) {
                     ((S_8002191C_6 *)node_part)->unk_08 = node_flags | 1;
                     ((s16 *)global)[((S_8002191C_0 *)scene)->unk_34.s]++;

@@ -35,7 +35,6 @@ typedef struct S_800A2FE0_4 {
 } S_800A2FE0_4;   /* globalData in func_800A2FE0 */
 
 void func_800A2FE0(EntityRec *entity) {
-    s32 selectionInputFirst;
     s32 selectionInputSecond;
     s32 currentValue;
     s32 selectionInputThird;
@@ -63,11 +62,9 @@ void func_800A2FE0(EntityRec *entity) {
         if (!(flags14 & 0x4000)) {
             targetState = entity->target;
             if ((targetState != NULL) && (targetState->unk_13 >= 0)) {
-                do {
-                    selectionInputFirst = func_800990FC();
-                } while (0);
-                func_80099290(func_80099194(&D_80089000, func_80099734(entity, func_80099194(&D_800E09CD, selectionInputFirst))));
-                func_800A5720(selectionInputFirst);
+                currentValue = func_800990FC();
+                func_80099290(func_80099194(&D_80089000, func_80099734(entity, func_80099194(&D_800E09CD, currentValue))));
+                func_800A5720(currentValue);
             }
         }
         if ((result != 0) && (targetData = entity->target, (targetData != NULL))) {

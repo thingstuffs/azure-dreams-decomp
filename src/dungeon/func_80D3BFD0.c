@@ -65,7 +65,8 @@ void func_801717D0(u8 *entity, s32 action_param, u8 *action_sprite, u8 *frame_ta
     u8 *action_slot;
     u8 *action_table;
     u8 *action_entry;
-    volatile u16 *action_flags;
+    u16 *action_flags;
+    s32 action_word;
     u16 counter;
     s32 special_action;
     s32 selection_index;
@@ -121,7 +122,8 @@ void func_801717D0(u8 *entity, s32 action_param, u8 *action_sprite, u8 *frame_ta
 
         action_flags = (u16 *)(self + 0x46);
         if (!(*action_flags & 0x4000)) {
-            selection_index = *action_flags & 0x3FFF;
+            action_word = *action_flags;
+            selection_index = action_word & 0x3FFF;
             entry_index = selection_index - 1;
             action_table = D_8006DE24;
             action_slot = self;

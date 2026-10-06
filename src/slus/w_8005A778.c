@@ -77,9 +77,9 @@ s32 func_8005A778(S_8005A778_Arg0 *header, s16 requested_slot, void *payload)
     entry->unk00 = (s16)slot;
     entry->unk04 = header;
     offset_blocks = header_fields->unk12;
-    entry->unk10 = (s32)payload;
     entry->unk08 = (offset_blocks << 9) + 0xA20;
-    entry->unk14 = header_fields->unk0C - *(volatile s32 *)&entry->unk08;
+    entry->unk10 = (s32)payload;
+    entry->unk14 = header_fields->unk0C - entry->unk08;
     entry->unk18 = header_fields->unk18;
     entry->unk1B = header_fields->unk19;
 
