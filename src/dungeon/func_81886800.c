@@ -253,15 +253,6 @@ typedef struct S_func_81886800_19 {
     s32 unk_00;
 } S_func_81886800_19;
 
-extern void func_80024064(void);
-extern void func_800240C8(void);
-extern void func_80024160(void);
-extern void func_800243C8(void);
-extern void func_80024640(void);
-extern void func_8002467C(void);
-extern void func_800247C8(void);
-extern void func_800246F0(void);
-extern void func_80024790(void);
 extern void func_8002485C(void);
 extern void func_80024884(void);
 extern void func_80024924(void);
@@ -280,7 +271,6 @@ extern void func_80065F90(s32, s32);
 extern void *func_80024C80(void *, void *, s32, void *);
 extern void func_800262B8(void *, s32, void *);
 
-extern void *D_80024008[];
 extern u8 D_80026324[];
 extern u8 D_80026326[];
 extern u8 D_80026328[];
@@ -292,73 +282,31 @@ extern u8 D_80026474[];
 extern u8 D_80026878[];
 extern u8 D_800DDC40[];
 
-#ifdef __mips__
-static void (*const func_81886800_table[])(void) __asm__("func_81886800")
-__attribute__((section(".text.func_81886800"), aligned(4))) = {
-    func_80024064,
-    0,
-    func_800240C8,
-    func_80024160,
-    func_800243C8,
-    func_80024640,
-    func_8002467C,
-    func_800247C8,
-    func_800247C8,
-    func_800247C8,
-    func_800247C8,
-    func_800247C8,
-    func_800247C8,
-    func_800247C8,
-    func_800247C8,
-    func_800247C8,
-    func_800247C8,
-    func_800247C8,
-    func_800246F0,
-    func_80024790,
-    func_8002485C,
-    func_80024884,
-    func_80024924,
-    func_800249F4,
-    func_80024AA8,
-};
-#define BODY_NAME func_81886864
-#else
-#define BODY_NAME func_81886864
-#endif
+void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func_81886800_3 *sprite);
 
-void BODY_NAME(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func_81886800_3 *sprite)
-__attribute__((section(".text.func_81886800")));
+/* The module's entry pointer: the first word of its read-only data, at the row's own address
+ * (retail 0x80024000, the row symbol func_80024000).  The state table of the switch below follows
+ * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
+void (*const module_entry)(S_func_81886800_1 *, S_func_81886800_11 *, S_func_81886800_3 *) __asm__("func_80024000") = func_80024064;
 
 /* Initialize and update a moving effect through targeting, collision, and fading states. */
-void BODY_NAME(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func_81886800_3 *sprite)
+void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func_81886800_3 *sprite)
 {
     S_func_81886800_8 *owner;
     S_func_81886800_2 *owner_base;
     S_func_81886800_11 *owner_motion;
+    S_func_81886800_8 *target_object;
     s32 state;
-    u32 valid_state;
     u16 owner_flags;
     s16 surface_pos[3];
     s32 texture_rect[2];
-    static void *const state_labels[] = {
-        &&case_0, &&case_1, &&case_2, &&case_3, &&case_4,
-        &&case_5, &&case_6, &&case_7, &&case_8, &&case_9,
-        &&case_10, &&case_11, &&case_12, &&case_13, &&case_14,
-        &&case_15, &&case_16, &&case_17,
-    };
 
     owner = effect->unk_00;
     state = effect->unk_0A.s16;
     owner_base = (S_func_81886800_2 *)((u8 *)owner - 0x20);
-    valid_state = (u32)state < 18u;
     owner_motion = owner_base->unk_08;
-    if (!valid_state) {
-        goto end;
-    }
-    (void)state_labels;
-    goto *D_80024008[state];
-
-case_0:
+    switch (state) {
+    case 0:
     texture_rect[0] = 0x01000340;
     texture_rect[1] = 0x00200020;
     func_800B835C(D_8002632C, texture_rect, 1, 0);
@@ -376,11 +324,12 @@ case_0:
     effect->unk_16.u16 = (owner_flags >> 9) & 7;
     effect->unk_0A.u16++;
 
+    case 1:
     if (func_8003DF74(
             ((S_func_81886800_10 *)(owner_base->unk_0C))->unk_08.ptr,
             owner_base->unk_0C, surface_pos, 0) == 0) {
         if ((((S_func_81886800_10 *)(owner_base->unk_0C))->unk_14 & 0x8000) == 0) {
-            goto end;
+            break;
         }
     }
 
@@ -397,7 +346,7 @@ case_0:
     {
         S_func_81886800_12 *effect_flags = effect->unk_04;
         if ((effect_flags->unk_00 & 0x80) == 0) {
-            goto end;
+            break;
         }
         if ((effect->unk_12 & 4) == 0) {
             func_8004491C((u8 *)effect - 0x20, func_80045340);
@@ -410,10 +359,7 @@ case_0:
         }
     }
 
-    {
-        if (owner->unk_60 == 0) {
-            goto case_0_no_object;
-        }
+    if (owner->unk_60 != 0) {
         {
             S_func_81886800_10 *target_data;
 
@@ -470,15 +416,12 @@ case_0:
                 effect->unk_14 = tile_distance + 1;
             }
         }
+    } else {
+        effect->unk_14 = 8;
+        effect->unk_0C = motion->unk_00.parts.unk_02.u16;
+        effect->unk_0E = motion->unk_04.parts.unk_06.u16;
+        effect->unk_10.u16 = owner->unk_88.u16 - 80;
     }
-    goto motion_direction;
-
-case_0_no_object:
-    effect->unk_14 = 8;
-    effect->unk_0C = motion->unk_00.parts.unk_02.u16;
-    effect->unk_0E = motion->unk_04.parts.unk_06.u16;
-    effect->unk_10.u16 = owner->unk_88.u16 - 80;
-motion_direction:
     {
         u8 *x_offsets = ((u8 *)dirStepX);
         s16 direction = effect->unk_16.s16;
@@ -492,9 +435,9 @@ motion_direction:
         }
     }
     effect->unk_0A.u16++;
-    goto end;
+    break;
 
-case_1:
+    case 2:
     {
         s32 x_velocity;
         motion->unk_00.s32 += motion->unk_0C.s32;
@@ -538,7 +481,7 @@ case_1:
         effect->unk_1C.parts.unk_1E.parts.unk_1F.u8 = (tile_coord / 64);
     }
     if (effect->unk_20.s16 == effect->unk_1C.parts.unk_1E.s16) {
-        goto end;
+        break;
     }
     if (owner->unk_60 != 0) {
         if (effect->unk_58 == 0) {
@@ -578,11 +521,10 @@ case_1:
                 effect->unk_0A.u16 = next_state;
                 ((S_func_81886800_15 *)(D_80026878))->unk_00 = target_id;
             }
-            goto end;
+            break;
         }
     }
 
-case_1_continue:
     {
         u8 x = effect->unk_1C.parts.unk_1E.parts.unk_1E.u8;
         u8 y = effect->unk_1C.parts.unk_1E.parts.unk_1F.u8;
@@ -596,39 +538,39 @@ case_1_continue:
             s32 world_y = (((s32)effect->unk_1C.parts.unk_1E.parts.unk_1F.s8 << 6) + 0x20) & 0xFFE0;
             collision = func_800A45D8(world_x, world_y, effect->unk_2C.parts.unk_2E.s16);
             if ((collision << 16) == 0) {
-                goto end;
+                break;
             }
         }
         effect->unk_0A.u16 = 16;
-        goto end;
+        break;
     }
 
-case_2:
+    case 3:
     func_80065F90(motion->unk_0C.parts.unk_0E.s16, motion->unk_10.parts.unk_12.s16);
+    target_object = owner->unk_60;
+    effect->unk_28 = func_80024C80(
+        effect, motion, target_object->unk_88.s16, target_object);
+    if (effect->unk_28 == 0) {
+        break;
+    }
+    effect->unk_0A.u16++;
+    case 4:
     {
-        S_func_81886800_8 *target_object;
-        target_object = owner->unk_60;
-        effect->unk_28 = func_80024C80(
-            effect, motion, target_object->unk_88.s16, target_object);
-        if (effect->unk_28 == 0) {
-            goto end;
-        }
-        effect->unk_0A.u16++;
         sprite->unk_0C.parts.unk_0C -= sprite->unk_0C.parts.unk_0C >> 2;
         sprite->unk_0C.parts.unk_0D -= sprite->unk_0C.parts.unk_0D >> 2;
         sprite->unk_0C.parts.unk_0E -= sprite->unk_0C.parts.unk_0E >> 2;
         if ((((S_func_81886800_16 *)(effect->unk_28))->unk_1E & 0x8000) == 0) {
-            goto end;
+            break;
         }
         if (owner->unk_60 != 0) {
             func_800262B8(owner->unk_60,
                           effect->unk_09, owner);
         }
         effect->unk_0A.u16 = 17;
-        goto end;
+        break;
     }
 
-case_3:
+    case 16:
     {
 #ifdef __mips__
 #else
@@ -648,34 +590,19 @@ case_3:
         func_80024DE8(motion, sprite);
         if (sprite->unk_0C.parts.unk_0C < 2) {
             effect->unk_0A.u16++;
-            goto end;
-        } else {
-            goto end;
         }
+        break;
     }
 
-case_4:
+    case 17:
     if (((S_func_81886800_17 *)(D_80026326))->unk_00.s16 != 0) {
-        goto end;
+        break;
     }
     ((S_func_81886800_18 *)(((u8 *)(&dungeonStatus.unk_0C))))->unk_00 = 0;
     ((S_func_81886800_12 *)((u8 *)effect - 2))->unk_00 |= 0x8000;
     ((S_func_81886800_19 *)(((u8 *)(&objectFlagBlock))))->unk_00 |= 0x8000;
 
-case_5:
-case_6:
-case_7:
-case_8:
-case_9:
-case_10:
-case_11:
-case_12:
-case_13:
-case_14:
-case_15:
-case_16:
-case_17:
-end:
+    }
     {
         u16 frame_count = effect->unk_18.u16;
         ((S_func_81886800_17 *)(D_80026326))->unk_00.u16 = 0;
@@ -683,9 +610,7 @@ end:
     }
 }
 
-#ifdef __mips__
-__asm__(
-        ".globl func_81886800\n"
-        ".type func_81886800,@function\n"
-        ".size func_81886800,2052\n");
-#endif
+/* The rest of the module's read-only data: the next function's state table. */
+static void (*const next_state_table[])(void) = {
+    func_8002485C, func_80024884, func_80024924, func_800249F4, func_80024AA8,
+};
