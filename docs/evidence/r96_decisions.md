@@ -18,6 +18,8 @@
    Byte truth, not a defect. SECOND LOOK: no.
 6. **dungeon/func_802831D8 arity** (r96_opus_ca): callee func_80018A70 is defined `void(void)` and this row is its only
    caller; the arity-0 text is total 9 (allocation row, r91). Left as is; route next as an allocation row with the
-   arity-0 text as base. SECOND LOOK: yes (does the 3-argument call reflect retail's $a1/$a2 loads? the bytes say yes).
+   arity-0 text as base. CPU check (r96): the PINNED text at arity 0 is total 6, not exact - retail loads $a1/$a2 before the jal, so
+   the 3-argument call is byte truth; the `void(void)` definition in src/dungeon/func_80285A70.c may be a different overlay's
+   function at the same address (overlay address overlap). SECOND LOOK: yes (which function really sits at 0x80018A70 for this caller).
 7. **CALL-ARG class -> hard basket** (800C7F80, w_80042560, 8096C508, 800AE09C): r96_opus_ca MECHANISM.md is a sourced
    negative in this cdk cc1. SECOND LOOK: no.
