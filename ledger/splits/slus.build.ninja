@@ -126,8 +126,8 @@ build build/src/code2.o: cc build/partition_sources/code2.c | tools/cc.sh tools/
   asflags = 
 
 build build/src/code3.o: cc src/code3.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.95.2
-  ccflags = -fno-delayed-branch
+  ccver = 2.7.2-cdk
+  ccflags = 
   asflags = 
 
 build build/src/code4.o: cc src/code4.c | tools/cc.sh tools/ccproc.py 
@@ -141,7 +141,7 @@ build build/src/code5.o: cc src/code5.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/code6.o: cc src/code6.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
+  ccver = 2.7.2-cdk
   ccflags = -fno-schedule-insns -fno-schedule-insns2
   asflags = 
 
@@ -2867,7 +2867,7 @@ build build/src/w_8004C36C.o: cc src/w_8004C36C.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_8004CAA0.o: cc src/w_8004CAA0.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
+  ccver = 2.7.2-cdk
   ccflags = -fno-schedule-insns2
   asflags = 
 
@@ -2968,7 +2968,7 @@ build build/src/w_8004D828.o: cc src/w_8004D828.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_8004D880.o: cc src/w_8004D880.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
+  ccver = 2.7.2-cdk
   ccflags = -fno-cse-follow-jumps -fno-cse-skip-blocks
   asflags = 
 
@@ -4195,7 +4195,7 @@ build build/src/w_8005C6B4.o: cc src/w_8005C6B4.c | tools/cc.sh tools/ccproc.py
 
 build build/src/w_8005C710.o: cc src/w_8005C710.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0 -fno-schedule-insns
+  ccflags = -fno-schedule-insns
   asflags = 
 
 build build/src/w_8005C784.o: cc src/w_8005C784.c | tools/cc.sh tools/ccproc.py 
