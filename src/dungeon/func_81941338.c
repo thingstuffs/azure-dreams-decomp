@@ -77,6 +77,7 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
     u32 bits_2;
     u32 mode_a = 0;
     u32 mode_b = 0;
+    u32 mode_c = 0;
 
     F(effect, u16, 0x2A) = (u16)(F(effect, u16, 0x2A) + 1);
     state = F(effect, s16, 0xA);
@@ -172,8 +173,7 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
                 spawn_data = D_8002492C;
                 world_offset = &D_80083780;
                 effect_context = 0x80;
-        loop_1:
-                {
+                do {
                     particle = func_8003FC64(0x212);
                     if (particle != 0) {
                         F(particle, s16, 0x4A) = 8;
@@ -214,7 +214,8 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
                             if (particle_index != 0) {
                                 void *animation = D_800DED28;
                                 void *anim_context = 0;
-                                F(sprite, u16, 0x10) = (u16)0x20;
+                                mode_c = 0x20;
+                                F(sprite, u16, 0x10) = mode_c;
                                 F(sprite, u16, 0x1E) = 0x1000;
                                 F(sprite, u16, 0x1C) = 0x1000;
                                 func_8003DB94(anim_sprite, animation, anim_context);
@@ -232,9 +233,7 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
                         F(sprite, u8, 0xC) = (u8)effect_context;
                     }
                     particle_index++;
-                }
-                if (particle_index < 4)
-                    goto loop_1;
+                } while (particle_index < 4);
                 if (F(effect, s16, 0x20) < 6) {
                     F(effect, s16, 0x18) =
                         (F(effect, s16, 0xC) + F(effect, s16, 0x12)) / 2;
