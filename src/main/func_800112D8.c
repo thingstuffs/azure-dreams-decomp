@@ -18,7 +18,6 @@ typedef struct S_800242D8_1 {
 } S_800242D8_1;   /* var_v1 in func_800242D8 */
 
 
-__asm__(".set D_80027FD0, 0x80027FD0");
 extern u8 D_80027FD0[];
 
 /* Initialize four graphics packets with shared colors and halved coordinates. */

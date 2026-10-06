@@ -60,6 +60,7 @@ CONTAINER_ALTERNATIVES = {
 
 AS = "mipsel-linux-gnu-as"
 LD = "mipsel-linux-gnu-ld"
+ABS_SYMS_FILE = "config/overlays/abs_syms.txt"   # round 95 equate migration (see the symbol_files list in main)
 NM = "mipsel-linux-gnu-nm"
 OBJCOPY = "mipsel-linux-gnu-objcopy"
 OBJDUMP = "mipsel-linux-gnu-objdump"
@@ -1600,6 +1601,11 @@ def main() -> int:
     symbol_files = [cfg_path("config/slus_006.14.symbols.txt")]
     if cfg["options"].get("symbol_addrs_path"):
         symbol_files.append(cfg_path(cfg["options"]["symbol_addrs_path"]))
+    # absolute-address names the rows reference but no object defines (round 95 equate migration:
+    # the in-row `.set NAME, 0xADDR` equates moved here; parse_symbol_file reads `NAME = 0xADDR;`).
+    # write_linker_script only assigns names in (undefined - defined), so a line never overrides an
+    # object's own definition; a missing file is an empty catalog.
+    symbol_files.append(cfg_path(ABS_SYMS_FILE))
 
     # Rowbase pre-link-inject (docs/rowbase_lane_phase2.md, owner decision A):
     # a C segment for a PROVEN alias-region row links at its TRUE base, which

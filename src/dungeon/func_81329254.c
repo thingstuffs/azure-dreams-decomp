@@ -20,7 +20,6 @@ typedef struct S_80170A54_2 {
 } S_80170A54_2;   /* arg0 in func_80170A54; pointer addresses record offset 0x2 */
 
 
-__asm__(".set D_80080000, 0x80080000");
 
 void func_800489F4(); /* extern */
 extern void *D_800814A8[3];

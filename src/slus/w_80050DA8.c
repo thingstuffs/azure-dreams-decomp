@@ -7,7 +7,6 @@ typedef struct
 }
 S_80050DA8_sub;
 extern s32 D_800814A0_abs __attribute__((section(".data")));
-__asm__(".set D_800814A0_abs, 0x800814A0");
 extern void func_80050CDC(void);
 /* Starts the fade callback, releases the attachment, and sets global and child flags. */
 void func_80050DA8(u8 *object)

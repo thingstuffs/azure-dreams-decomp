@@ -30,8 +30,6 @@ extern void *D_800E3DF0[];
 extern u8 D_800E3E48[];
 extern u8 D_80080000[];
 extern u8 D_80030000[];
-__asm__(".set D_80080000, 0x80080000");
-__asm__(".set D_80030000, 0x80030000");
 
 
 typedef struct S_800277F4_0 {

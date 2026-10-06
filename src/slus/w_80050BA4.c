@@ -41,7 +41,6 @@ extern int func_8004CAA0(void *a0, int a1, void *a2);
  * load+store. The absolute-bound section alias (LEAD-24 idiom, same cohort as
  * w_80050DA8/w_80051F58, same global) forces per-access lui. */
 extern s32 D_800814A0_abs __attribute__((section(".data")));
-__asm__(".set D_800814A0_abs, 0x800814A0");
 
 /* Creates an owner and its companion object, flagging failed setup for cleanup. */
 void *func_80050BA4(s32 context)

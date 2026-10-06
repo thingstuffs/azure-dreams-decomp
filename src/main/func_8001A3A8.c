@@ -15,8 +15,6 @@
  * identical linked address 0x804094E8; nothing is locally defined/faked. */
 extern s32 D_804094E8[4];
 extern s32 D_804094E8_2[4];
-__asm__(".set D_804094E8, 0x804094E8");
-__asm__(".set D_804094E8_2, 0x804094E8");
 
 /* Clears the pending flag and returns 4 if it was set, or 0 otherwise. */
 s32 func_8001A3A8(void) {

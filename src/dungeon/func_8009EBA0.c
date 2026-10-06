@@ -4,7 +4,6 @@
 #include "shared/entity.h"
 
 /* This data symbol has no shared-catalog address. */
-__asm__(".set D_80081470, 0x80081470");
 
 extern u8 D_80081470[];
 extern u8 D_800E3548[];

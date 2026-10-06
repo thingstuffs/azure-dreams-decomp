@@ -182,12 +182,6 @@ typedef struct {
 /* These data objects are present in the retail image but are not in the
  * current symbol catalog.  Keep the bindings narrow: they are not local
  * definitions, only names for the linked overlay data. */
-__asm__(".set D_80024B98, 0x80024B98");
-__asm__(".set D_80024D10, 0x80024D10");
-__asm__(".set D_80024544, 0x80024544");
-__asm__(".set D_80025FD0, 0x80025FD0");
-__asm__(".set D_80025FDC, 0x80025FDC");
-__asm__(".set D_800DDC40, 0x800DDC40");
 
 extern void *D_80024B98;
 extern void *D_80024D10;

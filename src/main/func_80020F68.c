@@ -19,8 +19,6 @@ extern void func_8040316C(void *first_ptr, void *second_ptr);
  * EXE-side code addresses that are not yet named func_ symbols in this repo.
  * Bind them locally as opaque objects at their real linked addresses so the
  * store compiles to the same %hi/%lo(addiu) address computation. */
-__asm__(".set D_804081AC, 0x804081AC");
-__asm__(".set D_80407F40, 0x80407F40");
 extern void *D_804081AC;
 extern void *D_80407F40;
 

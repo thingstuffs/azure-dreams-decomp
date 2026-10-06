@@ -96,6 +96,17 @@ class InputsShaCensusFiles(unittest.TestCase):
         after = gate_all.inputs_sha(y)
         self.assertEqual(before, after, "main's sha must not depend on the town family's census")
 
+    def test_sha_changes_when_the_abs_syms_file_changes(self):
+        # config/overlays/abs_syms.txt (round 95 equate migration) resolves names every window's rows reference
+        y = self._yaml("town_scene")
+        before = gate_all.inputs_sha(y)
+        (self.tmp / "config/overlays/abs_syms.txt").write_text("D_80701DC4_0 = 0x80701DC4;\n")
+        mid = gate_all.inputs_sha(y)
+        (self.tmp / "config/overlays/abs_syms.txt").write_text("D_80701DC4_0 = 0x80701DC4;\nT_80010000 = 0x80010000;\n")
+        after = gate_all.inputs_sha(y)
+        self.assertNotEqual(before, mid)
+        self.assertNotEqual(mid, after)
+
     def test_sha_stable_when_nothing_changes(self):
         self._write("noreturn_syms.dungeon.txt", "sym_a\n")
         self._write("sibcall_syms.dungeon.txt", "sym_b\n")

@@ -4,8 +4,6 @@ extern s32 func_80047FD8(void *arg0);
 extern void func_804033EC(void *arg0);
 extern s32 D_8008DAB4[3];
 extern s32 D_8008DAB4_2[3];
-__asm__(".set D_8008DAB4, 0x8008DAB4");
-__asm__(".set D_8008DAB4_2, 0x8008DAB4");
 extern u8 D_80409508[];
 
 /* Processes the global state, optionally flags its linked object, and returns the state value. */

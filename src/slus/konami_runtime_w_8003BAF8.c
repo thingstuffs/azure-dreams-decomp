@@ -70,11 +70,6 @@ extern s16 D_800D426E;
 extern u16 D_800D5070[];
 extern u16 D_80013714[5];
 
-__asm__(".set D_80080A88, 0x80080A88");
-__asm__(".set D_800D426C, 0x800D426C");
-__asm__(".set D_800D426E, 0x800D426E");
-__asm__(".set D_800812F8, 0x800812F8");
-__asm__(".set D_800D381A, 0x800D381A");
 
 /* Updates the runtime state from an input record and invokes its callback. */
 void change_map(InputRecord *input)

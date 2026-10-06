@@ -95,7 +95,6 @@ extern s16 func_800BCB04(s32, s32, s16);
 
 extern u8 D_8014C808[];
 extern u32 D_8014C828[];
-__asm__(".set D_8014C828, 0x8014C828");
 
 #ifdef __mips__
 static const u32 bank_words[] __asm__("func_8014C800")

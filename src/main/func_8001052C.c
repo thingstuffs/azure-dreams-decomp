@@ -3,7 +3,6 @@
 
 M2C_UNK func_8004DA74();           /* extern */
 extern s32 D_800282BC;
-__asm__(".set D_800282BC, 0x800282BC");
 
 /* Processes three table values with addresses spaced 0x48 bytes apart from base + 0x90. */
 void func_8002352C(s32 baseAddress) {

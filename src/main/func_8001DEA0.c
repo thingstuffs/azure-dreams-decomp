@@ -73,7 +73,6 @@ extern s16 D_804006C0[];
 extern s32 D_80408CF4[];
 extern s32 D_80408CFC[];
 extern u8 D_8009DDD8[];
-__asm__(".set D_8009DDD8, 0x8009DDD8");
 
 /* Build the selected slot's text fields and position its status icons. */
 void func_80404EA0(void *panel) {

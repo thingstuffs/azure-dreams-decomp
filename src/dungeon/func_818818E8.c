@@ -38,7 +38,6 @@ extern s16 func_800BCB04(u16, u16, s16);
 
 extern u16 D_800257CE[5];
 
-__asm__(".set D_800257CE, 0x800257CE");
 
 /* Updates effect motion and marks it inactive when its lifetime or owner expires. */
 void func_800250E8(void *effect, S_800250E8_0 *motion, void *owner)

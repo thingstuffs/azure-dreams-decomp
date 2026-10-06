@@ -31,7 +31,6 @@ extern void func_8004CAA0(void);
 extern void func_80049F2C(void *a0);
 #ifndef NON_MATCHING
 extern s32 D_800814A0_load[3];
-__asm__(".set D_800814A0_load, 0x800814A0");
 #endif
 
 /* Allocate and initialize an entity with a resource buffer and position targets. */

@@ -32,7 +32,6 @@ typedef struct {
 extern Rect D_80024038;
 extern CoordTable D_80024064;
 extern void *jtbl_80024088[9];
-__asm__(".set jtbl_80024088, 0x80024088");
 
 extern Packed12 D_80025618;
 extern Packed12 D_80025624;

@@ -33,15 +33,6 @@ extern u8 D_80023BCC[];
 extern u8 D_8007947C[];
 extern s16 D_800834C8[8];
 
-__asm__(".set D_80024630, 0x80024630");
-__asm__(".set D_80024638, 0x80024638");
-__asm__(".set D_800244E8, 0x800244e8");
-__asm__(".set D_800244B8, 0x800244b8");
-__asm__(".set D_80024488, 0x80024488");
-__asm__(".set D_800236BC, 0x800236bc");
-__asm__(".set D_80023BCC, 0x80023bcc");
-__asm__(".set D_8007947C, 0x8007947c");
-__asm__(".set D_800834C8, 0x800834c8");
 
 extern s16 func_800C2AE8(void *position);
 extern void func_80093864(void);

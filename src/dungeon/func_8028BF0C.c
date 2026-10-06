@@ -65,7 +65,6 @@ extern s32 func_800A6D30(void);
 extern s32 func_800A6DA4(s32, s32);
 extern s16 func_800BCB04(s32 x, s32 y, s16 min_height);
 
-__asm__(".set D_800835E8, 0x800835E8");
 
 #define PAGE_8008 ((u8 *)0x80080000)
 

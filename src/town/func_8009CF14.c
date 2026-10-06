@@ -20,7 +20,6 @@ extern s32 D_80097D2C[3];
 extern s32 D_8009A724;
 extern u8 D_800D0090[];
 
-__asm__(".set D_8009A724, 0x8009A724");
 
 /* Initialize the entity's callbacks, ID, position, and timer. */
 void func_8009A674(s32 entity_id, s32 x, s32 y) {

@@ -100,7 +100,6 @@ extern s16 func_800BCB04(s32, s32, s16);
 extern u8 D_80170808[];
 extern FlagBlock D_800814A0;
 extern u32 D_80170828[];
-__asm__(".set D_80170828, 0x80170828");
 
 #ifdef __mips__
 static const u32 bank_words[] __asm__("func_80170800")

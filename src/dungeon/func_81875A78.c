@@ -4,7 +4,6 @@
 extern s16 func_800BCB04(u16, u16, s16);
 extern s16 D_80026664;
 
-__asm__(".set D_80026664, 0x80026664");
 
 /* Adjust height conditionally and set flags when the countdown reaches zero or below. */
 void func_81875A78(void *state, s16 *position)

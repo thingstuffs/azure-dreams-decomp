@@ -106,7 +106,6 @@ extern s16 func_800BCB04(s32, s32, s16);
 extern u8 D_80158808[];
 extern FlagBlock D_800814A0;
 extern u32 D_80158828[];
-__asm__(".set D_80158828, 0x80158828");
 
 #ifdef __mips__
 static const u32 data_prefix[] __asm__("func_80158800")

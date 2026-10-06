@@ -19,9 +19,6 @@ extern u8 D_80289058[];
 extern u8 D_80288F60[];
 extern u8 D_80288F88[];
 
-__asm__(".set D_80288FF0, D_80288EE0 + 0x110");
-__asm__(".set D_80289030, D_80288EE0 + 0x150");
-__asm__(".set D_80289058, D_80288EE0 + 0x178");
 
 typedef struct S_8080DF94_0 {
     void * unk_00;

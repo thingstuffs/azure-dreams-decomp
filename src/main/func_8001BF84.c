@@ -9,7 +9,6 @@ extern u8 D_80400570[];
 extern u8 D_8040861C[];
 extern u8 D_80402F04[];
 extern u16 D_80409526;
-__asm__(".set D_80409526, 0x80409526");
 
 s32 func_8003C714(s32, u8 *, s32);
 s32 func_80040560(s32, u8 *);

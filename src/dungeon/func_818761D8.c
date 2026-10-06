@@ -244,18 +244,6 @@ typedef struct {
 
 /* These resident data/code addresses are not present in the catalog for this
  * cold overlay row; the binds retain real link-resolved symbols. */
-__asm__(".set D_80024058, 0x80024058");
-__asm__(".set D_80026634, 0x80026634");
-__asm__(".set D_80026640, 0x80026640");
-__asm__(".set D_8002664C, 0x8002664C");
-__asm__(".set D_80026664, 0x80026664");
-__asm__(".set D_80024704, 0x80024704");
-__asm__(".set D_80024FD4, 0x80024FD4");
-__asm__(".set D_80025470, 0x80025470");
-__asm__(".set D_8006CCD8, 0x8006CCD8");
-__asm__(".set D_8006CCE8, 0x8006CCE8");
-__asm__(".set D_800DDC40, 0x800DDC40");
-__asm__(".set D_8008346C, 0x8008346C");
 
 
 extern Copy32 D_80024058;

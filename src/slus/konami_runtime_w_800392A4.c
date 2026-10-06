@@ -12,8 +12,6 @@ extern u8 D_800C3174[];
 extern u8 D_800C321C[];
 extern u8 D_800C3960[];
 
-__asm__(".set D_800C3174, 0x800C3174");
-__asm__(".set D_800C321C, 0x800C321C");
 
 /* Returns object data for slot 1 or objects with matching type and data tags. */
 void *ms_mot_accpt_ow(u8 object_index)

@@ -8,7 +8,6 @@ extern s32 func_80700B4C(void);
 extern void func_80700BCC(void);
 extern void func_80700ED8(s32, s32);
 
-__asm__(".set D_80700630_return, 0x80700630");
 
 /* Devkit scene step: reset the cursor, rebuild the list, latch its length and redraw. */
 s32 func_80881424(void) {

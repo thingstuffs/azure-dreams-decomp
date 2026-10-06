@@ -10,8 +10,6 @@
  * linked address 0x804094EC; nothing is locally defined/faked. */
 extern s32 D_804094EC[];
 extern s32 D_804094EC_2[];
-__asm__(".set D_804094EC, 0x804094EC");
-__asm__(".set D_804094EC_2, 0x804094EC");
 
 void func_804014E4(void);
 void func_80408654(s32);
