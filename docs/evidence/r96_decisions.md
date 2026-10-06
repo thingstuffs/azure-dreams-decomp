@@ -48,3 +48,6 @@
     (r96_sonnet_vb1 `(x & 0xFC) >> 2`) it does not invent a value transform. SECOND LOOK: yes (it exists for its
     allocation effect). **slus/w_80047054 skip_bytes reused for the bound** (two roles, codegen-neutral rename) -
     the accepted two-role temp class (r93/r94 trades). SECOND LOOK: no.
+12. **REFUSED: dungeon/func_800CA184 double address mask** (r96_opus_big, exact at 2 pins): `& mask & mask` exists only
+    for flow-time refs - the refused 81910A9C shape. The PsyQ bitfield getaddr/setaddr spelling was measured (48-96, not
+    exact). Recorded in ledger/refused_trades.jsonl; the row stays at 3 pins. SECOND LOOK: no.
