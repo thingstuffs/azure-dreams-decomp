@@ -1,14 +1,9 @@
 #include "common.h"
 
-typedef struct S_8001EAA4_0 {
+typedef struct ItemCategoryRow {
     u8 pad_00[0xC];
-    s32 unk_0C;
-} S_8001EAA4_0;   /* group_saved + ((var_a1 + var_a2) * 4) in func_8001EAA4 */
-
-typedef struct S_8001EAA4_1 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-} S_8001EAA4_1;   /* temp_a3 in func_8001EAA4 */
+    s32 item_table;
+} ItemCategoryRow;
 
 
 extern s32 func_800A6D30(void);
@@ -16,7 +11,7 @@ extern s16 D_8001F6F8[];
 extern u8 D_80073414[];
 
 /* Selects a random item by category thresholds and eligible item weights. */
-s32 func_8001EAA4(s8 *category_out, s8 *item_out, s32 arg2, s32 arg3) {
+s32 func_8001EAA4(s8 *category_out, s8 *item_out, s32 unused2, s32 unused3) {
     s32 category_index;
     s32 selected_category;
     s32 rarity;
@@ -42,17 +37,17 @@ s32 func_8001EAA4(s8 *category_out, s8 *item_out, s32 arg2, s32 arg3) {
     item_offset = (u8 *)category_threshold;
     category_threshold = (u16 *)(item_offset + 2);
     category_scale_or_weight = random_weight & 0xFFFF;
-loop_1:
-    if (*category_threshold < (u32)category_scale_or_weight) {
+    while (1) {
+        if (!(*category_threshold < (u32)category_scale_or_weight)) {
+            item_index = 1;
+            break;
+        }
         category_index += 1;
         category_threshold += 1;
         if (category_index >= 0x13) {
             item_index = 1;
-        } else {
-            goto loop_1;
+            break;
         }
-    } else {
-        item_index = 1;
     }
     category_scale_or_weight = category_index * 4;
     category_threshold = &((u16 *)item_offset)[category_index];
@@ -70,14 +65,14 @@ loop_1:
         selected_category = scan_value >> 16;
         item_offset = (u8 *)0x14;
 loop_6:
-        item_flags = *(u16 *)(item_offset + ((S_8001EAA4_0 *)(item_category_table
-            + ((category_scale_or_weight + category_index) * 4)))->unk_0C);
+        item_flags = *(u16 *)(item_offset + ((ItemCategoryRow *)(item_category_table
+            + ((category_scale_or_weight + category_index) * 4)))->item_table);
         if (!(item_flags & 0x10)) {
             if ((item_flags & 0x40) && (*(s32 *)0x80012090) != (s32)table_base_or_mode) {
                 category_scale_or_weight = category_index * 4;
                 scan_value = item_category_table[((category_scale_or_weight + category_index) * 4) + 2];
             } else {
-                scan_value = *(u16 *)(item_offset + ((S_8001EAA4_1 *)category_entry)->unk_0C) & 0x3000;
+                scan_value = *(u16 *)(item_offset + ((ItemCategoryRow *)category_entry)->item_table) & 0x3000;
                 if (scan_value < 0) {
                     scan_value += 0xFFF;
                     rarity = (scan_value >> 0xC) & 3;
