@@ -69,8 +69,8 @@ typedef struct SourceEntry {
 /* Initializes fourteen objects from the source table and overrides the last two value pairs. */
 void func_80123604(void) {
     {
-        volatile SourceEntry *source_entry;
-        register u8 *address_base;
+        SourceEntry *source_entry;
+        u8 *address_base;
         void **object_slot;
         s32 entry_index = 0;
         s16 default_first = 0x10;
@@ -80,14 +80,12 @@ void func_80123604(void) {
         object_slot = (void **)(address_base + 0x38);
         source_entry = (SourceEntry *)D_80126A18;
         do {
-            ((S_80123604_0 *)(*object_slot))->unk_00 = 0;
-            ((S_80123604_3 *)(((S_80123604_0 *)(*object_slot))->unk_04))->unk_08 = source_entry->first;
-            ((S_80123604_3 *)(((S_80123604_0 *)(*object_slot))->unk_04))->unk_0A = source_entry->second;
+            ((S_80123604_0 *)(object_slot[entry_index]))->unk_00 = 0;
+            ((S_80123604_3 *)(((S_80123604_0 *)(object_slot[entry_index]))->unk_04))->unk_08 = source_entry[entry_index].first;
+            ((S_80123604_3 *)(((S_80123604_0 *)(object_slot[entry_index]))->unk_04))->unk_0A = source_entry[entry_index].second;
+            ((S_80123604_4 *)(((S_80123604_0 *)(object_slot[entry_index]))->unk_08))->unk_06 = default_first;
+            ((S_80123604_4 *)(((S_80123604_0 *)(object_slot[entry_index]))->unk_08))->unk_08 = default_second;
             entry_index++;
-            ((S_80123604_4 *)(((S_80123604_0 *)(*object_slot))->unk_08))->unk_06 = default_first;
-            source_entry++;
-            ((S_80123604_4 *)(((S_80123604_0 *)(*object_slot))->unk_08))->unk_08 = default_second;
-            object_slot++;
         } while (entry_index < 0xE);
     }
 

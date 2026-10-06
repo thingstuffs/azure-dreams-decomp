@@ -15,16 +15,13 @@ void func_80526B18(void *ptr)
     selector = *((s16 *) (((s8 *) ptr) + 0));
     switch (selector) {
     case 0:
-        do {
-            value = (*((u16 *) (((s8 *) ptr) + 2))) - 1;
-            *((u16 *) (((s8 *) ptr) + 2)) = value;
-            if ((value << 0x10) > 0) {
-                return;
-            }
-            next_value = (*((u16 *) (((s8 *) ptr) + 0))) + 1;
-            value = (*((u16 *) (((s8 *) ptr) + 0x1C))) & 0xFFFD;
-        } while (0);
-        *((u16 *) (((s8 *) ptr) + 0x1C)) = value;
+        value = (*((u16 *) (((s8 *) ptr) + 2))) - 1;
+        *((u16 *) (((s8 *) ptr) + 2)) = value;
+        if ((value << 0x10) > 0) {
+            return;
+        }
+        next_value = (*((u16 *) (((s8 *) ptr) + 0))) + 1;
+        *((u16 *) (((s8 *) ptr) + 0x1C)) &= 0xFFFD;
         *((u16 *) (((s8 *) ptr) + 0)) = next_value;
         return;
     case 1:

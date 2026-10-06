@@ -9,6 +9,7 @@ u8 *func_80099194(u8 *src, u8 *dst)
     u32 table_mode;
     u32 table_marker;
     u32 byte_test;
+    s32 index;
 
     table_mode = 0;
     table_marker = 0x51;
@@ -33,10 +34,10 @@ u8 *func_80099194(u8 *src, u8 *dst)
 
         byte_test = byte_test < 0x80;
         if (table_mode != 0) {
-            raw_byte = *(volatile u8 *)src;
-            *dst++ = (*(u8 **)(table_page - 0x30A0))[((u32)raw_byte * 2) - 2];
+            index = *src;
+            *dst++ = (*(u8 **)(table_page - 0x30A0))[(index * 2) - 2];
             src++;
-            *dst++ = (*(u8 **)(table_page - 0x30A0))[((u32)raw_byte * 2) - 1];
+            *dst++ = (*(u8 **)(table_page - 0x30A0))[(index * 2) - 1];
         } else {
             if (!byte_test) {
                 *dst = raw_byte;

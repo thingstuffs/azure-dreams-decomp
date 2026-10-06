@@ -14,14 +14,9 @@ extern s32 D_8001B320;
 /* Town per-frame step: run both update hooks, request 0x7A3 when the pending check is clear, then latch the scene value the town object's mode field selects. */
 void func_80017D24(void)
 {
-    void *choices[2];
-    void *town;
+    void *choices[2] = { &D_8001AB94, &D_8001ABE8 };
+    void *town = *(void **)((s8 *)*(void **)((s8 *)(&D_80016000)) + 0x40);
 
-    do {
-        choices[0] = &D_8001AB94;
-    } while (0);
-    choices[1] = &D_8001ABE8;
-    town = *(void **)((s8 *)*(void **)((s8 *)(&D_80016000)) + 0x40);
     func_80017C64();
     func_80017D04();
     if (func_8001A510(D_8001A91E) == 0) {

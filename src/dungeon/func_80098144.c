@@ -52,88 +52,84 @@ void func_8009D8A4(void) {
         zero = 0;
         one = 1;
         cells = D_800EA000;
-next_row_loop:
-        column = 0;
-        {
-            s16 first_width_shift = config->field_14;
-            u16 stride_shift;
-            s32 row_index;
-            stride_shift = *(volatile u16 *)((u8 *)config + 0x14);
-            if (!(zero < (one << first_width_shift))) {
-                goto row_done;
-            }
-            row_index = row;
-            row_index = (s16)row_index;
-            row_offset = row_index << stride_shift;
-next_cell:
-            row_offset += (s16) column;
-            cell = (u8 *)((long)(row_offset * 6) + (long)cells);
-            cell_type = *(u16 *)cell;
-            if ((cell_type != 0) && (cell_type != 3)) {
-                s16 raw_level;
-
-                value = (s16) (*(u16 *)(cell + 2) + 0x200) / 64;
-                stride_shift = value;
-                raw_level = value;
-                if (raw_level >= 0x10) {
-                    stride_shift = 15;
-                } else if (raw_level <= 0) {
-                    stride_shift = 1;
-                }
-                value = (u32) stride_shift << 16;
-                level = value >> 16;
-                packed_levels = *write_ptr;
-                if ((s32) column & 1) {
-                    value = packed_levels | (level << 4);
-                    *write_ptr = value;
-                } else {
-                    value = packed_levels | level;
-                    *write_ptr = value;
-                }
-            } else {
-                register s32 odd_column;
-
-                packed_empty = *write_ptr;
-                odd_column = column & 1;
-                if (odd_column) {
-                    value = packed_empty & 0xF;
-                } else {
-                    value = packed_empty & 0xF0;
-                }
-                *write_ptr = value;
-            }
+        do {
+            column = 0;
             {
-                s32 odd_column;
-                odd_column = column & 1;
-                if (odd_column) {
-                    write_ptr += 1;
-                    value_2 = column + 1;
-                } else {
-                    value_2 = column + 1;
+                s32 first_width_shift = config->field_14;
+                u16 stride_shift;
+                s32 row_index;
+                stride_shift = config->field_14;
+                if (zero < (one << first_width_shift)) {
+                    row_index = row;
+                    row_index = (s16)row_index;
+                    row_offset = row_index << stride_shift;
+                    while (1) {
+                        row_offset += (s16) column;
+                        cell = (u8 *)((long)(row_offset * 6) + (long)cells);
+                        cell_type = *(u16 *)cell;
+                        if ((cell_type != 0) && (cell_type != 3)) {
+                            s16 raw_level;
+
+                            value = (s16) (*(u16 *)(cell + 2) + 0x200) / 64;
+                            stride_shift = value;
+                            raw_level = value;
+                            if (raw_level >= 0x10) {
+                                stride_shift = 15;
+                            } else if (raw_level <= 0) {
+                                stride_shift = 1;
+                            }
+                            value = (u32) stride_shift << 16;
+                            level = value >> 16;
+                            packed_levels = *write_ptr;
+                            if ((s32) column & 1) {
+                                value = packed_levels | (level << 4);
+                                *write_ptr = value;
+                            } else {
+                                value = packed_levels | level;
+                                *write_ptr = value;
+                            }
+                        } else {
+                            register s32 odd_column;
+
+                            packed_empty = *write_ptr;
+                            odd_column = column & 1;
+                            if (odd_column) {
+                                value = packed_empty & 0xF;
+                            } else {
+                                value = packed_empty & 0xF0;
+                            }
+                            *write_ptr = value;
+                        }
+                        {
+                            s32 odd_column;
+                            odd_column = column & 1;
+                            if (odd_column) {
+                                write_ptr += 1;
+                                value_2 = column + 1;
+                            } else {
+                                value_2 = column + 1;
+                            }
+                        }
+                        column = value_2;
+                        value_2 = (u32)value_2 << 16;
+                        value_2 >>= 16;
+                        width_shift = config->field_14;
+                        stride_shift = config->field_14;
+                        width_shift = one << width_shift;
+                        if (value_2 >= width_shift) {
+                            break;
+                        }
+                        row_offset = row_index << stride_shift;
+                    }
                 }
             }
-            column = value_2;
-            value_2 = (u32)value_2 << 16;
+            next_row = row + 1;
+            row = next_row;
+            value_2 = (u32)next_row << 16;
             value_2 >>= 16;
-            width_shift = config->field_14;
-            stride_shift = *(volatile u16 *)((u8 *)config + 0x14);
+            width_shift = config->field_16;
             width_shift = one << width_shift;
-            if (value_2 >= width_shift) {
-                goto row_done;
-            }
-            row_offset = row_index << stride_shift;
-            goto next_cell;
-        }
-row_done:
-        next_row = row + 1;
-        row = next_row;
-        value_2 = (u32)next_row << 16;
-        value_2 >>= 16;
-        width_shift = config->field_16;
-        width_shift = one << width_shift;
-        if (value_2 < width_shift) {
-            goto next_row_loop;
-        }
+        } while (value_2 < width_shift);
     }
     func_800672D8(&upload_pair, buffer);
     func_8009BF7C(1, 0x20);

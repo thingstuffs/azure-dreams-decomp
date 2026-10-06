@@ -33,6 +33,7 @@ s32 func_800C1D44();                             /* extern */
 extern s32 D_800A5A98;
 extern M2C_UNK D_800FE488;
 extern u8 D_800D0000[];
+extern int abs(int);
 
 /* Updates the object and interpolates town angles before advancing the state. */
 void func_800A58CC(S_800A58CC_2 *state_arg, void *object) {
@@ -72,12 +73,7 @@ void func_800A58CC(S_800A58CC_2 *state_arg, void *object) {
     target_yaw = (state_arg->unk_10 - 0x800) & 0xFFF;
     yaw = func_80094AA0(town->view.viewAngle, target_yaw, 0x80);
     town->view.viewAngle = yaw;
-    do {
-        yaw_delta = (yaw & 0xFFF) - target_yaw;
-    } while (0);
-    if (yaw_delta < 0) {
-        yaw_delta = 0 - yaw_delta;
-    }
+    yaw_delta = abs((yaw & 0xFFF) - target_yaw);
     if (yaw_delta < 0x80) {
         town->view.viewAngle = target_yaw;
     }
