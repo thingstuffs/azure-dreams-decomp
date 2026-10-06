@@ -1,14 +1,21 @@
-# Handover (2026-10-06 ~07:00Z, round 95 cont.: 151 pins / 81 rows; lanes RUNNING) - start here
+# Handover (2026-10-06 ~07:30Z, round 95 cont.: 151 pins / 81 rows; no lanes running) - start here
 
 **Owner 10-06 (second looks answered, decisions item 20):** one-trip `do{}while(0)` barriers ACCEPTED where they remove pins, TRACKED in
 ledger/onetrip_barrier_rows.jsonl (land_lanes.sh admits one-trip growth only for listed rows) - w_80048B8C + 8046C188 landed (2b36d537d);
-8184AF90 flag trade kept (alignment next); AUTOCOMMIT LOOP STOPPED (commit after each gated landing yourself); OPAQUE-BASE must not be
-called impossible. Composite rows (item 8): the prefix is overlay-segment DATA (e.g. Shift-JIS message text at the start of
-func_80FB1000's segment) - re-carving it into data rows belongs to the module-placement project (segment layout), not needed for bytes.
-Quiet-time fixes done: status/census tail regex (1a1b7fd7b), func_800039C8 false noreturn member (ce4e2c90c, 711 town windows MATCH).
-**Running 07:00Z:** Fable r95_fable_opaque2 (exhaustive cdk source audit of OPAQUE-BASE: crack or proof), Opus r95_opus_cell (compiler
-alignment: 6 off-recipe pinned rows + retire 8184AF90's flag), Opus r95_opus_equ (equates -> symbol file: design + prototype + patch for
-a quiet window), Sonnet r95_sonnet_slusprov (15 SLUS flag rows: SDK or game?). All stage only.
+8184AF90 flag trade kept; AUTOCOMMIT LOOP STOPPED (commit after each gated landing yourself); OPAQUE-BASE is never "impossible".
+Composite rows (item 8): the prefix is overlay-segment DATA (Shift-JIS message text before func_80FB1000's code) - re-carve with the
+module-placement project, not needed for bytes.
+**Done since 06:00Z (all gated):** status/census tail regex (1a1b7fd7b); func_800039C8 false noreturn member (ce4e2c90c); SLUS alignment
+5 rows toward cdk (5bde62f8a; none of the 15 SLUS flag rows is SDK code - r95_sonnet_slusprov/CENSUS.md, 3 are flag-independent C
+shapes incl. a code9/code5 clone family); 8087514C -> module cell 2.6.3 + 1 flag (169ffe1d8); EQUATES -> symbol files (0dd38e414:
+84 rows, config/overlays/abs_syms.txt + slus c_syms, gate_all --all 2,175 MATCH, L5 inline_asm 235 -> 163 rows; brief rule: never add
+.set equates) + 80FAB000 rename (8bfc095ab).
+**OPAQUE-BASE (Fable #2, r95_fable_opaque2/ANSWER.md):** exhaustive cdk audit (P1-P23, O1-O6) - no code-neutral path in THIS cdk
+build; the alias state is proved necessary. Hard-basket next: another cdk-era cc1 build (cygnus snapshots near 970404), owner question on
+the union-constructor spelling (8196096C 4 lines).
+**Near leads for the next lanes:** 8184AF90 total 1 at plain cdk (r95_opus_cell cand/af90_df_r1: signed_index 8 refs vs retail 7 -
+would retire the r95 flag trade); 813274E4 total 2 at cdk (equal pins); 8087514C giv question (combine_givs_p/express_from would
+drop its last flag); 800CDFD8 why.py --vs-cfg --pass loop; 808135E0 lreg_explain on 135_best.
 
 # (earlier) Handover (2026-10-06 ~06:00Z, round 95: measurement round + routed lanes; 186 -> 153 pins / 103 -> 83 rows)
 
