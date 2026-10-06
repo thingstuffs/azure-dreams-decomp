@@ -295,9 +295,8 @@ loop_0:
     if ((show_message << 0x10) == 0) {
         return 1;
     }
-    ASM_SCHED_BARRIER();
     {
-        if (!(*(u16 *)((u16 *)&D_80013714) & 1)) {
+        if (!(*(u16 *)0x80013714 & 1)) {
             D_800DCF4F[0] = 1;
             dungeonStatus.unk_0A++;
         }

@@ -17,19 +17,19 @@ void func_80041E70(void *entity)
         s32 scale;
         s32 scale_flags;
 
-        scale_flags = 0x100;
-        U16(0x6E, entity) = scale_flags;
+        U16(0x6E, entity) = 0x100;
         scale_flags = S32(0x54, entity);
         scale = 0x10;
         U8(0x87, entity) = scale;
         if (scale_flags & 1) {
             s32 base_scale;
+            u8 read_scale;
 
             base_scale = U16(0x6E, entity);
-            ASM_KEEP_NV(scale);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-            scale *= 2;
-            U8(0x87, entity) = scale;
+            read_scale = (u32)S32(0x84, entity) >> 24;
             U16(0x6E, entity) = base_scale * 2;
+            read_scale *= 2;
+            U8(0x87, entity) = read_scale;
         }
     }
 

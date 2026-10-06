@@ -160,7 +160,7 @@ extern s32 func_80099290(s8 *byte_ptr);
 extern s32 func_800999B0(s32);
 extern void func_800A5720(s8 *text);
 extern void *func_800280F4(void *, void *, void *);
-extern void *func_800264D4(void *, void *, s16, s16);
+extern void *func_800264D4(void *, void *, s32, s16);
 extern void *func_80027070(s16 x, s16 y, s16 z, s16 graphic_index, s32 state_value);
 extern void *func_800277F4(void *, void *, s32);
 extern s32 func_80028208(void *, s32);
@@ -187,14 +187,15 @@ void func_800253C0(void *sequence, void *position, void *actor, void *owner)
     state = ((S_800253C0_0 *)sequence)->unk_9B.n;
     switch (state) {
         s32 coord_delta;
+        s32 slot_value;
+        s32 page_cursor;
         void *object_m;
         void *child;
-        register s32 message_text ASM_REG("$18");
+        s32 message_text;
         s32 object_index_m;
         s32 old_x;
         void *prim_m;
         s32 table_index_m;
-        void *slot_cursor;
     case 0:
         if (((S_800253C0_0 *)sequence)->unk_AC == 0 || ((S_800253C0_0 *)sequence)->unk_B0 == 0) {
             ((S_800253C0_0 *)sequence)->unk_9B.n = 13;
@@ -237,19 +238,18 @@ void func_800253C0(void *sequence, void *position, void *actor, void *owner)
     case 2:
     {
 
-        u32 mask;
         object_index_m = 0;
-        mask = 0x20000000;
-        slot_cursor = sequence;
+        slot_value = 0x20000000;
+        message_text = (s32)sequence;
 
         do {
-            object_m = ((S_800253C0_4 *)slot_cursor)->unk_AC;
-            if ((((S_800253C0_5 *)object_m)->unk_14 & mask) != 0) {
+            object_m = ((S_800253C0_4 *)message_text)->unk_AC;
+            if ((((S_800253C0_5 *)object_m)->unk_14 & slot_value) != 0) {
                 func_800ACB98(object_m, ((S_800253C0_5_pre *)object_m)[-1].unk_00,
                     ((S_800253C0_5_pre *)object_m)[-1].unk_04, object_m);
             }
             object_index_m++;
-            slot_cursor = (u8 *)slot_cursor + 4;
+            message_text += 4;
         } while (object_index_m < 2);
     }
         state = ((S_800253C0_0 *)sequence)->unk_9B.n;
@@ -410,13 +410,13 @@ case 4:
             return;
         }
         object_index_m = 0;
-        slot_cursor = (u8 *)sequence;
+        page_cursor = (s32)sequence;
         do {
             void *call_position = position;
             void *call_actor = actor;
-            object_m = ((S_800253C0_4 *)(void *)slot_cursor)->unk_AC;
+            object_m = ((S_800253C0_4 *)(void *)page_cursor)->unk_AC;
             func_80026A84(call_position, ((S_800253C0_5_pre *)object_m)[-1].unk_00, object_m, call_actor);
-            slot_cursor = (u8 *)slot_cursor + 4;
+            page_cursor += 4;
             object_index_m++;
         } while (object_index_m < 2);
         {
@@ -465,13 +465,12 @@ case 4:
             s32 work = (s32)&gameWork;
             s32 step_x = (s32)dirStepX;
             s32 step_y = (s32)dirStepY;
-            s32 text;
             message_id = func_800990FC();
-            text = func_8009929C(8, message_id);
-            text = func_80099734(((S_800253C0_0 *)sequence)->unk_AC, text);
-            text = func_80099194(D_80025000, text);
-            text = func_80099734(((S_800253C0_0 *)sequence)->unk_B0, text);
-            message_text = func_80099194(D_80025024, text);
+            message_text = func_8009929C(8, message_id);
+            message_text = func_80099734(((S_800253C0_0 *)sequence)->unk_AC, message_text);
+            message_text = func_80099194(D_80025000, message_text);
+            message_text = func_80099734(((S_800253C0_0 *)sequence)->unk_B0, message_text);
+            message_text = func_80099194(D_80025024, message_text);
             {
                 object_m =
                     func_800280F4(((S_800253C0_0 *)sequence)->unk_AC,
@@ -480,13 +479,14 @@ case 4:
                 ((S_800253C0_1 *)owner)->unk_60 = object_m;
                 if (object_m != 0) {
                     void *other;
-                    register void *object_slot ASM_REG("$20");
+                    void *object_slot;
                     object_index_m = 0;
-                    object_slot = sequence;
                     do {
+                        object_slot = (u8 *)sequence + object_index_m * sizeof(void *);
+                        slot_value = (s16)object_index_m;
                         other = ((S_800253C0_4 *)object_slot)->unk_AC;
                         func_800264D4(((S_800253C0_14_pre *)other)[-1].unk_00, other,
-                            object_index_m, object_m == other);
+                            slot_value, object_m == other);
                         if (object_m == ((S_800253C0_4 *)object_slot)->unk_AC) {
                             s32 angle;
                             s32 index;
@@ -499,10 +499,9 @@ case 4:
                             y = ((S_800253C0_8 *)actor)->unk_25 + *(s16 *)(index + step_y);
                             func_80027070((s16)((x << 6) + 0x20),
                                 (s16)((y << 6) + 0x20),
-                                ((S_800253C0_1 *)owner)->unk_88, object_index_m, object_m);
+                                ((S_800253C0_1 *)owner)->unk_88, slot_value, object_m);
                         }
                         object_index_m++;
-                        object_slot = (u8 *)object_slot + 4;
                     } while (object_index_m < 2);
                     {
 
@@ -580,26 +579,25 @@ case 4:
                 void **first_slot;
                 void **text_slot;
                 void **removed_slot;
-                s32 text_cursor;
 
                 message_id = func_800990FC();
                 first_slot = (void **)((u8 *)sequence + 0xAC);
-                text_cursor = message_id;
                 text_slot = first_slot;
                 if (*first_slot != object_m) {
                     text_slot = (void **)((u8 *)sequence + 0xB0);
                 }
-                text_cursor = func_80099734(*text_slot, text_cursor);
-                message_text = func_80099194(D_80025068, text_cursor);
+                message_text = message_id;
+                message_text = func_80099734(*text_slot, message_text);
+                message_text = func_80099194(D_80025068, message_text);
                 text_slot = first_slot;
                 if (*first_slot == object_m) {
                     text_slot = (void **)((u8 *)sequence + 0xB0);
                 }
-                text_cursor = func_80099734(*text_slot, message_text);
-                text_cursor = func_80099194(D_80025024, text_cursor);
-                text_cursor = func_800999B0(text_cursor);
-                text_cursor = func_80099290(text_cursor);
-                text_cursor = func_8009929C(17, text_cursor);
+                message_text = func_80099734(*text_slot, message_text);
+                message_text = func_80099194(D_80025024, message_text);
+                message_text = func_800999B0(message_text);
+                message_text = func_80099290(message_text);
+                message_text = func_8009929C(17, message_text);
                 func_800A5720(message_id);
                 object_m = func_800277F4(((S_800253C0_0 *)sequence)->unk_AC,
                     ((S_800253C0_0 *)sequence)->unk_B0, 0);
@@ -609,8 +607,8 @@ case 4:
                 }
                 *removed_slot = 0;
                 message_id = func_800990FC();
-                text_cursor = func_80028208(object_m, message_id);
-                text_cursor = func_80099290(text_cursor);
+                message_text = func_80028208(object_m, message_id);
+                message_text = func_80099290(message_text);
                 func_800A5720(message_id);
             }
         }
@@ -695,13 +693,13 @@ loop_7:
         register u32 clear_flags;
 
         step = (128 - ((S_800253C0_6 *)scene)->unk_A8) / ((S_800253C0_0 *)sequence)->unk_96.n;
-        message_text = (s32)(scene + 0xA8);
+        page_cursor = (s32)(scene + 0xA8);
         object_index_m = 0;
         object_slot = sequence;
         brightness = ((S_800253C0_6 *)scene)->unk_A8 + step;
         ((S_800253C0_6 *)scene)->unk_A8 = brightness;
-        ((u8 *)message_text)[2] = brightness;
-        ((u8 *)message_text)[1] = brightness;
+        ((u8 *)page_cursor)[2] = brightness;
+        ((u8 *)page_cursor)[1] = brightness;
         do {
             object_m = ((S_800253C0_4 *)object_slot)->unk_AC;
             if (object_m != 0) {
@@ -751,7 +749,7 @@ loop_7:
         if (timer > 0) {
             return;
         }
-        ((S_800253C0_11 *)(u8 *)message_text)->unk_00 = 0x2C808080;
+        ((S_800253C0_11 *)(u8 *)page_cursor)->unk_00 = 0x2C808080;
         object_index_m = 0;
         clear_flags = 0xFFEFFFFF;
         final_slot = sequence;
