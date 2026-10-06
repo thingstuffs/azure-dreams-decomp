@@ -1,8 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
+typedef struct Node8002BB08 Node8002BB08;
 
 M2C_UNK func_80026920();                         /* extern */
-M2C_UNK func_80027AFC();                    /* extern */
+Node8002BB08 *func_80027AFC();                    /* extern */
 
 typedef struct S_80026784_0 {
     u8 pad_00[0x20];

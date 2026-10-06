@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
+typedef struct Ent Ent;
 
 typedef struct S_80098864_0 {
     s32 unk_00;
@@ -16,14 +17,13 @@ typedef struct S_80098864_1 {
 } S_80098864_1;   /* temp_a0 in func_80098864 */
 
 
-typedef s32 M2C_UNK;
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 void func_80098B38();
 void func_800990C8();
 s32 func_8009C12C();
-M2C_UNK func_8009C93C();
+Ent *func_8009C93C();
 
 /* Processes a record and updates its linked state on success. */
 s32 func_80098864(s32 request, void *record_data) {

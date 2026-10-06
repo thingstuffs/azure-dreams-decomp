@@ -3,14 +3,15 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
+typedef struct Ent Ent;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-M2C_UNK func_8009C93C(); /* extern */
+Ent *func_8009C93C(); /* extern */
 s32 func_800A2B5C();                          /* extern */
 
 
 /* Clear the actor flag and update its action state when both checks pass. */
-void func_8016C8AC(Rec_func_800A9E70_arg0 *action_state, M2C_UNK action_context, M2C_UNK effect_context,
+void func_8016C8AC(Rec_func_800A9E70_arg0 *action_state, s32 action_context, void *effect_context,
     EntityRec *actor) {
     actor->unk_71 = (u8) (actor->unk_71 & 0x7F);
     if (!(dungeonStatus.flags & 0x2000) && ((func_800A2B5C(actor) << 0x10) == 0)) {

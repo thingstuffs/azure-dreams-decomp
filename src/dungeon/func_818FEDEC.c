@@ -35,7 +35,7 @@ typedef struct {
 extern s16 D_80025E80[5];
 
 /* Advances an eight-frame animation and flags expiration when its countdown ends. */
-M2C_UNK func_818FEDEC(void *anim_state, s32 unused_arg, void *render_state) {
+void func_818FEDEC(void *anim_state, s32 unused_arg, void *render_state) {
     u16 ticks_left;
     s32 frame;
     s32 *page_base;
