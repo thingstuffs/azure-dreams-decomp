@@ -63,3 +63,7 @@ Each line: decision - evidence - SECOND LOOK? (yes = owner may want to revisit).
     one-trip block over five statements -> held in r95_opus_H/held/). Standing ruling: one-trip blocks are scaffolding (STATUS counts
     them; r19 keep_astra refused), so neither lands. SECOND LOOK: YES - if the owner accepts a single-statement `do{}while(0)` as a
     recovered macro body (e.g. a real #define with a name), these two rows (and w_80042560's 6-word diagnostic) become landable.
+20. Owner rulings 10-06 on the second looks: item 19 ACCEPTED - a one-trip do{}while(0) barrier may land when it removes pins, TRACKED
+    per row in ledger/onetrip_barrier_rows.jsonl (land_lanes.sh admits one-trip growth only for listed rows with fewer pins); item 4
+    kept (compiler/flag alignment is next); autocommit loop STOPPED (it committed ungated sweep output); OPAQUE-BASE is NOT to be
+    called impossible - keep attacking (a new mechanism lane), the in-EBB finding is "no route found yet in cdk", not a proof of absence.
