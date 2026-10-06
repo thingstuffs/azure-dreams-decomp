@@ -2,7 +2,6 @@
 #include "shared/object_flags.h"
 
 extern s32 D_8008B2F0[];
-__asm__(".set D_8008B2F0, 0x8008B2F0");
 
 typedef struct {
     /* 0x00 */ char pad0[4];

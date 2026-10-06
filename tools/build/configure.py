@@ -50,7 +50,10 @@ if MODULES:
 # Data symbols that only C references.  splat's undefined_syms (US) carries only the symbols its disassembly
 # names, so a SLUS TU that reaches a data object by name (a shared include/shared/ header) when no SLUS asm ever
 # named that address would not link.  config/{BASE}.c_syms.txt defines them at their address, one
-# `D_<ADDR> = 0x<ADDR>;` line each (the name spells its own address; /* */ comments on their own line).  The script
+# `D_<ADDR> = 0x<ADDR>;` line each (the name spells its own address; /* */ comments on their own line).  Round 95
+# (the in-row `.set` equate migration) also admits a second name for one address, `D_<ADDR>_<tag> = 0x<ADDR>;`:
+# a distinct symbol keeps gcc from CSE-ing two accesses into one base register, so the bytes need it, and the name
+# still spells its address, so a line can never point a name somewhere else.  The script
 # is linked only when the file exists (os.path.exists is False on mk_slus_root.sh's dangling link), so the recipe
 # is unchanged until the first such symbol, and no cc edge ever changes.  A module-owned symbol is refused: an
 # absolute assignment would override the module's real object.  A symbol US also defines (a later split whose asm
@@ -62,9 +65,9 @@ if os.path.exists(C_SYMS):
         _s = re.sub(r"/\*.*?\*/", "", _line).strip()
         if not _s:
             continue
-        _m = re.fullmatch(r"(D_([0-9A-F]{8})) = 0x\2;", _s)
+        _m = re.fullmatch(r"(D_([0-9A-F]{8})(?:_[A-Za-z0-9]+)?) = 0x\2;", _s)
         if not _m:
-            raise RuntimeError(f"{C_SYMS}:{_n}: expected `D_<ADDR> = 0x<ADDR>;`, got {_s!r}")
+            raise RuntimeError(f"{C_SYMS}:{_n}: expected `D_<ADDR>[_<tag>] = 0x<ADDR>;`, got {_s!r}")
         _c_names.append(_m.group(1))
     if MODULES:
         _owned = {d["symbol"] for _, _secs in module_support._unique_owned_data(MODULES)

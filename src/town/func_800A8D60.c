@@ -28,7 +28,6 @@ extern void *D_80100E24;
 extern void *D_80100E28;
 extern void *D_80100E24_R;
 
-__asm__(".set D_80100E24_R, 0x80100E24");
 
 /* Creates and initializes the enabled town object using its saved or default position. */
 void func_800A64C0(void) {

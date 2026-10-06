@@ -106,7 +106,6 @@ typedef struct S_func_81832800_9 {
 } S_func_81832800_9;
 
 extern void func_80024004(void);
-__asm__(".set func_80024004, 0x80024004");
 
 /* Retail places ONE 4-byte word (0x80024004) immediately before this
  * function's own code, under the func_81832800 symbol: the row's true base is

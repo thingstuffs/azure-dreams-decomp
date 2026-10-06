@@ -4,7 +4,6 @@ extern s32 D_80175D48;
 
 #ifndef NON_MATCHING
 extern u8 D_04816000;
-__asm__(".set D_04816000, 0x04816000");
 #define INITIAL_VALUE ((s32)&D_04816000)
 #else
 #define INITIAL_VALUE 0x04816000

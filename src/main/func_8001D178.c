@@ -9,7 +9,6 @@ void func_804040C8();                       /* extern */
 /* Absolute anchor for a table of 128-byte records; the two fields accessed here
  * are 8 bytes apart and sit just BEFORE this anchor address (negative offsets). */
 extern s32 D_800A0000[];
-__asm__(".set D_800A0000, 0x800A0000");
 
 void func_80404178(s32 *ptr) {
     s32 offset;

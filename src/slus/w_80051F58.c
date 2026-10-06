@@ -25,7 +25,6 @@ typedef struct S_80051F58_a2 {
 } S_80051F58_a2;
 
 extern s32 D_800814A0_abs __attribute__((section(".data")));
-__asm__(".set D_800814A0_abs, 0x800814A0");
 
 /* Fade the color in, hold it, then fade it out and mark the effect complete. */
 void func_80051F58(S_80051F58 *effect, void *unused_1, S_80051F58_a2 *color, void *unused_3)

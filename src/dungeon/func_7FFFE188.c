@@ -2,7 +2,6 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-__asm__(".set D_80080000, 0x80080000");
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 D_80080000[];

@@ -5,8 +5,6 @@ extern u8 D_800D381A[];
 extern u8 D_800D3C00[];
 extern u8 D_800D3950[];
 
-__asm__(".set D_800D3C00, 0x800D3C00");
-__asm__(".set D_800D3950, 0x800D3950");
 
 typedef struct Packet {
     s32 handler;

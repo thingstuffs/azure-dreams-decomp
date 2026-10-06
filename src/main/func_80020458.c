@@ -38,8 +38,6 @@ typedef struct S_80020458_7 {
    0x80022000); they belong to code loaded elsewhere and are only ever stored
    as raw pointers here, never called, so bind them as absolute symbols
    (established .set idiom) rather than declaring undefined func_ externs. */
-__asm__(".set D_80409110, 0x80409110");
-__asm__(".set D_80409128, 0x80409128");
 extern M2C_UNK D_80409110;
 extern M2C_UNK D_80409128;
 

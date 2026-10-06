@@ -3,7 +3,6 @@
 #include "m2c_compat.h"
 
 extern unsigned char D_80080000[];
-__asm__(".set D_80080000, 0x80080000");
 s32 func_80065420();
 s32 func_80066460();
 M2C_UNK func_80067F20();

@@ -30,7 +30,6 @@ typedef struct S_800194E4_4 {
     M2C_UNK (*unk_174)(M2C_UNK);
 } S_800194E4_4;
 
-__asm__(".set D_80010000, 0x80010000");
 extern s8 D_80010000[];
 extern M2C_UNK D_80016064;
 extern M2C_UNK D_8001608C;

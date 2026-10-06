@@ -174,8 +174,6 @@ extern void func_8004491C(void *, void *);
 extern void func_80024C84(void);
 extern void func_80024868(void);
 extern void func_8002472C(void);
-__asm__(".set func_80024868, 0x80024868");
-__asm__(".set func_8002472C, 0x8002472c");
 
 
 static __inline__ s16 delta_axis(s8 target, u16 start) {

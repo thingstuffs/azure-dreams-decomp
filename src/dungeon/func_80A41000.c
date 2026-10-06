@@ -72,18 +72,6 @@ extern u8 D_8014E994[];
 extern u8 D_8014E98C[];
 
 /* These text-local table entries have no catalog symbols. */
-__asm__(".set D_8014D24C, 0x8014D24C");
-__asm__(".set D_8014D278, 0x8014D278");
-__asm__(".set D_8014D1F8, 0x8014D1F8");
-__asm__(".set D_8014D1C0, 0x8014D1C0");
-__asm__(".set D_8014D23C, 0x8014D23C");
-__asm__(".set D_8014E9EC, 0x8014E9EC");
-__asm__(".set D_8014E9E4, 0x8014E9E4");
-__asm__(".set D_8014E9DC, 0x8014E9DC");
-__asm__(".set D_8014E9F4, 0x8014E9F4");
-__asm__(".set D_8014E99C, 0x8014E99C");
-__asm__(".set D_8014E994, 0x8014E994");
-__asm__(".set D_8014E98C, 0x8014E98C");
 
 static const u32 func_8016A800_prefix[33] __asm__("func_8014C800")
 __attribute__((section(".text.func_8014C800"), aligned(4))) = {

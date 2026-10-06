@@ -36,7 +36,6 @@ extern s32 func_80252550(void *, void *);
 extern u32 D_80012BCC[4];
 extern u8 D_805300C4[0x100];
 extern u32 D_80530100[];
-__asm__(".set D_80530100, 0x80530100");
 
 void func_8052AE20(S_80810220_0 *control_data, S_80810220_3 *value_data, S_80810220_2 *output_data) {
     S_80810220_1 *child;

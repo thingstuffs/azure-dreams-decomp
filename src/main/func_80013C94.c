@@ -23,8 +23,6 @@ typedef struct S_80026C94_6 {
     s16 unk_0A;
 } S_80026C94_6;   /* ((S_80026C94_4 *)temp_a2_2)->unk_04 in func_80026C94 */
 
-__asm__(".set D_80028418, 0x80028418");
-__asm__(".set D_80028430, 0x80028430");
 extern M2C_UNK D_80028418;
 extern M2C_UNK D_80028430;
 

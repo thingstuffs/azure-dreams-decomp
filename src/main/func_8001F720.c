@@ -13,8 +13,6 @@ extern void func_80404570(s32 arg0);
  * (retail uses separate %hi materializations, not a reused base reg). */
 extern s32 D_8008DAB4[4];
 extern s32 D_8008DAB4_2[4];
-__asm__(".set D_8008DAB4, 0x8008DAB4");
-__asm__(".set D_8008DAB4_2, 0x8008DAB4");
 
 /* Processes object components and sets the object and global 0x8000 flags. */
 void func_8001F720(void *object) {

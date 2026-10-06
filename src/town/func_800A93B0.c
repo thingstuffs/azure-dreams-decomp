@@ -2,7 +2,6 @@
 #include "shared/object_flags.h"
 
 
-__asm__(".set func_800A6B68, 0x800A6B68");
 
 /* Fade and enlarge the effect, marking it finished when its intensity falls below zero. */
 void func_800A6B10(void *record, s32 unused, void *effect) {

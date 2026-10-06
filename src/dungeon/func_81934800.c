@@ -30,7 +30,6 @@ extern DungeonGroup D_80073414[];
 
 #ifdef __mips__
 extern u8 D_80024128[];
-__asm__(".set D_80024128, 0x80024128");
 static u8 *const func_81934800_prefix[] __asm__("func_81934800")
 __attribute__((used, section(".text.func_81934800"), aligned(4))) = {
     D_80024128,

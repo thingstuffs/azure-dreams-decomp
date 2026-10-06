@@ -130,7 +130,6 @@ typedef struct {
 } GlobalPage;
 
 extern GlobalPage D_80080000;
-__asm__(".set D_80080000, 0x80080000");
 
 
 #ifdef __mips__

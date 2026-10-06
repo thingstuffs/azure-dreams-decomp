@@ -2,7 +2,6 @@
 
 s32 func_800484A4(s32, s32 *);
 
-asm("D_8008DAB4 = 0x8008DAB4");
 extern s32 D_8008DAB4;
 
 /* Updates the object's indirect value and sets the object and global 0x8000 flags. */

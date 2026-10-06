@@ -45,8 +45,6 @@ extern ObjectBlock *ms_mot_accpt_ow(s32 arg0);
 extern void func_800383D4(void);
 extern void func_80038408(void);
 
-__asm__(".set D_800C3174, 0x800C3174");
-__asm__(".set D_800C321C, 0x800C321C");
 
 /* Initializes an event-script entry or defers the command while the entry is active or unavailable. */
 void func_8003931C(State *state)

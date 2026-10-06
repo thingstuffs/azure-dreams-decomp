@@ -11,7 +11,6 @@ typedef struct {
 } CallbackOwner;
 
 extern s32 D_A0700000[];
-__asm__(".set D_A0700000, 0xA0700000");
 
 typedef struct S_808B2CB0_0 {
     u8 pad_00[0xE];

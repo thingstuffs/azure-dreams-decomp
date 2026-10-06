@@ -100,7 +100,6 @@ void func_800A48B0();           /* extern */
 void func_800ABD74();                      /* extern */
 s16 func_800C2AE8();                      /* extern */
 extern s32 D_800135B4;
-__asm__(".set D_800135B4, 0x800135B4");
 extern M2C_UNK D_8006CCF8;
 extern M2C_UNK D_80089960;
 extern u8 D_800CFCEE;

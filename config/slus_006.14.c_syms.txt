@@ -9,3 +9,29 @@ D_8006CCE8 = 0x8006CCE8;
 D_80082E80 = 0x80082E80;
 /* object_node.h ObjectNodeHeader (r78 phase 6) */
 D_80083498 = 0x80083498;
+/* slus/konami_runtime_w_8003BAF8 (r95 equate migration) */
+D_80080A88 = 0x80080A88;
+/* slus/konami_runtime_w_8003BAF8 (r95 equate migration) */
+D_800812F8 = 0x800812F8;
+/* slus/w_80050BA4, slus/w_80050DA8, slus/w_80051548, slus/w_80051F58 (r95 equate migration) */
+D_800814A0_abs = 0x800814A0;
+/* slus/w_80043FD0, slus/w_8004A330 (r95 equate migration) */
+D_800814A0_load = 0x800814A0;
+/* slus/w_8005313C (r95 equate migration) */
+D_800814A0_loop = 0x800814A0;
+/* slus/konami_runtime_w_8003C364 (r95 equate migration) */
+D_800814A0_scalar = 0x800814A0;
+/* slus/w_8004A464 (r95 equate migration) */
+D_800814A0_store = 0x800814A0;
+/* slus/w_8005313C (r95 equate migration) */
+D_800814A0_tail = 0x800814A0;
+/* slus/konami_runtime_w_800392A4, slus/konami_runtime_w_8003931C (r95 equate migration) */
+D_800C3174 = 0x800C3174;
+/* slus/konami_runtime_w_800392A4, slus/konami_runtime_w_8003931C (r95 equate migration) */
+D_800C321C = 0x800C321C;
+/* slus/konami_runtime_w_8003BAF8 (r95 equate migration) */
+D_800D381A = 0x800D381A;
+/* slus/konami_runtime_w_8003BAF8 (r95 equate migration) */
+D_800D426C = 0x800D426C;
+/* slus/konami_runtime_w_8003BAF8 (r95 equate migration) */
+D_800D426E = 0x800D426E;

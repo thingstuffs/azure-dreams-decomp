@@ -1,7 +1,6 @@
 #include "common.h"
 
 extern s32 D_80408C8C;
-__asm__(".set D_80408C8C, 0x80408C8C");
 
 extern void func_80051B50(s32 arg0, s32 arg1, s32 arg2);
 

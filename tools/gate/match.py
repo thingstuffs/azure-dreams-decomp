@@ -84,6 +84,13 @@ DEFAULT_FUNC_AS_FLAGS = _default_func_as_flags()
 UNDEF_SYMS = os.path.join(ROOT, "config", "generated", "slus_006.14.undefined_syms.txt")
 UNDEF_FUNCS = os.path.join(ROOT, "config", "generated", "slus_006.14.undefined_funcs.txt")
 NAMED_SYMS = os.path.join(ROOT, "config", "slus_006.14.symbols.txt")
+# Absolute-address symbol files (round 95 equate migration, work/native_lane/r95_opus_equ/DESIGN.md): the
+# addresses rows used to carry as in-row `__asm__(".set NAME, 0xADDR")` equates.  config/overlays/abs_syms.txt
+# serves every overlay container, config/slus_006.14.c_syms.txt the SLUS image (its C_SYMS file).  A
+# name-encoded D_<ADDR>/func_<ADDR> needs no line (inject_name_encoded_symbols resolves it by name); a
+# second name for one address (`D_<ADDR>_<tag>`, `T_<ADDR>`, `jtbl_<ADDR>`) does.
+ABS_SYMS = [os.path.join(ROOT, "config", "overlays", "abs_syms.txt"),
+            os.path.join(ROOT, "config", "slus_006.14.c_syms.txt")]
 GP_VALUE = 0x80080994  # runtime $gp; needed to resolve %gp_rel(D_x)($gp) references
 
 # code segment: file offset 0x800 maps to vram 0x8002D000
@@ -141,11 +148,13 @@ def _named_syms():
     silently falling back to the unlinked object -> spurious NO MATCH on unrelated
     %hi/%lo globals. The `// type:...` comments are stripped (GNU ld chokes on `//`)."""
     out = []
-    if os.path.exists(NAMED_SYMS):
+    for path in [NAMED_SYMS, *ABS_SYMS]:
+        if not os.path.exists(path):
+            continue
         try:
-            with open(NAMED_SYMS, encoding="utf-8") as source:
+            with open(path, encoding="utf-8") as source:
                 for line in source:
-                    line = line.split("//")[0]
+                    line = re.sub(r"/\*.*?\*/", "", line.split("//")[0])
                     m = re.match(r"\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(0x[0-9A-Fa-f]+)\s*;", line)
                     if m:
                         out.append((m.group(1), m.group(2)))

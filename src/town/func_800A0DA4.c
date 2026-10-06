@@ -7,8 +7,6 @@ extern u8 D_800D076C[];
 extern u8 D_800D0788[];
 extern u8 D_80010000[];
 extern u8 T_80010000[];
-__asm__(".set D_80010000, 0x80010000");
-__asm__(".set T_80010000, 0x80010000");
 
 extern s32 func_8004A658();
 extern void func_8008F0D4();

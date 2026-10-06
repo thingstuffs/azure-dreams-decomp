@@ -11,7 +11,6 @@ extern s8 D_80080A86;
 #else
 #define D_80080A86_store (*(s8 *)0x80080A86)
 extern s32 D_800814A0_load[3];
-__asm__(".set D_800814A0_load, 0x800814A0");
 #define D_800814A0_store (*(s32 *)0x800814A0)
 #endif
 extern s16 func_8003F794(s16 a0, s16 a1);

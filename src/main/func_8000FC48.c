@@ -4,7 +4,6 @@
 
 void func_80022BE8();                      /* extern */
 extern u8 D_800280B4[];
-__asm__(".set D_800280B4, 0x800280B4");
 
 
 /* Sets record fields and processes the selected table entry. */

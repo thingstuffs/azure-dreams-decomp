@@ -116,7 +116,6 @@ extern void func_80044A50(void *);
 extern u8 D_80024B58[];
 extern u8 D_800248F8[];
 extern u8 D_800DEA68[];
-__asm__(".set D_800DEA68, 0x800DEA68");
 
 void func_80024020(S_func_81838800_1 *effect, S_func_81838800_2 *motion, S_func_81838800_3 *effect_sprite);
 

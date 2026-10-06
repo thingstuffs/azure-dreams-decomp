@@ -20,8 +20,6 @@ extern u8 D_80080000[];
 
 #ifdef __mips__
 extern u8 D_80020000[];
-__asm__(".set D_80020000, 0x80020000");
-__asm__(".set D_80080000, 0x80080000");
 #endif
 
 extern void func_800B835C(void *, void *, s32, s32);

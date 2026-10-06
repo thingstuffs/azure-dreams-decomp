@@ -3,7 +3,6 @@
 /* %hi/%lo access at 0x8009DDD8 (= 0x800A0000 - 0x2228). Incomplete array forces
  * hi/lo rather than $gp; .set binds the overlay-local absolute address. */
 extern u8 D_8009DDD8[];
-__asm__(".set D_8009DDD8, 0x8009DDD8");
 
 /* Count non-zero s32 heads of the 5×0x80-byte slots starting at D_8009DDD8.
  * Shape: load → increment offset → maybe count++. The increment is free of

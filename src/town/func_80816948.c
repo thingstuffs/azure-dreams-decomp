@@ -37,7 +37,6 @@ extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void D_8002222C(void);
 
-__asm__(".set D_8002222C, 0x8002222C");
 
 /* Creates an effect with two vectors, two colors, and the supplied parameters. */
 void func_80020948(s32 effect_param, Vec3s *vectors, Color *colors, s32 sub_param)

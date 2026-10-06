@@ -2,8 +2,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-__asm__(".set D_8040C5DE_LOAD, 0x8040C5DE");
-__asm__(".set D_8040C5DE_STORE, 0x8040C5DE");
 
 extern u8 D_8040C5C0[];
 extern u16 D_8040C5DE_LOAD[5];

@@ -45,7 +45,6 @@ extern void func_800478B8(void *arg0);
 extern s32 rsin(s32 arg0);
 extern s32 rcos(s32 arg0);
 extern s32 D_800814A0_abs __attribute__((section(".data")));
-__asm__(".set D_800814A0_abs, 0x800814A0");
 /* Advances staged object motion and marks completion. */
 void func_80051548(S_80051548_Obj *obj, S_80051548_Vec *position, S_80051548_Flags *flags)
 {

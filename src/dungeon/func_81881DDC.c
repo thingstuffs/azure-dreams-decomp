@@ -3,7 +3,6 @@
 
 extern u16 D_800257CE[5];
 
-__asm__(".set D_800257CE, 0x800257CE");
 
 typedef struct {
     u8 pad[12];

@@ -25,7 +25,6 @@ typedef struct {
 extern u16 D_80026326[5];
 extern void func_800478B8(void *arg0);
 
-__asm__(".set D_80026326, 0x80026326");
 
 /* Advance and fade the effect, flagging expiration when its timer runs out. */
 void func_80025868(Actor *actor, Motion *motion, EffectColor *color)

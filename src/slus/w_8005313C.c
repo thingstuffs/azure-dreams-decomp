@@ -2,7 +2,6 @@
 
 extern s32 D_800814A0_loop __attribute__((section(".data")));
 extern s32 D_800814A0_tail __attribute__((section(".data")));
-__asm__(".set D_800814A0_loop, 0x800814A0\n.set D_800814A0_tail, 0x800814A0");
 typedef struct A0
 {
     u16 pad0[3];

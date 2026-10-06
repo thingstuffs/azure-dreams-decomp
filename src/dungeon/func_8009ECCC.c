@@ -6,7 +6,6 @@
 #endif
 
 /* This data symbol is not present in the shared symbol catalog. */
-__asm__(".set D_80081470, 0x80081470");
 
 extern u8 D_80081470[];
 

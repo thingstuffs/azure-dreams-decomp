@@ -113,6 +113,11 @@ def inputs_sha(yaml_path):
     owners = ROOT / "config/overlays" / f"{'dungeon' if cont == 'dungeon_engine' else cont}.rodata_owners.jsonl"
     if owners.exists():
         h.update(owners.read_bytes())
+    # the absolute-address symbol file (round 95 equate migration) resolves names the window's rows reference
+    # (overlay_local_gate ABS_SYMS_FILE), so an edit to it re-gates every window, as a census edit does
+    abs_syms = ROOT / "config/overlays/abs_syms.txt"
+    if abs_syms.exists():
+        h.update(abs_syms.read_bytes())
     return h.hexdigest()
 
 _SPLITS = {}
