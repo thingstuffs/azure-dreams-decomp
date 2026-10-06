@@ -57,7 +57,7 @@ typedef struct S_801738B4_4 {
 } S_801738B4_4;   /* global in func_801738B4 */
 
 /* Advances an actor's item-use sequence and resets its state when the action ends. */
-void func_801738B4(void *action_ctx, void *scene_object, void *entity, void *actor)
+void func_801738B4(void *action_ctx, EntityRec *scene_object, void *entity, void *actor)
 {
     u8 *item;
     s32 special_mode;
@@ -153,9 +153,9 @@ void func_801738B4(void *action_ctx, void *scene_object, void *entity, void *act
             }
             break;
         } else {
-            ((EntityRec *)scene_object)->flags14 = 0;
-            ((EntityRec *)scene_object)->unk_10 = 0;
-            ((EntityRec *)scene_object)->unk_0C = 0;
+            scene_object->flags14 = 0;
+            scene_object->unk_10 = 0;
+            scene_object->unk_0C = 0;
             func_800A2B04(scene_object, ((S_801738B4_2 *)entity)->unk_24, ((S_801738B4_2 *)entity)->unk_25);
             active_object = D_800814A8;
             dungeonStatus.unk_0C = 0;
@@ -204,9 +204,9 @@ void func_801738B4(void *action_ctx, void *scene_object, void *entity, void *act
             break;
         }
 
-        ((EntityRec *)scene_object)->flags14 = 0;
-        ((EntityRec *)scene_object)->unk_10 = 0;
-        ((EntityRec *)scene_object)->unk_0C = 0;
+        scene_object->flags14 = 0;
+        scene_object->unk_10 = 0;
+        scene_object->unk_0C = 0;
         func_800A2B04(scene_object, ((S_801738B4_2 *)entity)->unk_24, ((S_801738B4_2 *)entity)->unk_25);
         if (((S_801738B4_2 *)entity)->unk_2C != D_80175F10) {
             (*(u8 * *)((u8 *)entity + 0x2C)) = D_80175F10;

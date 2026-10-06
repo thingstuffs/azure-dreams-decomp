@@ -1,3 +1,4 @@
+#include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/game_work.h"
@@ -45,7 +46,6 @@ extern u8 D_800DD030[];
 extern u8 D_800DD0D0[];
 extern u8 D_800E3544[];
 
-extern void D_8008ACDC(void);
 extern void func_80048A44();
 extern void func_8008CD4C();
 extern void func_8008E264();
@@ -183,7 +183,7 @@ void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprit
                                   actor->facing + 0x100) >> 9) & 7],
                 0, 1);
         }
-        move_state->unk_8C.u = D_8008ACDC;
+        move_state->unk_8C.u =func_8008ACDC;
         return;
     }
     actor_flags = actor->flags1C | update_mask;

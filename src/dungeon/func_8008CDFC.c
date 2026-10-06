@@ -1,3 +1,4 @@
+#include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
@@ -19,7 +20,6 @@ void func_800A56E0(s32);
 void func_800A5720(s8 *text);
 void *func_800A8608(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z);
 extern s32 D_80081484;
-extern s32 D_8008ACDC;
 extern s32 D_8008D470;
 extern u8 D_800DD100[];
 extern u8 D_800E06E3[];
@@ -150,7 +150,7 @@ void func_8009255C(void *controller, s32 action_id, Rec_D_80082E80 *actor, Entit
             func_80091934(controller, action_id, actor, transform);
             return;
         }
-        ((Rec_func_8008ACDC_arg0 *)controller)->unk_8C.as_s32 = (s32)&D_8008ACDC;
+        ((Rec_func_8008ACDC_arg0 *)controller)->unk_8C.as_s32 = (s32)func_8008ACDC;
         break;
     }
 }

@@ -1,3 +1,4 @@
+#include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -38,7 +39,6 @@ extern u8 D_80024038[32];
 extern void *D_80024058[9];
 extern u8 D_800252FC[12];
 extern s16 D_80025308[6];
-extern u8 D_800DDC40[];
 extern u8 D_800DEAE0[];
 
 /* Updates a moving effect, its particles, target color animation, and cleanup. */

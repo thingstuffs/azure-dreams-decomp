@@ -307,7 +307,7 @@ s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
         if (scratch->unk_B4 < 0x1E0U) {
             full_window[1] = 0;
             full_window[0] = 0;
-            full_ctx = ((S_func_818BC9CC_6 *)render_state)->unk_00;
+            full_ctx = render_state->unk_000;
             full_window[3] = 0xFF;
             full_window[2] = 0xFF;
             draw_mode = full_ctx->unk_8D0;
@@ -345,7 +345,7 @@ s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
 
             tile_window[0] = 0;
             tile_window[1] = 0x80;
-            tile_ctx = ((S_func_818BC9CC_6 *)render_state)->unk_00;
+            tile_ctx = render_state->unk_000;
             tile_window[3] = 0x40;
             tile_window[2] = 0x40;
             draw_mode_2 = tile_ctx->unk_8D0;

@@ -1,3 +1,4 @@
+#include "shared/position_query.h"
 #include "common.h"
 #include "shared/entity.h"
 #include "records/Rec_func_80094268_arg0.h"
@@ -16,7 +17,6 @@ M2C_UNK func_800941D8();
 
 extern u8 D_800CFCEF;
 extern M2C_UNK D_800D00E0;
-extern M2C_UNK D_800FE488;
 
 
 /* Update the entity, handle a large value change, and advance the state countdown. */

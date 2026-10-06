@@ -1,3 +1,5 @@
+#include "shared/dungeon_actor_callbacks.h"
+#include "shared/runtime_dispatch.h"
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/game_work.h"
@@ -5,9 +7,7 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-extern void *D_8008ACDC[];
 extern u8 D_800E3CD0[9];
-extern u16 D_80082E76;
 void func_800945E8();
 void func_800948BC();
 void func_80099844();
@@ -32,16 +32,6 @@ typedef struct S_8008E0C4_2 {
     u8 unk_00;
 } S_8008E0C4_2;   /* D_800E3CD0 in func_8008E0C4 */
 
-
-typedef struct S_8008E0C4_4 {
-    u8 pad_00[0xC8];
-    u16 unk_C8;
-} S_8008E0C4_4;   /* global_base in func_8008E0C4 */
-
-typedef struct S_8008E0C4_5 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_8008E0C4_5;   /* counter_base in func_8008E0C4 */
 
 void func_8008E0C4(S_8008E0C4_0 *context, void *unused, S_8008E0C4_1 *input, EntityRec *entity) {
     GameWork *work;
@@ -74,7 +64,7 @@ void func_8008E0C4(S_8008E0C4_0 *context, void *unused, S_8008E0C4_1 *input, Ent
         } else {
             func_800945E8(context);
             func_800948BC();
-            D_80082E76 = 0xC000;
+            D_80082E60.flags16 = 0xC000;
             func_80041094(6, 0, 0, 0, 0xC000);
             context->unk_9B++;
             break;
@@ -88,7 +78,7 @@ void func_8008E0C4(S_8008E0C4_0 *context, void *unused, S_8008E0C4_1 *input, Ent
         if (input->unk_14 & 0xE000) {
             entity->unk_28 = entity->unk_29;
             entity->facing = 0x400 - ((((u16)work->view.viewAngle) + 0x100) & 0xE00);
-            context->unk_8C = D_8008ACDC;
+            context->unk_8C =func_8008ACDC;
             dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
         }
         break;

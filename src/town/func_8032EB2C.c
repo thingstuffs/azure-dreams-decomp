@@ -1,3 +1,4 @@
+#include "shared/town_root.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -6,12 +7,12 @@
 s32 func_8001932C(void) {
     s32 *entry;
     s32 count;
-    void *table;
+    TownStateRecord *table;
 
-    table = *(void **)((u8 *)D_80016000 + 0x38);
-    entry = (s32 *)((u8 *)table + 0x29C);
+    table = D_80016000->unk_38;
+    entry = (s32 *)table->entries;
     count = 0;
-    if (*(s32 *)((u8 *)table + 0x29C) != 0) {
+    if (*(s32 *)table->entries != 0) {
         do {
             entry++;
             count++;

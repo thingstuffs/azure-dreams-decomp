@@ -3,25 +3,6 @@ extern int abs(int);
 #include "shared/object_index_slots.h"
 #include "m2c_compat.h"
 
-struct S_80083178_L
-{
-    char pad0[2];
-    unsigned short unk2;
-    char pad4[6];
-    unsigned short unkA;
-    char padC[0x94];
-    short f_A0;
-    char pad_a2[2];
-    short f_A4;
-    short f_A6;
-    short f_A8;
-    char pad_aa[0xB4 - 0xAA];
-    void (*callback)(void);
-    void *field_B8;
-    char pad_bc[(0xD8 - 0xB8) - 4];
-    void *ptr;
-    char pad_dc[0x1C4 - 0xDC];
-};
 extern int D_800814C8;
 extern int D_80081550;
 extern int D_80081558;

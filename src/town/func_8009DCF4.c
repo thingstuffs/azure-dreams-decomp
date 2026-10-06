@@ -1,3 +1,4 @@
+#include "shared/position_query.h"
 #include "common.h"
 
 extern s16 func_8008F170(void *, void *);
@@ -10,7 +11,6 @@ extern void func_8009C0C0(void *, void *, void *, void *);
 extern u8 D_8009B454[];
 extern u8 D_8009B594[];
 extern u8 D_8009BDC0[];
-extern u8 D_800FE488[];
 
 /* Update movement and height, transition the actor state, and copy its value to the context. */
 void func_8009B454(void *actor, void *subject, void *motion, void *context) {
@@ -18,7 +18,7 @@ void func_8009B454(void *actor, void *subject, void *motion, void *context) {
     void *actor_callback;
     s32 *actor_value;
 
-    surface_height = func_8008F170(motion, D_800FE488);
+    surface_height = func_8008F170(motion, ((u8 *)&D_800FE488));
     func_8008F294(subject, motion);
     func_8008F664(subject, motion);
     if (*(u8 *)((u8 *)subject + 0x3B) == 0) {

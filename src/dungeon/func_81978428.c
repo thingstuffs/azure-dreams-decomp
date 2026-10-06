@@ -5,11 +5,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-
-typedef struct S_81978428_0 {
-    u8 pad_00[0xF4];
-    s32 unk_F4;
-} S_81978428_0;   /* init_page in func_81978428 */
+#include "shared/entity.h"
 
 typedef struct S_81978428_1 {
     u16 unk_00;
@@ -28,13 +24,6 @@ typedef struct S_81978428_3 {
     u16 unk_2A;
 } S_81978428_3;   /* angle_global in func_81978428 */
 
-typedef struct S_81978428_5 {
-    u8 pad_00[0x2A];
-    union { s16 s; u16 u; } unk_2A;   /* accessed as both */
-    u8 pad_2C[0x5C];
-    union { s16 s; u16 u; } unk_88;   /* accessed as both */
-} S_81978428_5;   /* player in func_81978428 */
-
 typedef struct S_81978428_6 {
     u8 pad_00[0x2];
     union { u16 s; s16 u; } unk_02;   /* accessed as both */
@@ -43,11 +32,6 @@ typedef struct S_81978428_6 {
     u8 pad_08[0x2];
     union { u16 s; s16 u; } unk_0A;   /* accessed as both */
 } S_81978428_6;   /* work in func_81978428 */
-
-typedef struct S_81978428_7 {
-    u8 pad_00[0x88];
-    u16 unk_88;
-} S_81978428_7;   /* fallback in func_81978428 */
 
 typedef struct S_81978428_8 {
     u8 pad_00[0x1C];
@@ -113,7 +97,7 @@ void func_81978428(State81978428 *state, s32 *position_out)
     s32 *position = position_out;
     void *target_pos;
     s32 step_count;
-    u8 *tile_map;
+    TileObject *tile_map;
     u8 *tint_data;
     Scratch81978428 fallback_pos;
     void *spawned_object;
@@ -131,15 +115,15 @@ void func_81978428(State81978428 *state, s32 *position_out)
     switch (state_index) {
     case 0:
         {
-            u8 *init_page;
+            EntityRec *init_page;
             u16 next_state;
 
             next_state = self->state;
-            init_page = (u8 *)D_800814A8;
+            init_page = D_800814A8;
             self->counter = 0;
             next_state++;
             self->state = next_state;
-            ((S_81978428_0 *)init_page)->unk_F4 = 0;
+            init_page->unk_F4 = 0;
             func_800243C0((u8 *)self->part0 - 0x20, self->part4);
         }
     case 1:
@@ -177,17 +161,17 @@ void func_81978428(State81978428 *state, s32 *position_out)
         }
 
         {
-            u8 *player;
+            EntityRec *player;
             s32 spawn_angle;
             s32 player_x;
             player_x = D_80083780.x.v;
-            player = (u8 *)D_800814A8;
+            player = D_800814A8;
             position[0] = player_x;
             position[1] = D_80083780.y.v;
-            position[2] = (s32)((S_81978428_5 *)player)->unk_88.s << 16;
-            spawn_angle = ((S_81978428_5 *)player)->unk_2A.s;
-            tile_map = (u8 *)&D_80082E80;
-            spawned_object = func_800A05A4(player, tile_map[0x24], tile_map[0x25], spawn_angle, 8);
+            position[2] = (s32)player->unk_88 << 16;
+            spawn_angle = player->facing;
+            tile_map = &D_80082E80;
+            spawned_object = func_800A05A4(player, tile_map->tileX, tile_map->tileY, spawn_angle, 8);
         }
         self->object = spawned_object;
         if (spawned_object != 0) {
@@ -198,45 +182,45 @@ void func_81978428(State81978428 *state, s32 *position_out)
                 u8 tile_x;
                 u8 tile_y;
 
-                tile_x = tile_map[0x24];
+                tile_x = tile_map->tileX;
                 ((S_81978428_6 *)target_pos)->unk_02.s = (tile_x << 6) + 0x20;
-                tile_y = tile_map[0x25];
+                tile_y = tile_map->tileY;
                 ((S_81978428_6 *)target_pos)->unk_06.s = (tile_y << 6) + 0x20;
             }
 
             for (step_count = 0; step_count < 8; step_count++) {
                 {
-                    u8 *player;
+                    EntityRec *player;
 
-                    player = (u8 *)D_800814A8;
-                    tile_step = dirStepX[(((S_81978428_5 *)player)->unk_2A.u >> 9) & 7];
+                    player = D_800814A8;
+                    tile_step = dirStepX[(((u16)player->facing) >> 9) & 7];
                     ((S_81978428_6 *)target_pos)->unk_02.u += tile_step << 6;
-                    tile_step_2 = dirStepY[(((S_81978428_5 *)player)->unk_2A.u >> 9) & 7];
+                    tile_step_2 = dirStepY[(((u16)player->facing) >> 9) & 7];
                     ((S_81978428_6 *)target_pos)->unk_06.u += tile_step_2 << 6;
-                    ((S_81978428_6 *)target_pos)->unk_0A.s = ((S_81978428_5 *)player)->unk_88.u;
+                    ((S_81978428_6 *)target_pos)->unk_0A.s = ((u16)player->unk_88);
                 }
                 ((S_81978428_6 *)target_pos)->unk_0A.s = func_800BCAD0(target_pos);
                 if (((S_81978428_6 *)target_pos)->unk_0A.u >= 0x201) {
-                    u8 *player;
-                    player = (u8 *)D_800814A8;
-                    ((S_81978428_6 *)target_pos)->unk_0A.s = ((S_81978428_5 *)player)->unk_88.u;
+                    EntityRec *player;
+                    player = D_800814A8;
+                    ((S_81978428_6 *)target_pos)->unk_0A.s = ((u16)player->unk_88);
                 }
 
                 if ((func_800A45D8(((S_81978428_6 *)target_pos)->unk_02.s, ((S_81978428_6 *)target_pos)->unk_06.s,
                                     ((S_81978428_6 *)target_pos)->unk_0A.u) << 16) != 0) {
-                    u8 *player;
+                    EntityRec *player;
 
-                    player = (u8 *)D_800814A8;
-                    tile_step_3 = dirStepX[(((S_81978428_5 *)player)->unk_2A.u >> 9) & 7];
+                    player = D_800814A8;
+                    tile_step_3 = dirStepX[(((u16)player->facing) >> 9) & 7];
                     ((S_81978428_6 *)target_pos)->unk_02.u -= tile_step_3 << 6;
-                    tile_step_4 = dirStepY[(((S_81978428_5 *)player)->unk_2A.u >> 9) & 7];
+                    tile_step_4 = dirStepY[(((u16)player->facing) >> 9) & 7];
                     ((S_81978428_6 *)target_pos)->unk_06.u -= tile_step_4 << 6;
-                    ((S_81978428_6 *)target_pos)->unk_0A.s = ((S_81978428_5 *)player)->unk_88.u;
+                    ((S_81978428_6 *)target_pos)->unk_0A.s = ((u16)player->unk_88);
                     ((S_81978428_6 *)target_pos)->unk_0A.s = func_800BCAD0(target_pos);
                     if (((S_81978428_6 *)target_pos)->unk_0A.u >= 0x201) {
-                        u8 *height_player;
-                        height_player = (u8 *)D_800814A8;
-                        ((S_81978428_6 *)target_pos)->unk_0A.s = ((S_81978428_7 *)height_player)->unk_88;
+                        EntityRec *height_player;
+                        height_player = D_800814A8;
+                        ((S_81978428_6 *)target_pos)->unk_0A.s = ((u16)height_player->unk_88);
                     }
                     break;
                 }

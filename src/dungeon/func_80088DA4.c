@@ -1,3 +1,4 @@
+#include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -44,7 +45,6 @@ typedef struct S_8008E504_4 {
 
 extern s32 D_80081484;
 extern s32 D_800E3540;
-extern u8 D_8008ACDC[];
 extern u8 D_8008EAC8[];
 extern u8 D_800DD058[];
 
@@ -110,7 +110,7 @@ void func_8008E504(S_8008E504_0 *actor, S_8008E504_1 *action, S_8008E504_4 *spri
         sprite_flags = sprite->unk_14;
         sprite->unk_14 = (u16)(sprite_flags & 0xF7FF);
         if ((sprite_flags & 0xE000) != 0 || ((func_80094EA4() << 0x10) != 0)) {
-            actor->unk_8C = D_8008ACDC;
+            actor->unk_8C =func_8008ACDC;
         }
         return;
     }

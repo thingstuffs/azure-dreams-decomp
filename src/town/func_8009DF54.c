@@ -1,3 +1,4 @@
+#include "shared/position_query.h"
 #include "common.h"
 #include "shared/entity.h"
 #include "records/Rec_D_800CFCB4.h"
@@ -27,7 +28,6 @@ extern void SD_Call(u32);
 
 extern u8 D_8009B454[];
 extern s16 D_800D45AA[];
-extern u8 D_800FE488[];
 
 /* Update object motion, handle contact, and play the tile height sound. */
 void func_8009B6B4(void *object, Rec_D_800CFCB4 *collision, EntityRec *motion, s32 callback_arg) {
@@ -39,7 +39,7 @@ void func_8009B6B4(void *object, Rec_D_800CFCB4 *collision, EntityRec *motion, s
         motion->flags14 = 0x200000;
     }
     func_8009539C(motion);
-    contact_height = func_8008F170(motion, D_800FE488);
+    contact_height = func_8008F170(motion, ((u8 *)&D_800FE488));
     func_8008F294(collision, motion);
     func_8008F664(collision, motion);
     contact_height_ext = contact_height;

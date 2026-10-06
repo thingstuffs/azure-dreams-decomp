@@ -1,3 +1,4 @@
+#include "shared/position_query.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
@@ -12,7 +13,6 @@ void func_80095A94();      /* extern */
 void func_80095C80();                      /* extern */
 s32 func_8009FF50();                                /* extern */
 extern u8 D_800CFCEF;
-extern u8 D_800FE488[];
 
 
 typedef struct S_800930E4_0 {
@@ -53,14 +53,14 @@ void func_800930E4(void *self_arg, void *target_arg, M2C_UNK context_arg) {
 
     func_80095094(target_arg);
     if (func_8009FF50() == 0) {
-        target_value = func_80095978(target_arg, D_800FE488);
+        target_value = func_80095978(target_arg, ((u8 *)&D_800FE488));
         if ((target_value - ((S_800930E4_0 *)target_arg)->unk_0A) >= 4) {
             if (((S_800930E4_1 *)(&D_800CFCEF))->unk_00 == 0) {
                 func_80094378(self, target_arg, context);
                 return;
             }
         } else if (((S_800930E4_1 *)(&D_800CFCEF))->unk_00 == 0) {
-            func_80095A94(target_arg, target_value, D_800FE488);
+            func_80095A94(target_arg, target_value, ((u8 *)&D_800FE488));
         }
         countdown = ((S_800930E4_2 *)self)->unk_0A - 1;
         ((S_800930E4_2 *)self)->unk_0A = countdown;

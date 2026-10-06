@@ -1,13 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-typedef struct S_8003E2D8 {
-    u8 pad_000[0x1DC];
-    u8 *table;
-    u8 pad_1E0[0x10];
-    s16 shift;
-} S_8003E2D8;
-
 
 // Return the negated value of an occupied grid entry at the coordinates, or 0x400.
 s16 func_800BCA68(s32 xCoord, s32 yCoord) {

@@ -1,3 +1,4 @@
+#include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -8,7 +9,6 @@ extern void func_80048A44(void *, u8, s32, s32);
 extern void func_8008ACDC(void *, void *, void *, void *);
 extern s32 func_80094EA4(void);
 
-extern s32 D_8008ACDC;
 extern u8 D_800DD008[8];
 extern u8 D_800DD010[8];
 extern StateFunc D_800DD168[];
@@ -65,7 +65,7 @@ void to_camera_zero_00(void *actor, void *context, void *animation, void *transf
         if (*(u16 *)((u8 *)animation + 0x14) & 0xE000) {
             *(u8 *)((u8 *)actor + 0x9A) = 0xE;
             *(s16 *)((u8 *)actor + 0xA4) = 0;
-            *(s32 *)((u8 *)actor + 0x8C) = (s32)&D_8008ACDC;
+            *(s32 *)((u8 *)actor + 0x8C) = (s32)func_8008ACDC;
         }
         break;
     }

@@ -1,3 +1,4 @@
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
@@ -9,7 +10,6 @@ extern void func_8009A21C(s16 x, s16 y, u16 flags);
 extern void func_800A4300(void *, s32);
 extern s16 func_800A71F4(void);
 
-extern s32 D_800E3548[];
 typedef struct {
     u8 x;
     u8 y;
@@ -67,7 +67,7 @@ void func_800A77AC(FuncObj *obj, FuncVec *pos, FuncVec *target) {
     if ((s16)remaining <= 0) {
         slot = func_800A71F4();
         if (slot >= 0) {
-            D_800E3548[slot] = obj->field98;
+            ((s32 *)D_800E3548)[slot] = obj->field98;
             tab = D_800E36C8;
             entry = &tab[slot];
             entry->x = obj->fieldAA;

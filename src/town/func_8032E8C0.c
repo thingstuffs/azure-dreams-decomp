@@ -19,13 +19,6 @@ typedef struct TownService {
     TownFatal1 *fatal;
 #endif
 } TownService;
-typedef struct TownSlotList {
-    void *entries[256];
-} TownSlotList;
-typedef struct TownObjectBase {
-    u8 pad_000[0x29C];
-    TownSlotList list;
-} TownObjectBase;
 
 extern u8 D_80016034[];
 extern u8 D_8001605C[];
@@ -37,7 +30,7 @@ void func_800190C0(const Copy4 *input)
     void **slot;
     Copy4 *entry;
 
-    slot = ((TownObjectBase *)D_80016000->unk_38)->list.entries;
+    slot = D_80016000->unk_38->entries;
     entry = func_80018F20(slot);
     if (entry == 0) {
         ((TownService *)D_80016000->unk_20)->report(D_80016034, D_8001605C, 0x80);

@@ -1,3 +1,4 @@
+#include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -59,7 +60,6 @@ typedef struct ColorPart {
 #define S32_AT(p, n) (*(s32 *)((u8 *)(p) + (n)))
 #define PTR_AT(p, n) (*(void **)((u8 *)(p) + (n)))
 
-extern u8 D_800DDC40[256];
 
 extern s32 func_8003DE58(void *, void *, void *, s32);
 extern s32 func_800A44E0(s32, s32, s32, s32);

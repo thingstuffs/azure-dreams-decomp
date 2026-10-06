@@ -1,3 +1,4 @@
+#include "shared/position_query.h"
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/entity.h"
@@ -35,7 +36,6 @@ typedef struct S_7FFFE25C_4 {
 
 extern TownState D_800834B8;
 extern s32 D_800D0420[];
-extern u8 D_800FE488[];
 
 extern s32 D_80090A6C;
 extern s32 D_80092698;
@@ -74,7 +74,7 @@ void func_7FFFE25C(void *context, S_7FFFE25C_1 *owner, EntityRec *adjusted_pos, 
     adjusted_pos->y.v = D_80083780.y.v;
     adjusted_pos->z.v = D_80083780.z.v + offset[2];
 
-    func_8008F170(adjusted_pos, D_800FE488);
+    func_8008F170(adjusted_pos, ((u8 *)&D_800FE488));
     func_8008F294(owner, adjusted_pos);
     func_8008F664(owner, adjusted_pos);
 

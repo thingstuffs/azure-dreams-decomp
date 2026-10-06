@@ -1,3 +1,4 @@
+#include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/game_work.h"
@@ -36,7 +37,6 @@ typedef struct {
 
 extern u8 D_800DD148[];
 extern u8 D_800DD150[];
-extern u8 D_8008ACDC[];
 
 extern s32 func_8003DE58(s32, void *, void *, s32);
 extern void func_80048A44(void *, u8, s16, s32);
@@ -71,7 +71,7 @@ void func_80092BB8(S_8003E2D8 *controller, void *context, S_arg2 *actor, S_arg3 
                 if (actor->field2c == D_800DD148) {
                     controller->state = 0x10;
                 } else {
-                    controller->field8c = D_8008ACDC;
+                    controller->field8c =func_8008ACDC;
                 }
             }
         } else if ((func_8003DE58(actor->field08, actor, &query_result, 0) != 0) || (actor->flags & 0x8000)) {
@@ -87,7 +87,7 @@ void func_80092BB8(S_8003E2D8 *controller, void *context, S_arg2 *actor, S_arg3 
             }
             actor->field2c = D_800DD150;
             func_80048A44(actor, D_800DD150[(((s32)gameWork.view.viewAngle + facing->coord + 0x100) >> 9) & 7], 2, 1);
-            controller->field8c = D_8008ACDC;
+            controller->field8c =func_8008ACDC;
         }
         break;
     case 0x10:

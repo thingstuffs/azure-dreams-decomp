@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/dir_step.h"
+#include "shared/entity.h"
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -23,11 +24,6 @@ typedef struct S_8009AF18_0 {
     u8 unk_24;
     u8 unk_25;
 } S_8009AF18_0;   /* arg2 in func_8009AF18 */
-
-typedef struct S_8009AF18_1 {
-    u8 pad_00[0x88];
-    s16 unk_88;
-} S_8009AF18_1;   /* world in func_8009AF18 */
 
 typedef struct S_8009AF18_2 {
     u8 pad_00[0x13];
@@ -80,9 +76,9 @@ s32 func_8009AF18(u32 direction_flags, FuncArg1 *origin, S_8009AF18_0 *start_til
                 tile_y += (u16)dirStepY[direction];
                 if (tile_flags & 0x3300) {
                     {
-                        S_8009AF18_1 *world;
+                        EntityRec *world;
 
-                        world = (S_8009AF18_1 *)D_800E3D7C;
+                        world = D_800E3D7C;
                         occupant = func_8009B25C(world, tile_x & 0xFFFF, tile_y & 0xFFFF, world->unk_88);
                     }
                     if (occupant != NULL) {

@@ -1,3 +1,4 @@
+#include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -67,7 +68,6 @@ extern s32 rand();
 extern void func_8004491C();
 
 extern u8 D_80024BB0[];
-extern u8 D_800DDC40[];
 extern u8 D_800DEC70[];
 
 /* Creates an effect node with phase-based color, random rotation, and offset coordinates. */

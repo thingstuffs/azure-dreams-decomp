@@ -1,3 +1,4 @@
+#include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -63,7 +64,6 @@ extern void *func_8003FC64(s32);
 extern s32 rand(void);
 extern void func_800D4BD4(void *, void *, void *, s32);
 extern u8 D_800D4CB0[];
-extern u8 D_800DDC40[];
 
 /* Emit particles around the parent position and retire the emitter when its lifetime expires. */
 void func_800D4DE8(void *emitter, Rec_func_800D4BD4_arg2 *position, s32 init_param) {

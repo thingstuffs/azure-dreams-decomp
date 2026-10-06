@@ -1,3 +1,4 @@
+#include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -16,7 +17,6 @@ extern void func_800542BC(void);
 extern void func_8009CE1C(void *, s32, u8, s32, s32, void *, s32);
 extern void func_800A56E0(s32);
 
-extern u8 D_800DDC40[];
 
 typedef struct {
     s32 x;

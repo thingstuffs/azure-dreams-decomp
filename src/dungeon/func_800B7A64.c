@@ -116,10 +116,10 @@ s32 func_800BD1C4(DungeonObject *obj, u8 *payload, s16 effect_arg) {
     }
     func_80098B38(payload);
     {
-        u16 *counter_base;
+        DungeonGlobalStatus *counter_base;
 
-        counter_base = ((u16 *)(&dungeonStatus));
-        counter_base[5] = counter_base[5] - 1;
+        counter_base = &dungeonStatus;
+        counter_base->unk_0A = ((u16)counter_base->unk_0A) - 1;
     }
     return 1;
 }

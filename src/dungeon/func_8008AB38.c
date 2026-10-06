@@ -1,3 +1,4 @@
+#include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -32,7 +33,6 @@ typedef struct {
     u16 flagsa2;
 } Arg0Struct;
 
-extern void *D_8008ACDC[];
 extern u8 D_800DD0F8[];
 extern void *D_8008B870;
 extern u8 D_800DD0F0;
@@ -94,7 +94,7 @@ void func_80090298(Arg0Struct *controller, void *unused, Arg2Struct *animation, 
             func_80099F70(actor->val5c);
             func_80099F04(actor->val5c);
             dungeonStatus.flags |= 0x812;
-            controller->handler = D_8008ACDC;
+            controller->handler =func_8008ACDC;
             dungeonStatus.unk_0A -= 1;
         }
         break;

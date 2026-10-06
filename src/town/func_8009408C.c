@@ -1,3 +1,4 @@
+#include "shared/position_query.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
@@ -20,7 +21,6 @@ void func_80095C80();
 void func_800A895C();
 extern u8 D_800CFCEF[];
 extern u8 D_800D043C[];
-extern u8 D_800FE488[];
 extern s32 D_800FE4E0;
 
 
@@ -41,14 +41,14 @@ void func_800917EC(Rec_func_80094268_arg0 *actor, EntityRec *position, s32 conte
 
     func_80095C80(position);
     func_800951B4(position);
-    surface_height = func_80095978(position, D_800FE488);
+    surface_height = func_80095978(position, ((u8 *)&D_800FE488));
     if ((surface_height - position->z.w.i) >= 4) {
         if (D_800CFCEF[0] == 0) {
             func_80094378(actor, position, context);
             return;
         }
     } else if (D_800CFCEF[0] == 0) {
-        func_80095A94(position, surface_height, D_800FE488);
+        func_80095A94(position, surface_height, ((u8 *)&D_800FE488));
     }
     effect_timer = actor->unk_0A.as_u16 - 1;
     actor->unk_0A.as_u16 = effect_timer;

@@ -1,10 +1,7 @@
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 
-typedef struct {
-    u8 pad0;
-    u8 active;
-    u8 pad2[2];
-} ActiveEntry;
+
 
 typedef struct {
     u8 x;
@@ -15,7 +12,6 @@ typedef struct {
 } PositionEntry;
 
 extern void func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern u8 D_800E3548[];
 extern u8 D_800E36C8[];
 
 /* Finds an active entry at the given tile within 64 height units if the left tile has flag 0x800. */
@@ -27,7 +23,7 @@ s32 func_800A70E4(s32 input_x, s32 input_y, s32 input_z) {
     s32 entry_index;
     s32 y;
     u16 tile_flags;
-    ActiveEntry *active_entry;
+    DungeonItemEntry *active_entry;
     PositionEntry *position;
     s32 height_delta;
     s32 x;
@@ -50,9 +46,9 @@ scan:
     y = held_y;
     z = (s16)held_z;
     position = (PositionEntry *)D_800E36C8;
-    active_entry = (ActiveEntry *)D_800E3548;
+    active_entry = (DungeonItemEntry *)((u8 *)D_800E3548);
     do {
-        if ((active_entry->active != 0) && (position->x == x) && (position->y == y)) {
+        if ((active_entry->kind != 0) && (position->x == x) && (position->y == y)) {
             height_delta = z - position->value;
             if (height_delta < 0) {
                 height_delta = 0 - height_delta;

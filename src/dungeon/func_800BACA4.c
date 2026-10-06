@@ -1,3 +1,4 @@
+#include "shared/runtime_dispatch.h"
 #include "common.h"
 #include "shared/transition_slots.h"
 #include "shared/tile_object.h"
@@ -10,10 +11,6 @@ typedef struct {
     void *nextPrim;
 } RenderState;
 
-typedef struct {
-    u8 pad0[0x3160];
-    RenderState *state;
-} DungeonGlobals;
 
 typedef struct {
     u8 pad0[4];
@@ -60,7 +57,6 @@ typedef struct {
 extern u8 D_801C9E40[16];
 extern u8 D_800DD0F8[];
 extern s16 D_800814E8;
-extern u16 D_80082E76;
 
 extern void func_8006658C();
 extern void func_800667BC();
@@ -191,7 +187,7 @@ void func_800C0404(DungeonObject *obj, MotionState *motion, EffectState *effect)
                 *entry_flag = index_or_phase;
                 func_800945E8(active_dungeon);
                 func_800948BC();
-                D_80082E76 = 0x8000;
+                D_80082E60.flags16 = 0x8000;
                 func_80041094(6, 0, 0, 0, 0x8000);
                 obj->phase = (u16)obj->phase + 1;
             }

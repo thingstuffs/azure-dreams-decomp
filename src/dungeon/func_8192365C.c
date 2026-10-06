@@ -1,3 +1,4 @@
+#include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
@@ -13,7 +14,6 @@ s32 func_800A56E0();                     /* extern */
 void func_800D4AB0();      /* extern */
 extern u8 D_80025B38[9];
 extern s16 D_80025B60;
-extern u8 D_800DDC40[];
 
 
 typedef struct S_80024E5C_0_pre {

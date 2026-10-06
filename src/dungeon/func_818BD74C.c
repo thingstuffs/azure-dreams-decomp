@@ -1,3 +1,4 @@
+#include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -45,7 +46,6 @@ typedef struct S_func_818BD74C_4 {
     u8 unk_13;
 } S_func_818BD74C_4;
 
-extern u8 D_800DDC40[];
 extern void func_800247B0(void *, void *, s16);
 extern void func_800249C4(void *, void *, s16, s32);
 extern void func_80024D2C(void *, void *, s16, s16);

@@ -1,3 +1,4 @@
+#include "shared/runtime_dispatch.h"
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/object_node.h"
@@ -8,6 +9,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "shared/entity.h"
 
 typedef struct S_800165B8_0 {
     u8 pad_00[0x8];
@@ -89,22 +91,11 @@ typedef struct S_800165B8_6 {
     u8 unk_FA;
 } S_800165B8_6;   /* obj + i in func_800165B8 */
 
-typedef struct S_800165B8_7 {
-    u8 pad_00[0xC4];
-    u16 unk_C4;
-    u16 unk_C6;
-} S_800165B8_7;   /* ddp in func_800165B8 */
-
 typedef struct S_800165B8_8 {
     u8 pad_00[0x4];
     s16 unk_04;
     union { u16 s; s16 u; } unk_06;   /* accessed as both */
 } S_800165B8_8;   /* dce in func_800165B8 */
-
-typedef struct S_800165B8_9 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_800165B8_9;   /* base_83460 in func_800165B8 */
 
 typedef struct S_800165B8_10 {
     u8 pad_00[0x3714];
@@ -151,7 +142,7 @@ extern s32 D_80081484;
 extern s32 D_80081470;
 extern void *D_800E3D18;
 extern u8 D_80089AA0[];
-extern u8 D_80082E60[];
+
 extern u8 D_800DD078;
 extern u8 D_800DD090;
 extern u8 D_800DD0A8;
@@ -189,7 +180,7 @@ void func_800165B8(void) {
     s32 sample_x;
     s32 sample_y;
     s32 state_config;
-    u8 *table_base;
+    GameWork *table_base;
     u8 tile;
     u8 actor_x;
     u8 actor_y;
@@ -207,7 +198,7 @@ void func_800165B8(void) {
     s32 copy_tail;
     u16 final_flags;
 
-    table_base = (u8 *)&gameWork;
+    table_base = &gameWork;
     D_800DCF5A = 1;
     allocation = func_8003FE78(0, ((u8 *)(&D_80083498)), 0x53);
     ((S_800165B8_0 *)allocation)->unk_10 = D_80089AA0;
@@ -223,7 +214,7 @@ void func_800165B8(void) {
     D_800E3D7C = obj;
     ((S_800165B8_1 *)obj)->unk_13 = 0;
     entity = obj;
-    room = D_80082E60;
+    room = (u8 *)&D_80082E60;
 
     if (!(((S_800165B8_2 *)room)->unk_16 & 1)) {
 retry_position:
@@ -379,11 +370,11 @@ initialize_position:
         tile_y = ((S_800165B8_3 *)state)->unk_25;
         display_setting = *(u16 *)((u8 *)display_table + (s16)display_index * 2);
         bind_state = (u8 *)&dungeonStatus;
-        ((S_800165B8_7 *)table_base)->unk_C4 = display_setting;
+        table_base->view.unk_0AC = display_setting;
         height_index = *(u16 *)((u8 *)entry_index + 0x20A0);
         *(u16 *)D_800DCE60 = display_setting;
         lift_height = *(u16 *)((u8 *)D_800DD26C + (s16)height_index * 2);
-        display_value = ((S_800165B8_7 *)table_base)->unk_C6;
+        display_value = ((u16)table_base->view.unk_0AE);
         display_state = D_800DCE60;
         ((S_800165B8_8 *)display_state)->unk_04 = 0;
         (*(u16 *)((u8 *)display_state + 2)) = display_value;

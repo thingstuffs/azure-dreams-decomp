@@ -1,8 +1,8 @@
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 
 
 
-extern s32 D_800E3548;
 extern s32 D_800E36C8;
 
 /* Counts active entries whose first two key bytes match the given values. */
@@ -21,7 +21,7 @@ s16 func_800A6E10(s16 first_key, s16 second_key) {
     match_first = first_key;
     match_second = second_key;
     key_entry = &D_800E36C8;
-    status_entry = &D_800E3548;
+    status_entry = ((s32 *)D_800E3548);
     do {
         if ((*((u8 *) status_entry + 1) != 0) && (*((u8 *) key_entry) == match_first)
             && (*((u8 *) key_entry + 1) == match_second)) {

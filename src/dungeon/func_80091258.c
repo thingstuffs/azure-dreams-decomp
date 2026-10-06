@@ -3,17 +3,6 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
-typedef struct S_80013714 {
-    u16 flags;
-    u8 pad[8];
-} S_80013714;
-
-typedef struct D_80083460_S {
-    u8 pad0[2];
-    u16 unk2;
-    u8 pad[8];
-} D_80083460_S;
-
 
 extern s32 func_800A5C70(void);
 extern void func_8009F644(s32 object_ptr, s32 action_code, s32 payload, s32 extra_byte);

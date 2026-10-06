@@ -1,3 +1,4 @@
+#include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/game_work.h"
 #ifndef NULL
@@ -10,7 +11,6 @@ extern void func_800A56E0(s32 a0);
 
 extern u8 D_800DD0B8[8];
 extern s32 D_8008D470;
-extern s32 D_8008ACDC;
 
 /* Create an effect at the target and initialize its state and sound. */
 void func_8008D7D0(u8 *actor, s32 effect_arg, u8 *target, u8 *source) {
@@ -58,5 +58,5 @@ void func_8008D7D0(u8 *actor, s32 effect_arg, u8 *target, u8 *source) {
         *(u16 *)(actor + 0x46) = 0;
         return;
     }
-    *(void **)(actor + 0x8C) = &D_8008ACDC;
+    *(void **)(actor + 0x8C) = func_8008ACDC;
 }

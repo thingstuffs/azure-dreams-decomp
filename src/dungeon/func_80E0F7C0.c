@@ -85,12 +85,6 @@ typedef struct S_80172FC0_7 {
     u16 unk_1E;
 } S_80172FC0_7;   /* active_child in func_80172FC0 */
 
-typedef struct S_80172FC0_8 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s32 unk_0C;
-} S_80172FC0_8;   /* global in func_80172FC0 */
-
 extern s32 func_8003DE58(s32, void *, u16 *, s32);
 extern s32 func_8003F270(void);
 extern void func_80047784(void *, u8, s32);
@@ -109,7 +103,7 @@ extern u8 D_80176490[];
 extern u8 D_80176498[];
 
 /* Updates an actor effect through shrinking, fading, and restoring its sprite. */
-void func_80172FC0(void *anim, void *transform_arg, void *sprite, void *actor)
+void func_80172FC0(void *anim, void *transform_arg, void *sprite, EntityRec *actor)
 {
     u16 offset[3];
     s32 is_special;
@@ -123,10 +117,10 @@ void func_80172FC0(void *anim, void *transform_arg, void *sprite, void *actor)
     is_special = 0;
     switch (state) {
     case 0:
-        if (((u32)((EntityRec *)actor)->flags1C) & 0x2000) {
+        if (((u32)actor->flags1C) & 0x2000) {
             s32 effect_kind;
 
-            effect_kind = ((EntityRec *)actor)->unk_46 & 0x3FFF;
+            effect_kind = actor->unk_46 & 0x3FFF;
             switch (effect_kind) {
             case 7:
                 is_special = 1;
@@ -150,7 +144,7 @@ void func_80172FC0(void *anim, void *transform_arg, void *sprite, void *actor)
         } else {
             s32 effect_kind;
 
-            effect_kind = ((EntityRec *)actor)->unk_46 & 0x3FFF;
+            effect_kind = actor->unk_46 & 0x3FFF;
             switch (effect_kind) {
             case 3:
                 effect_id = (u8 *)actor + 0xE;
@@ -172,28 +166,28 @@ void func_80172FC0(void *anim, void *transform_arg, void *sprite, void *actor)
             ((S_80172FC0_0 *)anim)->unk_98 &= 0xFF7F;
             if ((s16)is_special != 0) {
                 effect = D_800814A8;
-                ((EntityRec *)actor)->target = effect;
+                actor->target = effect;
                 main_actor = ((S_80172FC0_2_pre *)effect)[-1].unk_00;
-                ((EntityRec *)actor)->unk_72 = ((S_80172FC0_3 *)main_actor)->unk_24;
-                ((EntityRec *)actor)->unk_73 = ((S_80172FC0_3 *)main_actor)->unk_25;
+                actor->unk_72 = ((S_80172FC0_3 *)main_actor)->unk_24;
+                actor->unk_73 = ((S_80172FC0_3 *)main_actor)->unk_25;
             } else if (D_8006DE24[*effect_id].kind == 2) {
-                effect = ((EntityRec *)actor)->target;
+                effect = actor->target;
                 if (effect != 0) {
                     main_actor = ((S_80172FC0_2_pre *)effect)[-1].unk_00;
-                    ((EntityRec *)actor)->unk_72 = ((S_80172FC0_3 *)main_actor)->unk_24;
-                    ((EntityRec *)actor)->unk_73 = ((S_80172FC0_3 *)main_actor)->unk_25;
+                    actor->unk_72 = ((S_80172FC0_3 *)main_actor)->unk_24;
+                    actor->unk_73 = ((S_80172FC0_3 *)main_actor)->unk_25;
                 }
             } else {
-                ((EntityRec *)actor)->target = func_800A05A4(
+                actor->target = func_800A05A4(
                     actor,
                     ((S_80172FC0_4 *)sprite)->unk_24,
                     ((S_80172FC0_4 *)sprite)->unk_25,
-                    ((EntityRec *)actor)->facing,
+                    actor->facing,
                     0x10);
-                ((EntityRec *)actor)->unk_72 =
-                    abs(((EntityRec *)actor)->unk_72);
-                ((EntityRec *)actor)->unk_73 =
-                    abs(((EntityRec *)actor)->unk_73);
+                actor->unk_72 =
+                    abs(actor->unk_72);
+                actor->unk_73 =
+                    abs(actor->unk_73);
             }
             if (func_800A94A0(actor, effect_id, is_special, (u8 *)anim + 0x98) == 0) {
                 return;
@@ -217,11 +211,11 @@ void func_80172FC0(void *anim, void *transform_arg, void *sprite, void *actor)
         dungeonStatus.unk_0C = 0;
         (*(u16 *)((u8 *)main_actor + 0xA6))--;
         func_800A4ACC(actor);
-        ((EntityRec *)actor)->unk_6D--;
+        actor->unk_6D--;
         ((S_80172FC0_0 *)anim)->unk_8C = D_80171094;
-        ((EntityRec *)actor)->unk_73 = 0;
-        ((EntityRec *)actor)->unk_72 = 0;
-        ((EntityRec *)actor)->unk_46 &= 0x7FFF;
+        actor->unk_73 = 0;
+        actor->unk_72 = 0;
+        actor->unk_46 &= 0x7FFF;
         return;
 
     case 1:
@@ -260,7 +254,7 @@ void func_80172FC0(void *anim, void *transform_arg, void *sprite, void *actor)
                 s32 actor_angle;
 
                 view_angle = gameWork.view.viewAngle;
-                actor_angle = ((EntityRec *)actor)->facing;
+                actor_angle = actor->facing;
                 model_root = ((S_80172FC0_4 *)sprite)->unk_28;
                 model_direction =
                     ((view_angle + actor_angle + 0x100) >> 9) & 7;
@@ -289,15 +283,15 @@ void func_80172FC0(void *anim, void *transform_arg, void *sprite, void *actor)
                         height_offset = offset[2];
                         ((S_80172FC0_0 *)anim)->unk_B2 = height_offset;
                         ((S_80172FC0_0 *)anim)->unk_90.at02.v =
-                            ((S_80172FC0_5 *)transform_arg)->unk_0A - ((u16)((EntityRec *)actor)->unk_88) +
+                            ((S_80172FC0_5 *)transform_arg)->unk_0A - ((u16)actor->unk_88) +
                             (s16)height_offset / 2;
                     }
                 }
             }
             ((S_80172FC0_0 *)anim)->unk_98 |= 8;
-            ((EntityRec *)actor)->flags1C &= 0xBFFFFFFF;
+            actor->flags1C &= 0xBFFFFFFF;
             ((S_80172FC0_4 *)sprite)->unk_2C = D_80176490;
-            direction = ((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+            direction = ((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7;
             frame = D_80176490[direction];
             func_80047784(sprite, frame, 0);
             ((S_80172FC0_4 *)sprite)->unk_1E = 0x800;
@@ -358,7 +352,7 @@ void func_80172FC0(void *anim, void *transform_arg, void *sprite, void *actor)
         if ((s16)timer <= 0) {
             return;
         }
-        ((EntityRec *)actor)->flags1C |= 0x10000000;
+        actor->flags1C |= 0x10000000;
         ((S_80172FC0_4 *)sprite)->unk_14 |= 0xC;
         ((S_80172FC0_4 *)sprite)->unk_10 |= 0x20;
         ((S_80172FC0_4 *)sprite)->unk_0C.at00u.v -= ((S_80172FC0_4 *)sprite)->unk_0C.at00u.v / (s16)((S_80172FC0_0 *)anim)->unk_AE.u;
@@ -404,7 +398,7 @@ void func_80172FC0(void *anim, void *transform_arg, void *sprite, void *actor)
             ((S_80172FC0_7 *)active_child)->unk_1E = child_flags;
             ((S_80172FC0_0 *)anim)->unk_A0 = 0;
         }
-        ((EntityRec *)actor)->flags1C &= 0xEFFFFFFF;
+        actor->flags1C &= 0xEFFFFFFF;
         ((S_80172FC0_4 *)sprite)->unk_12 = ((S_80172FC0_0 *)anim)->unk_B8;
         ((S_80172FC0_4 *)sprite)->unk_0C.at00.v = ((S_80172FC0_0 *)anim)->unk_B4;
         ((S_80172FC0_4 *)sprite)->unk_10 = ((S_80172FC0_0 *)anim)->unk_BA;
@@ -413,12 +407,12 @@ void func_80172FC0(void *anim, void *transform_arg, void *sprite, void *actor)
         ((S_80172FC0_5 *)transform_arg)->unk_0C = 0;
         func_800A2B04(transform_arg, ((S_80172FC0_4 *)sprite)->unk_24, ((S_80172FC0_4 *)sprite)->unk_25);
         ((S_80172FC0_0 *)anim)->unk_98 &= 0xFFF7;
-        ((EntityRec *)actor)->flags1C |= 0x40000000;
+        actor->flags1C |= 0x40000000;
         if (((S_80172FC0_4 *)sprite)->unk_2C != D_80176460) {
             s32 direction;
 
             (*(void * *)((u8 *)sprite + 0x2C)) = D_80176460;
-            direction = ((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+            direction = ((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7;
             func_80047784(sprite, D_80176460[direction], 0);
         }
         {
@@ -432,10 +426,10 @@ void func_80172FC0(void *anim, void *transform_arg, void *sprite, void *actor)
         ((S_80172FC0_4 *)sprite)->unk_1E = 0x1000;
         ((S_80172FC0_4 *)sprite)->unk_1C = 0x1000;
         func_800A4ACC(actor);
-        ((EntityRec *)actor)->unk_73 = 0;
-        ((EntityRec *)actor)->unk_72 = 0;
-        ((EntityRec *)actor)->unk_6D--;
-        ((EntityRec *)actor)->unk_46 &= 0x7FFF;
+        actor->unk_73 = 0;
+        actor->unk_72 = 0;
+        actor->unk_6D--;
+        actor->unk_46 &= 0x7FFF;
         func_800A56E0(0xB4);
     default:
         return;

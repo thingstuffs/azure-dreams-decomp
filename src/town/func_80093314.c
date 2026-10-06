@@ -1,3 +1,4 @@
+#include "shared/position_query.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
@@ -23,7 +24,6 @@ void func_80095C80();                      /* extern */
 void func_80098868();     /* extern */
 extern s32 D_800CFCB4;
 extern M2C_UNK D_800CFCEF;
-extern u8 D_800FE488[];
 
 
 typedef struct S_80090A74_1 {
@@ -58,7 +58,7 @@ void func_80090A74(Rec_func_8009431C_arg0 *actor, EntityRec *record, s32 context
     {
         void *height_record = record;
 
-        height_data = D_800FE488;
+        height_data = ((u8 *)&D_800FE488);
         height = func_80095978(height_record, height_data);
     }
     if ((height - record->z.w.i) >= 4) {

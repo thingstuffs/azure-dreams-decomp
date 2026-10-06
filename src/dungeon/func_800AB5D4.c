@@ -1,3 +1,4 @@
+#include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
@@ -5,7 +6,6 @@
 
 extern void func_8004E994();
 
-extern u8 D_800DDC40[];
 
 
 typedef struct S_800B0D34_0 {

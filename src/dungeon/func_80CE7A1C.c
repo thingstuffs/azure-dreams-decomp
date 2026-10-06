@@ -1,3 +1,4 @@
+#include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "records/Rec_func_8017121C_arg1.h"
 #include "shared/entity.h"
@@ -93,7 +94,6 @@ extern void *func_8003FC64(s32);
 extern s32 func_8003DE58(void *, void *, Vec3u16 *, s32);
 extern void func_8004491C(void *, void *);
 
-extern u8 D_800DDC40[];
 extern u8 D_80170CEC[];
 extern u8 D_80170D40[];
 extern s16 D_80175EBC[];

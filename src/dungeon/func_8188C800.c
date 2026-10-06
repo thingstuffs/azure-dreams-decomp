@@ -1,3 +1,4 @@
+#include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
@@ -15,7 +16,6 @@ extern u8 D_80026472[];
 extern u8 D_800265C0[];
 extern u8 D_800265C4[];
 extern u8 D_800269C8[];
-extern u8 D_800DDC40[];
 extern u8 D_80080000[];
 
 #ifdef __mips__

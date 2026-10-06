@@ -1,3 +1,4 @@
+#include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "records/Rec_D_80082EB0.h"
@@ -23,7 +24,6 @@ typedef struct S_80091958_3 {
 } S_80091958_3;   /* ((S_80091958_0 *)arg0)->unk_C8 in func_80091958 */
 
 
-extern s32 D_8008ACDC;
 extern u8 D_8008EAC8[];
 
 void *func_800BA074(u8 *selection_data);
@@ -52,7 +52,7 @@ void func_80091958(S_80091958_0 *state, s32 unused_1, s32 unused_2, S_80091958_2
         if (context->unk_1C & 0x100000) {
             state->unk_8C = D_8008EAC8;
         } else {
-            state->unk_8C = &D_8008ACDC;
+            state->unk_8C = func_8008ACDC;
         }
         break;
     }

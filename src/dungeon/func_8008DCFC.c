@@ -1,3 +1,4 @@
+#include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -36,7 +37,6 @@ extern M2C_UNK D_8003E140;
 extern s32 D_80081488;
 extern M2C_UNK D_8008149C;
 extern void *D_80082EB0[];
-extern M2C_UNK D_8008ACDC;
 extern u8 D_800DD138[];
 extern u8 D_800DD140[];
 extern u8 D_800DD260;
@@ -347,7 +347,7 @@ start_end_delay:
         if (!(((S_8009345C_1 *)entity)->unk_14 & 0x6000)) {
             return;
         }
-        ((S_8009345C_0 *)actor)->unk_8C = &D_8008ACDC;
+        ((S_8009345C_0 *)actor)->unk_8C = func_8008ACDC;
         func_80099F70(((S_8009345C_2 *)context)->unk_5C);
         func_80099F04(((S_8009345C_2 *)context)->unk_5C);
         dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x812);

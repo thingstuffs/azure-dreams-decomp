@@ -1,3 +1,4 @@
+#include "shared/position_query.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -12,7 +13,6 @@ extern void func_800AAA58(void *controller, void *object, s32 update_value);
 
 extern u8 D_800CFCEF;
 extern s32 D_800D0B14;
-extern u8 D_800FE488[];
 extern s16 D_80100D18;
 extern s32 D_80100D1C;
 extern u8 D_80100D60[];
@@ -32,7 +32,7 @@ void func_800AA5F8(void *controller, void *object, s32 update_arg) {
     buttons = &gameWork;
     func_80095C80(object);
     func_80095094(object);
-    angle = func_80095978(object, D_800FE488);
+    angle = func_80095978(object, ((u8 *)&D_800FE488));
     if (angle - *(s16 *)((u8 *)object + 0xA) >= 4) {
         if (D_800CFCEF == 0) {
             func_80094378(controller, object, saved_arg);
@@ -40,7 +40,7 @@ void func_800AA5F8(void *controller, void *object, s32 update_arg) {
             return;
         }
     } else if (D_800CFCEF == 0) {
-        func_80095A94(object, angle, D_800FE488);
+        func_80095A94(object, angle, ((u8 *)&D_800FE488));
     }
 
     if ((((s32)buttons->unk_010) & 0x40) && D_80100D1C >= 0x800) {

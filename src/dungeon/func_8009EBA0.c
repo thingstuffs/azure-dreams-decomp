@@ -1,3 +1,4 @@
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "records/Rec_D_80082E80.h"
@@ -6,7 +7,6 @@
 /* This data symbol has no shared-catalog address. */
 
 extern u8 D_80081470[];
-extern u8 D_800E3548[];
 extern u8 D_800E3648[];
 
 extern s32 func_800A4474(u8, u8);
@@ -31,7 +31,7 @@ void func_800A4300(Rec_D_80082E80 *entity, EntityRec *search_state) {
     if ((lookup_code << 16) != 0) {
 #ifndef NON_MATCHING
         *(s16 *)D_80081470 = (s16)(lookup_code | 0x1400);
-        ((S_800A4300_2 *)(D_800814A8))->unk_F0.i = 0;
+        D_800814A8->unk_F0 = 0;
         return;
 #else
         *(s16 *)D_80081470 = (s16)(lookup_code | 0x1400);
@@ -47,10 +47,10 @@ void func_800A4300(Rec_D_80082E80 *entity, EntityRec *search_state) {
             map_entry = map_base + map_index * 4;
             if (!(map_entry[3] & 0x40)) {
                 *(void **)D_80081470 = *(void **)map_entry;
-                ((S_800A4300_2 *)(D_800814A8))->unk_F0.p = map_entry;
+                D_800814A8->unk_F0 = map_entry;
                 return;
             }
-            ((S_800A4300_2 *)(D_800814A8))->unk_F0.i = 0;
+            D_800814A8->unk_F0 = 0;
             return;
         }
 
@@ -59,10 +59,10 @@ void func_800A4300(Rec_D_80082E80 *entity, EntityRec *search_state) {
                                               search_state->unk_88) << 16;
         floor_index = (s16)((s32)floor_index_bits >> 16);
         if (floor_index >= 0) {
-            floor_base = D_800E3548;
+            floor_base = ((u8 *)D_800E3548);
             floor_entry = floor_base + floor_index * 4;
             *(void **)D_80081470 = *(void **)floor_entry;
-            ((S_800A4300_2 *)(D_800814A8))->unk_F0.p = floor_entry;
+            D_800814A8->unk_F0 = floor_entry;
             return;
         }
 

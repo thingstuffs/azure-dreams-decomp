@@ -1,3 +1,4 @@
+#include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -57,7 +58,6 @@ extern void *func_8003FD64();
 extern s32 func_8004491C();
 
 extern s32 D_8002548C;
-extern s32 D_800DDC40;
 extern s32 D_800DEB70;
 
 /* Create an owner-linked sprite effect at the supplied position with a vertical offset. */
@@ -94,7 +94,7 @@ void func_81977D08(S_81977D08_4 *owner, S_81977D08_3 *position)
         effect_pos->unk_00 = position->unk_00;
         effect_pos->unk_04 = position->unk_04;
         effect_pos->unk_08 = position->unk_08 -
-            (((u8 *)&D_800DDC40)[((S_81977D08_5 *)(owner->unk_14))->unk_13] >> 1 << 16);
+            (((u8 *)((s32 *)D_800DDC40))[((S_81977D08_5 *)(owner->unk_14))->unk_13] >> 1 << 16);
         func_8004491C(effect, func_80045340);
     }
 }

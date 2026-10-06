@@ -1,3 +1,4 @@
+#include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
@@ -44,7 +45,6 @@ extern Packed12 D_80025E40;
 extern Packed12 D_80025E58;
 extern Packed12 D_80025E70;
 extern M2C_UNK D_80025E80;
-extern u8 D_800DDC40[];
 extern u8 D_800E3D68;
 
 

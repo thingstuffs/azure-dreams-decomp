@@ -1,9 +1,9 @@
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "m2c_compat.h"
 
 void func_8009EEAC(void);                            /* extern */
 void *func_8009F3D4(); /* extern */
-extern u8 D_800E3548[];
 extern u8 D_800E36C8[];
 
 typedef struct S_8009F020_0 {
@@ -25,7 +25,7 @@ void func_8009F020(s32 setup_arg_0, s32 setup_arg_1, s32 setup_arg_2, s32 setup_
     func_8009EEAC();
     entry_index = 0;
     entry_position = D_800E36C8;
-    entry_state = D_800E3548;
+    entry_state = ((u8 *)D_800E3548);
     do {
         if ((((S_8009F020_0 *)entry_state)->unk_01 != 0) && (((S_8009F020_0 *)entry_state)->unk_00 != 0)) {
             func_8009F3D4(((S_8009F020_1 *)entry_position)->unk_00, ((S_8009F020_1 *)entry_position)->unk_01, 0x802020,

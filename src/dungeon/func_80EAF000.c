@@ -1,3 +1,4 @@
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
@@ -11,7 +12,6 @@ extern s32 func_800A6D30(void);
 extern s16 func_800A70E4(s16, s16, s16);
 extern s32 func_800C8310(void *, void *);
 
-extern s32 D_800E3548[];
 extern s32 D_800E3D7C[];
 extern s32 D_80150FE4[];
 
@@ -64,8 +64,8 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
         (s16)(*(u8 *)(origin_bytes + 0x25) + *(u16 *)(((u8 *)dirStepY) + direction_offset)),
         *(s16 *)(actor_bytes + 0x88));
     if (ground_slot >= 0) {
-        D_80150FE4[0] = D_800E3548[ground_slot];
-        D_800E3548[ground_slot] = 0;
+        D_80150FE4[0] = ((s32 *)D_800E3548)[ground_slot];
+        ((s32 *)D_800E3548)[ground_slot] = 0;
         return (s32)D_80150FE4;
     }
 

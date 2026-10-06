@@ -123,16 +123,6 @@ typedef struct S_80DB9000_4 {
     u32 unk_100;
 } S_80DB9000_4;
 
-typedef struct S_80DB9000_5 {
-    void * unk_00;
-    u8 pad_04[0xB4];
-    u16 unk_B8;
-    u8 pad_BA[0xA];
-    s16 unk_C4;
-    s16 unk_C6;
-    s16 unk_C8;
-} S_80DB9000_5;
-
 typedef struct S_80DB9000_6 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
@@ -265,12 +255,12 @@ void BODY_NAME(S_80DB9000_1 *sprite_size, S_80DB9000_2 *position, S_80DB9000_3 *
     s32 blend_code;
     void *(*draw_callback)(void *, void *, void *, void *, void *);
     S_80DB9000_7 *render_data;
-    S_80DB9000_5 *render_state;
+    GameWork *render_state;
     S_80DB9000_9 *packet;
     register S_80DB9000_4 *scratch_page;
     scratch_page = (S_80DB9000_4 *)0x1F800000;
 
-    state = (S_80DB9000_6 *)((S_80DB9000_5 *)&gameWork)->unk_00;
+    state = (S_80DB9000_6 *)gameWork.unk_000;
     scratch_page->unk_90 = 0;
     scratch_page->unk_CC = 0;
     scratch_page->unk_C4 = 0;
@@ -281,7 +271,7 @@ void BODY_NAME(S_80DB9000_1 *sprite_size, S_80DB9000_2 *position, S_80DB9000_3 *
     scratch_page->unk_06 = position->unk_06;
     scratch_page->unk_08 = position->unk_0A;
     packet = state->unk_8D0;
-    render_state = (S_80DB9000_5 *)&gameWork;
+    render_state = &gameWork;
     scratch_page->unk_100 = func_80065420((u8 *)0x1F800004, (u8 *)0x1F8000F8, (u8 *)0x1F8000D0, (u8 *)0x1F8000D4);
     sprite->unk_14 = (u16)(sprite->unk_14 | 0x8000);
     depth = scratch_page->unk_100;
@@ -297,9 +287,9 @@ void BODY_NAME(S_80DB9000_1 *sprite_size, S_80DB9000_2 *position, S_80DB9000_3 *
         screen_offset_2 -= 0xA0;
         scratch_page->unk_F8 = screen_offset_2;
         screen_offset = scratch_page->unk_FA;
-        view_rot_x = render_state->unk_C4;
-        view_rot_y = render_state->unk_C6;
-        view_rot_z = render_state->unk_C8;
+        view_rot_x = render_state->view.unk_0AC;
+        view_rot_y = render_state->view.unk_0AE;
+        view_rot_z = render_state->view.viewAngle;
         screen_offset -= 0x78;
         scratch_page->unk_FA = screen_offset;
         scratch_page->unk_34 = view_rot_x;
@@ -309,7 +299,7 @@ void BODY_NAME(S_80DB9000_1 *sprite_size, S_80DB9000_2 *position, S_80DB9000_3 *
         view_y_angle = scratch_page->unk_38.u16;
         scratch_page->unk_A4 = field_value;
         coord_offset = sprite->unk_1A;
-        coord_value = render_state->unk_B8;
+        coord_value = ((u16)render_state->view.unk_0A0);
         coord_offset -= view_y_angle;
         coord_value += coord_offset;
         scratch_page->unk_A8 = coord_value;
@@ -495,5 +485,5 @@ void BODY_NAME(S_80DB9000_1 *sprite_size, S_80DB9000_2 *position, S_80DB9000_3 *
         }
         func_80064A40();
     }
-    ((S_80DB9000_6 *)render_state->unk_00)->unk_8D0 = packet;
+    ((S_80DB9000_6 *)render_state->unk_000)->unk_8D0 = packet;
 }

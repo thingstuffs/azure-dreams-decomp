@@ -1,3 +1,4 @@
+#include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -64,7 +65,6 @@ void func_80099F04();
 void func_80099F70();
 void func_800A2B04();
 void func_800B653C();
-extern M2C_UNK D_8008ACDC;
 extern u8 D_800DD018[];
 extern u8 D_800DD020[];
 extern u8 D_800DD028[];
@@ -103,7 +103,7 @@ void func_80092018(void *actor, void *motion, void *sprite, void *model) {
                 return;
             }
         }
-        ((S_80092018_0 *)actor)->unk_8C = &D_8008ACDC;
+        ((S_80092018_0 *)actor)->unk_8C = func_8008ACDC;
         return;
     case 16:
         ((S_80092018_3 *)motion)->unk_0C.at02.v = (s16) (*((s16 *)(((u8 *)dirStepX)
@@ -232,7 +232,7 @@ void func_80092018(void *actor, void *motion, void *sprite, void *model) {
             action_flags = (u16) (action_flags | 0x812);
             action_status->flags = action_flags;
         }
-        ((S_80092018_0 *)actor)->unk_8C = &D_8008ACDC;
+        ((S_80092018_0 *)actor)->unk_8C = func_8008ACDC;
         return;
     default:
         return;

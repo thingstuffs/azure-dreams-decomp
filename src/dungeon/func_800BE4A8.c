@@ -17,11 +17,6 @@ void func_800D4FC8();    /* extern */
 extern u8 D_800E1843[];
 
 
-typedef struct S_800C3C08_1 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800C3C08_1;   /* global_base in func_800C3C08 */
-
 /* Process an entity event, increment its counter, and finish the event with a visual effect. */
 s32 func_800C3C08(void *entity, s32 event, s16 event_type) {
     u8 entity_count;

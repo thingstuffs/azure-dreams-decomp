@@ -1,3 +1,4 @@
+#include "shared/runtime_dispatch.h"
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
@@ -57,7 +58,6 @@ extern void func_8001E96C(void);
 extern void func_8001F32C(void);
 extern void file_load_com();
 
-extern u16 D_80082E76;
 extern s32 D_800E3D6C;
 extern s16 D_800E3CD8[8];
 extern TrackRecord D_8001F62C[];
@@ -137,7 +137,7 @@ void func_80018A70(void) {
     srand(D_80081468.seed);
     func_800A6D98(D_80081468.seed);
     func_800A0E44();
-    D_80082E76 = 0;
+    D_80082E60.flags16 = 0;
     D_800E3D6C = 0;
     func_8001F32C();
     func_8001E96C();

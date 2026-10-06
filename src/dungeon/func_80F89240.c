@@ -34,22 +34,6 @@ typedef struct S_80172A40_0 {
     s16 unk_A0;
 } S_80172A40_0;   /* arg0 in func_80172A40 */
 
-typedef struct S_80172A40_1 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x18];
-    void * unk_60;
-    u8 pad_64[0x9];
-    union { u8 u; s8 s; } unk_6D;   /* accessed as both */
-    u8 pad_6E[0x4];
-    union { u8 u; s8 s; } unk_72;   /* accessed as both */
-    union { u8 u; s8 s; } unk_73;   /* accessed as both */
-} S_80172A40_1;   /* arg3 in func_80172A40 */
-
 typedef struct S_80172A40_2_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -73,7 +57,7 @@ typedef struct S_80172A40_4 {
 
 
 /* Updates the selected action's targeting, motion, and completion state. */
-void func_80172A40(void *owner_input, EntityRec *motion_input, void *actor_input, void *object)
+void func_80172A40(void *owner_input, EntityRec *motion_input, void *actor_input, EntityRec *object)
 {
     s16 special;
     u8 *item_slot;
@@ -96,8 +80,8 @@ void func_80172A40(void *owner_input, EntityRec *motion_input, void *actor_input
     special = 0;
     switch (state) {
     case 0:
-        if (((S_80172A40_1 *)object)->unk_1C & 0x2000) {
-            slot_index = (((S_80172A40_1 *)object)->unk_46 & 0x3FFF) - 1;
+        if (((u32)object->flags1C) & 0x2000) {
+            slot_index = (object->unk_46 & 0x3FFF) - 1;
             switch (slot_index) {
             case 6:
                 special = 1;
@@ -122,7 +106,7 @@ void func_80172A40(void *owner_input, EntityRec *motion_input, void *actor_input
                 break;
             }
         } else {
-            slot_kind = ((S_80172A40_1 *)object)->unk_46 & 0x3FFF;
+            slot_kind = object->unk_46 & 0x3FFF;
             switch (slot_kind) {
             case 3:
                 item_slot = (u8 *)object + 0xE;
@@ -145,30 +129,30 @@ void func_80172A40(void *owner_input, EntityRec *motion_input, void *actor_input
             special_copy = special;
             if (special_copy) {
                 target = D_800814A8;
-                ((S_80172A40_1 *)object)->unk_60 = target;
+                object->target = target;
                 target_record = ((S_80172A40_2_pre *)target)[-1].unk_00;
-                ((S_80172A40_1 *)object)->unk_72.u = ((S_80172A40_3 *)target_record)->unk_24;
-                ((S_80172A40_1 *)object)->unk_73.u = ((S_80172A40_3 *)target_record)->unk_25;
+                object->unk_72 = ((S_80172A40_3 *)target_record)->unk_24;
+                object->unk_73 = ((S_80172A40_3 *)target_record)->unk_25;
             } else {
                 item_table = D_8006DE24;
                 item_id = *item_slot;
                 item_entry = item_table + item_id * 20;
                 if (item_entry[0x12] == 2) {
-                    target = ((S_80172A40_1 *)object)->unk_60;
+                    target = object->target;
                     if (target != 0) {
                         target_record = ((S_80172A40_2_pre *)target)[-1].unk_00;
-                        ((S_80172A40_1 *)object)->unk_72.u = ((S_80172A40_3 *)target_record)->unk_24;
-                        ((S_80172A40_1 *)object)->unk_73.u = ((S_80172A40_3 *)target_record)->unk_25;
+                        object->unk_72 = ((S_80172A40_3 *)target_record)->unk_24;
+                        object->unk_73 = ((S_80172A40_3 *)target_record)->unk_25;
                     }
                 } else {
-                    ((S_80172A40_1 *)object)->unk_60 = func_800A05A4(
+                    object->target = func_800A05A4(
                         object, ((S_80172A40_4 *)actor_input)->unk_24, ((S_80172A40_4 *)actor_input)->unk_25,
-                        ((S_80172A40_1 *)object)->unk_2A, 0x10);
+                        object->facing, 0x10);
 
-                    abs_x = abs(((S_80172A40_1 *)object)->unk_72.s);
-                    abs_y = abs(((S_80172A40_1 *)object)->unk_73.s);
-                    ((S_80172A40_1 *)object)->unk_72.u = abs_x;
-                    ((S_80172A40_1 *)object)->unk_73.u = abs_y;
+                    abs_x = abs(object->unk_72);
+                    abs_y = abs(object->unk_73);
+                    object->unk_72 = abs_x;
+                    object->unk_73 = abs_y;
                 }
             }
 
@@ -182,8 +166,8 @@ void func_80172A40(void *owner_input, EntityRec *motion_input, void *actor_input
             ((S_80172A40_0 *)owner_input)->unk_96.u = 4;
             ((S_80172A40_0 *)owner_input)->unk_9B++;
             ((S_80172A40_0 *)owner_input)->unk_98 |= 8;
-            ((S_80172A40_1 *)object)->unk_1C &= 0xF7FFFFFF;
-            ((S_80172A40_1 *)object)->unk_1C &= 0xFFFBFFFF;
+            (*(u32 *)&object->flags1C) &= 0xF7FFFFFF;
+            (*(u32 *)&object->flags1C) &= 0xFFFBFFFF;
             return;
         }
 
@@ -194,11 +178,11 @@ void func_80172A40(void *owner_input, EntityRec *motion_input, void *actor_input
         dungeonStatus.unk_0C = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
         func_800A4ACC(object);
-        ((S_80172A40_1 *)object)->unk_6D.u--;
+        (*(u8 *)&object->unk_6D)--;
         ((S_80172A40_0 *)owner_input)->unk_8C = D_80171138;
-        ((S_80172A40_1 *)object)->unk_73.u = 0;
-        ((S_80172A40_1 *)object)->unk_72.u = 0;
-        ((S_80172A40_1 *)object)->unk_46 &= 0x7FFF;
+        object->unk_73 = 0;
+        object->unk_72 = 0;
+        object->unk_46 &= 0x7FFF;
         return;
 
     case 1:
@@ -229,14 +213,14 @@ void func_80172A40(void *owner_input, EntityRec *motion_input, void *actor_input
         motion_input->unk_0C = 0;
         func_800A2B04(motion_input, ((S_80172A40_4 *)actor_input)->unk_24, ((S_80172A40_4 *)actor_input)->unk_25);
         ((S_80172A40_0 *)owner_input)->unk_98 &= 0xFFF7;
-        ((S_80172A40_1 *)object)->unk_1C |= 0x08000000;
-        ((S_80172A40_1 *)object)->unk_1C |= 0x00040000;
+        (*(u32 *)&object->flags1C) |= 0x08000000;
+        (*(u32 *)&object->flags1C) |= 0x00040000;
 
         if (((S_80172A40_4 *)actor_input)->unk_2C != D_80174AD4) {
             (*(u8 * *)((u8 *)actor_input + 0x2C)) = D_80174AD4;
             func_80047784(actor_input,
                           D_80174AD4[((gameWork.view.viewAngle +
-                                       ((S_80172A40_1 *)object)->unk_2A + 0x100) >> 9) & 7],
+                                       object->facing + 0x100) >> 9) & 7],
                           ((S_80172A40_0 *)owner_input)->unk_A0);
         }
 
@@ -247,12 +231,12 @@ void func_80172A40(void *owner_input, EntityRec *motion_input, void *actor_input
         ((S_80172A40_4 *)actor_input)->unk_14 &= 0xF7FF;
         ((S_80172A40_0 *)owner_input)->unk_8C = D_80171138;
         func_800A4ACC(object);
-        if (((S_80172A40_1 *)object)->unk_6D.s > 0) {
-            ((S_80172A40_1 *)object)->unk_6D.u--;
+        if (object->unk_6D > 0) {
+            (*(u8 *)&object->unk_6D)--;
         }
-        ((S_80172A40_1 *)object)->unk_73.u = 0;
-        ((S_80172A40_1 *)object)->unk_72.u = 0;
-        ((S_80172A40_1 *)object)->unk_46 &= 0x7FFF;
+        object->unk_73 = 0;
+        object->unk_72 = 0;
+        object->unk_46 &= 0x7FFF;
         func_800A56E0(0xB4);
         break;
     default:
