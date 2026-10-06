@@ -65,16 +65,15 @@ void func_80172374(S_80172374_0 *motion, EntityRec *position, Rec_D_80082E80 *ta
         if (frames_left != 0) {
             s32 coord;
             s32 axis_origin;
+            s32 coord2;
+            s32 axis_origin2;
 
             coord = target_tile->unk_24 << 6;
             axis_origin = position->x.w.i - 0x20;
-            do {
-                coord = ((coord - axis_origin) << 16) / frames_left;
-            } while (0);
-            axis_origin = position->y.w.i - 0x20;
-            position->unk_0C = coord;
-            coord = target_tile->unk_25 << 6;
-            position->unk_10 = ((coord - axis_origin) << 16) / motion->unk_96;
+            position->unk_0C = ((coord - axis_origin) << 16) / frames_left;
+            coord2 = target_tile->unk_25 << 6;
+            axis_origin2 = position->y.w.i - 0x20;
+            position->unk_10 = ((coord2 - axis_origin2) << 16) / motion->unk_96;
             motion->unk_A4 += position->flags14;
             position->flags14 += 0x40000;
         }
