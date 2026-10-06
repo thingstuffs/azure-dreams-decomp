@@ -5,7 +5,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern M2C_UNK func_8002421C();
+extern void func_8002421C();
 extern M2C_UNK func_8003DB94();
 extern M2C_UNK func_800478B8();
 extern s32 func_800644B8();

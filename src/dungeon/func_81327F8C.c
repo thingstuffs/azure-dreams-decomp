@@ -7,7 +7,7 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
-M2C_UNK func_80047784();         /* extern */
+void func_80047784();         /* extern */
 s32 func_8009A180();                     /* extern */
 s8 func_8009FB34();                           /* extern */
 void func_800A9A0C();                      /* extern */
@@ -17,7 +17,7 @@ void func_800AA888(); /* extern */
 M2C_UNK func_8016FA84();                            /* extern */
 void func_8016FCE4(); /* extern */
 s32 func_80170224(); /* extern */
-M2C_UNK func_8017092C(); /* extern */
+s32 func_8017092C(); /* extern */
 s32 func_80174320();     /* extern */
 extern u8 D_80174A2C[];
 extern u8 D_80174A64[];

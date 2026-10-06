@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+typedef struct UnalignedBlock12 UnalignedBlock12;
 
 /* extern */
 
@@ -15,7 +16,7 @@ typedef struct S_80027FF4_0 {
 } S_80027FF4_0;   /* arg0 in func_80027FF4 */
 
 
-M2C_UNK func_80028774(S_80027FF4_0 *);
+UnalignedBlock12 *func_80028774(S_80027FF4_0 *);
 /* Initialize the object and set paired byte fields when mode is one. */
 void *func_80027FF4(S_80027FF4_0 *object, s32 mode, s32 init_value, s32 init_value_2) {
     func_80028774(object);

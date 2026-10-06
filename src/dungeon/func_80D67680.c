@@ -4,6 +4,7 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_800A9E70_arg0.h"
+typedef struct Ent Ent;
 
 
 typedef struct S_80172E80_1 {
@@ -14,8 +15,8 @@ typedef struct S_80172E80_1 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-M2C_UNK func_80047784();
-M2C_UNK func_8009C93C();
+void func_80047784();
+Ent *func_8009C93C();
 s32 func_800A0134();
 s32 func_800A04F0();
 s32 func_800A2B5C();

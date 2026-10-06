@@ -3,6 +3,7 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
+typedef struct Ent Ent;
 
 
 typedef struct S_801721C0_1 {
@@ -13,8 +14,8 @@ typedef struct S_801721C0_1 {
 } S_801721C0_1;   /* arg0 in func_801721C0 */
 
 
-M2C_UNK func_80047784();         /* extern */
-M2C_UNK func_8009C93C(); /* extern */
+void func_80047784();         /* extern */
+Ent *func_8009C93C(); /* extern */
 s32 func_800A2B5C();                          /* extern */
 s32 func_800C7930(); /* extern */
 extern u8 D_80176480;
@@ -28,7 +29,7 @@ void func_801721C0(void *action_state, s32 action_ctx, void *sprite, EntityRec *
             ((S_801721C0_1 *)action_state)->unk_9A = 0x11;
             (*(s32 *)((u8 *)action_state + 0x8C)) = 0;
             ((S_801721C0_1 *)action_state)->unk_9B = 0;
-            (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80176480;
+            (*(u8 **)((u8 *)sprite + 0x2C)) = &D_80176480;
             func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + &D_80176480), 0);
             actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);

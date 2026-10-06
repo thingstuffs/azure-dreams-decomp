@@ -104,7 +104,7 @@ s32 rand();
 extern u16 D_800273BC[5];
 
 /* Rotate and move a quad, fade its color in and out, then mark it for removal. */
-M2C_UNK func_81960CD4(void *quad, S_81960CD4_2 *motion, S_81960CD4_3 *effect) {
+void func_81960CD4(void *quad, S_81960CD4_2 *motion, S_81960CD4_3 *effect) {
     u8 *scratch = (u8 *)0x1F800000;
     u16 rotation[3];
     s16 remaining_count;

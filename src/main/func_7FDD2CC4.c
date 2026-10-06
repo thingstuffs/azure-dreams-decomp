@@ -33,13 +33,13 @@ static inline void sol9_copy8(void *dst, const void *src, s32 ignored_size) {
 
 void *func_8003FC64();                       /* extern */
 s32 func_8004491C();           /* extern */
-M2C_UNK func_80053428();                      /* extern */
+s32 func_80053428();                      /* extern */
 M2C_UNK SD_Call(); /* extern */
 M2C_UNK func_80067014();                     /* extern */
 M2C_UNK func_800672D8();        /* extern */
 M2C_UNK func_8006733C();        /* extern */
-M2C_UNK func_8008A98C(); /* extern */
-M2C_UNK func_8008ABD4();   /* extern */
+void *func_8008A98C(); /* extern */
+void func_8008ABD4();   /* extern */
 M2C_UNK func_8008AE60();            /* extern */
 extern u8 D_80013180;
 extern u8 D_80013181;
