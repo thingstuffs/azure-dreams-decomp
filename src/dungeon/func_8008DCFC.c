@@ -167,11 +167,8 @@ typedef struct S_8009345C_16 {
 } S_8009345C_16;   /* ((((S_8009345C_4 *)(&D_800DD262))->unk_00.s * 4) + actor) in func_8009345C */
 
 /* Advances the object replacement sequence, including animation, messages, and cleanup. */
-void func_8009345C(void *actor_arg, void *map_arg, void *entity_arg, void *context_arg) {
-    void *actor = actor_arg;
-    void *map = map_arg;
-    void *entity = entity_arg;
-    register void *context ASM_REG("$19") = context_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+void func_8009345C(void *actor, void *map, void *entity, void *context) {
+
     M2C_UNK *remove_text;
     M2C_UNK *create_text;
     s32 remove_message;
@@ -216,7 +213,8 @@ void func_8009345C(void *actor_arg, void *map_arg, void *entity_arg, void *conte
         selected_object = (void *) ((S_8009345C_3 *)(((selected_slot * 4) + actor)))->unk_AC;
         ((S_8009345C_4 *)(&D_800DD262))->unk_00.u = slot_bits;
         ((S_8009345C_2 *)context)->unk_60 = selected_object;
-        break;
+        ((S_8009345C_0 *)actor)->unk_9B++;
+        return;
     case 1:
         start_ticks = ((S_8009345C_0 *)actor)->unk_96 - 1;
         ((S_8009345C_0 *)actor)->unk_96 = start_ticks;
@@ -225,7 +223,8 @@ void func_8009345C(void *actor_arg, void *map_arg, void *entity_arg, void *conte
         }
         if (((S_8009345C_2 *)context)->unk_60 != NULL) {
             func_80093E74(actor, map, entity, context);
-            break;
+            ((S_8009345C_0 *)actor)->unk_9B++;
+            return;
         }
         next_state = ((S_8009345C_0 *)actor)->unk_9B + 2;
         goto set_state;
@@ -258,12 +257,13 @@ void func_8009345C(void *actor_arg, void *map_arg, void *entity_arg, void *conte
             next_state = ((S_8009345C_0 *)actor)->unk_9B + 4;
             goto set_state;
         }
-        break;
+        ((S_8009345C_0 *)actor)->unk_9B++;
+        return;
     case 3:
-        message_or_list.base = D_80082EB0;
         if ((func_800A2BDC(0) << 0x10) != 0) {
             return;
         }
+        message_or_list.base = D_80082EB0;
         load_id = func_800A1618(((S_8009345C_7 *)(*message_or_list.base))->unk_00, 3);
         if (load_id != 0) {
             D_80081488 = func_80048118(((S_8009345C_7 *)(*message_or_list.base))->unk_00, &D_8008149C);
@@ -271,7 +271,8 @@ void func_8009345C(void *actor_arg, void *map_arg, void *entity_arg, void *conte
             (*(s8 *)&D_800E3E40) = 0;
             Control_CD(0xFF, &D_8003E140, &D_800E3E40);
         }
-        break;
+        ((S_8009345C_0 *)actor)->unk_9B++;
+        return;
     case 4:
         if (((S_8009345C_8 *)(&D_800E3E40))->unk_00 == 0) {
             return;
@@ -279,7 +280,8 @@ void func_8009345C(void *actor_arg, void *map_arg, void *entity_arg, void *conte
         if (D_80081488 != 0) {
             func_80047FF4(((S_8009345C_9 *)(D_80082EB0[0]))->unk_00, D_80081488);
         }
-        break;
+        ((S_8009345C_0 *)actor)->unk_9B++;
+        return;
     case 5:
         message_or_list.base = D_80082EB0;
         create_id = func_800A1618(((S_8009345C_7 *)(*message_or_list.base))->unk_00, 3);
@@ -339,7 +341,8 @@ start_end_delay:
         (*(void **)((u8 *)entity + (0x2C))) = D_800DD140;
         func_80048A44(entity, D_800DD140[((s32) (gameWork.view.viewAngle + ((S_8009345C_2 *)context)->unk_2A + 0x100)
             >> 9) & 7], 0, 1);
-        break;
+        ((S_8009345C_0 *)actor)->unk_9B++;
+        return;
     case 8:
         if (!(((S_8009345C_1 *)entity)->unk_14 & 0x6000)) {
             return;
@@ -350,7 +353,8 @@ start_end_delay:
         dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x812);
         ((S_8009345C_1 *)entity)->unk_14 = (u16) (((S_8009345C_1 *)entity)->unk_14 & 0xFDFF);
     case 6:
-        break;
+        ((S_8009345C_0 *)actor)->unk_9B++;
+        return;
     case 9:
     default:
         return;

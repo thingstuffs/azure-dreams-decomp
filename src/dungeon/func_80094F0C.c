@@ -28,14 +28,14 @@ extern s32 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern s32 func_8009A540(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s32 func_8009B25C(FuncArg2 *, s32, s32, s16);
 extern s16 func_8009FB34(u16, u16);
-extern s32 func_800BCB04(s32, s32, s16);
+extern s16 func_800BCB04(s32, s32, s16);
 
 extern s16 D_800DCEAC[];
 extern s16 D_800DCEBC[];
 
 /* Checks movement clearance and classifies the destination height relative to the actor. */
 s32 func_8009A66C(u32 move_flags, FuncArg1 *position, FuncArg2 *actor, s16 height_offset) {
-    register s16 offset_or_height ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s16 offset_or_height;
     s32 call_direction;
     s16 *x_table;
     u16 flags;
@@ -45,7 +45,7 @@ s32 func_8009A66C(u32 move_flags, FuncArg1 *position, FuncArg2 *actor, s16 heigh
     u32 y_shifted;
     s32 x_base;
     s32 y_base;
-    s32 x_pos;
+    u16 x_pos;
     s32 y_pos;
     u16 height;
     s16 monster_index;

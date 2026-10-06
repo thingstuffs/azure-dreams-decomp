@@ -25,9 +25,6 @@ typedef struct {
 /* Advance the effect, fade it as its timer runs down, and flag it for removal when finished. */
 void func_80024C0C(void *entity_data, s32 unused, DungeonEffect *effect_data) {
     u16 ticks_left;
-#ifndef NON_MATCHING
-    u8 *active_page = (u8 *)0x80020000;
-#endif
     u16 updated_value;
     s32 fade_level;
 
@@ -58,24 +55,10 @@ void func_80024C0C(void *entity_data, s32 unused, DungeonEffect *effect_data) {
 
     if (*(s16 *)(entity_data + 0x5A) <= 0) {
         *(u16 *)(entity_data - 2) |= 0x8000;
-#ifdef NON_MATCHING
         objectFlagBlock.flags |= 0x8000;
-#else
-        {
-            u8 *flags_page = (u8 *)0x80080000;
-            *(s32 *)(flags_page + 0x14A0) |= 0x8000;
-        }
-#endif
     }
     if (effect_data->flags_14 & 0x8000) {
         *(u16 *)(entity_data - 2) |= 0x8000;
-#ifdef NON_MATCHING
         objectFlagBlock.flags |= 0x8000;
-#else
-        {
-            u8 *flags_page = (u8 *)0x80080000;
-            *(s32 *)(flags_page + 0x14A0) |= 0x8000;
-        }
-#endif
     }
 }

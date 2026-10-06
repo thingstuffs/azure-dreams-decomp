@@ -73,13 +73,8 @@ extern s32 D_800265C4;
 extern Cell D_800265C8[];
 extern Cell D_80026648[];
 
-#ifdef NON_MATCHING
 #define SET_COUNT_PAGE() (count_page = (u8 *)&D_80026476)
 #define READ_COUNT_PAGE() (*(s16 *)count_page)
-#else
-#define SET_COUNT_PAGE() (addr_or_coord = 0x80020000)
-#define READ_COUNT_PAGE() ((S_func_80025BA0_4 *)addr_or_coord)->unk_6476
-#endif
 
 /* Spawn quad effects at cell centers with randomized motion, then clear the pending count. */
 void func_80025BA0(void) {
@@ -104,9 +99,7 @@ void func_80025BA0(void) {
     s32 diagonal_z;
     s32 addr_or_coord;
     s32 rounded_index;
-#ifdef NON_MATCHING
     u8 *count_page;
-#endif
 
     for (quad_index = 0; quad_index < D_80026476; quad_index++) {
         vertices = D_800265C8;
@@ -161,3 +154,4 @@ void func_80025BA0(void) {
     }
     D_80026476 = 0;
 }
+

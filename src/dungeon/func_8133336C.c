@@ -69,8 +69,8 @@ extern M2C_UNK D_80173AC0;
 extern M2C_UNK D_80173AC8;
 
 /* Updates dungeon actor actions, facing, and idle animations. */
-void func_8016A36C(void *actor, void *context, void *sprite_arg, EntityRec *entity) {
-    register void *sprite = sprite_arg;
+void func_8016A36C(void *actor, void *context, void *sprite, EntityRec *entity) {
+    void *pose_actor;
     M2C_UNK distance;
     u8 *idle_table;
     u8 *pose2_table;
@@ -113,8 +113,6 @@ void func_8016A36C(void *actor, void *context, void *sprite_arg, EntityRec *enti
     }
     if (entity->tileY == 0) {
         func_800AA79C(actor, context, sprite, entity);
-        ASM_KEEP_NV(actor);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP_NV(sprite);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         inactive_pose = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
         switch (inactive_pose) {
         case 0xD:
@@ -365,6 +363,7 @@ block_37:
             return;
         }
     }
+    pose_actor = actor;
     entity_flags = entity->flags1C;
     if (!(entity_flags & 0x2000)) {
         if (!(D_80013714 & 8)) {
@@ -391,7 +390,7 @@ block_37:
     if ((*(u16 *)0x80013714) & 8) {
         return;
     }
-    idle_pose = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
+    idle_pose = ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_AC;
     switch (idle_pose) {
     case 0:
         next_table = &D_801739A0;
@@ -421,25 +420,25 @@ block_37:
             (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_801739B0;
             func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7)
                 + &D_801739B0), 0);
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_s16.v = (s16) ((func_80069EF8() & 0x3F) + 0x3C);
+            ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = 0U;
+            ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_A0.at00_s16.v = (s16) ((func_80069EF8() & 0x3F) + 0x3C);
         }
         if (pose2_table == &D_801739B0 || ((S_8016A36C_3 *)sprite)->unk_2C.p == &D_801739B0) {
-            pose2_idle_ticks = ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16;
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = (u16) (pose2_idle_ticks + 1);
-            if ((s16) pose2_idle_ticks >= ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_s16.v) {
+            pose2_idle_ticks = ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16;
+            ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = (u16) (pose2_idle_ticks + 1);
+            if ((s16) pose2_idle_ticks >= ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_A0.at00_s16.v) {
                 (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80173A50;
                 func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7)
                     + &D_80173A50), 0);
                 func_800478B8(sprite);
-                ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
+                ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = 0U;
             }
         }
         if (((S_8016A36C_3 *)sprite)->unk_2C.p != &D_80173A50) {
             return;
         }
-        pose2_anim_ticks = ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16;
-        ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = (u16) (pose2_anim_ticks + 1);
+        pose2_anim_ticks = ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16;
+        ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = (u16) (pose2_anim_ticks + 1);
         if ((s16) pose2_anim_ticks < 0x12) {
             return;
         }
@@ -447,8 +446,8 @@ block_37:
         table_index = ((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
         table_index += (unsigned long)&D_801739B0;
         func_80047784(sprite, *(u8 *)table_index, 0);
-        ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
-        ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_s16.v = (s16) ((func_80069EF8() & 0x3F) + 0x3C);
+        ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = 0U;
+        ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_A0.at00_s16.v = (s16) ((func_80069EF8() & 0x3F) + 0x3C);
         return;
     case 3:
         pose3_table = ((S_8016A36C_3 *)sprite)->unk_2C.p;
@@ -457,25 +456,25 @@ block_37:
             (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = idle_table;
             func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7)
                 + idle_table), 0);
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_s16.v = (s16) ((func_80069EF8() & 0x3F) + 0x3C);
+            ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = 0U;
+            ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_A0.at00_s16.v = (s16) ((func_80069EF8() & 0x3F) + 0x3C);
         }
         if (pose3_table == idle_table || ((S_8016A36C_3 *)sprite)->unk_2C.p == idle_table) {
-            pose3_idle_ticks = ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16;
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = (u16) (pose3_idle_ticks + 1);
-            if ((s16) pose3_idle_ticks >= ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_s16.v) {
+            pose3_idle_ticks = ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16;
+            ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = (u16) (pose3_idle_ticks + 1);
+            if ((s16) pose3_idle_ticks >= ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_A0.at00_s16.v) {
                 (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80173A58;
                 func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7)
                     + &D_80173A58), 0);
                 func_800478B8(sprite);
-                ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
+                ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = 0U;
             }
         }
         if (((S_8016A36C_3 *)sprite)->unk_2C.p != &D_80173A58) {
             return;
         }
-        pose3_anim_ticks = ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16;
-        ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = (u16) (pose3_anim_ticks + 1);
+        pose3_anim_ticks = ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16;
+        ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = (u16) (pose3_anim_ticks + 1);
         if ((s16) pose3_anim_ticks < 0x12) {
             return;
         }
@@ -483,8 +482,8 @@ block_37:
         table_index = ((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
         table_index += (unsigned long)&D_801739B8;
         func_80047784(sprite, *(u8 *)table_index, 0);
-        ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
-        ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_s16.v = (s16) ((func_80069EF8() & 0x3F) + 0x3C);
+        ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = 0U;
+        ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_A0.at00_s16.v = (s16) ((func_80069EF8() & 0x3F) + 0x3C);
         return;
     }
 }

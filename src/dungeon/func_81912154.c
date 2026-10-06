@@ -142,6 +142,7 @@ void func_80025954(void *state, void *motion, void *appearance) {
     u32 origin_z;
     s16 motion_value;
     s32 axis_delta;
+    s32 x_scaled;
     s32 y_velocity;
     s16 end_tile_x;
     s32 tile_x;
@@ -244,8 +245,7 @@ void func_80025954(void *state, void *motion, void *appearance) {
                 if ((func_800A44E0(((s16) tile_x << 6) & 0xFFC0, ((s16) tile_y << 6) & 0xFFC0,
                     ((S_80025954_1 *)owner)->unk_88, (s16) (((Rec_func_80024170_arg0 *)state)->unk_0E << 9)) << 0x10)
                     != 0) {
-                    destination = stack.motion;
-                    break;
+                    goto grid_hit;
                 }
                 {
                     direction = (s16) ((Rec_func_80024170_arg0 *)state)->unk_0E;
@@ -272,11 +272,19 @@ void func_80025954(void *state, void *motion, void *appearance) {
                 end_tile_x = source_coord;
             } while (step_count < 8);
             destination = stack.motion;
-            axis_delta = (u32) end_tile_x << 0x10;
+            x_scaled = (u32) end_tile_x << 0x10;
             source_coord = (s32)dirStepX;
-            axis_delta >>= 0xA;
-            ASM_KEEP(axis_delta);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            axis_delta += (((s16 *)source_coord)[(s16) ((Rec_func_80024170_arg0 *)state)->unk_0E] + 1) << 5;
+            x_scaled >>= 0xA;
+            goto grid_coords;
+        grid_hit:
+            destination = stack.motion;
+            x_scaled = (u32) end_tile_x << 0x10;
+            source_coord = (s32)dirStepX;
+            x_scaled >>= 0xA;
+        grid_coords:
+            axis_delta = x_scaled;
+            direction = (((s16 *)source_coord)[(s16) ((Rec_func_80024170_arg0 *)state)->unk_0E] + 1) << 5;
+            axis_delta += direction;
             source_coord = (s32)dirStepY;
             ((S_80025954_8 *)destination)->unk_00.at02.v = axis_delta;
             axis_delta = (u32) axis_delta << 0x10;

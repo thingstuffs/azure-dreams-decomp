@@ -73,13 +73,8 @@ extern s32 D_80026474;
 extern Cell D_80026478[];
 extern Cell D_800264F8[];
 
-#ifdef NON_MATCHING
 #define SET_COUNT_PAGE() (count_page = (u8 *)&D_8002632A)
 #define READ_COUNT_PAGE() (*(s16 *)count_page)
-#else
-#define SET_COUNT_PAGE() (addr_or_coord = 0x80020000)
-#define READ_COUNT_PAGE() (((S_func_81888810_4 *)addr_or_coord)->unk_632A)
-#endif
 
 /* Create quad fragments from the vertex grid with randomized motion and rotation. */
 void func_80026010(void) {
@@ -104,9 +99,7 @@ void func_80026010(void) {
     s32 lower_right_z;
     s32 addr_or_coord;
     s32 biased_index;
-#ifdef NON_MATCHING
     u8 *count_page;
-#endif
 
     for (quad_index = 0; quad_index < D_8002632A; quad_index++) {
         vertices = D_80026478;

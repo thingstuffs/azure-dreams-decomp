@@ -258,7 +258,10 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
     s32 sin_y;
     s32 sin_y_shift;
     s32 fade_speed_x;
-    register s32 boost_speed_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 boost_speed_x;
+    s32 alternate_value;
+    s32 height_value;
+    s32 hit_origin;
     s32 cos_x;
     s32 cos_y;
     s32 owner_ref;
@@ -280,7 +283,6 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
     s32 approach_gap_y;
     s32 approach_gap_z;
     s32 travel_wrap_gap;
-    s32 visual_scale;
     u16 approach_ticks;
     u16 fade_ticks;
     u16 travel_ticks;
@@ -301,7 +303,6 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
     u8 fade_red;
     u8 fade_green;
     u8 fade_blue;
-    u8 red;
     S_819835AC_9 *owner_state;
     S_819835AC_7 *actor_data;
     S_819835AC_2 *related_motion;
@@ -314,9 +315,6 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
     S_819835AC_5 *state0_height_actor;
     s32 state0_delta_x;
     s32 coord_delta;
-    s32 state1_dx;
-    s32 state1_dy;
-    s32 state1_dz;
     s32 step_y;
     s32 step_z;
     S_819835AC_6 *state1_global;
@@ -336,7 +334,6 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
     TileObject *tile_base;
     u32 tile_coord;
     s32 tile_call_arg;
-    s32 common_speed;
     s32 state6_timer_signed;
     u16 state6_timer;
     u16 state6_next;
@@ -458,7 +455,8 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
             boost_speed_x = motion->unk_00.half.unk_02.s16;
             coord_delta += step_z;
             motion->unk_08.word = coord_delta;
-            boost_speed_x -= effect->unk_28.s16;
+            coord_delta = effect->unk_28.s16;
+            boost_speed_x -= coord_delta;
             if (__builtin_abs(boost_speed_x) >= 0x40) {
                 break;
             }
@@ -478,19 +476,13 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
                 + ((S_819835AC_5 *) ((S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_2A.s16 + 0x100) >> 7) & 0x1C)
                 + D_800E3D18), &D_80082E80.unk_000, (u8 *) effect + 0x28, 0);
             state1_move = &D_80083780;
-            boost_speed_x = effect->unk_28.u16;
-            state1_dx = ((u16)state1_move->x.w.i);
-            boost_speed_x += state1_dx;
-            effect->unk_28.u16 = boost_speed_x;
-            boost_speed_x = effect->unk_2A.u16;
-            state1_dy = ((u16)state1_move->y.w.i);
+            effect->unk_28.u16 += (u16)state1_move->x.w.i;
             state1_actor = ((S_819835AC_11 *) &D_800814A8)->unk_00;
-            boost_speed_x += state1_dy;
-            effect->unk_2A.u16 = boost_speed_x;
-            state1_dz = effect->unk_2C.u16;
+            effect->unk_2A.u16 += (u16)state1_move->y.w.i;
+            coord_delta = effect->unk_2C.u16;
             boost_speed_x = ((S_819835AC_5 *) ((S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_88.u16;
-            state1_dz -= 0x50;
-            boost_speed_x += state1_dz;
+            coord_delta -= 0x50;
+            boost_speed_x += coord_delta;
             effect->unk_2C.u16 = boost_speed_x;
             state1_actor->unk_A6 = state1_actor->unk_A6 - 1;
             effect->unk_30 = (s16) ((u16) effect->unk_30 + 1);
@@ -652,9 +644,10 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
                 }
             }
             hit_actor = ((S_819835AC_11 *) &D_800814A8)->unk_00;
-            boost_speed_x = (s32)(hit_actor);
-            hit_actor = hit_actor->unk_5C + 0x20;
-            if (hit_actor != (void *)boost_speed_x) {
+            hit_origin = (s32)(hit_actor);
+            coord_delta = hit_actor->unk_5C;
+            hit_actor = coord_delta + 0x20;
+            if (hit_actor != (void *)hit_origin) {
                 do {
                     actor_data = ((S_819835AC_8 *) ((u8 *) hit_actor - 0x20))->unk_0C;
                     if ((actor_data->unk_24 == effect->unk_40) &&
@@ -810,9 +803,9 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
                         related_motion = ((S_819835AC_8 *) ((u8 *) new_target - 0x20))->unk_08;
                         effect->unk_34.u16 = 0x10U;
                         state6_target_base = motion->unk_08.half.unk_0A.s16;
-                        boost_speed_x = related_motion->unk_08.half.unk_0A.s16;
+                        height_value = related_motion->unk_08.half.unk_0A.s16;
                         state6_target_base += 0x40;
-                        height_numerator = (boost_speed_x - state6_target_base) << 0x10;
+                        height_numerator = (height_value - state6_target_base) << 0x10;
                         height_frames = 16;
                         motion->unk_14.word = height_numerator / height_frames;
                         effect->unk_9A = 0x3CU;
@@ -853,22 +846,24 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
             goto block_139;
         }
         visual->unk_1A = (u16) (func_800A07D0(0, 0, motion->unk_0C.half.unk_0E, motion->unk_10.half.unk_12) - 0x400);
-        common_speed = motion->unk_14.half.unk_16;
-        visual_scale = (*(u16 *)((u8 *)visual + 0x1C));
-        red = visual->unk_0C.half.unk_0C;
-        aim_angle = common_speed * 4;
+        boost_speed_x = motion->unk_14.half.unk_16;
+        step_y = (*(u16 *)((u8 *)visual + 0x1C));
+        coord_delta = visual->unk_0C.half.unk_0C;
+        aim_angle = boost_speed_x * 4;
         boost_speed_x = aim_angle + 0x400;
         visual->unk_16 = (u16) boost_speed_x;
         boost_speed_x = 0x2000;
-        boost_speed_x -= visual_scale;
+        boost_speed_x -= step_y;
         boost_speed_x >>= 2;
-        visual_scale += boost_speed_x;
-        red += 8;
-        visual->unk_0C.half.unk_0C = red;
-        visual->unk_1C = (u16) visual_scale;
-        visual->unk_20 = (u16) visual_scale;
-        visual->unk_1E = (u16) visual_scale;
-        if ((u32) (red & 0xFF) >= 0x81U) {
+        step_y += boost_speed_x;
+        coord_delta += 8;
+        visual->unk_0C.half.unk_0C = coord_delta;
+        visual->unk_1C = (u16) step_y;
+        visual->unk_20 = (u16) step_y;
+        visual->unk_1E = (u16) step_y;
+        coord_delta &= 0xFF;
+        coord_delta = (u32)coord_delta < 0x81U;
+        if (!coord_delta) {
             visual->unk_0C.word = 0x808080;
         } else {
             visual->unk_0C.half.unk_0D = (u8) (visual->unk_0C.half.unk_0D + 8);
@@ -908,13 +903,13 @@ block_140:
             (s16) motion->unk_04.half.unk_06.u16, related_motion->unk_00.half.unk_02.s16,
             related_motion->unk_04.half.unk_06.s16) - 0x400);
         alternate_delta = related_motion->unk_08.half.unk_0A.s16;
-        boost_speed_x = motion->unk_08.half.unk_0A.s16;
-        alternate_delta -= boost_speed_x;
+        alternate_value = motion->unk_08.half.unk_0A.s16;
+        alternate_delta -= alternate_value;
         alternate_scale = alternate_delta << 2;
         alternate_scale += alternate_delta;
         aim_angle = alternate_scale << 1;
-        boost_speed_x = aim_angle + 0x400;
-        visual->unk_16 = (u16) boost_speed_x;
+        alternate_value = aim_angle + 0x400;
+        visual->unk_16 = (u16) alternate_value;
         visual->unk_14 = (u16) actor_data->unk_14;
         motion->unk_00.half.unk_02.u16 = (u16) owner_state->unk_50;
         motion->unk_04.half.unk_06.u16 = (u16) owner_state->unk_52;
