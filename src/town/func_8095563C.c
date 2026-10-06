@@ -124,36 +124,13 @@ check_zone:
                                     actor->y = ((Box *)candidate)->y + ((Box *)candidate)->h;
                                     goto adjusted;
                                 }
-                                {
-                                    s32 actor_y;
-                                    s32 edge_y;
-                                    s32 box_height;
-                                    s32 edge_delta;
-                                    actor_y = actor->y;
-                                    do {
-                                        edge_y = ((Box *)candidate)->y;
-                                    } while (0);
-                                    box_height = ((Box *)candidate)->h;
-                                    edge_delta = actor_y - edge_y;
-                                    if (edge_delta < 0) {
-                                        edge_delta = -edge_delta;
-                                    }
-                                    edge_y = edge_y + box_height;
-                                    edge_y = edge_y - actor_y;
-                                    edge_y = abs(edge_y);
-                                    edge_delta = edge_delta < edge_y;
-                                    edge_y = (u16)((Box *)candidate)->y;
-                                    box_height = (u16)((Box *)candidate)->h;
-                                    if (edge_delta) {
-                                        actor->y = edge_y;
-                                        return 2;
-                                    }
-                                    edge_y = edge_y + box_height;
-                                    actor->y = edge_y;
+                                if (abs(actor->y - ((Box *)candidate)->y) < abs(((Box *)candidate)->y + ((Box *)candidate)->h - actor->y)) {
+                                    actor->y = (u16)((Box *)candidate)->y;
+                                    return 2;
                                 }
+                                actor->y = (u16)((Box *)candidate)->y + (u16)((Box *)candidate)->h;
                                 return 2;
                             } else {
-                                s32 actor_x;
                                 *offset_x -= actor->dx;
                                 velocity = actor->dx;
                                 if (velocity > 0) {
@@ -166,18 +143,8 @@ check_zone:
                                     edge_delta = (u16)((Box *)candidate)->w;
                                     edge_x = edge_x + edge_delta;
                                 } else {
-                                    actor_x = actor->x;
-                                    do {
-                                        edge_x = ((Box *)candidate)->x;
-                                    } while (0);
-                                    box_width = ((Box *)candidate)->w;
-                                    edge_delta = actor_x - edge_x;
-                                    if (edge_delta < 0) {
-                                        edge_delta = -edge_delta;
-                                    }
-                                    edge_x = edge_x + box_width;
-                                    edge_x = edge_x - actor_x;
-                                    edge_x = abs(edge_x);
+                                    edge_delta = abs(actor->x - ((Box *)candidate)->x);
+                                    edge_x = abs(((Box *)candidate)->x + ((Box *)candidate)->w - actor->x);
                                     edge_delta = edge_delta < edge_x;
                                     edge_x = (u16)((Box *)candidate)->x;
                                     box_width = (u16)((Box *)candidate)->w;
@@ -313,17 +280,14 @@ zone_found:
         s32 d5_3;
         s32 d5_4;
         zone_y = CURRENT_ZONE(y);
-        do {
-            zone_width = CURRENT_ZONE(w);
-        } while (0);
+        zone_width = CURRENT_ZONE(w);
         vz = CURRENT_ZONE(x);
         d5_1 = zone_y + zone_width;
         edge_x = vz - 0x100;
         d5_1 = d5_1 + edge_x;
         old_zone = d5_1 + zone_width;
-        neg_x = actor->x;
+        neg_x = -actor->x;
         actor_y = actor->y;
-        neg_x = -neg_x;
         d5_2 = neg_x + old_zone;
         d5_2 = actor_y - d5_2;
         if (d5_2 > 0) {

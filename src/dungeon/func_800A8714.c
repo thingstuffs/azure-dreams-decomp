@@ -1111,10 +1111,7 @@ return_wait:
 check_forward_target:
     {
         u8 kind = creature[0x13];
-        if (kind != 0x1E) {
-            goto check_room;
-        }
-        if (*(s32 *)(creature + 0x14) & 0x20000000) {
+        if (kind != 0x1E || (*(s32 *)(creature + 0x14) & 0x20000000)) {
             goto check_room;
         }
         {
