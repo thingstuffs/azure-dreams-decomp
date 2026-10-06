@@ -269,6 +269,7 @@ def hidden_asm(text):
       asm-code      an `__asm__` in a body carrying instructions or directives: C that is missing
       symbol-alias  `T x __asm__("sym")`: a second typed name for one symbol, i.e. a missing type
       file-asm      file-scope asm directives (`.set` absolute symbols, `.globl`, ...)
+      reg-global    a file-scope global register variable `register T g asm("$R")` (round 96)
 
     Port and dead arms are skipped, as sites_of skips them."""
     code = CMT_RE.sub(lambda m: re.sub(r"[^\n]", " ", m.group(0)), text)
@@ -299,6 +300,15 @@ def hidden_asm(text):
             out["raw-pin"] += 1
         else:
             out["asm-code"] += 1
+    # round 96: `register T g asm("$R")` at file scope (slus/w_8004CAA0's four globals) - plain `asm`,
+    # so RAW_ASM_RE (`__asm__` only) never saw them; a global register variable pins a value to a
+    # register for the whole TU
+    for m in RAW_REG_ASM_RE.finditer(code):
+        i = line_of(m.start())
+        if i in skip or re.match(r"[ \t]*#", lines[i]):
+            continue
+        if flat[:m.start()].count("{") - flat[:m.start()].count("}") <= 0:
+            out["reg-global"] += 1
     for m in WRAPPER_DEF_RE.finditer(code):
         name, body = m.group(1), m.group(3)
         # a wrapper whose body carries an ASM_* pin is counted per call by sites_of (2026-09-23)

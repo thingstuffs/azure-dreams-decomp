@@ -99,6 +99,29 @@ class TestAdmissible(unittest.TestCase):
         self.assertTrue(any("did not have" in r for r in bad), bad)
 
 
+class TestLaneRoot(unittest.TestCase):
+    """round 96: lab.py run from a lane subdirectory staged into <subdir>/out (the lander never saw it)."""
+    def test_subdir_resolves_to_the_lane_root(self):
+        lanes = kitlib.ROOT / "work" / "native_lane"
+        with tempfile.TemporaryDirectory(dir=lanes) as t:
+            lane = Path(t)
+            (lane / "base").mkdir()
+            (lane / "cand" / "deep").mkdir(parents=True)
+            self.assertEqual(kitlib.lane_root_of((lane / "cand" / "deep").resolve()), lane.resolve())
+            self.assertEqual(kitlib.lane_root_of(lane.resolve()), lane.resolve())
+
+    def test_no_pack_marker_keeps_the_directory(self):
+        lanes = kitlib.ROOT / "work" / "native_lane"
+        with tempfile.TemporaryDirectory(dir=lanes) as t:
+            d = (Path(t) / "x").resolve()
+            d.mkdir()
+            self.assertEqual(kitlib.lane_root_of(d), d)
+
+    def test_outside_native_lane_unchanged(self):
+        d = Path(tempfile.gettempdir()).resolve()
+        self.assertEqual(kitlib.lane_root_of(d), d)
+
+
 class TestLedger(unittest.TestCase):
     def test_variant_count_dedups_and_skips_baselines(self):
         recs = [{"row": "a/b", "variant": "v1"}, {"row": "a/b", "variant": "v1"},

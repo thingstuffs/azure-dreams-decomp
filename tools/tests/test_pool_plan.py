@@ -158,5 +158,29 @@ class TestParagraphs(unittest.TestCase):
         self.assertIn("<<", (d / "class_question.md").read_text())
 
 
+class TestWaits(unittest.TestCase):
+    """round 96: the sentinel fired silently and the foreign_busy() hold was silent too."""
+    def test_sentinel_logs_when_seen(self):
+        import contextlib, io
+        with tempfile.TemporaryDirectory() as t:
+            f = Path(t) / "pool_x.log"
+            f.write_text("lane ...\nPOOL_x_END\n")
+            buf = io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                pool.wait_sentinel("%s:POOL_x_END" % f, 0)
+            self.assertIn("sentinel 'POOL_x_END' seen", buf.getvalue())
+
+    def test_isolated_landing_never_holds(self):
+        old = os.environ.get("LAND_ISOLATED")
+        os.environ["LAND_ISOLATED"] = "1"
+        try:
+            self.assertEqual(pool.foreign_busy(), "")
+        finally:
+            if old is None:
+                del os.environ["LAND_ISOLATED"]
+            else:
+                os.environ["LAND_ISOLATED"] = old
+
+
 if __name__ == "__main__":
     unittest.main()

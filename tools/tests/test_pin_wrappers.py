@@ -86,6 +86,13 @@ class WrapperExpansion(unittest.TestCase):
 
     def test_counted_wrappers_leave_hidden_asm(self):
         self.assertEqual(hidden_asm(src(3))["wrapper-call"], 0)
+
+    def test_file_scope_register_globals_are_hidden_scaffolding(self):
+        # round 96: slus/w_8004CAA0's `register int g asm("$3");` globals were invisible to every count
+        t = ('#ifndef NON_MATCHING\nregister int *g_sp asm("$sp");\nregister int g_v1 asm("$3");\n#endif\n'
+             '#include "common.h"\nvoid f(void) { register int x asm("$4") = 1; g_v1 = x; }\n')
+        self.assertEqual(hidden_asm(t)["reg-global"], 2)
+        self.assertEqual(hidden_asm('#ifdef NON_MATCHING\nregister int g asm("$3");\n#endif\n')["reg-global"], 0)
         raw = HEAD + '#define KEEPR(v) __asm__("" : "+r"(v))\n' + BODY % "    KEEPR(v);\n"
         self.assertEqual(hidden_asm(raw)["wrapper-call"], 1)
         self.assertEqual(len(sites_of(raw)), 0)

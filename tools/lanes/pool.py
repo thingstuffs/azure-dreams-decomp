@@ -245,10 +245,12 @@ def alive(pid):
 
 
 def foreign_busy():
+    """'' when lanes may launch, else the first busy process line (pgrep -af) that holds them."""
     # isolated landings (LAND_ISOLATED=1, round 68) gate in their own root: a landing no longer holds lane launches
     if os.environ.get("LAND_ISOLATED") == "1":
-        return False
-    return subprocess.run(["pgrep", "-f", BUSY_PAT], capture_output=True).returncode == 0
+        return ""
+    r = subprocess.run(["pgrep", "-af", BUSY_PAT], capture_output=True, text=True)
+    return r.stdout.strip().splitlines()[0][:160] if r.returncode == 0 and r.stdout.strip() else ""
 
 
 def wait_sentinel(spec, poll):
@@ -257,6 +259,9 @@ def wait_sentinel(spec, poll):
     while True:
         try:
             if token in Path(path).read_text(errors="replace"):
+                # round 96 (r96sb): a silent return followed by a silent foreign_busy() hold read as
+                # "the sentinel never fired" - say so when it does
+                log("sentinel %r seen in %s" % (token, path))
                 return
         except OSError:
             pass
@@ -364,6 +369,7 @@ def run(args):
                 log("== %s: band %s stopped (pins per weighted unit below %g), not launched"
                     % (s["lane"], bands[s["lane"]], args.band_stop))
                 continue
+        held_by = ""
         while True:
             reap()
             if args.band_stop and bands.get(s["lane"]) in stopped_bands:
@@ -372,8 +378,12 @@ def run(args):
                 log("== %d finished lanes in a row without a candidate: the pool stops launching"
                     % zero_streak)
                 break
-            if len(running()) < args.concurrency and not foreign_busy():
+            busy = foreign_busy() if len(running()) < args.concurrency else ""
+            if len(running()) < args.concurrency and not busy:
                 break
+            if busy and busy != held_by:
+                log("== launches held by a non-isolated landing/gate (set LAND_ISOLATED=1 to launch anyway): %s" % busy)
+            held_by = busy
             time.sleep(args.poll)
         if args.stop_after_zero and zero_streak >= args.stop_after_zero:
             break
