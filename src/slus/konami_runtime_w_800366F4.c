@@ -18,8 +18,8 @@ struct Object {
     Child *child;
 };
 
-extern void func_80036880(Object *arg0, void *arg1, void *arg2);
-extern void SD_Call(s32 arg0);
+extern void func_80036880(Object *, void *, void *);
+extern void SD_Call(s32);
 
 /* Move the two-column menu cursor and handle confirmation input. */
 void func_800366F4(Object *menu, void *confirm_arg1, void *confirm_arg2) {

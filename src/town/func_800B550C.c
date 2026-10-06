@@ -1,10 +1,10 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void obj_disp23_cancel_sw_set(u32 arg0);
-extern void came_bright_set(s32 arg0);
-extern void func_800B2A38(void *arg0);
-extern void func_800B3A80(s32 arg0);
+extern void obj_disp23_cancel_sw_set(u32);
+extern void came_bright_set(s32);
+extern void func_800B2A38(void *);
+extern void func_800B3A80(s32);
 extern void func_800B46CC(u8 *object);
 extern void func_800B50BC(u8 *object);
 

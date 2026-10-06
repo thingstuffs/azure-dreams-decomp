@@ -11,7 +11,7 @@ typedef struct MainEntry {
     MainPosition *position;
 } MainEntry;
 
-extern s32 func_8004DA74(void *arg0, s32 arg1, s32 arg2);
+extern s32 func_8004DA74(void *, s32, s32);
 extern s32 D_800280B4[][6];
 
 /* Positions five entries in a vertical list and initializes their values from the selected table. */

@@ -19,7 +19,7 @@ typedef struct {
     s8 unkC[4];
     void *callback;
     s8 unk14[12];
-    s32 arg0;
+    s32 params;
 } M2C_OBJECT;
 
 extern s32 D_8002445C[];
@@ -44,8 +44,8 @@ void *func_81893024(s32 object_arg, void *source_data, s16 initial_value, s16 fi
     if (object != NULL) {
         src = (M2C_BLOCK *)source_data;
         object->callback = &D_800243F8;
-        object_args = &object->arg0;
-        object->arg0 = object_arg;
+        object_args = &object->params;
+        object->params = object_arg;
         ((s16 *)object_args)[2] = 0;
         ((s16 *)object_args)[3] = initial_value;
         data = object->data;

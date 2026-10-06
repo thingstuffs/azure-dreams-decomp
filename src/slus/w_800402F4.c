@@ -5,8 +5,8 @@ typedef s32 (*Callback)(void *, s32, s32);
 
 typedef struct Entry {
     u8 pad0[8];
-    s32 arg1;
-    s32 arg2;
+    s32 callback_arg1;
+    s32 callback_arg2;
     u8 pad10[0xE];
     u16 flags;
     u8 data[1];
@@ -26,7 +26,7 @@ void func_800402F4(void)
             Entry *entry = D_800833E0[i];
             if (entry != 0) {
                 if (!(entry->flags & 0x800)) {
-                    callback(entry->data, entry->arg1, entry->arg2);
+                    callback(entry->data, entry->callback_arg1, entry->callback_arg2);
                     if (func_80045310(*(s32 *)((u8 *)gameWork.unk_000 + 0x8D0))) {
                         break;
                     }

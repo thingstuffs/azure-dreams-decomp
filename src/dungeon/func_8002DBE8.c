@@ -5,7 +5,7 @@
 #define M2C_BREAK() 0
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void func_800C2E84(void *arg0, M2C_UNK arg1, void *arg2);
+extern void func_800C2E84(void *, M2C_UNK, void *);
 extern u8 D_80082660[][8];
 extern M2C_UNK D_800CB2DC;
 extern M2C_UNK D_800D6910;

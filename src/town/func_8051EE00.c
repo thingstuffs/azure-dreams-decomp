@@ -11,7 +11,7 @@ typedef struct S_8051EE00_0 {
 } S_8051EE00_0;   /* arg0 in func_8051EE00 */
 
 /* Apply operation 0x5BC and the record code, then dispatch the record and context. */
-void func_8051EE00(S_8051EE00_0 *record, M2C_UNK context) {
+void func_8051EE00(S_8051EE00_0 *record, s32 context) {
     func_80018ADC(0x5BC);
     func_80018A64(record->unk_18);
     func_80017D80(record, context);

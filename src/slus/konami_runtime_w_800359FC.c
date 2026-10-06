@@ -23,9 +23,9 @@ struct Func800359FCEvent {
     s16 value;
 };
 
-extern s32 func_80037534(Func800359FCState *arg0);
+extern s32 func_80037534(Func800359FCState *);
 extern void func_8003C24C(void);
-extern void func_80035CE4(Func800359FCState *arg0, Func800359FCEvent *arg1, void *arg2);
+extern void func_80035CE4(Func800359FCState *, Func800359FCEvent *, void *);
 extern void func_80037C7C(Func800359FCState *state, s16 offset);
 
 /* Dispatches the event callback, switching handlers when the cursor marker is 0xFE. */

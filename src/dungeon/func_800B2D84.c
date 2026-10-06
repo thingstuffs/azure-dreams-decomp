@@ -46,8 +46,8 @@ typedef struct
 EllipseWork;
 extern s32 func_800644B8(s32 value);
 extern s32 func_80064584(s32 value);
-extern void func_8006658C(s32 arg0, u8 *arg1);
-extern void func_8006671C(u8 *arg0);
+extern void func_8006658C(s32, u8 *);
+extern void func_8006671C(u8 *);
 /* Emit textured ellipse segments around the given position. */
 void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32 draw_order, s32 blend_mode)
 {

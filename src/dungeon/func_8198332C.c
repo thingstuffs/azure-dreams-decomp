@@ -43,10 +43,10 @@ extern Coord D_80027CA4;
 extern u8 D_800269EC[];
 extern u8 D_80024AB4[];
 
-extern void *func_8003FC64(s32 arg0);
+extern void *func_8003FC64(s32);
 extern s32 func_8004491C(void *entry, void *registration_id);
-extern s32 func_800644B8(s32 arg0);
-extern s32 func_80064584(s32 arg0);
+extern s32 func_800644B8(s32);
+extern s32 func_80064584(s32);
 void *func_80024B2C(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor);
 
 /* Spawns an effect actor or builds a curved trail to the saved position. */

@@ -4,7 +4,7 @@ extern void *D_800282A4[3];
 extern void *D_800791A4;
 
 extern s32 func_80022138(void);
-extern void *func_8004DA74(void *arg0, void *arg1, s32 arg2);
+extern void *func_8004DA74(void *, void *, s32);
 
 /* Initializes resources and screen positions for three display entries. */
 void func_80023B18(void *object) {

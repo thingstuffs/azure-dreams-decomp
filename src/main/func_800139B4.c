@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_8004CBFC(void *arg0, s32 arg1, s32 *arg2);
+extern void func_8004CBFC(void *, s32, s32 *);
 extern u8 D_80028068[];
 extern s32 D_8002806C[];
 extern s32 D_80028074[];

@@ -5,7 +5,7 @@ typedef struct {
 } __attribute__((packed)) Copy8;
 
 extern u8 D_80089490[9];
-extern void func_800673A0(void *arg0, s32 arg1, s32 arg2);
+extern void func_800673A0(void *, s32, s32);
 
 /* Passes a local copy of the global eight-byte data with fixed arguments. */
 void func_800DBE98(void) {

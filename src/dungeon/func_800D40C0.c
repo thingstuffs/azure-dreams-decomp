@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-extern void func_8003DB94(void *arg0, s32 arg1, s32 arg2);
+extern void func_8003DB94(void *, s32, s32);
 extern u8 D_800E260C[];
 
 // Initialize object state and apply a table entry selected by the adjusted heading.

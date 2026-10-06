@@ -35,7 +35,7 @@ __asm__(".globl func_81994800\n.type func_81994800,@function\n.size func_8199480
 #endif
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 extern s16 D_80025384;
-void BODY_NAME(void *arg0, void *arg1, void *arg2)
+void BODY_NAME(void *effect, void *unused_context, void *effect_params)
 #ifdef __mips__
 __attribute__((section(".text.func_81994800")))
 #endif
