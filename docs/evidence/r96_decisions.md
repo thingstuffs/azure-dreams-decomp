@@ -51,3 +51,9 @@
 12. **REFUSED: dungeon/func_800CA184 double address mask** (r96_opus_big, exact at 2 pins): `& mask & mask` exists only
     for flow-time refs - the refused 81910A9C shape. The PsyQ bitfield getaddr/setaddr spelling was measured (48-96, not
     exact). Recorded in ledger/refused_trades.jsonl; the row stays at 3 pins. SECOND LOOK: no.
+13. **OWNER 10-06: item 12 REVERSED - double address mask accepted as a macro.** The double mask sits exactly at the
+    `setaddr(p, getaddr(ot))` half of each OT link (single mask on the `setaddr(ot, p)` half) in TWO independent rows
+    (800CA184, 81910A9C - the r93-refused case), with the masks held in locals as retail's registers show: the expansion of
+    a getaddr/setaddr/addPrim macro set, not a fake dependency. Spelled as include/shared/ot_link.h OT_GETADDR/OT_SETADDR
+    (ties the rows together). Landed: 800CA184 3 -> 2, 81910A9C 2 -> 1 (r96_cpu_otlink, gated MATCH). Rule for lanes: an
+    idempotent re-mask at an OT-link site is the macro shape - use the shared macros; a re-mask elsewhere is still refused.

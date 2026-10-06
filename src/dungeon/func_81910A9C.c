@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "shared/ot_link.h"
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 func_80065420(void *, void *, void *, void *);
@@ -11,7 +12,7 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
     s32 scale;
     register s32 step;
     u32 addr_mask;
-    register s32 angle ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    s32 angle;
     register u8 *scratch ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     GameWork *render_global;
     u8 *line_packet;
@@ -100,8 +101,8 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
         *((s32 *) (((u8 *) scratch) + 0xB4)) = avg_depth;
         if (((u32) avg_depth) < 0x1E0U) {
             u8 *draw_mode;
-            *((u32 *) (((u8 *) line_packet) + 0)) = ((*((u32 *) (((u8 *) line_packet) + 0))) & 0xFF000000)
-            | ((*((u32 *) (((u8 *) ((*((u32 **) (((u8 *) scratch) + 0x18))) + avg_depth)) + 0))) & addr_mask);
+            OT_SETADDR(line_packet, OT_GETADDR((*((u32 **) (((u8 *) scratch) + 0x18))) + avg_depth, addr_mask),
+                0xFF000000, addr_mask);
             *((u32 *) (((u8 *) ((*((u32 **) (((u8 *) scratch) + 0x18))) + (*((s32 *) (((u8 *) scratch) + 0xB4)))))
                 + 0)) = ((*((u32 *) (((u8 *) ((*((u32 **) (((u8 *) scratch) + 0x18)))
                 + (*((s32 *) (((u8 *) scratch) + 0xB4))))) + 0))) & 0xFF000000) | (((u32) line_packet) & addr_mask);
@@ -111,9 +112,8 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
             *((u8 **) (((u8 *) render_ctx) + 0x8D0)) = flags_or_mode.pointer + 0xC;
             func_80067F20(flags_or_mode.pointer, 0, 0, func_80066460(0, *((s16 *) (((u8 *) effect_data) + 0x12)), 0,
                 0) & 0xFFFF, 0);
-            *((u32 *) (((u8 *) flags_or_mode.pointer) + 0)) = ((*((u32 *) (((u8 *) flags_or_mode.pointer) + 0))) & 0xFF000000)
-            | ((*((u32 *) (((u8 *) ((*((u32 **) (((u8 *) scratch) + 0x18)))
-                + (*((s32 *) (((u8 *) scratch) + 0xB4))))) + 0))) & addr_mask);
+            OT_SETADDR(flags_or_mode.pointer, OT_GETADDR((*((u32 **) (((u8 *) scratch) + 0x18)))
+                + (*((s32 *) (((u8 *) scratch) + 0xB4))), addr_mask), 0xFF000000, addr_mask);
             *((u32 *) (((u8 *) ((*((u32 **) (((u8 *) scratch) + 0x18))) + (*((s32 *) (((u8 *) scratch) + 0xB4)))))
                 + 0)) = ((*((u32 *) (((u8 *) ((*((u32 **) (((u8 *) scratch) + 0x18)))
                 + (*((s32 *) (((u8 *) scratch) + 0xB4))))) + 0))) & 0xFF000000) | (((u32) flags_or_mode.pointer) & addr_mask);
