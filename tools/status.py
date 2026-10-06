@@ -111,6 +111,12 @@ def main():
     import re as _re
     from pathlib import Path as _P
     PIN_RE = _re.compile(r"\bASM_([A-Z0-9_]+)\(")
+    # one-trip blocks tracked as statement-macro bodies (owner 2026-10-06: decisions item 19 for pinned rows,
+    # r97 decision 16 for the pin-free load-bearing ones) - listed in the ledgers, not counted as scaffolding
+    _onetrip_tracked = set()
+    for _lf in ("ledger/onetrip_barrier_rows.jsonl", "ledger/onetrip_loadbearing.jsonl"):
+        if (ROOT / _lf).exists():
+            _onetrip_tracked |= {json.loads(l)["id"] for l in open(ROOT / _lf) if l.strip()}
     def cur_facts(r):
         cp = ROOT / "src" / r["container"] / _P(r["c_path"]).name
         p = cp if cp.exists() else ROOT / "raw" / r["container"] / _P(r["c_path"]).name
@@ -129,7 +135,7 @@ def main():
                 "n_local_structs": len(set(_re.findall(r"\b((?:S_|Struct|Func)[0-9A-F]{7,8}[A-Za-z0-9_]*)\b", t))),
                 "audit": cen.get(r["id"], {}).get("audit", {}),   # live: sites still spelled in the current text
                 "tail_idiom": _real_tail_count(t),   # r95: real noreturn tail calls only, not composite data aliases
-                "dowhile0": len(_re.findall(r"\bdo\s*\{[^{}]*\}\s*while\s*\(\s*0\s*\)", t, _re.S)),
+                "dowhile0": 0 if r["id"] in _onetrip_tracked else len(_re.findall(r"\bdo\s*\{[^{}]*\}\s*while\s*\(\s*0\s*\)", t, _re.S)),
                 "fakedep": _fakedep(t),
                 "markers": sum(1 for _s in sites_of(t) if _s[1] in (
                     "ASM_TAILSLOT_PIN", "ASM_TAILSLOT_PIN_TIED", "ASM_PAGEBASE_PIN", "ASM_JALDELAY_PIN",
@@ -173,12 +179,15 @@ def main():
     for c in live.values(): hid.update(c["hidden"])
     _odd = [json.loads(l) for l in open(ROOT / "ledger/oddities.jsonl")] if (ROOT / "ledger/oddities.jsonl").exists() else []
     _ot = [json.loads(l) for l in open(ROOT / "ledger/onetrip_barrier_rows.jsonl")] if (ROOT / "ledger/onetrip_barrier_rows.jsonl").exists() else []
+    _otl = [json.loads(l) for l in open(ROOT / "ledger/onetrip_loadbearing.jsonl") if l.strip()] if (ROOT / "ledger/onetrip_loadbearing.jsonl").exists() else []
     out.append(f"Tracked, not pins (owner 2026-10-06): oddities {len(_odd)} (ledger/oddities.jsonl - zero-byte fences retail needs, curiosities, "
-               f"not removal targets: {', '.join(o['id'] for o in _odd) or '-'}); one-trip barrier rows {len(_ot)} (ledger/onetrip_barrier_rows.jsonl).")
+               f"not removal targets: {', '.join(o['id'] for o in _odd) or '-'}); one-trip barrier rows {len(_ot)} (ledger/onetrip_barrier_rows.jsonl); "
+               f"load-bearing one-trip rows {len(_otl)} (ledger/onetrip_loadbearing.jsonl, statement-macro bodies, not counted in the do{{}}while(0) row above).")
     out.append(f"Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements {hid['raw-pin']:,}, "
                f"calls of local asm wrappers {hid['wrapper-call']:,}, hand-written asm in function bodies {hid['asm-code']:,} "
                f"(C that is missing); symbol aliases {hid['symbol-alias']:,} (a second typed name for one symbol: a missing type); "
-               f"file-scope asm directives {hid['file-asm']:,}.\n")
+               f"file-scope asm directives {hid['file-asm']:,}; file-scope global register variables {hid['reg-global']:,} "
+               f"(`register T g asm(\"$R\")`).\n")
     nfl = collections.Counter(min(2, len([x for x in r["cfg"].replace("+", " ").split()[1:] if x.startswith(("-f", "-O", "-m"))]))
                           for r in rs if r["id"].split("/")[0] not in PARKED_CONTAINERS)
     out.append(f"Per-row optimization flags (weak evidence about the real build; each switch is undone from the "

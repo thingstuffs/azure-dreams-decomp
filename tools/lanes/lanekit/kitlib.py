@@ -42,11 +42,34 @@ _BOOTSTRAPPED = None
 
 # --------------------------------------------------------------------------------- lane + imports
 
+_LANE_MARKS = ("base", "BRIEF.md", "PROMPT.txt", "AGENT_PROMPT.txt")
+
+
+def lane_root_of(d):
+    """The nearest ancestor-or-self of `d` under work/native_lane that holds a lane pack (a `base/` dir or a
+    BRIEF/PROMPT file); `d` itself when none does."""
+    lanes = ROOT / "work" / "native_lane"
+    try:
+        d.relative_to(lanes)
+    except ValueError:
+        return d
+    for p in [d, *d.parents]:
+        if p == lanes:
+            break
+        if any((p / m).exists() for m in _LANE_MARKS):
+            return p
+    return d
+
+
 def lane_dir(create=True):
-    """The lane directory: `$LANEKIT_LANE` if set, else the current directory.
+    """The lane directory: `$LANEKIT_LANE` if set, else the lane root at or above the current directory.
 
     Never the repository root and never outside it: a lane writes only inside itself."""
     d = Path(os.environ.get("LANEKIT_LANE") or Path.cwd()).resolve()
+    # round 96: three lanes ran lab.py from a lane subdirectory (cand/, experiments/) and staged into
+    # <subdir>/out, which the lander never reads - walk up to the lane root (the directory holding the pack)
+    if not os.environ.get("LANEKIT_LANE"):
+        d = lane_root_of(d)
     if d == ROOT:
         raise SystemExit(
             "lanekit: refusing to run at the repository root.\n"
