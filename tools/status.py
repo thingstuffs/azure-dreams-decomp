@@ -3,7 +3,7 @@
 import collections, json, time
 from common import LEDGER, ROOT, rows, read_jsonl, PARKED_CONTAINERS
 from pin_census import sites_of, hidden_asm
-from census import _fakedep
+from census import _fakedep, _real_tail_count
 
 def _recipe_tracker(rs, curc):
     """Rows whose registered recipe is likely NOT their real build (round 84 build structure, r84_fable_build): every
@@ -128,7 +128,7 @@ def main():
                                                  _re.sub(r"/\*.*?\*/|//[^\n]*", " ", t, flags=_re.S)))),   # code only (r78: struct notes like `/* arg0 in func_X */` inflated this 2,687 -> 785 rows)
                 "n_local_structs": len(set(_re.findall(r"\b((?:S_|Struct|Func)[0-9A-F]{7,8}[A-Za-z0-9_]*)\b", t))),
                 "audit": cen.get(r["id"], {}).get("audit", {}),   # live: sites still spelled in the current text
-                "tail_idiom": len(_re.findall(r"__attribute__\s*\(\s*\(\s*noreturn\s*\)\s*\)", t)) + len(_re.findall(r"\basm\s*\(\s*\"func_[0-9A-F]{8}\"\s*\)|__asm__\s*\(\s*\"func_[0-9A-F]{8}\"\s*\)", t)),
+                "tail_idiom": _real_tail_count(t),   # r95: real noreturn tail calls only, not composite data aliases
                 "dowhile0": len(_re.findall(r"\bdo\s*\{[^{}]*\}\s*while\s*\(\s*0\s*\)", t, _re.S)),
                 "fakedep": _fakedep(t),
                 "markers": sum(1 for _s in sites_of(t) if _s[1] in (
