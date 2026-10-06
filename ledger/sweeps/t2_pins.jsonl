@@ -33221,3 +33221,4 @@
 {"id":"slus/w_80056E10","transform":"t2_pins","in_sha":"51724dbdc74c1cf1da60ec3e98c898aa1749b2f955328755d92e2d967fc9c2a4","from_clean":true,"size":4348,"outcome":"refused","reason":"no pin sites","at":"2026-10-06T04:59:08Z"}
 {"id":"town/func_8046C188","transform":"t2_pins","in_sha":"7823ebdcfea91d32bdebccfc119394ca95c5b97429396352ffa52b8b640bdba8","from_clean":true,"size":248,"outcome":"refused","reason":"no pin sites","at":"2026-10-06T05:20:32Z"}
 {"id":"slus/w_80048B8C","transform":"t2_pins","in_sha":"146bf9d5da36a8077828e2e8f3fd032f919064d9e2fdd79ef3f30b759a6eea20","from_clean":true,"size":176,"outcome":"refused","reason":"no pin sites","at":"2026-10-06T05:20:32Z"}
+{"id":"town/func_8087514C","transform":"t2_pins","in_sha":"f2bde50908b3fc7f33109a4adebddbb8e66f01d26473cf992bf284fa472c30fb","from_clean":true,"size":184,"erased":0,"tried":1,"left":1,"kept":[["ASM_REG","5","broad"]],"outcome":"noop","at":"2026-10-06T06:14:52Z"}

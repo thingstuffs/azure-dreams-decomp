@@ -47,6 +47,7 @@ void func_8087514C(void) {
             bit_value = bit_index + 0x1F;
         }
         slot += 1;
+        bit_index_ptr += 1;
         bit_value >>= 5;
         word_addr = bit_value << 2;
         bit_value = bit_index - (bit_value << 5);
@@ -61,6 +62,5 @@ void func_8087514C(void) {
         bit_value = ~bit_value;
         bit_value = bit_value & bitmap_word;
         *word_ptr = bit_value;
-        bit_index_ptr += 1;
     } while (slot < 4);
 }
