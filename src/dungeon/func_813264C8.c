@@ -11,7 +11,7 @@ extern void func_80099FDC();
 extern u8 *D_80174704;
 extern u8 D_80174684[];
 
-void func_8016DCC8(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
+void func_8016DCC8(s32 unused0, s32 unused1, s32 unused2, s32 unused3)
 {
     s32 i;
     s32 object;

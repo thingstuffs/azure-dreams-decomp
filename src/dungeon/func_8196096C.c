@@ -34,7 +34,7 @@ typedef struct {
 
 typedef struct {
     u8 pad0[0x20];
-    s32 arg3;
+    s32 value;
     u8 pad24[4];
     u16 h28;
     u16 h2A;
@@ -76,13 +76,13 @@ extern u8 D_800273A8;
 
 extern void func_800649A0(void);
 extern void func_80064A40(void);
-extern void func_80064CF0(void *arg0);
-extern void func_80064D80(void *arg0);
-extern void func_800654B0(void *arg0, void *arg1, void *arg2, void *arg3,
-                          u16 *arg4, u16 *arg5, u16 *arg6, u16 *arg7,
-                          s32 *arg8, s32 *arg9);
-extern void func_80065820(void *arg0, void *arg1);
-extern void func_8006658C(s32 arg0, Record *record);
+extern void func_80064CF0(void *ptr0);
+extern void func_80064D80(void *ptr0);
+extern void func_800654B0(void *ptr0, void *ptr1, void *ptr2, void *ptr3,
+                          u16 *half_ptr4, u16 *half_ptr5, u16 *half_ptr6, u16 *half_ptr7,
+                          s32 *word_ptr8, s32 *word_ptr9);
+extern void func_80065820(void *ptr0, void *ptr1);
+extern void func_8006658C(s32 value, Record *record);
 extern void func_800666F4(Record *record);
 
 static __inline__ u16 translate_x(s32 x, u16 offset) { x -= 0xA0; return offset + x; }
@@ -198,7 +198,7 @@ void func_8196096C(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth
         coord_y += origin->index1 + saved_y_offset;
         record->f20.h[1] = coord_y;
     }
-    func_8006658C(scratch->arg3, record);
+    func_8006658C(scratch->value, record);
     func_80064A40();
     record = (Record *)((u8 *)record + 0x28);
     ((Root *)globals->unk_000)->record = record;

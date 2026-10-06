@@ -8,7 +8,7 @@ extern void func_800A48F0(void *, s32, s32);
 
 extern u8 *D_80175D50[3];
 
-void func_8016F144(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+void func_8016F144(s32 unused0, s32 unused1, s32 unused2, s32 unused3) {
     s32 i;
     u8 *p;
     void *item;

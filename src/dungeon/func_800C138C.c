@@ -2,8 +2,8 @@
 
 typedef struct Func800C138CData {
     u8 pad0[8];
-    void *arg1;
-    void *arg2;
+    void *context;
+    void *data;
 } Func800C138CData;
 
 extern void func_800C6B40(s32 context, void *position, void *sprite, s16 depth_bias);
@@ -20,7 +20,7 @@ s32 func_800C6AEC(void *initial_state, void *context, void *data) {
             return 0;
         }
         state = (u8 *)next_node + 0x20;
-        context = ((Func800C138CData *)next_node)->arg1;
-        data = ((Func800C138CData *)next_node)->arg2;
+        context = ((Func800C138CData *)next_node)->context;
+        data = ((Func800C138CData *)next_node)->data;
     }
 }

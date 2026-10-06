@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_800BBDEC(void *arg0, void *arg1, void *arg2, s16 arg3);
+extern void func_800BBDEC(void *state, void *context, void *data, s16 value);
 
 /* Process each linked state using the signed halfword at data offset 6. */
 s32 func_800BC054(void *initial_state, void *context, void *data) {

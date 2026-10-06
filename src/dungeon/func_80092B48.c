@@ -21,7 +21,7 @@ typedef struct {
 extern u8 D_800E07C0[];
 extern u8 D_800E07D3[];
 extern s32 *D_800E3D18[];
-extern Item *func_80097F84(void *arg0, void *arg1, void *arg2, s16 arg3);
+extern Item *func_80097F84(void *target, void *ptr1, void *ptr2, s16 flag);
 /* Retail sets a3 to 10 at 0x80099114 before reading it; no incoming argument. */
 extern s32 func_800990FC(void);
 extern s32 func_80099194(u8 *src, u8 *dst);

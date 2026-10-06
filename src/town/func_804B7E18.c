@@ -6,10 +6,10 @@ extern void func_80018854(s32);
 extern void func_800188CC(s32);
 extern s32 func_8001894C(s16);
 
-s32 func_80016618(void *arg0, s32 arg1)
+s32 func_80016618(void *object, s32 value)
 {
-    func_8001611C(arg0, arg1);
-    if (func_8001894C(*(s16 *)((u8 *)arg0 + 0x18)) != 0) {
+    func_8001611C(object, value);
+    if (func_8001894C(*(s16 *)((u8 *)object + 0x18)) != 0) {
         func_800188CC(0x513);
         func_80018854(0x512);
         func_80018854(0x50E);

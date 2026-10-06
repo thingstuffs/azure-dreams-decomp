@@ -30,7 +30,7 @@ extern u8 D_80010000[];
 extern u8 D_800E3548[];
 extern u8 D_800E36C8[];
 
-void func_8001EC54(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
+void func_8001EC54(s32 unused0, s32 unused1, s32 unused2, s32 unused3)
 {
     u8 x;
     u8 y;

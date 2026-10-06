@@ -1,8 +1,8 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_800478B8(void *arg0);
-extern void func_80047784(void *arg0, s32 arg1, s32 arg2);
+extern void func_800478B8(void *object);
+extern void func_80047784(void *object, s32 kind, s32 value);
 
 /* Advances the animation, moves its sprite, and marks completion after eight ticks. */
 void func_801751C4(u16 *anim, u32 *motion, u16 *sprite) {

@@ -8,7 +8,7 @@ void func_8001CEC0();                 /* extern */
 void func_8001CFB8();                 /* extern */
 void func_8001D0F4();                 /* extern */
 void func_8001D328();                 /* extern */
-s32 func_800A6D30(Rec_func_8001CE44_arg0 *arg0, s32 arg1, s32 arg2, s32 arg3);                                /* extern */
+s32 func_800A6D30(Rec_func_8001CE44_arg0 *region, s32 update_id, s32 rng_input_2, s32 rng_input_3);                                /* extern */
 extern M2C_UNK D_8001F670;
 
 

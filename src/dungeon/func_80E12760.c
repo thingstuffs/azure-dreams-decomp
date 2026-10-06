@@ -22,8 +22,8 @@ typedef struct
 Vec3u16;
 extern void *func_8003FC64(s32 size);
 extern void func_8004491C(void *object, void *callback);
-extern void func_80047784(void *object, s32 kind, s32 arg2);
-extern void *func_8003DE58(void *arg0, void *arg1, Vec3u16 *out, s32 arg3);
+extern void func_80047784(void *object, s32 kind, s32 value);
+extern void *func_8003DE58(void *ptr, void *ptr1, Vec3u16 *out, s32 value3);
 extern u8 D_80175978;
 /* Create a render object and initialize its position and motion toward a directional target. */
 void *func_80175F60(void *emitter, Copy24 *position, void *source)

@@ -3,8 +3,8 @@
 extern void func_8004E5A0(u32 value, s32 width, u8 *dst);
 extern u8 *func_8004E69C(u8 *text);
 extern u8 *strcat(u8 *dst, const u8 *src);
-extern void func_800B53BC(s32 arg0, const u8 *arg1, s32 arg2, s32 arg3,
-                          s32 arg4);
+extern void func_800B53BC(s32 value, const u8 *ptr, s32 value2, s32 value3,
+                          s32 value4);
 extern u8 *func_800B544C(u8 *text, void *object);
 
 extern s32 D_80089308[2];

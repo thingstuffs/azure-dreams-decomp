@@ -8,8 +8,8 @@ typedef s32 (*Callback)(void *, s32, s32);
 
 typedef struct Entry {
     u8 pad0[8];
-    s32 arg1;
-    s32 arg2;
+    s32 value1;
+    s32 value2;
     s32 unk10;
     s32 active;
     s32 saved;
@@ -54,7 +54,7 @@ void func_800897E4(void)
                         special_scan = special_start;
 first_scan:
                         if (*special_scan == callback) {
-                            callback(entry_m->data, entry_m->arg1, entry_m->arg2);
+                            callback(entry_m->data, entry_m->value1, entry_m->value2);
                         } else if (*sentinel_scan != 0) {
                             sentinel_scan++;
                             special_scan++;
@@ -91,13 +91,13 @@ first_scan:
                             if (entry_m->active != 0) {
                                 saved = entry_m->saved;
                                 entry_m->saved = 0;
-                                callback(entry_m->data, entry_m->arg1, entry_m->arg2);
+                                callback(entry_m->data, entry_m->value1, entry_m->value2);
                                 entry_m->saved = saved;
                             }
                         } else {
                             for (;;) {
                                 if (*special_scan == callback) {
-                                    callback(entry_m->data, entry_m->arg1, entry_m->arg2);
+                                    callback(entry_m->data, entry_m->value1, entry_m->value2);
                                     break;
                                 }
                                 if (*special_scan == 0) {
@@ -132,7 +132,7 @@ loop_third:
             entry_m = *entry_slot;
             if (entry_m != 0) {
                 if (!(entry_m->flags & 0x800)) {
-                    callback(entry_m->data, entry_m->arg1, entry_m->arg2);
+                    callback(entry_m->data, entry_m->value1, entry_m->value2);
                     stop_dispatch = func_80045310(
                         *(s32 *)((u8 *)gameWork.unk_000 + 0x8D0));
                     if (stop_dispatch != 0) {

@@ -1,8 +1,8 @@
 #include "common.h"
 
 extern s32 func_80042900(void *entry, s32 effect_id);
-extern void func_80042B68(void *arg0, s32 arg1);
-extern void func_80099844(void *arg0, void *arg1);
+extern void func_80042B68(void *object, s32 value);
+extern void func_80099844(void *object, void *value);
 extern s8 D_800E0DF5[];
 
 /* Handle a nonzero type 2 query result and always return success. */

@@ -2,7 +2,7 @@
 
 extern void func_800483AC(s32);
 extern void func_800485B8(s32);
-extern u8 *func_80097F84(void *arg0, void *arg1, void *arg2, s16 arg3);
+extern u8 *func_80097F84(void *target, void *ptr1, void *ptr2, s16 flag);
 extern s32 func_800990FC(void);
 extern s32 func_80099194(u8 *src, u8 *dst);
 extern void func_80099290(s8 *byte_ptr);
