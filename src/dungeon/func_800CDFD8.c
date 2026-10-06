@@ -281,10 +281,8 @@ void func_800D3738(void *unused, S_func_800CDFD8_2 *position, S_func_800CDFD8_5 
     ot_depth = depth - depth_bias;
     scratch->unk_C0 = ot_depth;
     if (ot_depth < 0x1D6U) {
-        quad_cursor = (S_func_800CDFD8_8 *)((u8 *)packet + 7);
         func_800649A0();
         angles = (void *)0x1F800100;
-        ASM_KEEP_NV(angles);
         scratch->unk_B8 -= 0xA0;
         scratch->unk_BA -= 0x78;
         camera_rot_x = render_state->unk_C4;
@@ -305,7 +303,8 @@ void func_800D3738(void *unused, S_func_800CDFD8_2 *position, S_func_800CDFD8_5 
         scratch->unk_102 = (s16) rotation_y;
         scratch->unk_108 = scratch->unk_E4 = sprite->unk_20;
         scratch->unk_10A = scratch->unk_E8 = sprite->unk_22;
-        func_80065820(angles, (void *)0x1F8000D0, camera_y);
+        func_80065820(angles, (void *)0x1F8000D0);
+        quad_cursor = (S_func_800CDFD8_8 *)((u8 *)packet + 7);
         scratch->unk_30 = sprite->unk_1C;
         scale_y = sprite->unk_1E;
         scratch->unk_38 = 0x1000;

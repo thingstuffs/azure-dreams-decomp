@@ -189,7 +189,6 @@ void BODY(S_BODY_3 *geometry, void *position, S_BODY_1 *state, u16 depth_offset)
     void **globals;
     S_BODY_6 *cache;
     s32 position_z;
-    register s32 next_height_m ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     globals = ((void * *)(&gameWork));
     graphics = globals[0];
@@ -331,53 +330,52 @@ void BODY(S_BODY_3 *geometry, void *position, S_BODY_1 *state, u16 depth_offset)
                     {
                         u16 part_flags;
                         s16 edge_y;
-                        u16 height;
                         part_flags = ((S_BODY_2 *)part)->unk_00;
                         part_flags = (*(u16 *)(scratch + 0x24)) ^ part_flags;
                         if (part_flags & 2) {
                             if (half == 0) {
                                 edge_y = ((S_BODY_2 *)part)->unk_03;
-                                height = DM_U16(0x14);
+                                packed_uv = DM_U16(0x14);
                                 edge_y = -(s32)(s8)edge_y;
                                 DM_S16(0x7A) = (s16)edge_y;
                                 DM_S16(0x72) = (s16)edge_y;
-                                edge_y = edge_y - height;
+                                edge_y = edge_y - packed_uv;
                                 DM_S16(0x8A) = (s16)edge_y;
                                 DM_S16(0x82) = (s16)edge_y;
                             } else {
                                 s16 offset_y;
                                 edge_y = ((S_BODY_2 *)part)->unk_03;
                                 edge_y = (s8)edge_y;
-                                height = DM_U16(0x14);
+                                packed_uv = DM_U16(0x14);
                                 position_z = -edge_y;
+                                texture_value = packed_uv;
                                 offset_y = position_z;
-                                next_height_m = height;
-                                offset_y = offset_y - height;
+                                offset_y = offset_y - packed_uv;
                                 DM_S16(0x7A) = (s16)offset_y;
                                 DM_S16(0x72) = (s16)offset_y;
-                                offset_y = offset_y - next_height_m;
+                                offset_y = offset_y - texture_value;
                                 DM_S16(0x8A) = (s16)offset_y;
                                 DM_S16(0x82) = (s16)offset_y;
                             }
                         } else {
                             if (half == 0) {
                                 edge_y = ((S_BODY_2 *)part)->unk_03;
-                                height = DM_U16(0x14);
+                                packed_uv = DM_U16(0x14);
                                 edge_y = (s8)edge_y;
                                 DM_S16(0x7A) = (s16)edge_y;
                                 DM_S16(0x72) = (s16)edge_y;
-                                edge_y = edge_y + height;
+                                edge_y = edge_y + packed_uv;
                                 DM_S16(0x8A) = (s16)edge_y;
                                 DM_S16(0x82) = (s16)edge_y;
                             } else {
                                 edge_y = ((S_BODY_2 *)part)->unk_03;
-                                height = DM_U16(0x14);
+                                packed_uv = DM_U16(0x14);
                                 edge_y = (s8)edge_y;
-                                next_height_m = height;
-                                edge_y = edge_y + height;
+                                texture_value = packed_uv;
+                                edge_y = edge_y + packed_uv;
                                 DM_S16(0x7A) = (s16)edge_y;
                                 DM_S16(0x72) = (s16)edge_y;
-                                edge_y = edge_y + next_height_m;
+                                edge_y = edge_y + texture_value;
                                 DM_S16(0x8A) = (s16)edge_y;
                                 DM_S16(0x82) = (s16)edge_y;
                             }
