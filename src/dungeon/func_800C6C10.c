@@ -1,3 +1,4 @@
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
@@ -13,7 +14,7 @@ extern void func_8009CE1C();
 extern s16 func_800B500C();
 extern s16 func_800A70E4();
 extern void func_800CCC20();
-extern u8 D_800E3648[], D_800E3548[];
+extern u8 D_800E3648[];
 
 /* Advance the effect, process collisions, and mark it finished when its steps run out. */
 void func_800CC370(void *effect)
@@ -38,7 +39,7 @@ void func_800CC370(void *effect)
     }
     entry_index = func_800A70E4(S16(effect, 0), S16(effect, 2), S16(effect, 4));
     if (entry_index >= 0) {
-        U32(D_800E3548, entry_index * 4) = 0;
+        U32(((u8 *)D_800E3548), entry_index * 4) = 0;
     }
     U8(effect, 7)--;
     if (!U8(effect, 7)) {

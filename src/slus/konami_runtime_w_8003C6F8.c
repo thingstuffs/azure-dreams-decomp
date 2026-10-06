@@ -1,3 +1,4 @@
+#include "shared/runtime_dispatch.h"
 #include "common.h"
 
 #include "common.h"
@@ -9,7 +10,6 @@ typedef struct {
 
 extern Func8003C6F8Entry D_8006B200[];
 extern void *D_80081460;
-extern u8 D_80082E6A[];
 
 extern void file_load_com(void *arg0);
 
@@ -29,7 +29,7 @@ void func_8003C6F8(void *data, s32 entry_index)
     *(void **)0x80080A8C = paired_data;
     file_load_com(data);
 
-    if (D_80082E6A[0] == 2) {
+    if (D_80082E60.mode == 2) {
         *(s8 *)0x800DCF4D = -2;
     }
 }

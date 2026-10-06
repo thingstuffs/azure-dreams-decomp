@@ -1,17 +1,7 @@
+#include "shared/position_query.h"
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
-
-typedef struct S_800A5A98_0 {
-    u8 pad_00[0x4];
-    u16 unk_04;
-    u8 pad_06[0x2];
-    u32 unk_08;
-    u8 pad_0C[0x4];
-    u32 unk_10;
-    u8 pad_14[0xB4];
-    u16 unk_C8;
-} S_800A5A98_0;   /* input in func_800A5A98 */
 
 
 typedef struct {
@@ -32,7 +22,6 @@ typedef struct {
 } Actor;
 
 extern u8 D_800CFCEE;
-extern u8 D_800FE488[];
 extern s32 D_80100E20;
 extern u8 D_800A5DF8;
 
@@ -86,9 +75,9 @@ void func_800A5A98(State *state, Actor *actor) {
     } else {
         func_80095094(actor);
     }
-    height_limit = func_80095978(actor, D_800FE488);
+    height_limit = func_80095978(actor, ((u8 *)&D_800FE488));
     if (actor->height >= height_limit) {
-        func_80095A94(actor, height_limit, D_800FE488);
+        func_80095A94(actor, height_limit, ((u8 *)&D_800FE488));
     } else if ((&D_800CFCEE)[1] != 0) {
         actor->value = 0;
         func_800954F4(actor);

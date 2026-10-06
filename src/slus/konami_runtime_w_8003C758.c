@@ -1,3 +1,4 @@
+#include "shared/runtime_dispatch.h"
 #include "slus/runtime_directory.h"
 
 /* Returns the key's index, assigning the last index if lookup fails or is bypassed. */
@@ -5,7 +6,7 @@ s32 func_8003C758(s32 key)
 {
     s32 index;
 
-    if (D_80082E6A[0] == 2 && *(s8 *)0x800DCF4D != -2) {
+    if (D_80082E60.mode == 2 && *(s8 *)0x800DCF4D != -2) {
         index = -1;
     } else {
         index = func_8003C634(key);

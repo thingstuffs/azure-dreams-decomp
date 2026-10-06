@@ -1,3 +1,4 @@
+#include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/game_work.h"
@@ -11,7 +12,6 @@ extern void func_8008D94C(u8 *state_ptr, s32 value, u8 *target_ptr, u8 *angle_pt
 extern s32 func_80094F74(void *, void *, void *, void *);
 extern void func_800A2B04(void *, u8, u8);
 
-extern s32 D_8008ACDC;
 extern u8 D_800DD050[];
 
 typedef struct S_8008DBE8_5 {
@@ -88,6 +88,6 @@ continue_update:
 
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x4000;
     if ((s16)func_80094F74(entity, motion, sprite, facing) > 0) {
-        ((Rec_func_8008ACDC_arg0 *)entity)->unk_8C.as_s32 = (s32)&D_8008ACDC;
+        ((Rec_func_8008ACDC_arg0 *)entity)->unk_8C.as_s32 = (s32)func_8008ACDC;
     }
 }

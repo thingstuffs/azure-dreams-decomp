@@ -9,12 +9,6 @@ void func_80095DD0(); /* extern */
 void func_800A2B04();              /* extern */
 extern M2C_UNK D_80096384;
 
-typedef struct S_8009704C_0 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    s16 unk_04;
-} S_8009704C_0;   /* state in func_8009704C */
-
 /* Move the actor toward the destination tile and finish movement when the timer expires. */
 void func_8009704C(Rec_func_8008ACDC_arg0 *actor, EntityRec *motion, Rec_D_80082E80 *destination, M2C_UNK context) {
     s16 frames_left;

@@ -4,7 +4,6 @@
 extern s8 D_80080A84[];
 extern s8 D_80080A88[];
 
-extern u8 D_80082E6A[];
 
 extern void func_80020F18(void);
 extern void func_800585A0(void);
@@ -15,7 +14,7 @@ void func_80027BF4(void) {
     D_80080A84[0] = 2;
     func_80020F18();
     func_800585A0();
-    if (D_80082E6A[0] == 1) {
+    if (D_80082E60.mode == 1) {
         SD_Call(0x200);
     } else {
         D_80080A88[0] = 0;

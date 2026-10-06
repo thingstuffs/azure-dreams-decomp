@@ -88,7 +88,8 @@ typedef struct EntityRec {
     /* 0x0D2 */ unsigned char unk_D2;             
     /* 0x0D3 */ unsigned char pad_D3[5];          
     /* 0x0D8 */ int unk_D8;                       
-    /* 0x0DC */ unsigned char pad_DC[24];         
+    /* 0x0DC */ unsigned char pad_DC[20];         
+    /* 0x0F0 */ void *unk_F0;                    /* selected four-byte item entry, or null */
     /* 0x0F4 */ int unk_F4;                       /* Rec_D_800814A8 */
     /* 0x0F8 */ unsigned char pad_F8[10];         
     /* 0x102 */ unsigned char unk_102;            /* Rec_D_800814A8 */
@@ -98,7 +99,8 @@ typedef struct EntityRec {
     /* 0x10C */ unsigned short unk_10C;           /* Rec_D_800814A8 */
     /* 0x10E */ unsigned char pad_10E[2];         
     /* 0x110 */ int unk_110;                      
-    /* 0x114 */ unsigned char pad_114[20];        
+    /* 0x114 */ unsigned char pad_114[16];        
+    /* 0x124 */ void *unk_124;                   /* linked record; flags read after null check */
     /* 0x128 */ int unk_128;                      
 } EntityRec;
 

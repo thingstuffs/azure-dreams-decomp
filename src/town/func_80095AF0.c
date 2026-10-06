@@ -1,3 +1,4 @@
+#include "shared/position_query.h"
 #include "common.h"
 
 typedef struct {
@@ -8,7 +9,6 @@ typedef struct {
 } TownObject;
 
 extern u8 D_800CFCEF;
-extern u8 D_800FE488[9];
 
 extern void func_80093D48(void *, TownObject *, void *);
 extern void func_80094C1C(void *);
@@ -28,7 +28,7 @@ void func_80093250(void *context, TownObject *object, void *update_data)
     func_80095C80(object);
     func_80094C1C(context);
     func_80094C74(object);
-    threshold_data = D_800FE488;
+    threshold_data = ((u8 *)&D_800FE488);
     threshold = func_80095978(object, threshold_data);
 
     if (object->field_A >= threshold) {

@@ -1,3 +1,4 @@
+#include "shared/position_query.h"
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
@@ -35,7 +36,6 @@ s32 func_800A5894();                          /* extern */
 void func_800A55CC();                         /* extern */
 s32 func_800C1D44();                             /* extern */
 extern u8 D_800CFCEF;
-extern u8 D_800FE488[];
 extern u8 D_800A5FDC[];
 
 /* Updates the actor effect and eases scene values before advancing the state. */
@@ -50,7 +50,7 @@ void func_800A5DF8(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, s32 context) {
 
     scene_state = &gameWork;
     func_80095C80(actor);
-    effect_data = D_800FE488;
+    effect_data = ((u8 *)&D_800FE488);
     threshold = func_80095978(actor, effect_data);
     if (actor->unk_0A >= threshold) {
         func_80095A94(actor, threshold, effect_data);

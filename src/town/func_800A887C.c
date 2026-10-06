@@ -1,3 +1,4 @@
+#include "shared/position_query.h"
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
@@ -31,7 +32,6 @@ extern int abs(int);
 
 extern s32 D_800A58CC;
 extern u8 D_800CFCEE[];
-extern u8 D_800FE488[];
 extern s32 D_80100E20[];
 
 
@@ -78,9 +78,9 @@ void func_800A5FDC(u8 *state, EntityRec *table, void *action_context)
         func_80095094(table);
     }
 
-    ground_height = func_80095978(table, D_800FE488);
+    ground_height = func_80095978(table, ((u8 *)&D_800FE488));
     if (table->z.w.i >= ground_height) {
-        func_80095A94(table, ground_height, D_800FE488);
+        func_80095A94(table, ground_height, ((u8 *)&D_800FE488));
     } else if (D_800CFCEE[1] != 0) {
         table->flags14 = 0;
         func_800954F4(table);

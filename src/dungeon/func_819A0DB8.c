@@ -28,7 +28,6 @@ typedef struct S_func_819A0DB8_1 {
 } S_func_819A0DB8_1;
 
 extern u8 D_80020000[];
-extern u8 D_80080000[];
 
 /* Updates paired fields for the current countdown step and flags completion. */
 void func_800245B8(void *object_data)
@@ -87,7 +86,7 @@ void func_800245B8(void *object_data)
         object->unk_3A = remaining_steps;
         if ((s16)remaining_steps <= 0) {
             *(u16 *)((u8 *)object - 2) |= 0x8000;
-            *(s32 *)((u8 *)D_80080000 + 0x14A0) |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
     }
 }
