@@ -31,7 +31,7 @@ typedef struct {
 
 extern s32 D_800737DC[16];
 extern s32 func_800589B8(S_80085FA8 *a0);
-extern void func_80058E64(void);
+extern void func_80058E64(u8 status);
 extern void func_80058E6C(S_80085FA8 *a0, s32 a1);
 extern void func_800590E0(S_80085FA8 *a0);
 extern s32 func_8005914C(S_80085FA8 *a0, s32 a1, s32 a2, s32 a3);
@@ -40,11 +40,11 @@ extern s32 func_8005914C(S_80085FA8 *a0, s32 a1, s32 a2, s32 a3);
 s32 func_8005947C(S_80085FA8 *stream)
 {
     s16 status;
-    s32 first_data;
+    u8 first_data;
     s32 second_data;
     s32 data_count;
     s32 input_byte;
-    register s32 event_byte ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    u8 event_byte;
     u32 status_group;
     s32 subcommand;
 
@@ -55,7 +55,7 @@ s32 func_8005947C(S_80085FA8 *stream)
         status = stream->f4a;
         stream->f49 = 1;
     } else {
-        if ((event_byte & 0xFF) != 0xFF) {
+        if (event_byte != 0xFF) {
             stream->f4a = input_byte;
         }
         status = input_byte;
@@ -73,11 +73,11 @@ s32 func_8005947C(S_80085FA8 *stream)
         if (data_count == 2) {
             second_data = func_800589B8(stream);
         }
-        func_8005914C(stream, status & 0xFF, first_data & 0xFF, second_data & 0xFF);
+        func_8005914C(stream, status & 0xFF, first_data, second_data & 0xFF);
         return 0;
     }
-    if ((event_byte & 0xFF) != 0xF0) {
-        if ((event_byte & 0xFF) == 0xFF) {
+    if (event_byte != 0xF0) {
+        if (event_byte == 0xFF) {
             subcommand = func_800589B8(stream);
             func_80058E6C(stream, subcommand & 0xFF);
             return 0;
@@ -86,6 +86,6 @@ s32 func_8005947C(S_80085FA8 *stream)
         func_800590E0(stream);
         return 0;
     }
-    func_80058E64();
+    func_80058E64(event_byte);
     return 0;
 }

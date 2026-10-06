@@ -1219,8 +1219,8 @@ int func_80058E50(int *counter, int delta)
     return *counter;
 }
 
-/* Return without performing any work. */
-void func_80058E64(void) {
+/* Return without performing any work (an empty hook: its one caller, w_8005947C, passes the masked status byte in $a0). */
+void func_80058E64(u8 status) {
 }
 
 extern void func_8005A33C(void);
