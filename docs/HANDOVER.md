@@ -1,4 +1,20 @@
-# Handover (2026-10-06 ~10:10Z, round 96 IN PROGRESS: 150 pins / 80 rows landed, 16 more staged) - start here
+# Handover (2026-10-06 ~11:00Z, round 96 IN PROGRESS: 133 pins / 73 rows landed) - start here
+
+**11:00Z status:** pins 150 -> 133 (astra a1-a7 on tier-unserved rows -12, r96_opus_birth 800991C4 -3, hidden pin
+8069761C), computed gotos -> switches on 8 rows (r96_opus_cg: 7 overlay + slus/w_80041344 via a new jtbl module; 6 dungeon
+rodata_owners records, decisions item 9), fake deps 6 rows, volatiles ~33, one-trips ~27, renames/prototypes ~130 rows.
+Load-bearing one-trips (85 rows, by mechanism) tracked in ledger/onetrip_loadbearing.jsonl (decisions item 10, SECOND LOOK).
+Hidden pins: pin_census does not count plain `register T x asm("$R")` - 8069761C's was dead (fixed); slus/w_8004CAA0 has
+four file-scope register globals (asm("$sp"/"$3"/"$8"/"$5")) still uncounted. land_lanes now counts `asm(` + S_<addr>.
+**Open / next:** slus/w_8003E758 switch needs the configure.py data_pieces+.rodata patch (r96_opus_cg/out/OWNER_RECORDS.md,
+slus_owner_files/) + a unit test; tools/tests/test_configure_slus_data_pieces has 2 failures ALREADY AT HEAD (w_8003E758
+member recipe) - fix with that patch. Type phase 13 READY: bash work/native_lane/r96_types_p13/apply13.sh --dry-run, then
+the sample, then full - ONLY in a no-lanes window (it rebuilds build_ovl). Running at 11:00Z: r96_opus_cont (819613A8,
+8009B434, w_80047054), r96_opus_big (809548E4, 800CA184), r96_sonnet_fp6, astra pool r96c (c1-c4: 11 rows), sol61 r96_sol61_b1.
+Held for a second look: r96_sonnet_vb3/held (one-field struct cast at re-read sites, item 8), r96_sonnet_pr3/held (false
+2-arg prototype). Kit bug: pool.py --wait-for-sentinel never fired once (r96sb) - relaunched without it.
+
+# (earlier) Handover (2026-10-06 ~10:10Z, round 96 IN PROGRESS: 150 pins / 80 rows landed, 16 more staged)
 
 **Owner brief (10-06, same as r95's):** close to removing all pins + workarounds; r95 was the measurement round, so r96
 = act on it: <= 1-2 Opus, 2-3 Sonnet at a time, use up astra + sol, Fable only as a one-off if everything is stuck.
