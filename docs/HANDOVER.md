@@ -14,12 +14,18 @@ MECHANISMS.md, FIRST_LANES.md), r95_wa1/wa2/pt CENSUS.md, r95_fable_opaque/ANSWE
 set); 800AED64 allocator half solved, blocked by update_equiv_regs on a 2-ref base; the sched tie classes have NO global toolchain
 rule (instrumented cc1, tools/lanes/lanekit/sched_whatif: every global flip breaks 13-60 of 62 pin-free rows) - each tie row is a
 per-row source problem, and flip.py gives its exact move spec; a loop note is a full sched barrier (decision 19).
+**Procedure:** the autocommit loop commits src/ledger every ~10 min UNGATED - after any src-writing sweep, gate before the next tick
+(or pause autocommit during sweeps). **Lane slips (self-reported):** r95_opus_dossier ran one `git diff --quiet`; r95_opus_G ran an
+rg at the repo root + one over src/dungeon. **Lane claims that failed re-check:** see decisions 11/15 - always re-verify with verify.py.
 **Yield:** codex (sol61/astra) paid best on routed rows; Opus mechanism lanes ~2 pins/lane, row retries on GLOBAL-ORDER misses 0.
 **Next, in order:** (1) owner second looks: decision 19 (macro-style do{}while(0) would land w_80048B8C + 8046C188), 4 (8184AF90
 flag), 8 (composite re-carve); (2) hard basket by mechanism, not row: the "cse substitutes a constant call argument" pair (800C7F80,
 w_80042560) is one question; (3) CELL rows (81876014 7, 80094C70 3, 800CDFD8, 813274E4, 808135E0, 8087514C); (4) workarounds:
 equates -> one symbol file (139 sites, tool change), extern-volatile restructuring (9 sites), SLUS flag-row provenance census (15),
-type phase 13; status.py/census.py still use the old tail regex; (5) module placement (the global L4 gate) as its own project.
+type phase 13; status.py/census.py still use the old tail regex, so STATUS's "noreturn tail-call spelling" shape row still says
+124 files while levels.jsonl tail_call says 8 (the 112 extra are composite-row data aliases) - switch them to levels.real_tail_call_targets;
+(4b) round-94 debts still open: 800CA184 `height_shift`/`column_mask` names (rename back when KEEP4 falls) and func_800039C8 in
+config/noreturn_syms.town.txt (needs a noreturn_false_members record); (5) module placement (the global L4 gate) as its own project.
 
 # Handover (2026-10-06 ~00:10Z, round 95: MEASUREMENT round, then routed lanes RUNNING) (original block)
 
