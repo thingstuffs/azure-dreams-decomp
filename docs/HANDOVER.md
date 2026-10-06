@@ -1,3 +1,27 @@
+# Handover (2026-10-06 ~23:40Z, round 97 STARTED: decisions + kit fixes landed; lanes RUNNING) - start here
+
+**Owner 10-06 (evening):** act on the pickup recommendations - all agreed. Done + committed (gated MATCH where src moved):
+2794258e1 (r96 journal catch-up), a50ce53c8 (decisions 16-22: docs/evidence/r97_decisions.md - r96 SECOND LOOKs
+resolved; func_80018A70 takes its caller's 3 args (byte-neutral); 85 load-bearing one-trips accepted as macro bodies,
+STATUS do{}while(0) clean files 96 -> 11; item 8 stays refused (whole-struct PadState measured 31/21); hard basket +2
+-> 33 rows (819112CC, w_800463EC); OPEN_ITEMS 6/7/12/22 closed, 23-26 added), e277be9ad (kit: lanekit lane_dir walks up
+to the lane root - lab.py from a subdir no longer stages into <subdir>/out; pool.py logs sentinel-seen and launch holds -
+r96sb's "sentinel never fired" was a silent foreign_busy hold without LAND_ISOLATED=1; pin_census reg-global = file-scope
+register globals, w_8004CAA0 x4 in STATUS's hidden line), 7496b4722 (aspsx_diff resolves a SLUS TU's own .rodata
+relocations in the physical / genuine-physical compares - w_8003E758 proof passes, nothing relaxed; tool fingerprint
+changed: cached aspsx_diff records + ledger/modules certificates (both already stale) need a reviewed re-run).
+**Pins:** still 104 / 58 rows (basket 33 rows; non-basket 25 rows / 40 pins).
+**Lost-compiler search (decision 22):** low-IO find / -> 235 cc1 files = 22 binaries, all already catalogued; nothing new
+on disk. Running: r97_trunk_opaque (Opus, measurement): pin-erased OPAQUE-BASE rows x the 39 hunt-B trunk cc1s
+(work/fidelity/lostcc/B/bin) -> work/native_lane/r97_trunk_opaque/RESULTS.md.
+**Lanes RUNNING (Agent tool, no-land; land with LAND_ISOLATED=1 land_gap.sh, gate + commit after each):**
+r97_sonnet_fp1 (809548E4 typing/prep), r97_sonnet_fp2 (80CE8564, 81989558, w_80054B08 typing), r97_opus_a1 (800CA184,
+8180B064, 819613A8, 8095563C - rows Opus had not seen at current text). BUILT, not launched: r97_opus_a2 (800995D0,
+800A8714, 8028BAA4, 818FA12C) - launch when an Opus slot frees (owner cap <= 1-2 Opus). Builders: work/native_lane/_r97/.
+**Group-B rows (astra+Opus already failed at current text, already clean - 800971DC, 80095160, 802831D8, 80098520,
+80098378, 80A20A28, w_80046C20, 81326794, konami 800345B8):** no prep surface left; next needs a mechanism idea or the basket.
+**Owner calls open:** w_8004CAA0 provenance (OPEN_ITEMS 24), 800219C4 PsyQ PATCH.OBJ provenance, DEAD-INSN spelling ruling.
+
 # Handover (2026-10-06 ~15:45Z, round 96 DONE: 150 -> 104 pins / 80 -> 58 rows; no lanes running) - start here
 
 **Result (all gated MATCH, 40 commits from 4dc3b6a99):** pins 150 -> 104, rows 80 -> 58. Workarounds (files): m2c names
