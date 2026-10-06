@@ -1,4 +1,13 @@
-# Handover (2026-10-06 ~07:30Z, round 95 cont.: 151 pins / 81 rows; no lanes running) - start here
+# Handover (2026-10-06 ~09:30Z, round 95 cont.: 150 pins / 80 rows; no lanes running) - start here
+
+**09:30Z:** ODDITIES class (owner 10-06, decisions item 21): 8196096C's barrier -> ODDITY_SCHED_FENCE() (include/common.h), tracked in
+ledger/oddities.jsonl + a STATUS line, not a pin and not a removal target (same-TU inline helper / data-in-TU / one-trip / asm-nop probes
+all failed; only an empty volatile asm is exact - most likely a header/debug macro). Guards: kitlib + land_lanes refuse ODDITY_* outside
+the ledger. 81329AC4 (REG pin on a page constant) still needs the same empty-fence test. 8087514C now exact at plain 2.6.3 (module recipe,
+last flag retired, dead_init trade; 8c04e89c4). Open near leads (r95_opus_near REPORT.md): 8184AF90 total 1 (the *8 merge is in cse2:
+jump.c 789 turns the if/else back into a bare if), 813274E4 2 (equal pins), 808135E0 10 pin-free, 800CDFD8 96 (loop.c giv combining).
+
+# (earlier) Handover (2026-10-06 ~07:30Z, round 95 cont.: 151 pins / 81 rows)
 
 **Owner 10-06 (second looks answered, decisions item 20):** one-trip `do{}while(0)` barriers ACCEPTED where they remove pins, TRACKED in
 ledger/onetrip_barrier_rows.jsonl (land_lanes.sh admits one-trip growth only for listed rows) - w_80048B8C + 8046C188 landed (2b36d537d);
