@@ -415,5 +415,91 @@ class SegmentRuns(unittest.TestCase):
         self.assertEqual((target_foff + other[2]) & 0xFFFFFFFF, 0x8014D7E4)   # not 0x801717E4
 
 
+class L5TailCallAndFidelityPredicate(unittest.TestCase):
+    """Round 95 (owner decisions 8 + 9): L5 `tail_call` counts only real tail-call idioms and
+    `fidelity_site` only a site the current C actually shows (levels.fidelity_blocking_sites)."""
+
+    def setUp(self):
+        L._CONTAINER_SYMS["dungeon"] = set()
+        import call_arity
+        # callee func_80010000 is defined with 3 params, func_80020000 with (void)
+        self.defidx = call_arity.DefIndex.from_texts([
+            ("dungeon", "func_80010000", "void func_80010000(void *a, s32 b, s32 c) { }\n"),
+            ("dungeon", "func_80020000", "void func_80020000(void) { }\n"),
+        ])
+
+    def _blocking(self, text, sites, tail=()):
+        r = row(id="dungeon/func_80091234", defs=None)
+        return L.fidelity_blocking_sites(r, text, sites, set(tail), self.defidx)
+
+    def _rec(self, text):
+        r = row()
+        return L.evaluate_row(r, text, "raw", set(), {}, {}, self.defidx)
+
+    # -- tail_call --
+    def test_composite_data_prefix_alias_is_not_a_tail_call(self):
+        text = ('static const u32 bank_words[] asm("func_80024000") = { 1, 2 };\n'
+                'void (*const module_entry)(void) asm("func_80024000") = f;\n'
+                'void f(void) { }\n')
+        self.assertEqual(L.real_tail_call_targets(text), set())
+        self.assertNotIn("tail_call", self._rec(text)["l5_residue"])
+
+    def test_real_noreturn_tail_call_counts(self):
+        text = TEXT_TAILJUMP.format(name="func_80091234")
+        self.assertEqual(L.real_tail_call_targets(text), {"func_80098765"})
+        self.assertIn("tail_call", self._rec(text)["l5_residue"])
+
+    def test_function_alias_tail_call_counts(self):
+        text = ('extern void call_top(void *) __asm__("func_800A9A0C");\n'
+                'void func_80091234(void *a) {\n    func_800A9A0C(a);\n}\n')
+        self.assertEqual(L.real_tail_call_targets(text), {"func_800A9A0C"})
+
+    def test_bare_noreturn_attribute_without_a_call_is_not_a_tail_call(self):
+        text = "extern void func_80098765(void) __attribute__((noreturn));\nvoid func_80091234(void) { }\n"
+        self.assertEqual(L.real_tail_call_targets(text), set())
+
+    # -- fidelity_site --
+    def test_phantom_site_is_dropped(self):
+        text = "void func_80091234(void) { func_80010000(1); }\n"       # does not define func_80070000
+        self.assertEqual(self._blocking(text, [("func_80070000", "PASSTHRU|func_80010000|x")]), [])
+
+    def test_arity_short_passthru_blocks(self):
+        text = "void func_80091234(void) { func_80010000(1, 2); }\n"
+        site = ("func_80091234", "PASSTHRU|func_80010000|x")
+        self.assertEqual(self._blocking(text, [site]), [site[1]])
+
+    def test_arity_complete_passthru_does_not_block(self):
+        text = "void func_80091234(void) { func_80010000(0, 1, 2); }\n"
+        self.assertEqual(self._blocking(text, [("func_80091234", "PASSTHRU|func_80010000|x")]), [])
+
+    def test_void_callee_and_undefined_callee_do_not_block(self):
+        text = "void func_80091234(void) { func_80020000(); func_80030000(); }\n"
+        self.assertEqual(self._blocking(text, [("func_80091234", "PASSTHRU|func_80020000|x"),
+                                               ("func_80091234", "PASSTHRU|func_80030000|x")]), [])
+
+    def test_indirect_empty_slot_call_blocks_but_explicit_args_do_not(self):
+        site = ("func_80091234", "INDIRECT_PASSTHRU|jalr|x")
+        empty = "void func_80091234(void *o) {\n    ((M2C_UNK (*)())o->unk_68)();\n    o->cb();\n}\n"
+        args = "void func_80091234(void *o) {\n    o->cb(o, 1);\n}\n"
+        self.assertEqual(self._blocking(empty, [site]), [site[1]])
+        self.assertEqual(self._blocking(args, [site]), [])
+
+    def test_jt_keep_order_only_while_goto_star_remains(self):
+        site = ("func_80091234", "JT_KEEP_ORDER|jt|x")
+        self.assertEqual(self._blocking("void func_80091234(int i) { switch (i) { case 0: break; } }\n", [site]), [])
+        self.assertEqual(self._blocking("void func_80091234(int i) { goto *jt[i]; }\n", [site]), [site[1]])
+
+    def test_label_as_call_noreturn_tail_counted_once_by_tail_call(self):
+        site = ("func_80091234", "LABEL_AS_CALL|func_80098765|x")
+        text = TEXT_TAILJUMP.format(name="func_80091234")
+        self.assertEqual(self._blocking(text, [site], tail={"func_80098765"}), [])
+        self.assertEqual(self._blocking(text, [site]), [site[1]])      # not a declared tail: still blocks
+
+    def test_passthru_no_args_stays_blocking(self):
+        site = ("func_80091234", "PASSTHRU_NO_ARGS|func_80010000|x")
+        text = "void func_80091234(void) { func_80010000(); }\n"
+        self.assertEqual(self._blocking(text, [site]), [site[1]])
+
+
 if __name__ == "__main__":
     unittest.main()

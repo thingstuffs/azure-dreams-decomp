@@ -30,6 +30,7 @@ from common import ROOT, LEDGER, rows, read_jsonl, write_jsonl, raw_path
 from census import (M2C_LOCAL_RE, audit_index, DECL_LINE, DEF_HEADER_RE,
                      audit_sites, live_sites as census_live_sites)
 from pin_census import arm_labels, HAS_PP_RE, sites_of
+import call_arity
 
 # ---- spelling shims the pre-preprocessor scans must see through -----------------------------
 # Two devices in the tree hide or misdirect a tail-jump dependency for a regex that reads the C
@@ -133,16 +134,85 @@ def intra_tail_calls(r, text, targets=None):
     """Count form of intra_tail_call_targets -- kept for callers/tests that only need the count."""
     return len(intra_tail_call_targets(r, text, targets))
 
+def live_audit_keyed_sites(r, text):
+    """[(keyed function, site string)] still live in `text`: live_audit_sites with the `defs` entry
+    each site was recorded under kept (the L5 fidelity predicate needs the key to drop phantom
+    attributions)."""
+    out = []
+    for f in (r.get("defs") or [r["func"]]):
+        for s in census_live_sites(text, audit_sites().get(f"{r['container']}/{f}", [])):
+            out.append((f, s))
+    return out
+
 def live_audit_sites(r, text):
     """Full site strings ('CLASS|target|extra') still live in `text`, from the same
     container/func keys census.live_audit tallies -- but live_audit only returns {class: n}, which
     throws the target away.  The split-audit exemption in evaluate_row (owner ruling 2026-09-22
     afternoon) needs the target to look up a specific (row, target) pair in split_audit_index, so
     this keeps the site list census.live_sites/audit_sites already compute, unfiltered by class."""
-    keys = [f"{r['container']}/{f}" for f in (r.get("defs") or [r["func"]])]
+    return [s for _, s in live_audit_keyed_sites(r, text)]
+
+def real_tail_call_targets(text):
+    """The subset of _noreturn_call_targets that is a genuine tail-call idiom, for the L5 `tail_call`
+    residue: a target declared noreturn (`__attribute__((noreturn))` / `NORETURN`), or reached through
+    a FUNCTION-declarator alias (`extern void call_X_top(void *) asm("func_X");`), and called as a
+    tail statement.  A DATA-object alias -- `static const u32 bank_words[] asm("func_X")`,
+    `void (*const module_entry)(..) asm("func_X") = f`, the composite row's data prefix -- is the
+    row's own symbol name, not a tail call: 112 of the 124 rows the old tail_idiom flagged are those
+    (work/native_lane/r95_wa1/CENSUS.md).  A bare noreturn attribute with no tail call counts 0."""
+    text = resolve_spellings(text)
+    if HAS_PP_RE.search(text):
+        text = "\n".join("" if lab in ("port", "dead") else ln
+                         for ln, lab in zip(text.splitlines(), arm_labels(text)))
+    targets = set(re.findall(
+        r"\b(func_[0-9A-F]{8})\s*\([^;{]*\)\s*(?:__attribute__\s*\(\s*\(\s*noreturn\b|NORETURN\b)", text))
+    targets |= set(re.findall(
+        r"\b[A-Za-z_]\w*\s*\([^;{)]*\)\s*(?:__attribute__\s*\(\([^)]*\)\)\s*)?(?:asm|__asm__)\s*\(\s*\"(func_[0-9A-F]{8})\"\s*\)", text))
+    return {tgt for tgt in targets
+            if re.search(r"^[ \t]*(?:return[ \t]+)?" + re.escape(tgt) + r"\s*\(", text, re.M)}
+
+def fidelity_blocking_sites(r, text, keyed_sites, tail_targets, defidx=None):
+    """The live audit sites that block L5 (`fidelity_site` residue); owner decision 2026-10-06
+    (docs/evidence/r95_decisions.md item 9, census work/native_lane/r95_pt/CENSUS.md section 4).
+    The baseline audit records byte-derived sites a correct C still carries (95% of 2,894 live
+    sites), so a site counts only when the CURRENT C shows a defect:
+      * every class: the keyed function must be DEFINED in this row's text (SLUS rows share
+        `defs` lists -> phantom attributions otherwise);
+      * PASSTHRU: a call of the target passes fewer arguments than the callee's definition declares;
+      * INDIRECT_PASSTHRU: an empty-argument call through an untyped slot (call_arity);
+      * JT_KEEP_ORDER: only while a computed `goto *` is still in the row;
+      * LABEL_AS_CALL whose target is a declared noreturn tail (`tail_targets`) is counted once, by
+        the tail_call residue, not again here;
+      * any other class (LABEL_AS_CALL proper, PASSTHRU_NO_ARGS, ...) stays blocking.
+    `tail_targets` = real_tail_call_targets(text); `defidx` injects a call_arity.DefIndex."""
+    if not keyed_sites:
+        return []
+    code = call_arity.strip_comments(text)
+    if HAS_PP_RE.search(code):          # blank the arms the build never compiles
+        code = "\n".join("" if lab in ("port", "dead") else ln
+                         for ln, lab in zip(code.splitlines(), arm_labels(code)))
     out = []
-    for k in keys:
-        out.extend(census_live_sites(text, audit_sites().get(k, [])))
+    defined = {}
+    for key, site in keyed_sites:
+        if key not in defined:
+            defined[key] = call_arity.key_defined(code, key)
+        if not defined[key]:
+            continue
+        cls, _, rest = site.partition("|")
+        tgt = rest.split("|")[0]
+        if cls == "PASSTHRU":
+            if call_arity.passthru_arity_short(code, tgt, r["container"], r["id"], defidx):
+                out.append(site)
+        elif cls == "INDIRECT_PASSTHRU":
+            if call_arity.indirect_empty_slot_call(code):
+                out.append(site)
+        elif cls == "JT_KEEP_ORDER":
+            if re.search(r"\bgoto\s*\*", code):
+                out.append(site)
+        elif cls == "LABEL_AS_CALL" and tgt in tail_targets:
+            continue
+        else:
+            out.append(site)
     return out
 
 _CONTAINER_SYMS = {}
@@ -278,15 +348,15 @@ def cfg_splits(cfg):
 
 WHOLE_ASM_FN_RE = re.compile(r'"\s*\.ent\s+[A-Za-z_]\w*')
 
-def evaluate_row(r, text, raw_text, promoted, sweeps, split_idx):
+def evaluate_row(r, text, raw_text, promoted, sweeps, split_idx, defidx=None):
     """Pure per-row ladder logic for one L0 row (main() only calls this once l0 is confirmed): `r`
     the row dict, `text`/`raw_text` the current and pinned source, `promoted` the set of ids
     landed per ledger/promotions.jsonl, `sweeps` {sweep name: {id: record}}, `split_idx` from
     split_audit_index().  Returns the levels.jsonl record for this row, minus `id`/`evidence`
     (main() adds those).  No filesystem access beyond the module-level config caches, so this is
     directly unit-testable with synthetic rows/text (tools/tests/test_levels.py)."""
-    live_sites_full = live_audit_sites(r, text)          # site strings with target kept, unlike live_audit's tally
-    live = collections.Counter(s.split("|")[0] for s in live_sites_full)             # live: a removed site no longer blocks
+    keyed_sites = live_audit_keyed_sites(r, text)
+    live_sites_full = [s for _, s in keyed_sites]        # site strings with target kept, unlike live_audit's tally
     nr_targets = _noreturn_call_targets(text)   # shared with tail_jump_targets: scan the text once
     # owner ruling 2026-09-22 (afternoon): a LABEL_AS_CALL site, or an intra_tail_calls hit, whose
     # target carries a DECIDED cross-segment/cross-image split_audit record for THIS row is a real
@@ -304,7 +374,10 @@ def evaluate_row(r, text, raw_text, promoted, sweeps, split_idx):
     # function, so it is a blocking fidelity site and the row stays at L0 until it is written in C.
     asm_function = bool(WHOLE_ASM_FN_RE.search(text))
     blocking = label_blocking or passthru_blocking or itc_blocking or asm_function
-    any_site = bool(live)
+    # L5's `fidelity_site` is the narrowed predicate (fidelity_blocking_sites), not "any live audit
+    # site": L1's `blocking` above is untouched.
+    fid_sites = fidelity_blocking_sites(r, text, keyed_sites, real_tail_call_targets(text), defidx)
+    any_site = bool(fid_sites)
     # The charter's counter (docs/PIN_CAMPAIGN_CHARTER.md rule 5: status.py "Pin sites now" =
     # pin_census.sites_of), not a raw `ASM_X(` token count.  The token count also read macro
     # DEFINITIONS (`#define ASM_KEEP(v) __asm__(...)`, a wrapper's body), text in NON_MATCHING/#if 0
@@ -312,7 +385,9 @@ def evaluate_row(r, text, raw_text, promoted, sweeps, split_idx):
     # asm-spec: byte-neutral, verified on dungeon/func_81329D94), so levels.jsonl summed 3,756 pins
     # in 916 rows against the counter's 3,701 in 902 (docs/evidence/r76_pin_count_discrepancy.md).
     pins = len(sites_of(text))
-    tail_idiom = len(re.findall(r"__attribute__\s*\(\s*\(\s*noreturn\s*\)\s*\)", text)) + len(re.findall(r"\b(?:asm|__asm__)\s*\(\s*\"func_[0-9A-F]{8}\"\s*\)", text))
+    # a real noreturn tail call (declared noreturn AND called as a tail statement) -- not the `asm("func_X")`
+    # symbol name of a composite row's data prefix, and not a bare noreturn attribute with no call.
+    tail_idiom = len(real_tail_call_targets(text))
     computed_goto = len(re.findall(r"\bgoto\s*\*", text)); inline_asm = len(re.findall(r"__asm__|\basm\s*\(", re.sub(r"\bASM_[A-Z0-9_]+\(", "", text)))
     boiler = "This header contains macros emitted by m2c" in text or "typedef float f32;" in text
     tj_targets = tail_jump_targets(r, text, nr_targets)
