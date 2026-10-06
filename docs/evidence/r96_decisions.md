@@ -23,3 +23,14 @@
    function at the same address (overlay address overlap). SECOND LOOK: yes (which function really sits at 0x80018A70 for this caller).
 7. **CALL-ARG class -> hard basket** (800C7F80, w_80042560, 8096C508, 800AE09C): r96_opus_ca MECHANISM.md is a sourced
    negative in this cdk cc1. SECOND LOOK: no.
+8. **HELD: one-field struct cast at re-read sites only** (r96_sonnet_vb3: main/func_8001EFC4, main/func_8001FDA0,
+   town/func_8080EEC4 - `((PadWord *)&D_801379B0)->value` replaces a volatile so cse does not forward a global re-read
+   across a struct store). Reading ONE global through a struct pun at selected sites only, to steer cse's in_struct
+   invalidation, reads as compiler imitation rather than recovered source (the same global is read plainly elsewhere).
+   Kept the volatiles; candidates in the lane's held/. SECOND LOOK: yes (accept if the owner sees the pad word as a
+   struct the original declared, e.g. a PadState overlay used at those sites).
+9. **rodata_owners records for rows that are not one whole PsyQ module** (r96_opus_cg: the 80EDF000 clone family x5 +
+   81886800). Each row owns its module's whole .rodata incl. other functions' jump-table words (kept as raw data words,
+   as the old .text prefix arrays had them); every rodata_first_link check passes (one read-only section, relocations
+   inside the span, zero cut). Accepted so the computed gotos become real switches. SECOND LOOK: yes (convention
+   stretch of overlay_local_gate.rodata_owner's docstring; re-carve with module placement later).

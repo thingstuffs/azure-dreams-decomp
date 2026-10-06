@@ -105,41 +105,20 @@ extern s16 func_800BCB04(s32, s32, s16);
 
 extern u8 D_80158808[];
 extern FlagBlock D_800814A0;
-extern u32 D_80158828[];
 
-#ifdef __mips__
-static const u32 data_prefix[] __asm__("func_80158800")
-__attribute__((section(".text.func_80158800"), aligned(4))) = {
-    0x80159718, 0x801598E0,
-    0x00000001, 0x00010001, 0x00010000, 0x0001FFFF,
-    0x0000FFFF, 0xFFFFFFFF, 0xFFFF0000, 0xFFFF0001,
-    0x801589E8, 0x801589F0, 0x801589F8, 0x80158A00, 0x80158A08,
-    0x00000000,
-    0x8015A0CC, 0x8015A0CC, 0x8015A0CC, 0x8015A0F8,
-    0x8015A078, 0x8015A078, 0x8015A078, 0x8015A024,
-    0x8015A05C, 0x8015A0F8, 0x8015A0F8, 0x8015A0BC,
-    0x8015B55C, 0x8015B5E8, 0x8015B62C, 0x8015B68C, 0x8015B750,
-    0x00000000,
-    0x8015B810, 0x8015BA48, 0x8015BA90, 0x8015BBE4, 0x8015BBF8,
-    0x00000000,
-    0x8015B8C0, 0x8015B8B8, 0x8015B8B0, 0x8015B8C8,
-    0x8015B86C, 0x8015B864, 0x8015B85C,
+/* The module's read-only data comes first (0x80158800): two entry words, the eight (dx, dy)
+ * tile steps at D_80158808, then this function's switch table and the other functions' tables. */
+const u32 module_head[] __asm__("func_80158800") = {
+    0x80159718, 0x801598E0, 0x00000001, 0x00010001,
+    0x00010000, 0x0001FFFF, 0x0000FFFF, 0xFFFFFFFF,
+    0xFFFF0000, 0xFFFF0001,
 };
-__asm__(".globl func_80158800\n"
-        ".size func_80158800, 1752");
-#define BODY_NAME func_801588BC
-#else
-#define BODY_NAME func_80158800
-#endif
 
-void BODY_NAME(S_func_80EF7000_1 *motion, S_func_80EF7000_2 *position, S_func_80EF7000_3 *animation)
-#ifdef __mips__
-__attribute__((section(".text.func_80158800")))
-#endif
-;
+
+void func_801588BC(S_func_80EF7000_1 *motion, S_func_80EF7000_2 *position, S_func_80EF7000_3 *animation);
 
 /* Advance motion through travel, landing interpolation, and falling. */
-void BODY_NAME(S_func_80EF7000_1 *motion, S_func_80EF7000_2 *position, S_func_80EF7000_3 *animation)
+void func_801588BC(S_func_80EF7000_1 *motion, S_func_80EF7000_2 *position, S_func_80EF7000_3 *animation)
 {
     s8 command[4];
     GridPoint directions[8];
@@ -151,143 +130,132 @@ void BODY_NAME(S_func_80EF7000_1 *motion, S_func_80EF7000_2 *position, S_func_80
     u32 distance;
     s32 interp_goal;
 
-#ifdef __mips__
-    static void *const switch_keepalive[] __attribute__((used)) = {
-        &&case_0, &&case_1, &&case_2, &&case_3, &&case_4
-    };
-#endif
 
     __builtin_memcpy(directions, D_80158808, 32);
 
 interpolate:
-    if (motion->unk_2C != 1)
-        goto fall;
-    if (motion->unk_2E != 0)
-        goto interpolate_step;
-    motion->unk_2E = (s16)((u16)motion->unk_2E + 1);
-    {
-        s32 abs_x;
-        s32 abs_y;
-        s32 map_y;
+    if (motion->unk_2C == 1) {
+        if (motion->unk_2E == 0) {
+            motion->unk_2E = (s16)((u16)motion->unk_2E + 1);
+            {
+                s32 abs_x;
+                s32 abs_y;
+                s32 map_y;
 
-        abs_x = position->unk_0E;
-        abs_y = motion->unk_5C;
-        map_y = motion->unk_5D;
-        abs_x -= abs_y;
-        abs_y = position->unk_12;
-        if (abs_x < 0)
-            abs_x = -abs_x;
-        abs_y -= map_y;
-        if (abs_y < 0)
-            abs_y = -abs_y;
-        distance = abs_x + abs_y;
-    }
-    if (distance >= 5U)
-        goto max_duration;
-    goto *(void *)D_80158828[distance];
-case_0:
-    duration = 4;
-    goto set_duration;
-case_1:
-    duration = 8;
-    goto set_duration;
-case_2:
-    duration = 12;
-    goto set_duration;
-case_3:
-    duration = 14;
-    goto set_duration;
-case_4:
-max_duration:
-    duration = 16;
-set_duration:
-    motion->unk_36 = duration;
-interpolate_step:
-    {
-        u32 countdown_raw;
-        s32 countdown;
-        s32 shifted_countdown;
-
-        countdown_raw = (u16)motion->unk_36 - 1;
-        motion->unk_36 = countdown_raw;
-        countdown_raw <<= 16;
-        shifted_countdown = (s32)countdown_raw;
-        countdown = shifted_countdown >> 16;
-        if (countdown == 0)
-            goto check_arrival;
-        {
-            s32 interp_current;
-
-            interp_goal = position->unk_0E;
-            interp_current = position->unk_00.half.unk_02.unk_02;
-            interp_goal *= 64;
-            interp_current -= 32;
-            interp_goal -= interp_current;
-            interp_goal /= countdown;
-            interp_current = position->unk_00.half.unk_02.unk_02_u16;
-            interp_current += interp_goal;
-            position->unk_00.half.unk_02.unk_02 = interp_current;
-
-            interp_goal = position->unk_12;
-            interp_current = position->unk_04.half.unk_06.unk_06;
-            countdown = motion->unk_36;
-            interp_goal = interp_goal * 64;
-            interp_current -= 32;
-            interp_goal -= interp_current;
-            interp_goal /= countdown;
-
-            interp_current = position->unk_04.half.unk_06.unk_06_u16;
-            countdown = position->unk_08.half.unk_0A;
-            interp_current += interp_goal;
-
-            interp_goal = position->unk_16;
-            position->unk_04.half.unk_06.unk_06 = interp_current;
-            interp_goal -= countdown;
-            interp_goal /= (s16)motion->unk_36;
-            position->unk_08.half.unk_0A += interp_goal;
+                abs_x = position->unk_0E;
+                abs_y = motion->unk_5C;
+                map_y = motion->unk_5D;
+                abs_x -= abs_y;
+                abs_y = position->unk_12;
+                if (abs_x < 0)
+                    abs_x = -abs_x;
+                abs_y -= map_y;
+                if (abs_y < 0)
+                    abs_y = -abs_y;
+                distance = abs_x + abs_y;
+            }
+            switch (distance) {
+            case 0:
+                duration = 4;
+                break;
+            case 1:
+                duration = 8;
+                break;
+            case 2:
+                duration = 12;
+                break;
+            case 3:
+                duration = 14;
+                break;
+            case 4:
+            default:
+                duration = 16;
+                break;
+            }
+            motion->unk_36 = duration;
         }
-    }
-check_arrival:
-    if ((s16)motion->unk_36 <= 0) {
-        command[0] = 6;
-        command[1] = 12;
-        command[2] = 0;
-        command[3] = 0;
-        func_800A7A7C(position->unk_0E, position->unk_12,
-                      position->unk_16, animation->unk_08, command);
-        goto finish_motion;
-    }
-    if (animation->unk_14 & 0x8000)
-        goto interpolate;
+        {
+            u32 countdown_raw;
+            s32 countdown;
+            s32 shifted_countdown;
 
+            countdown_raw = (u16)motion->unk_36 - 1;
+            motion->unk_36 = countdown_raw;
+            countdown_raw <<= 16;
+            shifted_countdown = (s32)countdown_raw;
+            countdown = shifted_countdown >> 16;
+            if (countdown != 0) {
+                s32 interp_current;
+
+                interp_goal = position->unk_0E;
+                interp_current = position->unk_00.half.unk_02.unk_02;
+                interp_goal *= 64;
+                interp_current -= 32;
+                interp_goal -= interp_current;
+                interp_goal /= countdown;
+                interp_current = position->unk_00.half.unk_02.unk_02_u16;
+                interp_current += interp_goal;
+                position->unk_00.half.unk_02.unk_02 = interp_current;
+
+                interp_goal = position->unk_12;
+                interp_current = position->unk_04.half.unk_06.unk_06;
+                countdown = motion->unk_36;
+                interp_goal = interp_goal * 64;
+                interp_current -= 32;
+                interp_goal -= interp_current;
+                interp_goal /= countdown;
+
+                interp_current = position->unk_04.half.unk_06.unk_06_u16;
+                countdown = position->unk_08.half.unk_0A;
+                interp_current += interp_goal;
+
+                interp_goal = position->unk_16;
+                position->unk_04.half.unk_06.unk_06 = interp_current;
+                interp_goal -= countdown;
+                interp_goal /= (s16)motion->unk_36;
+                position->unk_08.half.unk_0A += interp_goal;
+            }
+        }
+        if ((s16)motion->unk_36 <= 0) {
+            command[0] = 6;
+            command[1] = 12;
+            command[2] = 0;
+            command[3] = 0;
+            func_800A7A7C(position->unk_0E, position->unk_12,
+                          position->unk_16, animation->unk_08, command);
+            ((S_func_80EF7000_4 *)motion->unk_40)->unk_A4 = 0;
+            ((S_func_80EF7000_5 *)((u8 *)motion - 2))->unk_00 |= 0x8000;
+            D_800814A0.value |= 0x8000;
+            return;
+        }
+        if (animation->unk_14 & 0x8000)
+            goto interpolate;
+    }
 fall:
-    if (motion->unk_2C != 2)
-        goto move;
-    position->unk_08.unk_08 += motion->unk_74;
-    motion->unk_74 += motion->unk_80;
-    scale = animation->unk_1E - 0xC8;
-    animation->unk_1E = scale;
-    animation->unk_1C = scale;
-    fall_height = position->unk_08.half.unk_0A;
-    if (func_800BCB04((motion->unk_5C << 6) & 0xFFC0,
-                      (motion->unk_5D << 6) & 0xFFC0,
-                      (s16)((u16)position->unk_08.half.unk_0A - 0x20)) - 7 >=
-        fall_height)
-    goto repeat_fall;
-    position->unk_08.half.unk_0A = func_800BCB04(
-        (motion->unk_5C << 6) & 0xFFC0,
-        (motion->unk_5D << 6) & 0xFFC0,
-        (s16)((u16)position->unk_08.half.unk_0A - 0x20));
-    position->unk_08.half.unk_08 = 0;
-finish_motion:
-    ((S_func_80EF7000_4 *)motion->unk_40)->unk_A4 = 0;
-    ((S_func_80EF7000_5 *)((u8 *)motion - 2))->unk_00 |= 0x8000;
-    D_800814A0.value |= 0x8000;
-    return;
-repeat_fall:
-    if (animation->unk_14 & 0x8000)
-        goto fall;
-
+    if (motion->unk_2C == 2) {
+        position->unk_08.unk_08 += motion->unk_74;
+        motion->unk_74 += motion->unk_80;
+        scale = animation->unk_1E - 0xC8;
+        animation->unk_1E = scale;
+        animation->unk_1C = scale;
+        fall_height = position->unk_08.half.unk_0A;
+        if (func_800BCB04((motion->unk_5C << 6) & 0xFFC0,
+                          (motion->unk_5D << 6) & 0xFFC0,
+                          (s16)((u16)position->unk_08.half.unk_0A - 0x20)) - 7 <
+            fall_height) {
+            position->unk_08.half.unk_0A = func_800BCB04(
+                (motion->unk_5C << 6) & 0xFFC0,
+                (motion->unk_5D << 6) & 0xFFC0,
+                (s16)((u16)position->unk_08.half.unk_0A - 0x20));
+            position->unk_08.half.unk_08 = 0;
+            ((S_func_80EF7000_4 *)motion->unk_40)->unk_A4 = 0;
+            ((S_func_80EF7000_5 *)((u8 *)motion - 2))->unk_00 |= 0x8000;
+            D_800814A0.value |= 0x8000;
+            return;
+        }
+        if (animation->unk_14 & 0x8000)
+            goto fall;
+    }
 move:
     direction_base = directions;
     if (motion->unk_2C != 0)
@@ -315,41 +283,36 @@ move:
         if (rounded < 0)
             rounded += 0x3F;
         coord = rounded >> 6;
-        if (interp_goal != coord)
-            goto update_height;
-
-        coord = step->y.unk_02_u16;
-        rounded = position->unk_04.half.unk_06.unk_06;
-        interp_goal = motion->unk_5D;
-        coord = (s16)coord;
-        interp_goal += coord;
-        if (rounded < 0)
-            rounded += 0x3F;
-        coord = rounded >> 6;
-        if (interp_goal != coord)
-            goto update_height;
+        if (interp_goal == coord) {
+            coord = step->y.unk_02_u16;
+            rounded = position->unk_04.half.unk_06.unk_06;
+            interp_goal = motion->unk_5D;
+            coord = (s16)coord;
+            interp_goal += coord;
+            if (rounded < 0)
+                rounded += 0x3F;
+            coord = rounded >> 6;
+            if (interp_goal == coord) {
+                if ((func_800A45D8(position->unk_00.half.unk_02.unk_02_u16, position->unk_04.half.unk_06.unk_06_u16,
+                    position->unk_08.half.unk_0A) << 16) != 0 ||
+                    func_800BCB04(position->unk_00.half.unk_02.unk_02_u16, position->unk_04.half.unk_06.unk_06_u16,
+                                      position->unk_08.half.unk_0A) >= 0x200) {
+                    position->unk_00.unk_00 -= motion->unk_6C;
+                    motion->unk_6C = 0;
+                    motion->unk_78 = 0;
+                    position->unk_04.unk_04 -= motion->unk_70;
+                    motion->unk_70 = 0;
+                    motion->unk_7C = 0;
+                } else {
+                    motion->unk_5C +=
+                        ((GridPoint *)((u8 *)direction_base + (motion->unk_34 << 2)))->x.unk_00_u8;
+                    motion->unk_5D +=
+                        ((GridPoint *)((u8 *)direction_base + (motion->unk_34 << 2)))->y.unk_02_u8;
+                }
+                animation->unk_06 = 0;
+            }
+        }
     }
-    if ((func_800A45D8(position->unk_00.half.unk_02.unk_02_u16, position->unk_04.half.unk_06.unk_06_u16,
-        position->unk_08.half.unk_0A) << 16) == 0) {
-        if (func_800BCB04(position->unk_00.half.unk_02.unk_02_u16, position->unk_04.half.unk_06.unk_06_u16,
-                          position->unk_08.half.unk_0A) < 0x200)
-        goto advance_tile;
-    }
-    position->unk_00.unk_00 -= motion->unk_6C;
-    motion->unk_6C = 0;
-    motion->unk_78 = 0;
-    position->unk_04.unk_04 -= motion->unk_70;
-    motion->unk_70 = 0;
-    motion->unk_7C = 0;
-    goto clear_animation;
-advance_tile:
-    motion->unk_5C +=
-        ((GridPoint *)((u8 *)direction_base + (motion->unk_34 << 2)))->x.unk_00_u8;
-    motion->unk_5D +=
-        ((GridPoint *)((u8 *)direction_base + (motion->unk_34 << 2)))->y.unk_02_u8;
-clear_animation:
-    animation->unk_06 = 0;
-update_height:
     position->unk_08.unk_08 += motion->unk_74;
     motion->unk_74 += motion->unk_80;
     height = position->unk_08.half.unk_0A;
@@ -378,3 +341,15 @@ update_height:
         goto move;
     return;
 }
+
+/* The rest of the module's read-only data: the other functions' switch tables. */
+static const u32 module_tables[] = {
+    0x00000000, 0x8015A0CC, 0x8015A0CC, 0x8015A0CC,
+    0x8015A0F8, 0x8015A078, 0x8015A078, 0x8015A078,
+    0x8015A024, 0x8015A05C, 0x8015A0F8, 0x8015A0F8,
+    0x8015A0BC, 0x8015B55C, 0x8015B5E8, 0x8015B62C,
+    0x8015B68C, 0x8015B750, 0x00000000, 0x8015B810,
+    0x8015BA48, 0x8015BA90, 0x8015BBE4, 0x8015BBF8,
+    0x00000000, 0x8015B8C0, 0x8015B8B8, 0x8015B8B0,
+    0x8015B8C8, 0x8015B86C, 0x8015B864, 0x8015B85C,
+};
