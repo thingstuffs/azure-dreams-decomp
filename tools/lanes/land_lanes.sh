@@ -81,10 +81,11 @@ import sys, glob, os, re, shutil, hashlib, collections
 sys.path.insert(0, "tools")
 from pin_census import sites_of
 stage, lanes = sys.argv[1], sys.argv[2:]
-bad = re.compile(r"ASM_[A-Z0-9_]+(?=\()|while\s*\(\s*0\s*\)|__asm__|\bvolatile\b")
+bad = re.compile(r"ASM_[A-Z0-9_]+(?=\()|ODDITY_[A-Z_]+(?=\()|while\s*\(\s*0\s*\)|__asm__|\bvolatile\b")
 # a computed goto counts once plus once per `&&label` address it can reach (a label array is a jump site per entry)
 gotos = lambda t: (lambda c: len(re.findall(r"\bgoto\s+\w+\s*;", c)) + len(re.findall(r"\bgoto\s*\*", c)) + len(re.findall(r"[{,=]\s*&&\s*[A-Za-z_]\w*", c)))(re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", t, flags=re.S)))
 m2c = lambda t: len(re.findall(r"\bM2C_[A-Z_]+\b|\b(?:temp|var|phi)_[a-z][a-z0-9_]*\b|\barg[0-9]\b|\bsp[0-9A-F]{2,3}\b|\bNON_MATCHING\b", re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", t, flags=re.S))))
+ODDITY_OK = {__import__("json").loads(l)["id"] for l in open("ledger/oddities.jsonl")} if os.path.exists("ledger/oddities.jsonl") else set()
 ONETRIP_OK = {__import__("json").loads(l)["id"] for l in open("ledger/onetrip_barrier_rows.jsonl")} if os.path.exists("ledger/onetrip_barrier_rows.jsonl") else set()
 kinds = lambda t: collections.Counter(m.group(0).replace(" ", "") for m in bad.finditer(re.sub(r"/\*.*?\*/", "", t, flags=re.S)))
 for lane in lanes:
@@ -94,6 +95,9 @@ for lane in lanes:
         kc, ku = kinds(cand), kinds(cur); grew = [k for k in kc if kc[k] > ku[k]]
         # round 95 (owner 2026-10-06, decisions item 19): a one-trip `do { } while (0)` that removes pins lands ONLY for rows listed
         # in ledger/onetrip_barrier_rows.jsonl (tracked: a loop note is a full sched barrier, the macro-body pattern) - never silently
+        # round 95 (owner 2026-10-06, decisions item 21): ODDITY_* fences are orchestrator-placed oddities - growth refused unless the
+        # row is listed in ledger/oddities.jsonl
+        grew = [k for k in grew if not (k.startswith("ODDITY_") and rid in ODDITY_OK)]
         if "while(0)" in grew and rid in ONETRIP_OK and len(sites_of(cand)) < len(sites_of(cur)): grew.remove("while(0)")
         if hashlib.sha256(cur.encode()).hexdigest() != base:
             print("skip", lane, rid, "stale base"); continue

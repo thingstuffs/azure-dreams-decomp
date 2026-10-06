@@ -67,3 +67,10 @@ Each line: decision - evidence - SECOND LOOK? (yes = owner may want to revisit).
     per row in ledger/onetrip_barrier_rows.jsonl (land_lanes.sh admits one-trip growth only for listed rows with fewer pins); item 4
     kept (compiler/flag alignment is next); autocommit loop STOPPED (it committed ungated sweep output); OPAQUE-BASE is NOT to be
     called impossible - keep attacking (a new mechanism lane), the in-EBB finding is "no route found yet in cdk", not a proof of absence.
+21. ODDITIES (owner 2026-10-06): dungeon/func_8196096C's ASM_SCHED_BARRIER became ODDITY_SCHED_FENCE() (include/common.h, same
+    zero-byte volatile-asm expansion; no runtime effect, compile-time ordering only). Evidence: exhaustive cdk audit (r95_fable_opaque2),
+    30 flags/8 cells/-G, same-TU inline helper x2 + data defined in TU (12 = unchanged), one-trip blocks (best 4), asm nop (3) - only an
+    empty volatile asm at that point is exact; one-off in the game -> most likely a header/debug macro that compiled to nothing.
+    Tracked separately as a curiosity in ledger/oddities.jsonl and a STATUS line - NOT a pin, NOT a removal target. Guarded:
+    kitlib.admissible refuses any new ODDITY_* in lane candidates; land_lanes.sh admits ODDITY_* growth only for ledgered rows.
+    Pins 151 -> 150 / 81 -> 80 rows. 81329AC4 (REG pin on a page constant) is a different pin type: same test pending.

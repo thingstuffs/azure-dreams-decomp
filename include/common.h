@@ -318,6 +318,17 @@
 #define ASM_SCHED_BARRIER()     __asm__ __volatile__("")
 #endif
 
+/* ODDITY_SCHED_FENCE(): an ODDITY, not a pin (owner ruling 2026-10-06, docs/evidence/r95_decisions.md item 21).
+ * Same expansion as ASM_SCHED_BARRIER - a zero-byte volatile asm the scheduler will not move memory accesses across -
+ * used ONLY where retail provably needs a zero-byte barrier and an exhaustive search found no C alternative
+ * (most likely a header/debug macro in the original that compiled to nothing). Every use is listed in
+ * ledger/oddities.jsonl; land_lanes.sh refuses it anywhere else. Not counted as a pin, not a removal target. */
+#ifdef NON_MATCHING
+#define ODDITY_SCHED_FENCE()    ((void)0)
+#else
+#define ODDITY_SCHED_FENCE()    __asm__ __volatile__("")
+#endif
+
 /* ASM_MEM_BARRIER(): ASM_SCHED_BARRIER plus a "memory" clobber — a full
  * optimization fence: gcc must complete every pending store and forget every
  * cached memory value at this point (loads after it re-read memory). Use when

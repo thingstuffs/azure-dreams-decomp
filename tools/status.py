@@ -171,6 +171,10 @@ def main():
                + f".  At the pin: {sum(pins.values()):,}; " + ", ".join(f"{k} {v:,}" for k, v in pins.most_common(8)) + ".\n")
     hid = collections.Counter()
     for c in live.values(): hid.update(c["hidden"])
+    _odd = [json.loads(l) for l in open(ROOT / "ledger/oddities.jsonl")] if (ROOT / "ledger/oddities.jsonl").exists() else []
+    _ot = [json.loads(l) for l in open(ROOT / "ledger/onetrip_barrier_rows.jsonl")] if (ROOT / "ledger/onetrip_barrier_rows.jsonl").exists() else []
+    out.append(f"Tracked, not pins (owner 2026-10-06): oddities {len(_odd)} (ledger/oddities.jsonl - zero-byte fences retail needs, curiosities, "
+               f"not removal targets: {', '.join(o['id'] for o in _odd) or '-'}); one-trip barrier rows {len(_ot)} (ledger/onetrip_barrier_rows.jsonl).")
     out.append(f"Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements {hid['raw-pin']:,}, "
                f"calls of local asm wrappers {hid['wrapper-call']:,}, hand-written asm in function bodies {hid['asm-code']:,} "
                f"(C that is missing); symbol aliases {hid['symbol-alias']:,} (a second typed name for one symbol: a missing type); "

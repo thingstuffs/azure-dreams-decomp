@@ -225,6 +225,7 @@ what you measured instead.
 ---
 
 ## LEGITIMACY - a candidate that breaks any of these removes nothing
+- Never use `ODDITY_*` macros (round 95): they are orchestrator-placed curiosities listed in ledger/oddities.jsonl; a candidate that adds one is refused.
 - Never add `__asm__(".set D_X, 0xADDR")` / `.globl X; X = 0xADDR` equates (round 95): a name-encoded `extern` (D_<ADDR>/func_<ADDR>) links by its name; a second name for one address is a line in config/overlays/abs_syms.txt or config/slus_006.14.c_syms.txt (orchestrator), never asm in the row.
 
 The census counts these exactly like pins:
