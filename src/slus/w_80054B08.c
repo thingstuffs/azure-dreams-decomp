@@ -42,10 +42,18 @@ typedef struct S_80084864
     u8 pad4[8];
 }
 S_80084864;
+typedef struct CueRecord {
+    u16 value;
+    u8 pad_02[0x2];
+    u32 base;
+    u32 first;
+    u32 second;
+} CueRecord;
+
 extern S_800847D0 D_800847D0;
 extern S_80084858 D_80084858;
 extern S_80084864 D_80084864;
-extern int *func_8003F534(void);
+extern CueRecord *func_8003F534(void);
 extern int func_80054AF0(int arg0);
 extern void func_80054C58(void);
 extern void func_80054CD4(void);
@@ -62,23 +70,23 @@ void func_80054B08(s32 message)
         u16 record_value;
         u32 first_offset;
         register u32 second_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-        int *record;
-        int offset_base;
+        CueRecord *record;
+        u32 offset_base;
         u8 first_tag;
         u8 second_tag;
         u32 flags;
         record = func_8003F534();
         offset_mask = 0xFF0000;
         ASM_KEEP(offset_mask);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-        record_value = *((u16 *) record);
+        record_value = record->value;
         status = &D_800847D0;
         status->field1C = record_value;
-        offset_base = record[1];
+        offset_base = record->base;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-        first_offset = record[2];
+        first_offset = record->first;
         offset_mask |= 0xFFFF;
         status->field10 = first_offset;
-        second_offset = record[3];
+        second_offset = record->second;
         first_tag = (u8) (first_offset >> 24);
         first_offset = first_offset & offset_mask;
         status->field10 = first_offset;
@@ -93,10 +101,10 @@ void func_80054B08(s32 message)
         status->field33 = second_tag;
         status->field14 = second_offset;
         second_offset = second_offset + 0x20;
-        flags = D_800847D0.flags1;
+        flags = status->flags1;
         status->field14 = second_offset + offset_base;
         if (flags & 0x400) {
-            D_800847D0.flags1 = flags | 0x4000;
+            status->flags1 = flags | 0x4000;
             D_80084864.v = 2;
             break;
         }
