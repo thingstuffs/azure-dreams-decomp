@@ -56,12 +56,11 @@ extern void func_800AA36C();
 extern void *func_8014C800();
 
 extern u8 D_8014CA70[];
-extern M2C_UNK D_8015D138;
+extern M2C_UNK D_8014D138;
 extern u8 D_80150AD4[];
 extern u8 D_80150AFC[];
 
 #ifdef __mips__
-__asm__(".set D_8015D138, 0x8014D138");
 #endif
 
 #ifdef __mips__
@@ -146,7 +145,7 @@ void *BODY_NAME(s16 flags, s16 field24_input, s16 field25_input, s16 field0A_inp
         func_800A9C18(((void *)(obj)), part_a, part_b, flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &D_8015D138;
+        actor->unk_8C = &D_8014D138;
         work->unk_1C |= 0x40000;
         actor->unk_A0 = 0;
         actor->unk_92 = -0x30;
