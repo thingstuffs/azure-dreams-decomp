@@ -57,3 +57,8 @@
     a getaddr/setaddr/addPrim macro set, not a fake dependency. Spelled as include/shared/ot_link.h OT_GETADDR/OT_SETADDR
     (ties the rows together). Landed: 800CA184 3 -> 2, 81910A9C 2 -> 1 (r96_cpu_otlink, gated MATCH). Rule for lanes: an
     idempotent re-mask at an OT-link site is the macro shape - use the shared macros; a re-mask elsewhere is still refused.
+14. **slus/w_8005947C: the empty stub func_80058E64 takes the status byte** (r96_opus_p3, 1 -> 0 pins). Definition in
+    src/slus/code.c changed `(void)` -> `(u8 status)` (empty body: byte-neutral, gated); the row's only caller passes
+    `event_byte`. Evidence: retail leaves the masked status in $a0 before the jal and prefs.py reproduces 8/8 allocations
+    from that argument's copy preference. Opposite direction of the phantom-argument rule (an empty stub's parameter list
+    is not recoverable from its own bytes; the caller's are the evidence). SECOND LOOK: yes.
