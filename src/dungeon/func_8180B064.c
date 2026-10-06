@@ -174,8 +174,8 @@ s32 func_80026864(void *objects, void *view_position, void *render_params)
                     vert0_ref = vert0_ref * 8;
                     vert0_ref = vert0_ref + (u32)vertices;
                     xy12 = xy1 + cell_x;
-                    xy13 = xy12 & 0xFFFF;
-                    ASM_USE2_NV(xy13, xy13);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    xy12 &= 0xFFFF;
+                    xy13 = (u16)xy12;
                     y1_high = (cell_y + vert1_ref_y) << 0x10;
                     xy14 = xy13 | y1_high;
                     xy2 = U16((u8 *)vert2_ref, 0);

@@ -67,11 +67,11 @@ extern void func_80170A44(void *, void *, void *, void *);
 extern void func_80170BB8(void *, void *, void *, void *, s32);
 extern void func_80171010(void *, void *, void *, s32, s32, s32);
 extern s32 func_8017165C(s32);
+extern int abs(int);
 
 /* Advances the entity animation sequence and relocates it to a distant tile. */
-void func_80175594(void *motion, void *position, void *entity, void *object_in)
+void func_80175594(void *motion, void *position, void *entity, void *object)
 {
-    register void *object ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 particle_index;
     s32 tries_left;
     s32 burst_x;
@@ -82,13 +82,11 @@ void func_80175594(void *motion, void *position, void *entity, void *object_in)
     s32 height_offset;
     s32 dx;
     s32 dy;
-    s32 entity_y;
     u8 old_x;
     u8 old_y;
     u8 *animations;
 
 
-    object = object_in;
     switch (((S_80175594_0 *)motion)->unk_9B) {
     case 0:
         ((S_80175594_1 *)position)->unk_14 = 0;
@@ -214,30 +212,21 @@ void func_80175594(void *motion, void *position, void *entity, void *object_in)
         tries_left = 0x20;
         old_x = ((Rec_func_800D6DC0_arg2 *)entity)->unk_24;
         old_y = ((Rec_func_800D6DC0_arg2 *)entity)->unk_25;
-        do {
+        for (;;) {
             do {
                 tile_result = func_800A4E2C((u8 *)entity + 0x24, (u8 *)entity + 0x25);
             } while (tile_result < 0);
 
-            dx = D_80082E80.tileX;
-            dy = ((Rec_func_800D6DC0_arg2 *)entity)->unk_24;
-            entity_y = ((Rec_func_800D6DC0_arg2 *)entity)->unk_25;
-            dx -= dy;
-            dy = D_80082E80.tileY;
-            if (dx < 0) {
-                dx = -dx;
-            }
-            dy -= entity_y;
-            if (dy < 0) {
-                dy = -dy;
-            }
+            dx = abs(D_80082E80.tileX - ((Rec_func_800D6DC0_arg2 *)entity)->unk_24);
+            dy = abs(D_80082E80.tileY - ((Rec_func_800D6DC0_arg2 *)entity)->unk_25);
             if (dx + dy >= 0x21) {
                 break;
             }
-        } while (--tries_left >= 0);
-        if (dx + dy < 0x21) {
-            ((Rec_func_800D6DC0_arg2 *)entity)->unk_24 = old_x;
-            ((Rec_func_800D6DC0_arg2 *)entity)->unk_25 = old_y;
+            if (--tries_left < 0) {
+                ((Rec_func_800D6DC0_arg2 *)entity)->unk_24 = old_x;
+                ((Rec_func_800D6DC0_arg2 *)entity)->unk_25 = old_y;
+                break;
+            }
         }
 
         ((S_80175594_1 *)position)->unk_02.s = (((Rec_func_800D6DC0_arg2 *)entity)->unk_24 << 6) + 0x20;
