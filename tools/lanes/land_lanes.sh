@@ -81,10 +81,12 @@ import sys, glob, os, re, shutil, hashlib, collections
 sys.path.insert(0, "tools")
 from pin_census import sites_of
 stage, lanes = sys.argv[1], sys.argv[2:]
-bad = re.compile(r"ASM_[A-Z0-9_]+(?=\()|ODDITY_[A-Z_]+(?=\()|while\s*\(\s*0\s*\)|__asm__|\bvolatile\b")
+# round 96: `\basm\s*\(` = plain register asm (`register T x asm("$4")`, LOCAL_ASM_REG macros) - a pin pin_census does not count
+bad = re.compile(r"ASM_[A-Z0-9_]+(?=\()|ODDITY_[A-Z_]+(?=\()|while\s*\(\s*0\s*\)|__asm__|\basm\s*\(|\bvolatile\b")
 # a computed goto counts once plus once per `&&label` address it can reach (a label array is a jump site per entry)
 gotos = lambda t: (lambda c: len(re.findall(r"\bgoto\s+\w+\s*;", c)) + len(re.findall(r"\bgoto\s*\*", c)) + len(re.findall(r"[{,=]\s*&&\s*[A-Za-z_]\w*", c)))(re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", t, flags=re.S)))
-m2c = lambda t: len(re.findall(r"\bM2C_[A-Z_]+\b|\b(?:temp|var|phi)_[a-z][a-z0-9_]*\b|\barg[0-9]\b|\bsp[0-9A-F]{2,3}\b|\bNON_MATCHING\b", re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", t, flags=re.S))))
+# round 96: S_<addr> address-named struct views count as decompiler leftovers too (typing lanes replace them)
+m2c = lambda t: len(re.findall(r"\bM2C_[A-Z_]+\b|\b(?:temp|var|phi)_[a-z][a-z0-9_]*\b|\barg[0-9]\b|\bsp[0-9A-F]{2,3}\b|\bNON_MATCHING\b|\bS_[0-9A-F]{8}\w*", re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", t, flags=re.S))))
 ODDITY_OK = {__import__("json").loads(l)["id"] for l in open("ledger/oddities.jsonl")} if os.path.exists("ledger/oddities.jsonl") else set()
 ONETRIP_OK = {__import__("json").loads(l)["id"] for l in open("ledger/onetrip_barrier_rows.jsonl")} if os.path.exists("ledger/onetrip_barrier_rows.jsonl") else set()
 kinds = lambda t: collections.Counter(m.group(0).replace(" ", "") for m in bad.finditer(re.sub(r"/\*.*?\*/", "", t, flags=re.S)))
