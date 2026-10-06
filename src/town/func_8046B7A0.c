@@ -18,7 +18,7 @@ extern u8 D_80018748[];
 
 typedef struct {
     u8 flags[4];
-    volatile s32 next;
+    s32 next;
 } TownRecord;
 
 extern TownRecord D_800186C0[];
@@ -28,11 +28,14 @@ void func_8001C7A0(void)
 {
     if (D_800186C0[0].next != 0) {
         s16 *check_values = D_80018740;
-        TownRecord *record = D_800186C0;
+        s32 ri = 0;
+        TownRecord *record;
         s16 *check_value;
-        s32 flag_index = 0;
+        s32 flag_index;
 
         do {
+            record = &D_800186C0[ri];
+            flag_index = 0;
             check_value = check_values;
 
             do {
@@ -50,9 +53,8 @@ void func_8001C7A0(void)
                 ((S_8001C7A0_1 *)owner)->unk_10.s = record->next;
                 return;
             }
-            record++;
-            flag_index = 0;
-        } while (record->next != 0);
+            ri++;
+        } while (D_800186C0[ri].next != 0);
     }
 
     {

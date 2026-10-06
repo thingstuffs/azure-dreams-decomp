@@ -164,7 +164,7 @@ void func_80024B54(void *effect_arg, void *position) {
     s32 step_count;
     u16 *input_page;
     s32 position_valid;
-    register s32 step_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    s32 origin_x, shifted_height, view_heading;
     s32 clear_tint_mask;
     s32 neutral_color;
     u16 start_delay;
@@ -174,6 +174,10 @@ void func_80024B54(void *effect_arg, void *position) {
     u16 next_state_c1;
     u16 next_state_c2;
     u16 next_state_c3;
+    s32 forward_dx;
+    s32 forward_dy;
+    s32 backtrack_dx;
+    s32 backtrack_dy;
     u8 tile_y;
     void *actor_or_frame;
     void *effect_data;
@@ -221,22 +225,24 @@ void func_80024B54(void *effect_arg, void *position) {
             rounded_phase = (phase_random) + 0xFFF;
         }
         origin = &D_80083780;
-        step_value = (s32)D_80083780.x.v;
-        (*(s32 *)((u8 *)position + 0)) = step_value;
+        origin_x = (s32)D_80083780.x.v;
+        (*(s32 *)((u8 *)position + 0)) = origin_x;
         phase = phase_random - ((rounded_phase >> 12) << 12);
-        actor_value = (void *)origin->y.v;
-        (*(s32 *)((u8 *)position + 4)) = (s32)actor_value;
+        (*(s32 *)((u8 *)position + 4)) = origin->y.v;
         actor_value = D_800814A8;
         tile_or_y_steps = (u8 *)&D_80082E80;
-        step_value = ((((S_80024B54_1 *)actor_value)->unk_88) - 0x50) << 0x10;
+        shifted_height = ((((S_80024B54_1 *)actor_value)->unk_88) - 0x50) << 0x10;
         effect_data = offset;
-        (*(s32 *)((u8 *)position + 8)) = step_value;
-        step_count = gameWork.view.viewAngle;
-        step_value = step_count;
+        (*(s32 *)((u8 *)position + 8)) = shifted_height;
+        view_heading = gameWork.view.viewAngle;
         state_or_heading = ((S_80024B54_1 *)actor_value)->unk_2A.s;
         offset_mode = 0;
-        step_value = ((step_value + state_or_heading + 0x100) >> 7) & 0x1C;
-        actor_or_frame = (void *)(s32)*(M2C_UNK *)(step_value + D_800E3D18);
+        view_heading += state_or_heading;
+        view_heading += 0x100;
+        view_heading >>= 7;
+        view_heading &= 0x1C;
+        state_or_heading = D_800E3D18;
+        actor_or_frame = (void *)(s32)*(M2C_UNK *)(view_heading + state_or_heading);
         if (func_8003DE58(actor_or_frame, tile_or_y_steps, effect_data, offset_mode) != 0) {
             (*(s32 *)((u8 *)position + 0)) = (s32)((*(s32 *)((u8 *)position + 0)) + (offset[0] << 0x10));
             (*(s32 *)((u8 *)position + 4)) = (s32)((*(s32 *)((u8 *)position + 4)) + (offset[1] << 0x10));
@@ -256,10 +262,10 @@ void func_80024B54(void *effect_arg, void *position) {
             ((S_80024B54_7 *)target_pos)->unk_06.u = (u16)((tile_y << 6) + 0x20);
             do {
                 actor_or_frame = D_800814A8;
-                step_value = dirStepX[(((S_80024B54_5 *)actor_or_frame)->unk_2A >> 9) & 7];
-                ((S_80024B54_7 *)target_pos)->unk_02.u = (u16)(((S_80024B54_7 *)target_pos)->unk_02.u + (step_value << 6));
-                step_value = dirStepY[(((S_80024B54_5 *)actor_or_frame)->unk_2A >> 9) & 7];
-                ((S_80024B54_7 *)target_pos)->unk_06.u = (u16)(((S_80024B54_7 *)target_pos)->unk_06.u + (step_value << 6));
+                forward_dx = dirStepX[(((S_80024B54_5 *)actor_or_frame)->unk_2A >> 9) & 7];
+                ((S_80024B54_7 *)target_pos)->unk_02.u = (u16)(((S_80024B54_7 *)target_pos)->unk_02.u + (forward_dx << 6));
+                forward_dy = dirStepY[(((S_80024B54_5 *)actor_or_frame)->unk_2A >> 9) & 7];
+                ((S_80024B54_7 *)target_pos)->unk_06.u = (u16)(((S_80024B54_7 *)target_pos)->unk_06.u + (forward_dy << 6));
                 ((S_80024B54_7 *)target_pos)->unk_0A.u = (u16)((S_80024B54_5 *)actor_or_frame)->unk_88;
                 ground_height = func_800BCAD0(target_pos);
                 ((S_80024B54_7 *)target_pos)->unk_0A.u = ground_height;
@@ -271,11 +277,11 @@ void func_80024B54(void *effect_arg, void *position) {
                     ((S_80024B54_7 *)target_pos)->unk_06.u, (s16)((S_80024B54_7 *)target_pos)->unk_0A.u);
                 if ((position_valid << 0x10) != 0) {
                     actor_or_frame = D_800814A8;
-                    step_value = dirStepX[(((S_80024B54_5 *)actor_or_frame)->unk_2A >> 9) & 7];
-                    ((S_80024B54_7 *)target_pos)->unk_02.u = (u16)(((S_80024B54_7 *)target_pos)->unk_02.u - (step_value
+                    backtrack_dx = dirStepX[(((S_80024B54_5 *)actor_or_frame)->unk_2A >> 9) & 7];
+                    ((S_80024B54_7 *)target_pos)->unk_02.u = (u16)(((S_80024B54_7 *)target_pos)->unk_02.u - (backtrack_dx
                         << 5));
-                    step_value = dirStepY[(((S_80024B54_5 *)actor_or_frame)->unk_2A >> 9) & 7];
-                    ((S_80024B54_7 *)target_pos)->unk_06.u = (u16)(((S_80024B54_7 *)target_pos)->unk_06.u - (step_value
+                    backtrack_dy = dirStepY[(((S_80024B54_5 *)actor_or_frame)->unk_2A >> 9) & 7];
+                    ((S_80024B54_7 *)target_pos)->unk_06.u = (u16)(((S_80024B54_7 *)target_pos)->unk_06.u - (backtrack_dy
                         << 5));
                     ((S_80024B54_7 *)target_pos)->unk_0A.u = (u16)((S_80024B54_5 *)actor_or_frame)->unk_88;
                     near_height = func_800BCAD0(target_pos);
