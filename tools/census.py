@@ -14,6 +14,10 @@ DATA_RE = re.compile(r"\b(D_[0-9A-F]{8})\b")
 LABEL_RE = re.compile(r"^\s*([A-Za-z_][A-Za-z0-9_]*)\s*:\s*(?://.*|/\*.*)?$", re.M)
 DEF_RE = re.compile(r"^[ \t]*[A-Za-z_][A-Za-z0-9_ \*]*?\b\**(func_[0-9A-F]{8})\s*\(", re.M)
 
+def _real_tail_count(text):
+    from levels import real_tail_call_targets   # lazy: levels imports census
+    return len(real_tail_call_targets(text))
+
 def audit_index():
     d = json.load(open(ROOT / "config/decomp_audit_baseline.json"))
     idx = {}
@@ -242,7 +246,7 @@ def census_one(row, audit):
         "inline_asm": len(re.findall(r"__asm__|\basm\s*\(", text)), "include_asm": "INCLUDE_ASM(" in text,
         "noreturn": text.count("noreturn"), "register_decls": len(re.findall(r"\bregister\b", text)),
         # scaffolding debt (docs/FIDELITY.md): the noreturn tail-call spelling and the maspsx markers
-        "tail_idiom": len(re.findall(r"__attribute__\s*\(\s*\(\s*noreturn\s*\)\s*\)", text)) + len(re.findall(r"\basm\s*\(\s*\"func_[0-9A-F]{8}\"\s*\)|__asm__\s*\(\s*\"func_[0-9A-F]{8}\"\s*\)", text)),
+        "tail_idiom": _real_tail_count(text),   # r95: real noreturn tail calls only (levels.real_tail_call_targets), not composite data aliases
         "markers": sum(pins.get(k, 0) for k in ("TAILSLOT_PIN", "TAILSLOT_PIN_TIED", "PAGEBASE_PIN", "JALDELAY_PIN", "LIVE_SIBCALL_PIN", "SHAPE_D_SIBCALL_PIN", "BRANCH_LABEL_SPLIT")),
         # a `do { one statement } while (0)` is not a loop: it is a zero-byte scheduling barrier
         # (a bare block does NOT reproduce it - only the loop note does), so it is scaffolding in C
