@@ -1,21 +1,25 @@
-# Handover (2026-10-06 ~03:30Z, round 95 IN PROGRESS: measurement done, first landing 186 -> 161 pins / 89 rows) - start here
+# Handover (2026-10-06 ~06:00Z, round 95: measurement round + routed lanes; 186 -> 153 pins / 103 -> 83 rows; no lanes running) - start here
 
-**Update 03:30Z.** Landed + gated (75d5db89f, gate_all 37 MATCH + SLUS MATCH): 186 -> 161 pins / 103 -> 89 rows - sol61 x7 + astra x9
-(dossier-routed), Opus B (NEW rule: alloc_need "not a local qty" = MIRROR case -> one block-local variable per role), Opus D (NEW rule:
-%hi temp never inherits a GLOBAL destination -> one block-local destination pointer per site; 81008664), Opus C 800C5028, 8184AF90
-via land_coherence (pin-for-flag trade); func_80094984 handler chain at real arity (29 texts, dispatcher preserves $a2 -
-work/native_lane/r95_arity_check/FINDINGS.md); goto lanes (Sonnet ib1/ib2 3 rows, Gemini goto14-16 14 rows). Sweeps t122/t142
-(14 pin-free rows) were autocommitted ungated at 23:41Z (12be81432) and gated MATCH afterwards. levels.py L5 fix (1b788eb2f):
-tail_call 124 -> 8 rows, fidelity_site 1,650 -> 94 rows (tools/call_arity.py; status.py/census.py still carry the old tail regex).
-**OWNER-DELEGATED DECISIONS: docs/evidence/r95_decisions.md** (16 items, SECOND LOOK flags) - read it; nothing waits on the owner.
-**Fable r95_fable_opaque (ANSWER.md):** OPAQUE-BASE = three walls: in-EBB alias (8196096C, 81329AC4) GENUINE in cdk (cse notes every
-computable single set; gdb what-if proves the state) -> hard basket with proof; 800AED64 = allocator placement (join copy, both constraints
-explicit); 81910A9C = retail loop is not a loop.c loop (label+goto loop -> 0 pins dist 12); 800A1020 reclassified BIRTH.
-**Running 03:30Z:** Opus r95_opus_E (Fable follow-up: 800AED64, 81910A9C, 800A1020), Opus r95_opus_F (8 GLOBAL-ORDER codex misses
-with the B/D rules), Sonnet r95_sonnet_nm1 (promote clean NON_MATCHING port arms, 27 alt-C rows), astra pool r95a2 (r95_astra_a10-12,
-a14: sol61 misses; --no-land). All stage only; land them in one LAND_ISOLATED=1 land_gap.sh batch when they finish.
-**Corrections found this round:** lab.py listing dist 0 is NOT byte-exact on slus rows (konami_runtime_w_800345B8 "free win" was
-585 vs 586 words); r91_types_p12 was already applied (a83e8dbf6); t106_nmpromote only handles pinned rows.
+**Owner (10-06):** decide pending calls yourself on the evidence (docs/evidence/r95_decisions.md, 19 items, SECOND LOOK flags);
+never "park" stubborn rows - they go to the HARD BASKET (ledger/hard_basket.jsonl: 32 rows / ~60 pins, each with why_hard + next).
+**Landed (all gated MATCH):** 75d5db89f (186 -> 161), 4bd264f28 (-> 153), 703a676d1 (typed aliases). Pins came from: sol61/astra
+on dossier-routed rows (~22 rows), Opus B (mirror rule: one block-local per role), Opus D (per-site block-local pointer for %hi temps),
+Opus C 800C5028, Opus G 8133336C/81059F68 (use copied params directly + split at the prio.py boundary; host a $v1 RMW in the loop
+variable), 8184AF90 pin-for-flag trade. Readability: func_80094984 handler chain at real arity (29), NON_MATCHING crutch arms -> clean
+port spelling (7), typed aliases -> one type (7), gotos (17 rows + 14 sweep rows). levels.py L5 fix (tail_call 124 -> 8, fidelity_site
+1,650 -> 94). real_volatiles +11 slus rows.
+**Measurement outputs (read first next round):** work/native_lane/r95_measure (row/erase census), r95_opus_dossier (pin_dossier.tsv,
+MECHANISMS.md, FIRST_LANES.md), r95_wa1/wa2/pt CENSUS.md, r95_fable_opaque/ANSWER.md, r95_opus_T/TIE_CENSUS.md.
+**Mechanism answers this round:** OPAQUE-BASE in-EBB alias is genuine in cdk (8196096C, 81329AC4: cse notes every computable single
+set); 800AED64 allocator half solved, blocked by update_equiv_regs on a 2-ref base; the sched tie classes have NO global toolchain
+rule (instrumented cc1, tools/lanes/lanekit/sched_whatif: every global flip breaks 13-60 of 62 pin-free rows) - each tie row is a
+per-row source problem, and flip.py gives its exact move spec; a loop note is a full sched barrier (decision 19).
+**Yield:** codex (sol61/astra) paid best on routed rows; Opus mechanism lanes ~2 pins/lane, row retries on GLOBAL-ORDER misses 0.
+**Next, in order:** (1) owner second looks: decision 19 (macro-style do{}while(0) would land w_80048B8C + 8046C188), 4 (8184AF90
+flag), 8 (composite re-carve); (2) hard basket by mechanism, not row: the "cse substitutes a constant call argument" pair (800C7F80,
+w_80042560) is one question; (3) CELL rows (81876014 7, 80094C70 3, 800CDFD8, 813274E4, 808135E0, 8087514C); (4) workarounds:
+equates -> one symbol file (139 sites, tool change), extern-volatile restructuring (9 sites), SLUS flag-row provenance census (15),
+type phase 13; status.py/census.py still use the old tail regex; (5) module placement (the global L4 gate) as its own project.
 
 # Handover (2026-10-06 ~00:10Z, round 95: MEASUREMENT round, then routed lanes RUNNING) (original block)
 
