@@ -34,19 +34,13 @@ extern void func_80019638(void);
 
 /* Process the current cell value and clear it when the handler returns nonzero. */
 s32 func_80016B0C(void) {
-    u8 fallback_args[2];
+    u8 fallback_args[2] = { 2, 0xFF };
     S_80016B0C_0 *state;
     s32 result;
     s32 cell_index;
     u8 *cells;
 
-    do {
-    } while (0);
     state = *(void **)((s8 *)(&D_80016000));
-    do {
-        fallback_args[0] = 2;
-    } while (0);
-    fallback_args[1] = 0xFF;
     cell_index = state->unk_08;
     cells = state->unk_40;
     D_80019AFC = cells[cell_index * 8 + 4];
