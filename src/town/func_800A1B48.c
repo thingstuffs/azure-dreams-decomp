@@ -11,7 +11,8 @@ typedef struct S_8009F2A8_0 {
 M2C_UNK SD_Call();                     /* extern */
 s32 func_800644B8();                             /* extern */
 void func_8009F4C0(); /* extern */
-M2C_UNK func_800A3248();                      /* extern */
+typedef struct AllocatedObject AllocatedObject;
+AllocatedObject *func_800A3248();                      /* extern */
 void func_800A33E8();                      /* extern */
 extern s32 D_800834B8;
 extern M2C_UNK D_800935BC;

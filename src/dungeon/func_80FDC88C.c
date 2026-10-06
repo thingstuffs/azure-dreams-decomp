@@ -30,13 +30,12 @@ void func_8017208C(void *action_state, s32 context, void *sprite, void *actor) {
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_AC = (u8) (*(u8 *)((u8 *)&((EntityRec *)actor)->x + 3));
             (*(u8 *)((u8 *)&((EntityRec *)actor)->x + 3)) = 0xFFU;
             ((EntityRec *)actor)->unk_84 = 0x7E;
+            ((EntityRec *)actor)->unk_85 = 8;
         } else {
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_9A.as_s8 = 0x11;
             ((EntityRec *)actor)->unk_84 = 0x7C;
-        }
-        do {
             ((EntityRec *)actor)->unk_85 = 8;
-        } while (0);
+        }
         (*(u8 **)((u8 *)sprite + 0x2C)) = D_80174038;
         func_80047784(sprite, D_80174038[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);

@@ -7,7 +7,7 @@ typedef struct S_8001B3E4_0 {
 
 
 M2C_UNK func_80047938(void *, s32, s32);                            /* extern */
-M2C_UNK func_804024A4();                      /* extern */
+void func_804024A4();                      /* extern */
 
 /* Run the object update and invoke its follow-up when flag 0x2000 is set. */
 void func_8001B3E4(void *object_data, s32 first_value, s32 second_value) {

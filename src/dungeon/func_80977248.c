@@ -80,55 +80,42 @@ void func_80172A48(void *action, EntityRec *motion, void *actor, void *item)
             case 6:
                 is_special = 1;
             case 2:
-                goto kind_3;
+                effect_slot = (u8 *)item + 0xE;
+                break;
             case 5:
                 is_special = 1;
             case 1:
-                goto kind_2;
+                effect_slot = (u8 *)item + 0xB;
+                break;
             case 4:
                 is_special = 1;
             case 0:
-                goto kind_1;
-            default:
-                goto kind_default;
-            }
-        }
-
-        {
-            s32 item_kind;
-
-            item_kind = (*(u16 *)((u8 *)item + 0x46)) & 0x3FFF;
-            switch (item_kind) {
-            case 1:
                 effect_slot = (u8 *)item + 8;
-                break;
-            case 2:
-                effect_slot = (u8 *)item + 0xB;
-                break;
-            case 3:
-                effect_slot = (u8 *)item + 0xE;
                 break;
             default:
                 effect_slot = 0;
                 break;
             }
-            goto selection_ready;
+        } else {
+            s32 item_kind;
+
+            item_kind = (*(u16 *)((u8 *)item + 0x46)) & 0x3FFF;
+            switch (item_kind) {
+            case 3:
+                effect_slot = (u8 *)item + 0xE;
+                break;
+            case 2:
+                effect_slot = (u8 *)item + 0xB;
+                break;
+            case 1:
+                effect_slot = (u8 *)item + 8;
+                break;
+            default:
+                effect_slot = 0;
+                break;
+            }
         }
 
-kind_3:
-        effect_slot = (u8 *)item + 0xE;
-        goto selection_ready;
-kind_2:
-        effect_slot = (u8 *)item + 0xB;
-        goto selection_ready;
-normal_kind_1:
-kind_1:
-        effect_slot = (u8 *)item + 8;
-        goto selection_ready;
-kind_default:
-        effect_slot = 0;
-
-selection_ready:
         if (*effect_slot != 0) {
             ((S_80172A48_0 *)action)->unk_98 &= 0xFF7F;
             {
@@ -160,12 +147,8 @@ selection_ready:
                             item, ((S_80172A48_3 *)actor)->unk_24, ((S_80172A48_3 *)actor)->unk_25,
                             (*(s16 *)((u8 *)item + 0x2A)), 0x10);
                         (*(void * *)((u8 *)item + 0x60)) = target;
-                        do {
-                            dx = (*(s8 *)((u8 *)item + 0x72));
-                        } while (0);
-                        dy = (*(s8 *)((u8 *)item + 0x73));
-                        dx = abs(dx);
-                        dy = abs(dy);
+                        dx = abs(*(s8 *)((u8 *)item + 0x72));
+                        dy = abs(*(s8 *)((u8 *)item + 0x73));
                         (*(u8 *)((u8 *)item + 0x72)) = dx;
                         (*(u8 *)((u8 *)item + 0x73)) = dy;
                     }

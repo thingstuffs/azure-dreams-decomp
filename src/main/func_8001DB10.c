@@ -5,7 +5,8 @@ void *func_804047B0();                         /* extern */
 void *func_80404818();                         /* extern */
 M2C_UNK func_80404888();                         /* extern */
 void func_804048F8();                         /* extern */
-M2C_UNK func_80404A3C();                         /* extern */
+typedef struct MainPacket12 MainPacket12;
+MainPacket12 *func_80404A3C();                         /* extern */
 
 /* Process four embedded components, then the containing object. */
 void func_8001DB10(s32 object_addr) {
