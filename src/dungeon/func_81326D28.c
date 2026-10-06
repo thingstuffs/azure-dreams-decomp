@@ -95,19 +95,17 @@ void func_8016E528(void *motion, void *position, void *object) {
     void *direction_step;
     u8 *direction_table;
 
-    if (((S_8016E528_0 *)motion)->unk_12 != 3) {
-        goto check_settling;
-    }
-    delay_ticks = ((S_8016E528_0 *)motion)->unk_1A;
-    ((S_8016E528_0 *)motion)->unk_1A = (u16) (delay_ticks + 1);
-    if ((s16) delay_ticks >= 0x38) {
-        ((S_8016E528_0 *)motion)->unk_12 = 0;
-        ((S_8016E528_1 *)object)->unk_14 = (u16) (((S_8016E528_1 *)object)->unk_14 & 0xFF7F);
-        ((S_8016E528_0 *)motion)->unk_1A = 0U;
-        ((S_8016E528_0 *)motion)->unk_60 = 0x14900;
+    if (((S_8016E528_0 *)motion)->unk_12 == 3) {
+        delay_ticks = ((S_8016E528_0 *)motion)->unk_1A;
+        ((S_8016E528_0 *)motion)->unk_1A = (u16) (delay_ticks + 1);
+        if ((s16) delay_ticks >= 0x38) {
+            ((S_8016E528_0 *)motion)->unk_12 = 0;
+            ((S_8016E528_1 *)object)->unk_14 = (u16) (((S_8016E528_1 *)object)->unk_14 & 0xFF7F);
+            ((S_8016E528_0 *)motion)->unk_1A = 0U;
+            ((S_8016E528_0 *)motion)->unk_60 = 0x14900;
+        }
     }
 repeat_settling:
-check_settling:
     if (((S_8016E528_0 *)motion)->unk_12 != 1) {
         goto check_falling;
     }
@@ -194,7 +192,7 @@ check_falling:
         fall_height = ((S_8016E528_2 *)position)->unk_08.at02.v;
         if ((func_800BCB04((((S_8016E528_0 *)motion)->unk_48 << 6) & 0xFFC0,
             (((S_8016E528_0 *)motion)->unk_49 << 6) & 0xFFC0, (s16) (probe_height - 0x20)) - 7) >= fall_height) {
-            goto check_fall_repeat;
+            continue;
         }
         ((S_8016E528_2 *)position)->unk_08.at02.v = func_800BCB04((((S_8016E528_0 *)motion)->unk_48 << 6) & 0xFFC0,
             (((S_8016E528_0 *)motion)->unk_49 << 6) & 0xFFC0, (s16) ((u16) ((S_8016E528_2 *)position)->unk_08.at02.v
@@ -204,7 +202,6 @@ mark_removed:
         (*(u16 *)((u8 *)motion + (-2))) = (u16) (((S_8016E528_0_pre *)motion)[-1].unk_00 | 0x8000);
         objectFlagBlock.flags |= 0x8000;
         return;
-check_fall_repeat:
     } while (((S_8016E528_1 *)object)->unk_14 & 0x8000);
     do {
             if (((S_8016E528_0 *)motion)->unk_12 != 0) {
@@ -220,38 +217,31 @@ check_fall_repeat:
             direction_step = (((S_8016E528_0 *)motion)->unk_18 * 4) + direction_table;
             next_tile = ((S_8016E528_0 *)motion)->unk_48 + ((S_8016E528_3 *)direction_step)->unk_00;
             world_x = ((S_8016E528_2 *)position)->unk_00.at02.v;
-            if (next_tile != (world_x / 64)) {
-                goto update_height;
-            }
-            next_tile = ((S_8016E528_0 *)motion)->unk_49 + ((S_8016E528_3 *)direction_step)->unk_02;
-            world_y = ((S_8016E528_2 *)position)->unk_04.at02.v;
-            if (next_tile != (world_y / 64)) {
-                goto update_height;
-            }
-            if ((func_800A45D8((u16) ((S_8016E528_2 *)position)->unk_00.at02.v,
-                (u16) ((S_8016E528_2 *)position)->unk_04.at02.v, ((S_8016E528_2 *)position)->unk_08.at02.v) << 0x10) == 0) {
-                if (func_800BCB04((u16) ((S_8016E528_2 *)position)->unk_00.at02.v,
-                    (u16) ((S_8016E528_2 *)position)->unk_04.at02.v, ((S_8016E528_2 *)position)->unk_08.at02.v) < 0x200) {
-                    goto advance_tile;
+            if (next_tile == (world_x / 64)) {
+                next_tile = ((S_8016E528_0 *)motion)->unk_49 + ((S_8016E528_3 *)direction_step)->unk_02;
+                world_y = ((S_8016E528_2 *)position)->unk_04.at02.v;
+                if (next_tile == (world_y / 64)) {
+                    if (((func_800A45D8((u16) ((S_8016E528_2 *)position)->unk_00.at02.v,
+                        (u16) ((S_8016E528_2 *)position)->unk_04.at02.v, ((S_8016E528_2 *)position)->unk_08.at02.v) << 0x10) != 0) ||
+                        func_800BCB04((u16) ((S_8016E528_2 *)position)->unk_00.at02.v,
+                        (u16) ((S_8016E528_2 *)position)->unk_04.at02.v, ((S_8016E528_2 *)position)->unk_08.at02.v) >= 0x200) {
+                        ((S_8016E528_2 *)position)->unk_00.at00.v = (s32) (((S_8016E528_2 *)position)->unk_00.at00.v
+                            - ((S_8016E528_0 *)motion)->unk_4C);
+                        ((S_8016E528_0 *)motion)->unk_4C = 0;
+                        ((S_8016E528_0 *)motion)->unk_58 = 0;
+                        ((S_8016E528_2 *)position)->unk_04.at00.v = (s32) (((S_8016E528_2 *)position)->unk_04.at00.v
+                            - ((S_8016E528_0 *)motion)->unk_50);
+                        ((S_8016E528_0 *)motion)->unk_50 = 0;
+                        ((S_8016E528_0 *)motion)->unk_5C = 0;
+                    } else {
+                        ((S_8016E528_0 *)motion)->unk_48 = (s8) ((u8) ((S_8016E528_0 *)motion)->unk_48
+                            + *((((S_8016E528_0 *)motion)->unk_18 * 4) + direction_table));
+                        ((S_8016E528_0 *)motion)->unk_49 = (s8) ((u8) ((S_8016E528_0 *)motion)->unk_49
+                            + ((S_8016E528_4 *)(((((S_8016E528_0 *)motion)->unk_18 * 4) + direction_table)))->unk_02);
+                    }
+                    ((S_8016E528_1 *)object)->unk_06 = 0;
                 }
             }
-            ((S_8016E528_2 *)position)->unk_00.at00.v = (s32) (((S_8016E528_2 *)position)->unk_00.at00.v
-                - ((S_8016E528_0 *)motion)->unk_4C);
-            ((S_8016E528_0 *)motion)->unk_4C = 0;
-            ((S_8016E528_0 *)motion)->unk_58 = 0;
-            ((S_8016E528_2 *)position)->unk_04.at00.v = (s32) (((S_8016E528_2 *)position)->unk_04.at00.v
-                - ((S_8016E528_0 *)motion)->unk_50);
-            ((S_8016E528_0 *)motion)->unk_50 = 0;
-            ((S_8016E528_0 *)motion)->unk_5C = 0;
-            goto clear_motion;
-        advance_tile:
-            ((S_8016E528_0 *)motion)->unk_48 = (s8) ((u8) ((S_8016E528_0 *)motion)->unk_48
-                + *((((S_8016E528_0 *)motion)->unk_18 * 4) + direction_table));
-            ((S_8016E528_0 *)motion)->unk_49 = (s8) ((u8) ((S_8016E528_0 *)motion)->unk_49
-                + ((S_8016E528_4 *)(((((S_8016E528_0 *)motion)->unk_18 * 4) + direction_table)))->unk_02);
-        clear_motion:
-            ((S_8016E528_1 *)object)->unk_06 = 0;
-        update_height:
             ((S_8016E528_2 *)position)->unk_08.at00.v = (s32) (((S_8016E528_2 *)position)->unk_08.at00.v
                 + ((S_8016E528_0 *)motion)->unk_54);
             ((S_8016E528_0 *)motion)->unk_54 = (s32) (((S_8016E528_0 *)motion)->unk_54 + ((S_8016E528_0 *)motion)->unk_60);

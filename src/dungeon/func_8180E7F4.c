@@ -281,12 +281,11 @@ void *func_800277F4(void *first, void *second, void *destination) {
                 if (first_creature == result) {
                     first_creature = destination;
                     result = first_creature;
-                    goto select_donor;
+                } else {
+                    second_creature = destination;
+                    result = second_creature;
                 }
-                second_creature = destination;
-                result = second_creature;
             }
-select_donor:
             donor = second_creature;
             if (first_creature != result) {
                 donor = first_creature;
@@ -329,30 +328,30 @@ select_donor:
             if (element_mask >= 0) {
                 donor_seen[element_mask] = (u8) seen_mark;
                 donor_ability = donor + (element_mask * 3);
-                if ((u8) ((S_800277F4_2 *)result_primary_data)->unk_0A < (u8) ((S_800277F4_3 *)donor_ability)->unk_0A) {
-                    primary_output = merged_abilities + ((s16)ability_count * 3);
-                    ((S_800277F4_4 *)primary_output)->unk_00 = ((S_800277F4_3 *)donor_ability)->unk_08;
-                    ((S_800277F4_4 *)primary_output)->unk_02 = ((S_800277F4_3 *)donor_ability)->unk_0A;
-                    goto result_primary_done;
+            }
+            if (element_mask >= 0 &&
+                (u8) ((S_800277F4_2 *)result_primary_data)->unk_0A < (u8) ((S_800277F4_3 *)donor_ability)->unk_0A) {
+                primary_output = merged_abilities + ((s16)ability_count * 3);
+                ((S_800277F4_4 *)primary_output)->unk_00 = ((S_800277F4_3 *)donor_ability)->unk_08;
+                ((S_800277F4_4 *)primary_output)->unk_02 = ((S_800277F4_3 *)donor_ability)->unk_0A;
+            } else {
+                {
+                    s32 copy_dst_index = (s16) ability_count;
+                    s32 copy_dst_offset;
+                    u8 *copy_dst;
+                    s32 copy_src_index;
+                    u8 *copy_src;
+
+                    copy_dst_offset = copy_dst_index * 3;
+                    copy_dst = merged_abilities;
+                    copy_src_index = (s16) result_primary;
+
+                    copy_src = result + (copy_src_index * 3);
+
+                    (*(u8 *)((u8 *)copy_dst + copy_dst_offset)) = (u8) ((S_800277F4_5 *)copy_src)->unk_08;
+                    (*(u8 *)((u8 *)copy_dst + copy_dst_offset + 2)) = (u8) ((S_800277F4_5 *)copy_src)->unk_0A;
                 }
             }
-            {
-                s32 copy_dst_index = (s16) ability_count;
-                s32 copy_dst_offset;
-                u8 *copy_dst;
-                s32 copy_src_index;
-                u8 *copy_src;
-
-                copy_dst_offset = copy_dst_index * 3;
-                copy_dst = merged_abilities;
-                copy_src_index = (s16) result_primary;
-
-                copy_src = result + (copy_src_index * 3);
-
-                (*(u8 *)((u8 *)copy_dst + copy_dst_offset)) = (u8) ((S_800277F4_5 *)copy_src)->unk_08;
-                (*(u8 *)((u8 *)copy_dst + copy_dst_offset + 2)) = (u8) ((S_800277F4_5 *)copy_src)->unk_0A;
-            }
-result_primary_done:
             ability_count += 1;
         }
 merge_donor_primary:
@@ -374,22 +373,21 @@ merge_donor_primary:
                 *visited_slot = 1;
                 if (((s16)merge_out) >= 0) {
                     result_ability = result + (((s16)merge_out) * 3);
-                    if ((u8) ((S_800277F4_6 *)donor_primary_data)->unk_0A
-                        < (u8) ((S_800277F4_7 *)result_ability)->unk_0A) {
-                        s32 copy_dst_index = (s16) ability_count;
-                        s32 copy_dst_offset;
-                        u8 *copy_dst;
-
-                        copy_dst_offset = copy_dst_index * 3;
-                        copy_dst = merged_abilities;
-
-                        matched_ability = ((S_800277F4_7 *)result_ability)->unk_08;
-                        copy_dst[copy_dst_offset + 0] = matched_ability;
-                        copy_dst[copy_dst_offset + 2] = ((S_800277F4_7 *)result_ability)->unk_0A;
-                        goto donor_primary_done;
-                    }
                 }
-                {
+                if (((s16)merge_out) >= 0 &&
+                    (u8) ((S_800277F4_6 *)donor_primary_data)->unk_0A
+                        < (u8) ((S_800277F4_7 *)result_ability)->unk_0A) {
+                    s32 copy_dst_index = (s16) ability_count;
+                    s32 copy_dst_offset;
+                    u8 *copy_dst;
+
+                    copy_dst_offset = copy_dst_index * 3;
+                    copy_dst = merged_abilities;
+
+                    matched_ability = ((S_800277F4_7 *)result_ability)->unk_08;
+                    copy_dst[copy_dst_offset + 0] = matched_ability;
+                    copy_dst[copy_dst_offset + 2] = ((S_800277F4_7 *)result_ability)->unk_0A;
+                } else {
                     s32 copy_dst_index = (s16) ability_count;
                     s32 copy_dst_offset;
                     u8 *copy_dst;
@@ -405,7 +403,6 @@ merge_donor_primary:
                     copy_dst[copy_dst_offset + 0] = (u8) ((S_800277F4_5 *)copy_src)->unk_08;
                     copy_dst[copy_dst_offset + 2] = (u8) ((S_800277F4_5 *)copy_src)->unk_0A;
                 }
-donor_primary_done:
                 ability_count += 1;
             }
         }
@@ -444,63 +441,63 @@ donor_primary_done:
                 merge_key = ((S_800277F4_10 *)((key_source + ability_offset)))->unk_08;
                 other_match = func_800A57B4(other, merge_key);
                 if (other_match >= 0) {
-                        other_data = (u8 *)result_seen;
-                        if (source_side == 0) {
-                            other_data = donor_seen;
-                        }
-                        *(other_data + other_match) = 1;
-                        level_source = donor;
-                        if (source_side == 0) {
-                            level_source = result;
-                        }
-                        other_data = donor;
-
-                        ability_data = level_source + ability_offset;
-                        if (source_side != 0) {
-                            other_data = result;
-                        }
-                        match_offset = other_match * 3;
-                        if ((u8) ((S_800277F4_11 *)ability_data)->unk_0A
-                            < (u8) ((S_800277F4_12 *)((other_data + match_offset)))->unk_0A) {
-                            other_data = donor;
-                            ability_data = merge_out + ((s16)ability_count * 3);
-                            if (source_side != 0) {
-                                other_data = result;
-                            }
-                            *ability_data = ((S_800277F4_12 *)((other_data + match_offset)))->unk_08;
-                            other_data = donor;
-                            if (source_side != 0) {
-                                other_data = result;
-                            }
-                            ability_data[2] = ((S_800277F4_12 *)((other_data + match_offset)))->unk_0A;
-                            goto finish_ability;
-                        }
-                }
-                fallback_output = merge_out + ((s16)ability_count * 3);
-                clear_result_seen = donor;
-                if (source_side == 0) {
-                    clear_result_seen = result;
-                }
-                {
-                    s32 fallback_index = scan_index >> 1;
-                    s32 fallback_twice = fallback_index * 2;
-                    s32 fallback_offset = fallback_twice + fallback_index;
-                    u8 *fallback_source;
-                    u8 *second_source;
-
-                    fallback_source = clear_result_seen + fallback_offset;
-
-                    ((S_800277F4_13 *)fallback_output)->unk_00 = ((S_800277F4_14 *)fallback_source)->unk_08;
-                    second_source = donor;
+                    other_data = (u8 *)result_seen;
                     if (source_side == 0) {
-                        second_source = result;
+                        other_data = donor_seen;
                     }
+                    *(other_data + other_match) = 1;
+                    level_source = donor;
+                    if (source_side == 0) {
+                        level_source = result;
+                    }
+                    other_data = donor;
 
-
-                    ((S_800277F4_13 *)fallback_output)->unk_02 = ((S_800277F4_14 *)(second_source
-                        + fallback_offset))->unk_0A;
+                    ability_data = level_source + ability_offset;
+                    if (source_side != 0) {
+                        other_data = result;
+                    }
+                    match_offset = other_match * 3;
                 }
-finish_ability:
+                if (other_match >= 0 &&
+                    (u8) ((S_800277F4_11 *)ability_data)->unk_0A
+                        < (u8) ((S_800277F4_12 *)((other_data + match_offset)))->unk_0A) {
+                    other_data = donor;
+                    ability_data = merge_out + ((s16)ability_count * 3);
+                    if (source_side != 0) {
+                        other_data = result;
+                    }
+                    *ability_data = ((S_800277F4_12 *)((other_data + match_offset)))->unk_08;
+                    other_data = donor;
+                    if (source_side != 0) {
+                        other_data = result;
+                    }
+                    ability_data[2] = ((S_800277F4_12 *)((other_data + match_offset)))->unk_0A;
+                } else {
+                    fallback_output = merge_out + ((s16)ability_count * 3);
+                    clear_result_seen = donor;
+                    if (source_side == 0) {
+                        clear_result_seen = result;
+                    }
+                    {
+                        s32 fallback_index = scan_index >> 1;
+                        s32 fallback_twice = fallback_index * 2;
+                        s32 fallback_offset = fallback_twice + fallback_index;
+                        u8 *fallback_source;
+                        u8 *second_source;
+
+                        fallback_source = clear_result_seen + fallback_offset;
+
+                        ((S_800277F4_13 *)fallback_output)->unk_00 = ((S_800277F4_14 *)fallback_source)->unk_08;
+                        second_source = donor;
+                        if (source_side == 0) {
+                            second_source = result;
+                        }
+
+
+                        ((S_800277F4_13 *)fallback_output)->unk_02 = ((S_800277F4_14 *)(second_source
+                            + fallback_offset))->unk_0A;
+                    }
+                }
                 merged_entry = merge_out + ((s16)ability_count * 3);
                 if (((S_800277F4_15 *)merged_entry)->unk_00 == 0x2E) {
                     ((S_800277F4_15 *)merged_entry)->unk_00 = 0U;
@@ -512,9 +509,7 @@ finish_ability:
                     s32 visited_index = scan_index >> 1;
                     visited_row[visited_index] = 1;
                 }
-                goto next_ability;
             }
-next_ability:
             source_side ^= 1;
         }
         if ((ability_count << 0x10) == 0) {
@@ -536,20 +531,14 @@ next_ability:
                     if (!(result_seen[ability].flags & 7 & allowed_elements)) {
                         if (allowed_elements & 1) {
                             ability_ids[scan_index * 3] = (u8) ((((ability - 1) / 3) * 3) + 1);
-                            goto store_ability;
-                        }
-                        if (allowed_elements & 2) {
+                        } else if (allowed_elements & 2) {
                             ability_ids[scan_index * 3] = (u8) ((((ability - 1) / 3) * 3) + 2);
-                            goto store_ability;
-                        }
-                        if (allowed_elements & 4) {
+                        } else if (allowed_elements & 4) {
                             ability_ids[scan_index * 3] = (u8) ((((ability - 1) / 3) * 3) + 3);
                         }
-                        goto store_ability;
                     }
                 }
             }
-store_ability:
             ((S_800277F4_16 *)((result + (scan_index * 3))))->unk_08 = (u8) ability_ids[scan_index * 3];
             ability_level = ability_ids[(scan_index * 3) + 2];
             ((S_800277F4_16 *)((result + (scan_index * 3))))->unk_0A = ability_level;

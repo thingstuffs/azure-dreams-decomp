@@ -169,36 +169,35 @@ settle:
         }
     }
 fall:
-    if (((S_801747F0_0 *)motion)->unk_1C.s != 2) {
-        goto flight;
-    }
-    ((S_801747F0_1 *)position)->unk_08.at00.v += ((S_801747F0_0 *)motion)->unk_5C;
-    ((S_801747F0_0 *)motion)->unk_5C += ((S_801747F0_0 *)motion)->unk_68;
-    next_scale = ((S_801747F0_2 *)object)->unk_1E - 0xC8;
-    ((S_801747F0_2 *)object)->unk_1E = next_scale;
-    ((S_801747F0_2 *)object)->unk_1C = next_scale;
-    {
-        s32 fall_cell_x;
-        s32 fall_cell_y;
-        fall_cell_x = ((S_801747F0_0 *)motion)->unk_50.s;
-        fall_cell_y = ((S_801747F0_0 *)motion)->unk_51.s;
-        height = ((S_801747F0_1 *)position)->unk_08.at02u.v;
-        fall_height = ((S_801747F0_1 *)position)->unk_08.at02.v;
-        if ((func_800BCB04((fall_cell_x << 6) & 0xFFC0,
-                           (fall_cell_y << 6) & 0xFFC0,
-                           (s16)(height - 0x20)) - 7) < fall_height) {
-            ((S_801747F0_1 *)position)->unk_08.at02.v = func_800BCB04(
-                (((S_801747F0_0 *)motion)->unk_50.s << 6) & 0xFFC0,
-                (((S_801747F0_0 *)motion)->unk_51.s << 6) & 0xFFC0,
-                (s16)(((S_801747F0_1 *)position)->unk_08.at02p.v - 0x20));
-            ((S_801747F0_1 *)position)->unk_08.at00u.v = 0;
-            (*(u16 *)((u8 *)motion + -2)) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
-            return;
+    if (((S_801747F0_0 *)motion)->unk_1C.s == 2) {
+        ((S_801747F0_1 *)position)->unk_08.at00.v += ((S_801747F0_0 *)motion)->unk_5C;
+        ((S_801747F0_0 *)motion)->unk_5C += ((S_801747F0_0 *)motion)->unk_68;
+        next_scale = ((S_801747F0_2 *)object)->unk_1E - 0xC8;
+        ((S_801747F0_2 *)object)->unk_1E = next_scale;
+        ((S_801747F0_2 *)object)->unk_1C = next_scale;
+        {
+            s32 fall_cell_x;
+            s32 fall_cell_y;
+            fall_cell_x = ((S_801747F0_0 *)motion)->unk_50.s;
+            fall_cell_y = ((S_801747F0_0 *)motion)->unk_51.s;
+            height = ((S_801747F0_1 *)position)->unk_08.at02u.v;
+            fall_height = ((S_801747F0_1 *)position)->unk_08.at02.v;
+            if ((func_800BCB04((fall_cell_x << 6) & 0xFFC0,
+                               (fall_cell_y << 6) & 0xFFC0,
+                               (s16)(height - 0x20)) - 7) < fall_height) {
+                ((S_801747F0_1 *)position)->unk_08.at02.v = func_800BCB04(
+                    (((S_801747F0_0 *)motion)->unk_50.s << 6) & 0xFFC0,
+                    (((S_801747F0_0 *)motion)->unk_51.s << 6) & 0xFFC0,
+                    (s16)(((S_801747F0_1 *)position)->unk_08.at02p.v - 0x20));
+                ((S_801747F0_1 *)position)->unk_08.at00u.v = 0;
+                (*(u16 *)((u8 *)motion + -2)) |= 0x8000;
+                objectFlagBlock.flags |= 0x8000;
+                return;
+            }
         }
-    }
-    if (((S_801747F0_2 *)object)->unk_14 & 0x8000) {
-        goto fall;
+        if (((S_801747F0_2 *)object)->unk_14 & 0x8000) {
+            goto fall;
+        }
     }
 
 flight:
@@ -224,13 +223,10 @@ flight:
         next_cell_y = ((S_801747F0_0 *)motion)->unk_51.s + direction->unk_02;
         y = ((S_801747F0_1 *)position)->unk_04.at02.v;
         if (next_cell_y == (y / 64)) {
-            if ((func_800A45D8(((S_801747F0_1 *)position)->unk_00.at02u.v, ((S_801747F0_1 *)position)->unk_04.at02u.v,
-                               ((S_801747F0_1 *)position)->unk_08.at02.v) << 16) != 0) {
-                goto blocked;
-            }
-            if (func_800BCB04(((S_801747F0_1 *)position)->unk_00.at02u.v, ((S_801747F0_1 *)position)->unk_04.at02u.v,
+            if (((func_800A45D8(((S_801747F0_1 *)position)->unk_00.at02u.v, ((S_801747F0_1 *)position)->unk_04.at02u.v,
+                               ((S_801747F0_1 *)position)->unk_08.at02.v) << 16) != 0) ||
+                func_800BCB04(((S_801747F0_1 *)position)->unk_00.at02u.v, ((S_801747F0_1 *)position)->unk_04.at02u.v,
                               ((S_801747F0_1 *)position)->unk_08.at02.v) >= 0x200) {
-blocked:
                 ((S_801747F0_1 *)position)->unk_00.at00.v -= ((S_801747F0_0 *)motion)->unk_54;
                 ((S_801747F0_0 *)motion)->unk_54 = 0;
                 ((S_801747F0_0 *)motion)->unk_60 = 0;

@@ -84,14 +84,14 @@ s32 func_807AF648(DungeonObject *object, u16 *origin) {
     scratch->values[1] = origin[3];
     projection_flags = (u8 *)((u32)projection_flags | 0x94);
     scratch->values[2] = origin[5];
-    do {
+    for (; particle_index < 32; particle_index++) {
         {
             DungeonObject *particle_view = (DungeonObject *)((u8 *)object + (s16)particle_index);
             particle_view->level += 4;
             if ((s8)particle_view->level >= 48) {
                 if (object->active != 0) {
                     particle_view->level = 48;
-                    goto advance;
+                    continue;
                 }
                 particle_view->level = 0;
             }
@@ -150,16 +150,8 @@ s32 func_807AF648(DungeonObject *object, u16 *origin) {
                 packet_cursor += 12;
                 object->count = particle_count + 1;
             }
-advance:
-            {
-                s16 next_particle = particle_index + 1;
-                particle_index = next_particle;
-                if (next_particle >= 32) {
-                    break;
-                }
-            }
         }
-    } while (1);
+    }
     ((DungeonRoot *)root_slot->unk_000)->cursor = packet_cursor;
     return 0;
 }

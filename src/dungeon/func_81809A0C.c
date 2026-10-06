@@ -328,11 +328,9 @@ void func_8002520C(void *menu_in, void *motion_in, void *appearance_in) {
                         next_y = *(u16 *) step_or_cell;
                         x_value = x_step + base_x;
                         target_y = (u16)(y_value + next_y);
-                        goto check_other_side;
                     }
                     first_slot = menu + 0xC;
                 } else {
-check_other_side:
                     first_slot = menu + 0xC;
                 }
                 step_or_cell = ((S_8002520C_0 *)menu)->unk_26;
