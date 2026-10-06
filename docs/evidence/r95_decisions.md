@@ -16,7 +16,7 @@ Each line: decision - evidence - SECOND LOOK? (yes = owner may want to revisit).
    positive; pinned text exact at the target cell = rule 2). Land via land_coherence.sh; record in recipe_trades.jsonl. SECOND
    LOOK: yes - it adds a crutch flag in a plain cdk module (flag census will want it reconciled later).
 5. 800C5028 1 -> 0 via a shared `fail:` label (row already had a goto): ACCEPT (shared exit reached by 3+ jumps = plausibly original).
-6. Dead copy/load rows 800A3D40, 8105A724, 81339F68 (DEAD-INSN): PARK. A pure-C dead copy is deleted by flow; every candidate needs a
+6. Dead copy/load rows 800A3D40, 8105A724, 81339F68 (DEAD-INSN): HARD BASKET. A pure-C dead copy is deleted by flow; every candidate needs a
    fake consumer (81339F68's adds a store retail lacks). Same for the pending r93_opus_fp1 items: (a) no-op RMW `&= 0xF7FFFFFF` on a u16
    field - REFUSE (fake no-op operation; keep the volatile); (b) type-pun `y = *(s32 *)&x` to keep a stack slot - REFUSE (shapes the frame,
    not the source; keep the volatile). Never-accessed 8-byte frames: stay HELD. SECOND LOOK: yes if you'd accept a dead-copy spelling.
@@ -28,8 +28,8 @@ Each line: decision - evidence - SECOND LOOK? (yes = owner may want to revisit).
 9. L5 predicate (r95_pt CENSUS.md section 4): ADOPT - drop sites keyed to functions the row does not define (SLUS merged defs),
    PASSTHRU only when the call is arity-short vs its definition, INDIRECT only for empty-arg slot calls, JT only while `goto *`
    remains, declared noreturn tails counted once (tail_call). Implemented by a tooling lane with tests; levels before/after recorded.
-10. Park list (r95_opus_dossier FIRST_LANES.md section 7, 20 rows / 43 pins): ACCEPT as tie-class residue; a mechanism lane may
-    reopen a row with new evidence (r95_opus_B already refuted 81888810/8188E3A0 -> added to park).
+10. HARD BASKET (was "park"; renamed on the owner's request 10-06) list (r95_opus_dossier FIRST_LANES.md section 7, 20 rows / 43 pins): not abandoned: ledger/hard_basket.jsonl holds each row's class, why it is hard and the next
+    measurement; normal row lanes skip it, mechanism lanes pick it up (r95_opus_B already refuted 81888810/8188E3A0 -> added to the hard basket).
 11. Type phase 12: ALREADY APPLIED (a83e8dbf6, round 91; apply12.sh --dry-run 10-06: 135 done, 66 already landed/stale, 0 to land) -
     r95_wa2's "never applied" was wrong. Next type work = phase 13 (r91_types_p12/DESIGN.md HOW TO CONTINUE).
 12. Cleanup approvals (CPU / tool, no model judgement needed): NON_MATCHING host-shim/stale strip (~22 rows); the 23 pin-free
@@ -48,3 +48,12 @@ Each line: decision - evidence - SECOND LOOK? (yes = owner may want to revisit).
     by alignment lanes and stayed open (8001C4D8 r93_sonnet_al3, 806D30B4/808B2B04 r92-r93, 80289BD4) or are owner-accepted
     (8028B994, r84); the 15 SLUS flag rows sit on 2.95.2 / 2.8.1 / stock 2.7.2 cells and may be SDK/library TUs, not game crutches,
     and lab.py cannot trial SLUS recipes. Not laned now; next step is a provenance census of those 15 SLUS TUs. SECOND LOOK: no.
+17. Fable OPAQUE-BASE follow-up (r95_opus_E, nothing exact): HARD BASKET 800AED64, 81910A9C, 800A1020 with the mechanism recorded, not as
+    impossible. 800AED64: allocator half SOLVED (q1: base set after func_80064D20 + join copy before func_80046884 = retail colours and
+    memory order); remaining blocker = local-alloc update_equiv_regs substitutes a 2-ref constant base -> needs a third natural base ref
+    before the copy (none found). 81910A9C: retail's loop DID have loop notes (flow loop-depth ref weighting decides the divide colours),
+    so Fable's goto-loop route is refuted; multi-set carrier is a partial lever (295 -> 250). 800A1020: sched1 birthing boost beats a
+    priority-1 store; combine decrements reg_n_sets when it folds a second set. Best texts: r95_opus_E/cand/. SECOND LOOK: no.
+18. Terminology (owner 10-06): no row is "parked" in the pin campaign - stubborn rows go to the HARD BASKET (ledger/hard_basket.jsonl:
+    id, pins, class, deciding pass, evidence lane, best text, why_hard, next). Builders/pools should skip basket rows for normal lanes;
+    mechanism lanes and every round's dossier re-read the basket. (ovmovie stays owner-parked as a container - a different thing.)
