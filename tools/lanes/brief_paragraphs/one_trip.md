@@ -31,3 +31,15 @@ conditional / else-return as the natural while/if). Otherwise, by what the block
 Did NOT yield (note and move on): pure loop-weight register-priority blocks (the block's +loop-depth refs decide a
 callee-saved order) and bare sched1/sched2 region barriers with no memory dependence (store vs disjoint load, prologue
 region, call-result sext).
+
+## Round 96 (r96_sonnet_ot1-ot4: 23 of 64 pin-free rows cleared) - shapes that were exact
+- `do { cur += N; } while (0);` last in a pointer-walk do-while body -> plain `cur += N;` placed BEFORE the counter increment (800B8B44).
+- one-trip before the first store of a small local pointer table -> brace initializer on the declaration `void *t[2] = { &A, &B };` (80470D24).
+- one-trip + manual `if (x < 0) x = 0 - x;` -> `abs(...)` (`extern int abs(int);` as sibling rows declare it) (800A816C).
+- one-trip around a pointer-walk step with a separate counter -> counted `for` with an indexed read of the table pointer (8001F720).
+- early `return x` inside a one-trip followed by a tail -> if/else with the tail in the else and ONE return at the end (805D2FC4).
+- `local = A; ...; local = B;` (a local reused for an unrelated second value) around a one-trip -> write B straight into its store as a compound op (8080BF18).
+- `p[k] |= m` (ARRAY_REF = MEM_IN_STRUCT) then a global read/RMW, held by a one-trip -> `*(p + k) |= m` (plain deref is not in_struct, sched1 keeps the order) (80814E64).
+- Never worked (measured, do not repeat): plain unwrap / statement permutations on pure loop-weight register-priority blocks; no-op masks (invented arithmetic - refused); structured spellings of goto loops that pass a constant argument to a call (loop.c hoists it: retail has no loop notes there).
+- Tool note: run lab.py from the LANE ROOT (it stages relative to the current directory).
+- (r96_sonnet_ot3/ot4) set of a local the sibling arms also use -> reuse the shared local; a callee-saved register swap on unwrap is a loop-weight REG_N_REFS effect: add the missing weighted ref NATURALLY (split nested call, real param type with a multiply, delete an early alias local); store in both arms; same-constant arms -> constant at the use; init at the loop head instead of before the loop + at the tail; junk argument to a (void) callee dropped (check the callee's definition and other callers). Plain unwrap: 0/18 on rows holding a sched1 region order or a reorg delay-slot fill.

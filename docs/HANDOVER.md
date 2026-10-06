@@ -1,3 +1,44 @@
+# Handover (2026-10-06 ~10:10Z, round 96 IN PROGRESS: 150 pins / 80 rows landed, 16 more staged) - start here
+
+**Owner brief (10-06, same as r95's):** close to removing all pins + workarounds; r95 was the measurement round, so r96
+= act on it: <= 1-2 Opus, 2-3 Sonnet at a time, use up astra + sol, Fable only as a one-off if everything is stuck.
+**Approach (why):** nearly every non-basket pinned row had a strong serve at its CURRENT text (served.py join), so r96 runs
+the loop "Sonnet fidelity prep at equal pins -> land -> re-serve to astra/sol/Opus", codex pools only on rows a tier had
+not seen at current text, Opus on MECHANISMS (not row retries), and Sonnet on pin-free workaround classes.
+Per-row history for every pinned row: work/native_lane/r96_harvest/rows/<container>__<func>.md (r91-r95 REPORT sections).
+**Landed + committed (all gated MATCH, autocommit is OFF - commit after each landing):** e7e759d7d (prep fp1-3),
+f84bee76b (vb1/ot1/ot2), 8d1483872 (vb2/ot3 + kitlib fakedep), 83c36c57c (rn1), 4421e8247 (fake deps, r96_opus_fd),
+fadbe3a8c (pr1), fd2ae374d (ot4/pr2), 37a7f6d59 (ib1). Workarounds removed: ~24 scaffolding volatiles, ~25 one-trip
+blocks, 8 of 10 fake-dependency sites (6 rows; 8000F774 open), ~50 gotos incl. labels-into-blocks, argN names on 90 rows,
+M2C_UNK prototypes on ~40 rows.
+**STAGED, landing queue (land_gap, LAND_ISOLATED=1; logs work/native_lane/_r96/land_*.log):** r96c2 (rn2+pr3), r96c3
+(rn3), r96g (g1+g2), r96pinA (astra a1 819613A8 6->2, a3 w_80047054 2->1, a4 800A6420 2->0 + 8184B130 1->0, a5
+8009B434 2->1). STILL TO LAND after their lanes end: astra a6 (8180C3C0 2->0), a7 (8009CCC4 1->0, w_80041E70 1->0),
+r96_opus_birth (800991C4 3->0 so far), sol61 s3, and the queued follow-up pools r96b (astra b1: 809548E4, 800CA184) /
+r96sb (sol61 b1: 807B0B3C, 80091F04, 8095563C, 800A8714) which start when pools r96a / r96s print POOL_*_END.
+**Running:** r96_opus_birth (BIRTH mechanism: TIE_CENSUS UNBOOST/FORCEBOOST pseudos), r96_opus_cg (11 computed-goto
+rows -> switch; SLUS rows need .rodata owner records it drafts in out/OWNER_RECORDS.md - orchestrator applies),
+r96_sonnet_fp4/fp5 (prep on sol-failed rows 8182C800, 81941338, w_8005947C, 80098520, 818B6AFC, 818F2800 -> re-serve
+astra after landing), r96_types_p13 (astra, type phase 13: delivers apply13.sh - apply only in a no-lanes window; many
+manifest rows will SKIP because ~150 rows changed since BUSY_ROWS13 was cut - correct behaviour, do not re-run the lane).
+**Mechanism answers this round:** CALL-ARG (r96_opus_ca MECHANISM.md) = sourced NEGATIVE in this cdk cc1 (cse const cost /
+copy canon / combine single-use merge / loop.c subst / sched1 boost all return the value to the call; pin-free rows always
+have a real join) -> 800C7F80, w_80042560, 8096C508, 800AE09C stay in the hard basket with that why_hard. Fake deps:
+`x = x;` deletes, OT links via addPrim bitfield macros, abs() compare, own switch local, sibling two-sided clamp
+(800A56D0, SECOND LOOK). 81329AC4 empty-fence test NEGATIVE (not an oddity). Decisions: docs/evidence/r96_decisions.md.
+**Kit changes:** kitlib._FAKEDEP + land_lanes.sh fd counter now see `x = x;` and `d += h; d -= h;`; brief_paragraphs
+one_trip / volatile_removal / goto_recipes gained the r96 measured shapes.
+**Traps hit this round:** (1) NEVER edit tools/lanes/land_lanes.sh while a lander runs - bash reads scripts incrementally;
+r96fd died with "unexpected EOF" after its gate (it survived only via land_gap's retry). (2) `pgrep -f` / kill on a
+pattern that also appears in your own command line kills your own shell (lost a queued lander). (3) lab.py stages
+relative to the CURRENT directory (three lanes hit it: run from the lane root) - kit fix pending for a quiet window.
+**Spent classes (do not re-serve without a new idea):** plain one-trip unwrap (0/18), unnoted backward goto loops ->
+structured loops (0/30+: loop.c notes the loop), tail copies that add a call site (0/21), CALL-ARG spellings.
+**Next:** land the queue in order, commit each; re-run the served_cur join (r96 harvest script in this block's lanes)
+for re-serve candidates (819613A8 2 left, w_80047054 1, 8009B434 1 + fp4/fp5 rows); 8000F774 fake-dep needs an
+allocation answer (r96_opus_fd REPORT); argN-in-extern-prototype names (~240 rows left) are a CPU-generator job, not
+lanes; re-run r95_wa2/tools/scan.py at round end for the workaround before/after.
+
 # Handover (2026-10-06 ~09:30Z, round 95 cont.: 150 pins / 80 rows; no lanes running) - start here
 
 **09:30Z:** ODDITIES class (owner 10-06, decisions item 21): 8196096C's barrier -> ODDITY_SCHED_FENCE() (include/common.h), tracked in

@@ -190,3 +190,14 @@ six stayed exact); a goto over a statement into an if chain -> invert the first 
 `break` on accept solved it 3 -> 0 pins + 6 gotos. Do not trust an earlier 'no loop in retail' note without `why.py --pass loop`
 on a structured candidate. A computed goto through a D_800240xx text-prefix table can become a compiler-owned switch
 (8185CFD4, table read from the retail bytes; the per-row scorer compares table words - window gate confirms ownership).
+
+## Round 96 (r96_sonnet_ib1, g1, g2, ot4)
+- statements before a compare split into their own `if (a) {pre}` then `if (a && b) {X} else {Y}` (3/3).
+- goto to the label right after its enclosing block / chain of gotos to the end -> delete / else-if chain (3/3).
+- forward goto over a phase -> `if (state == K) {...}` keeping the backward label in front (3/4).
+- goto to the do-while test -> `continue` (2/2); `do { ...; if (i >= N) break; } while (1)` -> `for (; i < N; i++)` with continue.
+- goto ladder into shared tails -> `switch` with C fallthrough; when the jump table disagrees write the cases in retail's
+  cross-jumped tail order (descending worked on 80977248).
+- a dead duplicate of the loop-top statement jumped over -> delete the duplicate and both labels.
+- Never worked: unnoted backward loops -> while/do/for (0/8: loop.c notes the loop, loop count changes); stub/block copies
+  that add a call site (0/13: jump table / cross-jump moves the shared tail).
