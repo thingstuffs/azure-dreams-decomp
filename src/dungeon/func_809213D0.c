@@ -46,8 +46,6 @@ extern M2C_UNK D_800F62BC;
 extern M2C_UNK D_800F6F28;
 extern M2C_UNK D_800F6F30;
 
-#define VFIELD(expr, type, offset) (*(volatile type *)((s8 *)(expr) + (offset)))
-
 /* Conditionally creates and initializes a type 0x12 object. */
 void func_800F63D0(void) {
     S_800F63D0_1 *graphics;
@@ -63,7 +61,7 @@ void func_800F63D0(void) {
             graphics = object->unk_08;
             graphics->unk_02 = 0x820;
             graphics->unk_06 = 0x820;
-            graphics->unk_0A = func_800BCA68(VFIELD(graphics, u16, 2), 0x820);
+            graphics->unk_0A = func_800BCA68(graphics->unk_02, 0x820);
             animation = object->unk_0C;
             animation->unk_1E = 0x1000;
             animation->unk_1C = 0x1000;

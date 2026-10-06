@@ -8,7 +8,6 @@ typedef s32 M2C_UNK;
 #endif
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-#define M2C_FIELD_V(expr, type_ptr, offset) (*(volatile type_ptr)((s8 *)(expr) + (offset)))
 
 void *func_8003FC64();
 s32 func_8004491C();
@@ -116,7 +115,7 @@ void *func_819AD1DC(void *src)
                 render->unk_1E = 0x800U;
             }
             shade = -0x80 - ((s32)((last_index - i) * 4));
-            scale = M2C_FIELD_V(render, u16 *, 0x1E);
+            scale = render->unk_1E;
             render->unk_0D = (u8)shade;
             render->unk_1C = scale;
             part->unk_38 = i;

@@ -28,9 +28,7 @@ void func_8070207C(s32 entry_index) {
     if (func_80702714(((S_8070207C_0 *)(D_80700000 + entry_offset))->unk_1DCC) != 0) {
         func_80702670(((S_8070207C_0 *)(D_80700000 + entry_offset))->unk_1DCE);
     } else {
-        do {
-        } while (0);
-        func_807026C0(((S_8070207C_0 *)(D_80700000 + entry_offset))->unk_1DCE);
+        func_807026C0(((S_8070207C_0 *)(D_80700000 + saved_index * 4))->unk_1DCE);
     }
     final_offset = saved_index * 4;
     func_80702670(((S_8070207C_1 *)(D_80700000 + final_offset))->unk_1DCC);

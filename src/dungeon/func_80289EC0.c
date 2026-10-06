@@ -31,10 +31,7 @@ void func_8001CEC0(Rect *rect, s32 rng_input_1, s32 rng_input_2, s32 rng_input_3
     s32 initial_width;
     s32 initial_height;
     s32 y_parity;
-    u16 flags;
-    u16 saved_flags;
-    u16 tile_y;
-    volatile Tile *tile;
+    Tile *tile;
 
     parity = func_800A6D30() & 1;
     initial_y = rect->y;
@@ -54,12 +51,9 @@ void func_8001CEC0(Rect *rect, s32 rng_input_1, s32 rng_input_2, s32 rng_input_3
                     if (((x & 1) == parity) && (y_parity == parity)) {
                         tile = (Tile *) (D_800EA000 +
                             (((y << dungeon->shiftX) + x) * 6));
-                        flags = tile->flags;
-                        saved_flags = tile->flags;
-                        tile->height = (flags >> 1) + 0x63;
-                        tile_y = tile->y;
-                        tile->flags = saved_flags | 0x8000;
-                        tile->y = tile_y - 0x60;
+                        tile->height = (tile->flags >> 1) + 0x63;
+                        tile->y -= 0x60;
+                        tile->flags |= 0x8000;
                     }
                     x++;
                 } while (x < x_end);

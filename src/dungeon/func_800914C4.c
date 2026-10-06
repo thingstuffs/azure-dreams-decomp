@@ -32,10 +32,8 @@ void func_80096C24(void *obj, s32 move_mode, void *actor, void *map)
     register s32 move_result;
     register u16 *move_state;
     DungeonGlobalStatus *updated_state;
-    DungeonGlobalStatus *state_base;
     register u8 *anim_table;
     register s32 facing_offset;
-    s32 map_flags;
 
     globals = &gameWork;
     func_800A67F4();
@@ -55,8 +53,7 @@ void func_80096C24(void *obj, s32 move_mode, void *actor, void *map)
         }
         func_8009A21C(U8(actor, 0x24), U8(actor, 0x25), 0x300);
 
-        state_base = &dungeonStatus;
-        move_state = (u16 *)state_base;
+        move_state = (u16 *)&dungeonStatus;
         move_state[1] |= 8;
         S32(obj, 0x8C) = 0;
 
@@ -137,21 +134,6 @@ void func_80096C24(void *obj, s32 move_mode, void *actor, void *map)
     }
 
     func_80094ED4(obj, move_mode, actor, map);
-    map_flags = S32(map, 0x1C);
-    {
-        s32 map_flag_mask;
-
-        map_flag_mask = 0x40000000;
-        map_flags |= map_flag_mask;
-    }
-    state_base = &dungeonStatus;
-    {
-        u8 *final_state_base;
-
-        do {
-            final_state_base = state_base;
-            S32(map, 0x1C) = map_flags;
-        } while (0);
-        ((u16 *)final_state_base)[1] |= 0x812;
-    }
+    S32(map, 0x1C) |= 0x40000000;
+    dungeonStatus.flags |= 0x812;
 }

@@ -29,7 +29,7 @@ typedef struct S_81934928_1 {
     u8 pad_04[0x2];
     u16 unk_06;
     u8 pad_08[0x2];
-    volatile u16 unk_0A;
+    u16 unk_0A;
 } S_81934928_1;   /* copy_page in func_81934928 */
 
 typedef struct S_81934928_2 {
@@ -98,6 +98,7 @@ void func_81934928(void *self, void *output)
     s32 random_value;
     s32 value;
     s16 countdown;
+    s32 page_value;
 
     state = ((S_81934928_0 *)self)->unk_0A.s;
     effect = ((S_81934928_0 *)self)->unk_00;
@@ -114,11 +115,11 @@ void func_81934928(void *self, void *output)
             copy_page = (u8 *)&D_80083780;
             ((S_81934928_0 *)self)->unk_10.s = ((S_81934928_1 *)copy_page)->unk_02;
             ((S_81934928_0 *)self)->unk_12.s = ((S_81934928_1 *)copy_page)->unk_06;
-            value = ((S_81934928_1 *)copy_page)->unk_0A;
+            page_value = ((S_81934928_1 *)copy_page)->unk_0A;
         }
         ((S_81934928_0 *)self)->unk_0C.s = 0x3C;
         ((S_81934928_0 *)self)->unk_0A.u++;
-        ((S_81934928_0 *)self)->unk_14 = value;
+        ((S_81934928_0 *)self)->unk_14 = page_value;
         func_800A56E0(0x300);
     }
         /* fallthrough */

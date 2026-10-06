@@ -48,7 +48,6 @@ typedef struct S_8107D000_4 {
 } S_8107D000_4;   /* temp_s5 in BODY_NAME */
 
 
-#define M2C_VOL_FIELD(expr, type_ptr, offset) (*(volatile type_ptr)((s8 *)(expr) + (offset)))
 
 void *func_8003FD64();
 s32 func_8004491C();

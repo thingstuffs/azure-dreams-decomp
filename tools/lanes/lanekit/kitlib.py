@@ -227,7 +227,10 @@ def m2c_count(t):
 # round 93 (owner: fake dependencies are refused): arithmetic that cancels itself only to add a use/order -
 # `+ v - v`, `- v + v`, `v ^ v`, `& m & m`.  Removing one is scaffolding removed; adding one is refused.
 _FAKEDEP = [re.compile(r"\+\s*(\w+)\s*-\s*\1\b(?!\s*[\[(.]|\s*->)"), re.compile(r"-\s*(\w+)\s*\+\s*\1\b(?!\s*[\[(.]|\s*->)"),
-            re.compile(r"\b(\w+)\s*\^\s*\1\b"), re.compile(r"&\s*(\w+)\s*&\s*\1\b")]
+            re.compile(r"\b(\w+)\s*\^\s*\1\b"), re.compile(r"&\s*(\w+)\s*&\s*\1\b"),
+            # round 96 (r96_opus_fd kit gap): self-assignment `x = x;` and the split pair `d += h; d -= h;`
+            re.compile(r"(?<![\w.>\]])\b(\w+)\s*=\s*\1\s*;"),
+            re.compile(r"(?<![\w.>\]])\b(\w+)\s*\+=\s*(\w+)\s*;\s*\1\s*-=\s*\2\s*;")]
 
 
 def fakedep_count(text):

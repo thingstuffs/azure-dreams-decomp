@@ -66,6 +66,7 @@ void func_80170A78(void *obj, void *input_motion, void *input_part)
     u16 bob_phase;
     s32 bob_offset;
     u8 direction_flag;
+    s16 saved_mode;
 
     if (*(u16 *)(((u8 *)(&dungeonStatus)) + 2) & 0x2000) {
         callback = (*(Callback *)((u8 *)obj + 0x8C));
@@ -79,9 +80,7 @@ void func_80170A78(void *obj, void *input_motion, void *input_part)
         }
     }
 
-    value_bits = *(volatile u8 *)((u8 *)obj + 0x6D);
-    value_bits <<= 24;
-    mode_or_dir = (s32)value_bits >> 24;
+    saved_mode = *(s8 *)((u8 *)obj + 0x6D);
     if (func_800A9E70(obj, input_motion, input_part, obj) != 0) {
         return;
     }
@@ -94,8 +93,7 @@ void func_80170A78(void *obj, void *input_motion, void *input_part)
         }
     }
     D_80174900[(*(u8 *)((u8 *)obj + 0x9A))](obj, input_motion, input_part, obj);
-    value_bits = (u32)mode_or_dir << 16;
-    if (((s32)value_bits >> 16) != (*(s8 *)((u8 *)obj + 0x6D))) {
+    if (saved_mode != (*(s8 *)((u8 *)obj + 0x6D))) {
         func_800AA36C(obj, input_motion, input_part, obj);
     }
 
