@@ -9,7 +9,7 @@ work/native_lane/r95_arity_check/FINDINGS.md); goto lanes (Sonnet ib1/ib2 3 rows
 tail_call 124 -> 8 rows, fidelity_site 1,650 -> 94 rows (tools/call_arity.py; status.py/census.py still carry the old tail regex).
 **OWNER-DELEGATED DECISIONS: docs/evidence/r95_decisions.md** (16 items, SECOND LOOK flags) - read it; nothing waits on the owner.
 **Fable r95_fable_opaque (ANSWER.md):** OPAQUE-BASE = three walls: in-EBB alias (8196096C, 81329AC4) GENUINE in cdk (cse notes every
-computable single set; gdb what-if proves the state) -> parked with proof; 800AED64 = allocator placement (join copy, both constraints
+computable single set; gdb what-if proves the state) -> hard basket with proof; 800AED64 = allocator placement (join copy, both constraints
 explicit); 81910A9C = retail loop is not a loop.c loop (label+goto loop -> 0 pins dist 12); 800A1020 reclassified BIRTH.
 **Running 03:30Z:** Opus r95_opus_E (Fable follow-up: 800AED64, 81910A9C, 800A1020), Opus r95_opus_F (8 GLOBAL-ORDER codex misses
 with the B/D rules), Sonnet r95_sonnet_nm1 (promote clean NON_MATCHING port arms, 27 alt-C rows), astra pool r95a2 (r95_astra_a10-12,
@@ -32,7 +32,7 @@ r91_luna_offby1/FINDINGS.md fix still unapplied). All rows L3.
 - `r95_opus_dossier/` (Opus): **pin_dossier.tsv** (one line per row: deciding pass, alloc_need, serves at current text, best old text,
   mechanism tag, ROUTE), **MECHANISMS.md** (pins by open compiler question), **FIRST_LANES.md** (routing of all 186 pins:
   sol61 37/52, astra 12/30, Opus mech A OPAQUE-BASE 8/18, Opus mech B LOCAL-GLOBAL 12/18 (NEW class: retail value is a global
-  allocno, ours a block-local qty), revive 3/5, recipe/cell 6/14, owner 4/4, PARK 20/43 with per-row reasons, GIV 1/2 queued).
+  allocno, ours a block-local qty), revive 3/5, recipe/cell 6/14, owner 4/4, HARD BASKET 20/43 with per-row reasons, GIV 1/2 queued).
   Old fewer-pin texts: 24 re-scored at current base, none exact except 81910A9C's refused double mask.
 - `r95_wa1/CENSUS.md` (Sonnet, toolchain/structure): `tail_call` L5 label is wrong on 112 of 124 rows (composite rows' `asm("func_X")`
   table symbol - fix levels.py `tail_idiom`); only 8 real noreturn tails (pin-free). inline asm 235 rows / 486 sites, 224 pin-free,
@@ -63,7 +63,7 @@ Nothing from r95 lanes has been landed yet; land with LAND_ISOLATED=1 land_gap.s
 **Owner decisions surfaced by the measurement:** (1) composite-row asm spelling (`asm("func_X")` + .size, ~114 rows); (2) the L5
 predicate change (r95_pt section 4) and fixing the tail_call label; (3) dead copy/load retail emits on 800A3D40, 8105A724, 81339F68
 (= pending r93_opus_fp1 (a)); (4) 800219C4 is PsyQ PATCH.OBJ - provenance call; (5) apply r91_types_p12; (6) 9 extern-volatile sites;
-(7) park list of 20 rows / 43 pins (FIRST_LANES.md section 7) - accept as tie-class residue unless a mechanism lane reopens them.
+(7) hard basket (was 'park'): ledger/hard_basket.jsonl - 29 rows / 56 pins with why_hard + next measurement; normal lanes skip them, mechanism lanes pick them up.
 
 # Handover (2026-10-05 ~16:00Z, round 94 DONE: Fable on an unsolved row + Opus/Sonnet fidelity-first lanes; no lanes running) - start here
 
