@@ -14,7 +14,7 @@ extern u8 D_80170800[];
 /* Loads or reuses entry resource data, optionally waiting for the CD read. */
 s32 func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read) {
     u8 *entry = resource_entry;
-    s32 asset_id = resource_id;
+    s16 asset_id = resource_id;
     s32 wait_mode = wait_for_read;
     s32 cached_id_abs = entry[0];
     s32 result = 0;
@@ -26,7 +26,8 @@ s32 func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read) {
     s32 loaded_id;
     s32 read_size;
     s32 disc_offset;
-    register s32 slot_base ASM_REG("$4") = resource_id;
+    s32 slot_base;
+    s32 slot_part;
     s32 asset_index;
     register s32 asset_offset;
     register s32 slot;
@@ -34,7 +35,7 @@ s32 func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read) {
     if (cached_id_abs != 2) {
         compare_id = D_800E3DA0[entry[3]];
         cached_id_abs = abs(compare_id);
-        compare_id = (u32)slot_base << 16;
+        compare_id = (u32)resource_id << 16;
         compare_id >>= 16;
         if ((cached_id_abs == compare_id) && (cached_id_abs != 0x39)) {
             entry[1] = asset_id;
@@ -59,10 +60,8 @@ s32 func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read) {
             data = D_80170800 - (slot_base << 13);
             asset_index = requested_id - 1;
             asset_offset = asset_index * 0x54;
-            do {
-                slot_base = (slot_base << 2) + 0x4340;
-            } while (0);
-            disc_offset = asset_offset + slot_base;
+            slot_part = slot * 12 + 0x4340;
+            disc_offset = asset_offset + slot_part;
         }
         cd_params = D_800E58A8;
         func_8003F6D4(read_size, data, cd_params, disc_offset);
@@ -77,10 +76,7 @@ s32 func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read) {
                 result = *(s32 *)data;
             }
             *(s32 *)(entry + 4) = result;
-            return result;
-        }
-
-        if (entry[0] != 2) {
+        } else if (entry[0] != 2) {
             D_800E3DA0[entry[3]] = -asset_id;
         }
     } else {

@@ -30,11 +30,10 @@ void func_80047054(void *data, s32 flagged_x_offset, s32 y_offset, s32 x_offset)
     u16 x_or_end_flag;
     u8 flags;
 
-    skip_bytes = ((S_80047054_0 *)header)->unk_04;
-    skip_bytes *= 4;
+    skip_bytes = ((S_80047054_0 *)header)->unk_04 << 2;
     entry_addr = ((S_80047054_0 *)header)->unk_00 + skip_bytes;
-    ASM_KEEP(entry_addr);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    if (entry_addr < ((S_80047054_0 *)header)->unk_08) {
+    skip_bytes = ((S_80047054_0 *)header)->unk_08;
+    if (entry_addr < skip_bytes) {
         part_entry_type = 2;
         entry = (u8 *)entry_addr + 4;
         do {

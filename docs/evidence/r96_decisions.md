@@ -42,3 +42,9 @@
     with original macros - the same pattern accepted for pinned rows (owner 10-06, item 19 / ledger/onetrip_barrier_rows.jsonl).
     Decision: stop serving them; keep them visible in the ledger. SECOND LOOK: yes (owner: accept as macro bodies, i.e.
     retire them from the scaffolding count, or keep them as removal targets for a future mechanism idea).
+11. **dungeon/func_819613A8 `x &= 0xFFFF; y &= 0xFFFF;` before their halfword stores (ACCEPTED as a spelling trade;
+    r96_opus_cont, 2 -> 1 pins).** Explicit truncation before a u16 store is ordinary C (combine deletes it, no
+    instruction); its effect is flow-time refs that order x/y above `row` in local-alloc. Unlike the refused no-op masks
+    (r96_sonnet_vb1 `(x & 0xFC) >> 2`) it does not invent a value transform. SECOND LOOK: yes (it exists for its
+    allocation effect). **slus/w_80047054 skip_bytes reused for the bound** (two roles, codegen-neutral rename) -
+    the accepted two-role temp class (r93/r94 trades). SECOND LOOK: no.

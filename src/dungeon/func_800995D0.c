@@ -1,26 +1,29 @@
 #include "common.h"
 #include "shared/dungeon_floor.h"
-#include "m2c_compat.h"
 
-typedef struct S_8009ED30_0 {
+#ifndef NULL
+#define NULL 0
+#endif
+
+typedef struct Obj12 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
-} S_8009ED30_0;   /* temp_v0 in func_8009ED30 */
+    void *unk_10;
+} Obj12;
 
-typedef struct S_8009ED30_1 {
+typedef struct Obj12Child {
     u8 pad_00[0x2];
     u16 unk_02;
     u8 pad_04[0x2];
     u16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_8009ED30_1;   /* temp_a2 in func_8009ED30 */
+} Obj12Child;
 
-typedef struct S_8009ED30_2 {
+typedef struct Obj12Render {
     u8 pad_00[0x8];
-    M2C_UNK * unk_08;
+    void *unk_08;
     s32 unk_0C;
     u8 pad_10[0x4];
     s16 unk_14;
@@ -29,16 +32,16 @@ typedef struct S_8009ED30_2 {
     u8 pad_1A[0x2];
     s16 unk_1C;
     s16 unk_1E;
-} S_8009ED30_2;   /* temp_v1 in func_8009ED30 */
+} Obj12Render;
 
-typedef struct S_8009ED30_3 {
+typedef struct Obj12ConfigPage {
     u8 pad_00[0x3638];
     u16 unk_3638;
     u16 unk_363A;
     u16 unk_363C;
-} S_8009ED30_3;   /* temp_page in func_8009ED30 */
+} Obj12ConfigPage;
 
-typedef struct S_8009ED30_4 {
+typedef struct Obj12State {
     u8 pad_00[0x4];
     s32 unk_04;
     u8 pad_08[0x4];
@@ -50,71 +53,70 @@ typedef struct S_8009ED30_4 {
     s16 unk_1A;
     s16 unk_1C;
     u16 unk_1E;
-} S_8009ED30_4;   /* temp_a0 in func_8009ED30 */
+} Obj12State;
 
 
 void *func_8003FC64();                       /* extern */
 s32 func_8004491C();           /* extern */
 struct ConfigWord { s32 value; };
-extern M2C_UNK D_8009E038;
-extern M2C_UNK D_8009E798;
-extern M2C_UNK D_800DD7E0;
+extern u8 D_8009E038[];
+extern u8 D_8009E798[];
+extern u8 D_800DD7E0[];
 
 /* Create and initialize the type 0x12 object if it is not already active. */
 void func_8009ED30(void) {
-    void *object;
+    Obj12 *object;
 
     if (!(D_800E296C & 0x80)) {
         object = func_8003FC64(0x12);
         if (object != NULL) {
-            ((S_8009ED30_0 *)object)->unk_10 = &D_8009E038;
-            func_8004491C(object, &D_8009E798);
+            object->unk_10 = D_8009E038;
+            func_8004491C(object, D_8009E798);
             {
                 u16 field_value;
                 u16 field_value_2;
                 u16 field_z;
-                void *object_state;
-                void *child;
+                Obj12State *object_state;
+                Obj12Child *child;
                 s32 color;
                 void *config_value;
                 s32 config_word;
                 register void *render_data ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-                child = (*(void **)((u8 *)object + 8));
-                ((S_8009ED30_1 *)child)->unk_0A = -1;
-                render_data = ((S_8009ED30_0 *)object)->unk_0C;
-                ((S_8009ED30_2 *)render_data)->unk_14 = 0xC;
-                ((S_8009ED30_2 *)render_data)->unk_08 = &D_800DD7E0;
+                child = object->unk_08;
+                child->unk_0A = -1;
+                render_data = object->unk_0C;
+                ((Obj12Render *)render_data)->unk_14 = 0xC;
+                ((Obj12Render *)render_data)->unk_08 = D_800DD7E0;
                 config_value = (void *) 0x80010000;
-                ((S_8009ED30_2 *)render_data)->unk_1E = 0;
-                ((S_8009ED30_2 *)render_data)->unk_1C = 0;
-                field_value_2 = ((S_8009ED30_3 *)config_value)->unk_363C;
-                object_state = object + 0x20;
-                ((S_8009ED30_4 *)object_state)->unk_1E = field_value_2;
-                field_value = ((S_8009ED30_3 *)config_value)->unk_3638;
-                ((S_8009ED30_1 *)child)->unk_02 = field_value;
-                ((S_8009ED30_4 *)object_state)->unk_14 = field_value;
-                field_z = ((S_8009ED30_3 *)config_value)->unk_363A;
-                ((S_8009ED30_1 *)child)->unk_06 = field_z;
-                ((S_8009ED30_4 *)object_state)->unk_16 = field_z;
-                ((S_8009ED30_4 *)object_state)->unk_1A = 0x10;
-                ((S_8009ED30_4 *)object_state)->unk_1C = 8;
+                ((Obj12Render *)render_data)->unk_1E = 0;
+                ((Obj12Render *)render_data)->unk_1C = 0;
+                field_value_2 = ((Obj12ConfigPage *)config_value)->unk_363C;
+                object_state = (Obj12State *)((u8 *)object + 0x20);
+                object_state->unk_1E = field_value_2;
+                field_value = ((Obj12ConfigPage *)config_value)->unk_3638;
+                child->unk_02 = field_value;
+                object_state->unk_14 = field_value;
+                field_z = ((Obj12ConfigPage *)config_value)->unk_363A;
+                child->unk_06 = field_z;
+                object_state->unk_16 = field_z;
+                object_state->unk_1A = 0x10;
+                object_state->unk_1C = 8;
                 color = 0x808080;
-                ((S_8009ED30_2 *)render_data)->unk_0C = color;
+                ((Obj12Render *)render_data)->unk_0C = color;
                 config_word = ((struct ConfigWord *)0x80013630)->value;
-                ((S_8009ED30_2 *)render_data)->unk_18 = 0;
-                ((S_8009ED30_2 *)render_data)->unk_16 = 0;
-                ((S_8009ED30_2 *)render_data)->unk_18 = 0;
-                ((S_8009ED30_2 *)render_data)->unk_16 = 0;
-                ((S_8009ED30_4 *)object_state)->unk_04 = (s32) config_word;
-                ((S_8009ED30_4 *)object_state)->unk_0C = (s32) config_word;
+                ((Obj12Render *)render_data)->unk_18 = 0;
+                ((Obj12Render *)render_data)->unk_16 = 0;
+                ((Obj12Render *)render_data)->unk_18 = 0;
+                ((Obj12Render *)render_data)->unk_16 = 0;
+                object_state->unk_04 = (s32) config_word;
+                object_state->unk_0C = (s32) config_word;
                 config_word = ((struct ConfigWord *)0x80013634)->value;
-                ((S_8009ED30_4 *)object_state)->unk_18 = 0;
+                object_state->unk_18 = 0;
                 (*(s32 *)((u8 *)object_state + 8)) = (s32) config_word;
                 (*(s32 *)((u8 *)object_state + 0x10)) = (s32) config_word;
                 render_data = (void *) D_800E296C;
-                config_word = 4;
-                ((S_8009ED30_4 *)object_state)->unk_1C = (s16) (s32) config_word;
+                object_state->unk_1C = 4;
                 D_800E296C = (s32) render_data | 0x80;
             }
         }
