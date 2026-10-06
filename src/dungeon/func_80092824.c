@@ -20,9 +20,9 @@ extern u8 D_800E07EF[];
 extern u8 D_800E3548[];
 extern u8 D_800E36C8[];
 
-void *func_80097F84(void *arg0, void *arg1, void *arg2, s16 arg3)
+void *func_80097F84(void *target, void *ptr1, void *ptr2, s16 flag)
 {
-    s16 held_arg3 = arg3;
+    s16 held_flag = flag;
     s32 first;
     s32 second;
     s32 index;
@@ -37,31 +37,31 @@ void *func_80097F84(void *arg0, void *arg1, void *arg2, s16 arg3)
     void *global_object;
     void **slot;
 
-    if (arg0 == (void *)&D_80081484 ||
-        arg0 == (void *)D_80081470 ||
-        arg0 == *(void **)((u8 *)D_800814A8 + 0xF0)) {
+    if (target == (void *)&D_80081484 ||
+        target == (void *)D_80081470 ||
+        target == *(void **)((u8 *)D_800814A8 + 0xF0)) {
     first = func_80098FB0();
     second = func_80098FF8();
     index = (s16)first;
 
     if (index < 0 || (s16)second < 0) {
         object = func_800990FC();
-        func_80099290(func_80099194(arg2,
-            func_8009955C(arg0,
-                func_80099194(arg1, func_8009929C(8, object)))));
+        func_80099290(func_80099194(ptr2,
+            func_8009955C(target,
+                func_80099194(ptr1, func_8009929C(8, object)))));
         func_800A5720(object);
         return 0;
     }
 
     object = func_800990FC();
     func_80099290(func_80099194(D_800E07EF,
-        func_80099368(arg0, object)));
-    if (held_arg3 != 0) {
+        func_80099368(target, object)));
+    if (held_flag != 0) {
         func_800A5720(object);
     }
     func_800A56E0(0x508);
 
-    if (arg0 == (void *)&D_80081484) {
+    if (target == (void *)&D_80081484) {
         slot = &((void **)0x80010248)[index];
         *slot = D_80081484;
         global_object = D_800814A8;
@@ -89,13 +89,13 @@ void *func_80097F84(void *arg0, void *arg1, void *arg2, s16 arg3)
     narrowed >>= 14;
     address = narrowed + (s32)entry_base;
     narrowed = (u16)second;
-    *(s32 *)arg0 = 0;
-    arg0 = (void *)address;
+    *(s32 *)target = 0;
+    target = (void *)address;
     entry_base = (u8 *)0x80010000;
     address = narrowed << 16;
     address >>= 14;
     address += (s32)entry_base;
-    *(void **)(address + 0x29c) = arg0;
+    *(void **)(address + 0x29c) = target;
     }
-    return arg0;
+    return target;
 }

@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern void func_8004DDBC(void *arg0, void *arg1, void *arg2);
-extern void func_80407160(void *arg0);
+extern void func_8004DDBC(void *ptr, void *ptr1, void *ptr2);
+extern void func_80407160(void *ptr);
 extern u8 D_80408A30[];
 
 /* Updates or clears selected slot outputs, then refreshes the state if any were selected. */

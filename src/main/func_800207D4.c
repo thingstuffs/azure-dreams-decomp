@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern void func_8007BEF0(s32 arg0) __attribute__((noreturn));
-extern void func_8007C040(void *arg0, void *arg1, s32 arg2);
+extern void func_8007BEF0(s32 value) __attribute__((noreturn));
+extern void func_8007C040(void *ptr, void *ptr1, s32 value);
 
 extern s32 D_804007A4[];
 extern s32 D_804007CC[];

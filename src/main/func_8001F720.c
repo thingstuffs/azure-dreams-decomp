@@ -4,10 +4,10 @@
 #define NULL 0
 #endif
 
-extern void func_80404DBC(s32 arg0);
-extern void func_80403D24(s32 arg0);
-extern void func_804059A8(s32 arg0);
-extern void func_80404570(s32 arg0);
+extern void func_80404DBC(s32 value);
+extern void func_80403D24(s32 value);
+extern void func_804059A8(s32 value);
+extern void func_80404570(s32 value);
 
 /* Dual symbols at the same address force load-via-v1 / store-via-at RMW
  * (retail uses separate %hi materializations, not a reused base reg). */

@@ -13,7 +13,7 @@ extern s16 D_8008146E;
 
 
 /* Counts down turns until a monster spawn, then resets the spawn timer. */
-void func_800A0DD8(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+void func_800A0DD8(s32 unused0, s32 unused1, s32 unused2, s32 unused3) {
     s16 spawn_turns;
 
     if (D_8008146E != 0) {

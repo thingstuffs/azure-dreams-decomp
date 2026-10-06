@@ -1,11 +1,11 @@
 #include "common.h"
 
-extern s32 func_8004B4A8(void *arg0);
-extern void *func_8003FE78(s32 arg0, void *arg1, s32 arg2);
+extern s32 func_8004B4A8(void *ptr);
+extern void *func_8003FE78(s32 value, void *ptr1, s32 value2);
 extern void func_8004491C(void *entry, void *registration_id);
 extern void func_80026FB4(void *object);
-extern void bzero(void *arg0, s32 arg1);
-extern void func_80026DF0(void *arg0, s32 arg1);
+extern void bzero(void *ptr, s32 size);
+extern void func_80026DF0(void *ptr, s32 value);
 extern s32 func_80026DC8(void *nodes);
 extern void func_80026E90(s8 *record, s32 initial_value);
 

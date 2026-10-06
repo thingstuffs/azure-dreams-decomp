@@ -17,9 +17,9 @@ typedef struct Input6 {
 
 typedef struct Tail {
     s16 pad0;
-    s16 arg2;
+    s16 tag;
     s32 copy;
-    s32 arg0;
+    s32 value;
 } Tail;
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -69,9 +69,9 @@ s32 func_80024134(s32 stored_value, void *input, s16 stored_tag) {
     if (object != NULL) {
         state = (Tail *)((s8 *)object + 0x20);
         ((S_80024134_0 *)object)->unk_10 = D_80024020;
-        state->arg0 = stored_value;
+        state->value = stored_value;
         ((S_80024134_0 *)object)->unk_20 = 0;
-        state->arg2 = stored_tag;
+        state->tag = stored_tag;
         display = ((S_80024134_0 *)object)->unk_0C;
         display->unk_0E = 0x80;
         display->unk_0D = 0x80;

@@ -17,11 +17,11 @@ typedef struct Obj {
 
 extern u8 D_80078CDC[];
 
-extern void func_800B3558(void *arg0);
-extern void func_800B2E3C(void *arg0);
-extern void func_800B2F88(void *arg0);
-extern void func_800B3108(void *arg0);
-extern void func_800B331C(void *arg0);
+extern void func_800B3558(void *ptr);
+extern void func_800B2E3C(void *ptr);
+extern void func_800B2F88(void *ptr);
+extern void func_800B3108(void *ptr);
+extern void func_800B331C(void *ptr);
 extern void func_800B2DCC(void *objects);
 extern void func_800B2F38(void *record);
 extern void func_800B3440(void *record);
