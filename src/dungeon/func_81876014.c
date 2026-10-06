@@ -67,58 +67,34 @@ extern s16 D_80026664;
 
 /* Update the effect quad, copy its position and color, and flag completion based on owner state. */
 void func_81876014(void *effect, void *position_out, void *color_out) {
-    s32 vertex_coord;
-    register s32 y_third ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s16 y_fourth ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 x_edge;
-    register s32 x_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s16 z_third ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    void *position;
-    register s32 y_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    u16 z_fourth;
-    s16 next_angle;
     s32 y_factor;
-    s32 y_product;
+    s16 next_angle;
     u16 angle;
     void *owner;
 
     owner = ((S_81876014_0 *)effect)->unk_4C;
     D_80026664 = 1;
     if (((S_81876014_1 *)owner)->unk_9C == 0x37) {
+        /* vertex 0 of the quad */
         ((S_81876014_0 *)effect)->unk_50 =
             (u16)((((S_81876014_0 *)effect)->unk_0A *
                    func_80064584(((S_81876014_0 *)effect)->unk_0C)) >> 12);
         y_factor = func_800644B8(((S_81876014_0 *)effect)->unk_0C);
-        y_product = ((S_81876014_0 *)effect)->unk_0A * y_factor;
+        ((S_81876014_0 *)effect)->unk_58 = (((S_81876014_0 *)effect)->unk_0A * y_factor) >> 12;
         ((S_81876014_0 *)effect)->unk_60 = 0;
-        x_edge = ((S_81876014_0 *)effect)->unk_50;
-        x_base = x_edge;
-        x_edge += 0x10;
-        ((S_81876014_0 *)effect)->unk_52 = x_edge;
-        vertex_coord = ((S_81876014_0 *)effect)->unk_60;
-        ((S_81876014_0 *)effect)->unk_62 = vertex_coord;
-        ((S_81876014_0 *)effect)->unk_54 = x_base;
-        x_edge = x_base;
-        z_third = ((S_81876014_0 *)effect)->unk_62;
-        z_third += 0x10;
-        ((S_81876014_0 *)effect)->unk_64 = z_third;
-        x_edge += 0x10;
-        ((S_81876014_0 *)effect)->unk_56 = x_edge;
-        position = ((S_81876014_0 *)effect)->unk_44;
-        y_offset = y_product >> 12;
-        ((S_81876014_0 *)effect)->unk_58 = y_offset;
-        ASM_KEEP(y_offset);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        vertex_coord = y_offset;
-        y_third = y_offset;
-        y_fourth = y_offset;
-        ASM_KEEP(y_fourth);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        z_fourth = ((S_81876014_0 *)effect)->unk_60;
-        ((S_81876014_0 *)effect)->unk_5A = vertex_coord;
-        ((S_81876014_0 *)effect)->unk_5C = y_third;
-        ((S_81876014_0 *)effect)->unk_5E = y_fourth;
-        z_fourth += 0x10;
-        ((S_81876014_0 *)effect)->unk_66 = z_fourth;
-        ((S_81876014_2 *)position_out)->unk_00 = ((S_81876014_3 *)position)->unk_00;
+        /* x of vertices 1..3 */
+        ((S_81876014_0 *)effect)->unk_52 = ((S_81876014_0 *)effect)->unk_50 + 0x10;
+        ((S_81876014_0 *)effect)->unk_54 = ((S_81876014_0 *)effect)->unk_50;
+        ((S_81876014_0 *)effect)->unk_56 = ((S_81876014_0 *)effect)->unk_50 + 0x10;
+        /* y of vertices 1..3 */
+        ((S_81876014_0 *)effect)->unk_5A = ((S_81876014_0 *)effect)->unk_58;
+        ((S_81876014_0 *)effect)->unk_5C = ((S_81876014_0 *)effect)->unk_58;
+        ((S_81876014_0 *)effect)->unk_5E = ((S_81876014_0 *)effect)->unk_58;
+        /* z of vertices 1..3 */
+        ((S_81876014_0 *)effect)->unk_62 = ((S_81876014_0 *)effect)->unk_60;
+        ((S_81876014_0 *)effect)->unk_64 = ((S_81876014_0 *)effect)->unk_60 + 0x10;
+        ((S_81876014_0 *)effect)->unk_66 = ((S_81876014_0 *)effect)->unk_60 + 0x10;
+        ((S_81876014_2 *)position_out)->unk_00 = ((S_81876014_3 *)(((S_81876014_0 *)effect)->unk_44))->unk_00;
         ((S_81876014_2 *)position_out)->unk_04 = ((S_81876014_5 *)(((S_81876014_0 *)effect)->unk_44))->unk_04;
         ((S_81876014_2 *)position_out)->unk_08 = ((S_81876014_5 *)(((S_81876014_0 *)effect)->unk_44))->unk_08;
         ((S_81876014_4 *)color_out)->unk_0C = ((S_81876014_6 *)(((S_81876014_0 *)effect)->unk_48))->unk_0C;
