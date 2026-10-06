@@ -1764,6 +1764,39 @@
       "evidence": "docs/evidence/slus_rodata_migration.md"
     },
     {
+      "name": "jtbl_80041344",
+      "source": "src/w_80041344_jtbl_owned.c",
+      "members": [
+        {
+          "id": "slus/w_80041344",
+          "source": "src/w_80041344.c",
+          "functions": [
+            "func_80041344"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "jtbl_8002D630",
+          "asset": "assets/800.bin",
+          "offset": 1584,
+          "size": 36,
+          "vram": 2147669552,
+          "bytes": "a0130480dc130480dc14048000150480c4130480f4130480101404806014048028150480",
+          "section": ".rodata"
+        }
+      ],
+      "evidence": "docs/evidence/slus_rodata_migration.md"
+    },
+    {
       "name": "jtbl_80057A94",
       "source": "src/w_80057A94_jtbl_owned.c",
       "members": [

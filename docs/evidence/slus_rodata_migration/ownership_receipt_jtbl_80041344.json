@@ -1,0 +1,92 @@
+{
+  "schema": 2,
+  "at": "2026-10-06T10:45:33Z",
+  "purpose": "data ownership only; no L4/L5 placement certificate",
+  "modules": [
+    "jtbl_80041344"
+  ],
+  "module_fingerprints": {
+    "slus/w_80041344": "da9b439583dafeee0a2a7758177ab4577a3b1a15773faa5368bb9cbcac03e3d4"
+  },
+  "tool_fingerprint": "f2a0b220cc21573ea264",
+  "recipe_sha256": "eb1f546bbc58f01fbd69baf3b9d19cfdc0e331100697442156d9b6f8e47f9634",
+  "image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+  "gate": {
+    "result": "MATCH",
+    "words_diff": 0
+  },
+  "data": {
+    "jtbl_80041344": {
+      "sections": {
+        ".rodata": {
+          "size": 36,
+          "bytes": "5c0000009800000098010000bc01000080000000b0000000cc0000001c010000e4010000",
+          "symbols": [
+            {
+              "symbol": "jtbl_8002D630",
+              "asset": "assets/800.bin",
+              "offset": 1584,
+              "size": 36,
+              "vram": 2147669552,
+              "bytes": "a0130480dc130480dc14048000150480c4130480f4130480101404806014048028150480",
+              "section": ".rodata",
+              "object_offset": 0,
+              "object_binding": "compiler-local"
+            }
+          ],
+          "placement": [
+            2147669552,
+            36
+          ],
+          "table_words": 9,
+          "align_pads": [],
+          "text_references": 1
+        }
+      }
+    }
+  },
+  "rows": {
+    "slus/w_80041344": {
+      "row": "slus/w_80041344",
+      "container": "slus",
+      "kind": "slus",
+      "cfg": "2.7.2-cdk",
+      "pins": 0,
+      "asflags": "",
+      "cell": "2.7.2-cdk",
+      "maspsx_exact": true,
+      "proof": "whole SLUS image, module context",
+      "fired": [],
+      "module": "jtbl_80041344",
+      "module_fingerprint": "da9b439583dafeee0a2a7758177ab4577a3b1a15773faa5368bb9cbcac03e3d4",
+      "trace_scope": "whole-module",
+      "selfcheck": true,
+      "funcs": 1,
+      "words": 145,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "has_div": false,
+      "genuine": {
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 145,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ]
+        }
+      },
+      "exact_versions": [
+        "2.79"
+      ],
+      "best": "2.79",
+      "status": "ok",
+      "secs": 2.6
+    }
+  }
+}

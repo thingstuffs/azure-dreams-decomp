@@ -1,7 +1,5 @@
 #include "common.h"
 
-#include "common.h"
-
 typedef struct {
     u16 cmd;
     u16 size;
@@ -12,7 +10,6 @@ typedef struct {
     } u;
 } S_80041344;
 
-extern void *jtbl_8002D630[];
 extern u32 D_80080A8C;
 extern void func_8004068C(u8 *src, u8 *dst);
 extern void func_8003F80C(void *src, s32 x, s32 y, s32 flags);
@@ -34,37 +31,30 @@ void func_80041344(s32 data_base, void *scratch)
     void *src_addr;
     s32 flags;
     S_80041344 *command;
-    void **handlers = jtbl_8002D630;
-    static void *const keepalive[] = {
-        &&LA, &&LB, &&LC, &&LD, &&LE, &&LF, &&LG, &&LH, &&LI
-    };
-    (void)keepalive;
 
     for (;;) {
         cmd_index = entry->cmd - 1;
         command = entry;
-        if ((u32)cmd_index >= 9) {
+        switch (cmd_index) {
+        default:
             return;
-        }
-        goto *handlers[cmd_index];
-
-LA:
+        case 0:
         func_8004068C((void *)(data_base + command->offset), scratch);
         LoadImage((void *)&entry->u, scratch);
         DrawSync(0);
-        goto next;
-LB:
+        break;
+        case 4:
         LoadImage((void *)&entry->u, (void *)(data_base + command->offset));
         DrawSync(0);
-        goto next;
-LC:
+        break;
+        case 1:
         vram_offset = entry->u.t.x;
         palette_count = entry->u.t.y;
         src_addr = (void *)command->offset;
         flags = (s16)entry->u.t.w;
         src = ((void *)((void *)(data_base + (s32)src_addr)));
         goto call_tile;
-LD:
+        case 5:
         cmd_index = entry->u.t.w;
         vram_offset = entry->u.t.x;
         palette_count = entry->u.t.y;
@@ -72,7 +62,7 @@ LD:
         cmd_index |= 2;
         src = ((void *)((void *)(data_base + (s32)src_addr)));
         goto sign_flags;
-LE:
+        case 6:
         src = (void *)(data_base + command->offset);
         item_count = entry->u.t.y << 4;
         color = (u16 *)src + 1;
@@ -85,7 +75,7 @@ LE:
         palette_count = entry->u.t.y;
         cmd_index |= 4;
         goto sign_flags;
-LF:
+        case 7:
         src = (void *)(data_base + command->offset);
         color = (u16 *)src;
         item_count = entry->u.t.y;
@@ -107,24 +97,24 @@ sign_flags:
 call_tile:
         func_8003F80C(src, vram_offset, palette_count, flags);
         DrawSync(0);
-        goto next;
-LG:
+        break;
+        case 2:
         src_addr = (void *)command->offset;
         func_8004068C((void *)(data_base + (s32)src_addr),
                       (void *)(D_80080A8C + command->u.m.a));
-        goto next;
-LH:
+        break;
+        case 3:
         src_addr = (void *)0x80080000;
         memcpy((void *)((u32 *)src_addr)[0x2A3],
                (void *)(data_base + command->offset),
                command->u.m.b + command->u.m.a);
-        goto next;
-LI:
+        break;
+        case 8:
         reloc_addr = data_base + command->offset;
         for (item_index = entry->u.t.x; item_index > 0; item_index--) {
             *(s32 *)(reloc_addr + 4) = data_base + *(s32 *)(reloc_addr + 4);
         }
-next:
+        }
         entry_size = entry->size;
         entry = (S_80041344 *)((u8 *)entry + entry_size);
         if (entry_size == 0) {
