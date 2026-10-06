@@ -149,7 +149,7 @@ void func_8196096C(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth
         scratch->w80 = 0x400000;
         scratch->w88 = 0x400040;
         texture_config = D_80027374;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        ODDITY_SCHED_FENCE();   /* oddity (ledger/oddities.jsonl): retail needs a zero-byte barrier here; no C path in cdk (r95_fable_opaque2/ANSWER.md) */
         texture_word = *(u16 *)(texture_config + 4);
         record->f14.h[1] = texture_word;
         texture_word = *(u16 *)(texture_config + 6);

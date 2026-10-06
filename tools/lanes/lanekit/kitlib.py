@@ -193,6 +193,7 @@ def apply_subs(base, reps, label=""):
 BANNED = (
     (re.compile(r"\bvolatile\b"), "volatile"),
     (re.compile(r"__asm__|\basm\s*\("), "__asm__"),
+    (re.compile(r"\bODDITY_[A-Z_]+\s*\("), "ODDITY_* (orchestrator-only, ledger/oddities.jsonl)"),
 )
 ONE_TRIP = (
     (re.compile(r"\bdo\b[\s\S]{0,400}?\bwhile\s*\(\s*0\s*\)"), "do { } while (0)"),

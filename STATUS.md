@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-06T06:53:33Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-06T07:25:09Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -76,7 +76,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | m2c boilerplate block | 2332 | 515,120 | 20.1% | 0 | 0 | 0.0% |
 | M2C_FIELD raw offsets | 2950 | 1,456,876 | 57.0% | 0 | 0 | 0.0% |
 | m2c local names | 5182 | 2,172,184 | 84.9% | 360 | 169,584 | 6.6% |
-| ASM_ pins | 2135 | 1,464,820 | 57.3% | 81 | 114,860 | 4.5% |
+| ASM_ pins | 2135 | 1,464,820 | 57.3% | 80 | 113,988 | 4.5% |
 | goto | 1545 | 1,318,468 | 51.5% | 298 | 340,044 | 13.3% |
 | computed-goto jump table | 317 | 437,344 | 17.1% | 13 | 22,304 | 0.9% |
 | inline asm outside macros | 361 | 255,656 | 10.0% | 163 | 155,120 | 6.1% |
@@ -89,9 +89,10 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | local address-named struct | 633 | 346,988 | 13.6% | 2977 | 1,557,180 | 60.9% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 6062 | 2,016,248 | 78.8% |
 
-Pin sites now: 151 in 81 rows; REG 90, KEEP 22, KEEP_NV 17, SCHED_BARRIER 7, USE 3, USE2_NV 2, MEM_BARRIER 2, USE_NV 2.  At the pin: 25,755; REG 12,776, KEEP 6,852, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
+Pin sites now: 150 in 80 rows; REG 90, KEEP 22, KEEP_NV 17, SCHED_BARRIER 6, USE 3, USE2_NV 2, MEM_BARRIER 2, USE_NV 2.  At the pin: 25,755; REG 12,776, KEEP 6,852, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
-Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 1, calls of local asm wrappers 0, hand-written asm in function bodies 0 (C that is missing); symbol aliases 68 (a second typed name for one symbol: a missing type); file-scope asm directives 199.
+Tracked, not pins (owner 2026-10-06): oddities 1 (ledger/oddities.jsonl - zero-byte fences retail needs, curiosities, not removal targets: dungeon/func_8196096C); one-trip barrier rows 2 (ledger/onetrip_barrier_rows.jsonl).
+Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 1, calls of local asm wrappers 0, hand-written asm in function bodies 0 (C that is missing); symbol aliases 68 (a second typed name for one symbol: a missing type); file-scope asm directives 198.
 
 Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 108 rows carry one flag, 5 carry two or more.
 
