@@ -30,8 +30,8 @@ Each line: decision - evidence - SECOND LOOK? (yes = owner may want to revisit).
    remains, declared noreturn tails counted once (tail_call). Implemented by a tooling lane with tests; levels before/after recorded.
 10. Park list (r95_opus_dossier FIRST_LANES.md section 7, 20 rows / 43 pins): ACCEPT as tie-class residue; a mechanism lane may
     reopen a row with new evidence (r95_opus_B already refuted 81888810/8188E3A0 -> added to park).
-11. Type phase 12 (work/native_lane/r91_types_p12/apply12.sh, 201 rows, verify-exact, never applied): APPLY after the r95 landing
-    batch (dry-run, sample, gate), per the owner's type-consolidation ruling (09-28).
+11. Type phase 12: ALREADY APPLIED (a83e8dbf6, round 91; apply12.sh --dry-run 10-06: 135 done, 66 already landed/stale, 0 to land) -
+    r95_wa2's "never applied" was wrong. Next type work = phase 13 (r91_types_p12/DESIGN.md HOW TO CONTINUE).
 12. Cleanup approvals (CPU / tool, no model judgement needed): NON_MATCHING host-shim/stale strip (~22 rows); the 23 pin-free
     crutch-flag / off-module rows retired at the module recipe via the equal-pins route; maspsx selfinc guard for the 10
     `_fold_selfinc_la` rows; the r91_luna_offby1 STATUS one-line fix (shape table excludes parked ovmovie).
@@ -42,5 +42,5 @@ Each line: decision - evidence - SECOND LOOK? (yes = owner may want to revisit).
 15. Volatile verification (r95_sonnet_vol, VERDICTS.tsv): 26 sites / 11 slus rows REAL (SPU/DMA registers, polled SPUCNT/SPUSTAT,
     busy-wait delay locals) -> appended to ledger/real_volatiles.jsonl. All 9 extern-volatile sites (7 rows) are SCAFFOLDING (no poll
     loop, no callback writer, siblings use the globals plainly) - removal work, but load-bearing (dist 2-85 when removed), so it needs
-    restructuring lanes. 13 libspu RAM-shadow sites UNSURE (SDK code; left as is). Free win: konami_runtime_w_800345B8 l.154 volatile
-    store removal is byte-exact (land after r95_sol61_s12, which holds that row). SECOND LOOK: the UNSURE libspu shadow set.
+    restructuring lanes. 13 libspu RAM-shadow sites UNSURE (SDK code; left as is). The lane's claimed free win (konami_runtime_w_800345B8 l.154
+    volatile store) is NOT byte-exact: verify.py 585 vs 586 words, length-drift (the lane read lab listing dist 0 as exact) - dropped. SECOND LOOK: the UNSURE libspu shadow set.
