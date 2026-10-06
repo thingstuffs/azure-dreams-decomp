@@ -6,7 +6,6 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
-extern u8 D_800E0000[];
 
 typedef M2C_UNK (*Callback4)(void *, void *, void *, void *);
 extern u8 D_80096384[];
@@ -221,16 +220,6 @@ typedef struct S_80089AA0_24 {
     s16 unk_14;
 } S_80089AA0_24;   /* var_v0_4 in func_80089AA0 */
 
-typedef struct S_80089AA0_25 {
-    u8 pad_00[0x296C];
-    s32 unk_296C;
-} S_80089AA0_25;   /* (void *)stack_flag in func_80089AA0 */
-
-typedef struct S_80089AA0_26 {
-    u8 pad_00[0x3D7C];
-    void * unk_3D7C;
-} S_80089AA0_26;   /* next_page in func_80089AA0 */
-
 typedef struct S_80089AA0_27 {
     u8 pad_00[0x3DE8];
     void * unk_3DE8;
@@ -291,7 +280,6 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
     S_80089AA0_14 *reset_actor;
     void *companion_slot;
     void *linked_actor;
-    register s32 page_or_repeat ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *actor;
     S_80089AA0_2 *world_object;
     void *companion_counters;
@@ -300,8 +288,6 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
     DungeonGlobalStatus *tail_status;
     void *input_snapshot;
     void *next_record;
-    u8 *next_record_page;
-    u8 *actor_root_page;
     u16 initial_flags;
 
     linked_actor = in_actor;
@@ -741,148 +727,132 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
     companion_index = 0;
     if (((s32)tail_status->unk_10) > 0) {
         tail_status->unk_10 = 0;
-        actor_root_page = (u8 *)0x800E0000;
-    } else {
-        actor_root_page = (u8 *)0x800E0000;
     }
-    do {
-        next_record_page = (u8 *)0x800E0000;
-    } while (0);
     repeat_pass = 0;
     next_flags = tail_status->flags | 1;
     loop_status = tail_status;
-store_loop_flags:
     ((S_80089AA0_24 *)loop_status)->unk_02 = next_flags;
-begin_actor_pass:
-    page_or_repeat = (s32)D_800E0000;
-    if ((((S_80089AA0_25 *)((void *)page_or_repeat))->unk_296C & 0x100000) && ((func_800A2C34(0) << 0x10) == 0)) {
-        actor = ((S_80089AA0_26 *)actor_root_page)->unk_3D7C;
+    for (;;) {
+        if ((D_800E296C & 0x100000) && ((func_800A2C34(0) << 0x10) == 0)) {
+            actor = (void *)D_800E3D7C;
 apply_pending_points:
-        pending_high = (*(u8 *)((u8 *)actor + 0x41));
-        pending_low = (*(u8 *)((u8 *)actor + 0x42));
-        (*(u8 *)((u8 *)actor + 0x42)) = 0U;
-        (*(u8 *)((u8 *)actor + 0x41)) = 0U;
-        (*(s32 *)((u8 *)actor + 0x18)) = (s32) ((*(s32 *)((u8 *)actor + 0x18)) + ((pending_high << 8) | pending_low));
-        if ((func_800A1C58(actor, pending_low) << 0x10) != 0) {
-            goto store_pending_actor;
+            pending_high = (*(u8 *)((u8 *)actor + 0x41));
+            pending_low = (*(u8 *)((u8 *)actor + 0x42));
+            (*(u8 *)((u8 *)actor + 0x42)) = 0U;
+            (*(u8 *)((u8 *)actor + 0x41)) = 0U;
+            (*(s32 *)((u8 *)actor + 0x18)) = (s32) ((*(s32 *)((u8 *)actor + 0x18)) + ((pending_high << 8) | pending_low));
+            if ((func_800A1C58(actor, pending_low) << 0x10) != 0) {
+                goto store_pending_actor;
+            }
+            next_link = (*(void **)((u8 *)actor + 0x5C));
+            actor = (u8 *)next_link + 0x20;
+            if (actor != (void *)D_800E3D7C) {
+                goto apply_pending_points;
+            }
+            D_800E296C &= ~0x100000;
         }
-        next_link = (*(void **)((u8 *)actor + 0x5C));
-        actor = (u8 *)next_link + 0x20;
-        if (actor != ((S_80089AA0_26 *)actor_root_page)->unk_3D7C) {
-            goto apply_pending_points;
-        }
-        {
-            s32 clear_mask;
-            clear_mask = (s32)0xFFEF0000;
-            clear_mask |= 0xFFFF;
-            page_or_repeat = (s32)0x800E0000;
-            ((S_80089AA0_25 *)((void *)page_or_repeat))->unk_296C =
-                ((S_80089AA0_25 *)((void *)page_or_repeat))->unk_296C & clear_mask;
-        }
-    }
 begin_linked_pass:
-    root = ((S_80089AA0_26 *)actor_root_page)->unk_3D7C;
-    record_or_page = ((S_80089AA0_16 *)root)->unk_5C;
-    actor = (u8 *)record_or_page + 0x20;
-    motion_or_count = NULL;
-    if (actor != root) {
-        do {
-            next_record = (*(void * *)((u8 *)actor + 0x5C));
-            page_or_repeat = repeat_pass;
-            ((S_80089AA0_27 *)next_record_page)->unk_3DE8 = next_record;
-            if (((page_or_repeat == 0) || ((*(s8 *)((u8 *)actor + 0x6D)) != 0)
-                || (((S_80089AA0_24 *)loop_status)->unk_14 != 0)) && (((S_80089AA0_1 *)record_or_page)->unk_10 > 0)) {
-                linked_actor = (void *)(s32)(s16)func_800A2C34(0);
-                if (((S_80089AA0_24 *)loop_status)->unk_14 != 0) {
-                    if (linked_actor == NULL) {
-                        if ((((S_80089AA0_1 *)record_or_page)->unk_B8 & 0xFFFF0000) == 0x150000) {
-                            ((S_80089AA0_24 *)loop_status)->unk_0C = (void *) ((u8 *)record_or_page + 0x20);
-                        } else {
-                            record_or_page = ((S_80089AA0_27 *)next_record_page)->unk_3DE8;
+        root = (void *)D_800E3D7C;
+        record_or_page = ((S_80089AA0_16 *)root)->unk_5C;
+        actor = (u8 *)record_or_page + 0x20;
+        motion_or_count = NULL;
+        if (actor != root) {
+            do {
+                next_record = (*(void * *)((u8 *)actor + 0x5C));
+                D_800E3DE8 = next_record;
+                if (((repeat_pass == 0) || ((*(s8 *)((u8 *)actor + 0x6D)) != 0)
+                    || (((S_80089AA0_24 *)loop_status)->unk_14 != 0)) && (((S_80089AA0_1 *)record_or_page)->unk_10 > 0)) {
+                    linked_actor = (void *)(s32)(s16)func_800A2C34(0);
+                    if (((S_80089AA0_24 *)loop_status)->unk_14 != 0) {
+                        if (linked_actor == NULL) {
+                            if ((((S_80089AA0_1 *)record_or_page)->unk_B8 & 0xFFFF0000) == 0x150000) {
+                                ((S_80089AA0_24 *)loop_status)->unk_0C = (void *) ((u8 *)record_or_page + 0x20);
+                            } else {
+                                record_or_page = D_800E3DE8;
+                                actor = (u8 *)record_or_page + 0x20;
+                                continue;
+                            }
+                        }
+                        state_or_address = (s32)0x80000000;
+                        callback_context = ((S_80089AA0_1 *)record_or_page)->unk_08;
+                    } else {
+                        state_or_address = (s32)0x80000000;
+                        callback_context = ((S_80089AA0_1 *)record_or_page)->unk_08;
+                    }
+                    {
+                        height_or_callback = ((S_80089AA0_1 *)record_or_page)->unk_10;
+                        height_or_callback |= state_or_address;
+                        ((M2C_UNK (*)(void *, s32, s32)) height_or_callback)((u8 *)record_or_page + 0x20, callback_context,
+                            ((S_80089AA0_1 *)record_or_page)->unk_0C);
+                    }
+                    if (!(((S_80089AA0_1 *)record_or_page)->unk_1E & 0x8000)) {
+                        if ((*(s8 *)((u8 *)actor + 0x6D)) != 0) {
+                            motion_or_count = (void *)((s32)motion_or_count + 1);
+                        }
+                        if ((linked_actor == NULL) || ((func_800A2C34(0) << 0x10) != 0)) {
+                            record_or_page = D_800E3DE8;
                             actor = (u8 *)record_or_page + 0x20;
                             continue;
                         }
                     }
-                    state_or_address = (s32)0x80000000;
-                    callback_context = ((S_80089AA0_1 *)record_or_page)->unk_08;
+                    break;
                 } else {
-                    state_or_address = (s32)0x80000000;
-                    callback_context = ((S_80089AA0_1 *)record_or_page)->unk_08;
+                    record_or_page = D_800E3DE8;
+                    actor = (u8 *)record_or_page + 0x20;
                 }
-                {
-                    height_or_callback = ((S_80089AA0_1 *)record_or_page)->unk_10;
-                    height_or_callback |= state_or_address;
-                    ((M2C_UNK (*)(void *, s32, s32)) height_or_callback)((u8 *)record_or_page + 0x20, callback_context,
-                        ((S_80089AA0_1 *)record_or_page)->unk_0C);
-                }
-                if (!(((S_80089AA0_1 *)record_or_page)->unk_1E & 0x8000)) {
-                    if ((*(s8 *)((u8 *)actor + 0x6D)) != 0) {
-                        motion_or_count = (void *)((s32)motion_or_count + 1);
-                    }
-                    if ((linked_actor == NULL) || ((func_800A2C34(0) << 0x10) != 0)) {
-                        record_or_page = ((S_80089AA0_27 *)next_record_page)->unk_3DE8;
-                        actor = (u8 *)record_or_page + 0x20;
+            } while (actor != root);
+        }
+        loop_flags = ((S_80089AA0_24 *)loop_status)->unk_02;
+        if (loop_flags & 0x1000) {
+            if (((S_80089AA0_24 *)loop_status)->unk_08 == 0) {
+                if (((S_80089AA0_24 *)loop_status)->unk_04 == 0) {
+                    ((S_80089AA0_24 *)loop_status)->unk_02 = (u16) ((loop_flags & 0xEFF7) | 0x4000);
+                    if (motion_or_count != NULL) {
+                        repeat_pass = 1;
                         continue;
                     }
-                }
-                break;
-            } else {
-                record_or_page = ((S_80089AA0_27 *)next_record_page)->unk_3DE8;
-                actor = (u8 *)record_or_page + 0x20;
-            }
-        } while (actor != root);
-    }
-    loop_flags = ((S_80089AA0_24 *)loop_status)->unk_02;
-    if (loop_flags & 0x1000) {
-        if (((S_80089AA0_24 *)loop_status)->unk_08 == 0) {
-            if (((S_80089AA0_24 *)loop_status)->unk_04 == 0) {
-                ((S_80089AA0_24 *)loop_status)->unk_02 = (u16) ((loop_flags & 0xEFF7) | 0x4000);
-                if (motion_or_count != NULL) {
-                    page_or_repeat = 1;
-                    *(s32 *)&repeat_pass = page_or_repeat;
-                    goto begin_actor_pass;
-                }
-                goto check_pass_completion;
+                    goto check_pass_completion;
 store_pending_actor:
-                ((S_80089AA0_24 *)loop_status)->unk_0C = actor;
-                goto begin_linked_pass;
+                    ((S_80089AA0_24 *)loop_status)->unk_0C = actor;
+                    goto begin_linked_pass;
+                }
+                return;
             }
+        } else {
+            if (loop_flags & 0x400) {
+                if (!(loop_flags & 0x800)) {
+                    if (((func_800A2C34(0) << 0x10) == 0) && ((func_800A2B28() << 0x10) == 0)) {
+                        if (companion_index == 0) {
+                            companion_index = 1;
+                            continue;
+                        }
+                        pass_flags = ((S_80089AA0_24 *)loop_status)->unk_02;
+                        cleared_pass_flags = pass_flags & 0xFBFF;
+                        ((S_80089AA0_24 *)loop_status)->unk_02 = cleared_pass_flags;
+                        if (!(pass_flags & 0x4000)) {
+                            ((S_80089AA0_24 *)loop_status)->unk_02 = (u16) (cleared_pass_flags | 0x800);
+                            if (func_800A5C70() != 0) {
+                                ((S_80089AA0_24 *)loop_status)->unk_02 =
+                                    (u16)(((S_80089AA0_24 *)loop_status)->unk_02 | 0x80);
+                                return;
+                            }
+                        }
+                        return;
+                    }
+                }
+            }
+        }
+check_pass_completion:
+        if ((actor == (void *)D_800E3D7C) && (motion_or_count == NULL)) {
+            ((S_80089AA0_24 *)loop_status)->unk_02 = (u16) (((S_80089AA0_24 *)loop_status)->unk_02 & 0xFFFE);
+        }
+        final_flags = ((S_80089AA0_24 *)loop_status)->unk_02;
+        if (!(final_flags & 0x80) || (((S_80089AA0_24 *)loop_status)->unk_0C != NULL)
+            || (((S_80089AA0_24 *)loop_status)->unk_10 != 0) || (((S_80089AA0_24 *)loop_status)->unk_0A != 0)
+            || (((S_80089AA0_24 *)loop_status)->unk_08 == 0)) {
             return;
         }
-    } else {
-        if (loop_flags & 0x400) {
-            if (!(loop_flags & 0x800)) {
-                if (((func_800A2C34(0) << 0x10) == 0) && ((func_800A2B28() << 0x10) == 0)) {
-                    if (companion_index == 0) {
-                        companion_index = 1;
-                        goto begin_actor_pass;
-                    }
-                    pass_flags = ((S_80089AA0_24 *)loop_status)->unk_02;
-                    cleared_pass_flags = pass_flags & 0xFBFF;
-                    ((S_80089AA0_24 *)loop_status)->unk_02 = cleared_pass_flags;
-                    if (!(pass_flags & 0x4000)) {
-                        ((S_80089AA0_24 *)loop_status)->unk_02 = (u16) (cleared_pass_flags | 0x800);
-                        if (func_800A5C70() != 0) {
-                            ((S_80089AA0_24 *)loop_status)->unk_02 =
-                                (u16)(((S_80089AA0_24 *)loop_status)->unk_02 | 0x80);
-                            return;
-                        }
-                    }
-                    return;
-                }
-            }
-        }
+        next_flags = final_flags & 0xFFF7;
+        ((S_80089AA0_24 *)loop_status)->unk_02 = next_flags;
     }
-check_pass_completion:
-    if ((actor == ((S_80089AA0_26 *)actor_root_page)->unk_3D7C) && (motion_or_count == NULL)) {
-        ((S_80089AA0_24 *)loop_status)->unk_02 = (u16) (((S_80089AA0_24 *)loop_status)->unk_02 & 0xFFFE);
-    }
-    final_flags = ((S_80089AA0_24 *)loop_status)->unk_02;
-    if (!(final_flags & 0x80) || (((S_80089AA0_24 *)loop_status)->unk_0C != NULL)
-        || (((S_80089AA0_24 *)loop_status)->unk_10 != 0) || (((S_80089AA0_24 *)loop_status)->unk_0A != 0)
-        || (((S_80089AA0_24 *)loop_status)->unk_08 == 0)) {
-        return;
-    }
-    next_flags = final_flags & 0xFFF7;
-    goto store_loop_flags;
 }

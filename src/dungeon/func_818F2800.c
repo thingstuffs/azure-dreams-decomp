@@ -124,12 +124,6 @@ extern void func_80064D80();
 extern s32 func_80065590();
 extern void func_80065820();
 
-typedef struct {
-    u8 pad[0x3160];
-    u8 *table[3];
-} GlobalPage;
-
-extern GlobalPage D_80080000;
 
 
 #ifdef __mips__
@@ -170,12 +164,11 @@ __attribute__((section(".text.func_818F2800"), aligned(4))) = {
 #define BODY_SECTION
 #endif
 
-void BODY(void *shape, void *position, S_BODY_1 *state, u16 depth_offset) BODY_SECTION;
+void BODY(S_BODY_3 *geometry, void *position, S_BODY_1 *state, u16 depth_offset) BODY_SECTION;
 /* Builds textured quad strips and adds visible quads to the ordering table. */
-void BODY(void *shape, void *position, S_BODY_1 *state, u16 depth_offset)
+void BODY(S_BODY_3 *geometry, void *position, S_BODY_1 *state, u16 depth_offset)
 {
     u8 *scratch;
-    S_BODY_3 *geometry;
     u8 *part;
     u8 *packet;
     s32 angle;
@@ -198,10 +191,8 @@ void BODY(void *shape, void *position, S_BODY_1 *state, u16 depth_offset)
     s32 position_z;
     register s32 next_height_m ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    geometry = shape;
     globals = ((void * *)(&gameWork));
-    next_height_m = (s32)((u8 *)(&D_80080000));
-    graphics = ((GlobalPage *)(u8 *)next_height_m)->table[0];
+    graphics = globals[0];
     scratch = (u8 *)0x1F800000;
 
     DM_U32(0x20) = (u32)((u8 *)graphics + 0xB0);
