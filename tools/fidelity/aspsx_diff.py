@@ -603,6 +603,17 @@ def rodata_anchors(module):
     return {".rodata": records[0]["vram"]} if records else None
 
 
+def measured_section_anchors(ctx, module=None):
+    """Section anchors for the SLUS physical TU being measured: its member module, else (a partition
+    measurement, where the row's membership is not looked up) the unit's declared owner or data-piece
+    module.  The TU's own jump-table address words then resolve to the manifest .rodata VMA and are
+    compared against retail, not masked, in the member, physical and genuine scopes alike."""
+    if ctx.get("kind") != "slus":
+        return None
+    owner = module or ctx.get("owner_module") or ctx.get("data_piece_module")
+    return rodata_anchors(owner) if owner else None
+
+
 def retail_compare(view, scope, kind, overlay_ctx=None, section_anchors=None):
     """Resolve `scope` functions against RETAIL words directly. -> {"diff", "masked", "checked"}."""
     diff = masked = checked = 0
@@ -934,11 +945,11 @@ def _measure_context(row, ctx, td, module_before, rec, scope=None, expected_func
                 (g & ~FIELD.get(t[1], 0) & 0xFFFFFFFF) == t[0] if t[1] else g == t[0] for g, t in zip(gw, toks))
     rec["funcs"] = len(scope)
     rec["words"] = sum(len(mv.tokens(f)) for f in scope)
-    anchors = rodata_anchors(module) if ctx["kind"] == "slus" else None
+    anchors = measured_section_anchors(ctx, module if ctx["kind"] == "slus" else None)
     rec["maspsx_retail"] = retail_compare(mv, scope, ctx["kind"], ctx if ctx["kind"] == "overlay" else None,
                                           section_anchors=anchors)
     if expected_functions is not None:
-        rec["maspsx_physical_retail"] = retail_compare(mv, expected_functions, "slus")
+        rec["maspsx_physical_retail"] = retail_compare(mv, expected_functions, "slus", section_anchors=anchors)
     mr = rec["maspsx_retail"]
     if ctx["kind"] == "slus" and not rec["maspsx_exact"] and mr["diff"] == 0 and mr["masked"] == 0 and mr["checked"] == len(scope):
         # the pinned-object reference disagrees, but every word resolves to the retail SLUS
@@ -987,7 +998,8 @@ def _measure_context(row, ctx, td, module_before, rec, scope=None, expected_func
                 cand["physical"] = {"exact": whole["exact"], "diff": whole["diff"],
                                     "len_m": whole["len_m"], "len_g": whole["len_g"],
                                     "missing": whole["missing"],
-                                    "retail": retail_compare(gv, expected_functions, "slus")}
+                                    "retail": retail_compare(gv, expected_functions, "slus",
+                                                             section_anchors=anchors)}
             if best is None or "err" in best or (c["exact"], -c["diff"]) > (best.get("exact"), -best.get("diff", 1 << 30)):
                 best = cand; views[v] = (gv, c)
         gen[v] = best
@@ -1131,6 +1143,9 @@ def process_partition(row, cfile, cfg, asflags, td, rec, root=None, build_root=N
                "cell": recipe["ccver"], "flags": recipe["ccflags"].split()}
         if compiled_unit.get("data_piece_module"):
             ctx["data_piece_module"] = compiled_unit["data_piece_module"]
+        owner = next((o for o in owners if o.get("source") == unit["source"]), None)
+        if owner is not None:
+            ctx["owner_module"] = owner
         measurement = Path(td) / ("measure_" + str(index))
         measurement.mkdir()
         physical = dict(unit, row=row["id"], container=row["container"], kind="slus",

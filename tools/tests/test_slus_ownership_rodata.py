@@ -173,6 +173,73 @@ class RodataRetailAnchor(unittest.TestCase):
         self.assertEqual(masked, [0, 2])
 
 
+class DataPieceRodataAnchors(unittest.TestCase):
+    """A data-piece owner that also owns .rodata (slus/w_8003E758, module cd_command_state): its
+    jump-table address words resolve to the manifest VMA and are compared against retail in every
+    scope - member, physical TU and genuine - so the masked-0 proof gates need no exemption."""
+
+    LOAD = 0x80010000
+    FUNC = 0x80010100
+    TABLE = 0x8002D5C0
+
+    class View:
+        def __init__(self, tokens):
+            self.obj = Obj("elf")
+            self.funcs = {"f": None}
+            self._tokens = tokens
+
+        def tokens(self, fname):
+            return list(self._tokens)
+
+    def image(self, words):
+        data = bytearray(0x800 + (self.FUNC - self.LOAD) + 4 * len(words))
+        for i, w in enumerate(words):
+            o = 0x800 + (self.FUNC - self.LOAD) + 4 * i
+            data[o:o + 4] = word(w)
+        return ({"f": self.FUNC}, 0, bytes(data), self.LOAD)
+
+    def compare(self, tokens, retail, anchors):
+        with patch.object(A, "slus_image", return_value=self.image(retail)):
+            return A.retail_compare(self.View(tokens), ["f"], "slus", section_anchors=anchors)
+
+    def jtbl_tokens(self, section=".rodata"):
+        return [(0x3C010000, "HI16", ("sec", section, 0)), (0x00220821, None, None),
+                (0x8C220000, "LO16", ("sec", section, 0))]
+
+    def retail(self, vma):
+        return [0x3C010000 | (((vma + 0x8000) >> 16) & 0xFFFF), 0x00220821, 0x8C220000 | (vma & 0xFFFF)]
+
+    def test_owned_rodata_relocations_are_compared_not_masked(self):
+        anchors = {".rodata": self.TABLE}
+        self.assertEqual(self.compare(self.jtbl_tokens(), self.retail(self.TABLE), anchors),
+                         {"diff": 0, "masked": 0, "checked": 1})
+        # without the owner's anchor the same words are masked, which every proof gate rejects
+        self.assertEqual(self.compare(self.jtbl_tokens(), self.retail(self.TABLE), None),
+                         {"diff": 0, "masked": 2, "checked": 1})
+
+    def test_wrong_table_address_is_a_difference(self):
+        result = self.compare(self.jtbl_tokens(), self.retail(self.TABLE + 8), {".rodata": self.TABLE})
+        self.assertEqual(result, {"diff": 1, "masked": 0, "checked": 1})      # %lo differs, %hi agrees
+
+    def test_relocation_against_another_section_stays_masked(self):
+        result = self.compare(self.jtbl_tokens(".sdata"), self.retail(self.TABLE), {".rodata": self.TABLE})
+        self.assertEqual(result, {"diff": 0, "masked": 2, "checked": 1})
+
+    def test_measured_anchor_owner_selection(self):
+        owner = {"source": "src/x_owned.c", "data": [{"section": ".sdata.D_1", "vram": 0x80080000},
+                                                     {"section": ".rodata", "vram": self.TABLE}]}
+        other = {"source": "src/y_owned.c", "data": [{"section": ".rodata", "vram": 0x80030000}]}
+        plain = {"source": "src/z_owned.c", "data": [{"section": ".sdata.D_2", "vram": 0x80080010}]}
+        pick = A.measured_section_anchors
+        self.assertEqual(pick({"kind": "slus", "data_piece_module": owner}), {".rodata": self.TABLE})
+        self.assertEqual(pick({"kind": "slus", "owner_module": owner}), {".rodata": self.TABLE})
+        self.assertEqual(pick({"kind": "slus", "owner_module": other, "data_piece_module": owner}, owner),
+                         {".rodata": self.TABLE})                               # the member module wins
+        self.assertIsNone(pick({"kind": "slus", "data_piece_module": plain}))
+        self.assertIsNone(pick({"kind": "slus"}))
+        self.assertIsNone(pick({"kind": "overlay", "data_piece_module": owner}))
+
+
 class RodataPlacementCertificate(unittest.TestCase):
     """certify_slus_module grants L4 placement and checks no data bytes; a jump-table owner (only
     include/common.h) is refused there, so its data ownership rests on prove_slus_ownership alone."""
