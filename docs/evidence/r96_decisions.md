@@ -62,3 +62,11 @@
     `event_byte`. Evidence: retail leaves the masked status in $a0 before the jal and prefs.py reproduces 8/8 allocations
     from that argument's copy preference. Opposite direction of the phantom-argument rule (an empty stub's parameter list
     is not recoverable from its own bytes; the caller's are the evidence). SECOND LOOK: yes.
+15. **slus/w_8003E758 switch landed on the SHA-1 image gate (r96_opus_cg patch applied).** configure.py now chains
+    slus_rodata_trim.py + slus_data_pieces.py for a data_pieces module that also owns .rodata; slus_modules.data_piece_plan
+    exempts .rodata records (unit test test_rodata_record_needs_no_data_piece). SHA-1 MATCH, recipe repinned (10-line
+    diff: the chained step), split ledger unchanged, 199 SLUS tests OK (test_configure_slus_data_pieces fixture updated
+    from the retired -G32 recipe - those 2 failures predated this round). FOLLOW-UP (kit): prove_slus_ownership's
+    data-piece branch rejects the receipt because the per-function retail compare MASKS 2 words (the jump-table
+    address relocations against the TU's owned .rodata; diff 0, physical exact len 1041/1041) and the branch demands
+    masked 0 - extend check_data_piece_record to accept .rodata-relocation masks proven by the image gate. SECOND LOOK: no.

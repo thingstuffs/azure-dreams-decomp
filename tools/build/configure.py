@@ -39,8 +39,6 @@ DATA_PIECE_MODULES = {m["source"]: m for m in MODULES if module_support.data_pie
 # section .rodata owns compiler-emitted jump tables carved out of assets/800.bin; its object's GNU-as
 # section-end padding is trimmed back to the owned span (tools/slus_rodata_trim.py).
 RODATA_MODULES = {m["source"]: m for m in MODULES if any(d["section"] == ".rodata" for d in m["data"])} if MODULES else {}
-if set(RODATA_MODULES) & set(DATA_PIECE_MODULES):
-    raise RuntimeError("a module cannot both split data pieces and own .rodata")
 if MODULES:
     if NM:
         raise RuntimeError("SLUS modules are not supported in --non-matching builds")
@@ -1153,12 +1151,12 @@ for cfile in cfiles:
     out.append(f"build {o}: cc {source_input} | tools/cc.sh tools/ccproc.py {nonmatch}"
                + (f" {deps}" if deps else "")
                + f"\n  ccver = {ver}\n  ccflags = {flags}\n  asflags = {asflags}\n"
-               + (f"  data_piece_step =  && python3 tools/slus_data_pieces.py"
-                  f" --manifest {MODULE_MANIFEST} --module {piece_module['name']} --object {o}\n"
-                  if piece_module else "")
-               + (f"  data_piece_step =  && python3 tools/slus_rodata_trim.py"
-                  f" --manifest {MODULE_MANIFEST} --module {rodata_module['name']} --object {o}\n"
-                  if rodata_module else ""))
+               + ("  data_piece_step = "
+                  + (f" && python3 tools/slus_rodata_trim.py --manifest {MODULE_MANIFEST} --module {rodata_module['name']} --object {o}"
+                     if rodata_module else "")
+                  + (f" && python3 tools/slus_data_pieces.py --manifest {MODULE_MANIFEST} --module {piece_module['name']} --object {o}"
+                     if piece_module else "")
+                  + "\n" if (piece_module or rodata_module) else ""))
     if piece_module:
         sidecars = [o[:-2] + ".unsplit.o", o[:-2] + ".data-pieces.json"]
         stamp = o[:-2] + ".data-pieces.ok"

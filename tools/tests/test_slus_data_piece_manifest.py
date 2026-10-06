@@ -140,6 +140,18 @@ class DataPieceManifest(unittest.TestCase):
         self.reject(lambda m: m["data_pieces"][0].update(symbol="bad-name"), "invalid identifier")
         self.reject(lambda m: m.update(name="bad/name"), "invalid.*name")
 
+    def test_rodata_record_needs_no_data_piece(self):
+        # round 96 (slus/w_8003E758 switch): a data_pieces module may also own a compiler .rodata jump table; the
+        # .rodata record is trimmed by slus_rodata_trim.py, not split as a named piece, so it is exempt here
+        module = copy.deepcopy(self.module)
+        module["data"].append({"symbol": "jtbl_TEST", "asset": "assets/000800.bin", "offset": 20, "size": 4,
+                               "vram": 0x80000000 + 20, "bytes": self.raw[20:24].hex(), "section": ".rodata"})
+        plan = sm.data_piece_plan(module)
+        self.assertEqual([p["symbol"] for p in plan], ["D_ALPHA", "D_BETA", "D_GAMMA"])
+        module["data_pieces"].pop()
+        with self.assertRaisesRegex(sm.ModuleError, "missing data piece"):
+            sm.data_piece_plan(module)
+
     def test_bad_sections_and_alignments_rejected(self):
         self.reject(lambda m: m["data_pieces"][0].update(source_section=".data"), "source_section")
         self.reject(lambda m: m["data"][0].update(section=".sdata.D_OTHER"), "destination section")

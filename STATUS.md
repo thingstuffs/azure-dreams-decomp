@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-06T13:58:47Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-06T14:58:42Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -79,7 +79,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | m2c local names | 5182 | 2,172,184 | 84.9% | 268 | 137,148 | 5.4% |
 | ASM_ pins | 2135 | 1,464,820 | 57.3% | 62 | 83,276 | 3.3% |
 | goto | 1545 | 1,318,468 | 51.5% | 286 | 324,004 | 12.7% |
-| computed-goto jump table | 317 | 437,344 | 17.1% | 5 | 10,080 | 0.4% |
+| computed-goto jump table | 317 | 437,344 | 17.1% | 4 | 7,008 | 0.3% |
 | inline asm outside macros | 361 | 255,656 | 10.0% | 162 | 155,024 | 6.1% |
 | fidelity blocking site (LABEL_AS_CALL/PASSTHRU_NO_ARGS) | 1489 | 680,132 | 26.6% | 308 | 157,064 | 6.1% |
 | any fidelity site | 2654 | 1,286,092 | 50.3% | 1777 | 959,932 | 37.5% |
