@@ -9,77 +9,39 @@ typedef struct {
 s32 func_800A6E10(s16 first_key, s16 second_key);
 
 /* Clears selected cell flags or decrements their encoded value, clamping at zero. */
-void func_8009A3D0(s32 x, s32 y, s32 flag_mask)
+void func_8009A3D0(s32 x, s32 y, u16 flags)
 {
-    s32 flags;
-    s8 *config;
     DungeonCell *cells;
-    s32 checked_x;
-    s32 checked_y;
-    s32 cell_x;
-    s32 cell_y;
-    s32 matched_flags;
-    s32 cell_index;
-    register DungeonCell *cell ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    MapGrid *map;
 
-    flags = flag_mask;
-    cells = ((DungeonCell *)gameWork.map.cells);
-    config = (s8 *)((DungeonCell * *)&gameWork.map.cells);
+    cells = (DungeonCell *)gameWork.map.cells;
+    map = &gameWork.map;
+    if (flags & 0x8832) {
+        if (flags & 0x800) {
+            s16 cell_x = x;
+            s16 cell_y = y;
 
-    matched_flags = flags & 0x8832;
-    if (matched_flags) {
-        matched_flags = flags & 0x800;
-        if (matched_flags) {
-            s32 query_x;
-
-            query_x = x << 16;
-            checked_x = query_x >> 16;
-            query_x = y << 16;
-            checked_y = query_x >> 16;
-            query_x = checked_x;
-            if ((s16)func_800A6E10(query_x, checked_y) >= 2) {
-                goto done;
+            if ((s16)func_800A6E10(cell_x, cell_y) >= 2) {
+                return;
             }
-            cell = (DungeonCell *)(*(s16 *)(config + 0x14));
-            cell = (DungeonCell *)(checked_y << (s32)cell);
-            cell_index = checked_x + (s32)cell;
+            cells[cell_x + (cell_y << map->shiftX)].flags &= ~flags;
         } else {
-            ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            cell_index = (s16)x +
-                    ((s16)y << *(s16 *)(config + 0x14));
+            cells[(s16)x + ((s16)y << map->shiftX)].flags &= ~flags;
         }
-
-        cells[cell_index].flags &= ~flags;
     } else {
-        {
-            u32 raw_remainder;
-            register s32 remainder ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            s32 flag_cell_index;
-            s32 old_flags;
+        s32 cell_x = (s16)x;
+        s32 cell_y = (s16)y;
+        s32 i;
+        u16 old_flags;
+        s16 remainder;
 
-            cell_x = (s16)x;
-            cell_y = (s16)y;
-            flag_cell_index = cell_x + (cell_y << *(s16 *)(config + 0x14));
-            cell = (DungeonCell *)((flag_cell_index * sizeof(DungeonCell)) +
-                                   (unsigned long)cells);
-            old_flags = cell->flags;
-            raw_remainder = (old_flags & flags) - (flags & 0x1100);
-            remainder = raw_remainder;
-            old_flags &= ~flags;
-            cell->flags = old_flags;
-            raw_remainder <<= 16;
-            if ((s32)raw_remainder < 0) {
-                remainder = 0;
-            }
-
-            flag_cell_index = cell_x + (cell_y << *(s16 *)(config + 0x14));
-            cell = (DungeonCell *)((flag_cell_index * sizeof(DungeonCell)) +
-                                   (unsigned long)cells);
-            cell->flags |= remainder;
+        i = cell_x + (cell_y << map->shiftX);
+        old_flags = cells[i].flags;
+        remainder = (old_flags & flags) - (flags & 0x1100);
+        cells[i].flags = old_flags & ~flags;
+        if (remainder < 0) {
+            remainder = 0;
         }
+        cells[cell_x + (cell_y << map->shiftX)].flags |= remainder;
     }
-done:
 }
-
-/* MECHANISM: Recover the true-space internal joins as one CFG, not phantom calls.
-   Keep flags, config/table bases, and call-path x/y live to induce s0-s4. */
