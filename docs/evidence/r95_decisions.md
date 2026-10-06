@@ -44,3 +44,7 @@ Each line: decision - evidence - SECOND LOOK? (yes = owner may want to revisit).
     loop, no callback writer, siblings use the globals plainly) - removal work, but load-bearing (dist 2-85 when removed), so it needs
     restructuring lanes. 13 libspu RAM-shadow sites UNSURE (SDK code; left as is). The lane's claimed free win (konami_runtime_w_800345B8 l.154
     volatile store) is NOT byte-exact: verify.py 585 vs 586 words, length-drift (the lane read lab listing dist 0 as exact) - dropped. SECOND LOOK: the UNSURE libspu shadow set.
+16. Crutch retirement (item 12) narrowed after a closer look: of wa1's 20 pin-free recipe rows, the 5 non-SLUS ones were already served
+    by alignment lanes and stayed open (8001C4D8 r93_sonnet_al3, 806D30B4/808B2B04 r92-r93, 80289BD4) or are owner-accepted
+    (8028B994, r84); the 15 SLUS flag rows sit on 2.95.2 / 2.8.1 / stock 2.7.2 cells and may be SDK/library TUs, not game crutches,
+    and lab.py cannot trial SLUS recipes. Not laned now; next step is a provenance census of those 15 SLUS TUs. SECOND LOOK: no.
