@@ -1,0 +1,325 @@
+--- toolchain/gcc-src/2.7.2-cdk/sched.c	2025-07-15 19:40:28.000000000 +0000
++++ tmp/gcc/sched.c	2026-10-06 03:57:14.353904925 +0000
+@@ -322,6 +322,98 @@
+ static int sched_analyze		PROTO((rtx, rtx));
+ static void sched_note_set		PROTO((int, rtx, int));
+ static int rank_for_schedule		PROTO((rtx *, rtx *));
++/* r95_opus_T what-if switches: env R95_<NAME> = 1|3 both passes, s1 sched1 only, s2 sched2 only. */
++#include <stdlib.h>
++static int
++r95_sw (name)
++     char *name;
++{
++  char *v = getenv (name);
++  int mask;
++  if (!v || !*v || *v == '0')
++    return 0;
++  if (v[0] == 's' && v[1] == '1') mask = 1;
++  else if (v[0] == 's' && v[1] == '2') mask = 2;
++  else mask = 3;
++  return (mask & (reload_completed ? 2 : 1)) != 0;
++}
++#include <stdio.h>
++extern char *current_function_name;
++#define R95_MAXUID 400000
++static unsigned char r95_boost[R95_MAXUID];
++static int r95_prio0[R95_MAXUID];
++static int r95_hazmoved;
++static int r95_hazcost0, r95_hazcost1;
++static int r95_ndec;
++static FILE *r95_log;
++static int r95_block;
++static int r95_memsched;
++static int *r95_nsets;
++static int r95_nsets_max;
++static void
++r95_count_set (x)
++     rtx x;
++{
++  rtx d;
++  if (GET_CODE (x) != SET && GET_CODE (x) != CLOBBER)
++    return;
++  d = SET_DEST (x);
++  while (GET_CODE (d) == SUBREG || GET_CODE (d) == STRICT_LOW_PART
++	 || GET_CODE (d) == ZERO_EXTRACT || GET_CODE (d) == SIGN_EXTRACT)
++    d = XEXP (d, 0);
++  if (GET_CODE (d) == REG && REGNO (d) < r95_nsets_max)
++    r95_nsets[REGNO (d)]++;
++}
++static void
++r95_recount ()
++{
++  rtx insn;
++  int j;
++  r95_nsets_max = max_reg_num ();
++  r95_nsets = (int *) xmalloc (r95_nsets_max * sizeof (int));
++  bzero ((char *) r95_nsets, r95_nsets_max * sizeof (int));
++  for (insn = get_insns (); insn; insn = NEXT_INSN (insn))
++    if (GET_RTX_CLASS (GET_CODE (insn)) == 'i')
++      {
++	rtx pat = PATTERN (insn);
++	if (GET_CODE (pat) == PARALLEL)
++	  for (j = 0; j < XVECLEN (pat, 0); j++)
++	    r95_count_set (XVECEXP (pat, 0, j));
++	else
++	  r95_count_set (pat);
++      }
++}
++static int r95_class_of PROTO((rtx));
++/* R95_BOOSTCTL = "func:-uid,func:+uid,...": never / always boost that insn in sched1 */
++static int
++r95_boostctl (insn, b)
++     rtx insn;
++     int b;
++{
++  char *v = getenv ("R95_BOOSTCTL"), *q;
++  int n = strlen (current_function_name);
++  if (!v || !*v)
++    return b;
++  for (q = v; *q; )
++    {
++      char *c = strchr (q, ':');
++      if (!c)
++	break;
++      if (c - q == n && !strncmp (q, current_function_name, n))
++	{
++	  int sign = c[1] == '-' ? 0 : 1;
++	  int u = atoi (c + 2);
++	  if (u == INSN_UID (insn))
++	    b = sign;
++	}
++      q = strchr (c, ',');
++      if (!q)
++	break;
++      q++;
++    }
++  return b;
++}
++
+ static void swap_sort			PROTO((rtx *, int));
+ static void queue_insn			PROTO((rtx, int));
+ static int birthing_insn		PROTO((rtx));
+@@ -2439,7 +2531,7 @@
+   if (value = INSN_PRIORITY (tmp) - INSN_PRIORITY (tmp2))
+     return value;
+ 
+-  if (last_scheduled_insn)
++  if (last_scheduled_insn && !r95_sw ("R95_NOCLASS"))
+     {
+       /* Classify the instructions into three classes:
+ 	 1) Data dependent on last schedule insn.
+@@ -2469,6 +2561,8 @@
+   /* If insns are equally good, sort by INSN_LUID (original insn order),
+      so that we make the sort stable.  This minimizes instruction movement,
+      thus minimizing sched's effect on debugging and cross-jumping.  */
++  if (r95_sw ("R95_LUIDREV"))
++    return INSN_LUID (tmp2) - INSN_LUID (tmp);
+   return INSN_LUID (tmp) - INSN_LUID (tmp2);
+ }
+ 
+@@ -2530,8 +2624,12 @@
+ 	 reg_mentioned_p to determine when the dest is not live before this
+ 	 insn.  */
+ 
++      if (r95_sw ("R95_NOBOOST"))
++	return 0;
+       if (bb_live_regs[offset] & bit)
+-	return (reg_n_sets[i] == 1);
++	return r95_sw ("R95_BOOSTANY") ? 1
++	  : (r95_sw ("R95_FRESHSETS") && r95_nsets && i < r95_nsets_max) ? (r95_nsets[i] == 1)
++	  : (reg_n_sets[i] == 1);
+ 
+       return 0;
+     }
+@@ -2580,9 +2678,24 @@
+ 	  INSN_PRIORITY (prev) >>= 1;
+ 	  break;
+ 	case 0:
+-	  if (birthing_insn_p (PATTERN (prev)))
++	  if (INSN_UID (prev) < R95_MAXUID)
++	    {
++	      r95_prio0[INSN_UID (prev)] = INSN_PRIORITY (prev);
++	      r95_boost[INSN_UID (prev)] = 0;
++	    }
++	  if (r95_log && GET_CODE (PATTERN (prev)) == SET && GET_CODE (SET_DEST (PATTERN (prev))) == REG)
++	    {
++	      int rn = REGNO (SET_DEST (PATTERN (prev)));
++	      int live = (bb_live_regs[rn / REGSET_ELT_BITS] & ((REGSET_ELT_TYPE) 1 << (rn % REGSET_ELT_BITS))) != 0;
++	      fprintf (r95_log, "B %s %d r%d live%d nsets%d prio%d max%d fresh%d\n", current_function_name, INSN_UID (prev),
++		       rn, live, reg_n_sets[rn], INSN_PRIORITY (prev), max_priority,
++		       (r95_nsets && rn < r95_nsets_max) ? r95_nsets[rn] : -1);
++	    }
++	  if (r95_boostctl (prev, birthing_insn_p (PATTERN (prev))))
+ 	    {
+ 	      int max = max_priority;
++	      if (INSN_UID (prev) < R95_MAXUID && max > INSN_PRIORITY (prev))
++		r95_boost[INSN_UID (prev)] = 1;
+ 
+ 	      if (max > INSN_PRIORITY (prev))
+ 		INSN_PRIORITY (prev) = max;
+@@ -2617,7 +2730,7 @@
+     return n_ready;
+ 
+   /* This is used by the function adjust_priority above.  */
+-  if (n_ready > 0)
++  if (n_ready > 0 && !r95_sw ("R95_MAXPRI_INSN"))
+     max_priority = MAX (INSN_PRIORITY (ready[0]), INSN_PRIORITY (insn));
+   else
+     max_priority = INSN_PRIORITY (insn);
+@@ -2660,6 +2773,86 @@
+    the remaining ones to minimize subsequent function unit hazards.  */
+ 
+ static int
++r95_class_of (x)
++     rtx x;
++{
++  rtx link;
++  if (!last_scheduled_insn)
++    return 0;
++  link = find_insn_list (x, LOG_LINKS (last_scheduled_insn));
++  if (link == 0 || insn_cost (x, link, last_scheduled_insn) == 1)
++    return 3;
++  else if (REG_NOTE_KIND (link) == 0)
++    return 1;
++  return 2;
++}
++
++static void
++r95_decide (ready, n_ready, clock)
++     rtx *ready;
++     int n_ready, clock;
++{
++  static char *flips = 0;
++  static int flips_read = 0;
++  int idx, k, j, i;
++  char *lp, *q;
++  if (!flips_read)
++    {
++      flips = getenv ("R95_FLIP");
++      lp = getenv ("R95_LOG");
++      if (lp && *lp)
++	r95_log = fopen (lp, "a");
++      flips_read = 1;
++    }
++  if (n_ready < 2)
++    {
++      if (n_ready == 1 && insn_unit (ready[0]) == 0)
++	r95_memsched++;
++      return;
++    }
++  idx = r95_ndec++;
++  if (r95_log)
++    {
++      fprintf (r95_log, "D %d %s %s b%d T%d n%d haz%d m%d/%d |", idx, reload_completed ? "s2" : "s1",
++	       current_function_name, r95_block, clock, n_ready, r95_hazmoved, r95_memsched, unit_n_insns[0]);
++      for (i = 0; i < n_ready && i < 12; i++)
++	{
++	  rtx x = ready[i];
++	  int u = INSN_UID (x);
++	  int unit = insn_unit (x);
++	  fprintf (r95_log, " %d:p%d:o%d:b%d:l%d:c%d:u%d:h%d:%s", u, INSN_PRIORITY (x),
++		   u < R95_MAXUID ? r95_prio0[u] : -1, u < R95_MAXUID ? r95_boost[u] : 0,
++		   INSN_LUID (x), r95_class_of (x), unit,
++		   potential_hazard (unit, x, 0),
++		   GET_CODE (PATTERN (x)) == SET ? GET_RTX_NAME (GET_CODE (SET_SRC (PATTERN (x)))) : GET_RTX_NAME (GET_CODE (PATTERN (x))));
++	  if (GET_CODE (PATTERN (x)) == SET)
++	    fprintf (r95_log, "/%s", GET_RTX_NAME (GET_CODE (SET_DEST (PATTERN (x)))));
++	}
++      fprintf (r95_log, "\n");
++    }
++  r95_hazmoved = 0;
++  /* R95_FLIP = "idx:k,idx:k,..." : at decision idx schedule ready[k] instead of ready[0] */
++  if (flips)
++    for (q = flips; *q; )
++      {
++	int fi = strtol (q, &q, 10), fk = 1;
++	if (*q == ':')
++	  fk = strtol (q + 1, &q, 10);
++	if (fi == idx && fk > 0 && fk < n_ready)
++	  {
++	    rtx t = ready[fk];
++	    for (j = fk; j > 0; j--)
++	      ready[j] = ready[j - 1];
++	    ready[0] = t;
++	  }
++	while (*q == ',' || *q == ' ')
++	  q++;
++      }
++  if (insn_unit (ready[0]) == 0)
++    r95_memsched++;
++}
++
++static int
+ schedule_select (ready, n_ready, clock, file)
+      rtx *ready;
+      int n_ready, clock;
+@@ -2702,15 +2895,23 @@
+ 
+       /* If more than one remains, select the first one with the largest
+ 	 potential hazard.  */
+-      else if (j - i - q > 1)
++      else if (j - i - q > 1 && !r95_sw ("R95_NOHAZ"))
+ 	{
+ 	  best_cost = -1;
+ 	  for (k = i; k < j; k++)
+ 	    {
+ 	      if ((insn = ready[k]) == 0)
+ 		continue;
+-	      if ((cost = potential_hazard (insn_unit (insn), insn, 0))
+-		  > best_cost)
++	      cost = potential_hazard (insn_unit (insn), insn, 0);
++	      if (r95_sw ("R95_STOREHAZ0") && GET_CODE (PATTERN (insn)) == SET
++		  && GET_CODE (SET_DEST (PATTERN (insn))) == MEM)
++		cost = 0;
++	      if (r95_sw ("R95_LOADHAZ0") && GET_CODE (PATTERN (insn)) == SET
++		  && GET_CODE (SET_SRC (PATTERN (insn))) == MEM)
++		cost = 0;
++	      if (cost
++		  > best_cost
++		  || (r95_sw ("R95_HAZLAST") && cost == best_cost))
+ 		{
+ 		  best_cost = cost;
+ 		  best_insn = k;
+@@ -2722,6 +2923,7 @@
+     }
+ 
+   /* Move the best insn to be front of the ready list.  */
++  r95_hazmoved = best_insn;
+   if (best_insn != 0)
+     {
+       if (file)
+@@ -3206,6 +3408,8 @@
+      int b;
+      FILE *file;
+ {
++  r95_block = b;
++  r95_memsched = 0;
+   rtx insn, last;
+   rtx *ready, link;
+   int i, j, n_ready = 0, new_ready, n_insns;
+@@ -3843,6 +4047,7 @@
+ 	    }
+ 	}
+       n_ready = new_ready;
++      r95_decide (ready, n_ready, clock);
+       last_scheduled_insn = insn = ready[0];
+ 
+       /* The first insn scheduled becomes the new tail.  */
+@@ -4359,6 +4564,8 @@
+ {
+   rtx dest = SET_DEST (x);
+ 
++  if (r95_sw ("R95_SPLITNSETS"))
++    return;
+   while (GET_CODE (dest) == STRICT_LOW_PART || GET_CODE (dest) == SUBREG
+ 	 || GET_CODE (dest) == ZERO_EXTRACT || GET_CODE (dest) == SIGN_EXTRACT)
+     dest = SUBREG_REG (dest);
+@@ -4838,6 +5045,8 @@
+      this code simpler.  */
+   if (n_basic_blocks == 0)
+     return;
++  if (reload_completed == 0 && r95_sw ("R95_FRESHSETS"))
++    r95_recount ();
+ 
+   /* Create an insn here so that we can hang dependencies off of it later.  */
+   sched_before_next_call
