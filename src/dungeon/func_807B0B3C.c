@@ -147,8 +147,10 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
     s16 saved_a1 = caller_a1;
     void *saved_a2 = caller_a2;
     StackLocals stack;
-    register u32 draw_value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u32 draw_value;
     s32 vertex_index;
+    s32 frame_remainder;
+    s32 pair_addr;
     s32 depth;
     s32 bucket_offset;
     s32 gray;
@@ -182,8 +184,6 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
         if ((((S_807B0B3C_0 *)object)->unk_06 >> 10) & 1) {
             u8 *vertex_pair;
             u8 *vertex_ptr;
-            u32 pair_addr;
-            s32 frame_remainder;
             s32 coord_half;
 
             for (vertex_index = 0; vertex_index < 2; vertex_index++) {
@@ -212,15 +212,14 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
                 coord_half = ((S_807B0B3C_1 *)effect)->unk_08.u16;
                 frame_remainder = (s16)coord_half;
                 frame_remainder %= 5;
-                draw_value = (u32)((s32)draw_value + frame_remainder - 0x36);
+                draw_value += frame_remainder;
+                draw_value -= 0x36;
                 ((S_807B0B3C_4 *)((u8 *)pair_addr))->unk_04 = (s32)draw_value;
             }
         } else {
-            s32 pair_addr;
             u8 *vertex_ptr;
             s32 second_pair;
             s32 pairs_end;
-            s32 frame_remainder;
 
             pair_addr = (s32)scratch;
             second_pair = (s32)scratch + 0x10;
@@ -246,7 +245,9 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
             caller_a1 = ((S_807B0B3C_1 *)effect)->unk_08.u16;
             frame_remainder = (s16)caller_a1;
             frame_remainder %= 5;
-            ((S_807B0B3C_5 *)((u8 *)pair_addr))->unk_04 = (s32)draw_value + frame_remainder - 0x36;
+            draw_value += frame_remainder;
+            draw_value -= 0x36;
+            ((S_807B0B3C_5 *)((u8 *)pair_addr))->unk_04 = draw_value;
             pair_addr += 0x10;
             if (pair_addr < pairs_end) goto build_x_pairs;
         }
@@ -294,11 +295,13 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
         ((S_807B0B3C_7 *)prim)->unk_20 = ((S_807B0B3C_8 *)verts)->unk_08;
         ((S_807B0B3C_7 *)prim)->unk_2C = ((S_807B0B3C_8 *)verts)->unk_0C;
 
-        draw_value = ((S_807B0B3C_1 *)effect)->unk_08.u16 & 7;
+        draw_value = ((S_807B0B3C_1 *)effect)->unk_08.u16;
+        draw_value &= 7;
         tex_coord = (draw_value & 3) << 5;
         tex_left = tex_coord - 0x80;
         tex_coord -= 0x61;
-        draw_value = (draw_value >> 2) << 5;
+        draw_value >>= 2;
+        draw_value <<= 5;
         ((S_807B0B3C_7 *)prim)->unk_30 = tex_coord;
         ((S_807B0B3C_7 *)prim)->unk_24 = tex_coord;
         tex_coord = draw_value - 0x40;

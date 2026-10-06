@@ -260,7 +260,7 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
     s32 turn_sign;
     s32 retry_callback;
     s32 callback_context;
-    register s32 companion_index ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 companion_index;
     s32 room_index;
     u16 input_flags;
     u16 pass_flags;
@@ -307,7 +307,6 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
     linked_actor = in_actor;
     world_state = &gameWork;
     initial_flags = D_80013714;
-    motion_or_count = in_motion;
     sprite_or_root = in_sprite;
     actor = linked_actor;
     world_object = (u8 *)world_state + 0x18;
@@ -495,7 +494,7 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
         if (!((*(u16 *)0x80013714) & 8) && (!(dungeonStatus.flags & 4)
             || (((S_80089AA0_6 *)(&D_800E296C))->unk_00 & 0x40) || ((*(u8 *)((u8 *)linked_actor + 0x9A)) == 0x17))) {
             D_800E296C = (s32)(D_800E296C & ~0x40);
-            if ((func_800C77D0(actor - 0x20, motion_or_count, 8, D_800DCE60[3]) << 0x10) != 0) {
+            if ((func_800C77D0(actor - 0x20, in_motion, 8, D_800DCE60[3]) << 0x10) != 0) {
                 gameWork.view.slot[2].callback = 0;
                 func_8004D7A8(1);
                 func_8004D294(0, D_800DCE60, 2);
@@ -515,9 +514,9 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
     }
     update_callback = (*(M2C_UNK (**)(void *, void *, void *, void *))((u8 *)linked_actor + 0x8C));
     if (update_callback != NULL) {
-        update_callback(linked_actor, motion_or_count, sprite_or_root, actor);
+        update_callback(linked_actor, in_motion, sprite_or_root, actor);
     }
-    D_800DD168[(*(u8 *)((u8 *)linked_actor + 0x9A))](linked_actor, motion_or_count, sprite_or_root, actor);
+    D_800DD168[(*(u8 *)((u8 *)linked_actor + 0x9A))](linked_actor, in_motion, sprite_or_root, actor);
     facing = ((s32) (gameWork.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
     if ((*(s16 *)((u8 *)linked_actor + 0x94)) != facing) {
         if ((func_80042900(actor, 0xA) << 0x10) != 0) {
@@ -549,6 +548,7 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
         }
     }
     func_800A020C((*(s32 *)((u8 *)actor + 0x1C)), sprite_or_root + 0xC);
+    motion_or_count = in_motion;
     if (!((*(s32 *)((u8 *)actor + 0x14)) & 0x100000)) {
         ((S_80089AA0_18 *)motion_or_count)->unk_00.at00.v = (s32) (((S_80089AA0_18 *)motion_or_count)->unk_00.at00.v
             + ((S_80089AA0_18 *)motion_or_count)->unk_0C);

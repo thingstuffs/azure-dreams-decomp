@@ -24,7 +24,8 @@ void func_8008F664(void *collider, void *position) {
     s32 shift_z;
     s32 min_separation;
     s32 face_index;
-    register void *box_operand ASM_REG("$4");
+    s32 self_size;
+    void *box_operand;
     register s32 axis_operand;
 
     bounds = PTR_AT(collider, 0xC);
@@ -81,16 +82,14 @@ void func_8008F664(void *collider, void *position) {
         {
             void *other_pos;
             s32 separation;
-            s32 self_offset;
-            s32 self_size;
             s32 other_edge;
 
             box_operand = SCPTR(scratch, 0);
             separation = S32_AT(position, 0);
-            self_offset = S32_AT(box_operand, 0);
+            other_pos = (void *)S32_AT(box_operand, 0);
             self_size = S32_AT(box_operand, 0xC);
             box_operand = VSPTR(scratch, 0xC);
-            separation += self_offset;
+            separation += (s32)other_pos;
             other_pos = VSPTR(scratch, 8);
             box_operand = (void *)S32_AT(box_operand, 0);
             other_edge = S32_AT(other_pos, 0);
@@ -133,16 +132,14 @@ void func_8008F664(void *collider, void *position) {
         {
             void *other_pos;
             s32 separation;
-            s32 self_offset;
-            s32 self_size;
             s32 other_edge;
 
             box_operand = SCPTR(scratch, 0);
             separation = S32_AT(position, 4);
-            self_offset = S32_AT(box_operand, 4);
+            other_pos = (void *)S32_AT(box_operand, 4);
             self_size = S32_AT(box_operand, 0x10);
             box_operand = VSPTR(scratch, 0xC);
-            separation += self_offset;
+            separation += (s32)other_pos;
             other_pos = VSPTR(scratch, 8);
             box_operand = (void *)S32_AT(box_operand, 4);
             other_edge = S32_AT(other_pos, 4);
@@ -185,16 +182,14 @@ void func_8008F664(void *collider, void *position) {
         {
             void *other_pos;
             s32 separation;
-            s32 self_offset;
-            s32 self_size;
             s32 other_edge;
 
             box_operand = SCPTR(scratch, 0);
             separation = S32_AT(position, 8);
-            self_offset = S32_AT(box_operand, 8);
+            other_pos = (void *)S32_AT(box_operand, 8);
             self_size = S32_AT(box_operand, 0x14);
             box_operand = VSPTR(scratch, 0xC);
-            separation += self_offset;
+            separation += (s32)other_pos;
             other_pos = VSPTR(scratch, 8);
             box_operand = (void *)S32_AT(box_operand, 8);
             other_edge = S32_AT(other_pos, 8);

@@ -145,7 +145,7 @@ void func_80025954(void *state, void *motion, void *appearance) {
     s32 x_scaled;
     s32 y_velocity;
     s16 end_tile_x;
-    s32 tile_x;
+    s16 tile_x;
     s16 tile_y;
     s32 model;
     void *destination;
@@ -156,7 +156,9 @@ void func_80025954(void *state, void *motion, void *appearance) {
     void *entity;
     void *grid_source;
     s16 *y_lookup_first;
-    register s32 source_coord ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s16 source_coord;
+    s16 *step_table;
+    s16 *table_origin;
     s32 height;
     u16 end_tile_y;
 
@@ -235,6 +237,7 @@ void func_80025954(void *state, void *motion, void *appearance) {
             func_80024170(state, motion);
             next_state = (u16) ((Rec_func_80024170_arg0 *)state)->unk_0A + 1;
         } else {
+            table_origin = dirStepX;
             step_count = 0;
             grid_source = ((S_80025954_3 *)owner_links)->unk_0C;
             tile_x = ((S_80025954_9 *)grid_source)->unk_24;
@@ -273,22 +276,21 @@ void func_80025954(void *state, void *motion, void *appearance) {
             } while (step_count < 8);
             destination = stack.motion;
             x_scaled = (u32) end_tile_x << 0x10;
-            source_coord = (s32)dirStepX;
+            step_table = table_origin;
             x_scaled >>= 0xA;
             goto grid_coords;
         grid_hit:
             destination = stack.motion;
             x_scaled = (u32) end_tile_x << 0x10;
-            source_coord = (s32)dirStepX;
+            step_table = table_origin;
             x_scaled >>= 0xA;
         grid_coords:
             axis_delta = x_scaled;
-            direction = (((s16 *)source_coord)[(s16) ((Rec_func_80024170_arg0 *)state)->unk_0E] + 1) << 5;
+            direction = (step_table[(s16) ((Rec_func_80024170_arg0 *)state)->unk_0E] + 1) << 5;
             axis_delta += direction;
-            source_coord = (s32)dirStepY;
             ((S_80025954_8 *)destination)->unk_00.at02.v = axis_delta;
             axis_delta = (u32) axis_delta << 0x10;
-            model = ((s16) end_tile_y << 6) + ((((s16 *)source_coord)[(s16) ((Rec_func_80024170_arg0 *)state)->unk_0E] + 1) << 5);
+            model = ((s16) end_tile_y << 6) + ((dirStepY[(s16) ((Rec_func_80024170_arg0 *)state)->unk_0E] + 1) << 5);
             ((S_80025954_8 *)destination)->unk_04.at02.v = model;
             axis_delta >>= 0x10;
             ((S_80025954_8 *)destination)->unk_08.at02u.v = ((S_80025954_5 *)motion)->unk_08.at02.v;
