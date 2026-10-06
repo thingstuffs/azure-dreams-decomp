@@ -32,8 +32,8 @@ Each line: decision - evidence - SECOND LOOK? (yes = owner may want to revisit).
     measurement; normal row lanes skip it, mechanism lanes pick it up (r95_opus_B already refuted 81888810/8188E3A0 -> added to the hard basket).
 11. Type phase 12: ALREADY APPLIED (a83e8dbf6, round 91; apply12.sh --dry-run 10-06: 135 done, 66 already landed/stale, 0 to land) -
     r95_wa2's "never applied" was wrong. Next type work = phase 13 (r91_types_p12/DESIGN.md HOW TO CONTINUE).
-12. Cleanup approvals (CPU / tool, no model judgement needed): NON_MATCHING host-shim/stale strip (~22 rows); the 23 pin-free
-    crutch-flag / off-module rows retired at the module recipe via the equal-pins route; maspsx selfinc guard for the 10
+12. Cleanup approvals (CPU / tool, no model judgement needed): NON_MATCHING host-shim/stale strip (~22 rows; superseded - host shims serve the port build, only alt-C arms were promoted: r95_sonnet_nm1, 7 rows); the 23 pin-free
+    crutch-flag / off-module rows retired at the module recipe via the equal-pins route (NARROWED by item 16: not laned); maspsx selfinc guard for the 10
     `_fold_selfinc_la` rows; the r91_luna_offby1 STATUS one-line fix (shape table excludes parked ovmovie).
 13. Volatiles: the 50 SPU-band sites (15 rows) and 9 extern-volatile polled flags (7 rows) are probably real hardware/interrupt
     state - verify writers (Sonnet check) before adding to ledger/real_volatiles.jsonl; until then unchanged. SECOND LOOK: no.
