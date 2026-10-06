@@ -46,3 +46,11 @@ Read with pin_leads_r93.md and fable_r94_de48ec.md. Every item measured byte-exa
   local_alloc entry; frame_gdb.py plumbing).
 - 8180C3C0 object_slot: keep two identical address givs from combine_givs; 800CA184 column+row priority swap
   (one refs 29 vs address_mask 23).
+
+
+## Correction (r96_opus_p2, 2026-10-06): "backward goto loops with no retail loop notes are the source's own" is NOT a rule
+town/func_8081FF68's reel goto loops were m2c's rendering of loop.c output: real nested do-while INDEX loops are exact
+(2 pins -> 0). loop.c:1818 lowers the move threshold by 3 per moved reg, so with enough address invariants ahead of it a
+constant (here the %12 magic 0x2AAAAAAB) stays inside the inner loop as in retail; the statement order inside the body
+sets the giv order. Before declaring a goto loop "the source's own", try index loops with retail's invariant set and
+giv init order (why.py --pass loop on both texts).

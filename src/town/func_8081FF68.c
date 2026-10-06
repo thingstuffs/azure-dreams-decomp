@@ -289,33 +289,14 @@ void func_80022768(State8081FF68 *state, void *position)
             }
             state->work = 0;
             {
-                register u8 *reel_slot ASM_REG("$12") = (u8 *)state + 8;
-                u8 *reel_table = D_800244B8;
-                register u8 *reel_symbols ASM_REG("$10") = reel_table + 0x18;
-                s32 *symbol_row = &symbols[2][0];
-                u8 *strip;
-                u8 *slot_cursor;
-                s32 *symbol_out;
-
-outer_top:
-                angle = 2;
-                strip = reel_symbols;
-                slot_cursor = reel_slot;
-                symbol_out = symbol_row + 2;
-inner_top:
-                {
-                    reel_mode = (s16)((ReelObject *)(((ReelSlotCursor *)slot_cursor)->reel))->unk_2A;
-                    reel_table = (u8 *)(s32)strip[(angle + reel_mode) % 12];
-                    *symbol_out = (s32)reel_table;
-                    symbol_out--;
-                }
-                if (--angle >= 0)
-                    goto inner_top;
-                reel_slot -= 4;
-                reel_symbols -= 12;
-                symbol_row -= 3;
-                if (--index >= 0)
-                    goto outer_top;
+                do {
+                    angle = 2;
+                    do {
+                        s32 *symbol_out = &symbols[index][angle];
+                        u8 *strip = &D_800244B8[index * 12];
+                        *symbol_out = strip[(angle + ((ReelObject *)state->slot[index])->unk_2A) % 12];
+                    } while (--angle >= 0);
+                } while (--index >= 0);
 
                 {
                     index = 0;
