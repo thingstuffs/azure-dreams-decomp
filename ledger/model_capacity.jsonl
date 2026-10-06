@@ -458,3 +458,7 @@
 {"date": "2026-10-06T12:28Z", "codex": {"pack": "r96_sol61_d3", "model": "gpt-6.1-sol", "candidates": 1}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
 {"date": "2026-10-06T12:36Z", "codex": {"pack": "r96_astra_c4", "model": "gpt-6-astra", "candidates": 2}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
 {"date": "2026-10-06T12:40Z", "codex": {"pack": "r96_sol61_d2", "model": "gpt-6.1-sol", "candidates": 0}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-06T14:25Z", "codex": {"pack": "r96_astra_e1", "model": "gpt-6-astra", "candidates": 0}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-06T14:28Z", "codex": {"pack": "r96_astra_e3", "model": "gpt-6-astra", "candidates": 0}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-06T14:58Z", "codex": {"pack": "r96_astra_e4", "model": "gpt-6-astra", "candidates": 2}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-06T15:33Z", "codex": {"pack": "r96_astra_e2", "model": "gpt-6-astra", "candidates": 0}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
