@@ -1,3 +1,4 @@
+#include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -47,7 +48,6 @@ extern void func_800AD594(void *, s32);
 extern s32 func_800BCB04(s32, s32, s16);
 extern void func_80174A6C(void *, void *, void *);
 
-extern u8 D_800DDC40[];
 extern u8 D_80170E94;
 
 /* Advances the actor's movement state, height arc, and return to its tile. */

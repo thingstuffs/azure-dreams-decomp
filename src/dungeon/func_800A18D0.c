@@ -1,3 +1,4 @@
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 
 typedef struct {
@@ -6,7 +7,6 @@ typedef struct {
     u8 pad[10];
 } Entry;
 
-extern s32 D_800E3548[];
 extern Entry D_800E36C8[];
 extern void func_8009A3D0(u8, u8, s32);
 
@@ -23,7 +23,7 @@ void func_800A7030(s16 target_x, s16 target_y) {
     entry_index = 0;
     x = target_x;
     y = target_y;
-    entry_state = D_800E3548;
+    entry_state = ((s32 *)D_800E3548);
     entry = D_800E36C8;
     do {
         if (((u8 *) entry_state)[1] != 0) {

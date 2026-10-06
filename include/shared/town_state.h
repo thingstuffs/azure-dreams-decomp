@@ -5,10 +5,14 @@
  * not a claim about the full allocation size. +0x2D5C is both threshold-tested
  * and incremented/decremented; its game meaning is not established. Unsigned
  * matches the comparisons and /100 arithmetic; signed views retain casts.
- * The pointer list beginning at +0x29C and byte regions +0x3640/+0x3700 need
- * further extent/type evidence and remain padding in this partial layout. */
+ * The list has twenty usable entries plus its zero terminator. The allocator
+ * rejects indices >=20; compaction writes the terminator after twenty entries.
+ * The history writer shifts twelve bytes per group; readers iterate sixteen
+ * groups. Head indices wrap at the per-group limit. Allocation end unknown. */
 typedef struct TownStateRecord {
-    /* 0x0000 */ unsigned char pad_0000[0x2D5C];
+    /* 0x0000 */ unsigned char pad_0000[0x29C];
+    /* 0x029C */ void *entries[21];
+    /* 0x02F0 */ unsigned char pad_02F0[0x2A6C];
     /* 0x2D5C */ unsigned int unk_2D5C;
     /* 0x2D60 */ int unk_2D60;
     /* 0x2D64 */ unsigned char pad_2D64[4];
@@ -19,6 +23,9 @@ typedef struct TownStateRecord {
     /* 0x35BC */ short unk_35BC;
     /* 0x35BE */ short unk_35BE;
     /* 0x35C0 */ short unk_35C0;
+    /* 0x35C2 */ unsigned char pad_35C2[0x7E];
+    /* 0x3640 */ unsigned char history[16][12];
+    /* 0x3700 */ unsigned char headIndices[16];
 } TownStateRecord;
 
 #endif

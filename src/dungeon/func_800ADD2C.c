@@ -1,3 +1,4 @@
+#include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -15,7 +16,6 @@ void func_800B341C();        /* extern */
 void func_800B3D10();          /* extern */
 s32 func_800B4194();             /* extern */
 s32 func_800C77D0(); /* extern */
-extern s32 D_8008ACDC;
 extern u8 D_800DD030[];
 extern u8 D_800DD068[];
 extern u8 D_800DD070[];
@@ -337,7 +337,7 @@ bump_state_9b:
             end_base = (s32 *)((u32)&dungeonStatus.unk_00);
             end_mask = -8;
             ((S_800B348C_6 *)end_base)->unk_02 = (u16) (((S_800B348C_6 *)end_base)->unk_02 | 0x412);
-            ((S_800B348C_0 *)action_state)->unk_8C = &D_8008ACDC;
+            ((S_800B348C_0 *)action_state)->unk_8C = func_8008ACDC;
             end_timer_state = D_800DF248[0];
             actor->flags14 &= end_mask;
             if (end_timer_state == 0) {

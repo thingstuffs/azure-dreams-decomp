@@ -1,9 +1,9 @@
+#include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/object_node.h"
 
 
 typedef s32 M2C_UNK;
-extern u8 D_800DDC40[];
 void *func_8003FD64();
 s32 func_8004491C();
 s32 func_8004DA74();

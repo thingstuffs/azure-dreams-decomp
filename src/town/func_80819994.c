@@ -4,18 +4,6 @@
 #include "shared/game_work.h"
 #include "shared/entity.h"
 
-typedef struct S_80023994_0 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_80023994_0;   /* button_base in func_80023994 */
-
-typedef struct S_80023994_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x8];
-    s32 unk_0C;
-} S_80023994_1;   /* record_base in func_80023994 */
-
 
 extern s32 func_800C2AE8(void *);
 extern void func_80093CEC(void *);

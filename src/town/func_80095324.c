@@ -1,3 +1,4 @@
+#include "shared/position_query.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
@@ -30,7 +31,6 @@ extern u8 D_8009B9BC[];
 extern s32 D_800CFCB4;
 extern u8 D_800CFCEF;
 extern M2C_UNK D_800D0128;
-extern u8 D_800FE488[];
 extern s32 *D_800FE5D8;
 
 typedef struct S_80092A84_1 {
@@ -67,7 +67,7 @@ void func_80092A84(Rec_func_80094268_arg0 *actor, EntityRec *body, s32 context) 
     func_80095C80(body);
     func_80095094(body);
 
-    position_data = D_800FE488;
+    position_data = ((u8 *)&D_800FE488);
     position = func_80095978(body, position_data);
     if ((position - body->z.w.i) >= 4) {
         if (D_800CFCEF == 0) {

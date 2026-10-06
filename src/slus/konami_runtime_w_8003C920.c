@@ -1,3 +1,4 @@
+#include "shared/runtime_dispatch.h"
 #include "slus/runtime_directory.h"
 
 /* Initializes runtime state and selects its mode from the configuration byte. */
@@ -6,7 +7,7 @@ void func_8003C920(void)
     GpTablePrefix default_state;
 
     __builtin_memcpy(&default_state, &D_8002D594, 0x20);
-    if (D_80082E6A[0] != 2) {
+    if (D_80082E60.mode != 2) {
         D_8006B200 = D_8002D594;
         D_80080A6C = 4;
     } else {

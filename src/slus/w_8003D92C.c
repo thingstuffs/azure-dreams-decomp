@@ -2,7 +2,6 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-extern u8 D_80082E6F[16];
 extern u8 D_80080A84;
 extern short D_80080ABC;
 extern short D_80080ABE;
@@ -33,7 +32,7 @@ int func_8003D92C(void)
     int saved_setting;
     GameWork *input_state;
     input_state = &gameWork;
-    if (D_80082E6F[0] & 0x80) {
+    if (D_80082E60.flags0F & 0x80) {
         return 0;
     }
     trigger_flags = ((int)input_state->unk_010);

@@ -1,3 +1,4 @@
+#include "shared/position_query.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
@@ -33,7 +34,6 @@ extern M2C_UNK D_8009B9BC;
 extern M2C_UNK D_800CFCB4;
 extern void *D_800CFCC4;
 extern u8 D_800CFCEF[];
-extern M2C_UNK D_800FE488;
 extern s32 D_800FE518[];
 extern s32 *D_800FE5D8;
 

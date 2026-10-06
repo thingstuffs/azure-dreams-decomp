@@ -1,3 +1,4 @@
+#include "shared/position_query.h"
 #include "common.h"
 
 typedef struct Actor Actor;
@@ -69,7 +70,6 @@ extern TownState D_80083498;
 extern TownControl D_800CFCB4;
 extern MotionDelta D_800CFDF0[];
 extern MotionDelta D_800CFE08[];
-extern u8 D_800FE488[];
 
 /* Update town movement and height, then copy the actor value into the context. */
 void func_8009BDC0(Actor *actor, Subject *subject, Motion *motion,
@@ -97,7 +97,7 @@ void func_8009BDC0(Actor *actor, Subject *subject, Motion *motion,
         town_state->target->x += x_deltas[control->index].x;
         town_state->target->y += y_deltas[control->index].x;
     }
-    surface_height = func_8008F170(motion, D_800FE488);
+    surface_height = func_8008F170(motion, ((u8 *)&D_800FE488));
     func_8008F294(subject, motion);
     func_8008F664(subject, motion);
     if (subject->state == 0) {

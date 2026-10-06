@@ -1,3 +1,4 @@
+#include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
@@ -11,7 +12,6 @@ extern void func_80099844();
 extern s32 func_8009B5AC();
 extern void func_8009F644();
 extern s32 func_800A56E0();
-extern u8 D_8008ACDC[];
 extern u8 D_800DCFC8[];
 extern u8 D_800E0495[];
 
@@ -95,7 +95,7 @@ s32 func_8008C5C4(S_8008C5C4_2 *action, void *unused, S_8008C5C4_1 *position, En
                         tail_page = (u32)D_80080000;
                         ((S_8008C5C4_4 *)((void *)tail_page))->unk_1484 = 0;
                         action->unk_124 = 0;
-                        action->unk_8C.p = (void *)((u32)&D_8008ACDC);
+                        action->unk_8C.p = (void *)((u32)func_8008ACDC);
                         return tail_result;
                     }
                 }
@@ -120,7 +120,7 @@ s32 func_8008C5C4(S_8008C5C4_2 *action, void *unused, S_8008C5C4_1 *position, En
         }
         return result;
     }
-    action->unk_8C.p2 = D_8008ACDC;
+    action->unk_8C.p2 =func_8008ACDC;
     result = 0;
     return result;
 }

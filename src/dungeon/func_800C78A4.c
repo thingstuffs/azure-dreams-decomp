@@ -1,3 +1,4 @@
+#include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
@@ -75,7 +76,6 @@ extern void func_800A6508();
 extern s32 func_800A6D30(void);
 
 extern u8 D_800CCDA0;
-extern u8 D_800DDC40[];
 extern u8 D_800DFD0C[];
 extern u8 D_800DFD30[];
 extern u8 D_800E3D40;

@@ -18,11 +18,6 @@ void func_800D4FC8();    /* extern */
 extern M2C_UNK D_800E206A;
 
 
-typedef struct S_800C003C_1 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800C003C_1;   /* global_base in func_800C003C */
-
 /* Update entity state and counters, with special handling for the primary entity. */
 s32 func_800C003C(void *entity, s32 event_id, s16 event_param) {
     u8 update_count;

@@ -18,16 +18,6 @@ void func_800AA5E4(); /* extern */
 s16 func_800BCB04();                   /* extern */
 
 
-typedef struct S_800AC010_4 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800AC010_4;   /* counter1 in func_800AC010 */
-
-typedef struct S_800AC010_5 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800AC010_5;   /* counter2 in func_800AC010 */
-
 /* Advance tile movement, handle object contact, and finalize the stopping position. */
 s32 func_800AC010(void *move_state, EntityRec *motion, Rec_D_80082E80 *tile_pos, EntityRec *actor) {
     u16 resolved_x;

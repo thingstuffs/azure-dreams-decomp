@@ -1,13 +1,9 @@
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/game_work.h"
 
-typedef struct Slot {
-    u8 b0;
-    u8 b1;
-    u8 b2;
-    u8 b3;
-} Slot;
+
 
 typedef struct Ent {
     u8 a;
@@ -45,7 +41,6 @@ typedef struct Unit {
 
 extern u8 D_80081485[16];
 extern u16 D_80012094;
-extern Slot D_800E3548[];
 extern Ent D_800E36C8[];
 extern char D_80088A80[];
 extern char D_80088A84[];
@@ -63,7 +58,7 @@ void func_80095DD0(Ctx *, char *, Item *, Unit *);
 s32 func_800990FC(void);
 char *func_8009929C(s8 value, s8 *dest);
 char *func_80099194(char *, char *);
-char *func_80099368(Slot *, char *);
+char *func_80099368(DungeonItemEntry *, char *);
 void func_80099290(char *);
 void func_800A5720(s8 *text);
 s32 func_80098FB0(void);
@@ -71,7 +66,7 @@ s32 func_80098FF8(void);
 void func_8009F644(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
 u8 *func_8009F868(void);
 void func_8009F988(void);
-s32 func_800438E4(Slot *);
+s32 func_800438E4(DungeonItemEntry *);
 void func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 void func_8009A3D0(s32, s32, s32);
 
@@ -87,11 +82,11 @@ s32 func_80094F74(Ctx *ctx, char *text, Item *item, Unit *unit) {
     s16 slot_index;
     s16 entry_index;
     s32 pickup_value;
-    Slot *ground_item;
-    Slot *named_item;
-    Slot *special_item;
-    Slot *stored_item;
-    Slot *consumed_item;
+    DungeonItemEntry *ground_item;
+    DungeonItemEntry *named_item;
+    DungeonItemEntry *special_item;
+    DungeonItemEntry *stored_item;
+    DungeonItemEntry *consumed_item;
     u16 *state_page;
     s32 unused_three;
     void **inventory_slot;
@@ -99,9 +94,9 @@ s32 func_80094F74(Ctx *ctx, char *text, Item *item, Unit *unit) {
     s32 consumed_id;
     s16 stored_id;
     u32 *pickup_slot;
-    Slot *ground_items;
-    Slot *special_items;
-    Slot *consumed_items;
+    DungeonItemEntry *ground_items;
+    DungeonItemEntry *special_items;
+    DungeonItemEntry *consumed_items;
     u8 *inventory_page;
     s32 item_kind;
 
@@ -144,11 +139,11 @@ s32 func_80094F74(Ctx *ctx, char *text, Item *item, Unit *unit) {
     }
     ground_items = D_800E3548;
     ground_item = &ground_items[(s16) item_lookup];
-    if ((ground_item->b1 == 14) || ((ground_item->b1 == 12) && (ground_item->b0 == 4))
-        || ((ground_item->b1 == 18) && (ground_item->b0 == 1))) {
+    if ((ground_item->kind == 14) || ((ground_item->kind == 12) && (ground_item->unk_00 == 4))
+        || ((ground_item->kind == 18) && (ground_item->unk_00 == 1))) {
         named_item = &D_800E3548[(s16) item_lookup];
         message = func_80099368(named_item, message);
-        if (named_item->b1 == 14) {
+        if (named_item->kind == 14) {
             message = func_80099194(D_80088A84, message);
         } else {
             message = func_80099194(D_800E0A90, message);
@@ -156,7 +151,7 @@ s32 func_80094F74(Ctx *ctx, char *text, Item *item, Unit *unit) {
         special_items = D_800E3548;
         ctx->flags |= 0x80;
         special_item = &special_items[(s16) item_lookup];
-        item_kind = special_item->b1;
+        item_kind = special_item->kind;
         if (item_kind == 12) {
             message = func_80099194(D_800E0ABC, func_8009929C(10, func_80099194(D_800E0AA1, func_8009929C(10,
                 message))));
@@ -178,8 +173,8 @@ s32 func_80094F74(Ctx *ctx, char *text, Item *item, Unit *unit) {
         consumed_items = D_800E3548;
         consumed_item = &consumed_items[consumed_id];
         *pickup_slot = *(u32 *) consumed_item;
-        consumed_item->b0 = 0;
-        consumed_item->b1 = 0;
+        consumed_item->unk_00 = 0;
+        consumed_item->kind = 0;
         func_8009A3D0(D_800E36C8[consumed_id].a, D_800E36C8[consumed_id].b, 0x800);
         ctx->link = pickup_slot;
     } else {
@@ -197,8 +192,8 @@ s32 func_80094F74(Ctx *ctx, char *text, Item *item, Unit *unit) {
             inventory_page = (u8 *) 0x80010000;
             *(void ***) (inventory_page + (entry_index * 4) + 0x29C) = inventory_slot;
             ctx->flags |= 0x80;
-            stored_item->b0 = 0;
-            stored_item->b1 = 0;
+            stored_item->unk_00 = 0;
+            stored_item->kind = 0;
             func_8009A3D0(D_800E36C8[stored_id].a, D_800E36C8[stored_id].b, 0x800);
             ctx->link = inventory_slot;
         }
