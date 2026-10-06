@@ -271,43 +271,41 @@ void func_8008F664(void *collider, void *position) {
             continue;
         }
         shift_z = SC32(scratch, 0x20);
-        if (!(shift_z > 0 && S32_AT(position, 0x14) >= shift_z && shift_x != 0 && shift_y != 0)) {
-            {
-                s32 abs_x;
-                s32 y_depth;
-                s32 z_depth;
-                s32 abs_z;
+        if (shift_z > 0 && S32_AT(position, 0x14) >= shift_z && shift_x != 0 && shift_y != 0) {
+            func_8008F60C(collider, position, scratch);
+            continue;
+        }
+        {
+            s32 abs_x;
+            s32 y_depth;
+            s32 z_depth;
+            s32 abs_z;
 
-                abs_x = abs(VSC32(scratch, 0x10));
-                y_depth = abs(VSC32(scratch, 0x18));
-                if (abs_x < y_depth) {
-                    z_depth = VSC32(scratch, 0x20);
-                    abs_z = z_depth;
-                    abs_z = abs(abs_z);
-                    z_depth = y_depth < abs_z;
+            abs_x = abs(VSC32(scratch, 0x10));
+            y_depth = abs(VSC32(scratch, 0x18));
+            if (abs_x < y_depth) {
+                z_depth = VSC32(scratch, 0x20);
+                abs_z = z_depth;
+                abs_z = abs(abs_z);
+                z_depth = y_depth < abs_z;
+                if (!z_depth) {
+                    z_depth = abs_x < abs_z;
                     if (!z_depth) {
-                        z_depth = abs_x < abs_z;
-                        if (!z_depth) {
-                            func_8008F60C(collider, position, scratch);
-                            continue;
-                        }
-                    }
-                    func_8008F55C(collider, position, scratch);
-                    continue;
-                } else {
-                    z_depth = VSC32(scratch, 0x20);
-                    z_depth = abs(z_depth);
-                    if (y_depth < z_depth) {
-                        goto call_5b4;
+                        func_8008F60C(collider, position, scratch);
+                        continue;
                     }
                 }
+                func_8008F55C(collider, position, scratch);
+                continue;
             }
+            z_depth = VSC32(scratch, 0x20);
+            z_depth = abs(z_depth);
+            if (y_depth >= z_depth) {
+                func_8008F60C(collider, position, scratch);
+                continue;
+            }
+            func_8008F5B4(collider, position, scratch);
         }
-        func_8008F60C(collider, position, scratch);
-        continue;
-
-call_5b4:
-        func_8008F5B4(collider, position, scratch);
     }
 
     SC32(scratch, 0x38) = 0;

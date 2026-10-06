@@ -335,27 +335,21 @@ s32 func_800218E4(void *game_in) {
         } while (object_index >= 0);
         object_index = 2;
         motion_mode = 1;
-        init_slot = game_in + 8;
         ((S_800218E4_0 *)game_in)->unk_46 = -1;
         ((S_800218E4_0 *)game_in)->unk_44 = -1;
         ((S_800218E4_0 *)game_in)->unk_00 = ((u8 *)(&D_80083780));
         ((S_800218E4_0 *)game_in)->unk_10 = (void *) (base_object + 0x10);
-loop_1:
-        {
-            init_object = ((S_800218E4_2 *)init_slot)->unk_20;
-            object_index -= 1;
-            ((S_800218E4_2 *)init_slot)->unk_04 = (s32) init_object->unk_08;
-            init_object_base = ((S_800218E4_2 *)init_slot)->unk_20;
+        for (; object_index >= 0; object_index--) {
+            init_object = ((S_800218E4_2 *)((u8 *)game_in + object_index * 4))->unk_20;
+            ((S_800218E4_2 *)((u8 *)game_in + object_index * 4))->unk_04 = (s32) init_object->unk_08;
+            init_object_base = ((S_800218E4_2 *)((u8 *)game_in + object_index * 4))->unk_20;
             object_motion = init_object_base + 0x20;
             object_motion->unk_18 = motion_mode;
             object_motion->unk_04.s = 0;
             object_motion->unk_16 = 0;
             object_motion->unk_14 = 0;
-            ((S_800218E4_2 *)init_slot)->unk_14 = (void *) (init_object_base + 0x4A);
-            init_slot -= 4;
+            ((S_800218E4_2 *)((u8 *)game_in + object_index * 4))->unk_14 = (void *) (init_object_base + 0x4A);
         }
-        if (object_index >= 0)
-            goto loop_1;
         ((S_800218E4_5 *)base_object)->unk_08 = 0;
         object_index = 3;
         init_flags = 0x10000000;
@@ -811,10 +805,7 @@ object_collision:
                     }
                 }
                 partner_index += 1;
-                if (partner_index >= 4) {
-                    break;
-                }
-            } while (1);
+            } while (partner_index < 4);
         }
         object_index += 1;
         object_slot += 4;

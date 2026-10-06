@@ -126,7 +126,7 @@ typedef struct S_807B0B3C_15 {
 } S_807B0B3C_15;   /* (u8 *)offset in func_807B0B3C */
 
 typedef struct {
-    s32 sp18;
+    s32 projection_flag;
 } StackLocals;
 
 extern s32 func_80065420(void *, void *, void *, void *);
@@ -190,7 +190,7 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
                 vertex_pair = scratch + vertex_index * 0x10;
                 bucket_ptr_m = (u8 *)(vertex_index * 2);
                 coord_half = ((S_807B0B3C_1 *)effect)->unk_00.u;
-                stack.sp18 = (s32)bucket_ptr_m;
+                stack.projection_flag = (s32)bucket_ptr_m;
                 ((S_807B0B3C_2 *)vertex_pair)->unk_08 = coord_half;
                 ((S_807B0B3C_2 *)vertex_pair)->unk_00 = coord_half;
                 vertex_ptr = vertex_pair + 8;
@@ -202,7 +202,7 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
                     coord_half = (s32)bucket_ptr_m + 0x20;
                     ((S_807B0B3C_3 *)vertex_ptr)->unk_02.v = coord_half;
                 }
-                pair_addr = stack.sp18;
+                pair_addr = stack.projection_flag;
                 coord_half = ((S_807B0B3C_3 *)vertex_ptr)->unk_02.v;
                 pair_addr <<= 3;
                 ((S_807B0B3C_2 *)vertex_pair)->unk_02 = coord_half;
@@ -253,25 +253,11 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
 
         depth = 0;
 
-        vertex_index = depth;
-        screen_vertex = verts;
-        world_vertex = scratch;
-        loop_0: {
-            void *world_arg = world_vertex;
-            void *screen_arg = screen_vertex;
-            void *projection_arg;
-            void *flag_arg;
-            s32 vertex_depth;
-
-            projection_arg = &stack.sp18;
-            flag_arg = projection_arg;
-            vertex_depth = func_80065420(world_arg, screen_arg, projection_arg, flag_arg);
+        for (vertex_index = 0; vertex_index < 4; vertex_index++) {
+            s32 vertex_depth = func_80065420(scratch + vertex_index * 8, verts + vertex_index * 4, &stack.projection_flag, &stack.projection_flag);
             bucket_ptr_m = (u8 *)(depth - 8);
             depth = (s32)bucket_ptr_m + vertex_depth;
-            screen_vertex += 4;
-            vertex_index++;
-            world_vertex += 8;
-        } if (vertex_index < 4) goto loop_0;
+        }
 
         {
             s32 rounded_depth;
@@ -357,10 +343,9 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
             u8 *vertex_ptr;
             u8 *color_ptr;
 
-            vertex_index = 3;
-            color_ptr = colors + 0xC;
-            vertex_ptr = scratch + 0x18;
-            loop_0_: {
+            for (vertex_index = 3; vertex_index >= 0; vertex_index--) {
+                vertex_ptr = scratch + vertex_index * 8;
+                color_ptr = colors + vertex_index * 4;
                 coord = ((S_807B0B3C_1 *)effect)->unk_00.s;
                 if (vertex_index < 2) {
                     ((S_807B0B3C_3 *)vertex_ptr)->unk_00.n = coord - 0x20;
@@ -373,15 +358,12 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
                 } else {
                     ((S_807B0B3C_3 *)vertex_ptr)->unk_02.n = coord - 0x20;
                 }
-                vertex_index--;
                 ((S_807B0B3C_3 *)vertex_ptr)->unk_04 = ((S_807B0B3C_1 *)effect)->unk_04;
-                vertex_ptr -= 8;
                 tex_coord = (((S_807B0B3C_1 *)effect)->unk_08.u8 & 3) * 8;
                 ((S_807B0B3C_11 *)color_ptr)->unk_02 = tex_coord;
                 ((S_807B0B3C_11 *)color_ptr)->unk_01 = tex_coord;
                 ((S_807B0B3C_11 *)color_ptr)->unk_00 = tex_coord;
-                color_ptr -= 4;
-            } if (vertex_index >= 0) goto loop_0_;
+            }
         }
 
         coord = ((S_807B0B3C_1 *)effect)->unk_06;
@@ -425,22 +407,9 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
             ((S_807B0B3C_14 *)scratch)->unk_00 = component_4;
             break;
         }
-        vertex_index = 3;
-        screen_vertex = verts + 0xC;
-        world_vertex = scratch + 0x18;
-        loop_0__: {
-            void *world_arg = world_vertex;
-            void *screen_arg = screen_vertex;
-            void *projection_arg;
-            void *flag_arg;
-
-            projection_arg = &stack.sp18;
-            flag_arg = projection_arg;
-            func_80065420(world_arg, screen_arg, projection_arg, flag_arg);
-            screen_vertex -= 4;
-            vertex_index--;
-            world_vertex -= 8;
-        } if (vertex_index >= 0) goto loop_0__;
+        for (vertex_index = 3; vertex_index >= 0; vertex_index--) {
+            func_80065420(scratch + vertex_index * 8, verts + vertex_index * 4, &stack.projection_flag, &stack.projection_flag);
+        }
 
         if ((u32)depth < 0x1E0U) {
             s32 blend_mode;

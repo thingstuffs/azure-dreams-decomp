@@ -909,7 +909,8 @@ L_CFE98:
                             }
 block_98:
                             if ((u32) scratch->packet_end < (u32) packet) {
-                                goto block_106;
+                                ((S_800CF8E4_14 *)(((S_800CF8E4_0 *)scene)->unk_00))->unk_8D0 = packet;
+                                return;
                             }
                         }
                         next_column = scratch->column + 1;
@@ -935,7 +936,6 @@ block_98:
             }
             } while (scratch->active_edges != 0);
         }
-block_106:
         ((S_800CF8E4_14 *)(((S_800CF8E4_0 *)scene)->unk_00))->unk_8D0 = packet;
     }
 }
