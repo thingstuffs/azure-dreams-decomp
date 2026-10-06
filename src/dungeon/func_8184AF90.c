@@ -60,12 +60,12 @@ typedef struct S_80024790_4 {
 } S_80024790_4;   /* temp_s0_2 in func_80024790 */
 
 /* Creates an effect at the origin with index-dependent color, scale, and position. */
-s32 func_80024790(S_80024790_1 *origin, s32 index) {
+s32 func_80024790(S_80024790_1 *origin, s32 color_index) {
     s32 signed_index;
     s32 index_high;
     s16 scale;
     s32 frame_dividend;
-    register s32 color_index ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    s32 index;
     s32 angle;
     s32 angle_dividend;
     s32 height;
@@ -76,10 +76,9 @@ s32 func_80024790(S_80024790_1 *origin, s32 index) {
     S_80024790_2 *state;
     void *effect;
 
+    index = color_index;
     effect = func_8003FC64(0x212);
     if (effect != NULL) {
-        color_index = index;
-        ASM_KEEP(color_index);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         ((S_80024790_0 *)effect)->unk_10 = &D_800246AC;
         ((S_80024790_0 *)effect)->unk_20 = (u16) origin->unk_02;
         state = effect + 0x20;
@@ -99,7 +98,6 @@ s32 func_80024790(S_80024790_1 *origin, s32 index) {
         sprite->unk_0E = shade;
         sprite->unk_0D = shade;
         sprite->unk_0C = shade;
-        ASM_KEEP(color_index);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         sprite_data = D_800E0000 - 0x14D8;
         if (signed_index < 0) {
             frame_dividend = signed_index + 7;

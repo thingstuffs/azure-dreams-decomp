@@ -103,22 +103,20 @@ void func_80173078(void *action, EntityRec *movement, void *sprite, void *actor)
         }
 
         if (*item_slot != 0) {
+            u8 *item_id;
+
             ((S_80173078_0 *)action)->unk_98 &= 0xFF7F;
             if (special != 0) {
                 target = D_800814A8;
                 (*(void * *)((u8 *)actor + 0x60)) = target;
-                goto copy_active_coords;
-            }
-
-            {
-                u8 *item_id;
-
+                item_id = ((S_80173078_1_pre *)target)[-1].unk_00;
+                (*(u8 *)((u8 *)actor + 0x72)) = ((S_80173078_2 *)item_id)->unk_24;
+                (*(u8 *)((u8 *)actor + 0x73)) = ((S_80173078_2 *)item_id)->unk_25;
+            } else {
                 item_id = (u8 *)(*item_slot);
                 if (D_8006DE24[((u8)item_id)].kind == 2) {
                     target = (*(void * *)((u8 *)actor + 0x60));
                     if (target != 0) {
-
-    copy_active_coords:
                         item_id = ((S_80173078_1_pre *)target)[-1].unk_00;
                         (*(u8 *)((u8 *)actor + 0x72)) = ((S_80173078_2 *)item_id)->unk_24;
                         (*(u8 *)((u8 *)actor + 0x73)) = ((S_80173078_2 *)item_id)->unk_25;

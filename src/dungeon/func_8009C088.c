@@ -5,11 +5,15 @@ extern u8 D_800E3DD0[];
 extern u8 D_800E3DE0[];
 
 /* Returns an entry selected by type and ID, or null if no match is found. */
-u8 *func_800A17E8(s16 entry_id, s16 entry_type) {
-    register s16 entry_index ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+u8 *func_800A17E8(s16 entry_id, s32 entry_type) {
+    s16 entry_index;
     u8 *entry;
     s16 next_index;
+    s16 raw_type;
 
+    raw_type = entry_type;
+    entry_type <<= 16;
+    entry_type >>= 16;
     if (entry_type == 3) {
         entry = D_800E3DD0;
         entry_index = 4;
@@ -27,6 +31,7 @@ u8 *func_800A17E8(s16 entry_id, s16 entry_type) {
     }
 
     if (entry_index < 6) {
+        entry_type = raw_type;
         do {
             if ((entry_type == 1 || entry_type == 3) && entry[0] != entry_type) {
                 return 0;

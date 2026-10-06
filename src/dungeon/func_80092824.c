@@ -29,6 +29,7 @@ void *func_80097F84(void *arg0, void *arg1, void *arg2, s16 arg3)
     void *object;
     s32 found;
     s32 narrowed;
+    s32 address;
     u32 flags;
     u8 *entry;
     u8 *entry_base;
@@ -86,15 +87,15 @@ void *func_80097F84(void *arg0, void *arg1, void *arg2, s16 arg3)
     entry_base = (u8 *)0x80010248;
     narrowed = first << 16;
     narrowed >>= 14;
-    narrowed += (s32)entry_base;
-    ASM_KEEP(narrowed);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    address = narrowed + (s32)entry_base;
+    narrowed = (u16)second;
     *(s32 *)arg0 = 0;
-    arg0 = (void *)narrowed;
+    arg0 = (void *)address;
     entry_base = (u8 *)0x80010000;
-    narrowed = second << 16;
-    narrowed >>= 14;
-    narrowed += (s32)entry_base;
-    *(void **)(narrowed + 0x29c) = arg0;
+    address = narrowed << 16;
+    address >>= 14;
+    address += (s32)entry_base;
+    *(void **)(address + 0x29c) = arg0;
     }
     return arg0;
 }

@@ -19,18 +19,18 @@ typedef struct TownObject {
 } TownObject;
 
 extern void SD_Call();
-extern void func_80094984();
+void func_80094984(void *, void *, void *);
 extern void func_80099754();
 extern u8 D_800983BC;
 extern u8 D_800D0158;
 extern u16 D_800D5070[];
 
 /* Set the object's handler, state, and entry-specific value, then update the table target. */
-void func_800992F8(TownObject *object, s32 table_target) {
+void func_800992F8(TownObject *object, s32 table_target, void *ptr2) {
     TownEntry *entries;
     u16 entry_value;
 
-    func_80094984(&D_800D0158, object);
+    func_80094984(&D_800D0158, object, ptr2);
     entries = D_80082660;
     entries[1].pad0[0] = 0;
     entry_value = D_800D5070[entries[object->entry_index].table_index];

@@ -40,7 +40,7 @@ extern s32 func_8005914C(S_80085FA8 *a0, s32 a1, s32 a2, s32 a3);
 s32 func_8005947C(S_80085FA8 *stream)
 {
     s16 status;
-    register s32 first_data ASM_REG("$18");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    s32 first_data;
     s32 second_data;
     s32 data_count;
     s32 input_byte;
@@ -55,10 +55,10 @@ s32 func_8005947C(S_80085FA8 *stream)
         status = stream->f4a;
         stream->f49 = 1;
     } else {
-        status = input_byte;
         if ((event_byte & 0xFF) != 0xFF) {
             stream->f4a = input_byte;
         }
+        status = input_byte;
         stream->f49 = 0;
     }
     status_group = (u32)status;

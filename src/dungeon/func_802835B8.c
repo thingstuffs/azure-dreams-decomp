@@ -178,7 +178,7 @@ void func_800165B8(void) {
     u8 *obj;
     u8 *entity;
     u8 *room;
-    s16 first_height;
+    u8 first_height;
     s16 height;
     s16 *delta_x;
     u8 *delta_page;
@@ -197,7 +197,7 @@ void func_800165B8(void) {
     s32 lift_height;
     u8 *display_state;
     s32 bind_count;
-    register u8 *bind_state ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    u8 *bind_state;
     u8 *bind_angle;
     u8 *defaults_page;
     u16 init_flags;
@@ -205,7 +205,7 @@ void func_800165B8(void) {
     s32 object_color;
     s32 entity_mask;
     s32 copy_tail;
-    s32 final_flags;
+    u16 final_flags;
 
     table_base = (u8 *)&gameWork;
     D_800DCF5A = 1;
@@ -242,7 +242,7 @@ retry_position:
         entry_index = -1;
         delta_x = dirStepX;
         delta_y = dirStepY;
-check_neighbor:
+        do {
         func_8009A350(pos_x, pos_y, (s16)entry_index, &flags);
         bind_state = (u8 *)(-0x400);
         if (flags & 0x8000) {
@@ -270,9 +270,7 @@ check_neighbor:
         if (height_diff >= 0x21) {
             goto retry_position;
         }
-        if (entry_index < 2) {
-            goto check_neighbor;
-        }
+        } while (entry_index < 2);
     } else {
         pos_x = ((S_800165B8_2 *)room)->unk_10;
         pos_y = ((S_800165B8_2 *)room)->unk_12;
@@ -379,12 +377,12 @@ initialize_position:
         call_target = (u8 *)(u32)((S_800165B8_3 *)state)->unk_24;
         display_index = *(u16 *)((u8 *)entry_index + 0x20A2);
         tile_y = ((S_800165B8_3 *)state)->unk_25;
-        display_setting = display_table[(s16)display_index];
+        display_setting = *(u16 *)((u8 *)display_table + (s16)display_index * 2);
         bind_state = (u8 *)&dungeonStatus;
         ((S_800165B8_7 *)table_base)->unk_C4 = display_setting;
         height_index = *(u16 *)((u8 *)entry_index + 0x20A0);
         *(u16 *)D_800DCE60 = display_setting;
-        lift_height = D_800DD26C[(s16)height_index];
+        lift_height = *(u16 *)((u8 *)D_800DD26C + (s16)height_index * 2);
         display_value = ((S_800165B8_7 *)table_base)->unk_C6;
         display_state = D_800DCE60;
         ((S_800165B8_8 *)display_state)->unk_04 = 0;

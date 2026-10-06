@@ -142,7 +142,6 @@ void func_8080C650(void *in0, void *arg1, void *in2) {
     var_s0 = NULL;
     raw_s1 = func_8025E01C(arg1);
     global_s7 = D_8012F130;
-    ASM_KEEP_NV(global_s7);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     global_s5 = D_801328E8;
     temp_v0_3 = (void *)raw_s1;
     if (((S_8080C650_0 *)in0)->unk_68.s < 0xFF) {
@@ -150,8 +149,10 @@ void func_8080C650(void *in0, void *arg1, void *in2) {
         if (((S_8080C650_1 *)var_s0)->unk_36 == 0xFF) {
             ((S_8080C650_0 *)in0)->unk_68.s = 0xFF;
         }
+        func_80245C10(arg1);
+    } else {
+        func_80245C10(arg1);
     }
-    func_80245C10(arg1);
     if (((S_8080C650_2 *)arg1)->unk_08.at02.v >= ((s32)temp_v0_3)) {
         ((S_8080C650_2 *)arg1)->unk_08.at02.v = (s32)temp_v0_3;
         func_8003EA54(arg2);
@@ -252,7 +253,8 @@ void func_8080C650(void *in0, void *arg1, void *in2) {
         ((S_8080C650_2 *)arg1)->unk_00 = (s32) D_80132AE8[0];
         ((S_8080C650_2 *)arg1)->unk_04 = (s32) D_80132AEC[0];
         ((S_8080C650_2 *)arg1)->unk_08.at00.v = (s32) (D_80132AF0[0] + D_8029070C[0] + 0xFFF80000);
-        if (global_s7[4] & 0x20) {
+        global_s7 += 4;
+        if (*global_s7 & 0x20) {
             if (D_80132AF2[0] == 0) {
                 if (((S_8080C650_0 *)in0)->unk_68.s == 9) {
                     tmpx = 0x100000;

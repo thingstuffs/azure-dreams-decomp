@@ -123,12 +123,11 @@ extern u8 D_800E39C8[1024];
 s32 func_800B51C8(void *unused_0, void *unused_1, void *render_params)
 {
     u8 saved_matrix[0x20];
-    register u8 *transform_dst ASM_REG("$4") = saved_matrix;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    s32 entry_index = 0;
-    u8 *rotation_matrix = (u8 *) 0x1F8000D0;
-    u8 *view_matrix = (u8 *) 0x1F800050;
-    u8 *depth_cue = (u8 *) 0x1F800090;
-    u8 *transform_flags = (u8 *) 0x1F800094;
+    s32 entry_index;
+    u8 *rotation_matrix;
+    u8 *view_matrix;
+    u8 *depth_cue;
+    u8 *transform_flags;
 
     u8 *game_base = (u8 *)&gameWork;
     u8 *matrix_base;
@@ -210,6 +209,11 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void *render_params)
     camera.roll = *((u16 *) (((s8 *) game_base) + 0xC8));
     scr->unk_018 = primitive_buffer;
     func_80064AE0(saved_matrix);
+    entry_index = 0;
+    rotation_matrix = (u8 *) 0x1F8000D0;
+    view_matrix = (u8 *) 0x1F800050;
+    depth_cue = (u8 *) 0x1F800090;
+    transform_flags = (u8 *) 0x1F800094;
     matrix_base = (u8 *)&D_8006CD10 + 32;
     do {
     entry_table = (u8 *) (&D_800E3648);
@@ -231,7 +235,6 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void *render_params)
         *((u16 *) (((s8 *) sprite_entry) + 0x10)) = entry_height;
         if (part_header != 0) {
             if ((*((u16 *) (((s8 *) sprite_entry) + 0x14))) & 0x100) {
-                transform_dst = (u8 *)&scr->unk_100;
                 world_x = scr->unk_000.s16;
                 world_y = scr->unk_002;
                 scr->unk_030 = (s32) 0x2000;
@@ -244,7 +247,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void *render_params)
                 scr->unk_0E4 = (s32) world_x;
                 scr->unk_0E8 = (s32) ((s16) world_y);
                 scr->unk_0EC = (s32) ((s16) world_z);
-                func_80065820(transform_dst, rotation_matrix, world_x);
+                func_80065820((u8 *)&scr->unk_100, rotation_matrix, world_x);
                 func_80064840(&saved_matrix, rotation_matrix, view_matrix);
                 func_80064BC0(view_matrix, (u8 *)&scr->unk_030);
                 func_80064D80((M2C_UNK *) view_matrix);
@@ -357,7 +360,6 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void *render_params)
                 continue;
             }
             {
-                transform_dst = (u8 *)&scr->unk_100;
                 scr->unk_0B8 = (u16) ((scr->unk_0B8) - 0xA0);
                 pitch_bits = camera.pitch;
                 scr->unk_0BA = (u16) ((scr->unk_0BA) - 0x78);
@@ -370,7 +372,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void *render_params)
                     - view_yaw));
 
                 scr->unk_102 = (u16) (*((u16 *) (((s8 *) render_params) + 0x18)));
-                func_80065820(transform_dst, rotation_matrix, view_yaw);
+                func_80065820((u8 *)&scr->unk_100, rotation_matrix, view_yaw);
                 func_80064840(&D_8006CD30, rotation_matrix, view_matrix);
                 func_80064D80((M2C_UNK *) view_matrix);
                 func_80064CF0((M2C_UNK *) view_matrix);
@@ -483,13 +485,8 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void *render_params)
                             func_80064CF0(&saved_matrix);
                             world_pos_x = scr->unk_000.u16;
                             world_pos_y = scr->unk_002;
-                            corner_y_or_height = scr->unk_004;
-                            ASM_USE2_NV(world_pos_x, corner_y_or_height);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                            depth_or_height = (s16) corner_y_or_height;
-                            depth_or_height -= 4;
-                            shadow_scale[2] = depth_or_height;
                             scr->unk_004 = func_800BCB04(world_pos_x, world_pos_y,
-                                (s16) depth_or_height);
+                                (s16)(shadow_scale[2] = (s16)scr->unk_004 - 4));
                             depth_or_height = func_80065420((u8 *)scr, (u8 *)&scr->unk_0B8, depth_cue, transform_flags);
                             scr->unk_0C0 = depth_or_height;
                             depth_or_height = (u32)depth_or_height * 4;
@@ -505,7 +502,6 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void *render_params)
                             if (height_scale < 0) {
                                 shadow_scale[2] = 0;
                             }
-                            transform_dst = (u8 *)&scr->unk_100;
                             scale_component = shadow_scale[2];
                             scr->unk_102 = 0U;
                             shadow_scale[0] = scale_component;
@@ -518,7 +514,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void *render_params)
                                 scr->unk_100 = (s16) shadow_pitch;
                                 scr->unk_104 = (s16) shadow_roll;
                             }
-                            func_80065820(transform_dst, rotation_matrix);
+                            func_80065820((u8 *)&scr->unk_100, rotation_matrix);
                             func_80064840(&D_8006CD30, rotation_matrix, view_matrix);
                             func_80064BC0(view_matrix, shadow_scale);
                             func_80064D80((M2C_UNK *) view_matrix);

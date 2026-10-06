@@ -218,7 +218,7 @@ void func_8002401C(void *input, void *output)
     S_FUNC_8197C800_BODY_7 *dst_position_2;
     void *particle_data;
     s32 remaining;
-    register s32 result ASM_REG("$2");
+    s32 result;
     void *particle_script_debris;
     TileObject *debris_origin;
     s32 height;
@@ -229,6 +229,8 @@ void func_8002401C(void *input, void *output)
     u16 tail_timer;
     TileObject *burst_origin;
     u16 timer;
+
+    s32 step;
 
     timer = ((S_FUNC_8197C800_BODY_0 *)input)->unk_50.s;
     owner_data = ((S_FUNC_8197C800_BODY_0 *)input)->unk_00;
@@ -339,24 +341,36 @@ void func_8002401C(void *input, void *output)
                 particle_data = (u8 *)particle + 0x20;
                 random_value = func_80069EF8();
                 angle = ((S_FUNC_8197C800_BODY_23 *)(D_800814A8[0]))->unk_2A;
-                offset_index = (s16)angle >> 9;
-                result = (s32)(dirStepX);
+                step = angle;
+                step <<= 16;
+                step >>= 25;
+                result = (s32)dirStepX;
                 {
                     s32 grid_coord;
                     void *position;
-                    grid_coord = burst_origin->tileX + ((s16 *)result)[offset_index];
+                    step *= 2;
+                    step += result;
+                    result = burst_origin->tileX;
+                    step = *(s16 *)step;
+                    grid_coord = result + step;
                     position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
                     result = jitter_coordinate_32(grid_coord, random_value);
                     ((S_FUNC_8197C800_BODY_14 *)position)->unk_02 = result;
                 }
                 random_value = func_80069EF8();
                 angle = ((S_FUNC_8197C800_BODY_23 *)(D_800814A8[0]))->unk_2A;
-                offset_index = (s16)angle >> 9;
-                result = (s32)(dirStepY);
+                step = angle;
+                step <<= 16;
+                step >>= 25;
+                result = (s32)dirStepY;
                 {
                     s32 grid_coord;
                     void *position;
-                    grid_coord = burst_origin->tileY + ((s16 *)result)[offset_index];
+                    step *= 2;
+                    step += result;
+                    result = burst_origin->tileY;
+                    step = *(s16 *)step;
+                    grid_coord = result + step;
                     position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
                     result = jitter_coordinate_32(grid_coord, random_value);
                     ((S_FUNC_8197C800_BODY_14 *)position)->unk_06 = result;
@@ -402,24 +416,36 @@ void func_8002401C(void *input, void *output)
                 particle_data = (u8 *)particle + 0x20;
                 random_value = func_80069EF8();
                 angle = ((S_FUNC_8197C800_BODY_24 *)(D_800814A8[0]))->unk_2A;
-                offset_index = (s16)angle >> 9;
-                result = (s32)(dirStepX);
+                step = angle;
+                step <<= 16;
+                step >>= 25;
+                result = (s32)dirStepX;
                 {
                     s32 grid_coord;
                     void *position;
-                    grid_coord = debris_origin->tileX + ((s16 *)result)[offset_index];
+                    step *= 2;
+                    step += result;
+                    result = debris_origin->tileX;
+                    step = *(s16 *)step;
+                    grid_coord = result + step;
                     position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
                     result = jitter_coordinate_64(grid_coord, random_value);
                     ((S_FUNC_8197C800_BODY_14 *)position)->unk_02 = result;
                 }
                 random_value = func_80069EF8();
                 angle = ((S_FUNC_8197C800_BODY_24 *)(D_800814A8[0]))->unk_2A;
-                offset_index = (s16)angle >> 9;
-                result = (s32)(dirStepY);
+                step = angle;
+                step <<= 16;
+                step >>= 25;
+                result = (s32)dirStepY;
                 {
                     s32 grid_coord;
                     void *position;
-                    grid_coord = debris_origin->tileY + ((s16 *)result)[offset_index];
+                    step *= 2;
+                    step += result;
+                    result = debris_origin->tileY;
+                    step = *(s16 *)step;
+                    grid_coord = result + step;
                     position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
                     result = jitter_coordinate_64(grid_coord, random_value);
                     ((S_FUNC_8197C800_BODY_14 *)position)->unk_06 = result;

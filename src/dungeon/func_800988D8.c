@@ -222,7 +222,9 @@ void func_8009E038(S_func_8009E038_0 *transition, S_func_8009E038_1 *center, S_f
         shared_flags = flags_page->unk_296C;
         state = 0x10;
         transition->unk_1A = state;
-        goto store_flags;
+        shared_flags &= flags_mask;
+        flags_page->unk_296C = shared_flags;
+        break;
     case 16:
         move_frames = transition->unk_1C;
         if (move_frames != 0) {
@@ -301,7 +303,6 @@ void func_8009E038(S_func_8009E038_0 *transition, S_func_8009E038_1 *center, S_f
         transition->unk_1A = 0;
         state = 1;
         transition->unk_1C = state;
-store_flags:
         shared_flags &= flags_mask;
         flags_page->unk_296C = shared_flags;
         break;

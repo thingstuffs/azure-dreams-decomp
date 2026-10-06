@@ -226,10 +226,10 @@ s32 func_80019AF8(void)
         k = (func_800A6D30() & 0xFFFF) % (D_8001F664 * D_8001F660);
         dir = func_800A6D30() & 6;
         rp = D_800E2970;
-        do {
+        while (1) {
             n = D_8001F664 * D_8001F660;
             if (n <= 0) {
-                goto tally;
+                break;
             }
             i = 0;
             do {
@@ -322,8 +322,6 @@ s32 func_80019AF8(void)
                 break;
             }
         }
-        while (1);
-tally:
         D_8001F66A = 0;
 
         nt = D_8001F664 * D_8001F660;

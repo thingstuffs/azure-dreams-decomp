@@ -16,7 +16,10 @@ typedef struct S_800D13B8_1 {
 /* Processes directions around the current position based on the facing angle. */
 void func_800D13B8(void) {
     GameWork *state;
-    register s8 *direction_work ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    s8 *direction_work;
+    s32 next_axis_direction;
+    s32 axis_index = 0;
+    u16 *y_step;
     s16 coord_x;
     s16 coord_y;
     s32 facing;
@@ -58,28 +61,27 @@ void func_800D13B8(void) {
             last_y = (s16) (diagonal_y + ((s16) dirStepY[direction] * 0xA));
             func_800D112C(last_direction, last_x, last_y);
         } else {
-            direction_work = (s8 *) (s32) direction;
-            func_800D112C((s32) direction_work, coord_x, coord_y);
-            direction = (s32) direction_work + 2;
-            direction &= 7;
-            func_800D112C(direction, coord_x, coord_y);
-            last_direction = (s32) direction_work - 2;
+            axis_index = direction;
+            func_800D112C(axis_index, coord_x, coord_y);
+            next_axis_direction = axis_index + 2;
+            next_axis_direction &= 7;
+            func_800D112C(next_axis_direction, coord_x, coord_y);
+            last_direction = axis_index - 2;
             last_direction &= 7;
             func_800D112C(last_direction, coord_x, coord_y);
-            next_direction = (s32) direction_work + 4;
+            next_direction = axis_index + 4;
             next_direction &= 7;
             x_step = dirStepX;
-            direction_work = (s8 *) ((s32) direction_work * 2);
-            x_step = (u16 *) ((s8 *) x_step + (s32) direction_work);
+            axis_index *= 2;
+            x_step = (u16 *) ((s8 *) x_step + axis_index);
             offset_x_high = (s32) ((u32) (coord_x + ((s16) *x_step * 0xA)) << 16);
-            direction_work = (s8 *) dirStepY + (s32) direction_work;
+            y_step = (u16 *)((s8 *)dirStepY + axis_index);
             func_800D112C(next_direction, offset_x_high >> 16, (u32) (s16) (coord_y
-                + ((s16) *(u16 *) direction_work * 0xA)));
-            func_800D112C(direction, (u32) (s16) (coord_x + ((s16) *x_step * 0xA)),
-                (u32) (s16) (coord_y + ((s16) *(u16 *) direction_work * 0xA)));
-            axis_step = (s16) *x_step;
-            last_x_high = (s32) ((u32) (coord_x + (axis_step * 0xA)) << 16);
-            axis_step = (s16) *(u16 *) direction_work;
+                + ((s16) *y_step * 0xA)));
+            func_800D112C(next_axis_direction, (u32) (s16) (coord_x + ((s16) *x_step * 0xA)),
+                (u32) (s16) (coord_y + ((s16) *y_step * 0xA)));
+            last_x_high = (s32)((u32)(coord_x + (s16)*x_step * 0xA) << 16);
+            axis_step = (s16) *y_step;
             last_x = last_x_high >> 16;
             last_y_high = (s32) ((u32) (coord_y + (axis_step * 0xA)) << 16);
             last_y = last_y_high >> 16;

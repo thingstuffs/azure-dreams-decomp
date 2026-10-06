@@ -22,9 +22,10 @@ void func_8008F664(void *collider, void *position) {
     s32 shift_x;
     s32 shift_y;
     s32 shift_z;
+    s32 min_separation;
     s32 face_index;
     register void *box_operand ASM_REG("$4");
-    register s32 axis_operand ASM_REG("$3");
+    register s32 axis_operand;
 
     bounds = PTR_AT(collider, 0xC);
     scratch = (u8 *)0x1F800000;
@@ -54,26 +55,25 @@ void func_8008F664(void *collider, void *position) {
 
         {
             void *self_box;
-            s32 separation;
             s32 self_offset;
             s32 other_edge;
             s32 other_offset;
 
             self_box = SCPTR(scratch, 0);
             do {
-                separation = S32_AT(position, 0);
+                min_separation = S32_AT(position, 0);
             } while (0);
             self_offset = S32_AT(self_box, 0);
             axis_operand = (s32)SCPTR(scratch, 8);
-            separation += self_offset;
+            min_separation += self_offset;
             other_edge = S32_AT(axis_operand, 0);
             other_offset = S32_AT(other_bounds, 0);
             box_operand = (void *)S32_AT(other_bounds, 0xC);
             other_edge += other_offset;
             other_edge += (s32)box_operand;
-            separation -= other_edge;
-            SC32(scratch, 0x10) = separation;
-            if (separation > 0) {
+            min_separation -= other_edge;
+            SC32(scratch, 0x10) = min_separation;
+            if (min_separation > 0) {
                 continue;
             }
         }
@@ -107,26 +107,25 @@ void func_8008F664(void *collider, void *position) {
             void *self_box;
             void *other_pos;
             void *other_box;
-            s32 separation;
             s32 self_offset;
             s32 other_edge;
 
             self_box = SCPTR(scratch, 0);
             do {
-                separation = S32_AT(position, 4);
+                min_separation = S32_AT(position, 4);
                 self_offset = S32_AT(self_box, 4);
             } while (0);
             other_box = SCPTR(scratch, 0xC);
-            separation += self_offset;
+            min_separation += self_offset;
             other_pos = SCPTR(scratch, 8);
             box_operand = (void *)S32_AT(other_box, 4);
             other_edge = S32_AT(other_pos, 4);
             axis_operand = S32_AT(other_box, 0x10);
             other_edge += (s32)box_operand;
             other_edge += axis_operand;
-            separation -= other_edge;
-            SC32(scratch, 0x18) = separation;
-            if (separation > 0) {
+            min_separation -= other_edge;
+            SC32(scratch, 0x18) = min_separation;
+            if (min_separation > 0) {
                 continue;
             }
         }
@@ -160,26 +159,25 @@ void func_8008F664(void *collider, void *position) {
             void *self_box;
             void *other_pos;
             void *other_box;
-            s32 separation;
             s32 self_offset;
             s32 other_edge;
 
             self_box = SCPTR(scratch, 0);
             do {
-                separation = S32_AT(position, 8);
+                min_separation = S32_AT(position, 8);
                 self_offset = S32_AT(self_box, 8);
             } while (0);
             other_box = SCPTR(scratch, 0xC);
-            separation += self_offset;
+            min_separation += self_offset;
             other_pos = SCPTR(scratch, 8);
             box_operand = (void *)S32_AT(other_box, 8);
             other_edge = S32_AT(other_pos, 8);
             axis_operand = S32_AT(other_box, 0x14);
             other_edge += (s32)box_operand;
             other_edge += axis_operand;
-            separation -= other_edge;
-            SC32(scratch, 0x20) = separation;
-            if (separation > 0) {
+            min_separation -= other_edge;
+            SC32(scratch, 0x20) = min_separation;
+            if (min_separation > 0) {
                 continue;
             }
         }
@@ -210,16 +208,15 @@ void func_8008F664(void *collider, void *position) {
         }
 
         {
-            s32 min_depth;
             s32 max_shift;
             s32 max_depth;
 
-            min_depth = SC32(scratch, 0x10);
+            axis_operand = SC32(scratch, 0x10);
             max_shift = SC32(scratch, 0x14);
-            min_depth = abs(min_depth);
+            axis_operand = abs(axis_operand);
             max_depth = max_shift;
             max_depth = abs(max_depth);
-            axis_operand = min_depth < max_depth;
+            axis_operand = axis_operand < max_depth;
             if (axis_operand) {
                 SCU8(scratch, 0x28) = U8_AT(collider, 0x37);
                 SC32(scratch, 0x2C) = 2;
@@ -229,12 +226,12 @@ void func_8008F664(void *collider, void *position) {
                 SC32(scratch, 0x2C) = 3;
             }
 
-            min_depth = SC32(scratch, 0x18);
+            axis_operand = SC32(scratch, 0x18);
             max_shift = SC32(scratch, 0x1C);
-            min_depth = abs(min_depth);
+            axis_operand = abs(axis_operand);
             max_depth = max_shift;
             max_depth = abs(max_depth);
-            axis_operand = min_depth < max_depth;
+            axis_operand = axis_operand < max_depth;
             if (axis_operand) {
                 SCU8(scratch, 0x29) = U8_AT(collider, 0x39);
                 SC32(scratch, 0x30) = 4;
@@ -244,12 +241,12 @@ void func_8008F664(void *collider, void *position) {
                 SC32(scratch, 0x30) = 5;
             }
 
-            min_depth = SC32(scratch, 0x20);
+            axis_operand = SC32(scratch, 0x20);
             max_shift = SC32(scratch, 0x24);
-            min_depth = abs(min_depth);
+            axis_operand = abs(axis_operand);
             max_depth = max_shift;
             max_depth = abs(max_depth);
-            axis_operand = min_depth < max_depth;
+            axis_operand = axis_operand < max_depth;
             if (axis_operand) {
                 SCU8(scratch, 0x2A) = U8_AT(collider, 0x35);
                 SC32(scratch, 0x34) = 0;

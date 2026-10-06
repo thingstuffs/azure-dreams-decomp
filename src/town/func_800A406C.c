@@ -102,20 +102,22 @@ void func_800A17CC(void *sprite, s32 position) {
     u8 *scratch;
 
     color = 0x800000;
-    ASM_KEEP_NV(color);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    render_state = gameWork.unk_000;
     window_size = 0x80;
     texture_window[1] = 0;
     texture_window[0] = 0;
     texture_window[2] = window_size;
     texture_window[3] = window_size;
 
-    textured_quad = ((S_800A17CC_0 *)render_state)->unk_8D0;
-    quad_packet = textured_quad;
-    ((S_800A17CC_0 *)render_state)->unk_8D0 = textured_quad + 0x28;
+    {
+        u8 *state = gameWork.unk_000;
+
+        textured_quad = ((S_800A17CC_0 *)state)->unk_8D0;
+        quad_packet = textured_quad;
+        ((S_800A17CC_0 *)state)->unk_8D0 = textured_quad + 0x28;
+    }
     color |= 0x8080;
     ((S_800A17CC_1 *)textured_quad)->unk_04 = color;
-    func_800666F4(quad_packet, color);
+    func_800666F4(quad_packet);
 
     texture_page = func_80066460(1, 0,
         ((S_800A17CC_2 *)sprite)->unk_6C & 0xFF80, ((S_800A17CC_2 *)sprite)->unk_6E);

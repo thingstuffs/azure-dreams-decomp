@@ -66,6 +66,8 @@ s32 func_800ADE74(s32 unused, u8 *position, u8 *creature, s32 lower_limit, u16 u
 {
     register s32 neighbor_check;
     s32 saved_lower_limit;
+    s32 case_code0 = 0;
+    s32 case_code1 = 0;
     s16 tile_x;
     s16 tile_y;
     s16 slot_or_distance;
@@ -251,13 +253,12 @@ s32 func_800ADE74(s32 unused, u8 *position, u8 *creature, s32 lower_limit, u16 u
                 action_code = func_800A384C(creature, move_target, &direction, 0);
                 action_or_flags = action_code;
                 *(u16 *)(creature + 0x2A) = *(u16 *)&direction;
-                ASM_SCHED_BARRIER();
-                lower_limit = action_code;
-                if ((lower_limit << 16) < 0) {
+                case_code0 = action_code;
+                if ((case_code0 << 16) < 0) {
                     *(u16 *)(creature + 0x46) = 0x800B;
                     return 2;
                 }
-                pending_action = lower_limit | 0x8000;
+                pending_action = case_code0 | 0x8000;
                 *(u16 *)(creature + 0x46) = pending_action;
                 return 1;
             }
@@ -338,13 +339,12 @@ s32 func_800ADE74(s32 unused, u8 *position, u8 *creature, s32 lower_limit, u16 u
                 action_code = func_800A384C(creature, move_target, &direction, 0);
                 action_or_flags = action_code;
                 *(u16 *)(creature + 0x2A) = *(u16 *)&direction;
-                ASM_SCHED_BARRIER();
-                lower_limit = action_code;
-                if ((s16)lower_limit < 4) {
+                case_code1 = action_code;
+                if ((s16)case_code1 < 4) {
                     *(u16 *)(creature + 0x46) = 0x800B;
                     return 2;
                 }
-                pending_action = lower_limit | 0x8000;
+                pending_action = case_code1 | 0x8000;
                 *(u16 *)(creature + 0x46) = pending_action;
                 return 1;
             }

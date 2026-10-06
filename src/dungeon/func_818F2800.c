@@ -341,7 +341,7 @@ void BODY(void *shape, void *position, S_BODY_1 *state, u16 depth_offset)
                     {
                         u16 part_flags;
                         s16 edge_y;
-                        s32 height;
+                        u16 height;
                         part_flags = ((S_BODY_2 *)part)->unk_00;
                         part_flags = (*(u16 *)(scratch + 0x24)) ^ part_flags;
                         if (part_flags & 2) {
@@ -355,13 +355,13 @@ void BODY(void *shape, void *position, S_BODY_1 *state, u16 depth_offset)
                                 DM_S16(0x8A) = (s16)edge_y;
                                 DM_S16(0x82) = (s16)edge_y;
                             } else {
-                                s32 offset_y;
+                                s16 offset_y;
                                 edge_y = ((S_BODY_2 *)part)->unk_03;
                                 edge_y = (s8)edge_y;
                                 height = DM_U16(0x14);
-                                offset_y = -edge_y;
+                                position_z = -edge_y;
+                                offset_y = position_z;
                                 next_height_m = height;
-                                ASM_KEEP_NV(next_height_m);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                                 offset_y = offset_y - height;
                                 DM_S16(0x7A) = (s16)offset_y;
                                 DM_S16(0x72) = (s16)offset_y;

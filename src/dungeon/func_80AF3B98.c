@@ -169,18 +169,13 @@ void func_80175398(void *transition, void *position, Rec_D_80082E80 *record, voi
 
         direction = ((gameWork.view.viewAngle + ((S_80175398_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
         angle = ((S_80175398_1 *)actor)->unk_2A.u;
-        if (D_80175A80[0] != 0) {
+        if (D_80175A80[0] == 0 || direction != 2) {
             if (direction == 2) {
-                goto direction_ready;
+                return;
             }
-        }
-        if (direction == 2) {
+            ((S_80175398_1 *)actor)->unk_2A.u = angle + 0x200;
             return;
         }
-        ((S_80175398_1 *)actor)->unk_2A.u = angle + 0x200;
-        return;
-
-direction_ready:
         func_80041588(D_801759F8, D_80175A80, 1);
         func_8003F540(0, D_8006CD58[0], 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, func_800445E0(), 0);

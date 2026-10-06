@@ -396,7 +396,7 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
     {
         void *target_position;
         void *animation;
-        register s32 color_mode ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        s32 color_mode;
         s32 random_intensity;
 
         if ((func_800A4778(((S_80024BE8_5 *)motion)->unk_00.at02.v, ((S_80024BE8_5 *)motion)->unk_04.at02.v,
@@ -413,11 +413,10 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
             s32 particle_color;
             s32 intensity;
             random_intensity = func_80069EF8();
-            color_mode = (s32)((u8 *)effect - 0x20);
             particle_color = 0xF04040;
             intensity = (random_intensity & 0xFF) | 0x80;
             direction = ((S_80024BE8_0 *)effect)->unk_7E.s;
-            func_80024758((void *)color_mode, direction, particle_color, intensity, 0, 0, 0);
+            func_80024758((u8 *)effect - 0x20, direction, particle_color, intensity, 0, 0, 0);
             particle_count_m++;
         } while (particle_count_m < 4);
 
@@ -432,12 +431,13 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
                 ((S_80024BE8_5 *)motion)->unk_00.at02.v = ((S_80024BE8_9 *)target_position)->unk_02;
                 ((S_80024BE8_5 *)motion)->unk_04.at02.v = ((S_80024BE8_9 *)target_position)->unk_06;
                 ((S_80024BE8_5 *)motion)->unk_08.at02.v = ((S_80024BE8_0 *)effect)->unk_78.u;
-                ((S_80024BE8_23 *)(((S_80024BE8_3 *)source)->unk_60))->unk_1C |= 0x10000000;
+                source_sprite = (S_80024BE8_4 *)((S_80024BE8_3 *)source)->unk_60;
+                ((S_80024BE8_23 *)source_sprite)->unk_1C |= 0x10000000;
                 target_graphics = ((S_80024BE8_23_pre *)(((S_80024BE8_3 *)source)->unk_60))[-1].unk_04;
-                particle_count_m = 0x80;
-                ((S_80024BE8_10 *)target_graphics)->unk_0C = particle_count_m;
-                ((S_80024BE8_10 *)target_graphics)->unk_0D = particle_count_m;
-                ((S_80024BE8_10 *)target_graphics)->unk_0E = particle_count_m;
+                random_intensity = 0x80;
+                ((S_80024BE8_10 *)target_graphics)->unk_0C = random_intensity;
+                ((S_80024BE8_10 *)target_graphics)->unk_0D = random_intensity;
+                ((S_80024BE8_10 *)target_graphics)->unk_0E = random_intensity;
                 func_800419EC(color_mode, 8, target_graphics);
                 func_800A56E0(0x300);
 
@@ -455,9 +455,9 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
                     animation = D_800258FC;
                     impact_sprite = (s32)(((S_80024BE8_11 *)impact)->unk_0C);
                     ((S_80024BE8_12 *)(void *)impact_sprite)->unk_08 = animation;
-                    ((S_80024BE8_12 *)(void *)impact_sprite)->unk_0E = particle_count_m;
-                    ((S_80024BE8_12 *)(void *)impact_sprite)->unk_0D = particle_count_m;
-                    ((S_80024BE8_12 *)(void *)impact_sprite)->unk_0C = particle_count_m;
+                    ((S_80024BE8_12 *)(void *)impact_sprite)->unk_0E = random_intensity;
+                    ((S_80024BE8_12 *)(void *)impact_sprite)->unk_0D = random_intensity;
+                    ((S_80024BE8_12 *)(void *)impact_sprite)->unk_0C = random_intensity;
                     ((S_80024BE8_12 *)(void *)impact_sprite)->unk_1E = 1;
                     ((S_80024BE8_12 *)(void *)impact_sprite)->unk_1C = 1;
                     ((S_80024BE8_12 *)(void *)impact_sprite)->unk_14 ^= 0xC;
@@ -479,7 +479,8 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
             ((S_80024BE8_5 *)motion)->unk_04.at00.v += ((S_80024BE8_5 *)motion)->unk_10;
             ((S_80024BE8_5 *)motion)->unk_08.at00.v += ((S_80024BE8_5 *)motion)->unk_14;
 
-            impact_position = func_80069EF8() & 0xF;
+            random_intensity = func_80069EF8();
+            impact_position = random_intensity & 0xF;
             impact_position -= 8;
             impact_position <<= 16;
             impact_position >>= 16;

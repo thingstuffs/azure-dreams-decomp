@@ -4,7 +4,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern void func_80094984();
+void func_80094984(void *, void *, void *);
 extern u8 D_80093458[];
 extern M2C_UNK D_800D00A0;
 
@@ -17,11 +17,11 @@ typedef struct S_800947CC_1 {
 } S_800947CC_1;   /* arg1 in func_800947CC */
 
 /* Initialize an object with its handler, two settings, and a state value of 20. */
-void func_800947CC(Rec_func_80094268_arg0 *object, S_800947CC_1 *settings) {
+void func_800947CC(Rec_func_80094268_arg0 *object, S_800947CC_1 *settings, void *ptr2) {
     u16 secondSetting;
     M2C_UNK *handler;
 
-    func_80094984(&D_800D00A0, object);
+    func_80094984(&D_800D00A0, object, ptr2);
     object->unk_30 = (u16) settings->unk_02;
     handler = (M2C_UNK *) D_80093458;
     secondSetting = settings->unk_06;

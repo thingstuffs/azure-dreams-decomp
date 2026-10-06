@@ -469,18 +469,17 @@ check_other_side:
         }
         break;
     case 3:
-        side_count = 0;
-        side_cursor = menu;
-check_side:
-        side_object = ((S_8002520C_15 *)side_cursor)->unk_0C;
-        if ((side_object == NULL) || (((S_8002520C_16 *)side_object)->unk_B6 == 0)) {
-            side_count += 1;
-            side_cursor += 4;
-            if ((s32) side_count >= 2) {
-                ((S_8002520C_0 *)menu)->unk_22 = 8;
-                motion->unk_16 = 8U;
-                ((S_8002520C_0 *)menu)->unk_1C = (s16) ((u16) ((S_8002520C_0 *)menu)->unk_1C + 1);
-                case 4:
+        for (side_count = 0, side_cursor = menu; (s32) side_count < 2; side_count++, side_cursor += 4) {
+            side_object = ((S_8002520C_15 *)side_cursor)->unk_0C;
+            if ((side_object != NULL) && (((S_8002520C_16 *)side_object)->unk_B6 != 0)) {
+                return;
+            }
+        }
+        ((S_8002520C_0 *)menu)->unk_22 = 8;
+        motion->unk_16 = 8U;
+        ((S_8002520C_0 *)menu)->unk_1C = (s16) ((u16) ((S_8002520C_0 *)menu)->unk_1C + 1);
+        /* fallthrough */
+    case 4:
                 exit_ticks = ((S_8002520C_0 *)menu)->unk_22;
                 if (exit_ticks != 0) {
                     motion->unk_02 = (s16) ((u16) motion->unk_02 + ((s32) (-0x480 - motion->unk_02) / exit_ticks));
@@ -550,9 +549,6 @@ check_side:
                         ((S_8002520C_21 *)((s32 *) flags_or_page))->unk_14A0 = object_or_flags;
                     }
                 }
-            } else {
-                goto check_side;
-            }
-        }
+            break;
     }
 }

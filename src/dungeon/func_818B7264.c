@@ -54,7 +54,10 @@ s32 func_80024A64(S_80024A64_0 *effect, S_80024A64_1 *center, s32 draw_arg) {
     s32 segment;
     s32 angle_step;
     s32 jittered_outer;
-    register s32 radial_offset ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 outer_offset;
+    s32 arm_offset;
+    s32 arm_radius;
+    s32 radial_offset;
     s32 next_segment;
     s32 next_angle;
     s32 jittered_inner;
@@ -156,10 +159,10 @@ s32 func_80024A64(S_80024A64_0 *effect, S_80024A64_1 *center, s32 draw_arg) {
             struct { s32 hi; u32 lo; } half;
         } wide_product;
         s32 quotient;
-        radial_offset = random_raw;
-        wide_product.full = (long long)radial_offset * div5_magic;
-        quotient = (wide_product.half.hi >> 1) - (radial_offset >> 31);
-        radial_offset = radial_offset - quotient * 5;
+        outer_offset = random_raw;
+        wide_product.full = (long long)outer_offset * div5_magic;
+        quotient = (wide_product.half.hi >> 1) - (outer_offset >> 31);
+        outer_offset = outer_offset - quotient * 5;
     }
     {
         s32 wave_x;
@@ -167,15 +170,15 @@ s32 func_80024A64(S_80024A64_0 *effect, S_80024A64_1 *center, s32 draw_arg) {
         s32 outer_x;
         wave_x = func_800644B8(effect->unk_0E);
         outer_x = center->unk_00 +
-            (((wave_x >> 4) * ((s16)outer_radius + (s16)radial_offset)) << 8);
-        radial_offset = (s16)outer_radius + (s16)radial_offset;
+            (((wave_x >> 4) * ((s16)outer_radius + (s16)outer_offset)) << 8);
+        outer_offset = (s16)outer_radius + (s16)outer_offset;
         ((S_80024A64_2 *)scratch)->unk_30 = outer_x;
         first_outer_x = outer_x;
     }
     {
         s32 outer_y;
         outer_y = center->unk_04 +
-            (((func_80064584(effect->unk_0E) >> 4) * radial_offset) << 8);
+            (((func_80064584(effect->unk_0E) >> 4) * outer_offset) << 8);
         ((S_80024A64_2 *)scratch)->unk_34 = outer_y;
         first_outer_y = outer_y;
     }
@@ -213,21 +216,20 @@ s32 func_80024A64(S_80024A64_0 *effect, S_80024A64_1 *center, s32 draw_arg) {
                     struct { s32 hi; u32 lo; } half;
                 } wide_product;
                 s32 quotient;
-                radial_offset = random_raw;
-                wide_product.full = (long long)radial_offset * div5_magic;
-                quotient = (wide_product.half.hi >> 1) - (radial_offset >> 31);
-                radial_offset = radial_offset - quotient * 5;
+                arm_offset = random_raw;
+                wide_product.full = (long long)arm_offset * div5_magic;
+                quotient = (wide_product.half.hi >> 1) - (arm_offset >> 31);
+                arm_offset = arm_offset - quotient * 5;
             }
             {
                 scaled = func_800644B8(effect->unk_0E + (segment * 512)) >> 4;
-                radial_offset = (s16)radial_offset;
-                radial_offset = (s16)outer_radius + radial_offset;
+                arm_radius = (s16)outer_radius + (s16)arm_offset;
                 ((S_80024A64_2 *)scratch)->unk_30 = center->unk_00 +
-                    ((scaled * radial_offset) << 8);
+                    ((scaled * arm_radius) << 8);
             }
             scaled = func_80064584(effect->unk_0E + (segment * 512)) >> 4;
             ((S_80024A64_2 *)scratch)->unk_34 = center->unk_04 +
-                ((scaled * radial_offset) << 8);
+                ((scaled * arm_radius) << 8);
             ((S_80024A64_2 *)scratch)->unk_60 = center->unk_00 +
                 (((func_800644B8(effect->unk_0E + angle_step) >> 4) * (s16)inner_radius) << 8);
             ((S_80024A64_2 *)scratch)->unk_64 = center->unk_04 +

@@ -62,23 +62,23 @@ s32 func_800CA788(void *object_ptr, void *action_context, void *target_ptr, void
             goto check_flag_8;
         }
     }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
+fail:
     return -1;
 check_flag_8:
     if (global_flags & 8) {
-        return -1;
+        goto fail;
     }
 
     if ((u32)((-func_800A0134(target_direction, actor) + 0x40) & 0xFFFF) >= 0x81U) {
         return 0;
     }
     if ((func_800A2B5C(actor) << 16) != 0) {
-        return -1;
+        goto fail;
     }
 
     func_800C7930(actor - 0x20, context, 8, 0x300);
     if ((func_800A2B5C(actor) << 16) != 0) {
-        return -1;
+        goto fail;
     }
 
     {
