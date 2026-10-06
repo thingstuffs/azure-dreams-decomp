@@ -1,4 +1,31 @@
-# Handover (2026-10-06 ~13:50Z, round 96 IN PROGRESS: 116 pins / 62 rows landed) - start here
+# Handover (2026-10-06 ~15:45Z, round 96 DONE: 150 -> 104 pins / 80 -> 58 rows; no lanes running) - start here
+
+**Result (all gated MATCH, 40 commits from 4dc3b6a99):** pins 150 -> 104, rows 80 -> 58. Workarounds (files): m2c names
+360 -> 268, gotos 298 -> 285, computed-goto tables 13 -> 4, one-trip barriers 121 -> 96 (85 measured load-bearing in
+ledger/onetrip_loadbearing.jsonl), fake deps 2 -> 1 (main/func_8000F774 open), S_<addr> views 2,977 -> 2,957 (type
+phase 13 applied), clean-shape files 6,062 -> 6,171; pin-free volatile sites 106 -> 88; crutch cells retired on
+81876014, 80094C70, 800CDFD8 (module recipe). Decisions 1-15: docs/evidence/r96_decisions.md (SECOND LOOK: 1, 6, 8, 9,
+10, 11, 14). Owner ruling: OT-link double mask = include/shared/ot_link.h macro (item 13).
+**What paid, in order:** (1) Opus pin lanes on rows Opus had not seen at the current text (cont 3, p2 4, p3 1, p4 1, rcse
+3 - levers: narrow a parameter to its real width = no assign_parms REG_EQUIV, abs() where retail has bgez;subu, named
+globals inside real loops, index loops with retail's invariant set, redundant narrowing on a copy for refs); (2) astra on
+tier-unserved rows (~18 pins); (3) the Fable one-off (81876014 7 -> 0: field re-reads -> cdk reload_cse_regs register
+copies; tools/learnings/fable_r96_reload_cse.md, lanekit/reload_cse_trace.py); (4) the Sonnet prep -> re-serve loop
+(sol61 then cleared 807B0B3C, 80091F04); (5) Sonnet workaround lanes (volatiles ~80% of rows, one-trips ~25%, renames,
+prototypes); (6) Opus fake-dep + computed-goto lanes (9 switches incl. 2 SLUS via .rodata owners).
+**Bounded negatives this round:** CALL-ARG (r96_opus_ca MECHANISM.md, sourced), host approach on LOCAL-GLOBAL rows
+818B6AFC / 8182C800 (r96_opus_p5: refs without live, no call-crossing reader), plain one-trip unwrap (0/~85), unnoted
+goto loops with tail copies, the bitfield getaddr/setaddr literal form, reload_cse family on 800AA854/8028906C/80B467DC.
+**Hard basket:** 31 rows (ledger/hard_basket.jsonl), incl. new 818B6AFC, 8182C800; 81910A9C now 1 pin.
+**Next, in order:** (1) the 33-ish non-basket rows left all had a strong serve at their current text - change text first
+(Sonnet prep / typing) then re-serve; Opus has NOT seen the r96-restructured texts of 819613A8 (1), 8095563C, 800A8714,
+800995D0, 8028BAA4, 818FA12C; (2) Fable's second population (cdk CELL rows with crutches) and Opus rcse leads
+(800AA854 PV2 2 pins total 11; 8028906C abs() lead; 80B467DC needs a second set of `effect`); (3) kit: prove_slus_ownership
+data-piece branch should accept .rodata relocation masks (item 15); lab.py stages relative to cwd; pool.py
+--wait-for-sentinel never fired once; pin_census misses plain `register asm("$R")` (slus/w_8004CAA0's four globals);
+(4) owner second looks (decisions file); (5) module placement (the L4 gate) as its own project.
+
+# (earlier) Handover (2026-10-06 ~13:50Z, round 96 IN PROGRESS: 116 pins / 62 rows landed)
 
 **13:50Z:** pins 150 -> 116 this round, all gated + committed. Owner ruling 10-06: the OT-link double mask is the
 getaddr-inside-setaddr macro - include/shared/ot_link.h OT_SETADDR/OT_GETADDR (800CA184, 81910A9C; decisions item 13;
