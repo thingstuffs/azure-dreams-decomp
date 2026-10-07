@@ -29,14 +29,9 @@ void func_800A4300(Rec_D_80082E80 *entity, EntityRec *search_state) {
 
     lookup_code = func_800A4474(entity->unk_24, entity->unk_25);
     if ((lookup_code << 16) != 0) {
-#ifndef NON_MATCHING
         *(s16 *)D_80081470 = (s16)(lookup_code | 0x1400);
         D_800814A8->unk_F0 = 0;
         return;
-#else
-        *(s16 *)D_80081470 = (s16)(lookup_code | 0x1400);
-        owner = *(void *volatile *)((void * *)(&D_800814A8));
-#endif
     } else {
         map_index_bits = (u32)func_800B500C(entity->unk_24,
                                             entity->unk_25,

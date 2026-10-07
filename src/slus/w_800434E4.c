@@ -4,11 +4,6 @@
 
 extern void func_80043458(void);
 
-#if !defined(NON_MATCHING) && __GNUC__ < 3
-#define ASM_KEEP(value) \
-__asm__ __volatile__("" : "=r"(value) : "0"(value))
-#else
-#endif
 
 /* Reset global state and initialize default parameters. */
 void func_800434E4(void)

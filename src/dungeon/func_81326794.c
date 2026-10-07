@@ -33,11 +33,7 @@ void func_8016DF94(void) {
 
     entry_slot = 0;
     state_page = (u8 *)0x80010000;
-#ifdef NON_MATCHING
-    entry_page = (u8 *)&D_800E3D7C - 0x3D7C;
-#else
     entry_page = (u8 *)0x800E0000;
-#endif
     D_80174704[0xD2] = 1;
     *(s16 *)(state_page + 0x371A) = 0;
     *(s16 *)(state_page + 0x3718) = 0;

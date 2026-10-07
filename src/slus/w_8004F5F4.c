@@ -42,13 +42,9 @@ void *func_8004F5F4(void *unused, void *source)
             node = 0;
             global_flags |= 0x8000;
 
-#ifdef NON_MATCHING
-            objectFlagBlock.flags = global_flags;
-#else
             global_page = (u8 *)0x80080000;
 
             *(s32 *)(global_page + 0x14A0) = global_flags;
-#endif
         }
     }
     return node;

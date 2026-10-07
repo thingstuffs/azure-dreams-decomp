@@ -10,11 +10,7 @@ typedef struct {
 extern s32 D_80012D5C;
 extern u8 D_800D160C[];
 
-#if defined(__mips__) && !defined(NON_MATCHING)
 #define READ_D_80012D5C() (*(s32 *)0x80012D5C)
-#else
-#define READ_D_80012D5C() D_80012D5C
-#endif
 
 extern void func_8004E5A0(s32 value, s32 width, u8 *dst);
 extern u8 *func_8004E69C(u8 *text);

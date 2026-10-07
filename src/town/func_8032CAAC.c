@@ -1,8 +1,5 @@
 #include "common.h"
 
-#ifdef NON_MATCHING
-#include <string.h>
-#endif
 
 typedef struct {
     u8 pad00[0x20];

@@ -20,9 +20,7 @@ extern u8 D_80530154[];
 extern u8 D_80530184[];
 extern u8 D_805305B8[];
 extern u8 D_805305F8[];
-#ifndef NON_MATCHING
 extern void *D_8052671C[];
-#endif
 
 /* Build the town HUD: the frame object, its three child slots, the gauge sprite and the five icons. */
 void func_808119EC(void) {
@@ -36,11 +34,9 @@ void func_808119EC(void) {
     s16 rect[4];
     u8 *common_value;
     u8 *child_handler;
-#ifndef NON_MATCHING
     static void *const keepalive[3] = {
         &&case_0, &&case_1_2, &&case_3_4
     };
-#endif
 
     parent = NULL;
     object = func_800373DC(0x32);
@@ -109,37 +105,24 @@ void func_808119EC(void) {
             *(u8 **)((s8 *)object + 0x10) = D_8052DF68;
             *(s16 *)((s8 *)object + 0x42) = (s16)i;
             object = (s8 *)object + 0x20;
-#ifndef NON_MATCHING
-            if ((u32)i >= 5) {
-                goto switch_done;
+            if ((u32)i < 5) {
+                goto **(void **)slot;
+            case_0:
+                case_value = 1;
+                *(s16 *)((s8 *)object + 0x20) = (s16)case_value;
+                i--;
+                slot -= 4;
+                continue;
+            case_1_2:
+                case_value = 2;
+                *(s16 *)((s8 *)object + 0x20) = (s16)case_value;
+                i--;
+                slot -= 4;
+                continue;
+            case_3_4:
+                case_value = 3;
+                *(s16 *)((s8 *)object + 0x20) = (s16)case_value;
             }
-            goto **(void **)slot;
-case_0:
-            case_value = 1;
-            goto store_case;
-case_1_2:
-            case_value = 2;
-            goto store_case;
-case_3_4:
-            case_value = 3;
-store_case:
-            *(s16 *)((s8 *)object + 0x20) = (s16)case_value;
-switch_done:
-#else
-            switch (i) {
-            case 0:
-                *(s16 *)((s8 *)object + 0x20) = 1;
-                break;
-            case 1:
-            case 2:
-                *(s16 *)((s8 *)object + 0x20) = 2;
-                break;
-            case 3:
-            case 4:
-                *(s16 *)((s8 *)object + 0x20) = 3;
-                break;
-            }
-#endif
             i--;
         } else {
             i--;

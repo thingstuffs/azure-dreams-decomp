@@ -13,7 +13,4 @@ s32 func_80017408(s32 context, s32 entry_index) {
         return 1;
     }
     func_80019928(context, entry_index);
-#ifdef NON_MATCHING
-    return 0;
-#endif
 }

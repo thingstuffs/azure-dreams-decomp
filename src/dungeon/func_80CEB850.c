@@ -48,15 +48,7 @@ typedef struct S_80175050_4 {
     u8 unk_9B;
 } S_80175050_4;   /* state0_arg0 in func_80175050 */
 
-typedef struct S_80175050_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_80175050_5;   /* state1_base in func_80175050 */
 
-typedef struct S_80175050_6 {
-    u8 pad_00[0x26];
-    s8 unk_26;
-} S_80175050_6;   /* var_a0 in func_80175050 */
 
 
 s32 func_80042900();
@@ -73,12 +65,7 @@ s32 func_800AA6B4();
 s32 func_800AA79C();
 void func_800AA888();
 void func_80171BEC();
-#ifndef NON_MATCHING
-__asm__(".set func_80171BEC_returning, func_80171BEC");
-extern M2C_UNK func_80171BEC_returning();
-#else
 #define func_80171BEC_returning func_80171BEC
-#endif
 void func_801759A0();
 
 extern u8 D_801724BC[];

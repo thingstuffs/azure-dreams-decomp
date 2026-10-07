@@ -21,13 +21,14 @@ extern s32 func_80034FD0(void *);
 extern ActionFunc func_800381D0(void *);
 extern s32 func_80038A10(void *);
 extern s32 func_80038C40(s8);
-extern void func_80038CB8(void *, s32, s32, s32);
+struct S_func_80038CB8_0;
+extern void func_80038CB8(struct S_func_80038CB8_0 *);
 extern s32 func_80039AE8(void *);
 extern s32 func_8003ADB4(s32);
 extern ActionFunc D_8006AA90[];
 
 /* Dispatch script opcodes, advance active text, and report whether processing can continue. */
-s32 func_80038AB8(RuntimeContext *context, u8 *owner, s32 update_arg2, s32 update_arg3)
+s32 func_80038AB8(RuntimeContext *context, u8 *owner)
 {
     s8 *cursor;
     u8 opcode;
@@ -36,7 +37,7 @@ s32 func_80038AB8(RuntimeContext *context, u8 *owner, s32 update_arg2, s32 updat
 
     if (*context->cursor <= 0) {
         if (context->active != 0) {
-            func_80038CB8(context, (s32)owner, update_arg2, update_arg3);
+            func_80038CB8((struct S_func_80038CB8_0 *)context);
             if ((context->state == 2) &&
                 (func_80038C40(*context->cursor) != 0)) {
                 return 1;

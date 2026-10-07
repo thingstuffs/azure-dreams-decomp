@@ -37,11 +37,7 @@ void func_819A1034(void *fade_data)
     u16 ticks_left;
 
     fade = fade_data;
-#ifdef NON_MATCHING
-    global_page = (u8 *)&D_800261B0 - 0x5FF4;
-#else
     global_page = (u8 *)D_80020000;
-#endif
     ticks_left = ((S_819A1034_0 *)fade)->unk_3A.s;
     ((S_819A1034_1 *)global_page)->unk_61B0 = 1;
     ticks_left--;

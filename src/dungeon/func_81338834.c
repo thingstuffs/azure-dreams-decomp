@@ -2,12 +2,8 @@
 
 extern s32 D_80175D48;
 
-#ifndef NON_MATCHING
 extern u8 D_04816000;
 #define INITIAL_VALUE ((s32)&D_04816000)
-#else
-#define INITIAL_VALUE 0x04816000
-#endif
 
 /* Sets the global word pair to a fixed value and nine times the input plus an offset. */
 void func_8016F834(s32 input_value) {

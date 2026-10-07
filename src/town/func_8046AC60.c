@@ -4,7 +4,7 @@ extern s32 func_8001A4F0(void);
 extern s32 func_8001A58C(s32);
 
 /* Return the candidate if func_8001A58C succeeds, otherwise use func_8001A4F0. */
-s32 func_8001BC60(s32 candidate, s32 first_value, s32 second_value, s32 third_value) {
+s32 func_8001BC60(s32 candidate) {
     if (func_8001A58C(candidate) != 0) {
         return candidate;
     }

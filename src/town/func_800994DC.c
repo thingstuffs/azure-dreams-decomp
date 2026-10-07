@@ -40,11 +40,7 @@ void func_80096C3C(void) {
     D_800FE520[25] = 0x30000000;
     D_800FE520[26] = 0;
     D_800FE520[27] = 0x09EFFFFF;
-#ifdef NON_MATCHING
-    mode_page = &D_800133A6 - 0x33A6;
-#else
     mode_page = (u8 *)0x80010000;
-#endif
     if (mode_page[0x33A6] == 0xA) {
         D_800FE520[29] = 0x05F00000;
         D_800FE520[28] = 0xF0000000;

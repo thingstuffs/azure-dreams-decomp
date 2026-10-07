@@ -29,9 +29,7 @@ extern void func_8004A24C(S_8004A330_Sub20 *a0, s32 a1, s32 a2,
 extern void func_8004491C(void *a0, void *a1);
 extern void func_8004CAA0(void);
 extern void func_80049F2C(void *a0);
-#ifndef NON_MATCHING
 extern s32 D_800814A0_load[3];
-#endif
 
 /* Allocate and initialize an entity with a resource buffer and position targets. */
 S_8004A330_Entity *func_8004A330(s32 style_flags, s16 start_x, s16 start_y, s16 target_x,
@@ -42,9 +40,7 @@ S_8004A330_Entity *func_8004A330(s32 style_flags, s16 start_x, s16 start_y, s16 
     s32 saved_style_flags = style_flags;
     u16 entity_flags;
     s32 global_flags;
-#ifndef NON_MATCHING
     s32 *global_page;
-#endif
 
     entity = func_8003FC64(0);
     if (entity != 0) {
@@ -64,19 +60,11 @@ S_8004A330_Entity *func_8004A330(s32 style_flags, s16 start_x, s16 start_y, s16 
         } else {
             entity_flags = entity->flags;
             entity->flags = entity_flags | 0x8000;
-#ifndef NON_MATCHING
             global_flags = D_800814A0_load[0];
-#else
-            global_flags = objectFlagBlock.flags;
-#endif
             entity = 0;
             global_flags |= 0x8000;
-#ifndef NON_MATCHING
             global_page = (s32 *)0x80080000;
             global_page[0x528] = global_flags;
-#else
-            objectFlagBlock.flags = global_flags;
-#endif
         }
     }
     return entity;
