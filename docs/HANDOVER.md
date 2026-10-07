@@ -1,3 +1,27 @@
+# Handover (2026-10-07 ~02:30Z, round 97 PAUSED: 104 -> 98 pins / 58 -> 53 rows; no lanes running) - start here
+
+**Result (all gated MATCH):** 8095563C 1->0 (446d32214), 800A8714 / 800995D0 / 8028BAA4 1->0 (df3122d47), 81989558 1->0
+(f2f2b35f2, decision 24 SECOND LOOK: single-use inline grid_cell accessor), 809548E4 3->2 (21a9373a0: state_value
+carrier split role by role). Typing at equal pins on 809548E4 / 80CE8564 / 81989558 / w_80054B08 (181013738).
+Decisions 16-25 in docs/evidence/r97_decisions.md (SECOND LOOK: 24). Refused: w_80054B08 negate-then-subtract
+(decision 25, ledger/refused_trades.jsonl; candidate in r97_astra_t2/held).
+**Negatives:** lost-compiler hypothesis for OPAQUE-BASE refuted for every held compiler (decision 22: no new cc1 on
+disk; 41 trunk snapshots change no deciding order - r97_trunk_opaque/RESULTS.md); astra pool r97a 0 landable.
+**What paid:** Opus on rows it had not seen at their current text (a1 1/4, a2 3/4, a3 1/4, a4 1 pin) - levers in
+tools/lanes/brief_paragraphs/new_findings.md (round 97 section). Sonnet typing prep fed a3/a4.
+**State:** every non-basket row (24 rows / ~37 pins) has now been served by Opus AND astra at its current text;
+809548E4's new text (2 pins, $8/$9) is unserved by astra/sol. Next needs NEW TEXT (prep) or a mechanism idea:
+(1) 809548E4 $8/$9: global.c order (bounce_x 32653 / velocity 25714 beat x_step/other_x 13846); func_80064584 is
+1-arg everywhere else but called with 4 here and the extra args are load-bearing for the y preferences (arity site -
+check retail's $a1-$a3 loads; decision-6/14 style); (2) w_80054B08: needs a REAL second set of offset_base (literal
+masks alone = 1 pin at total 2); (3) 818FA12C: an early non-REG_EQUIV zero pseudo in case 0; (4) open leads per row in
+r97_opus_a1/a2/a3 REPORT.md (8180B064, 819613A8, 800CA184, 80CE8564).
+**Kit:** lanekit/loopsum.py (harvest); KIT GAPS: lab.py `--role-split` mode (r97_opus_a4 tools/split.py, roles2.py);
+the lander's typing-only skip (w_80054B08 had to be applied by hand); the fake-dep detector does not see
+negate-then-subtract. SLUS module certificates (ledger/modules, 2) need a reviewed re-run (tool fingerprint changed).
+**Next:** type phase 14 in a no-lanes window (EntityRec unk_0C/unk_10 -> Fixed1616, shared PolyFT4/GpuContext, sound
+volume header, PadState - OPEN_ITEMS 26); owner calls: decision 24, w_8004CAA0 provenance, 800219C4, DEAD-INSN spelling.
+
 # Handover (2026-10-06 ~23:40Z, round 97 STARTED: decisions + kit fixes landed; lanes RUNNING) - start here
 
 **Owner 10-06 (evening):** act on the pickup recommendations - all agreed. Done + committed (gated MATCH where src moved):
