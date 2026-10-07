@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern s32 func_80042900(void *entry, s32 effect_id);
-extern void func_80042B68(void *arg0, s32 arg1);
+extern void func_80042B68(void *entry, s32 effect_id);
 
 /* Checks object code 0x19, exits on failure, and applies it on success. */
 s32 func_80E12A58(void *object) {

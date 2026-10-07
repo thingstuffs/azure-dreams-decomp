@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern void func_8008F134(void *);
-extern void func_80033D08(void *arg0);
+extern void func_80033D08(void *object);
 extern struct { s32 v; s32 pad[2]; } D_800814A0;
 
 /* Update the object and set the high bit in its header and the global flags. */

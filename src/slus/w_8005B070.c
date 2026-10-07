@@ -25,7 +25,7 @@ extern u8 D_80085458[0x78 * 64];
 extern s32 D_80085F98[4];
 extern S_80086C00 D_80086C00[8];
 
-extern void func_8005F134(S_8005B070_req *arg0);
+extern void func_8005F134(S_8005B070_req *request);
 
 /* Process eligible entries and set the selected slot state to 4. */
 void func_8005B070(s16 slot_index)

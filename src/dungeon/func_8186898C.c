@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_800478B8(void *arg0);
+extern void func_800478B8(void *render_data);
 
 /* Advance and fade the effect, marking it finished when faded out or flagged. */
 void func_8186898C(void *effect, void *position, void *render_data)

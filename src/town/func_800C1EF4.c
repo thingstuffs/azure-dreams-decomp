@@ -29,7 +29,7 @@ typedef struct S_800BF654_2 {
 } S_800BF654_2;   /* setup in func_800BF654 */
 
 
-extern void *func_8003FC64(s32 arg0);
+extern void *func_8003FC64(s32 size);
 extern void func_8004491C(void *entry, void *registration_id);
 extern void func_8008F074(void *record, void *setup_value, void *setup_param);
 

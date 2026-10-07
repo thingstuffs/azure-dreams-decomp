@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern s32 func_8001A510(s32 arg0);
-extern void func_8001A418(s32 arg0);
-extern void func_8001A490(s32 arg0);
+extern s32 func_8001A510(s32 flag);
+extern void func_8001A418(s32 flag);
+extern void func_8001A490(s32 flag);
 
 // Consume the required flag and set the completion flags if flag 0x7A3 is clear.
 s32 func_8046F224(s32 requiredFlag, s32 completionFlag) {

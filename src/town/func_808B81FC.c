@@ -4,8 +4,8 @@ extern s32 D_00003F50[];
 extern s32 D_00003FCC[];
 extern s32 D_000045F8[];
 
-extern s32 func_80003544(s32 arg0);
-extern s32 func_800036D8(s32 arg0, s32 arg1);
+extern s32 func_80003544(s32 mode);
+extern s32 func_800036D8(s32 index, s32 mode);
 
 /* Return the selected table value plus the global offset after mode-three calls. */
 s32 func_808B81FC(void) {

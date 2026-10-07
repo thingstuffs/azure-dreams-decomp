@@ -11,7 +11,7 @@ typedef struct {
     u8 state_89;
 } FuncState;
 
-extern int ms_mot_accpt_ow(u8 arg0);
+extern int ms_mot_accpt_ow(u8 state_2f);
 extern void func_80038A10(void);
 
 /* ms_mot_accpt_ow: advance the state handler when the state check succeeds or the countdown expires. */

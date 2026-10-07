@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern s32 func_800478B8(void *arg0);
+extern s32 func_800478B8(void *effect_data);
 
 typedef struct {
     s16 value;

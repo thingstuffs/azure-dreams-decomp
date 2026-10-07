@@ -3,7 +3,7 @@
 #include "shared/object_flags.h"
 
 extern void func_80044A50(void *node);
-extern void func_800478B8(void *arg0);
+extern void func_800478B8(void *source);
 
 extern u16 D_801742E0;
 extern s32 D_801742E8;

@@ -6,15 +6,15 @@
 
 typedef struct S_805D352C_2 {
     u8 pad_00[0x40];
-    M2C_UNK * unk_40;
+    void * unk_40;
 } S_805D352C_2;   /* ((Rec_D_80016000 *)D_80016000)->unk_1C.as_pv in func_805D352C */
 
 
-M2C_UNK func_800174CC();                            /* extern */
+void func_800174CC();                            /* extern */
 extern M2C_UNK D_80019814;
 extern M2C_UNK D_80019884;
 extern s32 D_80019AF8;
-extern M2C_UNK *D_80019B90;
+extern void *D_80019B90;
 
 /* Initializes data pointers and computes the selected eight-byte entry address. */
 void func_805D352C(void) {

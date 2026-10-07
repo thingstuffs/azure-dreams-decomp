@@ -16,7 +16,7 @@ typedef struct S_80047784 {
 } S_80047784;
 
 extern void func_80047738(S_80047784 *a0, s16 a1, s16 a2);
-extern void func_80047694(void *arg0);
+extern void func_80047694(void *object);
 
 /* Select a table entry, set its rate, clear flags 0x6000, and update the object. */
 void func_80047784(S_80047784 *object, s16 table_index, s16 entry_index)

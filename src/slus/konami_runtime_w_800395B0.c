@@ -9,7 +9,7 @@ typedef struct Func800395B0State {
     u16 half_30;
 } Func800395B0State;
 
-extern void func_80038394(void *arg0);
+extern void func_80038394(void *state);
 
 /* Reads a little-endian 16-bit script operand and selects the next state handler. */
 void func_800395B0(Func800395B0State *state) {

@@ -2,7 +2,7 @@
 #include "shared/object_flags.h"
 
 extern s32 func_8009CFE0(void *object, s32 position_data);
-extern void func_80033D08(void *arg0);
+extern void func_80033D08(void *object);
 
 
 /* Finalizes and flags the object when its check succeeds or its countdown expires. */

@@ -118,22 +118,19 @@ void func_80024B20(void *effect) {
             s32 gap_limit;
             segment_index = 6;
             gap_limit = 0x160;
-            segment = (u8 *)effect + 0x24;
-            base_speed = 0x2A;
-loop_3:
-            {
-                u16 position = ((S_80024B20_3 *)segment)->unk_12.v;
+            while (segment_index >= 0) {
+                u16 position;
+
+                base_speed = (segment_index + 1) * 6;
+                segment = (u8 *)effect + segment_index * 6;
+                position = ((S_80024B20_3 *)segment)->unk_12.v;
                 if (gap_limit < (((S_80024B20_4 *)((u8 *)effect + base_speed))->unk_12
                     - ((S_80024B20_3 *)segment)->unk_12.n)) {
                     ((S_80024B20_3 *)segment)->unk_12.n = position + (gap_limit + (gap_limit >> 1));
                 }
                 gap_limit -= 0x10;
-                segment -= 6;
                 segment_index--;
-                base_speed -= 6;
             }
-            if (segment_index >= 0)
-                goto loop_3;
         }
         if (((S_80024B20_2 *)effect)->unk_42.s < 8) {
             ((S_80024B20_2 *)effect)->unk_0C += (s32)0xFFF3F3F4;

@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-extern void func_8003C0C8(void *arg0, void *arg1);
+extern void func_8003C0C8(void *entry, void *context);
 
 /* Runs the entry callback, then processes the entry and sets the output field unless flagged to stop. */
 void func_8003C3B4(void *entry, void *output, void *context) {

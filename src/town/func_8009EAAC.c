@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern s32 func_800644B8(s32 arg0);
-extern s32 func_80064584(s32 arg0);
+extern s32 func_800644B8(s32 value_a);
+extern s32 func_80064584(s32 value_b);
 extern void func_8009539C(void *motion);
 extern void func_8008F664(void *collider, void *position);
 extern s32 D_800834B8;

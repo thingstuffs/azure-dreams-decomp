@@ -3,7 +3,7 @@
 #include "records/Rec_func_800AB538_arg0.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 func_800AB538(arg0);                            /* extern */
+s32 func_800AB538(record);                            /* extern */
 
 
 /* Calls func_800AB538 on the record, then clears unk_B6. */

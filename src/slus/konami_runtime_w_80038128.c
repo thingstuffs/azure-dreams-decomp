@@ -14,7 +14,7 @@ typedef struct {
     s8 field87;
 } Func80038128State;
 
-extern void func_80038A10(void *arg0);
+extern void func_80038A10(void *state);
 
 /* Advance to the next handler when the countdown expires or the global flag permits. */
 void func_80038128(Func80038128State *state) {

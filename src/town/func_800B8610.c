@@ -2,7 +2,7 @@
 
 extern s8 *strcat(u8 *dst, const u8 *src);
 extern void func_800B5264(s32 entry, const u8 *text, s32 text_style, s32 x, s32 y);
-extern u8 *func_800B5D30(void *arg0);
+extern u8 *func_800B5D30(void *entry);
 
 extern s32 D_800892C0[3];
 extern u8 D_8008933C[];

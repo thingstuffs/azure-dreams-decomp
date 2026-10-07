@@ -7,8 +7,8 @@ typedef struct {
     s32 value;
 } Entry;
 
-extern s32 func_8003C5F0(s32 arg0);
-extern s32 func_8003C758(void *arg0);
+extern s32 func_8003C5F0(s32 entry_group);
+extern s32 func_8003C758(void *entry_data);
 extern void func_8003C67C(s32 index);
 extern void LoadImage(void *rect, void *data);
 

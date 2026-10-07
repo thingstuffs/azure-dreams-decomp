@@ -2,7 +2,7 @@
 #include "records/Rec_D_80082E80.h"
 
 
-extern void func_800478B8(void *arg0);
+extern void func_800478B8(void *record);
 
 
 typedef struct S_80024264_0 {

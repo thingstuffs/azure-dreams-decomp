@@ -7,7 +7,7 @@ extern s32 D_00003FBC[];
 extern s32 D_000045F8;
 extern s32 D_00001598[];
 
-extern s32 func_800036D8(s32 arg0, s32 arg1);
+extern s32 func_800036D8(s32 index, s32 mode);
 
 /* Picks the selected table value (or a fixed table's address) and returns it plus the global offset after a mode-one call. */
 s32 func_808B8184(void) {

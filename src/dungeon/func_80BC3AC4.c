@@ -12,6 +12,7 @@ typedef struct {
     u32 words[3];
 } __attribute__((packed)) Packet12;
 
+extern int abs(int);
 extern s32 func_8003F270(void);
 extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
@@ -180,23 +181,14 @@ void func_801732C4(void *action, EntityRec *motion, void *sprite, void *actor)
                             (*(u8 *)((u8 *)actor + 0x73)) = ((S_801732C4_2 *)item_id)->unk_25;
                         }
                     } else {
-                        s32 dx;
-                        s32 dy;
 
-                        dx = (s32)func_800A05A4(
+
+
+                        (*(void * *)((u8 *)actor + 0x60)) = func_800A05A4(
                             actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
                             (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
-                        (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)dx;
-                        dx = (*(s8 *)((u8 *)actor + 0x72));
-                        dy = (*(s8 *)((u8 *)actor + 0x73));
-                        if (dx < 0) {
-                            dx = -dx;
-                        }
-                        if (dy < 0) {
-                            dy = -dy;
-                        }
-                        (*(u8 *)((u8 *)actor + 0x72)) = dx;
-                        (*(u8 *)((u8 *)actor + 0x73)) = dy;
+                        ((EntityRec *)actor)->unk_72 = abs(((EntityRec *)actor)->unk_72);
+                        ((EntityRec *)actor)->unk_73 = abs(((EntityRec *)actor)->unk_73);
                     }
                 }
             }

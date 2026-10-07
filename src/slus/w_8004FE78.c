@@ -18,7 +18,7 @@ typedef struct S_8004FE78_a0 {
     s32 unk24[3];   /* 0x24, 0x28, 0x2C */
 } S_8004FE78_a0;
 
-extern void func_8001832C(s32 arg0);
+extern void func_8001832C(s32 handle);
 
 /* Process a non-null entity's nonzero handles and set its flags and the global flags to include 0x8000. */
 void func_8004FE78(S_8004FE78_a0 *entity)

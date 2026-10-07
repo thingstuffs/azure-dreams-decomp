@@ -106,12 +106,10 @@ void func_81876014(void *effect, void *position_out, void *color_out) {
         if (next_angle < 0) {
             ((S_81876014_0 *)effect)->unk_0C = angle + 0xF9C;
         }
-        if (((S_81876014_1 *)owner)->unk_0A >= 5) {
-            goto mark_finished;
+        if (((S_81876014_1 *)owner)->unk_0A < 5) {
+            return;
         }
-    } else {
-mark_finished:
-        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
     }
+    (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 }

@@ -18,7 +18,7 @@ typedef struct StructA2 {
     u16 unk1E;
 } StructA2;
 
-extern void func_800478B8(void *arg0);
+extern void func_800478B8(void *state);
 
 /* Decreases paired state values by 0x80, invokes the state handler, and sets flags. */
 void func_81833060(StructA0 *owner, void *unused, StructA2 *state) {

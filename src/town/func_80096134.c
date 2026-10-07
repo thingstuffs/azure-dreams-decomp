@@ -107,10 +107,8 @@ void func_80093894(void) {
         state_is_12_or_13 = (u32)state_index < 2;
         is_available = func_8009FF50(state_index) == 1;
 
-        if (!is_available) {
-            void *callback_slot;
-            void (*callback)(void *, void *, void *);
-
+        switch (is_available) {
+        case 0: {
             if (func_800937F8() != 0) {
                 func_8008B5D8(D_80088C0C, 0x11);
             } else if (func_800A0608() >= 0x12) {
@@ -118,14 +116,14 @@ void func_80093894(void) {
             } else if (work.bytes.unk1 == 0x13) {
                 func_8008B5D8(D_80088C8C, 0x11);
             } else {
-                goto process;
+                break;
             }
             func_800947BC(object, position, callback_data);
             D_800FE5D8 = (void (*)(void *, void *, void *))&D_80093D48;
             D_800FE518 = 0;
             return;
-        } else {
-
+        }
+        default: {
             if (work.bytes.unk1 != 0x13) {
                 if (work.bytes.unk1 == 0x12) {
                     mode = func_800B28A0();
@@ -144,16 +142,15 @@ void func_80093894(void) {
                     return;
                 }
             }
+            break;
+        }
         }
 
-process:
         work.pos.unk0 = position->unk_00;
         work.pos.unk4 = position->unk_04;
         work.pos.unk8 = position->unk_08 + D_800D0428;
         mode = 0;
         if (state_is_12_or_13) {
-            s32 zero;
-
             mode = is_available != 0;
         }
         created_entry = func_8009DFD8(((S_80093894_3 *)(&D_80110EB8))->unk_00, &work.pos, mode);

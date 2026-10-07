@@ -6,7 +6,7 @@ extern s32 D_800263C0[];
 
 s32 func_80022138(void);
 s32 func_80022160(void);
-void func_800264D8(void *arg0);
+void func_800264D8(void *context);
 void func_80026494(void *record_part);
 
 /* Selects a state table or handler based on the context and current status. */

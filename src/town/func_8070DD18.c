@@ -6,7 +6,7 @@ typedef s32 M2C_UNK;
 
 typedef struct S_80016D18_1 {
     u8 pad_00[0x78];
-    M2C_UNK (*unk_78)(M2C_UNK);
+    s32 (*unk_78)(s32);
 } S_80016D18_1;   /* ((S_80016D18_0 *)(*(void **)D_80016000))->unk_20 in func_80016D18 */
 
 
@@ -16,7 +16,7 @@ extern s32 func_800197FC();
 extern M2C_UNK func_8001A554();
 extern M2C_UNK func_8001A5CC();
 extern s32 func_8001A64C();
-extern M2C_UNK D_8002116C;
+extern s32 D_8002116C;
 
 typedef struct S_80016D18_0 {
     u8 pad_00[0x20];
@@ -36,7 +36,7 @@ M2C_UNK *func_80016D18(void) {
         return &D_8002116C;
     }
     if (func_8001A64C(0x930) != 0) {
-        return (M2C_UNK *)((s8 *)&D_8002116C + 0x21A);
+        return (s32 *)((s8 *)&D_8002116C + 0x21A);
     }
     return 0;
 }

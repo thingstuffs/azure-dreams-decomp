@@ -11,7 +11,7 @@ typedef struct Scratch818D4800 {
     u16 y;
     u16 z;
     u8 pad06[0x12];
-    u8 *volatile next;
+    u8 *next;
     u8 pad1C[4];
     u32 *ot;
     u8 pad24[0x6C];
@@ -56,6 +56,7 @@ s32 BODY_NAME(void *object_data, void *position_data)
         *(DungeonState818D4800 **)((u8 *)(&gameWork));
     Scratch818D4800 *scratch = (Scratch818D4800 *)0x1F800000;
     register u8 *prim;
+    u8 *tile_prim;
     u32 draw_mode;
     void *next_object;
     u8 *packet_start;
@@ -67,28 +68,28 @@ s32 BODY_NAME(void *object_data, void *position_data)
     scratch->next = packet_start;
 
     do {
-        scratch->x = *(volatile u16 *)(position + 2);
-        prim = scratch->next;
+        scratch->x = *(u16 *)(position + 2);
+        tile_prim = scratch->next;
         scratch->y = *(u16 *)(position + 6);
         scratch->z = *(u16 *)(position + 0xA);
-        scratch->next = prim + 0xC;
+        scratch->next = tile_prim + 0xC;
 
-        scratch->index = func_80065420(scratch, prim + 8,
+        scratch->index = func_80065420(scratch, tile_prim + 8,
             (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
 
         if (scratch->index < 0x1E0U) {
-            *(u32 *)(prim + 4) = *(u32 *)(object + 8);
+            *(u32 *)(tile_prim + 4) = *(u32 *)(object + 8);
 
-            prim[4] = (prim[4] * *(s16 *)(object + 0x32)) / 0x100;
-            prim[5] = (prim[5] * *(s16 *)(object + 0x32)) / 0x100;
-            prim[6] = (prim[6] * *(s16 *)(object + 0x32)) / 0x100;
+            tile_prim[4] = (tile_prim[4] * *(s16 *)(object + 0x32)) / 0x100;
+            tile_prim[5] = (tile_prim[5] * *(s16 *)(object + 0x32)) / 0x100;
+            tile_prim[6] = (tile_prim[6] * *(s16 *)(object + 0x32)) / 0x100;
 
-            prim[3] = 2;
-            prim[7] = 0x6A;
+            tile_prim[3] = 2;
+            tile_prim[7] = 0x6A;
 
-            ((PrimTag818D4800 *)prim)->addr =
+            ((PrimTag818D4800 *)tile_prim)->addr =
                 ((PrimTag818D4800 *)&scratch->ot[scratch->index])->addr;
-            ((PrimTag818D4800 *)&scratch->ot[scratch->index])->addr = (u32)prim;
+            ((PrimTag818D4800 *)&scratch->ot[scratch->index])->addr = (u32)tile_prim;
 
             prim = scratch->next;
             next_prim = prim + 0xC;

@@ -32,7 +32,7 @@ typedef struct S_818C3898_3 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void func_800478B8(void *arg0);
+extern void func_800478B8(void *sprite);
 /* Advance effect motion, color, rotation, and size, and flag lifetime expiration. */
 void func_818C3898(void *effect, void *motion_data, Rec_D_80082E80 *sprite) {
     s16 size;

@@ -31,7 +31,7 @@ typedef struct S_800423C0_Obj
 S_800423C0_Obj;
 extern S_800E3E48 D_800E3E48[];
 extern void func_80042710(void *dst, void *src);
-extern s16 func_800A1BD0(void *arg0);
+extern s16 func_800A1BD0(void *obj);
 /* Copies source template data, updates object direction fields, and sets a flag. */
 void func_800423C0(S_800423C0_Obj *obj, s16 unused, S_800423C0_Src *source)
 {

@@ -13,8 +13,8 @@ extern u16 D_800D4268[];
 
 extern s32 func_800C0F60(s16 target_value);
 extern s32 func_800B28A0(void);
-extern void func_8004437C(s32 arg0, s32 arg1);
-extern void SD_Call(s32 arg0);
+extern void func_8004437C(s32 effect, s32 value);
+extern void SD_Call(s32 sequence);
 
 /* town_sd_sq_callagain_sub: replay and record the town or fallback sequence with the supplied flags. */
 s32 town_sd_sq_callagain_sub(s32 sequence_flags) {

@@ -49,9 +49,8 @@ void func_800251A0(void *anim_state)
     } while (slot_index < 9);
 
     slot_index = 1;
-    slot = (DungeonAnimSlot *)((u8 *)anim_state + 2);
-loop_1:
-    {
+    while (slot_index < 9) {
+        slot = (DungeonAnimSlot *)((u8 *)anim_state + slot_index * 2);
         offset_delta = func_800644B8(slot->field_50) >> 9;
         offset = slot->field_62;
         phase = (u16)slot->field_50;
@@ -66,10 +65,7 @@ loop_1:
             slot->field_50 = wrapped_phase;
         }
         slot_index += 1;
-        slot = (DungeonAnimSlot *)((u8 *)slot + 2);
     }
-    if (slot_index < 9)
-        goto loop_1;
 
 
     if ((s16)((S_800251A0_0 *)anim_state)->unk_02 <= 0) {

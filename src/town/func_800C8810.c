@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_800C46A8(void *arg0, s32 arg1, s32 arg2);
+extern void func_800C46A8(void *object, s32 value, s32 update_value);
 extern void func_800C2E84(void *state, s32 output, void *entries);
 extern u8 D_80082660[][8];
 extern s32 D_800C5FDC[];

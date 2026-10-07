@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_8004D8F0(s32 arg0, u8 *arg1);
+extern void func_8004D8F0(s32 rect_id, u8 *source_rect);
 
 /* Converts the selected rectangle to VRAM coordinates and dimensions. */
 void func_8004D91C(s32 rect_id, s16 *vram_rect)

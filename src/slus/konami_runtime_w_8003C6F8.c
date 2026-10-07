@@ -11,7 +11,7 @@ typedef struct {
 extern Func8003C6F8Entry D_8006B200[];
 extern void *D_80081460;
 
-extern void file_load_com(void *arg0);
+extern void file_load_com(void *data);
 
 /* Stores data in the selected entry, activates its pointers, and applies a mode-specific flag. */
 void func_8003C6F8(void *data, s32 entry_index)

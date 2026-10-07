@@ -2,7 +2,7 @@
 #include "shared/object_flags.h"
 
 extern s32 func_8009CFE0(void *, void *);
-extern void func_80033D08(void *arg0);
+extern void func_80033D08(void *object);
 
 /* Clear the object's linked flag and mark completion, or advance its wrapped angle. */
 void func_800B9CB8(void *object, void *context)

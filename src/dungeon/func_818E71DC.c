@@ -3,7 +3,7 @@
 #include "records/Rec_func_800249DC_arg0.h"
 
 
-extern void func_800478B8(void *arg0);
+extern void func_800478B8(void *visual);
 
 
 typedef struct S_800249DC_0_pre {

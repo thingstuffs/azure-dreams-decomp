@@ -4,7 +4,7 @@ typedef struct {
     s32 words[6];
 } Copy24;
 
-extern void func_8003EA54(s32 arg0);
+extern void func_8003EA54(s32 call_arg);
 extern s32 D_80084D5C;
 
 /* Copy an entry's 24-byte payload, decrement its count, and flag exhaustion. */

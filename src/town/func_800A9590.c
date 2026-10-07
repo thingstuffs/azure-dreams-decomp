@@ -9,7 +9,7 @@
 
 extern int func_8009CFE0(void *, void *);
 extern void func_8008F134(void *node);
-extern void func_80033D08(void *arg0);
+extern void func_80033D08(void *object);
 
 typedef void (*S_800A9590_Callback)(void *, void *, void *, void *);
 

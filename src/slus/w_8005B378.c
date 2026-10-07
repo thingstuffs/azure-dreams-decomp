@@ -2,7 +2,7 @@
 
 #include "common.h"
 
-extern s32 func_8005DA88(s32 *arg0);
+extern s32 func_8005DA88(s32 *request);
 extern s8 D_8007382B[9];
 
 /* Submit a value and record it when the request succeeds. */

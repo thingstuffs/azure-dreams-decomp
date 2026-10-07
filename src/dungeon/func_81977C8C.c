@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_800478B8(void *arg0);
+extern void func_800478B8(void *state);
 
 /* Increment the object's counter, update state, and propagate status flags. */
 void func_81977C8C(void *object_slot, s32 unused, void *state) {

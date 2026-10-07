@@ -7,7 +7,7 @@ extern s32 D_800794EC[];
 extern void EnterCriticalSection(void);
 extern void ExitCriticalSection(void);
 extern void func_8005D064(void);
-extern void func_8005D798(void (*arg0)(void));
+extern void func_8005D798(void (*callback)(void));
 extern s32 OpenEvent(u32 class, s32 spec, s32 mode, void (*func)(void));
 extern s32 EnableEvent(s32 event);
 

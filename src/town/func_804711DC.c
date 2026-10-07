@@ -3,8 +3,8 @@
 extern s32 D_8001B218[];
 
 void func_80018198(void);
-void func_8001844C(s32 arg0);
-void func_8001A418(s32 arg0);
+void func_8001844C(s32 entry_code);
+void func_8001A418(s32 code);
 
 /* Process flagged type 0x18 entries, displaying messages and invoking their handlers. */
 void func_800181DC(void) {

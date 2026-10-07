@@ -9,7 +9,7 @@ extern s32 D_800794F0[3];
 
 extern void EnterCriticalSection(void);
 extern void ExitCriticalSection(void);
-extern void func_8005D798(s32 arg0);
+extern void func_8005D798(s32 callback);
 extern s32 CloseEvent(s32 event);
 extern s32 DisableEvent(s32 event);
 

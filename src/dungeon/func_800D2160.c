@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_800478B8(void *arg0);
+extern void func_800478B8(void *entry);
 
 extern struct {
     s32 value;

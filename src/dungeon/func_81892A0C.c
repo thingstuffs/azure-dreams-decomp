@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_800478B8(void *arg0);
+extern void func_800478B8(void *target);
 
 /* Advance the accumulation step, update the target, and flag completion past the final step. */
 void func_81892A0C(void *step_state, void *accumulator, void *target)

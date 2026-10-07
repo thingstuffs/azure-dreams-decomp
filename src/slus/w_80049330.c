@@ -2,7 +2,7 @@
 #include "shared/record_ptrs.h"
 
 /* extern decls */
-extern int func_800492B0(int arg0);
+extern int func_800492B0(int index);
 
 typedef struct {
     unsigned char unk0;

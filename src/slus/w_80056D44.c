@@ -24,7 +24,7 @@ typedef struct {
     s32 field68;
 } S_80056D44_Arg1;
 
-extern s32 func_8005F134(S_80084918 *arg0);
+extern s32 func_8005F134(S_80084918 *descriptor);
 
 /* Populates the global descriptor from a table entry and source fields, then processes it. */
 s32 func_80056D44(s32 table_index, S_80056D44_Arg1 *source) {

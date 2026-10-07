@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 M2C_UNK func_800177CC();             /* extern */
-M2C_UNK func_80018594();                         /* extern */
+s32 func_80018594();                         /* extern */
 M2C_UNK func_8001860C();                     /* extern */
 s32 func_800187B8();                         /* extern */
 s32 func_80018800();                         /* extern */
@@ -13,7 +13,7 @@ typedef struct S_806D435C_0 {
 } S_806D435C_0;   /* arg0 in func_806D435C */
 
 /* Processes the object, conditionally passing its stored value to func_80018594. */
-void func_806D435C(S_806D435C_0 *object, M2C_UNK context) {
+void func_806D435C(S_806D435C_0 *object, s32 context) {
     func_8001860C(0x98F);
     if ((func_800187B8(5) != 0) || (func_80018800(5) != 0)) {
         func_80018594(object->unk_18);

@@ -3,7 +3,7 @@
 
 #include "common.h"
 extern s32 D_800E3DF0[];
-extern int func_80049280(int arg0);
+extern int func_80049280(int index);
 extern int func_80021300(int a0);
 extern int func_8002137C(int a0);
 /* Resolves an indexed value and converts it unless its code is 2. */

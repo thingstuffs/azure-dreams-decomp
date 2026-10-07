@@ -23,19 +23,16 @@ void func_800AAF5C(void)
 
     record_index = 7;
     records = (u8 *)&D_80100E40;
-loop_0:
-    {
+    while (record_index > 0) {
         destination_offset = record_index * 8;
-        record_index--;
-        source = (TownRecord *)((record_index * 8) + (u32)records);
+        source = (TownRecord *)(((record_index - 1) * 8) + (u32)records);
         destination = (TownRecord *)(destination_offset + (u32)records);
         destination->field_0 = source->field_0;
         destination->field_2 = source->field_2;
         destination->field_4 = source->field_4;
         ((TownRecord *)destination)->field_6 = source->field_6;
+        record_index--;
     }
-    if (record_index > 0)
-        goto loop_0;
 
     {
         EntityRec *current_values;

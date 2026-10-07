@@ -7,7 +7,7 @@ typedef struct {
 } DungeonObject;
 
 extern s16 D_8002571C;
-extern void func_800478B8(void *arg0);
+extern void func_800478B8(void *handlerContext);
 
 // Decrement the object's timer, call its handler, and set expiry flags when the timer runs out.
 void func_8002492C(DungeonObject *object, s32 unused, void *handlerContext)

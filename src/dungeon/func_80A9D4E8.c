@@ -7,6 +7,7 @@
 
 
 
+extern int abs(int);
 extern u8 D_80170E7C;
 extern u8 D_80174C3C[8];
 extern u8 D_80174C7C[8];
@@ -70,56 +71,24 @@ void func_80172CE8(void *action, EntityRec *motion, void *actor, void *object) {
         if ((*(u32 *)((u8 *)object + 0x1C)) & 0x2000) {
             u32 kind = ((*(u16 *)((u8 *)object + 0x46)) & 0x3FFF) - 1;
             switch (kind) {
-            case 6:
-                is_special = 1;
-                /* fall through */
-            case 2:
-                goto item_e_value;
-            case 5:
-                is_special = 1;
-                /* fall through */
-            case 1:
-                goto item_b_value;
-            case 4:
-                is_special = 1;
-                /* fall through */
-            case 0:
-                goto item_8_value;
-            default:
-                goto item_none;
+            case 6: is_special = 1;
+            case 2: item_slot = (u8 *)object + 0xE; break;
+            case 5: is_special = 1;
+            case 1: item_slot = (u8 *)object + 0xB; break;
+            case 4: is_special = 1;
+            case 0: item_slot = (u8 *)object + 8; break;
+            default: item_slot = 0; break;
             }
-        }
-
-        {
+        } else {
             s32 kind = (*(u16 *)((u8 *)object + 0x46)) & 0x3FFF;
-            if (kind == 2) {
-                goto item_b_value;
+            switch (kind) {
+            case 3: item_slot = (u8 *)object + 0xE; break;
+            case 2: item_slot = (u8 *)object + 0xB; break;
+            case 1: item_slot = (u8 *)object + 8; break;
+            default: item_slot = 0; break;
             }
-            if (kind < 3) {
-                item_slot = 0;
-                if (kind == 1) {
-                    goto item_8_value;
-                }
-                goto item_ready;
-            }
-            item_slot = 0;
-            if (kind != 3) {
-                goto item_ready;
-            }
-item_e_value:
-            item_slot = (u8 *)object + 0xE;
-            goto item_ready;
-item_b_value:
-            item_slot = (u8 *)object + 0xB;
-            goto item_ready;
-item_8_value:
-            item_slot = (u8 *)object + 8;
-            goto item_ready;
-item_none:
-            item_slot = 0;
         }
 
-item_ready:
         if (*item_slot != 0) {
 
             ((S_80172CE8_0 *)action)->unk_98 &= 0xFF7F;
@@ -151,26 +120,17 @@ item_ready:
 
                         }
                     } else {
-                        s32 x;
-                        s32 y;
 
-                        x = (s32)func_800A05A4(
+
+
+                        (*(void * *)((u8 *)object + 0x60)) = func_800A05A4(
                             object,
                             ((S_80172CE8_3 *)actor)->unk_24,
                             ((S_80172CE8_3 *)actor)->unk_25,
                             (*(s16 *)((u8 *)object + 0x2A)),
                             0x10);
-                        (*(void * volatile *)((u8 *)object + 0x60)) = (void *)x;
-                        x = (*(s8 *)((u8 *)object + 0x72));
-                        y = (*(s8 *)((u8 *)object + 0x73));
-                        if (x < 0) {
-                            x = -x;
-                        }
-                        if (y < 0) {
-                            y = -y;
-                        }
-                        (*(s8 *)((u8 *)object + 0x72)) = x;
-                        (*(s8 *)((u8 *)object + 0x73)) = y;
+                        ((EntityRec *)object)->unk_72 = abs(((EntityRec *)object)->unk_72);
+                        ((EntityRec *)object)->unk_73 = abs(((EntityRec *)object)->unk_73);
                     }
                 }
 

@@ -19,7 +19,7 @@ typedef struct S_8014C8E8_2 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
-extern void func_800478B8(void *arg0);
+extern void func_800478B8(void *color);
 /* Scale the color by the remaining countdown, then decrement it and flag completion. */
 void func_8014C8E8(void *record_data, void *unused, Rec_D_80082E80 *color)
 {

@@ -28,7 +28,7 @@ extern s32 D_801BEE40[4];
 
 extern void func_800542BC(void);
 extern void func_80044698(void);
-extern s32 func_8004450C(s16 arg0);
+extern s32 func_8004450C(s16 mode);
 extern s32 Control_CD(s32 a0, void *a1, s32 a2);
 extern void func_8003F320(void);
 extern short SD_Call(int a0);

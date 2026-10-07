@@ -6,7 +6,7 @@ typedef struct {
 } TownRecord;
 
 extern s32 func_8009CFE0(void *object, void *position_data);
-extern void func_80033D08(void *arg0);
+extern void func_80033D08(void *object);
 
 extern s32 D_800D0E44;
 extern s32 D_800D0E40[3];

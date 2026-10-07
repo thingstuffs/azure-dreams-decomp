@@ -15,7 +15,7 @@ typedef struct S_func_8001F150_1 {
     u8 pad_04[0x7C];
 } S_func_8001F150_1;
 
-extern void func_804032FC(void *arg0);
+extern void func_804032FC(void *object);
 extern void func_80406368(void);
 extern void func_80405A64(void);
 extern void func_80405FC4(void);

@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_800478B8(void *arg0);
+extern void func_800478B8(void *object);
 extern s16 D_80025924[5];
 
 /* Advance position and object state, then flag completion on timeout or object status. */

@@ -20,7 +20,7 @@ typedef struct S_800ABB20_1 {
 } S_800ABB20_1;   /* arg0 in func_800ABB20; pointer addresses record offset 0x2 */
 
 
-extern void func_800478B8(void *arg0);
+extern void func_800478B8(void *primitive);
 
 /* Update effect motion, fade its brightness, and mark it expired when its timer ends. */
 void func_800ABB20(void *effect_record, S_800ABB20_0 *motion, Rec_D_80082E80 *primitive) {

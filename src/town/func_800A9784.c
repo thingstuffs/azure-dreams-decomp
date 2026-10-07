@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_800A6F48(void *arg0, void *arg1);
+extern void func_800A6F48(void *first_ptr, void *second_ptr);
 
 // Increase the step by four and accumulate up to 0x400, then trigger the completion handler.
 void func_800A6EE4(void *updateState, s32 unused1, s32 unused2, void *accumulatorState) {

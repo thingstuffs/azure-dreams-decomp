@@ -1,7 +1,7 @@
 #include "shared/object_flags.h"
 #include "common.h"
 
-extern void func_80033D08(void *arg0);
+extern void func_80033D08(void *object);
 // Fade the primitive to black, then finalize the object and set completion flags.
 void func_8009C5D8(void *object, void *unusedContext, u8 *primitive)
 {

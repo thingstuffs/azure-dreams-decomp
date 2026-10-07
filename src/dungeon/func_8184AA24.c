@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_800478B8(void *arg0);
+extern void func_800478B8(void *target);
 
 /* Increment the linked object's counter, process the target, and propagate its status flags. */
 void func_80024224(void *entry, s32 unused, void *target) {

@@ -73,20 +73,9 @@ void func_80042710(S_80042710 *dst_record, S_80042710 *src_record)
     dst_record->f04 = src_record->f04;
     dst_record->f05 = src_record->f05;
     dst_record->f06 = src_record->f06;
-    index = 2;
-    {
-        u8 *src_slot1 = (u8 *)src_record + 6;
-        u8 *dst_slot1 = (u8 *)dst_record + 6;
-loop_0:
-        {
-            dst_slot1[8] = src_slot1[8];
-            dst_slot1[10] = src_slot1[10];
-            src_slot1 -= 3;
-            dst_slot1 -= 3;
-            index--;
-        }
-        if (index >= 0)
-            goto loop_0;
+    for (index = 2; index >= 0; index--) {
+        dst_record->slots1[index].a = src_record->slots1[index].a;
+        dst_record->slots1[index].c = src_record->slots1[index].c;
     }
     dst_record->f11 = src_record->f11;
     dst_record->f12 = src_record->f12;

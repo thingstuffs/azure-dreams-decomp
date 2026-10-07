@@ -45,7 +45,7 @@ typedef struct S_800C035C_3 {
     u8 pad_0C[0x4];
     s32 unk_10;
     u8 pad_14[0xB4];
-    union { s16 s; s16 u; volatile u16 p; } unk_C8;   /* accessed as both */
+    union { s16 s; s16 u; u16 p; } unk_C8;   /* accessed as both */
 } S_800C035C_3;   /* temp_s3 in func_800C035C */
 
 typedef struct S_800C035C_4 {
@@ -239,7 +239,11 @@ void func_800C035C(void *actor, S_800C035C_1 *motion, Rec_D_80082E80 *sprite) {
         }
     }
     controls->unk_C8.s = view_angle;
-    controls->unk_C8.u = (s16) ((controls->unk_C8.p + 0x1000) & 0xFFF);
+    {
+    s32 view_mask;
+    view_mask = controls->unk_C8.p;
+    controls->unk_C8.u = (s16) ((view_mask + 0x1000) & 0xFFF);
+    }
     turn_size = abs(angle_delta);
     if (turn_size >= 0xA0) {
         if (ground_height <= (motion->unk_08.at02.v + 2)) {

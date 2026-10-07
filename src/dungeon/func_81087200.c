@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_800478B8(void *arg0);
+extern void func_800478B8(void *source);
 
 // Process the source and set destination and global flags when source status bits are set.
 void func_80174A00(void *destination, s32 unused, void *source)

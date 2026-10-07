@@ -5,7 +5,7 @@
 #define FIELD(base, type, offset) (*(type)((u8 *)(base) + (offset)))
 
 extern s32 func_8009CFE0(void *, void *);
-extern void func_80033D08(void *arg0);
+extern void func_80033D08(void *object);
 extern s32 func_800644B8(s32 angle);
 extern s32 func_80064584(s32 angle);
 

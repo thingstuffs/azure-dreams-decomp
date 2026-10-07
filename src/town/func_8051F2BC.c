@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 M2C_UNK func_800160D4(s32);                            /* extern */
-M2C_UNK func_80016104();     /* extern */
+s32 func_80016104();     /* extern */
 extern M2C_UNK D_80018E80;
 
 /* Initializes the requested entry, then processes it with the shared data and supplied value. */

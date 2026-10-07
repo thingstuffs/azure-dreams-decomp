@@ -152,9 +152,9 @@ void func_800C0404(DungeonObject *obj, MotionState *motion, EffectState *effect)
                 if (obj->handle[0x13] == 0) {
                     u8 *dungeon_state;
                     func_80091934(obj->handle, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), 0);
-                    ((u8 *)D_800E3D7C)[0x9B] = 0x11;
-                    dungeon_state = *(u8 *volatile *)((void * *)(&D_800E3D7C));
-                    *(u8 * volatile *)(((u8 *)(&D_80082E80)) + 0x2C) = D_800DD0F8;
+                    D_800E3D7C->unk_9B = 0x11;
+                    dungeon_state = (u8 *)D_800E3D7C;
+                    D_80082E80.unk_02C = (s32)D_800DD0F8;
                     func_80048A44(
                         ((u8 *)(&D_80082E80)),
                         D_800DD0F8[((s32)(gameWork.view.viewAngle + *(s16 *)(dungeon_state + 0x2A)) + 0x100 >> 9) & 7],

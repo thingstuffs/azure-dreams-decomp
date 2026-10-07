@@ -12,7 +12,7 @@ typedef struct Position {
     s16 y;
 } Position;
 
-extern void town_sd_sq_callagain(s32 arg0);
+extern void town_sd_sq_callagain(s32 y_distance);
 extern s32 func_800C2124(void);
 
 

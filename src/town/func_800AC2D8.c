@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 get_item_sell_money(void *arg0);
+extern s32 get_item_sell_money(void *entry);
 extern s8 D_800D1074[];
 extern s32 D_800D1080[];
 

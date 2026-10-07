@@ -34,7 +34,7 @@ typedef struct S_80975170_2 {
 } S_80975170_2;   /* src in func_80975170 */
 
 
-extern void func_800478B8(void *arg0);
+extern void func_800478B8(void *render_state);
 
 
 /* Copy the source transform, advance and fade the effect, and flag completion when its timer expires. */
