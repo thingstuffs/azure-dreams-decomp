@@ -2,7 +2,6 @@
 #include "shared/dungeon_floor.h"
 #include "shared/object_flags.h"
 
-extern u32 D_800E296C_reload[] __asm__("D_800E296C");
 
 /* Advance the timed ramp to 255 and update completion and shutdown flags. */
 void func_800A6194(void *ramp) {
@@ -20,9 +19,9 @@ void func_800A6194(void *ramp) {
         *(u16 *)((s8 *)ramp + 8) = 0;
         D_800E296C = initial_flags | 0x02000000;
     }
-    current_flags = D_800E296C_reload[0];
+    current_flags = (u32) D_800E296C;
     if (!(current_flags & 0x01000000)) {
-        D_800E296C_reload[0] = current_flags & 0xFDFFFFFF;
+        D_800E296C = current_flags & 0xFDFFFFFF;
         *(s16 *)((s8 *)ramp - 2) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
     }

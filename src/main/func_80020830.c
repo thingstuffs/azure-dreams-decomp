@@ -15,7 +15,6 @@ void func_80020830(s32 slot_addr, s32 slot_value) {
     if (slot_addr == 0) {
         func_8007C040(D_804007A4, D_804007CC, 0x153);
         func_8007BEF0(1);
-        slot_addr = 1;
     }
     *(s32 *)(slot_addr + 0x44) = slot_value;
     func_80407160(slot_state_addr);

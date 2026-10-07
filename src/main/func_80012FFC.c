@@ -14,7 +14,7 @@ extern MainDescriptor D_800200B8;
 extern MainRecord D_80027E78[];
 
 extern void func_8006733C(MainDescriptor *descriptor, void *entry);
-extern void func_80067014(s32 arg0);
+extern void func_80067014(s32 sync_mode);
 
 /* Copy the selected record into the destination and process three descriptor entries. */
 void func_80025FFC(void *dest, s32 record_index)

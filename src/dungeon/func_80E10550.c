@@ -3,10 +3,10 @@
 #include "records/Rec_func_800AB538_arg0.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 func_800AB538(record);                            /* extern */
+s32 func_800AB538(void *, void *, void *, void *);                            /* extern */
 
 /* Calls func_800AB538 on the record, then clears unk_A6. */
-void func_80173D50(Rec_func_800AB538_arg0 *record) {
-    func_800AB538(record);
+void func_80173D50(Rec_func_800AB538_arg0 *record, void *motion, void *scale, void *render) {
+    func_800AB538(record, motion, scale, render);
     record->unk_A6 = 0;
 }

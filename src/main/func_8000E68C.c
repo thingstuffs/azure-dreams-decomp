@@ -6,8 +6,6 @@ s32 func_80021594();
 s32 func_8002190C();
 extern M2C_UNK D_80028530[];
 extern M2C_UNK D_80028538[];
-extern M2C_UNK D_80028538_read[] __asm__("D_80028538");
-extern M2C_UNK D_80028538_write[] __asm__("D_80028538");
 extern M2C_UNK D_800287D0[];
 extern M2C_UNK D_80084118[];
 
@@ -21,17 +19,15 @@ s32 func_8002168C(void) {
 
     state = func_80021594();
     slot = func_8002190C();
-    if (state == 0) {
-        goto done;
-    }
-    if (*(s32 *)((s8 *)&D_80028538_read + slot * 4) == state) {
+    if (state != 0) {
+    if (*(s32 *)((s8 *)&D_80028538 + slot * 4) == state) {
         *(s32 *)((s8 *)&D_80028530 + slot * 4) += 1;
         slot_offset = slot * 4;
     } else {
         *(s32 *)((s8 *)&D_80028530 + slot * 4) = 0;
         slot_offset = slot * 4;
     }
-    *(s32 *)((s8 *)&D_80028538_write + slot * 4) = state;
+    *(s32 *)((s8 *)&D_80028538 + slot * 4) = state;
     switch (state) {
     case 1:
     case 2:
@@ -58,6 +54,6 @@ check_count:
         return state;
     }
     func_80020924(slot, (s32 *)slot_offset);
-done:
+    }
     return state;
 }

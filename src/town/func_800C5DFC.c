@@ -1,7 +1,7 @@
 #include "common.h"
 
 
-extern s32 func_800C30E0(void *object, void *request_data, void *request_param);
+extern s32 func_800C30E0(void *object, s32 request_data, s32 request_param, s32 check_param);
 extern s16 func_800C2B38(void *object, s32 step_x, s32 step_y);
 extern void func_800C37C4(void *object, void *unusedArg, void *initializationArg);
 extern int abs(int);
@@ -41,7 +41,7 @@ typedef struct S_800C355C_1 {
 } S_800C355C_1;   /* arg0 in func_800C355C */
 
 /* Advance motion, clamp at the facing boundary, and update directional speed. */
-void func_800C355C(S_800C355C_1 *entity, void *motion, void *context)
+void func_800C355C(S_800C355C_1 *entity, void *motion, void *context, s32 check_param)
 {
     s32 pos_x;
     s32 step_y;
@@ -51,7 +51,7 @@ void func_800C355C(S_800C355C_1 *entity, void *motion, void *context)
     s32 max_speed;
     s32 *motion_words;
 
-    if (func_800C30E0(entity, motion, context) != 0) {
+    if (func_800C30E0(entity, (s32)motion, (s32)context, check_param) != 0) {
         return;
     }
 

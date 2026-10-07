@@ -1,10 +1,10 @@
 #include "common.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_handler.h"
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-void func_80094984(void *, void *, void *);
 extern u8 D_80093458[];
 extern M2C_UNK D_800D00A0;
 
@@ -21,7 +21,7 @@ void func_800947CC(Rec_func_80094268_arg0 *object, S_800947CC_1 *settings, void 
     u16 secondSetting;
     M2C_UNK *handler;
 
-    func_80094984(&D_800D00A0, object, ptr2);
+    func_80094984((s32 *) &D_800D00A0, object, ptr2);
     object->unk_30 = (u16) settings->unk_02;
     handler = (M2C_UNK *) D_80093458;
     secondSetting = settings->unk_06;

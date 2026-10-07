@@ -16,7 +16,7 @@ typedef struct S_func_804061C4_1 {
 
 extern s32 func_804022C8(s32 slot_index);
 extern void func_804033C4(void *object);
-extern void func_80404688(s32 arg0);
+extern void func_80404688(s32 entry_object);
 extern void func_80406368(void);
 extern void func_80405A64(void);
 

@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-07T11:16:47Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-07T11:39:57Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -76,24 +76,24 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 |---|---:|---:|---:|---:|---:|---:|
 | m2c boilerplate block | 2332 | 515,120 | 20.1% | 0 | 0 | 0.0% |
 | M2C_FIELD raw offsets | 2950 | 1,456,876 | 57.0% | 0 | 0 | 0.0% |
-| m2c local names | 5182 | 2,172,184 | 84.9% | 41 | 51,588 | 2.0% |
+| m2c local names | 5182 | 2,172,184 | 84.9% | 21 | 36,012 | 1.4% |
 | ASM_ pins | 2135 | 1,464,820 | 57.3% | 52 | 65,808 | 2.6% |
-| goto | 1545 | 1,318,468 | 51.5% | 272 | 315,832 | 12.3% |
+| goto | 1545 | 1,318,468 | 51.5% | 268 | 307,356 | 12.0% |
 | computed-goto jump table | 317 | 437,344 | 17.1% | 4 | 7,008 | 0.3% |
-| inline asm outside macros | 361 | 255,656 | 10.0% | 161 | 154,320 | 6.0% |
+| inline asm outside macros | 361 | 255,656 | 10.0% | 140 | 127,708 | 5.0% |
 | fidelity blocking site (LABEL_AS_CALL/PASSTHRU_NO_ARGS) | 1489 | 680,132 | 26.6% | 308 | 157,064 | 6.1% |
 | any fidelity site | 2654 | 1,286,092 | 50.3% | 1777 | 959,932 | 37.5% |
-| noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 751 | 560,528 | 21.9% | 8 | 3,332 | 0.1% |
+| noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 751 | 560,528 | 21.9% | 5 | 1,620 | 0.1% |
 | maspsx marker pins (scaffolding) | 393 | 351,556 | 13.7% | 1 | 1,176 | 0.0% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 9 | 12,392 | 0.5% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
 | local address-named struct | 633 | 346,988 | 13.6% | 2929 | 1,519,480 | 59.4% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 6405 | 2,161,296 | 84.5% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 6427 | 2,183,516 | 85.4% |
 
 Pin sites now: 97 in 52 rows; REG 51, KEEP 15, KEEP_NV 13, SCHED_BARRIER 5, USE 3, MEM_BARRIER 2, USE_NV 2, USE2 1.  At the pin: 25,755; REG 12,776, KEEP 6,852, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
 Tracked, not pins (owner 2026-10-06): oddities 1 (ledger/oddities.jsonl - zero-byte fences retail needs, curiosities, not removal targets: dungeon/func_8196096C); one-trip barrier rows 2 (ledger/onetrip_barrier_rows.jsonl); load-bearing one-trip rows 85 (ledger/onetrip_loadbearing.jsonl, statement-macro bodies, not counted in the do{}while(0) row above).
-Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 0, calls of local asm wrappers 0, hand-written asm in function bodies 0 (C that is missing); symbol aliases 74 (a second typed name for one symbol: a missing type); file-scope asm directives 186; file-scope global register variables 4 (`register T g asm("$R")`).
+Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 0, calls of local asm wrappers 0, hand-written asm in function bodies 0 (C that is missing); symbol aliases 34 (a second typed name for one symbol: a missing type); file-scope asm directives 186; file-scope global register variables 4 (`register T g asm("$R")`).
 
 Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 105 rows carry one flag, 4 carry two or more.
 
@@ -120,7 +120,7 @@ Most-pinned rows off their build recipe: dungeon/func_80DE48EC 5 pins (2.8.0-G0 
 
 Site-for-pin trades (`ledger/recipe_trades.jsonl` records shaped `{"kind":"site_for_pin","id":row,"site":"LABEL_AS_CALL|ITC|PASSTHRU","pin":macro,"residue_without_pin":str,"at":iso,"note":str}` -- one pin, or two when one is not enough (owner ruling 2026-09-22 afternoon, "accept 2 pins") -- charter rule 3, "a pin moved elsewhere is not a removal"; the trade is tracked, and L4 is where pins stop counting toward removal regardless): 27.
 
-Dead-initializer trades (`ledger/recipe_trades.jsonl` records shaped `{"kind":"dead_init","id":row,"site":pins,"init":decl,"lane":lane,"at":iso,"note":str}` -- a never-read `= 0` at a declaration makes the variable multi-set; ordinary C by the owner ruling 2026-09-23, tracked as a spelling trade, informational, the pin count is unchanged; appended by tools/apply_candidates.py at landing): 23.
+Dead-initializer trades (`ledger/recipe_trades.jsonl` records shaped `{"kind":"dead_init","id":row,"site":pins,"init":decl,"lane":lane,"at":iso,"note":str}` -- a never-read `= 0` at a declaration makes the variable multi-set; ordinary C by the owner ruling 2026-09-23, tracked as a spelling trade, informational, the pin count is unchanged; appended by tools/apply_candidates.py at landing): 24.
 
 Void callees (`config/void_callees.txt`, tiers read from its section-header comments -- no per-line marker exists): tier A 30, tier B 1 symbols (matches `census.declared_void_callees()`). Rows whose PASSTHRU_NO_ARGS exemption rests on a tier-B symbol alone (blocked again if tier B were dropped, tier-A/in-tree exemptions do not cover them): 11 rows, 11,864 B.
 
@@ -135,9 +135,9 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 | L4 | 0 | 0.0% |
 | L5 | 0 | 0.0% |
 
-On shared record headers (T7, `include/records/`): 781 rows, 465,968 bytes (18.2%); records used: 99.
+On shared record headers (T7, `include/records/`): 782 rows, 466,576 bytes (18.2%); records used: 99.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 52 rows (65,808 B), tail_jump 8 rows (3,332 B), not_in_module 6,745 rows (2,555,072 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 52 rows (65,808 B), tail_jump 7 rows (2,004 B), not_in_module 6,745 rows (2,555,072 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "shared/town_handler.h"
 
 typedef struct {
     s32 unk0;
@@ -10,7 +11,6 @@ typedef struct {
     s16 unk10;
 } Entity;
 
-void func_80094984(void *, void *, void *);
 
 extern u8 D_800D0190[];
 extern u8 D_800D0088[];
@@ -26,19 +26,19 @@ void func_8009AE88(Entity *entity, void *ptr, void *ptr2) {
 
     if (((u32)state->unk_010) & 0x40) {
         entity->unkA = 4;
-        func_80094984(D_800D0190, entity, ptr2);
+        func_80094984((s32 *) D_800D0190, (Rec_func_80094268_arg0 *) entity, ptr2);
         entity->unk4 = D_8009B0EC;
     } else if ((((u32)state->unk_010) & 0x1000) && ((adjustment = D_800D0620) >= 0)) {
         D_800D0620 = adjustment - 1;
         entity->unk10 = 0x800;
         entity->unkA = 4;
-        func_80094984(D_800D0088, entity, ptr2);
+        func_80094984((s32 *) D_800D0088, (Rec_func_80094268_arg0 *) entity, ptr2);
         entity->unk4 = D_8009B014;
     } else if ((((u32)state->unk_010) & 0x4000) && ((adjustment = D_800D0620) <= 0)) {
         D_800D0620 = adjustment + 1;
         entity->unk10 = 0;
         entity->unkA = 4;
-        func_80094984(D_800D0088, entity, ptr2);
+        func_80094984((s32 *) D_800D0088, (Rec_func_80094268_arg0 *) entity, ptr2);
         entity->unk4 = D_8009B014;
     }
 }

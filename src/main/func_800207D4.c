@@ -15,7 +15,6 @@ void func_800207D4(s32 card_slot) {
     if (card_slot == 0) {
         func_8007C040(D_804007A4, D_804007CC, 0x14B);
         func_8007BEF0(1);
-        card_slot = 1;
     }
     slot_flags = *(u16 *)(card_slot + 0x1E);
     global_flags = D_8008DAB4;

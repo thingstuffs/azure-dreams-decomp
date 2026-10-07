@@ -104,9 +104,7 @@ extern s16 func_8009A180(void *, void *);
 extern s16 func_800BCB04(s32, s32, s16);
 
 extern s16 D_8006CD00[];
-extern u8 D_80082E80_initial[] __asm__("D_80082E80");
-extern u8 D_80082E80_fallback[] __asm__("D_80082E80");
-extern u8 D_80082E80_check[] __asm__("D_80082E80");
+
 
 /* Selects a movement direction and updates the actor's position and movement state. */
 void func_80171C34(void *move_data, void *context, void *position_data, void *actor_data)
@@ -174,7 +172,7 @@ void func_80171C34(void *move_data, void *context, void *position_data, void *ac
                 s32 target_y;
                 u8 *turn_data;
                 {
-                    u8 *target_position = D_80082E80_initial;
+                    u8 *target_position = ((u8 *)&D_80082E80);
                     s32 target_facing = ((u16)D_800814A8->facing);
                     s32 offset_index =
                         ((((S_80171C34_1 *)actor_data)->unk_45 + ((s16)target_facing >> 9)) & 7) << 1;

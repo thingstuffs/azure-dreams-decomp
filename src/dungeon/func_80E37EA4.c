@@ -104,9 +104,7 @@ extern s16 func_8009A180(void *, void *);
 extern s16 func_800BCB04(s32, s32, s16);
 
 extern s16 D_8006CD00[];
-extern u8 D_80082E80_initial[] __asm__("D_80082E80");
-extern u8 D_80082E80_fallback[] __asm__("D_80082E80");
-extern u8 D_80082E80_check[] __asm__("D_80082E80");
+
 
 /* Selects and applies an actor movement step, updating its path and remaining movement. */
 void func_801716A4(void *move_data_in, void *context, void *tile_in, void *actor_in)
@@ -173,7 +171,7 @@ void func_801716A4(void *move_data_in, void *context, void *tile_in, void *actor
                 s32 target_y;
                 u8 *turn_data;
                 {
-                    u8 *origin = D_80082E80_initial;
+                    u8 *origin = ((u8 *)&D_80082E80);
                     s32 direction = ((u16)D_800814A8->facing);
                     s32 table_index =
                         ((((S_801716A4_1 *)actor_in)->unk_45 + ((s16)direction >> 9)) & 7) << 1;

@@ -15,12 +15,12 @@ typedef struct S_8008896C_0 {
 typedef struct S_8008896C_1 {
     u8 pad_00[0x6];
     u16 unk_06;
-} S_8008896C_1;   /* arg1 in func_8008896C */
+} S_8008896C_1;   /* scroll_data in func_8008896C */
 
 typedef struct S_8008896C_2_pre {
     u8 * unk_00;
     u8 pad_04[0x4];
-} S_8008896C_2_pre;   /* the 0x8 bytes before arg0 in func_8008896C, addressed as arg0[-1] */
+} S_8008896C_2_pre;   /* the 0x8 bytes before entry_data in func_8008896C, addressed as entry_data[-1] */
 
 typedef struct S_8008896C_3 {
     u8 pad_00[0x8];
@@ -56,11 +56,11 @@ typedef struct MainState {
 } MainState;
 
 
-extern s32 func_80066460(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-extern s16 func_8006649C(s32 arg0, s32 arg1);
-extern void func_80066668(void *arg0, s32 arg1);
-extern void func_80066758(void *arg0);
-extern void func_80067F20(void *arg0, s32 arg1, s32 arg2, u16 arg3, s32 arg4);
+extern s32 func_80066460(s32 texture_depth, s32 blend_mode, s32 texture_x, s32 texture_y);
+extern s16 func_8006649C(s32 clut_x, s32 clut_y);
+extern void func_80066668(void *primitive, s32 raw_texture);
+extern void func_80066758(void *sprite);
+extern void func_80067F20(void *draw_mode, s32 draw_in_display_area, s32 dither, u16 texture_page, s32 texture_window);
 
 /* Queue a 2x2 grid of textured sprites for each linked entry. */
 s32 func_8008896C(u8 *entry_data, u8 *scroll_data)

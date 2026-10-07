@@ -104,9 +104,7 @@ extern s16 func_8009A180(void *, void *);
 extern s16 func_800BCB04(s32, s32, s16);
 
 extern s16 D_8006CD00[];
-extern u8 D_80082E80_initial[] __asm__("D_80082E80");
-extern u8 D_80082E80_fallback[] __asm__("D_80082E80");
-extern u8 D_80082E80_check[] __asm__("D_80082E80");
+
 
 /* Updates an actor's movement path, trying alternate directions around obstacles. */
 void func_8017163C(void *move_ctx_in, void *action_ctx, void *position_in, void *actor_in)
@@ -173,7 +171,7 @@ void func_8017163C(void *move_ctx_in, void *action_ctx, void *position_in, void 
                 s32 target_y;
                 u8 *move_flags;
                 {
-                    u8 *target_position = D_80082E80_initial;
+                    u8 *target_position = ((u8 *)&D_80082E80);
                     s32 target_heading = ((u16)D_800814A8->facing);
                     s32 table_index =
                         ((((S_8017163C_1 *)actor_in)->unk_45 + ((s16)target_heading >> 9)) & 7) << 1;

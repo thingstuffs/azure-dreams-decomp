@@ -3,8 +3,8 @@
 
 s32 func_800007E8();                             /* extern */
 M2C_UNK func_80000858();                /* extern */
-void func_800009FC(void) __attribute__((noreturn));  /* extern */
-void func_80000A24(void) __attribute__((noreturn));  /* extern */
+void func_800009FC(void);  /* extern */
+void func_80000A24(void);  /* extern */
 M2C_UNK func_80000A38();                            /* extern */
 M2C_UNK func_80000BC8();                         /* extern */
 M2C_UNK func_80000C18();                         /* extern */

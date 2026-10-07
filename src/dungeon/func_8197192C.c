@@ -190,7 +190,6 @@ extern void *D_80024544;
 extern Data12 D_80025FD0;
 extern Data12 D_80025FDC;
 
-extern void *D_800814A8_case0[3] __asm__("D_800814A8");
 extern s16 D_80025FF4[5];
 
 extern s32 func_80053EF0(s32);
@@ -225,7 +224,7 @@ void func_8197192C(void *effect, void *owner, void *context_arg)
     context = context_arg;
     switch (state) {
     case 0:
-        player = D_800814A8_case0[0];
+        player = D_800814A8;
         ((S_8197192C_1 *)player)->unk_F4 = 0;
         ((S_8197192C_1 *)player)->unk_96 = 20;
         ((S_8197192C_2 *)((u16 *)(&D_80082E80.unk_006)))->unk_00 = 6;
@@ -351,13 +350,10 @@ void func_8197192C(void *effect, void *owner, void *context_arg)
             {
                 void *map_base = (void *)((void * *)(&D_80082E80));
                 if (func_8003DF74(((S_8197192C_5 *)map_base)->unk_08, map_base,
-                                  (u8 *)effect + 0x2E, 0) == 0) {
-                    goto after_coords;
-                }
+                                  (u8 *)effect + 0x2E, 0) != 0) {
                 if (((S_8197192C_0 *)effect)->unk_2C.u == 1) {
                     ((S_8197192C_0 *)effect)->unk_32.s = -12;
                 }
-            }
             point_index = segment << 1;
             {
                 outer_point = (u8 *)effect + ((point_index + segment) << 2);
@@ -391,8 +387,9 @@ void func_8197192C(void *effect, void *owner, void *context_arg)
                 ((S_8197192C_11 *)inner_point)->unk_50 = (s16)(((s16)((S_8197192C_0 *)effect)->unk_32.u) / 4 +
                     (world_pos->z.w.i - ((S_8197192C_0 *)effect)->unk_80.u) / 2);
             }
+                }
+            }
 
-after_coords:
             if (((S_8197192C_0 *)effect)->unk_2C.u == 4) {
                 u8 *effect_data;
                 effect_obj = func_8003FC64(0x212);
@@ -621,28 +618,25 @@ after_coords:
         u8 *status_page;
         if (((S_8197192C_0 *)effect)->unk_2C.u != 16) {
             status_page = (u8 *)0x80080000;
-            goto case_4_global_use;
-        }
+        } else {
         source_obj = ((S_8197192C_15 *)((*(void * *)&((EntityRec *)((void * *)(&D_800814A8)))->x)))->unk_60;
         if (source_obj != 0) {
             angle_table = D_800DDC40;
             angle_count = angle_table[((S_8197192C_1 *)source_obj)->unk_10.at03.v];
             source_owner = ((S_8197192C_1_pre *)source_obj)[-1].unk_00;
             angle = 0;
-            if (angle_count == 0) {
-                goto case_4_global;
+            if (angle_count != 0) {
+                angle_base = angle_table;
+                do {
+                    {
+                        func_80024F60(effect, source_owner, context, 0, 0, (s16)angle);
+                        angle -= 15;
+                    }
+                } while (-*(u8 *)((u32)((S_8197192C_1 *)source_obj)->unk_10.at03.v + (u32)angle_base) < angle);
             }
-            angle_base = angle_table;
-            do {
-                {
-                    func_80024F60(effect, source_owner, context, 0, 0, (s16)angle);
-                    angle -= 15;
-                }
-            } while (-*(u8 *)((u32)((S_8197192C_1 *)source_obj)->unk_10.at03.v + (u32)angle_base) < angle);
         }
-case_4_global:
         status_page = (u8 *)0x80080000;
-case_4_global_use:
+        }
         {
             u16 next_state = 4;
             if ((((S_8197192C_12 *)status_page)->unk_2E94 & 0x8000) == 0) {

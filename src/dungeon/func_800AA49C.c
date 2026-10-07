@@ -29,7 +29,6 @@ typedef struct Arg2_800AFBFC {
     u16 flags;
 } Arg2_800AFBFC;
 
-extern u8 D_80083160_bytes[] __asm__("D_80083160");
 typedef struct ScratchHeader_800AFBFC {
     u8 pad0[0x20];
     void *state_data;
@@ -52,7 +51,7 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
     s32 end_y;
     s16 coord;
     s16 *scratch = (s16 *)0x1F800000;
-    D_80083160_t *gw = (D_80083160_t *)D_80083160_bytes;
+    D_80083160_t *gw = (D_80083160_t *)&gameWork;
     State_80083160 *state;
     s16 start_angle;
     void *segment_data;

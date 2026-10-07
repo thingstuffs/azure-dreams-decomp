@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "shared/town_handler.h"
 
 typedef struct S_800C02C4_0 {
     void * unk_00;
@@ -22,7 +23,6 @@ typedef struct S_800C02C4_1 {
 
 
 void func_80033D08(void *);                      /* extern */
-void func_80094A38();           /* extern */
 void func_800A643C();          /* extern */
 void func_800A647C();          /* extern */
 extern char D_800A62E8[];
@@ -40,7 +40,7 @@ void func_800C02C4(void *object_data, void *unused, S_800C02C4_1 *render_data) {
     render_data->unk_1C = 0x1000;
     render_data->unk_0C = 0x808080;
     render_data->unk_2C = &D_800D0C58;
-    func_80094A38(&D_800D0C58, object_data);
+    func_80094A38((s32) &D_800D0C58, object_data, render_data);
     func_80033D08(object_data);
     func_800A647C(0x24, &D_800A62E8);
     func_800A643C(0xE4, &D_800A630C);

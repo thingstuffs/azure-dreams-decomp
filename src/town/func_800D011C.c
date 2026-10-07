@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_800C30E0(void *object, void *request_data, s32 request_param);
+extern s32 func_800C30E0(void *object, s32 request_data, s32 request_param, s32 check_param);
 extern s32 func_800644B8(s32 angle);
 extern s32 func_80064584(s32 angle);
 extern s32 *func_8008FAC0(void *box_a, void *box_b);
@@ -13,13 +13,13 @@ extern u8 D_800CFCB4[];
 #define S32_AT(p, off) (*(s32 *)((u8 *)(p) + (off)))
 
 /* Updates turning motion, applies a position adjustment, and checks the timer. */
-void func_800CD87C(void *actor, void *position, s32 update_param) {
+void func_800CD87C(void *actor, void *position, s32 update_param, s32 check_param) {
     s32 *adjustment;
     s32 axis;
     u16 angle;
     u16 timer;
 
-    if (func_800C30E0(actor, position, update_param) != 0) {
+    if (func_800C30E0(actor, (s32)position, update_param, check_param) != 0) {
         return;
     }
 

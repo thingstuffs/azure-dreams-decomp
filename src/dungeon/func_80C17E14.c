@@ -44,19 +44,12 @@ typedef struct S_func_80C17E14_3 {
     u16 unk_6A;
 } S_func_80C17E14_3;
 
-typedef struct S_func_80C17E14_4 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_func_80C17E14_4;
-
-typedef s32 M2C_UNK;
-
 void func_8009A028();
 void func_8009A3D0();
 void func_800A2FE0();
 s32 func_800A32A4();
 s32 func_800A56E0();
-void func_800ACF88();
+extern void func_800ACF88(void *);
 
 
 /* Advances an entity removal animation, fading its sprite before cleanup. */

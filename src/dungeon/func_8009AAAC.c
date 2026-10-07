@@ -1,5 +1,5 @@
 #include "common.h"
-extern void itm_mon_koyaw_set(void *);
+extern void itm_mon_koyaw_set(u8 *, s8 *);
 extern u8 D_800DD83C[];
 extern u8 D_800DD840[];
 extern u8 D_800DD844[];
@@ -8,7 +8,7 @@ extern u8 D_800DD84C[];
 extern u8 D_800DD850[];
 
 /* Selects koyaw data from the flags and applies it unless disabled. */
-void func_800A020C(s32 flags) {
+void func_800A020C(s32 flags, s8 *dst) {
     if (!(flags & 0x10000000)) {
         void *koyaw_data;
         if (flags & 8) {
@@ -28,7 +28,7 @@ void func_800A020C(s32 flags) {
             }
         }
         if (koyaw_data != 0) {
-            itm_mon_koyaw_set(koyaw_data);
+            itm_mon_koyaw_set(koyaw_data, dst);
         }
     }
 }

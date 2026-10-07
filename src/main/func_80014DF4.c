@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void func_80026FD4();                         /* extern */
+void func_80026FD4(s32 object_addr, s32 value);                         /* extern */
 
 typedef struct S_80027DF4_0 {
     u8 pad_00[0xC];
@@ -17,6 +17,6 @@ void func_80027DF4(s32 object_addr, s32 state_value) {
     if (object_addr != 0) {
         state = object_addr + 0x20;
         state->unk_0C = state_value;
-        func_80026FD4(state->unk_24);
+        func_80026FD4(state->unk_24, state_value);
     }
 }

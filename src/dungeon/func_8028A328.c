@@ -26,7 +26,7 @@ typedef struct S_8001D328_1 {
 
 s32 func_800A6D30(void);
 /* Choose random coordinates within a region and mark eligible tiles. */
-void func_8001D328(S_8001D328_0 *region, s32 setup_arg1, s32 setup_arg2, s32 setup_arg3) {
+void func_8001D328(S_8001D328_0 *region, s32 setup_arg1) {
     s32 random_bits;
     u16 tile_flags;
     s16 count;

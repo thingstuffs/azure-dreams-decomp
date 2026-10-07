@@ -18,7 +18,7 @@ extern s32 func_800A6D30(void);
 extern u8 D_800EA000[];
 
 /* Adjust tile heights and flags where both coordinates match a random parity. */
-void func_8001CEC0(Rect *rect, s32 rng_input_1, s32 rng_input_2, s32 rng_input_3)
+void func_8001CEC0(Rect *rect, s32 rng_input_1)
 {
     MapGrid *dungeon = &gameWork.map;
     s32 parity;

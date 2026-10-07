@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern u8 D_8009DDD8[];
-extern void func_8040339C(void *task, void *arg1);
+extern void func_8040339C(void *task, void *attached_state);
 extern void func_804032FC(void *task);
 extern void func_804061C4(void);
 extern void func_80406368(void);

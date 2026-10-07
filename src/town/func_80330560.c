@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 
-extern s32 D_80016000_reload[3] __asm__("D_80016000");
 
 /* Clears the indexed flag bit unless the index is 1. */
 void func_8001AD60(s32 bit_index) {
@@ -22,7 +21,7 @@ void func_8001AD60(s32 bit_index) {
         table = *(s32 *)(value + 0x18);
         dst_word = (s32 *)(word_index * 4 + table);
 
-        src_word = (s32 *)(*(s32 *)(D_80016000_reload[0] + 0x18) + word_index * 4);
+        src_word = (s32 *)(*(s32 *)((s32)D_80016000 + 0x18) + word_index * 4);
 
         value = bit_index;
         clear_mask = ~(1 << (bit_index % 32));

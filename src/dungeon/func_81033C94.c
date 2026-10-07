@@ -28,7 +28,7 @@ typedef struct {
     u16 angle_copy;
     s16 angle_index;
     u8 pad1e[0xa];
-    void *arg28;
+    void *owner;
     s32 field2c;
     void *field30;
     u8 pad34[0x18];
@@ -110,7 +110,7 @@ void func_80175494(Arg0Object *owner, Arg1Object *height_source, Arg2Object *ori
     allocated = func_8003FC64(0x212);
     if (allocated != 0) {
         block = (BlockObject *)((u8 *)allocated + 0x20);
-        block->arg28 = owner;
+        block->owner = owner;
         block->field30 = 0;
         block->field2c = 0;
         allocated->resource10 = D_80174AA4;

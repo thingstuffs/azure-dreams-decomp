@@ -42,7 +42,7 @@ extern void func_8009A3D0(u8, u8, s32);
 extern void func_800A2FE0(Object *);
 extern void func_800A32A4(Object *);
 extern void func_800A56E0(s32);
-extern void func_800ACF88(Object *);
+extern void func_800ACF88(void *);
 
 extern u8 D_80175AA4[];
 

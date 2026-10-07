@@ -237,12 +237,12 @@ struct Source_827C *func_8004827C(struct Source_827C *source, short entry_id) {
 /* --- v6 (maspsx LEAD 2 %lo-fold) --- */
 
 extern struct { short a, b; } D_80013564[];
-extern int func_8004A6C0(void);
+extern int func_8004A6C0(int first_value, int second_value);
 
 /* Clears both shorts of the selected D_80013564 entry when its index is below 20. */
-void func_8004A8D8(void)
+void func_8004A8D8(int first_value, int second_value)
 {
-    int index = func_8004A6C0();
+    int index = func_8004A6C0(first_value, second_value);
     if (index < 0x14) {
         D_80013564[index].a = 0;
         D_80013564[index].b = 0;

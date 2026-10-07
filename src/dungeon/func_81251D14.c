@@ -22,7 +22,7 @@ extern s32 func_800AA924(void *actor, s32 unused, void *sprite, u8 *direction_fr
 extern void func_800AAB10(void *, void *, void *, void *);
 extern void func_800AAF00(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state);
 
-extern void func_801719C0(void *);
+extern void func_801719C0(void *, s32, void *, void *);
 extern void func_80171BE0(void *, void *, void *, void *);
 extern s32 func_80172330(void *, void *, void *, s32);
 extern void func_801736B8(void *, void *, void *, void *);
@@ -86,7 +86,7 @@ void func_80171514(void *obj, void *motion, void *part, void *state)
 
     if (entry_status & 0x1000) {
         (*(u8 *)((u8 *)obj + (0x9A))) = 14;
-        func_801719C0(obj);
+        func_801719C0(obj, (s32)motion, part, state);
         return;
     }
 

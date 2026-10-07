@@ -66,8 +66,6 @@ typedef struct Scratch {
 #define result scratch.result
 #define map_flags scratch.map_flags
 
-extern void *D_800814A8_early[4] __asm__("D_800814A8");
-extern u8 D_80082E80_early[] __asm__("D_80082E80");
 
 extern s16 func_800A0818(u8, u8, s16, s16, s16 *);
 extern s32 func_8003DE58(void *, void *, void *, s32);
@@ -107,10 +105,10 @@ void func_800246BC(EffectState *state, Motion *motion, ColorPart *part)
     switch (state_id) {
     case 0:
 
-        origin = D_80082E80_early;
+        origin = ((u8 *)&D_80082E80);
         {
             void *node = PTR_AT((u8 *)owner - 0x20, 0xC);
-            s32 dir = (U16_AT(D_800814A8_early[0], 0x2A) >> 9) & 7;
+            s32 dir = (U16_AT(D_800814A8, 0x2A) >> 9) & 7;
             U16_AT(owner, 0x2A) = func_800A0818(U8_AT(node, 0x24), U8_AT(node, 0x25),
                 origin[0x24] + dirStepX[dir], origin[0x25] + dirStepY[dir], &result);
         }

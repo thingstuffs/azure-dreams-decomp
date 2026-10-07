@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/town_handler.h"
 
 void func_80048A44();
 s32 func_80095360();

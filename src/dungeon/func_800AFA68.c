@@ -116,7 +116,6 @@ typedef struct DebugEntry {
     u8 b2;
     u8 b3;
 } DebugEntry;
-extern DebugEntry D_800E3648_entries[32] __asm__("D_800E3648");
 extern u8 D_800E39C8[1024];
 
 /* Render active dungeon sprite parts and their ground shadows into the ordering table. */
@@ -475,7 +474,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void *render_params)
 
                         *((s32 *) (((s8 *) quad) + 4)) = (s32) (*((s32 *) (((s8 *) render_params) + 0xC)));
                         *((u8 *) (((s8 *) quad) + 7)) = 0x2CU;
-                        if ((D_800E296C[0] & 8) && (D_800E3648_entries[entry_index].b3 & 0x80)) {
+                        if ((D_800E296C[0] & 8) && (((DebugEntry *)D_800E3648)[entry_index].b3 & 0x80)) {
                             *((u8 *) (((s8 *) quad) + 7)) = 0x2EU;
                         }
                         func_8006658C(((u8 *) (scr->unk_020))

@@ -1,7 +1,7 @@
 #include "shared/town_event_state.h"
 #include "common.h"
 
-extern void func_8001E5F0(s32 arg0);
+extern void func_8001E5F0(s32 event_flag_id);
 
 /* Clear two state bytes and process five fixed identifiers. */
 void func_800196A4(void) {

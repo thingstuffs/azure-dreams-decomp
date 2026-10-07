@@ -29,7 +29,7 @@ typedef struct MainObj {
     SubObj *sub;
     void *callback;
     u8 pad14[0xC];
-    s32 arg0;
+    s32 source_state;
 } MainObj;
 
 extern MainObj *func_8003FC64(u32);
@@ -48,7 +48,7 @@ MainObj *func_800241F8(s32 object_value, VecObj *source_vec) {
     if (obj != 0) {
         obj->callback = D_8002417C;
         sub = obj->sub;
-        obj->arg0 = object_value;
+        obj->source_state = object_value;
         sub->b = 128;
         sub->g = 128;
         sub->r = 128;

@@ -15,12 +15,6 @@
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define PTR_AT(p, o) (*(void **)((u8 *)(p) + (o)))
 
-typedef struct {
-    u8 pad[0x24];
-    u8 x;
-    u8 y;
-} FallbackCenter;
-
 extern s32 func_80042900();
 extern s32 func_8009A180();
 extern void func_8009A21C();
@@ -42,7 +36,6 @@ extern s32 func_80172BB0();
 extern u8 D_8006CCD8[16];
 extern u8 D_8006CCE8[16];
 extern s16 D_8006CD00[];
-extern FallbackCenter D_80082E80_center[] __asm__("D_80082E80");
 
 /* Choose a movement direction, move the actor, and update its path history and height. */
 void func_801723F8(void *work_data, void *action_context, u8 *position, u8 *actor) {
@@ -150,14 +143,14 @@ void func_801723F8(void *work_data, void *action_context, u8 *position, u8 *acto
             if ((call_result << 16) <= 0) {
                 U16_AT(actor, 0x2A) = func_800A0818(
                     U8_AT(position, 0x24), U8_AT(position, 0x25),
-                    D_80082E80_center[0].x,
-                    D_80082E80_center[0].y, path_work);
+                    D_80082E80.tileX,
+                    D_80082E80.tileY, path_work);
             }
 
             work_value = func_8009FD7C(
                 U8_AT(position, 0x24), U8_AT(position, 0x25),
-                D_80082E80_center[0].x,
-                D_80082E80_center[0].y);
+                D_80082E80.tileX,
+                D_80082E80.tileY);
             attempt = 0;
             if ((work_value << 16) != 0) {
                 limit_turn = 1;

@@ -2,6 +2,7 @@
 #include "shared/object_node.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "shared/entity.h"
 
 #ifndef NULL
 #define NULL ((void *)0)
@@ -25,7 +26,7 @@ extern void func_80047784();
 extern void func_800A4ACC();
 extern void func_800A56E0();
 extern void func_800AD594();
-extern void func_800C8150();
+extern u32 func_800C8150(EntityRec *, s16, s16);
 
 extern Record10 D_80170868;
 extern Record10 D_80170874;
@@ -59,7 +60,7 @@ void func_80174260(void *state_input, void *motion_input, void *animation_input,
         if (animation_flags & 0x8000) {
             effect_data = S32_AT(actor_input, 0x60);
             if (effect_data != 0) {
-                func_800C8150(effect_data, 0x10, 0x10);
+                func_800C8150((EntityRec *)effect_data, 0x10, 0x10);
                 U8_AT(state_input, 0x9B) = 2;
             } else {
                 U8_AT(state_input, 0x9B) = 2;
@@ -114,7 +115,7 @@ void func_80174260(void *state_input, void *motion_input, void *animation_input,
         if (S16_AT(state_input, 0x96) == 0x14) {
             effect_data = S32_AT(actor_input, 0x60);
             if (effect_data != 0) {
-                func_800C8150(effect_data, 0x10, 0x10);
+                func_800C8150((EntityRec *)effect_data, 0x10, 0x10);
             }
         }
 

@@ -6,12 +6,6 @@
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800A9E70_arg0.h"
-#ifdef NON_MATCHING
-#include <stdint.h>
-typedef uintptr_t uptr;
-#else
-typedef u32 uptr;
-#endif
 
 typedef struct S_8016FCE4_0 {
     u8 pad_00[0x14];
@@ -58,10 +52,6 @@ typedef struct S_8016FCE4_4 {
 } S_8016FCE4_4;   /* heading_base in func_8016FCE4 */
 
 
-typedef struct S_8016FCE4_7 {
-    u8 pad_00[0x8];
-    u16 unk_08;
-} S_8016FCE4_7;   /* counter_base in func_8016FCE4 */
 
 typedef struct S_8016FCE4_8 {
     u8 pad_00[0x74];
@@ -83,7 +73,6 @@ void func_800A0E6C(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
 void func_800A19E4(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 s32 func_800A6D30(void);
 void func_800A9A0C(void *);
-extern void call_800A9A0C_top(void *) __asm__("func_800A9A0C");
 s16 func_800BCB04(s32 x, s32 y, s16 min_height);
 extern s16 D_8006CD00[];
 extern u8 D_80082E80_b[] __asm__("D_80082E80");
@@ -117,7 +106,7 @@ void func_8016FCE4(void *move_state, void *unused, void *position_in, void *acto
 
     limit_turns = 0;
     if ((dungeonStatus.flags & 0x4000) || (((S_8016FCE4_0 *)actor_in)->unk_71.s >= 0)) {
-        call_800A9A0C_top(actor_in);
+        func_800A9A0C(actor_in);
         return;
     }
     if (dungeonStatus.flags & 0x2000) {

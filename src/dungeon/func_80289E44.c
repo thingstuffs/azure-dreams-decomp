@@ -4,7 +4,7 @@
 
 void func_80017480();     /* extern */
 s32 func_80017BEC();                             /* extern */
-void func_8001D4AC();                 /* extern */
+void func_8001D4AC(Rec_func_8001CE44_arg0 *, s32);                 /* extern */
 void func_8001D5D8();                 /* extern */
 
 
