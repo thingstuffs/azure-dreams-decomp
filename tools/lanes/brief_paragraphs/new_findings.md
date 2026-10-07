@@ -1,3 +1,23 @@
+## NEW (round 97, 2026-10-07): what paid on rows strong models had already failed - try these first
+
+1. **Split a multi-role REG carrier ROLE BY ROLE with the pin kept** (town/func_809548E4 $2, r97_opus_a4): an
+   all-or-nothing pin becomes one distance per role. Give each role a fresh variable while the pin stays on the rest;
+   most roles are exact as plain block-locals; delete the pin once every role is exact. Keep two roles of ONE case
+   together when splitting them removes a sched1 anti dependence (88-94 split vs 0 together).
+2. **One store after an if/else-if chain** instead of a store + `goto` per arm (town/func_8095563C KEEP, r97_opus_a1):
+   with one source store jump2 has no identical pair to cross-jump, and reorg fills the arm's j slot from the target
+   thread like retail (check `dbr.py`).
+3. **Make a hoisted invariant non-invariant naturally** (dungeon/func_81989558 KEEP_NV, r97_opus_a3): compare
+   `lanekit/loopsum.py` on pinned vs erased - if the erasure HOISTS a value out of the loop, a value set twice in the
+   loop (an accessor whose parameter is updated in place) is refused by consec_sets_invariant_p.
+4. **Break a local-alloc priority tie by staging or moving** (800995D0, 809548E4 far_y, 8028BAA4): split pointer/flag
+   roles into block-locals, stage a load into a block local so its chain outranks the competitor, move an independent
+   struct store between a load and its use (sched2 restores retail's order); a two-set element address
+   (`p = &a[i]; p--; x = *p;`) escapes the birthing boost.
+5. **Copy through a variable whose last mention is this block** (800A8714 KEEP_NV): it never becomes the cse class
+   head; update the source in place to stop optimize_reg_copy_1.
+REFUSED this round: negate-then-subtract (`b = -b; y = x - b;` for `x + b`) is cancelling arithmetic (decision 25).
+
 ## NEW TODAY (2026-09-24): what round 76's lanes found - try these first
 
 1. **Set-exactly-once (25 of round 76's 43 removed pins).** An `ASM_KEEP(v)`/`ASM_REG` pin is itself a SECOND set of
