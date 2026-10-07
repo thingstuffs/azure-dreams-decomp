@@ -6,10 +6,10 @@ typedef s32 (*Func80039E1CHandler)(u32, u32, u32, u32);
 
 typedef struct Func80039E1CTable {
     u8 pad_00[0x48];
-    u32 arg0;
-    u32 arg1;
-    u32 arg2;
-    u32 arg3;
+    u32 handler_arg0;
+    u32 handler_arg1;
+    u32 handler_arg2;
+    u32 handler_arg3;
     u8 pad_58[0x2C];
     s32 result;
 } Func80039E1CTable;
@@ -36,6 +36,6 @@ void func_80039E1C(Func80039E1CReader *reader) {
     handlers = (Func80039E1CHandler *)(table_ref[0] + (table_ref[1] << 8) +
                                        (table_ref[2] << 16) + (table_ref[3] << 24));
     reader->read_ptr = read_ptr;
-    table->result = handlers[handler_index](table->arg0, table->arg1,
-                                            table->arg2, table->arg3);
+    table->result = handlers[handler_index](table->handler_arg0, table->handler_arg1,
+                                            table->handler_arg2, table->handler_arg3);
 }

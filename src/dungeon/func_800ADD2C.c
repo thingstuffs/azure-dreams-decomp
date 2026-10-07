@@ -50,18 +50,18 @@ typedef struct S_800B348C_0 {
     s32 unk_F4;
     u8 pad_F8[0xA];
     u8 unk_102;
-} S_800B348C_0;   /* arg0 in func_800B348C */
+} S_800B348C_0;   /* action_state in func_800B348C */
 
 
 typedef struct S_800B348C_4_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800B348C_4_pre;   /* the 0x14 bytes before temp_a2 in func_800B348C, addressed as temp_a2[-1] */
+} S_800B348C_4_pre;   /* the 0x14 bytes before attack_target in func_800B348C, addressed as attack_target[-1] */
 
 typedef struct S_800B348C_4 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_800B348C_4;   /* temp_a2 in func_800B348C */
+} S_800B348C_4;   /* attack_target in func_800B348C */
 
 typedef struct S_800B348C_6 {
     u8 pad_00[0x2];
@@ -73,7 +73,7 @@ typedef struct S_800B348C_6 {
 typedef struct S_800B348C_7 {
     u8 pad_00[0xC];
     s32 unk_0C;
-} S_800B348C_7;   /* ((S_800B348C_4_pre *)temp_a2)[-1].unk_00 in func_800B348C */
+} S_800B348C_7;   /* ((S_800B348C_4_pre *)attack_target)[-1].unk_00 in func_800B348C */
 
 /* Advances the attack and mixing sequence, resetting element flags at its start and finish. */
 void func_800B348C(void *action_state, void *motion, void *animation, EntityRec *actor) {
@@ -238,18 +238,18 @@ void func_800B348C(void *action_state, void *motion, void *animation, EntityRec 
         }
         if (((S_800B348C_0 *)action_state)->unk_96.s == 0) {
             if (((S_800B348C_0 *)action_state)->unk_102 == 0) {
-                s32 temp_a2;
+                s32 attack_target;
 
-                temp_a2 = func_8009C12C(actor, animation, actor->facing, 1);
-                if (temp_a2 != 0) {
-                    func_800B4194(((S_800B348C_0 *)action_state)->unk_A8, temp_a2, actor);
+                attack_target = func_8009C12C(actor, animation, actor->facing, 1);
+                if (attack_target != 0) {
+                    func_800B4194(((S_800B348C_0 *)action_state)->unk_A8, attack_target, actor);
                     ((S_800B348C_0 *)action_state)->unk_A8 = 0U;
                 } else {
-                    temp_a2 = (s32)actor->target;
-                    if (temp_a2 != NULL) {
+                    attack_target = (s32)actor->target;
+                    if (attack_target != NULL) {
                         actor->target = NULL;
-                        ((S_800B348C_4 *)temp_a2)->unk_1C = (s32) (((S_800B348C_4 *)temp_a2)->unk_1C & 0xEFFFFFFF);
-                        ((S_800B348C_7 *)(((S_800B348C_4_pre *)temp_a2)[-1].unk_00))->unk_0C = 0x808080;
+                        ((S_800B348C_4 *)attack_target)->unk_1C = (s32) (((S_800B348C_4 *)attack_target)->unk_1C & 0xEFFFFFFF);
+                        ((S_800B348C_7 *)(((S_800B348C_4_pre *)attack_target)[-1].unk_00))->unk_0C = 0x808080;
                         }
                 }
             } else {
@@ -327,10 +327,10 @@ bump_state_9b:
             ((EntityRec *)motion)->unk_0C = 0;
             func_800A2B04(motion, ((Rec_D_80082E80 *)animation)->unk_24, ((Rec_D_80082E80 *)animation)->unk_25);
             {
-                void *case10_arg2;
-                case10_arg2 = animation;
-                (*(u8 **)((u8 *)case10_arg2 + 0x2C)) = D_800DD0A0;
-                func_80048A44(case10_arg2, D_800DD0A0[((s32) (gameWork.view.viewAngle + actor->facing + 0x100)
+                void *case10_animation;
+                case10_animation = animation;
+                (*(u8 **)((u8 *)case10_animation + 0x2C)) = D_800DD0A0;
+                func_80048A44(case10_animation, D_800DD0A0[((s32) (gameWork.view.viewAngle + actor->facing + 0x100)
                     >> 9) & 7], 0, 1);
             }
             func_80099F04(actor->unk_5C);

@@ -5,6 +5,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "records/Rec_D_80083460.h"
 
 
 extern s32 func_800419EC();
@@ -14,7 +15,7 @@ extern s32 func_80048A44();
 extern s32 func_800997FC();
 extern s32 func_800A2B04();
 
-extern s32 D_80083460_count __asm__("D_80083460");
+extern Rec_D_80083460 D_80083460;
 extern u8 D_800DCFF8[];
 extern u8 D_800E0597;
 extern u8 D_800E05C3;
@@ -92,7 +93,7 @@ void func_80092E90(void *controller, EntityRec *motion, void *actor, void *entry
         motion->unk_0C = 0;
         motion->unk_10 = 0;
     }
-    count_state = &D_80083460_count;
+    count_state = &D_80083460;
     frames_left = ((S_80092E90_3 *)count_state)->unk_04.n;
     frame_count = ((S_80092E90_3 *)count_state)->unk_04.v;
     if (frames_left != 0) {

@@ -8,10 +8,10 @@ typedef struct {
     u8 pad_00[0x40];
     Func80038690Handler *handlers;
     u8 pad_44[4];
-    s32 arg0;
-    s32 arg1;
-    s32 arg2;
-    s32 arg3;
+    s32 handler_arg0;
+    s32 handler_arg1;
+    s32 handler_arg2;
+    s32 handler_arg3;
     u8 pad_58[0x2C];
     s32 callback_result;
 } Func80038690Context;
@@ -34,8 +34,8 @@ void func_80038690(Func80038690State *state) {
     Func80038690Context *context = state->context;
     s32 result;
 
-    result = context->handlers[state->table_index](context->arg0, context->arg1,
-                                                   context->arg2, context->arg3);
+    result = context->handlers[state->table_index](context->handler_arg0, context->handler_arg1,
+                                                   context->handler_arg2, context->handler_arg3);
     context->callback_result = result;
     if (result != 0) {
         state->result = result;

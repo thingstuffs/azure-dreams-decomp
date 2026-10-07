@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/town_handler.h"
 
 typedef struct {
     unsigned char pad04[0];
 } Unknown;
 
-void func_80094984(void *, void *, void *);
 extern void func_80099754(void *);
 extern signed char D_80082668;
 extern int D_80098764;
@@ -14,7 +14,7 @@ extern int D_800D01B8[];
 void func_80099468(void *object, void *initializationData, void *ptr2) {
     unsigned short secondaryValue;
 
-    func_80094984(D_800D01B8, object, ptr2);
+    func_80094984((s32 *) D_800D01B8, object, ptr2);
     D_80082668 = 0;
     *(unsigned short *)((unsigned char *)object + 0x30) =
         *(unsigned short *)((unsigned char *)initializationData + 2);

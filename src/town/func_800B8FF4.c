@@ -3,5 +3,5 @@
 /* Call the object's first virtual method. */
 void func_800B6754(void *obj)
 {
-    (*((M2C_UNK (**)()) obj))();
+    (*((s32 (**)(void *)) obj))(obj);
 }

@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_8004B248(void *arg0);
+extern void func_8004B248(void *entries);
 extern void func_80051228(void);
 
 // Set the linked object's flag, process the embedded data, and signal an update.

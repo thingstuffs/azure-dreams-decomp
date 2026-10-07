@@ -20,7 +20,8 @@ extern s32 func_80099734(void *record, u8 *out);
 extern void func_800A5720(s8 *text);
 
 /* Conditionally advances the dungeon counter and processes the input through the result chain. */
-void func_800ACF88(void *input_data, void *context) {
+void func_800ACF88(void *input_data) {
+    void *context;
     u16 *flag_page;
     void *saved_input;
     s32 initial_result;

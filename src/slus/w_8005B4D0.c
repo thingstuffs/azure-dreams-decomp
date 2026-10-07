@@ -98,7 +98,6 @@ extern s32 D_80073740[128];
 extern S_80085458 D_80085458[64];
 extern s32 D_80085F98[4];
 extern S_80086A40 D_80086A40[16];
-extern S_80086A40 D_80086A40_C[16] __asm__("D_80086A40");
 extern void func_80056DB4(s32 request_index);
 extern void func_8005E97C(s32 a0, s32 a1);
 extern s32 func_8005EB78(s32 voice_mask);
@@ -218,7 +217,7 @@ void func_8005B4D0(s32 bank_program, s32 note_pitch, s16 left_gain, s16 right_ga
                 voice_req.f0c = 0;
                 voice_req.f0e = 0;
                 voice_req.f00 = D_80073740[voice_slot];
-                voice_req.f1c = D_80086A40_C[(s16) bank_id].unk10 + sample_offset;
+                voice_req.f1c = D_80086A40[(s16) bank_id].unk10 + sample_offset;
                 adsr1 = tone->unk10;
                 voice_req.f3a = adsr1;
                 D_80085458[voice_slot].unk60 = adsr1;

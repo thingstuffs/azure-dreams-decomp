@@ -53,9 +53,7 @@ extern s32 func_80034FE4(void *);
 
 extern RuntimeState D_8006ADBC;
 extern RuntimeState D_8006ADEC;
-extern RuntimeState D_8006ADEC_read __asm__("D_8006ADEC");
 extern s16 D_8006ADE8[5];
-extern s16 D_8006ADE8_else[5] __asm__("D_8006ADE8");
 extern RuntimeCallback D_8006AE10[3];
 extern s16 D_8006AE18[5];
 extern u8 D_80080A88;
@@ -101,8 +99,8 @@ void change_map(InputRecord *input)
                                (input->field_02 << 5));
     }
 
-    pair = func_800C1034(D_8006ADEC_read.field_18,
-                         D_8006ADEC_read.field_1A);
+    pair = func_800C1034(D_8006ADEC.field_18,
+                         D_8006ADEC.field_1A);
     if (pair->field_04 == D_800D426C &&
         pair->field_06 == D_800D426E) {
         D_80080A88 = 1;
@@ -142,7 +140,7 @@ void change_map(InputRecord *input)
         if (check_result != 0) {
             D_8006ADE8[0] = 1;
         } else {
-            D_8006ADE8_else[0] = 0;
+            D_8006ADE8[0] = 0;
         }
         D_8006AE18[0] = 0;
     }

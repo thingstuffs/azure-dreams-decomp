@@ -171,7 +171,6 @@ extern u8 *D_80080A90;
 extern s32 D_80081488;
 extern u8 D_8008149C[];
 extern s8 D_800DCF5C;
-extern u8 D_800DCF5E_page[0x30A3] __asm__("D_800DCF5E");
 extern u8 D_800E3DF0[];
 extern u8 D_800E3E40[];
 extern u8 D_8014A000[];
@@ -222,21 +221,9 @@ s32 func_800A504C(s32 unused, u8 *entity)
 
     mode_page = (u8 *)0x800E0000;
     if (((S_800A504C_1 *)entity)->unk_14 & 0x4000) {
-        if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 == count) {
-            goto wait_copy;
-        }
-        if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 < 2) {
-            if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 == 0) {
-                goto load_copy;
-            }
-            return 0;
-        }
-        if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 == 2) {
-            goto spawn_copy;
-        }
-        return 0;
+        switch (((S_800A504C_2_pre *)mode_page)[-1].unk_00) {
+        case 0:
 
-load_copy:
         if (func_80053EF0(4) != 0) {
             return 0;
         }
@@ -251,17 +238,17 @@ load_copy:
         D_800E3E40[0] = 0;
         Control_CD(0xFF, D_8003E140, D_800E3E40);
         ((S_800A504C_2_pre *)mode_page)[-1].unk_00 = (s16)((u16)((S_800A504C_2_pre *)mode_page)[-1].unk_00 + 1);
-        goto done;
+        break;
 
-wait_copy:
+case 1:
         if (D_800E3E40[0] != 0) {
             func_80047E30();
             ((S_800A504C_2_pre *)mode_page)[-1].unk_00 = (s16)((u16)((S_800A504C_2_pre *)mode_page)[-1].unk_00 + 1);
-            goto done;
+            break;
         }
         return 0;
 
-spawn_copy:
+case 2:
         spawned = (u8 *)func_800A1618(((S_800A504C_1 *)entity)->unk_13, 2);
         if (spawned == NULL) {
             return 0;
@@ -335,22 +322,13 @@ spawn_copy:
         ((S_800A504C_7_pre *)D_800E0000)[-1].unk_00 = 0;
         ((S_800A504C_6 *)global_page)->unk_14A0 = update_flags_2 | 0x8000;
         return flags_result;
-    } else {
-        if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 == count) {
-            goto wait_replacement;
-        }
-        if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 < 2) {
-            if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 == 0) {
-                goto load_replacement;
-            }
+        default:
             return 0;
         }
-        if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 == 2) {
-            goto spawn_replacement;
-        }
-        return 0;
+    } else {
+        switch (((S_800A504C_2_pre *)mode_page)[-1].unk_00) {
+        case 0:
 
-load_replacement:
         load_kind = 3;
         replacement = (u8 *)func_800A1618(((S_800A504C_1 *)entity)->unk_13 - 1,
                                       load_kind);
@@ -366,9 +344,10 @@ load_replacement:
             D_800E3E40[0] = 0;
             Control_CD(0xFF, D_8003E140, D_800E3E40);
         }
-        goto increment_mode;
+        ((S_800A504C_2_pre *)mode_page)[-1].unk_00 = (s16)((u16)((S_800A504C_2_pre *)mode_page)[-1].unk_00 + 1);
+        break;
 
-wait_replacement:
+case 1:
         if (D_800E3E40[0] == 0) {
             return 0;
         }
@@ -376,11 +355,10 @@ wait_replacement:
             func_80047FF4(((S_800A504C_1 *)entity)->unk_13, D_80081488);
         }
 
-increment_mode:
         ((S_800A504C_2_pre *)mode_page)[-1].unk_00 = (s16)((u16)((S_800A504C_2_pre *)mode_page)[-1].unk_00 + 1);
-        goto done;
+        break;
 
-spawn_replacement:
+case 2:
         replacement = (u8 *)func_800A1618(((S_800A504C_1 *)entity)->unk_13, 3);
         if (replacement == NULL) {
             return 0;
@@ -440,7 +418,10 @@ spawn_replacement:
             ((S_800A504C_1 *)entity)->unk_90 = 0;
             objectFlagBlock.flags = global_flags | 0x8000;
         }
+        break;
+        default:
+            return 0;
+        }
     }
-done:
     return 0;
 }

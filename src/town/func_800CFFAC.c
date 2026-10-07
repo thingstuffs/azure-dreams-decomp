@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_800C30E0(void *object, void *request_data, s32 request_param);
+extern s32 func_800C30E0(void *object, s32 request_data, s32 request_param, s32 check_param);
 extern s32 func_800644B8(s32 angle);
 extern s32 func_80064584(s32 angle);
 extern s32 *func_8008FAC0(void *box_a, void *box_b);
@@ -13,13 +13,13 @@ extern u8 D_800CFCB4[];
 #define S32_AT(p, off) (*(s32 *)((u8 *)(p) + (off)))
 
 /* Update the object's orbit, apply a movement offset, and advance its timed state. */
-void func_800CD70C(void *object, void *position, s32 update_arg) {
+void func_800CD70C(void *object, void *position, s32 update_arg, s32 check_param) {
     s32 *motion_entry;
     s32 axis;
     u16 angle;
     u16 timer;
 
-    if (func_800C30E0(object, position, update_arg) != 0) {
+    if (func_800C30E0(object, (s32)position, update_arg, check_param) != 0) {
         return;
     }
 

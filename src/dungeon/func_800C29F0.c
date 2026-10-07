@@ -25,8 +25,9 @@ extern u8 D_800E18F5[];
 extern u8 D_800E195C[];
 
 /* Checks status flags, advances eligible actor state, or performs the requested action. */
-u32 func_800C8150(EntityRec *actor, s16 action_arg_1, s16 action_arg_2, s32 status_mask)
+u32 func_800C8150(EntityRec *actor, s16 action_arg_1, s16 action_arg_2)
 {
+    s32 status_mask;
     s32 slot;
     u8 *slot_entry;
     void *message_target;

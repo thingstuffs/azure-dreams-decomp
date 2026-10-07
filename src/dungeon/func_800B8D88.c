@@ -5,7 +5,16 @@
 extern u8 D_800E1035[];
 
 extern void func_800A6480(void *actor);
-extern s32 func_800AD6FC(void *state, s32 mode, s32 item);
+typedef struct {
+    u8 pad00[0x1C];
+    s32 unk1C;
+    u8 pad20[4];
+    u16 unk24;
+    u8 pad26[0x40];
+    u8 unk66;
+} DungeonState;
+
+extern s32 func_800AD6FC(DungeonState *state, s32 mode, u8 *item);
 extern void func_800A5F38(void *object_context, s32 target);
 extern void func_80098B38(s32 slot);
 extern void func_800997FC(void *context);

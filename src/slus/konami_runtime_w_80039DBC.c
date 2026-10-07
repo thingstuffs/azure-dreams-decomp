@@ -8,10 +8,10 @@ typedef struct Func80039DBCTable {
     u8 pad_00[0x40];
     Func80039DBCHandler *handlers;
     u32 pad_44;
-    u32 arg0;
-    u32 arg1;
-    u32 arg2;
-    u32 arg3;
+    u32 handler_arg0;
+    u32 handler_arg1;
+    u32 handler_arg2;
+    u32 handler_arg3;
     u8 pad_58[0x2C];
     s32 result;
 } Func80039DBCTable;
@@ -33,6 +33,6 @@ void func_80039DBC(Func80039DBCReader *state) {
 
     cursor++;
     state->read_ptr = cursor;
-    result = handlers[index](table->arg0, table->arg1, table->arg2, table->arg3);
+    result = handlers[index](table->handler_arg0, table->handler_arg1, table->handler_arg2, table->handler_arg3);
     table->result = result;
 }

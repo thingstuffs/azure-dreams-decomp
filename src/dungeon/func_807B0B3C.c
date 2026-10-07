@@ -18,7 +18,7 @@ typedef struct S_807B0B3C_1 {
     u16 unk_04;
     s16 unk_06;
     union { u16 u16; u8 u8; } unk_08;   /* accessed as both */
-} S_807B0B3C_1;   /* arg0 in func_807B0B3C */
+} S_807B0B3C_1;   /* effect in func_807B0B3C */
 
 typedef struct S_807B0B3C_2 {
     u16 unk_00;
@@ -134,7 +134,7 @@ extern s16 func_80066460(s32, s32, s32, s32);
 extern s16 func_8006649C(s32, s32);
 extern void func_80066640(void *, s32);
 extern void func_80066708(void *);
-extern void func_8006671C(u8 *arg0);
+extern void func_8006671C(u8 *primitive);
 extern void func_80067F20(void *, s32, s32, s32, s32);
 extern u8 D_80083150[];
 

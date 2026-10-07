@@ -177,7 +177,7 @@ extern s32 D_80073734_late[4] __asm__("D_80073734");  /* second view: retail hoi
 extern Req D_80084918;
 extern s16 D_80084930[];
 
-extern void func_80056DB4(s32 arg0);
+extern void func_80056DB4(s32 request_index);
 extern void func_8005E97C(s32 mode, s32 mask);
 extern s32 func_8005EB78(s32 mask);
 extern void func_80055E74(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);

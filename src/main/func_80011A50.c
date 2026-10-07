@@ -12,7 +12,7 @@ extern void func_80024818(S_80011A50 *context);
 extern void func_800249B4(S_80011A50 *context);
 
 /* Dispatch to a handler based on the object's table entry and state. */
-void func_80024A50(S_80011A50 *object, s32 handler_arg1, s32 handler_arg2, s32 handler_arg3)
+void func_80024A50(S_80011A50 *object)
 {
     u8 *entry_table;
     register s32 state;

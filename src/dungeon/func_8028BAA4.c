@@ -11,7 +11,7 @@ extern s16 D_8001F6F8[];
 extern u8 D_80073414[];
 
 /* Selects a random item by category thresholds and eligible item weights. */
-s32 func_8001EAA4(s8 *category_out, s8 *item_out, s32 unused2, s32 unused3) {
+s32 func_8001EAA4(s8 *category_out, s8 *item_out) {
     s32 category_index;
     s32 selected_category;
     s32 rarity;

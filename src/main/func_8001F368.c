@@ -10,20 +10,20 @@ typedef struct S_80406368_0 {
     u8 pad_34[0x10];
     s32 unk_44;
     s32 unk_48;
-} S_80406368_0;   /* arg0 in func_80406368 */
+} S_80406368_0;   /* menu in func_80406368 */
 
 
 extern s32 D_801379A8;
 extern s32 D_801379B0;
 
-extern void func_80063FF8(s32 arg0);
-extern s32  func_80058FF0(s32 arg0, s32 arg1, s32 arg2);
+extern void func_80063FF8(s32 sound_code);
+extern s32  func_80058FF0(s32 selection_index, s32 direction, s32 selection_count);
 extern s32  func_804016D0(void);
 extern void func_804018FC(void);
-extern void func_80405AE8(void *arg0);
-extern void func_804062F4(void *arg0);
-extern void func_80406358(void *arg0);
-extern void func_80406720(void *arg0);
+extern void func_80405AE8(void *menu);
+extern void func_804062F4(void *menu);
+extern void func_80406358(void *menu);
+extern void func_80406720(void *object);
 extern void func_804083FC(s32 arg0, s32 arg1);
 
 /* Handles menu navigation, button actions, and display refreshes. */

@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_8007C9C8(s32 arg0);
+extern s32 func_8007C9C8(s32 event_handle);
 
 extern s32 D_80409270[];
 extern s32 D_80409274[];

@@ -277,7 +277,7 @@ short func_80047714(void)
 }
 
 extern void func_800477F4(void *actor);
-extern void func_80047694(void *arg0);
+extern void func_80047694(void *entry_state);
 
 /* Run both update steps on an entity. */
 void func_800478B8(void *entity)
@@ -431,7 +431,7 @@ int func_80049280(int type)
     return type == 0x14;
 }
 
-extern int func_80049280(int arg0);
+extern int func_80049280(int type);
 
 typedef struct {
     u8 unk0;
@@ -776,7 +776,7 @@ void func_8004E99C(void *object)
     }
 }
 
-extern void func_8004B1A4(void *arg0);
+extern void func_8004B1A4(void *object);
 
 /* Update the object when its pointer is non-NULL. */
 void func_8004E9C0(void *object) {
@@ -794,7 +794,7 @@ void func_8004EB30(void) {
     D_80084130[0] = 0;
 }
 
-extern void *func_8004EDA8(void *arg0, int arg1);
+extern void *func_8004EDA8(void *owner, int task_context);
 
 /* Create an object task with mode zero. */
 void func_8004EE30(void *object)
@@ -802,14 +802,14 @@ void func_8004EE30(void *object)
     func_8004EDA8(object, 0);
 }
 
-extern void *func_8004EDA8(void *arg0, int arg1);
+extern void *func_8004EDA8(void *owner, int task_context);
 
 /* Create an object task with mode one. */
 void func_8004EE50(int object) {
     func_8004EDA8(object, 1);
 }
 
-extern void *func_8004EDA8(void *arg0, int arg1);
+extern void *func_8004EDA8(void *owner, int task_context);
 
 /* Create an object task with mode two and return it. */
 void *func_8004EE70(void *object)
@@ -883,7 +883,7 @@ typedef struct {
     s32 unk24;
 } Struct_8004FC68;
 
-extern s32 func_80021448(void *arg0);
+extern s32 func_80021448(void *embedded_record);
 
 /* Store the query result for the object's embedded record. */
 void func_8004FC68(Struct_8004FC68 *object) {
@@ -1353,7 +1353,7 @@ void func_8005C998(void) {
 void func_8005C9A0(void) {
 }
 
-extern void func_8005A5C8(s16 arg0, s16 arg1);
+extern void func_8005A5C8(s16 left_volume, s16 right_volume);
 
 /* Forward two signed halfword values to func_8005A5C8. */
 void func_8005C9A8(s16 first, s16 second) {
@@ -1392,7 +1392,7 @@ void func_8005CA4C(s32 value)
     func_8005B418((s16)value);
 }
 
-extern void func_8005CA90(int arg0);
+extern void func_8005CA90(int channel);
 
 /* Invoke func_8005CA90 with mode zero. */
 void func_8005CA70(void)

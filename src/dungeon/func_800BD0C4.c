@@ -8,12 +8,12 @@ typedef struct S_800C2824_0 {
     void * unk_00;
     s16 unk_04;
     s16 unk_06;
-} S_800C2824_0;   /* arg0 in func_800C2824 */
+} S_800C2824_0;   /* effect in func_800C2824 */
 
 typedef struct S_800C2824_1 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_800C2824_1;   /* temp_s0 in func_800C2824 */
+} S_800C2824_1;   /* object_base in func_800C2824 */
 
 typedef struct S_800C2824_2 {
     u8 pad_00[0x2];
@@ -22,7 +22,7 @@ typedef struct S_800C2824_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800C2824_2;   /* temp_v1_2 in func_800C2824 */
+} S_800C2824_2;   /* object_vertices in func_800C2824 */
 
 typedef struct S_800C2824_3 {
     u8 pad_00[0x2];
@@ -37,7 +37,7 @@ typedef struct S_800C2824_3 {
     u16 unk_12;
     u8 pad_14[0x2];
     u16 unk_16;
-} S_800C2824_3;   /* arg1 in func_800C2824 */
+} S_800C2824_3;   /* vertices in func_800C2824 */
 
 typedef struct S_800C2824_4 {
     u8 pad_00[0x8];
@@ -54,12 +54,12 @@ typedef struct S_800C2824_4 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_800C2824_4;   /* arg2 in func_800C2824 */
+} S_800C2824_4;   /* sprite in func_800C2824 */
 
 typedef struct S_800C2824_5 {
     u8 pad_00[0xA93];
     s8 unk_A93;
-} S_800C2824_5;   /* page_base + (var_a2 * 0x54) in func_800C2824 */
+} S_800C2824_5;   /* page_base + (object_slot * 0x54) in func_800C2824 */
 
 typedef struct S_800C2824_6_pre {
     void * unk_00;
@@ -80,7 +80,7 @@ typedef struct S_800C2824_7 {
 typedef struct S_800C2824_8 {
     u8 pad_00[0x88];
     s16 unk_88;
-} S_800C2824_8;   /* temp_t0 in func_800C2824 */
+} S_800C2824_8;   /* effect_object in func_800C2824 */
 
 typedef struct S_800C2824_9_pre {
     u16 unk_00;
@@ -95,7 +95,7 @@ typedef struct S_800C2824_11 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800C2824_11;   /* temp_a1_2 in func_800C2824 */
+} S_800C2824_11;   /* object_coords in func_800C2824 */
 
 typedef struct S_800C2824_12_pre {
     void * unk_00;
@@ -115,7 +115,7 @@ typedef struct S_800C2824_13 {
 
 typedef struct S_800C2824_14_pre {
     u16 unk_00;
-} S_800C2824_14_pre;   /* the 0x2 bytes before temp_v1_8 in func_800C2824, addressed as temp_v1_8[-1] */
+} S_800C2824_14_pre;   /* the 0x2 bytes before finished_object in func_800C2824, addressed as finished_object[-1] */
 
 typedef struct S_800C2824_15 {
     u8 pad_00[0x1E];
@@ -125,7 +125,7 @@ typedef struct S_800C2824_15 {
 typedef struct S_800C2824_16 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_800C2824_16;   /* ((S_800C2824_0 *)arg0)->unk_00 in func_800C2824 */
+} S_800C2824_16;   /* ((S_800C2824_0 *)effect)->unk_00 in func_800C2824 */
 
 s32 func_80042900();
 s32 func_8004491C();
@@ -149,10 +149,10 @@ extern void *D_800DF560;
 extern M2C_UNK D_800E1640;
 
 typedef struct {
-    s32 sp20;
-    s32 sp24;
-    s16 sp28;
-    s16 sp2A;
+    s32 clip_origin_xy;
+    s32 clip_extent_wh;
+    s16 screen_x;
+    s16 screen_y;
 } StackArgs;
 
 /* Advance the object effect through fading, tile cleanup, and completion. */
@@ -200,11 +200,11 @@ void func_800C2824(void *effect, void *vertices, void *sprite) {
             ((S_800C2824_0 *)effect)->unk_04 = 0x10;
             return;
         }
-        effect_args.sp20 = 0x01800340;
-        effect_args.sp24 = 0x400040;
-        effect_args.sp28 = 0x360;
-        effect_args.sp2A = 0x1B8;
-        func_800B8FC8(((S_800C2824_0 *)effect)->unk_00, &effect_args.sp20, &effect_args.sp28, 1, 2);
+        effect_args.clip_origin_xy = 0x01800340;
+        effect_args.clip_extent_wh = 0x400040;
+        effect_args.screen_x = 0x360;
+        effect_args.screen_y = 0x1B8;
+        func_800B8FC8(((S_800C2824_0 *)effect)->unk_00, &effect_args.clip_origin_xy, &effect_args.screen_x, 1, 2);
         object_base = ((S_800C2824_0 *)effect)->unk_00 - 0x20;
         func_80044A50(object_base);
         func_800BC318(object_base);

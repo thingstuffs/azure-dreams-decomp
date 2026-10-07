@@ -13,12 +13,9 @@ typedef struct Object {
 } Object;
 
 extern Object *D_8006E704[];
-extern Object *D_8006E704_remat[] __asm__("D_8006E704");
 extern s8 D_80080AF3;
 extern Object *D_80080AF4[2];
-extern Object *D_80080AF4_fresh[2] __asm__("D_80080AF4");
 extern s16 D_80080AFC;
-extern s16 D_80080AFC_fresh __asm__("D_80080AFC");
 extern s32 D_801BEE40[4];
 extern s32 D_801C4640[4];
 
@@ -85,12 +82,12 @@ s32 func_80019684(s16 object_index, s16 mode, s16 activate) {
             s16 cd_command = 6;
             reload_left = (s32)saved_object_index << 16;
             load_object->field_0 = buffer_addr;
-            reload_objects = D_8006E704_remat;
+            reload_objects = D_8006E704;
             reload_offset = reload_left >> 14;
             {
                 Object **reload_slot = (Object **)((u8 *)reload_objects + reload_offset);
                 Control_CD(cd_command, *reload_slot, 0);
-                D_80080AF4_fresh[D_80080AFC_fresh] = *reload_slot;
+                D_80080AF4[D_80080AFC] = *reload_slot;
             }
             func_8003F320();
         }

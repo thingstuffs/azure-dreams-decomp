@@ -24,9 +24,9 @@ typedef struct DungeonShape {
 
 
 extern DungeonDrawState *D_80083160[];
-extern s32 func_80065420(void *arg0, void *arg1, void *arg2, void *arg3);
-extern void func_80066640(void *arg0, s32 arg1);
-extern void func_800666F4(void *arg0);
+extern s32 func_80065420(void *world_vertex, void *screen_point, void *arg2, void *arg3);
+extern void func_80066640(void *primitive, s32 arg1);
+extern void func_800666F4(void *primitive);
 
 typedef struct DungeonTag {
     unsigned addr : 24;

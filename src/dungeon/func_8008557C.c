@@ -21,11 +21,6 @@ typedef struct S_8008ACDC_2 {
     s32 unk_10;
 } S_8008ACDC_2;   /* arg1 in func_8008ACDC */
 
-typedef struct S_8008ACDC_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_8008ACDC_3;   /* status in func_8008ACDC */
-
 typedef struct S_8008ACDC_4 {
     u8 pad_00[0x14];
     s32 unk_14;
@@ -38,11 +33,6 @@ typedef struct S_8008ACDC_4 {
     u8 pad_66[0x24];
     s16 unk_8A;
 } S_8008ACDC_4;   /* arg3 in func_8008ACDC */
-
-typedef struct S_8008ACDC_5 {
-    u8 pad_00[0x8];
-    u32 unk_08;
-} S_8008ACDC_5;   /* data in func_8008ACDC */
 
 typedef struct S_8008ACDC_6 {
     u8 unk_00;
@@ -82,7 +72,7 @@ s32 func_8008D024(); /* extern */
 s32 func_8008D1D0();  /* extern */
 void func_8008D368(); /* extern */
 void func_8008D7D0(); /* extern */
-void func_8008D94C();                      /* extern */
+void func_8008D94C(u8 *, s32, u8 *, u8 *);                      /* extern */
 void func_80090200(); /* extern */
 s16 func_8009074C();             /* extern */
 void func_80091B5C(); /* extern */
@@ -160,7 +150,7 @@ void func_8008ACDC(void *actor, void *motion, register void *sprite, void *stats
     if (action_state != 0xE) {
         if (action_state != 0x17) {
             if (((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0x100) {
-                func_8008D94C(actor);
+                func_8008D94C(actor, (s32)motion, sprite, stats);
                 return;
             }
             ((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8 = 0xEU;
@@ -202,7 +192,8 @@ void func_8008ACDC(void *actor, void *motion, register void *sprite, void *stats
             func_8008D7D0(actor, motion, sprite, stats);
             return;
         }
-        if (!(dungeonStatus.flags & 4)) {
+        switch (dungeonStatus.flags & 4) {
+        case 0:
             if (((S_8008ACDC_4 *)stats)->unk_1C & 0x20) {
                 if (!((*(u16 *)0x80013714) & 1) && (((u32)input->buttons) & 0x80)) {
                     ((S_8008ACDC_4 *)stats)->unk_8A = 2;
@@ -277,122 +268,122 @@ void func_8008ACDC(void *actor, void *motion, register void *sprite, void *stats
                     }
                     ((S_8008ACDC_4 *)stats)->unk_2A.s = next_angle;
                     func_8009F988(target_angle, signed_target);
-                    goto update_facing;
-                }
-                D_800E3544 = (u8) (((S_8008ACDC_6 *)command)->unk_01 & 0xF8);
-                switch (D_800E3544) {
-                default:
-                    return;
-                case 0x08:
-                case 0xE0:
-                case 0xE8:
-                case 0xF0:
-                case 0xF8:
-                    action_actor = actor;
-                    func_8008B9FC(action_actor, motion, sprite, stats);
-                    return;
-                case 0x10:
-                    func_8008C7B4(actor, motion, sprite, stats);
-                    return;
-                case 0x18:
-                    func_8008C8BC(actor, motion, sprite, stats);
-                    return;
-                case 0x20:
-                    func_8008C5C4(actor, motion, sprite, stats);
-                    return;
-                case 0x30:
-                    func_8008C514(actor, motion, sprite, stats);
-                    return;
-                case 0x48:
-                    if ((s16) func_80095538(actor, ((S_8008ACDC_6 *)command)->unk_00 & 0x1F,
-                        ((S_8008ACDC_6 *)command)->unk_02 & 0x1F) < 0) {
+                } else {
+                    D_800E3544 = (u8) (((S_8008ACDC_6 *)command)->unk_01 & 0xF8);
+                    switch (D_800E3544) {
+                    default:
+                        return;
+                    case 0x08:
+                    case 0xE0:
+                    case 0xE8:
+                    case 0xF0:
+                    case 0xF8:
+                        action_actor = actor;
+                        func_8008B9FC(action_actor, motion, sprite, stats);
+                        return;
+                    case 0x10:
+                        func_8008C7B4(actor, motion, sprite, stats);
+                        return;
+                    case 0x18:
+                        func_8008C8BC(actor, motion, sprite, stats);
+                        return;
+                    case 0x20:
+                        func_8008C5C4(actor, motion, sprite, stats);
+                        return;
+                    case 0x30:
+                        func_8008C514(actor, motion, sprite, stats);
+                        return;
+                    case 0x48:
+                        if ((s16) func_80095538(actor, ((S_8008ACDC_6 *)command)->unk_00 & 0x1F,
+                            ((S_8008ACDC_6 *)command)->unk_02 & 0x1F) < 0) {
+                            func_8009F988();
+                            return;
+                        }
+                        func_8009FAAC();
+                        return;
+                    case 0x50:
+                    {
+                        u8 target_cmd;
+                        s32 target_slot_addr;
+                        s32 action_kind;
+                        void *slot_target;
+
+                        target_cmd = ((S_8008ACDC_6 *)command)->unk_00;
+                        target_slot_addr = target_cmd & 0x60;
+                        command = (void *) ((u32) target_slot_addr >> 5);
+
+                        action_kind = 0x15;
+
+                        if (func_80098920(((S_8008ACDC_7 *)((((s32)command << 2) + (s32)actor)))->unk_AC,
+                            func_8009FADC(target_cmd & 0x1F, old_angle), action_kind, 0) >= 0) {
+                            return;
+                        }
+                    }
                         func_8009F988();
                         return;
-                    }
-                    func_8009FAAC();
-                    return;
-                case 0x50:
-                {
-                    u8 target_cmd;
-                    s32 target_slot_addr;
-                    s32 action_kind;
-                    void *slot_target;
-
-                    target_cmd = ((S_8008ACDC_6 *)command)->unk_00;
-                    target_slot_addr = target_cmd & 0x60;
-                    command = (void *) ((u32) target_slot_addr >> 5);
-
-                    action_kind = 0x15;
-
-                    if (func_80098920(((S_8008ACDC_7 *)((((s32)command << 2) + (s32)actor)))->unk_AC,
-                        func_8009FADC(target_cmd & 0x1F, old_angle), action_kind, 0) >= 0) {
+                    case 0x58:
+                        func_80098CF8(actor, motion, sprite, func_8009FADC(((S_8008ACDC_6 *)command)->unk_00 & 0x1F,
+                            old_angle));
+                        return;
+                    case 0x68:
+                        selected_target = func_8009FADC(((S_8008ACDC_6 *)command)->unk_00 & 0x1F, old_angle);
+                        call_actor = actor;
+                        call_motion = motion;
+                        call_sprite = sprite;
+                        angle_bits = (s32)(((S_8008ACDC_6 *)command)->unk_00);
+                        target = selected_target;
+                        angle_bits = (s32)(((u32)angle_bits) & (0x60));
+                        angle_bits = (s32)(((u32)angle_bits) >> (5));
+                        func_80094270(call_actor, call_motion, call_sprite, target, (u32)angle_bits);
+                        return;
+                    case 0x88:
+                        call_actor = actor;
+                        angle_bits = ((S_8008ACDC_6 *)command)->unk_00;
+                        angle_bits &= 0x60;
+                        angle_bits = (u32)angle_bits >> 5;
+                        call_motion = motion;
+                        slot_addr = (u32)angle_bits << 2;
+                        slot_addr = slot_addr + (s32) call_actor;
+                        target = (void *) ((S_8008ACDC_8 *)((void *) slot_addr))->unk_D0;
+                        call_sprite = sprite;
+                        func_80094270(call_actor, call_motion, call_sprite, target, (u32)angle_bits);
+                        return;
+                    case 0x70:
+                        mode_cmd = ((S_8008ACDC_6 *)command)->unk_00;
+                        func_80094548((u32) (mode_cmd & 0x60) >> 5, mode_cmd & 7);
+                        return;
+                    case 0x78:
+                        item_cmd = ((S_8008ACDC_6 *)command)->unk_00;
+                        func_8009458C((u32) (item_cmd & 0x60) >> 5, item_cmd & 0x1F);
+                        return;
+                    case 0x80:
+                        spell_cmd = ((S_8008ACDC_6 *)command)->unk_00;
+                        func_800945C4((u32) (spell_cmd & 0x60) >> 5, spell_cmd & 0x1F);
+                        return;
+                    case 0x90:
+                        order_cmd = ((S_8008ACDC_6 *)command)->unk_00;
+                        func_8009456C((u32) (order_cmd & 0x60) >> 5, order_cmd & 7);
+                        return;
+                    case 0x98:
+                        target = func_8009FADC(((S_8008ACDC_6 *)command)->unk_00 & 0x1F, old_angle);
+                        if (((S_8008ACDC_9 *)target)->unk_03 & 0x20) {
+                            func_800956B8(actor, motion, sprite, target);
+                        } else {
+                            func_80095854(actor, motion, sprite, target);
+                        }
+                        return;
+                    case 0xA0:
+                        func_8002534C(actor, motion, sprite, stats);
+                        return;
+                    case 0xC8:
+                        ((Rec_func_8008ACDC_arg0 *)actor)->unk_96.as_s16 =
+                            (s16) (((S_8008ACDC_6 *)command)->unk_00 & 0x7F);
+                        func_8008D368(actor, motion, sprite, &D_800DD148, 2);
+                        return;
+                    case 0xD8:
+                        D_800DD830[((S_8008ACDC_6 *)command)->unk_00 & 0x7F]();
                         return;
                     }
-                }
-                    func_8009F988();
-                    return;
-                case 0x58:
-                    func_80098CF8(actor, motion, sprite, func_8009FADC(((S_8008ACDC_6 *)command)->unk_00 & 0x1F,
-                        old_angle));
-                    return;
-                case 0x68:
-                    selected_target = func_8009FADC(((S_8008ACDC_6 *)command)->unk_00 & 0x1F, old_angle);
-                    call_actor = actor;
-                    call_motion = motion;
-                    call_sprite = sprite;
-                    angle_bits = (s32)(((S_8008ACDC_6 *)command)->unk_00);
-                    target = selected_target;
-                    angle_bits = (s32)(((u32)angle_bits) & (0x60));
-                    angle_bits = (s32)(((u32)angle_bits) >> (5));
-                    func_80094270(call_actor, call_motion, call_sprite, target, (u32)angle_bits);
-                    return;
-                case 0x88:
-                    call_actor = actor;
-                    angle_bits = ((S_8008ACDC_6 *)command)->unk_00;
-                    angle_bits &= 0x60;
-                    angle_bits = (u32)angle_bits >> 5;
-                    call_motion = motion;
-                    slot_addr = (u32)angle_bits << 2;
-                    slot_addr = slot_addr + (s32) call_actor;
-                    target = (void *) ((S_8008ACDC_8 *)((void *) slot_addr))->unk_D0;
-                    call_sprite = sprite;
-                    func_80094270(call_actor, call_motion, call_sprite, target, (u32)angle_bits);
-                    return;
-                case 0x70:
-                    mode_cmd = ((S_8008ACDC_6 *)command)->unk_00;
-                    func_80094548((u32) (mode_cmd & 0x60) >> 5, mode_cmd & 7);
-                    return;
-                case 0x78:
-                    item_cmd = ((S_8008ACDC_6 *)command)->unk_00;
-                    func_8009458C((u32) (item_cmd & 0x60) >> 5, item_cmd & 0x1F);
-                    return;
-                case 0x80:
-                    spell_cmd = ((S_8008ACDC_6 *)command)->unk_00;
-                    func_800945C4((u32) (spell_cmd & 0x60) >> 5, spell_cmd & 0x1F);
-                    return;
-                case 0x90:
-                    order_cmd = ((S_8008ACDC_6 *)command)->unk_00;
-                    func_8009456C((u32) (order_cmd & 0x60) >> 5, order_cmd & 7);
-                    return;
-                case 0x98:
-                    target = func_8009FADC(((S_8008ACDC_6 *)command)->unk_00 & 0x1F, old_angle);
-                    if (((S_8008ACDC_9 *)target)->unk_03 & 0x20) {
-                        func_800956B8(actor, motion, sprite, target);
-                    } else {
-                        func_80095854(actor, motion, sprite, target);
-                    }
-                    return;
-                case 0xA0:
-                    func_8002534C(actor, motion, sprite, stats);
-                    return;
-                case 0xC8:
-                    ((Rec_func_8008ACDC_arg0 *)actor)->unk_96.as_s16 =
-                        (s16) (((S_8008ACDC_6 *)command)->unk_00 & 0x7F);
-                    func_8008D368(actor, motion, sprite, &D_800DD148, 2);
-                    return;
-                case 0xD8:
-                    D_800DD830[((S_8008ACDC_6 *)command)->unk_00 & 0x7F]();
-                    return;
                 }
             } else {
                 D_800E3544 = 0;
@@ -402,6 +393,7 @@ void func_8008ACDC(void *actor, void *motion, register void *sprite, void *stats
                         func_80040AA0(3);
                         return;
                     }
+                    return;
                 } else {
                     if ((func_80094EA4(input_flags) << 0x10) != 0) {
                         ((Rec_func_8008ACDC_arg0 *)actor)->unk_A4.as_u16 = 0U;
@@ -466,7 +458,7 @@ void func_8008ACDC(void *actor, void *motion, register void *sprite, void *stats
                                 (*(u16 *)((u8 *)actor + 0xA2)) = (u16) (button_flags & 0xFFFE);
                                 if (!(((u32)input->buttons) & 0x20)) {
                                     if ((func_8008C8BC(actor, motion, sprite, stats) << 0x10) != 0) {
-                                        goto update_animation;
+                                        break;
                                     }
                                     return;
                                 }
@@ -487,12 +479,12 @@ void func_8008ACDC(void *actor, void *motion, register void *sprite, void *stats
                                 return;
                             }
                         }
-                        goto update_facing;
+                    } else {
+                        return;
                     }
                 }
             }
-        } else {
-update_facing:
+        default:
             turn_flags = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2;
             if (turn_flags & 1) {
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = (u16) (turn_flags & 0xFFFE);
@@ -500,12 +492,11 @@ update_facing:
                 func_80048A44(sprite, D_800DD058[((s32) (gameWork.view.viewAngle
                     + (s16) ((S_8008ACDC_4 *)stats)->unk_2A.s + 0x100) >> 9) & 7], 0, 1);
             }
-update_animation:
-            if (((S_8008ACDC_1 *)sprite)->unk_14 & 0xE000) {
-                (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DCFB0;
-                func_80048A44(sprite, D_800DCFB0[((s32) (gameWork.view.viewAngle
-                    + (s16) ((S_8008ACDC_4 *)stats)->unk_2A.s + 0x100) >> 9) & 7], 0, 1);
-            }
+        }
+        if (((S_8008ACDC_1 *)sprite)->unk_14 & 0xE000) {
+            (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DCFB0;
+            func_80048A44(sprite, D_800DCFB0[((s32) (gameWork.view.viewAngle
+                + (s16) ((S_8008ACDC_4 *)stats)->unk_2A.s + 0x100) >> 9) & 7], 0, 1);
         }
     }
     return;

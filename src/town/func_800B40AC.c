@@ -20,7 +20,7 @@ extern void func_8004E5A0(s32 value, s32 width, u8 *dst);
 extern u8 *func_8004E69C(u8 *text);
 extern u8 *strcat(u8 *dst, const u8 *src);
 extern void func_8004E99C(s32 value);
-extern s32 func_8004E298(u8 *data, u8 *text, s32 arg2);
+extern s32 func_8004E298(u8 *data, u8 *text, s32 style);
 
 /* Refreshes the display with the formatted global value and its suffix. */
 void func_800B180C(Func800B40ACArg *display) {

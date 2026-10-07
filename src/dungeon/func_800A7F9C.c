@@ -25,7 +25,7 @@ extern u8 D_800E0D1B[];
 extern u8 D_800E0D36[];
 
 /* Displays the mode-specific message and updates the state meter within its limit. */
-s32 func_800AD6FC(DungeonState *state, s32 mode, u8 *item, s32 text_arg) {
+s32 func_800AD6FC(DungeonState *state, s32 mode, u8 *item) {
     s32 message;
     s32 meter;
     s32 base_message;

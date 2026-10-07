@@ -10,7 +10,7 @@ extern M2C_UNK *D_80017494;
 
 
 /* Invokes the callback and points the shared pointer at D_800173FC. */
-void func_80559100(void) {
-    D_80016000->unk_20->callback_1F0();
+void func_80559100(void *callback_arg) {
+    ((s32 (*)(void *))D_80016000->unk_20->callback_1F0)(callback_arg);
     D_80017494 = &D_800173FC;
 }

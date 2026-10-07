@@ -19,7 +19,8 @@ static __inline__ s32 position_delta_abs(u8 a, u8 b) {
 }
 
 /* Return whether two positions share a row, column, or diagonal. */
-s32 func_800A365C(S_800A365C_0 *source, S_800A365C_1 *target, s32 aligned) {
+s32 func_800A365C(S_800A365C_0 *source, S_800A365C_1 *target) {
+    s32 aligned;
     s32 y_delta;
     s32 x_delta;
 

@@ -36,7 +36,6 @@ extern u8 D_80028780[];
 extern s16 D_800287A0;
 extern u8 D_800287A2;
 extern s32 D_800287A4;
-extern void *D_800814A8_count __asm__("D_800814A8");
 
 extern void *func_800244C4(void *, void *);
 extern void func_8003F80C(void *, s32, s32, s32);
@@ -90,7 +89,7 @@ void func_80024020(EventState *event) {
         event->mode20 = -1;
         event->timer22 = 0x20;
         event->timer1C = 0x10;
-        ((DungeonObject *)D_800814A8_count)->countA6--;
+        ((DungeonObject *)D_800814A8)->countA6--;
         event->state++;
         func_800A56E0(0x300);
         break;

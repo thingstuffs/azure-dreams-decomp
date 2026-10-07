@@ -46,8 +46,8 @@ extern u8 D_800E0853[];
 extern u8 D_800E0862[];
 extern u8 D_800E3CF8[];
 extern u8 D_800E3D80[];
-extern u8 D_800DD2C4_index[] __asm__("D_800DD2C4");
-extern u8 D_800DD2B4_index[] __asm__("D_800DD2B4");
+extern u8 D_800DD2C4[];
+extern u8 D_800DD2B4[];
 
 void func_800982A8(Arg0 *context, Item *item) {
     s32 value;
@@ -144,8 +144,8 @@ void func_800982A8(Arg0 *context, Item *item) {
         }
         func_80048590(tail_index);
     } else {
-        context->b84 = D_800DD2C4_index[tail_index];
-        context->b85 = D_800DD2B4_index[tail_index];
+        context->b84 = D_800DD2C4[tail_index];
+        context->b85 = D_800DD2B4[tail_index];
         if (tail_index == 0) {
             func_800483AC(1);
             return;

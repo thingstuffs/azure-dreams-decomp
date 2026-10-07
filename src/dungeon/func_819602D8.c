@@ -6,7 +6,6 @@
 extern u16 D_800273CC[8];
 extern u8 D_8002744C[9];
 extern u8 D_8002744D[9];
-extern s16 D_8008333C_second[16] __asm__("D_8008333C");
 extern s32 D_800274DC[7][8];
 s32 func_80025D30(s32, s32, s32);
 void *func_8009B4B0(void *, u16, u16);
@@ -21,7 +20,6 @@ typedef struct S_819602D8_0 {
 /* Sample a 7 by 7 area around the given tile and flag the tiles found there. */
 void func_819602D8(u16 center_x, s32 center_y) {
     MapGrid *width_ref = &gameWork.map;
-    s16 *height_ref = D_8008333C_second;
     s32 one = 1;
     s16 tile_x;
     s32 signed_y;
@@ -63,7 +61,7 @@ void func_819602D8(u16 center_x, s32 center_y) {
             }
             sample_x = (s16)tile_x;
             if (sample_x < 0 || sample_x >= (one << width_ref->shiftX) || signed_y < 0 ||
-                signed_y >= (one << height_ref[11])) {
+                signed_y >= (one << width_ref->shiftY)) {
                 output_value = 0;
             } else {
                 sample_x <<= 6;

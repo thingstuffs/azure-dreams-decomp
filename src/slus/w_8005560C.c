@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/sound_volume.h"
 
-extern void func_8005BAB0(void);
+extern void func_8005BAB0(s32 packed_key, s32 packed_channel);
 extern s32 func_80055750(s16 scaled_volume);
 extern s32 func_8003E14C(void);
 extern s32 func_8005B4D0(s32 a0, void *a1, u16 a2, u16 a3, s32 a4);
@@ -15,7 +15,7 @@ void func_8005560C(s32 target_id, void *target_data)
     s32 primary_amount;
     s32 secondary_amount;
 
-    func_8005BAB0();
+    func_8005BAB0(target_id, (s32)target_data);
 
     scale_value = D_800847EE[0] * volumeScale[0];
     primary_amount = func_80055750((s16)(scale_value / 32767));

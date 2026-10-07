@@ -6,13 +6,12 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
-typedef s8 M2C_UNK8;
 extern u8 D_800E3648[];
 s32 func_800A6D30(void);
 s32 func_800A6DA4();
 extern u8 D_800E39C8[];
 /* Initializes a free slot at a random position within the room. */
-void func_8001CFB8(void *room, s32 rng_arg1, s32 rng_arg2, s32 rng_arg3)
+void func_8001CFB8(void *room, s32 rng_arg1)
 {
     u8 *slot_data;
     s16 raw_size;
