@@ -1,3 +1,4 @@
+#include "shared/minigame_body.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/entity_objects.h"
@@ -6,27 +7,8 @@
 extern int abs(int);
 
 /* The record behind a minigame object node (node + 0x20) and the base record D_800834B8 (the node's record half).
- * Its +0x14..+0x22 halfwords do not fit EntityRec's int fields, so it stays a local view. */
-typedef struct MinigameBody {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    s16 unk_08;
-    u8 pad_0A[0x2];
-    s32 unk_0C;
-    s32 unk_10;
-    s16 unk_14;
-    s16 unk_16;
-    s16 unk_18;
-    u8 pad_1A[0x2];
-    s16 unk_1C;
-    u8 pad_1E[0x4];
-    s16 unk_22;
-    u8 pad_24[0x24];
-    s32 unk_48;
-    u8 pad_4C[0xC];
-    s32 unk_58;
-    s32 unk_5C;
-} MinigameBody;
+ * Its +0x14..+0x22 halfwords use the separate shared MinigameBody layout. */
+
 
 /* The minigame state: four parallel pointer arrays (object 0 is the base record, 1..3 the balls) and the stage timers. */
 typedef struct MinigameState {
@@ -70,7 +52,7 @@ void func_800B1DBC();              /* extern */
 extern s32 D_80012D5C[0xB58];
 extern u8 D_80022514[0x100];
 extern s32 D_80024338[3];
-extern u8 D_800834B8[0x100];
+
 extern s16 D_80113158[8];
 extern s32 D_8011315C[0xC58];
 
@@ -155,7 +137,7 @@ s32 func_800218E4(MinigameState *game) {
     EntityRec *init_position;
 
     state = game->stage.s;
-    base_object = (MinigameBody *)D_800834B8;
+    base_object = &D_800834B8;
     switch (state) {
     case 0:
         object_index = 3;

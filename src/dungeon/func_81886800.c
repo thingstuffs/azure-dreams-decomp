@@ -1,3 +1,4 @@
+#include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
@@ -280,7 +281,6 @@ extern u8 D_80026344[];
 extern u8 D_80026470[];
 extern u8 D_80026474[];
 extern u8 D_80026878[];
-extern u8 D_800DDC40[];
 
 void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func_81886800_3 *sprite);
 

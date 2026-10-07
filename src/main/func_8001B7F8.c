@@ -1,6 +1,5 @@
+#include "shared/pad_state.h"
 #include "common.h"
-typedef struct PadState { s32 held; s32 unk_04; s32 pressed; } PadState;
-extern PadState D_801379A8;
 
 typedef struct S_804027F8_0 {
     s32 unk_00;

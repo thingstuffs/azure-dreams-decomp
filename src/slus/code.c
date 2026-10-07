@@ -1,3 +1,4 @@
+#include "shared/sound_state.h"
 #include "common.h"
 #include "shared/sound_volume.h"
 
@@ -1129,24 +1130,14 @@ void func_800557BC(void) {
     D_80084778[0] = 0;
 }
 
-typedef struct {
-    char pad0[4];      /* 0x0 */
-    int field4;        /* 0x4 */
-    char pad8[4];      /* 0x8 */
-    int fieldC;        /* 0xC */
-    short field10;     /* 0x10 */
-    char pad12[4];     /* 0x12 */
-    short field16;     /* 0x16 */
-    short field18;     /* 0x18 */
-} D_80055990_Struct;
 
 /* Initialize the state record's values and two counters. */
-void func_80055990(D_80055990_Struct *state) {
-    state->field10 = 0x80;
-    state->fieldC = 3;
-    state->field4 = 0;
-    state->field16 = 0xA;
-    state->field18 = 0xA;
+void func_80055990(SoundTask *state) {
+    state->unk_10 = 0x80;
+    state->unk_0C = 3;
+    state->unk_04 = 0;
+    state->unk_16 = 0xA;
+    state->unk_18 = 0xA;
 }
 
 /* Return without performing any work. */

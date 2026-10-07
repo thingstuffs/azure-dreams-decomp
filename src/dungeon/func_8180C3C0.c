@@ -1,3 +1,4 @@
+#include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -50,11 +51,6 @@ typedef struct S_800253C0_5 {
     union { s16 s; u16 u; } unk_88;   /* accessed as both */
     u16 unk_8A;
 } S_800253C0_5;   /* object in func_800253C0 */
-
-typedef struct S_800253C0_6 {
-    u8 pad_00[0xA8];
-    u8 unk_A8;
-} S_800253C0_6;   /* page in func_800253C0 */
 
 typedef struct S_800253C0_8 {
     u8 pad_00[0x14];
@@ -135,7 +131,6 @@ typedef struct S_800253C0_18 {
 extern void *D_8006CD58[];
 extern u8 D_800DD148[];
 extern u8 D_800DD150[];
-extern u8 D_8008ACDC[];
 extern u8 D_80025000[];
 extern u8 D_80025024[];
 extern u8 D_80025028[];
@@ -172,7 +167,7 @@ extern void func_80048A44(void *, s32, s32, s32);
 void func_800253C0(void *sequence, void *position, void *actor, void *owner)
 {
     s32 message_id;
-    u8 *scene = ((u8 *)(&gameWork));
+    GameWork *scene = &gameWork;
     u8 *anim_entry;
     u8 state;
     u32 result_flags;
@@ -281,17 +276,17 @@ void func_800253C0(void *sequence, void *position, void *actor, void *owner)
         ((S_800253C0_0 *)sequence)->unk_9B.n++;
         ((S_800253C0_0 *)sequence)->unk_96.v = 32;
 case 4:
-        brightness = ((S_800253C0_6 *)scene)->unk_A8;
+        brightness = scene->view.unk_090;
         timer = ((S_800253C0_0 *)sequence)->unk_96.n;
         delta = (32 - brightness) / timer;
         brightness = brightness + delta;
-        message_text = (s32)(scene + 0xA8);
+        message_text = (s32)((u8 *)scene + 0xA8);
         object_index_m = 0;
         object_slot = sequence;
         move_scene = &gameWork;
         table_x = (s16 *)((s8 *)dirStepX);
         table_y = (s16 *)((s8 *)dirStepY);
-        ((S_800253C0_6 *)scene)->unk_A8 = brightness;
+        scene->view.unk_090 = brightness;
         ((u8 *)message_text)[1] = brightness;
         ((u8 *)message_text)[2] = brightness;
         do {
@@ -692,12 +687,12 @@ loop_7:
         u32 saved_angle;
         register u32 clear_flags;
 
-        step = (128 - ((S_800253C0_6 *)scene)->unk_A8) / ((S_800253C0_0 *)sequence)->unk_96.n;
-        page_cursor = (s32)(scene + 0xA8);
+        step = (128 - scene->view.unk_090) / ((S_800253C0_0 *)sequence)->unk_96.n;
+        page_cursor = (s32)((u8 *)scene + 0xA8);
         object_index_m = 0;
         object_slot = sequence;
-        brightness = ((S_800253C0_6 *)scene)->unk_A8 + step;
-        ((S_800253C0_6 *)scene)->unk_A8 = brightness;
+        brightness = scene->view.unk_090 + step;
+        scene->view.unk_090 = brightness;
         ((u8 *)page_cursor)[2] = brightness;
         ((u8 *)page_cursor)[1] = brightness;
         do {
@@ -791,7 +786,7 @@ loop_7:
             dungeonStatus.unk_0C = 0;
             dungeonStatus.flags = value | 0x812;
         }
-        ((S_800253C0_0 *)sequence)->unk_8C = D_8008ACDC;
+        ((S_800253C0_0 *)sequence)->unk_8C =func_8008ACDC;
 
     }
     return;

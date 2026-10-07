@@ -4,7 +4,6 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800814A8.h"
 
 typedef struct S_8016BF74_0 {
     u8 pad_00[0x2];

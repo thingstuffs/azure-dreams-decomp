@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -44,7 +45,7 @@ void *func_80171D64(s32 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_hei
     EntityRec *result;
     s16 saved_x;
     s16 saved_y;
-    EntityRec *sprite;
+    SpriteFrameState *sprite;
     s16 init_flags;
     ObjectNodeHeader *object;
     register void *position ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -81,11 +82,11 @@ void *func_80171D64(s32 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_hei
         ((S_80171D64_2 *)position)->unk_0A = initial_height;
         sprite = object->unk_0C;
         mode = spawn_flags & 3;
-        *(void **)((u8 *)sprite + 0x2C) = (void *)default_frames;
+        sprite->frameTable = (void *)default_frames;
         default_frames = 0x20;
-        sprite->tileY = saved_y;
+        sprite->unk_25 = saved_y;
         record_addr = (s32)result;
-        sprite->tileX = saved_x;
+        sprite->unk_24 = saved_x;
         result->unk_4B = default_frames;
         result->unk_48 = call_position;
         result->unk_49 = alternate_kind;
@@ -129,24 +130,24 @@ void *func_80171D64(s32 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_hei
                             kind = result->unk_48;
                             switch (kind) {
                             case 0xD:
-                                current_frames = *(void **)((u8 *)sprite + 0x2C);
+                                current_frames = sprite->frameTable;
                                 new_frames = D_80175E54;
                                 if (current_frames != new_frames) {
-                                    *(void **)((u8 *)sprite + 0x2C) = new_frames;
+                                    sprite->frameTable = new_frames;
                                 }
                                 break;
                             case 0xE:
-                                current_frames = *(void **)((u8 *)sprite + 0x2C);
+                                current_frames = sprite->frameTable;
                                 new_frames = D_80175E5C;
                                 if (current_frames != new_frames) {
-                                    *(void **)((u8 *)sprite + 0x2C) = new_frames;
+                                    sprite->frameTable = new_frames;
                                 }
                                 break;
                             case 0xF:
-                                current_frames = *(void **)((u8 *)sprite + 0x2C);
+                                current_frames = sprite->frameTable;
                                 new_frames = D_80175E64;
                                 if (current_frames != new_frames) {
-                                    *(void **)((u8 *)sprite + 0x2C) = new_frames;
+                                    sprite->frameTable = new_frames;
                                 }
                                 break;
                             }
@@ -175,22 +176,22 @@ setup_args2_ready:
         kind = result->unk_48;
         switch (kind) {
         case 0xD:
-            current_frames = *(void **)((u8 *)sprite + 0x2C);
+            current_frames = sprite->frameTable;
             frame_table = D_80175E24;
             break;
         case 0xE:
-            current_frames = *(void **)((u8 *)sprite + 0x2C);
+            current_frames = sprite->frameTable;
             frame_table = D_80175E2C;
             break;
         case 0xF:
-            current_frames = *(void **)((u8 *)sprite + 0x2C);
+            current_frames = sprite->frameTable;
             frame_table = D_80175E34;
             break;
         default:
             return result;
         }
         if (current_frames != frame_table) {
-            (*(void **)((u8 *)sprite + 0x2C)) = frame_table;
+            (sprite->frameTable) = frame_table;
             default_frames = ((gameWork.view.viewAngle + result->facing + 0x100) >> 9) & 7;
             func_80047784(sprite,
                 *(u8 *)((u32)default_frames + (u32)frame_table),

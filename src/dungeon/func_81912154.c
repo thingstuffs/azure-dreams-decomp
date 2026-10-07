@@ -1,3 +1,4 @@
+#include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -114,7 +115,6 @@ void func_8009CE1C(); /* extern */
 s32 func_800A44E0();              /* extern */
 s32 func_800A56E0();                     /* extern */
 s16 func_800BCB04();                   /* extern */
-extern u8 D_800DDC40[];
 
 typedef struct LocalStack {
     u8 motion[0x18];

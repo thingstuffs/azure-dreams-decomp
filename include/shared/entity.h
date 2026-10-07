@@ -99,7 +99,8 @@ typedef struct EntityRec {
     /* 0x10C */ unsigned short unk_10C;           /* Rec_D_800814A8 */
     /* 0x10E */ unsigned char pad_10E[2];         
     /* 0x110 */ int unk_110;                      
-    /* 0x114 */ unsigned char pad_114[16];        
+    /* 0x114 */ int unk_114;                      /* word stores 0x202080 / 0x802020 before item-effect dispatch */
+    /* 0x118 */ unsigned char pad_118[12];        
     /* 0x124 */ void *unk_124;                   /* linked record; flags read after null check */
     /* 0x128 */ int unk_128;                      
 } EntityRec;

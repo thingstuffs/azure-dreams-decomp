@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
+#include "shared/town_root.h"
 extern u8 D_80018FD0[];
 
 
@@ -12,32 +12,10 @@ typedef struct S_806D85A0_1 {
     void * unk_6000;
 } S_806D85A0_1;   /* temp_func in func_806D85A0 */
 
-typedef struct S_806D85A0_2 {
-    u8 pad_00[0x20];
-    void * unk_20;
-} S_806D85A0_2;   /* temp_v1 in func_806D85A0 */
-
-typedef struct S_806D85A0_3 {
-    u8 pad_00[0x3640];
-    u8 unk_3640;
-} S_806D85A0_3;   /* var_s6 + var_s2 in func_806D85A0 */
-
 typedef struct S_806D85A0_4 {
     s16 unk_00;
     s16 unk_02;
 } S_806D85A0_4;   /* temp_s3 in func_806D85A0 */
-
-typedef struct S_806D85A0_5 {
-    u8 pad_00[0x20];
-    void * unk_20;
-    u8 pad_24[0x14];
-    void * unk_38;
-} S_806D85A0_5;   /* ((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v in func_806D85A0 */
-
-typedef struct S_806D85A0_6 {
-    u8 pad_00[0x2D0];
-    M2C_UNK (*unk_2D0)(s32, s32, s32);
-} S_806D85A0_6;   /* ((S_806D85A0_5 *)(((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v))->unk_20 in func_806D85A0 */
 
 
 void *func_80017024();                 /* extern */
@@ -59,13 +37,13 @@ void func_806D85A0(void) {
     s32 initial_x;
     u32 initial_y;
     s32 initial_value;
-    void *context;
+    Rec_D_80016000 *context;
     void *dispatch_ptr;
     void *entry_flags;
     register void *position;
     void *group_flags;
 
-    entry_flags = ((S_806D85A0_5 *)(((Rec_D_80016000 *)(((M2C_UNK *)&D_80016000)))->unk_00.at00_pv.v))->unk_38;
+    entry_flags = D_80016000->unk_38;
     if (func_8001876C(1) == 0) {
         second_variant_active = func_8001876C(2);
         variant = 2;
@@ -79,7 +57,7 @@ void func_806D85A0(void) {
         context = ((S_806D85A0_1 *)dispatch_ptr)->unk_6000;
         ((S_806D85A0_1 *)dispatch_ptr)->unk_6000 = context;
         group_index = initial_value;
-        dispatch_ptr = ((S_806D85A0_2 *)context)->unk_20;
+        dispatch_ptr = context->unk_20;
     } else {
         variant = 0;
         initial_x = 4;
@@ -89,7 +67,7 @@ void func_806D85A0(void) {
         context = ((S_806D85A0_1 *)dispatch_ptr)->unk_6000;
         ((S_806D85A0_1 *)dispatch_ptr)->unk_6000 = context;
         group_index = initial_value;
-        dispatch_ptr = ((S_806D85A0_2 *)context)->unk_20;
+        dispatch_ptr = context->unk_20;
     }
     count_offset = variant * 8;
     dispatch_ptr = ((S_806D85A0_1 *)dispatch_ptr)->unk_2D0;
@@ -102,7 +80,7 @@ void func_806D85A0(void) {
 
             entry_counts = (s16 *)(D_80018FD0 + 0x10);
             do {
-                if (((S_806D85A0_3 *)(group_flags + entry_index))->unk_3640 != 0) {
+                if (((TownStateRecord *)(group_flags + entry_index))->history[0][0] != 0) {
                     position = func_80017024(group_index, entry_index, variant);
                     if (group_index == 0) {
                         x_offset = 0;
@@ -112,7 +90,7 @@ y_cell:
                             cell_value = x_offset + y_offset;
                             cell_x = ((S_806D85A0_4 *)position)->unk_00 + x_offset;
                             cell_y = ((S_806D85A0_4 *)position)->unk_02 + y_offset;
-                            ((S_806D85A0_6 *)(((S_806D85A0_5 *)(((Rec_D_80016000 *)(((M2C_UNK *)&D_80016000)))->unk_00.at00_pv.v))->unk_20))->unk_2D0(cell_x,
+                            D_80016000->unk_20->callback_2D0(cell_x,
                                 cell_y, cell_value);
                             y_offset += 1;
                             if (y_offset < 2) goto y_cell;

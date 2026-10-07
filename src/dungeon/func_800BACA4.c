@@ -5,6 +5,7 @@
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
+#include "shared/entity.h"
 
 typedef struct {
     u8 pad0[0x8D0];
@@ -150,14 +151,14 @@ void func_800C0404(DungeonObject *obj, MotionState *motion, EffectState *effect)
         if (index_or_phase == 0) {
             if ((s16)frame_count >= 0x21) {
                 if (obj->handle[0x13] == 0) {
-                    u8 *dungeon_state;
+                    EntityRec *dungeon_state;
                     func_80091934(obj->handle, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), 0);
                     D_800E3D7C->unk_9B = 0x11;
-                    dungeon_state = (u8 *)D_800E3D7C;
+                    dungeon_state = D_800E3D7C;
                     D_80082E80.unk_02C = (s32)D_800DD0F8;
                     func_80048A44(
                         ((u8 *)(&D_80082E80)),
-                        D_800DD0F8[((s32)(gameWork.view.viewAngle + *(s16 *)(dungeon_state + 0x2A)) + 0x100 >> 9) & 7],
+                        D_800DD0F8[((s32)(gameWork.view.viewAngle + dungeon_state->facing) + 0x100 >> 9) & 7],
                         1,
                         1);
                 }

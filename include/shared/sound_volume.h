@@ -21,4 +21,50 @@
  * field of one aggregate would also give), so do not read [8] as a claim that 0x80084810.. belongs to this array. */
 extern short volumeScale[8];
 
+/* Playback state at D_800847D0: the CD request/activation routines move the
+ * pending words +10/+14 into +08/+0C and test/set the two leading flag words.
+ * The byte tail has both signed and unsigned readers; minority reads retain
+ * their explicit cast. Extent 0x34 is the observed layout, not a boundary. */
+typedef struct SoundPlaybackState {
+    /* 0x00 */ unsigned int flags00;
+    /* 0x04 */ unsigned int flags04;
+    /* 0x08 */ unsigned int unk_08;
+    /* 0x0C */ unsigned int unk_0C;
+    /* 0x10 */ unsigned int unk_10;
+    /* 0x14 */ unsigned int unk_14;
+    /* 0x18 */ unsigned int unk_18;
+    /* 0x1C */ short unk_1C;
+    /* 0x1E */ short unk_1E;
+    /* 0x20 */ short unk_20;
+    /* 0x22 */ short unk_22;
+    /* 0x24 */ unsigned char pad_24[2];
+    /* 0x26 */ short unk_26;
+    /* 0x28 */ unsigned char unk_28;
+    /* 0x29 */ unsigned char pad_29[3];
+    /* 0x2C */ unsigned char unk_2C;
+    /* 0x2D */ unsigned char unk_2D;
+    /* 0x2E */ unsigned char pad_2E[2];
+    /* 0x30 */ signed char unk_30;
+    /* 0x31 */ signed char unk_31;
+    /* 0x32 */ signed char unk_32;
+    /* 0x33 */ signed char unk_33;
+} SoundPlaybackState;
+
+/* Both D_80084858 and D_800848F8 are passed to the same initializer. Their
+ * +00 callback is installed by sound init, then called by the update routine.
+ * +08 is scaled by volumeScale before playback; its other role differs by
+ * instance, so no universal volume/note name is asserted. */
+typedef struct SoundTask {
+    /* 0x00 */ void (*callback)(void);
+    /* 0x04 */ int unk_04;
+    /* 0x08 */ short unk_08;
+    /* 0x0A */ short unk_0A;
+    /* 0x0C */ int unk_0C;
+    /* 0x10 */ short unk_10;
+    /* 0x12 */ short unk_12;
+    /* 0x14 */ short unk_14;
+    /* 0x16 */ short unk_16;
+    /* 0x18 */ short unk_18;
+} SoundTask;
+
 #endif

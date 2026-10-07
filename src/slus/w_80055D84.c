@@ -1,13 +1,8 @@
+#include "shared/sound_state.h"
 #include "common.h"
 
 /* Canonical status block shared across the D_800847D0 family (see w_8005405C.c etc). */
-typedef struct {
-    u32 avail;   /* offset 0x0 */
-    u32 locked;  /* offset 0x4 */
-    u32 pad[1];  /* offset 0x8 - force %hi/%lo addressing (struct > 8 bytes) */
-} S_800847D0;
 
-extern S_800847D0 D_800847D0;
 extern void *D_80084538[];
 extern void *D_800847C0[];
 extern void *D_80084758[];
@@ -32,6 +27,6 @@ void func_80055D84(s16 entry_id) {
         func_8003F52C(((entry_index << 8) & 0xFF00) | index_or_error);
     } else {
         func_8005AC30(1);
-        D_800847D0.avail |= (0x10000 << entry_index);
+        D_800847D0.flags00 |= (0x10000 << entry_index);
     }
 }

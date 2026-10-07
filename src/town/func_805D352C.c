@@ -1,13 +1,13 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
+#include "shared/town_root.h"
 
 
 typedef struct S_805D352C_2 {
     u8 pad_00[0x40];
     void * unk_40;
-} S_805D352C_2;   /* ((Rec_D_80016000 *)D_80016000)->unk_1C.as_pv in func_805D352C */
+} S_805D352C_2;   /* D_80016000->unk_1C in func_805D352C */
 
 
 void func_800174CC();                            /* extern */
@@ -20,7 +20,7 @@ extern void *D_80019B90;
 void func_805D352C(void) {
     func_800174CC();
     D_80019B90 = &D_80019814;
-    D_80019AF8 = ((Rec_D_80016000 *)D_80016000)->unk_40.as_s32
-    + (((Rec_D_80016000 *)D_80016000)->unk_08.at00_s32.v * 8);
-    ((S_805D352C_2 *)(((Rec_D_80016000 *)((Rec_D_80016000 *)D_80016000))->unk_1C.as_pv))->unk_40 = &D_80019884;
+    D_80019AF8 = ((s32)D_80016000->unk_40)
+    + (D_80016000->unk_08 * 8);
+    ((S_805D352C_2 *)(D_80016000->unk_1C))->unk_40 = &D_80019884;
 }

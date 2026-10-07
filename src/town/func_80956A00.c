@@ -1,3 +1,5 @@
+#include "shared/sprite_frame_state.h"
+#include "shared/minigame_body.h"
 #include "common.h"
 #include "shared/entity_objects.h"
 extern int abs(int);
@@ -9,20 +11,6 @@ typedef struct S_80023A00_0 {
     u16 unk_2A;
 } S_80023A00_0;   /* arg0 in func_80023A00 */
 
-typedef struct S_80023A00_1 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-    u8 pad_0A[0x6];
-    u16 unk_10;
-    u8 pad_12[0x36];
-    s32 unk_48;
-} S_80023A00_1;   /* state_base in func_80023A00 */
-
-typedef struct S_80023A00_2 {
-    u8 pad_00[0x28];
-    s32 unk_28;
-    void * unk_2C;
-} S_80023A00_2;   /* entity in func_80023A00 */
 
 typedef struct S_80023A00_3 {
     u8 pad_00[0x2A];
@@ -41,7 +29,7 @@ extern void func_800478B8(void *);
 extern s32 D_80081458[];
 extern s16 D_80083228;
 extern u8 D_80083220[];
-extern s32 D_800834B8;
+
 extern u8 D_800D2398[];
 extern u8 D_800D23A0[];
 
@@ -59,7 +47,7 @@ void func_80023A00(void *object, void *output, void *entity_data)
     func_800478B8(entity_data);
     *(Copy24 *)output_bytes = *(Copy24 *)((u8 *)(&D_80083780));
     ((S_80023A00_0 *)object)->unk_2A =
-        (0x1400 - ((S_80023A00_1 *)state_base)->unk_10) & 0xFFF;
+        (0x1400 - (*(u16 *)&((MinigameBody *)state_base)->unk_10)) & 0xFFF;
 
     state = ((S_80023A00_0 *)object)->unk_18.s;
     switch (state) {
@@ -69,8 +57,8 @@ void func_80023A00(void *object, void *output, void *entity_data)
 
     case 1:
         initial_magnitude = D_80081458[0];
-        ((S_80023A00_2 *)entity_data)->unk_2C = D_800D23A0;
-        ((S_80023A00_2 *)entity_data)->unk_28 = initial_magnitude;
+        ((SpriteFrameState *)entity_data)->frameTable = D_800D23A0;
+        ((SpriteFrameState *)entity_data)->unk_28 = initial_magnitude;
         func_80047784(entity_data,
             D_800D23A0[((D_80083228 +
                 ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
@@ -78,7 +66,7 @@ void func_80023A00(void *object, void *output, void *entity_data)
         ((S_80023A00_0 *)object)->unk_18.u++;
         /* fallthrough */
     case 2:
-        if (((S_80023A00_1 *)state_base)->unk_08 == 2) {
+        if (((MinigameBody *)state_base)->unk_08 == 2) {
             (*(void * *)((u8 *)entity_data + 0x2C)) = D_800D2398;
             func_80047784(entity_data,
                 D_800D2398[((*(s16 *)(D_80083220 + 8) +
@@ -89,7 +77,7 @@ void func_80023A00(void *object, void *output, void *entity_data)
         break;
 
     case 3:
-        magnitude = ((S_80023A00_1 *)state_base)->unk_48;
+        magnitude = ((MinigameBody *)state_base)->unk_48;
         magnitude = abs(magnitude);
         if (0xFFFF >= magnitude) {
             (*(void * *)((u8 *)entity_data + 0x2C)) = D_800D23A0;
@@ -101,7 +89,7 @@ void func_80023A00(void *object, void *output, void *entity_data)
         break;
 
     case 4:
-        magnitude = ((S_80023A00_1 *)state_base)->unk_48;
+        magnitude = ((MinigameBody *)state_base)->unk_48;
         magnitude = abs(magnitude);
         if (0xFFFF < magnitude) {
             direction_table = D_800D2398;

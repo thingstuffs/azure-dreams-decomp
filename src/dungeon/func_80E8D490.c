@@ -21,18 +21,6 @@ typedef struct S_80172C90_1 {
     union { u16 s; s16 u; } unk_AC;   /* accessed as both */
 } S_80172C90_1;   /* arg0 in func_80172C90 */
 
-typedef struct S_80172C90_2 {
-    u8 pad_00[0x2];
-    union { u16 s; s16 u; } unk_02;   /* accessed as both */
-    u8 pad_04[0x2];
-    union { u16 s; s16 u; } unk_06;   /* accessed as both */
-    u8 pad_08[0x2];
-    union { u16 s; s16 u; } unk_0A;   /* accessed as both */
-    union { s32 s; s32 u; } unk_0C;   /* accessed as both */
-    union { s32 s; s32 u; } unk_10;   /* accessed as both */
-    union { s32 s; s32 u; } unk_14;   /* accessed as both */
-} S_80172C90_2;   /* arg1 in func_80172C90 */
-
 typedef struct S_80172C90_3_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -64,7 +52,7 @@ extern u8 D_80174EF8[];
 extern u8 D_80174F00[];
 
 /* Updates the actor action sequence, including movement, landing, and recovery. */
-void func_80172C90(void *action, S_80172C90_2 *motion, Rec_D_80082E80 *sprite, EntityRec *actor)
+void func_80172C90(void *action, EntityRec *motion, Rec_D_80082E80 *sprite, EntityRec *actor)
 {
     u32 dir_offset;
     u16 angle;
@@ -93,7 +81,7 @@ void func_80172C90(void *action, S_80172C90_2 *motion, Rec_D_80082E80 *sprite, E
     switch (state) {
 
     case 0:
-        ((S_80172C90_1 *)action)->unk_AC.s = motion->unk_0A.s;
+        ((S_80172C90_1 *)action)->unk_AC.s = ((u16)motion->z.w.i);
         if (((u32)actor->flags1C) & 0x2000) {
             u16 action_kind;
 
@@ -174,9 +162,9 @@ void func_80172C90(void *action, S_80172C90_2 *motion, Rec_D_80082E80 *sprite, E
                 void *move_actor;
 
                 move_actor = actor;
-                position[0] = motion->unk_02.s;
-                position[1] = motion->unk_06.s;
-                position[2] = motion->unk_0A.s;
+                position[0] = ((u16)motion->x.w.i);
+                position[1] = ((u16)motion->y.w.i);
+                position[2] = ((u16)motion->z.w.i);
                 move_result = func_800A94A0(move_actor, selector, special,
                                             (u8 *)action + 0x98);
             }
@@ -195,12 +183,12 @@ void func_80172C90(void *action, S_80172C90_2 *motion, Rec_D_80082E80 *sprite, E
 
                 back_x = -dir_x;
                 back_y = -dir_y;
-                motion->unk_0C.s =
+                motion->unk_0C =
                     (back_x << 18) + (back_x << 19);
-                motion->unk_10.s =
+                motion->unk_10 =
                     (back_y << 18) + (back_y << 19);
             }
-            motion->unk_14.s = (s32)0xFFF30000;
+            motion->flags14 = (s32)0xFFF30000;
             {
                 tail_state = ((S_80172C90_1 *)action)->unk_9B;
                 tail_state++;
@@ -209,9 +197,9 @@ void func_80172C90(void *action, S_80172C90_2 *motion, Rec_D_80082E80 *sprite, E
             }
         }
 
-        motion->unk_14.s = 0;
-        motion->unk_10.s = 0;
-        motion->unk_0C.s = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800A2B04(motion, sprite->unk_24, sprite->unk_25);
         {
             void *owner;
@@ -235,19 +223,19 @@ void func_80172C90(void *action, S_80172C90_2 *motion, Rec_D_80082E80 *sprite, E
             return;
         }
         if (((S_80172C90_1 *)action)->unk_96.u <= 0) {
-            motion->unk_0C.u = 0;
-            motion->unk_10.u = 0;
-            motion->unk_14.u = 0;
-            motion->unk_0C.s = dir_x << 18;
-            motion->unk_10.s = dir_y << 18;
-            motion->unk_14.s = (s32)0xFFF30000;
+            motion->unk_0C = 0;
+            motion->unk_10 = 0;
+            motion->flags14 = 0;
+            motion->unk_0C = dir_x << 18;
+            motion->unk_10 = dir_y << 18;
+            motion->flags14 = (s32)0xFFF30000;
             {
                 ((S_80172C90_1 *)action)->unk_9B = ((S_80172C90_1 *)action)->unk_9B + 1;
                 return;
             }
         }
-        motion->unk_0C.s *= 2;
-        motion->unk_10.s *= 2;
+        motion->unk_0C *= 2;
+        motion->unk_10 *= 2;
         return;
 
     case 2:
@@ -259,32 +247,32 @@ void func_80172C90(void *action, S_80172C90_2 *motion, Rec_D_80082E80 *sprite, E
         ((S_80172C90_1 *)action)->unk_9B++;
 
     case 3:
-        motion->unk_14.s += 0x30000;
+        motion->flags14 += 0x30000;
         if (!((sprite->unk_04.as_s8 == 4 && (sprite->unk_14.at00_u16.v & 0x1000)) ||
               (sprite->unk_14.at00_u16.v & 0xE000))) {
             return;
         }
         {
-            motion->unk_0C.s = dir_x << 19;
-            motion->unk_10.s = dir_y << 19;
+            motion->unk_0C = dir_x << 19;
+            motion->unk_10 = dir_y << 19;
             ((S_80172C90_1 *)action)->unk_98 |= 0x80;
             ((S_80172C90_1 *)action)->unk_9B++;
             return;
         }
 
     case 4:
-        motion->unk_14.s += 0x20000;
-        if (!((((u32)actor->flags1C) & 0x08000000) && (motion->unk_0A.u <= ((S_80172C90_1 *)action)->unk_AC.u))) {
-            if (motion->unk_0A.u <= ((S_80172C90_1 *)action)->unk_AC.u) {
+        motion->flags14 += 0x20000;
+        if (!((((u32)actor->flags1C) & 0x08000000) && (motion->z.w.i <= ((S_80172C90_1 *)action)->unk_AC.u))) {
+            if (motion->z.w.i <= ((S_80172C90_1 *)action)->unk_AC.u) {
                 return;
             }
         }
         {
             u8 *effect;
 
-            motion->unk_14.s = 0;
-            motion->unk_10.s = 0;
-            motion->unk_0C.s = 0;
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
             ((S_80172C90_1 *)action)->unk_96.s = 4;
             sprite->unk_1C.at00_u16.v = 0x1400;
             sprite->unk_1C.at02_u16.v = 0x0C00;
@@ -327,10 +315,10 @@ void func_80172C90(void *action, S_80172C90_2 *motion, Rec_D_80082E80 *sprite, E
             s32 tile_coord;
 
             tile_coord = sprite->unk_24;
-            current_coord = motion->unk_02.u;
+            current_coord = motion->x.w.i;
             tile_coord = tile_coord << 6;
             current_coord -= 0x20;
-            motion->unk_0C.s =
+            motion->unk_0C =
                 (tile_coord - current_coord) << 14;
         }
         {
@@ -338,20 +326,20 @@ void func_80172C90(void *action, S_80172C90_2 *motion, Rec_D_80082E80 *sprite, E
             s32 target_coord;
 
             tile_coord = sprite->unk_25;
-            current_coord = motion->unk_06.u;
+            current_coord = motion->y.w.i;
             tile_coord <<= 6;
             target_coord = tile_coord;
             current_coord -= 0x20;
-            motion->unk_10.s =
+            motion->unk_10 =
                 (target_coord - current_coord) << 14;
         }
     }
         if (((S_80172C90_1 *)action)->unk_96.u > 0) {
             return;
         }
-        motion->unk_14.s = 0;
-        motion->unk_10.s = 0;
-        motion->unk_0C.s = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         sprite->unk_14.at00_u16.v |= 0x6000;
         ((S_80172C90_1 *)action)->unk_9B = 16;
         return;
@@ -362,9 +350,9 @@ void func_80172C90(void *action, S_80172C90_2 *motion, Rec_D_80082E80 *sprite, E
         if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
             return;
         }
-        motion->unk_14.s = 0;
-        motion->unk_10.s = 0;
-        motion->unk_0C.s = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800A2B04(motion, sprite->unk_24, sprite->unk_25);
         if (sprite->unk_2C.as_pu8 != D_80174F00) {
             sprite->unk_2C.as_pu8 = D_80174F00;

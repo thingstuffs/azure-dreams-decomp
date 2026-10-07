@@ -50,7 +50,7 @@ typedef struct S_80172798_5 {
 } S_80172798_5;   /* global in func_80172798 */
 
 /* Advances the selected item action and resets movement when it ends. */
-void func_80172798(void *action, EntityRec *motion, void *sprite, void *actor)
+void func_80172798(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
 {
     s32 special;
     u8 *selection;
@@ -61,8 +61,8 @@ void func_80172798(void *action, EntityRec *motion, void *sprite, void *actor)
     selection = (u8 *)(((S_80172798_0 *)action)->unk_9B);
     switch ((u8)selection) {
     case 0:
-        if ((*(u32 *)((u8 *)actor + 0x1C)) & 0x2000) {
-            switch (((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF)) {
+        if ((((u32)actor->flags1C)) & 0x2000) {
+            switch (((actor->unk_46) & 0x3FFF)) {
             case 7:
                 special = 1;
                 /* fallthrough */
@@ -86,7 +86,7 @@ void func_80172798(void *action, EntityRec *motion, void *sprite, void *actor)
                 break;
             }
         } else {
-            switch ((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF) {
+            switch ((actor->unk_46) & 0x3FFF) {
             case 3:
                 selection = (u8 *)actor + 0xE;
                 break;
@@ -110,30 +110,30 @@ void func_80172798(void *action, EntityRec *motion, void *sprite, void *actor)
                 special_test = special;
                 if (special_test != 0) {
                     active = D_800814A8;
-                    (*(void * *)((u8 *)actor + 0x60)) = active;
+                    (actor->target) = active;
                     scratch_pointer = ((S_80172798_1_pre *)active)[-1].unk_00;
-                    (*(u8 *)((u8 *)actor + 0x72)) = ((S_80172798_2 *)scratch_pointer)->unk_24;
-                    (*(u8 *)((u8 *)actor + 0x73)) = ((S_80172798_2 *)scratch_pointer)->unk_25;
+                    (((u8)actor->unk_72)) = ((S_80172798_2 *)scratch_pointer)->unk_24;
+                    (((u8)actor->unk_73)) = ((S_80172798_2 *)scratch_pointer)->unk_25;
                 } else {
                     u8 item_id;
 
                     item_id = *selection;
                     if (D_8006DE24[item_id].kind == 2) {
-                        active = (*(void * *)((u8 *)actor + 0x60));
+                        active = (actor->target);
                         if (active != 0) {
                             scratch_pointer = ((S_80172798_1_pre *)active)[-1].unk_00;
-                            (*(u8 *)((u8 *)actor + 0x72)) = ((S_80172798_2 *)scratch_pointer)->unk_24;
-                            (*(u8 *)((u8 *)actor + 0x73)) = ((S_80172798_2 *)scratch_pointer)->unk_25;
+                            (((u8)actor->unk_72)) = ((S_80172798_2 *)scratch_pointer)->unk_24;
+                            (((u8)actor->unk_73)) = ((S_80172798_2 *)scratch_pointer)->unk_25;
                         }
                     } else {
 
 
 
-                        (*(void * *)((u8 *)actor + 0x60)) = func_800A05A4(
+                        (actor->target) = func_800A05A4(
                             actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
-                            (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
-                        ((EntityRec *)actor)->unk_72 = abs(((EntityRec *)actor)->unk_72);
-                        ((EntityRec *)actor)->unk_73 = abs(((EntityRec *)actor)->unk_73);
+                            (actor->facing), 0x10);
+                        actor->unk_72 = abs(actor->unk_72);
+                        actor->unk_73 = abs(actor->unk_73);
                     }
                 }
             }
@@ -153,11 +153,11 @@ void func_80172798(void *action, EntityRec *motion, void *sprite, void *actor)
             dungeonStatus.unk_0C = 0;
             (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
             func_800A4ACC(actor);
-            (*(u8 *)((u8 *)actor + 0x6D))--;
+            (((u8)actor->unk_6D))--;
             ((S_80172798_0 *)action)->unk_8C = D_80170F20;
-            (*(u8 *)((u8 *)actor + 0x73)) = 0;
-            (*(u8 *)((u8 *)actor + 0x72)) = 0;
-            (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
+            (((u8)actor->unk_73)) = 0;
+            (((u8)actor->unk_72)) = 0;
+            (actor->unk_46) &= 0x7FFF;
             return;
 
     case 1:
@@ -199,7 +199,7 @@ void func_80172798(void *action, EntityRec *motion, void *sprite, void *actor)
 
             anim_table = D_801762C0;
             (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
-            direction = ((gameWork.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
+            direction = ((gameWork.view.viewAngle + (actor->facing) + 0x100) >> 9) & 7;
             func_80047784(sprite, anim_table[direction], 0);
         }
         {
@@ -210,10 +210,10 @@ void func_80172798(void *action, EntityRec *motion, void *sprite, void *actor)
             ((S_80172798_5 *)scratch_pointer)->unk_0A--;
             ((S_80172798_0 *)action)->unk_8C = D_80170F20;
             func_800A4ACC(actor);
-            (*(u8 *)((u8 *)actor + 0x73)) = 0;
-            (*(u8 *)((u8 *)actor + 0x72)) = 0;
-            (*(u8 *)((u8 *)actor + 0x6D))--;
-            (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
+            (((u8)actor->unk_73)) = 0;
+            (((u8)actor->unk_72)) = 0;
+            (((u8)actor->unk_6D))--;
+            (actor->unk_46) &= 0x7FFF;
             func_800A56E0(0xB4);
         }
 

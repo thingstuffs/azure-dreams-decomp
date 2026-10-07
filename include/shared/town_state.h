@@ -9,8 +9,20 @@
  * rejects indices >=20; compaction writes the terminator after twenty entries.
  * The history writer shifts twelve bytes per group; readers iterate sixteen
  * groups. Head indices wrap at the per-group limit. Allocation end unknown. */
+/* The slot serializer reads bytes 0/1 as x/y indices into the grid. A slot
+ * is four bytes: the allocator scales by four and the serializer copies four.
+ * Only bit 7 of the last byte is identified here (set for a zero grid field). */
+typedef struct TownListEntry {
+    /* 0x00 */ unsigned char gridX;
+    /* 0x01 */ unsigned char gridY;
+    /* 0x02 */ unsigned char unk_02;
+    /* 0x03 */ unsigned char flags;
+} TownListEntry;
+
 typedef struct TownStateRecord {
-    /* 0x0000 */ unsigned char pad_0000[0x29C];
+    /* 0x0000 */ unsigned char pad_0000[0x248];
+    /* 0x0248 */ TownListEntry slots[20];
+    /* 0x0298 */ unsigned char pad_0298[4];
     /* 0x029C */ void *entries[21];
     /* 0x02F0 */ unsigned char pad_02F0[0x2A6C];
     /* 0x2D5C */ unsigned int unk_2D5C;
