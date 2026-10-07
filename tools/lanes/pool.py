@@ -217,7 +217,8 @@ def probe_ok(text):
     """A probe passes only on an exact `OK` line and no limit wording (reset_watch2's lesson: the first watcher
     matched the limit error's own words)."""
     low = text.lower()
-    return any(l.strip() == "OK" for l in text.splitlines()[-5:]) and not any(w in low for w in LIMIT_WORDS)
+    # round 98: models started answering "ok" - a case-sensitive match read as "no capacity" and stalled two pools
+    return any(l.strip().strip(".!").upper() == "OK" for l in text.splitlines()[-5:]) and not any(w in low for w in LIMIT_WORDS)
 
 
 def probe(model_id, timeout=300):

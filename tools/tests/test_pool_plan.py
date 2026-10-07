@@ -170,6 +170,12 @@ class TestWaits(unittest.TestCase):
                 pool.wait_sentinel("%s:POOL_x_END" % f, 0)
             self.assertIn("sentinel 'POOL_x_END' seen", buf.getvalue())
 
+    def test_probe_ok_is_case_insensitive(self):
+        self.assertTrue(pool.probe_ok("codex\nok\ntokens used\n3,543\nok\n"))
+        self.assertTrue(pool.probe_ok("OK"))
+        self.assertFalse(pool.probe_ok("usage limit reached\nok"))
+        self.assertFalse(pool.probe_ok("nope"))
+
     def test_isolated_landing_never_holds(self):
         old = os.environ.get("LAND_ISOLATED")
         os.environ["LAND_ISOLATED"] = "1"
