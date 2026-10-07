@@ -13,13 +13,16 @@ def _recipe_tracker(rs, curc):
     # -G axis below the >=3-row bar) - a row registered at one of them is not "likely incorrect"
     tie = {(c["container"], c["module"]): set(c.get("tie_with") or ()) for c in read_jsonl(LEDGER / "module_recipe_census.jsonl")}
     mod = {r["id"]: r.get("module") for r in read_jsonl(LEDGER / "modules.jsonl")}
+    # Sony SDK library objects identified by whole-object byte match (owner 2026-10-07): not the game build, so the
+    # module recipe says nothing about their compiler (ledger/sdk_objects.jsonl)
+    sdk = {r["id"] for r in read_jsonl(LEDGER / "sdk_objects.jsonl")} if (LEDGER / "sdk_objects.jsonl").exists() else set()
     cats = collections.OrderedDict((k, collections.Counter()) for k in (
         "late cell (2.8.x / egcs / 2.95.2: fitted)", "cdk cell + crutch flags, module is plain",
         "stock cell inside a cdk module", "other mismatch with the module recipe (-G, stock flavour, -O1)"))
     worst = []
     for r in rs:
         c = r["id"].split("/")[0]
-        if c not in ("dungeon", "town", "main"):
+        if c not in ("dungeon", "town", "main") or r["id"] in sdk:
             continue
         cell = r["cfg"].split()[0]
         best = cen.get((c, mod.get(r["id"])))
@@ -52,6 +55,8 @@ def _recipe_tracker(rs, curc):
         out.append(f"| {k} | {v['rows']} | {v['dungeon']} / {v['town']} / {v['main']} | {v['pinned']} | {v['pins']} |")
     tot = sum(v["rows"] for v in cats.values()); tp = sum(v["pins"] for v in cats.values())
     out.append(f"| **total** | **{tot}** | | **{sum(v['pinned'] for v in cats.values())}** | **{tp}** |")
+    if sdk:
+        out.append(f"\nSony SDK library objects (ledger/sdk_objects.jsonl, whole-object byte match; not listed above): {', '.join(sorted(sdk))}.")
     # SLUS (r82_fable_slus): game image 0x80033AA8-0x8005CA70 = one 2.7.2-cdk (-G8) build, sound TU 0x8005CA90-0x8005FA34 = stock 2.7.2
     import re as _re
     sl = collections.Counter()
