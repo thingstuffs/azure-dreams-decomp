@@ -19,9 +19,9 @@ extern s32 func_800352FC(void);
 extern s32 func_800C2AB4(S0 *);
 extern void func_8003DB94(S1 *, s32, s32);
 
-void func_800BE0D4(S0 *self, s32 arg1, S1 *arg2) {
+void func_800BE0D4(S0 *self, s32 unused_value, S1 *destination) {
     S0 *obj = self;
-    S1 *dst = arg2;
+    S1 *dst = destination;
     s32 state;
     s32 callValue;
 

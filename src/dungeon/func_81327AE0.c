@@ -53,7 +53,7 @@ typedef struct S_8016F2E0_4 {
     u8 pad_00[0x4];
     s8 unk_04;
     u8 pad_05[0xF];
-    union { u16 n; volatile u16 v; } unk_14;   /* accessed as both */
+    union { u16 n; u16 v; } unk_14;   /* accessed as both */
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
@@ -82,7 +82,6 @@ void func_8016F2E0(void *entity, void *motion, register void *sprite)
     s16 actor_height;
     s16 direction_value;
     u8 *tile_slot;
-    u16 facing_flags;
     u16 sprite_flags;
     u16 updated_flags;
     s32 previous_direction;
@@ -161,12 +160,10 @@ void func_8016F2E0(void *entity, void *motion, register void *sprite)
 
         tile_slot = dirSpriteFlag + direction_copy;
         if (*tile_slot != 0) {
-            facing_flags = ((S_8016F2E0_4 *)sprite)->unk_14.n;
-            facing_flags |= 1;
+            ((S_8016F2E0_4 *)sprite)->unk_14.n |= 1;
         } else {
-            facing_flags = ((S_8016F2E0_4 *)sprite)->unk_14.v & 0xFFFE;
+            ((S_8016F2E0_4 *)sprite)->unk_14.n &= 0xFFFE;
         }
-        ((S_8016F2E0_4 *)sprite)->unk_14.v = facing_flags;
         if (!(((S_8016F2E0_3 *)actor)->unk_1C & 0x20)) {
             if (!(((S_8016F2E0_4 *)sprite)->unk_14.v & 0x40)) {
                 func_800478B8(sprite);

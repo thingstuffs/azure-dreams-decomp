@@ -16,10 +16,10 @@ typedef struct S_806D45CC_0 {
 
 
 M2C_UNK func_800176B8();             /* extern */
-M2C_UNK func_80018594();                         /* extern */
+s32 func_80018594();                         /* extern */
 
 /* Update the object, clear the current entry flag, and forward the call. */
-void func_806D45CC(S_806D45CC_0 *object, M2C_UNK context) {
+void func_806D45CC(S_806D45CC_0 *object, s32 context) {
     func_80018594(object->unk_18);
     ((S_806D45CC_2 *)(((D_80016000->unk_08 * 8) + ((s32)D_80016000->unk_40))))->unk_04 = 0;
     func_800176B8(object, context);

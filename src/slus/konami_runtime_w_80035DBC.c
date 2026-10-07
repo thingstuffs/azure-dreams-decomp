@@ -2,7 +2,7 @@
 
 #include "common.h"
 
-extern void func_80035D4C(s16 arg0);
+extern void func_80035D4C(s16 entry_index);
 extern s32 func_80033B2C(s32 bit_id);
 
 extern s32 D_8006A944[];

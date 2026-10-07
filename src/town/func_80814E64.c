@@ -10,7 +10,7 @@ typedef struct {
     u16 flags;
 } Object;
 
-extern void func_8003EA54(Object *arg0);
+extern void func_8003EA54(Object *object);
 extern s32 D_80084D5C;
 
 /* Advance position by velocity, update the object, and propagate its status flags. */

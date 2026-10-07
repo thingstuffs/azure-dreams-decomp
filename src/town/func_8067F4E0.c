@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-M2C_UNK func_80018594();                     /* extern */
+s32 func_80018594();                     /* extern */
 
 /* Calls func_80018594 with ID 0x72D. */
 void func_8067F4E0(void) {

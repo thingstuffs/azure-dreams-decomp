@@ -2,8 +2,8 @@
 #include "shared/object_flags.h"
 
 extern s32 func_8009CFE0(void *, void *);
-extern void func_80033D08(void *arg0);
-extern void func_800478B8(void *arg0);
+extern void func_80033D08(void *object);
+extern void func_800478B8(void *fallback_data);
 
 /* Clear object status and set flags on a successful check, or run the fallback. */
 void func_800A7B14(void *object, void *check_data, void *fallback_data)

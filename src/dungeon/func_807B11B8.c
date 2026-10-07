@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_800478B8(void *arg0);
+extern void func_800478B8(void *update_state);
 extern struct { s32 v; s32 pad[2]; } D_800814A0;
 
 typedef struct {

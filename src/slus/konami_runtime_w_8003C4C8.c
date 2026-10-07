@@ -12,7 +12,7 @@ typedef struct Func8003C4C8State {
     s16 unk_1E;
 } Func8003C4C8State;
 
-extern void func_8003C0C0(void *arg0, Func8003C4C8State *arg1);
+extern void func_8003C0C0(void *active_flag, Func8003C4C8State *fade_state);
 
 /* Fades the state to black and clears its active flag when the timer expires. */
 void func_8003C4C8(

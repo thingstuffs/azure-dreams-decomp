@@ -9,7 +9,7 @@ typedef struct S_800C4174_1 {
 
 
 extern void func_800C2E84(void *state, M2C_UNK output, M2C_UNK entries);
-extern void func_800C41D4(void *arg0, M2C_UNK arg1, M2C_UNK arg2);
+extern void func_800C41D4(void *object, M2C_UNK update_context, M2C_UNK setup_context);
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 

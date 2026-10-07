@@ -18,7 +18,7 @@ extern void func_8003E758(void);
 extern void func_80044618(int);
 extern short SD_Call(int a0);
 extern void func_80040AA0(int);
-extern void func_80053DCC(short arg0);
+extern void func_80053DCC(short saved_setting);
 extern void func_80053DF0(short);
 extern void func_80053E14(short a0);
 extern void func_8003D468(void);

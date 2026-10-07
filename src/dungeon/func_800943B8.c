@@ -3,7 +3,7 @@
 #include "records/Rec_D_80082E80.h"
 
 
-extern void func_800478B8(void *arg0);
+extern void func_800478B8(void *record);
 typedef struct S_80099B18_1_pre {
     u16 unk_00;
 } S_80099B18_1_pre;   /* the 0x2 bytes before arg0 in func_80099B18, addressed as arg0[-1] */

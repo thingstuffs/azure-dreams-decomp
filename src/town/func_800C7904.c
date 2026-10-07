@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern s32 func_800352FC(void);
-extern void tcame_chase_fix(s32 *arg0);
+extern void tcame_chase_fix(s32 *chase_fix);
 extern s32 D_80113208[];
 extern u8 D_800C321C[];
 

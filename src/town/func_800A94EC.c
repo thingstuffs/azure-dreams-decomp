@@ -14,7 +14,7 @@ typedef struct S_func_800A6C4C_1 {
 } S_func_800A6C4C_1;
 
 extern s32 func_8009CFE0(void *, s32);
-extern void func_80033D08(void *arg0);
+extern void func_80033D08(void *object);
 
 /* Clears and marks a handled object, or dispatches to its callback. */
 void func_800A6C4C(S_func_800A6C4C_0 *object, s32 input, s32 callback_data) {

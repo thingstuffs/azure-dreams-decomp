@@ -10,7 +10,7 @@ typedef struct S_80810454_1 {
     u8 pad_00[0x8];
     union { s32 s; s32 u; } unk_08;   /* accessed as both */
     u8 pad_0C[0x8];
-    union { s32 s; volatile s32 u; } unk_14;   /* accessed as both */
+    union { s32 s; s32 u; } unk_14;   /* accessed as both */
 } S_80810454_1;   /* motion_data in func_8052B054 */
 
 typedef struct S_80810454_2 {
@@ -54,10 +54,10 @@ void func_8052B054(void *state_data, S_80810454_1 *motion_data) {
 
         position = motion_data->unk_08.u;
         old_speed = motion_data->unk_14.u;
-        speed = motion_data->unk_14.u;
         position += old_speed;
-        speed += 0x4000;
         motion_data->unk_08.s = position;
+        speed = motion_data->unk_14.u;
+        speed += 0x4000;
         motion_data->unk_14.s = speed;
         if (speed == 0x40000) {
             ((S_80810454_0 *)state_data)->unk_00 = 2;

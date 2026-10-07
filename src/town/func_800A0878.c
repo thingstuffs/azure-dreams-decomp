@@ -16,7 +16,7 @@ extern void func_8009C1B4(void *object, void *object_again, void *part_a,
                           void *part_b);
 extern void func_8009DC8C(void *object, void *part_b, s32 value,
                           void *callback);
-extern void del_t_item_w_ptr(void *arg0);
+extern void del_t_item_w_ptr(void *object_data);
 
 extern s32 D_8006E240;
 extern u8 D_8009DEBC[];

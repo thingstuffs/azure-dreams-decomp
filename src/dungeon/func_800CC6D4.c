@@ -6,7 +6,7 @@ typedef void (*EntityCallback)(void *, void *, void *, void *);
 
 extern EntityCallback D_800E21C0[];
 
-extern void func_800478B8(void *arg0);
+extern void func_800478B8(void *entity);
 extern s16 func_800BCB04(u16 x, u16 y, s16 min_height);
 
 

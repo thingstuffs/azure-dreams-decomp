@@ -30,7 +30,7 @@ typedef struct {
 } Flags;
 
 extern s16 D_80025338;
-extern void func_800478B8(void *arg0);
+extern void func_800478B8(void *flags);
 
 /* Accumulate motion, process the update mode, and mark expired or flagged state. */
 void func_81814A80(State *state, s32 *sum, Flags *flags) {

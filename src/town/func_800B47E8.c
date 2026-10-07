@@ -1,6 +1,6 @@
 #include "common.h"
 
-typedef void (*DispatchFunc)(void *arg0, void *self);
+typedef void (*DispatchFunc)(void *context, void *self);
 
 extern DispatchFunc D_800D1640[];
 

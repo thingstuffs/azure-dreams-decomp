@@ -8,7 +8,7 @@ typedef struct {
     u16 count;
 } DungeonState;
 
-extern s32 func_800A2BDC(void *arg0);
+extern s32 func_800A2BDC(void *other_entity);
 extern s16 D_800DCF5E;
 extern u8 D_801751C0[12];
 

@@ -22,7 +22,7 @@ typedef struct TownTransition {
 } TownTransition;
 
 extern Vec3i D_80100D98;
-extern void func_800A4D4C(void *arg0, void *arg1);
+extern void func_800A4D4C(void *first_ptr, void *second_ptr);
 extern void func_800A48F8(Vec3i *setting);
 
 // Initializes the town transition callback, targets, and position from D_80100D98.

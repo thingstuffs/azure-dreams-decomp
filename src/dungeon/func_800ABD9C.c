@@ -35,7 +35,7 @@ typedef struct S_800B14FC_3_pre {
 
 extern s32 (*D_800DF030[])(void);
 
-extern void func_8004E994(void *arg0);
+extern void func_8004E994(void *object);
 
 /* Updates effect scale and brightness, then releases its objects when fading out ends. */
 void func_800B14FC(void *effect, s32 unused, void *render_arg)

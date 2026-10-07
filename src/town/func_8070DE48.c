@@ -9,7 +9,7 @@ extern s32 D_8001AA6C[][5];
 extern s32 D_8001B160[];
 
 /* Award the first unearned 5/10/20 milestone for one of the three counters and return its reward. */
-s32 func_80016E48(s32 arg0)
+s32 func_80016E48(s32 counter_id)
 {
     s32 index;
     s32 count;
@@ -23,7 +23,7 @@ s32 func_80016E48(s32 arg0)
     s16 *events;
     s32 *result_base;
 
-    index = arg0;
+    index = counter_id;
     if (index == 0x34) {
         index = 0;
     } else {

@@ -27,7 +27,7 @@ typedef struct {
     s32 unk4C;
 } StructA_8002001C;
 
-extern StructA_8002001C *func_8003C480(s32 arg0);
+extern StructA_8002001C *func_8003C480(s32 value);
 extern void func_80402214(void);
 extern void func_804023C4(void);
 extern s32 func_80404C84(StructA_8002001C *init_value, s32 config_value);

@@ -2,8 +2,8 @@
 
 extern s32 func_80402268(void);
 extern s32 func_80402290(void);
-extern void func_80406C74(void *arg0);
-extern void func_80406CB8(void *arg0);
+extern void func_80406C74(void *ptr);
+extern void func_80406CB8(void *ptr);
 extern void func_80406C2C(void);
 extern void func_80406B9C(void);
 extern u8 D_8009DDD8[];

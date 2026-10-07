@@ -41,11 +41,6 @@ typedef struct S_80D3B0B8_3 {
     u8 * unk_2C;
 } S_80D3B0B8_3;   /* temp_s1 in func_80D3B0B8 */
 
-typedef struct S_80D3B0B8_4 {
-    u8 pad_00[0xC8];
-    s16 unk_C8;
-} S_80D3B0B8_4;   /* base_80083160 in func_80D3B0B8 */
-
 typedef struct S_80D3B0B8_5 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -76,6 +71,8 @@ typedef struct Copy16 {
 } Copy16;
 
 
+typedef struct { Copy16 block[3]; } Copy48;
+
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, u8, s32);
@@ -91,9 +88,6 @@ void func_80D3B0B8(u8 *owner_data, u8 *source_position, u8 *source_sprite) {
     u8 *object_data;
     u8 *sprite;
     u8 *position;
-    Copy16 *copy_dst;
-    Copy16 *copy_src;
-    Copy16 *copy_end;
     u8 *direction_table;
 
     object = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
@@ -103,20 +97,10 @@ void func_80D3B0B8(u8 *owner_data, u8 *source_position, u8 *source_sprite) {
         ((S_80D3B0B8_1 *)object)->unk_10 = D_800D5594;
         ((S_80D3B0B8_0 *)object_data)->unk_AC = owner_data - 0x20;
         ((S_80D3B0B8_0 *)object_data)->unk_94 = ((S_80D3B0B8_2 *)owner_data)->unk_2A.s;
-        copy_src = (Copy16 *)source_sprite;
         ((S_80D3B0B8_0 *)object_data)->unk_2A = ((S_80D3B0B8_2 *)owner_data)->unk_2A.s;
         sprite = ((S_80D3B0B8_1 *)object)->unk_0C;
 
-        copy_end = (Copy16 *)(source_sprite + 0x30);
-        copy_dst = (Copy16 *)sprite;
-loop_0:
-        {
-            *copy_dst = *copy_src;
-            copy_src++;
-            copy_dst++;
-        }
-        if (copy_src != copy_end)
-            goto loop_0;
+        *(Copy48 *)sprite = *(Copy48 *)source_sprite;
 
         func_8004491C(object, func_80045340);
         direction_table = D_800E23F0;

@@ -172,10 +172,12 @@ void func_80018A70(void *caller_state, u32 block_extent, u32 color_command) {
         if (track->arg != 0) {
             func_80018464(track->arg);
         }
-        if (track->special != 0) {
-            func_800C7D54(((volatile TrackRecord *)track)->special - 1);
+        if (track->special == 0) {
+            ((Page800E *)0x800E0000)->flags &= ~0x20000000;
+        } else {
+            func_800C7D54(track->special - 1);
+            ((Page800E *)0x800E0000)->flags &= ~0x20000000;
         }
-        ((Page800E *)0x800E0000)->flags &= ~0x20000000;
     } else {
         if (page1->mode != 2) {
             func_800B0544(D_8001F584 % 24 + 3);

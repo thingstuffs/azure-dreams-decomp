@@ -7,18 +7,18 @@ typedef s32 M2C_UNK;
 #endif
 
 extern s32 func_800191E8();
-extern M2C_UNK D_8001A20C;
-extern M2C_UNK D_8001A2E7;
-extern M2C_UNK D_8001A348;
-extern M2C_UNK D_8001A526;
-extern M2C_UNK D_8001A5E8;
-extern M2C_UNK D_8001A685;
-extern M2C_UNK D_8001A8BC;
-extern M2C_UNK D_8001A91D;
+extern s32 D_8001A20C;
+extern s32 D_8001A2E7;
+extern s32 D_8001A348;
+extern s32 D_8001A526;
+extern s32 D_8001A5E8;
+extern s32 D_8001A685;
+extern s32 D_8001A8BC;
+extern s32 D_8001A91D;
 
 
 M2C_UNK *func_805D3370(s32 value, s32 unused, s32 selector) {
-    M2C_UNK *result;
+    s32 *result;
     s32 status;
 
     result = NULL;

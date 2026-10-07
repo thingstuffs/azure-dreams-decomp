@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_800478B8(void *arg0);
+extern void func_800478B8(void *target);
 
 /* Marks the record when target flags are set, then processes the target. */
 void func_800D79B0(u16 *record, void *unused, u16 *target) {

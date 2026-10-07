@@ -9,7 +9,7 @@ extern void *func_8009C390(s32 parent, s32 position, void *object_value, s32 sta
 extern s32 func_800AAE98(void *coordinates);
 extern void func_800AAEFC(void);
 extern void func_800C2E84(void *state, s32 output, void *entries);
-extern void func_80033CD8(void *arg0, void *arg1);
+extern void func_80033CD8(void *state, void *callback);
 
 extern s32 D_80081458[];
 extern u8 D_800AB1E0[];

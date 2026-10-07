@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void file_load_com(void *arg0);
+extern void file_load_com(void *object);
 extern s32 func_8008B328(void);
 
 extern u8 D_800CF828[];

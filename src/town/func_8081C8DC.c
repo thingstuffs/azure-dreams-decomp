@@ -10,7 +10,7 @@ typedef struct {
     s32 field14;
 } S_8081C8DC;
 
-extern void func_800478B8(void *arg0);
+extern void func_800478B8(void *result);
 
 /* Advances the position and propagates flags from the processed result. */
 void func_800268DC(void *object_data, S_8081C8DC *motion, S_8081C8DC *result)

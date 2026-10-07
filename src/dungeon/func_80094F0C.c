@@ -18,12 +18,6 @@ typedef struct {
     u16 height;
 } FuncArg2;
 
-typedef struct {
-    u8 pad0c[0x0c];
-    u16 flags;
-    u8 tail[6];
-} FuncMonster;
-
 extern s32 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern s32 func_8009A540(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s32 func_8009B25C(FuncArg2 *, s32, s32, s16);
@@ -105,7 +99,7 @@ s32 func_8009A66C(u32 move_flags, FuncArg1 *position, FuncArg2 *actor, s16 heigh
             if (func_8009B25C(actor, (u32)x_pos >> 6, (u32)y_coord >> 6,
                               (s16)offset_or_height)) {
                 status = -1;
-                goto done;
+                return status;
             }
         } else {
             offset_or_height = func_800BCB04(x_pos & 0xFFFF, y_pos & 0xFFFF,
@@ -126,8 +120,6 @@ s32 func_8009A66C(u32 move_flags, FuncArg1 *position, FuncArg2 *actor, s16 heigh
             return 2;
         }
         return 3;
-done:
-        return status;
     }
     return 0;
 }

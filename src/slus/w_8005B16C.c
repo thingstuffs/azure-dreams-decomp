@@ -23,7 +23,7 @@ extern u8 D_80085458[0x78 * 64];
 extern s32 D_80085F98[4];
 extern S_80086C00 D_80086C00[8];
 
-extern void func_8005F134(S_8005B16C_req *arg0);
+extern void func_8005F134(S_8005B16C_req *request);
 
 /* Dispatches type-3 requests for active channels and marks the selected slot active. */
 void func_8005B16C(s16 slot_index)

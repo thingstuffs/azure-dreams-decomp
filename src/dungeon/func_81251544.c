@@ -34,7 +34,7 @@ typedef struct S_80170D44_2 {
 } S_80170D44_2;   /* src in func_80170D44 */
 
 
-extern void func_800478B8(void *arg0);
+extern void func_800478B8(void *primitive);
 
 
 /* Copy the effect position, expand and fade its primitive, and flag expiration. */

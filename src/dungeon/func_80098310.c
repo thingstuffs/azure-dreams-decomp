@@ -15,7 +15,7 @@ typedef struct State {
 } State;
 
 extern u8 D_801C9E40[16];
-extern s32 func_8006658C(s32 arg0, void *arg1);
+extern s32 func_8006658C(s32 submission_target, void *entry);
 
 // Appends a type-2 entry with adjusted coordinates and submits it for processing.
 void func_8009DA70(s32 x, s32 y, s32 *entryValue, s32 submissionTarget)

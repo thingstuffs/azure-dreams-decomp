@@ -5,8 +5,9 @@
 #include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
-M2C_UNK func_80047784();         /* extern */
-M2C_UNK func_8009C93C(); /* extern */
+void func_80047784();         /* extern */
+typedef struct Ent Ent;
+Ent *func_8009C93C(); /* extern */
 s32 func_800A2B5C();                          /* extern */
 s32 func_800C7930(); /* extern */
 extern u8 D_80174038[];

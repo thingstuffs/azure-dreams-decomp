@@ -1,8 +1,8 @@
 #include "common.h"
 
 extern void func_800540A8(void);
-extern void func_8004425C(s32 arg0);
-extern s16 SD_Call(s32 arg0);
+extern void func_8004425C(s32 sound_id);
+extern s16 SD_Call(s32 sequence_id);
 
 /* tw_sd_se_ld_call: prepare sound loading and process the nonzero sound and sequence IDs. */
 s32 tw_sd_se_ld_call(s32 sound_id, s32 sequence_id) {

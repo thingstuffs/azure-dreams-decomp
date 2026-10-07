@@ -13,7 +13,7 @@ typedef struct {
     u8 pad[0x9B + 1];
 } S_800D2200_a0;
 
-extern void func_800478B8(void *arg0);
+extern void func_800478B8(void *target);
 
 /* Marks the record and global flags for a sentinel byte, then processes the target. */
 void func_800D7960(S_800D2200_a0 *record, s32 unused, void *target)

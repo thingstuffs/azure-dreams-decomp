@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_8004E994(s32 arg0);
+extern void func_8004E994(s32 value);
 
 // Process and clear three referenced values, then clear a fourth referenced value.
 void func_800240EC(void *owner) {

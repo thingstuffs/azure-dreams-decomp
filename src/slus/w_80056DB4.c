@@ -17,7 +17,7 @@ typedef struct S_80084918 {
 extern S_80084918 D_80084918;
 extern s32 D_80073740[];
 
-extern void func_8005F134(S_80084918 *arg0);
+extern void func_8005F134(S_80084918 *descriptor);
 
 /* Builds and submits a request using the indexed table value. */
 void func_80056DB4(s32 request_index) {

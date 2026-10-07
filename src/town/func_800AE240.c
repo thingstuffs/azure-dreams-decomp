@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_80041E70(void *arg0);
+extern void func_80041E70(void *object);
 
 /* Clears object entries and flags, restores saved fields, and updates the object. */
 void func_800AB9A0(void *object)

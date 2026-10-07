@@ -23,8 +23,8 @@ typedef struct {
 
 extern u16 D_800257CE[5];
 extern s16 D_800257CC[5];
-s32 func_800644B8(s32 arg0);
-s32 func_80064584(s32 arg0);
+s32 func_800644B8(s32 angle);
+s32 func_80064584(s32 angle);
 
 /* Moves and fades an effect, marking it inactive when its brightness falls below the cutoff. */
 void func_80024EE0(void *effect_data, void *position_data, void *visual_data) {

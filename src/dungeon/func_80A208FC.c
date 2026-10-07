@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_800478B8(void *arg0);
+extern void func_800478B8(void *work);
 
 /* Advances object motion, decrements its timer, and flags expiration. */
 void func_801740FC(void *object_data, void *motion_data, void *work_data)

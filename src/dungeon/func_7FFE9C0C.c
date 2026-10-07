@@ -41,7 +41,7 @@ typedef struct Owner {
 } Owner;
 
 extern Object *func_8003CF18(u32 kind);
-extern void func_8003A7C4(RenderData *render, void *data, u32 arg2);
+extern void func_8003A7C4(RenderData *render, void *data, u32 value);
 extern void func_8010C0F8(void);
 extern u8 D_800E2BB8[9];
 extern u16 D_80094422[5];

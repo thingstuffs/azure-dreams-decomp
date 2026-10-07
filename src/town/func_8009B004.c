@@ -4,8 +4,8 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern s32 func_800644B8(s32 arg0);
-extern s32 func_80064584(s32 arg0);
+extern s32 func_800644B8(s32 value_a);
+extern s32 func_80064584(s32 value_b);
 extern void func_80099754(void *record);
 extern s32 D_80098690;
 

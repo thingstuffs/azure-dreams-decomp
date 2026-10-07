@@ -3,7 +3,7 @@
 
 extern s32 func_8009CFE0(void *, void *);
 extern void func_8008F134(void *node);
-extern void func_80033D08(void *arg0);
+extern void func_80033D08(void *object);
 
 typedef struct S_func_800BB508_0 {
     u8 pad_00[0x98];

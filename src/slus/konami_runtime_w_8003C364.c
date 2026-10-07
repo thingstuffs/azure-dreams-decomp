@@ -4,7 +4,7 @@
 
 extern s8 D_80082D58[9];
 extern u32 D_800814A0_scalar;
-extern void func_80033D08(void *arg0);
+extern void func_80033D08(void *runtime_data);
 
 
 /* Processes the runtime data and sets both 0x8000 flags. */

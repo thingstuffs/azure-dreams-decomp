@@ -5,7 +5,7 @@ typedef struct {
     u8 *read_ptr;
 } ParserState;
 
-extern u8 *func_8003C8E4(s32 arg0);
+extern u8 *func_8003C8E4(s32 entry_key);
 
 /* Read a script entry key and value, copying the value to entry bytes 2 and 3 if found. */
 void func_80039814(ParserState *parser)

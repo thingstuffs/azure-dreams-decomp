@@ -9,7 +9,7 @@ typedef struct Func80039578State {
     u8 *read_ptr;
 } Func80039578State;
 
-extern void func_80038128(void *arg0);
+extern void func_80038128(void *state);
 
 /* Reads a little-endian 16-bit script operand and selects the next callback. */
 void func_80039578(Func80039578State *state) {

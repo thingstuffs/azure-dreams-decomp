@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_80049D80(s32 arg0, s16 *arr);
+extern void func_80049D80(s32 target, s16 *rect);
 
 /* Apply a centered rectangle with the given width and height and return the target. */
 s32 func_800235A0(s32 target, s32 width, s32 height) {

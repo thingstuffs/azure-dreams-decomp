@@ -31,7 +31,7 @@ struct AnimObject {
 extern s32 D_8006A8B4[];
 extern void func_8003AE28(s16 x, s16 y, s16 width, s16 height, s32 move_x, s32 move_y);
 extern void func_8003AE60(s16 x, s16 y, s16 width, s16 height, u8 red, u8 green, u8 blue);
-extern void func_80038A10(AnimObject *arg0);
+extern void func_80038A10(AnimObject *anim);
 
 /* Scrolls the rows up and clears the last row when a row-height step completes. */
 void func_800387D0(AnimObject *anim)

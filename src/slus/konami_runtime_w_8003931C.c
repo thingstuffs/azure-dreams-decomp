@@ -41,7 +41,7 @@ typedef struct State {
 
 extern u8 D_800C3174[];
 extern u8 D_800C321C[];
-extern ObjectBlock *ms_mot_accpt_ow(s32 arg0);
+extern ObjectBlock *ms_mot_accpt_ow(s32 entry_index);
 extern void func_800383D4(void);
 extern void func_80038408(void);
 

@@ -92,7 +92,7 @@ extern S_80084960 D_80084960[16];
 extern S_80085458 D_80085458[64];
 extern void func_80055E7C();
 extern void func_800564A8();
-extern void func_80056654(S_80085458 *e, s32 arg1);
+extern void func_80056654(S_80085458 *e, s32 value);
 extern void func_80057A94(S_80084960 *e);
 extern void func_800561D8(S_80085458 *e, S_80084960 *rec);
 extern s32 func_800563B0(s32 a0, u16 a1, u16 a2);

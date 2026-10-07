@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_800478B8(void *arg0);
+extern void func_800478B8(void *visual);
 extern s16 D_8002992E[5];
 
 /* Advance effect motion and animation, then mark it finished when its lifetime expires. */

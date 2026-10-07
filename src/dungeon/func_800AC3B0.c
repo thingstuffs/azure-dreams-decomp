@@ -57,7 +57,7 @@ typedef struct S_800B1B10_4 {
 
 typedef struct S_800B1B10_5 {
     u8 unk_00;
-    union { u8 n; volatile u8 v; } unk_01;   /* accessed as both */
+    union { u8 n; u8 v; } unk_01;   /* accessed as both */
     s8 unk_02;
     union { u8 u; s8 s; } unk_03;   /* accessed as both */
     union {
@@ -118,7 +118,6 @@ void func_800B1B10(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact
     ObjectNodeHeader *alloc_data;
     s32 copy_a;
     s32 copy_b;
-    u32 byte_val;
     s32 value_4;
     s32 value_5;
     s32 tail;
@@ -230,10 +229,8 @@ void func_800B1B10(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact
             copy_a = ((S_800B1B10_2 *)sub)->unk_18.v;
             style_held++;
             ((S_800B1B10_5 *)((void *) b_held))->unk_10 = copy_a;
-            byte_val = ((S_800B1B10_5 *)((void *) b_held))->unk_01.v;
             copy_b = ((S_800B1B10_2 *)sub)->unk_1C.v;
-            byte_val |= 2;
-            ((S_800B1B10_5 *)((void *) b_held))->unk_01.v = byte_val;
+            ((S_800B1B10_5 *)((void *) b_held))->unk_01.n |= 2;
             ((S_800B1B10_5 *)((void *) b_held))->unk_14 = copy_b;
             b_held += 0x18;
             ((S_800B1B10_7 *)(((style_held * 4) + sub)))->unk_50 = b_held;

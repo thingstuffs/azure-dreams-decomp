@@ -28,9 +28,9 @@ typedef struct S_80172C90_2 {
     union { u16 s; s16 u; } unk_06;   /* accessed as both */
     u8 pad_08[0x2];
     union { u16 s; s16 u; } unk_0A;   /* accessed as both */
-    union { s32 s; volatile s32 u; } unk_0C;   /* accessed as both */
-    union { s32 s; volatile s32 u; } unk_10;   /* accessed as both */
-    union { s32 s; volatile s32 u; } unk_14;   /* accessed as both */
+    union { s32 s; s32 u; } unk_0C;   /* accessed as both */
+    union { s32 s; s32 u; } unk_10;   /* accessed as both */
+    union { s32 s; s32 u; } unk_14;   /* accessed as both */
 } S_80172C90_2;   /* arg1 in func_80172C90 */
 
 typedef struct S_80172C90_3_pre {
@@ -236,10 +236,10 @@ void func_80172C90(void *action, S_80172C90_2 *motion, Rec_D_80082E80 *sprite, E
         }
         if (((S_80172C90_1 *)action)->unk_96.u <= 0) {
             motion->unk_0C.u = 0;
-            motion->unk_0C.s = dir_x << 18;
             motion->unk_10.u = 0;
-            motion->unk_10.s = dir_y << 18;
             motion->unk_14.u = 0;
+            motion->unk_0C.s = dir_x << 18;
+            motion->unk_10.s = dir_y << 18;
             motion->unk_14.s = (s32)0xFFF30000;
             {
                 ((S_80172C90_1 *)action)->unk_9B = ((S_80172C90_1 *)action)->unk_9B + 1;

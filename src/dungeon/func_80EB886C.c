@@ -15,7 +15,7 @@ typedef struct {
     u16 timer;
 } EffectState;
 
-extern void func_800478B8(void *arg0);
+extern void func_800478B8(void *update_data);
 
 /* Advance effect motion, update its data, and set expiry flags when its timer runs out. */
 void func_80EB886C(EffectState *effect, VecState *motion, void *update_data) {

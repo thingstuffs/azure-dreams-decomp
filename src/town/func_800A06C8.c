@@ -2,7 +2,7 @@
 
 extern s32 func_8009706C(s32 state);
 extern void func_800970AC(s32 flags, u8 *state);
-extern void func_800478B8(void *arg0);
+extern void func_800478B8(void *callback_data);
 
 typedef struct {
     /* 0x00 */ u8 pad[0x4D];

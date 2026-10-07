@@ -2,7 +2,7 @@
 
 extern void func_800C3050(void *object, s32 slot_index, void *field_58_value, void *field_5c_value,
                           void *field_7c_value, void *field_80_value);
-extern void func_800C6440(void *record, s32 arg1, s32 arg2);
+extern void func_800C6440(void *record, s32 first_value, s32 second_value);
 extern void func_800C6C10(void *state_value);
 
 extern u8 D_800D5958[];

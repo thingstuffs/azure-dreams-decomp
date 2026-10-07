@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
 
-extern void func_80033D08(void *arg0);
+extern void func_80033D08(void *actor);
 extern void func_80098928(void *record, s32 setup_value, s32 init_value);
 
 /* Clean up the actor, clear its indexed flag, and complete its current action. */

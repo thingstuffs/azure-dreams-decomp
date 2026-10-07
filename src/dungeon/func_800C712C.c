@@ -40,7 +40,7 @@ extern s32 D_80045C34[3];
 extern u8 D_800CC744[];
 extern u8 D_800E03D4[];
 
-extern ObjectBlock *func_8003FC64(s32 arg0);
+extern ObjectBlock *func_8003FC64(s32 value);
 extern void func_8004491C(ObjectBlock *obj, s32 *table);
 
 /* Create an object at grid coordinates and initialize its display and tail data. */

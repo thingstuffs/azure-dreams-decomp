@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/sys_flags.h"
 
-extern s32 func_800353F4(s8 *arg0);
+extern s32 func_800353F4(s8 *text);
 
 typedef struct S_800A5720_0 {
     u8 unk_00;

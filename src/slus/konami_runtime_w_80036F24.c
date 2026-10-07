@@ -16,7 +16,7 @@ typedef struct {
     u32 value_0c;
 } FuncOutput;
 
-extern s32 func_80037534(FuncInput *arg0);
+extern s32 func_80037534(FuncInput *input);
 extern void func_80036C7C(u32 *texture_pos, u32 *src, void *dst);
 
 extern u32 D_8006A958[3];

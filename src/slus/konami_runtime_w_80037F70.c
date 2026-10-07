@@ -17,8 +17,8 @@ extern const char D_8002D010[0x10];
 extern const char D_8002D020[0x10];
 extern u8 D_80082A38[0xB0];
 
-extern s32 func_80043FB8(const char *arg0, ...);
-extern void func_8003800C(Func80037F70Inner *arg0);
+extern s32 func_80043FB8(const char *format, ...);
+extern void func_8003800C(Func80037F70Inner *inner);
 
 /* Processes global state, updates the inner context, and saves then clears its status byte. */
 void func_80037F70(Func80037F70Outer *context)

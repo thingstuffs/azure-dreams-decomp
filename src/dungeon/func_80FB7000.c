@@ -3,7 +3,6 @@ typedef struct { u8 pad[6]; u16 count; } CountView;
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
-typedef void (*retfn)(void);
 
 typedef struct S_80FB7000_0 {
     u8 pad_00[0x8];
@@ -173,12 +172,13 @@ void *BODY_NAME(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
         ((S_80FB7000_4 *)pin_actor)->unk_AE = actor_value;
 
         entry = part_b->unk_08;
-scan_entries:
-        twice_index = entry_index << 1;
-        if (*entry & 0x20) {
+        while (1) {
+            twice_index = entry_index << 1;
+            if (!(*entry & 0x20)) {
+                break;
+            }
             entry += 12;
             entry_index += 1;
-            goto scan_entries;
         }
 
         entry_count = ((CountView *)(part_b->unk_08 + (twice_index + entry_index) * 4))->count >> 6;

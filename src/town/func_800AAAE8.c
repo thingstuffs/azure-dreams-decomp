@@ -7,7 +7,7 @@ extern s32 D_80097D2C;
 extern s32 D_80097EA0;
 extern s32 D_800D0428;
 
-extern void func_80033D08(void *arg0);
+extern void func_80033D08(void *object);
 
 /* Copy the adjusted vector when state references match; otherwise process and flag the object. */
 void func_800A8248(void *object, s32 *out_vector)

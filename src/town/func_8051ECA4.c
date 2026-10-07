@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_80017710(s32 *arg0, s32 arg1);
+extern s32 func_80017710(s32 *table_base, s32 lookup_key);
 extern s32 D_80018D78[];
 
 /* Look up a key in D_80018D78 and return the entry value. */

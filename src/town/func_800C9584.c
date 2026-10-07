@@ -11,7 +11,7 @@ typedef struct {
 extern s32 func_800644B8(s32 angle);
 extern s32 func_80064584(s32 angle);
 extern s32 func_800C648C(void *actor);
-extern void func_80033D08(void *arg0);
+extern void func_80033D08(void *object);
 
 /* Computes an offset position from the linked object, flagging failed validation. */
 void func_800C6CE4(void *object, Vec3_32 *out_pos)

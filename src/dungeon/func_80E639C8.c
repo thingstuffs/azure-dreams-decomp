@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
@@ -166,15 +167,9 @@ void func_801731C8(void *action, EntityRec *motion, void *sprite, void *actor)
                     dx = (s32)func_800A05A4(
                         actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
                         (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
-                    (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)dx;
-                    dx = (*(s8 *)((u8 *)actor + 0x72));
-                    dy = (*(s8 *)((u8 *)actor + 0x73));
-                    if (dx < 0) {
-                        dx = -dx;
-                    }
-                    if (dy < 0) {
-                        dy = -dy;
-                    }
+                    (*(void * *)((u8 *)actor + 0x60)) = (void *)dx;
+                    dx = abs(*(s8 *)((u8 *)actor + 0x72));
+                    dy = abs(*(s8 *)((u8 *)actor + 0x73));
                     (*(u8 *)((u8 *)actor + 0x72)) = dx;
                     (*(u8 *)((u8 *)actor + 0x73)) = dy;
                 }

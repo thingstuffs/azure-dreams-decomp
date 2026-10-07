@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_800478B8(void *arg0);
+extern void func_800478B8(void *target);
 
 /* Increments the referenced object's counter, updates the target, and flags pending status. */
 void func_80024550(void *object_ref, s32 unused, void *target) {

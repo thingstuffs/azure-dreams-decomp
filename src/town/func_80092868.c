@@ -60,7 +60,7 @@ extern void func_8008FCE0(void);
 extern void func_8008FD48(void *record, ScenePos *scene, void *value_0c);
 extern void func_8008FF5C(void);
 extern void func_8009550C(ScenePos *scene);
-extern s32 func_8009F830(s32 arg0, s32 arg1);
+extern s32 func_8009F830(s32 first_value, s32 second_value);
 extern void func_800A48B0(void *state, ScenePos *scene);
 extern void func_800AB084(void);
 extern void func_800C01DC(void);

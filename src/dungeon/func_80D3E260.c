@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 #include "shared/def_table.h"
 #include "shared/object_node.h"
 #include "shared/record_ptrs.h"
@@ -178,20 +179,15 @@ void func_80173A60(void *actor_state, EntityRec *motion, void *sprite, void *act
             } else {
                 s32 offset_y;
 
+                s32 abs_x;
                 offset_x = (s32)func_800A05A4(actor,
                                        ((Rec_D_80082E80 *)sprite)->unk_24,
                                        ((Rec_D_80082E80 *)sprite)->unk_25,
                                        (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
-                (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)offset_x;
-                offset_x = (*(s8 *)((u8 *)actor + 0x72));
-                offset_y = (*(s8 *)((u8 *)actor + 0x73));
-                if (offset_x < 0) {
-                    offset_x = -offset_x;
-                }
-                if (offset_y < 0) {
-                    offset_y = -offset_y;
-                }
-                (*(u8 *)((u8 *)actor + 0x72)) = offset_x;
+                (*(void * *)((u8 *)actor + 0x60)) = (void *)offset_x;
+                abs_x = abs(*(s8 *)((u8 *)actor + 0x72));
+                offset_y = abs(*(s8 *)((u8 *)actor + 0x73));
+                (*(u8 *)((u8 *)actor + 0x72)) = abs_x;
                 (*(u8 *)((u8 *)actor + 0x73)) = offset_y;
             }
 

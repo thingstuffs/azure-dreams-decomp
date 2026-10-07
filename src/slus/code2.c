@@ -315,8 +315,8 @@ u8 func_8003F240(void) {
 
 extern unsigned char D_8007382B[9];
 
-extern void func_8005D88C(int arg0);
-extern void func_8005E450(int arg0);
+extern void func_8005D88C(int value);
+extern void func_8005E450(int value);
 
 /* Clears D_8007382B and calls both reset routines with zero. */
 void func_8005B348(void)

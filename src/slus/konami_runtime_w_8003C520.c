@@ -11,7 +11,7 @@ typedef struct {
     u16 unk_1C;
 } Func8003C520Data;
 
-extern void func_80033D08(void *arg0);
+extern void func_80033D08(void *object);
 extern u32 D_800814A0;
 
 /* Decreases intensity and marks the object finished when its countdown expires. */

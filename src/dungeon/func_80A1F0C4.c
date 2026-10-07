@@ -13,7 +13,7 @@ typedef struct S_801728C4_0 {
     void * unk_8C;
     u8 pad_90[0x6];
     u16 unk_96;
-    union { volatile u16 s; u16 u; } unk_98;   /* accessed as both */
+    union { u16 s; u16 u; } unk_98;   /* accessed as both */
     u8 pad_9A[0x1];
     u8 unk_9B;
 } S_801728C4_0;   /* arg0 in func_801728C4 */
@@ -138,7 +138,7 @@ void func_801728C4(void *action, EntityRec *motion, void *sprite, EntityRec *act
     s32 abs_x;
     s32 abs_y;
     s32 offset_y;
-    u16 flags;
+    s32 flags;
 
     special_mode = 0;
     state = ((S_801728C4_0 *)action)->unk_9B;

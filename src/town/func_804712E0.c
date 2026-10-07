@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_800189FC(void *arg0, s32 arg1);
+extern s32 func_800189FC(void *entries, s32 value);
 extern s32 D_8001B210;
 extern s32 D_8001B218[];
 
