@@ -1,3 +1,4 @@
+#include "shared/sound_state.h"
 #include "common.h"
 
 /* S_8006E61C: 12-byte record array indexed by a signed 16-bit id.

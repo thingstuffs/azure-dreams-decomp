@@ -1,10 +1,7 @@
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 
-typedef struct {
-    u8 kind;
-    u8 active;
-    u8 pad2[2];
-} DungeonState;
+
 
 typedef struct {
     u8 x;
@@ -29,7 +26,7 @@ typedef struct {
 
 extern s32 func_8001E110(s32, u8, u8);
 extern s32 func_8001E660(u8 *, u8 *, s32, s32);
-extern void func_8001E824(DungeonState *);
+extern void func_8001E824(DungeonItemEntry *);
 extern void func_8001EC54(void);
 extern void func_8009A21C(s16 x, s16 y, u16 flags);
 extern s32 func_800A4E2C(u8 *, u8 *);
@@ -43,7 +40,6 @@ extern s8 D_8001F6F0[];
 extern u8 D_800DDC9C[];
 extern DungeonGroup D_80073414[];
 extern s16 D_80081468[3];
-extern u8 D_800E3548[];
 extern u8 D_800E36C8[];
 extern s32 D_800E3D6C[];
 
@@ -64,16 +60,16 @@ void func_8001E18C(void)
     s32 spawn_check;
     DungeonGroup *item_category_table;
     DungeonRecord *item_record;
-    DungeonState *item_state;
+    DungeonItemEntry *item_state;
     DungeonRecord *saved_record;
     DungeonRecord *spawn_records;
     u8 *setup_globals;
     if (D_800E3D6C[0] & 2) {
         count = 0;
         saved_record = (DungeonRecord *)D_800E36C8;
-        item_state = (DungeonState *)D_800E3548;
+        item_state = (DungeonItemEntry *)((u8 *)D_800E3548);
         do {
-            if (item_state->kind != 0) {
+            if (item_state->unk_00 != 0) {
                 func_8009A21C(saved_record->x, saved_record->y, 0x800);
             }
             saved_record++;
@@ -126,7 +122,7 @@ void func_8001E18C(void)
                     } while (func_8001E110(spawn_index, tile_x, tile_y) != 0);
 
                     {
-                        s32 *spawn_table = (s32 *)D_800E3548;
+                        s32 *spawn_table = (s32 *)((u8 *)D_800E3548);
                         spawn_table[spawn_index] = 0x603;
                     }
                     spawn_records = (DungeonRecord *)D_800E36C8;
@@ -142,10 +138,10 @@ void func_8001E18C(void)
     count = 0;
     spawn_check = (s32)((u8 *)0x80010000);
     item_category_table = D_80073414;
-    item_state = (DungeonState *)D_800E3548;
+    item_state = (DungeonItemEntry *)((u8 *)D_800E3548);
     item_record = (DungeonRecord *)D_800E36C8;
 main_loop:
-    if (item_state->active == 0) {
+    if (item_state->kind == 0) {
         if (count >= slot_limit) {
             goto cleanup;
         }
@@ -183,15 +179,15 @@ main_loop:
                 }
             }
 
-            item_state->active = item_category;
-            item_state->kind = item_subtype;
+            item_state->kind = item_category;
+            item_state->unk_00 = item_subtype;
             func_8001E824(item_state);
 
             do {
             } while ((s16)func_800A4E2C(&tile_x, &tile_y) < 0);
 
             if (func_8001E110(count, tile_x, tile_y) != 0) {
-                item_state->active = 0;
+                item_state->kind = 0;
             } else {
                 item_record->x = tile_x;
                 item_record->y = tile_y;
@@ -222,14 +218,14 @@ main_loop:
 
 cleanup:
     if (count < 0x40) {
-        DungeonState *cleanup_base;
-        DungeonState *cleanup_state;
+        DungeonItemEntry *cleanup_base;
+        DungeonItemEntry *cleanup_state;
 
-        cleanup_base = (DungeonState *)D_800E3548;
+        cleanup_base = (DungeonItemEntry *)((u8 *)D_800E3548);
         cleanup_state = cleanup_base + count;
 cleanup_loop:
-            cleanup_state->active = 0;
-            (cleanup_state++)->kind = 0;
+            cleanup_state->kind = 0;
+            (cleanup_state++)->unk_00 = 0;
             count++;
         if (count < 0x40) {
             goto cleanup_loop;

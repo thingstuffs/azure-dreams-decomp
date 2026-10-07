@@ -1,11 +1,7 @@
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 
-typedef struct {
-    u8 type;
-    u8 state;
-    u8 amount;
-    u8 flag;
-} DungeonEntry;
+
 
 typedef struct {
     u8 x;
@@ -27,7 +23,6 @@ extern s16 func_800BCA68(s32, s32);
 
 extern s16 D_8008146C;
 extern u8 D_80010000[];
-extern u8 D_800E3548[];
 extern u8 D_800E36C8[];
 
 void func_8001EC54(s32 unused0, s32 unused1, s32 unused2, s32 unused3)
@@ -46,11 +41,11 @@ void func_8001EC54(s32 unused0, s32 unused1, s32 unused2, s32 unused3)
     s32 scaled;
     u8 *mode_page;
     s32 entry_state;
-    DungeonEntry *entry;
+    DungeonItemEntry *entry;
     DungeonCell *cell;
-    DungeonEntry *entry_scan;
+    DungeonItemEntry *entry_scan;
     DungeonCell *cell_scan;
-    DungeonEntry *entry_base;
+    DungeonItemEntry *entry_base;
     u8 *cell_page;
     DungeonCell *cell_base = 0;
 
@@ -76,7 +71,7 @@ void func_8001EC54(s32 unused0, s32 unused1, s32 unused2, s32 unused3)
     }
 
     if (budget >= 0) {
-        entry_base = (DungeonEntry *)D_800E3548;
+        entry_base = (DungeonItemEntry *)((u8 *)D_800E3548);
         cell_page = (u8 *)0x800E0000;
         do {
         cell_index = (s16)func_800A71F4();
@@ -109,18 +104,18 @@ void func_8001EC54(s32 unused0, s32 unused1, s32 unused2, s32 unused3)
         for (index = 0, cell_scan = (DungeonCell *)D_800E36C8, entry_scan = entry_base;
              index < 64;
              cell_scan++, index++, entry_scan++) {
-            if (!(entry_scan->state == 0 || cell_scan->x != scan_x || cell_scan->y != scan_y)) {
+            if (!(entry_scan->kind == 0 || cell_scan->x != scan_x || cell_scan->y != scan_y)) {
                 break;
             }
         }
 
         if (index == 64) {
-            entry = (DungeonEntry *)((cell_index << 2) + (unsigned long)entry_base);
+            entry = (DungeonItemEntry *)((cell_index << 2) + (unsigned long)entry_base);
             cell_base = (DungeonCell *)(cell_page + 0x36C8);
-            entry->type = type;
-            entry->state = 14;
-            entry->flag = flag;
-            entry->amount = amount;
+            entry->unk_00 = type;
+            entry->kind = 14;
+            entry->unk_03 = flag;
+            entry->unk_02 = amount;
             cell = (DungeonCell *)((cell_index * 12) +
                                             (unsigned long)cell_base);
             cell->x = x;

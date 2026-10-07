@@ -1,15 +1,8 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
+#include "shared/town_root.h"
 
-
-typedef struct S_800189BC_2 {
-    u8 pad_00[0x20];
-    void * unk_20;
-    u8 pad_24[0x14];
-    void * unk_38;
-} S_800189BC_2;   /* ((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v in func_800189BC */
 
 typedef struct S_800189BC_3 {
     u8 pad_00[0x4C];
@@ -28,10 +21,10 @@ typedef struct S_800189BC_0 {
 void func_800189BC(void) {
     S_800189BC_0 *counter_obj;
 
-    counter_obj = ((S_800189BC_2 *)(((Rec_D_80016000 *)(((M2C_UNK *)(&D_80016000))))->unk_00.at00_pv.v))->unk_38;
+    counter_obj = D_80016000->unk_38;
     counter_obj->unk_2D5C = (u32) (counter_obj->unk_2D5C - D_8001C368[0]);
     if (func_8001890C() != 0) {
-        ((S_800189BC_3 *)(((S_800189BC_2 *)(((Rec_D_80016000 *)(((M2C_UNK *)(&D_80016000))))->unk_00.at00_pv.v))->unk_20))->unk_4C(0x10,
+        ((S_800189BC_3 *)(D_80016000->unk_20))->unk_4C(0x10,
             5);
     }
 }

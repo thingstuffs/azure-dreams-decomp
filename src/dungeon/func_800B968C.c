@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -72,7 +73,7 @@ s32 func_800BEDEC(u32 target_addr, u8 *item, s16 effect_type, s32 effect_value) 
             u8 item_flags;
             register s32 result;
 
-            *(s32 *)(actor + 0x114) = 0x802020;
+            ((EntityRec *)actor)->unk_114 = 0x802020;
             func_8008D368(actor, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), D_800DD158, 0);
             item_flags = item[3];
             result = 0;

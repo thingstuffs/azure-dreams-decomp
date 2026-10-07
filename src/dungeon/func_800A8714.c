@@ -1,3 +1,4 @@
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"
@@ -13,7 +14,6 @@ extern int abs(int);
 
 /* ---- globals (declared array-style so every access stays %hi/%lo, never $gp) ---- */
 typedef struct CFlags46 { u8 pad_00[0x46]; u16 f46; } CFlags46;
-extern u8 D_800E3548[];
 
 /* ---- ordinary callees ---- */
 extern s32 func_80042900();
@@ -147,7 +147,7 @@ s32 func_800ADE74(s32 unused, u8 *position, u8 *creature, s32 lower_limit, u16 u
                                 creature[0x24] = 0xFF;
                             }
                         }
-                        func_80098B38((entry_index * 4) + (u8 *)D_800E3548);
+                        func_80098B38((entry_index * 4) + (u8 *)((u8 *)D_800E3548));
                     }
                     return 0;
                 }

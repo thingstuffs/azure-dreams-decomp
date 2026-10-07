@@ -1,16 +1,12 @@
 #include "common.h"
+#include "m2c_compat.h"
 #include "shared/record_ptrs.h"
-#include "records/Rec_D_80016000.h"
+#include "shared/town_root.h"
 
 typedef struct S_8051E954_3 {
     u8 pad_00[0x208];
     M2C_UNK (*unk_208)(M2C_UNK);
 } S_8051E954_3;   /* (*(void **)((u8 *)temp_v1 + 0x20)) in func_8051E954 */
-
-typedef struct S_8051E954_4 {
-    u8 pad_00[0x20];
-    void * unk_20;
-} S_8051E954_4;   /* ((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v in func_8051E954 */
 
 typedef struct S_8051E954_5 {
     u8 pad_00[0x224];
@@ -30,7 +26,7 @@ typedef struct S_8051E954_0 {
 /* Builds and submits a three-word command sequence from the low 16 bits of the input. */
 void func_8051E954(s32 command_value) {
     s32 *command_words;
-    void *context;
+    Rec_D_80016000 *context;
 
     command_value &= 0xFFFF;
     command_value |= 0x06800000;
@@ -41,8 +37,8 @@ void func_8051E954(s32 command_value) {
     ((S_8051E954_0 *)command_words)->unk_04 = command_value;
     command_value &= 0xFFFF;
     command_value |= 0xFF000000;
-    context = ((Rec_D_80016000 *)(((M2C_UNK *)&D_80016000)))->unk_00.at00_pv.v;
+    context = D_80016000;
     ((S_8051E954_0 *)command_words)->unk_08 = command_value;
-    ((S_8051E954_3 *)((*(void **)((u8 *)context + 0x20))))->unk_208(0);
-    ((S_8051E954_5 *)(((S_8051E954_4 *)(((Rec_D_80016000 *)(((M2C_UNK *)&D_80016000)))->unk_00.at00_pv.v))->unk_20))->unk_224(command_words);
+    ((S_8051E954_3 *)((context->unk_20)))->unk_208(0);
+    ((S_8051E954_5 *)(D_80016000->unk_20))->unk_224(command_words);
 }

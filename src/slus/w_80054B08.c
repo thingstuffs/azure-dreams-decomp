@@ -1,47 +1,5 @@
+#include "shared/sound_state.h"
 #include "common.h"
-typedef struct S_800847D0
-{
-    u32 flags1;
-    u32 flags2;
-    u32 field8;
-    u32 fieldC;
-    u32 field10;
-    u32 field14;
-    u32 field18;
-    s16 field1C;
-    s16 field1E;
-    s16 field20;
-    s16 field22;
-    u8 pad24[2];
-    s16 field26;
-    u8 field28;
-    u8 pad29[7];
-    s8 field30;
-    s8 field31;
-    s8 field32;
-    s8 field33;
-}
-S_800847D0;
-typedef struct S_80084858
-{
-    void (*field0)(void);
-    s32 field4;
-    s16 field8;
-    s16 fieldA;
-    s32 fieldC;
-    s16 field10;
-    s16 field12;
-    s16 field14;
-    s16 field16;
-    s16 field18;
-}
-S_80084858;
-typedef struct S_80084864
-{
-    s32 v;
-    u8 pad4[8];
-}
-S_80084864;
 typedef struct CueRecord {
     u16 value;
     u8 pad_02[0x2];
@@ -50,9 +8,6 @@ typedef struct CueRecord {
     u32 second;
 } CueRecord;
 
-extern S_800847D0 D_800847D0;
-extern S_80084858 D_80084858;
-extern S_80084864 D_80084864;
 extern CueRecord *func_8003F534(void);
 extern int func_80054AF0(int arg0);
 extern void func_80054C58(void);
@@ -65,7 +20,7 @@ void func_80054B08(s32 message)
     switch (message_type) {
     case 0:
     {
-        S_800847D0 *status;
+        SoundPlaybackState *status;
         u32 offset_mask;
         u16 record_value;
         u32 first_offset;
@@ -80,47 +35,47 @@ void func_80054B08(s32 message)
         ASM_KEEP(offset_mask);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
         record_value = record->value;
         status = &D_800847D0;
-        status->field1C = record_value;
+        status->unk_1C = record_value;
         offset_base = record->base;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
         first_offset = record->first;
         offset_mask |= 0xFFFF;
-        status->field10 = first_offset;
+        status->unk_10 = first_offset;
         second_offset = record->second;
         first_tag = (u8) (first_offset >> 24);
         first_offset = first_offset & offset_mask;
-        status->field10 = first_offset;
+        status->unk_10 = first_offset;
         first_offset = first_offset - 0x20;
         first_offset = first_offset + offset_base;
-        status->field31 = first_tag;
-        status->field10 = first_offset;
-        status->field18 = 0;
+        status->unk_31 = first_tag;
+        status->unk_10 = first_offset;
+        status->unk_18 = 0;
         second_tag = (u8) (second_offset >> 24);
-        status->field14 = second_offset;
+        status->unk_14 = second_offset;
         second_offset = second_offset & offset_mask;
-        status->field33 = second_tag;
-        status->field14 = second_offset;
+        status->unk_33 = second_tag;
+        status->unk_14 = second_offset;
         second_offset = second_offset + 0x20;
-        flags = status->flags1;
-        status->field14 = second_offset + offset_base;
+        flags = status->flags00;
+        status->unk_14 = second_offset + offset_base;
         if (flags & 0x400) {
-            status->flags1 = flags | 0x4000;
-            D_80084864.v = 2;
+            status->flags00 = flags | 0x4000;
+            D_80084864[0] = 2;
             break;
         }
-        if (status->flags2 & 0x200) {
+        if (status->flags04 & 0x200) {
             break;
         }
         {
-            S_80084858 *update_state = &D_80084858;
+            SoundTask *update_state = &D_80084858;
             s16 signed_value;
             int initial_value;
-            update_state->field4 = 0;
+            update_state->unk_04 = 0;
             offset_mask = (s16)record_value;
             signed_value = (s16)offset_mask;
             initial_value = func_80054AF0(signed_value);
-            update_state->field8 = initial_value;
-            update_state->fieldA = initial_value;
+            update_state->unk_08 = initial_value;
+            update_state->unk_0A = initial_value;
         }
         func_80054C58();
         func_80054CD4();

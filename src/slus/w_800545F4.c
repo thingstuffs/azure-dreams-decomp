@@ -1,3 +1,4 @@
+#include "shared/sound_state.h"
 #include "common.h"
 
 /* Shared gauge/timer struct layout also used by D_800848F8 / D_80084858

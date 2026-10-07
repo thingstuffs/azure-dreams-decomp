@@ -51,17 +51,6 @@ typedef struct S_80024B54_1 {
     void * unk_14A8;
 } S_80024B54_1;   /* temp_v1_2 in func_80024B54 */
 
-typedef struct S_80024B54_3 {
-    u8 pad_00[0x14A8];
-    void * unk_14A8;
-} S_80024B54_3;   /* case2_page in func_80024B54 */
-
-typedef struct S_80024B54_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80024B54_4;   /* table_s5 in func_80024B54 */
-
 typedef struct S_80024B54_5 {
     u8 pad_00[0x2A];
     u16 unk_2A;
@@ -153,7 +142,7 @@ void func_80024B54(void *effect_arg, void *position) {
     FourWords transform[2];
     s16 offset[3];
     M2C_UNK *target_pos;
-    u8 *tile_or_y_steps;
+    TileObject *tile_or_y_steps;
     M2C_UNK *effect_pool;
     EntityRec *origin;
 
@@ -183,7 +172,7 @@ void func_80024B54(void *effect_arg, void *position) {
     void *effect_data;
     s32 offset_mode;
     void *target;
-    void *actor_value;
+    EntityRec *actor_value;
     void *actor_value_2;
 
 
@@ -230,12 +219,12 @@ void func_80024B54(void *effect_arg, void *position) {
         phase = phase_random - ((rounded_phase >> 12) << 12);
         (*(s32 *)((u8 *)position + 4)) = origin->y.v;
         actor_value = D_800814A8;
-        tile_or_y_steps = (u8 *)&D_80082E80;
-        shifted_height = ((((S_80024B54_1 *)actor_value)->unk_88) - 0x50) << 0x10;
+        tile_or_y_steps = &D_80082E80;
+        shifted_height = ((actor_value->unk_88) - 0x50) << 0x10;
         effect_data = offset;
         (*(s32 *)((u8 *)position + 8)) = shifted_height;
         view_heading = gameWork.view.viewAngle;
-        state_or_heading = ((S_80024B54_1 *)actor_value)->unk_2A.s;
+        state_or_heading = actor_value->facing;
         offset_mode = 0;
         view_heading += state_or_heading;
         view_heading += 0x100;
@@ -249,16 +238,16 @@ void func_80024B54(void *effect_arg, void *position) {
             (*(s32 *)((u8 *)position + 8)) = (s32)((*(s32 *)((u8 *)position + 8)) + (offset[2] << 0x10));
         }
         actor_or_frame = D_800814A8;
-        target = func_800A05A4(actor_or_frame, ((S_80024B54_4 *)tile_or_y_steps)->unk_24,
-            ((S_80024B54_4 *)tile_or_y_steps)->unk_25, (s16)((S_80024B54_5 *)actor_or_frame)->unk_2A, 8);
+        target = func_800A05A4(actor_or_frame, tile_or_y_steps->tileX,
+            tile_or_y_steps->tileY, (s16)((S_80024B54_5 *)actor_or_frame)->unk_2A, 8);
         ((S_80024B54_0 *)effect_arg)->unk_14 = target;
         if (target != NULL) {
             target_pos = ((S_80024B54_6_pre *)target)[-1].unk_00;
         } else {
             target_pos = fallback_pos;
             step_count = 0;
-            ((S_80024B54_7 *)target_pos)->unk_02.u = (u16)((((S_80024B54_4 *)tile_or_y_steps)->unk_24 << 6) + 0x20);
-            tile_y = ((S_80024B54_4 *)tile_or_y_steps)->unk_25;
+            ((S_80024B54_7 *)target_pos)->unk_02.u = (u16)((tile_or_y_steps->tileX << 6) + 0x20);
+            tile_y = tile_or_y_steps->tileY;
             ((S_80024B54_7 *)target_pos)->unk_06.u = (u16)((tile_y << 6) + 0x20);
             do {
                 actor_or_frame = D_800814A8;
