@@ -16,6 +16,10 @@
    (`p = &a[i]; p--; x = *p;`) escapes the birthing boost.
 5. **Copy through a variable whose last mention is this block** (800A8714 KEEP_NV): it never becomes the cse class
    head; update the source in place to stop optimize_reg_copy_1.
+6. **Constants feeding a store run: try the ORIGINAL macro store order before fighting the boost** (dungeon/func_81976CB0
+   KEEP + one-trip, r98_opus_birth): write the packet stores in libgpu macro order (setClut, setUV3 with literal u/v,
+   setRGB0/1/2) with no staging locals - retail boosts the constants too; consecutive consumer stores make the boost tie
+   fall to LUID order. Also: a REG pin whose role-split leaves no role exact is an allocation pin (one multi-role global).
 REFUSED this round: negate-then-subtract (`b = -b; y = x - b;` for `x + b`) is cancelling arithmetic (decision 25).
 
 ## NEW TODAY (2026-09-24): what round 76's lanes found - try these first
