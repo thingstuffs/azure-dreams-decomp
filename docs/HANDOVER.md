@@ -1,3 +1,20 @@
+# Handover (2026-10-07 ~14:55Z, round 99: FIRST L5 ROWS; carve census running) - start here
+
+**Landed since 13:00Z (all gated):** 55948e24e r99 sol wave (NON_MATCHING 42 -> 1, live fidelity 17 -> 11); eefbc0cb9
+8001C4D8 -> stock 2.7.2 (Opus); 8902b6eda 81888810 + 8188E3A0 1 -> 0 (Opus LOCAL-GLOBAL; lreg_explain GEOMETRY lever) -
+**95 pins / 50 rows**; eda4504c5 maspsx: 2 passes retired (gate_all --all + forced SLUS MATCH); 8032f4394 / 3b1d1ba54 type
+phase 16 (99 rows); **b1f4f7ec3 MODULE PLACEMENT**: overlay-module gate + certificates (tools/gate/overlay_module_gate.py,
+tools/overlay_module_evidence.py, tools/fidelity/certify_overlay_module.py; levels grants L4 only from a current
+certificate in ledger/modules/overlay_<key>.json); dungeon cd_control.c (3 rows) + town minigame_dispatch.c (13 rows)
+certified, text-only, reviewer orchestrator-r99 -> the first 16 rows at L5. not_in_module 6,745 -> 6,729.
+build_ovl rebuilt with the patched mk_ovl_root (exports ledger/splits/overlay_modules.build.json).
+**Running:** r99_sol61_carve (sol61 high, measurement): census of the 112 composite carve-debt rows - prefix kind, owning
+function / module, placement-ready or re-carve, first 10 to fix (owner 10-07: carve debt is the next target).
+**Rollout queue for modules (r99_astra_mod2 REPORT.md):** 23 screened groups / 456 rows, start with town_load; the screen
+is the gate. **Open:** w_800595C0 switch needs its jump-table owner record (r99_sol61_nm2/owner_proposal_slus_owner_files);
+10 r99 fid candidates held (forward structs grew address names); lander should revert on a failed SLUS gate (it left the
+tree failing in r99w - reverted by hand); refused 818B6AFC always-false check (decision 30).
+
 # Handover (2026-10-07 ~13:00Z, round 99 RUNNING) - start here
 
 **Owner 10-07:** STATUS fixed to show the live tree (97f19da91, Sonnet lane reviewed: fidelity columns = levels.py live
