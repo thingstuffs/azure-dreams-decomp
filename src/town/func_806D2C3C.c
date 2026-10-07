@@ -8,19 +8,21 @@ typedef unsigned int u32;
 typedef int s32;
 extern void func_80016DDC(void *, void *, s32);
 /* Copies records through the end marker, patches control fields, and returns the destination end. */
-u8 *func_806D2C3C(u8 *dst, u8 *src, s32 control_bits, u32 byte_value)
+u8 *func_806D2C3C(u8 *dst, u8 *src, s32 control_bits, u8 byte_value)
 {
     u8 *field_cursor;
     u32 high_bits;
     u8 *field_ptr;
     u32 byte_bits;
+    u32 control_word;
+    control_word = (control_bits & 0x3FFF0000) | 0xC0000010;
     field_cursor = dst + 12;
     do {
         func_80016DDC(dst, src, 5);
         field_ptr = field_cursor;
         dst += 20;
         if (control_bits != 0) {
-            *((u32 *) (field_ptr - 4)) = (control_bits & 0x3FFF0000) | 0xC0000010;
+            *((u32 *) (field_ptr - 4)) = control_word;
             src += 20;
         } else {
             src += 20;

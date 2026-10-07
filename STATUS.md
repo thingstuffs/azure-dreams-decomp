@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-07T08:19:22Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-07T09:03:44Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -107,12 +107,10 @@ The game is one `2.7.2-cdk -G0 -O2` build plus a town -O1 debug family and stock
 | late cell (2.8.x / egcs / 2.95.2: fitted) | 2 | 2 / 0 / 0 | 2 | 6 |
 | cdk cell + crutch flags, module is plain | 3 | 3 / 0 / 0 | 0 | 0 |
 | stock cell inside a cdk module | 0 | 0 / 0 / 0 | 0 | 0 |
-| other mismatch with the module recipe (-G, stock flavour, -O1) | 3 | 0 / 2 / 1 | 1 | 1 |
-| **total** | **8** | | **3** | **7** |
+| other mismatch with the module recipe (-G, stock flavour, -O1) | 2 | 0 / 1 / 1 | 1 | 1 |
+| **total** | **7** | | **3** | **7** |
 
-Rows at a registered recipe backed by per-row compiler evidence (ledger/recipe_evidence.jsonl, not listed above): town/func_808B2B04 2.6.3-G0 (supported).
-
-Unconfirmed compiler attributions (still listed above; ledger/recipe_evidence.jsonl `to_confirm` names the measurement): town/func_806D30B4 2.6.3-G0.
+Rows at a registered recipe backed by per-row compiler evidence (ledger/recipe_evidence.jsonl, not listed above): town/func_806D30B4 2.6.3-G0 (confirmed), town/func_808B2B04 2.6.3-G0 (supported).
 
 Sony SDK library objects (ledger/sdk_objects.jsonl, whole-object byte match; not listed above): main/func_800219C4.
 

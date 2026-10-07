@@ -87,3 +87,11 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     what would confirm):** 808B2B04 = supported (exempt); 806D30B4 = UNCONFIRMED - stays in the tracker, and
     ledger/recipe_evidence.jsonl `to_confirm` lists the measurements (a discriminating construct elsewhere in the same
     object, the object boundary near 0x653018-0x653434, or a 2.7.2-exact text). SECOND LOOK: no.
+27. **(r98) The main_seg3 object (806D2898..806D35DC, 21 contiguous rows) is stock 2.6.3 - CONFIRMED** (r98_sol61_seg3
+    VERDICT.md). The only 2.7.2-only signal (806D2C3C) was text: computing the loop-invariant control word before
+    the loop makes it exact at both stock compilers (landed). The two rows that did not build at 2.6.3 had `//`
+    comments (landed as C89 comments; exact at both). 806D30B4's /20 expansion is 2.6.3-only under every natural
+    spelling (expmed highpart: 2.6.3 `=d` mfhi into $a2 vs 2.7.2 `=h` + reload via $t1). 806D30B4 -> confirmed in
+    ledger/recipe_evidence.jsonl. The census module main_seg3.c also holds 7 non-contiguous rows (8094D004..80950CC0)
+    that are a different grouping; the census still names stock 2.7.2 for the module (most rows are exact at both).
+    Next (CPU, no lane): re-run the module recipe census with the contiguous object split from the 7 outliers.
