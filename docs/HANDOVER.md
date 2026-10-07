@@ -8,7 +8,7 @@ tools/overlay_module_evidence.py, tools/fidelity/certify_overlay_module.py; leve
 certificate in ledger/modules/overlay_<key>.json); dungeon cd_control.c (3 rows) + town minigame_dispatch.c (13 rows)
 certified, text-only, reviewer orchestrator-r99 -> the first 16 rows at L5. not_in_module 6,745 -> 6,729.
 build_ovl rebuilt with the patched mk_ovl_root (exports ledger/splits/overlay_modules.build.json).
-**Running:** r99_sol61_carve (sol61 high, measurement): census of the 112 composite carve-debt rows - prefix kind, owning
+**15:15Z carve census DONE (r99_sol61_carve):** 112 prefixes = 105 mixed / 3 pointer tables / 2 jump tables / 2 numeric; 35 resolve by module placement, 77 need a re-carve first (mostly clone banks); none placement-ready today. 233 jump-table dispatches traced: 63 in 60 registered real-switch rows, **170 in 148 physical functions with NO registered row** (coverage question). Running: r100_sol61_unreg (sol61 high: clone-of / inside-row / GAP verdict for the 148), r100_astra_carve1 (astra xhigh: the 35 a-route rows - membership evidence, modules as one TU in scratch, patches + review drafts; orchestrator reviews + certifies). Was: r99_sol61_carve (sol61 high, measurement): census of the 112 composite carve-debt rows - prefix kind, owning
 function / module, placement-ready or re-carve, first 10 to fix (owner 10-07: carve debt is the next target).
 **Rollout queue for modules (r99_astra_mod2 REPORT.md):** 23 screened groups / 456 rows, start with town_load; the screen
 is the gate. **Open:** w_800595C0 switch needs its jump-table owner record (r99_sol61_nm2/owner_proposal_slus_owner_files);
