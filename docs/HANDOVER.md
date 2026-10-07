@@ -1,3 +1,27 @@
+# Handover (2026-10-07 ~12:10Z, round 98 wave 3 LANDED: 97 pins / 52 rows; no lanes running) - start here
+
+**Landed this wave (all gated MATCH):** b4d3f61ae Opus BIRTH lane (81976CB0 1 -> 0 + one-trip; 81844F2C equal-pin fidelity
+text; class MECHANISM.md: only 800A1020 is boost-decided, 810332A4 is an allocation pin; basket 32 rows); 339c26956
+cleanup/fidelity (61 via lander + 78 call-arity rows by hand; include/shared/town_handler.h = the func_80094984 family's
+3-arg prototypes - the third argument is real); 26386296c + 2c3bdc69d SLUS compiler alignment (9 rows to the game image's
+2.7.2-cdk via land_recipe_move, crutch flags / 2.8.1 / 2.95.2 / -O1 retired); 8590fe7b3.. 459cd7d65 type phase 15 (87 rows).
+**Live residue (levels.jsonl):** L5 fidelity_site 17 rows, tail_call 5, inline_asm 140, maspsx_dependent 141, non_matching
+42, computed_goto 4; L4 not_in_module 6,745 (module placement), pins 52. STATUS's "fidelity site" column reads the census
+of the PINNED text (does not move with src/) - use levels.jsonl. STATUS: m2c-name files 21, symbol aliases 34.
+**Held:** 13 arity candidates that grew m2c-style names (M2C_UNK slot types - lanes r98_sol61_ar1-4 out/, see
+land_r98w3.log 'grew [m2c]'), town/func_804F027C (r98_sol61_ar* candidate no longer exact).
+**Module placement (r98_astra_mod DESIGN.md/REPORT.md):** pilot dungeon cd_control (3 rows) rebuilt as ONE TU, 160/160
+bytes exact; certification blocked by the Control_CD signature conflict + data ownership + gate integration; screen:
+1 group / 13 rows compiles unchanged (town minigame_dispatch.c next), 24 fail declaration checks, 569 groups need
+evidence. Next: resolve the pilot holds, implement complete-module gate integration, certify, then roll out.
+**Kit gap (this wave):** land_lanes.sh skips fidelity-only / prototype-only equal-pin candidates ('grew []') - 78 rows
+had to be applied by hand; add an explicit admission for audit-site reductions (levels fidelity_site) or a reviewed
+equal-metrics allowlist.
+**Next:** type phase 16 (r98_types_p15/DESIGN.md HOW TO CONTINUE); the 17 fidelity_site + 5 tail_call rows; inline_asm
+(140 rows: file-scope directives / composite aliases - what remains after the alias lane); maspsx_dependent 141 rows
+(retire maspsx passes: GOAL_TOOLCHAIN_AND_MODULES.md item 2); module placement certification; wrong-compiler 7 rows
+(Opus after the Monday reset); census re-run with the two confirmed 2.6.3 objects split; PATCH.OBJ stock link.
+
 # Handover (2026-10-07 ~06:30Z, round 98: codex wave after the codex reset; Claude usage kept minimal)
 
 **Owner 10-07:** full codex reset - use astra/sol (sol xhigh, one astra to compare), cleanup on sol high / luna max,
