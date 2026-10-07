@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-07T06:44:16Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-07T06:52:20Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -87,7 +87,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | maspsx marker pins (scaffolding) | 393 | 351,556 | 13.7% | 1 | 1,176 | 0.0% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 10 | 13,096 | 0.5% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
-| local address-named struct | 633 | 346,988 | 13.6% | 2946 | 1,528,744 | 59.8% |
+| local address-named struct | 633 | 346,988 | 13.6% | 2929 | 1,519,480 | 59.4% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 6404 | 2,160,592 | 84.5% |
 
 Pin sites now: 98 in 53 rows; REG 51, KEEP 16, KEEP_NV 13, SCHED_BARRIER 5, USE 3, MEM_BARRIER 2, USE_NV 2, USE2 1.  At the pin: 25,755; REG 12,776, KEEP 6,852, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
@@ -133,7 +133,7 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 | L4 | 0 | 0.0% |
 | L5 | 0 | 0.0% |
 
-On shared record headers (T7, `include/records/`): 796 rows, 468,012 bytes (18.3%); records used: 100.
+On shared record headers (T7, `include/records/`): 781 rows, 465,968 bytes (18.2%); records used: 99.
 
 L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 53 rows (66,512 B), tail_jump 8 rows (3,332 B), not_in_module 6,745 rows (2,555,072 B).
 

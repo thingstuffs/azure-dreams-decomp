@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -21,32 +22,7 @@ typedef struct S_80024D58_RingParam {
     u16 unk_12;
 } S_80024D58_RingParam;   /* ring_params entry (6 bytes apart) in func_80024D58 */
 
-typedef struct S_80024D58_Ctx {
-    u8 pad_00[0xB0];
-    s32 unk_B0;
-    u8 pad_B4[0x81C];
-    u8 * unk_8D0;
-} S_80024D58_Ctx;   /* *render_context in func_80024D58 */
 
-typedef struct S_80024D58_Quad {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    u8 unk_0C;
-    u8 unk_0D;
-    s16 unk_0E;
-    s32 unk_10;
-    u8 unk_14;
-    u8 unk_15;
-    s16 unk_16;
-    s32 unk_18;
-    u8 unk_1C;
-    u8 unk_1D;
-    u8 pad_1E[0x2];
-    s32 unk_20;
-    u8 unk_24;
-    u8 unk_25;
-} S_80024D58_Quad;   /* o in func_80024D58 */
 
 typedef struct S_80024D58_Pair {
     s32 unk_00;
@@ -260,7 +236,7 @@ s32 func_80024D58(void *node) {
                 do {
                     {
                         void *context = *render_context;
-                        u8 *quad = ((S_80024D58_Ctx *)context)->unk_8D0;
+                        u8 *quad = ((GpuContext *)context)->packetCursor;
                         u8 *top_pair;
                         u8 *bottom_pair;
                         u8 *src_base;
@@ -269,40 +245,40 @@ s32 func_80024D58(void *node) {
                         u8 *dst_row;
                         u8 *dst_pair;
                         s32 row_offset;
-                        ((S_80024D58_Ctx *)context)->unk_8D0 = quad + 0x28;
-                        ((S_80024D58_Quad *)quad)->unk_04 = ((S_80024D58_Obj *)object)->unk_0C;
+                        ((GpuContext *)context)->packetCursor = quad + 0x28;
+                        ((PolyFT4 *)quad)->colorCode = ((S_80024D58_Obj *)object)->unk_0C;
                         func_800666F4(quad);
                         func_80066640(quad, 1);
-                        ((S_80024D58_Quad *)quad)->unk_16 = func_80066460(0, 3, 0x300, 0x100);
-                        ((S_80024D58_Quad *)quad)->unk_0E = func_8006649C(0x10, 0x1F8);
+                        ((PolyFT4 *)quad)->tpage = func_80066460(0, 3, 0x300, 0x100);
+                        ((PolyFT4 *)quad)->clut = func_8006649C(0x10, 0x1F8);
                         row_offset = point_index << 6;
                         src_base = (u8 *) (row_offset + (s32) source_points);
                         src_row = src_base + 0x100;
                         src_pair = (u8 *) (ring + (s32) src_row);
-                        ((S_80024D58_Quad *)quad)->unk_08 = ((S_80024D58_Pair *)src_pair)->unk_00;
-                        ((S_80024D58_Quad *)quad)->unk_10 = ((S_80024D58_Pair *)src_pair)->unk_04;
+                        ((PolyFT4 *)quad)->xy0 = ((S_80024D58_Pair *)src_pair)->unk_00;
+                        ((PolyFT4 *)quad)->xy1 = ((S_80024D58_Pair *)src_pair)->unk_04;
                         top_pair = frame.space + 320;
                         dst_row = top_pair + row_offset;
                         dst_pair = (u8 *) (ring + (s32) dst_row);
-                        ((S_80024D58_Quad *)quad)->unk_18 = ((S_80024D58_Pair *)dst_pair)->unk_00;
+                        ((PolyFT4 *)quad)->xy2 = ((S_80024D58_Pair *)dst_pair)->unk_00;
                         {
                             s32 bottom_right = ((S_80024D58_Pair *)dst_pair)->unk_04;
-                            ((S_80024D58_Quad *)quad)->unk_14 = 0xC0;
-                            ((S_80024D58_Quad *)quad)->unk_0C = 0xC0;
-                            ((S_80024D58_Quad *)quad)->unk_24 = 0xDF;
-                            ((S_80024D58_Quad *)quad)->unk_1C = 0xDF;
-                            ((S_80024D58_Quad *)quad)->unk_1D = 0;
-                            ((S_80024D58_Quad *)quad)->unk_0D = 0;
-                            ((S_80024D58_Quad *)quad)->unk_25 = 0x1F;
-                            ((S_80024D58_Quad *)quad)->unk_15 = 0x1F;
-                            ((S_80024D58_Quad *)quad)->unk_20 = bottom_right;
+                            ((PolyFT4 *)quad)->u1 = 0xC0;
+                            ((PolyFT4 *)quad)->u0 = 0xC0;
+                            ((PolyFT4 *)quad)->u3 = 0xDF;
+                            ((PolyFT4 *)quad)->u2 = 0xDF;
+                            ((PolyFT4 *)quad)->v2 = 0;
+                            ((PolyFT4 *)quad)->v0 = 0;
+                            ((PolyFT4 *)quad)->v3 = 0x1F;
+                            ((PolyFT4 *)quad)->v1 = 0x1F;
+                            ((PolyFT4 *)quad)->xy3 = bottom_right;
                         }
-                        bottom_pair = (u8 *)((((S_80024D58_Quad *)quad)->unk_00 & tag_mask)
-                            | (((S_80024D58_Ctx *)(*render_context))->unk_B0 & address_mask));
+                        bottom_pair = (u8 *)((((PolyFT4 *)quad)->tag & tag_mask)
+                            | (((GpuContext *)(*render_context))->orderTag & address_mask));
                         (*(s32 *)quad) = (s32)bottom_pair;
                         point_index += 1;
-                        ((S_80024D58_Ctx *)(*render_context))->unk_B0 =
-                            (((S_80024D58_Ctx *)(*render_context))->unk_B0 & tag_mask) | ((s32) quad & address_mask);
+                        ((GpuContext *)(*render_context))->orderTag =
+                            (((GpuContext *)(*render_context))->orderTag & tag_mask) | ((s32) quad & address_mask);
                     }
                 } while (point_index < 0xF);
                 side += 1;

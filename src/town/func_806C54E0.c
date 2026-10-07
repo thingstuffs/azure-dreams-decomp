@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
-#include "records/Rec_D_80016000.h"
+#include "shared/town_root.h"
 
 typedef s32 (*Callback)(s32);
 
@@ -33,12 +33,6 @@ typedef struct S_800164E0_4 {
     s32 unk_1C;
 } S_800164E0_4;   /* temp_v1_4 in func_800164E0 */
 
-typedef struct S_800164E0_5 {
-    u8 pad_00[0x1C];
-    void * unk_1C;
-    void * unk_20;
-} S_800164E0_5;   /* ((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v in func_800164E0 */
-
 typedef struct S_800164E0_6 {
     u8 pad_00[0x1C];
     void * unk_1C;
@@ -52,16 +46,16 @@ void func_800164E0(void) {
     void *saved_x_state;
     void *saved_y_state;
 
-    (*(Callback *)((u8 *)(((S_800164E0_5 *)(((Rec_D_80016000 *)((s8 *)(&D_80016000)))->unk_00.at00_pv.v))->unk_20)
+    (*(Callback *)((u8 *)(D_80016000->unk_20)
         + 0x248))(0);
     offset_x_state = ((S_800164E0_6 *)((*(void * *)((u8 *)((s8 *)(&D_80016000)) + 0))))->unk_1C;
     ((S_800164E0_1 *)offset_x_state)->unk_10 = ((S_800164E0_1 *)offset_x_state)->unk_04 + 0x20;
-    offset_y_state = ((S_800164E0_5 *)(((Rec_D_80016000 *)((s8 *)(&D_80016000)))->unk_00.at00_pv.v))->unk_1C;
+    offset_y_state = D_80016000->unk_1C;
     ((S_800164E0_2 *)offset_y_state)->unk_14 = ((S_800164E0_2 *)offset_y_state)->unk_08;
-    (*(Callback *)((u8 *)(((S_800164E0_5 *)(((Rec_D_80016000 *)((s8 *)(&D_80016000)))->unk_00.at00_pv.v))->unk_20)
+    (*(Callback *)((u8 *)(D_80016000->unk_20)
         + 0x258))(0xD);
     saved_x_state = ((S_800164E0_6 *)((*(void * *)((u8 *)((s8 *)(&D_80016000)) + 0))))->unk_1C;
     ((S_800164E0_3 *)saved_x_state)->unk_18 = ((S_800164E0_3 *)saved_x_state)->unk_04;
-    saved_y_state = ((S_800164E0_5 *)(((Rec_D_80016000 *)((s8 *)(&D_80016000)))->unk_00.at00_pv.v))->unk_1C;
+    saved_y_state = D_80016000->unk_1C;
     ((S_800164E0_4 *)saved_y_state)->unk_1C = ((S_800164E0_4 *)saved_y_state)->unk_08;
 }

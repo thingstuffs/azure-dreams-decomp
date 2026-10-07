@@ -1,3 +1,4 @@
+#include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/dir_step.h"
 #include "shared/sys_flags.h"
@@ -44,7 +45,6 @@ void func_800C6AB0();                            /* extern */
 s32 func_800C77D0();    /* extern */
 extern s8 D_80080A88;
 extern s16 D_80081468[3];
-extern M2C_UNK D_8008ACDC;
 extern s16 D_800DCE60[];
 extern s8 D_800DCF4F;
 extern u32 D_800DD160;
@@ -434,12 +434,12 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
 
                     if ((func_80042900(actor, 0xA) << 0x10) == 0) {
 
-                        state_or_address = (s32)&D_8008ACDC;
+                        state_or_address = (s32)func_8008ACDC;
                         (*(Callback4 *)((u8 *)linked_actor + 0x8C)) = (Callback4)state_or_address;
                         (&dungeonStatus)->flags = (u16)((&dungeonStatus)->flags | 4);
                     }
 
-                } else if (current_callback == (Callback4)&D_8008ACDC) {
+                } else if (current_callback == (Callback4)func_8008ACDC) {
                     if ((func_80042900(actor, 0xA) << 0x10) != 0) {
                         (*(Callback4 *)((u8 *)linked_actor + 0x8C)) = (Callback4)D_80096384;
                         (&dungeonStatus)->flags = (u16)((&dungeonStatus)->flags | 4);

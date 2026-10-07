@@ -80,7 +80,7 @@ s32 func_800BEB30(u32 target, u8 *action, s16 action_kind, s32 context) {
         item = ((S_800BEB30_0 *)state)->unk_4C;
         if (item != 0) {
             if (!(action[3] & 0x20)) {
-                ((S_800BEB30_0 *)state)->unk_114 = 0x202080;
+                ((EntityRec *)state)->unk_114 = 0x202080;
                 func_8008D368(state, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), D_800DD148, 2);
                 action[3] |= 0x20;
                 return 0;

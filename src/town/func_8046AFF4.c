@@ -1,7 +1,7 @@
 #include "shared/town_event_state.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
-#include "records/Rec_D_80016000.h"
+#include "shared/town_root.h"
 
 
 typedef s32 (*Callback)(s32);
@@ -11,11 +11,6 @@ typedef struct S_8001BFF4_1 {
     u8 pad_00[0x10];
     void * unk_10;
 } S_8001BFF4_1;   /* arg0 in func_8001BFF4 */
-
-typedef struct S_8001BFF4_2 {
-    u8 pad_00[0x20];
-    void * unk_20;
-} S_8001BFF4_2;   /* ((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v in func_8001BFF4 */
 
 typedef struct S_8001BFF4_3 {
     u8 pad_00[0x8];
@@ -33,7 +28,7 @@ s32 func_8001BFF4(S_8001BFF4_1 *context, s32 entry_index) {
 
     mode = D_8001E950->unk_05;
     if (mode == 2) {
-        if ((*(Callback *)((u8 *)(((S_8001BFF4_2 *)(((Rec_D_80016000 *)((s8 *)(&D_80016000)))->unk_00.at00_pv.v))->unk_20)
+        if ((*(Callback *)((u8 *)(D_80016000->unk_20)
             + 0x2D4))(0) == mode) {
             if (func_8001A58C(D_8001E950->unk_04) != 0) {
                 ((S_8001BFF4_3 *)((u8 *)context->unk_10 + entry_index * 0x10))->unk_08 =

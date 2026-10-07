@@ -1,7 +1,7 @@
+#include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/game_work.h"
 
-extern s32 D_8008ACDC;
 
 /* Waits for a countdown or global state change before resetting the object's handler. */
 void func_80092DFC(void *object) {
@@ -26,7 +26,7 @@ void func_80092DFC(void *object) {
             }
         }
         *(s32 *)((u8 *)object + 0x124) = 0;
-        *(void **)((u8 *)object + 0x8C) = &D_8008ACDC;
+        *(void **)((u8 *)object + 0x8C) = func_8008ACDC;
         break;
     }
 }

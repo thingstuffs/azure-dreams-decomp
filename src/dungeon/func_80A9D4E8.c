@@ -57,7 +57,7 @@ typedef struct S_80172CE8_3 {
 
 
 /* Updates item activation, actor animation, and action cleanup. */
-void func_80172CE8(void *action, EntityRec *motion, void *actor, void *object) {
+void func_80172CE8(void *action, EntityRec *motion, void *actor, EntityRec *object) {
     u16 position[3];
     s16 is_special;
     u8 *item_slot;
@@ -68,8 +68,8 @@ void func_80172CE8(void *action, EntityRec *motion, void *actor, void *object) {
     state = ((S_80172CE8_0 *)action)->unk_9B;
     switch (state) {
     case 0:
-        if ((*(u32 *)((u8 *)object + 0x1C)) & 0x2000) {
-            u32 kind = ((*(u16 *)((u8 *)object + 0x46)) & 0x3FFF) - 1;
+        if ((((u32)object->flags1C)) & 0x2000) {
+            u32 kind = ((object->unk_46) & 0x3FFF) - 1;
             switch (kind) {
             case 6: is_special = 1;
             case 2: item_slot = (u8 *)object + 0xE; break;
@@ -80,7 +80,7 @@ void func_80172CE8(void *action, EntityRec *motion, void *actor, void *object) {
             default: item_slot = 0; break;
             }
         } else {
-            s32 kind = (*(u16 *)((u8 *)object + 0x46)) & 0x3FFF;
+            s32 kind = (object->unk_46) & 0x3FFF;
             switch (kind) {
             case 3: item_slot = (u8 *)object + 0xE; break;
             case 2: item_slot = (u8 *)object + 0xB; break;
@@ -99,23 +99,23 @@ void func_80172CE8(void *action, EntityRec *motion, void *actor, void *object) {
                 use_existing = is_special;
                 if (use_existing) {
                     node = D_800814A8;
-                    (*(void * *)((u8 *)object + 0x60)) = node;
+                    (object->target) = node;
                     {
                         item_def = (u32)((S_80172CE8_1_pre *)node)[-1].unk_00;
-                        (*(u8 *)((u8 *)object + 0x72)) = ((S_80172CE8_2 *)item_def)->unk_24;
-                        (*(u8 *)((u8 *)object + 0x73)) = ((S_80172CE8_2 *)item_def)->unk_25;
+                        (((u8)object->unk_72)) = ((S_80172CE8_2 *)item_def)->unk_24;
+                        (((u8)object->unk_73)) = ((S_80172CE8_2 *)item_def)->unk_25;
                     }
                 } else {
                     u8 *item_defs = D_8006DE24;
                     u8 item_id = *item_slot;
                     item_def = (item_id * 20 + item_defs)[0x12];
                     if (item_def == 2) {
-                        node = (*(void * *)((u8 *)object + 0x60));
+                        node = (object->target);
                         if (node != 0) {
                             {
                                 item_def = (u32)((S_80172CE8_1_pre *)node)[-1].unk_00;
-                                (*(u8 *)((u8 *)object + 0x72)) = ((S_80172CE8_2 *)item_def)->unk_24;
-                                (*(u8 *)((u8 *)object + 0x73)) = ((S_80172CE8_2 *)item_def)->unk_25;
+                                (((u8)object->unk_72)) = ((S_80172CE8_2 *)item_def)->unk_24;
+                                (((u8)object->unk_73)) = ((S_80172CE8_2 *)item_def)->unk_25;
                             }
 
                         }
@@ -123,14 +123,14 @@ void func_80172CE8(void *action, EntityRec *motion, void *actor, void *object) {
 
 
 
-                        (*(void * *)((u8 *)object + 0x60)) = func_800A05A4(
+                        (object->target) = func_800A05A4(
                             object,
                             ((S_80172CE8_3 *)actor)->unk_24,
                             ((S_80172CE8_3 *)actor)->unk_25,
-                            (*(s16 *)((u8 *)object + 0x2A)),
+                            (object->facing),
                             0x10);
-                        ((EntityRec *)object)->unk_72 = abs(((EntityRec *)object)->unk_72);
-                        ((EntityRec *)object)->unk_73 = abs(((EntityRec *)object)->unk_73);
+                        object->unk_72 = abs(object->unk_72);
+                        object->unk_73 = abs(object->unk_73);
                     }
                 }
 
@@ -159,11 +159,11 @@ void func_80172CE8(void *action, EntityRec *motion, void *actor, void *object) {
             (*(u16 *)((u8 *)active_object + 0xA6))--;
         }
         func_800A4ACC(object);
-        (*(u8 *)((u8 *)object + 0x6D))--;
+        (((u8)object->unk_6D))--;
         ((S_80172CE8_0 *)action)->unk_8C = &D_80170E7C;
-        (*(u8 *)((u8 *)object + 0x73)) = 0;
-        (*(u8 *)((u8 *)object + 0x72)) = 0;
-        (*(u16 *)((u8 *)object + 0x46)) &= 0x7FFF;
+        (((u8)object->unk_73)) = 0;
+        (((u8)object->unk_72)) = 0;
+        (object->unk_46) &= 0x7FFF;
         return;
 
     case 1:
@@ -173,7 +173,7 @@ void func_80172CE8(void *action, EntityRec *motion, void *actor, void *object) {
         (*(void * *)((u8 *)actor + 0x2C)) = D_80174C7C;
         func_80047784(
             actor,
-            D_80174C7C[((gameWork.view.viewAngle + (*(s16 *)((u8 *)object + 0x2A)) + 0x100) >> 9) & 7],
+            D_80174C7C[((gameWork.view.viewAngle + (object->facing) + 0x100) >> 9) & 7],
             0);
         ((S_80172CE8_0 *)action)->unk_9B++;
         return;
@@ -218,7 +218,7 @@ void func_80172CE8(void *action, EntityRec *motion, void *actor, void *object) {
             (*(void * *)((u8 *)actor + 0x2C)) = D_80174C3C;
             func_80047784(
                 actor,
-                D_80174C3C[((gameWork.view.viewAngle + (*(s16 *)((u8 *)object + 0x2A)) + 0x100) >> 9) & 7],
+                D_80174C3C[((gameWork.view.viewAngle + (object->facing) + 0x100) >> 9) & 7],
                 0);
         }
 
@@ -231,12 +231,12 @@ void func_80172CE8(void *action, EntityRec *motion, void *actor, void *object) {
         ((S_80172CE8_3 *)actor)->unk_14 &= 0xF7FF;
         ((S_80172CE8_0 *)action)->unk_8C = &D_80170E7C;
         func_800A4ACC(object);
-        if ((*(s8 *)((u8 *)object + 0x6D)) > 0) {
-            (*(u8 *)((u8 *)object + 0x6D))--;
+        if ((object->unk_6D) > 0) {
+            (((u8)object->unk_6D))--;
         }
-        (*(u8 *)((u8 *)object + 0x73)) = 0;
-        (*(u8 *)((u8 *)object + 0x72)) = 0;
-        (*(u16 *)((u8 *)object + 0x46)) &= 0x7FFF;
+        (((u8)object->unk_73)) = 0;
+        (((u8)object->unk_72)) = 0;
+        (object->unk_46) &= 0x7FFF;
         func_800A56E0(0xB4);
         break;
 

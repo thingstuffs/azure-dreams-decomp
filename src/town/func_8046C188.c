@@ -1,20 +1,16 @@
+#include "shared/town_root.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
 typedef struct S_8001D188_3 {
     u8 pad_00[0x6000];
-    void * unk_6000;
+    Rec_D_80016000 *unk_6000;
 } S_8001D188_3;   /* page in func_8001D188 */
-
-typedef struct S_8001D188_4 {
-    u8 pad_00[0x38];
-    s32 unk_38;
-} S_8001D188_4;   /* ((S_8001D188_3 *)page)->unk_6000 in func_8001D188 */
 
 
 typedef struct S_8001D188_0 {
     u8 pad_00[0x6000];
-    void * unk_6000;
+    Rec_D_80016000 *unk_6000;
 } S_8001D188_0;   /* page in func_8001D188 */
 
 typedef struct S_8001D188_1 {
@@ -25,11 +21,6 @@ typedef struct S_8001D188_1 {
     u8 pad_70[0x17C];
     s16 * unk_1EC;
 } S_8001D188_1;   /* cursor in func_8001D188 */
-
-typedef struct S_8001D188_2 {
-    u8 pad_00[0x3700];
-    u8 unk_3700;
-} S_8001D188_2;   /* temp_a2 in func_8001D188 */
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -47,7 +38,7 @@ void func_8001D188(s32 entry_index, s32 lookup_arg1, s32 lookup_arg2, s32 lookup
     u8 *history;
     s32 old_entry;
     s32 entry_id;
-    S_8001D188_2 *group_state;
+    TownStateRecord *group_state;
     s8 *limits;
     u8 *page;
     S_8001D188_1 *cursor;
@@ -58,7 +49,7 @@ void func_8001D188(s32 entry_index, s32 lookup_arg1, s32 lookup_arg2, s32 lookup
     do {
         page = (u8 *)0x80010000;
     } while (0);
-    state_base = ((S_8001D188_4 *)(((S_8001D188_3 *)page)->unk_6000))->unk_38;
+    state_base = (s32)((S_8001D188_3 *)page)->unk_6000->unk_38;
     entry_id = entry_index;
     variant = func_8001D414();
     cursor = ((S_8001D188_0 *)page)->unk_6000;
@@ -68,14 +59,14 @@ void func_8001D188(s32 entry_index, s32 lookup_arg1, s32 lookup_arg2, s32 lookup
     do {
         group_id = *(s16 *)((u8 *)entries + (entry_id * 0x14));
         group_state = state_base + group_id;
-        next_count = group_state->unk_3700;
+        next_count = group_state->headIndices[0];
         next_count += 1;
-        group_state->unk_3700 = next_count;
-        count = group_state->unk_3700;
+        group_state->headIndices[0] = next_count;
+        count = group_state->headIndices[0];
     } while (0);
     limits = D_8001902C;
     if (count >= *(s16 *)((u8 *)limits + (((group_id * 3) + variant) * 8))) {
-        group_state->unk_3700 = 0U;
+        group_state->headIndices[0] = 0U;
     }
     slot_index = 0;
     history = (u8 *)((s16)group_id * 0xC) + state_base + 0x3640;

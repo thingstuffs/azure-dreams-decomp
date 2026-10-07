@@ -5,6 +5,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
+#include "shared/entity.h"
 
 #ifndef NULL
 #define NULL 0
@@ -22,15 +23,6 @@ typedef struct S_81934928_0 {
     union { u16 s; s16 u; } unk_12;   /* accessed as both */
     u16 unk_14;
 } S_81934928_0;   /* self in func_81934928 */
-
-typedef struct S_81934928_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_81934928_1;   /* copy_page in func_81934928 */
 
 typedef struct S_81934928_2 {
     u8 pad_00[0x10];
@@ -110,12 +102,12 @@ void func_81934928(void *self, void *output)
             return;
         }
         {
-            u8 *copy_page;
+            EntityRec *copy_page;
             *(Copy24 *)output_data = *(Copy24 *)&D_80083780;
-            copy_page = (u8 *)&D_80083780;
-            ((S_81934928_0 *)self)->unk_10.s = ((S_81934928_1 *)copy_page)->unk_02;
-            ((S_81934928_0 *)self)->unk_12.s = ((S_81934928_1 *)copy_page)->unk_06;
-            page_value = ((S_81934928_1 *)copy_page)->unk_0A;
+            copy_page = &D_80083780;
+            ((S_81934928_0 *)self)->unk_10.s = ((u16)copy_page->x.w.i);
+            ((S_81934928_0 *)self)->unk_12.s = ((u16)copy_page->y.w.i);
+            page_value = ((u16)copy_page->z.w.i);
         }
         ((S_81934928_0 *)self)->unk_0C.s = 0x3C;
         ((S_81934928_0 *)self)->unk_0A.u++;

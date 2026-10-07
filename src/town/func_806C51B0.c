@@ -1,13 +1,8 @@
 #include "common.h"
+#include "m2c_compat.h"
 #include "shared/record_ptrs.h"
-#include "records/Rec_D_80016000.h"
+#include "shared/town_root.h"
 
-
-typedef struct S_806C51B0_1 {
-    u8 pad_00[0x1C];
-    void * unk_1C;
-    void * unk_20;
-} S_806C51B0_1;   /* ((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v in func_806C51B0 */
 
 typedef struct S_806C51B0_2 {
     u8 pad_00[0x4];
@@ -34,13 +29,13 @@ void func_806C51B0(void) {
     s32 second_value;
 
     D_800190C0[0] =
-        ((S_806C51B0_2 *)(((S_806C51B0_1 *)(((Rec_D_80016000 *)(((M2C_UNK *)&D_80016000)))->unk_00.at00_pv.v))->unk_1C))->unk_04
+        ((S_806C51B0_2 *)(D_80016000->unk_1C))->unk_04
     << 16;
     second_value =
-        ((S_806C51B0_2 *)(((S_806C51B0_1 *)(((Rec_D_80016000 *)(((M2C_UNK *)&D_80016000)))->unk_00.at00_pv.v))->unk_1C))->unk_08;
+        ((S_806C51B0_2 *)(D_80016000->unk_1C))->unk_08;
     fixed_values = D_800190C0;
     fixed_values[2] = 0;
     fixed_values[1] = second_value << 16;
-    ((S_806C51B0_3 *)(((S_806C51B0_1 *)(((Rec_D_80016000 *)(((M2C_UNK *)&D_80016000)))->unk_00.at00_pv.v))->unk_20))->unk_208(0);
-    ((S_806C51B0_3 *)(((S_806C51B0_1 *)(((Rec_D_80016000 *)(((M2C_UNK *)&D_80016000)))->unk_00.at00_pv.v))->unk_20))->unk_228(0);
+    ((S_806C51B0_3 *)(D_80016000->unk_20))->unk_208(0);
+    ((S_806C51B0_3 *)(D_80016000->unk_20))->unk_228(0);
 }

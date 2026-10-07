@@ -643,9 +643,9 @@ merge_donor_primary:
                 ((S_800277F4_0 *)result)->unk_54 = (s32) (result_traits & 0xFF7FFFFF);
             }
             (*(u16 *)((u8 *)donor + -2)) = (u16) (((S_800277F4_8_pre *)donor)[-1].unk_12 | 0x8000);
-            global_flags = *(s32 *) (D_80080000 + 0x14A0);
+            global_flags = objectFlagBlock.flags;
             global_flags |= 0x8000;
-            *(s32 *) (D_80080000 + 0x14A0) = global_flags;
+            objectFlagBlock.flags = global_flags;
 return_tail:
             return result;
         }

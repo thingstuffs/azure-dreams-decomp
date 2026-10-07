@@ -1,3 +1,4 @@
+#include "shared/position_query.h"
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
@@ -31,7 +32,6 @@ void func_80095C80();                      /* extern */
 s32 func_800A5894();                          /* extern */
 s32 func_800C1D44();                             /* extern */
 extern s32 D_800A5A98;
-extern M2C_UNK D_800FE488;
 extern u8 D_800D0000[];
 extern int abs(int);
 

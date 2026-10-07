@@ -1,13 +1,9 @@
+#include "shared/sound_state.h"
 #include "common.h"
 
-/* Sibling struct (matches src/w_8005440C.c / w_80054C58.c's S_800847D0 for the
+/* Sibling struct (matches src/w_8005440C.c / w_80054C58.c's SoundPlaybackState for the
  * fields touched here): flags1 at 0x0. */
-typedef struct S_800847D0 {
-    /* 0x00 */ u32 flags1;
-    /* 0x04 */ u8 pad04[0x30];
-} S_800847D0;
 
-extern S_800847D0 D_800847D0;
 
 extern void func_800553D4(s32 a0);
 extern void func_8005B418();
@@ -20,7 +16,7 @@ void func_80054228(void)
 {
     s16 channel;
 
-    if (D_800847D0.flags1 & 0x100) {
+    if (D_800847D0.flags00 & 0x100) {
         func_800553D4(0x71);
     }
 
