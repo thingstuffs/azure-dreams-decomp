@@ -22,7 +22,8 @@ typedef struct {
 } S_801C9E40;
 
 extern S_801C9E40 D_801C9E40;      /* GsWORK buffer 0 */
-extern S_801C9E40 D_801DA714;      /* GsWORK buffer 1, == &D_801C9E40 + 0x108D4 */
+typedef struct { s16 x, y, w, h; } EnvironmentRect;
+extern EnvironmentRect D_801DA714; /* Clip RECT prefix of the second environment buffer. */
 extern s32 D_801DA72C[3];          /* buffer-1-adjacent flag; >8B decl forces hi/lo */
 
 extern void *SetDefDrawEnv(void *env, s32 x, s32 y, s32 w, s32 h);

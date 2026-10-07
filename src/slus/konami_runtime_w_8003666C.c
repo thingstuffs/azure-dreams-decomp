@@ -1,8 +1,5 @@
 #include "common.h"
 
-#include "common.h"
-
-#define FIELD(base, type, offset) (*(type)((u8 *)(base) + (offset)))
 
 typedef struct S_func_8003666C_0 {
     u8 pad_00[0x4D];
@@ -40,9 +37,8 @@ void func_8003666C(S_func_8003666C_0 *state) {
     layout = (S_func_8003666C_1 *) state->unk_74;
     marker = layout->unk_27;
     position = layout->unk_22;
-    center_offset = layout->unk_26;
-    center_offset = ((center_offset + 1) >> 1) - 1;
-    position -= center_offset;
+    center_offset = ((layout->unk_26 + 1) >> 1) - 1;
+    position = (s16)(position - center_offset);
     doubled_position = (s16) (position * 2);
     state->unk_4D = marker;
     func_8003719C(

@@ -29,9 +29,9 @@ extern s32 D_800737C4;
 extern s32 D_800737C8;
 extern u8 *D_80085FA4;
 
-extern void func_80058B70(void);
-extern void func_800597A8(Entity *);
-extern s32 func_80058A04(Entity *);
+extern s32 func_80058B70(void);
+extern s32 func_800597A8(Entity *);
+extern s32 func_80058A04(s32);
 extern void func_80059814(Entity *);
 
 /* Initialize playback slot offsets, timing, and state for the input format. */
@@ -41,7 +41,6 @@ s32 func_800599B0(void)
     Entity *entity;
     s32 offset;
     s32 length;
-    u8 *length_cursor;
     u8 *data;
     s32 start;
     s32 default_value;
@@ -75,8 +74,8 @@ s32 func_800599B0(void)
             return 0;
         }
         default_value = 0x68;
-        entity = D_80085FA8;
         do {
+            entity = &D_80085FA8[entity_index];
             if (D_800737C8 == 1) {
                 entity->f00 = offset + 1;
                 entity->f24 = default_value;
@@ -85,7 +84,7 @@ s32 func_800599B0(void)
                 offset = entity->f00;
             }
             entity->f04 = entity->f00;
-            entity->f10 = func_80058A04(entity);
+            entity->f10 = func_80058A04((s32)entity);
             entity->f48 = 0;
             entity->f4A = 0;
             entity->f49 = 0;
@@ -94,7 +93,6 @@ s32 func_800599B0(void)
             if (D_800737C4 != 0) {
                 func_80059814(entity);
             }
-            entity++;
             entity_index++;
         } while (entity_index < (u32)D_800869B4);
         return 0;
@@ -107,11 +105,10 @@ init_spans:
         return 0;
     }
     packed_default = 0x68;
-    entity = D_80085FA8;
-    length_cursor = data;
     do {
+        entity = &D_80085FA8[entity_index];
         entity->f00 = offset;
-        length = *(u16 *)(length_cursor + 0x10);
+        length = *(u16 *)(data + 0x10 + entity_index * 2);
         entity->f18 = length;
         entity->f24 = packed_default;
         entity->f20 = packed_default;
@@ -120,7 +117,7 @@ init_spans:
         entity->f38 = start;
         offset += length;
         entity->f1C = entity->f00 + entity->f18;
-        entity->f10 = func_80058A04(entity);
+        entity->f10 = func_80058A04((s32)entity);
         entity->f48 = 0;
         entity->f4A = 0;
         entity->f49 = 0;
@@ -129,8 +126,6 @@ init_spans:
         if (D_800737C4 != 0) {
             func_80059814(entity);
         }
-        entity++;
-        length_cursor += 2;
         entity_index++;
     } while (entity_index < (u32)D_800869B4);
 done:
