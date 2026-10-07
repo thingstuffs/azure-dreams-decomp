@@ -10,7 +10,7 @@ extern void bzero(void *ptr, s32 len);
 
 extern void func_8003CAC4(void);
 extern void func_8003D56C(s32 a0);
-extern void func_80053DCC(s16 arg0);
+extern void func_80053DCC(s16 volume_scale);
 extern void func_80053E14(s16 a0);
 
 extern void func_8003E34C(void);

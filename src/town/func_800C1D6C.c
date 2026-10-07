@@ -18,12 +18,6 @@ typedef struct S1 {
     u16 f1A;
 } S1;
 
-typedef struct S80083780 {
-    s32 field0;
-    s32 field4;
-    s32 field8;
-} S80083780;
-
 extern s32 func_800352FC(s32, s32 *, S1 *);
 extern s32 func_800C2AB4(S0 *);
 extern void SD_Call(s32);
@@ -90,7 +84,7 @@ void func_800BF4CC(S0 *self, s32 *position, S1 *target) {
             D_80083780.y.v += 0x40000;
         }
         next_value = target->f1A - 32;
-        goto L_STORE_TARGET;
+        break;
     }
 
     case 2:
@@ -105,16 +99,16 @@ void func_800BF4CC(S0 *self, s32 *position, S1 *target) {
 
     case 4:
         next_value = target->f1A + 32;
-L_STORE_TARGET:
-        target->f1A = next_value;
-        if (object->f6C > 0) {
-            return;
-        }
-        next_value = (u16)object->f68;
-        object->f68 = next_value + 1;
-        return;
+        break;
     default:
         return;
     }
+    target->f1A = next_value;
+    if (object->f6C > 0) {
+        return;
+    }
+    next_value = (u16)object->f68;
+    object->f68 = next_value + 1;
+    return;
 }
 

@@ -2,13 +2,13 @@
 
 extern u8 D_800E3648[];
 
-s32 func_800954E0(void *arg0) {
+s32 func_800954E0(void *actor) {
     s32 cursor;
     s32 result;
     u8 *base;
     u8 flags;
 
-    cursor = *(s16 *)((u8 *)arg0 + 0x100);
+    cursor = *(s16 *)((u8 *)actor + 0x100);
     result = 1;
     if (cursor >= 0) {
         base = D_800E3648;

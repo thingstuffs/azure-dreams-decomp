@@ -15,7 +15,7 @@ extern u8 D_8006B230[];
 
 extern s32 func_800352FC(void);
 extern void func_80035378(void *value);
-extern void func_80035208(void *arg0);
+extern void func_80035208(void *reset_value);
 
 /* Processes input data, clearing the last five entries when D_8006B230 needs initialization. */
 s32 func_800353F4(void *input_data) {

@@ -6,7 +6,7 @@ typedef struct {
     u16 flag;
 } S800083498;
 
-extern void func_800511B4(void *arg0);
+extern void func_800511B4(void *related_entity);
 
 /* Set up zukan_func_set after clearing flag bit 0x2000. */
 void zukan_func_set(void) {

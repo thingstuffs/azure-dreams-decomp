@@ -15,7 +15,7 @@ extern S_8005A428_D80086A40 D_80086A40[16];
 
 extern void func_80056C30(void);
 extern void func_8005863C(void);
-extern void func_8005A1D0(s32 arg0);
+extern void func_8005A1D0(s32 addr);
 extern void func_8005A26C(void);
 
 /* Runs frame updates, processes active slots among the first eight, and resets the slot table. */

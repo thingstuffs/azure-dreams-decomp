@@ -9,8 +9,8 @@ extern int D_800814A0;
 
 extern void func_8004F52C(UnkStruct1E *a0);
 extern void func_80023A00(s32 record);
-extern void func_80024EEC(s32 arg0);
-extern void func_80024184(s32 arg0);
+extern void func_80024EEC(s32 object);
+extern void func_80024184(s32 object);
 
 /* Processes the object's linked resources and five handles, then sets its and the global 0x8000 flags. */
 void func_80025D34(UnkStruct1E *object)

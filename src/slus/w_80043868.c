@@ -7,7 +7,7 @@ typedef struct {
     s32 unk18;
 } S_80043868;
 
-extern s32 func_8004383C(S_80043868 *arg0, s16 arg1);
+extern s32 func_8004383C(S_80043868 *entry, s16 index_offset);
 
 /* Scales the current value between two bounds, capping the result at 20. */
 s32 func_80043868(S_80043868 *state)

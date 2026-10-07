@@ -12,7 +12,7 @@ typedef struct {
     u16 field_1A;
 } State;
 
-extern void func_80033D08(void *arg0);
+extern void func_80033D08(void *block_data);
 
 /* Mark inactive objects or advance their wrapped 12-bit state value. */
 void func_800B9EDC(Obj *obj, void *unused, State *state)

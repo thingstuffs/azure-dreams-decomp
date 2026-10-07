@@ -2,7 +2,7 @@
 #include "shared/object_node.h"
 #include "shared/dungeon_status.h"
 
-extern void *func_8003FD64(s32 arg0, void *arg1);
+extern void *func_8003FD64(s32 flags, void *list_head);
 extern u8 D_800D7A78[];
 
 // Creates an object, assigns its data and payload, and increments the object count.

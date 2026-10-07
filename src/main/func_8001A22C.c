@@ -8,7 +8,7 @@ extern s32 D_804094EC[4];
 extern s32 D_80409500[4];
 
 extern void func_804014E4(void);
-extern s32 func_80408674(s32 arg0);
+extern s32 func_80408674(s32 card_channel);
 
 /* Boot step 2: run the loader and either request retry code 5 or bump the attempt counter. */
 s32 func_8001A22C(void) {

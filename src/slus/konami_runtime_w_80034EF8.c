@@ -4,7 +4,7 @@
 
 extern u8 D_8007216C[];
 
-extern void func_80037D50(u8 *arg0, u8 arg1);
+extern void func_80037D50(u8 *entity, u8 unused);
 
 /* Initializes state fields and copies the global default byte. */
 void func_80034EF8(u8 *state, s32 init_value)

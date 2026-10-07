@@ -2,7 +2,7 @@
 
 extern void *func_80040574(s32 size);
 extern void bzero(void *dst, s32 size);
-extern void func_80067014(s32 arg0);
+extern void func_80067014(s32 sync_mode);
 extern void func_800672D8(s16 *rect, void *data);
 
 /* Clear the texture's rectangle with zeroed image data. */

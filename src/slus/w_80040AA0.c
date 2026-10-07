@@ -12,7 +12,7 @@ extern struct S_8006CE80 D_8006CE80[];
 
 extern s8 D_80080A88[12];
 extern void func_80043568(void);
-extern void SD_Call(s32 arg0);
+extern void SD_Call(s32 flags);
 extern void func_800542BC(void);
 /* Updates the requested state and triggers transition handling when needed. */
 void func_80040AA0(s16 requested_state)

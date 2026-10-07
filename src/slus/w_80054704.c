@@ -30,7 +30,7 @@ extern S_800847D0 D_800847D0;
 
 extern s32 func_8003F5AC(void);
 extern void func_80054D64(void);
-extern void func_80054E00(s32 arg0);
+extern void func_80054E00(s32 event);
 extern void func_8005A4E8(u8 a0, u8 a1, u8 a2);
 
 /* When subsystem bit 4 is set, clears flag 0x200 and commits or arms the countdown. */

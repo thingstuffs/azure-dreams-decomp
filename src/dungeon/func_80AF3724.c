@@ -87,7 +87,7 @@ typedef struct S_func_80AF3724_6 {
     s16 unk_1E;
 } S_func_80AF3724_6;
 
-extern void *func_8003FC64(s32 arg0);
+extern void *func_8003FC64(s32 flags);
 extern void func_8004491C(void *entry, void *registration_id);
 extern s32 rand(void);
 

@@ -7,7 +7,7 @@ s32 func_8001A2F0(void);
 u8 func_8001A3E8(void);
 s32 func_8001BC60(s32);
 
-void func_8001BC98(s32 arg0, s32 arg1, s32 arg2)
+void func_8001BC98(s32 unused, s32 unused_second, s32 unused_third)
 {
     D_8001E950->unk_02 = 0xFF;
     if (func_8001A2F0() != 0) {

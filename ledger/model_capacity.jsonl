@@ -485,3 +485,8 @@
 {"date": "2026-10-07T05:06Z", "codex": {"pack": "r98_sol61_g2", "model": "gpt-6.1-sol", "candidates": 5}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
 {"date": "2026-10-07T05:09Z", "codex": {"pack": "r98_sol61_hb1", "model": "gpt-6.1-sol", "candidates": 0}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
 {"date": "2026-10-07T05:10Z", "codex": {"pack": "r98_sol61_g3", "model": "gpt-6.1-sol", "candidates": 4}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-07T05:32Z", "codex": {"pack": "r98_sol61_rn3", "model": "gpt-6.1-sol", "candidates": 23}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-07T05:33Z", "codex": {"pack": "r98_sol61_rn2", "model": "gpt-6.1-sol", "candidates": 21}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-07T05:34Z", "codex": {"pack": "r98_sol61_rn1", "model": "gpt-6.1-sol", "candidates": 23}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-07T05:40Z", "codex": {"pack": "r98_sol61_g5", "model": "gpt-6.1-sol", "candidates": 1}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-07T05:41Z", "codex": {"pack": "r98_sol61_g4", "model": "gpt-6.1-sol", "candidates": 2}, "note": "duck-briefed pool (tools/lanes/pool.py)"}

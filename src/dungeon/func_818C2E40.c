@@ -29,7 +29,7 @@ typedef struct {
     s32 word[6];
 } Copy24;
 
-extern void *func_8003FC64(s32 arg0);
+extern void *func_8003FC64(s32 flags);
 extern void func_8004491C(void *entry, void *registration_id);
 extern u8 D_800240C0[9];
 extern u8 D_800241D4[9];

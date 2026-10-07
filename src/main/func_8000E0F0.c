@@ -5,8 +5,8 @@ extern s32 D_800287CC;
 extern s32 D_800287E0;
 extern s32 D_80084118[];
 
-extern s32 func_80069C18(s32 arg0);
-extern s32 func_80069C08(s32 arg0);
+extern s32 func_80069C18(s32 slot_index);
+extern s32 func_80069C08(s32 selected_slot);
 extern void func_800214A4(void);
 
 /* Advance the selected entry through its completion states and return its status. */

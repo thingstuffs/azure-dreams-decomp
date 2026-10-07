@@ -2,7 +2,7 @@
 #include "shared/sound_volume.h"
 
 extern void func_8005BAB0(void);
-extern s32 func_80055750(s16 arg0);
+extern s32 func_80055750(s16 scaled_volume);
 extern s32 func_8003E14C(void);
 extern s32 func_8005B4D0(s32 a0, void *a1, u16 a2, u16 a3, s32 a4);
 

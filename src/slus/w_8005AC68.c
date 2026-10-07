@@ -15,7 +15,7 @@ typedef struct {
 
 extern S_8005AC68 D_80086A40[16];
 
-extern void func_8005A1D0(s32 arg0);
+extern void func_8005A1D0(s32 addr);
 
 /* Releases an occupied slot's data and marks the slot free. */
 void func_8005AC68(s16 slot_index) {

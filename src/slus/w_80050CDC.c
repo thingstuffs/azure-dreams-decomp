@@ -22,7 +22,7 @@ typedef struct S_80050CDC_2 {
 } S_80050CDC_2;   /* arg0 in func_80050CDC */
 
 
-extern void func_8004B248(void *arg0);
+extern void func_8004B248(void *entries);
 extern s32 D_800814A0;
 
 /* Update and fade the effect parts, then signal completion when the timer expires. */

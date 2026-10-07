@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_8004B1A4(s32 arg0);
+extern void func_8004B1A4(s32 object);
 extern s32 D_800E5910[];
 
 /* Process the object handle, clear the global state, and set the high flag bits. */

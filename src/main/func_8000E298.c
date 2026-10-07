@@ -6,8 +6,8 @@ extern s32 D_800287E0;
 extern s32 D_80084118[];
 
 extern void func_80021538(void);
-extern s32 func_80069C18(s32 arg0);
-extern s32 func_80069C38(s32 arg0);
+extern s32 func_80069C18(s32 slot_selector);
+extern s32 func_80069C38(s32 slot_selector);
 
 /* Updates the operation state and returns its status, clearing the selected slot in state 3. */
 s32 func_80021298(void)

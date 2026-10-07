@@ -11,7 +11,7 @@ sol61 high volatiles 20 rows (abs() for sign flips, w_80053CFC raw asm barrier g
 10 rows. STATUS: m2c-name files 268 -> 104, goto files 285 -> 274. HELD: 74 luna renames whose only new names were
 generic (value/ptr/value_N - re-served below), town/func_800BF718 (float type-pun self-store), 4 vb/goto candidates
 the lander skipped (its m2c metric grew).
-**RUNNING:** pool r98d (sol61 high): r98_sol61_rn1-3 (the 74 held rename rows, specific-names-only brief),
+**r98d DONE + LANDED (sol61 high, 70 rows, 29 windows + SLUS MATCH):** 67 rows of specific names for the 74 held renames, 3 goto rows. Was: pool r98d (sol61 high): r98_sol61_rn1-3 (the 74 held rename rows, specific-names-only brief),
 r98_sol61_g4-g5 (the last 9 unserved goto rows - the goto pool is now exhausted for unserved rows). --no-land:
 review diffs, then LAND_ISOLATED=1 land_gap.sh.
 

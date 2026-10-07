@@ -7,7 +7,7 @@ extern s8 D_80080A88[];
 
 extern void func_80020F18(void);
 extern void func_800585A0(void);
-extern void SD_Call(s32 arg0);
+extern void SD_Call(s32 flags);
 
 /* Set state 2, run setup, select sound behavior, and clear the high flag bit. */
 void func_80027BF4(void) {
