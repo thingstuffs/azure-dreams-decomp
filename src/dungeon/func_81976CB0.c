@@ -85,9 +85,6 @@ s32 func_81976CB0(s32 vertex_color0, s32 vertex_color1, s32 vertex_color2)
     Packet81976CB0 *packet;
     Scratch81976CB0 *scratch = (Scratch81976CB0 *)0x1F800000;
     s32 *vertex_offset;
-    s32 tex_u_left;
-    s32 tex_v_bottom;
-    s32 tex_u_right;
     void *screen_xy1;
     void *screen_xy2;
     void *depth_cue;
@@ -105,27 +102,21 @@ s32 func_81976CB0(s32 vertex_color0, s32 vertex_color1, s32 vertex_color2)
     screen_xy2 = (void *)((u32)scratch | 0x78);
     depth_cue = (void *)((u32)scratch | 8);
     transform_flags = scratch;
-    ASM_KEEP(transform_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     packet->clut = 0x7DCF;
-    do {
-        tex_u_left = 0xC0;
-        tex_v_bottom = 0x7F;
-        tex_u_right = 0xFF;
-    } while (0);
-    packet->color0 = tex_u_left;
+    packet->color0 = 0xC0;
+    packet->color1 = 0x7F;
+    packet->color2 = 0xFF;
     packet->color3 = 0x40;
+    packet->color4 = 0xFF;
+    packet->color5 = 0x7F;
     packet->x0_hi = vertex_color0 >> 16;
     packet->x0_mid = vertex_color0 >> 8;
+    packet->x0_lo = vertex_color0;
     packet->x1_hi = vertex_color1 >> 16;
     packet->x1_mid = vertex_color1 >> 8;
+    packet->x1_lo = vertex_color1;
     packet->x2_hi = vertex_color2 >> 16;
     packet->x2_mid = vertex_color2 >> 8;
-    packet->color1 = tex_v_bottom;
-    packet->color2 = tex_u_right;
-    packet->color4 = tex_u_right;
-    packet->color5 = tex_v_bottom;
-    packet->x0_lo = vertex_color0;
-    packet->x1_lo = vertex_color1;
     packet->x2_lo = vertex_color2;
 
     vertex_offset = D_80026208;

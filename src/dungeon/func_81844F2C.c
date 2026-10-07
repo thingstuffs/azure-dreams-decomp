@@ -21,94 +21,66 @@ typedef struct S_81844F2C_1 {
     u16 unk_52;
 } S_81844F2C_1;   /* entity in func_8002472C */
 
-typedef struct S_81844F2C_2 {
-    u8 pad_00[0x14];
-    u32 unk_14;
-} S_81844F2C_2;   /* base + (call_a0 * 4) in func_8002472C */
-
-typedef struct S_81844F2C_3 {
-    u8 pad_00[0x14];
-    volatile u32 unk_14;
-} S_81844F2C_3;   /* cursor in func_8002472C */
-
 typedef struct S_81844F2C_4 {
     u8 pad_00[0x14A0];
     u32 unk_14A0;
 } S_81844F2C_4;   /* page in func_8002472C */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 /* Updates an effect_base's position, colors, countdown, and completion flags. */
-void func_8002472C(s32 effect) {
-    u8 *effect_base;   /* SITE-FOR-PIN TRADE 2026-09-22: the
-                                            `func_80024808(effect, effect_base, saved_state)`
-                                            tail pseudo-call is gone; its argument setup was the
-                                            only thing putting the struct pointer in $a1.  Without
-                                            it gcc keeps the parameter in $a0, the `move $a1,$a0`
-                                            never appears and every colour in the row shifts
-                                            (residue: 78/79 words, 35 subs + 1 indel). */
-    u8 *color_cursor;
-    u16 saved_state;
+void func_8002472C(s32 effect_or_count) {
+    S_81844F2C_0 *effect;
+    u32 *cursor;
+    s32 i;
+    u16 saved;
     u32 position;
     u32 step;
     s32 state;
-    u32 color_delta;
-    u8 *flag_page;
+    u8 *page;
 
-    ASM_KEEP(effect);
-    effect_base = (u8 *)effect;
-    flag_page = ((S_81844F2C_0 *)effect_base)->unk_00;
-    ((S_81844F2C_1 *)flag_page)->unk_52 =
-        (u16)(((S_81844F2C_1 *)flag_page)->unk_52 | 0x8000);
-
-    position = ((S_81844F2C_0 *)effect_base)->unk_04;
-    step = ((S_81844F2C_0 *)effect_base)->unk_0C;
-    effect = ((S_81844F2C_0 *)effect_base)->unk_2A.s;
+    ASM_KEEP(effect_or_count);
+    effect = (S_81844F2C_0 *)effect_or_count;
+    page = effect->unk_00;
+    ((S_81844F2C_1 *)page)->unk_52 |= 0x8000;
+    position = effect->unk_04;
+    step = effect->unk_0C;
+    effect_or_count = effect->unk_2A.s;
     position += step;
-    ((S_81844F2C_0 *)effect_base)->unk_04 = (u16)position;
-    position = ((S_81844F2C_0 *)effect_base)->unk_06.s;
-    step = ((S_81844F2C_0 *)effect_base)->unk_0E;
-    saved_state = ((S_81844F2C_0 *)effect_base)->unk_2C.s;
+    effect->unk_04 = position;
+    position = effect->unk_06.s;
+    step = effect->unk_0E;
+    saved = effect->unk_2C.s;
     position += step;
-    state = ((S_81844F2C_0 *)effect_base)->unk_2C.u;
-    effect -= 1;
-    ((S_81844F2C_0 *)effect_base)->unk_2A.u = (u16)effect;
-    ((S_81844F2C_0 *)effect_base)->unk_06.u = (u16)position;
-
+    state = effect->unk_2C.u;
+    effect_or_count -= 1;
+    effect->unk_2A.u = effect_or_count;
+    effect->unk_06.u = position;
     switch (state) {
     case 0:
-        effect = 7 - (s16)effect;
-        if (effect < 5) {
-            ((S_81844F2C_2 *)(effect_base + (effect * 4)))->unk_14 = 0x00808080;
+        effect_or_count = 7 - (s16)effect_or_count;
+        if (effect_or_count < 5) {
+            ((u32 *)((u8 *)effect + 0x14))[effect_or_count] = 0x00808080;
         } else {
-            effect = 4;
-            color_delta = 0xFFDFDFE0;
-            color_cursor = effect_base + 0x10;
-            do {
-                effect -= 1;
-                ((S_81844F2C_3 *)color_cursor)->unk_14 += color_delta;
-                color_cursor -= 4;
-            } while (effect >= 0);
+            for (i = 4; i >= 0; i--) {
+                ((u32 *)((u8 *)effect + 0x14))[i] += 0xFFDFDFE0;
+            }
         }
-
-        if (((S_81844F2C_0 *)effect_base)->unk_2A.p > 0) {
+        if (effect->unk_2A.p > 0) {
             return;
         }
-        ((S_81844F2C_0 *)effect_base)->unk_2A.s = 3;
-        ((S_81844F2C_0 *)effect_base)->unk_2C.p += 1;
+        effect->unk_2A.s = 3;
+        effect->unk_2C.p += 1;
         return;
     case 1:
-        if ((effect << 16) > 0) {
+        if ((effect_or_count << 16) > 0) {
             return;
         }
-        position = saved_state + 1;
-        ((S_81844F2C_0 *)effect_base)->unk_2C.p = (u16)position;
+        effect->unk_2C.p = saved + 1;
         return;
     case 2:
-        flag_page = (u8 *)0x80080000;
-        ((S_81844F2C_0_pre *)effect_base)[-1].unk_00 =
-            (u16)(((S_81844F2C_0_pre *)effect_base)[-1].unk_00 | 0x8000);
-        ((S_81844F2C_4 *)flag_page)->unk_14A0 |= 0x8000;
+        ((S_81844F2C_0_pre *)effect)[-1].unk_00 |= 0x8000;
+        page = (u8 *)0x80080000;
+        ((S_81844F2C_4 *)page)->unk_14A0 |= 0x8000;
     }
 }
