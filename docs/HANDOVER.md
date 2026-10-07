@@ -1,3 +1,20 @@
+# Handover (2026-10-07 ~13:00Z, round 99 RUNNING) - start here
+
+**Owner 10-07:** STATUS fixed to show the live tree (97f19da91, Sonnet lane reviewed: fidelity columns = levels.py live
+predicate, 17 rows; composite rows = CARVE DEBT, 112 rows, decision 29). **NEXT TARGET after the running lanes settle:
+carve debt** - whatever remains of the 112 composite rows (`asm("func_X")` prefix = another function's jump table /
+overlay data glued on by one-row-per-function carving). Two routes: (a) module placement - a module built as one TU
+emits its switch tables / data itself (r99_astra_mod2 certification + gate patch first); (b) re-carve the prefix as its
+own data row owned by the right module (accepted precedent: dungeon/func_8195281C data words as their own rows, r95
+item 8) where a module is not ready. Start with a census: per composite row, what the prefix is (jump table of which
+function / message text / other), its owning module, and whether that module is placement-ready.
+**Running:** codex r99s (sol61 high: r99_sol61_fid1-2 = 17 live fidelity rows + 6 tail_jump + 14 held arity rows;
+r99_sol61_nm1-2 = 42 NON_MATCHING + 4 computed goto), r99a (astra xhigh: r99_types_p16, r99_astra_maspsx,
+r99_astra_mod2); Opus r99_opus_cell (8184AF90, 813274E4, 8001C4D8, 808135E0 at their target compilers). All --no-land.
+**Landing notes:** equal-pin prototype / typing lanes: READABLE_LANES=<lanes> land_gap.sh (the 45 round-98 rows that
+needed hand landing were this case); tools/land_admit.py now admits live fidelity-site reductions. town/func_808BB138's
+r98 tail text created two LABEL_AS_CALL sites - re-served in r99_sol61_fid*.
+
 # Handover (2026-10-07 ~12:10Z, round 98 wave 3 LANDED: 97 pins / 52 rows; no lanes running) - start here
 
 **Landed this wave (all gated MATCH):** b4d3f61ae Opus BIRTH lane (81976CB0 1 -> 0 + one-trip; 81844F2C equal-pin fidelity
