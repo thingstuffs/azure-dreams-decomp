@@ -33,7 +33,8 @@ s32 func_808B2CB0(s32 slot, s32 query_b, s32 query_c, s32 query_d) {
             scratch = raw_bit + 0x1F;
         }
         scratch >>= 5;
-        byte_ptr = *(u8 **)((u8 *)D_A0700000 + 0xF40) + scratch;
+        byte_ptr = *(u8 **)((u8 *)D_A0700000 + 0xF40);
+        byte_ptr += scratch;
         scratch <<= 5;
         scratch = raw_bit - scratch;
         *byte_ptr |= 1 << scratch;

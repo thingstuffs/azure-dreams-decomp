@@ -95,3 +95,9 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     ledger/recipe_evidence.jsonl. The census module main_seg3.c also holds 7 non-contiguous rows (8094D004..80950CC0)
     that are a different grouping; the census still names stock 2.7.2 for the module (most rows are exact at both).
     Next (CPU, no lane): re-run the module recipe census with the contiguous object split from the 7 outliers.
+28. **(r98) sn_main index 77 (808B2B04..808B3620, 13 rows) is stock 2.6.3 - CONFIRMED** (r98_sol61_snmain VERDICT.md).
+    The only counter-signals were text: 808B2B98 / 808B2CB0's `addu` operand order comes from `p = base + q` (2.6.3
+    expand_binop puts the REG ahead of the MEM operand); `p = base; p += q` is exact at both stock compilers (landed).
+    808B34B0 did not build at 2.6.3 because of a `//` comment and a typedef-level `__attribute__((packed))` (C89
+    comment + packed on the u32 member: exact at both, lwl/lwr kept; landed). 808B2B04's 2.6.3-only reorg needed-set
+    witness then decides the object; 808B2B04 -> confirmed in ledger/recipe_evidence.jsonl.

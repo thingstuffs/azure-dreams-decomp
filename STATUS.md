@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-07T09:03:44Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-07T09:20:46Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -110,7 +110,7 @@ The game is one `2.7.2-cdk -G0 -O2` build plus a town -O1 debug family and stock
 | other mismatch with the module recipe (-G, stock flavour, -O1) | 2 | 0 / 1 / 1 | 1 | 1 |
 | **total** | **7** | | **3** | **7** |
 
-Rows at a registered recipe backed by per-row compiler evidence (ledger/recipe_evidence.jsonl, not listed above): town/func_806D30B4 2.6.3-G0 (confirmed), town/func_808B2B04 2.6.3-G0 (supported).
+Rows at a registered recipe backed by per-row compiler evidence (ledger/recipe_evidence.jsonl, not listed above): town/func_806D30B4 2.6.3-G0 (confirmed), town/func_808B2B04 2.6.3-G0 (confirmed).
 
 Sony SDK library objects (ledger/sdk_objects.jsonl, whole-object byte match; not listed above): main/func_800219C4.
 

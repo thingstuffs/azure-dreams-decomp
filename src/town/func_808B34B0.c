@@ -1,8 +1,8 @@
 #include "common.h"
 
 typedef struct {
-    u32 value;
-} __attribute__((packed)) UnalignedWord;
+    u32 value __attribute__((packed));
+} UnalignedWord;
 
 typedef struct {
     u8 pad[0x50];
@@ -19,7 +19,7 @@ extern u8 *D_A0700F40;
 extern CallbackOwner *D_A0700F58;
 extern OverlayWork D_000012F0;
 
-// Set the overlay work kind from the callback result using a copy of the stored word.
+/* Set the overlay work kind from the callback result using a copy of the stored word. */
 void func_808B34B0(void)
 {
     UnalignedWord callback_input;
