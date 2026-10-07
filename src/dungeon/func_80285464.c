@@ -33,13 +33,6 @@ typedef struct Ent8 {
     s16 value;
 } Ent8;
 
-typedef struct RecA {
-    u8 f0;
-    u8 f1;
-    u8 f2;
-    u8 f3;
-} RecA;
-
 typedef struct RecB {
     u8 f0;
     u8 f1;
@@ -187,16 +180,16 @@ void func_80018464(s16 layout_number)
         data++;
         D_800E36C8[entry_index].f0 = x_or_marker;
         D_800E36C8[entry_index].f1 = *data++;
-        ((RecA *)D_800E3548)[entry_index].f0 = *data++;
-        ((RecA *)D_800E3548)[entry_index].f1 = *data++;
-        ((RecA *)D_800E3548)[entry_index].f3 = *data++;
-        ((RecA *)D_800E3548)[entry_index].f2 = *data++;
-        D_800E36C8[entry_index].f8 = func_800A7A38(&((RecA *)D_800E3548)[entry_index]);
+        D_800E3548[entry_index].unk_00 = *data++;
+        D_800E3548[entry_index].kind = *data++;
+        D_800E3548[entry_index].unk_03 = *data++;
+        D_800E3548[entry_index].unk_02 = *data++;
+        D_800E36C8[entry_index].f8 = func_800A7A38(&D_800E3548[entry_index]);
         entry_index++;
     }
     while (entry_index < 64) {
-        ((RecA *)D_800E3548)[entry_index].f1 = 0;
-        ((RecA *)D_800E3548)[entry_index].f0 = 0;
+        D_800E3548[entry_index].kind = 0;
+        D_800E3548[entry_index].unk_00 = 0;
         entry_index++;
     }
 
@@ -239,7 +232,7 @@ void func_80018464(s16 layout_number)
     }
 
     func_8004068C(data, D_800EA000);
-    for (entry_index = 0; ((RecA *)D_800E3548)[entry_index].f1 != 0; entry_index++) {
+    for (entry_index = 0; D_800E3548[entry_index].kind != 0; entry_index++) {
         placed_record = &D_800E36C8[entry_index];
         map_value = func_800BCA68(placed_record->f0 << 6, placed_record->f1 << 6);
         placed_record->f4 = map_value;

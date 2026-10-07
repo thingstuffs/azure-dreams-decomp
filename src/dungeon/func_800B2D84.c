@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -23,12 +24,7 @@ typedef struct
     s32 value1;
 }
 DungeonParameters;
-typedef struct
-{
-    u8 pad[0x8D0];
-    u8 *cursor;
-}
-DungeonState;
+
 typedef struct
 {
     u8 pad0[8];
@@ -68,9 +64,9 @@ void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32
     u8 *quad_packet;
     s32 packet_order;
     s32 scratch;
-    DungeonState **state_slot;
+    GpuContext **state_slot;
     packet_order = (s32)(((u8 *)(&gameWork)) - 0x3160);
-    cursor = (*((DungeonState **) (((u8 *)packet_order) + 0x3160)))->cursor;
+    cursor = (*((GpuContext **) (((u8 *)packet_order) + 0x3160)))->packetCursor;
     scratchpad = (EllipseWork *) 0x1F800000;
     scratchpad->prev_z = 0;
     scratchpad->cur_z = 0;
@@ -88,7 +84,7 @@ void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32
         angle_step = segment;
 loop_0:
         {
-            state_slot = (DungeonState **)&gameWork;
+            state_slot = (GpuContext **)&gameWork;
             scratchpad->prev.xy = scratchpad->cur.xy;
             center_u = (u8)scratchpad->tex_u
                 + (scratchpad->tex_w >> 1);
@@ -177,5 +173,5 @@ loop_0:
         if (segment < parameters->count)
             goto loop_0;
     }
-    (*state_slot)->cursor = cursor;
+    (*state_slot)->packetCursor = cursor;
 }

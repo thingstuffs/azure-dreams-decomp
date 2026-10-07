@@ -1,3 +1,4 @@
+#include "shared/town_root.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -10,18 +11,6 @@ typedef struct S_80018D14_0 {
     u8 * unk_6000;
 } S_80018D14_0;   /* page in func_80018D14 */
 
-typedef struct S_80018D14_1 {
-    u8 pad_00[0x20];
-    u8 * unk_20;
-    u8 pad_24[0x14];
-    u8 * unk_38;
-} S_80018D14_1;   /* root in func_80018D14 */
-
-typedef struct S_80018D14_2 {
-    u8 pad_00[0x20];
-    u8 * unk_20;
-} S_80018D14_2;   /* root2 in func_80018D14 */
-
 
 extern u8 D_80016034[16];
 extern u8 D_8001605C[];
@@ -30,10 +19,10 @@ extern u8 D_8001605C[];
 void func_80018D14(u8 *object_ref)
 {
     void **global_page;
-    u8 *context;
+    Rec_D_80016000 *context;
     u8 *object_flags;
     TownCall3 callback_168;
-    u8 *updated_context;
+    Rec_D_80016000 *updated_context;
     u8 *updated_callbacks;
     TownCall1 callback_174;
     u8 *state_base;
@@ -46,18 +35,18 @@ void func_80018D14(u8 *object_ref)
 
     global_page = (void **)0x80010000;
     context = ((S_80018D14_0 *)global_page)->unk_6000;
-    object_flags = ((S_80018D14_1 *)context)->unk_38;
+    object_flags = (u8 *)context->unk_38;
     object_table = object_flags + 0x2F0;
     state_base = object_flags;
     object_flags = (u8 *)object_ref[3];
     slot = ((u8)object_flags) & 0x1F;
 
     if (object_ref[0] != object_table[slot * 0x54 + 0x13]) {
-        object_flags = ((S_80018D14_1 *)context)->unk_20;
+        object_flags = (u8 *)context->unk_20;
         callback_168 = (*(TownCall3 *)((u8 *)object_flags + 0x168));
         callback_168(D_80016034, D_8001605C, 0x41);
         updated_context = ((S_80018D14_0 *)global_page)->unk_6000;
-        updated_callbacks = ((S_80018D14_2 *)updated_context)->unk_20;
+        updated_callbacks = (u8 *)updated_context->unk_20;
         callback_174 = (*(TownCall1 *)((u8 *)updated_callbacks + 0x174));
         callback_174(1);
     }

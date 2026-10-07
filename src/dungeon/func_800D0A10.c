@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 extern int abs(int);
@@ -76,10 +77,7 @@ typedef struct S_800D6170_2 {
     u16 unk_1A;
 } S_800D6170_2;   /* arg2 in func_800D6170 */
 
-typedef struct S_800D6170_3 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_800D6170_3;   /* *global in func_800D6170 */
+   /* *global in func_800D6170 */
 
 typedef struct S_800D6170_4 {
     u32 unk_00;
@@ -156,8 +154,8 @@ void func_800D6170(void *geometry, S_800D6170_1 *position, S_800D6170_2 *render_
             depth_edges[2] -= 0x10;
             depth_edges[3] -= 0x10;
 
-            packet = ((S_800D6170_3 *)(*render_context))->unk_8D0;
-            ((S_800D6170_3 *)(*render_context))->unk_8D0 = packet + 0x18;
+            packet = ((GpuContext *)(*render_context))->packetCursor;
+            ((GpuContext *)(*render_context))->packetCursor = packet + 0x18;
             ot_index = func_80065590(scratch + 0xB0, scratch + 0xB8,
                                      scratch + 0xC0, scratch + 0xC8,
                                      packet + 8, packet + 0xC,
@@ -205,8 +203,8 @@ void func_800D6170(void *geometry, S_800D6170_1 *position, S_800D6170_2 *render_
         ((S_800D6170_0 *)scratch)->unk_C4 = depth_edges[2];
         ((S_800D6170_0 *)scratch)->unk_CC = depth_edges[3];
 
-        packet = ((S_800D6170_3 *)(*render_context))->unk_8D0;
-        ((S_800D6170_3 *)(*render_context))->unk_8D0 = packet + 0x18;
+        packet = ((GpuContext *)(*render_context))->packetCursor;
+        ((GpuContext *)(*render_context))->packetCursor = packet + 0x18;
         ot_index = func_80065590(scratch + 0xB0, scratch + 0xB8,
                                  scratch + 0xC0, scratch + 0xC8,
                                  packet + 8, packet + 0xC,

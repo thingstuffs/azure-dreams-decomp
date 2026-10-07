@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
@@ -7,11 +8,7 @@ s32 func_80065420();
 s32 func_80066460();
 M2C_UNK func_80067F20();
 extern M2C_UNK D_8002588C;
-typedef struct 
-{
-  u8 pad0[0x8D0];
-  u8 *nextPrim;
-} RenderState;
+
 typedef struct
 {
   u8 pad00[0x18];
@@ -56,10 +53,10 @@ s32 func_818B0E10(void *unused_0, void *origin, void *unused_2, s32 point_scale,
   s16 phase = (s16) color_phase;
   u8 *scratch;
   u8 *line_prim;
-  RenderState *initial_ctx;
+  GpuContext *initial_ctx;
   GameWork *render_state = &gameWork;
   s32 depth;
-  initial_ctx = *((RenderState **) (globals_page + 0x3160));
+  initial_ctx = *((GpuContext **) (globals_page + 0x3160));
   scratch = (u8 *) 0x1F800000;
   ((ScratchPad *) scratch)->unk_70 = (u16) initial_z;
   ((ScratchPad *) scratch)->unk_68 = (u16) initial_z;
@@ -70,7 +67,7 @@ s32 func_818B0E10(void *unused_0, void *origin, void *unused_2, s32 point_scale,
     s32 color_index = segment + phase_offset;
     s32 biased_index = color_index;
     s32 biased_index_2;
-    RenderState *ctx;
+    GpuContext *ctx;
     s32 line_code;
     s32 div255_multiplier;
     union {
@@ -80,9 +77,9 @@ s32 func_818B0E10(void *unused_0, void *origin, void *unused_2, s32 point_scale,
     globals_page = (u8 *)(intensity << 16);
     div255_multiplier = (s32) 0x80808081U;
     wide_product.both = (s64) (s32)globals_page * div255_multiplier;
-    ctx = ((RenderState *)render_state->unk_000);
-    line_prim = ctx->nextPrim;
-    ctx->nextPrim = line_prim + 0x14;
+    ctx = ((GpuContext *)render_state->unk_000);
+    line_prim = ctx->packetCursor;
+    ctx->packetCursor = line_prim + 0x14;
     line_prim[3] = 4;
     line_code = 0x52;
     color_phase = (s32)globals_page >> 31;
@@ -156,8 +153,8 @@ s32 func_818B0E10(void *unused_0, void *origin, void *unused_2, s32 point_scale,
     {
       u8 *draw_mode_prim;
       addPrim(((ScratchPad *) scratch)->ot + ((ScratchPad *) scratch)->unk_B4, line_prim);
-      draw_mode_prim = ((RenderState *)render_state->unk_000)->nextPrim;
-      ((RenderState *)render_state->unk_000)->nextPrim = draw_mode_prim + 0xC;
+      draw_mode_prim = ((GpuContext *)render_state->unk_000)->packetCursor;
+      ((GpuContext *)render_state->unk_000)->packetCursor = draw_mode_prim + 0xC;
       func_80067F20(draw_mode_prim, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
       addPrim(((ScratchPad *) scratch)->ot + ((ScratchPad *) scratch)->unk_B4, draw_mode_prim);
     }

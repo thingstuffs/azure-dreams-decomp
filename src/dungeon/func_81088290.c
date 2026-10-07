@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
@@ -28,10 +29,7 @@ typedef struct S_80175A90_0 {
     u16 unk_E2;
 } S_80175A90_0;   /* scratch in func_80175A90 */
 
-typedef struct S_80175A90_1 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_80175A90_1;   /* context in func_80175A90 */
+   /* context in func_80175A90 */
 
 typedef struct S_80175A90_2 {
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_00;   /* overlapping accesses */
@@ -83,11 +81,11 @@ void func_80175A90(S_80175A90_3 *start_pos, EntityRec *end_pos)
     ((S_80175A90_0 *)scratch)->unk_18.p = (u8 *)*context_ptr + 0xB0;
 
     do {
-        S_80175A90_1 *context = *context_ptr;
+        GpuContext *context = *context_ptr;
         s32 offset;
 
-        prim = context->unk_8D0;
-        context->unk_8D0 = prim + 0x20;
+        prim = context->packetCursor;
+        context->packetCursor = prim + 0x20;
 
         ((S_80175A90_2 *)prim)->unk_07 = 0x58;
         ((S_80175A90_2 *)prim)->unk_00.at03.v = 7;

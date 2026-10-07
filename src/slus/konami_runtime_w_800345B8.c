@@ -1,61 +1,10 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
 typedef struct { s32 v; } SpS32;
 typedef struct { u16 v; } SpU16;
 
-typedef struct RenderState
-{
-    u8 pad0[6];
-    s16 depth_bias;
-    u8 *records;
-    u32 color;
-    u16 texture_bias;
-    u16 depth_base;
-    u16 flags;
-    u16 rot_x;
-    u16 rot_y;
-    u16 rot_z;
-    u8 pad1[4];
-    u16 scale_x;
-    u16 scale_y;
-}
-RenderState;
-typedef struct RenderPool
-{
-    u8 pad0[0x8D0];
-    u8 *next_prim;
-}
-RenderPool;
-typedef struct PrimFT4
-{
-    u32 tag;
-    u8 r0;
-    u8 g0;
-    u8 b0;
-    u8 code;
-    s16 x0;
-    s16 y0;
-    u8 u0;
-    u8 v0;
-    u16 clut;
-    s16 x1;
-    s16 y1;
-    u8 u1;
-    u8 v1;
-    u16 tpage;
-    s16 x2;
-    s16 y2;
-    u8 u2;
-    u8 v2;
-    u16 pad1;
-    s16 x3;
-    s16 y3;
-    u8 u3;
-    u8 v3;
-    u16 pad2;
-}
-PrimFT4;
 extern s32 RotTransPers(void *, void *, void *, void *);
 extern void RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern void PushMatrix(void);
@@ -120,19 +69,19 @@ s32 func_800345B8(u8 *node_data, u8 *position, u8 *render_state)
     u8 *copy_matrix_a;
     u8 *copy_matrix_b;
     u8 *matrix_page;
-    RenderPool **render_pools;
-    RenderPool *render_pool;
+    GpuContext **render_pools;
+    GpuContext *render_pool;
     u8 *next_prim;
     matrix_page = (u8 *) 0x80070000;
     copy_matrix_a = D_8006A84C;
     copy_matrix_b = D_8006CD10;
     scratch = (u8 *) 0x1F800000;
     render_pool = gameWork.unk_000;
-    next_prim = render_pool->next_prim;
+    next_prim = render_pool->packetCursor;
     (((SpS32 *) (scratch + 0x24))->v) = (s32) (((u8 *) render_pool) + 0xB0);
     (((SpS32 *) (scratch + 0xE4))->v) = 0;
     (((SpS32 *) (scratch + 0x1C))->v) = (s32) next_prim;
-    render_pools = ((RenderPool * *)(&gameWork));
+    render_pools = ((GpuContext * *)(&gameWork));
     fixed_matrix = (void *) 0x1F8000C8;
     do {
         (((SpU16 *) (scratch + 0x04))->v) = *((u16 *) (position + 2));
@@ -397,6 +346,6 @@ s32 func_800345B8(u8 *node_data, u8 *position, u8 *render_state)
         }
     }
     while (next_node != 0);
-    render_pools[0]->next_prim = (u8 *) ((((SpS32 *) (scratch + 0x1C))->v));
+    render_pools[0]->packetCursor = (u8 *) ((((SpS32 *) (scratch + 0x1C))->v));
     return 0;
 }

@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -13,12 +14,7 @@ typedef struct S_80053A88_DRTPAGE {
     u32 tag;
     u16 code[4];
 } S_80053A88_DRTPAGE;
-typedef struct S_80053A88_Base {
-    u8 pad_000[0x74];
-    u32 unk74;
-    u8 pad_078[0x8D0 - 0x78];
-    void *unk8D0;
-} S_80053A88_Base;
+
 typedef struct S_80053A88_Node {
     u8 pad_00[0x8];
     u32 unk8;
@@ -39,7 +35,7 @@ s32 func_80053A88(S_80053A88_Node *first_node)
 {
     GameWork *work;
     S_80053A88_Node *node;
-    S_80053A88_Base *draw_base;
+    GpuContext *draw_base;
     S_80053A88_TILE *tile;
     S_80053A88_DRTPAGE *draw_mode;
     s32 tpage;
@@ -52,9 +48,9 @@ s32 func_80053A88(S_80053A88_Node *first_node)
     tag_mask = 0xFF000000;
     do {
         {
-            draw_base = ((S_80053A88_Base *)work->unk_000);
-            tile = (S_80053A88_TILE *)draw_base->unk8D0;
-            draw_base->unk8D0 = (void *)(((u8 *)tile) + 0x10);
+            draw_base = ((GpuContext *)work->unk_000);
+            tile = (S_80053A88_TILE *)draw_base->packetCursor;
+            draw_base->packetCursor = (void *)(((u8 *)tile) + 0x10);
             tile->x0 = node->unkC;
             tile->y0 = node->unkE;
             tile->w = node->unk10;
@@ -65,20 +61,20 @@ s32 func_80053A88(S_80053A88_Node *first_node)
                 SetSemiTrans(tile, 1);
             }
             if (!(node->unk16 & 2)) {
-                tile->tag = (tile->tag & tag_mask) | (((S_80053A88_Base *)work->unk_000)->unk74 & addr_mask);
+                tile->tag = (tile->tag & tag_mask) | (((GpuContext *)work->unk_000)->orderTag074 & addr_mask);
                 next_link = work->unk_000;
-                ((S_80053A88_Base *)next_link)->unk74 = (((S_80053A88_Base *)next_link)->unk74 & tag_mask)
+                ((GpuContext *)next_link)->orderTag074 = (((GpuContext *)next_link)->orderTag074 & tag_mask)
                 | (((u32)tile) & addr_mask);
             }
-            draw_base = ((S_80053A88_Base *)work->unk_000);
-            draw_mode = (S_80053A88_DRTPAGE *)draw_base->unk8D0;
-            draw_base->unk8D0 = (void *)(((u8 *)draw_mode) + 0xC);
+            draw_base = ((GpuContext *)work->unk_000);
+            draw_mode = (S_80053A88_DRTPAGE *)draw_base->packetCursor;
+            draw_base->packetCursor = (void *)(((u8 *)draw_mode) + 0xC);
             tpage = GetTPage(0, node->unk14, 0, 0);
             SetDrawMode(draw_mode, 0, 0, tpage & 0xFFFF, 0);
             if (!(node->unk16 & 2)) {
-                draw_mode->tag = (draw_mode->tag & tag_mask) | (((S_80053A88_Base *)work->unk_000)->unk74 & addr_mask);
+                draw_mode->tag = (draw_mode->tag & tag_mask) | (((GpuContext *)work->unk_000)->orderTag074 & addr_mask);
                 next_link = work->unk_000;
-                ((S_80053A88_Base *)next_link)->unk74 = (((S_80053A88_Base *)next_link)->unk74 & tag_mask)
+                ((GpuContext *)next_link)->orderTag074 = (((GpuContext *)next_link)->orderTag074 & tag_mask)
                 | (((u32)draw_mode) & addr_mask);
             }
             next_link = *((void **)(((u8 *)node) - 8));

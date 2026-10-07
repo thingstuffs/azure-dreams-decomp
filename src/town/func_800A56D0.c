@@ -1,10 +1,8 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
-typedef struct S_800A2E30_0 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_800A2E30_0;
+
 
 typedef struct S_800A2E30_1 {
     u8 pad_00[0x4];
@@ -34,10 +32,7 @@ typedef struct S_800A2E30_1 {
     u16 unk_22;
 } S_800A2E30_1;
 
-typedef struct S_800A2E30_2 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_800A2E30_2;
+
 
 typedef struct InputPair {
     u32 first;
@@ -78,8 +73,8 @@ void func_800A2E30(InputPair vertex_0, InputPair vertex_1, InputPair vertex_2,
         u8 *quad_ctx;
 
         quad_ctx = *(u8 **)((u8 *)(&gameWork));
-        packet = ((S_800A2E30_0 *)quad_ctx)->unk_8D0;
-        ((S_800A2E30_0 *)quad_ctx)->unk_8D0 = packet + 0x24;
+        packet = ((GpuContext *)quad_ctx)->packetCursor;
+        ((GpuContext *)quad_ctx)->packetCursor = packet + 0x24;
         ((S_800A2E30_1 *)packet)->unk_16 = shade;
         ((S_800A2E30_1 *)packet)->unk_15 = shade;
         ((S_800A2E30_1 *)packet)->unk_14 = shade;
@@ -118,8 +113,8 @@ void func_800A2E30(InputPair vertex_0, InputPair vertex_1, InputPair vertex_2,
     func_8006658C(*(u8 **)((u8 *)(&gameWork)) + 0xD8, packet);
 
     draw_ctx = *(u8 **)((u8 *)(&gameWork));
-    packet = ((S_800A2E30_2 *)draw_ctx)->unk_8D0;
-    ((S_800A2E30_2 *)draw_ctx)->unk_8D0 = packet + 0xC;
+    packet = ((GpuContext *)draw_ctx)->packetCursor;
+    ((GpuContext *)draw_ctx)->packetCursor = packet + 0xC;
     depth_or_page = func_80066460(0, 1, 0x140, 0);
     func_80067F20(packet, 0, 0, (u16)depth_or_page, 0);
 

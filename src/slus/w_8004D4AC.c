@@ -29,27 +29,7 @@ typedef struct
 }
 VECTOR;
 
-/* D_80083178 is declared canonically (include/globals.h -> include/game.h). The
- * game.h struct doesn't expose the SVECTOR sub-fields this function needs, so use
- * the same local-cast reconcile the landed twin func_8004D294 uses
- * (src/w_8004D294.c:25): a private S_80083178_local layout cast over &D_80083178. */
-typedef struct
-{
-    char pad0[0x94];
-    SVECTOR field_94;
-    SVECTOR field_9C;
-    short f_A4;
-    short f_A6;
-    short f_A8;
-    char pad_aa[0xAC - 0xAA];
-    SVECTOR field_AC;
-    void (*callback)(void);
-    void *field_B8;
-    char pad_bc[(0xD8 - 0xB8) - 4];
-    void *ptr;
-    char pad_dc[0x1C4 - 0xDC];
-}
-S_80083178_local;
+
 
 extern void RotMatrix(SVECTOR *r, MATRIX *m);
 extern void SetRotMatrix(MATRIX *m);
@@ -62,7 +42,7 @@ extern void func_80041900(MATRIX *m);
 /* Build and install the combined rotation and translation from global transform state. */
 void func_8004D4AC(void)
 {
-    S_80083178_local *transform = (S_80083178_local *)(&gameWork.view);
+    GameView *transform = (GameView *)(&gameWork.view);
     VECTOR rotated_pos;
     MATRIX base_mat;
     MATRIX combined_mat;
@@ -77,18 +57,18 @@ void func_8004D4AC(void)
     offset_mat_ptr = &offset_mat;
     base_mat.t[1] = 0;
     base_mat.t[0] = 0;
-    RotMatrix(&transform->field_AC, &offset_mat);
+    RotMatrix((SVECTOR *)&transform->unk_0AC, &offset_mat);
     SetRotMatrix(offset_mat_ptr);
     SetTransMatrix(&offset_mat);
-    neg_offset.vx = -transform->f_A4;
-    neg_offset.vy = -transform->f_A6;
-    neg_offset.vz = -transform->f_A8;
+    neg_offset.vx = -transform->unk_0A4;
+    neg_offset.vy = -transform->unk_0A6;
+    neg_offset.vz = -transform->unk_0A8;
     RotTrans(&neg_offset, &rotated_pos, &gte_flags);
     TransMatrix(&offset_mat, &rotated_pos);
-    RotMatrix(&transform->field_9C, &base_mat);
+    RotMatrix((SVECTOR *)&transform->unk_09C, &base_mat);
     SetRotMatrix(&base_mat);
     SetTransMatrix(&base_mat);
-    RotTrans(&transform->field_94, &rotated_pos, &gte_flags);
+    RotTrans((SVECTOR *)&transform->unk_094, &rotated_pos, &gte_flags);
     TransMatrix(&base_mat, &rotated_pos);
     func_80041900(&base_mat);
     CompMatrix(&base_mat, &offset_mat, &combined_mat);

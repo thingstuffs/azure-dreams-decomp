@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -30,14 +31,7 @@ typedef struct PacketTag {
 (setaddr((primitive), getaddr(ordering_table)), \
     setaddr((ordering_table), (primitive)))
 
-typedef struct RenderState {
-    u8 pad0[0x8D0];
-    u8 *next_prim;
-} RenderState;
 
-typedef struct TownState {
-    RenderState *render_state;
-} TownState;
 
 extern s32 func_80065420(void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
@@ -51,7 +45,7 @@ s32 func_8002415C(u8 *node)
     s32 coords[2];
     s32 *second_coord;
     GameWork *town_state;
-    RenderState *render_state;
+    GpuContext *render_state;
     u8 *line_prim;
     u8 *draw_mode_prim;
     u8 *next_link;
@@ -64,8 +58,8 @@ s32 func_8002415C(u8 *node)
     for (;;) {
         if (!(((S_8002415C_0 *)node)->unk_24 & 1)) {
             render_state = town_state->unk_000;
-            line_prim = render_state->next_prim;
-            render_state->next_prim = line_prim + 0x10;
+            line_prim = render_state->packetCursor;
+            render_state->packetCursor = line_prim + 0x10;
             ((S_8002415C_1 *)line_prim)->unk_04 = ((S_8002415C_0 *)node)->unk_14;
             func_800667BC(line_prim);
             func_80066640(line_prim, 1);
@@ -79,8 +73,8 @@ s32 func_8002415C(u8 *node)
                         line_prim);
 
                 render_state = town_state->unk_000;
-                draw_mode_prim = render_state->next_prim;
-                render_state->next_prim = draw_mode_prim + 0xC;
+                draw_mode_prim = render_state->packetCursor;
+                render_state->packetCursor = draw_mode_prim + 0xC;
                 func_80067F20(draw_mode_prim, 0, 0,
                     func_80066460(0, 0, 0, 0) & 0xFFFF, 0);
                 addPrim((u8 *)(ot_offset + (s32)town_state->unk_000) + 0xB0,

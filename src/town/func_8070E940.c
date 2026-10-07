@@ -4,10 +4,7 @@
 
 typedef void (*TownCallback)(s32, s32);
 
-typedef struct TownCallbacks {
-    u8 pad[0x2F8];
-    TownCallback callback;
-} TownCallbacks;
+
 
 extern s32 func_80016CC4();
 extern s32 func_8001991C();
@@ -29,6 +26,6 @@ s32 func_80017940(s32 kind, s32 value) {
     }
 
     root = D_80016000;
-    ((TownCallbacks *)root->unk_20)->callback(0xF, 0x200);
+    ((TownCallback)root->unk_20->callback_2F8)(0xF, 0x200);
     return 0;
 }

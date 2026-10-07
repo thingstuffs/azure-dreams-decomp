@@ -16,13 +16,13 @@ extern void func_8001A5E4(s32);
 /* Look up a value by group and entry index and pass it to the handler. */
 void func_80019394(s32 group_index, s32 entry_index) {
     Rec_D_80016000 *root;
-    Entry *level;
+    TownResourceLinks *level;
     Entry *groups;
     Entry *entries;
 
     root = D_80016000;
-    level = ((Entry *)root->unk_24);
-    groups = *(Entry **)((u8 *)level + 0x6C);
+    level = (TownResourceLinks *)root->unk_24;
+    groups = level->gridRows;
     entries = groups[group_index].next;
     func_8001A5E4(entries[entry_index].value);
 }

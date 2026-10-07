@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 /* Rowbase phase-2 landing shape (docs/rowbase_lane_phase2.md): natural plain C
  * at the Beldo region true base 0x80174334 — the function defines its
  * TRUE-space name func_801663AC; the j->0x8017xxxx words are its own local
@@ -68,10 +69,7 @@ typedef struct S_801663AC_2 {
     u16 unk_1A;
 } S_801663AC_2;   /* arg2 in func_801663AC */
 
-typedef struct S_801663AC_3 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_801663AC_3;   /* *(u8 **)D_80083160 in func_801663AC */
+   /* *(u8 **)D_80083160 in func_801663AC */
 
 typedef struct S_801663AC_4 {
     u32 unk_00;
@@ -182,8 +180,8 @@ void func_801663AC(void *quad, void *position, void *render_state, s16 depth_bia
     ((S_801663AC_0 *)scratch)->unk_10.s32 = texture[9];
     (*(s32 *)((u8 *)scratch + 0x14)) = texture[0xA];
     ((S_801663AC_0 *)scratch)->unk_18.s32 = texture[0xB];
-    packet = ((S_801663AC_3 *)(*(u8 **)((u8 *)(&gameWork))))->unk_8D0;
-    ((S_801663AC_3 *)(*(u8 **)((u8 *)(&gameWork))))->unk_8D0 = packet + 0x34;
+    packet = ((GpuContext *)(*(u8 **)((u8 *)(&gameWork))))->packetCursor;
+    ((GpuContext *)(*(u8 **)((u8 *)(&gameWork))))->packetCursor = packet + 0x34;
 
     ((S_801663AC_0 *)scratch)->unk_B0 = ((S_801663AC_4 *)quad)->unk_74;
     ((S_801663AC_0 *)scratch)->unk_B8 = ((S_801663AC_4 *)quad)->unk_7A;

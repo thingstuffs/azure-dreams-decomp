@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -56,10 +57,7 @@ typedef struct S_80174618_2 {
     u16 unk_1A;
 } S_80174618_2;   /* arg2 in func_80174618 */
 
-typedef struct S_80174618_3 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_80174618_3;   /* context in func_80174618 */
+   /* context in func_80174618 */
 
 typedef struct S_80174618_4 {
     u8 pad_00[0x64];
@@ -153,8 +151,8 @@ void func_80174618(S_80174618_4 *endpoints, S_80174618_1 *position, void *render
     field_value = ((S_80174618_2 *)render_params)->unk_14;
     context = *(u8 **)context;
     ((S_80174618_0 *)scratch)->unk_28 = field_value;
-    line_packet = ((S_80174618_3 *)context)->unk_8D0;
-    ((S_80174618_3 *)context)->unk_8D0 = line_packet + 0x10;
+    line_packet = ((GpuContext *)context)->packetCursor;
+    ((GpuContext *)context)->packetCursor = line_packet + 0x10;
 
     field_value = endpoints->unk_64;
     ((S_80174618_0 *)scratch)->unk_C0 = field_value;
@@ -218,8 +216,8 @@ void func_80174618(S_80174618_4 *endpoints, S_80174618_1 *position, void *render
         ((P_TAG *)&((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100])->addr = (u32)line_packet;
 
         draw_context = work_base->unk_000;
-        draw_packet = ((S_80174618_3 *)draw_context)->unk_8D0;
-        ((S_80174618_3 *)draw_context)->unk_8D0 = draw_packet + 0xC;
+        draw_packet = ((GpuContext *)draw_context)->packetCursor;
+        ((GpuContext *)draw_context)->packetCursor = draw_packet + 0xC;
         func_80067F20(draw_packet, 0, 0, (u16)func_80066460(0, 1, 0, 0), 0);
 
         ((P_TAG *)draw_packet)->addr = ((P_TAG *)&((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100])->addr;

@@ -8,10 +8,7 @@ extern s32 func_80018C50(s32);
 
 typedef void (*Callback)(s32, s32);
 
-typedef struct Inner {
-    u8 pad[0x2F8];
-    Callback callback;
-} Inner;
+
 
 
 /* Runs the conditional action or invokes the fallback callback. */
@@ -28,6 +25,6 @@ s32 func_800169B4(void) {
         }
     }
     callback_owner = D_80016000;
-    ((Inner *)callback_owner->unk_20)->callback(0x10, 0x200);
+    ((Callback)callback_owner->unk_20->callback_2F8)(0x10, 0x200);
     return 0;
 }
