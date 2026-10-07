@@ -101,3 +101,14 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     808B34B0 did not build at 2.6.3 because of a `//` comment and a typedef-level `__attribute__((packed))` (C89
     comment + packed on the u32 member: exact at both, lwl/lwr kept; landed). 808B2B04's 2.6.3-only reorg needed-set
     witness then decides the object; 808B2B04 -> confirmed in ledger/recipe_evidence.jsonl.
+29. **(r99) Composite rows are CARVE DEBT, not accepted source** (owner question 10-07: does keeping them make sense?). The
+    `asm("func_X")` prefix of a composite row is another function's jump table or overlay data (e.g. dungeon/func_80283000:
+    a table of code addresses 0x8001D4FC..0x8001E944 before func_8001607C's code; elsewhere Shift-JIS message text) that
+    retail's overlay linker placed before this row's code; the original source had it in its owning module's .rodata/.data.
+    r95 item 8 kept the spelling because it reproduces the bytes honestly, and named a re-carve as the long-term fix. So:
+    STATUS lists them on their own "carve debt" line (112 rows) - not in the generic inline-asm row, and not as accepted;
+    levels.py keeps them as L5 `inline_asm` residue (L5_EXCLUDE_COMPOSITE_ASM stays False). Resolution = module placement:
+    a module built as one TU emits its switch tables / data in its own sections and the prefix arrays and `.size` stamps go
+    (r99_astra_mod2 "complete function + data accounting"). Also r99: town/func_808BB138's r98 tail-lane text turned a
+    tail_jump into two LABEL_AS_CALL fidelity sites (func_800009FC / func_80000A24) - in r99_sol61_fid*. Lander: equal-pin
+    prototype / typing lanes land via READABLE_LANES=<lanes>; tools/land_admit.py admits live fidelity-site reductions.
