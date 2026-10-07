@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_1852800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -21,7 +22,7 @@ typedef struct StructA2 {
 extern void func_800478B8(void *state);
 
 /* Decreases paired state values by 0x80, invokes the state handler, and sets flags. */
-void func_81833060(StructA0 *owner, void *unused, StructA2 *state) {
+void func_80024860(StructA0 *owner, void *unused, StructA2 *state) {
     u16 adjusted_value;
 
     adjusted_value = state->unk1E - 0x80;

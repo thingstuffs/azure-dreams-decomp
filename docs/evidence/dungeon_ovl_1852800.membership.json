@@ -1,0 +1,28 @@
+{
+  "members": [
+    "dungeon/func_81832800",
+    "dungeon/func_81832FE8",
+    "dungeon/func_81833060",
+    "dungeon/func_818330F0"
+  ],
+  "confidence": "strong",
+  "scope": "reconstructed complete TU; historical filename not claimed",
+  "coverage_complete": true,
+  "basis": [
+    "Retail entry word at file 0x1852800 is 0x80024004; proven row_1852800_80024000 establishes delta 0x7E7D1800.",
+    "Native TU emits exactly entry 4 bytes, then all four functions in source order: 2020,120,144,300 bytes. No interior gap, extra allocation, COMMON, or raw owned bytes.",
+    "Carrier materializes addresses 0x80024860 and 0x800248F0, which are native function relocations to the two callback members. Both their definitions and their entry addresses match.",
+    "Complete interval ends at 0x185321C, immediately after final callback return/delay slot; following 64 bytes are retained outside ownership. No original source filename is asserted.",
+    "All four current rows are L3 and have only not_in_module at L4; the weak ledger grouping is upgraded only for this reviewed reconstructed physical TU."
+  ],
+  "interval": [
+    25503744,
+    25506332
+  ],
+  "reviewer": null,
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_1852800.c",
+    "module_index": 147
+  }
+}

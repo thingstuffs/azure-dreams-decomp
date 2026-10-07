@@ -4,14 +4,15 @@
 No payload may be discarded or supplied from retail. Every invocation compiles the
 whole cohort once, compares genuine ASPSX, links its natural order at the proven
 load address and checks all bytes. The window adapter projects only these bytes.
-Data-emitting, COMMON, mixed-recipe and unsupported modules fail closed.
+Native rodata heads require explicit complete coverage and strong membership.
+COMMON, mixed-recipe and unsupported allocations fail closed.
 """
 from __future__ import annotations
 import argparse, dataclasses, hashlib, importlib.util, json, os, re, shlex, shutil, struct, subprocess, sys, tempfile, time
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 if ROOT.name=='tools': ROOT=ROOT.parent
-SCHEMA='overlay-module-text-v2'
+SCHEMA='overlay-module-native-v3'
 CONTAINERS={'dungeon':'DUNGEON_DUNGEON.BIN','town':'TOWN_TOWN.BIN','main':'MAIN_MAIN.BIN','ovmovie':'OVMOVIE.BIN'}
 META={'.reginfo','.MIPS.abiflags'}
 def sha(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()
@@ -31,12 +32,12 @@ def load_modules(root=ROOT):
  root=Path(root);path=root/'config/overlays/modules.json'
  if (root/'config/overlay_modules_disabled').exists() or not path.exists(): return []
  doc=json.loads(path.read_text())
- if doc['schema']!=SCHEMA:raise ValueError('unsupported manifest')
+ if doc['schema'] not in (SCHEMA,'overlay-module-text-v2'):raise ValueError('unsupported manifest')
  reg=rows(root);seen=set();keys=set()
  for m in doc['modules']:
   if not re.fullmatch('[a-z][a-z0-9_]*',m['key']) or m['key'] in keys:raise ValueError('duplicate/invalid key')
   keys.add(m['key'])
-  if m['owned_data']:raise ValueError('owned data is outside text-v2 support')
+  if m['owned_data']:validate_owned_layout(m)
   if not m['members'] or m['recipe']!={'cfg':'2.7.2-cdk-G0','row_asflags':''}:raise ValueError('unsupported recipe/empty cohort')
   if not m['headers'] or not m['review_inputs']:raise ValueError('missing shared contract or review inputs')
   for p in [m['source'],*m['headers'],*m['review_inputs']]:local(root,p)
@@ -47,18 +48,81 @@ def load_modules(root=ROOT):
    r=reg[a['id']]
    if a['id'] in seen:raise ValueError('duplicate member')
    seen.add(a['id'])
-   expected={'id':r['id'],'source':f"src/{r['container']}/{Path(r['c_path']).name}",'function':r.get('true_name') or r['func'],'foff':r['foff'],'vma':r['foff']+delta,'size':r['size']}
+   expected={'id':r['id'],'source':f"src/{r['container']}/{Path(r['c_path']).name}",'function':('func_%08X' % (r['foff']+delta+a['body_offset'])) if 'body_offset' in a else (r.get('true_name') or r['func']),'foff':r['foff'],'vma':r['foff']+delta,'size':r['size']}
+   if 'body_offset' in a:expected['body_offset']=a['body_offset']
    if a!=expected or a['foff']!=cursor or r['container']!=m['container'] or r['cfg']!=m['recipe']['cfg'] or (r.get('row_asflags') or '')!=m['recipe']['row_asflags']:raise ValueError('member identity, contiguity or recipe differs: '+a['id'])
    cursor+=a['size']
   if not int(region['foff_start'],0)<=m['members'][0]['foff']<cursor<=int(region['foff_end'],0):raise ValueError('module outside proven load map')
+  if m.get('membership_evidence'):
+   ev=json.loads(local(root,m['membership_evidence']).read_text())
+   if m['membership_evidence'] not in m['review_inputs']:raise ValueError('membership evidence not fingerprinted')
+   group=ev['ledger_group']
+   assignments=[json.loads(l) for l in (root/'ledger/modules.jsonl').read_text().splitlines() if l.strip()]
+   cohort=sorted([x['id'] for x in assignments if all(x[k]==v for k,v in group.items())],key=lambda rid:reg[rid]['foff'])
+   if cohort!=[a['id'] for a in m['members']]:raise ValueError('complete ledger cohort differs')
+   levels={x['id']:x for l in (root/'ledger/levels.jsonl').read_text().splitlines() for x in [json.loads(l)]}
+   for a in m['members']:
+    level=levels[a['id']]
+    if level['level']<3 or level['pins_left'] or level['tail_jumps'] or set(level['l4_residue'])-{'not_in_module'}:raise ValueError('L3/placement screen failed')
+   if ev['members']!=[a['id'] for a in m['members']] or ev['confidence']!='strong' or not ev['basis'] or not ev['coverage_complete']:raise ValueError('strong membership screen failed')
   im=m['imports']
+  if any(d.get('evidence') and d['evidence'] not in m['review_inputs'] for d in im):raise ValueError('import evidence not fingerprinted')
   if len({x['symbol'] for x in im})!=len(im):raise ValueError('duplicate import')
   for d in im:
    if d['kind']=='data':
+    if 'asset' in d:
+     validate_asset(root,d);continue
     if d['owner']!='retail_asset:'+m['container']+':'+m['region'] or d['foff']+delta!=d['vma'] or d['view_bytes']<=0:raise ValueError('external storage ownership/load map differs')
     if not int(region['foff_start'],0)<=d['foff']<d['foff']+d['view_bytes']<=int(region['foff_end'],0):raise ValueError('external view outside resident asset')
+   elif d['kind']=='runtime_data':
+    validate_runtime(root,d)
    elif d['kind']!='function':raise ValueError('unknown import kind')
  return doc['modules']
+
+
+def validate_owned_layout(m):
+ # First supported data layout: one native .rodata head, then contiguous text.
+ # Legacy logical rows retain their composite extent; body_offset separates code.
+ ds=m['owned_data'];first=m['members'][0];cursor=first['foff'];vma=first['vma']
+ for d in ds:
+  if d['section']!='.rodata' or d['foff']!=cursor or d['vma']!=vma or d['size']<=0 or d['size']%4:raise ValueError('invalid owned rodata layout')
+  cursor+=d['size'];vma+=d['size']
+ prefix=cursor-first['foff']
+ if first.get('body_offset')!=prefix or prefix>=first['size'] or any(a.get('body_offset',0) for a in m['members'][1:]):raise ValueError('owned prefix/code coverage differs')
+ if ds[0].get('target')!=first['function']:raise ValueError('entry target differs from body')
+ if len(ds)!=1 or ds[0]['size']!=4 or ds[0].get('kind')!='typed_function_pointer':raise ValueError('only native four-byte entry objects supported in this revision')
+ if not m.get('membership_evidence'):raise ValueError('data module requires strong membership evidence')
+
+def payload_spec(m):
+ ds=[('.rodata',sum(d['size'] for d in m['owned_data']))] if m['owned_data'] else []
+ return ds+[('.text.'+a['function'],a['size']-a.get('body_offset',0)) for a in m['members']]
+
+def validate_asset(root,d):
+ # Cross-resident imports remain external views. The load map and view are
+ # explicit evidence inputs, separate from the owning module's code range.
+ local(root,d['asset']);e=local(root,d['evidence'])
+ proof=json.loads(e.read_text());v=proof['views'][d['symbol']]
+ if v!=d or d['view_bytes']<=0 or d['owner']!='retail_asset:'+d['asset']:raise ValueError('external asset evidence differs')
+ mp=proof['maps'][d['map']]
+ if mp['asset']!=d['asset'] or d['foff']+mp['delta']!=d['vma'] or not mp['file_start']<=d['foff']<d['foff']+d['view_bytes']<=mp['file_end']:raise ValueError('external asset load map differs')
+ if not mp.get('basis'):raise ValueError('missing external asset map basis')
+ if mp['kind']=='psx_exe':
+  with (root/d['asset']).open('rb') as f:head=f.read(0x800)
+  if head[:8]!=b'PS-X EXE':raise ValueError('invalid PS-X EXE asset')
+  load,size=struct.unpack_from('<II',head,0x18)
+  if (mp['file_start'],mp['file_end'],mp['delta'])!=(0x800,0x800+size,load-0x800):raise ValueError('PS-X EXE map differs')
+ elif mp['kind']=='rowbase':
+  match=[r for r in ranges(root,'dungeon') if r['region']==mp['region'] and r['base_confidence']=='proven']
+  if len(match)!=1 or tuple(int(match[0][k],0) for k in ('foff_start','foff_end','delta'))!=(mp['file_start'],mp['file_end'],mp['delta']):raise ValueError('resident load-map evidence differs')
+ else:raise ValueError('unsupported external asset map')
+
+def validate_runtime(root,d):
+ proof=json.loads(local(root,d['evidence']).read_text())
+ if proof['runtime_views'].get(d['symbol'])!=d or d['owner']!='resident_runtime:slus' or d['view_bytes']<=0:raise ValueError('runtime storage evidence differs')
+ if not local(root,d['declaration']).is_file():raise ValueError('missing runtime storage declaration')
+ # This grants no allocation or initialization claim: the module imports an
+ # existing runtime object. Definitions/byte ownership remain external.
+
 
 def graph(root=ROOT):
  root=Path(root);reg=rows(root);mods=load_modules(root);taken={a['id'] for m in mods for a in m['members']}
@@ -108,6 +172,8 @@ def fingerprint(m,root=ROOT,windows=True):
  names=closure(root,[m['source'],*m['headers'],*(a['source'] for a in m['members']),'include/labels.inc',*(p for p in m['review_inputs'] if p.endswith(('.c','.h')))])
  names.update(['config/overlays/modules.json','ledger/rows.jsonl','ledger/splits/overlay_modules.build.json',f"config/overlays/{m['container']}.rowbase.jsonl",'config/names.tsv',*m['review_inputs']])
  names.update(wins)
+ if m.get('membership_evidence'):names.add('ledger/modules.jsonl')
+ names.update(d['declaration'] for d in m['imports'] if d['kind']=='runtime_data')
  suffix='.'+m['container'] if m['container']!='main' else ''
  names.update('config/'+k+suffix+'.txt' for k in ['noreturn_syms','sibcall_syms'])
  for p in ['config/overlays/abs_syms.txt','config/slus_006.14.symbols.txt','config/noreturn_false_members.jsonl',f"config/overlays/{m['container']}.as_flags.jsonl",f"config/overlays/{m['container']}.rodata_owners.jsonl"]:
@@ -153,11 +219,19 @@ def fingerprint(m,root=ROOT,windows=True):
  with container.open('rb') as f:
   for d in m['imports']:
    if d['kind']=='data':
-    f.seek(d['foff']);b=f.read(d['view_bytes'])
+    if 'asset' in d:
+     with (root/d['asset']).open('rb') as af:af.seek(d['foff']);b=af.read(d['view_bytes'])
+    else:f.seek(d['foff']);b=f.read(d['view_bytes'])
     if len(b)!=d['view_bytes']:raise ValueError('truncated external data view')
     asset[d['symbol']]=hashlib.sha256(b).hexdigest()
   a=m['members'][0];f.seek(a['foff']);b=f.read(sum(x['size'] for x in m['members']));asset['module_text']=hashlib.sha256(b).hexdigest()
- return {'sha256':hashed({'module':m,'inputs':inp,'tools':tool_inputs,'retail':asset}),'inputs':inp,'tools':tool_inputs,'retail':asset}
+ screening={}
+ if m.get('membership_evidence'):
+  # Do not bind the level number or not_in_module: placement itself changes
+  # those outputs. Bind all eligibility inputs without a certificate cycle.
+  levels={x['id']:x for l in (root/'ledger/levels.jsonl').read_text().splitlines() for x in [json.loads(l)]}
+  screening={a['id']:{'l3':levels[a['id']]['level']>=3,'pins':levels[a['id']]['pins_left'],'tail_jumps':levels[a['id']]['tail_jumps'],'residue':sorted(set(levels[a['id']]['l4_residue'])-{'not_in_module'})} for a in m['members']}
+ return {'sha256':hashed({'module':m,'inputs':inp,'tools':tool_inputs,'retail':asset,'screening':screening}),'inputs':inp,'tools':tool_inputs,'retail':asset,'screening':screening}
 
 def command(args,cwd,env,log,stdin=None):
  p=subprocess.run([str(a) for a in args],cwd=cwd,env=env,input=stdin,capture_output=True,timeout=300)
@@ -196,22 +270,23 @@ def build(m,out,root=ROOT,substitutions=None):
  command([gcc/'gcc','-B'+str(gcc)+'/', '-S','-O2','-G0','-I'+str(root/'include'),'-w',source,'-o',asm],root,env,out/'compile.log')
  raw=asm.read_bytes();proc=command([sys.executable,gate_tool(root,'ccproc.py'),'--names-tsv',root/'config/names.tsv'],root,env,out/'ccproc.log',raw);(out/'sectioned.s').write_bytes(proc)
  command([root/'.venv/bin/python',root/'toolchain/maspsx/maspsx.py','--aspsx-version=2.79','--dont-force-G0','--run-assembler','--gnu-as-path=mipsel-linux-gnu-as','-I'+str(root),'-I'+str(root/'include'),'-EL','-march=r3000','-G8','-o',obj],root,env,out/'assemble.log',proc)
- expected=['.text.'+a['function'] for a in m['members']];secs=sections(obj);payload=[s for s in secs if s['flags']&2 and s['size'] and s['name'] not in META]
- if [s['name'] for s in payload]!=expected or [s['size'] for s in payload]!=[a['size'] for a in m['members']]:raise ValueError('complete allocated payload/order/extent differs: '+str(payload))
+ expected=payload_spec(m);secs=sections(obj);payload=[s for s in secs if s['flags']&2 and s['size'] and s['name'] not in META]
+ if [(s['name'],s['size']) for s in payload]!=expected:raise ValueError('complete allocated payload/order/extent differs: '+str(payload))
  nm=command(['mipsel-linux-gnu-nm','-S',obj],root,env,out/'object_symbols.log').decode()
  if any(l.split()[-2].upper()=='C' for l in nm.splitlines() if len(l.split())>=2):raise ValueError('unowned COMMON')
  undefined={l.split()[-1] for l in nm.splitlines() if len(l.split())==2 and l.split()[0]=='U'}
  imports={d['symbol']:d['vma'] for d in m['imports']}
  if undefined!=set(imports):raise ValueError('import inventory differs: '+str(undefined^set(imports)))
- addresses=dict(imports,**{a['function']:a['vma'] for a in m['members']})
+ addresses=dict(imports,**{a['function']:a['vma']+a.get('body_offset',0) for a in m['members']})
+ addresses.update({d['symbol']:d['vma'] for d in m['owned_data'] if d.get('symbol')})
  # One natural-order placement; never a separate address directive per member.
- ld=out/'module.ld';ld.write_text('OUTPUT_FORMAT("elf32-tradlittlemips")\nOUTPUT_ARCH(mips)\n_gp = 0x80080994;\n'+''.join(f'{s} = 0x{v:X};\n' for s,v in imports.items())+'SECTIONS {\n'+f' .module 0x{m["members"][0]["vma"]:X} : {{ "{obj}"(.text.*) }}\n'+f' ASSERT(SIZEOF(.module) == {sum(a["size"] for a in m["members"])}, "module extent")\n /DISCARD/ : {{ *(.text) *(.reginfo) *(.MIPS.abiflags) *(.pdr) *(.comment) *(.note*) *(.mdebug*) *(.gnu.attributes) }}\n}}\n')
+ ld=out/'module.ld';ld.write_text('OUTPUT_FORMAT("elf32-tradlittlemips")\nOUTPUT_ARCH(mips)\n_gp = 0x80080994;\n'+''.join(f'{s} = 0x{v:X};\n' for s,v in imports.items())+'SECTIONS {\n'+f' .module 0x{m["members"][0]["vma"]:X} : {{ "{obj}"(.rodata .text.*) }}\n'+f' ASSERT(SIZEOF(.module) == {sum(a["size"] for a in m["members"])}, "module extent")\n /DISCARD/ : {{ *(.text) *(.reginfo) *(.MIPS.abiflags) *(.pdr) *(.comment) *(.note*) *(.mdebug*) *(.gnu.attributes) }}\n}}\n')
  elf=out/'module.elf';binary=out/'module.bin'
  command(['mipsel-linux-gnu-ld','-EL','-T',ld,'-Map',out/'module.map','-o',elf,obj],root,env,out/'link.log')
  command(['mipsel-linux-gnu-objcopy','-O','binary',elf,binary],root,env,out/'objcopy.log')
  syms=command(['mipsel-linux-gnu-nm','-n','-S',elf],root,env,out/'linked_symbols.log').decode()
  placed={p[-1]:int(p[0],16) for l in syms.splitlines() if len(p:=l.split())>=3}
- if any(placed.get(a['function'])!=a['vma'] for a in m['members']):raise ValueError('natural linked addresses differ')
+ if any(placed.get(a['function'])!=a['vma']+a.get('body_offset',0) for a in m['members']) or any(placed.get(d['symbol'])!=d['vma'] for d in m['owned_data'] if d.get('symbol')):raise ValueError('natural linked addresses differ')
  data=binary.read_bytes();first=m['members'][0]
  with (root/'work/disc/containers'/CONTAINERS[m['container']]).open('rb') as f:f.seek(first['foff']);retail=f.read(len(data))
  (out/'retail.bin').write_bytes(retail)
@@ -228,23 +303,41 @@ def build(m,out,root=ROOT,substitutions=None):
   shutil.copy2(td/'OUT.OBJ',out/'OUT.OBJ')
  ma=A.View(A.read_elf(obj.read_bytes()));ge=A.View(A.read_lnk((out/'OUT.OBJ').read_bytes()),ref=ma)
  if ma.obj.unknown or ge.obj.unknown:raise ValueError('unknown object record/relocation')
- if list(ma.funcs)!=[a['function'] for a in m['members']] or set(ge.funcs)!=set(ma.funcs):raise ValueError('complete function set differs')
- if any(v for k,v in ge.obj.sections.items() if k!='.text'):raise ValueError('unowned genuine allocated section')
+ if set(ma.funcs)!={a['function'] for a in m['members']} or set(ge.funcs)!=set(ma.funcs):raise ValueError('complete function set differs')
+ if any(v for k,v in ge.obj.sections.items() if k not in ('.text','.rdata','.rodata')):raise ValueError('unowned genuine allocated section')
  if any(v[2]=='common' for v in ge.obj.symbols.values()):raise ValueError('genuine COMMON')
+ for a in m['members']:
+  if ma.funcs[a['function']]!=('.text.'+a['function'],0,a['size']-a.get('body_offset',0)):raise ValueError('maspsx function extent differs')
  comp=A.compare_units(ma,ge)
  if not comp['exact']:raise ValueError('whole-TU genuine mismatch: '+str(comp))
  genuine=bytearray()
+ prefix=sum(d['size'] for d in m['owned_data'])
+ anchors={'.rodata':m['members'][0]['vma']} if prefix else {}
+ for view in (ma,ge):
+  rosec=next((k for k in ('.rdata','.rodata') if view.obj.sections.get(k)),None)
+  if bool(rosec)!=bool(prefix) or (rosec and len(view.obj.sections[rosec])!=prefix):raise ValueError('genuine/maspsx data extent differs')
+  if rosec:
+   if view.rel.get((rosec,0))!=('32',('fn',m['members'][0]['function'],0)) or any(sec==rosec and off!=0 for sec,off in view.rel):raise ValueError('native entry relocation differs')
+   for d in m['owned_data']:
+    sym=view.obj.symbols.get(d['symbol'])
+    if sym is None or sym[0]!=rosec or sym[1]!=0:raise ValueError('native entry symbol differs')
+   view.funcs['__owned_rodata']=(rosec,0,prefix)
+   words,masked=A.resolve_tokens(view,'__owned_rodata',m['members'][0]['vma'],addresses.get,0x80080994,section_anchors=anchors)
+   if masked:raise ValueError('unresolved owned-data relocation')
+   resolved=struct.pack('<'+'I'*len(words),*words)
+   if resolved!=data[:prefix]:raise ValueError('owned-data bytes differ')
+   if view is ge:genuine.extend(resolved)
  for a in m['members']:
   sec,begin,end=ge.funcs[a['function']]
-  if sec!='.text' or begin!=len(genuine) or end-begin!=a['size']:raise ValueError('genuine layout/padding differs')
-  words,masked=A.resolve_tokens(ge,a['function'],a['vma'],addresses.get,0x80080994)
+  if sec!='.text' or begin!=len(genuine)-prefix or end-begin!=a['size']-a.get('body_offset',0):raise ValueError('genuine layout/padding differs')
+  words,masked=A.resolve_tokens(ge,a['function'],a['vma']+a.get('body_offset',0),addresses.get,0x80080994,section_anchors=anchors)
   if masked:raise ValueError('unresolved genuine relocation')
   genuine.extend(struct.pack('<'+'I'*len(words),*words))
- if len(ge.obj.sections['.text'])!=len(genuine) or genuine!=data:raise ValueError('unaccounted genuine bytes or resolved mismatch')
+ if len(ge.obj.sections['.text'])+prefix!=len(genuine) or genuine!=data:raise ValueError('unaccounted genuine bytes or resolved mismatch')
  (out/'genuine.bin').write_bytes(genuine)
  after=fingerprint(m,root)
  if before!=after or any(sha(substitutions[k])!=h for k,h in candidate_hashes.items()):raise ValueError('inputs changed during module build')
- receipt={'schema':SCHEMA,'module':m['key'],'fingerprint':before,'members':[a['id'] for a in m['members']],'physical':{'compile_edges':1,'functions':[a['function'] for a in m['members']],'payload':payload,'owned_data':[],'imports':m['imports']},'gate':{'result':'MATCH','foff':first['foff'],'vma':first['vma'],'bytes':len(data),'rebuilt_sha256':sha(binary),'retail_sha256':sha(out/'retail.bin'),'masked':0,'raw_substitution_bytes':0},'genuine':{'result':'MATCH','version':'2.79','whole_tu':True,'bytes':len(genuine),'masked':0,'sha256':sha(out/'genuine.bin')},'candidates':candidate_hashes,'candidate_paths':{k:str(Path(v).absolute()) for k,v in (substitutions or {}).items()}}
+ receipt={'schema':SCHEMA,'module':m['key'],'fingerprint':before,'members':[a['id'] for a in m['members']],'physical':{'compile_edges':1,'functions':[a['function'] for a in m['members']],'payload':payload,'owned_data':m['owned_data'],'imports':m['imports']},'gate':{'result':'MATCH','foff':first['foff'],'vma':first['vma'],'bytes':len(data),'rebuilt_sha256':sha(binary),'retail_sha256':sha(out/'retail.bin'),'masked':0,'raw_substitution_bytes':0},'genuine':{'result':'MATCH','version':'2.79','whole_tu':True,'bytes':len(genuine),'masked':0,'sha256':sha(out/'genuine.bin')},'candidates':candidate_hashes,'candidate_paths':{k:str(Path(v).absolute()) for k,v in (substitutions or {}).items()}}
  receipt['artifacts']={n:sha(out/n) for n in ['module.s','sectioned.s','module.o','module.ld','module.elf','module.bin','retail.bin','IN.S','OUT.OBJ','genuine.bin']};(out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
  return receipt,binary
 
