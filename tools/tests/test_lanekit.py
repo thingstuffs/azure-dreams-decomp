@@ -122,6 +122,15 @@ class TestLaneRoot(unittest.TestCase):
         self.assertEqual(kitlib.lane_root_of(d), d)
 
 
+class TestLoopsum(unittest.TestCase):
+    """round 97 harvest (r97_opus_a3): loop.c movable verdicts per candidate."""
+    def test_keeps_loop_headers_and_verdicts(self):
+        import loopsum
+        d = "x\nLoop from 12 to 40: 25 real insns.\nInsn 30: regno 77, moved to 120\nInsn 31: not desirable\nfoo"
+        self.assertEqual(loopsum.summary(d), ["Loop from 12 to 40: 25 real insns.",
+                                              "Insn 30: regno 77, moved to 120", "Insn 31: not desirable"])
+
+
 class TestLedger(unittest.TestCase):
     def test_variant_count_dedups_and_skips_baselines(self):
         recs = [{"row": "a/b", "variant": "v1"}, {"row": "a/b", "variant": "v1"},
