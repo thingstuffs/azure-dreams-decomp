@@ -84,6 +84,14 @@ typedef struct Frame {
     Params p;
 } Frame;
 
+/* Address of cell (row, col) of the 16 x 16 grid of 4-byte points. */
+static __inline__ u8 *grid_cell(u8 *grid, s32 row, s32 col)
+{
+    grid += row << 6;
+    col <<= 2;
+    return grid + col;
+}
+
 extern void func_800DBA90();
 extern void func_80065420();
 extern void func_800666F4();
@@ -191,12 +199,10 @@ s32 func_80024D58(void *node) {
                         edge_base = span_base;
                         do {
                             s32 next_index;
-                            ring_points = grid + (((edge_base + (s16) point_count) - (next_index = point_index + 1))
-                                << 6) + (ring * 4);
+                            ring_points = grid_cell(grid, (edge_base + (s16) point_count) - (next_index = point_index + 1), ring);
                             func_80065420(rotated_points + point_index * 8, ring_points,
                                           &frame.p.f530, &frame.p.f534);
                             point_index = next_index;
-                            ASM_KEEP_NV(ring);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
                             point_count = frame.p.f528;
                         } while (point_index < (ring + frame.p.f528));
                     }
