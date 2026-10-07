@@ -64,3 +64,9 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     at ONE site (case 2 through the same helper scores 20), which is the weak point. SECOND LOOK: yes (single-use
     helper whose shape matters to loop.c; refuse -> revert to the KEEP and record in ledger/refused_trades.jsonl).
     Kit note: the lane's tools/loopsum.py (loop movables per candidate) found this - harvest into lanekit.
+25. **REFUSED: slus/w_80054B08 negated-base subtraction (r97_astra_t2, exact at 1 pin, 3 -> 1).** The candidate
+    writes `offset_base = -offset_base; status->field14 = second_offset - offset_base;` for `second_offset +
+    offset_base`: cancelling arithmetic whose only job is a second set of offset_base through flow (combine erases the
+    negation) - the refused fake-dependency class. The literal 0xFFFFFF masks in the same candidate are natural but
+    alone give 1 pin at listing 2 / total 2. Candidate moved to the lane's held/; ledger/refused_trades.jsonl records
+    what matched and the next lead (a real second set). SECOND LOOK: no (owner rule: still refuse fake deps).
