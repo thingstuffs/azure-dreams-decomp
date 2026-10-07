@@ -230,11 +230,18 @@ def probe(model_id, timeout=300):
         cmd = ["timeout", str(timeout), "codex", "exec", "-C", str(ROOT), "--skip-git-repo-check", "-m", model_id,
                "-c", 'model_reasoning_effort="low"', "Reply with the single word OK"]
     try:
-        p = subprocess.run(cmd, capture_output=True, text=True)
+        # stdin=DEVNULL (round 98): codex exec reads "additional input from stdin" when stdin is an open pipe and
+        # never answers - the probe timed out (rc 124) and every such pool reported "no capacity"
+        p = subprocess.run(cmd, capture_output=True, text=True, stdin=subprocess.DEVNULL)
     except Exception as e:                                      # codex/agy missing: the pool stops, it does not crash
         log("probe failed: %r" % (e,))
         return False
-    return probe_ok(p.stdout or "") and not any(w in (p.stderr or "").lower() for w in LIMIT_WORDS)
+    ok = probe_ok(p.stdout or "") and not any(w in (p.stderr or "").lower() for w in LIMIT_WORDS)
+    if not ok:   # round 98: say WHY (a false "no capacity" stalled three pools for half an hour each)
+        hits = [w for w in LIMIT_WORDS if w in ((p.stdout or "") + (p.stderr or "")).lower()]
+        log("probe: rc %s, limit words %s, stdout tail %r, stderr tail %r" % (
+            p.returncode, hits, (p.stdout or "")[-120:], (p.stderr or "")[-200:]))
+    return ok
 
 
 def alive(pid):
