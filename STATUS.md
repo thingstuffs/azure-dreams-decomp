@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-07T05:23:18Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-07T05:24:06Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -80,7 +80,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | ASM_ pins | 2135 | 1,464,820 | 57.3% | 53 | 66,512 | 2.6% |
 | goto | 1545 | 1,318,468 | 51.5% | 274 | 316,568 | 12.4% |
 | computed-goto jump table | 317 | 437,344 | 17.1% | 4 | 7,008 | 0.3% |
-| inline asm outside macros | 361 | 255,656 | 10.0% | 162 | 155,024 | 6.1% |
+| inline asm outside macros | 361 | 255,656 | 10.0% | 161 | 154,320 | 6.0% |
 | fidelity blocking site (LABEL_AS_CALL/PASSTHRU_NO_ARGS) | 1489 | 680,132 | 26.6% | 308 | 157,064 | 6.1% |
 | any fidelity site | 2654 | 1,286,092 | 50.3% | 1777 | 959,932 | 37.5% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 751 | 560,528 | 21.9% | 8 | 3,332 | 0.1% |
@@ -93,7 +93,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 Pin sites now: 98 in 53 rows; REG 51, KEEP 16, KEEP_NV 13, SCHED_BARRIER 5, USE 3, MEM_BARRIER 2, USE_NV 2, USE2 1.  At the pin: 25,755; REG 12,776, KEEP 6,852, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
 Tracked, not pins (owner 2026-10-06): oddities 1 (ledger/oddities.jsonl - zero-byte fences retail needs, curiosities, not removal targets: dungeon/func_8196096C); one-trip barrier rows 2 (ledger/onetrip_barrier_rows.jsonl); load-bearing one-trip rows 85 (ledger/onetrip_loadbearing.jsonl, statement-macro bodies, not counted in the do{}while(0) row above).
-Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 1, calls of local asm wrappers 0, hand-written asm in function bodies 0 (C that is missing); symbol aliases 74 (a second typed name for one symbol: a missing type); file-scope asm directives 186; file-scope global register variables 4 (`register T g asm("$R")`).
+Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 0, calls of local asm wrappers 0, hand-written asm in function bodies 0 (C that is missing); symbol aliases 74 (a second typed name for one symbol: a missing type); file-scope asm directives 186; file-scope global register variables 4 (`register T g asm("$R")`).
 
 Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 105 rows carry one flag, 4 carry two or more.
 
