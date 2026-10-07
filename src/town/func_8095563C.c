@@ -135,10 +135,7 @@ check_zone:
                                 velocity = actor->dx;
                                 if (velocity > 0) {
                                     edge_x = (u16)((Box *)candidate)->x;
-                                    actor->x = edge_x;
-                                    goto adjusted;
-                                }
-                                if (velocity < 0) {
+                                } else if (velocity < 0) {
                                     edge_x = (u16)((Box *)candidate)->x;
                                     edge_delta = (u16)((Box *)candidate)->w;
                                     edge_x = edge_x + edge_delta;
@@ -152,7 +149,6 @@ check_zone:
                                         edge_x = edge_x + box_width;
                                     }
                                 }
-                                ASM_KEEP(edge_x);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                                 actor->x = edge_x;
                                 return 2;
                             }
