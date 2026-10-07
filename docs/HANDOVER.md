@@ -1,3 +1,23 @@
+# Handover (2026-10-07 ~22:15Z, round 101: CARVE-DEBT WAVE 2 RUNNING) - start here
+
+**Owner 10-07 evening:** build + launch the three proposed carve-debt lanes (all --no-land; orchestrator reviews + lands).
+Builder: work/native_lane/_r101/build.py (common.md + brief_*.md, rc_batches.json); decision 31 (re-carve
+representation, SECOND LOOK) in docs/evidence/r97_decisions.md.
+**Running (22:11Z):** pool r101a - r101_astra_gate (astra xhigh): module gate accepts a native .rodata head (entry + align +
+own switch tables, 4-byte trim only with a bound receipt), rebases r100 patch 0003 + held/0004, takes ovl_197281c /
+ovl_7e6a5800 / ovl_1870800 to certification-ready or a measured hold. NOTE: those three are NOT gate-only - 1870800's
+D_800247DC callback points at unregistered code at file 0x1870FDC; 197281c / 7e6a5800 have weak membership + TU-boundary
+holds (r100 REPORT). Gate fingerprint will change -> re-certify the three live modules on landing. pool r101g -
+r101_sol61_gap (sol61 xhigh, caps 700k / 150 min): new C rows for DUNGEON 81917C08 + 81994D8C (bases to be PROVEN; GAP.tsv
+bases are inferred), their tables out of the func_81916800 / func_81994800 prefixes. pool r101p - r101_sol61_rc1 (sol61
+high): re-carve PILOT (80BFD000 uniform + 80A1D000 address-relocation) -> RECIPE.md + lane tool; pool r101r - rc2-rc7
+(sol61 high, -c 3, caps 700k / 150 min) waits on POOL_r101p_END, 59 more prefixes grouped by clone template (disjoint).
+Re-carve = consumers as new rows from clone templates + prefix split into owner-specific data rows (decision 31). The 14
+"other ownership" b prefixes are NOT in this wave. Deliverables are append-only records + apply.sh, so lanes land
+sequentially without ledger conflicts: run each apply.sh --dry-run, then apply, gate_all --all + forced SLUS, commit.
+**Expectation:** each finished prefix clears one carve-debt row AND registers ~2-3 previously uncovered retail functions
+(146 functions / ~205 KB in all); prefixes a lane cannot finish stay as they are (measured holds).
+
 # Handover (2026-10-07 ~18:55Z, round 100: FIRST CARVE-DEBT MODULE) - start here
 
 **Landed:** 4478e2310 dungeon/modules/ovl_1852800.c certified (r100_astra_carve1 patches 0001+0002, reviewer
