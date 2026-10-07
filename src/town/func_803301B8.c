@@ -3,8 +3,8 @@
 #include "shared/town_root.h"
 typedef struct Vec3s { s16 x; s16 y; s16 z; s16 pad; } Vec3s;
 typedef void (*ReportValue)(const char *, const char *, s32);
-typedef struct TownDispatch { u8 pad_000[0x168]; ReportValue report_value; } TownDispatch;
-typedef struct TownRoot { u8 pad_00[0x1C]; s32 *result_values; TownDispatch *dispatch; } TownRoot;
+
+
 extern void func_8001A854(Vec3s *, s32);
 extern s32 func_8001A8DC(Vec3s *, Vec3s *, s32, s32, Vec3s *);
 extern char D_8001610C[8];
@@ -17,7 +17,7 @@ void func_8001A9B8(s32 first_input, s32 second_input, s32 blend_weight, s32 rema
     Vec3s s0;
     Vec3s s1;
     Vec3s s;
-    TownRoot *root;
+    Rec_D_80016000 *root;
     const char *first_format;
     const char *second_format;
     const char *result_format;
@@ -44,7 +44,7 @@ void func_8001A9B8(s32 first_input, s32 second_input, s32 blend_weight, s32 rema
         result_format = D_8001610C;
         report(result_format, D_80016128, s.x);
     }
-    root = ((TownRoot *)D_80016000);
-    root->result_values[1] = s.x;
-    root->result_values[2] = s.y;
+    root = D_80016000;
+    ((TownPositionState *)root->unk_1C)->x = s.x;
+    ((TownPositionState *)root->unk_1C)->y = s.y;
 }

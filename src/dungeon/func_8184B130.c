@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -42,10 +43,7 @@ typedef struct S_80024930_1 {
     u16 unk_0A;
 } S_80024930_1;   /* arg1 in func_80024930 */
 
-typedef struct S_80024930_2 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_80024930_2;   /* *global_page in func_80024930 */
+   /* *global_page in func_80024930 */
 
 typedef struct S_80024930_3 {
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_00;   /* overlapping accesses */
@@ -123,9 +121,9 @@ s32 func_80024930(void *unused_data, S_80024930_1 *center, s32 unused_value, s16
         s32 biased_angle;
         s32 angle;
 
-        prim = ((S_80024930_2 *)(*global_page))->unk_8D0;
+        prim = ((GpuContext *)(*global_page))->packetCursor;
 
-        ((S_80024930_2 *)(*global_page))->unk_8D0 = prim + 0x34;
+        ((GpuContext *)(*global_page))->packetCursor = prim + 0x34;
         ((S_80024930_3 *)prim)->unk_00.at03.v = 12;
         ((S_80024930_3 *)prim)->unk_07 = 0x3C;
 

@@ -9,13 +9,10 @@ typedef struct {
 
 
 
-typedef struct PacketTag {
-    unsigned addr : 24;
-    unsigned len : 8;
-} PacketTag;
 
-#define setaddr(packet, address) (((PacketTag *)(packet))->addr = (u32)(address))
-#define getaddr(packet) ((u32)(((PacketTag *)(packet))->addr))
+
+#define setaddr(packet, address) (((GpuLinkTag *)(packet))->addr = (u32)(address))
+#define getaddr(packet) ((u32)(((GpuLinkTag *)(packet))->addr))
 #define addPrim(ordering_table, primitive) \
 (setaddr((primitive), getaddr(ordering_table)), \
     setaddr((ordering_table), (primitive)))

@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -24,7 +25,7 @@ typedef struct PacketTag { unsigned addr : 24; unsigned len : 8; u8 r0; u8 g0; u
 #define addPrim(ordering_table, primitive) (setaddr((primitive), getaddr(ordering_table)), setaddr((ordering_table), (primitive)))
 typedef union PackedColor { u32 word; struct { u8 r; u8 g; u8 b; u8 code; } channel; } PackedColor;
 typedef struct LineG2 { u32 tag; PackedColor color0; s16 x0; s16 y0; PackedColor color1; s16 x1; s16 y1; } LineG2;
-typedef struct RenderState { u8 pad0[0x8D0]; u8 *next_prim; } RenderState;
+
 static __inline__ void init_line_colors(LineG2 *line, u32 color0, u32 color1) { line->color0.word = color0; line->color1.word = color1; }
 s32 func_80065420(void *, void *, void *, void *);
 s32 func_80066460(s32, s32, s32, s32);
@@ -39,7 +40,7 @@ s32 func_800BFFF4(u8 *node)
     s32 projection_param;
     s32 projection_flags;
     GameWork *town;
-    RenderState *render;
+    GpuContext *render;
     LineG2 *line;
     u8 *draw_mode;
     u8 *next_node;
@@ -50,8 +51,8 @@ s32 func_800BFFF4(u8 *node)
 
     town = &gameWork;
     do {
-        line = (LineG2 *)((RenderState *)town->unk_000)->next_prim;
-        ((RenderState *)town->unk_000)->next_prim = (u8 *)line + 0x14;
+        line = (LineG2 *)((GpuContext *)town->unk_000)->packetCursor;
+        ((GpuContext *)town->unk_000)->packetCursor = (u8 *)line + 0x14;
         init_line_colors(line, 0x202020, 0);
         func_800667D0(line);
         func_80066640(line, 1);
@@ -63,12 +64,12 @@ s32 func_800BFFF4(u8 *node)
         zero = 0;
         if ((u16)mean_depth < 0x1E0U) {
             ot_offset = (s16)mean_depth * 4;
-            addPrim((u8 *)(ot_offset + (s32)((RenderState *)town->unk_000)) + 0xB0, line);
-            render = ((RenderState *)town->unk_000);
-            draw_mode = render->next_prim;
-            render->next_prim = draw_mode + 0xC;
+            addPrim((u8 *)(ot_offset + (s32)((GpuContext *)town->unk_000)) + 0xB0, line);
+            render = ((GpuContext *)town->unk_000);
+            draw_mode = render->packetCursor;
+            render->packetCursor = draw_mode + 0xC;
             func_80067F20(draw_mode, 0, 0, func_80066460(zero, 1, zero, zero) & 0xFFFF, 0);
-            addPrim((u8 *)(ot_offset + (s32)((RenderState *)town->unk_000)) + 0xB0, draw_mode);
+            addPrim((u8 *)(ot_offset + (s32)((GpuContext *)town->unk_000)) + 0xB0, draw_mode);
         }
         next_node = ((S_800BFFF4_0_pre *)node)[-1].unk_00;
         if (next_node != 0) {

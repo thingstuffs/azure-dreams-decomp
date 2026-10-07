@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -15,23 +16,11 @@ typedef struct
     s16 unk12;
 }
 S_80053858_prim;
+
+
 typedef struct
 {
-    u32 addr : 24;
-    u32 len : 8;
-}
-S_80053858_tag;
-typedef struct
-{
-    char pad0[0x70];
-    u32 unk70;
-    char pad74[0x8D0 - 0x74];
-    u8 *unk8D0;
-}
-S_80053858_ctx;
-typedef struct
-{
-    S_80053858_ctx *unk0;
+    GpuContext *unk0;
     char pad4[0x1D8];
 }
 S_80083160_t;
@@ -71,8 +60,8 @@ s32 func_80053858(S_80053858_rec *first_text)
                 u8 glyph_rect[4];
                 S_80053858_prim *sprite;
                 func_8004E21C(glyph_rect, text->unk4[char_index]);
-                sprite = (S_80053858_prim *) render_state->unk0->unk8D0;
-                render_state->unk0->unk8D0 = ((u8 *) sprite) + 0x14;
+                sprite = (S_80053858_prim *) render_state->unk0->packetCursor;
+                render_state->unk0->packetCursor = ((u8 *) sprite) + 0x14;
                 sprite->unk8 = cursor_x;
                 sprite->unkA = text->unk16;
                 sprite->unkE = text->unk1A;
@@ -87,19 +76,19 @@ s32 func_80053858(S_80053858_rec *first_text)
                     SetSemiTrans(sprite, 1);
                 }
                 if (!(text->unk1C & 2)) {
-                    ((S_80053858_tag *) sprite)->addr = ((S_80053858_tag *) (&render_state->unk0->unk70))->addr;
-                    ((S_80053858_tag *) (&render_state->unk0->unk70))->addr = (u32) sprite;
+                    ((GpuLinkTag *) sprite)->addr = ((GpuLinkTag *) (&render_state->unk0->orderTag070))->addr;
+                    ((GpuLinkTag *) (&render_state->unk0->orderTag070))->addr = (u32) sprite;
                 }
                 char_index++;
             }
             while (text->unk4[char_index] != 0);
         }
         {
-            S_80053858_prim *draw_mode = (S_80053858_prim *) render_state->unk0->unk8D0;
-            render_state->unk0->unk8D0 = ((u8 *) draw_mode) + 0xC;
+            S_80053858_prim *draw_mode = (S_80053858_prim *) render_state->unk0->packetCursor;
+            render_state->unk0->packetCursor = ((u8 *) draw_mode) + 0xC;
             SetDrawMode(draw_mode, 0, 0, texture_page = GetTPage(0, text->unk18, 0x3C0, 0) & 0xFFFF, 0);
-            ((S_80053858_tag *) draw_mode)->addr = ((S_80053858_tag *) (&render_state->unk0->unk70))->addr;
-            ((S_80053858_tag *) (&render_state->unk0->unk70))->addr = (u32) draw_mode;
+            ((GpuLinkTag *) draw_mode)->addr = ((GpuLinkTag *) (&render_state->unk0->orderTag070))->addr;
+            ((GpuLinkTag *) (&render_state->unk0->orderTag070))->addr = (u32) draw_mode;
         }
         next_node = *((S_80053858_rec **) (((char *) text_record) - 8));
         if (next_node == 0)

@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -25,10 +26,7 @@ typedef struct Func800AB788Arg {
     u16 y5;
 } Func800AB788Arg;
 
-typedef struct Func800AB788State {
-    u8 pad00[0x8D0];
-    u8 *nextPrim;
-} Func800AB788State;
+
 
 typedef struct Func800AB788Poly {
     u32 tag;
@@ -67,12 +65,12 @@ void func_800A8EE8(Func800AB788Arg *strip)
          ((u16)(strip->y2 + 0x20) < 0x121)) |
         (((u16)(strip->x3 + 0x20) < 0x181) &&
          ((u16)(strip->y3 + 0x20) < 0x121))) {
-        Func800AB788State *poly_state;
-        Func800AB788State *tpage_state;
+        GpuContext *poly_state;
+        GpuContext *tpage_state;
 
-        poly_state = (Func800AB788State *)render_state_ptr->unk_000;
-        poly = (Func800AB788Poly *)poly_state->nextPrim;
-        poly_state->nextPrim = (u8 *)poly + sizeof(*poly);
+        poly_state = (GpuContext *)render_state_ptr->unk_000;
+        poly = (Func800AB788Poly *)poly_state->packetCursor;
+        poly_state->packetCursor = (u8 *)poly + sizeof(*poly);
 
         poly->color0 = 0x383838;
         poly->color1 = strip->color1;
@@ -96,9 +94,9 @@ void func_800A8EE8(Func800AB788Arg *strip)
         poly->x3 = strip->x3;
         poly->y3 = strip->y3;
 
-        tpage_state = (Func800AB788State *)render_state_ptr->unk_000;
-        tpage = tpage_state->nextPrim;
-        tpage_state->nextPrim = tpage + 0xC;
+        tpage_state = (GpuContext *)render_state_ptr->unk_000;
+        tpage = tpage_state->packetCursor;
+        tpage_state->packetCursor = tpage + 0xC;
         func_80067F20(tpage, 1, 0, func_80066460(0, 1, 0x140, 0), 0);
         func_8006658C(strip->ot + strip->otIndex, tpage);
     }
@@ -111,12 +109,12 @@ void func_800A8EE8(Func800AB788Arg *strip)
          ((u16)(strip->y3 + 0x20) < 0x121)) |
         (((u16)(strip->x5 + 0x20) < 0x181) &&
          ((u16)(strip->y5 + 0x20) < 0x121))) {
-        Func800AB788State *poly_state;
-        Func800AB788State *tpage_state;
+        GpuContext *poly_state;
+        GpuContext *tpage_state;
 
-        poly_state = (Func800AB788State *)render_state_ptr->unk_000;
-        poly = (Func800AB788Poly *)poly_state->nextPrim;
-        poly_state->nextPrim = (u8 *)poly + sizeof(*poly);
+        poly_state = (GpuContext *)render_state_ptr->unk_000;
+        poly = (Func800AB788Poly *)poly_state->packetCursor;
+        poly_state->packetCursor = (u8 *)poly + sizeof(*poly);
 
         poly->color0 = strip->color1;
         poly->color1 = 0;
@@ -140,9 +138,9 @@ void func_800A8EE8(Func800AB788Arg *strip)
         poly->x3 = strip->x5;
         poly->y3 = strip->y5;
 
-        tpage_state = (Func800AB788State *)render_state_ptr->unk_000;
-        tpage = tpage_state->nextPrim;
-        tpage_state->nextPrim = tpage + 0xC;
+        tpage_state = (GpuContext *)render_state_ptr->unk_000;
+        tpage = tpage_state->packetCursor;
+        tpage_state->packetCursor = tpage + 0xC;
         func_80067F20(tpage, 1, 0, func_80066460(0, 1, 0x140, 0), 0);
         func_8006658C(strip->ot + strip->otIndex, tpage);
     }

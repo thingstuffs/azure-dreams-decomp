@@ -31,7 +31,7 @@ extern SecondEntry D_800E39C8[32];
 /* Sets the value of all active entries at the given coordinates in both tables. */
 void func_800CDF40(s16 x, s16 y, s16 value) {
     FirstEntry *first_entry;
-    ActiveEntry *first_status;
+    DungeonItemEntry *first_status;
     SecondEntry *second_entry;
     ActiveEntry *second_status;
     s32 first_index;
@@ -45,8 +45,8 @@ void func_800CDF40(s16 x, s16 y, s16 value) {
     first_y = y;
     do {
         first_entry = &D_800E36C8[first_index];
-        first_status = &((ActiveEntry *)D_800E3548)[first_index];
-        if (first_status->active != 0 && first_entry->x == first_x && first_entry->y == first_y) {
+        first_status = &D_800E3548[first_index];
+        if (first_status->kind != 0 && first_entry->x == first_x && first_entry->y == first_y) {
             first_entry->value = value;
         }
         first_index++;

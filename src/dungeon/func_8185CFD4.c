@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -24,10 +25,7 @@ typedef struct S_800247D4_0 {
     s32 unk_F8;
 } S_800247D4_0;   /* scratch in func_800247D4 */
 
-typedef struct S_800247D4_1 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_800247D4_1;   /* ctx in func_800247D4 */
+   /* ctx in func_800247D4 */
 
 typedef struct S_800247D4_2 {
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_00;   /* overlapping accesses */
@@ -117,8 +115,8 @@ s32 func_800247D4(void *effect_data)
     do {
         s32 red;
         render_ctx = *ctx_ref;
-        packet = ((S_800247D4_1 *)render_ctx)->unk_8D0;
-        ((S_800247D4_1 *)render_ctx)->unk_8D0 = packet + 0x14;
+        packet = ((GpuContext *)render_ctx)->packetCursor;
+        ((GpuContext *)render_ctx)->packetCursor = packet + 0x14;
 
         ((S_800247D4_2 *)packet)->unk_00.at03.v = 4;
         ((S_800247D4_2 *)packet)->unk_07 = 0x50;

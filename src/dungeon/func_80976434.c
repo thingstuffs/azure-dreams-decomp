@@ -6,13 +6,6 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-typedef struct S_80171C34_0 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x8];
-    void * unk_0C;
-} S_80171C34_0;   /* global in func_80171C34 */
-
 typedef struct S_80171C34_1 {
     u8 pad_00[0x12];
     u8 unk_12;
@@ -60,11 +53,6 @@ typedef struct S_80171C34_5 {
     u8 pad_9A[0x2];
     union { s8 s; u8 u; } unk_9C;   /* accessed as both */
 } S_80171C34_5;   /* arg0 in func_80171C34 */
-
-typedef struct S_80171C34_6 {
-    u8 pad_00[0x8];
-    u16 unk_08;
-} S_80171C34_6;   /* global_count in func_80171C34 */
 
 typedef struct S_80171C34_7 {
     u8 pad_00[0x24];
@@ -172,13 +160,13 @@ void func_80171C34(void *move_data, void *context, void *position_data, void *ac
                 s32 target_y;
                 u8 *turn_data;
                 {
-                    u8 *target_position = ((u8 *)&D_80082E80);
+                    TileObject *target_position = &D_80082E80;
                     s32 target_facing = ((u16)D_800814A8->facing);
                     s32 offset_index =
                         ((((S_80171C34_1 *)actor_data)->unk_45 + ((s16)target_facing >> 9)) & 7) << 1;
-                    target_x = target_position[0x24] +
+                    target_x = target_position->tileX +
                         *(u16 *)((u8 *)((s8 *)dirStepX) + offset_index);
-                    target_y = target_position[0x25] +
+                    target_y = target_position->tileY +
                         *(u16 *)((u8 *)((s8 *)dirStepY) + offset_index);
                 }
 
@@ -229,13 +217,13 @@ void func_80171C34(void *move_data, void *context, void *position_data, void *ac
         }
 
         if (((S_80171C34_1 *)actor_data)->unk_1C & 0x20000) {
-            u8 *target_position = ((u8 *)(&D_80082E80));
+            TileObject *target_position = &D_80082E80;
             ((S_80171C34_1 *)actor_data)->unk_2A.s = func_800A0818(
                 ((S_80171C34_2 *)position_data)->unk_24.at00.v, ((S_80171C34_2 *)position_data)->unk_24.at01.v,
-                target_position[0x24], target_position[0x25], (u8 *)move_data + 0x98);
+                target_position->tileX, target_position->tileY, (u8 *)move_data + 0x98);
             if (func_8009FD7C(
                     ((S_80171C34_2 *)position_data)->unk_24.at00.v, ((S_80171C34_2 *)position_data)->unk_24.at01.v,
-                    target_position[0x24], target_position[0x25]) != 0) {
+                    target_position->tileX, target_position->tileY) != 0) {
                 if (func_800A0134(D_800814A8, actor_data) < 0x81) {
                     if (func_8009A540(
                             ((s16)((S_80171C34_1 *)actor_data)->unk_2A.u >> 9) & 0xFFFF,

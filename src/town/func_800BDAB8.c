@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -12,10 +13,7 @@ typedef struct S_800BB218_0 {
     s16 unk_18;
 } S_800BB218_0;   /* scratch in func_800BB218 */
 
-typedef struct S_800BB218_1 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_800BB218_1;   /* arena in func_800BB218 */
+   /* arena in func_800BB218 */
 
 typedef struct S_800BB218_2_pre {
     u8 * unk_00;
@@ -89,8 +87,8 @@ s32 func_800BB218(void *first_object, void *first_coords)
         point_index = 0;
         do {
             arena = render_state->unk_000;
-            packet = ((S_800BB218_1 *)arena)->unk_8D0;
-            ((S_800BB218_1 *)arena)->unk_8D0 = packet + 0xC;
+            packet = ((GpuContext *)arena)->packetCursor;
+            ((GpuContext *)arena)->packetCursor = packet + 0xC;
             packet[3] = 2;
             packet[7] = 0x68;
             packet[4] = 0xFF;

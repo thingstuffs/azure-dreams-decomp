@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "records/Rec_D_80100B70.h"
@@ -31,10 +32,7 @@ typedef struct S_800A1354_1 {
     u16 unk_F6;
 } S_800A1354_1;   /* scratch in func_800A1354 */
 
-typedef struct S_800A1354_2 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_800A1354_2;   /* ctx in func_800A1354 */
+   /* ctx in func_800A1354 */
 
 typedef struct S_800A1354_3 {
     u8 pad_00[0x4];
@@ -114,8 +112,8 @@ void func_800A1354(u8 *effect)
         u8 *draw_mode;
         vertex_group = effect + (vertex_index * 4);
 
-        quad = ((S_800A1354_2 *)render_ctx)->unk_8D0;
-        ((S_800A1354_2 *)render_ctx)->unk_8D0 = quad + 0x28;
+        quad = ((GpuContext *)render_ctx)->packetCursor;
+        ((GpuContext *)render_ctx)->packetCursor = quad + 0x28;
         random_value = func_80069EF8();
         ((S_800A1354_3 *)quad)->unk_04.at00.v = (random_value * func_80069EF8()) & rgb_mask;
         random_value = func_80069EF8();
@@ -164,8 +162,8 @@ void func_800A1354(u8 *effect)
         func_8006658C(((S_800A1354_1 *)scratch)->unk_24 + ((S_800A1354_1 *)scratch)->unk_C4 * 4, quad);
         vertex_index += 3;
         render_ctx = *render_ctx_addr;
-        draw_mode = ((S_800A1354_2 *)render_ctx)->unk_8D0;
-        ((S_800A1354_2 *)render_ctx)->unk_8D0 = draw_mode + 0xC;
+        draw_mode = ((GpuContext *)render_ctx)->packetCursor;
+        ((GpuContext *)render_ctx)->packetCursor = draw_mode + 0xC;
         func_80067F20(draw_mode, 1, 0, func_80066460(0, 1, 0x140, 0), 0);
         func_8006658C(((S_800A1354_1 *)scratch)->unk_24 + ((S_800A1354_1 *)scratch)->unk_C4 * 4, draw_mode);
     } while (vertex_index < 6);

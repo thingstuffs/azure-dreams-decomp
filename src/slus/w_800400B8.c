@@ -7,14 +7,7 @@ extern u8 D_80080A86;
 
 extern s32 D_800814A0;
 
-typedef struct S_800400B8_D80083160
-{
-    u8 pad_00[0x18];
-    u8 field_18[0x20 - 0x18];
-    u8 field_20[0x1DC - 0x20];
-    s32 field_1DC;
-}
-S_800400B8_D80083160;
+
 
 extern void func_80046884(void *a0, void *a1, s32 a2);
 extern void func_8003BFE4(void);
@@ -30,10 +23,10 @@ extern void func_80044B48(void);
 /* Runs node callbacks, removes flagged nodes, and updates movement and drawing state. */
 void func_800400B8(void)
 {
-    S_800400B8_D80083160 *state = ((S_800400B8_D80083160 *)&gameWork);
+    GameWork *state = ((GameWork *)&gameWork);
     s32 mode;
-    if ((D_80080A86 == 0) && (state->field_1DC != 0)) {
-        func_80046884(state->field_18, state->field_20, 0);
+    if ((D_80080A86 == 0) && (state->map.cells != 0)) {
+        func_80046884(&state->view, &state->view.unk_008, 0);
         func_8003BFE4();
     }
     func_80040190();
@@ -45,7 +38,7 @@ void func_800400B8(void)
     if (mode == 0) {
         func_8004027C();
         func_8004D70C();
-        if (state->field_1DC != 0) {
+        if (state->map.cells != 0) {
             func_800AC3EC();
             func_800AC4C4();
         }

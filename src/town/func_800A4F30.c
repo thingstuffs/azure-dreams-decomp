@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -21,10 +22,7 @@ typedef struct S_800A2690_1 {
     u16 unk_06;
 } S_800A2690_1;   /* source in func_800A2690 */
 
-typedef struct S_800A2690_2 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_800A2690_2;   /* state in func_800A2690 */
+   /* state in func_800A2690 */
 
 typedef struct S_800A2690_3 {
     u8 pad_00[0x4];
@@ -104,8 +102,8 @@ void func_800A2690(void *effect)
         objectFlagBlock.flags |= 0x8000;
     } else {
         render_state = *(u8 **)((u8 *)(&gameWork));
-        triangle = ((S_800A2690_2 *)render_state)->unk_8D0;
-        ((S_800A2690_2 *)render_state)->unk_8D0 = triangle + 0x24;
+        triangle = ((GpuContext *)render_state)->packetCursor;
+        ((GpuContext *)render_state)->packetCursor = triangle + 0x24;
 
         fade_wave = func_800644B8(((s16)((S_800A2690_0 *)effect)->unk_04 << 11) /
                              ((S_800A2690_0 *)effect)->unk_06);
@@ -151,8 +149,8 @@ void func_800A2690(void *effect)
             (((S_800A2690_0 *)effect)->unk_10 * func_80064584((s16)angle)) / 4096;
 
         render_state = *(u8 **)((u8 *)(&gameWork));
-        draw_packet = ((S_800A2690_2 *)render_state)->unk_8D0;
-        ((S_800A2690_2 *)render_state)->unk_8D0 = draw_packet + 0xC;
+        draw_packet = ((GpuContext *)render_state)->packetCursor;
+        ((GpuContext *)render_state)->packetCursor = draw_packet + 0xC;
         draw_page = func_80066460(0, 0, 0x140, 0);
         func_80067F20(draw_packet, 0, 0, draw_page & 0xFFFF, 0);
         func_8006658C(*(u8 **)((u8 *)(&gameWork)) + 0xD8, draw_packet);
@@ -160,8 +158,8 @@ void func_800A2690(void *effect)
         func_8006658C(*(u8 **)((u8 *)(&gameWork)) + 0xD8, triangle);
 
         render_state = *(u8 **)((u8 *)(&gameWork));
-        draw_packet = ((S_800A2690_2 *)render_state)->unk_8D0;
-        ((S_800A2690_2 *)render_state)->unk_8D0 = draw_packet + 0xC;
+        draw_packet = ((GpuContext *)render_state)->packetCursor;
+        ((GpuContext *)render_state)->packetCursor = draw_packet + 0xC;
         draw_page = func_80066460(0, 1, 0x140, 0);
         func_80067F20(draw_packet, 0, 0, draw_page & 0xFFFF, 0);
         func_8006658C(*(u8 **)((u8 *)(&gameWork)) + 0xD8, draw_packet);

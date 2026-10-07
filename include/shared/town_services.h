@@ -17,7 +17,8 @@ typedef struct TownServiceTable {
     /* 0x054 */ int (*callback_054)();
     /* 0x058 */ unsigned char pad_058[0x10];
     /* 0x068 */ int (*callback_068)();
-    /* 0x06C */ unsigned char pad_06C[0x8];
+    /* 0x06C */ unsigned char pad_06C[4];
+    /* 0x070 */ int (*callback_070)();
     /* 0x074 */ void *(*callback_074)();
     /* 0x078 */ int (*callback_078)();
     /* 0x07C */ unsigned char pad_07C[8];
@@ -58,7 +59,7 @@ typedef struct TownServiceTable {
     /* 0x270 */ int (*callback_270)();
     /* 0x274 */ unsigned char pad_274[0x4];
     /* 0x278 */ int (*callback_278)();
-    /* 0x27C */ unsigned char pad_27C[0x4];
+    /* 0x27C */ int (*callback_27C)();
     /* 0x280 */ int (*callback_280)();
     /* 0x284 */ unsigned char pad_284[0x8];
     /* 0x28C */ int (*callback_28C)();
@@ -68,7 +69,10 @@ typedef struct TownServiceTable {
     /* 0x2C4 */ unsigned char pad_2C4[0xC];
     /* 0x2D0 */ int (*callback_2D0)();
     /* 0x2D4 */ int (*callback_2D4)();
-    /* 0x2D8 */ unsigned char pad_2D8[0x20];
+    /* 0x2D8 */ unsigned char pad_2D8[0x14];
+    /* 0x2EC */ int (*callback_2EC)();
+    /* 0x2F0 */ unsigned char pad_2F0[4];
+    /* 0x2F4 */ int (*callback_2F4)();
     /* 0x2F8 */ int (*callback_2F8)();
     /* 0x2FC */ unsigned char pad_2FC[0x10];
     /* 0x30C */ int (*callback_30C)();
@@ -76,7 +80,8 @@ typedef struct TownServiceTable {
     /* 0x314 */ unsigned char pad_314[0x1C];
     /* 0x330 */ int (*callback_330)();
     /* 0x334 */ int (*callback_334)();
-    /* 0x338 */ unsigned char pad_338[0xC];
+    /* 0x338 */ unsigned char pad_338[8];
+    /* 0x340 */ int (*callback_340)();
     /* 0x344 */ int (*callback_344)();
 } TownServiceTable;
 

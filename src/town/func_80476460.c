@@ -1,3 +1,4 @@
+#include "shared/town_root.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -24,7 +25,7 @@ void func_80017460(void **out_data) {
     if (func_800198D0(0x1391) != 0) {
         selected_data = &D_80017530;
     } else if (func_800198D0(0x14) != 0) {
-        state_index = *(s32 *)(*(void **)((s8 *)(&D_80016000)) + 8);
+        state_index = D_80016000->unk_08;
         if (func_800198D0(condition_ids.values[state_index]) == 0) {
             selected_data = &D_80017598;
         } else {
