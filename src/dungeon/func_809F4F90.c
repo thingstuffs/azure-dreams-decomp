@@ -5,12 +5,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-#ifdef NON_MATCHING
-#include <stdint.h>
-typedef uintptr_t az_uptr;
-#else
 typedef u32 az_uptr;
-#endif
 
 #ifndef NULL
 #define NULL 0

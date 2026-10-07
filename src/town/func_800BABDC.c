@@ -1,11 +1,6 @@
 #include "common.h"
 
-#ifdef NON_MATCHING
-#include <stdint.h>
-typedef uintptr_t uptr;
-#else
 typedef unsigned long uptr;
-#endif
 
 extern void func_800B7B48();
 extern u8 D_800D2644[];

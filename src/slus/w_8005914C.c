@@ -31,13 +31,8 @@ extern S_80085FA8 D_80085FA8[];
 extern S_80084960 D_80084960[];
 extern s32 D_800869B4[3];
 extern s32 D_800869B8[3];
-#ifdef NON_MATCHING
-#define D_800869B4_PAGE D_800869B4
-#define D_800869B4_PAGE_INDEX 0
-#else
 #define D_800869B4_PAGE ((s32 *)0x80080000)
 #define D_800869B4_PAGE_INDEX (0x69B4 / sizeof(s32))
-#endif
 extern void func_80056E10(s32 a0, s32 a1, s32 a2);
 extern void func_80057948(s32 a0, s32 a1, s32 a2);
 extern void func_80057A48(s32 a0, s32 a1, s32 a2);

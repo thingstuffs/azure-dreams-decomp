@@ -17,7 +17,8 @@ struct Func80038A10State {
 };
 
 extern Func80038A10State *D_80081448;
-extern s32 func_80038AB8(Func80038A10State *, void *);
+struct RuntimeContext;
+extern s32 func_80038AB8(struct RuntimeContext *, u8 *);
 extern void func_80038A10(Func80038A10State *);
 
 /* Processes the current state until processing stops or its handler changes. */
@@ -40,7 +41,7 @@ void func_80038A10(Func80038A10State *input_state) {
     handler = func_80038A10;
 
     do {
-        if (func_80038AB8(state, context) == 0) {
+        if (func_80038AB8((struct RuntimeContext *)state, (u8 *)context) == 0) {
             break;
         }
     } while (state->func10 == handler);

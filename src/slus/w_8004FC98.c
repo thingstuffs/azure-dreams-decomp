@@ -20,11 +20,7 @@ s32 func_8004FC98(void *state) {
         table = D_80071784;
         slot = state;
 loop:
-#ifdef NON_MATCHING
-        row = table + *(s32 *)((u8 *)state + 0x30) * 3;
-#else
         row = (u8 *)((u32)(*(s32 *)((u8 *)state + 0x30) * 3) + (u32)table);
-#endif
         position = row[item_index];
         item_result = func_80018174(*(s32 *)(slot + 0x10), item_index, 0x18,
                                position * 0xC - 0x40,

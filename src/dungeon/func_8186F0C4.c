@@ -55,11 +55,7 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
     s32 state;
 
     owner = PTR_AT(effect_data, 0x00);
-#ifdef NON_MATCHING
-    copy_page = D_80024038 - 0x4038;
-#else
     copy_page = (u8 *)0x80020000;
-#endif
     *(AggU32 *)direction_offsets = *(AggU32 *)&D_80024038;
     state = S16_AT(effect_data, 0x0A);
     entity = owner - 0x20;
@@ -69,11 +65,7 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
         S32_AT(display, 0x0C) = 0x00808080;
         U16_AT(display, 0x1E) = 0x1000;
         U16_AT(display, 0x1C) = 0x1000;
-#ifdef NON_MATCHING
-        copy_page = D_800252FC - 0x52FC;
-#else
         copy_page = (u8 *)0x80020000;
-#endif
         copy_source = D_800252FC;
         memcpy(effect_data + 0x94, copy_source, 12);
         PTR_AT(display, 0x08) = effect_data + 0x94;

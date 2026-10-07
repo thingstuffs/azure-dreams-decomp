@@ -19,11 +19,6 @@ extern void bzero(void *ptr, s32 size);
 extern u8 D_80080AB4[10];
 extern u8 D_8002D5B4[10];
 
-#if !defined(NON_MATCHING) && __GNUC__ < 3
-#define ASM_KEEP(value) \
-__asm__ __volatile__("" : "=r"(value) : "0"(value))
-#else
-#endif
 
 /* Clear the memory region and copy defaults while preserving six saved fields. */
 void func_8003D468(void)

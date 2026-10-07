@@ -521,3 +521,4 @@
 {"date": "2026-10-07T12:29Z", "codex": {"pack": "r99_sol61_fid1", "model": "gpt-6.1-sol", "candidates": 9}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
 {"date": "2026-10-07T12:33Z", "codex": {"pack": "r99_astra_maspsx", "model": "gpt-6-astra", "candidates": 2}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
 {"date": "2026-10-07T12:38Z", "codex": {"pack": "r99_sol61_nm2", "model": "gpt-6.1-sol", "candidates": 23}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-07T12:51Z", "codex": {"pack": "r99_astra_mod2", "model": "gpt-6-astra", "candidates": 0}, "note": "duck-briefed pool (tools/lanes/pool.py)"}

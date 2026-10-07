@@ -20,11 +20,7 @@ extern M2C_UNK D_80081484;
 extern u8 D_800DD7DC[];
 extern s32 D_800E3540;
 
-#ifdef NON_MATCHING
-#define DUNGEON_FLAGS_PAGE ((s8 *)((s32 *)(&objectFlagBlock)) - 0x14A0)
-#else
 #define DUNGEON_FLAGS_PAGE ((s8 *)0x80080000)
-#endif
 
 
 typedef struct S_800A871C_0 {
@@ -300,9 +296,7 @@ void func_800A871C(void *object, register void *motion, void *tile) {
             height_source = D_800814A8;
             ((S_800A871C_3 *)motion)->unk_08.at02.v = (s16) (source_height + 8);
             (*(u16 *)((u8 *)object_data + (0x88))) = ((u16)height_source->unk_88);
-            goto load_world_page;
-        }
-        if (((S_800A871C_1 *)object)->unk_A2 != 0) {
+        } else if (((S_800A871C_1 *)object)->unk_A2 != 0) {
             if ((*(s32 *)((u8 *)object_data + (0x1C))) & 0x80000) {
                 world_page = (u8 *)0x800E0000;
                 goto check_completion;
@@ -337,22 +331,22 @@ void func_800A871C(void *object, register void *motion, void *tile) {
                 func_8009A028(object_data);
                 return;
             }
-load_world_page:
-            world_page = (u8 *)0x800E0000;
-check_completion:
-            if (((S_800A871C_22 *)(((S_800A871C_15 *)world_page)->unk_3D7C))->unk_124 == 0) {
-                void *finished_object = object_data;
-                s8 *flags_page = DUNGEON_FLAGS_PAGE;
-                s32 dungeon_flags;
-                ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
-                dungeon_flags = ((S_800A871C_16 *)flags_page)->unk_14A0;
-                dungeon_flags |= 0x8000;
-                func_8009A028((((S_800A871C_16 *)flags_page)->unk_14A0 = dungeon_flags, finished_object));
-                return;
-            }
-            break;
+        } else {
+            return;
         }
-        return;
+        world_page = (u8 *)0x800E0000;
+check_completion:
+        if (((S_800A871C_22 *)(((S_800A871C_15 *)world_page)->unk_3D7C))->unk_124 == 0) {
+            void *finished_object = object_data;
+            s8 *flags_page = DUNGEON_FLAGS_PAGE;
+            s32 dungeon_flags;
+            ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
+            dungeon_flags = ((S_800A871C_16 *)flags_page)->unk_14A0;
+            dungeon_flags |= 0x8000;
+            func_8009A028((((S_800A871C_16 *)flags_page)->unk_14A0 = dungeon_flags, finished_object));
+            return;
+        }
+        break;
     }
     case 1:
         move_ticks = ((S_800A871C_1 *)object)->unk_A4;

@@ -1,12 +1,7 @@
 #include "shared/town_event_state.h"
 #include "common.h"
 
-#ifdef NON_MATCHING
-#include <stdint.h>
-typedef uintptr_t uptr;
-#else
 typedef unsigned long uptr;
-#endif
 
 typedef struct {
     u8 pad[0x10];

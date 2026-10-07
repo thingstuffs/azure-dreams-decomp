@@ -33,11 +33,7 @@ typedef struct PacketTag {
     unsigned len : 8;
 } PacketTag;
 
-#ifdef NON_MATCHING
 #define PTR32(address) ((u32)(unsigned long)(address))
-#else
-#define PTR32(address) ((u32)(address))
-#endif
 #define setaddr(packet, address) (((PacketTag *)(packet))->addr = PTR32(address))
 #define getaddr(packet) ((u32)(((PacketTag *)(packet))->addr))
 #define addPrim(ordering_table, primitive) \

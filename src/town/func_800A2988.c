@@ -60,12 +60,8 @@ s32 func_800A00E8(s32 entryIndex) {
     ASM_KEEP(root);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     D_80100B50.first.word = 0;
-#ifdef NON_MATCHING
-    entry = (TownEntry *)((u8 *)entries + entryOffsetOrAddress);
-#else
     entryOffsetOrAddress += (u32)entries;
     entry = (TownEntry *)entryOffsetOrAddress;
-#endif
     entryX = entry->x;
     output = &D_80100B50;
     output->second.word = 0;

@@ -2,13 +2,8 @@
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 
-#ifdef NON_MATCHING
-#define SEQUENCE_INDEX_ADVANCE(index, base) ((void)0)
-#define SEQUENCE_INDEX_BYTE(index, base) ((base)[(index)])
-#else
 #define SEQUENCE_INDEX_ADVANCE(index, base) ((index) += (s32)(base))
 #define SEQUENCE_INDEX_BYTE(index, base) (*(u8 *)(index))
-#endif
 
 typedef struct Entity Entity;
 typedef struct Aux Aux;
@@ -331,7 +326,6 @@ top:
         }
     }
 
-common:
     func_800A9A0C(actor);
     return 0;
 }

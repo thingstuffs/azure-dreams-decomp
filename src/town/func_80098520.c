@@ -16,11 +16,7 @@ s16 func_80095C50();             /* extern */
 void func_800961A8(void *);                 /* extern */
 void func_800961D8(void *);                 /* extern */
 extern Motion D_800FE5C0;
-#ifdef NON_MATCHING
-#define D_80100000 ((s32 *)((s8 *)&D_800FE5C0 + 0x1A40))
-#else
 #define D_80100000 ((s32 *)0x80100000)
-#endif
 
 /* Resolves movement collisions along one axis using boundary probes and tile offsets. */
 void func_80095C80(EntityRec *position) {

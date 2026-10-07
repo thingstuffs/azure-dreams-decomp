@@ -22,12 +22,7 @@ typedef struct S_80024370_2 {
 
 
 extern void func_80024264(void *entry);
-#ifndef NON_MATCHING
-__asm__(".set func_80024264_returning, func_80024264");
-extern void func_80024264_returning(void *entry);
-#else
 #define func_80024264_returning func_80024264
-#endif
 extern void func_800478B8(void *target);
 
 /* Advance the entry counters, trigger count milestones, and update the target. */

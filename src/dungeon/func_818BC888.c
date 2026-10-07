@@ -40,7 +40,6 @@ void func_818BC888(void *effect) {
     ((S_818BC888_0 *)effect)->unk_04.u16 = tick;
     ticks = (s16)tick;
     scaled_step = ((S_818BC888_0 *)effect)->unk_0A << 0xB;
-#ifndef NON_MATCHING
     if (ticks >= 0x20) {
         product = (0x40 - ticks) * scaled_step;
         scaled_value = product >> 0x10;
@@ -48,10 +47,6 @@ void func_818BC888(void *effect) {
         product = ticks * scaled_step;
         scaled_value = product >> 0x10;
     }
-#else
-    product = (s16)tick * scaled_step;
-    scaled_value = product >> 0x10;
-#endif
 
     ((S_818BC888_0 *)effect)->unk_08 = scaled_value;
     phase = ((S_818BC888_0 *)effect)->unk_04.s16;

@@ -114,11 +114,7 @@ void func_8009DAD8(s32 draw_param) {
     entry = ((u8 *)head->unk_5C) + 0x20;
     colour[1] = 0;
     if (entry != head) {
-#ifdef NON_MATCHING
-        flagsPage = (long)&D_800E296C - 0x296c;
-#else
         ASM_UNDEF(flagsPage);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-#endif
         loopFlagsPage = flagsPage;
         for (; entry != head; entry = *(u8 **)(entry + 0x5c) + 0x20) {
             if (*(s8 *)(entry + 0x13) > 0) {

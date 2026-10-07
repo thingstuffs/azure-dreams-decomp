@@ -21,11 +21,7 @@ extern S_80085458 D_80085458[];
 extern s32 func_80056D44();
 extern s32 func_8005E97C();
 
-#ifdef NON_MATCHING
-#define ACTIVE_COUNT D_80073734[0]
-#else
 #define ACTIVE_COUNT (*(s32 *)0x80073734)
-#endif
 
 /* Process active records matching both key bytes and combine their masks. */
 void func_80057948(s32 first_key, s32 second_key) {

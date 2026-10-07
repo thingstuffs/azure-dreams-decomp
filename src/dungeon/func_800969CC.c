@@ -138,15 +138,11 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     u8 kind_check;
     S_8009C12C_4 *target_data;
     s32 element_product;
-    s32 zero;
     void *target;
     void *blocked_actor;
     void *null_result;
 
     modifier = 0;
-#ifdef NON_MATCHING
-    zero = 0;
-#endif
     ((S_8009C12C_0 *)attacker_in)->unk_73 = 0;
     ((S_8009C12C_0 *)attacker_in)->unk_72 = 0;
     target = ((S_8009C12C_0 *)attacker_in)->unk_60;

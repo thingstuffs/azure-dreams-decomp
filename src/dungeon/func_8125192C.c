@@ -8,17 +8,10 @@ extern int abs(int);
 typedef s32 M2C_UNK;
 typedef void (*Callback)();
 
-#ifdef NON_MATCHING
-typedef union {
-    long long value;
-    struct { u32 low; s32 high; } word;
-} DivProduct;
-#else
 typedef union {
     long long value;
     struct { s32 high; u32 low; } word;
 } DivProduct;
-#endif
 
 
 extern void func_800353F4();
