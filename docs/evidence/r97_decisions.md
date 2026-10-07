@@ -49,3 +49,10 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     818B6AFC improves (62 -> 45, FSF 2.8 releases; not an OPAQUE-BASE row). Verdict: "a different 1997 gcc2 revision
     explains OPAQUE-BASE" is refuted for every compiler we hold; only an unpublished Cygnus-internal branch remains
     untested (no such cc1 exists locally). OPAQUE-BASE stays in the basket as a source question.
+23. **dungeon/func_800A8714 (r97_opus_a2, 1 -> 0): the function-scope `idle_ally_range` also carries case 36's
+    x_delta copy** (`idle_ally_range = x_delta; x_delta <<= 16; ... distance = idle_ally_range;`) - one variable
+    in two roles in different switch cases: the accepted two-role temp class (r93/r94 trades, r96 decision 11's
+    w_80047054). Mechanism (REPORT.md): a copy target whose last mention is this block never becomes the cse class
+    head and shares $16 with distance; the in-place shift stops local-alloc optimize_reg_copy_1. SECOND LOOK: no.
+    800995D0 (store reordered after an independent global read, roles split into locals) and 8028BAA4
+    (`entry = &a[i]; entry--; x = *entry;`) are ordinary C. SECOND LOOK: no.

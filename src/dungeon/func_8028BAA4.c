@@ -19,7 +19,9 @@ s32 func_8001EAA4(s8 *category_out, s8 *item_out, s32 unused2, s32 unused3) {
     u8 *table_cursor_or_item_offset;
     s32 item_index;
     s32 scan_value;
-    register u16 *category_threshold ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u16 *category_threshold;
+    u16 *thresholds;
+    u16 *entry;
     u16 item_flags;
     s32 cumulative_weight;
     u32 rng_result;
@@ -30,11 +32,11 @@ s32 func_8001EAA4(s8 *category_out, s8 *item_out, s32 unused2, s32 unused3) {
     u8 *item_offset;
 
     rng_result = func_800A6D30();
-    category_threshold = (u16 *)D_8001F6F8;
-    random_weight = category_threshold[19];
+    thresholds = (u16 *)D_8001F6F8;
+    random_weight = thresholds[19];
     random_weight = (rng_result & 0xFFFF) % random_weight;
     category_index = 1;
-    item_offset = (u8 *)category_threshold;
+    item_offset = (u8 *)thresholds;
     category_threshold = (u16 *)(item_offset + 2);
     category_scale_or_weight = random_weight & 0xFFFF;
     while (1) {
@@ -50,14 +52,14 @@ s32 func_8001EAA4(s8 *category_out, s8 *item_out, s32 unused2, s32 unused3) {
         }
     }
     category_scale_or_weight = category_index * 4;
-    category_threshold = &((u16 *)item_offset)[category_index];
+    entry = &((u16 *)item_offset)[category_index];
     table_base_or_mode = (unsigned long)D_80073414;
     scan_value = category_scale_or_weight + category_index;
     scan_value *= 4;
     table_cursor_or_item_offset = (u8 *)(scan_value + table_base_or_mode);
-    cumulative_weight = category_threshold[-1];
-    scan_value = table_cursor_or_item_offset[2];
-    if (item_index < scan_value) {
+    entry--;
+    cumulative_weight = *entry;
+    if (item_index < table_cursor_or_item_offset[2]) {
         scan_value = category_index << 16;
         item_category_table = (u8 *)table_base_or_mode;
         table_base_or_mode = 2;

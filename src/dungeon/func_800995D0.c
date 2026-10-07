@@ -81,7 +81,9 @@ void func_8009ED30(void) {
                 s32 color;
                 void *config_value;
                 s32 config_word;
-                register void *render_data ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                s32 config_word2;
+                s32 flags;
+                void *render_data;
 
                 child = object->unk_08;
                 child->unk_0A = -1;
@@ -111,13 +113,13 @@ void func_8009ED30(void) {
                 ((Obj12Render *)render_data)->unk_16 = 0;
                 object_state->unk_04 = (s32) config_word;
                 object_state->unk_0C = (s32) config_word;
-                config_word = ((struct ConfigWord *)0x80013634)->value;
-                object_state->unk_18 = 0;
-                (*(s32 *)((u8 *)object_state + 8)) = (s32) config_word;
-                (*(s32 *)((u8 *)object_state + 0x10)) = (s32) config_word;
-                render_data = (void *) D_800E296C;
+                config_word2 = ((struct ConfigWord *)0x80013634)->value;
+                (*(s32 *)((u8 *)object_state + 8)) = (s32) config_word2;
+                (*(s32 *)((u8 *)object_state + 0x10)) = (s32) config_word2;
+                flags = D_800E296C;
                 object_state->unk_1C = 4;
-                D_800E296C = (s32) render_data | 0x80;
+                object_state->unk_18 = 0;
+                D_800E296C = flags | 0x80;
             }
         }
     }
