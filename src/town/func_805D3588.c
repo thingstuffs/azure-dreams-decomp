@@ -4,13 +4,6 @@
 #include "shared/town_root.h"
 
 
-typedef struct S_805D3588_2 {
-    u8 pad_00[0x84];
-    M2C_UNK (*unk_84)(M2C_UNK);
-    u8 pad_88[0x190];
-    M2C_UNK (*unk_218)(M2C_UNK *);
-} S_805D3588_2;   /* ((S_805D3588_1 *)(((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v))->unk_20 in func_805D3588 */
-
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
@@ -23,6 +16,6 @@ extern M2C_UNK D_80019890;
 void func_805D3588(void) {
     func_800193E0(0x3EB);
     func_80019458(0x631);
-    ((S_805D3588_2 *)(D_80016000->unk_20))->unk_84(0);
-    ((S_805D3588_2 *)(D_80016000->unk_20))->unk_218(&D_80019890);
+    ((M2C_UNK (*) (M2C_UNK))D_80016000->unk_20->callback_084)(0);
+    ((M2C_UNK (*) (M2C_UNK *))D_80016000->unk_20->callback_218)(&D_80019890);
 }

@@ -15,11 +15,6 @@ typedef struct S_806F18F8_4 {
     M2C_UNK (*unk_208)(M2C_UNK);
 } S_806F18F8_4;   /* ((S_806F18F8_1 *)state)->unk_20 in func_806F18F8 */
 
-typedef struct S_806F18F8_6 {
-    u8 pad_00[0x228];
-    M2C_UNK (*unk_228)(s32 *);
-} S_806F18F8_6;   /* ((S_806F18F8_5 *)(((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v))->unk_20 in func_806F18F8 */
-
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
@@ -34,5 +29,5 @@ void func_806F18F8(void) {
     record[1] = ((S_806F18F8_3 *)(state->unk_1C))->unk_04;
     record[2] = 0;
     ((S_806F18F8_4 *)(state->unk_20))->unk_208(0);
-    ((S_806F18F8_6 *)(D_80016000->unk_20))->unk_228(record);
+    ((M2C_UNK (*) (s32 *))D_80016000->unk_20->callback_228)(record);
 }

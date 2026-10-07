@@ -1,3 +1,4 @@
+#include "shared/town_pointees.h"
 #include "shared/town_root.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
@@ -26,7 +27,7 @@ UA32 *func_80018B64(UA32 *buffer)
     result = buffer;
     global_page = (u8 *)0x80010000;
     state = D_80016000;
-    grid_rows = *(u8 **)(state->unk_24 + 0x6C);
+    grid_rows = ((TownResourceLinks *)state->unk_24)->gridRows;
     header_page = 0x80020000;
     header = &D_8001C31C;
     *result = *header;
