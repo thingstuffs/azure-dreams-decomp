@@ -1,3 +1,20 @@
+# Handover (2026-10-07 ~06:30Z, round 98: codex wave after the codex reset; Claude usage kept minimal)
+
+**Owner 10-07:** full codex reset - use astra/sol (sol xhigh, one astra to compare), cleanup on sol high / luna max,
+limit Claude (usage must last to Monday). Kit: launch_lane.sh LANE_EFFORT=high|xhigh|max (max probed OK on
+gpt-6-luna and gpt-6.1-sol). Builders: work/native_lane/_r98/ (mk_pin.py + leads.json for pin lanes).
+**Pins (0 landed):** sol61 xhigh r98_sol61_p1-p4 (9 non-basket rows sol had not seen at current text) + hb1 (basket
+pair 81888810/8188E3A0), astra xhigh r98_astra_p1 (809548E4, w_80054B08 - same rows as sol p1): all measured
+negatives (200-310k tokens each); near leads at listing 2 in their REPORT.md (80A20A28, w_80046C20, w_80054B08).
+**Cleanup (landed fa07711bb + 6a9ef99c1, 121 windows + SLUS MATCH):** luna6 max renames 164 rows + 22 proto rows;
+sol61 high volatiles 20 rows (abs() for sign flips, w_80053CFC raw asm barrier gone: hidden raw asm 1 -> 0) and gotos
+10 rows. STATUS: m2c-name files 268 -> 104, goto files 285 -> 274. HELD: 74 luna renames whose only new names were
+generic (value/ptr/value_N - re-served below), town/func_800BF718 (float type-pun self-store), 4 vb/goto candidates
+the lander skipped (its m2c metric grew).
+**RUNNING:** pool r98d (sol61 high): r98_sol61_rn1-3 (the 74 held rename rows, specific-names-only brief),
+r98_sol61_g4-g5 (the last 9 unserved goto rows - the goto pool is now exhausted for unserved rows). --no-land:
+review diffs, then LAND_ISOLATED=1 land_gap.sh.
+
 # Handover (2026-10-07 ~02:30Z, round 97 PAUSED: 104 -> 98 pins / 58 -> 53 rows; no lanes running) - start here
 
 **Result (all gated MATCH):** 8095563C 1->0 (446d32214), 800A8714 / 800995D0 / 8028BAA4 1->0 (df3122d47), 81989558 1->0
