@@ -49,11 +49,16 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     818B6AFC improves (62 -> 45, FSF 2.8 releases; not an OPAQUE-BASE row). Verdict: "a different 1997 gcc2 revision
     explains OPAQUE-BASE" is refuted for every compiler we hold; only an unpublished Cygnus-internal branch remains
     untested (no such cc1 exists locally). OPAQUE-BASE stays in the basket as a source question.
+    Addendum (archives): the search's .zip/.img/.lzh/.7z hits are either already extracted hunt archives, game disc
+    images (two Azure Dreams prototypes in ~/prototype, a non-toolchain bfm.img) or SDK archives whose cc1s are known -
+    the one never-extracted SDK zip (toolchain/psyq/_archives/PSYQ_SDK.zip) holds CC1PSX 2.95.2 BUILD 4.0.0030 and
+    2.6.3, both already catalogued (sha 0755e509f1.., d383902b6e..). Nothing left behind.
 23. **dungeon/func_800A8714 (r97_opus_a2, 1 -> 0): the function-scope `idle_ally_range` also carries case 36's
     x_delta copy** (`idle_ally_range = x_delta; x_delta <<= 16; ... distance = idle_ally_range;`) - one variable
     in two roles in different switch cases: the accepted two-role temp class (r93/r94 trades, r96 decision 11's
     w_80047054). Mechanism (REPORT.md): a copy target whose last mention is this block never becomes the cse class
-    head and shares $16 with distance; the in-place shift stops local-alloc optimize_reg_copy_1. SECOND LOOK: no.
+    head and shares $16 with distance; the in-place shift stops local-alloc optimize_reg_copy_1. SECOND LOOK: yes
+    (the reuse exists for its allocation effect, the same reason item 11 was flagged; w_80047054's reuse was codegen-neutral).
     800995D0 (store reordered after an independent global read, roles split into locals) and 8028BAA4
     (`entry = &a[i]; entry--; x = *entry;`) are ordinary C. SECOND LOOK: no.
 24. **dungeon/func_81989558 (r97_opus_a3, 1 -> 0): a static inline `grid_cell(grid, row, col)` accessor** (16 x 16
