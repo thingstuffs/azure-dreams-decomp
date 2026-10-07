@@ -321,6 +321,37 @@ def hidden_asm(text):
     return out
 
 
+# ---- owner-kept composite spelling (docs/evidence/r95_decisions.md item 8) -------------------------
+# A composite row's data-in-.text prefix: `static const u32 bank[] __asm__("func_X") __attribute__((section(..))) = {..};`
+# plus its `__asm__(".globl func_X\n.type func_X,@function\n.size func_X, N");` stamp.  The owner ruled (2026-10-06,
+# item 8) to KEEP that spelling: it encodes retail's data-in-.text layout.  Nothing else is covered: a `.globl func_X\nfunc_X = N`
+# symbol assignment, `.set`, an alias without an initialiser, instruction asm and `asm("" : ...)` constraints stay counted.
+COMPOSITE_ALIAS_RE = re.compile(r'(?:__asm__|\basm)\s*\(\s*"func_[0-9A-F]{8}"\s*\)(?=\s*(?:__attribute__\s*\(\((?:[^()]|\([^()]*\))*\)\)\s*)*=)')
+COMPOSITE_STAMP_RE = re.compile(r'(?:__asm__|\basm)\s*\(\s*((?:"(?:\\.|[^"\\\n])*"\s*)+)\)\s*;')
+_STAMP_LINE_RE = re.compile(r"\s*\.(?:globl|type|size)\s+func_[0-9A-F]{8}\b[^\n]*")
+
+def composite_asm_spans(text):
+    """[(start, end)] of the owner-kept composite spellings in `text`: the `asm("func_X")` data alias carrying an
+    initialiser, and the file-scope `.globl/.type/.size func_X` stamp -- the stamp only in a text that has such an alias
+    (a stamp with no data prefix beside it is not the ruled spelling)."""
+    code = CMT_RE.sub(lambda m: re.sub(r"[^\n]", " ", m.group(0)), text)
+    out = [m.span() for m in COMPOSITE_ALIAS_RE.finditer(code)]
+    if not out:
+        return []
+    for m in COMPOSITE_STAMP_RE.finditer(code):
+        body = "".join(re.findall(r'"((?:\\.|[^"\\\n])*)"', m.group(1)))
+        lines = [l for l in body.split("\\n") if l.strip()]
+        if lines and all(_STAMP_LINE_RE.fullmatch(l) for l in lines):
+            out.append(m.span())
+    return sorted(out)
+
+def strip_composite_asm(text):
+    """`text` with the composite spans blanked (newlines kept), for counters of residual inline asm."""
+    for a, b in reversed(composite_asm_spans(text)):
+        text = text[:a] + re.sub(r"[^\n]", " ", text[a:b]) + text[b:]
+    return text
+
+
 def sites_of(text):
     """Return [(kind, macro, arg, start, end, line_no, replacement_text)] for every LIVE pin: a pin in
     a 'port'/'dead' arm compiles to nothing in either build and scaffolds nothing.

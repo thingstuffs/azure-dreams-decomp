@@ -2,7 +2,7 @@
 # Land lane wins, then the cascade, tidy, T2 and ONE gate:  bash tools/lanes/land_lanes.sh <tag> <lane>...
 #   A lane output (work/native_lane/<lane>/out/<container>/<name>.c) lands only when its base is current (the
 #   .base_sha next to it), its pins fell (or, round 78, stayed equal while a scaffolding kind fell; round 80, or
-#   stayed equal while plain `goto` statements fell) and no scaffolding kind grew (ASM_*, while (0), __asm__,
+#   stayed equal while plain `goto` statements fell; round 99, or while the live fidelity-site count fell: tools/land_admit.py) and no scaffolding kind grew (ASM_*, while (0), __asm__,
 #   volatile; with pins equal, `goto` too);
 #   it goes through apply_candidates.py as transform lane_<lane>. CELLS=<jsonl> passes cell switches
 #   (apply_candidates --cells). EXTRA_T adds generators to the cascade. The caller reviews and commits.
@@ -80,6 +80,9 @@ python3 - "$STAGE" $LANES <<'EOF'
 import sys, glob, os, re, shutil, hashlib, collections
 sys.path.insert(0, "tools")
 from pin_census import sites_of
+import land_admit
+from common import rows as _rows
+ROWS = {r["id"]: r for r in _rows()}
 stage, lanes = sys.argv[1], sys.argv[2:]
 # round 96: `\basm\s*\(` = plain register asm (`register T x asm("$4")`, LOCAL_ASM_REG macros) - a pin pin_census does not count
 bad = re.compile(r"ASM_[A-Z0-9_]+(?=\()|ODDITY_[A-Z_]+(?=\()|while\s*\(\s*0\s*\)|__asm__|\basm\s*\(|\bvolatile\b")
@@ -129,6 +132,11 @@ for lane in lanes:
         # round 93 (readability lanes named in READABLE_LANES, e.g. struct assignments for m2c's unrolled copies,
         # callee-typed spellings at equal pins): an equal-pin, nothing-grown candidate lands; the byte gate decides
         if cand != cur and not fell and lane in os.environ.get("READABLE_LANES", "").split(","): fell.append("readability")
+        # round 99: the LIVE fidelity-site count (levels.live_fidelity_sites, the L5 `fidelity_site` predicate that levels.jsonl and
+        # STATUS use) falling is a landing at equal pins (78 call-arity / prototype fixes were hand-applied in round 98 for want of
+        # this); it rising at equal pins is refused.  Rows outside rows() (no census record) are not measured.
+        if cand != cur and rid in ROWS and len(sites_of(cand)) <= len(sites_of(cur)):
+            land_admit.admit(fell, grew, len(sites_of(cand)) == len(sites_of(cur)), *land_admit.fidelity_counts(ROWS[rid], cand, cur))
         if len(sites_of(cand)) > len(sites_of(cur)) or grew or (len(sites_of(cand)) == len(sites_of(cur)) and not fell):
             print("skip", lane, rid, "pins", len(sites_of(cur)), "->", len(sites_of(cand)), "grew", grew); continue
         d = "%s/%s/%s" % (stage, lane, rid.split("/")[0]); os.makedirs(d, exist_ok=True)

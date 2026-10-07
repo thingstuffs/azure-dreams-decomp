@@ -29,7 +29,13 @@ from pathlib import Path
 from common import ROOT, LEDGER, rows, read_jsonl, write_jsonl, raw_path
 from census import (M2C_LOCAL_RE, audit_index, DECL_LINE, DEF_HEADER_RE,
                      audit_sites, live_sites as census_live_sites)
-from pin_census import arm_labels, HAS_PP_RE, sites_of
+from pin_census import arm_labels, HAS_PP_RE, sites_of, strip_composite_asm
+
+# NOT adopted (r99, docs/evidence/r97_decisions.md item 29): the composite-row `asm("func_X")` data prefix + `.size` stamp that
+# r95 item 8 kept for bytes is carve debt (another function's jump table / overlay data glued onto this row by one-row-per-function
+# carving), resolved by module placement - so it stays L5 `inline_asm` residue.  True would apply pin_census.strip_composite_asm()
+# before counting (112 rows); STATUS reports these spans on their own "carve debt" line either way.
+L5_EXCLUDE_COMPOSITE_ASM = False
 import call_arity
 
 # ---- spelling shims the pre-preprocessor scans must see through -----------------------------
@@ -215,6 +221,11 @@ def fidelity_blocking_sites(r, text, keyed_sites, tail_targets, defidx=None):
             out.append(site)
     return out
 
+def live_fidelity_sites(r, text, defidx=None):
+    """The L5 `fidelity_site` residue for one row on its CURRENT text: [site string].  evaluate_row and
+    status.py's shape census both call this, so the STATUS clean column and levels.jsonl cannot drift apart."""
+    return fidelity_blocking_sites(r, text, live_audit_keyed_sites(r, text), real_tail_call_targets(text), defidx)
+
 _CONTAINER_SYMS = {}
 def container_tail_syms(container):
     """The union of config/sibcall_syms[.<container>].txt and config/noreturn_syms[.<container>].txt
@@ -376,7 +387,7 @@ def evaluate_row(r, text, raw_text, promoted, sweeps, split_idx, defidx=None):
     blocking = label_blocking or passthru_blocking or itc_blocking or asm_function
     # L5's `fidelity_site` is the narrowed predicate (fidelity_blocking_sites), not "any live audit
     # site": L1's `blocking` above is untouched.
-    fid_sites = fidelity_blocking_sites(r, text, keyed_sites, real_tail_call_targets(text), defidx)
+    fid_sites = fidelity_blocking_sites(r, text, keyed_sites, real_tail_call_targets(text), defidx)   # == live_fidelity_sites(r, text, defidx), keyed_sites reused
     any_site = bool(fid_sites)
     # The charter's counter (docs/PIN_CAMPAIGN_CHARTER.md rule 5: status.py "Pin sites now" =
     # pin_census.sites_of), not a raw `ASM_X(` token count.  The token count also read macro
@@ -388,7 +399,7 @@ def evaluate_row(r, text, raw_text, promoted, sweeps, split_idx, defidx=None):
     # a real noreturn tail call (declared noreturn AND called as a tail statement) -- not the `asm("func_X")`
     # symbol name of a composite row's data prefix, and not a bare noreturn attribute with no call.
     tail_idiom = len(real_tail_call_targets(text))
-    computed_goto = len(re.findall(r"\bgoto\s*\*", text)); inline_asm = len(re.findall(r"__asm__|\basm\s*\(", re.sub(r"\bASM_[A-Z0-9_]+\(", "", text)))
+    computed_goto = len(re.findall(r"\bgoto\s*\*", text)); inline_asm = len(re.findall(r"__asm__|\basm\s*\(", re.sub(r"\bASM_[A-Z0-9_]+\(", "", strip_composite_asm(text) if L5_EXCLUDE_COMPOSITE_ASM else text)))
     boiler = "This header contains macros emitted by m2c" in text or "typedef float f32;" in text
     tj_targets = tail_jump_targets(r, text, nr_targets)
     tj_kinds, tail_ok = audit_gate(r["id"], tj_targets, split_idx)

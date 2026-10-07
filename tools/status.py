@@ -2,7 +2,8 @@
 """Generate STATUS.md from the ledger (rows, baseline, census, levels)."""
 import collections, json, time
 from common import LEDGER, ROOT, rows, read_jsonl, PARKED_CONTAINERS
-from pin_census import sites_of, hidden_asm
+from pin_census import sites_of, hidden_asm, strip_composite_asm, composite_asm_spans
+import levels as _levels   # the live L5 predicates: the clean column reuses them, never a second copy
 from census import _fakedep, _real_tail_count
 
 def _recipe_tracker(rs, curc):
@@ -146,11 +147,16 @@ def main():
                 # being counted and this column drifted from pin_watch and the sweep
                 "pin_total": len(sites_of(t)), "pins_by": collections.Counter(s[1][4:] for s in sites_of(t)), "hidden": hidden_asm(t),
                 "gotos": len(_re.findall(r"\bgoto\s+[A-Za-z_]", t)),
-                "computed_goto": len(_re.findall(r"\bgoto\s*\*", t)), "inline_asm": len(_re.findall(r"__asm__|\basm\s*\(", t)),
+                "computed_goto": len(_re.findall(r"\bgoto\s*\*", t)), "inline_asm": len(_re.findall(r"__asm__|\basm\s*\(", strip_composite_asm(t))),   # minus the owner-kept composite spelling (r95 decisions item 8), counted on its own line below
+                "composite_asm": len(composite_asm_spans(t)),
                 "m2c_locals": len(set(_re.findall(r"\b(temp_[a-z0-9_]+|arg[0-9]|sp[0-9A-F]{2,}|var_[a-z0-9_]+|phi_[a-z0-9_]+)\b",
                                                  _re.sub(r"/\*.*?\*/|//[^\n]*", " ", t, flags=_re.S)))),   # code only (r78: struct notes like `/* arg0 in func_X */` inflated this 2,687 -> 785 rows)
                 "n_local_structs": len(set(_re.findall(r"\b((?:S_|Struct|Func)[0-9A-F]{7,8}[A-Za-z0-9_]*)\b", t))),
-                "audit": cen.get(r["id"], {}).get("audit", {}),   # live: sites still spelled in the current text
+                # LIVE, from the current text with the same functions levels.py uses (not `cen`, the census of the PINNED
+                # raw text, which never moved with src/): "audit" = the L5 `fidelity_site` predicate (sites that still show a
+                # defect), "audit_any" = every live audit site, unnarrowed.
+                "audit": collections.Counter(x.split("|")[0] for x in _levels.live_fidelity_sites(r, t)),
+                "audit_any": collections.Counter(x.split("|")[0] for x in _levels.live_audit_sites(r, t)),
                 "tail_idiom": _real_tail_count(t),   # r95: real noreturn tail calls only, not composite data aliases
                 "dowhile0": 0 if r["id"] in _onetrip_tracked else len(_re.findall(r"\bdo\s*\{[^{}]*\}\s*while\s*\(\s*0\s*\)", t, _re.S)),
                 "fakedep": _fakedep(t),
@@ -160,8 +166,9 @@ def main():
     curc = {r["id"]: cur_facts(r) for r in rs}
     defs = [("m2c boilerplate block", lambda c: c["boiler"]), ("M2C_FIELD raw offsets", lambda c: c["m2c_field"] > 0), ("m2c local names", lambda c: c["m2c_locals"] > 0),
             ("ASM_ pins", lambda c: c["pin_total"] > 0), ("goto", lambda c: c["gotos"] > 0), ("computed-goto jump table", lambda c: c["computed_goto"] > 0),
-            ("inline asm outside macros", lambda c: c["inline_asm"] > 0), ("fidelity blocking site (LABEL_AS_CALL/PASSTHRU_NO_ARGS)", lambda c: any(k in ("LABEL_AS_CALL", "PASSTHRU_NO_ARGS") for k in c["audit"])),
-            ("any fidelity site", lambda c: bool(c["audit"])),
+            ("inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below)", lambda c: c["inline_asm"] > 0), ("fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate)", lambda c: any(k in ("LABEL_AS_CALL", "PASSTHRU_NO_ARGS") for k in c["audit"])),
+            ("any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py)", lambda c: bool(c["audit"])),
+            ("any live audit site, unnarrowed (clean column only; pin column repeats the row above)", lambda c: bool(c.get("audit_any", c["audit"]))),
             ("noreturn tail-call spelling (scaffolding, docs/FIDELITY.md)", lambda c: c.get("tail_idiom", 0) > 0), ("maspsx marker pins (scaffolding)", lambda c: c.get("markers", 0) > 0),
             ("do{}while(0) scheduling barrier (scaffolding, pure C)", lambda c: c.get("dowhile0", 0) > 0),
             ("fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C)", lambda c: c.get("fakedep", 0) > 0),
@@ -200,6 +207,12 @@ def main():
     out.append(f"Tracked, not pins (owner 2026-10-06): oddities {len(_odd)} (ledger/oddities.jsonl - zero-byte fences retail needs, curiosities, "
                f"not removal targets: {', '.join(o['id'] for o in _odd) or '-'}); one-trip barrier rows {len(_ot)} (ledger/onetrip_barrier_rows.jsonl); "
                f"load-bearing one-trip rows {len(_otl)} (ledger/onetrip_loadbearing.jsonl, statement-macro bodies, not counted in the do{{}}while(0) row above).")
+    _comp = [i for i, c in live.items() if c["composite_asm"]]
+    out.append(f"Carve debt - composite rows (r95 decisions item 8 kept the spelling for bytes; r99: it is an artifact of one-row-per-function "
+               f"carving, owned by module placement): the `asm(\"func_X\")` data prefix (another function's jump table / overlay data that retail "
+               f"places before this row's code) and its `.globl/.type/.size func_X` stamp (`pin_census.composite_asm_spans`), "
+               f"{sum(live[i]['composite_asm'] for i in _comp):,} statements in {len(_comp):,} rows - counted here, not in the inline-asm row "
+               f"above; still L5 `inline_asm` residue in levels.py until the module TU owns the data.")
     out.append(f"Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements {hid['raw-pin']:,}, "
                f"calls of local asm wrappers {hid['wrapper-call']:,}, hand-written asm in function bodies {hid['asm-code']:,} "
                f"(C that is missing); symbol aliases {hid['symbol-alias']:,} (a second typed name for one symbol: a missing type); "
