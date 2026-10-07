@@ -88,7 +88,7 @@ void func_80026010(void) {
     S_func_81888810_3 *quad;
     s32 quad_index;
     s32 row_start;
-    register s32 column_or_coord ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it recolours the column index ($3 -> $2, local-alloc scan order); the source shape that makes it unnecessary has not been found */
+    s32 column_or_coord;
     s32 right_offset;
     s32 upper_right_y;
     s32 lower_left_y;
@@ -114,10 +114,9 @@ void func_80026010(void) {
             right_offset = (row_start + column_or_coord) * 8;
             upper_right = (Cell *)((unsigned long)right_offset + (unsigned long)vertices);
             lower_left = (Cell *)((unsigned long)((quad_index + 0x10) * 8) + (unsigned long)vertices);
-            lower_right = (Cell *)((unsigned long)((row_start + 0x10 + column_or_coord) * 8) + (unsigned long)vertices);
 
             motion = fragment->unk_08;
-            object_or_x = (vertices[quad_index].x + upper_right->x + lower_left->x + lower_right->x) >> 2;
+            object_or_x = (vertices[quad_index].x + upper_right->x + lower_left->x + (lower_right = &vertices[row_start + 0x10 + column_or_coord])->x) >> 2;
             upper_right_y = (vertices[quad_index].y + upper_right->y + lower_left->y + lower_right->y) >> 2;
             lower_left_y = (vertices[quad_index].z + upper_right->z + lower_left->z + lower_right->z) >> 2;
             motion->unk_02 = object_or_x;
