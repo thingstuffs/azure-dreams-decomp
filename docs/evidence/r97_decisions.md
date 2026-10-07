@@ -83,4 +83,7 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     2.6.3; neighbours non-discriminating). Recorded in ledger/recipe_evidence.jsonl (row-scoped; the module census is
     not widened); STATUS's wrong-compiler tracker skips them while they stay at that cfg. main/func_8001C4D8 is the
     opposite case: its card-UI object is stock code, so its cdk recipe is a fit (best text total 5 at stock 2.7.2,
-    open). SECOND LOOK: yes for 806D30B4 (provisional).
+    open). **Revised (owner 10-07: decide compilers on the evidence; where it does not decide, leave UNCONFIRMED and name
+    what would confirm):** 808B2B04 = supported (exempt); 806D30B4 = UNCONFIRMED - stays in the tracker, and
+    ledger/recipe_evidence.jsonl `to_confirm` lists the measurements (a discriminating construct elsewhere in the same
+    object, the object boundary near 0x653018-0x653434, or a 2.7.2-exact text). SECOND LOOK: no.
