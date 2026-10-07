@@ -101,8 +101,9 @@ s32 func_800218E4(MinigameState *game) {
     s16 state;
     s32 pair_value;
     s32 transition_timer;
-    register s32 state_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    s32 timer_bits;
     s32 phase_value;
+    s32 scroll;
     s32 collision_value;
     s32 gold_total;
     s32 gold_remaining;
@@ -145,7 +146,6 @@ s32 func_800218E4(MinigameState *game) {
     EntityRec *partner_xy;
     EntityRec *object_xy;
     ObjectNodeHeader *fall_object;
-    ObjectNodeHeader *shuffle_slot;
     EntityRec **init_slot;
     MinigameState *angle_slot;
     MinigameSlot *object_slot;
@@ -230,11 +230,11 @@ loop_3:
             partner_index = 0xFFF00000;
             do {
                 fall_position = game->rec[object_index];
-                state_value = game->timer.u;
+                timer_bits = game->timer.u;
                 pair_value = fall_position->x.v;
-                state_value <<= 0x10;
+                timer_bits <<= 0x10;
                 pair_value += partner_index;
-                pair_value += state_value;
+                pair_value += timer_bits;
                 fall_position->x.v = pair_value;
                 fall_random = rand(fall_position);
                 if (fall_random == ((fall_random / 3) * 3)) {
@@ -246,12 +246,14 @@ loop_3:
         fall_timer = game->timer.s - 1;
         game->timer.s = fall_timer;
         if ((fall_timer << 0x10) <= 0) {
+            s32 stage;
+
             base_object->unk_08 = 2;
-            state_value = game->stage.u;
+            stage = game->stage.u;
                                      /* MATCH: the state load precedes timer materialization. */
             transition_timer = 0x10;
             game->timer.s = transition_timer;
-            game->stage.s = (s16) (state_value + 1);
+            game->stage.s = (s16) (stage + 1);
         }
         break;
     case 3:
@@ -268,6 +270,8 @@ loop_3:
         drop_timer = game->timer.s - 1;
         game->timer.s = drop_timer;
         if ((drop_timer << 0x10) <= 0) {
+            s32 stage;
+
             base_object->unk_08 = 3;
             object_index = 2;
             shuffle_value = 0x100;
@@ -283,30 +287,22 @@ loop_3:
             object_index = 0xA;
             do {
                 object_index -= 1;
-                state_value = rand();
-                partner_index = state_value / 3;
-                partner_index = state_value - (partner_index * 3);
-                state_value = rand();
-                bounce_x = state_value / 3;
-                bounce_x = state_value - (bounce_x * 3);
-                state_value = partner_index * 4;
-                state_value += (s32) game;
-                pair_value = bounce_x * 4;
-                pair_value += (s32) game;
-                shuffle_object = ((MinigameState *)state_value)->node[0];
-                shuffle_slot = (ObjectNodeHeader *)pair_value;
-                shuffle_value = ((MinigameBody *)(shuffle_object + 1))->unk_22;
-                ((MinigameBody *)(shuffle_object + 1))->unk_22 = ((MinigameBody *)(((MinigameState *)shuffle_slot)->node[0] + 1))->unk_22;
-                ((MinigameBody *)(((MinigameState *)shuffle_slot)->node[0] + 1))->unk_22 = shuffle_value;
+                partner_index = rand() % 3;
+                bounce_x = rand() % 3;
+                shuffle_value = ((MinigameBody *)(game->node[partner_index] + 1))->unk_22;
+                ((MinigameBody *)(game->node[partner_index] + 1))->unk_22 = ((MinigameBody *)(game->node[bounce_x] + 1))->unk_22;
+                ((MinigameBody *)(game->node[bounce_x] + 1))->unk_22 = shuffle_value;
             } while (object_index >= 0);
             SD_Call(0x1702);
-            state_value = game->stage.p;
-            game->stage.s = (s16) (state_value + 1);
+            stage = game->stage.p;
+            game->stage.s = (s16) (stage + 1);
         }
         break;
     case 4:
         game->timer.s = (u16) (game->timer.s + 1);
         if (game->unk_46 >= 0) {
+            s32 stage;
+
             if (game->unk_44 != 0) {
                 func_80033B78(0x58F);
             } else {
@@ -341,56 +337,60 @@ loop_3:
             dialog_args.sp12 = 8;
             dialog_args.sp14 = game;
             func_80021120(&D_80022514, &dialog_args);
-            state_value = game->stage.p;
-            game->stage.s = (s16) (state_value + 1);
+            stage = game->stage.p;
+            game->stage.s = (s16) (stage + 1);
         }
         break;
     case 5:
         transition_timer = game->unk_48;
-        state_value = game->timer.s;
+        scroll = game->timer.s;
         transition_timer += 0x12C;
-        state_value <<= 1;
-        transition_timer += state_value;
-        state_value = game->unk_4A.s;
+        scroll <<= 1;
+        transition_timer += scroll;
+        scroll = game->unk_4A.s;
         game->unk_48 = transition_timer;
         transition_timer = game->timer.s;
-        state_value += 0x10;
+        scroll += 0x10;
         transition_timer -= 1;
         game->timer.s = transition_timer;
         transition_timer <<= 0x10;
-        game->unk_4A.s = state_value;
+        game->unk_4A.s = scroll;
         if (transition_timer <= 0) {
+            s32 stage;
+
             if (D_80113158[0] != 0) {
                 D_80024338[0] = func_800B1BEC(0, -0x50, 0x40);
             }
-            state_value = game->stage.u;
+            stage = game->stage.u;
                                      /* MATCH: the state load precedes timer materialization. */
             game->timer.s = 0x10;
-            game->stage.s = (s16) (state_value + 1);
+            game->stage.s = (s16) (stage + 1);
         }
         break;
     case 6:
-        state_value = 0x10;
+        scroll = 0x10;
         transition_timer = game->unk_48;
         phase_value = game->timer.s;
         transition_timer += 0x12C;
-        state_value -= phase_value;
-        state_value <<= 3;
-        transition_timer -= state_value;
+        scroll -= phase_value;
+        scroll <<= 3;
+        transition_timer -= scroll;
         game->unk_48 = transition_timer;
         transition_timer = game->timer.s;
-        state_value = game->unk_4A.s;
+        scroll = game->unk_4A.s;
         transition_timer -= 1;
         game->timer.s = transition_timer;
         transition_timer <<= 0x10;
-        state_value += 0x15E;
-        game->unk_4A.s = state_value;
+        scroll += 0x15E;
+        game->unk_4A.s = scroll;
         if (transition_timer <= 0) {
-            state_value = game->stage.u;
+            s32 stage;
+
+            stage = game->stage.u;
                                      /* MATCH: the state load precedes timer materialization. */
             transition_timer = 0x21;
             game->timer.s = transition_timer;
-            game->stage.s = (s16) (state_value + 1);
+            game->stage.s = (s16) (stage + 1);
         }
         break;
     case 7:
@@ -401,26 +401,30 @@ loop_3:
         game->unk_4A.s = (u16) (game->unk_4A.s + ((s32) (0x1EDC
             - (s16) game->unk_4A.s) >> 1));
         if (settle_timer_signed <= 0) {
+            s32 stage;
+
             game->unk_48 = 0U;
-            state_value = game->stage.u;
+            stage = game->stage.u;
             transition_timer = 0x10;
             game->timer.s = transition_timer;
-            game->stage.s = (s16) (state_value + 1);
+            game->stage.s = (s16) (stage + 1);
         }
         break;
     case 8:
         transition_timer = 0x2001;
-        state_value = game->unk_4A.u;
+        scroll = game->unk_4A.u;
         phase_value = game->timer.s;
-        transition_timer -= state_value;
+        transition_timer -= scroll;
         transition_timer >>= 1;
-        state_value = game->unk_4A.s;
+        scroll = game->unk_4A.s;
         phase_value -= 1;
         game->timer.s = phase_value;
         phase_value <<= 0x10;
-        state_value += transition_timer;
-        game->unk_4A.s = state_value;
+        scroll += transition_timer;
+        game->unk_4A.s = scroll;
         if (phase_value <= 0) {
+            s32 stage;
+
             if (D_80113158[0] != 0) {
                 gold_total = D_80012D5C[0];
                 gold_remaining = D_8011315C[0];
@@ -429,11 +433,11 @@ loop_3:
                 D_80012D5C[0] = gold_total;
                 func_800B1DBC(payout_handle);
             }
-            state_value = game->stage.u;
+            stage = game->stage.u;
                                      /* MATCH: the state load precedes timer materialization. */
             transition_timer = 0x8F;
             game->timer.s = transition_timer;
-            game->stage.s = (s16) (state_value + 1);
+            game->stage.s = (s16) (stage + 1);
         }
         break;
     case 9:
@@ -453,9 +457,11 @@ loop_3:
         exit_timer = game->timer.s - 1;
         game->timer.s = exit_timer;
         if ((exit_timer << 0x10) <= 0) {
+            s32 stage;
+
             base_object->unk_08 = 4;
-            state_value = game->stage.p;
-            game->stage.s = (s16) (state_value + 1);
+            stage = game->stage.p;
+            game->stage.s = (s16) (stage + 1);
         }
         break;
     }
@@ -479,8 +485,7 @@ loop_3:
     }
     effect_state = (u16) game->stage.s;
     if ((u32) (effect_state - 5) < 5U) {
-        state_value = (s16) effect_state;
-        object_index = state_value < 9;
+        object_index = (s16) effect_state < 9;
         func_80023E6C(0x50, game->unk_44, game, object_index);
         func_80023E6C(-0xF0, game->unk_46, game, object_index);
         func_80023E6C(0xA0, 4, game, object_index);
@@ -497,30 +502,22 @@ object_pairs:
             do {
                 object_position = position_slot->rec;
                 partner_position = game->rec[partner_index];
-                state_value = object_position->z.w.i;
-                pair_value = partner_position->z.w.i;
-                state_value -= pair_value;
-                state_value = abs(state_value);
-                if (state_value < 0x40) {
+                if (abs(object_position->z.w.i - partner_position->z.w.i) < 0x40) {
                     s32 near_x;
+                    s32 near_y;
+                    s32 far_y;
 
-                    near_x = object_position->x.w.i;
-                    state_value = partner_position->x.w.i;
-                    collision_value = partner_position->y.w.i;
-                    near_x -= state_value;
-                    state_value = object_position->y.w.i;
-                    near_x = abs(near_x);
-                    state_value -= collision_value;
-                    state_value = abs(state_value);
-                    near_x += state_value;
+                    far_y = partner_position->y.w.i;
+                    near_x = abs(object_position->x.w.i - partner_position->x.w.i);
+                    near_y = abs(object_position->y.w.i - far_y);
+                    near_x += near_y;
                     if (near_x < 0x38) {
-                        state_value = 0x3FFFF;
                         pair_value = object_position->unk_0C;
                         collision_value = object_position->unk_10;
                         pair_value = abs(pair_value);
                         collision_value = abs(collision_value);
                         pair_value += collision_value;
-                        if (pair_value <= state_value) {
+                        if (pair_value <= 0x3FFFF) {
                             position_slot->rec->unk_0C =
                                 (s32) (func_80064584(*position_slot->angle) << 6);
                             position_slot->rec->unk_10 =
@@ -548,15 +545,12 @@ object_pairs:
                         pair_value -= other_y;
                         pair_value = abs(pair_value);
                         x_or_distance += pair_value;
-                        state_value = x_or_distance < bounce_x;
-                        if (state_value) {
-                            state_value = object_velocity->unk_0C;
+                        if (x_or_distance < bounce_x) {
+                            x_or_distance = -object_velocity->unk_0C;
                             bounce_x = object_velocity->unk_10;
-                            x_or_distance = 0 - state_value;
                         } else {
-                            state_value = object_velocity->unk_10;
                             x_or_distance = object_velocity->unk_0C;
-                            bounce_x = 0 - state_value;
+                            bounce_x = -object_velocity->unk_10;
                         }
                         collision_value = 0x30000;
                         if (object_index != 0) {
@@ -598,15 +592,12 @@ object_pairs:
                             pair_value -= other_y;
                             pair_value = abs(pair_value);
                             x_or_distance += pair_value;
-                            state_value = x_or_distance < bounce_x;
-                            if (state_value) {
-                                state_value = partner_velocity->unk_0C;
+                            if (x_or_distance < bounce_x) {
+                                x_or_distance = -partner_velocity->unk_0C;
                                 bounce_x = partner_velocity->unk_10;
-                                x_or_distance = 0 - state_value;
                             } else {
-                                state_value = partner_velocity->unk_10;
                                 x_or_distance = partner_velocity->unk_0C;
-                                bounce_x = 0 - state_value;
+                                bounce_x = -partner_velocity->unk_10;
                             }
                             if (partner_index != 0) {
                                 goto object_collision;
