@@ -56,3 +56,11 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     head and shares $16 with distance; the in-place shift stops local-alloc optimize_reg_copy_1. SECOND LOOK: no.
     800995D0 (store reordered after an independent global read, roles split into locals) and 8028BAA4
     (`entry = &a[i]; entry--; x = *entry;`) are ordinary C. SECOND LOOK: no.
+24. **dungeon/func_81989558 (r97_opus_a3, 1 -> 0): a static inline `grid_cell(grid, row, col)` accessor** (16 x 16
+    grid of 4-byte points; `grid += row << 6; col <<= 2; return grid + col;`) replaces the open-coded case-1 address;
+    ASM_KEEP_NV(ring) gone. Mechanism: the inlined `col` is set twice inside the loop, so loop.c
+    consec_sets_invariant_p (loop.c:2951) refuses it as a movable and ring*4 is not hoisted / spilled (.cse/.loop
+    dumps). An accessor function for a grid is ordinary C (same family as the OT_* macros, decision 13); it is used
+    at ONE site (case 2 through the same helper scores 20), which is the weak point. SECOND LOOK: yes (single-use
+    helper whose shape matters to loop.c; refuse -> revert to the KEEP and record in ledger/refused_trades.jsonl).
+    Kit note: the lane's tools/loopsum.py (loop movables per candidate) found this - harvest into lanekit.
