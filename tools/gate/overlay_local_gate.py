@@ -99,6 +99,7 @@ class Segment:
     name: str | None = None
     match: MatchEntry | None = None
     bytes_path: Path | None = None
+    module_key: str | None = None
 
     @property
     def size(self) -> int:
@@ -1404,6 +1405,7 @@ def write_manifest(path: Path, cfg_name: str, container: Path, segments: list[Se
                 "source": rel(s.match.source) if s.match else None,
                 "config": s.match.config if s.match else None,
                 "source_group": s.match.source_group if s.match else None,
+                "module": s.module_key,
                 **({"rowbase_link_vram": f"0x{s.match.link_vram:X}"}
                    if s.match and s.match.link_vram is not None else {}),
             }
@@ -1418,6 +1420,7 @@ def write_manifest(path: Path, cfg_name: str, container: Path, segments: list[Se
                 "size": s.size,
                 "source": rel(s.match.source) if s.match else None,
                 "source_group": s.match.source_group if s.match else None,
+                "module": s.module_key,
             }
             for s in segments if s.kind == "platform_asm"
         ],
@@ -1429,6 +1432,7 @@ def write_manifest(path: Path, cfg_name: str, container: Path, segments: list[Se
                 "size": s.size,
                 "source": rel(s.match.source) if s.match else None,
                 "source_group": s.match.source_group if s.match else None,
+                "module": s.module_key,
             }
             for s in segments if s.kind == "game_asm"
         ],
@@ -1559,6 +1563,10 @@ def main() -> int:
     add_asm_matches(matches, match_counts, split_rows,
                     args.stage_game_asm, "game_asm")
     segments = build_segments(split_rows, matches, window_start, window_end, vram_delta)
+
+    from overlay_module_gate import project_segments
+    module_receipts = project_segments(segments, build_dir, cfg["name"], ROOT)
+    (build_dir / "modules.json").write_text(json.dumps(module_receipts, indent=2) + "\n")
 
     raw_s = build_dir / "raw_segments.s"
     raw_o = build_dir / "raw_segments.o"
@@ -1771,6 +1779,8 @@ def main() -> int:
         print(f"NO MATCH: {len(table_errors)} compiler-local table(s) differ from retail: {table_errors[0][:150]}")
         return 1
 
+    from overlay_module_gate import verify_window_modules
+    verify_window_modules(module_receipts, ROOT)
     print(f"MATCH: rebuilt overlay window byte-identical ({len(target)} bytes)")
     if args.compile_corpus:
         total, counts = compile_corpus(cfg_path(sb.get("work_dir", "work/s3_splat")))

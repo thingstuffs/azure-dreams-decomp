@@ -1,3 +1,4 @@
+#include "modules/control_cd.h"
 #include "slus/cd_state.h"
 
 typedef union ResultBox_8003E4FC {
@@ -12,7 +13,7 @@ typedef struct EventSource_8003E4FC {
 extern s32 func_8003E39C();
 
 /* Dispatch supported event codes and update the associated event state. */
-s32 Control_CD(s32 event_code, void *event_data)
+s32 Control_CD(s32 event_code, void *event_data, s32 payload)
 {
     ResultBox_8003E4FC result;
     s32 kind;
@@ -102,13 +103,13 @@ case_2:
     goto call_with_data;
 
 case_ff:
-    result.value = func_8003E39C(0xFF, event_data);
+    result.value = func_8003E39C(0xFF, event_data, payload);
     return result.value;
 
 case_6:
     call_arg = event_data;
     D_80080ADC = ((EventSource_8003E4FC *)call_arg)->field4;
-    result.value = func_8003E39C((u8)event_code, call_arg);
+    result.value = func_8003E39C((u8)event_code, call_arg, payload);
     return result.value;
 
 case_9:
@@ -123,10 +124,10 @@ case_13:
     D_80080AD4 = 0;
     if (event_data == 0) {
         null_kind = 13;
-        result.value = func_8003E39C(null_kind, 0);
+        result.value = func_8003E39C(null_kind, 0, payload);
         return result.value;
     }
-    func_8003E39C(13, 0);
+    func_8003E39C(13, 0, payload);
     func_8003E39C(2, event_data, 0);
     result.value = func_8003E39C(27, event_data, 0);
     D_80080ADC = event_data;
@@ -134,7 +135,7 @@ case_13:
 
 case_14:
     null_kind = 14;
-    result.value = func_8003E39C(null_kind, 0);
+    result.value = func_8003E39C(null_kind, 0, payload);
     return result.value;
 
 case_21:

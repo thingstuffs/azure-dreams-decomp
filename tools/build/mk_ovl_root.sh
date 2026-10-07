@@ -47,4 +47,20 @@ for f in names.tsv slus_006.14.yaml slus_006.14.symbols.txt slus_006.14.c_syms.t
 done
 ln -sfn "$ROOT/build_slus/config/generated" "$B/config/generated"
 ln -sfn "$ROOT/build_slus/build" "$B/build"
+# Complete overlay-module context. RAW views retain independent row baselines.
+ln -sfn "$SRCROOT" "$B/src"
+ln -sfn "$ROOT/ledger" "$B/ledger"
+ln -sfn "$ROOT/docs" "$B/docs"
+mkdir -p "$B/tools/fidelity" "$B/work/disc"
+ln -sfn "$ROOT/work/disc/containers" "$B/work/disc/containers"
+cp "$ROOT/tools/overlay_module_evidence.py" "$B/tools/overlay_module_evidence.py"
+for f in aspsx_diff.py objread.py certify_overlay_module.py; do
+  cp "$ROOT/tools/fidelity/$f" "$B/tools/fidelity/$f"
+done
+if [ "${RAW:-0}" = "1" ]; then
+  touch "$B/config/overlay_modules_disabled"
+else
+  rm -f "$B/config/overlay_modules_disabled"
+  PYTHONDONTWRITEBYTECODE=1 python3 "$ROOT/tools/gate/overlay_module_gate.py" --root "$ROOT" --graph
+fi
 echo "gate root: $B"

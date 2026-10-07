@@ -1,9 +1,4 @@
-#include "common.h"
-#include "m2c_compat.h"
-
-M2C_UNK Control_CD();    /* extern */
-M2C_UNK func_8003F320();                            /* extern */
-extern u8 D_800DF3EC[];
+#include "modules/dungeon_cd_control.h"
 
 /* Submit the indexed eight-byte entry and finalize the operation. */
 void func_800BD184(s32 entry_index) {
