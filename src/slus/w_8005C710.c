@@ -15,7 +15,7 @@ typedef struct S_8005C710_Req {
     /* 0x0C */ u8 pad0C[0x40 - 0x0C];
 } S_8005C710_Req;
 
-extern s32 func_8005FA34(S_8005C710_Req *arg);
+extern void func_8005FA34(S_8005C710_Req *arg);
 
 /* Processes the indexed table entry and copies the two request results to the output pointers. */
 s32 func_8005C710(s16 entry_index, s16 *out_first_value, s16 *out_second_value) {

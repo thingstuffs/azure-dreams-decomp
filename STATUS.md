@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-07T11:39:57Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-07T11:41:42Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -78,7 +78,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | M2C_FIELD raw offsets | 2950 | 1,456,876 | 57.0% | 0 | 0 | 0.0% |
 | m2c local names | 5182 | 2,172,184 | 84.9% | 21 | 36,012 | 1.4% |
 | ASM_ pins | 2135 | 1,464,820 | 57.3% | 52 | 65,808 | 2.6% |
-| goto | 1545 | 1,318,468 | 51.5% | 268 | 307,356 | 12.0% |
+| goto | 1545 | 1,318,468 | 51.5% | 267 | 306,584 | 12.0% |
 | computed-goto jump table | 317 | 437,344 | 17.1% | 4 | 7,008 | 0.3% |
 | inline asm outside macros | 361 | 255,656 | 10.0% | 140 | 127,708 | 5.0% |
 | fidelity blocking site (LABEL_AS_CALL/PASSTHRU_NO_ARGS) | 1489 | 680,132 | 26.6% | 308 | 157,064 | 6.1% |
@@ -88,14 +88,14 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 9 | 12,392 | 0.5% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
 | local address-named struct | 633 | 346,988 | 13.6% | 2929 | 1,519,480 | 59.4% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 6427 | 2,183,516 | 85.4% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 6428 | 2,184,288 | 85.4% |
 
 Pin sites now: 97 in 52 rows; REG 51, KEEP 15, KEEP_NV 13, SCHED_BARRIER 5, USE 3, MEM_BARRIER 2, USE_NV 2, USE2 1.  At the pin: 25,755; REG 12,776, KEEP 6,852, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
 Tracked, not pins (owner 2026-10-06): oddities 1 (ledger/oddities.jsonl - zero-byte fences retail needs, curiosities, not removal targets: dungeon/func_8196096C); one-trip barrier rows 2 (ledger/onetrip_barrier_rows.jsonl); load-bearing one-trip rows 85 (ledger/onetrip_loadbearing.jsonl, statement-macro bodies, not counted in the do{}while(0) row above).
 Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 0, calls of local asm wrappers 0, hand-written asm in function bodies 0 (C that is missing); symbol aliases 34 (a second typed name for one symbol: a missing type); file-scope asm directives 186; file-scope global register variables 4 (`register T g asm("$R")`).
 
-Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 105 rows carry one flag, 4 carry two or more.
+Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 98 rows carry one flag, 2 carry two or more.
 
 
 ## Likely incorrect compiler (registered recipe vs the real build)
@@ -114,7 +114,7 @@ Rows at a registered recipe backed by per-row compiler evidence (ledger/recipe_e
 
 Sony SDK library objects (ledger/sdk_objects.jsonl, whole-object byte match; not listed above): main/func_800219C4.
 
-SLUS rows off their region's build (game image = 2.7.2-cdk, sound TU = stock 2.7.2; module members included): 14 rows, 1 pinned / 1 pins.
+SLUS rows off their region's build (game image = 2.7.2-cdk, sound TU = stock 2.7.2; module members included): 9 rows, 1 pinned / 1 pins.
 
 Most-pinned rows off their build recipe: dungeon/func_80DE48EC 5 pins (2.8.0-G0 -> 2.7.2-cdk-G0); town/func_808135E0 1 pins (2.7.2-G0 -fno-cse-skip-blocks -> 2.6.3-G0); dungeon/func_813274E4 1 pins (2.8.1-G0 -> 2.7.2-cdk-G0).
 

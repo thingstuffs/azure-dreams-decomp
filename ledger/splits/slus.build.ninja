@@ -142,12 +142,12 @@ build build/src/code5.o: cc src/code5.c | tools/cc.sh tools/ccproc.py
 
 build build/src/code6.o: cc src/code6.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -fno-schedule-insns -fno-schedule-insns2
+  ccflags = 
   asflags = 
 
 build build/src/code7.o: cc src/code7.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.8.1
-  ccflags = -fno-schedule-insns2
+  ccver = 2.7.2-cdk
+  ccflags = 
   asflags = 
 
 build build/src/code8.o: cc src/code8.c | tools/cc.sh tools/ccproc.py 
@@ -156,8 +156,8 @@ build build/src/code8.o: cc src/code8.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/code9.o: cc src/code9.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.95.2
-  ccflags = -fstrict-aliasing
+  ccver = 2.7.2-cdk
+  ccflags = 
   asflags = 
 
 build build/src/gp_d92c_owned.o: cc src/gp_d92c_owned.c | tools/cc.sh tools/ccproc.py  src/w_8003D92C.c include/common.h config/slus_modules.json
@@ -607,7 +607,7 @@ build build/src/konami_runtime_w_8003661C.o: cc src/konami_runtime_w_8003661C.c 
 
 build build/src/konami_runtime_w_8003666C.o: cc src/konami_runtime_w_8003666C.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -fno-schedule-insns
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_800366F4.o: cc src/konami_runtime_w_800366F4.c | tools/cc.sh tools/ccproc.py 
@@ -1702,7 +1702,7 @@ build build/src/w_8003D760.o: cc src/w_8003D760.c | tools/cc.sh tools/ccproc.py
 
 build build/src/w_8003D7DC.o: cc src/w_8003D7DC.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -fno-expensive-optimizations
+  ccflags = 
   asflags = 
 
 build build/src/w_8003D8B0.o: cc src/w_8003D8B0.c | tools/cc.sh tools/ccproc.py 
@@ -3025,7 +3025,7 @@ build build/src/w_8004E21C.o: cc src/w_8004E21C.c | tools/cc.sh tools/ccproc.py
 
 build build/src/w_8004E298.o: cc src/w_8004E298.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -O1 -fschedule-insns2
+  ccflags = 
   asflags = 
 
 build build/src/w_8004E478.o: cc src/w_8004E478.c | tools/cc.sh tools/ccproc.py 
@@ -3976,7 +3976,7 @@ build build/src/w_80059814.o: cc src/w_80059814.c | tools/cc.sh tools/ccproc.py
 
 build build/src/w_800599B0.o: cc src/w_800599B0.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0 -fno-strength-reduce
+  ccflags = -G0
   asflags = 
 
 build build/src/w_80059BC4.o: cc src/w_80059BC4.c | tools/cc.sh tools/ccproc.py 
@@ -4056,7 +4056,7 @@ build build/src/w_8005A5C8.o: cc src/w_8005A5C8.c | tools/cc.sh tools/ccproc.py
 
 build build/src/w_8005A608.o: cc src/w_8005A608.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -fno-cse-follow-jumps
+  ccflags = 
   asflags = 
 
 build build/src/w_8005A778.o: cc src/w_8005A778.c | tools/cc.sh tools/ccproc.py 
@@ -4196,7 +4196,7 @@ build build/src/w_8005C6B4.o: cc src/w_8005C6B4.c | tools/cc.sh tools/ccproc.py
 
 build build/src/w_8005C710.o: cc src/w_8005C710.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -fno-schedule-insns
+  ccflags = 
   asflags = 
 
 build build/src/w_8005C784.o: cc src/w_8005C784.c | tools/cc.sh tools/ccproc.py 

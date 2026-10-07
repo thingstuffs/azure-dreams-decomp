@@ -26,7 +26,7 @@ typedef struct {
 
 extern S_80086A40 D_80086A40[16];
 extern s32 D_8007382C[3]; /* size > 8: forced hi/lo, no $gp */
-extern void func_8005A1D0(s32);
+extern void func_8005A1D0(u32);
 extern s32 func_80059E94(s32);
 
 /* Initializes a requested or free sound slot and returns its index. */
@@ -41,19 +41,21 @@ s32 func_8005A608(Sound *sound, s16 requested_slot)
     slot_index = 0;
     selected_slot = requested_slot;
     if (selected_slot == -1) {
-        do {
+        while (1) {
             if (D_80086A40[slot_index].marker == -1) {
-                goto found;
+                break;
             }
             slot_index++;
-        } while (slot_index < 16);
-        return -1;
+            if (slot_index >= 16) {
+                return -1;
+            }
+        }
+    } else {
+        slot_index = selected_slot;
+        if (D_80086A40[slot_index].marker != -1) {
+            func_8005A1D0(D_80086A40[slot_index].unk10);
+        }
     }
-    slot_index = selected_slot;
-    if (D_80086A40[slot_index].marker != -1) {
-        func_8005A1D0(D_80086A40[slot_index].unk10);
-    }
-found:
     result_index = slot_index;
     slot = &D_80086A40[result_index];
     slot->marker = slot_index;
