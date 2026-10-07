@@ -118,3 +118,13 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     (lreg_explain GEOMETRY "live past uid U") is the lever. REFUSED: 818B6AFC's always-false `if ((u32)tick >> 16) abort();`
     (byte-exact pin-free, but the check exists only to give flow a block boundary - same class r98 declined); recorded in
     ledger/refused_trades.jsonl with the lead. Hard basket 32 -> 30 rows. SECOND LOOK: no.
+31. **(r101) Carve-debt re-carve representation (orchestrator, delegated):** for the 61 b-route prefixes whose table
+    consumers have clone templates (r100_sol61_unreg PREFIXES.tsv), each unregistered physical consumer becomes its OWN
+    row (split record + rowbase record + C file copied from the template with its bank's own addresses) - `instances` in
+    ledger/splits is a count only and no c_path serves two records, so this is the existing representation, not a new
+    one. The composite prefix splits into owner-specific data rows (r95 item 8 / 116005735 precedent): each jump table
+    owned by its consumer and written as `func + offset` against that consumer's symbol; entry/vector/numeric words as
+    their own data rows with census-evidenced owners (unknown owner = own address-named data row, recorded as
+    owner-unresolved); the `asm("func_X")` alias + `.size` stamp leave the composite row. Native table emission by the
+    consumer's own switch stays the later module-placement step. Lanes r101_sol61_rc1-rc7 (rc1 pilot), the 2 GAP
+    functions in r101_sol61_gap, module-gate native .rodata in r101_astra_gate. SECOND LOOK: yes (row identity).
