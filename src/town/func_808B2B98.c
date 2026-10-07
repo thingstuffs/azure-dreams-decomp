@@ -32,7 +32,8 @@ s32 func_808B2B98(s32 initial_index, s32 input1, s32 input2, s32 input3) {
         value = *(s16 *)(D_A0700000 + (index * 2) + 0xF34);
         offset = value;
         offset /= 32;
-        byte_ptr = *(u8 **)0xA0700F40 + offset;
+        byte_ptr = *(u8 **)0xA0700F40;
+        byte_ptr += offset;
         offset <<= 5;
         offset = value - offset;
         *byte_ptr |= 1 << offset;
