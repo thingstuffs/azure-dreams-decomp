@@ -1,19 +1,17 @@
+#include "shared/town_pointees.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "m2c_compat.h"
 
 
-typedef struct S_80016874_1 {
-    u8 pad_00[0x7];
-    u8 unk_07;
-} S_80016874_1;   /* temp_v1 in func_80016874 */
+
 
 
 /* Increment the byte counter in the record at offset 0x68. */
 void func_80016874(void) {
-    S_80016874_1 *counter_record;
+    TownEventCursor *counter_record;
 
-    counter_record = ((s32)D_80016000->unk_40) + 0x68;
-    counter_record->unk_07 = (u8) (counter_record->unk_07 + 1);
+    counter_record = &((TownProgressState *)D_80016000->unk_40)->eventCursor;
+    counter_record->counter = (u8) (counter_record->counter + 1);
 }

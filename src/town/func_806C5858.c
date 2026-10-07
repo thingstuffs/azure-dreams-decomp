@@ -1,12 +1,8 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "shared/town_pointees.h"
 
-
-typedef struct S_80016858_2 {
-    u8 pad_00[0x40];
-    void * unk_40;
-} S_80016858_2;   /* ((S_80016858_1 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_1C in func_80016858 */
 
 
 extern s8 D_8001ABF9;
@@ -21,7 +17,7 @@ s32 func_80016858(void) {
         (func_80018D6C(0x7D2) == 0) &&
         (func_80018D6C(0xFDC) != 0)) {
         func_80018C74(0x7D9);
-        ((S_80016858_2 *)(D_80016000->unk_1C))->unk_40 =
+        ((TownPositionState *)D_80016000->unk_1C)->unk_40 =
             &D_8001ABF9;
         return 1;
     }

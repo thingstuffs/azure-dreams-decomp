@@ -1,3 +1,4 @@
+#include "shared/town_pointees.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/record_ptrs.h"
@@ -21,11 +22,6 @@ extern M2C_PTR_GLOBAL D_8001794C;
 extern M2C_UNK D_80017B88[3];
 
 
-typedef struct S_8047E130_1 {
-    u8 pad_00[0x40];
-    M2C_UNK * unk_40;
-} S_8047E130_1;   /* ((S_8047E130_0 *)p)->unk_1C in func_8047E130 */
-
 typedef struct S_8047E130_2 {
     M2C_ENTRY * unk_00;
 } S_8047E130_2;   /* ((S_8047E130_0 *)p)->unk_08 * 8 +
@@ -36,7 +32,7 @@ void func_8047E130(void) {
     D_8001794C._0 = &D_80017720[0];
     {
         Rec_D_80016000 *context = D_80016000;
-        ((S_8047E130_1 *)(context->unk_1C))->unk_40 = &D_80017B88[0];
+        ((TownPositionState *)context->unk_1C)->unk_40 = &D_80017B88[0];
         ((S_8047E130_2 *)(context->unk_08 * 8 +
                   (s8 *)context->unk_40))->unk_00 = (M2C_ENTRY *)&D_80016178[0];
     }

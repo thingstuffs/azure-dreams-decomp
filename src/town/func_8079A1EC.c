@@ -1,3 +1,4 @@
+#include "shared/town_pointees.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
@@ -12,7 +13,7 @@ void func_8079A1EC(void)
     Rec_D_80016000 *state = D_80016000;
     void *callback_base;
 
-    *(void **)(state->unk_1C + 0x40) = &D_8001601C;
+    ((TownPositionState *)state->unk_1C)->unk_40 = &D_8001601C;
     callback_base = state->unk_20;
     D_80017508 = &D_80016084;
     do {

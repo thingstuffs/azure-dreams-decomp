@@ -1,13 +1,11 @@
+#include "shared/town_pointees.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "m2c_compat.h"
 
 
-typedef struct S_80016824_1 {
-    u8 pad_00[0x7];
-    u8 unk_07;
-} S_80016824_1;   /* temp_v1 in func_80016824 */
+
 
 
 M2C_UNK func_8001886C();                     /* extern */
@@ -15,11 +13,11 @@ M2C_UNK func_8001886C();                     /* extern */
 /* Decrement the countdown and invoke handler 0x5FF when it reaches zero. */
 void func_80016824(void) {
     u8 countdown;
-    S_80016824_1 *countdown_record;
+    TownEventCursor *countdown_record;
 
-    countdown_record = ((s32)D_80016000->unk_40) + 0x68;
-    countdown = countdown_record->unk_07 - 1;
-    countdown_record->unk_07 = countdown;
+    countdown_record = &((TownProgressState *)D_80016000->unk_40)->eventCursor;
+    countdown = countdown_record->counter - 1;
+    countdown_record->counter = countdown;
     if (!(countdown & 0xFF)) {
         func_8001886C(0x5FF);
     }

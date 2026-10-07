@@ -1,14 +1,10 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "shared/town_pointees.h"
 #include "m2c_compat.h"
-
-typedef struct S_80017808_1 {
-    u8 pad_00[0xB0];
-    s32 unk_B0;
-} S_80017808_1;   /* ((Rec_D_80016000 *)D_80016000)->unk_40.as_pv in func_80017808 */
 
 /* Set the referenced object's flag at offset 0xB0 to one. */
 void func_80017808(void) {
-    ((S_80017808_1 *)(D_80016000->unk_40))->unk_B0 = 1;
+    ((TownProgressState *)D_80016000->unk_40)->unk_B0 = 1;
 }

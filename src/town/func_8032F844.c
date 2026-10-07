@@ -202,8 +202,7 @@ void func_8001A044(s32 *records, void *ost_w, void *osel_w)
         } while (*(s32 *)((record_index * 0x1C) + (u8 *)records) != 0);
     }
 
-    (*(TownCallback *)((u8 *)(D_80016000->unk_20)
-        + 0x168))
+    ((TownCallback)D_80016000->unk_20->callback_168)
     (D_80016094, D_800160CC, ((u32)pp - (u32)osel_w) >> 2);
 
     cd_header_entry = D_8001DC10;
@@ -215,7 +214,6 @@ void func_8001A044(s32 *records, void *ost_w, void *osel_w)
         } while (((S_8001A044_9 *)cd_header_entry)->unk_04 != 0);
     }
     report_count =
-        (*(TownCallback *)((u8 *)(D_80016000->unk_20)
-        + 0x168));
+        ((TownCallback)D_80016000->unk_20->callback_168);
     report_count(D_80016094, D_800160FC, cdhd_cnt);
 }

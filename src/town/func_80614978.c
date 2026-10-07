@@ -1,16 +1,12 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "shared/town_pointees.h"
 #include "m2c_compat.h"
 
-
-typedef struct S_80614978_1 {
-    u8 pad_00[0x38];
-    s32 unk_38;
-} S_80614978_1;   /* ((Rec_D_80016000 *)D_80016000)->unk_1C.as_pv in func_80614978 */
 
 
 /* Return whether the referenced record's unk_38 field is nonzero. */
 s32 func_80614978(void) {
-    return ((S_80614978_1 *)(D_80016000->unk_1C))->unk_38 != 0;
+    return ((TownPositionState *)D_80016000->unk_1C)->unk_38 != 0;
 }

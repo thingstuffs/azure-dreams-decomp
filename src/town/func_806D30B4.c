@@ -99,7 +99,7 @@ void func_800168B4(s32 *entries, s32 ost_w, s32 *osel_w)
         } while (((TownEntry *)entries)[entry_index].flags != 0);
     }
 
-    (*(ReportFunc *)((u8 *)(D_80016000->unk_20) + 0x168))(
+    ((ReportFunc)D_80016000->unk_20->callback_168)(
         D_80016178, D_80016184, ((u32)p - (u32)ost_w) / 20U);
 
     {
@@ -137,7 +137,7 @@ void func_800168B4(s32 *entries, s32 ost_w, s32 *osel_w)
             } while (entry->flags != 0);
         }
 
-        (*(ReportFunc *)((u8 *)(D_80016000->unk_20) + 0x168))(
+        ((ReportFunc)D_80016000->unk_20->callback_168)(
             D_80016178, D_800161B0,
             ((u32)pp - (u32)osel_w) >> 2);
     }
@@ -161,7 +161,7 @@ void func_800168B4(s32 *entries, s32 ost_w, s32 *osel_w)
             } while (((S_800168B4_3 *)cd_header)->unk_04 != 0);
         }
 
-        (*(ReportFunc *)((u8 *)(D_80016000->unk_20) + 0x168))(
+        ((ReportFunc)D_80016000->unk_20->callback_168)(
             D_80016178, D_800161E0, cdhd_cnt);
     }
 }
