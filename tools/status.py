@@ -18,7 +18,10 @@ def _recipe_tracker(rs, curc):
     sdk = {r["id"] for r in read_jsonl(LEDGER / "sdk_objects.jsonl")} if (LEDGER / "sdk_objects.jsonl").exists() else set()
     # per-row compiler evidence that overrides the module census (r98: e.g. a reproduced version-specific reorg rule):
     # exempt only while the row stays at the recorded cfg (ledger/recipe_evidence.jsonl)
-    rev = {r["id"]: r for r in read_jsonl(LEDGER / "recipe_evidence.jsonl")} if (LEDGER / "recipe_evidence.jsonl").exists() else {}
+    rev_all = {r["id"]: r for r in read_jsonl(LEDGER / "recipe_evidence.jsonl")} if (LEDGER / "recipe_evidence.jsonl").exists() else {}
+    # only evidence that decides the row exempts it; an unconfirmed attribution stays listed with what would confirm it
+    rev = {i: r for i, r in rev_all.items() if r.get("confidence") in ("supported", "confirmed")}
+    unconf = {i: r for i, r in rev_all.items() if i not in rev}
     cats = collections.OrderedDict((k, collections.Counter()) for k in (
         "late cell (2.8.x / egcs / 2.95.2: fitted)", "cdk cell + crutch flags, module is plain",
         "stock cell inside a cdk module", "other mismatch with the module recipe (-G, stock flavour, -O1)"))
@@ -61,6 +64,9 @@ def _recipe_tracker(rs, curc):
     if rev:
         out.append("\nRows at a registered recipe backed by per-row compiler evidence (ledger/recipe_evidence.jsonl, not listed above): "
                    + ", ".join("%s %s (%s)" % (i, x["cfg"], x["confidence"]) for i, x in sorted(rev.items())) + ".")
+    if unconf:
+        out.append("\nUnconfirmed compiler attributions (still listed above; ledger/recipe_evidence.jsonl `to_confirm` names the measurement): "
+                   + ", ".join("%s %s" % (i, x["cfg"]) for i, x in sorted(unconf.items())) + ".")
     if sdk:
         out.append(f"\nSony SDK library objects (ledger/sdk_objects.jsonl, whole-object byte match; not listed above): {', '.join(sorted(sdk))}.")
     # SLUS (r82_fable_slus): game image 0x80033AA8-0x8005CA70 = one 2.7.2-cdk (-G8) build, sound TU 0x8005CA90-0x8005FA34 = stock 2.7.2
