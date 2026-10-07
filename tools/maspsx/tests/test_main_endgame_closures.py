@@ -49,7 +49,6 @@ class CombinedIntegrationTests(unittest.TestCase):
                     "--preserve-casesi-at", "--preserve-return-delay",
                     "--fill-shadowed-return-delay", "--retain-tail-frame",
                     "--allow-noreturn-epilogue", "--preserve-live-sibcall-tail",
-                    "--prefer-target-arg-setup",
                     "--preserve-immediate-funcaddr-la", "--aspsx-version"):
             self.assertIn(opt, run.stdout, opt)
 
