@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-07T05:50:04Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-07T06:12:10Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -104,15 +104,17 @@ The game is one `2.7.2-cdk -G0 -O2` build plus a town -O1 debug family and stock
 
 | class | rows | dungeon / town / main | pinned rows | pins |
 |---|---:|---|---:|---:|
-| late cell (2.8.x / egcs / 2.95.2: fitted) | 3 | 2 / 0 / 1 | 3 | 7 |
+| late cell (2.8.x / egcs / 2.95.2: fitted) | 2 | 2 / 0 / 0 | 2 | 6 |
 | cdk cell + crutch flags, module is plain | 3 | 3 / 0 / 0 | 0 | 0 |
 | stock cell inside a cdk module | 0 | 0 / 0 / 0 | 0 | 0 |
 | other mismatch with the module recipe (-G, stock flavour, -O1) | 4 | 0 / 3 / 1 | 1 | 1 |
-| **total** | **10** | | **4** | **8** |
+| **total** | **9** | | **3** | **7** |
+
+Sony SDK library objects (ledger/sdk_objects.jsonl, whole-object byte match; not listed above): main/func_800219C4.
 
 SLUS rows off their region's build (game image = 2.7.2-cdk, sound TU = stock 2.7.2; module members included): 14 rows, 1 pinned / 1 pins.
 
-Most-pinned rows off their build recipe: dungeon/func_80DE48EC 5 pins (2.8.0-G0 -> 2.7.2-cdk-G0); town/func_808135E0 1 pins (2.7.2-G0 -fno-cse-skip-blocks -> 2.6.3-G0); main/func_800219C4 1 pins (2.8.0 -> 2.7.2-cdk-G0); dungeon/func_813274E4 1 pins (2.8.1-G0 -> 2.7.2-cdk-G0).
+Most-pinned rows off their build recipe: dungeon/func_80DE48EC 5 pins (2.8.0-G0 -> 2.7.2-cdk-G0); town/func_808135E0 1 pins (2.7.2-G0 -fno-cse-skip-blocks -> 2.6.3-G0); dungeon/func_813274E4 1 pins (2.8.1-G0 -> 2.7.2-cdk-G0).
 
 Site-for-pin trades (`ledger/recipe_trades.jsonl` records shaped `{"kind":"site_for_pin","id":row,"site":"LABEL_AS_CALL|ITC|PASSTHRU","pin":macro,"residue_without_pin":str,"at":iso,"note":str}` -- one pin, or two when one is not enough (owner ruling 2026-09-22 afternoon, "accept 2 pins") -- charter rule 3, "a pin moved elsewhere is not a removal"; the trade is tracked, and L4 is where pins stop counting toward removal regardless): 27.
 
