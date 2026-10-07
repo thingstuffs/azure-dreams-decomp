@@ -1,5 +1,6 @@
 #!/bin/bash
 # Launch a codex lane:  bash tools/lanes/launch_lane.sh <lane directory name under work/native_lane> [luna|sol|luna6|sol6|sol61|astra|agy]
+# LANE_EFFORT=high|xhigh|max (codex reasoning effort, default xhigh; round 97: max probed OK on gpt-6-luna / gpt-6.1-sol).
 # luna/sol = gpt-5.6-luna/-sol, luna6/sol6 = gpt-6-luna/-sol (cheaper than astra; A/B them with tools/lanes/ab_report.py).
 # Lanes escalate luna -> sol -> astra (astra sparingly: docs/LANE_KIT.md). Only when no gate or publish will run
 # while it scores (verify.py scores inside build_ovl, which mk_ovl_root.sh replaces); sweeps must skip its rows.
@@ -45,7 +46,7 @@ PEOF
   # from the launch made every running agy lane look finished to pool.py, ab_report.py and land_finished2.
 else
   nohup setsid codex exec -C "$PWD" --dangerously-bypass-approvals-and-sandbox --skip-git-repo-check -m $M \
-      -c 'model_reasoning_effort="xhigh"' -o $D/last_message.txt < $D/PROMPT.txt > $D/codex.log 2>&1 &
+      -c "model_reasoning_effort=\"${LANE_EFFORT:-xhigh}\"" -o $D/last_message.txt < $D/PROMPT.txt > $D/codex.log 2>&1 &
 fi
 echo $! > $D/lane.pid
 echo "lane $N model $M pid $(cat $D/lane.pid) started $(date -u +%H:%M)"
