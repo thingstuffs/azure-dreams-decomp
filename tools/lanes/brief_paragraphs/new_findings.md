@@ -20,6 +20,10 @@
    KEEP + one-trip, r98_opus_birth): write the packet stores in libgpu macro order (setClut, setUV3 with literal u/v,
    setRGB0/1/2) with no staging locals - retail boosts the constants too; consecutive consumer stores make the boost tie
    fall to LUID order. Also: a REG pin whose role-split leaves no role exact is an allocation pin (one multi-role global).
+7. **Before globalising a REG-pinned local, read lreg_explain's GEOMETRY line** (dungeon/func_81888810 / 8188E3A0, r99_opus_lg):
+   `dies at index N instead of M: live past uid U` means retail's value lives LONGER as a local qty - fold its last-use statement
+   into the expression that contains U as a later operand (here the address assignment became the last term of the x-sum);
+   the 'NOT A LOCAL QTY IN RETAIL' verdict misled two earlier rounds into globalisation.
 REFUSED this round: negate-then-subtract (`b = -b; y = x - b;` for `x + b`) is cancelling arithmetic (decision 25).
 
 ## NEW TODAY (2026-09-24): what round 76's lanes found - try these first

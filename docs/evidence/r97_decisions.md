@@ -112,3 +112,9 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     (r99_astra_mod2 "complete function + data accounting"). Also r99: town/func_808BB138's r98 tail-lane text turned a
     tail_jump into two LABEL_AS_CALL fidelity sites (func_800009FC / func_80000A24) - in r99_sol61_fid*. Lander: equal-pin
     prototype / typing lanes land via READABLE_LANES=<lanes>; tools/land_admit.py admits live fidelity-site reductions.
+30. **(r99) LOCAL-GLOBAL class (r99_opus_lg):** 81888810 / 8188E3A0 1 -> 0 landed - the address assignment folded into its
+    first use as the last term of the x-sum (`... + (lower_right = &vertices[...])->x) >> 2`; an assignment inside an
+    expression = uglier but pure C, owner ruling). The column was never global in retail: a longer local-alloc life
+    (lreg_explain GEOMETRY "live past uid U") is the lever. REFUSED: 818B6AFC's always-false `if ((u32)tick >> 16) abort();`
+    (byte-exact pin-free, but the check exists only to give flow a block boundary - same class r98 declined); recorded in
+    ledger/refused_trades.jsonl with the lead. Hard basket 32 -> 30 rows. SECOND LOOK: no.
