@@ -1,10 +1,10 @@
+#include "shared/sprite_source.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
 
 typedef struct S_8197D468_0_pre {
     u16 unk_00;
@@ -212,7 +212,7 @@ void func_8197D468(void *effect, void *motion, void *sprite) {
                     ((S_8197D468_6 *)particle_sprite)->unk_10 = 0x20;
                     ((S_8197D468_6 *)particle_sprite)->unk_00 = D_800DED70;
                     ((S_8197D468_6 *)particle_sprite)->unk_14 = (u16) (((S_8197D468_6 *)particle_sprite)->unk_14 | 0xC);
-                    particle_frames = ((Rec_D_80016000 *)D_800DED70)->unk_04.at00_s32.v;
+                    particle_frames = ((SpriteSourceEntry *)D_800DED70)->unk_04;
                     particle_color |= 0x6060;
                     ((S_8197D468_6 *)particle_sprite)->unk_04 = 0;
                     ((S_8197D468_6 *)particle_sprite)->unk_05 = 0;

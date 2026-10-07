@@ -2,7 +2,6 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
 
 s32 func_8004CAE8();                    /* extern */
 void func_80099F04();                         /* extern */
@@ -99,8 +98,8 @@ void func_8008F878(S_8008F878_0 *action, void *unused, S_8008F878_1 *action_data
                     event_id = 0x517;
                 }
                 func_800A56E0(event_id);
-                saved_value = ((Rec_D_80016000 *)(&D_80081484))->unk_00.at00_s32.v;
-                ((Rec_D_80016000 *)(&D_80081484))->unk_00.at00_s32.v = 0;
+                saved_value = (*(s32 *)&D_80081484);
+                (*(s32 *)&D_80081484) = 0;
                 D_800E3540 = saved_value;
                 action->unk_9B++;
             }

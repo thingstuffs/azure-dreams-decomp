@@ -1,17 +1,13 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
 
 typedef struct {
-    struct S_Ctx *ctx;
+    GpuContext *ctx;
 } CtxHolder;
 
-typedef struct S_Ctx {
-    u8 pad0[0x82C];
-    s32 field_82C;
-    u8 pad1[0x8D0 - 0x830];
-    void *cur;
-} S_Ctx;
+
 
 typedef struct PacketTag {
     unsigned addr : 24;
@@ -46,7 +42,7 @@ s32 func_8008A794(void *node_data, void *scroll_state)
     void *sprite;
     void *draw_mode;
     void *next_node;
-    struct S_Ctx *ctx;
+    GpuContext *ctx;
 
     ctx_ptr = (CtxHolder *)&gameWork.unk_000;
 
@@ -59,8 +55,8 @@ s32 func_8008A794(void *node_data, void *scroll_state)
                 tile_y = tile_row << 8;
                 page_x = 0x280;
                 do {
-                    sprite = ctx_ptr->ctx->cur;
-                    ctx_ptr->ctx->cur = (u8 *)sprite + 0x14;
+                    sprite = ctx_ptr->ctx->packetCursor;
+                    ctx_ptr->ctx->packetCursor = (u8 *)sprite + 0x14;
                     *(s32 *)((u8 *)sprite + 4) = 0x505050;
                     func_80066758(sprite);
                     func_80066640(sprite, 1);
@@ -76,15 +72,15 @@ s32 func_8008A794(void *node_data, void *scroll_state)
                     screen_y = (tile_y - scroll_y) + layer_offset;
                     *(s16 *)((u8 *)sprite + 10) = screen_y;
                     *(s16 *)((u8 *)sprite + 14) = func_8006649C(clut_x, 0x1F0);
-                    addPrim(&ctx_ptr->ctx->field_82C, sprite);
+                    addPrim(&ctx_ptr->ctx->orderTag82C, sprite);
 
                     ctx = ctx_ptr->ctx;
-                    draw_mode = ctx->cur;
-                    ctx->cur = (u8 *)draw_mode + 0xC;
+                    draw_mode = ctx->packetCursor;
+                    ctx->packetCursor = (u8 *)draw_mode + 0xC;
                     func_80067F20(draw_mode, 0, 0,
                                   func_80066460(1, 3, page_x, tile_y) & 0xFFFF, 0);
                     tile_col -= 1;
-                    addPrim(&ctx_ptr->ctx->field_82C, draw_mode);
+                    addPrim(&ctx_ptr->ctx->orderTag82C, draw_mode);
                     page_x -= 0x80;
                 } while (tile_col >= 0);
                 tile_row += 1;

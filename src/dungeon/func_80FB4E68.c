@@ -1,9 +1,10 @@
+#include "shared/sprite_source.h"
 #include "common.h"
+#include "m2c_compat.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_80016000.h"
 
 typedef struct S_80174668_0 {
     u8 pad_00[0x8C];
@@ -277,7 +278,7 @@ void func_80174668(S_80174668_0 *effect, S_80174668_3 *motion, S_80174668_1 *spr
                 ((S_80174668_4 *)tile)->unk_00 = D_800DEC50;
                 ((S_80174668_4 *)tile)->unk_14 |= 0x0C;
                 {
-                    u32 texture_word = ((Rec_D_80016000 *)D_800DEC50)->unk_04.at00_u32.v;
+                    u32 texture_word = ((u32)((SpriteSourceEntry *)D_800DEC50)->unk_04);
                     ((S_80174668_4 *)tile)->unk_04 = 0;
                     ((S_80174668_4 *)tile)->unk_05 = 0;
                     ((S_80174668_4 *)tile)->unk_0C = 0x00208020;

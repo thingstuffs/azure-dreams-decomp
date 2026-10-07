@@ -1,3 +1,5 @@
+#include "shared/town_pointees.h"
+#include "shared/town_root.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
@@ -7,20 +9,10 @@ typedef struct S_8059E540_2 {
     void * unk_6000;
 } S_8059E540_2;   /* page in func_8059E540 */
 
-typedef struct S_8059E540_3 {
-    u8 pad_00[0x1C];
-    void * unk_1C;
-} S_8059E540_3;   /* state in func_8059E540 */
-
 typedef struct S_8059E540_4 {
     u8 pad_00[0x20];
     void * unk_20;
 } S_8059E540_4;   /* ((S_8059E540_2 *)page)->unk_6000 in func_8059E540 */
-
-typedef struct S_8059E540_5 {
-    u8 pad_00[0x40];
-    M2C_UNK * unk_40;
-} S_8059E540_5;   /* ((S_8059E540_3 *)state)->unk_1C in func_8059E540 */
 
 typedef struct S_8059E540_6 {
     u8 pad_00[0x27C];
@@ -40,18 +32,11 @@ typedef struct S_8059E540_0 {
     void * unk_6000;
 } S_8059E540_0;   /* page in func_8059E540 */
 
-typedef struct S_8059E540_1 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x34];
-    s8 * unk_40;
-} S_8059E540_1;   /* state in func_8059E540 */
-
 /* Close the 0x11FC dialogue if it is open, then hand the scene's queued record to the handler slot. */
 void func_8059E540(void) {
     void *pending;
     void *new_value;
-    S_8059E540_1 *state;
+    Rec_D_80016000 *state;
 
     if (func_80018964(0x11FC) == 0) {
         u8 *page = (u8 *)0x80010000;
@@ -61,10 +46,10 @@ void func_8059E540(void) {
     func_800168E0();
     state = ((S_8059E540_0 *)D_80010000)->unk_6000;
     new_value = (M2C_UNK *)&D_80010000[0xD07C];
-    ((S_8059E540_5 *)(((S_8059E540_3 *)state)->unk_1C))->unk_40 = new_value;
+    ((TownPositionState *)state->unk_1C)->unk_40 = new_value;
     pending = *(M2C_UNK **)((s8 *)state->unk_40 + (state->unk_08 * 8));
     if (pending != NULL) {
-        ((S_8059E540_5 *)(((S_8059E540_3 *)state)->unk_1C))->unk_40 = pending;
+        ((TownPositionState *)state->unk_1C)->unk_40 = pending;
         *(M2C_UNK **)((s8 *)state->unk_40 + (state->unk_08 * 8)) = 0;
     }
     *(M2C_UNK **)&D_80019148[0] = &D_80018EE4;

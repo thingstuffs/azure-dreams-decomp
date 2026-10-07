@@ -8,11 +8,6 @@ typedef struct S_8051E954_3 {
     M2C_UNK (*unk_208)(M2C_UNK);
 } S_8051E954_3;   /* (*(void **)((u8 *)temp_v1 + 0x20)) in func_8051E954 */
 
-typedef struct S_8051E954_5 {
-    u8 pad_00[0x224];
-    M2C_UNK (*unk_224)(s32 *);
-} S_8051E954_5;   /* ((S_8051E954_4 *)(((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v))->unk_20 in func_8051E954 */
-
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 D_80019158;
@@ -40,5 +35,5 @@ void func_8051E954(s32 command_value) {
     context = D_80016000;
     ((S_8051E954_0 *)command_words)->unk_08 = command_value;
     ((S_8051E954_3 *)((context->unk_20)))->unk_208(0);
-    ((S_8051E954_5 *)(D_80016000->unk_20))->unk_224(command_words);
+    ((M2C_UNK (*) (s32 *))D_80016000->unk_20->callback_224)(command_words);
 }

@@ -1,4 +1,6 @@
+#include "shared/sprite_source.h"
 #include "common.h"
+#include "m2c_compat.h"
 #include "shared/dungeon_floor.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
@@ -6,7 +8,6 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-#include "records/Rec_D_80016000.h"
 
 typedef struct S_80170F6C_0 {
     u8 pad_00[0x8C];
@@ -294,7 +295,7 @@ void func_80170F6C(void *self_object, void *aux_entity, void *sprite, void *enti
                     ((S_80170F6C_6 *)part)->unk_10 = 0;
                     ((S_80170F6C_6 *)part)->unk_00 = D_800DEA68;
                     ((S_80170F6C_6 *)part)->unk_14 |= 0xC;
-                    texture_word = ((Rec_D_80016000 *)D_800DEA68)->unk_04.at00_u32.v;
+                    texture_word = ((u32)((SpriteSourceEntry *)D_800DEA68)->unk_04);
                     color |= 0x8080;
                     ((S_80170F6C_6 *)part)->unk_04 = 0;
                     ((S_80170F6C_6 *)part)->unk_05 = 0;

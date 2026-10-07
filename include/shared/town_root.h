@@ -3,6 +3,7 @@
 
 #include "shared/town_services.h"
 #include "shared/town_state.h"
+#include "shared/town_pointees.h"
 
 /* struct Rec_D_80016000: the record TOWN rows reach through the pointer word D_80016000 (include/shared/record_ptrs.h
  * declares the pointer).  Observed uses of the address: TOWN rows load a pointer word from it; SLUS rows pass

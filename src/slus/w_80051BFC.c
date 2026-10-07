@@ -1,3 +1,4 @@
+#include "shared/sprite_source.h"
 #include "common.h"
 
 /* Global >8-byte struct accessed via %hi/%lo (passed by address to func_8003DB94
@@ -12,16 +13,10 @@ extern void func_80044BB0(void);
  * func_8003DB94 (src/code.c), extended with the extra fields (0x1C/0x1E)
  * this function also touches — the real struct is larger than what
  * func_8003DB94 alone accesses. */
-typedef struct S_80051BFC_Elem {
-    u8 b0;
-    u8 pad1;
-    u8 pad2;
-    u8 pad3;
-    s32 f4;
-} S_80051BFC_Elem;
+
 
 typedef struct S_80051BFC_Dst {
-    S_80051BFC_Elem *f0;
+    SpriteSourceEntry *f0;
     u8 f4;
     u8 f5;
     u8 pad6;
@@ -35,7 +30,7 @@ typedef struct S_80051BFC_Dst {
     u16 f1e;
 } S_80051BFC_Dst;
 
-extern void func_8003DB94(S_80051BFC_Dst *a0, S_80051BFC_Elem *a1, s16 a2);
+extern void func_8003DB94(S_80051BFC_Dst *a0, SpriteSourceEntry *a1, s16 a2);
 extern void func_8004491C(void *a0, void *a1);
 
 /* Sub-record living at offset 0x20 of the top-level object: a word value
@@ -74,7 +69,7 @@ void func_80051BFC(void *object_ptr, void *slot)
 
     render_state = object->fc;
     render_state->fc = 0x808080;
-    func_8003DB94(render_state, (S_80051BFC_Elem *)D_800720AC, 0);
+    func_8003DB94(render_state, (SpriteSourceEntry *)D_800720AC, 0);
 
     render_state->f1e = 0x1000;
     render_state->f1c = 0x1000;

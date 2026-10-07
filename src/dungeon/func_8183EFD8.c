@@ -1,8 +1,8 @@
+#include "shared/sprite_source.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
 
 typedef struct S_8183EFD8_0_pre {
     u16 unk_00;
@@ -157,7 +157,7 @@ void func_8183EFD8(void *effect_arg, S_8183EFD8_3 *motion, S_8183EFD8_2 *sprite)
                     particle_sprite->unk_10 = 0x20;
                     particle_sprite->unk_00 = D_800DECF8;
                     particle_sprite->unk_14 = (u16) (particle_sprite->unk_14 | 0xC);
-                    random = (s32) ((Rec_D_80016000 *)D_800DECF8)->unk_04.at00_s32.v;
+                    random = (s32) ((SpriteSourceEntry *)D_800DECF8)->unk_04;
                     color |= 0x8080;
                     particle_sprite->unk_04 = 0;
                     particle_sprite->unk_05 = 0;
