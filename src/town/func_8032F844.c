@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
-#include "records/Rec_D_80016000.h"
+#include "shared/town_root.h"
 
 
 typedef s32 (*TownCallback)(void *, void *, s32);
@@ -67,11 +67,6 @@ typedef struct S_8001A044_11 {
     s32 unk_08;
 } S_8001A044_11;   /* (temp_v0_2 * 0x10) +
                                     (u8 *)((S_8001A044_3 *)temp_s0)->unk_10 in func_8001A044 */
-
-typedef struct S_8001A044_12 {
-    u8 pad_00[0x20];
-    void * unk_20;
-} S_8001A044_12;   /* ((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v in func_8001A044 */
 
 typedef struct S_8001A044_13 {
     u8 pad_00[0x30];
@@ -167,7 +162,7 @@ void func_8001A044(s32 *records, void *ost_w, void *osel_w)
             } while (*(s32 *)(((scaled_index - record_index) * 4) + (u8 *)records) != 0);
         }
 
-        callbacks = ((S_8001A044_12 *)(((Rec_D_80016000 *)((u8 *)(&D_80016000)))->unk_00.at00_pv.v))->unk_20;
+        callbacks = D_80016000->unk_20;
         (*(TownCallback *)((u8 *)callbacks + 0x168))
         (D_80016094, D_800160A0,
             (u32)(p - (u8 *)ost_w) / 20);
@@ -207,7 +202,7 @@ void func_8001A044(s32 *records, void *ost_w, void *osel_w)
         } while (*(s32 *)((record_index * 0x1C) + (u8 *)records) != 0);
     }
 
-    (*(TownCallback *)((u8 *)(((S_8001A044_12 *)(((Rec_D_80016000 *)((u8 *)(&D_80016000)))->unk_00.at00_pv.v))->unk_20)
+    (*(TownCallback *)((u8 *)(D_80016000->unk_20)
         + 0x168))
     (D_80016094, D_800160CC, ((u32)pp - (u32)osel_w) >> 2);
 
@@ -220,7 +215,7 @@ void func_8001A044(s32 *records, void *ost_w, void *osel_w)
         } while (((S_8001A044_9 *)cd_header_entry)->unk_04 != 0);
     }
     report_count =
-        (*(TownCallback *)((u8 *)(((S_8001A044_12 *)(((Rec_D_80016000 *)((u8 *)(&D_80016000)))->unk_00.at00_pv.v))->unk_20)
+        (*(TownCallback *)((u8 *)(D_80016000->unk_20)
         + 0x168));
     report_count(D_80016094, D_800160FC, cdhd_cnt);
 }

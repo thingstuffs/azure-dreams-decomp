@@ -1,3 +1,4 @@
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -17,7 +18,6 @@ extern void func_800A5720(s8 *text);
 extern u8 D_80081470[];
 extern void *D_80081484;
 extern u8 D_800E07EF[];
-extern u8 D_800E3548[];
 extern u8 D_800E36C8[];
 
 void *func_80097F84(void *target, void *ptr1, void *ptr2, s16 flag)
@@ -72,7 +72,7 @@ void *func_80097F84(void *target, void *ptr1, void *ptr2, s16 flag)
     } else {
 
         found = (s16)func_800422A8(*(void **)(((u8 *)D_800E3D7C) + 0xF0),
-                                 D_800E3548, 4, 0x40);
+                                 ((u8 *)D_800E3548), 4, 0x40);
         if (found >= 0) {
             entry_base_s = (s32)D_800E36C8;
             entry = (u8 *)(found * 12);

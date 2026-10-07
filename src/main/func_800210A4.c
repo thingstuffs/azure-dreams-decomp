@@ -1,3 +1,4 @@
+#include "shared/pad_state.h"
 #include "common.h"
 
 extern void func_80400948(void);
@@ -6,8 +7,6 @@ extern void func_804018FC(void);
 extern s32 func_804010E0(void);
 extern void func_8040311C(void *left, void *right);
 extern void func_8003FA78(void *descriptor, s32 value, s32 item);
-extern s32 D_801379A8;
-extern s32 D_801379B0;
 extern u8 D_80400848[];
 extern u8 D_804081AC[];
 extern s32 D_804090C8[];
@@ -22,7 +21,7 @@ void func_804080A4(void *object_data)
     s32 next_callback;
 
     object = object_data;
-    if ((D_801379A8 != 0) && ((D_801379B0 & 0x40) != 0)) {
+    if ((D_801379A8.held != 0) && ((D_801379A8.pressed & 0x40) != 0)) {
         func_80400948();
         object[14] = 0;
         object[-4] = (s32)(unsigned long)D_804081AC;

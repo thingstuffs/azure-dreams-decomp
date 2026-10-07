@@ -1,3 +1,4 @@
+#include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
@@ -5,7 +6,6 @@
 #include "shared/game_work.h"
 #include "shared/entity.h"
 
-extern u8 D_800E3548[];
 extern u8 D_800E3648[];
 extern u8 D_800E36C8[];
 extern u8 D_800E39C8[];
@@ -164,7 +164,7 @@ void func_8009DAD8(s32 draw_param) {
     }
     playerAndIndex = 0;
     mapEntry = (MapEntry *)D_800E36C8;
-    info = (EntryInfo *)D_800E3548;
+    info = (EntryInfo *)((u8 *)D_800E3548);
     colour[2] = brightness;
     colour[0] = 0;
     do {

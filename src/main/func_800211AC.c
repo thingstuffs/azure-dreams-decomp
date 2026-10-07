@@ -1,3 +1,4 @@
+#include "shared/pad_state.h"
 #include "common.h"
 
 
@@ -6,8 +7,6 @@ typedef struct StatePair {
     s32 second;
 } StatePair;
 
-extern s32 D_801379A8;
-extern s32 D_801379B0;
 extern s8 D_8008CA34;
 extern s32 D_804090F8[];
 extern s32 D_80400854;
@@ -42,10 +41,10 @@ void func_804081AC(void *menu)
     s32 selection_changed;
     s32 old_selection;
 
-    buttons = D_801379A8;
+    buttons = D_801379A8.held;
     selection_changed = 0;
     if (buttons != 0) {
-        button_flags = D_801379B0;
+        button_flags = D_801379A8.pressed;
         if (button_flags & 0x40) {
             s32 *linked_object;
 

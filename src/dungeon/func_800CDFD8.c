@@ -106,16 +106,6 @@ typedef struct S_func_800CDFD8_3 {
     void * unk_8D0;
 } S_func_800CDFD8_3;
 
-typedef struct S_func_800CDFD8_4 {
-    void * unk_00;
-    u8 pad_04[0xB4];
-    u16 unk_B8;
-    u8 pad_BA[0xA];
-    s16 unk_C4;
-    s16 unk_C6;
-    s16 unk_C8;
-} S_func_800CDFD8_4;
-
 typedef struct S_func_800CDFD8_5 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -244,7 +234,7 @@ void func_800D3738(void *unused, S_func_800CDFD8_2 *position, S_func_800CDFD8_5 
     S_func_800CDFD8_1 *scratch;
     S_func_800CDFD8_6 *matrix_or_part;
     S_func_800CDFD8_7 *part;
-    S_func_800CDFD8_4 *render_state;
+    GameWork *render_state;
     S_func_800CDFD8_9 *packet;
     S_func_800CDFD8_3 *render_root;
     s32 camera_rot_x;
@@ -260,7 +250,7 @@ void func_800D3738(void *unused, S_func_800CDFD8_2 *position, S_func_800CDFD8_5 
     u16 pivot_y;
 
     scratch = (S_func_800CDFD8_1 *)0x1F800000;
-    render_state = (S_func_800CDFD8_4 *)&gameWork;
+    render_state = &gameWork;
     render_root = gameWork.unk_000;
     scratch->unk_EC = 0;
     scratch->unk_8C = 0;
@@ -285,16 +275,16 @@ void func_800D3738(void *unused, S_func_800CDFD8_2 *position, S_func_800CDFD8_5 
         angles = (void *)0x1F800100;
         scratch->unk_B8 -= 0xA0;
         scratch->unk_BA -= 0x78;
-        camera_rot_x = render_state->unk_C4;
-        camera_rot_y = render_state->unk_C6;
-        camera_rot_z = render_state->unk_C8;
+        camera_rot_x = render_state->view.unk_0AC;
+        camera_rot_y = render_state->view.unk_0AE;
+        camera_rot_z = render_state->view.viewAngle;
         scratch->unk_30 = (u32) camera_rot_x;
         scratch->unk_34.unk_34_u32 = (u32) camera_rot_y;
         scratch->unk_38 = (u32) camera_rot_z;
         camera_y = scratch->unk_34.unk_34_u16;
         scratch->unk_100 = (u16) sprite->unk_16;
         rotation_delta = sprite->unk_1A;
-        rotation_z = render_state->unk_B8;
+        rotation_z = ((u16)render_state->view.unk_0A0);
         rotation_delta -= camera_y;
         rotation_z += rotation_delta;
         scratch->unk_104 = (s16) rotation_z;
@@ -499,5 +489,5 @@ void func_800D3738(void *unused, S_func_800CDFD8_2 *position, S_func_800CDFD8_5 
         }
         func_80064A40();
     }
-    ((S_func_800CDFD8_3 *)render_state->unk_00)->unk_8D0 = packet;
+    ((S_func_800CDFD8_3 *)render_state->unk_000)->unk_8D0 = packet;
 }

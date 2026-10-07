@@ -1,11 +1,12 @@
+#include "shared/sound_state.h"
 #include "common.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-/* Sibling struct (matches src/code.c's S_800848F8 and src/w_800544A4.c's
- * S_80084858 field-for-field): no-arg completion callback at 0x0, s32
+/* Sibling struct (matches src/code.c's SoundTask and src/w_800544A4.c's
+ * SoundTask field-for-field): no-arg completion callback at 0x0, s32
  * counter at 0x4, s16 pair at 0x8/0xA, state at 0xC, then the s16 fields
  * this function ramps (0x10 current value, 0x12 clamp target, 0x14 step). */
 typedef struct S_80054538 {

@@ -1,5 +1,5 @@
+#include "shared/object_flags.h"
 #include "common.h"
-extern u8 D_80080000[];
 
 #define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
@@ -40,7 +40,7 @@ void func_800BC390(void *object)
 
     case 2:
         U16_AT(object, -2) = U16_AT(object, -2) | 0x8000;
-        S32_AT((void *)D_80080000, 0x14A0) |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
 }

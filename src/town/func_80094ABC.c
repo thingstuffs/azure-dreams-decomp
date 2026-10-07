@@ -1,3 +1,4 @@
+#include "shared/position_query.h"
 #include "common.h"
 
 typedef struct TownObject {
@@ -19,7 +20,6 @@ extern void func_80093D48(void *context, TownObject *object, s32 update_arg);
 extern void func_80095388(TownObject *arg);
 
 extern u8 D_800CFCEF;
-extern s32 D_800FE488[];
 
 /* Updates a town object based on its table value, limit, and a global flag. */
 void func_8009221C(void *context, TownObject *object, s32 update_arg)
@@ -29,11 +29,11 @@ void func_8009221C(void *context, TownObject *object, s32 update_arg)
     func_80095C80(object);
     func_80094C1C(context);
     func_80094C74(object);
-    table_value = func_80095978(object, D_800FE488);
+    table_value = func_80095978(object, ((s32 *)&D_800FE488));
 
     if (object->limit >= table_value) {
         func_80094910();
-        func_80095A94(object, table_value, D_800FE488);
+        func_80095A94(object, table_value, ((s32 *)&D_800FE488));
         func_800ABD74(object);
         func_80093D48(context, object, update_arg);
     } else if (D_800CFCEF != 0) {

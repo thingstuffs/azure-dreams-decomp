@@ -1,3 +1,4 @@
+#include "shared/dungeon_item_entries.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -31,7 +32,6 @@ extern s32 func_800AD6FC(void *, s32, s32);
 
 extern u8 D_800893DC[];
 extern u8 D_800E187C[];
-extern u8 D_800E3548[];
 extern u8 D_800E36C8[];
 
 /* Handles a target or active-slot update and decrements the shared count on completion. */
@@ -87,7 +87,7 @@ s32 func_800C4030(EntityRec *target, s32 action, s16 action_type, s32 action_par
         func_800A56E0(0x80F);
         slot_index = 0;
         slot_data = D_800E36C8;
-        slot_state = D_800E3548;
+        slot_state = ((u8 *)D_800E3548);
     loop:
         if (slot_state[1] != 0) {
             slot_state[1] = 0xE;
