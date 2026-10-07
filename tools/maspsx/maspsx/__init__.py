@@ -769,7 +769,6 @@ class MaspsxProcessor:
         retain_tail_frame=0,
         noreturn_epilogue_syms=(),
         live_sibcall_tail=False,
-        prefer_target_arg_setup=False,
         preserve_immediate_funcaddr_la=False,
         fold_lo_into_accesses=True,
         fold_selfinc_la=True,
@@ -805,7 +804,6 @@ class MaspsxProcessor:
         self.retain_tail_frame = retain_tail_frame
         self.noreturn_epilogue_syms = set(noreturn_epilogue_syms)
         self.live_sibcall_tail = live_sibcall_tail
-        self.prefer_target_arg_setup = prefer_target_arg_setup
         self.preserve_immediate_funcaddr_la = preserve_immediate_funcaddr_la
 
         self.bss_entries: dict[str, int] = {}
@@ -1162,8 +1160,6 @@ class MaspsxProcessor:
         res = self._fold_lo_into_accesses(res)
         res = self._fold_selfinc_la(res)
         res = self._split_funcaddr_la(res)
-        res = self._prefer_lui_over_sll_branch_delay(res)
-        res = self._prefer_marked_target_arg_setup(res)
         res = self._hoist_delay_luis(res)
         res = self._unfill_via_load_delay(res)
         res = self._unfill_jal_sp_delay(res)
@@ -5424,181 +5420,7 @@ class MaspsxProcessor:
             q += 1
         return q, q >= la_i
 
-    def _prefer_lui_over_sll_branch_delay(self, res):
-        """LEAD 11: when a conditional branch can fill its delay slot either with a
-        path-local index shift or with the `%hi` half of the taken path's `la`,
-        ASPSX prefers the register-independent `lui`.
 
-        gcc emits this found-entry shape:
-
-            bne   $idx,$cmp,$Lfound
-            sll   $idx,$idx,3        # delay slot
-            j     $Ldone
-            move  $v0,$zero
-        $Lfound:
-            la    $base,SYM
-            addu  $idx,$idx,$base
-
-        Retail instead puts `lui $base,%hi(SYM)` in the branch delay slot and
-        starts `$Lfound` with the `%lo` tail, then performs the shift. This pass
-        only fires on that exact local-control-flow shape; the fallthrough must
-        immediately jump away, so the shifted value is used only on the taken path.
-        See func_80048224.
-        """
-        def C(i):
-            return strip_comments(res[i]).strip()
-
-        def next_code(i):
-            while i < len(res):
-                c = C(i)
-                if c and not c.startswith("#") and not c.startswith(".") \
-                        and not c.endswith(":") and not c.startswith("glabel"):
-                    return i
-                i += 1
-            return len(res)
-
-        def code_until_label(start, label_i):
-            out = []
-            i = start
-            while i < label_i:
-                c = C(i)
-                if c and not c.startswith("#") and not c.startswith(".") \
-                        and not c.endswith(":") and not c.startswith("glabel"):
-                    out.append(i)
-                i += 1
-            return out
-
-        labels = {}
-        for i in range(len(res)):
-            c = C(i)
-            if c.endswith(":"):
-                labels[c[:-1]] = i
-
-        i = 0
-        while i < len(res):
-            m_branch = re.match(r"^(beq|bne)\t(\$\w+),(\$\w+),(\$L[\w.]+)$", C(i))
-            if not m_branch:
-                i += 1
-                continue
-
-            delay_i = next_code(i + 1)
-            if delay_i >= len(res):
-                i += 1
-                continue
-            m_sll = re.match(r"^sll\t(\$\w+),(\$\w+),([0-9]+)$", C(delay_i))
-            if not (m_sll and m_sll.group(1) == m_sll.group(2)):
-                i += 1
-                continue
-            idx_reg, shift = m_sll.group(1), m_sll.group(3)
-            if idx_reg not in (m_branch.group(2), m_branch.group(3)):
-                i += 1
-                continue
-
-            label = m_branch.group(4)
-            label_i = labels.get(label)
-            if label_i is None or label_i <= delay_i:
-                i += 1
-                continue
-
-            found_i = next_code(label_i + 1)
-            add_i = next_code(found_i + 1)
-            if add_i >= len(res):
-                i += 1
-                continue
-            m_la = re.match(r"^la\t(\$\w+),([A-Za-z_.][\w.]*(?:\+\d+)?)$", C(found_i))
-            if not (m_la and not self._is_func_symbol(m_la.group(2))):
-                i += 1
-                continue
-            base_reg, sym = m_la.group(1), m_la.group(2)
-            if not (
-                re.match(
-                    r"^addu\t" + re.escape(idx_reg) + r"," + re.escape(idx_reg)
-                    + r"," + re.escape(base_reg) + r"$",
-                    C(add_i),
-                )
-                or re.match(
-                    r"^addu\t" + re.escape(idx_reg) + r"," + re.escape(base_reg)
-                    + r"," + re.escape(idx_reg) + r"$",
-                    C(add_i),
-                )
-            ):
-                i += 1
-                continue
-
-            between = code_until_label(delay_i + 1, label_i)
-            if len(between) != 2 or not re.match(
-                r"^j\t(?!\$(?:[0-9]+|[a-z][a-z0-9]*)$)\S+$",
-                C(between[0]),
-            ):
-                i += 1
-                continue
-            if line_loads_from_reg(C(between[1]), base_reg):
-                i += 1
-                continue
-
-            res[delay_i] = f"lui\t{base_reg},%hi({sym})"
-            res[found_i] = f"addiu\t{base_reg},{base_reg},%lo({sym})"
-            res.insert(add_i, f"sll\t{idx_reg},{idx_reg},{shift}")
-            i = add_i + 1
-        return res
-
-    def _prefer_marked_target_arg_setup(self, res):
-        """Evidence-scoped LEAD 11 target-entry reorder.
-
-        At the opted-in TOWN site gcc has already placed a page ``li`` in the
-        conditional branch delay.  The target begins with the matching low-half
-        add followed by an independent stack-argument setup; retail emits those
-        two target instructions in the opposite order.  The generic corpus is
-        mixed, so this pass is disabled unless the current TU explicitly opts in.
-        """
-        if not self.prefer_target_arg_setup:
-            return res
-        out = list(res)
-
-        def C(i):
-            return strip_comments(out[i]).strip()
-
-        def next_real(i, end):
-            while i < end:
-                c = C(i)
-                if (c and not c.startswith("#") and not c.startswith(".")
-                        and not c.endswith(":")):
-                    return i
-                i += 1
-            return end
-
-        labels = {
-            C(i)[:-1]: i for i in range(len(out))
-            if re.match(r"^\$L[\w.]+:$", C(i))
-        }
-        for i in range(len(out)):
-            branch = re.match(
-                r"^(?:beq|bne)\t\$\w+,\$\w+,(\$L[\w.]+)$", C(i)
-            )
-            if not branch:
-                continue
-            delay_i = next_real(i + 1, len(out))
-            delay = re.match(r"^li\t(\$\w+),(-?(?:0x[0-9a-fA-F]+|\d+))$", C(delay_i))
-            if not delay or (int(delay.group(2), 0) & 0xFFFF):
-                continue
-            label_i = labels.get(branch.group(1))
-            if label_i is None or label_i <= delay_i:
-                continue
-            first = next_real(label_i + 1, len(out))
-            second = next_real(first + 1, len(out))
-            third = next_real(second + 1, len(out))
-            base = re.escape(delay.group(1))
-            if not re.match(
-                rf"^(?:addu|addiu)\t{base},{base},-?(?:0x[0-9a-fA-F]+|\d+)$",
-                C(first),
-            ):
-                continue
-            if not re.match(r"^(?:addu|addiu)\t\$4,\$sp,(?:0x[0-9a-fA-F]+|\d+)$", C(second)):
-                continue
-            if not re.match(rf"^addu\t\$5,{base},\$zero$", C(third)):
-                continue
-            out[first], out[second] = out[second], out[first]
-        return out
 
     def _hoist_delay_luis(self, res):
         """ASPSX hoists the `lui $R,%hi(SYM)` generated for a store scheduled into a

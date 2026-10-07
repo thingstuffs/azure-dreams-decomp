@@ -111,7 +111,6 @@ def main() -> None:
     parser.add_argument("--retain-tail-frame", type=int, default=0)
     parser.add_argument("--allow-noreturn-epilogue", action="append", default=[])
     parser.add_argument("--preserve-live-sibcall-tail", action="store_true")
-    parser.add_argument("--prefer-target-arg-setup", action="store_true")
     parser.add_argument("--preserve-immediate-funcaddr-la", action="store_true")
     # decision 3 residue (default OFF = production behaviour): take the small-data
     # threshold for TU-defined data from cc1's own -G (see cc1_sdata_limit); the
@@ -226,7 +225,6 @@ def main() -> None:
         retain_tail_frame=args.retain_tail_frame,
         noreturn_epilogue_syms=args.allow_noreturn_epilogue,
         live_sibcall_tail=args.preserve_live_sibcall_tail,
-        prefer_target_arg_setup=args.prefer_target_arg_setup,
         preserve_immediate_funcaddr_la=args.preserve_immediate_funcaddr_la,
         fold_lo_into_accesses=not (
             (args.no_cdk_lo_fold or not (args.cdk_lo_fold or os.environ.get("MASPSX_NO_CDK_LO_FOLD") == "0"))
