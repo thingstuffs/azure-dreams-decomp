@@ -810,7 +810,7 @@ s32 func_800ADE74(s32 unused, u8 *position, u8 *creature, s32 lower_limit, u16 u
         s32 target_x = *(u16 *)&tile_x;
         s32 target_y = *(u16 *)&tile_y;
         s32 ability_flags = *(u16 *)(creature + 0x98);
-        s32 x_delta, y_distance, shifted_x_delta, y_delta;
+        s32 x_delta, y_distance, y_delta;
         *(u16 *)(creature + 0x2A) = action_result;
         ability_flags |= 0x8000;
         *(u16 *)(creature + 0xA8) = target_x;
@@ -824,15 +824,14 @@ s32 func_800ADE74(s32 unused, u8 *position, u8 *creature, s32 lower_limit, u16 u
         x_delta -= target_x;
         x_delta = abs(x_delta);
         tile_x = x_delta;
-        distance = x_delta;
-        ASM_KEEP_NV(distance);
-        shifted_x_delta = x_delta << 16;
+        idle_ally_range = x_delta;
+        x_delta <<= 16;
         y_delta = position[0x25] - target_y;
         y_distance = y_delta;
         y_distance = abs(y_distance);
         tile_y = y_distance;
-        x_delta = shifted_x_delta < (y_distance << 16);
-        if (x_delta) {
+        distance = idle_ally_range;
+        if (x_delta < (y_distance << 16)) {
             distance = y_distance;
         }
         if ((s16)distance == 1) {
