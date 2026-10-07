@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-07T12:06:44Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-07T12:48:39Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -78,7 +78,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | M2C_FIELD raw offsets | 2950 | 1,456,876 | 57.0% | 0 | 0 | 0.0% |
 | m2c local names | 5182 | 2,172,184 | 84.9% | 21 | 36,012 | 1.4% |
 | ASM_ pins | 2136 | 1,464,904 | 57.3% | 52 | 65,808 | 2.6% |
-| goto | 1545 | 1,318,468 | 51.5% | 267 | 306,584 | 12.0% |
+| goto | 1545 | 1,318,468 | 51.5% | 266 | 306,136 | 12.0% |
 | computed-goto jump table | 317 | 437,344 | 17.1% | 4 | 7,008 | 0.3% |
 | inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 361 | 255,656 | 10.0% | 28 | 23,900 | 0.9% |
 | fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate) | 1489 | 680,132 | 26.6% | 1 | 256 | 0.0% |
@@ -88,8 +88,8 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | maspsx marker pins (scaffolding) | 394 | 351,668 | 13.7% | 1 | 1,176 | 0.0% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 9 | 12,392 | 0.5% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
-| local address-named struct | 633 | 346,988 | 13.6% | 2889 | 1,516,108 | 59.3% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 6428 | 2,184,288 | 85.4% |
+| local address-named struct | 633 | 346,988 | 13.6% | 2888 | 1,515,660 | 59.3% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 6429 | 2,184,736 | 85.4% |
 
 Pin sites now: 97 in 52 rows; REG 51, KEEP 15, KEEP_NV 13, SCHED_BARRIER 5, USE 3, MEM_BARRIER 2, USE_NV 2, USE2 1.  At the pin: 25,902; REG 12,801, KEEP 6,935, KEEP_NV 2,505, SCHED_BARRIER 1,355, TAILSLOT_PIN 506, USE 294, USE_NV 260, KEEP_DEP_NV 190.
 
@@ -109,8 +109,8 @@ The game is one `2.7.2-cdk -G0 -O2` build plus a town -O1 debug family and stock
 | late cell (2.8.x / egcs / 2.95.2: fitted) | 2 | 2 / 0 / 0 | 2 | 6 |
 | cdk cell + crutch flags, module is plain | 3 | 3 / 0 / 0 | 0 | 0 |
 | stock cell inside a cdk module | 0 | 0 / 0 / 0 | 0 | 0 |
-| other mismatch with the module recipe (-G, stock flavour, -O1) | 2 | 0 / 1 / 1 | 1 | 1 |
-| **total** | **7** | | **3** | **7** |
+| other mismatch with the module recipe (-G, stock flavour, -O1) | 1 | 0 / 1 / 0 | 1 | 1 |
+| **total** | **6** | | **3** | **7** |
 
 Rows at a registered recipe backed by per-row compiler evidence (ledger/recipe_evidence.jsonl, not listed above): town/func_806D30B4 2.6.3-G0 (confirmed), town/func_808B2B04 2.6.3-G0 (confirmed).
 

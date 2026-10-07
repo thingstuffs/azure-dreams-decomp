@@ -33821,3 +33821,4 @@
 {"id":"slus/konami_runtime_w_8003BAF8","transform":"t2_pins","in_sha":"72abd076759753a2cb51e459e76e4c1408898dd3f973558525aaaffeb291550a","from_clean":true,"size":700,"outcome":"refused","reason":"no pin sites","at":"2026-10-07T11:28:22Z"}
 {"id":"slus/w_80056E10","transform":"t2_pins","in_sha":"c40c336d716dc9bc652d582f54acd64cf82fd8572236b1fa4f2523e469f069a9","from_clean":true,"size":4348,"outcome":"refused","reason":"no pin sites","at":"2026-10-07T11:28:22Z"}
 {"id":"slus/w_8005B4D0","transform":"t2_pins","in_sha":"ef02fe36ff89d441e8888243b6b68d9719fb260a27297f4b4398616e49891d5d","from_clean":true,"size":2340,"outcome":"refused","reason":"no pin sites","at":"2026-10-07T11:28:22Z"}
+{"id":"main/func_8001C4D8","transform":"t2_pins","in_sha":"68e5e7fde29664be8fc2d8cc0578b0b70bc9f9971929aa16785932420258028a","from_clean":true,"size":448,"outcome":"refused","reason":"no pin sites","at":"2026-10-07T12:45:58Z"}
