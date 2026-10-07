@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -60,10 +61,7 @@ const struct CallbackBlock func_80AC5000 __attribute__((section(".text.func_80AC
 __asm__(".size func_80AC5000, 644");
 #endif
 
-typedef struct RenderState {
-    u8 pad0[0x8D0];
-    u8 *next_prim;
-} RenderState;
+
 
 typedef struct Scratch {
     u8 pad0[4];
@@ -101,8 +99,8 @@ s32 func_80AC50A4(u8 *node_data, u16 *position)
 {
     Scratch *scratch = (Scratch *)0x1F800000;
     void **global_state = ((void * *)(&gameWork));
-    RenderState *render_state = (RenderState *)global_state[0];
-    Packet *first_packet = (Packet *)render_state->next_prim;
+    GpuContext *render_state = (GpuContext *)global_state[0];
+    Packet *first_packet = (Packet *)render_state->packetCursor;
     Packet *packet;
     Packet *mode_packet;
     s32 depth_index;
@@ -167,7 +165,7 @@ s32 func_80AC50A4(u8 *node_data, u16 *position)
         }
     }
 
-    ((RenderState *)global_state[0])->next_prim = scratch->current;
+    ((GpuContext *)global_state[0])->packetCursor = scratch->current;
     return 0;
 }
 

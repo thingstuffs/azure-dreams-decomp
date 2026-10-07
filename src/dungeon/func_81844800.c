@@ -2,7 +2,7 @@
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_80016000.h"
+#include "shared/sprite_source.h"
 
 typedef struct S_81844800_0_pre {
     u16 unk_00;
@@ -421,7 +421,7 @@ void func_80024020(void *effect, void *motion, void *source_render) {
                     ((S_81844800_4 *)sprite)->unk_00 = D_800DECF8;
                     ((S_81844800_4 *)sprite)->unk_14 = flags | 0xC;
                     {
-                        u32 texture_page = ((Rec_D_80016000 *)D_800DECF8)->unk_04.at00_u32.v;
+                        u32 texture_page = ((u32)((SpriteSourceEntry *)D_800DECF8)->unk_04);
                         ((S_81844800_4 *)sprite)->unk_04 = 0;
                         ((S_81844800_4 *)sprite)->unk_05 = 0;
                         ((S_81844800_4 *)sprite)->unk_0C = 0x00404040;

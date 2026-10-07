@@ -6,15 +6,6 @@ typedef struct State_80083160 {
     s32 value;
 } State_80083160;
 
-typedef struct D_80083160_t {
-    State_80083160 *state;
-    char pad4[0xa8];
-    u16 angle0;
-    u16 angle1;
-    char padb0[0x18];
-    u16 angle2;
-} D_80083160_t;
-
 typedef struct Arg0_800AFBFC {
     char pad0[6];
     u8 value;
@@ -51,7 +42,7 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
     s32 end_y;
     s16 coord;
     s16 *scratch = (s16 *)0x1F800000;
-    D_80083160_t *gw = (D_80083160_t *)&gameWork;
+    GameWork *gw = &gameWork;
     State_80083160 *state;
     s16 start_angle;
     void *segment_data;
@@ -61,13 +52,13 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
     s32 offset_x;
     s32 offset_y;
 
-    state = gw->state;
+    state = ((State_80083160 *)gw->unk_000);
     last_result = state->value;
     ((ScratchHeader_800AFBFC *)scratch)->state_data = (u8 *)state + 0x8b0;
     segment_data = segment->temp;
     ((ScratchHeader_800AFBFC *)scratch)->segment_data = segment_data;
-    offset_x = gw->angle0;
-    offset_y = gw->angle1;
+    offset_x = ((u16)gw->view.unk_094);
+    offset_y = ((u16)gw->view.unk_096);
     segment_byte = ((u8 *)segment_data)[1];
     flags = segment->flags;
     segment->byte = segment_byte;
@@ -80,7 +71,7 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
     }
 
     angle = shape->value;
-    rotation = gw->angle2;
+    rotation = ((u16)gw->view.viewAngle);
     angle += 0xc00;
     angle -= (rotation + 0x80) & 0xf00;
     angle_step = angle;
@@ -209,7 +200,7 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
     }
     {
         State_80083160 *final_state;
-        final_state = gw->state;
+        final_state = ((State_80083160 *)gw->unk_000);
         result = 0;
         final_state->value = last_result;
     }

@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -24,10 +25,7 @@ typedef struct S_800BA414_1 {
     s16 unk_0A;
 } S_800BA414_1;   /* arg1 in func_800BA414 */
 
-typedef struct S_800BA414_2 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_800BA414_2;   /* state in func_800BA414 */
+   /* state in func_800BA414 */
 
 typedef struct S_800BA414_3 {
     u8 pad_00[0x4];
@@ -47,10 +45,7 @@ typedef struct S_800BA414_4 {
     s32 unk_0C;
 } S_800BA414_4;   /* owner in func_800BA414 */
 
-typedef struct S_800BA414_5 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_800BA414_5;   /* *global in func_800BA414 */
+   /* *global in func_800BA414 */
 
 
 extern void func_80064840(void *, void *, void *);
@@ -105,7 +100,7 @@ void func_800BA414(void *unused, S_800BA414_1 *position, void *owner_data, s16 d
     ((S_800BA414_0 *)scratch)->unk_E4 = position->unk_02;
     ((S_800BA414_0 *)scratch)->unk_E8 = position->unk_06;
     ((S_800BA414_0 *)scratch)->unk_EC = position->unk_0A;
-    prim = ((S_800BA414_2 *)state)->unk_8D0;
+    prim = ((GpuContext *)state)->packetCursor;
     state_slot = (u8 **)((s8 *)(&gameWork));
 
     func_800649A0();
@@ -208,6 +203,6 @@ void func_800BA414(void *unused, S_800BA414_1 *position, void *owner_data, s16 d
         }
     }
 
-    ((S_800BA414_5 *)(*state_slot))->unk_8D0 = prim;
+    ((GpuContext *)(*state_slot))->packetCursor = prim;
     func_80064A40();
 }

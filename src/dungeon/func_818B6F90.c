@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -55,10 +56,7 @@ typedef struct S_818B6F90_0 {
     u16 unk_7E;
 } S_818B6F90_0;   /* scratch in func_818B6F90 */
 
-typedef struct S_818B6F90_1 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_818B6F90_1;   /* base in func_818B6F90 */
+   /* base in func_818B6F90 */
 
 typedef struct S_818B6F90_2 {
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_00;   /* overlapping accesses */
@@ -124,8 +122,8 @@ s32 func_818B6F90(s32 texture_index, u8 *color_source)
     scratch = (u8 *)0x1F800000;
     render_buffer = *(u8 **)((u8 *)(&gameWork));
     ((S_818B6F90_0 *)scratch)->unk_00 = render_buffer + 0xB0;
-    packet = ((S_818B6F90_1 *)render_buffer)->unk_8D0;
-    ((S_818B6F90_1 *)render_buffer)->unk_8D0 = packet + 0x34;
+    packet = ((GpuContext *)render_buffer)->packetCursor;
+    ((GpuContext *)render_buffer)->packetCursor = packet + 0x34;
     ((S_818B6F90_2 *)packet)->unk_00.at03.v = 0x0C;
     ((S_818B6F90_2 *)packet)->unk_07 = 0x3E;
 

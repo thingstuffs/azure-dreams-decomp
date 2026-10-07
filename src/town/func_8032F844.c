@@ -55,23 +55,11 @@ typedef struct S_8001A044_9 {
     s32 unk_04;
 } S_8001A044_9;   /* var_v1 in func_8001A044 */
 
-typedef struct S_8001A044_10 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-    u8 pad_18[0x18];
-    void * unk_30;
-} S_8001A044_10;   /* ((S_8001A044_0 *)page)->unk_6000 in func_8001A044 */
-
 typedef struct S_8001A044_11 {
     u8 pad_00[0x8];
     s32 unk_08;
 } S_8001A044_11;   /* (temp_v0_2 * 0x10) +
                                     (u8 *)((S_8001A044_3 *)temp_s0)->unk_10 in func_8001A044 */
-
-typedef struct S_8001A044_13 {
-    u8 pad_00[0x30];
-    void * unk_30;
-} S_8001A044_13;   /* ((S_8001A044_6 *)page2)->unk_6000 in func_8001A044 */
 
 
 extern void *func_800196E4(void *, void *);
@@ -126,7 +114,7 @@ void func_8001A044(s32 *records, void *ost_w, void *osel_w)
                 group_bits = flag_bits >> 0x13;
                 flag_bits = flag_bits >> 0x17;
                 bank_bits = flag_bits & 1;
-                group_entry = ((S_8001A044_10 *)(((S_8001A044_0 *)data_page)->unk_6000))->unk_30;
+                group_entry = ((Rec_D_80016000 *)(((S_8001A044_0 *)data_page)->unk_6000))->unk_30;
                 group_bank = (void *)(bank_bits * 4);
                 group_bank = (void *)((u32)group_bank + (u32)group_entry);
                 group_entry = (void *)(group_bits & 0x7E0);
@@ -135,7 +123,7 @@ void func_8001A044(s32 *records, void *ost_w, void *osel_w)
                 if (((S_8001A044_2 *)group_entry)->unk_0A != 0 || bank_bits != 0) {
                     record = (void *)((u32)(record_index * 0x1C) + (u32)records);
                     if (record->unk_08 != 0) {
-                        ((S_8001A044_10 *)(((S_8001A044_0 *)data_page)->unk_6000))->unk_14 = record_index;
+                        ((Rec_D_80016000 *)(((S_8001A044_0 *)data_page)->unk_6000))->unk_14 = record_index;
                         variant_index = func_80019F94(record, group_bits);
                         updated_flags = (record->unk_00 & ~0xFF) |
                                    (variant_index & 0xFF);
@@ -179,7 +167,7 @@ void func_8001A044(s32 *records, void *ost_w, void *osel_w)
             group_id = flag_bits & 0x3F;
             if (group_id != previous_group) {
                 bank_bits = record_flags >> 0x15;
-                group_data = ((S_8001A044_13 *)(((S_8001A044_6 *)list_page)->unk_6000))->unk_30;
+                group_data = ((Rec_D_80016000 *)(((S_8001A044_6 *)list_page)->unk_6000))->unk_30;
                 flag_bits = bank_bits & 4;
                 lookup_entry = (void *)((u32)flag_bits + (u32)group_data);
                 entry_address = group_id << 5;

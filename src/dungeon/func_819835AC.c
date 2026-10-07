@@ -206,10 +206,6 @@ typedef struct S_819835AC_11 {
     void * unk_00;
 } S_819835AC_11;
 
-typedef struct S_819835AC_12 {
-    s32 unk_00;
-} S_819835AC_12;
-
 /* cfail-repair: tf7-phase1-cache-v3 */
 void *func_8002470C();     /* extern */
 void *func_80024938();     /* extern */
@@ -892,7 +888,7 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
 block_139:
     ((S_819835AC_8 *) ((u8 *) effect - 0x20))->unk_1E = (u16) (((S_819835AC_8 *) ((u8 *) effect - 0x20))->unk_1E
         | 0x8000);
-    (*(s32 *)&objectFlagBlock.flags) = (s32) (((S_819835AC_12 *) &objectFlagBlock.flags)->unk_00 | 0x8000);
+    (*(s32 *)&objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
     return;
 block_140:
     actor_data = ((S_819835AC_8 *) owner_ptr)->unk_0C;

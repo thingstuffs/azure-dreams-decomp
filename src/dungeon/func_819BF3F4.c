@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -58,10 +59,7 @@ typedef struct S_80024BF4_2 {
     u16 unk_1A;
 } S_80024BF4_2;   /* arg2 in func_80024BF4 */
 
-typedef struct S_80024BF4_3 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_80024BF4_3;   /* *(u8 **)D_80083160 in func_80024BF4 */
+   /* *(u8 **)D_80083160 in func_80024BF4 */
 
 typedef struct S_80024BF4_4 {
     u8 pad_00[0xC];
@@ -175,8 +173,8 @@ void func_80024BF4(S_80024BF4_4 *quad, S_80024BF4_1 *position, S_80024BF4_2 *ren
 
     texture = render_state->unk_08;
     ((S_80024BF4_0 *)scratch)->unk_28 = render_state->unk_14;
-    packet = ((S_80024BF4_3 *)(*(u8 **)((u8 *)(&gameWork))))->unk_8D0;
-    ((S_80024BF4_3 *)(*(u8 **)((u8 *)(&gameWork))))->unk_8D0 = packet + 0x34;
+    packet = ((GpuContext *)(*(u8 **)((u8 *)(&gameWork))))->packetCursor;
+    ((GpuContext *)(*(u8 **)((u8 *)(&gameWork))))->packetCursor = packet + 0x34;
 
     ((S_80024BF4_0 *)scratch)->unk_B0 = quad->unk_4A;
     ((S_80024BF4_0 *)scratch)->unk_B8 = quad->unk_50;

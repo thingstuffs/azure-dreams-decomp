@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "records/Rec_func_800D6DC0_arg1.h"
@@ -75,10 +76,7 @@ typedef struct S_80175594_1 {
 } S_80175594_1;   /* scratch in func_80175594 */
 
 
-typedef struct S_80175594_3 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_80175594_3;   /* state in func_80175594 */
+   /* state in func_80175594 */
 
 
 typedef struct S_80175594_5 {
@@ -119,10 +117,7 @@ typedef struct S_80175594_7 {
     } unk_24;   /* overlapping accesses */
 } S_80175594_7;   /* packet in func_80175594 */
 
-typedef struct S_80175594_8 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_80175594_8;   /* *global in func_80175594 */
+   /* *global in func_80175594 */
 
 
 extern void func_80064840(void *, void *, void *);
@@ -206,7 +201,7 @@ void func_80175594(S_80175594_0 *sprite, Rec_func_800D6DC0_arg1 *position, Rec_f
     ((S_80175594_1 *)scratch)->unk_00 = position->unk_02;
     ((S_80175594_1 *)scratch)->unk_02 = position->unk_06;
     ((S_80175594_1 *)scratch)->unk_04 = position->unk_0A;
-    packet = (Packet *)((S_80175594_3 *)state)->unk_8D0;
+    packet = (Packet *)((GpuContext *)state)->packetCursor;
     ((S_80175594_1 *)scratch)->unk_C0 = func_80065420(
         scratch, scratch + 0xB8, scratch + 0x90, scratch + 0x94);
 
@@ -403,5 +398,5 @@ void func_80175594(S_80175594_0 *sprite, Rec_func_800D6DC0_arg1 *position, Rec_f
         func_80064A40();
     }
 
-    ((S_80175594_8 *)(*render_globals))->unk_8D0 = packet;
+    ((GpuContext *)(*render_globals))->packetCursor = packet;
 }

@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -56,10 +57,6 @@ typedef struct S_819112CC_3 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_2C;   /* overlapping accesses */
 } S_819112CC_3;   /* temp_a3 in func_819112CC */
 
-typedef struct S_819112CC_4 {
-    u32 unk_00;
-} S_819112CC_4;   /* temp_s1_2 in func_819112CC */
-
 typedef struct S_819112CC_5 {
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; s8 v; } at03; } unk_00;   /* overlapping accesses */
     u8 unk_04;
@@ -108,10 +105,7 @@ extern s32 func_80064584();
 extern u32 func_80065590();
 extern s32 func_80066460();
 extern void func_80067F20();
-typedef struct {
-    u8 pad0[0x8D0];
-    u8 *nextPrim;
-} RenderContext;
+
 typedef struct {} EmptyArg;
 
 static __inline__ s32 radial_coordinate(s32 center, s32 trig, s16 radius)
@@ -178,9 +172,9 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
             ((coord_or_offset * ((S_819112CC_0 *)effect)->unk_0E) << 8);
         target_y = radial_y;
         {
-            RenderContext **pool = (RenderContext **)context_slot;
-            prim = (*pool)->nextPrim;
-            (*pool)->nextPrim = prim + 0x24;
+            GpuContext **pool = (GpuContext **)context_slot;
+            prim = (*pool)->packetCursor;
+            (*pool)->packetCursor = prim + 0x24;
         }
         ((S_819112CC_2 *)prim)->unk_00.at03.v = 8;
         ((S_819112CC_2 *)prim)->unk_07 = 0x3A;
@@ -251,9 +245,9 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
             link = (u32 *)((u8 *)link + SP32(0x18));
             *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & 0xFFFFFF);
             {
-                RenderContext *ctx = *(RenderContext **)context_slot;
-                prim = ctx->nextPrim;
-                ctx->nextPrim = prim + 0xC;
+                GpuContext *ctx = *(GpuContext **)context_slot;
+                prim = ctx->packetCursor;
+                ctx->packetCursor = prim + 0xC;
             }
             func_80067F20(prim, 0, 0,
                           func_80066460(0, ((S_819112CC_0 *)effect)->unk_12, 0, 0) & 0xFFFF,
@@ -265,9 +259,9 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
             *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & 0xFFFFFF);
         }
         {
-            RenderContext **pool = (RenderContext **)context_slot;
-            prim = (*pool)->nextPrim;
-            (*pool)->nextPrim = prim + 0x24;
+            GpuContext **pool = (GpuContext **)context_slot;
+            prim = (*pool)->packetCursor;
+            (*pool)->packetCursor = prim + 0x24;
         }
         ((S_819112CC_5 *)prim)->unk_00.at03.v = 8;
         ((S_819112CC_5 *)prim)->unk_07 = 0x3A;
@@ -338,9 +332,9 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
             link = (u32 *)((u8 *)link + SP32(0x18));
             *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & 0xFFFFFF);
             {
-                RenderContext *ctx = *(RenderContext **)context_slot;
-                prim = ctx->nextPrim;
-                ctx->nextPrim = prim + 0xC;
+                GpuContext *ctx = *(GpuContext **)context_slot;
+                prim = ctx->packetCursor;
+                ctx->packetCursor = prim + 0xC;
             }
             func_80067F20(prim, 0, 0,
                           func_80066460(0, ((S_819112CC_0 *)effect)->unk_12, 0, 0) & 0xFFFF,

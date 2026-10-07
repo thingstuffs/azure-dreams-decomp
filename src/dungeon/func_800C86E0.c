@@ -36,7 +36,7 @@ void func_800CDE40(s16 x, s16 y, s32 amount)
     s32 first_y;
     s32 second_x;
     s32 second_y;
-    ActiveEntry *first_active;
+    DungeonItemEntry *first_active;
     ActiveEntry *second_active;
     FirstEntry *first_entry;
     SecondEntry *second_entry;
@@ -46,8 +46,8 @@ void func_800CDE40(s16 x, s16 y, s32 amount)
     first_y = y;
     do {
         first_entry = &D_800E36C8[entry_index];
-        first_active = &((ActiveEntry *)D_800E3548)[entry_index];
-        if (first_active->active != 0 &&
+        first_active = &D_800E3548[entry_index];
+        if (first_active->kind != 0 &&
             first_entry->x == first_x &&
             first_entry->y == first_y) {
             first_entry->value += amount;

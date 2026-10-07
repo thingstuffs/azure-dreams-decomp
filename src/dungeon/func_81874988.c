@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -60,10 +61,7 @@ typedef struct S_81874988_1 {
     s16 unk_0A;
 } S_81874988_1;   /* arg1 in func_81874988 */
 
-typedef struct S_81874988_2 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_81874988_2;   /* global_value in func_81874988 */
+   /* global_value in func_81874988 */
 
 typedef struct S_81874988_3 {
     u8 pad_00[0x8];
@@ -148,8 +146,8 @@ void func_81874988(void *quad, void *position, void *material, s16 depth_bias)
     ((S_81874988_0 *)scratch)->unk_8C = ((S_81874988_1 *)position)->unk_06;
     ((S_81874988_0 *)scratch)->unk_90 = ((S_81874988_1 *)position)->unk_0A;
 
-    packet = ((S_81874988_2 *)render_state)->unk_8D0;
-    ((S_81874988_2 *)render_state)->unk_8D0 = packet + 0x28;
+    packet = ((GpuContext *)render_state)->packetCursor;
+    ((GpuContext *)render_state)->packetCursor = packet + 0x28;
 
     ((S_81874988_3 *)material)->unk_14 |= 0x8000;
     func_800649A0();

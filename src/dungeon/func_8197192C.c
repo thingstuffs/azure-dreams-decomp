@@ -214,7 +214,7 @@ void func_8197192C(void *effect, void *owner, void *context_arg)
     u32 light_color;
     u32 light_color_2;
     u32 dark_color;
-    void *player;
+    EntityRec *player;
     void *player_2;
     u16 coord_z;
     u16 heading;
@@ -225,8 +225,8 @@ void func_8197192C(void *effect, void *owner, void *context_arg)
     switch (state) {
     case 0:
         player = D_800814A8;
-        ((S_8197192C_1 *)player)->unk_F4 = 0;
-        ((S_8197192C_1 *)player)->unk_96 = 20;
+        player->unk_F4 = 0;
+        player->unk_96 = 20;
         ((S_8197192C_2 *)((u16 *)(&D_80082E80.unk_006)))->unk_00 = 6;
         state_2 = ((u8 *)(&D_80083780));
         ((S_8197192C_0 *)effect)->unk_0A.u = ((S_8197192C_0 *)effect)->unk_0A.u + 1;
@@ -244,7 +244,7 @@ void func_8197192C(void *effect, void *owner, void *context_arg)
         ((S_8197192C_1 *)player_2)->unk_A6 = ((S_8197192C_1 *)player_2)->unk_A6 - 1;
         ((S_8197192C_1 *)player_2)->unk_A8 = ((S_8197192C_0 *)effect)->unk_08;
         player = D_800814A8;
-        heading = ((S_8197192C_1 *)player)->unk_2A;
+        heading = ((u16)player->facing);
         ((S_8197192C_0 *)effect)->unk_0A.u = ((S_8197192C_0 *)effect)->unk_0A.u + 1;
         ((S_8197192C_0 *)effect)->unk_38 = 0;
         ((S_8197192C_0 *)effect)->unk_34 = (heading >> 9) & 7;

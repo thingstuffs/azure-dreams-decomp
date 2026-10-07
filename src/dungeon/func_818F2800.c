@@ -1,10 +1,8 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
-typedef struct S_BODY_0 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_BODY_0;   /* gv in BODY */
+   /* gv in BODY */
 
 typedef struct S_BODY_1 {
     u8 pad_00[0x8];
@@ -95,10 +93,7 @@ typedef struct S_BODY_7 {
     } unk_20;   /* overlapping accesses */
 } S_BODY_7;   /* ent in BODY */
 
-typedef struct S_BODY_8 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_BODY_8;   /* gp[0] in BODY */
+   /* gp[0] in BODY */
 
 
 typedef struct { u8 v; } DmU8;
@@ -199,7 +194,7 @@ void BODY(S_BODY_3 *geometry, void *position, S_BODY_1 *state, u16 depth_offset)
     DM_S32(0xE8) = *(s16 *)((u8 *)position + 6);
     position_z = *(s16 *)((u8 *)position + 0xA);
     DM_S32(0xEC) = position_z;
-    packet = ((S_BODY_0 *)graphics)->unk_8D0;
+    packet = ((GpuContext *)graphics)->packetCursor;
     state->unk_14 = (u16)(state->unk_14 | 0x8000);
     depth_bias = depth_offset;
     func_800649A0();
@@ -561,7 +556,7 @@ void BODY(S_BODY_3 *geometry, void *position, S_BODY_1 *state, u16 depth_offset)
         }
     } while (1);
     func_80064A40();
-    ((S_BODY_8 *)(globals[0]))->unk_8D0 = packet;
+    ((GpuContext *)(globals[0]))->packetCursor = packet;
 }
 #ifdef __mips__
 __asm__(".size func_818F2800, 2200");

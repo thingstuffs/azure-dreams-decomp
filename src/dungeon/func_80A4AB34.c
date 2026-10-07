@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -64,10 +65,7 @@ typedef struct S_80174334_2 {
     u16 unk_1A;
 } S_80174334_2;   /* arg2 in func_80174334 */
 
-typedef struct S_80174334_3 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_80174334_3;   /* *(u8 **)D_80083160 in func_80174334 */
+   /* *(u8 **)D_80083160 in func_80174334 */
 
 typedef struct S_80174334_4 {
     u8 pad_00[0x4];
@@ -179,8 +177,8 @@ void func_80174334(void *quad, void *position, void *draw_state, s16 depth_bias)
     ((S_80174334_0 *)scratch)->unk_10.s32 = texture[9];
     (*(s32 *)((u8 *)scratch + 0x14)) = texture[0xA];
     ((S_80174334_0 *)scratch)->unk_18.s32 = texture[0xB];
-    packet = ((S_80174334_3 *)(*(u8 **)((u8 *)(&gameWork))))->unk_8D0;
-    ((S_80174334_3 *)(*(u8 **)((u8 *)(&gameWork))))->unk_8D0 = packet + 0x34;
+    packet = ((GpuContext *)(*(u8 **)((u8 *)(&gameWork))))->packetCursor;
+    ((GpuContext *)(*(u8 **)((u8 *)(&gameWork))))->packetCursor = packet + 0x34;
 
     ((S_80174334_0 *)scratch)->unk_B0 = ((S_80174334_4 *)quad)->unk_64;
     ((S_80174334_0 *)scratch)->unk_B8 = ((S_80174334_4 *)quad)->unk_6A;

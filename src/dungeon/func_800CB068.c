@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -69,10 +70,7 @@ typedef struct S_800D07C8_1 {
     s16 unk_0A;
 } S_800D07C8_1;   /* arg1 in func_800D07C8 */
 
-typedef struct S_800D07C8_2 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_800D07C8_2;   /* global_page->table[0] in func_800D07C8 */
+   /* global_page->table[0] in func_800D07C8 */
 
 typedef struct S_800D07C8_3 {
     u8 pad_00[0x8];
@@ -110,10 +108,7 @@ typedef struct S_800D07C8_5 {
     u8 unk_2A;
 } S_800D07C8_5;   /* temp_s0 in func_800D07C8 */
 
-typedef struct S_800D07C8_6 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_800D07C8_6;   /* table[0] in func_800D07C8 */
+   /* table[0] in func_800D07C8 */
 
 /* Transform sprite parts into textured quads, queue visible quads, and invoke part callbacks. */
 void func_800D07C8(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
@@ -148,7 +143,7 @@ void func_800D07C8(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
     ((S_800D07C8_0 *)scratch)->unk_84 = 0;
     ((S_800D07C8_0 *)scratch)->unk_7C = 0;
     ((S_800D07C8_0 *)scratch)->unk_74 = 0;
-    packet = ((S_800D07C8_2 *)(table[0]))->unk_8D0;
+    packet = ((GpuContext *)(table[0]))->packetCursor;
     ((S_800D07C8_3 *)sprite)->unk_14 |= 0x8000;
     func_800649A0();
     ((S_800D07C8_0 *)scratch)->unk_108 = ((S_800D07C8_3 *)sprite)->unk_20;
@@ -323,5 +318,5 @@ void func_800D07C8(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
         }
     }
     func_80064A40();
-    ((S_800D07C8_6 *)(table[0]))->unk_8D0 = packet;
+    ((GpuContext *)(table[0]))->packetCursor = packet;
 }

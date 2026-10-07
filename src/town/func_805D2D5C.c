@@ -1,3 +1,4 @@
+#include "shared/town_root.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -6,13 +7,6 @@ typedef struct TownEntry {
     u8 state;
     u8 pad5[3];
 } TownEntry;
-
-typedef struct TownRoot {
-    s32 pad0[2];
-    s32 entry_index;
-    u8 padC[0x34];
-    TownEntry *entries;
-} TownRoot;
 
 extern s32 D_80019AFC[];
 
@@ -26,13 +20,13 @@ s32 func_805D2D5C(void)
     u8 entry_state;
 
     update_result = 0;
-    entry_state = ((TownRoot *)D_80016000)->entries[((TownRoot *)D_80016000)->entry_index].state;
+    entry_state = ((TownEntry *)D_80016000->unk_40)[D_80016000->unk_08].state;
     D_80019AFC[0] = entry_state;
     if (entry_state != 2) {
         update_result = func_80018504();
     }
     if ((update_result != 0) || (func_80017E1C(), D_80019AFC[0] == 1)) {
-        ((TownRoot *)D_80016000)->entries[((TownRoot *)D_80016000)->entry_index].state = 0;
+        ((TownEntry *)D_80016000->unk_40)[D_80016000->unk_08].state = 0;
         D_80019AFC[0] = 0;
     }
     return update_result;

@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/game_work.h"
@@ -121,10 +122,7 @@ typedef struct S_func_81904990_4 {
     u16 unk_10A;
 } S_func_81904990_4;
 
-typedef struct S_func_81904990_5 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_func_81904990_5;
+
 
 typedef struct S_func_81904990_6 {
     u16 unk_00;
@@ -200,15 +198,6 @@ typedef struct S_func_81904990_8 {
     s32 unk_1C;
 } S_func_81904990_8;
 
-typedef struct S_func_81904990_9 {
-    u8 pad_00[0xA0];
-    s32 unk_A0;
-    u8 pad_A4[0x20];
-    s16 unk_C4;
-    s16 unk_C6;
-    s16 unk_C8;
-} S_func_81904990_9;
-
 #define D_FIELD(type_ptr, offset) (*(type_ptr)(((u8 *)(&gameWork)) + (offset)))
 #define D_LITERAL(type_ptr, offset) (*(type_ptr)((u8 *)0x80083160 + (offset)))
 
@@ -232,7 +221,7 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
     s32 restore_mode;
     s32 angle_bias;
     u8 *row_quad;
-    S_func_81904990_5 *render_state;
+    GpuContext *render_state;
     void *callback_sprite;
     s32 callback_param;
     void *callback_frame;
@@ -293,7 +282,7 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
     scratch->unk_84 = 0;
     scratch->unk_7C = 0;
     scratch->unk_74 = 0;
-    packet = (S_func_81904990_7 *)render_state->unk_8D0;
+    packet = (S_func_81904990_7 *)render_state->packetCursor;
     scratch->unk_20 = ordering_table;
     scratch->unk_C0 = NULL;
     scratch->unk_B8 = (s16) (setup_arg->unk_00 - 0xA0);
@@ -615,7 +604,7 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
     {
         u8 *state_slot = (u8 *)state_page;
         u64 state_bits = *(u64 *)state_slot;
-        S_func_81904990_5 *final_state = (S_func_81904990_5 *)(u32)state_bits;
-        final_state->unk_8D0 = (u8 *)packet;
+        GpuContext *final_state = (GpuContext *)(u32)state_bits;
+        final_state->packetCursor = (u8 *)packet;
     }
 }

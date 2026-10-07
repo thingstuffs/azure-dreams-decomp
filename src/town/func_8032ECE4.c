@@ -1,3 +1,4 @@
+#include "shared/town_root.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
@@ -15,21 +16,6 @@ typedef struct S_800194E4_1 {
     s32 unk_04;
 } S_800194E4_1;
 
-typedef struct S_800194E4_2 {
-    u8 pad_00[0x20];
-    void * unk_20;
-} S_800194E4_2;
-
-typedef struct S_800194E4_3 {
-    u8 pad_00[0x20];
-    void * unk_20;
-} S_800194E4_3;
-
-typedef struct S_800194E4_4 {
-    u8 pad_00[0x174];
-    M2C_UNK (*unk_174)(M2C_UNK);
-} S_800194E4_4;
-
 extern s8 D_80010000[];
 extern M2C_UNK D_80016064;
 extern M2C_UNK D_8001608C;
@@ -38,8 +24,8 @@ extern M2C_UNK D_8001608C;
 s32 func_800194E4(void *entries, s32 entry_id) {
     s32 entry_index;
     Callback3 report_error;
-    void *root;
-    void *callbacks;
+    Rec_D_80016000 *root;
+    TownServiceTable *callbacks;
 
     entry_index = 0;
     if (((S_800194E4_0 *)entries)->unk_04 != 0) {
@@ -57,9 +43,9 @@ s32 func_800194E4(void *entries, s32 entry_id) {
         }
     }
     root = (*(void **)((u8 *)D_80010000 + 0x6000));
-    callbacks = ((S_800194E4_2 *)root)->unk_20;
-    report_error = (*(Callback3 *)((u8 *)callbacks + 0x168));
+    callbacks = root->unk_20;
+    report_error = ((Callback3)callbacks->callback_168);
     report_error(&D_80016064, &D_8001608C, 0x28);
-    ((S_800194E4_4 *)(((S_800194E4_3 *)((*(void **)((u8 *)D_80010000 + 0x6000))))->unk_20))->unk_174(1);
+    ((M2C_UNK (*)(M2C_UNK))((TownServiceTable *)(((Rec_D_80016000 *)((*(void **)((u8 *)D_80010000 + 0x6000))))->unk_20))->callback_174)(1);
     return entry_index;
 }
