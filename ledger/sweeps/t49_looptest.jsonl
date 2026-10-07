@@ -8487,3 +8487,4 @@
 {"id":"slus/w_8005A428","transform":"t49_looptest","in_sha":"db3706951265170ae18af93cd54d3f5924d50c540f9ad03c1b6f6326b79e320c","from_clean":true,"size":828,"outcome":"refused","reason":"no pin sites","at":"2026-10-07T05:43:55Z"}
 {"id":"slus/w_8005A778","transform":"t49_looptest","in_sha":"cf110cce1e2d4b7ac15c9f8bfde0c83a898f862c6ecafb278f71f62a8da1b9cf","from_clean":true,"size":1140,"outcome":"refused","reason":"no pin sites","at":"2026-10-07T05:43:55Z"}
 {"id":"slus/w_8005AC68","transform":"t49_looptest","in_sha":"4aeb65974ce6080666642ce6401b5286654e40fda8e1b4d50eefb0e164612967","from_clean":true,"size":260,"outcome":"refused","reason":"no pin sites","at":"2026-10-07T05:43:55Z"}
+{"id":"dungeon/func_81976CB0","transform":"t49_looptest","in_sha":"b8fc398e170b3c776fdec90c1b3bdb57d44643c328d9c2ddcc81950127a1c59f","from_clean":true,"size":704,"outcome":"refused","reason":"no pin sites","at":"2026-10-07T11:14:31Z"}
