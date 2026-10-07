@@ -1,3 +1,4 @@
+#include "modules/town_minigame_dispatch.h"
 #include "common.h"
 
 extern s32 func_80033B2C(s32 bit_id);

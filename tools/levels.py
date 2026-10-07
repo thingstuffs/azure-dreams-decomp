@@ -448,7 +448,10 @@ def main():
     # SLUS placement comes from a reviewed build certificate whose shared inputs
     # are still current. A historical sweep entry cannot substitute for that proof.
     from slus_module_evidence import valid_placements
-    placement = {rid: rec for rid, rec in sweeps.get("l4_modules", {}).items() if not rid.startswith("slus/")}
+    from overlay_module_evidence import valid_placements as overlay_placements
+    placement = overlay_placements()
+    from overlay_module_evidence import source_contexts
+    module_contexts = source_contexts()
     placement.update(valid_placements())
     sweeps["l4_modules"] = placement
     audit = audit_index()
@@ -462,12 +465,15 @@ def main():
         cp = ROOT / "src" / r["container"] / Path(r["c_path"]).name
         text = (cp if cp.exists() else raw_path(r)).read_text(errors="replace")
         raw_text = raw_path(r).read_text(errors="replace") if raw_path(r).exists() else ""
+        context = module_contexts.get(r["id"], "")
+        if context:
+            text += "\n" + context
+            raw_text += "\n" + context
         rec = evaluate_row(r, text, raw_text, promoted, sweeps, split_idx)
         rec["id"] = r["id"]; rec["evidence"] = list(_ev.get(r["id"], []))
         if r["id"] in placement:
             rec["module"] = placement[r["id"]].get("module")
-            if r["id"].startswith("slus/"):
-                rec["evidence"].append("module_certificate")
+            rec["evidence"].append("module_certificate")
         out.append(rec); tally[rec["level"]] += r["size"]
         if rec["records"]: tally["records"] += r["size"]; tally["records_rows"] += 1
     write_jsonl(LEDGER / "levels.jsonl", out)

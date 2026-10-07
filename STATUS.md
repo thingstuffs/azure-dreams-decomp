@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-07T13:57:44Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-07T14:50:44Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -70,6 +70,15 @@ Not certified means no placement certificate has been issued; ownership and reta
 
 Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump and fidelity requirements still apply; changed shared inputs invalidate placement evidence.
 
+## Overlay modules
+
+| module | rows | placement proof |
+|---|---:|---|
+| dungeon_cd_control_d79c4 | 3 | current: complete TU + all windows + genuine |
+| town_minigame_dispatch_44b44 | 13 | current: complete TU + all windows + genuine |
+
+Placement alone does not override any lower-level or source-residue guard.
+
 ## Shape census: pinned raw text vs current clean tree (files / bytes carrying each defect)
 
 | defect | files (pin) | bytes (pin) | % bytes | files (clean) | bytes (clean) | % bytes |
@@ -82,7 +91,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | computed-goto jump table | 317 | 437,344 | 17.1% | 4 | 7,008 | 0.3% |
 | inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 361 | 255,656 | 10.0% | 24 | 21,880 | 0.9% |
 | fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate) | 1489 | 680,132 | 26.6% | 0 | 0 | 0.0% |
-| any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,286,092 | 50.3% | 11 | 27,196 | 1.1% |
+| any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,286,092 | 50.3% | 10 | 26,316 | 1.0% |
 | any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,286,092 | 50.3% | 1650 | 898,660 | 35.1% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 668 | 493,664 | 19.3% | 6 | 1,876 | 0.1% |
 | maspsx marker pins (scaffolding) | 394 | 351,668 | 13.7% | 1 | 1,176 | 0.0% |
@@ -134,12 +143,12 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 | L1 | 2,557,924 | 100.0% |
 | L2 | 2,557,924 | 100.0% |
 | L3 | 2,556,864 | 100.0% |
-| L4 | 0 | 0.0% |
-| L5 | 0 | 0.0% |
+| L4 | 904 | 0.0% |
+| L5 | 904 | 0.0% |
 
 On shared record headers (T7, `include/records/`): 774 rows, 457,392 bytes (17.9%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 50 rows (64,448 B), tail_jump 6 rows (1,876 B), not_in_module 6,745 rows (2,555,072 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 50 rows (64,448 B), tail_jump 6 rows (1,876 B), not_in_module 6,729 rows (2,554,168 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 

@@ -118,6 +118,11 @@ def inputs_sha(yaml_path):
     abs_syms = ROOT / "config/overlays/abs_syms.txt"
     if abs_syms.exists():
         h.update(abs_syms.read_bytes())
+    # Even a one-member window depends on every sibling and the physical recipe.
+    from gate.overlay_module_gate import load_modules, affected_windows, fingerprint
+    for module in load_modules(ROOT):
+        if "config/overlays/" + yaml_path.name in affected_windows(module, ROOT):
+            h.update(fingerprint(module, ROOT)["sha256"].encode())
     return h.hexdigest()
 
 _SPLITS = {}

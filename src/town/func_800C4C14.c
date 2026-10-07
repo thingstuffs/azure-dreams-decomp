@@ -1,3 +1,4 @@
+#include "modules/town_minigame_dispatch.h"
 #include "common.h"
 #include "m2c_compat.h"
 

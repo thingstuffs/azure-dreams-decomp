@@ -1,8 +1,4 @@
-#include "common.h"
-
-extern void Control_CD(s32, void *, s32);
-extern s8 D_800DCF4D;
-extern s32 D_800DF3DC;
+#include "modules/dungeon_cd_control.h"
 
 /* Submit D_800DF3DC and reset D_800DCF4D to -1. */
 void func_800BD124(void) {

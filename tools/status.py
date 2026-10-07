@@ -124,6 +124,15 @@ def main():
             out.append(f"| {module['name']} | {len(module['members'])} | {proof} | " + ", ".join(module["headers"]) + " |")
         out.append("\nNot certified means no placement certificate has been issued; ownership and retail-byte proofs are separate. Partition owners do not grant whole-row placement.\n")
         out.append("Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump and fidelity requirements still apply; changed shared inputs invalidate placement evidence.\n")
+    from overlay_module_evidence import module_status as overlay_module_status
+    overlay_records = overlay_module_status()
+    if overlay_records:
+        out.append("## Overlay modules\n\n| module | rows | placement proof |\n|---|---:|---|")
+        for entry in overlay_records:
+            proof = "current: complete TU + all windows + genuine" if entry["valid"] else entry["reason"]
+            proof = proof.replace("|", "/").replace("\n", " ")
+            out.append(f"| {entry['module']['key']} | {len(entry['module']['members'])} | {proof} |")
+        out.append("\nPlacement alone does not override any lower-level or source-residue guard.\n")
     out.append("## Shape census: pinned raw text vs current clean tree (files / bytes carrying each defect)\n\n| defect | files (pin) | bytes (pin) | % bytes | files (clean) | bytes (clean) | % bytes |\n|---|---:|---:|---:|---:|---:|---:|")
     tot = sum(r["size"] for r in rs)
     import re as _re
