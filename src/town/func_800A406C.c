@@ -1,10 +1,8 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
-typedef struct S_800A17CC_0 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_800A17CC_0;   /* root in func_800A17CC */
+   /* root in func_800A17CC */
 
 typedef struct S_800A17CC_1 {
     u8 pad_00[0x4];
@@ -111,9 +109,9 @@ void func_800A17CC(void *sprite, s32 position) {
     {
         u8 *state = gameWork.unk_000;
 
-        textured_quad = ((S_800A17CC_0 *)state)->unk_8D0;
+        textured_quad = ((GpuContext *)state)->packetCursor;
         quad_packet = textured_quad;
-        ((S_800A17CC_0 *)state)->unk_8D0 = textured_quad + 0x28;
+        ((GpuContext *)state)->packetCursor = textured_quad + 0x28;
     }
     color |= 0x8080;
     ((S_800A17CC_1 *)textured_quad)->unk_04 = color;
@@ -222,8 +220,8 @@ void func_800A17CC(void *sprite, s32 position) {
     (*(u16 *)((u8 *)textured_quad + 0x22)) = SCRATCH(u16, 0xF6);
 
     render_state = gameWork.unk_000;
-    overlay_quad = ((S_800A17CC_0 *)render_state)->unk_8D0;
-    ((S_800A17CC_0 *)render_state)->unk_8D0 = overlay_quad + 0x18;
+    overlay_quad = ((GpuContext *)render_state)->packetCursor;
+    ((GpuContext *)render_state)->packetCursor = overlay_quad + 0x18;
     ((S_800A17CC_3 *)overlay_quad)->unk_04 = ((S_800A17CC_2 *)sprite)->unk_12;
     ((S_800A17CC_3 *)overlay_quad)->unk_05 = ((S_800A17CC_2 *)sprite)->unk_12;
     ((S_800A17CC_3 *)overlay_quad)->unk_06 = ((S_800A17CC_2 *)sprite)->unk_12;
@@ -240,23 +238,23 @@ void func_800A17CC(void *sprite, s32 position) {
 
     render_state = gameWork.unk_000;
     SCRATCH(u32, 0x24) = (s32)(render_state + 0xB0);
-    draw_mode = ((S_800A17CC_0 *)render_state)->unk_8D0;
-    ((S_800A17CC_0 *)render_state)->unk_8D0 = draw_mode + 0xC;
+    draw_mode = ((GpuContext *)render_state)->packetCursor;
+    ((GpuContext *)render_state)->packetCursor = draw_mode + 0xC;
     func_80067F20(draw_mode, 1, 0, texture_page & 0xFFFF, &D_800D0A40);
     func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), draw_mode);
     func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), overlay_quad);
 
     render_state = gameWork.unk_000;
-    draw_mode = ((S_800A17CC_0 *)render_state)->unk_8D0;
-    ((S_800A17CC_0 *)render_state)->unk_8D0 = draw_mode + 0xC;
+    draw_mode = ((GpuContext *)render_state)->packetCursor;
+    ((GpuContext *)render_state)->packetCursor = draw_mode + 0xC;
     func_80067F20(draw_mode, 1, 0,
         func_80066460(0, 1, 0x140, 0) & 0xFFFF, 0);
     func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), draw_mode);
     func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), textured_quad);
 
     render_state = gameWork.unk_000;
-    draw_mode = ((S_800A17CC_0 *)render_state)->unk_8D0;
-    ((S_800A17CC_0 *)render_state)->unk_8D0 = draw_mode + 0xC;
+    draw_mode = ((GpuContext *)render_state)->packetCursor;
+    ((GpuContext *)render_state)->packetCursor = draw_mode + 0xC;
     func_80067F20(draw_mode, 1, 0, texture_page & 0xFFFF, texture_window);
     func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), draw_mode);
 }

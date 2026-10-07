@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -31,10 +32,7 @@ typedef struct S_800D1824_0 {
     s32 unk_114;
 } S_800D1824_0;   /* scratch in func_800D1824 */
 
-typedef struct S_800D1824_2 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_800D1824_2;   /* root in func_800D1824 */
+   /* root in func_800D1824 */
 
 typedef struct S_800D1824_4 {
     u8 pad_00[0x8];
@@ -50,10 +48,7 @@ typedef struct S_800D1824_5 {
     u8 * unk_10;
 } S_800D1824_5;   /* ((S_800D1824_1 *)globals)->unk_1E0 in func_800D1824 */
 
-typedef struct S_800D1824_6 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_800D1824_6;   /* ((S_800D1824_1 *)globals)->unk_00 in func_800D1824 */
+   /* ((S_800D1824_1 *)globals)->unk_00 in func_800D1824 */
 
 
 extern void func_80065034(void *ptr, void *ptr2, void *ptr3);
@@ -76,7 +71,7 @@ void func_800D1824(u8 *tiles)
     ((S_800D1824_0 *)scratch)->unk_28 = 0;
     render_state = ((u8 *)globals->unk_000);
     style = ((S_800D1824_5 *)(((u8 *)globals->map.unk_04)))->unk_10;
-    prim = ((S_800D1824_2 *)render_state)->unk_8D0;
+    prim = ((GpuContext *)render_state)->packetCursor;
     ((S_800D1824_0 *)scratch)->unk_2C = -0x1000;
     ((S_800D1824_0 *)scratch)->unk_20 = render_state + 0xB0;
 
@@ -141,5 +136,5 @@ void func_800D1824(u8 *tiles)
         tiles += 4;
     }
 
-    ((S_800D1824_6 *)(((u8 *)globals->unk_000)))->unk_8D0 = prim;
+    ((GpuContext *)(((u8 *)globals->unk_000)))->packetCursor = prim;
 }

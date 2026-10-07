@@ -1,12 +1,10 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
 typedef struct OrderingTag { u32 addr : 24; u32 count : 8; } OrderingTag;
 
-typedef struct S_80173E94_0 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_80173E94_0;   /* state in func_80173E94 */
+   /* state in func_80173E94 */
 
 typedef struct S_80173E94_1 {
     u16 unk_00;
@@ -57,10 +55,7 @@ typedef struct S_80173E94_5 {
     u8 * unk_08;
 } S_80173E94_5;   /* previous in func_80173E94 */
 
-typedef struct S_80173E94_6 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_80173E94_6;   /* final_state in func_80173E94 */
+   /* final_state in func_80173E94 */
 
 
 extern s32 func_80065420(void *, void *, void *, void *);
@@ -87,7 +82,7 @@ s32 func_80173E94(u8 *node, void *vertex_arg)
     state = *(u8 **)((u8 *)(&gameWork));
     scratch = (u8 *)0x1F800000;
 
-    *(u8 * *)(scratch + 0x18) = ((S_80173E94_0 *)state)->unk_8D0;
+    *(u8 * *)(scratch + 0x18) = ((GpuContext *)state)->packetCursor;
     ((S_80173E94_1 *)scratch)->unk_20.p = state + 0xB0;
 
     do {
@@ -176,6 +171,6 @@ s32 func_80173E94(u8 *node, void *vertex_arg)
 
     final_state = *state_ptr;
     packet_end = ((S_80173E94_1 *)scratch)->unk_18;
-    ((S_80173E94_6 *)final_state)->unk_8D0 = packet_end;
+    ((GpuContext *)final_state)->packetCursor = packet_end;
     return 0;
 }

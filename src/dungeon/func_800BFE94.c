@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -63,10 +64,7 @@ typedef struct S_800C55F4_4 {
     u8 * unk_3160;
 } S_800C55F4_4;   /* page_record7 in func_800C55F4 */
 
-typedef struct S_800C55F4_5 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_800C55F4_5;   /* root in func_800C55F4 */
+   /* root in func_800C55F4 */
 
 typedef struct S_800C55F4_6 {
     u32 unk_00;
@@ -79,10 +77,7 @@ typedef struct S_800C55F4_8 {
     s16 unk_32;
 } S_800C55F4_8;   /* arg0_pin in func_800C55F4 */
 
-typedef struct S_800C55F4_10 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_800C55F4_10;   /* ((S_800C55F4_9 *)global_base)->unk_00 in func_800C55F4 */
+   /* ((S_800C55F4_9 *)global_base)->unk_00 in func_800C55F4 */
 
 
 extern s32 func_8004CECC();
@@ -193,7 +188,7 @@ void func_800C55F4(u8 *params, u8 *record, void *mesh_data, s32 depth_offset)
 
     render_state = ((u8 *)global_base->unk_000);
     ((S_800C55F4_1 *)scratch)->unk_20 = render_state + 0xB0;
-    prim = ((S_800C55F4_5 *)render_state)->unk_8D0;
+    prim = ((GpuContext *)render_state)->packetCursor;
     packet_code = prim + 7;
     ((S_800C55F4_2 *)mesh_data)->unk_14 |= 0x8000;
 
@@ -340,5 +335,5 @@ void func_800C55F4(u8 *params, u8 *record, void *mesh_data, s32 depth_offset)
         break;
     }
     func_80064A40();
-    ((S_800C55F4_10 *)(((u8 *)global_base->unk_000)))->unk_8D0 = prim;
+    ((GpuContext *)(((u8 *)global_base->unk_000)))->packetCursor = prim;
 }

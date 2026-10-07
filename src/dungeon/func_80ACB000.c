@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/game_work.h"
@@ -37,10 +38,7 @@ __asm__(".globl func_80ACB000\n"
 #endif
 
 BODY_STORAGE s32 BODY_NAME(u8 *node_data, u16 *position) BODY_ATTR;
-typedef struct RenderState {
-    u8 pad0[0x8D0];
-    u8 *next_prim;
-} RenderState;
+
 
 typedef struct Scratch {
     u8 pad0[4];
@@ -78,8 +76,8 @@ BODY_STORAGE s32 BODY_NAME(u8 *node_data, u16 *position)
 {
     Scratch *scratch = (Scratch *)0x1F800000;
     void **global_state = ((void * *)(&gameWork));
-    RenderState *render_state = (RenderState *)global_state[0];
-    Packet *first_packet = (Packet *)render_state->next_prim;
+    GpuContext *render_state = (GpuContext *)global_state[0];
+    Packet *first_packet = (Packet *)render_state->packetCursor;
     Packet *packet;
     Packet *mode_packet;
     s32 depth_index;
@@ -144,7 +142,7 @@ BODY_STORAGE s32 BODY_NAME(u8 *node_data, u16 *position)
         }
     }
 
-    ((RenderState *)global_state[0])->next_prim = scratch->current;
+    ((GpuContext *)global_state[0])->packetCursor = scratch->current;
     return 0;
 }
 

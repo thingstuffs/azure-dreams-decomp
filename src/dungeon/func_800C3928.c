@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -67,10 +68,7 @@ typedef struct S_800C9088_2 {
     u8 * unk_3160;
 } S_800C9088_2;   /* ptr_s0 in func_800C9088 */
 
-typedef struct S_800C9088_3 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_800C9088_3;   /* state in func_800C9088 */
+   /* state in func_800C9088 */
 
 typedef struct S_800C9088_4 {
     u8 * unk_00;
@@ -99,10 +97,7 @@ typedef struct S_800C9088_9 {
     u16 unk_04;
 } S_800C9088_9;   /* table + half_index * 8 in func_800C9088 */
 
-typedef struct S_800C9088_11 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_800C9088_11;   /* *(u8 **)state_base in func_800C9088 */
+   /* *(u8 **)state_base in func_800C9088 */
 
 typedef struct S_800C9088_12 {
     s32 unk_00;
@@ -215,7 +210,7 @@ void func_800C9088(void *parent_matrix, void *translation, void *model, s16 dept
     state = state_table[0];
     base_color = (u8 *)model + 0xC;
     ((S_800C9088_1 *)scratch)->unk_20.s = state + 0xB0;
-    packet = ((S_800C9088_3 *)state)->unk_8D0;
+    packet = ((GpuContext *)state)->packetCursor;
     ((S_800C9088_0 *)model)->unk_14 |= 0x8000;
 
     descriptor = ((S_800C9088_0 *)model)->unk_08;
@@ -333,5 +328,5 @@ void func_800C9088(void *parent_matrix, void *translation, void *model, s16 dept
     }
 
     func_80064A40();
-    ((S_800C9088_11 *)state_table[0])->unk_8D0 = packet;
+    ((GpuContext *)state_table[0])->packetCursor = packet;
 }

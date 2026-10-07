@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -41,10 +42,7 @@ typedef struct S_800BBDEC_1 {
     s16 unk_0A;
 } S_800BBDEC_1;   /* arg1 in func_800BBDEC */
 
-typedef struct S_800BBDEC_2 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_800BBDEC_2;   /* *global in func_800BBDEC */
+   /* *global in func_800BBDEC */
 
 typedef struct S_800BBDEC_3 {
     u8 pad_00[0xC];
@@ -107,7 +105,7 @@ void func_800BBDEC(S_800BBDEC_4 *object, S_800BBDEC_1 *position, S_800BBDEC_3 *a
     ((S_800BBDEC_0 *)scratch)->unk_E4 = position->unk_02;
     ((S_800BBDEC_0 *)scratch)->unk_E8 = position->unk_06;
     ((S_800BBDEC_0 *)scratch)->unk_EC = position->unk_0A;
-    prim = ((S_800BBDEC_2 *)(*render_ctx))->unk_8D0;
+    prim = ((GpuContext *)(*render_ctx))->packetCursor;
 
     func_800649A0();
 
@@ -169,5 +167,5 @@ void func_800BBDEC(S_800BBDEC_4 *object, S_800BBDEC_1 *position, S_800BBDEC_3 *a
     }
 
     func_80064A40();
-    ((S_800BBDEC_2 *)(*render_ctx))->unk_8D0 = prim;
+    ((GpuContext *)(*render_ctx))->packetCursor = prim;
 }

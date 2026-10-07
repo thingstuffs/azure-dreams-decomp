@@ -1,10 +1,8 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
-typedef struct {
-    u8 pad0[0x8D0];
-    u8 *cursor;
-} DungeonState;
+
 
 typedef struct {
     u8 pad0[3];
@@ -29,15 +27,15 @@ typedef struct {
 
 extern u8 D_801C9E40[16];
 
-extern void func_80067E2C(u8 *, DungeonState *);
+extern void func_80067E2C(u8 *, GpuContext *);
 extern void func_8006658C(u8 *, u8 *);
 extern void func_800B84E4(s16 *, s32, u8 *, s32);
 
 /* Draw at the rectangle center and optionally emit a filled rectangle. */
 void func_800B835C(s32 draw_value, DungeonInput *rect, u16 fill_rect, u16 draw_mode) {
-    DungeonState *initial_state;
-    DungeonState *active_state;
-    DungeonState **state_slot = &gameWork.unk_000;
+    GpuContext *initial_state;
+    GpuContext *active_state;
+    GpuContext **state_slot = &gameWork.unk_000;
     u8 *draw_list;
     u8 *command_cursor;
     DungeonPacket *fill_packet;
@@ -47,10 +45,10 @@ void func_800B835C(s32 draw_value, DungeonInput *rect, u16 fill_rect, u16 draw_m
     s16 offset_y;
 
     initial_state = gameWork.unk_000;
-    offset_y = initial_state != (DungeonState *)D_801C9E40 ? 1 : 0;
-    command_cursor = initial_state->cursor;
+    offset_y = initial_state != (GpuContext *)D_801C9E40 ? 1 : 0;
+    command_cursor = initial_state->packetCursor;
     draw_list = (u8 *)initial_state + 0x8B0;
-    initial_state->cursor = command_cursor + 0xC;
+    initial_state->packetCursor = command_cursor + 0xC;
     func_80067E2C(command_cursor, gameWork.unk_000);
     func_8006658C(draw_list, command_cursor);
 
@@ -64,8 +62,8 @@ void func_800B835C(s32 draw_value, DungeonInput *rect, u16 fill_rect, u16 draw_m
 
     if ((fill_rect & 0xFFFF) != 0) {
         active_state = gameWork.unk_000;
-        fill_packet = (DungeonPacket *)active_state->cursor;
-        active_state->cursor = (u8 *)fill_packet + 0x10;
+        fill_packet = (DungeonPacket *)active_state->packetCursor;
+        active_state->packetCursor = (u8 *)fill_packet + 0x10;
         fill_packet->command = 0x60000000;
         fill_packet->type = 3;
         fill_packet->x = rect->x;
@@ -79,8 +77,8 @@ void func_800B835C(s32 draw_value, DungeonInput *rect, u16 fill_rect, u16 draw_m
     }
 
     active_state = *state_slot;
-    command_cursor = active_state->cursor;
-    active_state->cursor = command_cursor + 0xC;
+    command_cursor = active_state->packetCursor;
+    active_state->packetCursor = command_cursor + 0xC;
     func_80067E2C(command_cursor, rect);
     func_8006658C(draw_list, command_cursor);
 }

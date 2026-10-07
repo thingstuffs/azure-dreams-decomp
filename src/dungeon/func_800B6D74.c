@@ -1,10 +1,8 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
-typedef struct S_800BC4D4_0 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_800BC4D4_0;   /* root in func_800BC4D4 */
+   /* root in func_800BC4D4 */
 
 typedef struct S_800BC4D4_1 {
     u16 unk_00;
@@ -102,35 +100,8 @@ typedef struct S_800BC4D4_6 {
     u16 unk_00;
 } S_800BC4D4_6;   /* texture + 4 in func_800BC4D4 */
 
-typedef struct S_800BC4D4_7 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_800BC4D4_7;   /* *global in func_800BC4D4 */
+   /* *global in func_800BC4D4 */
 
-
-typedef struct ScratchGeom {
-    u8 pad70[0x70];
-    s16 p70;
-    u8 pad72[6];
-    s16 p78;
-    u8 pad7a[6];
-    s16 p80;
-    u8 pad82[6];
-    s16 p88;
-    u8 pad8a[6];
-    s16 p90;
-    u8 pad92[2];
-    s16 p94;
-    u8 pad96[0x5a];
-    s16 pF0;
-    u8 padF2[2];
-    s16 pF4;
-    u8 padF6[2];
-    s16 pF8;
-    u8 padFA[2];
-    s16 pFC;
-    u8 padFE[2];
-} ScratchGeom;
 
 extern void func_80064840(void *, void *, void *);
 extern void func_800649A0(void);
@@ -180,7 +151,7 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
     scratch = scratch_base;
     perspective = (u8 *)((u32)perspective | 0x90);
     root = *(u8 **)((u8 *)(&gameWork));
-    packet = ((S_800BC4D4_0 *)root)->unk_8D0;
+    packet = ((GpuContext *)root)->packetCursor;
     ((S_800BC4D4_1 *)scratch)->unk_20 = root + 0xB0;
     ((S_800BC4D4_1 *)scratch)->unk_EC = 0;
     ((S_800BC4D4_1 *)scratch)->unk_E8 = 0;
@@ -392,5 +363,5 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
         func_80064A40();
     }
 
-    ((S_800BC4D4_7 *)(*root_ptr))->unk_8D0 = packet;
+    ((GpuContext *)(*root_ptr))->packetCursor = packet;
 }

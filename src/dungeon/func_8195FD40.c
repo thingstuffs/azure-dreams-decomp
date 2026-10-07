@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -41,10 +42,7 @@ typedef struct S_8195FD40_1 {
     s16 unk_0A;
 } S_8195FD40_1;   /* arg1 in func_8195FD40 */
 
-typedef struct S_8195FD40_2 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_8195FD40_2;   /* *global in func_8195FD40 */
+   /* *global in func_8195FD40 */
 
 typedef struct S_8195FD40_3 {
     u8 pad_00[0x8];
@@ -136,7 +134,7 @@ void func_8195FD40(s32 unused, S_8195FD40_1 *position, S_8195FD40_3 *quad, s16 d
     ((S_8195FD40_0 *)scratch)->unk_E4 = position->unk_02;
     ((S_8195FD40_0 *)scratch)->unk_E8 = position->unk_06;
     ((S_8195FD40_0 *)scratch)->unk_EC = position->unk_0A;
-    packet = ((S_8195FD40_2 *)(*render_context))->unk_8D0;
+    packet = ((GpuContext *)(*render_context))->packetCursor;
     texture = quad->unk_08;
     func_800649A0();
 
@@ -219,5 +217,5 @@ void func_8195FD40(s32 unused, S_8195FD40_1 *position, S_8195FD40_3 *quad, s16 d
         }
     }
     func_80064A40();
-    ((S_8195FD40_2 *)(*render_context))->unk_8D0 = packet;
+    ((GpuContext *)(*render_context))->packetCursor = packet;
 }

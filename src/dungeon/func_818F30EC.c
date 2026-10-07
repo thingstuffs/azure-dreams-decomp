@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 typedef struct {
@@ -5,10 +6,7 @@ typedef struct {
     u32 len : 8;
 } P_TAG;
 
-typedef struct S_800248EC_0 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_800248EC_0;   /* ctx in func_800248EC */
+   /* ctx in func_800248EC */
 
 typedef struct S_800248EC_1 {
     u8 pad_00[0x2];
@@ -42,10 +40,7 @@ typedef struct S_800248EC_4 {
     void * unk_08;
 } S_800248EC_4;   /* next in func_800248EC */
 
-typedef struct S_800248EC_5 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_800248EC_5;   /* final_ctx in func_800248EC */
+   /* final_ctx in func_800248EC */
 
 
 typedef struct {
@@ -95,7 +90,7 @@ s32 func_800248EC(void *first_point, void *first_position)
     s32 draw_page;
     void *next_node;
 
-    packet_start = ((S_800248EC_0 *)render_ctx)->unk_8D0;
+    packet_start = ((GpuContext *)render_ctx)->packetCursor;
     scratch->ot = (u32 *)(render_ctx + 0xB0);
     scratch->cursor = packet_start;
 
@@ -151,6 +146,6 @@ s32 func_800248EC(void *first_point, void *first_position)
     }
 
     final_render_ctx = render_state->unk_000;
-    ((S_800248EC_5 *)final_render_ctx)->unk_8D0 = scratch->cursor;
+    ((GpuContext *)final_render_ctx)->packetCursor = scratch->cursor;
     return 0;
 }

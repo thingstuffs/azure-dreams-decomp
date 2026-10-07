@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -58,10 +59,7 @@ typedef struct S_80166968_2 {
     u16 unk_1A;
 } S_80166968_2;   /* arg2 in func_80166968 */
 
-typedef struct S_80166968_3 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_80166968_3;   /* *global in func_80166968 */
+   /* *global in func_80166968 */
 
 typedef struct S_80166968_4 {
     u32 unk_00;
@@ -160,8 +158,8 @@ void func_80166968(S_80166968_4 *geometry, S_80166968_1 *position, u8 *render_da
     ((S_80166968_0 *)scratch)->unk_28 = ((S_80166968_2 *)render_data)->unk_14;
 
     for (;;) {
-        packet = ((S_80166968_3 *)(*render_state_ref))->unk_8D0;
-        ((S_80166968_3 *)(*render_state_ref))->unk_8D0 = packet + 0x10;
+        packet = ((GpuContext *)(*render_state_ref))->packetCursor;
+        ((GpuContext *)(*render_state_ref))->packetCursor = packet + 0x10;
 
         point_a = scratch + 0xB0;
         mid_a_x = (geometry->unk_74 + geometry->unk_7A) / 2;
@@ -216,8 +214,8 @@ void func_80166968(S_80166968_4 *geometry, S_80166968_1 *position, u8 *render_da
                 + ((S_80166968_0 *)scratch)->unk_100 * 4)) & length_mask) |
             ((u32)packet & address_mask);
 
-        packet = ((S_80166968_3 *)(*render_state_ref))->unk_8D0;
-        ((S_80166968_3 *)(*render_state_ref))->unk_8D0 = packet + 0xC;
+        packet = ((GpuContext *)(*render_state_ref))->packetCursor;
+        ((GpuContext *)(*render_state_ref))->packetCursor = packet + 0xC;
         func_80067F20(packet, zero, zero, func_80066460(zero, 1, zero, zero) & 0xFFFF, zero);
 
         ((S_80166968_5 *)packet)->unk_00.at00.v = (((S_80166968_5 *)packet)->unk_00.at00.v & length_mask) |

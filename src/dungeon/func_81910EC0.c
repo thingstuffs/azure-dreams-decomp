@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -16,10 +17,7 @@ typedef struct {
     u32 len : 8;
 } P_TAG;
 
-typedef struct GfxContext {
-    u8 pad0[0x8D0];
-    u8 *cursor;
-} GfxContext;
+
 
 
 extern u32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
@@ -39,7 +37,7 @@ void func_81910EC0(u8 *shape, void *position, s16 scale_num, s16 scale_den)
 
     PTR_AT(scratchpad, 0x18) = gfx + 0xB0;
     do {
-        GfxContext **gfx_pool = (GfxContext **)gfx_slot;
+        GpuContext **gfx_pool = (GpuContext **)gfx_slot;
         u8 *start_point = shape + edge * 4;
         u8 *packet;
         u8 *end_point;
@@ -48,8 +46,8 @@ void func_81910EC0(u8 *shape, void *position, s16 scale_num, s16 scale_den)
         u16 vertex_y;
         u32 depth;
 
-        packet = (*gfx_pool)->cursor;
-        (*gfx_pool)->cursor = packet + 0x24;
+        packet = (*gfx_pool)->packetCursor;
+        (*gfx_pool)->packetCursor = packet + 0x24;
 
         U8_AT(packet, 3) = 8;
         U8_AT(packet, 7) = 0x3A;
@@ -132,9 +130,9 @@ void func_81910EC0(u8 *shape, void *position, s16 scale_num, s16 scale_den)
                 (*(u32 *)(PTR_AT(scratchpad, 0x18) + U32_AT(scratchpad, 0xB4) * 4) & length_mask) |
                 ((u32)packet & addr_mask);
 
-            gfx_pool = (GfxContext **)gfx_slot;
-            packet = (*gfx_pool)->cursor;
-            (*gfx_pool)->cursor = packet + 0xC;
+            gfx_pool = (GpuContext **)gfx_slot;
+            packet = (*gfx_pool)->packetCursor;
+            (*gfx_pool)->packetCursor = packet + 0xC;
             func_80067F20(packet, 0, 0,
                 (u16)func_80066460(0, S16_AT(shape, 0x12), 0, 0), 0);
 

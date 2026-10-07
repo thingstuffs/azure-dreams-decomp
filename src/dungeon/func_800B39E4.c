@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -8,10 +9,7 @@
 #define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define P32(p, o) (*(void **)((u8 *)(p) + (o)))
 
-typedef struct {
-    u8 pad[0x8D0];
-    u8 *record;
-} Root;
+
 
 typedef struct {
     u8 pad70[0x70];
@@ -61,9 +59,9 @@ void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
     u8 *sprite = P32(context, -0x14);
     s32 callback_arg = S32(context, -0x18);
     s16 saved_mode = draw_mode;
-    Root *root = gameWork.unk_000;
+    GpuContext *root = gameWork.unk_000;
     Record *part = P32(sprite, 8);
-    Root **global_slot = ((Root * *)(&gameWork));
+    GpuContext **global_slot = ((GpuContext * *)(&gameWork));
     u8 *scratch_base;
     u8 *packet;
     s32 mode_bits;
@@ -76,7 +74,7 @@ void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
     U16(scratch, 0x84) = 0;
     U16(scratch, 0x7C) = 0;
     U16(scratch, 0x74) = 0;
-    packet = root->record;
+    packet = root->packetCursor;
     mode_bits = draw_mode << 16;
     S32(scratch, 0x20) = depth;
     S32(scratch, 0xC0) = 0;
@@ -371,6 +369,6 @@ void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
         }
     }
     func_80064A40();
-    (*global_slot)->record = packet;
+    (*global_slot)->packetCursor = packet;
     return;
 }

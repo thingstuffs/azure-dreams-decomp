@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -53,10 +54,7 @@ typedef struct S_8195F43C_3 {
     u16 unk_02;
 } S_8195F43C_3;   /* table2 in func_8195F43C */
 
-typedef struct S_8195F43C_4 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_8195F43C_4;   /* base in func_8195F43C */
+   /* base in func_8195F43C */
 
 typedef struct S_8195F43C_5 {
     u8 pad_00[0x8];
@@ -104,10 +102,7 @@ typedef struct S_8195F43C_7 {
     u8 unk_25;
 } S_8195F43C_7;   /* packet in func_8195F43C */
 
-typedef struct S_8195F43C_8 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_8195F43C_8;   /* *global in func_8195F43C */
+   /* *global in func_8195F43C */
 
 
 #define VFIELD(p, type, offset) (*(volatile type *)((u8 *)(p) + (offset)))
@@ -178,7 +173,7 @@ void func_8195F43C(void *unused, void *origin, u8 *object, s16 tile_x, s16 tile_
     ((S_8195F43C_0 *)scratch)->unk_84 = (s16)((S_8195F43C_2 *)height_row)->unk_02 / 2;
     ((S_8195F43C_0 *)scratch)->unk_8C = (s16)((S_8195F43C_3 *)next_height_row)->unk_02 / 2;
 
-    packet = ((S_8195F43C_4 *)render_ctx)->unk_8D0;
+    packet = ((GpuContext *)render_ctx)->packetCursor;
     func_800649A0();
 
     VFIELD(scratch, u32, 0x30) = ((S_8195F43C_5 *)object)->unk_1C * 2;
@@ -357,5 +352,5 @@ void func_8195F43C(void *unused, void *origin, u8 *object, s16 tile_x, s16 tile_
     }
 
     func_80064A40();
-    ((S_8195F43C_8 *)(*render_state))->unk_8D0 = packet;
+    ((GpuContext *)(*render_state))->packetCursor = packet;
 }

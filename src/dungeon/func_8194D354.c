@@ -98,11 +98,6 @@ typedef struct S_80024B54_11 {
     u16 unk_0A;
 } S_80024B54_11;   /* var_v1 in func_80024B54 */
 
-typedef struct S_80024B54_12 {
-    u8 pad_00[0x88];
-    u16 unk_88;
-} S_80024B54_12;   /* D_800814A8 in func_80024B54 */
-
 typedef struct S_80024B54_13_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -188,8 +183,8 @@ void func_80024B54(void *effect_arg, void *position) {
         if (*((S_80024B54_0 *)effect_arg)->unk_04 & 0x80) {
             ((S_80024B54_0 *)effect_arg)->unk_18 = 0xAU;
             ((S_80024B54_1 *)D_800814A8)->unk_A6--;
-            ((S_80024B54_1 *)D_800814A8)->unk_A8 = ((S_80024B54_0 *)effect_arg)->unk_08;
-            next_state_c1 = ((S_80024B54_1 *)D_800814A8)->unk_2A.u;
+            D_800814A8->unk_A8 = ((S_80024B54_0 *)effect_arg)->unk_08;
+            next_state_c1 = ((u16)D_800814A8->facing);
             ((S_80024B54_0 *)effect_arg)->unk_0A.s++;
             ((S_80024B54_0 *)effect_arg)->unk_0E = next_state_c1;
             if (func_80053EF0(4) != 2) {
@@ -260,7 +255,7 @@ void func_80024B54(void *effect_arg, void *position) {
                 ((S_80024B54_7 *)target_pos)->unk_0A.u = ground_height;
                 if ((s16)ground_height > 0x200) {
                     ((S_80024B54_7 *)target_pos)->unk_0A.u =
-                        (u16)((S_80024B54_12 *)(D_800814A8))->unk_88;
+                        (u16)((u16)D_800814A8->unk_88);
                 }
                 position_valid = func_800A45D8(((S_80024B54_7 *)target_pos)->unk_02.u,
                     ((S_80024B54_7 *)target_pos)->unk_06.u, (s16)((S_80024B54_7 *)target_pos)->unk_0A.u);
@@ -277,7 +272,7 @@ void func_80024B54(void *effect_arg, void *position) {
                     ((S_80024B54_7 *)target_pos)->unk_0A.u = near_height;
                     if ((s16)near_height > 0x200) {
                         ((S_80024B54_7 *)target_pos)->unk_0A.u =
-                            (u16)((S_80024B54_12 *)(D_800814A8))->unk_88;
+                            (u16)((u16)D_800814A8->unk_88);
                     }
                     break;
                 }

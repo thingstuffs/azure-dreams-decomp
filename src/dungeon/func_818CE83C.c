@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 /* func_8002403C (dungeon, foff 0x18EE83C) -- true base 0x8002403C by bank law
  * (bank 0x18EA800 -> 0x80020000, delta 0x7E735800, same delta as the proven region
  * leaf_18efb74_truebase_80025374 in this bank).  The retail `j 0x80024094` at word 132
@@ -20,10 +21,7 @@ extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, s32, s32);
 
 
-typedef struct S_8002403C_0 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_8002403C_0;   /* state in func_8002403C */
+   /* state in func_8002403C */
 
 typedef struct S_8002403C_1 {
     u16 unk_00;
@@ -68,10 +66,7 @@ typedef struct S_8002403C_5 {
     u8 * unk_08;
 } S_8002403C_5;   /* previous in func_8002403C */
 
-typedef struct S_8002403C_6 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_8002403C_6;   /* final_state in func_8002403C */
+   /* final_state in func_8002403C */
 
 typedef struct { u32 addr:24; u32 length:8; } PacketTag;
 
@@ -96,7 +91,7 @@ s32 func_8002403C(void *start_node, void *start_coords)
     render_state = *(u8 **)((u8 *)(&gameWork));
     scratch = (u8 *)0x1F800000;
 
-    *(u8 * *)(scratch + 0x18) = ((S_8002403C_0 *)render_state)->unk_8D0;
+    *(u8 * *)(scratch + 0x18) = ((GpuContext *)render_state)->packetCursor;
     ((S_8002403C_1 *)scratch)->unk_20.p = render_state + 0xB0;
 
     for (;;) {
@@ -183,6 +178,6 @@ s32 func_8002403C(void *start_node, void *start_coords)
 
     final_state = *state_ptr;
     packet_end = ((S_8002403C_1 *)scratch)->unk_18;
-    ((S_8002403C_6 *)final_state)->unk_8D0 = packet_end;
+    ((GpuContext *)final_state)->packetCursor = packet_end;
     return 0;
 }

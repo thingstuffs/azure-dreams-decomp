@@ -1,11 +1,9 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "records/Rec_D_80083160.h"
 
-typedef struct S_8009E798_0 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_8009E798_0;   /* state in func_8009E798 */
+   /* state in func_8009E798 */
 
 typedef struct S_8009E798_1 {
     union { u16 u; s16 s; } unk_00;   /* accessed as both */
@@ -139,10 +137,7 @@ typedef struct S_8009E798_7 {
     u16 unk_0A;
 } S_8009E798_7;   /* var_s4 in func_8009E798 */
 
-typedef struct S_8009E798_8 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_8009E798_8;   /* ret_state in func_8009E798 */
+   /* ret_state in func_8009E798 */
 
 
 
@@ -168,7 +163,7 @@ s32 func_8009E798(void *draw_area, void *placement, void *sprite)
     u8 **state_ptr = (u8 **)((u8 *)(&gameWork));
     u8 *state = *state_ptr;
     u8 *scratch = (u8 *)0x1F800000;
-    u8 *packet = ((S_8009E798_0 *)state)->unk_8D0;
+    u8 *packet = ((GpuContext *)state)->packetCursor;
     u8 *frame;
     u8 *copy;
     u8 *prim;
@@ -313,6 +308,6 @@ s32 func_8009E798(void *draw_area, void *placement, void *sprite)
                   prim);
     prim = packet + 0x58;
     func_80064A40();
-    ((S_8009E798_8 *)*state_ptr)->unk_8D0 = prim;
+    ((GpuContext *)*state_ptr)->packetCursor = prim;
     return 0;
 }

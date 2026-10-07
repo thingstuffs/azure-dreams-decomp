@@ -1,10 +1,8 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
-typedef struct {
-    u8 pad[0x8D0];
-    u8 *next;
-} Arena;
+
 
 typedef struct {
     u8 pad[0xA];
@@ -29,17 +27,17 @@ extern void func_8006658C(void *, void *);
 
 /* Queue a full-screen grayscale quad with its draw mode at the input ordering index. */
 s32 func_800A624C(Input *input) {
-    Arena *arena;
+    GpuContext *arena;
     u8 *draw_mode;
     Work *quad;
     s16 color;
 
-    arena = (Arena *)gameWork.unk_000;
-    draw_mode = arena->next;
-    arena->next = draw_mode + 0xC;
-    arena = (Arena *)gameWork.unk_000;
-    quad = (Work *)arena->next;
-    arena->next = (u8 *)quad + 0x18;
+    arena = (GpuContext *)gameWork.unk_000;
+    draw_mode = arena->packetCursor;
+    arena->packetCursor = draw_mode + 0xC;
+    arena = (GpuContext *)gameWork.unk_000;
+    quad = (Work *)arena->packetCursor;
+    arena->packetCursor = (u8 *)quad + 0x18;
 
     func_80067F20(draw_mode, 0, 0, 0x40, 0);
 

@@ -6,13 +6,6 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-typedef struct S_801716A4_0 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x8];
-    void * unk_0C;
-} S_801716A4_0;   /* global in func_801716A4 */
-
 typedef struct S_801716A4_1 {
     u8 pad_00[0x12];
     u8 unk_12;
@@ -60,11 +53,6 @@ typedef struct S_801716A4_5 {
     u8 pad_9A[0x2];
     union { s8 s; u8 u; } unk_9C;   /* accessed as both */
 } S_801716A4_5;   /* arg0 in func_801716A4 */
-
-typedef struct S_801716A4_6 {
-    u8 pad_00[0x8];
-    u16 unk_08;
-} S_801716A4_6;   /* global_count in func_801716A4 */
 
 typedef struct S_801716A4_7 {
     u8 pad_00[0x24];
@@ -171,13 +159,13 @@ void func_801716A4(void *move_data_in, void *context, void *tile_in, void *actor
                 s32 target_y;
                 u8 *turn_data;
                 {
-                    u8 *origin = ((u8 *)&D_80082E80);
+                    TileObject *origin = &D_80082E80;
                     s32 direction = ((u16)D_800814A8->facing);
                     s32 table_index =
                         ((((S_801716A4_1 *)actor_in)->unk_45 + ((s16)direction >> 9)) & 7) << 1;
-                    target_x = origin[0x24] +
+                    target_x = origin->tileX +
                         *(u16 *)((u8 *)((s8 *)dirStepX) + table_index);
-                    target_y = origin[0x25] +
+                    target_y = origin->tileY +
                         *(u16 *)((u8 *)((s8 *)dirStepY) + table_index);
                 }
 
@@ -229,13 +217,13 @@ void func_801716A4(void *move_data_in, void *context, void *tile_in, void *actor
             }
 
             if (((S_801716A4_1 *)actor_in)->unk_1C & 0x20000) {
-                u8 *origin = ((u8 *)(&D_80082E80));
+                TileObject *origin = &D_80082E80;
                 ((S_801716A4_1 *)actor_in)->unk_2A.s = func_800A0818(
                     ((S_801716A4_2 *)tile_in)->unk_24.at00.v, ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
-                    origin[0x24], origin[0x25], (u8 *)move_data_in + 0x98);
+                    origin->tileX, origin->tileY, (u8 *)move_data_in + 0x98);
                 if (func_8009FD7C(
                         ((S_801716A4_2 *)tile_in)->unk_24.at00.v, ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
-                        origin[0x24], origin[0x25]) != 0) {
+                        origin->tileX, origin->tileY) != 0) {
                     if (func_8009A540(
                             ((s16)((S_801716A4_1 *)actor_in)->unk_2A.u >> 9) & 0xFFFF,
                             ((S_801716A4_2 *)tile_in)->unk_24.at00.v, ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
