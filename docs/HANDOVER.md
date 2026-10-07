@@ -1,3 +1,18 @@
+# Handover (2026-10-07 ~18:55Z, round 100: FIRST CARVE-DEBT MODULE) - start here
+
+**Landed:** 4478e2310 dungeon/modules/ovl_1852800.c certified (r100_astra_carve1 patches 0001+0002, reviewer
+orchestrator-r99): 4 rows (81832800, 81832FE8, 81833060, 818330F0) at L5; 81832800's composite prefix replaced by a
+native typed entry pointer; carve debt 112 -> 111 rows; 20 rows at L5; gate_all --all 2,175 MATCH + forced SLUS MATCH;
+all three certificates re-issued (0001 changed the module-gate tool fingerprint). Script: work/native_lane/_r99/
+run_r100_module1852800.sh (first run stopped at 'review incomplete': lanes leave review 'pending', the landing script
+must set membership/types/ownership='reviewed').
+**r100 lane results:** r100_sol61_unreg - 146 of the 148 unregistered switch functions are clones of existing rows;
+2 real GAPs with no C (DUNGEON 81917C08 [0x1937C08,0x1938310) 1,800 B; 81994D8C [0x19B4D8C,0x19B5B30) 3,492 B); clone
+templates cover 61 of the 77 re-carve prefixes (PREFIXES.tsv). r100_astra_carve1 - ovl_197281c, ovl_7e6a5800 and
+1870800 have exact native proofs but need native jump-table (.rodata) support in the module gate; patch 0003
+(rodata_trim_symbol_fields) NOT applied. **Next:** module-gate native-table integration (astra), the 2 GAP rows (new
+C), the clone-template re-carves, remaining a-route modules (REPORT.md).
+
 # Handover (2026-10-07 ~14:55Z, round 99: FIRST L5 ROWS; carve census running) - start here
 
 **Landed since 13:00Z (all gated):** 55948e24e r99 sol wave (NON_MATCHING 42 -> 1, live fidelity 17 -> 11); eefbc0cb9
