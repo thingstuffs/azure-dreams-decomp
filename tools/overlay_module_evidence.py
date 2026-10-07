@@ -3,7 +3,7 @@ import hashlib,json,sys,subprocess
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'tools/gate'))
-from overlay_module_gate import SCHEMA,CONTAINERS,affected_windows,fingerprint,graph,load_modules,local,sha,closure
+from overlay_module_gate import SCHEMA,CONTAINERS,affected_windows,fingerprint,graph,load_modules,local,sha,closure,payload_spec
 
 def proof_path(root,name):
  p=local(root,name)
@@ -14,8 +14,8 @@ def receipt_reason(m,r,root,proof_dir):
  ids=[a['id'] for a in m['members']];funcs=[a['function'] for a in m['members']];n=sum(a['size'] for a in m['members']);first=m['members'][0]
  if r.get('schema')!=SCHEMA or r.get('module')!=m['key'] or r.get('members')!=ids or r.get('candidates')!={}:return 'not canonical complete TU'
  ph=r.get('physical',{});payload=ph.get('payload',[])
- if (ph.get('compile_edges')!=1 or ph.get('functions')!=funcs or ph.get('owned_data')!=[] or ph.get('imports')!=m['imports']
-  or [s['name'] for s in payload]!=['.text.'+f for f in funcs] or [s['size'] for s in payload]!=[a['size'] for a in m['members']]):return 'incomplete function/data accounting'
+ if (ph.get('compile_edges')!=1 or ph.get('functions')!=funcs or ph.get('owned_data')!=m['owned_data'] or ph.get('imports')!=m['imports']
+  or [(s['name'],s['size']) for s in payload]!=payload_spec(m)):return 'incomplete function/data accounting'
  gate=r.get('gate',{});ge=r.get('genuine',{})
  if any(gate.get(k)!=v for k,v in {'result':'MATCH','bytes':n,'foff':first['foff'],'vma':first['vma'],'masked':0,'raw_substitution_bytes':0}.items()):return 'incomplete retail module proof'
  if any(ge.get(k)!=v for k,v in {'result':'MATCH','version':'2.79','whole_tu':True,'bytes':n,'masked':0}.items()):return 'incomplete genuine proof'

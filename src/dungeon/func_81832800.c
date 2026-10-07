@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_1852800.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -16,11 +17,9 @@ s32 func_8004491C();                /* extern */
 s32 func_80069EF8();                /* extern */
 void func_8009CE1C(); /* extern */
 void *func_800A05A4();      /* extern */
-s16 func_800A3820();                         /* extern */
+s32 func_800A3820(s16);                         /* extern */
 s32 func_800A56E0();                     /* extern */
-s16 func_800BCB04();                   /* extern */
-extern void D_80024860(void *, void *, void *); /* func_81833060: the particle update callback */
-extern void D_800248F0(void *, void *, void *); /* func_818330F0: the burst particle callback */
+s32 func_800BCB04(s32, s32, s16);                   /* extern */
 
 typedef struct S_func_81832800_1 {
     void *unk_00;
@@ -105,38 +104,12 @@ typedef struct S_func_81832800_9 {
     u16 unk_00;
 } S_func_81832800_9;
 
-extern void func_80024004(void);
 
-/* Retail places ONE 4-byte word (0x80024004) immediately before this
- * function's own code, under the func_81832800 symbol: the row's true base is
- * 0x80024000 and that word points at 0x80024004, the first instruction of the
- * body.  Same composite shape as the matched sibling func_81844800 (8-entry
- * table + body in one .text.<func> section).  Prior drafts modelled this word
- * as a dead `lb $v0, 0x4004($zero)` retained by a volatile-asm keep; that
- * keep is
- * a sched2 barrier and is what pinned the dirStepX %hi below the callee-save
- * stores. */
-#ifdef __mips__
-static void (*const func_81832800_table[])(void)
-__asm__("func_81832800")
-__attribute__((section(".text.func_81832800"), aligned(4))) = {
-    func_80024004,
-};
-__asm__(".globl func_81832800\n"
-        ".type func_81832800,@function\n"
-        ".size func_81832800, 2024");
-#define BODY_NAME composite_body_81832800
-#define BODY_STORAGE static
-#define BODY_ATTR __attribute__((used, section(".text.func_81832800")))
-#else
-#define BODY_NAME func_81832800
-#define BODY_STORAGE
-#define BODY_ATTR
-#endif
+void (*const dungeon_1852800_entry)(S_func_81832800_1 *, S_func_81832800_4 *, void *) = func_80024004;
 
-BODY_STORAGE void BODY_NAME(S_func_81832800_1 *effect, S_func_81832800_4 *position, void *effect_sprite) BODY_ATTR;
+void func_80024004(S_func_81832800_1 *effect, S_func_81832800_4 *position, void *effect_sprite);
 /* Advance the effect state, move toward its target, and animate spawned particles. */
-BODY_STORAGE void BODY_NAME(S_func_81832800_1 *effect, S_func_81832800_4 *position, void *effect_sprite) {
+void func_80024004(S_func_81832800_1 *effect, S_func_81832800_4 *position, void *effect_sprite) {
     S_func_81832800_3 *source_object;
     s32 step_x;
     s32 step_y;
@@ -195,7 +168,7 @@ BODY_STORAGE void BODY_NAME(S_func_81832800_1 *effect, S_func_81832800_4 *positi
         if ((s16) spawn_state < 3) {
             count = 5;
         }
-        particle_callback = &D_80024860;
+        particle_callback = &func_80024860;
         particle_texture = (S_func_81832800_7 *) D_800DEA68;
         while (count >= 0) {
             object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
@@ -267,7 +240,7 @@ BODY_STORAGE void BODY_NAME(S_func_81832800_1 *effect, S_func_81832800_4 *positi
     case 0:
         if (*effect->unk_04 & 0x80) {
             found_target = func_800A05A4(source, source_sprite->unk_24, source_sprite->unk_25, source->facing,
-                (s32) func_800A3820(6));
+                (s32)(s16) func_800A3820(6));
             source->target = found_target;
             if (found_target == NULL) {
                 source->unk_72 = (u8) source_sprite->unk_24;
@@ -335,7 +308,7 @@ BODY_STORAGE void BODY_NAME(S_func_81832800_1 *effect, S_func_81832800_4 *positi
                 func_8004491C(object, func_80045340);
                 particle_data = (S_func_81832800_6 *) ((u8 *) object + 0x20);
                 sprite = object->unk_0C;
-                callback = &D_800248F0;
+                callback = &func_800248F0;
                 object->unk_10 = callback;
                 rounded_x = func_80069EF8();
                 random_x = rounded_x;

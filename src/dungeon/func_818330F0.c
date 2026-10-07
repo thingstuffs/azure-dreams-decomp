@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_1852800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
@@ -10,11 +11,11 @@ typedef struct S_818330F0_0 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_818330F0_0;   /* arg1 in func_818330F0 */
+} S_818330F0_0;   /* arg1 in func_800248F0 */
 
 typedef struct S_818330F0_1_pre {
     u16 unk_00;
-} S_818330F0_1_pre;   /* the 0x2 bytes before arg0 in func_818330F0, addressed as arg0[-1] */
+} S_818330F0_1_pre;   /* the 0x2 bytes before arg0 in func_800248F0, addressed as arg0[-1] */
 
 typedef struct S_818330F0_1 {
     void * unk_00;
@@ -22,18 +23,18 @@ typedef struct S_818330F0_1 {
     s16 unk_0C;
     s16 unk_0E;
     s16 unk_10;
-} S_818330F0_1;   /* arg0 in func_818330F0 */
+} S_818330F0_1;   /* arg0 in func_800248F0 */
 
 
 typedef struct S_818330F0_3 {
     u8 pad_00[0x52];
     u16 unk_52;
-} S_818330F0_3;   /* temp_v1 in func_818330F0 */
+} S_818330F0_3;   /* temp_v1 in func_800248F0 */
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 /* Ease the position toward its target, brighten the primitive, and flag completion. */
-void func_818330F0(void *effect, void *position, void *primitive) {
+void func_800248F0(void *effect, void *position, void *primitive) {
     s16 target_z;
     s16 current_z;
     void *owner;
