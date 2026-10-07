@@ -6,19 +6,6 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
-typedef struct S_800BEB30_0 {
-    u8 pad_00[0x4C];
-    u8 * unk_4C;
-    u8 pad_50[0xC0];
-    u8 * unk_110;
-    s32 unk_114;
-} S_800BEB30_0;   /* global in func_800BEB30 */
-
-
-typedef struct S_800BEB30_2 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800BEB30_2;   /* decrement_base in func_800BEB30 */
 
 
 extern s32 func_8008D344();
@@ -48,7 +35,7 @@ extern u8 D_800E116E[];
 
 /* Applies an action to a target or held item and updates the action counter. */
 s32 func_800BEB30(u32 target, u8 *action, s16 action_kind, s32 context) {
-    u8 *state;
+    EntityRec *state;
     u8 *item;
     s32 action_value;
     register s32 value;
@@ -62,9 +49,9 @@ s32 func_800BEB30(u32 target, u8 *action, s16 action_kind, s32 context) {
         return func_80098864(action, call_context);
     }
 
-    state = ((u8 *)D_800E3D7C);
+    state = D_800E3D7C;
     if (target == (u32)state) {
-        ((S_800BEB30_0 *)state)->unk_110 = action;
+        state->unk_110 = action;
         func_8008D344(state, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), state);
         action[3] &= (u8)~0x20;
         return 0;
@@ -77,10 +64,10 @@ s32 func_800BEB30(u32 target, u8 *action, s16 action_kind, s32 context) {
             return 1;
         }
     } else {
-        item = ((S_800BEB30_0 *)state)->unk_4C;
+        item = ((u8 *)state->unk_4C);
         if (item != 0) {
             if (!(action[3] & 0x20)) {
-                ((EntityRec *)state)->unk_114 = 0x202080;
+                state->unk_114 = 0x202080;
                 func_8008D368(state, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), D_800DD148, 2);
                 action[3] |= 0x20;
                 return 0;

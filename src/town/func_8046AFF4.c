@@ -28,8 +28,7 @@ s32 func_8001BFF4(S_8001BFF4_1 *context, s32 entry_index) {
 
     mode = D_8001E950->unk_05;
     if (mode == 2) {
-        if ((*(Callback *)((u8 *)(D_80016000->unk_20)
-            + 0x2D4))(0) == mode) {
+        if (((Callback)D_80016000->unk_20->callback_2D4)(0) == mode) {
             if (func_8001A58C(D_8001E950->unk_04) != 0) {
                 ((S_8001BFF4_3 *)((u8 *)context->unk_10 + entry_index * 0x10))->unk_08 =
                     func_8001A86C(D_8001E950->unk_04);

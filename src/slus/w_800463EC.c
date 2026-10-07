@@ -1,8 +1,9 @@
+#include "shared/entity.h"
 #include "common.h"
+#include "m2c_compat.h"
 #include "shared/game_work.h"
 
 #include "common.h"
-#include "records/Rec_D_80016000.h"
 
 
 typedef struct S_800463EC_1 {
@@ -130,9 +131,9 @@ void func_800463EC(void *unused, u8 *position, RenderObject *object, s16 depth_b
     SPAD_NV(scratch, s32, 0x30) = vertex_word;
     SPAD_NV(scratch, s32, 0x34) = object->scale[1];
     SPAD_NV(scratch, s32, 0x38) = object->scale[2];
-    SPAD_NV(scratch, s32, 0x40) = ((Rec_D_80016000 *)position)->unk_00.at02_s16.v;
-    SPAD_NV(scratch, s32, 0x44) = ((Rec_D_80016000 *)position)->unk_04.at02_s16.v;
-    SPAD_NV(scratch, s32, 0x48) = ((Rec_D_80016000 *)position)->unk_08.at02_s16.v;
+    SPAD_NV(scratch, s32, 0x40) = ((Fixed1616 *)position)[0].w.i;
+    SPAD_NV(scratch, s32, 0x44) = ((Fixed1616 *)position)[1].w.i;
+    SPAD_NV(scratch, s32, 0x48) = ((Fixed1616 *)position)[2].w.i;
 
     ReadRotMatrix(&view_matrix);
     vertex_0 = (u8 *)scratch;

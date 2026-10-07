@@ -1,19 +1,15 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "shared/town_pointees.h"
 #include "m2c_compat.h"
 
-
-typedef struct S_80016E38_1 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-} S_80016E38_1;   /* temp_v1 in func_80016E38 */
 
 
 /* Adds 0x20 to the linked record's unk_04 value. */
 void func_80016E38(void) {
-    S_80016E38_1 *linked_record;
+    TownPositionState *linked_record;
 
     linked_record = D_80016000->unk_1C;
-    linked_record->unk_04 = (s32) (linked_record->unk_04 + 0x20);
+    linked_record->x = (s32) (linked_record->x + 0x20);
 }

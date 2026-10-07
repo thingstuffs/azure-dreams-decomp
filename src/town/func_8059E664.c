@@ -3,13 +3,8 @@
 #include "shared/town_root.h"
 #include "m2c_compat.h"
 
-typedef struct S_8059E664_1 {
-    u8 pad_00[0x220];
-    void (*unk_220)(s32, s32, s32, s32);
-} S_8059E664_1;   /* D_80016000->unk_20 in func_8059E664 */
-
 
 /* Invokes the callback with values 2 and 13 and two zero arguments. */
 void func_8059E664(void) {
-    ((S_8059E664_1 *)(D_80016000->unk_20))->unk_220(2, 0xD, 0, 0);
+    ((void (*) (s32, s32, s32, s32))D_80016000->unk_20->callback_220)(2, 0xD, 0, 0);
 }

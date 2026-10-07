@@ -4,15 +4,6 @@
 #include "shared/town_root.h"
 
 
-typedef struct S_8072A398_3 {
-    u8 pad_00[0x208];
-    M2C_UNK (*unk_208)(M2C_UNK);
-    u8 pad_20C[0x18];
-    M2C_UNK (*unk_224)(s32 *);
-    u8 pad_228[0x30];
-    M2C_UNK (*unk_258)(M2C_UNK);
-} S_8072A398_3;   /* ((S_8072A398_2 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_20 in func_8072A398 */
-
 typedef struct S_8072A398_4 {
     u8 pad_00[0x4];
     u16 unk_04;
@@ -36,7 +27,7 @@ typedef struct S_8072A398_0 {
 void func_8072A398(void) {
     s32 *fixed_coords;
 
-    ((S_8072A398_3 *)(D_80016000->unk_20))->unk_258(0xC);
+    ((M2C_UNK (*) (M2C_UNK))D_80016000->unk_20->callback_258)(0xC);
     D_80017B78 =
         ((S_8072A398_4 *)(D_80016000->unk_1C))->unk_04
     << 0x10;
@@ -45,8 +36,8 @@ void func_8072A398(void) {
         (s32) (((S_8072A398_5 *)((*(void **)((u8 *)(D_80016000)
         + 0x1C))))->unk_08 << 0x10);
     ((S_8072A398_0 *)fixed_coords)->unk_08 = 0;
-    ((S_8072A398_3 *)(D_80016000->unk_20))->unk_224(fixed_coords);
-    ((S_8072A398_3 *)(D_80016000->unk_20))->unk_208(0);
+    ((M2C_UNK (*) (s32 *))D_80016000->unk_20->callback_224)(fixed_coords);
+    ((M2C_UNK (*) (M2C_UNK))D_80016000->unk_20->callback_208)(0);
 }
 
 /* MECHANISM: Declaring D_80016000 as a wide array holds its 0x80010000 page in s0,

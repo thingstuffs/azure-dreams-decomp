@@ -2,12 +2,8 @@
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 #include "shared/town_root.h"
+#include "shared/town_pointees.h"
 
-
-typedef struct S_805D352C_2 {
-    u8 pad_00[0x40];
-    void * unk_40;
-} S_805D352C_2;   /* D_80016000->unk_1C in func_805D352C */
 
 
 void func_800174CC();                            /* extern */
@@ -22,5 +18,5 @@ void func_805D352C(void) {
     D_80019B90 = &D_80019814;
     D_80019AF8 = ((s32)D_80016000->unk_40)
     + (D_80016000->unk_08 * 8);
-    ((S_805D352C_2 *)(D_80016000->unk_1C))->unk_40 = &D_80019884;
+    ((TownPositionState *)D_80016000->unk_1C)->unk_40 = &D_80019884;
 }

@@ -1,17 +1,12 @@
+#include "shared/sprite_source.h"
 #include "common.h"
 
 #include "common.h"
 
-typedef struct Func8003C160Elem {
-    u8 b0;
-    u8 pad1;
-    u8 pad2;
-    u8 pad3;
-    s32 f4;
-} Func8003C160Elem;
+
 
 typedef struct Func8003C160Dst {
-    Func8003C160Elem *f0;
+    SpriteSourceEntry *f0;
     u8 f4;
     u8 f5;
     u8 pad6[2];
@@ -43,7 +38,7 @@ typedef struct Func8003C160Root {
 typedef struct Func8003C160Context {
     void (*callback)(void);
     u8 pad4[4];
-    Func8003C160Elem *source;
+    SpriteSourceEntry *source;
     Func8003C160Dst *dst;
 } Func8003C160Context;
 
@@ -52,7 +47,7 @@ extern u8 D_800F26F8[12];
 extern u8 D_80077784[12];
 extern u8 D_800776FC[12];
 
-extern void func_8003DB94(Func8003C160Dst *, Func8003C160Elem *, s16);
+extern void func_8003DB94(Func8003C160Dst *, SpriteSourceEntry *, s16);
 extern void func_8003C0A4(Func8003C160Context *, Func8003C160Dst *);
 extern void func_8003C450(void);
 
@@ -74,8 +69,8 @@ void func_8003C160(void) {
     dst->f14 = 0;
     dst->f10 = 0;
 
-    if (context->source == (Func8003C160Elem *)D_80077784 ||
-        context->source == (Func8003C160Elem *)D_800776FC) {
+    if (context->source == (SpriteSourceEntry *)D_80077784 ||
+        context->source == (SpriteSourceEntry *)D_800776FC) {
         dst->f14 |= 0x400;
     }
 

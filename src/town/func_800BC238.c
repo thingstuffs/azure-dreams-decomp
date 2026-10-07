@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/object_flags.h"
+#include "shared/entity.h"
 extern int abs(int);
 
 typedef struct S_800B9998_0 {
@@ -9,17 +10,6 @@ typedef struct S_800B9998_0 {
     u8 pad_68[0x30];
     s8 * unk_98;
 } S_800B9998_0;   /* arg0 in func_800B9998 */
-
-typedef struct S_800B9998_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x6];
-    s16 unk_0E;
-    u8 pad_10[0x2];
-    s16 unk_12;
-} S_800B9998_1;   /* town in func_800B9998 */
 
 typedef struct S_800B9998_2 {
     u8 pad_00[0x2];
@@ -42,7 +32,7 @@ void func_800B9998(void *object, void *position, void *rotation) {
     u8 *position_data = position;
     u8 *rotation_data = rotation;
     s8 *active_flag;
-    u8 *town_state;
+    EntityRec *town_state;
     s32 dx;
     s32 dy;
     s32 near_x;
@@ -74,21 +64,21 @@ void func_800B9998(void *object, void *position, void *rotation) {
             ((S_800B9998_0 *)object)->unk_66.s = 0;
         }
     }
-    town_state = (u8 *)&D_80083780.x.v;
-    dx = ((S_800B9998_1 *)town_state)->unk_02;
+    town_state = &D_80083780;
+    dx = town_state->x.w.i;
     dy = ((S_800B9998_2 *)position_data)->unk_02;
     position_y = ((S_800B9998_2 *)position_data)->unk_06;
     dx -= dy;
     dx = abs(dx);
     dx = (s16)dx;
-    dy = ((S_800B9998_1 *)town_state)->unk_06;
+    dy = town_state->y.w.i;
     near_x = dx < 0x81;
     dy -= position_y;
     dy = abs(dy);
 
     if (near_x && ((s16)dy < 0x81)) {
-        speed_sq = (((S_800B9998_1 *)town_state)->unk_0E * ((S_800B9998_1 *)town_state)->unk_0E) +
-              (((S_800B9998_1 *)town_state)->unk_12 * ((S_800B9998_1 *)town_state)->unk_12);
+        speed_sq = (((Fixed1616 *)&town_state->unk_0C)->w.i * ((Fixed1616 *)&town_state->unk_0C)->w.i) +
+              (((Fixed1616 *)&town_state->unk_10)->w.i * ((Fixed1616 *)&town_state->unk_10)->w.i);
         ((S_800B9998_0 *)object)->unk_66.s =
             ((S_800B9998_0 *)object)->unk_66.s +
             ((s32)(speed_sq + ((u32)speed_sq >> 31)) >> 1);

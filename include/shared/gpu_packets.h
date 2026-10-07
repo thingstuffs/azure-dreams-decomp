@@ -31,7 +31,9 @@ typedef struct PolyFT4 {
 typedef struct GpuContext {
     /* 0x000 */ unsigned char pad_000[0xB0];
     /* 0x0B0 */ int orderTag;
-    /* 0x0B4 */ unsigned char pad_0B4[0x81C];
+    /* 0x0B4 */ unsigned char pad_0B4[0x778];
+    /* 0x82C */ int orderTag82C; /* layered tile renderer links low 24-bit packet addresses here */
+    /* 0x830 */ unsigned char pad_830[0xA0];
     /* 0x8D0 */ unsigned char *packetCursor;
 } GpuContext;
 #endif

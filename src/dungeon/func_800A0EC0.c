@@ -1,7 +1,7 @@
 #include "common.h"
+#include "m2c_compat.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
-#include "records/Rec_D_80016000.h"
 
 
 typedef struct S_800A6620_1_pre {
@@ -55,7 +55,7 @@ s16 func_800A6620(void *handle, s32 extra_cleanup)
     u8 sound_y;
 
     object_table = D_800E3DF0;
-    index = ((Rec_D_80016000 *)handle)->unk_00.at03_u8.v & 0x1F;
+    index = ((u8 *)handle)[3] & 0x1F;
     object_slot = &object_table[index];
     object = *object_slot;
     *object_slot = 0;
@@ -66,7 +66,7 @@ s16 func_800A6620(void *handle, s32 extra_cleanup)
         func_800422DC((void *)(0x80010A80 + index * 0x54), object);
     }
 
-    if (((Rec_D_80016000 *)handle)->unk_00.at03_u8.v & 0x20) {
+    if (((u8 *)handle)[3] & 0x20) {
         index = func_800A1BD0(object);
         if (index >= 0) {
             state_entry = (void *)(index * 4 + ((s32)D_800E3D7C));

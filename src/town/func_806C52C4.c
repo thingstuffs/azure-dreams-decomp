@@ -1,24 +1,19 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "shared/town_pointees.h"
 
 
 typedef s32 (*Callback)(s32);
 
-
-typedef struct S_800162C4_2 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-} S_800162C4_2;   /* ((S_800162C4_1 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_1C in func_800162C4 */
 
 
 /* Runs the context callback and checks whether the state code is in 0x3DC through 0x3E4. */
 s32 func_800162C4(void) {
     s32 stateCode;
 
-    (*(Callback *)((u8 *)(D_80016000->unk_20)
-        + 0x248))(0);
+    ((Callback)D_80016000->unk_20->callback_248)(0);
     stateCode =
-        ((S_800162C4_2 *)(D_80016000->unk_1C))->unk_04;
+        ((TownPositionState *)D_80016000->unk_1C)->x;
     return stateCode >= 0x3E0 ? stateCode < 0x3E5 : stateCode >= 0x3DC;
 }
