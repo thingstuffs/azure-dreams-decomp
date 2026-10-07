@@ -10,9 +10,9 @@ extern GlobalState D_8006ADBC;
 extern s16 D_800D4258[];
 extern s16 D_800D4260[];
 
-extern void func_8004425C(s32 arg0);
-extern void func_8004450C(s32 arg0);
-extern void SD_Call(s32 arg0);
+extern void func_8004425C(s32 record_id);
+extern void func_8004450C(s32 state_index);
+extern void SD_Call(s32 flags);
 extern void func_800542BC(void);
 extern u16 *func_800C1034(s16 unused, s16 index);
 

@@ -3,7 +3,7 @@
 extern s32 D_80019BB0[3];
 
 extern s32 func_800175B0(void);
-extern s32 func_800198D0(s32 arg0);
+extern s32 func_800198D0(s32 condition_id);
 extern s32 func_80019A8C(void);
 
 // Resets D_80019BB0[0] and returns whether the paired-ID check or threshold check succeeds.

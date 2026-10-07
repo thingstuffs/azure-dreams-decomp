@@ -6,7 +6,7 @@ typedef struct {
     u16 flag;
 } S800083498;
 
-extern void func_8004EE50(void *arg0);
+extern void func_8004EE50(void *object);
 
 /* Set up mcard_func_set after clearing flag bit 0x2000. */
 void mcard_func_set(void) {

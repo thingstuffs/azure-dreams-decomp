@@ -11,7 +11,7 @@ typedef struct {
     Inner inner;
 } Object;
 
-extern void func_8004B248(void *arg0);
+extern void func_8004B248(void *entries);
 extern void func_800B0318(s32 slot_table);
 extern s32 D_800814A0;
 

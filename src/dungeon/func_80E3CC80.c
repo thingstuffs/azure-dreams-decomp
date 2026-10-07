@@ -59,7 +59,7 @@ typedef struct S_80E3CC80_4 {
 
 extern void *func_8003FC64(s32 size);
 extern void func_8004491C(void *object, void *data);
-extern void func_80047784(void *object, s32 arg1, s32 arg2);
+extern void func_80047784(void *object, s32 table_index, s32 entry_index);
 extern s32 rand(void);
 extern u8 D_801763D0[];
 

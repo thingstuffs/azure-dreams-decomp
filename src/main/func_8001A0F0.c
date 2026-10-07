@@ -7,8 +7,8 @@ extern s32 D_80409500;
 extern s32 D_8009E390[];
 
 extern void func_804014E4(void);
-extern s32 func_80408644(s32 arg0);
-extern s32 func_80408674(s32 arg0);
+extern s32 func_80408644(s32 slot_index);
+extern s32 func_80408674(s32 selected_slot);
 
 /* Advances processing for the selected slot and sets its completion flag. */
 s32 func_804010F0(void) {

@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern s32 func_80047FD8(void *arg0);
-extern void func_804033EC(void *arg0);
+extern s32 func_80047FD8(void *node);
+extern void func_804033EC(void *object);
 extern s32 D_8008DAB4[3];
 extern s32 D_8008DAB4_2[3];
 extern u8 D_80409508[];

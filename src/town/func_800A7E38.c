@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern s32 D_800834B8;
-extern void func_800A553C(void *arg0, s32 arg1, s32 arg2);
+extern void func_800A553C(void *record_data, s32 unused_1, s32 unused_2);
 
 /* Update the target using two values from the preceding state block. */
 void func_800A5598(void) {

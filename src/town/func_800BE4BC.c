@@ -15,8 +15,8 @@ typedef struct
     void *field_0x10;
 }
 S_800BE4BC;
-extern void func_80033B78(s32 arg0);
-extern void *func_8003FD64(s32 arg0, void *arg1);
+extern void func_80033B78(s32 flag_id);
+extern void *func_8003FD64(s32 flags, void *list_head);
 extern u8 D_800BBCA0[16];
 /* Creates an object and initializes its data pointer and three input values. */
 s32 func_800BBC1C(s32 *values)

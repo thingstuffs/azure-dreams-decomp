@@ -7,8 +7,8 @@ extern s32 D_80409500;
 extern s32 D_8009E390[];
 
 extern void func_80401578(void);
-extern s32 func_80408644(s32 arg0);
-extern s32 func_80408684(s32 arg0);
+extern s32 func_80408644(s32 slot_selector);
+extern s32 func_80408684(s32 slot_selector);
 
 /* Processes the selection selection_state and clears the selected slot on completion. */
 s32 func_804012B0(void)

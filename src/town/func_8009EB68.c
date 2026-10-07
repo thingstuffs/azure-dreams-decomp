@@ -1,9 +1,9 @@
 #include "common.h"
 
-extern void SD_Call(s32 arg0);
+extern void SD_Call(s32 flags);
 extern void func_8009C648(void *source_data, s32 spawn_arg);
 extern void func_8008F134(void *node);
-extern void func_80033D08(void *arg0);
+extern void func_80033D08(void *block_data);
 extern void func_800A0504(s32 check_value);
 struct S_800814A0 {
     s32 v;

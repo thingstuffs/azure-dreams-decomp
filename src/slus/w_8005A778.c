@@ -31,8 +31,8 @@ typedef struct S_8005A778_Arg0 {
 extern S_8005A778_D80086A40 D_80086A40[16];
 extern S_8007382C D_8007382C;
 
-extern void func_8005A1D0(s32 arg0);
-extern s32 func_80059F8C(void *arg0, s32 arg1);
+extern void func_8005A1D0(s32 addr);
+extern s32 func_80059F8C(void *addr, s32 size);
 
 /* Initializes a free or requested slot from the header and returns its index. */
 s32 func_8005A778(S_8005A778_Arg0 *header, s16 requested_slot, void *payload)

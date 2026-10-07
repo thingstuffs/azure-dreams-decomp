@@ -49,7 +49,7 @@ extern u8 D_80288EE0[];
 
 extern Object *func_800374FC(s32 type, void *descriptor);
 extern void func_8003BC18(Object *object, void *callback);
-extern void func_80034A1C(Primitive *primitive, void *arg1, s32 arg2);
+extern void func_80034A1C(Primitive *primitive, void *primitive_descriptor, s32 arg2);
 
 /* Create and initialize the owner's eight objects using its kind-specific table. */
 void func_8080C134(Owner *owner)

@@ -32,8 +32,8 @@ typedef struct {
 
 extern s32 func_80057A50(void *row, s32 column);
 extern s32 func_8005DA68(void);
-extern void func_8005D88C(s32 arg0);
-extern s32 func_8005DA88(void *arg0);
+extern void func_8005D88C(s32 enable);
+extern s32 func_8005DA88(void *settings);
 
 extern u8 D_8007382B[0x10];
 

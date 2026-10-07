@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_8004FE78(void *arg0);
+extern void func_8004FE78(void *entity);
 
 extern int D_800814A0;
 

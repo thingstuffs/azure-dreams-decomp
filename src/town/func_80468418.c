@@ -1,7 +1,7 @@
 #include "shared/town_event_state.h"
 #include "common.h"
 
-extern u32 func_8001E670(s32 arg0);
+extern u32 func_8001E670(s32 condition_id);
 extern s32 func_8001E82C(void);
 extern void func_800196A4(void);
 

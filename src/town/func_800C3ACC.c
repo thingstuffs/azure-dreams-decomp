@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern s32 func_8004437C(s16 arg0, s16 arg1);
-extern s16 SD_Call(s32 arg0);
+extern s32 func_8004437C(s16 entry_index, s16 mode);
+extern s16 SD_Call(s32 flags);
 extern void func_800542BC(void);
 extern s8 D_80080A88[];
 extern s16 D_800D4258[];

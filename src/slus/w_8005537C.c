@@ -8,7 +8,7 @@ typedef struct S_800848F8 {
 
 extern s32 D_800847D0[3];
 extern S_800848F8 D_800848F8;
-extern s32 func_80055750(s16 arg0);
+extern s32 func_80055750(s16 clamp_input);
 
 /* Optionally lowers the note by 0x18, clamps it, and stores it in both note fields. */
 void func_8005537C(s32 note) {

@@ -43,7 +43,7 @@ extern S_80084858 D_80084858;
 extern void func_80054538(S_80084858 *ramp);
 extern void func_800546B0(void);
 extern void func_80054704(void);
-extern void func_80054E00(s32 arg0);
+extern void func_80054E00(s32 event);
 
 /* Updates the CD cue task and commits the countdown when its ramp completes. */
 void func_800544A4(void) {

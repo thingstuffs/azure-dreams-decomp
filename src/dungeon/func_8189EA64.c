@@ -50,7 +50,12 @@ void func_80024264(S_80024264_0 *sequence, s32 unused, Rec_D_80082E80 *record)
         record->unk_1C.at02_u16.v = word_or_frame;
         low_word += 0x100;
         record->unk_1C.at00_u16.v = low_word;
-        break;
+        if (sequence->unk_02.s < sequence->unk_04) {
+            return;
+        }
+        sequence->unk_02.u = 0;
+        sequence->unk_00.u++;
+        return;
     }
     case 1:
     {
@@ -67,7 +72,12 @@ void func_80024264(S_80024264_0 *sequence, s32 unused, Rec_D_80082E80 *record)
         record->unk_1C.at00_u16.v = low_word;
         next_high_word = sequence->unk_02.s << 8;
         record->unk_1C.at02_u16.v = next_high_word;
-        break;
+        if (sequence->unk_02.s < sequence->unk_04) {
+            return;
+        }
+        sequence->unk_02.u = 0;
+        sequence->unk_00.u++;
+        return;
     }
     case 2:
     {
@@ -81,21 +91,17 @@ void func_80024264(S_80024264_0 *sequence, s32 unused, Rec_D_80082E80 *record)
 
         next_high_word = (word_or_frame + 0x10) << 8;
         record->unk_1C.at02_u16.v = next_high_word;
-        break;
+        if (sequence->unk_02.s < sequence->unk_04) {
+            return;
+        }
+        sequence->unk_02.u = 0;
+        sequence->unk_00.u++;
+        return;
     }
     case 3:
-        goto state_3;
+        func_800478B8(record);
+        return;
     default:
         return;
     }
-
-    if (sequence->unk_02.s < sequence->unk_04) {
-        return;
-    }
-    sequence->unk_02.u = 0;
-    sequence->unk_00.u++;
-    return;
-
-state_3:
-    func_800478B8(record);
 }

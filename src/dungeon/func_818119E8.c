@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_80048EE4(void *arg0, s32 arg1);
+extern s32 func_80048EE4(void *pool, s32 record_count);
 extern void func_800491CC(s32 entries, void *value, s32 count);
 
 typedef struct {

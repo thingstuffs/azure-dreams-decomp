@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern void func_800214A4(void);
-extern s32 func_80069C08(s32 arg0);
+extern s32 func_80069C08(s32 card_channel);
 extern s32 D_800287C8[];
 extern s32 D_800287CC;
 extern s32 D_800287E0;

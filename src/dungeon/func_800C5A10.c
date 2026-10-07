@@ -27,9 +27,9 @@ typedef struct {
 } Motion;
 
 
-extern s32 func_800644B8(s32 arg0);
+extern s32 func_800644B8(s32 angle);
 extern s32 func_8009A028(void *node);
-extern s32 func_800A2C78(void *arg0);
+extern s32 func_800A2C78(void *unused);
 extern s32 func_800A32A4(void *record);
 
 /* Animate a staged shrinking and fading effect, then release its object. */

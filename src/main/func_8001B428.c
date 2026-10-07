@@ -18,7 +18,7 @@ typedef struct {
 } StructA_8001B428;
 
 extern StructA_8001B428 *func_8003C480(s32 arg0);
-extern void (*D_80408AD0[1])(StructA_8001B428 *arg0);
+extern void (*D_80408AD0[1])(StructA_8001B428 *object);
 extern void func_804023E4(void);
 
 /* Creates an object with initialization data, runs its selected initializer, and sets its callback. */

@@ -16,7 +16,7 @@ typedef struct ObjA464 {
     InnerA464 inner;
 } ObjA464;
 
-extern void func_8004B530(s32 arg0);
+extern void func_8004B530(s32 object);
 extern s32 D_800814A0_store;
 
 /* Sets object and global flags and processes the object's two inner values. */

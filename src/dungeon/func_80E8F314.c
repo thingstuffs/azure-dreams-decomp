@@ -25,7 +25,7 @@ typedef struct {
 } State;
 
 extern s32 func_800A2BDC(State *state);
-extern void func_80047784(Object *object, u8 value, s32 arg2);
+extern void func_80047784(Object *object, u8 value, s32 entry_index);
 extern u8 D_80174F08[];
 
 /* Clears the state flag and, when allowed, resets the entity and selects a directional object value. */

@@ -45,7 +45,7 @@ typedef struct S_800847D0 {
 extern S_800847D0 D_800847D0;
 extern S_800848F8 D_800848F8;
 
-extern s32 func_80055750(s16 arg0);
+extern s32 func_80055750(s16 channel_level);
 extern void func_8005B27C(s16 a0, s32 a1, s32 a2);
 
 /* Scale and clamp the output value when enabled, then apply it to both channels. */

@@ -62,7 +62,7 @@ extern S_80084864 D_80084864;
 extern void func_8005A4E8(u8 a0, u8 a1, u8 a2);
 extern s32 Control_CD(s32 a0, void *a1, void *a2);
 extern s32 func_80053D64(void);
-extern int func_80054AF0(int arg0);
+extern int func_80054AF0(int mode);
 extern void func_80054C58(void);
 extern void func_80054CD4(void);
 

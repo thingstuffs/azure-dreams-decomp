@@ -5,7 +5,7 @@
 #include "common.h"
 
 extern void bzero(void *dst, s32 len);
-extern void func_8004D0C8(void *arg0);
+extern void func_8004D0C8(void *entity);
 
 extern s32 D_80080B58;
 extern s32 D_80080B5C;
