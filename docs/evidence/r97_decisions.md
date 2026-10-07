@@ -75,3 +75,12 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     negation) - the refused fake-dependency class. The literal 0xFFFFFF masks in the same candidate are natural but
     alone give 1 pin at listing 2 / total 2. Candidate moved to the lane's held/; ledger/refused_trades.jsonl records
     what matched and the next lead (a real second set). SECOND LOOK: no (owner rule: still refuse fake deps).
+26. **(r98) Per-row compiler evidence for two stock town rows** (r98_sol61_cell1 EVIDENCE.md; owner reminder that the
+    epilogue pattern was studied before - the brief separated the step-1b production-compiler epilogue oddity, which
+    constrains game code only, from the 2.6.3 reorg needed-set signature). town/func_808B2B04 stays 2.6.3-G0
+    (supported: faithful 2.6.3/2.7.2 reorg traces reproduce the 2.6.3-only rule; the census module merges two index
+    groups). town/func_806D30B4 stays 2.6.3-G0 (provisional: exact at 2.6.3, 6 off at 2.7.2, /20 expansion matches
+    2.6.3; neighbours non-discriminating). Recorded in ledger/recipe_evidence.jsonl (row-scoped; the module census is
+    not widened); STATUS's wrong-compiler tracker skips them while they stay at that cfg. main/func_8001C4D8 is the
+    opposite case: its card-UI object is stock code, so its cdk recipe is a fit (best text total 5 at stock 2.7.2,
+    open). SECOND LOOK: yes for 806D30B4 (provisional).
