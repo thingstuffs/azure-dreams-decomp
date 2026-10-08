@@ -1,6 +1,6 @@
 # Handover (2026-10-08 ~23:55Z, round 105: TWO PACKAGES READY, LANDING BLOCKED ON A PERMISSION) - start here
 
-**Landed:** 28a9bb352 (baseline 149 rows, decisions 32-34), 2d40e95f9 (r105_sonnet_l2: 81850FDC/81952E54/819600D8 -> L3).
+**Landed:** 33741d2df (r105_opus_aa854: 800AA854 2 -> 1 pin, volatiles 8 -> 0, goto -> do/while; 91 pins), 28a9bb352 (baseline 149 rows, decisions 32-34), 2d40e95f9 (r105_sonnet_l2: 81850FDC/81952E54/819600D8 -> L3).
 **Ready, not landed (both lane apply.py refuse the live root; land_packages.py needs a --live package entry; the
 wrapper work/native_lane/_r105/bank_apply_live.py that drops that refusal under --live was DENIED by the auto-mode
 classifier - owner to allow it, or land by hand):**
