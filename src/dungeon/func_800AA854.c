@@ -7,10 +7,10 @@ typedef struct S_800AFFB4_0 {
 
 typedef struct S_800AFFB4_1 {
     u8 pad_00[0x8];
-    union { volatile s32 s32; u16 u16; } unk_08;   /* accessed as both */
-    volatile s32 unk_0C;
-    union { volatile s32 s32; u16 u16; } unk_10;   /* accessed as both */
-    union { volatile s32 s32; u16 u16; } unk_14;   /* accessed as both */
+    union { s32 s32; u16 u16; } unk_08;   /* accessed as both */
+    s32 unk_0C;
+    union { s32 s32; u16 u16; } unk_10;   /* accessed as both */
+    union { s32 s32; u16 u16; } unk_14;   /* accessed as both */
     u8 pad_18[0x8];
     s32 unk_20;
     u8 pad_24[0x50];
@@ -123,11 +123,11 @@ typedef struct StripQuad {
     u8 pad_00[0xC];
     s32 uv0;
     u8 pad_10[0x8];
-    union { s32 word; u8 u; volatile s8 u_vol; } uv1;   /* accessed as both */
+    union { s32 word; u8 u; } uv1;   /* accessed as both */
     u8 pad_1C[0x8];
-    union { s16 half; struct { u8 u; volatile u8 v; } b; } uv2;   /* accessed as both */
+    union { s16 half; struct { u8 u; u8 v; } b; } uv2;   /* accessed as both */
     u8 pad_26[0xA];
-    union { s16 half; struct { union { u8 u; volatile s8 u_vol; } u; volatile u8 v; } b; } uv3;   /* accessed as both */
+    union { s16 half; struct { u8 u; u8 v; } b; } uv3;   /* accessed as both */
 } StripQuad;   /* one 0x34-byte quad of the strip packet */
 
 typedef struct S_800AFFB4_3 {
@@ -153,13 +153,11 @@ s32 func_800AFFB4(S_800AFFB4_0 *origin, void *unused, S_800AFFB4_1 *render_data_
     s32 depth_step;
     s32 shade_uv;
     s32 shade_uv_2;
-    s32 raw_height;
-    register s32 shade_u ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 info_byte;
+    register s32 shade_u ASM_REG("$5");   /* UNRESOLVED C shape (pin): cse1 make_regs_eqv canonicalises the a1 argument copy `shade_u = packet_buffer` to the longer-lived packet_buffer; only a walker step before the call keeps it (step then misplaced) */
     s32 near_shade;
     s32 texture_height;
     s32 coord_bits;
-    u8 edge_u;
-    u8 edge_v;
     s32 vertex_value;
     s32 entry_v;
     s32 x_in_bounds;
@@ -178,8 +176,6 @@ s32 func_800AFFB4(S_800AFFB4_0 *origin, void *unused, S_800AFFB4_1 *render_data_
     u16 screen_y;
     u16 texture_index;
     u16 shade_offset;
-    register u8 *uv_end ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    S_800AFFB4_3 *texture_info;
 
     (void)unused;
     visible_strips = 0;
@@ -298,7 +294,6 @@ s32 func_800AFFB4(S_800AFFB4_0 *origin, void *unused, S_800AFFB4_1 *render_data_
                     }
                 }
                 quad_index = 0;
-                uv_end = packet_buffer + 0x31;
                 ((StripPacket *)packet_buffer)->near_quad.unk_1A = vertex_value;
                 ((StripPacket *)packet_buffer)->near_quad.unk_26 = vertex_value;
                 ((StripPacket *)packet_buffer)->far_quad.unk_0E = vertex_value;
@@ -312,70 +307,68 @@ s32 func_800AFFB4(S_800AFFB4_0 *origin, void *unused, S_800AFFB4_1 *render_data_
                 ((StripPacket *)packet_buffer)->far_quad.unk_0C = vertex_value;
                 ((StripPacket *)packet_buffer)->far_quad.unk_00 = vertex_value;
                 texture_entry = (TwelveByteEntry *)render_data_in->unk_118 + (((strip_index & 1) << 1) + ((s16)texture_index << 2));
-                texture_info = (S_800AFFB4_3 *)((u8 *)texture_entry + 4);
-loop_0:
-                func_8006671C(packet_buffer);
-                render_data_in->unk_08.s32 = texture_info->unk_04;
-                shade_u = render_data_in->unk_08.s32;
-                render_data_in->unk_0C = texture_info->unk_05;
-                shade_uv = render_data_in->unk_0C;
-                render_data_in->unk_10.s32 = texture_info->unk_06;
-                vertex_value = shade_uv;
-                raw_height = texture_info->unk_07;
-                shade_uv <<= 8;
-                render_data_in->unk_0C = shade_uv;
-                render_data_in->unk_14.s32 = raw_height;
-                texture_right = render_data_in->unk_10.s32;
-                texture_height = render_data_in->unk_14.s32;
-                texture_right += shade_u;
-                vertex_value += texture_height;
-                vertex_value <<= 8;
-                render_data_in->unk_14.s32 = vertex_value;
-                vertex_value = shade_u;
-                shade_u = (s32)packet_buffer;
-                render_data_in->unk_10.s32 = texture_right;
-                coord_bits = texture_info->unk_02;
-                shade_uv += vertex_value;
-                coord_bits <<= 0x10;
-                shade_uv |= coord_bits;
-                ((StripQuad *)(uv_end - 0x31))->uv0 = shade_uv;
-                coord_bits = render_data_in->unk_0C;
-                shade_uv = render_data_in->unk_10.s32;
-                vertex_value = texture_info->unk_00;
-                coord_bits += shade_uv;
-                vertex_value <<= 0x10;
-                coord_bits |= vertex_value;
-                ((StripQuad *)(uv_end - 0x31))->uv1.word = coord_bits;
-                coord_bits = render_data_in->unk_14.u16;
-                vertex_value = render_data_in->unk_08.u16;
-                coord_bits += vertex_value;
-                ((StripQuad *)(uv_end - 0x31))->uv2.half = coord_bits;
-                vertex_value = render_data_in->unk_14.u16;
-                coord_bits = ((StripQuad *)(uv_end - 0x31))->uv1.u;
-                shade_uv = render_data_in->unk_10.u16;
-                coord_bits -= 1;
-                vertex_value += shade_uv;
-                ((StripQuad *)(uv_end - 0x31))->uv1.u_vol = coord_bits;
-                ((StripQuad *)(uv_end - 0x31))->uv3.half = vertex_value;
-                edge_u = ((StripQuad *)(uv_end - 0x31))->uv3.b.u.u;
-                edge_v = ((StripQuad *)(uv_end - 0x31))->uv2.b.v;
-                edge_u -= 1;
-                edge_v -= 1;
-                ((StripQuad *)(uv_end - 0x31))->uv3.b.u.u_vol = edge_u;
-                ((StripQuad *)(uv_end - 0x31))->uv2.b.v = edge_v;
-                coord_bits = ((StripQuad *)(uv_end - 0x31))->uv3.b.v;
-                coord_bits -= 1;
-                ((StripQuad *)(uv_end - 0x31))->uv3.b.v = coord_bits;
-                shade_uv = (u32)(texture_entry - (TwelveByteEntry *)render_data_in->unk_118) / 12;
-                texture_info += 1;
-                uv_end += 0x34;
-                texture_entry += 1;
-                func_8006658C(render_data_in->unk_20 + ((u32)shade_uv * 4),
-                    (void *)shade_u, texture_height);
-                packet_buffer += 0x34;
-                quad_index += 1;
-                if (quad_index < 2)
-                    goto loop_0;
+                do {
+                    func_8006671C(packet_buffer);
+                    info_byte = ((S_800AFFB4_3 *)((u8 *)texture_entry + 4))->unk_04;
+                    render_data_in->unk_08.s32 = info_byte;
+                    info_byte = ((S_800AFFB4_3 *)((u8 *)texture_entry + 4))->unk_05;
+                    render_data_in->unk_0C = info_byte;
+                    shade_u = render_data_in->unk_08.s32;
+                    info_byte = ((S_800AFFB4_3 *)((u8 *)texture_entry + 4))->unk_06;
+                    render_data_in->unk_10.s32 = info_byte;
+                    shade_uv = render_data_in->unk_0C;
+                    info_byte = ((S_800AFFB4_3 *)((u8 *)texture_entry + 4))->unk_07;
+                    render_data_in->unk_14.s32 = info_byte;
+                    vertex_value = render_data_in->unk_0C;
+                    shade_uv <<= 8;
+                    render_data_in->unk_0C = shade_uv;
+                    texture_height = render_data_in->unk_14.s32;
+                    texture_right = render_data_in->unk_10.s32 + shade_u;
+                    vertex_value += texture_height;
+                    vertex_value <<= 8;
+                    render_data_in->unk_14.s32 = vertex_value;
+                    vertex_value = shade_u;
+                    shade_u = (s32)packet_buffer;
+                    render_data_in->unk_10.s32 = texture_right;
+                    coord_bits = ((S_800AFFB4_3 *)((u8 *)texture_entry + 4))->unk_02;
+                    shade_uv += vertex_value;
+                    coord_bits <<= 0x10;
+                    shade_uv |= coord_bits;
+                    ((StripQuad *)packet_buffer)->uv0 = shade_uv;
+                    coord_bits = render_data_in->unk_0C;
+                    shade_uv = render_data_in->unk_10.s32;
+                    vertex_value = ((S_800AFFB4_3 *)((u8 *)texture_entry + 4))->unk_00;
+                    coord_bits += shade_uv;
+                    vertex_value <<= 0x10;
+                    coord_bits |= vertex_value;
+                    ((StripQuad *)packet_buffer)->uv1.word = coord_bits;
+                    coord_bits = render_data_in->unk_14.u16;
+                    vertex_value = render_data_in->unk_08.u16;
+                    coord_bits += vertex_value;
+                    ((StripQuad *)packet_buffer)->uv2.half = coord_bits;
+                    vertex_value = render_data_in->unk_14.u16;
+                    coord_bits = ((StripQuad *)packet_buffer)->uv1.u;
+                    shade_uv = render_data_in->unk_10.u16;
+                    coord_bits -= 1;
+                    vertex_value += shade_uv;
+                    ((StripQuad *)packet_buffer)->uv1.u = coord_bits;
+                    ((StripQuad *)packet_buffer)->uv3.half = vertex_value;
+                    coord_bits = ((StripQuad *)packet_buffer)->uv3.b.u;
+                    vertex_value = ((StripQuad *)packet_buffer)->uv2.b.v;
+                    coord_bits -= 1;
+                    vertex_value -= 1;
+                    ((StripQuad *)packet_buffer)->uv3.b.u = coord_bits;
+                    ((StripQuad *)packet_buffer)->uv2.b.v = vertex_value;
+                    coord_bits = ((StripQuad *)packet_buffer)->uv3.b.v;
+                    coord_bits -= 1;
+                    ((StripQuad *)packet_buffer)->uv3.b.v = coord_bits;
+                    shade_uv = (u32)(texture_entry - (TwelveByteEntry *)render_data_in->unk_118) / 12;
+                    texture_entry += 1;
+                    func_8006658C(render_data_in->unk_20 + ((u32)shade_uv * 4),
+                        (void *)shade_u, texture_height);
+                    packet_buffer += 0x34;
+                    quad_index += 1;
+                } while (quad_index < 2);
                 visible_strips += 1;
             }
         }
