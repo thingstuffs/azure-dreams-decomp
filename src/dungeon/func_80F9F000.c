@@ -7,7 +7,7 @@ typedef struct S_80F9F000_0 {
     void ** unk_08;
     void ** unk_0C;
     void * unk_10;
-} S_80F9F000_0;   /* obj in BODY_NAME */
+} S_80F9F000_0;   /* obj in func_80158880 */
 
 typedef struct S_80F9F000_1 {
     u8 pad_00[0x13];
@@ -15,12 +15,12 @@ typedef struct S_80F9F000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80F9F000_1;   /* work in BODY_NAME */
+} S_80F9F000_1;   /* work in func_80158880 */
 
 typedef struct S_80F9F000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80F9F000_2;   /* part_a in BODY_NAME */
+} S_80F9F000_2;   /* part_a in func_80158880 */
 
 typedef struct S_80F9F000_3 {
     u8 pad_00[0x24];
@@ -28,7 +28,7 @@ typedef struct S_80F9F000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80F9F000_3;   /* part_b in BODY_NAME */
+} S_80F9F000_3;   /* part_b in func_80158880 */
 
 typedef struct S_80F9F000_4 {
     u8 pad_00[0x8C];
@@ -41,7 +41,7 @@ typedef struct S_80F9F000_4 {
     s8 unk_9C;
     u8 pad_9D[0x3];
     s16 unk_A0;
-} S_80F9F000_4;   /* actor in BODY_NAME */
+} S_80F9F000_4;   /* actor in func_80158880 */
 
 
 extern void *func_8003FD64();
@@ -56,34 +56,12 @@ extern u8 D_8015CAD4[];
 extern u8 D_8015CAFC[];
 extern u8 D_80159138[];
 
-extern void *func_80158800();
-
+void *func_80158880(s16, s16, s16, s16)
 #ifdef __mips__
-static const u32 bank_words[] __asm__("func_80158800")
-__attribute__((section(".text.func_80158800"), aligned(4))) = {
-    0x80158880, 0x80158A70, 0x8015956C, 0x8015956C,
-    0x8015956C, 0x80159598, 0x80159518, 0x80159518,
-    0x80159518, 0x801594E0, 0x801594C4, 0x80159598,
-    0x80159598, 0x8015955C, 0x8015AB5C, 0x8015AB54,
-    0x8015AB4C, 0x8015AB64, 0x8015AB0C, 0x8015AB04,
-    0x8015AAFC, 0x92824081, 0x81828F82, 0x85829282,
-    0x44818482, 0x00000000, 0x0C001000, 0x18001000,
-    0x00001400, 0x18001000, 0x08001000, 0x30320C00,
-};
-__asm__(".globl func_80158800\n"
-        ".size func_80158800, 624");
-#define BODY_NAME func_80158880
-#else
-#define BODY_NAME func_80158800
-#endif
-
-void *BODY_NAME(s16, s16, s16, s16)
-#ifdef __mips__
-__attribute__((section(".text.func_80158800")))
 #endif
 ;
 
-void *BODY_NAME(s16 mask, s16 value_24, s16 value_25, s16 value_0A)
+void *func_80158880(s16 mask, s16 value_24, s16 value_25, s16 value_0A)
 {
     s32 kind;
     void *work = 0;

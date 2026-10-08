@@ -8,7 +8,7 @@ typedef struct S_80BFD000_0 {
     void * unk_08;
     void * unk_0C;
     u8 * unk_10;
-} S_80BFD000_0;   /* temp_v0 in BODY_NAME */
+} S_80BFD000_0;   /* temp_v0 in func_8015E878 */
 
 typedef struct S_80BFD000_1 {
     u8 pad_00[0x13];
@@ -16,12 +16,12 @@ typedef struct S_80BFD000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80BFD000_1;   /* var_s0 in BODY_NAME */
+} S_80BFD000_1;   /* var_s0 in func_8015E878 */
 
 typedef struct S_80BFD000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80BFD000_2;   /* temp_s4 in BODY_NAME */
+} S_80BFD000_2;   /* temp_s4 in func_8015E878 */
 
 typedef struct S_80BFD000_3 {
     u8 pad_00[0x24];
@@ -29,7 +29,7 @@ typedef struct S_80BFD000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     M2C_UNK * unk_2C;
-} S_80BFD000_3;   /* temp_s2 in BODY_NAME */
+} S_80BFD000_3;   /* temp_s2 in func_8015E878 */
 
 typedef struct S_80BFD000_4 {
     u8 pad_00[0x8C];
@@ -40,28 +40,12 @@ typedef struct S_80BFD000_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_80BFD000_4;   /* actor in BODY_NAME */
+} S_80BFD000_4;   /* actor in func_8015E878 */
 
 
-static const u32 func_8015E800_bank[] __asm__("func_8015E800")
-__attribute__((section(".text.func_8015E800"), aligned(4), used)) = {
-    0x8015e878, 0x00000000, 0x8015f470, 0x8015f470,
-    0x8015f470, 0x8015f49c, 0x8015f41c, 0x8015f41c,
-    0x8015f41c, 0x8015f3e4, 0x8015f3e4, 0x8015f49c,
-    0x8015f49c, 0x8015f460, 0x801606c0, 0x801606b8,
-    0x801606b0, 0x801606c8, 0x80160670, 0x80160668,
-    0x80160660, 0x00000000, 0x80161d4c, 0x80161d60,
-    0x80161da4, 0x80161e84, 0x80161f58, 0x801620bc,
-    0x80162158, 0x801621d8,
-};
 
-__asm__(".globl func_8015E800\n.size func_8015E800, 600");
 
-#ifdef __mips__
-#define BODY_NAME func_8015E878
-#else
-#define BODY_NAME func_8015E800
-#endif
+
 
 extern u8 D_8015EA58[];
 void *func_8003FD64();
@@ -75,8 +59,7 @@ extern M2C_UNK D_8016220C;
 extern M2C_UNK D_8016225C;
 
 /* Create a dungeon actor and initialize its placement, flags, and behavior. */
-__attribute__((section(".text.func_8015E800")))
-void *BODY_NAME(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_value) {
+void *func_8015E878(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_value) {
     s32 unused_byte_neg_ba0;
     s32 unused_byte_21d8;
     s32 kind_or_bits;

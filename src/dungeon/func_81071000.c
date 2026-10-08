@@ -4,14 +4,14 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
-typedef struct S_FUNC_81071000_BODY_0 {
+typedef struct S_func_80158898_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_FUNC_81071000_BODY_0;   /* temp_v0 in FUNC_81071000_BODY */
+} S_func_80158898_0;   /* temp_v0 in func_80158898 */
 
-typedef struct S_FUNC_81071000_BODY_1 {
+typedef struct S_func_80158898_1 {
     u8 pad_00[0x13];
     s8 unk_13;
     s32 unk_14;
@@ -19,14 +19,14 @@ typedef struct S_FUNC_81071000_BODY_1 {
     s32 unk_1C;
     u8 pad_20[0x78];
     u16 unk_98;
-} S_FUNC_81071000_BODY_1;   /* var_s0 in FUNC_81071000_BODY */
+} S_func_80158898_1;   /* var_s0 in func_80158898 */
 
-typedef struct S_FUNC_81071000_BODY_2 {
+typedef struct S_func_80158898_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_FUNC_81071000_BODY_2;   /* temp_s4 in FUNC_81071000_BODY */
+} S_func_80158898_2;   /* temp_s4 in func_80158898 */
 
-typedef struct S_FUNC_81071000_BODY_3 {
+typedef struct S_func_80158898_3 {
     u8 pad_00[0x14];
     u16 unk_14;
     u8 pad_16[0xE];
@@ -34,9 +34,9 @@ typedef struct S_FUNC_81071000_BODY_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     M2C_UNK * unk_2C;
-} S_FUNC_81071000_BODY_3;   /* temp_s2 in FUNC_81071000_BODY */
+} S_func_80158898_3;   /* temp_s2 in func_80158898 */
 
-typedef struct S_FUNC_81071000_BODY_4 {
+typedef struct S_func_80158898_4 {
     u8 pad_00[0x8C];
     M2C_UNK * unk_8C;
     u8 pad_90[0xA];
@@ -45,7 +45,7 @@ typedef struct S_FUNC_81071000_BODY_4 {
     s8 unk_9C;
     u8 pad_9D[0xD];
     s16 unk_AA;
-} S_FUNC_81071000_BODY_4;   /* temp_s5 in FUNC_81071000_BODY */
+} S_func_80158898_4;   /* temp_s5 in func_80158898 */
 
 void *func_8003FD64();
 s32 func_8004491C();
@@ -58,45 +58,16 @@ extern M2C_UNK D_80158F68;
 extern M2C_UNK D_8015BFB8;
 extern M2C_UNK D_8015C000;
 
-#ifdef __mips__
-static const u32 func_81071000_prefix_a[] __asm__("func_81071000")
-__attribute__((used, section(".text.func_81071000"), aligned(4))) = {
-    0x80158898, 0x80158AA4, 0x80159394, 0x80159394,
-    0x80159394, 0x801593C0, 0x80159340, 0x80159340,
-    0x80159340, 0x801592EC, 0x80159324, 0x801593C0,
-    0x801593C0, 0x80159384, 0x8015AAF0, 0x8015AAE8,
-    0x8015AAE0, 0x8015AAF8, 0x8015AAA0, 0x8015AA98,
-    0x8015AA90,
-};
-static const u32 func_81071000_prefix_b[]
-__attribute__((used, section(".text.func_81071000"), aligned(4))) = {
-    0x97824081, 0x8E828582, 0x40819482, 0x85828282,
-    0x93829282, 0x92828582, 0x44818B82, 0,
-    0,
-};
-static const u32 func_81071000_prefix_c[]
-__attribute__((used, section(".text.func_81071000"), aligned(4))) = {
-    0x8015BCBC, 0x8015BD60, 0x8015BDD8, 0x8015BE10,
-    0x8015BCBC, 0x8015BD60, 0x8015BDD8, 0x8015BE70,
-};
-__asm__(".globl func_81071000\n"
-        ".type func_81071000,@function\n"
-        ".size func_81071000,676");
-#define FUNC_81071000_BODY func_81071000_body
-#define FUNC_81071000_ATTR __attribute__((used, section(".text.func_81071000")))
-#else
-#define FUNC_81071000_BODY func_81071000
-#define FUNC_81071000_ATTR
-#endif
+
 
 /* Allocate a dungeon object and initialize its placement, flags, and behavior. */
-FUNC_81071000_ATTR void *FUNC_81071000_BODY(s16 spawn_flags, s16 x, s16 y, s16 config_value) {
-    S_FUNC_81071000_BODY_1 *object_state;
+ void *func_80158898(s16 spawn_flags, s16 x, s16 y, s16 config_value) {
+    S_func_80158898_1 *object_state;
     s32 mode_or_roll;
     u16 state_flags;
-    S_FUNC_81071000_BODY_3 *placement;
-    S_FUNC_81071000_BODY_2 *config;
-    S_FUNC_81071000_BODY_4 *behavior;
+    S_func_80158898_3 *placement;
+    S_func_80158898_2 *config;
+    S_func_80158898_4 *behavior;
     void *object;
     s8 saved_x;
     s16 saved_config_value;
@@ -110,12 +81,12 @@ FUNC_81071000_ATTR void *FUNC_81071000_BODY(s16 spawn_flags, s16 x, s16 y, s16 c
     object = func_8003FD64(0x112, ((M2C_UNK *)&D_80083498.next));
     if (object != NULL) {
         object_state = object + 0x20;
-        ((S_FUNC_81071000_BODY_0 *)object)->unk_10 = &D_80158AA4;
+        ((S_func_80158898_0 *)object)->unk_10 = &D_80158AA4;
         object_state->unk_13 = 0x2B;
         func_8004491C(object, func_80045340);
-        config = ((S_FUNC_81071000_BODY_0 *)object)->unk_08;
+        config = ((S_func_80158898_0 *)object)->unk_08;
         config->unk_0A = saved_config_value;
-        placement = ((S_FUNC_81071000_BODY_0 *)object)->unk_0C;
+        placement = ((S_func_80158898_0 *)object)->unk_0C;
         mode_or_roll = spawn_flags & 3;
         placement->unk_25 = saved_y;
         behavior = object_state;

@@ -1,6 +1,6 @@
 {
   "schema": "overlay-module-native-v3",
-  "logical_rows": 5883,
+  "logical_rows": 6457,
   "edges": [
     {
       "module": "dungeon_cd_control_d79c4",
@@ -50,6 +50,4346 @@
         "dungeon/func_81832FE8",
         "dungeon/func_81833060",
         "dungeon/func_818330F0"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80A1D000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80A1D000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80A1D004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80A1D004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80A1D008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80A1D008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80A1D038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80A1D038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80A1D058.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80A1D058"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80A1D074.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80A1D074"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80A23000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80A23000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80A23004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80A23004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80A23008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80A23008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80A23038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80A23038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80A23058.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80A23058"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80A23074.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80A23074"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80A2F000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80A2F000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80A2F004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80A2F004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80A2F008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80A2F008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80A2F038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80A2F038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80A2F058.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80A2F058"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80A2F074.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80A2F074"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80A35000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80A35000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80A35004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80A35004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80A35008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80A35008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80A35038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80A35038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80A35058.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80A35058"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80A35074.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80A35074"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80A41000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80A41000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80A41004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80A41004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80A41008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80A41008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80A41038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80A41038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80A41058.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80A41058"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80A41074.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80A41074"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80ACB000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80ACB000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80ACB004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80ACB004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80ACB008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80ACB008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80ACB038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80ACB038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80ACB04C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80ACB04C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80ACB050.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80ACB050"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80ACB064.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80ACB064"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80ACB068.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80ACB068"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80ACB084.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80ACB084"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80AD7000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80AD7000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80AD7004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80AD7004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80AD7008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80AD7008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80AD7038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80AD7038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80AD704C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80AD704C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80AD7050.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80AD7050"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80AD7064.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80AD7064"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80AD7068.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80AD7068"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80AD7084.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80AD7084"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80ADD000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80ADD000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80ADD004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80ADD004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80ADD008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80ADD008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80ADD038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80ADD038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80ADD04C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80ADD04C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80ADD050.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80ADD050"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80ADD064.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80ADD064"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80ADD068.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80ADD068"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80ADD084.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80ADD084"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80AE9000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80AE9000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80AE9004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80AE9004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80AE9008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80AE9008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80AE9038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80AE9038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80AE904C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80AE904C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80AE9050.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80AE9050"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80AE9064.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80AE9064"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80AE9068.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80AE9068"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80AE9084.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80AE9084"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80BFD000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80BFD000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80BFD004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80BFD004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80BFD008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80BFD008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80BFD038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80BFD038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80BFD054.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80BFD054"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80BFD058.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80BFD058"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80CBD000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80CBD000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80CBD004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80CBD004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80CBD008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80CBD008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80CBD038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80CBD038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80CBD054.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80CBD054"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80CBD058.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80CBD058"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80CBD088.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80CBD088"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80D17000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80D17000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80D17004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80D17004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80D17008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80D17008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80D17038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80D17038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80D17058.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80D17058"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80D23000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80D23000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80D23004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80D23004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80D23008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80D23008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80D23038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80D23038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80D23058.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80D23058"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80D29000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80D29000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80D29004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80D29004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80D29008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80D29008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80D29038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80D29038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80D29058.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80D29058"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80D35000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80D35000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80D35004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80D35004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80D35008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80D35008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80D35038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80D35038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80D35058.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80D35058"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80D95000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80D95000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80D95004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80D95004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80D95008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80D95008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80D95038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80D95038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80D95054.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80D95054"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80DA1000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80DA1000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80DA1004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80DA1004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80DA1008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80DA1008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80DA1038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80DA1038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80DA1054.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80DA1054"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80DA7000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80DA7000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80DA7004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80DA7004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80DA7008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80DA7008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80DA7038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80DA7038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80DA7054.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80DA7054"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80DAD000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80DAD000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80DAD004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80DAD004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80DAD008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80DAD008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80DAD038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80DAD038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80DAD054.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80DAD054"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80DB3000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80DB3000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80DB3004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80DB3004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80DB3008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80DB3008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80DB3038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80DB3038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80DB3054.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80DB3054"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80E91000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80E91000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80E91004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80E91004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80E91008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80E91008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80E91038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80E91038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80E9107C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80E9107C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80E91080.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80E91080"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80E9109C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80E9109C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80E910AC.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80E910AC"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80E910B8.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80E910B8"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80E910BC.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80E910BC"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80E910F0.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80E910F0"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80E9D000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80E9D000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80E9D004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80E9D004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80E9D008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80E9D008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80E9D038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80E9D038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80E9D07C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80E9D07C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80E9D080.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80E9D080"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80E9D09C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80E9D09C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80E9D0AC.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80E9D0AC"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80E9D0B8.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80E9D0B8"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80E9D0BC.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80E9D0BC"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80E9D0F0.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80E9D0F0"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EA3000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EA3000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EA3004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EA3004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EA3008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EA3008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EA3038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EA3038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EA307C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EA307C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EA3080.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EA3080"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EA309C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EA309C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EA30AC.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EA30AC"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EA30B8.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EA30B8"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EA30BC.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EA30BC"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EA30F0.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EA30F0"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EAF000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EAF000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EAF004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EAF004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EAF008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EAF008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EAF038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EAF038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EAF07C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EAF07C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EAF080.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EAF080"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EAF09C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EAF09C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EAF0AC.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EAF0AC"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EAF0B8.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EAF0B8"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EAF0BC.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EAF0BC"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EAF0F0.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EAF0F0"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EDF000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EDF000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EDF004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EDF004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EDF008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EDF008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EDF028.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EDF028"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EDF03C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EDF03C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EDF040.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EDF040"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EDF070.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EDF070"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EDF084.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EDF084"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EDF088.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EDF088"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EDF09C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EDF09C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EDF0A0.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EDF0A0"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EE5000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EE5000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EE5004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EE5004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EE5008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EE5008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EE5028.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EE5028"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EE503C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EE503C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EE5040.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EE5040"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EE5070.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EE5070"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EE5084.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EE5084"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EE5088.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EE5088"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EE509C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EE509C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EE50A0.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EE50A0"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EF1000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EF1000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EF1004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EF1004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EF1008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EF1008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EF1028.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EF1028"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EF103C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EF103C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EF1040.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EF1040"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EF1070.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EF1070"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EF1084.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EF1084"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EF1088.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EF1088"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EF109C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EF109C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EF10A0.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EF10A0"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EF7000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EF7000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EF7004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EF7004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EF7008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EF7008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EF7028.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EF7028"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EF703C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EF703C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EF7040.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EF7040"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EF7070.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EF7070"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EF7084.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EF7084"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EF7088.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EF7088"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EF709C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EF709C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80EF70A0.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80EF70A0"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F03000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F03000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F03004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F03004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F03008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F03008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F03028.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F03028"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F0303C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F0303C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F03040.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F03040"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F03070.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F03070"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F03084.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F03084"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F03088.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F03088"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F0309C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F0309C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F030A0.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F030A0"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F2D000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F2D000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F2D004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F2D004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F2D008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F2D008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F2D038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F2D038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F45000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F45000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F45004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F45004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F45008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F45008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F45038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F45038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F45060.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F45060"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F45078.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F45078"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F8D000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F8D000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F8D004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F8D004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F8D008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F8D008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F8D038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F8D038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F8D054.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F8D054"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F8D068.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F8D068"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F93000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F93000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F93004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F93004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F93008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F93008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F93038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F93038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F93054.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F93054"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F93068.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F93068"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F99000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F99000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F99004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F99004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F99008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F99008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F99038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F99038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F99054.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F99054"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F99068.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F99068"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F9F000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F9F000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F9F004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F9F004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F9F008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F9F008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F9F038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F9F038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F9F054.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F9F054"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80F9F068.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80F9F068"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FA5000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FA5000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FA5004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FA5004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FA5008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FA5008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FA5038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FA5038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FA5054.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FA5054"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FA5068.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FA5068"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FAB000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FAB000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FAB004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FAB004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FAB008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FAB008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FAB038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FAB038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FAB054.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FAB054"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FAB068.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FAB068"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FB7000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FB7000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FB7004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FB7004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FB7008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FB7008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FB701C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FB701C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FB7020.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FB7020"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FB7050.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FB7050"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FB706C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FB706C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FB7074.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FB7074"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FB709C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FB709C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FC3000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FC3000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FC3004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FC3004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FC3008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FC3008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FC301C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FC301C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FC3020.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FC3020"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FC3050.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FC3050"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FC306C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FC306C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FC3074.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FC3074"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FC309C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FC309C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FC9000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FC9000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FC9004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FC9004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FC9008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FC9008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FC901C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FC901C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FC9020.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FC9020"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FC9050.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FC9050"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FC906C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FC906C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FC9074.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FC9074"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FC909C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FC909C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FD5000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FD5000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FD5004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FD5004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FD5008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FD5008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FD501C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FD501C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FD5020.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FD5020"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FD5050.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FD5050"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FD506C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FD506C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FD5074.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FD5074"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FD509C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FD509C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FE1000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FE1000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FE1004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FE1004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FE1008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FE1008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FE1038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FE1038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FE1054.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FE1054"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FE1074.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FE1074"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FE7000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FE7000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FE7004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FE7004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FE7008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FE7008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FE7038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FE7038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FE7054.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FE7054"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FE7074.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FE7074"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FED000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FED000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FED004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FED004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FED008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FED008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FED038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FED038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FED054.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FED054"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FED074.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FED074"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FF3000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FF3000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FF3004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FF3004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FF3008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FF3008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FF3038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FF3038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FF3054.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FF3054"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FF3074.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FF3074"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FF9000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FF9000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FF9004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FF9004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FF9008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FF9008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FF9038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FF9038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FF9054.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FF9054"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FF9074.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FF9074"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FFF000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FFF000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FFF004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FFF004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FFF008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FFF008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FFF038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FFF038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FFF054.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FFF054"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_80FFF074.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_80FFF074"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8100B000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8100B000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8100B004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8100B004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8100B008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8100B008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8100B038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8100B038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8100B048.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8100B048"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8100B058.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8100B058"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8100B074.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8100B074"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8100B078.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8100B078"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81017000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81017000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81017004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81017004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81017008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81017008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81017038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81017038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81017048.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81017048"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81017058.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81017058"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81017074.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81017074"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81017078.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81017078"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8101D000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8101D000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8101D004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8101D004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8101D008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8101D008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8101D038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8101D038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8101D048.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8101D048"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8101D058.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8101D058"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8101D074.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8101D074"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8101D078.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8101D078"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81029000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81029000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81029004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81029004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81029008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81029008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81029038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81029038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81029048.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81029048"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81029058.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81029058"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81029074.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81029074"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81029078.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81029078"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8106B000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8106B000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8106B004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8106B004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8106B008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8106B008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8106B038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8106B038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8106B054.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8106B054"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8106B074.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8106B074"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8106B078.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8106B078"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81071000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81071000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81071004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81071004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81071008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81071008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81071038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81071038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81071054.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81071054"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81071074.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81071074"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81071078.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81071078"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8107D000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8107D000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8107D004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8107D004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8107D008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8107D008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8107D038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8107D038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8107D054.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8107D054"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8107D074.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8107D074"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8107D078.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8107D078"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81251000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81251000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81251004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81251004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81251008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81251008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81251038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81251038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8125105C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8125105C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81251060.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81251060"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8125107C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8125107C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81251080.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81251080"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81257000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81257000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81257004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81257004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81257008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81257008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81257038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81257038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8125705C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8125705C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81257060.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81257060"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8125707C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8125707C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81257080.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81257080"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81263000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81263000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81263004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81263004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81263008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81263008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81263038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81263038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8126305C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8126305C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81263060.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81263060"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8126307C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8126307C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81263080.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81263080"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81269000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81269000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81269004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81269004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81269008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81269008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81269038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81269038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8126905C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8126905C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81269060.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81269060"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8126907C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8126907C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81269080.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81269080"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81275000.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81275000"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81275004.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81275004"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81275008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81275008"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81275038.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81275038"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8127505C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8127505C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81275060.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81275060"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_8127507C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_8127507C"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81275080.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81275080"
       ]
     },
     {
@@ -11303,6 +15643,16 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80A1D684.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80A1D684"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80A1EA88.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -11403,6 +15753,26 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80A23684.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80A23684"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80A250C4.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80A250C4"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80A2F000.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -11410,6 +15780,26 @@
       },
       "rows": [
         "dungeon/func_80A2F000"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80A2F684.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80A2F684"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80A310C4.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80A310C4"
       ]
     },
     {
@@ -11423,6 +15813,26 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80A35684.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80A35684"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80A370C4.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80A370C4"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80A41000.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -11430,6 +15840,26 @@
       },
       "rows": [
         "dungeon/func_80A41000"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80A41684.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80A41684"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80A430C4.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80A430C4"
       ]
     },
     {
@@ -12193,6 +16623,16 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80ACBF28.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80ACBF28"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80ACD3AC.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -12200,6 +16640,26 @@
       },
       "rows": [
         "dungeon/func_80ACD3AC"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80ACD7D8.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80ACD7D8"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80ACDA30.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80ACDA30"
       ]
     },
     {
@@ -12223,6 +16683,16 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80AD7F28.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80AD7F28"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80AD93AC.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -12230,6 +16700,26 @@
       },
       "rows": [
         "dungeon/func_80AD93AC"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80AD97D8.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80AD97D8"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80AD9A30.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80AD9A30"
       ]
     },
     {
@@ -12243,6 +16733,16 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80ADDF28.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80ADDF28"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80ADF3AC.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -12250,6 +16750,26 @@
       },
       "rows": [
         "dungeon/func_80ADF3AC"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80ADF7D8.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80ADF7D8"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80ADFA30.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80ADFA30"
       ]
     },
     {
@@ -12273,6 +16793,16 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80AE9F28.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80AE9F28"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80AEB3AC.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -12280,6 +16810,26 @@
       },
       "rows": [
         "dungeon/func_80AEB3AC"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80AEB7D8.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80AEB7D8"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80AEBA30.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80AEBA30"
       ]
     },
     {
@@ -13333,6 +17883,36 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80BFD814.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80BFD814"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80BFEDA4.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80BFEDA4"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80C004EC.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80C004EC"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80C03078.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -13853,6 +18433,16 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80CBD720.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80CBD720"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80CBE9B0.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -13970,6 +18560,16 @@
       },
       "rows": [
         "dungeon/func_80CC1724"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80CC1C80.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80CC1C80"
       ]
     },
     {
@@ -14573,6 +19173,26 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80D17F60.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80D17F60"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80D19E4C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80D19E4C"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80D23000.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -14580,6 +19200,26 @@
       },
       "rows": [
         "dungeon/func_80D23000"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80D23F60.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80D23F60"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80D25E4C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80D25E4C"
       ]
     },
     {
@@ -14593,6 +19233,26 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80D29F60.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80D29F60"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80D2BE4C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80D2BE4C"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80D35000.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -14600,6 +19260,26 @@
       },
       "rows": [
         "dungeon/func_80D35000"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80D35F60.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80D35F60"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80D37E4C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80D37E4C"
       ]
     },
     {
@@ -15163,6 +19843,26 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80D95668.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80D95668"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80D97070.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80D97070"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80DA1000.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -15170,6 +19870,26 @@
       },
       "rows": [
         "dungeon/func_80DA1000"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80DA1668.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80DA1668"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80DA3070.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80DA3070"
       ]
     },
     {
@@ -15183,6 +19903,26 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80DA7668.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80DA7668"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80DA9070.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80DA9070"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80DAD000.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -15193,6 +19933,26 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80DAD668.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80DAD668"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80DAF070.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80DAF070"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80DB3000.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -15200,6 +19960,26 @@
       },
       "rows": [
         "dungeon/func_80DB3000"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80DB3668.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80DB3668"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80DB5070.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80DB5070"
       ]
     },
     {
@@ -16523,6 +21303,36 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80E918F4.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80E918F4"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80E93490.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80E93490"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80E94C28.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80E94C28"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80E9D000.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -16530,6 +21340,36 @@
       },
       "rows": [
         "dungeon/func_80E9D000"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80E9D8F4.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80E9D8F4"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80E9F490.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80E9F490"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80EA0C28.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80EA0C28"
       ]
     },
     {
@@ -16543,6 +21383,36 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80EA38F4.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80EA38F4"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80EA5490.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80EA5490"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80EA6C28.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80EA6C28"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80EAF000.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -16550,6 +21420,36 @@
       },
       "rows": [
         "dungeon/func_80EAF000"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80EAF8F4.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80EAF8F4"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80EB1490.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80EB1490"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80EB2C28.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80EB2C28"
       ]
     },
     {
@@ -16733,6 +21633,16 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80EE04E8.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80EE04E8"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80EE18E0.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -16803,6 +21713,16 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80EE64E8.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80EE64E8"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80EE78E0.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -16810,6 +21730,26 @@
       },
       "rows": [
         "dungeon/func_80EE78E0"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80EE7D14.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80EE7D14"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80EE7FB0.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80EE7FB0"
       ]
     },
     {
@@ -16833,6 +21773,16 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80EF24E8.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80EF24E8"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80EF38E0.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -16840,6 +21790,26 @@
       },
       "rows": [
         "dungeon/func_80EF38E0"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80EF3D14.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80EF3D14"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80EF3FB0.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80EF3FB0"
       ]
     },
     {
@@ -16853,6 +21823,16 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80EF84E8.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80EF84E8"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80EF98E0.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -16860,6 +21840,26 @@
       },
       "rows": [
         "dungeon/func_80EF98E0"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80EF9D14.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80EF9D14"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80EF9FB0.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80EF9FB0"
       ]
     },
     {
@@ -16883,6 +21883,16 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80F044E8.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80F044E8"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80F058E0.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -16890,6 +21900,26 @@
       },
       "rows": [
         "dungeon/func_80F058E0"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80F05D14.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80F05D14"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80F05FB0.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80F05FB0"
       ]
     },
     {
@@ -17003,6 +22033,26 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80F2D774.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80F2D774"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80F2F2A8.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80F2F2A8"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80F33094.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -17110,6 +22160,36 @@
       },
       "rows": [
         "dungeon/func_80F45000"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80F45694.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80F45694"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80F46FB4.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80F46FB4"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80F4775C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80F4775C"
       ]
     },
     {
@@ -17383,6 +22463,26 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80F8D938.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80F8D938"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80F8F240.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80F8F240"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80F90E88.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -17403,6 +22503,26 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80F93938.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80F93938"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80F95240.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80F95240"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80F99000.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -17410,6 +22530,26 @@
       },
       "rows": [
         "dungeon/func_80F99000"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80F99938.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80F99938"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80F9B240.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80F9B240"
       ]
     },
     {
@@ -17423,6 +22563,26 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80F9F938.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80F9F938"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80FA1240.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80FA1240"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80FA5000.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -17433,6 +22593,26 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80FA5938.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80FA5938"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80FA7240.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80FA7240"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80FAB000.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -17440,6 +22620,26 @@
       },
       "rows": [
         "dungeon/func_80FAB000"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80FAB938.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80FAB938"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80FAD240.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80FAD240"
       ]
     },
     {
@@ -17593,6 +22793,26 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80FB776C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80FB776C"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80FB95EC.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80FB95EC"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80FC3000.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -17600,6 +22820,26 @@
       },
       "rows": [
         "dungeon/func_80FC3000"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80FC376C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80FC376C"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80FC55EC.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80FC55EC"
       ]
     },
     {
@@ -17613,6 +22853,26 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80FC976C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80FC976C"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80FCB5EC.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80FCB5EC"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80FD5000.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -17620,6 +22880,26 @@
       },
       "rows": [
         "dungeon/func_80FD5000"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80FD576C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80FD576C"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80FD75EC.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80FD75EC"
       ]
     },
     {
@@ -17723,6 +23003,26 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80FE16A8.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80FE16A8"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80FE31A0.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80FE31A0"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80FE7000.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -17730,6 +23030,26 @@
       },
       "rows": [
         "dungeon/func_80FE7000"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80FE76A8.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80FE76A8"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80FE91A0.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80FE91A0"
       ]
     },
     {
@@ -17743,6 +23063,26 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80FED6A8.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80FED6A8"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80FEF1A0.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80FEF1A0"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80FF3000.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -17750,6 +23090,26 @@
       },
       "rows": [
         "dungeon/func_80FF3000"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80FF36A8.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80FF36A8"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80FF51A0.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80FF51A0"
       ]
     },
     {
@@ -17763,6 +23123,26 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80FF96A8.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80FF96A8"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80FFB1A0.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80FFB1A0"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80FFF000.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -17770,6 +23150,26 @@
       },
       "rows": [
         "dungeon/func_80FFF000"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80FFF6A8.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80FFF6A8"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_810011A0.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_810011A0"
       ]
     },
     {
@@ -17893,6 +23293,36 @@
       ]
     },
     {
+      "source": "src/dungeon/func_8100B858.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_8100B858"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_8100D034.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_8100D034"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_8100E664.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_8100E664"
+      ]
+    },
+    {
       "source": "src/dungeon/func_81017000.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -17900,6 +23330,36 @@
       },
       "rows": [
         "dungeon/func_81017000"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_81017858.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_81017858"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_81019034.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_81019034"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_8101A664.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_8101A664"
       ]
     },
     {
@@ -17913,6 +23373,36 @@
       ]
     },
     {
+      "source": "src/dungeon/func_8101D858.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_8101D858"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_8101F034.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_8101F034"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_81020664.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_81020664"
+      ]
+    },
+    {
       "source": "src/dungeon/func_81029000.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -17920,6 +23410,36 @@
       },
       "rows": [
         "dungeon/func_81029000"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_81029858.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_81029858"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_8102B034.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_8102B034"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_8102C664.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_8102C664"
       ]
     },
     {
@@ -18223,6 +23743,36 @@
       ]
     },
     {
+      "source": "src/dungeon/func_8106B768.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_8106B768"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_8106D1D4.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_8106D1D4"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_8106E45C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_8106E45C"
+      ]
+    },
+    {
       "source": "src/dungeon/func_81071000.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -18233,6 +23783,36 @@
       ]
     },
     {
+      "source": "src/dungeon/func_81071768.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_81071768"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_810731D4.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_810731D4"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_8107445C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_8107445C"
+      ]
+    },
+    {
       "source": "src/dungeon/func_8107D000.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -18240,6 +23820,36 @@
       },
       "rows": [
         "dungeon/func_8107D000"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_8107D768.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_8107D768"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_8107F1D4.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_8107F1D4"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_8108045C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_8108045C"
       ]
     },
     {
@@ -18673,6 +24283,16 @@
       ]
     },
     {
+      "source": "src/dungeon/func_812536C4.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_812536C4"
+      ]
+    },
+    {
       "source": "src/dungeon/func_81254060.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -18793,6 +24413,36 @@
       ]
     },
     {
+      "source": "src/dungeon/func_81257D14.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_81257D14"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_81258D6C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_81258D6C"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_812596C4.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_812596C4"
+      ]
+    },
+    {
       "source": "src/dungeon/func_81263000.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -18800,6 +24450,36 @@
       },
       "rows": [
         "dungeon/func_81263000"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_81263D14.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_81263D14"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_81264D6C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_81264D6C"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_812656C4.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_812656C4"
       ]
     },
     {
@@ -18813,6 +24493,36 @@
       ]
     },
     {
+      "source": "src/dungeon/func_81269D14.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_81269D14"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_8126AD6C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_8126AD6C"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_8126B6C4.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_8126B6C4"
+      ]
+    },
+    {
       "source": "src/dungeon/func_81275000.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -18820,6 +24530,36 @@
       },
       "rows": [
         "dungeon/func_81275000"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_81275D14.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_81275D14"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_81276D6C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_81276D6C"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_812776C4.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_812776C4"
       ]
     },
     {
@@ -56926,7 +62666,7 @@
       "source": "src/town/func_808213CC.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
-        "row_asflags": "--prefer-target-arg-setup"
+        "row_asflags": ""
       },
       "rows": [
         "town/func_808213CC"

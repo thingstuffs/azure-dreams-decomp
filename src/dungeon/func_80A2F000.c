@@ -10,7 +10,7 @@ typedef struct S_80A2F000_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80A2F000_0;   /* obj in BODY_NAME */
+} S_80A2F000_0;   /* obj in func_8015E884 */
 
 typedef struct S_80A2F000_1 {
     u8 pad_00[0x13];
@@ -18,12 +18,12 @@ typedef struct S_80A2F000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80A2F000_1;   /* work in BODY_NAME */
+} S_80A2F000_1;   /* work in func_8015E884 */
 
 typedef struct S_80A2F000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80A2F000_2;   /* part_a in BODY_NAME */
+} S_80A2F000_2;   /* part_a in func_8015E884 */
 
 typedef struct S_80A2F000_3 {
     u8 pad_00[0x24];
@@ -31,7 +31,7 @@ typedef struct S_80A2F000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80A2F000_3;   /* part_b in BODY_NAME */
+} S_80A2F000_3;   /* part_b in func_8015E884 */
 
 typedef struct S_80A2F000_4 {
     u8 pad_00[0x8C];
@@ -40,7 +40,7 @@ typedef struct S_80A2F000_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_80A2F000_4;   /* actor in BODY_NAME */
+} S_80A2F000_4;   /* actor in func_8015E884 */
 
 
 extern void *func_8003FD64(s32, void *);
@@ -56,29 +56,10 @@ extern u8 D_80162860[];
 extern M2C_UNK D_8015EE84;
 
 /* The row begins with a 132-byte data bank; the executable body follows it. */
-#ifdef __mips__
-void func_8015E800(void);
-static const u32 data_bank[] __asm__("func_8015E800")
-__attribute__((section(".text.func_8015E800"), aligned(4))) = {
-    0x8015E884, 0x8015EA58, 0x8015F24C, 0x8015F24C,
-    0x8015F24C, 0x8015F278, 0x8015F1F8, 0x8015F1F8,
-    0x8015F1F8, 0x8015F1C0, 0x8015F1C0, 0x8015F278,
-    0x8015F278, 0x8015F23C, 0x10001000, 0x0DAC1194,
-    0x10001000, 0x12C00D48, 0x11300ED8, 0x10001000,
-    0x0D481388, 0x0ED81194, 0x801609EC, 0x801609E4,
-    0x801609DC, 0x801609F4, 0x8016099C, 0x80160994,
-    0x8016098C, 0x01000340, 0x00800040, 0x01000340,
-    0x00400040,
-};
-__asm__(".globl func_8015E800\n"
-        ".size func_8015E800, 600");
-#define BODY_NAME func_8015E884
-#else
-#define BODY_NAME func_80A2F000
-#endif
+
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
-void *BODY_NAME(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
+void *func_8015E884(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
     s32 kind;
     void *obj;

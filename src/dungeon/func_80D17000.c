@@ -11,7 +11,7 @@ typedef struct S_80D17000_0 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80D17000_0;   /* arg1 in BODY_NAME */
+} S_80D17000_0;   /* arg1 in func_8016A874 */
 
 typedef struct S_80D17000_1 {
     u8 pad_00[0x6];
@@ -27,7 +27,7 @@ typedef struct S_80D17000_1 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_80D17000_1;   /* arg2 in BODY_NAME */
+} S_80D17000_1;   /* arg2 in func_8016A874 */
 
 typedef struct S_80D17000_2 {
     u8 pad_00[0x94];
@@ -35,7 +35,7 @@ typedef struct S_80D17000_2 {
     union { s16 s; u16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x10];
     void * unk_A8;
-} S_80D17000_2;   /* arg0 in BODY_NAME */
+} S_80D17000_2;   /* arg0 in func_8016A874 */
 
 typedef struct S_80D17000_3 {
     u8 pad_00[0x2];
@@ -44,7 +44,7 @@ typedef struct S_80D17000_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80D17000_3;   /* other in BODY_NAME */
+} S_80D17000_3;   /* other in func_8016A874 */
 
 
 extern void func_800478B8(void *);
@@ -60,29 +60,10 @@ typedef struct StackWork {
     s32 out24;
 } StackWork;
 
-#ifdef __mips__
-static const u32 split_prefix[] __asm__("func_80D17000")
-__attribute__((section(".text.func_80D17000"), aligned(4))) = {
-    0x8016B190, 0x8016B358,
-    0x8016BB58, 0x8016BB58, 0x8016BB58, 0x8016BB84,
-    0x8016BB04, 0x8016BB04, 0x8016BB04,
-    0x8016BAB0, 0x8016BAE8,
-    0x8016BB84, 0x8016BB84, 0x8016BB48,
-    0x00000001, 0x00010001, 0x00010000,
-    0x0001FFFF, 0x0000FFFF, 0xFFFFFFFF,
-    0xFFFF0000, 0xFFFF0001,
-    0x8016D76C, 0x8016D764, 0x8016D75C, 0x8016D774,
-    0x8016D71C, 0x8016D714, 0x8016D70C,
-};
-__asm__(".globl func_80D17000\n"
-        ".size func_80D17000, 720");
-#define BODY_NAME func_80D17074
-#else
-#define BODY_NAME func_80D17000
-#endif
+
 
 /* Move and damp the effect, expand and fade its sprite, and expire its lifetime. */
-void BODY_NAME(void *effect, void *motion, void *sprite)
+void func_8016A874(void *effect, void *motion, void *sprite)
 {
     StackWork projection;
     s16 next_life;

@@ -55,80 +55,12 @@ extern M2C_UNK D_8015EEA8;
 extern M2C_UNK D_80162038;
 extern M2C_UNK D_80162088;
 
-#ifdef __mips__
-extern void *func_8015E8A8(s16, s32, s32, s16);
-extern void *func_8015F2B8(void);
-extern void *func_8015F2E4(void);
-extern void *func_8015F264(void);
-extern void *func_8015F1F4(void);
-extern void *func_8015F1E4(void);
-extern void *func_8015F2A8(void);
-extern void *func_80160AC4(void);
-extern void *func_80160ABC(void);
-extern void *func_80160AB4(void);
-extern void *func_80160ACC(void);
-extern void *func_80160A74(void);
-extern void *func_80160A6C(void);
-extern void *func_80160A64(void);
 
-static const u32 data_prefix[] __asm__("func_8015E800")
-__attribute__((section(".text.func_8015E800"), aligned(4))) = {
-    (u32)func_8015E8A8,
-    (u32)D_8015EA7C,
-    (u32)func_8015F2B8,
-    (u32)func_8015F2B8,
-    (u32)func_8015F2B8,
-    (u32)func_8015F2E4,
-    (u32)func_8015F264,
-    (u32)func_8015F264,
-    (u32)func_8015F264,
-    (u32)func_8015F1F4,
-    (u32)func_8015F1E4,
-    (u32)func_8015F2E4,
-    (u32)func_8015F2E4,
-    (u32)func_8015F2A8,
-    (u32)func_80160AC4,
-    (u32)func_80160ABC,
-    (u32)func_80160AB4,
-    (u32)func_80160ACC,
-    (u32)func_80160A74,
-    (u32)func_80160A6C,
-    (u32)func_80160A64,
-    0x89824081,
-    0x40819382,
-    0x93829082,
-    0x83829982,
-    0x85828882,
-    0x7C818482,
-    0x90829582,
-    0x00004481,
-    0x92824081,
-    0x96828582,
-    0x81828582,
-    0x85828C82,
-    0x40818482,
-    0x94828982,
-    0x40819382,
-    0x92829482,
-    0x85829582,
-    0x90824081,
-    0x97828F82,
-    0x92828582,
-    0x74004481,
-};
-__asm__(".globl func_8015E800\n"
-        ".size func_8015E800, 636");
-#define BODY_NAME func_8015E8A8
-#define BODY_ATTR __attribute__((section(".text.func_8015E800")))
-#else
-#define BODY_NAME func_8015E800
-#define BODY_ATTR
-#endif
 
-void *BODY_NAME(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_value) BODY_ATTR;
+void *func_8015E8A8(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_value) ;
 
 /* Allocate and initialize a dungeon node with the supplied setup and placement. */
-void *BODY_NAME(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_value) {
+void *func_8015E8A8(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_value) {
     DungeonSub1 *state;
     DungeonNode *node;
     u16 saved_placement;

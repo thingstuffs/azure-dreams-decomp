@@ -49,68 +49,12 @@ extern s32 func_800A6D30(void);
 extern void func_800A48F0();
 extern void func_800A9C18();
 extern void func_800AA36C();
-extern void func_80170E70(void);
-extern void func_80172654(void);
-
 extern u8 D_80170A58[];
 extern u8 D_80174820[];
 extern u8 D_80174860[];
 extern M2C_UNK D_80170E84;
 
-extern void *func_80170800(s32, s8, s8, s16);
 extern void *func_80170884(s16, s16, s16, s16);
-extern void *func_8016B24C(void);
-extern void *func_8016B278(void);
-extern void *func_8016B1F8(void);
-extern void *func_8016B1C0(void);
-extern void *func_8016B23C(void);
-extern void *func_8016C9EC(void);
-extern void *func_8016C9E4(void);
-extern void *func_8016C9DC(void);
-extern void *func_8016C9F4(void);
-extern void *func_8016C99C(void);
-extern void *func_8016C994(void);
-extern void *func_8016C98C(void);
-
-static const u32 func_80170800_prefix[33] __asm__("func_80170800")
-__attribute__((section(".text.func_80170800"), aligned(4))) = {
-    (u32)func_80170884,
-    (u32)D_80170A58,
-    (u32)((u8 *)func_80170E70 + 0x3DC),
-    (u32)((u8 *)func_80170E70 + 0x3DC),
-    (u32)((u8 *)func_80170E70 + 0x3DC),
-    (u32)((u8 *)func_80170E70 + 0x408),
-    (u32)((u8 *)func_80170E70 + 0x388),
-    (u32)((u8 *)func_80170E70 + 0x388),
-    (u32)((u8 *)func_80170E70 + 0x388),
-    (u32)((u8 *)func_80170E70 + 0x350),
-    (u32)((u8 *)func_80170E70 + 0x350),
-    (u32)((u8 *)func_80170E70 + 0x408),
-    (u32)((u8 *)func_80170E70 + 0x408),
-    (u32)((u8 *)func_80170E70 + 0x3CC),
-    0x10001000,
-    0x0DAC1194,
-    0x10001000,
-    0x12C00D48,
-    0x11300ED8,
-    0x10001000,
-    0x0D481388,
-    0x0ED81194,
-    (u32)((u8 *)func_80172654 + 0x398),
-    (u32)((u8 *)func_80172654 + 0x390),
-    (u32)((u8 *)func_80172654 + 0x388),
-    (u32)((u8 *)func_80172654 + 0x3A0),
-    (u32)((u8 *)func_80172654 + 0x348),
-    (u32)((u8 *)func_80172654 + 0x340),
-    (u32)((u8 *)func_80172654 + 0x338),
-    0x01000340,
-    0x00800040,
-    0x01000340,
-    0x00400040,
-};
-__asm__(".globl func_80170800\n"
-        ".size func_80170800, 600");
-
 void *func_80170884(s16 mask, s16 value_24_input, s16 value_25_input, s16 value_0A_input)
 {
     s32 kind;

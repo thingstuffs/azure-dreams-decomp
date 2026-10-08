@@ -3,7 +3,7 @@
 
 typedef struct S_81251000_0_pre {
     u16 unk_00;
-} S_81251000_0_pre;   /* the 0x2 bytes before root in BODY_NAME, addressed as root[-1] */
+} S_81251000_0_pre;   /* the 0x2 bytes before root in func_80170898, addressed as root[-1] */
 
 typedef struct S_81251000_0 {
     u8 pad_00[0xAC];
@@ -12,7 +12,7 @@ typedef struct S_81251000_0 {
     s16 unk_B2;
     s16 unk_B4;
     s16 unk_B6;
-} S_81251000_0;   /* root in BODY_NAME */
+} S_81251000_0;   /* root in func_80170898 */
 
 typedef struct S_81251000_1 {
     u8 pad_00[0x8];
@@ -20,7 +20,7 @@ typedef struct S_81251000_1 {
     void * unk_0C;
     u8 pad_10[0xE];
     u16 unk_1E;
-} S_81251000_1;   /* owner in BODY_NAME */
+} S_81251000_1;   /* owner in func_80170898 */
 
 typedef struct S_81251000_2 {
     u8 pad_00[0x4];
@@ -30,7 +30,7 @@ typedef struct S_81251000_2 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_81251000_2;   /* part in BODY_NAME */
+} S_81251000_2;   /* part in func_80170898 */
 
 typedef struct S_81251000_3 {
     u8 pad_00[0x8];
@@ -43,7 +43,7 @@ typedef struct S_81251000_3 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_81251000_3;   /* dst in BODY_NAME */
+} S_81251000_3;   /* dst in func_80170898 */
 
 typedef struct S_81251000_4 {
     u8 pad_00[0x2];
@@ -52,7 +52,7 @@ typedef struct S_81251000_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_81251000_4;   /* out in BODY_NAME */
+} S_81251000_4;   /* out in func_80170898 */
 
 typedef struct S_81251000_5 {
     u8 pad_00[0x1];
@@ -62,12 +62,12 @@ typedef struct S_81251000_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_81251000_5;   /* copy in BODY_NAME */
+} S_81251000_5;   /* copy in func_80170898 */
 
 typedef struct S_81251000_6 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_81251000_6;   /* callee_part in BODY_NAME */
+} S_81251000_6;   /* callee_part in func_80170898 */
 
 
 extern s32 func_8003DE58(s32, void *, s16 *, s16);
@@ -75,65 +75,12 @@ extern void func_800478B8(void *);
 extern void func_800A56E0(s32);
 
 
-#ifdef __mips__
-extern void func_80170F84(void);
-extern void func_8017112C(void);
-extern void func_801718C0(void);
-extern void func_801718E8(void);
-extern void func_80171894(void);
-extern void func_80171884(void);
-extern void func_801725D0(void);
-extern void func_80172814(void);
-extern void func_8017285C(void);
-extern void func_8017289C(void);
-extern void func_8017293C(void);
-extern void func_801729A8(void);
-extern void func_80172A10(void);
-extern void func_80172A30(void);
-extern void func_80172AC4(void);
-extern void func_80172680(void);
-extern void func_80172678(void);
-extern void func_80172670(void);
-extern void func_80172688(void);
-extern void func_8017262C(void);
-extern void func_80172624(void);
-extern void func_8017261C(void);
-extern void func_80172F20(void);
-extern void func_80172F90(void);
-extern void func_80172FA8(void);
-extern void func_80172FD4(void);
-extern void func_80173250(void);
-extern void func_801732C0(void);
 
-static void (*const bank_table[])(void)
-__asm__("func_81251000") __attribute__((section(".text.func_81251000"))) = {
-    func_80170F84, func_8017112C,
-    func_801718C0, func_801718C0, func_801718C0,
-    func_801718E8,
-    func_80171894, func_80171894, func_80171894, func_80171894,
-    func_80171894,
-    func_801718E8, func_801718E8,
-    func_80171884,
-    func_801725D0, func_80172814, func_8017285C, func_8017289C,
-    func_8017293C, func_801729A8, func_80172A10, func_80172A30,
-    func_80172AC4,
-    0,
-    func_80172680, func_80172678, func_80172670, func_80172688,
-    func_8017262C, func_80172624, func_8017261C,
-    0,
-    func_80172F20, func_80172F90, func_80172FA8, func_80172FD4,
-    func_80173250, func_801732C0,
-};
 
-#define BODY_NAME func_81251098
-#else
-#define BODY_NAME func_81251000
-#endif
-
-void BODY_NAME(void *root_data, void *position_out, void *part_out)
-__attribute__((section(".text.func_81251000")));
+void func_80170898(void *root_data, void *position_out, void *part_out)
+;
 /* Copies part state, smooths position offsets, and applies phase-dependent brightness. */
-void BODY_NAME(void *root_data, void *position_out, void *part_out)
+void func_80170898(void *root_data, void *position_out, void *part_out)
 {
     s16 offset[3];
     register void *output_pos = position_out;
@@ -225,9 +172,4 @@ void BODY_NAME(void *root_data, void *position_out, void *part_out)
     }
 }
 
-#ifdef __mips__
-__asm__(
-        ".globl func_81251000\n"
-        ".type func_81251000,@function\n"
-        ".size func_81251000,848\n");
-#endif
+

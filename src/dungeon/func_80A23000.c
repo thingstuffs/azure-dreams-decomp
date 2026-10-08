@@ -10,7 +10,7 @@ typedef struct S_FUNC_80A23000_BODY_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_FUNC_80A23000_BODY_0;   /* object in FUNC_80A23000_BODY */
+} S_FUNC_80A23000_BODY_0;   /* object in func_8016A884 */
 
 typedef struct S_FUNC_80A23000_BODY_1 {
     u8 pad_00[0x13];
@@ -18,12 +18,12 @@ typedef struct S_FUNC_80A23000_BODY_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_FUNC_80A23000_BODY_1;   /* work in FUNC_80A23000_BODY */
+} S_FUNC_80A23000_BODY_1;   /* work in func_8016A884 */
 
 typedef struct S_FUNC_80A23000_BODY_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_FUNC_80A23000_BODY_2;   /* part_a in FUNC_80A23000_BODY */
+} S_FUNC_80A23000_BODY_2;   /* part_a in func_8016A884 */
 
 typedef struct S_FUNC_80A23000_BODY_3 {
     u8 pad_00[0x24];
@@ -31,7 +31,7 @@ typedef struct S_FUNC_80A23000_BODY_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_FUNC_80A23000_BODY_3;   /* part_b in FUNC_80A23000_BODY */
+} S_FUNC_80A23000_BODY_3;   /* part_b in func_8016A884 */
 
 typedef struct S_FUNC_80A23000_BODY_4 {
     u8 pad_00[0x8C];
@@ -40,7 +40,7 @@ typedef struct S_FUNC_80A23000_BODY_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_FUNC_80A23000_BODY_4;   /* actor in FUNC_80A23000_BODY */
+} S_FUNC_80A23000_BODY_4;   /* actor in func_8016A884 */
 
 
 extern void *func_8003FD64();
@@ -55,68 +55,9 @@ extern u8 D_8016E820[];
 extern u8 D_8016E860[];
 extern M2C_UNK D_8016AE84;
 
-#ifdef __mips__
-/* The carved row starts with this 33-word text-local pointer/literal bank. */
-extern void *func_8016A800(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c);
-extern void *func_8016A884(s16, s16, s16, s16);
-extern void *func_8016B24C(void);
-extern void *func_8016B278(void);
-extern void *func_8016B1F8(void);
-extern void *func_8016B1C0(void);
-extern void *func_8016B23C(void);
-extern void *func_8016C9EC(void);
-extern void *func_8016C9E4(void);
-extern void *func_8016C9DC(void);
-extern void *func_8016C9F4(void);
-extern void *func_8016C99C(void);
-extern void *func_8016C994(void);
-extern void *func_8016C98C(void);
 
-static const u32 func_8016A800_prefix[33] __asm__("func_8016A800")
-__attribute__((section(".text.func_8016A800"), aligned(4))) = {
-    (u32)func_8016A884,
-    (u32)D_8016AA58,
-    (u32)func_8016B24C,
-    (u32)func_8016B24C,
-    (u32)func_8016B24C,
-    (u32)func_8016B278,
-    (u32)func_8016B1F8,
-    (u32)func_8016B1F8,
-    (u32)func_8016B1F8,
-    (u32)func_8016B1C0,
-    (u32)func_8016B1C0,
-    (u32)func_8016B278,
-    (u32)func_8016B278,
-    (u32)func_8016B23C,
-    0x10001000,
-    0x0DAC1194,
-    0x10001000,
-    0x12C00D48,
-    0x11300ED8,
-    0x10001000,
-    0x0D481388,
-    0x0ED81194,
-    (u32)func_8016C9EC,
-    (u32)func_8016C9E4,
-    (u32)func_8016C9DC,
-    (u32)func_8016C9F4,
-    (u32)func_8016C99C,
-    (u32)func_8016C994,
-    (u32)func_8016C98C,
-    0x01000340,
-    0x00800040,
-    0x01000340,
-    0x00400040,
-};
-__asm__(".globl func_8016A800\n"
-        ".size func_8016A800, 600");
 
-#define FUNC_80A23000_BODY func_8016A884
-#else
-#define FUNC_80A23000_BODY func_80A23000
-#endif
-
-void *FUNC_80A23000_BODY(s16 mask, s16 value_24_input, s16 value_25_input, s16 value_0A_input)
+void *func_8016A884(s16 mask, s16 value_24_input, s16 value_25_input, s16 value_0A_input)
 {
     s32 kind;
     void *object;

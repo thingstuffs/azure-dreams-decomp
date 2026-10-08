@@ -9,7 +9,7 @@ typedef struct S_8106B000_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_8106B000_0;   /* temp_v0 in BODY_NAME */
+} S_8106B000_0;   /* temp_v0 in func_8015E898 */
 
 typedef struct S_8106B000_1 {
     u8 pad_00[0x13];
@@ -19,12 +19,12 @@ typedef struct S_8106B000_1 {
     s32 unk_1C;
     u8 pad_20[0x78];
     u16 unk_98;
-} S_8106B000_1;   /* var_s0 in BODY_NAME */
+} S_8106B000_1;   /* var_s0 in func_8015E898 */
 
 typedef struct S_8106B000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_8106B000_2;   /* temp_s4 in BODY_NAME */
+} S_8106B000_2;   /* temp_s4 in func_8015E898 */
 
 typedef struct S_8106B000_3 {
     u8 pad_00[0x14];
@@ -34,7 +34,7 @@ typedef struct S_8106B000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     M2C_UNK * unk_2C;
-} S_8106B000_3;   /* temp_s2 in BODY_NAME */
+} S_8106B000_3;   /* temp_s2 in func_8015E898 */
 
 typedef struct S_8106B000_4 {
     u8 pad_00[0x8C];
@@ -45,7 +45,7 @@ typedef struct S_8106B000_4 {
     s8 unk_9C;
     u8 pad_9D[0xD];
     s16 unk_AA;
-} S_8106B000_4;   /* temp_s5 in BODY_NAME */
+} S_8106B000_4;   /* temp_s5 in func_8015E898 */
 
 
 
@@ -60,29 +60,9 @@ extern M2C_UNK D_8015EF68;
 extern M2C_UNK D_80161FB8;
 extern M2C_UNK D_80162000;
 
-#ifdef __mips__
-void func_8015E800(void);
-static const u32 data_bank[] __asm__("func_8015E800")
-__attribute__((section(".text.func_8015E800"), aligned(4))) = {
-    0x8015E898, 0x8015EAA4, 0x8015F394, 0x8015F394,
-    0x8015F394, 0x8015F3C0, 0x8015F340, 0x8015F340,
-    0x8015F340, 0x8015F2EC, 0x8015F324, 0x8015F3C0,
-    0x8015F3C0, 0x8015F384, 0x80160AF0, 0x80160AE8,
-    0x80160AE0, 0x80160AF8, 0x80160AA0, 0x80160A98,
-    0x80160A90, 0x97824081, 0x8E828582, 0x40819482,
-    0x85828282, 0x93829282, 0x92828582, 0x44818B82,
-    0x00000000, 0x00000000, 0x80161CBC, 0x80161D60,
-    0x80161DD8, 0x80161E10, 0x80161CBC, 0x80161D60,
-    0x80161DD8, 0x80161E70,
-};
-__asm__(".globl func_8015E800\n"
-        ".size func_8015E800,676");
-#define BODY_NAME func_8015E898
-#else
-#define BODY_NAME func_8015E800
-#endif
 
-void *BODY_NAME(s16 input0, s16 input1, s16 input2, s16 input3) {
+
+void *func_8015E898(s16 input0, s16 input1, s16 input2, s16 input3) {
     S_8106B000_1 *record;
     s32 value;
     u16 flags98;

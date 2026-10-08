@@ -10,7 +10,7 @@ typedef struct S_80FAB000_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80FAB000_0;   /* obj in BODY_NAME */
+} S_80FAB000_0;   /* obj in func_8014C880 */
 
 typedef struct S_80FAB000_1 {
     u8 pad_00[0x13];
@@ -18,12 +18,12 @@ typedef struct S_80FAB000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80FAB000_1;   /* work in BODY_NAME */
+} S_80FAB000_1;   /* work in func_8014C880 */
 
 typedef struct S_80FAB000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80FAB000_2;   /* part_a in BODY_NAME */
+} S_80FAB000_2;   /* part_a in func_8014C880 */
 
 typedef struct S_80FAB000_3 {
     u8 pad_00[0x24];
@@ -31,7 +31,7 @@ typedef struct S_80FAB000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80FAB000_3;   /* part_b in BODY_NAME */
+} S_80FAB000_3;   /* part_b in func_8014C880 */
 
 typedef struct S_80FAB000_4 {
     u8 pad_00[0x8C];
@@ -44,7 +44,7 @@ typedef struct S_80FAB000_4 {
     s8 unk_9C;
     u8 pad_9D[0x3];
     s16 unk_A0;
-} S_80FAB000_4;   /* actor in BODY_NAME */
+} S_80FAB000_4;   /* actor in func_8014C880 */
 
 
 extern void *func_8003FD64();
@@ -53,38 +53,18 @@ extern s32 func_800A6D30(void);
 extern void func_800A48F0();
 extern void func_800A9C18();
 extern void func_800AA36C();
-extern void *func_8014C800();
-
 extern u8 D_8014CA70[];
 extern M2C_UNK D_8014D138;
 extern u8 D_80150AD4[];
 extern u8 D_80150AFC[];
 
-#ifdef __mips__
-#endif
 
-#ifdef __mips__
-static const u32 prefix_words[] __asm__("func_8014C800")
-__attribute__((section(".text.func_8014C800"), aligned(4))) = {
-    0x8014C880, 0x8014CA70, 0x8014D56C, 0x8014D56C,
-    0x8014D56C, 0x8014D598, 0x8014D518, 0x8014D518,
-    0x8014D518, 0x8014D4E0, 0x8014D4C4, 0x8014D598,
-    0x8014D598, 0x8014D55C, 0x8014EB5C, 0x8014EB54,
-    0x8014EB4C, 0x8014EB64, 0x8014EB0C, 0x8014EB04,
-    0x8014EAFC, 0x92824081, 0x81828F82, 0x85829282,
-    0x44818482, 0x00000000, 0x0C001000, 0x18001000,
-    0x00001400, 0x18001000, 0x08001000, 0x27BD0C00,
-};
-__asm__(".globl func_8014C800\n"
-        ".size func_8014C800, 624");
-#define BODY_NAME func_8014C880
-#else
-#define BODY_NAME func_8014C800
-#endif
 
-void *BODY_NAME(s16 flags, s16 field24_input, s16 field25_input, s16 field0A_input)
-__attribute__((section(".text.func_8014C800")));
-void *BODY_NAME(s16 flags, s16 field24_input, s16 field25_input, s16 field0A_input)
+
+
+void *func_8014C880(s16 flags, s16 field24_input, s16 field25_input, s16 field0A_input)
+;
+void *func_8014C880(s16 flags, s16 field24_input, s16 field25_input, s16 field0A_input)
 {
     s32 kind;
     void *obj;

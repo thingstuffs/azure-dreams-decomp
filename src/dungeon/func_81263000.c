@@ -3,7 +3,7 @@
 
 typedef struct S_81263000_0_pre {
     u16 unk_00;
-} S_81263000_0_pre;   /* the 0x2 bytes before root in BODY_NAME, addressed as root[-1] */
+} S_81263000_0_pre;   /* the 0x2 bytes before root in func_8015E898, addressed as root[-1] */
 
 typedef struct S_81263000_0 {
     u8 pad_00[0xAC];
@@ -12,7 +12,7 @@ typedef struct S_81263000_0 {
     s16 unk_B2;
     s16 unk_B4;
     s16 unk_B6;
-} S_81263000_0;   /* root in BODY_NAME */
+} S_81263000_0;   /* root in func_8015E898 */
 
 typedef struct S_81263000_1 {
     u8 pad_00[0x8];
@@ -20,7 +20,7 @@ typedef struct S_81263000_1 {
     void * unk_0C;
     u8 pad_10[0xE];
     u16 unk_1E;
-} S_81263000_1;   /* owner in BODY_NAME */
+} S_81263000_1;   /* owner in func_8015E898 */
 
 typedef struct S_81263000_2 {
     u8 pad_00[0x4];
@@ -30,7 +30,7 @@ typedef struct S_81263000_2 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_81263000_2;   /* part in BODY_NAME */
+} S_81263000_2;   /* part in func_8015E898 */
 
 typedef struct S_81263000_3 {
     u8 pad_00[0x8];
@@ -43,7 +43,7 @@ typedef struct S_81263000_3 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_81263000_3;   /* dst in BODY_NAME */
+} S_81263000_3;   /* dst in func_8015E898 */
 
 typedef struct S_81263000_4 {
     u8 pad_00[0x2];
@@ -52,7 +52,7 @@ typedef struct S_81263000_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_81263000_4;   /* out in BODY_NAME */
+} S_81263000_4;   /* out in func_8015E898 */
 
 typedef struct S_81263000_5 {
     u8 pad_00[0x1];
@@ -62,43 +62,24 @@ typedef struct S_81263000_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_81263000_5;   /* copy in BODY_NAME */
+} S_81263000_5;   /* copy in func_8015E898 */
 
 typedef struct S_81263000_6 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_81263000_6;   /* callee_part in BODY_NAME */
+} S_81263000_6;   /* callee_part in func_8015E898 */
 
 extern s32 func_8003DE58(s32, void *, s16 *, s16);
 extern void func_800478B8(void *);
 extern void func_800A56E0(s32);
 
 
-#ifdef __mips__
 
-static const u32 bank_words[] __asm__("func_81263000")
-__attribute__((section(".text.func_81263000"), aligned(4))) = {
-    0x8015EF84, 0x8015F12C, 0x8015F8C0, 0x8015F8C0,
-    0x8015F8C0, 0x8015F8E8, 0x8015F894, 0x8015F894,
-    0x8015F894, 0x8015F894, 0x8015F894, 0x8015F8E8,
-    0x8015F8E8, 0x8015F884, 0x801605D0, 0x80160814,
-    0x8016085C, 0x8016089C, 0x8016093C, 0x801609A8,
-    0x80160A10, 0x80160A30, 0x80160AC4, 0x00000000,
-    0x80160680, 0x80160678, 0x80160670, 0x80160688,
-    0x8016062C, 0x80160624, 0x8016061C, 0x00000000,
-    0x80160F20, 0x80160F90, 0x80160FA8, 0x80160FD4,
-    0x80161250, 0x801612C0,
-};
 
-#define BODY_NAME func_81263098
-#else
-#define BODY_NAME func_81263000
-#endif
-
-void BODY_NAME(void *root, void *output_pos, void *target_data)
-__attribute__((section(".text.func_81263000")));
+void func_8015E898(void *root, void *output_pos, void *target_data)
+;
 /* Update part position, shading, and flags from its owner. */
-void BODY_NAME(void *root, void *output_pos, void *target_data)
+void func_8015E898(void *root, void *output_pos, void *target_data)
 {
     s16 offset[3];
     void *position_data;
@@ -190,9 +171,4 @@ void BODY_NAME(void *root, void *output_pos, void *target_data)
     }
 }
 
-#ifdef __mips__
-__asm__(
-        ".globl func_81263000\n"
-        ".type func_81263000,@function\n"
-        ".size func_81263000,848\n");
-#endif
+

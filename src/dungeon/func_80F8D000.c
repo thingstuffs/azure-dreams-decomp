@@ -7,7 +7,7 @@ typedef struct S_80F8D000_0 {
     void ** unk_08;
     void ** unk_0C;
     void * unk_10;
-} S_80F8D000_0;   /* obj in BODY_NAME */
+} S_80F8D000_0;   /* obj in func_8016A880 */
 
 typedef struct S_80F8D000_1 {
     u8 pad_00[0x13];
@@ -15,12 +15,12 @@ typedef struct S_80F8D000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80F8D000_1;   /* work in BODY_NAME */
+} S_80F8D000_1;   /* work in func_8016A880 */
 
 typedef struct S_80F8D000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80F8D000_2;   /* part_a in BODY_NAME */
+} S_80F8D000_2;   /* part_a in func_8016A880 */
 
 typedef struct S_80F8D000_3 {
     u8 pad_00[0x24];
@@ -28,7 +28,7 @@ typedef struct S_80F8D000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80F8D000_3;   /* part_b in BODY_NAME */
+} S_80F8D000_3;   /* part_b in func_8016A880 */
 
 typedef struct S_80F8D000_4 {
     u8 pad_00[0x8C];
@@ -41,7 +41,7 @@ typedef struct S_80F8D000_4 {
     s8 unk_9C;
     u8 pad_9D[0x3];
     s16 unk_A0;
-} S_80F8D000_4;   /* actor in BODY_NAME */
+} S_80F8D000_4;   /* actor in func_8016A880 */
 
 
 extern void *func_8003FD64();
@@ -56,35 +56,13 @@ extern u8 D_8016EAD4[];
 extern u8 D_8016EAFC[];
 extern u8 D_8016B138[];
 
-extern void *func_8016A800();
-
+void *func_8016A880(s16, s16, s16, s16)
 #ifdef __mips__
-static const u32 bank_words[] __asm__("func_8016A800")
-__attribute__((section(".text.func_8016A800"), aligned(4))) = {
-    0x8016A880, 0x8016AA70, 0x8016B56C, 0x8016B56C,
-    0x8016B56C, 0x8016B598, 0x8016B518, 0x8016B518,
-    0x8016B518, 0x8016B4E0, 0x8016B4C4, 0x8016B598,
-    0x8016B598, 0x8016B55C, 0x8016CB5C, 0x8016CB54,
-    0x8016CB4C, 0x8016CB64, 0x8016CB0C, 0x8016CB04,
-    0x8016CAFC, 0x92824081, 0x81828F82, 0x85829282,
-    0x44818482, 0x00000000, 0x0C001000, 0x18001000,
-    0x00001400, 0x18001000, 0x08001000, 0x33300C00,
-};
-__asm__(".globl func_8016A800\n"
-        ".size func_8016A800, 624");
-#define BODY_NAME func_8016A880
-#else
-#define BODY_NAME func_8016A800
-#endif
-
-void *BODY_NAME(s16, s16, s16, s16)
-#ifdef __mips__
-__attribute__((section(".text.func_8016A800")))
 #endif
 ;
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
-void *BODY_NAME(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
+void *func_8016A880(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
     s32 kind;
     void *work = 0;

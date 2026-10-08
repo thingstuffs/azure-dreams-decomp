@@ -100,15 +100,6 @@ extern s16 func_800BCB04(s32, s32, s16);
 extern u8 D_80170808[];
 extern FlagBlock D_800814A0;
 
-/* The module's read-only data comes first (0x80170800): two entry words, the eight (dx, dy)
- * tile steps at D_80170808, then this function's switch table and the other functions' tables. */
-const u32 module_head[] __asm__("func_80170800") = {
-    0x80171718, 0x801718E0, 0x00000001, 0x00010001,
-    0x00010000, 0x0001FFFF, 0x0000FFFF, 0xFFFFFFFF,
-    0xFFFF0000, 0xFFFF0001,
-};
-
-
 void func_801708BC(S_func_80EDF000_0 *motion, S_func_80EDF000_1 *position, S_func_80EDF000_2 *render);
 
 /* Advance motion, resolve tile collisions, and settle at the landing position. */
@@ -337,14 +328,3 @@ move:
     return;
 }
 
-/* The rest of the module's read-only data: the other functions' switch tables. */
-static const u32 module_tables[] = {
-    0x00000000, 0x801720CC, 0x801720CC, 0x801720CC,
-    0x801720F8, 0x80172078, 0x80172078, 0x80172078,
-    0x80172024, 0x8017205C, 0x801720F8, 0x801720F8,
-    0x801720BC, 0x8017355C, 0x801735E8, 0x8017362C,
-    0x8017368C, 0x80173750, 0x00000000, 0x80173810,
-    0x80173A48, 0x80173A90, 0x80173BE4, 0x80173BF8,
-    0x00000000, 0x801738C0, 0x801738B8, 0x801738B0,
-    0x801738C8, 0x8017386C, 0x80173864, 0x8017385C,
-};
