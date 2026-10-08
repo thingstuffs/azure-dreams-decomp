@@ -128,3 +128,27 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     owner-unresolved); the `asm("func_X")` alias + `.size` stamp leave the composite row. Native table emission by the
     consumer's own switch stays the later module-placement step. Lanes r101_sol61_rc1-rc7 (rc1 pilot), the 2 GAP
     functions in r101_sol61_gap, module-gate native .rodata in r101_astra_gate. SECOND LOOK: yes (row identity).
+32. **(r105) A prefix that crosses a bank boundary is split AT the boundary (orchestrator, delegated).** town/func_806D23A4
+    (packed CD pairs [0x651000,0x652800) / [0x652800,0x654000), both to 0x80016000) and town/func_80950CC0 (candidate
+    0x8D1000 boundary) hold bytes of TWO load images. Representation: one rowbase record PER load image, each with its
+    own placement receipt (loader call / packed record / descriptor consumer) and its own delta, never one record or one
+    uniform delta across the boundary; the prefix becomes per-image data rows (decision 31 shapes: owner by explicit use,
+    else owner-unresolved) that partition the original extent exactly; the registered body keeps its row id. An image
+    whose receipt is not found stays HELD for that side only - the other side may land if its window proves alone.
+    SECOND LOOK: no (follows decision 31 + the r103 brief's "no overlapping/spanning region without a load receipt").
+33. **(r105) An orphan code fragment is stale-image residue DATA, not code (orchestrator, delegated).** town/func_802F100C's
+    trailing 372 B at file [0x271220,0x271394) equal the tail of MAIN's func_804081AC [0x2711AC,0x271394) (same file
+    offsets); TOWN zeroes the parent's first 116 B incl. the prologue, so no callable TOWN entry exists (r103_sol61_own3).
+    Representation: the 488 B at the parent's exact extent [0x2711AC,0x271394) become ONE data row (bytes as `.word`
+    data in a C initializer, zero head kept as zeros) named for its address, `ownership_status: owner-unresolved`,
+    `residue: stale-image` with the MAIN parent id and the byte-equality receipt in its evidence; the rest of the prefix
+    (104 B u16 table, remaining zero pad) are ordinary data rows. Never a rebuilt prologue, an invented entry, or C that
+    claims to be TOWN code. Levels/STATUS count it as data (no fidelity site). SECOND LOOK: yes (a new residue class).
+34. **(r105) Bank loader receipts before tool changes (orchestrator, delegated).** own3's static receipt (DUNGEON loader
+    func_800A982C, selector s -> LBA 0x607F + (s-1)*12, 12 sectors to 0x80024000; DUNGEON extent LBA 0x3016) puts every
+    normal-selector bank on a 0x6000 grid from file 0x1834800. All three held modules and both GAP functions sit on it
+    (1870800 = selector 11 incl. its callback at +0x7DC; 197281c = 54, assets to +0x9A8; 7e6a5800 = 56, grid to
+    +0x35B8; GAP A = 44 at +0x1408 -> base 0x80025408; GAP B = 65 at +0x58C -> 0x8002458C). Where a receipt proves ONE
+    load covering both of 1870800's adjacent intervals, one region record spanning them is the r103 brief's permitted
+    representation and the r103 adjacent-regions gate patch is NOT landed (it voids every certificate for no consumer);
+    it lands only if a module is found that genuinely needs two loads. SECOND LOOK: no.

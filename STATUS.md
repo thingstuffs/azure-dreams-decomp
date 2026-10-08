@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-08T15:32:19Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-08T22:28:00Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -9,9 +9,9 @@ Generated 2026-10-08T15:32:19Z. Pin `82f20568` (82f20568997a, raw/ frozen at 202
 | slus | 884 | 473,788 | 884 | 473,788 | 884 | 473,788 | 0 |
 | main | 423 | 62,760 | 423 | 62,760 | 423 | 62,760 | 0 |
 | town | 2695 | 457,832 | 2695 | 457,832 | 2695 | 457,832 | 0 |
-| dungeon | 3369 | 1,766,416 | 3369 | 1,766,416 | 2743 | 1,550,600 | 626 |
+| dungeon | 3369 | 1,766,416 | 3369 | 1,766,416 | 2892 | 1,756,324 | 477 |
 | ovmovie | 22 | 2,852 | 22 | 2,852 | 22 | 2,852 | 0 |
-| ALL | 7371 | 2,760,796 | 7371 | 2,760,796 | 6745 | 2,544,980 | 626 |
+| ALL | 7371 | 2,760,796 | 7371 | 2,760,796 | 6894 | 2,750,704 | 477 |
 
 ovmovie is parked by the owner (listed, excluded from ALL). Ordinary SLUS rows use pinned-TU object verification; grouped module candidates use the full SLUS image gate, including sibling functions and owned data. Historical raw baselines stay per row. Overlay rows use retail-slice comparison through the per-row scorer, with the window gate as the fallback of record. Non-stock rows (bridge cells, per-row assembler dials, platform asm) would be excluded; there are none at the pin.
 
@@ -140,16 +140,16 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 
 | level | bytes | % |
 |---|---:|---:|
-| L0 | 2,547,832 | 92.2% |
-| L1 | 2,547,832 | 92.2% |
-| L2 | 2,547,832 | 92.2% |
+| L0 | 2,753,556 | 99.6% |
+| L1 | 2,753,556 | 99.6% |
+| L2 | 2,753,556 | 99.6% |
 | L3 | 2,546,772 | 92.2% |
 | L4 | 3,492 | 0.1% |
 | L5 | 3,492 | 0.1% |
 
-On shared record headers (T7, `include/records/`): 774 rows, 457,392 bytes (16.6%); records used: 98.
+On shared record headers (T7, `include/records/`): 845 rows, 549,076 bytes (19.9%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 50 rows (64,448 B), tail_jump 6 rows (1,876 B), not_in_module 6,725 rows (2,541,488 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 50 rows (64,448 B), tail_jump 19 rows (23,756 B), not_in_module 6,874 rows (2,747,212 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 
