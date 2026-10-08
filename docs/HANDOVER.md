@@ -1,3 +1,21 @@
+# Handover (2026-10-08 ~13:10Z, round 103: LANDED; Fable lane running) - start here
+
+**Landed 1399489ad** (gate_all --all 2,182/2,182 MATCH in ~16 min + forced SLUS MATCH, 3 certificates re-issued, L5 20):
+gate cache covers per-region noreturn evidence (r103_sol61_gcache 0001: versioned inputs_sha, indexed module lookup -
+the inputs_sha pass 1,483 s -> 15 s and gate --all 2,416 s -> ~980 s; 0002: module fingerprints bind per-region inputs),
+certify whole-window timeout 300 -> 1,800 s (town_scene 282 s idle), own3 dungeon/func_81934800 prefix (owner-unresolved
+D_81934800, proven rowbase from a static loader receipt), astra's recovered dungeon/func_81952E54 (476 B, own window).
+**Carve debt 43 -> 42.** Pins 93 / 50 rows. Script work/native_lane/_r103/run_r103_land.sh.
+**Two landing traps (fixed):** (1) tools/tests modules with sibling imports need `unittest discover -s tools/tests`;
+(2) patch 0002 fingerprinted with root=build_ovl_gate (no raw/) -> empty names -> every re-certification refused;
+_r103/fp_root_fix.py resolves the evidence root via gen_noreturn_syms._find_root like the compile. Rule: a lane that
+touches fingerprints must run one real certify_overlay_module.py --root build_ovl_gate before delivery.
+**Not landable / held:** GAP A 59/0 (word 45 now JAL under the census; remaining = CSE/regmove into global alloc),
+GAP B 33/51 (five actor+0x98 reads); 197281c TU exact (2,432 B) but trailing asset load unproven; 1870800 adjacent-
+regions tool draft (r103_astra_hold/drafts/adjacent_regions) + callback L3; 7e6a5800 TU boundary; own3's 4 town prefixes.
+Opus r103_opus_p2: 0/6 (leads in its REPORT). **Running:** Fable r103_fable_p2 (owner: free method) on
+dungeon/func_800971DC + dungeon/func_800AA854 - land any out/ result with LAND_ISOLATED=1 tools/lanes/land_lanes.sh.
+
 # Handover (2026-10-08 ~10:50Z, round 103: CONTINUATION LANES + OPUS RUNNING) - start here
 
 **Owner 10-08:** "build and launch" the r102 proposals. Builder work/native_lane/_r103/build.py (common.md adds: the
