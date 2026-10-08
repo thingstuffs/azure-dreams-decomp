@@ -7,7 +7,7 @@ typedef struct S_80FE7000_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80FE7000_0;   /* created in BODY_NAME */
+} S_80FE7000_0;   /* created in func_801648A8 */
 
 typedef struct S_80FE7000_1 {
     u8 pad_00[0x13];
@@ -15,12 +15,12 @@ typedef struct S_80FE7000_1 {
     u32 unk_14;
     u8 pad_18[0x4];
     u32 unk_1C;
-} S_80FE7000_1;   /* result in BODY_NAME */
+} S_80FE7000_1;   /* result in func_801648A8 */
 
 typedef struct S_80FE7000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80FE7000_2;   /* position in BODY_NAME */
+} S_80FE7000_2;   /* position in func_801648A8 */
 
 typedef struct S_80FE7000_3 {
     u8 pad_00[0x24];
@@ -28,7 +28,7 @@ typedef struct S_80FE7000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80FE7000_3;   /* part_b in BODY_NAME */
+} S_80FE7000_3;   /* part_b in func_801648A8 */
 
 typedef struct S_80FE7000_4 {
     u8 pad_00[0x8C];
@@ -37,7 +37,7 @@ typedef struct S_80FE7000_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_80FE7000_4;   /* actor in BODY_NAME */
+} S_80FE7000_4;   /* actor in func_801648A8 */
 
 #if 0 /* rowbase_rename_reverify precondition marker: dead declaration, never
          seen by the real compiler; satisfies the tool's textual defines()
@@ -72,67 +72,15 @@ extern u8 D_80166A74[];
 extern u8 D_80166A6C[];
 extern u8 D_80166A64[];
 
-#ifdef __mips__
-static const u32 bank_words[] __asm__("func_80164800")
-    __attribute__((section(".text.func_80164800"), aligned(4))) = {
-    (u32)func_801648A8,
-    (u32)D_80164A7C,
-    (u32)D_801652B8,
-    (u32)D_801652B8,
-    (u32)D_801652B8,
-    (u32)D_801652E4,
-    (u32)D_80165264,
-    (u32)D_80165264,
-    (u32)D_80165264,
-    (u32)D_801651F4,
-    (u32)D_801651E4,
-    (u32)D_801652E4,
-    (u32)D_801652E4,
-    (u32)D_801652A8,
-    (u32)D_80166AC4,
-    (u32)D_80166ABC,
-    (u32)D_80166AB4,
-    (u32)D_80166ACC,
-    (u32)D_80166A74,
-    (u32)D_80166A6C,
-    (u32)D_80166A64,
-    0x89824081,
-    0x40819382,
-    0x93829082,
-    0x83829982,
-    0x85828882,
-    0x7c818482,
-    0x90829582,
-    0x00004481,
-    0x92824081,
-    0x96828582,
-    0x81828582,
-    0x85828c82,
-    0x40818482,
-    0x94828982,
-    0x40819382,
-    0x92829482,
-    0x85829582,
-    0x90824081,
-    0x97828f82,
-    0x92828582,
-    0x75004481,
-};
-__asm__(".globl func_80164800\n"
-        ".size func_80164800, 636");
-#define BODY_NAME func_801648A8
-#else
-#define BODY_NAME func_80164800
-#endif
 
-void *BODY_NAME(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
+
+void *func_801648A8(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
 #ifdef __mips__
-    __attribute__((section(".text.func_80164800")))
-#endif
+    #endif
     ;
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
-void *BODY_NAME(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
+void *func_801648A8(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
 {
     void *result = 0;
     void *created;

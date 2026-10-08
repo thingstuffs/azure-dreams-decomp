@@ -11,7 +11,7 @@ typedef struct S_80D35000_0 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80D35000_0;   /* arg1 in BODY_NAME */
+} S_80D35000_0;   /* arg1 in func_8014C874 */
 
 typedef struct S_80D35000_1 {
     u8 pad_00[0x6];
@@ -27,7 +27,7 @@ typedef struct S_80D35000_1 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_80D35000_1;   /* arg2 in BODY_NAME */
+} S_80D35000_1;   /* arg2 in func_8014C874 */
 
 typedef struct S_80D35000_2 {
     u8 pad_00[0x94];
@@ -35,7 +35,7 @@ typedef struct S_80D35000_2 {
     union { s16 s; u16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x10];
     void * unk_A8;
-} S_80D35000_2;   /* arg0 in BODY_NAME */
+} S_80D35000_2;   /* arg0 in func_8014C874 */
 
 typedef struct S_80D35000_3 {
     u8 pad_00[0x2];
@@ -44,7 +44,7 @@ typedef struct S_80D35000_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80D35000_3;   /* other in BODY_NAME */
+} S_80D35000_3;   /* other in func_8014C874 */
 
 
 extern void func_800478B8(void *);
@@ -60,27 +60,10 @@ typedef struct StackWork {
     s32 out24;
 } StackWork;
 
-#ifdef __mips__
-static const u32 bank_words[] __asm__("func_80D35000")
-__attribute__((section(".text.func_80D35000"), aligned(4))) = {
-    0x8014D190, 0x8014D358, 0x8014DB58, 0x8014DB58,
-    0x8014DB58, 0x8014DB84, 0x8014DB04, 0x8014DB04,
-    0x8014DB04, 0x8014DAB0, 0x8014DAE8, 0x8014DB84,
-    0x8014DB84, 0x8014DB48, 0x00000001, 0x00010001,
-    0x00010000, 0x0001FFFF, 0x0000FFFF, 0xFFFFFFFF,
-    0xFFFF0000, 0xFFFF0001, 0x8014F76C, 0x8014F764,
-    0x8014F75C, 0x8014F774, 0x8014F71C, 0x8014F714,
-    0x8014F70C,
-};
-__asm__(".globl func_80D35000\n"
-        ".size func_80D35000, 720");
-#define BODY_NAME func_80D35074
-#else
-#define BODY_NAME func_80D35000
-#endif
+
 
 /* Move, expand, and fade the effect sprite, marking it for removal when its timer expires. */
-void BODY_NAME(void *effect, void *motion, void *sprite)
+void func_8014C874(void *effect, void *motion, void *sprite)
 {
     StackWork projection;
     s16 ticks_left;

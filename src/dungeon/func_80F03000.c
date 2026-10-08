@@ -95,15 +95,6 @@ extern s16 func_800BCB04(s32, s32, s16);
 
 extern u8 D_8014C808[];
 
-/* The module's read-only data comes first (0x8014C800): two entry words, the eight (dx, dy)
- * tile steps at D_8014C808, then this function's switch table and the other functions' tables. */
-const u32 module_head[] __asm__("func_8014C800") = {
-    0x8014D718, 0x8014D8E0, 0x00000001, 0x00010001,
-    0x00010000, 0x0001FFFF, 0x0000FFFF, 0xFFFFFFFF,
-    0xFFFF0000, 0xFFFF0001,
-};
-
-
 void func_8014C8BC(S_80F03000_0 *motion, S_80F03000_1 *position, S_80F03000_2 *display);
 
 /* Updates motion, landing interpolation, and completion of a moving object. */
@@ -332,14 +323,3 @@ move:
     return;
 }
 
-/* The rest of the module's read-only data: the other functions' switch tables. */
-static const u32 module_tables[] = {
-    0x00000000, 0x8014E0CC, 0x8014E0CC, 0x8014E0CC,
-    0x8014E0F8, 0x8014E078, 0x8014E078, 0x8014E078,
-    0x8014E024, 0x8014E05C, 0x8014E0F8, 0x8014E0F8,
-    0x8014E0BC, 0x8014F55C, 0x8014F5E8, 0x8014F62C,
-    0x8014F68C, 0x8014F750, 0x00000000, 0x8014F810,
-    0x8014FA48, 0x8014FA90, 0x8014FBE4, 0x8014FBF8,
-    0x00000000, 0x8014F8C0, 0x8014F8B8, 0x8014F8B0,
-    0x8014F8C8, 0x8014F86C, 0x8014F864, 0x8014F85C,
-};

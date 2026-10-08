@@ -106,15 +106,6 @@ extern s16 func_800BCB04(s32, s32, s16);
 extern u8 D_8015E808[];
 extern FlagBlock D_800814A0;
 
-/* The module's read-only data comes first (0x8015E800): two entry words, the eight (dx, dy)
- * tile steps at D_8015E808, then this function's switch table and the other functions' tables. */
-const u32 module_head[] __asm__("func_8015E800") = {
-    0x8015F718, 0x8015F8E0, 0x00000001, 0x00010001,
-    0x00010000, 0x0001FFFF, 0x0000FFFF, 0xFFFFFFFF,
-    0xFFFF0000, 0xFFFF0001,
-};
-
-
 void func_8015E8BC(S_func_80EF1000_1 *motion, S_func_80EF1000_2 *position, S_func_80EF1000_3 *sprite);
 
 /* Update flight, landing interpolation, and falling motion until completion. */
@@ -342,14 +333,3 @@ update_flight:
     return;
 }
 
-/* The rest of the module's read-only data: the other functions' switch tables. */
-static const u32 module_tables[] = {
-    0x00000000, 0x801600CC, 0x801600CC, 0x801600CC,
-    0x801600F8, 0x80160078, 0x80160078, 0x80160078,
-    0x80160024, 0x8016005C, 0x801600F8, 0x801600F8,
-    0x801600BC, 0x8016155C, 0x801615E8, 0x8016162C,
-    0x8016168C, 0x80161750, 0x00000000, 0x80161810,
-    0x80161A48, 0x80161A90, 0x80161BE4, 0x80161BF8,
-    0x00000000, 0x801618C0, 0x801618B8, 0x801618B0,
-    0x801618C8, 0x8016186C, 0x80161864, 0x8016185C,
-};

@@ -9,27 +9,7 @@ extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, u16, s32);
 
 
-#ifdef __mips__
-static const u32 prefix_words[] __asm__("func_80AD7000")
-__attribute__((section(".text.func_80AD7000"), aligned(4))) = {
-    0x8015F158, 0x8015F320, 0x8015FB54, 0x8015FB54,
-    0x8015FB54, 0x8015FB80, 0x8015FB00, 0x8015FB00,
-    0x8015FB00, 0x8015FAAC, 0x8015FAE4, 0x8015FB80,
-    0x8015FB80, 0x8015FB44, 0x80161020, 0x80161070,
-    0x801610E4, 0x80161158, 0x801611D0, 0x00000000,
-    0x8016129C, 0x801614CC, 0x80161514, 0x80161744,
-    0x801617CC, 0x00000000, 0x8016134C, 0x80161344,
-    0x8016133C, 0x80161354, 0x801612F8, 0x801612F0,
-    0x801612E8, 0x00000001, 0x00010001, 0x00010000,
-    0x0001FFFF, 0x0000FFFF, 0xFFFFFFFF, 0xFFFF0000,
-    0xFFFF0001,
-};
-__asm__(".globl func_80AD7000\n"
-        ".size func_80AD7000, 644");
-#define BODY_NAME func_80AD70A4
-#else
-#define BODY_NAME func_80AD7000
-#endif
+
 
 
 
@@ -66,7 +46,7 @@ typedef struct Packet {
 } Packet;
 
 /* Projects an object's point and queues its pixel and draw-state primitives in the ordering table. */
-s32 BODY_NAME(u8 *node_data, u16 *position)
+s32 func_8015E8A4(u8 *node_data, u16 *position)
 {
     Scratch *scratch = (Scratch *)0x1F800000;
     void **global_state = ((void * *)(&gameWork));

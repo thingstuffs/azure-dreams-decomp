@@ -9,7 +9,7 @@ typedef struct S_8100B000_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_8100B000_0;   /* obj in BODY_NAME */
+} S_8100B000_0;   /* obj in func_8016A88C */
 
 typedef struct S_8100B000_1 {
     u8 pad_00[0x13];
@@ -17,12 +17,12 @@ typedef struct S_8100B000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_8100B000_1;   /* work in BODY_NAME */
+} S_8100B000_1;   /* work in func_8016A88C */
 
 typedef struct S_8100B000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_8100B000_2;   /* part_a in BODY_NAME */
+} S_8100B000_2;   /* part_a in func_8016A88C */
 
 typedef struct S_8100B000_3 {
     u8 pad_00[0x24];
@@ -30,7 +30,7 @@ typedef struct S_8100B000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_8100B000_3;   /* part_b in BODY_NAME */
+} S_8100B000_3;   /* part_b in func_8016A88C */
 
 typedef struct S_8100B000_4 {
     u8 pad_00[0x8C];
@@ -41,7 +41,7 @@ typedef struct S_8100B000_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_8100B000_4;   /* actor in BODY_NAME */
+} S_8100B000_4;   /* actor in func_8016A88C */
 
 
 void *func_8003FD64();
@@ -55,34 +55,14 @@ extern M2C_UNK D_8016B058;
 extern M2C_UNK D_8016E880;
 extern M2C_UNK D_8016E8E0;
 
-#ifdef __mips__
-static const u32 bank_words[] __asm__("func_8016A800")
-__attribute__((section(".text.func_8016A800"), aligned(4))) = {
-    0x8016A88C, 0x8016AA78, 0x8016B4EC, 0x8016B4EC,
-    0x8016B4EC, 0x8016B518, 0x8016B498, 0x8016B498,
-    0x8016B498, 0x8016B460, 0x8016B404, 0x8016B518,
-    0x8016B518, 0x8016B4DC, 0x94824081, 0x8F828F82,
-    0x40818B82, 0x00000000, 0x81824081, 0x81829782,
-    0x44819982, 0x00000000, 0x8016C950, 0x8016C948,
-    0x8016C940, 0x8016C958, 0x8016C900, 0x8016C8F8,
-    0x8016C8F0, 0x00000000, 0x8016DEE0, 0x8016E0F8,
-    0x8016E204, 0x8016E4F8, 0x8016E668,
-};
-__asm__(".globl func_8016A800\n"
-        ".size func_8016A800, 632");
-#define BODY_NAME func_8016A88C
-#else
-#define BODY_NAME func_8016A800
-#endif
 
-void *BODY_NAME(s16, s16, s16, s16)
-#ifdef __mips__
-__attribute__((section(".text.func_8016A800")))
-#endif
+
+void *func_8016A88C(s16, s16, s16, s16)
+
 ;
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
-void *BODY_NAME(s16 flags, s16 kind_id, s16 variant, s16 spawn_value) {
+void *func_8016A88C(s16 flags, s16 kind_id, s16 variant, s16 spawn_value) {
     s32 kind;
     s16 final_arg0;
     s32 left;

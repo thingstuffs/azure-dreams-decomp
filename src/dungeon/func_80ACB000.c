@@ -8,36 +8,9 @@ extern s32 func_80065420(void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, u16, s32);
 
-#ifdef __mips__
-/* The row starts with a typed constant/jump table; the routine follows it. */
-static const u32 func_80ACB000_table[41]
-__asm__("func_80ACB000")
-__attribute__((section(".text.func_80ACB000"), aligned(4))) = {
-    0x8016B158U, 0x8016B320U, 0x8016BB54U, 0x8016BB54U,
-    0x8016BB54U, 0x8016BB80U, 0x8016BB00U, 0x8016BB00U,
-    0x8016BB00U, 0x8016BAACU, 0x8016BAE4U, 0x8016BB80U,
-    0x8016BB80U, 0x8016BB44U, 0x8016D020U, 0x8016D070U,
-    0x8016D0E4U, 0x8016D158U, 0x8016D1D0U, 0x00000000U,
-    0x8016D29CU, 0x8016D4CCU, 0x8016D514U, 0x8016D744U,
-    0x8016D7CCU, 0x00000000U, 0x8016D34CU, 0x8016D344U,
-    0x8016D33CU, 0x8016D354U, 0x8016D2F8U, 0x8016D2F0U,
-    0x8016D2E8U, 0x00000001U, 0x00010001U, 0x00010000U,
-    0x0001FFFFU, 0x0000FFFFU, 0xFFFFFFFFU, 0xFFFF0000U,
-    0xFFFF0001U,
-};
-__asm__(".globl func_80ACB000\n"
-        ".type func_80ACB000,@function\n"
-        ".size func_80ACB000, 644");
-#define BODY_NAME composite_body_80ACB000
-#define BODY_STORAGE static
-#define BODY_ATTR __attribute__((used, section(".text.func_80ACB000")))
-#else
-#define BODY_NAME func_80ACB000
-#define BODY_STORAGE
-#define BODY_ATTR
-#endif
 
-BODY_STORAGE s32 BODY_NAME(u8 *node_data, u16 *position) BODY_ATTR;
+
+ s32 func_8016A8A4(u8 *node_data, u16 *position) ;
 
 
 typedef struct Scratch {
@@ -72,7 +45,7 @@ typedef struct Packet {
 } Packet;
 
 /* Projects a point and queues its tile and draw mode in the ordering table. */
-BODY_STORAGE s32 BODY_NAME(u8 *node_data, u16 *position)
+ s32 func_8016A8A4(u8 *node_data, u16 *position)
 {
     Scratch *scratch = (Scratch *)0x1F800000;
     void **global_state = ((void * *)(&gameWork));

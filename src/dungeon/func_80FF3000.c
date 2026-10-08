@@ -9,7 +9,7 @@ typedef struct S_80FF3000_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80FF3000_0;   /* temp_v0 in BODY_NAME */
+} S_80FF3000_0;   /* temp_v0 in func_801588A8 */
 
 typedef struct S_80FF3000_1 {
     u8 pad_00[0x13];
@@ -17,12 +17,12 @@ typedef struct S_80FF3000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80FF3000_1;   /* var_s0 in BODY_NAME */
+} S_80FF3000_1;   /* var_s0 in func_801588A8 */
 
 typedef struct S_80FF3000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80FF3000_2;   /* temp_s4 in BODY_NAME */
+} S_80FF3000_2;   /* temp_s4 in func_801588A8 */
 
 typedef struct S_80FF3000_3 {
     u8 pad_00[0x24];
@@ -30,7 +30,7 @@ typedef struct S_80FF3000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80FF3000_3;   /* temp_s2 in BODY_NAME */
+} S_80FF3000_3;   /* temp_s2 in func_801588A8 */
 
 typedef struct S_80FF3000_4 {
     u8 pad_00[0x8C];
@@ -39,7 +39,7 @@ typedef struct S_80FF3000_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_80FF3000_4;   /* temp_s5 in BODY_NAME */
+} S_80FF3000_4;   /* temp_s5 in func_801588A8 */
 
 
 void *func_8003FD64();
@@ -53,36 +53,15 @@ extern M2C_UNK D_80158EA8;
 extern M2C_UNK D_8015C038;
 extern M2C_UNK D_8015C088;
 
-#ifdef __mips__
-static const u32 bank_words[] __asm__("func_80FF3000")
-__attribute__((section(".text.func_80FF3000"), aligned(4))) = {
-    0x801588a8, 0x80158a7c, 0x801592b8, 0x801592b8,
-    0x801592b8, 0x801592e4, 0x80159264, 0x80159264,
-    0x80159264, 0x801591f4, 0x801591e4, 0x801592e4,
-    0x801592e4, 0x801592a8, 0x8015aac4, 0x8015aabc,
-    0x8015aab4, 0x8015aacc, 0x8015aa74, 0x8015aa6c,
-    0x8015aa64, 0x89824081, 0x40819382, 0x93829082,
-    0x83829982, 0x85828882, 0x7c818482, 0x90829582,
-    0x00004481, 0x92824081, 0x96828582, 0x81828582,
-    0x85828c82, 0x40818482, 0x94828982, 0x40819382,
-    0x92829482, 0x85829582, 0x90824081, 0x97828f82,
-    0x92828582, 0x65004481,
-};
-__asm__(".globl func_80FF3000\n"
-        ".size func_80FF3000, 636");
-#define BODY_NAME func_80FF30A8
-#else
-#define BODY_NAME func_80FF3000
-#endif
 
-void *BODY_NAME(s16, s32, s32, s16)
+
+void *func_801588A8(s16, s32, s32, s16)
 #ifdef __mips__
-__attribute__((section(".text.func_80FF3000")))
 #endif
 ;
 
 /* Allocates and initializes a dungeon object with flags and placement parameters. */
-void *BODY_NAME(s16 init_flags, s32 pos_x, s32 pos_y, s16 init_value) {
+void *func_801588A8(s16 init_flags, s32 pos_x, s32 pos_y, s16 init_value) {
     S_80FF3000_1 *object_state;
     void *object;
     u16 saved_value;

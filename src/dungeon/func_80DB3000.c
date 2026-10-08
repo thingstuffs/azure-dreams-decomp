@@ -9,7 +9,7 @@ typedef struct S_80DB3000_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80DB3000_0;   /* temp_v0 in BODY_NAME */
+} S_80DB3000_0;   /* temp_v0 in func_8014C874 */
 
 typedef struct S_80DB3000_1 {
     u8 pad_00[0x13];
@@ -17,12 +17,12 @@ typedef struct S_80DB3000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80DB3000_1;   /* var_s0 in BODY_NAME */
+} S_80DB3000_1;   /* var_s0 in func_8014C874 */
 
 typedef struct S_80DB3000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80DB3000_2;   /* temp_s4 in BODY_NAME */
+} S_80DB3000_2;   /* temp_s4 in func_8014C874 */
 
 typedef struct S_80DB3000_3 {
     u8 pad_00[0x24];
@@ -30,7 +30,7 @@ typedef struct S_80DB3000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80DB3000_3;   /* temp_s2 in BODY_NAME */
+} S_80DB3000_3;   /* temp_s2 in func_8014C874 */
 
 typedef struct S_80DB3000_4 {
     u8 pad_00[0x8C];
@@ -39,29 +39,10 @@ typedef struct S_80DB3000_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_80DB3000_4;   /* temp_s5 in BODY_NAME */
+} S_80DB3000_4;   /* temp_s5 in func_8014C874 */
 
 
-#ifdef __mips__
-static const u32 bank_words[] __asm__("func_80DB3000")
-__attribute__((section(".text.func_80DB3000"), aligned(4))) = {
-    0x8014C874, 0x8014CA3C, 0x8014D208, 0x8014D208,
-    0x8014D208, 0x8014D234, 0x8014D1B4, 0x8014D1B4,
-    0x8014D1B4, 0x8014D144, 0x8014D134, 0x8014D234,
-    0x8014D234, 0x8014D1F8, 0x8014E98C, 0x8014E984,
-    0x8014E97C, 0x8014E994, 0x8014E93C, 0x8014E934,
-    0x8014E92C, 0x95824081, 0x85829382, 0x40818482,
-    0x99828882, 0x8E829082, 0x93828F82, 0x93828982,
-    0x00004481,
-};
-__asm__(".globl func_80DB3000\n"
-        ".size func_80DB3000,572");
-#define BODY_NAME func_80DB3074
-#define BODY_ATTR __attribute__((used, section(".text.func_80DB3000")))
-#else
-#define BODY_NAME func_80DB3000
-#define BODY_ATTR
-#endif
+
 
 void *func_8003FD64();
 s32 func_8004491C(); /* extern */
@@ -73,9 +54,9 @@ extern M2C_UNK D_8014CA3C;
 extern u8 D_8014CE68;
 extern M2C_UNK D_8014F86C;
 
-void *BODY_NAME(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 property_value) BODY_ATTR;
+void *func_8014C874(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 property_value) ;
 /* Allocates and initializes a dungeon object with the supplied flags and placement. */
-void *BODY_NAME(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 property_value) {
+void *func_8014C874(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 property_value) {
     s32 global_byte;
     s32 unused_slot;
     s32 spawn_mode;

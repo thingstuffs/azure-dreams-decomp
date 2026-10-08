@@ -10,19 +10,19 @@ typedef struct S_80CBD000_0 {
     u32 unk_1C;
     u8 pad_20[0x6C];
     void * unk_8C;
-} S_80CBD000_0;   /* work in BODY_NAME */
+} S_80CBD000_0;   /* work in func_801708A4 */
 
 typedef struct S_80CBD000_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80CBD000_1;   /* part in BODY_NAME */
+} S_80CBD000_1;   /* part in func_801708A4 */
 
 typedef struct S_80CBD000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80CBD000_2;   /* coord in BODY_NAME */
+} S_80CBD000_2;   /* coord in func_801708A4 */
 
 typedef struct S_80CBD000_3 {
     u8 pad_00[0x24];
@@ -30,7 +30,7 @@ typedef struct S_80CBD000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80CBD000_3;   /* state in BODY_NAME */
+} S_80CBD000_3;   /* state in func_801708A4 */
 
 typedef struct S_80CBD000_4 {
     u8 pad_00[0x8C];
@@ -42,7 +42,7 @@ typedef struct S_80CBD000_4 {
     u8 pad_9D[0xA];
     s8 unk_A7;
     s8 unk_A8;
-} S_80CBD000_4;   /* actor in BODY_NAME */
+} S_80CBD000_4;   /* actor in func_801708A4 */
 
 
 extern void *func_8003FD64(s32, void *);
@@ -60,31 +60,10 @@ extern u8 D_801762C0[];
 extern u8 D_80176300[];
 extern u8 D_80176320[];
 
-#ifdef __mips__
-void func_80170800(void);
-static const u32 split_prefix[] __asm__("func_80170800")
-__attribute__((section(".text.func_80170800"), aligned(4))) = {
-    0x801708A4, 0x00000000,
-    0x801712E8, 0x801712E8, 0x801712E8, 0x80171314,
-    0x80171294, 0x80171294, 0x80171294,
-    0x8017125C, 0x8017125C, 0x80171314, 0x80171314, 0x801712D8,
-    0x801728B4, 0x801728AC, 0x801728A4, 0x801728BC,
-    0x80172864, 0x8017285C, 0x80172854, 0x00000000,
-    0x80173EF8, 0x80173EF8, 0x80173EF8, 0x80173F08,
-    0x80173EF8, 0x80173EF8, 0x80173EF8, 0x80173EF8,
-    0x80173ED4, 0x80173F08, 0x80173F08, 0x80173EF8,
-    0x8017559C, 0x80175594, 0x8017558C, 0x801755A4,
-    0x8017554C, 0x80175544, 0x8017553C,
-};
-__asm__(".globl func_80170800\n"
-        ".size func_80170800, 736");
-#define BODY_NAME func_801708A4
-#else
-#define BODY_NAME func_80170800
-#endif
+
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
-void *BODY_NAME(s16 flags, s16 unused_kind_id, s16 variant, s16 unused_spawn)
+void *func_801708A4(s16 flags, s16 unused_kind_id, s16 variant, s16 unused_spawn)
 {
     s8 kind_id;
     s16 spawn_value;

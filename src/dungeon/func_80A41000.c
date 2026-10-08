@@ -56,7 +56,6 @@ extern u8 D_80150860[];
 extern M2C_UNK D_8014CE84;
 
 /* The carved row starts with this 33-word text-local pointer/literal bank. */
-extern void *func_8014C800(s32, s8, s8, s16);
 extern void *func_8014C884(s16, s16, s16, s16);
 extern u8 D_8014D24C[];
 extern u8 D_8014D278[];
@@ -73,44 +72,7 @@ extern u8 D_8014E98C[];
 
 /* These text-local table entries have no catalog symbols. */
 
-static const u32 func_8016A800_prefix[33] __asm__("func_8014C800")
-__attribute__((section(".text.func_8014C800"), aligned(4))) = {
-    (u32)func_8014C884,
-    (u32)D_8014CA58,
-    (u32)D_8014D24C,
-    (u32)D_8014D24C,
-    (u32)D_8014D24C,
-    (u32)D_8014D278,
-    (u32)D_8014D1F8,
-    (u32)D_8014D1F8,
-    (u32)D_8014D1F8,
-    (u32)D_8014D1C0,
-    (u32)D_8014D1C0,
-    (u32)D_8014D278,
-    (u32)D_8014D278,
-    (u32)D_8014D23C,
-    0x10001000,
-    0x0DAC1194,
-    0x10001000,
-    0x12C00D48,
-    0x11300ED8,
-    0x10001000,
-    0x0D481388,
-    0x0ED81194,
-    (u32)D_8014E9EC,
-    (u32)D_8014E9E4,
-    (u32)D_8014E9DC,
-    (u32)D_8014E9F4,
-    (u32)D_8014E99C,
-    (u32)D_8014E994,
-    (u32)D_8014E98C,
-    0x01000340,
-    0x00800040,
-    0x01000340,
-    0x00400040,
-};
-__asm__(".globl func_8014C800\n"
-        ".size func_8014C800, 600");
+
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
 void *func_8014C884(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)

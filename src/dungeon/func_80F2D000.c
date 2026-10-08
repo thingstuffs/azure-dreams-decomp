@@ -8,7 +8,7 @@ typedef struct S_80F2D000_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80F2D000_0;   /* object in BODY_NAME */
+} S_80F2D000_0;   /* object in func_8014C854 */
 
 typedef struct S_80F2D000_1 {
     u8 pad_00[0x13];
@@ -16,12 +16,12 @@ typedef struct S_80F2D000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80F2D000_1;   /* work in BODY_NAME */
+} S_80F2D000_1;   /* work in func_8014C854 */
 
 typedef struct S_80F2D000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80F2D000_2;   /* part_a in BODY_NAME */
+} S_80F2D000_2;   /* part_a in func_8014C854 */
 
 typedef struct S_80F2D000_3 {
     u8 pad_00[0x10];
@@ -33,7 +33,7 @@ typedef struct S_80F2D000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80F2D000_3;   /* part_b in BODY_NAME */
+} S_80F2D000_3;   /* part_b in func_8014C854 */
 
 typedef struct S_80F2D000_4 {
     u8 pad_00[0x8C];
@@ -45,7 +45,7 @@ typedef struct S_80F2D000_4 {
     u8 pad_9D[0x7];
     s16 unk_A4;
     s16 unk_A6;
-} S_80F2D000_4;   /* work_copy in BODY_NAME */
+} S_80F2D000_4;   /* work_copy in func_8014C854 */
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -61,30 +61,11 @@ extern M2C_UNK D_8014CF74;
 extern M2C_UNK D_8014FD30;
 extern M2C_UNK D_8014FD78;
 
-#ifdef __mips__
-static const u32 bank_words[] __asm__("func_8014C800")
-__attribute__((section(".text.func_8014C800"), aligned(4))) = {
-    0x8014C854, 0x8014CA8C, 0x8014D358, 0x8014D358,
-    0x8014D358, 0x8014D384, 0x8014D304, 0x8014D304,
-    0x8014D304, 0x8014D2B0, 0x8014D2E8, 0x8014D384,
-    0x8014D384, 0x8014D348, 0x8014EBC4, 0x8014EBBC,
-    0x8014EBB4, 0x8014EBCC, 0x8014EB74, 0x8014EB6C,
-    0x8014EB64
-};
-__asm__(".globl func_8014C800\n"
-        ".size func_8014C800, 652");
-#define BODY_NAME composite_body
-#define BODY_STORAGE static
-#define BODY_ATTR __attribute__((used, section(".text.func_8014C800")))
-#else
-#define BODY_NAME func_8014C800
-#define BODY_STORAGE
-#define BODY_ATTR
-#endif
 
-BODY_STORAGE void *BODY_NAME(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) BODY_ATTR;
+
+void *func_8014C854(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c);
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
-BODY_STORAGE void *BODY_NAME(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
+void *func_8014C854(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
     s32 unksp20;
     s32 kind;
     s32 variant;

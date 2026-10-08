@@ -55,60 +55,7 @@ extern u8 D_8015C820[];
 extern u8 D_8015C860[];
 extern M2C_UNK D_80158E84;
 
-extern void *func_80158800(s32, s8, s8, s16);
 extern void *func_80158884(s16, s16, s16, s16);
-extern void *func_8015924C(void);
-extern void *func_80159278(void);
-extern void *func_801591F8(void);
-extern void *func_801591C0(void);
-extern void *func_8015923C(void);
-extern void *func_8015A9EC(void);
-extern void *func_8015A9E4(void);
-extern void *func_8015A9DC(void);
-extern void *func_8015A9F4(void);
-extern void *func_8015A99C(void);
-extern void *func_8015A994(void);
-extern void *func_8015A98C(void);
-
-static const u32 func_8016A800_prefix[33] __asm__("func_80158800")
-__attribute__((section(".text.func_80158800"), aligned(4))) = {
-    (u32)func_80158884,
-    (u32)D_80158A58,
-    (u32)func_8015924C,
-    (u32)func_8015924C,
-    (u32)func_8015924C,
-    (u32)func_80159278,
-    (u32)func_801591F8,
-    (u32)func_801591F8,
-    (u32)func_801591F8,
-    (u32)func_801591C0,
-    (u32)func_801591C0,
-    (u32)func_80159278,
-    (u32)func_80159278,
-    (u32)func_8015923C,
-    0x10001000,
-    0x0DAC1194,
-    0x10001000,
-    0x12C00D48,
-    0x11300ED8,
-    0x10001000,
-    0x0D481388,
-    0x0ED81194,
-    (u32)func_8015A9EC,
-    (u32)func_8015A9E4,
-    (u32)func_8015A9DC,
-    (u32)func_8015A9F4,
-    (u32)func_8015A99C,
-    (u32)func_8015A994,
-    (u32)func_8015A98C,
-    0x01000340,
-    0x00800040,
-    0x01000340,
-    0x00400040,
-};
-__asm__(".globl func_80158800\n"
-        ".size func_80158800, 600");
-
 void *func_80158884(s16 flags, s16 value_24, s16 value_25, s16 value_0A)
 {
     s32 kind;

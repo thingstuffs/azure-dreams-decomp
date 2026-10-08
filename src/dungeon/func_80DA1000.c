@@ -9,7 +9,7 @@ typedef struct S_80DA1000_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80DA1000_0;   /* temp_v0 in BODY_NAME */
+} S_80DA1000_0;   /* temp_v0 in func_8015E874 */
 
 typedef struct S_80DA1000_1 {
     u8 pad_00[0x13];
@@ -17,12 +17,12 @@ typedef struct S_80DA1000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80DA1000_1;   /* var_s0 in BODY_NAME */
+} S_80DA1000_1;   /* var_s0 in func_8015E874 */
 
 typedef struct S_80DA1000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80DA1000_2;   /* temp_s4 in BODY_NAME */
+} S_80DA1000_2;   /* temp_s4 in func_8015E874 */
 
 typedef struct S_80DA1000_3 {
     u8 pad_00[0x24];
@@ -30,7 +30,7 @@ typedef struct S_80DA1000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80DA1000_3;   /* temp_s2 in BODY_NAME */
+} S_80DA1000_3;   /* temp_s2 in func_8015E874 */
 
 typedef struct S_80DA1000_4 {
     u8 pad_00[0x8C];
@@ -39,29 +39,10 @@ typedef struct S_80DA1000_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_80DA1000_4;   /* temp_s5 in BODY_NAME */
+} S_80DA1000_4;   /* temp_s5 in func_8015E874 */
 
 
-#ifdef __mips__
-static const u32 bank_words[] __asm__("func_80DA1000")
-__attribute__((section(".text.func_80DA1000"), aligned(4))) = {
-    0x8015E874, 0x8015EA3C, 0x8015F208, 0x8015F208,
-    0x8015F208, 0x8015F234, 0x8015F1B4, 0x8015F1B4,
-    0x8015F1B4, 0x8015F144, 0x8015F134, 0x8015F234,
-    0x8015F234, 0x8015F1F8, 0x8016098C, 0x80160984,
-    0x8016097C, 0x80160994, 0x8016093C, 0x80160934,
-    0x8016092C, 0x95824081, 0x85829382, 0x40818482,
-    0x99828882, 0x8E829082, 0x93828F82, 0x93828982,
-    0x2E004481,
-};
-__asm__(".globl func_80DA1000\n"
-        ".size func_80DA1000,572");
-#define BODY_NAME func_80DA1074
-#define BODY_ATTR __attribute__((used, section(".text.func_80DA1000")))
-#else
-#define BODY_NAME func_80DA1000
-#define BODY_ATTR
-#endif
+
 
 void *func_8003FD64();
 s32 func_8004491C(); /* extern */
@@ -73,9 +54,9 @@ extern M2C_UNK D_8015EA3C;
 extern M2C_UNK D_8015EE68;
 extern M2C_UNK D_8016186C;
 
-void *BODY_NAME(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 type_id) BODY_ATTR;
+void *func_8015E874(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 type_id) ;
 /* Allocates an entity and initializes its type, placement, flags, and callbacks. */
-void *BODY_NAME(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 type_id) {
+void *func_8015E874(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 type_id) {
     s32 global_byte;
     s32 unused_slot;
     s32 spawn_mode;

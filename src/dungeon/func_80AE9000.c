@@ -7,28 +7,7 @@ extern s32 func_80065420(void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, u16, s32);
 
-#ifdef __mips__
-static const u32 func_80AE9000_extent_prefix[41]
-__asm__("func_80AE9000")
-__attribute__((used, section(".text.func_80AE9000"), aligned(4))) = {
-    0x8014D158, 0x8014D320, 0x8014DB54, 0x8014DB54,
-    0x8014DB54, 0x8014DB80, 0x8014DB00, 0x8014DB00,
-    0x8014DB00, 0x8014DAAC, 0x8014DAE4, 0x8014DB80,
-    0x8014DB80, 0x8014DB44, 0x8014F020, 0x8014F070,
-    0x8014F0E4, 0x8014F158, 0x8014F1D0, 0x00000000,
-    0x8014F29C, 0x8014F4CC, 0x8014F514, 0x8014F744,
-    0x8014F7CC, 0x00000000, 0x8014F34C, 0x8014F344,
-    0x8014F33C, 0x8014F354, 0x8014F2F8, 0x8014F2F0,
-    0x8014F2E8, 0x00000001, 0x00010001, 0x00010000,
-    0x0001FFFF, 0x0000FFFF, 0xFFFFFFFF, 0xFFFF0000,
-    0xFFFF0001,
-};
-__asm__(".globl func_80AE9000\n"
-        ".size func_80AE9000, 644");
-#define FUNC_80AE9000_BODY func_80AE90A4
-#else
-#define FUNC_80AE9000_BODY func_80AE9000
-#endif
+
 
 
 

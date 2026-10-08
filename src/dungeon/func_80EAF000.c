@@ -15,40 +15,11 @@ extern s32 func_800C8310(void *, void *);
 extern s32 D_800E3D7C[];
 extern s32 D_80150FE4[];
 
-#ifdef __mips__
-static const u32 identity_bank[] __asm__("func_80EAF000")
-__attribute__((section(".text.func_80EAF000"), aligned(4))) = {
-    0x8014caf4, 0x8014ccc8, 0x8014d504, 0x8014d504,
-    0x8014d504, 0x8014d530, 0x8014d4b0, 0x8014d4b0,
-    0x8014d4b0, 0x8014d430, 0x8014d484, 0x8014d468,
-    0x8014d530, 0x8014d4f4, 0x8014ed30, 0x8014eff4,
-    0x8014f074, 0x8014f0b8, 0x8014f11c, 0x8014f1e8,
-    0x8014f294, 0x8014f3f0, 0x8014f3f0, 0x8014f3f0,
-    0x8014f3f0, 0x8014f3f0, 0x8014f3f0,
-    0x8014f3f0, 0x8014f3f0, 0x8014f3f0, 0x8014f304,
-    0x00000000, 0x8014edec, 0x8014ede4, 0x8014eddc,
-    0x8014edf4, 0x8014ed98, 0x8014ed90, 0x8014ed88,
-    0x93824081, 0x8f829482, 0x85828c82, 0x00000000,
-    0x94828982, 0x8d828582, 0x00004081, 0x00004981,
-    0x83824081, 0x95828f82, 0x84828c82, 0x66818e82,
-    0x40819482, 0x94829382, 0x81828582, 0x40818c82,
-    0x88829482, 0x40818582, 0x94828982, 0x8d828582,
-    0x00004481, 0x801504b8, 0x80150558, 0x801505e8,
-    0x80150674, 0x801506e4, 0x801507c4,
-};
-__asm__(".type func_80EAF000,@function\n.size func_80EAF000,756\n");
-#define BODY_NAME composite_body
-#define BODY_STORAGE static
-#define BODY_ATTR __attribute__((used, section(".text.func_80EAF000")))
-#else
-#define BODY_NAME func_80EAF000
-#define BODY_STORAGE
-#define BODY_ATTR
-#endif
 
-BODY_STORAGE s32 BODY_NAME(void *, void *) BODY_ATTR;
+
+ s32 func_8014C908(void *, void *) ;
 /* Transfer an eligible ground or carried item to the pending item slot. */
-BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
+ s32 func_8014C908(void *origin, void *actor) {
     u8 *origin_bytes = (u8 *)origin;
     u8 *actor_bytes = (u8 *)actor;
     s32 direction_offset;

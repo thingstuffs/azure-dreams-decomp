@@ -9,7 +9,7 @@ typedef struct S_80DA7000_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80DA7000_0;   /* temp_v0 in BODY_NAME */
+} S_80DA7000_0;   /* temp_v0 in func_80158874 */
 
 typedef struct S_80DA7000_1 {
     u8 pad_00[0x13];
@@ -17,12 +17,12 @@ typedef struct S_80DA7000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80DA7000_1;   /* var_s0 in BODY_NAME */
+} S_80DA7000_1;   /* var_s0 in func_80158874 */
 
 typedef struct S_80DA7000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80DA7000_2;   /* temp_s4 in BODY_NAME */
+} S_80DA7000_2;   /* temp_s4 in func_80158874 */
 
 typedef struct S_80DA7000_3 {
     u8 pad_00[0x24];
@@ -30,7 +30,7 @@ typedef struct S_80DA7000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80DA7000_3;   /* temp_s2 in BODY_NAME */
+} S_80DA7000_3;   /* temp_s2 in func_80158874 */
 
 typedef struct S_80DA7000_4 {
     u8 pad_00[0x8C];
@@ -39,29 +39,10 @@ typedef struct S_80DA7000_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_80DA7000_4;   /* temp_s5 in BODY_NAME */
+} S_80DA7000_4;   /* temp_s5 in func_80158874 */
 
 
-#ifdef __mips__
-static const u32 func_80DA7000_prefix[] __asm__("func_80DA7000")
-__attribute__((used, section(".text.func_80DA7000"), aligned(4))) = {
-    0x80158874, 0x80158A3C, 0x80159208, 0x80159208,
-    0x80159208, 0x80159234, 0x801591B4, 0x801591B4,
-    0x801591B4, 0x80159144, 0x80159134, 0x80159234,
-    0x80159234, 0x801591F8, 0x8015A98C, 0x8015A984,
-    0x8015A97C, 0x8015A994, 0x8015A93C, 0x8015A934,
-    0x8015A92C, 0x95824081, 0x85829382, 0x40818482,
-    0x99828882, 0x8E829082, 0x93828F82, 0x93828982,
-    0x35004481,
-};
-__asm__(".globl func_80DA7000\n"
-        ".size func_80DA7000,572");
-#define BODY_NAME func_80DA7074
-#define BODY_ATTR __attribute__((used, section(".text.func_80DA7000")))
-#else
-#define BODY_NAME func_80DA7000
-#define BODY_ATTR
-#endif
+
 
 void *func_8003FD64();
 s32 func_8004491C(); /* extern */
@@ -73,9 +54,9 @@ extern M2C_UNK D_80158A3C;
 extern M2C_UNK D_80158E68;
 extern M2C_UNK D_8015B86C;
 
-void *BODY_NAME(s16 init_flags, s16 value_24, s16 value_25, s16 value_0a) BODY_ATTR;
+void *func_80158874(s16 init_flags, s16 value_24, s16 value_25, s16 value_0a) ;
 /* Allocates an object and initializes its state and attached data from the supplied flags and values. */
-void *BODY_NAME(s16 init_flags, s16 value_24, s16 value_25, s16 value_0a) {
+void *func_80158874(s16 init_flags, s16 value_24, s16 value_25, s16 value_0a) {
     s32 global_byte;
     s32 unused_stack;
     s32 init_mode;

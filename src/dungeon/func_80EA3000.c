@@ -15,40 +15,11 @@ extern s32 D_800E3D7C[];
 extern s32 D_8015CFE4[];
 
 typedef struct { s32 value; } ItemWord;
-#ifdef __mips__
-static const u32 identity_bank[] __asm__("func_80EA3000")
-__attribute__((section(".text.func_80EA3000"), aligned(4))) = {
-    0x80158AF4, 0x80158CC8, 0x80159504, 0x80159504,
-    0x80159504, 0x80159530, 0x801594B0, 0x801594B0,
-    0x801594B0, 0x80159430, 0x80159484, 0x80159468,
-    0x80159530, 0x801594F4, 0x8015AD30, 0x8015AFF4,
-    0x8015B074, 0x8015B0B8, 0x8015B11C, 0x8015B1E8,
-    0x8015B294, 0x8015B3F0, 0x8015B3F0, 0x8015B3F0,
-    0x8015B3F0, 0x8015B3F0, 0x8015B3F0, 0x8015B3F0,
-    0x8015B3F0, 0x8015B3F0, 0x8015B304, 0x00000000,
-    0x8015ADEC, 0x8015ADE4, 0x8015ADDC, 0x8015ADF4,
-    0x8015AD98, 0x8015AD90, 0x8015AD88, 0x93824081,
-    0x8F829482, 0x85828C82, 0x00000000, 0x94828982,
-    0x8D828582, 0x00004081, 0x00004981, 0x83824081,
-    0x95828F82, 0x84828C82, 0x66818E82, 0x40819482,
-    0x94829382, 0x81828582, 0x40818C82, 0x88829482,
-    0x40818582, 0x94828982, 0x8D828582, 0x00004481,
-    0x8015C4B8, 0x8015C558, 0x8015C5E8, 0x8015C674,
-    0x8015C6E4, 0x8015C7C4,
-};
-__asm__(".type func_80EA3000,@function\n.size func_80EA3000,756\n");
-#define BODY_NAME composite_body
-#define BODY_STORAGE static
-#define BODY_ATTR __attribute__((used, section(".text.func_80EA3000")))
-#else
-#define BODY_NAME func_80EA3000
-#define BODY_STORAGE
-#define BODY_ATTR
-#endif
 
-BODY_STORAGE s32 BODY_NAME(void *, void *) BODY_ATTR;
+
+ s32 func_80158908(void *, void *) ;
 /* Removes a nearby or carried item and passes it to the item handler. */
-BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
+ s32 func_80158908(void *origin, void *actor) {
     u8 *origin_bytes = (u8 *)origin;
     u8 *actor_bytes = (u8 *)actor;
     s32 direction_offset;

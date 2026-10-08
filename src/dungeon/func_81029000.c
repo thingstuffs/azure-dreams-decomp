@@ -9,7 +9,7 @@ typedef struct S_81029000_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_81029000_0;   /* obj in BODY_NAME */
+} S_81029000_0;   /* obj in func_8014C88C */
 
 typedef struct S_81029000_1 {
     u8 pad_00[0x13];
@@ -17,12 +17,12 @@ typedef struct S_81029000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_81029000_1;   /* work in BODY_NAME */
+} S_81029000_1;   /* work in func_8014C88C */
 
 typedef struct S_81029000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_81029000_2;   /* part_a in BODY_NAME */
+} S_81029000_2;   /* part_a in func_8014C88C */
 
 typedef struct S_81029000_3 {
     u8 pad_00[0x24];
@@ -30,7 +30,7 @@ typedef struct S_81029000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     M2C_UNK * unk_2C;
-} S_81029000_3;   /* part_b in BODY_NAME */
+} S_81029000_3;   /* part_b in func_8014C88C */
 
 typedef struct S_81029000_4 {
     u8 pad_00[0x8C];
@@ -41,7 +41,7 @@ typedef struct S_81029000_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_81029000_4;   /* actor in BODY_NAME */
+} S_81029000_4;   /* actor in func_8014C88C */
 
 
 void *func_8003FD64();
@@ -55,34 +55,14 @@ extern M2C_UNK D_8014D058;
 extern M2C_UNK D_80150880;
 extern M2C_UNK D_801508E0;
 
-#ifdef __mips__
-static const u32 bank_words[] __asm__("func_8014C800")
-__attribute__((section(".text.func_8014C800"), aligned(4))) = {
-    0x8014C88C, 0x8014CA78, 0x8014D4EC, 0x8014D4EC,
-    0x8014D4EC, 0x8014D518, 0x8014D498, 0x8014D498,
-    0x8014D498, 0x8014D460, 0x8014D404, 0x8014D518,
-    0x8014D518, 0x8014D4DC, 0x94824081, 0x8F828F82,
-    0x40818B82, 0x00000000, 0x81824081, 0x81829782,
-    0x44819982, 0x00000000, 0x8014E950, 0x8014E948,
-    0x8014E940, 0x8014E958, 0x8014E900, 0x8014E8F8,
-    0x8014E8F0, 0x00000000, 0x8014FEE0, 0x801500F8,
-    0x80150204, 0x801504F8, 0x80150668,
-};
-__asm__(".globl func_8014C800\n"
-        ".size func_8014C800, 632");
-#define BODY_NAME func_8014C88C
-#else
-#define BODY_NAME func_8014C800
-#endif
 
-void *BODY_NAME(s16, s16, s16, s16)
-#ifdef __mips__
-__attribute__((section(".text.func_8014C800")))
-#endif
+
+void *func_8014C88C(s16, s16, s16, s16)
+
 ;
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
-void *BODY_NAME(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
+void *func_8014C88C(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
     s32 kind;
     s16 final_arg0;
     s32 left;

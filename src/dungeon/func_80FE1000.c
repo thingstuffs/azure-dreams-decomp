@@ -7,7 +7,7 @@ typedef struct S_80FE1000_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80FE1000_0;   /* obj in BODY_NAME */
+} S_80FE1000_0;   /* obj in func_8016A8A8 */
 
 typedef struct S_80FE1000_1 {
     u8 pad_00[0x13];
@@ -15,12 +15,12 @@ typedef struct S_80FE1000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80FE1000_1;   /* work in BODY_NAME */
+} S_80FE1000_1;   /* work in func_8016A8A8 */
 
 typedef struct S_80FE1000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80FE1000_2;   /* part_a in BODY_NAME */
+} S_80FE1000_2;   /* part_a in func_8016A8A8 */
 
 typedef struct S_80FE1000_3 {
     u8 pad_00[0x24];
@@ -28,7 +28,7 @@ typedef struct S_80FE1000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80FE1000_3;   /* part_b in BODY_NAME */
+} S_80FE1000_3;   /* part_b in func_8016A8A8 */
 
 typedef struct S_80FE1000_4 {
     u8 pad_00[0x8C];
@@ -37,7 +37,7 @@ typedef struct S_80FE1000_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_80FE1000_4;   /* actor in BODY_NAME */
+} S_80FE1000_4;   /* actor in func_8016A8A8 */
 
 
 extern void *func_8003FD64();
@@ -52,76 +52,10 @@ extern u8 D_8016E038[];
 extern u8 D_8016E088[];
 extern u8 D_8016AEA8[];
 
-#ifdef __mips__
-extern void *func_8016A8A8(s16, s32, s32, s16);
-extern void *func_8016B2B8(void);
-extern void *func_8016B2E4(void);
-extern void *func_8016B264(void);
-extern void *func_8016B1F4(void);
-extern void *func_8016B1E4(void);
-extern void *func_8016B2A8(void);
-extern void *func_8016CAC4(void);
-extern void *func_8016CABC(void);
-extern void *func_8016CAB4(void);
-extern void *func_8016CACC(void);
-extern void *func_8016CA74(void);
-extern void *func_8016CA6C(void);
-extern void *func_8016CA64(void);
 
-static const u32 func_8016A800_prefix[42] __asm__("func_8016A800")
-__attribute__((section(".text.func_8016A800"), aligned(4))) = {
-    (u32)func_8016A8A8,
-    (u32)D_8016AA7C,
-    (u32)func_8016B2B8,
-    (u32)func_8016B2B8,
-    (u32)func_8016B2B8,
-    (u32)func_8016B2E4,
-    (u32)func_8016B264,
-    (u32)func_8016B264,
-    (u32)func_8016B264,
-    (u32)func_8016B1F4,
-    (u32)func_8016B1E4,
-    (u32)func_8016B2E4,
-    (u32)func_8016B2E4,
-    (u32)func_8016B2A8,
-    (u32)func_8016CAC4,
-    (u32)func_8016CABC,
-    (u32)func_8016CAB4,
-    (u32)func_8016CACC,
-    (u32)func_8016CA74,
-    (u32)func_8016CA6C,
-    (u32)func_8016CA64,
-    0x89824081,
-    0x40819382,
-    0x93829082,
-    0x83829982,
-    0x85828882,
-    0x7C818482,
-    0x90829582,
-    0x00004481,
-    0x92824081,
-    0x96828582,
-    0x81828582,
-    0x85828C82,
-    0x40818482,
-    0x94828982,
-    0x40819382,
-    0x92829482,
-    0x85829582,
-    0x90824081,
-    0x97828F82,
-    0x92828582,
-    0x00004481,
-};
-__asm__(".globl func_8016A800\n"
-        ".size func_8016A800, 636");
-#define BODY_NAME func_8016A8A8
-#else
-#define BODY_NAME func_8016A800
-#endif
 
 /* Creates a dungeon object and initializes its kind flags and part parameters. */
-void *BODY_NAME(s16 kind_flags, s32 part_value_24, s32 part_value_25, s16 part_value_0a)
+void *func_8016A8A8(s16 kind_flags, s32 part_value_24, s32 part_value_25, s16 part_value_0a)
 {
     s32 kind;
     void *obj;

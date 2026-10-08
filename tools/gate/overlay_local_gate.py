@@ -356,6 +356,10 @@ def load_matches(sb: dict[str, Any], window_start: int, window_end: int,
                 source = source_dir / f"{func}.c"
                 if not source.exists():
                     raise SystemExit(f"matched source missing for {func}: {rel(source)}")
+            if row.get("row_kind") == "data":
+                owner = rodata_owner(family, int(row["foff"])) if family else None
+                if owner is None or int(owner["rodata_size"]) != int(row["size"]):
+                    raise SystemExit(f"data row {func}: missing exact rodata ownership span")
             # Rowbase (docs/rowbase_lane_phase2.md): a landed in-region source
             # defines its TRUE-space name and is pre-linked at the true base.
             section_func, link_vram = func, None
@@ -363,7 +367,7 @@ def load_matches(sb: dict[str, Any], window_start: int, window_end: int,
             if family is not None:
                 delta = _rowbase_proven_delta(family, int(row["foff"]))
                 if delta is not None:
-                    expected = f"func_{int(row['foff']) + delta:08X}"
+                    expected = f"{'D' if row.get('row_kind') == 'data' else 'func'}_{int(row['foff']) + delta:08X}"
                     if isinstance(true_name, str) and true_name == expected:
                         section_func, link_vram = true_name, int(row["foff"]) + delta
                     elif true_name is not None:
