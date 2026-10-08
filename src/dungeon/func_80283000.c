@@ -21,26 +21,6 @@ extern u8 D_800DDC7C;
 extern ColorState D_801C9E40;
 extern ColorState D_801DA714;
 
-#ifdef __mips__
-void func_80016000(void);
-static const u32 split_prefix[] __asm__("func_80016000")
-__attribute__((section(".text.func_80016000"), aligned(4))) = {
-    0x8001D4FC, 0x8001D508, 0x8001D540, 0x8001D5C0, 0x8001D578,
-    0x8001D5B0, 0x8001D5B0, 0x8001D5B0, 0x8001D5B0,
-    0x8001D5B0, 0x8001D5B0, 0x8001D5B0, 0x8001D5B0,
-    0x8001E944, 0x8001E944, 0x8001E944, 0x8001E87C,
-    0x8001E944, 0x8001E944, 0x8001E944, 0x8001E944,
-    0x8001E944, 0x8001E944, 0x8001E944, 0x8001E944,
-    0x8001E944, 0x8001E944, 0x8001E8A4, 0x8001E8E8,
-    0x8001E8B8, 0x8001E910,
-};
-__asm__(".globl func_80016000\n"
-        ".size func_80016000, 472");
-#define BODY_NAME func_8001607C
-#else
-#define BODY_NAME func_80016000
-#endif
-
 static __inline__ void set_light_vectors(u8 *view_state, s16 x, s16 y)
 {
     *(s16 *)(view_state + 0x38) = x;
@@ -55,7 +35,7 @@ static __inline__ void set_light_vectors(u8 *view_state, s16 x, s16 y)
 }
 
 /* Initialize projection, lighting, colors, and view bounds. */
-void BODY_NAME(void) {
+void func_8001607C(void) {
     u8 *render_data;
     u8 *view_state;
     s32 default_scale;

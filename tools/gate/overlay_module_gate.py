@@ -270,6 +270,18 @@ def build(m,out,root=ROOT,substitutions=None):
   # Headers are resolved through -I root/include below. Every replaced source is bound.
   source=out/'candidate.c';source.write_text(text)
   candidate_hashes={k:sha(v) for k,v in substitutions.items()}
+ # Native cohorts are one TU in one validated load region. They must use
+ # the same bank scope as ordinary row compiles, never the family union.
+ if m['container'] in {'town','dungeon'}:
+  spec=importlib.util.spec_from_file_location('module_bank_census',gate_tool(root,'gen_noreturn_syms.py'))
+  census=importlib.util.module_from_spec(spec);spec.loader.exec_module(census)
+  names=set(census.scoped_census(m['container'],m['members'][0]['foff'],root=root)['names'])
+  names.update(census.scan_text(source.read_text()))
+  for member in m['members']:
+   path=Path((substitutions or {}).get(member['source'],root/member['source']))
+   names.update(census.scan_text(path.read_text()))
+  evidence=out/'noreturn_syms.bank.txt';evidence.write_text(census.render(sorted(names)))
+  env['MASPSX_NORETURN_FILE']=str(evidence)
  gcc=root/'toolchain/compilers/gcc-2.7.2-cdk';asm=out/'module.s';obj=out/'module.o'
  command([gcc/'gcc','-B'+str(gcc)+'/', '-S','-O2','-G0','-I'+str(root/'include'),'-w',source,'-o',asm],root,env,out/'compile.log')
  raw=asm.read_bytes();proc=command([sys.executable,gate_tool(root,'ccproc.py'),'--names-tsv',root/'config/names.tsv'],root,env,out/'ccproc.log',raw);(out/'sectioned.s').write_bytes(proc)

@@ -10,7 +10,17 @@ symbol name, and writes the sorted/deduped set to the container family's
 evidence file. maspsx's tail-call pass then fires ``jal``->``j`` on calls to
 those symbols without needing a hardcoded per-function name list.
 
-PER-CONTAINER FILES (Phase B activation, build/tmp_infra/phaseb_prescan.md
+BANKED SELECTION (r102). The four tracked files below remain byte-exact
+audit censuses, including the false-member exclusions and shrink guard.
+For town/dungeon, scoped_census selects frozen evidence only from the
+compiling row's explicit rowbase region. Missing regions isolate the
+row; they never enable the family union. overlay_evidence writes the
+selected names plus the TU's own declarations to a temporary file.
+Region fragments are intentionally not merged by delta, adjacency or
+name. Shared resident callees remain available when declared by that
+bank's own frozen C; MAIN/SLUS and OVMOVIE selection is unchanged.
+
+PER-CONTAINER AUDIT FILES (Phase B activation, build/tmp_infra/phaseb_prescan.md
 Task 3): town_scene and dungeon_engine both load at vram 0x80080000, so the
 same func_800XXXXX name is DIFFERENT code per container — evidence derived
 from one container's C must never fire on another container's compile. Each
@@ -101,6 +111,8 @@ import argparse
 import json
 import re
 import sys
+from bisect import bisect_right
+from functools import lru_cache
 from pathlib import Path, PurePosixPath
 
 FALSE_MEMBERS_PATH = "config/noreturn_false_members.jsonl"
@@ -379,6 +391,124 @@ def false_members(fam: str, path: Path | None = None) -> set[str]:
         if rec["family"] == fam:
             out.add(rec["func"])
     return out
+
+
+
+# A region is an explicit repository load-map scope, NOT an address bucket.
+# Regions sometimes describe only part of a bank; refusing to merge adjacent
+# regions is conservative. Unmapped rows share no facts with other rows.
+@lru_cache(maxsize=32)
+def _bank_records(path: Path, mtime_ns: int, size: int) -> tuple:
+    return tuple(json.loads(line) for line in path.read_text().splitlines()
+                 if line.strip() and not line.lstrip().startswith("#"))
+
+
+def _read_bank_records(path: Path) -> tuple:
+    stat = path.stat()
+    return _bank_records(path, stat.st_mtime_ns, stat.st_size)
+
+
+@lru_cache(maxsize=8192)
+def _bank_source(path: Path, mtime_ns: int, size: int) -> frozenset:
+    return frozenset(scan_text(path.read_text(errors="replace")))
+
+
+def _stamp(path: Path):
+    try:
+        st = path.stat()
+    except FileNotFoundError:
+        return None
+    return st.st_mtime_ns, st.st_size
+
+
+def _row_source(root: Path, fam: str, rec: dict) -> Path | None:
+    source = rec.get("c_path")
+    if not source and rec.get("func_vram"):
+        source = rec["func_vram"] + ".c"
+    if not source:
+        return None  # non-function split metadata carries no frozen C
+    return root / "raw" / fam / Path(source).name
+
+
+@lru_cache(maxsize=16)
+def _scope_index(root: Path, fam: str, stamps: tuple) -> tuple:
+    """Per-family index built once per load map + split tables (keyed by their
+    stats): sorted regions, the frozen sources wholly inside each region, and
+    the sources of the row(s) at each exact file offset. scoped_census used to
+    rescan every split row per call (808 calls x 0.4 s on dungeon_engine)."""
+    regions = []
+    path = root / f"config/overlays/{fam}.rowbase.jsonl"
+    for rec in _read_bank_records(path):
+        start, end = (int(str(rec[k]), 0) for k in ("foff_start", "foff_end"))
+        if start >= end or not rec.get("region"):
+            raise ValueError(f"invalid bank scope in {path}")
+        regions.append((start, end, rec["region"]))
+    regions.sort()
+    for left, right in zip(regions, regions[1:]):
+        if left[1] > right[0]:
+            raise ValueError(f"overlapping bank scopes in {path}")
+    starts = [r[0] for r in regions]
+    by_scope: dict[int, set] = {}
+    by_foff: dict[int, set] = {}
+    rel: dict[Path, str] = {}
+    units = (fam, "dungeon_engine") if fam == "dungeon" else (fam,)
+    for unit in units:
+        rows = root / f"ledger/splits/{unit}.jsonl"
+        if not rows.exists():
+            continue
+        for rec in _read_bank_records(rows):
+            off = rec.get("foff")
+            size = rec.get("size") or 0
+            if not isinstance(off, int):
+                continue
+            source = _row_source(root, fam, rec)
+            if source is None:
+                continue
+            by_foff.setdefault(off, set()).add(source)
+            rel.setdefault(source, f"raw/{fam}/{source.name}")
+            # regions are disjoint and sorted: only the region holding `off`
+            # (or, for a zero-size row, the one ending exactly at it) can hold it
+            j = bisect_right(starts, off) - 1
+            for i in (j - 1, j):
+                if i >= 0 and regions[i][0] <= off and off + size <= regions[i][1]:
+                    by_scope.setdefault(i, set()).add(source)
+    return (tuple(regions),
+            {k: frozenset(v) for k, v in by_scope.items()},
+            {k: frozenset(v) for k, v in by_foff.items()}, rel)
+
+
+def scoped_census(fam: str, foff: int, *, root: Path | None = None) -> dict:
+    """Frozen raw evidence from this row's own load region, minus false members.
+
+    Bank identity comes from config/overlays/<family>.rowbase.jsonl's region
+    and half-open file extent. Never infer a bank from a VRAM/name/delta.
+    A partial load map may omit a row; such a row gets its own frozen TU only.
+    This also retains declarations that transforms stripped out of src/.
+    """
+    root = ROOT if root is None else Path(root)
+    if fam not in {"town", "dungeon"}:
+        raise ValueError(f"not a banked family: {fam}")
+    if not isinstance(foff, int) or foff < 0:
+        raise ValueError("bank selection needs a nonnegative file offset")
+    units = (fam, "dungeon_engine") if fam == "dungeon" else (fam,)
+    stamps = (_stamp(root / f"config/overlays/{fam}.rowbase.jsonl"),) + tuple(
+        _stamp(root / f"ledger/splits/{unit}.jsonl") for unit in units)
+    regions, by_scope, by_foff, rel = _scope_index(root, fam, stamps)
+    idx = next((i for i, r in enumerate(regions) if r[0] <= foff < r[1]), None)
+    scope = regions[idx] if idx is not None else None
+    sources = set(by_foff.get(foff, ()))
+    if idx is not None:
+        sources |= by_scope.get(idx, frozenset())
+    names = set()
+    present = []
+    for source in sorted(sources, key=rel.__getitem__):
+        stat = _stamp(source)
+        if stat is not None:
+            names |= _bank_source(source, *stat)
+            present.append(source)
+    names -= false_members(fam, root / FALSE_MEMBERS_PATH)
+    return {"bank": scope[2] if scope else f"isolated:{foff:X}",
+            "names": names, "sources": [rel[p] for p in present]}
 
 
 def count_sources(globs: list[str]) -> int:

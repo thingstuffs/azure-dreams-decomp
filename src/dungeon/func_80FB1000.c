@@ -47,66 +47,7 @@ extern void func_80175258(void);
 extern void func_80175298(void);
 extern void func_80170F6C(void);
 
-#ifdef __mips__
-#define BODY_NAME composite_body_80170800
-#define BODY_STORAGE static
-#define BODY_ATTR __attribute__((used, section(".text.func_80170800")))
-#else
-#define BODY_NAME func_80170800
-#define BODY_STORAGE
-#define BODY_ATTR
-#endif
-
-BODY_STORAGE void *BODY_NAME(s16, s32, s16, s16) BODY_ATTR;
-
-#ifdef __mips__
-static const ActorDefinition actor_definition
-__asm__("func_80170800")
-__attribute__((section(".text.func_80170800"), aligned(4))) = {
-    {
-        (Callback)BODY_NAME,
-        func_80170B40,
-        func_8017112C,
-        func_80171198,
-        func_8017126C,
-        func_801713FC,
-        func_80171444,
-        0,
-        func_80171794,
-        func_80171794,
-        func_80171794,
-        func_801717C0,
-        func_80171740,
-        func_80171740,
-        func_80171740,
-        func_801716D8,
-        func_801716D8,
-        func_801717C0,
-        func_801717C0,
-        func_80171784,
-        func_80172F08,
-        func_80172F00,
-        func_80172EF8,
-        func_80172F10,
-        func_80172EB8,
-        func_80172EB0,
-        func_80172EA8,
-    },
-    {
-        0x40, 0x03, 0x00, 0x01, 0x40, 0x00, 0x80, 0x00,
-        0x81, 0x40, 0x82, 0x8C, 0x82, 0x85, 0x82, 0x84,
-        0x81, 0x40, 0x82, 0x81, 0x81, 0x40, 0x82, 0x8D,
-        0x82, 0x85, 0x82, 0x92, 0x82, 0x92, 0x82, 0x99,
-        0x81, 0x40, 0x82, 0x84, 0x82, 0x81, 0x82, 0x8E,
-        0x82, 0x83, 0x82, 0x85, 0x81, 0x44, 0x00, 0x00,
-        0x40, 0x03, 0x00, 0x01, 0x40, 0x00, 0x40, 0x00,
-    },
-};
-__asm__(".globl func_80170800\n"
-        ".type func_80170800,@function\n"
-        ".size func_80170800, 832");
-#endif
-
+void *func_801708A4(s16, s32, s16, s16);
 
 typedef struct S_80FB1000_0 {
     u8 pad_00[0x13];
@@ -114,19 +55,19 @@ typedef struct S_80FB1000_0 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80FB1000_0;   /* work in BODY_NAME */
+} S_80FB1000_0;   /* work in func_801708A4 */
 
 typedef struct S_80FB1000_1 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80FB1000_1;   /* position in BODY_NAME */
+} S_80FB1000_1;   /* position in func_801708A4 */
 
 typedef struct S_80FB1000_2 {
     u8 pad_00[0x6];
     u16 unk_06;
-} S_80FB1000_2;   /* (*(u8 * *)((u8 *)monster + 8)) + (scale + i) * 4 in BODY_NAME */
+} S_80FB1000_2;   /* (*(u8 * *)((u8 *)monster + 8)) + (scale + i) * 4 in func_801708A4 */
 
-BODY_STORAGE void *BODY_NAME(s16 mode, s32 value1, s16 value2, s16 value3)
+void *func_801708A4(s16 mode, s32 value1, s16 value2, s16 value3)
 {
     s16 mode_copy;
     s32 value1_saved;

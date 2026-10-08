@@ -30,7 +30,8 @@ import yaml
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from overlay_evidence import (  # noqa: E402
     DEFAULT_NORETURN_FILE, candidate_noreturn_syms, evidence_env,
-    evidence_env_with_candidate, load_noreturn_file, proven_false_members)
+    evidence_env_with_candidate, load_noreturn_file, proven_false_members,
+    family_for)
 from overlay_as_flags import default_as_flags  # noqa: E402  (LEAD 12b)
 import rowbase_naming_debt  # noqa: E402
 
@@ -848,8 +849,16 @@ def compile_c_segments(
         gcc_ver, gcc_flags = config_to_flags(seg.match.config)
         out_o = obj_dir / f"{segment_obj_key(seg, dup_funcs)}.o"
         seg_env = env
-        own = candidate_noreturn_syms(
-            Path(seg.match.source).read_text(errors="replace"))
+        source_text = Path(seg.match.source).read_text(errors="replace")
+        if family_for(overlay) in {"town", "dungeon"}:
+            ev_dir = obj_dir / (segment_obj_key(seg, dup_funcs) + ".evidence")
+            ev_dir.mkdir(exist_ok=True)
+            seg_env = dict(env or {})
+            seg_env.update(evidence_env_with_candidate(
+                overlay, source_text, ev_dir, foff=seg.match.start))
+            own = set()  # the per-row merge above already includes this TU
+        else:
+            own = candidate_noreturn_syms(source_text)
         if own - base_noreturn:
             merged = obj_dir / f"{segment_obj_key(seg, dup_funcs)}.noreturn.txt"
             merged.write_text(

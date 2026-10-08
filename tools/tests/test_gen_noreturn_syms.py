@@ -271,5 +271,96 @@ class ShrinkGuard(unittest.TestCase):
         self.assertIn("--allow-empty", reason)
 
 
+
+class BankScopedCensus(unittest.TestCase):
+    def setUp(self):
+        import json
+        import tempfile
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.root = Path(self.tmp.name)
+        for name in ["config/overlays", "ledger/splits", "raw/dungeon", "raw/town", "src/dungeon"]:
+            (self.root/name).mkdir(parents=True)
+        self.regions = [
+            {"region": "bank_a", "foff_start": "0x100", "foff_end": "0x200"},
+            {"region": "bank_b", "foff_start": "0x300", "foff_end": "0x400"}]
+        for fam in ["town", "dungeon"]:
+            self.write(f"config/overlays/{fam}.rowbase.jsonl", self.regions)
+            self.write(f"ledger/splits/{fam}.jsonl", [
+                {"func_vram": "func_80000100", "foff": 0x100, "size": 16},
+                {"func_vram": "func_80000110", "foff": 0x110, "size": 16},
+                {"func_vram": "func_80000300", "foff": 0x300, "size": 16},
+                {"func_vram": "func_80000500", "foff": 0x500, "size": 16},
+                {"func_vram": "func_80000510", "foff": 0x510, "size": 16}])
+            for stem, symbol in [("80000100", "same_slot"), ("80000110", "own_bank"),
+                                 ("80000300", "other_bank"), ("80000500", "unmapped"),
+                                 ("80000510", "unmapped_neighbor")]:
+                (self.root/f"raw/{fam}/func_{stem}.c").write_text(
+                    f"extern void {symbol}(void) __attribute__((noreturn));")
+        (self.root/G.FALSE_MEMBERS_PATH).write_text("")
+
+    def write(self, name, records):
+        import json
+        (self.root/name).write_text("".join(json.dumps(r)+"\n" for r in records))
+
+    def test_aliased_names_do_not_leak_between_banks_in_either_family(self):
+        for fam in ["town", "dungeon"]:
+            with self.subTest(family=fam):
+                a = G.scoped_census(fam, 0x100, root=self.root)
+                b = G.scoped_census(fam, 0x300, root=self.root)
+                self.assertEqual(a["bank"], "bank_a")
+                self.assertEqual(a["names"], {"same_slot", "own_bank"})
+                self.assertEqual(b["names"], {"other_bank"})
+
+    def test_unmapped_rows_use_only_their_own_frozen_translation_unit(self):
+        p = G.scoped_census("dungeon", 0x500, root=self.root)
+        self.assertEqual(p["bank"], "isolated:500")
+        self.assertEqual(p["names"], {"unmapped"})
+
+    def test_scope_is_half_open(self):
+        self.assertEqual(G.scoped_census("town", 0x200, root=self.root)["names"], set())
+
+    def test_src_cannot_replace_frozen_evidence(self):
+        (self.root/"src/dungeon/func_80000100.c").write_text(
+            "extern void speculative(void) __attribute__((noreturn));")
+        self.assertNotIn("speculative", G.scoped_census("dungeon", 0x100, root=self.root)["names"])
+
+    def test_proven_false_members_are_still_removed(self):
+        self.write(G.FALSE_MEMBERS_PATH, [{"schema": G.FALSE_MEMBER_SCHEMA,
+            "family": "dungeon", "func": "same_slot", "proof": "unit-test exclusion evidence"}])
+        self.assertEqual(G.scoped_census("dungeon", 0x100, root=self.root)["names"], {"own_bank"})
+
+    def test_overlap_fails_closed(self):
+        self.regions[1]["foff_start"] = "0x180"
+        self.write("config/overlays/dungeon.rowbase.jsonl", self.regions)
+        with self.assertRaisesRegex(ValueError, "overlapping"):
+            G.scoped_census("dungeon", 0x100, root=self.root)
+
+    def test_cache_refreshes_when_frozen_source_changes(self):
+        G.scoped_census("dungeon", 0x100, root=self.root)
+        (self.root/"raw/dungeon/func_80000100.c").write_text(
+            "extern void replacement(void) __attribute__((noreturn));")
+        self.assertEqual(G.scoped_census("dungeon", 0x100, root=self.root)["names"], {"replacement", "own_bank"})
+
+    def test_env_selfserve_never_inherits_the_family_union(self):
+        from unittest.mock import patch
+        import tempfile
+        ev = _load(REPO/"tools/gate/overlay_evidence.py", "bank_evidence_test")
+        ev._GEN = G
+        out = self.root/"out"
+        out.mkdir()
+        with patch.object(G, "ROOT", self.root):
+            env = ev.evidence_env_with_candidate("dungeon", "", out, foff=0x300)
+            self.assertEqual(ev.load_noreturn_file(env["MASPSX_NORETURN_FILE"]), {"other_bank"})
+            env = ev.evidence_env_with_candidate("dungeon", "extern void own(void) __attribute__((noreturn));", out, foff=0x300)
+            self.assertEqual(ev.load_noreturn_file(env["MASPSX_NORETURN_FILE"]), {"other_bank", "own"})
+
+    def test_main_and_movie_selection_stay_unchanged(self):
+        ev = _load(REPO/"tools/gate/overlay_evidence.py", "bank_evidence_defaults")
+        self.assertEqual(ev.evidence_env("main_boot"), {})
+        self.assertEqual(ev.evidence_env("ovmovie")["MASPSX_NORETURN_FILE"],
+                         str(ev.ROOT/"config/noreturn_syms.ovmovie.txt"))
+
+
 if __name__ == "__main__":
     unittest.main()

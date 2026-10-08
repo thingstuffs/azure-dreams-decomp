@@ -1,4 +1,4 @@
-#include "common.h"
+#include "modules/dungeon_draw_chain.h"
 
 #ifndef NULL
 #define NULL 0
@@ -56,12 +56,12 @@ typedef struct S_8196012C_3 {
 
 
 extern void *func_8003FC64();
-extern void func_8004491C();
+struct RegistrationNode;
+extern s32 func_8004491C(struct RegistrationNode *, s32);
 extern s16 func_800644B8();
 extern s16 func_80064584();
 extern s32 rand();
 extern s32 D_80025460[];
-extern s32 D_800258D8[];
 
 /* Spawn a textured particle with randomized motion at the given position. */
 void func_8196012C(s16 x, s16 y, s16 z, s16 tile_col, s16 tile_row) {
@@ -77,7 +77,7 @@ void func_8196012C(s16 x, s16 y, s16 z, s16 tile_col, s16 tile_row) {
     object = func_8003FC64(0x202);
     if (object != NULL) {
         ((S_8196012C_0 *)object)->unk_10 = D_80025460;
-        func_8004491C(object, D_800258D8);
+        func_8004491C(object, (s32)func_800258D8);
         position = ((S_8196012C_0 *)object)->unk_08;
         position->unk_02 = x;
         position->unk_06 = y;

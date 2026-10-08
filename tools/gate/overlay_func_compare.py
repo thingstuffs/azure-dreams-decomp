@@ -531,8 +531,11 @@ def main() -> int:
         c_text = ""
     ev_scratch = tempfile.mkdtemp(prefix="ofc_ev_")
     atexit.register(lambda: shutil.rmtree(ev_scratch, ignore_errors=True))
+    row = find_row(
+        args.func, args.overlay, foff=args.foff, vram=args.vram, size=args.size)
     os.environ.update(
-        ev_mod.evidence_env_with_candidate(args.overlay, c_text, ev_scratch))
+        ev_mod.evidence_env_with_candidate(
+            args.overlay, c_text, ev_scratch, foff=int(row["foff"])))
     _assert_evidence_not_clobbered(ev_mod, c_text)
 
     row = find_row(

@@ -9,7 +9,7 @@ typedef struct S_80FD5000_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_80FD5000_0;   /* temp_s1 in BODY_NAME */
+} S_80FD5000_0;   /* temp_s1 in func_8014C8A4 */
 
 typedef struct S_80FD5000_1 {
     u8 pad_00[0x13];
@@ -25,12 +25,12 @@ typedef struct S_80FD5000_1 {
     s8 unk_9C;
     u8 pad_9D[0x11];
     s16 unk_AE;
-} S_80FD5000_1;   /* var_s0 in BODY_NAME */
+} S_80FD5000_1;   /* var_s0 in func_8014C8A4 */
 
 typedef struct S_80FD5000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80FD5000_2;   /* temp_s6 in BODY_NAME */
+} S_80FD5000_2;   /* temp_s6 in func_8014C8A4 */
 
 typedef struct S_80FD5000_3 {
     u8 pad_00[0x8];
@@ -42,7 +42,7 @@ typedef struct S_80FD5000_3 {
     u8 unk_25;
     u8 pad_26[0x6];
     M2C_UNK * unk_2C;
-} S_80FD5000_3;   /* temp_s2 in BODY_NAME */
+} S_80FD5000_3;   /* temp_s2 in func_8014C8A4 */
 
 
 typedef struct S_80FD5000_4 {
@@ -72,77 +72,6 @@ typedef struct {
     u8 config[56];
 } ActorDefinition;
 
-extern void func_8014D12C(void);
-extern void func_8014D198(void);
-extern void func_8014D26C(void);
-extern void func_8014D3FC(void);
-extern void func_8014D444(void);
-extern void func_8014D794(void);
-extern void func_8014D7C0(void);
-extern void func_8014D740(void);
-extern void func_8014D6D8(void);
-extern void func_8014D784(void);
-extern void func_8014EF08(void);
-extern void func_8014EF00(void);
-extern void func_8014EEF8(void);
-extern void func_8014EF10(void);
-extern void func_8014EEB8(void);
-extern void func_8014EEB0(void);
-extern void func_8014EEA8(void);
-
-#ifdef __mips__
-extern void *func_8014C8A4(s16, s16, s16, s32);
-
-static const ActorDefinition extent_prefix
-__asm__("func_8014C800")
-__attribute__((used, section(".text.func_8014C800"), aligned(4))) = {
-    {
-        (Callback)func_8014C8A4,
-        (Callback)&D_8014CB40,
-        func_8014D12C,
-        func_8014D198,
-        func_8014D26C,
-        func_8014D3FC,
-        func_8014D444,
-        0,
-        func_8014D794,
-        func_8014D794,
-        func_8014D794,
-        func_8014D7C0,
-        func_8014D740,
-        func_8014D740,
-        func_8014D740,
-        func_8014D6D8,
-        func_8014D6D8,
-        func_8014D7C0,
-        func_8014D7C0,
-        func_8014D784,
-        func_8014EF08,
-        func_8014EF00,
-        func_8014EEF8,
-        func_8014EF10,
-        func_8014EEB8,
-        func_8014EEB0,
-        func_8014EEA8,
-    },
-    {
-        0x40, 0x03, 0x00, 0x01, 0x40, 0x00, 0x80, 0x00,
-        0x81, 0x40, 0x82, 0x8C, 0x82, 0x85, 0x82, 0x84,
-        0x81, 0x40, 0x82, 0x81, 0x81, 0x40, 0x82, 0x8D,
-        0x82, 0x85, 0x82, 0x92, 0x82, 0x92, 0x82, 0x99,
-        0x81, 0x40, 0x82, 0x84, 0x82, 0x81, 0x82, 0x8E,
-        0x82, 0x83, 0x82, 0x85, 0x81, 0x44, 0x00, 0x00,
-        0x40, 0x03, 0x00, 0x01, 0x40, 0x00, 0x40, 0x00,
-    },
-};
-__asm__(".globl func_8014C800\n"
-        ".size func_8014C800, 832");
-#define BODY_NAME func_8014C8A4
-#else
-#define BODY_NAME func_8014C800
-#endif
-
-
 typedef struct {
     s16 x;
     s16 y;
@@ -151,7 +80,7 @@ typedef struct {
 } Rect;
 
 /* Creates a monster actor and initializes its state, placement, and palette. */
-void *BODY_NAME(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading)
+void *func_8014C8A4(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading)
 {
     s32 kind;
     S_80FD5000_1 *actor_state;
