@@ -492,3 +492,4 @@
 {"schema": "azure-clean.rodata_owner.v1", "id": "dungeon/D_818F2800", "foff": "0x1912800", "rodata_size": 4, "rodata": "entry_pointer", "owner": null, "ownership_status": "owner-unresolved", "reviewer": "orchestrator-r102"}
 {"schema": "azure-clean.rodata_owner.v1", "id": "dungeon/D_818F2804", "foff": "0x1912804", "rodata_size": 36, "rodata": "numeric", "owner": null, "ownership_status": "owner-unresolved", "reviewer": "orchestrator-r102"}
 {"schema": "azure-clean.rodata_owner.v1", "id": "dungeon/D_818F2828", "foff": "0x1912828", "rodata_size": 36, "rodata": "callback_vector", "owner": null, "ownership_status": "owner-unresolved", "reviewer": "orchestrator-r102"}
+{"schema": "azure-clean.rodata_owner.v1", "id": "dungeon/D_81934800", "foff": "0x1954800", "rodata_size": 4, "rodata": "entry_pointer", "owner": null, "ownership_status": "owner-unresolved", "reviewer": "orchestrator-r103"}

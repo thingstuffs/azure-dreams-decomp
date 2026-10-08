@@ -28,21 +28,8 @@ typedef struct DungeonObject {
 extern s32 func_800C80F0(void);
 extern DungeonGroup D_80073414[];
 
-#ifdef __mips__
-extern u8 D_80024128[];
-static u8 *const func_81934800_prefix[] __asm__("func_81934800")
-__attribute__((used, section(".text.func_81934800"), aligned(4))) = {
-    D_80024128,
-};
-__asm__(".globl func_81934800\n"
-        ".size func_81934800, 296");
-#define FUNC_81934800_BODY func_81934804
-#else
-#define FUNC_81934800_BODY func_81934800
-#endif
-
 /* Decrement eligible entry amounts on flagged cells and return the number changed. */
-s32 FUNC_81934800_BODY(DungeonObject *object) {
+s32 func_80024004(DungeonObject *object) {
     s32 changed_count;
     DungeonObjectEntry *entry;
     u8 group;

@@ -143,7 +143,7 @@ def affected_windows(m,root=ROOT):
  return out
 
 def closure(root,starts):
- pending=list(starts);found=set()
+ pending=list(starts);found=set();resolved={}
  while pending:
   n=pending.pop()
   if n in found:continue
@@ -161,10 +161,14 @@ def closure(root,starts):
      if not dest.is_relative_to(root):raise ValueError('system dependency outside fingerprint root: '+dep)
      found.add(str(dest.relative_to(root)))
     continue
-   opts=[p.parent/hit[1],root/'include'/hit[1],root/hit[1]]
-   dest=next((Path(os.path.abspath(o)) for o in opts if o.is_file()),None)
-   if dest is None or not dest.is_relative_to(root):raise ValueError('include escapes build root: '+line)
-   pending.append(str(dest.relative_to(root)))
+   key=(p.parent,hit[1])
+   target=resolved.get(key)
+   if target is None:
+    opts=[p.parent/hit[1],root/'include'/hit[1],root/hit[1]]
+    dest=next((Path(os.path.abspath(o)) for o in opts if o.is_file()),None)
+    if dest is None or not dest.is_relative_to(root):raise ValueError('include escapes build root: '+line)
+    target=str(dest.relative_to(root));resolved[key]=target
+   pending.append(target)
  return found
 
 def gate_tool(root,name):
@@ -173,7 +177,9 @@ def gate_tool(root,name):
 
 def fingerprint(m,root=ROOT,windows=True):
  root=Path(root).absolute();wins=affected_windows(m,root);compiler_versions={'2.7.2-cdk'}
- names=closure(root,[m['source'],*m['headers'],*(a['source'] for a in m['members']),'include/labels.inc',*(p for p in m['review_inputs'] if p.endswith(('.c','.h')))])
+ evidence_foffs={a['foff'] for a in m['members']}
+ source_starts=[m['source'],*m['headers'],*(a['source'] for a in m['members']),'include/labels.inc',*(p for p in m['review_inputs'] if p.endswith(('.c','.h')))]
+ names=set()
  names.update(['config/overlays/modules.json','ledger/rows.jsonl','ledger/splits/overlay_modules.build.json',f"config/overlays/{m['container']}.rowbase.jsonl",'config/names.tsv',*m['review_inputs']])
  names.update(wins)
  if m.get('membership_evidence'):names.add('ledger/modules.jsonl')
@@ -192,6 +198,13 @@ def fingerprint(m,root=ROOT,windows=True):
    for grp in [{'results':sb['split_results']},*sb.get('matched_sources',[])]:
     # Canonical split ledgers are authoritative; exported JSON is also bound in a view.
     path=root/grp['results']
+    if m['container'] in {'town','dungeon'}:
+     family=Path(grp['results']).parts[1]
+     ledger=root/'ledger/splits'/f'{family}.jsonl'
+     if ledger.exists():
+      evidence_foffs.update(r['foff'] for l in ledger.read_text().splitlines() if l.strip() for r in [json.loads(l)]
+                           if r.get('result')=='MATCH' and not r.get('rerun') and r.get('source_kind','c')=='c'
+                           and isinstance(r.get('foff'),int) and fs<=r['foff'] and r['foff']+(r.get('size') or 0)<=fe)
     # Generated view inputs must agree on EVERY fingerprint, including
     # after module/window builds. Bind their normalized canonical contents.
     if path.exists():
@@ -200,13 +213,17 @@ def fingerprint(m,root=ROOT,windows=True):
      expected=[json.loads(l) for l in ledger.read_text().splitlines() if l.strip()]
      if json.loads(path.read_text())!=expected:raise ValueError('exported split roster differs: '+grp['results'])
    for r in rows(root).values():
+    if r['container'] in ({'dungeon','dungeon_engine'} if m['container']=='dungeon' else {m['container']}) and fs<=r['foff'] and r['foff']+r['size']<=fe and r.get('source_kind','c')=='c':
+     evidence_foffs.add(r['foff'])
     if r['container']==m['container'] and fs<=r['foff'] and r['foff']+r['size']<=fe:
      compiler_versions.add(r['cell'])
      p=f"src/{r['container']}/{Path(r['c_path']).name}"
-     if (root/p).exists():names.update(closure(root,[p]))
+     if (root/p).exists():source_starts.append(p)
   for f in [m['container'], 'dungeon_engine' if m['container']=='dungeon' else m['container']]:
    p=f'ledger/splits/{f}.jsonl'
    if (root/p).exists():names.add(p)
+ # Resolve the combined include closure once; shared headers are read once.
+ names.update(closure(root,source_starts))
  gate_names=['overlay_native_rodata.py','cc.sh','ccproc.py','overlay_local_gate.py','overlay_module_gate.py','overlay_evidence.py','overlay_as_flags.py','gen_noreturn_syms.py','rowbase_naming_debt.py','match.py','rowbase_identity.py','configure.py','live_truth.py','rowbase.py','az_target.py','residue_class.py','overlay_func_compare.py','oracle_scoring.py']
  tools=[gate_tool(root,n) for n in gate_names]
  tools += [root/'tools/fidelity'/n for n in ['aspsx_diff.py','objread.py','certify_overlay_module.py']]
@@ -235,10 +252,26 @@ def fingerprint(m,root=ROOT,windows=True):
   # those outputs. Bind all eligibility inputs without a certificate cycle.
   levels={x['id']:x for l in (root/'ledger/levels.jsonl').read_text().splitlines() for x in [json.loads(l)]}
   screening={a['id']:{'l3':levels[a['id']]['level']>=3,'pins':levels[a['id']]['pins_left'],'tail_jumps':levels[a['id']]['tail_jumps'],'residue':sorted(set(levels[a['id']]['l4_residue'])-{'not_in_module'})} for a in m['members']}
- return {'sha256':hashed({'module':m,'inputs':inp,'tools':tool_inputs,'retail':asset,'screening':screening}),'inputs':inp,'tools':tool_inputs,'retail':asset,'screening':screening}
+ # Certificates bind the same frozen bank evidence consumed by module and
+ # neighbouring C compiles; rowbase/census audit files alone miss raw edits.
+ bank_inputs={}
+ if m['container'] in {'town','dungeon'}:
+  # Canonical package when present, flat tool in exported build views.
+  if (root/'tools/gate/gen_noreturn_syms.py').exists():
+   sys.path.insert(0,str(root/'tools'))
+   from gate.gen_noreturn_syms import scoped_inputs,_find_root
+  else:
+   from gen_noreturn_syms import scoped_inputs,_find_root
+  # the compile's evidence root: a view root (build_ovl_gate) has no raw/ and its compiles read the enclosing repo's
+  bank_inputs=scoped_inputs(m['container'],evidence_foffs,root=_find_root(Path(root).resolve()/'tools'/'_'))
+ payload={'module':m,'inputs':inp,'tools':tool_inputs,'retail':asset,'screening':screening}
+ if bank_inputs:payload['bank_noreturn']=bank_inputs
+ result={'sha256':hashed(payload),'inputs':inp,'tools':tool_inputs,'retail':asset,'screening':screening}
+ if bank_inputs:result['bank_noreturn']=bank_inputs
+ return result
 
-def command(args,cwd,env,log,stdin=None):
- p=subprocess.run([str(a) for a in args],cwd=cwd,env=env,input=stdin,capture_output=True,timeout=300)
+def command(args,cwd,env,log,stdin=None,timeout=300):
+ p=subprocess.run([str(a) for a in args],cwd=cwd,env=env,input=stdin,capture_output=True,timeout=timeout)
  Path(log).write_text('$ '+shlex.join(map(str,args))+'\n'+p.stdout.decode(errors='replace')+p.stderr.decode(errors='replace'))
  if p.returncode:raise ValueError('command failed: '+str(log))
  return p.stdout

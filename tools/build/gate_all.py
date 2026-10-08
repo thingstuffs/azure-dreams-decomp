@@ -19,6 +19,8 @@ the record of the tree.
 """
 import argparse, contextlib, hashlib, json, os, re, subprocess, sys, time
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from bisect import bisect_left, bisect_right
+from contextvars import ContextVar
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 B = ROOT / os.environ.get("GATE_BUILD_ROOT", "build_ovl")
@@ -80,9 +82,8 @@ def census_files(cont):
     / $MASPSX_SIBCALL_FILE ('main' reads the un-suffixed files -- maspsx's own built-in defaults --
     every other family reads its '.<family>.txt' override). A family with no override file is
     omitted rather than erroring: maspsx loads a missing file as an empty, inert evidence set, so
-    that is the correct (and already-safe) hash contribution. config/noreturn_false_members.jsonl
-    is deliberately NOT included -- it only feeds gen_noreturn_syms.py's generator, not the
-    evidence maspsx reads at gate time."""
+    that is the correct (and already-safe) hash contribution. Banked noreturn is additionally bound by scoped_inputs below; these tracked files
+    remain audit inputs. Family false members participate in the scoped contribution."""
     fam = "dungeon" if cont == "dungeon_engine" else cont
     names = ("noreturn_syms.txt", "sibcall_syms.txt") if fam == "main" \
         else (f"noreturn_syms.{fam}.txt", f"sibcall_syms.{fam}.txt")
@@ -90,14 +91,16 @@ def census_files(cont):
 
 def inputs_sha(yaml_path):
     """sha over the window YAML, the row table, every src/<container>/*.c inside the window, and
-    the container family's noreturn + sibcall census files (census_files).  Those census files are
+    the container family's noreturn + sibcall census files (census_files), plus
+    every banked C segment's per-region frozen evidence and family false members.  Those census files are
     read by maspsx's LEAD 18/22 tail-call passes and flip jal<->j family-wide, so a census edit has
     to invalidate every window's cached sha even though it touches no YAML, split record or src/
     file -- before this fix a census edit left every window reporting up to date and gate_all.py
     silently gated nothing (measured 2026-09-22: `--container dungeon` gated 0 windows; `--retry`
     gated 1,458).  Changing this function invalidates every window's cached inputs_sha at once; the
     next standing full gate pays that cost once, which is intended."""
-    h = hashlib.sha256(yaml_path.read_bytes())
+    h = hashlib.sha256(b"gate_all.inputs.v2.scoped-noreturn\0")
+    h.update(yaml_path.read_bytes())
     cont = container_of(yaml_path.stem)
     # the window's own split records (config, extent, verdict) rather than the whole table, so a
     # corrected compiler cell re-gates the windows that hold that row and no other
@@ -106,6 +109,21 @@ def inputs_sha(yaml_path):
     for r in window_rows().get(yaml_path.name, []):
         p = ROOT / "src" / r["container"] / Path(r["c_path"]).name
         if p.exists(): h.update(p.read_bytes())
+    if cont in {"town", "dungeon", "dungeon_engine"}:
+        from gate.gen_noreturn_syms import scoped_inputs
+        fam = "dungeon" if cont == "dungeon_engine" else cont
+        # Dungeon-engine windows also compile canonical dungeon matched sources.
+        # window_rows covers registered matches; split rows cover engine-only C.
+        records = [*window_rows().get(yaml_path.name, []),
+                   *(r for r in split_records(cont, yaml_path.name)
+                     if r.get("result") == "MATCH" and not r.get("rerun"))]
+        if cont == "dungeon_engine":
+            records.extend(r for r in split_records("dungeon", yaml_path.name)
+                           if r.get("result") == "MATCH" and not r.get("rerun"))
+        offsets = [r["foff"] for r in records if isinstance(r.get("foff"), int)
+                   and r.get("source_kind", "c") == "c"]
+        h.update(json.dumps(scoped_inputs(fam, offsets, root=ROOT),
+                            sort_keys=True, separators=(",", ":")).encode())
     for p in census_files(cont):
         h.update(p.read_bytes())
     # the family's rodata-owner records (round 85, overlay_local_gate.rodata_owner) decide how an owner row is
@@ -119,13 +137,55 @@ def inputs_sha(yaml_path):
     if abs_syms.exists():
         h.update(abs_syms.read_bytes())
     # Even a one-member window depends on every sibling and the physical recipe.
-    from gate.overlay_module_gate import load_modules, affected_windows, fingerprint
-    for module in load_modules(ROOT):
-        if "config/overlays/" + yaml_path.name in affected_windows(module, ROOT):
-            h.update(fingerprint(module, ROOT)["sha256"].encode())
+    from gate.overlay_module_gate import fingerprint
+    for module in window_modules().get(yaml_path.name, []):
+        cache = _MODULE_SHA_SNAPSHOT.get()
+        key = (ROOT, module["key"])
+        digest = cache.get(key) if cache is not None else None
+        if digest is None:
+            digest = fingerprint(module, ROOT)["sha256"]
+            if cache is not None: cache[key] = digest
+        h.update(digest.encode())
     return h.hexdigest()
 
+_MODULE_SHA_SNAPSHOT = ContextVar("gate_module_sha_snapshot", default=None)
+
+@contextlib.contextmanager
+def inputs_snapshot():
+    """Bound repeated evidence reads to one incremental SHA sweep.
+
+    Worker run_window hashes are deliberately outside this context. Discard
+    the snapshot before compiling and use a new one for the final audit.
+    """
+    from gate.gen_noreturn_syms import scoped_input_snapshot
+    token = _MODULE_SHA_SNAPSHOT.set({})
+    try:
+        with scoped_input_snapshot():
+            yield
+    finally:
+        _MODULE_SHA_SNAPSHOT.reset(token)
+
+_WMODULES = None
+def window_modules():
+    """Snapshot module placement once, like window_rows and split_records.
+
+    Do not reload/validate the whole roster and reread all window YAMLs for
+    every SHA. Fingerprints themselves are recomputed for each affected window
+    so mutable source/evidence inputs remain current during worker gates.
+    Publish only a complete local table, as with window_rows.
+    """
+    global _WMODULES
+    if _WMODULES is None:
+        from gate.overlay_module_gate import load_modules, affected_windows
+        modules = {}
+        for module in load_modules(ROOT):
+            for name in affected_windows(module, ROOT):
+                modules.setdefault(Path(name).name, []).append(module)
+        _WMODULES = modules
+    return _WMODULES
+
 _SPLITS = {}
+_SPLIT_INDEX = {}
 def split_records(cont, yaml_name):
     """Split-table records whose extent lies inside the window's file range."""
     if cont not in _SPLITS:
@@ -135,7 +195,19 @@ def split_records(cont, yaml_name):
     rng = next(((fs, fe) for n, fs, fe, _ in window_map().get(fam, []) if n == yaml_name), None)
     if rng is None: return []
     fs, fe = rng
-    return [r for r in _SPLITS[cont] if isinstance(r.get("foff"), int) and fs <= r["foff"] and r["foff"] + (r.get("size") or 0) <= fe]
+    records = _SPLITS[cont]
+    cached = _SPLIT_INDEX.get(cont)
+    if cached is None or cached[0] is not records:
+        index = sorted((r["foff"], i) for i, r in enumerate(records)
+                       if isinstance(r.get("foff"), int))
+        cached = (records, [off for off, _ in index], [i for _, i in index])
+        _SPLIT_INDEX[cont] = cached
+    _, offsets, indexes = cached
+    # Preserve ledger order (and thus existing SHAs), while visiting only rows
+    # whose start can lie inside this window instead of every family row.
+    candidates = indexes[bisect_left(offsets, fs):bisect_right(offsets, fe)]
+    return [records[i] for i in sorted(candidates)
+            if records[i]["foff"] + (records[i].get("size") or 0) <= fe]
 
 LANE_ROOT = ROOT / "build_ovl"          # the root the model lanes score in (tools/verify.py)
 ISOLATED = B.resolve() != LANE_ROOT.resolve()
@@ -194,11 +266,12 @@ def main():
         prior = {j["window"]: j for j in read_jsonl(JOURNAL)}
         print(f"{len(sup)} superseded synthetic-base seed windows skipped ({len(dead)} stale journal records dropped); their _truebase_ twins are gated")
     todo = []
-    for y in yamls:
-        w = y.stem.replace(".overlay", ""); p = prior.get(w)
-        if p and p["result"] == "MATCH" and p.get("inputs_sha") == inputs_sha(y) and not a.retry and not a.all: continue
-        if p and p["result"] != "MATCH" and not a.retry and not a.all and p.get("inputs_sha") == inputs_sha(y): continue
-        todo.append(y)
+    with inputs_snapshot():
+        for y in yamls:
+            w = y.stem.replace(".overlay", ""); p = prior.get(w)
+            if p and p["result"] == "MATCH" and p.get("inputs_sha") == inputs_sha(y) and not a.retry and not a.all: continue
+            if p and p["result"] != "MATCH" and not a.retry and not a.all and p.get("inputs_sha") == inputs_sha(y): continue
+            todo.append(y)
     if a.limit: todo = todo[:a.limit]
     print(f"{len(todo)} windows to gate ({len(yamls) - len(todo)} up to date), {a.workers} workers", flush=True)
     t0 = time.time(); n = 0; tally = {}
@@ -216,7 +289,8 @@ def main():
     # A completed subprocess is not a successful gate. Include cached failures, too.
     last = {j["window"]: j for j in read_jsonl(JOURNAL)}
     scope = todo if a.limit else yamls
-    bad = [y.name for y in scope if not gate_current(last.get(y.stem.replace(".overlay", "")), inputs_sha(y))]
+    with inputs_snapshot():
+        bad = [y.name for y in scope if not gate_current(last.get(y.stem.replace(".overlay", "")), inputs_sha(y))]
     if bad:
         print(f"FAILED: {len(bad)} windows lack a current MATCH: {bad[:8]}", file=sys.stderr)
         raise SystemExit(1)
