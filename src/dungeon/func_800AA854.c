@@ -58,7 +58,9 @@ typedef struct S_800AFFB4_1 {
 
 typedef struct S_800AFFB4_2_pre {
     s8 unk_00;
-    u8 pad_01[0x3];
+    s8 unk_01;
+    s8 unk_02;
+    u8 pad_03[0x1];
     s32 unk_04;
     u8 pad_08[0x4];
     s8 unk_0C;
@@ -94,7 +96,7 @@ typedef struct S_800AFFB4_2_pre {
     u8 pad_43[0x1];
     s32 unk_44;
     u8 pad_48[0x4];
-} S_800AFFB4_2_pre;   /* the 0x4C bytes before var_s2 in func_800AFFB4, addressed as var_s2[-1] */
+} S_800AFFB4_2_pre;   /* the near quad of the strip packet: StripPacket.near_quad, at packet_buffer + 4 */
 
 typedef struct S_800AFFB4_2 {
     s8 unk_00;
@@ -109,7 +111,24 @@ typedef struct S_800AFFB4_2 {
     s8 unk_0E;
     u8 pad_0F[0x1];
     s32 unk_10;
-} S_800AFFB4_2;   /* var_s2 in func_800AFFB4 */
+} S_800AFFB4_2;   /* the far quad of the strip packet: StripPacket.far_quad, at packet_buffer + 0x50 */
+
+typedef struct StripPacket {
+    u8 pad_00[0x4];
+    S_800AFFB4_2_pre near_quad;
+    S_800AFFB4_2 far_quad;
+} StripPacket;   /* packet_buffer: the two quads of one strip */
+
+typedef struct StripQuad {
+    u8 pad_00[0xC];
+    s32 uv0;
+    u8 pad_10[0x8];
+    union { s32 word; u8 u; volatile s8 u_vol; } uv1;   /* accessed as both */
+    u8 pad_1C[0x8];
+    union { s16 half; struct { u8 u; volatile u8 v; } b; } uv2;   /* accessed as both */
+    u8 pad_26[0xA];
+    union { s16 half; struct { union { u8 u; volatile s8 u_vol; } u; volatile u8 v; } b; } uv3;   /* accessed as both */
+} StripQuad;   /* one 0x34-byte quad of the strip packet */
 
 typedef struct S_800AFFB4_3 {
     s16 unk_00;
@@ -118,20 +137,8 @@ typedef struct S_800AFFB4_3 {
     u8 unk_05;
     u8 unk_06;
     u8 unk_07;
-} S_800AFFB4_3;   /* var_s3 in func_800AFFB4 */
-
-typedef struct S_800AFFB4_4_pre {
-    union { u8 v; volatile s8 v2; } unk_00;   /* accessed as both */
-    u8 pad_01[0xC];
-    volatile u8 unk_0D;
-    u8 pad_0E[0xA];
-    union { u8 v; volatile s8 v2; } unk_18;   /* accessed as both */
-} S_800AFFB4_4_pre;   /* the 0x19 bytes before var_s0 in func_800AFFB4, addressed as var_s0[-1] */
-
-typedef struct S_800AFFB4_4 {
-    volatile u8 unk_00;
-} S_800AFFB4_4;   /* var_s0 in func_800AFFB4 */
-
+    u8 pad_08[0x4];
+} S_800AFFB4_3;   /* texture entry data, 4 bytes into a TwelveByteEntry */
 
 typedef struct TwelveByteEntry {
     u8 bytes[12];
@@ -169,20 +176,16 @@ s32 func_800AFFB4(S_800AFFB4_0 *origin, void *unused, S_800AFFB4_1 *render_data_
     s32 strip_index;
     s32 visible_right;
     u16 screen_y;
-    s32 depth_flag;
     u16 texture_index;
     u16 shade_offset;
     register u8 *uv_end ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    u8 *texture_info;
+    S_800AFFB4_3 *texture_info;
 
     (void)unused;
     visible_strips = 0;
-    depth_flag = origin->unk_08.s;
-    depth_flag = depth_flag < 0xE00;
     texture_index = texture_arg;
+    shade_offset = origin->unk_08.s >= 0xE00;
     entry_v = origin->unk_08.u;
-    depth_flag ^= 1;
-    shade_offset = depth_flag;
     coord_bits = entry_v - 0x6200;
     vertex_value = entry_v - 0x5400;
     render_data_in->unk_7C = coord_bits;
@@ -190,146 +193,135 @@ s32 func_800AFFB4(S_800AFFB4_0 *origin, void *unused, S_800AFFB4_1 *render_data_
     render_data_in->unk_8C = vertex_value;
     render_data_in->unk_84 = vertex_value;
     for (strip_index = 0; strip_index < 0xE; strip_index++) {
-    render_data_in->unk_74 = render_data_in->unk_74 + 0xE00;
-    render_data_in->unk_7C = render_data_in->unk_7C + 0xE00;
-    render_data_in->unk_84 = render_data_in->unk_84 + 0xE00;
-    render_data_in->unk_8C = render_data_in->unk_8C + 0xE00;
-    if (func_80065610((u8 *)render_data_in + 0x70, (u8 *)render_data_in + 0x78,
-            (u8 *)render_data_in + 0x80, (u8 *)render_data_in + 0x88,
-            (u8 *)render_data_in + 0xF0, (u8 *)render_data_in + 0xF4,
-            (u8 *)render_data_in + 0xF8, (u8 *)render_data_in + 0xFC,
-            (u8 *)render_data_in + 0x90, (u8 *)render_data_in + 0xC0,
-            (u8 *)render_data_in + 0x94) > 0) {
-        visible_near = 0;
-        if ((u32)((render_data_in->unk_F0.at00.v + 0x20) & 0xFFFF) < 0x181U) {
-            screen_y = render_data_in->unk_F0.at02.v + 0x20;
-            visible_near = screen_y < 0x121U;
-        }
-        visible_right = 0;
-        if ((u32)((render_data_in->unk_F4.at00.v + 0x20) & 0xFFFF) < 0x181U) {
-            screen_y = render_data_in->unk_F4.at02.v + 0x20;
-            visible_right = screen_y < 0x121U;
-        }
-        visible_left = 0;
-        x_in_bounds = (u32)((render_data_in->unk_F8.at00.v + 0x20) & 0xFFFF) < 0x181U;
-        visible_near |= visible_right;
-        if (x_in_bounds) {
-            screen_y = render_data_in->unk_F8.at02.v + 0x20;
-            visible_left = screen_y < 0x121U;
-        }
-        visible_right = 0;
-        x_in_bounds = (u32)((render_data_in->unk_FC.at00.v + 0x20) & 0xFFFF) < 0x181U;
-        shade_uv_2 = visible_near | visible_left;
-        visible_left = shade_uv_2;
-        if (x_in_bounds) {
-            screen_y = render_data_in->unk_FC.at02.v + 0x20;
-            visible_right = screen_y < 0x121U;
-        }
-        if ((visible_left | visible_right) != 0) {
-            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_04 = render_data_in->unk_F0.at00u.v;
-            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_1C = render_data_in->unk_F8.at00u.v;
-            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_44 = render_data_in->unk_F4.at00u.v;
-            ((S_800AFFB4_2 *)(packet_buffer + 0x50))->unk_10 = render_data_in->unk_FC.at00u.v;
-            near_mid_x = (render_data_in->unk_F0.at00p.v
-                + render_data_in->unk_F4.at00p.v) >> 1;
-            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_38 = near_mid_x;
-            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_10 = near_mid_x;
-            far_mid_x = (render_data_in->unk_F8.at00p.v
-                + render_data_in->unk_FC.at00p.v) >> 1;
-            ((S_800AFFB4_2 *)(packet_buffer + 0x50))->unk_04 = far_mid_x;
-            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_28 = far_mid_x;
-            near_mid_y = (render_data_in->unk_F0.at02u.v
-                + render_data_in->unk_F4.at02u.v) >> 1;
-            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_3A = near_mid_y;
-            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_12 = near_mid_y;
-            far_mid_y = (render_data_in->unk_F8.at02u.v
-                + render_data_in->unk_FC.at02u.v) >> 1;
-            ((S_800AFFB4_2 *)(packet_buffer + 0x50))->unk_06 = far_mid_y;
-            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_2A = far_mid_y;
-            depth_step = (s16)render_data_in->unk_74 % 3584;
-            render_data_in->unk_90.s32 = depth_step;
-            if (depth_step < 0) {
-                depth_step += 0xFF;
+        render_data_in->unk_74 += 0xE00;
+        render_data_in->unk_7C += 0xE00;
+        render_data_in->unk_84 += 0xE00;
+        render_data_in->unk_8C += 0xE00;
+        if (func_80065610((u8 *)render_data_in + 0x70, (u8 *)render_data_in + 0x78,
+                (u8 *)render_data_in + 0x80, (u8 *)render_data_in + 0x88,
+                (u8 *)render_data_in + 0xF0, (u8 *)render_data_in + 0xF4,
+                (u8 *)render_data_in + 0xF8, (u8 *)render_data_in + 0xFC,
+                (u8 *)render_data_in + 0x90, (u8 *)render_data_in + 0xC0,
+                (u8 *)render_data_in + 0x94) > 0) {
+            visible_near = 0;
+            if ((u32)((render_data_in->unk_F0.at00.v + 0x20) & 0xFFFF) < 0x181U) {
+                screen_y = render_data_in->unk_F0.at02.v + 0x20;
+                visible_near = screen_y < 0x121U;
             }
-            depth_step >>= 8;
-            render_data_in->unk_90.s32 = depth_step;
-            screen_y = shade_offset;
-            if (screen_y != 0) {
-                render_data_in->unk_90.s32 = depth_step + 0x10;
+            visible_right = 0;
+            if ((u32)((render_data_in->unk_F4.at00.v + 0x20) & 0xFFFF) < 0x181U) {
+                screen_y = render_data_in->unk_F4.at02.v + 0x20;
+                visible_right = screen_y < 0x121U;
             }
-            shade_uv = 0x80;
-            vertex_value = render_data_in->unk_90.u16;
-            coord_bits = strip_index << 4;
-            vertex_value += coord_bits;
-            coord_bits = 0xE0;
-            shade_u = coord_bits - vertex_value;
-            coord_bits = shade_u << 0x10;
-            near_shade = coord_bits >> 0x10;
-            vertex_value = shade_u;
-            if (near_shade < 0x81) {
-                shade_uv = shade_u;
-                if (near_shade < 0) {
-                    shade_uv = 0;
+            visible_left = 0;
+            x_in_bounds = (u32)((render_data_in->unk_F8.at00.v + 0x20) & 0xFFFF) < 0x181U;
+            visible_near |= visible_right;
+            if (x_in_bounds) {
+                screen_y = render_data_in->unk_F8.at02.v + 0x20;
+                visible_left = screen_y < 0x121U;
+            }
+            visible_right = 0;
+            x_in_bounds = (u32)((render_data_in->unk_FC.at00.v + 0x20) & 0xFFFF) < 0x181U;
+            shade_uv_2 = visible_near | visible_left;
+            visible_left = shade_uv_2;
+            if (x_in_bounds) {
+                screen_y = render_data_in->unk_FC.at02.v + 0x20;
+                visible_right = screen_y < 0x121U;
+            }
+            if ((visible_left | visible_right) != 0) {
+                ((StripPacket *)packet_buffer)->near_quad.unk_04 = render_data_in->unk_F0.at00u.v;
+                ((StripPacket *)packet_buffer)->near_quad.unk_1C = render_data_in->unk_F8.at00u.v;
+                ((StripPacket *)packet_buffer)->near_quad.unk_44 = render_data_in->unk_F4.at00u.v;
+                ((StripPacket *)packet_buffer)->far_quad.unk_10 = render_data_in->unk_FC.at00u.v;
+                near_mid_x = (render_data_in->unk_F0.at00p.v
+                    + render_data_in->unk_F4.at00p.v) >> 1;
+                ((StripPacket *)packet_buffer)->near_quad.unk_38 = near_mid_x;
+                ((StripPacket *)packet_buffer)->near_quad.unk_10 = near_mid_x;
+                far_mid_x = (render_data_in->unk_F8.at00p.v
+                    + render_data_in->unk_FC.at00p.v) >> 1;
+                ((StripPacket *)packet_buffer)->far_quad.unk_04 = far_mid_x;
+                ((StripPacket *)packet_buffer)->near_quad.unk_28 = far_mid_x;
+                near_mid_y = (render_data_in->unk_F0.at02u.v
+                    + render_data_in->unk_F4.at02u.v) >> 1;
+                ((StripPacket *)packet_buffer)->near_quad.unk_3A = near_mid_y;
+                ((StripPacket *)packet_buffer)->near_quad.unk_12 = near_mid_y;
+                far_mid_y = (render_data_in->unk_F8.at02u.v
+                    + render_data_in->unk_FC.at02u.v) >> 1;
+                ((StripPacket *)packet_buffer)->far_quad.unk_06 = far_mid_y;
+                ((StripPacket *)packet_buffer)->near_quad.unk_2A = far_mid_y;
+                depth_step = (s16)render_data_in->unk_74 % 3584;
+                render_data_in->unk_90.s32 = depth_step;
+                if (depth_step < 0) {
+                    depth_step += 0xFF;
                 }
-            }
-            coord_bits = vertex_value - 0x10;
-            vertex_value = coord_bits;
-            coord_bits <<= 0x10;
-            (*(s8 *)((u8 *)(packet_buffer + 0x50) + -0x4A)) = shade_uv;
-            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_0E = shade_uv;
-            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_42 = shade_uv;
-            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_36 = shade_uv;
-            (*(s8 *)((u8 *)(packet_buffer + 0x50) + -0x4B)) = shade_uv;
-            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_0D = shade_uv;
-            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_41 = shade_uv;
-            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_35 = shade_uv;
-            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_00 = shade_uv;
-            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_0C = shade_uv;
-            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_40 = shade_uv;
-            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_34 = shade_uv;
-            shade_uv = coord_bits >> 0x10;
-            if (shade_uv >= 0x81) {
-                vertex_value = 0x80;
-            } else {
+                depth_step >>= 8;
+                render_data_in->unk_90.s32 = depth_step;
+                screen_y = shade_offset;
+                if (screen_y != 0) {
+                    render_data_in->unk_90.s32 = depth_step + 0x10;
+                }
+                shade_uv = 0x80;
+                vertex_value = render_data_in->unk_90.u16;
+                coord_bits = strip_index << 4;
+                vertex_value += coord_bits;
+                coord_bits = 0xE0;
+                shade_u = coord_bits - vertex_value;
+                near_shade = (s16)shade_u;
+                vertex_value = shade_u;
+                if (near_shade < 0x81) {
+                    shade_uv = shade_u;
+                    if (near_shade < 0) {
+                        shade_uv = 0;
+                    }
+                }
+                coord_bits = vertex_value - 0x10;
+                vertex_value = coord_bits;
+                coord_bits <<= 0x10;
+                ((StripPacket *)packet_buffer)->near_quad.unk_02 = shade_uv;
+                ((StripPacket *)packet_buffer)->near_quad.unk_0E = shade_uv;
+                ((StripPacket *)packet_buffer)->near_quad.unk_42 = shade_uv;
+                ((StripPacket *)packet_buffer)->near_quad.unk_36 = shade_uv;
+                ((StripPacket *)packet_buffer)->near_quad.unk_01 = shade_uv;
+                ((StripPacket *)packet_buffer)->near_quad.unk_0D = shade_uv;
+                ((StripPacket *)packet_buffer)->near_quad.unk_41 = shade_uv;
+                ((StripPacket *)packet_buffer)->near_quad.unk_35 = shade_uv;
+                ((StripPacket *)packet_buffer)->near_quad.unk_00 = shade_uv;
+                ((StripPacket *)packet_buffer)->near_quad.unk_0C = shade_uv;
+                ((StripPacket *)packet_buffer)->near_quad.unk_40 = shade_uv;
+                ((StripPacket *)packet_buffer)->near_quad.unk_34 = shade_uv;
+                shade_uv = coord_bits >> 0x10;
+                if (shade_uv >= 0x81) {
+                    vertex_value = 0x80;
+                } else {
+                    if (shade_uv < 0) {
+                        vertex_value = 0;
+                    }
+                }
                 quad_index = 0;
-                if (shade_uv < 0) {
-                    vertex_value = 0;
-                }
-            }
-            quad_index = 0;
-            uv_end = packet_buffer + 0x31;
-            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_1A = vertex_value;
-            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_26 = vertex_value;
-            ((S_800AFFB4_2 *)(packet_buffer + 0x50))->unk_0E = vertex_value;
-            ((S_800AFFB4_2 *)(packet_buffer + 0x50))->unk_02 = vertex_value;
-            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_19 = vertex_value;
-            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_25 = vertex_value;
-            ((S_800AFFB4_2 *)(packet_buffer + 0x50))->unk_0D = vertex_value;
-            ((S_800AFFB4_2 *)(packet_buffer + 0x50))->unk_01 = vertex_value;
-            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_18 = vertex_value;
-            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_24 = vertex_value;
-            ((S_800AFFB4_2 *)(packet_buffer + 0x50))->unk_0C = vertex_value;
-            ((S_800AFFB4_2 *)(packet_buffer + 0x50))->unk_00 = vertex_value;
-            vertex_value = strip_index & 1;
-            vertex_value <<= 1;
-            coord_bits = (s32)(texture_index << 0x10) >> 0xE;
-            vertex_value += coord_bits;
-            coord_bits = vertex_value << 1;
-            coord_bits += vertex_value;
-            vertex_value = render_data_in->unk_118;
-            coord_bits <<= 2;
-            texture_entry = (TwelveByteEntry *)((u8 *)vertex_value + coord_bits);
-            texture_info = (u8 *)texture_entry + 4;
+                uv_end = packet_buffer + 0x31;
+                ((StripPacket *)packet_buffer)->near_quad.unk_1A = vertex_value;
+                ((StripPacket *)packet_buffer)->near_quad.unk_26 = vertex_value;
+                ((StripPacket *)packet_buffer)->far_quad.unk_0E = vertex_value;
+                ((StripPacket *)packet_buffer)->far_quad.unk_02 = vertex_value;
+                ((StripPacket *)packet_buffer)->near_quad.unk_19 = vertex_value;
+                ((StripPacket *)packet_buffer)->near_quad.unk_25 = vertex_value;
+                ((StripPacket *)packet_buffer)->far_quad.unk_0D = vertex_value;
+                ((StripPacket *)packet_buffer)->far_quad.unk_01 = vertex_value;
+                ((StripPacket *)packet_buffer)->near_quad.unk_18 = vertex_value;
+                ((StripPacket *)packet_buffer)->near_quad.unk_24 = vertex_value;
+                ((StripPacket *)packet_buffer)->far_quad.unk_0C = vertex_value;
+                ((StripPacket *)packet_buffer)->far_quad.unk_00 = vertex_value;
+                texture_entry = (TwelveByteEntry *)render_data_in->unk_118 + (((strip_index & 1) << 1) + ((s16)texture_index << 2));
+                texture_info = (S_800AFFB4_3 *)((u8 *)texture_entry + 4);
 loop_0:
-            {
                 func_8006671C(packet_buffer);
-                render_data_in->unk_08.s32 = ((S_800AFFB4_3 *)texture_info)->unk_04;
+                render_data_in->unk_08.s32 = texture_info->unk_04;
                 shade_u = render_data_in->unk_08.s32;
-                render_data_in->unk_0C = ((S_800AFFB4_3 *)texture_info)->unk_05;
+                render_data_in->unk_0C = texture_info->unk_05;
                 shade_uv = render_data_in->unk_0C;
-                render_data_in->unk_10.s32 = ((S_800AFFB4_3 *)texture_info)->unk_06;
+                render_data_in->unk_10.s32 = texture_info->unk_06;
                 vertex_value = shade_uv;
-                raw_height = ((S_800AFFB4_3 *)texture_info)->unk_07;
+                raw_height = texture_info->unk_07;
                 shade_uv <<= 8;
                 render_data_in->unk_0C = shade_uv;
                 render_data_in->unk_14.s32 = raw_height;
@@ -342,53 +334,51 @@ loop_0:
                 vertex_value = shade_u;
                 shade_u = (s32)packet_buffer;
                 render_data_in->unk_10.s32 = texture_right;
-                coord_bits = ((S_800AFFB4_3 *)texture_info)->unk_02;
+                coord_bits = texture_info->unk_02;
                 shade_uv += vertex_value;
                 coord_bits <<= 0x10;
                 shade_uv |= coord_bits;
-                (*(s32 *)((u8 *)uv_end + -0x25)) = shade_uv;
+                ((StripQuad *)(uv_end - 0x31))->uv0 = shade_uv;
                 coord_bits = render_data_in->unk_0C;
                 shade_uv = render_data_in->unk_10.s32;
-                vertex_value = ((S_800AFFB4_3 *)texture_info)->unk_00;
+                vertex_value = texture_info->unk_00;
                 coord_bits += shade_uv;
                 vertex_value <<= 0x10;
                 coord_bits |= vertex_value;
-                (*(s32 *)((u8 *)uv_end + -0x19)) = coord_bits;
-                coord_bits = *(u16 *)((u8 *)render_data_in + 0x14);
+                ((StripQuad *)(uv_end - 0x31))->uv1.word = coord_bits;
+                coord_bits = render_data_in->unk_14.u16;
                 vertex_value = render_data_in->unk_08.u16;
                 coord_bits += vertex_value;
-                (*(s16 *)((u8 *)uv_end + -0xD)) = coord_bits;
+                ((StripQuad *)(uv_end - 0x31))->uv2.half = coord_bits;
                 vertex_value = render_data_in->unk_14.u16;
-                coord_bits = ((S_800AFFB4_4_pre *)uv_end)[-1].unk_00.v;
-                shade_uv = (*(u16 *)((u8 *)render_data_in + 0x10));
+                coord_bits = ((StripQuad *)(uv_end - 0x31))->uv1.u;
+                shade_uv = render_data_in->unk_10.u16;
                 coord_bits -= 1;
                 vertex_value += shade_uv;
-                ((S_800AFFB4_4_pre *)uv_end)[-1].unk_00.v2 = coord_bits;
-                (*(s16 *)((u8 *)uv_end + -1)) = vertex_value;
-                edge_u = ((S_800AFFB4_4_pre *)uv_end)[-1].unk_18.v;
-                edge_v = ((S_800AFFB4_4_pre *)uv_end)[-1].unk_0D;
+                ((StripQuad *)(uv_end - 0x31))->uv1.u_vol = coord_bits;
+                ((StripQuad *)(uv_end - 0x31))->uv3.half = vertex_value;
+                edge_u = ((StripQuad *)(uv_end - 0x31))->uv3.b.u.u;
+                edge_v = ((StripQuad *)(uv_end - 0x31))->uv2.b.v;
                 edge_u -= 1;
                 edge_v -= 1;
-                ((S_800AFFB4_4_pre *)uv_end)[-1].unk_18.v2 = edge_u;
-                ((S_800AFFB4_4_pre *)uv_end)[-1].unk_0D = edge_v;
-                coord_bits = ((S_800AFFB4_4 *)uv_end)->unk_00;
+                ((StripQuad *)(uv_end - 0x31))->uv3.b.u.u_vol = edge_u;
+                ((StripQuad *)(uv_end - 0x31))->uv2.b.v = edge_v;
+                coord_bits = ((StripQuad *)(uv_end - 0x31))->uv3.b.v;
                 coord_bits -= 1;
-                ((S_800AFFB4_4 *)uv_end)->unk_00 = coord_bits;
-                vertex_value = render_data_in->unk_118;
-                shade_uv = (u32)(texture_entry - (TwelveByteEntry *)vertex_value) / 12;
-                texture_info += 0xC;
+                ((StripQuad *)(uv_end - 0x31))->uv3.b.v = coord_bits;
+                shade_uv = (u32)(texture_entry - (TwelveByteEntry *)render_data_in->unk_118) / 12;
+                texture_info += 1;
                 uv_end += 0x34;
                 texture_entry += 1;
                 func_8006658C(render_data_in->unk_20 + ((u32)shade_uv * 4),
                     (void *)shade_u, texture_height);
                 packet_buffer += 0x34;
                 quad_index += 1;
+                if (quad_index < 2)
+                    goto loop_0;
+                visible_strips += 1;
             }
-            if (quad_index < 2)
-                goto loop_0;
-            visible_strips += 1;
         }
-    }
     }
     coord_bits = 0;
     if (visible_strips != 0) {
