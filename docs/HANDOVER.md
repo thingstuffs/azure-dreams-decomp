@@ -1,3 +1,18 @@
+# Handover (2026-10-08 ~05:20Z, round 102: CARVE-DEBT WAVE 3 + OPUS PIN LANE RUNNING) - start here
+
+**Owner 10-08:** build + launch the proposed next lanes, plus one Opus agent on a specific pin target. Builder:
+work/native_lane/_r102/build.py (common.md now requires a covering PRODUCTION window for every new row, rows-without-
+window == 0 and an unchanged noreturn census in scratch). Pools (launch_r102{x,a,o}.sh, all --no-land, caps 150 min):
+r102x sol61 xhigh 700k - r102_sol61_noret (noreturn census per BANK: tool + tests + gate --all regression + re-prove the
+6 held prefixes: rc7 80FB7000/80FC3000/80FC9000/80FD5000, rc3 8127B000/8128D000), r102_sol61_gapA (81917C08),
+r102_sol61_gapB (81994D8C); r102a astra xhigh 1M - r102_astra_hold (ovl_1870800 -> 197281c -> 7e6a5800 to certification-
+ready); r102o sol61 high 700k - r102_sol61_own1/own2 (the 14 "other ownership" prefixes, 7 each).
+**Opus (Agent tool, native):** r102_opus_a20 - dungeon/func_80A20A28 (5 pins, most-pinned row outside the hard basket;
+Opus last saw it r93), starting from r98_sol61_p2's height_origin_s16 (listing distance 2 at 4 sites). Built with
+build_class_pack.py --rows --duck + kit_pack.py --question _r102/ask_opus_a20.md.
+Landing: tool patch (noret) first with gate --all, then its packages; each other package via apply.sh --dry-run, apply,
+gate_all --all + forced SLUS, re-certify modules whenever ledger/splits changes.
+
 # Handover (2026-10-08 ~04:50Z, round 101: CARVE-DEBT WAVE 2 LANDED) - start here
 
 **Landed (all gated: gate_all --all MATCH + forced SLUS MATCH, module certificates re-issued, 20 rows at L5):**
