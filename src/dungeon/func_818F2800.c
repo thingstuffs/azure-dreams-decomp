@@ -2,7 +2,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-   /* gv in BODY */
+   /* gv in func_8002404C */
 
 typedef struct S_BODY_1 {
     u8 pad_00[0x8];
@@ -16,7 +16,7 @@ typedef struct S_BODY_1 {
     u16 unk_1A;
     u16 unk_1C;
     u16 unk_1E;
-} S_BODY_1;   /* state in BODY */
+} S_BODY_1;   /* state in func_8002404C */
 
 typedef struct S_BODY_2 {
     u8 unk_00;
@@ -32,19 +32,19 @@ typedef struct S_BODY_2 {
         struct { u8 pad[0x2]; u8 v; } at02;
         struct { u8 pad[0x3]; u8 v; } at03;
     } unk_08;   /* overlapping accesses */
-} S_BODY_2;   /* sp in BODY */
+} S_BODY_2;   /* sp in func_8002404C */
 
 typedef struct S_BODY_3 {
     u8 pad_00[0x38];
     s16 unk_38;
     s16 unk_3A;
     s16 unk_3C;
-} S_BODY_3;   /* root in BODY */
+} S_BODY_3;   /* root in func_8002404C */
 
 typedef struct S_BODY_4 {
     u8 pad_00[0x2];
     u8 unk_02;
-} S_BODY_4;   /* sq in BODY */
+} S_BODY_4;   /* sq in func_8002404C */
 
 typedef struct S_BODY_5 {
     u8 pad_00[0x20];
@@ -55,7 +55,7 @@ typedef struct S_BODY_5 {
     s16 unk_30;
     u8 pad_32[0x6];
     s16 unk_38;
-} S_BODY_5;   /* rp in BODY */
+} S_BODY_5;   /* rp in func_8002404C */
 
 typedef struct S_BODY_6 {
     u8 pad_00[0x20];
@@ -66,7 +66,7 @@ typedef struct S_BODY_6 {
     u16 unk_30;
     u8 pad_32[0x6];
     u16 unk_38;
-} S_BODY_6;   /* q in BODY */
+} S_BODY_6;   /* q in func_8002404C */
 
 typedef struct S_BODY_7 {
     u8 pad_m4[0x3];
@@ -91,9 +91,9 @@ typedef struct S_BODY_7 {
         struct { u8 v; } at00u;
         struct { u8 pad[0x1]; u8 v; } at01;
     } unk_20;   /* overlapping accesses */
-} S_BODY_7;   /* ent in BODY */
+} S_BODY_7;   /* ent in func_8002404C */
 
-   /* gp[0] in BODY */
+   /* gp[0] in func_8002404C */
 
 
 typedef struct { u8 v; } DmU8;
@@ -121,47 +121,9 @@ extern void func_80065820();
 
 
 
-#ifdef __mips__
-extern void func_80024FA4(void);
-extern void func_80025090(void);
-extern void func_80025150(void);
-extern void func_80025418(void);
-extern void func_80025798(void);
-extern void func_800257CC(void);
-extern void func_80025874(void);
-extern void func_800258B0(void);
-extern void func_80025948(void);
-extern void func_800258E4(void);
-
-/* The carved retail range starts with ten words of local table data followed
- * by nine callback addresses, immediately ahead of the executable body. */
-static const u32 func_818F2800_prefix[]
-__asm__("func_818F2800")
-__attribute__((section(".text.func_818F2800"), aligned(4))) = {
-    (u32)func_80024FA4,
-    0x00000020, 0x00200020, 0x00200000, 0x0020FFE0,
-    0x0000FFE0, 0xFFE0FFE0, 0xFFE00000, 0xFFE00020, 0x00000000,
-};
-
-static void (*const func_818F2800_table[])(void)
-__attribute__((section(".text.func_818F2800"), aligned(4))) = {
-    func_80025090, func_80025150, func_80025418,
-    func_80025798, func_800257CC, func_80025874,
-    func_800258B0, func_80025948, func_800258E4,
-};
-#endif
-
-#ifdef __mips__
-#define BODY func_818F284C
-#define BODY_SECTION __attribute__((section(".text.func_818F2800")))
-#else
-#define BODY func_818F2800
-#define BODY_SECTION
-#endif
-
-void BODY(S_BODY_3 *geometry, void *position, S_BODY_1 *state, u16 depth_offset) BODY_SECTION;
+void func_8002404C(S_BODY_3 *geometry, void *position, S_BODY_1 *state, u16 depth_offset) ;
 /* Builds textured quad strips and adds visible quads to the ordering table. */
-void BODY(S_BODY_3 *geometry, void *position, S_BODY_1 *state, u16 depth_offset)
+void func_8002404C(S_BODY_3 *geometry, void *position, S_BODY_1 *state, u16 depth_offset)
 {
     u8 *scratch;
     u8 *part;
@@ -558,6 +520,3 @@ void BODY(S_BODY_3 *geometry, void *position, S_BODY_1 *state, u16 depth_offset)
     func_80064A40();
     ((GpuContext *)(globals[0]))->packetCursor = packet;
 }
-#ifdef __mips__
-__asm__(".size func_818F2800, 2200");
-#endif

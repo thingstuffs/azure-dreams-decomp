@@ -61,25 +61,10 @@ extern u8 D_80163298[];
 
 
 extern void *func_8015E8A4(s16, s16, s16, s16);
-static const u32 bank_words[] __asm__("func_8015E800")
-__attribute__((section(".text.func_8015E800"), aligned(4))) = {
-    (u32)func_8015E8A4, (u32)D_8015EB40, 0x8015F12C, 0x8015F198,
-    0x8015F26C, 0x8015F3FC, 0x8015F444, 0x00000000,
-    0x8015F794, 0x8015F794, 0x8015F794, 0x8015F7C0,
-    0x8015F740, 0x8015F740, 0x8015F740, 0x8015F6D8,
-    0x8015F6D8, 0x8015F7C0, 0x8015F7C0, 0x8015F784,
-    0x80160F08, 0x80160F00, 0x80160EF8, 0x80160F10,
-    0x80160EB8, 0x80160EB0, 0x80160EA8, 0x01000340,
-    0x00800040, 0x8C824081, 0x84828582, 0x81824081,
-    0x8D824081, 0x92828582, 0x99829282, 0x84824081,
-    0x8E828182, 0x85828382, 0x00004481, 0x01000340,
-    0x00400040,
-};
-__asm__(".globl func_8015E800\n"
-        ".size func_8015E800, 832");
+
 
 void *func_8015E8A4(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
-__attribute__((section(".text.func_8015E800")));
+;
 
 typedef void (*Callback)(void);
 typedef struct { s16 x, y, w, h; } Rect;

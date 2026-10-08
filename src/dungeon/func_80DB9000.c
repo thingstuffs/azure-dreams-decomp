@@ -196,27 +196,8 @@ typedef struct {
 #define setaddr(p, _addr) (((P_TAG *)(p))->addr = (u32)(_addr))
 #define getaddr(p) (u32)(((P_TAG *)(p))->addr)
 
-#ifdef __mips__
-static const u32 split_prefix[] __asm__("func_80170800")
-__attribute__((section(".text.func_80170800"), aligned(4))) = {
-    0x80171850, 0x80171A18,
-    0x80172204, 0x80172204, 0x80172204, 0x80172230,
-    0x801721B0, 0x801721B0, 0x801721B0, 0x8017215C,
-    0x80172194, 0x80172230, 0x80172230, 0x801721F4,
-    0x801738F8, 0x801738F0, 0x801738E8, 0x80173900,
-    0x801738A8, 0x801738A0, 0x80173898,
-    0x00000001, 0x00020002, 0x00010000, 0x0002FFFE,
-    0x0000FFFF, 0xFFFEFFFE, 0xFFFF0000, 0xFFFE0002,
-};
-__asm__(".globl func_80170800\n"
-        ".size func_80170800, 2008");
-#define BODY_NAME func_80170874
-#else
-#define BODY_NAME func_80170800
-#endif
-
 /* Project sprite entries into textured quads and append visible quads to the ordering table. */
-void BODY_NAME(S_80DB9000_1 *sprite_size, S_80DB9000_2 *position, S_80DB9000_3 *sprite, s16 depth_bias) {
+void func_80170874(S_80DB9000_1 *sprite_size, S_80DB9000_2 *position, S_80DB9000_3 *sprite, s16 depth_bias) {
     s32 screen_y3;
     register s32 view_rot_z;
     register s32 view_rot_x;

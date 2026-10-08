@@ -33,6 +33,7 @@ import json
 import os
 import re
 import sys
+import tempfile
 from collections import Counter
 from concurrent.futures import ProcessPoolExecutor
 from difflib import SequenceMatcher
@@ -133,7 +134,11 @@ def compile_words(overlay: str, row: dict[str, Any], c_file: str,
     # The honest phantom signal is the `unresolved` set (parity with the
     # canonical harness), NOT a stderr string-match -- see the docstring.
     cap = io.StringIO()
-    with contextlib.redirect_stderr(cap):
+    with tempfile.TemporaryDirectory(prefix="residue_ev_") as ev_scratch, \
+            contextlib.redirect_stderr(cap):
+        os.environ.update(EV.evidence_env_with_candidate(
+            overlay, cpath.read_text(errors="replace"), ev_scratch,
+            foff=int(row["foff"])))
         _injected, unresolved = OFC.inject_name_encoded_symbols(
             cpath, gcc_ver, gcc_flags, func)
         got, err = M.build_text(

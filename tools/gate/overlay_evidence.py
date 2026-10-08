@@ -22,6 +22,13 @@ A per-family file that does not exist yet loads as an EMPTY set inside maspsx
 (the passes stay inert), which is the safe direction — so wiring a family
 before its evidence exists is a no-op, never a regression.
 
+BANKED NORETURN (r102). town/dungeon use no family-wide noreturn file
+at compile time: the per-row merge selects the rowbase load region
+from frozen raw/ and unions only the compiling TU's own declarations.
+A window can cross regions, so its base is inert. Family audit files
+and sibcall selection stay unchanged. Without a file offset only the
+candidate itself contributes evidence; no other bank can contribute.
+
 Used by tools/overlay_local_gate.py (keyed by the overlay YAML ``name``) and
 work/g3/overlay_func_compare.py (keyed by ``--overlay``). The main SLUS ninja
 build and tools/match.py never set the variables and keep the defaults.
@@ -108,7 +115,10 @@ def evidence_env(name: str) -> dict[str, str]:
     if fam == "main":
         return {}
     return {
-        "MASPSX_NORETURN_FILE": str(ROOT / f"config/noreturn_syms.{fam}.txt"),
+        # Banked compiles get their frozen region evidence in the per-TU merge.
+        # A window may cross regions; never hoist its census onto every TU.
+        "MASPSX_NORETURN_FILE": ("/dev/null" if fam in {"town", "dungeon"}
+                                  else str(ROOT / f"config/noreturn_syms.{fam}.txt")),
         "MASPSX_SIBCALL_FILE": str(ROOT / f"config/sibcall_syms.{fam}.txt"),
     }
 
@@ -129,6 +139,7 @@ def proven_false_members(name: str) -> set[str]:
 def evidence_env_with_candidate(name: str, c_text: str,
                                 scratch_dir: str | Path,
                                 exclude: Iterable[str] | None = None,
+                                *, foff: int | None = None,
                                 ) -> dict[str, str]:
     """``evidence_env(name)`` with the candidate's OWN source-declared zero-arg
     noreturn callees (LEAD-18 self-serve) unioned into the noreturn evidence.
@@ -156,6 +167,9 @@ def evidence_env_with_candidate(name: str, c_text: str,
     consistent with the eventual byte-exact build."""
     env = dict(evidence_env(name))
     candidate = candidate_noreturn_syms(c_text)
+    fam = family_for(name)
+    if fam in {"town", "dungeon"} and foff is not None:
+        candidate |= _gen_noreturn().scoped_census(fam, foff)["names"]
     if exclude:
         candidate -= set(exclude)
     if not candidate:
@@ -167,8 +181,8 @@ def evidence_env_with_candidate(name: str, c_text: str,
     merged = base | candidate
     out = Path(scratch_dir) / "noreturn_syms.selfserve.txt"
     out.write_text(
-        "# AUTO-MERGED (overlay_func_compare LEAD-18 self-serve): per-family "
-        "census + this candidate's own zero-arg noreturn decls\n"
+        "# AUTO-MERGED: selected frozen bank evidence + this TU's "
+        "own zero-arg noreturn declarations\n"
         + "".join(f"{s}\n" for s in sorted(merged)))
     env["MASPSX_NORETURN_FILE"] = str(out)
     return env

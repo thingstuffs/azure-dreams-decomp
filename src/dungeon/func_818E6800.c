@@ -33,24 +33,11 @@ extern u8 D_800E3D68[];
 #define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
-#ifdef __mips__
-static const u32 split_prefix[] __asm__("func_818E6800")
-__attribute__((section(".text.func_818E6800"), aligned(4))) = {
-    0x8002401C, 0x10001000, 0x14000E10, 0x18000D48,
-    0x0FA01000, 0x0DAC1800, 0x0BB82000,
-};
-__asm__(".globl func_818E6800\n"
-        ".size func_818E6800, 1944");
-#define BODY_NAME func_818E681C
-#else
-#define BODY_NAME func_818E6800
-#endif
-
-void BODY_NAME(u8 *effect, u8 *motion, void *context_arg)
-__attribute__((section(".text.func_818E6800")));
+void func_8002401C(u8 *effect, u8 *motion, void *context_arg)
+;
 
 /* Advance the effect through target selection, movement, impact, and cleanup. */
-void BODY_NAME(u8 *effect, u8 *motion, void *context_arg) {
+void func_8002401C(u8 *effect, u8 *motion, void *context_arg) {
     u8 *actor;
     u8 *actor_data;
     u8 *actor_header;

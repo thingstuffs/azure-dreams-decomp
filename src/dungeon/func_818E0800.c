@@ -7,12 +7,12 @@
 
 typedef struct S_818E0800_0_pre {
     u16 unk_00;
-} S_818E0800_0_pre;   /* the 0x2 bytes before arg0 in BODY_NAME, addressed as arg0[-1] */
+} S_818E0800_0_pre;   /* the 0x2 bytes before arg0 in func_8002401C, addressed as arg0[-1] */
 
 typedef struct S_818E0800_1_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_818E0800_1_pre;   /* the 0x14 bytes before object in BODY_NAME, addressed as object[-1] */
+} S_818E0800_1_pre;   /* the 0x14 bytes before object in func_8002401C, addressed as object[-1] */
 
 typedef struct S_818E0800_1 {
     u8 pad_00[0x2A];
@@ -22,7 +22,7 @@ typedef struct S_818E0800_1 {
     u8 pad_64[0xE];
     union { u8 s; s8 u; } unk_72;   /* accessed as both */
     union { u8 s; s8 u; } unk_73;   /* accessed as both */
-} S_818E0800_1;   /* object in BODY_NAME */
+} S_818E0800_1;   /* object in func_8002401C */
 
 typedef struct S_818E0800_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -31,12 +31,12 @@ typedef struct S_818E0800_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_0C;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_10;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_14;   /* overlapping accesses */
-} S_818E0800_2;   /* arg1 in BODY_NAME */
+} S_818E0800_2;   /* arg1 in func_8002401C */
 
 typedef struct S_818E0800_3 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_818E0800_3;   /* base in BODY_NAME */
+} S_818E0800_3;   /* base in func_8002401C */
 
 typedef struct S_818E0800_4 {
     u8 pad_00[0x8];
@@ -45,7 +45,7 @@ typedef struct S_818E0800_4 {
     void * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_818E0800_4;   /* alternate in BODY_NAME */
+} S_818E0800_4;   /* alternate in func_8002401C */
 
 typedef struct S_818E0800_5 {
     u8 pad_00[0xC];
@@ -60,7 +60,7 @@ typedef struct S_818E0800_5 {
     u16 unk_48;
     u8 pad_4A[0x2];
     u16 unk_4C;
-} S_818E0800_5;   /* work in BODY_NAME */
+} S_818E0800_5;   /* work in func_8002401C */
 
 typedef struct S_818E0800_6 {
     void * unk_00;
@@ -78,54 +78,54 @@ typedef struct S_818E0800_6 {
     u8 pad_20[0x4];
     u8 unk_24;
     u8 unk_25;
-} S_818E0800_6;   /* state in BODY_NAME */
+} S_818E0800_6;   /* state in func_8002401C */
 
 typedef struct S_818E0800_7 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_818E0800_7;   /* page in BODY_NAME */
+} S_818E0800_7;   /* page in func_8002401C */
 
 typedef struct S_818E0800_8 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_818E0800_8;   /* header in BODY_NAME */
+} S_818E0800_8;   /* header in func_8002401C */
 
 typedef struct S_818E0800_9_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_818E0800_9_pre;   /* the 0x14 bytes before result in BODY_NAME, addressed as result[-1] */
+} S_818E0800_9_pre;   /* the 0x14 bytes before result in func_8002401C, addressed as result[-1] */
 
 typedef struct S_818E0800_10 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_818E0800_10;   /* arg2 in BODY_NAME */
+} S_818E0800_10;   /* arg2 in func_8002401C */
 
 typedef struct S_818E0800_11 {
     u8 unk_00;
-} S_818E0800_11;   /* D_800E3D68 in BODY_NAME */
+} S_818E0800_11;   /* D_800E3D68 in func_8002401C */
 
 typedef struct S_818E0800_12 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_818E0800_12;   /* ((S_818E0800_3 *)base)->unk_08 in BODY_NAME */
+} S_818E0800_12;   /* ((S_818E0800_3 *)base)->unk_08 in func_8002401C */
 
 typedef struct S_818E0800_13 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_818E0800_13;   /* ((S_818E0800_4 *)alternate)->unk_08 in BODY_NAME */
+} S_818E0800_13;   /* ((S_818E0800_4 *)alternate)->unk_08 in func_8002401C */
 
 typedef struct S_818E0800_14 {
     u16 unk_00;
-} S_818E0800_14;   /* ((S_818E0800_0 *)arg0)->unk_04 in BODY_NAME */
+} S_818E0800_14;   /* ((S_818E0800_0 *)arg0)->unk_04 in func_8002401C */
 
 typedef struct S_818E0800_15 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_818E0800_15;   /* ((S_818E0800_1 *)object)->unk_60 in BODY_NAME */
+} S_818E0800_15;   /* ((S_818E0800_1 *)object)->unk_60 in func_8002401C */
 
 
 extern void *func_8003FD64(s32, void *);
@@ -144,22 +144,8 @@ extern u8 D_800DEC28[];
 extern u8 D_800E3D68[];
 extern void func_80024594(void);
 
-#ifdef __mips__
-void func_818E0800(void);
-static const u32 split_prefix[] __asm__("func_818E0800")
-__attribute__((section(".text.func_818E0800"), aligned(4))) = {
-    0x8002401C, 0x10001000, 0x14000E10, 0x18000D48,
-    0x0FA01000, 0x0DAC1800, 0x0BB82000,
-};
-__asm__(".globl func_818E0800\n"
-        ".size func_818E0800, 1428");
-#define BODY_NAME func_818E081C
-#else
-#define BODY_NAME func_818E0800
-#endif
-
 /* Updates target-directed movement, spawns particles, and advances the effect state. */
-void BODY_NAME(EntityRec *effect_arg, void *motion_arg, S_818E0800_10 *actor_state)
+void func_8002401C(EntityRec *effect_arg, void *motion_arg, S_818E0800_10 *actor_state)
 {
     void *actor;
     void *actor_base;
