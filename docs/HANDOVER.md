@@ -1,3 +1,23 @@
+# Handover (2026-10-08 ~22:40Z, round 105: PACKAGE ROUND RUNNING) - start here
+
+**Landed first (28a9bb352, bookkeeping):** baseline for the 149 function rows added since r101 (level -1 -> L2; incl.
+the recovered 81850FDC / 81952E54 / 819600D8); 477 data rows (D_*) stay unbaselined - verify.py --baseline has no
+data-row path (per-row scorer NO-BEST, gate fallback ERROR) -> tool gap, do not commit failing records (they would be
+skipped as "done"). Decisions 32-34 in docs/evidence/r97_decisions.md: prefixes crossing a bank are split per load
+image (one receipt + record per image); orphan code fragment = stale-image residue DATA row (SECOND LOOK); DUNGEON bank
+grid (own3's loader receipt: file = 0x1834800 + (s-1)*0x6000, 12 sectors to 0x80024000) puts all three held modules +
+both GAP bases on it, so the r103 adjacent-regions gate patch is NOT landed unless a module genuinely needs two loads.
+**Running (builder work/native_lane/_r105/: build.py, common.md, brief_*.md, ask_*.md):** codex pools r105x (sol61
+xhigh 700k/150 min: r105_sol61_gapB - one-defect arithmetic: missing actor+0x98 reads = most of the table shift;
+r105_sol61_bank - DUNGEON receipt table + tool, then 1870800 single-region record, 197281c asset receipt, 7e6a5800 TU
+boundary, GAP base receipts) and r105o (sol61 high: r105_sol61_own4 - the 4 town prefixes under decisions 32/33).
+Agent tool: r105_opus_gapA (GAP A escalated from sol after 3 flat rounds: 59 subs = one allocation decision; kit run
+from a scratch-tree copy so the diagnostic row is registered), r105_opus_aa854 (800AA854 2 pins: coupled uv_end / rd
+volatiles question + sb/lbu alias residue, MEM_IN_STRUCT_P fixture), r105_sonnet_l2 (Layer-2 on the 3 recovered rows
+-> L3 for their modules; land with promote.py: copy out/ bodies to refine/dungeon/ then `promote.py --only ids`).
+**Landing:** every package via tools/lanes/land_packages.py (re-certifies live certificates); pin/readability lanes via
+LAND_ISOLATED=1 land_lanes.sh (+ re-certify if the row is inside a certified window). Cleanup lane after any pin landing.
+
 # Handover (2026-10-08 ~15:00Z, round 104: TOOLS LANDED; Sonnet cleanup running) - start here
 
 **Landed:** 147b9dd54 Fable r103_fable_p2 follow-up: dungeon/func_800AA854 3 -> 2 pins (walk the PARAMETER
