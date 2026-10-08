@@ -1,3 +1,26 @@
+# Handover (2026-10-08 ~10:45Z, round 102: LANDED) - start here
+
+**Landed (gate_all --all 2,181/2,181 MATCH + forced SLUS MATCH, 3 module certificates re-issued, 20 rows at L5):**
+485444ce3 Opus r102_opus_a20: dungeon/func_80A20A28 5 -> 3 pins (**93 pins / 50 rows**). 1e39dbcea carve debt
+**56 -> 43 rows**: noreturn evidence per rowbase LOAD REGION (r102_sol61_noret tool patch: gen_noreturn_syms.py
+scoped_census, used by overlay_evidence/local_gate/func_compare/residue_class/module_gate; 38 tests) + its 6 prefixes
+(rc7 80FB7000/80FC3000/80FC9000/80FD5000 with 4 bounded consumer windows, rc3 8127B000/8128D000), own1 5 prefixes
+(80283000, 80DB9000, 80FB1000, 80FDB000, 818E0800), own2 2 (818E6800, 818F2800), astra: recovered dungeon/func_819600D8
+(84 B, own window) + ovl_1870800 type fixes. Script: work/native_lane/_r102/run_r102_land.sh.
+**Landing defect caught + fixed:** the first run passed gate --all + SLUS, then re-certifying dungeon_cd_control_d79c4
+TIMED OUT (overlay_module_gate.command has a hard 300 s cap): the lane's scoped_census rescanned every split row for each
+of dungeon_engine's 808 C segments (0.4 s each). _r102/scoped_census_index.diff builds one region index per load-map
+stamp (equal to the lane version on 5,144 sampled offsets incl. every region edge): dungeon_engine 174 s (baseline 167 s),
+gate --all 2,416 s. Rule: after any gate-tool lane, time the dungeon_engine local gate before landing.
+**Caveat:** gate_all's incremental cache does not hash per-region raw evidence - run --all after raw/ or rowbase changes.
+**Held / continuations:** own2's 5 prefixes (81934800 + 4 town); GAP A 81917C08 (60 substitutions / 0 indels; word 45 is
+a noreturn collision the per-region tool should now fix -> re-run on the landed tool); GAP B 81994D8C (35 / 53, natural
+table exact); astra holds: ovl_1870800 (needs a single covering load region), ovl_197281c (476-byte gap, C at 118/119
+words), ovl_7e6a5800 (23 functions + asset map). Opus 80A20A28 leads left (r102_opus_a20/REPORT.md, MECHANISM.md):
+ASM_USE(tex_height) distance 2 (sched1 priority 38 vs 37); render_term REG + ASM_USE(profile_base) distance 14.
+**Next lanes (proposed):** GAP A/B continuation on the landed tool; astra holds; own2's 5; gate_all cache key += region
+evidence; Opus on a pinned row it has not seen at current text (e.g. main/func_800219C4) or a second pass on 80A20A28.
+
 # Handover (2026-10-08 ~05:20Z, round 102: CARVE-DEBT WAVE 3 + OPUS PIN LANE RUNNING) - start here
 
 **Owner 10-08:** build + launch the proposed next lanes, plus one Opus agent on a specific pin target. Builder:
