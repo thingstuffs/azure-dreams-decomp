@@ -166,7 +166,6 @@ s32 func_800AFFB4(S_800AFFB4_0 *origin, void *unused, S_800AFFB4_1 *render_data_
     s32 visible_strips;
     TwelveByteEntry *texture_entry;
     s32 quad_index;
-    register u8 *packet ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 strip_index;
     s32 visible_right;
     u16 screen_y;
@@ -174,14 +173,10 @@ s32 func_800AFFB4(S_800AFFB4_0 *origin, void *unused, S_800AFFB4_1 *render_data_
     u16 texture_index;
     u16 shade_offset;
     register u8 *uv_end ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    u8 *far_vertex;
     u8 *texture_info;
 
     (void)unused;
-    packet = packet_buffer;
     visible_strips = 0;
-    strip_index = 0;
-    far_vertex = packet + 0x50;
     depth_flag = origin->unk_08.s;
     depth_flag = depth_flag < 0xE00;
     texture_index = texture_arg;
@@ -194,7 +189,7 @@ s32 func_800AFFB4(S_800AFFB4_0 *origin, void *unused, S_800AFFB4_1 *render_data_
     render_data_in->unk_74 = coord_bits;
     render_data_in->unk_8C = vertex_value;
     render_data_in->unk_84 = vertex_value;
-next_strip:
+    for (strip_index = 0; strip_index < 0xE; strip_index++) {
     render_data_in->unk_74 = render_data_in->unk_74 + 0xE00;
     render_data_in->unk_7C = render_data_in->unk_7C + 0xE00;
     render_data_in->unk_84 = render_data_in->unk_84 + 0xE00;
@@ -231,26 +226,26 @@ next_strip:
             visible_right = screen_y < 0x121U;
         }
         if ((visible_left | visible_right) != 0) {
-            ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_04 = render_data_in->unk_F0.at00u.v;
-            ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_1C = render_data_in->unk_F8.at00u.v;
-            ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_44 = render_data_in->unk_F4.at00u.v;
-            ((S_800AFFB4_2 *)far_vertex)->unk_10 = render_data_in->unk_FC.at00u.v;
+            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_04 = render_data_in->unk_F0.at00u.v;
+            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_1C = render_data_in->unk_F8.at00u.v;
+            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_44 = render_data_in->unk_F4.at00u.v;
+            ((S_800AFFB4_2 *)(packet_buffer + 0x50))->unk_10 = render_data_in->unk_FC.at00u.v;
             near_mid_x = (render_data_in->unk_F0.at00p.v
                 + render_data_in->unk_F4.at00p.v) >> 1;
-            ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_38 = near_mid_x;
-            ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_10 = near_mid_x;
+            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_38 = near_mid_x;
+            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_10 = near_mid_x;
             far_mid_x = (render_data_in->unk_F8.at00p.v
                 + render_data_in->unk_FC.at00p.v) >> 1;
-            ((S_800AFFB4_2 *)far_vertex)->unk_04 = far_mid_x;
-            ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_28 = far_mid_x;
+            ((S_800AFFB4_2 *)(packet_buffer + 0x50))->unk_04 = far_mid_x;
+            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_28 = far_mid_x;
             near_mid_y = (render_data_in->unk_F0.at02u.v
                 + render_data_in->unk_F4.at02u.v) >> 1;
-            ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_3A = near_mid_y;
-            ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_12 = near_mid_y;
+            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_3A = near_mid_y;
+            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_12 = near_mid_y;
             far_mid_y = (render_data_in->unk_F8.at02u.v
                 + render_data_in->unk_FC.at02u.v) >> 1;
-            ((S_800AFFB4_2 *)far_vertex)->unk_06 = far_mid_y;
-            ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_2A = far_mid_y;
+            ((S_800AFFB4_2 *)(packet_buffer + 0x50))->unk_06 = far_mid_y;
+            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_2A = far_mid_y;
             depth_step = (s16)render_data_in->unk_74 % 3584;
             render_data_in->unk_90.s32 = depth_step;
             if (depth_step < 0) {
@@ -280,18 +275,18 @@ next_strip:
             coord_bits = vertex_value - 0x10;
             vertex_value = coord_bits;
             coord_bits <<= 0x10;
-            (*(s8 *)((u8 *)far_vertex + -0x4A)) = shade_uv;
-            ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_0E = shade_uv;
-            ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_42 = shade_uv;
-            ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_36 = shade_uv;
-            (*(s8 *)((u8 *)far_vertex + -0x4B)) = shade_uv;
-            ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_0D = shade_uv;
-            ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_41 = shade_uv;
-            ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_35 = shade_uv;
-            ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_00 = shade_uv;
-            ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_0C = shade_uv;
-            ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_40 = shade_uv;
-            ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_34 = shade_uv;
+            (*(s8 *)((u8 *)(packet_buffer + 0x50) + -0x4A)) = shade_uv;
+            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_0E = shade_uv;
+            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_42 = shade_uv;
+            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_36 = shade_uv;
+            (*(s8 *)((u8 *)(packet_buffer + 0x50) + -0x4B)) = shade_uv;
+            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_0D = shade_uv;
+            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_41 = shade_uv;
+            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_35 = shade_uv;
+            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_00 = shade_uv;
+            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_0C = shade_uv;
+            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_40 = shade_uv;
+            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_34 = shade_uv;
             shade_uv = coord_bits >> 0x10;
             if (shade_uv >= 0x81) {
                 vertex_value = 0x80;
@@ -302,19 +297,19 @@ next_strip:
                 }
             }
             quad_index = 0;
-            uv_end = packet + 0x31;
-            ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_1A = vertex_value;
-            ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_26 = vertex_value;
-            ((S_800AFFB4_2 *)far_vertex)->unk_0E = vertex_value;
-            ((S_800AFFB4_2 *)far_vertex)->unk_02 = vertex_value;
-            ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_19 = vertex_value;
-            ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_25 = vertex_value;
-            ((S_800AFFB4_2 *)far_vertex)->unk_0D = vertex_value;
-            ((S_800AFFB4_2 *)far_vertex)->unk_01 = vertex_value;
-            ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_18 = vertex_value;
-            ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_24 = vertex_value;
-            ((S_800AFFB4_2 *)far_vertex)->unk_0C = vertex_value;
-            ((S_800AFFB4_2 *)far_vertex)->unk_00 = vertex_value;
+            uv_end = packet_buffer + 0x31;
+            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_1A = vertex_value;
+            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_26 = vertex_value;
+            ((S_800AFFB4_2 *)(packet_buffer + 0x50))->unk_0E = vertex_value;
+            ((S_800AFFB4_2 *)(packet_buffer + 0x50))->unk_02 = vertex_value;
+            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_19 = vertex_value;
+            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_25 = vertex_value;
+            ((S_800AFFB4_2 *)(packet_buffer + 0x50))->unk_0D = vertex_value;
+            ((S_800AFFB4_2 *)(packet_buffer + 0x50))->unk_01 = vertex_value;
+            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_18 = vertex_value;
+            ((S_800AFFB4_2_pre *)(packet_buffer + 0x50))[-1].unk_24 = vertex_value;
+            ((S_800AFFB4_2 *)(packet_buffer + 0x50))->unk_0C = vertex_value;
+            ((S_800AFFB4_2 *)(packet_buffer + 0x50))->unk_00 = vertex_value;
             vertex_value = strip_index & 1;
             vertex_value <<= 1;
             coord_bits = (s32)(texture_index << 0x10) >> 0xE;
@@ -327,7 +322,7 @@ next_strip:
             texture_info = (u8 *)texture_entry + 4;
 loop_0:
             {
-                func_8006671C(packet);
+                func_8006671C(packet_buffer);
                 render_data_in->unk_08.s32 = ((S_800AFFB4_3 *)texture_info)->unk_04;
                 shade_u = render_data_in->unk_08.s32;
                 render_data_in->unk_0C = ((S_800AFFB4_3 *)texture_info)->unk_05;
@@ -345,7 +340,7 @@ loop_0:
                 vertex_value <<= 8;
                 render_data_in->unk_14.s32 = vertex_value;
                 vertex_value = shade_u;
-                shade_u = (s32)packet;
+                shade_u = (s32)packet_buffer;
                 render_data_in->unk_10.s32 = texture_right;
                 coord_bits = ((S_800AFFB4_3 *)texture_info)->unk_02;
                 shade_uv += vertex_value;
@@ -381,27 +376,23 @@ loop_0:
                 ((S_800AFFB4_4 *)uv_end)->unk_00 = coord_bits;
                 vertex_value = render_data_in->unk_118;
                 shade_uv = (u32)(texture_entry - (TwelveByteEntry *)vertex_value) / 12;
-                far_vertex += 0x34;
-                quad_index += 1;
                 texture_info += 0xC;
                 uv_end += 0x34;
                 texture_entry += 1;
                 func_8006658C(render_data_in->unk_20 + ((u32)shade_uv * 4),
                     (void *)shade_u, texture_height);
-                packet += 0x34;
+                packet_buffer += 0x34;
+                quad_index += 1;
             }
             if (quad_index < 2)
                 goto loop_0;
             visible_strips += 1;
         }
     }
-    strip_index += 1;
-    if (strip_index >= 0xE) {
-        coord_bits = 0;
-        if (visible_strips != 0) {
-            coord_bits = (s32)packet;
-        }
-        return coord_bits;
     }
-    goto next_strip;
+    coord_bits = 0;
+    if (visible_strips != 0) {
+        coord_bits = (s32)packet_buffer;
+    }
+    return coord_bits;
 }
