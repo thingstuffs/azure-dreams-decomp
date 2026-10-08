@@ -1,3 +1,17 @@
+# Handover (2026-10-08 ~10:50Z, round 103: CONTINUATION LANES + OPUS RUNNING) - start here
+
+**Owner 10-08:** "build and launch" the r102 proposals. Builder work/native_lane/_r103/build.py (common.md adds: the
+per-region census landed, use --all after raw/rowbase changes, time dungeon_engine local gate after gate-tool changes -
+cert has a 300 s cap). Pools (launch_r103{x,a,o}.sh, all --no-land, 150 min): r103x sol61 xhigh 700k -
+r103_sol61_gapA (81917C08 from v28 60/0; re-measure word 45 under the landed census) + r103_sol61_gapB (81994D8C from
+35/53); r103a astra xhigh 1M - r103_astra_hold (197281c near-miss first, then 1870800 load-map representation, 7e6a5800);
+r103o sol61 high 700k - r103_sol61_own3 (own2's 5 held prefixes: load-map receipts) + r103_sol61_gcache (gate_all
+inputs_sha + module fingerprint cover per-region noreturn evidence; patches + tests).
+**Opus (Agent tool):** r103_opus_p2 - dungeon/func_800971DC + dungeon/func_800AA854 (3 pins each; Opus last r95/r96;
+ask _r103/ask_opus_p2.md: combine-copy role without the refused `+ zero`, PV2's call dependence).
+Landing: gcache patch lands with a standing gate --all; packages via apply.sh --dry-run, apply, gate --all + SLUS,
+re-certify modules on any ledger/splits change.
+
 # Handover (2026-10-08 ~10:45Z, round 102: LANDED) - start here
 
 **Landed (gate_all --all 2,181/2,181 MATCH + forced SLUS MATCH, 3 module certificates re-issued, 20 rows at L5):**
