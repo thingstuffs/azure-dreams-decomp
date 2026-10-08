@@ -147,7 +147,7 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
 34. **(r105) Bank loader receipts before tool changes (orchestrator, delegated).** own3's static receipt (DUNGEON loader
     func_800A982C, selector s -> LBA 0x607F + (s-1)*12, 12 sectors to 0x80024000; DUNGEON extent LBA 0x3016) puts every
     normal-selector bank on a 0x6000 grid from file 0x1834800. All three held modules and both GAP functions sit on it
-    (1870800 = selector 11 incl. its callback at +0x7DC; 197281c = 54, assets to +0x9A8; 7e6a5800 = 56, grid to
+    (arithmetically consistent - only selector 49 has a receipt so far; per-selector receipts pending r105_sol61_bank: 1870800 = selector 11 incl. its callback at +0x7DC; 197281c = 54, assets to +0x9A8; 7e6a5800 = 56, grid to
     +0x35B8; GAP A = 44 at +0x1408 -> base 0x80025408; GAP B = 65 at +0x58C -> 0x8002458C). Where a receipt proves ONE
     load covering both of 1870800's adjacent intervals, one region record spanning them is the r103 brief's permitted
     representation and the r103 adjacent-regions gate patch is NOT landed (it voids every certificate for no consumer);

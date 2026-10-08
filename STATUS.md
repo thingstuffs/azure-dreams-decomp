@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-08T22:28:00Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-08T22:37:37Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -143,7 +143,7 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 | L0 | 2,753,556 | 99.6% |
 | L1 | 2,753,556 | 99.6% |
 | L2 | 2,753,556 | 99.6% |
-| L3 | 2,546,772 | 92.2% |
+| L3 | 2,547,744 | 92.2% |
 | L4 | 3,492 | 0.1% |
 | L5 | 3,492 | 0.1% |
 
