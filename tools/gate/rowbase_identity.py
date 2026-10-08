@@ -201,7 +201,7 @@ def _family(family: str) -> str:
 # path -> (stat stamp, records).  Only ever holds the newest stamp per path, so
 # a jsonl rewritten by ``rowbase.promote`` mid-process is re-read, not served
 # stale.  Keeps ``identity_table`` from re-parsing the evidence 6,000 times.
-_REGION_CACHE: dict[str, tuple[tuple[int, int] | None, list[dict]]] = {}
+_REGION_CACHE: dict[str, tuple[tuple[int, ...] | None, list[dict]]] = {}
 
 
 def clear_cache() -> None:
@@ -212,12 +212,12 @@ def clear_cache() -> None:
     _REGION_CACHE.clear()
 
 
-def _stamp(path: Path) -> tuple[int, int] | None:
+def _stamp(path: Path) -> tuple[int, ...] | None:
     try:
         st = path.stat()
     except OSError:
         return None
-    return (st.st_mtime_ns, st.st_size)
+    return (st.st_mtime_ns, st.st_size, st.st_ctime_ns, st.st_dev, st.st_ino)
 
 
 def _records(family: str, *, root: Path | str | None = None) -> list[dict]:

@@ -26,6 +26,7 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+from gate_read_cache import read_json, read_text, digest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from overlay_evidence import (  # noqa: E402
@@ -135,11 +136,7 @@ def run(
 
 
 def file_sha1(path: Path) -> str:
-    h = hashlib.sha1()
-    with path.open("rb") as f:
-        for chunk in iter(lambda: f.read(1024 * 1024), b""):
-            h.update(chunk)
-    return h.hexdigest()
+    return digest(path, "sha1")
 
 
 def load_yaml(path: Path) -> dict[str, Any]:
@@ -290,8 +287,7 @@ def ensure_container(cfg: dict[str, Any], sb: dict[str, Any]) -> tuple[Path, Pat
 
 
 def load_rows(path: Path) -> list[dict[str, Any]]:
-    with path.open() as f:
-        rows = json.load(f)
+    rows = read_json(path)
     if not isinstance(rows, list):
         raise SystemExit(f"{rel(path)} must contain a JSON list")
     return rows
@@ -510,7 +506,7 @@ def _rowbase_proven_delta(family: str, foff: int) -> int | None:
     path = cfg_path(f"config/overlays/{family}.rowbase.jsonl")
     if not path.exists():
         return None
-    for lineno, line in enumerate(path.read_text().splitlines(), 1):
+    for lineno, line in enumerate(read_text(path).splitlines(), 1):
         line = line.strip()
         if not line or line.startswith("#"):
             continue
@@ -943,6 +939,13 @@ def check_bare_text_empty(objects: list[Path]) -> None:
 
 
 def parse_symbol_file(path: Path) -> dict[str, int]:
+    if not path.exists():
+        return {}
+    from gate_read_cache import _read
+    return dict(_read(path, "symbols", _parse_symbol_file))
+
+
+def _parse_symbol_file(path: Path) -> dict[str, int]:
     out: dict[str, int] = {}
     if not path.exists():
         return out
@@ -1498,7 +1501,7 @@ def compile_corpus(work_root: Path) -> tuple[int, dict[str, int]]:
     return len(jobs), counts
 
 
-def main() -> int:
+def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", default=str(DEFAULT_CONFIG), help="overlay YAML")
     parser.add_argument("--clean", action="store_true", help="remove this overlay's work build dir first")
@@ -1533,7 +1536,7 @@ def main() -> int:
             "run only; source must be under asm/nonmatchings (repeatable)"
         ),
     )
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
 
     config_path = cfg_path(args.config)
     cfg = load_yaml(config_path)
@@ -1615,8 +1618,10 @@ def main() -> int:
             exclude=proven_false_members(cfg["name"]))
     else:
         c_env = evidence_env(cfg["name"])
-    c_objects = compile_c_segments(segments, build_dir / "obj", env=c_env,
-                                   overlay=cfg["name"])
+    from overlay_evidence import _gen_noreturn
+    with _gen_noreturn().scoped_census_snapshot():
+        c_objects = compile_c_segments(segments, build_dir / "obj", env=c_env,
+                                      overlay=cfg["name"])
     asm_objects = compile_asm_segments(segments, build_dir / "obj")
     check_bare_text_empty(c_objects)
     symbol_files = [cfg_path("config/slus_006.14.symbols.txt")]
