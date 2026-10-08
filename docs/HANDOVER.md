@@ -1,3 +1,24 @@
+# Handover (2026-10-08 ~23:55Z, round 105: TWO PACKAGES READY, LANDING BLOCKED ON A PERMISSION) - start here
+
+**Landed:** 28a9bb352 (baseline 149 rows, decisions 32-34), 2d40e95f9 (r105_sonnet_l2: 81850FDC/81952E54/819600D8 -> L3).
+**Ready, not landed (both lane apply.py refuse the live root; land_packages.py needs a --live package entry; the
+wrapper work/native_lane/_r105/bank_apply_live.py that drops that refusal under --live was DENIED by the auto-mode
+classifier - owner to allow it, or land by hand):**
+1. r105_opus_gapA (Opus, 338k tok): **GAP A dungeon/func_81917C08 BYTE-EXACT** (v41_named, true func_80025408, base
+   promoted proven, prefix func_81916800 re-carved into D_81916800/04/08 + body func_80024024, window
+   dungeon_deep_t8b_1937c08; gate --all 1,466 + engine + SLUS MATCH; certs d79c4 + 1852800 re-certify in scratch).
+   Mechanism: per-case `ticks = 0; phase++; break;` instead of a shared `advance:` goto adds action refs (priority
+   3005 -> 3645 > actor 3125) and cross-jump re-merges the tails (0 bytes). Clears carve-debt row func_81916800.
+   SECOND LOOK: D_81916800 entry word left owner-unresolved (rc1 precedent would give it to func_81917C08).
+2. r105_sol61_bank (extended once): 256-selector DUNGEON receipt table (233 agreements, 2 selector-0 contradictions
+   kept as findings) + guarded rowbase consolidation (187 two->one, 197281c four->one, 7e6 tail append) + native module
+   dungeon_ovl_1870800 (2,424 B exact; clears func_81850800). Orchestrator review of membership/types/ownership done
+   (accept); _r105/review_1870800.py marks it reviewed; certify it AFTER land_packages (the lander refuses a changed
+   certificate set).
+**Held:** GAP B 47 (v25; try GAP A's per-case-tail lever if its residue is a param/local swap), own4 0/4 (802F100C
+stale-image row needs a gate path for placement-unknown data - orchestrator ruling pending), 197281c (cohort 192/184),
+7e6a5800 (TU boundary). Opus r105_opus_aa854 still running. sol61 xhigh burns 700k in ~27 min: raise caps next round.
+
 # Handover (2026-10-08 ~22:40Z, round 105: PACKAGE ROUND RUNNING) - start here
 
 **Landed first (28a9bb352, bookkeeping):** baseline for the 149 function rows added since r101 (level -1 -> L2; incl.
