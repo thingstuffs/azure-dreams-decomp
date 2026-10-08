@@ -20,3 +20,6 @@ an older text - or none.
   Rewrite it at the top of a round; it is the one paragraph that goes stale in a day.
 
 Keep each one short enough to be read: they compete with the row's own duck brief.
+- `sched_call_deps.md` - r103_fable_p2's four compiler rules (parameter walker = the call->step dependence,
+  refs x loop depth, calls-crossed kept for multi-block pseudos, cse quantity heads) + the $0-addend negative. Append to
+  allocation/scheduling pin packs.
