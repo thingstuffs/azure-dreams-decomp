@@ -1,3 +1,24 @@
+# Handover (2026-10-08 ~04:50Z, round 101: CARVE-DEBT WAVE 2 LANDED) - start here
+
+**Landed (all gated: gate_all --all MATCH + forced SLUS MATCH, module certificates re-issued, 20 rows at L5):**
+2ca761e73 59 re-carved prefixes (r101_sol61_rc1-rc7: 140 clone-template consumer rows + 434 owner-specific data rows,
+decision 31); 23218cbd7 BACK-OUT of 4 of them (rc7 func_80FB7000 / 80FC3000 / 80FC9000 / 80FD5000 - see defect);
+30a8b66ef module gate accepts native .rodata heads (entry + align + own switch tables; 4-byte tail trim only with a bound
+receipt) + recovered callback dungeon/func_81850FDC (412 B; ovl_1870800.c's D_800247DC was a function), 2,176 windows.
+**Carve debt 111 -> 56 rows.** Pins unchanged: 95 in 50 rows. Scripts: work/native_lane/_r101/run_r101_{recarve,rc7fix,gate}.sh.
+**DEFECT + lesson:** the 4 rc7 consumers (80FB776C/80FC376C/80FC976C/80FD576C) had NO covering production window, so
+gate_all never built them; the lane's "complete-function probe" is not a gate. A zero-arg call to func_8016B910 gets
+jal->j because config/noreturn_syms.dungeon.txt is per CONTAINER and another dungeon bank has a noreturn function at the
+same vram. Rule now: every new row must have a covering window - check registry "rows without a gate window" == 0
+before landing (run_r101_gate.sh does). Also: changing split records voids module certificates - any landing that
+touches ledger/splits must re-certify (the rc7fix commit left L5 at 0 until 30a8b66ef re-certified).
+**Next lanes (proposed):** (1) noreturn census PER BANK (tools/gate/gen_noreturn_syms.py + the MASPSX_NORETURN_FILE
+selection) - unblocks the 4 backed-out rc7 prefixes + rc3's 8127B000 / 8128D000; (2) GAP continuation
+(r101_sol61_gap: bases proven; 81917C08 65 substitutions, 81994D8C table mismatch); (3) astra holds - ovl_197281c
+(476-byte unregistered function at file 0x1972E54), ovl_7e6a5800 (asset extent / TU boundary), ovl_1870800 (complete-
+cohort load coverage); (4) the 14 "other ownership" prefixes (not in this wave). Note: ~435 new data rows inflate
+row counts / not_in_module (dungeon 'unverified' 530 = rows new since the pin).
+
 # Handover (2026-10-07 ~22:15Z, round 101: CARVE-DEBT WAVE 2 RUNNING) - start here
 
 **Owner 10-07 evening:** build + launch the three proposed carve-debt lanes (all --no-land; orchestrator reviews + lands).
