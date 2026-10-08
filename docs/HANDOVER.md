@@ -1,3 +1,21 @@
+# Handover (2026-10-08 ~15:00Z, round 104: TOOLS LANDED; Sonnet cleanup running) - start here
+
+**Landed:** 147b9dd54 Fable r103_fable_p2 follow-up: dungeon/func_800AA854 3 -> 2 pins (walk the PARAMETER
+packet_buffer - its REG_EQUIV address gives sched1 the call->step dependence - real `for` strip loop); **92 pins / 50
+rows**; dungeon_cd_control_d79c4 re-certified in the same commit (its dungeon_engine window holds the row:
+land_lanes.sh does NOT re-certify). c809ae53d tools: gate performance (longest-first, read caches, small-window overhead:
+**gate_all --all 369 s**, was 890 s / 2,416 s two rounds ago), lane-kit gaps from Fable's retrospective (checks.py call
+dependence, alloc_need loop depth, loopsum giv/biv, norm-regs default, duck mechanism records + $0 negative), and
+**tools/lanes/land_packages.py** - use it for package landings from now on (plan JSON: patches with hashes, packages
+with --live, reviewer, commit message; re-certifies every live certificate; rollback = git reset --hard to the start).
+Harvest paragraph tools/lanes/brief_paragraphs/sched_call_deps.md (bba6c33dc).
+**Running:** Sonnet r104_sonnet_aa1 - fidelity cleanup of 800AA854 (volatiles, goto quad loop, temps, raw casts) with
+joint re-measurement of its 2 pins (owner: pins often fall with cleanup).
+**Rules learned r104:** scrub hook refuses home-directory absolute paths in tracked files; lane setup must copy container inputs (gperf
+followed symlinks into work/disc/containers - bytes verified equal to pinned SHA-1).
+**Next (proposed):** package round on land_packages.py - GAP A/B continuation, astra holds (197281c asset load,
+1870800 adjacent-regions tool + callback L3, 7e6a5800), own3's 4 town prefixes; a cleanup lane after each pin landing.
+
 # Handover (2026-10-08 ~13:10Z, round 103: LANDED; Fable lane running) - start here
 
 **Landed 1399489ad** (gate_all --all 2,182/2,182 MATCH in ~16 min + forced SLUS MATCH, 3 certificates re-issued, L5 20):

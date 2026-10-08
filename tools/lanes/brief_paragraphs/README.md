@@ -23,3 +23,7 @@ Keep each one short enough to be read: they compete with the row's own duck brie
 - `sched_call_deps.md` - r103_fable_p2's four compiler rules (parameter walker = the call->step dependence,
   refs x loop depth, calls-crossed kept for multi-block pseudos, cse quantity heads) + the $0-addend negative. Append to
   allocation/scheduling pin packs.
+- Standing lane rules added round 104 (copy into each round's common.md): no private absolute paths
+  (home-directory absolute paths) in any file meant for the tracked tree - the pre-commit scrub hook refuses them (r104 lander's
+  LIVE constant); lane setup scripts COPY container inputs (work/disc/containers/*.BIN) into the lane, never
+  follow symlinks into the live tree (r104_sol61_gperf rewrote them in place, bytes unchanged).
