@@ -56,8 +56,8 @@ def trim(data: bytearray, want: int) -> dict:
                     raise ValueError(f"relocation at .rodata+{off:#x} lies in the cut tail")
         if s[1] == SHT_SYMTAB:
             for k in range(s[5] // SYM.size):
-                v, sz, _, _, _, shn = SYM.unpack_from(data, s[4] + k * SYM.size)
-                if shn == ri and (v > want or v + sz > want):
+                _, v, sz, _, _, shn = SYM.unpack_from(data, s[4] + k * SYM.size)
+                if shn == ri and (v >= want or v + sz > want):
                     raise ValueError(f"symbol at .rodata+{v:#x} lies in the cut tail")
     ro[5] = want
     SH.pack_into(data, shoff + ri * shentsize, *ro)

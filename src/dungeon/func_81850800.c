@@ -1,4 +1,4 @@
-#include "common.h"
+#include "modules/dungeon_ovl_1870800.h"
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -11,9 +11,8 @@ extern s32 func_80069EF8(void);
 extern void func_8009CE1C();
 extern s16 func_800A4688();
 extern void func_800A56E0(s32);
-extern s16 func_800BCB04(s32 x, s32 y, s16 min_height);
+extern s32 func_800BCB04(s32 x, s32 y, s16 min_height);
 
-extern u8 D_800247DC[];
 extern u8 D_800DE9D0[];
 extern u8 D_800DEC28[];
 
@@ -186,7 +185,7 @@ typedef struct S_81850800_9 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    void * unk_10;
+    void (*unk_10)(void *, void *, void *);
     u8 pad_14[0xC];
     void * unk_20;
 } S_81850800_9;
@@ -215,7 +214,7 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
     s32 step_y;
     s32 state;
     s32 mode;
-    u8 *effect_flags;
+    void (*effect_flags)(void *, void *, void *);
     s32 tiles_ahead;
     s32 off_x;
     s32 off_y;
@@ -376,7 +375,7 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
         spawn_cb = &D_80083498;
         obj = func_8003FD64(0x112, spawn_cb);
         if (obj != 0) {
-            obj->unk_10 = D_800247DC;
+            obj->unk_10 = func_800247DC;
             position = obj->unk_08;
             work = obj->unk_0C;
             copy_value = motion->unk_00.unk_00_s32;
@@ -418,7 +417,7 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
                 motion->unk_04.unk_06_view_u16.unk_06_u16 = (tile_y << 6) + 0x20;
                 obj = func_8003FD64(0x112, spawn_cb);
                 if (obj != 0) {
-                    obj->unk_10 = D_800247DC;
+                    obj->unk_10 = func_800247DC;
                     position = obj->unk_08;
                     work = obj->unk_0C;
                     copy_value = motion->unk_00.unk_00_s32;
@@ -450,7 +449,7 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
                     effect_data.pointer->unk_48.unk_48_u16 = timer;
                 }
                 dx = 0x3C;
-                effect_flags = D_800247DC;
+                effect_flags = func_800247DC;
                 particle_anim = (S_81850800_10 *)D_800DEC28;
                 do {
                     obj = func_8003FD64(0x312, ((s32 *)&D_80083498.next));

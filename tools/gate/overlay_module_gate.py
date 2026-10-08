@@ -12,7 +12,9 @@ import argparse, dataclasses, hashlib, importlib.util, json, os, re, shlex, shut
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 if ROOT.name=='tools': ROOT=ROOT.parent
-SCHEMA='overlay-module-native-v3'
+SCHEMA='overlay-module-native-v4'
+sys.path.insert(0, str(Path(__file__).resolve().parent))  # sibling import when loaded as gate.overlay_module_gate
+import overlay_native_rodata as N
 CONTAINERS={'dungeon':'DUNGEON_DUNGEON.BIN','town':'TOWN_TOWN.BIN','main':'MAIN_MAIN.BIN','ovmovie':'OVMOVIE.BIN'}
 META={'.reginfo','.MIPS.abiflags'}
 def sha(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()
@@ -32,12 +34,13 @@ def load_modules(root=ROOT):
  root=Path(root);path=root/'config/overlays/modules.json'
  if (root/'config/overlay_modules_disabled').exists() or not path.exists(): return []
  doc=json.loads(path.read_text())
- if doc['schema'] not in (SCHEMA,'overlay-module-text-v2'):raise ValueError('unsupported manifest')
+ if doc['schema'] not in (SCHEMA,'overlay-module-native-v3','overlay-module-text-v2'):raise ValueError('unsupported manifest')
  reg=rows(root);seen=set();keys=set()
  for m in doc['modules']:
   if not re.fullmatch('[a-z][a-z0-9_]*',m['key']) or m['key'] in keys:raise ValueError('duplicate/invalid key')
   keys.add(m['key'])
   if m['owned_data']:validate_owned_layout(m)
+  genuine_flags(m,root)
   if not m['members'] or m['recipe']!={'cfg':'2.7.2-cdk-G0','row_asflags':''}:raise ValueError('unsupported recipe/empty cohort')
   if not m['headers'] or not m['review_inputs']:raise ValueError('missing shared contract or review inputs')
   for p in [m['source'],*m['headers'],*m['review_inputs']]:local(root,p)
@@ -81,17 +84,18 @@ def load_modules(root=ROOT):
 
 
 def validate_owned_layout(m):
- # First supported data layout: one native .rodata head, then contiguous text.
- # Legacy logical rows retain their composite extent; body_offset separates code.
- ds=m['owned_data'];first=m['members'][0];cursor=first['foff'];vma=first['vma']
- for d in ds:
-  if d['section']!='.rodata' or d['foff']!=cursor or d['vma']!=vma or d['size']<=0 or d['size']%4:raise ValueError('invalid owned rodata layout')
-  cursor+=d['size'];vma+=d['size']
- prefix=cursor-first['foff']
- if first.get('body_offset')!=prefix or prefix>=first['size'] or any(a.get('body_offset',0) for a in m['members'][1:]):raise ValueError('owned prefix/code coverage differs')
- if ds[0].get('target')!=first['function']:raise ValueError('entry target differs from body')
- if len(ds)!=1 or ds[0]['size']!=4 or ds[0].get('kind')!='typed_function_pointer':raise ValueError('only native four-byte entry objects supported in this revision')
- if not m.get('membership_evidence'):raise ValueError('data module requires strong membership evidence')
+ N.validate_layout(m)
+
+def genuine_flags(m,root):
+ prop=m.get('genuine_aspsx')
+ if prop is None:return []
+ if set(prop)!={'flags','evidence'} or prop['flags']!=['-0']:raise ValueError('unsupported whole-TU genuine recipe')
+ if prop['evidence'] not in m['review_inputs']:raise ValueError('genuine recipe evidence not fingerprinted')
+ ev=json.loads(local(root,prop['evidence']).read_text())
+ if (ev.get('module')!=m['key'] or ev.get('scope')!='whole_tu' or ev.get('flags')!=['-q','-G0','-0']
+  or ev.get('recipe')!=m['recipe'] or not ev.get('basis')):raise ValueError('whole-TU genuine recipe evidence differs')
+ return prop['flags']
+
 
 def payload_spec(m):
  ds=[('.rodata',sum(d['size'] for d in m['owned_data']))] if m['owned_data'] else []
@@ -203,10 +207,10 @@ def fingerprint(m,root=ROOT,windows=True):
   for f in [m['container'], 'dungeon_engine' if m['container']=='dungeon' else m['container']]:
    p=f'ledger/splits/{f}.jsonl'
    if (root/p).exists():names.add(p)
- gate_names=['cc.sh','ccproc.py','overlay_local_gate.py','overlay_module_gate.py','overlay_evidence.py','overlay_as_flags.py','gen_noreturn_syms.py','rowbase_naming_debt.py','match.py','rowbase_identity.py','configure.py','live_truth.py','rowbase.py','az_target.py','residue_class.py','overlay_func_compare.py','oracle_scoring.py']
+ gate_names=['overlay_native_rodata.py','cc.sh','ccproc.py','overlay_local_gate.py','overlay_module_gate.py','overlay_evidence.py','overlay_as_flags.py','gen_noreturn_syms.py','rowbase_naming_debt.py','match.py','rowbase_identity.py','configure.py','live_truth.py','rowbase.py','az_target.py','residue_class.py','overlay_func_compare.py','oracle_scoring.py']
  tools=[gate_tool(root,n) for n in gate_names]
  tools += [root/'tools/fidelity'/n for n in ['aspsx_diff.py','objread.py','certify_overlay_module.py']]
- tools += [root/'tools/overlay_module_evidence.py']
+ tools += [root/'tools/overlay_module_evidence.py',root/'tools/build/slus_rodata_trim.py']
  tools += [root/'toolchain/compilers'/('gcc-'+version)/n for version in sorted(compiler_versions) for n in ['gcc','cc1','cpp']]
  tools += [root/'toolchain/genuine/bin/wibo',root/'toolchain/genuine/psyq/psyq4.4/ASPSX.EXE',root/'.venv/bin/python']
  tools += sorted((root/'toolchain/maspsx').rglob('*.py'))
@@ -270,6 +274,8 @@ def build(m,out,root=ROOT,substitutions=None):
  command([gcc/'gcc','-B'+str(gcc)+'/', '-S','-O2','-G0','-I'+str(root/'include'),'-w',source,'-o',asm],root,env,out/'compile.log')
  raw=asm.read_bytes();proc=command([sys.executable,gate_tool(root,'ccproc.py'),'--names-tsv',root/'config/names.tsv'],root,env,out/'ccproc.log',raw);(out/'sectioned.s').write_bytes(proc)
  command([root/'.venv/bin/python',root/'toolchain/maspsx/maspsx.py','--aspsx-version=2.79','--dont-force-G0','--run-assembler','--gnu-as-path=mipsel-linux-gnu-as','-I'+str(root),'-I'+str(root/'include'),'-EL','-march=r3000','-G8','-o',obj],root,env,out/'assemble.log',proc)
+ shutil.copy2(obj,out/'module.untrimmed.o')
+ cooked,_=N.prepare_object(m,obj.read_bytes(),root/'tools/build/slus_rodata_trim.py');obj.write_bytes(cooked)
  expected=payload_spec(m);secs=sections(obj);payload=[s for s in secs if s['flags']&2 and s['size'] and s['name'] not in META]
  if [(s['name'],s['size']) for s in payload]!=expected:raise ValueError('complete allocated payload/order/extent differs: '+str(payload))
  nm=command(['mipsel-linux-gnu-nm','-S',obj],root,env,out/'object_symbols.log').decode()
@@ -299,7 +305,7 @@ def build(m,out,root=ROOT,substitutions=None):
  (root/'work').mkdir(exist_ok=True)
  with tempfile.TemporaryDirectory(prefix='g',dir=root/'work') as td:
   td=Path(td);shutil.copy2(out/'IN.S',td/'IN.S')
-  command([root/'toolchain/genuine/bin/wibo',root/'toolchain/genuine/psyq/psyq4.4/ASPSX.EXE','-q','-G0','-o','OUT.OBJ','IN.S'],td,dict(env,TMPDIR=str(td),TMP=str(td),TEMP=str(td)),out/'genuine.log')
+  command([root/'toolchain/genuine/bin/wibo',root/'toolchain/genuine/psyq/psyq4.4/ASPSX.EXE','-q','-G0',*genuine_flags(m,root),'-o','OUT.OBJ','IN.S'],td,dict(env,TMPDIR=str(td),TMP=str(td),TEMP=str(td)),out/'genuine.log')
   shutil.copy2(td/'OUT.OBJ',out/'OUT.OBJ')
  ma=A.View(A.read_elf(obj.read_bytes()));ge=A.View(A.read_lnk((out/'OUT.OBJ').read_bytes()),ref=ma)
  if ma.obj.unknown or ge.obj.unknown:raise ValueError('unknown object record/relocation')
@@ -310,6 +316,9 @@ def build(m,out,root=ROOT,substitutions=None):
   if ma.funcs[a['function']]!=('.text.'+a['function'],0,a['size']-a.get('body_offset',0)):raise ValueError('maspsx function extent differs')
  comp=A.compare_units(ma,ge)
  if not comp['exact']:raise ValueError('whole-TU genuine mismatch: '+str(comp))
+ proof_artifacts={n:(out/n).read_bytes() for n in ['module.s','sectioned.s','module.untrimmed.o','module.o','IN.S','OUT.OBJ']}
+ native=N.make_proof(m,(out/'module.untrimmed.o').read_bytes(),obj.read_bytes(),ma,ge,canon.decode(),root/'tools/build/slus_rodata_trim.py',proof_artifacts)
+ (out/'rodata_proof.json').write_text(json.dumps(native,indent=2)+'\n')
  genuine=bytearray()
  prefix=sum(d['size'] for d in m['owned_data'])
  anchors={'.rodata':m['members'][0]['vma']} if prefix else {}
@@ -317,10 +326,6 @@ def build(m,out,root=ROOT,substitutions=None):
   rosec=next((k for k in ('.rdata','.rodata') if view.obj.sections.get(k)),None)
   if bool(rosec)!=bool(prefix) or (rosec and len(view.obj.sections[rosec])!=prefix):raise ValueError('genuine/maspsx data extent differs')
   if rosec:
-   if view.rel.get((rosec,0))!=('32',('fn',m['members'][0]['function'],0)) or any(sec==rosec and off!=0 for sec,off in view.rel):raise ValueError('native entry relocation differs')
-   for d in m['owned_data']:
-    sym=view.obj.symbols.get(d['symbol'])
-    if sym is None or sym[0]!=rosec or sym[1]!=0:raise ValueError('native entry symbol differs')
    view.funcs['__owned_rodata']=(rosec,0,prefix)
    words,masked=A.resolve_tokens(view,'__owned_rodata',m['members'][0]['vma'],addresses.get,0x80080994,section_anchors=anchors)
    if masked:raise ValueError('unresolved owned-data relocation')
@@ -337,8 +342,8 @@ def build(m,out,root=ROOT,substitutions=None):
  (out/'genuine.bin').write_bytes(genuine)
  after=fingerprint(m,root)
  if before!=after or any(sha(substitutions[k])!=h for k,h in candidate_hashes.items()):raise ValueError('inputs changed during module build')
- receipt={'schema':SCHEMA,'module':m['key'],'fingerprint':before,'members':[a['id'] for a in m['members']],'physical':{'compile_edges':1,'functions':[a['function'] for a in m['members']],'payload':payload,'owned_data':m['owned_data'],'imports':m['imports']},'gate':{'result':'MATCH','foff':first['foff'],'vma':first['vma'],'bytes':len(data),'rebuilt_sha256':sha(binary),'retail_sha256':sha(out/'retail.bin'),'masked':0,'raw_substitution_bytes':0},'genuine':{'result':'MATCH','version':'2.79','whole_tu':True,'bytes':len(genuine),'masked':0,'sha256':sha(out/'genuine.bin')},'candidates':candidate_hashes,'candidate_paths':{k:str(Path(v).absolute()) for k,v in (substitutions or {}).items()}}
- receipt['artifacts']={n:sha(out/n) for n in ['module.s','sectioned.s','module.o','module.ld','module.elf','module.bin','retail.bin','IN.S','OUT.OBJ','genuine.bin']};(out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+ receipt={'schema':SCHEMA,'module':m['key'],'fingerprint':before,'members':[a['id'] for a in m['members']],'physical':{'compile_edges':1,'functions':[a['function'] for a in m['members']],'payload':payload,'owned_data':m['owned_data'],'imports':m['imports']},'gate':{'result':'MATCH','foff':first['foff'],'vma':first['vma'],'bytes':len(data),'rebuilt_sha256':sha(binary),'retail_sha256':sha(out/'retail.bin'),'masked':0,'raw_substitution_bytes':0},'genuine':{'result':'MATCH','version':'2.79','whole_tu':True,'flags':['-q','-G0']+genuine_flags(m,root),'bytes':len(genuine),'masked':0,'sha256':sha(out/'genuine.bin')},'candidates':candidate_hashes,'candidate_paths':{k:str(Path(v).absolute()) for k,v in (substitutions or {}).items()}}
+ receipt['artifacts']={n:sha(out/n) for n in ['module.s','sectioned.s','module.untrimmed.o','rodata_proof.json','module.o','module.ld','module.elf','module.bin','retail.bin','IN.S','OUT.OBJ','genuine.bin']};(out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
  return receipt,binary
 
 def project_segments(segments,build_dir,overlay,root=ROOT):
