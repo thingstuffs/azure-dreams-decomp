@@ -15,13 +15,6 @@ typedef struct SpawnSprite {
     u16 flags;
 } SpawnSprite;
 
-typedef struct SpawnNode {
-    u8 pad_00[8];
-    SpawnPosition *position;
-    SpawnSprite *sprite;
-    void (*callback)(void *, void *, void *);
-} SpawnNode;
-
 typedef struct SpiralState {
     u8 pad_00[0x0C];
     void *target;
@@ -34,6 +27,20 @@ typedef struct SpiralState {
     s16 mirrored;
 } SpiralState;
 
+/* The 0x20-byte object-list header that precedes an effect's record. */
+typedef struct SpawnHeader {
+    u8 pad_00[8];
+    SpawnPosition *position;
+    SpawnSprite *sprite;
+    void (*callback)(void *, void *, void *);
+    u8 pad_14[0xC];
+} SpawnHeader;
+
+typedef struct SpawnNode {
+    SpawnHeader header;
+    SpiralState state;
+} SpawnNode;
+
 typedef struct GridOrigin {
     u8 pad_00[0x24];
     u8 x, y;
@@ -44,9 +51,8 @@ typedef struct OriginHeight {
     u16 height;
 } OriginHeight;
 
-struct RegistrationNode;
 extern void *func_8003FD64(s32, void *);
-extern s32 func_8004491C(struct RegistrationNode *, s32);
+extern s32 func_8004491C(SpawnNode *, s32);
 extern s32 func_800BCB04(s32, s32, s16);
 extern void func_8002434C(void *, void *, void *);
 extern u8 D_800CEEFC[];
@@ -75,14 +81,14 @@ void func_80024654(void *anchor, s16 angle, s16 unused, void *target, s32 mirror
     if (D_800249A4 != 0) return;
     node = func_8003FD64(0x212, anchor);
     if (node == 0) return;
-    node->callback = func_8002434C;
-    func_8004491C((struct RegistrationNode *)node, (s32)D_800CEEFC);
-    position = node->position;
-    sprite = node->sprite;
+    node->header.callback = func_8002434C;
+    func_8004491C(node, (s32)D_800CEEFC);
+    position = node->header.position;
+    sprite = node->header.sprite;
     sprite->frames = D_80024998;
     sprite->size = 0x20;
     sprite->flags |= 0xC;
-    state = (SpiralState *)((u8 *)node + 0x20);
+    state = &node->state;
     state->angle = angle;
     if (mirrored != 0) state->angle = angle + 0x800;
     state->reverse_angle = 0x1000 - state->angle;
@@ -97,7 +103,7 @@ void func_80024654(void *anchor, s16 angle, s16 unused, void *target, s32 mirror
         state->y = coordinate_y;
         state->z = position->z.bits = D_800814A8->height;
     } else {
-        target_position = *(SpawnPosition **)((u8 *)target - 0x18);
+        target_position = ((SpawnHeader *)target - 1)->position;
         state->x = position->x = target_position->x;
         state->y = position->y = target_position->y;
         state->z = target_position->z.bits;

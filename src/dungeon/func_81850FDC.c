@@ -1,5 +1,6 @@
 #include "modules/dungeon_ovl_1870800.h"
 #include "shared/object_flags.h"
+#include "shared/object_node.h"
 
 typedef struct ParticleOwner {
     u8 pad_00[0x52];
@@ -29,9 +30,8 @@ typedef struct ParticlePrimitive {
     u16 flags;
 } ParticlePrimitive;
 
-struct RegistrationNode;
 struct S_80045340_Entry;
-extern s32 func_8004491C(struct RegistrationNode *, s32);
+extern s32 func_8004491C(ObjectNodeHeader *, s32);
 extern s32 func_80045340(void *, s32, struct S_80045340_Entry *, s32);
 extern void func_800478B8(void *);
 extern s32 func_80069EF8(void);
@@ -49,7 +49,7 @@ void func_800247DC(void *effect, void *position, void *primitive)
     switch (p->state) {
     case 0:
         if (--p->delay <= 0) {
-            func_8004491C((struct RegistrationNode *)((u8 *)p - 0x20), (s32)func_80045340);
+            func_8004491C((ObjectNodeHeader *)p - 1, (s32)func_80045340);
             p->state++;
         }
         break;
@@ -69,7 +69,7 @@ void func_800247DC(void *effect, void *position, void *primitive)
             if (sprite->red >= p->fade_step) {
                 sprite->red = sprite->green = sprite->blue -= p->fade_step;
             } else {
-                ((u16 *)p)[-1] |= 0x8000;
+                ((ObjectNodeHeader *)p - 1)->flags |= 0x8000; /* header precedes the record */
                 objectFlagBlock.flags |= 0x8000;
             }
         }
