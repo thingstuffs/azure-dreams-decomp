@@ -4252,7 +4252,7 @@
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"l5_fidelity":[],"id":"dungeon/func_80A2008C","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"l5_fidelity":[],"id":"dungeon/func_80A208FC","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"l5_fidelity":[],"id":"dungeon/func_80A209A4","evidence":[]}
-{"level":3,"pins_left":5,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins"],"l4_residue":["pins","not_in_module"],"l5_fidelity":[],"id":"dungeon/func_80A20A28","evidence":[]}
+{"level":3,"pins_left":3,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins"],"l4_residue":["pins","not_in_module"],"l5_fidelity":[],"id":"dungeon/func_80A20A28","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"l5_fidelity":[],"id":"dungeon/func_80A23000","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"l5_fidelity":[],"id":"dungeon/func_80A2F000","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"l5_fidelity":[],"id":"dungeon/func_80A35000","evidence":[]}

@@ -131,9 +131,10 @@ s32 func_80174228(u8 *item_data)
     s32 *scratch_ptr;
     s32 screen_width;
     s32 strip_offset;
-    s32 tex_coord;
+    s16 tex_coord;
     u8 *next_node;
-    register s32 render_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 render_arg;
+    s32 uv_arg;
     register s32 top_y;
     register s32 bottom_y;
     register s32 half_width;
@@ -149,7 +150,6 @@ s32 func_80174228(u8 *item_data)
     S_func_80174228_4 *context2;
     S_func_80174228_6 *profile_dst;
     S_func_80174228_7 *profile_mirror;
-    u32 mirror_addr;
     S_func_80174228_8 *profile_base;
     s32 brightness;
     s32 shade_bias;
@@ -260,19 +260,15 @@ loop_0:
         i = 1;
         depth >>= 2;
         profile_peak = item->unk_0E;
-        ASM_KEEP_MEMDEP_NV(profile_peak, profile_dst, storage[0]);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        profile_dst = (S_func_80174228_6 *)(storage + 0x60);
-        ((S_func_80174228_0 *)storage)->unk_48[11] = profile_peak;
+        profile_dst = (S_func_80174228_6 *)(storage + 0x5E);
+        profile_dst->unk_00 = profile_peak;
         do {
-            mirror_addr = (0xB - i) * 2;
-            mirror_addr += (u32)storage;
-            profile_mirror = (S_func_80174228_7 *)mirror_addr;
+            profile_mirror = (S_func_80174228_7 *)((0xB - i) * 2 + (u32)storage);
             profile_raw = ((S_func_80174228_0 *)storage)->unk_48[0xC - i];
-            i++;
             half_height = (profile_raw << 16) >> 17;
-            profile_dst->unk_00 = half_height;
+            profile_dst[i].unk_00 = half_height;
+            i++;
             profile_mirror->unk_48 = half_height;
-            profile_dst++;
         } while (i < 0xC);
 
         if ((u32)depth < 0x1E0U) {
@@ -309,10 +305,10 @@ loop_0:
                 prim->unk_16 = func_80066460(2, 1, 0x340, 0x100);
 
                 render_term = i * ((S_func_80174228_0 *)storage)->unk_04.s16;
-                render_arg = render_term / 23;
-                prim->unk_14 = render_arg;
-                prim->unk_0C = render_arg;
-                tex_coord = render_arg;
+                uv_arg = render_term / 23;
+                prim->unk_14 = uv_arg;
+                prim->unk_0C = uv_arg;
+                tex_coord = uv_arg;
                 tex_coord += ((((S_func_80174228_0 *)storage)->unk_04.u16 << 16) >> 16) / 23;
                 prim->unk_1D = 0;
                 prim->unk_0D = 0;
@@ -345,7 +341,8 @@ loop_0:
                     }
                 }
 
-                render_arg = (u16)TMP + min_xy;
+                render_arg = (u16)TMP;
+                render_arg += min_xy;
                 prim->unk_10 = render_arg;
                 prim->unk_08 = render_arg;
                 render_arg += screen_width / 23;
