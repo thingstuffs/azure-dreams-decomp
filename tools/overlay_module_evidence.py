@@ -3,7 +3,8 @@ import hashlib,json,sys,subprocess
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'tools/gate'))
-from overlay_module_gate import SCHEMA,CONTAINERS,affected_windows,fingerprint,graph,load_modules,local,sha,closure,payload_spec
+from overlay_module_gate import SCHEMA,CONTAINERS,affected_windows,fingerprint,graph,load_modules,local,sha,closure,payload_spec,genuine_flags
+import overlay_native_rodata as N
 
 def proof_path(root,name):
  p=local(root,name)
@@ -18,11 +19,19 @@ def receipt_reason(m,r,root,proof_dir):
   or [(s['name'],s['size']) for s in payload]!=payload_spec(m)):return 'incomplete function/data accounting'
  gate=r.get('gate',{});ge=r.get('genuine',{})
  if any(gate.get(k)!=v for k,v in {'result':'MATCH','bytes':n,'foff':first['foff'],'vma':first['vma'],'masked':0,'raw_substitution_bytes':0}.items()):return 'incomplete retail module proof'
- if any(ge.get(k)!=v for k,v in {'result':'MATCH','version':'2.79','whole_tu':True,'bytes':n,'masked':0}.items()):return 'incomplete genuine proof'
- expected={'module.s','sectioned.s','module.o','module.ld','module.elf','module.bin','retail.bin','IN.S','OUT.OBJ','genuine.bin'}
+ if any(ge.get(k)!=v for k,v in {'result':'MATCH','version':'2.79','whole_tu':True,'flags':['-q','-G0']+genuine_flags(m,root),'bytes':n,'masked':0}.items()):return 'incomplete genuine proof'
+ expected={'module.s','sectioned.s','module.untrimmed.o','rodata_proof.json','module.o','module.ld','module.elf','module.bin','retail.bin','IN.S','OUT.OBJ','genuine.bin'}
  if set(r.get('artifacts',{}))!=expected:return 'missing module artifacts'
  for name,h in r['artifacts'].items():
   if sha(proof_path(root,str(Path(proof_dir)/name)))!=h:return 'module artifact changed: '+name
+ # Replay native-head and trim validation from the bound object artifacts.
+ try:
+  sys.path.insert(0,str(root/'tools/fidelity'));import aspsx_diff as A
+  out=proof_path(root,proof_dir)
+  artifacts={name:(out/name).read_bytes() for name in ['module.s','sectioned.s','module.untrimmed.o','module.o','IN.S','OUT.OBJ']}
+  ma_view=A.View(A.read_elf(artifacts['module.o']));ge_view=A.View(A.read_lnk(artifacts['OUT.OBJ']),ref=ma_view)
+  N.verify_proof(m,json.loads((out/'rodata_proof.json').read_text()),artifacts['module.untrimmed.o'],artifacts['module.o'],ma_view,ge_view,artifacts['IN.S'].decode(),root/'tools/build/slus_rodata_trim.py',artifacts)
+ except (OSError,ValueError,KeyError,TypeError) as e:return 'invalid native rodata/trim proof: '+str(e)
  with (root/'work/disc/containers'/CONTAINERS[m['container']]).open('rb') as f:f.seek(first['foff']);ret=f.read(n)
  digest=hashlib.sha256(ret).hexdigest()
  if len(ret)!=n or gate.get('rebuilt_sha256')!=digest or gate.get('retail_sha256')!=digest or ge.get('sha256')!=digest:return 'resolved module proof differs from retail'

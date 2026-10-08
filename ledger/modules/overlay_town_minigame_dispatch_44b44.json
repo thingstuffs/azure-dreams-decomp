@@ -1,5 +1,5 @@
 {
-  "schema": "overlay-module-native-v3",
+  "schema": "overlay-module-native-v4",
   "kind": "overlay_module_placement",
   "module": "town_minigame_dispatch_44b44",
   "members": [
@@ -17,10 +17,10 @@
     "town/func_800C4D68",
     "town/func_800C4D9C"
   ],
-  "at": "2026-10-08T00:32:31Z",
+  "at": "2026-10-08T04:42:25Z",
   "reviewer": "orchestrator-r99",
   "fingerprint": {
-    "sha256": "b53330ff2c0b0769e032c83baab37461cb73bb5e2659fbf40ad88d85571fd96c",
+    "sha256": "5685152856bcc3a76ec0fab163f8b123432b75c5c0bdf4f2f4d4b6abff440143",
     "inputs": {
       "config/names.tsv": "230d776d2f0877959debf4edb04b9065030b27712420ae003b195d0ce06c94c1",
       "config/noreturn_false_members.jsonl": "38661a5397a70ed3d7033bcbfccf2a3d50769e11a9a75cebb6d73fc60b776739",
@@ -92,8 +92,8 @@
       "include/shared/tile_object.h": "b553a179af28128ccd067c615ab3ee56af2744250c11c9cb363e0f47e0a8c406",
       "include/shared/town_handler.h": "126b1aff7a41f2d9ab537a424f606d339867f7aa39194db78d500a49e0fc2f5c",
       "include/slus/cd_state.h": "993ba6df16dd90218f278f09a180a1db6a8f8a3bfa3a03c41c0df73e684e3614",
-      "ledger/rows.jsonl": "c7129f59adef1214597d86896f02d5b052b52a6f1f38c3a4f01487e65339c87c",
-      "ledger/splits/overlay_modules.build.json": "89e6766f0eb89cf59103412adccb2c7642743247e5a02ff5229b5da9ffc90306",
+      "ledger/rows.jsonl": "03db987885a56fc523f6038d84470a5804eb4ff45c8d93366263927416f01f6b",
+      "ledger/splits/overlay_modules.build.json": "683faaa9320534313f48728d9bc0adebb0a22ca5396d8118f645e7676173f2f1",
       "ledger/splits/town.jsonl": "e7a245f22edc7acfaa33f399684458daa9f253db30ce8385ac2dae8ef1e1631f",
       "src/slus/w_8003E39C.c": "79a9518a95bf0d55c26ab3acf4ef86bda77bbab0b481a0d096fb9cc96f79438d",
       "src/slus/w_8003E4FC.c": "cfa8b3f47e4dde817916ef09b92327a687af047c2b87ace7ac41510be9ef871e",
@@ -1517,10 +1517,11 @@
       "src/town/modules/minigame_dispatch.c": "e3964faf44c65be1533b298046964ae0d687dac30a3cb6409804b4b949c5bbd3"
     },
     "tools": {
+      "gate/overlay_native_rodata.py": "e06a428d568d544fb1bfe3247b5063ed1a4d1ceee251de9eaf9f238536f23d75",
       "gate/cc.sh": "b58c05bc2dd1ad16dd4fb701df595d795b4f6e8aaca09de63db5f1916baf7638",
       "gate/ccproc.py": "fdfcf0cb45308cd2722f1eb055a2b06c3d907434c058265d838c76e96161195c",
       "gate/overlay_local_gate.py": "dcb615f6f199981e2b3275daa80a79ab984301a13c2f3e5927ac4a824fbb241c",
-      "gate/overlay_module_gate.py": "1197666eed554006496bed65869c9eb245201e174778a475786ce7e7ca2462be",
+      "gate/overlay_module_gate.py": "7c00a23b5bdfaebd1aa0c993bdbc4a0e51d27d2da2b56848dc9819afb48473fc",
       "gate/overlay_evidence.py": "6480f707f773bdea6aa6356ec1b5b41844d8f8b3573219e24cc364fdebd57858",
       "gate/overlay_as_flags.py": "53718c2e713463273914c0ae6b6d9ec1bd620017ef487bfd9e126e32567196bf",
       "gate/gen_noreturn_syms.py": "cf835b3bc07db7ed5412deaad1588083f8edaa6944ed1ed72ea7f4d2bcbbba15",
@@ -1537,7 +1538,8 @@
       "tools/fidelity/aspsx_diff.py": "7581f7c89353952c4b2edeedfee6df50549f77cf20513e860faff5d27459f27d",
       "tools/fidelity/objread.py": "4cab76dc7c0628e784d286eb994bf45764dc03dc037da2127ef8ffecc180840f",
       "tools/fidelity/certify_overlay_module.py": "19cd8c35c0d2f9242dac8e733581cf380e2ea85775e08eb2374873e698dd93b0",
-      "tools/overlay_module_evidence.py": "4aa964c7bff98f9189330025b17e2e440aba7925f08f9731a703fc8994b88894",
+      "tools/overlay_module_evidence.py": "0683bfb56f2ad0551b055a686f6f71f81d54a1e1ce26e4136db19b478481d607",
+      "tools/build/slus_rodata_trim.py": "2b64e3cb7861b92ab2a8b2c8077f82e073b938d9bee9be4e658ebf34d96798b9",
       "toolchain/compilers/gcc-2.7.2-cdk/gcc": "7a571911a97cef0c6b7b5d4174e89ac54f9806ce3d4b233c0f8620e3503c672b",
       "toolchain/compilers/gcc-2.7.2-cdk/cc1": "90db2db7bcfe372244ca4d9785a7bfbf7613d711f69ee3bfe6c91d82a85e611d",
       "toolchain/compilers/gcc-2.7.2-cdk/cpp": "d8005743fd13089ebacb7fb1dff18e79168ee3e3ccbb8a97595a4f56b0199b74",
@@ -1626,7 +1628,7 @@
     "screening": {}
   },
   "proof_dir": "build_ovl_gate/work/module_proofs/town_minigame_dispatch_44b44/module",
-  "receipt_sha256": "d27b9c4b3bdd726d977d7a8ebd6f709dc27a42b81ff0a371f02a8f0791406042",
+  "receipt_sha256": "c840788e08cbf18860e7e8cea65a7f0ce65af7a1c393e1fabe5afd6b0876c0b2",
   "windows": [
     {
       "config": "config/overlays/town_deep_t8b_044d9c.overlay.yaml",
@@ -1638,8 +1640,8 @@
         "gate.log": "5e093eb6f99560748dd4a5e98d4fc6cf2125130853a6475d7fd95e01ef07b759",
         "window.bin": "dccefaa3c243e95048db74fff6f0a25ce624cfa225656c878a90b9f0328dfdc6",
         "manifest.json": "8f26bd8e746d6fd6b023fe1e54a12459213b35b6475a37cf281888b5c795a414",
-        "projection.json": "4768d1a90fa4cc9a25b5848e85b71a240ab173f1d3996662c12cc4bc6994cab9",
-        "module/receipt.json": "f55bd4fcd01cb2a44c17378f86cebec5a75e04f02eff30470f30c87678f64192"
+        "projection.json": "6ab4cf839d235111a8c4dd1c62d91526079d3c5234fd1c97b47866a0dd913b7f",
+        "module/receipt.json": "66b45385ffb2dfb9d44c29667fa012ea005f542f454185a872aa028ac745365f"
       }
     },
     {
@@ -1652,8 +1654,8 @@
         "gate.log": "d6b0897ca4a00c035629c298c520147557e8e622e716a01e87d6e5800e622591",
         "window.bin": "6ca153dec42742a952cdfbfc38efb1a793de9ede267a9cebd4b1d1cf00740ed4",
         "manifest.json": "d9b18c79716903cbb320b91963415344b7d4947fb5552d234d84862ed8df49df",
-        "projection.json": "ddce48a5aa5c65426b667306873d68aa520da0dfffef20b780f98cfe3ec68c95",
-        "module/receipt.json": "3657ee08a48f364937b3c7da54ef49720845079d31b09795409b989b6304db0a"
+        "projection.json": "e9a811d5dde0b424b7b17c122832f6a666cc35c26cab9b174b00159cb5d3dfae",
+        "module/receipt.json": "c88353ffa6adc5977ea90a0d9a1ed45ddf673fbd6650ba996a5b8716d3582912"
       }
     }
   ]
