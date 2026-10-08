@@ -7367,3 +7367,5 @@
 {"id": "dungeon/D_818F2804", "container": "dungeon", "module": "ovl_1912800.c", "module_index": 179, "confidence": "weak", "evidence": "r102 own2 physical carrier association only; data owner unresolved; no complete TU claim", "reviewer": "orchestrator-r102"}
 {"id": "dungeon/D_818F2828", "container": "dungeon", "module": "ovl_1912800.c", "module_index": 179, "confidence": "weak", "evidence": "r102 own2 physical carrier association only; data owner unresolved; no complete TU claim", "reviewer": "orchestrator-r102"}
 {"id": "dungeon/func_819600D8", "container": "dungeon", "module": "ovl_197eb88.c", "module_index": 194, "confidence": "weak", "reviewer": "orchestrator-r102"}
+{"id": "dungeon/D_81934800", "container": "dungeon", "module": "ovl_1954800.c", "module_index": 188, "confidence": "weak", "evidence": "r103 own3 physical carrier association only; entry storage owner unresolved; no complete TU ownership claim", "reviewer": "orchestrator-r103"}
+{"id": "dungeon/func_81952E54", "container": "dungeon", "module": "ovl_197281c.c", "module_index": 192, "confidence": "weak", "reviewer": "orchestrator-r103"}

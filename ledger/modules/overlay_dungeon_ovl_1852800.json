@@ -8,18 +8,18 @@
     "dungeon/func_81833060",
     "dungeon/func_818330F0"
   ],
-  "at": "2026-10-08T10:40:30Z",
+  "at": "2026-10-08T13:05:16Z",
   "reviewer": "orchestrator-r99",
   "fingerprint": {
-    "sha256": "74439bb1a92b34875c49872e1e35cea51ba1d0eebdc0a0b92d983fa7aa356aed",
+    "sha256": "27b9f109c58e3a20f8dc6951c88b9039d454e9ca1a8a75de4d45cebf2d7c4734",
     "inputs": {
       "config/names.tsv": "230d776d2f0877959debf4edb04b9065030b27712420ae003b195d0ce06c94c1",
       "config/noreturn_false_members.jsonl": "38661a5397a70ed3d7033bcbfccf2a3d50769e11a9a75cebb6d73fc60b776739",
       "config/noreturn_syms.dungeon.txt": "19a53b1f38952b247b1257670537601c9ccc98bc21944d4b8cb5df1fd8902289",
       "config/overlays/abs_syms.txt": "399a9f97615fb7e77b9fbcbf656f684504ef01e0b165036b4f2d99ec56f48ac7",
       "config/overlays/dungeon.as_flags.jsonl": "0d3fb2befdd45f3d5e1da6845623d8a27a5e6ac3c82f3bb3a9e0764334466224",
-      "config/overlays/dungeon.rodata_owners.jsonl": "73fb59c9c8a96b4ddb0c6dd86da4bbee6465a7346e054c0aecec0acabf5873e2",
-      "config/overlays/dungeon.rowbase.jsonl": "3a53ca4d6d34318a19d4a937575a0a3ae1f984b72b6f5142ec98cfabdb3c173f",
+      "config/overlays/dungeon.rodata_owners.jsonl": "bad649f6d917e772e32bb2345a6376673ce2d03b3970325dff4832299af7eb68",
+      "config/overlays/dungeon.rowbase.jsonl": "b533bb0bef903a01b70882bd6c9eacd24320848dd29954f099681586321c8c23",
       "config/overlays/dungeon_deep_t8_1830.overlay.yaml": "d7bb37f12fae8e308782ce3eff808f558a1e09f6140f906beb1583fdec8d14e8",
       "config/overlays/dungeon_engine.symbols.txt": "4a464748ab885edfe926b0a102b6854ccb575d452d7bf10c7387678895f781a8",
       "config/overlays/modules.json": "db62bb08297b928ec63da746cbc97f985eb4f0b72d161cf0e3d7e90e9b336cc6",
@@ -57,11 +57,11 @@
       "include/shared/sprite_source.h": "8a763355fbee08e826674ed1078b2481162c38ddbdad4c4850e98d6b6379bc22",
       "include/shared/sys_flags.h": "92465d0d545d06907183aa1c972d93e8307a37c4856246bc215b27d8218fc19f",
       "include/slus/gp_shared_81510.h": "a77102f966bf467f13e82da8e050ebf3ce84d69b8704d1098d2b6895fef0ab79",
-      "ledger/modules.jsonl": "50eaebe3f2db3c6571d86dab3fb88b9ef2e10d5ff4edf088602b4a5e4c33bb11",
-      "ledger/rows.jsonl": "4195321c8b1992ebac355a554dcd2b60f18f5683375c6a0bedf3ee3ee1ebcffc",
-      "ledger/splits/dungeon.jsonl": "6e30a9353f8c556c5edafffdcc15148d6a2b99badbf24032de4283acbe9c25be",
+      "ledger/modules.jsonl": "eb731bf2744a15f026b1f3937674e82be36faaf714a2071cfabebe449b85bcef",
+      "ledger/rows.jsonl": "a0c74a574818ae14e943e4899f3cbddda8a97c7904c96e55f5e602e03bb05639",
+      "ledger/splits/dungeon.jsonl": "2a0e3155c4ae0068de9f5c5742c68901670cb2f6b53b6aad8c11a38e643d4e46",
       "ledger/splits/dungeon_engine.jsonl": "110bda360f872f1ec1e193532683ad5b2b449dbd40783696fb6eea147c123d6a",
-      "ledger/splits/overlay_modules.build.json": "0c613e7f9868420042c0d86e4c8ffaa2e51d299f3e7cea202e1ef2d9cd8b2ff4",
+      "ledger/splits/overlay_modules.build.json": "0a337e6cfdfd2b2688b87c3a3bcd38ba7c9261f8fc6f83a3fdda1cf514ccb5f1",
       "src/dungeon/func_800976BC.c": "775e9f73be10af0e16ec05b9732de456982636d7e8a8c6b49e837c3b0177819e",
       "src/dungeon/func_8009AE44.c": "9110e8e5a1cb0f557e34cfa1db80d6c8a59cd6928fd010d0a9b54e155b8fe356",
       "src/dungeon/func_8009E0C0.c": "895faac8f5a3820a6ebdf98372e39a062197da612194974b36ea1468d28cccde",
@@ -222,10 +222,10 @@
       "gate/cc.sh": "b58c05bc2dd1ad16dd4fb701df595d795b4f6e8aaca09de63db5f1916baf7638",
       "gate/ccproc.py": "fdfcf0cb45308cd2722f1eb055a2b06c3d907434c058265d838c76e96161195c",
       "gate/overlay_local_gate.py": "722b2cea38162202c5ff0d9a4de2563fcc812e42285a30d88c2f1fbbd309b47b",
-      "gate/overlay_module_gate.py": "7d37864ebc452ee9a71f445dbb1232c1d6783e71fea52ad548863bf708d42b58",
+      "gate/overlay_module_gate.py": "58b5bffe44c161f0bdca75fdd098faaf42dec7fd59d0040c231cc501f6f8a22c",
       "gate/overlay_evidence.py": "1cc1256d405580c8dcabf4648ad706202544050b6c64befa4e528c4a150dfdfb",
       "gate/overlay_as_flags.py": "53718c2e713463273914c0ae6b6d9ec1bd620017ef487bfd9e126e32567196bf",
-      "gate/gen_noreturn_syms.py": "8652de0bc28e19bde9fde0b65f4f8f82a9e39d425294a0f7e10f704e0a38204e",
+      "gate/gen_noreturn_syms.py": "854540d079ec427b7ba794403abb3b7c56bdb6663bd0ffd6b7c91c43fbd21a08",
       "gate/rowbase_naming_debt.py": "805ee33a287a1d2d8c7f027be6d73c08e4af09bb9f4253dd28a322b0ca2007d9",
       "gate/match.py": "5bfa1c98623c8a91430ce98ed0c31972facbcb2415cb11354ec5c49a59a00d2c",
       "gate/rowbase_identity.py": "473ae2c26f9422e957156534419d7095b531e49102ba5aef42b53b4ee0d4a740",
@@ -238,7 +238,7 @@
       "gate/oracle_scoring.py": "e7f0f1fe293ee0b564c2004df1a2f109d37c7d04641205a1c1418a86e495abf7",
       "tools/fidelity/aspsx_diff.py": "7581f7c89353952c4b2edeedfee6df50549f77cf20513e860faff5d27459f27d",
       "tools/fidelity/objread.py": "4cab76dc7c0628e784d286eb994bf45764dc03dc037da2127ef8ffecc180840f",
-      "tools/fidelity/certify_overlay_module.py": "19cd8c35c0d2f9242dac8e733581cf380e2ea85775e08eb2374873e698dd93b0",
+      "tools/fidelity/certify_overlay_module.py": "a40c45413bc8f796c71e9d86a300f23bc4325630004b755528c2fda90484b80c",
       "tools/overlay_module_evidence.py": "0683bfb56f2ad0551b055a686f6f71f81d54a1e1ce26e4136db19b478481d607",
       "tools/build/slus_rodata_trim.py": "2b64e3cb7861b92ab2a8b2c8077f82e073b938d9bee9be4e658ebf34d96798b9",
       "toolchain/compilers/gcc-2.7.2-cdk/gcc": "7a571911a97cef0c6b7b5d4174e89ac54f9806ce3d4b233c0f8620e3503c672b",
@@ -350,10 +350,395 @@
         "tail_jumps": 0,
         "residue": []
       }
+    },
+    "bank_noreturn": {
+      "family": "dungeon",
+      "false_members": [
+        "func_80024094",
+        "func_800240EC",
+        "func_80024154",
+        "func_80024170",
+        "func_80024264",
+        "func_800243B8",
+        "func_800243E4",
+        "func_8002443C",
+        "func_80024470",
+        "func_8002458C",
+        "func_80024640",
+        "func_800246C0",
+        "func_800246F4",
+        "func_80024770",
+        "func_800247B8",
+        "func_800247D4",
+        "func_80024908",
+        "func_80024948",
+        "func_800249C4",
+        "func_800249E4",
+        "func_80024A5C",
+        "func_80024ACC",
+        "func_80024AEC",
+        "func_80024B6C",
+        "func_80024BA0",
+        "func_80024D90",
+        "func_80024E80",
+        "func_80025080",
+        "func_8002512C",
+        "func_800251F4",
+        "func_80025228",
+        "func_80025338",
+        "func_80025344",
+        "func_80025598",
+        "func_800255AC",
+        "func_80025B78",
+        "func_8002614C",
+        "func_8002626C",
+        "func_80099330",
+        "func_80170A44",
+        "func_80171020",
+        "func_801713D4",
+        "func_80171570",
+        "func_80171574",
+        "func_801715CC",
+        "func_801718B4",
+        "func_80171910",
+        "func_80171BEC",
+        "func_80171CD4",
+        "func_80171EBC",
+        "func_80171ECC",
+        "func_80171F74",
+        "func_80171FA4",
+        "func_80172050",
+        "func_80172168",
+        "func_801726B0",
+        "func_801732A4",
+        "func_80173AE8",
+        "func_80173D38",
+        "func_801744DC",
+        "func_80174BC8"
+      ],
+      "scopes": [
+        {
+          "scope": [
+            25362432,
+            25380864,
+            "xfer_dungeon_1830000"
+          ],
+          "names": [
+            "func_8002517C",
+            "func_80025180",
+            "func_8002594C",
+            "func_800259B8",
+            "func_8002622C",
+            "func_80026B20",
+            "func_800272F8",
+            "func_80027498",
+            "func_80027954",
+            "func_80027968",
+            "func_80027A08",
+            "func_80028514"
+          ]
+        },
+        {
+          "scope": [
+            25381504,
+            25381960,
+            "row_1834a80_80024280"
+          ],
+          "names": [
+            "func_80024374",
+            "func_800243C8"
+          ]
+        },
+        {
+          "scope": [
+            25381960,
+            25381960,
+            "isolated:1834C48"
+          ],
+          "names": []
+        },
+        {
+          "scope": [
+            25382620,
+            25384188,
+            "row_1834edc_800246dc"
+          ],
+          "names": [
+            "func_80024B08",
+            "func_80024BB8"
+          ]
+        },
+        {
+          "scope": [
+            25384188,
+            25385784,
+            "row_18354fc_80024cfc"
+          ],
+          "names": [
+            "func_80024F14",
+            "func_8002515C",
+            "func_800252A8",
+            "func_8002530C"
+          ]
+        },
+        {
+          "scope": [
+            25405440,
+            25405440,
+            "isolated:183A800"
+          ],
+          "names": []
+        },
+        {
+          "scope": [
+            25405632,
+            25405632,
+            "isolated:183A8C0"
+          ],
+          "names": []
+        },
+        {
+          "scope": [
+            25406980,
+            25406980,
+            "isolated:183AE04"
+          ],
+          "names": []
+        },
+        {
+          "scope": [
+            25407608,
+            25407904,
+            "row_183b078_80024878"
+          ],
+          "names": [
+            "func_8002491C",
+            "func_80024920"
+          ]
+        },
+        {
+          "scope": [
+            25407904,
+            25407904,
+            "isolated:183B1A0"
+          ],
+          "names": []
+        },
+        {
+          "scope": [
+            25408276,
+            25408276,
+            "isolated:183B314"
+          ],
+          "names": []
+        },
+        {
+          "scope": [
+            25408488,
+            25411824,
+            "row_183b3e8_80024be8"
+          ],
+          "names": []
+        },
+        {
+          "scope": [
+            25430016,
+            25431476,
+            "jtbl_1840800"
+          ],
+          "names": []
+        },
+        {
+          "scope": [
+            25431476,
+            25432604,
+            "row_1840db4_800245b4"
+          ],
+          "names": [
+            "func_80024674",
+            "func_80024764",
+            "func_800249FC"
+          ]
+        },
+        {
+          "scope": [
+            25432604,
+            25432604,
+            "isolated:184121C"
+          ],
+          "names": []
+        },
+        {
+          "scope": [
+            25457036,
+            25457300,
+            "row_184718c_8002498c"
+          ],
+          "names": [
+            "func_80024A7C"
+          ]
+        },
+        {
+          "scope": [
+            25479168,
+            25482564,
+            "jtbl_184C800"
+          ],
+          "names": []
+        },
+        {
+          "scope": [
+            25482564,
+            25482904,
+            "row_184d544_80024d44"
+          ],
+          "names": []
+        },
+        {
+          "scope": [
+            25482904,
+            25483308,
+            "row_184d698_80024e98"
+          ],
+          "names": [
+            "func_80025010"
+          ]
+        },
+        {
+          "scope": [
+            25503744,
+            25506332,
+            "row_1852800_80024000"
+          ],
+          "names": [
+            "func_80024354",
+            "func_80024488",
+            "func_80024490",
+            "func_800247B4"
+          ]
+        },
+        {
+          "scope": [
+            25528320,
+            25530616,
+            "jtbl_1858800"
+          ],
+          "names": []
+        },
+        {
+          "scope": [
+            25530616,
+            25531224,
+            "row_18590f8_800248f8"
+          ],
+          "names": [
+            "func_80024934"
+          ]
+        },
+        {
+          "scope": [
+            25531224,
+            25531880,
+            "row_1859358_80024b58"
+          ],
+          "names": [
+            "func_80024D24",
+            "func_80024DCC"
+          ]
+        },
+        {
+          "scope": [
+            25552896,
+            25554568,
+            "jtbl_185E800"
+          ],
+          "names": []
+        },
+        {
+          "scope": [
+            25554568,
+            25554904,
+            "row_185ee88_80024688"
+          ],
+          "names": [
+            "func_800247C0"
+          ]
+        },
+        {
+          "scope": [
+            25554904,
+            25555592,
+            "row_185efd8_800247d8"
+          ],
+          "names": []
+        },
+        {
+          "scope": [
+            25577472,
+            25579308,
+            "jtbl_1864800"
+          ],
+          "names": [
+            "func_8002428C",
+            "func_80024468",
+            "func_800246A0",
+            "func_800246A4",
+            "func_800246F8"
+          ]
+        },
+        {
+          "scope": [
+            25579308,
+            25579624,
+            "row_1864f2c_8002472c"
+          ],
+          "names": [
+            "func_80024808",
+            "func_80024860"
+          ]
+        },
+        {
+          "scope": [
+            25579624,
+            25579624,
+            "isolated:1865068"
+          ],
+          "names": []
+        },
+        {
+          "scope": [
+            25580676,
+            25581040,
+            "row_1865484_80024c84"
+          ],
+          "names": [
+            "func_80024DD8"
+          ]
+        },
+        {
+          "scope": [
+            25602048,
+            25602048,
+            "isolated:186A800"
+          ],
+          "names": []
+        },
+        {
+          "scope": [
+            25602352,
+            25606288,
+            "img_186a930_80024130"
+          ],
+          "names": [
+            "func_80024354",
+            "func_80024488"
+          ]
+        }
+      ]
     }
   },
   "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_ovl_1852800/module",
-  "receipt_sha256": "b895e1ecad5e8407b2b0ebc028b07df341b08bb2fc420ea950c781e5e02c5dac",
+  "receipt_sha256": "2e4ccdbd2fd4b5026116ccc694e8ed3900854849b13343676e33ebc184bf0549",
   "windows": [
     {
       "config": "config/overlays/dungeon_deep_t8_1830.overlay.yaml",
@@ -365,8 +750,8 @@
         "gate.log": "a981ced97b401817b5847e5a1adbc1763097d8ad56ac367cdbe83a801df48bcc",
         "window.bin": "a9cb4d9cbdc5c950e5423b805617a95a203baa4e8f0a31c7a4fcbb91cff3ac57",
         "manifest.json": "1eb3156fc7782800720c1f544f9b42979088ae6151d537d5c908100483ec5eef",
-        "projection.json": "6f15c89311d5adfc262d69944df1642bab1553ea84a5563c894051ab6bc5779d",
-        "module/receipt.json": "33026665b7625057fca02abac6cb530163b45dd604f3c0921d8c854a8994b9ca"
+        "projection.json": "337e3e6ea37c2f98770b2739b9205435985039d42a84cbf7d9ab3f18d380d19c",
+        "module/receipt.json": "29ca0d683bd3cb56608deab93f8394bd75f5c6d5c99f3de7675f76c7f6674cc5"
       }
     }
   ]

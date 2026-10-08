@@ -111,6 +111,8 @@ import argparse
 import json
 import re
 import sys
+from contextlib import contextmanager
+from contextvars import ContextVar
 from bisect import bisect_right
 from functools import lru_cache
 from pathlib import Path, PurePosixPath
@@ -477,6 +479,45 @@ def _scope_index(root: Path, fam: str, stamps: tuple) -> tuple:
             {k: frozenset(v) for k, v in by_foff.items()}, rel)
 
 
+def _scope_stamps(root: Path, fam: str) -> tuple:
+    units = (fam, "dungeon_engine") if fam == "dungeon" else (fam,)
+    return (_stamp(root / f"config/overlays/{fam}.rowbase.jsonl"),) + tuple(
+        _stamp(root / f"ledger/splits/{unit}.jsonl") for unit in units)
+
+
+@lru_cache(maxsize=8192)
+def _ordered_sources(sources: frozenset) -> tuple:
+    # A mapped region normally supplies the same source set to all its rows.
+    # Sort it once, rather than repeating that work at every row offset.
+    return tuple(sorted(sources, key=lambda p: p.name))
+
+
+@lru_cache(maxsize=16384)
+def _scope_sources(root: Path, fam: str, stamps: tuple, foff: int) -> tuple:
+    """Shared selection for compile evidence and input fingerprints."""
+    if fam not in {"town", "dungeon"}:
+        raise ValueError(f"not a banked family: {fam}")
+    if not isinstance(foff, int) or foff < 0:
+        raise ValueError("bank selection needs a nonnegative file offset")
+    regions, by_scope, by_foff, rel = _scope_index(root, fam, stamps)
+    idx = next((i for i, r in enumerate(regions) if r[0] <= foff < r[1]), None)
+    scope = regions[idx] if idx is not None else None
+    sources = by_foff.get(foff, frozenset())
+    if idx is not None:
+        regional = by_scope.get(idx, frozenset())
+        sources = regional if sources <= regional else sources | regional
+    return scope, _ordered_sources(sources)
+
+
+@lru_cache(maxsize=8192)
+def _scope_names(sources: tuple, stamps: tuple, excluded: frozenset) -> frozenset:
+    names = set()
+    for source, stat in zip(sources, stamps):
+        if stat is not None:
+            names.update(_bank_source(source, *stat))
+    return frozenset(names - excluded)
+
+
 def scoped_census(fam: str, foff: int, *, root: Path | None = None) -> dict:
     """Frozen raw evidence from this row's own load region, minus false members.
 
@@ -486,29 +527,73 @@ def scoped_census(fam: str, foff: int, *, root: Path | None = None) -> dict:
     This also retains declarations that transforms stripped out of src/.
     """
     root = ROOT if root is None else Path(root)
+    scope, sources = _scope_sources(root, fam, _scope_stamps(root, fam), foff)
+    stamps = tuple(_stamp(p) for p in sources)
+    excluded = frozenset(false_members(fam, root / FALSE_MEMBERS_PATH))
+    names = _scope_names(sources, stamps, excluded)
+    return {"bank": scope[2] if scope else f"isolated:{foff:X}",
+            "names": set(names),
+            "sources": [f"raw/{fam}/{p.name}" for p, st in zip(sources, stamps)
+                        if st is not None]}
+
+
+_INPUT_SNAPSHOT = ContextVar("noreturn_input_snapshot", default=None)
+
+
+@contextmanager
+def scoped_input_snapshot():
+    """Share evidence reads within one SHA sweep, never across worker gates.
+
+    Callers opt into a bounded read snapshot. Ordinary scoped_inputs calls
+    still refresh source stats, including the post-build SHA in each worker.
+    Context-local storage avoids sharing a partial cache between threads.
+    """
+    token = _INPUT_SNAPSHOT.set({})
+    try:
+        yield
+    finally:
+        _INPUT_SNAPSHOT.reset(token)
+
+
+def scoped_inputs(fam: str, foffs, *, root: Path | None = None) -> dict:
+    """Canonical fingerprint input for each distinct compile evidence scope.
+
+    Reuse the compile selector, including exact-offset sources for unmapped or
+    straddling rows. Refresh source stats on every call; caches never hide a
+    raw edit in a long-lived gate process. Parse each distinct scope only once.
+    Family exclusions are bound even when absent from a particular scope.
+    """
+    root = ROOT if root is None else Path(root)
     if fam not in {"town", "dungeon"}:
         raise ValueError(f"not a banked family: {fam}")
-    if not isinstance(foff, int) or foff < 0:
-        raise ValueError("bank selection needs a nonnegative file offset")
-    units = (fam, "dungeon_engine") if fam == "dungeon" else (fam,)
-    stamps = (_stamp(root / f"config/overlays/{fam}.rowbase.jsonl"),) + tuple(
-        _stamp(root / f"ledger/splits/{unit}.jsonl") for unit in units)
-    regions, by_scope, by_foff, rel = _scope_index(root, fam, stamps)
-    idx = next((i for i, r in enumerate(regions) if r[0] <= foff < r[1]), None)
-    scope = regions[idx] if idx is not None else None
-    sources = set(by_foff.get(foff, ()))
-    if idx is not None:
-        sources |= by_scope.get(idx, frozenset())
-    names = set()
-    present = []
-    for source in sorted(sources, key=rel.__getitem__):
-        stat = _stamp(source)
-        if stat is not None:
-            names |= _bank_source(source, *stat)
-            present.append(source)
-    names -= false_members(fam, root / FALSE_MEMBERS_PATH)
-    return {"bank": scope[2] if scope else f"isolated:{foff:X}",
-            "names": names, "sources": [rel[p] for p in present]}
+    cache = _INPUT_SNAPSHOT.get()
+    family_key = (root, fam, "family")
+    family = cache.get(family_key) if cache is not None else None
+    if family is None:
+        family = (frozenset(false_members(fam, root / FALSE_MEMBERS_PATH)),
+                  _scope_stamps(root, fam))
+        if cache is not None:
+            cache[family_key] = family
+    excluded, stamps = family
+    scopes = {}
+    for foff in sorted(set(foffs)):
+        scope, sources = _scope_sources(root, fam, stamps, foff)
+        # Exact-offset sources can differ even within a mapped region when a
+        # split straddles its boundary; source sets are part of deduplication.
+        identity = scope if scope is not None else (foff, foff, f"isolated:{foff:X}")
+        scopes.setdefault((identity, sources), None)
+    result = []
+    for (identity, sources) in sorted(scopes):
+        key = (root, fam, identity, sources)
+        item = cache.get(key) if cache is not None else None
+        if item is None:
+            source_stamps = tuple(_stamp(p) for p in sources)
+            names = _scope_names(sources, source_stamps, excluded)
+            item = {"scope": list(identity), "names": sorted(names)}
+            if cache is not None:
+                cache[key] = item
+        result.append(item)
+    return {"family": fam, "false_members": sorted(excluded), "scopes": result}
 
 
 def count_sources(globs: list[str]) -> int:

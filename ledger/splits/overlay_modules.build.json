@@ -1,6 +1,6 @@
 {
   "schema": "overlay-module-native-v4",
-  "logical_rows": 6507,
+  "logical_rows": 6509,
   "edges": [
     {
       "module": "dungeon_cd_control_d79c4",
@@ -4810,6 +4810,16 @@
       },
       "rows": [
         "dungeon/D_818F2828"
+      ]
+    },
+    {
+      "source": "src/dungeon/D_81934800.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/D_81934800"
       ]
     },
     {
@@ -31950,6 +31960,16 @@
       },
       "rows": [
         "dungeon/func_81952B4C"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_81952E54.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_81952E54"
       ]
     },
     {

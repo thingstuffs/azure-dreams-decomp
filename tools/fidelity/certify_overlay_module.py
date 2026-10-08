@@ -28,7 +28,7 @@ def certify(key,root,reviewer):
  for wn in affected_windows(m,root):
   cfg=yaml.safe_load((root/wn).read_text());name=cfg['name'];sb=cfg['standalone_build'];win=out/'windows'/name;win.mkdir(parents=True,exist_ok=True)
   env=dict(os.environ,TMPDIR=str(root/'work'),PYTHONDONTWRITEBYTECODE='1')
-  command([sys.executable,root/'tools/overlay_local_gate.py','--config',wn,'--clean'],root,env,win/'gate.log')
+  command([sys.executable,root/'tools/overlay_local_gate.py','--config',wn,'--clean'],root,env,win/'gate.log',timeout=1800)  # a whole window gate (town_scene ~282 s idle); the 300 s default guards single tools
   bd=root/sb['work_dir']/name/'build';blob=bd/(name+'.window.bin');fs=sb['window']['file_start'];fe=sb['window']['file_end']
   with (root/'work/disc/containers'/CONTAINERS[m['container']]).open('rb') as f:f.seek(fs);ret=f.read(fe-fs)
   if blob.read_bytes()!=ret:raise ValueError('affected window mismatch')
