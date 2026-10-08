@@ -9,7 +9,7 @@ typedef struct S_80FB7000_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80FB7000_0;   /* obj in func_8016A8A4 */
+} S_80FB7000_0;   /* obj in BODY_NAME */
 
 typedef struct S_80FB7000_1 {
     u8 pad_00[0x13];
@@ -17,12 +17,12 @@ typedef struct S_80FB7000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80FB7000_1;   /* work in func_8016A8A4 */
+} S_80FB7000_1;   /* work in BODY_NAME */
 
 typedef struct S_80FB7000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80FB7000_2;   /* pin_part_a in func_8016A8A4 */
+} S_80FB7000_2;   /* pin_part_a in BODY_NAME */
 
 typedef struct S_80FB7000_3 {
     u8 pad_00[0x8];
@@ -34,7 +34,7 @@ typedef struct S_80FB7000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80FB7000_3;   /* part_b in func_8016A8A4 */
+} S_80FB7000_3;   /* part_b in BODY_NAME */
 
 typedef struct S_80FB7000_4 {
     u8 pad_00[0x8C];
@@ -45,7 +45,7 @@ typedef struct S_80FB7000_4 {
     s8 unk_9C;
     u8 pad_9D[0x11];
     u16 unk_AE;
-} S_80FB7000_4;   /* pin_actor in func_8016A8A4 */
+} S_80FB7000_4;   /* pin_actor in BODY_NAME */
 
 
 extern void *func_8003FD64(s32, void *);
@@ -61,14 +61,37 @@ extern u8 D_8016AF6C[];
 extern u8 D_8016F258[];
 extern u8 D_8016F298[];
 
+#ifdef __mips__
+static const u32 bank_words[41] __asm__("func_80FB7000")
+__attribute__((section(".text.func_80FB7000"), aligned(4))) = {
+    0x8016A8A4, (u32)D_8016AB40,
+    0x8016B12C, 0x8016B198, 0x8016B26C, 0x8016B3FC,
+    0x8016B444, 0x00000000,
+    0x8016B794, 0x8016B794, 0x8016B794, 0x8016B7C0,
+    0x8016B740, 0x8016B740, 0x8016B740, 0x8016B6D8,
+    0x8016B6D8, 0x8016B7C0, 0x8016B7C0, 0x8016B784,
+    0x8016CF08, 0x8016CF00, 0x8016CEF8, 0x8016CF10,
+    0x8016CEB8, 0x8016CEB0, 0x8016CEA8,
+    0x01000340, 0x00800040, 0x8C824081, 0x84828582,
+    0x81824081, 0x8D824081, 0x92828582, 0x99829282,
+    0x84824081, 0x8E828182, 0x85828382, 0x00004481,
+    0x01000340, 0x00400040,
+};
+__asm__(".globl func_80FB7000\n"
+        ".size func_80FB7000, 832");
+#define BODY_NAME func_80FB70A4
+#else
+#define BODY_NAME func_80FB7000
+#endif
 
-
-void *func_8016A8A4(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
-
+void *BODY_NAME(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
+#ifdef __mips__
+__attribute__((section(".text.func_80FB7000")))
+#endif
 ;
 
 /* Creates a dungeon actor and initializes its parts, flags, and image regions. */
-void *func_8016A8A4(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
+void *BODY_NAME(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
 {
     void *work;
     void *obj;
@@ -181,4 +204,5 @@ void *func_8016A8A4(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
 }
 
 #if 0
+extern void func_8016AA40(void) __attribute__((noreturn));
 #endif

@@ -9,7 +9,7 @@ typedef struct S_80FC9000_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80FC9000_0;   /* obj in func_801588A4 */
+} S_80FC9000_0;   /* obj in BODY_NAME */
 
 typedef struct S_80FC9000_1 {
     u8 pad_00[0x13];
@@ -17,12 +17,12 @@ typedef struct S_80FC9000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80FC9000_1;   /* work in func_801588A4 */
+} S_80FC9000_1;   /* work in BODY_NAME */
 
 typedef struct S_80FC9000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80FC9000_2;   /* pin_part_a in func_801588A4 */
+} S_80FC9000_2;   /* pin_part_a in BODY_NAME */
 
 typedef struct S_80FC9000_3 {
     u8 pad_00[0x8];
@@ -34,7 +34,7 @@ typedef struct S_80FC9000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80FC9000_3;   /* part_b in func_801588A4 */
+} S_80FC9000_3;   /* part_b in BODY_NAME */
 
 typedef struct S_80FC9000_4 {
     u8 pad_00[0x8C];
@@ -45,7 +45,7 @@ typedef struct S_80FC9000_4 {
     s8 unk_9C;
     u8 pad_9D[0x11];
     u16 unk_AE;
-} S_80FC9000_4;   /* pin_actor in func_801588A4 */
+} S_80FC9000_4;   /* pin_actor in BODY_NAME */
 
 
 extern void *func_8003FD64(s32, void *);
@@ -61,13 +61,36 @@ extern u8 D_8015D258[];
 extern u8 D_8015D298[];
 
 
+#ifdef __mips__
+extern void *func_801588A4(s32, s16, s16, s16);
+static const u32 bank_words[] __asm__("func_80158800")
+__attribute__((section(".text.func_80158800"), aligned(4))) = {
+    (u32)func_801588A4, (u32)D_80158B40, 0x8015912C, 0x80159198,
+    0x8015926C, 0x801593FC, 0x80159444, 0x00000000,
+    0x80159794, 0x80159794, 0x80159794, 0x801597C0,
+    0x80159740, 0x80159740, 0x80159740, 0x801596D8,
+    0x801596D8, 0x801597C0, 0x801597C0, 0x80159784,
+    0x8015AF08, 0x8015AF00, 0x8015AEF8, 0x8015AF10,
+    0x8015AEB8, 0x8015AEB0, 0x8015AEA8, 0x01000340,
+    0x00800040, 0x8C824081, 0x84828582, 0x81824081,
+    0x8D824081, 0x92828582, 0x99829282, 0x84824081,
+    0x8E828182, 0x85828382, 0x00004481, 0x01000340,
+    0x00400040,
+};
+__asm__(".globl func_80158800\n"
+        ".size func_80158800, 832");
+#define BODY_NAME func_801588A4
+#else
+#define BODY_NAME func_80158800
+#endif
 
-
-void *func_801588A4(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 part_a_value)
-
+void *BODY_NAME(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 part_a_value)
+#ifdef __mips__
+__attribute__((section(".text.func_80158800")))
+#endif
 ;
 
-void *func_801588A4(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 part_a_value)
+void *BODY_NAME(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 part_a_value)
 {
     void *work;
     void *obj;
