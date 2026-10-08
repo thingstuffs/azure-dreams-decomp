@@ -540,12 +540,24 @@ def duck(row_id, notes=None, row=None, text=None, skip_lane=None):
 
     # ---------------- KNOWN
     L.append("\n**KNOWN.**")
+    from pin_evidence import mechanism_lines, for_row
+    mechanisms = mechanism_lines(row_id, text)
+    deciding = {r['site']: r['detail']['deciding_pass'] for r in for_row(row_id, text)
+                if r.get('current') and r.get('detail', {}).get('deciding_pass')
+                and isinstance(r.get('site'), int) and 0 <= r['site'] < len(sites)
+                and (r.get('macro'), r.get('arg'), r.get('line')) ==
+                    (sites[r['site']][1], sites[r['site']][2], sites[r['site']][5])}
+    if mechanisms:
+        L.append('Recorded deciding-pass evidence follows. Erasure notes and the hypotheses below '
+                 'describe the effect of removing a pin; they do not establish its compiler mechanism.')
+        L.extend(mechanisms)
     sw = sweep_verdicts(row_id)
     jr = journal_bests(row_id)
     seen_gen, cited_lanes = set(), set()
     groups = []                       # pins with the same hypothesis are one entry, not n copies
     for k, one in enumerate(m["singles"]):
-        hyp, gens = hypothesis(one["site"], one["fp"])
+        hyp, gens = (('Recorded deciding pass: '+deciding[k]+'. See PIN MECHANISM above.', [])
+                     if k in deciding else hypothesis(one["site"], one["fp"]))
         for g2 in groups:
             if g2[0] == hyp:
                 g2[1].append(k + 1)
@@ -598,7 +610,7 @@ def duck(row_id, notes=None, row=None, text=None, skip_lane=None):
     # ---------------- NEEDED
     L.append("\n**NEEDED.**")
     hyps = [hypothesis(o["site"], o["fp"]) for o in m["singles"]]
-    unknown = [k + 1 for k, (h, _) in enumerate(hyps) if h.startswith("unknown")]
+    unknown = [k + 1 for k, (h, _) in enumerate(hyps) if k not in deciding and h.startswith("unknown")]
     for line in needed_lines(sites, m, hyps, jd):
         L.append("- " + line)
     for src, quotes, verbatim in reps:                # an "Open:" line in the evidence IS the need

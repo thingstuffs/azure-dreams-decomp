@@ -17,8 +17,8 @@ src/ directly, so the verdict does not depend on which root ran it.  GATE_JOURNA
 the journal (default ledger/gate.jsonl): a throw-away journal gates every window without touching
 the record of the tree.
 """
-import argparse, contextlib, hashlib, json, os, re, subprocess, sys, time
-from concurrent.futures import ThreadPoolExecutor, as_completed
+import argparse, contextlib, hashlib, io, json, math, os, re, signal, subprocess, sys, time, traceback
+from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, as_completed
 from bisect import bisect_left, bisect_right
 from contextvars import ContextVar
 from pathlib import Path
@@ -230,19 +230,75 @@ def window_lock(yaml_name):
         finally:
             fcntl.flock(fh, fcntl.LOCK_UN)
 
-def run_window(yaml_path):
+def schedule_windows(windows, prior):
+    """Longest recorded run first; unknown/invalid costs lead, ties are stable."""
+    def cost(path):
+        value = prior.get(path.stem.replace(".overlay", ""), {}).get("secs")
+        if not isinstance(value, (int, float)) or not math.isfinite(value) or value < 0:
+            return float("inf")
+        return value
+    return sorted(windows, key=cost, reverse=True)
+
+_GATE_WORKER = None
+
+def init_worker():
+    # Same scheduling priority as the old `nice -n10 python3` subprocess.
+    os.nice(10)
+    os.chdir(B)
+    sys.path.insert(0, str(B / "tools"))
+    global _GATE_WORKER
+    import overlay_local_gate
+    _GATE_WORKER = overlay_local_gate
+
+
+def worker_output(yaml_path):
+    """Run the unchanged checks in a persistent interpreter, with a per-job deadline."""
+    out, err = io.StringIO(), io.StringIO()
+    # These historical memos were designed for a single gate invocation.
+    _GATE_WORKER._RENAMED = None
+    _GATE_WORKER._RODATA_OWNERS.clear()
+    import overlay_as_flags
+    overlay_as_flags._MAIN_TABLE = None
+    if _GATE_WORKER._MATCH_MOD is not None:
+        _GATE_WORKER._MATCH_MOD.DEFAULT_FUNC_AS_FLAGS = _GATE_WORKER._MATCH_MOD._default_func_as_flags()
+    def timeout(signum, frame):
+        raise TimeoutError("timeout")
+    previous = signal.signal(signal.SIGALRM, timeout)
+    signal.alarm(3600)
+    try:
+        with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+            try:
+                _GATE_WORKER.main(["--config", str(yaml_path.relative_to(B)), "--clean"])
+            except SystemExit as e:
+                if e.code: print(e.code, file=sys.stderr)
+            except TimeoutError:
+                raise
+            except Exception:
+                traceback.print_exc()
+    finally:
+        signal.alarm(0)
+        signal.signal(signal.SIGALRM, previous)
+        # Object identities and large per-window indexes must not accumulate.
+        _GATE_WORKER._NM_CACHE.clear()
+    return (out.getvalue() + err.getvalue()).strip().splitlines()
+
+
+def run_window(yaml_path, in_process=False):
     t0 = time.time()
     with window_lock(yaml_path.name):
         try:
-            r = subprocess.run(["nice", "-n10", "python3", "tools/overlay_local_gate.py", "--config", str(yaml_path.relative_to(B)), "--clean"],
-                               cwd=B, capture_output=True, text=True, timeout=3600)
-            out = (r.stdout + r.stderr).strip().splitlines()
+            if in_process:
+                out = worker_output(yaml_path)
+            else:
+                r = subprocess.run(["nice", "-n10", "python3", "tools/overlay_local_gate.py", "--config", str(yaml_path.relative_to(B)), "--clean"],
+                                   cwd=B, capture_output=True, text=True, timeout=3600)
+                out = (r.stdout + r.stderr).strip().splitlines()
             last = next((l for l in reversed(out) if l.startswith(("MATCH", "NO MATCH"))), None)
             if last is None:
                 res, detail = "ERROR", (out[-1] if out else "")[:200]
             else:
                 res, detail = ("MATCH" if last.startswith("MATCH") else "NO MATCH"), last[:200]
-        except subprocess.TimeoutExpired:
+        except (subprocess.TimeoutExpired, TimeoutError):
             res, detail = "ERROR", "timeout"
         sha = inputs_sha(yaml_path)   # under the lock: the sha describes the text that was gated
     detail = detail.replace(str(ROOT), "<repo>").replace(str(Path.home()), "<home>")
@@ -253,6 +309,8 @@ def run_window(yaml_path):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--container"); ap.add_argument("--workers", type=int, default=6); ap.add_argument("--limit", type=int); ap.add_argument("--retry", action="store_true"); ap.add_argument("--all", action="store_true", help="gate every window regardless of its cached inputs_sha (after a pipeline/tool change, which inputs_sha does not cover)")
+    ap.add_argument("--worker-mode", choices=("process", "subprocess"), default="process",
+                    help="persistent gate interpreters (default) or the legacy per-window subprocess")
     a = ap.parse_args()
     yamls = sorted((B / "config/overlays").glob("*.overlay.yaml"))
     sup = superseded(yamls)
@@ -273,10 +331,14 @@ def main():
             if p and p["result"] != "MATCH" and not a.retry and not a.all and p.get("inputs_sha") == inputs_sha(y): continue
             todo.append(y)
     if a.limit: todo = todo[:a.limit]
+    todo = schedule_windows(todo, prior)
     print(f"{len(todo)} windows to gate ({len(yamls) - len(todo)} up to date), {a.workers} workers", flush=True)
     t0 = time.time(); n = 0; tally = {}
-    with ThreadPoolExecutor(max_workers=a.workers) as ex:
-        for future in as_completed([ex.submit(run_window, y) for y in todo]):
+    in_process = a.worker_mode == "process"
+    pool = ProcessPoolExecutor if in_process else ThreadPoolExecutor
+    options = {"initializer": init_worker} if in_process else {}
+    with pool(max_workers=a.workers, **options) as ex:
+        for future in as_completed([ex.submit(run_window, y, in_process) for y in todo]):
             rec = future.result()
             append_jsonl(JOURNAL, rec); n += 1; tally[rec["result"]] = tally.get(rec["result"], 0) + 1
             if n % 50 == 0: print(f"{n}/{len(todo)} {time.time()-t0:.0f}s {tally}", flush=True)

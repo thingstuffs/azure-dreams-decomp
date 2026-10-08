@@ -7,6 +7,7 @@ No historical l4_modules event is authority. Unsupported modules fail closed.
 """
 import argparse,json,os,shutil,sys,time
 from pathlib import Path
+from concurrent.futures import ThreadPoolExecutor
 ROOT=Path(__file__).resolve().parents[2]
 sys.path[:0]=[str(ROOT/'tools'),str(ROOT/'tools/gate')]
 from overlay_module_gate import build,command,CONTAINERS,affected_windows,fingerprint,load_modules,sha
@@ -25,7 +26,7 @@ def certify(key,root,reviewer):
    if json.loads((root/g['results']).read_text())!=expected:raise ValueError('exported split roster differs: '+g['results'])
  before=fingerprint(m,root);out=root/'work/module_proofs'/key;out.mkdir(parents=True,exist_ok=True)
  r,_=build(m,out/'module',root);windows=[]
- for wn in affected_windows(m,root):
+ def prove_window(wn):
   cfg=yaml.safe_load((root/wn).read_text());name=cfg['name'];sb=cfg['standalone_build'];win=out/'windows'/name;win.mkdir(parents=True,exist_ok=True)
   env=dict(os.environ,TMPDIR=str(root/'work'),PYTHONDONTWRITEBYTECODE='1')
   command([sys.executable,root/'tools/overlay_local_gate.py','--config',wn,'--clean'],root,env,win/'gate.log',timeout=1800)  # a whole window gate (town_scene ~282 s idle); the 300 s default guards single tools
@@ -37,7 +38,9 @@ def certify(key,root,reviewer):
   records=json.loads((bd/'modules.json').read_text());pr=next(x for x in records if x['module']==key)
   (win/'projection.json').write_text(json.dumps(pr,indent=2)+'\n')
   shutil.copytree(bd/'modules'/key,win/'module',dirs_exist_ok=True)
-  windows.append({'config':wn,'result':'MATCH','file_start':fs,'file_end':fe,'proof_dir':str(win.relative_to(authority)),'artifacts':{n:sha(win/n) for n in ['gate.log','window.bin','manifest.json','projection.json','module/receipt.json']}})
+  return {'config':wn,'result':'MATCH','file_start':fs,'file_end':fe,'proof_dir':str(win.relative_to(authority)),'artifacts':{n:sha(win/n) for n in ['gate.log','window.bin','manifest.json','projection.json','module/receipt.json']}}
+ with ThreadPoolExecutor(max_workers=8) as pool:
+  windows=list(pool.map(prove_window,affected_windows(m,root)))
  if before!=fingerprint(m,root):raise ValueError('inputs changed during full certification')
  cert={'schema':r['schema'],'kind':'overlay_module_placement','module':key,'members':r['members'],'at':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'reviewer':reviewer,'fingerprint':before,'proof_dir':str((out/'module').relative_to(authority)),'receipt_sha256':sha(out/'module/receipt.json'),'windows':windows}
  reason=certificate_reason(m,cert,authority)

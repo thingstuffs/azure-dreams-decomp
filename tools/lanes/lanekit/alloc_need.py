@@ -88,7 +88,7 @@ ASMREG = re.compile(r"\b([A-Za-z_]\w*)\s+ASM_REG\(\s*\"\$(\w+)\"\s*\)")
 TOK = re.compile(r"[,()\s]+")
 
 LEVERS = {
-    "refs+": "more refs: a use inside a REAL loop counts loop_depth (2 at depth 1: goto loop -> do/while/for); "
+    "refs+": "more refs: flow weights by loop_depth (base/goto depth 1; one real loop 2, nested loop 3); "
              "read a field through this variable instead of another pointer/copy; use it where a copy is used",
     "refs-": "fewer refs: read that value through another variable/copy or re-load it; split one role into a "
              "fresh local; a use moved out of a loop body",
@@ -105,6 +105,41 @@ def rname(n):
     if n < 0:
         return "spill"
     return "$" + REGNAME.get(n, str(n)) if n < 32 else "r%d" % n
+
+
+def ref_depths(flow):
+    """Operand occurrences by flow loop-note depth (not an exact reg_n_refs replay).
+
+    Flow weights reads, sets and address uses with different counting rules.
+    Keep this provenance separate from the compiler's authoritative ref count.
+    """
+    depth = 1
+    out = collections.defaultdict(collections.Counter)
+    parts = re.split(r'(?=^\((?:note|insn|call_insn|jump_insn)\b)', flow, flags=re.M)
+    for part in parts:
+        if part.startswith('(note '):
+            if 'NOTE_INSN_LOOP_BEG' in part:
+                depth += 1
+            elif 'NOTE_INSN_LOOP_END' in part:
+                depth = max(1, depth - 1)
+        elif re.match(r'^\((?:insn|call_insn|jump_insn) ', part):
+            body = part.split('(expr_list', 1)[0].split('(insn_list', 1)[0]
+            for reg in REG.findall(body):
+                out[int(reg)][depth] += 1
+    return dict(out)
+
+
+def loop_threshold(it, target):
+    """Conditional one-added-loop estimate, only when every observed ref shares a depth."""
+    hist = it.get('ref_depths', {})
+    depths = ', '.join('%s:%s' % (k, v) for k, v in sorted(hist.items())) or 'unknown'
+    head = 'ref operand depths (depth:occurrences) %s' % depths
+    if not hist or len(hist) != 1:
+        return head + '; real-loop threshold UNKNOWN (missing or mixed-depth refs; select the body and recompile)'
+    depth = int(next(iter(hist)))
+    estimate = it['refs'] * (depth + 1) / depth
+    return head + ('; one real loop around ALL these refs: %.1f weighted refs vs threshold %s -> %s '
+           '(conditional, fixed live/conflicts; recompile)' % (estimate, target, 'reaches' if estimate >= target else 'short'))
 
 
 def floor_log2(n):
@@ -323,6 +358,7 @@ def analyse(row, text, reftext=None, beam=6, explain_local=True, retail_set=None
     dbl = sim.doubled(rd)
     dp = sim.decl_pseudos(text, fp)
     names = {v: k for k, v in ((dp or {}).get("map") or {}).items()}
+    depths = ref_depths(d['flow'])
     uid_regs = parse_insn_regs(d["lreg"], fp)
 
     v = kitlib.score_at(row, text, diff=True)
@@ -342,7 +378,7 @@ def analyse(row, text, reftext=None, beam=6, explain_local=True, retail_set=None
         st = stats.get(p, {})
         return {"pseudo": p, "name": names.get(p, ""), "refs": st.get("n_refs", 0), "live": st.get("live_length", -1),
                 "calls": st.get("calls_crossed", 0), "size": size_of(st.get("note")), "block": block_of(st.get("note")),
-                "doubled": bool(dbl.get(p)), "got": disp.get(p)}
+                "doubled": bool(dbl.get(p)), "got": disp.get(p), "ref_depths": dict(depths.get(p, {}))}
 
     allp = sorted(set(order) | {p for p in disp if p >= fp})
     table = {}
@@ -587,10 +623,12 @@ def render(res, show_all=False):
     t = res["table"]
     out.append("# alloc_need %s at %s   scorer: %s" % (res["row"], res["cfg"],
                "EXACT" if res["exact"] else "total %s" % res["total"]))
+    out.append('# flow.c:445-453,2122,2374: refs weighted by loop depth; base/goto loop = 1, '
+               'real loop = 2, nested real loop = 3. Goto backedges alone add no loop notes.')
     placed, pred, gen = res["coverage"]
     out.append("# retail map: uid map placed %d of %d predicted words on %d generated; reference cross-check %s"
                % (placed, pred, gen, "on" if res["ref_ok"] else "off"))
-    head = ["pseudo", "variable", "refs", "live", "calls", "prio", "dbl", "got", "retail", "evidence", "ref", "verdict"]
+    head = ["pseudo", "variable", "refs", "ref depths", "live", "calls", "prio", "dbl", "got", "retail", "evidence", "ref", "verdict"]
     body = []
     for p in res["order"] + sorted(q for q in t if q not in res["order"]):
         it = t[p]
@@ -599,7 +637,8 @@ def render(res, show_all=False):
                                                                   and it["retail"] is not None
                                                                   and it["ref"] != it["retail"]):
             continue
-        body.append([p if it["global"] else "%d/b%s" % (p, it["block"]), it["name"], it["refs"], it["live"],
+        body.append([p if it["global"] else "%d/b%s" % (p, it["block"]), it["name"], it["refs"],
+                     ','.join('%s:%s' % (depth,n) for depth,n in sorted(it.get('ref_depths',{}).items())) or '?', it["live"],
                      it["calls"], it["prio"], "D" if it["doubled"] else "", rname(it["got"]), rname(it["retail"]),
                      it["src"], rname(it["ref"]) if it["ref"] is not None else "",
                      it["verdict"] + ("" if it["ref"] is None or it["retail"] is None or it["ref"] == it["retail"]
@@ -680,6 +719,8 @@ def render(res, show_all=False):
                    % (i + 1, label(t, s["mover"]), "down" if s["slots"][0] > s["from"] else "up", len(s["crossed"]),
                       " ".join(str(q) for q in s["crossed"]), cheapest_text(t, s)))
         out.append("  " + head)
+        if s['th'].get('hi_refs') is not None and s['th']['hi_refs'] > t[s['hi']]['refs']:
+            out.append('  refs lever for %s: %s' % (label(t, s['hi']), loop_threshold(t[s['hi']], s['th']['hi_refs'])))
         for ptxt in parts:
             out.append("    or " + ptxt)
         if s["keep"]:
@@ -703,6 +744,8 @@ def render(res, show_all=False):
         for s in (tm["first"], tm["second"]):
             head, parts = fmt_ineq(t, s)
             out.append("  " + head + (": " + " | ".join(parts) if parts else ""))
+            if s['th'].get('hi_refs') is not None and s['th']['hi_refs'] > t[s['hi']]['refs']:
+                out.append('  refs lever for %s: %s' % (label(t, s['hi']), loop_threshold(t[s['hi']], s['th']['hi_refs'])))
     out.append("")
     out.append("inequalities are NECESSARY, not sufficient: a source change that moves one term also moves others "
                "(re-run this tool on the candidate that meets it).")

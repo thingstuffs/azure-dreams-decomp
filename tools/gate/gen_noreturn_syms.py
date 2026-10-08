@@ -400,18 +400,18 @@ def false_members(fam: str, path: Path | None = None) -> set[str]:
 # Regions sometimes describe only part of a bank; refusing to merge adjacent
 # regions is conservative. Unmapped rows share no facts with other rows.
 @lru_cache(maxsize=32)
-def _bank_records(path: Path, mtime_ns: int, size: int) -> tuple:
+def _bank_records(path: Path, mtime_ns: int, size: int, ctime_ns=0, device=0, inode=0) -> tuple:
     return tuple(json.loads(line) for line in path.read_text().splitlines()
                  if line.strip() and not line.lstrip().startswith("#"))
 
 
 def _read_bank_records(path: Path) -> tuple:
     stat = path.stat()
-    return _bank_records(path, stat.st_mtime_ns, stat.st_size)
+    return _bank_records(path, stat.st_mtime_ns, stat.st_size, stat.st_ctime_ns, stat.st_dev, stat.st_ino)
 
 
 @lru_cache(maxsize=8192)
-def _bank_source(path: Path, mtime_ns: int, size: int) -> frozenset:
+def _bank_source(path: Path, mtime_ns: int, size: int, ctime_ns=0, device=0, inode=0) -> frozenset:
     return frozenset(scan_text(path.read_text(errors="replace")))
 
 
@@ -420,7 +420,7 @@ def _stamp(path: Path):
         st = path.stat()
     except FileNotFoundError:
         return None
-    return st.st_mtime_ns, st.st_size
+    return st.st_mtime_ns, st.st_size, st.st_ctime_ns, st.st_dev, st.st_ino
 
 
 def _row_source(root: Path, fam: str, rec: dict) -> Path | None:
@@ -527,14 +527,41 @@ def scoped_census(fam: str, foff: int, *, root: Path | None = None) -> dict:
     This also retains declarations that transforms stripped out of src/.
     """
     root = ROOT if root is None else Path(root)
-    scope, sources = _scope_sources(root, fam, _scope_stamps(root, fam), foff)
-    stamps = tuple(_stamp(p) for p in sources)
-    excluded = frozenset(false_members(fam, root / FALSE_MEMBERS_PATH))
-    names = _scope_names(sources, stamps, excluded)
+    cache = _CENSUS_SNAPSHOT.get()
+    family_key = (root, fam, "family")
+    family = cache.get(family_key) if cache is not None else None
+    if family is None:
+        family = (_scope_stamps(root, fam),
+                  frozenset(false_members(fam, root / FALSE_MEMBERS_PATH)))
+        if cache is not None: cache[family_key] = family
+    scope, sources = _scope_sources(root, fam, family[0], foff)
+    key = (root, fam, sources)
+    item = cache.get(key) if cache is not None else None
+    if item is None:
+        stamps = tuple(_stamp(p) for p in sources)
+        item = (_scope_names(sources, stamps, family[1]),
+                tuple(f"raw/{fam}/{p.name}" for p, st in zip(sources, stamps)
+                      if st is not None))
+        if cache is not None: cache[key] = item
     return {"bank": scope[2] if scope else f"isolated:{foff:X}",
-            "names": set(names),
-            "sources": [f"raw/{fam}/{p.name}" for p, st in zip(sources, stamps)
-                        if st is not None]}
+            "names": set(item[0]), "sources": list(item[1])}
+
+
+_CENSUS_SNAPSHOT = ContextVar("noreturn_census_snapshot", default=None)
+
+
+@contextmanager
+def scoped_census_snapshot():
+    """Stat frozen region sources once per compile batch, refreshed next gate.
+
+    This context never covers the pre/post fingerprints; those still detect
+    changed evidence. Context-local storage also isolates concurrent callers.
+    """
+    token = _CENSUS_SNAPSHOT.set({})
+    try:
+        yield
+    finally:
+        _CENSUS_SNAPSHOT.reset(token)
 
 
 _INPUT_SNAPSHOT = ContextVar("noreturn_input_snapshot", default=None)

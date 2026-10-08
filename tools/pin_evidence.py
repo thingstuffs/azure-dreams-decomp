@@ -68,6 +68,9 @@ def build():
                 r = json.loads(l)
                 old[(r["id"], r.get("in_sha"), r.get("site"), r.get("op"))] = r
     out = _derive({r["id"]: r for r in rows()})
+    # Pass diagnoses are append-only research inputs, not derivable from t15/t18 journals.
+    keys = {(r['id'], r.get('in_sha'), r.get('site'), r.get('op')) for r in out}
+    out += [r for k, r in old.items() if r.get('detail', {}).get('deciding_pass') and k not in keys]
     for r in out:
         o = old.get((r["id"], r.get("in_sha"), r.get("site"), r.get("op")))
         if o:
@@ -168,6 +171,22 @@ def main():
     if a.row:
         for r in for_row(a.row):
             print("site %s %s(%s) line %s: %s [%s]" % (r["site"], r["macro"], r["arg"], r["line"], r["hint"], r["found_by"]))
+
+
+def mechanism_lines(row_id, text):
+    """Pass evidence shared by FACTS and the duck, distinct from erasure hypotheses."""
+    out = []
+    for r in for_row(row_id, text):
+        detail = r.get('detail', {})
+        if not detail.get('deciding_pass'):
+            continue
+        stale = '' if r['current'] else ' (earlier text; match variable names, not site numbers)'
+        sources = ', '.join(detail.get('sources', []))
+        out.append('- PIN MECHANISM%s: site %s `%s(%s)` on `%s`; deciding pass **%s**. %s '
+                   'Verdict: %s. Sources: %s. Review: %s.' %
+                   (stale, r['site'], r['macro'], r['arg'], detail.get('variable', '?'),
+                    detail['deciding_pass'], r['hint'], r['verdict'], sources, r.get('reviewer') or 'pending'))
+    return out
 
 
 if __name__ == "__main__":

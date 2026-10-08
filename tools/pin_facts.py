@@ -94,8 +94,10 @@ def facts(row, text, regions_text=""):
     # removal the project declined because the price was a fake dependency.  It names the value a
     # pin orders, so the next pass does not re-derive it - and does not re-land the fake.
     try:
-        from pin_evidence import for_row
+        from pin_evidence import for_row, mechanism_lines
         ev = for_row(row["id"], text)
+        lines.extend(mechanism_lines(row['id'], text))
+        ev = [r for r in ev if not r.get('detail', {}).get('deciding_pass')]
     except Exception:
         ev = []
     for r in ev[:6]:

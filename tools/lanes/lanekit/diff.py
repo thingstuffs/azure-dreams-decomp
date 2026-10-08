@@ -142,6 +142,19 @@ def scorer_diff(text, ctx=3, norm_regs=False):
     return list(difflib.unified_diff(tgt, got, "retail", "generated", lineterm="", n=ctx))
 
 
+def allocation_pins(text):
+    """Conservative trigger: ASM_REG controls allocation even for argument/zero pins."""
+    return bool(re.search(r'\bASM_REG\s*\(', text))
+
+
+def allocation_view(row, text, ctx=3):
+    """The real byte score and display-only normalised distance; exactness stays raw."""
+    v = kitlib.score_at(row, text, diff=True)
+    lines = scorer_diff(v.get('text'), ctx, True)
+    dist = distance(lines) if lines is not None else 0 if v.get('exact') else None
+    return v, lines, dist
+
+
 def _span(xs):
     return "-" if not xs else "[%d]" % xs[0] if len(xs) == 1 else "[%d..%d]" % (xs[0], xs[-1])
 
@@ -208,6 +221,7 @@ def main(argv=None):
                     help="implies --scorer: score/print with the switch jump-table CONTENT check off (informational; "
                          "a text-exact result prints 'text exact, jump table NOT checked'; the real scorer decides exactness)")
     ap.add_argument("--no-log", action="store_true", help="write nothing to lab_log.jsonl (a pure viewer)")
+    ap.add_argument('--raw-only', action='store_true', help='skip the default allocation-pin scorer view')
     a = ap.parse_args(argv)
     if a.no_jtbl:
         a.scorer = True
@@ -286,6 +300,15 @@ def main(argv=None):
     if not a.scorer:
         print("%-28s dist %-5s pins %-3s vs %s   [%s]"
               % (cand_name, "-" if dist is None else dist, len(kitlib.sites(cand)), ref_name, row["cfg"]))
+        if not a.raw_only and allocation_pins(kitlib.base_text(row, lane)) and lines is not None:
+            v, norm_lines, norm_dist = allocation_view(row, cand, a.ctx)
+            print('# allocation pins: --scorer --norm-regs alongside raw listing distance; '
+                  'normalised distance %s (display only; raw byte score decides exactness)' % norm_dist)
+            print('\n'.join(norm_lines) if norm_lines else '(normalised listing unavailable)' if norm_lines is None
+                  else '(normalised listings identical)')
+            print('# raw byte score %s' % json.dumps(kitlib.score_fields(v)))
+            journal('diff-scorer', 'diff.py --scorer --norm-regs (allocation default)', v,
+                    dist=dist if ref_name == 'pinned' else None, note='normalised_distance %s' % norm_dist)
     if a.score:
         if v is None:                    # a --scorer run already holds the score: journalled above, not twice
             v = kitlib.score_at(row, cand)

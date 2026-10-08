@@ -90,6 +90,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import kitlib                                                             # noqa: E402
 import nojtbl                                                             # noqa: E402
+import diff as listing_diff                                               # noqa: E402
 
 JTBL_STATUSES = ("jtbl-mismatch",)
 STDERR_LINES = 20          # a no-build candidate prints this many lines of preprocessor/cc1 stderr
@@ -139,6 +140,7 @@ class Lab:
     """One row, ready to measure.  `Lab(row_id).test(name, text)` is the whole interface."""
 
     start = None          # `--base FILE` text for --subs/--grid (None: the pin-erased text)
+    raw_only = False      # skip the default allocation-pin scorer view when explicitly requested
 
     def __init__(self, row_id, lane=None, stage=True, cfg=None, more=False, base_file=None, no_jtbl=False):
         self.lane = kitlib.bootstrap(lane)
@@ -220,6 +222,15 @@ class Lab:
         (self.dir / (name + ".diff")).write_text("\n".join(d or ["DOES NOT BUILD"]) + "\n")
         rec = {"variant": name, "distance": dist, "score": None, "note": note,
                "status": "no-build" if d is None else "measured", "pins": len(kitlib.sites(text))}
+        allocation_score = None
+        if d is not None and not self.raw_only and listing_diff.allocation_pins(self.base):
+            allocation_score, norm_lines, norm_dist = listing_diff.allocation_view(scr.row, text)
+            rec['normalised_distance'] = norm_dist
+            rec['allocation_score'] = kitlib.score_fields(allocation_score)
+            (self.dir / (name + '.norm.diff')).write_text('\n'.join(norm_lines or [
+                'normalised listings identical' if norm_lines == [] else 'normalised listing unavailable']) + '\n')
+            print('  --scorer --norm-regs: distance %s; raw byte score %s (display only)' %
+                  (norm_dist, json.dumps(rec['allocation_score'])))
         if self.cfg:
             rec["cfg"] = self.cfg
         if d is None:                  # round 93: say WHY it does not build (cpp / cc1 stderr), in the log and on screen
@@ -231,7 +242,7 @@ class Lab:
         # listing (r79_sonnet_g20 main/func_8000F524: dist 7, verify exact; the lane had to stage it by hand)
         near = int(os.environ.get("LANEKIT_SCORE_NEAR", "24"))
         if score and (dist == 0 or (dist is not None and dist <= near) or (self.cfg and d is not None)):
-            v = self.score_text(text, scr)
+            v = allocation_score if allocation_score is not None and not self.no_jtbl else self.score_text(text, scr)
             rec["score"] = kitlib.score_fields(v)
             rec["status"] = "exact" if v.get("exact") else v["status"] if v.get("status") in JTBL_STATUSES else "scored"
             if self.no_jtbl:
@@ -582,6 +593,7 @@ def report(lane, row_id=None):
             out.append("")
             continue
         body, seen = [], {}
+        norm_active = any('normalised_distance' in r for r in real)
         for r in sorted(real, key=lambda r: (r.get("distance") is None, r.get("distance") or 0)):
             s = r.get("score") or {}
             at = " @" + r["cfg"] if r.get("cfg") else ""      # scored at ANOTHER cfg: not a solve here
@@ -590,6 +602,8 @@ def report(lane, row_id=None):
                     r.get("pins", "-"),
                     "" if not s else score_cell(s) + at,
                     (r.get("note") or r.get("why") or "")[:60]]
+            if norm_active:
+                line[4:4] = [r.get('normalised_distance', '-'), score_cell(r.get('allocation_score') or {})]
             key = json.dumps(line, default=str)
             if key in seen:                  # the same measurement repeated (a diff.py viewer run twice): one line
                 seen[key][1] += 1
@@ -609,7 +623,10 @@ def report(lane, row_id=None):
                       " (+%d exact only at another cfg: a trade, not a solve)" % xc if xc else ""))
         out.append("")
         out.append("```")
-        out.append(kitlib.fmt_table(["variant", "status", "via", "dist", "pins", "score", "note"], body))
+        columns = ["variant", "status", "via", "dist", "pins", "score", "note"]
+        if norm_active:
+            columns[4:4] = ['norm dist', 'raw byte (view)']
+        out.append(kitlib.fmt_table(columns, body))
         out.append("```")
         out.append("")
     return "\n".join(out)
@@ -623,6 +640,7 @@ def main():
     ap.add_argument("rest", nargs="*", help="variant .c files (after 'baseline': row ids; after 'cellscore' / "
                                             "'stage-cell': row cand.c)")
     ap.add_argument("--base", help="--subs/--grid start from this file instead of the pin-erased text")
+    ap.add_argument('--raw-only', action='store_true', help='skip the default allocation-pin scorer view')
     ap.add_argument("--subs", help="variants.json: {name: [[old,new],...]} on the pin-erased base; each pair replaces the FIRST occurrence, [old,new,\"all\"] every occurrence")
     ap.add_argument("--grid", help="grid.json: {axis: {label: [[old,new],...]}} -> every combination, named label+label")
     ap.add_argument("--cfg", help="compile/score at this cfg instead of the registered one (no ledger write, no staging)")
@@ -691,6 +709,7 @@ def main():
         return
 
     lab = Lab(a.row_id, stage=not a.no_stage, cfg=a.cfg, more=a.more, base_file=a.base, no_jtbl=a.no_jtbl)
+    lab.raw_only = a.raw_only
     if a.no_jtbl:
         print("--no-jtbl: the jump-table content check is OFF for every score below (informational; nothing is exact or staged)")
     if lab.start is not None:

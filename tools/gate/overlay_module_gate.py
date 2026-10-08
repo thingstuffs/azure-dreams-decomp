@@ -15,9 +15,10 @@ if ROOT.name=='tools': ROOT=ROOT.parent
 SCHEMA='overlay-module-native-v4'
 sys.path.insert(0, str(Path(__file__).resolve().parent))  # sibling import when loaded as gate.overlay_module_gate
 import overlay_native_rodata as N
+from gate_read_cache import digest, read_jsonl, read_text
 CONTAINERS={'dungeon':'DUNGEON_DUNGEON.BIN','town':'TOWN_TOWN.BIN','main':'MAIN_MAIN.BIN','ovmovie':'OVMOVIE.BIN'}
 META={'.reginfo','.MIPS.abiflags'}
-def sha(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+def sha(p): return digest(p)
 def hashed(v): return hashlib.sha256(json.dumps(v,sort_keys=True,separators=(',',':')).encode()).hexdigest()
 def local(root,name):
  p=Path(name)
@@ -25,7 +26,7 @@ def local(root,name):
  return Path(root)/p
 
 def rows(root):
- return {r['id']:r for l in (root/'ledger/rows.jsonl').read_text().splitlines() if l.strip() for r in [json.loads(l)] if r['kind']=='overlay'}
+ return {r['id']:r for r in read_jsonl(root/'ledger/rows.jsonl') if r['kind']=='overlay'}
 
 def ranges(root,family):
  return [json.loads(l) for l in (root/'config/overlays'/f'{family}.rowbase.jsonl').read_text().splitlines() if l.startswith('{')]
@@ -60,10 +61,10 @@ def load_modules(root=ROOT):
    ev=json.loads(local(root,m['membership_evidence']).read_text())
    if m['membership_evidence'] not in m['review_inputs']:raise ValueError('membership evidence not fingerprinted')
    group=ev['ledger_group']
-   assignments=[json.loads(l) for l in (root/'ledger/modules.jsonl').read_text().splitlines() if l.strip()]
+   assignments=read_jsonl(root/'ledger/modules.jsonl')
    cohort=sorted([x['id'] for x in assignments if all(x[k]==v for k,v in group.items())],key=lambda rid:reg[rid]['foff'])
    if cohort!=[a['id'] for a in m['members']]:raise ValueError('complete ledger cohort differs')
-   levels={x['id']:x for l in (root/'ledger/levels.jsonl').read_text().splitlines() for x in [json.loads(l)]}
+   levels={x['id']:x for x in read_jsonl(root/'ledger/levels.jsonl')}
    for a in m['members']:
     level=levels[a['id']]
     if level['level']<3 or level['pins_left'] or level['tail_jumps'] or set(level['l4_residue'])-{'not_in_module'}:raise ValueError('L3/placement screen failed')
@@ -147,7 +148,7 @@ def closure(root,starts):
  while pending:
   n=pending.pop()
   if n in found:continue
-  p=local(root,n);t=p.read_text();found.add(n)
+  p=local(root,n);t=read_text(p);found.add(n)
   for line in t.splitlines():
    if not re.match(r'\s*(?:#\s*include|\.include)\b',line):continue
    hit=re.match(r'\s*(?:#\s*include|\.include)\s+"([^"]+)"',line)
@@ -224,7 +225,7 @@ def fingerprint(m,root=ROOT,windows=True):
    if (root/p).exists():names.add(p)
  # Resolve the combined include closure once; shared headers are read once.
  names.update(closure(root,source_starts))
- gate_names=['overlay_native_rodata.py','cc.sh','ccproc.py','overlay_local_gate.py','overlay_module_gate.py','overlay_evidence.py','overlay_as_flags.py','gen_noreturn_syms.py','rowbase_naming_debt.py','match.py','rowbase_identity.py','configure.py','live_truth.py','rowbase.py','az_target.py','residue_class.py','overlay_func_compare.py','oracle_scoring.py']
+ gate_names=['gate_read_cache.py','overlay_native_rodata.py','cc.sh','ccproc.py','overlay_local_gate.py','overlay_module_gate.py','overlay_evidence.py','overlay_as_flags.py','gen_noreturn_syms.py','rowbase_naming_debt.py','match.py','rowbase_identity.py','configure.py','live_truth.py','rowbase.py','az_target.py','residue_class.py','overlay_func_compare.py','oracle_scoring.py']
  tools=[gate_tool(root,n) for n in gate_names]
  tools += [root/'tools/fidelity'/n for n in ['aspsx_diff.py','objread.py','certify_overlay_module.py']]
  tools += [root/'tools/overlay_module_evidence.py',root/'tools/build/slus_rodata_trim.py']
@@ -250,7 +251,7 @@ def fingerprint(m,root=ROOT,windows=True):
  if m.get('membership_evidence'):
   # Do not bind the level number or not_in_module: placement itself changes
   # those outputs. Bind all eligibility inputs without a certificate cycle.
-  levels={x['id']:x for l in (root/'ledger/levels.jsonl').read_text().splitlines() for x in [json.loads(l)]}
+  levels={x['id']:x for x in read_jsonl(root/'ledger/levels.jsonl')}
   screening={a['id']:{'l3':levels[a['id']]['level']>=3,'pins':levels[a['id']]['pins_left'],'tail_jumps':levels[a['id']]['tail_jumps'],'residue':sorted(set(levels[a['id']]['l4_residue'])-{'not_in_module'})} for a in m['members']}
  # Certificates bind the same frozen bank evidence consumed by module and
  # neighbouring C compiles; rowbase/census audit files alone miss raw edits.

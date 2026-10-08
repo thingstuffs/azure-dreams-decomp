@@ -43,7 +43,7 @@ import kitlib                                                             # noqa
 import retailmap as RM                                                    # noqa: E402
 import why as W                                                           # noqa: E402
 
-ORDER_OF = ("OPAQUE-BASE", "BARRIER-GOVERNED", "NOT-REORDERABLE", "REORDERABLE", "UNKNOWN")
+ORDER_OF = ("OPAQUE-BASE", "BARRIER-GOVERNED", "CALL-DEPENDENCE", "NOT-REORDERABLE", "REORDERABLE", "UNKNOWN")
 CHAIN = {"sched": "sched1 LUIDs follow the C statement order after combine",
          "sched2": "sched2 LUIDs follow sched1's OUTPUT order, not the C directly - check (ii)"}
 BARRIER_RE = re.compile(r"asm_operands/v|^\(asm_input|unspec_volatile|\(asm_input ")
@@ -79,6 +79,66 @@ class Pass:
 
 
 # ------------------------------------------------------------------------------ the four checks
+
+def call_facts(d, uid, first=76):
+    """Report sched1's source levers, without pretending the dump identifies one cause.
+
+    The hard SET test in cdk uses loop index i, whereas USE tests regno+i.
+    A non-crossing SET depends on last_function_call; a USE is queued before
+    the next call. REG_EQUIV-MEM addresses are analysed for both SET and USE.
+    """
+    rec = next((r for r in W.insns_of(d.get('sched', ''), True) if r['uid'] == uid), None)
+    if rec is None:
+        return ['sched1 insn absent: source facts UNKNOWN']
+    regs = sorted({int(x) for x in re.findall(r'\(reg(?:/\w+)*:\w+ (\d+)', rec['pattern'])})
+    out = []
+    for reg in regs:
+        if reg < first:
+            out.append('hard reg %d USE/SET: call-used/global USE adds REG_DEP_ANTI on last_function_call '
+                       '(sched.c:1890-1902); SET tests call_used_regs[i]/global_regs[i], the cdk loop-index '
+                       'quirk (sched.c:1733-1741); verify the target register tables' % reg)
+        else:
+            stat = re.search(r'^Register %d used[^\n]*' % reg, d.get('flow', ''), re.M)
+            calls = re.search(r'crosses (\d+) calls?', stat[0]) if stat else None
+            n = int(calls[1]) if calls else 0 if stat else None
+            out.append('pseudo %d: flow calls crossed %s; non-crossing SET adds REG_DEP_ANTI on '
+                       'last_function_call (sched.c:1763-1766); non-crossing USE is held before the next '
+                       'call (sched.c:1918-1925)' % (reg, 'UNKNOWN' if n is None else n))
+            # Keep notes: the pattern-only parser intentionally drops REG_EQUIV.
+            chunks = re.split(r'(?=^\((?:insn|jump_insn|call_insn)\b)', d.get('sched', ''), flags=re.M)
+            equiv = next((c for c in chunks if re.search(r'\(set \(reg(?:/\w+)*:\w+ %d\)' % reg, c)
+                          and '(expr_list:REG_EQUIV (mem:' in c), None)
+            out.append('pseudo %d REG_EQUIV-MEM %s; equivalence ADDRESS is analysed on SET/USE '
+                       '(sched.c:1755-1760,1911-1916; populated at 436-449). A register-passed parameter '
+                       'can supply the call-used argp address (function.c:3985-4014): '
+                       'is the walker a parameter? Walk the parameter itself.' % (reg, 'present' if equiv else 'not found'))
+    out.append('REG_DEP_ANTI is the call-order source rule; add_dependence keeps the stronger kind '
+               'when the same edge is requested twice (sched.c:965-974), so the dump may show true dependence')
+    return out
+
+
+def check_call_dependence(p, uid, gen_of, ret_of, d):
+    """A mapped ORDER item crossing a mapped call requires a call-order constraint.
+
+    UIDs are from this compile only. Require both words in the scorer alignment
+    and the same traced sched1 block. Do not claim missing edges solely from C.
+    """
+    blk = p.block_of(uid)
+    if blk is None or gen_of(uid) is None or ret_of(uid) is None:
+        return None
+    for call in sorted(p.uids(blk)):
+        if p.recs.get(call, {}).get('kind') != 'call_insn':
+            continue
+        g, r = gen_of(call), ret_of(call)
+        if g is None or r is None or (gen_of(uid) < g) == (ret_of(uid) < r):
+            continue
+        needed = 'call -> insn (REG_DEP_ANTI source rule on last_function_call; a stronger true edge also orders it)' if ret_of(uid) > r else \
+                 'insn -> call (non-crossing USE held before next call)'
+        edge = next((kind for dep, kind in p.recs[uid].get('links', []) if dep == call), None)
+        return 'CALL-DEPENDENCE', ('sched1 insn %d crosses call %d in the scorer alignment; retail needs %s; '
+               'direct insn-to-call link here: %s. %s' % (uid, call, needed, edge or 'absent', '; '.join(call_facts(d, uid)))
+               )
+    return None
 
 def check_sole_ready(p, uid, direction):
     """(i) -> (verdict, evidence) or None when it does not apply."""
@@ -282,6 +342,11 @@ def verdicts(d, row, rows):
             if r:
                 ev.append(r)
             r = check_launched(s1, uid, gen_of, ret_of)
+            if r:
+                ev.append(r)
+            # The documented hard-SET quirk and FIRST=76 are cdk-specific.
+            r = (check_call_dependence(s1, uid, gen_of, ret_of, d)
+                 if row.get('cfg', '').startswith('2.7.2-cdk') else None)
             if r:
                 ev.append(r)
             if not ev:

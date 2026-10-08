@@ -162,12 +162,12 @@ class Table:
 _TABLE_CACHE: dict[str, tuple[tuple, Table]] = {}
 
 
-def _stamp(path: Path) -> tuple[int, int] | None:
+def _stamp(path: Path) -> tuple[int, ...] | None:
     try:
         st = path.stat()
     except OSError:
         return None
-    return (st.st_mtime_ns, st.st_size)
+    return (st.st_mtime_ns, st.st_size, st.st_ctime_ns, st.st_dev, st.st_ino)
 
 
 def evidence_records(overlay: str) -> Table:
