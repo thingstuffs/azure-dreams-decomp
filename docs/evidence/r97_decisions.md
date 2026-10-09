@@ -173,3 +173,14 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     execute. The BIT is not encoded in any byte: the text must say so (`/* +0x98 bit unknown: retail reads the field,
     both arms compile identically */`), never imply evidence; prefer a bit the sibling census tests on the same actor.
     SECOND LOOK: yes.
+37. **(r108) Weak groups inside one bank image merge when one whole-bank TU reproduces every section placement
+    (orchestrator, delegated).** r108_sol61_big1-6 found existing L3 rows inside banks 19de800, 7ce800, 1960800, 18a0800,
+    1924800, 19c6800, 1918800 assigned to OTHER weak ledger groups. No weak dungeon group spans two bank images (census
+    10-09: 443 groups, 0 multi-bank), and the "other" groups are naming twins of the same image (e.g. ovl_7e67b800.c =
+    delta 0x80024000 - 0x19A8800 = bank 63 = ovl_19a8800.c; r107 gap1 reassigned func_819892A4 on that basis). An image
+    can still hold several TUs, so the deciding evidence is layout: if ONE TU over the whole bank is byte-exact (GNU +
+    genuine ASPSX + retail) INCLUDING the placement of every compiler-emitted rodata/data section (jump tables,
+    strings, records - separately compiled TUs would each place their own), the bank is one TU and its weak groups merge
+    into the bank module (guarded reassignment records citing the selector receipt + the whole-bank proof). A bank with
+    nothing to discriminate (no TU-owned rodata, both partitions admit the same relocations - 7e6a5800) stays HELD.
+    SECOND LOOK: yes.
