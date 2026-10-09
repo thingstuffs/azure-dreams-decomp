@@ -1,3 +1,19 @@
+# Handover (2026-10-09 ~10:25Z, round 107: CARVE-DEBT WAVE 2 RUNNING) - start here
+
+**Landed r106:** 0202c781c decision 36 (identical-arm test on a retail-loaded field, bit commented - GAP B);
+1dfc35053 decision-35 gate (zero-relocation data rows at the window vram) + town/func_802F100C retired into three data
+rows (placement unproven); 5fe4d8bee eight native modules (1858800, 1840800, 185e800, 18ac800, 18fa800, 19ba800,
+199c800, 18f4800) + r106_sonnet_cl3 cleanups; 700de47ea their reviews + certificates. **Carve debt 31, 12 live
+certificates, 47 rows at L5.** TRAP: review edits to modules.json / ledger/modules.jsonl after a landing void every
+certificate - put the review inside the land_packages plan (package entry), certify new modules after.
+GAP B r106_opus_gapB: 47 -> 31 (all five +0x98 reads back; residue = one sched order at three sites), held.
+**Running:** pool r107 (sol61 high, 1.2M / 180 min, -c 4; builder _r107/): gap1 (189a800, 19a8800), gap2 (1894800,
+1876800), gap3 (18a6800, 7e651800), gap4 (188e800, 198a800) - recover gap code then native module; own5 (808CB000 /
+80921000 data-prefix re-carve); town (three receipt prefixes; TOWN Control_CD caller census). Agent: r106_opus_pins2
+(8180B064 blocks ovl_7e7fb800; 818FA12C pin + volatile).
+**Next wave:** the 8 big-gap banks (1.1-5.4 KB), 197281c cohort, 7e6a5800 TU boundary, GAP B continuation, hard-basket
+pinned members of 184c800 / 1864800.
+
 # Handover (2026-10-09 ~06:20Z, round 106: CARVE-DEBT WAVE RUNNING) - start here
 
 **Since r105 close:** 14161a493 Opus 800CA184 2 -> 1 (90 pins / 50 rows; ledger shows 94/51 incl. parked ovmovie);
