@@ -1,171 +1,128 @@
 #include "shared/gpu_packets.h"
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/game_work.h"
-
-
+#include "shared/object_node.h"
 
 extern s32 func_80065420(void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, s32, s32);
 
-
-   /* state in func_80024EDC */
-
-typedef struct S_80024EDC_1 {
-    u16 unk_00;
-    u16 unk_02;
-    u16 unk_04;
-    u8 pad_06[0x12];
-    u8 * unk_18;
-    u8 pad_1C[0x4];
-    union { u8 * p; u32 * p2; } unk_20;   /* accessed as both */
-    u8 pad_24[0x9C];
-    u32 unk_C0;
-} S_80024EDC_1;   /* scratch in func_80024EDC */
-
-typedef struct S_80024EDC_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80024EDC_2;   /* input in func_80024EDC */
-
-typedef struct S_80024EDC_3 {
-    union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_00;   /* overlapping accesses */
-    union { struct { u32 v; } at00; struct { u8 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; struct { u8 pad[0x3]; u8 v; } at03; } unk_04;   /* overlapping accesses */
-} S_80024EDC_3;   /* packet in func_80024EDC */
-
-typedef struct S_80024EDC_4_pre {
-    void * unk_00;
-    u8 pad_04[0x4];
-} S_80024EDC_4_pre;   /* the 0x8 bytes before node in func_80024EDC, addressed as node[-1] */
-
-typedef struct S_80024EDC_4 {
-    u8 pad_00[0x8];
-    u32 unk_08;
+/* The effect point's record (the object header precedes it). */
+typedef struct PointRecord {
+    u8 pad_00[8];
+    u32 color;          /* r/g/b/code word copied into the tile */
     u8 pad_0C[0x26];
-    s16 unk_32;
-} S_80024EDC_4;   /* node in func_80024EDC */
+    s16 brightness;     /* 0x100 = full */
+} PointRecord;
 
-typedef struct S_80024EDC_5 {
-    u8 pad_00[0x8];
-    u8 * unk_08;
-} S_80024EDC_5;   /* previous in func_80024EDC */
+/* GPU scratchpad (0x1F800000) workspace used while projecting. */
+typedef struct Scratch80024EDC {
+    u16 x;
+    u16 y;
+    u16 z;
+    u8 pad_06[0x12];
+    u8 *cursor;         /* next free packet */
+    u8 pad_1C[4];
+    u32 *ot;            /* ordering table */
+    u8 pad_24[0x6C];
+    u32 xy;
+    u32 depth;
+    u8 pad_98[0x28];
+    u32 index;          /* ordering table slot */
+} Scratch80024EDC;
 
-   /* final_state in func_80024EDC */
+/* Shaded point primitive (code 0x6A, 3 words). */
+typedef struct Packet80024EDC {
+    u32 tag;
+    u8 r;
+    u8 g;
+    u8 b;
+    u8 code;
+    u32 data;
+} Packet80024EDC;
 
-typedef struct { u32 addr:24; u32 length:8; } PacketTag;
-
-/* Project linked nodes and enqueue shaded point primitives with their draw modes. */
-s32 func_80024EDC(void *start_node, void *start_coords)
+/* Retail 818F96DC (func_80024EDC): projects each linked point and queues a brightness-scaled shaded point
+ * followed by a draw-mode packet for it. */
+s32 func_80024EDC(PointRecord *start_node, EntityRec *start_coords)
 {
-    u8 **state_ptr;
-    u8 *scratch;
-    u8 *render_state;
-    u8 *final_state;
-    u8 *packet_end;
-    u8 *packet;
-    u8 *node;
-    u8 *coords;
-    void *prev_entry;
+    GpuContext **state_ptr;
+    Scratch80024EDC *scratch;
+    GpuContext *render_state;
+    GpuContext *final_state;
+    Packet80024EDC *packet;
+    PointRecord *node;
+    EntityRec *coords;
+    ObjectNodeHeader *prev_entry;
     u32 depth_index;
     u16 coord_x;
 
     node = start_node;
     coords = start_coords;
-    state_ptr = (u8 **)((u8 *)(&gameWork));
-    render_state = *(u8 **)((u8 *)(&gameWork));
-    scratch = (u8 *)0x1F800000;
+    state_ptr = (GpuContext **)&gameWork;
+    render_state = *state_ptr;
+    scratch = (Scratch80024EDC *)0x1F800000;
 
-    *(u8 * *)(scratch + 0x18) = ((GpuContext *)render_state)->packetCursor;
-    ((S_80024EDC_1 *)scratch)->unk_20.p = render_state + 0xB0;
+    scratch->cursor = render_state->packetCursor;
+    scratch->ot = (u32 *)&render_state->orderTag;
 
     for (;;) {
-        coord_x = ((S_80024EDC_2 *)coords)->unk_02;
-        packet = *(u8 * *)(scratch + 0x18);
-        ((S_80024EDC_1 *)scratch)->unk_00 = coord_x;
-        ((S_80024EDC_1 *)scratch)->unk_02 = ((S_80024EDC_2 *)coords)->unk_06;
-        ((S_80024EDC_1 *)scratch)->unk_04 = ((S_80024EDC_2 *)coords)->unk_0A;
-        *(u8 * *)(scratch + 0x18) = packet + 0xC;
+        coord_x = coords->x.w.i;
+        packet = (Packet80024EDC *)scratch->cursor;
+        scratch->x = coord_x;
+        scratch->y = (u16)coords->y.w.i;
+        scratch->z = (u16)coords->z.w.i;
+        scratch->cursor = (u8 *)packet + 0xC;
 
-        depth_index = func_80065420(scratch, packet + 8, scratch + 0x90,
-                             scratch + 0x94);
-        ((S_80024EDC_1 *)scratch)->unk_C0 = depth_index;
+        depth_index = func_80065420(scratch, (u8 *)packet + 8, &scratch->xy, &scratch->depth);
+        scratch->index = depth_index;
 
         if (depth_index < 0x1E0) {
             s32 color_or_tpage;
-            s32 texture_depth;
-            s32 blend_mode;
-            u32 page_x;
-            s32 opcode;
-            u8 *mode_packet;
+            Packet80024EDC *mode_packet;
 
-            ((S_80024EDC_3 *)packet)->unk_04.at00.v = ((S_80024EDC_4 *)node)->unk_08;
-            color_or_tpage = ((S_80024EDC_3 *)packet)->unk_04.at00u.v * ((S_80024EDC_4 *)node)->unk_32;
+            *(u32 *)&packet->r = node->color;
+            color_or_tpage = packet->r * node->brightness;
             if (color_or_tpage < 0) {
                 color_or_tpage += 0xFF;
             }
-            ((S_80024EDC_3 *)packet)->unk_04.at00u.v = color_or_tpage >> 8;
+            packet->r = color_or_tpage >> 8;
 
-            color_or_tpage = ((S_80024EDC_3 *)packet)->unk_04.at01.v * ((S_80024EDC_4 *)node)->unk_32;
+            color_or_tpage = packet->g * node->brightness;
             if (color_or_tpage < 0) {
                 color_or_tpage += 0xFF;
             }
-            ((S_80024EDC_3 *)packet)->unk_04.at01.v = color_or_tpage >> 8;
+            packet->g = color_or_tpage >> 8;
 
-            color_or_tpage = ((S_80024EDC_3 *)packet)->unk_04.at02.v * ((S_80024EDC_4 *)node)->unk_32;
+            color_or_tpage = packet->b * node->brightness;
             if (color_or_tpage < 0) {
                 color_or_tpage += 0xFF;
-                texture_depth = 0;
-            } else {
-                texture_depth = 0;
             }
-            blend_mode = 1;
-            ((S_80024EDC_3 *)packet)->unk_04.at02.v = color_or_tpage >> 8;
-            ((S_80024EDC_3 *)packet)->unk_00.at03.v = 2;
-            opcode = 0x6A;
-            page_x = texture_depth;
-            ((S_80024EDC_3 *)packet)->unk_04.at03.v = opcode;
+            packet->b = color_or_tpage >> 8;
+            ((u8 *)packet)[3] = 2;
+            packet->code = 0x6A;
 
-            ((PacketTag *)packet)->addr =
-                ((PacketTag *)((u8 *)(((S_80024EDC_1 *)scratch)->unk_20.p2) + (((S_80024EDC_1 *)scratch)->unk_C0 * 4)))->addr;
-            {
-                u32 *ot_entry;
-                u32 ot_tag;
-                u32 packet_addr;
+            ((GpuLinkTag *)&packet->tag)->addr = ((GpuLinkTag *)&scratch->ot[scratch->index])->addr;
+            scratch->ot[scratch->index] = (scratch->ot[scratch->index] & 0xFF000000) | ((u32)packet & 0x00FFFFFF);
 
-                ot_entry = (u32 *)(((S_80024EDC_1 *)scratch)->unk_C0 << 2);
-                ot_entry = (u32 *)((u32)ot_entry +
-                                (u32)((S_80024EDC_1 *)scratch)->unk_20.p2);
-                ot_tag = *ot_entry;
-                *ot_entry = ((u32)((ot_tag & 0xFF000000) | ((u32)((u32)packet & 0x00FFFFFF))));
-            }
-
-            mode_packet = *(u8 * *)(scratch + 0x18);
-            ((S_80024EDC_1 *)scratch)->unk_18 = mode_packet + 0xC;
-            color_or_tpage = func_80066460(texture_depth, blend_mode, page_x, texture_depth);
+            mode_packet = (Packet80024EDC *)scratch->cursor;
+            scratch->cursor = (u8 *)mode_packet + 0xC;
+            color_or_tpage = func_80066460(0, 1, 0, 0);
             func_80067F20(mode_packet, 0, 0, (u16)color_or_tpage, 0);
 
-            ((PacketTag *)mode_packet)->addr =
-                ((PacketTag *)((u8 *)(((S_80024EDC_1 *)scratch)->unk_20.p2) + (((S_80024EDC_1 *)scratch)->unk_C0 * 4)))->addr;
-            mode_packet = (u8 *)((u32)mode_packet & 0x00FFFFFF);
-            (*(u32 *)((u8 *)(((S_80024EDC_1 *)scratch)->unk_20.p2) + (((S_80024EDC_1 *)scratch)->unk_C0 * 4))) =
-                ((*(u32 *)((u8 *)(((S_80024EDC_1 *)scratch)->unk_20.p2) + (((S_80024EDC_1 *)scratch)->unk_C0 * 4))) & 0xFF000000) |
-                (u32)mode_packet;
+            ((GpuLinkTag *)&mode_packet->tag)->addr = ((GpuLinkTag *)&scratch->ot[scratch->index])->addr;
+            scratch->ot[scratch->index] = (scratch->ot[scratch->index] & 0xFF000000) | ((u32)mode_packet & 0x00FFFFFF);
         }
 
-        prev_entry = ((S_80024EDC_4_pre *)node)[-1].unk_00;
-        node = (u8 *)prev_entry + 0x20;
+        prev_entry = (ObjectNodeHeader *)((ObjectNodeHeader *)node - 1)->unk_18;
+        node = (PointRecord *)(prev_entry + 1);
         if (prev_entry == 0) {
             break;
         }
-        coords = ((S_80024EDC_5 *)prev_entry)->unk_08;
+        coords = prev_entry->unk_08;
     }
 
     final_state = *state_ptr;
-    packet_end = ((S_80024EDC_1 *)scratch)->unk_18;
-    ((GpuContext *)final_state)->packetCursor = packet_end;
+    final_state->packetCursor = scratch->cursor;
     return 0;
 }

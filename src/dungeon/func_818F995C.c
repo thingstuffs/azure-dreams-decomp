@@ -1,40 +1,28 @@
 #include "common.h"
 #include "modules/dungeon_native_abi.h"
+#include "shared/entity.h"
 #include "shared/object_flags.h"
+#include "shared/object_node.h"
 
 extern s32 rand(void);
 extern s16 D_800266BC;
 
-typedef struct {
-    u16 unk0;
-    u16 unk2;
-    u16 unk4;
-    u16 unk6;
-    union {
-        s32 unk8;
-        struct {
-            u16 unk8_lo;
-            u16 unkA;
-        } half;
-    } value;
-} UnkArg1;
-
-/* Raise the position toward the queried height and set flags when the countdown expires. */
-void func_8002515C(u8 *state, UnkArg1 *position)
+/* Raise the entity toward the queried ground height and set flags when the countdown expires. */
+void func_8002515C(EntityRec *state, EntityRec *position)
 {
     u16 countdown;
 
     D_800266BC = 1;
-    if ((s16)position->value.half.unkA <
-        (s16)func_800BCB04(position->unk2, position->unk6,
-                      (s16)(position->value.half.unkA + 2))) {
-        position->value.unk8 += 0x20000 + (rand() & 0xFFF);
+    if (position->z.w.i <
+        (s16)func_800BCB04((u16)position->x.w.i, (u16)position->y.w.i,
+                      (s16)(position->z.w.i + 2))) {
+        position->z.v += 0x20000 + (rand() & 0xFFF);
     }
 
-    countdown = *(u16 *)(state + 0x32) - 8;
-    *(u16 *)(state + 0x32) = countdown;
+    countdown = state->unk_32 - 8;
+    state->unk_32 = countdown;
     if ((s32)(countdown << 16) <= 0) {
-        *(u16 *)(state - 2) |= 0x8000;
+        ((ObjectNodeHeader *)state - 1)->flags |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
     }
 }

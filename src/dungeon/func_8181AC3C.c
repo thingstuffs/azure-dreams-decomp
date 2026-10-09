@@ -1,21 +1,16 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "modules/dungeon_native_abi.h"
 
-typedef struct S_8002443C_0 {
-    u16 unk_00;
-} S_8002443C_0;   /* state in func_8002443C; pointer addresses record offset 0x2 */
-
-
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
-typedef struct {
-    unsigned char pad00[2];
+/* Effect record: the object header precedes it; velocity is added to position every frame. */
+typedef struct MotionState {
+    unsigned char pad_00[2];
     u16 frames_left;
-    unsigned char pad04[20];
+    unsigned char pad_04[20];
     s16 mode;
     s16 period;
     u16 tick;
-    unsigned char pad1e[0x3a];
+    unsigned char pad_1E[0x3a];
     s32 x;
     s32 y;
     s32 z;
@@ -24,13 +19,13 @@ typedef struct {
     s32 dz;
 } MotionState;
 
-typedef struct {
-    unsigned char pad00[0x14];
+/* Render entry advanced by func_800478B8; only its flags are read here. */
+typedef struct UpdateFlags {
+    unsigned char pad_00[0x14];
     u16 flags;
 } UpdateFlags;
 
 extern s16 D_80025914;
-extern void func_800478B8(void *flags);
 
 /* Accumulate motion, process the update mode, and mark expired or flagged state. */
 void func_8002443C(MotionState *state, s32 *sum, UpdateFlags *flags) {
@@ -74,11 +69,11 @@ void func_8002443C(MotionState *state, s32 *sum, UpdateFlags *flags) {
     }
 
     if ((s16) state->frames_left <= 0) {
-        ((S_8002443C_0 *)((u8 *)state - 0x2))->unk_00 = ((S_8002443C_0 *)((u8 *)state - 0x2))->unk_00 | 0x8000;
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        ((ObjectNodeHeader *)state - 1)->flags |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
     if (flags->flags & 0x8000) {
-        ((S_8002443C_0 *)((u8 *)state - 0x2))->unk_00 = ((S_8002443C_0 *)((u8 *)state - 0x2))->unk_00 | 0x8000;
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        ((ObjectNodeHeader *)state - 1)->flags |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

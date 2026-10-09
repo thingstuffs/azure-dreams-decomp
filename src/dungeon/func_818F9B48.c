@@ -1,21 +1,26 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "shared/object_node.h"
 
 extern s16 D_800266BC;
 
+/* The effect's record; its ObjectNodeHeader sits right before it. */
+typedef struct CountdownRecord {
+    u16 pad_00;
+    u16 counter;
+} CountdownRecord;
+
 /* Decrement the record counter and set completion flags when it reaches zero. */
-void func_80025348(void *record)
+void func_80025348(CountdownRecord *record)
 {
-    u8 *record_bytes = record;
     u16 counter;
 
-    counter = *(u16 *)(record_bytes + 2);
+    counter = record->counter;
     D_800266BC = 1;
     counter--;
-    *(u16 *)(record_bytes + 2) = counter;
+    record->counter = counter;
     if ((counter << 16) <= 0) {
-        *(u16 *)(record_bytes - 2) |= 0x8000;
+        ((ObjectNodeHeader *)record - 1)->flags |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
     }
 }
-

@@ -2,7 +2,8 @@
 
 extern s32 rand(void);
 
-/* Returns a random sample below limit, or zero when limit is zero. */
+/* Returns a random value in [0, limit), or zero when limit is zero. Rejection sampling: the rand() bits are masked
+ * to the smallest bit range that covers limit (2, 4, 6, 8, 12 or 16 bits) and redrawn until below limit. */
 s32 func_80024590(s32 limit) {
     s32 sample;
 

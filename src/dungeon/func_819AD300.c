@@ -1,31 +1,54 @@
 #include "common.h"
 #include "modules/dungeon_native_abi.h"
 #include "shared/object_flags.h"
+#include "shared/object_node.h"
 #include "shared/dir_step.h"
 
 extern u16 D_80027452[];
 
+/* 16.16 fixed-point coordinate: the whole part is the high halfword. */
+typedef union FixedCoord {
+    s32 fixed;
+    struct {
+        u16 frac;
+        s16 whole;
+    } part;
+} FixedCoord;
+
+typedef struct EffectPosition {
+    FixedCoord x;
+    FixedCoord y;
+    FixedCoord z;
+} EffectPosition;
+
+/* The effect record the callback runs on (the object header precedes it). */
+typedef struct MotionRecord {
+    u8 pad_00[0x30];
+    s16 speed;
+    u8 pad_32[4];
+    s16 direction;      /* index into dirStepX / dirStepY */
+} MotionRecord;
+
 /* Update position, reduce movement speed, and flag completion when speed runs out. */
-void func_80024B00(void *motion_data, s16 *position)
+void func_80024B00(MotionRecord *motion, EffectPosition *position)
 {
-    s16 *motion = motion_data;
     s16 next_speed;
     u16 update_count = D_80027452[0];
-    u16 z = position[5];
-    u16 x = position[1];
-    u16 y = position[3];
+    u16 z = position->z.part.whole;
+    u16 x = position->x.part.whole;
+    u16 y = position->y.part.whole;
 
     D_80027452[0] = update_count + 1;
-    if (position[5] < (s16)func_800BCB04(x, y, z + 2)) {
-        ((s32 *)position)[0] -= (dirStepX[motion[27]] * motion[24]) << 11;
-        ((s32 *)position)[1] -= (dirStepY[motion[27]] * motion[24]) << 11;
-        ((s32 *)position)[2] += (0xC0 - motion[24]) << 10;
+    if (position->z.part.whole < (s16)func_800BCB04(x, y, z + 2)) {
+        position->x.fixed -= (dirStepX[motion->direction] * motion->speed) << 11;
+        position->y.fixed -= (dirStepY[motion->direction] * motion->speed) << 11;
+        position->z.fixed += (0xC0 - motion->speed) << 10;
     }
 
-    next_speed = (u16)motion[24] - 8;
-    motion[24] = next_speed;
+    next_speed = (u16)motion->speed - 8;
+    motion->speed = next_speed;
     if ((next_speed << 16) <= 0) {
-        ((u16 *)motion)[-1] |= 0x8000;
+        ((ObjectNodeHeader *)motion - 1)->flags |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
     }
 }

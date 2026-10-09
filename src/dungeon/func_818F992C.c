@@ -1,6 +1,6 @@
 #include "common.h"
 
-s32 rand();                                /* extern */
+extern s32 rand(void);
 
 /* Return a random sign of either -1 or 1. */
 s32 func_8002512C(void) {

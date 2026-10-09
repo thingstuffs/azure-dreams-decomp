@@ -1,53 +1,52 @@
 /* Selector 72, retail file [0x19E0860, 0x19E092C); complete callable clone. */
 #include "common.h"
 
-typedef struct S_80026060_0 {
-    s32 unk_00;
-    union { s8 s; u8 u; } unk_04;   /* accessed as both */
-    u8 pad_05[0x3];
-    void * unk_08;
-    u8 pad_0C[0x8];
-    union { u16 s; u16 u; } unk_14;   /* accessed as both */
-} S_80026060_0;   /* obj in func_80026060 */
-
-typedef struct S_80026060_1 {
+/* The owner's table of 0x16-byte entries. */
+typedef struct EntryOwner {
     u8 pad_00[0xC];
-    s32 unk_0C;
-} S_80026060_1;   /* owner in func_80026060 */
+    s32 entries;
+} EntryOwner;
 
+/* An object that tracks one entry of its owner's table. */
+typedef struct EntryCursor {
+    s32 entry;                      /* address of the current entry */
+    s8 index;
+    u8 pad_05[3];
+    EntryOwner *owner;
+    u8 pad_0C[8];
+    u16 flags;                       /* 0x4000 = index clamped */
+} EntryCursor;
 
 /* Resolve the current entry, apply an index step, and enforce the index bounds. */
 void func_80026060(void *object, s16 *index_step, s32 min_index, s32 max_index) {
     s16 step;
-    s32 shifted_index;
     u32 clamp_flags;
     u8 index;
-    S_80026060_0 *obj = object;
-    s32 initial_index = obj->unk_04.s;
-    S_80026060_1 *owner = obj->unk_08;
+    EntryCursor *obj = object;
+    s32 initial_index = obj->index;
+    EntryOwner *owner = obj->owner;
 
-    obj->unk_00 =
-        owner->unk_0C + (initial_index * 22);
+    obj->entry =
+        owner->entries + (initial_index * 22);
     step = *index_step;
     if (step > 0) {
-        obj->unk_04.u = obj->unk_04.u + 1;
+        obj->index = obj->index + 1;
     } else if (step < 0) {
-        obj->unk_04.u =
-            obj->unk_04.u - 1;
+        obj->index =
+            obj->index - 1;
     }
-    index = (u8)obj->unk_04.s;
-    shifted_index = index << 24;
+    index = (u8)obj->index;
     if ((s8)index < (s16)min_index) {
-        clamp_flags = obj->unk_14.s | 0x4000;
-        obj->unk_04.s = min_index;
-        obj->unk_14.u = clamp_flags;
+        clamp_flags = obj->flags | 0x4000;
+        obj->index = min_index;
+        obj->flags = clamp_flags;
         return;
     }
     if ((s8)index > (s16)max_index) {
-        clamp_flags = obj->unk_14.s | 0x4000;
-        obj->unk_04.s = max_index;
-        obj->unk_14.u = clamp_flags;
+        clamp_flags = obj->flags | 0x4000;
+        obj->index = max_index;
+        obj->flags = clamp_flags;
         return;
     }
-    obj->unk_14.u &= 0xBFFF;
+    obj->flags &= 0xBFFF;
 }

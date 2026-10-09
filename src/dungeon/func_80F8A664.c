@@ -1,19 +1,21 @@
 #include "common.h"
-#include "m2c_compat.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
-/* extern */
+typedef void (*ActorCallback)(void *, void *, void *, void *);
+
+/* Actor state of the bank's actor callbacks: the callback slot at +0x8C. */
+typedef struct BankActorState {
+    u8 pad_00[0x8C];
+    ActorCallback callback;
+} BankActorState;
+
+extern s32 func_800AC480();
 extern void func_80171138(void *, void *, void *, void *);
 
-typedef struct S_800B2C68_0 {
-    u8 pad_00[0x8C];
-    void (*unk_8C)(void *, void *, void *, void *);
-} S_800B2C68_0;   /* arg0 in func_80173E64 */
-
-
-s32 func_800AC480(S_800B2C68_0 *, void *, void *, void *);
 /* Restore the bank actor callback after the resident state check succeeds. */
-void func_80173E64(S_800B2C68_0 *state, void *context, void *data, void *extra_data) {
-    if (func_800AC480(state, context, data, extra_data) != 0) {
-        state->unk_8C = func_80171138;
+void func_80173E64(BankActorState *state, s32 action, SpriteFrameState *source, EntityRec *target) {
+    if (func_800AC480(state, action, source, target) != 0) {
+        state->callback = func_80171138;
     }
 }

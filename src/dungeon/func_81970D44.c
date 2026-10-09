@@ -1,27 +1,22 @@
 /* Selector 59, retail file [0x1990D44, 0x1990D98); complete callable clone. */
 #include "common.h"
+#include "shared/object_node.h"
 
-typedef struct LinkedMeshNode {
-    u8 pad0[8];
-    void *transform;
-    void *object;
-} LinkedMeshNode;
+extern void func_8002406C(void *record, void *transform, void *object, s32 depth_bias);
 
-extern void func_8002406C(void *mesh, void *transform, void *object, s32 depth_bias);
-
-/* Draw each linked mesh with zero depth bias; follow the node stored before its mesh. */
-s32 func_80024544(void *initial_mesh, void *transform, void *object) {
-    void *mesh = initial_mesh;
-    void *node;
+/* Draw each linked record with zero depth bias; the next record is chained through the previous header's
+ * unk_18 link, and its node supplies the transform and object pointers. */
+s32 func_80024544(void *record, void *transform, void *object) {
+    ObjectNodeHeader *node;
 
     for (;;) {
-        func_8002406C(mesh, transform, object, 0);
-        node = *((void **)mesh - 2);
+        func_8002406C(record, transform, object, 0);
+        node = (ObjectNodeHeader *)((ObjectNodeHeader *)record - 1)->unk_18;
         if (node == 0) {
             return 0;
         }
-        mesh = (u8 *)node + 0x20;
-        transform = ((LinkedMeshNode *)node)->transform;
-        object = ((LinkedMeshNode *)node)->object;
+        record = node + 1;
+        transform = node->unk_08;
+        object = node->unk_0C;
     }
 }

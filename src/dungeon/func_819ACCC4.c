@@ -1,57 +1,47 @@
 #include "common.h"
+#include "shared/object_node.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-typedef struct S_800244C4_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-    u8 pad_14[0x14];
-    s32 unk_28;
-} S_800244C4_0;   /* object in func_800244C4 */
+/* Position block (three 4-byte slots, only the second halfword of each is used). */
+typedef struct EffectPosition {
+    u16 pad_00;
+    u16 x;
+    u16 pad_04;
+    u16 y;
+    u16 pad_08;
+    u16 z;
+} EffectPosition;
 
-typedef struct S_800244C4_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800244C4_1;   /* part in func_800244C4 */
+/* The effect's record (the object header precedes it). */
+typedef struct EffectRecord {
+    u8 pad_00[8];
+    s32 unk_08;         /* set to offset_base - 0x20 */
+} EffectRecord;
 
-typedef struct S_800244C4_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800244C4_2;   /* arg0 in func_800244C4 */
-
-typedef struct S_800244C4_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
+/* The render data the header's unk_0C points at. */
+typedef struct EffectSprite {
+    u8 pad_00[8];
+    void *unk_08;
     u8 pad_0C[0x10];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800244C4_3;   /* effect in func_800244C4 */
+    s16 size;
+    s16 size_max;
+} EffectSprite;
 
-
-extern void *func_8003FC64();
+extern ObjectNodeHeader *func_8003FC64(s32 flags);
 extern void func_800B835C();
 extern void func_80024328(void *, void *, void *);
 extern u8 D_80027460[9];
 extern u8 D_8002746C[9];
 
 /* Allocate and initialize an effect object from the supplied part data. */
-void *func_800244C4(S_800244C4_2 *source_part, s32 offset_base) {
+void *func_800244C4(EffectPosition *source_pos, s32 offset_base) {
     s32 init_data[2];
-    void *object;
-    S_800244C4_1 *part;
-    S_800244C4_3 *effect;
+    ObjectNodeHeader *object;
+    EffectPosition *pos;
+    EffectSprite *sprite;
     void *result;
 
     object = func_8003FC64(0x12);
@@ -60,22 +50,22 @@ void *func_800244C4(S_800244C4_2 *source_part, s32 offset_base) {
         init_data[1] = 0x00200020;
         func_800B835C(D_8002746C, init_data, 1, 0);
 
-        part = ((S_800244C4_0 *)object)->unk_08;
-        ((S_800244C4_0 *)object)->unk_10 = func_80024328;
-        part->unk_02 = source_part->unk_02;
-        part->unk_06 = source_part->unk_06;
-        part->unk_0A = source_part->unk_0A;
+        pos = object->unk_08;
+        object->unk_10 = func_80024328;
+        pos->x = source_pos->x;
+        pos->y = source_pos->y;
+        pos->z = source_pos->z;
 
-        effect = ((S_800244C4_0 *)object)->unk_0C;
-        effect->unk_08 = D_80027460;
-        effect->unk_1E = 0xC00;
-        effect->unk_1C = 0xC00;
-        ((S_800244C4_0 *)object)->unk_28 = offset_base - 0x20;
+        sprite = object->unk_0C;
+        sprite->unk_08 = D_80027460;
+        sprite->size_max = 0xC00;
+        sprite->size = 0xC00;
+        ((EffectRecord *)(object + 1))->unk_08 = offset_base - 0x20;
     }
 
     result = NULL;
     if (object != NULL) {
-        result = (u8 *)object + 0x20;
+        result = object + 1;
     }
     return result;
 }
