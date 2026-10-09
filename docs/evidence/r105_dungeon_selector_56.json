@@ -1,0 +1,415 @@
+{
+  "selector": 56,
+  "alternate_table": 0,
+  "lba": "0x6313",
+  "file_start": "0x197e800",
+  "file_end": "0x1984800",
+  "sectors": 12,
+  "destination": "0x80024000",
+  "delta": "0x7e6a5800",
+  "in_container": true,
+  "runtime_observed": false,
+  "words": {
+    "lba": [
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc4174",
+        "word": "0x00111c00"
+      },
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc4178",
+        "word": "0x00031c03"
+      },
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc417c",
+        "word": "0x2463ffff"
+      },
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc4180",
+        "word": "0x00031040"
+      },
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc4184",
+        "word": "0x00431021"
+      },
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc4188",
+        "word": "0x00021080"
+      },
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc418c",
+        "word": "0x2447607f"
+      }
+    ],
+    "sectors": [
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc4190",
+        "word": "0x2404000c"
+      }
+    ],
+    "destination": [
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc40d4",
+        "word": "0x3c148002"
+      },
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc40e0",
+        "word": "0x36944000"
+      },
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc4194",
+        "word": "0x02802821"
+      }
+    ],
+    "submission": [
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc4198",
+        "word": "0x3c10800e"
+      },
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc419c",
+        "word": "0x261058b0"
+      },
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc41a0",
+        "word": "0x0c00fdb5"
+      },
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc41a4",
+        "word": "0x02003021"
+      },
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc41a8",
+        "word": "0x24040006"
+      },
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc41ac",
+        "word": "0x02002821"
+      },
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc41b0",
+        "word": "0x0c00f93f"
+      },
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc41b4",
+        "word": "0x00003021"
+      }
+    ],
+    "decoder": [
+      {
+        "container": "SLUS",
+        "file_offset": "0x12ed4",
+        "word": "0x3c02007f"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x12ed8",
+        "word": "0x3442ffff"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x12edc",
+        "word": "0x00a22824"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x12ee0",
+        "word": "0x000425c0"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x12ee4",
+        "word": "0x00a42825"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x12ee8",
+        "word": "0xacc50000"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x12eec",
+        "word": "0x03e00008"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x12ef0",
+        "word": "0xacc70004"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x121ec",
+        "word": "0x8c510004"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x121f0",
+        "word": "0x3c03007f"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x121f4",
+        "word": "0x8e220000"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x121f8",
+        "word": "0x3463ffff"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x121fc",
+        "word": "0x00438024"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x12204",
+        "word": "0x000295c2"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x12218",
+        "word": "0x3c028000"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x1221c",
+        "word": "0x02028025"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x122a4",
+        "word": "0x8e240004"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x122a8",
+        "word": "0x0c018493"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x122e4",
+        "word": "0x02402021"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x122e8",
+        "word": "0x02002821"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x122ec",
+        "word": "0x0c018c89"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x122f0",
+        "word": "0x24060080"
+      }
+    ]
+  },
+  "file_conversion": {
+    "iso_lba": "0x3016",
+    "sector_bytes": 2048
+  },
+  "agrees_with": [
+    {
+      "region": "jtbl_197E800",
+      "foff_start": "0x197E800",
+      "foff_end": "0x197EB88",
+      "delta": "0x7E6A5800",
+      "confidence": "proven",
+      "intersection": [
+        "0x197e800",
+        "0x197eb88"
+      ]
+    },
+    {
+      "region": "row_1981a04_80027204",
+      "foff_start": "0x1981A04",
+      "foff_end": "0x1981B28",
+      "delta": "0x7E6A5800",
+      "confidence": "proven",
+      "intersection": [
+        "0x1981a04",
+        "0x1981b28"
+      ]
+    },
+    {
+      "region": "row_197f43c_80024c3c",
+      "foff_start": "0x197F43C",
+      "foff_end": "0x197FA38",
+      "delta": "0x7E6A5800",
+      "confidence": "proven",
+      "intersection": [
+        "0x197f43c",
+        "0x197fa38"
+      ]
+    },
+    {
+      "region": "row_19813a8_80026ba8",
+      "foff_start": "0x19813A8",
+      "foff_end": "0x19815E4",
+      "delta": "0x7E6A5800",
+      "confidence": "proven",
+      "intersection": [
+        "0x19813a8",
+        "0x19815e4"
+      ]
+    },
+    {
+      "region": "row_19802d8_80025ad8",
+      "foff_start": "0x19802D8",
+      "foff_end": "0x198048C",
+      "delta": "0x7E6A5800",
+      "confidence": "proven",
+      "intersection": [
+        "0x19802d8",
+        "0x198048c"
+      ]
+    },
+    {
+      "region": "row_19815e4_80026de4",
+      "foff_start": "0x19815E4",
+      "foff_end": "0x1981A04",
+      "delta": "0x7E6A5800",
+      "confidence": "proven",
+      "intersection": [
+        "0x19815e4",
+        "0x1981a04"
+      ]
+    },
+    {
+      "region": "row_19811cc_800269cc",
+      "foff_start": "0x19811CC",
+      "foff_end": "0x19813A8",
+      "delta": "0x7E6A5800",
+      "confidence": "proven",
+      "intersection": [
+        "0x19811cc",
+        "0x19813a8"
+      ]
+    },
+    {
+      "region": "row_197ef44_80024744",
+      "foff_start": "0x197EF44",
+      "foff_end": "0x197F0BC",
+      "delta": "0x7E6A5800",
+      "confidence": "proven",
+      "intersection": [
+        "0x197ef44",
+        "0x197f0bc"
+      ]
+    },
+    {
+      "region": "row_198096c_8002616c",
+      "foff_start": "0x198096C",
+      "foff_end": "0x1980CD4",
+      "delta": "0x7E6A5800",
+      "confidence": "proven",
+      "intersection": [
+        "0x198096c",
+        "0x1980cd4"
+      ]
+    },
+    {
+      "region": "row_197f0bc_800248bc",
+      "foff_start": "0x197F0BC",
+      "foff_end": "0x197F43C",
+      "delta": "0x7E6A5800",
+      "confidence": "proven",
+      "intersection": [
+        "0x197f0bc",
+        "0x197f43c"
+      ]
+    },
+    {
+      "region": "row_197ee48_80024648",
+      "foff_start": "0x197EE48",
+      "foff_end": "0x197EF44",
+      "delta": "0x7E6A5800",
+      "confidence": "proven",
+      "intersection": [
+        "0x197ee48",
+        "0x197ef44"
+      ]
+    },
+    {
+      "region": "row_1980530_80025d30",
+      "foff_start": "0x1980530",
+      "foff_end": "0x1980864",
+      "delta": "0x7E6A5800",
+      "confidence": "proven",
+      "intersection": [
+        "0x1980530",
+        "0x1980864"
+      ]
+    },
+    {
+      "region": "row_1980cd4_800264d4",
+      "foff_start": "0x1980CD4",
+      "foff_end": "0x19811CC",
+      "delta": "0x7E6A5800",
+      "confidence": "proven",
+      "intersection": [
+        "0x1980cd4",
+        "0x19811cc"
+      ]
+    },
+    {
+      "region": "row_197eb88_80024388",
+      "foff_start": "0x197EB88",
+      "foff_end": "0x197ED3C",
+      "delta": "0x7E6A5800",
+      "confidence": "proven",
+      "intersection": [
+        "0x197eb88",
+        "0x197ed3c"
+      ]
+    },
+    {
+      "region": "row_197fa38_80025238",
+      "foff_start": "0x197FA38",
+      "foff_end": "0x197FB34",
+      "delta": "0x7E6A5800",
+      "confidence": "proven",
+      "intersection": [
+        "0x197fa38",
+        "0x197fb34"
+      ]
+    },
+    {
+      "region": "row_19800d8_800258d8",
+      "foff_start": "0x19800D8",
+      "foff_end": "0x198012C",
+      "delta": "0x7E6A5800",
+      "confidence": "proven",
+      "intersection": [
+        "0x19800d8",
+        "0x198012c"
+      ]
+    }
+  ],
+  "contradicts": [],
+  "review": "pending",
+  "reviewer": null,
+  "kind": "retail-loader-receipt"
+}

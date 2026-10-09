@@ -16,25 +16,7 @@ extern s32 func_800BCB04(s32 x, s32 y, s16 min_height);
 extern u8 D_800DE9D0[];
 extern u8 D_800DEC28[];
 
-extern void func_80024004(void);
 
-#ifdef __mips__
-static void (*const func_81850800_table[])(void)
-__asm__("func_81850800")
-__attribute__((section(".text.func_81850800"), aligned(4))) = {
-    func_80024004,
-};
-__asm__(".globl func_81850800\n"
-        ".type func_81850800,@function\n"
-        ".size func_81850800, 2012");
-#define BODY_NAME composite_body_81850800
-#define BODY_STORAGE static
-#define BODY_ATTR __attribute__((used, section(".text.func_81850800")))
-#else
-#define BODY_NAME func_81850800
-#define BODY_STORAGE
-#define BODY_ATTR
-#endif
 
 typedef struct S_81850800_0 {
     void * unk_00;
@@ -206,9 +188,11 @@ typedef struct S_81850800_11 {
     s16 unk_4E;
 } S_81850800_11;
 
-BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_81850800_6 *sprite) BODY_ATTR;
+void func_80024004(S_81850800_0 *owner, S_81850800_7 *motion, S_81850800_6 *sprite);
+void (*const dungeon_1870800_entry)(S_81850800_0 *, S_81850800_7 *, S_81850800_6 *) = func_80024004;
+
 /* Advance a directional effect, spawn its particles, and apply its target impact. */
-BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_81850800_6 *sprite)
+void func_80024004(S_81850800_0 *owner, S_81850800_7 *motion, S_81850800_6 *sprite)
 {
     s32 step_x;
     s32 step_y;
