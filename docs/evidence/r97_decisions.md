@@ -163,3 +163,13 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     full byte compare is unchanged; such rows are recorded `placement: unproven` (no L4 module placement, no rowbase
     claim). Any row with a relocation still needs a proven region. Tool lane with tests + gate --all + a real
     certification run; then 802F100C lands as decision 33 drafted it. SECOND LOOK: yes (gate tool change).
+36. **(r106) An identical-arm test on a field retail really loads is accepted, its unknown bit commented (orchestrator,
+    delegated).** GAP B dungeon/func_81994D8C (r106_opus_gapB): retail loads `lhu actor+0x98` at five sites and then
+    discards it. `fl = pl->unk_98; fl &= BIT; if (fl) S; else S;` keeps exactly that load (the and-insn writes its own
+    pseudo, no REG_DEAD note, jump2 deletes branch + and but stops before the load). The read itself is retail-evidenced
+    - the original source read the field there and its two outcomes compiled identically (e.g. equal constants) -
+    which is the owner's "same statement in both arms is likely original copy-paste" ruling, not a fake dependency.
+    Unlike the refused 818B6AFC always-false check (it ADDED a test retail lacks), nothing is added that retail does not
+    execute. The BIT is not encoded in any byte: the text must say so (`/* +0x98 bit unknown: retail reads the field,
+    both arms compile identically */`), never imply evidence; prefer a bit the sibling census tests on the same actor.
+    SECOND LOOK: yes.
