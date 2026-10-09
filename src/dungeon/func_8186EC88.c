@@ -1,75 +1,41 @@
 #include "common.h"
 #include "modules/dungeon_native_abi.h"
+#include "shared/object_node.h"
 
-#ifndef NULL
-#define NULL 0
-#endif
+/* Three 4-byte slots; only the second halfword of each is used. */
+typedef struct EffectPosition {
+    u16 pad_00;
+    s16 x;
+    u16 pad_04;
+    s16 y;
+    u16 pad_08;
+    s16 z;
+} EffectPosition;
 
-typedef struct S_80024488_0 {
-    u8 pad_00[0x8];
-    union { void * s; s32 u; } unk_08;   /* accessed as both */
-    u8 pad_0C[0x4];
+/* The spawned effect's record (the object header precedes it). */
+typedef struct SpawnedRecord {
+    u8 pad_00[8];
+    u32 unk_08;
+    u8 pad_0C[4];
     s32 unk_10;
     s16 unk_14;
     u8 pad_16[0x1C];
     s16 unk_32;
-} S_80024488_0;   /* temp_s0 in func_80024488 */
-
-typedef struct S_80024488_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80024488_1;   /* held_arg0 in func_80024488 */
-
-typedef struct S_80024488_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-} S_80024488_2;   /* dest1 in func_80024488 */
-
-typedef struct S_80024488_3 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-} S_80024488_3;   /* dest2 in func_80024488 */
-
-typedef struct S_80024488_4 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80024488_4;   /* call_obj in func_80024488 */
-
-typedef struct S_80024488_5 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80024488_5;   /* dest3 in func_80024488 */
-
-typedef struct S_80024488_6 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80024488_6;   /* ((S_80024488_1 *)held_arg0)->unk_08 in func_80024488 */
-
-
+} SpawnedRecord;
 
 extern s32 rand(void);
 extern s32 func_8002416C(void *, void *);
 extern void func_800243BC();
 
-/* Creates an object at a randomized offset from the source and initializes its fields. */
-void func_80024488(
-    void *source,
-    s16 field_34,
-    s32 field_28,
-    s16 field_52,
-    s16 offset_x,
-    s16 offset_y,
-    s16 offset_z)
-{
-    void *source_obj = source;
+/* Retail 8186EC88 (func_80024488): spawn an effect object under the parent node, placed at the parent's
+ * position plus a random jitter (0..31 per axis) and the given offsets (minus half the jitter range). */
+void func_80024488(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x,
+                   s16 offset_y, s16 offset_z) {
+    ObjectNodeHeader *source_obj = parent;
     u32 saved_field_28 = field_28;
     s16 saved_field_52 = field_52;
-    void *object_cursor;
-    S_80024488_0 *fields;
+    ObjectNodeHeader *spawned;
+    SpawnedRecord *fields;
     s32 jitter_x;
     s32 jitter_y;
     s32 jitter_z;
@@ -79,44 +45,42 @@ void func_80024488(
     s16 position_x;
     s16 position_y;
     s16 position_z;
-    void *init_data;
-    S_80024488_2 *dest_x;
-    S_80024488_3 *dest_y;
-    S_80024488_5 *dest_z;
+    EffectPosition *dest_x;
+    EffectPosition *dest_y;
+    EffectPosition *dest_z;
 
-    object_cursor = func_8003FD64(0x211, (ObjectNodeHeader **)source_obj);
-    if (object_cursor != NULL) {
-        ((S_80024488_0 *)object_cursor)->unk_10 = (s32)func_800243BC;
+    /* the parent's next slot is the list head the new node links behind */
+    spawned = func_8003FD64(0x211, (ObjectNodeHeader **)source_obj);
+    if (spawned != 0) {
+        spawned->unk_10 = (void *)func_800243BC;
         jitter_x = rand() & 0x1F;
-        position_x = ((S_80024488_6 *)(((S_80024488_1 *)source_obj)->unk_08))->unk_02;
-        dest_x = ((S_80024488_0 *)object_cursor)->unk_08.s;
+        position_x = ((EffectPosition *)source_obj->unk_08)->x;
+        dest_x = spawned->unk_08;
         position_x += jitter_x;
         bias_x = offset_x - 0x10;
         position_x += bias_x;
-        dest_x->unk_02 = (s16)position_x;
+        dest_x->x = position_x;
 
         jitter_y = rand() & 0x1F;
-        position_y = ((S_80024488_6 *)(((S_80024488_1 *)source_obj)->unk_08))->unk_06;
-        dest_y = ((S_80024488_0 *)object_cursor)->unk_08.s;
+        position_y = ((EffectPosition *)source_obj->unk_08)->y;
+        dest_y = spawned->unk_08;
         position_y += jitter_y;
         bias_y = offset_y - 0x10;
         position_y += bias_y;
-        dest_y->unk_06 = (s16)position_y;
+        dest_y->y = position_y;
 
         jitter_z = rand();
-        init_data = func_8002416C;
         jitter_z &= 0x1F;
-        position_z = ((S_80024488_6 *)(((S_80024488_1 *)source_obj)->unk_08))->unk_0A;
-        fields = (S_80024488_0 *)((u8 *)object_cursor + 0x20);
-        dest_z = ((S_80024488_4 *)object_cursor)->unk_08;
+        position_z = ((EffectPosition *)source_obj->unk_08)->z;
+        fields = (SpawnedRecord *)(spawned + 1);
+        dest_z = spawned->unk_08;
         position_z += jitter_z;
         bias_z = offset_z - 0x10;
         position_z += bias_z;
-        dest_z->unk_0A = (s16)position_z;
+        dest_z->z = position_z;
         fields->unk_14 = field_34;
         fields->unk_32 = saved_field_52;
-        func_8004491C(object_cursor, (s32)init_data);
-        fields->unk_08.u = saved_field_28;
+        func_8004491C(spawned, (s32)func_8002416C);
+        fields->unk_08 = saved_field_28;
     }
 }
-

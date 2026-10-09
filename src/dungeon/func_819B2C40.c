@@ -1,114 +1,92 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "shared/gpu_packets.h"
+#include "shared/object_node.h"
 
-typedef struct ProjectedEffect {
+/* A sprite effect record (the object header precedes it): world position of the centre, the size and the
+ * texture window of the quad it draws.  The coordinates sit in 4-byte slots with only the second halfword used. */
+typedef struct SpriteEffect {
     u8 pad_00[0x1E];
-    u16 unk_1E;
-    u8 pad_20[0x2];
-    u16 unk_22;
-    u8 pad_24[0x2];
-    u16 unk_26;
+    u16 x;              /* 0x1E */
+    u8 pad_20[2];
+    u16 y;              /* 0x22 */
+    u8 pad_24[2];
+    u16 z;              /* 0x26 */
     u8 pad_28[0x18];
-    u8 unk_40;
-    u8 pad_41[0x1];
-    u8 unk_42;
-    u8 pad_43[0x1];
-    u8 unk_44;
-    u8 pad_45[0x1];
-    u8 unk_46;
-    u8 pad_47[0x7];
-    u16 unk_4E;
-    u16 unk_50;
-    u16 unk_52;
-} ProjectedEffect;   /* item in func_80024440 */
+    u8 tex_u;           /* 0x40 */
+    u8 pad_41;
+    u8 tex_v;           /* 0x42 */
+    u8 pad_43;
+    u8 tex_width;       /* 0x44 */
+    u8 pad_45;
+    u8 tex_height;      /* 0x46 */
+    u8 pad_47[7];
+    u16 size;           /* 0x4E: world-space width */
+    u16 tpage;          /* 0x50 */
+    u16 clut;           /* 0x52 */
+} SpriteEffect;
 
-typedef struct ScreenPointPair {
-    u16 unk_00;
-    union { s16 s; u16 u; } unk_02;   /* accessed as both */
-    u8 pad_04[0x2];
-    union { s16 s; u16 u; } unk_06;   /* accessed as both */
-} ScreenPointPair;   /* output in func_80024440 */
+/* The two projected points (centre and one edge): x/y in 4-byte slots. */
+typedef struct ScreenPoints {
+    u16 x0;
+    s16 y0;
+    u16 x1;
+    s16 y1;
+} ScreenPoints;
 
-typedef struct PacketPoolRef {
-    union { void * s; u32 u; } unk_00;   /* accessed as both */
-} PacketPoolRef;   /* base in func_80024440 */
-
-typedef struct PacketPool {
-    u8 pad_00[0x8D0];
-    void * unk_8D0;
-} PacketPool;   /* pool in func_80024440 */
-
-typedef struct TexturedQuad {
-    u32 unk_00;
-    s32 unk_04;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 pad_0E[0x4];
-    u16 unk_12;
-    u8 unk_14;
-    u8 unk_15;
-    u16 unk_16;
-    u8 pad_18[0x2];
-    u16 unk_1A;
-    u8 unk_1C;
-    u8 unk_1D;
-    u8 pad_1E[0x4];
-    u16 unk_22;
-    u8 unk_24;
-    u8 unk_25;
-} TexturedQuad;   /* packet in func_80024440 */
-
-typedef struct OrderingTable {
-    u8 pad_00[0xB0];
-    u32 unk_B0;
-} OrderingTable;   /* (u8 *)index in func_80024440 */
-
-typedef struct EffectLink {
-    void * unk_00;
-    u8 pad_04[0x4];
-} EffectLink;   /* the 0x8 bytes before node in func_80024440, addressed as node[-1] */
-
-typedef struct OrderingTableSlot {
-    u8 pad_00[0xB0];
-    u32 unk_B0;
-} OrderingTableSlot;   /* (u8 *)(index + ((PacketPoolRef *)base)->unk_00.u) in func_80024440 */
-
-
-typedef struct {
-    u8 pad[0x1FC];
-    s32 unk1FC;
-} RenderWorkView;
-
+/* Textured quad, four vertices with separate halfword coordinates (cf. PolyFT4). */
+typedef struct SpriteQuad {
+    u32 tag;
+    s32 color;
+    u16 x0;
+    u16 y0;
+    u8 u0;
+    u8 v0;
+    u16 clut;
+    u16 x1;
+    u16 y1;
+    u8 u1;
+    u8 v1;
+    u16 tpage;
+    u16 x2;
+    u16 y2;
+    u8 u2;
+    u8 v2;
+    u8 pad_1E[2];
+    u16 x3;
+    u16 y3;
+    u8 u3;
+    u8 v3;
+} SpriteQuad;
 
 extern s32 func_80065420();
 extern void func_80066640();
 extern void func_800666F4();
 
-/* Projects linked items into textured quads and adds them to the ordering table. */
-s32 func_80024440(void *first_item) {
+/* Retail 819B2C40 (func_80024440): projects each linked sprite effect and queues a textured quad centred on
+ * its screen position into the ordering table.  The chain runs through the previous header's unk_18 link. */
+s32 func_80024440(SpriteEffect *first_item) {
     u16 world_pos[4];
-    u8 screen_points[8];
+    ScreenPoints screen_points;
     s32 projection_scratch;
-    void *node = first_item;
-    RenderWorkView *render_state = ((RenderWorkView *)&gameWork);
-    void *screen_base = screen_points;
-    void *next_node;
+    SpriteEffect *node = first_item;
+    GameWork *render_state = &gameWork;
+    void *screen_base = &screen_points;
+    ObjectNodeHeader *next_node;
 
     for (;;) {
-        void *item = node;
+        SpriteEffect *item = node;
         void *screen_point;
         s32 point_index;
         u32 depth_index;
         s32 half_width;
         u16 center_z;
 
-        world_pos[0] = ((ProjectedEffect *)item)->unk_1E;
-        world_pos[1] = ((ProjectedEffect *)item)->unk_22;
-        center_z = ((ProjectedEffect *)item)->unk_26;
+        world_pos[0] = item->x;
+        world_pos[1] = item->y;
+        center_z = item->z;
         world_pos[2] = center_z;
-        world_pos[2] = center_z - ((s32)(((ProjectedEffect *)item)->unk_4E << 16) >> 17);
+        world_pos[2] = center_z - ((s32)(item->size << 16) >> 17);
 
         point_index = 0;
         screen_point = screen_base;
@@ -116,14 +94,14 @@ s32 func_80024440(void *first_item) {
             depth_index = func_80065420(world_pos, screen_point, &projection_scratch, &projection_scratch) - 8;
             screen_point = (u8 *)screen_point + 4;
             point_index++;
-            world_pos[2] += ((ProjectedEffect *)item)->unk_4E;
+            world_pos[2] += item->size;
         } while (point_index < 2);
 
-        half_width = (((ScreenPointPair *)screen_points)->unk_02.s - ((ScreenPointPair *)screen_points)->unk_06.s) >> 1;
+        half_width = (screen_points.y0 - screen_points.y1) >> 1;
         if (depth_index < 0x1E0U) {
-            void *packet_pool;
-            void *packet;
-            register u8 tex_v;
+            GpuContext *packet_pool;
+            SpriteQuad *packet;
+            u8 tex_v;
             u8 tex_u;
             u8 tex_width;
             u16 screen_coord;
@@ -132,59 +110,59 @@ s32 func_80024440(void *first_item) {
             u32 addr_mask = 0;
             u32 color_or_tag_mask = 0;
 
-            packet_pool = ((PacketPoolRef *)render_state)->unk_00.s;
-            packet = ((PacketPool *)packet_pool)->unk_8D0;
-            ((PacketPool *)packet_pool)->unk_8D0 = (u8 *)packet + 0x34;
-            ((TexturedQuad *)packet)->unk_04 = 0xA0A0A0;
+            packet_pool = render_state->unk_000;
+            packet = (SpriteQuad *)packet_pool->packetCursor;
+            packet_pool->packetCursor = (u8 *)packet + 0x34;
+            packet->color = 0xA0A0A0;
             func_800666F4(packet);
             func_80066640(packet, 1);
 
-            ((TexturedQuad *)packet)->unk_16 = ((ProjectedEffect *)item)->unk_50;
-            (*(u16 *)((u8 *)packet + 0x0E)) = ((ProjectedEffect *)item)->unk_52;
-            screen_coord = ((ScreenPointPair *)screen_points)->unk_00 + half_width;
-            (*(u16 *)((u8 *)packet + 0x10)) = screen_coord;
-            (*(u16 *)((u8 *)packet + 0x08)) = screen_coord;
-            screen_coord = *(u16 *)&screen_points[0] - half_width;
-            (*(u16 *)((u8 *)packet + 0x20)) = screen_coord;
-            (*(u16 *)((u8 *)packet + 0x18)) = screen_coord;
-            screen_coord = ((ScreenPointPair *)screen_points)->unk_02.u;
-            ((TexturedQuad *)packet)->unk_1A = screen_coord;
-            ((TexturedQuad *)packet)->unk_0A = screen_coord;
-            screen_coord = ((ScreenPointPair *)screen_points)->unk_06.u;
-            ((TexturedQuad *)packet)->unk_22 = screen_coord;
-            ((TexturedQuad *)packet)->unk_12 = screen_coord;
+            packet->tpage = item->tpage;
+            packet->clut = item->clut;
+            screen_coord = screen_points.x0 + half_width;
+            packet->x1 = screen_coord;
+            packet->x0 = screen_coord;
+            screen_coord = screen_points.x0 - half_width;
+            packet->x3 = screen_coord;
+            packet->x2 = screen_coord;
+            screen_coord = screen_points.y0;
+            packet->y2 = screen_coord;
+            packet->y0 = screen_coord;
+            screen_coord = screen_points.y1;
+            packet->y3 = screen_coord;
+            packet->y1 = screen_coord;
 
-            tex_u = ((ProjectedEffect *)item)->unk_40;
+            tex_u = item->tex_u;
             addr_mask = 0xFFFFFF;
-            ((TexturedQuad *)packet)->unk_14 = tex_u;
-            ((TexturedQuad *)packet)->unk_0C = tex_u;
-            tex_width = ((ProjectedEffect *)item)->unk_44;
+            packet->u1 = tex_u;
+            packet->u0 = tex_u;
+            tex_width = item->tex_width;
             tex_u += tex_width;
-            ((TexturedQuad *)packet)->unk_24 = tex_u;
-            ((TexturedQuad *)packet)->unk_1C = tex_u;
-            tex_v = ((ProjectedEffect *)item)->unk_42;
+            packet->u3 = tex_u;
+            packet->u2 = tex_u;
+            tex_v = item->tex_v;
             depth_offset = depth_index << 2;
-            ((TexturedQuad *)packet)->unk_1D = tex_v;
-            ((TexturedQuad *)packet)->unk_0D = tex_v;
-            tex_v += ((ProjectedEffect *)item)->unk_46;
+            packet->v2 = tex_v;
+            packet->v0 = tex_v;
+            tex_v += item->tex_height;
             color_or_tag_mask = 0xFF000000;
-            ((TexturedQuad *)packet)->unk_25 = tex_v;
-            ((TexturedQuad *)packet)->unk_15 = tex_v;
+            packet->v3 = tex_v;
+            packet->v1 = tex_v;
 
-            ((TexturedQuad *)packet)->unk_00 =
-                (((TexturedQuad *)packet)->unk_00 & color_or_tag_mask) |
-                (((OrderingTableSlot *)((u8 *)(depth_offset + ((PacketPoolRef *)render_state)->unk_00.u)))->unk_B0 & addr_mask);
-            ot_slot = depth_offset + (u32)((PacketPoolRef *)render_state)->unk_00.s;
-            ((OrderingTable *)((u8 *)ot_slot))->unk_B0 =
-                (((OrderingTable *)((u8 *)ot_slot))->unk_B0 & color_or_tag_mask) |
+            packet->tag =
+                (packet->tag & color_or_tag_mask) |
+                (*(u32 *)((u8 *)(depth_offset + (u32)render_state->unk_000) + 0xB0) & addr_mask);
+            ot_slot = depth_offset + (u32)render_state->unk_000;
+            *(u32 *)((u8 *)ot_slot + 0xB0) =
+                (*(u32 *)((u8 *)ot_slot + 0xB0) & color_or_tag_mask) |
                 ((u32)packet & addr_mask);
         }
 
-        next_node = ((EffectLink *)node)[-1].unk_00;
+        next_node = (ObjectNodeHeader *)((ObjectNodeHeader *)node - 1)->unk_18;
         if (next_node == 0) {
             break;
         }
-        node = (u8 *)next_node + 0x20;
+        node = (SpriteEffect *)(next_node + 1);
     }
 
     return 0;

@@ -1,59 +1,61 @@
 #include "common.h"
 #include "modules/dungeon_native_abi.h"
+#include "shared/object_node.h"
 
-typedef struct Data {
-    u16 pad0;
+/* Three 4-byte slots; only the second halfword of each is used. */
+typedef struct EffectPosition {
+    u16 pad_00;
     u16 x;
-    u16 pad4;
+    u16 pad_04;
     u16 y;
-    u16 pad8;
+    u16 pad_08;
     u16 z;
-} Data;
+} EffectPosition;
 
-typedef struct Object {
-    u8 pad0[8];
-    Data *data;
-    u8 padC[4];
-    void (*callback)(void *);
-} Object;
+/* The spawned effect's record (the object header precedes it). */
+typedef struct SpawnedRecord {
+    u8 pad_00[8];
+    s32 unk_08;
+    u8 pad_0C[8];
+    s16 unk_14;
+    u8 pad_16[0x1C];
+    s16 unk_32;
+} SpawnedRecord;
 
 extern s32 rand(void);
 extern s32 func_80024124(void *, void *);
 extern void func_80024374(void *);
 
-/* Spawn and initialize an object at a randomized offset from its parent. */
-void func_800243C4(Object *source, s32 state_14_value, s32 state_08_value, s32 state_32_value,
+/* Retail 8196ABC4 (func_800243C4): spawn an effect object under the parent node, placed at the parent's
+ * position plus a random jitter (0..15 in x/y, 0..31 in z) and the given offsets (minus half the jitter range). */
+void func_800243C4(ObjectNodeHeader *parent, s32 state_14_value, s32 state_08_value, s32 state_32_value,
                    s16 x_offset, s16 y_offset, s16 z_offset) {
-    Object *parent = source;
-    s16 held_x_offset = x_offset;
-    s16 held_y_offset = y_offset;
-    s16 held_z_offset = z_offset;
-    s32 state_14 = state_14_value;
-    Object *spawned;
-    Data *position;
-    u8 *state;
+    ObjectNodeHeader *spawned;
+    EffectPosition *position;
+    SpawnedRecord *state;
     s32 jitter;
 
-    spawned = (Object *)func_8003FD64(0x211, (ObjectNodeHeader **)parent);
+    /* the parent's next slot is the list head the new node links behind */
+    spawned = func_8003FD64(0x211, (ObjectNodeHeader **)parent);
     if (spawned != 0) {
-        spawned->callback = func_80024374;
+        spawned->unk_10 = (void *)func_80024374;
         jitter = rand();
-        spawned->data->x =
-            parent->data->x +
-            (jitter & 0xF) + (held_x_offset - 8);
+        ((EffectPosition *)spawned->unk_08)->x =
+            ((EffectPosition *)parent->unk_08)->x +
+            (jitter & 0xF) + (x_offset - 8);
         jitter = rand();
-        spawned->data->y =
-            parent->data->y +
-            (jitter & 0xF) + (held_y_offset - 8);
-        state = (u8 *)spawned + 0x20;
+        ((EffectPosition *)spawned->unk_08)->y =
+            ((EffectPosition *)parent->unk_08)->y +
+            (jitter & 0xF) + (y_offset - 8);
+        state = (SpawnedRecord *)(spawned + 1);
         jitter = rand();
-        position = spawned->data;
+        position = spawned->unk_08;
         position->z =
-            parent->data->z +
-            (jitter & 0x1F) + (held_z_offset - 0x10);
-        *(s16 *)(state + 0x14) = state_14;
-        *(s16 *)(state + 0x32) = state_32_value;
+            ((EffectPosition *)parent->unk_08)->z +
+            (jitter & 0x1F) + (z_offset - 0x10);
+        state->unk_14 = state_14_value;
+        state->unk_32 = state_32_value;
         func_8004491C(spawned, (s32)func_80024124);
-        *(s32 *)(state + 8) = state_08_value;
+        state->unk_08 = state_08_value;
     }
 }

@@ -1,49 +1,28 @@
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
-typedef struct {
-    u32 addr : 24;
-    u32 len : 8;
-} P_TAG;
+#include "shared/object_node.h"
 
-   /* ctx in func_80024124 */
+/* Position the point is projected from: three 4-byte slots, only the second halfword of each is used. */
+typedef struct PointPosition {
+    u16 pad_00;
+    u16 x;
+    u16 pad_04;
+    u16 y;
+    u16 pad_08;
+    u16 z;
+} PointPosition;
 
-typedef struct S_80024124_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80024124_1;   /* input in func_80024124 */
-
-typedef struct S_80024124_2 {
-    u8 pad_00[0x3];
-    u8 unk_03;
-    union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_04;   /* overlapping accesses */
-} S_80024124_2;   /* packet in func_80024124 */
-
-typedef struct S_80024124_3_pre {
-    void * unk_00;
-    u8 pad_04[0x4];
-} S_80024124_3_pre;   /* the 0x8 bytes before cur in func_80024124, addressed as cur[-1] */
-
-typedef struct S_80024124_3 {
-    u8 pad_00[0x8];
-    u32 unk_08;
+/* The effect point's record (the object header precedes it). */
+typedef struct PointRecord {
+    u8 pad_00[8];
+    u32 color;          /* r/g/b/code word copied into the tile */
     u8 pad_0C[0x26];
-    s16 unk_32;
-} S_80024124_3;   /* cur in func_80024124 */
+    s16 brightness;     /* 0x80 = full */
+} PointRecord;
 
-typedef struct S_80024124_4 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80024124_4;   /* next in func_80024124 */
-
-   /* final_ctx in func_80024124 */
-
-
-typedef struct {
+/* GPU scratchpad (0x1F800000) workspace used while projecting. */
+typedef struct Scratch80024124 {
     u16 x;
     u16 y;
     u16 z;
@@ -58,7 +37,8 @@ typedef struct {
     u32 index;
 } Scratch80024124;
 
-typedef struct {
+/* Shaded tile (code 0x6A, 3 words) or draw-mode packet (3 words). */
+typedef struct Packet80024124 {
     u32 tag;
     u8 r;
     u8 g;
@@ -71,74 +51,75 @@ extern u32 func_80065420(void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, s32, s32);
 
-/* Projects linked points and queues shaded tiles with draw-mode packets. */
-s32 func_80024124(void *first_point, void *first_position)
+/* Retail 8196A924 (func_80024124): projects each linked point and queues a brightness-scaled shaded tile
+ * followed by a draw-mode packet for it. */
+s32 func_80024124(PointRecord *first_point, PointPosition *first_position)
 {
-    void *point = first_point;
-    void *position = first_position;
+    PointRecord *point = first_point;
+    PointPosition *position = first_position;
     GameWork *render_state = &gameWork;
     u32 addr_mask = 0x00FFFFFF;
-    u8 *render_ctx = *(u8 **)((u8 *)(&gameWork));
+    GpuContext *render_ctx = gameWork.unk_000;
     u8 *packet_start;
     u32 tag_mask = 0xFF000000;
     Scratch80024124 *scratch =
         (Scratch80024124 *)0x1F800000;
     Packet80024124 *tile;
     Packet80024124 *draw_mode;
-    u8 *final_render_ctx;
+    GpuContext *final_render_ctx;
     s32 color_value;
     s32 draw_page;
-    void *next_node;
+    ObjectNodeHeader *next_node;
 
-    packet_start = ((GpuContext *)render_ctx)->packetCursor;
-    scratch->ot = (u32 *)(render_ctx + 0xB0);
+    packet_start = render_ctx->packetCursor;
+    scratch->ot = (u32 *)&render_ctx->orderTag;
     scratch->cursor = packet_start;
 
     for (;;) {
-        tile = *(Packet80024124 **)&scratch->cursor;
-        scratch->x = ((S_80024124_1 *)position)->unk_02;
-        scratch->y = ((S_80024124_1 *)position)->unk_06;
-        scratch->z = ((S_80024124_1 *)position)->unk_0A;
+        tile = (Packet80024124 *)scratch->cursor;
+        scratch->x = position->x;
+        scratch->y = position->y;
+        scratch->z = position->z;
         scratch->cursor = (u8 *)tile + 0xC;
         scratch->index = func_80065420(scratch, (u8 *)tile + 8,
                                        &scratch->xy, &scratch->depth);
 
         if (scratch->index < 0x1E0U) {
-            ((S_80024124_2 *)tile)->unk_04.at00.v = ((S_80024124_3 *)point)->unk_08;
+            *(u32 *)&tile->r = point->color;
 
-            color_value = (s32)tile->r * ((S_80024124_3 *)point)->unk_32;
+            color_value = (s32)tile->r * point->brightness;
             if (color_value < 0) {
                 color_value += 0x7F;
             }
             tile->r = color_value >> 7;
 
-            color_value = (s32)tile->g * ((S_80024124_3 *)point)->unk_32;
+            color_value = (s32)tile->g * point->brightness;
             if (color_value < 0) {
                 color_value += 0x7F;
             }
             tile->g = color_value >> 7;
 
-            color_value = (s32)tile->b * ((S_80024124_3 *)point)->unk_32;
+            color_value = (s32)tile->b * point->brightness;
             tile->b = (color_value / 128);
 
-            ((S_80024124_2 *)tile)->unk_03 = 2;
-            ((S_80024124_2 *)tile)->unk_04.at03.v = 0x6A;
-            ((P_TAG *)&tile->tag)->addr = ((P_TAG *)&scratch->ot[scratch->index])->addr;
-            ((P_TAG *)&scratch->ot[scratch->index])->addr = (u32)tile;
+            ((GpuLinkTag *)&tile->tag)->len = 2;
+            tile->code = 0x6A;
+            ((GpuLinkTag *)&tile->tag)->addr = ((GpuLinkTag *)&scratch->ot[scratch->index])->addr;
+            ((GpuLinkTag *)&scratch->ot[scratch->index])->addr = (u32)tile;
 
             draw_mode = (Packet80024124 *)scratch->cursor;
             scratch->cursor = (u8 *)draw_mode + 0xC;
             draw_page = func_80066460(0, 1, 0, 0);
             func_80067F20(draw_mode, 0, 0, (u16)draw_page, 0);
 
-            ((P_TAG *)&draw_mode->tag)->addr = ((P_TAG *)&scratch->ot[scratch->index])->addr;
-            ((P_TAG *)&scratch->ot[scratch->index])->addr = (u32)((u32)draw_mode);
+            ((GpuLinkTag *)&draw_mode->tag)->addr = ((GpuLinkTag *)&scratch->ot[scratch->index])->addr;
+            ((GpuLinkTag *)&scratch->ot[scratch->index])->addr = (u32)draw_mode;
         }
 
-        next_node = ((S_80024124_3_pre *)point)[-1].unk_00;
+        next_node = (ObjectNodeHeader *)((ObjectNodeHeader *)point - 1)->unk_18;
         if (next_node != 0) {
-            point = (u8 *)next_node + 0x20;
-            position = ((S_80024124_4 *)next_node)->unk_08;
+            point = (PointRecord *)(next_node + 1);
+            position = next_node->unk_08;
             continue;
         }
 
@@ -146,6 +127,6 @@ s32 func_80024124(void *first_point, void *first_position)
     }
 
     final_render_ctx = render_state->unk_000;
-    ((GpuContext *)final_render_ctx)->packetCursor = scratch->cursor;
+    final_render_ctx->packetCursor = scratch->cursor;
     return 0;
 }
