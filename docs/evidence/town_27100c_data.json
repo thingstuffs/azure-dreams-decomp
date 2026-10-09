@@ -1,0 +1,53 @@
+{
+  "reviewer": null,
+  "original": {
+    "func_vram": "func_802F100C",
+    "vram": 2150567948,
+    "foff": 2560012,
+    "size": 904,
+    "result": "MATCH",
+    "config": "2.6.3-G0",
+    "c_path": "overlays/town/first_pass_matched/func_802F100C.c",
+    "gate_config": "config/overlays/town_deep_t8b_27100c.overlay.yaml",
+    "gate_verified": true,
+    "instances": 1,
+    "base_confidence": "proven",
+    "words_off": 0,
+    "config_was": "2.7.2-cdk-G0",
+    "config_note": "r56b: byte-neutral recipe reduction toward the module census recipe"
+  },
+  "parts": [
+    {
+      "row": "D_802F100C",
+      "start": "0x27100c",
+      "end": "0x271074",
+      "bytes": 104,
+      "sha256": "af6c199918fa792d664be750622e6031cf15256cef142c2ce202be659f39c570"
+    },
+    {
+      "row": "D_802F1074",
+      "start": "0x271074",
+      "end": "0x2711ac",
+      "bytes": 312,
+      "sha256": "6287e17fe5efcb191aec8a2578e685d0a1040a0ab53bd1f02c7f49cc6c8fced7"
+    },
+    {
+      "row": "D_802F11AC",
+      "start": "0x2711ac",
+      "end": "0x271394",
+      "bytes": 488,
+      "sha256": "a3c7a3ecfb718a45d32ffdc987d0df9f0bc665e6ca31a4381cb04d99c0346598"
+    }
+  ],
+  "partition_exact": true,
+  "parent_id": "main/func_800211AC",
+  "parent_true_name": "func_804081AC",
+  "parent_file_extent": [
+    "0x2711ac",
+    "0x271394"
+  ],
+  "zero_head_bytes": 116,
+  "retained_tail_equals_MAIN": true,
+  "baseline": "production window MATCH",
+  "placement": "unproven"
+}

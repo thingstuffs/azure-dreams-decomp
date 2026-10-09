@@ -62,6 +62,11 @@ def overlay_rows():
                 "stock": is_stock_cfg(cfg) and not is_keyed_asflags(asflags.get(r["func_vram"])) and cfg != "platform-asm",
                 "kind": "overlay",
             }
+            # These split facts are authoritative and survive every regeneration.
+            for field in ("row_kind", "data_kind", "placement", "residue", "parent_id",
+                          "parent_true_name", "ownership_status", "owner", "evidence"):
+                if field in r:
+                    rec[field] = r[field]
             if derived:
                 rec["gate_config_derived"] = True
             out.append(rec)

@@ -451,6 +451,59 @@ def rodata_owner(family: str, foff: int) -> dict[str, Any] | None:
     return _RODATA_OWNERS[family].get(foff)
 
 
+def rodata_link_base(obj: Path, seg: "Segment", owner: dict[str, Any]) -> int:
+    """Use true placement, or prove decision-35 address independence from the ELF.
+
+    Inspect all relocation and symbol sections, including weak undefined symbols
+    and non-allocated relocations. A missing/malformed inventory fails closed.
+    This fallback proves storage bytes only; it grants no runtime placement.
+    """
+    if seg.match.link_vram is not None:
+        return seg.match.link_vram
+    import struct
+    refusal = (f"rodata owner {owner.get('id')}: row 0x{seg.start:X} "
+               "is not in a proven rowbase region")
+    try:
+        blob = obj.read_bytes()
+        if blob[:6] != b"\x7fELF\x01\x01" or len(blob) < 52:
+            raise ValueError("not ELF32 little-endian")
+        if struct.unpack_from('<HH', blob, 16) != (1, 8):
+            raise ValueError("not a relocatable MIPS object")
+        off = struct.unpack_from('<I', blob, 32)[0]
+        stride, count, names_index = struct.unpack_from('<HHH', blob, 46)
+        if stride != 40 or not count or names_index >= count:
+            raise ValueError("invalid section inventory")
+        sections = [struct.unpack_from('<10I', blob, off + i * stride) for i in range(count)]
+        def payload(h):
+            start, size = h[4:6]
+            if start + size > len(blob):
+                raise ValueError("truncated section")
+            return blob[start:start + size]
+        names = payload(sections[names_index])
+        symtabs = 0
+        for h in sections:
+            name = names[h[0]:names.index(b'\0', h[0])].decode('ascii')
+            if h[1] != 8:
+                payload(h)
+            if h[1] in (4, 9) and h[5]:  # SHT_RELA / SHT_REL, in ANY section
+                raise ValueError("object has relocations")
+            if h[5] and (name == '.text' or name.startswith('.text.') or h[2] & 4):
+                raise ValueError("object has nonempty .text / executable section")
+            if h[1] in (2, 11):  # SYMTAB / DYNSYM
+                symtabs += 1
+                if h[9] != 16 or h[5] % 16 or h[6] >= count:
+                    raise ValueError("invalid symbol inventory")
+                symbols = payload(h)
+                for pos in range(16, len(symbols), 16):  # skip ELF's null symbol only
+                    if struct.unpack_from('<H', symbols, pos + 14)[0] == 0:
+                        raise ValueError("object has undefined symbols")
+        if not symtabs:
+            raise ValueError("missing symbol inventory")
+    except (ValueError, IndexError, UnicodeError, struct.error) as exc:
+        raise SystemExit(f"{refusal}: {exc}") from exc
+    return seg.vram
+
+
 def rodata_first_link(obj: Path, seg: "Segment", owner: dict[str, Any], gp_value: int,
                       symbol_files: list[Path], stem: Path) -> bytes:
     """Link a rodata-owner TU alone: .rodata LOADED at the true base, .text at base + rodata_size.
@@ -461,7 +514,7 @@ def rodata_first_link(obj: Path, seg: "Segment", owner: dict[str, Any], gp_value
     padding (all zero, shorter than the section alignment, no relocation and no symbol in the cut -
     ASPSX/psylink did not pad, as for slus_rodata_trim.py); .text fills the rest of the row
     exactly."""
-    base, rsize = seg.match.link_vram, int(owner["rodata_size"])
+    base, rsize = rodata_link_base(obj, seg, owner), int(owner["rodata_size"])
     hdr = subprocess.run([OBJDUMP, "-h", "-r", "-t", str(obj)], capture_output=True, text=True).stdout
     sects = {m.group(1): (int(m.group(2), 16), 1 << int(m.group(3))) for m in re.finditer(
         r"^\s*\d+\s+(\S+)\s+([0-9A-Fa-f]+)\s+[0-9A-Fa-f]+\s+[0-9A-Fa-f]+\s+[0-9A-Fa-f]+\s+2\*\*(\d+)", hdr, re.M)}
@@ -1656,8 +1709,6 @@ def main(argv=None) -> int:
         if owner is not None:
             # rodata-first module row (rodata_owner): no Option-D NOLOAD placement - the TU's
             # .rodata is LOADED inside the row and the window byte compare proves it
-            if seg.match.link_vram is None:
-                raise SystemExit(f"rodata owner {owner.get('id')}: row 0x{seg.start:X} is not in a proven rowbase region")
             assert_unique_globals([obj], f"{cfg['name']} rodata-owner mini-link {obj_key}", expect_count=1)
             mini_bin = build_dir / f"rowbase_{obj_key}.bin"
             mini_bin.write_bytes(rodata_first_link(obj, seg, owner, gp_value, symbol_files,

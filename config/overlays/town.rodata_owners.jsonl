@@ -1,0 +1,3 @@
+{"schema": "azure-clean.rodata_owner.v1", "id": "town/D_802F100C", "foff": "0x27100c", "rodata_size": 104, "rodata": "u16_table", "owner": null, "ownership_status": "owner-unresolved", "reviewer": "orchestrator-r106", "placement": "unproven"}
+{"schema": "azure-clean.rodata_owner.v1", "id": "town/D_802F1074", "foff": "0x271074", "rodata_size": 312, "rodata": "zero_padding", "owner": null, "ownership_status": "owner-unresolved", "reviewer": "orchestrator-r106", "placement": "unproven"}
+{"schema": "azure-clean.rodata_owner.v1", "id": "town/D_802F11AC", "foff": "0x2711ac", "rodata_size": 488, "rodata": "stale_image", "owner": null, "ownership_status": "owner-unresolved", "reviewer": "orchestrator-r106", "placement": "unproven"}
