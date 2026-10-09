@@ -1,3 +1,20 @@
+# Handover (2026-10-09 ~03:35Z, round 105: ALL PACKAGES LANDED; Opus cl2 running) - start here
+
+**Landed r105:** 28a9bb352 baseline (149 rows) + decisions 32-34; 2d40e95f9 Layer-2 (3 recovered rows -> L3);
+33741d2df 800AA854 2 -> 1 pin, 0 volatiles, no goto (**91 pins**); ce395a5a0 status.py repo-relative module reasons
+(scrub hook refused STATUS.md: a missing certificate's OSError carried the absolute path); 407526f1f DUNGEON bank
+receipts + native dungeon_ovl_1870800 (owner ran land_packages via `!`); 1aaa86d23 its certificate (22 rows at L5);
+2b9e5a862 GAP A func_81917C08 byte-exact + func_81916800 re-carve; 6382c715f Sonnet cleanup 800CA184 / 809548E4
+(equal pins). **Carve debt 42 -> 40.**
+**Landing lane packages whose apply.py refuses the live root:** _r105/{bank,gapA}_apply_live.py wrappers (drop the
+refusal only under --live, assert the lane script unchanged) as land_packages.py package entries. Lane scratch trees
+flatten tools/gate/* into tools/ - check lane apply.py tool paths (GAP A's graph step needed tools/gate/). Owner allow
+rules: python3 tools/lanes/land_packages.py *, python3 work/native_lane/_r105/*, certify_overlay_module.py *.
+New modules: land_packages refuses a changed certificate set -> certify the new module right after its landing.
+**Running:** Opus r105_opus_cl2 on the cleaned 800CA184 + 809548E4 (2 pins each; leads t3a dist 1, t7 dist 12).
+**Next:** GAP B (47; try GAP A's per-case-tail ORDER lever), own4 gate path for stale-image data (ruling), 197281c
+cohort 192/184, 7e6a5800 TU boundary; sol61 xhigh caps above 700k; data-row baselines (verify.py has no data path).
+
 # Handover (2026-10-08 ~23:55Z, round 105: TWO PACKAGES READY, LANDING BLOCKED ON A PERMISSION) - start here
 
 **Landed:** 33741d2df (r105_opus_aa854: 800AA854 2 -> 1 pin, volatiles 8 -> 0, goto -> do/while; 91 pins), 28a9bb352 (baseline 149 rows, decisions 32-34), 2d40e95f9 (r105_sonnet_l2: 81850FDC/81952E54/819600D8 -> L3).
