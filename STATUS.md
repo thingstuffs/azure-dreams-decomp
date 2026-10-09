@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-09T12:46:38Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-09T12:50:37Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -91,7 +91,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | dungeon_ovl_19ba800 | 3 | current: complete TU + all windows + genuine |
 | dungeon_ovl_199c800 | 4 | current: complete TU + all windows + genuine |
 | dungeon_ovl_18f4800 | 5 | current: complete TU + all windows + genuine |
-| dungeon_ovl_19a8800 | 5 | certificate missing/invalid: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_ovl_19a8800.json' |
+| dungeon_ovl_19a8800 | 5 | current: complete TU + all windows + genuine |
 
 Placement alone does not override any lower-level or source-residue guard.
 
@@ -159,12 +159,12 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 | L1 | 2,756,964 | 99.6% |
 | L2 | 2,756,964 | 99.6% |
 | L3 | 2,546,432 | 92.0% |
-| L4 | 29,732 | 1.1% |
-| L5 | 28,004 | 1.0% |
+| L4 | 33,148 | 1.2% |
+| L5 | 31,420 | 1.1% |
 
 On shared record headers (T7, `include/records/`): 845 rows, 549,076 bytes (19.8%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 49 rows (61,060 B), tail_jump 20 rows (23,840 B), not_in_module 6,862 rows (2,724,380 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 49 rows (61,060 B), tail_jump 20 rows (23,840 B), not_in_module 6,857 rows (2,720,964 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 
