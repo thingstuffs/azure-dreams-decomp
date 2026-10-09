@@ -130,7 +130,8 @@ def main():
         out.append("## Overlay modules\n\n| module | rows | placement proof |\n|---|---:|---|")
         for entry in overlay_records:
             proof = "current: complete TU + all windows + genuine" if entry["valid"] else entry["reason"]
-            proof = proof.replace("|", "/").replace("\n", " ")
+            # a missing certificate's OSError names the absolute path; STATUS.md is tracked (scrub hook)
+            proof = proof.replace(str(ROOT) + "/", "").replace("|", "/").replace("\n", " ")
             out.append(f"| {entry['module']['key']} | {len(entry['module']['members'])} | {proof} |")
         out.append("\nPlacement alone does not override any lower-level or source-residue guard.\n")
     out.append("## Shape census: pinned raw text vs current clean tree (files / bytes carrying each defect)\n\n| defect | files (pin) | bytes (pin) | % bytes | files (clean) | bytes (clean) | % bytes |\n|---|---:|---:|---:|---:|---:|---:|")
