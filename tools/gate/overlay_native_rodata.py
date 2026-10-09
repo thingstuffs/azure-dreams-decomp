@@ -1,6 +1,6 @@
 """Native entry/switch heads and replayable GNU-as tail-padding evidence.
 
-This supports only compiler-emitted tables belonging to functions in the TU.
+This supports typed native objects and compiler-emitted tables in the TU.
 It grants neither membership nor ownership of external objects.
 """
 import hashlib
@@ -28,6 +28,10 @@ def validate_layout(m):
             if (kind != 'typed_function_pointer' or d['size'] != 4
                     or d.get('target') not in owners or not d.get('symbol')):
                 raise ValueError('native entry must target a complete native member')
+        elif kind in ('typed_string', 'message_bytes', 'rectangle_records'):
+            literal_bytes(d)
+            if not d.get('symbol'):
+                raise ValueError('typed native object lacks its symbol')
         elif kind == 'direction_offsets':
             direction_bytes(d)
             if not d.get('symbol'):
@@ -65,6 +69,70 @@ def direction_bytes(d):
     return b''.join(struct.pack('<hH', *p) for p in pairs)
 
 
+
+def message_payload(d):
+    """NUL-terminated Shift-JIS text, minimally padded to a word boundary.
+
+    Text records preserve Unicode text; byte records preserve the game's encoded
+    message spelling. Neither is a literal blob: both must be valid, nonempty,
+    round-trippable Shift-JIS with no embedded terminator or control characters.
+    """
+    if d.get('encoding') != 'shift_jis':
+        raise ValueError('unsupported native message encoding')
+    if d['kind'] == 'typed_string':
+        text = d.get('text')
+        if not isinstance(text, str):
+            raise ValueError('invalid typed native string')
+        try:
+            payload = text.encode('shift_jis', errors='strict')
+        except UnicodeError as exc:
+            raise ValueError('invalid typed native string encoding') from exc
+    else:
+        codes = d.get('bytes')
+        if (not isinstance(codes, list) or not codes
+                or any(type(v) is not int or not 1 <= v <= 255 for v in codes)):
+            raise ValueError('invalid encoded native message bytes')
+        payload = bytes(codes)
+        try:
+            text = payload.decode('shift_jis', errors='strict')
+        except UnicodeError as exc:
+            raise ValueError('invalid native message encoding') from exc
+    if (not text or any(ord(c) < 32 or 127 <= ord(c) < 160 for c in text)
+            or payload.decode('shift_jis', errors='strict') != text
+            or text.encode('shift_jis', errors='strict') != payload):
+        raise ValueError('invalid native message text')
+    packed = payload + b'\0'
+    packed += b'\0' * (-len(packed) % 4)
+    if type(d.get('size')) is not int or d['size'] != len(packed):
+        raise ValueError('native message must use minimal terminator/padding')
+    return packed
+
+
+def rectangle_bytes(d):
+    """Eight PSX texture rectangles: unsigned 16-bit x,y,width,height.
+
+    Validate the VRAM coordinate domain, positive dimensions and bounds;
+    an arbitrary eight-by-four halfword array is not a rectangle table.
+    """
+    records = d.get('rectangles')
+    if (d.get('size') != 64 or not isinstance(records, list) or len(records) != 8
+            or any(not isinstance(r, list) or len(r) != 4
+                   or any(type(v) is not int for v in r)
+                   or not (0 <= r[0] < 1024 and 0 <= r[1] < 512
+                           and 0 < r[2] <= 1024 - r[0]
+                           and 0 < r[3] <= 512 - r[1]) for r in records)):
+        raise ValueError('invalid typed eight-rectangle VRAM table')
+    return b''.join(struct.pack('<4H', *r) for r in records)
+
+
+def literal_bytes(d):
+    if d['kind'] in ('typed_string', 'message_bytes'):
+        return message_payload(d)
+    if d['kind'] == 'rectangle_records':
+        return rectangle_bytes(d)
+    raise ValueError('unsupported typed native literal')
+
+
 def validate_switch_assembly(m, assembly):
     """Account for rodata directives in the one, canonical gcc assembly stream.
 
@@ -79,6 +147,7 @@ def validate_switch_assembly(m, assembly):
     offset = 0
     words = {}
     halves = {}
+    byte_values = {}
     labels = {}
     text_labels = {}
     bodies = {}
@@ -118,6 +187,14 @@ def validate_switch_assembly(m, assembly):
             words[offset] = (hit[1], owner)
             offset += 4
             continue
+        hit = re.fullmatch(r'\.byte\s+(\d+)', line)
+        if hit:
+            value = int(hit[1])
+            if not 0 <= value <= 255:
+                raise ValueError('native message byte outside range')
+            byte_values[offset] = (value, owner)
+            offset += 1
+            continue
         hit = re.fullmatch(r'\.half\s+(-?\d+)', line)
         if hit:
             if not -32768 <= int(hit[1]) <= 65535:
@@ -131,12 +208,23 @@ def validate_switch_assembly(m, assembly):
     base = m['members'][0]['foff']
     expected = {}
     expected_halves = {}
+    expected_bytes = {}
     for d in m['owned_data']:
         start = d['foff'] - base
         if d['kind'] == 'typed_function_pointer':
             expected[start] = (d['target'], None)
             if labels.get(d['symbol']) != (start, None):
                 raise ValueError('native entry assembly symbol differs')
+        elif d['kind'] in ('typed_string', 'message_bytes', 'rectangle_records'):
+            packed = literal_bytes(d)
+            if (labels.get(d['symbol']) != (start, None)
+                    or any(start < loc[0] < start + d['size'] for loc in labels.values())):
+                raise ValueError('typed native assembly symbol/bounds differ')
+            if d['kind'] == 'rectangle_records':
+                expected_halves.update({start + i: (struct.unpack_from('<H', packed, i)[0], None)
+                                       for i in range(0, len(packed), 2)})
+            else:
+                expected_bytes.update({start + i: (v, None) for i, v in enumerate(packed)})
         elif d['kind'] == 'direction_offsets':
             packed = direction_bytes(d)
             if labels.get(d['symbol']) != (start, None):
@@ -159,7 +247,7 @@ def validate_switch_assembly(m, assembly):
                         or text_labels.get(target) != d['owner']):
                     raise ValueError('table target not emitted by its owner')
                 expected[pos] = (target, emitting_owner)
-    if words != expected or halves != expected_halves or offset != sum(d['size'] for d in m['owned_data']):
+    if words != expected or halves != expected_halves or byte_values != expected_bytes or offset != sum(d['size'] for d in m['owned_data']):
         raise ValueError('native assembly head coverage differs')
 
 
@@ -193,6 +281,14 @@ def validate_relocations(m, view):
             if sym is None or sym[0] != sec or sym[1] != start:
                 raise ValueError('native entry symbol differs')
             expected[start] = ('32', ('fn', d['target'], 0))
+        elif d['kind'] in ('typed_string', 'message_bytes', 'rectangle_records'):
+            sym = view.obj.symbols.get(d['symbol'])
+            if (sym is None or sym[0] != sec or sym[1] != start
+                    or any(s[0] == sec and start < s[1] < start + d['size']
+                           for s in view.obj.symbols.values())):
+                raise ValueError('typed native object symbol/bounds differ')
+            if data[start:start + d['size']] != literal_bytes(d):
+                raise ValueError('typed native object bytes differ')
         elif d['kind'] == 'direction_offsets':
             sym = view.obj.symbols.get(d['symbol'])
             if sym is None or sym[0] != sec or sym[1] != start:
