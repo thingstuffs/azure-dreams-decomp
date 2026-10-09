@@ -1,3 +1,16 @@
+# Handover (2026-10-09 ~13:00Z, round 108 RUNNING; r107 landed) - start here
+
+**Landed r107:** b59143798 plan C (own5 808CB000 + 80921000 data re-carves; native dungeon_ovl_19a8800; 12 recovered gap
+rows; 818FA12C 1 -> 0 pins + volatile gone; 80095160 readability) + 9478e8a78 its certificate. **Carve debt 28, L5 52,
+14 live certificates.** d216b9f85 / 49fb297ed brief paragraph param_reload_copy (stack-home parameter copies only).
+Traps fixed this round: review_modules.py now drops `confidence` from a membership ledger_group (r107 gap1 put it there;
+the in-plan review flipped the rows to strong -> "complete ledger cohort differs"); lane packages must run the graph step.
+**Running:** pool r108 (sol61 high, -c 4): r108_sol61_kinds (validator kinds typed-string / message / rectangle + modules
+189a800, 188e800, 198a800), r108_sol61_big1-6 (12 larger-gap banks incl. 1918800). Agent: r108_sonnet_l2 (Layer-2 on the
+12 new gap rows -> L3; land via promote.py from ledger/agents/out/r108_sonnet_l2/, then their modules certify).
+**Still held:** GAP B (31, decision 36 ruled), 197281c cohort, 7e6a5800 TU boundary, town receipts (pointer sides),
+8180B064 (global.c order) blocks 7e7fb800, hard-basket 8182C800 / 81844F2C block 184c800 / 1864800.
+
 # Handover (2026-10-09 ~10:25Z, round 107: CARVE-DEBT WAVE 2 RUNNING) - start here
 
 **Landed r106:** 0202c781c decision 36 (identical-arm test on a retail-loaded field, bit commented - GAP B);
