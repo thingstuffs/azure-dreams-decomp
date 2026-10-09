@@ -152,3 +152,14 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     load covering both of 1870800's adjacent intervals, one region record spanning them is the r103 brief's permitted
     representation and the r103 adjacent-regions gate patch is NOT landed (it voids every certificate for no consumer);
     it lands only if a module is found that genuinely needs two loads. SECOND LOOK: no.
+35. **(r105) Placement-independent data rows may be gated without a proven rowbase region (orchestrator, delegated).**
+    The window gate links a rodata-owner row at its proven true vram (overlay_local_gate.py:1660) because relocated
+    words (pointers) only come out right at the right address. r105_sol61_own4's three town/func_802F100C rows (104 B
+    u16 table, 312 B zero pad, 488 B stale-image residue) compile to objects with ZERO relocations, no undefined
+    symbols, no text (evidence/D_802F*.object.txt, data_object_accounting.json): their bytes cannot depend on the link
+    address, so the region requirement protects nothing there and only keeps decision 33's representation out.
+    Ruling: a rodata-owner segment with no proven region links at the window's own linear vram IF its object has zero
+    relocations, zero undefined symbols and an empty .text (asserted by the gate, fail-closed otherwise); the window's
+    full byte compare is unchanged; such rows are recorded `placement: unproven` (no L4 module placement, no rowbase
+    claim). Any row with a relocation still needs a proven region. Tool lane with tests + gate --all + a real
+    certification run; then 802F100C lands as decision 33 drafted it. SECOND LOOK: yes (gate tool change).
