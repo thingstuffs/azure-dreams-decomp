@@ -4214,7 +4214,7 @@
 {"id": "dungeon/func_81845484", "container": "dungeon", "module": "ovl_1864800.c", "module_index": 150, "confidence": "weak"}
 {"id": "dungeon/func_8184A800", "container": "dungeon", "module": "ovl_186a800.c", "module_index": 151, "confidence": "weak"}
 {"id": "dungeon/func_8184B130", "container": "dungeon", "module": "ovl_186a800.c", "module_index": 151, "confidence": "weak"}
-{"id": "dungeon/func_81850800", "container": "dungeon", "module": "ovl_1870800.c", "module_index": 152, "confidence": "weak"}
+{"id": "dungeon/func_81850800", "container": "dungeon", "module": "ovl_1870800.c", "module_index": 152, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1870800.membership.json", "reviewer": "orchestrator-r105"}
 {"id": "dungeon/func_81856800", "container": "dungeon", "module": "ovl_1876800.c", "module_index": 153, "confidence": "weak"}
 {"id": "dungeon/func_818571BC", "container": "dungeon", "module": "ovl_1876800.c", "module_index": 153, "confidence": "weak"}
 {"id": "dungeon/func_8185C860", "container": "dungeon", "module": "ovl_187c860.c", "module_index": 154, "confidence": "weak"}
@@ -7273,7 +7273,7 @@
 {"id": "dungeon/D_8107D054", "container": "dungeon", "module": "ovl_109d000.c", "module_index": 127, "confidence": "weak", "evidence": "physical carrier association only; data owner separately recorded", "reviewer": "orchestrator-r101"}
 {"id": "dungeon/D_8107D074", "container": "dungeon", "module": "ovl_109d000.c", "module_index": 127, "confidence": "weak", "evidence": "physical carrier association only; data owner separately recorded", "reviewer": "orchestrator-r101"}
 {"id": "dungeon/D_8107D078", "container": "dungeon", "module": "ovl_109d000.c", "module_index": 127, "confidence": "weak", "evidence": "physical carrier association only; data owner separately recorded", "reviewer": "orchestrator-r101"}
-{"id": "dungeon/func_81850FDC", "container": "dungeon", "module": "ovl_1870800.c", "module_index": 152, "confidence": "weak", "reviewer": "orchestrator-r101"}
+{"id": "dungeon/func_81850FDC", "container": "dungeon", "module": "ovl_1870800.c", "module_index": 152, "confidence": "strong", "reviewer": "orchestrator-r105", "evidence": "docs/evidence/dungeon_ovl_1870800.membership.json"}
 {"id": "dungeon/func_80FB776C", "container": "dungeon", "module": "ovl_fd7000.c", "module_index": 109, "confidence": "weak", "evidence": "provisional carrier association from r99/r100; no TU ownership claim", "reviewer": "orchestrator-r102"}
 {"id": "dungeon/func_80FB95EC", "container": "dungeon", "module": "ovl_fd7000.c", "module_index": 109, "confidence": "weak", "evidence": "provisional carrier association from r99/r100; no TU ownership claim", "reviewer": "orchestrator-r102"}
 {"id": "dungeon/D_80FB7000", "container": "dungeon", "module": "ovl_fd7000.c", "module_index": 109, "confidence": "weak", "evidence": "physical carrier association only; data owner separately recorded", "reviewer": "orchestrator-r102"}

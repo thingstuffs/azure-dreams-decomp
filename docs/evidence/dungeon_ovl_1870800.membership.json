@@ -1,0 +1,25 @@
+{
+  "module": "dungeon_ovl_1870800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_1870800.c",
+    "module_index": 152
+  },
+  "members": [
+    "dungeon/func_81850800",
+    "dungeon/func_81850FDC"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Complete ledger group dungeon / ovl_1870800.c / index 152 has exactly the parent and callback, with no omitted siblings.",
+    "Independent selector-11 static loader receipt proves one 12-sector read covering both functions at 0x80024000; exactly the two old proven code intervals are consolidated without changing their delta.",
+    "Native typed entry points to func_80024004. The parent installs func_800247DC as its callback; the callback immediately follows and ends at file 0x1871178.",
+    "One natural-order TU emits the complete 4-byte head plus 2008-byte parent and 412-byte callback, exact against retail and genuine ASPSX 2.79, with no masked relocation or raw substitution.",
+    "Both rows have real exact baselines and landed Layer-2/L3 history. Callback evidence is the unchanged r105_sonnet_l2 landing, not history authored by this lane."
+  ],
+  "reviewer": "orchestrator-r105",
+  "review": "reviewed",
+  "holds": [],
+  "proposed_confidence": "strong"
+}
