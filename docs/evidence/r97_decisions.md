@@ -184,3 +184,16 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     into the bank module (guarded reassignment records citing the selector receipt + the whole-bank proof). A bank with
     nothing to discriminate (no TU-owned rodata, both partitions admit the same relocations - 7e6a5800) stays HELD.
     SECOND LOOK: yes.
+38. **(r108, owner-approved 10-09) Grid banks are modelled as ONE TU; the TU boundary is not observable - amends 37.**
+    Measured for dungeon_ovl_7e6a5800 (bank 56) and the family: SLUS TU starts are uniform mod 16 (221/205/217/231 over
+    874 TUs, like in-TU functions) -> the linker does not pad objects; every evidenced owned data row in a grid bank sits
+    in the head ahead of all text, none between code rows -> the linker groups sections across objects, so rodata
+    placement cannot separate one TU from several (this corrects item 37's "layout" criterion); bank 56: one recipe
+    (2.7.2-cdk-G0 x23), no byte-identical helpers, calls cross both ways, followers own no rodata (the one switch has 4
+    cases -> compare chain), head = entry pointer + the entry's own 5-entry table. The only basis for its 1 + 22 split
+    was census naming (delta-named ovl_7e6a5800 vs file-named ovl_197eb88). Ruling (owner: "go with the recommended
+    approach"): every grid bank is ONE native TU; weak groups inside one bank image merge into it; membership evidence
+    states `tu_boundary: "not observable (section-grouping link, no static duplicates, no recipe change)"` - the module
+    certifies that this one-file source reproduces the image exactly, not how the original files were split. A bank
+    that shows real multi-TU evidence (duplicated static helpers, data between text runs, a recipe change) is HELD as
+    genuinely multi-TU. 7e6a5800 joins the next module lane. SECOND LOOK: no (owner-approved).
