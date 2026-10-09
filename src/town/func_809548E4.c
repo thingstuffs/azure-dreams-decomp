@@ -56,24 +56,24 @@ extern s32 D_80024338[3];
 extern s16 D_80113158[8];
 extern s32 D_8011315C[0xC58];
 
-typedef struct StackRecord {
-    s16 sp10;
-    s16 sp12;
-    void *sp14;
-    s32 sp18;
-    s16 sp1C;
-    s16 sp1E;
-    s16 sp20;
-    s16 sp22;
-    s16 sp24;
-    s16 sp26;
+typedef struct DialogArgs {
+    s16 unk_10;
+    s16 unk_12;
+    void *owner;
+    s32 unk_18;
+    s16 x;
+    s16 y;
+    s16 width;
+    s16 height;
+    s16 unk_24;
+    s16 unk_26;
     u8 unused[0x10];
-} StackRecord;
+} DialogArgs;
 
 
 /* Updates the minigame state, pays out gold, and resolves object collisions. */
 s32 func_800218E4(MinigameState *game) {
-    StackRecord dialog_args;
+    DialogArgs dialog_args;
     s32 motion_mode;
     s32 init_flags;
     s32 x_or_distance;
@@ -308,16 +308,16 @@ loop_3:
             game->timer.s = 0x40U;
             game->unk_4A.s = 0x400U;
             game->unk_48 = 0U;
-            dialog_args.sp1C = 0x28;
-            dialog_args.sp1E = 0x58;
-            dialog_args.sp20 = 0xF0;
-            dialog_args.sp22 = 0x50;
-            dialog_args.sp24 = 2;
-            dialog_args.sp26 = one;
-            dialog_args.sp18 = 0;
-            dialog_args.sp10 = 0;
-            dialog_args.sp12 = 8;
-            dialog_args.sp14 = game;
+            dialog_args.x = 0x28;
+            dialog_args.y = 0x58;
+            dialog_args.width = 0xF0;
+            dialog_args.height = 0x50;
+            dialog_args.unk_24 = 2;
+            dialog_args.unk_26 = one;
+            dialog_args.unk_18 = 0;
+            dialog_args.unk_10 = 0;
+            dialog_args.unk_12 = 8;
+            dialog_args.owner = game;
             func_80021120(&D_80022514, &dialog_args);
             stage = game->stage.p;
             game->stage.s = (s16) (stage + 1);

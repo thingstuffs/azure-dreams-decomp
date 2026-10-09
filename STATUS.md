@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-09T03:05:39Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-09T03:28:03Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -87,7 +87,7 @@ Placement alone does not override any lower-level or source-residue guard.
 |---|---:|---:|---:|---:|---:|---:|
 | m2c boilerplate block | 2332 | 510,624 | 18.5% | 0 | 0 | 0.0% |
 | M2C_FIELD raw offsets | 2950 | 1,448,292 | 52.4% | 0 | 0 | 0.0% |
-| m2c local names | 5182 | 2,162,184 | 78.2% | 21 | 36,012 | 1.3% |
+| m2c local names | 5182 | 2,162,184 | 78.2% | 20 | 33,036 | 1.2% |
 | ASM_ pins | 2136 | 1,455,364 | 52.6% | 50 | 64,448 | 2.3% |
 | goto | 1545 | 1,311,436 | 47.4% | 276 | 331,008 | 12.0% |
 | computed-goto jump table | 317 | 436,404 | 15.8% | 4 | 7,008 | 0.3% |
@@ -99,7 +99,7 @@ Placement alone does not override any lower-level or source-residue guard.
 | maspsx marker pins (scaffolding) | 394 | 347,512 | 12.6% | 1 | 1,176 | 0.0% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 5.6% | 9 | 12,392 | 0.4% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
-| local address-named struct | 633 | 346,872 | 12.5% | 3020 | 1,686,588 | 61.0% |
+| local address-named struct | 633 | 346,872 | 12.5% | 3019 | 1,682,860 | 60.9% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,436 | 5.7% | 7050 | 2,367,324 | 85.6% |
 
 Pin sites now: 91 in 50 rows; REG 46, KEEP 15, KEEP_NV 13, SCHED_BARRIER 5, USE 3, MEM_BARRIER 2, USE_NV 2, USE2 1.  At the pin: 25,902; REG 12,801, KEEP 6,935, KEEP_NV 2,505, SCHED_BARRIER 1,355, TAILSLOT_PIN 506, USE 294, USE_NV 260, KEEP_DEP_NV 190.
