@@ -27,3 +27,5 @@ Keep each one short enough to be read: they compete with the row's own duck brie
   (home-directory absolute paths) in any file meant for the tracked tree - the pre-commit scrub hook refuses them (r104 lander's
   LIVE constant); lane setup scripts COPY container inputs (work/disc/containers/*.BIN) into the lane, never
   follow symlinks into the live tree (r104_sol61_gperf rewrote them in place, bytes unchanged).
+- `param_reload_copy.md` - m2c `tmp = (s32)param; ((T *)tmp)->f` over a stack-home parameter (r106: 818FA12C 1 -> 0,
+  volatile gone): write `param->f` directly, drop the copy, the volatile and the pin.
