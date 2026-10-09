@@ -404,7 +404,8 @@ def evaluate_row(r, text, raw_text, promoted, sweeps, split_idx, defidx=None):
     tj_targets = tail_jump_targets(r, text, nr_targets)
     tj_kinds, tail_ok = audit_gate(r["id"], tj_targets, split_idx)
     tail_jumps = len(tj_targets)
-    in_module = r["id"] in sweeps.get("l4_modules", {})
+    placement_unproven = r.get("placement") == "unproven"
+    in_module = r["id"] in sweeps.get("l4_modules", {}) and not placement_unproven
     level = 0
     if not boiler and (pins == 0 or r["id"] in sweeps.get("t2_pins", {})) and not blocking:
         level = 1
@@ -431,7 +432,7 @@ def evaluate_row(r, text, raw_text, promoted, sweeps, split_idx, defidx=None):
     return {"level": level, "pins_left": pins, "m2c_field": len(re.findall(r"(?<![A-Za-z0-9_])(?:M2C_)?FIELD\(", "\n".join(l for l in text.splitlines() if not l.lstrip().startswith("#")))), "blocking": blocking, "records": recs,
             "tail_jumps": tail_jumps, "split_audit": tj_kinds,
             "l5_residue": [k for k, v in (("pins", pins), ("tail_call", tail_idiom), ("fidelity_site", int(any_site)), ("computed_goto", computed_goto), ("inline_asm", inline_asm), ("non_matching", int("NON_MATCHING" in text)), ("maspsx_dependent", _fid_has(r, "maspsx_dependent"))) if v],
-            "l4_residue": [k for k, v in (("pins", pins), ("tail_jump", tail_jumps), ("not_in_module", int(not in_module)), ("cell_imitation", _fid_cell(r)), ("maspsx_pass", _fid_has(r, "maspsx_pass"))) if v],
+            "l4_residue": [k for k, v in (("pins", pins), ("tail_jump", tail_jumps), ("not_in_module", int(not in_module)), ("placement_unproven", int(placement_unproven)), ("cell_imitation", _fid_cell(r)), ("maspsx_pass", _fid_has(r, "maspsx_pass"))) if v],
             "l5_fidelity": sorted(fidelity_index()[1].get(r["id"], ()))}
 
 def main():
@@ -471,7 +472,7 @@ def main():
             raw_text += "\n" + context
         rec = evaluate_row(r, text, raw_text, promoted, sweeps, split_idx)
         rec["id"] = r["id"]; rec["evidence"] = list(_ev.get(r["id"], []))
-        if r["id"] in placement:
+        if r["id"] in placement and r.get("placement") != "unproven":
             rec["module"] = placement[r["id"]].get("module")
             rec["evidence"].append("module_certificate")
         out.append(rec); tally[rec["level"]] += r["size"]

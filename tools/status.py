@@ -6,6 +6,22 @@ from pin_census import sites_of, hidden_asm, strip_composite_asm, composite_asm_
 import levels as _levels   # the live L5 predicates: the clean column reuses them, never a second copy
 from census import _fakedep, _real_tail_count
 
+def current_row_records(records, current_ids):
+    """A retired composite's historical census/levels entry is not a current row."""
+    return [r for r in records if r["id"] in current_ids]
+
+
+def placement_unproven_status(rs):
+    data = [r for r in rs if r.get("row_kind") == "data"]
+    unproven = [r for r in rs if r.get("placement") == "unproven"]
+    stale = [r for r in data if r.get("residue") == "stale-image"]
+    return (f"\nData rows: {len(data)} ({sum(r['size'] for r in data):,} B); "
+            f"stale-image residue DATA: {len(stale)} ({sum(r['size'] for r in stale):,} B).\n"
+            f"\nPlacement unproven (excluded from L4 module placement): {len(unproven)} rows "
+            f"({sum(r['size'] for r in unproven):,} B)" +
+            (": " + ", ".join(r['id'] for r in unproven) if unproven else "") + "\n")
+
+
 def _recipe_tracker(rs, curc):
     """Rows whose registered recipe is likely NOT their real build (round 84 build structure, r84_fable_build): every
     2.8.x / egcs / 2.95.2 cell is fitted, and a row off its module's census recipe is a crutch candidate."""
@@ -93,7 +109,7 @@ def _recipe_tracker(rs, curc):
 def main():
     rs = rows(); by = {r["id"]: r for r in rs}
     base = {b["id"]: b for b in read_jsonl(LEDGER / "baseline.jsonl")}
-    cen = {c["id"]: c for c in read_jsonl(LEDGER / "census.jsonl")}
+    cen = {c["id"]: c for c in current_row_records(read_jsonl(LEDGER / "census.jsonl"), by)}
     pin = json.load(open(LEDGER / "pin.json"))
     out = []
     out.append(f"# azure-dreams-decomp status\n\nGenerated {time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}. Pin `{pin['pin']}` ({pin['commit'][:12]}, raw/ frozen at {pin['extracted_at']}).\n")
@@ -105,6 +121,7 @@ def main():
         ex = [r for r in st if base.get(r["id"], {}).get("exact") is True or (r["kind"] == "slus" and base.get(r["id"], {}).get("status") == "ok")]
         nb = [r for r in st if r["id"] not in base]
         out.append(f"| {c} | {len(sel)} | {sum(r['size'] for r in sel):,} | {len(st)} | {sum(r['size'] for r in st):,} | {len(ex)} | {sum(r['size'] for r in ex):,} | {len(nb)} |")
+    out.append(placement_unproven_status(rs))
     bad = [r for r in rs if r["stock"] and r["id"] in base and base[r["id"]].get("exact") is False]
     out.append(f"\novmovie is parked by the owner (listed, excluded from ALL). Ordinary SLUS rows use pinned-TU object verification; grouped module candidates use the full SLUS image gate, including sibling functions and owned data. Historical raw baselines stay per row. Overlay rows use retail-slice comparison through the per-row scorer, with the window gate as the fallback of record. Non-stock rows (bridge cells, per-row assembler dials, platform asm) would be excluded; there are none at the pin.\n\nBaseline NOT exact: {len(bad)} rows" + (": " + ", ".join(r["id"] for r in bad[:20]) if bad else "") + "\n")
     from slus_module_evidence import module_status
@@ -313,17 +330,18 @@ def main():
     lv = LEDGER / "levels.jsonl"
     out.append("## Cleanliness levels (bytes at or above each level)\n")
     if lv.exists():
+        level_rows = current_row_records(read_jsonl(lv), by)
         L = collections.Counter()
-        for x in read_jsonl(lv):
+        for x in level_rows:
             for l in range(0, x["level"] + 1): L[l] += by[x["id"]]["size"]
         out.append("| level | bytes | % |\n|---|---:|---:|")
         for l in range(6): out.append(f"| L{l} | {L[l]:,} | {100*L[l]/tot:.1f}% |")
-        recs = [x for x in read_jsonl(lv) if x.get("records")]
+        recs = [x for x in level_rows if x.get("records")]
         rb = sum(by[x["id"]]["size"] for x in recs)
         out.append(f"\nOn shared record headers (T7, `include/records/`): {len(recs)} rows, {rb:,} bytes ({100*rb/tot:.1f}%); "
                    f"records used: {len({r for x in recs for r in x['records']})}.")
         resid_n = collections.Counter(); resid_b = collections.Counter()
-        for x in read_jsonl(lv):
+        for x in level_rows:
             if x["id"].split("/")[0] in PARKED_CONTAINERS: continue   # as "Pin sites now": the pins count must equal its row count
             for k in x.get("l4_residue", []):
                 resid_n[k] += 1; resid_b[k] += by[x["id"]]["size"]
