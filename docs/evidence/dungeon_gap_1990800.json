@@ -1,0 +1,451 @@
+{
+  "bank": "0x1990800",
+  "selector": 59,
+  "members": [
+    {
+      "id": "dungeon/func_81970800",
+      "container": "dungeon",
+      "func": "func_81970800",
+      "true_name": null,
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 1348,
+      "foff": 26806272,
+      "c_path": "overlays/dungeon/first_pass_matched/func_81970800.c",
+      "exists": true,
+      "src_sha": "04eeee85d24f1d557c574ca90598dd1a72abbfc5882201bdc078c3f22b2f3ccf",
+      "gate_config": "config/overlays/dungeon_deep_t8_197a.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_819711E0",
+      "container": "dungeon",
+      "func": "func_819711E0",
+      "true_name": null,
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 212,
+      "foff": 26808800,
+      "c_path": "overlays/dungeon/first_pass_matched/func_819711E0.c",
+      "exists": true,
+      "src_sha": "b0503a301a439ca96398950d67dfbf1372403a66c4ad7db640df487a03af903f",
+      "gate_config": "config/overlays/dungeon_deep_t8_197a.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_819712B4",
+      "container": "dungeon",
+      "func": "func_819712B4",
+      "true_name": null,
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 228,
+      "foff": 26809012,
+      "c_path": "overlays/dungeon/first_pass_matched/func_819712B4.c",
+      "exists": true,
+      "src_sha": "3477b343bb009d4b4545a8ae570c04df57dd03e5971c3d748bfd42f98dc1ebec",
+      "gate_config": "config/overlays/dungeon_deep_t8_197a.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_81971398",
+      "container": "dungeon",
+      "func": "func_81971398",
+      "true_name": null,
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 228,
+      "foff": 26809240,
+      "c_path": "overlays/dungeon/first_pass_matched/func_81971398.c",
+      "exists": true,
+      "src_sha": "f7c654105634b3715bfda1d105afcfc051bd56641d71d2cfdf85474436fa5cb4",
+      "gate_config": "config/overlays/dungeon_deep_t8b_1991398.overlay.yaml",
+      "instances": 2,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_8197147C",
+      "container": "dungeon",
+      "func": "func_8197147C",
+      "true_name": null,
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 148,
+      "foff": 26809468,
+      "c_path": "overlays/dungeon/first_pass_matched/func_8197147C.c",
+      "exists": true,
+      "src_sha": "9cc2cafc701e285bef75721eccd20596b02f6805e2f6f197c2b74a4665430f28",
+      "gate_config": "config/overlays/dungeon_deep_t8_197a.overlay.yaml",
+      "instances": 2,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_81971510",
+      "container": "dungeon",
+      "func": "func_81971510",
+      "true_name": "func_80024D10",
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 196,
+      "foff": 26809616,
+      "c_path": "overlays/dungeon/first_pass_matched/func_81971510.c",
+      "exists": true,
+      "src_sha": "6a12cd1c454e6ffe7596e9e06516b0bd2d99d383fbae28bc4c8c7a6f444db052",
+      "gate_config": "config/overlays/dungeon_deep_t8_197a.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_819715D4",
+      "container": "dungeon",
+      "func": "func_819715D4",
+      "true_name": null,
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 396,
+      "foff": 26809812,
+      "c_path": "overlays/dungeon/first_pass_matched/func_819715D4.c",
+      "exists": true,
+      "src_sha": "200a3088135e63a618b21d5087189476b15ab7434a1134bb9fa1957dd3abe06e",
+      "gate_config": "config/overlays/dungeon_deep_t8b_19915d4.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_81971760",
+      "container": "dungeon",
+      "func": "func_81971760",
+      "true_name": null,
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 460,
+      "foff": 26810208,
+      "c_path": "overlays/dungeon/first_pass_matched/func_81971760.c",
+      "exists": true,
+      "src_sha": "175c6105c8e3d429ce1e9db9d4389eb90b413fe6634a2a39c3f4747ea9896afb",
+      "gate_config": "config/overlays/dungeon_deep_t8_197a.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_8197192C",
+      "container": "dungeon",
+      "func": "func_8197192C",
+      "true_name": "func_8002512C",
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 3736,
+      "foff": 26810668,
+      "c_path": "overlays/dungeon/first_pass_matched/func_8197192C.c",
+      "exists": true,
+      "src_sha": "2fbd9849104304c9897685d892aae39f0f94854cf2d150a40ebb163f88153f3c",
+      "gate_config": "config/overlays/dungeon_deep_t8_197a.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    }
+  ],
+  "regions": [
+    {
+      "schema": "azure-clean.rowbase.v1",
+      "region": "jtbl_199192C",
+      "foff_start": "0x199192C",
+      "foff_end": "0x19927C4",
+      "delta": "0x7E693800",
+      "base_confidence": "proven",
+      "proof": "jtbl-static-solve v1 (Phase 0 2026-08-11): K over-determined by in-extent table decode; corroborated by multi-function K agreement + streaming band + registry zero-contradiction check; PROMOTED solved->proven: byte-exact recompile func_8197192C at true base 0x8002512C (candidate sha 02d5cfb63f39 @ 2.7.2-cdk-G0 -fno-expensive-optimizations, linked-strict isolation compare, phase-2 item-3 hook)"
+    },
+    {
+      "schema": "azure-clean.rowbase.v1",
+      "region": "row_1991510_80024d10",
+      "foff_start": "0x1991510",
+      "foff_end": "0x19915D4",
+      "delta": "0x7E693800",
+      "base_confidence": "proven",
+      "proof": "Static local-j solve 2026-09-14 (work/tailslot_honest, tail-slot region-less wave; method and per-row evidence in work/tailslot_honest/ROWBASE_REPORT.md): all 4 plausible absolute `j` words of func_81971510 (0 further word(s) decode as `j` but are data -- `j 0` or a target above RAM -- and are discarded) land INSIDE the row at base 0x80024D10 (delta 0x7E693800, alignment 0x800), at offsets +0x70 of the row's [0x1991510,0x19915D4) extent; targets 0x80024D80. Containment alone leaves 49 candidate bases in [0x80024CC0,0x80024D80] -- it is an interval, not a point -- so the base is fixed by BANK CONSISTENCY: 1 existing dungeon.rowbase.jsonl record(s) within 0x8000 file bytes carry exactly this delta (jtbl_199192C), and 1 other ledger row(s) in the same span admit it; vote score 4, unique winner: yes. Recompile: the row's CURRENT pinned tree text (src/dungeon/func_81971510.c, cfg 2.8.1) links byte-exact at this base (exact) -- but it also links byte-exact at the synthetic base 0x81971510 and the two linked outputs are BYTE-IDENTICAL, so this recompile is NON-DISCRIMINATING: the pinned pseudo-call spells the row's own jump as an absolute extern, which is the one construct that does not move with the link base. It satisfies the letter of the T1 recompile clause and adds no base evidence. Extent is the row's own 196 bytes, conservatively carved: it overlaps no existing rowbase record and contains no other registered row.  STATIC EVIDENCE ONLY (no RAM capture). Scoring-grade (`solved`) until a byte-exact recompile of HONEST C at this base promotes it via tools/gate/rowbase.py promote; promotion also turns on the owner-decision-B naming inversion (tools/gate/overlay_local_gate.py: an in-region source must define func_80024D10 and never mention func_81971510).; PROMOTED solved->proven: byte-exact recompile func_81971510 at true base 0x80024D10 (candidate sha b67db6a5e01f @ 2.8.1, linked-strict isolation compare, phase-2 item-3 hook)"
+    }
+  ],
+  "gaps": [
+    {
+      "start": "0x1990d44",
+      "end": "0x19911e0",
+      "bytes": 1180,
+      "sha256": "a589e191539159b3c9701793a1941a40d5bdb7749d8b2910850ae91d1d146b8e",
+      "candidates": [
+        {
+          "row": "dungeon/func_8133564C",
+          "foff": 20272716,
+          "equal_words": 5,
+          "opcode_equal": 50,
+          "total_words": 295
+        }
+      ]
+    }
+  ],
+  "unregistered_functions": [
+    {
+      "start": "0x1990d44",
+      "end": "0x1990d98",
+      "bytes": 84,
+      "runtime_entry": "0x80024544",
+      "kind": "complete-function",
+      "frame_bytes": 24,
+      "epilogue": [
+        "0x27bd0018",
+        "0x3e00008",
+        "0x0"
+      ],
+      "bank_references": [
+        {
+          "kind": "lui/addiu-function-address",
+          "foff": "0x1991e90",
+          "low_foff": "0x1991e94",
+          "words": [
+            "0x3c058002",
+            "0x24a54544"
+          ],
+          "target": "0x80024544"
+        },
+        {
+          "kind": "lui/addiu-function-address",
+          "foff": "0x1992050",
+          "low_foff": "0x1992054",
+          "words": [
+            "0x3c058002",
+            "0x24a54544"
+          ],
+          "target": "0x80024544"
+        },
+        {
+          "kind": "lui/addiu-function-address",
+          "foff": "0x1992210",
+          "low_foff": "0x1992214",
+          "words": [
+            "0x3c058002",
+            "0x24a54544"
+          ],
+          "target": "0x80024544"
+        }
+      ],
+      "selected_clone": "dungeon/func_8187B1A0",
+      "clone_foff": "0x189b1a0",
+      "clone_differences": [
+        {
+          "word": 5,
+          "retail": "0xc00901b",
+          "clone": "0xc00906a"
+        },
+        {
+          "word": 13,
+          "retail": "0x8009156",
+          "clone": "0x800926d"
+        }
+      ],
+      "sha256": "55c7150997d69cc1418e89a75161b1a8df4c7b218ecb0fa9c00af303f46ffeab",
+      "existing_rowbase": []
+    },
+    {
+      "start": "0x1990d98",
+      "end": "0x1990fe8",
+      "bytes": 592,
+      "runtime_entry": "0x80024598",
+      "kind": "complete-function",
+      "frame_bytes": 56,
+      "epilogue": [
+        "0x27bd0038",
+        "0x3e00008",
+        "0x0"
+      ],
+      "bank_references": [
+        {
+          "kind": "lui/addiu-function-address",
+          "foff": "0x199115c",
+          "low_foff": "0x1991160",
+          "words": [
+            "0x3c058002",
+            "0x24a54598"
+          ],
+          "target": "0x80024598"
+        }
+      ],
+      "selected_clone": "dungeon/func_81875828",
+      "clone_foff": "0x1895828",
+      "clone_differences": [
+        {
+          "word": 132,
+          "retail": "0x800917c",
+          "clone": "0x8009420"
+        }
+      ],
+      "sha256": "d91aa9b4ee2d15fb17ef181b85672b65987c1a86d899f84db28beac31d0a7667",
+      "existing_rowbase": []
+    },
+    {
+      "start": "0x1990fe8",
+      "end": "0x19910a8",
+      "bytes": 192,
+      "runtime_entry": "0x800247e8",
+      "kind": "complete-function",
+      "frame_bytes": 32,
+      "epilogue": [
+        "0x27bd0020",
+        "0x3e00008",
+        "0x0"
+      ],
+      "bank_references": [
+        {
+          "kind": "lui/addiu-function-address",
+          "foff": "0x1991100",
+          "low_foff": "0x1991104",
+          "words": [
+            "0x3c028002",
+            "0x244247e8"
+          ],
+          "target": "0x800247e8"
+        }
+      ],
+      "selected_clone": "dungeon/func_81875A78",
+      "clone_foff": "0x1895a78",
+      "clone_differences": [
+        {
+          "word": 11,
+          "retail": "0xa4625ff4",
+          "clone": "0xa4626664"
+        }
+      ],
+      "sha256": "59e289cd24ecc05b461ec0ba999aebd7dcecf44cf9643a77d245d8125891fdf2",
+      "existing_rowbase": []
+    },
+    {
+      "start": "0x19910a8",
+      "end": "0x19911e0",
+      "bytes": 312,
+      "runtime_entry": "0x800248a8",
+      "kind": "complete-function",
+      "frame_bytes": 56,
+      "epilogue": [
+        "0x27bd0038",
+        "0x3e00008",
+        "0x0"
+      ],
+      "bank_references": [
+        {
+          "kind": "jal",
+          "foff": "0x1991b30",
+          "target": "0x800248a8"
+        }
+      ],
+      "selected_clone": "dungeon/func_81875B38",
+      "clone_foff": "0x1895b38",
+      "clone_differences": [
+        {
+          "word": 23,
+          "retail": "0x244247e8",
+          "clone": "0x24425278"
+        },
+        {
+          "word": 46,
+          "retail": "0x24a54598",
+          "clone": "0x24a55028"
+        }
+      ],
+      "sha256": "473dc9ee7250871cc5d4e1af18561d89c509939b5632b2c787f4406b7d561735",
+      "existing_rowbase": []
+    }
+  ],
+  "placement": {
+    "selector": 59,
+    "lba": "0x6337",
+    "file_start": "0x1990800",
+    "file_end": "0x1996800",
+    "destination": "0x80024000",
+    "sectors": 12,
+    "delta": "0x7e693800",
+    "review": "pending",
+    "reviewer": null,
+    "static_only": true,
+    "iso_extent": {
+      "path": "DUNGEON/DUNGEON.BIN",
+      "lba": 12310,
+      "size": 27813888,
+      "directory_lba": 12309,
+      "record_offset": 96,
+      "record_hex": "3c0016300000000030160068a80101a86800620306111f0424000000010000010d44554e47454f4e2e42494e3b31000000000d555841000000000000"
+    },
+    "loader": {
+      "path": "docs/evidence/dungeon_gap_loader.bin",
+      "bytes": 472,
+      "sha256": "7ff8f80959c35c88ee359e1027907db34401cfaf4ed0592b2697813614c5f444"
+    },
+    "loader_words": {
+      "0xc40d4": "0x3c148002",
+      "0xc40e0": "0x36944000",
+      "0xc417c": "0x2463ffff",
+      "0xc4180": "0x31040",
+      "0xc4184": "0x431021",
+      "0xc4188": "0x21080",
+      "0xc418c": "0x2447607f",
+      "0xc4190": "0x2404000c",
+      "0xc4194": "0x2802821",
+      "0xc41a0": "0xc00fdb5",
+      "0xc41a8": "0x24040006",
+      "0xc41b0": "0xc00f93f"
+    },
+    "disc_container_equality": true,
+    "bank": {
+      "path": "docs/evidence/dungeon_gap_1990800.bin",
+      "bytes": 24576,
+      "sha256": "d89154c4c4cffefe5a4ead76231b8a3186f892d0bcb899954e768391bfe229ac"
+    },
+    "entry_target": "0x8002512c"
+  },
+  "review": "pending",
+  "reviewer": null,
+  "new_rows": [
+    "dungeon/func_81970D44",
+    "dungeon/func_81970D98",
+    "dungeon/func_81970FE8",
+    "dungeon/func_819710A8"
+  ],
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_1990800.c",
+    "module_index": 196
+  },
+  "module_status": "UNFINISHED; no active native-module entry in this gap-only package",
+  "layer2_required": [
+    "dungeon/func_81970D44",
+    "dungeon/func_81970D98",
+    "dungeon/func_81970FE8",
+    "dungeon/func_819710A8"
+  ]
+}

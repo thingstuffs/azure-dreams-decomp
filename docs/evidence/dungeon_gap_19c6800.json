@@ -1,0 +1,245 @@
+{
+  "bank": "0x19c6800",
+  "review": "pending",
+  "reviewer": null,
+  "gaps": [
+    {
+      "start": "0x19c6cbc",
+      "end": "0x19c7010",
+      "bytes": 852,
+      "row": "dungeon/func_819A6CBC",
+      "runtime_entry": "0x800244bc",
+      "kind": "complete-code-function",
+      "status": "existing-row-cross-group",
+      "group": {
+        "id": "dungeon/func_819A6CBC",
+        "container": "dungeon",
+        "module": "ovl_7e65d800.c",
+        "module_index": 192,
+        "confidence": "weak"
+      },
+      "prologue": [
+        "0x27bdffc8",
+        "0xafb40028",
+        "0x80a021",
+        "0xafb20020",
+        "0xa09021",
+        "0xafbf0034",
+        "0xafb60030",
+        "0xafb5002c",
+        "0xafb30024",
+        "0xafb1001c",
+        "0xafb00018",
+        "0x96820048"
+      ],
+      "epilogue": [
+        "0xac6214a0",
+        "0x8fbf0034",
+        "0x8fb60030",
+        "0x8fb5002c",
+        "0x8fb40028",
+        "0x8fb30024",
+        "0x8fb20020",
+        "0x8fb1001c",
+        "0x8fb00018",
+        "0x27bd0038",
+        "0x3e00008",
+        "0x0"
+      ],
+      "bank_references": [
+        {
+          "kind": "lui/addiu-address",
+          "foff": "0x19c69d4",
+          "words": [
+            "0x3c028002",
+            "0x244244bc"
+          ]
+        }
+      ],
+      "sha256": "7d43d81d466f7fe4377a7260503eb394df1d6277f745f554249806e4adae5eb6"
+    },
+    {
+      "start": "0x19c7010",
+      "end": "0x19c7320",
+      "bytes": 784,
+      "row": "dungeon/func_819A7010",
+      "runtime_entry": "0x80024810",
+      "kind": "complete-code-function",
+      "status": "existing-row-cross-group",
+      "group": {
+        "id": "dungeon/func_819A7010",
+        "container": "dungeon",
+        "module": "ovl_7e65d800.c",
+        "module_index": 192,
+        "confidence": "weak"
+      },
+      "prologue": [
+        "0x27bdffd8",
+        "0xafb20020",
+        "0x809021",
+        "0xafbf0024",
+        "0xafb1001c",
+        "0xafb00018",
+        "0x8e440000",
+        "0x8e430034",
+        "0x94820052",
+        "0x2463ffe0",
+        "0x34428000",
+        "0xa4820052"
+      ],
+      "epilogue": [
+        "0xac6214a0",
+        "0x9642003e",
+        "0x0",
+        "0x24420001",
+        "0xa642003e",
+        "0x8fbf0024",
+        "0x8fb20020",
+        "0x8fb1001c",
+        "0x8fb00018",
+        "0x27bd0028",
+        "0x3e00008",
+        "0x0"
+      ],
+      "bank_references": [
+        {
+          "kind": "lui/addiu-address",
+          "foff": "0x19c6b44",
+          "words": [
+            "0x3c028002",
+            "0x24424810"
+          ]
+        }
+      ],
+      "sha256": "cf2ffc4e599056b41d08f7a40ad905796a098db79f704d2a64ab72f15acb17bd"
+    }
+  ],
+  "members": [
+    {
+      "row": "dungeon/func_819A6800",
+      "foff": "0x19c6800",
+      "bytes": 1212,
+      "group": {
+        "id": "dungeon/func_819A6800",
+        "container": "dungeon",
+        "module": "ovl_19c6800.c",
+        "module_index": 204,
+        "confidence": "weak"
+      }
+    },
+    {
+      "row": "dungeon/func_819A6CBC",
+      "foff": "0x19c6cbc",
+      "bytes": 852,
+      "group": {
+        "id": "dungeon/func_819A6CBC",
+        "container": "dungeon",
+        "module": "ovl_7e65d800.c",
+        "module_index": 192,
+        "confidence": "weak"
+      }
+    },
+    {
+      "row": "dungeon/func_819A7010",
+      "foff": "0x19c7010",
+      "bytes": 784,
+      "group": {
+        "id": "dungeon/func_819A7010",
+        "container": "dungeon",
+        "module": "ovl_7e65d800.c",
+        "module_index": 192,
+        "confidence": "weak"
+      }
+    },
+    {
+      "row": "dungeon/func_819A7320",
+      "foff": "0x19c7320",
+      "bytes": 812,
+      "group": {
+        "id": "dungeon/func_819A7320",
+        "container": "dungeon",
+        "module": "ovl_19c6800.c",
+        "module_index": 204,
+        "confidence": "weak"
+      }
+    },
+    {
+      "row": "dungeon/func_819A764C",
+      "foff": "0x19c764c",
+      "bytes": 520,
+      "group": {
+        "id": "dungeon/func_819A764C",
+        "container": "dungeon",
+        "module": "ovl_19c6800.c",
+        "module_index": 204,
+        "confidence": "weak"
+      }
+    }
+  ],
+  "prefix": {
+    "bytes": 32,
+    "words": [
+      "0x80024020",
+      "0x0",
+      "0x80024080",
+      "0x8002414c",
+      "0x800242c4",
+      "0x80024304",
+      "0x80024424",
+      "0x80024448"
+    ],
+    "status": "existing-composite-head; not carved by gap package"
+  },
+  "placement": {
+    "selector": 68,
+    "lba": "0x63a3",
+    "file_start": "0x19c6800",
+    "file_end": "0x19cc800",
+    "destination": "0x80024000",
+    "sectors": 12,
+    "delta": "0x7e65d800",
+    "static_only": true,
+    "iso_extent": {
+      "path": "DUNGEON/DUNGEON.BIN",
+      "lba": 12310,
+      "size": 27813888,
+      "directory_lba": 12309,
+      "record_offset": 96,
+      "record_hex": "3c0016300000000030160068a80101a86800620306111f0424000000010000010d44554e47454f4e2e42494e3b31000000000d555841000000000000"
+    },
+    "loader": {
+      "path": "docs/evidence/dungeon_r108_big5_loader.bin",
+      "bytes": 472,
+      "sha256": "7ff8f80959c35c88ee359e1027907db34401cfaf4ed0592b2697813614c5f444"
+    },
+    "loader_words": {
+      "0xc40d4": "0x3c148002",
+      "0xc40e0": "0x36944000",
+      "0xc417c": "0x2463ffff",
+      "0xc4180": "0x31040",
+      "0xc4184": "0x431021",
+      "0xc4188": "0x21080",
+      "0xc418c": "0x2447607f",
+      "0xc4190": "0x2404000c",
+      "0xc4194": "0x2802821",
+      "0xc41a0": "0xc00fdb5",
+      "0xc41a8": "0x24040006",
+      "0xc41b0": "0xc00f93f"
+    },
+    "disc_container_equality": true,
+    "bank": {
+      "path": "docs/evidence/dungeon_gap_19c6800.bin",
+      "bytes": 24576,
+      "sha256": "bcc11095f1e83b06db0f7d9fc4b2e444447979db40492a443d9f930c5194f819"
+    }
+  },
+  "membership_status": "Cross-group rows have explicit local uses; physical loaded cohort is proven. Original-TU ownership and group reconciliation remain pending; placement alone does not establish ownership.",
+  "new_rows": [],
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_19c6800.c",
+    "module_index": 204
+  },
+  "module_status": "UNFINISHED; no active native-module entry in this gap-only package",
+  "layer2_required": []
+}

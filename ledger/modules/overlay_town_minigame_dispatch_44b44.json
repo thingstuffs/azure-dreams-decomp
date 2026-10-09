@@ -17,10 +17,10 @@
     "town/func_800C4D68",
     "town/func_800C4D9C"
   ],
-  "at": "2026-10-09T12:45:21Z",
+  "at": "2026-10-09T16:18:37Z",
   "reviewer": "orchestrator-r99",
   "fingerprint": {
-    "sha256": "7ca4250cd2445af9c14eadfc7b4ed3f483f14cd6db85e1be649e25ff9dc0fce8",
+    "sha256": "0400649f68203242030570bf9137b1e1651f235fdacbf4d5c7520667f869eeff",
     "inputs": {
       "config/names.tsv": "230d776d2f0877959debf4edb04b9065030b27712420ae003b195d0ce06c94c1",
       "config/noreturn_false_members.jsonl": "38661a5397a70ed3d7033bcbfccf2a3d50769e11a9a75cebb6d73fc60b776739",
@@ -93,8 +93,8 @@
       "include/shared/tile_object.h": "b553a179af28128ccd067c615ab3ee56af2744250c11c9cb363e0f47e0a8c406",
       "include/shared/town_handler.h": "126b1aff7a41f2d9ab537a424f606d339867f7aa39194db78d500a49e0fc2f5c",
       "include/slus/cd_state.h": "993ba6df16dd90218f278f09a180a1db6a8f8a3bfa3a03c41c0df73e684e3614",
-      "ledger/rows.jsonl": "e89c669831a8a0444d525333eb827d0fc62a2024b1903393b0e5a6dfa7264a71",
-      "ledger/splits/overlay_modules.build.json": "a36d802f751bdd376a42a6aceb841746539e777d831ed1ae1ec0c451886d1c48",
+      "ledger/rows.jsonl": "352a9aa766f4267eb172320aad3a7143f771b0548f56f9f1a1a941101e872bf7",
+      "ledger/splits/overlay_modules.build.json": "d20f142d3171e3cd7f0a74e5dc386c6a579176c85dbfb95984a968c246989a9f",
       "ledger/splits/town.jsonl": "e0baaaaf382bd24650fede3f95189eb785127d496b180f2590d025928c6ee255",
       "src/slus/w_8003E39C.c": "79a9518a95bf0d55c26ab3acf4ef86bda77bbab0b481a0d096fb9cc96f79438d",
       "src/slus/w_8003E4FC.c": "cfa8b3f47e4dde817916ef09b92327a687af047c2b87ace7ac41510be9ef871e",
@@ -1519,7 +1519,7 @@
     },
     "tools": {
       "gate/gate_read_cache.py": "e0a3c7289bf57069649c182c8a4fb378ffc8bd284e20770cca7afd13ffacd9ea",
-      "gate/overlay_native_rodata.py": "dfcf95d8050c41fd75ac039149d037375c41ade73e7027ac4f9051297cdbd281",
+      "gate/overlay_native_rodata.py": "7bf8d51e88fd78da268baf76866347ed0243282dbacf698e3c5057887a968d5f",
       "gate/cc.sh": "b58c05bc2dd1ad16dd4fb701df595d795b4f6e8aaca09de63db5f1916baf7638",
       "gate/ccproc.py": "fdfcf0cb45308cd2722f1eb055a2b06c3d907434c058265d838c76e96161195c",
       "gate/overlay_local_gate.py": "d2130f74995e60bbf9f8c585deccb1b460e30ba58c4ec30677a0832c9f7aa596",
@@ -1715,7 +1715,7 @@
     }
   },
   "proof_dir": "build_ovl_gate/work/module_proofs/town_minigame_dispatch_44b44/module",
-  "receipt_sha256": "80cc1b56981f5bab9336b38b0efa3e34a6c5ed75b7aa6ba3edfd2b27e074eb89",
+  "receipt_sha256": "7212fd6eb869d14bb3b0d3643c51bdc50acd90426c0cc8c8814159088c7f8db9",
   "windows": [
     {
       "config": "config/overlays/town_deep_t8b_044d9c.overlay.yaml",
@@ -1727,8 +1727,8 @@
         "gate.log": "5e093eb6f99560748dd4a5e98d4fc6cf2125130853a6475d7fd95e01ef07b759",
         "window.bin": "dccefaa3c243e95048db74fff6f0a25ce624cfa225656c878a90b9f0328dfdc6",
         "manifest.json": "8f26bd8e746d6fd6b023fe1e54a12459213b35b6475a37cf281888b5c795a414",
-        "projection.json": "f6ba1c6f31343478e8af69b217c93bfe05b41f9270252ad414f977c21514c02e",
-        "module/receipt.json": "5ea37a532aeef865aa46048c201ab58cf225b4a8dea71ce5bf41ca037abe8850"
+        "projection.json": "ca411d7e3c09b7171227bdf9abe518f172cfb7e560e23de66895f8a9dbddf179",
+        "module/receipt.json": "08f61cc8a19342ef3442f6f9ca65d78486b7154843c270608edc7fb963d6d886"
       }
     },
     {
@@ -1741,8 +1741,8 @@
         "gate.log": "d6b0897ca4a00c035629c298c520147557e8e622e716a01e87d6e5800e622591",
         "window.bin": "6ca153dec42742a952cdfbfc38efb1a793de9ede267a9cebd4b1d1cf00740ed4",
         "manifest.json": "d9b18c79716903cbb320b91963415344b7d4947fb5552d234d84862ed8df49df",
-        "projection.json": "67657b057744f876d0c52a30410880d192a6b0ee44dc54b17ab63c1b44249653",
-        "module/receipt.json": "357d8a36e076e98a992dcc6a0deaa0639a24db15fae1520f0cff69ba4d41c96e"
+        "projection.json": "b833e1e7d95f0cfcd34d7aca548b82b1e7754013bba67c3b9cde96e3a29528ad",
+        "module/receipt.json": "0ac55482722f315e422ed1bb117afbb0598f2f829553c265a76a6016c4d50264"
       }
     }
   ]

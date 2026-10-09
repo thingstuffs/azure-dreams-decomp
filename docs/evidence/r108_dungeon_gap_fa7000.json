@@ -1,0 +1,1184 @@
+{
+  "bank": "0xfa7000",
+  "module": "ovl_7f1c9800.c",
+  "review": "pending",
+  "reviewer": null,
+  "gaps": [
+    {
+      "start": "0xfa802c",
+      "end": "0xfa8c94",
+      "bytes": 3176,
+      "kind": "complete-code-functions",
+      "parts": [
+        {
+          "foff_start": "0xfa802c",
+          "foff_end": "0xfa8774",
+          "bytes": 1864,
+          "true_entry": "0x8017182c",
+          "kind": "code",
+          "frame_bytes": 56,
+          "first_words": [
+            "0x27bdffc8",
+            "0xafb5002c",
+            "0x80a821",
+            "0xafb30024",
+            "0xc09821",
+            "0xafb20020",
+            "0xe09021",
+            "0x3c028008"
+          ],
+          "last_words": [
+            "0xa6510088",
+            "0x8fbf0034",
+            "0x8fb60030",
+            "0x8fb5002c",
+            "0x8fb40028",
+            "0x8fb30024",
+            "0x8fb20020",
+            "0x8fb1001c",
+            "0x8fb00018",
+            "0x27bd0038",
+            "0x3e00008",
+            "0x0"
+          ],
+          "in_bank_direct_callers": [
+            "0xfa7da4",
+            "0xfa8b14"
+          ],
+          "in_bank_pointer_words": [],
+          "sha256": "4148a39aa82a86d93a9031746a4322fe226f7108a66a321677327c960814f137",
+          "row": "dungeon/func_80F8802C",
+          "clone": {
+            "row": "dungeon/func_80976434",
+            "foff": 10052660,
+            "equal": 454,
+            "shape": 466,
+            "words": 466,
+            "diffs": [
+              {
+                "offset": 116,
+                "retail": "0xc05c7dd",
+                "clone": "0xc05c8df"
+              },
+              {
+                "offset": 144,
+                "retail": "0x805c7d2",
+                "clone": "0x805c8d4"
+              },
+              {
+                "offset": 168,
+                "retail": "0x805c7d2",
+                "clone": "0x805c8d4"
+              },
+              {
+                "offset": 308,
+                "retail": "0x805c7d2",
+                "clone": "0x805c8d4"
+              },
+              {
+                "offset": 360,
+                "retail": "0x805c72d",
+                "clone": "0x805c82f"
+              },
+              {
+                "offset": 396,
+                "retail": "0x805c7bb",
+                "clone": "0x805c8bd"
+              },
+              {
+                "offset": 728,
+                "retail": "0x805c72e",
+                "clone": "0x805c830"
+              },
+              {
+                "offset": 1132,
+                "retail": "0x805c7bb",
+                "clone": "0x805c8bd"
+              },
+              {
+                "offset": 1204,
+                "retail": "0x805c73f",
+                "clone": "0x805c841"
+              },
+              {
+                "offset": 1492,
+                "retail": "0x805c79a",
+                "clone": "0x805c89c"
+              },
+              {
+                "offset": 1644,
+                "retail": "0x805c7d2",
+                "clone": "0x805c8d4"
+              },
+              {
+                "offset": 1740,
+                "retail": "0x805c7d2",
+                "clone": "0x805c8d4"
+              }
+            ]
+          }
+        },
+        {
+          "foff_start": "0xfa8774",
+          "foff_end": "0xfa8938",
+          "bytes": 452,
+          "true_entry": "0x80171f74",
+          "kind": "code",
+          "frame_bytes": 64,
+          "first_words": [
+            "0x27bdffc0",
+            "0xafb40030",
+            "0x80a021",
+            "0xafb00020",
+            "0xe08021",
+            "0xafbf0038",
+            "0xafb50034",
+            "0xafb3002c"
+          ],
+          "last_words": [
+            "0xafa00010",
+            "0x24020001",
+            "0x8fbf0038",
+            "0x8fb50034",
+            "0x8fb40030",
+            "0x8fb3002c",
+            "0x8fb20028",
+            "0x8fb10024",
+            "0x8fb00020",
+            "0x27bd0040",
+            "0x3e00008",
+            "0x0"
+          ],
+          "in_bank_direct_callers": [
+            "0xfa7cec",
+            "0xfa80a0"
+          ],
+          "in_bank_pointer_words": [],
+          "sha256": "e50d901ec38ce1b4bbe5bbe065722a02a217b4b143ae3ba821ba222fe2626108",
+          "row": "dungeon/func_80F88774",
+          "clone": {
+            "row": "dungeon/func_809CA5A0",
+            "foff": 10397088,
+            "equal": 111,
+            "shape": 113,
+            "words": 113,
+            "diffs": [
+              {
+                "offset": 280,
+                "retail": "0x805c844",
+                "clone": "0x805c7cf"
+              },
+              {
+                "offset": 300,
+                "retail": "0x24a54ad4",
+                "clone": "0x24a53c7c"
+              }
+            ]
+          }
+        },
+        {
+          "foff_start": "0xfa8938",
+          "foff_end": "0xfa8a58",
+          "bytes": 288,
+          "true_entry": "0x80172138",
+          "kind": "code",
+          "frame_bytes": 48,
+          "first_words": [
+            "0x27bdffd0",
+            "0xafb1001c",
+            "0x808821",
+            "0xafb00018",
+            "0xe08021",
+            "0xafbf0028",
+            "0xafb30024",
+            "0xafb20020"
+          ],
+          "last_words": [
+            "0xa6220098",
+            "0x2402007c",
+            "0xa2020084",
+            "0xa2000085",
+            "0x8fbf0028",
+            "0x8fb30024",
+            "0x8fb20020",
+            "0x8fb1001c",
+            "0x8fb00018",
+            "0x27bd0030",
+            "0x3e00008",
+            "0x0"
+          ],
+          "in_bank_direct_callers": [
+            "0xfa7d08"
+          ],
+          "in_bank_pointer_words": [],
+          "sha256": "1fef0cea17945393e645714adda531fd5252e41b01468f141862fb010a48bf67",
+          "row": "dungeon/func_80F88938",
+          "clone": {
+            "row": "dungeon/func_809F4C34",
+            "foff": 10570804,
+            "equal": 72,
+            "shape": 72,
+            "words": 72,
+            "diffs": []
+          }
+        },
+        {
+          "foff_start": "0xfa8a58",
+          "foff_end": "0xfa8b9c",
+          "bytes": 324,
+          "true_entry": "0x80172258",
+          "kind": "code",
+          "frame_bytes": 48,
+          "first_words": [
+            "0x27bdffd0",
+            "0xafb1001c",
+            "0xa08821",
+            "0xafb20020",
+            "0xc09021",
+            "0xafb30024",
+            "0xe09821",
+            "0xafb00018"
+          ],
+          "last_words": [
+            "0x96030046",
+            "0x1021",
+            "0x30637fff",
+            "0xa6030046",
+            "0x8fbf0028",
+            "0x8fb30024",
+            "0x8fb20020",
+            "0x8fb1001c",
+            "0x8fb00018",
+            "0x27bd0030",
+            "0x3e00008",
+            "0x0"
+          ],
+          "in_bank_direct_callers": [
+            "0xfa7c5c"
+          ],
+          "in_bank_pointer_words": [],
+          "sha256": "d66e033d39a1f8f67e5ee5b670b78c98f7d3dc7aaee8f6e1712c936a604f25b8",
+          "row": "dungeon/func_80F88A58",
+          "clone": {
+            "row": "dungeon/func_80976E28",
+            "foff": 10055208,
+            "equal": 76,
+            "shape": 81,
+            "words": 81,
+            "diffs": [
+              {
+                "offset": 132,
+                "retail": "0x805c8d1",
+                "clone": "0x805c9c5"
+              },
+              {
+                "offset": 152,
+                "retail": "0x805c8d1",
+                "clone": "0x805c9c5"
+              },
+              {
+                "offset": 172,
+                "retail": "0x805c8df",
+                "clone": "0x805c9d3"
+              },
+              {
+                "offset": 188,
+                "retail": "0xc05c60b",
+                "clone": "0xc05c70d"
+              },
+              {
+                "offset": 196,
+                "retail": "0x805c8df",
+                "clone": "0x805c9d3"
+              }
+            ]
+          }
+        },
+        {
+          "foff_start": "0xfa8b9c",
+          "foff_end": "0xfa8c30",
+          "bytes": 148,
+          "true_entry": "0x8017239c",
+          "kind": "code",
+          "frame_bytes": 32,
+          "first_words": [
+            "0x27bdffe0",
+            "0xafb10014",
+            "0x808821",
+            "0xafb20018",
+            "0xc09021",
+            "0xafb00010",
+            "0xafbf001c",
+            "0xc02ac70"
+          ],
+          "last_words": [
+            "0x0",
+            "0x30420080",
+            "0x10400002",
+            "0x2402ffe0",
+            "0xa6220092",
+            "0x8fbf001c",
+            "0x8fb20018",
+            "0x8fb10014",
+            "0x8fb00010",
+            "0x27bd0020",
+            "0x3e00008",
+            "0x0"
+          ],
+          "in_bank_direct_callers": [],
+          "in_bank_pointer_words": [],
+          "sha256": "2ed2856e5fdf547ee88614e4019921674b70fb4a7652307bd95e66eb6428a28a",
+          "row": "dungeon/func_80F88B9C",
+          "clone": {
+            "row": "dungeon/func_80976F6C",
+            "foff": 10055532,
+            "equal": 36,
+            "shape": 37,
+            "words": 37,
+            "diffs": [
+              {
+                "offset": 84,
+                "retail": "0x24421138",
+                "clone": "0x244214d4"
+              }
+            ]
+          }
+        },
+        {
+          "foff_start": "0xfa8c30",
+          "foff_end": "0xfa8c94",
+          "bytes": 100,
+          "true_entry": "0x80172430",
+          "kind": "code",
+          "frame_bytes": 32,
+          "first_words": [
+            "0x27bdffe0",
+            "0xafb20018",
+            "0x809021",
+            "0xafb00010",
+            "0xc08021",
+            "0xafb10014",
+            "0xafbf001c",
+            "0xc02acde"
+          ],
+          "last_words": [
+            "0x21400",
+            "0x18400003",
+            "0x3c028017",
+            "0x24421138",
+            "0xae42008c",
+            "0x8fbf001c",
+            "0x8fb20018",
+            "0x8fb10014",
+            "0x8fb00010",
+            "0x27bd0020",
+            "0x3e00008",
+            "0x0"
+          ],
+          "in_bank_direct_callers": [],
+          "in_bank_pointer_words": [],
+          "sha256": "6e59f8b68814b0abf321aadbb86996c16e852ed340e37b55e42336a57622e536",
+          "row": "dungeon/func_80F88C30",
+          "clone": {
+            "row": "dungeon/func_800CEE70",
+            "foff": 978544,
+            "equal": 23,
+            "shape": 25,
+            "words": 25,
+            "diffs": [
+              {
+                "offset": 60,
+                "retail": "0x3c028017",
+                "clone": "0x3c02800d"
+              },
+              {
+                "offset": 64,
+                "retail": "0x24421138",
+                "clone": "0x24424494"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "start": "0xfa9d04",
+      "end": "0xfa9d7c",
+      "bytes": 120,
+      "kind": "complete-code-functions",
+      "parts": [
+        {
+          "foff_start": "0xfa9d04",
+          "foff_end": "0xfa9d24",
+          "bytes": 32,
+          "true_entry": "0x80173504",
+          "kind": "code",
+          "frame_bytes": 24,
+          "first_words": [
+            "0x27bdffe8",
+            "0xafbf0010",
+            "0xc02ad4e",
+            "0x0",
+            "0x8fbf0010",
+            "0x27bd0018",
+            "0x3e00008",
+            "0x0"
+          ],
+          "last_words": [
+            "0x27bdffe8",
+            "0xafbf0010",
+            "0xc02ad4e",
+            "0x0",
+            "0x8fbf0010",
+            "0x27bd0018",
+            "0x3e00008",
+            "0x0"
+          ],
+          "in_bank_direct_callers": [],
+          "in_bank_pointer_words": [],
+          "sha256": "5d90ad4ef2a93c845fb1da3dc24372376083e84e9938f33d3ca121e0c88d90cb",
+          "row": "dungeon/func_80F89D04",
+          "clone": {
+            "row": "dungeon/func_800AD90C",
+            "foff": 841996,
+            "equal": 8,
+            "shape": 8,
+            "words": 8,
+            "diffs": []
+          }
+        },
+        {
+          "foff_start": "0xfa9d24",
+          "foff_end": "0xfa9d44",
+          "bytes": 32,
+          "true_entry": "0x80173524",
+          "kind": "code",
+          "frame_bytes": 24,
+          "first_words": [
+            "0x27bdffe8",
+            "0xafbf0010",
+            "0xc02adde",
+            "0x0",
+            "0x8fbf0010",
+            "0x27bd0018",
+            "0x3e00008",
+            "0x0"
+          ],
+          "last_words": [
+            "0x27bdffe8",
+            "0xafbf0010",
+            "0xc02adde",
+            "0x0",
+            "0x8fbf0010",
+            "0x27bd0018",
+            "0x3e00008",
+            "0x0"
+          ],
+          "in_bank_direct_callers": [],
+          "in_bank_pointer_words": [],
+          "sha256": "42604a78f605c9d25623baa60f5ea1c64a4b86bcb050976cd3d9195ce7ecde28",
+          "row": "dungeon/func_80F89D24",
+          "clone": {
+            "row": "main/func_80012B40",
+            "foff": 2501440,
+            "equal": 7,
+            "shape": 8,
+            "words": 8,
+            "diffs": [
+              {
+                "offset": 8,
+                "retail": "0xc02adde",
+                "clone": "0xc0096ce"
+              }
+            ]
+          }
+        },
+        {
+          "foff_start": "0xfa9d44",
+          "foff_end": "0xfa9d7c",
+          "bytes": 56,
+          "true_entry": "0x80173544",
+          "kind": "code",
+          "frame_bytes": 24,
+          "first_words": [
+            "0x27bdffe8",
+            "0xafb00010",
+            "0xafbf0014",
+            "0xc02af6f",
+            "0x808021",
+            "0x10400003",
+            "0x3c028017",
+            "0x24421138"
+          ],
+          "last_words": [
+            "0xafbf0014",
+            "0xc02af6f",
+            "0x808021",
+            "0x10400003",
+            "0x3c028017",
+            "0x24421138",
+            "0xae02008c",
+            "0x8fbf0014",
+            "0x8fb00010",
+            "0x27bd0018",
+            "0x3e00008",
+            "0x0"
+          ],
+          "in_bank_direct_callers": [],
+          "in_bank_pointer_words": [],
+          "sha256": "05853d26961b066f97973c9a8a749b8109ae614ee8500d4bb0e890c0e2be6b0e",
+          "row": "dungeon/func_80F89D44",
+          "clone": {
+            "row": "dungeon/func_800AD508",
+            "foff": 840968,
+            "equal": 11,
+            "shape": 14,
+            "words": 14,
+            "diffs": [
+              {
+                "offset": 12,
+                "retail": "0xc02af6f",
+                "clone": "0xc02acde"
+              },
+              {
+                "offset": 24,
+                "retail": "0x3c028017",
+                "clone": "0x3c02800b"
+              },
+              {
+                "offset": 28,
+                "retail": "0x24421138",
+                "clone": "0x24422a60"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "start": "0xfaa538",
+      "end": "0xfaa70c",
+      "bytes": 468,
+      "kind": "complete-code-functions",
+      "parts": [
+        {
+          "foff_start": "0xfaa538",
+          "foff_end": "0xfaa600",
+          "bytes": 200,
+          "true_entry": "0x80173d38",
+          "kind": "code",
+          "frame_bytes": 32,
+          "first_words": [
+            "0x27bdffe0",
+            "0xafb20018",
+            "0x809021",
+            "0xafb00010",
+            "0xc08021",
+            "0xafb10014",
+            "0xafbf001c",
+            "0xc02b20b"
+          ],
+          "last_words": [
+            "0x30420007",
+            "0x451021",
+            "0x90450000",
+            "0xc011de1",
+            "0x3021",
+            "0x8fbf001c",
+            "0x8fb20018",
+            "0x8fb10014",
+            "0x8fb00010",
+            "0x27bd0020",
+            "0x3e00008",
+            "0x0"
+          ],
+          "in_bank_direct_callers": [
+            "0xfa7b84",
+            "0xfa9fac",
+            "0xfaa3ec"
+          ],
+          "in_bank_pointer_words": [],
+          "sha256": "38f452088dc92047716a7ffa03838b3f1c967da9cc08c196c7c08fb39a21dd3f",
+          "row": "dungeon/func_80F8A538",
+          "clone": {
+            "row": "dungeon/func_809A2D74",
+            "foff": 10235252,
+            "equal": 46,
+            "shape": 50,
+            "words": 50,
+            "diffs": [
+              {
+                "offset": 64,
+                "retail": "0x24421138",
+                "clone": "0x244210ec"
+              },
+              {
+                "offset": 68,
+                "retail": "0x805cf79",
+                "clone": "0x805d188"
+              },
+              {
+                "offset": 84,
+                "retail": "0x24424afc",
+                "clone": "0x24425ea0"
+              },
+              {
+                "offset": 116,
+                "retail": "0x24a54ad4",
+                "clone": "0x24a55e40"
+              }
+            ]
+          }
+        },
+        {
+          "foff_start": "0xfaa600",
+          "foff_end": "0xfaa664",
+          "bytes": 100,
+          "true_entry": "0x80173e00",
+          "kind": "code",
+          "frame_bytes": 32,
+          "first_words": [
+            "0x27bdffe0",
+            "0xafb20018",
+            "0x809021",
+            "0xafb00010",
+            "0xc08021",
+            "0xafb10014",
+            "0xafbf001c",
+            "0xc02b004"
+          ],
+          "last_words": [
+            "0x21400",
+            "0x18400003",
+            "0x3c028017",
+            "0x24421138",
+            "0xae42008c",
+            "0x8fbf001c",
+            "0x8fb20018",
+            "0x8fb10014",
+            "0x8fb00010",
+            "0x27bd0020",
+            "0x3e00008",
+            "0x0"
+          ],
+          "in_bank_direct_callers": [],
+          "in_bank_pointer_words": [],
+          "sha256": "1db9921236baa98eb0782a95d94d42af75f869d9e22323386f6f0d9c885d74da",
+          "row": "dungeon/func_80F8A600",
+          "clone": {
+            "row": "dungeon/func_800CEE70",
+            "foff": 978544,
+            "equal": 22,
+            "shape": 25,
+            "words": 25,
+            "diffs": [
+              {
+                "offset": 28,
+                "retail": "0xc02b004",
+                "clone": "0xc02acde"
+              },
+              {
+                "offset": 60,
+                "retail": "0x3c028017",
+                "clone": "0x3c02800d"
+              },
+              {
+                "offset": 64,
+                "retail": "0x24421138",
+                "clone": "0x24424494"
+              }
+            ]
+          }
+        },
+        {
+          "foff_start": "0xfaa664",
+          "foff_end": "0xfaa69c",
+          "bytes": 56,
+          "true_entry": "0x80173e64",
+          "kind": "code",
+          "frame_bytes": 24,
+          "first_words": [
+            "0x27bdffe8",
+            "0xafb00010",
+            "0xafbf0014",
+            "0xc02b120",
+            "0x808021",
+            "0x10400003",
+            "0x3c028017",
+            "0x24421138"
+          ],
+          "last_words": [
+            "0xafbf0014",
+            "0xc02b120",
+            "0x808021",
+            "0x10400003",
+            "0x3c028017",
+            "0x24421138",
+            "0xae02008c",
+            "0x8fbf0014",
+            "0x8fb00010",
+            "0x27bd0018",
+            "0x3e00008",
+            "0x0"
+          ],
+          "in_bank_direct_callers": [],
+          "in_bank_pointer_words": [],
+          "sha256": "8f72378fad75ae22b0b6f49c44e614a14e13c51c0b45eddfe53b74048854cc48",
+          "row": "dungeon/func_80F8A664",
+          "clone": {
+            "row": "dungeon/func_800AD508",
+            "foff": 840968,
+            "equal": 11,
+            "shape": 14,
+            "words": 14,
+            "diffs": [
+              {
+                "offset": 12,
+                "retail": "0xc02b120",
+                "clone": "0xc02acde"
+              },
+              {
+                "offset": 24,
+                "retail": "0x3c028017",
+                "clone": "0x3c02800b"
+              },
+              {
+                "offset": 28,
+                "retail": "0x24421138",
+                "clone": "0x24422a60"
+              }
+            ]
+          }
+        },
+        {
+          "foff_start": "0xfaa69c",
+          "foff_end": "0xfaa6d4",
+          "bytes": 56,
+          "true_entry": "0x80173e9c",
+          "kind": "code",
+          "frame_bytes": 24,
+          "first_words": [
+            "0x27bdffe8",
+            "0xafb00010",
+            "0xafbf0014",
+            "0xc02b172",
+            "0x808021",
+            "0x10400003",
+            "0x3c028017",
+            "0x24421138"
+          ],
+          "last_words": [
+            "0xafbf0014",
+            "0xc02b172",
+            "0x808021",
+            "0x10400003",
+            "0x3c028017",
+            "0x24421138",
+            "0xae02008c",
+            "0x8fbf0014",
+            "0x8fb00010",
+            "0x27bd0018",
+            "0x3e00008",
+            "0x0"
+          ],
+          "in_bank_direct_callers": [],
+          "in_bank_pointer_words": [],
+          "sha256": "91bb5f1ce5ec2703788c6e9b39503f5f3794066f39ff2701dde8ad56ca001ddc",
+          "row": "dungeon/func_80F8A69C",
+          "clone": {
+            "row": "dungeon/func_800AD508",
+            "foff": 840968,
+            "equal": 11,
+            "shape": 14,
+            "words": 14,
+            "diffs": [
+              {
+                "offset": 12,
+                "retail": "0xc02b172",
+                "clone": "0xc02acde"
+              },
+              {
+                "offset": 24,
+                "retail": "0x3c028017",
+                "clone": "0x3c02800b"
+              },
+              {
+                "offset": 28,
+                "retail": "0x24421138",
+                "clone": "0x24422a60"
+              }
+            ]
+          }
+        },
+        {
+          "foff_start": "0xfaa6d4",
+          "foff_end": "0xfaa70c",
+          "bytes": 56,
+          "true_entry": "0x80173ed4",
+          "kind": "code",
+          "frame_bytes": 24,
+          "first_words": [
+            "0x27bdffe8",
+            "0xafb00010",
+            "0xafbf0014",
+            "0xc02b38d",
+            "0x808021",
+            "0x10400003",
+            "0x3c028017",
+            "0x24421138"
+          ],
+          "last_words": [
+            "0xafbf0014",
+            "0xc02b38d",
+            "0x808021",
+            "0x10400003",
+            "0x3c028017",
+            "0x24421138",
+            "0xae02008c",
+            "0x8fbf0014",
+            "0x8fb00010",
+            "0x27bd0018",
+            "0x3e00008",
+            "0x0"
+          ],
+          "in_bank_direct_callers": [],
+          "in_bank_pointer_words": [],
+          "sha256": "0108f988950fb2474605e7a4efec200b0672a07d6f19062e1aa4657875341a6d",
+          "row": "dungeon/func_80F8A6D4",
+          "clone": {
+            "row": "dungeon/func_800AD508",
+            "foff": 840968,
+            "equal": 11,
+            "shape": 14,
+            "words": 14,
+            "diffs": [
+              {
+                "offset": 12,
+                "retail": "0xc02b38d",
+                "clone": "0xc02acde"
+              },
+              {
+                "offset": 24,
+                "retail": "0x3c028017",
+                "clone": "0x3c02800b"
+              },
+              {
+                "offset": 28,
+                "retail": "0x24421138",
+                "clone": "0x24422a60"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "placement": {
+    "status": "existing-proven-rowbase",
+    "regions": [
+      {
+        "schema": "azure-clean.rowbase.v1",
+        "region": "sweep_0FA7000",
+        "foff_start": "0xFA7000",
+        "foff_end": "0xFAADE0",
+        "delta": "0x7F1C9800",
+        "base_confidence": "proven",
+        "proof": "j-solve sweep 2026-07-19 (decision C): unique 0x800-aligned delta with full j-consistency across 10 row(s); scoring-only until a byte-exact recompile promotes to proven; PROMOTED solved->proven: byte-exact recompile func_80F89D7C at true base 0x8017357C (candidate sha 23b333b10939 @ 2.8.1-G0, linked-strict isolation compare, phase-2 item-3 hook)"
+      }
+    ],
+    "runtime_observed": false,
+    "kind": "resource-loader-receipt",
+    "resource_id": 38,
+    "slot": 0,
+    "sectors": 12,
+    "lba": "0x4f64",
+    "destination": "0x80170800",
+    "file_end": "0xfad000",
+    "iso": {
+      "path": "DUNGEON/DUNGEON.BIN",
+      "lba": 12310,
+      "size": 27813888,
+      "directory_lba": 12309,
+      "record_offset": 96,
+      "record_hex": "3c0016300000000030160068a80101a86800620306111f0424000000010000010d44554e47454f4e2e42494e3b31000000000d555841000000000000"
+    },
+    "words": [
+      {
+        "runtime": "0x800a0c60",
+        "foff": "0xbb500",
+        "word": "0x92420003"
+      },
+      {
+        "runtime": "0x800a0c64",
+        "foff": "0xbb504",
+        "word": "0x2406000c"
+      },
+      {
+        "runtime": "0x800a0c68",
+        "foff": "0xbb508",
+        "word": "0x22040"
+      },
+      {
+        "runtime": "0x800a0c6c",
+        "foff": "0xbb50c",
+        "word": "0x822021"
+      },
+      {
+        "runtime": "0x800a0c70",
+        "foff": "0xbb510",
+        "word": "0x41b40"
+      },
+      {
+        "runtime": "0x800a0c74",
+        "foff": "0xbb514",
+        "word": "0x3c028017"
+      },
+      {
+        "runtime": "0x800a0c78",
+        "foff": "0xbb518",
+        "word": "0x24420800"
+      },
+      {
+        "runtime": "0x800a0c7c",
+        "foff": "0xbb51c",
+        "word": "0x438823"
+      },
+      {
+        "runtime": "0x800a0c80",
+        "foff": "0xbb520",
+        "word": "0x24a3ffff"
+      },
+      {
+        "runtime": "0x800a0c84",
+        "foff": "0xbb524",
+        "word": "0x31080"
+      },
+      {
+        "runtime": "0x800a0c88",
+        "foff": "0xbb528",
+        "word": "0x431021"
+      },
+      {
+        "runtime": "0x800a0c8c",
+        "foff": "0xbb52c",
+        "word": "0x21080"
+      },
+      {
+        "runtime": "0x800a0c90",
+        "foff": "0xbb530",
+        "word": "0x431021"
+      },
+      {
+        "runtime": "0x800a0c94",
+        "foff": "0xbb534",
+        "word": "0x21080"
+      },
+      {
+        "runtime": "0x800a0c98",
+        "foff": "0xbb538",
+        "word": "0x42080"
+      },
+      {
+        "runtime": "0x800a0c9c",
+        "foff": "0xbb53c",
+        "word": "0x24844340"
+      },
+      {
+        "runtime": "0x800a0ca0",
+        "foff": "0xbb540",
+        "word": "0x443821"
+      },
+      {
+        "runtime": "0x800a0ca4",
+        "foff": "0xbb544",
+        "word": "0xc02021"
+      },
+      {
+        "runtime": "0x800a0ca8",
+        "foff": "0xbb548",
+        "word": "0x2202821"
+      },
+      {
+        "runtime": "0x800a0cb4",
+        "foff": "0xbb554",
+        "word": "0xc00fdb5"
+      },
+      {
+        "runtime": "0x800a0cbc",
+        "foff": "0xbb55c",
+        "word": "0x24040006"
+      },
+      {
+        "runtime": "0x800a0cc4",
+        "foff": "0xbb564",
+        "word": "0xc00f93f"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003f6d4",
+        "foff": "0x12ed4",
+        "word": "0x3c02007f"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003f6d8",
+        "foff": "0x12ed8",
+        "word": "0x3442ffff"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003f6dc",
+        "foff": "0x12edc",
+        "word": "0xa22824"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003f6e0",
+        "foff": "0x12ee0",
+        "word": "0x425c0"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003f6e4",
+        "foff": "0x12ee4",
+        "word": "0xa42825"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003f6e8",
+        "foff": "0x12ee8",
+        "word": "0xacc50000"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003f6ec",
+        "foff": "0x12eec",
+        "word": "0x3e00008"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003f6f0",
+        "foff": "0x12ef0",
+        "word": "0xacc70004"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003e9ec",
+        "foff": "0x121ec",
+        "word": "0x8c510004"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003e9f0",
+        "foff": "0x121f0",
+        "word": "0x3c03007f"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003e9f4",
+        "foff": "0x121f4",
+        "word": "0x8e220000"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003e9f8",
+        "foff": "0x121f8",
+        "word": "0x3463ffff"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003e9fc",
+        "foff": "0x121fc",
+        "word": "0x438024"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003ea04",
+        "foff": "0x12204",
+        "word": "0x295c2"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003ea18",
+        "foff": "0x12218",
+        "word": "0x3c028000"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003ea1c",
+        "foff": "0x1221c",
+        "word": "0x2028025"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003eaa4",
+        "foff": "0x122a4",
+        "word": "0x8e240004"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003eaa8",
+        "foff": "0x122a8",
+        "word": "0xc018493"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003eae4",
+        "foff": "0x122e4",
+        "word": "0x2402021"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003eae8",
+        "foff": "0x122e8",
+        "word": "0x2002821"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003eaec",
+        "foff": "0x122ec",
+        "word": "0xc018c89"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003eaf0",
+        "foff": "0x122f0",
+        "word": "0x24060080"
+      }
+    ],
+    "domain": "static arithmetic receipt; no runtime occurrence or original TU ownership claim"
+  },
+  "new_rows": [
+    "dungeon/func_80F8802C",
+    "dungeon/func_80F88774",
+    "dungeon/func_80F88938",
+    "dungeon/func_80F88A58",
+    "dungeon/func_80F88B9C",
+    "dungeon/func_80F88C30",
+    "dungeon/func_80F89D04",
+    "dungeon/func_80F89D24",
+    "dungeon/func_80F89D44",
+    "dungeon/func_80F8A538",
+    "dungeon/func_80F8A600",
+    "dungeon/func_80F8A664",
+    "dungeon/func_80F8A69C",
+    "dungeon/func_80F8A6D4"
+  ],
+  "layer2_required": [
+    "dungeon/func_80F8802C",
+    "dungeon/func_80F88774",
+    "dungeon/func_80F88938",
+    "dungeon/func_80F88A58",
+    "dungeon/func_80F88B9C",
+    "dungeon/func_80F88C30",
+    "dungeon/func_80F89D04",
+    "dungeon/func_80F89D24",
+    "dungeon/func_80F89D44",
+    "dungeon/func_80F8A538",
+    "dungeon/func_80F8A600",
+    "dungeon/func_80F8A664",
+    "dungeon/func_80F8A69C",
+    "dungeon/func_80F8A6D4"
+  ],
+  "module_status": "UNFINISHED; no active native entry"
+}

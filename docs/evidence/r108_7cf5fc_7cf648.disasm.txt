@@ -1,0 +1,26 @@
+
+evidence/7cf5fc_7cf648.bin:     file format binary
+
+
+Disassembly of section .data:
+
+800f6dfc <.data>:
+800f6dfc:	8c82005c 	lw	v0,92(a0)
+800f6e00:	00802821 	move	a1,a0
+800f6e04:	24440020 	addiu	a0,v0,32
+800f6e08:	1085000d 	beq	a0,a1,0x800f6e40
+800f6e0c:	00001021 	move	v0,zero
+800f6e10:	24060015 	li	a2,21
+800f6e14:	90820013 	lbu	v0,19(a0)
+800f6e18:	00000000 	nop
+800f6e1c:	14460003 	bne	v0,a2,0x800f6e2c
+800f6e20:	2483ffe0 	addiu	v1,a0,-32
+800f6e24:	0803db90 	j	0x800f6e40
+800f6e28:	00601021 	move	v0,v1
+800f6e2c:	8c82005c 	lw	v0,92(a0)
+800f6e30:	00000000 	nop
+800f6e34:	24440020 	addiu	a0,v0,32
+800f6e38:	1485fff6 	bne	a0,a1,0x800f6e14
+800f6e3c:	00001021 	move	v0,zero
+800f6e40:	03e00008 	jr	ra
+800f6e44:	00000000 	nop

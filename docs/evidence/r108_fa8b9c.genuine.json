@@ -1,0 +1,47 @@
+{
+  "status": "NATIVE_TU_MATCH_NOT_CERTIFICATION",
+  "key": "fa8b9c",
+  "bytes": 148,
+  "prefix_bytes": 0,
+  "functions": [
+    [
+      "func_8017239C",
+      148
+    ]
+  ],
+  "imports": {
+    "D_80083460": 2148021344,
+    "func_80171138": 2148995384,
+    "func_800AD9B4": 2148194740,
+    "func_800AD594": 2148193684,
+    "func_800AB1C0": 2148184512,
+    "func_800A4ACC": 2148158156
+  },
+  "masked": 0,
+  "raw_substitution_bytes": 0,
+  "compile_edges": 1,
+  "genuine": "2.79 whole TU and owned data exact",
+  "genuine_flags": [
+    "-q",
+    "-G0"
+  ],
+  "sha256": "2ed2856e5fdf547ee88614e4019921674b70fb4a7652307bd95e66eb6428a28a",
+  "source_inputs": {
+    "include/common.h": "35ebd67ff9f32d587459e79e964f1d4f9013849bb766ea442ab0965c32971dac",
+    "include/game.h": "b80e856a3c4f4c4586c312a28336781390d102ba6f7af599d094bfa6900e7c83",
+    "include/globals.h": "5ff21c9f144187d9a1666588951ee1f3489b89d666b18cf712c46523d820f689",
+    "include/gte_macros.inc": "80614ffcdda065072d2ef6cde330d5782202240edef7faca5ac598fbfa125066",
+    "include/include_asm.h": "b07191b5b52fe5a0cc20e2114349a7ccfb537bba948ba277f375d9de2559a16e",
+    "include/labels.inc": "9011fb521abe02bf51d16d3ae8ec1667ccd899a26affb6a5fe00b842ab421dc5",
+    "include/shared/dungeon_status.h": "cf2efa85ed10f2b6b71bbc1e5d922c0ea7d20ac9a655b67d8d254c75b042ac9e",
+    "src/dungeon/func_80F88B9C.c": "37530fcadfb96e131b78ef194614d0dcc9940e1b48f4cb37401a311db46eab0c"
+  },
+  "payload": [
+    {
+      "name": ".text.func_8017239C",
+      "type": 1,
+      "flags": 6,
+      "size": 148
+    }
+  ]
+}

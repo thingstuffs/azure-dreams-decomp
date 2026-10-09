@@ -1,0 +1,921 @@
+{
+  "bank": "0x19de800",
+  "selector": 72,
+  "members": [
+    {
+      "id": "dungeon/func_819BE800",
+      "container": "dungeon",
+      "func": "func_819BE800",
+      "true_name": "func_80024000",
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 920,
+      "foff": 27125760,
+      "c_path": "overlays/dungeon/first_pass_matched/func_819BE800.c",
+      "exists": true,
+      "src_sha": "849101dbd8fc24b00f6ebead203fbedb0f11d24c28826ba704efc9d2348b6179",
+      "gate_config": "config/overlays/dungeon_deep_19deb98_truebase_80024398.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_819BEB98",
+      "container": "dungeon",
+      "func": "func_819BEB98",
+      "true_name": "func_80024398",
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 292,
+      "foff": 27126680,
+      "c_path": "overlays/dungeon/first_pass_matched/func_819BEB98.c",
+      "exists": true,
+      "src_sha": "ebe74da22553c1986740ae440075017750576fec66bb6faeed3652651139aa80",
+      "gate_config": "config/overlays/dungeon_deep_t8b_19de800.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_819BECBC",
+      "container": "dungeon",
+      "func": "func_819BECBC",
+      "true_name": "func_800244BC",
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 208,
+      "foff": 27126972,
+      "c_path": "overlays/dungeon/first_pass_matched/func_819BECBC.c",
+      "exists": true,
+      "src_sha": "1369259d7e5da9687e42a6c69251f10be3d9d27d908c7b59b8dc892de6c337ec",
+      "gate_config": "config/overlays/dungeon_deep_t8b_19de.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_819BEEB0",
+      "container": "dungeon",
+      "func": "func_819BEEB0",
+      "true_name": "func_800246B0",
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 272,
+      "foff": 27127472,
+      "c_path": "overlays/dungeon/first_pass_matched/func_819BEEB0.c",
+      "exists": true,
+      "src_sha": "f2747349977ccf6eb1a14cf832def83a69f05f85365a539abe2997b07717bd83",
+      "gate_config": "config/overlays/dungeon_deep_t8b_19de.overlay.yaml",
+      "instances": 2,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_819BEFC0",
+      "container": "dungeon",
+      "func": "func_819BEFC0",
+      "true_name": "func_800247C0",
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 808,
+      "foff": 27127744,
+      "c_path": "overlays/dungeon/first_pass_matched/func_819BEFC0.c",
+      "exists": true,
+      "src_sha": "b005aecf4b7afa53b507d20f9bdadee37db483763b2919d9b964e0d3857d9b8c",
+      "gate_config": "config/overlays/dungeon_deep_t8b_19de.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_819BF2E8",
+      "container": "dungeon",
+      "func": "func_819BF2E8",
+      "true_name": "func_80024AE8",
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 184,
+      "foff": 27128552,
+      "c_path": "overlays/dungeon/first_pass_matched/func_819BF2E8.c",
+      "exists": true,
+      "src_sha": "ca4b5881bfbd708d4b89f2845fe5daa4bb73c456d9ea00fb3e2d059ab8f369af",
+      "gate_config": "config/overlays/dungeon_deep_19deb98_truebase_80024398.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay",
+      "gate_config_derived": true
+    },
+    {
+      "id": "dungeon/func_819BF3F4",
+      "container": "dungeon",
+      "func": "func_819BF3F4",
+      "true_name": "func_80024BF4",
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 1088,
+      "foff": 27128820,
+      "c_path": "overlays/dungeon/first_pass_matched/func_819BF3F4.c",
+      "exists": true,
+      "src_sha": "4a07dddc9164174a7c05f2547c44473f632141470d8b45ddc1f9f43fcd2d031b",
+      "gate_config": "config/overlays/dungeon_deep_t8b_19df3f4.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_819BF888",
+      "container": "dungeon",
+      "func": "func_819BF888",
+      "true_name": "func_80025088",
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 364,
+      "foff": 27129992,
+      "c_path": "overlays/dungeon/first_pass_matched/func_819BF888.c",
+      "exists": true,
+      "src_sha": "a8ffc1800868786ee1237230ae0ccabc99223a07297827dea4062fed645a3fd5",
+      "gate_config": "config/overlays/dungeon_deep_t8b_19df888.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_819BF9F4",
+      "container": "dungeon",
+      "func": "func_819BF9F4",
+      "true_name": "func_800251F4",
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 1108,
+      "foff": 27130356,
+      "c_path": "overlays/dungeon/first_pass_matched/func_819BF9F4.c",
+      "exists": true,
+      "src_sha": "c3b518080e5468da424268c45cad6b00b30d75aed8b6065624d24825bb648f0e",
+      "gate_config": "config/overlays/dungeon_deep_t8b_19df888.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_819BFE48",
+      "container": "dungeon",
+      "func": "func_819BFE48",
+      "true_name": "func_80025648",
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 200,
+      "foff": 27131464,
+      "c_path": "overlays/dungeon/first_pass_matched/func_819BFE48.c",
+      "exists": true,
+      "src_sha": "94ac570fb9151f4737fa637c8ea1908ba7f9aa187ff76a750978e95490a813c1",
+      "gate_config": "config/overlays/dungeon_deep_t8b_19df888.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_819BFF10",
+      "container": "dungeon",
+      "func": "func_819BFF10",
+      "true_name": "func_80025710",
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 240,
+      "foff": 27131664,
+      "c_path": "overlays/dungeon/first_pass_matched/func_819BFF10.c",
+      "exists": true,
+      "src_sha": "a658631228f13cedc3dda81f7e3361975b677f1665679d2b1c891ba4da8c5ac3",
+      "gate_config": "config/overlays/dungeon_deep_t8b_19df888.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_819C0000",
+      "container": "dungeon",
+      "func": "func_819C0000",
+      "true_name": "func_80025800",
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 1256,
+      "foff": 27131904,
+      "c_path": "overlays/dungeon/first_pass_matched/func_819C0000.c",
+      "exists": true,
+      "src_sha": "3320f70306290b84dd72c6d2d2c752ae4ab9e8464204448dc37957b2a2c7cdcf",
+      "gate_config": "config/overlays/dungeon_deep_t8b_19df888.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_819C04E8",
+      "container": "dungeon",
+      "func": "func_819C04E8",
+      "true_name": "func_80025CE8",
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 712,
+      "foff": 27133160,
+      "c_path": "overlays/dungeon/first_pass_matched/func_819C04E8.c",
+      "exists": true,
+      "src_sha": "83367889de28ac2edf4895b4cf1d07fb89911cdfc709e2b9d1fda98c0fae2006",
+      "gate_config": "config/overlays/dungeon_deep_t8b_19df888.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_819C07B0",
+      "container": "dungeon",
+      "func": "func_819C07B0",
+      "true_name": "func_80025FB0",
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 176,
+      "foff": 27133872,
+      "c_path": "overlays/dungeon/first_pass_matched/func_819C07B0.c",
+      "exists": true,
+      "src_sha": "f608aa9afbac4cbd664c4fe93083a8eb223663b6e3a533ae26b569486f7dd4fc",
+      "gate_config": "config/overlays/dungeon_deep_t8b_19df888.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_819C095C",
+      "container": "dungeon",
+      "func": "func_819C095C",
+      "true_name": "func_8002615C",
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 272,
+      "foff": 27134300,
+      "c_path": "overlays/dungeon/first_pass_matched/func_819C095C.c",
+      "exists": true,
+      "src_sha": "0d33511e3224fe580176c0ae520c0dfcaa5f5f5c55cf48e1da012b369d7ebf68",
+      "gate_config": "config/overlays/dungeon_deep_19deb98_truebase_80024398.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_819C0A6C",
+      "container": "dungeon",
+      "func": "func_819C0A6C",
+      "true_name": "func_8002626C",
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 428,
+      "foff": 27134572,
+      "c_path": "overlays/dungeon/first_pass_matched/func_819C0A6C.c",
+      "exists": true,
+      "src_sha": "cc26fc6b14507fb439cea4df2cfe03571dc7dfde42ea1cccac5f0a762bb29eec",
+      "gate_config": "config/overlays/dungeon_deep_t8b_19e0a6c.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_819C0C18",
+      "container": "dungeon",
+      "func": "func_819C0C18",
+      "true_name": "func_80026418",
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 1336,
+      "foff": 27135000,
+      "c_path": "overlays/dungeon/first_pass_matched/func_819C0C18.c",
+      "exists": true,
+      "src_sha": "042c857d36594b0cc580e0aa93e1cf72dd6a722812093781ec809eda17136114",
+      "gate_config": "config/overlays/dungeon_deep_t8b_19e0a6c.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    }
+  ],
+  "regions": [
+    {
+      "schema": "azure-clean.rowbase.v1",
+      "region": "jtbl_19E0C18",
+      "foff_start": "0x19E0C18",
+      "foff_end": "0x19E1150",
+      "delta": "0x7E645800",
+      "base_confidence": "proven",
+      "proof": "jtbl-static-solve v1 (Phase 0 2026-08-11): K over-determined by in-extent table decode; corroborated by multi-function K agreement + streaming band + registry zero-contradiction check; PROMOTED solved->proven: byte-exact recompile func_819C0C18 at true base 0x80026418 (candidate sha 4a9303d048c2 @ 2.7.2-cdk-G0, linked-strict isolation compare, phase-2 item-3 hook)"
+    },
+    {
+      "schema": "azure-clean.rowbase.v1",
+      "region": "img_19deb98_80024398",
+      "foff_start": "0x19DE800",
+      "foff_end": "0x19E0C18",
+      "delta": "0x7E645800",
+      "base_confidence": "proven",
+      "proof": "static per-floor image base proof 2026-08-23 (docs/port_handback_20260822/dungeon_base_proofs/proofs.json, image img0392@0x19DEB98, verdict PROVEN, K 0x7E645800). M1 local-`j` containment: 7 of 20 functions in the image are pinned to this delta by 26 in-function absolute `j` target(s) that can only land inside their own function's span, 0 more by in-function switch-table containment, pin_conflict=false, under the measured image-base law K = 0 mod 0x800; M4 Evidence-B1 0 same-K `jal` onto in-image function start(s) of 0 in-band target(s), in-image coherence 0.00; M5 Evidence-B2 0/0 switch table(s) resolved in span, 0 violation(s); M6 Evidence-A 62 resident-EXE call confirm(s) over 17 distinct callee(s), 0 contra; M7 3 re-link resident identit(y/ies), 0 unexplained; M3 0/0 leading inline jump table(s) fully contained; corroborating methods: evidence-A-resident-calls; EXTENT = 20 of the image's own member function span(s), 0x19DEB98-0x19E0C18; the image's other bytes are either already covered by an existing rowbase record (none) or are not member spans, and are left uncovered rather than asserted; gate window dungeon_deep_19deb98_truebase_80024398 (0x19DEB98-0x19E0C18) states this same base and re-gated MATCH against the container on 2026-08-23 (381/381); 11 already-landed C TU(s) inside this extent -- func_819BECBC, func_819BEEB0, func_819BF2E8, func_819BF3F4, func_819BF888, func_819BFE48 (+5 more) -- were recompiled and linked at this base inside that window during the 2026-08-23 apply and reproduced the container bytes exactly (the 105-window / 525-TU set); STATIC EVIDENCE ONLY -- no RAM capture, no overlay-streamer transfer observed at runtime, nothing here is a runtime observation. Scoring-grade (`solved`) until a byte-exact recompile at this base promotes it via tools/rowbase.py promote; PROMOTED solved->proven: byte-exact recompile func_819C07B0 at true base 0x80025FB0 (candidate sha 15ea13abc66d @ 2.7.2, linked-strict isolation compare, phase-2 item-3 hook) EXTENSION 2026-08-27 (func_819BE800 recovery, work/codex_wave/codex_dungeon_luna12_20260827/miss_recovery/func_819BE800.receipt.json): foff_start pulled back from 0x19DEB98 to 0x19DE800 (delta unchanged, 0x7E645800) to cover func_819BE800 (foff span [0x19DE800, 0x19DEB98), 920 B). Proof standard met independently: (a) local `j 0x8002434C` at word 208 (foff 0x19DE9F0) solves base 0x80024000 -- 0x8002434C - 0x80024000 = word 211, the row's own do-while bottom test, not a tail call; (b) a 25-word jump-table/data prefix immediately preceding this row's span (foff [0x19DE7CC, 0x19DE800)) whose 8 resolved pointers (0x80026418, 0x800264FC, 0x8002659C, 0x800265D0, 0x800267B8, 0x800267C8, 0x80026820, 0x800268B4) all resolve inside the same true image, matching this region's delta; (c) byte-exact recompile of func_819BE800 at true base 0x80024000 (920/920 bytes, 0 words off, verified via a byte-for-byte replica of work/g3/overlay_func_compare.py with only link_vram overridden, since the tool has no CLI override for the link base); (d) contiguity -- the extended span ends exactly at this region's original foff_start (0x19DE800 + 0x398 = 0x19DEB98), the already-PROVEN region's own boundary, same delta. EXTENT updated to include func_819BE800 (1 additional member function span); the region's other proof fields (M1-M7, EXTENT count of 20 image members, 11 already-landed C TUs) describe the pre-extension image and are left as originally recorded below."
+    }
+  ],
+  "gaps": [
+    {
+      "start": "0x19ded8c",
+      "end": "0x19deeb0",
+      "bytes": 292,
+      "sha256": "b85531aa9e6be4e97f4ddd495ff7186f45564bec15fcd08fb7bee48dba2a82bb",
+      "candidates": [
+        {
+          "row": "dungeon/func_80D65E5C",
+          "foff": 14179932,
+          "equal_words": 68,
+          "opcode_equal": 73,
+          "total_words": 73
+        },
+        {
+          "row": "dungeon/func_810870DC",
+          "foff": 17461468,
+          "equal_words": 10,
+          "opcode_equal": 20,
+          "total_words": 73
+        },
+        {
+          "row": "dungeon/func_800AA378",
+          "foff": 828280,
+          "equal_words": 9,
+          "opcode_equal": 22,
+          "total_words": 73
+        },
+        {
+          "row": "dungeon/func_8009E7C8",
+          "foff": 780232,
+          "equal_words": 6,
+          "opcode_equal": 24,
+          "total_words": 73
+        },
+        {
+          "row": "dungeon/func_8133A4AC",
+          "foff": 20292780,
+          "equal_words": 6,
+          "opcode_equal": 13,
+          "total_words": 73
+        },
+        {
+          "row": "dungeon/func_81934800",
+          "foff": 26560516,
+          "equal_words": 5,
+          "opcode_equal": 24,
+          "total_words": 73
+        },
+        {
+          "row": "dungeon/func_8008C2D8",
+          "foff": 705240,
+          "equal_words": 5,
+          "opcode_equal": 18,
+          "total_words": 73
+        },
+        {
+          "row": "dungeon/func_80F36BE8",
+          "foff": 16083944,
+          "equal_words": 5,
+          "opcode_equal": 11,
+          "total_words": 73
+        }
+      ]
+    },
+    {
+      "start": "0x19df3a0",
+      "end": "0x19df3f4",
+      "bytes": 84,
+      "sha256": "e1c909dcae427fa12f0348211f0957a65b0739853999d4bd35a1edabef45d2da",
+      "candidates": [
+        {
+          "row": "dungeon/func_81984BF0",
+          "foff": 26889200,
+          "equal_words": 21,
+          "opcode_equal": 21,
+          "total_words": 21
+        },
+        {
+          "row": "dungeon/func_800B0AC8",
+          "foff": 854728,
+          "equal_words": 2,
+          "opcode_equal": 7,
+          "total_words": 21
+        },
+        {
+          "row": "dungeon/func_800C138C",
+          "foff": 922508,
+          "equal_words": 2,
+          "opcode_equal": 7,
+          "total_words": 21
+        },
+        {
+          "row": "dungeon/func_813276BC",
+          "foff": 20215484,
+          "equal_words": 2,
+          "opcode_equal": 7,
+          "total_words": 21
+        },
+        {
+          "row": "dungeon/func_8187B1A0",
+          "foff": 25801120,
+          "equal_words": 2,
+          "opcode_equal": 7,
+          "total_words": 21
+        },
+        {
+          "row": "dungeon/func_81874F04",
+          "foff": 25775876,
+          "equal_words": 2,
+          "opcode_equal": 7,
+          "total_words": 21
+        },
+        {
+          "row": "dungeon/func_818757D4",
+          "foff": 25778132,
+          "equal_words": 2,
+          "opcode_equal": 7,
+          "total_words": 21
+        },
+        {
+          "row": "dungeon/func_800B68F4",
+          "foff": 878836,
+          "equal_words": 2,
+          "opcode_equal": 6,
+          "total_words": 21
+        }
+      ]
+    },
+    {
+      "start": "0x19df834",
+      "end": "0x19df888",
+      "bytes": 84,
+      "sha256": "6609e94101b03ed4a91652d49fdf90277fbdcc67f21255b524fbb6d0f59570a1",
+      "candidates": [
+        {
+          "row": "dungeon/func_800C138C",
+          "foff": 922508,
+          "equal_words": 19,
+          "opcode_equal": 21,
+          "total_words": 21
+        },
+        {
+          "row": "dungeon/func_8187B1A0",
+          "foff": 25801120,
+          "equal_words": 19,
+          "opcode_equal": 21,
+          "total_words": 21
+        },
+        {
+          "row": "dungeon/func_81874F04",
+          "foff": 25775876,
+          "equal_words": 19,
+          "opcode_equal": 21,
+          "total_words": 21
+        },
+        {
+          "row": "dungeon/func_818757D4",
+          "foff": 25778132,
+          "equal_words": 19,
+          "opcode_equal": 21,
+          "total_words": 21
+        },
+        {
+          "row": "dungeon/func_800B68F4",
+          "foff": 878836,
+          "equal_words": 16,
+          "opcode_equal": 20,
+          "total_words": 21
+        },
+        {
+          "row": "dungeon/func_819600D8",
+          "foff": 26738904,
+          "equal_words": 16,
+          "opcode_equal": 20,
+          "total_words": 21
+        },
+        {
+          "row": "dungeon/func_800B0AC8",
+          "foff": 854728,
+          "equal_words": 9,
+          "opcode_equal": 12,
+          "total_words": 21
+        },
+        {
+          "row": "dungeon/func_800D76AC",
+          "foff": 1013420,
+          "equal_words": 9,
+          "opcode_equal": 12,
+          "total_words": 21
+        }
+      ]
+    },
+    {
+      "start": "0x19e0860",
+      "end": "0x19e095c",
+      "bytes": 252,
+      "sha256": "073eada6db4afab8d4ed6723116895f14927875df2c72f5cfd98ab4774d6a9c6",
+      "candidates": [
+        {
+          "row": "dungeon/func_8181140C",
+          "foff": 25367564,
+          "equal_words": 4,
+          "opcode_equal": 11,
+          "total_words": 63
+        },
+        {
+          "row": "dungeon/func_80095D50",
+          "foff": 744784,
+          "equal_words": 3,
+          "opcode_equal": 17,
+          "total_words": 63
+        },
+        {
+          "row": "dungeon/func_80E11764",
+          "foff": 14882660,
+          "equal_words": 3,
+          "opcode_equal": 16,
+          "total_words": 63
+        },
+        {
+          "row": "dungeon/func_808CB16C",
+          "foff": 9351532,
+          "equal_words": 3,
+          "opcode_equal": 11,
+          "total_words": 63
+        },
+        {
+          "row": "dungeon/func_800C22DC",
+          "foff": 926428,
+          "equal_words": 1,
+          "opcode_equal": 16,
+          "total_words": 63
+        },
+        {
+          "row": "dungeon/func_800942BC",
+          "foff": 737980,
+          "equal_words": 1,
+          "opcode_equal": 15,
+          "total_words": 63
+        },
+        {
+          "row": "dungeon/func_8009C188",
+          "foff": 770440,
+          "equal_words": 1,
+          "opcode_equal": 15,
+          "total_words": 63
+        },
+        {
+          "row": "dungeon/func_8195EE48",
+          "foff": 26734152,
+          "equal_words": 1,
+          "opcode_equal": 13,
+          "total_words": 63
+        }
+      ]
+    }
+  ],
+  "unregistered_functions": [
+    {
+      "start": "0x19ded8c",
+      "end": "0x19deeb0",
+      "bytes": 292,
+      "runtime_entry": "0x8002458c",
+      "kind": "complete-function",
+      "frame_bytes": 24,
+      "epilogue": [
+        "0x27bd0018",
+        "0x3e00008",
+        "0x0"
+      ],
+      "bank_references": [
+        {
+          "kind": "jal",
+          "foff": "0x19df1a8",
+          "target": "0x8002458c"
+        },
+        {
+          "kind": "jal",
+          "foff": "0x19e0b70",
+          "target": "0x8002458c"
+        }
+      ],
+      "selected_clone": "dungeon/func_80D65E5C",
+      "clone_foff": "0xd85e5c",
+      "clone_differences": [
+        {
+          "word": 16,
+          "retail": "0x80091a7",
+          "clone": "0x805c5db"
+        },
+        {
+          "word": 27,
+          "retail": "0x80091a7",
+          "clone": "0x805c5db"
+        },
+        {
+          "word": 38,
+          "retail": "0x80091a7",
+          "clone": "0x805c5db"
+        },
+        {
+          "word": 49,
+          "retail": "0x80091a7",
+          "clone": "0x805c5db"
+        },
+        {
+          "word": 59,
+          "retail": "0x80091a7",
+          "clone": "0x805c5db"
+        }
+      ],
+      "sha256": "b85531aa9e6be4e97f4ddd495ff7186f45564bec15fcd08fb7bee48dba2a82bb",
+      "existing_rowbase": [
+        {
+          "schema": "azure-clean.rowbase.v1",
+          "region": "img_19deb98_80024398",
+          "foff_start": "0x19DE800",
+          "foff_end": "0x19E0C18",
+          "delta": "0x7E645800",
+          "base_confidence": "proven",
+          "proof": "static per-floor image base proof 2026-08-23 (docs/port_handback_20260822/dungeon_base_proofs/proofs.json, image img0392@0x19DEB98, verdict PROVEN, K 0x7E645800). M1 local-`j` containment: 7 of 20 functions in the image are pinned to this delta by 26 in-function absolute `j` target(s) that can only land inside their own function's span, 0 more by in-function switch-table containment, pin_conflict=false, under the measured image-base law K = 0 mod 0x800; M4 Evidence-B1 0 same-K `jal` onto in-image function start(s) of 0 in-band target(s), in-image coherence 0.00; M5 Evidence-B2 0/0 switch table(s) resolved in span, 0 violation(s); M6 Evidence-A 62 resident-EXE call confirm(s) over 17 distinct callee(s), 0 contra; M7 3 re-link resident identit(y/ies), 0 unexplained; M3 0/0 leading inline jump table(s) fully contained; corroborating methods: evidence-A-resident-calls; EXTENT = 20 of the image's own member function span(s), 0x19DEB98-0x19E0C18; the image's other bytes are either already covered by an existing rowbase record (none) or are not member spans, and are left uncovered rather than asserted; gate window dungeon_deep_19deb98_truebase_80024398 (0x19DEB98-0x19E0C18) states this same base and re-gated MATCH against the container on 2026-08-23 (381/381); 11 already-landed C TU(s) inside this extent -- func_819BECBC, func_819BEEB0, func_819BF2E8, func_819BF3F4, func_819BF888, func_819BFE48 (+5 more) -- were recompiled and linked at this base inside that window during the 2026-08-23 apply and reproduced the container bytes exactly (the 105-window / 525-TU set); STATIC EVIDENCE ONLY -- no RAM capture, no overlay-streamer transfer observed at runtime, nothing here is a runtime observation. Scoring-grade (`solved`) until a byte-exact recompile at this base promotes it via tools/rowbase.py promote; PROMOTED solved->proven: byte-exact recompile func_819C07B0 at true base 0x80025FB0 (candidate sha 15ea13abc66d @ 2.7.2, linked-strict isolation compare, phase-2 item-3 hook) EXTENSION 2026-08-27 (func_819BE800 recovery, work/codex_wave/codex_dungeon_luna12_20260827/miss_recovery/func_819BE800.receipt.json): foff_start pulled back from 0x19DEB98 to 0x19DE800 (delta unchanged, 0x7E645800) to cover func_819BE800 (foff span [0x19DE800, 0x19DEB98), 920 B). Proof standard met independently: (a) local `j 0x8002434C` at word 208 (foff 0x19DE9F0) solves base 0x80024000 -- 0x8002434C - 0x80024000 = word 211, the row's own do-while bottom test, not a tail call; (b) a 25-word jump-table/data prefix immediately preceding this row's span (foff [0x19DE7CC, 0x19DE800)) whose 8 resolved pointers (0x80026418, 0x800264FC, 0x8002659C, 0x800265D0, 0x800267B8, 0x800267C8, 0x80026820, 0x800268B4) all resolve inside the same true image, matching this region's delta; (c) byte-exact recompile of func_819BE800 at true base 0x80024000 (920/920 bytes, 0 words off, verified via a byte-for-byte replica of work/g3/overlay_func_compare.py with only link_vram overridden, since the tool has no CLI override for the link base); (d) contiguity -- the extended span ends exactly at this region's original foff_start (0x19DE800 + 0x398 = 0x19DEB98), the already-PROVEN region's own boundary, same delta. EXTENT updated to include func_819BE800 (1 additional member function span); the region's other proof fields (M1-M7, EXTENT count of 20 image members, 11 already-landed C TUs) describe the pre-extension image and are left as originally recorded below."
+        }
+      ]
+    },
+    {
+      "start": "0x19df3a0",
+      "end": "0x19df3f4",
+      "bytes": 84,
+      "runtime_entry": "0x80024ba0",
+      "kind": "complete-function",
+      "frame_bytes": 0,
+      "epilogue": [
+        "0x2482ffe0",
+        "0x3e00008",
+        "0x0"
+      ],
+      "bank_references": [
+        {
+          "kind": "jal",
+          "foff": "0x19e0d68",
+          "target": "0x80024ba0"
+        }
+      ],
+      "selected_clone": "dungeon/func_81984BF0",
+      "clone_foff": "0x19a4bf0",
+      "clone_differences": [],
+      "sha256": "e1c909dcae427fa12f0348211f0957a65b0739853999d4bd35a1edabef45d2da",
+      "existing_rowbase": [
+        {
+          "schema": "azure-clean.rowbase.v1",
+          "region": "img_19deb98_80024398",
+          "foff_start": "0x19DE800",
+          "foff_end": "0x19E0C18",
+          "delta": "0x7E645800",
+          "base_confidence": "proven",
+          "proof": "static per-floor image base proof 2026-08-23 (docs/port_handback_20260822/dungeon_base_proofs/proofs.json, image img0392@0x19DEB98, verdict PROVEN, K 0x7E645800). M1 local-`j` containment: 7 of 20 functions in the image are pinned to this delta by 26 in-function absolute `j` target(s) that can only land inside their own function's span, 0 more by in-function switch-table containment, pin_conflict=false, under the measured image-base law K = 0 mod 0x800; M4 Evidence-B1 0 same-K `jal` onto in-image function start(s) of 0 in-band target(s), in-image coherence 0.00; M5 Evidence-B2 0/0 switch table(s) resolved in span, 0 violation(s); M6 Evidence-A 62 resident-EXE call confirm(s) over 17 distinct callee(s), 0 contra; M7 3 re-link resident identit(y/ies), 0 unexplained; M3 0/0 leading inline jump table(s) fully contained; corroborating methods: evidence-A-resident-calls; EXTENT = 20 of the image's own member function span(s), 0x19DEB98-0x19E0C18; the image's other bytes are either already covered by an existing rowbase record (none) or are not member spans, and are left uncovered rather than asserted; gate window dungeon_deep_19deb98_truebase_80024398 (0x19DEB98-0x19E0C18) states this same base and re-gated MATCH against the container on 2026-08-23 (381/381); 11 already-landed C TU(s) inside this extent -- func_819BECBC, func_819BEEB0, func_819BF2E8, func_819BF3F4, func_819BF888, func_819BFE48 (+5 more) -- were recompiled and linked at this base inside that window during the 2026-08-23 apply and reproduced the container bytes exactly (the 105-window / 525-TU set); STATIC EVIDENCE ONLY -- no RAM capture, no overlay-streamer transfer observed at runtime, nothing here is a runtime observation. Scoring-grade (`solved`) until a byte-exact recompile at this base promotes it via tools/rowbase.py promote; PROMOTED solved->proven: byte-exact recompile func_819C07B0 at true base 0x80025FB0 (candidate sha 15ea13abc66d @ 2.7.2, linked-strict isolation compare, phase-2 item-3 hook) EXTENSION 2026-08-27 (func_819BE800 recovery, work/codex_wave/codex_dungeon_luna12_20260827/miss_recovery/func_819BE800.receipt.json): foff_start pulled back from 0x19DEB98 to 0x19DE800 (delta unchanged, 0x7E645800) to cover func_819BE800 (foff span [0x19DE800, 0x19DEB98), 920 B). Proof standard met independently: (a) local `j 0x8002434C` at word 208 (foff 0x19DE9F0) solves base 0x80024000 -- 0x8002434C - 0x80024000 = word 211, the row's own do-while bottom test, not a tail call; (b) a 25-word jump-table/data prefix immediately preceding this row's span (foff [0x19DE7CC, 0x19DE800)) whose 8 resolved pointers (0x80026418, 0x800264FC, 0x8002659C, 0x800265D0, 0x800267B8, 0x800267C8, 0x80026820, 0x800268B4) all resolve inside the same true image, matching this region's delta; (c) byte-exact recompile of func_819BE800 at true base 0x80024000 (920/920 bytes, 0 words off, verified via a byte-for-byte replica of work/g3/overlay_func_compare.py with only link_vram overridden, since the tool has no CLI override for the link base); (d) contiguity -- the extended span ends exactly at this region's original foff_start (0x19DE800 + 0x398 = 0x19DEB98), the already-PROVEN region's own boundary, same delta. EXTENT updated to include func_819BE800 (1 additional member function span); the region's other proof fields (M1-M7, EXTENT count of 20 image members, 11 already-landed C TUs) describe the pre-extension image and are left as originally recorded below."
+        }
+      ]
+    },
+    {
+      "start": "0x19df834",
+      "end": "0x19df888",
+      "bytes": 84,
+      "runtime_entry": "0x80025034",
+      "kind": "complete-function",
+      "frame_bytes": 24,
+      "epilogue": [
+        "0x27bd0018",
+        "0x3e00008",
+        "0x0"
+      ],
+      "bank_references": [
+        {
+          "kind": "lui/addiu-function-address",
+          "foff": "0x19dfa58",
+          "low_foff": "0x19dfa5c",
+          "words": [
+            "0x3c058002",
+            "0x24a55034"
+          ],
+          "target": "0x80025034"
+        }
+      ],
+      "selected_clone": "dungeon/func_8187B1A0",
+      "clone_foff": "0x189b1a0",
+      "clone_differences": [
+        {
+          "word": 5,
+          "retail": "0xc0092fd",
+          "clone": "0xc00906a"
+        },
+        {
+          "word": 13,
+          "retail": "0x8009412",
+          "clone": "0x800926d"
+        }
+      ],
+      "sha256": "6609e94101b03ed4a91652d49fdf90277fbdcc67f21255b524fbb6d0f59570a1",
+      "existing_rowbase": [
+        {
+          "schema": "azure-clean.rowbase.v1",
+          "region": "img_19deb98_80024398",
+          "foff_start": "0x19DE800",
+          "foff_end": "0x19E0C18",
+          "delta": "0x7E645800",
+          "base_confidence": "proven",
+          "proof": "static per-floor image base proof 2026-08-23 (docs/port_handback_20260822/dungeon_base_proofs/proofs.json, image img0392@0x19DEB98, verdict PROVEN, K 0x7E645800). M1 local-`j` containment: 7 of 20 functions in the image are pinned to this delta by 26 in-function absolute `j` target(s) that can only land inside their own function's span, 0 more by in-function switch-table containment, pin_conflict=false, under the measured image-base law K = 0 mod 0x800; M4 Evidence-B1 0 same-K `jal` onto in-image function start(s) of 0 in-band target(s), in-image coherence 0.00; M5 Evidence-B2 0/0 switch table(s) resolved in span, 0 violation(s); M6 Evidence-A 62 resident-EXE call confirm(s) over 17 distinct callee(s), 0 contra; M7 3 re-link resident identit(y/ies), 0 unexplained; M3 0/0 leading inline jump table(s) fully contained; corroborating methods: evidence-A-resident-calls; EXTENT = 20 of the image's own member function span(s), 0x19DEB98-0x19E0C18; the image's other bytes are either already covered by an existing rowbase record (none) or are not member spans, and are left uncovered rather than asserted; gate window dungeon_deep_19deb98_truebase_80024398 (0x19DEB98-0x19E0C18) states this same base and re-gated MATCH against the container on 2026-08-23 (381/381); 11 already-landed C TU(s) inside this extent -- func_819BECBC, func_819BEEB0, func_819BF2E8, func_819BF3F4, func_819BF888, func_819BFE48 (+5 more) -- were recompiled and linked at this base inside that window during the 2026-08-23 apply and reproduced the container bytes exactly (the 105-window / 525-TU set); STATIC EVIDENCE ONLY -- no RAM capture, no overlay-streamer transfer observed at runtime, nothing here is a runtime observation. Scoring-grade (`solved`) until a byte-exact recompile at this base promotes it via tools/rowbase.py promote; PROMOTED solved->proven: byte-exact recompile func_819C07B0 at true base 0x80025FB0 (candidate sha 15ea13abc66d @ 2.7.2, linked-strict isolation compare, phase-2 item-3 hook) EXTENSION 2026-08-27 (func_819BE800 recovery, work/codex_wave/codex_dungeon_luna12_20260827/miss_recovery/func_819BE800.receipt.json): foff_start pulled back from 0x19DEB98 to 0x19DE800 (delta unchanged, 0x7E645800) to cover func_819BE800 (foff span [0x19DE800, 0x19DEB98), 920 B). Proof standard met independently: (a) local `j 0x8002434C` at word 208 (foff 0x19DE9F0) solves base 0x80024000 -- 0x8002434C - 0x80024000 = word 211, the row's own do-while bottom test, not a tail call; (b) a 25-word jump-table/data prefix immediately preceding this row's span (foff [0x19DE7CC, 0x19DE800)) whose 8 resolved pointers (0x80026418, 0x800264FC, 0x8002659C, 0x800265D0, 0x800267B8, 0x800267C8, 0x80026820, 0x800268B4) all resolve inside the same true image, matching this region's delta; (c) byte-exact recompile of func_819BE800 at true base 0x80024000 (920/920 bytes, 0 words off, verified via a byte-for-byte replica of work/g3/overlay_func_compare.py with only link_vram overridden, since the tool has no CLI override for the link base); (d) contiguity -- the extended span ends exactly at this region's original foff_start (0x19DE800 + 0x398 = 0x19DEB98), the already-PROVEN region's own boundary, same delta. EXTENT updated to include func_819BE800 (1 additional member function span); the region's other proof fields (M1-M7, EXTENT count of 20 image members, 11 already-landed C TUs) describe the pre-extension image and are left as originally recorded below."
+        }
+      ]
+    },
+    {
+      "start": "0x19e0860",
+      "end": "0x19e092c",
+      "bytes": 204,
+      "runtime_entry": "0x80026060",
+      "kind": "complete-function",
+      "frame_bytes": 0,
+      "epilogue": [
+        "0x3042bfff",
+        "0x3e00008",
+        "0xa5020014"
+      ],
+      "bank_references": [
+        {
+          "kind": "jal",
+          "foff": "0x19e01a8",
+          "target": "0x80026060"
+        },
+        {
+          "kind": "jal",
+          "foff": "0x19e0210",
+          "target": "0x80026060"
+        }
+      ],
+      "selected_clone": "dungeon/func_81984AF4",
+      "clone_foff": "0x19a4af4",
+      "clone_differences": [
+        {
+          "word": 16,
+          "retail": "0x800982f",
+          "clone": "0x80098d4"
+        },
+        {
+          "word": 35,
+          "retail": "0x8009849",
+          "clone": "0x80098ee"
+        },
+        {
+          "word": 44,
+          "retail": "0x8009849",
+          "clone": "0x80098ee"
+        }
+      ],
+      "sha256": "52dc5eba66394a349620070f386cff7fdb8961f72d536b691cceacd8bc9e8d86",
+      "existing_rowbase": [
+        {
+          "schema": "azure-clean.rowbase.v1",
+          "region": "img_19deb98_80024398",
+          "foff_start": "0x19DE800",
+          "foff_end": "0x19E0C18",
+          "delta": "0x7E645800",
+          "base_confidence": "proven",
+          "proof": "static per-floor image base proof 2026-08-23 (docs/port_handback_20260822/dungeon_base_proofs/proofs.json, image img0392@0x19DEB98, verdict PROVEN, K 0x7E645800). M1 local-`j` containment: 7 of 20 functions in the image are pinned to this delta by 26 in-function absolute `j` target(s) that can only land inside their own function's span, 0 more by in-function switch-table containment, pin_conflict=false, under the measured image-base law K = 0 mod 0x800; M4 Evidence-B1 0 same-K `jal` onto in-image function start(s) of 0 in-band target(s), in-image coherence 0.00; M5 Evidence-B2 0/0 switch table(s) resolved in span, 0 violation(s); M6 Evidence-A 62 resident-EXE call confirm(s) over 17 distinct callee(s), 0 contra; M7 3 re-link resident identit(y/ies), 0 unexplained; M3 0/0 leading inline jump table(s) fully contained; corroborating methods: evidence-A-resident-calls; EXTENT = 20 of the image's own member function span(s), 0x19DEB98-0x19E0C18; the image's other bytes are either already covered by an existing rowbase record (none) or are not member spans, and are left uncovered rather than asserted; gate window dungeon_deep_19deb98_truebase_80024398 (0x19DEB98-0x19E0C18) states this same base and re-gated MATCH against the container on 2026-08-23 (381/381); 11 already-landed C TU(s) inside this extent -- func_819BECBC, func_819BEEB0, func_819BF2E8, func_819BF3F4, func_819BF888, func_819BFE48 (+5 more) -- were recompiled and linked at this base inside that window during the 2026-08-23 apply and reproduced the container bytes exactly (the 105-window / 525-TU set); STATIC EVIDENCE ONLY -- no RAM capture, no overlay-streamer transfer observed at runtime, nothing here is a runtime observation. Scoring-grade (`solved`) until a byte-exact recompile at this base promotes it via tools/rowbase.py promote; PROMOTED solved->proven: byte-exact recompile func_819C07B0 at true base 0x80025FB0 (candidate sha 15ea13abc66d @ 2.7.2, linked-strict isolation compare, phase-2 item-3 hook) EXTENSION 2026-08-27 (func_819BE800 recovery, work/codex_wave/codex_dungeon_luna12_20260827/miss_recovery/func_819BE800.receipt.json): foff_start pulled back from 0x19DEB98 to 0x19DE800 (delta unchanged, 0x7E645800) to cover func_819BE800 (foff span [0x19DE800, 0x19DEB98), 920 B). Proof standard met independently: (a) local `j 0x8002434C` at word 208 (foff 0x19DE9F0) solves base 0x80024000 -- 0x8002434C - 0x80024000 = word 211, the row's own do-while bottom test, not a tail call; (b) a 25-word jump-table/data prefix immediately preceding this row's span (foff [0x19DE7CC, 0x19DE800)) whose 8 resolved pointers (0x80026418, 0x800264FC, 0x8002659C, 0x800265D0, 0x800267B8, 0x800267C8, 0x80026820, 0x800268B4) all resolve inside the same true image, matching this region's delta; (c) byte-exact recompile of func_819BE800 at true base 0x80024000 (920/920 bytes, 0 words off, verified via a byte-for-byte replica of work/g3/overlay_func_compare.py with only link_vram overridden, since the tool has no CLI override for the link base); (d) contiguity -- the extended span ends exactly at this region's original foff_start (0x19DE800 + 0x398 = 0x19DEB98), the already-PROVEN region's own boundary, same delta. EXTENT updated to include func_819BE800 (1 additional member function span); the region's other proof fields (M1-M7, EXTENT count of 20 image members, 11 already-landed C TUs) describe the pre-extension image and are left as originally recorded below."
+        }
+      ]
+    },
+    {
+      "start": "0x19e092c",
+      "end": "0x19e095c",
+      "bytes": 48,
+      "runtime_entry": "0x8002612c",
+      "kind": "complete-function",
+      "frame_bytes": 0,
+      "epilogue": [
+        "0x621821",
+        "0x3e00008",
+        "0xac830000"
+      ],
+      "bank_references": [
+        {
+          "kind": "jal",
+          "foff": "0x19e044c",
+          "target": "0x8002612c"
+        }
+      ],
+      "selected_clone": "dungeon/func_81984BC0",
+      "clone_foff": "0x19a4bc0",
+      "clone_differences": [],
+      "sha256": "a449df7842fd20d47e62e4e4a80bfb17131d24482d6dba72ef04ee8a441ed8ba",
+      "existing_rowbase": [
+        {
+          "schema": "azure-clean.rowbase.v1",
+          "region": "img_19deb98_80024398",
+          "foff_start": "0x19DE800",
+          "foff_end": "0x19E0C18",
+          "delta": "0x7E645800",
+          "base_confidence": "proven",
+          "proof": "static per-floor image base proof 2026-08-23 (docs/port_handback_20260822/dungeon_base_proofs/proofs.json, image img0392@0x19DEB98, verdict PROVEN, K 0x7E645800). M1 local-`j` containment: 7 of 20 functions in the image are pinned to this delta by 26 in-function absolute `j` target(s) that can only land inside their own function's span, 0 more by in-function switch-table containment, pin_conflict=false, under the measured image-base law K = 0 mod 0x800; M4 Evidence-B1 0 same-K `jal` onto in-image function start(s) of 0 in-band target(s), in-image coherence 0.00; M5 Evidence-B2 0/0 switch table(s) resolved in span, 0 violation(s); M6 Evidence-A 62 resident-EXE call confirm(s) over 17 distinct callee(s), 0 contra; M7 3 re-link resident identit(y/ies), 0 unexplained; M3 0/0 leading inline jump table(s) fully contained; corroborating methods: evidence-A-resident-calls; EXTENT = 20 of the image's own member function span(s), 0x19DEB98-0x19E0C18; the image's other bytes are either already covered by an existing rowbase record (none) or are not member spans, and are left uncovered rather than asserted; gate window dungeon_deep_19deb98_truebase_80024398 (0x19DEB98-0x19E0C18) states this same base and re-gated MATCH against the container on 2026-08-23 (381/381); 11 already-landed C TU(s) inside this extent -- func_819BECBC, func_819BEEB0, func_819BF2E8, func_819BF3F4, func_819BF888, func_819BFE48 (+5 more) -- were recompiled and linked at this base inside that window during the 2026-08-23 apply and reproduced the container bytes exactly (the 105-window / 525-TU set); STATIC EVIDENCE ONLY -- no RAM capture, no overlay-streamer transfer observed at runtime, nothing here is a runtime observation. Scoring-grade (`solved`) until a byte-exact recompile at this base promotes it via tools/rowbase.py promote; PROMOTED solved->proven: byte-exact recompile func_819C07B0 at true base 0x80025FB0 (candidate sha 15ea13abc66d @ 2.7.2, linked-strict isolation compare, phase-2 item-3 hook) EXTENSION 2026-08-27 (func_819BE800 recovery, work/codex_wave/codex_dungeon_luna12_20260827/miss_recovery/func_819BE800.receipt.json): foff_start pulled back from 0x19DEB98 to 0x19DE800 (delta unchanged, 0x7E645800) to cover func_819BE800 (foff span [0x19DE800, 0x19DEB98), 920 B). Proof standard met independently: (a) local `j 0x8002434C` at word 208 (foff 0x19DE9F0) solves base 0x80024000 -- 0x8002434C - 0x80024000 = word 211, the row's own do-while bottom test, not a tail call; (b) a 25-word jump-table/data prefix immediately preceding this row's span (foff [0x19DE7CC, 0x19DE800)) whose 8 resolved pointers (0x80026418, 0x800264FC, 0x8002659C, 0x800265D0, 0x800267B8, 0x800267C8, 0x80026820, 0x800268B4) all resolve inside the same true image, matching this region's delta; (c) byte-exact recompile of func_819BE800 at true base 0x80024000 (920/920 bytes, 0 words off, verified via a byte-for-byte replica of work/g3/overlay_func_compare.py with only link_vram overridden, since the tool has no CLI override for the link base); (d) contiguity -- the extended span ends exactly at this region's original foff_start (0x19DE800 + 0x398 = 0x19DEB98), the already-PROVEN region's own boundary, same delta. EXTENT updated to include func_819BE800 (1 additional member function span); the region's other proof fields (M1-M7, EXTENT count of 20 image members, 11 already-landed C TUs) describe the pre-extension image and are left as originally recorded below."
+        }
+      ]
+    }
+  ],
+  "placement": {
+    "selector": 72,
+    "lba": "0x63d3",
+    "file_start": "0x19de800",
+    "file_end": "0x19e4800",
+    "destination": "0x80024000",
+    "sectors": 12,
+    "delta": "0x7e645800",
+    "review": "pending",
+    "reviewer": null,
+    "static_only": true,
+    "iso_extent": {
+      "path": "DUNGEON/DUNGEON.BIN",
+      "lba": 12310,
+      "size": 27813888,
+      "directory_lba": 12309,
+      "record_offset": 96,
+      "record_hex": "3c0016300000000030160068a80101a86800620306111f0424000000010000010d44554e47454f4e2e42494e3b31000000000d555841000000000000"
+    },
+    "loader": {
+      "path": "docs/evidence/dungeon_gap_loader.bin",
+      "bytes": 472,
+      "sha256": "7ff8f80959c35c88ee359e1027907db34401cfaf4ed0592b2697813614c5f444"
+    },
+    "loader_words": {
+      "0xc40d4": "0x3c148002",
+      "0xc40e0": "0x36944000",
+      "0xc417c": "0x2463ffff",
+      "0xc4180": "0x31040",
+      "0xc4184": "0x431021",
+      "0xc4188": "0x21080",
+      "0xc418c": "0x2447607f",
+      "0xc4190": "0x2404000c",
+      "0xc4194": "0x2802821",
+      "0xc41a0": "0xc00fdb5",
+      "0xc41a8": "0x24040006",
+      "0xc41b0": "0xc00f93f"
+    },
+    "disc_container_equality": true,
+    "bank": {
+      "path": "docs/evidence/dungeon_gap_19de800.bin",
+      "bytes": 24576,
+      "sha256": "67f1b53c806e442a5cad6e85451647766ea8715974771eb543d91f18ad3d3ec8"
+    },
+    "entry_target": "0x80026418"
+  },
+  "review": "pending",
+  "reviewer": null,
+  "new_rows": [
+    "dungeon/func_819BED8C",
+    "dungeon/func_819BF3A0",
+    "dungeon/func_819BF834",
+    "dungeon/func_819C0860",
+    "dungeon/func_819C092C"
+  ],
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_19de800.c",
+    "module_index": 206
+  },
+  "module_status": "UNFINISHED; no active native-module entry in this gap-only package",
+  "layer2_required": [
+    "dungeon/func_819BED8C",
+    "dungeon/func_819BF3A0",
+    "dungeon/func_819BF834",
+    "dungeon/func_819C0860",
+    "dungeon/func_819C092C"
+  ]
+}
