@@ -1,0 +1,22 @@
+{
+  "module": "dungeon_ovl_1858800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_1858800.c",
+    "module_index": 148
+  },
+  "members": [
+    "dungeon/func_81838800",
+    "dungeon/func_818390F8",
+    "dungeon/func_81839358"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Complete frozen ledger cohort; no omitted siblings or extra rows. Independent selector receipt covers all cohort bytes.",
+    "Final native typed TU emits 3560 exact bytes under GNU/maspsx and genuine ASPSX 2.79 using one evidenced whole-TU -0 recipe.",
+    "Shared ProjectileMotion/ProjectileParticle/ProjectileSprite views consolidate producer and callback observations; internal callback references use actual code symbols."
+  ],
+  "review": "pending",
+  "reviewer": null
+}

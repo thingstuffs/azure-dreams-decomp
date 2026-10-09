@@ -1,0 +1,22 @@
+{
+  "module": "dungeon_ovl_185e800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_185e800.c",
+    "module_index": 149
+  },
+  "members": [
+    "dungeon/func_8183E800",
+    "dungeon/func_8183EE88",
+    "dungeon/func_8183EFD8"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Complete frozen ledger cohort; no omitted siblings or extra rows. Independent selector receipt covers all cohort bytes.",
+    "Native typed complete TU emits 2696 bytes exactly under GNU/maspsx and genuine ASPSX, with zero masks or owned raw substitutions.",
+    "Shared named game views and one module ABI inventory reconcile callback, return-type and overlapping storage observations."
+  ],
+  "review": "pending",
+  "reviewer": null
+}

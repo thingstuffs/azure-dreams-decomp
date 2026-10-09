@@ -1,25 +1,17 @@
+#include "modules/dungeon_ovl_185e800.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
-typedef struct {
-    s32 f0;
-    s32 f4;
-    s32 f8;
-    s32 fC;
-    s32 f10;
-} StateBlock;
 
-extern void func_8004491C(void *, void *);
-extern void func_800478B8(void *);
 
 /* Waits for the effect delay, then moves and fades the sprite until it expires. */
-void func_8183EE88(void *effect, StateBlock *motion, void *sprite) {
+void func_80024688(void *effect, DelayPosition *motion, void *sprite) {
     void *owner;
     s16 phase;
     u16 delay;
     u8 shade;
-    StateBlock *position = motion;
+    DelayPosition *position = motion;
 
     owner = *(void **)effect;
     *(u16 *)((u8 *)owner + 0x52) |= 0x8000;

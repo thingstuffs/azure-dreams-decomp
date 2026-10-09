@@ -1,54 +1,12 @@
+#include "modules/dungeon_ovl_1840800.h"
 #include "common.h"
 #include "shared/game_work.h"
 
-typedef struct S_8182121C_0 {
-    u32 unk_00;
-    s32 unk_04;
-    s16 unk_08;
-    s16 unk_0A;
-    s16 unk_0C;
-    s16 unk_0E;
-    s16 unk_10;
-    s16 unk_12;
-} S_8182121C_0;   /* packet1 in func_8182121C */
 
-typedef struct S_8182121C_1 {
-    u8 pad_00[0x48];
-    s32 unk_48;
-    u8 pad_4C[0x8];
-    s16 unk_54;
-} S_8182121C_1;   /* item in func_8182121C */
-
-typedef struct S_8182121C_2 {
-    u8 pad_00[0xB0];
-    u32 unk_B0;
-} S_8182121C_2;   /* entry in func_8182121C */
-
-typedef struct S_8182121C_3 {
-    u32 unk_00;
-} S_8182121C_3;   /* packet0 in func_8182121C */
-
-typedef struct S_8182121C_4_pre {
-    s32 unk_00;
-    u8 pad_04[0x4];
-} S_8182121C_4_pre;   /* the 0x8 bytes before outer in func_8182121C, addressed as outer[-1] */
-
-
-typedef struct {
-    u32 addr : 24;
-    u32 len : 8;
-} P_TAG;
-
-extern s32 func_80065420();
-extern s32 func_80066460();
-extern void func_80066640();
-extern void func_80066690();
-extern void func_80067F20();
-extern s32 func_80069EF8();
 
 
 /* Draw four jittered triangles per linked item into the ordering table. */
-s32 func_8182121C(void *first_item)
+s32 func_80024A1C(void *first_item)
 {
     u16 screen_coords[3];
     void *list_item;
@@ -77,12 +35,12 @@ s32 func_8182121C(void *first_item)
             triangle = *(u8 **)(render_context->unk_000 + 0x8D0);
             *(u8 **)(render_context->unk_000 + 0x8D0) = triangle + 0x14;
 
-            ((S_8182121C_0 *)triangle)->unk_04 = ((S_8182121C_1 *)item_data)->unk_48;
+            ((TrailTriangle *)triangle)->unk_04 = ((TrailRenderItem *)item_data)->unk_48;
             func_80066690(triangle);
             func_80066640(triangle, 1);
 
             blend_mode = 3;
-            if (((S_8182121C_1 *)item_data)->unk_54 > 0) {
+            if (((TrailRenderItem *)item_data)->unk_54 > 0) {
                 blend_mode = 1;
             }
             func_80067F20(draw_mode, 0, 0,
@@ -92,26 +50,26 @@ s32 func_8182121C(void *first_item)
             depth_index = func_80065420((u8 *)item_data + byte_offset,
                 screen_coords, &screen_coords[2], &screen_coords[2]) - 8;
 
-            ((S_8182121C_0 *)triangle)->unk_08 = screen_coords[0] + (func_80069EF8() & 1) + 1;
-            ((S_8182121C_0 *)triangle)->unk_0A = screen_coords[1] + (func_80069EF8() & 1) + 1;
-            ((S_8182121C_0 *)triangle)->unk_0C = screen_coords[0] - (func_80069EF8() & 1) - 1;
-            ((S_8182121C_0 *)triangle)->unk_0E = screen_coords[1] + (func_80069EF8() & 1) + 1;
-            ((S_8182121C_0 *)triangle)->unk_10 = screen_coords[0] + (func_80069EF8() & 4) - 2;
-            ((S_8182121C_0 *)triangle)->unk_12 = screen_coords[1] - (func_80069EF8() & 1) - 1;
+            ((TrailTriangle *)triangle)->unk_08 = screen_coords[0] + (func_80069EF8() & 1) + 1;
+            ((TrailTriangle *)triangle)->unk_0A = screen_coords[1] + (func_80069EF8() & 1) + 1;
+            ((TrailTriangle *)triangle)->unk_0C = screen_coords[0] - (func_80069EF8() & 1) - 1;
+            ((TrailTriangle *)triangle)->unk_0E = screen_coords[1] + (func_80069EF8() & 1) + 1;
+            ((TrailTriangle *)triangle)->unk_10 = screen_coords[0] + (func_80069EF8() & 4) - 2;
+            ((TrailTriangle *)triangle)->unk_12 = screen_coords[1] - (func_80069EF8() & 1) - 1;
 
             if (depth_index < 0x1E0U) {
                 u32 addr_mask = 0x00FFFFFF;
                 u32 length_mask = 0xFF000000;
 
                 byte_offset = depth_index * 4;
-                ((P_TAG *)triangle)->addr = ((P_TAG *)&((u32 *)(render_context->unk_000 + 0xB0))[depth_index])->addr;
+                ((GpuLinkTag *)triangle)->addr = ((GpuLinkTag *)&((u32 *)(render_context->unk_000 + 0xB0))[depth_index])->addr;
                 ot_entry_base = (u32 *)(byte_offset + (s32) render_context->unk_000);
-                ot_tag = ((S_8182121C_2 *)ot_entry_base)->unk_B0;
+                ot_tag = ((TrailOrderEntry *)ot_entry_base)->unk_B0;
                 (*(u32 *)((u8 *)ot_entry_base + 0xB0)) = (ot_tag & length_mask) |
                     ((u32)triangle & addr_mask);
 
                 (*(u32 *)((u8 *)draw_mode + 0)) =
-                    (((S_8182121C_3 *)draw_mode)->unk_00 & length_mask) |
+                    (((TrailDrawMode *)draw_mode)->unk_00 & length_mask) |
                     (((u32 *)(render_context->unk_000 + 0xB0))[depth_index] & addr_mask);
                 ((u32 *)(render_context->unk_000 + 0xB0))[depth_index] =
                     (((u32 *)(render_context->unk_000 + 0xB0))[depth_index] & length_mask) |
@@ -120,8 +78,8 @@ s32 func_8182121C(void *first_item)
             point_index--;
         } while (point_index >= 0);
 
-        if (((S_8182121C_4_pre *)list_item)[-1].unk_00 == 0) break;
-        list_item = (void *)(((S_8182121C_4_pre *)list_item)[-1].unk_00 + 0x20);
+        if (((TrailChainPrefix *)list_item)[-1].unk_00 == 0) break;
+        list_item = (void *)(((TrailChainPrefix *)list_item)[-1].unk_00 + 0x20);
     } while (1);
 
     return 0;

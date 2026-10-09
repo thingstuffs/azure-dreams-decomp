@@ -89,7 +89,7 @@
 {"id": "dungeon/func_8187A9A8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "dungeon/func_81881F60", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "dungeon/func_818AAE60", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
-{"id": "dungeon/func_818D4E68", "kinds": ["maspsx_pass"], "cause": "_split_funcaddr_la", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
+{"id": "dungeon/func_818D4E68", "kinds": [], "cause": "Native TU resolves its actual callback; _split_funcaddr_la ablation is identical and whole-TU genuine is exact.", "source": "docs/evidence/dungeon_ovl_18f4800.fidelity.json"}
 {"id": "dungeon/func_818E6800", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "dungeon/func_818FF5B8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "dungeon/func_81910A9C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}

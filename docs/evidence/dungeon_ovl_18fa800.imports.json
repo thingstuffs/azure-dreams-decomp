@@ -1,0 +1,183 @@
+{
+  "module": "dungeon_ovl_18fa800",
+  "maps": {
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "basis": "PS-X EXE header: load 0x8002D000, payload size 0x54800, file header 0x800.",
+      "kind": "psx_exe"
+    },
+    "dungeon_resident": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 667648,
+      "file_end": 1050624,
+      "delta": 2147374944,
+      "basis": "config/overlays/dungeon.rowbase.jsonl xfer_dungeon_A3000 proven runtime DMA/load-map record.",
+      "kind": "rowbase",
+      "region": "xfer_dungeon_A3000"
+    },
+    "bank_code": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 26191872,
+      "file_end": 26193684,
+      "delta": 2121439232,
+      "basis": "Static selector-34 loader receipt; complete cohort code-only guarded rowbase consolidation.",
+      "kind": "rowbase",
+      "region": "module_18fa800_80024000"
+    },
+    "bank_tail": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 26193684,
+      "file_end": 26216448,
+      "delta": 2121439232,
+      "basis": "Selector-34 static 12-sector load covers this bounded trailing image; no new code or allocation ownership asserted.",
+      "kind": "rowbase",
+      "region": "bank_18fa800_tail_80024000"
+    }
+  },
+  "views": {
+    "D_800DEAE0": {
+      "symbol": "D_800DEAE0",
+      "kind": "data",
+      "vma": 2148395744,
+      "foff": 1020800,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_ovl_18fa800.imports.json"
+    },
+    "D_800E3D68": {
+      "symbol": "D_800E3D68",
+      "kind": "data",
+      "vma": 2148416872,
+      "foff": 1041928,
+      "view_bytes": 1,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_ovl_18fa800.imports.json"
+    }
+  },
+  "runtime_views": {
+    "D_800814A0": {
+      "symbol": "D_800814A0",
+      "kind": "runtime_data",
+      "vma": 2148013216,
+      "view_bytes": 16,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_18fa800.imports.json",
+      "declaration": "include/shared/object_flags.h"
+    },
+    "D_80083460": {
+      "symbol": "D_80083460",
+      "kind": "runtime_data",
+      "vma": 2148021344,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_18fa800.imports.json",
+      "declaration": "include/shared/dungeon_status.h"
+    },
+    "D_80083498": {
+      "symbol": "D_80083498",
+      "kind": "runtime_data",
+      "vma": 2148021400,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_18fa800.imports.json",
+      "declaration": "include/shared/object_node.h"
+    }
+  },
+  "functions": {
+    "func_80024714": {
+      "vma": 2147632916,
+      "foff": 26193684,
+      "map": "bank_tail",
+      "first_word": "68ffbd27",
+      "basis": "Named actual code entry at this proven load-map address; ordinary unresolved function import. Code remains outside this native TU."
+    },
+    "func_8003FD64": {
+      "vma": 2147745124,
+      "foff": 79204,
+      "map": "slus_load",
+      "first_word": "0180023c",
+      "basis": "Named actual code entry at this proven load-map address; ordinary unresolved function import. Code remains outside this native TU."
+    },
+    "func_8004491C": {
+      "vma": 2147764508,
+      "foff": 98588,
+      "map": "slus_load",
+      "first_word": "21388000",
+      "basis": "Named actual code entry at this proven load-map address; ordinary unresolved function import. Code remains outside this native TU."
+    },
+    "func_80045340": {
+      "vma": 2147767104,
+      "foff": 101184,
+      "map": "slus_load",
+      "first_word": "e0ffbd27",
+      "basis": "Named actual code entry at this proven load-map address; ordinary unresolved function import. Code remains outside this native TU."
+    },
+    "func_800478B8": {
+      "vma": 2147776696,
+      "foff": 110776,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "basis": "Named actual code entry at this proven load-map address; ordinary unresolved function import. Code remains outside this native TU."
+    },
+    "func_8009D218": {
+      "vma": 2148127256,
+      "foff": 752312,
+      "map": "dungeon_resident",
+      "first_word": "e0ffbd27",
+      "basis": "Named actual code entry at this proven load-map address; ordinary unresolved function import. Code remains outside this native TU."
+    },
+    "func_800A05A4": {
+      "vma": 2148140452,
+      "foff": 765508,
+      "map": "dungeon_resident",
+      "first_word": "b0ffbd27",
+      "basis": "Named actual code entry at this proven load-map address; ordinary unresolved function import. Code remains outside this native TU."
+    },
+    "func_800A3820": {
+      "vma": 2148153376,
+      "foff": 778432,
+      "map": "dungeon_resident",
+      "first_word": "00240400",
+      "basis": "Named actual code entry at this proven load-map address; ordinary unresolved function import. Code remains outside this native TU."
+    },
+    "func_800A56E0": {
+      "vma": 2148161248,
+      "foff": 786304,
+      "map": "dungeon_resident",
+      "first_word": "0180023c",
+      "basis": "Named actual code entry at this proven load-map address; ordinary unresolved function import. Code remains outside this native TU."
+    },
+    "func_800BCB04": {
+      "vma": 2148256516,
+      "foff": 881572,
+      "map": "dungeon_resident",
+      "first_word": "d8ffbd27",
+      "basis": "Named actual code entry at this proven load-map address; ordinary unresolved function import. Code remains outside this native TU."
+    },
+    "func_800C8900": {
+      "vma": 2148305152,
+      "foff": 930208,
+      "map": "dungeon_resident",
+      "first_word": "e8ffbd27",
+      "basis": "Named actual code entry at this proven load-map address; ordinary unresolved function import. Code remains outside this native TU."
+    }
+  },
+  "load_receipt": {
+    "selector": 34,
+    "file_start": "0x18fa800",
+    "file_end": "0x1900800",
+    "destination": "0x80024000",
+    "delta": "0x7e729800",
+    "review": "pending"
+  },
+  "view_scope": "Bounded external views and anchors, not new allocation or initialization claims. D_80024AE0 is an address sentinel; one byte binds the anchor, without a read claim. D_80080000 is a resident address anchor spanning through the referenced pointer at +0x14a8, not an array allocation claim.",
+  "review": "pending",
+  "reviewer": null
+}

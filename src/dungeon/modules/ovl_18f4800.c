@@ -1,0 +1,5 @@
+#include "../func_818D4800.c"
+#include "../func_818D4A94.c"
+#include "../func_818D4B94.c"
+#include "../func_818D4D48.c"
+#include "../func_818D4E68.c"

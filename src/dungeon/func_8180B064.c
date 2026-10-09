@@ -1,10 +1,58 @@
 #include "common.h"
 
-#define U8(b, o)  (*(u8  *)((u8 *)(b) + (o)))
 #define S16(b, o) (*(s16 *)((u8 *)(b) + (o)))
 #define U16(b, o) (*(u16 *)((u8 *)(b) + (o)))
 #define S32(b, o) (*(s32 *)((u8 *)(b) + (o)))
-#define PTR(b, o) (*(u8 **)((u8 *)(b) + (o)))
+
+typedef struct {
+    s16 pad0;
+    s16 x;
+    s16 pad1;
+    s16 y;
+    s16 pad2;
+    s16 z;
+} ViewPosition;
+
+typedef struct {
+    u8 pad0[0xC];
+    u8 color[3];
+    u8 pad1[7];
+    u16 rotation[3];
+    u16 width;
+    u16 height;
+} RenderParams;
+
+typedef struct {
+    u8 pad0[3];
+    u8 code;
+    u8 rgb[3];
+    u8 pad1;
+    s32 xy0;
+    s32 a;
+    s32 xy1;
+    s32 b;
+    s32 xy2;
+    u16 u2;
+    u16 pad2;
+    s32 xy3;
+    u16 u3;
+    u16 pad3;
+} Prim;
+
+typedef struct {
+    u8 pad0[0xB0];
+    u8 ot[0x820];
+    Prim *prim;
+} DrawBuffer;
+
+typedef struct {
+    DrawBuffer *draw_buffer;
+    u8 pad0[0xA4];
+    u8 blend[0xC];
+    u16 position[3];
+    u8 pad1[0xA];
+    u16 rotation[3];
+} RenderState;
 
 typedef struct {
     u16 i0;
@@ -32,6 +80,76 @@ typedef struct {
     u16 pad;
 } Cell;
 
+typedef struct {
+    u8 pad0[4];
+    Face **faces;
+    Vert *vertices;
+    u8 *materials;
+} Geometry;
+
+typedef struct {
+    u8 pad0[8];
+    s32 lo;
+    s32 hi;
+    u8 pad1[0x10];
+    u8 transform[1];
+} Object;
+
+typedef struct {
+    u8 pad0[0x14];
+    u16 flags;
+} SpriteData;
+
+typedef struct {
+    u8 pad0[8];
+    s32 lo;
+    SpriteData *data;
+    u8 pad1[0x10];
+    u8 transform[1];
+} Sprite;
+
+typedef struct {
+    u8 pad0[8];
+    Object *main;
+    Object *extra[2];
+    Sprite *sprite;
+} Objects;
+
+typedef struct {
+    u8 pad0[0x20];
+    s32 ot;
+    u8 pad1[0xC];
+    s32 view_w;
+    s32 view_h;
+    s32 view_mid;
+    u8 pad2[4];
+    s32 eye[3];
+    u8 pad3[4];
+    u8 matrix[0x20];
+    s32 xy0;
+    s16 h0;
+    s16 pad4;
+    s32 xy1;
+    s16 h1;
+    s16 pad5;
+    s32 xy2;
+    s16 h2;
+    s16 pad6;
+    s32 xy3;
+    s16 h3;
+    s16 pad7;
+    s32 out0;
+    s32 out1;
+    u8 pad8[0x28];
+    s32 depth;
+    s32 depth_base;
+    u8 pad9[0x28];
+    u8 buf[0x24];
+    s32 facing;
+    u8 pad10[0x24];
+    s32 clear;
+} Scratch;
+
 extern Cell D_80027120[];
 extern s16 D_8002713A[];
 extern s8 D_80083160[];
@@ -53,7 +171,7 @@ extern void func_80026F1C();
 extern void func_80064A40();
 
 /* Render a 3x3 grid of terrain faces and its associated objects. */
-s32 func_80026864(void *objects, void *view_position, void *render_params)
+s32 func_80026864(Objects *objects, ViewPosition *view_position, RenderParams *render_params)
 {
     s16 saved_rotation[4];
     s16 saved_position[4];
@@ -61,31 +179,31 @@ s32 func_80026864(void *objects, void *view_position, void *render_params)
     s32 col;
     s32 row;
     s32 cell_index;
-    u8 *geometry;
+    Geometry *geometry;
     Vert *vertices;
-    u8 *render_state;
-    u8 *cells;
-    u8 *scratch;
-    u8 *draw_buffer;
-    u8 *active_buffer;
-    u8 *prim;
+    RenderState *render_state;
+    Cell *cells;
+    Scratch *scratch;
+    DrawBuffer *draw_buffer;
+    DrawBuffer *active_buffer;
+    Prim *prim;
     Face *face;
-    u8 *sprite_data;
-    u8 *main_object;
-    u8 *main_entry;
-    u8 *extra_entry;
-    u8 *extra_object;
-    u8 *sprite;
-    u32 xy0;
-    u32 xy1;
-    u32 xy12;
-    s32 xy13;
-    u32 xy14;
-    u32 xy2;
-    u32 xy3;
-    u32 xy32;
-    u32 xy33;
-    u32 xy34;
+    SpriteData *sprite_data;
+    Object *main_object;
+    Object *main_entry;
+    Object *extra_entry;
+    Object *extra_object;
+    Sprite *sprite;
+    u32 packed0;
+    u32 x1;
+    u32 x1_shifted;
+    s32 x1_masked;
+    u32 packed1;
+    u32 packed2;
+    u32 x3;
+    u32 x3_shifted;
+    u32 x3_masked;
+    u32 packed3;
     u32 vert0_ref;
     u32 index1;
     u32 index2;
@@ -117,123 +235,123 @@ s32 func_80026864(void *objects, void *view_position, void *render_params)
     u32 height_bias;
     s32 vert3_y;
 
-    geometry = (u8 *)&D_8008333C[0];
-    vertices = (Vert *)PTR(geometry, 8);
-    materials = PTR(geometry, 12);
+    geometry = (Geometry *)&D_8008333C[0];
+    vertices = geometry->vertices;
+    materials = geometry->materials;
     func_800649A0();
     cell_y = -0x60;
-    scratch = (u8 *)0x1F800000;
-    S32(scratch, 0x30) = U16(render_params, 0x1C);
-    S32(scratch, 0x34) = U16(render_params, 0x1E);
-    S32(scratch, 0x38) = (s32) (U16(render_params, 0x1C) + U16(render_params, 0x1E)) >> 1;
-    render_state = (u8 *)&D_80083160[0];
-    cells = (u8 *)&D_80027120[0];
-    S32(scratch, 0x40) = S16(view_position, 2);
-    S32(scratch, 0x44) = S16(view_position, 6);
-    S32(scratch, 0x48) = S16(view_position, 0xA);
-    func_80064B90(scratch + 0x50, scratch + 0x40);
-    func_80065820((u8 *)render_params + 0x16, scratch + 0x50);
-    func_80064BC0(scratch + 0x50, scratch + 0x30);
-    func_80064CF0(scratch + 0x50);
-    func_80064D80(scratch + 0x50);
-    draw_buffer = *(u8 **)render_state;
-    S32(scratch, 0x20) = (s32) (draw_buffer + 0xB0);
-    prim = PTR(draw_buffer, 0x8D0);
-    S32(scratch, 0x70) = 0;
-    S16(scratch, 0x74) = 0;
-    S32(scratch, 0xC4) = func_80065420(scratch + 0x70, scratch + 0xF0, scratch + 0x90, scratch + 0x94) - 0x27;
+    scratch = (Scratch *)0x1F800000;
+    scratch->view_w = render_params->width;
+    scratch->view_h = render_params->height;
+    scratch->view_mid = (s32) (render_params->width + render_params->height) >> 1;
+    render_state = (RenderState *)&D_80083160[0];
+    cells = &D_80027120[0];
+    scratch->eye[0] = view_position->x;
+    scratch->eye[1] = view_position->y;
+    scratch->eye[2] = view_position->z;
+    func_80064B90(scratch->matrix, &scratch->eye[0]);
+    func_80065820(render_params->rotation, scratch->matrix);
+    func_80064BC0(scratch->matrix, &scratch->view_w);
+    func_80064CF0(scratch->matrix);
+    func_80064D80(scratch->matrix);
+    draw_buffer = render_state->draw_buffer;
+    scratch->ot = (s32) draw_buffer->ot;
+    prim = draw_buffer->prim;
+    scratch->xy0 = 0;
+    scratch->h0 = 0;
+    scratch->depth_base = func_80065420(&scratch->xy0, scratch->buf, &scratch->out0, &scratch->out1) - 0x27;
     row = 0;
     cell_index = 0;
     do {
         cell_x = -0x60;
         col = 0;
         do {
-            mesh_index = ((Cell *)((u8 *)&D_80027120[0] + cell_index * 6))->idx;
+            mesh_index = D_80027120[cell_index].idx;
             if (mesh_index != 0) {
-                face = ((Face **) PTR(geometry, 4))[mesh_index];
+                face = geometry->faces[mesh_index];
                 for (;;) {
                     vert0_addr = face->i0 * 8 + (u32)vertices;
-                    xy0 = ((Vert *)vert0_addr)->x;
-                    xy0 = xy0 + cell_x;
-                    xy0 = xy0 & 0xFFFF;
+                    packed0 = ((Vert *)vert0_addr)->x;
+                    packed0 = packed0 + cell_x;
+                    packed0 = packed0 & 0xFFFF;
                     vert0_y = ((Vert *)vert0_addr)->y;
                     y0_high = (cell_y + vert0_y) << 0x10;
-                    xy0 = xy0 | y0_high;
-                    S32(scratch, 0x70) = xy0;
+                    packed0 = packed0 | y0_high;
+                    S32(scratch, 0x70) = packed0;
                     vert2_ref = U16((u8 *)face, 4);
                     vert3_ref_y = U16((u8 *)face, 6);
                     vert0_ref = U16((u8 *)face, 0);
                     index1_xy = face->i1;
                     vert1_ref_y = index1_xy * 8 + (u32)vertices;
-                    xy1 = U16((u8 *)vert1_ref_y, 0);
-                    vert1_ref_y = S16((u8 *)vert1_ref_y, 2);
+                    x1 = U16((u8 *)vert1_ref_y, 0);
+                    vert1_ref_y = ((Vert *)vert1_ref_y)->y;
                     vert2_ref = vert2_ref << 3;
                     vert2_ref = vert2_ref + (u32)vertices;
                     vert3_ref_y = vert3_ref_y << 3;
                     vert3_ref_y = vert3_ref_y + (u32)vertices;
                     vert0_ref = vert0_ref * 8;
                     vert0_ref = vert0_ref + (u32)vertices;
-                    xy12 = xy1 + cell_x;
-                    xy12 &= 0xFFFF;
-                    xy13 = (u16)xy12;
+                    x1_shifted = x1 + cell_x;
+                    x1_shifted &= 0xFFFF;
+                    x1_masked = (u16)x1_shifted;
                     y1_high = (cell_y + vert1_ref_y) << 0x10;
-                    xy14 = xy13 | y1_high;
-                    xy2 = U16((u8 *)vert2_ref, 0);
-                    vert2_y = S16((u8 *)vert2_ref, 2);
-                    xy3 = U16((u8 *)vert3_ref_y, 0);
-                    height0 = U16((u8 *)vert0_ref, 4);
-                    height_bias = ((Cell *)((u8 *)&D_80027120[0] + cell_index * 6))->bias;
+                    packed1 = x1_masked | y1_high;
+                    packed2 = ((Vert *)vert2_ref)->x;
+                    vert2_y = ((Vert *)vert2_ref)->y;
+                    x3 = ((Vert *)vert3_ref_y)->x;
+                    height0 = ((Vert *)vert0_ref)->w;
+                    height_bias = D_80027120[cell_index].bias;
                     height0 = height0 - height_bias;
                     vert3_ref_y += 2;
                     vert3_y = S16((u8 *)vert3_ref_y, 0);
-                    xy2 = xy2 + cell_x;
-                    xy2 = xy2 & 0xFFFF;
+                    packed2 = packed2 + cell_x;
+                    packed2 = packed2 & 0xFFFF;
                     y2_high = (cell_y + vert2_y) << 0x10;
-                    xy2 = xy2 | y2_high;
-                    xy32 = xy3 + cell_x;
-                    xy33 = xy32 & 0xFFFF;
-                    S16(scratch, 0x74) = height0;
-                    index1 = U16((u8 *)face, 2);
+                    packed2 = packed2 | y2_high;
+                    x3_shifted = x3 + cell_x;
+                    x3_masked = x3_shifted & 0xFFFF;
+                    scratch->h0 = height0;
+                    index1 = face->i1;
                     vert1_addr = index1 * 8 + (u32)vertices;
                     y3_high = (cell_y + vert3_y) << 0x10;
                     height1 = U16((u8 *)vert1_addr, 4);
-                    S32(scratch, 0x78) = xy14;
-                    height1 = height1 - ((Cell *)((u8 *)&D_80027120[0] + cell_index * 6))->bias;
-                    S16(scratch, 0x7C) = height1;
+                    S32(scratch, 0x78) = packed1;
+                    height1 = height1 - D_80027120[cell_index].bias;
+                    scratch->h1 = height1;
                     index2 = U16((u8 *)face, 4);
                     vert2_addr = index2 * 8 + (u32)vertices;
-                    height2 = U16((u8 *)vert2_addr, 4);
-                    S32(scratch, 0x80) = xy2;
-                    height2 = height2 - ((Cell *)((u8 *)&D_80027120[0] + cell_index * 6))->bias;
-                    S16(scratch, 0x84) = height2;
-                    index3 = U16((u8 *)face, 6);
+                    height2 = ((Vert *)vert2_addr)->w;
+                    S32(scratch, 0x80) = packed2;
+                    height2 = height2 - D_80027120[cell_index].bias;
+                    scratch->h2 = height2;
+                    index3 = face->i3;
                     vert3_addr = index3 * 8 + (u32)vertices;
-                    xy34 = xy33 | y3_high;
-                    S32(scratch, 0x88) = xy34;
-                    height3 = U16((u8 *)vert3_addr, 4);
-                    height3 = height3 - ((Cell *)((u8 *)&D_80027120[0] + cell_index * 6))->bias;
-                    S16(scratch, 0x8C) = height3;
-                    facing = func_800656C0(scratch + 0x70, scratch + 0x78, scratch + 0x80, scratch + 0x88,
-                                      prim + 8, prim + 0x10, prim + 0x18, prim + 0x20,
-                                      scratch + 0x90, scratch + 0xC0, scratch + 0x94);
-                    S32(scratch, 0x114) = facing;
+                    packed3 = x3_masked | y3_high;
+                    scratch->xy3 = packed3;
+                    height3 = ((Vert *)vert3_addr)->w;
+                    height3 = height3 - D_80027120[cell_index].bias;
+                    scratch->h3 = height3;
+                    facing = func_800656C0(&scratch->xy0, &scratch->xy1, &scratch->xy2, &scratch->xy3,
+                                      &prim->xy0, &prim->xy1, &prim->xy2, &prim->xy3,
+                                      &scratch->out0, &scratch->depth, &scratch->out1);
+                    scratch->facing = facing;
                     if (facing > 0) {
-                        depth = S32(scratch, 0xC0) - S32(scratch, 0xC4);
-                        S32(scratch, 0xC0) = depth;
+                        depth = scratch->depth - scratch->depth_base;
+                        scratch->depth = depth;
                         if ((u32) (depth - 1) < 0x1DF) {
-                            func_80065034(materials + face->tex * 8, render_state + 0xA8, prim + 4);
-                            S32(prim, 0xC) = face->a;
-                            S32(prim, 0x14) = face->b;
-                            U16(prim, 0x1C) = face->u2;
-                            U16(prim, 0x24) = face->u3;
-                            if (U8(render_params, 0xC) != 0x80) {
-                                U8(prim, 4) = (U8(prim, 4) * U8(render_params, 0xC)) >> 7;
-                                U8(prim, 5) = (U8(prim, 5) * U8(render_params, 0xD)) >> 7;
-                                U8(prim, 6) = (U8(prim, 6) * U8(render_params, 0xE)) >> 7;
+                            func_80065034(materials + face->tex * 8, render_state->blend, prim->rgb);
+                            prim->a = face->a;
+                            prim->b = face->b;
+                            prim->u2 = face->u2;
+                            prim->u3 = face->u3;
+                            if (render_params->color[0] != 0x80) {
+                                prim->rgb[0] = (prim->rgb[0] * render_params->color[0]) >> 7;
+                                prim->rgb[1] = (prim->rgb[1] * render_params->color[1]) >> 7;
+                                prim->rgb[2] = (prim->rgb[2] * render_params->color[2]) >> 7;
                             }
-                            U8(prim, 3) = 9;
-                            func_8006658C(S32(scratch, 0x20) + S32(scratch, 0xC0) * 4, prim);
-                            prim += 0x28;
+                            prim->code = 9;
+                            func_8006658C(scratch->ot + scratch->depth * 4, prim);
+                            prim += 1;
                         }
                     }
                     if ((face->flags & 0x80FF) == 0x8001) {
@@ -242,7 +360,7 @@ s32 func_80026864(void *objects, void *view_position, void *render_params)
                     face += 1;
                 }
             }
-            ((Cell *)((u8 *)cells + cell_index * 6))->bias = 0;
+            cells[cell_index].bias = 0;
             cell_x += 0x40;
             col += 1;
             cell_index += 1;
@@ -251,55 +369,55 @@ s32 func_80026864(void *objects, void *view_position, void *render_params)
         row += 1;
     } while (row < 3);
 
-    active_buffer = *(u8 **)render_state;
-    PTR(active_buffer, 0x8D0) = prim;
-    saved_rotation[0] = U16(render_state, 0xC4);
-    saved_rotation[1] = U16(render_state, 0xC6);
-    saved_rotation[2] = U16(render_state, 0xC8);
-    saved_position[0] = U16(render_state, 0xB4);
-    saved_position[1] = U16(render_state, 0xB6);
-    saved_position[2] = U16(render_state, 0xB8);
-    U16(render_state, 0xB4) = 0;
-    U16(render_state, 0xB6) = 0;
-    U16(render_state, 0xB8) = 0;
-    U16(render_state, 0xC4) = U16(render_params, 0x16);
-    U16(render_state, 0xC6) = U16(render_params, 0x18);
-    U16(render_state, 0xC8) = U16(render_params, 0x1A);
+    active_buffer = render_state->draw_buffer;
+    active_buffer->prim = prim;
+    saved_rotation[0] = render_state->rotation[0];
+    saved_rotation[1] = render_state->rotation[1];
+    saved_rotation[2] = render_state->rotation[2];
+    saved_position[0] = render_state->position[0];
+    saved_position[1] = render_state->position[1];
+    saved_position[2] = render_state->position[2];
+    render_state->position[0] = 0;
+    render_state->position[1] = 0;
+    render_state->position[2] = 0;
+    render_state->rotation[0] = render_params->rotation[0];
+    render_state->rotation[1] = render_params->rotation[1];
+    render_state->rotation[2] = render_params->rotation[2];
 
-    if (PTR(objects, 8) != 0) {
-        S32(scratch, 0x13C) = 0;
-        main_object = PTR(objects, 8);
-        func_800453E0(main_object + 0x20, S32(main_object, 8), S32(main_object, 0xC), (s16) U16(scratch, 0xC4));
-        main_entry = PTR(objects, 8);
+    if (objects->main != 0) {
+        scratch->clear = 0;
+        main_object = objects->main;
+        func_800453E0(main_object->transform, main_object->lo, main_object->hi, (s16) scratch->depth_base);
+        main_entry = objects->main;
         D_8002713A[0] = -2;
-        func_80026F1C(S32(main_entry, 8), S32(main_entry, 0xC), -2, S32(scratch, 0xC4));
+        func_80026F1C(main_entry->lo, main_entry->hi, -2, scratch->depth_base);
     }
     object_index = 0;
     ASM_USE_NV(vertices);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     do {
-        if (PTR(objects, 0xC + object_index * 4) != 0) {
-            S32(scratch, 0x13C) = 0;
-            extra_object = PTR(objects, 0xC + object_index * 4);
-            func_800453E0(extra_object + 0x20, S32(extra_object, 8), S32(extra_object, 0xC), (s16) U16(scratch, 0xC4));
-            extra_entry = PTR(objects, 0xC + object_index * 4);
-            func_80026F1C(S32(extra_entry, 8), S32(extra_entry, 0xC), 0, S32(scratch, 0xC4));
+        if (objects->extra[object_index] != 0) {
+            scratch->clear = 0;
+            extra_object = objects->extra[object_index];
+            func_800453E0(extra_object->transform, extra_object->lo, extra_object->hi, (s16) scratch->depth_base);
+            extra_entry = objects->extra[object_index];
+            func_80026F1C(extra_entry->lo, extra_entry->hi, 0, scratch->depth_base);
         }
         object_index += 1;
     } while (object_index < 2);
 
-    sprite = PTR(objects, 0x14);
+    sprite = objects->sprite;
     if (sprite != 0) {
-        sprite_data = PTR(sprite, 0xC);
-        if (!(U16(sprite_data, 0x14) & 0x80)) {
-            func_80045CC4(sprite + 0x20, S32(sprite, 8), sprite_data, (s16) U16(scratch, 0xC4));
+        sprite_data = sprite->data;
+        if (!(sprite_data->flags & 0x80)) {
+            func_80045CC4(sprite->transform, sprite->lo, sprite_data, (s16) scratch->depth_base);
         }
     }
-    U16(render_state, 0xB4) = saved_position[0];
-    U16(render_state, 0xB6) = saved_position[1];
-    U16(render_state, 0xB8) = saved_position[2];
-    U16(render_state, 0xC4) = saved_rotation[0];
-    U16(render_state, 0xC6) = saved_rotation[1];
-    U16(render_state, 0xC8) = saved_rotation[2];
+    render_state->position[0] = saved_position[0];
+    render_state->position[1] = saved_position[1];
+    render_state->position[2] = saved_position[2];
+    render_state->rotation[0] = saved_rotation[0];
+    render_state->rotation[1] = saved_rotation[1];
+    render_state->rotation[2] = saved_rotation[2];
     func_80064A40();
     return 0;
 }

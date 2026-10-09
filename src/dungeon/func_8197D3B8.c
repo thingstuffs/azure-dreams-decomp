@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_199c800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
@@ -9,27 +10,28 @@ typedef struct S_8197D3B8_0 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_8197D3B8_0;   /* arg1 in func_8197D3B8 */
+} S_8197D3B8_0;   /* arg1 in func_80024BB8 */
 
 typedef struct S_8197D3B8_1_pre {
     u16 unk_00;
-} S_8197D3B8_1_pre;   /* the 0x2 bytes before arg0 in func_8197D3B8, addressed as arg0[-1] */
+} S_8197D3B8_1_pre;   /* the 0x2 bytes before arg0 in func_80024BB8, addressed as arg0[-1] */
 
 typedef struct S_8197D3B8_1 {
     void * unk_00;
-} S_8197D3B8_1;   /* arg0 in func_8197D3B8 */
+} S_8197D3B8_1;   /* arg0 in func_80024BB8 */
 
 typedef struct S_8197D3B8_2 {
     u8 pad_00[0x52];
     u16 unk_52;
-} S_8197D3B8_2;   /* primitive in func_8197D3B8 */
+} S_8197D3B8_2;   /* primitive in func_80024BB8 */
 
 
-extern void func_800478B8(void *);
 
 /* Applies motion deltas, marks the primitive, and propagates status flags. */
-void func_8197D3B8(void *render_entry, S_8197D3B8_0 *motion, Rec_D_80082E80 *status)
+void func_80024BB8(void *render_entry, void *motion_data, void *render_status)
 {
+    S_8197D3B8_0 *motion = motion_data;
+    Rec_D_80082E80 *status = render_status;
     s32 delta_y;
     s32 delta_z;
     S_8197D3B8_2 *primitive;

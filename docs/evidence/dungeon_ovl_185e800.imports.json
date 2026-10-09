@@ -1,0 +1,206 @@
+{
+  "module": "dungeon_ovl_185e800",
+  "maps": {
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "basis": "PS-X EXE header: load 0x8002D000, payload size 0x54800, file header 0x800.",
+      "kind": "psx_exe"
+    },
+    "dungeon_resident": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 667648,
+      "file_end": 1050624,
+      "delta": 2147374944,
+      "basis": "config/overlays/dungeon.rowbase.jsonl xfer_dungeon_A3000 proven runtime DMA/load-map record.",
+      "kind": "rowbase",
+      "region": "xfer_dungeon_A3000"
+    }
+  },
+  "views": {
+    "D_800DE990": {
+      "symbol": "D_800DE990",
+      "kind": "data",
+      "vma": 2148395408,
+      "foff": 1020464,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_ovl_185e800.imports.json"
+    },
+    "D_800DEA68": {
+      "symbol": "D_800DEA68",
+      "kind": "data",
+      "vma": 2148395624,
+      "foff": 1020680,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_ovl_185e800.imports.json"
+    },
+    "D_800DECF8": {
+      "symbol": "D_800DECF8",
+      "kind": "data",
+      "vma": 2148396280,
+      "foff": 1021336,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_ovl_185e800.imports.json"
+    }
+  },
+  "runtime_views": {
+    "D_800814A0": {
+      "symbol": "D_800814A0",
+      "kind": "runtime_data",
+      "vma": 2148013216,
+      "view_bytes": 16,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_185e800.imports.json",
+      "declaration": "include/shared/object_flags.h"
+    },
+    "D_80083460": {
+      "symbol": "D_80083460",
+      "kind": "runtime_data",
+      "vma": 2148021344,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_185e800.imports.json",
+      "declaration": "include/shared/dungeon_status.h"
+    },
+    "D_80083498": {
+      "symbol": "D_80083498",
+      "kind": "runtime_data",
+      "vma": 2148021400,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_185e800.imports.json",
+      "declaration": "include/shared/object_node.h"
+    }
+  },
+  "functions": {
+    "func_8003DE58": {
+      "vma": 2147737176,
+      "foff": 71256,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "d0ffbd272400b3af219880002000b2af",
+      "entry_sha256": "1cba5441694eb0c64982c2421b7152339655146a27aa2f0489398950fdce05c9",
+      "kind": "external_code_entry_view"
+    },
+    "func_8003FD64": {
+      "vma": 2147745124,
+      "foff": 79204,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "0180023c14374294e0ffbd271400b1af",
+      "entry_sha256": "e69ab34eef3cf9ae8820c182f12220eb50e99d8ae29a5c36c2b2fd748dfb4c7a",
+      "kind": "external_code_entry_view"
+    },
+    "func_8004491C": {
+      "vma": 2147764508,
+      "foff": 98588,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "21388000ffff08242148000021202001",
+      "entry_sha256": "40f6255d7ae4fada30b446f687fe666aceabe87ffd6717ae1b737d459e8f3bff",
+      "kind": "external_code_entry_view"
+    },
+    "func_80045340": {
+      "vma": 2147767104,
+      "foff": 101184,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "e0ffbd271000b0af218080001400b1af",
+      "entry_sha256": "909f5726619e454d8576896ae199245adab4e14600dd424d518643d9289975c2",
+      "kind": "external_code_entry_view"
+    },
+    "func_800478B8": {
+      "vma": 2147776696,
+      "foff": 110776,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "e8ffbd271000b0af1400bfaffd1d010c",
+      "entry_sha256": "d9ad27780e8cd7534567007bb5685be652d7b7ad1b3a601909cc7b45b970548d",
+      "kind": "external_code_entry_view"
+    },
+    "func_80069EF8": {
+      "vma": 2147917560,
+      "foff": 251640,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "a0000a24080040012f00092400000000",
+      "entry_sha256": "018c824df1097cceaaa4001d02b61faaafe1e13c197a60f3e5428fe7befa50de",
+      "kind": "external_code_entry_view"
+    },
+    "func_8009CE1C": {
+      "vma": 2148126236,
+      "foff": 751292,
+      "map": "dungeon_resident",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "entry_bytes": "c0ffbd273400b7af5400b78f3000b6af",
+      "entry_sha256": "d6e3e827466049e69feeff7a35380694e705e6b88ace5ea4960a9053c423e315",
+      "kind": "external_code_entry_view"
+    },
+    "func_800A05A4": {
+      "vma": 2148140452,
+      "foff": 765508,
+      "map": "dungeon_resident",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "entry_bytes": "b0ffbd274800beaf21f080003800b4af",
+      "entry_sha256": "687b33a718f9f37b64aeabc8f853100fdb4cbabe2e7dabebb07cad301cd4d12d",
+      "kind": "external_code_entry_view"
+    },
+    "func_800A3820": {
+      "vma": 2148153376,
+      "foff": 778432,
+      "map": "dungeon_resident",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "entry_bytes": "00240400032404008010040021104400",
+      "entry_sha256": "177c94f31d7f2f1d8b1ea73707a56b0a3f6b2d0c7619b208e05d6508e4df397e",
+      "kind": "external_code_entry_view"
+    },
+    "func_800A56E0": {
+      "vma": 2148161248,
+      "foff": 786304,
+      "map": "dungeon_resident",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "entry_bytes": "0180023c14374294e8ffbd2702004230",
+      "entry_sha256": "bf39d895f79df6a233839115df30299b60b9797b745388731dd9d2335bc15195",
+      "kind": "external_code_entry_view"
+    },
+    "func_800BCB04": {
+      "vma": 2148256516,
+      "foff": 881572,
+      "map": "dungeon_resident",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "entry_bytes": "d8ffbd271000b0af801f103c3f008230",
+      "entry_sha256": "34b37c615f56d11896c496c5151034bd8cd189ed845d0fa79c67f9a71ecb2d9d",
+      "kind": "external_code_entry_view"
+    }
+  },
+  "review": "pending",
+  "reviewer": null,
+  "retail_views": {
+    "D_800DE990": {
+      "bytes": "0800020084e00d80",
+      "sha256": "848d384a7a72e45175305a6b038445eea829a8e949c60c03a0a99552aa23ea0d",
+      "basis": "Observed view width only, not the allocation extent. Pointer-only imports are conservatively bounded external address views."
+    },
+    "D_800DEA68": {
+      "bytes": "02000200b0e10d80",
+      "sha256": "7cffebbf0798138a86e9098d99ab843dc6307470d1b5128736ca12aa1cc19366",
+      "basis": "Observed view width only, not the allocation extent. Pointer-only imports are conservatively bounded external address views."
+    },
+    "D_800DECF8": {
+      "bytes": "02000200ece40d80",
+      "sha256": "c120623a8ac980e710242107c43fb34d43fab34c6666a6a07b2efcb9a42d367c",
+      "basis": "Observed view width only, not the allocation extent. Pointer-only imports are conservatively bounded external address views."
+    }
+  }
+}

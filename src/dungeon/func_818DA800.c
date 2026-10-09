@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_18fa800.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -134,26 +135,22 @@ typedef struct S_func_818DA800_11 {
     u16 unk_02;
 } S_func_818DA800_11;
 
-extern void *func_8003FD64(s32, void *);
-extern void func_8004491C(void *, void *);
 extern s32 func_800A3820(s16 entry_index);
 extern void *func_800A05A4(void *, u8, u8, s16, s16);
-extern s16 func_800BCB04(u16, u16, s16);
-extern void func_800A56E0(s32);
 extern s32 func_8009D218(void *, s32, void *);
 extern void func_800C8900(void *, s32, s32);
 
-extern u8 D_80024538[];
+#define D_80024538 ((u8 *)func_80024538)
 extern u8 D_800DEAE0[];
-extern u8 D_80024684[];
-extern u8 D_80024714[];
+#define D_80024684 ((u8 *)func_80024684)
+
 extern u8 D_800E3D68[];
 void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol func_80024000).  The phase table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const module_entry)(S_func_818DA800_1 *, S_func_818DA800_2 *) __asm__("func_80024000") = func_80024020;
+void (*const dungeon_18fa800_entry)(S_func_818DA800_1 *, S_func_818DA800_2 *) = func_80024020;
 
 /* Advances a targeted effect through movement, particle spawning, target interaction, and cleanup. */
 void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
@@ -252,9 +249,9 @@ void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
             s32 position_or_z_offset;
             s32 prim_color;
 
-            burst_obj = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
+            burst_obj = func_8003FD64(0x312, &D_80083498.next);
             if (burst_obj != 0) {
-                func_8004491C(burst_obj, func_80045340);
+                func_8004491C(burst_obj, (s32)func_80045340);
                 prim = burst_obj->unk_0C;
                 position_or_z_offset = (s32)burst_obj->unk_08;
                 burst_obj->unk_10 = image_base;
@@ -306,12 +303,12 @@ void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
     }
     if (actor->unk_60 != 0) {
         S_func_818DA800_5 *impact_obj;
-        impact_obj = func_8003FD64(0x201, ((u8 *)(&D_80083498)));
+        impact_obj = func_8003FD64(0x201, &D_80083498.next);
         if (impact_obj != 0) {
             u16 effect_y;
             u16 effect_z;
             s32 duration;
-            func_8004491C(impact_obj, D_80024714);
+            func_8004491C(impact_obj, (s32)func_80024714);
             impact_obj->unk_10 = D_80024684;
             child_state = (S_func_818DA800_8 *)((u8 *)impact_obj + 0x20);
             child_state->unk_04 = motion->unk_00.half.unk_02.as_u16;

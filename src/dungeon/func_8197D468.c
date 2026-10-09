@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_199c800.h"
 #include "shared/sprite_source.h"
 #include "common.h"
 #include "shared/object_node.h"
@@ -8,7 +9,7 @@
 
 typedef struct S_8197D468_0_pre {
     u16 unk_00;
-} S_8197D468_0_pre;   /* the 0x2 bytes before arg0 in func_8197D468, addressed as arg0[-1] */
+} S_8197D468_0_pre;   /* the 0x2 bytes before arg0 in func_80024C68, addressed as arg0[-1] */
 
 typedef struct S_8197D468_0 {
     void * unk_00;
@@ -16,12 +17,12 @@ typedef struct S_8197D468_0 {
     u16 unk_48;
     u8 pad_4A[0x2];
     union { s16 s; u16 u; } unk_4C;   /* accessed as both */
-} S_8197D468_0;   /* arg0 in func_8197D468 */
+} S_8197D468_0;   /* arg0 in func_80024C68 */
 
 typedef struct S_8197D468_1 {
     u8 pad_00[0x52];
     u16 unk_52;
-} S_8197D468_1;   /* temp_v0 in func_8197D468 */
+} S_8197D468_1;   /* temp_v0 in func_80024C68 */
 
 typedef struct S_8197D468_2 {
     M2C_UNK * unk_00;
@@ -36,7 +37,7 @@ typedef struct S_8197D468_2 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_8197D468_2;   /* arg2 in func_8197D468 */
+} S_8197D468_2;   /* arg2 in func_80024C68 */
 
 typedef struct S_8197D468_3 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -44,12 +45,12 @@ typedef struct S_8197D468_3 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_8197D468_3;   /* arg1 in func_8197D468 */
+} S_8197D468_3;   /* arg1 in func_80024C68 */
 
 typedef struct S_8197D468_4 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_8197D468_4;   /* &D_800DE990 in func_8197D468 */
+} S_8197D468_4;   /* &D_800DE990 in func_80024C68 */
 
 typedef struct S_8197D468_5 {
     u8 pad_00[0x8];
@@ -58,7 +59,7 @@ typedef struct S_8197D468_5 {
     M2C_UNK * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_8197D468_5;   /* temp_v0_2 in func_8197D468 */
+} S_8197D468_5;   /* temp_v0_2 in func_80024C68 */
 
 typedef struct S_8197D468_6 {
     u8 * unk_00;
@@ -73,13 +74,13 @@ typedef struct S_8197D468_6 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_8197D468_6;   /* temp_s0 in func_8197D468 */
+} S_8197D468_6;   /* temp_s0 in func_80024C68 */
 
 
 typedef struct S_8197D468_8 {
     u8 pad_00[0x4C];
     s16 unk_4C;
-} S_8197D468_8;   /* temp_v0_4 in func_8197D468 */
+} S_8197D468_8;   /* temp_v0_4 in func_80024C68 */
 
 typedef struct S_8197D468_9 {
     s32 unk_00;
@@ -88,19 +89,16 @@ typedef struct S_8197D468_9 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_8197D468_9;   /* ((S_8197D468_5 *)temp_v0_2)->unk_08 in func_8197D468 */
+} S_8197D468_9;   /* ((S_8197D468_5 *)temp_v0_2)->unk_08 in func_80024C68 */
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 D_800DED70[];
-void *func_8003FD64();                 /* extern */
 s32 func_80069EF8();                          /* extern */
-s16 func_800BCB04();                   /* extern */
-extern M2C_UNK D_80024BB8;
 extern M2C_UNK D_800DE990;
 
 /* Update a rising, expanding, and falling effect, spawning particles on landing. */
-void func_8197D468(void *effect, void *motion, void *sprite) {
+void func_80024C68(void *effect, void *motion, void *sprite) {
     void *particle_work;
     s16 state;
     s16 ground_height;
@@ -188,10 +186,10 @@ void func_8197D468(void *effect, void *motion, void *sprite) {
         if (((S_8197D468_3 *)motion)->unk_08.at02.v >= (ground_height - 0x20)) {
             particle_index = 4;
             do {
-                particle = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
+                particle = func_8003FD64(0x312, &D_80083498.next);
                 if (particle != NULL) {
-                    ((S_8197D468_5 *)particle)->unk_10 = &D_80024BB8;
-                    func_8004491C(particle, func_80045340);
+                    ((S_8197D468_5 *)particle)->unk_10 = (void *)func_80024BB8;
+                    func_8004491C(particle, (s32)func_80045340);
                     particle_sprite = ((S_8197D468_5 *)particle)->unk_0C;
                     ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_00 =
                         (s32) (((S_8197D468_3 *)motion)->unk_00.at00.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));

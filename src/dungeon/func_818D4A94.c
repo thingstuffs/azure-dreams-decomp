@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_18f4800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 int abs(int);
@@ -6,11 +7,11 @@ typedef struct S_818D4A94_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
     s32 unk_04;
     s32 unk_08;
-} S_818D4A94_0;   /* arg1 in func_818D4A94 */
+} S_818D4A94_0;   /* arg1 in func_80024294 */
 
 typedef struct S_818D4A94_1_pre {
     u16 unk_00;
-} S_818D4A94_1_pre;   /* the 0x2 bytes before arg0 in func_818D4A94, addressed as arg0[-1] */
+} S_818D4A94_1_pre;   /* the 0x2 bytes before arg0 in func_80024294, addressed as arg0[-1] */
 
 typedef struct S_818D4A94_1 {
     u8 pad_00[0x32];
@@ -23,15 +24,15 @@ typedef struct S_818D4A94_1 {
     s32 unk_48;
     s32 unk_4C;
     s32 unk_50;
-} S_818D4A94_1;   /* arg0 in func_818D4A94 */
+} S_818D4A94_1;   /* arg0 in func_80024294 */
 
 
 
-extern s16 D_80025118[5];
 
 /* Advance position and velocity, and flag completion near the target or when the countdown expires. */
-void func_818D4A94(void *motion, S_818D4A94_0 *position)
+void func_80024294(void *motion, void *position_data)
 {
+    S_818D4A94_0 *position = position_data;
     s32 updated_value;
     s32 countdown;
 

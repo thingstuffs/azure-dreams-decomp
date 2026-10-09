@@ -194,5 +194,91 @@ class NativeHeadTests(unittest.TestCase):
                          ASM, self.trim_path, self.artifacts)
 
 
+@unittest.skipUnless(shutil.which('mipsel-linux-gnu-as'), 'MIPS assembler required')
+class NativeDirectionTests(unittest.TestCase):
+    pairs = [[16, 0], [16, 16], [0, 16], [-16, 16], [-16, 0], [-16, 65520], [0, 65520], [16, 65520]]
+    elf_sections = NativeHeadTests.elf_sections
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = tempfile.TemporaryDirectory()
+        cls.path = Path(cls.tmp.name)
+        table = '.globl native_offsets\nnative_offsets:\n' + ''.join(
+            '.half %d\n.half %d\n' % tuple(pair) for pair in cls.pairs)
+        cls.asm = ASM.replace('.word func_test\n', '.word func_tail\n' + table, 1)
+        cls.asm += '.text\n.globl func_tail\n.ent func_tail\nfunc_tail:\nj $31\nnop\n.end func_tail\n.size func_tail,.-func_tail\n'
+        # Only standalone directives change; references and section names stay intact.
+        sectioned = cls.asm.replace('\n.text\n', '\n.section .text.func_test,"ax",@progbits\n', 2)
+        sectioned = sectioned.replace('\n.text\n', '\n.section .text.func_tail,"ax",@progbits\n')
+        (cls.path / 'in.s').write_text(sectioned)
+        subprocess.run(['mipsel-linux-gnu-as', '-EL', '-march=r3000', '-G0', '-o', str(cls.path/'in.o'), str(cls.path/'in.s')], check=True)
+        cls.raw = (cls.path/'in.o').read_bytes()
+        cls.trim_path = ROOT/'tools/build/slus_rodata_trim.py'
+        view = A.View(A.read_elf(cls.raw))
+        size = view.funcs['func_test'][2]
+        cls.module = dict(key='directions_test', membership_evidence='pending.json', members=[
+            dict(function='func_test', foff=0x100, vma=0x80024000, size=size+60, body_offset=60),
+            dict(function='func_tail', foff=0x100+size+60, vma=0x80024000+size+60, size=8, body_offset=0)], owned_data=[
+            dict(section='.rodata',foff=0x100,vma=0x80024000,size=4,kind='typed_function_pointer',symbol='native_entry',target='func_tail'),
+            dict(section='.rodata',foff=0x104,vma=0x80024004,size=32,kind='direction_offsets',symbol='native_offsets',pairs=cls.pairs),
+            dict(section='.rodata',foff=0x124,vma=0x80024024,size=4,kind='alignment',alignment=8),
+            dict(section='.rodata',foff=0x128,vma=0x80024028,size=20,kind='switch_table',owner='func_test')])
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.tmp.cleanup()
+
+    def setUp(self):
+        self.m = copy.deepcopy(self.module)
+        self.obj, _ = N.prepare_object(self.m, self.raw, self.trim_path)
+        self.view = A.View(A.read_elf(self.obj))
+
+    def test_nonfirst_entry_and_typed_directions_accepted(self):
+        N.validate_layout(self.m)
+        N.validate_switch_assembly(self.m, self.asm)
+        native = N.validate_relocations(self.m, self.view)
+        self.assertEqual(native['relocations'][0], [0, '32', ['fn', 'func_tail', 0]])
+        self.assertEqual(native['records'][1]['size'], 32)
+
+    def test_entry_outside_complete_cohort_refused(self):
+        self.m['owned_data'][0]['target'] = 'external'
+        with self.assertRaisesRegex(ValueError, 'complete native member'):
+            N.validate_layout(self.m)
+
+    def test_invalid_typed_pairs_refused(self):
+        for pairs in [self.pairs[:-1], [[32768,0]]*8, [[0,-1]]*8, [[True,0]]*8, [[0,65536]]*8]:
+            with self.subTest(pairs=pairs), self.assertRaisesRegex(ValueError, 'typed eight-direction'):
+                N.direction_bytes(dict(size=32,pairs=pairs))
+
+    def test_changed_halfword_and_numeric_blob_refused(self):
+        for assembly in [self.asm.replace('.half 16', '.half 17', 1), self.asm.replace('.half 16\n.half 0', '.word 16', 1)]:
+            with self.subTest(assembly=assembly), self.assertRaisesRegex(ValueError, 'coverage differs'):
+                N.validate_switch_assembly(self.m, assembly)
+
+    def test_changed_direction_object_refused(self):
+        raw = bytearray(self.obj)
+        hs, names = self.elf_sections(raw)
+        raw[hs[names.index('.rodata')][4]+4] ^= 1
+        with self.assertRaisesRegex(ValueError, 'direction bytes differ'):
+            N.validate_relocations(self.m, A.View(A.read_elf(raw)))
+
+    def test_direction_symbol_or_relocation_refused(self):
+        self.view.obj.symbols['native_offsets'] = ('.rodata', 8, 32)
+        with self.assertRaisesRegex(ValueError, 'direction symbol differs'):
+            N.validate_relocations(self.m, self.view)
+        self.view = A.View(A.read_elf(self.obj))
+        self.view.rel[('.rodata',4)] = ('32',('fn','func_test',0))
+        self.view.obj.relocs.append(('.rodata',4,'32',('sym','func_test'),0))
+        with self.assertRaisesRegex(ValueError, 'inventory differs'):
+            N.validate_relocations(self.m,self.view)
+
+    def test_nonzero_alignment_after_directions_refused(self):
+        raw = bytearray(self.obj)
+        hs, names = self.elf_sections(raw)
+        raw[hs[names.index('.rodata')][4]+36] = 1
+        with self.assertRaisesRegex(ValueError, 'alignment is not zero'):
+            N.validate_relocations(self.m,A.View(A.read_elf(raw)))
+
+
 if __name__ == '__main__':
     unittest.main()

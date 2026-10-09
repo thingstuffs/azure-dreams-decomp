@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_199c800.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
@@ -14,13 +15,13 @@ typedef union {
     } half;
 } CoordWord;
 
-typedef struct {
+typedef struct Vec3 {
     CoordWord x;
     CoordWord y;
     CoordWord z;
 } Vec3;
 
-typedef struct {
+typedef struct Sprite {
     u8 pad0[0x14];
     u16 flags;
     u8 pad16[6];
@@ -58,7 +59,7 @@ typedef struct {
     SpawnChild child;
 } Spawn;
 
-typedef struct {
+typedef struct Actor {
     void *field0;
     u8 pad4[0x3C];
     s16 field40;
@@ -75,17 +76,13 @@ typedef struct {
 } EntryTable;
 
 extern s32 D_800DEA68[];
-extern s32 D_80024BB8[3];
 
-extern void func_800478B8(Sprite *sprite);
 extern s32 func_8003DE58(void *entry, void *table, void *scratch, s32 a3);
-extern Spawn *func_8003FD64(s32 id, void *template);
-extern void func_8004491C(Spawn *spawn, void *callback);
 extern s32 func_800644B8(s32 angle);
 extern s32 func_80069EF8(void);
 
 /* Advance the actor animation, move toward the entry position, and spawn trailing particles. */
-void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
+void func_800246C0(Actor *actor, Vec3 *target, Sprite *sprite) {
     u16 entry_pos[3];
     u16 start_pos[3];
 
@@ -162,11 +159,11 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
 
         remaining = (s32)sprite;
         if (remaining >= 0) {
-            void *particle_callback = D_80024BB8;
+            void *particle_callback = (void *)func_80024BB8;
             s32 *particle_data = D_800DEA68;
             do {
                 Spawn *spawn;
-                spawn = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
+                spawn = func_8003FD64(0x312, &D_80083498.next);
                 if (spawn != 0) {
                     s32 coord_magnitude;
                     s32 x_offset;
@@ -180,7 +177,7 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
                     u16 start_y_bits;
 
                     spawn->callback = particle_callback;
-                    func_8004491C(spawn, func_80045340);
+                    func_8004491C(spawn, (s32)func_80045340);
                     state = spawn->state;
                     coord_magnitude = abs((s16)target->x.half.coord - (s16)start_pos[0]);
                     child = &spawn->child;
