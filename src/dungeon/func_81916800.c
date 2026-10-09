@@ -7,46 +7,31 @@
 extern u8 D_80025B1C[16];
 extern u8 D_800E3D20[16];
 
-#ifdef __mips__
-static const u32 bank_words[] __asm__("func_81916800")
-__attribute__((section(".text.func_81916800"), aligned(4))) = {
-    0x80025408, 0x00000000, 0x8002547C, 0x800254C4,
-    0x800257DC, 0x800258AC, 0x800259E0, 0x80025A2C,
-    0x80025AA4,
-};
-__asm__(
-        ".globl func_81916800\n"
-        ".type func_81916800,@function\n"
-        ".size func_81916800,364\n");
-#define BODY_NAME func_81916824
-#else
-#define BODY_NAME func_81916800
-#endif
 
-void BODY_NAME(void *tracker) __attribute__((section(".text.func_81916800")));
+void func_80024024(void *tracker);
 
 typedef struct S_81916800_1 {
     union { u8 u; s8 s; } unk_00;   /* accessed as both */
-} S_81916800_1;   /* timer in BODY_NAME */
+} S_81916800_1;   /* timer in func_80024024 */
 
 typedef struct S_81916800_2 {
     u8 pad_00[0x6];
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_81916800_2;   /* temp_v1 in BODY_NAME */
+} S_81916800_2;   /* temp_v1 in func_80024024 */
 
 typedef struct S_81916800_3 {
     union { u8 u; s8 s; } unk_00;   /* accessed as both */
-} S_81916800_3;   /* flag in BODY_NAME */
+} S_81916800_3;   /* flag in func_80024024 */
 
 typedef struct S_81916800_4 {
     u8 pad_00[0x2];
     u16 unk_02;
-} S_81916800_4;   /* (*(void **)((u8 *)arg0 + 0xC)) in BODY_NAME */
+} S_81916800_4;   /* (*(void **)((u8 *)arg0 + 0xC)) in func_80024024 */
 
 /* Smooth shared state toward tracked target values and advance countdowns. */
-void BODY_NAME(void *tracker) {
+void func_80024024(void *tracker) {
     s16 blend_ticks;
     s16 next_ticks;
     S_81916800_2 *target_values;
