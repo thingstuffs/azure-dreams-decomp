@@ -26,21 +26,8 @@ s32 func_800F6208(s32, s32);
 extern u8 D_80081484[];
 extern u8 D_800F6D48[];
 
-#ifdef __mips__
-static const u32 split_prefix[] __asm__("func_80921000")
-__attribute__((section(".text.func_80921000"), aligned(4))) = {
-    0x00000001, 0x00010001, 0x00010000, 0x0001FFFF,
-    0x0000FFFF, 0xFFFFFFFF, 0xFFFF0000, 0xFFFF0001,
-};
-__asm__(".globl func_80921000\n"
-        ".size func_80921000, 444");
-#define BODY_NAME func_80921020
-#else
-#define BODY_NAME func_80921000
-#endif
-
 /* Advance the animation and handle delayed object spawning. */
-void BODY_NAME(EntityRec *state) {
+void func_80921020(EntityRec *state) {
     ByteBuf spawn_data;
     CoordBuf spawn_tile;
     s16 spawn_height;

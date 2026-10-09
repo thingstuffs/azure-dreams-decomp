@@ -1,0 +1,102 @@
+{
+  "bank": "1876800",
+  "selector": 12,
+  "loader_foff": "0xc40cc",
+  "loader_sha256": "7ff8f80959c35c88ee359e1027907db34401cfaf4ed0592b2697813614c5f444",
+  "iso_extent": {
+    "path": "DUNGEON/DUNGEON.BIN",
+    "lba": 12310,
+    "size": 27813888,
+    "directory_lba": 12309,
+    "record_offset": 96,
+    "record_hex": "3c0016300000000030160068a80101a86800620306111f0424000000010000010d44554e47454f4e2e42494e3b31000000000d555841000000000000"
+  },
+  "lba": "0x6103",
+  "load_span": [
+    "0x1876800",
+    "0x187c800"
+  ],
+  "destination": "0x80024000",
+  "delta": "0x7e7ad800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_1876800.c",
+    "module_index": 153
+  },
+  "existing_members": [
+    "dungeon/func_81856800",
+    "dungeon/func_818571BC"
+  ],
+  "module_span": [
+    "0x1876800",
+    "0x1877440"
+  ],
+  "entry_pointer": "0x80024020",
+  "gap_bytes": 364,
+  "gaps": [
+    {
+      "file_span": [
+        "0x1877050",
+        "0x18771bc"
+      ],
+      "runtime_span": [
+        "0x80024850",
+        "0x800249bc"
+      ],
+      "bytes": 364,
+      "classification": "complete-code-function",
+      "sha256": "4c7e5938ec00f4c86b9a8e0f08b00aa7b9b61938d775630c9989c12f9d3883c5",
+      "frame_bytes": 32,
+      "epilogue": "jr ra; nop",
+      "template_row": "dungeon/func_81845484",
+      "template_foff": "0x1865484",
+      "template_source_sha256": "d2c5869293dcf4137af9854b426a8a65ec2f8a155e592e93deacf908183b05ee",
+      "differences": [
+        {
+          "offset": 144,
+          "target_word": "0x8009269",
+          "template_word": "0x8009376",
+          "target": "0x800249a4",
+          "template_target": "0x80024dd8"
+        },
+        {
+          "offset": 204,
+          "target_word": "0x8009269",
+          "template_word": "0x8009376",
+          "target": "0x800249a4",
+          "template_target": "0x80024dd8"
+        },
+        {
+          "offset": 304,
+          "target_word": "0x8009269",
+          "template_word": "0x8009376",
+          "target": "0x800249a4",
+          "template_target": "0x80024dd8"
+        }
+      ],
+      "bank_references": [],
+      "constructed_code_pointer_pairs": [
+        {
+          "row": "dungeon/func_81856800",
+          "lui_foff": "0x1876898",
+          "lui_word": "0x3c088002",
+          "lo_foff": "0x187689c",
+          "lo_word": "0x25084850",
+          "constructed": "0x80024850",
+          "basis": "Explicit local address construction; no control-flow execution claim."
+        },
+        {
+          "row": "dungeon/func_81856800",
+          "lui_foff": "0x1876ec8",
+          "lui_word": "0x3c028002",
+          "lo_foff": "0x1876ed0",
+          "lo_word": "0x24424850",
+          "constructed": "0x80024850",
+          "basis": "Explicit local address construction; no control-flow execution claim."
+        }
+      ]
+    }
+  ],
+  "review": "pending",
+  "reviewer": null
+}

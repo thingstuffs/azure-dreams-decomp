@@ -1,0 +1,43 @@
+{
+  "module": "dungeon_ovl_19a8800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_19a8800.c",
+    "module_index": 200
+  },
+  "members": [
+    "dungeon/func_81988800",
+    "dungeon/func_81988C1C",
+    "dungeon/func_81988E48",
+    "dungeon/func_819892A4",
+    "dungeon/func_81989320"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Complete physical selector-63 cohort, including callback func_819892A4 whose old delta-derived ledger assignment was incorrect. Guarded assignment correction retains its real row and L3 history.",
+    "Independent static selector-63 loader receipt covers every member and the preserved tail map.",
+    "func_80024648 installs the real func_80024AA4 address as a callback. Complete natural-order single TU is exact for all 3416 bytes with GNU and genuine ASPSX, zero masked bytes and zero raw substitution."
+  ],
+  "assignment_correction": {
+    "before": {
+      "id": "dungeon/func_819892A4",
+      "container": "dungeon",
+      "module": "ovl_7e67b800.c",
+      "module_index": 189,
+      "confidence": "weak"
+    },
+    "after": {
+      "id": "dungeon/func_819892A4",
+      "container": "dungeon",
+      "module": "ovl_19a8800.c",
+      "module_index": 200,
+      "confidence": "weak"
+    },
+    "basis": "Retail file extent [0x19a92a4,0x19a9320) lies inside selector 63 image; func_80024648 installs its address as callback. Previous census grouped by delta spelling instead of the physical file carrier.",
+    "review": "pending",
+    "reviewer": null
+  },
+  "review": "reviewed",
+  "reviewer": "orchestrator-r106"
+}

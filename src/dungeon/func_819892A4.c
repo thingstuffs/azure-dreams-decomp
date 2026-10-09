@@ -1,7 +1,6 @@
-#include "common.h"
+#include "modules/dungeon_ovl_19a8800.h"
 #include "shared/object_flags.h"
 
-extern s32 func_800478B8();
 
 /* Marks the referenced object and updates entry and global flags based on target status. */
 void func_80024AA4(void *entry, void *unused, void *target) {

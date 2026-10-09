@@ -1,0 +1,120 @@
+{
+  "bank": "19d2800",
+  "review": "pending",
+  "reviewer": null,
+  "rows": [
+    {
+      "id": "dungeon/func_819B2C40",
+      "true_name": "func_80024440",
+      "foff": 27077696,
+      "size": 556,
+      "template": "dungeon/func_81988C1C",
+      "gate_config": "config/overlays/dungeon_r107_gap_19d2c40.overlay.yaml",
+      "src_sha256": "fa1cb99c1b63f2f0847395f11da14ccbbac305b843fe5455b0b2bdf590c8a29a",
+      "masked_shape_words": 139,
+      "exact_retail_words": 139
+    },
+    {
+      "id": "dungeon/func_819B32CC",
+      "true_name": "func_80024ACC",
+      "foff": 27079372,
+      "size": 124,
+      "template": "dungeon/func_819892A4",
+      "gate_config": "config/overlays/dungeon_r107_gap_19d32cc.overlay.yaml",
+      "src_sha256": "f3bef02c9e77681ff090eef78367929884b98f9fb197aaaf208d792ef6b92601",
+      "masked_shape_words": 31,
+      "exact_retail_words": 31
+    }
+  ],
+  "selector": 70,
+  "original_group": {
+    "container": "dungeon",
+    "module": "ovl_7e651800.c",
+    "module_index": 194,
+    "confidence": "weak"
+  },
+  "module_status": "Exact GNU and genuine diagnostic retained; no native entry/certificate delivered. Requires Layer-2 promotions, subsequent L3 measurements.",
+  "gap_map": {
+    "bank": "19d2800",
+    "selector": 70,
+    "module_span": [
+      "0x19d2800",
+      "0x19d383c"
+    ],
+    "gaps": [
+      {
+        "start": 27077696,
+        "end": 27078252,
+        "bytes": 556
+      },
+      {
+        "start": 27079372,
+        "end": 27079496,
+        "bytes": 124
+      }
+    ],
+    "partition": [
+      {
+        "foff": 27077696,
+        "end": 27078252,
+        "size": 556,
+        "runtime": "0x80024440",
+        "kind": "new-complete-code",
+        "row": "dungeon/func_819B2C40",
+        "template": "dungeon/func_81988C1C",
+        "entry_word": "0x27bdffb0",
+        "exit_words": [
+          "0x3e00008",
+          "0x0"
+        ],
+        "retail_sha256": "ca8455d1dcb9af8b898347619491b266bd27cc6911fe5caf52daa5a0dbf390a8",
+        "clone_word_differences": [],
+        "witnesses": [
+          {
+            "foff": "0x19d296c",
+            "word": "0x3c058002"
+          },
+          {
+            "foff": "0x19d2970",
+            "word": "0x24a54440"
+          }
+        ],
+        "production_config": "config/overlays/dungeon_r107_gap_19d2c40.overlay.yaml"
+      },
+      {
+        "foff": 27079372,
+        "end": 27079496,
+        "size": 124,
+        "runtime": "0x80024acc",
+        "kind": "new-complete-code",
+        "row": "dungeon/func_819B32CC",
+        "template": "dungeon/func_819892A4",
+        "entry_word": "0x27bdffe0",
+        "exit_words": [
+          "0x3e00008",
+          "0x0"
+        ],
+        "retail_sha256": "5c502af95b80e438abb4bc5000cd77291db7043976fb5eb25cae055b89d751aa",
+        "clone_word_differences": [],
+        "witnesses": [
+          {
+            "foff": "0x19d31a0",
+            "word": "0x3c028002"
+          },
+          {
+            "foff": "0x19d31a4",
+            "word": "0x24554acc"
+          }
+        ],
+        "production_config": "config/overlays/dungeon_r107_gap_19d32cc.overlay.yaml"
+      }
+    ],
+    "data_bytes": 0,
+    "unclassified_bytes": 0,
+    "review": "pending",
+    "reviewer": null
+  },
+  "blockers": [
+    "orchestrator Layer-2 promotions for both new rows"
+  ]
+}
