@@ -1,3 +1,17 @@
+# Handover (2026-10-09 ~17:00Z, round 109 RUNNING) - start here
+
+**Landed since r108 started:** 5881e4525 plan D (strict typed_string / message_bytes / rectangle_records kinds + 50 r108
+gap rows); 3ed9a23e3 r108_sonnet_l2 (12 r107 gap rows -> L3) + 19 new split_audit records + 199c800 / 19a8800 recerts;
+66b463bfa / b7ae7b8b1 decisions 37-38 (owner-approved: grid banks = ONE TU, boundary not observable, weak groups merge).
+**Carve debt 28, L5 52.** Traps: promoting rows that share a certified module's window voids that certificate
+(re-certify after promote.py); split_audit.py --container X drops other containers' records - append only NEW records.
+**Running:** r108_sol61_kinds EXTENDED (rebase its 3 module packages onto the promoted member texts); pool r109 (sol61
+high): r109_sol61_modA (1876800, 1894800, 18a6800, 19d2800 modules), r109_sol61_modB (7e6a5800 + 197281c under decision
+38); Agents: r109_sonnet_l2_1..4 (Layer-2 on the 50 r108 rows, grouped by bank), r109_opus_gapB (from 31).
+**Next:** land modA/modB/kinds packages (+ in-plan review via _r106/review_modules.py, then certify new modules); promote the
+50 Layer-2 rows (re-certify any module whose window they share); then module lanes for the 12 r108 banks; THEN the Sonnet
+ObjectNodeHeader.unk_18 retype (ask ready: _r109/ask_sonnet_unk18.md - held until module waves stop editing members).
+
 # Handover (2026-10-09 ~13:00Z, round 108 RUNNING; r107 landed) - start here
 
 **Landed r107:** b59143798 plan C (own5 808CB000 + 80921000 data re-carves; native dungeon_ovl_19a8800; 12 recovered gap
