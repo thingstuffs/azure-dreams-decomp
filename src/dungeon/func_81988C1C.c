@@ -1,4 +1,4 @@
-#include "common.h"
+#include "modules/dungeon_ovl_19a8800.h"
 #include "shared/game_work.h"
 
 typedef struct S_81988C1C_0 {
@@ -20,23 +20,23 @@ typedef struct S_81988C1C_0 {
     u16 unk_4E;
     u16 unk_50;
     u16 unk_52;
-} S_81988C1C_0;   /* item in func_81988C1C */
+} S_81988C1C_0;   /* item in func_8002441C */
 
 typedef struct S_81988C1C_1 {
     u16 unk_00;
     union { s16 s; u16 u; } unk_02;   /* accessed as both */
     u8 pad_04[0x2];
     union { s16 s; u16 u; } unk_06;   /* accessed as both */
-} S_81988C1C_1;   /* output in func_81988C1C */
+} S_81988C1C_1;   /* output in func_8002441C */
 
 typedef struct S_81988C1C_2 {
     union { void * s; u32 u; } unk_00;   /* accessed as both */
-} S_81988C1C_2;   /* base in func_81988C1C */
+} S_81988C1C_2;   /* base in func_8002441C */
 
 typedef struct S_81988C1C_3 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
-} S_81988C1C_3;   /* pool in func_81988C1C */
+} S_81988C1C_3;   /* pool in func_8002441C */
 
 typedef struct S_81988C1C_4 {
     u32 unk_00;
@@ -58,22 +58,22 @@ typedef struct S_81988C1C_4 {
     u16 unk_22;
     u8 unk_24;
     u8 unk_25;
-} S_81988C1C_4;   /* packet in func_81988C1C */
+} S_81988C1C_4;   /* packet in func_8002441C */
 
 typedef struct S_81988C1C_5 {
     u8 pad_00[0xB0];
     u32 unk_B0;
-} S_81988C1C_5;   /* (u8 *)index in func_81988C1C */
+} S_81988C1C_5;   /* (u8 *)index in func_8002441C */
 
 typedef struct S_81988C1C_6_pre {
     void * unk_00;
     u8 pad_04[0x4];
-} S_81988C1C_6_pre;   /* the 0x8 bytes before node in func_81988C1C, addressed as node[-1] */
+} S_81988C1C_6_pre;   /* the 0x8 bytes before node in func_8002441C, addressed as node[-1] */
 
 typedef struct S_81988C1C_7 {
     u8 pad_00[0xB0];
     u32 unk_B0;
-} S_81988C1C_7;   /* (u8 *)(index + ((S_81988C1C_2 *)base)->unk_00.u) in func_81988C1C */
+} S_81988C1C_7;   /* (u8 *)(index + ((S_81988C1C_2 *)base)->unk_00.u) in func_8002441C */
 
 
 typedef struct {
@@ -88,7 +88,7 @@ extern void func_80066640();
 extern void func_800666F4();
 
 /* Projects linked items into textured quads and adds them to the ordering table. */
-s32 func_81988C1C(void *first_item) {
+s32 func_8002441C(void *first_item) {
     u16 world_pos[4];
     u8 screen_points[8];
     s32 projection_scratch;

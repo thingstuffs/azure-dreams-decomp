@@ -62,7 +62,6 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
     s32 tile_coord;
     s32 y_or_direction;
     u32 collision_out;
-    u32 body_addr;
     u16 tile_x8;
     u16 tile_y8;
 
@@ -92,8 +91,7 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
                     tile_y8 = actor_or_height.actor->y;
                     coord_or_height = tile_x8;
                     offset_work = tile_y8;
-                    body_addr = (u32)body;
-                    height = (*(u16 *)((u8 *)body_addr + 0x88));
+                    height = body->height;
                     coord_or_height <<= 6;
                     tile_coord = (u32)coord_or_height >> 6;
                     offset_work <<= 6;
@@ -128,8 +126,7 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
                                                        (actor_or_height.actor->y + *y_step) & 0xFFFF),
                          (monster_index < 0)) ||
                         !(D_800E2970[monster_index].flags & 2) ||
-                        (result = 0, ((body_addr = (u32)body,
-                                       ((FuncArg2 *)body_addr)->flags & 0x2000) != 0)))) {
+                        (result = 0, ((body->flags & 0x2000) != 0)))) {
                         return result;
                     }
                     if (collision.value & 0x3300) {
@@ -146,8 +143,7 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
                             y_or_direction = target_y_u16 >> 6;
                             target_height = (s16)actor_or_height.height;
                             if (target_height >= 0x201) {
-                                body_addr = (u32)body;
-                                target_height = (s16)((FuncArg2 *)body_addr)->height;
+                                target_height = (s16)body->height;
                             }
                             /* Target X is dead after the tile argument is formed. */
                             target_x = func_8009B25C(body, tile_coord, y_or_direction, target_height);

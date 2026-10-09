@@ -1,4 +1,4 @@
-#include "common.h"
+#include "modules/dungeon_ovl_19a8800.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -73,18 +73,15 @@ typedef struct Resource {
     void *data;
 } Resource;
 
-extern s32 D_80024AA4;
 extern u8 D_800DEC00[];
 
 extern s32 func_8003DE58(void *, void *, s16 *, s32);
-extern EffectObject *func_8003FD64(s32, void *);
-extern void func_8004491C(EffectObject *, void *);
 extern s32 func_800644B8(s32);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern s32 func_8006649C(s32, s32);
 extern s32 func_80069EF8(void);
 
-void func_81988E48(MainObject *obj)
+void func_80024648(MainObject *obj)
 {
     s16 hit[3];
     s32 state_count;
@@ -161,13 +158,13 @@ void func_81988E48(MainObject *obj)
         return;
     }
 
-    callback = &D_80024AA4;
+    callback = func_80024AA4;
     resource = (Resource *)D_800DEC00;
     do {
-        effect = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
+        effect = (EffectObject *)func_8003FD64(0x312, ((u8 *)(&D_80083498)));
         if (effect != (EffectObject *)0) {
             effect->callback = callback;
-            func_8004491C(effect, func_80045340);
+            func_8004491C(effect, (s32)func_80045340);
             child = effect->child;
 
             effect->position->x = obj->x +

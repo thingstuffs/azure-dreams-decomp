@@ -1,0 +1,159 @@
+{
+  "bank": "18a6800",
+  "review": "pending",
+  "reviewer": null,
+  "rows": [
+    {
+      "id": "dungeon/func_81887570",
+      "true_name": "func_80024D70",
+      "foff": 25851248,
+      "size": 120,
+      "template": "dungeon/func_81881DDC",
+      "gate_config": "config/overlays/dungeon_r107_gap_18a7570.overlay.yaml",
+      "src_sha256": "1bb7a64f5c8422a6524fed846721688a6a065729edf08ccbfa7c2521d3a2aaec",
+      "masked_shape_words": 30,
+      "exact_retail_words": 28
+    },
+    {
+      "id": "dungeon/func_818875E8",
+      "true_name": "func_80024DE8",
+      "foff": 25851368,
+      "size": 268,
+      "template": "dungeon/func_81881E54",
+      "gate_config": "config/overlays/dungeon_r107_gap_18a75e8.overlay.yaml",
+      "src_sha256": "580a25f4aec1f67edb460a53c2b27438d56674972132cae0db7cab7198152eed",
+      "masked_shape_words": 67,
+      "exact_retail_words": 66
+    }
+  ],
+  "selector": 20,
+  "original_group": {
+    "container": "dungeon",
+    "module": "ovl_18a6800.c",
+    "module_index": 161,
+    "confidence": "weak"
+  },
+  "module_status": "Exact GNU and genuine diagnostic retained; no native entry/certificate delivered. Requires Layer-2 promotions, subsequent L3 measurements; membership reconciliation for existing func_81887480 in group 167.",
+  "existing_cross_group_row": {
+    "id": "dungeon/func_81887480",
+    "container": "dungeon",
+    "module": "ovl_7e77d800.c",
+    "module_index": 167,
+    "confidence": "weak"
+  },
+  "gap_map": {
+    "bank": "18a6800",
+    "selector": 20,
+    "module_span": [
+      "0x18a6800",
+      "0x18a7e9c"
+    ],
+    "gaps": [
+      {
+        "start": 25851008,
+        "end": 25851636,
+        "bytes": 628
+      }
+    ],
+    "partition": [
+      {
+        "foff": 25851008,
+        "end": 25851248,
+        "size": 240,
+        "runtime": "0x80024c80",
+        "kind": "registered-code-in-other-ledger-group",
+        "row": "dungeon/func_81887480",
+        "module": "ovl_7e77d800.c",
+        "module_index": 167,
+        "entry_word": "0x27bdffc8",
+        "exit_words": [
+          "0x03e00008",
+          "0x00000000"
+        ]
+      },
+      {
+        "foff": 25851248,
+        "end": 25851368,
+        "size": 120,
+        "runtime": "0x80024d70",
+        "kind": "new-complete-code",
+        "row": "dungeon/func_81887570",
+        "template": "dungeon/func_81881DDC",
+        "entry_word": "0x3c038002",
+        "exit_words": [
+          "0x3e00008",
+          "0x0"
+        ],
+        "retail_sha256": "828cc220350a3f1fbd1ecbce1a5e95cc1bf086fe098d93bbc0d134c587a6e04a",
+        "clone_word_differences": [
+          {
+            "offset": "0x4",
+            "source_word": "0x946257ce",
+            "retail_word": "0x94626326"
+          },
+          {
+            "offset": "0x10",
+            "source_word": "0xa46257ce",
+            "retail_word": "0xa4626326"
+          }
+        ],
+        "witnesses": [
+          {
+            "foff": "0x18a7618",
+            "word": "0x3c028002"
+          },
+          {
+            "foff": "0x18a761c",
+            "word": "0x24424d70"
+          }
+        ],
+        "production_config": "config/overlays/dungeon_r107_gap_18a7570.overlay.yaml"
+      },
+      {
+        "foff": 25851368,
+        "end": 25851636,
+        "size": 268,
+        "runtime": "0x80024de8",
+        "kind": "new-complete-code",
+        "row": "dungeon/func_818875E8",
+        "template": "dungeon/func_81881E54",
+        "entry_word": "0x27bdffe0",
+        "exit_words": [
+          "0x3e00008",
+          "0x0"
+        ],
+        "retail_sha256": "f9183a6a9482a608b704c02028002aa03de02ae0d0c4152a22417c3dd2009d09",
+        "clone_word_differences": [
+          {
+            "offset": "0x34",
+            "source_word": "0x244255dc",
+            "retail_word": "0x24424d70"
+          }
+        ],
+        "witnesses": [
+          {
+            "foff": "0x18a6cb0",
+            "word": "0xc00937a"
+          },
+          {
+            "foff": "0x18a6db4",
+            "word": "0xc00937a"
+          },
+          {
+            "foff": "0x18a6f60",
+            "word": "0xc00937a"
+          }
+        ],
+        "production_config": "config/overlays/dungeon_r107_gap_18a75e8.overlay.yaml"
+      }
+    ],
+    "data_bytes": 0,
+    "unclassified_bytes": 0,
+    "review": "pending",
+    "reviewer": null
+  },
+  "blockers": [
+    "orchestrator Layer-2 promotions for both new rows",
+    "existing func_81887480 is assigned to ovl_7e77d800.c group 167, not head group 161; no complete membership claim yet"
+  ]
+}

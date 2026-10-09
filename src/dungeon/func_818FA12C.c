@@ -281,7 +281,7 @@ typedef struct ProjectileSelf {
 } ProjectileSelf;
 
 /* Update a projectile effect, spawn impact particles, and advance its cleanup state. */
-void func_8002592C(ProjectileSelf *self, OutView *position, PacketView *volatile render_data)
+void func_8002592C(ProjectileSelf *self, OutView *position, PacketView *render_data)
 {
     ParentView *parent;
     BaseView *parent_base;
@@ -310,18 +310,14 @@ void func_8002592C(ProjectileSelf *self, OutView *position, PacketView *volatile
     {
         s32 packed_pos;
         s32 packed_size;
-        s32 copy_flags;
         ColorsView *colors;
         s32 state;
-        reg_tmp = (s32)(render_data);
-        ((PacketView *)reg_tmp)->unk_0C.at00.v = 0x00808080;
+        render_data->unk_0C.at00.v = 0x00808080;
         packed_pos = 0x1400340;
-        copy_flags = 0;
-        ASM_KEEP(copy_flags);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         self->copy12 = D_80026698;
         packed_size = 0x400040;
         colors = (ColorsView *)&D_800266A4;
-        ((PacketView *)reg_tmp)->unk_08 = (u32)((u8 *)self + 0xA2);
+        render_data->unk_08 = (u32)((u8 *)self + 0xA2);
         self->direction.u = (parent->unk_2A >> 9) & 7;
         colors->unk_10 = 0x80;
         colors->unk_11 = 0x80;
@@ -331,7 +327,7 @@ void func_8002592C(ProjectileSelf *self, OutView *position, PacketView *volatile
         colors->unk_16 = 4;
         out_pair.pair.a = packed_pos;
         out_pair.pair.b = packed_size;
-        func_800B835C(colors, &out_pair.pair, 1, copy_flags);
+        func_800B835C(colors, &out_pair.pair, 1, 0);
         state = self->state.u;
         D_800266BC[0] = 1;
         self->state.u = state + 1;
@@ -371,15 +367,14 @@ void func_8002592C(ProjectileSelf *self, OutView *position, PacketView *volatile
         }
         if (!(self->flags & 4)) {
             func_8004491C((u8 *)self - 0x20, func_80045340);
-            reg_tmp = (s32)(render_data);
-            ((PacketView *)reg_tmp)->unk_10 = 0x20;
-            ((PacketView *)reg_tmp)->unk_0C.at02.v = 0x20;
-            ((PacketView *)reg_tmp)->unk_0C.at00u.v = 0x20;
-            ((PacketView *)reg_tmp)->unk_14 |= 0x0C;
-            ((PacketView *)reg_tmp)->unk_0C.at01.v = 0xE0;
-            ((PacketView *)reg_tmp)->unk_1E.v = 2000;
-            ((PacketView *)reg_tmp)->unk_1C.v = 2000;
-            ((PacketView *)reg_tmp)->unk_14 &= 0xFFFC;
+            render_data->unk_10 = 0x20;
+            render_data->unk_0C.at02.v = 0x20;
+            render_data->unk_0C.at00u.v = 0x20;
+            render_data->unk_14 |= 0x0C;
+            render_data->unk_0C.at01.v = 0xE0;
+            render_data->unk_1E.v = 2000;
+            render_data->unk_1C.v = 2000;
+            render_data->unk_14 &= 0xFFFC;
             self->flags |= 4;
             target = parent->unk_60.p;
         } else {
@@ -461,29 +456,26 @@ void func_8002592C(ProjectileSelf *self, OutView *position, PacketView *volatile
         if (hit_result << 16) {
             (*(u16 *)((u8 *)self + 0x0A)) = 8;
             (*(u16 *)((u8 *)self + 0x82)) = 0;
-            reg_tmp = (s32)(render_data);
-            ((PacketView *)reg_tmp)->unk_0C.at02u.v = 0;
-            ((PacketView *)reg_tmp)->unk_0C.at01u.v = 0;
-            ((PacketView *)reg_tmp)->unk_0C.at00p.v = 0;
+            render_data->unk_0C.at02u.v = 0;
+            render_data->unk_0C.at01u.v = 0;
+            render_data->unk_0C.at00p.v = 0;
             return;
         }
         {
             s32 scale_y;
-            reg_tmp = (s32)(render_data);
-            angle = ((PacketView *)reg_tmp)->unk_1A;
+            angle = render_data->unk_1A;
             angle += 0x400;
             if (angle >= 0x1001) {
                 angle -= 0x1000;
             }
-            ((PacketView *)reg_tmp)->unk_1A = angle;
+            render_data->unk_1A = angle;
             shrinking = self->shrinking.s;
             if (shrinking == 0) {
-                ((PacketView *)reg_tmp)->unk_1C.n += self->pulse_step;
-                ((PacketView *)reg_tmp)->unk_1E.n += self->pulse_step;
+                render_data->unk_1C.n += self->pulse_step;
+                render_data->unk_1E.n += self->pulse_step;
             } else {
-                reg_tmp = (s32)(render_data);
-                ((PacketView *)reg_tmp)->unk_1C.n -= self->pulse_step;
-                ((PacketView *)reg_tmp)->unk_1E.n -= self->pulse_step;
+                render_data->unk_1C.n -= self->pulse_step;
+                render_data->unk_1E.n -= self->pulse_step;
             }
         }
         pulse_ticks = self->pulse_ticks.s + 1;
@@ -571,12 +563,11 @@ void func_8002592C(ProjectileSelf *self, OutView *position, PacketView *volatile
                 self->state.u = 8;
                 self->timer = 0;
             }
-            reg_tmp = (u32)render_data;
-            ((PacketView *)((u8 *)reg_tmp))->unk_0C.at02u.v = 0;
-            ((PacketView *)((u8 *)reg_tmp))->unk_0C.at01u.v = 0;
-            ((PacketView *)((u8 *)reg_tmp))->unk_0C.at00p.v = 0;
-            ((PacketView *)((u8 *)reg_tmp))->unk_1E.n = 0;
-            ((PacketView *)((u8 *)reg_tmp))->unk_1C.n = 0;
+            render_data->unk_0C.at02u.v = 0;
+            render_data->unk_0C.at01u.v = 0;
+            render_data->unk_0C.at00p.v = 0;
+            render_data->unk_1E.n = 0;
+            render_data->unk_1C.n = 0;
             return;
         }
         position->unk_00.at00.v += position->unk_0C;

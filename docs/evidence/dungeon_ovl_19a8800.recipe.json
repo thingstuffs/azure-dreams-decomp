@@ -1,0 +1,29 @@
+{
+  "module": "dungeon_ovl_19a8800",
+  "scope": "whole_tu",
+  "flags": [
+    "-q",
+    "-G0"
+  ],
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "basis": "Identical complete typed gcc stream. Default checked genuine matches GNU and all retail bytes. Same-stream -0 control also matches; no unchecked recipe needed.",
+  "assembly_sha256": "f2bde443c4881d62ce482816e0565b5246c436388f21d63717ec538e99d77a0d",
+  "unchecked_object_sha256": "70fe6d1031e142438dc6bebf54a6c19c08ed29660e50913a0a1239efa88e7904",
+  "checked_object_sha256": "70fe6d1031e142438dc6bebf54a6c19c08ed29660e50913a0a1239efa88e7904",
+  "checked_text_bytes": 3388,
+  "unchecked_text_bytes": 3388,
+  "comparison": {
+    "diff": 0,
+    "exact": true,
+    "len_m": 847,
+    "len_g": 847,
+    "missing": [],
+    "regions": [],
+    "delay_only": []
+  },
+  "review": "pending",
+  "reviewer": null
+}

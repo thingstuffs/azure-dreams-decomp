@@ -1,4 +1,4 @@
-#include "common.h"
+#include "modules/dungeon_ovl_19a8800.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
@@ -89,25 +89,19 @@ typedef struct S_81988800_12 {
 } S_81988800_12;   /* ((S_81988800_3 *)work)->unk_0C in func_8002401C */
 
 
-extern M2C_UNK D_8002441C;
-extern s32 D_80024648;
-extern M2C_UNK D_80024B20;
 extern M2C_UNK D_80024D58;
 
 extern s32 func_8003DE58();
-extern void *func_8003FD64();
-extern void func_8004491C();
 extern s32 func_80053EF0();
 extern void func_8009CE1C();
 extern void *func_800A3F28();
-extern void func_800A56E0();
 
 void func_8002401C(void *state_data, void *position_data);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol func_80024000).  The phase table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const module_entry)(void *, void *) __asm__("func_80024000") = func_8002401C;
+void (*const dungeon_19a8800_entry)(void *, void *) = func_8002401C;
 
 /* Advance a timed effect sequence, spawning objects and applying the effect to targets. */
 void func_8002401C(void *state_data, void *position_data)
@@ -153,8 +147,8 @@ void func_8002401C(void *state_data, void *position_data)
                     offset[1] = 0;
                     offset[0] = 0;
                 }
-                ((S_81988800_5 *)object)->unk_10 = &D_80024648;
-                func_8004491C(object, &D_8002441C);
+                ((S_81988800_5 *)object)->unk_10 = func_80024648;
+                func_8004491C(object, (s32)func_8002441C);
                 ((S_81988800_5 *)object)->unk_20 = state_data;
                 spawn_data = (u8 *)object + 0x20;
 
@@ -199,8 +193,8 @@ void func_8002401C(void *state_data, void *position_data)
         if (((S_81988800_0 *)state_data)->unk_50.s <= 0) {
             object = func_8003FD64(0x302, ((u8 *)(&D_80083498)));
             if (object != 0) {
-                ((S_81988800_5 *)object)->unk_10 = &D_80024B20;
-                func_8004491C(object, &D_80024D58);
+                ((S_81988800_5 *)object)->unk_10 = func_80024B20;
+                func_8004491C(object, (s32)&D_80024D58);
                 actor = (void *)((u8 *)(&D_80082E80));
                 offset[0] = (((u16)D_800814A8->facing) >> 9) & 7;
                 work = (u8 *)object + 0x20;

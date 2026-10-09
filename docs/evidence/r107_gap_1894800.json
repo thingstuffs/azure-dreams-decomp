@@ -1,0 +1,139 @@
+{
+  "bank": "1894800",
+  "selector": 17,
+  "loader_foff": "0xc40cc",
+  "loader_sha256": "7ff8f80959c35c88ee359e1027907db34401cfaf4ed0592b2697813614c5f444",
+  "iso_extent": {
+    "path": "DUNGEON/DUNGEON.BIN",
+    "lba": 12310,
+    "size": 27813888,
+    "directory_lba": 12309,
+    "record_offset": 96,
+    "record_hex": "3c0016300000000030160068a80101a86800620306111f0424000000010000010d44554e47454f4e2e42494e3b31000000000d555841000000000000"
+  },
+  "lba": "0x613f",
+  "load_span": [
+    "0x1894800",
+    "0x189a800"
+  ],
+  "destination": "0x80024000",
+  "delta": "0x7e78f800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_1894800.c",
+    "module_index": 158
+  },
+  "existing_members": [
+    "dungeon/func_81874800",
+    "dungeon/func_81874988",
+    "dungeon/func_81874F58",
+    "dungeon/func_81875828",
+    "dungeon/func_81875A78",
+    "dungeon/func_81875B38",
+    "dungeon/func_81875C70",
+    "dungeon/func_81876014",
+    "dungeon/func_818761D8"
+  ],
+  "module_span": [
+    "0x1894800",
+    "0x1896e34"
+  ],
+  "entry_pointer": "0x800259d8",
+  "gap_bytes": 168,
+  "gaps": [
+    {
+      "file_span": [
+        "0x1894f04",
+        "0x1894f58"
+      ],
+      "runtime_span": [
+        "0x80024704",
+        "0x80024758"
+      ],
+      "bytes": 84,
+      "classification": "complete-code-function",
+      "sha256": "71d99215def1ff18e6457722cf07376aa8f064e59d88ba2cf4ed1ba49ac68ff6",
+      "frame_bytes": 24,
+      "epilogue": "jr ra; nop",
+      "template_row": "dungeon/func_800C138C",
+      "template_foff": "0xe138c",
+      "template_source_sha256": "028da325b5fa17eab6514ae5da2da17c0d32b35c5a8ef68be00d09be4a37f994",
+      "differences": [
+        {
+          "offset": 20,
+          "target_word": "0xc009062",
+          "template_word": "0xc031ad0",
+          "target": "0x80024188",
+          "template_target": "0x800c6b40"
+        },
+        {
+          "offset": 52,
+          "target_word": "0x80091c6",
+          "template_word": "0x8031ac0",
+          "target": "0x80024718",
+          "template_target": "0x800c6b00"
+        }
+      ],
+      "bank_references": [],
+      "constructed_code_pointer_pairs": [
+        {
+          "row": "dungeon/func_818761D8",
+          "lui_foff": "0x18966b4",
+          "lui_word": "0x3c058002",
+          "lo_foff": "0x18966b8",
+          "lo_word": "0x24a54704",
+          "constructed": "0x80024704",
+          "basis": "Explicit local address construction; no control-flow execution claim."
+        }
+      ]
+    },
+    {
+      "file_span": [
+        "0x18957d4",
+        "0x1895828"
+      ],
+      "runtime_span": [
+        "0x80024fd4",
+        "0x80025028"
+      ],
+      "bytes": 84,
+      "classification": "complete-code-function",
+      "sha256": "90ce7f21a96c9334c354ac26676affaff4cce67bfef4bc17bac7eeb9cfe22d03",
+      "frame_bytes": 24,
+      "epilogue": "jr ra; nop",
+      "template_row": "dungeon/func_800C138C",
+      "template_foff": "0xe138c",
+      "template_source_sha256": "028da325b5fa17eab6514ae5da2da17c0d32b35c5a8ef68be00d09be4a37f994",
+      "differences": [
+        {
+          "offset": 20,
+          "target_word": "0xc0091d6",
+          "template_word": "0xc031ad0",
+          "target": "0x80024758",
+          "template_target": "0x800c6b40"
+        },
+        {
+          "offset": 52,
+          "target_word": "0x80093fa",
+          "template_word": "0x8031ac0",
+          "target": "0x80024fe8",
+          "template_target": "0x800c6b00"
+        }
+      ],
+      "bank_references": [],
+      "constructed_code_pointer_pairs": [
+        {
+          "row": "dungeon/func_818761D8",
+          "lui_foff": "0x1896a40",
+          "lui_word": "0x3c058002",
+          "lo_foff": "0x1896a64",
+          "lo_word": "0x24a54fd4",
+          "constructed": "0x80024fd4",
+          "basis": "Explicit local address construction; no control-flow execution claim."
+        }
+      ]
+    }
+  ],
+  "review": "pending",
+  "reviewer": null
+}

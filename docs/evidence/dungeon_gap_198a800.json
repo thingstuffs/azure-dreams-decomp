@@ -1,0 +1,559 @@
+{
+  "bank": "0x198a800",
+  "selector": 58,
+  "members": [
+    {
+      "id": "dungeon/func_8196A800",
+      "container": "dungeon",
+      "func": "func_8196A800",
+      "true_name": null,
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 292,
+      "foff": 26781696,
+      "c_path": "overlays/dungeon/first_pass_matched/func_8196A800.c",
+      "exists": true,
+      "src_sha": "136f9953dab24e3cc5fac3e5ca2d2d6d34c9bd82478b1f8d7da2fc670e29e794",
+      "gate_config": "config/overlays/dungeon_deep_t8_197a.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_8196AB74",
+      "container": "dungeon",
+      "func": "func_8196AB74",
+      "true_name": null,
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 80,
+      "foff": 26782580,
+      "c_path": "overlays/dungeon/first_pass_matched/func_8196AB74.c",
+      "exists": true,
+      "src_sha": "8d84c1e6aa095dcacd6b9d196a00049d90d082b12bb46119dd9ac216a07fc4fb",
+      "gate_config": "config/overlays/dungeon_deep_t8_197a.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_8196ACE4",
+      "container": "dungeon",
+      "func": "func_8196ACE4",
+      "true_name": null,
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 912,
+      "foff": 26782948,
+      "c_path": "overlays/dungeon/first_pass_matched/func_8196ACE4.c",
+      "exists": true,
+      "src_sha": "77f5b368b50e0e07da9f9e845b2ac44806ce16a2a95146ea5213dd21d9fa5d98",
+      "gate_config": "config/overlays/dungeon_deep_t8b_198ace4.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_8196B074",
+      "container": "dungeon",
+      "func": "func_8196B074",
+      "true_name": null,
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 488,
+      "foff": 26783860,
+      "c_path": "overlays/dungeon/first_pass_matched/func_8196B074.c",
+      "exists": true,
+      "src_sha": "0c4eb9ed1c6a5a9b42c408940bce016f37966fad250e18f2ffea18995d3f10b4",
+      "gate_config": "config/overlays/dungeon_deep_t8_197a.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_8196B25C",
+      "container": "dungeon",
+      "func": "func_8196B25C",
+      "true_name": null,
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 156,
+      "foff": 26784348,
+      "c_path": "overlays/dungeon/first_pass_matched/func_8196B25C.c",
+      "exists": true,
+      "src_sha": "6b549b9b05c5e04182be541472b27a729469bce082a49174708942a3fce374b6",
+      "gate_config": "config/overlays/dungeon_deep_t8b_198b25c.overlay.yaml",
+      "instances": 2,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_8196B2F8",
+      "container": "dungeon",
+      "func": "func_8196B2F8",
+      "true_name": null,
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 428,
+      "foff": 26784504,
+      "c_path": "overlays/dungeon/first_pass_matched/func_8196B2F8.c",
+      "exists": true,
+      "src_sha": "11c5a3537292195e9d0309f20496e7bfdb6841ce441c56dff390ed7571586cc9",
+      "gate_config": "config/overlays/dungeon_deep_t8b_198b2f8.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_8196B4A4",
+      "container": "dungeon",
+      "func": "func_8196B4A4",
+      "true_name": null,
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 732,
+      "foff": 26784932,
+      "c_path": "overlays/dungeon/first_pass_matched/func_8196B4A4.c",
+      "exists": true,
+      "src_sha": "0ee57ff602de32edd659360605f714a37571f0523a8f96af112fd0dec076f393",
+      "gate_config": "config/overlays/dungeon_deep_t8b_198b4a4.overlay.yaml",
+      "instances": 2,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_8196B780",
+      "container": "dungeon",
+      "func": "func_8196B780",
+      "true_name": null,
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 732,
+      "foff": 26785664,
+      "c_path": "overlays/dungeon/first_pass_matched/func_8196B780.c",
+      "exists": true,
+      "src_sha": "468cba0dcf5c8625e266f23b735f25df5a78c67ae7523f872af4ef6af4d01955",
+      "gate_config": "config/overlays/dungeon_deep_t8_197a.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_8196BA5C",
+      "container": "dungeon",
+      "func": "func_8196BA5C",
+      "true_name": "func_8002525C",
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 736,
+      "foff": 26786396,
+      "c_path": "overlays/dungeon/first_pass_matched/func_8196BA5C.c",
+      "exists": true,
+      "src_sha": "6c594783cf6c26a03b0a8be2086513ee1ef0eb96ed5041bd3adf8574015a87d4",
+      "gate_config": "config/overlays/dungeon_deep_t8b_198ba5c.overlay.yaml",
+      "instances": 2,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_8196BD3C",
+      "container": "dungeon",
+      "func": "func_8196BD3C",
+      "true_name": null,
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 268,
+      "foff": 26787132,
+      "c_path": "overlays/dungeon/first_pass_matched/func_8196BD3C.c",
+      "exists": true,
+      "src_sha": "f48ebe7c9ab7c1ebe7f289961d1ca906822578a6ae3096970bba34b27304eb6c",
+      "gate_config": "config/overlays/dungeon_deep_t8_197a.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_8196BE48",
+      "container": "dungeon",
+      "func": "func_8196BE48",
+      "true_name": null,
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 220,
+      "foff": 26787400,
+      "c_path": "overlays/dungeon/first_pass_matched/func_8196BE48.c",
+      "exists": true,
+      "src_sha": "a3b727ed1d4e1980992a084a32457d9f9bbd25bd18f42e34409c7f76f2d91367",
+      "gate_config": "config/overlays/dungeon_deep_t8_197a.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_8196BF24",
+      "container": "dungeon",
+      "func": "func_8196BF24",
+      "true_name": null,
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 140,
+      "foff": 26787620,
+      "c_path": "overlays/dungeon/first_pass_matched/func_8196BF24.c",
+      "exists": true,
+      "src_sha": "79fc497d743062122c3ef65d696e4f1d87952d294cacfcb47ec1df50a0ee84a9",
+      "gate_config": "config/overlays/dungeon_deep_t8_197a.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_8196BFB0",
+      "container": "dungeon",
+      "func": "func_8196BFB0",
+      "true_name": null,
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 720,
+      "foff": 26787760,
+      "c_path": "overlays/dungeon/first_pass_matched/func_8196BFB0.c",
+      "exists": true,
+      "src_sha": "baac40bd5e2b2873af053cc19cb8ab0ca78ed52b714aa00de3a2dda7504e84b0",
+      "gate_config": "config/overlays/dungeon_deep_t8b_198bfb0.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_8196C280",
+      "container": "dungeon",
+      "func": "func_8196C280",
+      "true_name": null,
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 744,
+      "foff": 26788480,
+      "c_path": "overlays/dungeon/first_pass_matched/func_8196C280.c",
+      "exists": true,
+      "src_sha": "e0aa5d873e6be2e0c76c8e4e647d735243ab68e8f4fc85789794d16aaae88bc7",
+      "gate_config": "config/overlays/dungeon_deep_t8b_198c280.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    {
+      "id": "dungeon/func_8196C568",
+      "container": "dungeon",
+      "func": "func_8196C568",
+      "true_name": "func_80025D68",
+      "cfg": "2.7.2-cdk-G0",
+      "cell": "2.7.2-cdk",
+      "flags": "-G0",
+      "size": 3088,
+      "foff": 26789224,
+      "c_path": "overlays/dungeon/first_pass_matched/func_8196C568.c",
+      "exists": true,
+      "src_sha": "82f2c7735a99bb3a04a9e30a99b05c11670e48952760b56d5929ba3f4215918c",
+      "gate_config": "config/overlays/dungeon_deep_t8_197a.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    }
+  ],
+  "regions": [
+    {
+      "schema": "azure-clean.rowbase.v1",
+      "region": "row_198c568_80025d68",
+      "foff_start": "0x198C568",
+      "foff_end": "0x198D178",
+      "delta": "0x7E699800",
+      "base_confidence": "proven",
+      "proof": "static j+jtbl solve 2026-08-31 batch 2 (work/wave_20260831_dungeon/rowbase_batch2_evidence.md), same method as row_9c0c80_80172480. M1 local-j containment: all 5 of this row's in-function absolute j targets can only land inside its own 3088-byte span, confining delta to [0x7E6997D8,0x7E69A350] (735 four-aligned candidates); the back-half bank law (bank_start = 0x80020000 - delta lies on the 0x6000 lattice at phase 0x800 -- satisfied by 94 of the 96 existing rowbase records in foff 0x1800000-0x1A00000, the 2 exceptions both being xfer_dungeon_* whole-image transfer regions, a different mechanism) leaves exactly ONE: 0x7E699800 -> true base 0x80025D68, bank 0x1986800 + 0x5D68, pin_conflict=false. M5 Evidence-B2 switch-table containment: the row's own jr-switch reads the table at 0x80024068; its container image at foff 0x198A868 (= bank + 0x4068, the per-bank jump-table block) holds 5 consecutive 4-aligned words 0x80025E58/0x80025E90/0x80025F18/0x800262CC/0x800268F4, every one inside [0x80025D68,0x80026978) i.e. inside this row at the solved base, terminated by 0x00803821. A global scan of all 6.95M container word offsets for a >=4-entry in-span table admits 4 delta(s); intersecting with M1 leaves 2 (the runner-ups are the same table read 1-10 entries early), and the bank law leaves 1. M4 Evidence-B1 same-K jal: 4 jal target(s) from this row land EXACTLY on in-image function-start row(s) at this delta -- 0x80024AF8 -> foff 0x198B2F8 (row start func_8196B2F8); 0x80024CA4 -> foff 0x198B4A4 (row start func_8196B4A4); 0x80024F80 -> foff 0x198B780 (row start func_8196B780); 0x8002553C -> foff 0x198BD3C (row start func_8196BD3C); at the nearest runner-up delta the same test scores 0. M6 Evidence-A resident calls: 4 distinct jal target(s) land exactly on main-EXE function entries (0x8003DF74, 0x8003FC64, 0x8004491C, 0x800542BC), 0 unresolved jal, 0 contra. M7 self-reference: 7 of 104 lui/addiu addresses in this row resolve, at this delta, into the row's OWN bank [0x1986800,0x198C800). Bank co-membership: none -- this bank has no existing record; the bank is attested only by its ladder neighbours. Bank ladder: bank+0x6000 (0x198C800) attested by 1 record(s) e.g. jtbl_199192C. EXTENT = this row's own 3088 bytes only; it overlaps no existing record and contains no other row, so the mint renames nothing already banked (func_80025D68 is not defined anywhere in overlays/dungeon/first_pass_matched/). STATIC EVIDENCE ONLY -- no RAM capture. Scoring-grade (solved) until a byte-exact recompile at 0x80025D68 promotes it via tools/rowbase.py promote.; PROMOTED solved->proven: byte-exact recompile func_8196C568 at true base 0x80025D68 (candidate sha 5c3b223aff62 @ 2.7.2-cdk-G0, linked-strict isolation compare, phase-2 item-3 hook)"
+    },
+    {
+      "schema": "azure-clean.rowbase.v1",
+      "region": "row_198ba5c_8002525c",
+      "foff_start": "0x198BA5C",
+      "foff_end": "0x198BD3C",
+      "delta": "0x7E699800",
+      "base_confidence": "proven",
+      "proof": "WEAK (only 1 distinct in-row target). Static local-j solve 2026-09-14 (work/lac_honest, label-as-call region-less wave; method and per-row evidence in work/lac_honest/ROWBASE_REPORT.md, which follows work/tailslot_honest/ROWBASE_REPORT.md sections 1-2): all 1 plausible absolute `j` word(s) of func_8196BA5C (0 further word(s) decode as `j` but are data -- `j 0` or a target above RAM -- and are discarded) land INSIDE the row at base 0x8002525C (delta 0x7E699800, alignment 0x800), giving 1 DISTINCT in-row target(s) 0x80025320 at offset(s) +0xC4 of the row's [0x198BA5C,0x198BD3C) extent. Containment alone leaves 184 candidate bases in [0x80025044,0x80025320] -- it is an interval, not a point -- so the base is fixed by BANK CONSISTENCY: 1 existing dungeon.rowbase.jsonl record(s) within 0x8000 file bytes carry exactly this delta (row_198c568_80025d68), 0 neighbouring ledger row(s) in the same span carry a RECORDED true_name that implies exactly this delta, and 1 further row(s) in the span admit it; vote score 4, decided by score, unique winner: yes. Negative control: the row contains 3 `jal` word(s) and 0 of them land inside the row at this base -- genuine calls leave the row, which is what a correctly solved base predicts and an over-fitted one does not. NO RECOMPILE WAS RUN in this wave, deliberately: work/tailslot_honest/ROWBASE_REPORT.md section 0 measured 0 of 90 recompiles of the CURRENT pinned text to be discriminating -- the pinned pseudo-call spells the row's own jump as a call to an absolute extern, the one construct that does not move with the link base, so relinking today's text is byte-identical at both bases and adds zero base evidence. The discriminating recompile for this row is the honest goto/return rewrite (same report section 7; 2 label-as-call pseudo-call site(s) and 2 pin(s) sit on this row), which is also what tools/gate/rowbase.py promote requires. Extent is the row's own 736 bytes, conservatively carved: it overlaps no existing rowbase record and contains no other registered row.  STATIC EVIDENCE ONLY (no RAM capture). Scoring-grade (`solved`) until a byte-exact recompile of HONEST C at this base promotes it via tools/gate/rowbase.py promote; promotion also turns on the owner-decision-B naming inversion (tools/gate/overlay_local_gate.py: an in-region source must define func_8002525C and never mention func_8196BA5C).; PROMOTED solved->proven: byte-exact recompile func_8196BA5C at true base 0x8002525C (candidate sha f17d9a97fd38 @ 2.7.2-cdk-G0, linked-strict isolation compare, phase-2 item-3 hook)"
+    }
+  ],
+  "gaps": [
+    {
+      "start": "0x198a924",
+      "end": "0x198ab74",
+      "bytes": 592,
+      "sha256": "e5a6742ca8c208d4e25654678372ac8722275069962dbc04293ec59ceaef7e0f",
+      "candidates": [
+        {
+          "row": "dungeon/func_818F30EC",
+          "foff": 26292460,
+          "equal_words": 147,
+          "opcode_equal": 148,
+          "total_words": 148
+        },
+        {
+          "row": "dungeon/func_80A4A694",
+          "foff": 10921620,
+          "equal_words": 141,
+          "opcode_equal": 148,
+          "total_words": 148
+        },
+        {
+          "row": "dungeon/func_818CE83C",
+          "foff": 26142780,
+          "equal_words": 141,
+          "opcode_equal": 148,
+          "total_words": 148
+        },
+        {
+          "row": "dungeon/func_81875828",
+          "foff": 25778216,
+          "equal_words": 113,
+          "opcode_equal": 134,
+          "total_words": 148
+        },
+        {
+          "row": "dungeon/func_8187B5A0",
+          "foff": 25802144,
+          "equal_words": 113,
+          "opcode_equal": 134,
+          "total_words": 148
+        },
+        {
+          "row": "dungeon/func_800BD57C",
+          "foff": 906620,
+          "equal_words": 10,
+          "opcode_equal": 37,
+          "total_words": 148
+        },
+        {
+          "row": "dungeon/func_8028484C",
+          "foff": 2771020,
+          "equal_words": 7,
+          "opcode_equal": 34,
+          "total_words": 148
+        },
+        {
+          "row": "dungeon/func_800BDCE0",
+          "foff": 908512,
+          "equal_words": 3,
+          "opcode_equal": 31,
+          "total_words": 148
+        }
+      ],
+      "kind": "complete-function",
+      "runtime_entry": "0x80024124",
+      "frame_bytes": 56,
+      "epilogue": {
+        "foff": "0x198ab68",
+        "words": [
+          "0x27bd0038",
+          "0x3e00008",
+          "0x0"
+        ]
+      },
+      "bank_references": [
+        {
+          "kind": "lui/addiu-function-address",
+          "foff": "0x198ac78",
+          "words": [
+            "0x3c058002",
+            "0x24a54124"
+          ],
+          "target": "0x80024124"
+        }
+      ],
+      "clone_differences": [
+        {
+          "word": 132,
+          "retail": "0x800905f",
+          "clone": "0x8009251"
+        }
+      ],
+      "selected_clone": "dungeon/func_818F30EC"
+    },
+    {
+      "start": "0x198abc4",
+      "end": "0x198ace4",
+      "bytes": 288,
+      "sha256": "a2a2016cb8da962849af22681ad85d18b868ed0897b132aca2f7f10486baec9f",
+      "candidates": [
+        {
+          "row": "dungeon/func_81940F98",
+          "foff": 26611608,
+          "equal_words": 70,
+          "opcode_equal": 72,
+          "total_words": 72
+        },
+        {
+          "row": "dungeon/func_818CEB58",
+          "foff": 26143576,
+          "equal_words": 66,
+          "opcode_equal": 72,
+          "total_words": 72
+        },
+        {
+          "row": "dungeon/func_818FECCC",
+          "foff": 26340556,
+          "equal_words": 65,
+          "opcode_equal": 72,
+          "total_words": 72
+        },
+        {
+          "row": "dungeon/func_80A4AA14",
+          "foff": 10922516,
+          "equal_words": 64,
+          "opcode_equal": 72,
+          "total_words": 72
+        },
+        {
+          "row": "dungeon/func_800B3748",
+          "foff": 866120,
+          "equal_words": 13,
+          "opcode_equal": 21,
+          "total_words": 72
+        },
+        {
+          "row": "dungeon/func_81868A64",
+          "foff": 25725540,
+          "equal_words": 7,
+          "opcode_equal": 21,
+          "total_words": 72
+        },
+        {
+          "row": "dungeon/func_819232EC",
+          "foff": 26489580,
+          "equal_words": 7,
+          "opcode_equal": 12,
+          "total_words": 72
+        },
+        {
+          "row": "dungeon/func_80E12058",
+          "foff": 14884952,
+          "equal_words": 6,
+          "opcode_equal": 20,
+          "total_words": 72
+        }
+      ],
+      "kind": "complete-function",
+      "runtime_entry": "0x800243c4",
+      "frame_bytes": 56,
+      "epilogue": {
+        "foff": "0x198acd8",
+        "words": [
+          "0x27bd0038",
+          "0x3e00008",
+          "0x0"
+        ]
+      },
+      "bank_references": [],
+      "clone_differences": [
+        {
+          "word": 23,
+          "retail": "0x24424374",
+          "clone": "0x24424734"
+        },
+        {
+          "word": 46,
+          "retail": "0x24a54124",
+          "clone": "0x24a544e4"
+        }
+      ],
+      "selected_clone": "dungeon/func_81940F98",
+      "reference_status": "No direct JAL or adjacent address-forming pair in this bank; complete callable boundaries + clone independently attest the function."
+    }
+  ],
+  "placement": {
+    "selector": 58,
+    "lba": "0x632b",
+    "file_start": "0x198a800",
+    "file_end": "0x1990800",
+    "destination": "0x80024000",
+    "sectors": 12,
+    "delta": "0x7e699800",
+    "review": "pending",
+    "reviewer": null,
+    "static_only": true,
+    "iso_extent": {
+      "path": "DUNGEON/DUNGEON.BIN",
+      "lba": 12310,
+      "size": 27813888,
+      "directory_lba": 12309,
+      "record_offset": 96,
+      "record_hex": "3c0016300000000030160068a80101a86800620306111f0424000000010000010d44554e47454f4e2e42494e3b31000000000d555841000000000000"
+    },
+    "loader": {
+      "path": "docs/evidence/dungeon_gap_loader.bin",
+      "bytes": 472,
+      "sha256": "7ff8f80959c35c88ee359e1027907db34401cfaf4ed0592b2697813614c5f444"
+    },
+    "loader_words": {
+      "0xc40d4": "0x3c148002",
+      "0xc40e0": "0x36944000",
+      "0xc417c": "0x2463ffff",
+      "0xc4180": "0x31040",
+      "0xc4184": "0x431021",
+      "0xc4188": "0x21080",
+      "0xc418c": "0x2447607f",
+      "0xc4190": "0x2404000c",
+      "0xc4194": "0x2802821",
+      "0xc41a0": "0xc00fdb5",
+      "0xc41a8": "0x24040006",
+      "0xc41b0": "0xc00f93f"
+    },
+    "disc_container_equality": true,
+    "bank": {
+      "path": "docs/evidence/dungeon_gap_198a800.bin",
+      "bytes": 24576,
+      "sha256": "126050da96ee74773f7ad2c5f23547679c87f2a3c5f00fe8e41e7f261250fce3"
+    },
+    "entry_target": "0x80025d68"
+  },
+  "review": "pending",
+  "reviewer": null,
+  "new_rows": [
+    "dungeon/func_8196A924",
+    "dungeon/func_8196ABC4"
+  ],
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_198a800.c",
+    "module_index": 195
+  },
+  "module_status": "UNFINISHED; no active native-module entry in this gap-only package",
+  "layer2_required": [
+    "dungeon/func_8196A924",
+    "dungeon/func_8196ABC4"
+  ]
+}

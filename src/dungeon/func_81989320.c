@@ -1,4 +1,4 @@
-#include "common.h"
+#include "modules/dungeon_ovl_19a8800.h"
 
 typedef struct S_80024B20_0 {
     u8 pad_00[0x10];
