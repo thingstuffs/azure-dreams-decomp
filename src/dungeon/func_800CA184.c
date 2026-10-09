@@ -373,17 +373,14 @@ void func_800CF8E4(void) {
             setup_value = (s32)0x80010000;
             setup_base = (s32)scene->unk_000;
             width_shift_or_end = map->shiftX;
-            face = (CellFace *)(s32)map->shiftY;   /* the height shift word, parked in the face register (ASM_KEEP4 pin) */
+            face = (CellFace *)(s32)map->shiftY;   /* the height shift word, held in the face register until its store */
             column_mask = map->maskX;
             row_mask = map->maskY;
-            ASM_KEEP4(width_shift_or_end, face, column_mask, row_mask);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             max_height = *(s32 *)(setup_value + 0x3180);
+            setup_base += 0xB8;
             draw_mode = *(u8 *)(setup_value + 0x3184);
             setup_value = *(u8 *)(setup_value + 0x3185);
-            setup_base += 0xB8;
-            do {
-                scratch->width_shift = width_shift_or_end;
-            } while (0);
+            scratch->width_shift = width_shift_or_end;
             scratch->blend = (u16)setup_value;
             setup_value = scratch->width_shift;
             scratch->ot_base = setup_base;
@@ -391,9 +388,7 @@ void func_800CF8E4(void) {
             setup_value = setup_base << setup_value;
             scratch->height_shift = (s32)face;
             scratch->map_width = setup_value;
-            do {
-                setup_value = scratch->height_shift;
-            } while (0);
+            setup_value = scratch->height_shift;
             setup_base <<= setup_value;
             scratch->column_mask = column_mask;
             scratch->row_mask = row_mask;
