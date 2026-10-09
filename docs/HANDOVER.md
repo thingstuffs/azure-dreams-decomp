@@ -1,3 +1,18 @@
+# Handover (2026-10-09 ~06:20Z, round 106: CARVE-DEBT WAVE RUNNING) - start here
+
+**Since r105 close:** 14161a493 Opus 800CA184 2 -> 1 (90 pins / 50 rows; ledger shows 94/51 incl. parked ovmovie);
+c8126e659 decision 35 (zero-relocation data rows gated at the window vram without a proven region - SECOND LOOK).
+**Census:** 40 carve-debt rows = 33 queued native-module bank heads (all members L3; r100_astra_carve1 queue.tsv),
+GAP B carrier 81994800, 808CB000 + 80921000 (not bank heads - check which own lane held them), 4 town prefixes.
+**Running (builder work/native_lane/_r106/):** pool r106m (sol61 high, 1.2M / 180 min, --no-land): r106_sol61_mod1
+(1840800, 1858800, 185e800, 18ac800) + r106_sol61_mod2 (18f4800, 18fa800, 199c800, 19ba800) - the 1870800 recipe, one
+package per module; r106_sol61_pidata - decision 35 gate patch + placement-unproven home + 802F100C. Agent tool:
+r106_opus_gapB (reads first, GAP A lever second). New LANDING CONTRACT in common.md: lane apply.py takes --live natively.
+**Deferred:** 4 modules with one pinned member each (8182C800, 81844800, 81809800, 818F8800) -> Opus pin targets; modules
+with code gaps; town receipts (next attempt: r105_sol61_bank/evidence/dungeon_cd_callers.json lists TOWN Control_CD callers).
+**Landing:** one land_packages.py plan per lane (package entries in sequence), certify each new module right after
+(the lander refuses a changed cert set); live cert count grows 4 -> 12, landings slow down (gperf target).
+
 # Handover (2026-10-09 ~03:35Z, round 105: ALL PACKAGES LANDED; Opus cl2 running) - start here
 
 **Landed r105:** 28a9bb352 baseline (149 rows) + decisions 32-34; 2d40e95f9 Layer-2 (3 recovered rows -> L3);
