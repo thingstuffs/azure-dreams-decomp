@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-09T09:53:28Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-09T10:18:37Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -83,14 +83,14 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | town_minigame_dispatch_44b44 | 13 | current: complete TU + all windows + genuine |
 | dungeon_ovl_1852800 | 4 | current: complete TU + all windows + genuine |
 | dungeon_ovl_1870800 | 2 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1858800 | 3 | certificate missing/invalid: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_ovl_1858800.json' |
-| dungeon_ovl_1840800 | 3 | certificate missing/invalid: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_ovl_1840800.json' |
-| dungeon_ovl_185e800 | 3 | certificate missing/invalid: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_ovl_185e800.json' |
-| dungeon_ovl_18ac800 | 2 | certificate missing/invalid: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_ovl_18ac800.json' |
-| dungeon_ovl_18fa800 | 3 | certificate missing/invalid: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_ovl_18fa800.json' |
-| dungeon_ovl_19ba800 | 3 | certificate missing/invalid: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_ovl_19ba800.json' |
-| dungeon_ovl_199c800 | 4 | certificate missing/invalid: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_ovl_199c800.json' |
-| dungeon_ovl_18f4800 | 5 | certificate missing/invalid: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_ovl_18f4800.json' |
+| dungeon_ovl_1858800 | 3 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1840800 | 3 | current: complete TU + all windows + genuine |
+| dungeon_ovl_185e800 | 3 | current: complete TU + all windows + genuine |
+| dungeon_ovl_18ac800 | 2 | current: complete TU + all windows + genuine |
+| dungeon_ovl_18fa800 | 3 | current: complete TU + all windows + genuine |
+| dungeon_ovl_19ba800 | 3 | current: complete TU + all windows + genuine |
+| dungeon_ovl_199c800 | 4 | current: complete TU + all windows + genuine |
+| dungeon_ovl_18f4800 | 5 | current: complete TU + all windows + genuine |
 
 Placement alone does not override any lower-level or source-residue guard.
 
@@ -158,12 +158,12 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 | L1 | 2,753,520 | 99.6% |
 | L2 | 2,753,520 | 99.6% |
 | L3 | 2,546,804 | 92.1% |
-| L4 | 5,916 | 0.2% |
-| L5 | 5,916 | 0.2% |
+| L4 | 29,732 | 1.1% |
+| L5 | 28,004 | 1.0% |
 
 On shared record headers (T7, `include/records/`): 845 rows, 549,076 bytes (19.9%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 50 rows (64,448 B), tail_jump 19 rows (23,756 B), not_in_module 6,874 rows (2,744,752 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 50 rows (64,448 B), tail_jump 19 rows (23,756 B), not_in_module 6,848 rows (2,720,936 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 

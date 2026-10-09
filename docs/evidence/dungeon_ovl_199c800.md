@@ -9,3 +9,5 @@ The module header and shared dungeon_native_abi.h bind actual ABIs: allocator li
 Membership, imports, recipe and selector documents are review inputs. The recipe control binds the same assembly stream and both genuine objects; -0 is whole-TU only. External resident/runtime views import existing storage. The data view widths record bounded source/callee accesses or known script spans; address sentinels are identified separately. Function import addresses resolve through proven PS-X EXE, resident DUNGEON or selector-bank maps.
 
 Required acceptance is the production windows and full unchanged gate_all --all plus SLUS proof, zero rows without gate_config, unchanged noreturn files and a real scratch test certification. The complete native diagnostic alone does not certify this module. Incoming review fields remain pending; test reviewer state belongs only to scratch.
+
+Reviewer: orchestrator-r106 (2026-10-09): membership (complete ledger group, selector receipt placement), types (typed entry pointer, member declarations reconciled into module headers) and ownership (imports bound to proven maps, no storage ownership claimed) reviewed.

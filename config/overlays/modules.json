@@ -1005,10 +1005,10 @@
         "docs/evidence/dungeon_ovl_1858800.recipe.json"
       ],
       "review": {
-        "membership": "pending",
-        "types": "pending",
-        "ownership": "pending",
-        "reviewer": "pending"
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "orchestrator-r106"
       },
       "genuine_aspsx": {
         "flags": [
@@ -1240,10 +1240,10 @@
         "docs/evidence/dungeon_ovl_1840800.recipe.json"
       ],
       "review": {
-        "membership": "pending",
-        "types": "pending",
-        "ownership": "pending",
-        "reviewer": "pending"
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "orchestrator-r106"
       },
       "genuine_aspsx": {
         "flags": [
@@ -1447,10 +1447,10 @@
         "docs/evidence/dungeon_ovl_185e800.recipe.json"
       ],
       "review": {
-        "membership": "pending",
-        "types": "pending",
-        "ownership": "pending",
-        "reviewer": "pending"
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "orchestrator-r106"
       },
       "genuine_aspsx": {
         "flags": [
@@ -1734,10 +1734,10 @@
         "docs/evidence/dungeon_ovl_18ac800.imports.json"
       ],
       "review": {
-        "membership": "pending",
-        "types": "pending",
-        "ownership": "pending",
-        "reviewer": "pending"
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "orchestrator-r106"
       }
     },
     {
@@ -1924,10 +1924,10 @@
         }
       ],
       "review": {
-        "membership": "pending",
-        "types": "pending",
-        "ownership": "pending",
-        "reviewer": "pending"
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "orchestrator-r106"
       },
       "review_inputs": [
         "docs/evidence/dungeon_ovl_18fa800.md",
@@ -2175,10 +2175,10 @@
         }
       ],
       "review": {
-        "membership": "pending",
-        "types": "pending",
-        "ownership": "pending",
-        "reviewer": "pending"
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "orchestrator-r106"
       },
       "review_inputs": [
         "docs/evidence/dungeon_ovl_19ba800.md",
@@ -2474,10 +2474,10 @@
         }
       ],
       "review": {
-        "membership": "pending",
-        "types": "pending",
-        "ownership": "pending",
-        "reviewer": "pending"
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "orchestrator-r106"
       },
       "review_inputs": [
         "docs/evidence/dungeon_ovl_199c800.md",
@@ -2795,10 +2795,10 @@
         }
       ],
       "review": {
-        "membership": "pending",
-        "types": "pending",
-        "ownership": "pending",
-        "reviewer": "pending"
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "orchestrator-r106"
       },
       "review_inputs": [
         "docs/evidence/dungeon_ovl_18f4800.md",
