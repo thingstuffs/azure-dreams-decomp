@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_18f4800.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -30,24 +31,14 @@ extern u32 func_80065420(void *scratch, void *prim_output, void *scratch_90, voi
 extern s32 func_80066460(s32 value0, s32 value1, s32 value2, s32 value3);
 extern void func_80067F20(void *prim, s32 value0, s32 value1, s32 draw_mode, s32 value2);
 
-#ifdef __mips__
-static const u32 split_prefix[] __asm__("func_818D4800")
-    __attribute__((section(".text.func_818D4800"), aligned(4))) = {
-    0x80024668, 0x00000010, 0x00100010, 0x00100000,
-    0x0010FFF0, 0x0000FFF0, 0xFFF0FFF0, 0xFFF00000,
-    0xFFF00010, 0x00000000, 0x80024764, 0x800247E4,
-    0x80024A48, 0x80024C8C, 0x80024E9C, 0x80024FC4,
-    0x80025070,
-};
-__asm__(".globl func_818D4800\n"
-        ".size func_818D4800, 660");
-#define BODY_NAME func_818D4844
-#else
-#define BODY_NAME func_818D4800
-#endif
+void (*const dungeon_18f4800_entry)(struct Actor33 *, struct Motion33 *, struct Render33 *) = func_80024668;
+const PackedOffsets dungeon_18f4800_offsets = { {
+    {16, 0}, {16, 16}, {0, 16}, {-16, 16},
+    {-16, 0}, {-16, 0xFFF0}, {0, 0xFFF0}, {16, 0xFFF0}
+} };
 
 /* Queue a shaded tile and draw mode packet, then continue the object chain. */
-s32 BODY_NAME(void *object_data, void *position_data)
+s32 func_80024044(void *object_data, void *position_data)
 {
     u8 *object = object_data;
     u8 *position = position_data;

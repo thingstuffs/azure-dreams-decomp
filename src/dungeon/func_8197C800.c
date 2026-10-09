@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_199c800.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
@@ -22,12 +23,6 @@ typedef struct S_FUNC_8197C800_BODY_0 {
     union { s16 s; u16 u; } unk_52;   /* accessed as both */
 } S_FUNC_8197C800_BODY_0;   /* arg0 in func_8002401C */
 
-typedef struct S_FUNC_8197C800_BODY_1 {
-    u8 pad_00[0x60];
-    void * unk_60;
-    u8 pad_64[0x90];
-    s32 unk_F4;
-} S_FUNC_8197C800_BODY_1;   /* D_800814A8[0] in func_8002401C */
 
 typedef struct S_FUNC_8197C800_BODY_2 {
     s32 unk_00;
@@ -41,11 +36,6 @@ typedef struct S_FUNC_8197C800_BODY_3 {
     void * unk_0C;
 } S_FUNC_8197C800_BODY_3;   /* root in func_8002401C */
 
-typedef struct S_FUNC_8197C800_BODY_4 {
-    u8 pad_00[0xA6];
-    u16 unk_A6;
-    u8 unk_A8;
-} S_FUNC_8197C800_BODY_4;   /* segment in func_8002401C */
 
 typedef struct S_FUNC_8197C800_BODY_5 {
     u8 pad_00[0x8];
@@ -119,10 +109,6 @@ typedef struct S_FUNC_8197C800_BODY_17 {
     u8 unk_25;
 } S_FUNC_8197C800_BODY_17;   /* image in func_8002401C */
 
-typedef struct S_FUNC_8197C800_BODY_18 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-} S_FUNC_8197C800_BODY_18;   /* base in func_8002401C */
 
 typedef struct S_FUNC_8197C800_BODY_19 {
     u8 pad_00[0xA];
@@ -145,15 +131,7 @@ typedef struct S_FUNC_8197C800_BODY_22 {
     void * unk_08;
 } S_FUNC_8197C800_BODY_22;   /* ((S_FUNC_8197C800_BODY_3 *)root)->unk_0C in func_8002401C */
 
-typedef struct S_FUNC_8197C800_BODY_23 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-} S_FUNC_8197C800_BODY_23;   /* D_800814A8[0] in func_8002401C */
 
-typedef struct S_FUNC_8197C800_BODY_24 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-} S_FUNC_8197C800_BODY_24;   /* D_800814A8[0] in func_8002401C */
 
 typedef struct S_FUNC_8197C800_BODY_25 {
     u8 pad_00[0xA];
@@ -164,20 +142,12 @@ typedef struct S_FUNC_8197C800_BODY_25 {
 
 
 
-extern void *D_800814A8[];
-extern u32 D_800246C0[];
-extern u8 D_80024BB8[];
-extern u8 D_80024C68[];
 extern u8 D_800DEDB0[];
 extern u8 D_800DE9D0[];
 extern u8 D_800DEC00[];
 
-extern void *func_8003FD64(s32, void *);
 extern s32 func_8003DE58(void *, void *, void *, s32);
-extern void func_8004491C(void *, void *);
 extern s32 func_80053EF0(s32);
-extern void func_800A56E0(s32);
-extern s16 func_800BCB04(u16, u16, s16);
 extern s32 func_80069EF8(void);
 extern void func_8009CE1C(void *, s32, s32, s32, s16, void *, s32);
 
@@ -199,7 +169,7 @@ void func_8002401C(void *input, void *output);
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol func_80024000).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const module_entry)(void *, void *) __asm__("func_80024000") = func_8002401C;
+void (*const dungeon_199c800_entry)(void *, void *) = func_8002401C;
 
 /* Updates a timed effect, spawns particles, and completes its owner's action. */
 void func_8002401C(void *input, void *output)
@@ -209,7 +179,7 @@ void func_8002401C(void *input, void *output)
     void *owner_data;
     void *owner;
     void *particle_script;
-    S_FUNC_8197C800_BODY_4 *scene;
+    EntityRec *scene;
     void *particle;
     S_FUNC_8197C800_BODY_8 *sprite;
     S_FUNC_8197C800_BODY_6 *src_position;
@@ -241,7 +211,7 @@ void func_8002401C(void *input, void *output)
 
     switch (state) {
     case 0:
-    ((S_FUNC_8197C800_BODY_1 *)(D_800814A8[0]))->unk_F4 = 0;
+    ((EntityRec *)(D_800814A8))->unk_F4 = 0;
     ((S_FUNC_8197C800_BODY_2 *)output)->unk_00 =
         ((S_FUNC_8197C800_BODY_20 *)(((S_FUNC_8197C800_BODY_3 *)owner)->unk_08))->unk_00;
     ((S_FUNC_8197C800_BODY_2 *)output)->unk_04 =
@@ -255,11 +225,11 @@ void func_8002401C(void *input, void *output)
         return;
     }
 
-    scene = D_800814A8[0];
+    scene = D_800814A8;
     ((S_FUNC_8197C800_BODY_0 *)input)->unk_50.s = 10;
-    scene->unk_A6 -= 1;
+    ((u16 *)&scene->unk_A4)[1] -= 1;
     scene->unk_A8 = ((S_FUNC_8197C800_BODY_0 *)input)->unk_08;
-    particle = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
+    particle = func_8003FD64(0x312, &D_80083498.next);
     if (particle != 0) {
         if (func_8003DE58(((S_FUNC_8197C800_BODY_22 *)(((S_FUNC_8197C800_BODY_3 *)owner)->unk_0C))->unk_08,
                           ((S_FUNC_8197C800_BODY_3 *)owner)->unk_0C, offsets, 0) == 0) {
@@ -268,8 +238,8 @@ void func_8002401C(void *input, void *output)
             offsets[0] = 0;
         }
         particle_data = (u8 *)particle + 0x20;
-        ((S_FUNC_8197C800_BODY_5 *)particle)->unk_10 = D_800246C0;
-        func_8004491C(particle, func_80045340);
+        ((S_FUNC_8197C800_BODY_5 *)particle)->unk_10 = (void *)func_800246C0;
+        func_8004491C(particle, (s32)func_80045340);
         random_value = 0x00800000u;
         sprite = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_0C;
         offset_index = offsets[0];
@@ -329,18 +299,18 @@ void func_8002401C(void *input, void *output)
     case 3:
     if (((S_FUNC_8197C800_BODY_0 *)input)->unk_50.u < 3) {
         remaining = 1;
-        height = func_800BCB04(D_80083780.x.w.i, D_80083780.y.w.i, (s16)(D_80083780.z.w.i - 0x80));
-        particle_script = D_80024BB8;
+        height = (s16)func_800BCB04((u16)D_80083780.x.w.i, (u16)D_80083780.y.w.i, (s16)(D_80083780.z.w.i - 0x80));
+        particle_script = (void *)func_80024BB8;
         burst_origin = &D_80082E80;
         do {
-            particle = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
+            particle = func_8003FD64(0x312, &D_80083498.next);
             if (particle != 0) {
                 ((S_FUNC_8197C800_BODY_5 *)particle)->unk_10 = particle_script;
-                func_8004491C(particle, func_80045340);
+                func_8004491C(particle, (s32)func_80045340);
                 sprite = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_0C;
                 particle_data = (u8 *)particle + 0x20;
                 random_value = func_80069EF8();
-                angle = ((S_FUNC_8197C800_BODY_23 *)(D_800814A8[0]))->unk_2A;
+                angle = ((EntityRec *)(D_800814A8))->facing;
                 step = angle;
                 step <<= 16;
                 step >>= 25;
@@ -358,7 +328,7 @@ void func_8002401C(void *input, void *output)
                     ((S_FUNC_8197C800_BODY_14 *)position)->unk_02 = result;
                 }
                 random_value = func_80069EF8();
-                angle = ((S_FUNC_8197C800_BODY_23 *)(D_800814A8[0]))->unk_2A;
+                angle = ((EntityRec *)(D_800814A8))->facing;
                 step = angle;
                 step <<= 16;
                 step >>= 25;
@@ -405,17 +375,17 @@ void func_8002401C(void *input, void *output)
         } while (remaining >= 0);
 
         remaining = 9;
-        particle_script_debris = D_80024C68;
+        particle_script_debris = (void *)func_80024C68;
         debris_origin = &D_80082E80;
         do {
-            particle = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
+            particle = func_8003FD64(0x312, &D_80083498.next);
             if (particle != 0) {
                 ((S_FUNC_8197C800_BODY_5 *)particle)->unk_10 = particle_script_debris;
-                func_8004491C(particle, func_80045340);
+                func_8004491C(particle, (s32)func_80045340);
                 sprite = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_0C;
                 particle_data = (u8 *)particle + 0x20;
                 random_value = func_80069EF8();
-                angle = ((S_FUNC_8197C800_BODY_24 *)(D_800814A8[0]))->unk_2A;
+                angle = ((EntityRec *)(D_800814A8))->facing;
                 step = angle;
                 step <<= 16;
                 step >>= 25;
@@ -433,7 +403,7 @@ void func_8002401C(void *input, void *output)
                     ((S_FUNC_8197C800_BODY_14 *)position)->unk_02 = result;
                 }
                 random_value = func_80069EF8();
-                angle = ((S_FUNC_8197C800_BODY_24 *)(D_800814A8[0]))->unk_2A;
+                angle = ((EntityRec *)(D_800814A8))->facing;
                 step = angle;
                 step <<= 16;
                 step >>= 25;
@@ -502,9 +472,9 @@ store_state:
         ((S_FUNC_8197C800_BODY_0 *)input)->unk_52.u &= 0x7FFF;
         return;
     }
-    func_8009CE1C(((S_FUNC_8197C800_BODY_1 *)(D_800814A8[0]))->unk_60, 8,
+    func_8009CE1C(((EntityRec *)(D_800814A8))->target, 8,
                   ((S_FUNC_8197C800_BODY_0 *)input)->unk_09, 10,
-                  ((S_FUNC_8197C800_BODY_18 *)owner_data)->unk_2A, owner_data, 2);
+                  ((EntityRec *)owner_data)->facing, owner_data, 2);
     dungeonStatus.unk_0C = 0;
     dungeonStatus.unk_0A -= 1;
     ((S_FUNC_8197C800_BODY_0_pre *)input)[-1].unk_00 |= 0x8000;

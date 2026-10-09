@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_19ba800.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
@@ -14,9 +15,8 @@
 extern u8 D_80024A64[];
 extern u16 D_80024A70[];
 
-extern void func_800246F4(void *, void *);
+
 extern s32 func_80053EF0(s32);
-extern void func_800A56E0(s32);
 extern void func_800B835C(void *, void *, s32, s32);
 extern u8 D_80080000[];
 
@@ -27,7 +27,7 @@ void func_8002401C(void *state_data);
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol func_80024000).  The phase table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const module_entry)(void *) __asm__("func_80024000") = func_8002401C;
+void (*const dungeon_19ba800_entry)(void *) = func_8002401C;
 
 /* Advances a timed effect sequence, updates the entry tint, and draws the animation. */
 void func_8002401C(void *state_data)
@@ -45,7 +45,7 @@ void func_8002401C(void *state_data)
     switch (phase) {
     case 0:
         U32_AT(MANAGER_PTR(), 0xF4) = (u32)D_80024A64;
-        func_800246F4((u8 *)PTR_AT(state, 0) - 0x20, PTR_AT(state, 4));
+        func_800246F4((ObjectNodeHeader *)((u8 *)PTR_AT(state, 0) - 0x20), PTR_AT(state, 4));
         result = U16_AT(state, 0x0A);
         result++;
         U16_AT(state, 0x0A) = result;

@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_18f4800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -11,38 +12,24 @@ typedef union FixedWord {
     } half;
 } FixedWord;
 
-typedef struct Motion {
+typedef struct Motion33 {
     FixedWord x;
     FixedWord y;
     FixedWord z;
     s32 dx;
     s32 dy;
     s32 dz;
-} Motion;
+} Motion33;
 
-typedef struct Packed12 {
-    u8 bytes[12];
-} __attribute__((packed)) Packed12;
 
-typedef struct Packed8 {
-    u8 bytes[8];
-} __attribute__((packed)) Packed8;
 
-typedef union PackedOffsets {
-    struct {
-        Packed12 first;
-        Packed12 second;
-        Packed8 third;
-    } copy;
-    u8 bytes[32];
-} __attribute__((packed)) PackedOffsets;
 
 typedef struct AlignedOffsetPair {
     s16 x;
     u16 y;
 } AlignedOffsetPair;
 
-typedef struct Render {
+typedef struct Render33 {
     u8 pad00[6];
     s16 field06;
     void *image;
@@ -57,7 +44,7 @@ typedef struct Render {
     u16 angle;
     u16 scale_x;
     u16 scale_y;
-} Render;
+} Render33;
 
 typedef struct Aux {
     u8 pad00[8];
@@ -69,26 +56,15 @@ typedef struct Aux {
     u8 tile_y;
 } Aux;
 
-typedef struct Entity {
-    u8 pad00[0x2A];
-    u16 flags2A;
-    u8 pad2C[0x34];
-    void *link60;
-    u8 pad64[0x0E];
-    s8 tile_x72;
-    s8 tile_y73;
-    u8 pad74[0x14];
-    u16 height88;
-} Entity;
 
 typedef struct Owner {
     u8 pad00[8];
-    Motion *position;
+    Motion33 *position;
     Aux *aux;
 } Owner;
 
-typedef struct Actor {
-    Entity *entity;
+typedef struct Actor33 {
+    EntityRec *entity;
     void *field04;
     u8 pad08;
     u8 field09;
@@ -110,55 +86,52 @@ typedef struct Actor {
     Packed12 image_data;
     s8 target_x;
     s8 target_z;
-} Actor;
+} Actor33;
 
 typedef struct Task {
     u8 pad00[8];
-    Motion *position;
-    Render *render;
-    void (*update)(void);
+    Motion33 *position;
+    Render33 *render;
+    void (*update)(void *, s32, struct RenderFade33 *);
     u8 pad14[0x0E];
     s16 field22;
     u8 pad24[0x1C];
     Packed12 image_data;
 } Task;
 
-extern PackedOffsets D_80024004;
+
 extern u8 D_80025100[16];
 extern Packed12 D_8002510C;
-extern s16 D_80025118[5];
 extern u8 D_800E3D68[16];
 
 extern s32 func_8003DF74(void *, void *, s16 *, s32);
 extern Task *func_8003FC64(s32);
-extern void func_8004491C(void *, void (*)(void));
 extern void func_80044A50(void *);
 extern s32 func_80069EF8(void);
 extern s32 func_800A4778(u16, u16, s16, void *);
-extern void func_800A56E0(s32);
+
 extern s32 func_8009D218(void *, s32, void *);
 extern s32 func_800A6D30(void);
 extern void func_800C8B84(void *entity, s16 chance, s16 effect_value);
-extern void func_80024394(void *, s16, s32, s32, s32, s32, s32);
-extern void func_80024548(void);
-extern void func_80045340(void);
+
+#include "shared/slus_callbacks.h"
 
 
 /* Updates the actor effect through movement, particle emission, fading, and cleanup. */
-void func_818D4E68(Actor *actor, Motion *motion, Render *render)
+void func_80024668(Actor33 *actor, Motion33 *motion, Render33 *render)
 {
     s16 position_delta[4];
     PackedOffsets offsets;
-    Entity *entity;
+    EntityRec *entity;
     Owner *owner;
-    Motion *owner_motion;
+    Motion33 *owner_motion;
     s32 state;
     s32 particle_count;
     u16 timer;
-    Motion *linked_pos;
+    Motion33 *linked_pos;
 
     entity = actor->entity;
-    offsets = D_80024004;
+    offsets = dungeon_18f4800_offsets;
     timer = actor->timer82;
     state = actor->state;
     owner = (Owner *)((u8 *)entity - 0x20);
@@ -174,7 +147,7 @@ void func_818D4E68(Actor *actor, Motion *motion, Render *render)
         render->image = &actor->image_data;
         {
             u32 direction_bits;
-            direction_bits = entity->flags2A;
+            direction_bits = (u16)entity->facing;
             D_80025118[0] = 1;
             actor->direction = (direction_bits >> 9) & 7;
             actor->state++;
@@ -203,7 +176,7 @@ void func_818D4E68(Actor *actor, Motion *motion, Render *render)
             void *callback_owner;
             callback_owner = (u8 *)actor - 0x20;
             if (!(actor->flags7A & 4)) {
-                func_8004491C(callback_owner, func_80045340);
+                func_8004491C(callback_owner, (s32)func_80045340);
                 render->field10 = 0x40;
                 render->color2 = 0x80;
                 render->color1 = 0x80;
@@ -214,11 +187,11 @@ void func_818D4E68(Actor *actor, Motion *motion, Render *render)
                 actor->flags7A |= 4;
             }
         }
-        if (entity->link60 != 0) {
-            linked_pos = *(Motion **)((u8 *)entity->link60 - 0x18);
+        if (entity->target != 0) {
+            linked_pos = *(Motion33 **)((u8 *)entity->target - 0x18);
             actor->target_y = linked_pos->z.half.hi - 0x40;
         } else {
-            actor->target_y = entity->height88 - 0x50;
+            actor->target_y = (u16)entity->unk_88 - 0x50;
         }
         {
             Aux *aux;
@@ -229,10 +202,10 @@ void func_818D4E68(Actor *actor, Motion *motion, Render *render)
             actor->target_z = aux->tile_y + dirStepY[actor->direction];
             {
                 s32 aux_coord;
-                distance = entity->tile_x72;
+                distance = entity->unk_72;
                 aux_coord = aux->tile_x;
                 if (distance == aux_coord) {
-                    distance = entity->tile_y73;
+                    distance = entity->unk_73;
                     aux_coord = aux->tile_y;
                 }
                 distance -= aux_coord;
@@ -254,7 +227,7 @@ void func_818D4E68(Actor *actor, Motion *motion, Render *render)
 
     case 2:
         if ((func_800A4778(motion->x.half.hi, motion->y.half.hi,
-                           (s16)motion->z.half.hi, entity->link60) << 16) != 0) {
+                           (s16)motion->z.half.hi, entity->target) << 16) != 0) {
             goto state1_cleanup;
         }
         {
@@ -267,11 +240,11 @@ void func_818D4E68(Actor *actor, Motion *motion, Render *render)
             }
             task = func_8003FC64(0x212);
             if (task != 0) {
-                Motion *task_motion;
-                Render *task_render;
+                Motion33 *task_motion;
+                Render33 *task_render;
                 task->field22 = 0x10;
                 task->update = func_80024548;
-                func_8004491C(task, func_80045340);
+                func_8004491C(task, (s32)func_80045340);
                 task_render = task->render;
                 task_render->field10 = 0x40;
                 task_render->flags |= 0xC;
@@ -290,10 +263,10 @@ void func_818D4E68(Actor *actor, Motion *motion, Render *render)
             }
             actor->countdown--;
             if (actor->countdown <= 0) {
-                if (entity->link60 != 0) {
+                if (entity->target != 0) {
                     s32 sound_id;
                     sound_id = 0x300;
-                    linked_pos = *(Motion **)((u8 *)entity->link60 - 0x18);
+                    linked_pos = *(Motion33 **)((u8 *)entity->target - 0x18);
                     motion->x.half.hi = linked_pos->x.half.hi;
                     motion->y.half.hi = linked_pos->y.half.hi;
                     motion->z.half.hi = actor->target_y;
@@ -416,12 +389,12 @@ state1_cleanup:
             s32 room_id;
             actor->timer84 = 40;
             actor->state++;
-            if (func_8009D218(entity->link60, 4, entity) == 0) {
+            if (func_8009D218(entity->target, 4, entity) == 0) {
                 s32 effect_kind;
                 effect_kind = (func_800A6D30() & 3) + 4;
                 effect_type = (actor->field09 >> 2) + effect_kind;
                 room_id = (D_800E3D68[0] == 0xFF) ? 0xFF : 0x10;
-                func_800C8B84(entity->link60, room_id, effect_type);
+                func_800C8B84(entity->target, room_id, effect_type);
                 return;
             }
         }

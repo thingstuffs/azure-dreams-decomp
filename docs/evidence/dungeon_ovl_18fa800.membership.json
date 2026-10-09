@@ -1,0 +1,24 @@
+{
+  "module": "dungeon_ovl_18fa800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_18fa800.c",
+    "module_index": 175
+  },
+  "members": [
+    "dungeon/func_818DA800",
+    "dungeon/func_818DAD38",
+    "dungeon/func_818DAE84"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Complete ledger cohort dungeon / ovl_18fa800.c / index 175: exactly 3 members, zero gaps, no omitted siblings or extra rows.",
+    "Independent selector-34 static loader receipt places the entire contiguous cohort at one delta; every guarded existing rowbase record agrees.",
+    "One natural-order TU includes the 3 real member sources and emits all 1812 bytes, exact under GNU/maspsx and genuine ASPSX 2.79 -q -G0 -0, zero masks and zero raw substitutions. Typed entry targets the real retail entry body (the fifth member for bank 33, the first member for the other banks).",
+    "All members have retained exact baseline records and real L3 history, zero pins and zero tail jumps. This lane adds no synthetic history."
+  ],
+  "review": "pending",
+  "reviewer": null,
+  "holds": []
+}

@@ -6,6 +6,7 @@ It grants neither membership nor ownership of external objects.
 import hashlib
 import importlib.util
 import re
+import struct
 
 
 def digest(data):
@@ -25,8 +26,12 @@ def validate_layout(m):
         kind = d['kind']
         if i == 0:
             if (kind != 'typed_function_pointer' or d['size'] != 4
-                    or d.get('target') != first['function'] or not d.get('symbol')):
-                raise ValueError('native entry must target the first body')
+                    or d.get('target') not in owners or not d.get('symbol')):
+                raise ValueError('native entry must target a complete native member')
+        elif kind == 'direction_offsets':
+            direction_bytes(d)
+            if not d.get('symbol'):
+                raise ValueError('direction table lacks its native symbol')
         elif kind == 'alignment':
             alignment = d.get('alignment')
             if (alignment not in (8, 16) or d['size'] != (-vma % alignment)
@@ -48,6 +53,18 @@ def validate_layout(m):
         raise ValueError('data module requires strong membership evidence')
 
 
+def direction_bytes(d):
+    """Eight native grid-direction pairs: signed x, unsigned y at 16 bits each."""
+    pairs = d.get('pairs')
+    if (d.get('size') != 32 or not isinstance(pairs, list) or len(pairs) != 8
+            or any(not isinstance(p, list) or len(p) != 2
+                   or any(type(v) is not int for v in p)
+                   or not -32768 <= p[0] <= 32767 or not 0 <= p[1] <= 65535
+                   for p in pairs)):
+        raise ValueError('invalid typed eight-direction offset table')
+    return b''.join(struct.pack('<hH', *p) for p in pairs)
+
+
 def validate_switch_assembly(m, assembly):
     """Account for rodata directives in the one, canonical gcc assembly stream.
 
@@ -61,6 +78,7 @@ def validate_switch_assembly(m, assembly):
     section = None
     offset = 0
     words = {}
+    halves = {}
     labels = {}
     text_labels = {}
     bodies = {}
@@ -100,17 +118,31 @@ def validate_switch_assembly(m, assembly):
             words[offset] = (hit[1], owner)
             offset += 4
             continue
+        hit = re.fullmatch(r'\.half\s+(-?\d+)', line)
+        if hit:
+            if not -32768 <= int(hit[1]) <= 65535:
+                raise ValueError('native direction halfword outside range')
+            halves[offset] = (int(hit[1]) & 65535, owner)
+            offset += 2
+            continue
         if re.match(r'\.(?:globl|type|size|file)\s', line):
             continue
         raise ValueError('unaccounted native rodata directive: ' + line)
     base = m['members'][0]['foff']
     expected = {}
+    expected_halves = {}
     for d in m['owned_data']:
         start = d['foff'] - base
         if d['kind'] == 'typed_function_pointer':
             expected[start] = (d['target'], None)
             if labels.get(d['symbol']) != (start, None):
                 raise ValueError('native entry assembly symbol differs')
+        elif d['kind'] == 'direction_offsets':
+            packed = direction_bytes(d)
+            if labels.get(d['symbol']) != (start, None):
+                raise ValueError('native direction symbol differs')
+            expected_halves.update({start + i: (struct.unpack_from('<H', packed, i)[0], None)
+                                   for i in range(0, len(packed), 2)})
         elif d['kind'] == 'switch_table':
             table_labels = [n for n, loc in labels.items()
                             if loc == (start, d['owner']) and re.fullmatch(r'\$L\d+', n)]
@@ -127,7 +159,7 @@ def validate_switch_assembly(m, assembly):
                         or text_labels.get(target) != d['owner']):
                     raise ValueError('table target not emitted by its owner')
                 expected[pos] = (target, emitting_owner)
-    if words != expected or offset != sum(d['size'] for d in m['owned_data']):
+    if words != expected or halves != expected_halves or offset != sum(d['size'] for d in m['owned_data']):
         raise ValueError('native assembly head coverage differs')
 
 
@@ -161,6 +193,12 @@ def validate_relocations(m, view):
             if sym is None or sym[0] != sec or sym[1] != start:
                 raise ValueError('native entry symbol differs')
             expected[start] = ('32', ('fn', d['target'], 0))
+        elif d['kind'] == 'direction_offsets':
+            sym = view.obj.symbols.get(d['symbol'])
+            if sym is None or sym[0] != sec or sym[1] != start:
+                raise ValueError('native direction symbol differs')
+            if data[start:start + d['size']] != direction_bytes(d):
+                raise ValueError('native direction bytes differ')
         elif d['kind'] == 'alignment':
             if any(data[start:start + d['size']]):
                 raise ValueError('native alignment is not zero')

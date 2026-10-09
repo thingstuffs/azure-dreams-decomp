@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_18f4800.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
@@ -5,7 +6,7 @@
 typedef struct S_818D4B94_2 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_818D4B94_2;   /* temp_v0 in func_818D4B94 */
+} S_818D4B94_2;   /* temp_v0 in func_80024394 */
 
 
 typedef struct S_818D4B94_4 {
@@ -15,7 +16,7 @@ typedef struct S_818D4B94_4 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_818D4B94_4;   /* ((S_818D4B94_2 *)temp_v0)->unk_08 in func_818D4B94 */
+} S_818D4B94_4;   /* ((S_818D4B94_2 *)temp_v0)->unk_08 in func_80024394 */
 
 typedef struct S_818D4B94_5 {
     u8 pad_00[0x2];
@@ -24,20 +25,18 @@ typedef struct S_818D4B94_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_818D4B94_5;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_818D4B94 */
+} S_818D4B94_5;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_80024394 */
 
 
 
 
-void *func_8003FD64();               /* extern */
-s32 func_8004491C();      /* extern */
-extern M2C_UNK D_80024044;
-extern M2C_UNK D_80024294;
+
+
 
 typedef struct S_818D4B94_0 {
     u8 pad_00[0x10];
     M2C_UNK * unk_10;
-} S_818D4B94_0;   /* temp_v0 in func_818D4B94 */
+} S_818D4B94_0;   /* temp_v0 in func_80024394 */
 
 typedef struct S_818D4B94_1 {
     u8 pad_00[0x8];
@@ -53,10 +52,10 @@ typedef struct S_818D4B94_1 {
     s32 unk_48;
     s32 unk_4C;
     s32 unk_50;
-} S_818D4B94_1;   /* temp_s0 in func_818D4B94 */
+} S_818D4B94_1;   /* temp_s0 in func_80024394 */
 
 /* Creates an offset effect with velocity directed back toward the source position. */
-void func_818D4B94(EntityRec *source, s32 setting_14, s32 setting_08, s32 duration, s32 offset_x, s32 offset_y, s32 offset_z) {
+void func_80024394(ObjectNodeHeader *source, s32 setting_14, s32 setting_08, s32 duration, s32 offset_x, s32 offset_y, s32 offset_z) {
     s32 signed_duration;
     s32 step_count;
     s32 delta_x;
@@ -64,16 +63,16 @@ void func_818D4B94(EntityRec *source, s32 setting_14, s32 setting_08, s32 durati
     S_818D4B94_1 *state;
     void *effect;
 
-    effect = func_8003FD64(0x211, source);
+    effect = func_8003FD64(0x211, &source->next);
     if (effect != NULL) {
-        ((S_818D4B94_0 *)effect)->unk_10 = &D_80024294;
-        ((S_818D4B94_4 *)(((S_818D4B94_2 *)effect)->unk_08))->unk_02 = (s16) (((S_818D4B94_5 *)((*(void * *)&source->z)))->unk_02 + offset_x);
-        ((S_818D4B94_4 *)(((S_818D4B94_2 *)effect)->unk_08))->unk_06 = (s16) (((S_818D4B94_5 *)((*(void * *)&source->z)))->unk_06 + offset_y);
-        ((S_818D4B94_4 *)(((S_818D4B94_2 *)effect)->unk_08))->unk_0A = (s16) (((S_818D4B94_5 *)((*(void * *)&source->z)))->unk_0A + offset_z);
+        ((S_818D4B94_0 *)effect)->unk_10 = (void *)func_80024294;
+        ((S_818D4B94_4 *)(((S_818D4B94_2 *)effect)->unk_08))->unk_02 = (s16) (((S_818D4B94_5 *)source->unk_08)->unk_02 + offset_x);
+        ((S_818D4B94_4 *)(((S_818D4B94_2 *)effect)->unk_08))->unk_06 = (s16) (((S_818D4B94_5 *)source->unk_08)->unk_06 + offset_y);
+        ((S_818D4B94_4 *)(((S_818D4B94_2 *)effect)->unk_08))->unk_0A = (s16) (((S_818D4B94_5 *)source->unk_08)->unk_0A + offset_z);
         state = effect + 0x20;
-        state->unk_34 = (u16) ((S_818D4B94_5 *)((*(void * *)&source->z)))->unk_02;
-        state->unk_36 = (u16) ((S_818D4B94_5 *)((*(void * *)&source->z)))->unk_06;
-        state->unk_38 = (u16) ((S_818D4B94_5 *)((*(void * *)&source->z)))->unk_0A;
+        state->unk_34 = (u16) ((S_818D4B94_5 *)source->unk_08)->unk_02;
+        state->unk_36 = (u16) ((S_818D4B94_5 *)source->unk_08)->unk_06;
+        state->unk_38 = (u16) ((S_818D4B94_5 *)source->unk_08)->unk_0A;
         signed_duration = (s16) duration;
         delta_x = -(offset_x << 16);
         step_count = signed_duration / 8;
@@ -94,7 +93,7 @@ void func_818D4B94(EntityRec *source, s32 setting_14, s32 setting_08, s32 durati
         state->unk_50 = -(offset_z << 16) / step_count / 16;
         state->unk_14 = setting_14;
         state->unk_32 = duration;
-        func_8004491C(effect, &D_80024044, signed_duration);
+        func_8004491C(effect, (s32)func_80024044, signed_duration);
         state->unk_08 = setting_08;
     }
 }

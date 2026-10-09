@@ -1,85 +1,11 @@
+#include "modules/dungeon_ovl_1840800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
-typedef struct {
-    u16 x;
-    u16 y;
-    u16 z;
-    u16 pad;
-} DungeonVertex;
 
-typedef struct {
-    u8 pad[0x10];
-    DungeonVertex v[4];
-} DungeonVertexBlock;
-
-typedef struct {
-    u8 pad[0x18];
-    DungeonVertexBlock block;
-} DungeonFinalView;
-
-typedef struct DungeonObj DungeonObj;
-
-struct DungeonObj {
-    DungeonObj *parent;
-    s32 x;
-    s32 y;
-    s32 z;
-    s32 dx;
-    s32 dy;
-    s32 dz;
-    u8 pad1C[0x0C];
-    u16 vx0;
-    u16 vy0;
-    u16 vr0;
-    u16 pad2E;
-    u16 vx1;
-    u16 vy1;
-    u16 vr1;
-    u16 pad36;
-    u16 vx2;
-    u16 vy2;
-    u16 vr2;
-    u16 pad3E;
-    u16 vx3;
-    u16 vy3;
-    u16 vr3;
-    u16 pad46;
-    u8 red;
-    u8 green;
-    u8 blue;
-    u8 pad4B;
-    u16 angle;
-    u16 angle2;
-    u16 height;
-    u16 timer;
-    s16 aux;
-    s16 state;
-};
-
-typedef struct {
-    void *p0;
-    void *p4;
-    s16 h8;
-    s16 hA;
-    u16 angle;
-    s16 padE;
-    s16 x;
-    s16 y;
-    u16 height;
-    s16 pad16;
-    s16 type;
-    s16 pad1A;
-} LocalPacket;
-
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
-extern s32 func_80069EF8(void);
-extern s32 func_800BCB04(s32, s32, s16);
-extern void func_800DBA90(LocalPacket *);
 
 /* Update a dungeon effect's motion, flickering vertices, and fade state. */
-void func_81820DB4(DungeonObj *obj)
+void func_800245B4(DungeonObj *obj)
 {
     s32 height_or_index;
     s32 old_timer;

@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_185e800.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -6,27 +7,13 @@
 
 #define F(p, t, o) (*(t *)((u8 *)(p) + (o)))
 
-extern u8 D_800DEA68[];
-extern u8 D_800DE990[];
-extern u8 D_800247D8[];
 
-extern void *func_8003FD64(s32, void *);
-extern s32 func_80069EF8(void);
-extern s32 func_800A3820(s16 entry_index);
-extern void *func_800A05A4(void *, u8, u8, s16, s32);
-extern s32 func_8003DE58(void *, void *, void *, s32);
-extern s32 func_800BCB04(u16, u16, s16);
-extern void func_800A56E0(s32);
-extern void func_8004491C(void *, void *);
-extern void D_80024688(void);
-extern void func_8009CE1C(void *, s32, u8, s32, s16, void *, s32);
 
-void func_80024020(u8 *self, u8 *motion);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol func_80024000).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const module_entry)(u8 *, u8 *) __asm__("func_80024000") = func_80024020;
+void (*const dungeon_185e800_entry)(u8 *, u8 *) = func_80024020;
 
 /* Move the effect toward its target, emit particles, and apply the delayed target effect. */
 void func_80024020(u8 *self, u8 *motion)
@@ -60,7 +47,7 @@ void func_80024020(u8 *self, u8 *motion)
             if (particle != 0) {
                 particle_data = particle + 32;
                 child_data = F(particle, u8 *, 12);
-                F(particle, void *, 16) = &D_80024688;
+                F(particle, void *, 16) = func_80024688;
 
                 F(F(particle, u8 *, 8), u32, 0) = F(motion, u32, 0) +
                     (((func_80069EF8() & 0x1ff) - 255) << 13);
@@ -170,7 +157,7 @@ void func_80024020(u8 *self, u8 *motion)
         if (timer % 3 == 0) {
             particle = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
             if (particle != 0) {
-                F(particle, void *, 16) = D_800247D8;
+                F(particle, void *, 16) = func_800247D8;
                 func_8004491C(particle, func_80045340);
                 child_data = F(particle, u8 *, 12);
 

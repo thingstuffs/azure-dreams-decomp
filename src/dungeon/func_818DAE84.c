@@ -1,27 +1,28 @@
+#include "modules/dungeon_ovl_18fa800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
 typedef struct S_818DAE84_0_pre {
     u16 unk_00;
-} S_818DAE84_0_pre;   /* the 0x2 bytes before arg0 in func_818DAE84, addressed as arg0[-1] */
+} S_818DAE84_0_pre;   /* the 0x2 bytes before arg0 in func_80024684, addressed as arg0[-1] */
 
 typedef struct S_818DAE84_0 {
     void * unk_00;
     u8 pad_04[0x8];
     s32 unk_0C;
     s16 unk_10;
-} S_818DAE84_0;   /* arg0 in func_818DAE84 */
+} S_818DAE84_0;   /* arg0 in func_80024684 */
 
 typedef struct S_818DAE84_1 {
     u8 pad_00[0x52];
     u16 unk_52;
-} S_818DAE84_1;   /* inner in func_818DAE84 */
+} S_818DAE84_1;   /* inner in func_80024684 */
 
 
 
 
 /* Updates progress from a countdown and sets completion flags when it expires. */
-void func_818DAE84(void *state) {
+void func_80024684(void *state) {
     s32 remaining;
     s16 next_remaining;
     s32 progress;

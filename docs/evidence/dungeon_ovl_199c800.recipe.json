@@ -1,0 +1,49 @@
+{
+  "module": "dungeon_ovl_199c800",
+  "scope": "whole_tu",
+  "flags": [
+    "-q",
+    "-G0",
+    "-0"
+  ],
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "basis": "Same complete gcc assembly stream: -q -G0 inserts 72 division-check text bytes; -q -G0 -0 is exact for all member functions and all native data. No per-function flag selection or discarded payload. Established module gate whole-TU unchecked-division contract.",
+  "source_inputs": {
+    "include/common.h": "35ebd67ff9f32d587459e79e964f1d4f9013849bb766ea442ab0965c32971dac",
+    "include/game.h": "b80e856a3c4f4c4586c312a28336781390d102ba6f7af599d094bfa6900e7c83",
+    "include/globals.h": "5ff21c9f144187d9a1666588951ee1f3489b89d666b18cf712c46523d820f689",
+    "include/gte_macros.inc": "80614ffcdda065072d2ef6cde330d5782202240edef7faca5ac598fbfa125066",
+    "include/include_asm.h": "b07191b5b52fe5a0cc20e2114349a7ccfb537bba948ba277f375d9de2559a16e",
+    "include/labels.inc": "9011fb521abe02bf51d16d3ae8ec1667ccd899a26affb6a5fe00b842ab421dc5",
+    "include/m2c_compat.h": "7a7d49f368d8ef4ba8bf66a24b522cc4d0ae9b5b706b5a2149a11d0dccb2fa03",
+    "include/modules/dungeon_native_abi.h": "c285a8aa4e7da595560130359c324f6dbbc89fbcc13c3c4ec3d50c7e306c502c",
+    "include/modules/dungeon_ovl_199c800.h": "5a8eaf7b5cdbb61736f2ad3b13c3a4e87653c8a1772a6681c9fe550139fec286",
+    "include/records/Rec_D_80082E80.h": "b1af355ead917f49e49d814d65fd3bad96acccf55a92ae4a9b84a2f60053e796",
+    "include/shared/dir_step.h": "d15e39571d057d667ec40d62a5216436a8adbf25e04fd2ba468f551903e77d97",
+    "include/shared/dungeon_status.h": "cf2efa85ed10f2b6b71bbc1e5d922c0ea7d20ac9a655b67d8d254c75b042ac9e",
+    "include/shared/entity.h": "64fd596c136a0531d96cd2d1fe206abc8b32286c0171c1796a710f6a6c9d93c0",
+    "include/shared/entity_objects.h": "5e0d73fb52a454138396808f0de6a94be5ca83243636d72783368cc6160563b3",
+    "include/shared/object_flags.h": "587f3da6018f67a1af0997d8f9ce3528bf0b89b0b3be4ae4fc4b2e9e276bcc28",
+    "include/shared/object_node.h": "310ef362af013f2e08a2d34163e9258a1f49d049fb534b3b7244e65152475ba5",
+    "include/shared/record_ptrs.h": "3e2fc767000f3e901b6d5cd55c7033124a5b648c92927bee9bdea6d143333064",
+    "include/shared/slus_callbacks.h": "be185bc0cea768e3e88fee569dad7e7f4fee68ff506501cf38a0d980c182ee1e",
+    "include/shared/sprite_source.h": "8a763355fbee08e826674ed1078b2481162c38ddbdad4c4850e98d6b6379bc22",
+    "include/shared/tile_object.h": "b553a179af28128ccd067c615ab3ee56af2744250c11c9cb363e0f47e0a8c406",
+    "src/dungeon/func_8197C800.c": "3202dcb560a09b947d7db2edfe6276eebf23cfd1469fc159c227793a26b2b072",
+    "src/dungeon/func_8197CEC0.c": "4f0482ab9668f03a6b0319b6d9bb0e41ee7fd78b4de1e7eca7336c2bf7962a6d",
+    "src/dungeon/func_8197D3B8.c": "d07fde34afc131afe1fc024642435953aa9d2e4b94bf5a33fcf3db14853fa645",
+    "src/dungeon/func_8197D468.c": "4d5685456d31aed1b2a98e584b05c632acf659947454df773718576cd595517b",
+    "src/dungeon/modules/ovl_199c800.c": "364c92359935ab4c8761c8a567c27e1b0664e6075b20f217758e328cd07bccf8"
+  },
+  "assembly_sha256": "c6c256b5d883eb5e5afbffe42b46db1e8e30315cf5a5d6e69703e55c20be4178",
+  "unchecked_object_sha256": "3b0b214b0aad752ecf69daff4a80d1d826617e1ee0406aea69553e7fcedfab63",
+  "checked_object_sha256": "ebfabf329f6b461d301a1f9b2b283a613eab022cbc94913920490907658ecf91",
+  "unchecked_text_bytes": 4192,
+  "checked_text_bytes": 4264,
+  "retail_module_sha256": "d26b492b94f8a6d7889741957841f073ff9e551fc2da3a232753403cf13da665",
+  "review": "pending",
+  "reviewer": null
+}

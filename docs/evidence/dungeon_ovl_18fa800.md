@@ -1,0 +1,11 @@
+# dungeon_ovl_18fa800
+
+Pending orchestrator membership/type/ownership review. Complete ledger group 175 with 3 members, code span [0x18fa800,0x18faf14). Native typed entry, natural function order, one compile edge: 1812 exact bytes; SHA-256 37a232e72a1513f1b7242a726941c4d528f47c8534d3f36ba53fda250bafa576. No raw substitution, masks, COMMON or fabricated functions.
+
+Selector 34: LBA 0x620b, 12 sectors to 0x80024000, ISO extent LBA 0x3016. File interval [0x18fa800,0x1900800); delta 0x7e729800. Conditional static receipt; no runtime observation claimed. Every recorded loader/packing/CD decoder word was asserted in lane evidence. Guarded consolidation preserves the complete code span and one delta. Any separate trailing map asserts only the selector load, not TU or allocation ownership.
+
+The module header and shared dungeon_native_abi.h bind actual ABIs: allocator links through ObjectNodeHeader ** and returns a header pointer; registration uses a 32-bit key and returns s32; the render updater takes a pointer and returns void; surface height and audio queries return s32. Member parameter views agree on the same callee. Entity-pointer views use EntityRec / record_ptrs.h. Native imported-member function addresses are typed symbols, never data-array declarations. 19ba800's constructor passes/stores pointer arguments unchanged. 199c800 explicitly truncates the surface-height query result where the retail caller did so. Counter scalar/array views use one declaration with the original offset accesses.
+
+Membership, imports, recipe and selector documents are review inputs. The recipe control binds the same assembly stream and both genuine objects; -0 is whole-TU only. External resident/runtime views import existing storage. The data view widths record bounded source/callee accesses or known script spans; address sentinels are identified separately. Function import addresses resolve through proven PS-X EXE, resident DUNGEON or selector-bank maps.
+
+Required acceptance is the production windows and full unchanged gate_all --all plus SLUS proof, zero rows without gate_config, unchanged noreturn files and a real scratch test certification. The complete native diagnostic alone does not certify this module. Incoming review fields remain pending; test reviewer state belongs only to scratch.

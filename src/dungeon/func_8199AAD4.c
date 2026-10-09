@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_19ba800.h"
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
@@ -109,7 +110,7 @@ typedef struct Vec3s {
 } Vec3s;
 
 extern u8 D_80024AE0;
-extern u16 D_80024A70;
+extern u16 D_80024A70[];
 extern void *D_800E3D18;
 
 /* Ordinary declaration: the private selector authenticates this one
@@ -149,7 +150,7 @@ void func_800242D4(void *self, void *coords)
     u16 tail_z_2;
     s32 *global_flags;
     void *delta_out;
-    D_80024A70++;
+    D_80024A70[0]++;
 
     state = ((S_8199AAD4_0 *)self)->unk_28.s;
     switch (state) {

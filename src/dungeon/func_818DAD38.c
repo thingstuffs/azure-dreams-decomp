@@ -1,7 +1,8 @@
+#include "modules/dungeon_ovl_18fa800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
-typedef struct {
+typedef struct Unk818DAD38Owner {
     void *unk0;
     u8 pad4[0x44];
     u16 timer;
@@ -9,7 +10,7 @@ typedef struct {
     u16 state;
 } Unk818DAD38Owner;
 
-typedef struct {
+typedef struct Unk818DAD38Target {
     u8 pad0[4];
     s8 unk4;
     s8 unk5;
@@ -22,10 +23,9 @@ typedef struct {
     u16 unk1E;
 } Unk818DAD38Target;
 
-extern void func_800478B8(Unk818DAD38Target *);
 
 /* Advance the target's growth animation, then fade its color and mark completion. */
-void func_818DAD38(Unk818DAD38Owner *owner, s32 unused,
+void func_80024538(Unk818DAD38Owner *owner, s32 unused,
                    Unk818DAD38Target *target) {
     s16 state;
     u16 next_scale;

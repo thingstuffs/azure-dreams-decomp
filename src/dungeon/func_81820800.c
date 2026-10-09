@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_1840800.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
@@ -6,126 +7,26 @@
 #include "m2c_compat.h"
 extern int abs(int);
 
-void *func_8003FD64();
-s32 func_8004491C();
-s32 func_80069EF8();
-void func_8009CE1C();
-void *func_800A05A4();
-s16 func_800A3820();
-s32 func_800A4688();
-s32 func_800A56E0();
-s16 func_800BCB04();
-extern M2C_UNK D_800245B4;
-extern M2C_UNK D_80024A1C;
 
 
-typedef struct S_func_81820800_1 {
-    void *unk_00;
-    u16 *unk_04;
-    u8 pad_08[1];
-    u8 unk_09;
-    s16 unk_0A;
-    u8 pad_0C[0x44];
-    u16 unk_50;
-    s16 unk_52;
-} S_func_81820800_1;
 
-typedef struct S_func_81820800_2 {
-    union {
-        s32 unk_00;
-        struct {
-            u8 pad_00[2];
-            u16 unk_02;
-        } unk_02;
-    } unk_00;
-    union {
-        s32 unk_04;
-        struct {
-            u8 pad_04[2];
-            u16 unk_06;
-        } unk_06;
-    } unk_04;
-    u8 pad_08[2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_func_81820800_2;
-
-typedef struct S_func_81820800_3 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-    u8 pad_2C[0x34];
-    void *unk_60;
-    u8 pad_64[0xE];
-    u8 unk_72;
-    u8 unk_73;
-} S_func_81820800_3;
-
-typedef struct S_func_81820800_4 {
-    u8 pad_00[8];
-    void *unk_08;
-    void *unk_0C;
-} S_func_81820800_4;
-
-typedef struct S_func_81820800_5 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_func_81820800_5;
-
-typedef struct S_func_81820800_6 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-    u8 pad_14[0xC];
-    void *unk_20;
-} S_func_81820800_6;
-
-typedef struct S_func_81820800_7 {
-    u8 pad_00[4];
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-    s32 unk_18;
-    s32 unk_1C;
-    s32 unk_20;
-    s32 unk_24;
-    u8 pad_28[0x24];
-    s16 unk_4C;
-    u16 unk_4E;
-    u16 unk_50;
-    u16 unk_52;
-    s16 unk_54;
-    s16 unk_56;
-} S_func_81820800_7;
-
-typedef struct S_func_81820800_8 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_func_81820800_8;
-
-void func_80024020(void *state, S_func_81820800_2 *motion, void *source_data);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol func_80024000).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const module_entry)(void *, S_func_81820800_2 *, void *) __asm__("func_80024000") = func_80024020;
+void (*const dungeon_1840800_entry)(void *, TrailMotion *, void *) = func_80024020;
 
 /* Moves an attack toward its target, spawns trailing effects, and applies the hit. */
-void func_80024020(void *state, S_func_81820800_2 *motion, void *source_data) {
-    S_func_81820800_1 *state_obj;
-    S_func_81820800_4 *owner;
-    S_func_81820800_5 *source;
-    S_func_81820800_3 *actor;
+void func_80024020(void *state, TrailMotion *motion, void *source_data) {
+    TrailEffectState *state_obj;
+    TrailObject *owner;
+    TrailSprite *source;
+    TrailActor *actor;
     u32 header_raw;
-    S_func_81820800_5 *target_data;
-    S_func_81820800_7 *effect_data;
-    S_func_81820800_6 *effect;
-    S_func_81820800_5 *actor_data;
+    TrailSprite *target_data;
+    TrailParticleData *effect_data;
+    TrailSpawnedObject *effect;
+    TrailSprite *actor_data;
     s32 step_x;
     s32 step_y;
     s32 offset_x;
@@ -148,14 +49,14 @@ void func_80024020(void *state, S_func_81820800_2 *motion, void *source_data) {
     header_raw = actor->unk_2A;
     coord_x = header_raw >> 8;
     dir_offset = coord_x & 0xE;
-    actor_data = ((S_func_81820800_4 *) ((u8 *) actor - 0x20))->unk_0C;
+    actor_data = ((TrailObject *) ((u8 *) actor - 0x20))->unk_0C;
     step_x = *(s16 *)((u8 *)dirStepX + dir_offset);
     step_y = *(s16 *)((u8 *)dirStepY + dir_offset);
     if (state_obj->unk_0A == 1) {
         motion->unk_00.unk_00 = (s32) (motion->unk_00.unk_00 + motion->unk_0C);
         motion->unk_04.unk_04 = (s32) (motion->unk_04.unk_04 + motion->unk_10);
-        coord_x = func_800BCB04(motion->unk_00.unk_02.unk_02, motion->unk_04.unk_06.unk_06,
-            (s16) (((S_func_81820800_8 *) owner->unk_08)->unk_0A - 0x30));
+        coord_x = (s16)func_800BCB04(motion->unk_00.unk_02.unk_02, motion->unk_04.unk_06.unk_06,
+            (s16) (((TrailHeightView *) owner->unk_08)->unk_0A - 0x30));
         if (coord_x < 0x200) {
             motion->unk_0A = coord_x;
         }
@@ -168,16 +69,16 @@ void func_80024020(void *state, S_func_81820800_2 *motion, void *source_data) {
         return;
     }
     {
-        S_func_81820800_5 *tile_data;
+        TrailSprite *tile_data;
         s32 search_mode;
-        start_y = func_800A3820(3);
+        start_y = (s16)func_800A3820(3);
         search_mode = start_y << 0x10;
         tile_data = actor_data;
         end_x = tile_data->unk_24;
         header_raw = (u32)func_800A05A4(actor, end_x, tile_data->unk_25, (s16) actor->unk_2A, search_mode >> 0x10);
     }
-    actor->unk_60 = (S_func_81820800_3 *)header_raw;
-    if (((S_func_81820800_3 *)header_raw) != NULL) {
+    actor->unk_60 = (TrailActor *)header_raw;
+    if (((TrailActor *)header_raw) != NULL) {
         goto use_target;
     }
     distance_or_script = 0;
@@ -185,7 +86,7 @@ void func_80024020(void *state, S_func_81820800_2 *motion, void *source_data) {
     offset_x = 0;
     do {
         {
-            S_func_81820800_5 *tile_data = actor_data;
+            TrailSprite *tile_data = actor_data;
             s32 tile_left;
             s32 tile_left_2;
             s32 tile_top;
@@ -194,8 +95,8 @@ void func_80024020(void *state, S_func_81820800_2 *motion, void *source_data) {
             tile_top = (tile_data->unk_25 + offset_y) << 6;
             coord_y = tile_top + 0x20;
         }
-        effect = (S_func_81820800_6 *)(u32)(u16)coord_x;
-        if ((func_800A4688((u32)effect, (u16)coord_y, func_800BCB04((u32)effect, (u16)coord_y, -0x400),
+        effect = (TrailSpawnedObject *)(u32)(u16)coord_x;
+        if ((func_800A4688((u32)effect, (u16)coord_y, (s16)func_800BCB04((u32)effect, (u16)coord_y, -0x400),
             (s16)actor->unk_2A, actor->unk_60) << 0x10) != 0) {
             break;
         }
@@ -204,13 +105,13 @@ void func_80024020(void *state, S_func_81820800_2 *motion, void *source_data) {
         offset_x += step_x;
     } while (distance_or_script < 2);
     {
-        S_func_81820800_5 *tile_data = actor_data;
+        TrailSprite *tile_data = actor_data;
         actor->unk_72 = (u8) (tile_data->unk_24 + (step_x * distance_or_script));
         actor->unk_73 = (u8) (tile_data->unk_25 + (step_y * distance_or_script));
     }
     goto start_motion;
 use_target:
-    target_data = ((S_func_81820800_4 *) ((u8 *) ((S_func_81820800_3 *)header_raw) - 0x20))->unk_0C;
+    target_data = ((TrailObject *) ((u8 *) ((TrailActor *)header_raw) - 0x20))->unk_0C;
     actor->unk_72 = (u8) target_data->unk_24;
     actor->unk_73 = (u8) target_data->unk_25;
     if (target_data->unk_14 & 0x8000) {
@@ -220,7 +121,7 @@ use_target:
     }
 start_motion:
     {
-        S_func_81820800_5 *tile_data;
+        TrailSprite *tile_data;
 
         tile_data = actor_data;
         end_x = (s8)actor->unk_72;
@@ -253,14 +154,14 @@ start_motion:
         coord_y = -1;
     }
     coord_x = 2;
-    distance_or_script = (s32)&D_800245B4;
+    distance_or_script = (s32)&func_800245B4;
 next_effect:
     effect = func_8003FD64(0x201, ((M2C_UNK *)&D_80083498.next));
     if (effect != NULL) {
         effect->unk_10 = distance_or_script;
-        func_8004491C(effect, &D_80024A1C);
+        func_8004491C(effect, func_80024A1C);
         duration = state_obj->unk_50;
-        effect_data = (S_func_81820800_7 *) ((u8 *) effect + 0x20);
+        effect_data = (TrailParticleData *) ((u8 *) effect + 0x20);
         effect_data->unk_54 = coord_y;
         effect_data->unk_52 = duration;
         effect_data->unk_4C = (s16) (func_80069EF8() & 0xFFF);

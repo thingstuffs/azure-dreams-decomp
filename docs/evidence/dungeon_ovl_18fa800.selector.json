@@ -1,0 +1,258 @@
+{
+  "selector": 34,
+  "alternate_table": 0,
+  "lba": "0x620b",
+  "file_start": "0x18fa800",
+  "file_end": "0x1900800",
+  "sectors": 12,
+  "destination": "0x80024000",
+  "delta": "0x7e729800",
+  "in_container": true,
+  "runtime_observed": false,
+  "words": {
+    "lba": [
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc4174",
+        "word": "0x00111c00"
+      },
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc4178",
+        "word": "0x00031c03"
+      },
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc417c",
+        "word": "0x2463ffff"
+      },
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc4180",
+        "word": "0x00031040"
+      },
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc4184",
+        "word": "0x00431021"
+      },
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc4188",
+        "word": "0x00021080"
+      },
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc418c",
+        "word": "0x2447607f"
+      }
+    ],
+    "sectors": [
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc4190",
+        "word": "0x2404000c"
+      }
+    ],
+    "destination": [
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc40d4",
+        "word": "0x3c148002"
+      },
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc40e0",
+        "word": "0x36944000"
+      },
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc4194",
+        "word": "0x02802821"
+      }
+    ],
+    "submission": [
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc4198",
+        "word": "0x3c10800e"
+      },
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc419c",
+        "word": "0x261058b0"
+      },
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc41a0",
+        "word": "0x0c00fdb5"
+      },
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc41a4",
+        "word": "0x02003021"
+      },
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc41a8",
+        "word": "0x24040006"
+      },
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc41ac",
+        "word": "0x02002821"
+      },
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc41b0",
+        "word": "0x0c00f93f"
+      },
+      {
+        "container": "DUNGEON",
+        "file_offset": "0xc41b4",
+        "word": "0x00003021"
+      }
+    ],
+    "decoder": [
+      {
+        "container": "SLUS",
+        "file_offset": "0x12ed4",
+        "word": "0x3c02007f"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x12ed8",
+        "word": "0x3442ffff"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x12edc",
+        "word": "0x00a22824"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x12ee0",
+        "word": "0x000425c0"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x12ee4",
+        "word": "0x00a42825"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x12ee8",
+        "word": "0xacc50000"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x12eec",
+        "word": "0x03e00008"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x12ef0",
+        "word": "0xacc70004"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x121ec",
+        "word": "0x8c510004"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x121f0",
+        "word": "0x3c03007f"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x121f4",
+        "word": "0x8e220000"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x121f8",
+        "word": "0x3463ffff"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x121fc",
+        "word": "0x00438024"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x12204",
+        "word": "0x000295c2"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x12218",
+        "word": "0x3c028000"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x1221c",
+        "word": "0x02028025"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x122a4",
+        "word": "0x8e240004"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x122a8",
+        "word": "0x0c018493"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x122e4",
+        "word": "0x02402021"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x122e8",
+        "word": "0x02002821"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x122ec",
+        "word": "0x0c018c89"
+      },
+      {
+        "container": "SLUS",
+        "file_offset": "0x122f0",
+        "word": "0x24060080"
+      }
+    ]
+  },
+  "file_conversion": {
+    "iso_lba": "0x3016",
+    "sector_bytes": 2048
+  },
+  "agrees_with": [
+    {
+      "region": "jtbl_18FA800",
+      "foff_start": "0x18FA800",
+      "foff_end": "0x18FAD38",
+      "delta": "0x7E729800",
+      "confidence": "proven",
+      "intersection": [
+        "0x18fa800",
+        "0x18fad38"
+      ]
+    },
+    {
+      "region": "img_18fad38_80024538",
+      "foff_start": "0x18FAD38",
+      "foff_end": "0x18FAF14",
+      "delta": "0x7E729800",
+      "confidence": "proven",
+      "intersection": [
+        "0x18fad38",
+        "0x18faf14"
+      ]
+    }
+  ],
+  "contradicts": []
+}

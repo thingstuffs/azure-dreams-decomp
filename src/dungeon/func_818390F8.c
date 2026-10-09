@@ -1,69 +1,11 @@
+#include "modules/dungeon_ovl_1858800.h"
 #include "common.h"
 #include "shared/game_work.h"
 
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 z;
-} SVECTOR;
 
-typedef struct {
-    u8 pad0[2];
-    u16 x;
-    u8 pad4[2];
-    u16 y;
-    u8 pad8[2];
-    u16 z;
-} PositionFields;
-
-typedef struct {
-    u32 tag;
-    u8 r0;
-    u8 g0;
-    u8 b0;
-    u8 code;
-    s16 x0;
-    s16 y0;
-    u8 u0;
-    u8 v0;
-    u16 clut;
-    s16 x1;
-    s16 y1;
-    u8 u1;
-    u8 v1;
-    u16 tpage;
-    s16 x2;
-    s16 y2;
-    u8 u2;
-    u8 v2;
-    u16 pad2;
-    s16 x3;
-    s16 y3;
-    u8 u3;
-    u8 v3;
-    u16 pad3;
-} POLY_FT4;
-
-typedef struct {
-    u8 pad0[0xB0];
-    u32 ot[0x208];
-    u8 pad8D0[0x8D0 - 0x8D0];
-    u8 *next_prim;
-} RenderContext;
-
-typedef struct {
-    u8 pad0[0x52];
-    s16 frame;
-} RenderRecord;
-
-extern s32 func_80065420(SVECTOR *, s16 *, s32 *, s32 *);
-extern void func_800666F4(POLY_FT4 *);
-extern void func_80066640(POLY_FT4 *, s32);
-extern u16 func_80066460(s32, s32, s32, s32);
-extern u16 func_8006649C(s32, s32);
 
 /* Advance the animation and enqueue a textured quad at the projected position. */
-s32 func_818390F8(RenderRecord *render_record, PositionFields *position)
+s32 func_800248F8(RenderRecord *render_record, PositionFields *position)
 {
     SVECTOR world_point;
     s16 screen[4];
