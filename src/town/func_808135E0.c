@@ -97,8 +97,9 @@ s32 func_808135E0(void *first_item)
                     after_state = (u8 *)((u32)after_state & -(u32)(after_state <= work_ptr + pool_limit));
                 }
 
+                work_ptr = 0;
                 *(u8 **)(state_pool + 0x8D0) = after_state;
-                out_y = (s32 *)func_8006D9DC(0, 0, 0, 0);
+                out_y = (s32 *)func_8006D9DC((s32)work_ptr, 0, 0, 0);
                 func_8006F49C((u8 *)depth_sum, 0, 0, (u16)((u32)out_y), 0);
 
                 state_table = *render_context;
