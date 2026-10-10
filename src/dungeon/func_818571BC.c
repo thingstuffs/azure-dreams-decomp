@@ -1,3 +1,5 @@
+#include "modules/dungeon_native_abi.h"
+#include "modules/dungeon_ovl_1876800.h"
 #include "common.h"
 
 typedef struct DungeonDrawState {

@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_18a0800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -21,10 +22,6 @@ typedef struct {
     u16 field1E;
 } Func818816E0Arg2;
 
-extern u16 D_800257CE[5];
-extern s16 D_800257CC[5];
-s32 func_800644B8(s32 angle);
-s32 func_80064584(s32 angle);
 
 /* Moves and fades an effect, marking it inactive when its brightness falls below the cutoff. */
 void func_80024EE0(void *effect_data, void *position_data, void *visual_data) {

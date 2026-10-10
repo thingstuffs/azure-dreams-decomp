@@ -1,5 +1,5 @@
 #include "shared/entity_height_offsets.h"
-#include "common.h"
+#include "modules/dungeon_native_abi.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -29,25 +29,18 @@ typedef struct {
     Copy12 copy;
 } PackedSpawn __attribute__((packed));
 
-extern PointTable D_80024074;
+const PointTable D_80024074 = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
 extern Copy12 D_80026934;
-extern Copy12 D_80026940;
+extern u8 D_80026940[12];
 extern s16 D_8002694C[5];
 extern u8 D_8007CCD8[];
 extern s32 func_8003DF74(void *, void *, void *, s32);
-extern void func_8004491C(void *, void *);
 extern void *func_8003FC64(s32);
 extern s32 func_80069EF8(void);
-extern void func_800250B0(void *, s32, u32, u32, s32, s32, s32);
-extern void func_800251E8(s32, u32, s32, s32, s32, s32);
 extern s32 func_800A4778(u16, u16, s16, void *);
-extern void func_800240B8(void *, u8, void *);
-extern void func_800A56E0(s32);
 extern void *memcpy(void *, const void *, unsigned int);
 
 extern void func_80045340(void);
-extern void func_8002569C(void);
-extern void func_800257E0(void);
 
 #define U8(p, o) (*(u8 *)((u8 *)(p) + (o)))
 #define S8(p, o) (*(s8 *)((u8 *)(p) + (o)))

@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_18a0800.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -38,13 +39,7 @@ typedef struct S_80024A98_3 {
 } S_80024A98_3;   /* part in func_80024A98 */
 
 
-extern void *func_8003FC64();
-extern void func_8004491C();
-extern void func_8003DB94();
-extern void func_800254C4();
-extern s16 rand();
 
-extern u8 D_80024A00[];
 extern u8 D_800DE938[];
 
 /* Creates a visual node at the supplied coordinates with 16 evenly spaced radial effects. */
@@ -58,8 +53,8 @@ void *func_80024A98(S_80024A98_2 *source_coords)
 
     node = func_8003FC64(0x202);
     if (node != 0) {
-        node->unk_10 = D_80024A00;
-        func_8004491C(node, func_80045340);
+        node->unk_10 = func_80024A00;
+        func_8004491C(node, (s32)func_80045340);
         coords = node->unk_08;
         coords->unk_02 = source_coords->unk_02;
         coords->unk_06 = source_coords->unk_06;
@@ -72,7 +67,7 @@ void *func_80024A98(S_80024A98_2 *source_coords)
         part->unk_10 = 0x20;
         part->unk_14 |= 0xC;
         effect_index = 0;
-        angle = rand();
+        angle = (s16)rand();
         do {
             func_800254C4(coords, angle, 0x10, 1);
             effect_index++;

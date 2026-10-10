@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 
-extern void func_800241A8(void *record, void *context, void *data, s32 depth_bias);
+#include "modules/dungeon_ovl_189a800.h"
 
 /* Retail 8187B1A0 (func_800249A0).
  * Draw the record and then every record chained through the previous header's unk_18 link (node + 0x20 is the

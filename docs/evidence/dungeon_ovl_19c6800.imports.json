@@ -1,0 +1,231 @@
+{
+  "module": "dungeon_ovl_19c6800",
+  "maps": {
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "basis": "PS-X EXE header: load 0x8002D000, payload size 0x54800, file header 0x800.",
+      "kind": "psx_exe"
+    },
+    "dungeon_resident": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 667648,
+      "file_end": 1050624,
+      "delta": 2147374944,
+      "basis": "config/overlays/dungeon.rowbase.jsonl xfer_dungeon_A3000 proven runtime DMA/load-map record.",
+      "kind": "rowbase",
+      "region": "xfer_dungeon_A3000"
+    }
+  },
+  "views": {
+    "D_800DEE38": {
+      "symbol": "D_800DEE38",
+      "kind": "data",
+      "vma": 2148396600,
+      "foff": 1021656,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_ovl_19c6800.imports.json"
+    }
+  },
+  "runtime_views": {
+    "D_800814A0": {
+      "symbol": "D_800814A0",
+      "kind": "runtime_data",
+      "vma": 2148013216,
+      "view_bytes": 16,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_19c6800.imports.json",
+      "declaration": "include/shared/object_flags.h"
+    },
+    "D_800814A8": {
+      "symbol": "D_800814A8",
+      "kind": "runtime_data",
+      "vma": 2148013224,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_19c6800.imports.json",
+      "declaration": "include/shared/record_ptrs.h"
+    },
+    "D_80082E80": {
+      "symbol": "D_80082E80",
+      "kind": "runtime_data",
+      "vma": 2148019840,
+      "view_bytes": 64,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_19c6800.imports.json",
+      "declaration": "include/shared/tile_object.h"
+    },
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 512,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_19c6800.imports.json",
+      "declaration": "include/shared/game_work.h"
+    },
+    "D_80083460": {
+      "symbol": "D_80083460",
+      "kind": "runtime_data",
+      "vma": 2148021344,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_19c6800.imports.json",
+      "declaration": "include/shared/dungeon_status.h"
+    },
+    "D_80083498": {
+      "symbol": "D_80083498",
+      "kind": "runtime_data",
+      "vma": 2148021400,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_19c6800.imports.json",
+      "declaration": "include/shared/object_node.h"
+    },
+    "D_80083780": {
+      "symbol": "D_80083780",
+      "kind": "runtime_data",
+      "vma": 2148022144,
+      "view_bytes": 300,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_19c6800.imports.json",
+      "declaration": "include/shared/entity_objects.h"
+    }
+  },
+  "functions": {
+    "func_8003DE58": {
+      "vma": 2147737176,
+      "foff": 71256,
+      "map": "slus_load",
+      "first_word": "d0ffbd27",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_8003FD64": {
+      "vma": 2147745124,
+      "foff": 79204,
+      "map": "slus_load",
+      "first_word": "0180023c",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_8004491C": {
+      "vma": 2147764508,
+      "foff": 98588,
+      "map": "slus_load",
+      "first_word": "21388000",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_80045340": {
+      "vma": 2147767104,
+      "foff": 101184,
+      "map": "slus_load",
+      "first_word": "e0ffbd27",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_800478B8": {
+      "vma": 2147776696,
+      "foff": 110776,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_80053EF0": {
+      "vma": 2147827440,
+      "foff": 161520,
+      "map": "slus_load",
+      "first_word": "01000224",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_800644B8": {
+      "vma": 2147894456,
+      "foff": 228536,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_80065420": {
+      "vma": 2147898400,
+      "foff": 232480,
+      "map": "slus_load",
+      "first_word": "000080c8",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_80066460": {
+      "vma": 2147902560,
+      "foff": 236640,
+      "map": "slus_load",
+      "first_word": "03008230",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_8006649C": {
+      "vma": 2147902620,
+      "foff": 236700,
+      "map": "slus_load",
+      "first_word": "80110500",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_80066640": {
+      "vma": 2147903040,
+      "foff": 237120,
+      "map": "slus_load",
+      "first_word": "0400a010",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_800666F4": {
+      "vma": 2147903220,
+      "foff": 237300,
+      "map": "slus_load",
+      "first_word": "09000224",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_80069EF8": {
+      "vma": 2147917560,
+      "foff": 251640,
+      "map": "slus_load",
+      "first_word": "a0000a24",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_8009CE1C": {
+      "vma": 2148126236,
+      "foff": 751292,
+      "map": "dungeon_resident",
+      "first_word": "c0ffbd27",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_800A05A4": {
+      "vma": 2148140452,
+      "foff": 765508,
+      "map": "dungeon_resident",
+      "first_word": "b0ffbd27",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_800A56E0": {
+      "vma": 2148161248,
+      "foff": 786304,
+      "map": "dungeon_resident",
+      "first_word": "0180023c",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_800DBA90": {
+      "vma": 2148383376,
+      "foff": 1008432,
+      "map": "dungeon_resident",
+      "first_word": "a8ffbd27",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "rand": {
+      "vma": 2147917560,
+      "foff": 251640,
+      "map": "slus_load",
+      "first_word": "a0000a24",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    }
+  },
+  "review": "pending",
+  "reviewer": null,
+  "view_scope": "Existing runtime storage and bounded external asset views; no new allocation/initialization claim. Sprite resource D_800DEE38 is an eight-byte descriptor: pointer at 0, word at +4."
+}

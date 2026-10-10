@@ -1,17 +1,17 @@
 #include "common.h"
 #include "shared/object_flags.h"
-extern u8 D_80020000[];
+
 
 typedef struct S_81971398_0 {
     u8 pad_00[0x38];
     union { u16 s; s16 u; } unk_38;   /* accessed as both */
     s16 unk_3A;
-} S_81971398_0;   /* base in func_81971398 */
+} S_81971398_0;   /* base in func_80024B98 */
 
 typedef struct S_81971398_1 {
     u8 pad_00[0x5FF4];
     s16 unk_5FF4;
-} S_81971398_1;   /* page in func_81971398 */
+} S_81971398_1;   /* page in func_80024B98 */
 
 typedef struct S_81971398_2 {
     u8 pad_00[0xC];
@@ -22,14 +22,13 @@ typedef struct S_81971398_2 {
     u8 unk_1C;
     u8 unk_1D;
     u8 unk_1E;
-} S_81971398_2;   /* p in func_81971398 */
+} S_81971398_2;   /* p in func_80024B98 */
 
 
-extern s16 D_80025FF4;
 
 
 /* Advance the fade, scale four vertex colors, and flag completion when the timer expires. */
-void func_81971398(void *fade_data)
+void func_80024B98(void *fade_data)
 {
     void *fade;
     s32 vertex_index;
@@ -39,7 +38,7 @@ void func_81971398(void *fade_data)
 
     fade = fade_data;
     vertex_index = 0;
-    global_page = (u8 *)D_80020000;
+    global_page = (u8 *)&D_80025FF4 - 0x5FF4;
     ticks_left = ((S_81971398_0 *)fade)->unk_38.s;
     ((S_81971398_1 *)global_page)->unk_5FF4 = 1;
     ticks_left--;
@@ -61,3 +60,4 @@ void func_81971398(void *fade_data)
         objectFlagBlock.flags |= 0x8000;
     }
 }
+

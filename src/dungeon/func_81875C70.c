@@ -1,18 +1,19 @@
+#include "modules/dungeon_native_abi.h"
+#include "modules/dungeon_ovl_1894800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
 extern s32 func_80069EF8(void);
-extern void func_80025338(void *, s32, s32, s32, s32, s32, s32);
+extern void func_80025338(void *, s32, s32, s16, s16, s16, s16);
 
 typedef struct {
     u8 bytes[12];
 } UnkCopy12;
 
 extern UnkCopy12 D_80026658;
-extern s16 D_80026664;
 
 /* Per-state particle step: the c4 state spawns 0x20 randomised sparks in one do-while. */
-void func_81875C70(u8 *data, void *unused, u8 *context)
+void func_80025470(u8 *data, void *unused, u8 *context)
 {
     u8 *p = data;
     s16 old;

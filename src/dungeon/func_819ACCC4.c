@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_19cc800.h"
 #include "common.h"
 #include "shared/object_node.h"
 
@@ -6,14 +7,7 @@
 #endif
 
 /* Position block (three 4-byte slots, only the second halfword of each is used). */
-typedef struct EffectPosition {
-    u16 pad_00;
-    u16 x;
-    u16 pad_04;
-    u16 y;
-    u16 pad_08;
-    u16 z;
-} EffectPosition;
+
 
 /* The effect's record (the object header precedes it). */
 typedef struct EffectRecord {
@@ -22,18 +16,9 @@ typedef struct EffectRecord {
 } EffectRecord;
 
 /* The render data the header's unk_0C points at. */
-typedef struct EffectSprite {
-    u8 pad_00[8];
-    void *unk_08;
-    u8 pad_0C[0x10];
-    s16 size;
-    s16 size_max;
-} EffectSprite;
 
-extern ObjectNodeHeader *func_8003FC64(s32 flags);
+
 extern void func_800B835C();
-extern void func_80024328(void *, void *, void *);
-extern u8 D_80027460[9];
 extern u8 D_8002746C[9];
 
 /* Allocate and initialize an effect object from the supplied part data. */
@@ -69,3 +54,4 @@ void *func_800244C4(EffectPosition *source_pos, s32 offset_base) {
     }
     return result;
 }
+

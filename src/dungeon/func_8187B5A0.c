@@ -1,4 +1,4 @@
-#include "common.h"
+#include "modules/dungeon_native_abi.h"
 
 #define FIELD_U8(base, off)  (*(u8 *)((u8 *)(base) + (off)))
 #define FIELD_S16(base, off) (*(s16 *)((u8 *)(base) + (off)))
@@ -8,11 +8,11 @@
 
 extern u8 D_80080000[];
 extern u32 func_80065420();
-extern s32 func_80066460();
-extern s32 func_80067F20();
+extern s32 func_80066460(s32, s32, s32, s32);
+extern void func_80067F20(void *, s32, s32, u32, s32);
 
 /* Projects a colored point and links its drawing packets into the ordering table. */
-s32 func_8187B5A0(u8 *render_data, u8 *source_vertex)
+s32 func_80024DA0(u8 *render_data, u8 *source_vertex)
 {
     u8 **context_slot;
     u8 *scratch;

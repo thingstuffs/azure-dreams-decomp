@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_18a0800.h"
 #include "common.h"
 
 #ifndef NULL
@@ -50,22 +51,14 @@ typedef struct S_80024D90_4 {
 } S_80024D90_4;   /* temp_a0 in func_80024D90 */
 
 
-extern s32 func_8003DB94();
-extern void *func_8003FC64();
-extern s32 func_8004491C();
-extern s32 func_800644B8();
-extern s32 func_80064584();
 
-extern s32 D_80024B98[3];
-extern s32 D_80025854[3];
-extern s32 D_80045C34[3];
 
 /* Spawns sixteen effects in a ring around the source position. */
 void *func_80024D90(void *source_pos, s16 effect_param) {
     register void *origin = source_pos;
     register s16 state_param = effect_param;
     register s32 effect_index = 0;
-    register s32 *callback = D_80024B98;
+    register s32 *callback = func_80024B98;
     register u16 *counter_page = (u16 *)0x80020000;
     register s32 component_offset = -0x400;
     register void *effect;
@@ -78,7 +71,7 @@ void *func_80024D90(void *source_pos, s16 effect_param) {
         effect = func_8003FC64(0x202);
         if (effect != NULL) {
             ((S_80024D90_0 *)effect)->unk_10 = callback;
-            func_8004491C(effect, D_80045C34);
+            func_8004491C(effect, (s32)func_80045C34);
             angle = effect_index << 8;
             position = ((S_80024D90_0 *)effect)->unk_08;
             value = ((S_80024D90_1 *)origin)->unk_02 + (func_80064584(angle) >> 7);
@@ -108,6 +101,4 @@ void *func_80024D90(void *source_pos, s16 effect_param) {
     return effect;
 }
 
-/* MECHANISM: The 0x38 frame and ten saved roles come from the natural loop lifetimes.
-   A short-lived $v0-held 0x400 local plus ASM_KEEP forces retail's li/lhu/addiu/sh order.
-   The $s1/$v1/$a0 pins preserve the child, counter, and subobject-base live ranges. */
+

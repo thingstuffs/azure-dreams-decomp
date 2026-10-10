@@ -1,10 +1,7 @@
+#include "modules/dungeon_ovl_18a0800.h"
 #include "common.h"
 #include "m2c_compat.h"
 
-void *func_8003FC64();                       /* extern */
-s32 func_8004491C();           /* extern */
-extern M2C_UNK D_800255DC;
-extern M2C_UNK D_800CEEFC;
 
 typedef struct S_80025654_0 {
     u8 pad_00[0x8];
@@ -73,8 +70,8 @@ void *func_80025654(S_80025654_2 *endpoints, S_80025654_4 *settings) {
 
     object = func_8003FC64(0x202);
     if (object != NULL) {
-        object->unk_10 = &D_800255DC;
-        func_8004491C(object, &D_800CEEFC);
+        object->unk_10 = func_800255DC;
+        func_8004491C(object, (s32)func_800CEEFC);
         transition = object->unk_08;
         transition->unk_02 = (u16) endpoints->unk_02;
         transition->unk_06 = (u16) endpoints->unk_06;

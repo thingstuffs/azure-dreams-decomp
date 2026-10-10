@@ -1,3 +1,5 @@
+#include "modules/dungeon_ovl_18a6800.h"
+#include "modules/dungeon_native_abi.h"
 #include "common.h"
 #include "shared/object_flags.h"
 

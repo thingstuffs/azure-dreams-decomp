@@ -1,15 +1,9 @@
+#include "modules/dungeon_ovl_18a0800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern u16 D_800257CE[5];
 
 
-typedef struct {
-    u8 pad[12];
-    u8 red;
-    u8 green;
-    u8 blue;
-} EffectColor;
 
 /* Fade the effect color and set completion flags when red falls below eight. */
 void func_800255DC(u16 *effect_data, s32 unused, EffectColor *color) {

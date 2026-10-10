@@ -1,3 +1,4 @@
+#include "modules/dungeon_native_abi.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
@@ -19,7 +20,7 @@ typedef struct SpriteEntry {
     u16 status;
 } SpriteEntry;
 
-extern s32 func_800478B8();
+
 
 /* Retail 819B32CC (func_80024ACC): marks the owner, and once the sprite reaches status 0x6000 marks the
  * effect's own header and the global object flags too. */

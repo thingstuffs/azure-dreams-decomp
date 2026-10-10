@@ -4,7 +4,6 @@
 #include "shared/object_node.h"
 #include "modules/dungeon_native_abi.h"
 
-extern s16 D_80025FF4;
 
 /* 16.16 fixed-point coordinate: the whole part is the high halfword. */
 typedef union FixedCoord {
@@ -15,22 +14,22 @@ typedef union FixedCoord {
     } part;
 } FixedCoord;
 
-typedef struct EffectPosition {
+typedef struct Bank1990800_1990fe8_EffectPosition {
     FixedCoord x;
     FixedCoord y;
     FixedCoord z;
-} EffectPosition;
+} Bank1990800_1990fe8_EffectPosition;
 
 /* The effect record the callback runs on (the object header precedes it). */
-typedef struct EffectState {
+typedef struct Bank1990800_1990fe8_EffectState {
     u8 pad_00[0x32];
     s16 countdown;
     u8 pad_34[0x14];
     s32 height_step;    /* added to the position's z when it is below the floor */
-} EffectState;
+} Bank1990800_1990fe8_EffectState;
 
 /* Adjust height conditionally and set flags when the countdown reaches zero or below. */
-void func_800247E8(EffectState *state, EffectPosition *position)
+void func_800247E8(Bank1990800_1990fe8_EffectState *state, Bank1990800_1990fe8_EffectPosition *position)
 {
     s16 countdown;
 
@@ -47,3 +46,4 @@ void func_800247E8(EffectState *state, EffectPosition *position)
         objectFlagBlock.flags |= 0x8000;
     }
 }
+

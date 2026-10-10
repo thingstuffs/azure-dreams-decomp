@@ -1,3 +1,5 @@
+#include "modules/dungeon_native_abi.h"
+#include "modules/dungeon_ovl_1894800.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -219,7 +221,12 @@ typedef struct S_800259D8_15 {
 } S_800259D8_15;   /* ((S_800259D8_3 *)obj)->unk_60 in func_800259D8 */
 
 
-typedef struct {
+typedef struct DirectionOffset {
+    s16 x;
+    u16 y;
+} DirectionOffset;
+typedef union DirectionOffsetCopy {
+    DirectionOffset pairs[8];
     u8 bytes[32];
 } Copy32;
 
@@ -247,24 +254,17 @@ typedef struct {
  * cold overlay row; the binds retain real link-resolved symbols. */
 
 
-extern Copy32 D_80024058;
+const Copy32 D_80024058 = {{ {8, 0}, {8, 8}, {0, 8}, {-8, 8}, {-8, 0}, {-8, 65528}, {0, 65528}, {8, 65528} }};
 extern Copy12 D_80026634;
 extern Copy12 D_80026640;
 extern Copy12 D_8002664C;
-extern s16 D_80026664[8];
-extern u8 D_80024704[];
-extern u8 D_80025814[];
-extern u8 D_80024FD4[];
-extern u8 D_80025470[];
 
 extern s32 func_8003DF74(void *, void *, Vec3s *, s32);
 extern void *func_8003FC64(s32);
-extern void func_8004491C(void *, void *);
 extern s32 func_80069EF8(void);
 extern s32 func_800A4778(u16, u16, s16, void *);
-extern void func_800A56E0(s32);
-extern void func_80025338(void *, s32, s32, s32, s32, s32, s32);
-extern void func_80024098(void *, u8, void *);
+extern void func_80025338(void *, s32, s32, s16, s16, s16, s16);
+
 extern s32 func_80064584(s32);
 extern s32 func_800644B8(s32);
 
@@ -309,7 +309,7 @@ void func_800259D8(void *effect, void *entity, S_800259D8_2 *sprite)
             u16 init_count;
             sprite->unk_08 = (u8 *)effect + 0xA2;
             init_value = (((S_800259D8_3 *)obj)->unk_2A >> 9) & 7;
-            D_80026664[0] = 1;
+            ((s16 *)&D_80026664)[0] = 1;
             init_count = ((S_800259D8_0 *)effect)->unk_0A.u + 1;
             ((S_800259D8_0 *)effect)->unk_80 = init_value;
             ((S_800259D8_0 *)effect)->unk_0A.u = init_count;
@@ -427,12 +427,12 @@ L0_adjust_z:
                 entry = (u8 *)spawn + 0x20;
                 {
                     void *spawn_copy = spawn;
-                    u8 *tbl = D_80024704;
+                    u8 *tbl = func_80024704;
                     ((S_800259D8_5 *)entry)->unk_38 = obj;
                     ((S_800259D8_5 *)entry)->unk_44 = entity;
                     ((S_800259D8_5 *)entry)->unk_48 = sprite;
                     ((S_800259D8_5 *)entry)->unk_4C = effect;
-                    ((S_800259D8_7 *)spawn)->unk_10 = (void *)D_80025814;
+                    ((S_800259D8_7 *)spawn)->unk_10 = (void *)func_80025814;
                     func_8004491C(spawn_copy, tbl);
                 }
                 work = ((S_800259D8_7 *)spawn)->unk_0C;
@@ -555,8 +555,8 @@ L1_calc:
                 ((S_800259D8_5 *)entry)->unk_1C = 0;
                 ((S_800259D8_5 *)entry)->unk_1A = 0x40;
                 entry = ((S_800259D8_15_pre *)(((S_800259D8_3 *)obj)->unk_60))[-1].unk_00;
-                ((S_800259D8_7 *)spawn)->unk_10 = D_80025470;
-                func_8004491C(spawn, D_80024FD4);
+                ((S_800259D8_7 *)spawn)->unk_10 = func_80025470;
+                func_8004491C(spawn, func_80024FD4);
                 work = ((S_800259D8_7 *)spawn)->unk_0C;
                 work->unk_10 = 0x20;
                 work->unk_14 |= 0x000C;
@@ -668,7 +668,7 @@ L1_calc:
         }
         {
             s32 seen;
-            seen = D_80026664[0];
+            seen = ((s16 *)&D_80026664)[0];
             ((S_800259D8_0 *)effect)->unk_84.u = old_count;
             if (seen == 0) {
                 dungeonStatus.unk_0C = 0;
@@ -677,7 +677,7 @@ L1_calc:
                 return;
             }
         }
-        D_80026664[0] = 0;
+        ((s16 *)&D_80026664)[0] = 0;
         return;
     }
 

@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_19cc800.h"
 #include "common.h"
 
 /* 16 bytes copied as four packed words (the animation table stride is 0x16, so entries are only 2-aligned). */
@@ -6,7 +7,7 @@ typedef struct {
 } __attribute__((packed)) PackedWords4;
 
 /* One 0x16-byte animation entry (the table row func_8002590C selects by index; see func_800257D0's callers). */
-typedef struct {
+typedef struct AnimEntry {
     PackedWords4 words;
     s16 field_10;
     s8 field_12;        /* widened to dst->field_14 */
@@ -15,7 +16,7 @@ typedef struct {
 } AnimEntry;
 
 /* The 0x20-byte current-frame block the entry is expanded into. */
-typedef struct {
+typedef struct FrameState {
     PackedWords4 words;
     s16 field_10;
     s16 pad_12;
@@ -36,3 +37,4 @@ void func_800257D0(FrameState *dst, AnimEntry *src)
     dst->field_18 = src->field_13;
     dst->field_1C = src->field_14;
 }
+

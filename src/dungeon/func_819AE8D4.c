@@ -1,8 +1,8 @@
+#include "modules/dungeon_ovl_19cc800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
 
-extern u16 D_80027452[5];
 
 /* Colour bytes of the effect's render data. */
 typedef struct EffectColor {
@@ -32,3 +32,4 @@ void func_800260D4(void *record, s32 unused, EffectColor *color) {
         objectFlagBlock.flags |= 0x8000;
     }
 }
+

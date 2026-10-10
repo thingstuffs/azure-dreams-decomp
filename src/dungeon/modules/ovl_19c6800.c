@@ -1,0 +1,5 @@
+#include "../func_819A6800.c"
+#include "../func_819A6CBC.c"
+#include "../func_819A7010.c"
+#include "../func_819A7320.c"
+#include "../func_819A764C.c"

@@ -1,3 +1,4 @@
+#include "modules/dungeon_native_abi.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/gpu_packets.h"

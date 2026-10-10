@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_19cc800.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
@@ -114,12 +115,6 @@ typedef struct S_819AD81C_6 {
 } S_819AD81C_6;   /* link in func_819AD81C */
 
 
-void func_800257D0();
-void func_80025840();
-void func_8002590C();
-void func_8002593C();
-void *func_80025B78();
-void *func_80025FCC();
 s32 func_800644B8();
 s32 func_80064584();
 void func_800649A0();
@@ -134,8 +129,8 @@ extern u8 D_800287A2;
 extern s32 D_800287A4;
 
 /* Per-frame homing-projectile step: fade in/out, fly toward the target tile, wake anything it passes and expire. */
-void func_819AD81C(void *entity, void *motion, void *gfx) {
-    typedef struct {
+void func_8002501C(void *entity, void *motion, void *gfx) {
+    typedef struct Local20 {
         s16 unk0;
         u16 unk2;
         s16 unk4;
@@ -146,7 +141,7 @@ void func_819AD81C(void *entity, void *motion, void *gfx) {
         s32 unk10;
         s32 unk14;
     } Local20;
-    typedef struct {
+    typedef struct Local38 {
         s16 unk0;
         s16 unk2;
         s16 unk4;
@@ -326,3 +321,4 @@ void func_819AD81C(void *entity, void *motion, void *gfx) {
         func_800257D0(entity, ((S_819AD81C_1 *)gfx)->unk_00);
     }
 }
+

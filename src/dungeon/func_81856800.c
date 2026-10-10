@@ -1,9 +1,11 @@
+#include "modules/dungeon_native_abi.h"
+#include "modules/dungeon_ovl_1876800.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
-typedef s32 M2C_UNK;
+#include "m2c_compat.h"
 
 typedef struct S_func_81856800_1 {
     void * unk_00;
@@ -177,30 +179,27 @@ typedef union {
 } MipsProduct;
 #endif
 
-extern void *func_8003FD64(s32, void *);
 extern s32 func_80069EF8(void);
 extern s32 func_8003DE58(void *, void *, void *, s32);
-extern s32 func_800BCB04(u16, u16, s16);
 extern s16 func_80066460(s32, s32, s32, s32);
 extern s16 func_8006649C(s32, s32);
-extern void func_8004491C(void *, void *);
-extern void func_800A56E0(s32);
+
 extern void func_8009CE1C(void *, s32, u8, s32, s32, void *, s32);
 
-extern u8 D_80024850[];
+
 extern u8 D_800DEE38[];
 extern u8 D_800DEC50[];
 extern u8 D_800DEC70[];
-extern u8 D_800249BC[];
-extern u8 D_80024F40[];
-extern u8 D_80024C40[];
+
+extern void func_80024F40(void *);
+extern void func_80024C40();
 
 void func_80024020(S_func_81856800_1 *action, S_func_81856800_2 *motion_arg);
 
-/* The module's entry pointer: the first word of its read-only data, at the row's own address
+/* Native module entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol func_80024000).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const module_entry)(S_func_81856800_1 *, S_func_81856800_2 *) __asm__("func_80024000") = func_80024020;
+void (*const dungeon_1876800_entry)(S_func_81856800_1 *, S_func_81856800_2 *) = func_80024020;
 
 /* Updates a staged movement effect, spawning particles and applying its final action. */
 void func_80024020(S_func_81856800_1 *action, S_func_81856800_2 *motion_arg)
@@ -258,7 +257,7 @@ void func_80024020(S_func_81856800_1 *action, S_func_81856800_2 *motion_arg)
                     particle_data = (S_func_81856800_7 *)((u8 *)effect + 32);
                     part = effect->unk_0C;
                     {
-                        void *effect_type = D_80024850;
+                        void *effect_type = func_80024850;
 
                         effect->unk_10 = effect_type;
                     }
@@ -433,7 +432,7 @@ void func_80024020(S_func_81856800_1 *action, S_func_81856800_2 *motion_arg)
         }
         index = 8;
         page_or_magic = (s32)0x80080000;
-        spawn_type = D_80024C40;
+        spawn_type = func_80024C40;
 
 case2_spawn_loop:
         effect = func_8003FD64(0x201, (void *)(page_or_magic + 0x3498));
@@ -473,8 +472,8 @@ case2_spawn_loop:
             effect = func_8003FD64(0x201, ((u8 *)(&D_80083498)));
             if (effect != 0) {
                 part = (S_func_81856800_6 *)((u8 *)effect + 32);
-                effect->unk_10 = D_80024F40;
-                func_8004491C(effect, D_800249BC);
+                effect->unk_10 = func_80024F40;
+                func_8004491C(effect, func_800249BC);
                 part->unk_04.u16_04 =
                     motion_arg->unk_00.u16_02.unk_02 + (func_80069EF8() & 0x3F) - 32;
                 part->unk_06 =
@@ -581,7 +580,7 @@ case2_spawn_loop:
         if (effect != 0) {
             particle_data = (S_func_81856800_7 *)((u8 *)effect + 32);
             part = effect->unk_0C;
-            effect->unk_10 = D_80024850;
+            effect->unk_10 = func_80024850;
             ((S_func_81856800_2 *)effect->unk_08)->unk_00.s32_00 =
                 motion_arg->unk_00.s32_00 +
                 (((func_80069EF8() & 0x1FF) - 255) << 13);

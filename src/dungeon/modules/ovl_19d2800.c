@@ -1,0 +1,7 @@
+#include "modules/dungeon_ovl_19d2800.h"
+#include "../func_819B2800.c"
+#include "../func_819B2C40.c"
+#include "../func_819B2E6C.c"
+#include "../func_819B32CC.c"
+#include "../func_819B3348.c"
+#include "../func_819B3414.c"

@@ -1,0 +1,13 @@
+# dungeon_ovl_1894800
+
+Pending orchestrator review. Selector 17, bank [0x1894800,0x189a800), complete native span [0x1894800,0x1896e34): 11 registered L3 members and 9780 exact bytes. The entry, strict typed strings/direction pairs where present, and compiler switch tables account for every native .rodata byte. No fabricated member, raw substitution, masked relocation or discarded payload.
+
+Owner decisions 37–38 merge all weak groups in this one loader image. TU boundary: not observable (section-grouping link, no static duplicates, no recipe change). Membership is a model of this bank, not a claim to recovered original object boundaries. Guarded reassignment records bind each absorbed member's prior ledger assignment and selector receipt. Guarded rowbase consolidation retains the selector's exact delta; the disjoint asset tail asserts placement only.
+
+Layer-2 promoted texts are retained for the seven r107 gap rows. Declaration conflicts are reconciled in the module header and the landed shared dungeon_native_abi.h. Registration uses the existing 32-bit address-bearing key and actual return carrier. Internal callbacks denote native code symbols. Native member bodies retain their comments and semantic types. Imported data stays external, bound to the PS-X EXE header, the proven resident DMA region, or this selector's disjoint bank tail. Runtime imports refer to existing shared declarations. External function entry bytes and hashes bind the actual mapped code.
+
+Recipe and source hashes bind the entire gcc stream and genuine object. All members use the single registered 2.7.2-cdk-G0 recipe. Checked/unchecked evidence is whole-TU where -0 is necessary. Production windows, gate_all --all, full SLUS and real scratch certification are separate acceptance steps; the diagnostic equality alone is not a certificate.
+
+The included levels.py correction selects frozen noreturn evidence per rowbase region, as the production compiler already does, and retains explicit noreturn and family sibcall dependencies. The real returning func_80024188 in this bank must not inherit a tail classification from another bank at the same VRAM. All config/noreturn_syms*.txt files stay unchanged.
+
+Reviewer: orchestrator-r112 (2026-10-10): membership (complete ledger group, selector receipt placement), types (typed entry pointer, member declarations reconciled into module headers) and ownership (imports bound to proven maps, no storage ownership claimed) reviewed.

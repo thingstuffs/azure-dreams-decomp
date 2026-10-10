@@ -1,0 +1,583 @@
+{
+  "module": "dungeon_ovl_19cc800",
+  "maps": {
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "basis": "PS-X EXE header: load 0x8002D000, payload size 0x54800, file header 0x800.",
+      "kind": "psx_exe"
+    },
+    "dungeon_resident": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 667648,
+      "file_end": 1050624,
+      "delta": 2147374944,
+      "basis": "config/overlays/dungeon.rowbase.jsonl xfer_dungeon_A3000 proven runtime DMA/load-map record.",
+      "kind": "rowbase",
+      "region": "xfer_dungeon_A3000"
+    },
+    "bank_tail": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 27061196,
+      "file_end": 27076608,
+      "delta": 2120579072,
+      "basis": "Static selector receipt proves the complete twelve-sector image and this disjoint trailing data slice.",
+      "kind": "rowbase",
+      "region": "bank_19cc800_tail_80024000"
+    }
+  },
+  "views": {
+    "D_8002744C": {
+      "symbol": "D_8002744C",
+      "kind": "data",
+      "vma": 2147644492,
+      "foff": 27065420,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_tail",
+      "evidence": "docs/evidence/dungeon_ovl_19cc800.imports.json"
+    },
+    "D_80027450": {
+      "symbol": "D_80027450",
+      "kind": "data",
+      "vma": 2147644496,
+      "foff": 27065424,
+      "view_bytes": 2,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_tail",
+      "evidence": "docs/evidence/dungeon_ovl_19cc800.imports.json"
+    },
+    "D_80027452": {
+      "symbol": "D_80027452",
+      "kind": "data",
+      "vma": 2147644498,
+      "foff": 27065426,
+      "view_bytes": 2,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_tail",
+      "evidence": "docs/evidence/dungeon_ovl_19cc800.imports.json"
+    },
+    "D_80027454": {
+      "symbol": "D_80027454",
+      "kind": "data",
+      "vma": 2147644500,
+      "foff": 27065428,
+      "view_bytes": 12,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_tail",
+      "evidence": "docs/evidence/dungeon_ovl_19cc800.imports.json"
+    },
+    "D_80027460": {
+      "symbol": "D_80027460",
+      "kind": "data",
+      "vma": 2147644512,
+      "foff": 27065440,
+      "view_bytes": 12,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_tail",
+      "evidence": "docs/evidence/dungeon_ovl_19cc800.imports.json"
+    },
+    "D_8002746C": {
+      "symbol": "D_8002746C",
+      "kind": "data",
+      "vma": 2147644524,
+      "foff": 27065452,
+      "view_bytes": 12,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_tail",
+      "evidence": "docs/evidence/dungeon_ovl_19cc800.imports.json"
+    },
+    "D_80027484": {
+      "symbol": "D_80027484",
+      "kind": "data",
+      "vma": 2147644548,
+      "foff": 27065476,
+      "view_bytes": 12,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_tail",
+      "evidence": "docs/evidence/dungeon_ovl_19cc800.imports.json"
+    },
+    "D_80027490": {
+      "symbol": "D_80027490",
+      "kind": "data",
+      "vma": 2147644560,
+      "foff": 27065488,
+      "view_bytes": 12,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_tail",
+      "evidence": "docs/evidence/dungeon_ovl_19cc800.imports.json"
+    },
+    "D_800274A8": {
+      "symbol": "D_800274A8",
+      "kind": "data",
+      "vma": 2147644584,
+      "foff": 27065512,
+      "view_bytes": 12,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_tail",
+      "evidence": "docs/evidence/dungeon_ovl_19cc800.imports.json"
+    },
+    "D_800274C0": {
+      "symbol": "D_800274C0",
+      "kind": "data",
+      "vma": 2147644608,
+      "foff": 27065536,
+      "view_bytes": 192,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_tail",
+      "evidence": "docs/evidence/dungeon_ovl_19cc800.imports.json"
+    },
+    "D_80027580": {
+      "symbol": "D_80027580",
+      "kind": "data",
+      "vma": 2147644800,
+      "foff": 27065728,
+      "view_bytes": 12,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_tail",
+      "evidence": "docs/evidence/dungeon_ovl_19cc800.imports.json"
+    },
+    "D_8002758C": {
+      "symbol": "D_8002758C",
+      "kind": "data",
+      "vma": 2147644812,
+      "foff": 27065740,
+      "view_bytes": 12,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_tail",
+      "evidence": "docs/evidence/dungeon_ovl_19cc800.imports.json"
+    },
+    "D_80028260": {
+      "symbol": "D_80028260",
+      "kind": "data",
+      "vma": 2147648096,
+      "foff": 27069024,
+      "view_bytes": 1311,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_tail",
+      "evidence": "docs/evidence/dungeon_ovl_19cc800.imports.json"
+    },
+    "D_80028780": {
+      "symbol": "D_80028780",
+      "kind": "data",
+      "vma": 2147649408,
+      "foff": 27070336,
+      "view_bytes": 32,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_tail",
+      "evidence": "docs/evidence/dungeon_ovl_19cc800.imports.json"
+    },
+    "D_800287A0": {
+      "symbol": "D_800287A0",
+      "kind": "data",
+      "vma": 2147649440,
+      "foff": 27070368,
+      "view_bytes": 2,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_tail",
+      "evidence": "docs/evidence/dungeon_ovl_19cc800.imports.json"
+    },
+    "D_800287A2": {
+      "symbol": "D_800287A2",
+      "kind": "data",
+      "vma": 2147649442,
+      "foff": 27070370,
+      "view_bytes": 1,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_tail",
+      "evidence": "docs/evidence/dungeon_ovl_19cc800.imports.json"
+    },
+    "D_800287A4": {
+      "symbol": "D_800287A4",
+      "kind": "data",
+      "vma": 2147649444,
+      "foff": 27070372,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_tail",
+      "evidence": "docs/evidence/dungeon_ovl_19cc800.imports.json"
+    },
+    "D_800287B0": {
+      "symbol": "D_800287B0",
+      "kind": "data",
+      "vma": 2147649456,
+      "foff": 27070384,
+      "view_bytes": 12,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_tail",
+      "evidence": "docs/evidence/dungeon_ovl_19cc800.imports.json"
+    },
+    "D_8006CCD8": {
+      "symbol": "D_8006CCD8",
+      "kind": "data",
+      "vma": 2147929304,
+      "foff": 263384,
+      "view_bytes": 16,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_19cc800.imports.json"
+    },
+    "D_8006CCE8": {
+      "symbol": "D_8006CCE8",
+      "kind": "data",
+      "vma": 2147929320,
+      "foff": 263400,
+      "view_bytes": 16,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_19cc800.imports.json"
+    },
+    "D_800E3D18": {
+      "symbol": "D_800E3D18",
+      "kind": "data",
+      "vma": 2148416792,
+      "foff": 1041848,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_ovl_19cc800.imports.json"
+    },
+    "D_800E3D7C": {
+      "symbol": "D_800E3D7C",
+      "kind": "data",
+      "vma": 2148416892,
+      "foff": 1041948,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_ovl_19cc800.imports.json"
+    }
+  },
+  "runtime_views": {
+    "D_800814A0": {
+      "symbol": "D_800814A0",
+      "kind": "runtime_data",
+      "vma": 2148013216,
+      "view_bytes": 16,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_19cc800.imports.json",
+      "declaration": "include/shared/object_flags.h"
+    },
+    "D_800814A8": {
+      "symbol": "D_800814A8",
+      "kind": "runtime_data",
+      "vma": 2148013224,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_19cc800.imports.json",
+      "declaration": "include/shared/record_ptrs.h"
+    },
+    "D_80082E80": {
+      "symbol": "D_80082E80",
+      "kind": "runtime_data",
+      "vma": 2148019840,
+      "view_bytes": 64,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_19cc800.imports.json",
+      "declaration": "include/shared/tile_object.h"
+    },
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 512,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_19cc800.imports.json",
+      "declaration": "include/shared/game_work.h"
+    },
+    "D_80083460": {
+      "symbol": "D_80083460",
+      "kind": "runtime_data",
+      "vma": 2148021344,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_19cc800.imports.json",
+      "declaration": "include/shared/dungeon_status.h"
+    },
+    "D_80083498": {
+      "symbol": "D_80083498",
+      "kind": "runtime_data",
+      "vma": 2148021400,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_19cc800.imports.json",
+      "declaration": "include/shared/object_node.h"
+    },
+    "D_80083780": {
+      "symbol": "D_80083780",
+      "kind": "runtime_data",
+      "vma": 2148022144,
+      "view_bytes": 300,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_19cc800.imports.json",
+      "declaration": "include/shared/entity_objects.h"
+    }
+  },
+  "functions": {
+    "func_8003DE58": {
+      "vma": 2147737176,
+      "foff": 71256,
+      "map": "slus_load",
+      "first_word": "d0ffbd27",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_8003F80C": {
+      "vma": 2147743756,
+      "foff": 77836,
+      "map": "slus_load",
+      "first_word": "d0ffbd27",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_8003FA44": {
+      "vma": 2147744324,
+      "foff": 78404,
+      "map": "slus_load",
+      "first_word": "0880033c",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_8003FC64": {
+      "vma": 2147744868,
+      "foff": 78948,
+      "map": "slus_load",
+      "first_word": "0180023c",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_8003FD64": {
+      "vma": 2147745124,
+      "foff": 79204,
+      "map": "slus_load",
+      "first_word": "0180023c",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_80040490": {
+      "vma": 2147746960,
+      "foff": 81040,
+      "map": "slus_load",
+      "first_word": "e0ffbd27",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_8004491C": {
+      "vma": 2147764508,
+      "foff": 98588,
+      "map": "slus_load",
+      "first_word": "21388000",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_80045340": {
+      "vma": 2147767104,
+      "foff": 101184,
+      "map": "slus_load",
+      "first_word": "e0ffbd27",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_800644B8": {
+      "vma": 2147894456,
+      "foff": 228536,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_80064584": {
+      "vma": 2147894660,
+      "foff": 228740,
+      "map": "slus_load",
+      "first_word": "02008104",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_80064840": {
+      "vma": 2147895360,
+      "foff": 229440,
+      "map": "slus_load",
+      "first_word": "0000888c",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_800649A0": {
+      "vma": 2147895712,
+      "foff": 229792,
+      "map": "slus_load",
+      "first_word": "08800e3c",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_80064A40": {
+      "vma": 2147895872,
+      "foff": 229952,
+      "map": "slus_load",
+      "first_word": "08800e3c",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_80064AE0": {
+      "vma": 2147896032,
+      "foff": 230112,
+      "map": "slus_load",
+      "first_word": "00004848",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_80064B90": {
+      "vma": 2147896208,
+      "foff": 230288,
+      "map": "slus_load",
+      "first_word": "0000a88c",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_80064CF0": {
+      "vma": 2147896560,
+      "foff": 230640,
+      "map": "slus_load",
+      "first_word": "0000888c",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_80064D80": {
+      "vma": 2147896704,
+      "foff": 230784,
+      "map": "slus_load",
+      "first_word": "1400888c",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_80065450": {
+      "vma": 2147898448,
+      "foff": 232528,
+      "map": "slus_load",
+      "first_word": "000080c8",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_80065AB0": {
+      "vma": 2147900080,
+      "foff": 234160,
+      "map": "slus_load",
+      "first_word": "21788000",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_80065C50": {
+      "vma": 2147900496,
+      "foff": 234576,
+      "map": "slus_load",
+      "first_word": "21788000",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_80065DF0": {
+      "vma": 2147900912,
+      "foff": 234992,
+      "map": "slus_load",
+      "first_word": "21788000",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_8009CE1C": {
+      "vma": 2148126236,
+      "foff": 751292,
+      "map": "dungeon_resident",
+      "first_word": "c0ffbd27",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_800A07D0": {
+      "vma": 2148141008,
+      "foff": 766064,
+      "map": "dungeon_resident",
+      "first_word": "e8ffbd27",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_800A45D8": {
+      "vma": 2148156888,
+      "foff": 781944,
+      "map": "dungeon_resident",
+      "first_word": "d8ffbd27",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_800A56E0": {
+      "vma": 2148161248,
+      "foff": 786304,
+      "map": "dungeon_resident",
+      "first_word": "0180023c",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_800B653C": {
+      "vma": 2148230460,
+      "foff": 855516,
+      "map": "dungeon_resident",
+      "first_word": "d8ffbd27",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_800B835C": {
+      "vma": 2148238172,
+      "foff": 863228,
+      "map": "dungeon_resident",
+      "first_word": "c0ffbd27",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_800B8D64": {
+      "vma": 2148240740,
+      "foff": 865796,
+      "map": "dungeon_resident",
+      "first_word": "d8ffbd27",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_800BCB04": {
+      "vma": 2148256516,
+      "foff": 881572,
+      "map": "dungeon_resident",
+      "first_word": "d8ffbd27",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_800C9034": {
+      "vma": 2148306996,
+      "foff": 932052,
+      "map": "dungeon_resident",
+      "first_word": "e8ffbd27",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_800C9088": {
+      "vma": 2148307080,
+      "foff": 932136,
+      "map": "dungeon_resident",
+      "first_word": "88ffbd27",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_800C95C0": {
+      "vma": 2148308416,
+      "foff": 933472,
+      "map": "dungeon_resident",
+      "first_word": "e0ffbd27",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "func_800CEEFC": {
+      "vma": 2148331260,
+      "foff": 956316,
+      "map": "dungeon_resident",
+      "first_word": "e0ffbd27",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    },
+    "rand": {
+      "vma": 2147917560,
+      "foff": 251640,
+      "map": "slus_load",
+      "first_word": "a0000a24",
+      "basis": "Actual external named code entry at a proven load-map address; no allocation claim."
+    }
+  },
+  "review": "pending",
+  "reviewer": null,
+  "view_scope": "Existing runtime storage and bounded external asset views; no new allocation/initialization claim. Sprite resource D_800DEE38 is an eight-byte descriptor: pointer at 0, word at +4."
+}

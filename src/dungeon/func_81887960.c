@@ -1,3 +1,5 @@
+#include "modules/dungeon_ovl_18a6800.h"
+#include "modules/dungeon_native_abi.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -37,7 +39,7 @@ typedef struct S_80025160_3 {
 } S_80025160_3;   /* flags_page in func_80025160 */
 
 
-#define COUNTER D_80026326.counter
+#define COUNTER D_80026326
 
 typedef struct Global26326 {
     u16 counter;
@@ -55,9 +57,6 @@ typedef struct Global814A0 {
     s32 unused[2];
 } Global814A0;
 
-extern void func_8002569C(s32, s32, s32, s32, void *);
-extern Global26326 D_80026326;
-extern Global26328 D_80026328;
 
 /* Advances the effect state, updates its motion, and sets its display color. */
 void func_80025160(void *effect, s32 context, S_80025160_1 *visual) {
@@ -95,7 +94,7 @@ void func_80025160(void *effect, s32 context, S_80025160_1 *visual) {
             }
             ((S_80025160_0 *)effect)->unk_0A.u++;
             if (((S_80025160_0 *)effect)->unk_22 == 0x6F) {
-                D_80026328.flag = 1;
+                D_80026328[0] = 1;
             }
         }
         break;

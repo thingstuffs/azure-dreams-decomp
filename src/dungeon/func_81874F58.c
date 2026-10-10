@@ -1,3 +1,5 @@
+#include "modules/dungeon_native_abi.h"
+#include "modules/dungeon_ovl_1894800.h"
 #include "common.h"
 #include "shared/game_work.h"
 typedef struct {
@@ -6,7 +8,7 @@ typedef struct {
 } P_TAG;
 
 
-typedef struct {} EmptyArg;
+
 
 s32 func_800644B8(s32);
 s32 func_80064584(s32);
@@ -18,7 +20,7 @@ void func_80064BC0(void *, void *);
 void func_80064CF0(void *);
 void func_80064D80(void *);
 s32 func_80065590(void *, void *, void *, void *, void *,
-                  void *, void *, void *, void *, void *, EmptyArg);
+                  void *, void *, void *, void *, void *);
 void func_80065820(void *, void *);
 void func_800666F4(void *);
 
@@ -137,12 +139,7 @@ void func_80024758(void *mesh, void *position, void *material, u16 depth_bias) {
                 *(s16 *)(scratch + 0xCA) = (next_ring_radius * func_80064584(next_longitude)) >> 0xC;
                 last_vertex_z = -(((*(s32 *)((u8 *)mesh + 0x68) >> 8) * func_800644B8(next_latitude)) >> 0x14);
                 depth_index = (func_80065590(scratch + 0xB0, scratch + 0xB8, scratch + 0xC0, scratch + 0xC8, quad + 8,
-                    quad + 0x10, quad + 0x18, quad + 0x20, scratch + 0xD0, (void *)(scratch + 0xD4),
-                       ({
-                        EmptyArg empty;
-                        *(s16 *)(scratch + 0xCC) = last_vertex_z;
-                        empty;
-                        })) - (s16)saved_depth_bias) - 6;
+                    quad + 0x10, quad + 0x18, quad + 0x20, scratch + 0xD0, (*(s16 *)(scratch + 0xCC) = last_vertex_z, (void *)(scratch + 0xD4))) - (s16)saved_depth_bias) - 6;
                 *(s32 *)(scratch + 0x100) = depth_index;
                 if ((u32)depth_index < 0x1E0U) {
                     corner_0_visible = 0;

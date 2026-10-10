@@ -1,16 +1,15 @@
+#include "modules/dungeon_ovl_188e800.h"
+#include "modules/dungeon_native_abi.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-typedef struct { u8 b[32]; } AggU32;
+
 extern int abs(int);
 
-typedef struct {
-    s16 x;
-    s16 y;
-} OffsetPair;
+
 
 #define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
@@ -22,23 +21,21 @@ typedef struct {
 extern void *memcpy(void *, const void *, u32);
 
 extern s32 func_8003DF74();
-extern void func_8004491C();
 extern void func_80045340(void);
 extern s32 func_80069EF8(void);
-extern void D_80024488();
+
 extern s32 func_800A4778();
-extern void func_800A56E0();
 extern u8 *func_8003FC64();
 extern s32 func_800644B8();
 extern s32 func_80064584();
 extern void func_8003DB94();
-extern void func_8002407C();
-extern void func_800245A8(void);
 
-extern u8 D_80024038[32];
+
+
+extern const s16 D_80024038[8][2];
 extern void *D_80024058[9];
 extern u8 D_800252FC[12];
-extern s16 D_80025308[6];
+extern s16 D_80025308;
 extern u8 D_800DEAE0[];
 
 /* Updates a moving effect, its particles, target color animation, and cleanup. */
@@ -72,7 +69,7 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
         {
             u32 owner_bits = U16_AT(owner, 0x2A);
 
-            D_80025308[0] = 1;
+            D_80025308 = 1;
             S16_AT(effect_data, 0x7E) = (owner_bits >> 9) & 7;
             S16_AT(effect_data, 0x0A)++;
         }
@@ -100,7 +97,7 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
                 u8 *task = effect_data - 0x20;
 
                 if (!(U8_AT(effect_data, 0x7A) & 4)) {
-                    func_8004491C(task, func_80045340);
+                    func_8004491C(task, (s32)func_80045340);
                     U16_AT(display, 0x10) = 0x20;
                     U8_AT(display, 0x0E) = 0x14;
                     U8_AT(display, 0x0D) = 0x14;
@@ -115,7 +112,7 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
                 u8 *task = effect_data - 0x20;
 
                 if (!(U8_AT(effect_data, 0x7A) & 4)) {
-                    func_8004491C(task, func_80045340);
+                    func_8004491C(task, (s32)func_80045340);
                     U16_AT(display, 0x10) = 0x20;
                     U8_AT(display, 0x0E) = 0x14;
                     U8_AT(display, 0x0D) = 0x14;
@@ -222,7 +219,7 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
                 particle_color = 0x002020E0;
                 random &= 0xFF;
                 particle_param = random | 0x80;
-                D_80024488(task, S16_AT(effect_data, 0x7E), particle_color, particle_param, 0, 0, 0);
+                func_80024488(task, S16_AT(effect_data, 0x7E), particle_color, particle_param, 0, 0, 0);
             }
         }
 
@@ -390,7 +387,7 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
                     particle_color = 0x002020E0;
                     random &= 0xFF;
                     particle_param = random | 0x80;
-                    D_80024488(task, S16_AT(effect_data, 0x7E), particle_color, particle_param, 0, 0, 0);
+                    func_80024488(task, S16_AT(effect_data, 0x7E), particle_color, particle_param, 0, 0, 0);
                 }
             }
         }
@@ -434,14 +431,14 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
         U16_AT(effect_data, 0x82) = (u16)next_frame;
         if (next_frame >= 31) {
             {
-                s32 effect_active = D_80025308[0];
+                s32 effect_active = D_80025308;
                 U16_AT(effect_data, 0x82) = old_frame;
                 if (effect_active == 0) {
                     dungeonStatus.unk_0C = 0;
                     U16_AT(effect_data, -2) |= 0x8000;
                     objectFlagBlock.flags |= 0x8000;
                 } else {
-                    D_80025308[0] = 0;
+                    D_80025308 = 0;
                 }
             }
         }

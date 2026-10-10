@@ -1,0 +1,34 @@
+#include "modules/dungeon_ovl_183a800.h"
+#include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dir_step.h"
+
+extern s32 rand(void);
+
+/* Applies randomized movement and reduces speed, setting flags when speed runs out. */
+void func_80024604(void *object_data, s16 *position)
+{
+    s16 *object = object_data;
+    s16 speed;
+    s32 delta_x;
+    s32 delta_y;
+
+    D_80025914 = 1;
+    if (position[5] < (s16)func_800BCB04((u16)position[1], (u16)position[3], position[5] + 2)) {
+        delta_x = ((dirStepX[object[10]] * object[25]) << 10) +
+            (rand() & 0xFFFF);
+        ((s32 *)position)[0] += delta_x;
+
+        delta_y = ((dirStepY[object[10]] * object[25]) << 10) +
+            (rand() & 0xFFFF);
+        ((s32 *)position)[1] += delta_y;
+        ((s32 *)position)[2] += 0x20000 + (rand() & 0xFFF);
+    }
+
+    speed = (u16)object[25] - 8;
+    object[25] = speed;
+    if ((speed << 16) <= 0) {
+        ((u16 *)object)[-1] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
+    }
+}

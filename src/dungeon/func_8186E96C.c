@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_188e800.h"
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
@@ -6,50 +7,6 @@
 extern s32 func_80065420(void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, s32, s32);
-
-/* Position the point is projected from: three 4-byte slots, only the second halfword of each is used. */
-typedef struct PointPosition {
-    u16 pad_00;
-    u16 x;
-    u16 pad_04;
-    u16 y;
-    u16 pad_08;
-    u16 z;
-} PointPosition;
-
-/* The effect point's record (the object header precedes it). */
-typedef struct PointRecord {
-    u8 pad_00[8];
-    u32 color;          /* r/g/b/code word copied into the tile */
-    u8 pad_0C[0x26];
-    s16 brightness;     /* 0x100 = full */
-} PointRecord;
-
-/* GPU scratchpad (0x1F800000) workspace used while projecting. */
-typedef struct Scratch8002416C {
-    u16 x;
-    u16 y;
-    u16 z;
-    u8 pad_06[0x12];
-    u8 *cursor;         /* next free packet */
-    u8 pad_1C[4];
-    u32 *ot;            /* ordering table */
-    u8 pad_24[0x6C];
-    u32 xy;
-    u32 depth;
-    u8 pad_98[0x28];
-    u32 index;          /* ordering table slot */
-} Scratch8002416C;
-
-/* Shaded point primitive (code 0x6A, 3 words). */
-typedef struct Packet8002416C {
-    u32 tag;
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 code;
-    u32 data;
-} Packet8002416C;
 
 /* Retail 8186E96C (func_8002416C): projects each linked point and queues a brightness-scaled shaded point
  * followed by a draw-mode packet for it. */

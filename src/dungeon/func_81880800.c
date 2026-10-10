@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_18a0800.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -11,25 +12,13 @@ extern int abs(int);
 
 extern u8 D_800257D0[];
 extern u8 D_800257E8[];
-extern s16 D_800257CE[5];
 
 extern void func_800B835C(void *, s32 *, s32, s32);
-extern void *func_8003DF74(void *, void *, s16 *, s32);
-extern void func_8004491C(void *, void *);
-extern void func_80025654(void *, void *);
 extern s16 set_item_w0(u8, u8, u8, u8);
-extern void func_800A56E0(s32);
 extern s32 func_800A45D8(s32, s32, s16);
-extern void *func_80024968(s32, void *, s16, s32);
-extern void func_80025760(void *, u8, void *);
 
 
-void func_80024050(u8 *self, u8 *motion, u8 *part);
 
-/* The module's entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol func_80024000).  The state table of the switch below follows
- * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const module_entry)(u8 *, u8 *, u8 *) __asm__("func_80024000") = func_80024050;
 
 /* Updates a moving effect through initialization, target tracking, fading, and cleanup. */
 void func_80024050(u8 *self, u8 *motion, u8 *part)
@@ -101,7 +90,7 @@ void func_80024050(u8 *self, u8 *motion, u8 *part)
             break;
         }
         if ((F(self, u8, 0x16) & 4) == 0) {
-            func_8004491C((u8 *)self - 0x20, func_80045340);
+            func_8004491C((u8 *)self - 0x20, (s32)func_80045340);
             F(part, u16, 0x10) = 0x20;
             F(part, u8, 0x0E) = 0x80;
             F(part, u8, 0x0D) = 0x80;
@@ -325,7 +314,7 @@ void func_80024050(u8 *self, u8 *motion, u8 *part)
         break;
 
     case 17:
-        if (D_800257CE[0] == 0) {
+        if (*(s16 *)D_800257CE == 0) {
             dungeonStatus.unk_0C = 0;
             F(self, u16, -2) |= 0x8000;
             objectFlagBlock.flags |= 0x8000;

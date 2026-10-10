@@ -15,11 +15,10 @@ typedef struct {
     s32 delta;
 } Motion;
 
-extern s16 D_80025FF4;
 extern void func_800478B8(void *render_data);
 
 /* Advance a timed effect, update its intensity and motion, and flag completion. */
-void func_819712B4(Obj *effect, Motion *motion, s8 *render_data)
+void func_80024AB4(Obj *effect, Motion *motion, s8 *render_data)
 {
     s32 intensity;
     u16 phase;
@@ -42,3 +41,4 @@ void func_819712B4(Obj *effect, Motion *motion, s8 *render_data)
         objectFlagBlock.flags |= 0x8000;
     }
 }
+

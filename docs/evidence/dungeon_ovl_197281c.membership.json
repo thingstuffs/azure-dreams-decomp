@@ -1,0 +1,26 @@
+{
+  "module": "dungeon_ovl_197281c",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_197281c.c",
+    "module_index": 192
+  },
+  "members": [
+    "dungeon/func_8195281C",
+    "dungeon/func_81952B4C",
+    "dungeon/func_81952E54",
+    "dungeon/func_81953030",
+    "dungeon/func_81953108"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "not observable (section-grouping link, no static duplicates, no recipe change)",
+  "basis": [
+    "Owner-approved decisions 37-38: one native TU per DUNGEON grid bank. Selector 54 establishes one physical image; weak groups inside it merge by guarded reassignment citing that receipt.",
+    "All 5 real ledger members in file order cover [0x1972800,0x1973180), without gaps or owned data between text runs. Every member uses the same registered recipe and is L3. No byte-identical complete static helper, owned data between text runs, or recipe change was found in this cohort.",
+    "One native compile edge emits all 2432 bytes exactly under GNU/maspsx and genuine ASPSX, including typed entry, alignment and compiler switch table; this byte proof supplements the owner rule and does not claim observation of the historic TU boundary."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r112",
+  "holds": []
+}

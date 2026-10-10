@@ -1,0 +1,478 @@
+{
+  "module": "dungeon_ovl_197281c",
+  "maps": {
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "basis": "PS-X EXE header: load 0x8002D000, payload size 0x54800, file header 0x800.",
+      "kind": "psx_exe"
+    },
+    "dungeon_resident": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 667648,
+      "file_end": 1050624,
+      "delta": 2147374944,
+      "basis": "config/overlays/dungeon.rowbase.jsonl xfer_dungeon_A3000 proven runtime DMA/load-map record.",
+      "kind": "rowbase",
+      "region": "xfer_dungeon_A3000"
+    },
+    "bank_0": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 26683392,
+      "file_end": 26707968,
+      "delta": 2120947712,
+      "basis": "Static selector-54 loader receipt; guarded placement and distinct bounded asset views.",
+      "kind": "rowbase",
+      "region": "jtbl_1972800"
+    }
+  },
+  "views": {
+    "D_80024980": {
+      "symbol": "D_80024980",
+      "kind": "data",
+      "vma": 2147633536,
+      "foff": 26685824,
+      "view_bytes": 1,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_0",
+      "evidence": "docs/evidence/dungeon_ovl_197281c.imports.json"
+    },
+    "D_80024998": {
+      "symbol": "D_80024998",
+      "kind": "data",
+      "vma": 2147633560,
+      "foff": 26685848,
+      "view_bytes": 1,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_0",
+      "evidence": "docs/evidence/dungeon_ovl_197281c.imports.json"
+    },
+    "D_800249A4": {
+      "symbol": "D_800249A4",
+      "kind": "data",
+      "vma": 2147633572,
+      "foff": 26685860,
+      "view_bytes": 2,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_0",
+      "evidence": "docs/evidence/dungeon_ovl_197281c.imports.json"
+    },
+    "D_800249A6": {
+      "symbol": "D_800249A6",
+      "kind": "data",
+      "vma": 2147633574,
+      "foff": 26685862,
+      "view_bytes": 2,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_0",
+      "evidence": "docs/evidence/dungeon_ovl_197281c.imports.json"
+    },
+    "D_8006CCD8": {
+      "symbol": "D_8006CCD8",
+      "kind": "data",
+      "vma": 2147929304,
+      "foff": 263384,
+      "view_bytes": 16,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_197281c.imports.json"
+    },
+    "D_8006CCE8": {
+      "symbol": "D_8006CCE8",
+      "kind": "data",
+      "vma": 2147929320,
+      "foff": 263400,
+      "view_bytes": 16,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_197281c.imports.json"
+    },
+    "D_800CEEFC": {
+      "symbol": "D_800CEEFC",
+      "kind": "data",
+      "vma": 2148331260,
+      "foff": 956316,
+      "view_bytes": 1,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_ovl_197281c.imports.json"
+    },
+    "D_800DF334": {
+      "symbol": "D_800DF334",
+      "kind": "data",
+      "vma": 2148397876,
+      "foff": 1022932,
+      "view_bytes": 1,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_ovl_197281c.imports.json"
+    },
+    "D_800E3D7C": {
+      "symbol": "D_800E3D7C",
+      "kind": "data",
+      "vma": 2148416892,
+      "foff": 1041948,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_ovl_197281c.imports.json"
+    }
+  },
+  "runtime_views": {
+    "D_800814A0": {
+      "symbol": "D_800814A0",
+      "kind": "runtime_data",
+      "vma": 2148013216,
+      "view_bytes": 16,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_197281c.imports.json",
+      "declaration": "include/shared/object_flags.h"
+    },
+    "D_800814A8": {
+      "symbol": "D_800814A8",
+      "kind": "runtime_data",
+      "vma": 2148013224,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_197281c.imports.json",
+      "declaration": "include/shared/record_ptrs.h"
+    },
+    "D_80082E80": {
+      "symbol": "D_80082E80",
+      "kind": "runtime_data",
+      "vma": 2148019840,
+      "view_bytes": 64,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_197281c.imports.json",
+      "declaration": "include/shared/tile_object.h"
+    },
+    "D_80083460": {
+      "symbol": "D_80083460",
+      "kind": "runtime_data",
+      "vma": 2148021344,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_197281c.imports.json",
+      "declaration": "include/shared/dungeon_status.h"
+    }
+  },
+  "functions": {
+    "func_8003FD64": {
+      "vma": 2147745124,
+      "foff": 79204,
+      "map": "slus_load",
+      "first_word": "0180023c",
+      "basis": "Actual code entry through this proven map; retained ordinary undefined-function relocation."
+    },
+    "func_8004491C": {
+      "vma": 2147764508,
+      "foff": 98588,
+      "map": "slus_load",
+      "first_word": "21388000",
+      "basis": "Actual code entry through this proven map; retained ordinary undefined-function relocation."
+    },
+    "func_800644B8": {
+      "vma": 2147894456,
+      "foff": 228536,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "basis": "Actual code entry through this proven map; retained ordinary undefined-function relocation."
+    },
+    "func_80064584": {
+      "vma": 2147894660,
+      "foff": 228740,
+      "map": "slus_load",
+      "first_word": "02008104",
+      "basis": "Actual code entry through this proven map; retained ordinary undefined-function relocation."
+    },
+    "func_800A56E0": {
+      "vma": 2148161248,
+      "foff": 786304,
+      "map": "dungeon_resident",
+      "first_word": "0180023c",
+      "basis": "Actual code entry through this proven map; retained ordinary undefined-function relocation."
+    },
+    "func_800B835C": {
+      "vma": 2148238172,
+      "foff": 863228,
+      "map": "dungeon_resident",
+      "first_word": "c0ffbd27",
+      "basis": "Actual code entry through this proven map; retained ordinary undefined-function relocation."
+    },
+    "func_800B8C20": {
+      "vma": 2148240416,
+      "foff": 865472,
+      "map": "dungeon_resident",
+      "first_word": "d8ffbd27",
+      "basis": "Actual code entry through this proven map; retained ordinary undefined-function relocation."
+    },
+    "func_800BCB04": {
+      "vma": 2148256516,
+      "foff": 881572,
+      "map": "dungeon_resident",
+      "first_word": "d8ffbd27",
+      "basis": "Actual code entry through this proven map; retained ordinary undefined-function relocation."
+    }
+  },
+  "load_receipt": {
+    "selector": 54,
+    "alternate_table": 0,
+    "lba": "0x62fb",
+    "file_start": "0x1972800",
+    "file_end": "0x1978800",
+    "sectors": 12,
+    "destination": "0x80024000",
+    "delta": "0x7e6b1800",
+    "in_container": true,
+    "runtime_observed": false,
+    "words": {
+      "lba": [
+        {
+          "container": "DUNGEON",
+          "file_offset": "0xc4174",
+          "word": "0x00111c00"
+        },
+        {
+          "container": "DUNGEON",
+          "file_offset": "0xc4178",
+          "word": "0x00031c03"
+        },
+        {
+          "container": "DUNGEON",
+          "file_offset": "0xc417c",
+          "word": "0x2463ffff"
+        },
+        {
+          "container": "DUNGEON",
+          "file_offset": "0xc4180",
+          "word": "0x00031040"
+        },
+        {
+          "container": "DUNGEON",
+          "file_offset": "0xc4184",
+          "word": "0x00431021"
+        },
+        {
+          "container": "DUNGEON",
+          "file_offset": "0xc4188",
+          "word": "0x00021080"
+        },
+        {
+          "container": "DUNGEON",
+          "file_offset": "0xc418c",
+          "word": "0x2447607f"
+        }
+      ],
+      "sectors": [
+        {
+          "container": "DUNGEON",
+          "file_offset": "0xc4190",
+          "word": "0x2404000c"
+        }
+      ],
+      "destination": [
+        {
+          "container": "DUNGEON",
+          "file_offset": "0xc40d4",
+          "word": "0x3c148002"
+        },
+        {
+          "container": "DUNGEON",
+          "file_offset": "0xc40e0",
+          "word": "0x36944000"
+        },
+        {
+          "container": "DUNGEON",
+          "file_offset": "0xc4194",
+          "word": "0x02802821"
+        }
+      ],
+      "submission": [
+        {
+          "container": "DUNGEON",
+          "file_offset": "0xc4198",
+          "word": "0x3c10800e"
+        },
+        {
+          "container": "DUNGEON",
+          "file_offset": "0xc419c",
+          "word": "0x261058b0"
+        },
+        {
+          "container": "DUNGEON",
+          "file_offset": "0xc41a0",
+          "word": "0x0c00fdb5"
+        },
+        {
+          "container": "DUNGEON",
+          "file_offset": "0xc41a4",
+          "word": "0x02003021"
+        },
+        {
+          "container": "DUNGEON",
+          "file_offset": "0xc41a8",
+          "word": "0x24040006"
+        },
+        {
+          "container": "DUNGEON",
+          "file_offset": "0xc41ac",
+          "word": "0x02002821"
+        },
+        {
+          "container": "DUNGEON",
+          "file_offset": "0xc41b0",
+          "word": "0x0c00f93f"
+        },
+        {
+          "container": "DUNGEON",
+          "file_offset": "0xc41b4",
+          "word": "0x00003021"
+        }
+      ],
+      "decoder": [
+        {
+          "container": "SLUS",
+          "file_offset": "0x12ed4",
+          "word": "0x3c02007f"
+        },
+        {
+          "container": "SLUS",
+          "file_offset": "0x12ed8",
+          "word": "0x3442ffff"
+        },
+        {
+          "container": "SLUS",
+          "file_offset": "0x12edc",
+          "word": "0x00a22824"
+        },
+        {
+          "container": "SLUS",
+          "file_offset": "0x12ee0",
+          "word": "0x000425c0"
+        },
+        {
+          "container": "SLUS",
+          "file_offset": "0x12ee4",
+          "word": "0x00a42825"
+        },
+        {
+          "container": "SLUS",
+          "file_offset": "0x12ee8",
+          "word": "0xacc50000"
+        },
+        {
+          "container": "SLUS",
+          "file_offset": "0x12eec",
+          "word": "0x03e00008"
+        },
+        {
+          "container": "SLUS",
+          "file_offset": "0x12ef0",
+          "word": "0xacc70004"
+        },
+        {
+          "container": "SLUS",
+          "file_offset": "0x121ec",
+          "word": "0x8c510004"
+        },
+        {
+          "container": "SLUS",
+          "file_offset": "0x121f0",
+          "word": "0x3c03007f"
+        },
+        {
+          "container": "SLUS",
+          "file_offset": "0x121f4",
+          "word": "0x8e220000"
+        },
+        {
+          "container": "SLUS",
+          "file_offset": "0x121f8",
+          "word": "0x3463ffff"
+        },
+        {
+          "container": "SLUS",
+          "file_offset": "0x121fc",
+          "word": "0x00438024"
+        },
+        {
+          "container": "SLUS",
+          "file_offset": "0x12204",
+          "word": "0x000295c2"
+        },
+        {
+          "container": "SLUS",
+          "file_offset": "0x12218",
+          "word": "0x3c028000"
+        },
+        {
+          "container": "SLUS",
+          "file_offset": "0x1221c",
+          "word": "0x02028025"
+        },
+        {
+          "container": "SLUS",
+          "file_offset": "0x122a4",
+          "word": "0x8e240004"
+        },
+        {
+          "container": "SLUS",
+          "file_offset": "0x122a8",
+          "word": "0x0c018493"
+        },
+        {
+          "container": "SLUS",
+          "file_offset": "0x122e4",
+          "word": "0x02402021"
+        },
+        {
+          "container": "SLUS",
+          "file_offset": "0x122e8",
+          "word": "0x02002821"
+        },
+        {
+          "container": "SLUS",
+          "file_offset": "0x122ec",
+          "word": "0x0c018c89"
+        },
+        {
+          "container": "SLUS",
+          "file_offset": "0x122f0",
+          "word": "0x24060080"
+        }
+      ]
+    },
+    "file_conversion": {
+      "iso_lba": "0x3016",
+      "sector_bytes": 2048
+    },
+    "agrees_with": [
+      {
+        "region": "jtbl_1972800",
+        "foff_start": "0x1972800",
+        "foff_end": "0x1978800",
+        "delta": "0x7e6b1800",
+        "confidence": "proven",
+        "intersection": [
+          "0x1972800",
+          "0x1978800"
+        ]
+      }
+    ],
+    "contradicts": []
+  },
+  "view_scope": "Views bind actual accesses or address anchors; no new allocation ownership. D_800DF334, D_800CEEFC, D_80024980, D_80024998, D_80027380 and D_800273B0 are one-byte address anchors passed to existing render/registration callees. Their complete script or renderer-dependent allocation lengths are not claimed. The bank56 grid is seven rows, stride eight words, ending after the seventh cell of the seventh row: 220 bytes; halfword grids analogously bound 126 bytes. D_80027398 includes RGB at +0x10..+0x12. Pointer storage views are four bytes, independent of pointee layout.",
+  "review": "pending",
+  "reviewer": null
+}

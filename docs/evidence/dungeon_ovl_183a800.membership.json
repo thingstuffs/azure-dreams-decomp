@@ -1,0 +1,34 @@
+{
+  "module": "dungeon_ovl_183a800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_183a800.c",
+    "module_index": 143
+  },
+  "members": [
+    "dungeon/func_8181A800",
+    "dungeon/func_8181A8C0",
+    "dungeon/func_8181A9EC",
+    "dungeon/func_8181AC3C",
+    "dungeon/func_8181AE04",
+    "dungeon/func_8181AF58",
+    "dungeon/func_8181B078",
+    "dungeon/func_8181B1A0",
+    "dungeon/func_8181B314",
+    "dungeon/func_8181B3E8"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "not observable (section-grouping link, no static duplicates, no recipe change)",
+  "physical_span": [
+    "0x183a800",
+    "0x183c0f0"
+  ],
+  "basis": [
+    "Decisions 37-38 model each DUNGEON bank as one native TU; exact guarded reassignment cites independent selector receipt.",
+    "Every physical function is an existing L3 row. Prefix and code are contiguous; one recipe, no intervening owned data or byte-identical static helpers observed.",
+    "Promoted Layer-2 member text is preserved in the reconciled native includes. GNU/genuine/retail whole-TU equality: 6384 bytes, one compile edge, zero masks, zero raw substitution."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r112"
+}

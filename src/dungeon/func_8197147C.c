@@ -1,10 +1,9 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern s16 D_80025FF4;
 
 /* Advance an effect's fade and mark it finished when its countdown expires. */
-void func_8197147C(void *effect, s32 unused, void *packet)
+void func_80024C7C(void *effect, s32 unused, void *packet)
 {
     s32 intensity;
     u16 ticks_left;
@@ -24,3 +23,4 @@ void func_8197147C(void *effect, s32 unused, void *packet)
         objectFlagBlock.flags |= 0x8000;
     }
 }
+

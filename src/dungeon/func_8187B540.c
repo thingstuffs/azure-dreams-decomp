@@ -1,23 +1,23 @@
-#include "common.h"
+#include "modules/dungeon_native_abi.h"
 #include "shared/object_flags.h"
 
 typedef struct S_8187B540_0 {
     u8 pad_00[0x1A];
     u16 unk_1A;
-} S_8187B540_0;   /* arg2 in func_8187B540 */
+} S_8187B540_0;   /* arg2 in func_80024D40 */
 
 typedef struct S_8187B540_1 {
     u8 pad_00[0x10];
     u16 unk_10;
     u8 pad_12[0x8E];
     u16 unk_A0;
-} S_8187B540_1;   /* obj in func_8187B540 */
+} S_8187B540_1;   /* obj in func_80024D40 */
 
 
-extern s16 D_8002694C;
+extern s16 D_8002694C[5];
 
 /* Add the object increment to the target and flag completion when its countdown expires. */
-void func_8187B540(void *object, s32 unused, void *target) {
+void func_80024D40(void *object, s32 unused, void *target) {
     u8 *object_data = object;
     u8 *global_base = (u8 *)&D_8002694C - 0x694C;
     u16 remaining;

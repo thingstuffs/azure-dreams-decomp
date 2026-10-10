@@ -1,4 +1,5 @@
-#include "common.h"
+#include "modules/dungeon_ovl_189a800.h"
+#include "modules/dungeon_native_abi.h"
 #include "shared/game_work.h"
 
 typedef struct {
@@ -9,7 +10,7 @@ typedef struct {
 
 typedef struct {} EmptyArg;
 
-typedef struct S_func_8187A9A8_1 {
+typedef struct S_func_800241A8_1 {
     u8 pad_00[0xC];
     union {
         s32 as_s32_0C;
@@ -96,95 +97,20 @@ typedef struct S_func_8187A9A8_1 {
     } unk_CC;
     u8 pad_CE[0x32];
     s32 unk_100;
-} S_func_8187A9A8_1;
+} S_func_800241A8_1;
 
-typedef struct S_func_8187A9A8_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_func_8187A9A8_2;
 
-typedef struct S_func_8187A9A8_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    union {
-        u32 as_u32_0C;
-        struct {
-            u8 pad_0C[0x3];
-            u8 unk_0F;
-        } as_u8_0F;
-    } unk_0C;
-    u16 unk_10;
-    u16 unk_12;
-    u16 unk_14;
-    u16 unk_16;
-    u16 unk_18;
-    u16 unk_1A;
-} S_func_8187A9A8_3;
 
-typedef struct S_func_8187A9A8_4 {
-    u8 pad_00[0x4E];
-    u8 unk_4E;
-    u8 pad_4F[0x9];
-    union {
-        s16 as_s16_58;
-        u16 as_u16_58;
-    } unk_58;
-    union {
-        s16 as_s16_5A;
-        u16 as_u16_5A;
-    } unk_5A;
-    union {
-        s16 as_s16_5C;
-        u16 as_u16_5C;
-    } unk_5C;
-    union {
-        s16 as_s16_5E;
-        u16 as_u16_5E;
-    } unk_5E;
-    union {
-        s16 as_s16_60;
-        u16 as_u16_60;
-    } unk_60;
-    union {
-        s16 as_s16_62;
-        u16 as_u16_62;
-    } unk_62;
-    union {
-        s16 as_s16_64;
-        u16 as_u16_64;
-    } unk_64;
-    union {
-        s16 as_s16_66;
-        u16 as_u16_66;
-    } unk_66;
-    union {
-        s16 as_s16_68;
-        u16 as_u16_68;
-    } unk_68;
-    union {
-        s16 as_s16_6A;
-        u16 as_u16_6A;
-    } unk_6A;
-    union {
-        s16 as_s16_6C;
-        u16 as_u16_6C;
-    } unk_6C;
-    union {
-        s16 as_s16_6E;
-        u16 as_u16_6E;
-    } unk_6E;
-} S_func_8187A9A8_4;
 
-typedef struct S_func_8187A9A8_5 {
+
+
+
+typedef struct S_func_800241A8_5 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
-} S_func_8187A9A8_5;
+} S_func_800241A8_5;
 
-typedef struct S_func_8187A9A8_6 {
+typedef struct S_func_800241A8_6 {
     union {
         u32 as_u32_00;
         struct {
@@ -242,7 +168,7 @@ typedef struct S_func_8187A9A8_6 {
             u8 unk_25;
         } as_u8_25;
     } unk_24;
-} S_func_8187A9A8_6;
+} S_func_800241A8_6;
 
 
 extern void func_80064840(void *, void *, void *);
@@ -254,8 +180,8 @@ extern void func_80064CF0(void *);
 extern void func_80064D80(void *);
 extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, EmptyArg);
 extern void func_80065820(void *, void *);
-extern u16 func_80066460(s32, s32, s32, s32);
-extern void func_80067F20(void *, s32, s32, u16, s32);
+extern s32 func_80066460(s32, s32, s32, s32);
+extern void func_80067F20(void *, s32, s32, u32, s32);
 
 typedef struct {
     u8 flags;
@@ -277,9 +203,9 @@ typedef struct {
 #define getaddr(p) (u32)(((P_TAG *)(p))->addr)
 
 /* Transform the mesh and enqueue textured quads or lines in the ordering table. */
-void func_8187A9A8(S_func_8187A9A8_4 *mesh, S_func_8187A9A8_2 *transform, S_func_8187A9A8_3 *object, s32 depth_bias)
+void func_800241A8(S_func_800241A8_4 *mesh, S_func_800241A8_2 *transform, S_func_800241A8_3 *object, s32 depth_bias)
 {
-    S_func_8187A9A8_1 *scratch = (S_func_8187A9A8_1 *)0x1F800000;
+    S_func_800241A8_1 *scratch = (S_func_800241A8_1 *)0x1F800000;
     MeshTexture *texture;
     s32 depth_offset;
     MATRIX matrix;
@@ -314,11 +240,11 @@ void func_8187A9A8(S_func_8187A9A8_4 *mesh, S_func_8187A9A8_2 *transform, S_func
 
     for (;;) {
         if (mesh->unk_4E != 0) {
-            S_func_8187A9A8_6 *packet;
+            S_func_800241A8_6 *packet;
             s32 ot_index;
             u8 texture_flags;
             s32 texture_adjust;
-            S_func_8187A9A8_5 *render_state;
+            S_func_800241A8_5 *render_state;
 
             render_state = game_work->unk_000;
             packet = render_state->unk_8D0;
@@ -438,10 +364,10 @@ void func_8187A9A8(S_func_8187A9A8_4 *mesh, S_func_8187A9A8_2 *transform, S_func
             s32 coord_b;
             s32 end_z_a;
             s32 end_z_b;
-            S_func_8187A9A8_6 *line;
-            S_func_8187A9A8_6 *tpage;
-            S_func_8187A9A8_5 *render_state;
-            S_func_8187A9A8_5 *tpage_state;
+            S_func_800241A8_6 *line;
+            S_func_800241A8_6 *tpage;
+            S_func_800241A8_5 *render_state;
+            S_func_800241A8_5 *tpage_state;
 
             render_state = game_work->unk_000;
             line = render_state->unk_8D0;

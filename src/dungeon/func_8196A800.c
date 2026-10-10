@@ -1,37 +1,12 @@
+#include "modules/dungeon_ovl_198a800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
-#ifdef __mips__
-/* Proven 31-word literal/pointer prefix; this is row data, not C code. */
-static const u32 bank_words[] __asm__("func_8196A800")
-__attribute__((section(".text.func_8196A800"), aligned(4))) = {
-    0x80025D68, 0x00000001, 0x00010001, 0x00010000,
-    0x0001FFFF, 0x0000FFFF, 0xFFFFFFFF, 0xFFFF0000,
-    0xFFFF0001, 0x01400340, 0x00400040, 0x01800340,
-    0x00400040, 0x01C00340, 0x00400040, 0x01000380,
-    0x00400040, 0x01400380, 0x00400040, 0x01800380,
-    0x00400040, 0x01C00380, 0x00400040, 0x01000340,
-    0x00400040, 0x00000000, 0x80025E58, 0x80025E90,
-    0x80025F18, 0x800262CC, 0x800268F4,
-};
-__asm__(".globl func_8196A800\n"
-        ".type func_8196A800,@function\n"
-        ".size func_8196A800,292\n");
-#define BODY_NAME composite_body
-#define BODY_STORAGE static
-#define BODY_ATTR __attribute__((used, section(".text.func_8196A800")))
-#else
-#define BODY_NAME func_8196A800
-#define BODY_STORAGE
-#define BODY_ATTR
-#endif
 
-extern s16 D_800269B4;
 
-BODY_STORAGE void BODY_NAME(void *state, void *unused, void *visual) BODY_ATTR;
 
 /* Updates a countdown-driven visual and clears its owner slot when the countdown expires. */
-BODY_STORAGE void BODY_NAME(void *state, void *unused, void *visual) {
+void func_8002407C(void *state, void *unused, void *visual) {
     s32 remaining_ratio;
     u16 ticks_left;
 

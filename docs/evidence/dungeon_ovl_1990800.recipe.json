@@ -1,0 +1,582 @@
+{
+  "module": "dungeon_ovl_1990800",
+  "scope": "whole_tu",
+  "flags": [
+    "-q",
+    "-G0",
+    "-0"
+  ],
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "basis": "Same final assembly stream: genuine -0 equals GNU and all retail bytes; default adds 324 division-check bytes. No per-function flags or substitutions.",
+  "assembly_sha256": "b5ce3f9fa6a4eb5a608247e26e6953374f9d9fb12407f8788659d97b6870cf35",
+  "minus0_exact": true,
+  "default_exact": false,
+  "gnu_text_bytes": 8024,
+  "default_text_bytes": 8348,
+  "comparison": {
+    "diff": 83,
+    "exact": false,
+    "len_m": 2006,
+    "len_g": 2087,
+    "missing": [],
+    "regions": [
+      [
+        "func_80024598",
+        "replace",
+        [
+          [
+            272629849,
+            null,
+            null
+          ]
+        ],
+        [
+          [
+            272629876,
+            null,
+            null
+          ]
+        ],
+        37
+      ],
+      [
+        "func_80024598",
+        "insert",
+        [],
+        [
+          [
+            339738626,
+            null,
+            null
+          ],
+          [
+            0,
+            null,
+            null
+          ],
+          [
+            458765,
+            null,
+            null
+          ],
+          [
+            604110847,
+            null,
+            null
+          ],
+          [
+            339804164,
+            null,
+            null
+          ],
+          [
+            1006731264,
+            null,
+            null
+          ],
+          [
+            341901314,
+            null,
+            null
+          ],
+          [
+            0,
+            null,
+            null
+          ],
+          [
+            393229,
+            null,
+            null
+          ]
+        ],
+        50
+      ],
+      [
+        "func_80024598",
+        "insert",
+        [],
+        [
+          [
+            339738626,
+            null,
+            null
+          ],
+          [
+            0,
+            null,
+            null
+          ],
+          [
+            458765,
+            null,
+            null
+          ],
+          [
+            604110847,
+            null,
+            null
+          ],
+          [
+            339804164,
+            null,
+            null
+          ],
+          [
+            1006731264,
+            null,
+            null
+          ],
+          [
+            341901314,
+            null,
+            null
+          ],
+          [
+            0,
+            null,
+            null
+          ],
+          [
+            393229,
+            null,
+            null
+          ]
+        ],
+        60
+      ],
+      [
+        "func_80024598",
+        "insert",
+        [],
+        [
+          [
+            341835778,
+            null,
+            null
+          ],
+          [
+            0,
+            null,
+            null
+          ],
+          [
+            458765,
+            null,
+            null
+          ],
+          [
+            604110847,
+            null,
+            null
+          ],
+          [
+            341901316,
+            null,
+            null
+          ],
+          [
+            1006731264,
+            null,
+            null
+          ],
+          [
+            339804162,
+            null,
+            null
+          ],
+          [
+            0,
+            null,
+            null
+          ],
+          [
+            393229,
+            null,
+            null
+          ]
+        ],
+        70
+      ],
+      [
+        "func_800249E0",
+        "insert",
+        [],
+        [
+          [
+            341835778,
+            null,
+            null
+          ],
+          [
+            0,
+            null,
+            null
+          ],
+          [
+            458765,
+            null,
+            null
+          ],
+          [
+            604110847,
+            null,
+            null
+          ],
+          [
+            341901316,
+            null,
+            null
+          ],
+          [
+            1006731264,
+            null,
+            null
+          ],
+          [
+            339804162,
+            null,
+            null
+          ],
+          [
+            0,
+            null,
+            null
+          ],
+          [
+            393229,
+            null,
+            null
+          ]
+        ],
+        7
+      ],
+      [
+        "func_80024AB4",
+        "insert",
+        [],
+        [
+          [
+            341835778,
+            null,
+            null
+          ],
+          [
+            0,
+            null,
+            null
+          ],
+          [
+            458765,
+            null,
+            null
+          ],
+          [
+            604110847,
+            null,
+            null
+          ],
+          [
+            341901316,
+            null,
+            null
+          ],
+          [
+            1006731264,
+            null,
+            null
+          ],
+          [
+            339804162,
+            null,
+            null
+          ],
+          [
+            0,
+            null,
+            null
+          ],
+          [
+            393229,
+            null,
+            null
+          ]
+        ],
+        28
+      ],
+      [
+        "func_80024B98",
+        "insert",
+        [],
+        [
+          [
+            339738626,
+            null,
+            null
+          ],
+          [
+            0,
+            null,
+            null
+          ],
+          [
+            458765,
+            null,
+            null
+          ],
+          [
+            604110847,
+            null,
+            null
+          ],
+          [
+            339804164,
+            null,
+            null
+          ],
+          [
+            1006731264,
+            null,
+            null
+          ],
+          [
+            341901314,
+            null,
+            null
+          ],
+          [
+            0,
+            null,
+            null
+          ],
+          [
+            393229,
+            null,
+            null
+          ]
+        ],
+        17
+      ],
+      [
+        "func_80024B98",
+        "insert",
+        [],
+        [
+          [
+            339738626,
+            null,
+            null
+          ],
+          [
+            0,
+            null,
+            null
+          ],
+          [
+            458765,
+            null,
+            null
+          ],
+          [
+            604110847,
+            null,
+            null
+          ],
+          [
+            339804164,
+            null,
+            null
+          ],
+          [
+            1006731264,
+            null,
+            null
+          ],
+          [
+            341901314,
+            null,
+            null
+          ],
+          [
+            0,
+            null,
+            null
+          ],
+          [
+            393229,
+            null,
+            null
+          ]
+        ],
+        27
+      ],
+      [
+        "func_80024B98",
+        "insert",
+        [],
+        [
+          [
+            339738626,
+            null,
+            null
+          ],
+          [
+            0,
+            null,
+            null
+          ],
+          [
+            458765,
+            null,
+            null
+          ],
+          [
+            604110847,
+            null,
+            null
+          ],
+          [
+            339804164,
+            null,
+            null
+          ],
+          [
+            1006731264,
+            null,
+            null
+          ],
+          [
+            341901314,
+            null,
+            null
+          ],
+          [
+            0,
+            null,
+            null
+          ],
+          [
+            393229,
+            null,
+            null
+          ]
+        ],
+        37
+      ],
+      [
+        "func_80024B98",
+        "replace",
+        [
+          [
+            339804127,
+            null,
+            null
+          ]
+        ],
+        [
+          [
+            339804100,
+            null,
+            null
+          ]
+        ],
+        41
+      ],
+      [
+        "func_80024C7C",
+        "insert",
+        [],
+        [
+          [
+            341835778,
+            null,
+            null
+          ],
+          [
+            0,
+            null,
+            null
+          ],
+          [
+            458765,
+            null,
+            null
+          ],
+          [
+            604110847,
+            null,
+            null
+          ],
+          [
+            341901316,
+            null,
+            null
+          ],
+          [
+            1006731264,
+            null,
+            null
+          ],
+          [
+            339804162,
+            null,
+            null
+          ],
+          [
+            0,
+            null,
+            null
+          ],
+          [
+            393229,
+            null,
+            null
+          ]
+        ],
+        7
+      ]
+    ],
+    "delay_only": []
+  },
+  "review": "pending",
+  "reviewer": null,
+  "source_inputs": {
+    "include/common.h": "35ebd67ff9f32d587459e79e964f1d4f9013849bb766ea442ab0965c32971dac",
+    "include/game.h": "b80e856a3c4f4c4586c312a28336781390d102ba6f7af599d094bfa6900e7c83",
+    "include/globals.h": "5ff21c9f144187d9a1666588951ee1f3489b89d666b18cf712c46523d820f689",
+    "include/include_asm.h": "b07191b5b52fe5a0cc20e2114349a7ccfb537bba948ba277f375d9de2559a16e",
+    "include/m2c_compat.h": "7a7d49f368d8ef4ba8bf66a24b522cc4d0ae9b5b706b5a2149a11d0dccb2fa03",
+    "include/modules/dungeon_native_abi.h": "c285a8aa4e7da595560130359c324f6dbbc89fbcc13c3c4ec3d50c7e306c502c",
+    "include/modules/dungeon_ovl_1990800.h": "ad3c5cade82ce1b2ba0f351e6a717deb86c1cf0ba273ba73f1cac5d97afcf601",
+    "include/shared/dungeon_status.h": "cf2efa85ed10f2b6b71bbc1e5d922c0ea7d20ac9a655b67d8d254c75b042ac9e",
+    "include/shared/entity.h": "64fd596c136a0531d96cd2d1fe206abc8b32286c0171c1796a710f6a6c9d93c0",
+    "include/shared/entity_height_offsets.h": "e4e2aabcfacda80c1ba59901b39e38a04086ea2a2c332386f1cc03448d5a2fed",
+    "include/shared/entity_objects.h": "5e0d73fb52a454138396808f0de6a94be5ca83243636d72783368cc6160563b3",
+    "include/shared/game_work.h": "813f5e364376a12ed80235a4f1b63ed27105d4b1362d7493ef90ca6c321b6366",
+    "include/shared/gpu_packets.h": "f57c07438d2c0bffca29aa36ba3fb7d2983e99fcd8b9c6aa9434b784681de38c",
+    "include/shared/object_flags.h": "587f3da6018f67a1af0997d8f9ce3528bf0b89b0b3be4ae4fc4b2e9e276bcc28",
+    "include/shared/object_node.h": "310ef362af013f2e08a2d34163e9258a1f49d049fb534b3b7244e65152475ba5",
+    "include/shared/record_ptrs.h": "3e2fc767000f3e901b6d5cd55c7033124a5b648c92927bee9bdea6d143333064",
+    "include/shared/slus_callbacks.h": "be185bc0cea768e3e88fee569dad7e7f4fee68ff506501cf38a0d980c182ee1e",
+    "include/shared/tile_object.h": "b553a179af28128ccd067c615ab3ee56af2744250c11c9cb363e0f47e0a8c406",
+    "src/dungeon/func_81970800.c": "f32d5c3d85b5a1424915d7341f3fbfa63a39859642481dc9b0d8cfba026f16a5",
+    "src/dungeon/func_81970D44.c": "bbf2ee4d65ed64a6a01a7d9be21c4c548bc4c0e27eeb8e3e2b2da94c045e9c70",
+    "src/dungeon/func_81970D98.c": "b6d2f595ec65e9318d587b2cb97c8875d66808ff44abf98fa1e24e93d0e6bab3",
+    "src/dungeon/func_81970FE8.c": "2b27151d584e7b86fcf4d0b1e303c6d2afdb844a28ef21c34fbb1db2e42ea060",
+    "src/dungeon/func_819710A8.c": "1971e8cb7759b8aea7b678dc1d7a88da4cb65bea7a1ccd9797add6407f940922",
+    "src/dungeon/func_819711E0.c": "f671459e6ef9a51b8e30540f9ed28ee31836c4ebc8f85696d1067181396038bb",
+    "src/dungeon/func_819712B4.c": "f0fac0687fac7db7b769736d3ff400097fd76c22460b8d3b3860f3ec088b4dc6",
+    "src/dungeon/func_81971398.c": "a646cec46872e4794c3bf45b06d7b68f79d356a957e19d71eb615c0f49eac85d",
+    "src/dungeon/func_8197147C.c": "6cc35eec5fbf5cfd13eec29ef99abbf48961b0d696119514e70f003ab7e23e68",
+    "src/dungeon/func_81971510.c": "ab01687d9f4da4bc68c56210f4a81c69bd8c05bd629263d5e1f807c45a6a2423",
+    "src/dungeon/func_819715D4.c": "cd9bfb9ce8f46c8cdcc4f7ea2a76146706b058ea7935ee1d06fc893a9fc84467",
+    "src/dungeon/func_81971760.c": "3f54dc18bb6c23f8f1d914898c560e8686fcc9bf410b5b62fa188774e4a6467a",
+    "src/dungeon/func_8197192C.c": "af7323d3f1d5b6ae93d069d837e470b6c37cc2f7b3313c34d5902b13c79c4dd1",
+    "src/dungeon/modules/ovl_1990800.c": "ce7c94fccdc031186646a0134b0072954901a53b031f512eae5648caa9509dd2"
+  },
+  "checked_object_sha256": "d5f2938bb3bf88e727c50c6ffa472e020be794d9ea10b397db2a27a98281c27c",
+  "minus0_object_sha256": "f22690cbd7301daf1b8a780e64b7d2f94d9867fddc92578b0e9db395da1dd991"
+}

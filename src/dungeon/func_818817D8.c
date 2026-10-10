@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_18a0800.h"
 #include "common.h"
 
 typedef struct S_80024FD8_0 {
@@ -47,14 +48,7 @@ typedef struct S_80024FD8_4 {
 } S_80024FD8_4;   /* temp_v1_2 in func_80024FD8 */
 
 
-extern void *func_8003FC64();
-extern void func_8004491C();
-extern void func_8003DB94();
 
-extern u8 D_80024EE0[];
-extern u8 D_80025854[];
-extern u8 D_80045C34[];
-extern u16 D_800257CC;
 
 /* Creates a render object at the supplied position and initializes its effect state. */
 void *func_80024FD8(S_80024FD8_2 *source_pos, s16 effect_param, s16 size)
@@ -69,8 +63,8 @@ void *func_80024FD8(S_80024FD8_2 *source_pos, s16 effect_param, s16 size)
 
     object = func_8003FC64(0x202);
     if (object != 0) {
-        ((S_80024FD8_0 *)object)->unk_10 = D_80024EE0;
-        func_8004491C(object, D_80045C34);
+        ((S_80024FD8_0 *)object)->unk_10 = func_80024EE0;
+        func_8004491C(object, (s32)func_80045C34);
         position = ((S_80024FD8_0 *)object)->unk_08;
         position->unk_02 = source_pos->unk_02;
         position->unk_06 = source_pos->unk_06;
@@ -85,16 +79,14 @@ void *func_80024FD8(S_80024FD8_2 *source_pos, s16 effect_param, s16 size)
         render_code = 0x60;
         effect_state = (u8 *)object + 0x20;
         render_state->unk_10 = render_code;
-        object_count = D_800257CC;
+        object_count = (*(u16 *)D_800257CC);
         render_state->unk_16 = 0x400;
         effect_state->unk_24 = size;
         effect_state->unk_14 = effect_param;
         effect_state->unk_1E = signed_size * 2;
-        D_800257CC = object_count + 1;
+        (*(u16 *)D_800257CC) = object_count + 1;
     }
     return object;
 }
 
-/* MECHANISM: Natural argument liveness preserves the retail 0x28 frame and s0-s4 save contract.
-   The guarded a0/v1 roles share one signed arg2 conversion and hold the three-store destination base.
-   An unpinned 0x60 local plus ordered keeps yields the exact li/addiu/lui/sh/lhu counter schedule. */
+

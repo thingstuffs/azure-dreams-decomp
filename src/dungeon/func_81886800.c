@@ -1,3 +1,5 @@
+#include "modules/dungeon_ovl_18a6800.h"
+#include "modules/dungeon_native_abi.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -254,32 +256,17 @@ typedef struct S_func_81886800_19 {
     s32 unk_00;
 } S_func_81886800_19;
 
-extern void func_8002485C(void);
-extern void func_80024884(void);
-extern void func_80024924(void);
-extern void func_800249F4(void);
-extern void func_80024AA8(void);
 
 extern void func_800B835C(void *, void *, s32, s32);
 extern s32 func_8003DF74(void *, void *, void *, s32);
-extern void func_8004491C(void *, void *);
 extern s32 func_800644B8(s32);
-extern void func_80024DE8(void *, void *);
 extern s32 set_item_w0(s32, s32, s32, s32);
-extern void func_800A56E0(s32);
 extern s32 func_800A45D8(s32, s32, s32);
 extern void func_80065F90(s32, s32);
-extern void *func_80024C80(void *, void *, s32, void *);
-extern void func_800262B8(void *, s32, void *);
+extern void func_800262B8(s32, s32, void *);
 
-extern u8 D_80026324[];
-extern u8 D_80026326[];
-extern u8 D_80026328[];
-extern u8 D_8002632A[];
 extern u8 D_8002632C[];
 extern u8 D_80026344[];
-extern u8 D_80026470[];
-extern u8 D_80026474[];
 extern u8 D_80026878[];
 
 void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func_81886800_3 *sprite);
@@ -287,7 +274,7 @@ void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol func_80024000).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const module_entry)(S_func_81886800_1 *, S_func_81886800_11 *, S_func_81886800_3 *) __asm__("func_80024000") = func_80024064;
+void (*const dungeon_18a6800_entry)(S_func_81886800_1 *, S_func_81886800_11 *, S_func_81886800_3 *) = func_80024064;
 
 /* Initialize and update a moving effect through targeting, collision, and fading states. */
 void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func_81886800_3 *sprite)
@@ -317,7 +304,7 @@ void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func
     sprite->unk_08 = D_80026344;
     ((S_func_81886800_4 *)(D_80026324))->unk_00 = 0;
     ((S_func_81886800_5 *)(D_80026328))->unk_00 = 0;
-    ((S_func_81886800_6 *)(D_8002632A))->unk_00 = 0;
+    ((S_func_81886800_6 *)(&D_8002632A))->unk_00 = 0;
     ((S_func_81886800_7 *)(D_80026470))->unk_00 = 0;
     owner_flags = owner->unk_2A;
     ((S_func_81886800_9 *)(D_80026474))->unk_00 = 0;
@@ -595,7 +582,7 @@ void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func
     }
 
     case 17:
-    if (((S_func_81886800_17 *)(D_80026326))->unk_00.s16 != 0) {
+    if (((S_func_81886800_17 *)(&D_80026326))->unk_00.s16 != 0) {
         break;
     }
     ((S_func_81886800_18 *)(((u8 *)(&dungeonStatus.unk_0C))))->unk_00 = 0;
@@ -605,12 +592,8 @@ void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func
     }
     {
         u16 frame_count = effect->unk_18.u16;
-        ((S_func_81886800_17 *)(D_80026326))->unk_00.u16 = 0;
+        ((S_func_81886800_17 *)(&D_80026326))->unk_00.u16 = 0;
         effect->unk_18.u16 = frame_count + 1;
     }
 }
 
-/* The rest of the module's read-only data: the next function's state table. */
-static void (*const next_state_table[])(void) = {
-    func_8002485C, func_80024884, func_80024924, func_800249F4, func_80024AA8,
-};

@@ -1,3 +1,5 @@
+#include "modules/dungeon_ovl_18a6800.h"
+#include "modules/dungeon_native_abi.h"
 #include "common.h"
 #include "shared/game_work.h"
 typedef struct
@@ -14,12 +16,7 @@ typedef struct
     u16 pad;
 }
 TableEntry;
-extern s16 D_8002632A;
-extern u8 D_80026478[];
 extern s32 func_80065420(void *, void *, void *, void *);
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_8006658C(void *, void *);
-extern void func_80067F20(void *, s32, s32, s32, s32);
 /* Build and enqueue interpolated, depth-sorted shaded lines for a linked list. */
 s32 func_80025340(void *first_owner, void *first_vertices, void *first_line)
 {

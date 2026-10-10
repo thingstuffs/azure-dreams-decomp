@@ -1,0 +1,35 @@
+{
+  "module": "dungeon_ovl_18a0800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_18a0800.c",
+    "module_index": 160
+  },
+  "members": [
+    "dungeon/func_81880800",
+    "dungeon/func_81880F28",
+    "dungeon/func_81881168",
+    "dungeon/func_81881200",
+    "dungeon/func_81881298",
+    "dungeon/func_81881398",
+    "dungeon/func_81881590",
+    "dungeon/func_818816E0",
+    "dungeon/func_818817D8",
+    "dungeon/func_818818E8",
+    "dungeon/func_81881AE0",
+    "dungeon/func_81881CC4",
+    "dungeon/func_81881DDC",
+    "dungeon/func_81881E54",
+    "dungeon/func_81881F60"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "not observable (section-grouping link, no static duplicates, no recipe change)",
+  "basis": [
+    "Owner decisions 37-38; selector receipt and complete contiguous physical cohort.",
+    "One recipe across all 15 rows; no intervening owned data or byte-identical static helpers.",
+    "Current readable sources rebased with declaration, shared ABI and signed/unsigned view reconciliation only; GNU and genuine complete TU equal retail."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r112"
+}

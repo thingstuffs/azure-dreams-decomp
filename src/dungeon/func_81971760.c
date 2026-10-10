@@ -2,10 +2,7 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
-void *func_8003FC64();
-s32 func_8004491C();
 s32 func_80069EF8();
-extern M2C_UNK D_800249E0;
 extern M2C_UNK D_80025FE8;
 
 typedef struct S_81971760_0 {
@@ -17,14 +14,14 @@ typedef struct S_81971760_0 {
     u16 unk_44;
     u16 unk_46;
     u16 unk_48;
-} S_81971760_0;   /* temp_s0 in func_81971760 */
+} S_81971760_0;   /* temp_s0 in func_80024F60 */
 
 typedef struct S_81971760_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_81971760_1;   /* temp_v0 in func_81971760 */
+} S_81971760_1;   /* temp_v0 in func_80024F60 */
 
 typedef struct S_81971760_2 {
     u8 pad_00[0x6];
@@ -40,7 +37,7 @@ typedef struct S_81971760_2 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_81971760_2;   /* temp_a3 in func_81971760 */
+} S_81971760_2;   /* temp_a3 in func_80024F60 */
 
 typedef struct S_81971760_3 {
     u8 pad_00[0x2];
@@ -49,7 +46,7 @@ typedef struct S_81971760_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_81971760_3;   /* temp_s1 in func_81971760 */
+} S_81971760_3;   /* temp_s1 in func_80024F60 */
 
 typedef struct S_81971760_4 {
     u8 pad_00[0x2];
@@ -58,7 +55,7 @@ typedef struct S_81971760_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_81971760_4;   /* temp_arg1 in func_81971760 */
+} S_81971760_4;   /* temp_arg1 in func_80024F60 */
 
 typedef struct {
     s32 y;
@@ -66,7 +63,7 @@ typedef struct {
 } OffsetYZ;
 
 /* Creates an effect at a randomized offset from the origin and initializes its rendering data. */
-void func_81971760(void *unused_0, void *origin_data, s32 unused_2, s32 offset_x, OffsetYZ offset_yz) {
+void func_80024F60(void *unused_0, void *origin_data, s32 unused_2, s32 offset_x, OffsetYZ offset_yz) {
     u16 jittered_x;
     void *effect_arg;
     u16 coord;
@@ -87,7 +84,7 @@ void func_81971760(void *unused_0, void *origin_data, s32 unused_2, s32 offset_x
         effect_state->unk_46 = (u16) initial_y;
         effect_state->unk_48 = (u16) initial_z;
         effect_state->unk_40 = origin;
-        ((S_81971760_1 *)effect)->unk_10 = &D_800249E0;
+        ((S_81971760_1 *)effect)->unk_10 = func_800249E0;
         func_8004491C(effect_arg, func_80045340);
         render_data = ((S_81971760_1 *)effect)->unk_0C;
         render_data->unk_10 = 0x20;
@@ -123,3 +120,4 @@ void func_81971760(void *unused_0, void *origin_data, s32 unused_2, s32 offset_x
         render_data->unk_08 = (void *) (effect + 0xA2);
     }
 }
+

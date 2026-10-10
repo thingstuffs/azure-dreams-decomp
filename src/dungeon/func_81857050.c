@@ -1,41 +1,10 @@
+#include "modules/dungeon_native_abi.h"
+#include "modules/dungeon_ovl_1876800.h"
 #include "common.h"
 #include "modules/dungeon_native_abi.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
-
-typedef struct EffectMotion {
-    s32 x, y, z;
-    s32 vx, vy, vz;
-} EffectMotion;
-
-/* The object an effect belongs to: bit 0x8000 of its +0x52 flag word marks it. */
-typedef struct EffectOwner {
-    u8 pad_00[0x52];
-    u16 flags;
-} EffectOwner;
-
-/* The effect's own record; the 0x20-byte ObjectNodeHeader sits right before it. */
-typedef struct EffectRecord {
-    EffectOwner *owner;
-    u8 pad_04[0x44];
-    u16 timer;       /* 0x48: frames to wait in state 0 */
-    s16 fade_step;   /* 0x4A: brightness removed per frame in state 1 */
-    s16 state;       /* 0x4C: 0 = wait, 1 = fade the sprite */
-} EffectRecord;
-
-typedef struct SpriteEntry {
-    u8 pad_00[4];
-    u8 unk_04;
-    u8 unk_05;
-    u8 pad_06[6];
-    u8 red;          /* 0x0C; the word at +0x0C is cleared as one */
-    u8 green;
-    u8 blue;
-    u8 pad_0F;
-    u8 pad_10[4];
-    u16 status;      /* 0x14: func_800478B8 result bits, 0x6000 = reached */
-} SpriteEntry;
 
 /* Retail 81857050 (func_80024850): updates the effect's motion, waits for its timer, then fades its sprite to
  * black and marks the effect (header and global flags) finished. */

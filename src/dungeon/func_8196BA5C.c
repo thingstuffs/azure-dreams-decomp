@@ -1,83 +1,33 @@
+#include "modules/dungeon_ovl_198a800.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
-typedef struct S_8196BA5C_0 {
-    u8 pad_00[0x2C];
-    s16 unk_2C;
-    s16 unk_2E;
-    u8 pad_30[0x10];
-    u8 unk_40;
-    u8 unk_41;
-    u8 pad_42[0xE];
-    s16 unk_50;
-    u8 pad_52[0x2A];
-    void * unk_7C;
-} S_8196BA5C_0;   /* work in func_8196BA5C */
+   /* work in func_8196BA5C */
 
-typedef struct S_8196BA5C_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_8196BA5C_1;   /* obj in func_8196BA5C */
+   /* obj in func_8196BA5C */
 
-typedef struct S_8196BA5C_2_pre {
-    void * unk_00;
-    u8 pad_04[0x14];
-} S_8196BA5C_2_pre;   /* the 0x18 bytes before D_800814A8 in func_8196BA5C, addressed as D_800814A8[-1] */
+   /* the 0x18 bytes before D_800814A8 in func_8196BA5C, addressed as D_800814A8[-1] */
 
 
-typedef struct {
-    u16 x;
-    u16 y;
-    u16 w;
-    u16 h;
-} Rect16;
 
-typedef struct {
-    Rect16 rect[8];
-} RectTable;
 
-typedef struct {
-    u32 word[3];
-} __attribute__((packed)) PackedVec3;
 
-typedef struct {
-    u32 word[4];
-} __attribute__((packed)) PackedBlock;
 
-typedef struct {
-    u32 word[4];
-} AlignedBlock;
 
-typedef struct {
-    u8 pad0[6];
-    s16 field6;
-    void *vector;
-    u8 red;
-    u8 green;
-    u8 blue;
-    u8 padF;
-    u8 pad10[4];
-    u16 flags;
-    u8 pad16[6];
-    s16 scaleY;
-    s16 scaleX;
-} Display;
 
-extern RectTable D_80024024;
-extern u8 D_8002407C[];
-extern PackedVec3 D_80026978;
-extern s16 D_800269B4;
 
-extern void *func_8003FC64(s32);
-extern void func_8004491C(void *, void *);
+
+
+
+
+
+
 extern void func_800B8FC8(void *, Rect16 *, void *, s32, s32);
 
 /* Creates an object in the first free rectangle slot and marks completion when the timer expires. */
-void func_8196BA5C(void *owner) {
+void func_8002525C(void *owner) {
     s16 center[2];
     RectTable slot_rects;
     u8 *copy_src;
@@ -133,8 +83,8 @@ void func_8196BA5C(void *owner) {
             ((S_8196BA5C_0 *)child_work)->unk_2E = 7;
             ((S_8196BA5C_0 *)child_work)->unk_50 = slot;
             ((S_8196BA5C_0 *)child_work)->unk_7C = owner;
-            ((S_8196BA5C_1 *)child)->unk_10 = D_8002407C;
-            func_8004491C(child, func_80045340);
+            ((S_8196BA5C_1 *)child)->unk_10 = func_8002407C;
+            func_8004491C(child, (s32)func_80045340);
 
             display = ((S_8196BA5C_1 *)child)->unk_0C;
             display->field6 = 4;

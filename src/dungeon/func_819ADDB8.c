@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_19cc800.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
@@ -56,21 +57,17 @@ typedef struct S_800255B8_3 {
 } S_800255B8_3;   /* tail in func_800255B8 */
 
 
-extern u8 D_8002501C[];
 extern u8 D_800274C0[];
 extern u8 D_80027580[];
-extern u8 D_800C9034[];
 
 extern s32 func_8003FA44(s32);
-extern Obj *func_8003FD64(s32, void *);
-extern void func_8004491C(void *, void *);
 
 static __inline__ s16 dir_step(s16 *table, u16 offset) {
     return *(s16 *)(offset + (u32)table);
 }
 
 /* Creates twelve linked sprite pieces at an offset from the given position and angle. */
-void *func_800255B8(s16 x, s16 y, s16 z, u16 heading) {
+void *func_800255B8(s16 x, s16 y, s16 z, s16 heading) {
     void *objects[12];
     s32 piece_index;
     s16 *x_offsets;
@@ -103,8 +100,8 @@ void *func_800255B8(s16 x, s16 y, s16 z, u16 heading) {
             }
             objects[piece_index] = func_8003FD64(2, template);
         }
-        ((S_800255B8_0 *)objects[piece_index])->unk_10 = D_8002501C;
-        func_8004491C(objects[piece_index], D_800C9034);
+        ((S_800255B8_0 *)objects[piece_index])->unk_10 = func_8002501C;
+        func_8004491C(objects[piece_index], func_800C9034);
 
         offset_addr = (heading >> 8) & 0xE;
         component_data = ((S_800255B8_0 *)objects[piece_index])->unk_08;
@@ -157,3 +154,4 @@ void *func_800255B8(s16 x, s16 y, s16 z, u16 heading) {
 
     return objects[0];
 }
+

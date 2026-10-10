@@ -1,13 +1,8 @@
+#include "modules/dungeon_ovl_18a0800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
 
-extern void func_80024FD8();
-extern void func_800254C4();
-extern void func_800478B8();
-extern s32 func_800644B8();
-extern s16 D_800257CC;
-extern s16 D_800257CE;
 
 
 typedef struct S_80024B98_0 {
@@ -42,7 +37,7 @@ void func_80024B98(void *effect, void *motion, void *primitive) {
     s32 wave_value;
     u16 frame_count;
 
-    D_800257CE++;
+    D_800257CE[0]++;
     state = ((S_80024B98_0 *)effect)->unk_0A.s;
     if (state != 2) {
         if (state == 0) {
@@ -61,7 +56,7 @@ void func_80024B98(void *effect, void *motion, void *primitive) {
     } else {
         ((S_80024B98_1 *)primitive)->unk_0C.s32 += 0xFFFBFBFC;
         if (((S_80024B98_1 *)primitive)->unk_0C.u8 < 4) {
-            D_800257CC--;
+            D_800257CC[0]--;
             (*(u16 *)((u8 *)effect + (-2))) |= 0x8000;
             objectFlagBlock.flags |= 0x8000;
             return;

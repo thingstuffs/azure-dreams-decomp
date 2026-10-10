@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_18a0800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -31,12 +32,8 @@ typedef struct S_800250E8_2 {
 } S_800250E8_2;   /* tail_arg in func_800250E8 */
 
 
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
 extern s32 func_80069EF8(void);
-extern s16 func_800BCB04(u16, u16, s16);
 
-extern u16 D_800257CE[5];
 
 
 /* Updates effect motion and marks it inactive when its lifetime or owner expires. */
@@ -67,7 +64,7 @@ void func_800250E8(void *effect, S_800250E8_0 *motion, void *owner)
     probe_z -= 2;
     counter_ptr[0] = counter;
     if (motion->unk_08.at02u.v <
-        func_800BCB04(x, y, probe_z)) {
+        (s16)func_800BCB04(x, y, probe_z)) {
         if (((S_800250E8_1 *)effect)->unk_26 == 0) {
             x_direction = func_80064584(((S_800250E8_1 *)effect)->unk_1A);
             motion->unk_00.at00.v = (s32)(motion->unk_00.at00.v +

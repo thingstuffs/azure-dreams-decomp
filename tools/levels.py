@@ -247,6 +247,22 @@ def container_tail_syms(container):
         _CONTAINER_SYMS[container] = out
     return _CONTAINER_SYMS[container]
 
+def row_tail_syms(r):
+    """Use frozen load-region evidence for banked rows, plus their family sibcalls."""
+    family = 'dungeon' if r['container'] == 'dungeon_engine' else r['container']
+    if family not in ('town', 'dungeon') or not isinstance(r.get('foff'), int):
+        return container_tail_syms(r['container'])
+    from gate.gen_noreturn_syms import scoped_census
+    result = set(scoped_census(family, r['foff'], root=ROOT)['names'])
+    p = ROOT / 'config' / ('sibcall_syms.' + family + '.txt')
+    if p.exists():
+        for line in p.read_text(errors='replace').splitlines():
+            tokens = line.split('#', 1)[0].split()
+            if tokens:
+                result.add(tokens[0])
+    return result
+
+
 CALL_TOKEN_RE = re.compile(r"\b([A-Za-z_][A-Za-z0-9_]*)\s*\(")
 IDENT_RE = re.compile(r"\b[A-Za-z_][A-Za-z0-9_]*\b")   # a genuine identifier scan: comment-stripping
                                                         # can JOIN text (`func_X/* */()`), so CALL_TOKEN_RE
@@ -284,7 +300,7 @@ def tail_jump_targets(r, text, nr_targets=None):
     REWRITE tokens, but only to a symbol the raw text already contains (the right-hand side of the
     `#define`/`.set` that names the alias), so the raw-text prefilter stays a valid superset."""
     targets = set(nr_targets if nr_targets is not None else _noreturn_call_targets(text))
-    csyms = container_tail_syms(r["container"])
+    csyms = row_tail_syms(r)
     if csyms and (csyms & set(IDENT_RE.findall(text))):
         called = set(CALL_TOKEN_RE.findall(_call_text(text)))
         targets |= csyms & called
@@ -483,4 +499,6 @@ def main():
     print(f"on shared record headers (T7): {tally['records_rows']} rows, {tally['records']:,} B ({100*tally['records']/tot:.1f}%)")
 
 if __name__ == "__main__":
-    main()
+    from gate.gen_noreturn_syms import scoped_census_snapshot
+    with scoped_census_snapshot():
+        main()

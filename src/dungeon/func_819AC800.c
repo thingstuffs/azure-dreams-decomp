@@ -1,3 +1,6 @@
+#include "modules/dungeon_ovl_19cc800.h"
+#include "common.h"
+void (*const dungeon_19cc800_entry)(struct EventState *event) = func_80024020;
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -5,7 +8,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 
-typedef struct {
+typedef struct EventState {
     u8 pad00[0xA];
     s16 state;
     s32 result;
@@ -17,7 +20,7 @@ typedef struct {
     s16 timer22;
 } EventState;
 
-typedef struct {
+typedef struct DungeonObject {
     u8 pad00[0xA6];
     u16 countA6;
     u8 colorA8;
@@ -29,7 +32,6 @@ typedef struct {
     u8 flag102;
 } DungeonObject;
 
-extern u8 D_80027452[16];
 extern s32 D_8002744C;
 extern u8 D_80028260[];
 extern u8 D_80028780[];
@@ -37,17 +39,13 @@ extern s16 D_800287A0;
 extern u8 D_800287A2;
 extern s32 D_800287A4;
 
-extern void *func_800244C4(void *, void *);
 extern void func_8003F80C(void *, s32, s32, s32);
 extern void func_80040490(void *, void *);
-extern void func_800A56E0(s32);
 
-void func_80024020(EventState *event);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol func_80024000).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const module_entry)(EventState *) __asm__("func_80024000") = func_80024020;
 
 /* Advances a dungeon event through setup, activation, timed color fades, and cleanup. */
 void func_80024020(EventState *event) {
@@ -154,3 +152,4 @@ void func_80024020(EventState *event) {
     }
     *(s16 *)D_80027452 = 0;
 }
+

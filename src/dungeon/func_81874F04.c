@@ -1,3 +1,5 @@
+#include "modules/dungeon_native_abi.h"
+#include "modules/dungeon_ovl_1894800.h"
 #include "common.h"
 #include "shared/object_node.h"
 

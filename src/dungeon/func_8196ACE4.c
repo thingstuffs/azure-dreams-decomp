@@ -1,59 +1,24 @@
+#include "modules/dungeon_ovl_198a800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
-typedef struct S_8196ACE4_0 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union {
-        struct { s32 v; } at00;
-        struct { s16 v; } at00u;
-        struct { u8 pad[0x2]; s16 v; } at02;
-        struct { u8 pad[0x2]; u16 v; } at02u;
-    } unk_08;   /* overlapping accesses */
-} S_8196ACE4_0;   /* arg1 in func_8196ACE4 */
+   /* arg1 in func_8196ACE4 */
 
-typedef struct S_8196ACE4_1_pre {
-    u16 unk_00;
-} S_8196ACE4_1_pre;   /* the 0x2 bytes before arg0 in func_8196ACE4, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in func_8196ACE4, addressed as arg0[-1] */
 
-typedef struct S_8196ACE4_1 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    s16 unk_2C;
-    s16 unk_2E;
-    u8 pad_30[0x4];
-    u16 unk_34;
-    u8 pad_36[0x56];
-    s32 unk_8C;
-    s32 unk_90;
-    s32 unk_94;
-    s32 unk_98;
-    s32 unk_9C;
-    s32 unk_A0;
-} S_8196ACE4_1;   /* arg0 in func_8196ACE4 */
+   /* arg0 in func_8196ACE4 */
 
-typedef struct S_8196ACE4_2 {
-    u8 pad_00[0x69B4];
-    s16 unk_69B4;
-} S_8196ACE4_2;   /* page_8002 in func_8196ACE4 */
+   /* page_8002 in func_8196ACE4 */
 
 
-typedef struct S_8196ACE4_4 {
-    u8 pad_00[0x14A0];
-    s32 unk_14A0;
-} S_8196ACE4_4;   /* page_8008 in func_8196ACE4 */
+   /* page_8008 in func_8196ACE4 */
 
 
-M2C_UNK func_800478B8();                      /* extern */
-s32 rand();                                /* extern */
-s32 func_800A45D8();                   /* extern */
-s16 func_800BCB04();                   /* extern */
-extern s16 D_800269B4[];
 
 /* Update effect motion, collisions, sprite fading and growth, and expiration. */
-void func_8196ACE4(void *effect, S_8196ACE4_0 *position, Rec_D_80082E80 *sprite) {
+void func_800244E4(void *effect, S_8196ACE4_0 *position, Rec_D_80082E80 *sprite) {
     s32 height;
     s16 life_left;
     s32 brightness;
@@ -73,7 +38,7 @@ void func_8196ACE4(void *effect, S_8196ACE4_0 *position, Rec_D_80082E80 *sprite)
         u8 *collision_page = (u8 *)&D_800269B4 - 0x69B4;
         ((S_8196ACE4_2 *)collision_page)->unk_69B4 = 1;
     }
-    if ((func_800BCB04(collide_x, collide_y, collide_z) < 0x200) && ((func_800A45D8(position->unk_00.at02.v,
+    if (((s16)func_800BCB04(collide_x, collide_y, collide_z) < 0x200) && ((func_800A45D8(position->unk_00.at02.v,
         position->unk_04.at02.v, position->unk_08.at02.v) << 0x10) != 0)) {
         position->unk_00.at00.v = (s32) (position->unk_00.at00.v - ((S_8196ACE4_1 *)effect)->unk_8C);
         ((S_8196ACE4_1 *)effect)->unk_8C = 0;
@@ -81,7 +46,7 @@ void func_8196ACE4(void *effect, S_8196ACE4_0 *position, Rec_D_80082E80 *sprite)
     }
     position->unk_04.at00.v = (s32) (position->unk_04.at00.v + ((S_8196ACE4_1 *)effect)->unk_90);
     ((S_8196ACE4_1 *)effect)->unk_90 = (s32) (((S_8196ACE4_1 *)effect)->unk_90 + ((S_8196ACE4_1 *)effect)->unk_9C);
-    if ((func_800BCB04(position->unk_00.at02.v, position->unk_04.at02.v, position->unk_08.at02.v) < 0x200)
+    if (((s16)func_800BCB04(position->unk_00.at02.v, position->unk_04.at02.v, position->unk_08.at02.v) < 0x200)
         && ((func_800A45D8(position->unk_00.at02.v, position->unk_04.at02.v, position->unk_08.at02.v) << 0x10) != 0)) {
         position->unk_04.at00.v = (s32) (position->unk_04.at00.v - ((S_8196ACE4_1 *)effect)->unk_90);
         ((S_8196ACE4_1 *)effect)->unk_90 = 0;
@@ -95,10 +60,10 @@ void func_8196ACE4(void *effect, S_8196ACE4_0 *position, Rec_D_80082E80 *sprite)
     ((S_8196ACE4_1 *)effect)->unk_8C = (s32) ((((S_8196ACE4_1 *)effect)->unk_8C * 0x60) / 100);
     ((S_8196ACE4_1 *)effect)->unk_90 = (s32) ((((S_8196ACE4_1 *)effect)->unk_90 * 0x60) / 100);
     height = position->unk_08.at02.v;
-    if ((func_800BCB04(position->unk_00.at02.v, position->unk_04.at02.v, (s16) (position->unk_08.at02u.v - 4)) - 0x10)
+    if (((s16)func_800BCB04(position->unk_00.at02.v, position->unk_04.at02.v, (s16) (position->unk_08.at02u.v - 4)) - 0x10)
         < height) {
         ((S_8196ACE4_1 *)effect)->unk_94 = 0;
-        position->unk_08.at02.v = (s16) (func_800BCB04(position->unk_00.at02.v, position->unk_04.at02.v,
+        position->unk_08.at02.v = (s16) ((s16)func_800BCB04(position->unk_00.at02.v, position->unk_04.at02.v,
             (s16) ((u16) position->unk_08.at02.v - 4)) - 0x11);
         position->unk_08.at00u.v = 0;
         if (((S_8196ACE4_1 *)effect)->unk_2A == 0) {

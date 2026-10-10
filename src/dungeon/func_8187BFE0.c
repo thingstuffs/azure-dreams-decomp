@@ -1,4 +1,4 @@
-#include "common.h"
+#include "modules/dungeon_native_abi.h"
 #include "shared/object_flags.h"
 
 typedef struct S_8187BFE0_0 {
@@ -98,14 +98,11 @@ typedef struct {
 } Data12;
 
 extern void *func_8003FC64(s32);
-extern void func_8004491C(void *, void *);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 
-extern u8 D_800249A0[];
-extern u8 D_80025380[];
-extern Data12 D_80026940;
-extern s16 D_8002694C;
+extern u8 D_80026940[12];
+extern s16 D_8002694C[5];
 
 /* Initializes a five-point star and spawns its edge effects over successive updates. */
 void func_800257E0(void *state_data, void *source_data) {
@@ -154,8 +151,8 @@ void func_800257E0(void *state_data, void *source_data) {
 
             edge_data = node + 0x20;
             ((S_8187BFE0_2 *)edge_data)->unk_02 = 0x37 - (((S_8187BFE0_0 *)state_data)->unk_1C.s * 4);
-            ((S_8187BFE0_1 *)node)->unk_10 = D_80025380;
-            func_8004491C(node, D_800249A0);
+            ((S_8187BFE0_1 *)node)->unk_10 = func_80025380;
+            func_8004491C(node, func_800249A0);
 
             sprite = ((S_8187BFE0_1 *)node)->unk_0C;
             ((S_8187BFE0_3 *)sprite)->unk_14 &= 0xFFF3;
@@ -270,7 +267,7 @@ void func_800257E0(void *state_data, void *source_data) {
             ((S_8187BFE0_2 *)edge_data)->unk_38 = 0x20;
             ((S_8187BFE0_3 *)sprite)->unk_1C = ((S_8187BFE0_3 *)sprite)->unk_1E = 0x1000;
 
-            *(Data12 *)(edge_data + 0x44) = D_80026940;
+            *(Data12 *)(edge_data + 0x44) = *(Data12 *)D_80026940;
             ((S_8187BFE0_3 *)sprite)->unk_08 = edge_data + 0x44;
             return;
         } else {

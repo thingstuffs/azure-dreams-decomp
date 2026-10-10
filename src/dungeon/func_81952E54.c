@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_1972800.h"
 #include "common.h"
 #include "shared/dir_step.h"
 
@@ -51,15 +52,6 @@ typedef struct OriginHeight {
     u16 height;
 } OriginHeight;
 
-extern void *func_8003FD64(s32, void *);
-extern s32 func_8004491C(SpawnNode *, s32);
-extern s32 func_800BCB04(s32, s32, s16);
-extern void func_8002434C(void *, void *, void *);
-extern u8 D_800CEEFC[];
-extern u8 D_80024998[];
-extern s16 D_800249A4;
-extern GridOrigin D_80082E80;
-extern OriginHeight *D_800814A8;
 
 /* Spawn the spiraling effect unless the shared bank stop flag is set.
  * The third ABI argument is unused in retail. The final argument mirrors
@@ -75,11 +67,11 @@ void func_80024654(void *anchor, s16 angle, s16 unused, void *target, s32 mirror
     s32 height;
     s32 coordinate;
     s32 coordinate_y;
-    GridOrigin *origin;
+    TileObject *origin;
     s32 offset;
 
     if (D_800249A4 != 0) return;
-    node = func_8003FD64(0x212, anchor);
+    node = (SpawnNode *)func_8003FD64(0x212, (ObjectNodeHeader **)anchor);
     if (node == 0) return;
     node->header.callback = func_8002434C;
     func_8004491C(node, (s32)D_800CEEFC);
@@ -95,13 +87,13 @@ void func_80024654(void *anchor, s16 angle, s16 unused, void *target, s32 mirror
     if (target == 0) {
         origin = &D_80082E80;
         offset = ((u32)angle >> 9) & 7;
-        coordinate = ((origin->x + dirStepX[offset]) << 6) + 0x20;
+        coordinate = ((origin->tileX + dirStepX[offset]) << 6) + 0x20;
         position->x = coordinate;
         state->x = coordinate;
-        coordinate_y = ((origin->y + dirStepY[offset]) << 6) + 0x20;
+        coordinate_y = ((origin->tileY + dirStepY[offset]) << 6) + 0x20;
         position->y = coordinate_y;
         state->y = coordinate_y;
-        state->z = position->z.bits = D_800814A8->height;
+        state->z = position->z.bits = (u16)D_800814A8->unk_88;
     } else {
         target_position = ((SpawnHeader *)target - 1)->position;
         state->x = position->x = target_position->x;

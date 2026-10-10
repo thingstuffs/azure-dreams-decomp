@@ -1,18 +1,11 @@
+#include "modules/dungeon_ovl_19cc800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
 
-extern u16 D_80027452[];
 
 /* Position block (three 4-byte slots, only the second halfword of each is used). */
-typedef struct EffectPosition {
-    u16 pad_00;
-    u16 x;
-    u16 pad_04;
-    u16 y;
-    u16 pad_08;
-    u16 z;
-} EffectPosition;
+
 
 /* Render data (the header's unk_0C); only the colour word is used here. */
 typedef struct RenderData {
@@ -21,10 +14,7 @@ typedef struct RenderData {
 } RenderData;
 
 /* The follower's record (the object header precedes it): it tracks the object stored at +8. */
-typedef struct FollowerRecord {
-    u8 pad_00[8];
-    ObjectNodeHeader *owner;
-} FollowerRecord;
+
 
 /* Copy the owner's position and colour; flag completion once the owner is finished. */
 void func_80024E60(FollowerRecord *record, EffectPosition *position, RenderData *render)
@@ -47,3 +37,4 @@ void func_80024E60(FollowerRecord *record, EffectPosition *position, RenderData 
     position->y = owner_pos->y;
     position->z = owner_pos->z;
 }
+

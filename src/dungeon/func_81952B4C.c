@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_1972800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -44,11 +45,7 @@ typedef struct S_81952B4C_2 {
 } S_81952B4C_2;   /* arg2 in func_8002434C */
 
 
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
 
-extern s16 D_800249A4;
-extern u16 D_800249A6;
 
 /* Updates a spiraling effect's growth, motion, and fade-out. */
 void func_8002434C(void *effect, void *position, void *sprite)
@@ -62,7 +59,7 @@ void func_8002434C(void *effect, void *position, void *sprite)
     u16 scale;
     u8 brightness;
 
-    D_800249A6++;
+    D_800249A6[0]++;
 
     if (D_800249A4 != 0 && ((S_81952B4C_0 *)effect)->unk_24.s < 2) {
         ((S_81952B4C_0 *)effect)->unk_00 =

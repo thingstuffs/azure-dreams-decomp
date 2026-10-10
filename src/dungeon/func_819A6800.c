@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_19c6800.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
@@ -113,20 +114,18 @@ typedef struct S_func_819A6800_10 {
 } S_func_819A6800_10;
 
 extern u8 D_800814A8[16];
-extern u8 D_800244BC[];
-extern u8 D_80024810[];
-extern u8 D_80024B20[];
+struct S_800244BC_2;
+void func_800244BC(void *, struct S_800244BC_2 *, s32);
+void func_80024810(void *);
+s32 func_80024B20(void *);
 extern u8 D_800DEE38[];
 extern u32 D_800814A0[];
 
 #define GLOBAL_OBJECT (*(void **)D_800814A8)
 
 extern void *func_800A05A4(void *, u8, u8, s16, s32);
-extern void *func_8003FD64(s32, void *);
 extern s32 func_8003DE58(void *, void *, void *, s32);
-extern void func_8004491C(void *, void *);
 extern s32 func_80053EF0(s32);
-extern void func_800A56E0(s32);
 extern u16 func_80066460(s32, s32, s32, s32);
 extern u16 func_8006649C(s32, s32);
 extern void func_8009CE1C(void *, s32, s32, s32, s32, void *, s32);
@@ -136,7 +135,8 @@ void func_80024020(void *sequence, void *out_position);
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol func_80024000).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const module_entry)(void *, void *) __asm__("func_80024000") = func_80024020;
+
+void (*const dungeon_19c6800_entry)(void *, void *) = func_80024020;
 
 #define SELF ((S_func_819A6800_1 *)sequence)
 
@@ -206,7 +206,7 @@ void func_80024020(void *sequence, void *out_position)
                 position_offset[1] = 0;
                 position_offset[0] = 0;
             }
-            record->unk_10 = D_800244BC;
+            record->unk_10 = func_800244BC;
             func_8004491C(record, func_80045340);
             sprite = record->unk_0C;
 
@@ -268,8 +268,8 @@ void func_80024020(void *sequence, void *out_position)
                 if (record != 0) {
                     S_func_819A6800_7 *effect_data = (S_func_819A6800_7 *)((u8 *)record + 0x20);
                     u32 target_object;
-                    record->unk_10 = D_80024810;
-                    func_8004491C(record, D_80024B20);
+                    record->unk_10 = func_80024810;
+                    func_8004491C(record, func_80024B20);
                     target_object = owner->unk_60.u;
                     effect_data->unk_3C = 0;
                     effect_data->unk_3E = 0;
@@ -332,3 +332,4 @@ void func_80024020(void *sequence, void *out_position)
         return;
     }
 }
+
