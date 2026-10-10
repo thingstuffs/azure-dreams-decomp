@@ -1,3 +1,18 @@
+# Handover (2026-10-10 ~02:00Z, round 111: INTEGRATION LANE RUNNING) - start here
+
+**Landed since r109:** 69fed6092 50 r108 rows -> L3 (+6 recerts); 8559bd4a8 decision 39 (owner-approved write-back for
+retail-evidenced reads). **Carve debt 28, L5 52** (unchanged: the r110 landings rolled back cleanly).
+**Ready but not landed (16 packages):** r110_sol61_kfin 189a800/188e800/198a800, r109_sol61_modA 1876800/1894800/18a6800/
+19d2800, modB 197281c, r110_sol61_m1 1990800, m2 1960800/183a800, m3 18a0800, m4 19c6800/19cc800, r109_opus_gapB
+gap_81994D8C + recarve_81994800 (GAP B BYTE-EXACT). Plan E (all) failed at package-3's graph step; plan E1 (kfin + GAP B)
+passed every proof incl. 15 recerts and failed only at the final graph step: "L3/placement screen failed".
+**Running:** r111_sol61_integ (replay all 16 on a fresh copy, name the failing member, fix/hold, one ordered set).
+**Held modules (blockers):** 7e6a5800 (func_819613A8 $6 pin), 19de800 (9-entry grid kind), FA7000 (3 C residuals +
+prefix kind), 7ce800 (switch-table-first prefix kind), 192a800 + 1918800 (single rectangle records), 1924800 (3 register
+words). Plus 81809800 (8180B064 pin), 8182C800 / 81844800 (hard basket), 3 town receipts.
+**Next (owner 10-09):** after landing, per-blocker triage table; Sonnet first where plausible, astra/sol freely, one
+Fable attempt, no Opus re-serve without a new angle; held lane: _r109/ask_sonnet_unk18.md (shared headers).
+
 # Handover (2026-10-09 ~17:00Z, round 109 RUNNING) - start here
 
 **Landed since r108 started:** 5881e4525 plan D (strict typed_string / message_bytes / rectangle_records kinds + 50 r108
