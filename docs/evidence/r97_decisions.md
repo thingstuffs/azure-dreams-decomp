@@ -229,3 +229,9 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     its row recipe (2.7.2-cdk-G0 -fno-schedule-insns), [func_80025294 ..] - not one TU with a per-function flag. The
     equally consistent alternative (one TU, a compiler-behaviour difference for one function) is not separable by any
     measured evidence; the split is the model that reproduces bytes with recorded recipes. SECOND LOOK: yes.
+    **WITHDRAWN (owner 10-10, same day):** an "impossible in C shape" verdict is not accepted, and a per-row flag
+    (`-fno-schedule-insns`) is a compiler/flag-ALIGNMENT target, not multi-TU evidence. Duck from sched.c: retail's
+    16,20,26 needs (1) insn 16 unboosted - its consumer outside the block at sched1 (initial ready list never runs
+    adjust_priority), reg_n_sets != 1, or dest not live when ready - or (2) insn 26 ALSO boosted (plain single-set REG
+    dest that cse does not copy-propagate) so LUID breaks the tie 26 > 20 > 16, or (3) 16 queued (cost > 1 / extra
+    dependence). Bank 41 stays ONE TU (decision 38) pending that work.
