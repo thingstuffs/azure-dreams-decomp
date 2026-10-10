@@ -1,3 +1,14 @@
+# Handover (2026-10-10 ~16:00Z, round 112 late) - START HERE
+**Carve debt 9, L5 272 rows, 31 live certificates (3deb480db), pins 89 / 49 rows.** Landed: fac2dea9d (heads + strict
+kinds + 192a800/1918800/19de800/7ce800), alignment 0d8b3124e / f58e5bc21 (819059A0, 80289BD4, 8028B994, 808135E0 onto the
+module recipe), hard basket 8180B064 / 819613A8 / 81844F2C updates. LANDING TRAPS (memory azure-clean-round112): certify
+each module with ITS recorded reviewer; rebuild build_ovl_gate (`EXP=gate SRCROOT=$PWD/src bash tools/build/mk_ovl_root.sh`)
+after land_coherence before certifying; land_coherence skips SLUS rows; live land_packages needs NO codex running.
+Running: pool r112c (_r112/pool_r112c.log): fa7mod (FA7000 module), m41 (1924800 one TU), b65 (bank 65), slusrecipe (SLUS
+recipe-switch tool + code5/10/13/14 proven exact at plain cdk). Next: land their packages (preflight first), then
+Opus lane on the global.c-priority pair 8180B064 + 81844F2C (loop-depth ref census, BFM RC-15) if owner agrees; second
+pass on open alignment rows (8184AF90, 813274E4, w_8003E188, w_8004CAA0, w_8005A90C, w_8005914C); town registrar +0x344.
+
 # Handover (2026-10-10 ~10:45Z, round 112 cont.) - START HERE
 Landed since 07:45: dfdd82267 GAP B 81994D8C -> L3; 0d8b3124e ALIGNMENT 819059A0 + 80289BD4 off -fno-schedule-insns (Opus
 duck: work/native_lane/_r112/sched1_boost.md levers; decision 41 WITHDRAWN 7d9aa13f0 - owner: no impossibility verdicts,
