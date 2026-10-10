@@ -24,14 +24,22 @@ def validate_layout(m):
                 or d['size'] <= 0 or d['size'] % 4):
             raise ValueError('invalid owned rodata layout')
         kind = d['kind']
-        if i == 0:
-            if (kind != 'typed_function_pointer' or d['size'] != 4
-                    or d.get('target') not in owners or not d.get('symbol')):
+        if i == 0 and kind not in ('typed_function_pointer', 'switch_table'):
+            raise ValueError('native prefix must start with a complete-member pointer or owned switch')
+        if kind == 'typed_function_pointer':
+            if (d['size'] != 4 or d.get('target') not in owners or not d.get('symbol')):
                 raise ValueError('native entry must target a complete native member')
-        elif kind in ('typed_string', 'message_bytes', 'rectangle_records'):
+        elif kind in ('typed_string', 'message_bytes', 'rectangle_records',
+                      'grid_offsets', 'u16_parameter_record5'):
             literal_bytes(d)
             if not d.get('symbol'):
                 raise ValueError('typed native object lacks its symbol')
+            if requires_consumers(d):
+                consumers = d.get('consumers')
+                if (not isinstance(consumers, list) or not consumers
+                        or any(not isinstance(c, str) or c not in owners for c in consumers)
+                        or len(set(consumers)) != len(consumers)):
+                    raise ValueError('typed native object requires complete-member consumers')
         elif kind == 'direction_offsets':
             direction_bytes(d)
             if not d.get('symbol'):
@@ -109,20 +117,52 @@ def message_payload(d):
 
 
 def rectangle_bytes(d):
-    """Eight PSX texture rectangles: unsigned 16-bit x,y,width,height.
+    """One, two or eight PSX texture rectangles: unsigned x,y,width,height.
 
     Validate the VRAM coordinate domain, positive dimensions and bounds;
-    an arbitrary eight-by-four halfword array is not a rectangle table.
+    Exact cardinality and extent exclude arbitrary halfword arrays.
     """
     records = d.get('rectangles')
-    if (d.get('size') != 64 or not isinstance(records, list) or len(records) != 8
+    if (not isinstance(records, list) or len(records) not in (1, 2, 8)
+            or type(d.get('size')) is not int or d['size'] != 8 * len(records)
             or any(not isinstance(r, list) or len(r) != 4
                    or any(type(v) is not int for v in r)
                    or not (0 <= r[0] < 1024 and 0 <= r[1] < 512
                            and 0 < r[2] <= 1024 - r[0]
                            and 0 < r[3] <= 512 - r[1]) for r in records)):
-        raise ValueError('invalid typed eight-rectangle VRAM table')
+        raise ValueError('invalid typed rectangle VRAM table')
     return b''.join(struct.pack('<4H', *r) for r in records)
+
+
+def requires_consumers(d):
+    return (d['kind'] in ('grid_offsets', 'u16_parameter_record5')
+            or d['kind'] == 'rectangle_records' and d['size'] in (8, 16))
+
+
+def grid_bytes(d):
+    """Signed 3x3 neighbourhood, in row-major order, including its centre."""
+    pairs = [[x, y] for y in (-1, 0, 1) for x in (-1, 0, 1)]
+    actual = d.get('pairs')
+    if (type(d.get('size')) is not int or d['size'] != 36 or actual != pairs
+            or not isinstance(actual, list)
+            or any(not isinstance(p, list) or len(p) != 2
+                   or any(type(v) is not int for v in p) for p in actual)):
+        raise ValueError('invalid signed row-major three-by-three grid')
+    return b''.join(struct.pack('<hh', *p) for p in actual)
+
+
+def parameter_bytes(d):
+    """A Record10.value[5] unsigned-halfword parameter object plus word padding.
+
+    Its consumer copies the ten-byte C object and indexes u16 values. The two
+    trailing bytes are minimal alignment, never an extra sixth parameter.
+    """
+    values = d.get('values')
+    if (type(d.get('size')) is not int or d['size'] != 12
+            or not isinstance(values, list) or len(values) != 5
+            or any(type(v) is not int or not 0 <= v <= 65535 for v in values)):
+        raise ValueError('invalid typed five-halfword parameter record')
+    return struct.pack('<5H', *values) + b'\0\0'
 
 
 def literal_bytes(d):
@@ -130,6 +170,10 @@ def literal_bytes(d):
         return message_payload(d)
     if d['kind'] == 'rectangle_records':
         return rectangle_bytes(d)
+    if d['kind'] == 'grid_offsets':
+        return grid_bytes(d)
+    if d['kind'] == 'u16_parameter_record5':
+        return parameter_bytes(d)
     raise ValueError('unsupported typed native literal')
 
 
@@ -215,14 +259,22 @@ def validate_switch_assembly(m, assembly):
             expected[start] = (d['target'], None)
             if labels.get(d['symbol']) != (start, None):
                 raise ValueError('native entry assembly symbol differs')
-        elif d['kind'] in ('typed_string', 'message_bytes', 'rectangle_records'):
+        elif d['kind'] in ('typed_string', 'message_bytes', 'rectangle_records',
+                           'grid_offsets', 'u16_parameter_record5'):
             packed = literal_bytes(d)
             if (labels.get(d['symbol']) != (start, None)
                     or any(start < loc[0] < start + d['size'] for loc in labels.values())):
                 raise ValueError('typed native assembly symbol/bounds differ')
-            if d['kind'] == 'rectangle_records':
+            if requires_consumers(d):
+                for consumer in d['consumers']:
+                    body = '\n'.join(bodies.get(consumer, []))
+                    if not all(re.search(r'%' + part + r'\(' + re.escape(d['symbol'])
+                                         + r'(?:\+\d+)?\)', body) for part in ('hi', 'lo')):
+                        raise ValueError('typed native consumer does not address its object')
+            if d['kind'] in ('rectangle_records', 'grid_offsets', 'u16_parameter_record5'):
+                extent = 10 if d['kind'] == 'u16_parameter_record5' else len(packed)
                 expected_halves.update({start + i: (struct.unpack_from('<H', packed, i)[0], None)
-                                       for i in range(0, len(packed), 2)})
+                                       for i in range(0, extent, 2)})
             else:
                 expected_bytes.update({start + i: (v, None) for i, v in enumerate(packed)})
         elif d['kind'] == 'direction_offsets':
@@ -247,7 +299,16 @@ def validate_switch_assembly(m, assembly):
                         or text_labels.get(target) != d['owner']):
                     raise ValueError('table target not emitted by its owner')
                 expected[pos] = (target, emitting_owner)
-    if words != expected or halves != expected_halves or byte_values != expected_bytes or offset != sum(d['size'] for d in m['owned_data']):
+    extent = sum(d['size'] for d in m['owned_data'])
+    # A final ten-byte C object leaves two bytes of minimum word padding in
+    # the assembler's section extent, without a following .align directive.
+    # Only this fixed typed layout accounts for that implicit tail. Both
+    # objects must still contain exactly those two zero bytes and no relocation
+    # or symbol there; validate_relocations checks the complete declared extent.
+    if (m['owned_data'][-1]['kind'] == 'u16_parameter_record5'
+            and offset == extent - 2):
+        offset += 2
+    if words != expected or halves != expected_halves or byte_values != expected_bytes or offset != extent:
         raise ValueError('native assembly head coverage differs')
 
 
@@ -278,10 +339,13 @@ def validate_relocations(m, view):
         start = d['foff'] - base
         if d['kind'] == 'typed_function_pointer':
             sym = view.obj.symbols.get(d['symbol'])
-            if sym is None or sym[0] != sec or sym[1] != start:
+            if (sym is None or sym[0] != sec or sym[1] != start
+                    or any(s[0] == sec and start < s[1] < start + d['size']
+                           for s in view.obj.symbols.values())):
                 raise ValueError('native entry symbol differs')
             expected[start] = ('32', ('fn', d['target'], 0))
-        elif d['kind'] in ('typed_string', 'message_bytes', 'rectangle_records'):
+        elif d['kind'] in ('typed_string', 'message_bytes', 'rectangle_records',
+                           'grid_offsets', 'u16_parameter_record5'):
             sym = view.obj.symbols.get(d['symbol'])
             if (sym is None or sym[0] != sec or sym[1] != start
                     or any(s[0] == sec and start < s[1] < start + d['size']
@@ -289,6 +353,16 @@ def validate_relocations(m, view):
                 raise ValueError('typed native object symbol/bounds differ')
             if data[start:start + d['size']] != literal_bytes(d):
                 raise ValueError('typed native object bytes differ')
+            if requires_consumers(d):
+                extent = 10 if d['kind'] == 'u16_parameter_record5' else d['size']
+                for consumer in d['consumers']:
+                    fsec, begin, end = view.funcs[consumer]
+                    refs = {kind for (s, off), (kind, target) in view.rel.items()
+                            if s == fsec and begin <= off < end
+                            and target[0:2] == ('sec', '.rodata')
+                            and start <= target[2] < start + extent}
+                    if not {'HI16', 'LO16'} <= refs:
+                        raise ValueError('typed native consumer relocation evidence missing')
         elif d['kind'] == 'direction_offsets':
             sym = view.obj.symbols.get(d['symbol'])
             if sym is None or sym[0] != sec or sym[1] != start:

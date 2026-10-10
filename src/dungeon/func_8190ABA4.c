@@ -1,9 +1,10 @@
+#include "modules/dungeon_ovl_192a800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "modules/dungeon_native_abi.h"
 
 extern s32 rand(void);
-extern s16 D_80025630;
+
 
 /* Position slots: three 4-byte slots with only the second halfword used (x +2, y +6, z +0xA);
  * the z slot's word is also bumped as one s32 (+0x20000 raises z by 2). */

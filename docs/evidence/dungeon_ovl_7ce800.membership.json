@@ -1,0 +1,50 @@
+{
+  "module": "dungeon_ovl_7ce800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_7ce800.c",
+    "module_index": 3
+  },
+  "members": [
+    "dungeon/func_807AE800",
+    "dungeon/func_807AE890",
+    "dungeon/func_807AE960",
+    "dungeon/func_807AEC3C",
+    "dungeon/func_807AED44",
+    "dungeon/func_807AEDCC",
+    "dungeon/func_807AEF38",
+    "dungeon/func_807AEF8C",
+    "dungeon/func_807AF2CC",
+    "dungeon/func_807AF2F4",
+    "dungeon/func_807AF528",
+    "dungeon/func_807AF5FC",
+    "dungeon/func_807AF648",
+    "dungeon/func_807AF9A4",
+    "dungeon/func_807AFAE4",
+    "dungeon/func_807AFB48",
+    "dungeon/func_807AFC9C",
+    "dungeon/func_807AFDEC",
+    "dungeon/func_807B004C",
+    "dungeon/func_807B0110",
+    "dungeon/func_807B0238",
+    "dungeon/func_807B035C",
+    "dungeon/func_807B03A0",
+    "dungeon/func_807B03C0",
+    "dungeon/func_807B040C",
+    "dungeon/func_807B08D4",
+    "dungeon/func_807B08F0",
+    "dungeon/func_807B09A0",
+    "dungeon/func_807B0B3C",
+    "dungeon/func_807B11B8"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "not observable (section-grouping link, no static duplicates, no recipe change)",
+  "basis": [
+    "Decisions 37-38: every physical selector-bank member belongs to one modelled native TU, including weak naming groups.",
+    "The authenticated packed loader loads this outside-grid twelve-sector image at 0x800F6000. Contiguous L3 rows exhaust its complete prefix/code span.",
+    "One genuine -0 recipe for the entire readable source TU; every allocated byte and relocation is independently compared with GNU and retail."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r112"
+}

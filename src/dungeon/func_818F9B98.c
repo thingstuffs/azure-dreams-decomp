@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_1918800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -32,22 +33,11 @@ typedef struct S_80025398_2 {
 } S_80025398_2;   /* cursor in func_80025398 */
 
 
-typedef struct PackedVector {
-    u16 x;
-    u16 y;
-    u16 z;
-    u16 pad;
-} PackedVector __attribute__((packed));
 
-typedef struct Pair16 {
-    s16 x;
-    s16 y;
-} Pair16;
 
-extern PackedVector D_80024004;
-extern s16 D_800266BC[5];
 
-extern void func_80024CD4();
+
+
 
 /* Update the effect's fade and rotation, draw it, and flag completion at its final frame. */
 void func_80025398(void *effect, void *unused, void *primitive)
@@ -79,7 +69,7 @@ void func_80025398(void *effect, void *unused, void *primitive)
     source = *source_ptr;
     frame = ((S_80025398_0 *)effect)->unk_04.s;
     peak_frame = ((S_80025398_0 *)effect)->unk_0A;
-    D_800266BC[0] = 1;
+    D_800266BC = 1;
 
     if (frame < peak_frame) {
         fade_in = (frame << 7) / peak_frame;
@@ -150,3 +140,4 @@ void func_80025398(void *effect, void *unused, void *primitive)
         objectFlagBlock.flags |= 0x8000;
     }
 }
+

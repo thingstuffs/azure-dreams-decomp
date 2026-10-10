@@ -132,7 +132,6 @@ extern void func_80064840(void *, void *, void *);
 extern void func_800649A0(void);
 extern void func_80064A40(void);
 extern void func_80064AE0(void *);
-extern void func_80064BC0(void *, void *);
 extern void func_80064CF0(void *);
 extern void func_80064D80(void *);
 extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
@@ -245,3 +244,4 @@ void func_80024BF4(S_80024BF4_4 *quad, S_80024BF4_1 *position, S_80024BF4_2 *ren
 
     func_80064A40();
 }
+

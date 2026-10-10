@@ -100,7 +100,25 @@ def genuine_flags(m,root):
 
 def payload_spec(m):
  ds=[('.rodata',sum(d['size'] for d in m['owned_data']))] if m['owned_data'] else []
- return ds+[('.text.'+a['function'],a['size']-a.get('body_offset',0)) for a in m['members']]
+ text=[('.text.'+a['function'],a['size']-a.get('body_offset',0)) for a in m['members']]
+ if ds and m['owned_data'][0]['kind']=='switch_table':
+  # With no initialized object before the code, GCC first opens rodata inside
+  # this switch owner. Preserve the resulting ELF section-creation order as
+  # strictly as the pointer-first layout; the link still places the prefix
+  # before the complete natural-order text cohort.
+  owner=m['owned_data'][0]['owner']
+  cut=next(i+1 for i,a in enumerate(m['members']) if a['function']==owner)
+  return text[:cut]+ds+text[cut:]
+ return ds+text
+
+def link_inputs(m,obj):
+ # GNU ld combines multiple section patterns in one file selector in ELF
+ # creation order. A switch-first prefix opens rodata inside a function;
+ # separate section-group selectors retain the retail rodata-before-text
+ # placement without imposing any per-function addresses or reordering data.
+ if m['owned_data'] and m['owned_data'][0]['kind']=='switch_table':
+  return f'"{obj}"(.rodata) "{obj}"(.text.*)'
+ return f'"{obj}"(.rodata .text.*)'
 
 def validate_asset(root,d):
  # Cross-resident imports remain external views. The load map and view are
@@ -332,7 +350,7 @@ def build(m,out,root=ROOT,substitutions=None):
  addresses=dict(imports,**{a['function']:a['vma']+a.get('body_offset',0) for a in m['members']})
  addresses.update({d['symbol']:d['vma'] for d in m['owned_data'] if d.get('symbol')})
  # One natural-order placement; never a separate address directive per member.
- ld=out/'module.ld';ld.write_text('OUTPUT_FORMAT("elf32-tradlittlemips")\nOUTPUT_ARCH(mips)\n_gp = 0x80080994;\n'+''.join(f'{s} = 0x{v:X};\n' for s,v in imports.items())+'SECTIONS {\n'+f' .module 0x{m["members"][0]["vma"]:X} : {{ "{obj}"(.rodata .text.*) }}\n'+f' ASSERT(SIZEOF(.module) == {sum(a["size"] for a in m["members"])}, "module extent")\n /DISCARD/ : {{ *(.text) *(.reginfo) *(.MIPS.abiflags) *(.pdr) *(.comment) *(.note*) *(.mdebug*) *(.gnu.attributes) }}\n}}\n')
+ ld=out/'module.ld';ld.write_text('OUTPUT_FORMAT("elf32-tradlittlemips")\nOUTPUT_ARCH(mips)\n_gp = 0x80080994;\n'+''.join(f'{s} = 0x{v:X};\n' for s,v in imports.items())+'SECTIONS {\n'+f' .module 0x{m["members"][0]["vma"]:X} : {{ {link_inputs(m,obj)} }}\n'+f' ASSERT(SIZEOF(.module) == {sum(a["size"] for a in m["members"])}, "module extent")\n /DISCARD/ : {{ *(.text) *(.reginfo) *(.MIPS.abiflags) *(.pdr) *(.comment) *(.note*) *(.mdebug*) *(.gnu.attributes) }}\n}}\n')
  elf=out/'module.elf';binary=out/'module.bin'
  command(['mipsel-linux-gnu-ld','-EL','-T',ld,'-Map',out/'module.map','-o',elf,obj],root,env,out/'link.log')
  command(['mipsel-linux-gnu-objcopy','-O','binary',elf,binary],root,env,out/'objcopy.log')

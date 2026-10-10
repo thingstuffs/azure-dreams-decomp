@@ -1,3 +1,9 @@
+#include "modules/dungeon_ovl_1918800.h"
+#include "common.h"
+void (*const dungeon_1918800_entry)(struct ProjectileSelf *self, struct OutView *position, struct PacketView *render_data) = func_8002592C;
+const PackedVector D_80024004 = {832,340,96,84};
+const PackedVector D_8002400C = {832,256,96,84};
+const Copy24 D_80024014 = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/game_work.h"
@@ -46,26 +52,8 @@ typedef struct Scratchpad {
 #define SCR32(off) (*(s32 *)((u8 *)scratch + (off)))
 #define SCRPTR(off) ((void *)((u8 *)scratch + (off)))
 
-#ifdef __mips__
-/* The retail cluster carries this 23-word literal bank immediately before
- * the function body; keep it in the function's named text section so the
- * isolated overlay linker preserves the composite table+body layout. */
-static const u32 data_bank[] __asm__("func_80024000")
-__attribute__((section(".text.func_80024000"), aligned(4))) = {
-    0x8002592C, 0x01540340, 0x00540060, 0x01000340,
-    0x00540060, 0x00000020, 0x00200020, 0x00200000,
-    0x0020FFE0, 0x0000FFE0, 0xFFE0FFE0, 0xFFE00000,
-    0xFFE00020, 0x00000000, 0x80025A24, 0x80025AEC,
-    0x80025DC0, 0x80026200, 0x80026354, 0x80026578,
-    0x8002659C, 0x80026634, 0x800265D0,
-};
-__asm__(".globl func_80024000\n.size func_80024000,3284");
-#endif
 
-#define BODY_NAME func_80024000
-#define BODY_ATTR
 
-void BODY_NAME(void *screen_pos, u8 *wave, void *context, s32 *ordering_table, s32 draw_control) BODY_ATTR;
 
 /* Draw sprite parts as textured strips displaced by a wave along either axis. */
 void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_table, s32 draw_control)
@@ -427,3 +415,4 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
     func_80064A40();
     *((s32 **) (((s8 *) (*((void **) globals))) + 0x8D0)) = packet;
 }
+

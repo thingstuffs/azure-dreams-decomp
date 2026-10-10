@@ -1,0 +1,459 @@
+{
+  "module": "dungeon_ovl_1918800",
+  "maps": {
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "basis": "PS-X EXE header: load 0x8002D000, payload size 0x54800, file header 0x800.",
+      "kind": "psx_exe"
+    },
+    "dungeon_resident": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 667648,
+      "file_end": 1050624,
+      "delta": 2147374944,
+      "basis": "config/overlays/dungeon.rowbase.jsonl xfer_dungeon_A3000 proven runtime DMA/load-map record.",
+      "kind": "rowbase",
+      "region": "xfer_dungeon_A3000"
+    },
+    "native_1918800_80024000": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 26314752,
+      "file_end": 26324584,
+      "delta": 2121316352,
+      "basis": "Static twelve-sector selector receipt; complete contiguous native code/prefix cohort, decisions 37-38.",
+      "kind": "rowbase",
+      "region": "native_1918800_80024000"
+    },
+    "bank_1918800_assets": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 26324584,
+      "file_end": 26339328,
+      "delta": 2121316352,
+      "basis": "Disjoint tail of the same selector image; external views only, no native allocation ownership claim.",
+      "kind": "rowbase",
+      "region": "bank_1918800_assets"
+    }
+  },
+  "views": {
+    "D_80026668": {
+      "symbol": "D_80026668",
+      "kind": "data",
+      "vma": 2147640936,
+      "foff": 26324584,
+      "view_bytes": 12,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_1918800_assets",
+      "evidence": "docs/evidence/dungeon_ovl_1918800.imports.json"
+    },
+    "D_80026674": {
+      "symbol": "D_80026674",
+      "kind": "data",
+      "vma": 2147640948,
+      "foff": 26324596,
+      "view_bytes": 12,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_1918800_assets",
+      "evidence": "docs/evidence/dungeon_ovl_1918800.imports.json"
+    },
+    "D_80026680": {
+      "symbol": "D_80026680",
+      "kind": "data",
+      "vma": 2147640960,
+      "foff": 26324608,
+      "view_bytes": 12,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_1918800_assets",
+      "evidence": "docs/evidence/dungeon_ovl_1918800.imports.json"
+    },
+    "D_80026698": {
+      "symbol": "D_80026698",
+      "kind": "data",
+      "vma": 2147640984,
+      "foff": 26324632,
+      "view_bytes": 12,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_1918800_assets",
+      "evidence": "docs/evidence/dungeon_ovl_1918800.imports.json"
+    },
+    "D_800266A4": {
+      "symbol": "D_800266A4",
+      "kind": "data",
+      "vma": 2147640996,
+      "foff": 26324644,
+      "view_bytes": 24,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_1918800_assets",
+      "evidence": "docs/evidence/dungeon_ovl_1918800.imports.json"
+    },
+    "D_800266BC": {
+      "symbol": "D_800266BC",
+      "kind": "data",
+      "vma": 2147641020,
+      "foff": 26324668,
+      "view_bytes": 2,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_1918800_assets",
+      "evidence": "docs/evidence/dungeon_ovl_1918800.imports.json"
+    },
+    "D_8006CCD8": {
+      "symbol": "D_8006CCD8",
+      "kind": "data",
+      "vma": 2147929304,
+      "foff": 263384,
+      "view_bytes": 16,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_1918800.imports.json"
+    },
+    "D_8006CCE8": {
+      "symbol": "D_8006CCE8",
+      "kind": "data",
+      "vma": 2147929320,
+      "foff": 263400,
+      "view_bytes": 16,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_1918800.imports.json"
+    },
+    "D_8006CD10": {
+      "symbol": "D_8006CD10",
+      "kind": "data",
+      "vma": 2147929360,
+      "foff": 263440,
+      "view_bytes": 8,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_1918800.imports.json"
+    },
+    "D_800DDC40": {
+      "symbol": "D_800DDC40",
+      "kind": "data",
+      "vma": 2148392000,
+      "foff": 1017056,
+      "view_bytes": 256,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_ovl_1918800.imports.json"
+    },
+    "D_800E3D68": {
+      "symbol": "D_800E3D68",
+      "kind": "data",
+      "vma": 2148416872,
+      "foff": 1041928,
+      "view_bytes": 256,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_ovl_1918800.imports.json"
+    }
+  },
+  "runtime_views": {
+    "D_800814A0": {
+      "symbol": "D_800814A0",
+      "vma": 2148013216,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/modules/dungeon_native_abi.h",
+      "kind": "runtime_data",
+      "evidence": "docs/evidence/dungeon_ovl_1918800.imports.json"
+    },
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "vma": 2148020576,
+      "view_bytes": 512,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/shared/game_work.h",
+      "kind": "runtime_data",
+      "evidence": "docs/evidence/dungeon_ovl_1918800.imports.json"
+    },
+    "D_80083460": {
+      "symbol": "D_80083460",
+      "vma": 2148021344,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/shared/dungeon_status.h",
+      "kind": "runtime_data",
+      "evidence": "docs/evidence/dungeon_ovl_1918800.imports.json"
+    },
+    "D_801C9E40": {
+      "symbol": "D_801C9E40",
+      "vma": 2149359168,
+      "view_bytes": 1,
+      "owner": "resident_runtime:slus",
+      "declaration": "src/dungeon/func_818F94D4.c",
+      "kind": "runtime_data",
+      "evidence": "docs/evidence/dungeon_ovl_1918800.imports.json"
+    }
+  },
+  "functions": {
+    "func_8003DF74": {
+      "vma": 2147737460,
+      "foff": 71540,
+      "map": "slus_load",
+      "first_word": "c8ffbd27",
+      "basis": "External callable entry in the proven resident/PS-X EXE map; no allocation claim."
+    },
+    "func_8003FC64": {
+      "vma": 2147744868,
+      "foff": 78948,
+      "map": "slus_load",
+      "first_word": "0180023c",
+      "basis": "External callable entry in the proven resident/PS-X EXE map; no allocation claim."
+    },
+    "func_8003FD64": {
+      "vma": 2147745124,
+      "foff": 79204,
+      "map": "slus_load",
+      "first_word": "0180023c",
+      "basis": "External callable entry in the proven resident/PS-X EXE map; no allocation claim."
+    },
+    "func_8004491C": {
+      "vma": 2147764508,
+      "foff": 98588,
+      "map": "slus_load",
+      "first_word": "21388000",
+      "basis": "External callable entry in the proven resident/PS-X EXE map; no allocation claim."
+    },
+    "func_80045340": {
+      "vma": 2147767104,
+      "foff": 101184,
+      "map": "slus_load",
+      "first_word": "e0ffbd27",
+      "basis": "External callable entry in the proven resident/PS-X EXE map; no allocation claim."
+    },
+    "func_800644B8": {
+      "vma": 2147894456,
+      "foff": 228536,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "basis": "External callable entry in the proven resident/PS-X EXE map; no allocation claim."
+    },
+    "func_80064840": {
+      "vma": 2147895360,
+      "foff": 229440,
+      "map": "slus_load",
+      "first_word": "0000888c",
+      "basis": "External callable entry in the proven resident/PS-X EXE map; no allocation claim."
+    },
+    "func_800649A0": {
+      "vma": 2147895712,
+      "foff": 229792,
+      "map": "slus_load",
+      "first_word": "08800e3c",
+      "basis": "External callable entry in the proven resident/PS-X EXE map; no allocation claim."
+    },
+    "func_80064A40": {
+      "vma": 2147895872,
+      "foff": 229952,
+      "map": "slus_load",
+      "first_word": "08800e3c",
+      "basis": "External callable entry in the proven resident/PS-X EXE map; no allocation claim."
+    },
+    "func_80064BC0": {
+      "vma": 2147896256,
+      "foff": 230336,
+      "map": "slus_load",
+      "first_word": "0000888c",
+      "basis": "External callable entry in the proven resident/PS-X EXE map; no allocation claim."
+    },
+    "func_80064CF0": {
+      "vma": 2147896560,
+      "foff": 230640,
+      "map": "slus_load",
+      "first_word": "0000888c",
+      "basis": "External callable entry in the proven resident/PS-X EXE map; no allocation claim."
+    },
+    "func_80064D80": {
+      "vma": 2147896704,
+      "foff": 230784,
+      "map": "slus_load",
+      "first_word": "1400888c",
+      "basis": "External callable entry in the proven resident/PS-X EXE map; no allocation claim."
+    },
+    "func_80065420": {
+      "vma": 2147898400,
+      "foff": 232480,
+      "map": "slus_load",
+      "first_word": "000080c8",
+      "basis": "External callable entry in the proven resident/PS-X EXE map; no allocation claim."
+    },
+    "func_800654B0": {
+      "vma": 2147898544,
+      "foff": 232624,
+      "map": "slus_load",
+      "first_word": "000080c8",
+      "basis": "External callable entry in the proven resident/PS-X EXE map; no allocation claim."
+    },
+    "func_80065820": {
+      "vma": 2147899424,
+      "foff": 233504,
+      "map": "slus_load",
+      "first_word": "00008f84",
+      "basis": "External callable entry in the proven resident/PS-X EXE map; no allocation claim."
+    },
+    "func_80066460": {
+      "vma": 2147902560,
+      "foff": 236640,
+      "map": "slus_load",
+      "first_word": "03008230",
+      "basis": "External callable entry in the proven resident/PS-X EXE map; no allocation claim."
+    },
+    "func_80067E2C": {
+      "vma": 2147909164,
+      "foff": 243244,
+      "map": "slus_load",
+      "first_word": "e0ffbd27",
+      "basis": "External callable entry in the proven resident/PS-X EXE map; no allocation claim."
+    },
+    "func_80067EF4": {
+      "vma": 2147909364,
+      "foff": 243444,
+      "map": "slus_load",
+      "first_word": "02000224",
+      "basis": "External callable entry in the proven resident/PS-X EXE map; no allocation claim."
+    },
+    "func_80067F20": {
+      "vma": 2147909408,
+      "foff": 243488,
+      "map": "slus_load",
+      "first_word": "e0ffbd27",
+      "basis": "External callable entry in the proven resident/PS-X EXE map; no allocation claim."
+    },
+    "func_80069EF8": {
+      "vma": 2147917560,
+      "foff": 251640,
+      "map": "slus_load",
+      "first_word": "a0000a24",
+      "basis": "External callable entry in the proven resident/PS-X EXE map; no allocation claim."
+    },
+    "func_8009D218": {
+      "vma": 2148127256,
+      "foff": 752312,
+      "map": "dungeon_resident",
+      "first_word": "e0ffbd27",
+      "basis": "External callable entry in the proven resident/PS-X EXE map; no allocation claim."
+    },
+    "func_800A4778": {
+      "vma": 2148157304,
+      "foff": 782360,
+      "map": "dungeon_resident",
+      "first_word": "c8ffbd27",
+      "basis": "External callable entry in the proven resident/PS-X EXE map; no allocation claim."
+    },
+    "func_800A56E0": {
+      "vma": 2148161248,
+      "foff": 786304,
+      "map": "dungeon_resident",
+      "first_word": "0180023c",
+      "basis": "External callable entry in the proven resident/PS-X EXE map; no allocation claim."
+    },
+    "func_800A6D30": {
+      "vma": 2148166960,
+      "foff": 792016,
+      "map": "dungeon_resident",
+      "first_word": "c641043c",
+      "basis": "External callable entry in the proven resident/PS-X EXE map; no allocation claim."
+    },
+    "func_800B835C": {
+      "vma": 2148238172,
+      "foff": 863228,
+      "map": "dungeon_resident",
+      "first_word": "c0ffbd27",
+      "basis": "External callable entry in the proven resident/PS-X EXE map; no allocation claim."
+    },
+    "func_800BCB04": {
+      "vma": 2148256516,
+      "foff": 881572,
+      "map": "dungeon_resident",
+      "first_word": "d8ffbd27",
+      "basis": "External callable entry in the proven resident/PS-X EXE map; no allocation claim."
+    },
+    "func_800C8A3C": {
+      "vma": 2148305468,
+      "foff": 930524,
+      "map": "dungeon_resident",
+      "first_word": "e8ffbd27",
+      "basis": "External callable entry in the proven resident/PS-X EXE map; no allocation claim."
+    },
+    "rand": {
+      "vma": 2147917560,
+      "foff": 251640,
+      "map": "slus_load",
+      "first_word": "a0000a24",
+      "basis": "External callable entry in the proven resident/PS-X EXE map; no allocation claim."
+    }
+  },
+  "retail_views": {
+    "D_80026668": {
+      "bytes": "c02cd0b81d01c87d00006054",
+      "sha256": "261efadcbad858bc4cd0921712286266181331dcbda423e031499226364e56a2",
+      "basis": "Bounded declared/observed field or array view; one-byte views are opaque address-only imports. No allocation claim."
+    },
+    "D_80026674": {
+      "bytes": "c02cd0ba1d01ca7d00546052",
+      "sha256": "78098bb88cea43915b477b40b9767f3bbd4e9cbebc116534dea945b16d59975c",
+      "basis": "Bounded declared/observed field or array view; one-byte views are opaque address-only imports. No allocation claim."
+    },
+    "D_80026680": {
+      "bytes": "c02cf4f43a00ca7d00601818",
+      "sha256": "aeb3b56904aa99c8ad229d1a14174c943ad73632b5a0c7e270f7621055065b2e",
+      "basis": "Bounded declared/observed field or array view; one-byte views are opaque address-only imports. No allocation claim."
+    },
+    "D_80026698": {
+      "bytes": "c02ce0e01d01c87d00404040",
+      "sha256": "ba994061a3ca3a56cd23b5a4187cefa15bd15a4ee1017d98f8e20c311a7940e8",
+      "basis": "Bounded declared/observed field or array view; one-byte views are opaque address-only imports. No allocation claim."
+    },
+    "D_800266A4": {
+      "bytes": "c02ef0f01c00c97d4040202010103000ffffff0000000000",
+      "sha256": "765f60228823c6e0da2e41a429ca07969c5e5beac034ad2f2513598f71e03172",
+      "basis": "Bounded declared/observed field or array view; one-byte views are opaque address-only imports. No allocation claim."
+    },
+    "D_800266BC": {
+      "bytes": "0000",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "basis": "Bounded declared/observed field or array view; one-byte views are opaque address-only imports. No allocation claim."
+    },
+    "D_8006CCD8": {
+      "bytes": "010001000000ffffffffffff00000100",
+      "sha256": "4371bd43481f6a8812bc1693246ffc102d94eb8a66f92bb59fdb264a201198f1",
+      "basis": "Bounded declared/observed field or array view; one-byte views are opaque address-only imports. No allocation claim."
+    },
+    "D_8006CCE8": {
+      "bytes": "00000100010001000000ffffffffffff",
+      "sha256": "b829d92687b7ab07e3d91ebe5db905b2fb5fbc0360d02ca59bb629435d71d3c0",
+      "basis": "Bounded declared/observed field or array view; one-byte views are opaque address-only imports. No allocation claim."
+    },
+    "D_8006CD10": {
+      "bytes": "0010000000000000",
+      "sha256": "a02ae51509464de11084e34346a86574191b861de2cb5cf064661b459c9bc9e4",
+      "basis": "Bounded declared/observed field or array view; one-byte views are opaque address-only imports. No allocation claim."
+    },
+    "D_800DDC40": {
+      "bytes": "6036365a3e5c3658385424583654547c5a3a506a34163844406a2c4e42603a463a40542e56542c505a5e604660742020404040404040404040360000150115011501150115011501150115011501150115011501150115011501150115151515151515151515151515151515151515151515151515151515151515150d0e0800001610001413120004111e00140e1400001210001113140000121600141314000812130015120e00001315001911140000120f001312150000141200131219000014100017131600001411001611160000140f001416150000110f001214140000100e00141411000013120013131300000f0e00121212000013100011121200",
+      "sha256": "e87f656039eaab805bc0350ab07962169b8f99a694e76f9de2598b887b3adf2a",
+      "basis": "Bounded declared/observed field or array view; one-byte views are opaque address-only imports. No allocation claim."
+    },
+    "D_800E3D68": {
+      "bytes": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "sha256": "5341e6b2646979a70e57653007a1f310169421ec9bdd9f1a5648f75ade005af1",
+      "basis": "Bounded declared/observed field or array view; one-byte views are opaque address-only imports. No allocation claim."
+    }
+  },
+  "review": "pending",
+  "reviewer": null,
+  "scope": "External storage views only; no allocation/initialization ownership. Height offsets bound the possible u8 index, with table extent explicitly unknown."
+}

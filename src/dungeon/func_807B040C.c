@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -7,7 +8,7 @@ typedef struct S_807B040C_0 {
     u8 pad_00[0x8];
     s32 * unk_08;
     u8 * unk_0C;
-} S_807B040C_0;   /* root in func_807B040C */
+} S_807B040C_0;   /* root in func_800F7C0C */
 
 typedef struct S_807B040C_1 {
     u8 pad_00[0x1C];
@@ -24,30 +25,30 @@ typedef struct S_807B040C_1 {
     union { s16 s16; u8 u8; } unk_AE;   /* accessed as both */
     u8 pad_B0[0x8];
     u8 unk_B8;
-} S_807B040C_1;   /* entity in func_807B040C */
+} S_807B040C_1;   /* entity in func_800F7C0C */
 
 typedef struct S_807B040C_2 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_807B040C_2;   /* state_room in func_807B040C */
+} S_807B040C_2;   /* state_room in func_800F7C0C */
 
 typedef struct S_807B040C_3 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_807B040C_3;   /* target in func_807B040C */
+} S_807B040C_3;   /* target in func_800F7C0C */
 
 typedef struct S_807B040C_4 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_807B040C_4;   /* room in func_807B040C */
+} S_807B040C_4;   /* room in func_800F7C0C */
 
 typedef struct S_807B040C_5 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_807B040C_5;   /* collision in func_807B040C */
+} S_807B040C_5;   /* collision in func_800F7C0C */
 
 typedef struct S_807B040C_6 {
     u8 pad_00[0x1C];
@@ -56,7 +57,7 @@ typedef struct S_807B040C_6 {
     s16 unk_2A;
     u8 pad_2C[0x5C];
     s16 unk_88;
-} S_807B040C_6;   /* entity_aux in func_807B040C */
+} S_807B040C_6;   /* entity_aux in func_800F7C0C */
 
 typedef struct S_807B040C_7 {
     u8 pad_00[0x2];
@@ -65,42 +66,22 @@ typedef struct S_807B040C_7 {
     u16 unk_06;
     u8 pad_08[0xE];
     u16 unk_16;
-} S_807B040C_7;   /* motion in func_807B040C */
+} S_807B040C_7;   /* motion in func_800F7C0C */
 
 
-typedef struct DirectionOffsets {
-    u16 x0;
-    u16 y0;
-    u16 x1;
-    u16 y1;
-    u16 x2;
-    u16 y2;
-    u16 x3;
-    u16 y3;
-    u16 x4;
-    u16 y4;
-    u16 x5;
-    u16 y5;
-    u16 x6;
-    u16 y6;
-    u16 x7;
-    u16 y7;
-} __attribute__((packed)) DirectionOffsets;
 
-extern u8 D_800F6050[sizeof(DirectionOffsets)];
-extern s32 D_800FBE1C;
+
+
 
 extern void func_8009A21C(s16 x, s16 y, u16 flags);
 extern void func_8009A350(u8, u8, s16, u16 *);
 extern void func_8009A3D0(u8, u8, s32);
 extern void func_800A2B04(void *, u8, u8);
 extern s32 func_800A45D8(s32, s32, s16);
-extern s16 func_800BCB04(s32 x, s32 y, s16 min_height);
-extern s32 func_800F6D28(s16 *target_pos);
 
 /* Move the entity to a passable tile near the room and update tile occupancy. */
-s32 func_807B040C(void) {
-    DirectionOffsets offsets = *(DirectionOffsets *)D_800F6050;
+s32 func_800F7C0C(void) {
+    DirectionOffsets offsets = dungeon_7ce800_directions;
     u16 collision_flags;
     u8 *root = (u8 *)D_800FBE1C;
     u8 *entity = root + 0x20;
@@ -230,7 +211,7 @@ s32 func_807B040C(void) {
             move_ticks = ((S_807B040C_1 *)entity)->unk_AE.s16 << 6;
             distance_y = move_ticks + 0x20;
             aligned_x = world_x & 0xFFE0;
-            ground_height = func_800BCB04(aligned_x, distance_y & 0xFFE0, -0x400);
+            ground_height = (s16)func_800BCB04(aligned_x, distance_y & 0xFFE0, -0x400);
         }
         world_x = ((S_807B040C_1 *)entity)->unk_AA.s16;
         world_x <<= 6;
@@ -286,7 +267,7 @@ s32 func_807B040C(void) {
         motion[5] = 0;
         motion[4] = 0;
         motion[3] = 0;
-        ((S_807B040C_1 *)entity)->unk_88 = func_800BCB04(((S_807B040C_7 *)motion)->unk_02,
+        ((S_807B040C_1 *)entity)->unk_88 = (s16)func_800BCB04(((S_807B040C_7 *)motion)->unk_02,
                                                  ((S_807B040C_7 *)motion)->unk_06, -0x400);
         func_800A2B04(motion, ((S_807B040C_3 *)target)->unk_24, ((S_807B040C_3 *)target)->unk_25);
         {

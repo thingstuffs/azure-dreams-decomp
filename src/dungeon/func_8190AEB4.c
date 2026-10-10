@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_192a800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -21,28 +22,14 @@ typedef struct S_8190AEB4_2 {
 } S_8190AEB4_2;   /* ((S_8190AEB4_0 *)arg0)->unk_34 in func_800246B4 */
 
 
-typedef struct {
-    u16 x;
-    u16 y;
-    u16 w;
-    u16 h;
-} __attribute__((packed)) Rect;
 
-typedef struct {
-    s16 x;
-    s16 y;
-} Point;
 
-extern Rect D_80024038;
-extern Rect D_80024040;
-extern s16 D_80025630;
 extern s32 D_80025638[4];
 extern u8 D_80025648[48];
 extern u8 D_80025678[44];
 
 extern s32 func_80024590(s32);
 extern void func_800672D8(Rect *, s32 *);
-extern void func_800B8FC8(void *, Rect *, Point *, s32, s32);
 
 /* Advances the object animation and draws rectangles in randomized order. */
 void func_800246B4(void *effect, s32 *position, void *transform)
@@ -219,6 +206,4 @@ store_xy:
     }
 }
 
-/* MECHANISM: The sibling packed Rect/Point locals force the 0x48 frame and retail save order.
-   Duplicated tails plus zero-arg noreturn helpers preserve the five external jumps and v0/v1 ABI.
-   Split pinned cursors close both descending fills; held a0/a1 bases and do/while fill the final load slot. */
+

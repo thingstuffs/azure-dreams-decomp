@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_7ce800.h"
 #include "shared/runtime_dispatch.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
@@ -9,12 +10,11 @@ typedef struct {
 } DungeonCell;
 
 
-extern s8 D_800DCF5B[9];
 
 extern void func_80043B4C(void);
 
 /* Mark fixed dungeon cells and initialize global coordinates and flags. */
-void func_807AF2F4(void)
+void func_800F6AF4(void)
 {
     MapGrid *dungeon;
     u8 *cells;
@@ -58,7 +58,7 @@ void func_807AF2F4(void)
     global_state = &D_80082E60;
     global_state->unk_10 = 0x1F;
     global_state->unk_12 = 0x39;
-    D_800DCF5B[0] = 1;
+    D_800DCF5B.bytes[0] = 1;
     global_state->flags16 |= 1;
     D_800E296C |= 0x10000000;
 }

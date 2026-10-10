@@ -35,14 +35,9 @@ typedef struct {
 
 extern void func_80025648(s32 object, s32 raw_x, s32 raw_y, s32 raw_upper, s16 lower_bound);
 extern void func_80025710(void *list_head, s32 x, s32 y, s16 upper_bound, s16 lower_bound);
-extern void func_80025FB0(void *, s32);
-extern void func_80026060(void *, void *, s32, s32);
-extern void func_8002612C(void *, s32);
 
-extern LocalPoints D_80024004;
-extern s32 D_80028630;
+
 extern s16 D_8002992C;
-extern s16 D_8002992E[5];
 
 /* Updates an owner-following effect or its fade, wait, and rising phases. */
 void func_80025800(void *effect_in, void *position_in, void *visual_in)
@@ -68,7 +63,7 @@ void func_80025800(void *effect_in, void *position_in, void *visual_in)
     copy_src = (u8 *)&D_80024004;
     offsets = *(LocalPoints *)copy_src;
 
-    D_8002992E[0] = 1;
+    D_8002992E = 1;
     half_tile = 0x20;
     S16_AT(visual_in, 0x10) = half_tile;
     U16_AT(visual_in, 0x14) |= 0xC;
@@ -210,3 +205,4 @@ void func_80025800(void *effect_in, void *position_in, void *visual_in)
         U16_AT(visual_in, 0x1A) = U16_AT(owner_visual, 0x1A);
     }
 }
+

@@ -17,11 +17,7 @@ typedef struct S_8002626C_4 {
 } S_8002626C_4;   /* ((S_8002626C_3 *)temp_v0)->unk_08 in func_8002626C */
 
 
-s16 func_8002458C();                         /* extern */
-M2C_UNK func_8003DB94();  /* extern */
 void *func_8003FC64();                       /* extern */
-s32 func_8004491C();           /* extern */
-extern M2C_UNK D_8002615C;
 extern M2C_UNK D_800DE870;
 
 typedef struct S_8002626C_0 {
@@ -70,8 +66,8 @@ void func_8002626C(
     if (effect != NULL) {
         effect_state = effect + 0x20;
         effect_state->unk_28 = 0x14;
-        ((S_8002626C_1 *)effect)->unk_10 = &D_8002615C;
-        func_8004491C(effect, func_80045340);
+        ((S_8002626C_1 *)effect)->unk_10 = (void *)func_8002615C;
+        func_8004491C(effect, (s32)func_80045340);
         sprite = ((S_8002626C_1 *)effect)->unk_0C;
         sprite->unk_10 = 0x40;
         sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
@@ -112,3 +108,4 @@ void func_8002626C(
    the base stores: that lengthens offset_x/offset_y's lives past base_x..base_z,
    so global.c ranks them after the bases ($s6/$s7, offset_z last in $fp).
    Byte-pointer BASE[index] sums select retail addu operand order. */
+

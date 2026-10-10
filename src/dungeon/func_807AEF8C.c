@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/object_flags.h"
@@ -14,9 +15,6 @@ typedef struct {
 } __attribute__((packed)) Packed8;
 
 extern DungeonState D_8008333C;
-extern u8 *D_800814A8;
-extern u8 D_800DCF5B;
-extern u8 *D_800E3D7C;
 extern Packed8 D_800F8B24;
 
 extern void func_80043A68(void);
@@ -26,7 +24,7 @@ extern void func_80094E34(void);
 (*(u16 *)((u8 *)(ptr) + 4) = *(u16 *)((u8 *)(ptr) + 4) & 0x7FFF)
 
 /* Reveal the fixed-map cheat: set the map mode from the item used, clear the hidden bit on every listed tile and finish the owner. */
-void func_807AEF8C(void *owner) {
+void func_800F678C(void *owner) {
     DungeonState *state;
     s32 base;
     u8 *tile;
@@ -52,7 +50,7 @@ void func_807AEF8C(void *owner) {
     if (!(dungeonStatus.flags & 2)) {
         return;
     }
-    if (*(s32 *)(D_800E3D7C + 0x14) & 0x100000) {
+    if (*(s32 *)((u8 *)D_800E3D7C + 0x14) & 0x100000) {
         return;
     }
     if (D_80082E80.tileY != 0x24) {
@@ -127,5 +125,5 @@ void func_807AEF8C(void *owner) {
         i++;
         objects += 4;
     } while (i < 2);
-    D_800DCF5B = 0;
+    D_800DCF5B.first = 0;
 }

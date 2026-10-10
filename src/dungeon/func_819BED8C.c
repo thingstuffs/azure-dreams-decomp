@@ -47,3 +47,4 @@ s32 func_8002458C(s32 limit) {
 
     return sample;
 }
+

@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_1918800.h"
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/entity.h"
@@ -126,3 +127,4 @@ s32 func_80024EDC(PointRecord *start_node, EntityRec *start_coords)
     final_state->packetCursor = scratch->cursor;
     return 0;
 }
+

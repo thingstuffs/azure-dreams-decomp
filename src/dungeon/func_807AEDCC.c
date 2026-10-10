@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_7ce800.h"
 #include "shared/runtime_dispatch.h"
 #include "common.h"
 #include "shared/sys_flags.h"
@@ -39,12 +40,10 @@ struct S_80082E60 {
 typedef struct S_80082E60 S_80082E60;
 extern s16 *D_800F8A44[];
 
-extern u8 D_800F6544[];
 extern u8 D_800F8A4C[];
 struct S_10 {
     u8 data[10];
 };
-void *func_8003FC64(s32);
 
 /* Initializes effect state and sets the high flag bit on three adjacent entries. */
 void func_800F65CC(void) {
@@ -84,7 +83,7 @@ void func_800F65CC(void) {
     if (effect != NULL) {
         s16 *status_base;
 
-        effect->unk_10 = &D_800F6544;
+        effect->unk_10 = (void *)func_800F6544;
         effect->unk_24 = 0x38;
         status_base = (s16 *)0x80010000;
         if (!((u16)status_base[0x3714 / 2] & 1)) {

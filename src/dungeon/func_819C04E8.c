@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
-extern u8 D_80030000[];
+
 
 
 typedef unsigned long uptr;
@@ -28,13 +28,10 @@ typedef struct {
 } Object;
 
 extern Object *func_8003FD64(s32, void *);
-extern void func_8004491C(void *, void *);
 
-extern Copy32 D_80024028[];
-extern u8 D_80025800[];
-extern void *D_80028630;
+
 extern u8 D_80028664[];
-extern u8 D_800C9034[];
+s32 func_800C9034(void *, s32, void *);
 
 
 typedef struct S_80025CE8_0 {
@@ -85,7 +82,12 @@ typedef struct S_80025CE8_4 {
 } S_80025CE8_4;   /* cleanup in func_80025CE8 */
 
 /* Creates 21 linked objects at an angle-dependent offset, marking them for cleanup if allocation fails. */
-s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
+s32 func_80025CE8(x, y, z, angle)
+u16 x;
+u16 y;
+u16 z;
+u16 angle;
+{
     Object *objects[21];
     Copy32 direction_offsets;
     u8 *table_page;
@@ -131,7 +133,7 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
         *slot = new_object;
         if (new_object != 0) {
             color = 0x800000;
-            new_object->part10 = D_80025800;
+            new_object->part10 = (void *)func_80025800;
             color |= 0x8080;
             data_entry_2 = (u8 *)&direction_offsets + ((angle >> 7) & 0x1C);
             x_offset = ((S_80025CE8_0 *)data_entry_2)->unk_00;
@@ -154,14 +156,14 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
             render->unk_0C = color;
             render_flags |= 0xC;
             render->unk_14 = render_flags;
-            func_8004491C(*slot, (void *)D_800C9034);
+            func_8004491C(*slot, (s32)func_800C9034);
 
             current_object = *slot;
             data_entry = (u8 *)current_object + 0x20;
             if ((s16)object_index != 0) {
                 ((S_80025CE8_0 *)data_entry)->unk_20 = objects[0];
             } else {
-                alloc_page = (u8 *)D_80030000;
+                alloc_page = (u8 *)&D_80028630 + 0x79D0;
                 ((S_80025CE8_3_pre *)alloc_page)[-1].unk_00 = position;
             }
             render->unk_1E = 0;
@@ -202,3 +204,4 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
     } while ((failure_index >> 16) < 21);
     return (s32)objects[0];
 }
+

@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -67,7 +68,7 @@ typedef struct {
 } ParticleQuad;
 
 /* Advances particle levels and queues colored quads in the dungeon ordering table. */
-s32 func_807AF648(DungeonObject *object, u16 *origin) {
+s32 func_800F6E48(DungeonObject *object, u16 *origin) {
     DungeonRoot *dungeon = *(DungeonRoot **)((u8 *)(&gameWork));
     s32 packet_cursor = dungeon->cursor;
     GameWork *root_slot = &gameWork;

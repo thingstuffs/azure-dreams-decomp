@@ -1,9 +1,9 @@
+#include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
 
-extern void func_800478B8(void *update_state);
 extern struct { s32 v; s32 pad[2]; } D_800814A0;
 
-typedef struct {
+typedef struct UnkStruct807B11B8 {
     s32 unk0;
     s32 unk4;
     u8 pad8[4];
@@ -12,7 +12,7 @@ typedef struct {
 } UnkStruct807B11B8;
 
 /* Advance motion and propagate update flags to the object and global state. */
-void func_807B11B8(u16 *object_data, UnkStruct807B11B8 *motion, u16 *update_state) {
+void func_800F89B8(u16 *object_data, UnkStruct807B11B8 *motion, u16 *update_state) {
     motion->unk0 += motion->unkC;
     motion->unk4 += motion->unk10;
     func_800478B8(update_state);

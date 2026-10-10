@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"

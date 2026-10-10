@@ -1,11 +1,10 @@
+#include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
 extern s32 rand(void);
-extern void func_8004491C(void *a0, void *a1);
-extern u8 D_800F6E48[];
 
-typedef struct {
+typedef struct S807AF9A4 {
     u8 unk00[8];
     s16 state;      /* 0x08 */
     u8 unk0A[2];
@@ -16,7 +15,7 @@ typedef struct {
 } S807AF9A4;
 
 /* Initializes random buffer data and advances the cycle and completion counters. */
-void func_807AF9A4(S807AF9A4 *data)
+void func_800F71A4(S807AF9A4 *data)
 {
     s16 state;
     s16 buf_index;
@@ -38,7 +37,7 @@ void func_807AF9A4(S807AF9A4 *data)
         data->flag_e = 0;
         data->buf[0x20] = 0;
         data->flag_f = 1;
-        func_8004491C((u8 *)data - 0x20, &D_800F6E48[0]);
+        func_8004491C((u8 *)data - 0x20, (void *)func_800F6E48);
         data->state = (u16) data->state + 1;
     }
     cycle_count = data->counter1 + 1;

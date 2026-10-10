@@ -2,7 +2,6 @@
 #include "common.h"
 #include "shared/object_node.h"
 
-extern void func_80024BF4(void *mesh, void *transform, void *object, s32 depth_bias);
 
 /* Draw each linked mesh with zero depth bias; follow the node stored before its mesh. */
 s32 func_80025034(void *initial_mesh, void *transform, void *object) {
@@ -21,3 +20,4 @@ s32 func_80025034(void *initial_mesh, void *transform, void *object) {
         object = node->unk_0C;
     }
 }
+

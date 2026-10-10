@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
 /* The root-pointer member at D_80083150 + 0x10. */
 typedef struct { u8 *root; } RenderRootSlot;
@@ -5,12 +6,12 @@ typedef struct { u8 *root; } RenderRootSlot;
 typedef struct S_807B0B3C_0_pre {
     u8 * unk_00;
     u8 pad_04[0x4];
-} S_807B0B3C_0_pre;   /* the 0x8 bytes before initial in func_807B0B3C, addressed as initial[-1] */
+} S_807B0B3C_0_pre;   /* the 0x8 bytes before initial in func_800F833C, addressed as initial[-1] */
 
 typedef struct S_807B0B3C_0 {
     u8 pad_00[0x6];
     u16 unk_06;
-} S_807B0B3C_0;   /* initial in func_807B0B3C */
+} S_807B0B3C_0;   /* initial in func_800F833C */
 
 typedef struct S_807B0B3C_1 {
     union { u16 u; s16 s; } unk_00;   /* accessed as both */
@@ -18,27 +19,27 @@ typedef struct S_807B0B3C_1 {
     u16 unk_04;
     s16 unk_06;
     union { u16 u16; u8 u8; } unk_08;   /* accessed as both */
-} S_807B0B3C_1;   /* effect in func_807B0B3C */
+} S_807B0B3C_1;   /* effect in func_800F833C */
 
 typedef struct S_807B0B3C_2 {
     u16 unk_00;
     u16 unk_02;
     u8 pad_04[0x4];
     u16 unk_08;
-} S_807B0B3C_2;   /* a3p in func_807B0B3C */
+} S_807B0B3C_2;   /* a3p in func_800F833C */
 
 typedef struct S_807B0B3C_3 {
     union { u16 v; s16 n; } unk_00;   /* accessed as both */
     union { u16 v; s16 n; } unk_02;   /* accessed as both */
     u16 unk_04;
-} S_807B0B3C_3;   /* a0p in func_807B0B3C */
+} S_807B0B3C_3;   /* a0p in func_800F833C */
 
 typedef struct S_807B0B3C_4 {
     u8 pad_00[0x4];
     s16 unk_04;
     u8 pad_06[0x6];
     u16 unk_0C;
-} S_807B0B3C_4;   /* (u8 *)a2v in func_807B0B3C */
+} S_807B0B3C_4;   /* (u8 *)a2v in func_800F833C */
 
 typedef struct S_807B0B3C_5 {
     u16 unk_00;
@@ -46,13 +47,13 @@ typedef struct S_807B0B3C_5 {
     s16 unk_04;
     u8 pad_06[0x2];
     u16 unk_08;
-} S_807B0B3C_5;   /* (u8 *)a2p in func_807B0B3C */
+} S_807B0B3C_5;   /* (u8 *)a2p in func_800F833C */
 
 typedef struct S_807B0B3C_6 {
     u8 pad_00[0x2];
     u16 unk_02;
     u16 unk_04;
-} S_807B0B3C_6;   /* (u8 *)v1 in func_807B0B3C */
+} S_807B0B3C_6;   /* (u8 *)v1 in func_800F833C */
 
 typedef struct S_807B0B3C_7 {
     u32 unk_00;
@@ -71,42 +72,42 @@ typedef struct S_807B0B3C_7 {
     s32 unk_2C;
     s8 unk_30;
     s8 unk_31;
-} S_807B0B3C_7;   /* prim in func_807B0B3C */
+} S_807B0B3C_7;   /* prim in func_800F833C */
 
 typedef struct S_807B0B3C_8 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
     s32 unk_0C;
-} S_807B0B3C_8;   /* verts in func_807B0B3C */
+} S_807B0B3C_8;   /* verts in func_800F833C */
 
 typedef struct S_807B0B3C_9 {
     u8 pad_00[0xB0];
     u32 unk_B0;
-} S_807B0B3C_9;   /* rootp in func_807B0B3C */
+} S_807B0B3C_9;   /* rootp in func_800F833C */
 
 typedef struct S_807B0B3C_10 {
     u8 pad_00[0xB0];
     u32 unk_B0;
-} S_807B0B3C_10;   /* entryp in func_807B0B3C */
+} S_807B0B3C_10;   /* entryp in func_800F833C */
 
 typedef struct S_807B0B3C_11 {
     s8 unk_00;
     s8 unk_01;
     s8 unk_02;
-} S_807B0B3C_11;   /* a1p in func_807B0B3C */
+} S_807B0B3C_11;   /* a1p in func_800F833C */
 
 typedef struct S_807B0B3C_12 {
     union { u32 u; s32 s; } unk_00;   /* accessed as both */
     union { u32 u; s32 s; } unk_04;   /* accessed as both */
     union { u32 u; s32 s; } unk_08;   /* accessed as both */
     union { u32 u; s32 s; } unk_0C;   /* accessed as both */
-} S_807B0B3C_12;   /* colors in func_807B0B3C */
+} S_807B0B3C_12;   /* colors in func_800F833C */
 
 typedef struct S_807B0B3C_13 {
     u8 pad_00[0x2];
     u16 unk_02;
-} S_807B0B3C_13;   /* dst in func_807B0B3C */
+} S_807B0B3C_13;   /* dst in func_800F833C */
 
 typedef struct S_807B0B3C_14 {
     u16 unk_00;
@@ -118,12 +119,12 @@ typedef struct S_807B0B3C_14 {
     u16 unk_10;
     u8 pad_12[0x6];
     u16 unk_18;
-} S_807B0B3C_14;   /* scratch in func_807B0B3C */
+} S_807B0B3C_14;   /* scratch in func_800F833C */
 
 typedef struct S_807B0B3C_15 {
     u8 pad_00[0xB0];
     u32 unk_B0;
-} S_807B0B3C_15;   /* (u8 *)offset in func_807B0B3C */
+} S_807B0B3C_15;   /* (u8 *)offset in func_800F833C */
 
 typedef struct {
     s32 projection_flag;
@@ -139,7 +140,7 @@ extern void func_80067F20(void *, s32, s32, s32, s32);
 extern u8 D_80083150[];
 
 /* Builds and queues textured and shaded quads for an effect and advances to the next object. */
-s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
+s32 func_800F833C(void *object, s32 caller_a1, void *caller_a2) {
     u8 *scratch;
     u8 *colors;
     u8 *verts;

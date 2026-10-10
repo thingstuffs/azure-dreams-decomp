@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_1918800.h"
 #include "common.h"
 #include "modules/dungeon_native_abi.h"
 #include "shared/entity.h"
@@ -14,9 +15,6 @@ typedef struct SpawnedRecord {
     s16 unk_32;
 } SpawnedRecord;
 
-extern s32 rand(void);
-extern s32 func_80024EDC(void *, void *);
-extern void func_8002515C();
 
 /* Retail 818F9A28 (func_80025228): spawn an effect object under the parent node, placed at the parent's
  * position plus a random jitter (0..31 per axis) and the given offsets (minus half the jitter range). */
@@ -84,3 +82,4 @@ void func_80025228(
         fields->unk_08 = saved_field_28;
     }
 }
+

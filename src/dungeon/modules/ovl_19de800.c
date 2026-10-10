@@ -1,0 +1,27 @@
+#include "modules/dungeon_ovl_19de800.h"
+void (* const dungeon_19de800_entry)(void *, void *, void *) = func_80026418;
+typedef struct { s16 x, y; } BankDirections;
+const BankDirections D_80024004[9] = {{-1,-1},{0,-1},{1,-1},{-1,0},{0,0},{1,0},{-1,1},{0,1},{1,1}};
+const OffsetTable D_80024028 = {{{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1}}};
+#include "../func_819BE800.c"
+#include "../func_819BEB98.c"
+#include "../func_819BECBC.c"
+#include "../func_819BED8C.c"
+#include "../func_819BEEB0.c"
+#include "../func_819BEFC0.c"
+#include "../func_819BF2E8.c"
+#include "../func_819BF3A0.c"
+#include "../func_819BF3F4.c"
+#include "../func_819BF834.c"
+#include "../func_819BF888.c"
+#include "../func_819BF9F4.c"
+#include "../func_819BFE48.c"
+#include "../func_819BFF10.c"
+#include "../func_819C0000.c"
+#include "../func_819C04E8.c"
+#include "../func_819C07B0.c"
+#include "../func_819C0860.c"
+#include "../func_819C092C.c"
+#include "../func_819C095C.c"
+#include "../func_819C0A6C.c"
+#include "../func_819C0C18.c"

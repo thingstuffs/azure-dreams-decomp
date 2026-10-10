@@ -2,29 +2,29 @@
 #include "common.h"
 
 /* The owner's table of 0x16-byte entries. */
-typedef struct EntryOwner {
+typedef struct Bank19de800_19e0860_EntryOwner {
     u8 pad_00[0xC];
     s32 entries;
-} EntryOwner;
+} Bank19de800_19e0860_EntryOwner;
 
 /* An object that tracks one entry of its owner's table. */
-typedef struct EntryCursor {
+typedef struct Bank19de800_19e0860_EntryCursor {
     s32 entry;                      /* address of the current entry */
     s8 index;
     u8 pad_05[3];
-    EntryOwner *owner;
+    Bank19de800_19e0860_EntryOwner *owner;
     u8 pad_0C[8];
     u16 flags;                       /* 0x4000 = index clamped */
-} EntryCursor;
+} Bank19de800_19e0860_EntryCursor;
 
 /* Resolve the current entry, apply an index step, and enforce the index bounds. */
 void func_80026060(void *object, s16 *index_step, s32 min_index, s32 max_index) {
     s16 step;
     u32 clamp_flags;
     u8 index;
-    EntryCursor *obj = object;
+    Bank19de800_19e0860_EntryCursor *obj = object;
     s32 initial_index = obj->index;
-    EntryOwner *owner = obj->owner;
+    Bank19de800_19e0860_EntryOwner *owner = obj->owner;
 
     obj->entry =
         owner->entries + (initial_index * 22);
@@ -50,3 +50,4 @@ void func_80026060(void *object, s16 *index_step, s32 min_index, s32 max_index) 
     }
     obj->flags &= 0xBFFF;
 }
+

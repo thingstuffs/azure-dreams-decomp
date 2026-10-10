@@ -1,7 +1,7 @@
 #include "common.h"
 
 
-typedef s32 M2C_UNK;
+
 typedef struct {
     s32 words[4];
 } __attribute__((packed)) Copy16;
@@ -9,7 +9,6 @@ typedef struct {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 #define M2C_UNALIGNED32(expr) (expr)
 
-extern void func_80064BC0(void *, s32 *);
 
 typedef struct S_80025FB0_0 {
     u8 pad_00[0x10];
@@ -48,3 +47,4 @@ void func_80025FB0(S_80025FB0_1 *dst, S_80025FB0_0 *src) {
         func_80064BC0(dst, zero_args);
     }
 }
+

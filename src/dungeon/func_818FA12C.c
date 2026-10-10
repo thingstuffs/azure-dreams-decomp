@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_1918800.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -7,59 +8,43 @@
 extern int abs(int);
 
 
-typedef struct {
-    s16 x;
-    u16 y;
-} Copy4;
 
-typedef struct {
-    Copy4 entries[8];
-} __attribute__((packed)) Copy24;
+
+
 
 typedef struct {
     u8 bytes[12];
 } __attribute__((packed)) Copy12;
 
-typedef struct {
+typedef struct Pair {
     s32 a;
     s32 b;
 } Pair;
 
-typedef struct {
+typedef struct OutPair {
     u16 x;
     u16 y;
     u16 z;
     Pair pair;
 } OutPair;
 
-typedef struct {
+typedef struct Triple {
     s32 a;
     s32 b;
     s32 c;
 } Triple;
 
-extern Copy24 D_80024014;
 extern Copy12 D_80026668;
 extern Copy12 D_80026674;
 extern Copy12 D_80026680;
 extern Copy12 D_80026698;
 extern Copy12 D_800266A4;
-extern s16 D_800266BC[5];
-extern u8 D_80025348[12];
-extern u8 D_80025398[12];
-extern u8 D_8002558C[12];
-extern u8 D_80025648[12];
 extern u8 D_800E3D68[256];
 
 extern void func_800B835C(void *, void *, s32, s32);
 extern s32 func_8003DF74(void *, void *, void *, s32);
-extern void func_8004491C(void *, void *);
 extern s32 func_80069EF8(void);
-extern s32 func_8002512C(void);
-extern void func_80025228(void *, s32, s32, s32, s32, s32, s32);
 extern s32 func_800A4778(u16, u16, s16, void *);
-extern void func_800A56E0(s32);
-extern void *func_8003FC64(s32);
 extern s32 func_8009D218(void *, s32, void *);
 extern s32 func_800A6D30(void);
 extern void func_800C8A3C(void *, s32, s32);
@@ -329,7 +314,7 @@ void func_8002592C(ProjectileSelf *self, OutView *position, PacketView *render_d
         out_pair.pair.b = packed_size;
         func_800B835C(colors, &out_pair.pair, 1, 0);
         state = self->state.u;
-        D_800266BC[0] = 1;
+        D_800266BC = 1;
         self->state.u = state + 1;
     }
 
@@ -498,7 +483,7 @@ void func_8002592C(ProjectileSelf *self, OutView *position, PacketView *render_d
                 flash = func_8003FC64(0x212);
                 if (flash != 0) {
                     flash->unk_22 = 120;
-                    flash->callback = D_80025348;
+                    flash->callback = func_80025348;
                     func_8004491C(flash, func_80045340);
                     flash_data = flash->render;
                     flash_data->unk_14 |= 0x0C;
@@ -538,7 +523,7 @@ void func_8002592C(ProjectileSelf *self, OutView *position, PacketView *render_d
                     }
                     index = 96;
                     particle_state->unk_9A = 0;
-                    impact->callback = D_80025398;
+                    impact->callback = func_80025398;
                     func_8004491C(impact, func_80045340);
                     impact_data = impact->render;
                     impact_data->unk_14 = 0x0C;
@@ -601,7 +586,7 @@ void func_8002592C(ProjectileSelf *self, OutView *position, PacketView *render_d
                 clear_cursor--;
             }
             particle_state->unk_9A = 0;
-            impact->callback = D_80025648;
+            impact->callback = func_80025648;
             func_8004491C(impact, func_80045340);
             flash_data = impact->render;
             render_flags = flash_data->unk_14 & 0xFFF3;
@@ -653,7 +638,7 @@ void func_8002592C(ProjectileSelf *self, OutView *position, PacketView *render_d
                 particle_state->unk_02 = 20;
                 particle_state->unk_0A = 10;
                 particle_state->unk_04 = 0;
-                impact->callback = D_8002558C;
+                impact->callback = func_8002558C;
                 func_8004491C(impact, func_80045340);
                 particle_data = impact->render;
                 particle_data->unk_10.u = 0x20;
@@ -744,7 +729,7 @@ void func_8002592C(ProjectileSelf *self, OutView *position, PacketView *render_d
         if ((s16)(ticks + 1) < 31) {
             return;
         }
-        effect_active = D_800266BC[0];
+        effect_active = D_800266BC;
         self->timer = ticks;
         if (effect_active == 0) {
             dungeonStatus.unk_0C = 0;
@@ -752,7 +737,7 @@ void func_8002592C(ProjectileSelf *self, OutView *position, PacketView *render_d
             objectFlagBlock.flags |= 0x8000;
             return;
         }
-        D_800266BC[0] = 0;
+        D_800266BC = 0;
         return;
     }
 

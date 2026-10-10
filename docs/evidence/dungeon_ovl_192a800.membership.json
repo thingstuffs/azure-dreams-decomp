@@ -1,0 +1,27 @@
+{
+  "module": "dungeon_ovl_192a800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_192a800.c",
+    "module_index": 183
+  },
+  "members": [
+    "dungeon/func_8190A800",
+    "dungeon/func_8190A954",
+    "dungeon/func_8190ABA4",
+    "dungeon/func_8190AC70",
+    "dungeon/func_8190AD90",
+    "dungeon/func_8190AEB4",
+    "dungeon/func_8190B2D0"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "not observable (section-grouping link, no static duplicates, no recipe change)",
+  "basis": [
+    "Decisions 37-38: every physical selector-bank member belongs to one modelled native TU, including weak naming groups.",
+    "The authenticated selector loads twelve sectors to 0x80024000. Contiguous L3 rows exhaust the complete prefix/code span.",
+    "One genuine -0 recipe for the entire readable source TU; every allocated byte and relocation is independently compared with GNU and retail."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r112"
+}
