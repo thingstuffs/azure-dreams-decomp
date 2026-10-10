@@ -19,34 +19,27 @@ typedef struct DungeonAnimSlot {
 } DungeonAnimSlot;
 
 extern s32 func_800644B8(s32);
-extern s16 D_800267B8;
+extern s16 D_800267B8[5];
 
 /* Update eight animation slots and mark completion when the countdown expires. */
 void func_800251A0(void *anim_state)
 {
     s16 next_phase;
     s32 slot_index;
-    s8 active_value;
     u16 ticks_left;
-    s16 *active_flag;
     u16 phase;
     s32 offset;
     s32 offset_delta;
     DungeonAnimSlot *setup_slot;
     DungeonAnimSlot *slot;
 
-    slot_index = 1;
-    setup_slot = (DungeonAnimSlot *)((u8 *)anim_state + 2);
-    active_flag = &D_800267B8;
     ticks_left = ((S_800251A0_0 *)anim_state)->unk_02;
-    active_value = slot_index;
-    *active_flag = (s16)active_value;
-    ((S_800251A0_0 *)anim_state)->unk_02 = (u16)(ticks_left - 1);
-    do {
-        setup_slot->field_62 = (s16)(slot_index * 0x10);
-        slot_index += 1;
+    D_800267B8[0] = 1;
+    ((S_800251A0_0 *)anim_state)->unk_02 = ticks_left - 1;
+    for (slot_index = 1, setup_slot = (DungeonAnimSlot *)((u8 *)anim_state + 2); slot_index < 9; slot_index++) {
+        setup_slot->field_62 = slot_index * 0x10;
         setup_slot = (DungeonAnimSlot *)((u8 *)setup_slot + 2);
-    } while (slot_index < 9);
+    }
 
     slot_index = 1;
     while (slot_index < 9) {
