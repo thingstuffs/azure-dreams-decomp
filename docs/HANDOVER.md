@@ -1,3 +1,22 @@
+# Handover (2026-10-10 ~07:45Z, round 112: INTEG LANDED) - START HERE
+
+## State
+Carve debt **15** rows (28 at start), L5 **200** rows (52), **27** live certificates (all valid), pins unchanged.
+Landed: 0b940e1ed landfast (fast front + `land_packages.py --preflight` + tools/lanes/package_preflight.py);
+f2923d2b2 integ (14 DUNGEON modules + GAP B 81994D8C + 81994800 re-carve; review in plan via _r112/review_modules.py,
+which now matches the membership ledger_group - 19d2800's rows keep group module ovl_7e651800.c); 60b8040e9 14 new
+certificates; 72446cb90 decision 40 (composite baseline kept, SECOND LOOK) + orphan town/func_802F100C.c deleted.
+Nothing running. Lander timing: preflight 20 min for 16 packages; live landing 1 h 50 min; 14 certs ~45 min.
+
+## Next (triage table: work/native_lane/_r112/triage.md, evidence triage_evidence.md)
+0. heads func_8181A800 (183a800) + func_81940800 (1960800) keep the per-row composite alias -> small sol lane, 1870800
+   recipe -> debt 13. 1. ONE sol61 kinds tool lane (192a800, 1918800, 19de800, 7ce800 + FA7000 kinds; recerts all).
+2-4. Sonnet first: FA7000 residuals, 1924800 819059A0, pins 819613A8 / 8180B064 (Fable once on 819613A8 if flat);
+sol/astra on hard-basket 8182C800 / 81844F2C (no Opus). 5. bank 65: Sonnet Layer-2 81994D8C -> promote -> sol module.
+6. sol town Control_CD(6) investigation. 7. shared-header Sonnet lane last. Every module-lane brief gets
+tools/lanes/brief_paragraphs/package_preflight.md; run `land_packages.py --preflight` before every live landing.
+Tool queue (owner 10-10): data-row-aware re-baseline (refresh composite baseline records). loader.bin dedupe dropped.
+
 # Handover (2026-10-10 ~03:45Z, END OF SESSION r105-r111) - START HERE
 
 ## State
