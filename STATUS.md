@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-10T09:16:34Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-10T10:22:18Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -79,33 +79,33 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 
 | module | rows | placement proof |
 |---|---:|---|
-| dungeon_cd_control_d79c4 | 3 | source/recipe/graph/tool/review/window inputs changed |
-| town_minigame_dispatch_44b44 | 13 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_1852800 | 4 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_1870800 | 2 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_1858800 | 3 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_1840800 | 3 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_185e800 | 3 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_18ac800 | 2 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_18fa800 | 3 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_19ba800 | 3 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_199c800 | 4 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_18f4800 | 5 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_19a8800 | 5 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_189a800 | 13 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_188e800 | 6 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_198a800 | 17 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_1876800 | 5 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_1894800 | 11 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_18a6800 | 15 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_19d2800 | 6 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_197281c | 5 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_1990800 | 13 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_1960800 | 11 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_183a800 | 10 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_18a0800 | 15 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_19c6800 | 5 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_19cc800 | 22 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_cd_control_d79c4 | 3 | current: complete TU + all windows + genuine |
+| town_minigame_dispatch_44b44 | 13 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1852800 | 4 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1870800 | 2 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1858800 | 3 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1840800 | 3 | current: complete TU + all windows + genuine |
+| dungeon_ovl_185e800 | 3 | current: complete TU + all windows + genuine |
+| dungeon_ovl_18ac800 | 2 | current: complete TU + all windows + genuine |
+| dungeon_ovl_18fa800 | 3 | current: complete TU + all windows + genuine |
+| dungeon_ovl_19ba800 | 3 | current: complete TU + all windows + genuine |
+| dungeon_ovl_199c800 | 4 | current: complete TU + all windows + genuine |
+| dungeon_ovl_18f4800 | 5 | current: complete TU + all windows + genuine |
+| dungeon_ovl_19a8800 | 5 | current: complete TU + all windows + genuine |
+| dungeon_ovl_189a800 | 13 | current: complete TU + all windows + genuine |
+| dungeon_ovl_188e800 | 6 | current: complete TU + all windows + genuine |
+| dungeon_ovl_198a800 | 17 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1876800 | 5 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1894800 | 11 | current: complete TU + all windows + genuine |
+| dungeon_ovl_18a6800 | 15 | current: complete TU + all windows + genuine |
+| dungeon_ovl_19d2800 | 6 | current: complete TU + all windows + genuine |
+| dungeon_ovl_197281c | 5 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1990800 | 13 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1960800 | 11 | current: complete TU + all windows + genuine |
+| dungeon_ovl_183a800 | 10 | current: complete TU + all windows + genuine |
+| dungeon_ovl_18a0800 | 15 | current: complete TU + all windows + genuine |
+| dungeon_ovl_19c6800 | 5 | current: complete TU + all windows + genuine |
+| dungeon_ovl_19cc800 | 22 | current: complete TU + all windows + genuine |
 
 Placement alone does not override any lower-level or source-residue guard.
 
@@ -173,12 +173,12 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 | L1 | 2,774,308 | 99.6% |
 | L2 | 2,774,308 | 99.6% |
 | L3 | 2,568,188 | 92.2% |
-| L4 | 0 | 0.0% |
-| L5 | 0 | 0.0% |
+| L4 | 128,456 | 4.6% |
+| L5 | 123,384 | 4.4% |
 
 On shared record headers (T7, `include/records/`): 884 rows, 569,460 bytes (20.4%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 49 rows (61,060 B), tail_jump 8 rows (4,884 B), not_in_module 6,965 rows (2,771,456 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 49 rows (61,060 B), tail_jump 8 rows (4,884 B), not_in_module 6,758 rows (2,643,000 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 
