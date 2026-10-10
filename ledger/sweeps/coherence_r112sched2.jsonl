@@ -1,0 +1,1 @@
+{"id":"slus/code5","transform":"coherence_r112sched2","in_sha":"d79b0823364062514a61ea35b15f3a75c65487cf6bcff6557a15d6bb726fce98","size":376,"source":"out","exact":null,"status":"ok","class":null,"total":null,"secs":0.29,"outcome":"mismatch","err":"no pinned object cached","at":"2026-10-10T14:00:00Z"}
