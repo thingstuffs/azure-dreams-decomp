@@ -208,3 +208,11 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     site; the source comment says what is reconstructed (`/* +0x98 write-back: retail reads the field, the unchanged
     store compiles away */`); a self-assignment that keeps a load retail does NOT perform stays a refused fake
     dependency. Distinct from the refused `+ zero` (an added operation with no retail counterpart). SECOND LOOK: no.
+40. **(r112) A re-carved row keeps its historical composite baseline record (rc1 precedent).** dungeon/func_81994800
+    (GAP B prefix re-carve, decision 31): raw/dungeon/func_81994800.c is the frozen composite text (92 B data prefix +
+    168 B body, 260 B); its ledger/baseline.jsonl record (65 words exact, 2026-09-07) measured that composite carve. The
+    re-carve moves the 92 B into a data row; the fresh production window proves the 92 B data / 168 B code partition
+    (r111_sol61_integ). Ruling: keep the historical record as the L0 fact about the frozen raw text, as for
+    dungeon/func_80A1D000 (r101 rc1: 150-word composite record, row now 468 B); no invented 42-word raw measurement.
+    The current partition is proven by the production window, not by the baseline. SECOND LOOK: yes (a data-row-aware
+    re-baseline tool would let the record match the current carve; data-row baselining is an open tool gap, r105).
