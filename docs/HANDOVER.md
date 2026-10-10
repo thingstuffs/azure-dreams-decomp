@@ -8,6 +8,16 @@ which now matches the membership ledger_group - 19d2800's rows keep group module
 certificates; 72446cb90 decision 40 (composite baseline kept, SECOND LOOK) + orphan town/func_802F100C.c deleted.
 Nothing running. Lander timing: preflight 20 min for 16 packages; live landing 1 h 50 min; 14 certs ~45 min.
 
+## Running (launched 07:56Z)
+- nohup pool r112 (sol61 high, -c 4, 1.5M / 240 min, --no-land; log work/native_lane/_r112/pool_r112.log, ends POOL_r112_END):
+  r112_sol61_kinds (validator kinds + 192a800/1918800/19de800/7ce800 packages, FA7000/1924800 kinds), r112_sol61_heads
+  (8181A800/81940800 composite alias -> debt 13), r112_sol61_town (Control_CD(6) consumer receipts), r112_sol61_hb (kit:
+  8182C800 + 81844F2C). Briefs: _r112/brief_*.md + common.md. Land heads first, then kinds (recerts all), via
+  land_packages.py --preflight then --live.
+- Session Agents (Sonnet; lost if the session ends - relaunch from the same prompts): r112_sonnet_pins (kit: 819613A8 +
+  8180B064), r112_sonnet_fa7 (FA7000 3 residuals), r112_sonnet_1924 (func_819059A0 sched1 words / multi-TU measure),
+  r112_sonnet_l2b65 (Layer-2 81994D8C -> ledger/agents/out/r112_sonnet_l2b65/ -> promote.py --source agents:...).
+
 ## Next (triage table: work/native_lane/_r112/triage.md, evidence triage_evidence.md)
 0. heads func_8181A800 (183a800) + func_81940800 (1960800) keep the per-row composite alias -> small sol lane, 1870800
    recipe -> debt 13. 1. ONE sol61 kinds tool lane (192a800, 1918800, 19de800, 7ce800 + FA7000 kinds; recerts all).
