@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_fa7000.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
@@ -45,30 +46,15 @@ typedef struct S_80171138_2 {
 } S_80171138_2;   /* arg2 in func_80171138 */
 
 
-extern void func_80047784(void *, u8, s32);
-extern s32 func_8009A180(void *, void *);
 extern s8 func_8009FB34(u8, u8);
-extern s32 func_8009FD7C(u8, u8, u8, u8);
-extern s16 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern s32 func_800A1C58(void *);
 extern void func_800A9A0C(void *);
 extern void func_800AA258(void *, void *, void *, void *);
-extern s32 func_800AA6B4(void *, void *, void *, void *);
 extern void func_800AA79C(void *, void *, void *, void *);
 extern void func_800AA888(void *, void *, void *, void *);
 extern s32 func_800AA924(void *actor, s32 unused, void *sprite, u8 *direction_frames);
 extern void func_800AAB10(void *, void *, void *, void *);
 extern void func_800AAF00(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state);
-extern void func_80171670(void *, void *);
-extern void func_8017182C(void *, void *, void *, void *);
-extern s32 func_80171F74(void *, void *, void *, void *);
-extern void func_80172138(void *, void *, void *, void *);
-extern s32 func_80172258(void *, void *, void *, s32);
-extern void func_80173D38(void *, void *, void *, void *);
-extern void func_801740F4(void *, void *, void *, void *);
-
-extern u8 D_80171138[];
-extern u8 D_80174AD4[];
 extern u8 D_80174ADC[];
 extern u8 D_80174AEC[];
 extern u8 D_80174AF4[];
@@ -210,7 +196,7 @@ void func_80171138(void *actor_in, void *context_in, void *sprite_in, void *stat
                     EntityRec *player;
                     s16 facing_angle;
 
-                    facing_angle = func_800A0818(
+                    facing_angle = (s16)func_800A0818(
                         ((S_80171138_2 *)sprite)->unk_24.at00.v, ((S_80171138_2 *)sprite)->unk_24.at01.v,
                         D_80082E80.tileX, D_80082E80.tileY,
                         &angle_aux);
@@ -225,7 +211,7 @@ void func_80171138(void *actor_in, void *context_in, void *sprite_in, void *stat
                 case 1:
                 case 2:
                 case 3:
-                    func_800AAF00(actor, context, sprite, D_80174AEC, D_80171138);
+                    func_800AAF00(actor, context, sprite, D_80174AEC, func_80171138);
                     return;
 
                 case 4:
@@ -258,10 +244,11 @@ void func_80171138(void *actor_in, void *context_in, void *sprite_in, void *stat
         if ((func_8009FD7C(
                 ((S_80171138_2 *)sprite)->unk_24.at00.v, ((S_80171138_2 *)sprite)->unk_24.at01.v,
                 D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
-            ((S_80171138_1 *)stats)->unk_2A = func_800A0818(
+            ((S_80171138_1 *)stats)->unk_2A = (s16)func_800A0818(
                 ((S_80171138_2 *)sprite)->unk_24.at00.v, ((S_80171138_2 *)sprite)->unk_24.at01.v,
                 D_80082E80.tileX, D_80082E80.tileY, &angle_aux);
         }
     }
     return;
 }
+

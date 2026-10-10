@@ -112,3 +112,4 @@ void func_80173F0C(void *effect, void *position, void *visual)
         break;
     }
 }
+

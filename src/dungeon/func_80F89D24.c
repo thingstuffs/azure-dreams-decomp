@@ -9,3 +9,4 @@ void func_80173524(void *state, s32 action, SpriteFrameState *source, EntityRec 
 {
     func_800AB778(state, action, source, target);
 }
+

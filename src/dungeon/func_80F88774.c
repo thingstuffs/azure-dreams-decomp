@@ -6,14 +6,9 @@
 #include "shared/sprite_frame_state.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
-extern void func_80047784();
 extern void func_8009C93C();
-extern s32 func_800A0134();
-extern s32 func_800A04F0();
 extern s32 func_800A2B5C();
 extern s32 func_800A2CB8();
-extern void func_800C7930();
-extern u8 D_80174AD4;
 
 /* Checks whether the actor can transition and starts its directional effect. */
 s32 func_80171F74(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, SpriteFrameState *sprite, EntityRec *actor)
@@ -56,11 +51,12 @@ s32 func_80171F74(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, Sprite
         action_state->unk_8C = 0;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
-        sprite->frameTable = &D_80174AD4;
-        func_80047784(sprite, (&D_80174AD4)[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        sprite->frameTable = D_80174AD4;
+        func_80047784(sprite, (D_80174AD4)[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         actor->unk_6D--;
         func_8009C93C(actor, sprite, actor->facing, 1, 0);
         return 1;
     }
     return -1;
 }
+

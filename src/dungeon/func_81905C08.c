@@ -1,38 +1,5 @@
-#include "common.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_ovl_1924800.h"
 
-typedef struct {
-    u8 bytes[0x20];
-} LocalPoints;
-
-typedef struct {
-    u16 x;
-    u16 y;
-    u16 w;
-    u16 h;
-} Box __attribute__((packed));
-
-typedef struct {
-    u16 x;
-    u16 y;
-    u16 z;
-    u16 pad;
-} PackedVector __attribute__((packed));
-
-typedef struct {
-    u16 x;
-    u16 y;
-} Point __attribute__((packed));
-
-extern void func_80024B6C(void *, Box *, Point *, s32, s32);
-extern s32 func_80067014(s32);
-extern void func_800672D8(Box *, u8 *);
-extern void func_8006733C(Box *, u8 *);
-extern void func_800B8FC8(void *, Box *, Point *, s32, s32);
-extern LocalPoints D_80024004;
-extern PackedVector D_8002400C;
-extern s16 D_800267B8;
-extern u8 D_80026820[];
 
 /* Builds an inverted pixel mask and updates a timed fade effect. */
 void func_80025408(void *context, void *unused, void *effect_data) {
@@ -59,7 +26,7 @@ void func_80025408(void *context, void *unused, void *effect_data) {
     rect_template = (Box *)((u8 *)&D_8002400C);
     mask_rect = *rect_template;
     state = *(s16 *)context;
-    D_800267B8 = 1;
+    D_800267B8[0] = 1;
 
     switch (state) {
     case 0:

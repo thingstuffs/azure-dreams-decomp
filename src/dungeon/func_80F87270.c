@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_fa7000.h"
 #include "common.h"
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
@@ -12,9 +13,6 @@ extern s32 func_800644B8(s32);
 extern void func_800A020C(s32, void *);
 extern s32 func_800A9E70(void *, void *, void *, void *);
 extern void func_800AA36C(void *, void *, void *, void *);
-extern s32 func_800BCB04(u16, u16, s16);
-
-extern u8 D_80171138[];
 extern Callback D_80174B1C[];
 
 
@@ -52,10 +50,6 @@ typedef struct S_80170A70_2 {
 /* Update entity behavior, movement, sprite facing, and ground-relative height. */
 void func_80170A70(void *entity, void *motion_arg, void *sprite_arg)
 {
-    static void *const phase_entries[] = {
-        &&phase_update_a,
-        &&phase_update_b,
-    };
     S_80170A70_2 *object = entity;
     Callback paused_callback;
     Callback update_callback;
@@ -71,7 +65,7 @@ void func_80170A70(void *entity, void *motion_arg, void *sprite_arg)
     bob_offset = 0;
     if (dungeonStatus.flags & 0x2000) {
         paused_callback = (*(Callback *)((u8 *)entity + (0x8C)));
-        if (paused_callback == (Callback)D_80171138) {
+        if (paused_callback == (Callback)func_80171138) {
             paused_callback(entity, motion_arg, sprite_arg, entity);
             return;
         }
@@ -144,12 +138,12 @@ void func_80170A70(void *entity, void *motion_arg, void *sprite_arg)
                 {
                     s32 bob_wave = func_800644B8(
                         ((*(s16 *)((u8 *)entity + (0xA0))) << 12) / 40);
-                    bob_offset = bob_wave >> 9;
                     if ((*(u8 *)((u8 *)entity + (0x9A))) == 0x12) {
                         bob_offset = bob_wave >> 10;
+                    } else {
+                        bob_offset = bob_wave >> 9;
                     }
                 }
-phase_update_a:
                 (*(s16 *)((u8 *)entity + (0xA0))) = ((*(s16 *)((u8 *)entity + (0xA0))) + 1) % 40;
             }
 
@@ -211,12 +205,12 @@ phase_update_a:
                 {
                     s32 bob_wave = func_800644B8(
                         ((*(s16 *)((u8 *)entity + (0xA0))) << 12) / 40);
-                    bob_offset = bob_wave >> 9;
                     if ((*(u8 *)((u8 *)entity + (0x9A))) == 0x12) {
                         bob_offset = bob_wave >> 10;
+                    } else {
+                        bob_offset = bob_wave >> 9;
                     }
                 }
-phase_update_b:
                 (*(s16 *)((u8 *)entity + (0xA0))) = ((*(s16 *)((u8 *)entity + (0xA0))) + 1) % 40;
             }
 
@@ -256,3 +250,4 @@ phase_update_b:
         object->unk_88.u + (u16)(*(s16 *)((u8 *)entity + (0x92))) + bob_offset;
     ((S_80170A70_1 *)sprite_arg)->unk_14 |= 0x40;
 }
+

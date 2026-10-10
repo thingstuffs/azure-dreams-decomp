@@ -1,0 +1,999 @@
+{
+  "module": "dungeon_ovl_fa7000",
+  "maps": {
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "basis": "PS-X EXE header: load 0x8002D000, payload size 0x54800, file header 0x800.",
+      "kind": "psx_exe"
+    },
+    "dungeon_resident": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 667648,
+      "file_end": 1050624,
+      "delta": 2147374944,
+      "basis": "config/overlays/dungeon.rowbase.jsonl xfer_dungeon_A3000 proven runtime DMA/load-map record.",
+      "kind": "rowbase",
+      "region": "xfer_dungeon_A3000"
+    },
+    "native_fa7000_80170800": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 16412672,
+      "file_end": 16428680,
+      "delta": 2132580352,
+      "basis": "Resource 38 slot 0 static twelve-sector loader receipt; complete code/prefix cohort, decisions 37-38.",
+      "kind": "rowbase",
+      "region": "native_fa7000_80170800"
+    },
+    "bank_fa7000_assets": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 16428680,
+      "file_end": 16437248,
+      "delta": 2132580352,
+      "basis": "Disjoint tail of the same authenticated twelve-sector load; bounded external views, no native allocation ownership.",
+      "kind": "rowbase",
+      "region": "bank_fa7000_assets"
+    }
+  },
+  "views": {
+    "D_8006CCD8": {
+      "symbol": "D_8006CCD8",
+      "kind": "data",
+      "vma": 2147929304,
+      "foff": 263384,
+      "view_bytes": 16,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_fa7000.imports.json"
+    },
+    "D_8006CCE8": {
+      "symbol": "D_8006CCE8",
+      "kind": "data",
+      "vma": 2147929320,
+      "foff": 263400,
+      "view_bytes": 16,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_fa7000.imports.json"
+    },
+    "D_8006CCF8": {
+      "symbol": "D_8006CCF8",
+      "kind": "data",
+      "vma": 2147929336,
+      "foff": 263416,
+      "view_bytes": 8,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_fa7000.imports.json"
+    },
+    "D_8006CD00": {
+      "symbol": "D_8006CD00",
+      "kind": "data",
+      "vma": 2147929344,
+      "foff": 263424,
+      "view_bytes": 8,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_fa7000.imports.json"
+    },
+    "D_8006DE24": {
+      "symbol": "D_8006DE24",
+      "kind": "data",
+      "vma": 2147933732,
+      "foff": 267812,
+      "view_bytes": 5120,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_fa7000.imports.json"
+    },
+    "D_800DEC28": {
+      "symbol": "D_800DEC28",
+      "kind": "data",
+      "vma": 2148396072,
+      "foff": 1021128,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_ovl_fa7000.imports.json"
+    },
+    "D_800E2970": {
+      "symbol": "D_800E2970",
+      "kind": "data",
+      "vma": 2148411760,
+      "foff": 1036816,
+      "view_bytes": 5120,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_ovl_fa7000.imports.json"
+    },
+    "D_800E3DE8": {
+      "symbol": "D_800E3DE8",
+      "kind": "data",
+      "vma": 2148417000,
+      "foff": 1042056,
+      "view_bytes": 1,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_ovl_fa7000.imports.json"
+    },
+    "D_80174688": {
+      "symbol": "D_80174688",
+      "kind": "data",
+      "vma": 2149009032,
+      "foff": 16428680,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_fa7000_assets",
+      "evidence": "docs/evidence/dungeon_ovl_fa7000.imports.json"
+    },
+    "D_80174ACC": {
+      "symbol": "D_80174ACC",
+      "kind": "data",
+      "vma": 2149010124,
+      "foff": 16429772,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_fa7000_assets",
+      "evidence": "docs/evidence/dungeon_ovl_fa7000.imports.json"
+    },
+    "D_80174AD4": {
+      "symbol": "D_80174AD4",
+      "kind": "data",
+      "vma": 2149010132,
+      "foff": 16429780,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_fa7000_assets",
+      "evidence": "docs/evidence/dungeon_ovl_fa7000.imports.json"
+    },
+    "D_80174ADC": {
+      "symbol": "D_80174ADC",
+      "kind": "data",
+      "vma": 2149010140,
+      "foff": 16429788,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_fa7000_assets",
+      "evidence": "docs/evidence/dungeon_ovl_fa7000.imports.json"
+    },
+    "D_80174AE4": {
+      "symbol": "D_80174AE4",
+      "kind": "data",
+      "vma": 2149010148,
+      "foff": 16429796,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_fa7000_assets",
+      "evidence": "docs/evidence/dungeon_ovl_fa7000.imports.json"
+    },
+    "D_80174AEC": {
+      "symbol": "D_80174AEC",
+      "kind": "data",
+      "vma": 2149010156,
+      "foff": 16429804,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_fa7000_assets",
+      "evidence": "docs/evidence/dungeon_ovl_fa7000.imports.json"
+    },
+    "D_80174AF4": {
+      "symbol": "D_80174AF4",
+      "kind": "data",
+      "vma": 2149010164,
+      "foff": 16429812,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_fa7000_assets",
+      "evidence": "docs/evidence/dungeon_ovl_fa7000.imports.json"
+    },
+    "D_80174AFC": {
+      "symbol": "D_80174AFC",
+      "kind": "data",
+      "vma": 2149010172,
+      "foff": 16429820,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_fa7000_assets",
+      "evidence": "docs/evidence/dungeon_ovl_fa7000.imports.json"
+    },
+    "D_80174B04": {
+      "symbol": "D_80174B04",
+      "kind": "data",
+      "vma": 2149010180,
+      "foff": 16429828,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_fa7000_assets",
+      "evidence": "docs/evidence/dungeon_ovl_fa7000.imports.json"
+    },
+    "D_80174B0C": {
+      "symbol": "D_80174B0C",
+      "kind": "data",
+      "vma": 2149010188,
+      "foff": 16429836,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_fa7000_assets",
+      "evidence": "docs/evidence/dungeon_ovl_fa7000.imports.json"
+    },
+    "D_80174B14": {
+      "symbol": "D_80174B14",
+      "kind": "data",
+      "vma": 2149010196,
+      "foff": 16429844,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_fa7000_assets",
+      "evidence": "docs/evidence/dungeon_ovl_fa7000.imports.json"
+    },
+    "D_80174B1C": {
+      "symbol": "D_80174B1C",
+      "kind": "data",
+      "vma": 2149010204,
+      "foff": 16429852,
+      "view_bytes": 1024,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_fa7000_assets",
+      "evidence": "docs/evidence/dungeon_ovl_fa7000.imports.json"
+    }
+  },
+  "runtime_views": {
+    "D_800814A0": {
+      "symbol": "D_800814A0",
+      "vma": 2148013216,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/modules/dungeon_native_abi.h",
+      "kind": "runtime_data",
+      "evidence": "docs/evidence/dungeon_ovl_fa7000.imports.json"
+    },
+    "D_800814A8": {
+      "symbol": "D_800814A8",
+      "vma": 2148013224,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/shared/record_ptrs.h",
+      "kind": "runtime_data",
+      "evidence": "docs/evidence/dungeon_ovl_fa7000.imports.json"
+    },
+    "D_80082E80": {
+      "symbol": "D_80082E80",
+      "vma": 2148019840,
+      "view_bytes": 64,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/shared/tile_object.h",
+      "kind": "runtime_data",
+      "evidence": "docs/evidence/dungeon_ovl_fa7000.imports.json"
+    },
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "vma": 2148020576,
+      "view_bytes": 512,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/shared/game_work.h",
+      "kind": "runtime_data",
+      "evidence": "docs/evidence/dungeon_ovl_fa7000.imports.json"
+    },
+    "D_80083460": {
+      "symbol": "D_80083460",
+      "vma": 2148021344,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/shared/dungeon_status.h",
+      "kind": "runtime_data",
+      "evidence": "docs/evidence/dungeon_ovl_fa7000.imports.json"
+    },
+    "D_80083498": {
+      "symbol": "D_80083498",
+      "vma": 2148021400,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/shared/object_node.h",
+      "kind": "runtime_data",
+      "evidence": "docs/evidence/dungeon_ovl_fa7000.imports.json"
+    }
+  },
+  "functions": {
+    "func_8003DE58": {
+      "vma": 2147737176,
+      "foff": 71256,
+      "map": "slus_load",
+      "first_word": "d0ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_8003F270": {
+      "vma": 2147742320,
+      "foff": 76400,
+      "map": "slus_load",
+      "first_word": "0880043c",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_8003FD64": {
+      "vma": 2147745124,
+      "foff": 79204,
+      "map": "slus_load",
+      "first_word": "0180023c",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_80042900": {
+      "vma": 2147756288,
+      "foff": 90368,
+      "map": "slus_load",
+      "first_word": "2138a000",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_80042B68": {
+      "vma": 2147756904,
+      "foff": 90984,
+      "map": "slus_load",
+      "first_word": "d8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_8004491C": {
+      "vma": 2147764508,
+      "foff": 98588,
+      "map": "slus_load",
+      "first_word": "21388000",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_80045340": {
+      "vma": 2147767104,
+      "foff": 101184,
+      "map": "slus_load",
+      "first_word": "e0ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_80047738": {
+      "vma": 2147776312,
+      "foff": 110392,
+      "map": "slus_load",
+      "first_word": "2800828c",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_80047784": {
+      "vma": 2147776388,
+      "foff": 110468,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800478B8": {
+      "vma": 2147776696,
+      "foff": 110776,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800644B8": {
+      "vma": 2147894456,
+      "foff": 228536,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800990FC": {
+      "vma": 2148110588,
+      "foff": 735644,
+      "map": "dungeon_resident",
+      "first_word": "aa2a023c",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_80099194": {
+      "vma": 2148110740,
+      "foff": 735796,
+      "map": "dungeon_resident",
+      "first_word": "21300000",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_80099290": {
+      "vma": 2148110992,
+      "foff": 736048,
+      "map": "dungeon_resident",
+      "first_word": "000080a0",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_80099734": {
+      "vma": 2148112180,
+      "foff": 737236,
+      "map": "dungeon_resident",
+      "first_word": "0e80023c",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_8009A028": {
+      "vma": 2148114472,
+      "foff": 739528,
+      "map": "dungeon_resident",
+      "first_word": "0e80053c",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_8009A180": {
+      "vma": 2148114816,
+      "foff": 739872,
+      "map": "dungeon_resident",
+      "first_word": "e0ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_8009A21C": {
+      "vma": 2148114972,
+      "foff": 740028,
+      "map": "dungeon_resident",
+      "first_word": "0880033c",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_8009A3D0": {
+      "vma": 2148115408,
+      "foff": 740464,
+      "map": "dungeon_resident",
+      "first_word": "d8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_8009A540": {
+      "vma": 2148115776,
+      "foff": 740832,
+      "map": "dungeon_resident",
+      "first_word": "c0ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_8009A8C0": {
+      "vma": 2148116672,
+      "foff": 741728,
+      "map": "dungeon_resident",
+      "first_word": "b8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_8009C12C": {
+      "vma": 2148122924,
+      "foff": 747980,
+      "map": "dungeon_resident",
+      "first_word": "b0ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_8009C93C": {
+      "vma": 2148124988,
+      "foff": 750044,
+      "map": "dungeon_resident",
+      "first_word": "d0ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_8009FB34": {
+      "vma": 2148137780,
+      "foff": 762836,
+      "map": "dungeon_resident",
+      "first_word": "0880023c",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_8009FD40": {
+      "vma": 2148138304,
+      "foff": 763360,
+      "map": "dungeon_resident",
+      "first_word": "e8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_8009FD7C": {
+      "vma": 2148138364,
+      "foff": 763420,
+      "map": "dungeon_resident",
+      "first_word": "c0ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800A0134": {
+      "vma": 2148139316,
+      "foff": 764372,
+      "map": "dungeon_resident",
+      "first_word": "88008294",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800A020C": {
+      "vma": 2148139532,
+      "foff": 764588,
+      "map": "dungeon_resident",
+      "first_word": "e8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800A02AC": {
+      "vma": 2148139692,
+      "foff": 764748,
+      "map": "dungeon_resident",
+      "first_word": "c8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800A04F0": {
+      "vma": 2148140272,
+      "foff": 765328,
+      "map": "dungeon_resident",
+      "first_word": "e8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800A05A4": {
+      "vma": 2148140452,
+      "foff": 765508,
+      "map": "dungeon_resident",
+      "first_word": "b0ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800A0818": {
+      "vma": 2148141080,
+      "foff": 766136,
+      "map": "dungeon_resident",
+      "first_word": "e8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800A0E6C": {
+      "vma": 2148142700,
+      "foff": 767756,
+      "map": "dungeon_resident",
+      "first_word": "b8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800A19E4": {
+      "vma": 2148145636,
+      "foff": 770692,
+      "map": "dungeon_resident",
+      "first_word": "d8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800A1C58": {
+      "vma": 2148146264,
+      "foff": 771320,
+      "map": "dungeon_resident",
+      "first_word": "e0ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800A2B04": {
+      "vma": 2148150020,
+      "foff": 775076,
+      "map": "dungeon_resident",
+      "first_word": "002c0500",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800A2B5C": {
+      "vma": 2148150108,
+      "foff": 775164,
+      "map": "dungeon_resident",
+      "first_word": "e8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800A2BDC": {
+      "vma": 2148150236,
+      "foff": 775292,
+      "map": "dungeon_resident",
+      "first_word": "0880023c",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800A2C34": {
+      "vma": 2148150324,
+      "foff": 775380,
+      "map": "dungeon_resident",
+      "first_word": "0880023c",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800A2CB8": {
+      "vma": 2148150456,
+      "foff": 775512,
+      "map": "dungeon_resident",
+      "first_word": "e8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800A2FE0": {
+      "vma": 2148151264,
+      "foff": 776320,
+      "map": "dungeon_resident",
+      "first_word": "e0ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800A32A4": {
+      "vma": 2148151972,
+      "foff": 777028,
+      "map": "dungeon_resident",
+      "first_word": "e0ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800A48F0": {
+      "vma": 2148157680,
+      "foff": 782736,
+      "map": "dungeon_resident",
+      "first_word": "d0ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800A4ACC": {
+      "vma": 2148158156,
+      "foff": 783212,
+      "map": "dungeon_resident",
+      "first_word": "e0ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800A56E0": {
+      "vma": 2148161248,
+      "foff": 786304,
+      "map": "dungeon_resident",
+      "first_word": "0180023c",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800A5720": {
+      "vma": 2148161312,
+      "foff": 786368,
+      "map": "dungeon_resident",
+      "first_word": "0180023c",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800A6D30": {
+      "vma": 2148166960,
+      "foff": 792016,
+      "map": "dungeon_resident",
+      "first_word": "c641043c",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800A94A0": {
+      "vma": 2148177056,
+      "foff": 802112,
+      "map": "dungeon_resident",
+      "first_word": "c0ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800A9A04": {
+      "vma": 2148178436,
+      "foff": 803492,
+      "map": "dungeon_resident",
+      "first_word": "0800e003",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800A9A0C": {
+      "vma": 2148178444,
+      "foff": 803500,
+      "map": "dungeon_resident",
+      "first_word": "e0ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800A9C18": {
+      "vma": 2148178968,
+      "foff": 804024,
+      "map": "dungeon_resident",
+      "first_word": "d8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800A9E70": {
+      "vma": 2148179568,
+      "foff": 804624,
+      "map": "dungeon_resident",
+      "first_word": "d8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800AA258": {
+      "vma": 2148180568,
+      "foff": 805624,
+      "map": "dungeon_resident",
+      "first_word": "d8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800AA36C": {
+      "vma": 2148180844,
+      "foff": 805900,
+      "map": "dungeon_resident",
+      "first_word": "d0ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800AA6B4": {
+      "vma": 2148181684,
+      "foff": 806740,
+      "map": "dungeon_resident",
+      "first_word": "e8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800AA79C": {
+      "vma": 2148181916,
+      "foff": 806972,
+      "map": "dungeon_resident",
+      "first_word": "e8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800AA888": {
+      "vma": 2148182152,
+      "foff": 807208,
+      "map": "dungeon_resident",
+      "first_word": "e0ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800AA924": {
+      "vma": 2148182308,
+      "foff": 807364,
+      "map": "dungeon_resident",
+      "first_word": "e0ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800AAA54": {
+      "vma": 2148182612,
+      "foff": 807668,
+      "map": "dungeon_resident",
+      "first_word": "e8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800AAB10": {
+      "vma": 2148182800,
+      "foff": 807856,
+      "map": "dungeon_resident",
+      "first_word": "e0ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800AAF00": {
+      "vma": 2148183808,
+      "foff": 808864,
+      "map": "dungeon_resident",
+      "first_word": "c8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800AB1C0": {
+      "vma": 2148184512,
+      "foff": 809568,
+      "map": "dungeon_resident",
+      "first_word": "d8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800AB378": {
+      "vma": 2148184952,
+      "foff": 810008,
+      "map": "dungeon_resident",
+      "first_word": "e0ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800AB538": {
+      "vma": 2148185400,
+      "foff": 810456,
+      "map": "dungeon_resident",
+      "first_word": "d8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800AB778": {
+      "vma": 2148185976,
+      "foff": 811032,
+      "map": "dungeon_resident",
+      "first_word": "d8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800ABDBC": {
+      "vma": 2148187580,
+      "foff": 812636,
+      "map": "dungeon_resident",
+      "first_word": "d8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800AC010": {
+      "vma": 2148188176,
+      "foff": 813232,
+      "map": "dungeon_resident",
+      "first_word": "b8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800AC480": {
+      "vma": 2148189312,
+      "foff": 814368,
+      "map": "dungeon_resident",
+      "first_word": "e0ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800AC5C8": {
+      "vma": 2148189640,
+      "foff": 814696,
+      "map": "dungeon_resident",
+      "first_word": "d8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800AC82C": {
+      "vma": 2148190252,
+      "foff": 815308,
+      "map": "dungeon_resident",
+      "first_word": "c0ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800ACE34": {
+      "vma": 2148191796,
+      "foff": 816852,
+      "map": "dungeon_resident",
+      "first_word": "e0ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800ACF88": {
+      "vma": 2148192136,
+      "foff": 817192,
+      "map": "dungeon_resident",
+      "first_word": "e0ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800AD4D0": {
+      "vma": 2148193488,
+      "foff": 818544,
+      "map": "dungeon_resident",
+      "first_word": "e8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800AD594": {
+      "vma": 2148193684,
+      "foff": 818740,
+      "map": "dungeon_resident",
+      "first_word": "d8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800AD9B4": {
+      "vma": 2148194740,
+      "foff": 819796,
+      "map": "dungeon_resident",
+      "first_word": "e0ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800ADDA0": {
+      "vma": 2148195744,
+      "foff": 820800,
+      "map": "dungeon_resident",
+      "first_word": "d8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800BCB04": {
+      "vma": 2148256516,
+      "foff": 881572,
+      "map": "dungeon_resident",
+      "first_word": "d8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800C7930": {
+      "vma": 2148301104,
+      "foff": 926160,
+      "map": "dungeon_resident",
+      "first_word": "e8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800C8150": {
+      "vma": 2148303184,
+      "foff": 928240,
+      "map": "dungeon_resident",
+      "first_word": "e8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800DAE44": {
+      "vma": 2148380228,
+      "foff": 1005284,
+      "map": "dungeon_resident",
+      "first_word": "e0ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "func_800DBA90": {
+      "vma": 2148383376,
+      "foff": 1008432,
+      "map": "dungeon_resident",
+      "first_word": "a8ffbd27",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    },
+    "rand": {
+      "vma": 2147917560,
+      "foff": 251640,
+      "map": "slus_load",
+      "first_word": "a0000a24",
+      "basis": "External callable entry in proven resident/EXE map; no allocation ownership."
+    }
+  },
+  "retail_views": {
+    "D_8006CCD8": {
+      "bytes": "010001000000ffffffffffff00000100",
+      "sha256": "4371bd43481f6a8812bc1693246ffc102d94eb8a66f92bb59fdb264a201198f1",
+      "basis": "Bounded observed access or opaque address view; table/allocation extent remains external."
+    },
+    "D_8006CCE8": {
+      "bytes": "00000100010001000000ffffffffffff",
+      "sha256": "b829d92687b7ab07e3d91ebe5db905b2fb5fbc0360d02ca59bb629435d71d3c0",
+      "basis": "Bounded observed access or opaque address view; table/allocation extent remains external."
+    },
+    "D_8006CCF8": {
+      "bytes": "0101000000000001",
+      "sha256": "6d118e4eb23eeb921660222b224932ea52534966154ce25b0ffdf221b15d9116",
+      "basis": "Bounded observed access or opaque address view; table/allocation extent remains external."
+    },
+    "D_8006CD00": {
+      "bytes": "0000000200fe0004",
+      "sha256": "3c894c2701fa321fb078e819a82d99bb312ab5ac44de5cb6f17eb36129daea36",
+      "basis": "Bounded observed access or opaque address view; table/allocation extent remains external."
+    },
+    "D_8006DE24": {
+      "bytes": "000000000000000000000000000000000000000040e40280fce30280f8dc0680c0d7068011110104e8e30280b0e3028010dd0680f4d70680121101049ce3028064e3028028dd068024d806801411010458e3028024e30280f8dc0680c0d706801111011014e30280e0e2028010dd0680f4d7068012110110d0e20280a0e2028028dd068024d806801411011094e2028074e2028048dd06805cd806801111011064e2028028e2028060dd068090d806801211011018e20280e0e1028080dd0680c0d8068014110110d4e1028094e1028048dd06805cd806801111011084e1028048e1028060dd068090d806801211011038e102800ce1028080dd0680c0d8068014110110fce00280cce00280e0dd0680f0d8068011050310b8e002808ce00280f4dd068070d906801205031078e0028048e0028008de068030d906801405031038e00280fcdf0280e0df0280a8d9068021120110d0df028094df02807cdf0280dcd90680221301106cdf02802cdf028010df028018da068024140110fcde0280c4de0280e0df0280a8d9068021150108b0de028078de02807cdf0280dcd906802216011064de02802cde028010df028018da0680241701101cde0280e0dd0280c8dd028048da0680211f0210b8dd028080dd028068dd028088da0680221f021058dd028020dd028008dd0280c8da0680241f0210f8dc0280bcdc0280f8dc0680c0d70680211e0210acdc02807cdc028010dd0680f4d70680221e02106cdc028034dc028028dd068024d80680241e021020dc0280e8db028048dd06805cd80680211e0210d8db028098db028060dd068090d80680221e021084db02804cdb028080dd0680c0d80680241e02103cdb028004db028098dd068008db068041020110f4da0280b8da0280acdd068040db068042020110a8da028070da0280c4dd06807cdb06804403011060da028020da028098dd068008db06804104011010da0280d0d90280acdd068040db068042040110c0d9028084d90280c4dd06807cdb06804404011074d9028040d9028098dd068008db06804101011030d90280fcd80280acdd068040db068042010110ecd80280b8d80280c4dd06807cdb068044010110a8d8028074d80280e0dd0680f0d806804111011064d8028020d80280f4dd068070d906804211011010d80280d0d7028008de068030d9068044110103c0d7028084d70280e0dd0680f0d806804111011070d7028040d70280f4dd068070d906804211011030d70280fcd6028008de068030d906804411011040dc0680c0db068054dc068004dc0680001f011040dc0680c0db068054dc068004dc0680001f031040dc0680c0db068054dc068004dc0680001f03106cdc068080dc06800000000000000000001f03106cdc068080dc06800000000000000000001f03106cdc068080dc06800000000000000000001f0310c02cf8ef0e000a7ae0001018c02cf4e50e00427ae0181820c02cf4e80e000a7ae0681810c02cf4fc0e000a7ae0781808c02cf8f80e000a7ae0381010c02cf8f80e000a7af0381010c02cf8f80e000a7af0481010402cf5000e000a7af8300808402cfefe0e000a7af8280808402cf9fa0e000a7af8000808402cfcfe0e000a7af8100808c02cf7010e000a7af8200808402cf5000e000a7af0100808402cfefe0e000a7af8300808402cfcfe0e000a7af8180808402cf7010e000a7af8280808c02cf9fa0e000a7af8080808402cfefe0e000a7af0100808402cfcfe0e000a7af8200808402cf7010e000a7af8300808c02cf9fa0e000a7af8100808402cfcfe0e000a7af8280808402cf7010e000a7af0100808c02cf9fa0e000a7af8180808402cfcfe0e000a7af8300808c02cf9fa0e000a7af8200808402cfcfe0e000a7af0100808c02cf9fa0e000a7af8280808c02cf9fa0e000a7af8300808c02cf9fa0e000a7af0100808c02cf8f80e000a7ae0481010c02cf8f80e000a7ae0581010c02cf8f80e000a7af0581010402cfd020e000a7af8300808402cfeff0e000a7af8180808402c02fd0e000a7af8280808402cfffa0e000a7af8200808c02cfff80e000a7af8080808402cfd020e000a7af0100808402cfeff0e000a7af8200808402c02fd0e000a7af8300808402cfffa0e000a7af8280808c02cfff80e000a7af8100808402cfeff0e000a7af8280808402c02fd0e000a7af0100808402cfffa0e000a7af8300808c02cfff80e000a7af8180808402cfeff0e000a7af8300808402cfffa0e000a7af0100808c02cfff80e000a7af8200808402cfeff0e000a7af0100808c02cfff80e000a7af8280808c02cfff80e000a7af8300808c02cfff80e000a7af0100808c02cfcfc0e000a7af8000808c02cfcfc0e000a7af8080808c02cfcfc0e000a7af8100808c02cfcfc0e000a7af8180808c02cfcfc0e000a7af8200808c02cfcfc0e000a7af8280808c02cfcfc0e000a7af8300808c02cfcfc0e000a7af01008080400020064e206800400020070e20680040002007ce206800200020088e2068002000200c4e206800200020000e306800200020030e306800200020054e30680020002006ce306800200020084e306800200020090e30680000000001ce50680040002009ce3068004000200a8e3068004000200b4e3068002000200c0e3068002000200fce306800200020038e406800200020068e40680020002008ce4068002000200a4e4068002000200b0e40680000000007ce5068002000200bce4068002000200c8e4068002000200d4e4068002000200e0e4068002000200ece4068002000200f8e406800200020004e506800200020010e5068000000000d4e5068001000000a0110880a811088002000000b0110880b811088002000000f0110880f811088003000000301208803812088003000000601208806812088003000000401208804812088003000000001208800812088003000000201208802812088003000000101208801812088003000000701208807812088003000000801208808812088003000000901208809812088003000000c0110880c811088003000000d0110880d811088003000000501208805812088003000000a0120880a812088003000000b0120880b812088003000000e0110880e8110880981108809011088070100880681008802010088028100880301008803810088040100880481008805010088058100880601008807810088080100880881008809010088098100880a0100880a8100880b0100880b8100880c0100880c8100880d0100880d8100880e0100880e8100880f0100880f8100880081108801011088018110880201108802811088030110880381108804011088048110880501108805811088060110880681108807011088078110880801108808811088000110880a0ca0480543d038000000000580c088001007f00c52b442c8e2dba2d600c0880010037004e0685068d07db07680c08800100740012158615481762178c1e0d80ac1e0d80bc1e0d80cc1e0d80dc1e0d80ec1e0d80fc1e0d80fc1e0d800c1f0d801c1f0d802c1f0d803c1f0d804c1f0d805c1f0d806c1f0d807c1f0d808c1f0d809c1f0d80ac1f0d80bc1f0d80cc1f0d80cc1f0d80cc1f0d80cc1f0d80cc1f0d80dc1f0d80ec1f0d80fc1f0d800c200d801c200d802c200d803c200d804c200d805c200d806c200d807c200d808c200d809c200d80ac200d80bc200d809c1e0d80c0e70680d0e70680e0e7068032770010122201643233001923a511dd001d99001527318788001578310405325501da6600150bad4104001d00e610040653b5bb00195b359104001e98aa0015898604047fdbeeb501ff016708bdc38104002c53d5d93a37fe40efcb099d5d448104001b87a904061e9ac13235db82b902ca9bbd53238604001b7f2aa2db3e0687815353b69d20100ad96b353504001e2286ba27ab22a00405362353de02068301ed3532639604001abf2a32336823403fc1eec262080c2622530032cd3c339398da61040015ba33b390273b33ab04045b6980100c0c80b5062c537855358241db35040c17e13c374004a11824bb65b51802601c079d5b56bb80323c5533559388d559cd040f5efd4010317f40f3351c0a10d2366653d7180388b83dbddabd040bbffe0eb8c1daf3080b11014063236632364488a8040017cccc0407db1f100cad054055e80404ccbe040b87bf3f3cc3fb41c1da0735180811c5c0362263abc0db040b17e26123cb3cb8dcc3bc40dd81f60a200c10a11401663366411401eddeebbf04001160cc53d55d35bf8140080014841c01661c02eeceec53401100151be3c3013cd5d0585dc3101216c11000142405edeec4bded040d22b362bfd56ee68640c13b226d40180014cd41cc01683fdd040c00bf2a2233b3cb53ed00f66fde35bc3b3322a6a2c1200014a80017cdeb140204001bd608001804bb54e827f20c001c100015c6dd1edca004b9ecdf040e82140f180015cc9b99cb81049adbeebcaa040b1c001220001329f13129b904a89ab9fd2bf2040e1a240b0800130699cd4df104a840ec13f204089a2c00121000138646522408db1bf2950409340011180013ad86562540cbceaa1412040f3c092000145003f699b9fd040c4400113520001503f5010aec040f4c0dbd65d571100c5d56334d03f5c1040dd5540013180c5403fa019d40af5c040c5c0f4a200c5c035b77d9040d496400139e080ae964014e00011003443c22b20e55015b056c0016100c056c0103e81121f6a616bb0f501511150405740011180e53230103f811622365babc3b7f0a9b817c00159570200c5935223f1d8c7101f662b8f2bacc7f09010400163255ebc9080abe840100ccb7390111ff6fa52663b8b3407f531304058c0022101021626f9266f686f3807faa02040694001394150b0a940110f2860a8836822e4288a8cb2abc07f504049c002222948fa853f10017ab5614927f0047e280ccdd4e4444e4dd2638110e1da30046ed10de00a4702212115508306fa8bbcb216378ab4e30409b1c9371040016c0ed10e4de0c040525867fbdabbb613dbbac6622c615400a20a4040014b0dcd10404cd0b0404310155a91c3339035aab165141bc920920b451040013cb0a040622510407b9bc8ad6ba039c2e1341bb003924c55140330904043304001cbd08b867030947148cab04061611402b335587305533b2540404c004061012040670d9de8ada03333a01c890aa9a040d464830640408db04046abd04051403b8800aba039b40c28986040019bbcc140406cc36711c069099dd0034c0b50104090046f6306f10050305bcd0eddd404dd4ddde0dcb1281150406001e040accdd46fe40ef180400a0abb00bdcdd00d0300d00ddcd0a14ba0a0c0604002800aaccc0dc3d6201d0cd0cae8e401403d4040e210015200ec8330b0408b0944d040927128f4e34121e12001561040faa0b0077c00198c000b00e42040747f32186cb7c818908001ba021c1d0ed6633d1042886babb0c08538222946285040648c522262c0f412f714e680dd0e43091223f200710214b916fa885b8cb728104001c0a001418013c0c2062ffa148019899b93bc12a0400220017040647f1880320090090cbf4bc9904002ec0c33fcb8b2cbc11b9bc452833040dffff040019611403b808c8f2023be290bf25040d59a16f04001dc9337e02a7400030249c040b5d40d5b004001c9009990255018904002e018f04080822cc55380255cc228514001a0400192b22c35048043c22b21c00190400170100000000007f108f107f09bd773e0adf1a40088208e4084621c9294d3ab14e365fbe1f00007f10901c7f09ff7f3e0adf1a401c6020a128e1302239c8416e4a1453db5b81408140814081408140814009004c5c7b0f804ca07b0f804cd4800f804c0c7c0f80303e0fadee0680570208826d828f8297814082948288828581408281828482968285828e829482958292828581408282828582878289828e829381441108826e828881438140828282858286828f82928285814082948288828182948143814082688140828882818296828581408294828f0a82948285828c828c81408299828f829581408293828f828d8285829482888289828e828781408289828d8290828f829282948281828e82948143110a8293828f8140828c8289829382948285828e81408295829081408281828e8284814082928285828d8285828d8282828582928140828d82990a8297828f829282848293814411088273828882858140828f828e828c8299814082948289828d828581408299828f8295814082838281828e814082938294828f829081408294828882850a8281828482968285828e82948295829282858140829782888289828c828581408299828f8295816682928285814082978289829482888289828e0a82948288828581408294828f8297828582928140828982938140829782888285828e81408299828f8295814082818292828581408289828e110a82948288828581408285828c8285829682818294828f82928140828d828f82968289828e828781408295829081408294828f81408294828882850a828e8285829882948140828c828582968285828c8144110882688294814082858292828182938285829381408294828882858140829282858283828f8292828481408281829481408294828882850a8294828f829782858292814082868292828f828d814082948288828581408281828482968285828e8294829582928285814082848281829482810a829482888281829481408299828f82958140828c828f8281828482858284814411088272828f81438140828e82858296828582928143814082858296828582928140829082928285829382930a8271828582938285829481408282829582948294828f828e8140828f82928140829482958292828e0a8294828882858140828d8281828382888289828e82858140828f82868286814411088260828c828c81408299828f82958140828882818296828581408284828f828e8285814082978289828c828c8140828282850a829282958289828e828582848144110882678281828e8284828c8285814082948288828581408284828182948281814082978289829482888140",
+      "sha256": "879943fc90c28595f95e270623cbbb78ceb9022ac1e5e3c2cfafd0b71d62740e",
+      "basis": "Bounded observed access or opaque address view; table/allocation extent remains external."
+    },
+    "D_800DEC28": {
+      "bytes": "02000200cce30d80",
+      "sha256": "760f9033d876e03186148e00d8d34810a9d4032c8e14cc4586b679ddbc22cdc6",
+      "basis": "Bounded observed access or opaque address view; table/allocation extent remains external."
+    },
+    "D_800E2970": {
+      "bytes": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "sha256": "a11937f356a9b0ba592c82f5290bac8016cb33a3f9bc68d3490147c158ebb10d",
+      "basis": "Bounded observed access or opaque address view; table/allocation extent remains external."
+    },
+    "D_800E3DE8": {
+      "bytes": "00",
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+      "basis": "Bounded observed access or opaque address view; table/allocation extent remains external."
+    },
+    "D_80174688": {
+      "bytes": "78ffbd27",
+      "sha256": "97a0839da026b20894d3ee0667ea30284f17588eb4773c86846da2753bdd2f02",
+      "basis": "Bounded observed access or opaque address view; table/allocation extent remains external."
+    },
+    "D_80174ACC": {
+      "bytes": "0201000102030403",
+      "sha256": "29646f7cd23978782271a3939205ea1bb361bcd7d793803c04c5131b8758fbd5",
+      "basis": "Bounded observed access or opaque address view; table/allocation extent remains external."
+    },
+    "D_80174AD4": {
+      "bytes": "0706050607080908",
+      "sha256": "db910241f1e1aea2497ab42acdabe7875c61b5c96e97bcc712a5640a3ab0a739",
+      "basis": "Bounded observed access or opaque address view; table/allocation extent remains external."
+    },
+    "D_80174ADC": {
+      "bytes": "2f2e2d2e2f303130",
+      "sha256": "90d3fa2d70e4680ee35a583b839ef1f181caa70b89fa56c18e52c5597948944e",
+      "basis": "Bounded observed access or opaque address view; table/allocation extent remains external."
+    },
+    "D_80174AE4": {
+      "bytes": "1b1a191a1b1c1d1c",
+      "sha256": "9a3e76a2ffaa160ee5f50d9bf09b2f8b3bb8273c0c4261127dd69615fe3f1ed7",
+      "basis": "Bounded observed access or opaque address view; table/allocation extent remains external."
+    },
+    "D_80174AEC": {
+      "bytes": "201f1e1f20212221",
+      "sha256": "8710db7f271e7babad6cad75e8fd24943b635a5e7ab712eeed88731275fac649",
+      "basis": "Bounded observed access or opaque address view; table/allocation extent remains external."
+    },
+    "D_80174AF4": {
+      "bytes": "0c0b0a0b0c0d0e0d",
+      "sha256": "74c38c10d256b59d1756bd486dea8d7fa54e66b5a0a2be7767fc4cf7fd5b64ae",
+      "basis": "Bounded observed access or opaque address view; table/allocation extent remains external."
+    },
+    "D_80174AFC": {
+      "bytes": "1615141516171817",
+      "sha256": "cb23845594347527266b764fc2d6649a7dcfc545adb6ea109fe6bd697d8c7f0f",
+      "basis": "Bounded observed access or opaque address view; table/allocation extent remains external."
+    },
+    "D_80174B04": {
+      "bytes": "11100f1011121312",
+      "sha256": "c29eab3fb3265802a104a7a1f0ee49217cbff9be01b4ecb06f86c8fcd2f432da",
+      "basis": "Bounded observed access or opaque address view; table/allocation extent remains external."
+    },
+    "D_80174B0C": {
+      "bytes": "2524232425262726",
+      "sha256": "23988349c8007b46c6dcf5647b201dff016016818a912e8e94fd7f99a9968233",
+      "basis": "Bounded observed access or opaque address view; table/allocation extent remains external."
+    },
+    "D_80174B14": {
+      "bytes": "2a2928292a2b2c2b",
+      "sha256": "1c0324955a2915f2cd79f4082e87ea8d3fdd8e6903c2186b9bc32879bdb75b60",
+      "basis": "Bounded observed access or opaque address view; table/allocation extent remains external."
+    },
+    "D_80174B1C": {
+      "bytes": "443517800435178024351780643e17809c3e1780f839178000000000002f1780943217800000000030241780383d1780003e17807c351780109c0a809c2317809c23178094241780402a1780d43e1780e4cb0a805c4a1780944a1780604217808d18663c6d7168e5c27d5b51f5d96b5c3a800009fd2ac2fa89e4ed2ffbf0d70366dfbe6448edd7522d9d959ba29537d55cbc959caa922b0d18cf6683653f2f91a7ddb640bd2f808af5e1b416ffa5a236124a941e5c1bda67b07a10c46bbeb203a749e447a4ee7a8473824f3ce4c0c478b2629609ed7ee600a91e836be5237a53be5ce0f3d5e2de3afdb7ff83299eb693953d33d3347267d05bf256f0ab289d77444d43ba28c4c4a2ecb85b64a7f8907e141202f509af77ce1e2f21cb968533689154a415754a43b599bdfc563485693386199ce745ed2bf44a0b7d747cf0551efda99c7c942f736a5bff79d3a9fd5aa8428b9821bee59e3837c0026237231a90e085c3665d286ebb89b56b51df197ad6a29f8f1b4d4ee6933d85480f9dd59bb8921fb04da8ef499e7d186a49ac90e2b5fd8d194ccae11bfdb493e5f188bff08c6cb0fca74e3b1f0d8e5e0d33ea1aa93caa8ecd2d0e55566df5217481ce983005c46e3eed25c505fe14c1ed877070e86503d94336ef62afdd56678b364918741bf3930f97074316696779a1bd1548b7265fa615df47c03d43309ec28ad0f8d3c65257071dca6f6848dfbcc24cb35d2d78162dd8a0ec281998dcfcb2f33bee66fd37f0bdf648011391d4c4e7ad2164625380a727f0b8515ad4b0bcf3ea61b445b9fc98c99c57af303e9ec9a959371770aff54b974881f319ee06131ce71c0287f2f787c485d133d7459501a0c5cd2d6c83cd52c32021c76de0353bc662438f44a082f3462a8d451f9f11a6636cbb5e71c961f241f06f846fa0956b89d3ae1395bbf416e603639b21436aef8ac5d96395770766a93043e237277ddbfbb13646923ba5273d872beff42bf915af47fff3f08618e39458759adc6d47c4b775b1e15217ed5fe230bcf9b14d144f676b05c69beeeda39adfdd63776a4a5d5397f89bee4824f56e74f16f70a215d54da9c495aea6dcdd523e53f51f15dede688fe32c7dc6a22179cc9f0b482252e0f779121740a83fc955edaf08ed685b808dd54b4d1889bf1b9ab09f8451c525a6fd52c8046aea6ca03a64c955f859197a5be006b5d789d31c6a97c993a483e461f8aebf154365bd989a1a799359e171046929ee1cd1bd365b80fbf5ef5953e9498003cd01e41189ec0d89987b27f8b9575028d93a1e1e40117552fc50872e8b952ccacc8064e528d12a27fcc47b954aaaa755a1c8d8a44a74e015b46e470c227d957b934adcdbf1818a6d7e266db27c3507281d7d1447aabe5abcf602b0e50639528df91864e93e33c4d3f7591445a83008192412edff",
+      "sha256": "7d975a5cbd07982f622e28a15d609fb183530fd36c4b4629fad2bc72c6a99b96",
+      "basis": "Bounded observed access or opaque address view; table/allocation extent remains external."
+    }
+  },
+  "scope": "External views only; loaded callback and animation tables remain tail assets.",
+  "review": "pending",
+  "reviewer": null
+}

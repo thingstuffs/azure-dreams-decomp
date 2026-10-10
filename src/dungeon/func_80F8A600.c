@@ -2,21 +2,20 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
-typedef void (*ActorCallback)(void *, void *, void *, void *);
+
 
 /* Actor state of the bank's actor callbacks: the callback slot at +0x8C. */
-typedef struct BankActorState {
+struct BankFA_faa600_BankActorState {
     u8 pad_00[0x8C];
-    ActorCallback callback;
-} BankActorState;
+    BankActorCallback callback;
+};
 
 extern s32 func_800AD9B4();
 extern s32 func_800AC010();
-extern void func_80171138(void *, void *, void *, void *);
-
 /* Select the bank actor callback when the resident checks succeed. */
-void func_80173E00(BankActorState *state, s32 action, SpriteFrameState *source, EntityRec *target) {
+void func_80173E00(BankFA_faa600_BankActorState *state, s32 action, SpriteFrameState *source, EntityRec *target) {
     if ((func_800AC010(state, action, source, target) != 0) && ((func_800AD9B4(source, target) << 0x10) > 0)) {
         state->callback = func_80171138;
     }
 }
+

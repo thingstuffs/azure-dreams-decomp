@@ -246,6 +246,18 @@ def validate_switch_assembly(m, assembly):
             halves[offset] = (int(hit[1]) & 65535, owner)
             offset += 2
             continue
+        # An aligned C storage wrapper emits its final two zero bytes explicitly.
+        # Permit exactly the tail of the already-declared five-u16 record; no
+        # arbitrary space, sixth parameter, relocation or extra object is owned.
+        if line == '.space\t2' or re.fullmatch(r'\.space\s+2', line):
+            base = m['members'][0]['foff']
+            if (owner is not None or not any(
+                    d['kind'] == 'u16_parameter_record5'
+                    and offset == d['foff'] - base + 10
+                    for d in m['owned_data'])):
+                raise ValueError('space is not exact five-u16 tail padding')
+            offset += 2
+            continue
         if re.match(r'\.(?:globl|type|size|file)\s', line):
             continue
         raise ValueError('unaccounted native rodata directive: ' + line)

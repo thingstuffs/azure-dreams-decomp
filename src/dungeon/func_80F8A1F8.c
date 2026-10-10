@@ -6,17 +6,11 @@
 #include "shared/entity.h"
 
 
-extern void func_80047784(void *, u8, s32);
-extern s32 func_8009A180(void *, void *);
 extern s32 func_800A2C34(void *);
 extern void func_800A9A04(void *);
 extern void func_800A9A0C(void *);
 extern void func_800AA258(void *, void *, void *, void *);
-extern s32 func_800AA6B4(void *, void *, void *, s32);
 extern void func_800AA888(void *, void *, void *, void *);
-extern void func_80173D38(void *, void *, void *, void *);
-
-extern u8 D_80171138[];
 extern u8 D_80174AF4[];
 extern u8 D_80174AFC[];
 
@@ -152,7 +146,7 @@ void func_801739F8(void *controller, void *context, void *sprite, void *entity)
         activity_counts = &dungeonStatus;
         (*(u16 *)&activity_counts->unk_0A)--;
         ((EntityRec *)entity)->flags1C &= ~0x208;
-        ((S_801739F8_0 *)controller)->unk_8C = D_80171138;
+        ((S_801739F8_0 *)controller)->unk_8C = func_80171138;
         return;
     }
 
@@ -160,3 +154,4 @@ void func_801739F8(void *controller, void *context, void *sprite, void *entity)
         return;
     }
 }
+

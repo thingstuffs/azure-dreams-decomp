@@ -16,13 +16,10 @@ typedef struct S_80172F00_0 {
 } S_80172F00_0;   /* arg0 in func_80172F00 */
 
 
-extern void func_80047784();
 extern void func_800A2B04();
 extern void func_800AAA54();
 extern void func_800AD4D0();
 
-extern u8 D_80171138[];
-extern u8 D_80174AD4[];
 extern u8 D_80174ADC[];
 
 /* Updates staged directional motion, then restores the entity to its tile and animation. */
@@ -159,9 +156,10 @@ void func_80172F00(void *action, EntityRec *motion, void *sprite, EntityRec *ent
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
             dungeonStatus.unk_10 = tracked_entity & 0x7FFFFFFF;
         }
-        ((S_80172F00_0 *)action)->unk_8C = D_80171138;
+        ((S_80172F00_0 *)action)->unk_8C = func_80171138;
         break;
     default:
         return;
     }
 }
+

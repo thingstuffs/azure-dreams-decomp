@@ -1,55 +1,8 @@
-#include "common.h"
+#include "modules/dungeon_ovl_1924800.h"
 
-extern s32 func_800990FC(s32, s32);
-extern s32 func_80099194(u8 *src, u8 *dst);
-extern void func_80099290(s8 *byte_ptr);
-extern s32 func_8009929C(s8 value, s8 *dest);
-extern s32 func_80099734(void *record, u8 *out);
-extern void func_80099844(u8 *, u8 *);
-extern s32 func_8009D218(u8 *, s32);
-extern void func_800A5720(s8 *text);
-extern s32 func_800A6D30(void);
-extern void func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
-
-extern u8 D_800E20D6[];
-extern u8 D_800E20FC[];
-
-#ifdef __mips__
-static const u32 bank_words[] __asm__("func_81904800")
-__attribute__((section(".text.func_81904800"), aligned(4))) = {
-    0x800257d0,
-    0x01000340,
-    0x00540060,
-    0x01540340,
-    0x00040004,
-    0x00000020,
-    0x00200020,
-    0x00200000,
-    0x0020ffe0,
-    0x0000ffe0,
-    0xffe0ffe0,
-    0xffe00000,
-    0xffe00020,
-    0x00000000,
-    0x800258ec,
-    0x80025960,
-    0x80025c28,
-    0x80025e48,
-    0x80026490,
-    0x800265f0,
-    0x80026634,
-    0x80026730,
-    0x800266cc,
-};
-__asm__(".globl func_81904800\n"
-        ".size func_81904800, 400");
-#define BODY_NAME func_8190485C
-#else
-#define BODY_NAME func_81904800
-#endif
 
 /* Apply a chance-based effect that halves the entity counter and reports the result. */
-void BODY_NAME(u8 *entity, u8 chance) {
+void func_8002405C(u8 *entity, s32 chance, void *unused_context) {
     s32 roll;
     s32 effect_result;
     s32 chance_value;

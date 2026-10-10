@@ -5,8 +5,6 @@
 s32 func_800A2BDC();
 void func_800A9A0C();
 s32 func_800ADDA0();
-void func_8017182C();
-
 /* Update entity state and flags according to the state query result. */
 s32 func_80172258(EntityRec *actor, void *primary_context, void *secondary_context, s32 force_move) {
     s16 state_type;
@@ -48,3 +46,4 @@ s32 func_80172258(EntityRec *actor, void *primary_context, void *secondary_conte
     entity->unk_46 &= 0x7FFF;
     return result;
 }
+

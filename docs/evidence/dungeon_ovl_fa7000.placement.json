@@ -1,0 +1,281 @@
+{
+  "status": "existing-proven-rowbase",
+  "regions": [
+    {
+      "schema": "azure-clean.rowbase.v1",
+      "region": "sweep_0FA7000",
+      "foff_start": "0xFA7000",
+      "foff_end": "0xFAADE0",
+      "delta": "0x7F1C9800",
+      "base_confidence": "proven",
+      "proof": "j-solve sweep 2026-07-19 (decision C): unique 0x800-aligned delta with full j-consistency across 10 row(s); scoring-only until a byte-exact recompile promotes to proven; PROMOTED solved->proven: byte-exact recompile func_80F89D7C at true base 0x8017357C (candidate sha 23b333b10939 @ 2.8.1-G0, linked-strict isolation compare, phase-2 item-3 hook)"
+    }
+  ],
+  "runtime_observed": false,
+  "kind": "resource-loader-receipt",
+  "resource_id": 38,
+  "slot": 0,
+  "sectors": 12,
+  "lba": "0x4f64",
+  "destination": "0x80170800",
+  "file_end": "0xfad000",
+  "iso": {
+    "path": "DUNGEON/DUNGEON.BIN",
+    "lba": 12310,
+    "size": 27813888,
+    "directory_lba": 12309,
+    "record_offset": 96,
+    "record_hex": "3c0016300000000030160068a80101a86800620306111f0424000000010000010d44554e47454f4e2e42494e3b31000000000d555841000000000000"
+  },
+  "words": [
+    {
+      "runtime": "0x800a0c60",
+      "foff": "0xbb500",
+      "word": "0x92420003"
+    },
+    {
+      "runtime": "0x800a0c64",
+      "foff": "0xbb504",
+      "word": "0x2406000c"
+    },
+    {
+      "runtime": "0x800a0c68",
+      "foff": "0xbb508",
+      "word": "0x22040"
+    },
+    {
+      "runtime": "0x800a0c6c",
+      "foff": "0xbb50c",
+      "word": "0x822021"
+    },
+    {
+      "runtime": "0x800a0c70",
+      "foff": "0xbb510",
+      "word": "0x41b40"
+    },
+    {
+      "runtime": "0x800a0c74",
+      "foff": "0xbb514",
+      "word": "0x3c028017"
+    },
+    {
+      "runtime": "0x800a0c78",
+      "foff": "0xbb518",
+      "word": "0x24420800"
+    },
+    {
+      "runtime": "0x800a0c7c",
+      "foff": "0xbb51c",
+      "word": "0x438823"
+    },
+    {
+      "runtime": "0x800a0c80",
+      "foff": "0xbb520",
+      "word": "0x24a3ffff"
+    },
+    {
+      "runtime": "0x800a0c84",
+      "foff": "0xbb524",
+      "word": "0x31080"
+    },
+    {
+      "runtime": "0x800a0c88",
+      "foff": "0xbb528",
+      "word": "0x431021"
+    },
+    {
+      "runtime": "0x800a0c8c",
+      "foff": "0xbb52c",
+      "word": "0x21080"
+    },
+    {
+      "runtime": "0x800a0c90",
+      "foff": "0xbb530",
+      "word": "0x431021"
+    },
+    {
+      "runtime": "0x800a0c94",
+      "foff": "0xbb534",
+      "word": "0x21080"
+    },
+    {
+      "runtime": "0x800a0c98",
+      "foff": "0xbb538",
+      "word": "0x42080"
+    },
+    {
+      "runtime": "0x800a0c9c",
+      "foff": "0xbb53c",
+      "word": "0x24844340"
+    },
+    {
+      "runtime": "0x800a0ca0",
+      "foff": "0xbb540",
+      "word": "0x443821"
+    },
+    {
+      "runtime": "0x800a0ca4",
+      "foff": "0xbb544",
+      "word": "0xc02021"
+    },
+    {
+      "runtime": "0x800a0ca8",
+      "foff": "0xbb548",
+      "word": "0x2202821"
+    },
+    {
+      "runtime": "0x800a0cb4",
+      "foff": "0xbb554",
+      "word": "0xc00fdb5"
+    },
+    {
+      "runtime": "0x800a0cbc",
+      "foff": "0xbb55c",
+      "word": "0x24040006"
+    },
+    {
+      "runtime": "0x800a0cc4",
+      "foff": "0xbb564",
+      "word": "0xc00f93f"
+    },
+    {
+      "container": "SLUS",
+      "runtime": "0x8003f6d4",
+      "foff": "0x12ed4",
+      "word": "0x3c02007f"
+    },
+    {
+      "container": "SLUS",
+      "runtime": "0x8003f6d8",
+      "foff": "0x12ed8",
+      "word": "0x3442ffff"
+    },
+    {
+      "container": "SLUS",
+      "runtime": "0x8003f6dc",
+      "foff": "0x12edc",
+      "word": "0xa22824"
+    },
+    {
+      "container": "SLUS",
+      "runtime": "0x8003f6e0",
+      "foff": "0x12ee0",
+      "word": "0x425c0"
+    },
+    {
+      "container": "SLUS",
+      "runtime": "0x8003f6e4",
+      "foff": "0x12ee4",
+      "word": "0xa42825"
+    },
+    {
+      "container": "SLUS",
+      "runtime": "0x8003f6e8",
+      "foff": "0x12ee8",
+      "word": "0xacc50000"
+    },
+    {
+      "container": "SLUS",
+      "runtime": "0x8003f6ec",
+      "foff": "0x12eec",
+      "word": "0x3e00008"
+    },
+    {
+      "container": "SLUS",
+      "runtime": "0x8003f6f0",
+      "foff": "0x12ef0",
+      "word": "0xacc70004"
+    },
+    {
+      "container": "SLUS",
+      "runtime": "0x8003e9ec",
+      "foff": "0x121ec",
+      "word": "0x8c510004"
+    },
+    {
+      "container": "SLUS",
+      "runtime": "0x8003e9f0",
+      "foff": "0x121f0",
+      "word": "0x3c03007f"
+    },
+    {
+      "container": "SLUS",
+      "runtime": "0x8003e9f4",
+      "foff": "0x121f4",
+      "word": "0x8e220000"
+    },
+    {
+      "container": "SLUS",
+      "runtime": "0x8003e9f8",
+      "foff": "0x121f8",
+      "word": "0x3463ffff"
+    },
+    {
+      "container": "SLUS",
+      "runtime": "0x8003e9fc",
+      "foff": "0x121fc",
+      "word": "0x438024"
+    },
+    {
+      "container": "SLUS",
+      "runtime": "0x8003ea04",
+      "foff": "0x12204",
+      "word": "0x295c2"
+    },
+    {
+      "container": "SLUS",
+      "runtime": "0x8003ea18",
+      "foff": "0x12218",
+      "word": "0x3c028000"
+    },
+    {
+      "container": "SLUS",
+      "runtime": "0x8003ea1c",
+      "foff": "0x1221c",
+      "word": "0x2028025"
+    },
+    {
+      "container": "SLUS",
+      "runtime": "0x8003eaa4",
+      "foff": "0x122a4",
+      "word": "0x8e240004"
+    },
+    {
+      "container": "SLUS",
+      "runtime": "0x8003eaa8",
+      "foff": "0x122a8",
+      "word": "0xc018493"
+    },
+    {
+      "container": "SLUS",
+      "runtime": "0x8003eae4",
+      "foff": "0x122e4",
+      "word": "0x2402021"
+    },
+    {
+      "container": "SLUS",
+      "runtime": "0x8003eae8",
+      "foff": "0x122e8",
+      "word": "0x2002821"
+    },
+    {
+      "container": "SLUS",
+      "runtime": "0x8003eaec",
+      "foff": "0x122ec",
+      "word": "0xc018c89"
+    },
+    {
+      "container": "SLUS",
+      "runtime": "0x8003eaf0",
+      "foff": "0x122f0",
+      "word": "0x24060080"
+    }
+  ],
+  "domain": "static arithmetic receipt; no runtime occurrence or original TU ownership claim",
+  "review": "pending",
+  "reviewer": null,
+  "all_sector_payloads_equal": true,
+  "loaded_bank_sha256": "86300751c41c894431b658332dfafaf4adeeb4c694a7ede85e3265922f5b5939",
+  "file_start": "0xfa7000",
+  "delta": "0x7f1c9800"
+}

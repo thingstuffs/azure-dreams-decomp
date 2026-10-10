@@ -20,18 +20,16 @@ typedef struct {
 } Record10;
 
 extern s32 func_8003DE58();
-extern void *func_8003FD64();
-extern void func_8004491C();
-extern void func_80047784();
-extern void func_800A4ACC();
-extern void func_800A56E0();
-extern void func_800AD594();
 extern u32 func_800C8150(EntityRec *, s16, s16);
 
-extern Record10 D_80170868;
-extern Record10 D_80170874;
-extern u8 D_80171138[];
-extern u8 D_801745E0[];
+/* Retail stores each five-halfword record in a word-aligned 12-byte slot.
+ * Keep the local copies at ten bytes; the storage wrapper owns the two zero
+ * tail bytes that genuine ASPSX does not add implicitly at section end. */
+typedef struct {
+    Record10 values;
+} __attribute__((aligned(4))) ParameterRecord5;
+const ParameterRecord5 D_80170868 = {{4096,3072,4096,6144,5120}};
+const ParameterRecord5 D_80170874 = {{4096,6144,4096,2048,3072}};
 extern u8 D_80174688[];
 extern u8 D_80174ACC[];
 extern u8 D_80174B14[];
@@ -40,8 +38,8 @@ extern u8 D_80174B14[];
 void func_80174260(void *state_input, void *motion_input, void *animation_input, void *actor_input) {
     void *motion = motion_input;
     u16 spawn_offset[3];
-    Record10 effect_values_1c = D_80170868;
-    Record10 effect_values_1e = D_80170874;
+    Record10 effect_values_1c = D_80170868.values;
+    Record10 effect_values_1e = D_80170874.values;
     s32 active_state = 1;
     s32 state;
     u16 animation_flags;
@@ -81,7 +79,7 @@ void func_80174260(void *state_input, void *motion_input, void *animation_input,
         effect_object = func_8003FD64(0x201, ((u8 *)(&D_80083498)));
         if (effect_object != NULL) {
             func_8004491C(effect_object, D_80174688);
-            PTR_AT(effect_object, 0x10) = D_801745E0;
+            PTR_AT(effect_object, 0x10) = func_801745E0;
             spawned_data = (u8 *)effect_object + 0x20;
             S16_AT(spawned_data, 0x0C) = U16_AT(motion, 2) + spawn_offset[0];
             S16_AT(spawned_data, 0x0E) = U16_AT(motion, 6) + spawn_offset[1];
@@ -146,8 +144,9 @@ void func_80174260(void *state_input, void *motion_input, void *animation_input,
             func_800A4ACC(actor_input);
             U8_AT(actor_input, 0x6D) = 0;
             U16_AT(actor_input, 0x46) &= 0x7FFF;
-            PTR_AT(state_input, 0x8C) = D_80171138;
+            PTR_AT(state_input, 0x8C) = func_80171138;
         }
         break;
     }
 }
+

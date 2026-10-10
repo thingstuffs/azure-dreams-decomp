@@ -1,7 +1,5 @@
-#include "common.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_ovl_1924800.h"
 
-extern s16 D_800267B8[5];
 
 /* Updates a timed brightness pulse and clears the linked object flag on completion. */
 void func_800252E4(u8 *effect, void *unused, u8 *target)

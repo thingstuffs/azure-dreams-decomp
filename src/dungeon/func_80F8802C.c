@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_fa7000.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
@@ -8,23 +9,13 @@
 #include "shared/dir_step.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
-extern s32 func_80171F74(void *, void *, void *, void *);
 extern void func_800A9A0C(void *);
 extern void func_800A19E4(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 extern void *func_800A02AC(void *, u8, u8);
-extern s16 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern s32 func_800A6D30(void);
-extern void *func_800A04F0(void *, u8, u8, s16);
-extern s16 func_800A0134(void *, void *);
 extern s16 func_8009A540(s32 direction, s16 tile_x, s16 tile_y, s16 height);
-extern s16 func_8009FD7C(s32, s32, s32, s32);
 extern void func_800A0E6C(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
 extern s16 func_8009A8C0(s16, void *, void *, s32);
-extern void func_8009A3D0(s32, s32, s32);
-extern void func_8009A21C(s16 x, s16 y, u16 flags);
-extern s16 func_8009A180(void *, void *);
-extern s16 func_800BCB04(s32, s32, s16);
-
 extern s16 D_8006CD00[];
 
 /* Selects a movement direction and updates the actor's position and movement state.
@@ -67,7 +58,7 @@ void func_8017182C(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject 
             blocker = (EntityRec *)current_angle;
             if (blocker != 0) {
                 EntityRec *blocker_owner = (EntityRec *)((ObjectNodeHeader *)blocker - 1)->unk_0C;
-                s16 target_angle = func_800A0818(
+                s16 target_angle = (s16)func_800A0818(
                     position_data->tileX, position_data->tileY,
                     blocker_owner->tileX, blocker_owner->tileY,
                     &move_data->unk_98);
@@ -110,16 +101,16 @@ void func_8017182C(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject 
                 }
 
                 turn_data = (u8 *)&move_data->unk_98;
-                target_angle = func_800A0818(
+                target_angle = (s16)func_800A0818(
                     position_data->tileX, position_data->tileY,
                     (s16)target_x, (s16)target_y, (u16 *)turn_data);
                 actor_data->facing = target_angle;
                 if (func_8009A8C0(target_angle, position_data, actor_data, 0x20) <= 0) {
-                    actor_data->facing = func_800A0818(
+                    actor_data->facing = (s16)func_800A0818(
                         position_data->tileX, position_data->tileY,
                         D_80082E80.tileX, D_80082E80.tileY, (u16 *)turn_data);
                 }
-                if (func_8009FD7C(
+                if ((s16)func_8009FD7C(
                         position_data->tileX, position_data->tileY,
                         D_80082E80.tileX, D_80082E80.tileY) != 0) {
                     limit_detour = 1;
@@ -150,10 +141,10 @@ void func_8017182C(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject 
 
         if (actor_data->flags1C & 0x20000) {
             TileObject *target_position = &D_80082E80;
-            actor_data->facing = func_800A0818(
+            actor_data->facing = (s16)func_800A0818(
                 position_data->tileX, position_data->tileY,
                 target_position->tileX, target_position->tileY, &move_data->unk_98);
-            if (func_8009FD7C(
+            if ((s16)func_8009FD7C(
                     position_data->tileX, position_data->tileY,
                     target_position->tileX, target_position->tileY) != 0) {
                 if (func_800A0134(D_800814A8, actor_data) < 0x81) {
@@ -222,7 +213,7 @@ void func_8017182C(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject 
 
         if (turn_index == 0 &&
             *(u16 *)(&D_80082E80.tileX) != *(u16 *)&position_data->tileX) {
-            if (func_8009A180(actor_data,
+            if ((s16)func_8009A180(actor_data,
                     (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
                 do {
                     return;
@@ -262,3 +253,4 @@ void func_8017182C(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject 
         actor_data->unk_88 = turn_index;
     }
 }
+
