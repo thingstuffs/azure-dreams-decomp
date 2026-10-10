@@ -2,7 +2,6 @@
 #include "shared/object_flags.h"
 
 extern void func_800478B8(void *render_state);
-extern s16 D_8002992E[5];
 
 /* Updates motion and rotation and marks the object finished when flagged or expired. */
 void func_80025088(void *state, void *position, void *render_state) {
@@ -14,7 +13,7 @@ void func_80025088(void *state, void *position, void *render_state) {
     u16 frame_count;
 
     frame_count = *(u16 *)((u8 *)state + 0x2A);
-    D_8002992E[0] = 1;
+    D_8002992E = 1;
     frame_count = frame_count + 1;
     *(u16 *)((u8 *)state + 0x2A) = frame_count;
     if (!(frame_count & 1)) {
@@ -51,3 +50,4 @@ void func_80025088(void *state, void *position, void *render_state) {
         objectFlagBlock.flags |= 0x8000;
     }
 }
+

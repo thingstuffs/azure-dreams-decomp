@@ -2,7 +2,6 @@
 #include "shared/object_flags.h"
 
 extern void func_800478B8(void *visual);
-extern s16 D_8002992E[5];
 
 /* Updates effect motion and visual state, marking the effect inactive when its lifetime expires. */
 void func_8002615C(void *effect, void *position, void *visual) {
@@ -22,7 +21,7 @@ void func_8002615C(void *effect, void *position, void *visual) {
     *(u16 *)((u8 *)visual + 0x1C) -= 500;
     *(u16 *)((u8 *)visual + 0x1E) -= 500;
     frame = *(u16 *)((u8 *)effect + 0x2A);
-    D_8002992E[0] = 1;
+    D_8002992E = 1;
     frame += 1;
     *(u16 *)((u8 *)effect + 0x2A) = frame;
     if (!(frame & 1)) {
@@ -35,3 +34,4 @@ void func_8002615C(void *effect, void *position, void *visual) {
         objectFlagBlock.flags |= 0x8000;
     }
 }
+

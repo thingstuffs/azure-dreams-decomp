@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_1918800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -64,30 +65,19 @@ typedef struct S_818F9E48_6 {
 } S_818F9E48_6;   /* ((S_818F9E48_0 *)arg0)->unk_30 in func_818F9E48 */
 
 
-typedef struct PackedVector {
-    u16 x;
-    u16 y;
-    u16 z;
-    u16 pad;
-} PackedVector __attribute__((packed));
 
-typedef struct Pair16 {
-    s16 x;
-    s16 y;
-} Pair16;
+
+
 
 typedef struct EffectState {
     u8 pad[0x38];
     u8 levels[0x60];
 } EffectState;
 
-extern PackedVector D_8002400C;
-extern s16 D_800266BC;
 
-extern void func_80024CD4();
 
 /* Update a timed visual effect using its owner's appearance and position. */
-void func_818F9E48(void *state, void *position_out, void *effect_arg) {
+void func_80025648(void *state, void *position_out, void *effect_arg) {
     PackedVector origin;
     Pair16 anchor;
     s32 level_index;
@@ -188,3 +178,4 @@ void func_818F9E48(void *state, void *position_out, void *effect_arg) {
 /* MECHANISM: Separate packed source/derived locals preserve the 0x40 frame and retail slots.
    Guarded $t0/$a3 holds plus EffectState::levels recover the prologue and base-first loop adds.
    Zero-arg noreturn tails, a $v0 tail-slot pin, ordered CFG labels, and seam fences close the ABI. */
+

@@ -32,3 +32,4 @@ void func_80024BA0(void)
         link = (EntityRec *)(link_value + 0x20);
     } while (link != head);
 }
+

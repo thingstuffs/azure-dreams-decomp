@@ -1,0 +1,67 @@
+{
+  "module": "dungeon_ovl_1918800",
+  "scope": "whole_tu",
+  "flags": [
+    "-q",
+    "-G0",
+    "-0"
+  ],
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "basis": "Fresh same-stream whole-TU GNU and genuine -0 objects resolve to every retail byte. Recipe applies uniformly to the complete native TU.",
+  "assembly_sha256": "a514cbc866a8a93d3ba738e52a869bf812df7bddfaaa70c1703fa1478052f038",
+  "source_inputs": {
+    "include/common.h": "35ebd67ff9f32d587459e79e964f1d4f9013849bb766ea442ab0965c32971dac",
+    "include/game.h": "b80e856a3c4f4c4586c312a28336781390d102ba6f7af599d094bfa6900e7c83",
+    "include/globals.h": "5ff21c9f144187d9a1666588951ee1f3489b89d666b18cf712c46523d820f689",
+    "include/gte_macros.inc": "80614ffcdda065072d2ef6cde330d5782202240edef7faca5ac598fbfa125066",
+    "include/include_asm.h": "b07191b5b52fe5a0cc20e2114349a7ccfb537bba948ba277f375d9de2559a16e",
+    "include/labels.inc": "9011fb521abe02bf51d16d3ae8ec1667ccd899a26affb6a5fe00b842ab421dc5",
+    "include/m2c_compat.h": "7a7d49f368d8ef4ba8bf66a24b522cc4d0ae9b5b706b5a2149a11d0dccb2fa03",
+    "include/modules/dungeon_native_abi.h": "c285a8aa4e7da595560130359c324f6dbbc89fbcc13c3c4ec3d50c7e306c502c",
+    "include/modules/dungeon_ovl_1918800.h": "c55682846913840235d90b9e6b9de9a98055dfb0235baedef2ec67a529f5c5cd",
+    "include/shared/dir_step.h": "d15e39571d057d667ec40d62a5216436a8adbf25e04fd2ba468f551903e77d97",
+    "include/shared/dungeon_status.h": "cf2efa85ed10f2b6b71bbc1e5d922c0ea7d20ac9a655b67d8d254c75b042ac9e",
+    "include/shared/entity.h": "64fd596c136a0531d96cd2d1fe206abc8b32286c0171c1796a710f6a6c9d93c0",
+    "include/shared/entity_height_offsets.h": "e4e2aabcfacda80c1ba59901b39e38a04086ea2a2c332386f1cc03448d5a2fed",
+    "include/shared/game_work.h": "813f5e364376a12ed80235a4f1b63ed27105d4b1362d7493ef90ca6c321b6366",
+    "include/shared/gpu_packets.h": "f57c07438d2c0bffca29aa36ba3fb7d2983e99fcd8b9c6aa9434b784681de38c",
+    "include/shared/object_flags.h": "587f3da6018f67a1af0997d8f9ce3528bf0b89b0b3be4ae4fc4b2e9e276bcc28",
+    "include/shared/object_node.h": "310ef362af013f2e08a2d34163e9258a1f49d049fb534b3b7244e65152475ba5",
+    "include/shared/slus_callbacks.h": "be185bc0cea768e3e88fee569dad7e7f4fee68ff506501cf38a0d980c182ee1e",
+    "src/dungeon/func_818F8800.c": "f2fc881cf81af27cd920f6f2a16705206a15a67dd6a1941dc7eb8557ee1d393b",
+    "src/dungeon/func_818F94D4.c": "abd843db70ec75bcad873de557d2253d5c2860c68ad2495b5f5857ec766b3d73",
+    "src/dungeon/func_818F96DC.c": "070eb46eb33bed64df3e07505d4f5cf84b31387f32bc95a7de3a9d4cb04d6a76",
+    "src/dungeon/func_818F992C.c": "54b81ef8b59a9a478724d1c6ab4ec71054a1ce1e61df7a4ffc6231ccbbe96c8b",
+    "src/dungeon/func_818F995C.c": "d361afe3e8855c065d888dc61a04f59d88d619454571c50f01c2f289e398fd1f",
+    "src/dungeon/func_818F9A28.c": "075fce787e43563f850164e8e44e17b82a36acab538d27c7d8ef9e380fbcebc6",
+    "src/dungeon/func_818F9B48.c": "1e1389ce58b90fada86f988a85bdace7be51b0832cccb325b4af55bd72f3d820",
+    "src/dungeon/func_818F9B98.c": "eb38ba94c34c42e3180201750a7043c21e092993ed3889d33390b5ae1a6ef42c",
+    "src/dungeon/func_818F9D8C.c": "1fe6d6bac79a86abd97f22a84a0fb1da99a1513fa3150a7e30cd8e3fd37818aa",
+    "src/dungeon/func_818F9E48.c": "51e7a19929798238748220c094fcd6849bf72d142ff11ceee99930b297d0ea59",
+    "src/dungeon/func_818FA12C.c": "38927e8f187a115f7498365369bd4b39935e8d470ea372a20e849fef2cdcf0b7",
+    "src/dungeon/modules/ovl_1918800.c": "3b81ddd63c6a20abb31c0b808f983dc0bf31637fa3c6bd69bee5659ad560eb4a"
+  },
+  "review": "pending",
+  "reviewer": null,
+  "controls": {
+    "assembly_sha256": "a514cbc866a8a93d3ba738e52a869bf812df7bddfaaa70c1703fa1478052f038",
+    "gnu_object_sha256": "643561def5889a0f0bb9c9de819439d82b4da32520915491ab76b316a66eb99a",
+    "default_object_sha256": "cb9761755d092213cfbcd45e3c4d705648ceb2bbbc0bd39c76ab37592b026650",
+    "matching_object_sha256": "9a1d332b68428508597fdfd06a2208f40d2adce6e51a6979f16a49c287a1619b",
+    "default_flags": [
+      "-q",
+      "-G0"
+    ],
+    "matching_flags": [
+      "-q",
+      "-G0",
+      "-0"
+    ],
+    "default_exact": false,
+    "default_diff": 64,
+    "matching_exact": true
+  }
+}

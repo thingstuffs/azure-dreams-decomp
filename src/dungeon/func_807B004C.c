@@ -1,19 +1,16 @@
+#include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
 
-typedef s32 M2C_UNK;
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-typedef struct Pair {
+typedef struct Bank7ce_18_Pair {
     s32 first;
     s32 second;
-} Pair;
+} Bank7ce_18_Pair;
 
-extern void *func_8003FD64();
-extern void func_8004491C();
 extern void func_800B835C();
-extern u8 D_800F75EC[12];
 extern u8 D_800FBE30[12];
 extern u8 D_800FBE3C[12];
 
@@ -23,7 +20,7 @@ typedef struct S_807B004C_0 {
     u8 * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_807B004C_0;   /* temp_v0 in func_807B004C */
+} S_807B004C_0;   /* temp_v0 in func_800F784C */
 
 typedef struct S_807B004C_1 {
     u8 pad_00[0x8];
@@ -31,32 +28,32 @@ typedef struct S_807B004C_1 {
     u8 pad_0C[0x10];
     s16 unk_1C;
     s16 unk_1E;
-} S_807B004C_1;   /* temp_v1 in func_807B004C */
+} S_807B004C_1;   /* temp_v1 in func_800F784C */
 
 typedef struct S_807B004C_2 {
     u8 pad_00[0xA];
     u16 unk_0A;
     s16 unk_0C;
-} S_807B004C_2;   /* temp_v1_2 in func_807B004C */
+} S_807B004C_2;   /* temp_v1_2 in func_800F784C */
 
 typedef struct S_807B004C_3 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_807B004C_3;   /* arg0 in func_807B004C */
+} S_807B004C_3;   /* arg0 in func_800F784C */
 
 /* Creates a child object, initializes its state, and loads its graphics. */
-void func_807B004C(void *parent_data) {
-    Pair texture_rect;
+void func_800F784C(void *parent_data) {
+    Bank7ce_18_Pair texture_rect;
     s32 rect_origin;
     s32 rect_size;
-    Pair *rect_ptr;
+    Bank7ce_18_Pair *rect_ptr;
     void *child;
     S_807B004C_1 *render_state;
     S_807B004C_2 *child_data;
 
     child = func_8003FD64(2, (u8 *)parent_data - 0x20);
     if (child != 0) {
-        ((S_807B004C_0 *)child)->unk_10 = D_800F75EC;
+        ((S_807B004C_0 *)child)->unk_10 = func_800F75EC;
         func_8004491C(child, func_80045340);
         rect_origin = 0x01000340;
         rect_size = 0x200020;

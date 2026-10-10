@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_192a800.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -5,51 +6,24 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-typedef struct {
-    u16 x;
-    u16 y;
-    u16 w;
-    u16 h;
-} __attribute__((packed)) Rect;
 
-typedef struct {
-    s16 x;
-    s16 y;
-} Point;
 
-typedef struct {
-    s16 x;
-    u16 y;
-} Coord;
 
-typedef struct {
-    Coord value[8];
-} __attribute__((packed)) CoordTable;
 
-typedef struct {
-    u32 word[3];
-} __attribute__((packed)) Packed12;
 
-extern Rect D_80024038;
-extern CoordTable D_80024064;
 extern void *jtbl_80024088[9];
 
 extern Packed12 D_80025618;
 extern Packed12 D_80025624;
-extern s16 D_80025630[8];
-extern void *D_800246B4[3];
 extern u8 D_800E3D68[];
 
 extern s32 func_8003DF74(void *, void *, void *, s32);
-extern void func_8004491C(void *, void *);
+
 extern s32 func_80069EF8(void);
-extern void func_80024470(void *, s32, s32, s32, s32, s32, s32);
 extern s32 func_800A4778(u16 x, u16 y, s32 z, void *skip_check);
-extern void func_800A56E0(s32);
-extern void func_800B8FC8(void *, void *, void *, s32, s32);
+
 extern void *func_8003FC64(s32);
 extern u16 GetTPage(s32, s32, s32, s32);
-extern void func_800240AC(void *, s32, void *);
 
 typedef struct S_func_8190B2D0_0 {
     void * unk_0;
@@ -264,7 +238,7 @@ void func_80024AD0(S_func_8190B2D0_0 *effect, void *motion_arg, void *sprite_arg
         effect->unk_96 = D_80025624;
         sprite->unk_8 = (u8 *)effect + 0x96;
         owner_flags = owner->unk_2A;
-        D_80025630[0] = 1;
+        D_80025630 = 1;
         next_state = effect->unk_A.u16;
         effect->unk_7E.u16 = (u16)(owner_flags >> 9) & 7;
         next_state++;
@@ -304,7 +278,7 @@ void func_80024AD0(S_func_8190B2D0_0 *effect, void *motion_arg, void *sprite_arg
 
         if (((S_func_8190B2D0_8 *)effect->unk_4)->unk_0 & 0x80) {
             if (!(effect->unk_7A & 4)) {
-                func_8004491C((u8 *)effect - 32, func_80045340);
+                func_8004491C((u8 *)effect - 32, (s32)func_80045340);
                 sprite->unk_C.at_E_u8.unk_E = 20;
                 sprite->unk_C.at_D_u8.unk_D = 20;
                 sprite->unk_C.u8 = 20;
@@ -478,8 +452,8 @@ void func_80024AD0(S_func_8190B2D0_0 *effect, void *motion_arg, void *sprite_arg
                 ((S_func_8190B2D0_7 *)child_data)->unk_2C = owner;
                 ((S_func_8190B2D0_7 *)child_data)->unk_30 = owner->unk_60;
                 ((S_func_8190B2D0_7 *)child_data)->unk_34 = effect;
-                motion_or_child->unk_10.ptr = D_800246B4;
-                func_8004491C(child_object, func_80045340);
+                motion_or_child->unk_10.ptr = func_800246B4;
+                func_8004491C(child_object, (s32)func_80045340);
                 sprite = motion_or_child->unk_C.ptr;
                 sprite->unk_10 = 32;
                 sprite->unk_6 = 6;
@@ -612,7 +586,7 @@ void func_80024AD0(S_func_8190B2D0_0 *effect, void *motion_arg, void *sprite_arg
         if ((s16)frame < 31) {
             break;
         }
-        cleanup_pending = D_80025630[0];
+        cleanup_pending = D_80025630;
         effect->unk_82.u16 = old_frame;
         switch (cleanup_pending) {
         case 0:
@@ -623,7 +597,7 @@ void func_80024AD0(S_func_8190B2D0_0 *effect, void *motion_arg, void *sprite_arg
             break;
         }
         default:
-            D_80025630[0] = 0;
+            D_80025630 = 0;
             break;
         }
     }

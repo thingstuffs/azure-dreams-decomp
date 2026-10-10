@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
@@ -13,34 +14,34 @@ typedef struct S_807AE960_1 {
     union { s16 s; u16 u; } unk_0C;   /* accessed as both */
     u16 unk_0E;
     s16 unk_10;
-} S_807AE960_1;   /* state in func_807AE960 */
+} S_807AE960_1;   /* state in func_800F6160 */
 
 typedef struct S_807AE960_2 {
     u8 pad_00[0x1A];
     s16 unk_1A;
-} S_807AE960_2;   /* target in func_807AE960 */
+} S_807AE960_2;   /* target in func_800F6160 */
 
 typedef struct S_807AE960_3 {
     u8 pad_00[0x2090];
     s32 unk_2090;
     u8 pad_2094[0x1686];
     u16 unk_371A;
-} S_807AE960_3;   /* global in func_807AE960 */
+} S_807AE960_3;   /* global in func_800F6160 */
 
 typedef struct S_807AE960_4 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_807AE960_4;   /* actor in func_807AE960 */
+} S_807AE960_4;   /* actor in func_800F6160 */
 
 typedef struct S_807AE960_5 {
     u8 pad_00[0x14];
     s16 unk_14;
-} S_807AE960_5;   /* global_end in func_807AE960 */
+} S_807AE960_5;   /* global_end in func_800F6160 */
 
 typedef struct S_807AE960_6 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_807AE960_6;   /* entry in func_807AE960 */
+} S_807AE960_6;   /* entry in func_800F6160 */
 
 
 extern void *D_800F6000[];
@@ -49,13 +50,12 @@ s32 func_8003F270();
 void func_8003F540();
 int func_800445E0();
 s32 func_80053EF0();
-s32 func_800A56E0();
 extern M2C_UNK D_80010000;
 extern u16 D_8001371A;
 extern s32 D_8006CD58;
 
 /* Dispatch the CD-audio fade state machine, then step the actor's shake counter and raise the finished flag. */
-void func_807AE960(u8 *state, u8 *actor, u8 *target) {
+void func_800F6160(u8 *state, u8 *actor, u8 *target) {
     s16 steps;
     s32 dispatch_index;
     s16 remaining;

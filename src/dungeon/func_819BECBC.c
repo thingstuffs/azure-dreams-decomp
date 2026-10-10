@@ -42,8 +42,6 @@ typedef struct S_800244BC_4 {
 
 
 extern void *func_8003FC64(s32);
-extern void func_8004491C(void *, void *);
-extern s32 D_80024398[];
 
 /* Creates an object at the supplied position and initializes its state and appearance. */
 void func_800244BC(s32 state_value, S_800244BC_3 *source_pos)
@@ -60,8 +58,8 @@ void func_800244BC(s32 state_value, S_800244BC_3 *source_pos)
         state->unk_28 = 0x27;
         state->unk_2A = 0x27;
         state->unk_20 = state_value;
-        ((S_800244BC_1 *)object)->unk_10 = D_80024398;
-        func_8004491C(object, func_80045340);
+        ((S_800244BC_1 *)object)->unk_10 = (void *)func_80024398;
+        func_8004491C(object, (s32)func_80045340);
         position = ((S_800244BC_1 *)object)->unk_08;
         position->unk_00 = source_pos->unk_00;
         position->unk_04 = source_pos->unk_04;
@@ -76,3 +74,4 @@ void func_800244BC(s32 state_value, S_800244BC_3 *source_pos)
         appearance->unk_14 = render_flags | 0x80;
     }
 }
+

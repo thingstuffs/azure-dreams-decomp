@@ -1,3 +1,5 @@
+# r112: widened to complete native member boundaries; packed loader receipt
+# loads [0x7CE800,0x7D4800) at 0x800F6000. No partial member is copied as raw.
 # Standalone overlay-local build seed for a DEEP-DUNGEON code subwindow.
 # Do NOT add to configure.py / build.ninja.
 #
@@ -24,10 +26,10 @@ standalone_build:
     out_dir: work/s3_splat/extract
     container_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
   window:
-    file_start: 0x7CF000
-    file_end: 0x7D0000
-    vram_start: 0x807AF000
-    base_confidence: proven-engine/derived-backhalf
+    file_start: 0x7CEF8C
+    file_end: 0x7D004C
+    vram_start: 0x800F678C
+    base_confidence: jump-implied
   split_results: overlays/dungeon/overlay_first_pass_results.json
   matched_sources:
     - name: overlays/dungeon
@@ -37,9 +39,9 @@ standalone_build:
 segments:
   - [0x0, bin]
   - type: code
-    start: 0x7CF000
-    vram: 0x807AF000
+    start: 0x7CEF8C
+    vram: 0x800F678C
     subsegments:
-      - [0x7CF000, asm]
-  - [0x7D0000, bin]
+      - [0x7CEF8C, asm]
+  - [0x7D004C, bin]
   - [0x1A86800]

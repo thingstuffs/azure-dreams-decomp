@@ -1,11 +1,9 @@
+#include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
-void *func_8003FD64();                  /* extern */
-s32 func_8004491C();           /* extern */
 s32 rand();                                /* extern */
-extern M2C_UNK D_800F7348;
 extern M2C_UNK D_800FBE24;
 
 typedef struct S_807AFC9C_0 {
@@ -15,7 +13,7 @@ typedef struct S_807AFC9C_0 {
     M2C_UNK * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_807AFC9C_0;   /* temp_v0 in func_807AFC9C */
+} S_807AFC9C_0;   /* temp_v0 in func_800F749C */
 
 typedef struct S_807AFC9C_1 {
     u8 pad_00[0x2];
@@ -24,7 +22,7 @@ typedef struct S_807AFC9C_1 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_807AFC9C_1;   /* temp_s0 in func_807AFC9C */
+} S_807AFC9C_1;   /* temp_s0 in func_800F749C */
 
 typedef struct S_807AFC9C_2 {
     u8 pad_00[0x2];
@@ -33,7 +31,7 @@ typedef struct S_807AFC9C_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_807AFC9C_2;   /* arg1 in func_807AFC9C */
+} S_807AFC9C_2;   /* arg1 in func_800F749C */
 
 typedef struct S_807AFC9C_3 {
     u8 pad_00[0x6];
@@ -47,22 +45,22 @@ typedef struct S_807AFC9C_3 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_807AFC9C_3;   /* temp_a0 in func_807AFC9C */
+} S_807AFC9C_3;   /* temp_a0 in func_800F749C */
 
 typedef struct S_807AFC9C_4 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_807AFC9C_4;   /* arg2 in func_807AFC9C */
+} S_807AFC9C_4;   /* arg2 in func_800F749C */
 
 typedef struct S_807AFC9C_5 {
     u8 pad_00[0x4];
     void * unk_04;
     u8 pad_08[0x4];
     s16 unk_0C;
-} S_807AFC9C_5;   /* temp_v1 in func_807AFC9C */
+} S_807AFC9C_5;   /* temp_v1 in func_800F749C */
 
 /* Spawns an effect near the origin with color channels selected by the source flags. */
-void func_807AFC9C(s32 spawn_arg, S_807AFC9C_2 *origin, S_807AFC9C_4 *source) {
+void func_800F749C(s32 spawn_arg, S_807AFC9C_2 *origin, S_807AFC9C_4 *source) {
     S_807AFC9C_3 *sprite;
     S_807AFC9C_1 *position;
     void *effect;
@@ -70,7 +68,7 @@ void func_807AFC9C(s32 spawn_arg, S_807AFC9C_2 *origin, S_807AFC9C_4 *source) {
 
     effect = func_8003FD64(0x212, spawn_arg);
     if (effect != NULL) {
-        ((S_807AFC9C_0 *)effect)->unk_10 = &D_800F7348;
+        ((S_807AFC9C_0 *)effect)->unk_10 = (void *)func_800F7348;
         func_8004491C(effect, func_80045340);
         position = ((S_807AFC9C_0 *)effect)->unk_08;
         position->unk_02 = (s16) ((origin->unk_02 + (rand() & 0x3F)) - 0x20);

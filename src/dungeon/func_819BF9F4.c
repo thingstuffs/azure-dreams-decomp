@@ -1,6 +1,6 @@
 #include "common.h"
 
-typedef s32 M2C_UNK;
+
 
 typedef struct S_800251F4_0 {
     u8 pad_00[0xC];
@@ -104,14 +104,9 @@ typedef struct {
     s16 v[12];
 } QuadUV;
 
-extern void *func_80024064(u32, s32, s32);
-extern void func_8003DB94(void *, M2C_UNK *, s32);
 extern void *func_8003FC64(s32);
-extern void func_8004491C(void *, RECT *);
 extern s32 func_80069EF8(void);
 
-extern RECT D_80025034[2];
-extern M2C_UNK D_80025088[2];
 extern M2C_UNK D_800DE870;
 
 /* Spawns four textured particles with randomized positions, motion, and rotation. */
@@ -150,8 +145,8 @@ void func_800251F4(s32 unused, s32 center_x, s16 center_y, s16 center_z)
         if (particle != 0) {
             ((S_800251F4_0 *)particle_work)->unk_28 = 0x78;
             ((S_800251F4_0 *)particle_work)->unk_2C = func_80069EF8() & 1;
-            ((S_800251F4_1 *)particle)->unk_10 = D_80025088;
-            func_8004491C(particle, D_80025034);
+            ((S_800251F4_1 *)particle)->unk_10 = (void *)func_80025088;
+            func_8004491C(particle, (s32)func_80025034);
 
             transform = ((S_800251F4_1 *)particle)->unk_0C;
             ((S_800251F4_2 *)transform)->unk_10 = 0x20;
@@ -269,3 +264,4 @@ void func_800251F4(s32 unused, s32 center_x, s16 center_y, s16 center_z)
         iteration = tile_max;
     } while (tile_max < 4);
 }
+

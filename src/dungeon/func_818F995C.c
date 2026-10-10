@@ -1,11 +1,10 @@
+#include "modules/dungeon_ovl_1918800.h"
 #include "common.h"
 #include "modules/dungeon_native_abi.h"
 #include "shared/entity.h"
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
 
-extern s32 rand(void);
-extern s16 D_800266BC;
 
 /* Raise the entity toward the queried ground height and set flags when the countdown expires. */
 void func_8002515C(EntityRec *state, EntityRec *position)
@@ -26,3 +25,4 @@ void func_8002515C(EntityRec *state, EntityRec *position)
         objectFlagBlock.flags |= 0x8000;
     }
 }
+

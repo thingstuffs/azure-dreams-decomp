@@ -23,7 +23,6 @@ typedef struct S_80024398_2 {
     u16 unk_1E;
 } S_80024398_2;   /* node in func_80024398 */
 
-extern s16 D_8002992E[5];
 
 /* Adjusts node scale by countdown phase, restoring unity and setting completion flags at the end. */
 void func_80024398(void *effect)
@@ -37,7 +36,7 @@ void func_80024398(void *effect)
     S_80024398_2 *node;
 
     ticks_left = ((S_80024398_0 *)effect)->unk_28.s;
-    D_8002992E[0] = 1;
+    D_8002992E = 1;
 
     {
         S_80024398_1 *parent;
@@ -97,3 +96,4 @@ void func_80024398(void *effect)
         objectFlagBlock.flags |= 0x8000;
     }
 }
+

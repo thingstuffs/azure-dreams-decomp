@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_192a800.h"
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"

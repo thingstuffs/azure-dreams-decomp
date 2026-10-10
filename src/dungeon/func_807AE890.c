@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -5,11 +6,6 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 D_800DEAE0[];
-void *func_8003FC64();                       /* extern */
-s32 func_8004491C();                /* extern */
-void func_8003DB94();                    /* extern */
-s32 func_800BCB04();               /* extern */
-extern M2C_UNK D_800F6070;
 
 typedef struct S_800F6090_0 {
     u8 pad_00[0x8];
@@ -47,7 +43,7 @@ void func_800F6090(s16 x, s16 y) {
 
     object = func_8003FC64(0x16);
     if (object != NULL) {
-        object->unk_10 = &D_800F6070;
+        object->unk_10 = (void *)func_800F6070;
         func_8004491C(object, func_80045340);
         render_state = object->unk_0C;
         render_config = (u32) *((u32 *)(&gameWork.view.unk_090));

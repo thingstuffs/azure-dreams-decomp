@@ -79,14 +79,9 @@ typedef struct S_800247C0_8 {
 
 
 
-s16 func_8002458C();
-s32 func_8003DB94();
 void *func_8003FC64();
-s32 func_8004491C();
 s32 func_80069EF8();
 s32 func_800A48F0();
-extern s32 D_800246B0;
-extern s16 D_8002992E;
 extern s32 D_800DE870;
 
 /* Shrink the effect, spawn inward-moving particles, and finish when its timer expires. */
@@ -150,8 +145,8 @@ void func_800247C0(void *effect, void *origin)
             }
             particle_state = object + 0x20;
             ((S_800247C0_5 *)particle_state)->unk_28 = 0x14;
-            ((S_800247C0_1 *)object)->unk_10 = &D_800246B0;
-            func_8004491C(object, func_80045340);
+            ((S_800247C0_1 *)object)->unk_10 = (void *)func_800246B0;
+            func_8004491C(object, (s32)func_80045340);
             sprite = ((S_800247C0_1 *)object)->unk_0C;
             ((S_800247C0_4 *)sprite)->unk_10 = 0x20;
             ((S_800247C0_4 *)sprite)->unk_14 |= 0xC;
@@ -207,3 +202,4 @@ void func_800247C0(void *effect, void *origin)
         objectFlagBlock.flags |= 0x8000;
     }
 }
+

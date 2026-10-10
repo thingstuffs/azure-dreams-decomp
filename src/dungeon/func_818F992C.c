@@ -1,6 +1,6 @@
+#include "modules/dungeon_ovl_1918800.h"
 #include "common.h"
 
-extern s32 rand(void);
 
 /* Return a random sign of either -1 or 1. */
 s32 func_8002512C(void) {
@@ -12,3 +12,4 @@ s32 func_8002512C(void) {
     }
     return sign;
 }
+

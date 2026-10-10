@@ -1,25 +1,26 @@
+#include "modules/dungeon_ovl_1918800.h"
 #include "common.h"
 #include "shared/game_work.h"
 
-typedef struct {
+typedef struct Position {
     u16 x;
     s16 y;
     s32 value;
 } Position;
 
-typedef struct {
+typedef struct Coord {
     u16 x;
     s16 y;
 } Coord;
 
-typedef struct {
+typedef struct DungeonState {
     u8 pad0[0x8B0];
     u32 ordering_table;
     u8 pad8B4[0x1C];
     u8 *next_packet;
 } DungeonState;
 
-typedef struct {
+typedef struct Packet16 {
     u32 tag;
     u32 code;
     u16 x;
@@ -28,7 +29,6 @@ typedef struct {
 } Packet16;
 
 extern u8 D_801C9E40[16];
-extern void func_8002405C(void *, s32, s32, u32 *, s32);
 extern void func_80067E2C(void *, void *);
 
 /* Queue drawing with an optional cleared rectangle, then restore the drawing area. */
@@ -106,3 +106,4 @@ void func_80024CD4(s32 draw_param_a, s32 draw_param_b, Position *restore_area, P
     *ordering_table = (*ordering_table & 0xFF000000) |
                       ((u32)packet & 0x00FFFFFF);
 }
+

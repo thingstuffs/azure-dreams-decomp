@@ -1,8 +1,6 @@
 #include "common.h"
 
-extern s32 func_800251F4();
 extern s32 func_800419EC();
-extern s32 func_800A56E0();
 extern s16 func_800BCB04();
 
 /* Applies a coordinate update and triggers effects when the queried value is within bounds. */
@@ -34,3 +32,4 @@ void func_80025648(s32 object, s32 raw_x, s32 raw_y, s32 raw_upper, s16 lower_bo
         }
     }
 }
+

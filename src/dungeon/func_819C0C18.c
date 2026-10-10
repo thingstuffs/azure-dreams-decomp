@@ -7,14 +7,9 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
-typedef struct {
-    s16 x;
-    u16 y;
-} OffsetPair;
 
-typedef struct {
-    OffsetPair entries[8];
-} OffsetTable;
+
+
 
 typedef struct {
     u8 pad0[2];
@@ -45,7 +40,7 @@ typedef struct {
     u16 flags;
 } ChildObj;
 
-typedef struct S_func_819C0C18_0 {
+typedef struct S_func_80026418_0 {
     u8 pad_00[4];
     ChildObj *unk_04;
     u8 unk_08;
@@ -58,38 +53,34 @@ typedef struct S_func_819C0C18_0 {
     u8 pad_26[2];
     union { s16 s; u16 u; } unk_28;
     u16 unk_2A;
-} S_func_819C0C18_0;
+} S_func_80026418_0;
 
-typedef struct S_func_819C0C18_1 {
+typedef struct S_func_80026418_1 {
     u8 pad_00[0xA];
     u16 unk_0A;
     s32 unk_0C;
-} S_func_819C0C18_1;
+} S_func_80026418_1;
 
-typedef struct S_func_819C0C18_3 {
+typedef struct S_func_80026418_3 {
     u8 pad_00[0xA8];
     u8 unk_A8;
     u8 unk_A9;
     u8 unk_AA;
-} S_func_819C0C18_3;
+} S_func_80026418_3;
 
-extern OffsetTable D_80024028;
-extern s16 D_8002992E;
+
 extern u8 D_8006E8A0[];
 extern u8 D_8006EE50[];
 
 extern void func_80024BA0(void);
-extern void func_80025CE8(s32, s32, s32, s32);
-extern void func_8002626C(void *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
 extern void func_8003F80C(void *, s32, s32, s32);
 extern s32 func_80040490(void *, void *);
 extern void func_800542BC(void);
 extern s32 func_80069EF8(void);
-extern void func_800A56E0(s32);
 extern void func_800C77D0(s32 slot_id, void *target, s32 target_id, s16 slot_value);
 
 /* Advances a particle effect through its timed color fade and cleanup states. */
-void func_819C0C18(S_func_819C0C18_0 *effect)
+void func_80026418(S_func_80026418_0 *effect)
 {
     s32 rect[2];
     OffsetTable offsets = D_80024028;

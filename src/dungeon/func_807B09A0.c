@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -7,12 +8,11 @@
 #define NULL 0
 #endif
 
-typedef s32 M2C_UNK;
 
 typedef struct S_807B09A0_4 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_807B09A0_4;   /* temp_v0_2 in func_807B09A0 */
+} S_807B09A0_4;   /* temp_v0_2 in func_800F81A0 */
 
 typedef struct S_807B09A0_5 {
     u8 pad_00[0x2];
@@ -23,15 +23,12 @@ typedef struct S_807B09A0_5 {
     s16 unk_0A;
     s32 unk_0C;
     s32 unk_10;
-} S_807B09A0_5;   /* ((S_807B09A0_4 *)temp_v0_2)->unk_08 in func_807B09A0 */
+} S_807B09A0_5;   /* ((S_807B09A0_4 *)temp_v0_2)->unk_08 in func_800F81A0 */
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-void *func_8003FD64();
-s32 func_8004491C();
 s32 rand();
 extern M2C_UNK D_800DEED0;
-extern M2C_UNK D_800F89B8;
 
 typedef struct S_807B09A0_0 {
     u16 unk_00;
@@ -39,13 +36,13 @@ typedef struct S_807B09A0_0 {
     u16 unk_04;
     u8 pad_06[0x2];
     u16 unk_08;
-} S_807B09A0_0;   /* arg0 in func_807B09A0 */
+} S_807B09A0_0;   /* arg0 in func_800F81A0 */
 
 typedef struct S_807B09A0_1 {
     u8 pad_00[0xC];
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_807B09A0_1;   /* temp_v0_2 in func_807B09A0 */
+} S_807B09A0_1;   /* temp_v0_2 in func_800F81A0 */
 
 typedef struct S_807B09A0_2 {
     M2C_UNK * unk_00;
@@ -60,15 +57,15 @@ typedef struct S_807B09A0_2 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_807B09A0_2;   /* temp_s0 in func_807B09A0 */
+} S_807B09A0_2;   /* temp_s0 in func_800F81A0 */
 
 typedef struct S_807B09A0_3 {
     u8 pad_00[0x4];
     s32 unk_04;
-} S_807B09A0_3;   /* &D_800DEED0 in func_807B09A0 */
+} S_807B09A0_3;   /* &D_800DEED0 in func_800F81A0 */
 
 /* Spawn a particle near the emitter with randomized motion every other update. */
-void func_807B09A0(S_807B09A0_0 *emitter) {
+void func_800F81A0(S_807B09A0_0 *emitter) {
     s32 spawn_x;
     s32 spawn_y;
     s32 sprite_config;
@@ -81,7 +78,7 @@ void func_807B09A0(S_807B09A0_0 *emitter) {
     if (tick_count & 1) {
         particle = func_8003FD64(0x312, ((M2C_UNK *)&D_80083498.next));
         if (particle != NULL) {
-            particle->unk_10 = &D_800F89B8;
+            particle->unk_10 = (void *)func_800F89B8;
             func_8004491C(particle, func_80045340);
             sprite = particle->unk_0C;
             spawn_x = (emitter->unk_00 + (rand() % 48)) - 0x18;

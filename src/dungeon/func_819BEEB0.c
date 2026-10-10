@@ -2,7 +2,6 @@
 #include "shared/object_flags.h"
 
 extern void func_800478B8(void *visual);
-extern s16 D_8002992E[5];
 
 /* Advance effect motion and animation, then mark it finished when its lifetime expires. */
 void func_800246B0(void *effect, void *position, void *visual) {
@@ -22,7 +21,7 @@ void func_800246B0(void *effect, void *position, void *visual) {
     *(u16 *)((u8 *)visual + 0x1C) -= 0xC8;
     *(u16 *)((u8 *)visual + 0x1E) -= 0xC8;
     frame_count = *(u16 *)((u8 *)effect + 0x2A);
-    D_8002992E[0] = 1;
+    D_8002992E = 1;
     frame_count += 1;
     *(u16 *)((u8 *)effect + 0x2A) = frame_count;
     if (!(frame_count & 1)) {
@@ -35,3 +34,4 @@ void func_800246B0(void *effect, void *position, void *visual) {
         objectFlagBlock.flags |= 0x8000;
     }
 }
+

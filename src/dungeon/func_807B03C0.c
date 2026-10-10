@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_status.h"
@@ -9,10 +10,9 @@ typedef struct {
     u8 state;
 } Entity;
 
-extern Entity *D_800FBE1C;
 
 /* Set the current entity state to three, decrement the counter, and clear the global and entity flags. */
-void func_807B03C0(void) {
+void func_800F7BC0(void) {
     Entity *entity;
 
     entity = (Entity *)((u8 *)D_800FBE1C + 0x20);

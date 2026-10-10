@@ -1,8 +1,8 @@
+#include "modules/dungeon_ovl_1918800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
 
-extern s16 D_800266BC;
 
 /* The effect's record; its ObjectNodeHeader sits right before it. */
 typedef struct CountdownRecord {
@@ -24,3 +24,4 @@ void func_80025348(CountdownRecord *record)
         objectFlagBlock.flags |= 0x8000;
     }
 }
+

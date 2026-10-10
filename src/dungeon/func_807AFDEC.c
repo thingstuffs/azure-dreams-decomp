@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -8,7 +9,7 @@ typedef struct {
     s16 z;
 } Offset3;
 
-typedef struct {
+typedef struct Position3 {
     u8 pad0[2];
     u16 x;
     u8 pad4[2];
@@ -17,7 +18,7 @@ typedef struct {
     u16 z;
 } Position3;
 
-typedef struct {
+typedef struct ColorPart {
     u8 pad0[0xC];
     u8 r;
     u8 g;
@@ -26,7 +27,6 @@ typedef struct {
 
 extern u8 D_800DDC42;
 
-extern void func_800F749C(void *, Position3 *, void *);
 
 
 typedef struct S_807AFDEC_0 {
@@ -35,20 +35,20 @@ typedef struct S_807AFDEC_0 {
     union { s16 s; u16 u; } unk_08;   /* accessed as both */
     u8 pad_0A[0x2];
     union { s16 s; u16 u; } unk_0C;   /* accessed as both */
-} S_807AFDEC_0;   /* arg0 in func_807AFDEC */
+} S_807AFDEC_0;   /* arg0 in func_800F75EC */
 
 typedef struct S_807AFDEC_1_pre {
     Position3 * unk_00;
     u8 pad_04[0x14];
-} S_807AFDEC_1_pre;   /* the 0x18 bytes before ((S_807AFDEC_0 *)arg0)->unk_00 in func_807AFDEC, addressed as ((S_807AFDEC_0 *)arg0)->unk_00[-1] */
+} S_807AFDEC_1_pre;   /* the 0x18 bytes before ((S_807AFDEC_0 *)arg0)->unk_00 in func_800F75EC, addressed as ((S_807AFDEC_0 *)arg0)->unk_00[-1] */
 
 typedef struct S_807AFDEC_1 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_807AFDEC_1;   /* ((S_807AFDEC_0 *)arg0)->unk_00 in func_807AFDEC */
+} S_807AFDEC_1;   /* ((S_807AFDEC_0 *)arg0)->unk_00 in func_800F75EC */
 
 /* Position the effect and fade its selected color channels in, then out. */
-void func_807AFDEC(void *effect, Position3 *position, ColorPart *tint)
+void func_800F75EC(void *effect, Position3 *position, ColorPart *tint)
 {
     void *effect_base;
     Offset3 offset;

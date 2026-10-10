@@ -1,7 +1,8 @@
+#include "modules/dungeon_ovl_1918800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
-typedef struct {
+typedef struct Func818F9D8CState {
     u16 unk0;
     s16 limit;
     s16 current;
@@ -9,7 +10,6 @@ typedef struct {
     s16 target;
 } Func818F9D8CState;
 
-extern s16 D_800266BC[5];
 
 /* Updates a grayscale fade, advances its progress, and flags completion. */
 void func_8002558C(Func818F9D8CState *state, s32 unused, u8 *out)
@@ -22,7 +22,7 @@ void func_8002558C(Func818F9D8CState *state, s32 unused, u8 *out)
 
     current = state->current;
     target = state->target;
-    D_800266BC[0] = 1;
+    D_800266BC = 1;
 
     if (current < target) {
         intensity = (current * 0x60) / target;
@@ -42,3 +42,4 @@ void func_8002558C(Func818F9D8CState *state, s32 unused, u8 *out)
         objectFlagBlock.flags |= 0x8000;
     }
 }
+

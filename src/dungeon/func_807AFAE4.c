@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
 #include "m2c_compat.h"
 
@@ -10,27 +11,24 @@ typedef struct S_807AFAE4_0 {
     void * unk_20;
     u8 pad_24[0x6];
     u16 unk_2A;
-} S_807AFAE4_0;   /* temp_v0 in func_807AFAE4 */
+} S_807AFAE4_0;   /* temp_v0 in func_800F72E4 */
 
 typedef struct S_807AFAE4_1 {
     s32 unk_00;
     u8 pad_04[0x3E];
     u16 unk_42;
-} S_807AFAE4_1;   /* arg0 in func_807AFAE4; pointer addresses record offset 0x18 */
+} S_807AFAE4_1;   /* arg0 in func_800F72E4; pointer addresses record offset 0x18 */
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void *func_8003FD64();                  /* extern */
-s32 func_800A56E0();                     /* extern */
-extern M2C_UNK D_800F71A4;
 
 /* Initializes a linked object from the source record and invokes func_800A56E0 on success. */
-void func_807AFAE4(void *sourceData) {
+void func_800F72E4(void *sourceData) {
     S_807AFAE4_0 *linkedObject;
 
     linkedObject = func_8003FD64(2, sourceData - 0x20);
     if (linkedObject != NULL) {
-        linkedObject->unk_10 = &D_800F71A4;
+        linkedObject->unk_10 = (void *)func_800F71A4;
         linkedObject->unk_20 = sourceData;
         linkedObject->unk_08 = (s32) ((S_807AFAE4_1 *)((u8 *)sourceData - 0x18))->unk_00;
         linkedObject->unk_2A = (u16) ((S_807AFAE4_1 *)((u8 *)sourceData - 0x18))->unk_42;

@@ -1,5 +1,4 @@
-typedef unsigned char u8;
-typedef int s32;
+#include "modules/dungeon_ovl_7ce800.h"
 /* Return the base of the next type 0x15 entity in the ring, or null if absent. */
 void *func_800F6DFC(void *entity)
 {

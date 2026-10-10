@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
 #include "m2c_compat.h"
 
@@ -39,12 +40,8 @@ typedef struct S_800F643C_3 {
 } S_800F643C_3;   /* temp_a0 in func_800F643C */
 
 
-void *func_8003FC64();                       /* extern */
-s32 func_8004491C();           /* extern */
-s32 func_800BCB04();               /* extern */
-extern M2C_UNK D_80046398;
+s32 func_80046398(void *,s32,void *);
 extern s32 D_80083208;
-extern M2C_UNK D_800F6160;
 extern s16 *D_800F8A44[];
 
 /* Creates a dungeon object at the given position and records it in its slot. */
@@ -58,8 +55,8 @@ void func_800F643C(s16 x, s16 y, s32 slot) {
 
     object = func_8003FC64(0x16);
     if (object != NULL) {
-        ((S_800F643C_0 *)object)->unk_10 = &D_800F6160;
-        func_8004491C(object, &D_80046398);
+        ((S_800F643C_0 *)object)->unk_10 = (void *)func_800F6160;
+        func_8004491C(object, (s32)func_80046398);
         render_config = D_80083208;
         model = ((S_800F643C_0 *)object)->unk_0C;
         (*(s16 *)((u8 *)model + 0x20)) = 0x1000;

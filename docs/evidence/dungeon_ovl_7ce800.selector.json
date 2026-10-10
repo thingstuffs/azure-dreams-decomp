@@ -1,0 +1,285 @@
+{
+  "kind": "packed-descriptor-loader-receipt",
+  "descriptor_foff": "0xf9c8c",
+  "descriptor_words": [
+    "0x60f6000",
+    "0x3fb3"
+  ],
+  "consumer": "DUNGEON func_800BD184 at file 0xD7A24 submits record index 0 from D_800DF3EC to Control_CD(6)",
+  "reference_chain": {
+    "status": "loader-placement-proven-existing-narrow-regions-preserved",
+    "regions": [
+      {
+        "schema": "azure-clean.rowbase.v1",
+        "region": "jtbl_07CE960",
+        "foff_start": "0x7CE960",
+        "foff_end": "0x7CEC3C",
+        "delta": "0x7F927800",
+        "base_confidence": "proven",
+        "proof": "jtbl-static-solve v1 (Phase 0 2026-08-11): K over-determined by in-extent table decode; corroborated by multi-function K agreement + streaming band + registry zero-contradiction check; PROMOTED solved->proven: byte-exact recompile func_807AE960 at true base 0x800F6160 (candidate sha 0b5d2730d71c @ 2.8.1-G0, linked-strict isolation compare, phase-2 item-3 hook)"
+      },
+      {
+        "schema": "azure-clean.rowbase.v1",
+        "region": "row_07CF5FC",
+        "foff_start": "0x7CF5FC",
+        "foff_end": "0x7CF648",
+        "delta": "0x7F927800",
+        "base_confidence": "proven",
+        "proof": "fable escalation micro-lane A 2026-08-14 (func_807AF5FC, 76 B): the row's single cross-function-looking `j` word at foff 0x7CF624 (0x0803DB90 -> 0x800F6E40) is the function's OWN local epilogue jump. Plain natural C at gcc 2.7.2 (work/fable_esc_a_20260814/func_807AF5FC.c) reproduces 18 of 19 words byte-identically at the synthetic base -- including the `beq` to the same epilogue at row+0x44 -- and the ONE residual word is that `j`, whose gcc form is `j $Lepilogue` (= row+0x44). Solving row_base+0x44 = 0x800F6E40 gives base 0x800F6DFC, i.e. delta 0x7F927800, UNIQUELY. Corroboration: 0x7F927800 is byte-identical to the delta of the adjacent jtbl-solved region jtbl_07CE960 (0x7CE960-0x7CEC3C) in this same container window, and 0x800F6DFC sits inside the established dungeon true-vram band (0x8001C000-0x80175800). Extent deliberately narrowed to this one row: every other row in 0x7CE000-0x7D0400 is already MATCH at the synthetic base and must not be re-based. Container work/s3_splat/extract/DUNGEON_DUNGEON.BIN md5 2b738a8424530d6dfb343bb9bb18fc57."
+      },
+      {
+        "schema": "azure-clean.rowbase.v1",
+        "region": "img_7ce890_800f6090",
+        "foff_start": "0x7CE890",
+        "foff_end": "0x7CE960",
+        "delta": "0x7F927800",
+        "base_confidence": "proven",
+        "proof": "static per-floor image base proof 2026-08-23 (docs/port_handback_20260822/dungeon_base_proofs/proofs.json, image img0007@0x7CE890, verdict PROVEN, K 0x7F927800). M1 local-`j` containment: 1 of 6 functions in the image are pinned to this delta by 4 in-function absolute `j` target(s) that can only land inside their own function's span, 1 more by in-function switch-table containment, pin_conflict=false, under the measured image-base law K = 0 mod 0x800; M4 Evidence-B1 0 same-K `jal` onto in-image function start(s) of 0 in-band target(s), in-image coherence 0.00; M5 Evidence-B2 1/1 switch table(s) resolved in span, 0 violation(s); M6 Evidence-A 11 resident-EXE call confirm(s) over 8 distinct callee(s), 0 contra; M7 3 re-link resident identit(y/ies), 0 unexplained; M3 0/0 leading inline jump table(s) fully contained; corroborating methods: evidence-A-resident-calls, rowbase-ledger-agreement, b2-switch-table-containment; EXTENT = 1 of the image's own member function span(s), 0x7CE890-0x7CE960; the image's other bytes are either already covered by an existing rowbase record (jtbl_07CE960) or are not member spans, and are left uncovered rather than asserted; gate window dungeon_deep_7ce890_truebase_800f6090 (0x7CE890-0x7CEF8C) states this same base and re-gated MATCH against the container on 2026-08-23 (381/381); 1 already-landed C TU(s) inside this extent -- func_807AE890 -- were recompiled and linked at this base inside that window during the 2026-08-23 apply and reproduced the container bytes exactly (the 105-window / 525-TU set); STATIC EVIDENCE ONLY -- no RAM capture, no overlay-streamer transfer observed at runtime, nothing here is a runtime observation. Scoring-grade (`solved`) until a byte-exact recompile at this base promotes it via tools/rowbase.py promote; PROMOTED solved->proven: byte-exact recompile func_807AE890 at true base 0x800F6090 (candidate sha 5a8251bc4759 @ 2.7.2-cdk, linked-strict isolation compare, phase-2 item-3 hook)"
+      },
+      {
+        "schema": "azure-clean.rowbase.v1",
+        "region": "img_7cec3c_800f643c",
+        "foff_start": "0x7CEC3C",
+        "foff_end": "0x7CEF8C",
+        "delta": "0x7F927800",
+        "base_confidence": "proven",
+        "proof": "static per-floor image base proof 2026-08-23 (docs/port_handback_20260822/dungeon_base_proofs/proofs.json, image img0007@0x7CE890, verdict PROVEN, K 0x7F927800). M1 local-`j` containment: 1 of 6 functions in the image are pinned to this delta by 4 in-function absolute `j` target(s) that can only land inside their own function's span, 1 more by in-function switch-table containment, pin_conflict=false, under the measured image-base law K = 0 mod 0x800; M4 Evidence-B1 0 same-K `jal` onto in-image function start(s) of 0 in-band target(s), in-image coherence 0.00; M5 Evidence-B2 1/1 switch table(s) resolved in span, 0 violation(s); M6 Evidence-A 11 resident-EXE call confirm(s) over 8 distinct callee(s), 0 contra; M7 3 re-link resident identit(y/ies), 0 unexplained; M3 0/0 leading inline jump table(s) fully contained; corroborating methods: evidence-A-resident-calls, rowbase-ledger-agreement, b2-switch-table-containment; EXTENT = 4 of the image's own member function span(s), 0x7CEC3C-0x7CEF8C; the image's other bytes are either already covered by an existing rowbase record (jtbl_07CE960) or are not member spans, and are left uncovered rather than asserted; gate window dungeon_deep_7ce890_truebase_800f6090 (0x7CE890-0x7CEF8C) states this same base and re-gated MATCH against the container on 2026-08-23 (381/381); 4 already-landed C TU(s) inside this extent -- func_807AEC3C, func_807AED44, func_807AEDCC, func_807AEF38 -- were recompiled and linked at this base inside that window during the 2026-08-23 apply and reproduced the container bytes exactly (the 105-window / 525-TU set); STATIC EVIDENCE ONLY -- no RAM capture, no overlay-streamer transfer observed at runtime, nothing here is a runtime observation. Scoring-grade (`solved`) until a byte-exact recompile at this base promotes it via tools/rowbase.py promote; PROMOTED solved->proven: byte-exact recompile func_807AEF38 at true base 0x800F6738 (candidate sha 764fbf0b0209 @ 2.8.1-G0, linked-strict isolation compare, phase-2 item-3 hook)"
+      },
+      {
+        "schema": "azure-clean.rowbase.v1",
+        "region": "row_07CF528_800F6D28",
+        "foff_start": "0x7CF528",
+        "foff_end": "0x7CF5FC",
+        "delta": "0x7F927800",
+        "base_confidence": "proven",
+        "proof": "Gap-fill 2026-09-07 (bridge burn-down W0906, func_807AF528): the row's single absolute in-row `j` target 0x800F6DF4 = 0x7CF528 + 0x7F927800 + 0xCC (its own epilogue at +0xCC); both flanking regions (row_07CF5FC abutting at 0x7CF5FC, and the proven region below) carry the identical delta 0x7F927800. The honest all-return C (work/bridge_wave_20260906/close_dungeon_last6/807AF528_v1_honest.c, zero pins, zero externs) is instruction-for-instruction identical to retail (53/53 words) and differs only in that j encoding at the synthetic base. func_800F6DF4 is a false member of the noreturn census fed by the old fake extern.; PROMOTED solved->proven: byte-exact recompile func_807AF528 at true base 0x800F6D28 (candidate sha 56ca5a44a3d8 @ 2.7.2-cdk, linked-strict isolation compare, phase-2 item-3 hook)"
+      },
+      {
+        "schema": "azure-clean.rowbase.v1",
+        "region": "row_7cf648_800f6e48",
+        "foff_start": "0x7CF648",
+        "foff_end": "0x7CF9A4",
+        "delta": "0x7F927800",
+        "base_confidence": "proven",
+        "proof": "Static local-j solve 2026-09-14 (work/tailslot_honest, tail-slot region-less wave; method and per-row evidence in work/tailslot_honest/ROWBASE_REPORT.md): all 2 plausible absolute `j` words of func_807AF648 (0 further word(s) decode as `j` but are data -- `j 0` or a target above RAM -- and are discarded) land INSIDE the row at base 0x800F6E48 (delta 0x7F927800, alignment 0x800), at offsets +0x198, +0x300 of the row's [0x7CF648,0x7CF9A4) extent; targets 0x800F6FE0, 0x800F7148. Containment alone leaves 125 candidate bases in [0x800F6DF0,0x800F6FE0] -- it is an interval, not a point -- so the base is fixed by BANK CONSISTENCY: 5 existing dungeon.rowbase.jsonl record(s) within 0x8000 file bytes carry exactly this delta (jtbl_07CE960, row_07CF5FC, img_7ce890_800f6090, img_7cec3c_800f643c), and 8 other ledger row(s) in the same span admit it; vote score 23, unique winner: yes. Recompile: the row's CURRENT pinned tree text (src/dungeon/func_807AF648.c, cfg 2.7.2-cdk-G0) links byte-exact at this base (exact) -- but it also links byte-exact at the synthetic base 0x807AF648 and the two linked outputs are BYTE-IDENTICAL, so this recompile is NON-DISCRIMINATING: the pinned pseudo-call spells the row's own jump as an absolute extern, which is the one construct that does not move with the link base. It satisfies the letter of the T1 recompile clause and adds no base evidence. Extent is the row's own 860 bytes, conservatively carved: it overlaps no existing rowbase record and contains no other registered row.  STATIC EVIDENCE ONLY (no RAM capture). Scoring-grade (`solved`) until a byte-exact recompile of HONEST C at this base promotes it via tools/gate/rowbase.py promote; promotion also turns on the owner-decision-B naming inversion (tools/gate/overlay_local_gate.py: an in-region source must define func_800F6E48 and never mention func_807AF648).; PROMOTED solved->proven: byte-exact recompile func_807AF648 at true base 0x800F6E48 (candidate sha 41b5483a6c72 @ 2.7.2-cdk-G0, linked-strict isolation compare, phase-2 item-3 hook)"
+      },
+      {
+        "schema": "azure-clean.rowbase.v1",
+        "region": "row_7d040c_800f7c0c",
+        "foff_start": "0x7D040C",
+        "foff_end": "0x7D08D4",
+        "delta": "0x7F927800",
+        "base_confidence": "proven",
+        "proof": "Static local-j solve 2026-09-14 (work/tailslot_honest, tail-slot region-less wave; method and per-row evidence in work/tailslot_honest/ROWBASE_REPORT.md): all 9 plausible absolute `j` words of func_807B040C (0 further word(s) decode as `j` but are data -- `j 0` or a target above RAM -- and are discarded) land INSIDE the row at base 0x800F7C0C (delta 0x7F927800, alignment 0x800), at offsets +0x19C, +0x3C4, +0x498, +0x49C of the row's [0x7D040C,0x7D08D4) extent; targets 0x800F7DA8, 0x800F7FD0, 0x800F80A4, 0x800F80A8. Containment alone leaves 114 candidate bases in [0x800F7BE4,0x800F7DA8] -- it is an interval, not a point -- so the base is fixed by BANK CONSISTENCY: 5 existing dungeon.rowbase.jsonl record(s) within 0x8000 file bytes carry exactly this delta (jtbl_07CE960, row_07CF5FC, img_7ce890_800f6090, img_7cec3c_800f643c), and 8 other ledger row(s) in the same span admit it; vote score 23, unique winner: yes. Recompile: the row's CURRENT pinned tree text (src/dungeon/func_807B040C.c, cfg 2.7.2-cdk-G0 -fno-cse-skip-blocks) links byte-exact at this base (exact) -- but it also links byte-exact at the synthetic base 0x807B040C and the two linked outputs are BYTE-IDENTICAL, so this recompile is NON-DISCRIMINATING: the pinned pseudo-call spells the row's own jump as an absolute extern, which is the one construct that does not move with the link base. It satisfies the letter of the T1 recompile clause and adds no base evidence. Extent is the row's own 1224 bytes, conservatively carved: it overlaps no existing rowbase record and contains no other registered row.  STATIC EVIDENCE ONLY (no RAM capture). Scoring-grade (`solved`) until a byte-exact recompile of HONEST C at this base promotes it via tools/gate/rowbase.py promote; promotion also turns on the owner-decision-B naming inversion (tools/gate/overlay_local_gate.py: an in-region source must define func_800F7C0C and never mention func_807B040C).; PROMOTED solved->proven: byte-exact recompile func_807B040C at true base 0x800F7C0C (candidate sha 547c3eaa9d00 @ 2.7.2-cdk-G0 -fno-cse-skip-blocks, linked-strict isolation compare, phase-2 item-3 hook)"
+      },
+      {
+        "schema": "azure-clean.rowbase.v1",
+        "region": "row_7d0b3c_800f833c",
+        "foff_start": "0x7D0B3C",
+        "foff_end": "0x7D11B8",
+        "delta": "0x7F927800",
+        "base_confidence": "proven",
+        "proof": "Static local-j solve 2026-09-14 (work/tailslot_honest, tail-slot region-less wave; method and per-row evidence in work/tailslot_honest/ROWBASE_REPORT.md): all 9 plausible absolute `j` words of func_807B0B3C (0 further word(s) decode as `j` but are data -- `j 0` or a target above RAM -- and are discarded) land INSIDE the row at base 0x800F833C (delta 0x7F927800, alignment 0x800), at offsets +0x58, +0xB0, +0x14C, +0x1C4, +0x484, +0x48C of the row's [0x7D0B3C,0x7D11B8) extent; targets 0x800F8394, 0x800F83EC, 0x800F8488, 0x800F8500, 0x800F87C0, 0x800F87C8. Containment alone leaves 146 candidate bases in [0x800F8150,0x800F8394] -- it is an interval, not a point -- so the base is fixed by BANK CONSISTENCY: 5 existing dungeon.rowbase.jsonl record(s) within 0x8000 file bytes carry exactly this delta (jtbl_07CE960, row_07CF5FC, img_7ce890_800f6090, img_7cec3c_800f643c), and 8 other ledger row(s) in the same span admit it; vote score 23, unique winner: yes. Recompile: the row's CURRENT pinned tree text (src/dungeon/func_807B0B3C.c, cfg 2.7.2-cdk -fno-rerun-cse-after-loop) links byte-exact at this base (exact) -- but it also links byte-exact at the synthetic base 0x807B0B3C and the two linked outputs are BYTE-IDENTICAL, so this recompile is NON-DISCRIMINATING: the pinned pseudo-call spells the row's own jump as an absolute extern, which is the one construct that does not move with the link base. It satisfies the letter of the T1 recompile clause and adds no base evidence. Extent is the row's own 1660 bytes, conservatively carved: it overlaps no existing rowbase record and contains no other registered row.  STATIC EVIDENCE ONLY (no RAM capture). Scoring-grade (`solved`) until a byte-exact recompile of HONEST C at this base promotes it via tools/gate/rowbase.py promote; promotion also turns on the owner-decision-B naming inversion (tools/gate/overlay_local_gate.py: an in-region source must define func_800F833C and never mention func_807B0B3C).; PROMOTED solved->proven: byte-exact recompile func_807B0B3C at true base 0x800F833C (candidate sha e246f163ec00 @ 2.7.2-cdk -fno-rerun-cse-after-loop, linked-strict isolation compare, phase-2 item-3 hook)"
+      },
+      {
+        "schema": "azure-clean.rowbase.v1",
+        "region": "row_7cef8c_800f678c",
+        "foff_start": "0x7CEF8C",
+        "foff_end": "0x7CF2CC",
+        "delta": "0x7F927800",
+        "base_confidence": "proven",
+        "proof": "WEAK (only 1 own in-row j). Static local-j solve 2026-09-14 (work/tailslot_honest, tail-slot region-less wave; method and per-row evidence in work/tailslot_honest/ROWBASE_REPORT.md): all 1 plausible absolute `j` words of func_807AEF8C (0 further word(s) decode as `j` but are data -- `j 0` or a target above RAM -- and are discarded) land INSIDE the row at base 0x800F678C (delta 0x7F927800, alignment 0x800), at offsets +0x94 of the row's [0x7CEF8C,0x7CF2CC) extent; targets 0x800F6820. Containment alone leaves 208 candidate bases in [0x800F64E4,0x800F6820] -- it is an interval, not a point -- so the base is fixed by BANK CONSISTENCY: 5 existing dungeon.rowbase.jsonl record(s) within 0x8000 file bytes carry exactly this delta (jtbl_07CE960, row_07CF5FC, img_7ce890_800f6090, img_7cec3c_800f643c), and 8 other ledger row(s) in the same span admit it; vote score 23, unique winner: yes. Recompile: the row's CURRENT pinned tree text (src/dungeon/func_807AEF8C.c, cfg 2.7.2-cdk-G0) links byte-exact at this base (exact) -- but it also links byte-exact at the synthetic base 0x807AEF8C and the two linked outputs are BYTE-IDENTICAL, so this recompile is NON-DISCRIMINATING: the pinned pseudo-call spells the row's own jump as an absolute extern, which is the one construct that does not move with the link base. It satisfies the letter of the T1 recompile clause and adds no base evidence. Extent is the row's own 832 bytes, conservatively carved: it overlaps no existing rowbase record and contains no other registered row.  STATIC EVIDENCE ONLY (no RAM capture). Scoring-grade (`solved`) until a byte-exact recompile of HONEST C at this base promotes it via tools/gate/rowbase.py promote; promotion also turns on the owner-decision-B naming inversion (tools/gate/overlay_local_gate.py: an in-region source must define func_800F678C and never mention func_807AEF8C).; PROMOTED solved->proven: byte-exact recompile func_807AEF8C at true base 0x800F678C (candidate sha 4304b40e74ed @ 2.7.2-cdk-G0, linked-strict isolation compare, phase-2 item-3 hook)"
+      },
+      {
+        "schema": "azure-clean.rowbase.v1",
+        "region": "row_7cf9a4_800f71a4",
+        "foff_start": "0x7CF9A4",
+        "foff_end": "0x7CFAE4",
+        "delta": "0x7F927800",
+        "base_confidence": "proven",
+        "proof": "Registered-identity mint (tools/lanes/mint_rowbase.py, 2026-09-22): this row's true name func_800F71A4 is already recorded in ledger/splits/dungeon.jsonl and foff 0x7CF9A4 + 0x7F927800 == 0x800F71A4 exactly, so the row database and the rowbase table state the same base; without the record the row's own internal j words link at the synthetic dashboard address and are unclosable by any C shape. The same 0x7F927800 runtime-bank delta is carried by the neighbouring records row_07CF5FC, row_7cf648_800f6e48, row_7d040c_800f7c0c, row_7d0b3c_800f833c. Scoring-only until a byte-exact recompile at the base promotes it (rowbase.promote).; PROMOTED solved->proven: byte-exact recompile func_807AF9A4 at true base 0x800F71A4 (candidate sha 2a66bac6c9e6 @ 2.7.2-cdk-G0, linked-strict isolation compare, phase-2 item-3 hook)"
+      },
+      {
+        "schema": "azure-clean.rowbase.v1",
+        "region": "row_7cfdec_800f75ec",
+        "foff_start": "0x7CFDEC",
+        "foff_end": "0x7D004C",
+        "delta": "0x7F927800",
+        "base_confidence": "proven",
+        "proof": "Registered-identity mint (tools/lanes/mint_rowbase.py, 2026-09-22): this row's true name func_800F75EC is already recorded in ledger/splits/dungeon.jsonl and foff 0x7CFDEC + 0x7F927800 == 0x800F75EC exactly, so the row database and the rowbase table state the same base; without the record the row's own internal j words link at the synthetic dashboard address and are unclosable by any C shape. The same 0x7F927800 runtime-bank delta is carried by the neighbouring records row_07CF5FC, row_7cf648_800f6e48, row_7d040c_800f7c0c, row_7d0b3c_800f833c. Scoring-only until a byte-exact recompile at the base promotes it (rowbase.promote).; PROMOTED solved->proven: byte-exact recompile func_807AFDEC at true base 0x800F75EC (candidate sha c113747f2c51 @ 2.7.2-cdk-G0, linked-strict isolation compare, phase-2 item-3 hook)"
+      }
+    ],
+    "runtime_observed": false,
+    "kind": "packed-descriptor-loader-receipt",
+    "indexed_record": 0,
+    "consumer": "func_800BD184",
+    "consumer_row": "dungeon/func_800B7A24",
+    "consumer_foff": "0xd7a24",
+    "table_symbol": "D_800DF3EC",
+    "descriptor_foff": "0xf9c8c",
+    "descriptor_hex": "00600f06b33f0000",
+    "packed_word": "0x60f6000",
+    "lba": "0x3fb3",
+    "sectors": 12,
+    "destination": "0x800f6000",
+    "file_start": "0x7ce800",
+    "file_end": "0x7d4800",
+    "delta": "0x7f927800",
+    "iso": {
+      "path": "DUNGEON/DUNGEON.BIN",
+      "lba": 12310,
+      "size": 27813888,
+      "directory_lba": 12309,
+      "record_offset": 96,
+      "record_hex": "3c0016300000000030160068a80101a86800620306111f0424000000010000010d44554e47454f4e2e42494e3b31000000000d555841000000000000"
+    },
+    "words": [
+      {
+        "foff": "0xd7a24",
+        "word": "0x27bdffe8"
+      },
+      {
+        "foff": "0xd7a2c",
+        "word": "0x41400"
+      },
+      {
+        "foff": "0xd7a30",
+        "word": "0x21343"
+      },
+      {
+        "foff": "0xd7a34",
+        "word": "0x3c05800e"
+      },
+      {
+        "foff": "0xd7a38",
+        "word": "0x24a5f3ec"
+      },
+      {
+        "foff": "0xd7a3c",
+        "word": "0x24040006"
+      },
+      {
+        "foff": "0xd7a40",
+        "word": "0x452821"
+      },
+      {
+        "foff": "0xd7a44",
+        "word": "0xc00f93f"
+      },
+      {
+        "foff": "0xd7a48",
+        "word": "0x3021"
+      },
+      {
+        "foff": "0xd7a4c",
+        "word": "0xc00fcc8"
+      }
+    ],
+    "cd_decode_and_read_words": [
+      {
+        "container": "SLUS",
+        "runtime": "0x8003e9ec",
+        "foff": "0x121ec",
+        "word": "0x8c510004"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003e9f0",
+        "foff": "0x121f0",
+        "word": "0x3c03007f"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003e9f4",
+        "foff": "0x121f4",
+        "word": "0x8e220000"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003e9f8",
+        "foff": "0x121f8",
+        "word": "0x3463ffff"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003e9fc",
+        "foff": "0x121fc",
+        "word": "0x438024"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003ea04",
+        "foff": "0x12204",
+        "word": "0x295c2"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003ea18",
+        "foff": "0x12218",
+        "word": "0x3c028000"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003ea1c",
+        "foff": "0x1221c",
+        "word": "0x2028025"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003eaa4",
+        "foff": "0x122a4",
+        "word": "0x8e240004"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003eaa8",
+        "foff": "0x122a8",
+        "word": "0xc018493"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003eae4",
+        "foff": "0x122e4",
+        "word": "0x2402021"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003eae8",
+        "foff": "0x122e8",
+        "word": "0x2002821"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003eaec",
+        "foff": "0x122ec",
+        "word": "0xc018c89"
+      },
+      {
+        "container": "SLUS",
+        "runtime": "0x8003eaf0",
+        "foff": "0x122f0",
+        "word": "0x24060080"
+      }
+    ],
+    "disc_container_equality": true,
+    "domain": "indexed record 0 is an actual packed descriptor passed to Control_CD(6); static receipt only, no runtime occurrence or TU ownership claim"
+  },
+  "iso_extent": {
+    "path": "DUNGEON/DUNGEON.BIN",
+    "lba": 12310,
+    "size": 27813888,
+    "directory_lba": 12309,
+    "record_offset": 96,
+    "record_hex": "3c0016300000000030160068a80101a86800620306111f0424000000010000010d44554e47454f4e2e42494e3b31000000000d555841000000000000"
+  },
+  "file_start": "0x7ce800",
+  "file_end": "0x7d4800",
+  "destination": "0x800f6000",
+  "sectors": 12,
+  "delta": "0x7f927800",
+  "disc_container_equality": true,
+  "bank_sha256": "96327f90f0ffa7c9da8d7293066bc5a4e2113372ddeaa2ce375414039670530f",
+  "review": "pending",
+  "reviewer": null,
+  "static_only": true
+}

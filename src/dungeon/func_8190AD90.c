@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_192a800.h"
 #include "common.h"
 
 extern s32 rand(void);
