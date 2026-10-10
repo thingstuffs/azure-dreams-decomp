@@ -10,7 +10,7 @@
 
 typedef struct S_8197192C_0_pre {
     u16 unk_00;
-} S_8197192C_0_pre;   /* the 0x2 bytes before arg0 in func_8197192C, addressed as arg0[-1] */
+} S_8197192C_0_pre;   /* the 0x2 bytes before arg0 in func_8002512C, addressed as arg0[-1] */
 
 typedef struct S_8197192C_0 {
     u8 pad_00[0x4];
@@ -54,12 +54,12 @@ typedef struct S_8197192C_0 {
     union { u16 s; s16 u; } unk_7C;   /* accessed as both */
     union { u16 s; s16 u; } unk_7E;   /* accessed as both */
     union { u16 s; s16 u; } unk_80;   /* accessed as both */
-} S_8197192C_0;   /* arg0 in func_8197192C */
+} S_8197192C_0;   /* arg0 in func_8002512C */
 
 typedef struct S_8197192C_1_pre {
     void * unk_00;
     u8 pad_04[0x14];
-} S_8197192C_1_pre;   /* the 0x18 bytes before obj in func_8197192C, addressed as obj[-1] */
+} S_8197192C_1_pre;   /* the 0x18 bytes before obj in func_8002512C, addressed as obj[-1] */
 
 typedef struct S_8197192C_1 {
     u8 pad_00[0x8];
@@ -75,11 +75,11 @@ typedef struct S_8197192C_1 {
     u8 unk_A8;
     u8 pad_A9[0x4B];
     s32 unk_F4;
-} S_8197192C_1;   /* obj in func_8197192C */
+} S_8197192C_1;   /* obj in func_8002512C */
 
 typedef struct S_8197192C_2 {
     u16 unk_00;
-} S_8197192C_2;   /* D_80082E86 in func_8197192C */
+} S_8197192C_2;   /* D_80082E86 in func_8002512C */
 
 typedef struct S_8197192C_3 {
     u8 pad_00[0x2];
@@ -88,16 +88,16 @@ typedef struct S_8197192C_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8197192C_3;   /* gbase in func_8197192C */
+} S_8197192C_3;   /* gbase in func_8002512C */
 
 typedef struct S_8197192C_4 {
     u16 unk_00;
-} S_8197192C_4;   /* D_80025FF4 in func_8197192C */
+} S_8197192C_4;   /* D_80025FF4 in func_8002512C */
 
 typedef struct S_8197192C_5 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_8197192C_5;   /* map_base in func_8197192C */
+} S_8197192C_5;   /* map_base in func_8002512C */
 
 typedef struct S_8197192C_7 {
     u8 pad_00[0xC];
@@ -125,7 +125,7 @@ typedef struct S_8197192C_7 {
     u16 unk_5E;
     u16 unk_60;
     u16 unk_62;
-} S_8197192C_7;   /* work in func_8197192C */
+} S_8197192C_7;   /* work in func_8002512C */
 
 typedef struct S_8197192C_8 {
     u8 pad_00[0x8];
@@ -140,7 +140,7 @@ typedef struct S_8197192C_8 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_8197192C_8;   /* part in func_8197192C */
+} S_8197192C_8;   /* part in func_8002512C */
 
 typedef struct S_8197192C_9 {
     u8 pad_00[0x2];
@@ -153,28 +153,28 @@ typedef struct S_8197192C_9 {
     s16 unk_4C;
     s16 unk_4E;
     s16 unk_50;
-} S_8197192C_9;   /* dst in func_8197192C */
+} S_8197192C_9;   /* dst in func_8002512C */
 
 typedef struct S_8197192C_11 {
     u8 pad_00[0x4C];
     s16 unk_4C;
     s16 unk_4E;
     s16 unk_50;
-} S_8197192C_11;   /* dst2 in func_8197192C */
+} S_8197192C_11;   /* dst2 in func_8002512C */
 
 typedef struct S_8197192C_12 {
     u8 pad_00[0x2E94];
     u16 unk_2E94;
-} S_8197192C_12;   /* status_page in func_8197192C */
+} S_8197192C_12;   /* status_page in func_8002512C */
 
 typedef struct S_8197192C_14 {
     u16 unk_00;
-} S_8197192C_14;   /* ((S_8197192C_0 *)arg0)->unk_04 in func_8197192C */
+} S_8197192C_14;   /* ((S_8197192C_0 *)arg0)->unk_04 in func_8002512C */
 
 typedef struct S_8197192C_15 {
     u8 pad_00[0x60];
     void * unk_60;
-} S_8197192C_15;   /* ((Rec_D_800814A8 *)&D_800814A8)->unk_00.as_pv in func_8197192C */
+} S_8197192C_15;   /* ((Rec_D_800814A8 *)&D_800814A8)->unk_00.as_pv in func_8002512C */
 
 typedef struct {
     u8 bytes[12];
@@ -184,26 +184,16 @@ typedef struct {
  * current symbol catalog.  Keep the bindings narrow: they are not local
  * definitions, only names for the linked overlay data. */
 
-extern void *D_80024B98;
-extern void *D_80024D10;
-extern void *D_80024544;
 extern Data12 D_80025FD0;
 extern Data12 D_80025FDC;
 
-extern s16 D_80025FF4[5];
 
 extern s32 func_80053EF0(s32);
-extern void func_800A56E0(s32);
 extern void *func_8003DF74(void *, void *, void *, s16);
 extern s32 func_80069EF8(void);
-extern void func_800248A8(void *, s32, s32, s32, s32, s32, s32);
-extern void *func_8003FC64(s32);
-extern void func_8004491C(void *, void *);
-extern void func_80024DD4(void *, void *, void *, s32, s32, s32);
-extern void func_80024F60(void *, void *, void *, s32, s32, s32);
 
 /* Advance the effect sequence, spawning sprites and particles along its sampled path. */
-void func_8197192C(void *effect, void *owner, void *context_arg)
+void func_8002512C(void *effect, void *owner, void *context_arg)
 {
     u8 *position;
     u8 *effect_data_m;
@@ -233,7 +223,7 @@ void func_8197192C(void *effect, void *owner, void *context_arg)
         ((S_8197192C_0 *)effect)->unk_7C.s = ((S_8197192C_3 *)state_2)->unk_02;
         ((S_8197192C_0 *)effect)->unk_7E.s = ((S_8197192C_3 *)state_2)->unk_06;
         coord_z = ((S_8197192C_3 *)state_2)->unk_0A;
-        ((S_8197192C_4 *)D_80025FF4)->unk_00 = 1;
+        ((S_8197192C_4 *)&D_80025FF4)->unk_00 = 1;
         ((S_8197192C_0 *)effect)->unk_80.s = coord_z;
     case 1:
         if ((((S_8197192C_14 *)(((S_8197192C_0 *)effect)->unk_04))->unk_00 & 0x80) == 0) {
@@ -299,8 +289,8 @@ void func_8197192C(void *effect, void *owner, void *context_arg)
                         effect_data_m = (u8 *)effect_obj + 0x20;
                         ((S_8197192C_7 *)effect_data_m)->unk_38 = 20;
                         ((S_8197192C_7 *)effect_data_m)->unk_3A = 20;
-                        ((S_8197192C_1 *)effect_obj)->unk_10.at00.v = (void *)&D_80024D10;
-                        func_8004491C(effect_obj, func_80045340);
+                        ((S_8197192C_1 *)effect_obj)->unk_10.at00.v = (void *)func_80024D10;
+                        func_8004491C(effect_obj, (s32)func_80045340);
                         sprite = ((S_8197192C_1 *)effect_obj)->unk_0C;
                         world_pos = &D_80083780;
                         ((S_8197192C_8 *)sprite)->unk_10 = 0x60;
@@ -400,7 +390,7 @@ void func_8197192C(void *effect, void *owner, void *context_arg)
                     void *init_data;
                     light_color_2 = 0x00E0E0E0;
                     dark_color = 0x00804020;
-                    init_data = (void *)&D_80024544;
+                    init_data = (void *)func_80024544;
                     ((S_8197192C_7 *)effect_data)->unk_1C = light_color_2;
                     ((S_8197192C_7 *)effect_data)->unk_24 = dark_color;
                     ((S_8197192C_7 *)effect_data)->unk_28 = dark_color;
@@ -411,8 +401,8 @@ void func_8197192C(void *effect, void *owner, void *context_arg)
                     ((S_8197192C_7 *)effect_data)->unk_10 = ((S_8197192C_7 *)effect_data)->unk_20;
                     ((S_8197192C_7 *)effect_data)->unk_14 = ((S_8197192C_7 *)effect_data)->unk_24;
                     ((S_8197192C_7 *)effect_data)->unk_18 = ((S_8197192C_7 *)effect_data)->unk_28;
-                    ((S_8197192C_1 *)effect_obj)->unk_10.at00.v = (void *)&D_80024B98;
-                    func_8004491C(effect_obj, init_data);
+                    ((S_8197192C_1 *)effect_obj)->unk_10.at00.v = (void *)func_80024B98;
+                    func_8004491C(effect_obj, (s32)init_data);
                     sprite = ((S_8197192C_1 *)effect_obj)->unk_0C;
                     ((S_8197192C_8 *)sprite)->unk_10 = 0x20;
                     ((S_8197192C_8 *)sprite)->unk_14 = ((S_8197192C_8 *)sprite)->unk_14 | 0x0C;
@@ -452,7 +442,7 @@ void func_8197192C(void *effect, void *owner, void *context_arg)
                     void *init_data;
                     light_color = 0x00E0E0E0;
                     dark_color = 0x00804020;
-                    init_data = (void *)&D_80024544;
+                    init_data = (void *)func_80024544;
                     ((S_8197192C_7 *)effect_data)->unk_1C = light_color;
                     ((S_8197192C_7 *)effect_data)->unk_24 = dark_color;
                     ((S_8197192C_7 *)effect_data)->unk_28 = dark_color;
@@ -463,8 +453,8 @@ void func_8197192C(void *effect, void *owner, void *context_arg)
                     ((S_8197192C_7 *)effect_data)->unk_10 = ((S_8197192C_7 *)effect_data)->unk_20;
                     ((S_8197192C_7 *)effect_data)->unk_14 = ((S_8197192C_7 *)effect_data)->unk_24;
                     ((S_8197192C_7 *)effect_data)->unk_18 = ((S_8197192C_7 *)effect_data)->unk_28;
-                    ((S_8197192C_1 *)effect_obj)->unk_10.at00.v = (void *)&D_80024B98;
-                    func_8004491C(effect_obj, init_data);
+                    ((S_8197192C_1 *)effect_obj)->unk_10.at00.v = (void *)func_80024B98;
+                    func_8004491C(effect_obj, (s32)init_data);
                     sprite = ((S_8197192C_1 *)effect_obj)->unk_0C;
                     ((S_8197192C_8 *)sprite)->unk_10 = 0x20;
                     ((S_8197192C_8 *)sprite)->unk_14 = ((S_8197192C_8 *)sprite)->unk_14 | 0x0C;
@@ -502,7 +492,7 @@ void func_8197192C(void *effect, void *owner, void *context_arg)
                     effect_data_m = (u8 *)effect_obj + 0x20;
                     light_color = 0x00E0E0E0;
                     dark_color = 0x00804020;
-                    init_data = (void *)&D_80024544;
+                    init_data = (void *)func_80024544;
                     ((S_8197192C_7 *)effect_data_m)->unk_1C = light_color;
                     ((S_8197192C_7 *)effect_data_m)->unk_24 = dark_color;
                     ((S_8197192C_7 *)effect_data_m)->unk_28 = dark_color;
@@ -513,8 +503,8 @@ void func_8197192C(void *effect, void *owner, void *context_arg)
                     ((S_8197192C_7 *)effect_data_m)->unk_10 = ((S_8197192C_7 *)effect_data_m)->unk_20;
                     ((S_8197192C_7 *)effect_data_m)->unk_14 = ((S_8197192C_7 *)effect_data_m)->unk_24;
                     ((S_8197192C_7 *)effect_data_m)->unk_18 = ((S_8197192C_7 *)effect_data_m)->unk_28;
-                    ((S_8197192C_1 *)effect_obj)->unk_10.at00.v = (void *)&D_80024B98;
-                    func_8004491C(effect_obj, init_data);
+                    ((S_8197192C_1 *)effect_obj)->unk_10.at00.v = (void *)func_80024B98;
+                    func_8004491C(effect_obj, (s32)init_data);
                     sprite = ((S_8197192C_1 *)effect_obj)->unk_0C;
                     ((S_8197192C_8 *)sprite)->unk_10 = 0x20;
                     ((S_8197192C_8 *)sprite)->unk_14 = ((S_8197192C_8 *)sprite)->unk_14 | 0x0C;
@@ -629,7 +619,7 @@ void func_8197192C(void *effect, void *owner, void *context_arg)
                 angle_base = angle_table;
                 do {
                     {
-                        func_80024F60(effect, source_owner, context, 0, 0, (s16)angle);
+                        func_80024F60(effect, source_owner, context, 0, (OffsetYZ){0, (s16)angle});
                         angle -= 15;
                     }
                 } while (-*(u8 *)((u32)((S_8197192C_1 *)source_obj)->unk_10.at03.v + (u32)angle_base) < angle);
@@ -653,7 +643,7 @@ void func_8197192C(void *effect, void *owner, void *context_arg)
     case 4:
     {
         u16 cleanup_count;
-        if (D_80025FF4[0] == 0) {
+        if (D_80025FF4 == 0) {
             cleanup_count = ((u16)dungeonStatus.unk_0A);
             dungeonStatus.unk_0C = 0;
             D_80082E80.unk_006 = 0;
@@ -662,7 +652,7 @@ void func_8197192C(void *effect, void *owner, void *context_arg)
             objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
             return;
         }
-        D_80025FF4[0] = 0;
+        D_80025FF4 = 0;
 
     }
 

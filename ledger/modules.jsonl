@@ -4184,13 +4184,13 @@
 {"id": "dungeon/func_81814C48", "container": "dungeon", "module": "ovl_1834a80.c", "module_index": 142, "confidence": "weak"}
 {"id": "dungeon/func_81814EDC", "container": "dungeon", "module": "ovl_1834a80.c", "module_index": 142, "confidence": "weak"}
 {"id": "dungeon/func_818154FC", "container": "dungeon", "module": "ovl_1834a80.c", "module_index": 142, "confidence": "weak"}
-{"id": "dungeon/func_8181A800", "container": "dungeon", "module": "ovl_183a800.c", "module_index": 143, "confidence": "weak"}
-{"id": "dungeon/func_8181A8C0", "container": "dungeon", "module": "ovl_183a800.c", "module_index": 143, "confidence": "weak"}
-{"id": "dungeon/func_8181AE04", "container": "dungeon", "module": "ovl_183a800.c", "module_index": 143, "confidence": "weak"}
-{"id": "dungeon/func_8181B078", "container": "dungeon", "module": "ovl_183a800.c", "module_index": 143, "confidence": "weak"}
-{"id": "dungeon/func_8181B1A0", "container": "dungeon", "module": "ovl_183a800.c", "module_index": 143, "confidence": "weak"}
-{"id": "dungeon/func_8181B314", "container": "dungeon", "module": "ovl_183a800.c", "module_index": 143, "confidence": "weak"}
-{"id": "dungeon/func_8181B3E8", "container": "dungeon", "module": "ovl_183a800.c", "module_index": 143, "confidence": "weak"}
+{"id": "dungeon/func_8181A800", "container": "dungeon", "module": "ovl_183a800.c", "module_index": 143, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_183a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8181A8C0", "container": "dungeon", "module": "ovl_183a800.c", "module_index": 143, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_183a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8181AE04", "container": "dungeon", "module": "ovl_183a800.c", "module_index": 143, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_183a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8181B078", "container": "dungeon", "module": "ovl_183a800.c", "module_index": 143, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_183a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8181B1A0", "container": "dungeon", "module": "ovl_183a800.c", "module_index": 143, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_183a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8181B314", "container": "dungeon", "module": "ovl_183a800.c", "module_index": 143, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_183a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8181B3E8", "container": "dungeon", "module": "ovl_183a800.c", "module_index": 143, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_183a800.membership.json", "reviewer": "orchestrator-r112"}
 {"id": "dungeon/func_81820800", "container": "dungeon", "module": "ovl_1840800.c", "module_index": 144, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1840800.membership.json", "reviewer": "orchestrator-r106"}
 {"id": "dungeon/func_81820DB4", "container": "dungeon", "module": "ovl_1840800.c", "module_index": 144, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1840800.membership.json", "reviewer": "orchestrator-r106"}
 {"id": "dungeon/func_8182121C", "container": "dungeon", "module": "ovl_1840800.c", "module_index": 144, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1840800.membership.json", "reviewer": "orchestrator-r106"}
@@ -4215,8 +4215,8 @@
 {"id": "dungeon/func_8184A800", "container": "dungeon", "module": "ovl_186a800.c", "module_index": 151, "confidence": "weak"}
 {"id": "dungeon/func_8184B130", "container": "dungeon", "module": "ovl_186a800.c", "module_index": 151, "confidence": "weak"}
 {"id": "dungeon/func_81850800", "container": "dungeon", "module": "ovl_1870800.c", "module_index": 152, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1870800.membership.json", "reviewer": "orchestrator-r105"}
-{"id": "dungeon/func_81856800", "container": "dungeon", "module": "ovl_1876800.c", "module_index": 153, "confidence": "weak"}
-{"id": "dungeon/func_818571BC", "container": "dungeon", "module": "ovl_1876800.c", "module_index": 153, "confidence": "weak"}
+{"id": "dungeon/func_81856800", "container": "dungeon", "module": "ovl_1876800.c", "module_index": 153, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1876800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_818571BC", "container": "dungeon", "module": "ovl_1876800.c", "module_index": 153, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1876800.membership.json", "reviewer": "orchestrator-r112"}
 {"id": "dungeon/func_8185C860", "container": "dungeon", "module": "ovl_187c860.c", "module_index": 154, "confidence": "weak"}
 {"id": "dungeon/func_8185C98C", "container": "dungeon", "module": "ovl_187c860.c", "module_index": 154, "confidence": "weak"}
 {"id": "dungeon/func_8185CA1C", "container": "dungeon", "module": "ovl_187c860.c", "module_index": 154, "confidence": "weak"}
@@ -4239,40 +4239,40 @@
 {"id": "dungeon/func_81868FDC", "container": "dungeon", "module": "ovl_188898c.c", "module_index": 156, "confidence": "strong"}
 {"id": "dungeon/func_818690C8", "container": "dungeon", "module": "ovl_188898c.c", "module_index": 156, "confidence": "strong"}
 {"id": "dungeon/func_818694D4", "container": "dungeon", "module": "ovl_188898c.c", "module_index": 156, "confidence": "strong"}
-{"id": "dungeon/func_8186E800", "container": "dungeon", "module": "ovl_188e800.c", "module_index": 157, "confidence": "weak"}
-{"id": "dungeon/func_8186EBBC", "container": "dungeon", "module": "ovl_188e800.c", "module_index": 157, "confidence": "weak"}
-{"id": "dungeon/func_8186EDA8", "container": "dungeon", "module": "ovl_188e800.c", "module_index": 157, "confidence": "weak"}
-{"id": "dungeon/func_8186F0C4", "container": "dungeon", "module": "ovl_188e800.c", "module_index": 157, "confidence": "weak"}
-{"id": "dungeon/func_81874800", "container": "dungeon", "module": "ovl_1894800.c", "module_index": 158, "confidence": "weak"}
-{"id": "dungeon/func_81874988", "container": "dungeon", "module": "ovl_1894800.c", "module_index": 158, "confidence": "weak"}
-{"id": "dungeon/func_81874F58", "container": "dungeon", "module": "ovl_1894800.c", "module_index": 158, "confidence": "weak"}
-{"id": "dungeon/func_81875828", "container": "dungeon", "module": "ovl_1894800.c", "module_index": 158, "confidence": "weak"}
-{"id": "dungeon/func_81875A78", "container": "dungeon", "module": "ovl_1894800.c", "module_index": 158, "confidence": "weak"}
-{"id": "dungeon/func_81875B38", "container": "dungeon", "module": "ovl_1894800.c", "module_index": 158, "confidence": "weak"}
-{"id": "dungeon/func_81875C70", "container": "dungeon", "module": "ovl_1894800.c", "module_index": 158, "confidence": "weak"}
-{"id": "dungeon/func_81876014", "container": "dungeon", "module": "ovl_1894800.c", "module_index": 158, "confidence": "weak"}
-{"id": "dungeon/func_818761D8", "container": "dungeon", "module": "ovl_1894800.c", "module_index": 158, "confidence": "weak"}
-{"id": "dungeon/func_8187A800", "container": "dungeon", "module": "ovl_189a800.c", "module_index": 159, "confidence": "weak"}
-{"id": "dungeon/func_8187A9A8", "container": "dungeon", "module": "ovl_189a800.c", "module_index": 159, "confidence": "weak"}
-{"id": "dungeon/func_8187B1F4", "container": "dungeon", "module": "ovl_189a800.c", "module_index": 159, "confidence": "weak"}
-{"id": "dungeon/func_8187B540", "container": "dungeon", "module": "ovl_189a800.c", "module_index": 159, "confidence": "weak"}
-{"id": "dungeon/func_8187B5A0", "container": "dungeon", "module": "ovl_189a800.c", "module_index": 159, "confidence": "weak"}
-{"id": "dungeon/func_8187B7F0", "container": "dungeon", "module": "ovl_189a800.c", "module_index": 159, "confidence": "weak"}
-{"id": "dungeon/func_8187B8B0", "container": "dungeon", "module": "ovl_189a800.c", "module_index": 159, "confidence": "weak"}
-{"id": "dungeon/func_8187B9E8", "container": "dungeon", "module": "ovl_189a800.c", "module_index": 159, "confidence": "weak"}
-{"id": "dungeon/func_8187BB80", "container": "dungeon", "module": "ovl_189a800.c", "module_index": 159, "confidence": "weak"}
-{"id": "dungeon/func_8187BE9C", "container": "dungeon", "module": "ovl_189a800.c", "module_index": 159, "confidence": "weak"}
-{"id": "dungeon/func_8187BFE0", "container": "dungeon", "module": "ovl_189a800.c", "module_index": 159, "confidence": "weak"}
-{"id": "dungeon/func_8187C45C", "container": "dungeon", "module": "ovl_189a800.c", "module_index": 159, "confidence": "weak"}
-{"id": "dungeon/func_81880800", "container": "dungeon", "module": "ovl_18a0800.c", "module_index": 160, "confidence": "weak"}
-{"id": "dungeon/func_81880F28", "container": "dungeon", "module": "ovl_18a0800.c", "module_index": 160, "confidence": "weak"}
-{"id": "dungeon/func_818818E8", "container": "dungeon", "module": "ovl_18a0800.c", "module_index": 160, "confidence": "weak"}
-{"id": "dungeon/func_81881AE0", "container": "dungeon", "module": "ovl_18a0800.c", "module_index": 160, "confidence": "weak"}
-{"id": "dungeon/func_81886800", "container": "dungeon", "module": "ovl_18a6800.c", "module_index": 161, "confidence": "weak"}
-{"id": "dungeon/func_81887004", "container": "dungeon", "module": "ovl_18a6800.c", "module_index": 161, "confidence": "weak"}
-{"id": "dungeon/func_818876F4", "container": "dungeon", "module": "ovl_18a6800.c", "module_index": 161, "confidence": "weak"}
-{"id": "dungeon/func_81887960", "container": "dungeon", "module": "ovl_18a6800.c", "module_index": 161, "confidence": "weak"}
-{"id": "dungeon/func_81887B40", "container": "dungeon", "module": "ovl_18a6800.c", "module_index": 161, "confidence": "weak"}
+{"id": "dungeon/func_8186E800", "container": "dungeon", "module": "ovl_188e800.c", "module_index": 157, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_188e800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8186EBBC", "container": "dungeon", "module": "ovl_188e800.c", "module_index": 157, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_188e800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8186EDA8", "container": "dungeon", "module": "ovl_188e800.c", "module_index": 157, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_188e800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8186F0C4", "container": "dungeon", "module": "ovl_188e800.c", "module_index": 157, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_188e800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_81874800", "container": "dungeon", "module": "ovl_1894800.c", "module_index": 158, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1894800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_81874988", "container": "dungeon", "module": "ovl_1894800.c", "module_index": 158, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1894800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_81874F58", "container": "dungeon", "module": "ovl_1894800.c", "module_index": 158, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1894800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_81875828", "container": "dungeon", "module": "ovl_1894800.c", "module_index": 158, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1894800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_81875A78", "container": "dungeon", "module": "ovl_1894800.c", "module_index": 158, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1894800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_81875B38", "container": "dungeon", "module": "ovl_1894800.c", "module_index": 158, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1894800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_81875C70", "container": "dungeon", "module": "ovl_1894800.c", "module_index": 158, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1894800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_81876014", "container": "dungeon", "module": "ovl_1894800.c", "module_index": 158, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1894800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_818761D8", "container": "dungeon", "module": "ovl_1894800.c", "module_index": 158, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1894800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8187A800", "container": "dungeon", "module": "ovl_189a800.c", "module_index": 159, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_189a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8187A9A8", "container": "dungeon", "module": "ovl_189a800.c", "module_index": 159, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_189a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8187B1F4", "container": "dungeon", "module": "ovl_189a800.c", "module_index": 159, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_189a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8187B540", "container": "dungeon", "module": "ovl_189a800.c", "module_index": 159, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_189a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8187B5A0", "container": "dungeon", "module": "ovl_189a800.c", "module_index": 159, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_189a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8187B7F0", "container": "dungeon", "module": "ovl_189a800.c", "module_index": 159, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_189a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8187B8B0", "container": "dungeon", "module": "ovl_189a800.c", "module_index": 159, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_189a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8187B9E8", "container": "dungeon", "module": "ovl_189a800.c", "module_index": 159, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_189a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8187BB80", "container": "dungeon", "module": "ovl_189a800.c", "module_index": 159, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_189a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8187BE9C", "container": "dungeon", "module": "ovl_189a800.c", "module_index": 159, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_189a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8187BFE0", "container": "dungeon", "module": "ovl_189a800.c", "module_index": 159, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_189a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8187C45C", "container": "dungeon", "module": "ovl_189a800.c", "module_index": 159, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_189a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_81880800", "container": "dungeon", "module": "ovl_18a0800.c", "module_index": 160, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_18a0800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_81880F28", "container": "dungeon", "module": "ovl_18a0800.c", "module_index": 160, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_18a0800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_818818E8", "container": "dungeon", "module": "ovl_18a0800.c", "module_index": 160, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_18a0800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_81881AE0", "container": "dungeon", "module": "ovl_18a0800.c", "module_index": 160, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_18a0800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_81886800", "container": "dungeon", "module": "ovl_18a6800.c", "module_index": 161, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_18a6800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_81887004", "container": "dungeon", "module": "ovl_18a6800.c", "module_index": 161, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_18a6800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_818876F4", "container": "dungeon", "module": "ovl_18a6800.c", "module_index": 161, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_18a6800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_81887960", "container": "dungeon", "module": "ovl_18a6800.c", "module_index": 161, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_18a6800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_81887B40", "container": "dungeon", "module": "ovl_18a6800.c", "module_index": 161, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_18a6800.membership.json", "reviewer": "orchestrator-r112"}
 {"id": "dungeon/func_8188C800", "container": "dungeon", "module": "ovl_18ac800.c", "module_index": 162, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_18ac800.membership.json", "reviewer": "orchestrator-r106"}
 {"id": "dungeon/func_8188CFAC", "container": "dungeon", "module": "ovl_18ac800.c", "module_index": 162, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_18ac800.membership.json", "reviewer": "orchestrator-r106"}
 {"id": "dungeon/func_81892800", "container": "dungeon", "module": "ovl_18b2800.c", "module_index": 163, "confidence": "weak"}
@@ -4417,12 +4417,12 @@
 {"id": "dungeon/func_81934800", "container": "dungeon", "module": "ovl_1954800.c", "module_index": 188, "confidence": "weak"}
 {"id": "dungeon/func_81934928", "container": "dungeon", "module": "ovl_1954800.c", "module_index": 188, "confidence": "weak"}
 {"id": "dungeon/func_81934C5C", "container": "dungeon", "module": "ovl_1954800.c", "module_index": 188, "confidence": "weak"}
-{"id": "dungeon/func_81940800", "container": "dungeon", "module": "ovl_1960800.c", "module_index": 189, "confidence": "weak"}
-{"id": "dungeon/func_81941338", "container": "dungeon", "module": "ovl_1960800.c", "module_index": 189, "confidence": "weak"}
+{"id": "dungeon/func_81940800", "container": "dungeon", "module": "ovl_1960800.c", "module_index": 189, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1960800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_81941338", "container": "dungeon", "module": "ovl_1960800.c", "module_index": 189, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1960800.membership.json", "reviewer": "orchestrator-r112"}
 {"id": "dungeon/func_81946800", "container": "dungeon", "module": "ovl_1966800.c", "module_index": 190, "confidence": "weak"}
 {"id": "dungeon/func_8194C81C", "container": "dungeon", "module": "ovl_196c81c.c", "module_index": 191, "confidence": "weak"}
-{"id": "dungeon/func_8195281C", "container": "dungeon", "module": "ovl_197281c.c", "module_index": 192, "confidence": "weak"}
-{"id": "dungeon/func_81952B4C", "container": "dungeon", "module": "ovl_197281c.c", "module_index": 192, "confidence": "weak"}
+{"id": "dungeon/func_8195281C", "container": "dungeon", "module": "ovl_197281c.c", "module_index": 192, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_197281c.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_81952B4C", "container": "dungeon", "module": "ovl_197281c.c", "module_index": 192, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_197281c.membership.json", "reviewer": "orchestrator-r112"}
 {"id": "dungeon/func_81958824", "container": "dungeon", "module": "ovl_1978824.c", "module_index": 193, "confidence": "weak"}
 {"id": "dungeon/func_81958F28", "container": "dungeon", "module": "ovl_1978824.c", "module_index": 193, "confidence": "weak"}
 {"id": "dungeon/func_819598B4", "container": "dungeon", "module": "ovl_1978824.c", "module_index": 193, "confidence": "weak"}
@@ -4460,30 +4460,30 @@
 {"id": "dungeon/func_819613A8", "container": "dungeon", "module": "ovl_197eb88.c", "module_index": 194, "confidence": "weak"}
 {"id": "dungeon/func_819615E4", "container": "dungeon", "module": "ovl_197eb88.c", "module_index": 194, "confidence": "weak"}
 {"id": "dungeon/func_81961A04", "container": "dungeon", "module": "ovl_197eb88.c", "module_index": 194, "confidence": "weak"}
-{"id": "dungeon/func_8196A800", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "weak"}
-{"id": "dungeon/func_8196AB74", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "weak"}
-{"id": "dungeon/func_8196ACE4", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "weak"}
-{"id": "dungeon/func_8196B074", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "weak"}
-{"id": "dungeon/func_8196B25C", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "weak"}
-{"id": "dungeon/func_8196B2F8", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "weak"}
-{"id": "dungeon/func_8196B4A4", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "weak"}
-{"id": "dungeon/func_8196B780", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "weak"}
-{"id": "dungeon/func_8196BA5C", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "weak"}
-{"id": "dungeon/func_8196BD3C", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "weak"}
-{"id": "dungeon/func_8196BE48", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "weak"}
-{"id": "dungeon/func_8196BF24", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "weak"}
-{"id": "dungeon/func_8196BFB0", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "weak"}
-{"id": "dungeon/func_8196C280", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "weak"}
-{"id": "dungeon/func_8196C568", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "weak"}
-{"id": "dungeon/func_81970800", "container": "dungeon", "module": "ovl_1990800.c", "module_index": 196, "confidence": "weak"}
-{"id": "dungeon/func_819711E0", "container": "dungeon", "module": "ovl_1990800.c", "module_index": 196, "confidence": "weak"}
-{"id": "dungeon/func_819712B4", "container": "dungeon", "module": "ovl_1990800.c", "module_index": 196, "confidence": "weak"}
-{"id": "dungeon/func_81971398", "container": "dungeon", "module": "ovl_1990800.c", "module_index": 196, "confidence": "weak"}
-{"id": "dungeon/func_8197147C", "container": "dungeon", "module": "ovl_1990800.c", "module_index": 196, "confidence": "weak"}
-{"id": "dungeon/func_81971510", "container": "dungeon", "module": "ovl_1990800.c", "module_index": 196, "confidence": "weak"}
-{"id": "dungeon/func_819715D4", "container": "dungeon", "module": "ovl_1990800.c", "module_index": 196, "confidence": "weak"}
-{"id": "dungeon/func_81971760", "container": "dungeon", "module": "ovl_1990800.c", "module_index": 196, "confidence": "weak"}
-{"id": "dungeon/func_8197192C", "container": "dungeon", "module": "ovl_1990800.c", "module_index": 196, "confidence": "weak"}
+{"id": "dungeon/func_8196A800", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_198a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8196AB74", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_198a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8196ACE4", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_198a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8196B074", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_198a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8196B25C", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_198a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8196B2F8", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_198a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8196B4A4", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_198a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8196B780", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_198a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8196BA5C", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_198a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8196BD3C", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_198a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8196BE48", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_198a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8196BF24", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_198a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8196BFB0", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_198a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8196C280", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_198a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8196C568", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_198a800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_81970800", "container": "dungeon", "module": "ovl_1990800.c", "module_index": 196, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1990800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_819711E0", "container": "dungeon", "module": "ovl_1990800.c", "module_index": 196, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1990800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_819712B4", "container": "dungeon", "module": "ovl_1990800.c", "module_index": 196, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1990800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_81971398", "container": "dungeon", "module": "ovl_1990800.c", "module_index": 196, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1990800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8197147C", "container": "dungeon", "module": "ovl_1990800.c", "module_index": 196, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1990800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_81971510", "container": "dungeon", "module": "ovl_1990800.c", "module_index": 196, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1990800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_819715D4", "container": "dungeon", "module": "ovl_1990800.c", "module_index": 196, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1990800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_81971760", "container": "dungeon", "module": "ovl_1990800.c", "module_index": 196, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1990800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8197192C", "container": "dungeon", "module": "ovl_1990800.c", "module_index": 196, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1990800.membership.json", "reviewer": "orchestrator-r112"}
 {"id": "dungeon/func_81976850", "container": "dungeon", "module": "ovl_1996850.c", "module_index": 197, "confidence": "weak"}
 {"id": "dungeon/func_81976BC0", "container": "dungeon", "module": "ovl_1996850.c", "module_index": 197, "confidence": "weak"}
 {"id": "dungeon/func_81976CB0", "container": "dungeon", "module": "ovl_1996850.c", "module_index": 197, "confidence": "weak"}
@@ -4529,15 +4529,15 @@
 {"id": "dungeon/func_819A13D0", "container": "dungeon", "module": "ovl_19c088c.c", "module_index": 203, "confidence": "weak"}
 {"id": "dungeon/func_819A1450", "container": "dungeon", "module": "ovl_19c088c.c", "module_index": 203, "confidence": "weak"}
 {"id": "dungeon/func_819A1654", "container": "dungeon", "module": "ovl_19c088c.c", "module_index": 203, "confidence": "weak"}
-{"id": "dungeon/func_819A6800", "container": "dungeon", "module": "ovl_19c6800.c", "module_index": 204, "confidence": "weak"}
-{"id": "dungeon/func_819A7320", "container": "dungeon", "module": "ovl_19c6800.c", "module_index": 204, "confidence": "weak"}
-{"id": "dungeon/func_819A764C", "container": "dungeon", "module": "ovl_19c6800.c", "module_index": 204, "confidence": "weak"}
-{"id": "dungeon/func_819AC800", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "strong"}
-{"id": "dungeon/func_819ACB28", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "strong"}
-{"id": "dungeon/func_819ACDA0", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "strong"}
-{"id": "dungeon/func_819AD1DC", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "strong"}
-{"id": "dungeon/func_819AD81C", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "strong"}
-{"id": "dungeon/func_819ADDB8", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "strong"}
+{"id": "dungeon/func_819A6800", "container": "dungeon", "module": "ovl_19c6800.c", "module_index": 204, "confidence": "strong", "basis": "docs/evidence/dungeon_ovl_19c6800.membership.json", "review": "pending", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_19c6800.membership.json"}
+{"id": "dungeon/func_819A7320", "container": "dungeon", "module": "ovl_19c6800.c", "module_index": 204, "confidence": "strong", "basis": "docs/evidence/dungeon_ovl_19c6800.membership.json", "review": "pending", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_19c6800.membership.json"}
+{"id": "dungeon/func_819A764C", "container": "dungeon", "module": "ovl_19c6800.c", "module_index": 204, "confidence": "strong", "basis": "docs/evidence/dungeon_ovl_19c6800.membership.json", "review": "pending", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_19c6800.membership.json"}
+{"id": "dungeon/func_819AC800", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "strong", "basis": "docs/evidence/dungeon_ovl_19cc800.membership.json", "review": "pending", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_19cc800.membership.json"}
+{"id": "dungeon/func_819ACB28", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "strong", "basis": "docs/evidence/dungeon_ovl_19cc800.membership.json", "review": "pending", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_19cc800.membership.json"}
+{"id": "dungeon/func_819ACDA0", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "strong", "basis": "docs/evidence/dungeon_ovl_19cc800.membership.json", "review": "pending", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_19cc800.membership.json"}
+{"id": "dungeon/func_819AD1DC", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "strong", "basis": "docs/evidence/dungeon_ovl_19cc800.membership.json", "review": "pending", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_19cc800.membership.json"}
+{"id": "dungeon/func_819AD81C", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "strong", "basis": "docs/evidence/dungeon_ovl_19cc800.membership.json", "review": "pending", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_19cc800.membership.json"}
+{"id": "dungeon/func_819ADDB8", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "strong", "basis": "docs/evidence/dungeon_ovl_19cc800.membership.json", "review": "pending", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_19cc800.membership.json"}
 {"id": "dungeon/func_819BE800", "container": "dungeon", "module": "ovl_19de800.c", "module_index": 206, "confidence": "weak"}
 {"id": "dungeon/func_819BEB98", "container": "dungeon", "module": "ovl_19de800.c", "module_index": 206, "confidence": "weak"}
 {"id": "dungeon/func_819BEFC0", "container": "dungeon", "module": "ovl_19de800.c", "module_index": 206, "confidence": "weak"}
@@ -5717,27 +5717,27 @@
 {"id": "dungeon/func_8184B644", "container": "dungeon", "module": "ovl_7e7b9800.c", "module_index": 164, "confidence": "weak"}
 {"id": "dungeon/func_8184B6F8", "container": "dungeon", "module": "ovl_7e7b9800.c", "module_index": 164, "confidence": "weak"}
 {"id": "dungeon/func_8184B820", "container": "dungeon", "module": "ovl_7e7b9800.c", "module_index": 164, "confidence": "weak"}
-{"id": "dungeon/func_81857440", "container": "dungeon", "module": "ovl_7e7ad800.c", "module_index": 165, "confidence": "weak"}
-{"id": "dungeon/func_81857740", "container": "dungeon", "module": "ovl_7e7ad800.c", "module_index": 165, "confidence": "weak"}
-{"id": "dungeon/func_81881168", "container": "dungeon", "module": "ovl_7e783800.c", "module_index": 166, "confidence": "weak"}
-{"id": "dungeon/func_81881200", "container": "dungeon", "module": "ovl_7e783800.c", "module_index": 166, "confidence": "weak"}
-{"id": "dungeon/func_81881298", "container": "dungeon", "module": "ovl_7e783800.c", "module_index": 166, "confidence": "weak"}
-{"id": "dungeon/func_81881398", "container": "dungeon", "module": "ovl_7e783800.c", "module_index": 166, "confidence": "weak"}
-{"id": "dungeon/func_81881590", "container": "dungeon", "module": "ovl_7e783800.c", "module_index": 166, "confidence": "weak"}
-{"id": "dungeon/func_818816E0", "container": "dungeon", "module": "ovl_7e783800.c", "module_index": 166, "confidence": "weak"}
-{"id": "dungeon/func_818817D8", "container": "dungeon", "module": "ovl_7e783800.c", "module_index": 166, "confidence": "weak"}
-{"id": "dungeon/func_81881CC4", "container": "dungeon", "module": "ovl_7e783800.c", "module_index": 166, "confidence": "weak"}
-{"id": "dungeon/func_81881DDC", "container": "dungeon", "module": "ovl_7e783800.c", "module_index": 166, "confidence": "weak"}
-{"id": "dungeon/func_81881E54", "container": "dungeon", "module": "ovl_7e783800.c", "module_index": 166, "confidence": "weak"}
-{"id": "dungeon/func_81881F60", "container": "dungeon", "module": "ovl_7e783800.c", "module_index": 166, "confidence": "weak"}
-{"id": "dungeon/func_81887480", "container": "dungeon", "module": "ovl_7e77d800.c", "module_index": 167, "confidence": "weak"}
-{"id": "dungeon/func_81887E9C", "container": "dungeon", "module": "ovl_7e77d800.c", "module_index": 167, "confidence": "weak"}
-{"id": "dungeon/func_81888068", "container": "dungeon", "module": "ovl_7e77d800.c", "module_index": 167, "confidence": "weak"}
-{"id": "dungeon/func_8188816C", "container": "dungeon", "module": "ovl_7e77d800.c", "module_index": 167, "confidence": "weak"}
-{"id": "dungeon/func_81888258", "container": "dungeon", "module": "ovl_7e77d800.c", "module_index": 167, "confidence": "weak"}
-{"id": "dungeon/func_8188864C", "container": "dungeon", "module": "ovl_7e77d800.c", "module_index": 167, "confidence": "weak"}
-{"id": "dungeon/func_81888810", "container": "dungeon", "module": "ovl_7e77d800.c", "module_index": 167, "confidence": "weak"}
-{"id": "dungeon/func_81888AB8", "container": "dungeon", "module": "ovl_7e77d800.c", "module_index": 167, "confidence": "weak"}
+{"id": "dungeon/func_81857440", "container": "dungeon", "module": "ovl_1876800.c", "module_index": 153, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1876800.membership.json", "proof": "Decisions 37\u201338: weak group inside selector-12 bank merges into its single native TU.", "reviewer": "orchestrator-r112", "review": "pending"}
+{"id": "dungeon/func_81857740", "container": "dungeon", "module": "ovl_1876800.c", "module_index": 153, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1876800.membership.json", "proof": "Decisions 37\u201338: weak group inside selector-12 bank merges into its single native TU.", "reviewer": "orchestrator-r112", "review": "pending"}
+{"id": "dungeon/func_81881168", "container": "dungeon", "module": "ovl_18a0800.c", "module_index": 160, "confidence": "strong", "review": "pending", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_18a0800.membership.json", "basis": "Owner decisions 37-38: one selector-loaded grid bank is modelled as one native TU; weak naming twins merge."}
+{"id": "dungeon/func_81881200", "container": "dungeon", "module": "ovl_18a0800.c", "module_index": 160, "confidence": "strong", "review": "pending", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_18a0800.membership.json", "basis": "Owner decisions 37-38: one selector-loaded grid bank is modelled as one native TU; weak naming twins merge."}
+{"id": "dungeon/func_81881298", "container": "dungeon", "module": "ovl_18a0800.c", "module_index": 160, "confidence": "strong", "review": "pending", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_18a0800.membership.json", "basis": "Owner decisions 37-38: one selector-loaded grid bank is modelled as one native TU; weak naming twins merge."}
+{"id": "dungeon/func_81881398", "container": "dungeon", "module": "ovl_18a0800.c", "module_index": 160, "confidence": "strong", "review": "pending", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_18a0800.membership.json", "basis": "Owner decisions 37-38: one selector-loaded grid bank is modelled as one native TU; weak naming twins merge."}
+{"id": "dungeon/func_81881590", "container": "dungeon", "module": "ovl_18a0800.c", "module_index": 160, "confidence": "strong", "review": "pending", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_18a0800.membership.json", "basis": "Owner decisions 37-38: one selector-loaded grid bank is modelled as one native TU; weak naming twins merge."}
+{"id": "dungeon/func_818816E0", "container": "dungeon", "module": "ovl_18a0800.c", "module_index": 160, "confidence": "strong", "review": "pending", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_18a0800.membership.json", "basis": "Owner decisions 37-38: one selector-loaded grid bank is modelled as one native TU; weak naming twins merge."}
+{"id": "dungeon/func_818817D8", "container": "dungeon", "module": "ovl_18a0800.c", "module_index": 160, "confidence": "strong", "review": "pending", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_18a0800.membership.json", "basis": "Owner decisions 37-38: one selector-loaded grid bank is modelled as one native TU; weak naming twins merge."}
+{"id": "dungeon/func_81881CC4", "container": "dungeon", "module": "ovl_18a0800.c", "module_index": 160, "confidence": "strong", "review": "pending", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_18a0800.membership.json", "basis": "Owner decisions 37-38: one selector-loaded grid bank is modelled as one native TU; weak naming twins merge."}
+{"id": "dungeon/func_81881DDC", "container": "dungeon", "module": "ovl_18a0800.c", "module_index": 160, "confidence": "strong", "review": "pending", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_18a0800.membership.json", "basis": "Owner decisions 37-38: one selector-loaded grid bank is modelled as one native TU; weak naming twins merge."}
+{"id": "dungeon/func_81881E54", "container": "dungeon", "module": "ovl_18a0800.c", "module_index": 160, "confidence": "strong", "review": "pending", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_18a0800.membership.json", "basis": "Owner decisions 37-38: one selector-loaded grid bank is modelled as one native TU; weak naming twins merge."}
+{"id": "dungeon/func_81881F60", "container": "dungeon", "module": "ovl_18a0800.c", "module_index": 160, "confidence": "strong", "review": "pending", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_18a0800.membership.json", "basis": "Owner decisions 37-38: one selector-loaded grid bank is modelled as one native TU; weak naming twins merge."}
+{"id": "dungeon/func_81887480", "container": "dungeon", "module": "ovl_18a6800.c", "module_index": 161, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_18a6800.membership.json", "proof": "Decisions 37\u201338: weak group inside selector-20 bank merges into its single native TU.", "reviewer": "orchestrator-r112", "review": "pending"}
+{"id": "dungeon/func_81887E9C", "container": "dungeon", "module": "ovl_18a6800.c", "module_index": 161, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_18a6800.membership.json", "proof": "Decisions 37\u201338: weak group inside selector-20 bank merges into its single native TU.", "reviewer": "orchestrator-r112", "review": "pending"}
+{"id": "dungeon/func_81888068", "container": "dungeon", "module": "ovl_18a6800.c", "module_index": 161, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_18a6800.membership.json", "proof": "Decisions 37\u201338: weak group inside selector-20 bank merges into its single native TU.", "reviewer": "orchestrator-r112", "review": "pending"}
+{"id": "dungeon/func_8188816C", "container": "dungeon", "module": "ovl_18a6800.c", "module_index": 161, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_18a6800.membership.json", "proof": "Decisions 37\u201338: weak group inside selector-20 bank merges into its single native TU.", "reviewer": "orchestrator-r112", "review": "pending"}
+{"id": "dungeon/func_81888258", "container": "dungeon", "module": "ovl_18a6800.c", "module_index": 161, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_18a6800.membership.json", "proof": "Decisions 37\u201338: weak group inside selector-20 bank merges into its single native TU.", "reviewer": "orchestrator-r112", "review": "pending"}
+{"id": "dungeon/func_8188864C", "container": "dungeon", "module": "ovl_18a6800.c", "module_index": 161, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_18a6800.membership.json", "proof": "Decisions 37\u201338: weak group inside selector-20 bank merges into its single native TU.", "reviewer": "orchestrator-r112", "review": "pending"}
+{"id": "dungeon/func_81888810", "container": "dungeon", "module": "ovl_18a6800.c", "module_index": 161, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_18a6800.membership.json", "proof": "Decisions 37\u201338: weak group inside selector-20 bank merges into its single native TU.", "reviewer": "orchestrator-r112", "review": "pending"}
+{"id": "dungeon/func_81888AB8", "container": "dungeon", "module": "ovl_18a6800.c", "module_index": 161, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_18a6800.membership.json", "proof": "Decisions 37\u201338: weak group inside selector-20 bank merges into its single native TU.", "reviewer": "orchestrator-r112", "review": "pending"}
 {"id": "dungeon/func_8188D004", "container": "dungeon", "module": "ovl_7e777800.c", "module_index": 168, "confidence": "weak"}
 {"id": "dungeon/func_8188D268", "container": "dungeon", "module": "ovl_7e777800.c", "module_index": 168, "confidence": "weak"}
 {"id": "dungeon/func_8188D4D4", "container": "dungeon", "module": "ovl_7e777800.c", "module_index": 168, "confidence": "weak"}
@@ -5796,14 +5796,14 @@
 {"id": "dungeon/func_8192340C", "container": "dungeon", "module": "ovl_7e6e1800.c", "module_index": 181, "confidence": "weak"}
 {"id": "dungeon/func_81923534", "container": "dungeon", "module": "ovl_7e6e1800.c", "module_index": 181, "confidence": "weak"}
 {"id": "dungeon/func_8192365C", "container": "dungeon", "module": "ovl_7e6e1800.c", "module_index": 181, "confidence": "weak"}
-{"id": "dungeon/func_81940904", "container": "dungeon", "module": "ovl_7e6c3800.c", "module_index": 182, "confidence": "weak"}
-{"id": "dungeon/func_81940BD8", "container": "dungeon", "module": "ovl_7e6c3800.c", "module_index": 182, "confidence": "weak"}
-{"id": "dungeon/func_81940F34", "container": "dungeon", "module": "ovl_7e6c3800.c", "module_index": 182, "confidence": "weak"}
-{"id": "dungeon/func_81940F98", "container": "dungeon", "module": "ovl_7e6c3800.c", "module_index": 182, "confidence": "weak"}
-{"id": "dungeon/func_819410B8", "container": "dungeon", "module": "ovl_7e6c3800.c", "module_index": 182, "confidence": "weak"}
-{"id": "dungeon/func_8194112C", "container": "dungeon", "module": "ovl_7e6c3800.c", "module_index": 182, "confidence": "weak"}
-{"id": "dungeon/func_819411A0", "container": "dungeon", "module": "ovl_7e6c3800.c", "module_index": 182, "confidence": "weak"}
-{"id": "dungeon/func_819411F0", "container": "dungeon", "module": "ovl_7e6c3800.c", "module_index": 182, "confidence": "weak"}
+{"id": "dungeon/func_81940904", "container": "dungeon", "module": "ovl_1960800.c", "module_index": 189, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1960800.membership.json", "proof": "Owner-approved decisions 37-38: merge weak groups inside one bank image; exact row identity and selector receipt guard this reassignment.", "review": "pending", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_81940BD8", "container": "dungeon", "module": "ovl_1960800.c", "module_index": 189, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1960800.membership.json", "proof": "Owner-approved decisions 37-38: merge weak groups inside one bank image; exact row identity and selector receipt guard this reassignment.", "review": "pending", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_81940F34", "container": "dungeon", "module": "ovl_1960800.c", "module_index": 189, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1960800.membership.json", "proof": "Owner-approved decisions 37-38: merge weak groups inside one bank image; exact row identity and selector receipt guard this reassignment.", "review": "pending", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_81940F98", "container": "dungeon", "module": "ovl_1960800.c", "module_index": 189, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1960800.membership.json", "proof": "Owner-approved decisions 37-38: merge weak groups inside one bank image; exact row identity and selector receipt guard this reassignment.", "review": "pending", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_819410B8", "container": "dungeon", "module": "ovl_1960800.c", "module_index": 189, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1960800.membership.json", "proof": "Owner-approved decisions 37-38: merge weak groups inside one bank image; exact row identity and selector receipt guard this reassignment.", "review": "pending", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_8194112C", "container": "dungeon", "module": "ovl_1960800.c", "module_index": 189, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1960800.membership.json", "proof": "Owner-approved decisions 37-38: merge weak groups inside one bank image; exact row identity and selector receipt guard this reassignment.", "review": "pending", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_819411A0", "container": "dungeon", "module": "ovl_1960800.c", "module_index": 189, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1960800.membership.json", "proof": "Owner-approved decisions 37-38: merge weak groups inside one bank image; exact row identity and selector receipt guard this reassignment.", "review": "pending", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_819411F0", "container": "dungeon", "module": "ovl_1960800.c", "module_index": 189, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1960800.membership.json", "proof": "Owner-approved decisions 37-38: merge weak groups inside one bank image; exact row identity and selector receipt guard this reassignment.", "review": "pending", "reviewer": "orchestrator-r112"}
 {"id": "dungeon/func_8194C8F0", "container": "dungeon", "module": "ovl_7e6b7800.c", "module_index": 183, "confidence": "weak"}
 {"id": "dungeon/func_8194CC94", "container": "dungeon", "module": "ovl_7e6b7800.c", "module_index": 183, "confidence": "weak"}
 {"id": "dungeon/func_8194CD5C", "container": "dungeon", "module": "ovl_7e6b7800.c", "module_index": 183, "confidence": "weak"}
@@ -5811,8 +5811,8 @@
 {"id": "dungeon/func_8194D118", "container": "dungeon", "module": "ovl_7e6b7800.c", "module_index": 183, "confidence": "weak"}
 {"id": "dungeon/func_8194D1E4", "container": "dungeon", "module": "ovl_7e6b7800.c", "module_index": 183, "confidence": "weak"}
 {"id": "dungeon/func_8194D354", "container": "dungeon", "module": "ovl_7e6b7800.c", "module_index": 183, "confidence": "weak"}
-{"id": "dungeon/func_81953030", "container": "dungeon", "module": "ovl_7e6b1800.c", "module_index": 184, "confidence": "weak"}
-{"id": "dungeon/func_81953108", "container": "dungeon", "module": "ovl_7e6b1800.c", "module_index": 184, "confidence": "weak"}
+{"id": "dungeon/func_81953030", "container": "dungeon", "module": "ovl_197281c.c", "module_index": 192, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_197281c.membership.json", "basis": "Owner decisions 37-38: weak groups within the same selector bank merge into one native TU.", "review": "pending", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_81953108", "container": "dungeon", "module": "ovl_197281c.c", "module_index": 192, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_197281c.membership.json", "basis": "Owner decisions 37-38: weak groups within the same selector bank merge into one native TU.", "review": "pending", "reviewer": "orchestrator-r112"}
 {"id": "dungeon/func_81958878", "container": "dungeon", "module": "ovl_7e6ab800.c", "module_index": 185, "confidence": "weak"}
 {"id": "dungeon/func_81958BC4", "container": "dungeon", "module": "ovl_7e6ab800.c", "module_index": 185, "confidence": "weak"}
 {"id": "dungeon/func_81958D78", "container": "dungeon", "module": "ovl_7e6ab800.c", "module_index": 185, "confidence": "weak"}
@@ -5835,19 +5835,19 @@
 {"id": "dungeon/func_81994CF0", "container": "dungeon", "module": "ovl_7e66f800.c", "module_index": 190, "confidence": "weak"}
 {"id": "dungeon/func_819A0DB8", "container": "dungeon", "module": "ovl_7e663800.c", "module_index": 191, "confidence": "weak"}
 {"id": "dungeon/func_819A0EF0", "container": "dungeon", "module": "ovl_7e663800.c", "module_index": 191, "confidence": "weak"}
-{"id": "dungeon/func_819A6CBC", "container": "dungeon", "module": "ovl_7e65d800.c", "module_index": 192, "confidence": "weak"}
-{"id": "dungeon/func_819A7010", "container": "dungeon", "module": "ovl_7e65d800.c", "module_index": 192, "confidence": "weak"}
-{"id": "dungeon/func_819AE13C", "container": "dungeon", "module": "ovl_7e657800.c", "module_index": 193, "confidence": "weak"}
-{"id": "dungeon/func_819AE234", "container": "dungeon", "module": "ovl_7e657800.c", "module_index": 193, "confidence": "weak"}
-{"id": "dungeon/func_819AE2AC", "container": "dungeon", "module": "ovl_7e657800.c", "module_index": 193, "confidence": "weak"}
-{"id": "dungeon/func_819AE378", "container": "dungeon", "module": "ovl_7e657800.c", "module_index": 193, "confidence": "weak"}
-{"id": "dungeon/func_819AE528", "container": "dungeon", "module": "ovl_7e657800.c", "module_index": 193, "confidence": "weak"}
-{"id": "dungeon/func_819AE7CC", "container": "dungeon", "module": "ovl_7e657800.c", "module_index": 193, "confidence": "weak"}
-{"id": "dungeon/func_819AE94C", "container": "dungeon", "module": "ovl_7e657800.c", "module_index": 193, "confidence": "weak"}
-{"id": "dungeon/func_819B2800", "container": "dungeon", "module": "ovl_7e651800.c", "module_index": 194, "confidence": "weak"}
-{"id": "dungeon/func_819B2E6C", "container": "dungeon", "module": "ovl_7e651800.c", "module_index": 194, "confidence": "weak"}
-{"id": "dungeon/func_819B3348", "container": "dungeon", "module": "ovl_7e651800.c", "module_index": 194, "confidence": "weak"}
-{"id": "dungeon/func_819B3414", "container": "dungeon", "module": "ovl_7e651800.c", "module_index": 194, "confidence": "weak"}
+{"id": "dungeon/func_819A6CBC", "container": "dungeon", "module": "ovl_19c6800.c", "module_index": 204, "confidence": "strong", "basis": "docs/evidence/dungeon_ovl_19c6800.membership.json", "review": "pending", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_19c6800.membership.json"}
+{"id": "dungeon/func_819A7010", "container": "dungeon", "module": "ovl_19c6800.c", "module_index": 204, "confidence": "strong", "basis": "docs/evidence/dungeon_ovl_19c6800.membership.json", "review": "pending", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_19c6800.membership.json"}
+{"id": "dungeon/func_819AE13C", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "strong", "basis": "docs/evidence/dungeon_ovl_19cc800.membership.json", "review": "pending", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_19cc800.membership.json"}
+{"id": "dungeon/func_819AE234", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "strong", "basis": "docs/evidence/dungeon_ovl_19cc800.membership.json", "review": "pending", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_19cc800.membership.json"}
+{"id": "dungeon/func_819AE2AC", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "strong", "basis": "docs/evidence/dungeon_ovl_19cc800.membership.json", "review": "pending", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_19cc800.membership.json"}
+{"id": "dungeon/func_819AE378", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "strong", "basis": "docs/evidence/dungeon_ovl_19cc800.membership.json", "review": "pending", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_19cc800.membership.json"}
+{"id": "dungeon/func_819AE528", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "strong", "basis": "docs/evidence/dungeon_ovl_19cc800.membership.json", "review": "pending", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_19cc800.membership.json"}
+{"id": "dungeon/func_819AE7CC", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "strong", "basis": "docs/evidence/dungeon_ovl_19cc800.membership.json", "review": "pending", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_19cc800.membership.json"}
+{"id": "dungeon/func_819AE94C", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "strong", "basis": "docs/evidence/dungeon_ovl_19cc800.membership.json", "review": "pending", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_19cc800.membership.json"}
+{"id": "dungeon/func_819B2800", "container": "dungeon", "module": "ovl_7e651800.c", "module_index": 194, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_19d2800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_819B2E6C", "container": "dungeon", "module": "ovl_7e651800.c", "module_index": 194, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_19d2800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_819B3348", "container": "dungeon", "module": "ovl_7e651800.c", "module_index": 194, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_19d2800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_819B3414", "container": "dungeon", "module": "ovl_7e651800.c", "module_index": 194, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_19d2800.membership.json", "reviewer": "orchestrator-r112"}
 {"id": "dungeon/func_819BECBC", "container": "dungeon", "module": "ovl_7e645800.c", "module_index": 195, "confidence": "weak"}
 {"id": "dungeon/func_819BEEB0", "container": "dungeon", "module": "ovl_7e645800.c", "module_index": 195, "confidence": "weak"}
 {"id": "dungeon/func_819BF2E8", "container": "dungeon", "module": "ovl_7e645800.c", "module_index": 195, "confidence": "weak"}
@@ -7368,34 +7368,34 @@
 {"id": "dungeon/D_818F2828", "container": "dungeon", "module": "ovl_1912800.c", "module_index": 179, "confidence": "weak", "evidence": "r102 own2 physical carrier association only; data owner unresolved; no complete TU claim", "reviewer": "orchestrator-r102"}
 {"id": "dungeon/func_819600D8", "container": "dungeon", "module": "ovl_197eb88.c", "module_index": 194, "confidence": "weak", "reviewer": "orchestrator-r102"}
 {"id": "dungeon/D_81934800", "container": "dungeon", "module": "ovl_1954800.c", "module_index": 188, "confidence": "weak", "evidence": "r103 own3 physical carrier association only; entry storage owner unresolved; no complete TU ownership claim", "reviewer": "orchestrator-r103"}
-{"id": "dungeon/func_81952E54", "container": "dungeon", "module": "ovl_197281c.c", "module_index": 192, "confidence": "weak", "reviewer": "orchestrator-r103"}
+{"id": "dungeon/func_81952E54", "container": "dungeon", "module": "ovl_197281c.c", "module_index": 192, "confidence": "strong", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_197281c.membership.json"}
 {"id": "dungeon/func_81917C08", "container": "dungeon", "module": "ovl_7e6ed800.c", "module_index": 180, "confidence": "weak", "evidence": "r105 gapA physical adjacency to func_81917A70 only; no TU ownership claim", "reviewer": "orchestrator-r105"}
 {"id": "dungeon/D_81916800", "container": "dungeon", "module": "ovl_1936800.c", "module_index": 185, "confidence": "weak", "evidence": "r105 gapA physical carrier association only; data owner separately recorded", "reviewer": "orchestrator-r105"}
 {"id": "dungeon/D_81916804", "container": "dungeon", "module": "ovl_1936800.c", "module_index": 185, "confidence": "weak", "evidence": "r105 gapA physical carrier association only; data owner separately recorded", "reviewer": "orchestrator-r105"}
 {"id": "dungeon/D_81916808", "container": "dungeon", "module": "ovl_1936800.c", "module_index": 185, "confidence": "weak", "evidence": "r105 gapA physical carrier association only; data owner separately recorded", "reviewer": "orchestrator-r105"}
 {"id": "dungeon/D_808CB000", "container": "dungeon", "module": "ovl_8eb000.c", "module_index": 4, "confidence": "weak", "evidence": "Physical carrier association only; no storage owner or complete TU membership inferred.", "reviewer": "orchestrator-r107"}
 {"id": "dungeon/D_80921000", "container": "dungeon", "module": "ovl_941000.c", "module_index": 5, "confidence": "weak", "evidence": "Physical carrier association only; no storage owner or complete TU membership inferred.", "reviewer": "orchestrator-r107"}
-{"id": "dungeon/func_8187B1A0", "container": "dungeon", "module": "ovl_189a800.c", "module_index": 159, "confidence": "weak", "reviewer": "orchestrator-r107"}
-{"id": "dungeon/func_81857050", "container": "dungeon", "module": "ovl_1876800.c", "module_index": 153, "confidence": "strong", "evidence": "docs/evidence/r107_gap_1876800.json", "reviewer": "orchestrator-r107"}
-{"id": "dungeon/func_81874F04", "container": "dungeon", "module": "ovl_1894800.c", "module_index": 158, "confidence": "strong", "evidence": "docs/evidence/r107_gap_1894800.json", "reviewer": "orchestrator-r107"}
-{"id": "dungeon/func_818757D4", "container": "dungeon", "module": "ovl_1894800.c", "module_index": 158, "confidence": "strong", "evidence": "docs/evidence/r107_gap_1894800.json", "reviewer": "orchestrator-r107"}
-{"id": "dungeon/func_81887570", "container": "dungeon", "module": "ovl_18a6800.c", "module_index": 161, "confidence": "weak", "reviewer": "orchestrator-r107"}
-{"id": "dungeon/func_818875E8", "container": "dungeon", "module": "ovl_18a6800.c", "module_index": 161, "confidence": "weak", "reviewer": "orchestrator-r107"}
-{"id": "dungeon/func_819B2C40", "container": "dungeon", "module": "ovl_7e651800.c", "module_index": 194, "confidence": "weak", "reviewer": "orchestrator-r107"}
-{"id": "dungeon/func_819B32CC", "container": "dungeon", "module": "ovl_7e651800.c", "module_index": 194, "confidence": "weak", "reviewer": "orchestrator-r107"}
-{"id": "dungeon/func_8186E96C", "container": "dungeon", "module": "ovl_188e800.c", "module_index": 157, "confidence": "weak", "reviewer": "orchestrator-r107"}
-{"id": "dungeon/func_8186EC88", "container": "dungeon", "module": "ovl_188e800.c", "module_index": 157, "confidence": "weak", "reviewer": "orchestrator-r107"}
-{"id": "dungeon/func_8196A924", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "weak", "reviewer": "orchestrator-r107"}
-{"id": "dungeon/func_8196ABC4", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "weak", "reviewer": "orchestrator-r107"}
+{"id": "dungeon/func_8187B1A0", "container": "dungeon", "module": "ovl_189a800.c", "module_index": 159, "confidence": "strong", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_189a800.membership.json"}
+{"id": "dungeon/func_81857050", "container": "dungeon", "module": "ovl_1876800.c", "module_index": 153, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1876800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_81874F04", "container": "dungeon", "module": "ovl_1894800.c", "module_index": 158, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1894800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_818757D4", "container": "dungeon", "module": "ovl_1894800.c", "module_index": 158, "confidence": "strong", "evidence": "docs/evidence/dungeon_ovl_1894800.membership.json", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/func_81887570", "container": "dungeon", "module": "ovl_18a6800.c", "module_index": 161, "confidence": "strong", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_18a6800.membership.json"}
+{"id": "dungeon/func_818875E8", "container": "dungeon", "module": "ovl_18a6800.c", "module_index": 161, "confidence": "strong", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_18a6800.membership.json"}
+{"id": "dungeon/func_819B2C40", "container": "dungeon", "module": "ovl_7e651800.c", "module_index": 194, "confidence": "strong", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_19d2800.membership.json"}
+{"id": "dungeon/func_819B32CC", "container": "dungeon", "module": "ovl_7e651800.c", "module_index": 194, "confidence": "strong", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_19d2800.membership.json"}
+{"id": "dungeon/func_8186E96C", "container": "dungeon", "module": "ovl_188e800.c", "module_index": 157, "confidence": "strong", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_188e800.membership.json"}
+{"id": "dungeon/func_8186EC88", "container": "dungeon", "module": "ovl_188e800.c", "module_index": 157, "confidence": "strong", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_188e800.membership.json"}
+{"id": "dungeon/func_8196A924", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "strong", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_198a800.membership.json"}
+{"id": "dungeon/func_8196ABC4", "container": "dungeon", "module": "ovl_198a800.c", "module_index": 195, "confidence": "strong", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_198a800.membership.json"}
 {"id": "dungeon/func_819BED8C", "container": "dungeon", "module": "ovl_19de800.c", "module_index": 206, "confidence": "weak", "reviewer": "orchestrator-r108"}
 {"id": "dungeon/func_819BF3A0", "container": "dungeon", "module": "ovl_19de800.c", "module_index": 206, "confidence": "weak", "reviewer": "orchestrator-r108"}
 {"id": "dungeon/func_819BF834", "container": "dungeon", "module": "ovl_19de800.c", "module_index": 206, "confidence": "weak", "reviewer": "orchestrator-r108"}
 {"id": "dungeon/func_819C0860", "container": "dungeon", "module": "ovl_19de800.c", "module_index": 206, "confidence": "weak", "reviewer": "orchestrator-r108"}
 {"id": "dungeon/func_819C092C", "container": "dungeon", "module": "ovl_19de800.c", "module_index": 206, "confidence": "weak", "reviewer": "orchestrator-r108"}
-{"id": "dungeon/func_81970D44", "container": "dungeon", "module": "ovl_1990800.c", "module_index": 196, "confidence": "weak", "reviewer": "orchestrator-r108"}
-{"id": "dungeon/func_81970D98", "container": "dungeon", "module": "ovl_1990800.c", "module_index": 196, "confidence": "weak", "reviewer": "orchestrator-r108"}
-{"id": "dungeon/func_81970FE8", "container": "dungeon", "module": "ovl_1990800.c", "module_index": 196, "confidence": "weak", "reviewer": "orchestrator-r108"}
-{"id": "dungeon/func_819710A8", "container": "dungeon", "module": "ovl_1990800.c", "module_index": 196, "confidence": "weak", "reviewer": "orchestrator-r108"}
+{"id": "dungeon/func_81970D44", "container": "dungeon", "module": "ovl_1990800.c", "module_index": 196, "confidence": "strong", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_1990800.membership.json"}
+{"id": "dungeon/func_81970D98", "container": "dungeon", "module": "ovl_1990800.c", "module_index": 196, "confidence": "strong", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_1990800.membership.json"}
+{"id": "dungeon/func_81970FE8", "container": "dungeon", "module": "ovl_1990800.c", "module_index": 196, "confidence": "strong", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_1990800.membership.json"}
+{"id": "dungeon/func_819710A8", "container": "dungeon", "module": "ovl_1990800.c", "module_index": 196, "confidence": "strong", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_1990800.membership.json"}
 {"id": "dungeon/func_80F8802C", "container": "dungeon", "module": "ovl_7f1c9800.c", "module_index": 129, "confidence": "weak", "reviewer": "orchestrator-r108"}
 {"id": "dungeon/func_80F88774", "container": "dungeon", "module": "ovl_7f1c9800.c", "module_index": 129, "confidence": "weak", "reviewer": "orchestrator-r108"}
 {"id": "dungeon/func_80F88938", "container": "dungeon", "module": "ovl_7f1c9800.c", "module_index": 129, "confidence": "weak", "reviewer": "orchestrator-r108"}
@@ -7410,10 +7410,10 @@
 {"id": "dungeon/func_80F8A664", "container": "dungeon", "module": "ovl_7f1c9800.c", "module_index": 129, "confidence": "weak", "reviewer": "orchestrator-r108"}
 {"id": "dungeon/func_80F8A69C", "container": "dungeon", "module": "ovl_7f1c9800.c", "module_index": 129, "confidence": "weak", "reviewer": "orchestrator-r108"}
 {"id": "dungeon/func_80F8A6D4", "container": "dungeon", "module": "ovl_7f1c9800.c", "module_index": 129, "confidence": "weak", "reviewer": "orchestrator-r108"}
-{"id": "dungeon/func_81940CE4", "container": "dungeon", "module": "ovl_1960800.c", "module_index": 189, "confidence": "weak", "reviewer": "orchestrator-r108"}
-{"id": "dungeon/func_8181A9EC", "container": "dungeon", "module": "ovl_183a800.c", "module_index": 143, "confidence": "weak", "reviewer": "orchestrator-r108"}
-{"id": "dungeon/func_8181AC3C", "container": "dungeon", "module": "ovl_183a800.c", "module_index": 143, "confidence": "weak", "reviewer": "orchestrator-r108"}
-{"id": "dungeon/func_8181AF58", "container": "dungeon", "module": "ovl_183a800.c", "module_index": 143, "confidence": "weak", "reviewer": "orchestrator-r108"}
+{"id": "dungeon/func_81940CE4", "container": "dungeon", "module": "ovl_1960800.c", "module_index": 189, "confidence": "strong", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_1960800.membership.json"}
+{"id": "dungeon/func_8181A9EC", "container": "dungeon", "module": "ovl_183a800.c", "module_index": 143, "confidence": "strong", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_183a800.membership.json"}
+{"id": "dungeon/func_8181AC3C", "container": "dungeon", "module": "ovl_183a800.c", "module_index": 143, "confidence": "strong", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_183a800.membership.json"}
+{"id": "dungeon/func_8181AF58", "container": "dungeon", "module": "ovl_183a800.c", "module_index": 143, "confidence": "strong", "reviewer": "orchestrator-r112", "evidence": "docs/evidence/dungeon_ovl_183a800.membership.json"}
 {"id": "dungeon/func_8190A954", "container": "dungeon", "module": "ovl_192a800.c", "module_index": 183, "confidence": "weak", "reviewer": "orchestrator-r108"}
 {"id": "dungeon/func_8190ABA4", "container": "dungeon", "module": "ovl_192a800.c", "module_index": 183, "confidence": "weak", "reviewer": "orchestrator-r108"}
 {"id": "dungeon/func_8190AC70", "container": "dungeon", "module": "ovl_192a800.c", "module_index": 183, "confidence": "weak", "reviewer": "orchestrator-r108"}
@@ -7428,12 +7428,17 @@
 {"id": "dungeon/func_818F995C", "container": "dungeon", "module": "ovl_1918800.c", "module_index": 180, "confidence": "weak", "reviewer": "orchestrator-r108"}
 {"id": "dungeon/func_818F9A28", "container": "dungeon", "module": "ovl_1918800.c", "module_index": 180, "confidence": "weak", "reviewer": "orchestrator-r108"}
 {"id": "dungeon/func_818F9B48", "container": "dungeon", "module": "ovl_1918800.c", "module_index": 180, "confidence": "weak", "reviewer": "orchestrator-r108"}
-{"id": "dungeon/func_819ACCC4", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "weak", "reviewer": "orchestrator-r108"}
-{"id": "dungeon/func_819AD300", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "weak", "reviewer": "orchestrator-r108"}
-{"id": "dungeon/func_819AD438", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "weak", "reviewer": "orchestrator-r108"}
-{"id": "dungeon/func_819AD660", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "weak", "reviewer": "orchestrator-r108"}
-{"id": "dungeon/func_819AD6F8", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "weak", "reviewer": "orchestrator-r108"}
-{"id": "dungeon/func_819ADFD0", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "weak", "reviewer": "orchestrator-r108"}
-{"id": "dungeon/func_819AE040", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "weak", "reviewer": "orchestrator-r108"}
-{"id": "dungeon/func_819AE10C", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "weak", "reviewer": "orchestrator-r108"}
-{"id": "dungeon/func_819AE8D4", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "weak", "reviewer": "orchestrator-r108"}
+{"id": "dungeon/func_819ACCC4", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "strong", "reviewer": "orchestrator-r112", "basis": "docs/evidence/dungeon_ovl_19cc800.membership.json", "review": "pending", "evidence": "docs/evidence/dungeon_ovl_19cc800.membership.json"}
+{"id": "dungeon/func_819AD300", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "strong", "reviewer": "orchestrator-r112", "basis": "docs/evidence/dungeon_ovl_19cc800.membership.json", "review": "pending", "evidence": "docs/evidence/dungeon_ovl_19cc800.membership.json"}
+{"id": "dungeon/func_819AD438", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "strong", "reviewer": "orchestrator-r112", "basis": "docs/evidence/dungeon_ovl_19cc800.membership.json", "review": "pending", "evidence": "docs/evidence/dungeon_ovl_19cc800.membership.json"}
+{"id": "dungeon/func_819AD660", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "strong", "reviewer": "orchestrator-r112", "basis": "docs/evidence/dungeon_ovl_19cc800.membership.json", "review": "pending", "evidence": "docs/evidence/dungeon_ovl_19cc800.membership.json"}
+{"id": "dungeon/func_819AD6F8", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "strong", "reviewer": "orchestrator-r112", "basis": "docs/evidence/dungeon_ovl_19cc800.membership.json", "review": "pending", "evidence": "docs/evidence/dungeon_ovl_19cc800.membership.json"}
+{"id": "dungeon/func_819ADFD0", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "strong", "reviewer": "orchestrator-r112", "basis": "docs/evidence/dungeon_ovl_19cc800.membership.json", "review": "pending", "evidence": "docs/evidence/dungeon_ovl_19cc800.membership.json"}
+{"id": "dungeon/func_819AE040", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "strong", "reviewer": "orchestrator-r112", "basis": "docs/evidence/dungeon_ovl_19cc800.membership.json", "review": "pending", "evidence": "docs/evidence/dungeon_ovl_19cc800.membership.json"}
+{"id": "dungeon/func_819AE10C", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "strong", "reviewer": "orchestrator-r112", "basis": "docs/evidence/dungeon_ovl_19cc800.membership.json", "review": "pending", "evidence": "docs/evidence/dungeon_ovl_19cc800.membership.json"}
+{"id": "dungeon/func_819AE8D4", "container": "dungeon", "module": "ovl_19cc800.c", "module_index": 205, "confidence": "strong", "reviewer": "orchestrator-r112", "basis": "docs/evidence/dungeon_ovl_19cc800.membership.json", "review": "pending", "evidence": "docs/evidence/dungeon_ovl_19cc800.membership.json"}
+{"id": "dungeon/func_81994D8C", "container": "dungeon", "module": "ovl_19b4800.c", "module_index": 201, "confidence": "weak", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/D_81994800", "container": "dungeon", "module": "ovl_19b4800.c", "module_index": 201, "confidence": "weak", "evidence": "physical carrier association only; data owner separately recorded", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/D_81994804", "container": "dungeon", "module": "ovl_19b4800.c", "module_index": 201, "confidence": "weak", "evidence": "physical carrier association only; data owner separately recorded", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/D_81994844", "container": "dungeon", "module": "ovl_19b4800.c", "module_index": 201, "confidence": "weak", "evidence": "physical carrier association only; data owner separately recorded", "reviewer": "orchestrator-r112"}
+{"id": "dungeon/D_81994848", "container": "dungeon", "module": "ovl_19b4800.c", "module_index": 201, "confidence": "weak", "evidence": "physical carrier association only; data owner separately recorded", "reviewer": "orchestrator-r112"}

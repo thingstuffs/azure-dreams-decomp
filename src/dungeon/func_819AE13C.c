@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_19cc800.h"
 #include "common.h"
 
 typedef struct S_8002593C_0 {
@@ -34,7 +35,7 @@ typedef struct S_8002593C_2 {
 } S_8002593C_2;   /* arg2 in func_8002593C */
 
 
-typedef struct {
+typedef struct MATRIX {
     s16 m[3][3];
     s16 pad;
     s32 t[3];
@@ -74,3 +75,4 @@ void func_8002593C(void *base_matrix, S_8002593C_1 *position, S_8002593C_2 *rota
     func_80064D80(scratch + 0xD0);
     func_80064CF0(scratch + 0xD0);
 }
+

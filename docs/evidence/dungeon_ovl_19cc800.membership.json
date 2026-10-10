@@ -1,0 +1,43 @@
+{
+  "module": "dungeon_ovl_19cc800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_19cc800.c",
+    "module_index": 205
+  },
+  "members": [
+    "dungeon/func_819AC800",
+    "dungeon/func_819ACB28",
+    "dungeon/func_819ACCC4",
+    "dungeon/func_819ACDA0",
+    "dungeon/func_819AD1DC",
+    "dungeon/func_819AD300",
+    "dungeon/func_819AD438",
+    "dungeon/func_819AD660",
+    "dungeon/func_819AD6F8",
+    "dungeon/func_819AD81C",
+    "dungeon/func_819ADDB8",
+    "dungeon/func_819ADFD0",
+    "dungeon/func_819AE040",
+    "dungeon/func_819AE10C",
+    "dungeon/func_819AE13C",
+    "dungeon/func_819AE234",
+    "dungeon/func_819AE2AC",
+    "dungeon/func_819AE378",
+    "dungeon/func_819AE528",
+    "dungeon/func_819AE7CC",
+    "dungeon/func_819AE8D4",
+    "dungeon/func_819AE94C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "not observable (section-grouping link, no static duplicates, no recipe change)",
+  "basis": [
+    "Owner decisions 37-38: one modelled native TU per selector bank; weak ledger groups merge by guarded reassignment citing the bank receipt.",
+    "Selector 69 reads exactly twelve sectors to 0x80024000; complete ordered code span [0x19cc800,0x19cebcc), 22 real contiguous functions. No interfunction data, duplicated static helper or recipe change within this bank.",
+    "Whole TU GNU, genuine ASPSX and retail agree for all 9164 bytes, zero masks and substitutions. Current promoted source bodies retained except required declaration/callback reconciliation. Every member independently L3, zero pins/tail jumps."
+  ],
+  "holds": [],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r112"
+}

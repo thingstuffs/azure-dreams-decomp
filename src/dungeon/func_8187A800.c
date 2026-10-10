@@ -1,4 +1,4 @@
-#include "common.h"
+#include "modules/dungeon_native_abi.h"
 
 typedef struct S_func_8187A800_0 {
     u8 pad_00[0x14];
@@ -15,42 +15,16 @@ extern s32 func_800A48F0(void *, s32, s8);
 extern void func_800A5720(s8 *text);
 extern s32 func_800A6870(s16 input_value);
 
-extern s32 D_80024004;
-extern s32 D_80024034;
+void func_80025C5C(void *, void *, void *);
+void (*const dungeon_189a800_entry)(void *, void *, void *) = func_80025C5C;
+const u8 D_80024004[48] = {0x82,0x73,0x82,0x88,0x82,0x85,0x82,0x92,0x82,0x85,0x81,0x40,0x82,0x97,0x82,0x81,0x82,0x93,0x81,0x40,0x82,0x8e,0x82,0x8f,0x81,0x40,0x82,0x85,0x82,0x86,0x82,0x86,0x82,0x85,0x82,0x83,0x82,0x94,0x81,0x40,0x82,0x8f,0x82,0x8e,0x81,0x40,0x0,0x0};
+const u8 D_80024034[4] = {0x81,0x44,0x0,0x0};
 extern s32 D_800E1CB0;
 
-#ifdef __mips__
-static const u32 bank_words[] __asm__("func_8187A800")
-__attribute__((section(".text.func_8187A800"), aligned(4))) = {
-    0x80025C5C, 0x88827382, 0x92828582, 0x40818582,
-    0x81829782, 0x40819382, 0x8F828E82, 0x85824081,
-    0x86828682, 0x83828582, 0x40819482, 0x8E828F82,
-    0x00004081, 0x00004481, 0x800254FC, 0x80025508,
-    0x80025514, 0x80025520, 0x8002552C, 0x8002554C,
-    0x80025558, 0x80025570, 0x800255AC, 0x00000000,
-    0x80025988, 0x800259C4, 0x80025A00, 0x80025A3C,
-    0x80025A78, 0x00000020, 0x00200020, 0x00200000,
-    0x0020FFE0, 0x0000FFE0, 0xFFE0FFE0, 0xFFE00000,
-    0xFFE00020, 0x00000000, 0x80025D4C, 0x80025DCC,
-    0x800260B4, 0x800262A8, 0x800263B0, 0x800264E0,
-    0x80026618, 0x8002683C,
-};
-__asm__(".globl func_8187A800\n"
-        ".type func_8187A800,@function\n"
-        ".size func_8187A800,424\n");
-#define BODY_NAME composite_body
-#define BODY_STORAGE static
-#define BODY_ATTR __attribute__((used, section(".text.func_8187A800")))
-#else
-#define BODY_NAME func_8187A800
-#define BODY_STORAGE
-#define BODY_ATTR
-#endif
-
-BODY_STORAGE void BODY_NAME(S_func_8187A800_0 *target, s32 effect_arg) BODY_ATTR;
+void func_800240B8(S_func_8187A800_0 *target, s32 effect_arg, void *unused);
 
 /* Attempts to apply an effect and reports the outcome for flagged targets. */
-BODY_STORAGE void BODY_NAME(S_func_8187A800_0 *target, s32 effect_arg)
+void func_800240B8(S_func_8187A800_0 *target, s32 effect_arg, void *unused)
 {
     s32 message;
     s32 message_start;

@@ -1,0 +1,84 @@
+{
+  "module": "dungeon_ovl_1960800",
+  "scope": "whole_tu",
+  "flags": [
+    "-q",
+    "-G0",
+    "-0"
+  ],
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "basis": "Identical final promoted/reconciled gcc assembly, one complete TU. -0 matches GNU and retail; genuine default adds 36 division-check bytes. No per-function flags.",
+  "assembly_sha256": "4929c2ee1eb906cafebc50b0b3d70a6ea66671a0eab73b4a0fb0061157e14409",
+  "unchecked_object_sha256": "a4fa0d248c627c817349263a02d8dd96416aa4afa2d60b4c94f3228c78c1ceea",
+  "checked_object_sha256": "2f0268e214383c6d52c3ced453a902c5cb54074cd2766689d41b994d61395056",
+  "checked_text_bytes": 5800,
+  "unchecked_text_bytes": 5764,
+  "comparison": {
+    "diff": 9,
+    "exact": false,
+    "len_m": 1441,
+    "len_g": 1450,
+    "missing": [],
+    "regions": [
+      [
+        "func_8002405C",
+        "insert",
+        [],
+        [
+          [
+            341835778,
+            null,
+            null
+          ],
+          [
+            0,
+            null,
+            null
+          ],
+          [
+            458765,
+            null,
+            null
+          ],
+          [
+            604110847,
+            null,
+            null
+          ],
+          [
+            341901316,
+            null,
+            null
+          ],
+          [
+            1006731264,
+            null,
+            null
+          ],
+          [
+            339804162,
+            null,
+            null
+          ],
+          [
+            0,
+            null,
+            null
+          ],
+          [
+            393229,
+            null,
+            null
+          ]
+        ],
+        7
+      ]
+    ],
+    "delay_only": []
+  },
+  "review": "pending",
+  "reviewer": null
+}

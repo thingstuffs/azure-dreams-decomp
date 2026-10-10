@@ -1,3 +1,4 @@
+#include "modules/dungeon_native_abi.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
@@ -9,15 +10,9 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_8003DE58();     /* extern */
-u8 *func_8003FD64();                   /* extern */
-s32 func_8004491C();             /* extern */
 void func_8009CE1C(); /* extern */
 void *func_800A3F28();           /* extern */
 s32 func_800A56E0();                     /* extern */
-extern M2C_UNK D_80024440;
-extern M2C_UNK D_8002466C;
-extern M2C_UNK D_80024B48;
-extern M2C_UNK D_80024C14;
 
 typedef struct S_func_819B2800_0 {
     void *unk_00;
@@ -102,7 +97,7 @@ void func_8002401C(S_func_819B2800_0 *effect, S_func_819B2800_1 *position);
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol func_80024000).  The phase table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const module_entry)(S_func_819B2800_0 *, S_func_819B2800_1 *) __asm__("func_80024000") = func_8002401C;
+void (*const dungeon_19d2800_entry)(S_func_819B2800_0 *, S_func_819B2800_1 *) = func_8002401C;
 
 /* Advances a timed effect, spawns its visuals, and applies it to nearby targets. */
 void func_8002401C(S_func_819B2800_0 *effect, S_func_819B2800_1 *position) {
@@ -153,8 +148,8 @@ void func_8002401C(S_func_819B2800_0 *effect, S_func_819B2800_1 *position) {
                 offset[0] = 0;
             }
             visual = (S_func_819B2800_4 *) ((u8 *) object_data + 0x20);
-            object_data->unk_10 = &D_8002466C;
-            func_8004491C(object_data, &D_80024440);
+            object_data->unk_10 = func_8002466C;
+            func_8004491C(object_data, func_80024440);
             pos_x = ((S_func_819B2800_1 *) location->unk_08)->unk_00 + (offset[0] << 0x10);
             position->unk_00 = pos_x;
             visual->unk_1C = pos_x;
@@ -197,8 +192,8 @@ void func_8002401C(S_func_819B2800_0 *effect, S_func_819B2800_1 *position) {
         data_bytes = (u8 *) object_data;
         if (object_data != NULL) {
             visual = (S_func_819B2800_4 *) ((u8 *) object_data + 0x20);
-            object_data->unk_10 = &D_80024B48;
-            func_8004491C(data_bytes, &D_80024C14);
+            object_data->unk_10 = func_80024B48;
+            func_8004491C(data_bytes, func_80024C14);
             data_bytes = ((u8 *)(&D_80082E80));
             direction = ((u16) ((S_func_819B2800_5 *) ((s32*)((int *)(&D_800814A8)))[0])->unk_2A >> 9) & 7;
             offset[0] = direction;

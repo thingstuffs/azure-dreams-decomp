@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_198a800.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -6,126 +7,39 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
-typedef struct {
-    s16 x;
-    s16 y;
-} OffsetPair;
 
-typedef struct {
-    OffsetPair p[8];
-} OffsetTable;
 
-typedef struct {
-    u8 bytes[12];
-} Template12 __attribute__((packed));
 
-typedef struct {
-    u8 pad0[2];
-    u16 x;
-    u8 pad4[2];
-    u16 y;
-    u8 pad8[2];
-    u16 z;
-} Position;
 
-typedef struct {
-    u8 pad0[6];
-    s16 unk6;
-    void *image;
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 padF;
-    s16 unk10;
-    u8 pad12[2];
-    u16 flags;
-    u8 pad16[6];
-    s16 scale_x;
-    s16 scale_y;
-} Sprite;
 
-typedef struct {
-    u8 pad0[0x8C];
-    s32 vel_x;
-    s32 vel_y;
-    s32 vel_z;
-    u8 pad98[8];
-    s32 accel_z;
-} Motion;
 
-typedef struct {
-    u8 pad0[4];
-    void *object;
-    u8 kind;
-    u8 pad9;
-    s16 state;
-    s16 x;
-    s16 y;
-    s16 z;
-    s16 old_x;
-    s16 old_y;
-    s16 old_z;
-    s16 mid_x;
-    s16 mid_y;
-    s16 mid_z;
-    u8 pad1E[2];
-    s16 timer;
-    u8 pad22[4];
-    s16 table_index;
-    u8 pad28[4];
-    u16 counter;
-} Work;
 
-typedef struct {
-    u8 pad0[8];
-    void *field8;
-} SearchContext;
 
-typedef struct {
-    u8 pad0[0x60];
-    void *field60;
-} DungeonState;
 
-typedef struct {
-    u8 pad0[8];
-    Position *pos;
-    Sprite *sprite;
-    void (*update)(void);
-    u8 pad14[0xC];
-    Motion motion;
-} Effect;
 
-typedef struct {
-    s16 value;
-    u8 pad2[10];
-} S16Global;
+
+
+
+
+
+
+
+
+
+
+
 
 extern s16 D_80082E86[6];
-extern OffsetTable D_80024004;
-extern S16Global D_800269B4;
 extern Template12 D_80026990;
 extern Template12 D_8002699C;
 extern Template12 D_800269A8;
 
 extern s32 func_8003DF74(void *, void *, void *, s32);
-extern Effect *func_8003FC64(s32);
-extern void func_8004491C(Effect *, void *);
-extern void func_80045340(void);
-extern void func_80025648(void);
-extern void func_80024A5C(void);
-extern void func_800257B0(void);
-extern void func_80025A80(void);
-extern void func_80025724(void);
-extern void func_8002553C(Work *, s32, s32);
-extern void func_800A56E0(s32);
 extern void func_800542BC(void);
-extern void func_80024AF8(Work *, s32, s32, s32, s32, s32);
-extern void func_80024CA4(Work *, s32, s32, s32, s32, s32);
-extern void func_80024F80(Work *, s32, s32, s32, s32, s32);
 extern u32 func_80069EF8(void);
 
 /* Update the staged particle effect and clear its actor state when it finishes. */
-void func_8196C568(Work *work, s32 position_arg, s32 sprite_arg)
+void func_80025D68(Work *work, s32 position_arg, s32 sprite_arg)
 {
     OffsetTable offsets;
     Effect *effect;
@@ -148,7 +62,7 @@ void func_8196C568(Work *work, s32 position_arg, s32 sprite_arg)
     register u32 random;
     u16 local_y;
 
-    offsets = D_80024004;
+    offsets = D_80024004.signed_pairs;
     work->counter++;
     state = work->state;
     switch (state) {
@@ -160,7 +74,7 @@ void func_8196C568(Work *work, s32 position_arg, s32 sprite_arg)
         *(s16 *)&dungeon->pad0[0x96] = init_timer;
         D_80082E86[0] = 6;
         next_state = (u16)work->state + 1;
-        D_800269B4.value = 1;
+        D_800269B4 = 1;
         work->state = next_state;
     case 1:
         object = work->object;
@@ -191,14 +105,14 @@ void func_8196C568(Work *work, s32 position_arg, s32 sprite_arg)
                 if (work->timer == 38) {
                     effect = func_8003FC64(0x212);
                     if (effect != 0) {
-                        *(s16 *)&effect->motion.pad0[0x2C] = 33;
-                        effect->update = func_80025648;
-                        func_8004491C(effect, func_80045340);
-                        sprite = effect->sprite;
+                        *(s16 *)&effect->payload.motion.pad0[0x2C] = 33;
+                        effect->callback.update = func_80025648;
+                        func_8004491C(effect, (s32)func_80045340);
+                        sprite = effect->visual.sprite;
                         sprite->unk10 = 32;
                         sprite->flags |= 0xC;
                         sprite->unk6 = -4;
-                        pos = effect->pos;
+                        pos = effect->coordinates.pos;
                         pos->x = work->x;
                         local_y = work->y;
                         pos->y = local_y;
@@ -211,22 +125,22 @@ void func_8196C568(Work *work, s32 position_arg, s32 sprite_arg)
                         sprite->b = 0x80;
                         sprite->g = 0x80;
                         sprite->r = 0x80;
-                        *(Template12 *)&effect->motion.pad0[0x38] = D_80026990;
-                        sprite->image = &effect->motion.pad0[0x38];
+                        *(Template12 *)&effect->payload.motion.pad0[0x38] = D_80026990;
+                        sprite->image = &effect->payload.motion.pad0[0x38];
                     }
                 }
 
                 if (work->timer < 6) {
                     effect = func_8003FC64(0x212);
                     if (effect != 0) {
-                        *(s16 *)&effect->motion.pad0[0x2C] = 1;
-                        effect->update = func_80024A5C;
-                        func_8004491C(effect, func_80045340);
-                        sprite = effect->sprite;
+                        *(s16 *)&effect->payload.motion.pad0[0x2C] = 1;
+                        effect->callback.update = func_80024A5C;
+                        func_8004491C(effect, (s32)func_80045340);
+                        sprite = effect->visual.sprite;
                         sprite->unk10 = 32;
                         sprite->flags |= 0xC;
                         sprite->unk6 = -4;
-                        pos = effect->pos;
+                        pos = effect->coordinates.pos;
                         pos->x = work->x;
                         local_y = work->y;
                         pos->y = local_y;
@@ -239,8 +153,8 @@ void func_8196C568(Work *work, s32 position_arg, s32 sprite_arg)
                         sprite->b = 0x80;
                         sprite->g = 0x80;
                         sprite->r = 0x80;
-                        *(Template12 *)&effect->motion.pad0[0x38] = D_8002699C;
-                        sprite->image = &effect->motion.pad0[0x38];
+                        *(Template12 *)&effect->payload.motion.pad0[0x38] = D_8002699C;
+                        sprite->image = &effect->payload.motion.pad0[0x38];
                     }
                 }
 
@@ -287,12 +201,12 @@ void func_8196C568(Work *work, s32 position_arg, s32 sprite_arg)
                     if (spawn_timer == 16) {
                         effect = func_8003FC64(0x212);
                         if (effect != 0) {
-                            motion = &effect->motion;
+                            motion = &effect->payload.motion;
                             *(s16 *)&motion->pad0[0x2C] = 30;
                             *(s16 *)&motion->pad0[0x2E] = 30;
-                            effect->update = func_800257B0;
-                            func_8004491C(effect, func_80045340);
-                            sprite = effect->sprite;
+                            effect->callback.update = func_800257B0;
+                            func_8004491C(effect, (s32)func_80045340);
+                            sprite = effect->visual.sprite;
                             sprite->unk10 = 32;
                             sprite->flags |= 0xC;
                             motion->vel_z = (s32)0xFFF20000;
@@ -305,7 +219,7 @@ void func_8196C568(Work *work, s32 position_arg, s32 sprite_arg)
                             motion->vel_y += (s32)0xFFFC0000 + ((random & 0x1FFF) << 6);
                             random = func_80069EF8();
                             motion->vel_z += (s32)0xFFFC0000 + ((random & 0x1FFF) << 6);
-                            pos = effect->pos;
+                            pos = effect->coordinates.pos;
                             pos->x = work->x;
                             local_y = work->y;
                             pos->y = local_y;
@@ -318,18 +232,18 @@ void func_8196C568(Work *work, s32 position_arg, s32 sprite_arg)
                             sprite->b = 0x80;
                             sprite->g = 0x80;
                             sprite->r = 0x80;
-                            *(Template12 *)&effect->motion.pad0[0x38] = D_800269A8;
-                            sprite->image = &effect->motion.pad0[0x38];
+                            *(Template12 *)&effect->payload.motion.pad0[0x38] = D_800269A8;
+                            sprite->image = &effect->payload.motion.pad0[0x38];
                         }
                         if (work->timer == spawn_timer) {
                             effect = func_8003FC64(0x212);
                             if (effect != 0) {
-                                motion = &effect->motion;
+                                motion = &effect->payload.motion;
                                 *(s16 *)&motion->pad0[0x2C] = 30;
                                 *(s16 *)&motion->pad0[0x2E] = 30;
-                                effect->update = func_80025A80;
-                                func_8004491C(effect, func_80045340);
-                                sprite = effect->sprite;
+                                effect->callback.update = func_80025A80;
+                                func_8004491C(effect, (s32)func_80045340);
+                                sprite = effect->visual.sprite;
                                 sprite->unk10 = 32;
                                 sprite->flags |= 0xC;
                                 motion->vel_z = (s32)0xFFF20000;
@@ -342,7 +256,7 @@ void func_8196C568(Work *work, s32 position_arg, s32 sprite_arg)
                                 motion->vel_y += (s32)0xFFF80000 + ((random & 0x3FFF) << 6);
                                 random = func_80069EF8();
                                 motion->vel_z += (s32)0xFFF80000 + ((random & 0x3FFF) << 6);
-                                pos = effect->pos;
+                                pos = effect->coordinates.pos;
                                 pos->x = work->x;
                                 local_y = work->y;
                                 pos->y = local_y;
@@ -355,8 +269,8 @@ void func_8196C568(Work *work, s32 position_arg, s32 sprite_arg)
                                 sprite->b = 0x80;
                                 sprite->g = 0x80;
                                 sprite->r = 0x80;
-                                *(Template12 *)&effect->motion.pad0[0x38] = D_800269A8;
-                                sprite->image = &effect->motion.pad0[0x38];
+                                *(Template12 *)&effect->payload.motion.pad0[0x38] = D_800269A8;
+                                sprite->image = &effect->payload.motion.pad0[0x38];
                             }
                         }
                     }
@@ -366,15 +280,15 @@ void func_8196C568(Work *work, s32 position_arg, s32 sprite_arg)
             if (work->timer == 16) {
                 effect = func_8003FC64(0x212);
                 if (effect != 0) {
-                    motion = &effect->motion;
+                    motion = &effect->payload.motion;
                     *(s16 *)&motion->pad0[0x2C] = 7;
                     *(s16 *)&motion->pad0[0x2E] = 7;
-                    effect->update = func_80025724;
-                    func_8004491C(effect, func_80045340);
-                    sprite = effect->sprite;
+                    effect->callback.update = func_80025724;
+                    func_8004491C(effect, (s32)func_80045340);
+                    sprite = effect->visual.sprite;
                     sprite->unk10 = 32;
                     sprite->flags |= 0xC;
-                    pos = effect->pos;
+                    pos = effect->coordinates.pos;
                     pos->x = work->x;
                     local_y = work->y;
                     pos->y = local_y;
@@ -387,8 +301,8 @@ void func_8196C568(Work *work, s32 position_arg, s32 sprite_arg)
                     sprite->b = 0x80;
                     sprite->g = 0x80;
                     sprite->r = 0x80;
-                    *(Template12 *)&effect->motion.pad0[0x38] = D_8002699C;
-                    sprite->image = &effect->motion.pad0[0x38];
+                    *(Template12 *)&effect->payload.motion.pad0[0x38] = D_8002699C;
+                    sprite->image = &effect->payload.motion.pad0[0x38];
                 }
             }
             if (work->timer >= 13) {
@@ -409,7 +323,7 @@ void func_8196C568(Work *work, s32 position_arg, s32 sprite_arg)
         return;
 
     case 4:
-        if (D_800269B4.value == 0) {
+        if (D_800269B4 == 0) {
             dungeonStatus.unk_0C = 0;
             D_80082E80.unk_006 = 0;
             dungeonStatus.unk_0A--;
@@ -417,6 +331,6 @@ void func_8196C568(Work *work, s32 position_arg, s32 sprite_arg)
             objectFlagBlock.flags |= 0x8000;
             return;
         }
-        D_800269B4.value = 0;
+        D_800269B4 = 0;
     }
 }

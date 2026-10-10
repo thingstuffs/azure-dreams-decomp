@@ -1,3 +1,5 @@
+#include "modules/dungeon_ovl_18a6800.h"
+#include "modules/dungeon_native_abi.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -57,10 +59,10 @@ typedef struct S_80025E4C_2 {
 } S_80025E4C_2;   /* obj in func_80025E4C */
 
 
-extern s32 func_800654B0(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_8006658C(void *, void *);
-extern void func_80066708(void *);
+
 extern void func_80067F20(void *, s32, s32, u16, s32);
 
 typedef struct GlobalState {

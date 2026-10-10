@@ -1,3 +1,5 @@
+#include "modules/dungeon_native_abi.h"
+#include "modules/dungeon_ovl_1894800.h"
 #include "common.h"
 
 #ifndef NULL
@@ -46,18 +48,16 @@ typedef struct S_func_81875B38_5 {
     s32 unk_48;
 } S_func_81875B38_5;
 
-extern void *func_8003FD64();
-extern s32 func_8004491C();
 extern s32 rand();
-extern s32 D_80025028;
-extern s32 D_80025278;
+
+
 
 static __inline__ S_func_81875B38_2 *effect_offset_32(void *p) {
     return (S_func_81875B38_2 *)((u8 *)p + 0x20);
 }
 
 /* Spawn and initialize an effect at a randomly offset position relative to the source. */
-void func_81875B38(
+void func_80025338(
     void *source,
     s32 property_34,
     s32 property_28,
@@ -74,7 +74,7 @@ void func_81875B38(
 
     effect_ptr = func_8003FD64(0x211, source_obj);
     if (effect_ptr != NULL) {
-        effect_ptr->unk_10 = (s32)&D_80025278;
+        effect_ptr->unk_10 = (s32)func_80025278;
         jitter = rand() & 0x1F;
         effect_pos = ((S_func_81875B38_3 *)source_obj->unk_08)->unk_02 + jitter;
         effect_pos += x_offset - 0x10;
@@ -94,7 +94,7 @@ void func_81875B38(
         ((S_func_81875B38_5 *)effect_ptr)->unk_14 = property_34;
         ((S_func_81875B38_5 *)effect_ptr)->unk_32 = property_52;
         ((S_func_81875B38_5 *)effect_ptr)->unk_34 = property_52;
-        func_8004491C(effect_obj, &D_80025028);
+        func_8004491C(effect_obj, func_80025028);
         ((S_func_81875B38_5 *)effect_ptr)->unk_48 = rand() + 0x10000;
         ((S_func_81875B38_5 *)effect_ptr)->unk_08 = property_28;
     }

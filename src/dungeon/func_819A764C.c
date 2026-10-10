@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_19c6800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -42,9 +43,8 @@ typedef struct S_819A764C_3 {
     u32 unk_14A0;
 } S_819A764C_3;   /* (void *)page_base in func_819A764C */
 
-extern u8 D_80024B20[];
-extern void func_8004491C();
-extern s16 func_8006649C();
+s32 func_80024B20(void *);
+extern u16 func_8006649C(s32, s32);
 extern s32 func_80069EF8(void);
 
 /* Update randomized intermediate points and advance the effect state. */
@@ -55,7 +55,7 @@ void func_80024E4C(void *self)
     s32 point_index;
     void *object_base;
     S_819A764C_1 *linked_object;
-    u8 *message;
+    void *message;
 
     linked_object = ((S_819A764C_0 *)self)->unk_00;
     linked_object->unk_52 |= 0x8000;
@@ -82,7 +82,7 @@ void func_80024E4C(void *self)
     switch (state) {
     case 0:
         object_base = self - 0x20;
-        message = D_80024B20;
+        message = func_80024B20;
 
         func_8004491C(object_base, message);
     case 1:

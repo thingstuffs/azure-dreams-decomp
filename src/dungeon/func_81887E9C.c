@@ -1,3 +1,5 @@
+#include "modules/dungeon_ovl_18a6800.h"
+#include "modules/dungeon_native_abi.h"
 #include "common.h"
 #include "m2c_compat.h"
 
@@ -7,15 +9,13 @@ typedef struct S_8002569C_6 {
 } S_8002569C_6;   /* temp_v0 in func_8002569C */
 
 
-void *func_8003FD64();                  /* extern */
-s32 func_8004491C();           /* extern */
+                  /* extern */
+
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
-extern M2C_UNK D_80025160;
-extern M2C_UNK D_80025340;
-extern u16 D_8002632A;
+extern s16 D_8002632A;
 extern u8 D_80026478[];
-extern s16 D_80026878;
+extern u8 D_80026878[];
 
 typedef struct S_8002569C_0 {
     u8 pad_00[0x8];
@@ -86,22 +86,22 @@ void *func_8002569C(S_8002569C_2 *origin, s16 angle, s16 radius, s16 height_offs
 
     object = func_8003FD64(0x202, alloc_arg);
     if (object != NULL) {
-        ((S_8002569C_0 *)object)->unk_10 = &D_80025160;
-        func_8004491C(object, &D_80025340);
+        ((S_8002569C_0 *)object)->unk_10 = (s32 *)func_80025160;
+        func_8004491C(object, (s32 *)func_80025340);
         positions = ((S_8002569C_0 *)object)->unk_08;
         positions->unk_02 = (s16) (origin->unk_02 + ((s32) (func_80064584(angle) * radius) >> 0xF));
         positions->unk_06 = (s16) (origin->unk_06 + ((s32) (func_800644B8(angle) * radius) >> 0xF));
         height = origin->unk_0A + ((s32) (height_offset << 0x10) >> 0x13);
         positions->unk_0A = height;
-        if (D_80026878 < height) {
-            positions->unk_0A = D_80026878;
+        if ((*(s16 *)D_80026878) < height) {
+            positions->unk_0A = (*(s16 *)D_80026878);
         }
         positions->unk_0E = (u16) origin->unk_02;
         positions->unk_12 = (u16) origin->unk_06;
         positions->unk_16 = (u16) origin->unk_0A;
         object_data = (void *) 0xE04020;
         (*(s32 *)((u8 *)(((S_8002569C_6 *)object)->unk_0C) + 0xC)) = (s32) object_data;
-        slot_index = D_8002632A;
+        slot_index = (u16)D_8002632A;
         object_data = object + 0x20;
         object_data->unk_16 = angle;
         object_data->unk_1C = height_offset;

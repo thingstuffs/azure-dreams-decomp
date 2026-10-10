@@ -1,0 +1,358 @@
+{
+  "module": "dungeon_ovl_1960800",
+  "maps": {
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "basis": "PS-X EXE header: load 0x8002D000, payload size 0x54800, file header 0x800.",
+      "kind": "psx_exe"
+    },
+    "dungeon_resident": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 667648,
+      "file_end": 1050624,
+      "delta": 2147374944,
+      "basis": "config/overlays/dungeon.rowbase.jsonl xfer_dungeon_A3000 proven runtime DMA/load-map record.",
+      "kind": "rowbase",
+      "region": "xfer_dungeon_A3000"
+    },
+    "bank51_assets_1961ee0": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 26615520,
+      "file_end": 26634240,
+      "delta": 2121021440,
+      "basis": "Independent selector 51 sector receipt. External bank-tail views, no native allocation claim.",
+      "kind": "rowbase",
+      "region": "bank51_assets_1961ee0"
+    }
+  },
+  "views": {
+    "D_800256E0": {
+      "symbol": "D_800256E0",
+      "kind": "data",
+      "vma": 2147636960,
+      "foff": 26615520,
+      "view_bytes": 12,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank51_assets_1961ee0",
+      "evidence": "docs/evidence/dungeon_ovl_1960800.imports.json"
+    },
+    "D_800256EC": {
+      "symbol": "D_800256EC",
+      "kind": "data",
+      "vma": 2147636972,
+      "foff": 26615532,
+      "view_bytes": 12,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank51_assets_1961ee0",
+      "evidence": "docs/evidence/dungeon_ovl_1960800.imports.json"
+    },
+    "D_80025704": {
+      "symbol": "D_80025704",
+      "kind": "data",
+      "vma": 2147636996,
+      "foff": 26615556,
+      "view_bytes": 12,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank51_assets_1961ee0",
+      "evidence": "docs/evidence/dungeon_ovl_1960800.imports.json"
+    },
+    "D_80025710": {
+      "symbol": "D_80025710",
+      "kind": "data",
+      "vma": 2147637008,
+      "foff": 26615568,
+      "view_bytes": 12,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank51_assets_1961ee0",
+      "evidence": "docs/evidence/dungeon_ovl_1960800.imports.json"
+    },
+    "D_8002571C": {
+      "symbol": "D_8002571C",
+      "kind": "data",
+      "vma": 2147637020,
+      "foff": 26615580,
+      "view_bytes": 2,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank51_assets_1961ee0",
+      "evidence": "docs/evidence/dungeon_ovl_1960800.imports.json"
+    },
+    "D_800DE870": {
+      "symbol": "D_800DE870",
+      "kind": "data",
+      "vma": 2148395120,
+      "foff": 1020176,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_ovl_1960800.imports.json"
+    },
+    "D_800DEB28": {
+      "symbol": "D_800DEB28",
+      "kind": "data",
+      "vma": 2148395816,
+      "foff": 1020872,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_ovl_1960800.imports.json"
+    },
+    "D_800DED28": {
+      "symbol": "D_800DED28",
+      "kind": "data",
+      "vma": 2148396328,
+      "foff": 1021384,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_ovl_1960800.imports.json"
+    }
+  },
+  "runtime_views": {
+    "D_800814A0": {
+      "symbol": "D_800814A0",
+      "kind": "runtime_data",
+      "vma": 2148013216,
+      "view_bytes": 16,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_1960800.imports.json",
+      "declaration": "include/shared/object_flags.h"
+    },
+    "D_800814A8": {
+      "symbol": "D_800814A8",
+      "kind": "runtime_data",
+      "vma": 2148013224,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_1960800.imports.json",
+      "declaration": "include/shared/record_ptrs.h"
+    },
+    "D_80082E80": {
+      "symbol": "D_80082E80",
+      "kind": "runtime_data",
+      "vma": 2148019840,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_1960800.imports.json",
+      "declaration": "include/shared/tile_object.h"
+    },
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 512,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_1960800.imports.json",
+      "declaration": "include/shared/game_work.h"
+    },
+    "D_80083460": {
+      "symbol": "D_80083460",
+      "kind": "runtime_data",
+      "vma": 2148021344,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_1960800.imports.json",
+      "declaration": "include/shared/dungeon_status.h"
+    },
+    "D_80083780": {
+      "symbol": "D_80083780",
+      "kind": "runtime_data",
+      "vma": 2148022144,
+      "view_bytes": 300,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_1960800.imports.json",
+      "declaration": "include/shared/entity_objects.h"
+    }
+  },
+  "functions": {
+    "func_8003DB94": {
+      "vma": 2147736468,
+      "foff": 70548,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "00140600431302002110a200000082ac",
+      "entry_sha256": "0f610f588532ba54cf2447c2fcf8fbfd4c05e26ed058c6adeda561a27f5fec1d",
+      "kind": "external_code_entry_view"
+    },
+    "func_8003DF74": {
+      "vma": 2147737460,
+      "foff": 71540,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "c8ffbd272c00b3af219880002800b2af",
+      "entry_sha256": "947829a8a4189604dca5135da6fe6cf80ddb1ffa37d7826b69ce64e6e44134c0",
+      "kind": "external_code_entry_view"
+    },
+    "func_8003FC64": {
+      "vma": 2147744868,
+      "foff": 78948,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "0180023c14374294e0ffbd271400b1af",
+      "entry_sha256": "e69ab34eef3cf9ae8820c182f12220eb50e99d8ae29a5c36c2b2fd748dfb4c7a",
+      "kind": "external_code_entry_view"
+    },
+    "func_8003FD64": {
+      "vma": 2147745124,
+      "foff": 79204,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "0180023c14374294e0ffbd271400b1af",
+      "entry_sha256": "e69ab34eef3cf9ae8820c182f12220eb50e99d8ae29a5c36c2b2fd748dfb4c7a",
+      "kind": "external_code_entry_view"
+    },
+    "func_8004491C": {
+      "vma": 2147764508,
+      "foff": 98588,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "21388000ffff08242148000021202001",
+      "entry_sha256": "40f6255d7ae4fada30b446f687fe666aceabe87ffd6717ae1b737d459e8f3bff",
+      "kind": "external_code_entry_view"
+    },
+    "func_80045340": {
+      "vma": 2147767104,
+      "foff": 101184,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "e0ffbd271000b0af218080001400b1af",
+      "entry_sha256": "909f5726619e454d8576896ae199245adab4e14600dd424d518643d9289975c2",
+      "kind": "external_code_entry_view"
+    },
+    "func_800478B8": {
+      "vma": 2147776696,
+      "foff": 110776,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "e8ffbd271000b0af1400bfaffd1d010c",
+      "entry_sha256": "d9ad27780e8cd7534567007bb5685be652d7b7ad1b3a601909cc7b45b970548d",
+      "kind": "external_code_entry_view"
+    },
+    "func_80053EF0": {
+      "vma": 2147827440,
+      "foff": 161520,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "01000224050082100400022410008210",
+      "entry_sha256": "ffa7d58c6918890cd40a871e8972b304ca4531ac06c6de4b782e33cdddb066e2",
+      "kind": "external_code_entry_view"
+    },
+    "func_80065420": {
+      "vma": 2147898400,
+      "foff": 232480,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "000080c8040081c8000000000100184a",
+      "entry_sha256": "5ed8b1e3aa5976dc28627d2b9c270d5e667f681bfc289095cf3cb6b034e82a2c",
+      "kind": "external_code_entry_view"
+    },
+    "func_80066460": {
+      "vma": 2147902560,
+      "foff": 236640,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "03008230c01102000300a53040290500",
+      "entry_sha256": "5cea361dc5c9f0e81b17f4da7ac9dd92f80e6b513fc85620d27083290f98e663",
+      "kind": "external_code_entry_view"
+    },
+    "func_80067F20": {
+      "vma": 2147909408,
+      "foff": 243488,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "e0ffbd271000b0af218080002120a000",
+      "entry_sha256": "72c09695d62d432399c0316c2277eaa0498b25eeb1baba0d9d58f536b1362cc8",
+      "kind": "external_code_entry_view"
+    },
+    "func_80069EF8": {
+      "vma": 2147917560,
+      "foff": 251640,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "a0000a24080040012f00092400000000",
+      "entry_sha256": "018c824df1097cceaaa4001d02b61faaafe1e13c197a60f3e5428fe7befa50de",
+      "kind": "external_code_entry_view"
+    },
+    "func_800A56E0": {
+      "vma": 2148161248,
+      "foff": 786304,
+      "map": "dungeon_resident",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "entry_bytes": "0180023c14374294e8ffbd2702004230",
+      "entry_sha256": "bf39d895f79df6a233839115df30299b60b9797b745388731dd9d2335bc15195",
+      "kind": "external_code_entry_view"
+    },
+    "func_800B8FC8": {
+      "vma": 2148241352,
+      "foff": 866408,
+      "map": "dungeon_resident",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "entry_bytes": "c0ffbd273800beaf21f080003000b6af",
+      "entry_sha256": "0334e7981ea5b9493a7c6360ecbce20148665a606eb044ffdbf8adea2b316a76",
+      "kind": "external_code_entry_view"
+    },
+    "rand": {
+      "vma": 2147917560,
+      "foff": 251640,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "a0000a24080040012f00092400000000",
+      "entry_sha256": "018c824df1097cceaaa4001d02b61faaafe1e13c197a60f3e5428fe7befa50de",
+      "kind": "external_code_entry_view"
+    }
+  },
+  "review": "pending",
+  "reviewer": null,
+  "retail_views": {
+    "D_800256E0": {
+      "bytes": "c02ce0d01d01c87d00004040",
+      "sha256": "e29f516a1b45ab7ca306a980ccf3bca3b68d576f9c512d27e760db7b2361ffab",
+      "basis": "Direct scalar/copy width where read, otherwise conservative pointer-only address view; no allocation extent inferred."
+    },
+    "D_800256EC": {
+      "bytes": "c02ce0e01d01c87d00004040",
+      "sha256": "b9980bc5f4c514c6043f1432a5887f9d17f50d148f1ff2d38cb22379c016710b",
+      "basis": "Direct scalar/copy width where read, otherwise conservative pointer-only address view; no allocation extent inferred."
+    },
+    "D_80025704": {
+      "bytes": "c02ce0e01a00c37d00c04040",
+      "sha256": "ce5f4c4f35e99a65aa078ca74d2f3b2e2bcd5132892cbc29a51beeea65b86650",
+      "basis": "Direct scalar/copy width where read, otherwise conservative pointer-only address view; no allocation extent inferred."
+    },
+    "D_80025710": {
+      "bytes": "c02ce0e01a00cf7d00c04040",
+      "sha256": "8de0d7221e7cf60cebfe75cee76f52a9d71c91655c1363afd1d5748e8099ed2b",
+      "basis": "Direct scalar/copy width where read, otherwise conservative pointer-only address view; no allocation extent inferred."
+    },
+    "D_8002571C": {
+      "bytes": "0000",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "basis": "Direct scalar/copy width where read, otherwise conservative pointer-only address view; no allocation extent inferred."
+    },
+    "D_800DE870": {
+      "bytes": "02000200",
+      "sha256": "aa57ad3667d90f3b36d89ef48e081421c9549b8b1c306e1bd934e895677f7f6e",
+      "basis": "Direct scalar/copy width where read, otherwise conservative pointer-only address view; no allocation extent inferred."
+    },
+    "D_800DEB28": {
+      "bytes": "02000200",
+      "sha256": "aa57ad3667d90f3b36d89ef48e081421c9549b8b1c306e1bd934e895677f7f6e",
+      "basis": "Direct scalar/copy width where read, otherwise conservative pointer-only address view; no allocation extent inferred."
+    },
+    "D_800DED28": {
+      "bytes": "02000200",
+      "sha256": "aa57ad3667d90f3b36d89ef48e081421c9549b8b1c306e1bd934e895677f7f6e",
+      "basis": "Direct scalar/copy width where read, otherwise conservative pointer-only address view; no allocation extent inferred."
+    }
+  }
+}

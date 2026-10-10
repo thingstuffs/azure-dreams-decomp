@@ -1,0 +1,604 @@
+{
+  "module": "dungeon_ovl_18a6800",
+  "maps": {
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "basis": "PS-X EXE header: load 0x8002D000, payload size 0x54800, file header 0x800.",
+      "kind": "psx_exe"
+    },
+    "dungeon_resident": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 667648,
+      "file_end": 1050624,
+      "delta": 2147374944,
+      "basis": "config/overlays/dungeon.rowbase.jsonl xfer_dungeon_A3000 proven runtime DMA/load-map record.",
+      "kind": "rowbase",
+      "region": "xfer_dungeon_A3000"
+    },
+    "native_18a6800_80024000": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 25847808,
+      "file_end": 25856804,
+      "delta": 2121783296,
+      "basis": "Normal-selector 20 static loader receipt, guarded rowbase native_18a6800_80024000",
+      "kind": "rowbase",
+      "region": "native_18a6800_80024000"
+    },
+    "native_18a6800_assets": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 25856804,
+      "file_end": 25872384,
+      "delta": 2121783296,
+      "basis": "Normal-selector 20 static loader receipt, guarded rowbase native_18a6800_assets",
+      "kind": "rowbase",
+      "region": "native_18a6800_assets"
+    }
+  },
+  "views": {
+    "D_80026324": {
+      "symbol": "D_80026324",
+      "kind": "data",
+      "vma": 2147640100,
+      "foff": 25856804,
+      "view_bytes": 2,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_18a6800_assets",
+      "evidence": "docs/evidence/dungeon_ovl_18a6800.imports.json"
+    },
+    "D_80026326": {
+      "symbol": "D_80026326",
+      "kind": "data",
+      "vma": 2147640102,
+      "foff": 25856806,
+      "view_bytes": 2,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_18a6800_assets",
+      "evidence": "docs/evidence/dungeon_ovl_18a6800.imports.json"
+    },
+    "D_80026328": {
+      "symbol": "D_80026328",
+      "kind": "data",
+      "vma": 2147640104,
+      "foff": 25856808,
+      "view_bytes": 2,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_18a6800_assets",
+      "evidence": "docs/evidence/dungeon_ovl_18a6800.imports.json"
+    },
+    "D_8002632A": {
+      "symbol": "D_8002632A",
+      "kind": "data",
+      "vma": 2147640106,
+      "foff": 25856810,
+      "view_bytes": 2,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_18a6800_assets",
+      "evidence": "docs/evidence/dungeon_ovl_18a6800.imports.json"
+    },
+    "D_8002632C": {
+      "symbol": "D_8002632C",
+      "kind": "data",
+      "vma": 2147640108,
+      "foff": 25856812,
+      "view_bytes": 24,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_18a6800_assets",
+      "evidence": "docs/evidence/dungeon_ovl_18a6800.imports.json"
+    },
+    "D_80026344": {
+      "symbol": "D_80026344",
+      "kind": "data",
+      "vma": 2147640132,
+      "foff": 25856836,
+      "view_bytes": 180,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_18a6800_assets",
+      "evidence": "docs/evidence/dungeon_ovl_18a6800.imports.json"
+    },
+    "D_800263F8": {
+      "symbol": "D_800263F8",
+      "kind": "data",
+      "vma": 2147640312,
+      "foff": 25857016,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_18a6800_assets",
+      "evidence": "docs/evidence/dungeon_ovl_18a6800.imports.json"
+    },
+    "D_80026470": {
+      "symbol": "D_80026470",
+      "kind": "data",
+      "vma": 2147640432,
+      "foff": 25857136,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_18a6800_assets",
+      "evidence": "docs/evidence/dungeon_ovl_18a6800.imports.json"
+    },
+    "D_80026474": {
+      "symbol": "D_80026474",
+      "kind": "data",
+      "vma": 2147640436,
+      "foff": 25857140,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_18a6800_assets",
+      "evidence": "docs/evidence/dungeon_ovl_18a6800.imports.json"
+    },
+    "D_80026478": {
+      "symbol": "D_80026478",
+      "kind": "data",
+      "vma": 2147640440,
+      "foff": 25857144,
+      "view_bytes": 1280,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_18a6800_assets",
+      "evidence": "docs/evidence/dungeon_ovl_18a6800.imports.json"
+    },
+    "D_800264F8": {
+      "symbol": "D_800264F8",
+      "kind": "data",
+      "vma": 2147640568,
+      "foff": 25857272,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_18a6800_assets",
+      "evidence": "docs/evidence/dungeon_ovl_18a6800.imports.json"
+    },
+    "D_80026878": {
+      "symbol": "D_80026878",
+      "kind": "data",
+      "vma": 2147641464,
+      "foff": 25858168,
+      "view_bytes": 2,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_18a6800_assets",
+      "evidence": "docs/evidence/dungeon_ovl_18a6800.imports.json"
+    },
+    "D_8006CCD8": {
+      "symbol": "D_8006CCD8",
+      "kind": "data",
+      "vma": 2147929304,
+      "foff": 263384,
+      "view_bytes": 16,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_18a6800.imports.json"
+    },
+    "D_8006CCE8": {
+      "symbol": "D_8006CCE8",
+      "kind": "data",
+      "vma": 2147929320,
+      "foff": 263400,
+      "view_bytes": 16,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_18a6800.imports.json"
+    },
+    "D_80080A87": {
+      "symbol": "D_80080A87",
+      "kind": "data",
+      "vma": 2148010631,
+      "foff": 344711,
+      "view_bytes": 1,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_18a6800.imports.json"
+    },
+    "D_800CEEFC": {
+      "symbol": "D_800CEEFC",
+      "kind": "data",
+      "vma": 2148331260,
+      "foff": 956316,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_ovl_18a6800.imports.json"
+    },
+    "D_800DDC40": {
+      "symbol": "D_800DDC40",
+      "kind": "data",
+      "vma": 2148392000,
+      "foff": 1017056,
+      "view_bytes": 2,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_ovl_18a6800.imports.json"
+    },
+    "D_800E1D01": {
+      "symbol": "D_800E1D01",
+      "kind": "data",
+      "vma": 2148408577,
+      "foff": 1033633,
+      "view_bytes": 9,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_ovl_18a6800.imports.json"
+    }
+  },
+  "runtime_views": {
+    "D_800814A0": {
+      "symbol": "D_800814A0",
+      "kind": "runtime_data",
+      "vma": 2148013216,
+      "view_bytes": 16,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_18a6800.imports.json",
+      "declaration": "include/shared/object_flags.h"
+    },
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 512,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_18a6800.imports.json",
+      "declaration": "include/shared/game_work.h"
+    },
+    "D_80083460": {
+      "symbol": "D_80083460",
+      "kind": "runtime_data",
+      "vma": 2148021344,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_18a6800.imports.json",
+      "declaration": "include/shared/dungeon_status.h"
+    }
+  },
+  "functions": {
+    "func_8003DB94": {
+      "vma": 2147736468,
+      "foff": 70548,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "00140600431302002110a200000082ac",
+      "entry_sha256": "0f610f588532ba54cf2447c2fcf8fbfd4c05e26ed058c6adeda561a27f5fec1d",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    },
+    "func_8003DF74": {
+      "vma": 2147737460,
+      "foff": 71540,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "c8ffbd272c00b3af219880002800b2af",
+      "entry_sha256": "947829a8a4189604dca5135da6fe6cf80ddb1ffa37d7826b69ce64e6e44134c0",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    },
+    "func_8003FC64": {
+      "vma": 2147744868,
+      "foff": 78948,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "0180023c14374294e0ffbd271400b1af",
+      "entry_sha256": "e69ab34eef3cf9ae8820c182f12220eb50e99d8ae29a5c36c2b2fd748dfb4c7a",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    },
+    "func_8003FD64": {
+      "vma": 2147745124,
+      "foff": 79204,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "0180023c14374294e0ffbd271400b1af",
+      "entry_sha256": "e69ab34eef3cf9ae8820c182f12220eb50e99d8ae29a5c36c2b2fd748dfb4c7a",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    },
+    "func_8004491C": {
+      "vma": 2147764508,
+      "foff": 98588,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "21388000ffff08242148000021202001",
+      "entry_sha256": "40f6255d7ae4fada30b446f687fe666aceabe87ffd6717ae1b737d459e8f3bff",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    },
+    "func_80045340": {
+      "vma": 2147767104,
+      "foff": 101184,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "e0ffbd271000b0af218080001400b1af",
+      "entry_sha256": "909f5726619e454d8576896ae199245adab4e14600dd424d518643d9289975c2",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    },
+    "func_800478B8": {
+      "vma": 2147776696,
+      "foff": 110776,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "e8ffbd271000b0af1400bfaffd1d010c",
+      "entry_sha256": "d9ad27780e8cd7534567007bb5685be652d7b7ad1b3a601909cc7b45b970548d",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    },
+    "func_800644B8": {
+      "vma": 2147894456,
+      "foff": 228536,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "e8ffbd27050080041000bfaf3d91010c",
+      "entry_sha256": "2e47e9e7d584c14b7f05171ca4db4c86651a5f94700b8a300a1b89355851a64f",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    },
+    "func_80064584": {
+      "vma": 2147894660,
+      "foff": 228740,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "020081040000000023200400ff0f8430",
+      "entry_sha256": "0a8d6c9350f43e90fdcd477819d062e754cee1dd93d51f8c4839e9e30e2a1bdf",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    },
+    "func_800649A0": {
+      "vma": 2147895712,
+      "foff": 229792,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "08800e3c6cbcce8d000000008002c129",
+      "entry_sha256": "761a781d4b99c5053e9f7c8afb72f314c13550d9bee4c027f560387988ca1a07",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    },
+    "func_80064A40": {
+      "vma": 2147895872,
+      "foff": 229952,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "08800e3c6cbcce8d000000000a00c01d",
+      "entry_sha256": "0f195d47028adfa7e95901ab6cd84892a518a54aaf584ea9f6068a944d0271ad",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    },
+    "func_80064CF0": {
+      "vma": 2147896560,
+      "foff": 230640,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "0000888c0400898c08008a8c0c008b8c",
+      "entry_sha256": "a658c4700b52e05019fc5aa201cba0da21b352b6da289f256b393eb2b4123aa0",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    },
+    "func_80064D80": {
+      "vma": 2147896704,
+      "foff": 230784,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "1400888c1800898c1c008a8c0028c848",
+      "entry_sha256": "a0c070b6f372ef64afdbcd25bcf07ac71050b66a8e7ebc7539b9dba6494910fb",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    },
+    "func_80065320": {
+      "vma": 2147898144,
+      "foff": 232224,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "000080c8040081c8000000001200484a",
+      "entry_sha256": "f81fddb7d4dcfc944fa767691958f160293e9fdee9d3e43874c8c6eeca1b9dcc",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    },
+    "func_80065420": {
+      "vma": 2147898400,
+      "foff": 232480,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "000080c8040081c8000000000100184a",
+      "entry_sha256": "5ed8b1e3aa5976dc28627d2b9c270d5e667f681bfc289095cf3cb6b034e82a2c",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    },
+    "func_800654B0": {
+      "vma": 2147898544,
+      "foff": 232624,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "000080c8040081c80000a2c80400a3c8",
+      "entry_sha256": "87ed88b13bf767714c5f0905d8ee4bb684c07bba5dc55372d56058cf8e9f69ea",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    },
+    "func_80065820": {
+      "vma": 2147899424,
+      "foff": 233504,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "00008f842110a0000e00e105ff0ff931",
+      "entry_sha256": "410b8d9d46120f010b28fa78d6ee54fb3a21e32de662ba326e8bea37c65a200c",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    },
+    "func_80065F90": {
+      "vma": 2147901328,
+      "foff": 235408,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "213000000300a1042138000001000624",
+      "entry_sha256": "3c8f3a35758cf1f8417acbb2569cfbe62af7814690aeed1cb07e9a572803ebc2",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    },
+    "func_80066460": {
+      "vma": 2147902560,
+      "foff": 236640,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "03008230c01102000300a53040290500",
+      "entry_sha256": "5cea361dc5c9f0e81b17f4da7ac9dd92f80e6b513fc85620d27083290f98e663",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    },
+    "func_8006658C": {
+      "vma": 2147902860,
+      "foff": 236940,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "ff00063cffffc63400ff073c0000a38c",
+      "entry_sha256": "26f136f00dab80b36566ed3b508af50b48982c0bdeb2a780e56fd818484ebe0b",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    },
+    "func_80066708": {
+      "vma": 2147903240,
+      "foff": 237320,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "08000224030082a0380002240800e003",
+      "entry_sha256": "4e736cd55f958b95e2c9ee871b7fbb35f682bd559c3d3e0f39d87e2d05c99833",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    },
+    "func_80067F20": {
+      "vma": 2147909408,
+      "foff": 243488,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "e0ffbd271000b0af218080002120a000",
+      "entry_sha256": "72c09695d62d432399c0316c2277eaa0498b25eeb1baba0d9d58f536b1362cc8",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    },
+    "func_80069EF8": {
+      "vma": 2147917560,
+      "foff": 251640,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "a0000a24080040012f00092400000000",
+      "entry_sha256": "018c824df1097cceaaa4001d02b61faaafe1e13c197a60f3e5428fe7befa50de",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    },
+    "func_80099844": {
+      "vma": 2148112452,
+      "foff": 737508,
+      "map": "dungeon_resident",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "entry_bytes": "e0ffbd271000b0af218080001400b1af",
+      "entry_sha256": "909f5726619e454d8576896ae199245adab4e14600dd424d518643d9289975c2",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    },
+    "func_8009D218": {
+      "vma": 2148127256,
+      "foff": 752312,
+      "map": "dungeon_resident",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "entry_bytes": "e0ffbd271000b0af218080001400b1af",
+      "entry_sha256": "909f5726619e454d8576896ae199245adab4e14600dd424d518643d9289975c2",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    },
+    "func_8009FCF0": {
+      "vma": 2148138224,
+      "foff": 763280,
+      "map": "dungeon_resident",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "entry_bytes": "ff00c630ff0084302330c4000200c104",
+      "entry_sha256": "1fb8b70ff29599dd11a0dbaf0226bc37f07280b3fcb567b82d0b82a2502869e2",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    },
+    "func_800A45D8": {
+      "vma": 2148156888,
+      "foff": 781944,
+      "map": "dungeon_resident",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "entry_bytes": "d8ffbd272000b2af2190c000ffff8230",
+      "entry_sha256": "ea7ee88301d4a2ac3fe881dfc02fc5e8d8cc39e8ddc4ddbd9cd7b9c73004a9a7",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    },
+    "func_800A48F0": {
+      "vma": 2148157680,
+      "foff": 782736,
+      "map": "dungeon_resident",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "entry_bytes": "d0ffbd271c00b3af219880002400b5af",
+      "entry_sha256": "70109c02299f731b6aaacdd1b51ef3da38d74c7a28cd5c99303cb4747da78560",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    },
+    "func_800A56E0": {
+      "vma": 2148161248,
+      "foff": 786304,
+      "map": "dungeon_resident",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "entry_bytes": "0180023c14374294e8ffbd2702004230",
+      "entry_sha256": "bf39d895f79df6a233839115df30299b60b9797b745388731dd9d2335bc15195",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    },
+    "func_800B835C": {
+      "vma": 2148238172,
+      "foff": 863228,
+      "map": "dungeon_resident",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "entry_bytes": "c0ffbd273400b7af21b880002000b2af",
+      "entry_sha256": "4506545dac3447ad6c782b55eab7999144b4ddbda27d96dbf9825e347fc14276",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    },
+    "rand": {
+      "vma": 2147917560,
+      "foff": 251640,
+      "map": "slus_load",
+      "asset": "baserom/slus_006.14",
+      "entry_bytes": "a0000a24080040012f00092400000000",
+      "entry_sha256": "018c824df1097cceaaa4001d02b61faaafe1e13c197a60f3e5428fe7befa50de",
+      "kind": "external_code_entry_view",
+      "basis": "Actual external code at proven PS-X EXE or DUNGEON resident load map, not data."
+    }
+  },
+  "review": "pending",
+  "reviewer": null,
+  "view_scope": "External bounded views and runtime declarations; no allocation/initialization or native ownership claim over external data.",
+  "view_basis": {
+    "D_80026324": "Explicit member/callee access width or previously proven shared view; bounded to its proven load map.",
+    "D_80026326": "Explicit member/callee access width or previously proven shared view; bounded to its proven load map.",
+    "D_80026328": "Explicit member/callee access width or previously proven shared view; bounded to its proven load map.",
+    "D_8002632A": "Explicit member/callee access width or previously proven shared view; bounded to its proven load map.",
+    "D_8002632C": "Explicit member/callee access width or previously proven shared view; bounded to its proven load map.",
+    "D_80026344": "Sprite data pointer from head; bounded declared packet/image descriptor carrier up to next registered script anchor at 0x263f8.",
+    "D_800263F8": "Address passed to sprite constructor; word anchor only, no content read/ownership claim.",
+    "D_80026470": "Explicit member/callee access width or previously proven shared view; bounded to its proven load map.",
+    "D_80026474": "Explicit member/callee access width or previously proven shared view; bounded to its proven load map.",
+    "D_80026478": "Vertex storage for at most 0x71 counters, with paired slot at +0x10 and stride 8; bounded view reaches only within selector bank.",
+    "D_800264F8": "Address passed to existing renderer; bound anchor word, no full allocation claim.",
+    "D_80026878": "Explicit member/callee access width or previously proven shared view; bounded to its proven load map.",
+    "D_8006CCD8": "Explicit member/callee access width or previously proven shared view; bounded to its proven load map.",
+    "D_8006CCE8": "Explicit member/callee access width or previously proven shared view; bounded to its proven load map.",
+    "D_80080A87": "Explicit member/callee access width or previously proven shared view; bounded to its proven load map.",
+    "D_800CEEFC": "Address-bearing registration key; word anchor only, no content read/ownership claim.",
+    "D_800DDC40": "Explicit member/callee access width or previously proven shared view; bounded to its proven load map.",
+    "D_800E1D01": "Explicit member/callee access width or previously proven shared view; bounded to its proven load map."
+  }
+}

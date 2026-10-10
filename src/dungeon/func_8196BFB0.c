@@ -1,60 +1,21 @@
+#include "modules/dungeon_ovl_198a800.h"
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/object_flags.h"
 
-typedef struct S_8196BFB0_0 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union {
-        struct { s32 v; } at00;
-        struct { s16 v; } at00u;
-        struct { u8 pad[0x2]; s16 v; } at02;
-        struct { u8 pad[0x2]; u16 v; } at02u;
-        struct { u8 pad[0x2]; u16 v; } at02p;
-    } unk_08;   /* overlapping accesses */
-} S_8196BFB0_0;   /* arg1 in func_8196BFB0 */
+   /* arg1 in func_8196BFB0 */
 
-typedef struct S_8196BFB0_1 {
-    u8 pad_00[0x2C];
-    s16 unk_2C;
-    u8 pad_2E[0x22];
-    s16 unk_50;
-    u8 pad_52[0x3A];
-    s32 unk_8C;
-    s32 unk_90;
-    s32 unk_94;
-    s32 unk_98;
-    s32 unk_9C;
-    s32 unk_A0;
-} S_8196BFB0_1;   /* arg0 in func_8196BFB0 */
+   /* arg0 in func_8196BFB0 */
 
-typedef struct S_8196BFB0_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    union { u16 u; s16 s; } unk_1C;   /* accessed as both */
-    union { u16 u; s16 s; } unk_1E;   /* accessed as both */
-} S_8196BFB0_2;   /* arg2 in func_8196BFB0 */
+   /* arg2 in func_8196BFB0 */
 
-typedef struct S_8196BFB0_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_8196BFB0_3;   /* camera in func_8196BFB0 */
+   /* camera in func_8196BFB0 */
 
 
-extern void func_80024AF8(void *object, void *position, void *render_state,
-                          s16 x, s16 y, s16 z);
-extern s32 func_800A45D8(u16 x, u16 y, s16 z);
-extern s16 func_800BCB04(u16 x, u16 y, s16 z);
 
-extern s16 D_800269B4;
 
 /* Updates and renders a shrinking object with collision and lifetime checks. */
-void func_8196BFB0(void *object, void *position, void *render_state)
+void func_800257B0(void *object, void *position, void *render_state)
 {
     s32 height;
     s16 scale_x;
@@ -89,14 +50,14 @@ void func_8196BFB0(void *object, void *position, void *render_state)
     ((S_8196BFB0_1 *)object)->unk_94 += ((S_8196BFB0_1 *)object)->unk_A0;
 
     height = ((S_8196BFB0_0 *)position)->unk_08.at02.v;
-    if ((s16)func_800BCB04(((S_8196BFB0_0 *)position)->unk_00.at02.v,
+    if ((s16)(s16)func_800BCB04(((S_8196BFB0_0 *)position)->unk_00.at02.v,
                            ((S_8196BFB0_0 *)position)->unk_04.at02.v,
                            (s16)(((S_8196BFB0_0 *)position)->unk_08.at02u.v - 4)) - 0x10 < height) {
         ((S_8196BFB0_1 *)object)->unk_94 = 0;
         ((S_8196BFB0_1 *)object)->unk_90 = 0;
         ((S_8196BFB0_1 *)object)->unk_8C = 0;
         ((S_8196BFB0_0 *)position)->unk_08.at02.v =
-            func_800BCB04(((S_8196BFB0_0 *)position)->unk_00.at02.v,
+            (s16)func_800BCB04(((S_8196BFB0_0 *)position)->unk_00.at02.v,
                           ((S_8196BFB0_0 *)position)->unk_04.at02.v,
                           (s16)(((S_8196BFB0_0 *)position)->unk_08.at02p.v - 4)) - 0x11;
         ((S_8196BFB0_0 *)position)->unk_08.at00u.v = 0;

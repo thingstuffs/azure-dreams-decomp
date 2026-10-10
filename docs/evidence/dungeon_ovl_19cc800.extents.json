@@ -1,0 +1,12 @@
+{
+  "symbol": "D_80028260",
+  "foff": 27069024,
+  "view_bytes": 1311,
+  "decoded_bytes": 4096,
+  "expected_bytes": "32 * 64 * 2 = 4096 from func_80024020 setup rectangle",
+  "compressed_sha256": "7731cf9c227c0ad3f15fef92bc3dc2a2709e8aada7559146767015deffc275d8",
+  "decoded_sha256": "4ec452442ed6c3722e930b671b9eb357adde72646023d5ed82a3e4b09d7ef0d5",
+  "basis": "Direct translation of retail func_8004068C bit rules; consumed extent includes the two-byte zero-offset terminator. No padding counted.",
+  "review": "pending",
+  "reviewer": null
+}

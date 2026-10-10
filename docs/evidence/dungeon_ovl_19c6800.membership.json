@@ -1,0 +1,26 @@
+{
+  "module": "dungeon_ovl_19c6800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_19c6800.c",
+    "module_index": 204
+  },
+  "members": [
+    "dungeon/func_819A6800",
+    "dungeon/func_819A6CBC",
+    "dungeon/func_819A7010",
+    "dungeon/func_819A7320",
+    "dungeon/func_819A764C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "not observable (section-grouping link, no static duplicates, no recipe change)",
+  "basis": [
+    "Owner decisions 37-38: one modelled native TU per selector bank; weak ledger groups merge by guarded reassignment citing the bank receipt.",
+    "Selector 68 reads exactly twelve sectors to 0x80024000; complete ordered code span [0x19c6800,0x19c7854), 5 real contiguous functions. No interfunction data, duplicated static helper or recipe change within this bank.",
+    "Whole TU GNU, genuine ASPSX and retail agree for all 4180 bytes, zero masks and substitutions. Current promoted source bodies retained except required declaration/callback reconciliation. Every member independently L3, zero pins/tail jumps."
+  ],
+  "holds": [],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r112"
+}

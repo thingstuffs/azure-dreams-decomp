@@ -1,12 +1,7 @@
+#include "modules/dungeon_ovl_19cc800.h"
 #include "common.h"
 #include "m2c_compat.h"
 
-void *func_8003FC64();                       /* extern */
-s32 func_8004491C();           /* extern */
-s16 rand();                                /* extern */
-extern M2C_UNK D_80025D28;
-extern M2C_UNK D_80027460;
-extern M2C_UNK D_800CEEFC;
 
 typedef struct S_80025FCC_0 {
     u8 pad_00[0x8];
@@ -68,8 +63,8 @@ void *func_80025FCC(s16 x, s16 y, s16 z, s16 effect_param) {
 
     effect = func_8003FC64(0x202);
     if (effect != NULL) {
-        ((S_80025FCC_0 *)effect)->unk_10 = &D_80025D28;
-        func_8004491C(effect, &D_800CEEFC);
+        ((S_80025FCC_0 *)effect)->unk_10 = func_80025D28;
+        func_8004491C(effect, func_800CEEFC);
         position = ((S_80025FCC_0 *)effect)->unk_08;
         effect_state = effect + 0x20;
         position->unk_0E = x;
@@ -96,3 +91,4 @@ void *func_80025FCC(s16 x, s16 y, s16 z, s16 effect_param) {
     }
     return effect;
 }
+

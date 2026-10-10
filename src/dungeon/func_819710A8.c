@@ -7,17 +7,17 @@
 #endif
 
 /* Position block (three 4-byte slots, only the second halfword of each is used). */
-typedef struct EffectPosition {
+typedef struct Bank1990800_19910a8_EffectPosition {
     u16 pad_00;
     u16 x;
     u16 pad_04;
     u16 y;
     u16 pad_08;
     u16 z;
-} EffectPosition;
+} Bank1990800_19910a8_EffectPosition;
 
 /* The effect record (the object header precedes it). */
-typedef struct EffectRecord {
+typedef struct Bank1990800_19910a8_EffectRecord {
     u8 pad_00[8];
     s32 unk_08;         /* property_28 argument */
     u8 pad_0C[8];
@@ -27,11 +27,9 @@ typedef struct EffectRecord {
     s16 size_max;
     u8 pad_36[0x12];
     s32 unk_48;         /* rand() + 0x10000 */
-} EffectRecord;
+} Bank1990800_19910a8_EffectRecord;
 
 extern s32 rand();
-extern s32 func_80024598(u8 *, u8 *);
-extern void func_800247E8(void *, s16 *);
 
 /* Spawn and initialize an effect at a randomly offset position relative to the source. */
 void func_800248A8(
@@ -44,7 +42,7 @@ void func_800248A8(
     s16 z_offset)
 {
     ObjectNodeHeader *effect;
-    EffectRecord *record;
+    Bank1990800_19910a8_EffectRecord *record;
     u16 jitter;
     u16 effect_pos;
 
@@ -52,20 +50,20 @@ void func_800248A8(
     if (effect != NULL) {
         effect->unk_10 = func_800247E8;
         jitter = rand() & 0x1F;
-        effect_pos = ((EffectPosition *)source->unk_08)->x + jitter;
+        effect_pos = ((Bank1990800_19910a8_EffectPosition *)source->unk_08)->x + jitter;
         effect_pos += x_offset - 0x10;
-        ((EffectPosition *)effect->unk_08)->x = effect_pos;
+        ((Bank1990800_19910a8_EffectPosition *)effect->unk_08)->x = effect_pos;
 
         jitter = rand() & 0x1F;
-        effect_pos = ((EffectPosition *)source->unk_08)->y + jitter;
+        effect_pos = ((Bank1990800_19910a8_EffectPosition *)source->unk_08)->y + jitter;
         effect_pos += y_offset - 0x10;
-        ((EffectPosition *)effect->unk_08)->y = effect_pos;
+        ((Bank1990800_19910a8_EffectPosition *)effect->unk_08)->y = effect_pos;
 
         jitter = rand() & 0x1F;
-        record = (EffectRecord *)(effect + 1);
-        effect_pos = ((EffectPosition *)source->unk_08)->z + jitter;
+        record = (Bank1990800_19910a8_EffectRecord *)(effect + 1);
+        effect_pos = ((Bank1990800_19910a8_EffectPosition *)source->unk_08)->z + jitter;
         effect_pos += z_offset - 0x10;
-        ((EffectPosition *)effect->unk_08)->z = effect_pos;
+        ((Bank1990800_19910a8_EffectPosition *)effect->unk_08)->z = effect_pos;
         record->unk_14 = property_34;
         record->size = property_52;
         record->size_max = property_52;
@@ -74,3 +72,4 @@ void func_800248A8(
         record->unk_08 = property_28;
     }
 }
+

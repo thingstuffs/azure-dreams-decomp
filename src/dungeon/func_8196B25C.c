@@ -1,10 +1,10 @@
+#include "modules/dungeon_ovl_198a800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern s16 D_800269B4;
 
 /* Dim the effect's color and flag completion when its countdown expires. */
-void func_8196B25C(void *effect, s32 unused, u8 *primitive) {
+void func_80024A5C(void *effect, s32 unused, u8 *primitive) {
     u16 ticks_left = *(u16 *)((u8 *)effect + 0x2C);
 
     D_800269B4 = 1;

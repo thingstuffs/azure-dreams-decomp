@@ -98,7 +98,7 @@
 {"id": "dungeon/func_8197C800", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "dungeon/func_81983138", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "dungeon/func_819AE378", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
-{"id": "dungeon/func_819B3414", "kinds": ["maspsx_pass"], "cause": "_fold_selfinc_la", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
+{"id": "dungeon/func_819B3414", "kinds": [], "cause": "Actual native TU does not fire _fold_selfinc_la; disabled object is identical, GNU/genuine/retail exact.", "source": "docs/evidence/dungeon_ovl_19d2800.fidelity.json"}
 {"id": "main/func_8000E68C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "main/func_8000F524", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "main/func_8000FCD8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}

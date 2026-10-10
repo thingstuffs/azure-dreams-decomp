@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_18a6800.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -32,18 +33,10 @@ typedef struct Entry {
 typedef struct EmptyCallArg {
 } EmptyCallArg;
 
-extern s16 D_8002632A;
-extern u32 D_80026470;
-extern u32 D_80026474;
-extern u32 D_80026478[];
 
 extern u32 func_800654B0(
-    u32 *, u32 *, u32 *, u32 *, u32 *, u32 *, u32 *, u32 *, u32 *, u32 *,
-    EmptyCallArg);
-extern void func_80066708(Entry *);
-extern void func_8006658C(u32 *, Entry *);
-extern u32 func_80066460(u32, u32, u32, u32);
-extern void func_80067F20(Entry *, u32, u32, u32, u32);
+    void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, ...);
+extern void func_80066708(void *);
 
 /* Builds shaded quads from adjacent vertex rows and adds them to the ordering table. */
 s32 func_80024EF4(void)
@@ -114,15 +107,15 @@ s32 func_80024EF4(void)
 
                 if (scratch->index < 0x1E0U) {
                     if ((quad_index % 32) < 16) {
-                        *(u32 *)((u8 *)quad + 12) = D_80026470;
-                        *(u32 *)((u8 *)quad + 4) = D_80026470;
-                        *(u32 *)((u8 *)quad + 28) = D_80026474;
-                        *(u32 *)((u8 *)quad + 20) = D_80026474;
+                        *(u32 *)((u8 *)quad + 12) = (*(u32 *)D_80026470);
+                        *(u32 *)((u8 *)quad + 4) = (*(u32 *)D_80026470);
+                        *(u32 *)((u8 *)quad + 28) = (*(u32 *)D_80026474);
+                        *(u32 *)((u8 *)quad + 20) = (*(u32 *)D_80026474);
                     } else {
-                        *(u32 *)((u8 *)quad + 28) = D_80026470;
-                        *(u32 *)((u8 *)quad + 20) = D_80026470;
-                        *(u32 *)((u8 *)quad + 12) = D_80026474;
-                        *(u32 *)((u8 *)quad + 4) = D_80026474;
+                        *(u32 *)((u8 *)quad + 28) = (*(u32 *)D_80026470);
+                        *(u32 *)((u8 *)quad + 20) = (*(u32 *)D_80026470);
+                        *(u32 *)((u8 *)quad + 12) = (*(u32 *)D_80026474);
+                        *(u32 *)((u8 *)quad + 4) = (*(u32 *)D_80026474);
                     }
 
                     func_80066708(quad);

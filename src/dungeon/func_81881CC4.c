@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_18a0800.h"
 #include "common.h"
 
 typedef struct S_800254C4_0 {
@@ -38,11 +39,6 @@ typedef struct S_800254C4_4 {
     u8 unk_0C;
 } S_800254C4_4;   /* ((S_800254C4_0 *)node)->unk_0C in func_800254C4 */
 
-extern void *func_8003FC64();
-extern s32 func_8004491C();
-extern s32 rand();
-extern s32 D_800250E8[3];
-extern s32 D_800252E0[3];
 
 /* Allocates a node, copies or jitters its source values, and initializes its fields. */
 s32 func_800254C4(void *source_data, s16 initial_1a, s16 initial_1c, s16 spawn_mode) {
@@ -56,8 +52,8 @@ s32 func_800254C4(void *source_data, s16 initial_1a, s16 initial_1c, s16 spawn_m
     if (node != 0) {
         s32 mode_test;
 
-        ((S_800254C4_0 *)node)->unk_10 = D_800250E8;
-        func_8004491C(node, D_800252E0);
+        ((S_800254C4_0 *)node)->unk_10 = func_800250E8;
+        func_8004491C(node, (s32)func_800252E0);
         mode_test = mode << 0x10;
         {
             S_800254C4_1 *payload = ((S_800254C4_0 *)node)->unk_08;

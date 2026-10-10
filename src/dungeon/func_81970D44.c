@@ -2,7 +2,6 @@
 #include "common.h"
 #include "shared/object_node.h"
 
-extern void func_8002406C(void *record, void *transform, void *object, s32 depth_bias);
 
 /* Draw each linked record with zero depth bias; the next record is chained through the previous header's
  * unk_18 link, and its node supplies the transform and object pointers. */
@@ -20,3 +19,4 @@ s32 func_80024544(void *record, void *transform, void *object) {
         object = node->unk_0C;
     }
 }
+

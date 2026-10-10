@@ -1,7 +1,7 @@
+#include "modules/dungeon_ovl_19cc800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern u8 D_80027452[16];
 
 /* Fade RGB toward black and set flags when red falls below eight. */
 void func_80025A34(void *owner, s32 unused, void *color_data) {
@@ -21,3 +21,4 @@ void func_80025A34(void *owner, s32 unused, void *color_data) {
         *(u32 *)((u8 *)(&objectFlagBlock)) |= 0x8000;
     }
 }
+

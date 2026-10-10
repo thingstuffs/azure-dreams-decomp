@@ -1,0 +1,37 @@
+{
+  "module": "dungeon_ovl_18a6800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_18a6800.c",
+    "module_index": 161
+  },
+  "members": [
+    "dungeon/func_81886800",
+    "dungeon/func_81887004",
+    "dungeon/func_81887480",
+    "dungeon/func_81887570",
+    "dungeon/func_818875E8",
+    "dungeon/func_818876F4",
+    "dungeon/func_81887960",
+    "dungeon/func_81887B40",
+    "dungeon/func_81887E9C",
+    "dungeon/func_81888068",
+    "dungeon/func_8188816C",
+    "dungeon/func_81888258",
+    "dungeon/func_8188864C",
+    "dungeon/func_81888810",
+    "dungeon/func_81888AB8"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "not observable (section-grouping link, no static duplicates, no recipe change)",
+  "basis": [
+    "Owner decisions 37\u201338: one native TU per DUNGEON grid bank; weak groups inside the selector image merge under a guarded reassignment citing the loader receipt.",
+    "Selector 20 loads the complete 0x6000 image to 0x80024000. All registered bank rows are included in natural contiguous order; no omitted weak-group sibling.",
+    "One complete native TU emits 8996 bytes exactly under GNU/maspsx, genuine ASPSX and retail, with zero masks and zero raw substitution.",
+    "No byte-identical static helper duplicates, owned data interposed between text runs or internal recipe change is observed. Original object/TU boundaries are not observable under section grouping."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r112",
+  "holds": []
+}

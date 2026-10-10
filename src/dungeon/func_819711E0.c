@@ -3,7 +3,7 @@
 
 typedef struct S_819711E0_0_pre {
     u16 unk_00;
-} S_819711E0_0_pre;   /* the 0x2 bytes before arg0 in func_819711E0, addressed as arg0[-1] */
+} S_819711E0_0_pre;   /* the 0x2 bytes before arg0 in func_800249E0, addressed as arg0[-1] */
 
 typedef struct S_819711E0_0 {
     u8 pad_00[0x38];
@@ -14,14 +14,14 @@ typedef struct S_819711E0_0 {
     u16 unk_44;
     u16 unk_46;
     u16 unk_48;
-} S_819711E0_0;   /* arg0 in func_819711E0 */
+} S_819711E0_0;   /* arg0 in func_800249E0 */
 
 typedef struct S_819711E0_1 {
     u8 pad_00[0xC];
     s8 unk_0C;
     s8 unk_0D;
     s8 unk_0E;
-} S_819711E0_1;   /* arg2 in func_819711E0 */
+} S_819711E0_1;   /* arg2 in func_800249E0 */
 
 typedef struct S_819711E0_2 {
     u8 pad_00[0x2];
@@ -30,7 +30,7 @@ typedef struct S_819711E0_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_819711E0_2;   /* arg1 in func_819711E0 */
+} S_819711E0_2;   /* arg1 in func_800249E0 */
 
 typedef struct S_819711E0_3 {
     u8 pad_00[0x2];
@@ -39,14 +39,13 @@ typedef struct S_819711E0_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_819711E0_3;   /* src in func_819711E0 */
+} S_819711E0_3;   /* src in func_800249E0 */
 
 
-extern s16 D_80025FF4;
 
 
 /* Decrement the timer, update scale and position, and flag completion at zero. */
-void func_819711E0(void *state, S_819711E0_2 *position, S_819711E0_1 *scale) {
+void func_800249E0(void *state, S_819711E0_2 *position, S_819711E0_1 *scale) {
     s32 scale_factor;
     u16 ticks_left;
     S_819711E0_3 *base_position;
@@ -72,3 +71,4 @@ void func_819711E0(void *state, S_819711E0_2 *position, S_819711E0_1 *scale) {
         objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
 }
+

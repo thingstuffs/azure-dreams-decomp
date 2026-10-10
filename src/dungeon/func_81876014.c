@@ -1,3 +1,5 @@
+#include "modules/dungeon_native_abi.h"
+#include "modules/dungeon_ovl_1894800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -21,52 +23,51 @@ typedef struct S_81876014_0 {
     u16 unk_62;
     s16 unk_64;
     s16 unk_66;
-} S_81876014_0;   /* arg0 in func_81876014 */
+} S_81876014_0;   /* arg0 in func_80025814 */
 
 typedef struct S_81876014_1 {
     u8 pad_00[0xA];
     s16 unk_0A;
     u8 pad_0C[0x90];
     s16 unk_9C;
-} S_81876014_1;   /* temp_s3 in func_81876014 */
+} S_81876014_1;   /* temp_s3 in func_80025814 */
 
 typedef struct S_81876014_2 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_81876014_2;   /* arg1 in func_81876014 */
+} S_81876014_2;   /* arg1 in func_80025814 */
 
 typedef struct S_81876014_3 {
     s32 unk_00;
-} S_81876014_3;   /* temp_v1_data in func_81876014 */
+} S_81876014_3;   /* temp_v1_data in func_80025814 */
 
 typedef struct S_81876014_4 {
     u8 pad_00[0xC];
     u8 unk_0C;
     u8 unk_0D;
     u8 unk_0E;
-} S_81876014_4;   /* arg2 in func_81876014 */
+} S_81876014_4;   /* arg2 in func_80025814 */
 
 typedef struct S_81876014_5 {
     u8 pad_00[0x4];
     s32 unk_04;
     s32 unk_08;
-} S_81876014_5;   /* ((S_81876014_0 *)arg0)->unk_44 in func_81876014 */
+} S_81876014_5;   /* ((S_81876014_0 *)arg0)->unk_44 in func_80025814 */
 
 typedef struct S_81876014_6 {
     u8 pad_00[0xC];
     u8 unk_0C;
     u8 unk_0D;
     u8 unk_0E;
-} S_81876014_6;   /* ((S_81876014_0 *)arg0)->unk_48 in func_81876014 */
+} S_81876014_6;   /* ((S_81876014_0 *)arg0)->unk_48 in func_80025814 */
 
 
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
-extern s16 D_80026664;
 
 /* Update the effect quad, copy its position and color, and flag completion based on owner state. */
-void func_81876014(void *effect, void *position_out, void *color_out) {
+void func_80025814(void *effect, void *position_out, void *color_out) {
     s32 y_factor;
     s16 next_angle;
     u16 angle;

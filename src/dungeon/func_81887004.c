@@ -1,3 +1,5 @@
+#include "modules/dungeon_ovl_18a6800.h"
+#include "modules/dungeon_native_abi.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -32,11 +34,6 @@ typedef struct {
     u32 flags;
 } Object;
 
-extern u16 D_80026324[];
-extern u16 D_80026326;
-extern s16 D_80026328[];
-extern u8 D_80026470[];
-extern u8 D_80026474[];
 extern u8 D_80080A87[];
 
 extern void func_8002596C(s16 x, s16 y, s16 z);
@@ -44,7 +41,7 @@ extern void func_80026010(void);
 extern s32 func_80069EF8(void);
 
 /* Advances the effect through color buildup, flicker, and fade, then restores the object color. */
-void func_81887004(EffectState *effect, Vec3s *pos)
+void func_80024804(EffectState *effect, Vec3s *pos)
 {
     Object *object;
     ColorObject *color;

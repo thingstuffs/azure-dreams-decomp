@@ -1,12 +1,14 @@
+#include "modules/dungeon_ovl_18a6800.h"
+#include "modules/dungeon_native_abi.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
-typedef struct {
+typedef struct Actor {
     u8 pad00[0x1A];
     u16 timer;
 } Actor;
 
-typedef struct {
+typedef struct Motion {
     s32 x;
     s32 y;
     s32 z;
@@ -15,21 +17,16 @@ typedef struct {
     s32 dz;
 } Motion;
 
-typedef struct {
-    u8 pad00[0x0C];
-    u8 red;
-    u8 green;
-    u8 blue;
-} EffectColor;
 
-extern u16 D_80026326[5];
+
+extern u16 D_80026326;
 extern void func_800478B8(void *color);
 
 
 /* Advance and fade the effect, flagging expiration when its timer runs out. */
 void func_80025868(Actor *actor, Motion *motion, EffectColor *color)
 {
-    u16 *counter = D_80026326;
+    u16 *counter = &D_80026326;
     u16 timer;
     u8 red;
     u8 green;

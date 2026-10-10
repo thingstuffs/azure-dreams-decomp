@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_19cc800.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -12,7 +13,7 @@ typedef struct S_819ACDA0_1 {
 } S_819ACDA0_1;   /* motion in func_819ACDA0 */
 
 
-typedef struct {
+typedef struct Motion {
     u8 pad0[0x14];
     s16 target_x;
     s16 target_y;
@@ -31,7 +32,7 @@ typedef struct {
     s16 phase;
 } Motion;
 
-typedef struct {
+typedef struct Position {
     u8 pad0[2];
     s16 x;
     u8 pad4[2];
@@ -46,23 +47,18 @@ typedef struct {
     s16 next_z;
 } Position;
 
-typedef struct {
+typedef struct Vec3u {
     u16 x;
     u16 y;
     u16 z;
 } Vec3u;
 
-extern u16 D_80027450;
-extern u8 D_80027452[16];
 extern void **D_800E3D18;
 
-extern void func_800255B8(s16, s16, s16, s16);
-extern void func_8002614C(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor);
-extern void *func_8003DE58(void *, void *, u16 *, s32);
 extern void func_800B8D64(s16, s16, s16);
 
 /* Run the warp cutscene: pick the exit point, ease the camera to it, fade out and fire the arrival effects. */
-void func_819ACDA0(Motion *motion, Position *position, u8 *color)
+void func_800245A0(Motion *motion, Position *position, u8 *color)
 {
     Vec3u delta;
     Vec3u base;
@@ -175,3 +171,4 @@ void func_819ACDA0(Motion *motion, Position *position, u8 *color)
     (*(u16 *)((u8 *)motion + -2)) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
 }
+

@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_1972800.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
@@ -86,22 +87,13 @@ typedef struct S_8195281C_10 {
 } S_8195281C_10;   /* ((S_8195281C_1 *)D_800814A8)->unk_00.i in func_8195281C */
 
 
-extern u8 D_800DF334[];
-void func_80024908();
-s32 func_800A56E0();
-void func_800B835C();
-void func_800B8C20();
-extern u8 D_80024980;
-extern M2C_UNK D_80024998;
-extern s16 D_800249A4;
-extern s16 D_800249A6;
 
-void func_8002401C(void *, void *);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol func_80024000).  The switch table follows it at 0x80024008
  * (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const module_entry)(void *, void *) __asm__("func_80024000") = func_8002401C;
+
+void (*const dungeon_1972800_entry)(void *, void *) = func_8002401C;
 
 /* Advances a timed effect sequence, fading model colors and marking completion. */
 void func_8002401C(void *effect, void *color_data) {
@@ -128,8 +120,8 @@ void func_8002401C(void *effect, void *color_data) {
         upload_rect[1] = 0x200020;
         func_800B835C(D_800DF334, upload_rect, 1, 0);
         upload_rect[0] = 0x01000360;
-        func_800B835C(&D_80024980, upload_rect, 1, 0);
-        ((S_8195281C_10 *)(((S_8195281C_1 *)((int *)(&D_800814A8)))->unk_00.i))->unk_F4 = &D_80024998;
+        func_800B835C(D_80024980, upload_rect, 1, 0);
+        ((S_8195281C_10 *)(((S_8195281C_1 *)((int *)(&D_800814A8)))->unk_00.i))->unk_F4 = D_80024998;
         func_800B8C20(((S_8195281C_0 *)effect)->unk_00 - 0x20, ((S_8195281C_0 *)effect)->unk_04, 0, 0);
         ((S_8195281C_0 *)effect)->unk_0A.s = (s16) ((u16) ((S_8195281C_0 *)effect)->unk_0A.s + 1);
     case 1:
@@ -200,7 +192,7 @@ void func_8002401C(void *effect, void *color_data) {
         ((S_8195281C_0 *)effect)->unk_0A.u = fade_stage + 1;
         break;
     case 4:
-        if (D_800249A6 != 0) {
+        if ((s16)D_800249A6[0] != 0) {
             break;
         }
         dungeonStatus.unk_0C = 0;
@@ -209,6 +201,6 @@ void func_8002401C(void *effect, void *color_data) {
         ((S_8195281C_9 *)((s32 *)(&objectFlagBlock)))->unk_00 =
             (s32) (((S_8195281C_9 *)((s32 *)(&objectFlagBlock)))->unk_00 | 0x8000);
     }
-    D_800249A6 = 0;
+    D_800249A6[0] = 0;
     return;
 }

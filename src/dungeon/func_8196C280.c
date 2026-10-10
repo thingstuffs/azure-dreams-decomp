@@ -1,57 +1,20 @@
+#include "modules/dungeon_ovl_198a800.h"
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/object_flags.h"
 
-typedef struct S_8196C280_0 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union {
-        struct { s32 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x2]; s16 v; } at02;
-        struct { u8 pad[0x2]; u16 v; } at02u;
-    } unk_08;   /* overlapping accesses */
-} S_8196C280_0;   /* arg1 in func_8196C280 */
+   /* arg1 in func_8196C280 */
 
-typedef struct S_8196C280_1 {
-    u8 pad_00[0x2C];
-    u16 unk_2C;
-    u8 pad_2E[0x22];
-    u16 unk_50;
-    u8 pad_52[0x3A];
-    s32 unk_8C;
-    s32 unk_90;
-    s32 unk_94;
-    s32 unk_98;
-    s32 unk_9C;
-    s32 unk_A0;
-} S_8196C280_1;   /* arg0 in func_8196C280 */
+   /* arg0 in func_8196C280 */
 
-typedef struct S_8196C280_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_8196C280_2;   /* arg2 in func_8196C280 */
+   /* arg2 in func_8196C280 */
 
 
-typedef struct PositionRef {
-    u8 pad0[2];
-    u16 x;
-    u8 pad4[2];
-    u16 y;
-    u8 pad8[2];
-    u16 z;
-} PositionRef;
 
-extern s32 func_80024AF8();
-extern s32 func_800A45D8();
-extern s16 func_800BCB04();
-extern s16 D_800269B4;
+
 
 /* Move the effect with collision checks, shrink its sprite, and expire it when finished. */
-void func_8196C280(void *effect, void *position, void *sprite) {
+void func_80025A80(void *effect, void *position, void *sprite) {
     u16 age;
     u16 reduced_scale_x;
     u16 reduced_scale_y;
@@ -90,12 +53,12 @@ void func_8196C280(void *effect, void *position, void *sprite) {
         s32 height;
 
         height = ((S_8196C280_0 *)position)->unk_08.at02.v;
-        if ((func_800BCB04(((S_8196C280_0 *)position)->unk_00.at02.v, ((S_8196C280_0 *)position)->unk_04.at02.v,
+        if (((s16)func_800BCB04(((S_8196C280_0 *)position)->unk_00.at02.v, ((S_8196C280_0 *)position)->unk_04.at02.v,
             (s16)(((S_8196C280_0 *)position)->unk_08.at02u.v - 4)) - 0x10) < height) {
             ((S_8196C280_1 *)effect)->unk_94 = 0;
             ((S_8196C280_1 *)effect)->unk_90 = 0;
             ((S_8196C280_1 *)effect)->unk_8C = 0;
-            ((S_8196C280_0 *)position)->unk_08.at02.v = func_800BCB04(((S_8196C280_0 *)position)->unk_00.at02.v,
+            ((S_8196C280_0 *)position)->unk_08.at02.v = (s16)func_800BCB04(((S_8196C280_0 *)position)->unk_00.at02.v,
                 ((S_8196C280_0 *)position)->unk_04.at02.v, (s16)(((S_8196C280_0 *)position)->unk_08.at02u.v - 4))
             - 0x11;
             ((S_8196C280_0 *)position)->unk_08.at00u.v = 0;

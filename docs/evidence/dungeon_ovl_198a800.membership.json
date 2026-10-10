@@ -1,0 +1,38 @@
+{
+  "tu_boundary": "not observable (section-grouping link, no static duplicates, no recipe change)",
+  "tu_boundary_decision": "docs/evidence/r97_decisions.md decisions 37-38; decision 38 supersedes the original-TU inference in 37.",
+  "module": "dungeon_ovl_198a800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_198a800.c",
+    "module_index": 195
+  },
+  "members": [
+    "dungeon/func_8196A800",
+    "dungeon/func_8196A924",
+    "dungeon/func_8196AB74",
+    "dungeon/func_8196ABC4",
+    "dungeon/func_8196ACE4",
+    "dungeon/func_8196B074",
+    "dungeon/func_8196B25C",
+    "dungeon/func_8196B2F8",
+    "dungeon/func_8196B4A4",
+    "dungeon/func_8196B780",
+    "dungeon/func_8196BA5C",
+    "dungeon/func_8196BD3C",
+    "dungeon/func_8196BE48",
+    "dungeon/func_8196BF24",
+    "dungeon/func_8196BFB0",
+    "dungeon/func_8196C280",
+    "dungeon/func_8196C568"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Complete 17-row ledger cohort, contiguous physical order with no omitted sibling, gap or fabricated function.",
+    "Independent static selector-58 twelve-sector loader receipt maps the complete cohort at one delta.",
+    "One native C TU reproduces all 10616 bytes under GNU/maspsx and genuine ASPSX 2.79 -q -G0 -0. Strict typed prefix coverage and relocation proof; no masks or raw substitutions."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r112"
+}

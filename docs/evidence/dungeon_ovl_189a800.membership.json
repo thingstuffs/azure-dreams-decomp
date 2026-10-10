@@ -1,0 +1,34 @@
+{
+  "tu_boundary": "not observable (section-grouping link, no static duplicates, no recipe change)",
+  "tu_boundary_decision": "docs/evidence/r97_decisions.md decisions 37-38; decision 38 supersedes the original-TU inference in 37.",
+  "module": "dungeon_ovl_189a800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_189a800.c",
+    "module_index": 159
+  },
+  "members": [
+    "dungeon/func_8187A800",
+    "dungeon/func_8187A9A8",
+    "dungeon/func_8187B1A0",
+    "dungeon/func_8187B1F4",
+    "dungeon/func_8187B540",
+    "dungeon/func_8187B5A0",
+    "dungeon/func_8187B7F0",
+    "dungeon/func_8187B8B0",
+    "dungeon/func_8187B9E8",
+    "dungeon/func_8187BB80",
+    "dungeon/func_8187BE9C",
+    "dungeon/func_8187BFE0",
+    "dungeon/func_8187C45C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Complete 13-row ledger cohort, contiguous physical order with no omitted sibling, gap or fabricated function.",
+    "Independent static selector-18 twelve-sector loader receipt maps the complete cohort at one delta.",
+    "One native C TU reproduces all 10548 bytes under GNU/maspsx and genuine ASPSX 2.79 -q -G0 -0. Strict typed prefix coverage and relocation proof; no masks or raw substitutions."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r112"
+}

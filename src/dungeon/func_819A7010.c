@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_19c6800.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -118,3 +119,4 @@ void func_80024810(void *effect) {
     }
     ((S_80024810_0 *)effect)->unk_3E = (u16) (((S_80024810_0 *)effect)->unk_3E + 1);
 }
+

@@ -1,0 +1,33 @@
+{
+  "module": "dungeon_ovl_1990800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_1990800.c",
+    "module_index": 196
+  },
+  "members": [
+    "dungeon/func_81970800",
+    "dungeon/func_81970D44",
+    "dungeon/func_81970D98",
+    "dungeon/func_81970FE8",
+    "dungeon/func_819710A8",
+    "dungeon/func_819711E0",
+    "dungeon/func_819712B4",
+    "dungeon/func_81971398",
+    "dungeon/func_8197147C",
+    "dungeon/func_81971510",
+    "dungeon/func_819715D4",
+    "dungeon/func_81971760",
+    "dungeon/func_8197192C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "not observable (section-grouping link, no static duplicates, no recipe change)",
+  "basis": [
+    "Owner decisions 37-38: one physical DUNGEON bank is modelled as one native TU.",
+    "Selector 59 authenticates the complete physical bank; 13 complete contiguous registered L3 functions exhaust [0x199086c,0x19927c4).",
+    "Native TU preserves the promoted member bodies; GNU/maspsx and genuine ASPSX -0 equal all 8,132 retail bytes, with honest entry pointer and two compiler switch tables."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r112"
+}

@@ -1,3 +1,4 @@
+#include "modules/dungeon_native_abi.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
@@ -105,12 +106,9 @@ typedef struct S_8002466C_10 {
 extern s16 GetTPage(s32, s32, s32, s32);
 extern s16 GetClut(s32, s32);
 extern s32 func_8003DE58(void *, void *, s16 *, s32);
-extern void *func_8003FD64(s32, void *);
-extern void func_8004491C(void *, void *);
 extern s32 func_800644B8(s32);
 extern s32 rand(void);
 
-extern u8 D_80024ACC[];
 extern u8 D_800DEA68[];
 
 /* Update the animated effect, track its target, and spawn scattered particles. */
@@ -210,7 +208,7 @@ void func_8002466C(void *effect)
     ((S_8002466C_0 *)effect)->unk_42 =
         (((s32)(((S_8002466C_0 *)effect)->unk_48.s << 16) >> 18) << 5) + 0x80;
     if (particle_index >= 0) {
-        particle_data = D_80024ACC;
+        particle_data = func_80024ACC;
         display = D_800DEA68;
         do {
             particle = func_8003FD64(0x312, ((u8 *)(&D_80083498)));

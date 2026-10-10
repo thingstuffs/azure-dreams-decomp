@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_19cc800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "records/Rec_func_80025D28_arg0.h"
@@ -20,7 +21,6 @@ typedef struct S_80025D28_2 {
 
 extern s32 func_800644B8();
 extern s32 func_80064584();
-extern u8 D_80027452[16];
 
 /* Update two animated points, fade their intensity, and flag expiration. */
 void func_80025D28(void *state, void *points, void *appearance) {
@@ -92,3 +92,4 @@ void func_80025D28(void *state, void *points, void *appearance) {
 /* MECHANISM: Natural long-lived arguments and results produce the retail 0x30 frame and s5/s4/s3/s2/s1/s0 roles.
    A short raw signed-load local selects lh before the shift/truncation while preserving phase_angle in s1.
    Zero-operand scheduling barriers after both chained products reproduce retail multiply/mflo emission order. */
+

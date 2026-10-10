@@ -1,0 +1,46 @@
+{
+  "module": "dungeon_ovl_197281c",
+  "scope": "whole_tu",
+  "flags": [
+    "-q",
+    "-G0",
+    "-0"
+  ],
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "basis": "Identical complete assembly: checked genuine adds 36 division-check text bytes; whole-TU -0 matches all code and owned data without discarded bytes or per-member flag selection.",
+  "source_inputs": {
+    "include/common.h": "35ebd67ff9f32d587459e79e964f1d4f9013849bb766ea442ab0965c32971dac",
+    "include/game.h": "b80e856a3c4f4c4586c312a28336781390d102ba6f7af599d094bfa6900e7c83",
+    "include/globals.h": "5ff21c9f144187d9a1666588951ee1f3489b89d666b18cf712c46523d820f689",
+    "include/gte_macros.inc": "80614ffcdda065072d2ef6cde330d5782202240edef7faca5ac598fbfa125066",
+    "include/include_asm.h": "b07191b5b52fe5a0cc20e2114349a7ccfb537bba948ba277f375d9de2559a16e",
+    "include/labels.inc": "9011fb521abe02bf51d16d3ae8ec1667ccd899a26affb6a5fe00b842ab421dc5",
+    "include/m2c_compat.h": "7a7d49f368d8ef4ba8bf66a24b522cc4d0ae9b5b706b5a2149a11d0dccb2fa03",
+    "include/modules/dungeon_native_abi.h": "c285a8aa4e7da595560130359c324f6dbbc89fbcc13c3c4ec3d50c7e306c502c",
+    "include/modules/dungeon_ovl_1972800.h": "c15e9a4deb38a92f70a117506dba214c02b403d418d7db47a7bce18f4f75c125",
+    "include/shared/dir_step.h": "d15e39571d057d667ec40d62a5216436a8adbf25e04fd2ba468f551903e77d97",
+    "include/shared/dungeon_status.h": "cf2efa85ed10f2b6b71bbc1e5d922c0ea7d20ac9a655b67d8d254c75b042ac9e",
+    "include/shared/entity.h": "64fd596c136a0531d96cd2d1fe206abc8b32286c0171c1796a710f6a6c9d93c0",
+    "include/shared/object_flags.h": "587f3da6018f67a1af0997d8f9ce3528bf0b89b0b3be4ae4fc4b2e9e276bcc28",
+    "include/shared/object_node.h": "310ef362af013f2e08a2d34163e9258a1f49d049fb534b3b7244e65152475ba5",
+    "include/shared/record_ptrs.h": "3e2fc767000f3e901b6d5cd55c7033124a5b648c92927bee9bdea6d143333064",
+    "include/shared/tile_object.h": "b553a179af28128ccd067c615ab3ee56af2744250c11c9cb363e0f47e0a8c406",
+    "src/dungeon/func_8195281C.c": "68024e9a783dd9bc3680a1e90b422f0056a450f62aea2e3c232eb05413aedb74",
+    "src/dungeon/func_81952B4C.c": "853acd314ddfb664242b3021ed189fe7dc886e7618a40d989e63e022996df905",
+    "src/dungeon/func_81952E54.c": "acd5ceab4a88ced539e329a662988ce738e724f68a8a8a83eb48ed95e740bf00",
+    "src/dungeon/func_81953030.c": "b1e4b31a611bd0a3f3ed09e7c3723dcd5ab31b0f4dd184d6dd09202d695e1938",
+    "src/dungeon/func_81953108.c": "3540841c737ae01213e703d69f3988a43b24358609014631e623dd4625dacf35",
+    "src/dungeon/modules/ovl_1972800.c": "7969659aacbe3206f722a727c22b5153e5e8bf614dd2d43ca531a0a72ce0b239"
+  },
+  "assembly_sha256": "a93d0f3ab80e85238ae4b2aef39a842679a85910d7e81168f761baad767a06ce",
+  "unchecked_object_sha256": "87b4db13efab9eaf0473801d9fb87a59a3d40f18cf6ed8fc6466d8a679d3b1e2",
+  "checked_object_sha256": "d1cc52d0aa15cb4a93cdae4519d69e6444b4ad169f1f05012e7d57031f0fcca6",
+  "unchecked_text_bytes": 2404,
+  "checked_text_bytes": 2440,
+  "retail_module_sha256": "e3f0caead4672764cdcbad18060478536ec391d3ac22e582c7cb1f545650ed8c",
+  "review": "pending",
+  "reviewer": null
+}

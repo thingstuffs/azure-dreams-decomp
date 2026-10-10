@@ -1,0 +1,54 @@
+{
+ "bank": "0x19B4800",
+ "selector": 65,
+ "placement": {
+  "selector": 65,
+  "lba": "0x637F",
+  "file_start": "0x19B4800",
+  "file_end": "0x19BA800",
+  "destination": "0x80024000",
+  "sectors": 12,
+  "delta": "0x7E66F800",
+  "formula": "LBA=0x607F+(s-1)*12; file=(LBA-0x3016)*0x800; destination=0x80024000 (static loader DUNGEON func_800A982C at file 0xC40CC; docs/evidence/r97_decisions.md item 34; r105_sol61_bank dungeon_bank_receipts.json)",
+  "static_only": true,
+  "review": "pending",
+  "reviewer": null
+ },
+ "gap": {
+  "start": "0x19B4D8C",
+  "end": "0x19B5B30",
+  "bytes": 3492,
+  "sha256": "b4615630b57d93d77ce0dc4df975bbcbeccf501dc1162287c101b48dc526936f"
+ },
+ "new_rows": [
+  {
+   "id": "dungeon/func_81994D8C",
+   "true_name": "func_8002458C",
+   "foff": "0x19B4D8C",
+   "size": 3492,
+   "recipe": "2.7.2-cdk-G0",
+   "entry_evidence": "bank entry pointer word at file 0x19B4800 = 0x8002458C (current composite row dungeon/func_81994800, bank_words[0])",
+   "switch_table": {
+    "foff": "0x19B4848",
+    "vram": "0x80024048",
+    "entries": 5,
+    "sha256": "a6e1ec159005798f378fa9646c697f7fd4edc4ea8ba93929d9e39e74d7d9bf97",
+    "carrier": "dungeon/func_81994800 composite prefix (decision-31 recarve package recarve_81994800 makes it data row D_81994848, owner dungeon/func_81994D8C)"
+   },
+   "proof": "production comparator overlay_func_compare.py linked-strict MATCH exact 873/873 words; unchanged tools/gate/rowbase.py promote rc=0 (region gap_19B4D8C solved->proven at 0x8002458C)",
+   "reviewer_call": "five actor+0x98 write-backs (`p->unk_98 = p->unk_98;`) keep the retail-only reads: the stores are deleted after reload by reload_cse_regs (not retail-emitted); NOT covered by decision 36 - see the lane MECHANISM.md"
+  }
+ ],
+ "ledger_group": {
+  "container": "dungeon",
+  "module": "ovl_19b4800.c",
+  "module_index": 201,
+  "note": "bank-65 head group; decision 38 merges ovl_7e66f800.c (index 190) into the bank module in a later module lane"
+ },
+ "module_status": "UNFINISHED; no native-module entry in this gap-row package",
+ "layer2_required": [
+  "dungeon/func_81994D8C"
+ ],
+ "review": "pending",
+ "reviewer": null
+}

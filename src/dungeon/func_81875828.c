@@ -1,3 +1,5 @@
+#include "modules/dungeon_native_abi.h"
+#include "modules/dungeon_ovl_1894800.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -7,12 +9,12 @@
 #define FIELD_U32(base, off) (*(u32 *)((u8 *)(base) + (off)))
 #define FIELD_PTR(base, off) (*(u8 **)((u8 *)(base) + (off)))
 
-extern u32 func_80065420();
+extern s32 func_80065420(void *, void *, void *, void *);
 extern s32 func_80066460();
-extern s32 func_80067F20();
+extern void func_80067F20(void *, s32, s32, s32, s32);
 
 /* Projects a colored point and links its drawing packets into the ordering table. */
-s32 func_81875828(u8 *render_data, u8 *source_vertex)
+s32 func_80025028(u8 *render_data, u8 *source_vertex)
 {
     u8 **context_slot;
     u8 *scratch;

@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_19cc800.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
@@ -48,9 +49,6 @@ typedef struct S_819ACB28_5 {
 } S_819ACB28_5;   /* ((S_819ACB28_0 *)object)->unk_08 in func_80024328 */
 
 
-extern s32 func_8003DE58(void *, void *, void *, s32);
-extern s32 func_800249DC(void *);
-extern void func_8004491C(void *, void *);
 
 typedef struct CounterView {
     u16 value;
@@ -62,7 +60,6 @@ typedef struct FlagsView {
     s32 pad[2];
 } FlagsView;
 
-extern CounterView D_80027452;
 
 void func_80024328(void *object, Rec_func_800249DC_arg0 *record, S_819ACB28_4 *packed_value)
 {
@@ -71,7 +68,7 @@ void func_80024328(void *object, Rec_func_800249DC_arg0 *record, S_819ACB28_4 *p
     S_819ACB28_3 *offsets;
     S_819ACB28_1 *data_ptr;
 
-    D_80027452.value = D_80027452.value + 1;
+    D_80027452[0] = D_80027452[0] + 1;
     mode = ((S_819ACB28_0 *)object)->unk_2C.s;
     mode_value = ((S_819ACB28_0 *)object)->unk_2C.u;
 
@@ -114,3 +111,4 @@ void func_80024328(void *object, Rec_func_800249DC_arg0 *record, S_819ACB28_4 *p
         }
     }
 }
+

@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_19c6800.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
@@ -38,7 +39,7 @@ typedef struct
 }
 E_PRIM;
 /* Emit each chain node's four trail quads into the display list, depth-sorted into the OT. */
-s32 func_819A7320(void *node)
+s32 func_80024B20(void *node)
 {
     E_SVEC scratch;
     s32 otz[6];
@@ -138,3 +139,4 @@ s32 func_819A7320(void *node)
     while (1);
     return 0;
 }
+

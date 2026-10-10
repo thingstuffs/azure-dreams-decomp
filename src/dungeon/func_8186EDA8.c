@@ -1,55 +1,25 @@
+#include "modules/dungeon_ovl_188e800.h"
+#include "modules/dungeon_native_abi.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
-typedef struct S_8186EDA8_0 {
-    s32 unk_00;
-    s32 unk_04;
-} S_8186EDA8_0;   /* arg1 in func_8186EDA8 */
+   /* arg1 in func_8186EDA8 */
 
-typedef struct S_8186EDA8_1 {
-    u16 unk_00;
-    union { u16 s; s16 u; } unk_02;   /* accessed as both */
-    u16 unk_04;
-    u8 pad_06[0x6];
-    s16 unk_0C;
-    s16 unk_0E;
-    u16 unk_10;
-} S_8186EDA8_1;   /* arg0 in func_8186EDA8; pointer addresses record offset 0x2 */
+   /* arg0 in func_8186EDA8; pointer addresses record offset 0x2 */
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u16 D_80025308[];
+extern s16 D_80025308;
 s32 func_800644B8(s16);                          /* extern */
 s32 func_80064584(s16);                          /* extern */
-void func_800478B8(void *);                       /* extern */
 
-typedef struct {
-    s16 state;
-    u16 timer;
-    u8 pad4[6];
-    s16 count;
-    s16 angle;
-    u16 angle2;
-    u8 pad10[0x3C];
-    s32 base0;
-    s32 base1;
-} DungeonState;
 
-typedef struct {
-    u8 pad0[0xC];
-    u8 c;
-    u8 d;
-    u8 e;
-    u8 padF[5];
-    u16 flags14;
-    u8 pad16[6];
-    u16 x1C;
-    u16 y1E;
-} DungeonEffect;
+
+
 
 /* Updates a rotating dungeon effect through delay, contraction, fade, and completion. */
-void func_8186EDA8(DungeonState *anim, S_8186EDA8_0 *position, DungeonEffect *input_effect) {
+void func_800245A8(DungeonState *anim, S_8186EDA8_0 *position, DungeonEffect *input_effect) {
     s16 phase;
     s16 fade_angle;
     s16 shrink_angle;

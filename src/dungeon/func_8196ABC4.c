@@ -1,29 +1,10 @@
+#include "modules/dungeon_ovl_198a800.h"
 #include "common.h"
 #include "modules/dungeon_native_abi.h"
 #include "shared/object_node.h"
 
-/* Three 4-byte slots; only the second halfword of each is used. */
-typedef struct EffectPosition {
-    u16 pad_00;
-    u16 x;
-    u16 pad_04;
-    u16 y;
-    u16 pad_08;
-    u16 z;
-} EffectPosition;
-
-/* The spawned effect's record (the object header precedes it). */
-typedef struct SpawnedRecord {
-    u8 pad_00[8];
-    s32 unk_08;
-    u8 pad_0C[8];
-    s16 unk_14;
-    u8 pad_16[0x1C];
-    s16 unk_32;
-} SpawnedRecord;
-
 extern s32 rand(void);
-extern s32 func_80024124(void *, void *);
+extern s32 func_80024124(PointRecord *, PointPosition *);
 extern void func_80024374(void *);
 
 /* Retail 8196ABC4 (func_800243C4): spawn an effect object under the parent node, placed at the parent's

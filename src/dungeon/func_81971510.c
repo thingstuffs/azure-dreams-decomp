@@ -1,15 +1,14 @@
 #include "common.h"
 #include "shared/object_flags.h"
-extern u8 D_80020000[];
+
 
 #define U16_AT(p, off) (*(u16 *)((u8 *)(p) + (off)))
 #define S16_AT(p, off) (*(s16 *)((u8 *)(p) + (off)))
 #define U8_AT(p, off) (*(u8 *)((u8 *)(p) + (off)))
 
-extern s16 D_80025FF4;
 
 /* Advances a timed visual update and sets completion flags when the countdown expires. */
-void func_81971510(void *effect, s32 unused, void *visual)
+void func_80024D10(void *effect, s32 unused, void *visual)
 {
     u8 *effect_bytes;
     u16 countdown;
@@ -59,4 +58,5 @@ void func_81971510(void *effect, s32 unused, void *visual)
     U16_AT((u8 *)effect_bytes - 2, 0) = field_value;
     *(u32 *)(flags_page + 0x14A0) |= 0x8000;
 }
+
 

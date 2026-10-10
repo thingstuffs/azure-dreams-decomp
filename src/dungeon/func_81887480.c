@@ -1,14 +1,10 @@
+#include "modules/dungeon_ovl_18a6800.h"
+#include "modules/dungeon_native_abi.h"
 #include "common.h"
 
-typedef s32 M2C_UNK;
+#include "m2c_compat.h"
 
-void *func_8002569C();
-void *func_8003FD64();
-s32 func_8004491C();
 
-extern M2C_UNK D_80024804[3];
-extern u16 D_80026324;
-extern M2C_UNK D_80024EF4[3];
 
 /* Creates an object, copies three source fields to its child, and runs 16 child setup steps. */
 void *func_80024C80(s32 value, void *source, s32 unused, s32 context)
@@ -24,10 +20,10 @@ void *func_80024C80(s32 value, void *source, s32 unused, s32 context)
     adjusted_value = value - 0x20;
     object = func_8003FD64(2, adjusted_value);
     if (object != 0) {
-        counter = D_80026324;
-        *(M2C_UNK **)((u8 *)object + 0x10) = D_80024804;
-        D_80026324 = counter + 1;
-        func_8004491C(object, D_80024EF4);
+        counter = D_80026324[0];
+        *(M2C_UNK **)((u8 *)object + 0x10) = func_80024804;
+        D_80026324[0] = counter + 1;
+        func_8004491C(object, func_80024EF4);
 
         child = *(void **)((u8 *)object + 8);
         *(u16 *)((u8 *)child + 2) = *(u16 *)((u8 *)source + 2);

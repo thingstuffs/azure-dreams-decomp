@@ -1,33 +1,17 @@
+#include "modules/dungeon_ovl_198a800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
-typedef struct S_8196BE48_0_pre {
-    u16 unk_00;
-} S_8196BE48_0_pre;   /* the 0x2 bytes before obj in func_8196BE48, addressed as obj[-1] */
+   /* the 0x2 bytes before obj in func_8196BE48, addressed as obj[-1] */
 
-typedef struct S_8196BE48_0 {
-    u8 pad_00[0x2C];
-    u16 unk_2C;
-    u8 pad_2E[0x6];
-    u16 unk_34;
-    u8 pad_36[0xA];
-    u8 unk_40;
-    u8 unk_41;
-    u8 pad_42[0xE];
-    u16 unk_50;
-} S_8196BE48_0;   /* obj in func_8196BE48 */
+   /* obj in func_8196BE48 */
 
-typedef struct S_8196BE48_1 {
-    u8 pad_00[0x1C];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_8196BE48_1;   /* arg2 in func_8196BE48 */
+   /* arg2 in func_8196BE48 */
 
 
-extern s16 D_800269B4;
 
 /* Advance the effect animation, offset its sprite, and mark it expired when its lifetime ends. */
-void func_8196BE48(void *effect_data, s32 unused, void *sprite) {
+void func_80025648(void *effect_data, s32 unused, void *sprite) {
     u8 *effect = effect_data;
     u8 *global_page = (u8 *)&D_800269B4 - 0x69B4;
     u16 frame_ticks;

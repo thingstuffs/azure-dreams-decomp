@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_19c6800.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
@@ -65,12 +66,10 @@ typedef struct {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_8003DE58();       /* extern */
-void *func_8003FD64();                 /* extern */
 s32 func_800644B8(s32, s16 *); /* extern */
-s16 func_80066460(); /* extern */
+extern u16 func_80066460(s32, s32, s32, s32); /* extern */
 s32 rand();                                /* extern */
-void func_800478B8(M2C_UNK);                         /* extern */
-extern M2C_UNK D_80024E4C;
+void func_80024E4C(void *);
 
 /* Move toward the target while spawning effects, then mark the sequence complete. */
 void func_800244BC(void *object, S_800244BC_2 *position, M2C_UNK context) {
@@ -106,7 +105,7 @@ void func_800244BC(void *object, S_800244BC_2 *position, M2C_UNK context) {
                 effect = func_8003FD64(0x302, ((u8 *)(&D_80083498)));
                 effect_data = effect + 0x20;
                 if (effect != NULL) {
-                    ((S_800244BC_3 *)effect)->unk_10 = &D_80024E4C;
+                    ((S_800244BC_3 *)effect)->unk_10 = func_80024E4C;
                     effect_data->unk_3C = 0;
                     effect_data->unk_3E = (s16) ((rand() & 3) + 2);
                     effect_data->unk_32 = 0x1F;
@@ -144,3 +143,4 @@ void func_800244BC(void *object, S_800244BC_2 *position, M2C_UNK context) {
         break;
     }
 }
+

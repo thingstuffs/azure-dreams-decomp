@@ -1,3 +1,4 @@
+#include "modules/dungeon_native_abi.h"
 #include "shared/object_flags.h"
 #include "common.h"
 #include "m2c_compat.h"

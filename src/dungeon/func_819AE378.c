@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_19cc800.h"
 #include "common.h"
 
 
@@ -5,12 +6,7 @@
 #define NULL 0
 #endif
 
-typedef s32 M2C_UNK;
 
-extern void *func_8003FC64(s32);
-extern s32 func_8004491C(void *, void *);
-extern M2C_UNK D_80025A34;
-extern M2C_UNK D_80025AAC;
 
 typedef struct S_80025B78_0 {
     u8 pad_00[0x8];
@@ -84,8 +80,8 @@ void *func_80025B78(void *source_data, S_80025B78_2 *source_triplet, S_80025B78_
 
     object = func_8003FC64(0x202);
     if (object != NULL) {
-        ((S_80025B78_0 *)object)->unk_10 = &D_80025A34;
-        func_8004491C(object, &D_80025AAC);
+        ((S_80025B78_0 *)object)->unk_10 = func_80025A34;
+        func_8004491C(object, func_80025AAC);
         triplet = ((S_80025B78_0 *)object)->unk_08;
         triplet->unk_02 = source_triplet->unk_02;
         triplet->unk_06 = source_triplet->unk_06;
@@ -107,3 +103,4 @@ void *func_80025B78(void *source_data, S_80025B78_2 *source_triplet, S_80025B78_
     }
     return object;
 }
+

@@ -1,3 +1,5 @@
+#include "modules/dungeon_ovl_18a6800.h"
+#include "modules/dungeon_native_abi.h"
 #include "common.h"
 
 #ifndef NULL
@@ -61,16 +63,15 @@ typedef struct {
     s16 pad;
 } Cell;
 
-extern void *func_8003FC64(s32);
-extern void func_8004491C(void *, void *);
+ObjectNodeHeader *func_8003FC64(s32);
 extern s32 rand(void);
 
-extern u8 D_80025A58[];
-extern u8 D_80025E4C[];
+
+
 extern s16 D_8002632A;
-extern s32 D_80026470;
-extern s32 D_80026474;
-extern Cell D_80026478[];
+extern u8 D_80026470[];
+extern u8 D_80026474[];
+extern u8 D_80026478[];
 extern Cell D_800264F8[];
 
 #define SET_COUNT_PAGE() (count_page = (u8 *)&D_8002632A)
@@ -101,13 +102,13 @@ void func_80026010(void) {
     s32 biased_index;
     u8 *count_page;
 
-    for (quad_index = 0; quad_index < D_8002632A; quad_index++) {
-        vertices = D_80026478;
+    for (quad_index = 0; quad_index < (s16)D_8002632A; quad_index++) {
+        vertices = (Cell *)D_80026478;
         fragment = func_8003FC64(0x202);
         if (fragment != NULL) {
             object_or_x = (s32)fragment;
-            fragment->unk_10 = D_80025A58;
-            func_8004491C((void *)object_or_x, D_80025E4C);
+            fragment->unk_10 = func_80025A58;
+            func_8004491C((void *)object_or_x, (s32)func_80025E4C);
 
             row_start = quad_index & ~0xF;
             column_or_coord = (quad_index + 1) & 0xF;
@@ -143,11 +144,11 @@ void func_80026010(void) {
             quad->unk_4C = lower_right->z;
 
             if ((quad_index % 32) < 0x10) {
-                *(s32 *)((u8 *)quad + 0x50) = D_80026470;
-                quad->unk_54 = D_80026474;
+                *(s32 *)((u8 *)quad + 0x50) = (*(s32 *)D_80026470);
+                quad->unk_54 = (*(s32 *)D_80026474);
             } else {
-                *(s32 *)((u8 *)quad + 0x54) = D_80026470;
-                quad->unk_50 = D_80026474;
+                *(s32 *)((u8 *)quad + 0x54) = (*(s32 *)D_80026470);
+                quad->unk_50 = (*(s32 *)D_80026474);
             }
         }
     }

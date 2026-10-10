@@ -25,44 +25,7 @@ extern void func_80065820(void *, void *);
 extern u16 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, u16, s32);
 
-#ifdef __mips__
-static const u32 func_81970800_prefix[] __asm__("func_81970800")
-__attribute__((section(".text.func_81970800"))) = {
-    0x8002512C,
-    0x00000000,
-    0x80024D5C,
-    0x80024D64,
-    0x80024D6C,
-    0x80024D74,
-    0x80024D7C,
-    0x80024D7C,
-    0x80024D74,
-    0x80024D6C,
-    0x80024D64,
-    0x80024D5C,
-    0x80024D5C,
-    0x80024D64,
-    0x80024D6C,
-    0x80024D74,
-    0x80024D7C,
-    0x80024D7C,
-    0x80024D74,
-    0x80024D6C,
-    0x80024D64,
-    0x80024D5C,
-    0x80025190,
-    0x800251EC,
-    0x80025258,
-    0x80025E74,
-    0x80025F44,
-};
-__asm__(".globl func_81970800\n"
-        ".type func_81970800,@function\n"
-        ".size func_81970800,1348");
-#define BODY_NAME func_8197086C
-#else
-#define BODY_NAME func_81970800
-#endif
+
 
 typedef struct S_func_81970800_1 {
     u8 pad_00[0x24];
@@ -178,7 +141,7 @@ typedef struct S_func_81970800_6 {
 } S_func_81970800_6;
 
 /* Project and enqueue a shaded quad if its depth and screen bounds are visible. */
-void BODY_NAME(S_func_81970800_4 *quad, S_func_81970800_2 *position, S_func_81970800_3 *object, s16 depth_bias)
+void func_8002406C(S_func_81970800_4 *quad, S_func_81970800_2 *position, S_func_81970800_3 *object, s16 depth_bias)
 {
     S_func_81970800_1 *scratch = (S_func_81970800_1 *)0x1F800000;
     S_func_81970800_5 *packet;
@@ -294,3 +257,4 @@ void BODY_NAME(S_func_81970800_4 *quad, S_func_81970800_2 *position, S_func_8197
 
     func_80064A40();
 }
+

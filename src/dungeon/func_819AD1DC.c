@@ -1,7 +1,7 @@
+#include "modules/dungeon_ovl_19cc800.h"
 #include "common.h"
 
 
-typedef s32 M2C_UNK;
 
 #ifndef NULL
 #define NULL 0
@@ -9,11 +9,6 @@ typedef s32 M2C_UNK;
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-void *func_8003FC64();
-s32 func_8004491C();
-extern M2C_UNK D_800245A0;
-extern M2C_UNK D_80027460;
-extern M2C_UNK D_800CEEFC;
 
 typedef struct S_819AD1DC_0 {
     u8 pad_00[0x8];
@@ -68,7 +63,7 @@ typedef struct S_819AD1DC_4 {
 } S_819AD1DC_4;   /* render in func_819AD1DC */
 
 /* Spawn the nine trail sprites at the source position, the last one larger and all fading with distance. */
-void *func_819AD1DC(void *src)
+void *func_800249DC(void *src)
 {
     s32 i;
     s32 *handler;
@@ -85,14 +80,14 @@ void *func_819AD1DC(void *src)
     S_819AD1DC_2 *coords;
 
     i = 0;
-    handler = &D_800245A0;
+    handler = func_800245A0;
     sub_handler = &D_80027460;
     last_index = 8;
     do {
         obj = func_8003FC64(18);
         if (obj != NULL) {
             ((S_819AD1DC_0 *)obj)->unk_10 = handler;
-            func_8004491C(obj, &D_800CEEFC);
+            func_8004491C(obj, func_800CEEFC);
             coords = ((S_819AD1DC_0 *)obj)->unk_08;
             x = ((S_819AD1DC_1 *)src)->unk_02;
             part = obj + 0x20;
@@ -128,3 +123,4 @@ void *func_819AD1DC(void *src)
     } while (i < 9);
     return obj;
 }
+

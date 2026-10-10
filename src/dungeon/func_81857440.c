@@ -1,3 +1,4 @@
+#include "modules/dungeon_native_abi.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -25,11 +26,10 @@ typedef struct {
     s16 state4A;
 } Entity;
 
-extern void func_8004491C(void *, void *);
 extern s16 func_80066460(s32, s32, s32, s32);
 extern s16 func_8006649C(s32, s32);
 extern s32 rand();
-extern u8 D_800249BC[];
+
 
 /* Initializes, animates, and retires a jittering five-point effect. */
 void func_80024C40(Entity *entity)
@@ -50,7 +50,7 @@ void func_80024C40(Entity *entity)
         {
             void *entity_base;
             entity_base = (u8 *)entity - 0x20;
-            func_8004491C(entity_base, D_800249BC);
+            func_8004491C(entity_base, (s32)func_800249BC);
         }
         entity->value34 = 0x00C0C0C0;
         entity->field40 = func_80066460(0, 1, 0x2C0, 0x100);

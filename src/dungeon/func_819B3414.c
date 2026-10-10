@@ -1,3 +1,4 @@
+#include "modules/dungeon_native_abi.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -22,7 +23,7 @@ extern s32 func_800644B8();
 extern s32 func_80064710();
 extern s32 func_80065420();
 extern s32 func_80066460();
-extern s32 func_80066640();
+extern void func_80066640();
 extern s32 func_80066708();
 extern s32 func_80067F20();
 
