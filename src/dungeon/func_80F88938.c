@@ -6,11 +6,8 @@
 #include "shared/sprite_frame_state.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
-void func_80047784();
 void func_8009C93C();
 s32 func_800A2B5C();
-s32 func_800C7930();
-
 /* Initialize action state and directional animation when the entity status permits. */
 void func_80172138(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, SpriteFrameState *sprite,
     EntityRec *entity) {
@@ -32,3 +29,4 @@ void func_80172138(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, Sprit
         }
     }
 }
+

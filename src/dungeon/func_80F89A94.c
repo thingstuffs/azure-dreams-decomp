@@ -43,10 +43,8 @@ typedef struct S_80173294_3 {
 
 
 extern void func_8009A028();
-extern void func_8009A3D0();
 extern void func_800A2FE0();
 extern void func_800A32A4();
-extern void func_800A56E0();
 extern void func_800ACF88(void *);
 
 /* Advance the object removal animation, fade its sprite, and release it when finished. */
@@ -164,3 +162,4 @@ void func_80173294(void *effect_data, void *motion_data, void *sprite_data, void
         return;
     }
 }
+

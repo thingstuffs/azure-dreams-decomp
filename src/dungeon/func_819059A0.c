@@ -1,25 +1,8 @@
-#include "common.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_ovl_1924800.h"
 
-typedef struct S_800251A0_0_pre {
-    u16 unk_00;
-} S_800251A0_0_pre;   /* the 0x2 bytes before arg0 in func_800251A0, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in func_800251A0, addressed as arg0[-1] */
 
-typedef struct S_800251A0_0 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_800251A0_0;   /* arg0 in func_800251A0 */
-
-
-typedef struct DungeonAnimSlot {
-    u8 pad_00[0x50];
-    s16 field_50;
-    u8 pad_52[0x10];
-    u16 field_62;
-} DungeonAnimSlot;
-
-extern s32 func_800644B8(s32);
-extern s16 D_800267B8[5];
+   /* arg0 in func_800251A0 */
 
 /* Update eight animation slots and mark completion when the countdown expires. */
 void func_800251A0(void *anim_state)
@@ -59,7 +42,6 @@ void func_800251A0(void *anim_state)
         }
         slot_index += 1;
     }
-
 
     if ((s16)((S_800251A0_0 *)anim_state)->unk_02 <= 0) {
         ((S_800251A0_0_pre *)anim_state)[-1].unk_00 =

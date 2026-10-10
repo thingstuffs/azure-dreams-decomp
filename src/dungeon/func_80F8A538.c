@@ -3,24 +3,21 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
-typedef void (*ActorCallback)(void *, void *, void *, void *);
+
 
 /* Actor state of the bank's actor callbacks: the callback slot at +0x8C. */
-typedef struct BankActorState {
+struct BankFA_faa538_BankActorState {
     u8 pad_00[0x8C];
-    ActorCallback callback;
-} BankActorState;
+    BankActorCallback callback;
+};
 
-extern s32 func_800AC82C(BankActorState *, s32, SpriteFrameState *, EntityRec *);
+extern s32 func_800AC82C(BankFA_faa538_BankActorState *, s32, SpriteFrameState *, EntityRec *);
 extern s32 func_800AD9B4(SpriteFrameState *, EntityRec *);
-extern void func_80047784(SpriteFrameState *, s16, s16);
-
-extern void func_80171138(void *, void *, void *, void *);
 extern u8 D_80174AD4[9];
 extern u8 D_80174AFC[9];
 
 /* Update actor and sprite state after checking the target entity. */
-void func_80173D38(BankActorState *actor, s32 action, SpriteFrameState *sprite, EntityRec *target)
+void func_80173D38(BankFA_faa538_BankActorState *actor, s32 action, SpriteFrameState *sprite, EntityRec *target)
 {
     if (func_800AC82C(actor, action, sprite, target) != 0) {
         if ((func_800AD9B4(sprite, target) << 16) > 0) {
@@ -35,3 +32,4 @@ void func_80173D38(BankActorState *actor, s32 action, SpriteFrameState *sprite, 
                       0);
     }
 }
+

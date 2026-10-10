@@ -1,0 +1,32 @@
+{
+  "module": "dungeon_ovl_1924800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_1924800.c",
+    "module_index": 182
+  },
+  "members": [
+    "dungeon/func_81904800",
+    "dungeon/func_81904990",
+    "dungeon/func_8190536C",
+    "dungeon/func_81905564",
+    "dungeon/func_819057B4",
+    "dungeon/func_81905880",
+    "dungeon/func_819059A0",
+    "dungeon/func_81905A94",
+    "dungeon/func_81905AE4",
+    "dungeon/func_81905C08",
+    "dungeon/func_81905FD0"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "not observable (section-grouping link, no static duplicates, no recipe change)",
+  "basis": [
+    "Owner decisions 37-38: one selector-loaded grid bank is modelled as one native TU; decision 41 was withdrawn.",
+    "Selector 41 receipt fixes the complete 0x6000 load image. Eleven contiguous functions plus the compiler-emitted 92-byte prefix match every retail byte at a single natural-order link base.",
+    "Weak group-178 func_819059A0 joins group 182 by loader placement. Every row now uses plain 2.7.2-cdk-G0; no per-function recipe, intervening owned data or repeated static helper is needed.",
+    "Rebased readable member sources with one shared signed/unsigned position layout, callee-derived prototypes and function-address aliases; no pin, fabricated body, byte substitution or mask."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r112"
+}

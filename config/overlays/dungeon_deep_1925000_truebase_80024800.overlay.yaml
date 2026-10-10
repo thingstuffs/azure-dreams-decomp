@@ -1,3 +1,4 @@
+# Complete-row expansion for bank-41 native TU; static selector receipt fixes the same delta.
 # Standalone overlay-local gate for a statically base-proven DUNGEON
 # per-floor overlay IMAGE.  vram_start is the image's TRUE link base, not
 # the container's synthetic naming base -- hence the _truebase_ name marker
@@ -31,13 +32,13 @@ standalone_build:
     out_dir: work/s3_splat/extract
     container_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
   window:
-    file_start: 0x1925000
+    file_start: 0x1924990
     file_end: 0x1925FD0
-    vram_start: 0x80024800
+    vram_start: 0x80024190
     # Stated again as true_vram_start so every consumer that keys on that
     # field (tools/campaign_sentinels.py, tools/test_tool_contracts.py)
     # reads the same proven runtime base as vram_start.
-    true_vram_start: 0x80024800
+    true_vram_start: 0x80024190
     base_confidence: jump-implied
   split_results: overlays/dungeon/overlay_first_pass_results.json
   matched_sources:

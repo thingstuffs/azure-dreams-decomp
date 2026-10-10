@@ -7,7 +7,7 @@ typedef struct S_80F87000_0 {
     void ** unk_08;
     void ** unk_0C;
     void * unk_10;
-} S_80F87000_0;   /* obj in BODY_NAME */
+} S_80F87000_0;   /* obj in func_80170880 */
 
 typedef struct S_80F87000_1 {
     u8 pad_00[0x13];
@@ -15,12 +15,12 @@ typedef struct S_80F87000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80F87000_1;   /* work in BODY_NAME */
+} S_80F87000_1;   /* work in func_80170880 */
 
 typedef struct S_80F87000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80F87000_2;   /* part_a in BODY_NAME */
+} S_80F87000_2;   /* part_a in func_80170880 */
 
 typedef struct S_80F87000_3 {
     u8 pad_00[0x24];
@@ -28,7 +28,7 @@ typedef struct S_80F87000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80F87000_3;   /* part_b in BODY_NAME */
+} S_80F87000_3;   /* part_b in func_80170880 */
 
 typedef struct S_80F87000_4 {
     u8 pad_00[0x8C];
@@ -41,50 +41,24 @@ typedef struct S_80F87000_4 {
     s8 unk_9C;
     u8 pad_9D[0x3];
     s16 unk_A0;
-} S_80F87000_4;   /* actor in BODY_NAME */
+} S_80F87000_4;   /* actor in func_80170880 */
 
 
-extern void *func_8003FD64();
-extern void func_8004491C();
 extern s32 func_800A6D30();
 extern void func_800A48F0();
 extern void func_800A9C18();
 extern void func_800AA36C();
 
-extern u8 D_80170A70[];
-extern u8 D_80174AD4[];
 extern u8 D_80174AFC[];
-extern u8 D_80171138[];
 
-extern void *func_80170800();
 
-#ifdef __mips__
-static const u32 bank_words[] __asm__("func_80170800")
-__attribute__((section(".text.func_80170800"), aligned(4))) = {
-    0x80170880, 0x80170A70, 0x8017156C, 0x8017156C,
-    0x8017156C, 0x80171598, 0x80171518, 0x80171518,
-    0x80171518, 0x801714E0, 0x801714C4, 0x80171598,
-    0x80171598, 0x8017155C, 0x80172B5C, 0x80172B54,
-    0x80172B4C, 0x80172B64, 0x80172B0C, 0x80172B04,
-    0x80172AFC, 0x92824081, 0x81828F82, 0x85829282,
-    0x44818482, 0x00000000, 0x0C001000, 0x18001000,
-    0x00001400, 0x18001000, 0x08001000, 0x00000C00,
-};
-__asm__(".globl func_80170800\n"
-        ".size func_80170800, 624");
-#define BODY_NAME func_80170880
-#else
-#define BODY_NAME func_80170800
-#endif
 
-void *BODY_NAME(s16, s16, s16, s16)
-#ifdef __mips__
-__attribute__((section(".text.func_80170800")))
-#endif
-;
+
+
+
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
-void *BODY_NAME(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
+void *func_80170880(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     s32 kind;
     void *work = 0;
@@ -106,7 +80,7 @@ void *BODY_NAME(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((S_80F87000_0 *)obj)->unk_10 = D_80170A70;
+        ((S_80F87000_0 *)obj)->unk_10 = func_80170A70;
         ((S_80F87000_1 *)work)->unk_13 = 0x26;
         func_8004491C(obj, func_80045340);
 
@@ -148,7 +122,7 @@ call_a1_setup:
         func_800A9C18(call_a0, part_a, part_b, flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = D_80171138;
+        actor->unk_8C = func_80171138;
         ((S_80F87000_1 *)work)->unk_1C |= 0x40000;
         actor->unk_A0 = 0;
         actor->unk_92 = -0x30;
@@ -156,3 +130,4 @@ call_a1_setup:
     }
     return work;
 }
+

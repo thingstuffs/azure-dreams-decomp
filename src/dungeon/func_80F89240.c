@@ -8,16 +8,11 @@ extern int abs(int);
 
 
 extern s32 func_8003F270(void);
-extern void func_80047784(void *, u8, s16);
 extern void *func_800A05A4(void *, u8, u8, s16, s32);
 extern void func_800A2B04(void *, u8, u8);
-extern void func_800A4ACC(void *);
-extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *actor, EntityRec *effect_record, s16 mode, void *context);
 extern void func_800DAE44(EntityRec *source_pos, s16 initial_value);
 
-extern u8 D_80171138[];
-extern u8 D_80174AD4[];
 
 
 typedef struct S_80172A40_0 {
@@ -179,7 +174,7 @@ void func_80172A40(void *owner_input, EntityRec *motion_input, void *actor_input
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
         func_800A4ACC(object);
         (*(u8 *)&object->unk_6D)--;
-        ((S_80172A40_0 *)owner_input)->unk_8C = D_80171138;
+        ((S_80172A40_0 *)owner_input)->unk_8C = func_80171138;
         object->unk_73 = 0;
         object->unk_72 = 0;
         object->unk_46 &= 0x7FFF;
@@ -229,7 +224,7 @@ void func_80172A40(void *owner_input, EntityRec *motion_input, void *actor_input
         }
         dungeonStatus.unk_0A--;
         ((S_80172A40_4 *)actor_input)->unk_14 &= 0xF7FF;
-        ((S_80172A40_0 *)owner_input)->unk_8C = D_80171138;
+        ((S_80172A40_0 *)owner_input)->unk_8C = func_80171138;
         func_800A4ACC(object);
         if (object->unk_6D > 0) {
             (*(u8 *)&object->unk_6D)--;
@@ -243,3 +238,4 @@ void func_80172A40(void *owner_input, EntityRec *motion_input, void *actor_input
         return;
     }
 }
+

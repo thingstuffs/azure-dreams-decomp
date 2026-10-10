@@ -1,0 +1,20 @@
+{
+  "schema": "azure-clean.split-audit.v1",
+  "id": "dungeon/func_8190536C",
+  "target": "func_80024190",
+  "target_addr": "0x80024190",
+  "kind": "extern-jal",
+  "jumpers": [],
+  "jal_callers": [
+    "0x80024c44"
+  ],
+  "true_base": "0x80024b6c",
+  "proof": "target 0x80024190 = dungeon foff 0x1924990, outside the row; retail reaches it by jal from 1 site(s) (1 inside a registered row, the rest in un-split code of the same module; e.g. 0x80024c44) -- a returning function, so a noreturn/sibcall membership for it is a false member",
+  "at": "2026-10-09T14:16:38",
+  "byte_verified": true,
+  "retail_word": "0xc009064",
+  "file_offset": "0x1925444",
+  "basis": "Existing r108 extern-jal audit checked against the copied retail word; the callee returns. Current load-region census already excludes this false member.",
+  "review": "pending",
+  "reviewer": null
+}

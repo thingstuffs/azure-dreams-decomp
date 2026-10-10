@@ -16,17 +16,16 @@ typedef struct S_801740F4_1 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern M2C_UNK func_80047784();
+
 extern s32 func_800990FC(void);
 extern s32 func_80099194();
 extern s32 func_80099290();
 extern s32 func_80099734();
-extern s32 func_800A04F0();
 extern s32 func_800A2BDC();
 extern s32 func_800A5720();
 extern s32 func_800A6D30(void);
 
-extern M2C_UNK D_80170854;
+const u8 D_80170854[20] = {129,64,130,146,130,143,130,129,130,146,130,133,130,132,129,68,0,0,0,0};
 extern u8 D_80174B0C[];
 
 /* Start the actor's hit reaction, then build and post the damage message for it. */
@@ -70,3 +69,4 @@ void func_801740F4(void *work, void *part_a, void *part_b, EntityRec *actor) {
         func_800A5720(result);
     }
 }
+

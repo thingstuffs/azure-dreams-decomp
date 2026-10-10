@@ -94,21 +94,11 @@ typedef struct S_80172494_8 {
 } S_80172494_8;   /* (void *)temp_v1 in func_80172494 */
 
 
-extern void *func_8003FD64(s32, void *);
-extern void func_8004491C(void *, void *);
-extern void func_80047784(void *, u8, s32);
 extern s32 rand(void);
 extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void func_800A2B04(void *, u8, u8);
-extern void func_800A4ACC(void *);
-extern void func_800A56E0(s32);
-extern void func_800AD594(void *, s32);
-
 extern u8 D_800DEC28[];
 extern void *D_800E3DE8;
-extern u8 D_80171138[];
-extern u8 D_80173F0C[];
-extern u8 D_80174AD4[];
 extern u8 D_80174AE4[];
 
 /* Updates a staged movement action, spawns particles, and restores the actor when finished. */
@@ -262,7 +252,7 @@ void func_80172494(void *action, void *motion, void *map_actor, void *actor_arg)
                 if (particle != NULL) {
                     func_8004491C(particle, func_80045340);
                     particle_motion = (u8 *)particle + 0x20;
-                    ((S_80172494_4 *)particle)->unk_10 = D_80173F0C;
+                    ((S_80172494_4 *)particle)->unk_10 = func_80173F0C;
                     particle_sprite = ((S_80172494_4 *)particle)->unk_0C;
                     ((S_80172494_5 *)particle_motion)->unk_0C =
                         ((S_80172494_3 *)motion)->unk_02.u - (direction_x * 0x28);
@@ -302,7 +292,7 @@ void func_80172494(void *action, void *motion, void *map_actor, void *actor_arg)
         func_800A2B04(motion, ((Rec_D_80082E80 *)map_actor)->unk_24,
                       ((Rec_D_80082E80 *)map_actor)->unk_25);
         func_800AD594(actor_arg, 0x100);
-        ((S_80172494_1 *)action)->unk_8C = D_80171138;
+        ((S_80172494_1 *)action)->unk_8C = func_80171138;
         dungeonStatus.unk_0C = 0;
         (*(void * *)((u8 *)map_actor + 0x2C)) = D_80174AD4;
         direction_index_2 = (gameWork.view.viewAngle + ((S_80172494_0 *)actor_arg)->unk_2A.u + 0x100) >> 9;
@@ -323,3 +313,4 @@ void func_80172494(void *action, void *motion, void *map_actor, void *actor_arg)
 
     return;
 }
+

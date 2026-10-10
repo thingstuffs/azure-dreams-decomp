@@ -4,7 +4,7 @@
 
 typedef struct S_80F8ADE0_0_pre {
     u16 unk_00;
-} S_80F8ADE0_0_pre;   /* the 0x2 bytes before arg0 in func_80F8ADE0, addressed as arg0[-1] */
+} S_80F8ADE0_0_pre;   /* the 0x2 bytes before arg0 in func_801745E0, addressed as arg0[-1] */
 
 typedef struct S_80F8ADE0_0 {
     u8 pad_00[0x48];
@@ -13,11 +13,11 @@ typedef struct S_80F8ADE0_0 {
     s16 unk_4C;
     u8 pad_4E[0xA];
     s32 unk_58;
-} S_80F8ADE0_0;   /* arg0 in func_80F8ADE0 */
+} S_80F8ADE0_0;   /* arg0 in func_801745E0 */
 
 
 /* Advances a timed state sequence and sets flags when it reaches stage 15. */
-void func_80F8ADE0(void *state) {
+void func_801745E0(void *state) {
     u16 ticks_left;
     u16 next_delay;
 

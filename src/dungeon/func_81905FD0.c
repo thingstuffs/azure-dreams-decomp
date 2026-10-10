@@ -1,258 +1,4 @@
-#include "shared/entity_height_offsets.h"
-#include "common.h"
-#include "shared/slus_callbacks.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
-#include "shared/dir_step.h"
-
-typedef struct {
-    u8 bytes[8];
-} Copy8;
-
-typedef struct {
-    u8 bytes[12];
-} Copy12;
-
-typedef struct {
-    u8 bytes[32];
-} Copy32;
-
-typedef struct {
-    s16 a;
-    s16 b;
-    s16 c;
-} Vec3;
-
-typedef struct S_func_81905FD0_1 {
-    void * unk_00;
-    void * unk_04;
-    u8 pad_08[0x1];
-    u8 unk_09;
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_0A;
-    u8 pad_0C[0x6C];
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_78;
-    u8 unk_7A;
-    u8 unk_7B;
-    u8 pad_7C[0x2];
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_7E;
-    u8 pad_80[0x2];
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_82;
-    u8 pad_84[0x4];
-    u16 unk_88;
-    u16 unk_8A;
-    u8 pad_8C[0x4];
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_90;
-    u16 unk_92;
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_94;
-    u16 unk_96;
-    u8 pad_98[0x4];
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_9C;
-    u8 pad_9E[0x1C];
-    u8 unk_BA;
-    u8 unk_BB;
-} S_func_81905FD0_1;
-
-typedef struct S_func_81905FD0_2 {
-    union {
-        u32 u32;
-        struct {
-            u8 pad_00[0x2];
-            u16 unk_02;
-        } u16_02;
-    } unk_00;
-    union {
-        u32 u32;
-        struct {
-            u8 pad_04[0x2];
-            u16 unk_06;
-        } u16_06;
-    } unk_04;
-    union {
-        s32 s32;
-        u32 u32;
-        struct {
-            u8 pad_08[0x2];
-            s16 unk_0A;
-        } s16_0A;
-        struct {
-            u8 pad_08[0x2];
-            u16 unk_0A;
-        } u16_0A;
-    } unk_08;
-    u32 unk_0C;
-    u32 unk_10;
-    union {
-        s32 s32;
-        u32 u32;
-    } unk_14;
-} S_func_81905FD0_2;
-
-typedef struct S_func_81905FD0_3 {
-    u8 pad_00[0x6];
-    u16 unk_06;
-    void * unk_08;
-    union {
-        u32 u32;
-        u8 u8;
-        struct {
-            u8 pad_0C[0x1];
-            u8 unk_0D;
-        } u8_0D;
-        struct {
-            u8 pad_0C[0x2];
-            u8 unk_0E;
-        } u8_0E;
-    } unk_0C;
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x4];
-    u16 unk_1A;
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_1C;
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_1E;
-    u8 pad_20[0x2];
-    s16 unk_22;
-    u8 unk_24;
-    u8 unk_25;
-} S_func_81905FD0_3;
-
-typedef struct S_func_81905FD0_4 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-    u8 pad_2C[0x34];
-    void * unk_60;
-    u8 pad_64[0xE];
-    s8 unk_72;
-    s8 unk_73;
-    u8 pad_74[0x14];
-    u16 unk_88;
-} S_func_81905FD0_4;
-
-typedef struct S_func_81905FD0_5 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-    u8 pad_14[0xA];
-    u16 unk_1E;
-} S_func_81905FD0_5;
-
-typedef struct S_func_81905FD0_6 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    u32 unk_14;
-    u8 pad_18[0x4];
-    u32 unk_1C;
-} S_func_81905FD0_6;
-
-typedef struct S_func_81905FD0_7 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x6];
-    u16 unk_0A;
-    u16 unk_0C;
-    u8 pad_0E[0x2A];
-    void * unk_38;
-    void * unk_3C;
-    void * unk_40;
-    void * unk_44;
-    void * unk_48;
-    void * unk_4C;
-} S_func_81905FD0_7;
-
-typedef struct S_func_81905FD0_8 {
-    u16 unk_00;
-    u16 unk_02;
-    u16 unk_04;
-    u8 pad_06[0x2];
-    s16 unk_08;
-    s16 unk_0A;
-    s16 unk_0C;
-    s16 unk_0E;
-    s16 unk_10;
-    s16 unk_12;
-} S_func_81905FD0_8;
-
-typedef struct S_func_81905FD0_9 {
-    s16 unk_00;
-    u16 unk_02;
-} S_func_81905FD0_9;
-
-typedef struct S_func_81905FD0_10 {
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_00;
-} S_func_81905FD0_10;
-
-typedef struct S_func_81905FD0_11 {
-    u8 unk_00;
-} S_func_81905FD0_11;
-
-typedef struct S_func_81905FD0_12 {
-    u16 unk_00;
-} S_func_81905FD0_12;
-
-typedef struct S_func_81905FD0_13 {
-    u8 pad_00[0x4];
-    u16 unk_04;
-} S_func_81905FD0_13;
-
-
-extern u8 D_80024004[9];
-extern u8 D_80024014[32];
-extern u8 D_800251A0[12];
-extern u8 D_80025294[12];
-extern u8 D_800252E4[12];
-extern u8 D_80025408[12];
-extern u8 D_80026760[12];
-extern u8 D_8002676C[12];
-extern u8 D_80026778[12];
-extern u8 D_80026784[24];
-extern u8 D_800267A8[12];
-extern u8 D_800267B8[9];
-extern u8 D_800E3D68[1];
-
-extern s32 func_8003DF74(void *, void *, Vec3 *, s32);
-extern void func_8004491C(void *, void *);
-extern s32 func_80069EF8(void);
-extern void func_80025080(void *, s32, s32, s32, s32, s32, s32);
-extern s32 func_800A4778(u16, u16, s16, void *);
-extern void func_800A56E0(s32);
-extern void *func_8003FC64(s32);
-extern void func_800B8FC8(void *, void *, void *, s32, s32);
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_8002405C(void *, s32, void *);
+#include "modules/dungeon_ovl_1924800.h"
 
 
 /* Updates a traveling effect, its target animation, and its cleanup state. */
@@ -564,7 +310,7 @@ update_coords:
             if (upper_effect != 0) {
                 child_data = (S_func_81905FD0_7 *)((u8 *)upper_effect + 0x20);
                 child_data->unk_02 = 120;
-                upper_effect->unk_10 = D_80025294;
+                upper_effect->unk_10 = (void *)func_80025294;
                 func_8004491C(upper_effect, func_80045340);
                 child_render = upper_effect->unk_0C;
                 {
@@ -606,7 +352,7 @@ update_coords:
             if (lower_effect != 0) {
                 child_data = (S_func_81905FD0_7 *)((u8 *)lower_effect + 0x20);
                 child_data->unk_02 = 140;
-                lower_effect->unk_10 = D_800252E4;
+                lower_effect->unk_10 = (void *)func_800252E4;
                 func_8004491C(lower_effect, func_80045340);
                 child_render = lower_effect->unk_0C;
                 child_render->unk_14 &= 0xFFF3;
@@ -641,7 +387,7 @@ update_coords:
             if (ring_effect != 0) {
                 child_data = (S_func_81905FD0_7 *)((u8 *)ring_effect + 0x20);
                 child_data->unk_02 = 120;
-                ring_effect->unk_10 = D_800251A0;
+                ring_effect->unk_10 = (void *)func_800251A0;
                 func_8004491C(ring_effect, func_80045340);
                 child_render = ring_effect->unk_0C;
                 {
@@ -708,7 +454,7 @@ update_coords:
                 child_data->unk_44 = (void *)((u32)((u32)((u8 *)upper_effect + 0x20)));
                 child_data->unk_48 = (u8 *)ring_effect + 0x20;
                 child_data->unk_4C = (u8 *)lower_effect + 0x20;
-                control_script = D_80025408;
+                control_script = (void *)func_80025408;
                 child_data->unk_40 = effect;
                 child_data->unk_3C = owner_target;
                 control_effect->unk_10 = control_script;

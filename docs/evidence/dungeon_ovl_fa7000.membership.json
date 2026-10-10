@@ -1,0 +1,52 @@
+{
+  "module": "dungeon_ovl_fa7000",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_7f1c9800.c",
+    "module_index": 129
+  },
+  "members": [
+    "dungeon/func_80F87000",
+    "dungeon/func_80F87270",
+    "dungeon/func_80F87938",
+    "dungeon/func_80F87E70",
+    "dungeon/func_80F8802C",
+    "dungeon/func_80F88774",
+    "dungeon/func_80F88938",
+    "dungeon/func_80F88A58",
+    "dungeon/func_80F88B9C",
+    "dungeon/func_80F88C30",
+    "dungeon/func_80F88C94",
+    "dungeon/func_80F89240",
+    "dungeon/func_80F89700",
+    "dungeon/func_80F89A94",
+    "dungeon/func_80F89D04",
+    "dungeon/func_80F89D24",
+    "dungeon/func_80F89D44",
+    "dungeon/func_80F89D7C",
+    "dungeon/func_80F8A1F8",
+    "dungeon/func_80F8A538",
+    "dungeon/func_80F8A600",
+    "dungeon/func_80F8A664",
+    "dungeon/func_80F8A69C",
+    "dungeon/func_80F8A6D4",
+    "dungeon/func_80F8A70C",
+    "dungeon/func_80F8A8F4",
+    "dungeon/func_80F8AA60",
+    "dungeon/func_80F8ADE0"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "not observable (section-grouping link, no static duplicates, no recipe change)",
+  "physical_bank": [
+    "0xfa7000",
+    "0xfad000"
+  ],
+  "basis": [
+    "Decisions 37-38 model every physical bank as one native TU. AA60/ADE0 weak group is merged within the authenticated resource image.",
+    "Resource 38 slot 0 receipt proves all twelve sectors at 0x80170800; 28 contiguous L3 members exhaust 16008 native bytes.",
+    "One fixed ordinary recipe and genuine ASPSX -0 compare every owned byte and relocation without masks or retail substitution."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r112"
+}

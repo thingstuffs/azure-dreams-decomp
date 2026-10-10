@@ -1,42 +1,13 @@
-#include "common.h"
-#include "shared/game_work.h"
-#include "shared/gpu_packets.h"
+#include "modules/dungeon_ovl_1924800.h"
 
 /* Draw-environment page reached through gameWork.unk_000: an ordering-table head at +0x8B0 and the
  * packet allocation cursor at +0x8D0 (partial layout; GpuContext does not cover +0x8B0). */
-typedef struct DrawPage {
-    u8 pad_000[0x8B0];
-    u32 order_tag;
-    u8 pad_8B4[0x1C];
-    u8 *packet_cursor;
-} DrawPage;
 
 /* Screen position: x, then y (a page-relative row). */
-typedef struct ScreenPos {
-    u16 x;
-    s16 y;
-} ScreenPos;
 
 /* Clip/fill rectangle: origin, then the size word copied verbatim. */
-typedef struct ScreenRect {
-    u16 x;
-    s16 y;
-    s32 size;
-} ScreenRect;
 
 /* Link packet: tag word (next address + length), then payload. */
-typedef struct FillPacket {
-    u32 tag;       /* low 24 bits next address; byte 3 = word count (3) */
-    u32 command;   /* 0x60000000: monochrome rectangle, black */
-    u16 x;
-    s16 y;
-    s32 size;
-} FillPacket;
-
-extern u8 D_801C9E40[16];
-
-extern void func_80024190(void *, s32, void *, s32);
-extern void func_80067E2C(void *, void *);
 
 /* Draws at a page-adjusted position with clipping commands and an optional black rectangle.
  * Keeping the page pointer live across setup and spelling the sign extension as one expression
@@ -88,7 +59,7 @@ void func_80024B6C(s32 draw_data, ScreenRect *clip_rect, void *screen_pos, u16 c
     call_order_table = order_table;
     call_data = draw_data;
     draw_pos[1] = draw_y;
-    func_80024190(call_pos, call_data, call_order_table, call_param);
+    func_80024190(call_pos, (void *)call_data, call_order_table, call_param);
 
     if (clear_enabled != 0) {
         FillPacket *fill_packet;

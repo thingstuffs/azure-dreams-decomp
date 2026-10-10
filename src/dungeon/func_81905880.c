@@ -1,31 +1,8 @@
-#include "common.h"
-#include "modules/dungeon_native_abi.h"
-#include "shared/object_node.h"
+#include "modules/dungeon_ovl_1924800.h"
 
 /* Three 4-byte slots; only the second halfword of each is used. */
-typedef struct EffectPosition {
-    u16 pad_00;
-    s16 x;
-    u16 pad_04;
-    s16 y;
-    u16 pad_08;
-    s16 z;
-} EffectPosition;
 
 /* The spawned effect's record (the object header precedes it). */
-typedef struct SpawnedRecord {
-    u8 pad_00[8];
-    u32 unk_08;
-    u8 pad_0C[4];
-    s32 unk_10;
-    s16 unk_14;
-    u8 pad_16[0x1C];
-    s16 unk_32;
-} SpawnedRecord;
-
-extern s32 rand(void);
-extern s32 func_80024D64(void *, void *);
-extern void func_80024FB4();
 
 /* Retail 81905880 (func_80025080): spawn an effect object under the parent node, placed at the parent's
  * position plus a random jitter (0..31 per axis) and the given offsets (minus half the jitter range). */
@@ -54,30 +31,30 @@ void func_80025080(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 fie
     if (spawned != 0) {
         spawned->unk_10 = (void *)func_80024FB4;
         jitter_x = rand() & 0x1F;
-        position_x = ((EffectPosition *)source_obj->unk_08)->x;
+        position_x = ((EffectPosition *)source_obj->unk_08)->spawn.x;
         dest_x = spawned->unk_08;
         position_x += jitter_x;
         bias_x = offset_x - 0x10;
         position_x += bias_x;
-        dest_x->x = position_x;
+        dest_x->spawn.x = position_x;
 
         jitter_y = rand() & 0x1F;
-        position_y = ((EffectPosition *)source_obj->unk_08)->y;
+        position_y = ((EffectPosition *)source_obj->unk_08)->spawn.y;
         dest_y = spawned->unk_08;
         position_y += jitter_y;
         bias_y = offset_y - 0x10;
         position_y += bias_y;
-        dest_y->y = position_y;
+        dest_y->spawn.y = position_y;
 
         jitter_z = rand();
         jitter_z &= 0x1F;
-        position_z = ((EffectPosition *)source_obj->unk_08)->z;
+        position_z = ((EffectPosition *)source_obj->unk_08)->spawn.z;
         fields = (SpawnedRecord *)(spawned + 1);
         dest_z = spawned->unk_08;
         position_z += jitter_z;
         bias_z = offset_z - 0x10;
         position_z += bias_z;
-        dest_z->z = position_z;
+        dest_z->spawn.z = position_z;
         fields->unk_14 = field_34;
         fields->unk_32 = saved_field_52;
         func_8004491C(spawned, (s32)func_80024D64);

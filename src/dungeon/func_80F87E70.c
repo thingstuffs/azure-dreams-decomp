@@ -38,12 +38,6 @@ typedef struct S_80171670_3 {
 } S_80171670_3;   /* (u8 *)arg3 + ((S_80171670_0 *)arg3)->unk_8A.s in func_80171670 */
 
 
-extern s32 func_80047784();
-extern s32 func_8009A21C();
-extern s32 func_8009A3D0();
-extern s16 func_800A0818();
-
-extern u8 D_80174AD4[];
 
 /* Advance the entity along its stored path and update its movement state. */
 void func_80171670(void *motion, s32 unused, void *entity, void *path_state)
@@ -94,7 +88,7 @@ void func_80171670(void *motion, s32 unused, void *entity, void *path_state)
     }
     func_8009A21C(new_x, new_y, cell_mask);
 
-    ((S_80171670_0 *)path_state)->unk_2A = func_800A0818(
+    ((S_80171670_0 *)path_state)->unk_2A = (s16)func_800A0818(
         old_x, old_y, ((S_80171670_1 *)entity)->unk_24, ((S_80171670_1 *)entity)->unk_25,
         (u8 *)motion + 0x98);
     ((S_80171670_0 *)path_state)->unk_1C.u |= 0x40000000;
@@ -114,3 +108,4 @@ void func_80171670(void *motion, s32 unused, void *entity, void *path_state)
         }
     }
 }
+
