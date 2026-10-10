@@ -216,3 +216,16 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     dungeon/func_80A1D000 (r101 rc1: 150-word composite record, row now 468 B); no invented 42-word raw measurement.
     The current partition is proven by the production window, not by the baseline. SECOND LOOK: yes (a data-row-aware
     re-baseline tool would let the record match the current carve; data-row baselining is an open tool gap, r105).
+41. **(r112) DUNGEON bank 41 (file 0x1924800) is THREE TUs: a recipe change inside the bank (decision 38's criterion).**
+    r112_sonnet_1924 (work/native_lane/r112_sonnet_1924/REPORT.md): func_819059A0 (runtime func_800251A0, 244 B) is exact
+    only WITHOUT sched1 (`-fno-schedule-insns`, its registered row recipe); in the one-TU build at the bank recipe 3 words
+    (1134/1138/1139) differ in ~370 pure-C compiles, all 315 dependency-legal orders of its 7 prologue statements included.
+    Mechanism: sched1's birthing boost (single-set plain-register dest -> priority 0x7f000001) applies to the lui of
+    D_800267B8 and the ticks load but not the status copy (SUBREG dest of the s8->s16 extension), giving 26,20,16; retail's
+    16,20,26 is the unboosted / unscheduled order; the HIGH pseudo is always single-set (mips.md + cse), so no C lever.
+    The whole bank at -fno-schedule-insns changes 7 other functions' lengths (10,228 vs 10,080 B); both neighbours need
+    sched1. Layout cannot separate TUs (decision 38: section-grouping link; contiguous, no padding, no static callee).
+    Ruling: model bank 41 as three consecutive native TUs in one load image - [head .. func_80025080], func_800251A0 alone at
+    its row recipe (2.7.2-cdk-G0 -fno-schedule-insns), [func_80025294 ..] - not one TU with a per-function flag. The
+    equally consistent alternative (one TU, a compiler-behaviour difference for one function) is not separable by any
+    measured evidence; the split is the model that reproduces bytes with recorded recipes. SECOND LOOK: yes.
