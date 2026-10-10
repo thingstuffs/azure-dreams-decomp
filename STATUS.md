@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-10T08:07:49Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-10T09:16:34Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -79,33 +79,33 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 
 | module | rows | placement proof |
 |---|---:|---|
-| dungeon_cd_control_d79c4 | 3 | current: complete TU + all windows + genuine |
-| town_minigame_dispatch_44b44 | 13 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1852800 | 4 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1870800 | 2 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1858800 | 3 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1840800 | 3 | current: complete TU + all windows + genuine |
-| dungeon_ovl_185e800 | 3 | current: complete TU + all windows + genuine |
-| dungeon_ovl_18ac800 | 2 | current: complete TU + all windows + genuine |
-| dungeon_ovl_18fa800 | 3 | current: complete TU + all windows + genuine |
-| dungeon_ovl_19ba800 | 3 | current: complete TU + all windows + genuine |
-| dungeon_ovl_199c800 | 4 | current: complete TU + all windows + genuine |
-| dungeon_ovl_18f4800 | 5 | current: complete TU + all windows + genuine |
-| dungeon_ovl_19a8800 | 5 | current: complete TU + all windows + genuine |
-| dungeon_ovl_189a800 | 13 | current: complete TU + all windows + genuine |
-| dungeon_ovl_188e800 | 6 | current: complete TU + all windows + genuine |
-| dungeon_ovl_198a800 | 17 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1876800 | 5 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1894800 | 11 | current: complete TU + all windows + genuine |
-| dungeon_ovl_18a6800 | 15 | current: complete TU + all windows + genuine |
-| dungeon_ovl_19d2800 | 6 | current: complete TU + all windows + genuine |
-| dungeon_ovl_197281c | 5 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1990800 | 13 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1960800 | 11 | current: complete TU + all windows + genuine |
-| dungeon_ovl_183a800 | 10 | current: complete TU + all windows + genuine |
-| dungeon_ovl_18a0800 | 15 | current: complete TU + all windows + genuine |
-| dungeon_ovl_19c6800 | 5 | current: complete TU + all windows + genuine |
-| dungeon_ovl_19cc800 | 22 | current: complete TU + all windows + genuine |
+| dungeon_cd_control_d79c4 | 3 | source/recipe/graph/tool/review/window inputs changed |
+| town_minigame_dispatch_44b44 | 13 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1852800 | 4 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1870800 | 2 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1858800 | 3 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1840800 | 3 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_185e800 | 3 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_18ac800 | 2 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_18fa800 | 3 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_19ba800 | 3 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_199c800 | 4 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_18f4800 | 5 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_19a8800 | 5 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_189a800 | 13 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_188e800 | 6 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_198a800 | 17 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1876800 | 5 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1894800 | 11 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_18a6800 | 15 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_19d2800 | 6 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_197281c | 5 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1990800 | 13 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1960800 | 11 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_183a800 | 10 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_18a0800 | 15 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_19c6800 | 5 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_19cc800 | 22 | source/recipe/graph/tool/review/window inputs changed |
 
 Placement alone does not override any lower-level or source-residue guard.
 
@@ -136,7 +136,7 @@ Tracked, not pins (owner 2026-10-06): oddities 1 (ledger/oddities.jsonl - zero-b
 Carve debt - composite rows (r95 decisions item 8 kept the spelling for bytes; r99: it is an artifact of one-row-per-function carving, owned by module placement): the `asm("func_X")` data prefix (another function's jump table / overlay data that retail places before this row's code) and its `.globl/.type/.size func_X` stamp (`pin_census.composite_asm_spans`), 27 statements in 15 rows - counted here, not in the inline-asm row above; still L5 `inline_asm` residue in levels.py until the module TU owns the data.
 Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 0, calls of local asm wrappers 0, hand-written asm in function bodies 0 (C that is missing); symbol aliases 14 (a second typed name for one symbol: a missing type); file-scope asm directives 28; file-scope global register variables 4 (`register T g asm("$R")`).
 
-Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 98 rows carry one flag, 2 carry two or more.
+Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 96 rows carry one flag, 2 carry two or more.
 
 
 ## Likely incorrect compiler (registered recipe vs the real build)
@@ -146,10 +146,10 @@ The game is one `2.7.2-cdk -G0 -O2` build plus a town -O1 debug family and stock
 | class | rows | dungeon / town / main | pinned rows | pins |
 |---|---:|---|---:|---:|
 | late cell (2.8.x / egcs / 2.95.2: fitted) | 2 | 2 / 0 / 0 | 2 | 6 |
-| cdk cell + crutch flags, module is plain | 3 | 3 / 0 / 0 | 0 | 0 |
+| cdk cell + crutch flags, module is plain | 2 | 2 / 0 / 0 | 0 | 0 |
 | stock cell inside a cdk module | 0 | 0 / 0 / 0 | 0 | 0 |
 | other mismatch with the module recipe (-G, stock flavour, -O1) | 1 | 0 / 1 / 0 | 1 | 1 |
-| **total** | **6** | | **3** | **7** |
+| **total** | **5** | | **3** | **7** |
 
 Rows at a registered recipe backed by per-row compiler evidence (ledger/recipe_evidence.jsonl, not listed above): town/func_806D30B4 2.6.3-G0 (confirmed), town/func_808B2B04 2.6.3-G0 (confirmed).
 
@@ -173,12 +173,12 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 | L1 | 2,774,308 | 99.6% |
 | L2 | 2,774,308 | 99.6% |
 | L3 | 2,568,188 | 92.2% |
-| L4 | 128,456 | 4.6% |
-| L5 | 123,384 | 4.4% |
+| L4 | 0 | 0.0% |
+| L5 | 0 | 0.0% |
 
 On shared record headers (T7, `include/records/`): 884 rows, 569,460 bytes (20.4%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 49 rows (61,060 B), tail_jump 8 rows (4,884 B), not_in_module 6,758 rows (2,643,000 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 49 rows (61,060 B), tail_jump 8 rows (4,884 B), not_in_module 6,965 rows (2,771,456 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 

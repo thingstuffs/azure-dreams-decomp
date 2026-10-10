@@ -14702,7 +14702,7 @@
     {
       "source": "src/dungeon/func_80289BD4.c",
       "recipe": {
-        "cfg": "2.7.2-cdk-G0 -fno-schedule-insns",
+        "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
       },
       "rows": [
@@ -31162,7 +31162,7 @@
     {
       "source": "src/dungeon/func_819059A0.c",
       "recipe": {
-        "cfg": "2.7.2-cdk-G0 -fno-schedule-insns",
+        "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
       },
       "rows": [
