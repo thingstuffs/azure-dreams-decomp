@@ -197,3 +197,14 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     certifies that this one-file source reproduces the image exactly, not how the original files were split. A bank
     that shows real multi-TU evidence (duplicated static helpers, data between text runs, a recipe change) is HELD as
     genuinely multi-TU. 7e6a5800 joins the next module lane. SECOND LOOK: no (owner-approved).
+39. **(r109, owner-approved 10-10) A no-op read-modify-write that keeps a retail-evidenced read is accepted.** GAP B
+    dungeon/func_81994D8C (r109_opus_gapB v52, byte-exact 873/873, promoted at 0x8002458C): retail performs `lhu
+    actor+0x98` at five sites and discards it; at three of them retail's sched2 order needs the read to have NO in-block
+    consumer at sched2, which the decision-36 identical-arm form cannot reach (MECHANISM.md section 4). The accepted
+    spelling `p->unk_98 = p->unk_98;` gives the load a consumer through flow/combine/sched1; reload_cse_noop_set_p then
+    deletes the same-value store, so the output holds retail's read and nothing retail lacks. Owner 10-10: accept "if it
+    genuinely did the read" - plausibly a flag macro / define-driven update whose constants fold to a self-assignment in
+    the retail build (a debug build may set a different value). Conditions: the read must be retail-evidenced at that
+    site; the source comment says what is reconstructed (`/* +0x98 write-back: retail reads the field, the unchanged
+    store compiles away */`); a self-assignment that keeps a load retail does NOT perform stays a refused fake
+    dependency. Distinct from the refused `+ zero` (an added operation with no retail counterpart). SECOND LOOK: no.
