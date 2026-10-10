@@ -1,3 +1,54 @@
+# Handover (2026-10-10 ~03:45Z, END OF SESSION r105-r111) - START HERE
+
+## State
+Carve debt **28** rows (STATUS "statements in N rows"; 42 at session start), L5 **52** rows (20 at start), pins 89 in 49
+rows (+4 parked ovmovie; 61 of them in 30 hard-basket rows). Live certificates 15 (ledger/modules/overlay_*.json).
+HEAD 48ce60480. Nothing is half-landed: both r110 landings rolled back cleanly.
+
+## Running (nohup pools - independent of the session; check, do not relaunch)
+- **r111_sol61_integ** (pool log work/native_lane/_r111/pool_r111.log, ends with POOL_r111_END): integrates the 16 READY
+  packages that failed together: r110_sol61_kfin 189a800/188e800/198a800, r109_sol61_modA 1876800/1894800/18a6800/19d2800,
+  r109_sol61_modB 197281c, r110_sol61_m1 1990800, m2 1960800/183a800, m3 18a0800, m4 19c6800/19cc800, r109_opus_gapB
+  gap_81994D8C + recarve_81994800 (GAP B is BYTE-EXACT, decision 39). Failure to explain: module graph screen
+  "L3/placement screen failed" only in the combined state (plan E failed at package-3; plan E1 = kfin + GAP B passed all
+  proofs + 15 recerts and failed at the FINAL graph step after levels). Its REPORT gives one ordered package set ->
+  land it with tools/lanes/land_packages.py (review step INSIDE the plan: work/native_lane/_r106/review_modules.py KEYS),
+  then certify every new module (certify_overlay_module.py KEY --root build_ovl_gate --reviewer orchestrator-rNNN),
+  levels/status, commit. Expected carve debt 28 -> 13.
+- **r111_sol61_landfast** (pool log _r111/pool_r111b.log): landing-pipeline tool lane (owner 10-10 "stop issues at the
+  source"): fast front in land_packages.py (levels + graph screen + status + scrub BEFORE gates), --preflight in a
+  disposable worktree, tools/lanes/package_preflight.py + work/native_lane/_pending_packages.json for lanes; certificate
+  fingerprint narrowing MEASURE-ONLY. Review + land its patch in a quiet moment (after the integ landing); afterwards
+  run --preflight before every live landing and add the package_preflight paragraph to every module-lane brief.
+
+## Landing rules learned this session (all in memory too)
+- Lane packages: apply.py `--root R [--dry-run] [--live]`, refuse live without --live, REAL tool paths (tools/gate/...).
+- land_packages.py refuses untracked files (park ledger/agents/out/<new> outside until promote) and a changed cert set
+  (certify NEW modules after the commit). Review edits to modules.json / ledger/modules.jsonl void every certificate ->
+  review INSIDE the plan. review_modules.py drops `confidence` from a ledger_group.
+- promote.py on rows inside a certified module's window voids that certificate -> re-certify after (levels drop shows it).
+- split_audit.py --container X drops other containers' records: append only NEW records.
+- Owner allow rules exist for: python3 tools/lanes/land_packages.py *, python3 work/native_lane/_r105/*,
+  python3 tools/fidelity/certify_overlay_module.py *.
+
+## Decisions logged this session (docs/evidence/r97_decisions.md 32-39)
+32 bank-crossing prefixes split per load image; 33 stale-image residue DATA rows; 34 DUNGEON bank grid receipts; 35
+zero-relocation data rows gated at the window vram (placement unproven); 36 identical-arm test on a retail-loaded field;
+37+38 (owner) grid banks = ONE TU, boundary not observable, weak groups merge; 39 (owner) no-op write-back keeping a
+RETAIL-EVIDENCED read.
+
+## Next (owner 10-09/10)
+1. Land integ result; then land landfast. 2. Per-blocker TRIAGE TABLE before launching (memory feedback-home-stretch-
+blockers-20261009): Sonnet gets a real first attempt where plausible, astra/sol freely, ONE Fable attempt for the hardest,
+no Opus re-serve without a stated new angle. Blockers: validator kinds (192a800 + 1918800 single rectangle records,
+19de800 nine-entry grid, 7ce800 switch-table-first prefix) -> one sol tool lane; FA7000 3 C residuals, 1924800 3
+register words -> Sonnet first; pinned members 819613A8 (7e6a5800), 8180B064 (7e7fb800; Opus r106 found no shape:
+global.c order), 8182C800 / 81844F2C (hard basket) -> Sonnet / Fable; bank 65 module (GAP B row needs Layer-2 first);
+3 town receipts (806D23A4, 8094D004, 80950CC0) -> targeted investigation. 3. Held Sonnet shared-header lane:
+work/native_lane/_r109/ask_sonnet_unk18.md (ObjectNodeHeader.unk_18 retype + GpuContext +0x8B0, shared point/spawn/
+FixedCoord/AnimPlayer/BankActorState types, EntityRec +0x14 view) - after the module waves stop editing members.
+4. Tidy: delete orphan src/town/func_802F100C.c (row retired 1dfc35053); dedupe the four identical loader.bin evidence copies.
+
 # Handover (2026-10-10 ~02:00Z, round 111: INTEGRATION LANE RUNNING) - start here
 
 **Landed since r109:** 69fed6092 50 r108 rows -> L3 (+6 recerts); 8559bd4a8 decision 39 (owner-approved write-back for
