@@ -63,6 +63,23 @@ typedef struct PaletteControl {
 } PaletteControl;
 typedef struct AnimationState { u8 reserved_00[6]; s16 phase; void *resource; } AnimationState;
 typedef struct TransitionFlags { u16 reserved_00[2]; u16 flags; } TransitionFlags;
+#define TINT_NEUTRAL 0x808080
+#define TINT_FLASH_BRIGHT 0x80E080
+#define TINT_FLASH_DIM 0x709070
+#define TINT_TARGET_HIGHLIGHT 0x80FF80
+#define PARTICLE_ALLOC_ID 0x212
+#define PARTICLE_SCALE_BASE 0xC00
+#define PARTICLE_MODE_ADDITIVE 0x20
+#define PARTICLE_FLAGS_VISIBLE 0xC
+
+enum TransitionPhase {
+    PHASE_SETUP,
+    PHASE_WAIT_CONFIRM,
+    PHASE_ENTER,
+    PHASE_EXIT,
+    PHASE_FINISH
+};
+
 extern u8 D_80025330[];
 extern PackedResource D_80025348, D_80025360;
 extern PaletteControl D_8002536C;
@@ -111,15 +128,15 @@ void func_8002458C(TransitionState *state, void *context, void *parameters) {
     TransitionPosition *position;
     EntityRec *target;
     TransitionRenderPart *render_part;
-    union { TransitionParticlePayload *particle; s32 status; } particle_work;
+    union { TransitionParticlePayload *particle; s32 status; } particle_scratch;
     TransitionParticle *particle;
     EntityRec *actor;
     EntityRec *player;
     TransitionRenderPart *tint_part;
 
-    state->ticks = (u16) ((u16) state->ticks + 1);
+    state->ticks++;
     switch (state->phase) {
-    case 0:
+    case PHASE_SETUP: /* initialise palette/tint state, then fall into the wait */
         D_800814A8->unk_F4 = (s32)&D_80025330;
         D_80082E80.phase = 6;
         D_8002536C.low_r = 0;
@@ -132,17 +149,17 @@ void func_8002458C(TransitionState *state, void *context, void *parameters) {
         upload_rect.wh = 0x400040;
         func_800B835C(&D_8002536C, &upload_rect, 1, 0);
         D_80025384 = 1;
-        state->phase = (s16) ((u16) state->phase + 1);
+        state->phase++;
         /* fallthrough */
-    case 1:
+    case PHASE_WAIT_CONFIRM: /* wait for the trigger bit, then snapshot facing and start the effect */
         if (*state->flags & 0x80) {
             actor = D_800814A8;
             state->countdown = 0x14;
-            (*(u16 *)((u8 *)actor + 0xA6)) = (u16) ((*(u16 *)((u8 *)actor + 0xA6)) - 1);
+            *(u16 *)((u8 *)actor + 0xA6) -= 1; /* halfword counter at +0xA6 (high half of unk_A4) */
             actor->unk_A8 = (u8) state->event_id;
             actor_facing = (u16)D_800814A8->facing;
-            state->phase = (s16) ((u16) state->phase + 1);
-            state->ticks = 0U;
+            state->phase++;
+            state->ticks = 0;
             state->facing = actor_facing;
             func_800243E4(state, context, parameters);
             if (state->part_b != 0) {
@@ -165,116 +182,116 @@ void func_8002458C(TransitionState *state, void *context, void *parameters) {
             }
         }
         break;
-    case 2:
+    case PHASE_ENTER: /* countdown with flickering tint and trailing particles */
         if (state->countdown < 9) {
             if (state->countdown >= 5) {
                 player = D_800814A8;
-                entry_tint = 0x80E080;
+                entry_tint = TINT_FLASH_BRIGHT;
                 player->unk_98 = player->unk_98; /* +0x98 write-back: retail reads the field, the unchanged store compiles away */
                 tint_part = (TransitionRenderPart *)((ObjectNodeHeader *)player)[-1].unk_0C;
                 tint_countdown = (u16) state->countdown;
                 if (tint_countdown & 1) {
-                    entry_tint = 0x709070;
+                    entry_tint = TINT_FLASH_DIM;
                 }
                 tint_part->color.rgb = entry_tint;
             } else {
                 tint_part = (TransitionRenderPart *)((ObjectNodeHeader *)D_800814A8)[-1].unk_0C;
-                entry_tint = 0x80E080;
+                entry_tint = TINT_FLASH_BRIGHT;
                 D_800814A8->unk_98 = D_800814A8->unk_98; /* +0x98 write-back: retail reads the field, the unchanged store compiles away */
                 tint_part->color.rgb = entry_tint;
             }
         }
-        count_after_tick = (u16) state->countdown - 1;
+        count_after_tick = state->countdown - 1;
         state->countdown = count_after_tick;
         if (count_after_tick <= 0) {
             state->countdown = 0x10;
-            state->phase = (s16) ((u16) state->phase + 1);
+            state->phase++;
         }
         if (state->countdown == 0x11) {
-            particle_work.status = func_80053EF0(4);
+            particle_scratch.status = func_80053EF0(4);
             sound_request = 0x4300;
-            if (particle_work.status != 2) {
+            if (particle_scratch.status != 2) {
                 sound_request = 0x300;
             }
             func_800A56E0(sound_request);
         }
-        if ((state->countdown < 9) && ((particle_work.status = func_8003DF74(D_80082E80.resource, &D_80082E80, &state->current_x, 0)) != 0)) {
+        if ((state->countdown < 9) && ((particle_scratch.status = func_8003DF74(D_80082E80.resource, &D_80082E80, &state->current_x, 0)) != 0)) {
             if (state->countdown >= 7) {
-                particle = func_8003FC64(0x212);
-                particle_work.particle = &particle->payload;
+                particle = func_8003FC64(PARTICLE_ALLOC_ID);
+                particle_scratch.particle = &particle->payload;
                 if (particle != 0) {
-                    particle_work.particle->lifetime = 1;
+                    particle_scratch.particle->lifetime = 1;
                     particle->header.unk_10 = (void *)func_800244F0;
                     func_8004491C(particle, func_80045340);
                     render_part = (TransitionRenderPart *)particle->header.unk_0C;
-                    render_part->mode = 0x20;
-                    render_part->flags = (u16) (render_part->flags | 0xC);
+                    render_part->mode = PARTICLE_MODE_ADDITIVE;
+                    render_part->flags = (u16) (render_part->flags | PARTICLE_FLAGS_VISIBLE);
                     position = (TransitionPosition *)particle->header.unk_08;
-                    position->x.w.i = (u16) (u16) state->current_x;
-                    position->y.w.i = (u16) (u16) state->current_y;
-                    position->z.w.i = (u16) (u16) state->current_z;
+                    position->x.w.i = state->current_x;
+                    position->y.w.i = state->current_y;
+                    position->z.w.i = state->current_z;
                     position->x.w.i = (u16) (position->x.w.i + D_80083780.x.w.i);
                     position->y.w.i = (u16) (position->y.w.i + D_80083780.y.w.i);
                     position->z.w.i = (u16) (position->z.w.i + D_80083780.z.w.i);
-                    render_part->scale_y = 0xC00;
-                    render_part->scale_x = 0xC00;
+                    render_part->scale_y = PARTICLE_SCALE_BASE;
+                    render_part->scale_x = PARTICLE_SCALE_BASE;
                     render_part->color.channel.blue = 0xFF;
                     render_part->color.channel.green = 0xFF;
                     render_part->color.channel.red = 0xFF;
                     particle->payload.resource.packed = D_80025348;
                     render_part->resource = (void *)&particle->payload.resource;
-                    particle_work.particle->resource.extent.width = 0x40;
-                    particle_work.particle->resource.extent.height = 0x40;
+                    particle_scratch.particle->resource.extent.width = 0x40;
+                    particle_scratch.particle->resource.extent.height = 0x40;
                 }
-                if (!((u16)state->countdown & 1)) {
+                if (!(state->countdown & 1)) {
                     goto spawn_depth_particle;
                 }
             } else {
-                particle = func_8003FC64(0x212);
-                particle_work.particle = &particle->payload;
+                particle = func_8003FC64(PARTICLE_ALLOC_ID);
+                particle_scratch.particle = &particle->payload;
                 if (particle != 0) {
-                    particle_work.particle->lifetime = 0xC;
+                    particle_scratch.particle->lifetime = 0xC;
                     particle->header.unk_10 = (void *)func_800244F0;
                     func_8004491C(particle, func_80045340);
                     render_part = (TransitionRenderPart *)particle->header.unk_0C;
-                    render_part->mode = 0x20;
-                    render_part->flags = (u16) (render_part->flags | 0xC);
+                    render_part->mode = PARTICLE_MODE_ADDITIVE;
+                    render_part->flags = (u16) (render_part->flags | PARTICLE_FLAGS_VISIBLE);
                     position = (TransitionPosition *)particle->header.unk_08;
-                    position->x.w.i = (u16) (u16) state->current_x;
-                    position->y.w.i = (u16) (u16) state->current_y;
-                    position->z.w.i = (u16) (u16) state->current_z;
+                    position->x.w.i = state->current_x;
+                    position->y.w.i = state->current_y;
+                    position->z.w.i = state->current_z;
                     position->x.w.i = (u16) (position->x.w.i + D_80083780.x.w.i);
                     position->y.w.i = (u16) (position->y.w.i + D_80083780.y.w.i);
                     position->z.w.i = (u16) (position->z.w.i + D_80083780.z.w.i);
-                    render_part->scale_y = 0xC00;
-                    render_part->scale_x = 0xC00;
+                    render_part->scale_y = PARTICLE_SCALE_BASE;
+                    render_part->scale_x = PARTICLE_SCALE_BASE;
                     render_part->color.channel.blue = 0xFF;
                     render_part->color.channel.green = 0xFF;
                     render_part->color.channel.red = 0xFF;
                     particle->payload.resource.packed = D_80025348;
                     render_part->resource = (void *)&particle->payload.resource;
-                    particle_work.particle->resource.extent.width = 0;
-                    particle_work.particle->resource.extent.height = 0;
+                    particle_scratch.particle->resource.extent.width = 0;
+                    particle_scratch.particle->resource.extent.height = 0;
                 }
 spawn_depth_particle:
-                particle = func_8003FC64(0x212);
+                particle = func_8003FC64(PARTICLE_ALLOC_ID);
                 if (particle != 0) {
                     particle->payload.lifetime = 1;
                     particle->header.unk_10 = (void *)func_800244F0;
                     func_8004491C(particle, func_80045340);
                     render_part = (TransitionRenderPart *)particle->header.unk_0C;
-                    render_part->mode = 0x20;
+                    render_part->mode = PARTICLE_MODE_ADDITIVE;
                     render_part->depth = -4;
-                    render_part->flags = (u16) (render_part->flags | 0xC);
+                    render_part->flags = (u16) (render_part->flags | PARTICLE_FLAGS_VISIBLE);
                     position = (TransitionPosition *)particle->header.unk_08;
-                    position->x.w.i = (u16) (u16) state->current_x;
-                    position->y.w.i = (u16) (u16) state->current_y;
-                    position->z.w.i = (u16) (u16) state->current_z;
+                    position->x.w.i = state->current_x;
+                    position->y.w.i = state->current_y;
+                    position->z.w.i = state->current_z;
                     position->x.w.i = (u16) (position->x.w.i + D_80083780.x.w.i);
                     position->y.w.i = (u16) (position->y.w.i + D_80083780.y.w.i);
                     position->z.w.i = (u16) (position->z.w.i + D_80083780.z.w.i);
-                    render_part->scale_y = 0xC00;
-                    render_part->scale_x = 0xC00;
+                    render_part->scale_y = PARTICLE_SCALE_BASE;
+                    render_part->scale_x = PARTICLE_SCALE_BASE;
                     render_part->color.channel.blue = 0x80;
                     render_part->color.channel.green = 0x80;
                     render_part->color.channel.red = 0x80;
@@ -288,74 +305,74 @@ spawn_depth_particle:
                 midpoint_sum_y = state->current_y + state->previous_y;
                 state->midpoint_y = (s32)(midpoint_sum_y + (midpoint_sum_y >> 31)) >> 1;
                 state->midpoint_z = (state->current_z + state->previous_z) / 2;
-                particle = func_8003FC64(0x212);
-                particle_work.particle = &particle->payload;
+                particle = func_8003FC64(PARTICLE_ALLOC_ID);
+                particle_scratch.particle = &particle->payload;
                 if (particle != 0) {
-                    particle_work.particle->lifetime = 0xC;
+                    particle_scratch.particle->lifetime = 0xC;
                     particle->header.unk_10 = (void *)func_800244F0;
                     func_8004491C(particle, func_80045340);
                     render_part = (TransitionRenderPart *)particle->header.unk_0C;
-                    render_part->mode = 0x20;
-                    render_part->flags = (u16) (render_part->flags | 0xC);
+                    render_part->mode = PARTICLE_MODE_ADDITIVE;
+                    render_part->flags = (u16) (render_part->flags | PARTICLE_FLAGS_VISIBLE);
                     position = (TransitionPosition *)particle->header.unk_08;
-                    position->x.w.i = (u16) (u16) state->midpoint_x;
-                    position->y.w.i = (u16) (u16) state->midpoint_y;
-                    position->z.w.i = (u16) (u16) state->midpoint_z;
+                    position->x.w.i = state->midpoint_x;
+                    position->y.w.i = state->midpoint_y;
+                    position->z.w.i = state->midpoint_z;
                     position->x.w.i = (u16) (position->x.w.i + D_80083780.x.w.i);
                     position->y.w.i = (u16) (position->y.w.i + D_80083780.y.w.i);
                     position->z.w.i = (u16) (position->z.w.i + D_80083780.z.w.i);
-                    render_part->scale_y = 0xC00;
-                    render_part->scale_x = 0xC00;
+                    render_part->scale_y = PARTICLE_SCALE_BASE;
+                    render_part->scale_x = PARTICLE_SCALE_BASE;
                     render_part->color.channel.blue = 0xFF;
                     render_part->color.channel.green = 0xFF;
                     render_part->color.channel.red = 0xFF;
                     particle->payload.resource.packed = D_80025348;
                     render_part->resource = (void *)&particle->payload.resource;
-                    particle_work.particle->resource.extent.width = 0;
-                    particle_work.particle->resource.extent.height = 0;
+                    particle_scratch.particle->resource.extent.width = 0;
+                    particle_scratch.particle->resource.extent.height = 0;
                 }
             }
-            state->previous_x = (s16) (u16) state->current_x;
-            state->previous_y = (s16) (u16) state->current_y;
-            state->previous_z = (s16) (u16) state->current_z;
+            state->previous_x = state->current_x;
+            state->previous_y = state->current_y;
+            state->previous_z = state->current_z;
         }
         break;
-    case 3:
+    case PHASE_EXIT: /* tint flicker, growing particles, target highlight */
         if (state->countdown >= 7) {
             if (state->countdown < 0xD) {
                 player = D_800814A8;
-                exit_tint = 0x80E080;
+                exit_tint = TINT_FLASH_BRIGHT;
                 player->unk_98 = player->unk_98; /* +0x98 write-back: retail reads the field, the unchanged store compiles away */
                 tint_part = (TransitionRenderPart *)((ObjectNodeHeader *)player)[-1].unk_0C;
                 tint_countdown = (u16) state->countdown;
                 if (tint_countdown & 1) {
-                    exit_tint = 0x709070;
+                    exit_tint = TINT_FLASH_DIM;
                 }
                 tint_part->color.rgb = exit_tint;
             } else {
                 tint_part = (TransitionRenderPart *)((ObjectNodeHeader *)D_800814A8)[-1].unk_0C;
-                exit_tint = 0x80E080;
+                exit_tint = TINT_FLASH_BRIGHT;
                 D_800814A8->unk_98 = D_800814A8->unk_98; /* +0x98 write-back: retail reads the field, the unchanged store compiles away */
                 tint_part->color.rgb = exit_tint;
             }
         }
-        if ((state->countdown >= 0xD) && ((particle_work.status = func_8003DF74(D_80082E80.resource, &D_80082E80, &state->current_x, 0)) != 0)) {
-            particle = func_8003FC64(0x212);
-            particle_work.particle = &particle->payload;
+        if ((state->countdown >= 0xD) && ((particle_scratch.status = func_8003DF74(D_80082E80.resource, &D_80082E80, &state->current_x, 0)) != 0)) {
+            particle = func_8003FC64(PARTICLE_ALLOC_ID);
+            particle_scratch.particle = &particle->payload;
             if (particle != 0) {
-                particle_work.particle->lifetime = 0xC;
+                particle_scratch.particle->lifetime = 0xC;
                 if (state->countdown != 0xD) {
-                    particle_work.particle->lifetime = 1;
+                    particle_scratch.particle->lifetime = 1;
                 }
                 particle->header.unk_10 = (void *)func_800244F0;
                 func_8004491C(particle, func_80045340);
                 render_part = (TransitionRenderPart *)particle->header.unk_0C;
-                render_part->mode = 0x20;
-                render_part->flags = (u16) (render_part->flags | 0xC);
+                render_part->mode = PARTICLE_MODE_ADDITIVE;
+                render_part->flags = (u16) (render_part->flags | PARTICLE_FLAGS_VISIBLE);
                 position = (TransitionPosition *)particle->header.unk_08;
-                position->x.w.i = (u16) (u16) state->current_x;
-                position->y.w.i = (u16) (u16) state->current_y;
-                position->z.w.i = (u16) (u16) state->current_z;
+                position->x.w.i = state->current_x;
+                position->y.w.i = state->current_y;
+                position->z.w.i = state->current_z;
                 position->x.w.i = (u16) (position->x.w.i + D_80083780.x.w.i);
                 position->y.w.i = (u16) (position->y.w.i + D_80083780.y.w.i);
                 position->z.w.i = (u16) (position->z.w.i + D_80083780.z.w.i);
@@ -363,33 +380,33 @@ spawn_depth_particle:
                 render_part->color.channel.blue = 0xFF;
                 render_part->color.channel.green = 0xFF;
                 render_part->color.channel.red = 0xFF;
-                particle_scale = ((0x10 - scale_countdown) * 0x300) + 0xC00;
+                particle_scale = ((0x10 - scale_countdown) * 0x300) + PARTICLE_SCALE_BASE;
                 render_part->scale_y = particle_scale;
                 render_part->scale_x = particle_scale;
                 particle->payload.resource.packed = D_80025348;
                 render_part->resource = (void *)&particle->payload.resource;
-                particle_work.particle->resource.extent.width = 0x40;
-                particle_work.particle->resource.extent.height = 0x40;
+                particle_scratch.particle->resource.extent.width = 0x40;
+                particle_scratch.particle->resource.extent.height = 0x40;
             }
-            if (!((u16) state->countdown & 1)) {
-                particle = func_8003FC64(0x212);
+            if (!(state->countdown & 1)) {
+                particle = func_8003FC64(PARTICLE_ALLOC_ID);
                 if (particle != 0) {
                     particle->payload.lifetime = 1;
                     particle->header.unk_10 = (void *)func_800244F0;
                     func_8004491C(particle, func_80045340);
                     render_part = (TransitionRenderPart *)particle->header.unk_0C;
-                    render_part->mode = 0x20;
+                    render_part->mode = PARTICLE_MODE_ADDITIVE;
                     render_part->depth = -4;
-                    render_part->flags = (u16) (render_part->flags | 0xC);
+                    render_part->flags = (u16) (render_part->flags | PARTICLE_FLAGS_VISIBLE);
                     position = (TransitionPosition *)particle->header.unk_08;
-                    position->x.w.i = (u16) (u16) state->current_x;
-                    position->y.w.i = (u16) (u16) state->current_y;
-                    position->z.w.i = (u16) (u16) state->current_z;
+                    position->x.w.i = state->current_x;
+                    position->y.w.i = state->current_y;
+                    position->z.w.i = state->current_z;
                     position->x.w.i = (u16) (position->x.w.i + D_80083780.x.w.i);
                     position->y.w.i = (u16) (position->y.w.i + D_80083780.y.w.i);
                     position->z.w.i = (u16) (position->z.w.i + D_80083780.z.w.i);
-                    render_part->scale_y = 0xC00;
-                    render_part->scale_x = 0xC00;
+                    render_part->scale_y = PARTICLE_SCALE_BASE;
+                    render_part->scale_x = PARTICLE_SCALE_BASE;
                     render_part->color.channel.blue = 0x80;
                     render_part->color.channel.green = 0x80;
                     render_part->color.channel.red = 0x80;
@@ -404,28 +421,28 @@ spawn_depth_particle:
             tint_part = (TransitionRenderPart *)((ObjectNodeHeader *)target)[-1].unk_0C;
             target_tint = 0;
             if (transition_flags->flags & 1) {
-                target_tint = 0x80FF80;
+                target_tint = TINT_TARGET_HIGHLIGHT;
             }
             tint_part->color.rgb = target_tint;
         }
-        if ((D_80082E94 & 0x8000) || (remaining = (u16) state->countdown - 1, state->countdown = remaining, (remaining < 0))) {
-            state->phase = 4;
+        if ((D_80082E94 & 0x8000) || (remaining = state->countdown - 1, state->countdown = remaining, (remaining < 0))) {
+            state->phase = PHASE_FINISH;
         }
         break;
-    case 4:
+    case PHASE_FINISH: /* restore tints and release the transition */
         if (D_80025384 == 0) {
             target = D_800814A8->target;
             if (target != 0) {
                 target->flags1C = (s32) (target->flags1C & 0xEFFFFFFF);
                 tint_part = (TransitionRenderPart *)((ObjectNodeHeader *)target)[-1].unk_0C;
-                tint_part->color.rgb = 0x808080;
+                tint_part->color.rgb = TINT_NEUTRAL;
             }
             dungeonStatus.unk_0C = 0;
             D_80082E80.phase = 0;
             dungeonStatus.unk_0A = (u16) (dungeonStatus.unk_0A - 1);
             tint_part = (TransitionRenderPart *)((ObjectNodeHeader *)D_800814A8)[-1].unk_0C;
             D_800814A8->unk_98 = D_800814A8->unk_98; /* +0x98 write-back: retail reads the field, the unchanged store compiles away */
-            tint_part->color.rgb = 0x808080;
+            tint_part->color.rgb = TINT_NEUTRAL;
             ((ObjectNodeHeader *)state)[-1].flags = (u16) (((ObjectNodeHeader *)state)[-1].flags | 0x8000);
             objectFlagBlock.flags |= 0x8000;
         } else {
@@ -434,8 +451,8 @@ spawn_depth_particle:
         break;
     }
     /* Alternate palette uploads once the transition is active. */
-    if ((state->phase >= 2) && ((s16) (u16) state->ticks >= 0xC)) {
-        if (!((u16) state->countdown & 1)) {
+    if ((state->phase >= 2) && (state->ticks >= 0xC)) {
+        if (!(state->countdown & 1)) {
             first_palette = &D_8002536C;
             upload_value = 0;
             first_palette->low_r = upload_value;
@@ -455,8 +472,8 @@ spawn_depth_particle:
         first_palette->high_b = upload_value;
         upload_rect = (RectWords){0x01400380, 0x00400040};
         func_800B835C(&D_8002536C, &upload_rect, 1, 0);
-        if ((s16) (u16) state->ticks >= 0xF) {
-            if (!((u16) state->countdown & 1)) {
+        if (state->ticks >= 0xF) {
+            if (!(state->countdown & 1)) {
                 D_8002536C.low_r = 0;
                 D_8002536C.low_g = 0;
                 D_8002536C.low_b = 0;
