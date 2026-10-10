@@ -1,3 +1,19 @@
+# Handover (2026-10-10 ~10:45Z, round 112 cont.) - START HERE
+Landed since 07:45: dfdd82267 GAP B 81994D8C -> L3; 0d8b3124e ALIGNMENT 819059A0 + 80289BD4 off -fno-schedule-insns (Opus
+duck: work/native_lane/_r112/sched1_boost.md levers; decision 41 WITHDRAWN 7d9aa13f0 - owner: no impossibility verdicts,
+per-row flags/late cells are alignment targets, do these FIRST); f97fcb018 27 recerts (any rows.jsonl/splits change voids
+ALL certs - certify each module with ITS recorded reviewer, config/overlays/modules.json review.reviewer); hard basket +
+8180B064, 819613A8 (Fable: schedule solved, local-alloc order left). FA7000 residuals SOLVED by Sonnet
+(work/native_lane/r112_sonnet_fa7/out) -> FA7000 module lane; 1924800 residual solved by alignment -> module lane;
+bank 65 module lane. BFM-decomp review: _r112/bfm_review.md. Alignment queue: _r112/alignment.md.
+QUEUED LANDING: _r112/plan_r112.json (heads 15->13 + native kinds + 192a800/1918800/19de800/7ce800 -> debt 9), preflight
+PASS; a session watcher lands it live when no codex/pool runs (log _r112/land_r112.log). If the session ended, run:
+python3 tools/lanes/land_packages.py --root . --plan work/native_lane/_r112/plan_r112.json --live --log ... then
+certify the 4 new modules (reviewer orchestrator-r112).
+Running: pool r112b (alignment: cseskip, sched2, late, late2; -c 2; _r112/pool_r112b.log); r112_sol61_hb extension
+(81844F2C dist 4 + BFM param-copy angle). Their cells.jsonl -> tools/lanes/land_coherence.sh AFTER the queued landing,
+then re-certify all modules.
+
 # Handover (2026-10-10 ~07:45Z, round 112: INTEG LANDED) - START HERE
 
 ## State
