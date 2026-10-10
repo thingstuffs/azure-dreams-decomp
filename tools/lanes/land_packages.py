@@ -2,7 +2,7 @@
 """Land reviewed packages as one fail-closed transaction.
 
 Usage: python3 tools/lanes/land_packages.py --root REPO --plan PLAN.json
-       [--scratch | --live] [--no-commit] [--prepare-only] [--log LOG]
+       [--scratch | --live] [--preflight] [--no-commit] [--prepare-only] [--log LOG]
 
 A JSON (or YAML with PyYAML) plan has version=1, reviewer, commit_message,
 patches=[{file, strip:1, files:{path:{before:SHA_OR_NULL,after:SHA}}}],
@@ -34,6 +34,7 @@ It is NEVER a successful landing; --no-commit runs every proof without committin
 """
 import argparse
 from collections import Counter
+import contextlib
 import fcntl
 import hashlib
 import json
@@ -57,6 +58,10 @@ REVIEW_FILES = ('ledger/splits/dungeon.jsonl', 'ledger/splits/town.jsonl',
                'config/overlays/dungeon.rowbase.jsonl', 'config/overlays/town.rowbase.jsonl',
                'config/overlays/dungeon.rodata_owners.jsonl',
                'config/overlays/town.rodata_owners.jsonl', 'ledger/modules.jsonl')
+
+# Exact patterns from the repository scrub hook, split to keep this tool clean.
+SCRUB_PATTERNS = ('/'+'home/', 'azure-'+'decomp', 'azure-'+'cleanup',
+                  'claude.ai'+'/code', 'david'+'.john')
 
 class Stop(RuntimeError): pass
 
@@ -202,7 +207,9 @@ class Lander:
         secs=round(time.monotonic()-start,3)
         self.results.append({'step':step,'seconds':secs,'rc':rc,'log':str(dest)})
         self.event(step,result='PASS' if rc==0 else 'FAIL',seconds=secs,rc=rc)
-        if rc: raise Stop(step+' failed; see '+str(dest))
+        if rc:
+            detail=self.graph_diagnostics() if step in ('graph','fast-graph') else ''
+            raise Stop(step+' failed'+('; '+detail if detail else '')+'; see '+str(dest))
         return dest,secs
     def kill_child(self):
         if self.child is not None:
@@ -341,6 +348,53 @@ class Lander:
         # row_db export's canonical mirror is temporary; it must never be staged.
         remove(self.root/'overlays')
         self.event('invariants',rows_without_window=0,census_unchanged=now==self.census,gate_all=self.force_all,split_changes=sorted(p for p in changed if p.startswith('ledger/splits/')))
+    def graph_diagnostics(self):
+        """Explain a failed authoritative graph without changing its decision."""
+        try:
+            path=self.root/'config/overlays/modules.json'
+            if not path.exists():return ''
+            levels={x['id']:x for x in records(self.root/'ledger/levels.jsonl')}
+            reg={x['id']:x for x in records(self.root/'ledger/rows.jsonl')}
+            assignments=records(self.root/'ledger/modules.jsonl');bad=[]
+            for m in json.loads(path.read_text())['modules']:
+                if not m.get('membership_evidence'):continue
+                ev=json.loads(safe(self.root,m['membership_evidence']).read_text())
+                group=ev['ledger_group']
+                actual={x['id'] for x in assignments if all(x.get(k)==v for k,v in group.items())}
+                expected={a['id'] for a in m['members']}
+                if actual!=expected:
+                    bad.append(m['key']+' cohort members='+','.join(sorted(actual^expected)))
+                for a in m['members']:
+                    rid=a['id'];level=levels.get(rid);r=reg.get(rid)
+                    if level is None or r is None:
+                        bad.append(m['key']+' member='+rid+' missing registry/level');continue
+                    if level['level']<3 or level['pins_left'] or level['tail_jumps'] or set(level['l4_residue'])-{'not_in_module'}:
+                        bad.append(m['key']+' member='+rid+' L3/placement screen failed '+json.dumps({k:level[k] for k in ('level','pins_left','tail_jumps','l4_residue')},sort_keys=True))
+                    if any(a[k]!=r[k] for k in ('foff','size')):
+                        bad.append(m['key']+' member='+rid+' identity differs')
+            return '; '.join(bad) if bad else ''
+        except (OSError,ValueError,KeyError,TypeError) as e:
+            return 'graph diagnostic unavailable: '+str(e)
+    def scrub(self):
+        # Include every changed tracked path, plus files the commit would add.
+        dirty=set(names(git(self.root,'diff','--name-only','-z','HEAD')))
+        dirty.update(names(git(self.root,'ls-files','--others','--exclude-standard','-z')))
+        failures=[];checked=0
+        for rel in sorted(dirty):
+            if rel in self.bookkeeping or rel.split('/')[0] in ('raw','src') or any(rel==g or rel.startswith(g+'/') for g in GENERATED):continue
+            p=safe(self.root,rel)
+            if not p.is_file():continue
+            data=p.read_bytes();checked+=1
+            for pattern in SCRUB_PATTERNS:
+                if pattern.encode() in data:failures.append({'file':rel,'pattern':pattern})
+        self.event('scrub',result='FAIL' if failures else 'PASS',checked=checked,failures=failures)
+        if failures:raise Stop('scrub hook patterns: '+json.dumps(failures,sort_keys=True))
+    def fast_front(self):
+        self.run('fast-levels',[sys.executable,'tools/levels.py'])
+        self.run('fast-graph',[sys.executable,'tools/gate/overlay_module_gate.py','--root',str(self.root),'--graph'])
+        self.run('fast-status',[sys.executable,'tools/status.py'])
+        self.scrub()
+        self.event('FAST_FRONT_PASS',message='accounting/graph/status/scrub only; proofs still required')
     def certificates(self):
         out={}
         for p in sorted((self.root/'ledger/modules').glob('overlay_*.json')):
@@ -391,6 +445,7 @@ class Lander:
         self.event('accounting',L5_before=self.before_l5,L5_after=after,carve_debt=debt)
         # Recheck after all proofs, including tests and certificates.
         self.regenerate()
+        self.scrub()
     def preserve_diagnostics(self):
         candidates=[]
         for rel in ['build_ovl_gate/work/s3_splat','build_ovl_gate/work/module_proofs','build_slus']:
@@ -421,12 +476,72 @@ def load_plan(path):
     if not isinstance(plan,dict):raise Stop('plan must be an object')
     return plan
 
+@contextlib.contextmanager
+def stop_signals():
+    def interrupted(signum, frame):raise Stop('interrupted by signal '+str(signum))
+    previous={sig:signal.signal(sig,interrupted) for sig in (signal.SIGINT,signal.SIGTERM)}
+    try:yield
+    finally:
+        for sig,handler in previous.items():signal.signal(sig,handler)
+
+
+def copy_preflight_inputs(source, target):
+    """No build/proof directories: share read-only tools; COPY container bytes."""
+    for rel in ('toolchain','.venv','baserom'):
+        src=source/rel;dst=target/rel
+        if src.exists() and not dst.exists():dst.symlink_to(src.resolve(),target_is_directory=True)
+    base=source/'work/disc/containers'
+    if base.exists():
+        dest=target/'work/disc/containers';dest.mkdir(parents=True,exist_ok=True)
+        for src in base.iterdir():
+            if src.is_file():shutil.copy2(src,dest/src.name,follow_symlinks=True)
+    (target/'tmp').mkdir(exist_ok=True)
+    common=Path(git(target,'rev-parse','--path-format=absolute','--git-common-dir').decode().strip())
+    exclude=common/'info/exclude';exclude.parent.mkdir(parents=True,exist_ok=True)
+    with exclude.open('a') as f:f.write('\n/toolchain\n/.venv\n/baserom\n/tmp/\n/work/\n')
+
+def plan_preflight(root, plan_path, log=None):
+    # Clone owns its git metadata. worktree add/remove never uses source .git.
+    # This leaves canonical HEAD/index/worktree/locks untouched while lanes run.
+    log=(log or Path(tempfile.gettempdir())/('preflight-'+str(time.time_ns())+'.jsonl')).resolve()
+    if log.is_relative_to(root):raise Stop('preflight log must be outside the source checkout')
+    log.parent.mkdir(parents=True,exist_ok=True)
+    land=None
+    with tempfile.TemporaryDirectory(prefix='plan_preflight-',dir=log.parent) as temp:
+        base=Path(temp);seed=base/'seed';view=base/'tree'
+        try:
+            subprocess.run(['git','clone','--shared','--no-checkout','--',str(root),str(seed)],check=True,capture_output=True)
+            commit=git(seed,'rev-parse','HEAD').decode().strip()
+            git(seed,'worktree','add','--detach',str(view),commit)
+            copy_preflight_inputs(root,view)
+            plan=load_plan(plan_path);plan['commit']=False
+            land=Lander(view,plan,plan_path.parent,log,scratch=True)
+            land.event('disposable-worktree',head=commit,source=str(root))
+            land.preflight()
+            land.env['TMPDIR']=str(view/'tmp')
+            land.mutate();land.normalise_review();land.regenerate();land.fast_front()
+            if git(root,'rev-parse','HEAD').decode().strip()!=commit:raise Stop('source HEAD changed during preflight; rerun')
+            land.event('PREFLIGHT_PASS',head=commit,message='no SLUS/gates/certification/commit; no landing authority')
+            return 0
+        except BaseException as e:
+            if land:
+                land.kill_child();land.event('STOP',error=str(e),rollback='disposable worktree removed')
+            else:print('STOP: '+str(e),file=sys.stderr)
+            return 1
+        finally:
+            if seed.exists() and view.exists():
+                git(seed,'worktree','remove','--force',str(view))
+
+
 def main(argv=None):
     ap=argparse.ArgumentParser(description=__doc__,formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--root',required=True,type=Path);ap.add_argument('--plan',required=True,type=Path)
     mode=ap.add_mutually_exclusive_group();mode.add_argument('--scratch',action='store_true');mode.add_argument('--live',action='store_true')
-    ap.add_argument('--no-commit',action='store_true');ap.add_argument('--prepare-only',action='store_true');ap.add_argument('--log',type=Path)
+    ap.add_argument('--preflight',action='store_true',help='replay the plan at HEAD in a disposable worktree; no builds or proofs');ap.add_argument('--no-commit',action='store_true');ap.add_argument('--prepare-only',action='store_true');ap.add_argument('--log',type=Path)
     args=ap.parse_args(argv);root=args.root.resolve();plan_path=args.plan.resolve()
+    if args.preflight:
+        if args.live or args.prepare_only:ap.error('--preflight cannot combine with --live or --prepare-only')
+        with stop_signals():return plan_preflight(root,plan_path,args.log)
     if root==LIVE and not args.live:ap.error('canonical live root requires --live')
     if args.prepare_only and root==LIVE:ap.error('prepare-only is scratch-only')
     gitdir=Path(git(root,'rev-parse','--absolute-git-dir').decode().strip())
@@ -447,7 +562,7 @@ def main(argv=None):
             transaction=Path(tempfile.mkdtemp(prefix='land_transaction-',dir=gitdir))
             snapshot=Snapshot(root,transaction);snapshot.quarantine()
             land.env['TMPDIR']=str(transaction/'tmp');(transaction/'tmp').mkdir()
-            land.mutate();land.normalise_review();land.regenerate()
+            land.mutate();land.normalise_review();land.regenerate();land.fast_front()
             if args.prepare_only:
                 land.event('PREVIEW_INCOMPLETE',message='applied inputs only; no gates/certification/commit')
             else:
