@@ -15022,7 +15022,7 @@
     {
       "source": "src/dungeon/func_8028B994.c",
       "recipe": {
-        "cfg": "2.7.2-cdk-G0 -fno-cse-skip-blocks",
+        "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
       },
       "rows": [
@@ -61042,7 +61042,7 @@
     {
       "source": "src/town/func_808135E0.c",
       "recipe": {
-        "cfg": "2.7.2-G0 -fno-cse-skip-blocks",
+        "cfg": "2.6.3-G0",
         "row_asflags": ""
       },
       "rows": [

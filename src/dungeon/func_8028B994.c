@@ -37,7 +37,7 @@ void func_8001E994(void)
             if ((item_flags & 0x40) && *(s32 *)0x80012090 != 2) {
                 continue;
             }
-            weight_bits = D_80073414[category_index].entries[item_index].flags & 0x3000;
+            weight_bits = ((DungeonGroup *)((u8 *)D_80073414 + (((category_index << 3) + (category_index << 1)) << 1)))->entries[item_index].flags & 0x3000;
             weight_kind = (weight_bits / 0x1000) & 3;
             item_weight = 0x80;
             if (weight_kind != 0) {
