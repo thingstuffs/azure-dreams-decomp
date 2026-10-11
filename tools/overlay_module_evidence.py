@@ -3,7 +3,7 @@ import hashlib,json,sys,subprocess
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'tools/gate'))
-from overlay_module_gate import SCHEMA,CONTAINERS,affected_windows,fingerprint,graph,load_modules,local,sha,closure,payload_spec,genuine_flags
+from overlay_module_gate import SCHEMA,CONTAINERS,affected_windows,fingerprint,graph,load_modules,local,sha,closure,payload_spec,genuine_flags,all_members,module_first,module_size
 import overlay_native_rodata as N
 
 def proof_path(root,name):
@@ -12,7 +12,7 @@ def proof_path(root,name):
  return p
 
 def receipt_reason(m,r,root,proof_dir):
- ids=[a['id'] for a in m['members']];funcs=[a['function'] for a in m['members']];n=sum(a['size'] for a in m['members']);first=m['members'][0]
+ ids=[a['id'] for a in all_members(m)];funcs=[a['function'] for a in m['members']];n=module_size(m);first=module_first(m)
  if r.get('schema')!=SCHEMA or r.get('module')!=m['key'] or r.get('members')!=ids or r.get('candidates')!={}:return 'not canonical complete TU'
  ph=r.get('physical',{});payload=ph.get('payload',[])
  if (ph.get('compile_edges')!=1 or ph.get('functions')!=funcs or ph.get('owned_data')!=m['owned_data'] or ph.get('imports')!=m['imports']
@@ -42,7 +42,7 @@ def receipt_reason(m,r,root,proof_dir):
 def certificate_reason(m,cert,root=ROOT):
  root=Path(root).absolute()
  if any(m['review'].get(k)!='reviewed' for k in ['membership','types','ownership']) or not m['review'].get('reviewer'):return 'membership/type/ownership review incomplete'
- if cert.get('schema')!=SCHEMA or cert.get('kind')!='overlay_module_placement' or cert.get('module')!=m['key'] or cert.get('members')!=[a['id'] for a in m['members']]:return 'wrong certificate identity'
+ if cert.get('schema')!=SCHEMA or cert.get('kind')!='overlay_module_placement' or cert.get('module')!=m['key'] or cert.get('members')!=[a['id'] for a in all_members(m)]:return 'wrong certificate identity'
  if json.loads((root/'ledger/splits/overlay_modules.build.json').read_text())!=graph(root):return 'physical graph differs from registry/cohorts'
  current=fingerprint(m,root)
  if cert.get('fingerprint')!=current:return 'source/recipe/graph/tool/review/window inputs changed'
@@ -65,7 +65,7 @@ def certificate_reason(m,cert,root=ROOT):
   with (root/'work/disc/containers'/CONTAINERS[m['container']]).open('rb') as f:f.seek(fs);ret=f.read(fe-fs)
   if data!=ret or len(data)!=fe-fs:return 'window does not equal retail'
   projection=json.loads((wp/'projection.json').read_text());manifest=json.loads((wp/'manifest.json').read_text())
-  selected=[a for a in m['members'] if fs<a['foff']+a['size'] and a['foff']<fe]
+  selected=[a for a in all_members(m) if fs<a['foff']+a['size'] and a['foff']<fe]
   if projection.get('projected_rows')!=[a['id'] for a in selected] or projection.get('fingerprint')!=current['sha256']:return 'window module projection incomplete or stale'
   wr=json.loads((wp/'module/receipt.json').read_text())
   if wr.get('fingerprint')!=current:return 'window module build stale'
@@ -89,7 +89,7 @@ def module_status(root=ROOT):
  return out
 
 def valid_placements(root=ROOT):
- return {a['id']:{'outcome':'applied','module':e['module']['key'],'module_fingerprint':e['certificate']['fingerprint']['sha256']} for e in module_status(root) if e['valid'] for a in e['module']['members']}
+ return {a['id']:{'outcome':'applied','module':e['module']['key'],'module_fingerprint':e['certificate']['fingerprint']['sha256']} for e in module_status(root) if e['valid'] for a in all_members(e['module'])}
 
 
 def source_contexts(root=ROOT):
@@ -102,8 +102,8 @@ def source_contexts(root=ROOT):
  root=Path(root).absolute();out={}
  base=closure(root,['include/common.h','include/m2c_compat.h'])
  for m in load_modules(root):
-  member_sources={a['source'] for a in m['members']}
+  member_sources={a['source'] for a in all_members(m)}
   names=closure(root,[m['source'],*m['headers']])-base-member_sources
   context='\n'.join((root/name).read_text() for name in sorted(names))
-  for a in m['members']:out[a['id']]=context
+  for a in all_members(m):out[a['id']]=context
  return out

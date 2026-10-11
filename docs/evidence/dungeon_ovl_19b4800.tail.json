@@ -1,0 +1,325 @@
+{
+  "module": "dungeon_ovl_19b4800",
+  "bank": {
+    "file_start": "0x19b4800",
+    "file_end": "0x19ba800",
+    "bytes": 24576,
+    "sha256": "468b05ca12ac04c9637b4c065d0aad9b93d89b2264d8a5e3a7bcd4e048ffecf4"
+  },
+  "segments": [
+    {
+      "start": "0x19b5b30",
+      "end": "0x19b5b6c",
+      "classification": "initialized render resource records (five twelve-byte records)",
+      "references": {
+        "0x80025384": [
+          {
+            "assembly_line": 75,
+            "instruction": "lui\t$5,%hi(D_80025384) # high"
+          },
+          {
+            "assembly_line": 77,
+            "instruction": "sh\t$2,%lo(D_80025384)($5)"
+          },
+          {
+            "assembly_line": 171,
+            "instruction": "lui\t$3,%hi(D_80025384) # high"
+          },
+          {
+            "assembly_line": 194,
+            "instruction": "lui\t$3,%hi(D_80025384) # high"
+          },
+          {
+            "assembly_line": 197,
+            "instruction": "sh\t$2,%lo(D_80025384)($3)"
+          },
+          {
+            "assembly_line": 475,
+            "instruction": "lui\t$4,%hi(D_80025384) # high"
+          },
+          {
+            "assembly_line": 478,
+            "instruction": "sh\t$3,%lo(D_80025384)($4)"
+          },
+          {
+            "assembly_line": 604,
+            "instruction": "lui\t$4,%hi(D_80025384) # high"
+          },
+          {
+            "assembly_line": 607,
+            "instruction": "sh\t$3,%lo(D_80025384)($4)"
+          },
+          {
+            "assembly_line": 1562,
+            "instruction": "lui\t$3,%hi(D_80025384) # high"
+          },
+          {
+            "assembly_line": 1563,
+            "instruction": "lh\t$2,%lo(D_80025384)($3)"
+          },
+          {
+            "assembly_line": 1621,
+            "instruction": "sh\t$0,%lo(D_80025384)($3)"
+          }
+        ],
+        "0x8002533c": [
+          {
+            "assembly_line": 320,
+            "instruction": "lui\t$2,%hi(D_8002533C) # high"
+          },
+          {
+            "assembly_line": 321,
+            "instruction": "addiu\t$6,$2,%lo(D_8002533C)"
+          },
+          {
+            "assembly_line": 438,
+            "instruction": "lui\t$2,%hi(D_8002533C) # high"
+          },
+          {
+            "assembly_line": 444,
+            "instruction": "addiu\t$6,$2,%lo(D_8002533C)"
+          }
+        ],
+        "0x8002536c": [
+          {
+            "assembly_line": 576,
+            "instruction": "lui\t$4,%hi(D_8002536C) # high"
+          },
+          {
+            "assembly_line": 577,
+            "instruction": "addiu\t$4,$4,%lo(D_8002536C) # low"
+          },
+          {
+            "assembly_line": 1637,
+            "instruction": "lui\t$2,%hi(D_8002536C) # high"
+          },
+          {
+            "assembly_line": 1641,
+            "instruction": "addiu\t$2,$2,%lo(D_8002536C) # low"
+          },
+          {
+            "assembly_line": 1653,
+            "instruction": "addiu\t$2,$2,%lo(D_8002536C) # low"
+          },
+          {
+            "assembly_line": 1667,
+            "instruction": "lui\t$2,%hi(D_8002536C) # high"
+          },
+          {
+            "assembly_line": 1668,
+            "instruction": "addiu\t$16,$2,%lo(D_8002536C) # low"
+          },
+          {
+            "assembly_line": 1719,
+            "instruction": "lui\t$4,%hi(D_8002536C) # high"
+          },
+          {
+            "assembly_line": 1720,
+            "instruction": "addiu\t$4,$4,%lo(D_8002536C) # low"
+          }
+        ],
+        "0x80025330": [
+          {
+            "assembly_line": 582,
+            "instruction": "lui\t$2,%hi(D_80025330) # high"
+          },
+          {
+            "assembly_line": 584,
+            "instruction": "addiu\t$2,$2,%lo(D_80025330) # low"
+          }
+        ],
+        "0x80025348": [
+          {
+            "assembly_line": 893,
+            "instruction": "lui\t$2,%hi(D_80025348) # high"
+          },
+          {
+            "assembly_line": 894,
+            "instruction": "addiu\t$6,$2,%lo(D_80025348)"
+          },
+          {
+            "assembly_line": 987,
+            "instruction": "lui\t$2,%hi(D_80025348) # high"
+          },
+          {
+            "assembly_line": 988,
+            "instruction": "addiu\t$6,$2,%lo(D_80025348)"
+          },
+          {
+            "assembly_line": 1189,
+            "instruction": "lui\t$2,%hi(D_80025348) # high"
+          },
+          {
+            "assembly_line": 1190,
+            "instruction": "addiu\t$6,$2,%lo(D_80025348)"
+          },
+          {
+            "assembly_line": 1383,
+            "instruction": "lui\t$2,%hi(D_80025348) # high"
+          },
+          {
+            "assembly_line": 1384,
+            "instruction": "addiu\t$6,$2,%lo(D_80025348)"
+          }
+        ],
+        "0x80025360": [
+          {
+            "assembly_line": 1074,
+            "instruction": "lui\t$2,%hi(D_80025360) # high"
+          },
+          {
+            "assembly_line": 1075,
+            "instruction": "addiu\t$6,$2,%lo(D_80025360)"
+          },
+          {
+            "assembly_line": 1481,
+            "instruction": "lui\t$2,%hi(D_80025360) # high"
+          },
+          {
+            "assembly_line": 1482,
+            "instruction": "addiu\t$6,$2,%lo(D_80025360)"
+          }
+        ]
+      }
+    },
+    {
+      "start": "0x19b5b6c",
+      "end": "0x19b5b84",
+      "classification": "mutable palette control, 24 bytes",
+      "initialized_bytes": "c02ee0e01a00ca7d40c0404010102000ffffff0000000000"
+    },
+    {
+      "start": "0x19b5b84",
+      "end": "0x19b5b86",
+      "classification": "mutable effect handshake flag, signed halfword",
+      "initialized_bytes": "0000"
+    },
+    {
+      "start": "0x19b5b86",
+      "end": "0x19ba800",
+      "classification": "repeated high-entropy image fill; no callable or historical code parent established",
+      "bytes": 19578,
+      "entropy_bits_per_byte": 7.990256770588061,
+      "unique_byte_values": 256,
+      "reserved_R3000_primary_opcodes": 1825,
+      "reserved_opcode_examples": [
+        {
+          "offset": "0x138c",
+          "word": "0x7943c923"
+        },
+        {
+          "offset": "0x1390",
+          "word": "0x7867daeb"
+        },
+        {
+          "offset": "0x1394",
+          "word": "0xc21dccef"
+        },
+        {
+          "offset": "0x139c",
+          "word": "0x5fefc896"
+        },
+        {
+          "offset": "0x13a4",
+          "word": "0x79f64f01"
+        },
+        {
+          "offset": "0x13b0",
+          "word": "0xfdbe436f"
+        },
+        {
+          "offset": "0x13b8",
+          "word": "0x78535ea5"
+        },
+        {
+          "offset": "0x13c0",
+          "word": "0x58a8e0dc"
+        },
+        {
+          "offset": "0x13d0",
+          "word": "0x6b97b65e"
+        },
+        {
+          "offset": "0x13d4",
+          "word": "0x5ba60ef0"
+        },
+        {
+          "offset": "0x13d8",
+          "word": "0xc23d7d8d"
+        },
+        {
+          "offset": "0x13e8",
+          "word": "0x5b648349"
+        }
+      ]
+    }
+  ],
+  "tail_stack_frame_candidates": [],
+  "tail_jr_ra_words": [],
+  "inbound_direct_calls_or_jumps": [],
+  "review": "pending",
+  "reviewer": null,
+  "extent_decision": "Native TU ends at 0x19B5B30; resource and palette tail are evidenced external asset views. The remaining 19,578 bytes are repeated opaque fill with five complete byte-equality receipts in other normal bank images, retained externally without native allocation/code-row ownership. Decision 33 stale-code residue is not asserted because no historical callable parent is identified.",
+  "repeated_fill_receipts": [
+    {
+      "selector": 61,
+      "bank_start": "0x199c800",
+      "file_start": "0x199d87c",
+      "file_end": "0x19a24f6",
+      "image_offset": "0x107c",
+      "bytes": 19578,
+      "sha256": "fe70cdd88ece6c4d89060e57b4d48a95d7196471a43879d075aaba09c4dc1b21",
+      "entire_span_byte_equal": true,
+      "known_native_module": "dungeon_ovl_199c800",
+      "native_end": "0x199d87c"
+    },
+    {
+      "selector": 63,
+      "bank_start": "0x19a8800",
+      "file_start": "0x19a9aa4",
+      "file_end": "0x19ae71e",
+      "image_offset": "0x12a4",
+      "bytes": 19578,
+      "sha256": "fe70cdd88ece6c4d89060e57b4d48a95d7196471a43879d075aaba09c4dc1b21",
+      "entire_span_byte_equal": true,
+      "known_native_module": "dungeon_ovl_19a8800",
+      "native_end": "0x19a9558"
+    },
+    {
+      "selector": 64,
+      "bank_start": "0x19ae800",
+      "file_start": "0x19ae800",
+      "file_end": "0x19b347a",
+      "image_offset": "0x0",
+      "bytes": 19578,
+      "sha256": "fe70cdd88ece6c4d89060e57b4d48a95d7196471a43879d075aaba09c4dc1b21",
+      "entire_span_byte_equal": true,
+      "known_native_module": null,
+      "native_end": null
+    },
+    {
+      "selector": 66,
+      "bank_start": "0x19ba800",
+      "file_start": "0x19bb2e8",
+      "file_end": "0x19bff62",
+      "image_offset": "0xae8",
+      "bytes": 19578,
+      "sha256": "fe70cdd88ece6c4d89060e57b4d48a95d7196471a43879d075aaba09c4dc1b21",
+      "entire_span_byte_equal": true,
+      "known_native_module": "dungeon_ovl_19ba800",
+      "native_end": "0x19baf84"
+    },
+    {
+      "selector": 68,
+      "bank_start": "0x19c6800",
+      "file_start": "0x19c7854",
+      "file_end": "0x19cc4ce",
+      "image_offset": "0x1054",
+      "bytes": 19578,
+      "sha256": "fe70cdd88ece6c4d89060e57b4d48a95d7196471a43879d075aaba09c4dc1b21",
+      "entire_span_byte_equal": true,
+      "known_native_module": "dungeon_ovl_19c6800",
+      "native_end": "0x19c7854"
+    }
+  ]
+}

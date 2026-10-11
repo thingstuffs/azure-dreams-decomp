@@ -1,22 +1,62 @@
+#include "common.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
+#include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "shared/entity.h"
 
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-typedef short s16;
-typedef unsigned int u32;
-typedef int s32;
-typedef struct
-{
-    u8 pad0[0xC];
+typedef struct ActionState {
+    u8 pad_00[0x8C];
+    s32 handler;
+    u8 pad_90[2];
+    union { s16 signedValue; u16 unsignedValue; } heightOffset;
+    u8 pad_94[4];
     u16 flags;
-    u8 padE[6];
-}
-DungeonRecord;
-typedef void (*DungeonCallback)(void *, void *, void *, void *);
+    u8 action;
+    u8 phase;
+    u8 pad_9C[0xA];
+    union { s16 signedValue; u16 unsignedValue; } motionOffset;
+    void *target;
+    u8 pad_AC[6];
+    s16 motionTicks;
+} ActionState;
+
+typedef struct ActorSprite {
+    u8 pad_00[5];
+    u8 frameTick;
+    u8 pad_06[0xE];
+    u16 flags;
+    u8 pad_16[0xE];
+    union {
+        struct { u8 x, y; } tile;
+        u16 packed;
+    } position;
+    u8 room;
+    u8 pad_27[5];
+    void *directionFrames;
+} ActorSprite;
+
+typedef struct CreatureState {
+    u8 pad_00[0x1C];
+    u32 flags;
+    u8 pad_20[5];
+    u8 tileY;
+    u8 pad_26[4];
+    s16 facing;
+    u8 pad_2C[0x1A];
+    u16 action;
+    u8 pad_48[0x1C];
+    s16 reaction;
+    u8 pad_66[7];
+    s8 actionsLeft;
+} CreatureState;
+
+typedef struct TargetKind {
+    u8 pad_00[0x13];
+    u8 kind;
+} TargetKind;
+
 extern void func_80047784(void *, s32, s32);
 extern s32 func_8009A180(void *, void *);
 extern s8 func_8009FB34(s32, s32);
@@ -45,40 +85,38 @@ extern u8 D_80150890[];
 extern u8 D_801508C8;
 extern u8 D_801508D8[];
 extern u8 D_801508E0[];
-extern DungeonRecord D_800E2970[];
-void func_8014D058(void *, void *, void *, void *);
+void func_8014D058(ActionState *, void *, ActorSprite *, CreatureState *);
 /* Update creature animation and dispatch its dungeon action. */
-void func_8014D058(void *actor, void *context, void *sprite_arg, void *creature)
+void func_8014D058(ActionState *actor, void *context, ActorSprite *sprite_arg, CreatureState *creature)
 {
     s32 direction_aux;
     s8 room_id;
     u16 action;
-    void *sprite;
+    ActorSprite *sprite;
     u32 dungeon_flags = dungeonStatus.flags;
     if (dungeon_flags & 0x1000) {
-        *((u8 *) (((u8 *) actor) + 0x9A)) = 0xE;
+        actor->action = 0xE;
         func_8014D5F0(actor, context, sprite_arg, creature);
         return;
     }
-    if ((*((u8 *) (((u8 *) creature) + 0x25))) == 0) {
+    if ((creature->tileY) == 0) {
         void *anim_table;
         func_800AA79C(actor, context, sprite_arg, creature);
-        if ((*((void **) (((u8 *) sprite_arg) + 0x2C))) == D_801508E0) {
+        if ((sprite_arg->directionFrames) == D_801508E0) {
             return;
         }
         anim_table = D_801508D8;
-        *((void **) (((u8 *) sprite_arg) + 0x2C)) = anim_table;
-        func_80047784(sprite_arg, ((u8 *) anim_table)[(((gameWork.view.viewAngle + (*((s16 *) (((u8 *) creature)
-            + 0x2A)))) + 0x100) >> 9) & 7], 0);
+        sprite_arg->directionFrames = anim_table;
+        func_80047784(sprite_arg, ((u8 *) anim_table)[(((gameWork.view.viewAngle + (creature->facing)) + 0x100) >> 9) & 7], 0);
         return;
     }
     sprite = sprite_arg;
-    if ((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x200) {
-        if ((*((void **) (((u8 *) sprite) + 0x2C))) == D_801508E0) {
-            *((u8 *) (((u8 *) actor) + 0x9A)) = 0xD;
-            *((u8 *) (((u8 *) actor) + 0x9B)) = 1;
-            *((s32 *) (((u8 *) actor) + 0x8C)) = 0;
-            *((u32 *) (((u8 *) creature) + 0x1C)) &= 0xFFFBFFFF;
+    if ((creature->flags) & 0x200) {
+        if ((sprite->directionFrames) == D_801508E0) {
+            actor->action = 0xD;
+            actor->phase = 1;
+            actor->handler = 0;
+            creature->flags &= 0xFFFBFFFF;
             return;
         }
         if (func_800AA924(actor, context, sprite, D_801508D8) != 0) {
@@ -86,48 +124,41 @@ void func_8014D058(void *actor, void *context, void *sprite_arg, void *creature)
         }
     }
     if (!(dungeonStatus.flags & 0x2000)) {
-        if ((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x100) {
+        if ((creature->flags) & 0x100) {
             func_800AA258(actor, context, sprite, creature);
             return;
         }
         {
-            register void *current_anim;
+            void *current_anim;
             void *anim_table;
-            switch (*((u8 *) (((u8 *) actor) + 0x9A))) {
-            case 0xE:
-                break;
-
-            default:
-                *((u8 *) (((u8 *) actor) + 0x9A)) = 0xE;
-                break;
-
+            if (actor->action != 0xE) {
+                actor->action = 0xE;
             }
 
-            current_anim = *((void **) (((u8 *) sprite) + 0x2C));
+            current_anim = sprite->directionFrames;
             anim_table = D_80150880;
             if (current_anim != anim_table) {
-                *((void **) (((u8 *) sprite) + 0x2C)) = anim_table;
-                func_80047784(sprite, ((u8 *) anim_table)[(((gameWork.view.viewAngle + (*((s16 *) (((u8 *) creature)
-                    + 0x2A)))) + 0x100) >> 9) & 7], 0);
-                *((u8 *) (((u8 *) sprite) + 5)) = 1;
-                *((s16 *) (((u8 *) actor) + 0xA6)) = 0;
-                *((s16 *) (((u8 *) actor) + 0xB2)) = 0;
+                sprite->directionFrames = anim_table;
+                func_80047784(sprite, ((u8 *) anim_table)[(((gameWork.view.viewAngle + (creature->facing)) + 0x100) >> 9) & 7], 0);
+                sprite->frameTick = 1;
+                actor->motionOffset.signedValue = 0;
+                actor->motionTicks = 0;
             }
         }
-        *((u32 *) (((u8 *) creature) + 0x1C)) |= 0x40000;
-        *((u16 *) (((u8 *) actor) + 0x98)) &= 0xFFF7;
-        if ((*((s16 *) (((u8 *) creature) + 0x64))) != 0) {
+        creature->flags |= 0x40000;
+        actor->flags &= 0xFFF7;
+        if ((creature->reaction) != 0) {
             if (func_800AA6B4(actor, context, sprite, D_80150890) != 0) {
                 return;
             }
         }
-        if ((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x80000) {
+        if ((creature->flags) & 0x80000) {
             s16 adjusted_offset;
             func_800AA888(actor, context, sprite, creature);
-            adjusted_offset = (*((u16 *) (((u8 *) actor) + 0x92))) - (*((u16 *) (((u8 *) actor) + 0xA6)));
-            *((s16 *) (((u8 *) actor) + 0xA6)) = 0;
-            *((s16 *) (((u8 *) actor) + 0xB2)) = 0;
-            *((s16 *) (((u8 *) actor) + 0x92)) = adjusted_offset;
+            adjusted_offset = (actor->heightOffset.unsignedValue) - (actor->motionOffset.unsignedValue);
+            actor->motionOffset.signedValue = 0;
+            actor->motionTicks = 0;
+            actor->heightOffset.signedValue = adjusted_offset;
             func_8014F834(actor, context, sprite, creature);
             return;
         }
@@ -135,34 +166,34 @@ void func_8014D058(void *actor, void *context, void *sprite_arg, void *creature)
             func_800AAB10(actor, context, sprite, creature);
         }
     }
-    room_id = func_8009FB34(*((u8 *) (((u8 *) sprite) + 0x24)), *((u8 *) (((u8 *) sprite) + 0x25)));
-    *((u8 *) (((u8 *) sprite) + 0x26)) = room_id;
-    if ((*((s8 *) (((u8 *) creature) + 0x6D))) > 0) {
-        if ((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x20) {
+    room_id = func_8009FB34(sprite->position.tile.x, sprite->position.tile.y);
+    sprite->room = room_id;
+    if ((creature->actionsLeft) > 0) {
+        if ((creature->flags) & 0x20) {
             func_800A9A0C(creature);
             return;
         }
-        if ((*((u16 *) (((u8 *) sprite) + 0x24))) == (*((u16 *) (((s8 *)&D_80082E80.tileX))))) {
+        if ((sprite->position.packed) == *(u16 *)&D_80082E80.tileX) {
             func_8014D848(actor, context, sprite, creature);
             return;
         }
-        if (!((*((u16 *) (((u8 *) creature) + 0x46))) & 0x8000)) {
+        if (!((creature->action) & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
-                if ((func_8009A180(creature, ((u8 *) (*((void **) (((u8 *) D_800814A8) + 0x58)))) + 0x20) << 16) != 0) {
+                if ((func_8009A180(creature, ((u8 *) D_800814A8->unk_58) + 0x20) << 16) != 0) {
                     return;
                 }
             }
             if ((func_8014E414(actor, context, sprite, 0) << 16) == 0) {
                 return;
             }
-            action = (*((u16 *) (((u8 *) creature) + 0x46))) | 0x4000;
-            *((u16 *) (((u8 *) creature) + 0x46)) = action;
+            action = (creature->action) | 0x4000;
+            creature->action = action;
             if (!(action & 0x8000)) {
                 func_8014D848(actor, context, sprite, creature);
                 return;
             }
         }
-        action = (*((u16 *) (((u8 *) creature) + 0x46))) & 0x3FFF;
+        action = (creature->action) & 0x3FFF;
         if (((u32) (action - 1)) >= 12) {
             func_8014D848(actor, context, sprite, creature);
             return;
@@ -170,9 +201,8 @@ void func_8014D058(void *actor, void *context, void *sprite_arg, void *creature)
         switch (action - 1) {
         case 8:
         {
-            void *target = func_800A04F0(creature, *((u8 *) (((u8 *) sprite) + 0x24)), *((u8 *) (((u8 *) sprite)
-                + 0x25)), *((s16 *) (((u8 *) creature) + 0x2A)));
-            *((void **) (((u8 *) actor) + 0xA8)) = target;
+            void *target = func_800A04F0(creature, sprite->position.tile.x, sprite->position.tile.y, creature->facing);
+            actor->target = target;
             if (target == 0) {
                 func_8014D848(actor, context, sprite, creature);
                 return;
@@ -181,7 +211,7 @@ void func_8014D058(void *actor, void *context, void *sprite_arg, void *creature)
                 func_8014D848(actor, context, sprite, creature);
                 return;
             }
-            if ((*((u8 *) (((u8 *) (*((void **) (((u8 *) actor) + 0xA8)))) + 0x13))) < 0x33) {
+            if (((TargetKind *)actor->target)->kind < 0x33) {
                 func_8014E2E0(actor, context, sprite, creature);
                 return;
             }
@@ -198,14 +228,14 @@ void func_8014D058(void *actor, void *context, void *sprite_arg, void *creature)
         case 5:
         case 6:
         {
-            u8 *player_pos = ((u8 *)(&D_80082E80));
+            TileObject *player_pos = &D_80082E80;
             void *player;
             s16 facing_angle;
-            facing_angle = func_800A0818(*((u8 *) (((u8 *) sprite) + 0x24)), *((u8 *) (((u8 *) sprite) + 0x25)),
-                *((u8 *) (((u8 *) player_pos) + 0x24)), *((u8 *) (((u8 *) player_pos) + 0x25)), &direction_aux);
+            facing_angle = func_800A0818(sprite->position.tile.x, sprite->position.tile.y,
+                player_pos->tileX, player_pos->tileY, &direction_aux);
             player = D_800814A8;
-            *((s16 *) (((u8 *) creature) + 0x2A)) = facing_angle;
-            if ((*((u8 *) (((u8 *) player) + 0x9A))) == 0x11) {
+            creature->facing = facing_angle;
+            if ((((EntityRec *)player)->unk_9A) == 0x11) {
                 func_800AAF00(actor, context, sprite, &D_801508C8, func_8014D058);
                 return;
             }
@@ -226,16 +256,16 @@ void func_8014D058(void *actor, void *context, void *sprite_arg, void *creature)
             return;
         }
     }
-    if (!((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x2000)) {
+    if (!((creature->flags) & 0x2000)) {
         s32 room_index = room_id;
         if ((room_index < 0) || (!(D_800E2970[room_index].flags & 2))) {
-            if (!((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x430)) {
-                u8 *player_pos = ((u8 *)(&D_80082E80));
-                if ((func_8009FD7C(*((u8 *) (((u8 *) sprite) + 0x24)), *((u8 *) (((u8 *) sprite) + 0x25)),
-                    *((u8 *) (((u8 *) player_pos) + 0x24)), *((u8 *) (((u8 *) player_pos) + 0x25))) << 16) != 0) {
-                    *((s16 *) (((u8 *) creature) + 0x2A)) = func_800A0818(*((u8 *) (((u8 *) sprite) + 0x24)),
-                        *((u8 *) (((u8 *) sprite) + 0x25)), *((u8 *) (((u8 *) player_pos) + 0x24)),
-                        *((u8 *) (((u8 *) player_pos) + 0x25)), &direction_aux);
+            if (!((creature->flags) & 0x430)) {
+                TileObject *player_pos = &D_80082E80;
+                if ((func_8009FD7C(sprite->position.tile.x, sprite->position.tile.y,
+                    player_pos->tileX, player_pos->tileY) << 16) != 0) {
+                    creature->facing = func_800A0818(sprite->position.tile.x,
+                        sprite->position.tile.y, player_pos->tileX,
+                        player_pos->tileY, &direction_aux);
                 }
             }
         }

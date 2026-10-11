@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -7,37 +8,66 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 
-typedef struct S_8017364C_0 {
+/* The action record shares its timer bytes between signed tests and unsigned updates. */
+typedef struct ActorActionView {
     u8 pad_00[0x8C];
-    M2C_UNK * unk_8C;
-    u8 pad_90[0x6];
-    u16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-} S_8017364C_0;   /* arg0 in func_8014F64C */
+    void *nextBehavior;
+    s32 scratch;
+    u8 pad_94[2];
+    union { u16 raw; s16 signedValue; } timer;
+    u16 flags;
+    u8 behavior;
+    u8 phase;
+    u8 pad_9C[2];
+    s16 idleElapsed;
+    s16 idleDelay;
+    u8 pad_A2[0xA];
+    union { u16 raw; s16 signedValue; } startHeight;
+} ActorActionView;
 
-typedef struct S_8017364C_2 {
-    u8 * unk_00;
-} S_8017364C_2;   /* (u8 *)var_v0 - 0x14 in func_8014F64C */
+/* Sprite state passed to the frame selector; the tile pair is also compared as one halfword. */
+typedef struct ActorSpriteView {
+    u8 pad_00[4];
+    s8 framePhase;
+    u8 pad_05[0xF];
+    u16 flags;
+    u8 pad_16[6];
+    u16 scaleX;
+    u16 scaleY;
+    u8 pad_20[4];
+    union { struct { u8 x, y; } bytes; u16 packed; } tile;
+    union { u8 raw; s8 signedValue; } room;
+    u8 pad_27[5];
+    u8 *frameTable;
+} ActorSpriteView;
 
+/* Three adjacent three-byte ability slots, selected by action kinds 1, 2 and 3. */
+typedef struct ActorAbilityView {
+    u8 pad_00[8];
+    u8 slots[3][3];
+} ActorAbilityView;
 
-/* cfail-repair: tf7-phase1-cache-v3 */
-s32 func_8003F270(void);                 /* extern */
-void func_80047784();         /* extern */
-s32 func_80069EF8();                                /* extern */
-void *func_800A05A4();      /* extern */
-void func_800A2B04();              /* extern */
-s32 func_800A4ACC();                      /* extern */
-s32 func_800A56E0();                     /* extern */
-s32 func_800A94A0();       /* extern */
-void func_8014D020(); /* extern */
-extern M2C_UNK D_8014D760;
+typedef struct PlayerActionCounterView {
+    u8 pad_00[0xA6];
+    u16 activeActions;
+} PlayerActionCounterView;
+
+typedef struct ActorSpriteSlot { u8 *sprite; } ActorSpriteSlot;
+
+s32 func_8003F270(void);
+extern void func_80047784();
+s32 func_80069EF8();
+void *func_800A05A4();
+extern void func_800A2B04();
+extern s32 func_800A4ACC(void *);
+extern s32 func_800A56E0(s32);
+extern void *func_800A94A0();
+void func_8014D020();
+extern void func_8014D760(void *, void *, void *, void *);
 extern u8 D_80150E88[9];
 
 /* Updates an actor's ability action, effects, and completion state. */
-void func_8014F64C(void *action, EntityRec *motion, void *sprite, EntityRec *actor) {
-    s16 next_effect;
+void func_8014F64C(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor) {
     s16 effect_count;
     s32 ability_id;
     s32 normal_ability;
@@ -49,7 +79,7 @@ void func_8014F64C(void *action, EntityRec *motion, void *sprite, EntityRec *act
     void *target;
     u8 *target_sprite;
 
-    phase = ((S_8017364C_0 *)action)->unk_9B;
+    phase = action->phase;
     use_player = 0;
     switch (phase) {
     case 0:
@@ -58,18 +88,21 @@ void func_8014F64C(void *action, EntityRec *motion, void *sprite, EntityRec *act
             switch (ability_id) {
             case 7:
                 use_player = 1;
+                /* fallthrough */
             case 3:
-                ability = (u8 *)actor + 0xE;
+                ability = ((ActorAbilityView *)actor)->slots[2];
                 break;
             case 6:
                 use_player = 1;
+                /* fallthrough */
             case 2:
-                ability = (u8 *)actor + 0xB;
+                ability = ((ActorAbilityView *)actor)->slots[1];
                 break;
             case 5:
                 use_player = 1;
+                /* fallthrough */
             case 1:
-                ability = (u8 *)actor + 8;
+                ability = ((ActorAbilityView *)actor)->slots[0];
                 break;
             default:
                 ability = NULL;
@@ -79,13 +112,13 @@ void func_8014F64C(void *action, EntityRec *motion, void *sprite, EntityRec *act
             normal_ability = actor->unk_46 & 0x3FFF;
             switch (normal_ability) {
             case 3:
-                ability = (u8 *)actor + 0xE;
+                ability = ((ActorAbilityView *)actor)->slots[2];
                 break;
             case 2:
-                ability = (u8 *)actor + 0xB;
+                ability = ((ActorAbilityView *)actor)->slots[1];
                 break;
             case 1:
-                ability = (u8 *)actor + 8;
+                ability = ((ActorAbilityView *)actor)->slots[0];
                 break;
             default:
                 ability = NULL;
@@ -93,7 +126,7 @@ void func_8014F64C(void *action, EntityRec *motion, void *sprite, EntityRec *act
             }
         }
         if (*ability != 0) {
-            ((S_8017364C_0 *)action)->unk_98 &= 0xFF7F;
+            action->flags &= 0xFF7F;
             {
                 s32 player_target = use_player;
                 if (player_target) {
@@ -101,37 +134,32 @@ void func_8014F64C(void *action, EntityRec *motion, void *sprite, EntityRec *act
                     actor->target = target;
                     {
                         target_sprite =
-                            ((S_8017364C_2 *)((u8 *)target - 0x14))->unk_00;
-                        actor->unk_72 = target_sprite[0x24];
-                        actor->unk_73 = target_sprite[0x25];
+                            ((ActorSpriteSlot *)((u8 *)target - 0x14))->sprite;
+                        actor->unk_72 = ((SpriteFrameState *)target_sprite)->unk_24;
+                        actor->unk_73 = ((SpriteFrameState *)target_sprite)->unk_25;
                     }
                 } else {
-                    u8 *ability_table;
                     u8 ability_kind;
-                    u32 ability_entry;
 
                     ability_kind = *ability;
-                    ability_table = (u8 *)D_8006DE24;
-                    ability_entry = ability_kind * 20;
-                    ability_entry += (u32)ability_table;
-                    if (((u8 *)ability_entry)[0x12] == 2) {
+                    if (D_8006DE24[ability_kind].kind == 2) {
                         target = actor->target;
                         if (target != NULL) {
                             {
                                 target_sprite =
-                                    ((S_8017364C_2 *)((u8 *)target - 0x14))->unk_00;
-                                actor->unk_72 = target_sprite[0x24];
-                                actor->unk_73 = target_sprite[0x25];
+                                    ((ActorSpriteSlot *)((u8 *)target - 0x14))->sprite;
+                                actor->unk_72 = ((SpriteFrameState *)target_sprite)->unk_24;
+                                actor->unk_73 = ((SpriteFrameState *)target_sprite)->unk_25;
                             }
                         }
                     } else {
                         {
-                            s32 x = (s32)func_800A05A4(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
-                                          ((Rec_D_80082E80 *)sprite)->unk_25,
+                            s32 x = (s32)func_800A05A4(actor, sprite->tile.bytes.x,
+                                          sprite->tile.bytes.y,
                                           actor->facing, 0x10);
                             s32 y;
 
-                            *(void * volatile *)((u8 *)actor + 0x60) = (void *)x;
+                            *(void * volatile *)&actor->target = (void *)x;
                             x = actor->unk_72;
                             y = actor->unk_73;
                             if (x < 0) {
@@ -146,22 +174,22 @@ void func_8014F64C(void *action, EntityRec *motion, void *sprite, EntityRec *act
                     }
                 }
             }
-            if (func_800A94A0(actor, ability, use_player, action + 0x98) == 0) {
+            if (func_800A94A0(actor, ability, use_player, &action->flags) == 0) {
                 return;
             }
-            ((S_8017364C_0 *)action)->unk_96 = 0x13U;
-            ((S_8017364C_0 *)action)->unk_9B = (u8) (((S_8017364C_0 *)action)->unk_9B + 1);
+            action->timer.raw = 0x13U;
+            action->phase = (u8) (action->phase + 1);
             return;
         } else {
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            func_800A2B04(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
             dungeonStatus.unk_0C = 0;
-            (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2)) = (u16) ((*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1);
+            ((PlayerActionCounterView *)D_800814A8)->activeActions = (u16) (((PlayerActionCounterView *)D_800814A8)->activeActions - 1);
             func_800A4ACC(actor);
             actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
-            ((S_8017364C_0 *)action)->unk_8C = &D_8014D760;
+            action->nextBehavior = &func_8014D760;
             actor->unk_73 = 0;
             actor->unk_72 = 0;
             actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
@@ -169,62 +197,60 @@ void func_8014F64C(void *action, EntityRec *motion, void *sprite, EntityRec *act
         }
     case 1:
         if (func_8003F270() != 0) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v
+            sprite->flags = (u16) (sprite->flags
                 | 0x800);
             return;
         }
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
-        ((S_8017364C_0 *)action)->unk_9B = (u8) (((S_8017364C_0 *)action)->unk_9B + 1);
+        sprite->flags = (u16) (sprite->flags & 0xF7FF);
+        action->phase = (u8) (action->phase + 1);
         func_800A56E0(0x703);
+        /* fallthrough */
     case 2:
-        effect_ticks = ((S_8017364C_0 *)action)->unk_96 - 1;
-        ((S_8017364C_0 *)action)->unk_96 = effect_ticks;
-        if ((effect_ticks << 0x10) <= 0 || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-            ((S_8017364C_0 *)action)->unk_98 = (u16) (((S_8017364C_0 *)action)->unk_98 | 0x80);
-            ((S_8017364C_0 *)action)->unk_9B = (u8) (((S_8017364C_0 *)action)->unk_9B + 1);
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v
+        effect_ticks = action->timer.raw - 1;
+        action->timer.raw = effect_ticks;
+        if ((effect_ticks << 0x10) <= 0 || (sprite->flags & 0xE000)) {
+            action->flags = (u16) (action->flags | 0x80);
+            action->phase = (u8) (action->phase + 1);
+            sprite->flags = (u16) (sprite->flags
                 | 0x800);
-            ((S_8017364C_0 *)action)->unk_96 = 0xFU;
+            action->timer.raw = 0xFU;
         }
-        if ((u32) (((S_8017364C_0 *)action)->unk_96 - 9) >= 6U) {
+        if ((u32) (action->timer.raw - 9) >= 6U) {
             return;
         }
-        effect_count = 0;
-        do {
-            func_8014D020(action - 0x20, 0, 0xC0C0, (func_80069EF8() & 0xFF) | 0x80, 0, 0, 0);
-            next_effect = effect_count + 1;
-            effect_count = next_effect;
-        } while (next_effect < 0xA);
+        for (effect_count = 0; effect_count < 10; effect_count++) {
+            func_8014D020((u8 *)(u8 *)action - 0x20, 0, 0xC0C0, (func_80069EF8() & 0xFF) | 0x80, 0, 0, 0);
+        }
         return;
     case 3:
         if (((s32)dungeonStatus.unk_0C) == 0) {
-            ((S_8017364C_0 *)action)->unk_96 = 0U;
+            action->timer.raw = 0U;
         }
-        finish_ticks = ((S_8017364C_0 *)action)->unk_96 - 1;
-        ((S_8017364C_0 *)action)->unk_96 = finish_ticks;
+        finish_ticks = action->timer.raw - 1;
+        action->timer.raw = finish_ticks;
         if ((finish_ticks << 0x10) <= 0) {
-            ((S_8017364C_0 *)action)->unk_96 = 0U;
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v =
-                (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
+            action->timer.raw = 0U;
+            sprite->flags =
+                (u16) (sprite->flags & 0xF7FF);
         }
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-        if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pm != D_80150E88) {
-            (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = D_80150E88;
+        func_800A2B04(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
+        if (sprite->frameTable != D_80150E88) {
+            (sprite->frameTable) = D_80150E88;
             func_80047784(sprite, D_80150E88[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v =
-                (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
+            sprite->flags =
+                (u16) (sprite->flags & 0xF7FF);
         }
         if (((s32)dungeonStatus.unk_0C) != 0) {
             return;
         }
         dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
-        ((S_8017364C_0 *)action)->unk_8C = &D_8014D760;
+        action->nextBehavior = &func_8014D760;
         func_800A4ACC(actor);
         actor->unk_73 = 0;
         actor->unk_72 = 0;

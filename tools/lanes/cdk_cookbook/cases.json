@@ -1,0 +1,23 @@
+[
+  "sched_const_a",
+  "sched_const_b",
+  "sched_birth_a",
+  "sched_birth_b",
+  "sched_birth_live_a",
+  "sched_birth_live_b",
+  "sched_luid_a",
+  "sched_luid_b",
+  "global_refs6",
+  "global_refs7",
+  "global_loop_depth",
+  "local_fixed2",
+  "local_fixed3",
+  "local_fixed4",
+  "cse_copy_a",
+  "cse_copy_b",
+  "reload_live",
+  "reload_reread",
+  "combine_split_a",
+  "combine_split_b",
+  "combine_split_or"
+]

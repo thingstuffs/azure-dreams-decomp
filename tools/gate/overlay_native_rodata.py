@@ -15,7 +15,7 @@ def digest(data):
 
 def validate_layout(m):
     ds = m['owned_data']
-    first = m['members'][0]
+    first = (m.get('data_members') or m['members'])[0]
     cursor = first['foff']
     vma = first['vma']
     owners = {a['function'] for a in m['members']}
@@ -58,7 +58,11 @@ def validate_layout(m):
         cursor += d['size']
         vma += d['size']
     prefix = cursor - first['foff']
-    if (first.get('body_offset') != prefix or prefix >= first['size']
+    if m.get('data_members'):
+        if (cursor != m['members'][0]['foff'] or vma != m['members'][0]['vma']
+                or any(a.get('body_offset', 0) for a in m['members'])):
+            raise ValueError('separate owned prefix/code coverage differs')
+    elif (first.get('body_offset') != prefix or prefix >= first['size']
             or any(a.get('body_offset', 0) for a in m['members'][1:])):
         raise ValueError('owned prefix/code coverage differs')
     if not m.get('membership_evidence'):
@@ -250,7 +254,7 @@ def validate_switch_assembly(m, assembly):
         # Permit exactly the tail of the already-declared five-u16 record; no
         # arbitrary space, sixth parameter, relocation or extra object is owned.
         if line == '.space\t2' or re.fullmatch(r'\.space\s+2', line):
-            base = m['members'][0]['foff']
+            base = (m.get('data_members') or m['members'])[0]['foff']
             if (owner is not None or not any(
                     d['kind'] == 'u16_parameter_record5'
                     and offset == d['foff'] - base + 10
@@ -261,7 +265,7 @@ def validate_switch_assembly(m, assembly):
         if re.match(r'\.(?:globl|type|size|file)\s', line):
             continue
         raise ValueError('unaccounted native rodata directive: ' + line)
-    base = m['members'][0]['foff']
+    base = (m.get('data_members') or m['members'])[0]['foff']
     expected = {}
     expected_halves = {}
     expected_bytes = {}
@@ -345,7 +349,7 @@ def validate_relocations(m, view):
     actual = dict(relocs)
     expected = {}
     inventory = []
-    base = m['members'][0]['foff']
+    base = (m.get('data_members') or m['members'])[0]['foff']
     members = {a['function']: a['size'] - a.get('body_offset', 0) for a in m['members']}
     for d in ds:
         start = d['foff'] - base

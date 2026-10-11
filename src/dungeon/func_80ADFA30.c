@@ -9,6 +9,41 @@ extern int abs(int);
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 
+#ifndef DUNGEON_ACTOR_ITEM_SLOTS_VIEW
+#define DUNGEON_ACTOR_ITEM_SLOTS_VIEW
+/* Three adjacent 3-byte action records begin at +0x08. */
+typedef struct ActorItemSlotsView {
+    u8 pad_00[8];
+    u8 slots[3][3];
+} ActorItemSlotsView;
+#endif
+
+#ifndef DUNGEON_PLAYER_ACTION_COUNT_VIEW
+#define DUNGEON_PLAYER_ACTION_COUNT_VIEW
+typedef struct PlayerActionCountView {
+    u8 pad_00[0xA6];
+    u16 remainingActions;
+} PlayerActionCountView;
+#endif
+
+#ifndef DUNGEON_ACTOR_ACTION_BYTES_VIEW
+#define DUNGEON_ACTOR_ACTION_BYTES_VIEW
+typedef struct ActorActionBytesView {
+    u8 pad_00[0x1C];
+    u32 flags;
+    u8 pad_20[0xA];
+    s16 facing;
+    u8 pad_2C[0x1A];
+    u16 actionFlags;
+    u8 pad_48[0x18];
+    void *target;
+    u8 pad_64[0x9];
+    u8 remainingActions;
+    u8 pad_6E[4];
+    u8 targetX;
+    u8 targetY;
+} ActorActionBytesView;
+#endif
 
 typedef struct {
     u32 words[12];
@@ -30,83 +65,75 @@ extern s32 D_80159728;
 extern u8 D_8015CDEC[];
 extern u8 D_8015CE34[];
 
-
-typedef struct S_80173230_0 {
+typedef struct ItemEffectActionState {
     u8 pad_00[0x8C];
-    void * unk_8C;
+    void * nextBehavior;
     u8 pad_90[0x6];
-    union { u16 u; s16 s; } unk_96;   /* accessed as both */
-    u16 unk_98;
+    union { u16 unsignedTicks; s16 signedTicks; } timer;
+    u16 flags;
     u8 pad_9A[0x1];
-    u8 unk_9B;
+    u8 phase;
     u8 pad_9C[0x10];
-    u16 unk_AC;
-} S_80173230_0;   /* arg0 in func_8015B230 */
+    u16 savedDrawAttributes;
+} ItemEffectActionState;
 
-typedef struct S_80173230_1_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_80173230_1_pre;   /* the 0x14 bytes before active in func_8015B230, addressed as active[-1] */
-
-typedef struct S_80173230_2 {
+typedef struct TargetTileView {
     u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80173230_2;   /* linked in func_8015B230 */
+    u8 tileX;
+    u8 tileY;
+} TargetTileView;
 
-
-typedef struct S_80173230_5 {
+typedef struct ItemEffectStateView {
     u8 pad_00[0x94];
-    u16 unk_94;
-    u16 unk_96;
+    u16 facing;
+    u16 timer;
     u8 pad_98[0x10];
-    void * unk_A8;
-} S_80173230_5;   /* part in func_8015B230 */
+    void * motion;
+} ItemEffectStateView;
 
-typedef struct S_80173230_6 {
+typedef struct ItemEffectObjectView {
     u8 pad_00[0x8];
-    u8 * unk_08;
-    u8 * unk_0C;
-    void * unk_10;
-} S_80173230_6;   /* (void *)special in func_8015B230 */
+    u8 * position;
+    u8 * sprite;
+    void * update;
+} ItemEffectObjectView;
 
-typedef struct S_80173230_7 {
+typedef struct ItemEffectSpriteView {
     u8 pad_00[0x2];
-    u16 unk_02;
+    u16 x;
     u8 pad_04[0x2];
-    u16 unk_06;
+    u16 y;
     u8 pad_08[0x2];
-    u16 unk_0A;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
+    u16 z;
+    u8 red;
+    u8 green;
+    u8 blue;
     u8 pad_0F[0x1];
-    u16 unk_10;
-    u16 unk_12;
-    u16 unk_14;
+    u16 drawOffset;
+    u16 drawAttributes;
+    u16 flags;
     u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
+    u16 scaleX;
+    u16 scaleY;
     u8 pad_20[0xC];
-    void * unk_2C;
-} S_80173230_7;   /* target in func_8015B230 */
+    void * animationTable;
+} ItemEffectSpriteView;
 
-typedef struct S_80173230_8 {
+typedef struct ActionObjectView {
     u8 pad_00[0xC];
-    void * unk_0C;
-} S_80173230_8;   /* base in func_8015B230 */
+    void * sprite;
+} ActionObjectView;
 
-typedef struct S_80173230_9 {
+typedef struct AnimationObjectView {
     u8 pad_00[0x8];
-    void * unk_08;
-} S_80173230_9;   /* source in func_8015B230 */
+    void * animation;
+} AnimationObjectView;
 
-/* Advances item use, its visual effect, and the actor's recovery animation. */
-void func_8015B230(void *action_in, EntityRec *motion_in, void *sprite, void *actor)
+void func_8015B230(void *action, EntityRec *motion, void *sprite, void *actor)
 {
     u8 *effect_state;
     s32 effect_handle;
-    s16 special_or_effect;
+    s16 use_player_target;
     u16 effect_offset[4];
     u8 *item_slot;
     u8 *action_object;
@@ -114,48 +141,48 @@ void func_8015B230(void *action_in, EntityRec *motion_in, void *sprite, void *ac
     u8 state;
     void *item_target;
 
-    special_or_effect = 0;
-    action_object = (u8 *)action_in - 0x20;
-    state = ((S_80173230_0 *)action_in)->unk_9B;
+    use_player_target = 0;
+    action_object = (u8 *)action - 0x20;
+    state = ((ItemEffectActionState *)action)->phase;
     if ((u32)state >= 5) {
         return;
     }
     switch (state) {
     case 0:
-        if ((*(u32 *)((u8 *)actor + 0x1C)) & 0x2000) {
-            switch ((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF) {
+        if (((ActorActionBytesView *)actor)->flags & 0x2000) {
+            switch (((ActorActionBytesView *)actor)->actionFlags & 0x3FFF) {
             case 7:
-                special_or_effect = 1;
+                use_player_target = 1;
                 /* fallthrough */
             case 3:
-                item_slot = (u8 *)actor + 0xE;
+                item_slot = ((ActorItemSlotsView *)actor)->slots[2];
                 break;
             case 6:
-                special_or_effect = 1;
+                use_player_target = 1;
                 /* fallthrough */
             case 2:
-                item_slot = (u8 *)actor + 0xB;
+                item_slot = ((ActorItemSlotsView *)actor)->slots[1];
                 break;
             case 5:
-                special_or_effect = 1;
+                use_player_target = 1;
                 /* fallthrough */
             case 1:
-                item_slot = (u8 *)actor + 8;
+                item_slot = ((ActorItemSlotsView *)actor)->slots[0];
                 break;
             default:
                 item_slot = 0;
                 break;
             }
         } else {
-            switch ((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF) {
+            switch (((ActorActionBytesView *)actor)->actionFlags & 0x3FFF) {
             case 3:
-                item_slot = (u8 *)actor + 0xE;
+                item_slot = ((ActorItemSlotsView *)actor)->slots[2];
                 break;
             case 2:
-                item_slot = (u8 *)actor + 0xB;
+                item_slot = ((ActorItemSlotsView *)actor)->slots[1];
                 break;
             case 1:
-                item_slot = (u8 *)actor + 8;
+                item_slot = ((ActorItemSlotsView *)actor)->slots[0];
                 break;
             default:
                 item_slot = 0;
@@ -164,22 +191,22 @@ void func_8015B230(void *action_in, EntityRec *motion_in, void *sprite, void *ac
         }
 
         if (*item_slot != 0) {
-            ((S_80173230_0 *)action_in)->unk_98 &= 0xFF7F;
-            if ((s16)special_or_effect != 0) {
+            ((ItemEffectActionState *)action)->flags &= 0xFF7F;
+            if ((s16)use_player_target != 0) {
                 item_target = D_800814A8;
-                (*(void * *)((u8 *)actor + 0x60)) = item_target;
-                    effect_state = ((S_80173230_1_pre *)item_target)[-1].unk_00;
-                    (*(u8 *)((u8 *)actor + 0x72)) = ((S_80173230_2 *)effect_state)->unk_24;
-                    (*(u8 *)((u8 *)actor + 0x73)) = ((S_80173230_2 *)effect_state)->unk_25;
+                ((ActorActionBytesView *)actor)->target = item_target;
+                    effect_state = ((ObjectNodeHeader *)((u8 *)item_target - 0x20))->unk_0C;
+                    ((ActorActionBytesView *)actor)->targetX = ((TargetTileView *)effect_state)->tileX;
+                    ((ActorActionBytesView *)actor)->targetY = ((TargetTileView *)effect_state)->tileY;
             } else {
                 u8 item_id = *item_slot;
-                u8 *item_defs = D_8006DE24;
-                if (item_defs[item_id * 20 + 0x12] == 2) {
-                    item_target = (*(void * *)((u8 *)actor + 0x60));
+                DefEntry *item_defs = D_8006DE24;
+                if (item_defs[item_id].kind == 2) {
+                    item_target = ((ActorActionBytesView *)actor)->target;
                     if (item_target != 0) {
-                    effect_state = ((S_80173230_1_pre *)item_target)[-1].unk_00;
-                    (*(u8 *)((u8 *)actor + 0x72)) = ((S_80173230_2 *)effect_state)->unk_24;
-                    (*(u8 *)((u8 *)actor + 0x73)) = ((S_80173230_2 *)effect_state)->unk_25;
+                    effect_state = ((ObjectNodeHeader *)((u8 *)item_target - 0x20))->unk_0C;
+                    ((ActorActionBytesView *)actor)->targetX = ((TargetTileView *)effect_state)->tileX;
+                    ((ActorActionBytesView *)actor)->targetY = ((TargetTileView *)effect_state)->tileY;
                     }
                 } else {
                     s32 dx;
@@ -187,35 +214,35 @@ void func_8015B230(void *action_in, EntityRec *motion_in, void *sprite, void *ac
 
                     dx = (s32)func_800A05A4(
                         actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
-                        (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
-                    (*(void * *)((u8 *)actor + 0x60)) = (void *)dx;
-                    dx = abs(*(s8 *)((u8 *)actor + 0x72));
-                    dy = abs(*(s8 *)((u8 *)actor + 0x73));
-                    (*(u8 *)((u8 *)actor + 0x72)) = dx;
-                    (*(u8 *)((u8 *)actor + 0x73)) = dy;
+                        ((ActorActionBytesView *)actor)->facing, 0x10);
+                    ((ActorActionBytesView *)actor)->target = (void *)dx;
+                    dx = abs(((EntityRec *)actor)->unk_72);
+                    dy = abs(((EntityRec *)actor)->unk_73);
+                    ((ActorActionBytesView *)actor)->targetX = dx;
+                    ((ActorActionBytesView *)actor)->targetY = dy;
                 }
             }
 
-            if (func_800A94A0(actor, item_slot, special_or_effect, (u8 *)action_in + 0x98) == 0) {
+            if (func_800A94A0(actor, item_slot, use_player_target, &((ItemEffectActionState *)action)->flags) == 0) {
                 return;
             }
-            ((S_80173230_0 *)action_in)->unk_96.u = 0x11;
-            ((S_80173230_0 *)action_in)->unk_9B++;
+            ((ItemEffectActionState *)action)->timer.unsignedTicks = 0x11;
+            ((ItemEffectActionState *)action)->phase++;
             return;
         }
 
-        motion_in->flags14 = 0;
-        motion_in->unk_10 = 0;
-        motion_in->unk_0C = 0;
-        func_800A2B04(motion_in, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         dungeonStatus.unk_0C = 0;
-        (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
+        ((PlayerActionCountView *)D_800814A8)->remainingActions--;
         func_800A4ACC(actor);
-        (*(u8 *)((u8 *)actor + 0x6D))--;
-        ((S_80173230_0 *)action_in)->unk_8C = &D_80159728;
-        (*(u8 *)((u8 *)actor + 0x73)) = 0;
-        (*(u8 *)((u8 *)actor + 0x72)) = 0;
-        (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
+        ((ActorActionBytesView *)actor)->remainingActions--;
+        ((ItemEffectActionState *)action)->nextBehavior = &D_80159728;
+        ((ActorActionBytesView *)actor)->targetY = 0;
+        ((ActorActionBytesView *)actor)->targetX = 0;
+        ((ActorActionBytesView *)actor)->actionFlags &= 0x7FFF;
         return;
 
     case 1:
@@ -224,15 +251,15 @@ void func_8015B230(void *action_in, EntityRec *motion_in, void *sprite, void *ac
             return;
         }
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
-        ((S_80173230_0 *)action_in)->unk_9B++;
+        ((ItemEffectActionState *)action)->phase++;
         func_800A56E0(0x703);
 
     case 2:
         {
             s16 timer;
 
-            timer = ((S_80173230_0 *)action_in)->unk_96.u - 1;
-            ((S_80173230_0 *)action_in)->unk_96.u = timer;
+            timer = ((ItemEffectActionState *)action)->timer.unsignedTicks - 1;
+            ((ItemEffectActionState *)action)->timer.unsignedTicks = timer;
             if (timer == 0xB || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
                 effect_handle = (s32)func_8003FD64(0x112, ((u8 *)(&D_80083498)));
                 if (effect_handle != 0) {
@@ -240,51 +267,51 @@ void func_8015B230(void *action_in, EntityRec *motion_in, void *sprite, void *ac
                     u8 animation_id;
 
                     effect_state = (u8 *)effect_handle + 0x20;
-                    ((S_80173230_5 *)effect_state)->unk_96 = 9;
-                    ((S_80173230_6 *)((void *)effect_handle))->unk_10 = D_80159020;
-                    ((S_80173230_5 *)effect_state)->unk_A8 = motion_in;
-                    ((S_80173230_5 *)effect_state)->unk_94 = (*(u16 *)((u8 *)actor + 0x2A));
-                    item_slot = ((S_80173230_6 *)((void *)effect_handle))->unk_0C;
+                    ((ItemEffectStateView *)effect_state)->timer = 9;
+                    ((ItemEffectObjectView *)((void *)effect_handle))->update = D_80159020;
+                    ((ItemEffectStateView *)effect_state)->motion = motion;
+                    ((ItemEffectStateView *)effect_state)->facing = ((ActorActionBytesView *)actor)->facing;
+                    item_slot = ((ItemEffectObjectView *)((void *)effect_handle))->sprite;
                     *(Copy48 *)item_slot = *(Copy48 *)sprite;
-                    ((S_80173230_7 *)item_slot)->unk_1E = 0x1000;
-                    ((S_80173230_7 *)item_slot)->unk_1C = 0x1000;
-                    ((S_80173230_7 *)item_slot)->unk_0E = 0x80;
-                    ((S_80173230_7 *)item_slot)->unk_0D = 0x80;
-                    ((S_80173230_7 *)item_slot)->unk_0C = 0x80;
+                    ((ItemEffectSpriteView *)item_slot)->scaleY = 0x1000;
+                    ((ItemEffectSpriteView *)item_slot)->scaleX = 0x1000;
+                    ((ItemEffectSpriteView *)item_slot)->blue = 0x80;
+                    ((ItemEffectSpriteView *)item_slot)->green = 0x80;
+                    ((ItemEffectSpriteView *)item_slot)->red = 0x80;
                     func_8004491C((void *)effect_handle, func_80045340);
                     animation_id = D_8015CE34[0];
-                    ((S_80173230_7 *)item_slot)->unk_2C = D_8015CE34;
+                    ((ItemEffectSpriteView *)item_slot)->animationTable = D_8015CE34;
                     func_80047784(item_slot, animation_id, 0);
-                    ((S_80173230_7 *)item_slot)->unk_10 = 0x20;
-                    ((S_80173230_7 *)item_slot)->unk_12 = 0xFF80;
-                    ((S_80173230_7 *)item_slot)->unk_14 |= 0x0C;
+                    ((ItemEffectSpriteView *)item_slot)->drawOffset = 0x20;
+                    ((ItemEffectSpriteView *)item_slot)->drawAttributes = 0xFF80;
+                    ((ItemEffectSpriteView *)item_slot)->flags |= 0x0C;
 
-                    actor_model = ((S_80173230_8 *)action_object)->unk_0C;
-                    item_slot = ((S_80173230_6 *)((void *)effect_handle))->unk_08;
+                    actor_model = ((ActionObjectView *)action_object)->sprite;
+                    item_slot = ((ItemEffectObjectView *)((void *)effect_handle))->position;
                     if (func_8003DE58(
-                            ((S_80173230_9 *)actor_model)->unk_08, actor_model, effect_offset, 1) != 0) {
-                        ((S_80173230_7 *)item_slot)->unk_02 = ((u16)motion_in->x.w.i);
-                        ((S_80173230_7 *)item_slot)->unk_06 = ((u16)motion_in->y.w.i);
-                        ((S_80173230_7 *)item_slot)->unk_0A = ((u16)motion_in->z.w.i);
-                        ((S_80173230_7 *)item_slot)->unk_02 += effect_offset[0];
-                        ((S_80173230_7 *)item_slot)->unk_06 += effect_offset[1];
-                        ((S_80173230_7 *)item_slot)->unk_0A += effect_offset[2];
+                            ((AnimationObjectView *)actor_model)->animation, actor_model, effect_offset, 1) != 0) {
+                        ((ItemEffectSpriteView *)item_slot)->x = ((u16)motion->x.w.i);
+                        ((ItemEffectSpriteView *)item_slot)->y = ((u16)motion->y.w.i);
+                        ((ItemEffectSpriteView *)item_slot)->z = ((u16)motion->z.w.i);
+                        ((ItemEffectSpriteView *)item_slot)->x += effect_offset[0];
+                        ((ItemEffectSpriteView *)item_slot)->y += effect_offset[1];
+                        ((ItemEffectSpriteView *)item_slot)->z += effect_offset[2];
                     }
                 }
             }
 
-            if (((S_80173230_0 *)action_in)->unk_96.s == 0xB ||
+            if (((ItemEffectActionState *)action)->timer.signedTicks == 0xB ||
                 (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
                 ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
             }
-            if (((S_80173230_0 *)action_in)->unk_96.s == 0 ||
+            if (((ItemEffectActionState *)action)->timer.signedTicks == 0 ||
                 (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
                 ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
             }
-            if (((S_80173230_0 *)action_in)->unk_96.s <= 0 ||
+            if (((ItemEffectActionState *)action)->timer.signedTicks <= 0 ||
                 (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-                next_state = ((S_80173230_0 *)action_in)->unk_9B + 1;
-                ((S_80173230_0 *)action_in)->unk_9B = next_state;
+                next_state = ((ItemEffectActionState *)action)->phase + 1;
+                ((ItemEffectActionState *)action)->phase = next_state;
             }
         }
         return;
@@ -294,12 +321,12 @@ void func_8015B230(void *action_in, EntityRec *motion_in, void *sprite, void *ac
              (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) ||
             (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
-            ((S_80173230_0 *)action_in)->unk_96.u = 0x14;
-            ((S_80173230_0 *)action_in)->unk_98 |= 0x80;
+            ((ItemEffectActionState *)action)->timer.unsignedTicks = 0x14;
+            ((ItemEffectActionState *)action)->flags |= 0x80;
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x100;
-            ((S_80173230_0 *)action_in)->unk_AC = ((Rec_D_80082E80 *)sprite)->unk_12.at00_u16.v;
+            ((ItemEffectActionState *)action)->savedDrawAttributes = ((Rec_D_80082E80 *)sprite)->unk_12.at00_u16.v;
             ((Rec_D_80082E80 *)sprite)->unk_12.at00_u16.v = 0x7E80;
-            ((S_80173230_0 *)action_in)->unk_9B++;
+            ((ItemEffectActionState *)action)->phase++;
         }
 
     case 4:
@@ -307,36 +334,36 @@ void func_8015B230(void *action_in, EntityRec *motion_in, void *sprite, void *ac
             s16 timer;
 
             if (((s32)dungeonStatus.unk_0C) == 0) {
-                ((S_80173230_0 *)action_in)->unk_96.u = 0;
+                ((ItemEffectActionState *)action)->timer.unsignedTicks = 0;
             }
-            timer = ((S_80173230_0 *)action_in)->unk_96.u - 1;
-            ((S_80173230_0 *)action_in)->unk_96.u = timer;
+            timer = ((ItemEffectActionState *)action)->timer.unsignedTicks - 1;
+            ((ItemEffectActionState *)action)->timer.unsignedTicks = timer;
             if (timer <= 0) {
-                ((S_80173230_0 *)action_in)->unk_96.u = 0;
+                ((ItemEffectActionState *)action)->timer.unsignedTicks = 0;
                 ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
             }
-            if (((S_80173230_0 *)action_in)->unk_96.s == 0x12) {
+            if (((ItemEffectActionState *)action)->timer.signedTicks == 0x12) {
                 ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xFEFF;
-                ((Rec_D_80082E80 *)sprite)->unk_12.at00_u16.v = ((S_80173230_0 *)action_in)->unk_AC;
+                ((Rec_D_80082E80 *)sprite)->unk_12.at00_u16.v = ((ItemEffectActionState *)action)->savedDrawAttributes;
             }
             if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
                 return;
             }
 
-            motion_in->flags14 = 0;
-            motion_in->unk_10 = 0;
-            motion_in->unk_0C = 0;
-            func_800A2B04(motion_in, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xFEFF;
-            ((Rec_D_80082E80 *)sprite)->unk_12.at00_u16.v = ((S_80173230_0 *)action_in)->unk_AC;
+            ((Rec_D_80082E80 *)sprite)->unk_12.at00_u16.v = ((ItemEffectActionState *)action)->savedDrawAttributes;
 
             if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_8015CDEC) {
                 u8 *animations;
                 s32 direction;
 
                 animations = D_8015CDEC;
-                (*(u8 * *)((u8 *)sprite + 0x2C)) = animations;
-                direction = ((gameWork.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
+                ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = animations;
+                direction = ((gameWork.view.viewAngle + ((ActorActionBytesView *)actor)->facing + 0x100) >> 9) & 7;
                 func_80047784(sprite, animations[direction], 0);
                 ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
             }
@@ -344,12 +371,12 @@ void func_8015B230(void *action_in, EntityRec *motion_in, void *sprite, void *ac
                 return;
             }
             dungeonStatus.unk_0A--;
-            ((S_80173230_0 *)action_in)->unk_8C = &D_80159728;
+            ((ItemEffectActionState *)action)->nextBehavior = &D_80159728;
             func_800A4ACC(actor);
-            (*(u8 *)((u8 *)actor + 0x73)) = 0;
-            (*(u8 *)((u8 *)actor + 0x72)) = 0;
-            (*(u8 *)((u8 *)actor + 0x6D))--;
-            (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
+            ((ActorActionBytesView *)actor)->targetY = 0;
+            ((ActorActionBytesView *)actor)->targetX = 0;
+            ((ActorActionBytesView *)actor)->remainingActions--;
+            ((ActorActionBytesView *)actor)->actionFlags &= 0x7FFF;
             func_800A56E0(0xB4);
         }
     }

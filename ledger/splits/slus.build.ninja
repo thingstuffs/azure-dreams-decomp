@@ -55,7 +55,7 @@ rule partition_coverage
 
 
 build build/src/b1b_b1c_table_owned.o: cc src/b1b_b1c_table_owned.c | tools/cc.sh tools/ccproc.py  include/common.h config/slus_modules.json build/partition_sources/code2__table_counters_b1b_b1c.c tools/slus_data_pieces.py tools/slus_modules.py
-  ccver = 2.8.1
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
   data_piece_step =  && python3 tools/slus_data_pieces.py --manifest config/slus_modules.json --module table_counters_b1b_b1c --object build/src/b1b_b1c_table_owned.o
@@ -91,7 +91,7 @@ build build/src/code.o: cc build/partition_sources/code.c | tools/cc.sh tools/cc
   asflags = 
 
 build build/src/code10.o: cc src/code10.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.8.1
+  ccver = 2.7.2-cdk
   ccflags = -G0
   asflags = 
 
@@ -106,12 +106,12 @@ build build/src/code12.o: cc src/code12.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/code13.o: cc src/code13.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.8.1
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 
 build build/src/code14.o: cc src/code14.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.8.1
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 
@@ -121,7 +121,7 @@ build build/src/code15.o: cc src/code15.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/code2.o: cc build/partition_sources/code2.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.8.1
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 
@@ -136,8 +136,8 @@ build build/src/code4.o: cc src/code4.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/code5.o: cc src/code5.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
-  ccflags = -G0 -fno-schedule-insns
+  ccver = 2.7.2-cdk
+  ccflags = 
   asflags = 
 
 build build/src/code6.o: cc src/code6.c | tools/cc.sh tools/ccproc.py 
@@ -1971,7 +1971,7 @@ build build/src/w_80041094.o: cc src/w_80041094.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_80041134_owned.o: cc src/w_80041134_owned.c | tools/cc.sh tools/ccproc.py  src/w_80041134.c include/common.h include/game.h include/globals.h include/include_asm.h include/slus/list_cursor_e0.h config/slus_modules.json build/partition_sources/code__list_cursor_e0.c build/partition_sources/code2__list_cursor_e0.c
-  ccver = 2.8.1
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 
@@ -2970,7 +2970,7 @@ build build/src/w_8004D828.o: cc src/w_8004D828.c | tools/cc.sh tools/ccproc.py
 
 build build/src/w_8004D880.o: cc src/w_8004D880.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -fno-cse-follow-jumps -fno-cse-skip-blocks
+  ccflags = 
   asflags = 
 
 build build/src/w_8004D91C.o: cc src/w_8004D91C.c | tools/cc.sh tools/ccproc.py 

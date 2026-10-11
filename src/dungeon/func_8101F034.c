@@ -7,26 +7,51 @@ extern int abs(int);
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 
-typedef struct S_80172834_0 {
+typedef struct ItemSlots {
+    u8 pad_00[8];
+    u8 first;
+    u8 pad_09[2];
+    u8 second;
+    u8 pad_0C[2];
+    u8 third;
+} ItemSlots;
+
+typedef struct PlayerActionCounter {
+    u8 pad_00[0xA6];
+    u16 pendingActions;
+} PlayerActionCounter;
+
+typedef struct ActorSprite {
+    u8 pad_00[4];
+    s8 frame;
+    u8 pad_05[0xF];
+    u16 flags;
+    u8 pad_16[0xE];
+    u8 tileX;
+    u8 tileY;
+    u8 pad_26[6];
+    u8 *directionFrames;
+} ActorSprite;
+
+typedef struct ActionState {
     u8 pad_00[0x8C];
-    void * unk_8C;
+    void * handler;
     u8 pad_90[0x8];
-    u16 unk_98;
+    u16 flags;
     u8 pad_9A[0x1];
-    u8 unk_9B;
-} S_80172834_0;   /* arg0 in func_8015A834 */
+    u8 phase;
+} ActionState;
 
-typedef struct S_80172834_2_pre {
-    void * unk_00;
+typedef struct ObjectHeaderTail {
+    void * sprite;
     u8 pad_04[0x10];
-} S_80172834_2_pre;   /* the 0x14 bytes before object in func_8015A834, addressed as object[-1] */
+} ObjectHeaderTail;   /* the 0x14 bytes before object in func_8015A834, addressed as object[-1] */
 
-typedef struct S_80172834_3 {
+typedef struct TilePosition {
     u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80172834_3;   /* record in func_8015A834 */
-
+    u8 tileX;
+    u8 tileY;
+} TilePosition;
 
 extern s32 func_8003F270(void);
 extern void func_80047784(void *, s32, s32);
@@ -41,80 +66,83 @@ extern u8 D_80159058[];
 extern u8 D_8015C888[];
 
 /* Starts the selected actor action, waits for completion, and resets its state. */
-void func_8015A834(void *action_state, EntityRec *motion, void *sprite, EntityRec *actor)
+void func_8015A834(ActionState *action_state, EntityRec *motion, ActorSprite *sprite, EntityRec *actor)
 {
-    u8 *action_data;
+    u8 *item_slot;
     s32 phase;
-    s32 is_special;
+    s32 use_player_target;
     void *target;
-    s16 x;
-    s32 y;
+    s16 flags_or_target_mode;
+    TilePosition *target_sprite;
     u16 position[3];
 
-    phase = ((S_80172834_0 *)action_state)->unk_9B;
-    is_special = 0;
+    phase = action_state->phase;
+    use_player_target = 0;
     switch (phase) {
     case 0:
         if (((u32)actor->flags1C) & 0x2000) {
             switch (actor->unk_46 & 0x3FFF) {
             case 7:
-                is_special = 1;
+                use_player_target = 1;
+                /* fall through */
             case 3:
-                action_data = (u8 *)actor + 0xE;
+                item_slot = &((ItemSlots *)actor)->third;
                 break;
             case 6:
-                is_special = 1;
+                use_player_target = 1;
+                /* fall through */
             case 2:
-                action_data = (u8 *)actor + 0xB;
+                item_slot = &((ItemSlots *)actor)->second;
                 break;
             case 5:
-                is_special = 1;
+                use_player_target = 1;
+                /* fall through */
             case 1:
-                action_data = (u8 *)actor + 8;
+                item_slot = &((ItemSlots *)actor)->first;
                 break;
             default:
-                action_data = 0;
+                item_slot = 0;
                 break;
             }
         } else {
             switch (actor->unk_46 & 0x3FFF) {
             case 3:
-                action_data = (u8 *)actor + 0xE;
+                item_slot = &((ItemSlots *)actor)->third;
                 break;
             case 2:
-                action_data = (u8 *)actor + 0xB;
+                item_slot = &((ItemSlots *)actor)->second;
                 break;
             case 1:
-                action_data = (u8 *)actor + 8;
+                item_slot = &((ItemSlots *)actor)->first;
                 break;
             default:
-                action_data = 0;
+                item_slot = 0;
                 break;
             }
         }
-        if (*action_data != 0) {
-            x = ((S_80172834_0 *)action_state)->unk_98;
-            x &= 0xFF7F;
-            ((S_80172834_0 *)action_state)->unk_98 = x;
-            x = is_special;
-            if (x != 0) {
+        if (*item_slot != 0) {
+            flags_or_target_mode = action_state->flags;
+            flags_or_target_mode &= 0xFF7F;
+            action_state->flags = flags_or_target_mode;
+            flags_or_target_mode = use_player_target;
+            if (flags_or_target_mode != 0) {
                 target = D_800814A8;
                 actor->target = target;
-                phase = ((S_80172834_2_pre *)target)[-1].unk_00;
-                actor->unk_72 = ((S_80172834_3 *)phase)->unk_24;
-                actor->unk_73 = ((S_80172834_3 *)phase)->unk_25;
-            } else if (D_8006DE24[*action_data].kind == 2) {
+                target_sprite = ((ObjectHeaderTail *)target)[-1].sprite;
+                actor->unk_72 = target_sprite->tileX;
+                actor->unk_73 = target_sprite->tileY;
+            } else if (D_8006DE24[*item_slot].kind == 2) {
                 target = actor->target;
                 if (target != 0) {
-                    phase = ((S_80172834_2_pre *)target)[-1].unk_00;
-                    actor->unk_72 = ((S_80172834_3 *)phase)->unk_24;
-                    actor->unk_73 = ((S_80172834_3 *)phase)->unk_25;
+                    target_sprite = ((ObjectHeaderTail *)target)[-1].sprite;
+                    actor->unk_72 = target_sprite->tileX;
+                    actor->unk_73 = target_sprite->tileY;
                 }
             } else {
                 actor->target =
                     func_800A05A4(actor,
-                                  ((Rec_D_80082E80 *)sprite)->unk_24,
-                                  ((Rec_D_80082E80 *)sprite)->unk_25,
+                                  sprite->tileX,
+                                  sprite->tileY,
                                   actor->facing, 0x10);
                 {
                     s32 abs_x = abs(actor->unk_72);
@@ -127,26 +155,26 @@ void func_8015A834(void *action_state, EntityRec *motion, void *sprite, EntityRe
             position[0] = ((u16)motion->x.w.i);
             position[1] = ((u16)motion->y.w.i);
             position[2] = ((u16)motion->z.w.i);
-            if (func_800A94A0(actor, action_data, is_special,
-                              (u16 *)((u8 *)action_state + 0x98)) == 0) {
+            if (func_800A94A0(actor, item_slot, use_player_target,
+                              &action_state->flags) == 0) {
                 return;
             }
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
-            func_800DA840(position, (s16)(((s32)*action_data - 1) % 3));
+            sprite->flags &= 0xF7FF;
+            func_800DA840(position, (s16)(((s32)*item_slot - 1) % 3));
             func_800A56E0(0x703);
-            ((S_80172834_0 *)action_state)->unk_9B++;
+            action_state->phase++;
             return;
         }
 
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        func_800A2B04(motion, sprite->tileX, sprite->tileY);
         dungeonStatus.unk_0C = 0;
-        (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
+        ((PlayerActionCounter *)D_800814A8)->pendingActions--;
         func_800A4ACC(actor);
         (*(u8 *)&actor->unk_6D)--;
-        ((S_80172834_0 *)action_state)->unk_8C = D_80159058;
+        action_state->handler = D_80159058;
         actor->unk_73 = 0;
         actor->unk_72 = 0;
         actor->unk_46 &= 0x7FFF;
@@ -154,28 +182,28 @@ void func_8015A834(void *action_state, EntityRec *motion, void *sprite, EntityRe
 
     case 1:
         if (func_8003F270() != 0) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
+            sprite->flags |= 0x800;
             return;
         }
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
-        ((S_80172834_0 *)action_state)->unk_9B++;
+        sprite->flags &= 0xF7FF;
+        action_state->phase++;
 
     case 2:
-        if (!((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 3) &&
-              (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) &&
-            !(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        if (!((sprite->frame == 3) &&
+              (sprite->flags & 0x1000)) &&
+            !(sprite->flags & 0xE000)) {
             return;
         }
-        ((S_80172834_0 *)action_state)->unk_98 |= 0x80;
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        action_state->flags |= 0x80;
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-        if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_8015C888) {
-            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8015C888;
+        func_800A2B04(motion, sprite->tileX, sprite->tileY);
+        if (sprite->directionFrames != D_8015C888) {
+            sprite->directionFrames = D_8015C888;
             func_80047784(
                 sprite,
                 D_8015C888[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -188,8 +216,8 @@ void func_8015A834(void *action_state, EntityRec *motion, void *sprite, EntityRe
             }
             dungeonStatus.unk_0A--;
         }
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
-        ((S_80172834_0 *)action_state)->unk_8C = D_80159058;
+        sprite->flags &= 0xF7FF;
+        action_state->handler = D_80159058;
         func_800A4ACC(actor);
         if (actor->unk_6D > 0) {
             (*(u8 *)&actor->unk_6D)--;

@@ -1,232 +1,245 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-typedef struct S_80174428_0 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    union { u16 s; s16 u; } unk_2A;   /* accessed as both */
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x25];
-    u8 unk_6D;
-    u8 pad_6E[0x1A];
-    s16 unk_88;
-} S_80174428_0;   /* object in func_80162428 */
-
-typedef struct S_80174428_1 {
+/* The action record shares its timer bytes between signed tests and unsigned updates. */
+typedef struct ActorActionView {
     u8 pad_00[0x8C];
-    u8 * unk_8C;
-    u8 pad_90[0x6];
-    union { u16 s; s16 u; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_80174428_1;   /* state in func_80162428 */
+    void *nextBehavior;
+    s32 scratch;
+    u8 pad_94[2];
+    union { u16 raw; s16 signedValue; } timer;
+    u16 flags;
+    u8 behavior;
+    u8 phase;
+    u8 pad_9C[2];
+    s16 idleElapsed;
+    s16 idleDelay;
+    u8 pad_A2[0xA];
+    union { u16 raw; s16 signedValue; } startHeight;
+} ActorActionView;
 
-typedef struct S_80174428_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-    u8 pad_20[0x4];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_80174428_2;   /* actor in func_80162428 */
+/* Sprite state passed to the frame selector; the tile pair is also compared as one halfword. */
+typedef struct ActorSpriteView {
+    u8 pad_00[4];
+    s8 framePhase;
+    u8 pad_05[0xF];
+    u16 flags;
+    u8 pad_16[6];
+    u16 scaleX;
+    u16 scaleY;
+    u8 pad_20[4];
+    union { struct { u8 x, y; } bytes; u16 packed; } tile;
+    union { u8 raw; s8 signedValue; } room;
+    u8 pad_27[5];
+    u8 *frameTable;
+} ActorSpriteView;
 
-typedef struct S_80174428_3 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-} S_80174428_3;   /* motion in func_80162428 */
+typedef struct ActorFacingView {
+    u8 pad_00[0x1C];
+    s32 flags;
+    u8 pad_20[0xA];
+    union { u16 raw; s16 signedValue; } facing;
+    u8 pad_2C[0x1A];
+    u16 actionFlags;
+    u8 pad_48[0x25];
+    u8 remainingActions;
+    u8 pad_6E[0x1A];
+    s16 groundHeight;
+} ActorFacingView;
 
-extern s16 D_80081468[3];
-extern u8 D_8015F0F4[];
+typedef struct ActorMotionView {
+    Fixed1616 x, y, z;
+    s32 velocityX;
+    s32 velocityY;
+    s32 velocityZ;
+} ActorMotionView;
+
+extern s16 D_80081468[];
+extern void func_8015F0F4(void *, void *, void *, void *);
 extern u8 D_80162EF8[];
 extern u8 D_80162F00[];
 extern u8 D_80162F58[];
 extern u16 D_80162FC4[];
 extern u16 D_80162FD4[];
 
-extern void func_80047784(void *, s32, s32);
+extern void func_80047784();
 extern void func_8009A21C(s16 x, s16 y, u16 flags);
 extern void func_8009A3D0(s32, s32, s32);
-extern void func_800A2B04(void *, s32, s32);
-extern void func_800A4ACC(void *);
+extern void func_800A2B04();
+extern s32 func_800A4ACC(void *);
 extern s16 func_800A4E2C(u8 *, u8 *);
-extern void func_800A56E0(s32);
+extern s32 func_800A56E0(s32);
 extern void func_800AA53C(u8 *context);
 extern void func_800AD594(void *, s32);
 extern s16 func_800BCB04(s32, s32, s16);
 
-/* Updates movement, destination selection, and recovery animation for the object. */
-void func_80162428(void *state, void *motion, void *actor, void *object)
+/* Updates movement, destination selection, and recovery animation for the entity. */
+void func_80162428(ActorActionView *action, ActorMotionView *motion, ActorSpriteView *sprite, ActorFacingView *entity)
 {
     s32 y_step;
     s32 x_step;
     s16 *x_step_ptr;
     s32 direction_offset;
-    register u32 raw_direction;
+    u32 direction_or_test;
     s16 height;
     s32 attempts_left;
-    TileObject *world;
-    s16 *level;
+    TileObject *player_tile;
+    s16 *floor_limits;
     u32 state_id;
     x_step_ptr = (s16 *)((u8 *)dirStepX);
-    raw_direction = ((S_80174428_0 *)object)->unk_2A.s;
-    direction_offset = raw_direction >> 8;
+    direction_or_test = entity->facing.raw;
+    direction_offset = direction_or_test >> 8;
     direction_offset &= 0xE;
-    state_id = ((S_80174428_1 *)state)->unk_9B;
+    state_id = action->phase;
     x_step_ptr = (s16 *)((u8 *)x_step_ptr + direction_offset);
     direction_offset += (u32)((u8 *)dirStepY);
-    raw_direction = state_id < 6;
+    direction_or_test = state_id < 6;
     x_step = *x_step_ptr;
     y_step = *(s16 *)direction_offset;
-    if (!raw_direction) {
+    if (!direction_or_test) {
         return;
     }
     switch (state_id) {
     case 0:
-        func_8009A3D0(((S_80174428_2 *)actor)->unk_24, ((S_80174428_2 *)actor)->unk_25,
-            (((S_80174428_0 *)object)->unk_1C & 0x2000) ? 0x300 : 0x3000);
-        (*(u8 * *)((u8 *)actor + 0x2C)) = D_80162EF8;
-        func_80047784(actor,
-            D_80162EF8[((gameWork.view.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
-        ((S_80174428_3 *)motion)->unk_0C = (x_step << 19) + (x_step << 18);
-        ((S_80174428_3 *)motion)->unk_10 = (y_step << 19) + (y_step << 18);
-        ((S_80174428_1 *)state)->unk_96.s = 4;
+        func_8009A3D0(sprite->tile.bytes.x, sprite->tile.bytes.y,
+            (entity->flags & 0x2000) ? 0x300 : 0x3000);
+        (sprite->frameTable) = D_80162EF8;
+        func_80047784(sprite,
+            D_80162EF8[((gameWork.view.viewAngle + entity->facing.signedValue + 0x100) >> 9) & 7], 0);
+        motion->velocityX = (x_step << 19) + (x_step << 18);
+        motion->velocityY = (y_step << 19) + (y_step << 18);
+        action->timer.raw = 4;
         func_800A56E0(0x80E);
-        ((S_80174428_1 *)state)->unk_9B++;
+        action->phase++;
+        /* fallthrough */
     case 1:
-        if (!(((S_80174428_2 *)actor)->unk_14 & 0x8000)) {
-            ((S_80174428_1 *)state)->unk_96.s--;
-            if (((S_80174428_1 *)state)->unk_96.u > 0) {
+        if (!(sprite->flags & 0x8000)) {
+            action->timer.raw--;
+            if (action->timer.signedValue > 0) {
                 return;
             }
         }
-        ((S_80174428_3 *)motion)->unk_10 = 0;
-        ((S_80174428_3 *)motion)->unk_0C = 0;
-        (*(u8 * *)((u8 *)actor + 0x2C)) = D_80162F58;
-        func_80047784(actor,
-            D_80162F58[((*(s16 *)(((u8 *)(&D_80082E80)) + 0x3A8) +
-                ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
-        ((S_80174428_1 *)state)->unk_96.s = 0;
-        ((S_80174428_3 *)motion)->unk_0C = (-x_step) << 18;
-        ((S_80174428_3 *)motion)->unk_10 = (-y_step) << 18;
-        ((S_80174428_1 *)state)->unk_9B++;
+        motion->velocityY = 0;
+        motion->velocityX = 0;
+        (sprite->frameTable) = D_80162F58;
+        func_80047784(sprite,
+            D_80162F58[((gameWork.view.viewAngle +
+                entity->facing.signedValue + 0x100) >> 9) & 7], 0);
+        action->timer.raw = 0;
+        motion->velocityX = (-x_step) << 18;
+        motion->velocityY = (-y_step) << 18;
+        action->phase++;
         return;
 
     case 2:
-        if (!(((S_80174428_2 *)actor)->unk_14 & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
-        ((S_80174428_3 *)motion)->unk_10 = 0;
-        ((S_80174428_3 *)motion)->unk_0C = 0;
-        (*(u8 * *)((u8 *)actor + 0x2C)) = D_80162F00;
-        func_80047784(actor,
-            D_80162F00[((gameWork.view.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
-        if (((S_80174428_0 *)object)->unk_1C & 0x2000) {
-            ((S_80174428_1 *)state)->unk_96.s = 7;
-            ((S_80174428_1 *)state)->unk_9B = 5;
+        motion->velocityY = 0;
+        motion->velocityX = 0;
+        (sprite->frameTable) = D_80162F00;
+        func_80047784(sprite,
+            D_80162F00[((gameWork.view.viewAngle + entity->facing.signedValue + 0x100) >> 9) & 7], 0);
+        if (entity->flags & 0x2000) {
+            action->timer.raw = 7;
+            action->phase = 5;
             return;
         }
-        ((S_80174428_0 *)object)->unk_2A.s &= 0xFFF;
-        ((S_80174428_1 *)state)->unk_9B++;
+        entity->facing.raw &= 0xFFF;
+        action->phase++;
         return;
 
     case 3:
         {
-            u16 angle = ((S_80174428_0 *)object)->unk_2A.s;
-            if ((((S_80174428_0 *)object)->unk_2A.u == 0x400) ||
-                (((S_80174428_2 *)actor)->unk_14 & 0x8000)) {
-                func_80047784(actor, 0x37, 0);
-                ((S_80174428_1 *)state)->unk_9B++;
+            u16 angle = entity->facing.raw;
+            if ((entity->facing.signedValue == 0x400) ||
+                (sprite->flags & 0x8000)) {
+                func_80047784(sprite, 0x37, 0);
+                action->phase++;
                 return;
             }
             if ((u32)(angle - 0x401) < 0x800) {
-                ((S_80174428_0 *)object)->unk_2A.s = angle - 0x80;
+                entity->facing.raw = angle - 0x80;
                 return;
             }
-            ((S_80174428_0 *)object)->unk_2A.s = (angle + 0x80) & 0xFFF;
+            entity->facing.raw = (angle + 0x80) & 0xFFF;
             return;
         }
 
     case 4:
-        if (!(((S_80174428_2 *)actor)->unk_14 & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
-        func_80047784(actor, 0x38, 0);
+        func_80047784(sprite, 0x38, 0);
         attempts_left = 0x40;
-        world = &D_80082E80;
-        level = D_80081468;
-        ((S_80174428_1 *)state)->unk_96.s = 0;
-        x_step = ((S_80174428_2 *)actor)->unk_24;
-        y_step = ((S_80174428_2 *)actor)->unk_25;
+        player_tile = &D_80082E80;
+        floor_limits = D_80081468;
+        action->timer.raw = 0;
+        x_step = sprite->tile.bytes.x;
+        y_step = sprite->tile.bytes.y;
 
         for (;;) {
             if (--attempts_left <= 0) {
-                ((S_80174428_2 *)actor)->unk_24 = (u8)x_step;
-                ((S_80174428_2 *)actor)->unk_25 = (u8)y_step;
-                ((S_80174428_1 *)state)->unk_9B++;
+                sprite->tile.bytes.x = (u8)x_step;
+                sprite->tile.bytes.y = (u8)y_step;
+                action->phase++;
                 return;
             }
-            direction_offset = func_800A4E2C(actor + 0x24, actor + 0x25);
+            direction_offset = func_800A4E2C(&sprite->tile.bytes.x, &sprite->tile.bytes.y);
             if (direction_offset < 0) {
                 continue;
             }
-            if (direction_offset == (s8)((u8)world->unk_026) &&
-                *(s16 *)((u8 *)level + 6) >= 2) {
+            if (direction_offset == (s8)((u8)player_tile->unk_026) &&
+                floor_limits[3] >= 2) {
                 continue;
             }
-            direction_offset = func_800BCB04((((S_80174428_2 *)actor)->unk_24 << 6) | 0x20,
-                (((S_80174428_2 *)actor)->unk_25 << 6) | 0x20,
-                (s16)(((S_80174428_3 *)motion)->unk_0A - 0x80));
-            raw_direction = direction_offset < 0x201;
-            if (raw_direction) {
-                ((S_80174428_1 *)state)->unk_9B++;
+            direction_offset = func_800BCB04((sprite->tile.bytes.x << 6) | 0x20,
+                (sprite->tile.bytes.y << 6) | 0x20,
+                (s16)(motion->z.w.i - 0x80));
+            direction_or_test = direction_offset < 0x201;
+            if (direction_or_test) {
+                action->phase++;
                 return;
             }
         }
 
     case 5:
         {
-            ((S_80174428_2 *)actor)->unk_1C = D_80162FC4[((S_80174428_1 *)state)->unk_96.u];
-            ((S_80174428_2 *)actor)->unk_1E = D_80162FD4[((S_80174428_1 *)state)->unk_96.u];
-            if (((S_80174428_1 *)state)->unk_96.u == 4) {
+            sprite->scaleX = D_80162FC4[action->timer.signedValue];
+            sprite->scaleY = D_80162FD4[action->timer.signedValue];
+            if (action->timer.signedValue == 4) {
                 func_800A56E0(0x705);
             }
-            if (!(((S_80174428_2 *)actor)->unk_14 & 0x8000)) {
-                ((S_80174428_1 *)state)->unk_96.s++;
-                if (((S_80174428_1 *)state)->unk_96.u < 8) {
+            if (!(sprite->flags & 0x8000)) {
+                action->timer.raw++;
+                if (action->timer.signedValue < 8) {
                     return;
                 }
             }
             dungeonStatus.unk_0A--;
-            func_800AA53C(object);
-            height = func_800BCB04((((S_80174428_2 *)actor)->unk_24 << 6) | 0x20,
-                (((S_80174428_2 *)actor)->unk_25 << 6) | 0x20,
-                (s16)(((S_80174428_3 *)motion)->unk_0A - 0x80));
-            ((S_80174428_0 *)object)->unk_88 = height;
-            ((S_80174428_2 *)actor)->unk_2C = D_80162F00;
-            func_800AD594(object, 0x200);
-            func_80047784(actor,
-                ((S_80174428_2 *)actor)->unk_2C[((gameWork.view.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100)
+            func_800AA53C(entity);
+            height = func_800BCB04((sprite->tile.bytes.x << 6) | 0x20,
+                (sprite->tile.bytes.y << 6) | 0x20,
+                (s16)(motion->z.w.i - 0x80));
+            entity->groundHeight = height;
+            sprite->frameTable = D_80162F00;
+            func_800AD594(entity, 0x200);
+            func_80047784(sprite,
+                sprite->frameTable[((gameWork.view.viewAngle + entity->facing.signedValue + 0x100)
                     >> 9) & 7], 0);
-            func_8009A21C(((S_80174428_2 *)actor)->unk_24, ((S_80174428_2 *)actor)->unk_25,
-                (((S_80174428_0 *)object)->unk_1C & 0x2000) ? 0x300 : 0x3000);
-            func_800A2B04(motion, ((S_80174428_2 *)actor)->unk_24, ((S_80174428_2 *)actor)->unk_25);
-            ((S_80174428_2 *)actor)->unk_1E = 0x1000;
-            ((S_80174428_2 *)actor)->unk_1C = 0x1000;
-            ((S_80174428_1 *)state)->unk_8C = D_8015F0F4;
-            func_800A4ACC(object);
-            ((S_80174428_0 *)object)->unk_6D = 0;
-            ((S_80174428_0 *)object)->unk_46 &= 0x7FFF;
+            func_8009A21C(sprite->tile.bytes.x, sprite->tile.bytes.y,
+                (entity->flags & 0x2000) ? 0x300 : 0x3000);
+            func_800A2B04(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
+            sprite->scaleY = 0x1000;
+            sprite->scaleX = 0x1000;
+            action->nextBehavior = func_8015F0F4;
+            func_800A4ACC(entity);
+            entity->remainingActions = 0;
+            entity->actionFlags &= 0x7FFF;
             return;
         }
     }

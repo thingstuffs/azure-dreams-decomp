@@ -7,7 +7,6 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/entity.h"
 
-
 extern void func_80047784(void *, s32, s32);
 extern s32 rand(void);
 extern s32 func_8009A180(void *, void *);
@@ -38,24 +37,20 @@ extern u8 D_80162EE0[];
 extern u8 D_80162EE8[];
 extern u8 D_80162EF0[];
 
-
-typedef struct S_80171760_2 {
+typedef struct ActorSpriteView {
     u8 pad_00[0x14];
-    u16 unk_14;
+    u16 flags;
     u8 pad_16[0xE];
     union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-    u8 unk_26;
+        struct { u8 x; u8 y; } bytes;
+        u16 packed;
+    } tile;
+    u8 room;
     u8 pad_27[0x5];
-    void * unk_2C;
-} S_80171760_2;   /* arg2 in func_8015F760 */
+    void * animationTable;
+} ActorSpriteView;
 
-
-/* Update the actor's dungeon behavior, facing, and directional animation. */
-void func_8015F760(void *motion, void *render_ctx, void *map_entity, EntityRec *actor)
+void func_8015F760(void *controller, void *context, void *sprite, EntityRec *actor)
 {
     u8 *anim_table;
     s32 room_id;
@@ -63,17 +58,17 @@ void func_8015F760(void *motion, void *render_ctx, void *map_entity, EntityRec *
     u32 initial_flags = dungeonStatus.flags;
 
     if (initial_flags & 0x1000) {
-        ((Rec_func_800A9E70_arg0 *)motion)->unk_9A.as_u8 = 0xE;
-        func_8015FCD8(motion, render_ctx, map_entity, actor);
+        ((Rec_func_800A9E70_arg0 *)controller)->unk_9A.as_u8 = 0xE;
+        func_8015FCD8(controller, context, sprite, actor);
         return;
     }
 
     if (actor->tileY == 0) {
-        func_800AA79C(motion, render_ctx, map_entity, actor);
-        if (((S_80171760_2 *)map_entity)->unk_2C != D_80162EF0) {
-            (*(void * *)((u8 *)map_entity + (0x2C))) = D_80162EE8;
-            func_80047784(map_entity,
-                *(u8 *)((((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32)D_80162EE8),
+        func_800AA79C(controller, context, sprite, actor);
+        if (((ActorSpriteView *)sprite)->animationTable != D_80162EF0) {
+            ((ActorSpriteView *)sprite)->animationTable = D_80162EE8;
+            func_80047784(sprite,
+                D_80162EE8[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             return;
         }
@@ -81,21 +76,21 @@ void func_8015F760(void *motion, void *render_ctx, void *map_entity, EntityRec *
     }
 
     if (((u32)actor->flags1C) & 0x200) {
-        if (((S_80171760_2 *)map_entity)->unk_2C == D_80162EF0) {
-            ((Rec_func_800A9E70_arg0 *)motion)->unk_9A.as_u8 = 0xD;
-            ((Rec_func_800A9E70_arg0 *)motion)->unk_9B.as_u8 = 1;
-            ((Rec_func_800A9E70_arg0 *)motion)->unk_8C = 0;
+        if (((ActorSpriteView *)sprite)->animationTable == D_80162EF0) {
+            ((Rec_func_800A9E70_arg0 *)controller)->unk_9A.as_u8 = 0xD;
+            ((Rec_func_800A9E70_arg0 *)controller)->unk_9B.as_u8 = 1;
+            ((Rec_func_800A9E70_arg0 *)controller)->unk_8C = 0;
             actor->flags1C &= ~0x40000;
             return;
         }
-        if (func_800AA924(motion, render_ctx, map_entity, D_80162EE8)) {
+        if (func_800AA924(controller, context, sprite, D_80162EE8)) {
             return;
         }
     }
 
     if (!(dungeonStatus.flags & 0x2000)) {
         if (((u32)actor->flags1C) & 0x100) {
-            func_800AA258(motion, render_ctx, map_entity, actor);
+            func_800AA258(controller, context, sprite, actor);
             return;
         }
 
@@ -103,42 +98,42 @@ void func_8015F760(void *motion, void *render_ctx, void *map_entity, EntityRec *
             u8 current_state;
             u8 idle_state;
 
-            current_state = *(u8 *)((u8 *)motion + 0x9A);
+            current_state = ((Rec_func_800A9E70_arg0 *)controller)->unk_9A.as_u8;
             idle_state = 0xE;
             if (current_state != idle_state) {
                 anim_table = D_80162E88;
-                if (((S_80171760_2 *)map_entity)->unk_2C != anim_table) {
-                    (*(void * *)((u8 *)map_entity + (0x2C))) = anim_table;
-                    func_80047784(map_entity,
+                if (((ActorSpriteView *)sprite)->animationTable != anim_table) {
+                    ((ActorSpriteView *)sprite)->animationTable = anim_table;
+                    func_80047784(sprite,
                         anim_table[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                         0);
                 }
-                ((Rec_func_800A9E70_arg0 *)motion)->unk_9E.as_s16 = 0;
-                ((Rec_func_800A9E70_arg0 *)motion)->unk_A0.at00_s16.v = (rand() & 0x1F) + 0xF;
-                ((Rec_func_800A9E70_arg0 *)motion)->unk_9A.as_u8 = idle_state;
+                ((Rec_func_800A9E70_arg0 *)controller)->unk_9E.as_s16 = 0;
+                ((Rec_func_800A9E70_arg0 *)controller)->unk_A0.at00_s16.v = (rand() & 0x1F) + 0xF;
+                ((Rec_func_800A9E70_arg0 *)controller)->unk_9A.as_u8 = idle_state;
             }
         }
 
-        ((Rec_func_800A9E70_arg0 *)motion)->unk_98 &= 0xFFF3;
+        ((Rec_func_800A9E70_arg0 *)controller)->unk_98 &= 0xFFF3;
         if (actor->unk_64 != 0) {
-            if (func_800AA6B4(motion, render_ctx, map_entity, D_80162E98)) {
+            if (func_800AA6B4(controller, context, sprite, D_80162E98)) {
                 return;
             }
         }
 
         if (((u32)actor->flags1C) & 0x80000) {
-            func_800AA888(motion, render_ctx, map_entity, actor);
-            func_80162598(motion, render_ctx, map_entity, actor);
+            func_800AA888(controller, context, sprite, actor);
+            func_80162598(controller, context, sprite, actor);
             return;
         }
 
         if ((func_800A1C58(actor) << 16) != 0) {
-            func_800AAB10(motion, render_ctx, map_entity, actor);
+            func_800AAB10(controller, context, sprite, actor);
         }
     }
 
-    room_id = func_8009FB34(((S_80171760_2 *)map_entity)->unk_24.at00.v, ((S_80171760_2 *)map_entity)->unk_24.at01.v);
-    ((S_80171760_2 *)map_entity)->unk_26 = room_id;
+    room_id = func_8009FB34(((ActorSpriteView *)sprite)->tile.bytes.x, ((ActorSpriteView *)sprite)->tile.bytes.y);
+    ((ActorSpriteView *)sprite)->room = room_id;
 
     if (actor->unk_6D > 0) {
         u16 action_state;
@@ -147,7 +142,7 @@ void func_8015F760(void *motion, void *render_ctx, void *map_entity, EntityRec *
             func_800A9A0C(actor);
             return;
         }
-        if (!(((S_80171760_2 *)map_entity)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX))) {
+        if (!(((ActorSpriteView *)sprite)->tile.packed == *(u16 *)(&D_80082E80.tileX))) {
             if (!(actor->unk_46 & 0x8000)) {
                 if (dungeonStatus.flags & 0x2000) {
                     if ((func_8009A180(actor,
@@ -155,7 +150,7 @@ void func_8015F760(void *motion, void *render_ctx, void *map_entity, EntityRec *
                         return;
                     }
                 }
-                if ((func_801609AC(motion, render_ctx, map_entity, 0) << 16) == 0) {
+                if ((func_801609AC(controller, context, sprite, 0) << 16) == 0) {
                     return;
                 }
                 action_state = actor->unk_46 | 0x4000;
@@ -166,14 +161,14 @@ void func_8015F760(void *motion, void *render_ctx, void *map_entity, EntityRec *
                 action_state = actor->unk_46 & 0x3FFF;
                 switch (action_state) {
                 case 8:
-                    if ((func_801606D0(motion, render_ctx, map_entity, actor) << 16) != 0) {
+                    if ((func_801606D0(controller, context, sprite, actor) << 16) != 0) {
                         return;
                     }
-                    func_80160894(motion, render_ctx, map_entity, actor);
+                    func_80160894(controller, context, sprite, actor);
                     return;
 
                 case 9:
-                    func_8016276C(motion, render_ctx, map_entity, actor);
+                    func_8016276C(controller, context, sprite, actor);
                     return;
 
                 case 5:
@@ -184,13 +179,13 @@ void func_8015F760(void *motion, void *render_ctx, void *map_entity, EntityRec *
                     s16 facing_angle;
 
                     facing_angle = func_800A0818(
-                        ((S_80171760_2 *)map_entity)->unk_24.at00.v, ((S_80171760_2 *)map_entity)->unk_24.at01.v,
+                        ((ActorSpriteView *)sprite)->tile.bytes.x, ((ActorSpriteView *)sprite)->tile.bytes.y,
                         D_80082E80.tileX, D_80082E80.tileY,
                         &direction_flags);
                     player = D_800814A8;
                     actor->facing = facing_angle;
                     if (player->unk_9A == 0x11) {
-                        func_800AAF00(motion, render_ctx, map_entity, D_80162EE0, D_8015F760);
+                        func_800AAF00(controller, context, sprite, D_80162EE0, D_8015F760);
                         return;
                     }
                 }
@@ -202,7 +197,7 @@ void func_8015F760(void *motion, void *render_ctx, void *map_entity, EntityRec *
                 case 1:
                 case 2:
                 case 3:
-                    func_800AAF00(motion, render_ctx, map_entity, D_80162EE0, D_8015F760);
+                    func_800AAF00(controller, context, sprite, D_80162EE0, D_8015F760);
                     return;
 
                 case 11:
@@ -211,7 +206,7 @@ void func_8015F760(void *motion, void *render_ctx, void *map_entity, EntityRec *
                 }
             }
         }
-        func_8015FF1C(motion, render_ctx, map_entity, actor);
+        func_8015FF1C(controller, context, sprite, actor);
         return;
     } else if (!(((u32)actor->flags1C) & 0x2000)) {
         s32 room_index = (s8)room_id;
@@ -221,10 +216,10 @@ void func_8015F760(void *motion, void *render_ctx, void *map_entity, EntityRec *
             if (!(((u32)actor->flags1C) & 0x430)) {
 
                 if ((func_8009FD7C(
-                        ((S_80171760_2 *)map_entity)->unk_24.at00.v, ((S_80171760_2 *)map_entity)->unk_24.at01.v,
+                        ((ActorSpriteView *)sprite)->tile.bytes.x, ((ActorSpriteView *)sprite)->tile.bytes.y,
                         D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
                     actor->facing = func_800A0818(
-                        ((S_80171760_2 *)map_entity)->unk_24.at00.v, ((S_80171760_2 *)map_entity)->unk_24.at01.v,
+                        ((ActorSpriteView *)sprite)->tile.bytes.x, ((ActorSpriteView *)sprite)->tile.bytes.y,
                         D_80082E80.tileX, D_80082E80.tileY,
                         &direction_flags);
                 }
@@ -235,15 +230,15 @@ void func_8015F760(void *motion, void *render_ctx, void *map_entity, EntityRec *
     if (dungeonStatus.flags & 0x2000) {
         return;
     }
-    if (((S_80171760_2 *)map_entity)->unk_14 & 0x40) {
+    if (((ActorSpriteView *)sprite)->flags & 0x40) {
         return;
     }
     anim_table = D_80162E88;
-    if (((S_80171760_2 *)map_entity)->unk_2C == anim_table) {
+    if (((ActorSpriteView *)sprite)->animationTable == anim_table) {
         return;
     }
-    (*(void * *)((u8 *)map_entity + (0x2C))) = anim_table;
-    func_80047784(map_entity,
-        *(u8 *)((((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32)anim_table),
+    ((ActorSpriteView *)sprite)->animationTable = anim_table;
+    func_80047784(sprite,
+        anim_table[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
         0);
 }

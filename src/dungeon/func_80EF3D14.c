@@ -4,6 +4,45 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 
+/* Partial action view: timer loads keep their observed signedness. */
+typedef struct ActorActionView {
+    u8 pad_00[0x8C];
+    union { s32 code; void *record; u8 *frames; s32 *word; } nextAction;
+    Fixed1616 motionOffset;
+    u8 pad_94[2];
+    union { u16 unsignedTicks; s16 signedTicks; } timer;
+    u16 flags;
+    u8 behavior;
+    u8 phase;
+    u8 pad_9C[4];
+    s16 frameParameter;
+    u8 pad_A2[4];
+    u16 effectTicks;
+    union { s16 signedPhase; u16 phase; u16 startX; } effectState;
+    union { u16 facing; u16 startY; } saved;
+    u16 effectX;
+    u16 effectY;
+    u16 effectZ;
+} ActorActionView;
+
+typedef union TilePairView {
+    struct { u8 x; u8 y; } tile;
+    u16 packed;
+} TilePairView;
+
+typedef struct ActorSpriteView {
+    u8 pad_00[4];
+    s8 frame;
+    u8 pad_05[3];
+    s32 animationKey;
+    u8 pad_0C[8];
+    u16 flags;
+    u8 pad_16[0xE];
+    TilePairView position;
+    union { s8 signedIndex; u8 unsignedIndex; } tileIndex;
+    u8 pad_27[5];
+    u8 *directionFrames;
+} ActorSpriteView;
 
 extern void func_80047784(void *, s32, s32);
 extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
@@ -14,33 +53,13 @@ extern void func_800AD594(void *, s32);
 extern s32 D_8015FCE8;
 extern u8 D_80162EE0[];
 
-
-typedef struct S_80173514_0 {
-    u8 pad_00[0x8C];
-    s32 * unk_8C;
-    u8 pad_90[0x6];
-    union { u16 u; s16 s; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_80173514_0;   /* arg0 in func_80161514 */
-
-
-typedef struct S_80173514_2 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80173514_2;   /* arg1 in func_80161514 */
-
-
-/* Advance a timed sprite flashing sequence and clean up the actor when it finishes. */
-void func_80161514(void *action, void *motion, void *sprite, EntityRec *actor)
+void func_80161514(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor)
 {
     u8 state;
     EntityRec *call_actor;
     void *call_sprite;
 
-    state = ((S_80173514_0 *)action)->unk_9B;
+    state = action->phase;
     switch (state) {
     default:
         return;
@@ -48,59 +67,59 @@ void func_80161514(void *action, void *motion, void *sprite, EntityRec *actor)
     case 0:
     {
         call_actor = actor;
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
-            ((S_80173514_0 *)action)->unk_9B = 4;
+        if (sprite->flags & 0x8000) {
+            action->phase = 4;
             call_sprite = sprite;
-            ((Rec_D_80082E80 *)call_sprite)->unk_14.at00_u16.v |= 0x6000;
+            ((ActorSpriteView *)call_sprite)->flags |= 0x6000;
             func_8009C12C(call_actor, call_sprite, call_actor->facing, 1);
             return;
         }
-        ((S_80173514_2 *)motion)->unk_14 = 0;
-        ((S_80173514_2 *)motion)->unk_10 = 0;
-        ((S_80173514_2 *)motion)->unk_0C = 0;
-        (*(u8 **)((u8 *)sprite + 0x2C)) = D_80162EE0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        sprite->directionFrames = D_80162EE0;
         func_80047784(sprite,
             D_80162EE0[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        ((S_80173514_0 *)action)->unk_96.u = 0;
-        ((S_80173514_0 *)action)->unk_9B++;
+        action->timer.unsignedTicks = 0;
+        action->phase++;
         return;
     }
 
     case 1:
-        if ((s16)++((S_80173514_0 *)action)->unk_96.u == 5) {
-            ((S_80173514_0 *)action)->unk_96.u = 0;
-            ((S_80173514_0 *)action)->unk_9B++;
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x0800;
+        if ((s16)++action->timer.unsignedTicks == 5) {
+            action->timer.unsignedTicks = 0;
+            action->phase++;
+            sprite->flags |= 0x0800;
             return;
         }
         return;
 
     case 2:
-        if ((s16)++((S_80173514_0 *)action)->unk_96.u == 6 ||
-            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-            ((S_80173514_0 *)action)->unk_96.u = 0;
-            ((S_80173514_0 *)action)->unk_9B++;
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+        if ((s16)++action->timer.unsignedTicks == 6 ||
+            (sprite->flags & 0xE000)) {
+            action->timer.unsignedTicks = 0;
+            action->phase++;
+            sprite->flags &= 0xF7FF;
             func_800A56E0(0x804);
             return;
         }
         return;
 
     case 3:
-        if ((s16)++((S_80173514_0 *)action)->unk_96.u == 5 ||
-            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x0800;
+        if ((s16)++action->timer.unsignedTicks == 5 ||
+            (sprite->flags & 0xE000)) {
+            sprite->flags |= 0x0800;
         }
-        if (((S_80173514_0 *)action)->unk_96.s == 12 ||
-            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-            ((S_80173514_0 *)action)->unk_96.u = 0;
-            ((S_80173514_0 *)action)->unk_9B++;
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+        if (action->timer.signedTicks == 12 ||
+            (sprite->flags & 0xE000)) {
+            action->timer.unsignedTicks = 0;
+            action->phase++;
+            sprite->flags &= 0xF7FF;
         }
         call_actor = actor;
-        if (((S_80173514_0 *)action)->unk_96.s == 1 ||
-            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        if (action->timer.signedTicks == 1 ||
+            (sprite->flags & 0xE000)) {
             call_sprite = sprite;
             func_8009C12C(call_actor, call_sprite, call_actor->facing, 1);
             return;
@@ -108,9 +127,9 @@ void func_80161514(void *action, void *motion, void *sprite, EntityRec *actor)
         return;
 
     case 4:
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
+        if (sprite->flags & 0xE000) {
             func_800AD594(actor, 0x100);
-            ((S_80173514_0 *)action)->unk_8C = &D_8015FCE8;
+            action->nextAction.word = &D_8015FCE8;
             dungeonStatus.unk_0C = 0;
             func_800A4ACC(actor);
             actor->unk_46 &= 0x7FFF;

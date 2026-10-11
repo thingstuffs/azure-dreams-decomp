@@ -1,0 +1,42 @@
+{
+  "compiler_inputs": {
+    "toolchain/compilers/gcc-2.7.2-cdk/cc1": "90db2db7bcfe372244ca4d9785a7bfbf7613d711f69ee3bfe6c91d82a85e611d",
+    "toolchain/compilers/gcc-2.7.2-cdk/gcc": "7a571911a97cef0c6b7b5d4174e89ac54f9806ce3d4b233c0f8620e3503c672b",
+    "toolchain/compilers/gcc-2.7.2-cdk/cpp": "d8005743fd13089ebacb7fb1dff18e79168ee3e3ccbb8a97595a4f56b0199b74",
+    "toolchain/gcc-src/2.7.2-cdk/sched.c": "9b696cd14fb1e1e63c7748db44fd1e03c8d472905fa3068f5858e08dd4479257",
+    "toolchain/gcc-src/2.7.2-cdk/global.c": "4052d3b71bb74bff43e5e350b9bce895f2fd6350d71ec803a75a3d8160e6551b",
+    "toolchain/gcc-src/2.7.2-cdk/local-alloc.c": "496d9a7140400854ad64c384532e30910c9fd02ca42cddfd176723f3d6429477",
+    "toolchain/gcc-src/2.7.2-cdk/cse.c": "db50af88b19282d4b87aad6c6bd138c8401567df3169aadeece538313a1cbe9a",
+    "toolchain/gcc-src/2.7.2-cdk/reload1.c": "a6994018e282e8f46ecb0844f761cba71bdbcc7c974c4c0ba56eaad09c504adf",
+    "toolchain/gcc-src/2.7.2-cdk/combine.c": "9d7344d63af2b82352e24e2caab9b4da41a4487c7d3799e97ae6e985762da16e",
+    "toolchain/gcc-src/2.7.2-cdk/flow.c": "bdcc1844433fe59b21d72a5417f4b71d8e20fa80816ff65b7dde84df67fa9792",
+    "toolchain/gcc-src/2.7.2-cdk/rtl.def": "d099cfae682806a5ec55733f2fd3022bc449ab103b79a1c7186914e887a66cba",
+    "toolchain/gcc-src/2.7.2-cdk/rtl.h": "ba269f07e322368fe9e61fd35d4436a08c856a6ff68ab7a1ff05156eb97e5415",
+    "toolchain/gcc-src/2.7.2-cdk/machmode.def": "dcb24886334f57a5b963f2bdbe568b045bbbea98cbf48cfc5c17da3afeb75636",
+    "toolchain/gcc-src/2.7.2-cdk/version.c": "22a335c2292b2e801ef7b7a249fe67ff7fcbeaa5947358238d98c4937facd19b",
+    "toolchain/gcc-src/2.7.2-cdk/config/mips/mips.h": "3c0e810495fd57a8ac63de0b5a57dc8fc2ad24325061e5831e2f2a6d3afe07fc"
+  },
+  "text_sha256": {
+    "sched_const_a": "cd7aa244a32ca018229412cb6fae8edb6959e1bc2de2a9eb0be5309a3dbc9f02",
+    "sched_const_b": "e82167cb3c767a3f892cc7d979083d187893ba214b0dede37f47ee7f92017370",
+    "sched_birth_a": "00f6d876876fca60cf295b332381347e95116b388055fe1b202bc8d6871fb755",
+    "sched_birth_b": "00f6d876876fca60cf295b332381347e95116b388055fe1b202bc8d6871fb755",
+    "sched_birth_live_a": "d051addb240a116f3c2e2b7b1301e6cbb6491843e65fecbc9e6e8efa31c25e6f",
+    "sched_birth_live_b": "d051addb240a116f3c2e2b7b1301e6cbb6491843e65fecbc9e6e8efa31c25e6f",
+    "sched_luid_a": "1894c9238283950f8b5e45b416bfe970935c8bd2b607d31e9f60b80fceff9343",
+    "sched_luid_b": "56f2bb03de34f6653a87c48fe6b797fb08a2608f6f2458fbc60ee1bcd3c459be",
+    "global_refs6": "394ad1604d4de1f6cbed7c41663de44b9f77513f470462b386789e9249195966",
+    "global_refs7": "075fec4a466e88c5defca80a1f0af3f975e51ea90f04a11a1aafb514c638866d",
+    "global_loop_depth": "a8b574d54d0208c98db2ba75bad7706062862be8b096b6a0dead08d7de14879c",
+    "local_fixed2": "94061b5d4f4752d9d73b94514efe5fdeda812be133eff7bc3244291bab0a134d",
+    "local_fixed3": "1096edb7197e528f825b82cfcb602fd0ecfe31cf3c07193ea10864041d67247c",
+    "local_fixed4": "bce56ddd97986710d0bec59eb7bf456bddde8fb80116d984a1e116584cfd4f78",
+    "cse_copy_a": "a5eba9c0602d09abdf8dca79aa66baf1e1c08778ed5464ed73adf30d50d735b9",
+    "cse_copy_b": "a5eba9c0602d09abdf8dca79aa66baf1e1c08778ed5464ed73adf30d50d735b9",
+    "reload_live": "2265a1580e907fbdc4b1ccee1904a9a31ed0c7980d56e07bd93488e08f963a58",
+    "reload_reread": "3cfc287d3c5a399660ff2d373b68ee3c060a948cdbca5bc023945a682688b95b",
+    "combine_split_a": "07d35bf12a3f05c9a9cbe5bc68732e263ffa9c331449267f436843444f26ca61",
+    "combine_split_b": "07d35bf12a3f05c9a9cbe5bc68732e263ffa9c331449267f436843444f26ca61",
+    "combine_split_or": "876d90ab5bd4ced3f2e8970ca80aad7395dc9f8ff2ba54fe07ecc38784ec5f37"
+  }
+}

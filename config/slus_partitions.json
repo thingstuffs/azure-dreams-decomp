@@ -213,9 +213,9 @@
       "source": "src/code2.c",
       "raw_sha256": "6e3cdb453228a565637cab754f42e70df8647c75bbf38fbf30dc16116029d69d",
       "recipe": {
-        "ccver": "2.8.1",
+        "asflags": "",
         "ccflags": "",
-        "asflags": ""
+        "ccver": "2.7.2-cdk"
       },
       "functions": [
         "func_8003F240",

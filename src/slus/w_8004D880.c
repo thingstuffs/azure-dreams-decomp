@@ -18,10 +18,11 @@ s32 func_8004D880(s32 char_code)
 
     if (code & 2) {
         range_index = code + 0x7DB1;
+        char_code = code;
     } else {
         range_index = code + 0x7DB1;
+        char_code = code;
     }
-    char_code = code;
     if ((u32)(range_index & 0xFFFF) < 10) {
         output_char = range_index + 0x30;
         return output_char & 0xFF;

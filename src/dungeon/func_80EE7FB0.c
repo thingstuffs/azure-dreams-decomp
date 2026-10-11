@@ -1,58 +1,85 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+
+/* The action record shares its timer bytes between signed tests and unsigned updates. */
+typedef struct ActorActionView {
+    u8 pad_00[0x8C];
+    void *nextBehavior;
+    s32 scratch;
+    u8 pad_94[2];
+    union { u16 raw; s16 signedValue; } timer;
+    u16 flags;
+    u8 behavior;
+    u8 phase;
+    u8 pad_9C[2];
+    s16 idleElapsed;
+    s16 idleDelay;
+    u8 pad_A2[0xA];
+    union { u16 raw; s16 signedValue; } startHeight;
+} ActorActionView;
+
+/* The sprite pointer is in the object header, 0x14 bytes before its entity record. */
+typedef struct ActorSpriteLink {
+    void *sprite;
+    u8 pad_04[0x10];
+} ActorSpriteLink;
+
+/* Sprite state passed to the frame selector; the tile pair is also compared as one halfword. */
+typedef struct ActorSpriteView {
+    u8 pad_00[4];
+    s8 framePhase;
+    u8 pad_05[0xF];
+    u16 flags;
+    u8 pad_16[6];
+    u16 scaleX;
+    u16 scaleY;
+    u8 pad_20[4];
+    union { struct { u8 x, y; } bytes; u16 packed; } tile;
+    union { u8 raw; s8 signedValue; } room;
+    u8 pad_27[5];
+    u8 *frameTable;
+} ActorSpriteView;
+
+/* Three adjacent three-byte ability slots, selected by action kinds 1, 2 and 3. */
+typedef struct ActorAbilityView {
+    u8 pad_00[8];
+    u8 slots[3][3];
+} ActorAbilityView;
+
+typedef struct PlayerActionCounterView {
+    u8 pad_00[0xA6];
+    u16 activeActions;
+} PlayerActionCounterView;
 extern int abs(int);
 
-
-typedef s32 Any;
-
-typedef struct S_801737B0_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    union { u16 s; s16 u; } unk_96;   /* accessed as both */
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-} S_801737B0_0;   /* arg0 in func_8016D7B0 */
-
-
-typedef struct S_801737B0_2_pre {
-    u8 * unk_00;
-    u8 pad_04[0x10];
-} S_801737B0_2_pre;   /* the 0x14 bytes before ptr in func_8016D7B0, addressed as ptr[-1] */
-
-typedef struct S_801737B0_3 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_801737B0_3;   /* desc in func_8016D7B0 */
-
-
-extern u8 D_8016BCE8[];
+extern void func_8016BCE8(void *, void *, void *, void *);
 extern u8 D_8016EEB8[];
 
 extern s32 func_8003F270();
-extern Any func_80047784();
+extern void func_80047784();
 extern s32 func_80069EF8();
 extern void *func_800A05A4();
-extern Any func_800A2B04();
-extern Any func_800A4ACC();
-extern Any func_800A56E0();
-extern s32 func_800A94A0();
-extern Any func_8016B498();
+extern void func_800A2B04();
+extern s32 func_800A4ACC(void *);
+extern s32 func_800A56E0(s32);
+extern void *func_800A94A0();
+extern s32 func_8016B498();
 
 /* Updates an actor action through targeting, particle effects, and recovery. */
-void func_8016D7B0(void *action, EntityRec *motion, void *sprite, EntityRec *actor) {
+void func_8016D7B0(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor) {
     s32 use_player_target;
     s32 particle_count;
     s32 offset_z;
     s32 direction;
     s32 action_kind;
+    void *target;
+    SpriteFrameState *target_sprite;
     s32 particle_zero;
     s32 particle_color;
     s32 offset_x;
@@ -65,7 +92,7 @@ void func_8016D7B0(void *action, EntityRec *motion, void *sprite, EntityRec *act
     u8 *action_data;
     u8 *particle_origin;
 
-    state = ((S_801737B0_0 *)action)->unk_9B;
+    state = action->phase;
     use_player_target = 0;
     switch (state) {
     case 0:
@@ -77,19 +104,19 @@ void func_8016D7B0(void *action, EntityRec *motion, void *sprite, EntityRec *act
                 use_player_target = 1;
                 /* fall through */
             case 2:
-                action_data = (u8 *)actor + 0xE;
+                action_data = ((ActorAbilityView *)actor)->slots[2];
                 break;
             case 5:
                 use_player_target = 1;
                 /* fall through */
             case 1:
-                action_data = (u8 *)actor + 0xB;
+                action_data = ((ActorAbilityView *)actor)->slots[1];
                 break;
             case 4:
                 use_player_target = 1;
                 /* fall through */
             case 0:
-                action_data = (u8 *)actor + 8;
+                action_data = ((ActorAbilityView *)actor)->slots[0];
                 break;
             default:
                 action_data = 0;
@@ -99,13 +126,13 @@ void func_8016D7B0(void *action, EntityRec *motion, void *sprite, EntityRec *act
             action_kind = actor->unk_46 & 0x3FFF;
             switch (action_kind) {
             case 3:
-                action_data = (u8 *)actor + 0xE;
+                action_data = ((ActorAbilityView *)actor)->slots[2];
                 break;
             case 2:
-                action_data = (u8 *)actor + 0xB;
+                action_data = ((ActorAbilityView *)actor)->slots[1];
                 break;
             case 1:
-                action_data = (u8 *)actor + 8;
+                action_data = ((ActorAbilityView *)actor)->slots[0];
                 break;
             default:
                 action_data = 0;
@@ -114,41 +141,41 @@ void func_8016D7B0(void *action, EntityRec *motion, void *sprite, EntityRec *act
         }
         if (*action_data != 0) {
 
-            direction = ((S_801737B0_0 *)action)->unk_98;
+            direction = action->flags;
             direction &= 0xFF7F;
-            ((S_801737B0_0 *)action)->unk_98 = direction;
+            action->flags = direction;
             direction = use_player_target;
-            if (((void *)direction) != 0) {
-                direction = (s32)D_800814A8;
-                actor->target = (void *)direction;
+            if (direction != 0) {
+                target = D_800814A8;
+                actor->target = target;
                 {
-                    u8 facing;
+                    u8 tile_coord;
 
-                    action_kind = (s32)(((S_801737B0_2_pre *)((void *)direction))[-1].unk_00);
-                    facing = ((S_801737B0_3 *)((u8 *)action_kind))->unk_24;
-                    actor->unk_72 = facing;
-                    facing = ((S_801737B0_3 *)((u8 *)action_kind))->unk_25;
-                    actor->unk_73 = facing;
+                    target_sprite = ((ActorSpriteLink *)target)[-1].sprite;
+                    tile_coord = target_sprite->unk_24;
+                    actor->unk_72 = tile_coord;
+                    tile_coord = target_sprite->unk_25;
+                    actor->unk_73 = tile_coord;
                 }
             } else if (D_8006DE24[*action_data].kind == 2) {
-                direction = (s32)(actor->target);
-                if (((void *)direction) != 0) {
+                target = actor->target;
+                if (target != 0) {
                     {
-                        u8 facing;
+                        u8 tile_coord;
 
-                        action_kind = (s32)(((S_801737B0_2_pre *)((void *)direction))[-1].unk_00);
-                        facing = ((S_801737B0_3 *)((u8 *)action_kind))->unk_24;
-                        actor->unk_72 = facing;
-                        facing = ((S_801737B0_3 *)((u8 *)action_kind))->unk_25;
-                        actor->unk_73 = facing;
+                        target_sprite = ((ActorSpriteLink *)target)[-1].sprite;
+                        tile_coord = target_sprite->unk_24;
+                        actor->unk_72 = tile_coord;
+                        tile_coord = target_sprite->unk_25;
+                        actor->unk_73 = tile_coord;
                     }
                 }
             } else {
 
                 actor->target = func_800A05A4(
                     actor,
-                    ((Rec_D_80082E80 *)sprite)->unk_24,
-                    ((Rec_D_80082E80 *)sprite)->unk_25,
+                    sprite->tile.bytes.x,
+                    sprite->tile.bytes.y,
                     actor->facing,
                     0x10);
 
@@ -156,22 +183,22 @@ void func_8016D7B0(void *action, EntityRec *motion, void *sprite, EntityRec *act
                 actor->unk_73 = abs(actor->unk_73);
             }
 
-            if (func_800A94A0(actor, action_data, use_player_target, (u8 *)action + 0x98) == 0) {
+            if (func_800A94A0(actor, action_data, use_player_target, &action->flags) == 0) {
                 return;
             }
-            ((S_801737B0_0 *)action)->unk_9B++;
+            action->phase++;
             return;
 
         }
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        func_800A2B04(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
         dungeonStatus.unk_0C = 0;
-        (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
+        ((PlayerActionCounterView *)D_800814A8)->activeActions--;
         func_800A4ACC(actor);
         actor->unk_6D--;
-        ((S_801737B0_0 *)action)->unk_8C = D_8016BCE8;
+        action->nextBehavior = func_8016BCE8;
         actor->unk_73 = 0;
         actor->unk_72 = 0;
         actor->unk_46 &= 0x7FFF;
@@ -179,40 +206,40 @@ void func_8016D7B0(void *action, EntityRec *motion, void *sprite, EntityRec *act
 
     case 1:
         if (func_8003F270() != 0) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
+            sprite->flags |= 0x800;
             return;
         }
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
-        ((S_801737B0_0 *)action)->unk_9B++;
+        sprite->flags &= 0xF7FF;
+        action->phase++;
         func_800A56E0(0x703);
-
+        /* fallthrough */
     case 2:
-        sprite_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v;
+        sprite_flags = sprite->flags;
         if (sprite_flags & 0x8000) {
-            ((S_801737B0_0 *)action)->unk_96.s = 0;
-            ((S_801737B0_0 *)action)->unk_9B++;
-            ((S_801737B0_0 *)action)->unk_98 |= 0x80;
+            action->timer.raw = 0;
+            action->phase++;
+            action->flags |= 0x80;
             return;
         }
 
-        if ((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 2) && (sprite_flags & 0x1000)) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = sprite_flags | 0x800;
-            ((S_801737B0_0 *)action)->unk_96.s = 0x16;
+        if ((sprite->framePhase == 2) && (sprite_flags & 0x1000)) {
+            sprite->flags = sprite_flags | 0x800;
+            action->timer.raw = 0x16;
         }
-        if (((Rec_D_80082E80 *)sprite)->unk_04.as_s8 < 2) {
+        if (sprite->framePhase < 2) {
             return;
         }
 
-        timer = ((S_801737B0_0 *)action)->unk_96.s - 1;
-        ((S_801737B0_0 *)action)->unk_96.s = timer;
+        timer = action->timer.raw - 1;
+        action->timer.raw = timer;
         if ((s16)timer <= 0) {
-            ((S_801737B0_0 *)action)->unk_96.s = 0;
-            ((S_801737B0_0 *)action)->unk_9B++;
+            action->timer.raw = 0;
+            action->phase++;
         }
-        if (((S_801737B0_0 *)action)->unk_96.u == 2) {
-            ((S_801737B0_0 *)action)->unk_98 |= 0x80;
+        if (action->timer.signedValue == 2) {
+            action->flags |= 0x80;
         }
-        if (((S_801737B0_0 *)action)->unk_96.u < 0xA) {
+        if (action->timer.signedValue < 0xA) {
             return;
         }
 
@@ -230,7 +257,7 @@ void func_8016D7B0(void *action, EntityRec *motion, void *sprite, EntityRec *act
                 particle_origin,
                 particle_zero,
                 particle_color,
-                (s16)(((S_801737B0_0 *)action)->unk_96.s - 2),
+                (s16)(action->timer.raw - 2),
                 offset_x,
                 offset_y,
                 offset_z);
@@ -240,30 +267,30 @@ void func_8016D7B0(void *action, EntityRec *motion, void *sprite, EntityRec *act
         } while (1);
 
     case 3:
-        ((S_801737B0_0 *)action)->unk_96.s = 0x14;
-        ((S_801737B0_0 *)action)->unk_9B++;
-
+        action->timer.raw = 0x14;
+        action->phase++;
+        /* fallthrough */
     case 4:
         if (((s32)dungeonStatus.unk_0C) == 0) {
-            ((S_801737B0_0 *)action)->unk_96.s = 0;
+            action->timer.raw = 0;
         }
-        timer = ((S_801737B0_0 *)action)->unk_96.s - 1;
-        ((S_801737B0_0 *)action)->unk_96.s = timer;
+        timer = action->timer.raw - 1;
+        action->timer.raw = timer;
         if ((s16)timer <= 0) {
-            ((S_801737B0_0 *)action)->unk_96.s = 0;
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+            action->timer.raw = 0;
+            sprite->flags &= 0xF7FF;
         }
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
 
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        func_800A2B04(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
 
-        if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pv != D_8016EEB8) {
-            (*(void * *)((u8 *)sprite + 0x2C)) = D_8016EEB8;
+        if (sprite->frameTable != D_8016EEB8) {
+            (sprite->frameTable) = D_8016EEB8;
             direction = ((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7;
             func_80047784(sprite, D_8016EEB8[direction], 0);
         }
@@ -272,7 +299,7 @@ void func_8016D7B0(void *action, EntityRec *motion, void *sprite, EntityRec *act
         }
 
         dungeonStatus.unk_0A--;
-        ((S_801737B0_0 *)action)->unk_8C = D_8016BCE8;
+        action->nextBehavior = func_8016BCE8;
         func_800A4ACC(actor);
         actor->unk_73 = 0;
         actor->unk_72 = 0;

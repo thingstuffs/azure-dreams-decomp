@@ -965,9 +965,9 @@
         "include/slus/list_cursor_e0.h"
       ],
       "recipe": {
-        "ccver": "2.8.1",
+        "asflags": "",
         "ccflags": "",
-        "asflags": ""
+        "ccver": "2.7.2-cdk"
       },
       "data": [
         {
@@ -1701,9 +1701,9 @@
         "include/common.h"
       ],
       "recipe": {
-        "ccver": "2.8.1",
+        "asflags": "",
         "ccflags": "",
-        "asflags": ""
+        "ccver": "2.7.2-cdk"
       },
       "data": [
         {

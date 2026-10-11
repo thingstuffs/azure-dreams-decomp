@@ -28,6 +28,15 @@ def local(root,name):
 def rows(root):
  return {r['id']:r for r in read_jsonl(root/'ledger/rows.jsonl') if r['kind']=='overlay'}
 
+def all_members(m):
+ return m.get('data_members',[])+m['members']
+
+def module_first(m):
+ return all_members(m)[0]
+
+def module_size(m):
+ return sum(a['size'] for a in all_members(m))
+
 def ranges(root,family):
  return [json.loads(l) for l in (root/'config/overlays'/f'{family}.rowbase.jsonl').read_text().splitlines() if l.startswith('{')]
 
@@ -41,34 +50,46 @@ def load_modules(root=ROOT):
   if not re.fullmatch('[a-z][a-z0-9_]*',m['key']) or m['key'] in keys:raise ValueError('duplicate/invalid key')
   keys.add(m['key'])
   if m['owned_data']:validate_owned_layout(m)
+  if m.get('data_members'):
+   if len(m['data_members'])!=len(m['owned_data']):raise ValueError('separate prefix row count differs')
+   for a,d in zip(m['data_members'],m['owned_data']):
+    if tuple(a[k] for k in ('foff','vma','size'))!=tuple(d[k] for k in ('foff','vma','size')):raise ValueError('separate prefix row ownership extent differs')
   genuine_flags(m,root)
   if not m['members'] or m['recipe']!={'cfg':'2.7.2-cdk-G0','row_asflags':''}:raise ValueError('unsupported recipe/empty cohort')
   if not m['headers'] or not m['review_inputs']:raise ValueError('missing shared contract or review inputs')
   for p in [m['source'],*m['headers'],*m['review_inputs']]:local(root,p)
   rr=[r for r in ranges(root,m['container']) if r['region']==m['region'] and r['base_confidence']=='proven']
   if len(rr)!=1:raise ValueError('missing unique proven load region')
-  region=rr[0];delta=int(region['delta'],0);cursor=m['members'][0]['foff']
-  for a in m['members']:
+  region=rr[0];delta=int(region['delta'],0);cursor=module_first(m)['foff']
+  for a in all_members(m):
    r=reg[a['id']]
    if a['id'] in seen:raise ValueError('duplicate member')
    seen.add(a['id'])
    expected={'id':r['id'],'source':f"src/{r['container']}/{Path(r['c_path']).name}",'function':('func_%08X' % (r['foff']+delta+a['body_offset'])) if 'body_offset' in a else (r.get('true_name') or r['func']),'foff':r['foff'],'vma':r['foff']+delta,'size':r['size']}
+   if a in m.get('data_members',[]):
+    expected.pop('function');expected['symbol']=r.get('true_name') or r['func']
+    if r.get('row_kind')!='data':raise ValueError('prefix row is not data')
+   elif r.get('row_kind')=='data':raise ValueError('function member is data')
    if 'body_offset' in a:expected['body_offset']=a['body_offset']
    if a!=expected or a['foff']!=cursor or r['container']!=m['container'] or r['cfg']!=m['recipe']['cfg'] or (r.get('row_asflags') or '')!=m['recipe']['row_asflags']:raise ValueError('member identity, contiguity or recipe differs: '+a['id'])
    cursor+=a['size']
-  if not int(region['foff_start'],0)<=m['members'][0]['foff']<cursor<=int(region['foff_end'],0):raise ValueError('module outside proven load map')
+  if not int(region['foff_start'],0)<=module_first(m)['foff']<cursor<=int(region['foff_end'],0):raise ValueError('module outside proven load map')
   if m.get('membership_evidence'):
    ev=json.loads(local(root,m['membership_evidence']).read_text())
    if m['membership_evidence'] not in m['review_inputs']:raise ValueError('membership evidence not fingerprinted')
    group=ev['ledger_group']
    assignments=read_jsonl(root/'ledger/modules.jsonl')
    cohort=sorted([x['id'] for x in assignments if all(x[k]==v for k,v in group.items())],key=lambda rid:reg[rid]['foff'])
-   if cohort!=[a['id'] for a in m['members']]:raise ValueError('complete ledger cohort differs')
+   if cohort!=[a['id'] for a in all_members(m)]:raise ValueError('complete ledger cohort differs')
    levels={x['id']:x for x in read_jsonl(root/'ledger/levels.jsonl')}
    for a in m['members']:
     level=levels[a['id']]
     if level['level']<3 or level['pins_left'] or level['tail_jumps'] or set(level['l4_residue'])-{'not_in_module'}:raise ValueError('L3/placement screen failed')
-   if ev['members']!=[a['id'] for a in m['members']] or ev['confidence']!='strong' or not ev['basis'] or not ev['coverage_complete']:raise ValueError('strong membership screen failed')
+   baseline={x['id']:x for x in read_jsonl(root/'ledger/baseline.jsonl')} if m.get('data_members') else {}
+   for a in m.get('data_members',[]):
+    level=levels[a['id']]
+    if level['level']<2 or level['pins_left'] or level['tail_jumps'] or set(level['l4_residue'])-{'not_in_module'} or not baseline[a['id']].get('exact'):raise ValueError('data prefix eligibility failed')
+   if ev['members']!=[a['id'] for a in all_members(m)] or ev['confidence']!='strong' or not ev['basis'] or not ev['coverage_complete']:raise ValueError('strong membership screen failed')
   im=m['imports']
   if any(d.get('evidence') and d['evidence'] not in m['review_inputs'] for d in im):raise ValueError('import evidence not fingerprinted')
   if len({x['symbol'] for x in im})!=len(im):raise ValueError('duplicate import')
@@ -148,13 +169,13 @@ def validate_runtime(root,d):
 
 
 def graph(root=ROOT):
- root=Path(root);reg=rows(root);mods=load_modules(root);taken={a['id'] for m in mods for a in m['members']}
- edges=[{'module':m['key'],'source':m['source'],'recipe':m['recipe'],'rows':[a['id'] for a in m['members']]} for m in mods]
+ root=Path(root);reg=rows(root);mods=load_modules(root);taken={a['id'] for m in mods for a in all_members(m)}
+ edges=[{'module':m['key'],'source':m['source'],'recipe':m['recipe'],'rows':[a['id'] for a in all_members(m)]} for m in mods]
  edges += [{'source':f"src/{r['container']}/{Path(r['c_path']).name}",'recipe':{'cfg':r['cfg'],'row_asflags':r.get('row_asflags') or ''},'rows':[rid]} for rid,r in sorted(reg.items()) if rid not in taken]
  return {'schema':SCHEMA,'logical_rows':len(reg),'edges':edges}
 
 def affected_windows(m,root=ROOT):
- first=m['members'][0]['foff'];end=m['members'][-1]['foff']+m['members'][-1]['size'];out=[]
+ first=module_first(m)['foff'];end=m['members'][-1]['foff']+m['members'][-1]['size'];out=[]
  for p in sorted((root/'config/overlays').glob(m['container']+'*.overlay.yaml')):
   t=p.read_text();a=re.search(r'file_start:\s*(0x[\da-fA-F]+|\d+)',t);b=re.search(r'file_end:\s*(0x[\da-fA-F]+|\d+)',t)
   if a and b and int(a[1],0)<end and first<int(b[1],0):out.append(str(p.relative_to(root)))
@@ -196,8 +217,8 @@ def gate_tool(root,name):
 
 def fingerprint(m,root=ROOT,windows=True):
  root=Path(root).absolute();wins=affected_windows(m,root);compiler_versions={'2.7.2-cdk'}
- evidence_foffs={a['foff'] for a in m['members']}
- source_starts=[m['source'],*m['headers'],*(a['source'] for a in m['members']),'include/labels.inc',*(p for p in m['review_inputs'] if p.endswith(('.c','.h')))]
+ evidence_foffs={a['foff'] for a in all_members(m)}
+ source_starts=[m['source'],*m['headers'],*(a['source'] for a in all_members(m)),'include/labels.inc',*(p for p in m['review_inputs'] if p.endswith(('.c','.h')))]
  names=set()
  names.update(['config/overlays/modules.json','ledger/rows.jsonl','ledger/splits/overlay_modules.build.json',f"config/overlays/{m['container']}.rowbase.jsonl",'config/names.tsv',*m['review_inputs']])
  names.update(wins)
@@ -264,13 +285,15 @@ def fingerprint(m,root=ROOT,windows=True):
     else:f.seek(d['foff']);b=f.read(d['view_bytes'])
     if len(b)!=d['view_bytes']:raise ValueError('truncated external data view')
     asset[d['symbol']]=hashlib.sha256(b).hexdigest()
-  a=m['members'][0];f.seek(a['foff']);b=f.read(sum(x['size'] for x in m['members']));asset['module_text']=hashlib.sha256(b).hexdigest()
+  a=module_first(m);f.seek(a['foff']);b=f.read(module_size(m));asset['module_text']=hashlib.sha256(b).hexdigest()
  screening={}
  if m.get('membership_evidence'):
   # Do not bind the level number or not_in_module: placement itself changes
   # those outputs. Bind all eligibility inputs without a certificate cycle.
   levels={x['id']:x for x in read_jsonl(root/'ledger/levels.jsonl')}
   screening={a['id']:{'l3':levels[a['id']]['level']>=3,'pins':levels[a['id']]['pins_left'],'tail_jumps':levels[a['id']]['tail_jumps'],'residue':sorted(set(levels[a['id']]['l4_residue'])-{'not_in_module'})} for a in m['members']}
+ if m.get('data_members'):
+  screening.update({a['id']:{'l2':levels[a['id']]['level']>=2,'pins':levels[a['id']]['pins_left'],'tail_jumps':levels[a['id']]['tail_jumps'],'residue':sorted(set(levels[a['id']]['l4_residue'])-{'not_in_module'}),'baseline_exact':next(x for x in read_jsonl(root/'ledger/baseline.jsonl') if x['id']==a['id']).get('exact') is True} for a in m['data_members']})
  # Certificates bind the same frozen bank evidence consumed by module and
  # neighbouring C compiles; rowbase/census audit files alone miss raw edits.
  bank_inputs={}
@@ -301,6 +324,10 @@ def sections(path):
 
 def build(m,out,root=ROOT,substitutions=None):
  root=Path(root).absolute();out=Path(out).absolute();out.mkdir(parents=True,exist_ok=True)
+ if substitutions:
+  if set(substitutions)&{a['source'] for a in m.get('data_members',[])}:
+   raise ValueError('separate prefix data candidate requires a complete TU edit')
+  if set(substitutions)-{a['source'] for a in m['members']}:raise ValueError('candidate is not a function member')
  if json.loads((root/'ledger/splits/overlay_modules.build.json').read_text())!=graph(root):raise ValueError('physical graph stale or incomplete')
  before=fingerprint(m,root);env=dict(os.environ,TMPDIR=str(out),PYTHONDONTWRITEBYTECODE='1')
  for k in ['AZURE_MASPSX','AZURE_MASPSX_COMPANION','MASPSX_NORETURN_FILE','MASPSX_SIBCALL_FILE']:env.pop(k,None)
@@ -309,16 +336,16 @@ def build(m,out,root=ROOT,substitutions=None):
  source=root/m['source'];candidate_hashes={}
  if substitutions:
   # A private C preprocessor include overlay replaces a member, keeping the full TU.
-  allowed={a['source'] for a in m['members']}
-  if set(substitutions)-allowed:raise ValueError('candidate is not a member')
-  text=source.read_text()
+  text=source.read_text();replaced=set()
   for line in text.splitlines():
    hit=re.fullmatch(r'\s*#include "([^"]+)"\s*',line)
    if not hit:continue
    target=Path(os.path.abspath(source.parent/hit[1]))
    if target.is_file() and target.is_relative_to(root):
     name=str(target.relative_to(root));replacement=Path(substitutions.get(name,target)).absolute()
+    if name in substitutions:replaced.add(name)
     text=text.replace(line,'#include "'+str(replacement)+'"')
+  if replaced!=set(substitutions):raise ValueError('candidate source is not included by the TU')
   # Headers are resolved through -I root/include below. Every replaced source is bound.
   source=out/'candidate.c';source.write_text(text)
   candidate_hashes={k:sha(v) for k,v in substitutions.items()}
@@ -350,14 +377,14 @@ def build(m,out,root=ROOT,substitutions=None):
  addresses=dict(imports,**{a['function']:a['vma']+a.get('body_offset',0) for a in m['members']})
  addresses.update({d['symbol']:d['vma'] for d in m['owned_data'] if d.get('symbol')})
  # One natural-order placement; never a separate address directive per member.
- ld=out/'module.ld';ld.write_text('OUTPUT_FORMAT("elf32-tradlittlemips")\nOUTPUT_ARCH(mips)\n_gp = 0x80080994;\n'+''.join(f'{s} = 0x{v:X};\n' for s,v in imports.items())+'SECTIONS {\n'+f' .module 0x{m["members"][0]["vma"]:X} : {{ {link_inputs(m,obj)} }}\n'+f' ASSERT(SIZEOF(.module) == {sum(a["size"] for a in m["members"])}, "module extent")\n /DISCARD/ : {{ *(.text) *(.reginfo) *(.MIPS.abiflags) *(.pdr) *(.comment) *(.note*) *(.mdebug*) *(.gnu.attributes) }}\n}}\n')
+ ld=out/'module.ld';ld.write_text('OUTPUT_FORMAT("elf32-tradlittlemips")\nOUTPUT_ARCH(mips)\n_gp = 0x80080994;\n'+''.join(f'{s} = 0x{v:X};\n' for s,v in imports.items())+'SECTIONS {\n'+f' .module 0x{module_first(m)["vma"]:X} : {{ {link_inputs(m,obj)} }}\n'+f' ASSERT(SIZEOF(.module) == {module_size(m)}, "module extent")\n /DISCARD/ : {{ *(.text) *(.reginfo) *(.MIPS.abiflags) *(.pdr) *(.comment) *(.note*) *(.mdebug*) *(.gnu.attributes) }}\n}}\n')
  elf=out/'module.elf';binary=out/'module.bin'
  command(['mipsel-linux-gnu-ld','-EL','-T',ld,'-Map',out/'module.map','-o',elf,obj],root,env,out/'link.log')
  command(['mipsel-linux-gnu-objcopy','-O','binary',elf,binary],root,env,out/'objcopy.log')
  syms=command(['mipsel-linux-gnu-nm','-n','-S',elf],root,env,out/'linked_symbols.log').decode()
  placed={p[-1]:int(p[0],16) for l in syms.splitlines() if len(p:=l.split())>=3}
  if any(placed.get(a['function'])!=a['vma']+a.get('body_offset',0) for a in m['members']) or any(placed.get(d['symbol'])!=d['vma'] for d in m['owned_data'] if d.get('symbol')):raise ValueError('natural linked addresses differ')
- data=binary.read_bytes();first=m['members'][0]
+ data=binary.read_bytes();first=module_first(m)
  with (root/'work/disc/containers'/CONTAINERS[m['container']]).open('rb') as f:f.seek(first['foff']);retail=f.read(len(data))
  (out/'retail.bin').write_bytes(retail)
  if data!=retail:raise ValueError('whole-module retail mismatch')
@@ -385,13 +412,13 @@ def build(m,out,root=ROOT,substitutions=None):
  (out/'rodata_proof.json').write_text(json.dumps(native,indent=2)+'\n')
  genuine=bytearray()
  prefix=sum(d['size'] for d in m['owned_data'])
- anchors={'.rodata':m['members'][0]['vma']} if prefix else {}
+ anchors={'.rodata':module_first(m)['vma']} if prefix else {}
  for view in (ma,ge):
   rosec=next((k for k in ('.rdata','.rodata') if view.obj.sections.get(k)),None)
   if bool(rosec)!=bool(prefix) or (rosec and len(view.obj.sections[rosec])!=prefix):raise ValueError('genuine/maspsx data extent differs')
   if rosec:
    view.funcs['__owned_rodata']=(rosec,0,prefix)
-   words,masked=A.resolve_tokens(view,'__owned_rodata',m['members'][0]['vma'],addresses.get,0x80080994,section_anchors=anchors)
+   words,masked=A.resolve_tokens(view,'__owned_rodata',module_first(m)['vma'],addresses.get,0x80080994,section_anchors=anchors)
    if masked:raise ValueError('unresolved owned-data relocation')
    resolved=struct.pack('<'+'I'*len(words),*words)
    if resolved!=data[:prefix]:raise ValueError('owned-data bytes differ')
@@ -406,7 +433,7 @@ def build(m,out,root=ROOT,substitutions=None):
  (out/'genuine.bin').write_bytes(genuine)
  after=fingerprint(m,root)
  if before!=after or any(sha(substitutions[k])!=h for k,h in candidate_hashes.items()):raise ValueError('inputs changed during module build')
- receipt={'schema':SCHEMA,'module':m['key'],'fingerprint':before,'members':[a['id'] for a in m['members']],'physical':{'compile_edges':1,'functions':[a['function'] for a in m['members']],'payload':payload,'owned_data':m['owned_data'],'imports':m['imports']},'gate':{'result':'MATCH','foff':first['foff'],'vma':first['vma'],'bytes':len(data),'rebuilt_sha256':sha(binary),'retail_sha256':sha(out/'retail.bin'),'masked':0,'raw_substitution_bytes':0},'genuine':{'result':'MATCH','version':'2.79','whole_tu':True,'flags':['-q','-G0']+genuine_flags(m,root),'bytes':len(genuine),'masked':0,'sha256':sha(out/'genuine.bin')},'candidates':candidate_hashes,'candidate_paths':{k:str(Path(v).absolute()) for k,v in (substitutions or {}).items()}}
+ receipt={'schema':SCHEMA,'module':m['key'],'fingerprint':before,'members':[a['id'] for a in all_members(m)],'physical':{'compile_edges':1,'functions':[a['function'] for a in m['members']],'payload':payload,'owned_data':m['owned_data'],'imports':m['imports']},'gate':{'result':'MATCH','foff':first['foff'],'vma':first['vma'],'bytes':len(data),'rebuilt_sha256':sha(binary),'retail_sha256':sha(out/'retail.bin'),'masked':0,'raw_substitution_bytes':0},'genuine':{'result':'MATCH','version':'2.79','whole_tu':True,'flags':['-q','-G0']+genuine_flags(m,root),'bytes':len(genuine),'masked':0,'sha256':sha(out/'genuine.bin')},'candidates':candidate_hashes,'candidate_paths':{k:str(Path(v).absolute()) for k,v in (substitutions or {}).items()}}
  receipt['artifacts']={n:sha(out/n) for n in ['module.s','sectioned.s','module.untrimmed.o','rodata_proof.json','module.o','module.ld','module.elf','module.bin','retail.bin','IN.S','OUT.OBJ','genuine.bin']};(out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
  return receipt,binary
 
@@ -415,7 +442,7 @@ def project_segments(segments,build_dir,overlay,root=ROOT):
  root=Path(root).absolute();family=overlay.split('_')[0];receipts=[]
  for m in load_modules(root):
   if m['container']!=family:continue
-  hits=[(i,s,a) for i,s in enumerate(segments) for a in m['members'] if s.start<a['foff']+a['size'] and a['foff']<s.end]
+  hits=[(i,s,a) for i,s in enumerate(segments) for a in all_members(m) if s.start<a['foff']+a['size'] and a['foff']<s.end]
   if not hits:continue
   substitutions={}
   for i,s,a in hits:
@@ -426,7 +453,7 @@ def project_segments(segments,build_dir,overlay,root=ROOT):
    if Path(s.match.source).resolve()!=(root/a['source']).resolve():substitutions[a['source']]=str(s.match.source)
   receipt,binary=build(m,build_dir/'modules'/m['key'],root,substitutions);blob=binary.read_bytes()
   for i,s,a in hits:
-   target=binary.parent/(a['function']+'.bin');offset=a['foff']-m['members'][0]['foff'];target.write_bytes(blob[offset:offset+a['size']]);segments[i]=dataclasses.replace(s,kind='rowbase',bytes_path=target,module_key=m['key'],section=f'.ovlseg_{s.index:04d}')
+   target=binary.parent/(a.get('function',a.get('symbol'))+'.bin');offset=a['foff']-module_first(m)['foff'];target.write_bytes(blob[offset:offset+a['size']]);segments[i]=dataclasses.replace(s,kind='rowbase',bytes_path=target,module_key=m['key'],section=f'.ovlseg_{s.index:04d}')
   receipts.append({'module':m['key'],'receipt':str(binary.parent/'receipt.json'),'receipt_sha256':sha(binary.parent/'receipt.json'),'fingerprint':receipt['fingerprint']['sha256'],'projected_rows':[a['id'] for _,_,a in hits]})
  return receipts
 

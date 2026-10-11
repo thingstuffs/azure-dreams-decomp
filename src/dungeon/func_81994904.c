@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_19b4800.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
@@ -29,20 +30,6 @@ typedef struct S_80024104_2_pre {
 } S_80024104_2_pre;   /* the 0x18 bytes before D_800814A8 in func_80024104, addressed as D_800814A8[-1] */
 
 
-typedef struct {
-    u16 x;
-    u16 y;
-    u16 w;
-    u16 h;
-} Rect16;
-
-typedef struct {
-    Rect16 rect[8];
-} RectTable;
-
-typedef struct {
-    u32 word[3];
-} __attribute__((packed)) PackedVec3;
 
 typedef struct {
     u32 word[4];
@@ -67,14 +54,14 @@ typedef struct {
     s16 scaleX;
 } Display;
 
-extern RectTable D_80024004;
-extern u8 D_8002405C[];
+
+
 extern PackedVec3 D_8002533C;
 extern s16 D_80025384;
 
 extern void *func_8003FC64(s32);
-extern void func_8004491C(void *, void *);
-extern void func_800B8FC8(void *, Rect16 *, void *, s32, s32);
+
+
 
 /* Creates an object in the first free rectangle slot and decrements the owner timer. */
 void func_80024104(void *owner) {
@@ -124,7 +111,7 @@ void func_80024104(void *owner) {
         rect = (Rect16 *)((u8 *)&rect_table + rect_offset);
         center[0] = rect->x + ((s16)rect->w >> 1);
         center[1] = rect->y + 0x30;
-        func_800B8FC8(D_800814A8, rect, center, 1, 1);
+        func_800B8FC8((s32)D_800814A8, rect, center, 1, 1);
 
         child = func_8003FC64(0x212);
         if (child != 0) {
@@ -133,8 +120,8 @@ void func_80024104(void *owner) {
             ((S_80024104_0 *)child_work)->unk_2C = 7;
             ((S_80024104_0 *)child_work)->unk_32 = slot;
             ((S_80024104_0 *)child_work)->unk_60 = owner;
-            ((S_80024104_1 *)child)->unk_10 = D_8002405C;
-            func_8004491C(child, func_80045340);
+            ((S_80024104_1 *)child)->unk_10 = (void *)func_8002405C;
+            func_8004491C(child, (s32)func_80045340);
 
             display = ((S_80024104_1 *)child)->unk_0C;
             display->field6 = 4;

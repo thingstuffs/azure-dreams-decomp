@@ -6,7 +6,7 @@
  * offsets and the schedule change: cc1 listing differs). */
 extern GameView D_80083178;
 
-/* --- gcc 2.8.x translation unit (address-caching CSE; see PLAN.md multi-compiler finding) --- */
+/* The remainder and its extracted owners use their registered TU recipes. */
 
 struct S_80082E60 {
     char pad0[4];
@@ -47,7 +47,7 @@ void func_8003F540(int value_0, int value_1, int value_2, int value_3)
     values->f3 = value_3;
 }
 
-/* func_800410FC — gcc 2.8.1 */
+/* func_800410FC */
 
 extern int D_80083C68[8];
 extern void *D_800814E0;
@@ -58,7 +58,7 @@ void func_800410FC(void) {
     D_80083C68[0] = 0;
 }
 
-/* func_8004D0C8 — gcc 2.8.1 */
+/* func_8004D0C8 */
 
 void func_8004D09C(void);
 
@@ -69,7 +69,7 @@ void func_8004D0C8(void *state)
     D_80083178.slot[0].callback = func_8004D09C;
 }
 
-/* func_800419EC — gcc 2.8.1 */
+/* func_800419EC */
 /* Struct at D_80083CA8 (also referenced elsewhere as D_80083CAE at offset 6):
  * offset 0: int  (rate/quotient, decremented each tick by other code)
  * offset 4: int  (accumulator, used by func_80041900)
@@ -90,7 +90,7 @@ void func_800419EC(unsigned short countdown, unsigned int amount) {
     D_80083CA8.field0 = amount / countdown;
 }
 
-/* func_8004D110 — gcc 2.8.1 */
+/* func_8004D110 */
 
 void func_8004D0E4(void);
 
@@ -127,8 +127,8 @@ void func_8005C818(int unused, int value) {
     unsigned int index;
     unsigned int count;
 
+    index = 0;
     if (D_800869B4[0] != 0) {
-        index = 0;
         count = D_800869B4[0];
         do {
             D_80085FA8[index].field_24 = value;
@@ -236,7 +236,8 @@ struct Source_827C *func_8004827C(struct Source_827C *source, short entry_id) {
 
 /* --- v6 (maspsx LEAD 2 %lo-fold) --- */
 
-extern struct { short a, b; } D_80013564[];
+typedef struct { short a, b; } TableValuePair;
+extern TableValuePair D_80013564[];
 extern int func_8004A6C0(int first_value, int second_value);
 
 /* Clears both shorts of the selected D_80013564 entry when its index is below 20. */
@@ -244,8 +245,11 @@ void func_8004A8D8(int first_value, int second_value)
 {
     int index = func_8004A6C0(first_value, second_value);
     if (index < 0x14) {
-        D_80013564[index].a = 0;
-        D_80013564[index].b = 0;
+        /* Keep the fixed table page separate from the scaled entry offset. */
+        u32 table_page = 0x80010000;
+        s32 offset = index * 4;
+        ((TableValuePair *)(table_page + offset + 0x3564))->a = 0;
+        ((TableValuePair *)(table_page + offset + 0x3564))->b = 0;
     }
 }
 

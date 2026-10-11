@@ -1,0 +1,31 @@
+{
+  "module": "dungeon_ovl_19b4800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_19b4800.c",
+    "module_index": 201
+  },
+  "members": [
+    "dungeon/D_81994800",
+    "dungeon/D_81994804",
+    "dungeon/D_81994844",
+    "dungeon/D_81994848",
+    "dungeon/func_81994800",
+    "dungeon/func_81994904",
+    "dungeon/func_81994BE4",
+    "dungeon/func_81994CF0",
+    "dungeon/func_81994D8C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "not observable (section-grouping link, no static duplicates, no recipe change)",
+  "basis": [
+    "Owner decisions 37-38: one native TU per DUNGEON selector image; merge weak groups 201 and 190 under selector 65 receipt.",
+    "All five functions and all four carved head data rows are included, in contiguous order.",
+    "No duplicate static helpers, interposed data between text runs, or recipe change observed.",
+    "The compiler emits the owned switch table naturally; the external resource tail remains imported storage."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r112",
+  "holds": []
+}
