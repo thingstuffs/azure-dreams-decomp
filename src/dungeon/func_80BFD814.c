@@ -6,7 +6,6 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 
-
 extern void func_80047784(void *, s32, s32);
 extern s32 func_8009A180(void *, void *);
 extern s8 func_8009FB34(s32, s32);
@@ -36,47 +35,42 @@ extern u8 D_8016224C[];
 extern u8 D_80162254[];
 extern u8 D_8016225C[];
 
-
-typedef struct S_80171014_0 {
+typedef struct BehaviorControllerView {
     u8 pad_00[0x8C];
-    s32 unk_8C;
+    s32 nextBehavior;
     u8 pad_90[0x2];
-    union { u16 u; s16 s; } unk_92;   /* accessed as both */
+    union { u16 unsignedValue; s16 signedValue; } baseOffset;
     u8 pad_94[0x4];
-    u16 unk_98;
-    u8 unk_9A;
-    u8 unk_9B;
+    u16 flags;
+    u8 behavior;
+    u8 phase;
     u8 pad_9C[0x2];
-    s16 unk_9E;
+    s16 idleTicks;
     u8 pad_A0[0x2];
-    union { s16 s; u16 u; } unk_A2;   /* accessed as both */
-} S_80171014_0;   /* arg0 in func_8015F014 */
+    union { s16 signedValue; u16 unsignedValue; } animationOffset;
+} BehaviorControllerView;
 
-
-typedef struct S_80171014_2 {
+typedef struct BehaviorSpriteView {
     u8 pad_00[0x5];
-    u8 unk_05;
+    u8 animationStep;
     u8 pad_06[0x1E];
     union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-    u8 unk_26;
+        struct { u8 x; u8 y; } bytes;
+        u16 packed;
+    } tile;
+    u8 room;
     u8 pad_27[0x5];
-    void * unk_2C;
-} S_80171014_2;   /* arg2 in func_8015F014 */
+    void * animationTable;
+} BehaviorSpriteView;
 
-
-/* Updates a dungeon actor's state, animation, and behavior. */
 void func_8015F014(void *actor, void *actor_context, void *map_object, EntityRec *creature)
 {
-    s32 distance;
+    s32 direction_flags;
     s8 room_id;
     u16 action_state;
 
     if (dungeonStatus.flags & 0x1000) {
-        ((S_80171014_0 *)actor)->unk_9A = 0xE;
+        ((BehaviorControllerView *)actor)->behavior = 0xE;
         func_8015F574(actor, actor_context);
         return;
     }
@@ -84,11 +78,11 @@ void func_8015F014(void *actor, void *actor_context, void *map_object, EntityRec
         void *animation_table;
 
         func_800AA79C(actor, actor_context, map_object, creature);
-        if (((S_80171014_2 *)map_object)->unk_2C == D_8016225C) {
+        if (((BehaviorSpriteView *)map_object)->animationTable == D_8016225C) {
             return;
         }
         animation_table = D_80162254;
-        (*(void * *)((u8 *)map_object + (0x2C))) = animation_table;
+        ((BehaviorSpriteView *)map_object)->animationTable = animation_table;
         func_80047784(map_object,
             ((u8 *)animation_table)[((gameWork.view.viewAngle + creature->facing + 0x100) >> 9) & 7],
             0);
@@ -96,10 +90,10 @@ void func_8015F014(void *actor, void *actor_context, void *map_object, EntityRec
     }
 
     if (((u32)creature->flags1C) & 0x200) {
-        if (((S_80171014_2 *)map_object)->unk_2C == D_8016225C) {
-            ((S_80171014_0 *)actor)->unk_9A = 0xD;
-            ((S_80171014_0 *)actor)->unk_9B = 1;
-            ((S_80171014_0 *)actor)->unk_8C = 0;
+        if (((BehaviorSpriteView *)map_object)->animationTable == D_8016225C) {
+            ((BehaviorControllerView *)actor)->behavior = 0xD;
+            ((BehaviorControllerView *)actor)->phase = 1;
+            ((BehaviorControllerView *)actor)->nextBehavior = 0;
             creature->flags1C &= 0xFFFBFFFF;
             return;
         }
@@ -115,29 +109,29 @@ void func_8015F014(void *actor, void *actor_context, void *map_object, EntityRec
         }
 
         {
-            u8 current_state = ((S_80171014_0 *)actor)->unk_9A;
+            u8 current_state = ((BehaviorControllerView *)actor)->behavior;
             u32 next_state = 0xE;
             void *current_animation;
             void *animation_table;
 
             if (current_state != next_state) {
-                ((S_80171014_0 *)actor)->unk_9A = next_state;
+                ((BehaviorControllerView *)actor)->behavior = next_state;
             }
-            current_animation = ((S_80171014_2 *)map_object)->unk_2C;
+            current_animation = ((BehaviorSpriteView *)map_object)->animationTable;
             animation_table = D_8016220C;
             if (current_animation != animation_table) {
-                (*(void * *)((u8 *)map_object + (0x2C))) = animation_table;
+                ((BehaviorSpriteView *)map_object)->animationTable = animation_table;
                 func_80047784(map_object,
                     ((u8 *)animation_table)[((gameWork.view.viewAngle + creature->facing + 0x100) >> 9) & 7],
                     0);
-                ((S_80171014_2 *)map_object)->unk_05 = 1;
-                ((S_80171014_0 *)actor)->unk_A2.s = 0;
-                ((S_80171014_0 *)actor)->unk_9E = 0;
+                ((BehaviorSpriteView *)map_object)->animationStep = 1;
+                ((BehaviorControllerView *)actor)->animationOffset.signedValue = 0;
+                ((BehaviorControllerView *)actor)->idleTicks = 0;
             }
         }
 
         creature->flags1C |= 0x40000;
-        ((S_80171014_0 *)actor)->unk_98 &= 0xFFF7;
+        ((BehaviorControllerView *)actor)->flags &= 0xFFF7;
 
         if (creature->unk_64 != 0) {
             if (func_800AA6B4(actor, actor_context, map_object, D_8016221C) != 0) {
@@ -149,10 +143,10 @@ void func_8015F014(void *actor, void *actor_context, void *map_object, EntityRec
             s16 offset_delta;
 
             func_800AA888(actor, actor_context, map_object, creature);
-            offset_delta = ((S_80171014_0 *)actor)->unk_92.u - ((S_80171014_0 *)actor)->unk_A2.u;
-            ((S_80171014_0 *)actor)->unk_A2.s = 0;
-            ((S_80171014_0 *)actor)->unk_9E = 0;
-            ((S_80171014_0 *)actor)->unk_92.s = offset_delta;
+            offset_delta = ((BehaviorControllerView *)actor)->baseOffset.unsignedValue - ((BehaviorControllerView *)actor)->animationOffset.unsignedValue;
+            ((BehaviorControllerView *)actor)->animationOffset.signedValue = 0;
+            ((BehaviorControllerView *)actor)->idleTicks = 0;
+            ((BehaviorControllerView *)actor)->baseOffset.signedValue = offset_delta;
             func_80161468(actor, actor_context, map_object, creature);
             return;
         }
@@ -165,15 +159,15 @@ void func_8015F014(void *actor, void *actor_context, void *map_object, EntityRec
         }
     }
 
-    room_id = func_8009FB34(((S_80171014_2 *)map_object)->unk_24.at00.v, ((S_80171014_2 *)map_object)->unk_24.at01.v);
-    ((S_80171014_2 *)map_object)->unk_26 = room_id;
+    room_id = func_8009FB34(((BehaviorSpriteView *)map_object)->tile.bytes.x, ((BehaviorSpriteView *)map_object)->tile.bytes.y);
+    ((BehaviorSpriteView *)map_object)->room = room_id;
 
     if (creature->unk_6D > 0) {
         if (((u32)creature->flags1C) & 0x20) {
             func_800A9A0C(creature);
             return;
         }
-        if (((S_80171014_2 *)map_object)->unk_24.at00u.v != *(u16 *)(&D_80082E80.tileX)) {
+        if (((BehaviorSpriteView *)map_object)->tile.packed != *(u16 *)(&D_80082E80.tileX)) {
             if (!(creature->unk_46 & 0x8000)) {
                 if (dungeonStatus.flags & 0x2000) {
                     if ((func_8009A180(creature,
@@ -208,9 +202,9 @@ void func_8015F014(void *actor, void *actor_context, void *map_object, EntityRec
                         s16 facing_angle;
 
                         facing_angle = func_800A0818(
-                            ((S_80171014_2 *)map_object)->unk_24.at00.v, ((S_80171014_2 *)map_object)->unk_24.at01.v,
+                            ((BehaviorSpriteView *)map_object)->tile.bytes.x, ((BehaviorSpriteView *)map_object)->tile.bytes.y,
                             D_80082E80.tileX, D_80082E80.tileY,
-                            &distance);
+                            &direction_flags);
                         player = D_800814A8;
                         creature->facing = facing_angle;
                         if (player->unk_9A == 0x11) {
@@ -249,12 +243,12 @@ void func_8015F014(void *actor, void *actor_context, void *map_object, EntityRec
             if (!(((u32)creature->flags1C) & 0x430)) {
 
                 if ((func_8009FD7C(
-                    ((S_80171014_2 *)map_object)->unk_24.at00.v, ((S_80171014_2 *)map_object)->unk_24.at01.v,
+                    ((BehaviorSpriteView *)map_object)->tile.bytes.x, ((BehaviorSpriteView *)map_object)->tile.bytes.y,
                     D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
                     creature->facing = func_800A0818(
-                        ((S_80171014_2 *)map_object)->unk_24.at00.v, ((S_80171014_2 *)map_object)->unk_24.at01.v,
+                        ((BehaviorSpriteView *)map_object)->tile.bytes.x, ((BehaviorSpriteView *)map_object)->tile.bytes.y,
                         D_80082E80.tileX, D_80082E80.tileY,
-                        &distance);
+                        &direction_flags);
                 }
             }
         }

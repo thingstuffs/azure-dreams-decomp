@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_19b4800.h"
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
@@ -86,17 +87,17 @@ extern PaletteControl D_8002536C;
 extern s16 D_80025384;
 extern u16 D_80082E94;
 extern AnimationState D_80082E80;
-extern TransitionFlags D_80083160;
-extern void func_800244F0(void *, void *, void *);
-extern void func_80045340(void *);
-extern void func_800243E4(TransitionState *, void *, void *);
+
+
+
+
 extern s32 func_8003DF74(void *, AnimationState *, s16 *, s32);
 extern void *func_8003FC64(s32);
-extern void func_8004491C(void *, void (*)(void *));
+
 extern s32 func_80053EF0(s32);
-extern void func_800A56E0(s32);
+
 extern void func_800B835C(PaletteControl *, RectWords *, s32, s32);
-extern void func_800B8FC8(s32, s16 *, s16 *, s32, s32);
+
 
 /* Five-stage palette/particle transition, reconstructed from the complete
  * retail instruction span. The object views cover only fields used here.
@@ -108,7 +109,7 @@ extern void func_800B8FC8(s32, s16 *, s16 *, s32, s32);
  * redundant store after flow has already kept the load alive.
  */
 void func_8002458C(TransitionState *state, void *context, void *parameters) {
-    TransitionFlags *transition_flags = &D_80083160;
+    TransitionFlags *transition_flags = (TransitionFlags *)&gameWork;
     PaletteControl *first_palette;
     RectWords upload_rect;
     s16 source_rect[4];
@@ -222,7 +223,7 @@ void func_8002458C(TransitionState *state, void *context, void *parameters) {
                 if (particle != 0) {
                     particle_scratch.particle->lifetime = 1;
                     particle->header.unk_10 = (void *)func_800244F0;
-                    func_8004491C(particle, func_80045340);
+                    func_8004491C(particle, (s32)func_80045340);
                     render_part = (TransitionRenderPart *)particle->header.unk_0C;
                     render_part->mode = PARTICLE_MODE_ADDITIVE;
                     render_part->flags = (u16) (render_part->flags | PARTICLE_FLAGS_VISIBLE);
@@ -252,7 +253,7 @@ void func_8002458C(TransitionState *state, void *context, void *parameters) {
                 if (particle != 0) {
                     particle_scratch.particle->lifetime = 0xC;
                     particle->header.unk_10 = (void *)func_800244F0;
-                    func_8004491C(particle, func_80045340);
+                    func_8004491C(particle, (s32)func_80045340);
                     render_part = (TransitionRenderPart *)particle->header.unk_0C;
                     render_part->mode = PARTICLE_MODE_ADDITIVE;
                     render_part->flags = (u16) (render_part->flags | PARTICLE_FLAGS_VISIBLE);
@@ -278,7 +279,7 @@ spawn_depth_particle:
                 if (particle != 0) {
                     particle->payload.lifetime = 1;
                     particle->header.unk_10 = (void *)func_800244F0;
-                    func_8004491C(particle, func_80045340);
+                    func_8004491C(particle, (s32)func_80045340);
                     render_part = (TransitionRenderPart *)particle->header.unk_0C;
                     render_part->mode = PARTICLE_MODE_ADDITIVE;
                     render_part->depth = -4;
@@ -310,7 +311,7 @@ spawn_depth_particle:
                 if (particle != 0) {
                     particle_scratch.particle->lifetime = 0xC;
                     particle->header.unk_10 = (void *)func_800244F0;
-                    func_8004491C(particle, func_80045340);
+                    func_8004491C(particle, (s32)func_80045340);
                     render_part = (TransitionRenderPart *)particle->header.unk_0C;
                     render_part->mode = PARTICLE_MODE_ADDITIVE;
                     render_part->flags = (u16) (render_part->flags | PARTICLE_FLAGS_VISIBLE);
@@ -365,7 +366,7 @@ spawn_depth_particle:
                     particle_scratch.particle->lifetime = 1;
                 }
                 particle->header.unk_10 = (void *)func_800244F0;
-                func_8004491C(particle, func_80045340);
+                func_8004491C(particle, (s32)func_80045340);
                 render_part = (TransitionRenderPart *)particle->header.unk_0C;
                 render_part->mode = PARTICLE_MODE_ADDITIVE;
                 render_part->flags = (u16) (render_part->flags | PARTICLE_FLAGS_VISIBLE);
@@ -393,7 +394,7 @@ spawn_depth_particle:
                 if (particle != 0) {
                     particle->payload.lifetime = 1;
                     particle->header.unk_10 = (void *)func_800244F0;
-                    func_8004491C(particle, func_80045340);
+                    func_8004491C(particle, (s32)func_80045340);
                     render_part = (TransitionRenderPart *)particle->header.unk_0C;
                     render_part->mode = PARTICLE_MODE_ADDITIVE;
                     render_part->depth = -4;

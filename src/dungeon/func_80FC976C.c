@@ -1,6 +1,5 @@
 #include "shared/sprite_source.h"
 #include "common.h"
-#include "m2c_compat.h"
 #include "shared/dungeon_floor.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
@@ -8,114 +7,100 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "shared/entity.h"
 
-typedef struct S_80170F6C_0 {
+typedef struct ActionState {
     u8 pad_00[0x8C];
-    s32 unk_8C;
+    s32 handler;
     u8 pad_90[0x8];
-    u16 unk_98;
-    u8 unk_9A;
-    u8 unk_9B;
+    u16 flags;
+    u8 action;
+    u8 phase;
     u8 pad_9C[0xA];
-    u16 unk_A6;
-    union { s16 s; u16 u; } unk_A8;   /* accessed as both */
-    u16 unk_AA;
-} S_80170F6C_0;   /* arg0 in func_80158F6C */
+    u16 ticks;
+    union { s16 s; u16 u; } specialPhase;
+    u16 savedFacing;
+} ActionState;
 
-typedef struct S_80170F6C_1 {
+typedef struct CreatureState {
     u8 pad_00[0x14];
-    u32 unk_14;
+    u32 motionFlags;
     u8 pad_18[0x4];
-    u32 unk_1C;
+    u32 flags;
     u8 pad_20[0x5];
-    u8 unk_25;
+    u8 tileY;
     u8 pad_26[0x4];
-    union { s16 s; u16 u; } unk_2A;   /* accessed as both */
+    union { s16 s; u16 u; } facing;
     u8 pad_2C[0x1A];
-    u16 unk_46;
+    u16 action;
     u8 pad_48[0x1C];
-    s16 unk_64;
+    s16 reaction;
     u8 pad_66[0x4];
-    u16 unk_6A;
+    u16 moveAngle;
     u8 pad_6C[0x1];
-    s8 unk_6D;
-} S_80170F6C_1;   /* arg3 in func_80158F6C */
+    s8 actionsLeft;
+} CreatureState;
 
-typedef struct S_80170F6C_2 {
+typedef struct ActorSprite {
     u8 pad_00[0x14];
-    u16 unk_14;
+    u16 flags;
     u8 pad_16[0xE];
     union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-    s8 unk_26;
+        struct { u8 x, y; } tile;
+        u16 packed;
+    } position;
+    s8 room;
     u8 pad_27[0x5];
-    void * unk_2C;
-} S_80170F6C_2;   /* arg2 in func_80158F6C */
+    void * directionFrames;
+} ActorSprite;
 
-typedef struct S_80170F6C_3 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
-    u32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-} S_80170F6C_3;   /* arg1 in func_80158F6C */
+typedef struct ActorMotion {
+    Fixed1616 x;
+    Fixed1616 y;
+    u32 z;
+    s32 dx;
+    s32 dy;
+} ActorMotion;
 
-typedef struct S_80170F6C_4 {
+typedef struct EffectObject {
     u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
+    void * motion;
+    void * sprite;
+    void * updateData;
     u8 pad_14[0xA6];
-    u8 unk_BA;
-} S_80170F6C_4;   /* object in func_80158F6C */
+    u8 phase;
+} EffectObject;
 
-typedef struct S_80170F6C_5 {
-    s32 unk_00;
-    s32 unk_04;
-    u32 unk_08;
-} S_80170F6C_5;   /* payload in func_80158F6C */
+typedef struct EffectPosition {
+    s32 x;
+    s32 y;
+    u32 z;
+} EffectPosition;
 
-typedef struct S_80170F6C_6 {
-    void * unk_00;
-    u8 unk_04;
-    u8 unk_05;
+typedef struct EffectSprite {
+    void * source;
+    u8 frame;
+    u8 frameTick;
     u8 pad_06[0x2];
-    u32 unk_08;
-    u32 unk_0C;
-    u16 unk_10;
+    u32 texture;
+    u32 color;
+    u16 angle;
     u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_80170F6C_6;   /* part in func_80158F6C */
-
-
-typedef struct S_80170F6C_8 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_80170F6C_8;   /* D_800814A8[0] in func_80158F6C */
-
-typedef struct S_80170F6C_9 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80170F6C_9;   /* map_base in func_80158F6C */
-
-typedef struct S_80170F6C_10 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_80170F6C_10;   /* status_object in func_80158F6C */
-
-
-typedef struct {
-    u8 pad0[0xC];
     u16 flags;
-    u8 padE[6];
-} DungeonRecord;
+    u8 pad_16[0x6];
+    u16 scaleX;
+    u16 scaleY;
+} EffectSprite;
+
+typedef struct PlayerContext {
+    u8 pad_00[0x58];
+    void * actionContext;
+} PlayerContext;
+
+typedef struct PlayerAction {
+    u8 pad_00[0x9A];
+    u8 action;
+} PlayerAction;
 
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
@@ -152,105 +137,105 @@ extern u8 D_8015D290[];
 extern u8 D_8015D298[];
 extern u8 D_8015D2A0[];
 
-void func_80158F6C(void *self_object, void *aux_entity, void *sprite, void *entity)
+void func_80158F6C(ActionState *action_state, ActorMotion *motion, ActorSprite *sprite, CreatureState *entity)
 {
     u16 initial_flags = dungeonStatus.flags;
-    void *post_current;
-    u8 *post_table;
-    s32 scratch;
-    s8 result;
+    void *current_frames;
+    u8 *next_frames;
+    s32 direction_aux;
+    s8 room_id;
 
     if (initial_flags & 0x1000) {
-        ((S_80170F6C_0 *)self_object)->unk_9A = 0xE;
+        action_state->action = 0xE;
         func_80159910();
         return;
     }
 
-
-    if (((S_80170F6C_1 *)entity)->unk_25 == 0) {
-        func_800AA79C(self_object, aux_entity, sprite, entity);
+    /* Inactive entities share the final animation update and return path. */
+    if (entity->tileY == 0) {
+        func_800AA79C(action_state, motion, sprite, entity);
         {
             void *current =
-                ((S_80170F6C_2 *)sprite)->unk_2C;
+                sprite->directionFrames;
             void *table;
             table = (u8 *)&D_8015D298;
-            post_current = current;
-            post_table = table;
-            goto post_compare;
+            current_frames = current;
+            next_frames = table;
+            goto update_direction_frames;
         }
     }
 
-    if (((S_80170F6C_1 *)entity)->unk_1C & 0x200) {
-        if (((S_80170F6C_2 *)sprite)->unk_2C == D_8015D298) {
-            ((S_80170F6C_0 *)self_object)->unk_9A = 0xD;
-            ((S_80170F6C_0 *)self_object)->unk_9B = 1;
-            ((S_80170F6C_0 *)self_object)->unk_8C = 0;
-            ((S_80170F6C_1 *)entity)->unk_1C &= ~0x40000;
+    if (entity->flags & 0x200) {
+        if (sprite->directionFrames == D_8015D298) {
+            action_state->action = 0xD;
+            action_state->phase = 1;
+            action_state->handler = 0;
+            entity->flags &= ~0x40000;
             return;
         }
-        if (func_800AA924(self_object, aux_entity, sprite, D_8015D298) != 0) {
+        if (func_800AA924(action_state, motion, sprite, D_8015D298) != 0) {
             return;
         }
     }
 
     if (!(dungeonStatus.flags & 0x2000)) {
-        if (((S_80170F6C_1 *)entity)->unk_1C & 0x100) {
-            func_800AA258(self_object, aux_entity, sprite, entity);
+        if (entity->flags & 0x100) {
+            func_800AA258(action_state, motion, sprite, entity);
             return;
         }
 
         {
             u32 state;
-            u32 current_state = ((S_80170F6C_0 *)self_object)->unk_9A;
+            u32 current_state = action_state->action;
             state = 0xE;
             if (current_state != state) {
-                if (((S_80170F6C_2 *)sprite)->unk_2C != D_8015D258) {
-                    ((S_80170F6C_2 *)sprite)->unk_2C = D_8015D258;
+                if (sprite->directionFrames != D_8015D258) {
+                    sprite->directionFrames = D_8015D258;
                     func_80047784(sprite,
-                        D_8015D258[((gameWork.view.viewAngle + ((S_80170F6C_1 *)entity)->unk_2A.s + 0x100) >> 9) & 7],
+                        D_8015D258[((gameWork.view.viewAngle + entity->facing.s + 0x100) >> 9) & 7],
                         0);
                 }
-                ((S_80170F6C_0 *)self_object)->unk_9A = state;
+                action_state->action = state;
             }
         }
 
-        if (((S_80170F6C_1 *)entity)->unk_14 & 0x20000) {
-            switch (((S_80170F6C_0 *)self_object)->unk_A8.s) {
+        if (entity->motionFlags & 0x20000) {
+            switch (action_state->specialPhase.s) {
             case 0:
-                if (((S_80170F6C_2 *)sprite)->unk_2C != D_8015D2A0) {
+                if (sprite->directionFrames != D_8015D2A0) {
                     dungeonStatus.unk_0A++;
-                    ((S_80170F6C_0 *)self_object)->unk_AA = ((S_80170F6C_1 *)entity)->unk_2A.u;
-                    ((S_80170F6C_1 *)entity)->unk_2A.s =
-                        (((S_80170F6C_1 *)entity)->unk_6A + 0x800) & 0xFFF;
-                    ((S_80170F6C_2 *)sprite)->unk_14 &= 0x9FFF;
-                    ((S_80170F6C_0 *)self_object)->unk_A6 = 300;
+                    action_state->savedFacing = entity->facing.u;
+                    entity->facing.s =
+                        (entity->moveAngle + 0x800) & 0xFFF;
+                    sprite->flags &= 0x9FFF;
+                    action_state->ticks = 300;
                 }
-                ((S_80170F6C_0 *)self_object)->unk_A8.u++;
+                action_state->specialPhase.u++;
                 return;
 
             case 1:
             {
-                u16 timer = ((S_80170F6C_0 *)self_object)->unk_A6 - 1;
+                u16 timer = action_state->ticks - 1;
 
-                ((S_80170F6C_0 *)self_object)->unk_A6 = timer;
+                action_state->ticks = timer;
                 if (((s32)timer << 16) <= 0 ||
-                    ((S_80170F6C_1 *)entity)->unk_64 != 0) {
+                    entity->reaction != 0) {
                     dungeonStatus.unk_0A--;
-                    ((S_80170F6C_3 *)aux_entity)->unk_10 = 0;
-                    ((S_80170F6C_3 *)aux_entity)->unk_0C = 0;
-                    func_800A2B04(aux_entity,
-                        ((S_80170F6C_2 *)sprite)->unk_24.at00.v, ((S_80170F6C_2 *)sprite)->unk_24.at01.v);
-                    ((S_80170F6C_1 *)entity)->unk_14 &= ~0x20000;
-                    ((S_80170F6C_0 *)self_object)->unk_A8.u = 0;
+                    motion->dy = 0;
+                    motion->dx = 0;
+                    func_800A2B04(motion,
+                        sprite->position.tile.x, sprite->position.tile.y);
+                    entity->motionFlags &= ~0x20000;
+                    action_state->specialPhase.u = 0;
                     return;
                 }
-                if (((S_80170F6C_1 *)entity)->unk_14 & 0x1000000) {
-                    ((S_80170F6C_0 *)self_object)->unk_A8.u++;
-                    ((S_80170F6C_2 *)sprite)->unk_2C = D_8015D2A0;
+                if (entity->motionFlags & 0x1000000) {
+                    action_state->specialPhase.u++;
+                    sprite->directionFrames = D_8015D2A0;
                     func_80047784(sprite,
-                        D_8015D2A0[((gameWork.view.viewAngle + ((S_80170F6C_1 *)entity)->unk_2A.s + 0x100) >> 9) & 7],
+                        D_8015D2A0[((gameWork.view.viewAngle + entity->facing.s + 0x100) >> 9) & 7],
                         0);
-                    ((S_80170F6C_0 *)self_object)->unk_A6 = 0;
+                    action_state->ticks = 0;
                     return;
                 }
                 return;
@@ -259,60 +244,60 @@ void func_80158F6C(void *self_object, void *aux_entity, void *sprite, void *enti
             case 2:
             {
                 s32 scale;
-                S_80170F6C_4 *object;
+                EffectObject *object;
                 void *part;
                 void *payload;
                 u32 color;
                 u32 payload_word;
                 u32 texture_word;
 
-                ((S_80170F6C_3 *)aux_entity)->unk_0C =
-                    dirStepX[((s32)(((S_80170F6C_1 *)entity)->unk_6A << 16)) >> 25] << 16;
-                ((S_80170F6C_3 *)aux_entity)->unk_10 =
-                    dirStepY[((s32)(((S_80170F6C_1 *)entity)->unk_6A << 16)) >> 25] << 16;
-                scale = func_800644B8((s16)((S_80170F6C_0 *)self_object)->unk_A6 << 8);
-                ((S_80170F6C_3 *)aux_entity)->unk_0C = ((S_80170F6C_3 *)aux_entity)->unk_0C +
-                    (((S_80170F6C_3 *)aux_entity)->unk_0C * scale >> 9);
-                scale = func_800644B8((s16)((S_80170F6C_0 *)self_object)->unk_A6 << 8);
-                ((S_80170F6C_3 *)aux_entity)->unk_10 = ((S_80170F6C_3 *)aux_entity)->unk_10 +
-                    (((S_80170F6C_3 *)aux_entity)->unk_10 * scale >> 9);
+                motion->dx =
+                    dirStepX[((s32)(entity->moveAngle << 16)) >> 25] << 16;
+                motion->dy =
+                    dirStepY[((s32)(entity->moveAngle << 16)) >> 25] << 16;
+                scale = func_800644B8((s16)action_state->ticks << 8);
+                motion->dx = motion->dx +
+                    (motion->dx * scale >> 9);
+                scale = func_800644B8((s16)action_state->ticks << 8);
+                motion->dy = motion->dy +
+                    (motion->dy * scale >> 9);
 
                 object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
                 if (object != 0) {
                     func_8004491C(object, func_80045340);
-                    payload = object->unk_08;
-                    object->unk_10 = D_8015D174;
-                    part = object->unk_0C;
-                    ((S_80170F6C_5 *)payload)->unk_00 = ((S_80170F6C_3 *)aux_entity)->unk_00.at00.v;
-                    payload = object->unk_08;
-                    ((S_80170F6C_5 *)payload)->unk_04 = ((S_80170F6C_3 *)aux_entity)->unk_04.at00.v;
-                    payload = object->unk_08;
-                    payload_word = ((S_80170F6C_3 *)aux_entity)->unk_08;
+                    payload = object->motion;
+                    object->updateData = D_8015D174;
+                    part = object->sprite;
+                    ((EffectPosition *)payload)->x = motion->x.v;
+                    payload = object->motion;
+                    ((EffectPosition *)payload)->y = motion->y.v;
+                    payload = object->motion;
+                    payload_word = motion->z;
                     color = 0x00800000;
-                    ((S_80170F6C_5 *)payload)->unk_08 = payload_word;
-                    ((S_80170F6C_6 *)part)->unk_1E = 0x1000;
-                    ((S_80170F6C_6 *)part)->unk_1C = 0x1000;
-                    ((S_80170F6C_6 *)part)->unk_10 = 0;
-                    ((S_80170F6C_6 *)part)->unk_00 = D_800DEA68;
-                    ((S_80170F6C_6 *)part)->unk_14 |= 0xC;
+                    ((EffectPosition *)payload)->z = payload_word;
+                    ((EffectSprite *)part)->scaleY = 0x1000;
+                    ((EffectSprite *)part)->scaleX = 0x1000;
+                    ((EffectSprite *)part)->angle = 0;
+                    ((EffectSprite *)part)->source = D_800DEA68;
+                    ((EffectSprite *)part)->flags |= 0xC;
                     texture_word = ((u32)((SpriteSourceEntry *)D_800DEA68)->unk_04);
                     color |= 0x8080;
-                    ((S_80170F6C_6 *)part)->unk_04 = 0;
-                    ((S_80170F6C_6 *)part)->unk_05 = 0;
-                    ((S_80170F6C_6 *)part)->unk_0C = color;
-                    ((S_80170F6C_6 *)part)->unk_08 = texture_word;
-                    object->unk_BA = 0;
+                    ((EffectSprite *)part)->frame = 0;
+                    ((EffectSprite *)part)->frameTick = 0;
+                    ((EffectSprite *)part)->color = color;
+                    ((EffectSprite *)part)->texture = texture_word;
+                    object->phase = 0;
                 }
 
                 {
-                    u16 old_timer = ((S_80170F6C_0 *)self_object)->unk_A6;
-                    ((S_80170F6C_0 *)self_object)->unk_A6 = old_timer + 1;
+                    u16 old_timer = action_state->ticks;
+                    action_state->ticks = old_timer + 1;
                     if ((s16)old_timer >= 3) {
-                        ((S_80170F6C_2 *)sprite)->unk_14 &= 0xF7FF;
-                        ((S_80170F6C_3 *)aux_entity)->unk_10 = 0;
-                        ((S_80170F6C_3 *)aux_entity)->unk_0C = 0;
-                        ((S_80170F6C_0 *)self_object)->unk_A6 = 4;
-                        ((S_80170F6C_0 *)self_object)->unk_A8.u++;
+                        sprite->flags &= 0xF7FF;
+                        motion->dy = 0;
+                        motion->dx = 0;
+                        action_state->ticks = 4;
+                        action_state->specialPhase.u++;
                         return;
                     }
                 }
@@ -321,15 +306,15 @@ void func_80158F6C(void *self_object, void *aux_entity, void *sprite, void *enti
 
             case 3:
             {
-                u16 timer = ((S_80170F6C_0 *)self_object)->unk_A6 - 1;
+                u16 timer = action_state->ticks - 1;
 
-                ((S_80170F6C_0 *)self_object)->unk_A6 = timer;
+                action_state->ticks = timer;
                 if (((s32)timer << 16) <= 0) {
-                    ((S_80170F6C_2 *)sprite)->unk_14 &= 0xF7FF;
-                    ((S_80170F6C_3 *)aux_entity)->unk_10 = 0;
-                    ((S_80170F6C_3 *)aux_entity)->unk_0C = 0;
-                    ((S_80170F6C_0 *)self_object)->unk_A6 = 3;
-                    ((S_80170F6C_0 *)self_object)->unk_A8.u++;
+                    sprite->flags &= 0xF7FF;
+                    motion->dy = 0;
+                    motion->dx = 0;
+                    action_state->ticks = 3;
+                    action_state->specialPhase.u++;
                     return;
                 }
                 return;
@@ -339,35 +324,35 @@ void func_80158F6C(void *self_object, void *aux_entity, void *sprite, void *enti
             {
                 s32 x;
                 s32 y;
-                s32 coord;
-                s32 coord_2;
-                s32 delta;
-                s32 delta_2;
+                s32 tile_center_y;
+                s32 tile_center_x;
+                s32 world_y_from_center;
+                s32 world_x_from_center;
                 u16 timer;
 
-                coord_2 = ((S_80170F6C_2 *)sprite)->unk_24.at00.v << 6;
-                delta_2 = ((S_80170F6C_3 *)aux_entity)->unk_00.at02.v - 0x20;
-                x = coord_2 - delta_2;
-                ((S_80170F6C_3 *)aux_entity)->unk_0C = (s32)((u32)x << 15) >> 1;
-                coord = ((S_80170F6C_2 *)sprite)->unk_24.at01.v << 6;
-                delta = ((S_80170F6C_3 *)aux_entity)->unk_04.at02.v - 0x20;
-                y = coord - delta;
-                ((S_80170F6C_3 *)aux_entity)->unk_10 = (s32)((u32)y << 15) >> 1;
-                timer = ((S_80170F6C_0 *)self_object)->unk_A6 - 1;
-                ((S_80170F6C_0 *)self_object)->unk_A6 = timer;
+                tile_center_x = sprite->position.tile.x << 6;
+                world_x_from_center = motion->x.w.i - 0x20;
+                x = tile_center_x - world_x_from_center;
+                motion->dx = (s32)((u32)x << 15) >> 1;
+                tile_center_y = sprite->position.tile.y << 6;
+                world_y_from_center = motion->y.w.i - 0x20;
+                y = tile_center_y - world_y_from_center;
+                motion->dy = (s32)((u32)y << 15) >> 1;
+                timer = action_state->ticks - 1;
+                action_state->ticks = timer;
                 if (((s32)timer << 16) <= 0) {
                     dungeonStatus.unk_0A--;
-                    ((S_80170F6C_3 *)aux_entity)->unk_10 = 0;
-                    ((S_80170F6C_3 *)aux_entity)->unk_0C = 0;
-                    func_800A2B04(aux_entity,
-                        ((S_80170F6C_2 *)sprite)->unk_24.at00.v, ((S_80170F6C_2 *)sprite)->unk_24.at01.v);
-                    ((S_80170F6C_1 *)entity)->unk_14 &= ~0x20000;
-                    ((S_80170F6C_1 *)entity)->unk_2A.s = ((S_80170F6C_0 *)self_object)->unk_AA;
-                    ((S_80170F6C_2 *)sprite)->unk_2C = D_8015D258;
+                    motion->dy = 0;
+                    motion->dx = 0;
+                    func_800A2B04(motion,
+                        sprite->position.tile.x, sprite->position.tile.y);
+                    entity->motionFlags &= ~0x20000;
+                    entity->facing.s = action_state->savedFacing;
+                    sprite->directionFrames = D_8015D258;
                     func_80047784(sprite,
-                        D_8015D258[((gameWork.view.viewAngle + ((S_80170F6C_1 *)entity)->unk_2A.s + 0x100) >> 9) & 7],
+                        D_8015D258[((gameWork.view.viewAngle + entity->facing.s + 0x100) >> 9) & 7],
                         0);
-                    ((S_80170F6C_0 *)self_object)->unk_A8.u = 0;
+                    action_state->specialPhase.u = 0;
                     return;
                 }
                 return;
@@ -376,16 +361,16 @@ void func_80158F6C(void *self_object, void *aux_entity, void *sprite, void *enti
                 return;
             }
         } else {
-            ((S_80170F6C_0 *)self_object)->unk_98 &= 0xFFF3;
-            if (((S_80170F6C_1 *)entity)->unk_64 == 0 ||
-                func_800AA6B4(self_object, aux_entity, sprite, D_8015D260) == 0) {
-                if (((S_80170F6C_1 *)entity)->unk_1C & 0x80000) {
-                    func_800AA888(self_object, aux_entity, sprite, entity);
-                    func_8015C250(self_object, aux_entity, sprite, entity);
+            action_state->flags &= 0xFFF3;
+            if (entity->reaction == 0 ||
+                func_800AA6B4(action_state, motion, sprite, D_8015D260) == 0) {
+                if (entity->flags & 0x80000) {
+                    func_800AA888(action_state, motion, sprite, entity);
+                    func_8015C250(action_state, motion, sprite, entity);
                     return;
                 }
                 if ((func_800A1C58(entity) << 16) != 0) {
-                    func_800AAB10(self_object, aux_entity, sprite, entity);
+                    func_800AAB10(action_state, motion, sprite, entity);
                 }
             } else {
                 return;
@@ -393,67 +378,67 @@ void func_80158F6C(void *self_object, void *aux_entity, void *sprite, void *enti
         }
     }
 
-    result = func_8009FB34(((S_80170F6C_2 *)sprite)->unk_24.at00.v, ((S_80170F6C_2 *)sprite)->unk_24.at01.v);
-    ((S_80170F6C_2 *)sprite)->unk_26 = result;
+    room_id = func_8009FB34(sprite->position.tile.x, sprite->position.tile.y);
+    sprite->room = room_id;
 
-    if (((S_80170F6C_1 *)entity)->unk_6D > 0) {
-        if (((S_80170F6C_1 *)entity)->unk_1C & 0x20) {
+    if (entity->actionsLeft > 0) {
+        if (entity->flags & 0x20) {
             func_800A9A0C(entity);
             return;
         }
-        if (((S_80170F6C_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            func_80159B68(self_object, aux_entity, sprite, entity);
+        if (sprite->position.packed == *(u16 *)(&D_80082E80.tileX)) {
+            func_80159B68(action_state, motion, sprite, entity);
             return;
         }
-        if (!(((S_80170F6C_1 *)entity)->unk_46 & 0x8000)) {
+        if (!(entity->action & 0x8000)) {
             if ((dungeonStatus.flags & 0x2000) &&
                 ((func_8009A180(entity,
-                    (u8 *)((S_80170F6C_8 *)(D_800814A8[0]))->unk_58 + 0x20) << 16) != 0)) {
+                    (u8 *)((PlayerContext *)(D_800814A8[0]))->actionContext + 0x20) << 16) != 0)) {
                 return;
             }
-            if ((func_8015A658(self_object, aux_entity, sprite, 0) << 16) == 0) {
+            if ((func_8015A658(action_state, motion, sprite, 0) << 16) == 0) {
                 return;
             }
-            ((S_80170F6C_1 *)entity)->unk_46 |= 0x4000;
-            if (!(((S_80170F6C_1 *)entity)->unk_46 & 0x8000)) {
-                func_80159B68(self_object, aux_entity, sprite, entity);
+            entity->action |= 0x4000;
+            if (!(entity->action & 0x8000)) {
+                func_80159B68(action_state, motion, sprite, entity);
                 return;
             }
         }
 
-        switch (((S_80170F6C_1 *)entity)->unk_46 & 0x3FFF) {
+        switch (entity->action & 0x3FFF) {
         case 8:
         case 9:
         {
             u32 case_flags;
-            if ((((S_80170F6C_1 *)entity)->unk_46 & 0x3FFF) == 9) {
-                case_flags = ((S_80170F6C_0 *)self_object)->unk_98 | 0x8000;
+            if ((entity->action & 0x3FFF) == 9) {
+                case_flags = action_state->flags | 0x8000;
             } else {
-                case_flags = ((S_80170F6C_0 *)self_object)->unk_98 & 0x7FFF;
+                case_flags = action_state->flags & 0x7FFF;
             }
-            ((S_80170F6C_0 *)self_object)->unk_98 = case_flags;
+            action_state->flags = case_flags;
         }
-            if ((func_8015A314(self_object, aux_entity, sprite, entity) << 16) != 0) {
+            if ((func_8015A314(action_state, motion, sprite, entity) << 16) != 0) {
                 return;
             }
-            func_8015A514(self_object, aux_entity, sprite, entity);
+            func_8015A514(action_state, motion, sprite, entity);
             return;
 
         case 5:
         case 6:
         case 7:
         {
-            s16 next_position;
+            s16 next_facing;
             void *status_object;
 
-            next_position = func_800A0818(
-                ((S_80170F6C_2 *)sprite)->unk_24.at00.v, ((S_80170F6C_2 *)sprite)->unk_24.at01.v,
+            next_facing = func_800A0818(
+                sprite->position.tile.x, sprite->position.tile.y,
                 D_80082E80.tileX, D_80082E80.tileY,
-                &scratch);
+                &direction_aux);
             status_object = D_800814A8[0];
-            ((S_80170F6C_1 *)entity)->unk_2A.s = next_position;
-            if (((S_80170F6C_10 *)status_object)->unk_9A == 0x11) {
-                func_800AAF00(self_object, aux_entity, sprite, D_8015D290, func_80158F6C);
+            entity->facing.s = next_facing;
+            if (((PlayerAction *)status_object)->action == 0x11) {
+                func_800AAF00(action_state, motion, sprite, D_8015D290, func_80158F6C);
                 return;
             }
         }
@@ -464,34 +449,34 @@ void func_80158F6C(void *self_object, void *aux_entity, void *sprite, void *enti
         case 1:
         case 2:
         case 3:
-            func_800AAF00(self_object, aux_entity, sprite, D_8015D290, func_80158F6C);
+            func_800AAF00(action_state, motion, sprite, D_8015D290, func_80158F6C);
             return;
 
         case 4:
         case 10:
         case 11:
         default:
-            func_80159B68(self_object, aux_entity, sprite, entity);
+            func_80159B68(action_state, motion, sprite, entity);
             return;
         }
     }
 
     {
         u32 final_flags =
-            ((S_80170F6C_1 *)entity)->unk_1C;
+            entity->flags;
         if (!(final_flags & 0x2000)) {
-            if ((result < 0) || !(D_800E2970[result].flags & 2)) {
+            if ((room_id < 0) || !(D_800E2970[room_id].flags & 2)) {
                 u32 final_mask =
                     final_flags & 0x430;
                 if (!final_mask) {
 
                     if ((func_8009FD7C(
-                            ((S_80170F6C_2 *)sprite)->unk_24.at00.v, ((S_80170F6C_2 *)sprite)->unk_24.at01.v,
+                            sprite->position.tile.x, sprite->position.tile.y,
                             D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
-                        ((S_80170F6C_1 *)entity)->unk_2A.s = func_800A0818(
-                            ((S_80170F6C_2 *)sprite)->unk_24.at00.v, ((S_80170F6C_2 *)sprite)->unk_24.at01.v,
+                        entity->facing.s = func_800A0818(
+                            sprite->position.tile.x, sprite->position.tile.y,
                             D_80082E80.tileX, D_80082E80.tileY,
-                            &scratch);
+                            &direction_aux);
                     }
                 }
             }
@@ -499,20 +484,20 @@ void func_80158F6C(void *self_object, void *aux_entity, void *sprite, void *enti
     }
 
     if (!(dungeonStatus.flags & 0x2000) &&
-        !(((S_80170F6C_2 *)sprite)->unk_14 & 0x40)) {
-        post_current =
-            ((S_80170F6C_2 *)sprite)->unk_2C;
-        post_table = (u8 *)&D_8015D258;
-post_compare:
-        if (post_current != post_table) {
+        !(sprite->flags & 0x40)) {
+        current_frames =
+            sprite->directionFrames;
+        next_frames = (u8 *)&D_8015D258;
+update_direction_frames:
+        if (current_frames != next_frames) {
             u32 post_index;
 
-            ((S_80170F6C_2 *)sprite)->unk_2C = post_table;
+            sprite->directionFrames = next_frames;
             post_index = ((gameWork.view.viewAngle +
-                ((S_80170F6C_1 *)entity)->unk_2A.s + 0x100) >> 9) & 7;
+                entity->facing.s + 0x100) >> 9) & 7;
             func_80047784(sprite,
                 *(u8 *)((unsigned long)post_index +
-                        (unsigned long)post_table),
+                        (unsigned long)next_frames),
                 0);
         }
     }

@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-11T04:26:18Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-11T07:19:28Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -9,9 +9,9 @@ Generated 2026-10-11T04:26:18Z. Pin `82f20568` (82f20568997a, raw/ frozen at 202
 | slus | 884 | 473,788 | 884 | 473,788 | 884 | 473,788 | 0 |
 | main | 423 | 62,760 | 423 | 62,760 | 423 | 62,760 | 0 |
 | town | 2697 | 457,832 | 2697 | 457,832 | 2697 | 457,832 | 0 |
-| dungeon | 3442 | 1,789,004 | 3442 | 1,789,004 | 2961 | 1,777,076 | 481 |
+| dungeon | 3442 | 1,789,004 | 3442 | 1,789,004 | 3441 | 1,787,204 | 1 |
 | ovmovie | 22 | 2,852 | 22 | 2,852 | 22 | 2,852 | 0 |
-| ALL | 7446 | 2,783,384 | 7446 | 2,783,384 | 6965 | 2,771,456 | 481 |
+| ALL | 7446 | 2,783,384 | 7446 | 2,783,384 | 7445 | 2,781,584 | 1 |
 
 Data rows: 489 (11,496 B); stale-image residue DATA: 1 (488 B).
 
@@ -45,7 +45,7 @@ Baseline NOT exact: 0 rows
 | gp_shared_81510 | 2 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/gp_shared_81510.h |
 | gp_shared_8099c | 2 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/gp_shared_8099c.h |
 | cache_afe | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
-| list_cursor_e0 | 1 | unproved: module sources, headers or manifest changed | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/list_cursor_e0.h |
+| list_cursor_e0 | 1 | unproved: certificate physical contributors or destination changed | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/list_cursor_e0.h |
 | saved_value_b98 | 2 | not certified | include/common.h, include/slus/saved_value_b98.h |
 | sort_rank_81540 | 1 | not certified | include/common.h, include/slus/sort_rank_81540.h |
 | command_slots_81554 | 4 | not certified | include/common.h, include/slus/command_slots_81554.h |
@@ -79,13 +79,13 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 
 | module | rows | placement proof |
 |---|---:|---|
-| dungeon_cd_control_d79c4 | 3 | source/recipe/graph/tool/review/window inputs changed |
-| town_minigame_dispatch_44b44 | 13 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_1852800 | 4 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_cd_control_d79c4 | 3 | current: complete TU + all windows + genuine |
+| town_minigame_dispatch_44b44 | 13 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1852800 | 4 | current: complete TU + all windows + genuine |
 | dungeon_ovl_1870800 | 2 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1858800 | 3 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_1840800 | 3 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_185e800 | 3 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1858800 | 3 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1840800 | 3 | current: complete TU + all windows + genuine |
+| dungeon_ovl_185e800 | 3 | current: complete TU + all windows + genuine |
 | dungeon_ovl_18ac800 | 2 | current: complete TU + all windows + genuine |
 | dungeon_ovl_18fa800 | 3 | current: complete TU + all windows + genuine |
 | dungeon_ovl_19ba800 | 3 | current: complete TU + all windows + genuine |
@@ -102,7 +102,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | dungeon_ovl_197281c | 5 | current: complete TU + all windows + genuine |
 | dungeon_ovl_1990800 | 13 | current: complete TU + all windows + genuine |
 | dungeon_ovl_1960800 | 11 | current: complete TU + all windows + genuine |
-| dungeon_ovl_183a800 | 10 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_183a800 | 10 | current: complete TU + all windows + genuine |
 | dungeon_ovl_18a0800 | 15 | current: complete TU + all windows + genuine |
 | dungeon_ovl_19c6800 | 5 | current: complete TU + all windows + genuine |
 | dungeon_ovl_19cc800 | 22 | current: complete TU + all windows + genuine |
@@ -112,6 +112,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | dungeon_ovl_7ce800 | 30 | current: complete TU + all windows + genuine |
 | dungeon_ovl_fa7000 | 28 | current: complete TU + all windows + genuine |
 | dungeon_ovl_1924800 | 11 | current: complete TU + all windows + genuine |
+| dungeon_ovl_19b4800 | 5 | certificate missing/invalid: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_ovl_19b4800.json' |
 
 Placement alone does not override any lower-level or source-residue guard.
 
@@ -133,7 +134,7 @@ Placement alone does not override any lower-level or source-residue guard.
 | maspsx marker pins (scaffolding) | 394 | 347,512 | 12.5% | 0 | 0 | 0.0% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 5.6% | 10 | 14,256 | 0.5% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
-| local address-named struct | 633 | 346,872 | 12.4% | 3017 | 1,682,024 | 60.4% |
+| local address-named struct | 633 | 346,872 | 12.4% | 2885 | 1,502,528 | 53.9% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 155,192 | 5.6% | 7128 | 2,393,388 | 85.9% |
 
 Pin sites now: 69 in 39 rows; REG 34, KEEP 13, KEEP_NV 11, SCHED_BARRIER 4, MEM_BARRIER 2, USE_NV 2, UNDEF 1, USE2_NV 1.  At the pin: 25,902; REG 12,801, KEEP 6,935, KEEP_NV 2,505, SCHED_BARRIER 1,355, TAILSLOT_PIN 506, USE 294, USE_NV 260, KEEP_DEP_NV 190.
@@ -142,7 +143,7 @@ Tracked, not pins (owner 2026-10-06): oddities 1 (ledger/oddities.jsonl - zero-b
 Carve debt - composite rows (r95 decisions item 8 kept the spelling for bytes; r99: it is an artifact of one-row-per-function carving, owned by module placement): the `asm("func_X")` data prefix (another function's jump table / overlay data that retail places before this row's code) and its `.globl/.type/.size func_X` stamp (`pin_census.composite_asm_spans`), 11 statements in 7 rows - counted here, not in the inline-asm row above; still L5 `inline_asm` residue in levels.py until the module TU owns the data.
 Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 0, calls of local asm wrappers 0, hand-written asm in function bodies 0 (C that is missing); symbol aliases 14 (a second typed name for one symbol: a missing type); file-scope asm directives 12; file-scope global register variables 4 (`register T g asm("$R")`).
 
-Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 94 rows carry one flag, 2 carry two or more.
+Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 93 rows carry one flag, 1 carry two or more.
 
 
 ## Likely incorrect compiler (registered recipe vs the real build)
@@ -161,7 +162,7 @@ Rows at a registered recipe backed by per-row compiler evidence (ledger/recipe_e
 
 Sony SDK library objects (ledger/sdk_objects.jsonl, whole-object byte match; not listed above): main/func_800219C4.
 
-SLUS rows off their region's build (game image = 2.7.2-cdk, sound TU = stock 2.7.2; module members included): 9 rows, 1 pinned / 1 pins.
+SLUS rows off their region's build (game image = 2.7.2-cdk, sound TU = stock 2.7.2; module members included): 7 rows, 1 pinned / 1 pins.
 
 Most-pinned rows off their build recipe: dungeon/func_80DE48EC 5 pins (2.8.0-G0 -> 2.7.2-cdk-G0); dungeon/func_813274E4 1 pins (2.8.1-G0 -> 2.7.2-cdk-G0).
 
@@ -175,16 +176,16 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 
 | level | bytes | % |
 |---|---:|---:|
-| L0 | 2,774,308 | 99.6% |
-| L1 | 2,774,308 | 99.6% |
-| L2 | 2,774,308 | 99.6% |
-| L3 | 2,568,188 | 92.2% |
-| L4 | 172,096 | 6.2% |
-| L5 | 167,476 | 6.0% |
+| L0 | 2,784,436 | 99.9% |
+| L1 | 2,784,436 | 99.9% |
+| L2 | 2,784,436 | 99.9% |
+| L3 | 2,772,940 | 99.5% |
+| L4 | 191,428 | 6.9% |
+| L5 | 186,808 | 6.7% |
 
 On shared record headers (T7, `include/records/`): 903 rows, 577,664 bytes (20.7%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 39 rows (48,796 B), tail_jump 8 rows (4,884 B), not_in_module 6,688 rows (2,599,360 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 39 rows (48,796 B), tail_jump 8 rows (4,884 B), not_in_module 7,129 rows (2,590,156 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 

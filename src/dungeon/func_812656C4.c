@@ -6,21 +6,21 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
-typedef struct S_8017360C_0 {
+typedef struct ActorActionWork {
     u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x2];
-    union { s16 s; u16 u; } unk_92;   /* accessed as both */
-    u8 pad_94[0x2];
-    u16 unk_96;
-    u8 pad_98[0x3];
-    u8 unk_9B;
-    u8 pad_9C[0x2];
-    u16 unk_9E;
-    u8 pad_A0[0x2];
-    u16 unk_A2;
-} S_8017360C_0;   /* arg0 in func_80160EC4 */
-
+    void *handler;
+    u8 pad_90[2];
+    union { s16 signedValue; u16 value; } remainingAmount;
+    u8 pad_94[2];
+    u16 phaseTicks;
+    u16 actionFlags;
+    u8 behavior;
+    u8 phase;
+    u8 pad_9C[2];
+    u16 adjustment;
+    u8 pad_A0[2];
+    union { s16 signedValue; u16 value; } pendingAmount;
+} ActorActionWork;
 
 extern s32 func_80042900(void *, s32);
 extern void func_80042B68(void *, s32);
@@ -39,41 +39,40 @@ extern void func_801616B8(void *, void *, void *, void *);
 
 extern u8 D_8015F514[];
 extern u8 D_80161E94[];
-extern u8 D_80161E94[];
 extern u8 D_80161EBC[];
 extern u8 D_80161EC4[];
 extern u8 D_80161ECC[];
 
-
 /* Advances the actor state sequence and selects effects for its facing direction. */
-void func_80160EC4(void *action, void *context, void *entity, EntityRec *actor)
+void func_80160EC4(ActorActionWork *action, void *context, Rec_D_80082E80 *entity, EntityRec *actor)
 {
-    s32 effect_entry;
+    s32 direction;
+    u8 *directionFrame;
     s32 next_state;
     u8 state;
 
-    state = ((S_8017360C_0 *)action)->unk_9B;
+    state = action->phase;
     switch (state) {
     case 0:
     {
-        u8 *local_table_0;
+        u8 *entryFrames;
         {
             DungeonGlobalStatus *dungeon_state;
-            if ((((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0xE000) == 0) {
+            if ((entity->unk_14.at00_u16.v & 0xE000) == 0) {
                 return;
             }
 
-            local_table_0 = D_80161E94;
+            entryFrames = D_80161E94;
 
-            (*(void * *)((u8 *)entity + 0x2C)) = local_table_0;
-            effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
-            effect_entry &= 7;
-            effect_entry += (s32)local_table_0;
-            func_80047784(entity, *(u8 *)effect_entry, 0);
+            entity->unk_2C.as_pv = entryFrames;
+            direction = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+            direction &= 7;
+            directionFrame = direction + entryFrames;
+            func_80047784(entity, *directionFrame, 0);
             dungeon_state = &dungeonStatus;
-            (*(u16 *)&dungeon_state->unk_0A)--;
-            next_state = ((S_8017360C_0 *)action)->unk_9B + 1;
-            ((S_8017360C_0 *)action)->unk_9B = next_state;
+            dungeon_state->unk_0A--;
+            next_state = action->phase + 1;
+            action->phase = next_state;
             return;
         }
 
@@ -81,47 +80,47 @@ void func_80160EC4(void *action, void *context, void *entity, EntityRec *actor)
 
     case 1:
     {
-        u8 *local_table_1;
-        if (((S_8017360C_0 *)action)->unk_92.s != 0) {
+        u8 *waitFrames;
+        if (action->remainingAmount.signedValue != 0) {
             return;
         }
-        local_table_1 = D_80161EBC;
+        waitFrames = D_80161EBC;
 
-        (*(void * *)((u8 *)entity + 0x2C)) = local_table_1;
-        effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
-        effect_entry &= 7;
-        effect_entry += (s32)local_table_1;
-        func_80047784(entity, *(u8 *)effect_entry, 0);
-        ((S_8017360C_0 *)action)->unk_96 = 0;
-        next_state = ((S_8017360C_0 *)action)->unk_9B + 1;
-        ((S_8017360C_0 *)action)->unk_9B = next_state;
+        entity->unk_2C.as_pv = waitFrames;
+        direction = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+        direction &= 7;
+        directionFrame = direction + waitFrames;
+        func_80047784(entity, *directionFrame, 0);
+        action->phaseTicks = 0;
+        next_state = action->phase + 1;
+        action->phase = next_state;
         return;
 
     }
 
     case 2:
     {
-        u8 *local_table_2;
-        if ((s16)((S_8017360C_0 *)action)->unk_96++ < 2) {
+        u8 *startFrames;
+        if ((s16)action->phaseTicks++ < 2) {
             return;
         }
-        local_table_2 = D_80161EC4;
+        startFrames = D_80161EC4;
 
-        (*(void * *)((u8 *)entity + 0x2C)) = local_table_2;
-        effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
-        effect_entry &= 7;
-        effect_entry += (s32)local_table_2;
-        func_80047784(entity, *(u8 *)effect_entry, 0);
-        ((S_8017360C_0 *)action)->unk_96 = 0;
-        next_state = ((S_8017360C_0 *)action)->unk_9B + 1;
-        ((S_8017360C_0 *)action)->unk_9B = next_state;
+        entity->unk_2C.as_pv = startFrames;
+        direction = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+        direction &= 7;
+        directionFrame = direction + startFrames;
+        func_80047784(entity, *directionFrame, 0);
+        action->phaseTicks = 0;
+        next_state = action->phase + 1;
+        action->phase = next_state;
         return;
 
     }
 
     case 3:
     {
-        u8 *local_table_3;
+        u8 *finishFrames;
         if ((func_80042900(actor, 1) << 16) != 0) {
             DungeonGlobalStatus *dungeon_state = &dungeonStatus;
             s32 actor_flags;
@@ -159,11 +158,11 @@ void func_80160EC4(void *action, void *context, void *entity, EntityRec *actor)
                     u16 remaining_amount;
 
                     func_800AA888(action, context, entity, actor);
-                    remaining_amount = ((S_8017360C_0 *)action)->unk_92.u;
-                    remaining_amount -= ((S_8017360C_0 *)action)->unk_A2;
-                    ((S_8017360C_0 *)action)->unk_A2 = 0;
-                    ((S_8017360C_0 *)action)->unk_9E = 0;
-                    ((S_8017360C_0 *)action)->unk_92.u = remaining_amount;
+                    remaining_amount = action->remainingAmount.value;
+                    remaining_amount -= action->pendingAmount.value;
+                    action->pendingAmount.value = 0;
+                    action->adjustment = 0;
+                    action->remainingAmount.value = remaining_amount;
                     func_801616B8(action, context, entity, actor);
                     return;
                 }
@@ -186,7 +185,7 @@ void func_80160EC4(void *action, void *context, void *entity, EntityRec *actor)
             func_800A9A04(actor);
             if ((func_80042900(actor, 1) << 16) != 0) {
                 TileObject *room_base = &D_80082E80;
-                s8 room_id = ((Rec_D_80082E80 *)entity)->unk_26.as_s8;
+                s8 room_id = entity->unk_26.as_s8;
 
                 if ((room_id == room_base->unk_026 && room_id >= 0) || (s16)func_8009FD40(room_base, entity) < 2) {
                     if ((func_800A6D30() & 7) == 0) {
@@ -199,20 +198,20 @@ void func_80160EC4(void *action, void *context, void *entity, EntityRec *actor)
             }
         }
 
-        local_table_3 = D_80161ECC;
+        finishFrames = D_80161ECC;
 
-        (*(void * *)((u8 *)entity + 0x2C)) = local_table_3;
-        effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
-        effect_entry &= 7;
-        effect_entry += (s32)local_table_3;
-        func_80047784(entity, *(u8 *)effect_entry, 0);
-        if ((((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000) != 0) {
+        entity->unk_2C.as_pv = finishFrames;
+        direction = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+        direction &= 7;
+        directionFrame = direction + finishFrames;
+        func_80047784(entity, *directionFrame, 0);
+        if ((entity->unk_14.at00_u16.v & 0x8000) != 0) {
             break;
         }
-        ((S_8017360C_0 *)action)->unk_9B++;
+        action->phase++;
         {
             DungeonGlobalStatus *dungeon_state = &dungeonStatus;
-            (*(u16 *)&dungeon_state->unk_0A)++;
+            dungeon_state->unk_0A++;
         }
         return;
 
@@ -220,47 +219,47 @@ void func_80160EC4(void *action, void *context, void *entity, EntityRec *actor)
 
     case 4:
     {
-        u8 *local_table_4;
+        u8 *restoreFrames;
         u32 phase_flag = 0x40000;
         u32 phase_flags;
 
-        if ((((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0xE000) == 0) {
+        if ((entity->unk_14.at00_u16.v & 0xE000) == 0) {
             return;
         }
 
-        local_table_4 = D_80161E94;
+        restoreFrames = D_80161E94;
         phase_flags = ((u32)actor->flags1C);
 
         phase_flags |= phase_flag;
         actor->flags1C = phase_flags;
-        (*(void * *)((u8 *)entity + 0x2C)) = local_table_4;
-        effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
-        effect_entry &= 7;
-        effect_entry += (s32)local_table_4;
-        func_80047784(entity, *(u8 *)effect_entry, 0);
-        ((S_8017360C_0 *)action)->unk_96 = 0;
-        next_state = ((S_8017360C_0 *)action)->unk_9B + 1;
-        ((S_8017360C_0 *)action)->unk_9B = next_state;
+        entity->unk_2C.as_pv = restoreFrames;
+        direction = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+        direction &= 7;
+        directionFrame = direction + restoreFrames;
+        func_80047784(entity, *directionFrame, 0);
+        action->phaseTicks = 0;
+        next_state = action->phase + 1;
+        action->phase = next_state;
         return;
     }
 
     case 5:
     {
-        u8 *local_table_5;
-        if ((s16)((S_8017360C_0 *)action)->unk_96++ < 4) {
+        u8 *idleFrames;
+        if ((s16)action->phaseTicks++ < 4) {
             return;
         }
 
-        local_table_5 = D_80161E94;
+        idleFrames = D_80161E94;
 
-        (*(void * *)((u8 *)entity + 0x2C)) = local_table_5;
-        effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
-        effect_entry &= 7;
-        effect_entry += (s32)local_table_5;
-        func_80047784(entity, *(u8 *)effect_entry, 0);
+        entity->unk_2C.as_pv = idleFrames;
+        direction = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+        direction &= 7;
+        directionFrame = direction + idleFrames;
+        func_80047784(entity, *directionFrame, 0);
         {
             DungeonGlobalStatus *dungeon_state = &dungeonStatus;
-            (*(u16 *)&dungeon_state->unk_0A)--;
+            dungeon_state->unk_0A--;
         }
         break;
 
@@ -269,6 +268,6 @@ void func_80160EC4(void *action, void *context, void *entity, EntityRec *actor)
         return;
     }
 
-    ((S_8017360C_0 *)action)->unk_8C = D_8015F514;
+    action->handler = D_8015F514;
     return;
 }

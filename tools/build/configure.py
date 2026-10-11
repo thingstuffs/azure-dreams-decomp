@@ -166,19 +166,19 @@ objs = []
 # Per-file compiler config = (gcc version, extra flags). Azure Dreams links object
 # files from multiple gcc versions AND per-TU flags; each distinct config gets a TU file.
 CC_VER = {
-    "src/code2.c": ("2.8.1", ""),
+    "src/code2.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
     "src/code3.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r95sm): retail-proven splitting recipe
     "src/code4.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
-    "src/code5.c": ("2.7.2", "-G0 -fno-schedule-insns"),
+    "src/code5.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
     "src/code6.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r98r98_sol61_slus1): retail-proven splitting recipe
     "src/code7.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r98r98_sol61_slus1): retail-proven splitting recipe
     "src/code8.c": ("2.7.2-cdk", ""),
     "src/code9.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r98r98_sol61_slus1): retail-proven splitting recipe
-    "src/code10.c": ("2.8.1", "-G0"),
+    "src/code10.c": ("2.7.2-cdk", "-G0"),  # SLUS physical TU recipe alignment
     "src/code11.c": ("2.7.2", "-G0"),
     "src/code12.c": ("2.7.2", ""),
-    "src/code13.c": ("2.8.1", ""),
-    "src/code14.c": ("2.8.1", ""),
+    "src/code13.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
+    "src/code14.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
     "src/code15.c": ("2.7.2", ""),
     "src/w_8005A3F0.c": ("2.7.2-cdk", ""),
     "src/w_8004DCA8.c": ("2.7.2-cdk", ""),
@@ -288,7 +288,7 @@ CC_VER = {
     "src/w_8003F794.c": ("2.7.2-cdk", ""),
     "src/w_80041BE4.c": ("2.7.2-cdk", ""),  # r86 module recipe move (slot_transition)
     "src/w_800411AC.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
-    "src/w_80041134.c": ("2.8.1", ""),
+    "src/w_80041134.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
     "src/w_80048190.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/w_80047C00.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/w_80047CD8.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
@@ -717,7 +717,7 @@ CC_VER = {
     "src/w_8004491C.c": ("2.7.2-cdk", ""),
     "src/w_800597A8.c": ("2.7.2-cdk", ""),  # fidelity step 4 (sc1): retail-proven splitting recipe
     "src/w_800439F8.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
-    "src/w_8004D880.c": ("2.7.2-cdk", "-fno-cse-follow-jumps -fno-cse-skip-blocks"),  # fidelity step 4 (r95sm): retail-proven splitting recipe
+    "src/w_8004D880.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
     "src/w_8005C2C0.c": ("2.7.2-cdk", ""),
     "src/w_8005CC04.c": ("2.7.2", ""),  # fidelity step 4 (r86slusb): retail-proven splitting recipe
     "src/w_8005CE98.c": ("2.7.2", ""),  # fidelity step 4 (r86slusb): retail-proven splitting recipe
@@ -1043,6 +1043,8 @@ CC_VER = {
     "src/w_8004E8D8.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_8003D92C.c": ("2.7.2-cdk", ""),
     "src/w_80041588.c": ("2.7.2-cdk", ""),
+    "src/w_80041134_owned.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
+    "src/b1b_b1c_table_owned.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
 }
 DEFAULT_CC = ("2.7.2", "")
 AS_FLAGS = {

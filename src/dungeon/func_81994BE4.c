@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_19b4800.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -23,9 +24,9 @@ typedef struct {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 void *func_8003FC64(s32);                       /* extern */
-void func_8004491C(void *, void *);                /* extern */
-extern M2C_UNK D_80024104;
-extern u8 D_8002533C[12];
+
+
+
 
 
 typedef struct S_800243E4_0 {
@@ -53,7 +54,7 @@ typedef struct S_800243E4_3 {
 } S_800243E4_3;   /* temp_v1_2 in func_800243E4 */
 
 /* Create an object linked to its parent and initialize its position and part data. */
-void func_800243E4(void *parent) {
+void func_800243E4(void *parent, void *unused_context, void *unused_parameters) {
     S_800243E4_2 *position;
     Part *part;
     void *object;
@@ -65,8 +66,8 @@ void func_800243E4(void *parent) {
         state = object + 0x20;
         state->unk_2A = 0x9;
         state->unk_60 = parent;
-        (*(M2C_UNK **)((u8 *)object + 0x10)) = &D_80024104;
-        func_8004491C(object, func_80045340);
+        (*(M2C_UNK **)((u8 *)object + 0x10)) = (M2C_UNK *)func_80024104;
+        func_8004491C(object, (s32)func_80045340);
         part = (*(Part **)((u8 *)object + 0xC));
         part->field10 = 0x20;
         part->field6 = 0;
@@ -82,7 +83,7 @@ void func_800243E4(void *parent) {
         part->byteE = 0;
         part->byteD = 0;
         part->byteC = 0;
-        (*(Copy12 *)((u8 *)object + 0x92)) = *(Copy12 *)D_8002533C;
+        (*(Copy12 *)((u8 *)object + 0x92)) = *(Copy12 *)&D_8002533C;
         part->ptr8 = (void *) (object + 0x92);
     }
 }

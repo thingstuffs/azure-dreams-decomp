@@ -147,6 +147,14 @@ def verify_overlay(row, cfile, regions=False, include_root=None, diff=False):
             "class": rs.get("class"), "signals": rs.get("signals"), "secs": secs,
             "err": (best.get("error") or None)}
 
+# ---------------------------------------------------------------- data/composite object baseline
+# Use the production compiler and rodata mini-link, not the instruction scorer.
+def verify_data(row, cfile, include_root=None):
+    from overlay_data_baseline import measure_object_row
+    if include_root is not None and Path(include_root).resolve() != ROOT / "include":
+        return {"status": "failed", "exact": False, "err": "data baseline requires production headers"}
+    return measure_object_row(row, cfile, gate_root(False))
+
 # ---------------------------------------------------------------- window-gate fallback
 # The per-row scorer compiles one function in isolation and slices the row's extent; a few row
 # shapes it cannot measure are still proven by the window gate (the only compile authority):
@@ -712,10 +720,42 @@ def rebaseline_slus(ids, dry_run=False, cache=None, build_root=None, gate_log=No
         _slus_base = None
     return out
 
+def rebaseline_overlay_objects(ids, dry_run=False):
+    """Append exact storage measurements; historical baseline entries survive.
+
+    Data uses pinned raw text. Former composite text rows use their current
+    source and current registered carve, explicitly labelled in the receipt.
+    No failed measurement writes a replacement baseline.
+    """
+    from common import clean_path
+    from overlay_data_baseline import measure_object_row
+    by = {r["id"]: r for r in rows()}
+    out = []
+    for rid in dict.fromkeys(ids):
+        row = by.get(rid)
+        if row is None or row["kind"] != "overlay" or not row.get("stock"):
+            out.append({"id": rid, "outcome": "refused", "err": "requires a registered stock overlay row"})
+            continue
+        data = row.get("row_kind") == "data"
+        source = raw_path(row) if data else clean_path(row)
+        rec = measure_object_row(row, source, gate_root(False))
+        rec.update(id=rid, at=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                   baseline_source="pinned-raw" if data else "current-src-current-carve")
+        if rec.get("exact") is True and not dry_run:
+            append_jsonl(LEDGER / "baseline.jsonl", rec)
+        out.append(dict(rec, outcome="dry-run" if rec.get("exact") and dry_run else
+                        "rebaselined" if rec.get("exact") else "refused"))
+    return out
+
 # ---------------------------------------------------------------- entry points
 def verify(row, cfile, regions=False, include_root=None, diff=False):
     if row["kind"] == "slus":
         return verify_slus(row, cfile, include_root, regions=regions, diff=diff)
+    if row.get("row_kind") == "data":
+        rec = verify_data(row, cfile, include_root)
+        if regions or diff:
+            rec["text"] = json.dumps(rec, indent=1)
+        return rec
     return verify_overlay(row, cfile, regions, include_root, diff)
 
 def main():
@@ -728,15 +768,26 @@ def main():
     ap.add_argument("--container"); ap.add_argument("--limit", type=int); ap.add_argument("--all", action="store_true", help="include non-stock rows")
     ap.add_argument("--rebaseline-slus", metavar="IDS", help="comma-separated slus row ids: re-derive their cached reference from the "
                     "landed src at the landed recipe, gated on the SLUS SHA-1 gate (module docstring)")
-    ap.add_argument("--dry-run", action="store_true", help="--rebaseline-slus: check and report, write nothing")
+    ap.add_argument("--rebaseline-overlay-objects", metavar="IDS", help="comma-separated overlay ids: append exact data "
+                    "object or proven current text-carve baselines; preserves historical records")
+    ap.add_argument("--data-only", action="store_true", help="--baseline: select only registered overlay data rows")
+    ap.add_argument("--dry-run", action="store_true", help="rebaseline modes: check and report, write nothing")
     a = ap.parse_args()
     if a.rebaseline_slus:
         res = rebaseline_slus([x for x in a.rebaseline_slus.split(",") if x], dry_run=a.dry_run)
         for r in res: print(json.dumps(r))
         sys.exit(0 if all(r["outcome"] in ("rebaselined", "dry-run") for r in res) else 1)
+    if a.rebaseline_overlay_objects:
+        res = rebaseline_overlay_objects([x for x in a.rebaseline_overlay_objects.split(",") if x], dry_run=a.dry_run)
+        for r in res: print(json.dumps(r))
+        sys.exit(0 if all(r["outcome"] in ("rebaselined", "dry-run") for r in res) else 1)
+    if a.data_only and not a.baseline:
+        ap.error("--data-only requires --baseline")
+    if a.dry_run and not a.rebaseline_slus:
+        ap.error("--dry-run requires a rebaseline mode")
     by = {r["id"]: r for r in rows()}
     if a.baseline:
-        rs = [r for r in by.values() if r["exists"] and (a.all or r["stock"]) and (not a.container or r["container"] == a.container)]
+        rs = [r for r in by.values() if r["exists"] and (a.all or r["stock"]) and (not a.container or r["container"] == a.container) and (not a.data_only or r.get("row_kind") == "data")]
         if a.limit: rs = rs[:a.limit]
         out = LEDGER / "baseline.jsonl"
         done = {r["id"] for r in read_jsonl(out)}
@@ -746,11 +797,13 @@ def main():
         slus_cache = read_baseline_slus()
         def one(r):
             if r["kind"] == "slus": return baseline_slus(r)
+            if r.get("row_kind") == "data":
+                return dict(verify_data(r, raw_path(r)), id=r["id"])
             return gate_fallback(r, dict(verify_overlay(r, raw_path(r)), id=r["id"]), raw=True)
         n = 0; t0 = time.time()
         with ThreadPoolExecutor(max_workers=a.workers) as ex:
             for rec in ex.map(one, rs):
-                rec["src_sha"] = by[rec["id"]]["src_sha"]; rec["at"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+                rec.setdefault("src_sha", by[rec["id"]]["src_sha"]); rec["at"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
                 append_jsonl(out, rec); n += 1
                 if rec.get("obj_sha") and by[rec["id"]]["kind"] == "slus":
                     slus_cache[rec["id"]] = {"obj_sha": rec["obj_sha"], "src_sha": rec["src_sha"]}
@@ -760,7 +813,7 @@ def main():
         json.dump(slus_cache, open(CACHE / "slus_obj.json", "w"), indent=0)
         print(f"done {n} in {time.time()-t0:.0f}s")
         # gate pass: overlay records the scorer left not exact and no gate verdict yet
-        recs = read_jsonl(out); todo = [b for b in recs if b.get("exact") is not True and "gate" not in b and by.get(b["id"], {}).get("kind") == "overlay" and by[b["id"]].get("gate_config")]
+        recs = read_jsonl(out); todo = [b for b in recs if not a.data_only and b.get("exact") is not True and "gate" not in b and by.get(b["id"], {}).get("kind") == "overlay" and by[b["id"]].get("gate_config") and by[b["id"]].get("row_kind") != "data"]
         if todo:
             print(f"gate pass: {len(todo)} not-exact overlay rows -> window gate over raw/", flush=True)
             upd = {}

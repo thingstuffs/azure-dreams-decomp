@@ -7,13 +7,12 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
-
 /* Resident bindings traced in this bank; shared record layouts retained. */
 extern GameWork D_80084818;
 extern DungeonGlobalStatus D_80085990;
 extern TileObject D_80081490;
 extern struct EntityRec * D_800803DC;
-extern u8 D_800E1D50[];
+extern DungeonRoom D_800E1D50[];
 
 extern void func_80047320(void *, u8, s32);
 extern s32 func_80098F70(void *, void *);
@@ -41,142 +40,137 @@ extern u8 D_80172E94[];
 extern u8 D_80172EC4[];
 extern u8 D_80172EE4[];
 
+typedef struct ActorActionWork {
+    u8 pad_00[0x8C];
+    void *handler;
+    u8 pad_90[2];
+    union { s16 signedValue; u16 value; } remainingAmount;
+    u8 pad_94[2];
+    u16 phaseTicks;
+    u16 actionFlags;
+    u8 behavior;
+    u8 phase;
+    u8 pad_9C[2];
+    u16 adjustment;
+    u8 pad_A0[2];
+    union { s16 signedValue; u16 value; } pendingAmount;
+} ActorActionWork;
 
-typedef struct S_80171514_0 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x1C];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-    u8 pad_6E[0x3];
-    u8 unk_71;
-} S_80171514_0;   /* arg3 in func_80170514 */
-
-typedef struct S_80171514_1 {
-    u8 pad_00[0x5];
-    u8 unk_05;
-    u8 pad_06[0x1E];
+typedef struct ActorSpriteView {
+    u8 pad_00[4];
+    s8 animationKind;
+    u8 animationEnabled;
+    u8 pad_06[0xE];
+    u16 animationFlags;
+    u8 pad_16[0xE];
     union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-    u8 unk_26;
-    u8 pad_27[0x5];
-    u8 * unk_2C;
-} S_80171514_1;   /* arg2 in func_80170514 */
-
-
-typedef struct S_80171514_3 {
-    u8 pad_00[0xC];
-    u16 unk_0C;
-} S_80171514_3;   /* entry in func_80170514 */
+        struct { u8 x, y; } tile;
+        u16 packed;
+    } position;
+    union { s8 signedValue; u8 value; } roomId;
+    u8 pad_27[5];
+    u8 *directionFrames;
+} ActorSpriteView;
 
 /* Updates object animation, dispatches its action, and adjusts its facing. */
-void func_80170514(void *obj, void *motion, void *part, void *state)
+void func_80170514(ActorActionWork *action, void *context, ActorSpriteView *sprite, EntityRec *actor)
 {
     u32 entry_status = D_80085990.flags;
     s32 state_flags;
-    s32 query_result;
+    s32 roomOrDirection;
     s32 action_kind;
     s32 jump_index;
     s32 entry_index;
-    u8 *entry_base;
-    u8 *entry;
+    DungeonRoom *roomTable;
+    DungeonRoom *roomEntry;
     s16 distance;
     void *callback_state;
 
     if (entry_status & 0x1000) {
-        (*(u8 *)((u8 *)obj + (0x9A))) = 14;
-        func_801709C0(obj, (s32)motion, part, state);
+        action->behavior = 14;
+        func_801709C0(action, (s32)context, sprite, actor);
         return;
     }
 
-
-    if (((S_80171514_0 *)state)->unk_1C & 0x200) {
-        if (((S_80171514_1 *)part)->unk_2C == D_80172EC4) {
-            (*(u8 *)((u8 *)obj + (0x9A))) = 13;
-            (*(u8 *)((u8 *)obj + (0x9B))) = 1;
-            (*(u32 *)((u8 *)obj + (0x8C))) = 0;
-            ((S_80171514_0 *)state)->unk_1C &= ~0x40000;
+    if (actor->flags1C & 0x200) {
+        if (sprite->directionFrames == D_80172EC4) {
+            action->behavior = 13;
+            action->phase = 1;
+            action->handler = 0;
+            actor->flags1C &= ~0x40000;
             return;
         }
-        if (func_800A95DC(obj, motion, part, D_80172E94) != 0) {
+        if (func_800A95DC(action, context, sprite, D_80172E94) != 0) {
             return;
         }
     }
 
     if ((D_80085990.flags & 0x2000) == 0) {
-        if (((S_80171514_0 *)state)->unk_1C & 0x100) {
-            func_800A8F10(obj, motion, part, state);
+        if (actor->flags1C & 0x100) {
+            func_800A8F10(action, context, sprite, actor);
             return;
         }
 
-        if ((*(u8 *)((u8 *)obj + (0x9A))) != 14) {
-            (*(u8 *)((u8 *)obj + (0x9A))) = 14;
+        if (action->behavior != 14) {
+            action->behavior = 14;
         }
-        if (((S_80171514_1 *)part)->unk_2C != D_80172E8C) {
-            (*(u8 * *)((u8 *)part + (0x2C))) = D_80172E8C;
+        if (sprite->directionFrames != D_80172E8C) {
+            sprite->directionFrames = D_80172E8C;
             func_80047320(
-                part,
-                D_80172E8C[((D_80084818.view.viewAngle + ((S_80171514_0 *)state)->unk_2A + 0x100) >> 9) & 7],
+                sprite,
+                D_80172E8C[((D_80084818.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            ((S_80171514_1 *)part)->unk_05 = 1;
-            (*(s16 *)((u8 *)obj + (0xA2))) = 0;
-            (*(s16 *)((u8 *)obj + (0x9E))) = 0;
+            sprite->animationEnabled = 1;
+            action->pendingAmount.signedValue = 0;
+            action->adjustment = 0;
         }
 
-        ((S_80171514_0 *)state)->unk_1C |= 0x40000;
-        (*(u16 *)((u8 *)obj + (0x98))) &= 0xFFF7;
+        actor->flags1C |= 0x40000;
+        action->actionFlags &= 0xFFF7;
 
-        if (((S_80171514_0 *)state)->unk_64 != 0) {
-            if (func_800A936C(obj, motion, part, D_80172EE4) != 0) {
+        if (actor->unk_64 != 0) {
+            if (func_800A936C(action, context, sprite, D_80172EE4) != 0) {
                 return;
             }
         }
 
-        if (((S_80171514_0 *)state)->unk_1C & 0x80000) {
+        if (actor->flags1C & 0x80000) {
             u16 previous_amount;
             u16 pending_amount;
 
-            func_800A9540(obj, motion, part, state);
-            previous_amount = (*(u16 *)((u8 *)obj + (0x92)));
-            pending_amount = (*(u16 *)((u8 *)obj + (0xA2)));
-            (*(s16 *)((u8 *)obj + (0xA2))) = 0;
-            (*(s16 *)((u8 *)obj + (0x9E))) = 0;
-            (*(u16 *)((u8 *)obj + (0x92))) = previous_amount - pending_amount;
-            func_801726B8(obj, motion, part, state);
+            func_800A9540(action, context, sprite, actor);
+            previous_amount = action->remainingAmount.value;
+            pending_amount = action->pendingAmount.value;
+            action->pendingAmount.signedValue = 0;
+            action->adjustment = 0;
+            action->remainingAmount.value = previous_amount - pending_amount;
+            func_801726B8(action, context, sprite, actor);
             return;
         }
 
-        if ((s16)func_800A0928(state) != 0) {
-            func_800A97C8(obj, motion, part, state);
+        if ((s16)func_800A0928(actor) != 0) {
+            func_800A97C8(action, context, sprite, actor);
         }
     }
 
-    query_result = func_8009E924(((S_80171514_1 *)part)->unk_24.at00.v, ((S_80171514_1 *)part)->unk_24.at01.v);
-    ((S_80171514_1 *)part)->unk_26 = query_result;
+    roomOrDirection = func_8009E924(sprite->position.tile.x, sprite->position.tile.y);
+    sprite->roomId.value = roomOrDirection;
 
-    if (((S_80171514_0 *)state)->unk_6D > 0) {
-        if (((S_80171514_0 *)state)->unk_1C & 0x20) {
-            func_800A86C4(state);
+    if (actor->unk_6D > 0) {
+        if (actor->flags1C & 0x20) {
+            func_800A86C4(actor);
             return;
         }
 
-        if (((S_80171514_1 *)part)->unk_24.at00u.v == *(u16 *)(&D_80081490.tileX)) {
-            func_80170BE0(obj, motion, part, state);
+        if (sprite->position.packed == *(u16 *)(&D_80081490.tileX)) {
+            func_80170BE0(action, context, sprite, actor);
             return;
         }
 
-        if ((((S_80171514_0 *)state)->unk_46 & 0x8000) == 0) {
+        if ((actor->unk_46 & 0x8000) == 0) {
             if (D_80085990.flags & 0x2000) {
                 if ((s16)func_80098F70(
-                        state, (u8 *)D_800803DC->unk_58 + 0x20) != 0) {
+                        actor, (u8 *)D_800803DC->unk_58 + 0x20) != 0) {
                     return;
                 }
             }
@@ -184,31 +178,31 @@ void func_80170514(void *obj, void *motion, void *part, void *state)
             if (D_80013714 & 8) {
                 u8 callback_flags;
 
-                func_80172D6C(obj, motion, part);
-                callback_flags = ((S_80171514_0 *)state)->unk_71;
-                callback_state = state;
+                func_80172D6C(action, context, sprite);
+                callback_flags = actor->unk_71;
+                callback_state = actor;
                 callback_flags &= 0x7F;
-                ((S_80171514_0 *)state)->unk_71 = callback_flags;
+                actor->unk_71 = callback_flags;
                 func_800A86C4(callback_state);
-                ((S_80171514_0 *)state)->unk_46 &= 0x7FFF;
+                actor->unk_46 &= 0x7FFF;
                 return;
             }
 
-            if ((s16)func_80171330(obj, motion, part, 0) == 0) {
+            if ((s16)func_80171330(action, context, sprite, 0) == 0) {
                 return;
             }
-            ((S_80171514_0 *)state)->unk_46 |= 0x4000;
-            if ((((S_80171514_0 *)state)->unk_46 & 0x8000) == 0) {
-                func_80170BE0(obj, motion, part, state);
+            actor->unk_46 |= 0x4000;
+            if ((actor->unk_46 & 0x8000) == 0) {
+                func_80170BE0(action, context, sprite, actor);
                 return;
             }
         }
 
-        action_kind = ((S_80171514_0 *)state)->unk_46 & 0x3FFF;
+        action_kind = actor->unk_46 & 0x3FFF;
         jump_index = action_kind - 1;
         switch (jump_index) {
         case 11:
-            func_800A86C4(state);
+            func_800A86C4(actor);
             return;
 
         case 4:
@@ -216,45 +210,45 @@ void func_80170514(void *obj, void *motion, void *part, void *state)
         case 6:
         case 7:
         case 8:
-            callback_state = state;
-            (*(void * *)((u8 *)obj + (0x8C))) = &D_80170514;
+            callback_state = actor;
+            action->handler = &D_80170514;
             func_800A86C4(callback_state);
-            ((S_80171514_0 *)state)->unk_46 &= 0x7FFF;
+            actor->unk_46 &= 0x7FFF;
             return;
 
         case 0:
         case 1:
         case 2:
-            func_800A9BB8(obj, motion, part, 0, &D_80170514);
+            func_800A9BB8(action, context, sprite, 0, &D_80170514);
             return;
 
         case 3:
         case 9:
         case 10:
         default:
-            func_80170BE0(obj, motion, part, state);
+            func_80170BE0(action, context, sprite, actor);
             return;
         }
     }
 
-    state_flags = ((S_80171514_0 *)state)->unk_1C;
+    state_flags = actor->flags1C;
     if ((state_flags & 0x2000) == 0) {
-        entry_index = (s8)query_result;
+        entry_index = (s8)roomOrDirection;
         if (entry_index >= 0) {
-            entry_base = D_800E1D50;
-            entry = entry_index * 20 + entry_base;
-            if (((S_80171514_3 *)entry)->unk_0C & 2) {
+            roomTable = D_800E1D50;
+            roomEntry = &roomTable[entry_index];
+            if (roomEntry->flags & 2) {
                 return;
             }
         }
         if ((state_flags & 0x430) == 0) {
             if ((s16)func_8009EB6C(
-                    ((S_80171514_1 *)part)->unk_24.at00.v, ((S_80171514_1 *)part)->unk_24.at01.v,
+                    sprite->position.tile.x, sprite->position.tile.y,
                     D_80081490.tileX, D_80081490.tileY) != 0) {
-                query_result = func_8009F608(
-                    ((S_80171514_1 *)part)->unk_24.at00.v, ((S_80171514_1 *)part)->unk_24.at01.v,
+                roomOrDirection = func_8009F608(
+                    sprite->position.tile.x, sprite->position.tile.y,
                     D_80081490.tileX, D_80081490.tileY, &distance);
-                ((S_80171514_0 *)state)->unk_2A = query_result;
+                actor->facing = roomOrDirection;
             }
         }
     }
