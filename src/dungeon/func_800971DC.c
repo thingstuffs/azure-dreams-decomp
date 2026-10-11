@@ -48,7 +48,7 @@ extern s32 func_800981F8(Ent *);
 extern void func_8003E188(s32, s32);
 
 Ent *func_8009C93C(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent2) {
-    register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s32 zero = 0;
     u16 coord;
     s32 savedMult;
     s32 off;

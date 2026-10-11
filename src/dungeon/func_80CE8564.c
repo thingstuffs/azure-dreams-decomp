@@ -24,7 +24,7 @@ extern void *func_8003FD64();
 extern void func_8004491C();
 extern void func_80047784();
 extern void func_800A48F0();
-extern s32 func_800A6D30();
+extern s32 func_800A6D30(void);
 extern void func_800A9C18();
 extern void func_800AA36C();
 
@@ -39,16 +39,16 @@ extern u8 D_80175E5C[];
 extern u8 D_80175E64[];
 
 /* Creates an object and initializes its position, flags, and directional frame table. */
-void *func_80171D64(s32 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_height)
+void *func_80171D64(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_height)
 {
     s32 record_addr;
     EntityRec *result;
-    s16 saved_x;
     s16 saved_y;
+    s16 saved_x;
     SpriteFrameState *sprite;
     s16 init_flags;
     ObjectNodeHeader *object;
-    register void *position ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *position;
     s32 call_object;
     s32 call_position;
     s32 alternate_kind;
@@ -61,6 +61,8 @@ void *func_80171D64(s32 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_hei
     void *current_frames;
     u8 *frame_table;
     s32 default_frames;
+    s32 direction_index;
+    s32 record_kind;
 
     result = 0;
     call_object = 0x112;
@@ -81,15 +83,16 @@ void *func_80171D64(s32 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_hei
         alternate_kind = 0xF;
         ((S_80171D64_2 *)position)->unk_0A = initial_height;
         sprite = object->unk_0C;
-        mode = spawn_flags & 3;
+        
+        sprite->unk_24 = saved_x;
         sprite->frameTable = (void *)default_frames;
-        default_frames = 0x20;
+        record_kind = 0x20;
         sprite->unk_25 = saved_y;
         record_addr = (s32)result;
-        sprite->unk_24 = saved_x;
-        result->unk_4B = default_frames;
+        result->unk_4B = record_kind;
         result->unk_48 = call_position;
         result->unk_49 = alternate_kind;
+        mode = spawn_flags & 3;
 
         if (mode == 1) {
             (*(u32 *)((u8 *)result + 0x14)) |= 0x6000;
@@ -119,14 +122,13 @@ void *func_80171D64(s32 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_hei
 
                 if (((init_flags & ~3) << 16) == 0) {
                     call_object = (s32)object;
-                    call_position = (s32)position;
                     if (!(result->flags14 & 0x200)) {
-                        call_object = func_800A6D30((void *)call_object, (void *)call_position);
+                        call_object = func_800A6D30();
                         state_flags = call_object;
                         call_object = (s32)object;
                         if (state_flags & 1) {
                             func_800A48F0(result, 1,
-                                (func_800A6D30((void *)call_object) & 0x3F) | 0x20);
+                                (func_800A6D30() & 0x3F) | 0x20);
                             kind = result->unk_48;
                             switch (kind) {
                             case 0xD:
@@ -155,8 +157,7 @@ void *func_80171D64(s32 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_hei
                             goto setup_args_ready;
                         }
                     } else {
-                        call_position = (s32)position;
-                        goto setup_args2_ready;
+                        goto setup_args_ready;
                     }
                 }
             }
@@ -192,9 +193,9 @@ setup_args2_ready:
         }
         if (current_frames != frame_table) {
             (sprite->frameTable) = frame_table;
-            default_frames = ((gameWork.view.viewAngle + result->facing + 0x100) >> 9) & 7;
+            direction_index = ((gameWork.view.viewAngle + result->facing + 0x100) >> 9) & 7;
             func_80047784(sprite,
-                *(u8 *)((u32)default_frames + (u32)frame_table),
+                *(u8 *)((u32)direction_index + (u32)frame_table),
                 0);
         }
     }
