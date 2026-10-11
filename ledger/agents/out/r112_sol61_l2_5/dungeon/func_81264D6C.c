@@ -1,0 +1,314 @@
+#include "common.h"
+#include "shared/entity.h"
+#include "shared/def_table.h"
+#include "shared/record_ptrs.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_status.h"
+extern int abs(int);
+
+extern s32 func_8003F270(void);
+extern s32 func_80047784();
+extern void *func_800A05A4();
+extern void func_800A2B04();
+extern void func_800A4ACC();
+extern void func_800A56E0();
+extern s32 func_800A94A0();
+extern void func_8015EE18();
+
+extern s32 D_8015F514;
+extern u8 D_80161E8C[8];
+extern u8 D_80161EDC[8];
+
+typedef struct ActorActionWork {
+    u8 pad_00[0x8C];
+    void *handler;
+    u8 pad_90[2];
+    union { s16 signedValue; u16 value; } remainingAmount;
+    u8 pad_94[2];
+    u16 phaseTicks;
+    u16 actionFlags;
+    u8 behavior;
+    u8 phase;
+    u8 pad_9C[2];
+    u16 adjustment;
+    u8 pad_A0[2];
+    union { s16 signedValue; u16 value; } pendingAmount;
+} ActorActionWork;
+
+/* Three adjacent action records are selected by action kind. */
+typedef struct ActorActionSlots {
+    u8 pad_00[8];
+    u8 first[3];
+    u8 second[3];
+    u8 third[3];
+} ActorActionSlots;
+
+typedef struct ActorCounterView {
+    u8 pad_00[0xA6];
+    u16 pendingCount;
+} ActorCounterView;
+
+typedef struct TargetLinkHeader {
+    u8 * positionRecord;
+    u8 pad_04[0x10];
+} TargetLinkHeader;   /* The position-record link is 0x14 bytes before the actor. */
+
+typedef struct TargetPositionView {
+    u8 pad_00[0x24];
+    u8 tileX;
+    u8 tileY;
+} TargetPositionView;
+
+typedef struct ActorSpriteView {
+    u8 pad_00[4];
+    s8 animationKind;
+    u8 animationEnabled;
+    u8 pad_06[0xE];
+    u16 animationFlags;
+    u8 pad_16[0xE];
+    union {
+        struct { u8 x, y; } tile;
+        u16 packed;
+    } position;
+    union { s8 signedValue; u8 value; } roomId;
+    u8 pad_27[5];
+    u8 *directionFrames;
+} ActorSpriteView;
+
+/* Advances an actor's action phase, updating its target, animation, and completion. */
+void func_8016056C(ActorActionWork *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor)
+{
+    s32 usePlayerTarget = 0;
+    u8 *actionEntry;
+    u32 phase;
+    u32 priorPhase;
+    /* The selector and linked position address share this temporary. */
+    s32 actionKindOrTargetAddress;
+    u32 actionKind;
+    u16 ticks;
+    s32 next_ticks;
+    u8 *target_link;
+
+    phase = action->phase;
+    switch (phase) {
+    case 0:
+        if (actor->flags1C & 0x2000) {
+            actionKind = actor->unk_46 & 0x3FFF;
+            switch (actionKind) {
+            case 7:
+                usePlayerTarget = 1;
+                /* fallthrough */
+            case 3:
+                goto selectAction3;
+            case 6:
+                usePlayerTarget = 1;
+                /* fallthrough */
+            case 2:
+                goto selectAction2;
+            case 5:
+                usePlayerTarget = 1;
+                /* fallthrough */
+            case 1:
+                goto selectAction1;
+            default:
+                actionEntry = 0;
+                break;
+            }
+        } else {
+            actionKindOrTargetAddress = actor->unk_46 & 0x3FFF;
+            switch (actionKindOrTargetAddress) {
+            case 3:
+selectAction3:
+                actionEntry = ((ActorActionSlots *)actor)->third;
+                break;
+            case 2:
+selectAction2:
+                actionEntry = ((ActorActionSlots *)actor)->second;
+                break;
+            case 1:
+selectAction1:
+                actionEntry = ((ActorActionSlots *)actor)->first;
+                break;
+            default:
+                actionEntry = 0;
+                break;
+            }
+        }
+        if (*actionEntry != 0) {
+            action->actionFlags &= 0xFF7F;
+            {
+                u8 use_player_target = usePlayerTarget;
+
+                if (use_player_target) {
+                    target_link = D_800814A8;
+                    actor->target = target_link;
+                    goto copyLinkedTarget;
+                }
+            }
+
+            if (D_8006DE24[*actionEntry].kind == 2) {
+                target_link = actor->target;
+                if (target_link != 0) {
+copyLinkedTarget:
+                    /* Both target paths read the link in the object prefix. */
+                    actionKindOrTargetAddress = (s32)((TargetLinkHeader *)target_link)[-1].positionRecord;
+
+                    actor->unk_72 = ((TargetPositionView *)actionKindOrTargetAddress)->tileX;
+                    actor->unk_73 = ((TargetPositionView *)actionKindOrTargetAddress)->tileY;
+                    goto executeAction;
+                }
+            } else {
+                s32 abs_x;
+                s32 abs_y;
+
+                actor->target = func_800A05A4(
+                    actor,
+                    sprite->position.tile.x,
+                    sprite->position.tile.y,
+                    actor->facing,
+                    0x10);
+                abs_x = abs(actor->unk_72);
+                abs_y = abs(actor->unk_73);
+                actor->unk_72 = abs_x;
+                actor->unk_73 = abs_y;
+            }
+
+executeAction:
+            if (func_800A94A0(actor, actionEntry, usePlayerTarget, &action->actionFlags) == 0) {
+                return;
+            }
+            action->phaseTicks = 0;
+            action->phase++;
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            return;
+        }
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        func_800A2B04(motion, sprite->position.tile.x, sprite->position.tile.y);
+        dungeonStatus.unk_0C = 0;
+        ((ActorCounterView *)D_800814A8)->pendingCount--;
+        func_800A4ACC(actor);
+        actor->unk_6D--;
+        action->handler = &D_8015F514;
+        actor->unk_73 = 0;
+        actor->unk_72 = 0;
+        actor->unk_46 &= 0x7FFF;
+        return;
+
+    case 1:
+        if (func_8003F270() != 0) {
+            sprite->animationFlags |= 0x800;
+            return;
+        }
+        sprite->animationFlags &= 0xF7FF;
+        action->phase++;
+        func_800A56E0(0x703);
+        /* fall through */
+    case 2:
+        ticks = action->phaseTicks;
+        next_ticks = ticks + 1;
+        action->phaseTicks = next_ticks;
+        if ((s16)ticks < 8 && !(sprite->animationFlags & 0x8000)) {
+            return;
+        }
+        priorPhase = action->phase;
+
+        action->phaseTicks = 0;
+        action->phase = priorPhase + 1;
+        return;
+
+    case 3:
+        if (action->pendingAmount.signedValue != 0) {
+            ticks = action->phaseTicks;
+            next_ticks = ticks + 1;
+            action->phaseTicks = next_ticks;
+            if ((s16)ticks < 15 && !(sprite->animationFlags & 0x8000)) {
+                return;
+            }
+        }
+        action->phaseTicks = 0;
+        action->phase++;
+        func_800A56E0(0x703);
+        sprite->directionFrames = D_80161EDC;
+        func_80047784(
+            sprite,
+            D_80161EDC[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            0);
+        return;
+
+    case 4:
+        func_8015EE18(action, motion, sprite, actor);
+        ticks = action->phaseTicks;
+        next_ticks = ticks + 1;
+        action->phaseTicks = next_ticks;
+        if ((s16)ticks < 3 && !(sprite->animationFlags & 0xE000)) {
+            return;
+        }
+        sprite->animationFlags |= 0x800;
+        priorPhase = action->phase;
+        action->phase = priorPhase + 1;
+        return;
+
+    case 5:
+        sprite->animationFlags |= 0x800;
+        ticks = action->phaseTicks;
+        next_ticks = ticks + 1;
+        action->phaseTicks = next_ticks;
+        if ((s16)ticks < 10 && !(sprite->animationFlags & 0x8000)) {
+            return;
+        }
+        action->phaseTicks = 0;
+        action->phase++;
+        sprite->animationFlags &= 0xF7FF;
+        return;
+
+    case 6:
+        action->actionFlags |= 0x80;
+        action->phaseTicks = 0;
+        action->phase++;
+        return;
+
+    case 7:
+        if (!(sprite->animationFlags & 0xE000)) {
+            return;
+        }
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        func_800A2B04(motion, sprite->position.tile.x, sprite->position.tile.y);
+        action->phase++;
+        if (sprite->directionFrames == D_80161E8C) {
+            return;
+        }
+        sprite->directionFrames = D_80161E8C;
+        func_80047784(
+            sprite,
+            D_80161E8C[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            0);
+        action->adjustment = 0;
+        action->remainingAmount.signedValue = -0x20;
+        return;
+
+    case 8:
+        {
+
+            if (((s32)dungeonStatus.unk_0C) != 0) {
+                return;
+            }
+            dungeonStatus.unk_0A--;
+            action->handler = &D_8015F514;
+            func_800A4ACC(actor);
+            actor->unk_6D--;
+            actor->unk_73 = 0;
+            actor->unk_72 = 0;
+            actor->unk_46 &= 0x7FFF;
+            func_800A56E0(0xB4);
+        }
+        return;
+    default:
+        return;
+    }
+}
