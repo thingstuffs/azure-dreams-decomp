@@ -13,10 +13,9 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
     register s32 step;
     u32 addr_mask;
     s32 angle;
-    register u8 *scratch ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    u8 *scratch;
     GameWork *render_global;
     u8 *line_packet;
-    void *projection_param;
     void *start_vertex;
     void *start_screen;
     void *end_vertex;
@@ -77,7 +76,7 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
         *((s32 *) (((u8 *) scratch) + 0x10C)) = flags_or_mode.value;
         *((u16 *) (((u8 *) scratch) + 0x66)) += (start_step_offset * prev_step) >> 16;
         end_step_offset = (*((s32 *) (((u8 *) scratch) + 0x10C))) / scale;
-        projection_param = scratch + 0x84;
+        render_ptr = (void **)(scratch + 0x84);
         *((u16 *) (((u8 *) scratch) + 0x6E)) += (end_step_offset * step) >> 16;
         origin_ptr = origin;
         origin_coord = *((u16 *) (((u8 *) origin_ptr) + 0xA));
@@ -88,11 +87,10 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
         z_step = z_delta >> scale;
         *((u16 *) (((u8 *) scratch) + 0x68)) += (z_step << prev_step) >> 16;
         *((u16 *) (((u8 *) scratch) + 0x70)) += (((*((s32 *) (scratch + 0x110))) >> scale) << step) >> 16;
-        *((s32 *) (((u8 *) scratch) + 0xF4)) = func_80065420(start_vertex, start_screen, projection_param, scratch
-            + 0x88);
-        flags_or_mode.pointer = scratch + 0x88;
-        *((s32 *) (((u8 *) scratch) + 0xF8)) = func_80065420(end_vertex, end_screen, projection_param,
-            flags_or_mode.pointer);
+        origin_ptr = scratch + 0x88;
+        *((s32 *) (((u8 *) scratch) + 0xF4)) = func_80065420(start_vertex, start_screen, render_ptr, origin_ptr);
+        *((s32 *) (((u8 *) scratch) + 0xF8)) = func_80065420(end_vertex, end_screen, render_ptr,
+            origin_ptr);
         *((u16 *) (((u8 *) line_packet) + 8)) = *((u16 *) (((u8 *) scratch) + 0xD8));
         *((u16 *) (((u8 *) line_packet) + 0xA)) = *((u16 *) (((u8 *) scratch) + 0xDA));
         *((u16 *) (((u8 *) line_packet) + 0x10)) = *((u16 *) (((u8 *) scratch) + 0xDC));

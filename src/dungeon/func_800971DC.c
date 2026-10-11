@@ -57,7 +57,6 @@ Ent *func_8009C93C(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent2) {
     s32 step;
     u8 *base;
     u16 *tableA;
-    register Ent *callArg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     coord = coordArg;
     savedMult = mult;
@@ -108,22 +107,23 @@ Ent *func_8009C93C(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent2) {
     ent2->flags14 = (ent2->flags14 | 0x20000) & ~0x1000000;
 
     {
-        register s32 dance ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        u8 dance;
 
         dance = a->unk84;
+        value = dance;
         {
             s32 r = func_800A6D30() & 0xFFFF;
 
-            step = dance;
+            step = (s16)value;
             if (a->unk3 != 0) {
                 r %= a->unk3;
                 r <<= 2;
-                dance = step + r;
+                value = step + r;
             } else {
-                dance = step;
+                value = step;
             }
         }
-        value = dance;
+
     }
     if (ent2->unk13 == 0) {
         u8 *p = ent2->unk50;
@@ -138,14 +138,12 @@ Ent *func_8009C93C(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent2) {
     value = func_800A6D30();
     {
 
-        callArg = a;
-        step = value & 1;
-        {
-            s32 t2 = value & 2;
-
-            step += (t2 != 0);
-        }
-        step += (a->unk26 + (s16)func_800981F8(callArg)) * 2;
+        s32 low_bit = value & 1;
+        s32 masked = value & 2;
+        s32 flag = masked != 0;
+        s32 sum = low_bit + flag;
+        
+        step = sum + (a->unk26 + (s16)func_800981F8(a)) * 2;
     }
     a->unk20 = step;
     if (a->flags1c & 0x1000) {

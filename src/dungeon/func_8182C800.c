@@ -308,7 +308,6 @@ void func_8002401C(void *effect, void *motion, void *sprite) {
     s32 step_y;
     u8 *trail_texture;
     u16 steps_left;
-    s32 probe_y_full;
     s32 probe_y;
     s32 probe_x;
     u16 sprite_flags;
@@ -319,7 +318,7 @@ void func_8002401C(void *effect, void *motion, void *sprite) {
     S_8182C800_10 *trail_pos_x;
     S_8182C800_11 *trail_pos_y;
     S_8182C800_4 *owner_sprite;
-    S_8182C800_9 *target_sprite;
+    s32 sprite_work;
     S_8182C800_20 *burst_sprite;
     S_8182C800_15 *particle;
     void *object;
@@ -337,8 +336,8 @@ void func_8002401C(void *effect, void *motion, void *sprite) {
     direction_offset = motion_extent & 0xE;
     direction_x = *(s16 *)((u8 *)direction_x_table + direction_offset);
     owner_object = owner - 0x20;
-    target_sprite = (S_8182C800_9 *)(*(s16 *)((u8 *)dirStepY + direction_offset));
-    direction_y = (s32) ((s16)target_sprite);
+    sprite_work = *(s16 *)((u8 *)dirStepY + direction_offset);
+    direction_y = (s32) ((s16)sprite_work);
     switch (state) {
     case 0:
         if (*(*(u16 * *)&((EntityRec *)effect)->y) & 0x80) {
@@ -374,7 +373,7 @@ void func_8002401C(void *effect, void *motion, void *sprite) {
             sprite_color = ((S_8182C800_6 *)sprite_or_step_x)->unk_14 | 0xC;
             ((S_8182C800_6 *)sprite_or_step_x)->unk_14 = sprite_color;
             target = func_800A05A4(owner, owner_sprite->unk_24, owner_sprite->unk_25, ((S_8182C800_1 *)owner)->unk_2A.u,
-                (s16) func_800A3820(5, launch_tpage));
+                (s16) (sprite_work = func_800A3820(5, launch_tpage)));
             ((S_8182C800_1 *)owner)->unk_60 = target;
             if (target == 0) {
                 distance_sum = 0;
@@ -384,15 +383,14 @@ void func_8002401C(void *effect, void *motion, void *sprite) {
                     tile_origin_x = (owner_sprite->unk_24 + sprite_or_step_x) << 6;
                     distance_x = tile_origin_x + 0x20;
                     tile_origin_y = (owner_sprite->unk_25 + step_y) << 6;
-                    probe_y_full = tile_origin_y + 0x20;
-                    probe_y = (u16) probe_y_full;
+                    motion_extent = tile_origin_y + 0x20;
+                    probe_y = (u16) motion_extent;
                     probe_x = (u16)distance_x;
                     if ((func_800A4688(probe_x, probe_y, func_800BCB04(probe_x, probe_y, -0x400),
                         ((S_8182C800_1 *)owner)->unk_2A.u, ((S_8182C800_1 *)owner)->unk_60) << 0x10) != 0) {
                         break;
                     }
                     step_y += direction_y;
-                    ASM_KEEP(probe_y_full);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                     distance_sum += 1;
                     sprite_or_step_x += direction_x;
                 }
@@ -400,15 +398,15 @@ void func_8002401C(void *effect, void *motion, void *sprite) {
                 ((S_8182C800_1 *)owner)->unk_73.s = (u8) (owner_sprite->unk_25 + (direction_y * distance_sum));
             } else {
                 object = target - 0x20;
-                target_sprite = ((S_8182C800_8 *)object)->unk_0C;
-                if ((target_sprite->unk_14 & 0x8000) && (((S_8182C800_6 *)sprite_or_step_x)->unk_14 & 0x8000)) {
+                sprite_work = (s32)((S_8182C800_8 *)object)->unk_0C;
+                if ((((S_8182C800_9 *)sprite_work)->unk_14 & 0x8000) && (((S_8182C800_6 *)sprite_or_step_x)->unk_14 & 0x8000)) {
                     func_8009CE1C(((S_8182C800_1 *)owner)->unk_60, 8, (*(u8 *)((u8 *)&((EntityRec *)effect)->z + 1)), 2,
                         (s32) ((S_8182C800_1 *)owner)->unk_2A.u, owner, 2);
                     ((EntityRec *)effect)->z.w.i = 4;
                     return;
                 }
-                ((S_8182C800_1 *)owner)->unk_72.s = (u8) target_sprite->unk_24;
-                ((S_8182C800_1 *)owner)->unk_73.s = (u8) target_sprite->unk_25;
+                ((S_8182C800_1 *)owner)->unk_72.s = (u8) ((S_8182C800_9 *)sprite_work)->unk_24;
+                ((S_8182C800_1 *)owner)->unk_73.s = (u8) ((S_8182C800_9 *)sprite_work)->unk_25;
             }
             target_tile = ((S_8182C800_1 *)owner)->unk_72.u;
 
@@ -483,9 +481,9 @@ void func_8002401C(void *effect, void *motion, void *sprite) {
 spawn_trail:
         object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
         if (object != NULL) {
-            target_sprite = (S_8182C800_9 *)(((S_8182C800_8 *)object)->unk_0C);
+            sprite_work = (s32)(((S_8182C800_8 *)object)->unk_0C);
             ((S_8182C800_8 *)object)->unk_10 = &D_80024D44;
-            frame.sp60 = 0 - (func_80069EF8() & 0x1FF);
+            frame.sp60 = 0 - ((motion_extent = func_80069EF8()) & 0x1FF);
             frame.sp64 = 0;
             frame.sp62 = 0;
             frame.sp40 = &frame.sp60;
@@ -523,11 +521,11 @@ spawn_trail:
             frame.sp5A = 0;
             func_800DBA90(&frame.sp40);
             ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_00 =
-                (s32) (((S_8182C800_5 *)motion)->unk_00.at00.v + (((func_80069EF8() & 0x1FF) - 0xFF) << 9));
+                (s32) (((S_8182C800_5 *)motion)->unk_00.at00.v + ((((motion_extent = func_80069EF8()) & 0x1FF) - 0xFF) << 9));
             ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_04 =
-                (s32) (((S_8182C800_5 *)motion)->unk_04.at00.v + (((func_80069EF8() & 0x1FF) - 0xFF) << 9));
+                (s32) (((S_8182C800_5 *)motion)->unk_04.at00.v + ((((motion_extent = func_80069EF8()) & 0x1FF) - 0xFF) << 9));
             ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_08.at00.v =
-                (s32) (((S_8182C800_5 *)motion)->unk_08 + (((func_80069EF8() & 0x1FF) - 0xFF) << 9));
+                (s32) (((S_8182C800_5 *)motion)->unk_08 + ((((motion_extent = func_80069EF8()) & 0x1FF) - 0xFF) << 9));
             trail_pos_x = ((S_8182C800_8 *)object)->unk_08;
             trail_pos_x->unk_00 = (s32) (trail_pos_x->unk_00 + ((frame.sp60 << 0xC) + (direction_x << 0x15)));
             trail_pos_y = ((S_8182C800_8 *)object)->unk_08;
@@ -540,17 +538,17 @@ spawn_trail:
                 (s32) ((s32) ((S_8182C800_5 *)motion)->unk_10 >> 3);
             ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_14 =
                 (s32) ((s32) ((S_8182C800_5 *)motion)->unk_14 >> 3);
-            ((S_8182C800_13 *)target_sprite)->unk_1E = 0x800;
-            ((S_8182C800_13 *)target_sprite)->unk_1C = 0x800;
-            ((S_8182C800_13 *)target_sprite)->unk_10 = 0x60;
-            ((S_8182C800_13 *)target_sprite)->unk_00 = trail_texture;
-            ((S_8182C800_13 *)target_sprite)->unk_14 = (u16) (((S_8182C800_13 *)target_sprite)->unk_14 | 0xC);
-            ((S_8182C800_13 *)target_sprite)->unk_08 = (s32) ((S_8182C800_14 *)trail_texture)->unk_04;
-            ((S_8182C800_13 *)target_sprite)->unk_04 = 0;
-            ((S_8182C800_13 *)target_sprite)->unk_05 = 0;
-            ((S_8182C800_13 *)target_sprite)->unk_0C = 0x808080;
+            ((S_8182C800_13 *)sprite_work)->unk_1E = 0x800;
+            ((S_8182C800_13 *)sprite_work)->unk_1C = 0x800;
+            ((S_8182C800_13 *)sprite_work)->unk_10 = 0x60;
+            ((S_8182C800_13 *)sprite_work)->unk_00 = trail_texture;
+            ((S_8182C800_13 *)sprite_work)->unk_14 = (u16) (((S_8182C800_13 *)sprite_work)->unk_14 | 0xC);
+            ((S_8182C800_13 *)sprite_work)->unk_08 = (s32) ((S_8182C800_14 *)trail_texture)->unk_04;
+            ((S_8182C800_13 *)sprite_work)->unk_04 = 0;
+            ((S_8182C800_13 *)sprite_work)->unk_05 = 0;
+            ((S_8182C800_13 *)sprite_work)->unk_0C = 0x808080;
             particle->unk_00 = effect;
-            particle->unk_48 = (s16) (func_80069EF8() & 3);
+            particle->unk_48 = (s16) ((sprite_work = func_80069EF8()) & 3);
             particle->unk_4C = 0;
         }
         distance_x -= 1;
@@ -629,12 +627,12 @@ spawn_trail:
                         ((S_8182C800_8 *)object)->unk_10 = &D_80024E98;
                         ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_00 =
                             (s32) (((S_8182C800_5 *)motion)->unk_00.at00.v
-                                + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xD));
+                                + ((((sprite_work = func_80069EF8()) & 0x3FF) - 0x1FF) << 0xD));
                         ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_04 =
                             (s32) (((S_8182C800_5 *)motion)->unk_04.at00.v
-                                + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xD));
+                                + ((((sprite_work = func_80069EF8()) & 0x3FF) - 0x1FF) << 0xD));
                         ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_08.at00.v =
-                            (s32) (((S_8182C800_5 *)motion)->unk_08 + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xC));
+                            (s32) (((S_8182C800_5 *)motion)->unk_08 + ((((sprite_work = func_80069EF8()) & 0x3FF) - 0x1FF) << 0xC));
                         burst_motion_x = ((S_8182C800_8 *)object)->unk_08;
                         burst_motion_x->unk_0C = (s32) ((s32) (((S_8182C800_5 *)motion)->unk_00.at00.v
                             - burst_motion_x->unk_00) >> 3);
@@ -642,7 +640,7 @@ spawn_trail:
                         burst_motion_y->unk_10 = (s32) ((s32) (((S_8182C800_5 *)motion)->unk_04.at00.v
                             - burst_motion_y->unk_04) >> 3);
                         ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_14 =
-                            (s32) (0 - ((func_80069EF8() & 0x3FF) << 9));
+                            (s32) (0 - (((sprite_work = func_80069EF8()) & 0x3FF) << 9));
                         burst_sprite->unk_1E = 0x800;
                         burst_sprite->unk_1C = 0x800;
                         burst_sprite->unk_10 = 0x20;
@@ -656,7 +654,7 @@ spawn_trail:
                         burst_sprite->unk_08 = burst_tpage;
                         ((S_8182C800_8 *)object)->unk_20 = effect;
                         particle = object + 0x20;
-                        particle->unk_48 = (s16) (func_80069EF8() & 3);
+                        particle->unk_48 = (s16) ((motion_extent = func_80069EF8()) & 3);
                     }
                     distance_x -= 1;
                 } while (distance_x >= 0);

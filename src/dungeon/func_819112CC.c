@@ -113,6 +113,9 @@ static __inline__ s32 radial_coordinate(s32 center, s32 trig, s16 radius)
     return center + (((trig >> 4) * radius) << 8);
 }
 
+typedef union { s32 value; struct { u16 low, high; } half; } PointCoord;
+typedef struct { u8 prefix[0x18]; PointCoord x[5]; PointCoord y[5]; } EffectCoords;
+
 /* Build and queue interpolated vertical quads around five perimeter points. */
 void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 duration_in)
 {
@@ -148,7 +151,10 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
     u16 top_z;
     u16 next_start_x;
     u8 *point;
-    register s32 coord_or_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 row_off;
+    s32 modulo_result;
+    s32 ot_slot;
+    s32 ot_slot2;
     register u8 *scratch ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     u8 *context_slot;
     EmptyArg empty_arg;
@@ -166,10 +172,10 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
         link = (u32 *)(angle_x_or_mask_2 + ((S_819112CC_0 *)effect)->unk_0A);
         radial_x = func_800644B8((s32)link);
         target_x = radial_coordinate(origin->unk_00, radial_x, ((S_819112CC_0 *)effect)->unk_0E);
-        coord_or_offset = func_80064584(angle_x_or_mask_2 + ((S_819112CC_0 *)effect)->unk_0A);
-        coord_or_offset >>= 4;
+        row_off = func_80064584(angle_x_or_mask_2 + ((S_819112CC_0 *)effect)->unk_0A);
+        row_off >>= 4;
         radial_y = origin->unk_04 +
-            ((coord_or_offset * ((S_819112CC_0 *)effect)->unk_0E) << 8);
+            ((row_off * ((S_819112CC_0 *)effect)->unk_0E) << 8);
         target_y = radial_y;
         {
             GpuContext **pool = (GpuContext **)context_slot;
@@ -189,29 +195,27 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
         ((S_819112CC_2 *)prim)->unk_16 = ((S_819112CC_0 *)effect)->unk_42;
         ((S_819112CC_2 *)prim)->unk_1C = ((S_819112CC_0 *)effect)->unk_40;
         ((S_819112CC_2 *)prim)->unk_1D = ((S_819112CC_0 *)effect)->unk_41;
-        coord_or_offset = point_index * 4;
-        point = (u8 *)effect + coord_or_offset;
         ((S_819112CC_2 *)prim)->unk_1E = ((S_819112CC_0 *)effect)->unk_42;
-        start_x = ((S_819112CC_3 *)point)->unk_18.at02.v;
+        start_x = ((EffectCoords *)effect)->x[point_index].half.high;
         SP16(0x74) = start_x;
         SP16(0x64) = start_x;
-        delta_x = target_x - ((S_819112CC_3 *)point)->unk_18.at00.v;
+        delta_x = target_x - ((EffectCoords *)effect)->x[point_index].value;
         SP32(0x108) = delta_x;
         if (interpolate != 0) {
             SP32(0x108) = (delta_x / duration) * step;
         }
-        end_x = ((S_819112CC_3 *)point)->unk_18.at02.v + SP16(0x10A);
+        end_x = ((EffectCoords *)effect)->x[point_index].half.high + SP16(0x10A);
         SP16(0x7C) = end_x;
         SP16(0x6C) = end_x;
-        start_y = ((S_819112CC_3 *)point)->unk_2C.at02.v;
+        start_y = ((EffectCoords *)effect)->y[point_index].half.high;
         SP16(0x76) = start_y;
         SP16(0x66) = start_y;
-        delta_y = radial_y - ((S_819112CC_3 *)point)->unk_2C.at00.v;
+        delta_y = radial_y - ((EffectCoords *)effect)->y[point_index].value;
         SP32(0x10C) = delta_y;
         if (interpolate != 0) {
             SP32(0x10C) = (delta_y / duration) * step;
         }
-        end_y = ((S_819112CC_3 *)point)->unk_2C.at02.v + SP16(0x10E);
+        end_y = ((EffectCoords *)effect)->y[point_index].half.high + SP16(0x10E);
         SP16(0x7E) = end_y;
         SP16(0x6E) = end_y;
         bottom_z = origin->unk_0A - ((S_819112CC_0 *)effect)->unk_10;
@@ -236,10 +240,10 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
         ((S_819112CC_2 *)prim)->unk_22 = SP16(0xE6);
         link = (u32 *)(SP32(0xB4));
         if ((u32)link < 0x1E0U) {
-            coord_or_offset = (u32)link << 2;
+            ot_slot = (u32)link << 2;
             angle_x_or_mask = (s32)0xFF000000;
-            coord_or_offset += SP32(0x18);
-            setaddr(prim, getaddr(coord_or_offset));
+            ot_slot += SP32(0x18);
+            setaddr(prim, getaddr(ot_slot));
             link = (u32 *)SP32(0xB4);
             link = (u32 *)((u32)link << 2);
             link = (u32 *)((u8 *)link + SP32(0x18));
@@ -277,11 +281,11 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
         ((S_819112CC_5 *)prim)->unk_16 = ((S_819112CC_0 *)effect)->unk_42;
         ((S_819112CC_5 *)prim)->unk_1C = ((S_819112CC_0 *)effect)->unk_40;
         ((S_819112CC_5 *)prim)->unk_1D = ((S_819112CC_0 *)effect)->unk_41;
-        coord_or_offset = ((S_819112CC_0 *)effect)->unk_42;
-        ((S_819112CC_5 *)prim)->unk_1E = coord_or_offset;
-        coord_or_offset = point_index % 5;
-        coord_or_offset *= 4;
-        point = (u8 *)effect + coord_or_offset;
+        row_off = ((S_819112CC_0 *)effect)->unk_42;
+        ((S_819112CC_5 *)prim)->unk_1E = row_off;
+        modulo_result = point_index % 5;
+        row_off = modulo_result;
+        point = (u8 *)effect + row_off * 4;
         ASM_KEEP_NV(point_index);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         next_start_x = ((S_819112CC_3 *)point)->unk_18.at02.v;
         SP16(0x74) = next_start_x;
@@ -323,10 +327,10 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
         ((S_819112CC_5 *)prim)->unk_22 = SP16(0xE6);
         link = (u32 *)(SP32(0xB4));
         if ((u32)link < 0x1E0U) {
-            coord_or_offset = (u32)link << 2;
+            ot_slot2 = (u32)link << 2;
             angle_x_or_mask = (s32)0xFF000000;
-            coord_or_offset += SP32(0x18);
-            setaddr(prim, getaddr(coord_or_offset));
+            ot_slot2 += SP32(0x18);
+            setaddr(prim, getaddr(ot_slot2));
             link = (u32 *)SP32(0xB4);
             link = (u32 *)((u32)link << 2);
             link = (u32 *)((u8 *)link + SP32(0x18));

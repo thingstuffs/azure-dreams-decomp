@@ -103,6 +103,7 @@ typedef struct S_func_80174228_10 {
 #define OUTX ((S_func_80174228_0 *)storage)->unk_78
 #define OUTY ((S_func_80174228_0 *)storage)->unk_7A
 
+static __inline__ s16 divide_tex(s16 n) { return n / 23; }
 extern s32 func_80065420();
 extern s16 func_80066460();
 extern void func_80066640();
@@ -131,7 +132,7 @@ s32 func_80174228(u8 *item_data)
     s32 *scratch_ptr;
     s32 screen_width;
     s32 strip_offset;
-    s16 tex_coord;
+    u8 tex_coord;
     u8 *next_node;
     s32 render_arg;
     s32 uv_arg;
@@ -150,7 +151,6 @@ s32 func_80174228(u8 *item_data)
     S_func_80174228_4 *context2;
     S_func_80174228_6 *profile_dst;
     S_func_80174228_7 *profile_mirror;
-    S_func_80174228_8 *profile_base;
     s32 brightness;
     s32 shade_bias;
     s32 profile_raw;
@@ -162,7 +162,7 @@ s32 func_80174228(u8 *item_data)
     u16 profile_peak;
     s32 half_height;
     S_func_80174228_3 *item;
-    register s32 render_term ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 render_term;
     GameWork *render_state;
 
     render_state = &gameWork;
@@ -276,13 +276,13 @@ loop_0:
             do {
                 context = render_state->unk_000;
                 prim = context->unk_8D0;
-                context->unk_8D0 = (u8 *)prim + 0x28;
+                render_term = (s32)((u8 *)prim + 0x28);
+                context->unk_8D0 = (void *)render_term;
 
-                profile_base = (S_func_80174228_8 *)(storage + i * 2 - 0x10);
-                ASM_USE(profile_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                context = (S_func_80174228_4 *)(storage + i * 2 - 0x10);
                 render_term = 0xB;
                 render_term -= i;
-                brightness = profile_base->unk_58;
+                brightness = ((S_func_80174228_8 *)context)->unk_58;
                 if (render_term < 0) {
                     render_term = -render_term;
                 }
@@ -309,19 +309,15 @@ loop_0:
                 prim->unk_14 = uv_arg;
                 prim->unk_0C = uv_arg;
                 tex_coord = uv_arg;
-                tex_coord += ((((S_func_80174228_0 *)storage)->unk_04.u16 << 16) >> 16) / 23;
+                tex_coord += divide_tex(((S_func_80174228_0 *)storage)->unk_04.u16);
                 prim->unk_1D = 0;
                 prim->unk_0D = 0;
                 prim->unk_24 = tex_coord;
                 prim->unk_1C = tex_coord;
 
                 tex_height = ((S_func_80174228_0 *)storage)->unk_06;
-                ASM_USE(tex_height);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 prim->unk_25 = tex_height;
-                tex_coord = prim->unk_0D + 2;
-                if (tex_height >= 2) {
-                    tex_coord = prim->unk_0D + prim->unk_25;
-                }
+                tex_coord = prim->unk_0D + (tex_height >= 2 ? prim->unk_25 : 2);
                 right_bound = (s16)max_xy;
                 screen_width = right_bound - (s16)min_xy;
                 prim->unk_25 = tex_coord;

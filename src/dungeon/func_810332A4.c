@@ -116,7 +116,7 @@ void func_80174AA4(void *effect, void *motion, void *sprite)
     s32 next_tile_2;
     s32 collision_coord;
     register s32 coord_base ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register S_func_810332A4_7 *object_data ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    S_func_810332A4_7 *object_data;
     s32 state;
     s32 burst_index;
     s32 target_y;
@@ -327,8 +327,11 @@ void func_80174AA4(void *effect, void *motion, void *sprite)
                     if (!blocked) {
                         floor_height = func_800BCB04((u16)object_x, (u16)object_y,
                                               (s16)((u16)object_data->unk_88 - 0x20));
-                        if (floor_height >= 0x200 || floor_height > object_data->unk_88 + 0x20 ||
-                            floor_height < object_data->unk_88) {
+                        if (floor_height >= 0x200) {
+                            blocked = 1;
+                        } else if (floor_height > object_data->unk_88 + 0x20) {
+                            blocked = 1;
+                        } else if (floor_height < object_data->unk_88) {
                             blocked = 1;
                         }
                     }

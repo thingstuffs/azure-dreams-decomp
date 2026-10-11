@@ -56,7 +56,7 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
     u16 *y_step;
     u16 height;
     u32 target_y_u16;
-    register u32 center_y ASM_REG("$20");
+    u32 center_y;
     u8 direction_arg;
     s16 direction_or_x;
     s32 tile_coord;
@@ -93,12 +93,11 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
                     offset_work = tile_y8;
                     height = body->height;
                     coord_or_height <<= 6;
-                    tile_coord = (u32)coord_or_height >> 6;
-                    offset_work <<= 6;
-                    y_or_direction = (u32)offset_work >> 6;
                     coord_work_2 = coord_or_height + 0x20;
-                    offset_work += 0x20;
-                    center_y = offset_work;
+                    tile_coord = (s16)coord_work_2 >> 6;
+                    offset_work <<= 6;
+                    center_y = offset_work + 0x20;
+                    y_or_direction = (s16)center_y >> 6;
                     coord_or_height = (s16)(height - height_offset);
                     result = func_8009A540(direction_or_x, tile_coord, y_or_direction,
                                            coord_or_height) << 0x10;

@@ -1,14 +1,10 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
-#include "m2c_compat.h"
 
-
-
-M2C_UNK func_8001746C();                     /* extern */
-extern M2C_UNK D_800175E4;
-extern M2C_UNK *D_80017698;
-
+extern s32 func_8001746C();
+extern s32 D_800175E4;
+extern s32 *D_80017698;
 
 /* Invoke the state callback, select D_800175E4, and request operation 0x526. */
 void func_804F027C(void) {

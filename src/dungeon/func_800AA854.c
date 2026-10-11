@@ -151,11 +151,12 @@ extern void func_8006671C();
 /* Projects depth strips and queues visible textured quad pairs with distance shading. */
 s32 func_800AFFB4(S_800AFFB4_0 *origin, void *unused, S_800AFFB4_1 *render_data_in, u8 *packet_buffer, s16 texture_arg) {
     s32 depth_step;
+    u32 cached_v;
     s32 shade_uv;
     s32 shade_uv_2;
     s32 info_byte;
-    register s32 shade_u ASM_REG("$5");   /* UNRESOLVED C shape (pin): cse1 make_regs_eqv canonicalises the a1 argument copy `shade_u = packet_buffer` to the longer-lived packet_buffer; only a walker step before the call keeps it (step then misplaced) */
-    s32 near_shade;
+    s32 shade_u;
+    s32 clamp_vertex;
     s32 texture_height;
     s32 coord_bits;
     s32 vertex_value;
@@ -260,18 +261,17 @@ s32 func_800AFFB4(S_800AFFB4_0 *origin, void *unused, S_800AFFB4_1 *render_data_
                 vertex_value = render_data_in->unk_90.u16;
                 coord_bits = strip_index << 4;
                 vertex_value += coord_bits;
-                coord_bits = 0xE0;
-                shade_u = coord_bits - vertex_value;
-                near_shade = (s16)shade_u;
-                vertex_value = shade_u;
-                if (near_shade < 0x81) {
+                shade_u = 0xE0 - vertex_value;
+                texture_height = (s16)shade_u;
+                clamp_vertex = shade_u;
+                if (texture_height < 0x81) {
                     shade_uv = shade_u;
-                    if (near_shade < 0) {
+                    if (texture_height < 0) {
                         shade_uv = 0;
                     }
                 }
-                coord_bits = vertex_value - 0x10;
-                vertex_value = coord_bits;
+                coord_bits = clamp_vertex - 0x10;
+                clamp_vertex = coord_bits;
                 coord_bits <<= 0x10;
                 ((StripPacket *)packet_buffer)->near_quad.unk_02 = shade_uv;
                 ((StripPacket *)packet_buffer)->near_quad.unk_0E = shade_uv;
@@ -287,25 +287,25 @@ s32 func_800AFFB4(S_800AFFB4_0 *origin, void *unused, S_800AFFB4_1 *render_data_
                 ((StripPacket *)packet_buffer)->near_quad.unk_34 = shade_uv;
                 shade_uv = coord_bits >> 0x10;
                 if (shade_uv >= 0x81) {
-                    vertex_value = 0x80;
+                    clamp_vertex = 0x80;
                 } else {
                     if (shade_uv < 0) {
-                        vertex_value = 0;
+                        clamp_vertex = 0;
                     }
                 }
                 quad_index = 0;
-                ((StripPacket *)packet_buffer)->near_quad.unk_1A = vertex_value;
-                ((StripPacket *)packet_buffer)->near_quad.unk_26 = vertex_value;
-                ((StripPacket *)packet_buffer)->far_quad.unk_0E = vertex_value;
-                ((StripPacket *)packet_buffer)->far_quad.unk_02 = vertex_value;
-                ((StripPacket *)packet_buffer)->near_quad.unk_19 = vertex_value;
-                ((StripPacket *)packet_buffer)->near_quad.unk_25 = vertex_value;
-                ((StripPacket *)packet_buffer)->far_quad.unk_0D = vertex_value;
-                ((StripPacket *)packet_buffer)->far_quad.unk_01 = vertex_value;
-                ((StripPacket *)packet_buffer)->near_quad.unk_18 = vertex_value;
-                ((StripPacket *)packet_buffer)->near_quad.unk_24 = vertex_value;
-                ((StripPacket *)packet_buffer)->far_quad.unk_0C = vertex_value;
-                ((StripPacket *)packet_buffer)->far_quad.unk_00 = vertex_value;
+                ((StripPacket *)packet_buffer)->near_quad.unk_1A = clamp_vertex;
+                ((StripPacket *)packet_buffer)->near_quad.unk_26 = clamp_vertex;
+                ((StripPacket *)packet_buffer)->far_quad.unk_0E = clamp_vertex;
+                ((StripPacket *)packet_buffer)->far_quad.unk_02 = clamp_vertex;
+                ((StripPacket *)packet_buffer)->near_quad.unk_19 = clamp_vertex;
+                ((StripPacket *)packet_buffer)->near_quad.unk_25 = clamp_vertex;
+                ((StripPacket *)packet_buffer)->far_quad.unk_0D = clamp_vertex;
+                ((StripPacket *)packet_buffer)->far_quad.unk_01 = clamp_vertex;
+                ((StripPacket *)packet_buffer)->near_quad.unk_18 = clamp_vertex;
+                ((StripPacket *)packet_buffer)->near_quad.unk_24 = clamp_vertex;
+                ((StripPacket *)packet_buffer)->far_quad.unk_0C = clamp_vertex;
+                ((StripPacket *)packet_buffer)->far_quad.unk_00 = clamp_vertex;
                 texture_entry = (TwelveByteEntry *)render_data_in->unk_118 + (((strip_index & 1) << 1) + ((s16)texture_index << 2));
                 do {
                     func_8006671C(packet_buffer);
@@ -316,10 +316,11 @@ s32 func_800AFFB4(S_800AFFB4_0 *origin, void *unused, S_800AFFB4_1 *render_data_
                     shade_u = render_data_in->unk_08.s32;
                     info_byte = ((S_800AFFB4_3 *)((u8 *)texture_entry + 4))->unk_06;
                     render_data_in->unk_10.s32 = info_byte;
-                    shade_uv = render_data_in->unk_0C;
+                    cached_v = render_data_in->unk_0C;
+                    shade_uv = cached_v;
                     info_byte = ((S_800AFFB4_3 *)((u8 *)texture_entry + 4))->unk_07;
                     render_data_in->unk_14.s32 = info_byte;
-                    vertex_value = render_data_in->unk_0C;
+                    vertex_value = cached_v;
                     shade_uv <<= 8;
                     render_data_in->unk_0C = shade_uv;
                     texture_height = render_data_in->unk_14.s32;
@@ -327,7 +328,7 @@ s32 func_800AFFB4(S_800AFFB4_0 *origin, void *unused, S_800AFFB4_1 *render_data_
                     vertex_value += texture_height;
                     vertex_value <<= 8;
                     render_data_in->unk_14.s32 = vertex_value;
-                    vertex_value = shade_u;
+                    vertex_value = render_data_in->unk_08.s32;
                     shade_u = (s32)packet_buffer;
                     render_data_in->unk_10.s32 = texture_right;
                     coord_bits = ((S_800AFFB4_3 *)((u8 *)texture_entry + 4))->unk_02;
