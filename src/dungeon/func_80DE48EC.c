@@ -56,7 +56,7 @@ s32 func_801720EC(void *action_state, s32 update_arg, void *sprite, void *actor)
     u16 flags;
     s32 direction;
     u16 base_x;
-    register u16 base_y ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u16 base_y;
     s32 delta_offset;
     s16 x;
     s16 y;
@@ -64,7 +64,7 @@ s32 func_801720EC(void *action_state, s32 update_arg, void *sprite, void *actor)
     u16 *x_delta;
     u8 *x_steps;
     s16 height;
-    register s32 step_y ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 table_step_y;
 
     ((S_801720EC_0 *)actor)->unk_71 &= 0x7f;
     flags = dungeonStatus.flags;
@@ -109,9 +109,9 @@ return_tail:
     {
         s32 step_x;
         step_x = *x_delta;
-        step_y = *y_delta;
+        table_step_y = *y_delta;
         if (func_8009B4B0(actor, (base_x + step_x) & 0xffff,
-                          (base_y + step_y) & 0xffff) != 0) {
+                          (base_y + table_step_y) & 0xffff) != 0) {
             goto return_tail;
         }
     }
@@ -137,6 +137,7 @@ return_tail:
                       0);
         func_800A4ACC(actor);
         {
+            register s32 step_y ASM_REG("$6");
             s32 update_flags = 0x300;
             void *entity_base = state.saved_ptr;
             step_y = 8;

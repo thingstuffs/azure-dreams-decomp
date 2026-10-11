@@ -23,7 +23,7 @@ extern u8 D_80080AA0[16];
 extern u8 D_800EA000[16];
 extern u8 D_800E3D20[];
 
-extern void func_80018A70(void *, u32, u32);
+extern void func_80018A70();
 extern void func_80099188(void *);
 
 /* Initializes the global state block and clears associated flags. */
@@ -31,22 +31,21 @@ void func_800161D8(void) {
     u32 color_command = 0x2C808080;
     GlobalState *state = ((GlobalState *)&gameWork);
     InitBlock *init_block = &state->unk1DC;
-    u32 block_extent = 0x3F;
+    u16 block_extent = 0x3F;
     u32 block_offset;
     u8 *flag_page;
 
 
     init_block->unk14 = 6;
-    ASM_KEEP(color_command);
+    init_block->unk18 = block_extent;
     block_offset = 6;
     init_block->unk16 = block_offset;
     init_block->unk1C = 0x180;
     init_block->unk1E = 0x180;
-    init_block->unk18 = block_extent;
     init_block->unk1A = block_extent;
     state->unkA8 = color_command;
     state->unk1DC.unk00 = (u32)D_800EA000;
-    func_80018A70(state, block_extent, color_command);
+    func_80018A70();
     flag_page = D_80080AA0 - 0xAA0;
     flag_page[0xAA0] = 0;
     {

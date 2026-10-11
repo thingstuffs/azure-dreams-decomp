@@ -144,6 +144,7 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
     s32 delta_x;
     s32 point_index;
     s32 twice_index;
+    s32 next_index;
     u16 y_step;
     u16 next_start_y;
     u16 start_x;
@@ -166,7 +167,7 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
     interpolate = step < duration;
     vertex_base = 0x1F800064;
     SP32(0x18) = (u32)render_context + 0xB0;
-    while (point_index < 5) {
+    for (; point_index < 5; point_index = next_index) {
         twice_index = point_index * 2;
         angle_x_or_mask_2 = (twice_index + 1) * 0x199;
         link = (u32 *)(angle_x_or_mask_2 + ((S_819112CC_0 *)effect)->unk_0A);
@@ -271,8 +272,8 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
         ((S_819112CC_5 *)prim)->unk_07 = 0x3A;
         ((S_819112CC_5 *)prim)->unk_04 = ((S_819112CC_0 *)effect)->unk_40;
         ((S_819112CC_5 *)prim)->unk_05 = ((S_819112CC_0 *)effect)->unk_41;
+        next_index = point_index + 1;
         ((S_819112CC_5 *)prim)->unk_06 = ((S_819112CC_0 *)effect)->unk_42;
-        point_index += 1;
         ((S_819112CC_5 *)prim)->unk_0C = ((S_819112CC_0 *)effect)->unk_40;
         ((S_819112CC_5 *)prim)->unk_0D = ((S_819112CC_0 *)effect)->unk_41;
         ((S_819112CC_5 *)prim)->unk_0E = ((S_819112CC_0 *)effect)->unk_42;
@@ -283,10 +284,9 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
         ((S_819112CC_5 *)prim)->unk_1D = ((S_819112CC_0 *)effect)->unk_41;
         row_off = ((S_819112CC_0 *)effect)->unk_42;
         ((S_819112CC_5 *)prim)->unk_1E = row_off;
-        modulo_result = point_index % 5;
+        modulo_result = next_index % 5;
         row_off = modulo_result;
         point = (u8 *)effect + row_off * 4;
-        ASM_KEEP_NV(point_index);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         next_start_x = ((S_819112CC_3 *)point)->unk_18.at02.v;
         SP16(0x74) = next_start_x;
         SP16(0x64) = next_start_x;
