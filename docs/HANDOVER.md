@@ -1,3 +1,12 @@
+# Handover (2026-10-11 ~18:30Z, r113 resume after codex login) - START HERE
+Codex re-logged. LANDING ORDER (fixed): (1) headers ALONE -> (2) sdk2 ALONE -> (3) ONE transaction certfp (scoped v2 switch
+ON) + landproc 6-7 package. RUNNING (extend_lane.sh, nohup): r112_sol61_headers RESUME #3 (re-prove onto c00db2a5b: 15
+protected inputs changed, 0 guard drift), r113_sol61_sdk2 RESUME #1 (only gate_all.py changed), r112_sol61_landproc
+RESUME #3 (items 6-7 -> delivery-followup2/, code against certfp's scoped reader). HELD: certfp - its guards already match
+HEAD and N1/N2/N3/N5 are done, but it full-file-writes mk_ovl_root.sh like sdk2 and its cert proofs go stale on each
+landing -> ONE final rebase extension after sdk2 lands. Headers review (Opus, read-only): _r112/headers_review.md from
+snapshot _r112/headers_review_snap/. Landing with lanes running needs plan "isolated": true.
+
 # Handover (2026-10-11 ~17:45Z, r112/r113) - START HERE
 **Pins 61 / 35 rows (89/49 at r112 start), carve debt 6, L5 319, 35 live certificates.** Debt left = 3 TOWN receipt
 prefixes + heads of 7e6a5800 / 7e7fb800 / 1864800 (blocked by hard-basket pins 819613A8 / 8180B064 / 81844F2C).
