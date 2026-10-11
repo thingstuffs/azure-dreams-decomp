@@ -44,8 +44,8 @@ loop_0:
             top_vertex <<= 3;
             top_vertex += (s32)vertices;
             *edge_x = ((s16 *)top_vertex)[0];
-            edge_value = *(u16 *)(top_vertex + 2) & grid_mask;
-            top_y = (edge_value << 16) >> 16;
+            top_y = (s16)(*(u16 *)(top_vertex + 2) & grid_mask);
+            top_y = (top_y << 16) >> 16;
             edge_state[-1] = top_y;
             if (top_y < min_y) {
                 min_y = top_y;
@@ -56,11 +56,9 @@ loop_0:
             edge_scratch = ((s16 *)bottom_vertex)[1];
             edge_scratch -= top_y;
             edge_state[-4] = edge_scratch;
-            ASM_MEM_BARRIER();
-            edge_value = edge_scratch;
-            ASM_USE(edge_value);
-            edge_value <<= 7;
             edge_state[-3] = edge_scratch;
+            edge_value = edge_state[-4];
+            edge_value <<= 7;
             edge_state[-6] = edge_value;
 
             edge_value = ((s16 *)bottom_vertex)[0];
