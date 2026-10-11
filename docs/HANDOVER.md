@@ -1,3 +1,18 @@
+# Handover (2026-10-11 ~17:45Z, r112/r113) - START HERE
+**Pins 61 / 35 rows (89/49 at r112 start), carve debt 6, L5 319, 35 live certificates.** Debt left = 3 TOWN receipt
+prefixes + heads of 7e6a5800 / 7e7fb800 / 1864800 (blocked by hard-basket pins 819613A8 / 8180B064 / 81844F2C).
+Landed since 07:50Z: 8198905fa landing performance (parallel certify_batch.py, fresh-receipt reuse, nproc workers; cold
+gate 9,018 -> 2,043 s, certs 1,542 -> 813 s on replay); d5b9f1cb5 + 67f7651fa r113 pins (69 -> 61); 1bdbc5886 module
+184c800 + ovmovie/813274E4 alignment; 1b7410d36 cert.
+BLOCKED - CODEX LOGIN EXPIRED 15:25Z (owner must run `! codex login`); then resume via extend_lane.sh (rename
+extension.json -> extension_N.json first): r112_sol61_certfp (Opus re-review _r112/certfp_review2.md = ENABLE as ONE
+combined transaction with switch overlay-module-scoped-v2; finish N1/N2/N3/N5 + rebase onto certify/gate_all changes
+of 8198905fa), r112_sol61_headers (rebase: proof inputs touch 1,428 rows - land it FIRST with nothing in between),
+r113_sol61_sdk2 (rebase: guards tools/build/gate_all.py). Follow-ups for landproc: _r112/landproc_followups.md items 6-7
+(renew only invalid certs; a new module header must not force gate --all).
+Open alignment: 8184AF90 (1 word), w_8004CAA0 (listing 2), w_8003E188, w_8005A90C, w_8005914C (staged cell, land via
+tools/fidelity/slus_recipe.py), 80DE48EC (2.8.0, 4 pins), main/800219C4 (sdk2 package).
+
 # Handover (2026-10-11 ~07:50Z, round 112 end of big wave) - START HERE
 **Pins 69 / 39 rows (89/49 at r112 start), carve debt 7, L5 316 rows, 34 live certificates, level -1 rows 481 -> 1,
 L2 155 -> 489 (480 data rows baselined to L2).** Landed today: landing-process tools f72b72bb4; pins ca276dfc5 + 3c3c00ec9
