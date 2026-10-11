@@ -1,0 +1,38 @@
+{
+  "module": "dungeon_ovl_184c800",
+  "review": "pending",
+  "reviewer": null,
+  "basis": "Existing retail-derived include/modules/dungeon_native_abi.h; changes from current row views are independently byte-neutral in the exact whole-TU proof.",
+  "changes": [
+    {
+      "symbol": "func_8003FD64",
+      "declaration": "ObjectNodeHeader *func_8003FD64(s32, ObjectNodeHeader **)",
+      "call_view": "Node header address cast to its head-slot pointer; returned node uses existing field views."
+    },
+    {
+      "symbol": "func_8004491C",
+      "declaration": "s32 func_8004491C(void *, s32, ...)",
+      "call_view": "Shared callback address remains the 32-bit registration key."
+    },
+    {
+      "symbol": "func_800478B8",
+      "declaration": "void func_800478B8(void *)",
+      "call_view": "All three members discard its result."
+    },
+    {
+      "symbol": "func_800BCB04",
+      "declaration": "s32 func_800BCB04(s32, s32, s16)",
+      "call_view": "Explicit s16 narrowing retains the old height view at both uses."
+    },
+    {
+      "symbol": "func_800A56E0",
+      "declaration": "s32 func_800A56E0(s32)",
+      "call_view": "Explicit function-pointer call view retains the original ignored a1 context word; shared declaration unchanged."
+    },
+    {
+      "symbol": "D_80024D44/D_80024E98",
+      "declaration": "Real member function addresses",
+      "call_view": "Stored callback values now point at complete typed functions, replacing untyped data aliases. No asm alias remains."
+    }
+  ]
+}

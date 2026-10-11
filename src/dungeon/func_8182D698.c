@@ -1,7 +1,4 @@
-#include "common.h"
-#include "shared/slus_callbacks.h"
-#include "shared/object_flags.h"
-#include "m2c_compat.h"
+#include "modules/dungeon_ovl_184c800.h"
 
 #define M2C_BREAK() ((void)0)
 #define M2C_SYNC() ((void)0)
@@ -9,37 +6,9 @@
 #define FIELD(p, type, off) (*(type *)((u8 *)(p) + (off)))
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 func_800478B8();
-s32 func_80069EF8();
-
-typedef struct {
-    s32 x;
-    s32 y;
-    s32 z;
-    s32 dx;
-    s32 dy;
-    s32 dz;
-} Motion;
-
-typedef struct {
-    void *child;
-    u8 pad[0x44];
-    u16 count;
-    u16 pad4a;
-    s16 kind;
-} Object;
-
-typedef struct {
-    u8 pad[0x0C];
-    u8 limit;
-    u8 value_d;
-    u8 value_e;
-    u8 pad_f[5];
-    u16 flags;
-} Effect;
 
 /* Advance motion with damping and downward acceleration, then count down or fade the effect. */
-void func_8182D698(Object *object, Motion *motion, Effect *effect) {
+void func_80024E98(Object *object, Motion *motion, Effect *effect) {
     s16 state;
     ((s32 *)object->child)[3] |= 0x8000;
     motion->x += motion->dx;

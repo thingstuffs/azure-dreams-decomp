@@ -89,6 +89,8 @@ extern u8 D_8016E528;
 extern void *D_80174704[];
 extern TableEntry D_80174708[];
 
+static __inline__ u32 retain_page(u32 mode_page) { ASM_KEEP_NV(mode_page); return mode_page; }
+
 /* Spawn and initialize an effect at the source position when its mode and status allow it. */
 void func_8016ECE4(void) {
     s32 frame_pad[2];
@@ -107,7 +109,7 @@ void func_8016ECE4(void) {
 
     source = D_80174704[0];
     mode_page = 0x80010000;
-    ASM_KEEP_NV(mode_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    mode_page = retain_page(mode_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     one = 1;
     mode = mode_page;
     mode = *(u8 *)(mode + 0x3611);

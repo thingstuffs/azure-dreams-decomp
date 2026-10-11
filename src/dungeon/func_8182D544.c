@@ -1,55 +1,8 @@
-#include "common.h"
-#include "shared/slus_callbacks.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_ovl_184c800.h"
 
-typedef struct S_8182D544_0_pre {
-    u16 unk_00;
-} S_8182D544_0_pre;   /* the 0x2 bytes before arg0 in func_8182D544, addressed as arg0[-1] */
-
-typedef struct S_8182D544_0 {
-    void * unk_00;
-    u8 pad_04[0x44];
-    u16 unk_48;
-    u8 pad_4A[0x2];
-    union { s16 s; u16 u; } unk_4C;   /* accessed as both */
-} S_8182D544_0;   /* arg0 in func_8182D544 */
-
-typedef struct S_8182D544_1 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-} S_8182D544_1;   /* object in func_8182D544 */
-
-typedef struct S_8182D544_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8182D544_2;   /* arg1 in func_8182D544 */
-
-typedef struct S_8182D544_3 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0x6];
-    union {
-        struct { u8 v; } at00;
-        struct { s32 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-        struct { u8 pad[0x2]; u8 v; } at02;
-    } unk_0C;   /* overlapping accesses */
-    u8 pad_10[0x4];
-    u16 unk_14;
-} S_8182D544_3;   /* arg2 in func_8182D544 */
-
-
-extern void func_8004491C();
-extern void func_800478B8(void *);
-extern s32 rand(void);
 
 /* Move the effect, count down its timer, then fade its sprite to black. */
-void func_8182D544(void *effect, S_8182D544_2 *motion, S_8182D544_3 *sprite)
+void func_80024D44(void *effect, S_8182D544_2 *motion, S_8182D544_3 *sprite)
 {
     s16 state;
     s32 delta_y;

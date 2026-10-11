@@ -668,6 +668,19 @@
       ]
     },
     {
+      "module": "dungeon_ovl_184c800",
+      "source": "src/dungeon/modules/ovl_184c800.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_8182C800",
+        "dungeon/func_8182D544",
+        "dungeon/func_8182D698"
+      ]
+    },
+    {
       "source": "src/dungeon/D_80283000.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -25770,7 +25783,7 @@
     {
       "source": "src/dungeon/func_813274E4.c",
       "recipe": {
-        "cfg": "2.8.1-G0",
+        "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
       },
       "rows": [
@@ -28775,36 +28788,6 @@
       },
       "rows": [
         "dungeon/func_8182718C"
-      ]
-    },
-    {
-      "source": "src/dungeon/func_8182C800.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "dungeon/func_8182C800"
-      ]
-    },
-    {
-      "source": "src/dungeon/func_8182D544.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "dungeon/func_8182D544"
-      ]
-    },
-    {
-      "source": "src/dungeon/func_8182D698.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "dungeon/func_8182D698"
       ]
     },
     {
@@ -36220,7 +36203,7 @@
     {
       "source": "src/ovmovie/func_8004033C.c",
       "recipe": {
-        "cfg": "2.8.1-G0",
+        "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
       },
       "rows": [
@@ -36230,7 +36213,7 @@
     {
       "source": "src/ovmovie/func_80040360.c",
       "recipe": {
-        "cfg": "2.8.1+-G0 -fno-schedule-insns",
+        "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
       },
       "rows": [
@@ -36390,7 +36373,7 @@
     {
       "source": "src/ovmovie/func_800413C0.c",
       "recipe": {
-        "cfg": "2.8.1-G0",
+        "cfg": "2.7.2-G0",
         "row_asflags": ""
       },
       "rows": [
@@ -36400,7 +36383,7 @@
     {
       "source": "src/ovmovie/func_800414F0.c",
       "recipe": {
-        "cfg": "2.8.1-G0",
+        "cfg": "2.7.2-G0",
         "row_asflags": ""
       },
       "rows": [

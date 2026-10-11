@@ -1,260 +1,5 @@
-#include "common.h"
-#include "shared/object_node.h"
-#include "shared/slus_callbacks.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
-#include "shared/dir_step.h"
-#include "m2c_compat.h"
-#include "shared/entity.h"
+#include "modules/dungeon_ovl_184c800.h"
 
-typedef struct S_8182C800_0_pre {
-    u16 unk_00;
-} S_8182C800_0_pre;   /* the 0x2 bytes before arg0 in func_8002401C, addressed as arg0[-1] */
-
-
-typedef struct S_8182C800_1_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_8182C800_1_pre;   /* the 0x14 bytes before temp_s7 in func_8002401C, addressed as temp_s7[-1] */
-
-typedef struct S_8182C800_1 {
-    u8 pad_00[0x2A];
-    union { u16 s; s16 u; } unk_2A;   /* accessed as both */
-    u8 pad_2C[0x34];
-    s32 unk_60;
-    u8 pad_64[0xE];
-    union { u8 s; s8 u; } unk_72;   /* accessed as both */
-    union { u8 s; s8 u; } unk_73;   /* accessed as both */
-} S_8182C800_1;   /* temp_s7 in func_8002401C */
-
-typedef struct S_8182C800_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-} S_8182C800_2;   /* sp68 in func_8002401C */
-
-typedef struct S_8182C800_3 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_8182C800_3;   /* temp_a1_2 in func_8002401C */
-
-typedef struct S_8182C800_4 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_8182C800_4;   /* temp_fp in func_8002401C */
-
-typedef struct S_8182C800_5 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8182C800_5;   /* arg1 in func_8002401C */
-
-typedef struct S_8182C800_6 {
-    u8 * unk_00;
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0x2];
-    s32 unk_08;
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_8182C800_6;   /* work_s5 in func_8002401C */
-
-typedef struct S_8182C800_7 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-} S_8182C800_7;   /* page_a in func_8002401C */
-
-typedef struct S_8182C800_8 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    M2C_UNK * unk_10;
-    u8 pad_14[0xC];
-    void * unk_20;
-} S_8182C800_8;   /* temp_s4 in func_8002401C */
-
-typedef struct S_8182C800_9 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_8182C800_9;   /* temp_s0_2 in func_8002401C */
-
-typedef struct S_8182C800_10 {
-    s32 unk_00;
-} S_8182C800_10;   /* temp_a1_3 in func_8002401C */
-
-typedef struct S_8182C800_11 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-} S_8182C800_11;   /* temp_a1_4 in func_8002401C */
-
-typedef struct S_8182C800_12 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_8182C800_12;   /* temp_a0_7 in func_8002401C */
-
-typedef struct S_8182C800_13 {
-    u8 * unk_00;
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0x2];
-    s32 unk_08;
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_8182C800_13;   /* temp_s0_3 in func_8002401C */
-
-typedef struct S_8182C800_14 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-} S_8182C800_14;   /* state1_tex in func_8002401C */
-
-typedef struct S_8182C800_15 {
-    void * unk_00;
-    u8 pad_04[0x44];
-    s16 unk_48;
-    u8 pad_4A[0x2];
-    s16 unk_4C;
-} S_8182C800_15;   /* temp_s3 in func_8002401C */
-
-typedef struct S_8182C800_16 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-} S_8182C800_16;   /* page_e in func_8002401C */
-
-typedef struct S_8182C800_17 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-} S_8182C800_17;   /* page_b in func_8002401C */
-
-typedef struct S_8182C800_18 {
-    s32 unk_00;
-    u8 pad_04[0x8];
-    s32 unk_0C;
-} S_8182C800_18;   /* temp_a0_11 in func_8002401C */
-
-typedef struct S_8182C800_19 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    u8 pad_08[0x8];
-    s32 unk_10;
-} S_8182C800_19;   /* temp_a0_12 in func_8002401C */
-
-typedef struct S_8182C800_20 {
-    u8 * unk_00;
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0x2];
-    s32 unk_08;
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_8182C800_20;   /* temp_s0_4 in func_8002401C */
-
-typedef struct S_8182C800_21 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-} S_8182C800_21;   /* page_d in func_8002401C */
-
-typedef struct S_8182C800_22 {
-    s32 unk_00;
-} S_8182C800_22;   /* D_800814A0 in func_8002401C */
-
-typedef struct S_8182C800_23 {
-    s32 unk_00;
-    s32 unk_04;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_8182C800_23;   /* ((S_8182C800_2 *)sp68)->unk_08 in func_8002401C */
-
-typedef struct S_8182C800_24 {
-    s32 unk_00;
-    s32 unk_04;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8182C800_24;   /* ((S_8182C800_8 *)temp_s4)->unk_08 in func_8002401C */
-
-
-void func_8002401C(void *effect, void *motion, void *sprite);
-
-/* The module's entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol func_80024000).  The state table of the switch below follows
- * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const module_entry)(void *, void *, void *) __asm__("func_80024000") = func_8002401C;
-
-/* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 D_800DEC28[];
-extern u8 D_800DEC00[];
-extern s32 D_800DEB70;
-s32 func_8003DE58();     /* extern */
-void *func_8003FD64();                 /* extern */
-s32 func_8004491C();                /* extern */
-s32 func_80069EF8(void);            /* extern */
-void func_800478B8(void *);          /* extern */
-void func_8009CE1C(); /* extern */
-s32 func_800A05A4();        /* extern */
-s32 func_800A3820();                    /* extern */
-s32 func_800A4688();         /* extern */
-s32 func_800A56E0();                /* extern */
-s16 func_800BCB04();                   /* extern */
-extern M2C_UNK D_80024D44;
-extern M2C_UNK D_80024E98;
-extern u8 D_800DEBD8;
-
-typedef struct Func80024000Frame {
-    s16 pad20;
-    s16 sp22;
-    s16 pad24;
-    s16 sp26;
-    union {
-        s32 sp28;
-        struct { s16 pad28; s16 sp2A; } half;
-    } u28;
-    u8 pad2C[12];
-    s16 sp38;
-    s16 sp3A;
-    s16 sp3C;
-    s16 pad3E;
-    s16 *sp40;
-    s16 *sp44;
-    s16 sp48;
-    s16 pad4A;
-    s16 sp4C;
-    s16 pad4E;
-    s16 sp50;
-    s16 sp52;
-    s16 sp54;
-    s16 pad56;
-    s16 sp58;
-    s16 sp5A;
-    u8 pad5C[4];
-    s16 sp60;
-    s16 sp62;
-    s16 sp64;
-    s16 pad66;
-} Func80024000Frame;
 
 /* Updates a projectile effect through launch, flight, impact particles, and fading. */
 void func_8002401C(void *effect, void *motion, void *sprite) {
@@ -386,7 +131,7 @@ void func_8002401C(void *effect, void *motion, void *sprite) {
                     motion_extent = tile_origin_y + 0x20;
                     probe_y = (u16) motion_extent;
                     probe_x = (u16)distance_x;
-                    if ((func_800A4688(probe_x, probe_y, func_800BCB04(probe_x, probe_y, -0x400),
+                    if ((func_800A4688(probe_x, probe_y, (s16)func_800BCB04(probe_x, probe_y, -0x400),
                         ((S_8182C800_1 *)owner)->unk_2A.u, ((S_8182C800_1 *)owner)->unk_60) << 0x10) != 0) {
                         break;
                     }
@@ -415,7 +160,7 @@ void func_8002401C(void *effect, void *motion, void *sprite) {
 
             frame.sp26 = (target_tile << 6) + 0x20;
             if (((S_8182C800_1 *)owner)->unk_60 == 0) {
-                floor_height = func_800BCB04((u16) frame.sp22, (u16) frame.sp26,
+                floor_height = (s16)func_800BCB04((u16) frame.sp22, (u16) frame.sp26,
                     (s16) (((S_8182C800_23 *)(owner_object->unk_08))->unk_08.at02.v - 0x30));
                 frame.u28.half.sp2A = floor_height;
                 if (floor_height >= 0x200) {
@@ -470,7 +215,7 @@ void func_8002401C(void *effect, void *motion, void *sprite) {
             ((S_8182C800_5 *)motion)->unk_14 =
                 (s32) ((s16) ((EntityRec *)effect)->unk_50 * ((s32)((EntityRec *)effect)->unk_4C));
             ((EntityRec *)effect)->unk_52 = (u16) ((EntityRec *)effect)->unk_50;
-            func_800A56E0(0x300, accel_x);
+            ((s32 (*)(s32, s32))func_800A56E0)(0x300, accel_x);
             ((EntityRec *)effect)->z.w.i += 1;
             return;
         }
@@ -479,10 +224,10 @@ void func_8002401C(void *effect, void *motion, void *sprite) {
         distance_x = 0x14;
         trail_texture = D_800DEC28;
 spawn_trail:
-        object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
+        object = func_8003FD64(0x312, (ObjectNodeHeader **)&D_80083498);
         if (object != NULL) {
             sprite_work = (s32)(((S_8182C800_8 *)object)->unk_0C);
-            ((S_8182C800_8 *)object)->unk_10 = &D_80024D44;
+            ((S_8182C800_8 *)object)->unk_10 = (void *)func_80024D44;
             frame.sp60 = 0 - ((motion_extent = func_80069EF8()) & 0x1FF);
             frame.sp64 = 0;
             frame.sp62 = 0;
@@ -621,10 +366,10 @@ spawn_trail:
                     (s32) ((S_8182C800_1 *)owner)->unk_2A.u, owner, 2);
                 distance_x = 0x50;
                 do {
-                    object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
+                    object = func_8003FD64(0x312, (ObjectNodeHeader **)&D_80083498);
                     if (object != NULL) {
                         burst_sprite = ((S_8182C800_8 *)object)->unk_0C;
-                        ((S_8182C800_8 *)object)->unk_10 = &D_80024E98;
+                        ((S_8182C800_8 *)object)->unk_10 = (void *)func_80024E98;
                         ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_00 =
                             (s32) (((S_8182C800_5 *)motion)->unk_00.at00.v
                                 + ((((sprite_work = func_80069EF8()) & 0x3FF) - 0x1FF) << 0xD));

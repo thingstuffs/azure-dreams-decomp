@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-11T15:19:03Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-11T17:17:22Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -79,8 +79,8 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 
 | module | rows | placement proof |
 |---|---:|---|
-| dungeon_cd_control_d79c4 | 3 | source/recipe/graph/tool/review/window inputs changed |
-| town_minigame_dispatch_44b44 | 13 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_cd_control_d79c4 | 3 | current: complete TU + all windows + genuine |
+| town_minigame_dispatch_44b44 | 13 | current: complete TU + all windows + genuine |
 | dungeon_ovl_1852800 | 4 | current: complete TU + all windows + genuine |
 | dungeon_ovl_1870800 | 2 | current: complete TU + all windows + genuine |
 | dungeon_ovl_1858800 | 3 | current: complete TU + all windows + genuine |
@@ -113,6 +113,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | dungeon_ovl_fa7000 | 28 | current: complete TU + all windows + genuine |
 | dungeon_ovl_1924800 | 11 | current: complete TU + all windows + genuine |
 | dungeon_ovl_19b4800 | 5 | current: complete TU + all windows + genuine |
+| dungeon_ovl_184c800 | 3 | certificate missing/invalid: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_ovl_184c800.json' |
 
 Placement alone does not override any lower-level or source-residue guard.
 
@@ -140,8 +141,8 @@ Placement alone does not override any lower-level or source-residue guard.
 Pin sites now: 61 in 35 rows; REG 31, KEEP 12, KEEP_NV 9, SCHED_BARRIER 4, USE_NV 2, UNDEF 1, USE2_NV 1, MEM_BARRIER 1.  At the pin: 25,902; REG 12,801, KEEP 6,935, KEEP_NV 2,505, SCHED_BARRIER 1,355, TAILSLOT_PIN 506, USE 294, USE_NV 260, KEEP_DEP_NV 190.
 
 Tracked, not pins (owner 2026-10-06): oddities 1 (ledger/oddities.jsonl - zero-byte fences retail needs, curiosities, not removal targets: dungeon/func_8196096C); one-trip barrier rows 2 (ledger/onetrip_barrier_rows.jsonl); load-bearing one-trip rows 85 (ledger/onetrip_loadbearing.jsonl, statement-macro bodies, not counted in the do{}while(0) row above).
-Carve debt - composite rows (r95 decisions item 8 kept the spelling for bytes; r99: it is an artifact of one-row-per-function carving, owned by module placement): the `asm("func_X")` data prefix (another function's jump table / overlay data that retail places before this row's code) and its `.globl/.type/.size func_X` stamp (`pin_census.composite_asm_spans`), 11 statements in 7 rows - counted here, not in the inline-asm row above; still L5 `inline_asm` residue in levels.py until the module TU owns the data.
-Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 0, calls of local asm wrappers 0, hand-written asm in function bodies 0 (C that is missing); symbol aliases 14 (a second typed name for one symbol: a missing type); file-scope asm directives 12; file-scope global register variables 4 (`register T g asm("$R")`).
+Carve debt - composite rows (r95 decisions item 8 kept the spelling for bytes; r99: it is an artifact of one-row-per-function carving, owned by module placement): the `asm("func_X")` data prefix (another function's jump table / overlay data that retail places before this row's code) and its `.globl/.type/.size func_X` stamp (`pin_census.composite_asm_spans`), 10 statements in 6 rows - counted here, not in the inline-asm row above; still L5 `inline_asm` residue in levels.py until the module TU owns the data.
+Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 0, calls of local asm wrappers 0, hand-written asm in function bodies 0 (C that is missing); symbol aliases 13 (a second typed name for one symbol: a missing type); file-scope asm directives 12; file-scope global register variables 4 (`register T g asm("$R")`).
 
 Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 93 rows carry one flag, 1 carry two or more.
 
@@ -152,11 +153,11 @@ The game is one `2.7.2-cdk -G0 -O2` build plus a town -O1 debug family and stock
 
 | class | rows | dungeon / town / main | pinned rows | pins |
 |---|---:|---|---:|---:|
-| late cell (2.8.x / egcs / 2.95.2: fitted) | 2 | 2 / 0 / 0 | 2 | 5 |
+| late cell (2.8.x / egcs / 2.95.2: fitted) | 1 | 1 / 0 / 0 | 1 | 4 |
 | cdk cell + crutch flags, module is plain | 1 | 1 / 0 / 0 | 0 | 0 |
 | stock cell inside a cdk module | 0 | 0 / 0 / 0 | 0 | 0 |
 | other mismatch with the module recipe (-G, stock flavour, -O1) | 0 | 0 / 0 / 0 | 0 | 0 |
-| **total** | **3** | | **2** | **5** |
+| **total** | **2** | | **1** | **4** |
 
 Rows at a registered recipe backed by per-row compiler evidence (ledger/recipe_evidence.jsonl, not listed above): town/func_806D30B4 2.6.3-G0 (confirmed), town/func_808B2B04 2.6.3-G0 (confirmed).
 
@@ -164,7 +165,7 @@ Sony SDK library objects (ledger/sdk_objects.jsonl, whole-object byte match; not
 
 SLUS rows off their region's build (game image = 2.7.2-cdk, sound TU = stock 2.7.2; module members included): 7 rows, 1 pinned / 1 pins.
 
-Most-pinned rows off their build recipe: dungeon/func_80DE48EC 4 pins (2.8.0-G0 -> 2.7.2-cdk-G0); dungeon/func_813274E4 1 pins (2.8.1-G0 -> 2.7.2-cdk-G0).
+Most-pinned rows off their build recipe: dungeon/func_80DE48EC 4 pins (2.8.0-G0 -> 2.7.2-cdk-G0).
 
 Site-for-pin trades (`ledger/recipe_trades.jsonl` records shaped `{"kind":"site_for_pin","id":row,"site":"LABEL_AS_CALL|ITC|PASSTHRU","pin":macro,"residue_without_pin":str,"at":iso,"note":str}` -- one pin, or two when one is not enough (owner ruling 2026-09-22 afternoon, "accept 2 pins") -- charter rule 3, "a pin moved elsewhere is not a removal"; the trade is tracked, and L4 is where pins stop counting toward removal regardless): 27.
 
@@ -180,12 +181,12 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 | L1 | 2,784,436 | 99.9% |
 | L2 | 2,784,436 | 99.9% |
 | L3 | 2,772,940 | 99.5% |
-| L4 | 195,344 | 7.0% |
-| L5 | 190,724 | 6.8% |
+| L4 | 196,248 | 7.0% |
+| L5 | 191,628 | 6.9% |
 
 On shared record headers (T7, `include/records/`): 903 rows, 577,664 bytes (20.7%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 35 rows (46,440 B), tail_jump 8 rows (4,884 B), not_in_module 7,136 rows (2,586,148 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 35 rows (46,440 B), tail_jump 8 rows (4,884 B), not_in_module 7,120 rows (2,585,244 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 
