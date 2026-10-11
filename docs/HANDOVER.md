@@ -1,3 +1,17 @@
+# Handover (2026-10-11 ~07:50Z, round 112 end of big wave) - START HERE
+**Pins 69 / 39 rows (89/49 at r112 start), carve debt 7, L5 316 rows, 34 live certificates, level -1 rows 481 -> 1,
+L2 155 -> 489 (480 data rows baselined to L2).** Landed today: landing-process tools f72b72bb4; pins ca276dfc5 + 3c3c00ec9
+(8182C800, 80FB4C24, 81910A9C, w_8004E4C0, w_800463EC, w_80041588 out of the hard basket - now 26 rows); batch 05eff8dc6
+(bank 65 module, SLUS recipe tool + code2/5/10/13/14 + w_8004D880 at plain cdk, data-row baselines, cdk cookbook
+brief paragraph, 146 Layer-2 promotions); certs.
+RUNNING (extensions, nohup): r112_sol61_landproc (follow-ups: _r112/landproc_followups.md - PERF: parallel certs + gate
+receipt reuse; batch coherence symlink bug; live-dirt preflight; append-only bookkeeping), r112_sol61_headers (rebase),
+r112_sol61_certfp (Opus review fixes: _r112/certfp_review.md; flag OFF).
+QUEUED: coherence landings for r112_sol61_ovm (4 ovmovie rows) + r112_sol61_align3 (813274E4) via standalone
+land_coherence.sh; slusal cell (w_8005914C) via tools/fidelity/slus_recipe.py; module lane 184c800 (8182C800 now pin-free);
+sdk recommendation (800219C4 = LIBCARD/PATCH.OBJ vendor object). Landing profile: gate --all 62 min cold + 34 serial
+certs 55 min -> fix in landproc first. Owner: no lanes during a live landing (bookkeeping trap).
+
 # Handover (2026-10-10 ~16:00Z, round 112 late) - START HERE
 **Carve debt 9, L5 272 rows, 31 live certificates (3deb480db), pins 89 / 49 rows.** Landed: fac2dea9d (heads + strict
 kinds + 192a800/1918800/19de800/7ce800), alignment 0d8b3124e / f58e5bc21 (819059A0, 80289BD4, 8028B994, 808135E0 onto the
