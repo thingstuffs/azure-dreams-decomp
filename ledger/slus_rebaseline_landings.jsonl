@@ -1,2 +1,5 @@
 {"tag": "r78_opus_sp6", "row": "slus/w_8004F330", "candidate": "work/native_lane/r78_opus_sp6/cand_w_8004F330.c", "how": "SLUS image SHA-1 MATCH + --rebaseline-slus"}
 {"tag": "r78_opus_w3", "row": "slus/w_80040CBC", "candidate": "work/native_lane/r78_opus_w3/out_linkexact/slus/w_80040CBC.c", "how": "SLUS image SHA-1 MATCH + --rebaseline-slus"}
+{"tag": "r112slus", "row": "slus/w_8004E4C0", "candidate": "work/native_lane/r112_astra_hb3/out/slus/w_8004E4C0.c", "how": "SLUS image SHA-1 MATCH + --rebaseline-slus"}
+{"tag": "r112slus", "row": "slus/w_800463EC", "candidate": "work/native_lane/r112_astra_hb9/out/slus/w_800463EC.c", "how": "SLUS image SHA-1 MATCH + --rebaseline-slus"}
+{"tag": "r112slus", "row": "slus/w_80041588", "candidate": "work/native_lane/r112_sol61_fidB/out/slus/w_80041588.c", "how": "SLUS image SHA-1 MATCH + --rebaseline-slus"}
