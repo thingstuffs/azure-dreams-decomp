@@ -55,13 +55,14 @@ class FastFrontTests(unittest.TestCase):
         (base/'package.sha256.json').write_text(json.dumps({'files.json':G.digest(base/'files.json')}))
         entry=base/'apply.py'
         entry.write_text("import argparse,os\nfrom pathlib import Path\na=argparse.ArgumentParser();a.add_argument('--root',required=True);a.add_argument('--dry-run',action='store_true');"+("a.add_argument('--live',action='store_true');" if live else '')+"v=a.parse_args();r=Path(v.root)\n"+("if not v.live and str(r)==os.environ.get('LAND_LIVE_ROOT'):raise SystemExit('Refusing canonical root without --live')\n" if refusal and live else '')+"if v.dry_run:raise SystemExit(0)\n"+"(r/'src/demo/a.c').write_text('changed\\n')\n"+body)
+        (base/'tests.json').write_text(json.dumps({'unit_modules':['tools.tests.test_fixture'],'discover_patterns':['test_fixture.py']}))
         return entry
 
     def test_combined_screen_stops_before_any_build_and_names_member(self):
         self.screen(bad=True)
         self.assertEqual(self.invoke(),1)
         events=[json.loads(s) for s in self.log.read_text().splitlines()]
-        self.assertEqual([e['step'] for e in events if 'command' in e],['registry','index','graph','fast-levels','fast-graph'])
+        self.assertEqual([e['step'] for e in events if 'command' in e],['unit-dotted','unit-discover-test_fixture.py','registry','index','graph','fast-levels','fast-graph'])
         self.assertIn('fixture_module member=dungeon/member L3/placement screen failed',events[-1]['error'])
         self.assertIsInstance(events[-1]['rollback'],dict)
         self.assertEqual(json.loads((self.root/'ledger/levels.jsonl').read_text())['level'],3)
