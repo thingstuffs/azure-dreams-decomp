@@ -34,7 +34,7 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute)
     s32 item_idx;
     s32 color_idx;
     s32 flags;
-    register s32 raw_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    
     s32 item_count;
     s32 command_idx;
     s32 src_addr;
@@ -102,11 +102,11 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute)
         goto call_tile;
 
     case_4:
-        raw_flags = (u16)cmd->flags;
+        item_count = (u16)cmd->flags;
         vram_offset = cmd->x;
         tile_count = cmd->y;
         tile_src = (void *)words[1];
-        raw_flags |= 2;
+        item_count |= 2;
         src_addr = (s32)((void *)((void *)(base + (s32)tile_src)));
         goto convert_flags;
 
@@ -143,13 +143,13 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute)
         }
 
     masked_tile:
-        raw_flags = (u16)cmd->flags;
+        item_count = (u16)cmd->flags;
         vram_offset = cmd->x;
         tile_count = cmd->y;
-        raw_flags |= 2;
+        item_count |= 2;
     convert_flags:
-        flags = (u32)raw_flags << 16;
-        flags >>= 16;
+        item_idx = (u32)item_count << 16;
+        flags = item_idx >> 16;
     call_tile:
         func_8003F80C(src_addr, vram_offset, tile_count, flags);
         DrawSync(0);

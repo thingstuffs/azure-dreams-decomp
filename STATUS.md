@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-11T03:56:52Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-11T04:26:18Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -122,7 +122,7 @@ Placement alone does not override any lower-level or source-residue guard.
 | m2c boilerplate block | 2332 | 510,592 | 18.3% | 0 | 0 | 0.0% |
 | M2C_FIELD raw offsets | 2950 | 1,448,168 | 52.0% | 0 | 0 | 0.0% |
 | m2c local names | 5182 | 2,162,060 | 77.6% | 19 | 32,796 | 1.2% |
-| ASM_ pins | 2136 | 1,455,364 | 52.2% | 42 | 51,900 | 1.9% |
+| ASM_ pins | 2136 | 1,455,364 | 52.2% | 39 | 48,796 | 1.8% |
 | goto | 1545 | 1,311,404 | 47.1% | 277 | 334,500 | 12.0% |
 | computed-goto jump table | 317 | 436,404 | 15.7% | 4 | 7,008 | 0.3% |
 | inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 244,160 | 8.8% | 24 | 21,880 | 0.8% |
@@ -130,13 +130,13 @@ Placement alone does not override any lower-level or source-residue guard.
 | any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,281,340 | 46.0% | 13 | 27,180 | 1.0% |
 | any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,281,340 | 46.0% | 1650 | 894,212 | 32.1% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 668 | 488,888 | 17.5% | 6 | 1,876 | 0.1% |
-| maspsx marker pins (scaffolding) | 394 | 347,512 | 12.5% | 1 | 1,176 | 0.0% |
+| maspsx marker pins (scaffolding) | 394 | 347,512 | 12.5% | 0 | 0 | 0.0% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 5.6% | 10 | 14,256 | 0.5% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
 | local address-named struct | 633 | 346,872 | 12.4% | 3017 | 1,682,024 | 60.4% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 155,192 | 5.6% | 7126 | 2,392,024 | 85.9% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 155,192 | 5.6% | 7128 | 2,393,388 | 85.9% |
 
-Pin sites now: 75 in 42 rows; REG 37, KEEP 13, KEEP_NV 13, SCHED_BARRIER 4, MEM_BARRIER 2, USE_NV 2, UNDEF 1, USE2_NV 1.  At the pin: 25,902; REG 12,801, KEEP 6,935, KEEP_NV 2,505, SCHED_BARRIER 1,355, TAILSLOT_PIN 506, USE 294, USE_NV 260, KEEP_DEP_NV 190.
+Pin sites now: 69 in 39 rows; REG 34, KEEP 13, KEEP_NV 11, SCHED_BARRIER 4, MEM_BARRIER 2, USE_NV 2, UNDEF 1, USE2_NV 1.  At the pin: 25,902; REG 12,801, KEEP 6,935, KEEP_NV 2,505, SCHED_BARRIER 1,355, TAILSLOT_PIN 506, USE 294, USE_NV 260, KEEP_DEP_NV 190.
 
 Tracked, not pins (owner 2026-10-06): oddities 1 (ledger/oddities.jsonl - zero-byte fences retail needs, curiosities, not removal targets: dungeon/func_8196096C); one-trip barrier rows 2 (ledger/onetrip_barrier_rows.jsonl); load-bearing one-trip rows 85 (ledger/onetrip_loadbearing.jsonl, statement-macro bodies, not counted in the do{}while(0) row above).
 Carve debt - composite rows (r95 decisions item 8 kept the spelling for bytes; r99: it is an artifact of one-row-per-function carving, owned by module placement): the `asm("func_X")` data prefix (another function's jump table / overlay data that retail places before this row's code) and its `.globl/.type/.size func_X` stamp (`pin_census.composite_asm_spans`), 11 statements in 7 rows - counted here, not in the inline-asm row above; still L5 `inline_asm` residue in levels.py until the module TU owns the data.
@@ -184,7 +184,7 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 
 On shared record headers (T7, `include/records/`): 903 rows, 577,664 bytes (20.7%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 42 rows (51,900 B), tail_jump 8 rows (4,884 B), not_in_module 6,688 rows (2,599,360 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 39 rows (48,796 B), tail_jump 8 rows (4,884 B), not_in_module 6,688 rows (2,599,360 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 

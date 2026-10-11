@@ -4,7 +4,7 @@ char *func_8004E4C0(u32 value, s32 width, char *buf, s32 pad) {
     s32 char_count;
     u32 quotient_or_width;
     s32 digit_limit;
-    register u32 quotient ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    u32 quotient;
     char_count = 1;
     quotient_or_width = value / 10u;
     *buf = (char)((value - quotient_or_width * 10u) + '0');
@@ -19,8 +19,12 @@ top:
                 break;
             char_count++;
             quotient = value / 10u;
-            ASM_KEEP_NV(quotient);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-            *buf++ = (char)((value - quotient * 10u) + '0');
+            quotient_or_width = quotient << 2;
+            quotient_or_width += quotient;
+            quotient_or_width += quotient_or_width;
+            quotient_or_width = value - quotient_or_width;
+            quotient_or_width += '0';
+            *buf++ = (char)quotient_or_width;
         } while (char_count < digit_limit);
         quotient_or_width = width & 0xFFFF;
         while (char_count < (s32)quotient_or_width) {

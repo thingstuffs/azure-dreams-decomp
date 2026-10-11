@@ -71,8 +71,27 @@ typedef struct {
     u16 pad;
 } Vertex;
 
-#define SPAD(base, type, offset) (*(volatile type *)((base) + (offset)))
-#define SPAD_NV(base, type, offset) (*(type *)((base) + (offset)))
+typedef struct ScratchVertex {
+    s32 xy;
+    u16 z;
+    u16 pad;
+} ScratchVertex;
+typedef struct RenderScratch {
+    u8 pad00[0x20];
+    void *ordering_table;
+    u8 pad24[0xC];
+    s32 scale[3];
+    u8 pad3C[4];
+    s32 translation[3];
+    u8 pad4C[0x24];
+    ScratchVertex vertices[4];
+    u8 pad90[0x30];
+    s32 depth;
+    u8 padC4[0x50];
+    s32 clip;
+} RenderScratch;
+
+#define SPAD(base, type, field) (((volatile type *)(base))->field)
 
 extern void PushMatrix(void);
 extern void PopMatrix(void);
@@ -100,7 +119,7 @@ void func_800463EC(void *unused, u8 *position, RenderObject *object, s16 depth_b
     u8 *render_state;
     u8 *face;
     u8 *prim;
-    register u8 *scratch ASM_REG("$18");
+    u8 *scratch;
     u32 vertex_word;
     u16 index_b;
     u16 index_c;
@@ -108,8 +127,6 @@ void func_800463EC(void *unused, u8 *position, RenderObject *object, s16 depth_b
     unsigned long vertex_data;
     void *vertex_0;
     void *vertex_1;
-    void *vertex_2;
-    void *vertex_3;
     s32 clip_xy_0;
     s32 clip_xy_1;
     s32 clip_xy_2;
@@ -128,12 +145,12 @@ void func_800463EC(void *unused, u8 *position, RenderObject *object, s16 depth_b
     vertex_word = *(u16 *)&object->scale[0];
     scratch = (u8 *)0x1F800000;
 
-    SPAD_NV(scratch, s32, 0x30) = vertex_word;
-    SPAD_NV(scratch, s32, 0x34) = object->scale[1];
-    SPAD_NV(scratch, s32, 0x38) = object->scale[2];
-    SPAD_NV(scratch, s32, 0x40) = ((Fixed1616 *)position)[0].w.i;
-    SPAD_NV(scratch, s32, 0x44) = ((Fixed1616 *)position)[1].w.i;
-    SPAD_NV(scratch, s32, 0x48) = ((Fixed1616 *)position)[2].w.i;
+    ((RenderScratch *)scratch)->scale[0] = vertex_word;
+    ((RenderScratch *)scratch)->scale[1] = object->scale[1];
+    ((RenderScratch *)scratch)->scale[2] = object->scale[2];
+    ((RenderScratch *)scratch)->translation[0] = ((Fixed1616 *)position)[0].w.i;
+    ((RenderScratch *)scratch)->translation[1] = ((Fixed1616 *)position)[1].w.i;
+    ((RenderScratch *)scratch)->translation[2] = ((Fixed1616 *)position)[2].w.i;
 
     ReadRotMatrix(&view_matrix);
     vertex_0 = (u8 *)scratch;
@@ -147,10 +164,10 @@ void func_800463EC(void *unused, u8 *position, RenderObject *object, s16 depth_b
     RotMatrix(vertex_0, vertex_1);
 
     if (object->flags & 1) {
-        SPAD(scratch, s32, 0x30) = -SPAD(scratch, s32, 0x30);
+        SPAD(scratch, RenderScratch, scale[0]) = -SPAD(scratch, RenderScratch, scale[0]);
     }
     if (object->flags & 2) {
-        SPAD(scratch, s32, 0x34) = -SPAD(scratch, s32, 0x34);
+        SPAD(scratch, RenderScratch, scale[1]) = -SPAD(scratch, RenderScratch, scale[1]);
     }
 
     ScaleMatrix((void *)0x1F800050, (void *)0x1F800030);
@@ -160,7 +177,7 @@ void func_800463EC(void *unused, u8 *position, RenderObject *object, s16 depth_b
 
     depth_offset = depth_bias;
     render_state = gameWork.unk_000;
-    SPAD(scratch, void *, 0x20) = render_state + 0xB0;
+    ((RenderScratch *)scratch)->ordering_table = render_state + 0xB0;
     prim = *(u8 **)(render_state + 0x8D0);
     object->flags |= 0x8000;
 
@@ -169,32 +186,27 @@ void func_800463EC(void *unused, u8 *position, RenderObject *object, s16 depth_b
     for (;;) {
         vertex_data = ((S_800463EC_2 *)((u8 *)vertex_table + ((S_800463EC_1 *)face)->unk_00 * 8))->unk_00;
         index_b = ((S_800463EC_1 *)face)->unk_02;
-        SPAD_NV(scratch, s32, 0x70) = vertex_data;
+        ((RenderScratch *)scratch)->vertices[0].xy = vertex_data;
         vertex_data = ((S_800463EC_2 *)((u8 *)vertex_table + index_b * 8))->unk_00;
         index_c = ((S_800463EC_1 *)face)->unk_04;
-        SPAD_NV(scratch, s32, 0x78) = vertex_data;
+        ((RenderScratch *)scratch)->vertices[1].xy = vertex_data;
         vertex_data = ((S_800463EC_1 *)face)->unk_06;
         vertex_data = (vertex_data << 3) + (unsigned long)vertex_table;
-        SPAD_NV(scratch, s32, 0x80) = ((S_800463EC_2 *)((u8 *)vertex_table + index_c * 8))->unk_00;
+        ((RenderScratch *)scratch)->vertices[2].xy = ((S_800463EC_2 *)((u8 *)vertex_table + index_c * 8))->unk_00;
         vertex_data = ((S_800463EC_3 *)((u8 *)vertex_data))->unk_00;
-        SPAD_NV(scratch, u16, 0x74) = ((S_800463EC_2 *)((u8 *)vertex_table + ((S_800463EC_1 *)face)->unk_00 * 8))->unk_04;
-        vertex_0 = (u8 *)scratch + 0x70;
-        SPAD_NV(scratch, u16, 0x7C) = ((S_800463EC_2 *)((u8 *)vertex_table + ((S_800463EC_1 *)face)->unk_02 * 8))->unk_04;
-        vertex_1 = (u8 *)scratch + 0x78;
-        vertex_2 = (u8 *)scratch + 0x80;
-        SPAD_NV(scratch, u16, 0x84) = ((S_800463EC_2 *)((u8 *)vertex_table + ((S_800463EC_1 *)face)->unk_04 * 8))->unk_04;
+        ((RenderScratch *)scratch)->vertices[0].z = ((S_800463EC_2 *)((u8 *)vertex_table + ((S_800463EC_1 *)face)->unk_00 * 8))->unk_04;
+        ((RenderScratch *)scratch)->vertices[1].z = ((S_800463EC_2 *)((u8 *)vertex_table + ((S_800463EC_1 *)face)->unk_02 * 8))->unk_04;
+        ((RenderScratch *)scratch)->vertices[2].z = ((S_800463EC_2 *)((u8 *)vertex_table + ((S_800463EC_1 *)face)->unk_04 * 8))->unk_04;
         vertex_index = ((S_800463EC_1 *)face)->unk_06;
-        vertex_3 = (u8 *)scratch + 0x88;
-        SPAD_NV(scratch, s32, 0x88) = vertex_data;
+        ((RenderScratch *)scratch)->vertices[3].xy = vertex_data;
         vertex_data = ((S_800463EC_2 *)((u8 *)vertex_table + vertex_index * 8))->unk_04;
-        SPAD_NV(scratch, u16, 0x8C) = vertex_data;
-        ASM_JALDELAY_PIN(vertex_data);
+        ((RenderScratch *)scratch)->vertices[3].z = vertex_data;
 
-        SPAD(scratch, s32, 0xC0) = RotAverage4(
-            vertex_0,
-            vertex_1,
-            vertex_2,
-            vertex_3,
+        SPAD(scratch, RenderScratch, depth) = RotAverage4(
+            &((RenderScratch *)scratch)->vertices[0],
+            &((RenderScratch *)scratch)->vertices[1],
+            &((RenderScratch *)scratch)->vertices[2],
+            &((RenderScratch *)scratch)->vertices[3],
             prim + 8,
             prim + 0x10,
             prim + 0x18,
@@ -226,10 +238,10 @@ void func_800463EC(void *unused, u8 *position, RenderObject *object, s16 depth_b
             break;
         }
 
-        SPAD(scratch, s32, 0x114) = NormalClip(clip_xy_0, clip_xy_1, clip_xy_2);
-        if (SPAD(scratch, s32, 0x114) > 0) {
-            depth = SPAD(scratch, s32, 0xC0) - depth_offset;
-            SPAD(scratch, s32, 0xC0) = depth;
+        SPAD(scratch, RenderScratch, clip) = NormalClip(clip_xy_0, clip_xy_1, clip_xy_2);
+        if (SPAD(scratch, RenderScratch, clip) > 0) {
+            depth = SPAD(scratch, RenderScratch, depth) - depth_offset;
+            SPAD(scratch, RenderScratch, depth) = depth;
             if (depth < 0x1E0U) {
                 NormalColorCol(
                     normal_table + ((S_800463EC_1 *)face)->unk_10 * 8,
@@ -256,7 +268,7 @@ void func_800463EC(void *unused, u8 *position, RenderObject *object, s16 depth_b
                     }
                 }
 
-                AddPrim((u8 *)SPAD(scratch, void *, 0x20) + SPAD(scratch, s32, 0xC0) * 4, prim);
+                AddPrim((u8 *)((RenderScratch *)scratch)->ordering_table + SPAD(scratch, RenderScratch, depth) * 4, prim);
                 prim += 0x28;
                 object->flags &= 0x7FFF;
             }
@@ -265,7 +277,6 @@ void func_800463EC(void *unused, u8 *position, RenderObject *object, s16 depth_b
         if (((S_800463EC_1 *)face)->unk_16 == 1 && ((S_800463EC_1 *)face)->unk_17 < 0) {
             break;
         }
-        ASM_KEEP_NV(scratch);
         face += 0x18;
     }
 
