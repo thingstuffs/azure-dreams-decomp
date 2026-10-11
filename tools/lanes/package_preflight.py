@@ -127,6 +127,67 @@ def pending_packages(root, path=None):
     return out,hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+
+def guard_collisions(packages):
+    """A guard is a read dependency too: protected inputs also conflict.
+
+    Idempotent append records have separate contracts and do not conflict merely
+    because they append to the same shared ledger. files.json/protected_inputs
+    bind complete files, so two queued packages guarding one file cannot be
+    replayed safely without a reviewed combined package.
+    """
+    seen={}
+    for package in packages:
+        entry=Path(package['entry']);base=entry.parent
+        paths=set()
+        inventory=base/'files.json'
+        if inventory.is_file():paths.update(r['path'] for r in json.loads(inventory.read_text()))
+        manifest=base/'manifest.json'
+        if manifest.is_file():paths.update(json.loads(manifest.read_text()).get('protected_inputs',{}))
+        for rel in sorted(paths):
+            if rel in seen:raise G.Stop('queued packages guard the same file: '+rel+' ('+seen[rel]+', '+str(entry)+')')
+            seen[rel]=str(entry)
+    return seen
+
+
+def package_tests(packages,view):
+    """Use installed canonical test paths, never run from delivery/sources.
+
+    files.json test sources are included automatically. tests.json may add
+    unit_modules/discover_patterns for tests already present in the checkout.
+    """
+    modules=[];patterns=[]
+    for package in packages:
+        base=Path(package['entry']).parent
+        inventory=base/'files.json'
+        if inventory.is_file():
+            for rec in json.loads(inventory.read_text()):
+                rel=rec['path']
+                if rel.startswith('tools/tests/test_') and rel.endswith('.py'):
+                    patterns.append(Path(rel).name)
+        test_spec=base/'tests.json'
+        if test_spec.is_file():
+            doc=json.loads(test_spec.read_text())
+            modules+=doc.get('unit_modules',[]);patterns+=doc.get('discover_patterns',[])
+    # Existing lander tests verify the transaction; new lane tests run under
+    # discovery so tests which import siblings see the canonical tests path.
+    modules=modules or ['tools.tests.test_land_packages']
+    patterns=patterns or ['test_land_packages.py']
+    return {'unit_modules':list(dict.fromkeys(modules)), 'discover_patterns':list(dict.fromkeys(patterns))}
+
+def package_state(packages):
+    """Bind the exact submitted bytes across a long accounting screen."""
+    state={}
+    for item in packages:
+        entry=Path(item['entry']);base=entry.parent
+        paths={entry,base/'files.json',base/'tests.json',base/'manifest.json'}
+        for name in ('package.sha256.json','records.sha256.json'):
+            inventory=base/name;paths.add(inventory)
+            if inventory.is_file():paths.update(package_path(base,p) for p in json.loads(inventory.read_text()))
+        if (base/'files.json').is_file():paths.update(package_path(base,r['file']) for r in json.loads((base/'files.json').read_text()))
+        state[str(entry)]={str(p.relative_to(base)):G.digest(p) for p in sorted(paths)}
+    return state
+
 def preflight(root, entry, args, pending, log):
     root=root.resolve();entry=entry.resolve();log=log.resolve();log.parent.mkdir(parents=True,exist_ok=True)
     land=None
@@ -138,7 +199,11 @@ def preflight(root, entry, args, pending, log):
             head=G.git(seed,'rev-parse','HEAD').decode().strip()
             G.git(seed,'worktree','add','--detach',str(view),head)
             G.copy_preflight_inputs(root,view)
-            plan={'version':1,'reviewer':'pending','commit':False,'commit_message':'package preflight','packages':[]}
+            all_packages=queue+[{'entry':str(entry),'args':args,'live_flag':True}]
+            guard_collisions(all_packages)
+            submitted=package_state(all_packages)
+            plan={'version':1,'reviewer':'pending','commit':False,'commit_message':'package preflight','packages':[],
+                  **package_tests(all_packages,view)}
             land=G.Lander(view,plan,entry.parent,log,scratch=True)
             land.env['TMPDIR']=str(view/'tmp')
             land.preflight()
@@ -150,7 +215,8 @@ def preflight(root, entry, args, pending, log):
             plan['packages']=queue+[{'entry':str(entry),'args':args,'live_flag':True}]
             if any(Path(p['entry']).resolve()==entry for p in queue):
                 raise G.Stop('candidate already queued; remove duplicate candidate for this check')
-            land.mutate();land.normalise_review();land.regenerate();land.fast_front()
+            land.mutate();land.review_steps();land.normalise_review();land.unit_checks();land.regenerate();land.fast_front()
+            if package_state(all_packages)!=submitted:raise G.Stop('package bytes changed during preflight; rerun')
             # Detect a queue changed by another lane during the screen.
             _,after=pending_packages(root,pending)
             if after!=queue_sha:raise G.Stop('pending queue changed during preflight; rerun against the new queue')

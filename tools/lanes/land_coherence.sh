@@ -11,17 +11,22 @@
 # lane's running verify.py) and this landing takes the same cross-process lock the other landers
 # take, the same way (build_ovl/work/land.lock), so two landings queue instead of racing.  See
 # tools/lanes/land_lanes.sh and tools/lanes/land_gap.sh, which this mirrors.
-set -u
+set -euo pipefail
 cd "$(dirname "$0")/../.."
-# one landing at a time: the same lock land_lanes.sh takes (2026-09-19), taken unconditionally
-mkdir -p build_ovl/work; exec 9>build_ovl/work/land.lock; flock 9
+# Transaction input mode is only invoked in a disposable proof tree by the
+# package lander. The outer transaction supplies rollback and all final proofs.
+TRANSACTION=0
+if [ "${1:-}" = "--transaction-inputs" ]; then TRANSACTION=1; shift; fi
 TAG=${1:?tag}; L=${2:?lane}; D=work/native_lane/$L
 ROUND=${ROUND:-73}
 DATE=$(date -u +%F)
-[ -f $D/cells.jsonl ] || { echo "no $D/cells.jsonl"; exit 1; }
+[ -f "$D/cells.jsonl" ] || { echo "no $D/cells.jsonl"; exit 1; }
 ISO=${LAND_ISOLATED:-0}
-if [ "$ISO" != 1 ]; then
-  if pgrep -f "[c]odex exec" >/dev/null || pgrep -f "[s]weep.py " >/dev/null; then echo "a lane or sweep is running: wait"; exit 1; fi
+if [ "$TRANSACTION" = 0 ]; then
+  mkdir -p build_ovl/work; exec 9>build_ovl/work/land.lock; flock 9
+  if [ "$ISO" != 1 ]; then
+    if pgrep -f "[c]odex exec" >/dev/null || pgrep -f "[s]weep.py " >/dev/null; then echo "a lane or sweep is running: wait"; exit 1; fi
+  fi
 fi
 python3 - "$D" "$TAG" "$ROUND" "$DATE" <<'EOF'
 import json, sys, hashlib
@@ -37,6 +42,8 @@ for line in open(f"{D}/cells.jsonl"):
     e = json.loads(line); rid = e["id"]; row = by[rid]; c, n = rid.split("/")
     cand = open(f"{D}/out/{c}/{n}.c").read(); base = open(f"{D}/out/{c}/{n}.c.base_sha").read().strip()
     cur = clean_path(row).read_text(errors="replace")
+    if row["cfg"] == e["to"] and cand == cur:
+        print("already landed", rid); switched.append(rid); continue
     if sha_text(cur) != base:
         print("skip stale", rid); continue
     if row["cfg"] == e["to"]:
@@ -96,6 +103,22 @@ for rid in [l.strip() for l in open(f"{D}/switched.txt") if l.strip()]:
         print("RESTORED recipe of", rid, "->", old)
 print("switched", len(open(f"{D}/switched.txt").read().split()), "applied", len(applied))
 EOF
+if [ "$TRANSACTION" = 1 ]; then
+  python3 - "$D" "$TAG" <<'CHECK'
+import json, sys
+from pathlib import Path
+D, tag = sys.argv[1:]
+expected={r["id"] for r in (json.loads(l) for l in (Path(D)/"cells.jsonl").read_text().splitlines() if l.strip())}
+switched=set((Path(D)/"switched.txt").read_text().split())
+journal=Path("ledger/sweeps")/("coherence_"+tag+".jsonl")
+latest={r["id"]:r for r in (json.loads(l) for l in journal.read_text().splitlines() if l.strip())}
+applied={k for k,r in latest.items() if r.get("outcome") in ("applied","noop")}
+if not expected or expected!=switched or not expected.issubset(applied):
+    raise SystemExit("transaction coherence incomplete: "+str(sorted(expected-(switched & applied))))
+print("TRANSACTION_INPUTS_MATCH", len(expected))
+CHECK
+  exit
+fi
 IDS=$(git diff --name-only -- src | sed -E 's#^src/##; s#\.c$##' | paste -sd,)
 if [ -n "$IDS" ] || [ -s "$D/switched.txt" ]; then   # r84: a recipe-only switch must be gated too
   [ -n "$IDS" ] && { echo "== t2 on changed rows"; python3 tools/sweep.py t2_pins --only "$IDS" --workers 4 2>&1 | tail -1; }
@@ -103,7 +126,7 @@ if [ -n "$IDS" ] || [ -s "$D/switched.txt" ]; then   # r84: a recipe-only switch
   if [ "$ISO" = 1 ]; then
     EXP=gate SRCROOT="$PWD/src" bash tools/build/mk_ovl_root.sh && GATE_BUILD_ROOT=build_ovl_gate python3 tools/build/gate_all.py --workers 8 && bash tools/build/build_slus.sh -j 8
   else
-    bash tools/build/mk_ovl_root.sh && python3 tools/build/gate_all.py --workers 8 && bash tools/build/build_slus.sh -j 8
+    EXP=gate SRCROOT="$PWD/src" bash tools/build/mk_ovl_root.sh && GATE_BUILD_ROOT=build_ovl_gate python3 tools/build/gate_all.py --workers 8 && bash tools/build/build_slus.sh -j 8
   fi
   echo "GATE_RC=$?"
   if [ "$ISO" = 1 ] && ! diff -rq --exclude=__pycache__ tools/gate build_ovl/tools >/dev/null 2>&1; then

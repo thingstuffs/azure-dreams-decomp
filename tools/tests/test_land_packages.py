@@ -28,8 +28,13 @@ class LandPackagesTests(unittest.TestCase):
           'tools/registry.py':'','STATUS.md':'before\n'}.items():
             q=self.root/p;q.parent.mkdir(parents=True,exist_ok=True);q.write_text(data)
         self.git('add','.');self.git('commit','-qm','initial')
-        self.plan={'version':1,'reviewer':'pending','commit':False,'commit_message':'test'}
-        self.log=self.base/'land.jsonl'
+        self.plan={'version':1,'reviewer':'pending','commit':False,'commit_message':'test','unit_modules':['tools.tests.test_fixture'], 'discover_patterns':['test_fixture.py']}
+        test=self.root/'tools/tests/test_fixture.py';test.parent.mkdir(parents=True,exist_ok=True)
+        test.write_text('import unittest\nclass Fixture(unittest.TestCase):\n def test_ok(self):self.assertTrue(True)\n')
+        guard=self.root/'tools/lanes/test_root_guard.py';guard.parent.mkdir(parents=True,exist_ok=True)
+        guard.write_text((MODULE.parent/'test_root_guard.py').read_text())
+        self.git('add','.');self.git('commit','-qm','test contract')
+        self.log=self.base/'land.jsonl' 
     def tearDown(self): self.tmp.cleanup()
     def git(self,*args):return subprocess.check_output(['git','-C',str(self.root),*args],stderr=subprocess.STDOUT,env=dict(os.environ,GIT_OPTIONAL_LOCKS='0'))
     def write_plan(self):
@@ -98,6 +103,7 @@ class LandPackagesTests(unittest.TestCase):
             land.run('timeout',['python3','-c','import time;time.sleep(10)'],timeout=0.05)
         self.assertIsNone(land.child)
     def test_live_package_requires_explicit_contract(self):
+        self.script('pass','apply.py')
         land=G.Lander(self.root,{**self.plan,'packages':[{'entry':'apply.py'}]},self.base,self.log,live=True)
         with patch.object(G,'LIVE',self.root),patch.object(G,'busy_processes',return_value=[]),self.assertRaisesRegex(G.Stop,'explicit --live'):
             land.preflight()

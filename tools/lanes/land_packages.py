@@ -113,7 +113,7 @@ def names(data): return [os.fsdecode(x) for x in data.split(b'\0') if x]
 def l5(root):
     return sum(r.get('level') in (5,'L5') for r in records(root/'ledger/levels.jsonl'))
 
-def busy_processes(root, scratch):
+def busy_processes(root, scratch, isolated=False, proc_root=Path("/proc")):
     ancestors={os.getpid()};pid=os.getppid()
     while pid>1:
         ancestors.add(pid)
@@ -121,21 +121,157 @@ def busy_processes(root, scratch):
             fields=(Path('/proc')/str(pid)/'stat').read_text().rsplit(')',1)[1].split()
             pid=int(fields[1])
         except (OSError,ValueError,IndexError): break
-    found=[]
-    for proc in Path('/proc').iterdir():
-        if not proc.name.isdigit() or int(proc.name) in ancestors: continue
+    found=[];candidates=[];allowed=set();parents={}
+    for proc in proc_root.iterdir():
+        if not proc.name.isdigit() or int(proc.name) in ancestors:continue
         try:
             args=(proc/'cmdline').read_bytes().replace(b'\0',b' ').decode(errors='replace')
             cwd=(proc/'cwd').resolve()
-        except OSError: continue
-        marker=bool(re.search(r'\b(?:gate_all|overlay_local_gate|certify_overlay_module|land_packages|land_lanes|land_gap)\.py\b|\bcodex\s+exec\b',args))
-        if marker and (not scratch or cwd.is_relative_to(root) or str(root) in args):
-            found.append({'pid':int(proc.name),'command':args[:400]})
+            fields=(proc/'stat').read_text().rsplit(')',1)[1].split()
+            parents[int(proc.name)]=int(fields[1])
+        except (OSError,ValueError,IndexError):continue
+        candidates.append((proc,args,cwd))
+        if isolated and re.search(r'\bcodex\s+exec\b',args) and isolated_lane(proc,root,proc_root):allowed.add(int(proc.name))
+    for proc,args,cwd in candidates:
+        marker=bool(re.search(r'\b(?:gate_all|overlay_local_gate|certify_overlay_module|land_packages|land_lanes|land_gap|verify|sweep|promote)\.py\b|\b(?:land_lanes|land_gap|land_coherence|land_finished)\.sh\b|\bcodex\s+exec\b',args))
+        if not marker or (scratch and not cwd.is_relative_to(root) and str(root) not in args):continue
+        pid=int(proc.name);seen=set()
+        while pid>1 and pid not in seen and pid not in allowed:
+            seen.add(pid);pid=parents.get(pid,0)
+        if pid in allowed:continue
+        found.append({'pid':int(proc.name),'command':args[:400]})
     return found
 
+
+def isolated_lane(proc, root, proc_root=Path("/proc")):
+    """Require pid-bound lane scope evidence; inspect descendants' cwd/fds.
+
+    A codex process is opaque. Cwd alone cannot promise future isolation: launchers
+    may write isolation.json with version=1, roots=[repo-relative scratch roots],
+    and pid matching the codex process. A matching lane.pid plus the existing
+    explicit scratch-only BRIEF is equivalent. Missing/ambiguous evidence is busy.
+    """
+    try:
+        cwd=(proc/'cwd').resolve()
+        lane_base=root/'work/native_lane'
+        if cwd.is_relative_to(lane_base):
+            lane=lane_base/cwd.relative_to(lane_base).parts[0]
+        else:
+            # launch_lane.sh runs codex -C REPO; -o identifies its lane.
+            args=(proc/'cmdline').read_bytes().replace(b'\0',b' ').decode(errors='replace')
+            match=re.search(r'(?:^|\s)(?:-o|--output-last-message)\s+(\S+)',args)
+            if not match:return False
+            output=Path(match[1])
+            if not output.is_absolute():output=root/output
+            if not output.resolve().is_relative_to(lane_base):return False
+            lane=lane_base/output.resolve().relative_to(lane_base).parts[0]
+        declaration=lane/'isolation.json'
+        if declaration.exists():
+            receipt=json.loads(declaration.read_text())
+            if receipt.get('version')!=1 or receipt.get('pid')!=int(proc.name):return False
+            roots=[safe(root,r).resolve() for r in receipt['roots']]
+        else:
+            # Current tool lanes already have a launcher PID and an explicit
+            # scratch-only work contract. Reuse that owner-provided evidence;
+            # do not require another manual declaration for the same scope.
+            if int((lane/'lane.pid').read_text().strip())!=int(proc.name):return False
+            brief=lane/'BRIEF.md'
+            if brief.stat().st_size>65536:return False
+            text=brief.read_text()
+            if 'work ONLY there' not in text or 'Prove everything in a lane-owned scratch tree' not in text:return False
+            roots=[lane]
+        if not roots or any(not p.is_dir() or not p.is_relative_to(lane) for p in roots):return False
+        # Verify all descendants, not just the top-level codex cwd.
+        children={};procs={}
+        for q in proc_root.iterdir():
+            if not q.name.isdigit():continue
+            try:
+                fields=(q/'stat').read_text().rsplit(')',1)[1].split()
+                children.setdefault(int(fields[1]),[]).append(int(q.name));procs[int(q.name)]=q
+            except (OSError,ValueError,IndexError):continue
+        todo=[int(proc.name)]
+        while todo:
+            pid=todo.pop();q=procs.get(pid)
+            if q is None:continue
+            todo.extend(children.get(pid,[]))
+            here=(q/'cwd').resolve()
+            args=(q/'cmdline').read_bytes().replace(b'\0',b' ').decode(errors='replace')
+            # A scorer/compiler child must be under a declared scratch root.
+            if pid!=int(proc.name) and here.is_relative_to(root) and not any(here.is_relative_to(p) for p in roots):return False
+            if str(root/'build_ovl') in args:return False
+            for fd in (q/'fd').iterdir():
+                try:target=fd.resolve()
+                except OSError:continue
+                if target.is_relative_to(root/'build_ovl') or target.is_relative_to(root/'build_ovl_gate'):return False
+        return True
+    except (OSError,ValueError,KeyError,IndexError,TypeError,Stop):return False
+
+
+def resolve_source(base, name):
+    p=Path(name)
+    return p if p.is_absolute() else base/p
+
+
+def validate_plan(plan, base, root=None):
+    """Validate structural contracts before snapshot, packages, or builds."""
+    if not isinstance(plan,dict) or plan.get('version')!=1:raise Stop('plan version must be 1')
+    if not isinstance(plan.get('reviewer'),str) or not plan['reviewer'].strip():raise Stop('reviewer required')
+    if not isinstance(plan.get('commit_message'),str) or not plan['commit_message'].strip():raise Stop('commit_message required')
+    modules=plan.get('unit_modules')
+    if not isinstance(modules,list) or not modules:raise Stop('non-empty dotted unit_modules are required')
+    if any(not isinstance(m,str) or not re.fullmatch(r'[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)+',m) for m in modules):raise Stop('invalid dotted unit_modules')
+    for field in ('packages','patches','scripts','copies','reviews','coherence','promotions'):
+        items=plan.get(field,[])
+        if not isinstance(items,list) or any(not isinstance(i,dict) for i in items):raise Stop(field+' must be a list of objects')
+    for item in plan.get('packages',[])+plan.get('reviews',[]):
+        if not isinstance(item.get('entry'),str) or not resolve_source(base,item['entry']).is_file():raise Stop('entry missing: '+str(item.get('entry')))
+        if not isinstance(item.get('args',[]),list) or any(not isinstance(a,str) for a in item.get('args',[])):raise Stop('entry args must be strings')
+        if item in plan.get('reviews',[]) or Path(item['entry']).name=='review_modules.py':
+            keys=item.get('keys',item.get('args',[]))
+            if not isinstance(keys,list) or not keys or any(not isinstance(k,str) or not re.fullmatch(r'[A-Za-z_]\w*',k) for k in keys):raise Stop('review keys required')
+    if root is not None:
+        keys=set()
+        roster=root/'config/overlays/modules.json'
+        if roster.is_file():keys.update(m['key'] for m in json.loads(roster.read_text())['modules'])
+        for item in plan.get('packages',[]):
+            doc=resolve_source(base,item['entry']).parent/'modules.entries.json'
+            if doc.is_file():keys.update(m['key'] for m in json.loads(doc.read_text()).get('modules',[]))
+        for item in plan.get('reviews',[])+[p for p in plan.get('packages',[]) if Path(p['entry']).name=='review_modules.py']:
+            missing=set(item.get('keys',item.get('args',[])))-keys
+            if missing:raise Stop('review keys missing from roster/package entries: '+','.join(sorted(missing)))
+    for item in plan.get('patches',[]):
+        if not item.get('file') or not resolve_source(base,item['file']).is_file():raise Stop('patch entry missing')
+    for item in plan.get('scripts',[]):
+        if not isinstance(item.get('argv'),list) or not item['argv'] or any(not isinstance(a,str) for a in item['argv']):raise Stop('script argv required')
+    patterns=plan.get('discover_patterns',['test_*.py'])
+    if not isinstance(patterns,list) or not patterns or any(not isinstance(p,str) or '/' in p or not p.endswith('.py') for p in patterns):raise Stop('discover_patterns must name tests')
+    if 'isolated' in plan and not isinstance(plan['isolated'],bool):raise Stop('isolated must be boolean')
+    if not isinstance(plan.get('unit_timeout',60),int) or plan.get('unit_timeout',60)<=0:raise Stop('unit_timeout must be positive seconds')
+    if plan.get('gate_all','incremental') not in ('incremental','full'):raise Stop('gate_all must be incremental or full')
+    for item in plan.get('coherence',[]):
+        if not isinstance(item.get('tag'),str) or not re.fullmatch(r'[A-Za-z0-9_-]+',item['tag']) or not item.get('lane') or not resolve_source(base,item['lane']).is_dir():raise Stop('coherence requires tag and lane directory')
+        if not (resolve_source(base,item['lane'])/'cells.jsonl').is_file():raise Stop('coherence cells missing')
+    for item in plan.get('promotions',[]):
+        if not all(isinstance(item.get(k),str) and item[k] for k in ('id','body','before')):raise Stop('promotion requires id/body/before')
+        if not re.fullmatch(r'[0-9a-f]{64}',item['before']):raise Stop('promotion before must be SHA256')
+        if not resolve_source(base,item['body']).is_file():raise Stop('promotion body missing')
+    return plan
+
+
+def full_gate_reasons(paths, plan):
+    # raw/ and rowbase are hashed by inputs_sha since r103. Unrelated tools do
+    # not force all windows, but compiler/gate/fingerprint/build inputs do.
+    prefixes=('tools/gate/','tools/maspsx/','tools/fidelity/','toolchain/', 'include/')
+    exact={'tools/build/gate_all.py','tools/build/mk_ovl_root.sh','tools/row_db.py',
+           'tools/common.py','tools/overlay_module_evidence.py','tools/build/slus_rodata_trim.py'}
+    reasons=sorted(p for p in paths if p.startswith(prefixes) or p in exact)
+    if plan.get('gate_all')=='full':reasons.insert(0,'plan gate_all=full')
+    return reasons
+
 class Snapshot:
-    def __init__(self, root, store):
+    def __init__(self, root, store, isolated=False):
         self.root,self.store=root,store
+        self.generated=tuple(p for p in GENERATED if not (isolated and p=='build_ovl'))
         self.head=git(root,'rev-parse','HEAD').decode().strip()
         self.gitdir=Path(git(root,'rev-parse','--absolute-git-dir').decode().strip())
         self.index=(self.gitdir/'index').read_bytes()
@@ -154,7 +290,7 @@ class Snapshot:
             else: shutil.copy2(src,dst)
         self.saved={}
     def quarantine(self):
-        for rel in GENERATED:
+        for rel in self.generated:
             p=self.root/rel
             if p.is_symlink(): raise Stop('generated root is a symlink: '+rel)
             if p.exists():
@@ -162,7 +298,7 @@ class Snapshot:
                 p.rename(dst);self.saved[rel]=dst
     def restore(self):
         # Preserve the original cache directory while replacing its ledger parent.
-        for rel in GENERATED: remove(self.root/rel)
+        for rel in self.generated: remove(self.root/rel)
         current=set(names(git(self.root,'ls-files','--others','--exclude-standard','-z')))
         for rel in sorted(current-self.untracked, key=lambda s:s.count('/'),reverse=True):
             remove(self.root/rel)
@@ -187,6 +323,7 @@ class Lander:
     def __init__(self, root, plan, plan_dir, log, scratch=False, live=False):
         self.root,self.plan,self.plan_dir,self.log=root,plan,plan_dir,log
         self.scratch,self.live=scratch,live
+        self.tests_passed=False
         self.env=dict(os.environ,PYTHONDONTWRITEBYTECODE='1',GATE_BUILD_ROOT='build_ovl_gate')
         self.results=[];self.seq=0;self.child=None
     def event(self, step, **values):
@@ -225,14 +362,14 @@ class Lander:
     def expand(self,argv):
         return [str(s).replace('{root}',str(self.root)).replace('{plan_dir}',str(self.plan_dir)) for s in argv]
     def preflight(self):
-        if self.plan.get('version')!=1: raise Stop('plan version must be 1')
+        validate_plan(self.plan,self.plan_dir,self.root)
         if self.root==LIVE and not self.live: raise Stop('live root requires --live')
         if self.root==LIVE and self.scratch: raise Stop('--scratch is forbidden on the live root')
         if self.live and self.root!=LIVE: raise Stop('--live is only for the canonical live root')
         if not self.plan.get('reviewer') or not self.plan.get('commit_message'): raise Stop('reviewer and commit_message required')
         if self.plan.get('reviewer')=='pending' and self.plan.get('commit',True):
             raise Stop('pending reviewer cannot commit; set commit=false for scratch proof')
-        active=busy_processes(self.root,self.scratch)
+        active=busy_processes(self.root,self.scratch,isolated=self.plan.get('isolated',False))
         if active:raise Stop('lander/gate/codex running: '+json.dumps(active))
         known=set(list(BOOKKEEPING)+self.plan.get('bookkeeping',[]))
         status=git(self.root,'status','--porcelain=v1','-z').split(b'\0')
@@ -243,7 +380,7 @@ class Lander:
             safe(self.root,path)
         for rel in GENERATED:
             if (self.root/rel).is_symlink():raise Stop('generated root is a symlink: '+rel)
-        for package in self.plan.get('packages',[]):
+        for package in self.plan.get('packages',[])+self.plan.get('reviews',[]):
             if self.live and not package.get('live_flag'): raise Stop('live package lacks explicit --live contract: '+package['entry'])
         for kind in ('patches','scripts'):
             for item in self.plan.get(kind,[]):
@@ -282,6 +419,7 @@ class Lander:
             self.run(f'script-{n}',self.expand(item['argv']))
             self.hashes(item['files'],'after')
         for n,item in enumerate(self.plan.get('packages',[])):
+            if Path(item['entry']).name=='review_modules.py':continue
             entry=self.source(item['entry'])
             argv=([sys.executable] if entry.suffix=='.py' else ['bash'])+[str(entry),'--root',str(self.root)]+self.expand(item.get('args',[]))
             if self.live:argv.append('--live')
@@ -293,6 +431,62 @@ class Lander:
             if digest(src)!=item['after'] or digest(dst)!=item['before']:raise Stop('copy hash mismatch: '+item['target'])
             dst.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(src,dst)
             self.event('copy',target=item['target'],sha256=digest(dst))
+    def batch_inputs(self):
+        if not self.plan.get('coherence') and not self.plan.get('promotions'):return
+        # Byte checks use a PRIVATE canonical-layout clone so verify.py's
+        # legacy build_ovl and common.set_row_cfg cannot touch live scorer roots.
+        self.run('batch-inputs',[sys.executable,'tools/lanes/batch_inputs.py','--root',str(self.root),
+                 '--plan-dir',str(self.plan_dir),'--spec',json.dumps({k:self.plan.get(k,[]) for k in ('coherence','promotions')})])
+
+    def review_steps(self):
+        items=self.plan.get('reviews',[])+[p for p in self.plan.get('packages',[]) if Path(p['entry']).name=='review_modules.py']
+        for n,item in enumerate(items):
+            keys=item.get('keys',item.get('args',[]))
+            roster=json.loads((self.root/'config/overlays/modules.json').read_text())['modules']
+            available={m['key'] for m in roster}
+            missing=set(keys)-available
+            if missing:raise Stop('review keys missing from installed roster: '+','.join(sorted(missing)))
+            entry=self.source(item['entry'])
+            argv=([sys.executable] if entry.suffix=='.py' else ['bash'])+[str(entry),'--root',str(self.root)]
+            argv+=self.expand(keys if 'keys' in item else item.get('args',[]))
+            if self.live:argv.append('--live')
+            self.run(f'review-{n}-dry-run',argv+['--dry-run'],timeout=60)
+            self.run(f'review-{n}',argv,timeout=60)
+            # A hardcoded reviewer mismatch must fail before certification.
+            roster=json.loads((self.root/'config/overlays/modules.json').read_text())['modules']
+            for m in roster:
+                if m['key'] in keys and m.get('review',{}).get('reviewer')!=self.plan['reviewer']:
+                    raise Stop('review-script reviewer mismatch: '+m['key'])
+
+    def unit_checks(self):
+        if self.tests_passed:return
+        modules=self.plan['unit_modules']
+        for module in modules:
+            path=self.root/(module.replace('.','/')+'.py')
+            if not path.is_file():raise Stop('unit module missing from canonical layout: '+module)
+        # Use the same test-path setup for dotted and discovery entry points.
+        # The guard is inherited by Python descendants; denied attempts are
+        # recorded even when a unittest catches PermissionError.
+        guard_dir=self.log.parent/(self.log.stem+'.guard');guard_dir.mkdir(exist_ok=True)
+        source=self.root/'tools/lanes/test_root_guard.py'
+        if not source.is_file():raise Stop('missing test_root_guard.py')
+        shutil.copy2(source,guard_dir/'sitecustomize.py')
+        attempts=guard_dir/'attempts.jsonl'
+        outer=Path(self.env.get('LAND_TEST_ROOT',str(self.root)))
+        env=dict(self.env,LAND_TEST_ROOT=str(outer),LAND_TEST_FORBIDDEN=str(LIVE),LAND_TEST_AUDIT=str(attempts),
+                 PYTHONPATH=os.pathsep.join(dict.fromkeys([str(guard_dir),str(self.root),str(self.root/'tools/tests'),str(outer),str(outer/'tools/tests')])))
+        def check(step,argv):
+            log,_=self.run(step,argv,env=env,timeout=self.plan.get('unit_timeout',60))
+            if attempts.exists():
+                self.event('test-confinement',result='FAIL',attempts=records(attempts)[:12])
+                raise Stop('test touched canonical root; see '+str(attempts))
+            count=re.search(r'Ran (\d+) tests?',log.read_text())
+            if not count or int(count[1])==0:raise Stop('tests ran no cases: '+step)
+        check('unit-dotted',[sys.executable,'-m','unittest',*modules])
+        for pattern in self.plan.get('discover_patterns',['test_*.py']):
+            check('unit-discover-'+pattern,[sys.executable,'-m','unittest','discover','-s','tools/tests','-p',pattern])
+        self.tests_passed=True
+
     def normalise_review(self):
         windows=[]
         for y in (self.root/'config/overlays').glob('*.overlay.yaml'):
@@ -344,10 +538,11 @@ class Lander:
         now={p.name:digest(p) for p in (self.root/'config').glob('noreturn_syms*.txt')}
         if now!=self.census and not self.plan.get('allow_census_change',False):raise Stop('census files changed')
         changed=set(names(git(self.root,'diff','--name-only','-z','HEAD')))|set(names(git(self.root,'ls-files','--others','--exclude-standard','-z')))
-        self.force_all=any(p.startswith(('tools/','raw/')) or ('rowbase' in p and p.startswith('config/')) for p in changed)
+        self.gate_reasons=full_gate_reasons(changed,self.plan)
+        self.force_all=bool(self.gate_reasons)
         # row_db export's canonical mirror is temporary; it must never be staged.
         remove(self.root/'overlays')
-        self.event('invariants',rows_without_window=0,census_unchanged=now==self.census,gate_all=self.force_all,split_changes=sorted(p for p in changed if p.startswith('ledger/splits/')))
+        self.event('invariants',rows_without_window=0,census_unchanged=now==self.census,gate_all='full' if self.force_all else 'incremental',gate_reasons=self.gate_reasons,split_changes=sorted(p for p in changed if p.startswith('ledger/splits/')))
     def graph_diagnostics(self):
         """Explain a failed authoritative graph without changing its decision."""
         try:
@@ -390,6 +585,7 @@ class Lander:
         self.event('scrub',result='FAIL' if failures else 'PASS',checked=checked,failures=failures)
         if failures:raise Stop('scrub hook patterns: '+json.dumps(failures,sort_keys=True))
     def fast_front(self):
+        self.unit_checks()
         self.run('fast-levels',[sys.executable,'tools/levels.py'])
         self.run('fast-graph',[sys.executable,'tools/gate/overlay_module_gate.py','--root',str(self.root),'--graph'])
         self.run('fast-status',[sys.executable,'tools/status.py'])
@@ -407,16 +603,10 @@ class Lander:
         # A quarantined (or fresh) build_slus has no split/asm; bootstrap before mk_ovl.
         log,_=self.run('SLUS-bootstrap',[ 'bash','tools/build/build_slus.sh','--fresh','-j',workers])
         if 'SLUS SHA-1 gate: MATCH' not in log.read_text() or 'recipe identical to the pinned copy' not in log.read_text():raise Stop('forced SLUS lacks MATCH/identical recipe')
-        self.run('mk-ovl',[ 'bash','tools/build/mk_ovl_root.sh'])
+        if not self.plan.get('isolated',False):
+            self.run('mk-ovl',[ 'bash','tools/build/mk_ovl_root.sh'])
         env=dict(self.env,EXP='gate',SRCROOT=str(self.root/'src'))
         self.run('mk-gate',[ 'bash','tools/build/mk_ovl_root.sh'],env=env)
-        modules=self.plan.get('unit_modules',[])
-        if not modules:raise Stop('dotted unit_modules are required')
-        self.run('unit-dotted',[sys.executable,'-m','unittest',*modules])
-        for pattern in self.plan.get('discover_patterns',['test_*.py']):
-            test_log,_=self.run('unit-discover-'+pattern,[sys.executable,'-m','unittest','discover','-s','tools/tests','-p',pattern])
-            count=re.search(r'Ran (\d+) tests?',test_log.read_text())
-            if not count or int(count[1])==0:raise Stop('discovery ran no tests: '+pattern)
         import yaml
         wins=[]
         for y in (self.root/'config/overlays').glob('*.overlay.yaml'):
@@ -428,7 +618,8 @@ class Lander:
             timing_log,secs=self.run('timing-'+Path(wn).stem,[sys.executable,'tools/overlay_local_gate.py','--config',wn,'--clean'],cwd=self.root/'build_ovl_gate',timeout=timeout)
             if secs>=timeout:raise Stop('window exceeds certification timeout: '+wn)
             if not re.search(r'^MATCH\b',timing_log.read_text(),re.M):raise Stop('timed window lacks MATCH: '+wn)
-        self.run('gate-all',[sys.executable,'tools/build/gate_all.py','--workers',workers]+(['--all'] if self.force_all else []))
+        _,seconds=self.run('gate-all',[sys.executable,'tools/build/gate_all.py','--workers',workers]+(['--all'] if self.force_all else []))
+        self.event('gate-timing',mode='full' if self.force_all else 'incremental',seconds=seconds,reasons=self.gate_reasons)
         slus_log,_=self.run('SLUS-forced',['bash','tools/build/build_slus.sh','--fresh','-j',workers])
         if 'SLUS SHA-1 gate: MATCH' not in slus_log.read_text() or 'recipe identical to the pinned copy' not in slus_log.read_text():raise Stop('forced SLUS lacks MATCH/identical recipe')
         certs=self.certificates()
@@ -467,14 +658,13 @@ class Lander:
         self.event('COMMITTED',head=git(self.root,'rev-parse','HEAD').decode().strip())
 
 
-def load_plan(path):
+def load_plan(path, root=None):
     data=path.read_text()
     if path.suffix in ('.yaml','.yml'):
         import yaml
         plan=yaml.safe_load(data)
     else:plan=json.loads(data)
-    if not isinstance(plan,dict):raise Stop('plan must be an object')
-    return plan
+    return validate_plan(plan,path.parent,root)
 
 @contextlib.contextmanager
 def stop_signals():
@@ -495,10 +685,17 @@ def copy_preflight_inputs(source, target):
         dest=target/'work/disc/containers';dest.mkdir(parents=True,exist_ok=True)
         for src in base.iterdir():
             if src.is_file():shutil.copy2(src,dest/src.name,follow_symlinks=True)
+    extract=source/'work/disc/extract';out=target/'work/disc/extract'
+    if extract.exists():
+        out.mkdir(parents=True,exist_ok=True)
+        for name in ('SLUS_006.14','SYSTEM.CNF'):
+            if (extract/name).is_file():shutil.copy2(extract/name,out/name,follow_symlinks=True)
+    src=source/'bin'
+    if src.exists() and not (target/'bin').exists():(target/'bin').symlink_to(src.resolve(),target_is_directory=True)
     (target/'tmp').mkdir(exist_ok=True)
     common=Path(git(target,'rev-parse','--path-format=absolute','--git-common-dir').decode().strip())
     exclude=common/'info/exclude';exclude.parent.mkdir(parents=True,exist_ok=True)
-    with exclude.open('a') as f:f.write('\n/toolchain\n/.venv\n/baserom\n/tmp/\n/work/\n')
+    with exclude.open('a') as f:f.write('\n/toolchain\n/.venv\n/bin\n/baserom\n/tmp/\n/work/\n')
 
 def plan_preflight(root, plan_path, log=None):
     # Clone owns its git metadata. worktree add/remove never uses source .git.
@@ -506,6 +703,10 @@ def plan_preflight(root, plan_path, log=None):
     log=(log or Path(tempfile.gettempdir())/('preflight-'+str(time.time_ns())+'.jsonl')).resolve()
     if log.is_relative_to(root):raise Stop('preflight log must be outside the source checkout')
     log.parent.mkdir(parents=True,exist_ok=True)
+    try:
+        checked_plan=load_plan(plan_path,root)
+    except (Stop,ValueError,OSError) as e:
+        print('STOP: '+str(e),file=sys.stderr);return 1
     land=None
     with tempfile.TemporaryDirectory(prefix='plan_preflight-',dir=log.parent) as temp:
         base=Path(temp);seed=base/'seed';view=base/'tree'
@@ -514,12 +715,12 @@ def plan_preflight(root, plan_path, log=None):
             commit=git(seed,'rev-parse','HEAD').decode().strip()
             git(seed,'worktree','add','--detach',str(view),commit)
             copy_preflight_inputs(root,view)
-            plan=load_plan(plan_path);plan['commit']=False
+            plan=dict(checked_plan);plan['commit']=False
             land=Lander(view,plan,plan_path.parent,log,scratch=True)
             land.event('disposable-worktree',head=commit,source=str(root))
             land.preflight()
             land.env['TMPDIR']=str(view/'tmp')
-            land.mutate();land.normalise_review();land.regenerate();land.fast_front()
+            land.mutate();land.batch_inputs();land.review_steps();land.normalise_review();land.unit_checks();land.regenerate();land.fast_front()
             if git(root,'rev-parse','HEAD').decode().strip()!=commit:raise Stop('source HEAD changed during preflight; rerun')
             land.event('PREFLIGHT_PASS',head=commit,message='no SLUS/gates/certification/commit; no landing authority')
             return 0
@@ -537,7 +738,7 @@ def main(argv=None):
     ap=argparse.ArgumentParser(description=__doc__,formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--root',required=True,type=Path);ap.add_argument('--plan',required=True,type=Path)
     mode=ap.add_mutually_exclusive_group();mode.add_argument('--scratch',action='store_true');mode.add_argument('--live',action='store_true')
-    ap.add_argument('--preflight',action='store_true',help='replay the plan at HEAD in a disposable worktree; no builds or proofs');ap.add_argument('--no-commit',action='store_true');ap.add_argument('--prepare-only',action='store_true');ap.add_argument('--log',type=Path)
+    ap.add_argument('--isolated',action='store_true',help='allow only receipt-verified scratch lanes; never rebuild build_ovl');ap.add_argument('--preflight',action='store_true',help='replay the plan at HEAD in a disposable worktree; no builds or proofs');ap.add_argument('--no-commit',action='store_true');ap.add_argument('--prepare-only',action='store_true');ap.add_argument('--log',type=Path)
     args=ap.parse_args(argv);root=args.root.resolve();plan_path=args.plan.resolve()
     if args.preflight:
         if args.live or args.prepare_only:ap.error('--preflight cannot combine with --live or --prepare-only')
@@ -555,14 +756,15 @@ def main(argv=None):
         def interrupted(signum,frame):raise Stop('interrupted by signal '+str(signum))
         previous={sig:signal.signal(sig,interrupted) for sig in (signal.SIGINT,signal.SIGTERM)}
         try:
-            plan=load_plan(plan_path)
+            plan=load_plan(plan_path,root)
             if args.no_commit:plan['commit']=False
+            if args.isolated:plan['isolated']=True
             land=Lander(root,plan,plan_path.parent,log,args.scratch,args.live)
             land.preflight()
             transaction=Path(tempfile.mkdtemp(prefix='land_transaction-',dir=gitdir))
-            snapshot=Snapshot(root,transaction);snapshot.quarantine()
+            snapshot=Snapshot(root,transaction,isolated=plan.get('isolated',False));snapshot.quarantine()
             land.env['TMPDIR']=str(transaction/'tmp');(transaction/'tmp').mkdir()
-            land.mutate();land.normalise_review();land.regenerate();land.fast_front()
+            land.mutate();land.batch_inputs();land.review_steps();land.normalise_review();land.unit_checks();land.regenerate();land.fast_front()
             if args.prepare_only:
                 land.event('PREVIEW_INCOMPLETE',message='applied inputs only; no gates/certification/commit')
             else:
