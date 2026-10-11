@@ -20,7 +20,7 @@ authorizes the canonical live root; --scratch excludes unrelated live processes
 from the busy check and is forbidden on that root.
 
 Known bookkeeping: ledger/model_capacity.jsonl (unstaged only). Additional exact
-bookkeeping paths may be declared; their initial bytes must survive unchanged.
+bookkeeping paths may be declared; their initial bytes must remain a prefix.
 All other tracked/untracked dirt fails preflight. Existing generated roots are
 quarantined, then rebuilt; rollback restores their original contents by rename.
 Managed trees, tracked files (including individual tracked work/ files), original
@@ -48,6 +48,7 @@ import subprocess
 import sys
 import tempfile
 import time
+import uuid
 
 # the canonical live checkout (no literal private path: the scrub hook refuses those); override for another host
 LIVE = Path(os.environ.get('LAND_LIVE_ROOT', str(Path.home() / 'azure-clean'))).resolve()
@@ -87,6 +88,12 @@ def remove(p):
     if p.is_symlink() or p.is_file(): p.unlink()
     elif p.exists(): shutil.rmtree(p)
 
+def remove_except(p, protected):
+    if p in protected:return
+    if any(q.is_relative_to(p) for q in protected) and p.is_dir() and not p.is_symlink():
+        for child in p.iterdir():remove_except(child,protected)
+    else:remove(p)
+
 def inventory(root, prefixes, excluded=()):
     """Bounded traversal; record directory entries and symlinks without following."""
     out={}
@@ -109,6 +116,53 @@ def git(root, *args):
     return p.stdout
 
 def names(data): return [os.fsdecode(x) for x in data.split(b'\0') if x]
+
+def bookkeeping_paths(plan, root):
+    declared=plan.get('bookkeeping',[])
+    if not isinstance(declared,list) or any(not isinstance(p,str) for p in declared):
+        raise Stop('bookkeeping must be a list of exact paths')
+    paths=set(BOOKKEEPING)|set(declared)
+    for rel in paths:
+        safe(root,rel)
+        if any(rel==g or rel.startswith(g+'/') for g in GENERATED):
+            raise Stop('generated bookkeeping path: '+rel)
+    return paths
+
+def tree_dirt(root, plan):
+    """The same source-tree admission check for preflight and live execution."""
+    known=bookkeeping_paths(plan,root)
+    status=git(root,'status','--porcelain=v1','-z').split(b'\0')
+    refused=[];allowed=[];i=0
+    while i<len(status):
+        entry=status[i];i+=1
+        if not entry:continue
+        code,path=entry[:2].decode(),os.fsdecode(entry[3:])
+        if code==' M' and path in known:allowed.append(os.fsdecode(entry))
+        else:refused.append(os.fsdecode(entry))
+        if 'R' in code or 'C' in code:
+            if i<len(status):i+=1
+    return {'refused':refused,'bookkeeping':allowed}
+
+def bookkeeping_bytes(root, paths):
+    return {rel:safe(root,rel).read_bytes() if (root/rel).exists() else None for rel in paths}
+
+def check_bookkeeping(root, initial):
+    for rel,prefix in initial.items():
+        p=safe(root,rel)
+        if not p.exists():
+            if prefix is not None:raise Stop('bookkeeping removed: '+rel)
+            continue
+        if not p.is_file() or not p.read_bytes().startswith(prefix or b''):
+            raise Stop('bookkeeping changed (original bytes are not a prefix): '+rel)
+
+def worker_counts(plan):
+    available=len(os.sched_getaffinity(0)) if hasattr(os,'sched_getaffinity') else (os.cpu_count() or 1)
+    workers=plan.get('workers',max(1,min(16,available-available//3)))
+    if type(workers) is not int or workers<1:raise Stop('workers must be a positive integer')
+    certificates=plan.get('certificate_workers',max(1,min(4,workers//4)))
+    for name,value in (('workers',workers),('certificate_workers',certificates)):
+        if type(value) is not int or value<1:raise Stop(name+' must be a positive integer')
+    return workers,certificates,max(1,workers//certificates)
 
 def l5(root):
     return sum(r.get('level') in (5,'L5') for r in records(root/'ledger/levels.jsonl'))
@@ -248,6 +302,8 @@ def validate_plan(plan, base, root=None):
     if 'isolated' in plan and not isinstance(plan['isolated'],bool):raise Stop('isolated must be boolean')
     if not isinstance(plan.get('unit_timeout',60),int) or plan.get('unit_timeout',60)<=0:raise Stop('unit_timeout must be positive seconds')
     if plan.get('gate_all','incremental') not in ('incremental','full'):raise Stop('gate_all must be incremental or full')
+    worker_counts(plan)
+    if root is not None:bookkeeping_paths(plan,root)
     for item in plan.get('coherence',[]):
         if not isinstance(item.get('tag'),str) or not re.fullmatch(r'[A-Za-z0-9_-]+',item['tag']) or not item.get('lane') or not resolve_source(base,item['lane']).is_dir():raise Stop('coherence requires tag and lane directory')
         if not (resolve_source(base,item['lane'])/'cells.jsonl').is_file():raise Stop('coherence cells missing')
@@ -269,7 +325,7 @@ def full_gate_reasons(paths, plan):
     return reasons
 
 class Snapshot:
-    def __init__(self, root, store, isolated=False):
+    def __init__(self, root, store, isolated=False, bookkeeping=()):
         self.root,self.store=root,store
         self.generated=tuple(p for p in GENERATED if not (isolated and p=='build_ovl'))
         self.head=git(root,'rev-parse','HEAD').decode().strip()
@@ -279,9 +335,11 @@ class Snapshot:
         self.untracked=set(names(git(root,'ls-files','--others','--exclude-standard','-z')))
         tracked=names(git(root,'ls-files','-z'))
         self.prefixes=list(MANAGED)+[p for p in tracked if p.split('/')[0] not in MANAGED]
+        self.prefixes+=list(bookkeeping)
         # STATUS is a derived output even in a small synthetic test repo.
         if 'STATUS.md' not in self.prefixes: self.prefixes.append('STATUS.md')
         self.before=inventory(root,self.prefixes,GENERATED)
+        self.bookkeeping=bookkeeping_bytes(root,bookkeeping)
         backup=store/'files'
         for rel,item in self.before.items():
             src,dst=root/rel,backup/rel;dst.parent.mkdir(parents=True,exist_ok=True)
@@ -297,15 +355,26 @@ class Snapshot:
                 dst=self.store/'generated'/rel;dst.parent.mkdir(parents=True,exist_ok=True)
                 p.rename(dst);self.saved[rel]=dst
     def restore(self):
+        # Keep concurrent append-only writer output across rollback. Rewrites
+        # are not authorized and are restored from the original snapshot.
+        preserved=set()
+        for rel,prefix in self.bookkeeping.items():
+            p=self.root/rel
+            if not p.is_symlink() and p.parent.resolve().is_relative_to(self.root) and p.is_file():
+                data=p.read_bytes()
+                if data.startswith(prefix or b''):preserved.add(rel)
+        protected={self.root/rel for rel in preserved}
         # Preserve the original cache directory while replacing its ledger parent.
         for rel in self.generated: remove(self.root/rel)
         current=set(names(git(self.root,'ls-files','--others','--exclude-standard','-z')))
         for rel in sorted(current-self.untracked, key=lambda s:s.count('/'),reverse=True):
-            remove(self.root/rel)
-        git(self.root,'reset','--hard',self.head)
-        for rel in self.prefixes: remove(self.root/rel)
+            remove_except(self.root/rel,protected)
+        # Reset only HEAD/index: --hard would overwrite concurrent appenders.
+        git(self.root,'reset','--mixed',self.head)
+        for rel in self.prefixes:remove_except(self.root/rel,protected)
         for rel,item in sorted(self.before.items(),key=lambda x:(x[0].count('/'),x[0])):
             src,dst=self.store/'files'/rel,self.root/rel;dst.parent.mkdir(parents=True,exist_ok=True)
+            if rel in preserved:continue
             if item[0]=='dir': dst.mkdir(exist_ok=True)
             elif item[0]=='link': dst.symlink_to(item[2])
             else: shutil.copy2(src,dst)
@@ -314,10 +383,18 @@ class Snapshot:
             p=self.root/rel;p.parent.mkdir(parents=True,exist_ok=True);dst.rename(p)
         (self.gitdir/'index').write_bytes(self.index)
         after=inventory(self.root,self.prefixes,GENERATED)
-        if after!=self.before: raise Stop('rollback inventory differs')
+        def other_inventory(entries):
+            return {rel:item for rel,item in entries.items() if rel not in preserved and not
+                    (item[0]=='dir' and any(Path(p).is_relative_to(rel) for p in preserved))}
+        if other_inventory(after)!=other_inventory(self.before):raise Stop('rollback inventory differs')
+        check_bookkeeping(self.root,self.bookkeeping)
+        growth=[rel for rel in preserved if safe(self.root,rel).read_bytes()!=self.bookkeeping[rel]]
         if git(self.root,'rev-parse','HEAD').decode().strip()!=self.head: raise Stop('rollback HEAD differs')
-        if git(self.root,'status','--porcelain=v1','-z')!=self.status: raise Stop('rollback status differs')
-        return {'tracked_and_managed_entries':len(after),'head':self.head,'status_identical':True,'index_identical':True,'generated_roots_restored':sorted(self.saved)}
+        current_status=git(self.root,'status','--porcelain=v1','-z')
+        def other_status(data):
+            return [e for e in data.split(b'\0') if e and os.fsdecode(e[3:]) not in preserved]
+        if other_status(current_status)!=other_status(self.status): raise Stop('rollback status differs')
+        return {'tracked_and_managed_entries':len(after),'head':self.head,'status_identical':current_status==self.status,'index_identical':True,'bookkeeping_appends_preserved':sorted(growth),'generated_roots_restored':sorted(self.saved)}
 
 class Lander:
     def __init__(self, root, plan, plan_dir, log, scratch=False, live=False):
@@ -371,13 +448,9 @@ class Lander:
             raise Stop('pending reviewer cannot commit; set commit=false for scratch proof')
         active=busy_processes(self.root,self.scratch,isolated=self.plan.get('isolated',False))
         if active:raise Stop('lander/gate/codex running: '+json.dumps(active))
-        known=set(list(BOOKKEEPING)+self.plan.get('bookkeeping',[]))
-        status=git(self.root,'status','--porcelain=v1','-z').split(b'\0')
-        for entry in status:
-            if not entry:continue
-            code,path=entry[:2].decode(),os.fsdecode(entry[3:])
-            if code!=' M' or path not in known: raise Stop('dirty tree: '+os.fsdecode(entry))
-            safe(self.root,path)
+        known=bookkeeping_paths(self.plan,self.root)
+        dirt=tree_dirt(self.root,self.plan)
+        if dirt['refused']:raise Stop('dirty tree: '+json.dumps(dirt['refused']))
         for rel in GENERATED:
             if (self.root/rel).is_symlink():raise Stop('generated root is a symlink: '+rel)
         for package in self.plan.get('packages',[])+self.plan.get('reviews',[]):
@@ -388,7 +461,7 @@ class Lander:
                 for rel,h in item['files'].items():
                     safe(self.root,rel)
                     if set(h)!={'before','after'} or not re.fullmatch('[0-9a-f]{64}',h['after']):raise Stop('invalid hash contract: '+rel)
-        self.bookkeeping={rel:digest(self.root/rel) for rel in known if (self.root/rel).exists()}
+        self.bookkeeping=bookkeeping_bytes(self.root,known)
         self.census={p.name:digest(p) for p in (self.root/'config').glob('noreturn_syms*.txt')}
         self.before_l5=l5(self.root)
         self.before_certs=self.certificates()
@@ -533,8 +606,7 @@ class Lander:
                 bounds[wn]=(w.get('file_start'),w.get('file_end'))
             start,end=bounds[wn]
             if not isinstance(start,int) or not isinstance(end,int) or not (start<=r['foff'] and r['foff']+r['size']<=end):raise Stop('row lies outside production window: '+str(r.get('id')))
-        for rel,h in self.bookkeeping.items():
-            if digest(self.root/rel)!=h:raise Stop('bookkeeping changed: '+rel)
+        check_bookkeeping(self.root,self.bookkeeping)
         now={p.name:digest(p) for p in (self.root/'config').glob('noreturn_syms*.txt')}
         if now!=self.census and not self.plan.get('allow_census_change',False):raise Stop('census files changed')
         changed=set(names(git(self.root,'diff','--name-only','-z','HEAD')))|set(names(git(self.root,'ls-files','--others','--exclude-standard','-z')))
@@ -599,7 +671,8 @@ class Lander:
             out[key]=reviewer
         return out
     def validate(self):
-        workers=str(self.plan.get('workers',8))
+        gate_workers,certificate_workers,window_workers=worker_counts(self.plan);workers=str(gate_workers)
+        self.event('workers',gate=gate_workers,certificates=certificate_workers,windows_per_certificate=window_workers)
         # A quarantined (or fresh) build_slus has no split/asm; bootstrap before mk_ovl.
         log,_=self.run('SLUS-bootstrap',[ 'bash','tools/build/build_slus.sh','--fresh','-j',workers])
         if 'SLUS SHA-1 gate: MATCH' not in log.read_text() or 'recipe identical to the pinned copy' not in log.read_text():raise Stop('forced SLUS lacks MATCH/identical recipe')
@@ -618,15 +691,19 @@ class Lander:
             timing_log,secs=self.run('timing-'+Path(wn).stem,[sys.executable,'tools/overlay_local_gate.py','--config',wn,'--clean'],cwd=self.root/'build_ovl_gate',timeout=timeout)
             if secs>=timeout:raise Stop('window exceeds certification timeout: '+wn)
             if not re.search(r'^MATCH\b',timing_log.read_text(),re.M):raise Stop('timed window lacks MATCH: '+wn)
-        _,seconds=self.run('gate-all',[sys.executable,'tools/build/gate_all.py','--workers',workers]+(['--all'] if self.force_all else []))
+        transaction=uuid.uuid4().hex
+        receipts=Path(self.env['TMPDIR'])/'fresh-window-gates'
+        _,seconds=self.run('gate-all',[sys.executable,'tools/build/gate_all.py','--workers',workers,'--receipts',str(receipts),'--transaction',transaction]+(['--all'] if self.force_all else []))
         self.event('gate-timing',mode='full' if self.force_all else 'incremental',seconds=seconds,reasons=self.gate_reasons)
         slus_log,_=self.run('SLUS-forced',['bash','tools/build/build_slus.sh','--fresh','-j',workers])
         if 'SLUS SHA-1 gate: MATCH' not in slus_log.read_text() or 'recipe identical to the pinned copy' not in slus_log.read_text():raise Stop('forced SLUS lacks MATCH/identical recipe')
         certs=self.certificates()
         if not set(self.before_certs).issubset(certs):raise Stop('a pre-landing live certificate disappeared')
         self.event('certificate-discovery',modules=sorted(certs))
-        for key,reviewer in certs.items():
-            self.run('certify-'+key,[sys.executable,'tools/fidelity/certify_overlay_module.py',key,'--root','build_ovl_gate','--reviewer',reviewer],timeout=7200)
+        cert_logs=self.log.parent/(self.log.stem+'.certificates')
+        self.run('certify-all',[sys.executable,'tools/lanes/certify_batch.py','--root',str(self.root),
+                 '--workers',str(certificate_workers),'--window-workers',str(window_workers),'--log-dir',str(cert_logs),
+                 '--gate-receipts',str(receipts),'--transaction',transaction],timeout=7200*max(1,(len(certs)+certificate_workers-1)//certificate_workers))
         if set(self.certificates())!=set(certs):raise Stop('live certificate set changed during certification')
         self.run('levels',[sys.executable,'tools/levels.py'])
         self.run('status',[sys.executable,'tools/status.py'])
@@ -690,6 +767,9 @@ def copy_preflight_inputs(source, target):
         out.mkdir(parents=True,exist_ok=True)
         for name in ('SLUS_006.14','SYSTEM.CNF'):
             if (extract/name).is_file():shutil.copy2(extract/name,out/name,follow_symlinks=True)
+        main=extract/'MAIN/MAIN.BIN'
+        if main.is_file():
+            (out/'MAIN').mkdir(exist_ok=True);shutil.copy2(main,out/'MAIN/MAIN.BIN',follow_symlinks=True)
     src=source/'bin'
     if src.exists() and not (target/'bin').exists():(target/'bin').symlink_to(src.resolve(),target_is_directory=True)
     (target/'tmp').mkdir(exist_ok=True)
@@ -705,7 +785,11 @@ def plan_preflight(root, plan_path, log=None):
     log.parent.mkdir(parents=True,exist_ok=True)
     try:
         checked_plan=load_plan(plan_path,root)
+        dirt=tree_dirt(root,checked_plan)
+        with log.open('a') as f:f.write(json.dumps({'step':'source-tree-dirt',**dirt})+'\n')
+        if dirt['refused']:raise Stop('dirty tree: '+json.dumps(dirt['refused']))
     except (Stop,ValueError,OSError) as e:
+        with log.open('a') as f:f.write(json.dumps({'step':'STOP','error':str(e),'phase':'source admission','rollback':'not needed'})+'\n')
         print('STOP: '+str(e),file=sys.stderr);return 1
     land=None
     with tempfile.TemporaryDirectory(prefix='plan_preflight-',dir=log.parent) as temp:
@@ -722,6 +806,8 @@ def plan_preflight(root, plan_path, log=None):
             land.env['TMPDIR']=str(view/'tmp')
             land.mutate();land.batch_inputs();land.review_steps();land.normalise_review();land.unit_checks();land.regenerate();land.fast_front()
             if git(root,'rev-parse','HEAD').decode().strip()!=commit:raise Stop('source HEAD changed during preflight; rerun')
+            dirt=tree_dirt(root,checked_plan)
+            if dirt['refused']:raise Stop('source tree became dirty during preflight: '+json.dumps(dirt['refused']))
             land.event('PREFLIGHT_PASS',head=commit,message='no SLUS/gates/certification/commit; no landing authority')
             return 0
         except BaseException as e:
@@ -762,7 +848,7 @@ def main(argv=None):
             land=Lander(root,plan,plan_path.parent,log,args.scratch,args.live)
             land.preflight()
             transaction=Path(tempfile.mkdtemp(prefix='land_transaction-',dir=gitdir))
-            snapshot=Snapshot(root,transaction,isolated=plan.get('isolated',False));snapshot.quarantine()
+            snapshot=Snapshot(root,transaction,isolated=plan.get('isolated',False),bookkeeping=land.bookkeeping);snapshot.quarantine()
             land.env['TMPDIR']=str(transaction/'tmp');(transaction/'tmp').mkdir()
             land.mutate();land.batch_inputs();land.review_steps();land.normalise_review();land.unit_checks();land.regenerate();land.fast_front()
             if args.prepare_only:

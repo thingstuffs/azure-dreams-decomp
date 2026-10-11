@@ -18,7 +18,10 @@ sys.path.insert(0,str(Path(__file__).resolve().parent))
 import land_packages as G
 
 def execute(root,base,spec):
-    with tempfile.TemporaryDirectory(prefix='batch-',dir=os.environ.get('TMPDIR')) as temp:
+    # The genuine assembler has a DOS working-path limit. The enclosing
+    # transaction's .git/land_transaction_*/tmp can be too long in lane clones.
+    scratch=root/'tmp';scratch.mkdir(exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix='batch-',dir=scratch) as temp:
         proof=Path(temp)/'b'
         subprocess.run(['git','clone','--shared','--',str(root),str(proof)],check=True,stdout=subprocess.DEVNULL)
         for rel in G.MANAGED:
@@ -30,14 +33,16 @@ def execute(root,base,spec):
             if src.is_dir() and not dst.exists():
                 if rel=='bin':dst.symlink_to(src.resolve(),target_is_directory=True)
                 else:shutil.copytree(src,dst,symlinks=False)
-        env=dict(os.environ,TMPDIR=str(proof/'tmp'),GATE_BUILD_ROOT='build_ovl_gate')
+        env=dict(os.environ,TMPDIR=str(proof/'tmp'),GATE_BUILD_ROOT='build_ovl_gate',PYTHONDONTWRITEBYTECODE='1')
         # Exactly the same build/row verifier used by the standalone landers.
         subprocess.run(['bash','tools/build/build_slus.sh','--fresh','-j','4'],cwd=proof,env=env,check=True)
         subprocess.run(['bash','tools/build/mk_ovl_root.sh'],cwd=proof,env=env,check=True)
         subprocess.run(['bash','tools/build/mk_ovl_root.sh'],cwd=proof,env=dict(env,EXP='gate',SRCROOT=str(proof/'src')),check=True)
         before=G.inventory(proof,G.MANAGED,G.GENERATED)
         for n,item in enumerate(spec.get('coherence',[])):
-            lane=G.resolve_source(base,item['lane'])
+            # A supplied lane may be an external directory alias. Resolve that
+            # read-only source once; writes still target the private real copy.
+            lane=G.resolve_source(base,item['lane']).resolve(strict=True)
             dst=proof/'work/native_lane/batch'/str(n)
             dst.mkdir(parents=True)
             shutil.copy2(lane/'cells.jsonl',dst/'cells.jsonl')

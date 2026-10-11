@@ -15,6 +15,14 @@ entry points. `unit_timeout` defaults to 60 seconds; plans that intentionally ru
 the entire repository suite may set a larger test timeout. Byte-gate and
 certification checks retain their own timeouts and MATCH requirements.
 
+Both preflight commands inspect source-tree dirt before cloning. Untracked agent
+outputs, staged bookkeeping and other live refusals are reported together; a
+clean disposable tree cannot conceal them. They recheck source dirt at the end.
+Known and explicitly declared bookkeeping may grow by appending bytes. Original
+bytes must remain a prefix; rewrites, truncation, removal and aliases fail. These
+files stay unstaged. Rollback preserves valid appenders in place, including their
+open file descriptors, while restoring every other managed input and the index.
+
 Package preflight automatically discovers tests installed by files.json under
 tools/tests/test_*.py. tests.json can declare additional unit_modules and
 discover_patterns. A Python audit hook blocks accidental canonical-root reads,
@@ -25,11 +33,46 @@ the same complete file are rejected before replay. Append-only records do not
 conflict merely because they append to one ledger. Package bytes and the pending
 queue must remain unchanged throughout the screen.
 
+Preflight logs package-order hints for protected inputs and declared proof-tool
+aliases (protected_links uses readlink text; protected_aliases uses repository
+relative target paths). A reader of old inputs must precede their writer; a
+reader explicitly guarding a writer's output follows it. Two full-file writers
+and dependency cycles require a combined reviewed package. Hints grant no guard
+override: actual package dry runs and applications must still pass in order.
+Manifest mutates may declare record-applier targets without full-file guards.
+For older Python appliers, bounded static write-path hints also name rowbase and
+configure dependencies absent from files.json. Those inferred hints are advisory
+and never bypass a guard or authorize a write.
+
 The final transaction uses incremental gate_all by default. `gate_all: "full"`
 or a changed gate/compiler/fingerprint/build input forces --all. raw and rowbase
 changes are hashed by inputs_sha and do not force --all. Both modes log elapsed
 time and reasons. Every recorded certificate renews once, using its own recorded
 reviewer. SLUS retains the forced full-image SHA-1 and pinned-recipe checks.
+
+workers defaults to two thirds of the process CPU affinity, capped at 16 (24
+available CPUs -> 16); a positive plan workers value overrides that default.
+certificate_workers defaults to min(4, workers/4), at least one. Each certificate
+has a separate log and retains the 7,200-second module timeout; window gates
+retain the hard 1,800-second timeout. Cancellation stops the entire helper and
+compiler process group before rollback. Shared certification window clean/copy
+operations are locked so overlapping modules cannot destroy each other's proof.
+
+gate_all publishes a new transaction-token-bound receipt directory only after
+its final current-MATCH audit passes. Only windows actually built in that run
+appear, never cached journal hits. Native-module artifacts and the real gate
+output are snapshotted under the gate's window lock. Certification reuses a
+snapshot only when the authority/view/token/tool and current inputs_sha match,
+and all artifact hashes are intact. Missing or stale-input windows are gated
+normally; altered receipt artifacts fail. Retail comparison, genuine whole-TU
+builds and the complete existing certificate validator always run. Durable
+certificate schema and authoritative validation are unchanged. There is no
+general persistent certificate cache or journal-only shortcut.
+
+Land gate/compiler/fingerprint tool packages separately from ordinary source
+packages. Their one full gate repopulates incremental inputs; bundling unrelated
+ordinary work with them makes that work pay the cold full-gate cost too. This
+follow-up tool package itself needs a full gate and all certificate renewals.
 
 Batches
 -------

@@ -9,6 +9,7 @@ Explicit missing queues fail. Writes occur only in disposable lane/temp storage.
 This is an early screen, never a substitute for landing proofs or review.
 """
 import argparse
+import ast
 import hashlib
 import json
 import os
@@ -56,8 +57,17 @@ def lint_inventory(entry, root):
             raise G.Stop('guard != HEAD: '+rec['path']+'; rebase before delivery')
     manifest=base/'manifest.json'
     if manifest.exists():
-        for rel,expected in json.loads(manifest.read_text()).get('protected_inputs',{}).items():
-            if G.digest(G.safe(root,rel))!=expected:raise G.Stop('protected guard != HEAD: '+rel)
+        doc=json.loads(manifest.read_text());aliases={**doc.get('protected_links',{}),**doc.get('protected_aliases',{})}
+        for rel,target in aliases.items():
+            p=root/rel
+            if not p.is_symlink() or not p.resolve().is_relative_to(root):raise G.Stop('protected proof-tool alias differs: '+rel)
+            expected=p.parent/target if rel in doc.get('protected_links',{}) else root/target
+            if p.resolve()!=expected.resolve() or (rel in doc.get('protected_links',{}) and os.readlink(p)!=target):raise G.Stop('protected proof-tool alias differs: '+rel)
+        for rel,expected in doc.get('protected_inputs',{}).items():
+            p=root/rel
+            if rel in aliases:p=p.resolve()
+            else:p=G.safe(root,rel)
+            if G.digest(p)!=expected:raise G.Stop('protected guard != HEAD: '+rel)
     # Bounded package inputs only; diagnostic logs are not installation inputs.
     candidates={entry,*(package_path(base,r['file']) for r in entries),*(package_path(base,r) for r in bound if not r.startswith('diagnostics/'))}
     candidates.update(p for p in base.iterdir() if p.is_file() and p.suffix in ('.py','.sh','.json','.jsonl','.md'))
@@ -128,25 +138,108 @@ def pending_packages(root, path=None):
 
 
 
-def guard_collisions(packages):
+def possible_package_writes(entry):
+    """Advisory only: bounded Python path assignments and explicit write calls.
+
+    Record appliers can write rowbase/configure without a whole-file inventory
+    guard. This explains their dependencies; it never authorizes a mutation or
+    substitutes for a package's actual guards and dry run.
+    """
+    entry=Path(entry)
+    if entry.suffix!='.py':entry=entry.parent/'apply.py'
+    if not entry.is_file() or entry.stat().st_size>4*1024*1024:return set()
+    try:tree=ast.parse(entry.read_text())
+    except (SyntaxError,UnicodeError):return set()
+    variables={};paths=set()
+    def value(node):
+        if isinstance(node,ast.Constant) and isinstance(node.value,str):return node.value
+        if isinstance(node,ast.Name):return variables.get(node.id)
+        if isinstance(node,ast.BinOp) and isinstance(node.op,ast.Div):
+            right=value(node.right);left=value(node.left)
+            return str(Path(left)/right) if left and right else right
+        if isinstance(node,ast.Call):
+            for arg in node.args:
+                candidate=value(arg)
+                if candidate and Path(candidate).parts and Path(candidate).parts[0] in G.MANAGED:return candidate
+        return None
+    for node in ast.walk(tree):
+        if isinstance(node,ast.Assign):
+            for target in node.targets:
+                if isinstance(target,ast.Name):variables[target.id]=value(node.value)
+        if isinstance(node,ast.Call) and isinstance(node.func,ast.Attribute):
+            writing=node.func.attr in ('write_text','write_bytes') or (node.func.attr=='open' and node.args and isinstance(node.args[0],ast.Constant) and any(c in str(node.args[0].value) for c in 'wax+'))
+            if writing:
+                rel=value(node.func.value)
+                if rel and not Path(rel).is_absolute() and '..' not in Path(rel).parts and Path(rel).parts[0] in G.MANAGED:paths.add(rel)
+    return paths
+
+def package_dependencies(package, root=None):
+    base=Path(package['entry']).parent
+    inventory=base/'files.json';manifest=base/'manifest.json'
+    writes={r['path']:{**r,'guarded':True} for r in json.loads(inventory.read_text())} if inventory.is_file() else {}
+    doc=json.loads(manifest.read_text()) if manifest.is_file() else {}
+    reads=dict(doc.get('protected_inputs',{}))
+    for rel in doc.get('mutates',[]):writes.setdefault(rel,{'guarded':False})
+    for rel in possible_package_writes(package['entry']):writes.setdefault(rel,{'guarded':False,'inferred':True})
+    aliases={**doc.get('protected_links',{}),**doc.get('protected_aliases',{})}
+    for alias,target in aliases.items():
+        if not isinstance(target,str):raise G.Stop('invalid protected alias: '+alias)
+        # protected_links stores readlink text; protected_aliases stores a
+        # repository-relative target. Neither may resolve outside the tree.
+        rel=os.path.normpath(str(Path(alias).parent/target)) if alias in doc.get('protected_links',{}) else os.path.normpath(target)
+        if Path(rel).is_absolute() or '..' in Path(rel).parts:raise G.Stop('unsafe protected alias: '+alias)
+        reads.setdefault(rel,None);reads.setdefault(alias,None)
+    if root is not None:
+        for rel,expected in list(reads.items()):
+            p=root/rel
+            if p.is_symlink():
+                target=p.resolve()
+                if not target.is_relative_to(root):raise G.Stop('protected alias escapes tree: '+rel)
+                reads.setdefault(target.relative_to(root).as_posix(),expected)
+    return writes,reads
+
+def ordering_hints(packages, root=None):
+    deps=[package_dependencies(p,root) for p in packages];edges=set();conflicts=[]
+    for a,(aw,ar) in enumerate(deps):
+        for b,(bw,br) in enumerate(deps):
+            if a>=b:continue
+            for rel in sorted(aw.keys()&bw.keys()):
+                if aw[rel].get('guarded') and bw[rel].get('guarded'):
+                    conflicts.append({'path':rel,'packages':[a,b],'kind':'two writers','action':'combine and re-prove; ordering cannot reconcile two full-file write guards'})
+            for writer,reader,writes,reads in ((a,b,aw,br),(b,a,bw,ar)):
+                for rel in sorted(writes.keys()&reads.keys()):
+                    expected=reads[rel];rec=writes[rel]
+                    if expected is not None and expected==rec.get('after') and expected!=rec.get('before'):
+                        first,last=writer,reader
+                    else:first,last=reader,writer
+                    edges.add((first,last))
+                    inferred=rec.get('inferred',False)
+                    conflicts.append({'path':rel,'packages':[reader,writer],'kind':('possible write to ' if inferred else '')+'protected input / proof-tool alias','suggest_before':first,'suggest_after':last,'inferred':inferred,'action':'review this order and replay guards; renew certificates after final inputs'})
+    remaining=set(range(len(packages)));order=[]
+    while remaining:
+        ready=sorted(n for n in remaining if not any(b==n and a in remaining for a,b in edges))
+        if not ready:break
+        order+=ready;remaining.difference_update(ready)
+    return {'conflicts':conflicts,'suggested_order':order if not remaining else None,'cycle':sorted(remaining),
+            'entries':[p['entry'] for p in packages]}
+
+def guard_collisions(packages, root=None):
     """A guard is a read dependency too: protected inputs also conflict.
 
     Idempotent append records have separate contracts and do not conflict merely
     because they append to the same shared ledger. files.json/protected_inputs
-    bind complete files, so two queued packages guarding one file cannot be
-    replayed safely without a reviewed combined package.
+    bind complete files. Two writers require a combined package; read dependencies
+    must execute in the order their guards require, without any guard override.
     """
+    hints=ordering_hints(packages,root)
+    blocked=[c for c in hints['conflicts'] if c['kind']=='two writers' or (not c.get('inferred') and c['suggest_before']>c['suggest_after'])]
+    if blocked:
+        rel=blocked[0]['path']
+        raise G.Stop('queued packages guard the same file: '+rel+'; package-order hints: '+json.dumps(hints,sort_keys=True))
     seen={}
     for package in packages:
-        entry=Path(package['entry']);base=entry.parent
-        paths=set()
-        inventory=base/'files.json'
-        if inventory.is_file():paths.update(r['path'] for r in json.loads(inventory.read_text()))
-        manifest=base/'manifest.json'
-        if manifest.is_file():paths.update(json.loads(manifest.read_text()).get('protected_inputs',{}))
-        for rel in sorted(paths):
-            if rel in seen:raise G.Stop('queued packages guard the same file: '+rel+' ('+seen[rel]+', '+str(entry)+')')
-            seen[rel]=str(entry)
+        writes,reads=package_dependencies(package,root)
+        for rel in writes.keys()|reads.keys():seen[rel]=package['entry']
     return seen
 
 
@@ -194,13 +287,18 @@ def preflight(root, entry, args, pending, log):
     with tempfile.TemporaryDirectory(prefix='package_preflight-',dir=log.parent) as temp:
         base=Path(temp);seed=base/'seed';view=base/'tree'
         try:
+            dirt=G.tree_dirt(root,{})
+            with log.open('a') as f:f.write(json.dumps({'step':'source-tree-dirt',**dirt})+'\n')
+            if dirt['refused']:raise G.Stop('dirty tree: '+json.dumps(dirt['refused']))
             queue,queue_sha=pending_packages(root,pending)
             subprocess.run(['git','clone','--shared','--no-checkout','--',str(root),str(seed)],check=True,capture_output=True)
             head=G.git(seed,'rev-parse','HEAD').decode().strip()
             G.git(seed,'worktree','add','--detach',str(view),head)
             G.copy_preflight_inputs(root,view)
             all_packages=queue+[{'entry':str(entry),'args':args,'live_flag':True}]
-            guard_collisions(all_packages)
+            hints=ordering_hints(all_packages,view)
+            with log.open('a') as f:f.write(json.dumps({'step':'package-order-hints',**hints})+'\n')
+            guard_collisions(all_packages,view)
             submitted=package_state(all_packages)
             plan={'version':1,'reviewer':'pending','commit':False,'commit_message':'package preflight','packages':[],
                   **package_tests(all_packages,view)}
@@ -221,12 +319,16 @@ def preflight(root, entry, args, pending, log):
             _,after=pending_packages(root,pending)
             if after!=queue_sha:raise G.Stop('pending queue changed during preflight; rerun against the new queue')
             if G.git(root,'rev-parse','HEAD').decode().strip()!=head:raise G.Stop('source HEAD changed during preflight; rerun')
+            dirt=G.tree_dirt(root,{})
+            if dirt['refused']:raise G.Stop('source tree became dirty during preflight: '+json.dumps(dirt['refused']))
             land.event('PACKAGE_PREFLIGHT_PASS',head=head,pending=len(queue),reviewer='pending',message='append candidate to pending queue; landing proofs required')
             return 0
         except BaseException as e:
             if land:
                 land.kill_child();land.event('STOP',error=str(e),rollback='disposable worktree removed')
-            else:print('STOP: '+str(e),file=sys.stderr)
+            else:
+                with log.open('a') as f:f.write(json.dumps({'step':'STOP','error':str(e),'rollback':'disposable worktree removed'})+'\n')
+                print('STOP: '+str(e),file=sys.stderr)
             return 1
         finally:
             if seed.exists() and view.exists():G.git(seed,'worktree','remove','--force',str(view))

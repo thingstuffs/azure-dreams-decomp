@@ -241,12 +241,14 @@ def schedule_windows(windows, prior):
 
 _GATE_WORKER = None
 
-def init_worker():
+def init_worker(receipts=None,transaction=None):
     # Same scheduling priority as the old `nice -n10 python3` subprocess.
     os.nice(10)
     os.chdir(B)
     sys.path.insert(0, str(B / "tools"))
     global _GATE_WORKER
+    global _RECEIPTS,_TRANSACTION
+    _RECEIPTS=receipts;_TRANSACTION=transaction
     import overlay_local_gate
     _GATE_WORKER = overlay_local_gate
 
@@ -283,9 +285,14 @@ def worker_output(yaml_path):
     return (out.getvalue() + err.getvalue()).strip().splitlines()
 
 
+_RECEIPTS = None
+_TRANSACTION = None
+
 def run_window(yaml_path, in_process=False):
     t0 = time.time()
     with window_lock(yaml_path.name):
+        publish = _RECEIPTS is not None and bool(window_modules().get(yaml_path.name))
+        before = inputs_sha(yaml_path) if publish else None
         try:
             if in_process:
                 out = worker_output(yaml_path)
@@ -301,6 +308,13 @@ def run_window(yaml_path, in_process=False):
         except (subprocess.TimeoutExpired, TimeoutError):
             res, detail = "ERROR", "timeout"
         sha = inputs_sha(yaml_path)   # under the lock: the sha describes the text that was gated
+        if before is not None and sha != before:
+            res, detail = 'ERROR', 'inputs changed during fresh window gate'
+        rec = {"window": yaml_path.stem.replace(".overlay", ""), "container": container_of(yaml_path.stem), "result": res,
+               "inputs_sha": sha}
+        if publish and res == 'MATCH':
+            from fidelity.certify_overlay_module import snapshot_gate_window
+            snapshot_gate_window(B,yaml_path.relative_to(B).as_posix(),_RECEIPTS,_TRANSACTION,rec,out)
     detail = detail.replace(str(ROOT), "<repo>").replace(str(Path.home()), "<home>")
     m = re.search(r"\((\d+) bytes\)", detail)
     return {"window": yaml_path.stem.replace(".overlay", ""), "container": container_of(yaml_path.stem), "result": res, "bytes": int(m.group(1)) if m else None,
@@ -308,10 +322,18 @@ def run_window(yaml_path, in_process=False):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--container"); ap.add_argument("--workers", type=int, default=6); ap.add_argument("--limit", type=int); ap.add_argument("--retry", action="store_true"); ap.add_argument("--all", action="store_true", help="gate every window regardless of its cached inputs_sha (after a pipeline/tool change, which inputs_sha does not cover)")
+    ap.add_argument("--container"); ap.add_argument("--workers", type=int, default=default_workers()); ap.add_argument("--limit", type=int); ap.add_argument("--retry", action="store_true"); ap.add_argument("--all", action="store_true", help="gate every window regardless of its cached inputs_sha (after a pipeline/tool change, which inputs_sha does not cover)")
     ap.add_argument("--worker-mode", choices=("process", "subprocess"), default="process",
                     help="persistent gate interpreters (default) or the legacy per-window subprocess")
+    ap.add_argument('--receipts', type=Path, help='new directory for this invocation only; cached windows are never published')
+    ap.add_argument('--transaction', help='caller-owned fresh transaction token, required with --receipts')
     a = ap.parse_args()
+    if a.workers<1:ap.error('workers must be positive')
+    if bool(a.receipts)!=bool(a.transaction):ap.error('--receipts and --transaction are required together')
+    global _RECEIPTS,_TRANSACTION
+    _RECEIPTS=a.receipts.resolve() if a.receipts else None;_TRANSACTION=a.transaction
+    if _RECEIPTS is not None:_RECEIPTS.mkdir(parents=True,exist_ok=False)
+    tool_sha=hashlib.sha256((ROOT/'tools/build/gate_all.py').read_bytes()).hexdigest() if _RECEIPTS is not None else None
     yamls = sorted((B / "config/overlays").glob("*.overlay.yaml"))
     sup = superseded(yamls)
     yamls = [y for y in yamls if y.name not in sup]
@@ -336,7 +358,7 @@ def main():
     t0 = time.time(); n = 0; tally = {}
     in_process = a.worker_mode == "process"
     pool = ProcessPoolExecutor if in_process else ThreadPoolExecutor
-    options = {"initializer": init_worker} if in_process else {}
+    options = {"initializer": init_worker,"initargs":(_RECEIPTS,_TRANSACTION)} if in_process else {}
     with pool(max_workers=a.workers, **options) as ex:
         for future in as_completed([ex.submit(run_window, y, in_process) for y in todo]):
             rec = future.result()
@@ -356,9 +378,28 @@ def main():
     if bad:
         print(f"FAILED: {len(bad)} windows lack a current MATCH: {bad[:8]}", file=sys.stderr)
         raise SystemExit(1)
+    if _RECEIPTS is not None:
+        from fidelity.certify_overlay_module import sha
+        if sha(ROOT/'tools/build/gate_all.py')!=tool_sha:raise ValueError('gate tool changed during fresh receipt publication')
+        fresh={}
+        proved={y.relative_to(B).as_posix() for y in todo}
+        for directory in _RECEIPTS.iterdir():
+            p=directory/'receipt.json'
+            if p.is_file():
+                config=json.loads(p.read_text())['config']
+                if config not in proved:raise ValueError('receipt was not gated in this invocation')
+                fresh[config]=sha(p)
+        index={'schema':1,'result':'PASS','transaction':_TRANSACTION,'authority':str(ROOT.resolve()),'view':str(B.resolve()),
+               'gate_tool_sha256':tool_sha,'windows':fresh}
+        p=_RECEIPTS/'index.json';tmp=p.with_suffix('.tmp');tmp.write_text(json.dumps(index,sort_keys=True)+'\n');tmp.replace(p)
+        print(f'fresh certification receipts: {len(fresh)} windows',flush=True)
 
 def gate_current(record, expected_sha):
     return bool(record and record.get("result") == "MATCH" and record.get("inputs_sha") == expected_sha)
+
+def default_workers():
+    available=len(os.sched_getaffinity(0)) if hasattr(os,'sched_getaffinity') else (os.cpu_count() or 1)
+    return max(1,min(16,available-available//3))
 
 if __name__ == "__main__":
     main()

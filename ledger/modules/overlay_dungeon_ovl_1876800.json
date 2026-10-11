@@ -9,10 +9,10 @@
     "dungeon/func_81857440",
     "dungeon/func_81857740"
   ],
-  "at": "2026-10-11T06:34:16Z",
+  "at": "2026-10-11T14:12:45Z",
   "reviewer": "orchestrator-r112",
   "fingerprint": {
-    "sha256": "b4626c5ac61f0f9787f27a07351bc864afdc80b05dd0289385259b09089d05ab",
+    "sha256": "26b621c414ce10e29f0f0188a4b9926997d48b2b80bcd354d1aaeb2686438719",
     "inputs": {
       "config/names.tsv": "230d776d2f0877959debf4edb04b9065030b27712420ae003b195d0ce06c94c1",
       "config/noreturn_false_members.jsonl": "38661a5397a70ed3d7033bcbfccf2a3d50769e11a9a75cebb6d73fc60b776739",
@@ -82,7 +82,7 @@
       "gate/oracle_scoring.py": "e7f0f1fe293ee0b564c2004df1a2f109d37c7d04641205a1c1418a86e495abf7",
       "tools/fidelity/aspsx_diff.py": "7581f7c89353952c4b2edeedfee6df50549f77cf20513e860faff5d27459f27d",
       "tools/fidelity/objread.py": "4cab76dc7c0628e784d286eb994bf45764dc03dc037da2127ef8ffecc180840f",
-      "tools/fidelity/certify_overlay_module.py": "f411bbe94c778b8b8c899376bd2ba7eb82d28b4effd35f06a50e020f5e04fbc6",
+      "tools/fidelity/certify_overlay_module.py": "faf9b5c50d9614dd65a991e43356c528252a580da88b1684bf95127426e2fa20",
       "tools/overlay_module_evidence.py": "7bc18ade186b933f411516e5c9248b509b8bc6f799e94d9a6e2d6911473a3789",
       "tools/build/slus_rodata_trim.py": "2b64e3cb7861b92ab2a8b2c8077f82e073b938d9bee9be4e658ebf34d96798b9",
       "toolchain/compilers/gcc-2.7.2-cdk/gcc": "7a571911a97cef0c6b7b5d4174e89ac54f9806ce3d4b233c0f8620e3503c672b",
@@ -282,7 +282,7 @@
     }
   },
   "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_ovl_1876800/module",
-  "receipt_sha256": "fe8b1a95e4f7577b68afd88e591f921a4398d0d0b2ba143c3515bfc81b088ea5",
+  "receipt_sha256": "6d76606b80086d2cc5884b2b8dea96aceb850831de4402c1e43501bf26707f2d",
   "windows": [
     {
       "config": "config/overlays/dungeon_deep_1877000_truebase_80024800.overlay.yaml",
@@ -294,8 +294,8 @@
         "gate.log": "2348d3bb566b2c2331c45a362ae68b4b4fccaad5d5f48264e1e72e41e1668f8b",
         "window.bin": "b0a8a3651f2244fbe59cfa619942fa61c0362cea34b7d59fc30680c6e9d0bd71",
         "manifest.json": "c1839b9af9906003c6f9059917904f910752658c14fe83c58a3750ecd3c19177",
-        "projection.json": "678f6286ad486947f169ce281a8d364916eb4a21d0329fdc8768cd980c828046",
-        "module/receipt.json": "0cb6401e2ce3fc3c1c26b65213caf99292c42097a2681b2c97a28feaeef8cfbf"
+        "projection.json": "800ff9d5101b1a31748730597d0ce3b65d53594afc670edbb573764f61d9d547",
+        "module/receipt.json": "966d2324296632df5fd3da592309f78d03b19e7b162d2fda407c27ddb2109161"
       }
     },
     {
@@ -308,8 +308,8 @@
         "gate.log": "35ace0f89b38516496920f9cb9d60d2ed47b4da53c3c7ca0d44155f928e0b478",
         "window.bin": "7b399c10f751c2a82fc83daf1a44f4d2140e4ced2850fbe0609b6ccdb5f95431",
         "manifest.json": "0b25ac24f417aad1c86a554cc8b1896c8091c104415f341e649882bb259baf25",
-        "projection.json": "a7ee63a3fc9d52fd648016fecfd2702774834c85841f89cdedb8b07d026f980a",
-        "module/receipt.json": "c1a9cf7b3cc06a8f9ff7292876185070434c3a24dcb05054f21dbbf3737c370f"
+        "projection.json": "a46c851fef45114e5ec04936e916af3298ea42a031c121d661053ac51779c8f6",
+        "module/receipt.json": "b48cc7a03d718a2b1e19be7946313d2b58ea86f2186daf2a20f79bd16c2b3f72"
       }
     },
     {
@@ -322,8 +322,8 @@
         "gate.log": "6b3d44a6113e9528269a0fa7f52dccb31897e777adf8ef734116da5b22b7ac1b",
         "window.bin": "e02f49e272ba833cf7ad59c9542b9494b1c39db7f74030b3f9f09b5d7c32749a",
         "manifest.json": "fdcbd8c37376f51704a0000116483134d06cb64582f10ce77d75e3738d9202eb",
-        "projection.json": "3b20412cc237d48b763400e4833073a0f8ee07f673fc518910904921d8271aea",
-        "module/receipt.json": "58ee640810aa18787e92ba9484092ae1745f0621d79df235b6c54e16d802520b"
+        "projection.json": "6020de02bc62ef22795998d9504a289ac9fd52645ab1562f1d646548a95d6d70",
+        "module/receipt.json": "b1999edad20b30d90f65fd1a43c65933c2619e9aec73e5e2b8a28118b9f15e31"
       }
     },
     {
@@ -336,8 +336,8 @@
         "gate.log": "14c2f0a8b5182d8face3ce3fd5cdd0a9bcddf913f632eeba370cd15cf360f3ec",
         "window.bin": "4c7e5938ec00f4c86b9a8e0f08b00aa7b9b61938d775630c9989c12f9d3883c5",
         "manifest.json": "ff61b74cfcd9582d2f822496f8fa4975c4bf8cc5485e51bf6ddeb15f3e317034",
-        "projection.json": "b42012ae5c8040360f0e9096908a9e04dfb01992567f8e70c2ac35a9a43a8714",
-        "module/receipt.json": "d63edb91e739bb0fdf85f0ba0cb82ba191241427c31ee34b02401f853f1c4171"
+        "projection.json": "077b5af21b972da2a1cc7436d48c3d9af1ff9e89114dc3cfa97b59c1269c7fdd",
+        "module/receipt.json": "95ed6bac91efb87250eff97e9cfe4ac0734a51ca5ef9ad1121bccc1bdf3150be"
       }
     }
   ]

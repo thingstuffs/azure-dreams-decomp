@@ -237,12 +237,17 @@ class ProcessTests(unittest.TestCase):
             (certs/('overlay_'+key+'.json')).write_text(json.dumps({'module':key,'reviewer':reviewer}))
         self.git('add','.');self.git('commit','-qm','certificate fixture')
         land=self.land();land.before_certs=land.certificates();land.force_all=False;land.gate_reasons=[];land.before_l5=0
+        land.env['TMPDIR']=str(self.base)
         calls=[]
         def run(step,argv,**kwargs):
             calls.append((step,argv));log=self.base/(step+'.log')
             log.write_text('SLUS SHA-1 gate: MATCH\nrecipe identical to the pinned copy\nMATCH\n');return log,0.01
         with patch.object(land,'run',side_effect=run),patch.object(land,'regenerate'),patch.object(land,'scrub'),contextlib.redirect_stdout(io.StringIO()):land.validate()
-        self.assertEqual([argv[-1] for step,argv in calls if step.startswith('certify-')],['first','second'])
+        cert_calls=[argv for step,argv in calls if step.startswith('certify-')]
+        self.assertEqual(len(cert_calls),1)
+        self.assertIn('tools/lanes/certify_batch.py',cert_calls[0])
+        self.assertEqual(land.certificates(),{'one':'first','two':'second'})
+        self.assertIn('--gate-receipts',cert_calls[0])
         self.assertEqual(sum(step=='gate-all' for step,_ in calls),1)
         self.assertNotIn('--all',next(argv for step,argv in calls if step=='gate-all'))
 

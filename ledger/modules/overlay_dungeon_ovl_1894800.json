@@ -15,10 +15,10 @@
     "dungeon/func_81876014",
     "dungeon/func_818761D8"
   ],
-  "at": "2026-10-11T06:37:46Z",
+  "at": "2026-10-11T14:16:07Z",
   "reviewer": "orchestrator-r112",
   "fingerprint": {
-    "sha256": "2f233f83b4212b8a52e7e236c2c4496812fd92fe7895dc409b0bcf2419b5702e",
+    "sha256": "7e4003a70ffc9a0b33a2903a3c54d837a328afd73d82eaa2c3614d0da1b89d7c",
     "inputs": {
       "config/names.tsv": "230d776d2f0877959debf4edb04b9065030b27712420ae003b195d0ce06c94c1",
       "config/noreturn_false_members.jsonl": "38661a5397a70ed3d7033bcbfccf2a3d50769e11a9a75cebb6d73fc60b776739",
@@ -157,7 +157,7 @@
       "gate/oracle_scoring.py": "e7f0f1fe293ee0b564c2004df1a2f109d37c7d04641205a1c1418a86e495abf7",
       "tools/fidelity/aspsx_diff.py": "7581f7c89353952c4b2edeedfee6df50549f77cf20513e860faff5d27459f27d",
       "tools/fidelity/objread.py": "4cab76dc7c0628e784d286eb994bf45764dc03dc037da2127ef8ffecc180840f",
-      "tools/fidelity/certify_overlay_module.py": "f411bbe94c778b8b8c899376bd2ba7eb82d28b4effd35f06a50e020f5e04fbc6",
+      "tools/fidelity/certify_overlay_module.py": "faf9b5c50d9614dd65a991e43356c528252a580da88b1684bf95127426e2fa20",
       "tools/overlay_module_evidence.py": "7bc18ade186b933f411516e5c9248b509b8bc6f799e94d9a6e2d6911473a3789",
       "tools/build/slus_rodata_trim.py": "2b64e3cb7861b92ab2a8b2c8077f82e073b938d9bee9be4e658ebf34d96798b9",
       "toolchain/compilers/gcc-2.7.2-cdk/gcc": "7a571911a97cef0c6b7b5d4174e89ac54f9806ce3d4b233c0f8620e3503c672b",
@@ -610,7 +610,7 @@
     }
   },
   "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_ovl_1894800/module",
-  "receipt_sha256": "744d15f7029a1a60968702cb55100fe5c1d604683c6c9fda90630378532ca3f7",
+  "receipt_sha256": "8ffea4920a37d1bb436b1dfac227702faac0b66ad417d56c59b85c28d66f6714",
   "windows": [
     {
       "config": "config/overlays/dungeon_deep_1894f58_truebase_80024758.overlay.yaml",
@@ -622,8 +622,8 @@
         "gate.log": "4f8d7d1cbaa2b14d70e294328be15faeb726e22ba8c1e99783ed11612fb117b4",
         "window.bin": "16b58c232ee476a66cf9d532710899b48594e171961e2be6fe16454fd33fa169",
         "manifest.json": "f5c388cef3ddd7961687e4f0d8e7579e07a20cc2841400cf152888575f9bef0d",
-        "projection.json": "2d0ef61c6ab4649bba901fceeb0f4437546e62494c58f6d1d8426050e12de874",
-        "module/receipt.json": "269a681f87f638eb9031eb18b529cf59277009bc5bb3e99c61cb6575feffb94f"
+        "projection.json": "4990da85145252bed06d9417ce81e81ac01f2bbaced7c8de42e4f6ef4811119a",
+        "module/receipt.json": "fa1cd9d1c8ace6a77fe76c9046574b416fd8faacbe9774399f39bd5f1177e495"
       }
     },
     {
@@ -636,8 +636,8 @@
         "gate.log": "6cd921d30a1969eb89f02ec2b3cff2b41140c5afc869cd1dff88c8b8433d767e",
         "window.bin": "4f05086a5d47cc27293c33771bd504b58056b91d10707c3696a890f71367b83f",
         "manifest.json": "692d16796a43e66288c66145ad98794fcba7c7e3b2ead268b8c56a284421a112",
-        "projection.json": "737e95f7c46430c585418eadd3e9ea00e5121550a54ca11d3a3307ec139a7f3d",
-        "module/receipt.json": "730a3edcb1e52f875ac443c47430c163cbd528dcf478eccfc3ade81936122512"
+        "projection.json": "93f27b8df172f6c83e2c31254b30c760596300571403ae5aff21b4426d05dd1a",
+        "module/receipt.json": "4e3dfb102dd9cfacb1fad419985e39874aecebbcd44cf8165ba210b56a769236"
       }
     },
     {
@@ -650,8 +650,8 @@
         "gate.log": "32b6e4ece30f62696635885993986b0bc8e0f670ad449462ab2c45bd49f3a838",
         "window.bin": "b85e6a3c497ab7f81230f8d3e48a0fe7dbcf9e1043f456fcbd36621ab86627c0",
         "manifest.json": "26efad896866088c29ee494a159610f9a4a33fa0bcd7d6d75fe9833e02a6aa78",
-        "projection.json": "479e045206e528b0e13d961d03e51dbe27182e5af0a71a93a346b568a617a54a",
-        "module/receipt.json": "84c3492a2e68dc2dab6fc513716395273855934f557e45de17c2247866af929e"
+        "projection.json": "764bb250e6fa6920d22c96a190d3fda72a05cd3a91a2ae3050048090a779c285",
+        "module/receipt.json": "7f35231a511a19a6473c9359a4ee34d3ec375557d7001f64d34e45afff0627cf"
       }
     },
     {
@@ -664,8 +664,8 @@
         "gate.log": "72a7bb1b3932e68003fac143fac2d6a324f5d03985c9e46b098e4ceba2e59877",
         "window.bin": "7e29ea157074d6930c257d0e5598d35fd696d308de3f272c7e211076e019638b",
         "manifest.json": "2a4323030614abe633addce86b0f28f9f59fe68e765e46dc6e3f7245e935341c",
-        "projection.json": "6dc8b9df65e99c8fec05ecf2cb8825c447e012858ec0a1d992b27af3eecaedda",
-        "module/receipt.json": "b815b587f80b9753fd91a9b7f300e005680cdcc7ce2f9d1bcbe3f527290a51b9"
+        "projection.json": "9cf1c0f6e9a271a5fb614ea3070d58f7b79817dc7eb395ffa9c3e77866ea4014",
+        "module/receipt.json": "e895bb40301de219fdc1819887152bc7a4ad4eacab6f0c6edae73f5430097dd4"
       }
     },
     {
@@ -678,8 +678,8 @@
         "gate.log": "0acb23c104378b24fcc7a7758b8a7ca3fa198dcd05dbcc1a7ace7993f12b197f",
         "window.bin": "71d99215def1ff18e6457722cf07376aa8f064e59d88ba2cf4ed1ba49ac68ff6",
         "manifest.json": "84d3c4018d37946e294624c657a00b7e77f79410abcf9cb72633e2258d1581fa",
-        "projection.json": "2d866d38de6b7ccc2dc60c52bb73f79752601680ce2e98d34aca292fc2355702",
-        "module/receipt.json": "53c1f28cafb0184a8bde42baacb2b4d0a11cd3dfc9787688c6f046c9fd06a63f"
+        "projection.json": "408d7b7f5e11607a831dd41353f54ad28dda56f58cbc8a8ad179fdaaad05a664",
+        "module/receipt.json": "1b6ae6f812ae8f422e56055c5f02421ad3e8fe37007404091998c3259f13e2a8"
       }
     },
     {
@@ -692,8 +692,8 @@
         "gate.log": "87ac4ff53bf423356a1eb89a7d7b0b39bea78aad80257009a3c4ce38f54677b6",
         "window.bin": "90ce7f21a96c9334c354ac26676affaff4cce67bfef4bc17bac7eeb9cfe22d03",
         "manifest.json": "48c6d68a0d0284bce306df78a3653e98fe61b23ff039b34ace361c4e25cdd5d9",
-        "projection.json": "c401414a09eabf99b8882fc9847f9c2a1727a96d02b1c0c8ac3c194699fc8496",
-        "module/receipt.json": "a096cecb30d3ad4faeb6d9a3ff634a27650d6c50bfec2c858cd76b0592e4739c"
+        "projection.json": "0a81cb031ebb41e5b4d970a075b7877104734bf1b8484c3641b4fe35babb0fd7",
+        "module/receipt.json": "139f98054f7e4cac8b83c72385f163dda95052200ac69263ca8c8e6e4e886a1d"
       }
     }
   ]
