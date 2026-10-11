@@ -20,14 +20,14 @@ typedef struct S_800249FC_1 {
 } S_800249FC_1;   /* arg0 in func_800249FC */
 
 
-extern s32 func_8002406C(s32 arg0);
+extern s32 func_8002406C(s32 limit);
 extern s16 D_80025B60[5];
 
 /* Update effect values and flags, then mark the object when its countdown expires. */
 void func_800249FC(void *object, s32 unused, S_800249FC_0 *effect) {
     s32 ticks_left;
     s16 next_ticks;
-    s32 check_result;
+    s16 check_result;
     u16 flags;
     u16 paired_value;
 
@@ -49,17 +49,15 @@ void func_800249FC(void *object, s32 unused, S_800249FC_0 *effect) {
 
     check_result = func_8002406C(3);
     flags = effect->unk_14;
-    if (flags & 0x80) {
-        effect->unk_14 = flags & 0xFF7F;
-    } else if ((check_result << 16) != 0) {
+    if ((flags & 0x80) || check_result != 0) {
         effect->unk_14 = flags & 0xFF7F;
     } else {
         effect->unk_14 = flags | 0x80;
     }
 
-    next_ticks = ((S_800249FC_1 *)object)->unk_5A.u - 1;
+    next_ticks = ((S_800249FC_1 *)object)->unk_5A.s - 1;
     ((S_800249FC_1 *)object)->unk_5A.s = next_ticks;
-    if ((next_ticks << 16) <= 0) {
+    if (next_ticks <= 0) {
         ((S_800249FC_1_pre *)object)[-1].unk_00 |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
     }

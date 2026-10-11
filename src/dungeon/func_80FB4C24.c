@@ -27,19 +27,21 @@ extern void func_80067014(s32 arg0);
 extern void func_800672D8(void *arg0, void *arg1);
 extern void func_8006733C(void *arg0, void *arg1);
 
+union ColumnBits { u8 bytes[4]; s32 value; };
+
 /* Blend palette colors for the current animation frame and flag completion. */
 void func_80174424(void *effect)
 {
     s16 buffer[270];
-    register s16 *buffer_base ASM_REG("$9");
+    s16 *buffer_base;
     register s16 *color_ptr;
-    register s16 *channel_pair;
+    register s32 channel_pair;
     register s32 blend_frame;
     register s32 blend_scale;
     s32 palette_row;
     register s32 palette_index;
     register s32 sample_count;
-    register s32 column;
+    union ColumnBits column = {{0, 0, 0, 0}};
     register s32 sample_index;
     register s32 sample_offset;
     register u16 packed_color;
@@ -79,28 +81,32 @@ void func_80174424(void *effect)
     buffer_base = buffer;
     blend_scale = blend_frame;
     blend_scale = (s16)blend_scale;
-    column = 15;
+    column.value = 15;
     do {
         palette_index = (palette_row << 4) + 15;
         do {
             sample_count = 0;
-            channel_pair = buffer_base;
+            channel_pair = (s32)buffer_base;
             sample_index = palette_index;
-unpack_pair:
             sample_offset = sample_index << 1;
             sample_index += 0x30;
             packed_color = *(u16 *)(u32)(sample_offset + (u32)(s8 *)buffer_base + 8);
+unpack_pair:
             sample_count++;
             ((S_80174424_1 *)channel_pair)->unk_208 = packed_color & 0x1F;
             ((S_80174424_1 *)channel_pair)->unk_210 = ((packed_color << 16) >> 21) & 0x1F;
             ((S_80174424_1 *)channel_pair)->unk_218 = ((packed_color << 16) >> 26) & 0x1F;
-            channel_pair++;
+            channel_pair += 2;
             if (sample_count < 2) {
+                sample_offset = sample_index << 1;
+                sample_index += 0x30;
+                packed_color = *(u16 *)(u32)(sample_offset + (u32)(s8 *)buffer_base + 8);
                 goto unpack_pair;
             }
 
-            buffer[0x104] = (u16)buffer[0x104] +
-                ((buffer[0x105] - buffer[0x104]) * blend_scale) / ((S_80174424_0 *)effect)->unk_A8.s;
+            channel_pair = ((S_80174424_0 *)effect)->unk_A8.s;
+            channel_pair = ((buffer[0x105] - buffer[0x104]) * blend_scale) / channel_pair;
+            buffer[0x104] = (u16)buffer[0x104] + channel_pair;
             buffer[0x108] = (u16)buffer[0x108] +
                 ((buffer[0x109] - buffer[0x108]) * blend_scale) / ((S_80174424_0 *)effect)->unk_A8.s;
             {
@@ -113,8 +119,9 @@ unpack_pair:
                 palette_index--;
                 buffer[0x10C] = (u16)buffer[0x10C] + blue_step;
                 color_ptr = (s16 *)(u32)(pixel_offset + (u32)(s8 *)buffer_base);
-                result_color = *(u16 *)((s8 *)color_ptr + 8);
-                column--;
+                sample_index = *(u16 *)((s8 *)color_ptr + 8);
+                result_color = (u16)sample_index;
+                column.value--;
                 result_color &= 0x8000;
                 *(u16 *)((s8 *)color_ptr + 8) = result_color;
                 {
@@ -133,9 +140,9 @@ unpack_pair:
                     *(u16 *)((s8 *)color_ptr + 8) = result_color;
                 }
             }
-        } while (column >= 0);
+        } while (column.value >= 0);
         palette_row -= 4;
-        column = 15;
+        column.value = 15;
     } while (palette_row >= 0);
 
     func_800672D8(buffer, &buffer[4]);

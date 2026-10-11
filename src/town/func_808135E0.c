@@ -22,11 +22,11 @@ s32 func_808135E0(void *first_item)
     u8 *pool_or_endpoint;
     u8 *line_table;
     u8 *work_ptr;
+    u8 *state_work;
+    u32 table_sum;
     u8 *state_pool;
     u8 *state_table;
     u8 *line_packet;
-    u8 *after_line;
-    u8 *after_state;
     u32 *line_slot;
     u32 *state_head;
     u32 *state_slot;
@@ -36,6 +36,7 @@ s32 func_808135E0(void *first_item)
     s32 *out_y;
     s32 start_depth;
     s32 depth_sum;
+    s32 first_depth;
     s32 end_depth;
     s32 depth_index;
     s32 table_offset;
@@ -48,32 +49,33 @@ s32 func_808135E0(void *first_item)
 
     do {
         if ((*(u16 *)(item + 0x24) & 1) == 0) {
-            after_line = 0;
+            depth_index = 0;
             line_pool = *render_context;
             line_packet = *(u8 **)(line_pool + 0x8D0);
             pool_or_endpoint = line_pool;
             if (line_packet != 0) {
                 pool_limit = 0x108D4;
-                after_line = line_packet + 0x10;
-                after_line = (u8 *)((u32)after_line & -(u32)(after_line <= pool_or_endpoint + pool_limit));
+                depth_index = (s32)(line_packet + 0x10);
+                pool_limit += (u32)pool_or_endpoint;
+                pool_limit = (u32)depth_index <= pool_limit;
+                pool_limit = -pool_limit;
+                depth_index = (s32)((u32)depth_index & pool_limit);
             }
-            *(u8 **)(line_pool + 0x8D0) = after_line;
+            *(u8 **)(line_pool + 0x8D0) = (u8 *)depth_index;
 
             *(u32 *)(line_packet + 4) = *(u32 *)(item + 0x14);
             func_8006DD38(line_packet);
             func_8006DBBC(line_packet, 1);
 
-            start_depth = func_8006BC50(item + 4, line_packet + 8, &screen_coords[0], screen_y);
-            work_ptr = item + 0xC;
+            line_pool = item + 4;
+            start_depth = func_8006BC50(line_pool, line_packet + 8, &screen_coords[0], screen_y);
+            line_pool = item + 0xC;
             pool_or_endpoint = line_packet + 0xC;
             out_x = &screen_coords[0];
             out_y = screen_y;
-            ASM_USE2(out_x, out_y);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-            depth_sum = start_depth;
-            end_depth = func_8006BC50(work_ptr, pool_or_endpoint, out_x, out_y);
-            depth_sum <<= 16;
-            depth_sum >>= 16;
-            depth_sum += end_depth;
+            first_depth = start_depth;
+            end_depth = func_8006BC50(line_pool, pool_or_endpoint, out_x, out_y);
+            depth_sum = (s16)first_depth + end_depth;
             depth_index = depth_sum >> 1;
             if ((u16)depth_index < 0x200) {
                 depth_index = (s16)depth_index;
@@ -84,23 +86,27 @@ s32 func_808135E0(void *first_item)
                 *(u32 *)line_packet = (*(u32 *)line_packet & 0xFF000000) | (next & 0x00FFFFFF);
 
                 work_ptr = *render_context;
-                line_slot = (u32 *)(table_offset + (u32)work_ptr + 0xB0);
+                table_sum = table_offset + (u32)work_ptr;
+                work_ptr = (u8 *)table_sum;
+                line_slot = (u32 *)(work_ptr + 0xB0);
                 *line_slot = (*line_slot & 0xFF000000) | ((u32)line_packet & 0x00FFFFFF);
 
                 state_pool = *render_context;
-                after_state = 0;
+                depth_index = 0;
                 depth_sum = (s32)*(u8 **)(state_pool + 0x8D0);
-                work_ptr = state_pool;
+                state_work = state_pool;
                 if (depth_sum != 0) {
                     pool_limit = 0x108D4;
-                    after_state = (u8 *)depth_sum + 0xC;
-                    after_state = (u8 *)((u32)after_state & -(u32)(after_state <= work_ptr + pool_limit));
+                    depth_index = depth_sum + 0xC;
+                    pool_limit += (u32)state_work;
+                    pool_limit = (u32)depth_index <= pool_limit;
+                    pool_limit = -pool_limit;
+                    depth_index = (s32)((u32)depth_index & pool_limit);
                 }
 
-                work_ptr = 0;
-                *(u8 **)(state_pool + 0x8D0) = after_state;
-                out_y = (s32 *)func_8006D9DC((s32)work_ptr, 0, 0, 0);
-                func_8006F49C((u8 *)depth_sum, 0, 0, (u16)((u32)out_y), 0);
+                *(u8 **)(state_pool + 0x8D0) = (u8 *)depth_index;
+                state_work = (u8 *)func_8006D9DC(0, 0, 0, 0);
+                func_8006F49C((u8 *)depth_sum, 0, 0, (u16)((u32)state_work), 0);
 
                 state_table = *render_context;
                 state_head = (u32 *)(table_offset + (u32)state_table + 0xB0);
@@ -108,7 +114,9 @@ s32 func_808135E0(void *first_item)
                 *(u32 *)depth_sum = (*(u32 *)depth_sum & 0xFF000000) | (next & 0x00FFFFFF);
 
                 work_ptr = *render_context;
-                state_slot = (u32 *)(table_offset + (u32)work_ptr + 0xB0);
+                table_sum = table_offset + (u32)work_ptr;
+                work_ptr = (u8 *)table_sum;
+                state_slot = (u32 *)(work_ptr + 0xB0);
                 *state_slot = (*state_slot & 0xFF000000) | ((u32)depth_sum & 0x00FFFFFF);
             }
         }
@@ -119,7 +127,3 @@ s32 func_808135E0(void *first_item)
 
     return 0;
 }
-
-/* MECHANISM: A two-word screen_coords frame line_packet yields sp+0x18 and held s7=sp+0x1c.
-   Split v0 bound live ranges and short ABI pins reproduce both pool/RMW regions.
-   Prepared a0-a3 plus ASM_USE2 fences sink the depth_sum-result copy into the jal slot. */

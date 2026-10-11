@@ -63,7 +63,7 @@ void func_80173B08(void *action, EntityRec *motion, void *sprite, void *actor)
     u32 anim_addr;
     u32 mode_or_angle;
     s16 effect_count;
-    u8 state;
+    u32 state;
     void *target;
 
     mode_or_angle = 0;
@@ -298,14 +298,14 @@ void func_80173B08(void *action, EntityRec *motion, void *sprite, void *actor)
         ((S_80173B08_0 *)action)->unk_96.u = 0;
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
         {
-            u16 action_flags;
 
-            action_flags = ((S_80173B08_0 *)action)->unk_98;
-            action_flags |= 8;
-            ((S_80173B08_0 *)action)->unk_9B++;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            state = ((S_80173B08_0 *)action)->unk_98;
+            anim_addr = ((S_80173B08_0 *)action)->unk_9B;
+            anim_addr++;
+            state |= 8;
+            ((S_80173B08_0 *)action)->unk_9B = anim_addr;
             anim_addr = 0x80080000;
-            ((S_80173B08_0 *)action)->unk_98 = action_flags;
+            ((S_80173B08_0 *)action)->unk_98 = state;
         }
 update_table:
         {

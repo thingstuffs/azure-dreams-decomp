@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-10T20:22:19Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-11T03:56:52Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -79,13 +79,13 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 
 | module | rows | placement proof |
 |---|---:|---|
-| dungeon_cd_control_d79c4 | 3 | current: complete TU + all windows + genuine |
-| town_minigame_dispatch_44b44 | 13 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1852800 | 4 | current: complete TU + all windows + genuine |
+| dungeon_cd_control_d79c4 | 3 | source/recipe/graph/tool/review/window inputs changed |
+| town_minigame_dispatch_44b44 | 13 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1852800 | 4 | source/recipe/graph/tool/review/window inputs changed |
 | dungeon_ovl_1870800 | 2 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1858800 | 3 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1840800 | 3 | current: complete TU + all windows + genuine |
-| dungeon_ovl_185e800 | 3 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1858800 | 3 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1840800 | 3 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_185e800 | 3 | source/recipe/graph/tool/review/window inputs changed |
 | dungeon_ovl_18ac800 | 2 | current: complete TU + all windows + genuine |
 | dungeon_ovl_18fa800 | 3 | current: complete TU + all windows + genuine |
 | dungeon_ovl_19ba800 | 3 | current: complete TU + all windows + genuine |
@@ -102,7 +102,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | dungeon_ovl_197281c | 5 | current: complete TU + all windows + genuine |
 | dungeon_ovl_1990800 | 13 | current: complete TU + all windows + genuine |
 | dungeon_ovl_1960800 | 11 | current: complete TU + all windows + genuine |
-| dungeon_ovl_183a800 | 10 | current: complete TU + all windows + genuine |
+| dungeon_ovl_183a800 | 10 | source/recipe/graph/tool/review/window inputs changed |
 | dungeon_ovl_18a0800 | 15 | current: complete TU + all windows + genuine |
 | dungeon_ovl_19c6800 | 5 | current: complete TU + all windows + genuine |
 | dungeon_ovl_19cc800 | 22 | current: complete TU + all windows + genuine |
@@ -121,8 +121,8 @@ Placement alone does not override any lower-level or source-residue guard.
 |---|---:|---:|---:|---:|---:|---:|
 | m2c boilerplate block | 2332 | 510,592 | 18.3% | 0 | 0 | 0.0% |
 | M2C_FIELD raw offsets | 2950 | 1,448,168 | 52.0% | 0 | 0 | 0.0% |
-| m2c local names | 5182 | 2,162,060 | 77.6% | 20 | 33,036 | 1.2% |
-| ASM_ pins | 2136 | 1,455,364 | 52.2% | 49 | 61,060 | 2.2% |
+| m2c local names | 5182 | 2,162,060 | 77.6% | 19 | 32,796 | 1.2% |
+| ASM_ pins | 2136 | 1,455,364 | 52.2% | 42 | 51,900 | 1.9% |
 | goto | 1545 | 1,311,404 | 47.1% | 277 | 334,500 | 12.0% |
 | computed-goto jump table | 317 | 436,404 | 15.7% | 4 | 7,008 | 0.3% |
 | inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 244,160 | 8.8% | 24 | 21,880 | 0.8% |
@@ -134,9 +134,9 @@ Placement alone does not override any lower-level or source-residue guard.
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 5.6% | 10 | 14,256 | 0.5% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
 | local address-named struct | 633 | 346,872 | 12.4% | 3017 | 1,682,024 | 60.4% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 155,192 | 5.6% | 7121 | 2,388,008 | 85.7% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 155,192 | 5.6% | 7126 | 2,392,024 | 85.9% |
 
-Pin sites now: 89 in 49 rows; REG 46, KEEP 14, KEEP_NV 13, SCHED_BARRIER 5, USE 3, MEM_BARRIER 2, USE_NV 2, USE2 1.  At the pin: 25,902; REG 12,801, KEEP 6,935, KEEP_NV 2,505, SCHED_BARRIER 1,355, TAILSLOT_PIN 506, USE 294, USE_NV 260, KEEP_DEP_NV 190.
+Pin sites now: 75 in 42 rows; REG 37, KEEP 13, KEEP_NV 13, SCHED_BARRIER 4, MEM_BARRIER 2, USE_NV 2, UNDEF 1, USE2_NV 1.  At the pin: 25,902; REG 12,801, KEEP 6,935, KEEP_NV 2,505, SCHED_BARRIER 1,355, TAILSLOT_PIN 506, USE 294, USE_NV 260, KEEP_DEP_NV 190.
 
 Tracked, not pins (owner 2026-10-06): oddities 1 (ledger/oddities.jsonl - zero-byte fences retail needs, curiosities, not removal targets: dungeon/func_8196096C); one-trip barrier rows 2 (ledger/onetrip_barrier_rows.jsonl); load-bearing one-trip rows 85 (ledger/onetrip_loadbearing.jsonl, statement-macro bodies, not counted in the do{}while(0) row above).
 Carve debt - composite rows (r95 decisions item 8 kept the spelling for bytes; r99: it is an artifact of one-row-per-function carving, owned by module placement): the `asm("func_X")` data prefix (another function's jump table / overlay data that retail places before this row's code) and its `.globl/.type/.size func_X` stamp (`pin_census.composite_asm_spans`), 11 statements in 7 rows - counted here, not in the inline-asm row above; still L5 `inline_asm` residue in levels.py until the module TU owns the data.
@@ -179,12 +179,12 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 | L1 | 2,774,308 | 99.6% |
 | L2 | 2,774,308 | 99.6% |
 | L3 | 2,568,188 | 92.2% |
-| L4 | 191,428 | 6.9% |
-| L5 | 186,808 | 6.7% |
+| L4 | 172,096 | 6.2% |
+| L5 | 167,476 | 6.0% |
 
 On shared record headers (T7, `include/records/`): 903 rows, 577,664 bytes (20.7%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 49 rows (61,060 B), tail_jump 8 rows (4,884 B), not_in_module 6,649 rows (2,580,028 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 42 rows (51,900 B), tail_jump 8 rows (4,884 B), not_in_module 6,688 rows (2,599,360 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 
