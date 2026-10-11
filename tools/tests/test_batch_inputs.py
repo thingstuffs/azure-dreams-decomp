@@ -84,6 +84,7 @@ out=LEDGER/'sweeps'/(a.transform+'.jsonl');out.parent.mkdir(parents=True,exist_o
         self.assertEqual(len(H.G.records(self.root/'ledger/recipe_trades.jsonl')),1)
         self.assertFalse((self.root/'build_ovl').exists())
         self.assertFalse(list(self.base.glob('batch-*')))
+        self.assertFalse(list((self.root/'tmp').glob('batch-*')))
     def test_refused_candidate_keeps_outer_root_identical(self):
         self.candidate('bad');before=H.G.inventory(self.root,H.G.MANAGED)
         with self.assertRaises(subprocess.CalledProcessError):self.execute()
@@ -98,5 +99,18 @@ out=LEDGER/'sweeps'/(a.transform+'.jsonl');out.parent.mkdir(parents=True,exist_o
         p.write_text(json.dumps({'id':'demo/a','cfg':'new','size':4})+'\n')
         self.execute();self.assertEqual((self.root/'src/demo/a.c').read_text(),'original\n')
         self.assertEqual(H.G.records(self.root/'ledger/recipe_trades.jsonl'),[])
+
+    def test_external_lane_directory_alias_is_read_only_and_usable(self):
+        self.candidate();alias=self.base/'external-lane';alias.symlink_to(self.lane,target_is_directory=True)
+        self.spec['coherence'][0]['lane']=str(alias)
+        before=H.G.inventory(self.lane,['out','cells.jsonl']);self.execute()
+        self.assertEqual((self.root/'src/demo/a.c').read_text(),'new')
+        self.assertEqual(H.G.inventory(self.lane,['out','cells.jsonl']),before)
+
+    def test_candidate_file_alias_escape_is_still_refused(self):
+        self.candidate();p=self.lane/'out/demo/a.c';p.unlink();p.symlink_to(self.root/'src/demo/a.c')
+        before=H.G.inventory(self.root,H.G.MANAGED)
+        with self.assertRaisesRegex(B.G.Stop,'symlink'):self.execute()
+        self.assertEqual(H.G.inventory(self.root,H.G.MANAGED),before)
 
 if __name__=='__main__':unittest.main()
