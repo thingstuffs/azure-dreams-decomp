@@ -10,6 +10,10 @@ solved 800AED64 4->0, 80D68308 2->0, 81844F2C 1->0 (module 1864800 blocker), 818
 land_slus_rebaseline.sh). All mechanisms/generators/kit gaps: work/native_lane/_r113/harvest_r114.md.
 **Owner rulings 10-12:** union idiom (`union { T v; } x = {0};`) = accepted trade; CALL-ARG family stays pins (no oddity
 class) - new angles only; pin wave with Fable free-hand + LEARNINGS.md (r114_fable_f1).
+**PENDING LANDINGS:** (1) r114_sol61_kit + r114_sol61_oracle2 packages TOGETHER (kit first) via land_packages when
+oracle2 exits (kit alone was refused 07:37Z: a running codex tool lane is never "isolated" - its children run in the repo
+root); plan draft work/native_lane/_r113/plan_kit.json. (2) konami 800345B8 equal-pin tidy needs a --equal-pins mode in
+land_slus_rebaseline.sh. (3) 8190AEB4 goto removal skipped (m2c names grew).
 **Tools:** r114_sol61_kit package (sncheck, alloc_oracle, value_luid, why uid->block, lab stage-tidy) - land via
 land_packages (kit-only). RUNNING: r114_sol61_oracle2 (sched/combine/alias/loop oracles + SEARCH MODE over all pinned
 rows, validated on r114 known answers) -> route the next Opus wave from its evidence/search_all.md.
