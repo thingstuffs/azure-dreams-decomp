@@ -1,0 +1,466 @@
+{
+  "module": "dungeon_ovl_1864800",
+  "scope": "whole_tu",
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "flags": [
+    "-q",
+    "-G0",
+    "-0"
+  ],
+  "basis": "Same final whole-TU gcc stream: unchecked -0 equals GNU and retail; checked adds division-check bytes. No per-function flag selection.",
+  "assembly_sha256": "b2fd88142e6c5a506745ba8ce6e270bf6d39cfa7d05c9ca14d18b301fc0badca",
+  "unchecked_object_sha256": "c32cb33f1a108ceae585d2ad279de50f4c9e4cf06820538364e06932387085e0",
+  "checked_object_sha256": "26a6a857fcf2583ffbab8d087ee33d7e70da921ef321488a5f869af5c7eef296",
+  "unchecked_text_bytes": 3536,
+  "checked_text_bytes": 3644,
+  "comparison": {
+    "diff": 37,
+    "exact": false,
+    "len_m": 884,
+    "len_g": 911,
+    "missing": [],
+    "regions": [
+      [
+        "func_80024020",
+        "replace",
+        [
+          [
+            272630107,
+            null,
+            null
+          ]
+        ],
+        [
+          [
+            272630134,
+            null,
+            null
+          ]
+        ],
+        90
+      ],
+      [
+        "func_80024020",
+        "replace",
+        [
+          [
+            272630093,
+            null,
+            null
+          ]
+        ],
+        [
+          [
+            272630120,
+            null,
+            null
+          ]
+        ],
+        104
+      ],
+      [
+        "func_80024020",
+        "replace",
+        [
+          [
+            134217728,
+            "26",
+            [
+              "fn",
+              "func_80024020",
+              1096
+            ]
+          ]
+        ],
+        [
+          [
+            134217728,
+            "26",
+            [
+              "fn",
+              "func_80024020",
+              1204
+            ]
+          ]
+        ],
+        147
+      ],
+      [
+        "func_80024020",
+        "insert",
+        [],
+        [
+          [
+            341835778,
+            null,
+            null
+          ],
+          [
+            0,
+            null,
+            null
+          ],
+          [
+            458765,
+            null,
+            null
+          ],
+          [
+            604110847,
+            null,
+            null
+          ],
+          [
+            341901316,
+            null,
+            null
+          ],
+          [
+            1006731264,
+            null,
+            null
+          ],
+          [
+            339804162,
+            null,
+            null
+          ],
+          [
+            0,
+            null,
+            null
+          ],
+          [
+            393229,
+            null,
+            null
+          ]
+        ],
+        199
+      ],
+      [
+        "func_80024020",
+        "insert",
+        [],
+        [
+          [
+            341835778,
+            null,
+            null
+          ],
+          [
+            0,
+            null,
+            null
+          ],
+          [
+            458765,
+            null,
+            null
+          ],
+          [
+            604110847,
+            null,
+            null
+          ],
+          [
+            341901316,
+            null,
+            null
+          ],
+          [
+            1006731264,
+            null,
+            null
+          ],
+          [
+            339804162,
+            null,
+            null
+          ],
+          [
+            0,
+            null,
+            null
+          ],
+          [
+            393229,
+            null,
+            null
+          ]
+        ],
+        212
+      ],
+      [
+        "func_80024020",
+        "insert",
+        [],
+        [
+          [
+            341835778,
+            null,
+            null
+          ],
+          [
+            0,
+            null,
+            null
+          ],
+          [
+            458765,
+            null,
+            null
+          ],
+          [
+            604110847,
+            null,
+            null
+          ],
+          [
+            341901316,
+            null,
+            null
+          ],
+          [
+            1006731264,
+            null,
+            null
+          ],
+          [
+            339804162,
+            null,
+            null
+          ],
+          [
+            0,
+            null,
+            null
+          ],
+          [
+            393229,
+            null,
+            null
+          ]
+        ],
+        232
+      ],
+      [
+        "func_80024020",
+        "replace",
+        [
+          [
+            134217728,
+            "26",
+            [
+              "fn",
+              "func_80024020",
+              1664
+            ]
+          ]
+        ],
+        [
+          [
+            134217728,
+            "26",
+            [
+              "fn",
+              "func_80024020",
+              1772
+            ]
+          ]
+        ],
+        236
+      ],
+      [
+        "func_80024020",
+        "replace",
+        [
+          [
+            134217728,
+            "26",
+            [
+              "fn",
+              "func_80024020",
+              1668
+            ]
+          ]
+        ],
+        [
+          [
+            134217728,
+            "26",
+            [
+              "fn",
+              "func_80024020",
+              1776
+            ]
+          ]
+        ],
+        258
+      ],
+      [
+        "func_80024020",
+        "replace",
+        [
+          [
+            134217728,
+            "26",
+            [
+              "fn",
+              "func_80024020",
+              1752
+            ]
+          ]
+        ],
+        [
+          [
+            134217728,
+            "26",
+            [
+              "fn",
+              "func_80024020",
+              1860
+            ]
+          ]
+        ],
+        274
+      ],
+      [
+        "func_80024020",
+        "replace",
+        [
+          [
+            134217728,
+            "26",
+            [
+              "fn",
+              "func_80024020",
+              1668
+            ]
+          ]
+        ],
+        [
+          [
+            134217728,
+            "26",
+            [
+              "fn",
+              "func_80024020",
+              1776
+            ]
+          ]
+        ],
+        277
+      ],
+      [
+        "func_80024020",
+        "replace",
+        [
+          [
+            134217728,
+            "26",
+            [
+              "fn",
+              "func_80024020",
+              1668
+            ]
+          ]
+        ],
+        [
+          [
+            134217728,
+            "26",
+            [
+              "fn",
+              "func_80024020",
+              1776
+            ]
+          ]
+        ],
+        407
+      ],
+      [
+        "func_80024020",
+        "replace",
+        [
+          [
+            134217728,
+            "26",
+            [
+              "fn",
+              "func_80024020",
+              1752
+            ]
+          ]
+        ],
+        [
+          [
+            134217728,
+            "26",
+            [
+              "fn",
+              "func_80024020",
+              1860
+            ]
+          ]
+        ],
+        419
+      ],
+      [
+        "func_80024020",
+        "replace",
+        [
+          [
+            134217728,
+            "26",
+            [
+              "fn",
+              "func_80024020",
+              1752
+            ]
+          ]
+        ],
+        [
+          [
+            134217728,
+            "26",
+            [
+              "fn",
+              "func_80024020",
+              1860
+            ]
+          ]
+        ],
+        426
+      ]
+    ],
+    "delay_only": []
+  },
+  "review": "pending",
+  "reviewer": null,
+  "source_inputs": {
+    "include/common.h": "35ebd67ff9f32d587459e79e964f1d4f9013849bb766ea442ab0965c32971dac",
+    "include/game.h": "b80e856a3c4f4c4586c312a28336781390d102ba6f7af599d094bfa6900e7c83",
+    "include/globals.h": "5ff21c9f144187d9a1666588951ee1f3489b89d666b18cf712c46523d820f689",
+    "include/gte_macros.inc": "80614ffcdda065072d2ef6cde330d5782202240edef7faca5ac598fbfa125066",
+    "include/include_asm.h": "b07191b5b52fe5a0cc20e2114349a7ccfb537bba948ba277f375d9de2559a16e",
+    "include/labels.inc": "9011fb521abe02bf51d16d3ae8ec1667ccd899a26affb6a5fe00b842ab421dc5",
+    "include/modules/dungeon_native_abi.h": "64f3e48c3185ea4ca827fdc9e104921a50b1f08e7f8f569b59a3d82f0dd907e0",
+    "include/modules/dungeon_ovl_1864800.h": "eef1237857a049574a358e022df1500d8e30f8cc551818d745ca29cf2272f9ee",
+    "include/shared/dungeon_height_query.h": "48bdae9d921a031c941bbf78abace252bbd75f74509a139feda61ac338232d14",
+    "include/shared/dungeon_status.h": "cf2efa85ed10f2b6b71bbc1e5d922c0ea7d20ac9a655b67d8d254c75b042ac9e",
+    "include/shared/game_work.h": "813f5e364376a12ed80235a4f1b63ed27105d4b1362d7493ef90ca6c321b6366",
+    "include/shared/object_flags.h": "587f3da6018f67a1af0997d8f9ce3528bf0b89b0b3be4ae4fc4b2e9e276bcc28",
+    "include/shared/object_node.h": "7c01b7d2e7be82657682e8e8a924854747f8508a007a6569f988513287f23c17",
+    "include/shared/slus_callbacks.h": "be185bc0cea768e3e88fee569dad7e7f4fee68ff506501cf38a0d980c182ee1e",
+    "include/shared/sprite_source.h": "8a763355fbee08e826674ed1078b2481162c38ddbdad4c4850e98d6b6379bc22",
+    "src/dungeon/func_81844800.c": "0bd9c85d8585a3a9dc320ef98c8b193fd77e9df27268fc11e8660bf5c8aec0bb",
+    "src/dungeon/func_81844F2C.c": "5aa9b39352493314451616c40471b4a44c6e8dd11b748de982f146cca84517f7",
+    "src/dungeon/func_81845068.c": "188179aa5ad4ccf77a2feb778fa7bfb90c5d92e73e48e297ea12600584d82f95",
+    "src/dungeon/func_81845484.c": "798381257498d06bf2f366c5118582e5753444ed33824f738716ee5afee61e6a",
+    "src/dungeon/modules/ovl_1864800.c": "f08db4a3570f2481cfed1ffed3d3ce71e88ef58c4bed4e870433228982398b1f"
+  }
+}

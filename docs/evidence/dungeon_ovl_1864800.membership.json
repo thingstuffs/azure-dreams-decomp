@@ -1,0 +1,25 @@
+{
+  "module": "dungeon_ovl_1864800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_1864800.c",
+    "module_index": 150
+  },
+  "members": [
+    "dungeon/func_81844800",
+    "dungeon/func_81844F2C",
+    "dungeon/func_81845068",
+    "dungeon/func_81845484"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "not observable (section-grouping link, no static duplicates, no recipe change)",
+  "basis": [
+    "Owner decisions 37-38: a selector-loaded DUNGEON grid bank is modelled as one native TU. The four existing weak group-150 rows are its complete registered cohort; no cross-group reassignment is necessary.",
+    "Selector 9 loader/decoder witnesses, real ISO directory record and twelve sector payloads are byte-checked. One contiguous text cohort and naturally compiler-emitted data prefix reproduce all 3568 bytes.",
+    "Bounded complete member bodies have distinct extents (1804, 316, 1052, 364 bytes); object function inventory contains exactly these four global functions, no static duplicates or intervening owned data, and one plain 2.7.2-cdk-G0 recipe.",
+    "Current readable L3 sources retain their bodies and comments; internal address aliases name real complete functions. Shared ABI declarations reconcile allocator, registration, updater and height query; all bits are retained by typed casts. Zero pins, fabricated functions, raw substitution or masks."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r115"
+}
