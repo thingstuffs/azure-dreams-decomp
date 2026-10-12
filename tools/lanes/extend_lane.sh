@@ -35,8 +35,12 @@ for i in 1 2 3 4 5; do [ -f $D/cap_$i.txt ] || { [ -f $D/cap.txt ] && mv $D/cap.
 PROMPT="You were stopped by the orchestrator's token cap, not because the work was done. Your lane directory, lab_log.jsonl and out/ are as you left them. $WHY
 First stage anything byte-exact you have not staged (out/<container>/<name>.c with lab.py's .base_sha). Then continue only on rows where you have a concrete next discriminator; the same hard rules apply. You have about $EXTRA more tokens: at 80% of that, stop, stage, and write REPORT.md and the per-row lines as the brief asks."
 cp $D/codex.log $D/codex_before_extension.log
-nohup setsid codex exec resume "$SID" -m "${MODEL:-gpt-6-sol}" --dangerously-bypass-approvals-and-sandbox --skip-git-repo-check \
-    -c 'model_reasoning_effort="xhigh"' -o $D/last_message.txt "$PROMPT" > $D/codex.log 2>&1 < /dev/null &
+# r117: run the resumed session FROM the lane directory, so its shell children never have the canonical root as cwd
+# (land_packages' isolation rule, r116_sol61_landfix: a lane whose processes stay inside work/native_lane/<lane> does
+# not make a live landing busy). Paths below are absolute for that reason.
+RD="$PWD/$D"
+(cd "$RD" && exec nohup setsid codex exec resume "$SID" -m "${MODEL:-gpt-6-sol}" --dangerously-bypass-approvals-and-sandbox \
+    --skip-git-repo-check -c 'model_reasoning_effort="xhigh"' -o "$RD/last_message.txt" "$PROMPT" > "$RD/codex.log" 2>&1 < /dev/null) &
 echo $! > $D/lane.pid
 CAP=$((PRIOR + EXTRA))
 nohup python3 tools/lanes/lane_cap.py watch "$N" --tokens "$CAP" --minutes "$WALL" > $D/cap_watch_ext.log 2>&1 &
