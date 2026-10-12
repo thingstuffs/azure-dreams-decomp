@@ -30,10 +30,10 @@ s32 func_8001C06C(Pos *start, Pos *dest, s16 rnd, s16 *outX, s16 *outY) {
     s16 count;
     s16 cx;
     s16 cy;
-    s16 dir;
+    s32 dir;
     s16 dstX;
     s16 dstY;
-    s16 dirSlot;
+    union { s16 v; } dirSlot = {0};
     s16 rangeX;
     s16 rangeY;
     s16 wx;
@@ -51,17 +51,16 @@ s32 func_8001C06C(Pos *start, Pos *dest, s16 rnd, s16 *outX, s16 *outY) {
     cx = delta2;
     delta = dest->x;
     delta = delta - delta2;
-    dir = start->dir;
+    dir = (u16)start->dir;
     ASM_USE2_NV(delta2, cx);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if (delta < 0) {
         delta = -delta;
     }
     rangeX = delta - 4;
     dead = (DungeonState *)((u8 *)(&gameWork));
-    dirSlot = dir;
+    dirSlot.v = dir;
     dstY = dest->y;
     st = (DungeonState *)((u8 *)dead + 476);
-    ASM_KEEP_NV(dir);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     ASM_KEEP_NV(dest);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     dstX = dest->x;
     if (rangeX <= 0) {
@@ -97,13 +96,13 @@ s32 func_8001C06C(Pos *start, Pos *dest, s16 rnd, s16 *outX, s16 *outY) {
 
         rr = (u16)func_800A6D30() % rangeX;
         *outX = rr;
-        wx = cx + rr * dirStepX[dir] + dirStepX[dir] * wx;
+        wx = cx + rr * dirStepX[(s16)dir] + dirStepX[(s16)dir] * wx;
         rr = (u16)func_800A6D30() % rangeY;
         *outY = rr;
-        wy = cy + rr * dirStepY[dir] + dirStepY[dir] * wy;
+        wy = cy + rr * dirStepY[(s16)dir] + dirStepY[(s16)dir] * wy;
     } else {
-        wx = cx + *outX * dirStepX[dir] + dirStepX[dir] * wx;
-        wy = cy + *outY * dirStepY[dir] + dirStepY[dir] * wy;
+        wx = cx + *outX * dirStepX[(s16)dir] + dirStepX[(s16)dir] * wx;
+        wy = cy + *outY * dirStepY[(s16)dir] + dirStepY[(s16)dir] * wy;
     }
 
     for (;;) {
@@ -118,12 +117,12 @@ s32 func_8001C06C(Pos *start, Pos *dest, s16 rnd, s16 *outX, s16 *outY) {
             break;
         }
         count++;
-        cx += dirStepX[dir];
-        cy += dirStepY[dir];
+        cx += dirStepX[(s16)dir];
+        cy += dirStepY[(s16)dir];
     }
 
     if (wx != dstX || wy != dstY) {
-        if (dirStepX[dirSlot] != 0) {
+        if (dirStepX[dirSlot.v] != 0) {
             wy = dstY;
         } else {
             wx = dstX;

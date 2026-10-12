@@ -86,7 +86,9 @@ typedef struct S_819112CC_5 {
 } S_819112CC_5;   /* temp_s1_3 in func_819112CC */
 
 
-#define SP16(off) (*(u16 *)(scratch + (off)))
+/* The 1 KB scratchpad at 0x1F800000, read as halfwords or words. */
+typedef union { u16 h[0x200]; u32 w[0x100]; } ScratchPad;
+#define SP16(off) (((ScratchPad *)scratch)->h[(off) / 2])
 typedef struct {
     unsigned addr: 24;
     unsigned len: 8;
@@ -95,7 +97,7 @@ typedef struct {
 #define setaddr(p, _addr) (((P_TAG *)(p))->addr = (u32)(_addr))
 #define getaddr(p) (u32)(((P_TAG *)(p))->addr)
 
-#define SP32(off) (*(u32 *)(scratch + (off)))
+#define SP32(off) (((ScratchPad *)scratch)->w[(off) / 4])
 /* Same address as D_80083160 (0x80083178 - 0x18); this spelling keeps its
    page construction shared with the other references below. */
 #define GFX_ROOT_SLOT ((u8 *)&gameWork)
@@ -156,8 +158,17 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
     s32 modulo_result;
     s32 ot_slot;
     s32 ot_slot2;
-    register u8 *scratch ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    u8 *scratch;
     u8 *context_slot;
+    u8 *v1;
+    u8 *v2;
+    u8 *v3;
+    u8 *sxy0;
+    u8 *sxy1;
+    u8 *sxy2;
+    u8 *sxy3;
+    u8 *depth;
+    u8 *flag;
     EmptyArg empty_arg;
     u8 *render_context = *(u8 **)GFX_ROOT_SLOT;
 
@@ -223,11 +234,18 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
         SP16(0x70) = bottom_z;
         SP16(0x68) = bottom_z;
         top_z = origin->unk_0A;
-        SP32(0xB4) = func_80065590(vertex_base, scratch + 0x6C,
-                                   scratch + 0x74, scratch + 0x7C,
-                                   scratch + 0xD8, scratch + 0xDC,
-                                   scratch + 0xE0, scratch + 0xE4,
-                                   scratch + 0x84, scratch + 0x88,
+        v1 = scratch + 0x6C;
+        v2 = scratch + 0x74;
+        v3 = scratch + 0x7C;
+        sxy0 = scratch + 0xD8;
+        sxy1 = scratch + 0xDC;
+        sxy2 = scratch + 0xE0;
+        sxy3 = scratch + 0xE4;
+        depth = scratch + 0x84;
+        flag = scratch + 0x88;
+        SP32(0xB4) = func_80065590(vertex_base, v1, v2, v3,
+                                   sxy0, sxy1, sxy2, sxy3,
+                                   depth, flag,
                                    (SP16(0x78) = top_z,
                                     SP16(0x80) = top_z,
                                     empty_arg));
@@ -308,11 +326,9 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
         }
         next_end_y = ((S_819112CC_3 *)point)->unk_2C.at02.v;
         y_step = SP16(0x10E);
-        SP32(0xB4) = func_80065590(vertex_base, scratch + 0x6C,
-                                   scratch + 0x74, scratch + 0x7C,
-                                   scratch + 0xD8, scratch + 0xDC,
-                                   scratch + 0xE0, scratch + 0xE4,
-                                   scratch + 0x84, scratch + 0x88,
+        SP32(0xB4) = func_80065590(vertex_base, v1, v2, v3,
+                                   sxy0, sxy1, sxy2, sxy3,
+                                   depth, flag,
                                    (next_end_y += y_step,
                                     SP16(0x7E) = next_end_y,
                                     SP16(0x6E) = next_end_y,

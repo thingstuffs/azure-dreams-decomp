@@ -70,7 +70,7 @@ void func_801750E4(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_
                    s32 draw_bucket, s32 start_segment, s32 end_segment)
 {
     StackValues radii;
-    u16 segment_limit;
+    union { u16 v; } segment_limit = {0};
     u16 segment;
     s32 scale_b_x;
     s32 scale_b_y;
@@ -83,7 +83,8 @@ void func_801750E4(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_
     s32 prev_cos;
     u8 *prim;
     u8 *submit_prim;
-    register u8 *vertex_data ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u8 *next_vertex;
+    u8 *vertex_data;
     GraphicsState **graphics_ptr;
     GraphicsState *graphics;
     u16 next_segment;
@@ -111,10 +112,11 @@ void func_801750E4(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_
     radii.arg3 = radius_b_y;
     sin_angle = func_80064584(angle) >> 4;
     cos_angle = func_800644B8(angle) >> 4;
-    segment_limit = end_segment;
+    segment_limit.v = end_segment;
     segment = start_segment;
 
-    if ((s32)vertex_data < (s16)end_segment) {
+    vertex_data = (u8 *)((s32)vertex_data < (s16)end_segment);
+    if (vertex_data != 0) {
         scale_b_x = radii.arg2;
         scale_b_y = radii.arg3;
         scale_a_x = radii.arg0;
@@ -169,11 +171,12 @@ void func_801750E4(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_
             submit_prim = prim;
             func_8006658C(draw_bucket, submit_prim);
             prim += sizeof(Block);
+            next_vertex = vertex_data + sizeof(Block);
             next_segment = segment;
             next_segment += 1;
-            vertex_data += sizeof(Block);
+            vertex_data = next_vertex;
             segment = next_segment;
-        } while (((s32)(u32)next_segment << 16) < ((s32)(u32)segment_limit << 16));
+        } while (((s32)(u32)next_segment << 16) < ((s32)(u32)segment_limit.v << 16));
     }
     (*graphics_ptr)->next_prim = prim;
 }

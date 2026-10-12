@@ -58,7 +58,6 @@ void func_800242FC(FxEffect *effect, M2C_UNK render_arg, FxColorOut *color_out) 
     s32 fade_work;
     s32 rounded_color;
     s32 channel_bit;
-    register s32 fade_out_red ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 fade_in_half;
     s32 fade_out_half;
     s32 packed_channel;
@@ -120,9 +119,7 @@ void func_800242FC(FxEffect *effect, M2C_UNK render_arg, FxColorOut *color_out) 
         color_out->rgb.at01.v = (s8) product_result;
         product_result = fade_in_blue * (((s16) effect->frame * 3) << 3);
         color_out->rgb.at02.v = (s8) product_result;
-        return;
-    }
-    if (frame < 0x28) {
+    } else if (frame < 0x28) {
         effect->target->flags |= 0x10000000;
         hold_tick = effect->tick;
         target_color = ((FxTargetPre *)(effect->target))[-1].color;
@@ -143,48 +140,50 @@ void func_800242FC(FxEffect *effect, M2C_UNK render_arg, FxColorOut *color_out) 
         target_color->b = blue;
         render_owner = effect->owner;
         func_80024154(render_owner, render_arg, color_out->rgb.at00u.v, effect);
-        return;
-    }
-    if (frame < 0x30) {
-        effect->target->flags |= 0x10000000;
-        fade_out_tick = effect->tick;
-        target_color = ((FxTargetPre *)(effect->target))[-1].color;
-        fade_out_cycle = (s16) fade_out_tick % 7 + 1;
-        packed_color = (s32) ((u32) fade_out_cycle << 16);
-        fade_out_color = packed_color >> 16;
-        fade_work = fade_out_color;
-        if (fade_out_color < 0) {
-            fade_work = fade_out_color + 3;
+    } else {
+        union { s32 v; } fade_out_red = {0};
+
+        if (frame < 0x30) {
+            effect->target->flags |= 0x10000000;
+            fade_out_tick = effect->tick;
+            target_color = ((FxTargetPre *)(effect->target))[-1].color;
+            fade_out_cycle = (s16) fade_out_tick % 7 + 1;
+            packed_color = (s32) ((u32) fade_out_cycle << 16);
+            fade_out_color = packed_color >> 16;
+            fade_work = fade_out_color;
+            if (fade_out_color < 0) {
+                fade_work = fade_out_color + 3;
+            }
+            fade_out_red.v = fade_work >> 2;
+            fade_work = (s16) effect->frame;
+            fade_in_color = 0x30;
+            fade_work = fade_in_color - fade_work;
+            fade_out_half = (fade_out_color + (s32) ((u32) packed_color >> 31)) >> 1;
+            product_result = fade_out_red.v * (fade_work << 3);
+            target_color->r = (s8) (product_result - 0x80);
+            fade_out_green = (s16) fade_out_half % 2;
+            packed_channel = (s32) ((u32) (fade_out_color - (fade_out_half * 2)) << 16);
+            product_result = fade_out_green * ((fade_in_color - (s16) effect->frame) << 3);
+            target_color->g = (s8) (product_result - 0x80);
+            channel_bit = packed_channel >> 16;
+            product_result = channel_bit * ((fade_in_color - (s16) effect->frame) << 3);
+            target_color->b = (s8) (product_result - 0x80);
+            frames_left = (s16) effect->frame;
+            frames_left = fade_in_color - frames_left;
+            product_result = fade_out_red.v * ((frames_left * 3) << 3);
+            color_out->rgb.at00.v = (s8) product_result;
+            frames_left = (s16) effect->frame;
+            frames_left = fade_in_color - frames_left;
+            product_result = fade_out_green * ((frames_left * 3) << 3);
+            color_out->rgb.at01.v = (s8) product_result;
+            frames_left = (s16) effect->frame;
+            frames_left = fade_in_color - frames_left;
+            product_result = channel_bit * ((frames_left * 3) << 3);
+            color_out->rgb.at02.v = (s8) product_result;
+        } else {
+            effect->target->flags &= 0xEFFFFFFF;
+            ((FxEffectPre *)effect)[-1].flags |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
-        fade_out_red = fade_work >> 2;
-        fade_work = (s16) effect->frame;
-        fade_in_color = 0x30;
-        fade_work = fade_in_color - fade_work;
-        fade_out_half = (fade_out_color + (s32) ((u32) packed_color >> 31)) >> 1;
-        product_result = fade_out_red * (fade_work << 3);
-        target_color->r = (s8) (product_result - 0x80);
-        fade_out_green = (s16) fade_out_half % 2;
-        packed_channel = (s32) ((u32) (fade_out_color - (fade_out_half * 2)) << 16);
-        product_result = fade_out_green * ((fade_in_color - (s16) effect->frame) << 3);
-        target_color->g = (s8) (product_result - 0x80);
-        channel_bit = packed_channel >> 16;
-        product_result = channel_bit * ((fade_in_color - (s16) effect->frame) << 3);
-        target_color->b = (s8) (product_result - 0x80);
-        frames_left = (s16) effect->frame;
-        frames_left = fade_in_color - frames_left;
-        product_result = fade_out_red * ((frames_left * 3) << 3);
-        color_out->rgb.at00.v = (s8) product_result;
-        frames_left = (s16) effect->frame;
-        frames_left = fade_in_color - frames_left;
-        product_result = fade_out_green * ((frames_left * 3) << 3);
-        color_out->rgb.at01.v = (s8) product_result;
-        frames_left = (s16) effect->frame;
-        frames_left = fade_in_color - frames_left;
-        product_result = channel_bit * ((frames_left * 3) << 3);
-        color_out->rgb.at02.v = (s8) product_result;
-        return;
     }
-    effect->target->flags &= 0xEFFFFFFF;
-    ((FxEffectPre *)effect)[-1].flags |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
 }
