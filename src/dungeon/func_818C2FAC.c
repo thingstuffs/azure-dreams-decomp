@@ -46,13 +46,13 @@ typedef struct S_818C2FAC_1 {
 
 typedef struct S_818C2FAC_2 {
     u8 pad_00[0xC];
-    volatile u8 unk_0C;
+    u8 unk_0C;
     u8 unk_0D;
     u8 unk_0E;
     u8 pad_0F[0x1];
     u16 unk_10;
     s16 unk_12;
-    volatile u16 unk_14;
+    u16 unk_14;
     u8 pad_16[0x4];
     s16 unk_1A;
     s16 unk_1C;
@@ -70,8 +70,6 @@ s32 func_818C2FAC(void *data_addr, Copy24 *position_addr, s32 direction)
     s32 y_factor;
     s32 y_offset;
     s32 new_y;
-    u16 render_flags;
-    u16 render_mode;
     s64_local position_xy;
     product_pair product_bits;
     s32 quotient;
@@ -99,17 +97,12 @@ s32 func_818C2FAC(void *data_addr, Copy24 *position_addr, s32 direction)
         effect_state->unk_06 = 0;
 
         render_or_radius = (uptr)((S_818C2FAC_0 *)((void *)effect))->unk_0C;
-        render_flags = ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_14;
         ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_0E = 0x80;
         ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_0D = 0x80;
         ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_0C = 0x80;
-        render_mode = ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_10;
-        render_flags |= 0xC;
-        render_mode |= 0x60;
-        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_14 = render_flags;
-        render_flags |= 0x100;
-        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_10 = render_mode;
-        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_14 = render_flags;
+        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_14 |= 0xC;
+        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_10 |= 0x60;
+        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_14 |= 0x100;
 
         variant_seed = (*(s16 *)((u8 *)((void *)data_addr) + 0x12));
         biased_seed = variant_seed;

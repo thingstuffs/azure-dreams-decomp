@@ -5,8 +5,8 @@
 
 extern s32 func_8003FA44();
 extern void *func_8003FC64();
-extern void func_8004491C();
-extern void func_800A56E0(s32);
+extern s32 func_8004491C();
+extern s32 func_800A56E0(s32);
 extern void func_800A6508(void);
 extern s32 func_800A6D30(void);
 extern void func_800CD6AC();
@@ -97,7 +97,7 @@ s32 func_800CD6E0(void *source) {
     DungeonGlobalStatus *effect_counts;
     s32 effect_index;
     s32 random;
-    register s32 random_or_effect_id ASM_REG("$4");
+    s32 random_or_effect_id;
     s16 roll;
     s32 spawn_roll;
     s32 owner_coord;
@@ -135,8 +135,8 @@ s32 func_800CD6E0(void *source) {
             func_8004491C(effect, D_80045C34);
             effect_link.value = 0x808080;
             random_or_effect_id = 0x50D;
-            ASM_KEEP_NV(random_or_effect_id);
             y_entry = effect_index << 2;
+            ASM_KEEP_NV(random_or_effect_id);
 
             owner_coord_2 = owner->unk_24;
             spawn_roll = *x_offsets;
@@ -148,7 +148,8 @@ s32 func_800CD6E0(void *source) {
             y_entry += spawn_roll;
             position->unk_02 = owner_coord_2;
             owner_coord = owner->unk_25;
-            spawn_roll = ((S_800CD6E0_5 *)((void *)y_entry))->unk_00;
+            y_entry += 2;
+            spawn_roll = ((S_800CD6E0_5 *)((void *)(y_entry - 2)))->unk_00;
             owner_coord <<= 6;
             spawn_roll = (spawn_roll << 5) + 0x20;
             owner_coord += spawn_roll;

@@ -17,10 +17,10 @@ typedef struct CopyFields {
 typedef struct ConfigFields {
     u8 pad0[8];
     void * field8;
-    volatile u32 fieldC;
+    u32 fieldC;
     u16 field10;
     u16 field12;
-    volatile u16 field14;
+    u16 field14;
     u8 pad16[6];
     u16 field1C;
     u16 field1E;
@@ -60,7 +60,6 @@ void *func_800C07AC(EntityFields *source) {
     ConfigFields *config;
     TailFields *entity_tail;
     TailFields *source_tail;
-    u16 config_flags;
     u16 size;
 
     entity = func_8003FD64(2, source);
@@ -81,13 +80,10 @@ void *func_800C07AC(EntityFields *source) {
         config->field8 = D_800DF4A4;
         size = 0x1000;
         config->field1E = size;
+        config->fieldC = 0x808080;
         config->field1C = size;
         source_tail = &source->tail;
-        config_flags = config->field14;
-        config->fieldC = 0x808080;
-        do {
-            config->field14 = config_flags | 0xC;
-        } while (0);
+        config->field14 |= 0xC;
         entity_tail = &entity->tail;
         entity_tail->field4C = 0x10;
         entity_tail->field68 = source_tail;

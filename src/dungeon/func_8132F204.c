@@ -59,7 +59,7 @@ typedef struct S_80166204_2 {
     s8 unk_0E;
     u8 pad_0F[0x3];
     s16 unk_12;
-    union { u16 s; volatile u16 u; } unk_14;   /* accessed as both */
+    u16 unk_14;
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
@@ -109,17 +109,16 @@ void func_80166204(S_80166204_4 *source, s16 effect_value, s32 unused, s16 offse
         sprite->unk_1C = 0x2AA;
         sprite->unk_0C = 0xFF;
         sprite->unk_0D = color_component;
-        sprite->unk_12 = 0x7DCF;
-        sprite_flags = sprite->unk_14.s & 0xFFF3;
+        sprite_flags = sprite->unk_14 & 0xFFF3;
         sprite_flags |= 2;
-        sprite->unk_14.u = sprite_flags;
+        sprite->unk_14 = sprite_flags;
+        sprite->unk_12 = 0x7DCF;
         sprite_flags |= 0x100;
-        sprite->unk_14.s = sprite_flags;
+        sprite->unk_14 = sprite_flags;
         func_8003DB94(sprite, &D_800DE870, 0);
     }
 }
 
 /* MECHANISM: Seven ABI arguments preserve the unused a2 slot; offset_x/y/z are s16
    parameters, so assign_parms converts them instead of marking the stack slots REG_EQUIV,
-   and they stay in s0/s3/s4 across the first call. A v1 byte-value pin plus the volatile
-   midpoint preserve the v0 RMW chain. */
+   and they stay in s0/s3/s4 across the first call. */

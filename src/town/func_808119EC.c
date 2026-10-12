@@ -28,7 +28,6 @@ void func_808119EC(void) {
     s8 *parent;
     s8 *slot;
     s8 *primitive;
-    register s8 *state ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 i;
     s32 case_value;
     s16 rect[4];
@@ -69,31 +68,39 @@ void func_808119EC(void) {
     object = func_800373DC(0x136);
     i = 4;
     if (object != NULL) {
+        /* Codegen-matching initializer (owner trade 10-12, cleanup candidate): at 2.6.3 only a NON-constant
+         * initializer emits the CLOBBER that makes rgb a global allocno; the value is overwritten below. */
+        union { s32 v; } rgb = { i };
+
         func_8003BC18(object, D_8003D588);
         primitive = *(s8 **)((s8 *)object + 8);
-        state = *(s8 **)((s8 *)object + 0xC);
-        *(u8 **)((s8 *)object + 0x10) = D_8052DE94;
-        *(s8 **)((s8 *)object + 0x20) = parent;
-        *(s16 *)(state + 0x1C) = 0x1000;
-        *(s16 *)(state + 0x1E) = 0x1000;
-        *(s16 *)(state + 0x20) = 0x1000;
-        *(s32 *)(state + 8) = 0x2B;
-        *(s16 *)(state + 0x12) = 0;
-        *(s16 *)(state + 0x14) = 0;
-        *(s16 *)(state + 0x10) = 0;
-        *(s16 *)(state + 0x16) = 0;
-        *(s16 *)(state + 0x18) = 0;
-        *(s16 *)(state + 0x1A) = 0;
-        *(s32 *)(state + 0) = 0;
-        *(u8 *)(state + 4) = 0;
-        *(u8 *)(state + 5) = 0;
-        *(s32 *)(state + 0xC) = 0x00808080;
-        *(s32 *)(primitive + 0) = 0x04400000;
-        *(s32 *)(primitive + 4) = 0x02C00000;
-        *(s32 *)(primitive + 8) = 0;
-        *(u8 **)((s8 *)object + 0x70) = common_value;
-        func_8023FA58((s8 *)object + 0x28,
-                      *(s8 **)((s8 *)object + 8), D_80530184, primitive);
+        {
+            union { s8 *v; } state = { *(s8 **)((s8 *)object + 0xC) };
+
+            *(u8 **)((s8 *)object + 0x10) = D_8052DE94;
+            *(s8 **)((s8 *)object + 0x20) = parent;
+            *(s16 *)(state.v + 0x1C) = 0x1000;
+            *(s16 *)(state.v + 0x1E) = 0x1000;
+            *(s16 *)(state.v + 0x20) = 0x1000;
+            *(s32 *)(state.v + 8) = 0x2B;
+            *(s16 *)(state.v + 0x12) = 0;
+            *(s16 *)(state.v + 0x14) = 0;
+            *(s16 *)(state.v + 0x10) = 0;
+            *(s16 *)(state.v + 0x16) = 0;
+            *(s16 *)(state.v + 0x18) = 0;
+            *(s16 *)(state.v + 0x1A) = 0;
+            *(s32 *)(state.v + 0) = 0;
+            *(u8 *)(state.v + 4) = 0;
+            *(u8 *)(state.v + 5) = 0;
+            rgb.v = 0x00808080;
+            *(s32 *)(state.v + 0xC) = rgb.v;
+            *(s32 *)(primitive + 0) = 0x04400000;
+            *(s32 *)(primitive + 4) = 0x02C00000;
+            *(s32 *)(primitive + 8) = 0;
+            *(u8 **)((s8 *)object + 0x70) = common_value;
+            func_8023FA58((s8 *)object + 0x28,
+                          *(s8 **)((s8 *)object + 8), D_80530184, primitive);
+        }
     }
 
     slot = (s8 *)D_8052671C;

@@ -8,7 +8,7 @@ typedef struct S_800BCE78_1 {
     s32 unk_00;
     u8 pad_04[0x4];
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
-    union { s32 s; volatile s32 u; } unk_0C;   /* accessed as both */
+    s32 unk_0C;
     u8 pad_10[0x4];
     s32 unk_14;
 } S_800BCE78_1;   /* arg1 in func_800BCE78 */
@@ -89,19 +89,19 @@ case 0:
             home_distance = __builtin_abs(home_dx);
             limit = limit < home_distance;
             if (!limit) {
-                ((S_800BCE78_1 *)motion)->unk_0C.s = 0x10000;
+                ((S_800BCE78_1 *)motion)->unk_0C = 0x10000;
                 if (rand() & 1) {
-                    hop_vx = -((S_800BCE78_1 *)motion)->unk_0C.s;
-                    ((S_800BCE78_1 *)motion)->unk_0C.s = hop_vx;
+                    hop_vx = -((S_800BCE78_1 *)motion)->unk_0C;
+                    ((S_800BCE78_1 *)motion)->unk_0C = hop_vx;
                 }
             } else {
                 hop_vx = -0x10000;
                 if (home_dx < 0) {
                     hop_vx = 0x10000;
                 }
-                ((S_800BCE78_1 *)motion)->unk_0C.s = hop_vx;
+                ((S_800BCE78_1 *)motion)->unk_0C = hop_vx;
             }
-            if (((S_800BCE78_1 *)motion)->unk_0C.s > 0) {
+            if (((S_800BCE78_1 *)motion)->unk_0C > 0) {
                 ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 1;
             } else {
                 ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xFFFE;
@@ -121,21 +121,23 @@ case 0:
             random_speed = rand();
             limit = 0xFFFFF;
             vx = (random_speed & 0x1FF) << 8;
-            ((S_800BCE78_1 *)motion)->unk_0C.s = vx;
+            ((S_800BCE78_1 *)motion)->unk_0C = vx;
             home_dx = ((S_800BCE78_1 *)motion)->unk_00;
             home_dx -= ((Rec_D_80082D58 *)actor)->unk_A0;
             home_distance = __builtin_abs(home_dx);
             limit = limit < home_distance;
             if (!limit) {
+                s32 t;
                 if (rand() & 1) {
-                    ((S_800BCE78_1 *)motion)->unk_0C.u = ((S_800BCE78_1 *)motion)->unk_0C.s;
+                    t = ((S_800BCE78_1 *)motion)->unk_0C;
                 } else {
-                    ((S_800BCE78_1 *)motion)->unk_0C.s = -((S_800BCE78_1 *)motion)->unk_0C.s;
+                    t = -((S_800BCE78_1 *)motion)->unk_0C;
                 }
+                ((S_800BCE78_1 *)motion)->unk_0C = t;
             } else if (home_dx > 0) {
-                ((S_800BCE78_1 *)motion)->unk_0C.s = -vx;
+                ((S_800BCE78_1 *)motion)->unk_0C = -vx;
             }
-            if (((S_800BCE78_1 *)motion)->unk_0C.s > 0) {
+            if (((S_800BCE78_1 *)motion)->unk_0C > 0) {
                 ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 1;
             } else {
                 ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xFFFE;
@@ -176,7 +178,7 @@ case 0x20:
         register u16 timer;
 
         x = ((S_800BCE78_1 *)motion)->unk_00;
-        vx = ((S_800BCE78_1 *)motion)->unk_0C.s;
+        vx = ((S_800BCE78_1 *)motion)->unk_0C;
         y = ((S_800BCE78_1 *)motion)->unk_08.at00.v;
         vy = ((S_800BCE78_1 *)motion)->unk_14;
         ((S_800BCE78_1 *)motion)->unk_00 = x + vx;
@@ -190,7 +192,7 @@ case 0x20:
             ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = timer;
             if ((s16)timer <= 0) {
                 ((S_800BCE78_1 *)motion)->unk_14 = 0;
-                ((S_800BCE78_1 *)motion)->unk_0C.s = 0;
+                ((S_800BCE78_1 *)motion)->unk_0C = 0;
                 ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
                 ((Rec_D_80082D58 *)actor)->unk_68 = 0;
             } else {
@@ -208,7 +210,7 @@ case 0x30:
         s32 y;
 
         x = ((S_800BCE78_1 *)motion)->unk_00;
-        vx = ((S_800BCE78_1 *)motion)->unk_0C.s;
+        vx = ((S_800BCE78_1 *)motion)->unk_0C;
         vy = ((S_800BCE78_1 *)motion)->unk_14;
         ((S_800BCE78_1 *)motion)->unk_00 = x + vx;
         y = ((S_800BCE78_1 *)motion)->unk_08.at00.v;
@@ -231,7 +233,7 @@ case 0x31:
         register u16 timer;
 
         x = ((S_800BCE78_1 *)motion)->unk_00;
-        vx = ((S_800BCE78_1 *)motion)->unk_0C.s;
+        vx = ((S_800BCE78_1 *)motion)->unk_0C;
         y = ((S_800BCE78_1 *)motion)->unk_08.at00.v;
         vy = ((S_800BCE78_1 *)motion)->unk_14;
         ((S_800BCE78_1 *)motion)->unk_00 = x + vx;
@@ -242,7 +244,7 @@ case 0x31:
             if ((s16)timer <= 0) {
                 sequence = D_800E9E34;
                 ((S_800BCE78_1 *)motion)->unk_14 = -0x10000;
-                ((S_800BCE78_1 *)motion)->unk_0C.s >>= 1;
+                ((S_800BCE78_1 *)motion)->unk_0C >>= 1;
                 ((Rec_D_80082D58 *)actor)->unk_68 = 0x32;
                 ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = (rand() & 3) + 3;
             }
@@ -263,7 +265,7 @@ case 0x32:
         register u16 timer;
 
         x = ((S_800BCE78_1 *)motion)->unk_00;
-        vx = ((S_800BCE78_1 *)motion)->unk_0C.s;
+        vx = ((S_800BCE78_1 *)motion)->unk_0C;
         y = ((S_800BCE78_1 *)motion)->unk_08.at00.v;
         vy = ((S_800BCE78_1 *)motion)->unk_14;
         ((S_800BCE78_1 *)motion)->unk_00 = x + vx;
@@ -273,8 +275,8 @@ case 0x32:
             ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = timer;
             if ((s16)timer <= 0) {
                 ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = 8;
-                new_vx = -((S_800BCE78_1 *)motion)->unk_0C.s;
-                ((S_800BCE78_1 *)motion)->unk_0C.s = new_vx;
+                new_vx = -((S_800BCE78_1 *)motion)->unk_0C;
+                ((S_800BCE78_1 *)motion)->unk_0C = new_vx;
                 if (new_vx > 0) {
                     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 1;
                 } else {
@@ -302,7 +304,7 @@ case 0x33:
         register u16 timer;
 
         x = ((S_800BCE78_1 *)motion)->unk_00;
-        vx = ((S_800BCE78_1 *)motion)->unk_0C.s;
+        vx = ((S_800BCE78_1 *)motion)->unk_0C;
         y = ((S_800BCE78_1 *)motion)->unk_08.at00.v;
         vy = ((S_800BCE78_1 *)motion)->unk_14;
         ((S_800BCE78_1 *)motion)->unk_00 = x + vx;
@@ -315,7 +317,7 @@ case 0x33:
         if ((s16)timer <= 0) {
             sequence = D_800E9E54;
             ((S_800BCE78_1 *)motion)->unk_14 = 0;
-            ((S_800BCE78_1 *)motion)->unk_0C.s = 0;
+            ((S_800BCE78_1 *)motion)->unk_0C = 0;
             ((Rec_D_80082D58 *)actor)->unk_68 = 0x34;
         }
         break;
@@ -325,7 +327,7 @@ case 0x34:
     {
         register s16 floor;
 
-        ((S_800BCE78_1 *)motion)->unk_00 += ((S_800BCE78_1 *)motion)->unk_0C.s;
+        ((S_800BCE78_1 *)motion)->unk_00 += ((S_800BCE78_1 *)motion)->unk_0C;
         floor = func_800C2AE8(motion);
         ((S_800BCE78_1 *)motion)->unk_08.at02.v =
             (u16)((S_800BCE78_1 *)motion)->unk_08.at02.v + ((floor - ((S_800BCE78_1 *)motion)->unk_08.at02.v) >> 1);
