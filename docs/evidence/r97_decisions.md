@@ -235,3 +235,16 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     adjust_priority), reg_n_sets != 1, or dest not live when ready - or (2) insn 26 ALSO boosted (plain single-set REG
     dest that cse does not copy-propagate) so LUID breaks the tie 26 > 20 > 16, or (3) 16 queued (cost > 1 / extra
     dependence). Bank 41 stays ONE TU (decision 38) pending that work.
+42. **(r117, orchestrator, delegated) A descriptor in the runtime-proven TOWN scene-descriptor array is placement evidence
+    for its image even when no code selects it.** r115_opus_town found the scene loader (set_next_scene 0x8003BAF8 ->
+    commit 0x8003BD34 -> load_cur_scene 0x80053C6C -> Control_CD(6, record) -> CD ring 0x80083968; dest = (w0 &
+    0x7FFFFF)|0x80000000, sectors = w0>>23, LBA = w1) and confirmed it in four savestates (sstate5 mid-flight: record
+    0x8001C27C, ring entry 15, slot = TOWN 0x617000). Descriptor 16 (TOWN [0x652800,0x654000) -> 0x80016000, 3 sectors)
+    has no selecting door (a cut room); its record is in the same array and the consumer reads +8 for any descriptor, so
+    town/func_806D23A4's next side is placed at 0x80016000. Evidence: docs/evidence/town_scene_loader_receipt.json.
+    SECOND LOOK: yes (owner may prefer decision 32's d15-only landing).
+43. **(r117, orchestrator, delegated) Internal link evidence places an image that has no loader.** The six TOWN images
+    [0x8CD000,0x8D2000) are the only 6 of 54 scene images with no loader (likely development stand-ins for the room 0x16
+    interior). At base 0x80016000, 25 of 26 internal calls and both header entries land on function starts (almost none
+    at +-0x800). Accepted as placement for town/func_8094D004 and town/func_80950CC0's data sides, recorded as
+    `placement: link-evidence` (distinct from loader-receipt placement). SECOND LOOK: yes.
