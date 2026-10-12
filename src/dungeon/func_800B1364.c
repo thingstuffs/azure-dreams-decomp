@@ -136,11 +136,6 @@ typedef struct S_func_800B1364_15 {
     s32 unk_00;
 } S_func_800B1364_15;
 
-typedef struct S_func_800B1364_16 {
-    u8 pad_00[0x14A0];
-    s32 unk_14A0;
-} S_func_800B1364_16;
-
 typedef struct S_func_800B1364_17 {
     u8 pad_00[0x4];
     void *unk_04;
@@ -203,6 +198,7 @@ extern u8 D_800DD110[];
 extern u8 D_800DD118[];
 extern u8 D_800DD130[];
 extern u8 D_800DD138[];
+extern s32 D_800814A0;
 extern u8 D_800DD140[];
 extern M2C_UNK D_800E0458;
 extern M2C_UNK D_800E0A2A;
@@ -216,7 +212,6 @@ extern u8 D_800E3E48[];
 void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_func_800B1364_3 *sprite,
     S_func_800B1364_4 *actor) {
     s16 spawn_offset[3];
-    register u8 *direction_base ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s16 spawn_height;
     s32 creature_variant;
     s32 message_start;
@@ -256,9 +251,7 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
     u32 *level_table;
     void *save_data;
     S_func_800B1364_5 *hidden_creature;
-    register void *release_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register S_func_800B1364_3 *anim_sprite ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register void *copy_src ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    void *release_value;
     S_func_800B1364_7 *global_state = (S_func_800B1364_7 *)((M2C_UNK *)&gameWork.unk_000);
 
     state = action->unk_9B;
@@ -514,7 +507,6 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
         }
         wait_timer = action->unk_96 - 1;
         action->unk_96 = wait_timer;
-        anim_sprite = sprite;
         if ((wait_timer << 0x10) > 0) {
             if (!(sprite->unk_14 & 0x8000)) {
                 if (global_state->unk_10 == 0) {
@@ -522,12 +514,11 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
                 }
             }
         }
-        direction_base = D_800DD130;
-        *(u8 **)((u8 *)anim_sprite + 0x2C) = direction_base;
-        direction_anim = (u8 *) ((u32) (((s32) (gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7)
-            + (u32) direction_base);
-        copy_src = NULL;
-        goto play_direction_anim;
+        *(u8 **)((u8 *)sprite + 0x2C) = D_800DD130;
+        direction_anim = D_800DD130 + (((s32) (gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7);
+        func_80048A44(sprite, *direction_anim, 0, 1);
+        action->unk_9B = (u8) (action->unk_9B + 1);
+        return;
     case 9:
         if (!(sprite->unk_14 & 0xE000)) {
             return;
@@ -559,26 +550,16 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
             return;
         }
         func_8009A028(finished_creature);
-        copy_src = NULL;
         item_entry = D_80010000_PTR->table[actor->unk_8A];
         saved_creature = D_800E3DF0[item_entry->unk_03.u8 & 0x1F];
         saved_creature->unk_14 = (s32) (saved_creature->unk_14 & ~0x4000);
         release_value = actor->unk_60;
-        {
-            S_func_800B1364_16 *flags_page;
-            flags_page = (S_func_800B1364_16 *)0x80080000;
-            ((S_func_800B1364_19 *)((u8 *)release_value - 2))->unk_00 =
-                (u16) (((S_func_800B1364_19 *)((u8 *)release_value - 2))->unk_00 | 0x8000);
-            release_value = (void *) flags_page->unk_14A0;
-            release_value = (void *) ((s32) release_value | 0x8000);
-            direction_base = D_800DD140;
-            anim_sprite = sprite;
-            *(u8 **)((u8 *)anim_sprite + 0x2C) = direction_base;
-            direction_anim = direction_base + (((s32) (gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7);
-            flags_page->unk_14A0 = (s32) release_value;
-        }
-play_direction_anim:
-        func_80048A44(anim_sprite, *direction_anim, copy_src, 1);
+        ((S_func_800B1364_19 *)((u8 *)release_value - 2))->unk_00 =
+            (u16) (((S_func_800B1364_19 *)((u8 *)release_value - 2))->unk_00 | 0x8000);
+        D_800814A0 |= 0x8000;
+        sprite->unk_2C = D_800DD140;
+        direction_anim = D_800DD140 + (((s32) (gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7);
+        func_80048A44(sprite, *direction_anim, 0, 1);
 read_next_state:
         action->unk_9B = (u8) (action->unk_9B + 1);
         return;
