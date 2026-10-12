@@ -1,5 +1,5 @@
 """Fresh complete overlay-module certificates, never unchecked sweep events."""
-import hashlib,json,sys,subprocess
+import hashlib,json,sys,subprocess,yaml
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'tools/gate'))
@@ -43,8 +43,10 @@ def certificate_reason(m,cert,root=ROOT):
  root=Path(root).absolute()
  if any(m['review'].get(k)!='reviewed' for k in ['membership','types','ownership']) or not m['review'].get('reviewer'):return 'membership/type/ownership review incomplete'
  if cert.get('schema')!=SCHEMA or cert.get('kind')!='overlay_module_placement' or cert.get('module')!=m['key'] or cert.get('members')!=[a['id'] for a in all_members(m)]:return 'wrong certificate identity'
- if json.loads((root/'ledger/splits/overlay_modules.build.json').read_text())!=graph(root):return 'physical graph differs from registry/cohorts'
+ import overlay_scoped_fingerprint as scoped
+ if not scoped.enabled(root) and json.loads((root/'ledger/splits/overlay_modules.build.json').read_text())!=graph(root):return 'physical graph differs from registry/cohorts'
  current=fingerprint(m,root)
+ if cert.get('fingerprint',{}).get('schema')!=current.get('schema'):return 'fingerprint schema migration requires full recertification'
  if cert.get('fingerprint')!=current:return 'source/recipe/graph/tool/review/window inputs changed'
  if not cert.get('reviewer') or cert.get('reviewer')!=m['review']['reviewer']:return 'reviewer differs'
  p=proof_path(root,cert['proof_dir'])
@@ -56,6 +58,7 @@ def certificate_reason(m,cert,root=ROOT):
  if [w['config'] for w in ws]!=expected:return 'not every affected production window was gated'
  import yaml
  for w in ws:
+  if current.get('schema') and w.get('digest')!=current['windows'][w['config']]['sha256']:return 'window dependency digest differs'
   y=yaml.safe_load((root/w['config']).read_text());sb=y['standalone_build'];fs=sb['window']['file_start'];fe=sb['window']['file_end'];wp=proof_path(root,w['proof_dir'])
   if w.get('result')!='MATCH' or w.get('file_start')!=fs or w.get('file_end')!=fe:return 'window scope differs'
   if set(w['artifacts'])!={'gate.log','window.bin','manifest.json','projection.json','module/receipt.json'}:return 'incomplete window artifact inventory'
@@ -78,13 +81,13 @@ def certificate_reason(m,cert,root=ROOT):
 def module_status(root=ROOT):
  root=Path(root).absolute()
  try:mods=load_modules(root)
- except (OSError,ValueError,KeyError,TypeError) as e:return [{'module':{'key':'manifest','members':[]},'valid':False,'reason':str(e)}]
+ except (OSError,ValueError,KeyError,TypeError,NameError,yaml.YAMLError) as e:return [{'module':{'key':'manifest','members':[]},'valid':False,'reason':'manifest invalid: '+type(e).__name__+': '+str(e)}]
  out=[]
  for m in mods:
   cert=None
   try:
    cert=json.loads((root/'ledger/modules'/('overlay_'+m['key']+'.json')).read_text());reason=certificate_reason(m,cert,root)
-  except (OSError,ValueError,KeyError,TypeError,AttributeError,IndexError,subprocess.SubprocessError) as e:reason='certificate missing/invalid: '+str(e)
+  except (OSError,ValueError,KeyError,TypeError,AttributeError,IndexError,NameError,yaml.YAMLError,subprocess.SubprocessError) as e:reason='certificate missing/invalid: '+type(e).__name__+': '+str(e)
   out.append({'module':m,'certificate':cert,'valid':reason is None,'reason':reason})
  return out
 
