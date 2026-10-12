@@ -17,6 +17,9 @@ if [ $FRESH = 1 ] || [ ! -f "$B/build.ninja" ]; then
   (cd "$B" && .venv/bin/splat split config/slus_006.14.yaml > "$B/splat.log" 2>&1)
   (cd "$B" && python3 tools/configure.py > "$B/configure.log" 2>&1)
 fi
+# The SLUS split does not contain the MAIN-only LIBCARD/PATCH routine.
+# A fresh split removed asm/: restore its disc-backed twin for overlay views too.
+python3 "$ROOT/tools/build/main_sdk_asm.py" --root "$ROOT"
 recipe_sha="$(sha256sum "$B/build.ninja" | cut -d' ' -f1)"
 pinned="$ROOT/ledger/splits/slus.build.ninja"
 same="unknown"; [ -f "$pinned" ] && { cmp -s "$pinned" "$B/build.ninja" && same="identical" || same="DIFFERS"; }
