@@ -47,8 +47,36 @@ and never bypass a guard or authorize a write.
 The final transaction uses incremental gate_all by default. `gate_all: "full"`
 or a changed gate/compiler/fingerprint/build input forces --all. raw and rowbase
 changes are hashed by inputs_sha and do not force --all. Both modes log elapsed
-time and reasons. Every recorded certificate renews once, using its own recorded
-reviewer. SLUS retains the forced full-image SHA-1 and pinned-recipe checks.
+time and reasons. Every recorded certificate is validated through module_status;
+reader-invalid certificates renew, using their own recorded reviewers. New or
+byte-changed certificates and changes to their referenced generated proof
+directories force renewal even when the reader accepts them. The transaction's
+pre-quarantine snapshot binds those bytes; identical proof copies are retained.
+Non-include full-gate reasons force renewal of every certificate, covering tool
+and build inputs outside either fingerprint. Include paths and the dependency
+closure-unavailable reason retain selective renewal even with --all. All are
+validated after renewal and again after final regeneration. L5-drop, certificate
+roster and final validation refusals remain. This uses the same reader interface
+under legacy and overlay-module-scoped-v2. SLUS retains the forced full-image
+SHA-1 and pinned-recipe checks.
+
+Quarantine copies each recorded certificate's durable proof directories into
+the new generated tree, keeping the originals untouched for rollback. Otherwise
+moving the generated tree would itself invalidate every retained certificate.
+Build caches and exported tools are regenerated. Missing or aliased proof
+artifacts are not copied and must pass normal renewal/validation.
+
+An include file present before the transaction always forces --all. For a new
+include file, capture existing production source recipes before mutation and
+compute their actual compiler -M dependency closure afterward. Observe updated
+recipes for existing TUs too; new TUs and per-row compiles retired by grouping
+into them are excluded. Included member bodies are observed through their TU's
+actual preprocessor dependencies. Assembly include paths
+are conservatively traversed. Failure to compute the closure forces --all.
+Generated assembly may be unavailable during the early preflight screen; the
+transaction rechecks after the SLUS split and fresh gate-view export, before
+choosing gate_all's mode. A new module's private header therefore keeps an
+incremental gate when existing sources do not depend on it.
 
 workers defaults to two thirds of the process CPU affinity, capped at 16 (24
 available CPUs -> 16); a positive plan workers value overrides that default.
@@ -72,7 +100,13 @@ general persistent certificate cache or journal-only shortcut.
 Land gate/compiler/fingerprint tool packages separately from ordinary source
 packages. Their one full gate repopulates incremental inputs; bundling unrelated
 ordinary work with them makes that work pay the cold full-gate cost too. This
-follow-up tool package itself needs a full gate and all certificate renewals.
+original follow-up tool package itself needed a full gate and all renewals.
+The selective-renewal follow-up is a separate guarded package. Its landing order
+is headers and sdk2, then certfp with its scoped selector, then landproc. Those
+packages share one transaction and one renewal pass. The landproc package writes
+no certfp-owned file; changing the lander during a transaction takes effect on
+the next invocation, while the migration already invalidates all old-schema
+certificates and requires their normal renewal in the combined transaction.
 
 Batches
 -------

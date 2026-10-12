@@ -1555,6 +1555,8 @@ def compile_corpus(work_root: Path) -> tuple[int, dict[str, int]]:
 
 
 def main(argv=None) -> int:
+    import overlay_scoped_fingerprint as scoped
+    if scoped.enabled(ROOT): scoped.reject_environment()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", default=str(DEFAULT_CONFIG), help="overlay YAML")
     parser.add_argument("--clean", action="store_true", help="remove this overlay's work build dir first")

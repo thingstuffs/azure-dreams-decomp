@@ -15,7 +15,8 @@ if ROOT.name=='tools': ROOT=ROOT.parent
 SCHEMA='overlay-module-native-v4'
 sys.path.insert(0, str(Path(__file__).resolve().parent))  # sibling import when loaded as gate.overlay_module_gate
 import overlay_native_rodata as N
-from gate_read_cache import digest, read_jsonl, read_text
+from gate_read_cache import digest, read_jsonl, read_text, read_json as _read_json, read_records as _read_records
+from contextvars import ContextVar
 CONTAINERS={'dungeon':'DUNGEON_DUNGEON.BIN','town':'TOWN_TOWN.BIN','main':'MAIN_MAIN.BIN','ovmovie':'OVMOVIE.BIN'}
 META={'.reginfo','.MIPS.abiflags'}
 def sha(p): return digest(p)
@@ -24,6 +25,20 @@ def local(root,name):
  p=Path(name)
  if p.is_absolute() or '..' in p.parts or not name: raise ValueError('unsafe relative path: '+str(name))
  return Path(root)/p
+
+_LOAD_READS=ContextVar('module_validation_reads',default=None)
+def _load_read(path,kind,reader):
+ # Decoded input reuse only inside ONE full validator invocation. Validate
+ # every rule again; refresh on every file identity change, including ctime.
+ cache=_LOAD_READS.get()
+ if cache is None:return reader(path)
+ path=Path(path).absolute();st=path.stat()
+ stamp=(st.st_dev,st.st_ino,st.st_mtime_ns,st.st_ctime_ns,st.st_size);key=(path,kind)
+ previous=cache.get(key)
+ if previous is None or previous[0]!=stamp:cache[key]=(stamp,reader(path))
+ return cache[key][1]
+def read_json(path):return _load_read(path,'json',_read_json)
+def read_records(path):return _load_read(path,'records',_read_records)
 
 def rows(root):
  return {r['id']:r for r in read_jsonl(root/'ledger/rows.jsonl') if r['kind']=='overlay'}
@@ -38,14 +53,19 @@ def module_size(m):
  return sum(a['size'] for a in all_members(m))
 
 def ranges(root,family):
- return [json.loads(l) for l in (root/'config/overlays'/f'{family}.rowbase.jsonl').read_text().splitlines() if l.startswith('{')]
+ return read_records(root/'config/overlays'/f'{family}.rowbase.jsonl')
 
 def load_modules(root=ROOT):
+ token=_LOAD_READS.set({})
+ try:return _load_modules(root)
+ finally:_LOAD_READS.reset(token)
+
+def _load_modules(root=ROOT):
  root=Path(root);path=root/'config/overlays/modules.json'
  if (root/'config/overlay_modules_disabled').exists() or not path.exists(): return []
- doc=json.loads(path.read_text())
+ doc=read_json(path)
  if doc['schema'] not in (SCHEMA,'overlay-module-native-v3','overlay-module-text-v2'):raise ValueError('unsupported manifest')
- reg=rows(root);seen=set();keys=set()
+ reg=rows(root);seen=set();keys=set();assignments=None;levels=None
  for m in doc['modules']:
   if not re.fullmatch('[a-z][a-z0-9_]*',m['key']) or m['key'] in keys:raise ValueError('duplicate/invalid key')
   keys.add(m['key'])
@@ -75,13 +95,13 @@ def load_modules(root=ROOT):
    cursor+=a['size']
   if not int(region['foff_start'],0)<=module_first(m)['foff']<cursor<=int(region['foff_end'],0):raise ValueError('module outside proven load map')
   if m.get('membership_evidence'):
-   ev=json.loads(local(root,m['membership_evidence']).read_text())
+   ev=read_json(local(root,m['membership_evidence']))
    if m['membership_evidence'] not in m['review_inputs']:raise ValueError('membership evidence not fingerprinted')
    group=ev['ledger_group']
-   assignments=read_jsonl(root/'ledger/modules.jsonl')
+   if assignments is None:assignments=read_jsonl(root/'ledger/modules.jsonl')
    cohort=sorted([x['id'] for x in assignments if all(x[k]==v for k,v in group.items())],key=lambda rid:reg[rid]['foff'])
    if cohort!=[a['id'] for a in all_members(m)]:raise ValueError('complete ledger cohort differs')
-   levels={x['id']:x for x in read_jsonl(root/'ledger/levels.jsonl')}
+   if levels is None:levels={x['id']:x for x in read_jsonl(root/'ledger/levels.jsonl')}
    for a in m['members']:
     level=levels[a['id']]
     if level['level']<3 or level['pins_left'] or level['tail_jumps'] or set(level['l4_residue'])-{'not_in_module'}:raise ValueError('L3/placement screen failed')
@@ -145,7 +165,7 @@ def validate_asset(root,d):
  # Cross-resident imports remain external views. The load map and view are
  # explicit evidence inputs, separate from the owning module's code range.
  local(root,d['asset']);e=local(root,d['evidence'])
- proof=json.loads(e.read_text());v=proof['views'][d['symbol']]
+ proof=read_json(e);v=proof['views'][d['symbol']]
  if v!=d or d['view_bytes']<=0 or d['owner']!='retail_asset:'+d['asset']:raise ValueError('external asset evidence differs')
  mp=proof['maps'][d['map']]
  if mp['asset']!=d['asset'] or d['foff']+mp['delta']!=d['vma'] or not mp['file_start']<=d['foff']<d['foff']+d['view_bytes']<=mp['file_end']:raise ValueError('external asset load map differs')
@@ -161,20 +181,35 @@ def validate_asset(root,d):
  else:raise ValueError('unsupported external asset map')
 
 def validate_runtime(root,d):
- proof=json.loads(local(root,d['evidence']).read_text())
+ proof=read_json(local(root,d['evidence']))
  if proof['runtime_views'].get(d['symbol'])!=d or d['owner']!='resident_runtime:slus' or d['view_bytes']<=0:raise ValueError('runtime storage evidence differs')
  if not local(root,d['declaration']).is_file():raise ValueError('missing runtime storage declaration')
  # This grants no allocation or initialization claim: the module imports an
  # existing runtime object. Definitions/byte ownership remain external.
 
 
-def graph(root=ROOT):
- root=Path(root);reg=rows(root);mods=load_modules(root);taken={a['id'] for m in mods for a in all_members(m)}
+def graph(root=ROOT,*,modules=None,registry=None):
+ root=Path(root);reg=rows(root) if registry is None else registry;mods=load_modules(root) if modules is None else modules;taken={a['id'] for m in mods for a in all_members(m)}
  edges=[{'module':m['key'],'source':m['source'],'recipe':m['recipe'],'rows':[a['id'] for a in all_members(m)]} for m in mods]
  edges += [{'source':f"src/{r['container']}/{Path(r['c_path']).name}",'recipe':{'cfg':r['cfg'],'row_asflags':r.get('row_asflags') or ''},'rows':[rid]} for rid,r in sorted(reg.items()) if rid not in taken]
  return {'schema':SCHEMA,'logical_rows':len(reg),'edges':edges}
 
-def affected_windows(m,root=ROOT):
+def affected_windows(m,root=ROOT,*,parsed_windows=None):
+ import overlay_scoped_fingerprint as scoped
+ if scoped.enabled(root):
+  # Independent selection from each logical member extent. The fingerprint
+  # selects by aggregate TU extent; agreement is meaningful for complete,
+  # contiguous modules, including a separately registered data prefix.
+  configs=scoped.windows(Path(root)) if parsed_windows is None else parsed_windows
+  fam='dungeon' if m['container']=='dungeon_engine' else m['container'];out=[]
+  spans=[(a['foff'],a['foff']+a['size']) for a in all_members(m)]
+  integer=lambda v:int(v,0) if isinstance(v,str) else int(v)
+  for name,cfg in sorted(configs.items()):
+   if cfg['name'].partition('_')[0]!=fam:continue
+   window=cfg['standalone_build']['window'];lo=integer(window['file_start']);hi=integer(window['file_end'])
+   if any(lo<end and start<hi for start,end in spans):out.append(name)
+  if not out:raise ValueError('module has no production window')
+  return out
  first=module_first(m)['foff'];end=m['members'][-1]['foff']+m['members'][-1]['size'];out=[]
  for p in sorted((root/'config/overlays').glob(m['container']+'*.overlay.yaml')):
   t=p.read_text();a=re.search(r'file_start:\s*(0x[\da-fA-F]+|\d+)',t);b=re.search(r'file_end:\s*(0x[\da-fA-F]+|\d+)',t)
@@ -216,6 +251,11 @@ def gate_tool(root,name):
  return p if p.exists() else root/'tools'/name
 
 def fingerprint(m,root=ROOT,windows=True):
+ import overlay_scoped_fingerprint as scoped
+ if scoped.enabled(root):return scoped.fingerprint(m,root,sys.modules[__name__],windows=windows)
+ return legacy_fingerprint(m,root,windows=windows)
+
+def legacy_fingerprint(m,root=ROOT,windows=True):
  root=Path(root).absolute();wins=affected_windows(m,root);compiler_versions={'2.7.2-cdk'}
  evidence_foffs={a['foff'] for a in all_members(m)}
  source_starts=[m['source'],*m['headers'],*(a['source'] for a in all_members(m)),'include/labels.inc',*(p for p in m['review_inputs'] if p.endswith(('.c','.h')))]
@@ -264,7 +304,7 @@ def fingerprint(m,root=ROOT,windows=True):
    if (root/p).exists():names.add(p)
  # Resolve the combined include closure once; shared headers are read once.
  names.update(closure(root,source_starts))
- gate_names=['gate_read_cache.py','overlay_native_rodata.py','cc.sh','ccproc.py','overlay_local_gate.py','overlay_module_gate.py','overlay_evidence.py','overlay_as_flags.py','gen_noreturn_syms.py','rowbase_naming_debt.py','match.py','rowbase_identity.py','configure.py','live_truth.py','rowbase.py','az_target.py','residue_class.py','overlay_func_compare.py','oracle_scoring.py']
+ gate_names=['overlay_scoped_fingerprint.py','gate_read_cache.py','overlay_native_rodata.py','cc.sh','ccproc.py','overlay_local_gate.py','overlay_module_gate.py','overlay_evidence.py','overlay_as_flags.py','gen_noreturn_syms.py','rowbase_naming_debt.py','match.py','rowbase_identity.py','configure.py','live_truth.py','rowbase.py','az_target.py','residue_class.py','overlay_func_compare.py','oracle_scoring.py']
  tools=[gate_tool(root,n) for n in gate_names]
  tools += [root/'tools/fidelity'/n for n in ['aspsx_diff.py','objread.py','certify_overlay_module.py']]
  tools += [root/'tools/overlay_module_evidence.py',root/'tools/build/slus_rodata_trim.py']
@@ -274,6 +314,8 @@ def fingerprint(m,root=ROOT,windows=True):
  tools += [Path(shutil.which(n)) for n in ['python3','bash','mipsel-linux-gnu-as','mipsel-linux-gnu-ld','mipsel-linux-gnu-objcopy','mipsel-linux-gnu-nm']]
  # Path-independent identities permit the canonical tree and its exported build view.
  inp={n:sha(root/n) for n in sorted(names)}
+ import overlay_scoped_fingerprint as scoped
+ switch=scoped.switch_path(root);inp[scoped.SWITCH]=sha(switch) if switch.exists() else None
  tool_inputs={('gate/'+p.name if p in tools[:len(gate_names)] else str(p.relative_to(root)) if p.is_relative_to(root) else str(p)):sha(p) for p in tools}
  container=root/'work/disc/containers'/CONTAINERS[m['container']]
  asset={}
@@ -323,12 +365,15 @@ def sections(path):
  return [{'name':s[h[0]:].split(b'\0',1)[0].decode(),'type':h[1],'flags':h[2],'size':h[5]} for h in hs]
 
 def build(m,out,root=ROOT,substitutions=None):
- root=Path(root).absolute();out=Path(out).absolute();out.mkdir(parents=True,exist_ok=True)
+ root=Path(root).absolute();out=Path(out).absolute()
+ import overlay_scoped_fingerprint as scoped
+ if scoped.enabled(root):scoped.reject_environment()
+ out.mkdir(parents=True,exist_ok=True)
  if substitutions:
   if set(substitutions)&{a['source'] for a in m.get('data_members',[])}:
    raise ValueError('separate prefix data candidate requires a complete TU edit')
   if set(substitutions)-{a['source'] for a in m['members']}:raise ValueError('candidate is not a function member')
- if json.loads((root/'ledger/splits/overlay_modules.build.json').read_text())!=graph(root):raise ValueError('physical graph stale or incomplete')
+ if not scoped.enabled(root) and json.loads((root/'ledger/splits/overlay_modules.build.json').read_text())!=graph(root):raise ValueError('physical graph stale or incomplete')
  before=fingerprint(m,root);env=dict(os.environ,TMPDIR=str(out),PYTHONDONTWRITEBYTECODE='1')
  for k in ['AZURE_MASPSX','AZURE_MASPSX_COMPANION','MASPSX_NORETURN_FILE','MASPSX_SIBCALL_FILE']:env.pop(k,None)
  suffix='.'+m['container'] if m['container']!='main' else ''
@@ -354,7 +399,8 @@ def build(m,out,root=ROOT,substitutions=None):
  if m['container'] in {'town','dungeon'}:
   spec=importlib.util.spec_from_file_location('module_bank_census',gate_tool(root,'gen_noreturn_syms.py'))
   census=importlib.util.module_from_spec(spec);spec.loader.exec_module(census)
-  names=set(census.scoped_census(m['container'],m['members'][0]['foff'],root=root)['names'])
+  evidence_root=census._find_root(root/'tools/_')
+  names=set(census.scoped_census(m['container'],module_first(m)['foff'],root=evidence_root)['names'])
   names.update(census.scan_text(source.read_text()))
   for member in m['members']:
    path=Path((substitutions or {}).get(member['source'],root/member['source']))
@@ -458,8 +504,9 @@ def project_segments(segments,build_dir,overlay,root=ROOT):
  return receipts
 
 def verify_window_modules(receipts,root=ROOT):
+ mods={m['key']:m for m in load_modules(root)} if receipts else {}
  for projection in receipts:
-  m=next(m for m in load_modules(root) if m['key']==projection['module'])
+  m=mods[projection['module']]
   p=Path(projection['receipt']);r=json.loads(p.read_text())
   if sha(p)!=projection['receipt_sha256'] or fingerprint(m,root)!=r['fingerprint']:
    raise ValueError('module inputs changed during window gate')

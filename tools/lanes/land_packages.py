@@ -50,6 +50,9 @@ import tempfile
 import time
 import uuid
 
+sys.path.insert(0,str(Path(__file__).resolve().parent))
+from window_dependencies import window_recipes, dependency_closure
+
 # the canonical live checkout (no literal private path: the scrub hook refuses those); override for another host
 LIVE = Path(os.environ.get('LAND_LIVE_ROOT', str(Path.home() / 'azure-clean'))).resolve()
 MANAGED = ('src', 'raw', 'config', 'ledger', 'tools', 'include', 'docs')
@@ -314,15 +317,47 @@ def validate_plan(plan, base, root=None):
     return plan
 
 
-def full_gate_reasons(paths, plan):
+def full_gate_reasons(paths, plan, root=None, before_includes=None, baseline=None):
     # raw/ and rowbase are hashed by inputs_sha since r103. Unrelated tools do
     # not force all windows, but compiler/gate/fingerprint/build inputs do.
-    prefixes=('tools/gate/','tools/maspsx/','tools/fidelity/','toolchain/', 'include/')
+    prefixes=('tools/gate/','tools/maspsx/','tools/fidelity/','toolchain/')
     exact={'tools/build/gate_all.py','tools/build/mk_ovl_root.sh','tools/row_db.py',
            'tools/common.py','tools/overlay_module_evidence.py','tools/build/slus_rodata_trim.py'}
     reasons=sorted(p for p in paths if p.startswith(prefixes) or p in exact)
+    includes={p for p in paths if p.startswith('include/')}
+    if before_includes is None or root is None or baseline is None:
+        reasons.extend(sorted(includes))  # Missing context must never narrow a gate.
+    else:
+        reasons.extend(sorted(includes & before_includes))
+        new=includes-before_includes
+        if new and not reasons and plan.get('gate_all')!='full':
+            try:
+                dependencies=dependency_closure(root,baseline)
+                reasons.extend(sorted(new & dependencies))
+            except Exception as e:
+                reasons.append('include dependency closure unavailable: '+type(e).__name__+': '+str(e))
     if plan.get('gate_all')=='full':reasons.insert(0,'plan gate_all=full')
     return reasons
+
+def certificate_evidence(root):
+    """Bind certificate bytes and durable generated proofs before quarantine.
+
+    Reader acceptance alone cannot authorize package-supplied proof records.
+    Inventory never follows links; identical quarantine copies compare equal.
+    """
+    out={}
+    for p in sorted((root/'ledger/modules').glob('overlay_*.json')):
+        rec=json.loads(p.read_text());key=rec.get('module')
+        if not key or p.name!='overlay_'+key+'.json':raise Stop('invalid live certificate: '+str(p))
+        refs=[rec.get('proof_dir')]
+        if isinstance(rec.get('windows'),list):refs.extend(w.get('proof_dir') for w in rec['windows'] if isinstance(w,dict))
+        proofs={}
+        for rel in sorted(set(r for r in refs if isinstance(r,str))):
+            safe(root,rel)
+            if any(Path(rel).is_relative_to(g) for g in GENERATED):
+                proofs.update(inventory(root,[rel]))
+        out[key]={'certificate':digest(p),'proofs':proofs}
+    return out
 
 class Snapshot:
     def __init__(self, root, store, isolated=False, bookkeeping=()):
@@ -339,6 +374,7 @@ class Snapshot:
         # STATUS is a derived output even in a small synthetic test repo.
         if 'STATUS.md' not in self.prefixes: self.prefixes.append('STATUS.md')
         self.before=inventory(root,self.prefixes,GENERATED)
+        self.certificate_evidence=certificate_evidence(root)
         self.bookkeeping=bookkeeping_bytes(root,bookkeeping)
         backup=store/'files'
         for rel,item in self.before.items():
@@ -354,6 +390,29 @@ class Snapshot:
             if p.exists():
                 dst=self.store/'generated'/rel;dst.parent.mkdir(parents=True,exist_ok=True)
                 p.rename(dst);self.saved[rel]=dst
+        # Certificates bind durable artifacts inside generated roots. Moving
+        # those away would invalidate every otherwise-current certificate.
+        # Copy only their proof directories; the quarantined originals remain
+        # untouched for rollback. Build caches and exported tools stay fresh.
+        self.proofs_copied=[];proofs=set()
+        for cert in sorted((self.root/'ledger/modules').glob('overlay_*.json')):
+            rec=json.loads(cert.read_text())
+            refs=[rec.get('proof_dir')]
+            if isinstance(rec.get('windows'),list):refs.extend(w.get('proof_dir') for w in rec['windows'] if isinstance(w,dict))
+            proofs.update(p for p in refs if isinstance(p,str))
+        for rel in sorted(proofs):
+            target=safe(self.root,rel)
+            generated=next((g for g in self.saved if Path(rel).is_relative_to(g)),None)
+            if generated is None:continue
+            base=self.store/'generated';source=base/rel
+            parents=[source,*source.parents]
+            if any(p.is_symlink() for p in parents if p.is_relative_to(base)):continue
+            if not source.is_dir():continue  # Missing evidence must be renewed.
+            entries=inventory(base,[rel])
+            if any(v[0]=='link' for v in entries.values()):continue
+            target.parent.mkdir(parents=True,exist_ok=True)
+            shutil.copytree(source,target,dirs_exist_ok=True)
+            self.proofs_copied.append(rel)
     def restore(self):
         # Keep concurrent append-only writer output across rollback. Rewrites
         # are not authorized and are restored from the original snapshot.
@@ -401,6 +460,8 @@ class Lander:
         self.root,self.plan,self.plan_dir,self.log=root,plan,plan_dir,log
         self.scratch,self.live=scratch,live
         self.tests_passed=False
+        # Callers without a transaction snapshot must reprove every certificate.
+        self.before_certificate_evidence={}
         self.env=dict(os.environ,PYTHONDONTWRITEBYTECODE='1',GATE_BUILD_ROOT='build_ovl_gate')
         self.results=[];self.seq=0;self.child=None
     def event(self, step, **values):
@@ -467,6 +528,9 @@ class Lander:
         self.before_certs=self.certificates()
         self.before_reviews={rel:(self.root/rel).read_text() if (self.root/rel).exists() else '' for rel in REVIEW_FILES}
         self.tracked=set(names(git(self.root,'ls-files','-z')))
+        self.before_includes={p for p,v in inventory(self.root,['include']).items() if v[0]!='dir'}
+        try:self.before_window_recipes=window_recipes(self.root)
+        except Exception as e:self.before_window_recipes={'error':type(e).__name__+': '+str(e)}
         self.event('preflight',result='PASS',bookkeeping=sorted(known),L5=self.before_l5,lander_sha256=digest(Path(__file__)))
     def hashes(self,files,field):
         for rel,h in files.items():
@@ -610,7 +674,8 @@ class Lander:
         now={p.name:digest(p) for p in (self.root/'config').glob('noreturn_syms*.txt')}
         if now!=self.census and not self.plan.get('allow_census_change',False):raise Stop('census files changed')
         changed=set(names(git(self.root,'diff','--name-only','-z','HEAD')))|set(names(git(self.root,'ls-files','--others','--exclude-standard','-z')))
-        self.gate_reasons=full_gate_reasons(changed,self.plan)
+        self.changed_inputs=changed
+        self.gate_reasons=full_gate_reasons(changed,self.plan,self.root,self.before_includes,self.before_window_recipes)
         self.force_all=bool(self.gate_reasons)
         # row_db export's canonical mirror is temporary; it must never be staged.
         remove(self.root/'overlays')
@@ -680,6 +745,12 @@ class Lander:
             self.run('mk-ovl',[ 'bash','tools/build/mk_ovl_root.sh'])
         env=dict(self.env,EXP='gate',SRCROOT=str(self.root/'src'))
         self.run('mk-gate',[ 'bash','tools/build/mk_ovl_root.sh'],env=env)
+        # Regenerated assembly inputs are now available. An early missing
+        # closure remains full in preflight, but can be proved here before
+        # choosing gate_all's actual mode.
+        if getattr(self,'changed_inputs',set()):
+            self.gate_reasons=full_gate_reasons(self.changed_inputs,self.plan,self.root,self.before_includes,self.before_window_recipes)
+            self.force_all=bool(self.gate_reasons)
         import yaml
         wins=[]
         for y in (self.root/'config/overlays').glob('*.overlay.yaml'):
@@ -700,11 +771,18 @@ class Lander:
         certs=self.certificates()
         if not set(self.before_certs).issubset(certs):raise Stop('a pre-landing live certificate disappeared')
         self.event('certificate-discovery',modules=sorted(certs))
+        current_evidence=certificate_evidence(self.root)
+        forced=sorted(key for key in certs if self.before_certificate_evidence.get(key)!=current_evidence[key])
+        # Headers keep selective renewal even when they force a full gate.
+        # Tool/build/explicit-plan reasons may be outside either fingerprint.
+        selective=all(r.startswith(('include/','include dependency closure unavailable:')) for r in self.gate_reasons)
+        selection=(['--invalid-only'] if selective else [])+[arg for key in forced for arg in ('--renew',key)]
+        self.event('certificate-renewal-policy',mode='invalid-or-changed' if selective else 'all',forced=forced,reasons=self.gate_reasons)
         cert_logs=self.log.parent/(self.log.stem+'.certificates')
         self.run('certify-all',[sys.executable,'tools/lanes/certify_batch.py','--root',str(self.root),
                  '--workers',str(certificate_workers),'--window-workers',str(window_workers),'--log-dir',str(cert_logs),
-                 '--gate-receipts',str(receipts),'--transaction',transaction],timeout=7200*max(1,(len(certs)+certificate_workers-1)//certificate_workers))
-        if set(self.certificates())!=set(certs):raise Stop('live certificate set changed during certification')
+                 '--gate-receipts',str(receipts),'--transaction',transaction]+selection,timeout=7200*max(1,(len(certs)+certificate_workers-1)//certificate_workers))
+        if self.certificates()!=certs:raise Stop('live certificate identities/reviewers changed during certification')
         self.run('levels',[sys.executable,'tools/levels.py'])
         self.run('status',[sys.executable,'tools/status.py'])
         after=l5(self.root)
@@ -714,6 +792,11 @@ class Lander:
         # Recheck after all proofs, including tests and certificates.
         self.regenerate()
         self.scrub()
+        # Regeneration may change bound registry, graph or eligibility inputs.
+        # Validate every recorded certificate again; never hide a final drop.
+        self.run('certificate-final-validation',[sys.executable,'tools/lanes/certify_batch.py','--root',str(self.root),
+                 '--workers',str(certificate_workers),'--log-dir',str(cert_logs/'final'),'--validate-only'],timeout=7200)
+        if self.certificates()!=certs:raise Stop('live certificate identities/reviewers changed during final validation')
     def preserve_diagnostics(self):
         candidates=[]
         for rel in ['build_ovl_gate/work/s3_splat','build_ovl_gate/work/module_proofs','build_slus']:
@@ -849,6 +932,8 @@ def main(argv=None):
             land.preflight()
             transaction=Path(tempfile.mkdtemp(prefix='land_transaction-',dir=gitdir))
             snapshot=Snapshot(root,transaction,isolated=plan.get('isolated',False),bookkeeping=land.bookkeeping);snapshot.quarantine()
+            land.before_certificate_evidence=snapshot.certificate_evidence
+            land.event('certificate-proof-preservation',directories=snapshot.proofs_copied)
             land.env['TMPDIR']=str(transaction/'tmp');(transaction/'tmp').mkdir()
             land.mutate();land.batch_inputs();land.review_steps();land.normalise_review();land.unit_checks();land.regenerate();land.fast_front()
             if args.prepare_only:

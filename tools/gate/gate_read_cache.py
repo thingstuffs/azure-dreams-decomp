@@ -45,3 +45,10 @@ def read_jsonl(path):
 
 def digest(path, algorithm="sha256"):
     return _read(path, algorithm, lambda p: hashlib.new(algorithm, p.read_bytes()).hexdigest())
+
+
+def read_records(path):
+    """Comment-bearing JSONL, with the same identity/copy guarantees."""
+    return pickle.loads(_read(path, "records", lambda p: pickle.dumps(
+        tuple(json.loads(l) for l in p.read_text().splitlines()
+              if l.strip() and not l.lstrip().startswith("#")), protocol=5)))

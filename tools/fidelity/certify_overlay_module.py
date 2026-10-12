@@ -81,7 +81,10 @@ def certification_window_lock(root,name):
   finally:fcntl.flock(f,fcntl.LOCK_UN)
 
 def certify(key,root,reviewer,gate_receipts=None,transaction=None,window_workers=8):
- root=Path(root).absolute();authority=(root/'ledger').resolve().parent;m=next(m for m in load_modules(root) if m['key']==key)
+ root=Path(root).absolute()
+ import overlay_scoped_fingerprint as scoped
+ if scoped.enabled(root):scoped.reject_environment()
+ authority=(root/'ledger').resolve().parent;m=next(m for m in load_modules(root) if m['key']==key)
  if m['review']['reviewer']!=reviewer or any(m['review'][k]!='reviewed' for k in ['membership','types','ownership']):raise ValueError('review incomplete')
  # Exported JSON must be exactly the canonical split ledger, including every neighbour.
  import yaml
@@ -114,7 +117,9 @@ def certify(key,root,reviewer,gate_receipts=None,transaction=None,window_workers
    (win/'projection.json').write_text(json.dumps(pr,indent=2)+'\n')
    shutil.copytree(modules/key,win/'module',dirs_exist_ok=True)
   print(json.dumps({'step':'certificate-window','module':key,'config':wn,'gate':'reused' if fresh else 'built'}),flush=True)
-  return {'config':wn,'result':'MATCH','file_start':fs,'file_end':fe,'proof_dir':str(win.relative_to(authority)),'artifacts':{n:sha(win/n) for n in ['gate.log','window.bin','manifest.json','projection.json','module/receipt.json']}}
+  result={'config':wn,'result':'MATCH','file_start':fs,'file_end':fe,'proof_dir':str(win.relative_to(authority)),'artifacts':{n:sha(win/n) for n in ['gate.log','window.bin','manifest.json','projection.json','module/receipt.json']}}
+  if before.get('schema'):result['digest']=before['windows'][wn]['sha256']
+  return result
  with ThreadPoolExecutor(max_workers=window_workers) as pool:
   windows=list(pool.map(prove_window,affected_windows(m,root)))
  if before!=fingerprint(m,root):raise ValueError('inputs changed during full certification')
