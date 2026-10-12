@@ -255,6 +255,62 @@ class IncludeDependenciesTests(unittest.TestCase):
         baseline = W.window_recipes(self.root)
         self.assertEqual(self.reasons(baseline=baseline), ['include/modules/new.h'])
 
+    def sdk_recipe(self, name='asm/psyq/libcard/A75.s', kind='platform_asm'):
+        self.row.update(source_kind=kind, asm_path=name)
+        self.write_window()
+        self.put('config/slus_006.14.yaml', 'options: {}\nsegments:\n- subsegments:\n  - [0, asm, psyq/libcard/A75]\n')
+        self.put('include/macro.inc', '.macro glabel name\n.endm\n')
+        return W.window_recipes(self.root)
+
+    def test_known_missing_split_sdk_asm_does_not_force_all(self):
+        baseline = self.sdk_recipe()
+        self.put('include/modules/new.h', '')
+        self.assertEqual(self.reasons(baseline=baseline), [])
+        self.assertIn('include/macro.inc', W.dependency_closure(self.root, baseline))
+        self.assertFalse((self.root/'build_slus').exists(), 'closure wrote generated inputs')
+
+    def test_missing_sdk_asm_macro_include_transitively_binds_new_header(self):
+        baseline = self.sdk_recipe()
+        self.put('include/modules/new.h', '.set V, 1\n')
+        self.put('include/macro.inc', '.include "modules/new.h"\n')
+        self.assertEqual(self.reasons(baseline=baseline), ['include/modules/new.h'])
+
+    def test_existing_sdk_asm_is_scanned_in_full(self):
+        baseline = self.sdk_recipe()
+        self.put('include/modules/new.h', '.set V, 1\n')
+        self.put('build_slus/asm/psyq/libcard/A75.s', '.include "modules/new.h"\n')
+        self.assertEqual(self.reasons(baseline=baseline), ['include/modules/new.h'])
+
+    def test_main_only_generated_twin_uses_real_generator_without_writes(self):
+        baseline = self.sdk_recipe('asm/psyq/libcard/main_patch_delay.s')
+        self.put('tools/build/main_sdk_asm.py', (HERE.parent/'build/main_sdk_asm.py').read_text())
+        self.put('include/modules/new.h', '')
+        self.assertEqual(self.reasons(baseline=baseline), [])
+        self.assertIn('include/macro.inc', W.dependency_closure(self.root, baseline))
+        self.assertFalse((self.root/'build_slus').exists())
+
+    def test_unknown_missing_sdk_source_still_forces_all(self):
+        baseline = self.sdk_recipe('asm/psyq/libcard/unknown.s')
+        self.put('include/modules/new.h', '')
+        self.assertIn('existing window source missing: asm/psyq/libcard/unknown.s', self.reasons(baseline=baseline)[0])
+
+    def test_missing_handwritten_asm_is_not_classified_as_generated(self):
+        baseline = self.sdk_recipe(kind='game_asm')
+        self.put('include/modules/new.h', '')
+        self.assertIn('existing window source missing: asm/psyq/libcard/A75.s', self.reasons(baseline=baseline)[0])
+
+    def test_missing_generated_macro_include_still_forces_all(self):
+        baseline = self.sdk_recipe()
+        self.put('include/modules/new.h', '')
+        (self.root/'include/macro.inc').unlink()
+        self.assertIn('missing assembly include:', self.reasons(baseline=baseline)[0])
+
+    def test_unknown_split_preamble_is_not_silently_ignored(self):
+        baseline = self.sdk_recipe()
+        self.put('include/modules/new.h', '')
+        self.put('config/slus_006.14.yaml', 'options: {asm_inc_header: custom}\nsegments: []\n')
+        self.assertIn('unmodelled generated SDK assembly preamble', self.reasons(baseline=baseline)[0])
+
 
 class LanderValidationTests(unittest.TestCase):
     setUp = L.LandPackagesTests.setUp

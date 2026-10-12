@@ -43,6 +43,54 @@ class Admission(unittest.TestCase):
         self.assertEqual(land_admit.admit([], [], True, 1, 1), ([], []))
 
 
+class EqualPinScaffolding(unittest.TestCase):
+    def changes(self, cand, cur, counts=(0, 0)):
+        with mock.patch.object(land_admit, 'fidelity_counts', return_value=counts):
+            return land_admit.equal_pin_changes(ROW, cand, cur)
+
+    def test_each_cleanup_kind_is_admitted(self):
+        pairs = [
+            ('volatile', 'int x;', 'volatile int x;'),
+            ('goto', 'return;', 'goto done;'),
+            ('goto', 'return;', 'goto *p;'),
+            ('goto', 'p = 0;', 'p = &&done;'),
+            ('m2c', 'int value;', 'int temp_value;'),
+            ('m2c', 'struct View *v;', 'struct S_80012345 *v;'),
+            ('fakedep', 'x = y;', 'x = y + v - v;'),
+            ('fakedep', 'x = y;', 'x = y - v + v;'),
+            ('fakedep', 'x = 0;', 'x = v ^ v;'),
+            ('fakedep', 'x = y & m;', 'x = y & m & m;'),
+            ('fakedep', '', 'x = x;'),
+            ('fakedep', '', 'x += h; x -= h;'),
+            ('while(0)', 'x++;', 'do { x++; } while (0);'),
+            ('__asm__', '', '__asm__("");'),
+        ]
+        for kind, cand, cur in pairs:
+            with self.subTest(kind=kind, cur=cur):
+                fell, grew = self.changes(cand, cur)
+                self.assertIn(kind, fell); self.assertEqual(grew, [])
+                fell, grew = self.changes(cur, cand)
+                self.assertIn(kind, grew)
+
+    def test_fall_does_not_hide_another_kind_growing(self):
+        fell, grew = self.changes('goto done;', 'volatile int x;')
+        self.assertEqual((fell, grew), (['volatile'], ['goto']))
+        fell, grew = self.changes('ASM_USE(x);', 'ASM_OTHER(x);')
+        self.assertEqual((fell, grew), (['ASM_OTHER'], ['ASM_USE']))
+
+    def test_fidelity_admission_matches_equal_pin_policy(self):
+        self.assertEqual(self.changes('', '', (0, 1)), (['fidelity'], []))
+        self.assertEqual(self.changes('int x;', 'volatile int x;', (1, 0)),
+                         (['volatile'], ['fidelity']))
+
+    def test_formatting_and_readability_are_not_rebaseline_reasons(self):
+        self.assertEqual(self.changes('int x ;\n', 'int x;\n'), ([], []))
+        self.assertEqual(self.changes('int readable;', 'int x;'), ([], []))
+
+    def test_comments_do_not_add_goto_m2c_or_fake_dependencies(self):
+        self.assertEqual(self.changes('/* goto done; temp_x = temp_x; */\n', ''), ([], []))
+
+
 COMPOSITE = '''static const u32 bank[] __asm__("func_80024000")
 __attribute__((section(".text.func_80024000"), aligned(4))) = { 1, 2 };
 __asm__(".globl func_80024000\\n"

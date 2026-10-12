@@ -169,6 +169,9 @@ def erased_text(text):
 def screen_for(row, pinned):
     """`variant_screen.Screen` against the PINNED listing (retail's order on a byte-exact row)."""
     add_paths()
+    import native_member
+    if native_member.membership(row) is not None:
+        return native_member.Screen(row, pinned)
     from variant_screen import Screen                                    # noqa: E402
     return Screen(row, pinned)
 
@@ -176,7 +179,8 @@ def screen_for(row, pinned):
 def module_fingerprint(row):
     """Current module inputs, or None for an ordinary row."""
     if row.get("kind") != "slus":
-        return None
+        import native_member
+        return native_member.fingerprint(row)
     add_paths()
     from slus_module_context import fingerprint                         # noqa: E402
     return fingerprint(row)
@@ -340,7 +344,14 @@ def dumps(row, text, want=None, timeout=None, asm_names=False):
         candidate.write_text(text)
         sources = [(candidate, row["cfg"])]
         context_fp = module_fingerprint(row)
-        if context_fp is not None:
+        if context_fp is not None and row.get('kind') == 'overlay':
+            import native_member
+            m = native_member.membership(row)
+            a = next(a for a in m['members'] if a['id'] == row['id'])
+            tu = d / 'module.c'
+            tu.write_text(native_member.source_text(m, a['source'], candidate))
+            sources = [(tu, row['cfg'])]
+        elif context_fp is not None:
             # a module row compiles its module (siblings included); a PARTITIONED row compiles each physical unit
             # that holds its functions at that unit's recipe - the plural context verify.py builds (r81_opus_kitgap)
             from variant_screen import screen_sources                    # noqa: E402
@@ -391,6 +402,10 @@ def row_at_cfg(row, cfg):
     if not cfg:
         return row
     add_paths()
+    if row.get('kind') == 'overlay' and cfg != row['cfg']:
+        import native_member
+        if native_member.membership(row) is not None:
+            raise SystemExit('lanekit: native member recipe changes require a whole module trial')
     if cfg != row["cfg"] and module_fingerprint(row) is not None:
         from slus_module_context import require_individual_recipe       # noqa: E402
         from variant_screen import partitioned                           # noqa: E402
@@ -420,6 +435,14 @@ def score_at(row, text, cfg=None, verify=None, diff=False, no_jtbl=False):
 
     `no_jtbl=True` scores with the table-content check OFF (`nojtbl.verify_nojtbl`): INFORMATIONAL - `exact` is
     forced False, `text_exact` says whether the code matched, `jtbl_checked` is False.  Overlay rows only."""
+    r = row_at_cfg(row, cfg)
+    if verify is None and r.get('kind') == 'overlay':
+        import native_member
+        m = native_member.membership(r)
+        if m is not None:
+            if no_jtbl:
+                raise ValueError('native member scores always check owned data and switch tables')
+            return native_member.score(r, text, m, diff=diff)
     verify_is_real = verify is None
     if verify is None:
         add_paths()
@@ -452,7 +475,8 @@ def score_fields(v):
     """The five summary fields, plus `jtbl` (status `jtbl-mismatch`: the parsed words) and, for a `no_jtbl` score,
     `text_exact` / `jtbl_checked` (informational: `exact` is False there by construction)."""
     out = {k: (v or {}).get(k) for k in ("exact", "total", "subs", "indels", "status")}
-    for k in ("jtbl", "text_exact", "jtbl_checked"):
+    for k in ("jtbl", "text_exact", "jtbl_checked", "member_exact", "module", "module_fingerprint",
+              "other_members_changed", "owned_data_exact", "artifacts", "kind", "err"):
         if (v or {}).get(k) is not None:
             out[k] = v[k]
     return out

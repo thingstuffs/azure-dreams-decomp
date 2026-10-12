@@ -8,6 +8,7 @@ import importlib.util
 import io
 import json
 import os
+import shlex
 from pathlib import Path
 import subprocess
 import unittest
@@ -159,26 +160,28 @@ class ProcessTests(unittest.TestCase):
         proc=self.base/'proc'/str(pid);proc.mkdir(parents=True)
         (proc/'stat').write_text(str(pid)+' (fake) S 1 0 0')
         (proc/'cwd').symlink_to(cwd,target_is_directory=True)
-        (proc/'cmdline').write_bytes(args.encode()+b'\0')
+        argv=shlex.split(args) if isinstance(args,str) else args
+        (proc/'cmdline').write_bytes(b'\0'.join(os.fsencode(a) for a in argv)+b'\0')
+        (proc/'environ').write_bytes(b'')
         (proc/'fd').mkdir()
         for n,path in enumerate(fds):(proc/'fd'/str(n)).symlink_to(path)
         return proc
 
-    def test_isolated_lane_requires_receipt_and_avoids_active_view(self):
+    def test_isolated_lane_needs_paths_not_receipt_and_avoids_active_view(self):
         lane=self.root/'work/native_lane/lane';scratch=lane/'b';scratch.mkdir(parents=True)
         proc=self.fake_proc(os.getpid(),lane)
-        self.assertFalse(G.isolated_lane(proc,self.root,proc_root=self.base/'proc'))
+        self.assertTrue(G.isolated_lane(proc,self.root,proc_root=self.base/'proc'))
         (lane/'isolation.json').write_text(json.dumps({'version':1,'pid':os.getpid(),'roots':['work/native_lane/lane/b']}))
         # Real proc scan finds self cwd outside this synthetic checkout; no child uses the checkout.
         self.assertTrue(G.isolated_lane(proc,self.root,proc_root=self.base/'proc'))
-        (proc/'cmdline').write_bytes(('codex exec '+str(self.root/'build_ovl')).encode())
+        (proc/'cmdline').write_bytes(b'codex\0exec\0'+os.fsencode(self.root/'build_ovl')+b'\0')
         self.assertFalse(G.isolated_lane(proc,self.root,proc_root=self.base/'proc'))
 
-    def test_receipt_identifies_codex_launched_at_repo_root(self):
+    def test_receipt_does_not_exempt_codex_launched_at_repo_root(self):
         lane=self.root/'work/native_lane/lane';(lane/'b').mkdir(parents=True)
         proc=self.fake_proc(424242,self.root,'codex exec -o work/native_lane/lane/last_message.txt')
         (lane/'isolation.json').write_text(json.dumps({'version':1,'pid':424242,'roots':['work/native_lane/lane/b']}))
-        self.assertTrue(G.isolated_lane(proc,self.root,proc_root=self.base/'proc'))
+        self.assertFalse(G.isolated_lane(proc,self.root,proc_root=self.base/'proc'))
         (lane/'isolation.json').write_text(json.dumps({'version':1,'pid':42,'roots':['work/native_lane/lane/b']}))
         self.assertFalse(G.isolated_lane(proc,self.root,proc_root=self.base/'proc'))
 
@@ -188,9 +191,10 @@ class ProcessTests(unittest.TestCase):
         (lane/'isolation.json').write_text(json.dumps({'version':1,'pid':424242,'roots':['work/native_lane/lane/b']}))
         self.assertFalse(G.isolated_lane(proc,self.root,proc_root=self.base/'proc'))
 
-    def test_busy_scan_skips_the_receipted_lane_and_its_private_gate(self):
+    def test_busy_scan_skips_a_scoped_lane_and_its_private_gate(self):
         lane=self.root/'work/native_lane/lane';(lane/'b').mkdir(parents=True)
-        parent=self.fake_proc(424242,self.root,'codex exec -o work/native_lane/lane/last_message.txt')
+        parent=self.fake_proc(424242,lane,'codex exec -o last_message.txt')
+        gate=lane/'b/tools/build/gate_all.py';gate.parent.mkdir(parents=True);gate.write_text('pass\n')
         child=self.fake_proc(424243,lane/'b','python3 tools/build/gate_all.py')
         (child/'stat').write_text('424243 (fake) S 424242 0 0')
         (lane/'isolation.json').write_text(json.dumps({'version':1,'pid':424242,'roots':['work/native_lane/lane/b']}))
@@ -198,12 +202,12 @@ class ProcessTests(unittest.TestCase):
         (child/'fd/3').symlink_to(self.root/'build_ovl/work/scorer')
         self.assertEqual({r['pid'] for r in G.busy_processes(self.root,False,True,self.base/'proc')},{424242,424243})
 
-    def test_existing_pid_bound_scratch_brief_is_accepted_without_new_receipt(self):
+    def test_lane_pid_and_brief_cannot_exempt_a_canonical_cwd(self):
         lane=self.root/'work/native_lane/lane';lane.mkdir(parents=True)
         proc=self.fake_proc(424242,self.root,'codex exec -o work/native_lane/lane/last_message.txt')
         (lane/'lane.pid').write_text('424242\n')
         (lane/'BRIEF.md').write_text('work ONLY there. Prove everything in a lane-owned scratch tree.')
-        self.assertTrue(G.isolated_lane(proc,self.root,proc_root=self.base/'proc'))
+        self.assertFalse(G.isolated_lane(proc,self.root,proc_root=self.base/'proc'))
         (lane/'lane.pid').write_text('41\n')
         self.assertFalse(G.isolated_lane(proc,self.root,proc_root=self.base/'proc'))
 
