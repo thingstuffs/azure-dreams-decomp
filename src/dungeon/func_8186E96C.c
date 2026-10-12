@@ -16,7 +16,7 @@ s32 func_8002416C(PointRecord *start_node, PointPosition *start_coords)
     Scratch8002416C *scratch;
     GpuContext *render_state;
     GpuContext *final_state;
-    Packet8002416C *packet;
+    PointPacket *packet;
     PointRecord *node;
     PointPosition *coords;
     ObjectNodeHeader *prev_entry;
@@ -34,7 +34,7 @@ s32 func_8002416C(PointRecord *start_node, PointPosition *start_coords)
 
     for (;;) {
         coord_x = coords->x;
-        packet = (Packet8002416C *)scratch->cursor;
+        packet = (PointPacket *)scratch->cursor;
         scratch->x = coord_x;
         scratch->y = coords->y;
         scratch->z = coords->z;
@@ -45,7 +45,7 @@ s32 func_8002416C(PointRecord *start_node, PointPosition *start_coords)
 
         if (depth_index < 0x1E0) {
             s32 color_or_tpage;
-            Packet8002416C *mode_packet;
+            PointPacket *mode_packet;
 
             *(u32 *)&packet->r = node->color;
             color_or_tpage = packet->r * node->brightness;
@@ -71,7 +71,7 @@ s32 func_8002416C(PointRecord *start_node, PointPosition *start_coords)
             ((GpuLinkTag *)&packet->tag)->addr = ((GpuLinkTag *)&scratch->ot[scratch->index])->addr;
             scratch->ot[scratch->index] = (scratch->ot[scratch->index] & 0xFF000000) | ((u32)packet & 0x00FFFFFF);
 
-            mode_packet = (Packet8002416C *)scratch->cursor;
+            mode_packet = (PointPacket *)scratch->cursor;
             scratch->cursor = (u8 *)mode_packet + 0xC;
             color_or_tpage = func_80066460(0, 1, 0, 0);
             func_80067F20(mode_packet, 0, 0, (u16)color_or_tpage, 0);
@@ -80,7 +80,7 @@ s32 func_8002416C(PointRecord *start_node, PointPosition *start_coords)
             scratch->ot[scratch->index] = (scratch->ot[scratch->index] & 0xFF000000) | ((u32)mode_packet & 0x00FFFFFF);
         }
 
-        prev_entry = (ObjectNodeHeader *)((ObjectNodeHeader *)node - 1)->unk_18;
+        prev_entry = ((ObjectNodeHeader *)node - 1)->chain_next;
         node = (PointRecord *)(prev_entry + 1);
         if (prev_entry == 0) {
             break;

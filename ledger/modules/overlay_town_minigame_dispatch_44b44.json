@@ -17,10 +17,10 @@
     "town/func_800C4D68",
     "town/func_800C4D9C"
   ],
-  "at": "2026-10-11T17:10:29Z",
+  "at": "2026-10-12T01:49:26Z",
   "reviewer": "orchestrator-r99",
   "fingerprint": {
-    "sha256": "4ca3de00344f5ab144a30501fee36454da995e6bf3fafc3816ec1c70914db571",
+    "sha256": "8b6a441fb8af3c6a8d51d37abc5856eb99e0794ab8fdc383ceef7b5b45d683f7",
     "inputs": {
       "config/names.tsv": "230d776d2f0877959debf4edb04b9065030b27712420ae003b195d0ce06c94c1",
       "config/noreturn_false_members.jsonl": "38661a5397a70ed3d7033bcbfccf2a3d50769e11a9a75cebb6d73fc60b776739",
@@ -81,10 +81,10 @@
       "include/shared/entity.h": "64fd596c136a0531d96cd2d1fe206abc8b32286c0171c1796a710f6a6c9d93c0",
       "include/shared/entity_objects.h": "5e0d73fb52a454138396808f0de6a94be5ca83243636d72783368cc6160563b3",
       "include/shared/game_work.h": "813f5e364376a12ed80235a4f1b63ed27105d4b1362d7493ef90ca6c321b6366",
-      "include/shared/gpu_packets.h": "f57c07438d2c0bffca29aa36ba3fb7d2983e99fcd8b9c6aa9434b784681de38c",
+      "include/shared/gpu_packets.h": "475e5d6efd3d9f02c38b6046798307a33ea6988e154d234dd2da695ebf1c5dc0",
       "include/shared/object_flags.h": "587f3da6018f67a1af0997d8f9ce3528bf0b89b0b3be4ae4fc4b2e9e276bcc28",
       "include/shared/object_index_slots.h": "f6afa62d1bbaaddd8ccef369acf32ab127ca6fe5f21d7d5adb9fa1be767e0063",
-      "include/shared/object_node.h": "310ef362af013f2e08a2d34163e9258a1f49d049fb534b3b7244e65152475ba5",
+      "include/shared/object_node.h": "7c01b7d2e7be82657682e8e8a924854747f8508a007a6569f988513287f23c17",
       "include/shared/position_query.h": "94eff8d33891b950b05df91de0428cfd4c2b468d09e501e1928a25f06206c942",
       "include/shared/record_ptrs.h": "3e2fc767000f3e901b6d5cd55c7033124a5b648c92927bee9bdea6d143333064",
       "include/shared/runtime_dispatch.h": "4e3a8343e216165c823f93390a9997766ece11de68a1c6f702bc9107eece2eba",
@@ -1715,7 +1715,7 @@
     }
   },
   "proof_dir": "build_ovl_gate/work/module_proofs/town_minigame_dispatch_44b44/module",
-  "receipt_sha256": "e24943f8280237ecd9c15f14868d79f873afd1bd0ce95fdd9f8d25307146ae44",
+  "receipt_sha256": "64c3e5bee5935775f9a5a0d3742e8f991fdb24aafe88da85da2446e051e9118d",
   "windows": [
     {
       "config": "config/overlays/town_deep_t8b_044d9c.overlay.yaml",
@@ -1727,8 +1727,8 @@
         "gate.log": "afb321e5ba11190c243b766b76206d4bb2585c292654c37565ebb6f19ab6f37b",
         "window.bin": "dccefaa3c243e95048db74fff6f0a25ce624cfa225656c878a90b9f0328dfdc6",
         "manifest.json": "8f26bd8e746d6fd6b023fe1e54a12459213b35b6475a37cf281888b5c795a414",
-        "projection.json": "a65c3dbb634729a3489968388c414f82daf05d07281f73e834d6cb37a0b8b837",
-        "module/receipt.json": "85897b6f4012f965f5d320322a84672f00a893dd7fbe613fb3991d25547f082e"
+        "projection.json": "8b65c8338fa1af6c4307987833ab6f24aefad78d8f0a0ffb589e6eb6ccc3392f",
+        "module/receipt.json": "ac2d4f5d506ec83c1ec67c21724c9305fb87df5eabb9fd548df243397f6b96f8"
       }
     },
     {
@@ -1741,8 +1741,8 @@
         "gate.log": "24f7c559bfb9eefe8d4f9545c47dc7e84eb80229528638d0639c02e255ff7f9b",
         "window.bin": "6ca153dec42742a952cdfbfc38efb1a793de9ede267a9cebd4b1d1cf00740ed4",
         "manifest.json": "d9b18c79716903cbb320b91963415344b7d4947fb5552d234d84862ed8df49df",
-        "projection.json": "8db0b8e941bb97ef50bce0c9a138fdd2e286fde852973d7d3341c85ae0d57625",
-        "module/receipt.json": "2986498028bd487cebf396c4bd8c32fb5772802e9a11a3e7018cfd1e36040e57"
+        "projection.json": "260ba1f6f7f42f7e6ac1159e04e2af6ad5d70648585b1056f708dcb8809c9891",
+        "module/receipt.json": "4df3ff18e041d3ee9b993c2a79f40e7b543f539b98ab40806627a96c9ef99c63"
       }
     }
   ]

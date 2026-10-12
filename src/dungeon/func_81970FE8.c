@@ -1,24 +1,10 @@
+#include "modules/dungeon_ovl_1990800.h"
+#include "shared/dungeon_effect_views.h"
 /* Selector 59, retail file [0x1990FE8, 0x19910A8); complete callable clone. */
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
 #include "modules/dungeon_native_abi.h"
-
-
-/* 16.16 fixed-point coordinate: the whole part is the high halfword. */
-typedef union FixedCoord {
-    s32 fixed;
-    struct {
-        u16 frac;
-        s16 whole;
-    } part;
-} FixedCoord;
-
-typedef struct Bank1990800_1990fe8_EffectPosition {
-    FixedCoord x;
-    FixedCoord y;
-    FixedCoord z;
-} Bank1990800_1990fe8_EffectPosition;
 
 /* The effect record the callback runs on (the object header precedes it). */
 typedef struct Bank1990800_1990fe8_EffectState {
@@ -29,7 +15,7 @@ typedef struct Bank1990800_1990fe8_EffectState {
 } Bank1990800_1990fe8_EffectState;
 
 /* Adjust height conditionally and set flags when the countdown reaches zero or below. */
-void func_800247E8(Bank1990800_1990fe8_EffectState *state, Bank1990800_1990fe8_EffectPosition *position)
+void func_800247E8(Bank1990800_1990fe8_EffectState *state, FixedEffectPosition *position)
 {
     s16 countdown;
 

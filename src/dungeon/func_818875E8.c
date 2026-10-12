@@ -5,7 +5,6 @@
 #include "modules/dungeon_native_abi.h"
 #include "shared/object_node.h"
 
-ObjectNodeHeader *func_8003FC64(s32 flags);
 extern void func_80024D70();
 extern M2C_UNK D_800CEEFC;
 

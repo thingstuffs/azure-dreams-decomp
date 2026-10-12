@@ -44,6 +44,5 @@ void func_8002558C(struct Func818F9D8CState *state, s32 unused, u8 *out);
 void func_80025648(void *state, void *position_out, void *effect_arg);
 void func_8002592C(struct ProjectileSelf *self, struct OutView *position, struct PacketView *render_data);
 s32 func_8003DE58(void *, void *, void *, s32);
-ObjectNodeHeader *func_8003FC64(s32);
 s32 rand(void);
 #endif

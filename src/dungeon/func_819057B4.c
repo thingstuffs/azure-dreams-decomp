@@ -6,7 +6,7 @@
 /* Effect record: the object header precedes it. */
 
 /* Raises the source toward its height limit and flags the object when its counter expires. */
-void func_80024FB4(EffectRecord *object, EffectPosition *source)
+void func_80024FB4(EffectRecord *object, EffectPositionViews *source)
 {
     u16 x;
     u16 y;

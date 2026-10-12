@@ -1,25 +1,9 @@
 #ifndef DUNGEON_OVL_188E800_H
 #define DUNGEON_OVL_188E800_H
+#include "shared/dungeon_effect_views.h"
 #include "modules/dungeon_native_abi.h"
 
 /* Promoted Layer-2 record names and layouts are shared without changing the bodies. */
-/* Position the point is projected from: three 4-byte slots, only the second halfword of each is used. */
-typedef struct PointPosition {
-    u16 pad_00;
-    u16 x;
-    u16 pad_04;
-    u16 y;
-    u16 pad_08;
-    u16 z;
-} PointPosition;
-
-/* The effect point's record (the object header precedes it). */
-typedef struct PointRecord {
-    u8 pad_00[8];
-    u32 color;          /* r/g/b/code word copied into the tile */
-    u8 pad_0C[0x26];
-    s16 brightness;     /* 0x100 = full */
-} PointRecord;
 
 /* GPU scratchpad (0x1F800000) workspace used while projecting. */
 typedef struct Scratch8002416C {
@@ -38,35 +22,7 @@ typedef struct Scratch8002416C {
 } Scratch8002416C;
 
 /* Shaded point primitive (code 0x6A, 3 words). */
-typedef struct Packet8002416C {
-    u32 tag;
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 code;
-    u32 data;
-} Packet8002416C;
 
-/* Three 4-byte slots; only the second halfword of each is used. */
-typedef struct EffectPosition {
-    u16 pad_00;
-    s16 x;
-    u16 pad_04;
-    s16 y;
-    u16 pad_08;
-    s16 z;
-} EffectPosition;
-
-/* The spawned effect's record (the object header precedes it). */
-typedef struct SpawnedRecord {
-    u8 pad_00[8];
-    u32 unk_08;
-    u8 pad_0C[4];
-    s32 unk_10;
-    s16 unk_14;
-    u8 pad_16[0x1C];
-    s16 unk_32;
-} SpawnedRecord;
 typedef struct { u8 b[32]; } AggU32;
 typedef struct {
     s16 x;

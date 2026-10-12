@@ -1,5 +1,6 @@
 #ifndef DUNGEON_OVL_183A800_H
 #define DUNGEON_OVL_183A800_H
+#include "shared/dungeon_effect_views.h"
 #include "common.h"
 #include "modules/dungeon_native_abi.h"
 #include "m2c_compat.h"
@@ -43,20 +44,6 @@ typedef struct {
     D8181A8C0Asset *fieldc;
     void *field10;
 } D8181A8C0Object;
-typedef struct PointPosition {
-    u16 pad_00;
-    u16 x;
-    u16 pad_04;
-    u16 y;
-    u16 pad_08;
-    u16 z;
-} PointPosition;
-typedef struct PointRecord {
-    u8 pad_00[8];
-    u32 color;          /* r/g/b/code word copied into the tile */
-    u8 pad_0C[0x26];
-    s16 brightness;     /* 0x80 = full */
-} PointRecord;
 typedef struct Scratch800241EC {
     u16 x;
     u16 y;
@@ -71,14 +58,6 @@ typedef struct Scratch800241EC {
     u8 pad98[0x28];
     u32 index;
 } Scratch800241EC;
-typedef struct Packet800241EC {
-    u32 tag;
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 code;
-    u32 data;
-} Packet800241EC;
 typedef struct MotionState {
     unsigned char pad_00[2];
     u16 frames_left;
@@ -98,23 +77,6 @@ typedef struct UpdateFlags {
     unsigned char pad_00[0x14];
     u16 flags;
 } UpdateFlags;
-typedef struct EffectPosition {
-    u16 pad_00;
-    s16 x;
-    u16 pad_04;
-    s16 y;
-    u16 pad_08;
-    s16 z;
-} EffectPosition;
-typedef struct SpawnedRecord {
-    u8 pad_00[8];
-    u32 unk_08;
-    u8 pad_0C[4];
-    s32 unk_10;
-    s16 unk_14;
-    u8 pad_16[0x1C];
-    s16 unk_32;
-} SpawnedRecord;
 typedef struct S_8181B078_0_pre {
     u16 unk_00;
 } S_8181B078_0_pre;
@@ -385,7 +347,6 @@ typedef struct Pair16 {
 typedef struct PathBlock {
     Pair16 entries[8];
 } PathBlock;
-ObjectNodeHeader *func_8003FC64(s32);
 void func_8003DB94(void *, void *, s32);
 s32 func_800B8FC8(void *, void *, void *, s32, s32);
 u32 func_80065420(void *, void *, void *, void *);
@@ -397,8 +358,7 @@ void func_800240C0(void *unused_context, void *origin, s32 unused_id, s16 offset
 s32 func_800241EC(PointRecord *first_point, PointPosition *first_position);
 void func_8002443C(MotionState *state, s32 *sum, UpdateFlags *flags);
 void func_80024604(void *object_data, s16 *position);
-void func_80024758(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x,
-                   s16 offset_y, s16 offset_z);
+void func_80024758(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
 void func_80024878(void *object, S_8181B078_1 *position, S_8181B078_2 *source);
 void func_800249A0(void *source, s32 offset_x, s32 offset_y, s32 offset_z, s16 effect_value);
 void func_80024B14(void *state_data, s32 unused, void *target);

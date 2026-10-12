@@ -1,20 +1,9 @@
+#include "shared/dungeon_effect_views.h"
 #include "modules/dungeon_ovl_1918800.h"
 #include "common.h"
 #include "modules/dungeon_native_abi.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
-
-/* The spawned effect's record (the object header precedes it). */
-typedef struct SpawnedRecord {
-    u8 pad_00[8];
-    u32 unk_08;
-    u8 pad_0C[4];
-    s32 unk_10;
-    s16 unk_14;
-    u8 pad_16[0x1C];
-    s16 unk_32;
-} SpawnedRecord;
-
 
 /* Retail 818F9A28 (func_80025228): spawn an effect object under the parent node, placed at the parent's
  * position plus a random jitter (0..31 per axis) and the given offsets (minus half the jitter range). */

@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_189a800.h"
 #include "shared/entity_height_offsets.h"
 #include "modules/dungeon_native_abi.h"
 #include "shared/object_flags.h"
@@ -35,7 +36,6 @@ extern u8 D_80026940[12];
 extern s16 D_8002694C[5];
 extern u8 D_8007CCD8[];
 extern s32 func_8003DF74(void *, void *, void *, s32);
-extern void *func_8003FC64(s32);
 extern s32 func_80069EF8(void);
 extern s32 func_800A4778(u16, u16, s16, void *);
 extern void *memcpy(void *, const void *, unsigned int);

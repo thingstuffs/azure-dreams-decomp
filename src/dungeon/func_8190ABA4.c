@@ -1,3 +1,4 @@
+#include "shared/dungeon_effect_views.h"
 #include "modules/dungeon_ovl_192a800.h"
 #include "common.h"
 #include "shared/object_flags.h"
@@ -5,22 +6,8 @@
 
 extern s32 rand(void);
 
-
 /* Position slots: three 4-byte slots with only the second halfword used (x +2, y +6, z +0xA);
  * the z slot's word is also bumped as one s32 (+0x20000 raises z by 2). */
-typedef struct EffectPosition {
-    u16 pad_00;
-    u16 x;
-    u16 pad_04;
-    u16 y;
-    union {
-        s32 word;
-        struct {
-            u16 pad_08;
-            u16 z;
-        } half;
-    } z_slot;
-} EffectPosition;
 
 /* Effect record: the object header precedes it. */
 typedef struct EffectRecord {
@@ -29,7 +16,7 @@ typedef struct EffectRecord {
 } EffectRecord;
 
 /* Raise the position toward the queried height and set flags when the countdown expires. */
-void func_800243A4(EffectRecord *state, EffectPosition *position)
+void func_800243A4(EffectRecord *state, RaisedEffectPosition *position)
 {
     u16 countdown;
 

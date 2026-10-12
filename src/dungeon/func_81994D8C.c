@@ -88,16 +88,11 @@ extern s16 D_80025384;
 extern u16 D_80082E94;
 extern AnimationState D_80082E80;
 
-
-
-
 extern s32 func_8003DF74(void *, AnimationState *, s16 *, s32);
-extern void *func_8003FC64(s32);
 
 extern s32 func_80053EF0(s32);
 
 extern void func_800B835C(PaletteControl *, RectWords *, s32, s32);
-
 
 /* Five-stage palette/particle transition, reconstructed from the complete
  * retail instruction span. The object views cover only fields used here.

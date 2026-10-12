@@ -1,32 +1,10 @@
+#include "shared/dungeon_effect_views.h"
 #include "modules/dungeon_ovl_192a800.h"
 #include "common.h"
 #include "modules/dungeon_native_abi.h"
 #include "shared/object_node.h"
 
-/* Three 4-byte slots; only the second halfword of each is used. */
-typedef struct SignedEffectPosition {
-    u16 pad_00;
-    s16 x;
-    u16 pad_04;
-    s16 y;
-    u16 pad_08;
-    s16 z;
-} SignedEffectPosition;
-
-/* The spawned effect's record (the object header precedes it). */
-typedef struct SpawnedRecord {
-    u8 pad_00[8];
-    u32 unk_08;
-    u8 pad_0C[4];
-    s32 unk_10;
-    s16 unk_14;
-    u8 pad_16[0x1C];
-    s16 unk_32;
-} SpawnedRecord;
-
 extern s32 rand(void);
-
-
 
 /* Retail 8190AC70 (func_80024470): spawn an effect object under the parent node, placed at the parent's
  * position plus a random jitter (0..31 per axis) and the given offsets (minus half the jitter range). */

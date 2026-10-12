@@ -29,8 +29,6 @@ typedef struct S_80024104_2_pre {
     u8 pad_04[0x14];
 } S_80024104_2_pre;   /* the 0x18 bytes before D_800814A8 in func_80024104, addressed as D_800814A8[-1] */
 
-
-
 typedef struct {
     u32 word[4];
 } __attribute__((packed)) PackedBlock;
@@ -54,14 +52,8 @@ typedef struct {
     s16 scaleX;
 } Display;
 
-
-
 extern PackedVec3 D_8002533C;
 extern s16 D_80025384;
-
-extern void *func_8003FC64(s32);
-
-
 
 /* Creates an object in the first free rectangle slot and decrements the owner timer. */
 void func_80024104(void *owner) {

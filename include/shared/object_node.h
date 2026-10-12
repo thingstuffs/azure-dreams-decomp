@@ -20,7 +20,7 @@ typedef struct ObjectNodeHeader {
     /* 0x0C */ void *unk_0C;                     /* func_8003FD64: payload cursor */
     /* 0x10 */ void *unk_10;                     /* town/func_800A7BE0 compares it with code addresses */
     /* 0x14 */ int unk_14;
-    /* 0x18 */ int unk_18;
+    /* 0x18 */ struct ObjectNodeHeader *chain_next; /* second link followed by point/mesh walkers; no writer of +0x18 has been found yet */
     /* 0x1C */ unsigned char pad_1C[2];
     /* 0x1E */ unsigned short flags;             /* flags | 0x4000 at allocation; & 0x200 / & 0x80 tests (func_8003FB98) */
 } ObjectNodeHeader;

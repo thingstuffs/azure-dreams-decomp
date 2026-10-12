@@ -159,7 +159,7 @@ s32 func_80024440(SpriteEffect *first_item) {
                 ((u32)packet & addr_mask);
         }
 
-        next_node = (ObjectNodeHeader *)((ObjectNodeHeader *)node - 1)->unk_18;
+        next_node = ((ObjectNodeHeader *)node - 1)->chain_next;
         if (next_node == 0) {
             break;
         }

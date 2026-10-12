@@ -21,9 +21,6 @@ typedef struct Motion33 {
     s32 dz;
 } Motion33;
 
-
-
-
 typedef struct AlignedOffsetPair {
     s16 x;
     u16 y;
@@ -55,7 +52,6 @@ typedef struct Aux {
     u8 tile_x;
     u8 tile_y;
 } Aux;
-
 
 typedef struct Owner {
     u8 pad00[8];
@@ -99,13 +95,11 @@ typedef struct Task {
     Packed12 image_data;
 } Task;
 
-
 extern u8 D_80025100[16];
 extern Packed12 D_8002510C;
 extern u8 D_800E3D68[16];
 
 extern s32 func_8003DF74(void *, void *, s16 *, s32);
-extern Task *func_8003FC64(s32);
 extern void func_80044A50(void *);
 extern s32 func_80069EF8(void);
 extern s32 func_800A4778(u16, u16, s16, void *);
@@ -115,7 +109,6 @@ extern s32 func_800A6D30(void);
 extern void func_800C8B84(void *entity, s16 chance, s16 effect_value);
 
 #include "shared/slus_callbacks.h"
-
 
 /* Updates the actor effect through movement, particle emission, fading, and cleanup. */
 void func_80024668(Actor33 *actor, Motion33 *motion, Render33 *render)

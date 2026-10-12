@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_189a800.h"
 #include "modules/dungeon_native_abi.h"
 
 #ifndef NULL
@@ -43,9 +44,6 @@ typedef struct S_8187B9E8_4 {
     s16 unk_A0;
 } S_8187B9E8_4;   /* q in func_800251E8 */
 
-
-
-extern void *func_8003FC64(s32);
 extern s32 func_800644B8();
 extern s32 func_80064584();
 extern s32 func_80069EF8();

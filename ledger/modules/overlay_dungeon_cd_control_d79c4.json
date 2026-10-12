@@ -7,10 +7,10 @@
     "dungeon/func_800B79F8",
     "dungeon/func_800B7A24"
   ],
-  "at": "2026-10-11T16:59:05Z",
+  "at": "2026-10-12T01:37:43Z",
   "reviewer": "orchestrator-r99",
   "fingerprint": {
-    "sha256": "711ef61ea5af826fddc9ae6b9b12f386294e2a4b61b9b0727e8f314d1e8a940e",
+    "sha256": "c3c61119b38ac34309fb4190c7329ae67209edee7f88ba2fbdd66f30f9c82f45",
     "inputs": {
       "config/names.tsv": "230d776d2f0877959debf4edb04b9065030b27712420ae003b195d0ce06c94c1",
       "config/noreturn_false_members.jsonl": "38661a5397a70ed3d7033bcbfccf2a3d50769e11a9a75cebb6d73fc60b776739",
@@ -62,9 +62,9 @@
       "include/shared/entity_height_offsets.h": "e4e2aabcfacda80c1ba59901b39e38a04086ea2a2c332386f1cc03448d5a2fed",
       "include/shared/entity_objects.h": "5e0d73fb52a454138396808f0de6a94be5ca83243636d72783368cc6160563b3",
       "include/shared/game_work.h": "813f5e364376a12ed80235a4f1b63ed27105d4b1362d7493ef90ca6c321b6366",
-      "include/shared/gpu_packets.h": "f57c07438d2c0bffca29aa36ba3fb7d2983e99fcd8b9c6aa9434b784681de38c",
+      "include/shared/gpu_packets.h": "475e5d6efd3d9f02c38b6046798307a33ea6988e154d234dd2da695ebf1c5dc0",
       "include/shared/object_flags.h": "587f3da6018f67a1af0997d8f9ce3528bf0b89b0b3be4ae4fc4b2e9e276bcc28",
-      "include/shared/object_node.h": "310ef362af013f2e08a2d34163e9258a1f49d049fb534b3b7244e65152475ba5",
+      "include/shared/object_node.h": "7c01b7d2e7be82657682e8e8a924854747f8508a007a6569f988513287f23c17",
       "include/shared/ot_link.h": "a4eebba0c1353a2542a3375573fc5d33f53ce3750f182c7dba27dcd9a255a934",
       "include/shared/record_ptrs.h": "3e2fc767000f3e901b6d5cd55c7033124a5b648c92927bee9bdea6d143333064",
       "include/shared/runtime_dispatch.h": "4e3a8343e216165c823f93390a9997766ece11de68a1c6f702bc9107eece2eba",
@@ -1195,7 +1195,7 @@
     }
   },
   "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_cd_control_d79c4/module",
-  "receipt_sha256": "12908ec4d5ca025f513f6fcb2868d415e3141a8fd6fd52409395980251dd7751",
+  "receipt_sha256": "31d61bd66e7505ff5c1b7d0d42c3d89fc1d703b772c0788716db6b428ceee4e0",
   "windows": [
     {
       "config": "config/overlays/dungeon_engine.overlay.yaml",
@@ -1207,8 +1207,8 @@
         "gate.log": "f8b7e312b19df70d45d41fb265a2f685394ab59bee90e6d09b47697dcb87160a",
         "window.bin": "1612c21559c49a3b69f10548bca5ec6d18ec11a0764ea317c396edca9211d796",
         "manifest.json": "ed956459a899fc794ed7eb6fddca2277d6578e50871aece7af1c4c2b53a9901b",
-        "projection.json": "7e82dc955c2f6d593d4f535297c8901eecdb8bee58e59d11a2d23a007e5f6632",
-        "module/receipt.json": "94d9001fee621e4c1cf10122aa0a6347b940f6f4276c28e18258d0de9708ddc7"
+        "projection.json": "cb5eb0e69f2caf0ab7b26ef6add9c3db9e55ed54134ac667bfec1be35fa05924",
+        "module/receipt.json": "2d505f47358643eb022dbf205221d52c34b1cb6f6a99f9f23764d4b8a647d230"
       }
     }
   ]

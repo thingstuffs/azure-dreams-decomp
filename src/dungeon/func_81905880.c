@@ -1,9 +1,5 @@
 #include "modules/dungeon_ovl_1924800.h"
 
-/* Three 4-byte slots; only the second halfword of each is used. */
-
-/* The spawned effect's record (the object header precedes it). */
-
 /* Retail 81905880 (func_80025080): spawn an effect object under the parent node, placed at the parent's
  * position plus a random jitter (0..31 per axis) and the given offsets (minus half the jitter range). */
 void func_80025080(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x,
@@ -22,16 +18,16 @@ void func_80025080(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 fie
     s16 position_x;
     s16 position_y;
     s16 position_z;
-    EffectPosition *dest_x;
-    EffectPosition *dest_y;
-    EffectPosition *dest_z;
+    EffectPositionViews *dest_x;
+    EffectPositionViews *dest_y;
+    EffectPositionViews *dest_z;
 
     /* the parent's next slot is the list head the new node links behind */
     spawned = func_8003FD64(0x211, (ObjectNodeHeader **)source_obj);
     if (spawned != 0) {
         spawned->unk_10 = (void *)func_80024FB4;
         jitter_x = rand() & 0x1F;
-        position_x = ((EffectPosition *)source_obj->unk_08)->spawn.x;
+        position_x = ((EffectPositionViews *)source_obj->unk_08)->spawn.x;
         dest_x = spawned->unk_08;
         position_x += jitter_x;
         bias_x = offset_x - 0x10;
@@ -39,7 +35,7 @@ void func_80025080(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 fie
         dest_x->spawn.x = position_x;
 
         jitter_y = rand() & 0x1F;
-        position_y = ((EffectPosition *)source_obj->unk_08)->spawn.y;
+        position_y = ((EffectPositionViews *)source_obj->unk_08)->spawn.y;
         dest_y = spawned->unk_08;
         position_y += jitter_y;
         bias_y = offset_y - 0x10;
@@ -48,7 +44,7 @@ void func_80025080(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 fie
 
         jitter_z = rand();
         jitter_z &= 0x1F;
-        position_z = ((EffectPosition *)source_obj->unk_08)->spawn.z;
+        position_z = ((EffectPositionViews *)source_obj->unk_08)->spawn.z;
         fields = (SpawnedRecord *)(spawned + 1);
         dest_z = spawned->unk_08;
         position_z += jitter_z;

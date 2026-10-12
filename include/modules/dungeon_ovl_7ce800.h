@@ -7,7 +7,6 @@
 extern void *D_800FBE1C;
 typedef union { u8 first; s8 bytes[9]; } DungeonFlagBuffer9;
 extern DungeonFlagBuffer9 D_800DCF5B;
-ObjectNodeHeader *func_8003FC64(s32);
 void func_8003DB94(void *,void *,s32);
 struct ColorPart;
 struct DungeonObject;
