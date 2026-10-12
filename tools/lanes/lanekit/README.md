@@ -613,3 +613,21 @@ differs is rejected (`jtbl: local .rodata at 0x... word N: got 0x..., retail 0x.
 * A text-exact `--no-jtbl` result still needs the table fixed (word index and got/retail values are in the
   `jtbl-mismatch` status of the ordinary run) before it can land.
 - `counts.py FILE.c --row <id> [--cfg CFG]`: reg_n_sets per register at flow and at combine (what sched1 reads), plus each sched1 block's boosted and not-boosted ready insns. Use it when why.py tags a moved insn `[launched: birthing boost]` (r85_fable_birth).
+
+## SN cross-check, allocator intervention and value-LUID (r114)
+
+See [TOOLS.md](TOOLS.md) for commands, verified PsyQ generation mappings and limits.
+`sncheck.py ROW {FILE.c,erased,pinned} [--cfg CFG]` compares our cc1 with genuine SN
+under wibo using exactly the same kit-preprocessed input. `alloc_oracle.py` applies
+one explicit allocator input under GDB and checks the resulting colours against a
+byte-calibrated pinned control; its output is counterfactual evidence.
+
+`why.py ROW --value-luid a0 --call FUNCTION [--variant FILE]` pairs pinned and
+candidate value definitions, source statements, observed scheduler LUIDs and pass
+history. It also accepts a named pseudo. `--block` accepts a UID even when the insn
+has no priority/ready-list entry; use `uUID` to avoid fallback to a block number.
+
+`lab.py stage-tidy ROW FILE.c [--note "fidelity change"]` stages a byte-exact candidate
+at the registered cfg with unchanged pins. It writes the ordinary `out/` and base
+hash, applies all admission guards and journals the score. No `--cfg` or recipe
+trade is needed. After staging a tidy, rerun the erase census and attempt its pins.

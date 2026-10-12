@@ -13,6 +13,7 @@ admission gate seven lanes re-derived (`work/native_lane/r62_astra_big/publish_l
     python3 <repo>/tools/lanes/lanekit/lab.py dungeon/func_8009612C --grid grid1.json --score
     python3 <repo>/tools/lanes/lanekit/lab.py dungeon/func_8009612C v7.c --cfg "2.8.1-G0" --score
     python3 <repo>/tools/lanes/lanekit/lab.py cellscore dungeon/func_8009612C v7.c --cfg "2.8.1-G0"
+    python3 <repo>/tools/lanes/lanekit/lab.py stage-tidy dungeon/func_800CA184 tidy.c --note "typed reads"
     python3 <repo>/tools/lanes/lanekit/lab.py stage-cell dungeon/func_8009612C v7.c --cfg "2.8.1-G0" --note "why"
     python3 <repo>/tools/lanes/lanekit/lab.py stage-cell dungeon/func_8009612C v7.c --cfg "2.7.2-cdk-G0" --note "why" --equal-pins
     python3 <repo>/tools/lanes/lanekit/lab.py dungeon/func_8009612C --base cand/best.c --subs s.json --score
@@ -557,9 +558,47 @@ def stage_cell(row, cand, cfg, note, lane, base_path, base, name="candidate", ve
     return rec
 
 
+# ------------------------------------------------------------------------------------- stage-tidy
+
+def stage_tidy(row, cand, note, lane, base_path, base, name="candidate", verify=None, out=print):
+    """Stage an exact fidelity tidy at the REGISTERED cfg, with the SAME live pin count.
+
+    No cells.jsonl recipe trade is created. All existing admission guards apply.
+    The real byte scorer (including jump tables) is the acceptance authority.
+    """
+    rec = {"row": row["id"], "variant": name, "kind": "stage-tidy", "cfg": row["cfg"],
+           "pins": len(kitlib.sites(cand)), "pins_before": len(kitlib.sites(base)),
+           "distance": None, "score": None, "status": "refused", "note": note}
+    bad = kitlib.admissible(base, cand, equal_pins=True)
+    if rec["pins"] != rec["pins_before"]:
+        bad.append("stage-tidy requires UNCHANGED pin count (%d -> %d)" % (rec["pins_before"], rec["pins"]))
+    if cand == base:
+        bad.append("candidate is identical to the base")
+    if bad:
+        rec["refused"] = "; ".join(bad)
+    else:
+        context = kitlib.module_fingerprint(row)
+        sc = kitlib.score_fields(kitlib.score_at(row, cand, verify=verify))
+        rec["score"] = sc
+        if not sc.get("exact"):
+            rec["refused"] = "not byte-exact at registered cfg %s (%s)" % (row["cfg"], json.dumps(sc))
+        elif context is not None and kitlib.module_fingerprint(row) != context:
+            rec["refused"] = "module context changed during tidy scoring; rerun"
+        else:
+            staged = stage_file(lane, row, base_path, base, cand, equal_pins=True)
+            if staged is None:
+                rec["refused"] = "not staged (existing staged candidate is better)"
+            else:
+                rec.update(staged=staged, status="exact", equal_pins=True)
+    out("stage-tidy %s %s" % (row["id"], "REFUSED: " + rec["refused"] if rec.get("refused")
+                              else "exact at %s; pins %d -> %d; %s (+ .base_sha)" %
+                              (row["cfg"], rec["pins_before"], rec["pins"], rec["staged"])))
+    return rec
+
+
 # ------------------------------------------------------------------------------------- report
 
-VIA = {"cellscore": "lab cellscore", "stage-cell": "lab stage-cell", "diff-score": "diff.py --score",
+VIA = {"cellscore": "lab cellscore", "stage-cell": "lab stage-cell", "stage-tidy": "lab stage-tidy", "diff-score": "diff.py --score",
        "diff-listing": "diff.py", "diff-scorer": "diff.py --scorer"}
 
 
@@ -686,6 +725,23 @@ def main():
         rec = cellscore(row, cp.read_text(errors="replace"), a.cfg, lane, name=cp.stem,
                         base=kitlib.base_text(row, lane), rule2=not a.no_rule2, no_jtbl=a.no_jtbl)
         kitlib.log_append(lane, rec)
+        return
+
+    if a.row_id == "stage-tidy":
+        if a.cfg or a.no_jtbl or a.no_stage or a.equal_pins or a.no_rule2:
+            raise SystemExit("lab: stage-tidy uses the registered cfg, real scorer and unchanged pins; no recipe/scoring overrides")
+        if len(a.rest) != 2:
+            raise SystemExit('lab.py stage-tidy <row_id> <candidate.c> [--note "fidelity tidy"]')
+        lane = kitlib.bootstrap()
+        row = kitlib.row_of(a.rest[0])
+        cp = Path(a.rest[1])
+        if not cp.is_file():
+            raise SystemExit("lab: stage-tidy: no such file %s" % cp)
+        rec = stage_tidy(row, cp.read_text(errors="replace"), a.note, lane,
+                         kitlib.base_path(row, lane), kitlib.base_text(row, lane), name=cp.stem)
+        kitlib.log_append(lane, rec)
+        if rec.get("refused"):
+            sys.exit(1)
         return
 
     if a.equal_pins and a.row_id != "stage-cell":

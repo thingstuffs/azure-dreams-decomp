@@ -29,3 +29,10 @@ lockstep with the first are both loop.c strength-reduction OUTPUT that m2c copie
 each use and store everything off the ONE pointer (increments last) - loop.c rebuilds retail's registers itself
 (same lesson as r93_opus_vb4/vb5/p19). A spilled argument reload that lands before a sched2 block head can be moved
 INTO the block by putting its init at the top of the arm that uses it.
+
+For an unchanged-pin fidelity tidy at the REGISTERED cfg, use
+`lab.py stage-tidy <row> tidy.c --note "fidelity change"`. It runs the real byte
+scorer, requires unchanged pin count and all normal admission guards, and writes
+`out/<container>/<file>.c` with `.base_sha`. Do not route it through `stage-cell`:
+that command requires a different cfg. Then run the erase census (singles, pairs,
+all) and attempt the surviving pins; a load-bearing tidy is not the end of the lane.

@@ -738,7 +738,7 @@ def main_function(blocks, row):
     return [b for b in blocks if b["function"] == pick], sorted(set(funcs) - {pick}, key=str)
 
 
-def resolve_block(blocks, spec, ret_to_uid=None):
+def resolve_block(blocks, spec, ret_to_uid=None, chain=None):
     """(block, reading) for `--block`: `b<N>` block number, `u<N>` uid, `r<N>` retail word index,
     plain N = a uid when some block's priority table holds it, else the block number."""
     s = spec.strip().lower()
@@ -747,6 +747,17 @@ def resolve_block(blocks, spec, ret_to_uid=None):
         for t in b["ticks"]:
             for u, _ in t["ready"]:
                 by_uid.setdefault(u, b)
+    # Calls/USEs can be absent from priority/ready tables. Include endpoints,
+    # and the BEFORE-pass chain interval when available; UID magnitude is not order.
+    positions = {r["uid"]: i for i, r in enumerate(chain or [])}
+    for b in blocks:
+        by_uid.setdefault(b["from"], b)
+        by_uid.setdefault(b["to"], b)
+        if b["from"] in positions and b["to"] in positions:
+            lo, hi = positions[b["from"]], positions[b["to"]]
+            if lo <= hi:
+                for r in chain[lo:hi + 1]:
+                    by_uid.setdefault(r["uid"], b)
     def by_n(n):
         hit = [b for b in blocks if b["n"] == n]
         if not hit:
@@ -1022,9 +1033,9 @@ def run_single(a, row, lane, base):
         inv = {r: g for g, r in retail["gen_ret"].items()}
         ret_to_uid = {r: retail["by_gen"].get(g) for r, g in inv.items()}
     if a.block:
-        blk, where = resolve_block(blocks, a.block, ret_to_uid)
+        blk, where = resolve_block(blocks, a.block, ret_to_uid, insns_of(d.get(PRE_PASS.get(phase, ""), ""), True))
     else:
-        blk, where = resolve_block(blocks, "u%d" % a.insn)
+        blk, where = resolve_block(blocks, "u%d" % a.insn, chain=insns_of(d.get(PRE_PASS.get(phase, ""), ""), True))
     recs = {x["uid"]: x for x in insns_of(d[phase], True)}
     luid = pre_order(d, phase, True) or {u: u for u in recs}
     if pre_order(d, phase, True) is None:
@@ -1075,7 +1086,15 @@ def main():
     ap.add_argument("--deps-table", action="store_true",
                     help="sched/sched2, ONE text, with --block: the whole block's dependence table (deps on / depended on "
                          "by / priority / birthing boost), one row per insn")
+    ap.add_argument("--value-luid", metavar="REG_OR_PSEUDO", help="paired value-definition/source/pass history (a0..a3, variable, numeric pseudo)")
+    ap.add_argument("--call", help="value-LUID: call symbol or uUID (selected independently on each side)")
+    ap.add_argument("--occurrence", type=int, default=1, help="value-LUID: 1-based matching call occurrence")
+    ap.add_argument("--json", help="value-LUID: write structured paired evidence")
     a = ap.parse_args()
+    if a.value_luid and a.vs_cfg:
+        ap.error("--value-luid cannot be combined with --vs-cfg")
+    if (a.call or a.json or a.occurrence != 1) and not a.value_luid:
+        ap.error("--call/--json/--occurrence require --value-luid")
     single = a.deps_table or a.trace or a.block or a.insn is not None or a.deps is not None
     if a.text is not None and a.variant is not None and a.text != a.variant:
         ap.error("give the text once: positional <text> or --variant, not both")
@@ -1086,7 +1105,7 @@ def main():
             ap.error("--vs-cfg compares whole compiles; --trace/--block/--insn/--deps read one compile (use --cfg)")
         if a.vs is not None:
             ap.error("--vs-cfg compares ONE text at two cfgs: give the text (positional or --variant), not --vs")
-    elif not a.phase and a.deps is None:
+    elif not a.phase and a.deps is None and not a.value_luid:
         ap.error("--pass is required (except with --deps or --vs-cfg)")
     if single and a.deps is None and a.block is None and a.insn is None:
         ap.error("--trace needs --block (N, bN, uN or rN) or --insn")
@@ -1102,6 +1121,27 @@ def main():
     if a.cfg:
         row = kitlib.row_at_cfg(row, a.cfg)
     base = kitlib.base_text(row, lane)
+    if a.value_luid:
+        if single or a.vs_cfg or a.phase not in (None, "sched", "sched2"):
+            ap.error("--value-luid compares two texts at sched/sched2; do not combine with trace/block/deps/vs-cfg")
+        import value_luid
+        import json
+        phase = a.phase or "sched"
+        pair = {}
+        for label, spec in (("reference", a.vs), ("candidate", a.variant)):
+            text, name = resolve_text(spec, row, lane, base)
+            ds = kitlib.dumps(row, text)
+            if ds.get("error"):
+                raise SystemExit("why: %s does not build: %s" % (name, ds["error"]))
+            try:
+                view = value_luid.value_view(row, text, ds, a.value_luid, a.call, a.occurrence, phase)
+            except ValueError as e:
+                ap.error(str(e))
+            pair[label] = view
+            print("\n".join(value_luid.render(view, name)))
+        if a.json:
+            Path(a.json).write_text(json.dumps(pair, indent=2) + "\n")
+        return
     if a.phase == "dbr" and not a.trace and a.block is None and a.deps is None:
         import dbr                                                       # noqa: E402  (dbr.py, this kit)
         tv, nv = resolve_text(a.variant, row, lane, base)
