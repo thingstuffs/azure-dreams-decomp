@@ -15,7 +15,11 @@ def ptr(n):return u32(A[n])
 def reg(n):return int(gdb.parse_and_eval('$'+n))&0xffffffff
 def arg(i):return u32(reg('esp')+4*(i+1))
 def cstr(a,n=160):return mem(a,n).split(b'\0')[0].decode(errors='replace') if a else ''
-def active():return ACTIVE
+def active():
+    # assign_stack_local runs during expansion, before rest_of_compilation's
+    # one-time RTX-table initializer.  current_function_name is already set.
+    try:return bool(ptr('current_function_name')) and cstr(ptr('current_function_name'))==C['function']
+    except Exception:return ACTIVE
 def phase():return 'sched2' if i32(A['reload_completed']) else 'sched1'
 def field(x,i):return u32(x+4+4*i)
 def uid(x):return i32(x+4) if x else 0
@@ -238,9 +242,14 @@ def deleted():
     if name(insn)!='insn' or name(field(insn,3))!='set':return
     if name(field(field(insn,3),0))!='reg':return
     caller=gdb.newest_frame().older().name()
+    u=uid(insn)
+    if caller=='try_merge_delay_insns':
+        if 'reorg' in F:record('reorg-delete',uid=u,value=True,caller=caller,pattern=brief(field(insn,3)))
+        m=matches('reorg-delete',uid=u)
+        if m is not None and m['value']==0:
+            mutation('reorg-delete',True,False,uid=u);ret(field(insn,2));return
     if 'dead' in F:record('deleted-set',uid=uid(insn),caller=caller,pattern=brief(field(insn,3)))
     if caller not in ('delete_dead_from_cse','delete_dead_insn','flow_delete_insn','delete_computation','delete_trivially_dead_insns','jump_optimize'):return
-    u=uid(insn)
     if 'dead' in F:record('keep-dead',uid=u,caller=caller,pattern=brief(field(insn,3)))
     if matches('keep-dead',uid=u):
         mutation('keep-dead','delete','keep',uid=u,caller=caller);ret(field(insn,2))
@@ -254,12 +263,16 @@ def flow_start():
         p=field(p,2)
 def equiv():
     u=uid(arg(1));key=('equiv',u);oc=occurrences.get(key,0);occurrences[key]=oc+1
-    if 'reload' not in F and not matches('reload-equiv',uid=u,occurrence=oc):return
+    if 'reload' not in F and not matches('reload-equiv',uid=u,occurrence=oc) and not matches('reload-reuse',uid=u,occurrence=oc):return
     def after():
         got=reg('eax');p=i32(got+4) if got and name(got)=='reg' else None
         if 'reload' in F and got:record('reload-equiv',uid=u,occurrence=oc,register=p)
+        if 'reload' in F:record('reload-reuse',uid=u,occurrence=oc,value=bool(got),register=p)
         if matches('reload-equiv',uid=u,occurrence=oc) and got:
             gdb.execute('set $eax = 0',to_string=True);mutation('reload-equiv',p,None,uid=u,occurrence=oc)
+        m=matches('reload-reuse',uid=u,occurrence=oc)
+        if m and bool(got)!=bool(m['value']) and m['value']==0:
+            gdb.execute('set $eax = 0',to_string=True);mutation('reload-reuse',True,False,uid=u,occurrence=oc)
     Finish(after)
 def reload_simplify():
     u=uid(arg(1))
@@ -267,11 +280,117 @@ def reload_simplify():
     if matches('reload-cse',uid=u):mutation('reload-cse','simplify','veto',uid=u);ret(0)
 def reload_noop():
     u=uid(arg(1))
-    if matches('reload-cse',uid=u) or matches('keep-dead',uid=u):
+    if 'reload' in F or matches('reload-cse',uid=u) or matches('keep-dead',uid=u) or matches('reload-noop',uid=u):
         def after():
             before=reg('eax')
-            if before:gdb.execute('set $eax = 0',to_string=True);mutation('reload-cse',before,0,uid=u)
+            if 'reload' in F:record('reload-noop',uid=u,value=bool(before),pattern=brief(arg(0)))
+            m=matches('reload-noop',uid=u)
+            if m is not None and bool(before)!=bool(m['value']):
+                gdb.execute('set $eax = '+str(m['value']),to_string=True);mutation('reload-noop',bool(before),bool(m['value']),uid=u)
+            elif before and (matches('reload-cse',uid=u) or matches('keep-dead',uid=u)):
+                gdb.execute('set $eax = 0',to_string=True);mutation('reload-cse',before,0,uid=u)
         Finish(after)
+
+# reorg.c: invert the target's delay-slot eligibility result at an executed
+# (delay insn, candidate insn) site, or skip one executed merge scan.  The
+# former supports both force and forbid; the latter is the safe counterfactual
+# for try_merge_delay_insns, whose destructive work cannot be reconstructed.
+def reorg_eligible():
+    d,c=arg(0),arg(2);du,cu=uid(d),uid(c)
+    if 'reorg' not in F and not matches('reorg-fill',uid=du,candidate_uid=cu):return
+    def after():
+        before=bool(reg('eax'))
+        if 'reorg' in F:record('reorg-fill',uid=du,candidate_uid=cu,value=before,
+                               delay=brief(field(d,3)),candidate=brief(field(c,3)))
+        m=matches('reorg-fill',uid=du,candidate_uid=cu)
+        if m is not None and before!=bool(m['value']):
+            gdb.execute('set $eax = '+str(m['value']),to_string=True)
+            mutation('reorg-fill',before,bool(m['value']),uid=du,candidate_uid=cu)
+    Finish(after)
+def reorg_merge():
+    d,t=arg(0),arg(1);du,tu=uid(d),uid(t)
+    if 'reorg' in F:record('reorg-merge',uid=du,thread_uid=tu,value=True,
+                           delay=brief(field(d,3)),thread=brief(field(t,3)))
+    m=matches('reorg-merge',uid=du,thread_uid=tu)
+    if m is not None and m['value']==0:
+        mutation('reorg-merge',True,False,uid=du,thread_uid=tu);ret(0)
+
+# jump.c: find_cross_jump writes its selected tail heads through arguments 3
+# and 4.  A veto clears them.  A force is allowed only when a simple backward
+# scan finds `minimum` exactly equal RTL patterns; otherwise it fails closed.
+def prev_real(x):
+    x=field(x,1) if x else 0;seen=set()
+    while x and x not in seen and name(x) in ('note','code_label'):
+        seen.add(x);x=field(x,1)
+    return x
+def force_cross_tails(e1,e2,minimum):
+    a,b=e1,e2;last=None
+    for _ in range(max(1,minimum)):
+        a,b=prev_real(a),prev_real(b)
+        if not a or not b or name(a)!=name(b) or name(a) not in ('insn','jump_insn','call_insn'):return None
+        if brief(field(a,3))!=brief(field(b,3)):return None
+        last=(a,b)
+    return last
+def jump_cross():
+    e1,e2,minimum,p1,p2=arg(0),arg(1),i32(reg('esp')+12),arg(3),arg(4)
+    ends=[uid(e1),uid(e2)];forced=force_cross_tails(e1,e2,minimum)
+    if 'jump' not in F and not matches('jump-cross',uids=ends):return
+    def after():
+        a,b=u32(p1),u32(p2);before=bool(a and b)
+        tails=[uid(a),uid(b)] if before else ([uid(forced[0]),uid(forced[1])] if forced else [])
+        if 'jump' in F:record('jump-cross',uids=ends,value=before,forceable=bool(forced),tails=tails,minimum=minimum)
+        m=matches('jump-cross',uids=ends)
+        if m is None or before==bool(m['value']):return
+        if m['value']==0:
+            put(p1,0);put(p2,0);mutation('jump-cross',True,False,uids=ends)
+        elif forced:
+            put(p1,forced[0]);put(p2,forced[1]);mutation('jump-cross',False,True,uids=ends)
+    Finish(after)
+
+# function.c: select an executed stack-slot allocation by occurrence and set
+# the pre-allocation frame cursor.  The normal allocator still performs all
+# alignment, size, virtual-register and list bookkeeping.
+def frame_slot():
+    key=('frame',);oc=occurrences.get(key,0);occurrences[key]=oc+1
+    mode,size,align=arg(0),i32(reg('esp')+8),i32(reg('esp')+12);before=i32(A['frame_offset'])
+    m=matches('frame-offset',occurrence=oc)
+    if m is not None and before!=m['value']:
+        put(A['frame_offset'],m['value']);mutation('frame-offset',before,m['value'],occurrence=oc)
+    def after():
+        if 'frame' in F:record('frame-offset',occurrence=oc,mode=mode,size=size,align=align,
+                               before=before,after=i32(A['frame_offset']),result=brief(reg('eax')) if rtx_names else None)
+    Finish(after)
+
+# cse.c: move an observed member of an equivalence chain to its head while
+# maintaining both links and qty_first/qty_last.  canon_reg then consumes the
+# selected head through the compiler's ordinary path.
+def eqv_chain(q):
+    first=i32(ptr('qty_first_reg')+4*q);out=[];seen=set();p=first
+    while p>=0 and p not in seen and len(out)<4096:
+        seen.add(p);out.append(p);p=i32(ptr('reg_next_eqv')+4*p)
+    return out
+def eqv_make_head(q,target):
+    chain=eqv_chain(q)
+    if target not in chain:raise ValueError('cse head target is not in observed equivalence chain')
+    first=chain[0]
+    if target==first:return False
+    prev=i32(ptr('reg_prev_eqv')+4*target);nxt=i32(ptr('reg_next_eqv')+4*target)
+    put(ptr('reg_next_eqv')+4*prev,nxt)
+    if nxt>=0:put(ptr('reg_prev_eqv')+4*nxt,prev)
+    else:put(ptr('qty_last_reg')+4*q,prev)
+    put(ptr('reg_prev_eqv')+4*target,-1);put(ptr('reg_next_eqv')+4*target,first)
+    put(ptr('reg_prev_eqv')+4*first,target);put(ptr('qty_first_reg')+4*q,target)
+    return True
+def cse_eqv():
+    new,old=i32(reg('esp')+4),i32(reg('esp')+8)
+    key=('cse-eqv',new,old);oc=occurrences.get(key,0);occurrences[key]=oc+1
+    def after():
+        q=i32(ptr('reg_qty')+4*old);chain=eqv_chain(q);head=chain[0] if chain else -1
+        if 'cse' in F:record('cse-eqv-head',new=new,old=old,occurrence=oc,head=head,chain=chain[:32])
+        m=matches('cse-eqv-head',new=new,old=old,occurrence=oc)
+        if m is not None and m['head']!=head and eqv_make_head(q,m['head']):
+            mutation('cse-eqv-head',head,m['head'],new=new,old=old,occurrence=oc,head=m['head'])
+    Finish(after)
 # Per-pseudo flow facts. 2.6.3/2.7.2(-cdk): parallel arrays (deaths are shorts).
 # 2.8.x: reg_n_info, an array of struct reg_info_def (host-supplied offsets).
 RI=C.get('reginfo')
@@ -410,6 +529,7 @@ if needs('combine'):
     hook('try_combine',combine);hook('use_crosses_set_p',crosses)
 if needs('cse'):
     hook('validate_change',validate_sub)
+    hook('make_regs_eqv',cse_eqv)
     if 'copy_swap_site' in A:hook('copy_swap_site',copy_swap)
     elif 'cse-copy-swap' in KINDS_ON:R['errors'].append('copy-swap site layout not recognized')
 if needs('alias'):hook('true_dependence',dependence)
@@ -420,6 +540,13 @@ if needs('dead'):
     hook('flow_analysis',flow_start);hook('insn_dead_p',dead);hook('delete_insn',deleted)
 if needs('reload'):
     hook('find_equiv_reg',equiv);hook('reload_cse_simplify_set',reload_simplify);hook('reload_cse_noop_set_p',reload_noop)
+if needs('reorg'):
+    hook('eligible_for_delay',reorg_eligible);hook('try_merge_delay_insns',reorg_merge)
+    if not needs('dead'):hook('delete_insn',deleted)
+if needs('jump'):
+    hook('find_cross_jump',jump_cross)
+if needs('frame'):
+    hook('assign_stack_local',frame_slot)
 if needs('global'):
     hook('prune_preferences',global_avoid);hook('reload',global_colours)
 if 'refs' in F:

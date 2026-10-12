@@ -3,7 +3,7 @@ import io,json,os,runpy,struct,sys,tempfile,unittest
 from pathlib import Path
 from unittest import mock
 ROOT=Path(__file__).resolve().parents[2];KIT=ROOT/'tools/lanes/lanekit';sys.path.insert(0,str(KIT))
-import pass_oracle as P,oracle_search as S,source_refs as SR
+import pass_oracle as P,oracle_search as S,source_refs as SR,attribute as AT,mutate_search as MS
 
 class SchemaTests(unittest.TestCase):
     def test_every_kind_has_one_complete_schema(self):
@@ -15,7 +15,13 @@ class SchemaTests(unittest.TestCase):
                {'kind':'alias','uids':[3,2],'phase':'sched2','value':1},
                {'kind':'loop-hoist','uid':2},{'kind':'loop-biv','uid':2,'pseudo':80},
                {'kind':'keep-dead','uid':2},{'kind':'reload-equiv','uid':2,'occurrence':0},
-               {'kind':'reload-cse','uid':2},{'kind':'global-avoid','pseudo':81,'hardreg':4}]
+               {'kind':'reload-cse','uid':2},{'kind':'reload-reuse','uid':2,'occurrence':0,'value':0},
+               {'kind':'reload-noop','uid':2,'value':1},{'kind':'global-avoid','pseudo':81,'hardreg':4},
+               {'kind':'reorg-fill','uid':2,'candidate_uid':3,'value':0},
+               {'kind':'reorg-merge','uid':2,'thread_uid':3,'value':0},
+               {'kind':'reorg-delete','uid':2,'value':0},
+               {'kind':'jump-cross','uids':[2,3],'value':0},{'kind':'frame-offset','occurrence':0,'value':-4},
+               {'kind':'cse-eqv-head','new':82,'old':81,'occurrence':0,'head':82}]
         self.assertEqual({c['kind'] for c in cases},set(P.KINDS))
         for c in cases:P.validate(c)
     def test_rejects_unknown_extra_or_missing_inputs(self):
@@ -24,7 +30,9 @@ class SchemaTests(unittest.TestCase):
                   {'kind':'combine-veto','uids':[1,1,0]},
                   {'kind':'sched-birth','uid':True,'phase':'sched1','value':0},
                   {'kind':'sched-priority','uid':1,'phase':'sched','value':3},
-                  {'kind':'global-avoid','pseudo':81,'hardreg':70},{'kind':'global-avoid','pseudo':81}):
+                  {'kind':'global-avoid','pseudo':81,'hardreg':70},{'kind':'global-avoid','pseudo':81},
+                  {'kind':'reorg-fill','uid':1,'candidate_uid':2,'value':2},
+                  {'kind':'jump-cross','uids':[1,1],'value':0},{'kind':'cse-eqv-head','new':1,'old':2,'head':0}):
             with self.assertRaises(ValueError):P.validate(c)
     def test_other_cells_fail_closed_before_preprocess(self):
         with self.assertRaises(ValueError),mock.patch.object(P.sncheck,'preprocess') as cpp:
@@ -140,6 +148,33 @@ class SyntheticGDB(unittest.TestCase):
         self.change([{'kind':'alloc','pseudo':81,'input':{'kind':'refs-add','value':1}},{'kind':'keep-dead','uid':3}])
         self.ns['alloc_reg']();self.assertEqual(self.writes,[(0x6000+4*81,struct.pack('<i',21))])
         self.assertEqual(self.gl['R']['applied_changes'],[0])
+    def test_reorg_fill_inverts_one_observed_pair(self):
+        delay,cand=0x4000,0x4100;self.u(delay+4,23);self.u(cand+4,20)
+        self.gl['arg']=lambda i:{0:delay,2:cand}[i];self.registers['eax']=1
+        self.change({'kind':'reorg-fill','uid':23,'candidate_uid':20,'value':0});self.ns['reorg_eligible']()
+        self.assertEqual(self.registers['eax'],0);self.assertEqual(self.gl['R']['mutations'][-1]['kind'],'reorg-fill')
+    def test_jump_cross_veto_clears_tail_outputs(self):
+        e1,e2,p1,p2=0x4000,0x4100,0x4200,0x4204
+        self.u(e1+4,33);self.u(e2+4,64);self.u(p1,0x4300);self.u(p2,0x4400);self.u(0x4300+4,31);self.u(0x4400+4,62)
+        self.gl['arg']=lambda i:[e1,e2,2,p1,p2][i]
+        self.change({'kind':'jump-cross','uids':[33,64],'value':0});self.ns['jump_cross']()
+        self.assertEqual((struct.unpack('<I',self.data[p1:p1+4])[0],struct.unpack('<I',self.data[p2:p2+4])[0]),(0,0))
+    def test_frame_offset_changes_preallocation_cursor(self):
+        self.gl['A']['frame_offset']=0x500;self.u(0x500,0)
+        self.u(0x1000+4,26);self.u(0x1000+8,4);self.u(0x1000+12,4)
+        self.change({'kind':'frame-offset','occurrence':0,'value':-4});self.ns['frame_slot']()
+        self.assertEqual(struct.unpack('<i',self.data[0x500:0x504])[0],-4)
+    def test_cse_equivalence_head_relinks_chain(self):
+        a=self.gl['A'];a.update({'reg_qty':0x500,'qty_first_reg':0x504,'qty_last_reg':0x508,
+                                 'reg_next_eqv':0x50c,'reg_prev_eqv':0x510})
+        for sym,base in [('reg_qty',0x6000),('qty_first_reg',0x7000),('qty_last_reg',0x7400),
+                         ('reg_next_eqv',0x7800),('reg_prev_eqv',0x7c00)]:self.u(a[sym],base)
+        self.u(0x6000+4*81,3);self.u(0x7000+4*3,81);self.u(0x7400+4*3,82)
+        self.u(0x7800+4*81,82);self.u(0x7800+4*82,0xffffffff)
+        self.u(0x7c00+4*81,0xffffffff);self.u(0x7c00+4*82,81)
+        self.u(0x1000+4,82);self.u(0x1000+8,81)
+        self.change({'kind':'cse-eqv-head','new':82,'old':81,'occurrence':0,'head':82});self.ns['cse_eqv']()
+        self.assertEqual(struct.unpack('<i',self.data[0x7000+12:0x7000+16])[0],82)
 
 class SearchTests(unittest.TestCase):
     def test_gate_requires_all_five_successes_without_duplicates(self):
@@ -177,6 +212,23 @@ class SearchTests(unittest.TestCase):
         space=S.enumerate_changes(obs)
         self.assertEqual(space[0],[{'kind':'combine-veto','uids':[11,10,9]},{'kind':'combine-veto','uids':[21,20,19]}])
         self.assertEqual(len([c for c in space if isinstance(c,list)]),1)
+    def test_new_families_are_enumerated_only_from_observed_sites(self):
+        obs={'events':[{'kind':'reorg-fill','uid':10,'candidate_uid':11,'value':True},
+                       {'kind':'reorg-merge','uid':12,'thread_uid':13,'value':True},
+                       {'kind':'reorg-delete','uid':14,'value':True},
+                       {'kind':'jump-cross','uids':[20,21],'value':True,'forceable':False},
+                       {'kind':'reload-reuse','uid':30,'occurrence':0,'value':True},
+                       {'kind':'reload-noop','uid':31,'value':False},
+                       {'kind':'frame-offset','occurrence':0,'before':-16,'size':4},
+                       {'kind':'cse-eqv-head','new':82,'old':81,'occurrence':0,'head':81,'chain':[81,82]}]}
+        space=S.enumerate_changes(obs,include_alloc=False);keys={S.key(c) for c in space}
+        for change in ({'kind':'reorg-fill','uid':10,'candidate_uid':11,'value':0},
+                       {'kind':'reorg-merge','uid':12,'thread_uid':13,'value':0},
+                       {'kind':'reorg-delete','uid':14,'value':0},
+                       {'kind':'jump-cross','uids':[20,21],'value':0},
+                       {'kind':'reload-reuse','uid':30,'occurrence':0,'value':0},
+                       {'kind':'reload-noop','uid':31,'value':1},
+                       {'kind':'cse-eqv-head','new':82,'old':81,'occurrence':0,'head':82}):self.assertIn(S.key(change),keys)
     def test_wrong_registers_reads_register_only_differences(self):
         enc=lambda rs,rt,rd:struct.pack('<I',(rs<<21)|(rt<<16)|(rd<<11)|0x21)
         got=enc(4,0,2)+enc(5,0,3)+struct.pack('<I',0x08000010);ret=enc(5,0,2)+enc(5,0,3)+struct.pack('<I',0x08000010)
@@ -213,6 +265,15 @@ class RefTests(unittest.TestCase):
         self.assertEqual(p['unattributed_weight'],1);self.assertIsNone(p['contributions'][0]['source'])
         self.assertEqual(p['source_weight'],0);self.assertIn('residual',SR.render(r))
 
+class AttributionAndMutationTests(unittest.TestCase):
+    def test_asm_word_map_expands_li_and_keeps_uid(self):
+        asm='\tli\t$2,1  # 10 movsi\n\tli\t$3,0x12345678  # 11 movsi\n\taddu\t$2,$2,$3  # 12 addsi\n'
+        rows,coverage=AT.asm_word_map(asm,4)
+        self.assertEqual([r['uid'] for r in rows],[10,11,11,12]);self.assertEqual(coverage['binary_words'],4)
+    def test_mutation_text_extractor_ignores_labels(self):
+        value=[('label','int f(void)\n{\n return 1;\n}\n'),{'text':'void g(void)\n{\n}\n'}]
+        self.assertEqual(len(list(MS._text_values(value))),2)
+
 class DiscoveryAndCellTests(unittest.TestCase):
     def test_independent_discovery_keeps_other_families_after_timeout(self):
         def trace(row,text,**kw):
@@ -223,7 +284,7 @@ class DiscoveryAndCellTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td,mock.patch.object(P,'trace',side_effect=trace):
             r=S.discover({'id':'x'},'int f(){}',Path(td),1)
         self.assertTrue(r['faithful']);self.assertEqual(len(r['discovery_errors']),1)
-        self.assertEqual(len(r['events']),6);self.assertEqual(r['discovery_errors'][0]['families'],['combine'])
+        self.assertEqual(len(r['events']),9);self.assertEqual(r['discovery_errors'][0]['families'],['combine'])
     def test_divergent_observer_is_excluded(self):
         counter=[0]
         def trace(row,text,**kw):
@@ -232,7 +293,7 @@ class DiscoveryAndCellTests(unittest.TestCase):
                     'asm':'.ent f\nli $2,%d\n.end f'%counter[0],'cc1_sha256':'abc'}
         with tempfile.TemporaryDirectory() as td,mock.patch.object(P,'trace',side_effect=trace):
             r=S.discover({'id':'x'},'int f(){}',Path(td),1)
-        self.assertEqual(len(r['discovery_errors']),6)
+        self.assertEqual(len(r['discovery_errors']),9)
     def test_discovery_resumes_family_by_family(self):
         calls=[]
         def trace(row,text,**kw):

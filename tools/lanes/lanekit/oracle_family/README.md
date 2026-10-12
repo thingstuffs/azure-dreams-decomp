@@ -6,7 +6,7 @@ Run from a lane and keep outputs there. Use a private scratch checkout when
 other lanes or landings are active. The prerequisite r114 pin-tools package
 provides alloc_oracle.py, sncheck.py and value_luid.py.
 
-`pass_oracle.py ROW TEXT --discover --families sched,combine,cse,alias,loop,dead,reload,refs,global --keep DIR --json FILE`
+`pass_oracle.py ROW TEXT --discover --families sched,combine,cse,alias,loop,dead,reload,reorg,jump,frame,refs,global --keep DIR --json FILE`
 observes real executed sites. TEXT is `erased`, `pinned`, or a candidate path.
 `--change` instead takes one JSON object, or a COMPOSITE: a JSON list of 2..4
 distinct changes applied together in one compiler run (or `@FILE`). It rechecks the
@@ -31,6 +31,14 @@ change kinds alone, which is what search trials use (5-10x faster than recording
 | keep-dead | uid | Veto deletion of a register SET in the dead/jump deletion paths and flow's dead predicate. Preserving RTL alone does not ensure a retail hard register or lifetime. |
 | reload-equiv | uid, occurrence | Replace one find_equiv_reg result with null. |
 | reload-cse | uid | Skip simplification and veto noop removal for that instruction. |
+| reload-reuse | uid, occurrence, value | Toggle an executed find_equiv_reg reuse. Forcing an absent result fails closed because no register RTX exists; veto is fully supported. |
+| reload-noop | uid, value | Toggle reload_cse_noop_set_p, directly controlling the named reload-CSE no-op deletion decision. |
+| reorg-fill | uid, candidate_uid, value | Toggle eligible_for_delay for one executed delay insn/candidate pair. This supports both force and forbid. |
+| reorg-merge | uid, thread_uid, value=0 | Skip one executed try_merge_delay_insns scan before it can delete the duplicate thread instruction. |
+| reorg-delete | uid, value=0 | Veto an actually executed delete_insn whose caller is try_merge_delay_insns; this distinguishes destructive merges from harmless scans. |
+| jump-cross | uids=[tail1,tail2], value | Veto find_cross_jump's selected tails, or force only when a conservative backward scan finds `minimum` exactly equal RTL patterns. Otherwise force fails closed. |
+| frame-offset | occurrence, value | Set frame_offset immediately before one executed assign_stack_local call; the real allocator still performs alignment, sizing and slot bookkeeping. |
+| cse-eqv-head | new, old, occurrence, head | After one executed make_regs_eqv, move an observed member to the equivalence-list head while preserving both links. canon_reg consumes the ordinary list. |
 | global-avoid | pseudo, hardreg | global.c: add `hardreg` to the pseudo's allocno hard-register conflict set at prune_preferences entry (conflicts complete, preferences not yet pruned). The `global` discovery family records every allocated pseudo's colour at reload entry (allocno -1 = local). |
 | alloc | pseudo, input | The prerequisite allocator inputs (refs, refs-add, live, global, local, qty-refs, qty-life, qty-rank), written exactly where alloc_oracle_gdb writes them. Inside pass_oracle this is what lets an allocator input join a composite; single alloc trials still use alloc_oracle on the cdk and 2.6.3 cells. Cross-checked raw-exact against alloc_oracle on 818B6AFC (global), 80D68308 (refs-add) and 808119EC (2.6.3 qty-refs). |
 
@@ -97,6 +105,30 @@ reused, timed-out trials rerun), so an interrupted row continues where it stoppe
 Choose a new output after any of those change.
 Each row retains a JSON and Markdown minimal-change report, a complete candidate
 space, per-trial mutation/byte receipts, and debugger artifacts.
+
+The five new discovery families are interleaved ahead of broad allocator trials:
+executed reorg merges, jump2 tail pairs, reload reuses/no-op decisions, stack-slot
+occurrences, and CSE equivalence-chain alternatives. No selector is fabricated
+from a solved source. A force that cannot be represented by an observed compiler
+object is an invalid no-op trial.
+
+## Divergence attribution and mutation crossing
+
+`attribute.py ROW TEXT --out DIR` aligns generated and retail words, maps each
+generated word to `-dap`'s UID annotation, and follows that UID across the `-da`
+snapshots with value_luid provenance. Register-field-only differences are owned
+by local/global allocation or reload, stack-base displacement differences by
+assign_stack_local, and delay words by reorg; every other word names the last
+observed pass that created, rewrote, removed, or moved its deciding UID. The JSON
+contains every differing word, its instruction/history/source evidence, and a
+per-pass histogram. Retail-only words use the aligned neighboring UID and say so.
+
+`mutate_search.py ROW TEXT --out DIR --mutations 8 --oracle-trials 24` enumerates
+bounded candidates from sweep transform modules t36..t87 plus perturb_basic and
+perturb_struct. Every distinct admissible, compiling mutation receives a fresh
+observed-site oracle search. A hit means that mutation exposes a raw-exact single
+intervention; composites are intentionally disabled. Generator refusals and
+failures remain in the report rather than disappearing.
 
 ## Source references and 2.6.3
 

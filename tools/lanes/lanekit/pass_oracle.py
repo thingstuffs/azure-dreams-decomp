@@ -29,14 +29,23 @@ KINDS = {
     'keep-dead': ('uid',),
     'reload-equiv': ('uid', 'occurrence'),
     'reload-cse': ('uid',),
+    'reload-reuse': ('uid', 'occurrence', 'value'),
+    'reload-noop': ('uid', 'value'),
     'global-avoid': ('pseudo', 'hardreg'),
+    'reorg-fill': ('uid', 'candidate_uid', 'value'),
+    'reorg-merge': ('uid', 'thread_uid', 'value'),
+    'reorg-delete': ('uid', 'value'),
+    'jump-cross': ('uids', 'value'),
+    'frame-offset': ('occurrence', 'value'),
+    'cse-eqv-head': ('new', 'old', 'occurrence', 'head'),
 }
-FAMILIES = ('sched', 'combine', 'cse', 'alias', 'loop', 'dead', 'reload', 'refs', 'global')
+FAMILIES = ('sched', 'combine', 'cse', 'alias', 'loop', 'dead', 'reload', 'reorg', 'jump', 'frame', 'refs', 'global')
 MAX_COMPOSITE = 4
 
 def family_of(change):
     if change['kind']=='alloc': return 'alloc'
-    return {'keep':'dead','sched':'sched','cse':'cse','combine':'combine','loop':'loop','reload':'reload','alias':'alias','global':'global'}[change['kind'].split('-')[0]]
+    return {'keep':'dead','sched':'sched','cse':'cse','combine':'combine','loop':'loop','reload':'reload',
+            'alias':'alias','global':'global','reorg':'reorg','jump':'jump','frame':'frame'}[change['kind'].split('-')[0]]
 
 def members(change):
     return [] if change is None else list(change) if isinstance(change, list) else [change]
@@ -69,19 +78,20 @@ def validate_one(change):
     if set(change) != allowed: raise ValueError('expected fields '+str(sorted(allowed)))
     if 'hardreg' in change and (type(change['hardreg']) is not int or not 0 <= change['hardreg'] < 64):
         raise ValueError('hardreg must be a hard register number 0..63')
-    for k in ('uid', 'pseudo', 'occurrence'):
+    for k in ('uid', 'candidate_uid', 'thread_uid', 'pseudo', 'occurrence', 'new', 'old', 'head'):
         if k in change and (type(change[k]) is not int or change[k] < (0 if k == 'occurrence' else 1)):
             raise ValueError(k+' must be a non-negative integer')
     if 'uids' in change:
         u = change['uids']
-        n = 2 if kind == 'alias' else 3
+        n = 2 if kind in ('alias', 'jump-cross') else 3
         if not isinstance(u, list) or len(u) != n or any(type(x) is not int or x < 0 for x in u):
             raise ValueError('uids must have '+str(n)+' integer entries (i3,i2,i1; 0 = absent i1)')
         if any(x == 0 for x in u[:2]) or len(set(u[:2])) != 2: raise ValueError('two distinct positive UIDs required')
     if 'phase' in change and change['phase'] not in ('sched1', 'sched2'): raise ValueError('invalid scheduler phase')
     if 'value' in change and (type(change['value']) is not int or not -(2**30) < change['value'] < 2**30):
         raise ValueError('value must be a bounded integer')
-    if kind in ('alias', 'sched-birth') and change['value'] not in (0, 1): raise ValueError('value must be 0 or 1')
+    if kind in ('alias', 'sched-birth', 'reload-reuse', 'reload-noop', 'reorg-fill', 'reorg-merge', 'reorg-delete', 'jump-cross') and change['value'] not in (0, 1):
+        raise ValueError('value must be 0 or 1')
 
 def symbol_table(cc1):
     elf = cc1.read_bytes()[:20]
@@ -102,7 +112,9 @@ def addresses(cc1):
              'basic_induction_var', 'insn_dead_p', 'find_equiv_reg', 'reload_cse_simplify_set',
              'reload_cse_noop_set_p', 'mark_used_regs', 'mark_set_regs', 'reg_n_refs', 'reg_live_length',
              'max_regno', 'local_alloc', 'global_alloc', 'flow_analysis', 'delete_insn', 'rest_of_compilation', 'reg_basic_block', 'reg_n_deaths',
-             'reg_renumber', 'reg_allocno', 'hard_reg_conflicts', 'max_allocno', 'prune_preferences', 'reload', 'reg_n_info')
+             'reg_renumber', 'reg_allocno', 'hard_reg_conflicts', 'max_allocno', 'prune_preferences', 'reload', 'reg_n_info',
+             'eligible_for_delay', 'try_merge_delay_insns', 'find_cross_jump', 'do_cross_jump',
+             'assign_stack_local', 'frame_offset', 'make_regs_eqv', 'canon_reg', 'qty_last_reg', 'reg_next_eqv', 'reg_prev_eqv')
     out = {}; sizes = {}
     for n in names:
         candidates = syms.get(n, [])
@@ -132,6 +144,13 @@ def addresses(cc1):
             if end: matches.append({'first_call': ins[start_j][0], 'end': end,
                                     'calls': [v[0] for _,v in prev]})
     if len(matches) == 1: out['copy_swap_site'] = matches[0]['first_call']; out['copy_swap_end'] = matches[0]['end']
+    # cse.c and local-alloc.c both have file-static reg_qty/qty_first_reg.
+    # The CSE copies sit beside its unique equivalence-chain arrays in BSS.
+    anchor = out.get('reg_next_eqv')
+    if anchor is not None:
+        for n in ('reg_qty', 'qty_first_reg'):
+            candidates = syms.get(n, [])
+            if candidates: out[n], sizes[n], _ = min(candidates, key=lambda x: abs(x[0] - anchor))
     return out, sizes
 
 def alloc_symbols(cc1):

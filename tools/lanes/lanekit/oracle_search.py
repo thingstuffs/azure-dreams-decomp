@@ -12,7 +12,7 @@ from pathlib import Path
 import kitlib, sncheck, pass_oracle
 import alloc263_oracle as alloc_oracle
 KNOWN=('800AED64','81844F2C','8028906C','818B6AFC','80D68308')
-VERSION=2
+VERSION=3
 
 def key(change):return json.dumps(change,sort_keys=True,separators=(',',':'))
 def members(change):return pass_oracle.members(change)
@@ -84,12 +84,27 @@ def enumerate_changes(observation, include_alloc=True, focus=()):
                 if v!=e['value']:groups['luid'].append({'kind':k,'uid':e['uid'],'phase':e['phase'],'value':v})
         elif k=='cse-copy-swap':groups['cse'].append({'kind':k,'uid':e['uid']})
         elif k=='cse-substitution':groups['substitution'].append({'kind':k,'uid':e['uid'],'occurrence':e['occurrence']})
+        elif k=='cse-eqv-head':
+            for h in e.get('chain',[]):
+                if h!=e['head']:groups['cse-head'].append({'kind':k,'new':e['new'],'old':e['old'],'occurrence':e['occurrence'],'head':h})
         elif k=='alias' and e['value']==0 and len(set(e['uids']))==2:groups['alias'].append({'kind':k,'uids':e['uids'],'phase':e['phase'],'value':1})
         elif k=='loop-hoist' and not e['done']:groups['loop'].append({'kind':k,'uid':e['uid']})
         elif k=='loop-biv' and e['pseudo'] is not None:groups['biv'].append({'kind':k,'uid':e['uid'],'pseudo':e['pseudo']})
         elif k=='keep-dead':groups['dead'].append({'kind':k,'uid':e['uid']})
         elif k=='reload-equiv':groups['reload'].append({'kind':k,'uid':e['uid'],'occurrence':e['occurrence']})
         elif k=='reload-cse' and 'mem(' in e.get('pattern',''):groups['reload-cse'].append({'kind':k,'uid':e['uid']})
+        elif k=='reload-reuse' and e['value']:
+            groups['reload-reuse'].append({'kind':k,'uid':e['uid'],'occurrence':e['occurrence'],'value':0})
+        elif k=='reload-noop':groups['reload-noop'].append({'kind':k,'uid':e['uid'],'value':0 if e['value'] else 1})
+        elif k=='reorg-fill':groups['reorg'].append({'kind':k,'uid':e['uid'],'candidate_uid':e['candidate_uid'],'value':0 if e['value'] else 1})
+        elif k=='reorg-merge':groups['reorg-merge'].append({'kind':k,'uid':e['uid'],'thread_uid':e['thread_uid'],'value':0})
+        elif k=='reorg-delete':groups['reorg-delete'].append({'kind':k,'uid':e['uid'],'value':0})
+        elif k=='jump-cross' and (e['value'] or e.get('forceable')):
+            groups['jump'].append({'kind':k,'uids':e['uids'],'value':0 if e['value'] else 1})
+        elif k=='frame-offset':
+            step=max(4,abs(e.get('size',0)))
+            for delta in (-20,-step,-4,4,step,20):
+                groups['frame'].append({'kind':k,'occurrence':e['occurrence'],'value':e['before']+delta})
         elif k=='global-colour' and e['allocno']>=0 and 0<=e['hardreg']<64:
             groups['global-focus' if e['pseudo'] in focus else 'global'].append({'kind':'global-avoid','pseudo':e['pseudo'],'hardreg':e['hardreg']})
     if include_alloc:
@@ -107,9 +122,17 @@ def enumerate_changes(observation, include_alloc=True, focus=()):
             for delta in (-1,1):
                 if p['refs']+delta>0:groups['alloc-qty'+f].append({'kind':'alloc','pseudo':n,'input':{'kind':'qty-refs','value':p['refs']+delta}})
             for v in (p['life']+2,p['life']*2):groups['alloc-qtylife'+f].append({'kind':'alloc','pseudo':n,'input':{'kind':'qty-life','value':v}})
-    tier_a=('global-focus','combine-class','alloc-focus','alloc-refs-focus','alloc-life-focus','alloc-qty-focus','alloc-qtylife-focus')
-    tier_b=('cse','sched','combine','global','alloc','alias','loop','biv','dead','reload','reload-cse',
-            'alloc-refs','alloc-life','alloc-qty','alloc-qtylife','priority','substitution','luid')
+    # Interleave the established cheap decision families with the new families.
+    # Keeping all sched/combine/cse candidates behind the (sometimes thousands of)
+    # new tier-A sites starves historically validated interventions at small budgets.
+    # This is one fair round-robin tier.  A second tier is not safe: any family
+    # with thousands of observed sites can hide every member of the next tier
+    # beyond a bounded search, including the five historical gate targets.
+    tier_a=('cse','sched','combine-class','combine','alias','loop','biv','dead','reload','reload-cse',
+            'reorg','reorg-delete','reorg-merge','jump','reload-reuse','reload-noop','frame','cse-head',
+            'priority','substitution','luid','global-focus',
+            'alloc-focus','alloc-refs-focus','alloc-life-focus','alloc-qty-focus','alloc-qtylife-focus',
+            'global','alloc','alloc-refs','alloc-life','alloc-qty','alloc-qtylife')
     seen=set();out=[]
     def add(ch):
         if key(ch) in seen:return
@@ -117,7 +140,7 @@ def enumerate_changes(observation, include_alloc=True, focus=()):
             if c['kind']=='alloc':alloc_oracle.validate_change(c['input'])
         if isinstance(ch,list) or ch['kind']!='alloc':pass_oracle.validate(ch)
         seen.add(key(ch));out.append(ch)
-    for tier in (tier_a,tier_b):
+    for tier in (tier_a,):
         its=[iter(groups[g]) for g in tier]
         for round_ in itertools.zip_longest(*its):
             for ch in round_:
@@ -219,7 +242,7 @@ def input_signature(row,text,trials,timeout,composite_budget=0):
 def discover(row,text,out,timeout):
     # Each observer is independently calibrated against plain cc1. Splitting
     # families keeps overlapping debugger return breakpoints out of one run.
-    groups=[['sched'],['combine'],['cse'],['alias'],['loop','dead','reload'],['refs'],['global']]
+    groups=[['sched'],['combine'],['cse'],['alias'],['loop','dead','reload'],['reorg'],['jump'],['frame'],['refs'],['global']]
     merged={'events':[],'refs':[],'stats':[],'errors':[],'truncated':False,'discovery_errors':[]}
     first=None
     for families in groups:
