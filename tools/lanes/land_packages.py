@@ -178,90 +178,161 @@ def busy_processes(root, scratch, isolated=False, proc_root=Path("/proc")):
             fields=(Path('/proc')/str(pid)/'stat').read_text().rsplit(')',1)[1].split()
             pid=int(fields[1])
         except (OSError,ValueError,IndexError): break
-    found=[];candidates=[];allowed=set();parents={}
-    for proc in proc_root.iterdir():
-        if not proc.name.isdigit() or int(proc.name) in ancestors:continue
-        try:
-            args=(proc/'cmdline').read_bytes().replace(b'\0',b' ').decode(errors='replace')
-            cwd=(proc/'cwd').resolve()
-            fields=(proc/'stat').read_text().rsplit(')',1)[1].split()
-            parents[int(proc.name)]=int(fields[1])
-        except (OSError,ValueError,IndexError):continue
-        candidates.append((proc,args,cwd))
-        if isolated and re.search(r'\bcodex\s+exec\b',args) and isolated_lane(proc,root,proc_root):allowed.add(int(proc.name))
-    for proc,args,cwd in candidates:
+    found=[]
+    snapshot=process_snapshot(proc_root)
+    for pid,info in snapshot.items():
+        if pid in ancestors:continue
+        args,cwd=info['args'],info['cwd']
         marker=bool(re.search(r'\b(?:gate_all|overlay_local_gate|certify_overlay_module|land_packages|land_lanes|land_gap|verify|sweep|promote)\.py\b|\b(?:land_lanes|land_gap|land_coherence|land_finished)\.sh\b|\bcodex\s+exec\b',args))
-        if not marker or (scratch and not cwd.is_relative_to(root) and str(root) not in args):continue
-        pid=int(proc.name);seen=set()
-        while pid>1 and pid not in seen and pid not in allowed:
-            seen.add(pid);pid=parents.get(pid,0)
-        if pid in allowed:continue
-        found.append({'pid':int(proc.name),'command':args[:400]})
+        if isolated:
+            jobs={'gate_all','overlay_local_gate','certify_overlay_module','certify_batch',
+                  'land_packages','land_lanes','land_gap','verify','sweep','promote'}
+            # Module lookup/inline commands never establish isolation. Recognize
+            # the module form so it cannot disappear from the busy candidate set.
+            marker=marker or bool(re.search(r'\b(?:'+ '|'.join(sorted(jobs))+r')\b',args)) or any(
+                a.startswith('-m') and a[2:].rsplit('.',1)[-1] in jobs
+                for a in info['argv'])
+        if not marker:continue
+        if cwd is None:
+            # A vanished process cannot conflict. A still-present process with
+            # unreadable cwd/stat is ambiguous, never an isolation exemption.
+            if isolated and info['proc'].exists():found.append({'pid':pid,'command':args[:400]})
+            continue
+        if scratch and not cwd.is_relative_to(root) and str(root) not in args:continue
+        if isolated and isolated_lane(info['proc'],root,proc_root,snapshot):continue
+        found.append({'pid':pid,'command':args[:400]})
     return found
 
 
-def isolated_lane(proc, root, proc_root=Path("/proc")):
-    """Require pid-bound lane scope evidence; inspect descendants' cwd/fds.
+def process_snapshot(proc_root):
+    """Read structured argv/cwd/parents once; no recursive filesystem scan."""
+    out={}
+    for proc in proc_root.iterdir():
+        if not proc.name.isdigit():continue
+        try:
+            data=(proc/'cmdline').read_bytes()
+            argv=[os.fsdecode(a) for a in data.rstrip(b'\0').split(b'\0')] if data else []
+        except OSError:continue
+        try:
+            cwd=(proc/'cwd').resolve()
+            fields=(proc/'stat').read_text().rsplit(')',1)[1].split()
+            parent=int(fields[1])
+        except (OSError,ValueError,IndexError):cwd,parent=None,None
+        out[int(proc.name)]={'proc':proc,'argv':argv,'args':' '.join(argv),'cwd':cwd,'parent':parent}
+    return out
 
-    A codex process is opaque. Cwd alone cannot promise future isolation: launchers
-    may write isolation.json with version=1, roots=[repo-relative scratch roots],
-    and pid matching the codex process. A matching lane.pid plus the existing
-    explicit scratch-only BRIEF is equivalent. Missing/ambiguous evidence is busy.
+
+def process_lane(info, root):
+    """One lane containing cwd and every script/path argument, or None.
+
+    argv[0] may be a system interpreter/launcher; it is not a source or output
+    path. Python/shell script paths, absolute arguments, option=path values and
+    relative path arguments must all resolve into the same physical lane.
+    Opaque inline commands and module lookup cannot establish that containment.
+    """
+    root=root.resolve();cwd=info['cwd'];argv=info['argv']
+    if cwd is None or not cwd.is_dir() or not argv or info['parent'] is None:return None
+    if any(c.isspace() for c in argv[0]):return None
+    base=root/'work/native_lane'
+    if not cwd.is_relative_to(base):return None
+    parts=cwd.relative_to(base).parts
+    if not parts:return None
+    lane=base/parts[0]
+    # Resolving a symlink into canonical src/build is not lane ownership.
+    if lane.resolve()!=lane or not lane.is_dir():return None
+    protected=tuple(root/n for n in ('build_ovl','build_ovl_gate','build_slus','src'))
+    physical=tuple(p.resolve() for p in protected)
+    if Path(argv[0]).is_absolute():
+        program=Path(argv[0])
+        if any(program.is_relative_to(p) for p in protected):return None
+        if any(program.resolve().is_relative_to(p) for p in physical):return None
+    executable=Path(argv[0]).name
+    direct_script=argv[0].endswith(('.py','.sh'))
+    start=0 if direct_script else 1
+    python=bool(re.fullmatch(r'python(?:\d+(?:\.\d+)*)?',executable))
+    shell=executable in ('bash','sh','dash')
+    script_found=not (python or shell)
+    for index,arg in enumerate(argv[start:],start):
+        if ((python and (arg in ('-m','-c') or arg.startswith(('-c','-m')))) or
+                (shell and re.fullmatch(r'-[A-Za-z]*c[A-Za-z]*',arg))):return None
+        if arg in ('--command','--eval'):return None
+        value=arg
+        if arg.startswith('-') and '=' in arg:value=arg.split('=',1)[1]
+        elif re.match(r'^-(?:I|L|B|o|C|isystem|iquote)/',arg):
+            value=arg[arg.index('/'):]
+        elif arg.startswith('-') and '/' in arg:return None
+        is_script=(direct_script and index==0) or ((python or shell) and not script_found and not arg.startswith('-'))
+        if is_script:script_found=True
+        path_like=(is_script or Path(value).is_absolute() or '/' in value or
+                   value in ('.','..') or value.endswith(('.py','.sh')))
+        if not path_like:continue
+        # This is a single argv path, not shell text, JSON, a glob or a prompt
+        # containing embedded paths. Preserve actual spaces in real file paths.
+        if any(c in value for c in '\n\r;|&<>$`*?') or value.startswith(('"',"'",'{','[')):return None
+        if re.search(r'\s/',value) or (not arg.startswith('-') and '=' in value):return None
+        if ':' in value.split('/',1)[0]:return None
+        path=Path(value)
+        if not path.is_absolute():path=cwd/path
+        try:target=path.resolve(strict=False)
+        except (OSError,RuntimeError,ValueError):return None
+        lexical=Path(os.path.abspath(path))
+        if any(lexical.is_relative_to(p) for p in protected):return None
+        if any(target.is_relative_to(p) for p in physical):return None
+        if not target.is_relative_to(lane):return None
+        if is_script and not target.is_file():return None
+    return lane if script_found else None
+
+
+def isolated_lane(proc, root, proc_root=Path("/proc"), snapshot=None):
+    """Prove one lane from live process paths, independent of launcher receipts.
+
+    Every descendant must satisfy the same containment and fd checks; no busy
+    process inherits an exemption from its parent. A canonical-root cwd stays
+    ambiguous even when visible arguments only name its lane. This is enabled
+    only by busy_processes(..., isolated=True); default admission is unchanged.
     """
     try:
-        cwd=(proc/'cwd').resolve()
-        lane_base=root/'work/native_lane'
-        if cwd.is_relative_to(lane_base):
-            lane=lane_base/cwd.relative_to(lane_base).parts[0]
-        else:
-            # launch_lane.sh runs codex -C REPO; -o identifies its lane.
-            args=(proc/'cmdline').read_bytes().replace(b'\0',b' ').decode(errors='replace')
-            match=re.search(r'(?:^|\s)(?:-o|--output-last-message)\s+(\S+)',args)
-            if not match:return False
-            output=Path(match[1])
-            if not output.is_absolute():output=root/output
-            if not output.resolve().is_relative_to(lane_base):return False
-            lane=lane_base/output.resolve().relative_to(lane_base).parts[0]
-        declaration=lane/'isolation.json'
-        if declaration.exists():
-            receipt=json.loads(declaration.read_text())
-            if receipt.get('version')!=1 or receipt.get('pid')!=int(proc.name):return False
-            roots=[safe(root,r).resolve() for r in receipt['roots']]
-        else:
-            # Current tool lanes already have a launcher PID and an explicit
-            # scratch-only work contract. Reuse that owner-provided evidence;
-            # do not require another manual declaration for the same scope.
-            if int((lane/'lane.pid').read_text().strip())!=int(proc.name):return False
-            brief=lane/'BRIEF.md'
-            if brief.stat().st_size>65536:return False
-            text=brief.read_text()
-            if 'work ONLY there' not in text or 'Prove everything in a lane-owned scratch tree' not in text:return False
-            roots=[lane]
-        if not roots or any(not p.is_dir() or not p.is_relative_to(lane) for p in roots):return False
-        # Verify all descendants, not just the top-level codex cwd.
-        children={};procs={}
-        for q in proc_root.iterdir():
-            if not q.name.isdigit():continue
-            try:
-                fields=(q/'stat').read_text().rsplit(')',1)[1].split()
-                children.setdefault(int(fields[1]),[]).append(int(q.name));procs[int(q.name)]=q
-            except (OSError,ValueError,IndexError):continue
-        todo=[int(proc.name)]
+        root=root.resolve()
+        snapshot=process_snapshot(proc_root) if snapshot is None else snapshot
+        info=snapshot.get(int(proc.name))
+        lane=process_lane(info,root) if info else None
+        if lane is None:return False
+        children={}
+        for pid,item in snapshot.items():children.setdefault(item['parent'],[]).append(pid)
+        todo=[int(proc.name)];seen=set()
+        protected=tuple((root/n).resolve() for n in ('build_ovl','build_ovl_gate','build_slus','src'))
         while todo:
-            pid=todo.pop();q=procs.get(pid)
-            if q is None:continue
+            pid=todo.pop()
+            if pid in seen:return False
+            seen.add(pid);item=snapshot[pid];q=item['proc']
             todo.extend(children.get(pid,[]))
-            here=(q/'cwd').resolve()
-            args=(q/'cmdline').read_bytes().replace(b'\0',b' ').decode(errors='replace')
-            # A scorer/compiler child must be under a declared scratch root.
-            if pid!=int(proc.name) and here.is_relative_to(root) and not any(here.is_relative_to(p) for p in roots):return False
-            if str(root/'build_ovl') in args:return False
+            if process_lane(item,root)!=lane:return False
             for fd in (q/'fd').iterdir():
-                try:target=fd.resolve()
-                except OSError:continue
-                if target.is_relative_to(root/'build_ovl') or target.is_relative_to(root/'build_ovl_gate'):return False
+                try:
+                    name=os.readlink(fd)
+                except FileNotFoundError:continue  # fd closed during the snapshot
+                if not name.startswith('/'):continue  # pipe/socket/anon_inode
+                target=Path(name.removesuffix(' (deleted)')).resolve()
+                if any(target.is_relative_to(p) for p in protected):return False
+                # Hidden ledger/config/temp descriptors can couple a private
+                # job to a canonical transaction too. No out-of-lane project
+                # fd is presumed read-only merely because argv looks private.
+                if target.is_relative_to(root) and not target.is_relative_to(lane):return False
+            # These overrides can redirect a scratch gate into canonical output
+            # without naming that output in argv. Never print process secrets.
+            environment=(q/'environ').read_bytes().split(b'\0')
+            for setting in environment:
+                key,sep,value=setting.partition(b'=')
+                if sep and key in (b'GATE_BUILD_ROOT',b'GATE_JOURNAL',b'SRCROOT'):
+                    path=Path(os.fsdecode(value))
+                    if not path.is_absolute():path=item['cwd']/path
+                    lexical=Path(os.path.abspath(path));target=path.resolve()
+                    canonical=tuple(root/n for n in ('build_ovl','build_ovl_gate','build_slus','src'))
+                    if any(lexical.is_relative_to(p) for p in canonical):return False
+                    if any(target.is_relative_to(p) for p in protected):return False
+                    if not target.is_relative_to(lane):return False
         return True
-    except (OSError,ValueError,KeyError,IndexError,TypeError,Stop):return False
+    except (OSError,RuntimeError,ValueError,KeyError,IndexError,TypeError,Stop):return False
 
 
 def resolve_source(base, name):

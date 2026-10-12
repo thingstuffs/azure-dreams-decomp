@@ -106,6 +106,15 @@ def compile_stderr(row, text, lines=STDERR_LINES):
     kitlib.add_paths()
     import screen                                                         # noqa: E402
     from common import parse_cfg                                          # noqa: E402
+    import native_member
+    m = native_member.membership(row)
+    if m is not None:
+        # Use the same physical TU for the diagnostic as for the listing screen.
+        with tempfile.TemporaryDirectory(prefix='lab_native_cc_') as td:
+            candidate = Path(td) / 'member.c'; candidate.write_text(text)
+            a = next(a for a in m['members'] if a['id'] == row['id'])
+            return compile_stderr(dict(row, kind='native-diagnostic'),
+                                  native_member.source_text(m, a['source'], candidate), lines)
     cell, flags = parse_cfg(row["cfg"])
     D = screen.ROOT / "toolchain/compilers" / ("gcc-" + cell)
     with tempfile.TemporaryDirectory(prefix="labcc_") as td:
@@ -157,6 +166,8 @@ class Lab:
         self.screen = kitlib.screen_for(self.row, self.base)
         self.stage = stage
         self.no_jtbl = no_jtbl
+        if no_jtbl and self.row.get('kind') == 'overlay' and self.context_fingerprint is not None:
+            raise SystemExit('lab: native member scores always check owned data and switch tables')
         if no_jtbl and self.row.get("kind") == "slus":
             raise SystemExit("lab: --no-jtbl applies to overlay rows")
         self.more = more

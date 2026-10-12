@@ -3,6 +3,10 @@
 Run these from a lane beneath the checkout's `work/native_lane/`. Compiler cwd,
 TMPDIR and retained evidence belong to that lane. See [README](README.md).
 
+For oracle3's deciding-pass attribution, mutation/oracle crossing, and extended
+reorg/jump/frame/reload/CSE families, see [oracle-family commands](oracle_family/TOOLS.md).
+Those diagnostics remain available with the permutation and native-member tools.
+
 | Question | Command |
 |---|---|
 | Does the genuine SN compiler emit the same assembly? | `sncheck.py ROW erased` (or `pinned`, or a C file); optional `--cfg`, `--keep DIR`, `--json FILE` |
@@ -15,6 +19,45 @@ TMPDIR and retained evidence belong to that lane. See [README](README.md).
 | Track any named pseudo's definitions | `why.py ROW --value-luid NAME --variant FILE` |
 | Trace a call's block by UID | `why.py ROW --pass sched --block 121 --trace` (`u121` explicit UID, `b11` block) |
 | Stage a byte-exact fidelity tidy at unchanged pins | `lab.py stage-tidy ROW tidy.c --note "typed field reads"` |
+| Sweep statement orders | `permute.py ROW --base FILE --plan movable.json --limit 1000 --workers 4` |
+| Sweep automatically found runs, with compound RMW | `permute.py ROW --base FILE --auto --compound --limit 1000` |
+| Calibrate a native module member | `lab.py baseline dungeon/func_819B2800 --score` |
+| Score a candidate through its native TU | `lab.py dungeon/func_80F87000 candidate.c --score --no-stage` |
+
+Permutation plan example:
+
+```json
+{
+  "subs": [["volatile ", "", "all"]],
+  "groups": [{
+    "statements": ["p->flags |= 12;", "p->mode |= 96;", "p->flags |= 256;"],
+    "depends": [[0, 2]]
+  }]
+}
+```
+
+Items must be adjacent whole statements in one block, in source order. Instead of
+`statements`, use `lines: [[101,101],[102,103],[104,104]]` (1-based inclusive ranges,
+after `subs` and optional compound rewrites). Group indices in `depends` are
+zero-based; inferred dependencies remain mandatory. Missing/ambiguous statements,
+partial ranges, overlapping groups and cycles fail closed. Prep substitutions are
+explicit C edits and must preserve semantics. `--auto` splits long runs into
+adjacent windows of at most eight statements. Different struct fields may move;
+add dependencies for union overlap or known aliases. Calls/raw accesses stay fixed.
+
+`--score-near D` byte-scores listing distances <= D (default 0), and `--score-top N`
+also scores the nearest N (default 3). Every candidate is screened in a bounded
+nice/ionice pool. Scores use Lab's registered recipe. Ranking prefers exactness,
+then distance and cleanliness (pins, gotos, volatile, decompiler leftovers,
+statement count, source length). Exact staging chooses cleanliness first and
+uses the usual admission gate. No recipe, source tree or ledger is changed.
+
+Native scoring reports `member_exact`, `other_members_changed`,
+`owned_data_exact`, module identity/fingerprint and artifact location alongside
+the ordinary score fields. `exact` also requires no collateral byte/address/data
+changes. Failure artifacts retain compile/link stderr. Measurement does not issue
+a module certificate or substitute for a window gate. Data-prefix member edits,
+per-member recipe changes and unchecked jump-table mode are unsupported.
 
 `sncheck` uses the same cpp recipe as the kit: the row's compiler driver, `-E -O2`,
 registered flags, project include, `-w`. Both cc1s consume that exact `.i` in a

@@ -18,6 +18,7 @@ every compiler dump lands inside it by construction: `TMPDIR` and `tempfile.temp
 | tool | what it prints |
 |---|---|
 | `lab.py` | listing distance, pins left, byte score (a no-build candidate prints its cpp/cc1 stderr), and the REPORT table; `--base FILE`, `--cfg`, `cellscore`, `stage-cell [--equal-pins]` |
+| `permute.py ROW --plan movable.json --base FILE` | bounded dependency-aware statement orders, nice/ionice pool, listing screen, byte scores, cleanest admissible exact staging; `--auto`, `--compound`, `--limit`, `--workers` |
 | `erase.py` | what each pin holds, and which pins fall together (`--cfg`: byte totals at another cell) |
 | `why.py` | the pass DECISION that changed: priorities, allocnos, loop verdicts, RTL (`--cfg` for another cell); ONE text at TWO cfgs (`<text> --cfg A --vs-cfg B`); `--trace --block`: one block tick by tick; `--deps UID`: one insn's LOG_LINKS and dependents; `--block --deps-table`: the whole block's dependence table with birthing boost |
 | `listing.py <row> <text.c>` | the normalised cc1 listing of a text (on the pinned exact text = retail's instruction order with register names) - round 93 (Fable) |
@@ -40,6 +41,56 @@ every compiler dump lands inside it by construction: `TMPDIR` and `tempfile.temp
 | `frame_slack.py [--container C] [--cfg CFG] [--max N] [--minslack B]` | census: compiles pin-free rows and reports frames with unreferenced local bytes (5th-arg areas and address-taken aggregates need eyeballing) - is there a known-source precedent for an orphan frame region |
 | `install.py` | `TOOLS.md` in a lane: the same table with that lane's rows |
 | `sitecustomize.py`, `lane_shim.py`, `env.sh`, `kitlib.py`, `retailmap.py`, `dbr_gdb.py`, `combine_gdb.py`, `frame_gdb.py` | plumbing; you never call these |
+
+## Statement permutation sweeps
+
+The oracle3 tools remain available alongside these sweeps: `attribute.py` for
+deciding-pass attribution, `mutate_search.py` for mutation/oracle crossing, and
+the extended pass/search families. See [oracle-family README](oracle_family/README.md)
+and [oracle-family commands](oracle_family/TOOLS.md). Their counterfactual
+results are diagnostic; ordinary C candidates use Lab's byte scorer and staging.
+
+`permute.py` calibrates the pinned text, applies optional preparation substitutions,
+then traverses topological statement orders in a bounded pool. Every generated
+candidate receives a listing screen; listing-exact candidates and `--score-top N`
+nearest candidates receive the byte scorer. The cleanest admissible exact text is
+scored again before Lab publishes it with the ordinary `.base_sha`. All screens,
+scores, failures and staging decisions enter `lab_log.jsonl`; `results.json` ranks
+the run. Listing distance alone never authorizes staging.
+
+Use `--plan` for adjacent statement strings or inclusive line ranges, or `--auto`
+for conservative straight-line runs within brace blocks. Inferred RAW, WAR and WAW
+edges preserve obvious reads/writes; `depends` adds ordering for union overlap,
+aliases or other semantic knowledge. Calls, declarations, directives, raw pointer
+accesses and control flow remain fixed. The parser recognizes a C subset; it does
+not prove arbitrary alias independence. Review movable groups before a large run.
+`--compound` handles simple self-RMW statements and type-checked single-use
+temporary load/store pairs. It does not invent dependencies or wrappers.
+
+The default bound is 1,000 candidates with four workers; hard bounds are 10,000
+and eight workers. `--no-stage` measures only. A screen or compiler failure is a
+recorded failure, never an exact result. See [TOOLS](TOOLS.md) for the plan schema.
+
+## Native module members
+
+Lab and `kitlib.screen_for` / `score_at` detect overlay members through the
+validated module manifest and its ledger membership evidence. They substitute a
+candidate at its original include position and compile the complete physical TU.
+The listing screen selects the member's `.ent` body; byte scoring assembles and
+naturally links the complete TU, resolves every relocation, and includes any data
+prefix in the logical row's span. All other members and owned data are checked.
+
+`member_exact` reports the selected row's raw byte equality. `exact` additionally
+requires unchanged sibling bytes/addresses and owned data. Collateral changes
+appear in `other_members_changed`, and block exact staging. `tmp/native_score_*`
+retains compiler/assembler/link logs, the full TU object, map, selected/retail bytes,
+and `score.json`. Context fingerprints are checked before/after measurement and
+before staging. `kitlib.dumps` also compiles native rows in their physical TU.
+
+These are `NATIVE_MEMBER_DIAGNOSTIC` measurements. Certification and production
+window proofs remain the orchestrator's responsibility. Per-member `--cfg`, data
+prefix edits and `--no-jtbl` are refused; the module recipe and full data checks
+are mandatory. Ledger guesses without a manifest do not manufacture a module TU.
 
 ## Pin-removal source-shape possibilities
 
