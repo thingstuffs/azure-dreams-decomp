@@ -152,3 +152,7 @@ consecutive pair would do, e.g. slus/w_8003E4FC) are still invented - leave that
 `v = part_a; r = f(); v = obj;` - is the source's own structure: reorg's fill_simple_delay_slots (reorg.c:4330) fills
 the beq slot from the pre-test copy, and relax_delay_slots' redundant_insn refuses the redirect, so every goto-free
 spelling is one branch word off (24 rows, 0 of 12 spellings). Leave it; measure once at most.
+**Update r114 (r114_sonnet_goto1, landed 4381b0435):** where the copied value is just the base object, DROP the temp
+and pass the object directly, inverting the test to wrap the skipped block (`if (c) { ... } call(obj, ...)`) - exact on
+80A2F000 and 80CE8564 (2 of 2; also: an else-arm goto that only skips a redundant reassignment goes with that dead
+assignment). Try that spelling first; leave the goto only if it measures worse.
