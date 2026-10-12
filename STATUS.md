@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-12T21:12:26Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-12T22:02:51Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -8,12 +8,12 @@ Generated 2026-10-12T21:12:26Z. Pin `82f20568` (82f20568997a, raw/ frozen at 202
 |---|---:|---:|---:|---:|---:|---:|---:|
 | slus | 884 | 473,788 | 884 | 473,788 | 884 | 473,788 | 0 |
 | main | 422 | 62,736 | 422 | 62,736 | 422 | 62,736 | 0 |
-| town | 2703 | 457,832 | 2703 | 457,832 | 2703 | 457,832 | 0 |
+| town | 2706 | 457,832 | 2706 | 457,832 | 2706 | 457,832 | 0 |
 | dungeon | 3442 | 1,789,004 | 3442 | 1,789,004 | 3441 | 1,787,204 | 1 |
 | ovmovie | 22 | 2,852 | 22 | 2,852 | 22 | 2,852 | 0 |
-| ALL | 7451 | 2,783,360 | 7451 | 2,783,360 | 7450 | 2,781,560 | 1 |
+| ALL | 7454 | 2,783,360 | 7454 | 2,783,360 | 7453 | 2,781,560 | 1 |
 
-Data rows: 495 (12,724 B); stale-image residue DATA: 1 (488 B).
+Data rows: 498 (13,584 B); stale-image residue DATA: 1 (488 B).
 
 Placement unproven (excluded from L4 module placement): 6 rows (1,688 B): town/D_802F100C, town/D_802F1074, town/D_802F11AC, dungeon/func_80921000, dungeon/D_808CB000, dungeon/D_80921000
 
@@ -129,22 +129,22 @@ Placement alone does not override any lower-level or source-residue guard.
 | ASM_ pins | 2135 | 1,455,340 | 52.2% | 25 | 35,420 | 1.3% |
 | goto | 1545 | 1,311,404 | 47.1% | 274 | 331,344 | 11.9% |
 | computed-goto jump table | 317 | 436,404 | 15.7% | 4 | 7,008 | 0.3% |
-| inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 242,932 | 8.7% | 24 | 21,880 | 0.8% |
+| inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 242,072 | 8.7% | 24 | 21,880 | 0.8% |
 | fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate) | 1489 | 675,960 | 24.3% | 0 | 0 | 0.0% |
-| any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,281,340 | 46.0% | 13 | 27,180 | 1.0% |
-| any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,281,340 | 46.0% | 1650 | 894,212 | 32.1% |
+| any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,280,480 | 46.0% | 13 | 27,180 | 1.0% |
+| any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,480 | 46.0% | 1650 | 893,352 | 32.1% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 668 | 488,888 | 17.5% | 6 | 1,876 | 0.1% |
 | maspsx marker pins (scaffolding) | 394 | 347,512 | 12.5% | 0 | 0 | 0.0% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 5.6% | 9 | 14,008 | 0.5% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
 | local address-named struct | 633 | 346,872 | 12.4% | 2885 | 1,502,528 | 53.9% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 155,168 | 5.6% | 7145 | 2,405,608 | 86.3% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 5.5% | 7148 | 2,405,608 | 86.3% |
 
 Pin sites now: 44 in 25 rows; REG 22, KEEP 10, KEEP_NV 6, USE_NV 2, UNDEF 1, USE2_NV 1, MEM_BARRIER 1, SCHED_BARRIER 1.  At the pin: 25,901; REG 12,800, KEEP 6,935, KEEP_NV 2,505, SCHED_BARRIER 1,355, TAILSLOT_PIN 506, USE 294, USE_NV 260, KEEP_DEP_NV 190.
 
 Tracked, not pins (owner 2026-10-06): oddities 1 (ledger/oddities.jsonl - zero-byte fences retail needs, curiosities, not removal targets: dungeon/func_8196096C); one-trip barrier rows 2 (ledger/onetrip_barrier_rows.jsonl); load-bearing one-trip rows 85 (ledger/onetrip_loadbearing.jsonl, statement-macro bodies, not counted in the do{}while(0) row above).
-Carve debt - composite rows (r95 decisions item 8 kept the spelling for bytes; r99: it is an artifact of one-row-per-function carving, owned by module placement): the `asm("func_X")` data prefix (another function's jump table / overlay data that retail places before this row's code) and its `.globl/.type/.size func_X` stamp (`pin_census.composite_asm_spans`), 4 statements in 2 rows - counted here, not in the inline-asm row above; still L5 `inline_asm` residue in levels.py until the module TU owns the data.
-Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 0, calls of local asm wrappers 0, hand-written asm in function bodies 0 (C that is missing); symbol aliases 11 (a second typed name for one symbol: a missing type); file-scope asm directives 8; file-scope global register variables 4 (`register T g asm("$R")`).
+Carve debt - composite rows (r95 decisions item 8 kept the spelling for bytes; r99: it is an artifact of one-row-per-function carving, owned by module placement): the `asm("func_X")` data prefix (another function's jump table / overlay data that retail places before this row's code) and its `.globl/.type/.size func_X` stamp (`pin_census.composite_asm_spans`), 2 statements in 1 rows - counted here, not in the inline-asm row above; still L5 `inline_asm` residue in levels.py until the module TU owns the data.
+Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 0, calls of local asm wrappers 0, hand-written asm in function bodies 0 (C that is missing); symbol aliases 11 (a second typed name for one symbol: a missing type); file-scope asm directives 6; file-scope global register variables 4 (`register T g asm("$R")`).
 
 Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 93 rows carry one flag, 1 carry two or more.
 
@@ -182,13 +182,13 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 | L0 | 2,784,412 | 99.9% |
 | L1 | 2,784,412 | 99.9% |
 | L2 | 2,784,412 | 99.9% |
-| L3 | 2,771,688 | 99.5% |
+| L3 | 2,770,828 | 99.4% |
 | L4 | 203,956 | 7.3% |
 | L5 | 199,336 | 7.2% |
 
 On shared record headers (T7, `include/records/`): 903 rows, 577,664 bytes (20.7%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 25 rows (35,420 B), tail_jump 8 rows (4,884 B), not_in_module 7,118 rows (2,577,512 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 25 rows (35,420 B), tail_jump 8 rows (4,884 B), not_in_module 7,121 rows (2,577,512 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 
