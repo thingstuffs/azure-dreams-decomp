@@ -46,7 +46,9 @@ typedef struct GpuContext {
     /* 0x230 */ unsigned int orderTag230; /* three-line shade renderer */
     /* 0x234 */ unsigned char pad_234[0x5F8];
     /* 0x82C */ int orderTag82C; /* layered tile renderer links low 24-bit packet addresses here */
-    /* 0x830 */ unsigned char pad_830[0xA0];
+    /* 0x830 */ unsigned char pad_830[0x80];
+    /* 0x8B0 */ unsigned int orderTag8B0; /* clipped draw/fill list, func_8190536C */
+    /* 0x8B4 */ unsigned char pad_8B4[0x1C];
     /* 0x8D0 */ unsigned char *packetCursor;
 } GpuContext;
 #endif

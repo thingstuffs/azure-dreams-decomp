@@ -4,7 +4,6 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
-
 typedef void (*Callback)(void *, void *, void *, void *);
 
 extern void func_80047738(void *, u8, s8);
@@ -14,7 +13,6 @@ extern void func_800A020C(s32, void *);
 extern s32 func_800A9E70(void *, void *, void *, void *);
 extern void func_800AA36C(void *, void *, void *, void *);
 extern Callback D_80174B1C[];
-
 
 typedef struct S_80170A70_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */

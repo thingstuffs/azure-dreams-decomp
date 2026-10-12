@@ -6,10 +6,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-
 extern int abs(int);
-
-
 
 #define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
@@ -25,12 +22,9 @@ extern void func_80045340(void);
 extern s32 func_80069EF8(void);
 
 extern s32 func_800A4778();
-extern u8 *func_8003FC64();
 extern s32 func_800644B8();
 extern s32 func_80064584();
 extern void func_8003DB94();
-
-
 
 extern const s16 D_80024038[8][2];
 extern void *D_80024058[9];

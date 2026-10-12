@@ -30,7 +30,6 @@ s32 func_800254C4(void *,s16,s16,s16);
 void func_800255DC(u16 *,s32,EffectColor *);
 void *func_80025654(struct S_80025654_2 *,struct S_80025654_4 *);
 void func_80025760(s32,u8,void *);
-void *func_8003FC64(s32);
 s32 func_8003DB94(void *,void *,s32);
 s32 func_8003DF74(void *,void *,s16 *,s32);
 s32 func_800644B8(s32);

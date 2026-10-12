@@ -63,10 +63,7 @@ typedef struct {
     s16 pad;
 } Cell;
 
-ObjectNodeHeader *func_8003FC64(s32);
 extern s32 rand(void);
-
-
 
 extern s16 D_8002632A;
 extern u8 D_80026470[];

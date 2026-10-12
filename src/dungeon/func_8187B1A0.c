@@ -11,7 +11,7 @@ s32 func_800249A0(void *record, void *context, void *data) {
 
     for (;;) {
         func_800241A8(record, context, data, 0);
-        node = (ObjectNodeHeader *)((ObjectNodeHeader *)record - 1)->unk_18;
+        node = ((ObjectNodeHeader *)record - 1)->chain_next;
         if (node == 0) {
             return 0;
         }

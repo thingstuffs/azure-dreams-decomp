@@ -1,3 +1,4 @@
+#include "shared/dungeon_effect_views.h"
 #include "modules/dungeon_ovl_1918800.h"
 #include "shared/gpu_packets.h"
 #include "common.h"
@@ -8,14 +9,6 @@
 extern s32 func_80065420(void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, s32, s32);
-
-/* The effect point's record (the object header precedes it). */
-typedef struct PointRecord {
-    u8 pad_00[8];
-    u32 color;          /* r/g/b/code word copied into the tile */
-    u8 pad_0C[0x26];
-    s16 brightness;     /* 0x100 = full */
-} PointRecord;
 
 /* GPU scratchpad (0x1F800000) workspace used while projecting. */
 typedef struct Scratch80024EDC {
@@ -33,16 +26,6 @@ typedef struct Scratch80024EDC {
     u32 index;          /* ordering table slot */
 } Scratch80024EDC;
 
-/* Shaded point primitive (code 0x6A, 3 words). */
-typedef struct Packet80024EDC {
-    u32 tag;
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 code;
-    u32 data;
-} Packet80024EDC;
-
 /* Retail 818F96DC (func_80024EDC): projects each linked point and queues a brightness-scaled shaded point
  * followed by a draw-mode packet for it. */
 s32 func_80024EDC(PointRecord *start_node, EntityRec *start_coords)
@@ -51,7 +34,7 @@ s32 func_80024EDC(PointRecord *start_node, EntityRec *start_coords)
     Scratch80024EDC *scratch;
     GpuContext *render_state;
     GpuContext *final_state;
-    Packet80024EDC *packet;
+    PointPacket *packet;
     PointRecord *node;
     EntityRec *coords;
     ObjectNodeHeader *prev_entry;
@@ -69,7 +52,7 @@ s32 func_80024EDC(PointRecord *start_node, EntityRec *start_coords)
 
     for (;;) {
         coord_x = coords->x.w.i;
-        packet = (Packet80024EDC *)scratch->cursor;
+        packet = (PointPacket *)scratch->cursor;
         scratch->x = coord_x;
         scratch->y = (u16)coords->y.w.i;
         scratch->z = (u16)coords->z.w.i;
@@ -80,7 +63,7 @@ s32 func_80024EDC(PointRecord *start_node, EntityRec *start_coords)
 
         if (depth_index < 0x1E0) {
             s32 color_or_tpage;
-            Packet80024EDC *mode_packet;
+            PointPacket *mode_packet;
 
             *(u32 *)&packet->r = node->color;
             color_or_tpage = packet->r * node->brightness;
@@ -106,7 +89,7 @@ s32 func_80024EDC(PointRecord *start_node, EntityRec *start_coords)
             ((GpuLinkTag *)&packet->tag)->addr = ((GpuLinkTag *)&scratch->ot[scratch->index])->addr;
             scratch->ot[scratch->index] = (scratch->ot[scratch->index] & 0xFF000000) | ((u32)packet & 0x00FFFFFF);
 
-            mode_packet = (Packet80024EDC *)scratch->cursor;
+            mode_packet = (PointPacket *)scratch->cursor;
             scratch->cursor = (u8 *)mode_packet + 0xC;
             color_or_tpage = func_80066460(0, 1, 0, 0);
             func_80067F20(mode_packet, 0, 0, (u16)color_or_tpage, 0);
@@ -115,7 +98,7 @@ s32 func_80024EDC(PointRecord *start_node, EntityRec *start_coords)
             scratch->ot[scratch->index] = (scratch->ot[scratch->index] & 0xFF000000) | ((u32)mode_packet & 0x00FFFFFF);
         }
 
-        prev_entry = (ObjectNodeHeader *)((ObjectNodeHeader *)node - 1)->unk_18;
+        prev_entry = ((ObjectNodeHeader *)node - 1)->chain_next;
         node = (PointRecord *)(prev_entry + 1);
         if (prev_entry == 0) {
             break;

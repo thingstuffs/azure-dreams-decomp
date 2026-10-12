@@ -5,7 +5,6 @@
 #include "m2c_compat.h"
 
 M2C_UNK func_8003DB94();  /* extern */
-ObjectNodeHeader *func_8003FC64(s32);                       /* extern */
 
 s32 rand();                                /* extern */
 extern M2C_UNK D_800263F8;

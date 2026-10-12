@@ -1,25 +1,9 @@
 #ifndef DUNGEON_OVL_198A800_H
 #define DUNGEON_OVL_198A800_H
+#include "shared/dungeon_effect_views.h"
 #include "modules/dungeon_native_abi.h"
 
 /* Promoted Layer-2 record names and layouts are shared without changing the bodies. */
-/* Position the point is projected from: three 4-byte slots, only the second halfword of each is used. */
-typedef struct PointPosition {
-    u16 pad_00;
-    u16 x;
-    u16 pad_04;
-    u16 y;
-    u16 pad_08;
-    u16 z;
-} PointPosition;
-
-/* The effect point's record (the object header precedes it). */
-typedef struct PointRecord {
-    u8 pad_00[8];
-    u32 color;          /* r/g/b/code word copied into the tile */
-    u8 pad_0C[0x26];
-    s16 brightness;     /* 0x80 = full */
-} PointRecord;
 
 /* GPU scratchpad (0x1F800000) workspace used while projecting. */
 typedef struct Scratch80024124 {
@@ -37,35 +21,6 @@ typedef struct Scratch80024124 {
     u32 index;
 } Scratch80024124;
 
-/* Shaded tile (code 0x6A, 3 words) or draw-mode packet (3 words). */
-typedef struct Packet80024124 {
-    u32 tag;
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 code;
-    u32 data;
-} Packet80024124;
-
-/* Three 4-byte slots; only the second halfword of each is used. */
-typedef struct EffectPosition {
-    u16 pad_00;
-    u16 x;
-    u16 pad_04;
-    u16 y;
-    u16 pad_08;
-    u16 z;
-} EffectPosition;
-
-/* The spawned effect's record (the object header precedes it). */
-typedef struct SpawnedRecord {
-    u8 pad_00[8];
-    s32 unk_08;
-    u8 pad_0C[8];
-    s16 unk_14;
-    u8 pad_16[0x1C];
-    s16 unk_32;
-} SpawnedRecord;
 #include "shared/tile_object.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
@@ -541,7 +496,6 @@ typedef struct S_80024124_4 {
     void * unk_08;
 } S_80024124_4;
 
-
 typedef struct EffectState {
     u8 pad_00[0x2C];
     s16 size_x;
@@ -587,7 +541,6 @@ extern const NativeOffsets58 D_80024004;
 extern const RectTable D_80024024;
 extern s16 D_800269B4;
 extern PackedVec3 D_80026978;
-ObjectNodeHeader *func_8003FC64(s32);
 s32 rand(void);
 void func_8003DB94(void *, void *, s32);
 s32 func_800A45D8(s32, s32, s16);

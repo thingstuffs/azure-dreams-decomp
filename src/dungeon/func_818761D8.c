@@ -220,7 +220,6 @@ typedef struct S_800259D8_15 {
     u8 unk_13;
 } S_800259D8_15;   /* ((S_800259D8_3 *)obj)->unk_60 in func_800259D8 */
 
-
 typedef struct DirectionOffset {
     s16 x;
     u16 y;
@@ -253,21 +252,18 @@ typedef struct {
 /* These resident data/code addresses are not present in the catalog for this
  * cold overlay row; the binds retain real link-resolved symbols. */
 
-
 const Copy32 D_80024058 = {{ {8, 0}, {8, 8}, {0, 8}, {-8, 8}, {-8, 0}, {-8, 65528}, {0, 65528}, {8, 65528} }};
 extern Copy12 D_80026634;
 extern Copy12 D_80026640;
 extern Copy12 D_8002664C;
 
 extern s32 func_8003DF74(void *, void *, Vec3s *, s32);
-extern void *func_8003FC64(s32);
 extern s32 func_80069EF8(void);
 extern s32 func_800A4778(u16, u16, s16, void *);
 extern void func_80025338(void *, s32, s32, s16, s16, s16, s16);
 
 extern s32 func_80064584(s32);
 extern s32 func_800644B8(s32);
-
 
 void func_800259D8(void *effect, void *entity, S_800259D8_2 *sprite)
 {
@@ -286,7 +282,6 @@ void func_800259D8(void *effect, void *entity, S_800259D8_2 *sprite)
     s32 index;
     s32 value;
     s32 i;
-
 
     obj = ((S_800259D8_0 *)effect)->unk_00;
     copy = D_80024058;

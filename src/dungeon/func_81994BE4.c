@@ -23,11 +23,6 @@ typedef struct {
 } Part;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void *func_8003FC64(s32);                       /* extern */
-
-
-
-
 
 typedef struct S_800243E4_0 {
     u8 pad_00[0x2A];

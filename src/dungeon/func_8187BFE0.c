@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_189a800.h"
 #include "modules/dungeon_native_abi.h"
 #include "shared/object_flags.h"
 
@@ -92,12 +93,10 @@ typedef struct S_8187BFE0_5 {
     u16 unk_0A;
 } S_8187BFE0_5;   /* source in func_800257E0 */
 
-
 typedef struct {
     u8 bytes[12];
 } Data12;
 
-extern void *func_8003FC64(s32);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 

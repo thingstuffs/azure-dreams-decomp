@@ -1,5 +1,6 @@
 #ifndef DUNGEON_OVL_1960800_H
 #define DUNGEON_OVL_1960800_H
+#include "shared/dungeon_effect_views.h"
 #include "common.h"
 #include "modules/dungeon_native_abi.h"
 #include "m2c_compat.h"
@@ -111,12 +112,6 @@ typedef struct S_800243D8_3 {
     s32 unk_04;
     s32 unk_08;
 } S_800243D8_3;
-typedef struct PointRecord {
-    u8 pad_00[8];
-    u32 color;          /* r/g/b word copied into the tile */
-    u8 pad_0C[0x26];
-    s16 brightness;     /* 0x80 = full */
-} PointRecord;
 typedef struct Scratch800244E4 {
     u16 x;
     u16 y;
@@ -131,14 +126,6 @@ typedef struct Scratch800244E4 {
     u8 pad98[0x28];
     u32 index;          /* ordering table slot */
 } Scratch800244E4;
-typedef struct Packet800244E4 {
-    u32 tag;
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 code;
-    u32 data;
-} Packet800244E4;
 typedef struct {
     unsigned char pad_00[0x32];
     s16 timer;
@@ -205,7 +192,6 @@ typedef struct S_800249F0_5 {
 typedef struct {
     u8 bytes[12];
 } __attribute__((packed)) EffectPacked12;
-ObjectNodeHeader *func_8003FC64(s32);
 void func_8003DB94(void *, void *, s32);
 s32 func_800B8FC8(void *, void *, void *, s32, s32);
 u32 func_80065420(void *, void *, void *, void *);
@@ -216,12 +202,10 @@ void func_80024104(void *owner);
 void func_800243D8(void *source, void *unused_position, void *unused_sprite);
 s32 func_800244E4(PointRecord *first_point, EntityRec *first_position);
 void func_80024734(Entity *entity, State *state);
-void func_80024798(Object *source, s32 state_14_value, s32 state_08_value, s32 state_32_value,
-                   s16 x_offset, s16 y_offset, s16 z_offset);
+void func_80024798(Object *source, s32 state_14_value, s32 state_08_value, s32 state_32_value, s16 x_offset, s16 y_offset, s16 z_offset);
 void func_800248B8(void *countdownState, s32 unused, void *animationState);
 void func_8002492C(DungeonObject *object, s32 unused, void *handlerContext);
 void func_800249A0(void *object);
-void *func_800249F0(void *source, void *unused_1, void *unused_2, void *packed_data, s32 render_param, s32 render_x,
-    s32 render_y, s32 render_mode);
+void *func_800249F0(void *source, void *unused_1, void *unused_2, void *packed_data, s32 render_param, s32 render_x, s32 render_y, s32 render_mode);
 void func_80024B38(void *effect, void *effect_pos, void *effect_data);
 #endif

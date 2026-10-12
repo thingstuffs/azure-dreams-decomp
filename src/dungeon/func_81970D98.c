@@ -97,7 +97,7 @@ s32 func_80024598(Bank1990800_1990d98_PointRecord *record, Bank1990800_1990d98_P
             scratch->ot[scratch->index] = (scratch->ot[scratch->index] & 0xFF000000) | ((u32)mode_packet & 0x00FFFFFF);
         }
 
-        node = (ObjectNodeHeader *)((ObjectNodeHeader *)record - 1)->unk_18;
+        node = ((ObjectNodeHeader *)record - 1)->chain_next;
         record = (Bank1990800_1990d98_PointRecord *)(node + 1);
         if (node == 0) {
             break;

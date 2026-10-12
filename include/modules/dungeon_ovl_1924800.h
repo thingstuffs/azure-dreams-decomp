@@ -1,5 +1,6 @@
 #ifndef DUNGEON_OVL_1924800_H
 #define DUNGEON_OVL_1924800_H
+#include "shared/dungeon_effect_views.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "modules/dungeon_native_abi.h"
@@ -14,13 +15,6 @@
 
 /* Same three position slots, with the signed spawn and unsigned raise views
  * visible together. Retail loads at +2,+6,+10; raise also updates the z word. */
-typedef union EffectPosition {
-    struct {
-        u16 pad_00; u16 x; u16 pad_04; u16 y;
-        union { u32 word; struct { u16 pad_08; u16 z; } half; } z_slot;
-    } raise;
-    struct { u16 pad_00; s16 x; u16 pad_04; s16 y; u16 pad_08; s16 z; } spawn;
-} EffectPosition;
 
 typedef u8 *(*FnPtr)(void *, s32, void *, void *, u8 *);
 
@@ -219,13 +213,6 @@ typedef struct S_func_81904990_8 {
     s32 unk_1C;
 } S_func_81904990_8;
 
-typedef struct DrawPage {
-    u8 pad_000[0x8B0];
-    u32 order_tag;
-    u8 pad_8B4[0x1C];
-    u8 *packet_cursor;
-} DrawPage;
-
 typedef struct ScreenPos {
     u16 x;
     s16 y;
@@ -245,22 +232,6 @@ typedef struct FillPacket {
     s32 size;
 } FillPacket;
 
-typedef struct PointPosition {
-    u16 pad_00;
-    u16 x;
-    u16 pad_04;
-    u16 y;
-    u16 pad_08;
-    u16 z;
-} PointPosition;
-
-typedef struct PointRecord {
-    u8 pad_00[8];
-    u32 color;          /* r/g/b/code word copied into the tile */
-    u8 pad_0C[0x26];
-    s16 brightness;     /* 0x80 = full */
-} PointRecord;
-
 typedef struct Scratch80024D64 {
     u16 x;
     u16 y;
@@ -276,29 +247,10 @@ typedef struct Scratch80024D64 {
     u32 index;
 } Scratch80024D64;
 
-typedef struct Packet80024D64 {
-    u32 tag;
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 code;
-    u32 data;
-} Packet80024D64;
-
 typedef struct EffectRecord {
     u8 pad_00[0x32];
     s16 timer;
 } EffectRecord;
-
-typedef struct SpawnedRecord {
-    u8 pad_00[8];
-    u32 unk_08;
-    u8 pad_0C[4];
-    s32 unk_10;
-    s16 unk_14;
-    u8 pad_16[0x1C];
-    s16 unk_32;
-} SpawnedRecord;
 
 typedef struct S_800251A0_0_pre {
     u16 unk_00;
@@ -614,12 +566,11 @@ extern u8 D_800E3D68[1];
 extern s32 func_8003DF74(void *, void *, Vec3 *, s32);
 extern s32 func_80069EF8(void);
 extern s32 func_800A4778(u16, u16, s16, void *);
-extern void *func_8003FC64(s32);
 void func_8002405C(u8 *entity, s32 chance, void *unused_context);
 void func_80024190(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw_mode);
 void func_80024B6C(s32 draw_data, ScreenRect *clip_rect, void *screen_pos, u16 clear_rect, s16 draw_param);
 s32 func_80024D64(PointRecord *first_point, PointPosition *first_position);
-void func_80024FB4(EffectRecord *object, EffectPosition *source);
+void func_80024FB4(EffectRecord *object, EffectPositionViews *source);
 void func_80025080(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
 void func_800251A0(void *anim_state);
 void func_80025294(CountdownRecord *record);

@@ -4,18 +4,6 @@
 #include "shared/game_work.h"
 #include "shared/object_node.h"
 
-/* Position the point is projected from: three 4-byte slots, only the second halfword of each is used. */
-
-
-/* The effect point's record (the object header precedes it). */
-
-
-/* GPU scratchpad (0x1F800000) workspace used while projecting. */
-
-
-/* Shaded tile (code 0x6A, 3 words) or draw-mode packet (3 words). */
-
-
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, s32, s32);
 
@@ -32,8 +20,8 @@ s32 func_800241EC(PointRecord *first_point, PointPosition *first_position)
     u32 tag_mask = 0xFF000000;
     Scratch800241EC *scratch =
         (Scratch800241EC *)0x1F800000;
-    Packet800241EC *tile;
-    Packet800241EC *draw_mode;
+    PointPacket *tile;
+    PointPacket *draw_mode;
     GpuContext *final_render_ctx;
     s32 color_value;
     s32 draw_page;
@@ -44,7 +32,7 @@ s32 func_800241EC(PointRecord *first_point, PointPosition *first_position)
     scratch->cursor = packet_start;
 
     for (;;) {
-        tile = (Packet800241EC *)scratch->cursor;
+        tile = (PointPacket *)scratch->cursor;
         scratch->x = position->x;
         scratch->y = position->y;
         scratch->z = position->z;
@@ -78,7 +66,7 @@ s32 func_800241EC(PointRecord *first_point, PointPosition *first_position)
             ((GpuLinkTag *)&tile->tag)->addr = ((GpuLinkTag *)&scratch->ot[scratch->index])->addr;
             ((GpuLinkTag *)&scratch->ot[scratch->index])->addr = (u32)tile;
 
-            draw_mode = (Packet800241EC *)scratch->cursor;
+            draw_mode = (PointPacket *)scratch->cursor;
             scratch->cursor = (u8 *)draw_mode + 0xC;
             draw_page = func_80066460(0, 1, 0, 0);
             func_80067F20(draw_mode, 0, 0, (u16)draw_page, 0);
@@ -87,7 +75,7 @@ s32 func_800241EC(PointRecord *first_point, PointPosition *first_position)
             ((GpuLinkTag *)&scratch->ot[scratch->index])->addr = (u32)draw_mode;
         }
 
-        next_node = (ObjectNodeHeader *)((ObjectNodeHeader *)point - 1)->unk_18;
+        next_node = ((ObjectNodeHeader *)point - 1)->chain_next;
         if (next_node != 0) {
             point = (PointRecord *)(next_node + 1);
             position = next_node->unk_08;

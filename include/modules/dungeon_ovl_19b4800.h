@@ -16,6 +16,5 @@ void func_8002458C(struct TransitionState *, void *, void *);
 extern const RectTable D_80024004;
 extern PackedVec3 D_8002533C;
 extern s16 D_80025384;
-void *func_8003FC64(s32);
 void func_800B8FC8(s32, void *, void *, s32, s16);
 #endif

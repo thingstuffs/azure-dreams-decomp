@@ -6,11 +6,6 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-
-
-
-
-
 extern void *jtbl_80024088[9];
 
 extern Packed12 D_80025618;
@@ -22,7 +17,6 @@ extern s32 func_8003DF74(void *, void *, void *, s32);
 extern s32 func_80069EF8(void);
 extern s32 func_800A4778(u16 x, u16 y, s32 z, void *skip_check);
 
-extern void *func_8003FC64(s32);
 extern u16 GetTPage(s32, s32, s32, s32);
 
 typedef struct S_func_8190B2D0_0 {

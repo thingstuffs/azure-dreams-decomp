@@ -13,7 +13,7 @@ s32 func_80024FD4(void *record, void *context, void *data) {
 
     for (;;) {
         func_80024758(record, context, data, 0);
-        node = (ObjectNodeHeader *)((ObjectNodeHeader *)record - 1)->unk_18;
+        node = ((ObjectNodeHeader *)record - 1)->chain_next;
         if (node == 0) {
             return 0;
         }

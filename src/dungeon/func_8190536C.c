@@ -24,8 +24,8 @@ void func_80024B6C(s32 draw_data, ScreenRect *clip_rect, void *screen_pos, u16 c
     u32 tag_mask;
     ScreenPos *pos_or_ot;
     u8 *order_table;
-    DrawPage *draw_page;
-    DrawPage *packet_page;
+    GpuContext *draw_page;
+    GpuContext *packet_page;
     s16 offset_y;
     void *call_pos;
     s32 call_data;
@@ -34,9 +34,9 @@ void func_80024B6C(s32 draw_data, ScreenRect *clip_rect, void *screen_pos, u16 c
 
     draw_page = gameWork.unk_000;
     pos_or_ot = screen_pos;
-    clip_packet = draw_page->packet_cursor;
+    clip_packet = draw_page->packetCursor;
     offset_y = (void *)draw_page != (void *)D_801C9E40;
-    draw_page->packet_cursor = clip_packet + 0xC;
+    draw_page->packetCursor = clip_packet + 0xC;
     saved_param = draw_param;
     clear_enabled = clear_rect;
     page_ptr = &gameWork;
@@ -44,8 +44,8 @@ void func_80024B6C(s32 draw_data, ScreenRect *clip_rect, void *screen_pos, u16 c
     tag_mask = 0xFF000000U;
 
     *(u32 *)clip_packet = (*(u32 *)clip_packet & tag_mask) |
-                            (draw_page->order_tag & 0x00FFFFFFU);
-    draw_page->order_tag = (draw_page->order_tag & tag_mask) |
+                            (draw_page->orderTag8B0 & 0x00FFFFFFU);
+    draw_page->orderTag8B0 = (draw_page->orderTag8B0 & tag_mask) |
                              ((u32)clip_packet & 0x00FFFFFFU);
 
     draw_pos[0] = pos_or_ot->x;
@@ -65,8 +65,8 @@ void func_80024B6C(s32 draw_data, ScreenRect *clip_rect, void *screen_pos, u16 c
         FillPacket *fill_packet;
 
         packet_page = gameWork.unk_000;
-        fill_packet = (FillPacket *)packet_page->packet_cursor;
-        packet_page->packet_cursor = (u8 *)fill_packet + 0x10;
+        fill_packet = (FillPacket *)packet_page->packetCursor;
+        packet_page->packetCursor = (u8 *)fill_packet + 0x10;
         fill_packet->command = 0x60000000;
         ((GpuLinkTag *)&fill_packet->tag)->len = 3;
         fill_packet->x = clip_rect->x;
@@ -83,8 +83,8 @@ void func_80024B6C(s32 draw_data, ScreenRect *clip_rect, void *screen_pos, u16 c
     }
 
     packet_page = page_ptr->unk_000;
-    clip_packet = packet_page->packet_cursor;
-    packet_page->packet_cursor = clip_packet + 0xC;
+    clip_packet = packet_page->packetCursor;
+    packet_page->packetCursor = clip_packet + 0xC;
     func_80067E2C(clip_packet, clip_rect);
     *(u32 *)clip_packet = (*(u32 *)clip_packet & 0xFF000000U) |
                             (*(u32 *)order_table & 0x00FFFFFFU);
