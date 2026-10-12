@@ -1,14 +1,12 @@
+#include "modules/dungeon_ovl_197e800.h"
 #include "common.h"
 #include "shared/game_work.h"
 
 extern u8 D_801C9E40[16];
 
-extern void func_8002616C();
-extern s32 func_8006658C(void *, s32);
-extern void func_80067E2C();
 
 /* Renders data with the active buffer offset between ordering-table commands. */
-void func_81960864(void *draw_data, s32 draw_mode)
+void func_80026064(void *draw_data, s32 draw_mode)
 {
     s32 start_packet;
     s32 end_packet;

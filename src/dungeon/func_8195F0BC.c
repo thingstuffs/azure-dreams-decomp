@@ -1,48 +1,20 @@
+#include "modules/dungeon_ovl_197e800.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 
-typedef struct {
-    u8 pad0[0x48];
-    s16 active;
-    u8 pad4A[2];
-    u16 timer;
-} DungeonState;
 
-typedef struct {
-    u8 pad0[2];
-    u16 x;
-    u8 pad4[2];
-    u16 y;
-    u8 pad8[2];
-    u16 height;
-} DungeonOrigin;
 
-typedef struct {
-    u8 pad0[0x10];
-    u8 red;
-    u8 green;
-    u8 blue;
-} FadeColor;
 
-extern u16 D_80027330;
+
+
+
 extern u8 D_80027334[][8];
-extern FadeColor D_80027398;
-extern u16 D_8002745C[][8];
-extern void *D_8002732C;
 extern u8 D_800273BE;
-extern s32 D_800273C0;
 
-extern void func_8002592C(s16, s16, s16, s16, s32);
-extern void func_80026BA8(s32, s32, DungeonOrigin *);
-extern void func_800419EC(s32, s32);
-extern s32 func_80069EF8(void);
-extern s16 func_800A07D0(s32, s32, s32, s32);
-extern void func_8009CE1C(void *, s32, s32, s32, s32, s32, s32);
-extern void *func_8009B4B0();
 
 /* Animate nearby tile heights and fade the color, then finalize the dungeon transition. */
-void func_8195F0BC(DungeonState *state, DungeonOrigin *origin) {
+void func_800248BC(DungeonState *state, DungeonOrigin *origin) {
     FadeColor *fade_color;
     s32 grid_x;
     s32 grid_y;
@@ -56,7 +28,7 @@ void func_8195F0BC(DungeonState *state, DungeonOrigin *origin) {
     void *tile;
     u16 timer;
 
-    D_80027330++;
+    (*(u16 *)&D_80027330)++;
     if (state->active == 0) {
         if (!(state->timer & 3)) {
             func_800419EC(8, 16);

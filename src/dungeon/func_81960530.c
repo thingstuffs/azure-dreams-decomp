@@ -1,99 +1,30 @@
+#include "modules/dungeon_ovl_197e800.h"
 #include "common.h"
 #include "shared/game_work.h"
 
-typedef struct S_81960530_0 {
-    u8 pad_00[0x140];
-    union { s16 s; u16 u; } unk_140;   /* accessed as both */
-    union { s16 s; u16 u; } unk_142;   /* accessed as both */
-    s32 unk_144;
-    s32 unk_148;
-    s32 unk_14C;
-    s16 unk_150;
-    union { s16 s; u16 u; } unk_152;   /* accessed as both */
-    union {
-        struct { u32 v; } at00;
-        struct { s16 v; } at00u;
-        struct { u16 v; } at00p;
-        struct { u8 pad[0x2]; s16 v; } at02;
-        struct { u8 pad[0x2]; u16 v; } at02u;
-    } unk_154;   /* overlapping accesses */
-    union {
-        struct { u32 v; } at00;
-        struct { s16 v; } at00u;
-        struct { u16 v; } at00p;
-        struct { u8 pad[0x2]; s16 v; } at02;
-        struct { u8 pad[0x2]; u16 v; } at02u;
-    } unk_158;   /* overlapping accesses */
-    union {
-        struct { u32 v; } at00;
-        struct { s16 v; } at00u;
-        struct { u16 v; } at00p;
-        struct { u8 pad[0x2]; s16 v; } at02;
-        struct { u8 pad[0x2]; u16 v; } at02u;
-    } unk_15C;   /* overlapping accesses */
-    union {
-        struct { u32 v; } at00;
-        struct { s16 v; } at00u;
-        struct { u16 v; } at00p;
-        struct { u8 pad[0x2]; s16 v; } at02;
-        struct { u8 pad[0x2]; u16 v; } at02u;
-    } unk_160;   /* overlapping accesses */
-} S_81960530_0;   /* scratch in func_81960530 */
+   /* scratch in func_80025D30 */
 
-typedef struct S_81960530_2 {
-    u16 unk_00;
-    u16 unk_02;
-} S_81960530_2;   /* map_entry in func_81960530 */
+   /* map_entry in func_80025D30 */
 
-typedef struct S_81960530_3 {
-    u8 pad_00[0x10];
-    u16 unk_10;
-} S_81960530_3;   /* best in func_81960530 */
+   /* best in func_80025D30 */
 
-typedef struct S_81960530_4 {
-    u16 unk_00;
-    u16 unk_02;
-    u16 unk_04;
-    u16 unk_06;
-    u8 pad_08[0x8];
-    u16 unk_10;
-    u8 pad_12[0x4];
-    u8 unk_16;
-    union { u8 u; s8 s; } unk_17;   /* accessed as both */
-} S_81960530_4;   /* current in func_81960530 */
+   /* current in func_80025D30 */
 
-typedef struct S_81960530_5 {
-    u32 unk_00;
-} S_81960530_5;   /* copy_vertex in func_81960530 */
+   /* copy_vertex in func_80025D30 */
 
-typedef struct S_81960530_6 {
-    s16 unk_00;
-    s16 unk_02;
-    s16 unk_04;
-} S_81960530_6;   /* plane_ptr in func_81960530 */
+   /* plane_ptr in func_80025D30 */
 
-typedef struct S_81960530_7 {
-    s16 unk_00;
-    s16 unk_02;
-    s16 unk_04;
-} S_81960530_7;   /* dot_vertex in func_81960530 */
+   /* dot_vertex in func_80025D30 */
 
-typedef struct S_81960530_8 {
-    u8 pad_00[0x4];
-    s16 unk_04;
-} S_81960530_8;   /* planes + ((S_81960530_3 *)best)->unk_10 * 8 in func_81960530 */
+   /* planes + ((S_81960530_3 *)best)->unk_10 * 8 in func_80025D30 */
 
-typedef struct S_81960530_9 {
-    u8 pad_00[0x4];
-    s16 unk_04;
-} S_81960530_9;   /* planes + ((S_81960530_4 *)current)->unk_10 * 8 in func_81960530 */
+   /* planes + ((S_81960530_4 *)current)->unk_10 * 8 in func_80025D30 */
 
 
-extern s32 func_800BCE7C(void *);
 
 
 /* Select a cell surface at the given position using plane height and containment tests. */
-void *func_81960530(s32 world_x, s32 world_y, s16 min_height) {
+void *func_80025D30(s32 world_x, s32 world_y, s16 min_height) {
     u8 *scratch;
     u8 *polygon;
     u8 *vertices;

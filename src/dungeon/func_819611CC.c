@@ -1,83 +1,33 @@
+#include "modules/dungeon_ovl_197e800.h"
 #include "common.h"
 #include "shared/game_work.h"
 
-typedef struct QuadVertex {
-    u32 xy;
-    u16 z;
-    u16 pad;
-} QuadVertex;
 
-typedef struct Quad {
-    u8 pad_00[0x10];
-    QuadVertex v[4];
-} Quad;
 
-typedef struct QuadLink {
-    u8 pad_00[0xC];
-    struct Material *material;
-    u8 pad_10[0x10];
-    Quad quad;
-} QuadLink;
 
-typedef struct Scratch {
-    u8 pad_00[0x20];
-    u32 ot_base;
-    u8 pad_24[0x4C];
-    QuadVertex v[4];
-    s32 out_a;
-    s32 out_b;
-    u8 pad_98[0x28];
-    u32 depth;
-} Scratch;
 
-typedef struct PolyFT4 {
-    u32 tag;
-    u8 r0, g0, b0, code;
-    s16 x0, y0;
-    u8 u0, v0;
-    u16 clut;
-    s16 x1, y1;
-    u8 u1, v1;
-    u16 tpage;
-    s16 x2, y2;
-    u8 u2, v2;
-    u16 pad1;
-    s16 x3, y3;
-    u8 u3, v3;
-    u16 pad2;
-} PolyFT4;
 
-typedef struct Texture {
-    u8 pad_00[0x4];
-    u16 tpage;
-    u8 pad_06[0x2];
-    u8 u, v, w, h;
-} Texture;
 
-typedef struct Material {
-    u8 pad_00[0x8];
-    Texture *texture;
-    u32 color;
-} Material;
 
-typedef struct RenderState {
-    u8 pad_00[0x8D0];
-    u8 *packet;
-} RenderState;
 
-extern s32 func_800654B0();
-extern s32 func_8006658C();
-extern s32 func_800666F4();
 
-#define SCRATCH ((Scratch *)0x1F800000)
+
+
+
+
+
+
+
+
+#define SCRATCH ((Bank56_819611CC_Scratch *)0x1F800000)
 
 /* Project a textured quad and queue it with semitransparency when its depth is in range. */
-s32 func_819611CC(Quad *quad, s32 unused, Material *material)
+s32 func_800269CC(Quad *quad, s32 unused, Material *material)
 {
-    Scratch *scratch;
-    PolyFT4 *packet;
+    Bank56_819611CC_Scratch *scratch;
+    Bank56_819611CC_PolyFT4 *packet;
     Texture *texture;
-    PolyFT4 *draw_packet;
+    Bank56_819611CC_PolyFT4 *draw_packet;
     QuadLink *link;
     u32 depth;
     RenderState **slot;
@@ -87,7 +37,7 @@ s32 func_819611CC(Quad *quad, s32 unused, Material *material)
     u16 z3;
 
     slot = ((RenderState * *)(&gameWork));
-    packet = (PolyFT4 *)(*slot)->packet;
+    packet = (Bank56_819611CC_PolyFT4 *)(*slot)->packet;
     scratch = SCRATCH;
     scratch->ot_base = (u32)*slot + 0xB0;
     for (;;) {

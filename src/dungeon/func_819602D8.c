@@ -1,24 +1,18 @@
+#include "modules/dungeon_ovl_197e800.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
-extern u16 D_800273CC[8];
+extern u16 D_800273CC[];
 extern u8 D_8002744C[9];
 extern u8 D_8002744D[9];
-extern s32 D_800274DC[7][8];
-s32 func_80025D30(s32, s32, s32);
-void *func_8009B4B0(void *, u16, u16);
-s32 func_800BCA68(s32, u16);
-extern s32 D_8002732C;
 
-typedef struct S_819602D8_0 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_819602D8_0;   /* temp_v0 in func_819602D8 */
+   /* temp_v0 in func_80025AD8 */
 
 /* Sample a 7 by 7 area around the given tile and flag the tiles found there. */
-void func_819602D8(u16 center_x, s32 center_y) {
+void func_80025AD8(s32 input_x, s32 center_y) {
+    u16 center_x = input_x;
     MapGrid *width_ref = &gameWork.map;
     s32 one = 1;
     s16 tile_x;
@@ -55,8 +49,8 @@ void func_819602D8(u16 center_x, s32 center_y) {
             tile_sample = func_800BCA68((tile_x << 6) & 0xFFC0, world_y);
             map = ((u8 *)D_800E3D7C);
             *sample_ptr = 0 - tile_sample;
-            tile = func_8009B4B0(map, tile_x, tile_y);
-            if ((tile != NULL) && (tile != D_8002732C)) {
+            tile = func_8009B4B0(map, (u16)tile_x, (u16)tile_y);
+            if ((tile != NULL) && (tile != (s32)D_8002732C)) {
                 tile->unk_14 = (s32)(tile->unk_14 | 0x100000);
             }
             sample_x = (s16)tile_x;

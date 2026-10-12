@@ -1,7 +1,8 @@
+#include "modules/dungeon_ovl_197e800.h"
 #include "common.h"
 
 
-typedef s32 M2C_UNK;
+
 
 #ifndef NULL
 #define NULL 0
@@ -9,65 +10,21 @@ typedef s32 M2C_UNK;
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-void *func_8003FC64();
-s32 func_8004491C();
-extern M2C_UNK D_80026DE4;
 extern s32 D_800273B0;
 extern M2C_UNK D_800CEEFC;
 
-typedef struct S_81961A04_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    M2C_UNK * unk_10;
-} S_81961A04_0;   /* temp_v0 in func_81961A04 */
+   /* temp_v0 in func_80027204 */
 
-typedef struct S_81961A04_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_81961A04_1;   /* temp_s3 in func_81961A04 */
+   /* temp_s3 in func_80027204 */
 
-typedef struct S_81961A04_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    u8 pad_0C[0x2];
-    u16 unk_0E;
-    u8 pad_10[0x2];
-    u16 unk_12;
-    u8 pad_14[0x2];
-    u16 unk_16;
-} S_81961A04_2;   /* temp_v1 in func_81961A04 */
+   /* temp_v1 in func_80027204 */
 
-typedef struct S_81961A04_3 {
-    u8 pad_00[0x38];
-    u16 unk_38;
-    u16 unk_3A;
-    u16 unk_3C;
-    u8 pad_3E[0xE];
-    s16 unk_4C;
-    u8 pad_4E[0x6];
-    s16 unk_54;
-} S_81961A04_3;   /* temp_a2 in func_81961A04 */
+   /* temp_a2 in func_80027204 */
 
-typedef struct S_81961A04_4 {
-    u8 pad_00[0x8];
-    M2C_UNK * unk_08;
-    s8 unk_0C;
-    u8 pad_0D[0xF];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_81961A04_4;   /* temp_a1 in func_81961A04 */
+   /* temp_a1 in func_80027204 */
 
 /* Allocates and initializes objects at the supplied position across nine slots. */
-void *func_81961A04(void *position)
+void *func_80027204(void *position)
 {
     S_81961A04_1 *source_pos;
     s32 slot;
@@ -87,7 +44,7 @@ void *func_81961A04(void *position)
 
     source_pos = position;
     slot = 0;
-    object_handler = &D_80026DE4;
+    object_handler = func_80026DE4;
     control_handler = &D_800273B0;
     last_slot = 8;
     do {

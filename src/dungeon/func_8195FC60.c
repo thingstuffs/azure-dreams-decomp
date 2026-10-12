@@ -1,37 +1,19 @@
+#include "modules/dungeon_ovl_197e800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
-typedef struct {
-    s32 x;
-    s32 y;
-    s32 z;
-    s32 dx;
-    s32 dy;
-    s32 dz;
-} Motion;
 
-typedef struct {
-    u8 pad0[0xC];
-    u8 red;
-    u8 green;
-    u8 blue;
-    u8 padF[7];
-    u16 x;
-    u16 y;
-    u8 pad1A[6];
-    u16 dx;
-    u16 dy;
-} Effect;
 
-extern u16 D_80027330;
+
+
 
 /* Advance motion, fade the effect, and flag expiry when its timer runs out. */
-void func_8195FC60(u16 *state, Motion *motion, Effect *effect)
+void func_80025460(u16 *state, Motion *motion, Effect *effect)
 {
     u8 brightness;
     s16 ticks_left;
 
-    D_80027330++;
+    (*(u16 *)&D_80027330)++;
 
     motion->x += motion->dx;
     motion->y += motion->dy;

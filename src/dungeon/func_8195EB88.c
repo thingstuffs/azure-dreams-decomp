@@ -1,75 +1,28 @@
+#include "modules/dungeon_ovl_197e800.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
-typedef struct S_8195EB88_0_pre {
-    u16 unk_00;
-} S_8195EB88_0_pre;   /* the 0x2 bytes before arg0 in func_80024388, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in func_80024388, addressed as arg0[-1] */
 
-typedef struct S_8195EB88_0 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-    u8 pad_10[0x30];
-    u16 unk_40;
-    u16 unk_42;
-    union { s16 s; u16 u; } unk_44;   /* accessed as both */
-    u8 pad_46[0x2];
-    union { s16 s; u16 u; } unk_48;   /* accessed as both */
-    s16 unk_4A;
-} S_8195EB88_0;   /* arg0 in func_80024388 */
+   /* arg0 in func_80024388 */
 
-typedef struct S_8195EB88_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x8];
-    u16 unk_14;
-} S_8195EB88_1;   /* temp_s0 in func_80024388 */
+   /* temp_s0 in func_80024388 */
 
-typedef struct S_8195EB88_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_8195EB88_2;   /* arg1 in func_80024388 */
+   /* arg1 in func_80024388 */
 
-typedef struct S_8195EB88_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_8195EB88_3;   /* temp_a0_2 in func_80024388 */
+   /* temp_a0_2 in func_80024388 */
 
-typedef struct S_8195EB88_4 {
-    u8 pad_00[0xC];
-    union { u8 u8; u32 u32; } unk_0C;   /* accessed as both */
-} S_8195EB88_4;   /* arg2 in func_80024388 */
+   /* arg2 in func_80024388 */
 
-typedef struct S_8195EB88_5 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-} S_8195EB88_5;   /* ((S_8195EB88_0 *)arg0)->unk_0C in func_80024388 */
+   /* ((S_8195EB88_0 *)arg0)->unk_0C in func_80024388 */
 
 
-extern s32 func_8003DE58(void *, void *, void *, s32);
-extern s32 func_80027204(void *);
-extern void func_8004491C(void *, void *);
 
-typedef struct CounterView {
-    u16 value;
-    u16 pad[5];
-} CounterView;
 
-typedef struct FlagsView {
-    s32 value;
-    s32 pad[2];
-} FlagsView;
 
-extern CounterView D_80027330;
+
+
 
 /* Updates the effect position, brightens and fades its primitive, and marks completion. */
 void func_80024388(void *effect, S_8195EB88_2 *position, S_8195EB88_4 *primitive)
@@ -79,7 +32,7 @@ void func_80024388(void *effect, S_8195EB88_2 *position, S_8195EB88_4 *primitive
     S_8195EB88_3 *base_position;
     S_8195EB88_1 *source_state;
 
-    D_80027330.value = D_80027330.value + 1;
+    (*(u16 *)&D_80027330) = (*(u16 *)&D_80027330) + 1;
     phase = ((S_8195EB88_0 *)effect)->unk_48.s;
     phase_value = ((S_8195EB88_0 *)effect)->unk_48.u;
 

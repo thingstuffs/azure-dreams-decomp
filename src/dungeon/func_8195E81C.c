@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_197e800.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
@@ -7,57 +8,26 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-typedef struct S_8002401C_0 {
-    union { void * s; u8 * u; } unk_00;   /* accessed as both */
-    u8 * unk_04;
-    u8 unk_08;
-    u8 unk_09;
-    union { s16 s; u16 u; } unk_0A;   /* accessed as both */
-    void * unk_0C;
-    u8 pad_10[0xC];
-    union { s16 s; u16 u; } unk_1C;   /* accessed as both */
-} S_8002401C_0;   /* obj in func_8002401C */
+   /* obj in func_8002401C */
 
 
-typedef struct S_8002401C_2_pre {
-    void * unk_00;
-    u8 pad_04[0x14];
-} S_8002401C_2_pre;   /* the 0x18 bytes before source in func_8002401C, addressed as source[-1] */
+   /* the 0x18 bytes before source in func_8002401C, addressed as source[-1] */
 
-typedef struct S_8002401C_3 {
-    u8 pad_00[0xA6];
-    u16 unk_A6;
-} S_8002401C_3;   /* display in func_8002401C */
+   /* display in func_8002401C */
 
-typedef struct S_8002401C_4 {
-    u16 unk_00;
-} S_8002401C_4;   /* ((S_8002401C_0 *)obj)->unk_04 in func_8002401C */
+   /* ((S_8002401C_0 *)obj)->unk_04 in func_8002401C */
 
 
-extern void *func_8002453C(void *, void *);
-extern void func_80025AD8(s16, s16);
-extern void func_80025C8C(void);
-extern void func_80026064(s16 *, s32);
-extern void func_800A56E0(s32);
-extern void func_800B835C(void *, s16 *, s32, s32);
 
 extern s32 D_80027328;
-extern void *D_8002732C;
-extern s16 D_80027330;
 extern u8 D_80027374[];
-extern u8 D_80027398[];
-extern s32 D_800273A8;
-extern s16 D_800273BC;
 extern u8 D_800273BE;
-extern void *D_800273C0;
-extern s32 D_800274DC[];
 
-void func_8002401C(void *);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol func_80024000).  The switch table follows it at 0x80024008
  * (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const module_entry)(void *) __asm__("func_80024000") = func_8002401C;
+void (*const dungeon_197e800_entry)(void *) = func_8002401C;
 
 /* Advances the object's state and draws its 7-by-7 grid. */
 void func_8002401C(void *object)
@@ -87,7 +57,7 @@ void func_8002401C(void *object)
     switch (state) {
     case 0:
         row_index = 0;
-        D_800273BC = 1;
+        D_800273BC.value = 1;
         config_byte = ((S_8002401C_0 *)object_bytes)->unk_09;
         D_80027328 = 0;
         source_obj = ((S_8002401C_0 *)object_bytes)->unk_00.s;
@@ -99,7 +69,7 @@ void func_8002401C(void *object)
         D_800814A8->unk_102 = 1;
         D_800814A8->unk_A8 = ((S_8002401C_0 *)object_bytes)->unk_08;
 
-        clear_row = D_800274DC;
+        clear_row = D_800274DC[0];
         do {
             col_index = 6;
             clear_cell = clear_row + 6;
@@ -150,14 +120,14 @@ void func_8002401C(void *object)
                             /* fallthrough */
 
     case 3:
-        if (D_800273BC == 0) {
+        if ((s16)D_800273BC.value == 0) {
             func_80025C8C();
             ((S_8002401C_0 *)object_bytes)->unk_0A.u++;
         }
         break;
 
     case 4:
-        if (D_80027330 == 0) {
+        if ((s16)D_80027330 == 0) {
             dungeonStatus.unk_0C = 0;
             dungeonStatus.unk_0A--;
             (*(u16 *)((u8 *)object_bytes + -2)) |= 0x8000;
@@ -172,7 +142,7 @@ void func_8002401C(void *object)
     rect[3] = 0x70;
     func_800B835C(D_80027398, rect, 0, 2);
 
-    for (row_index = 0, cell_size = 0x10, row = D_800274DC, y = 0x180;
+    for (row_index = 0, cell_size = 0x10, row = D_800274DC[0], y = 0x180;
          row_index < 7; row_index++) {
         for (col_index = 0; col_index < 7;) {
             rect[0] = 0x340 + col_index * 0x10;
