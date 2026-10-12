@@ -1,114 +1,27 @@
+#include "modules/dungeon_ovl_197e800.h"
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
-typedef struct S_8195FD40_0 {
-    u8 pad_00[0x20];
-    u32 unk_20;
-    u8 pad_24[0xC];
-    u32 unk_30;
-    u32 unk_34;
-    u32 unk_38;
-    u8 pad_3C[0x34];
-    u32 unk_70;
-    u16 unk_74;
-    u8 pad_76[0x2];
-    u32 unk_78;
-    u16 unk_7C;
-    u8 pad_7E[0x2];
-    u32 unk_80;
-    u16 unk_84;
-    u8 pad_86[0x2];
-    u32 unk_88;
-    u16 unk_8C;
-    u8 pad_8E[0x32];
-    u32 unk_C0;
-    u8 pad_C4[0x20];
-    s32 unk_E4;
-    s32 unk_E8;
-    s32 unk_EC;
-    u8 pad_F0[0x10];
-    u16 unk_100;
-    u16 unk_102;
-    u16 unk_104;
-} S_8195FD40_0;   /* scratch in func_8195FD40 */
+   /* scratch in func_80025540 */
 
-typedef struct S_8195FD40_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_8195FD40_1;   /* arg1 in func_8195FD40 */
+   /* arg1 in func_80025540 */
 
-   /* *global in func_8195FD40 */
+   /* *global in func_80025540 */
 
-typedef struct S_8195FD40_3 {
-    u8 pad_00[0x8];
-    u8 * unk_08;
-    s32 unk_0C;
-    u8 pad_10[0x4];
-    u16 unk_14;
-    u16 unk_16;
-    u16 unk_18;
-    u16 unk_1A;
-    u16 unk_1C;
-    u16 unk_1E;
-} S_8195FD40_3;   /* arg2 in func_8195FD40 */
+   /* arg2 in func_80025540 */
 
-typedef struct S_8195FD40_4 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x3]; s8 v; } at03; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x3]; s8 v; } at03; } unk_04;   /* overlapping accesses */
-    u16 unk_08;
-    u16 unk_0A;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 pad_0E[0x2];
-    u16 unk_10;
-    u16 unk_12;
-    s8 unk_14;
-    u8 unk_15;
-    u16 unk_16;
-    u16 unk_18;
-    u16 unk_1A;
-    u8 unk_1C;
-    s8 unk_1D;
-    u8 pad_1E[0x2];
-    u16 unk_20;
-    u16 unk_22;
-    s8 unk_24;
-    s8 unk_25;
-} S_8195FD40_4;   /* packet in func_8195FD40 */
+   /* packet in func_80025540 */
 
-typedef struct S_8195FD40_5 {
-    u8 pad_00[0x4];
-    u16 unk_04;
-    u8 pad_06[0x2];
-    u8 unk_08;
-    u8 unk_09;
-    u8 unk_0A;
-    u8 unk_0B;
-} S_8195FD40_5;   /* texture in func_8195FD40 */
+   /* texture in func_80025540 */
 
-typedef struct S_8195FD40_6 {
-    u32 unk_00;
-} S_8195FD40_6;   /* (u8 *)((((S_8195FD40_0 *)scratch)->unk_C0 * 4) +
-                              ((S_8195FD40_0 *)scratch)->unk_20) in func_8195FD40 */
+   /* (u8 *)((((S_8195FD40_0 *)scratch)->unk_C0 * 4) +
+                              ((S_8195FD40_0 *)scratch)->unk_20) in func_80025540 */
 
 
-extern void func_80064840(void *, void *, void *);
-extern void func_800649A0(void);
-extern void func_80064A40(void);
-extern void func_80064AE0(void *);
-extern void func_80064BC0(void *, void *);
-extern void func_80064CF0(void *);
-extern void func_80064D80(void *);
-extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void func_80065820(void *, void *);
 
 /* Transform a textured quad and add it to the ordering table if visible. */
-void func_8195FD40(s32 unused, S_8195FD40_1 *position, S_8195FD40_3 *quad, s16 depth_bias)
+void func_80025540(s32 unused, S_8195FD40_1 *position, S_8195FD40_3 *quad, s16 depth_bias)
 {
     s32 view_matrix[8];
     u8 *scratch = (u8 *)0x1F800000;

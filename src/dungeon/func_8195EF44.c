@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_197e800.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -7,48 +8,16 @@
 #endif
 
 
-extern void *func_8003FC64(s32);
-extern void func_8004491C(void *, void *);
-extern s32 D_80024648;
-extern s32 D_80046398;
 
 
-typedef struct S_8195EF44_2 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    s16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-    s16 unk_20;
-} S_8195EF44_2;   /* work in func_8195EF44 */
+   /* work in func_80024744 */
 
-typedef struct S_8195EF44_4 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_8195EF44_4;   /* render in func_8195EF44 */
+   /* render in func_80024744 */
 
-typedef struct S_8195EF44_5 {
-    u8 pad_00[0x38];
-    s16 unk_38;
-    s16 unk_3A;
-    s16 unk_3C;
-    u8 pad_3E[0xE];
-    s16 unk_4C;
-    u8 pad_4E[0x12];
-    s16 unk_60;
-    s16 unk_62;
-} S_8195EF44_5;   /* coord in func_8195EF44 */
+   /* coord in func_80024744 */
 
 /* Allocate and initialize an object using the map cell at the supplied position. */
-void *func_8195EF44(s16 world_x, s16 world_y, s16 world_z, s16 coord_60)
+void *func_80024744(s16 world_x, s16 world_y, s16 world_z, s16 coord_60)
 {
     void *obj;
     S_8195EF44_2 *work;
@@ -75,8 +44,8 @@ void *func_8195EF44(s16 world_x, s16 world_y, s16 world_z, s16 coord_60)
             return NULL;
         }
         coord = (u8 *)obj + 0x20;
-        *(void **)((u8 *)obj + 0x10) = &D_80024648;
-        func_8004491C(obj, &D_80046398);
+        *(void **)((u8 *)obj + 0x10) = func_80024648;
+        func_8004491C(obj, func_80046398);
         render = *(void **)((u8 *)obj + 8);
         ((S_8195EF44_4 *)render)->unk_02 = world_x;
         ((S_8195EF44_5 *)coord)->unk_38 = world_x;

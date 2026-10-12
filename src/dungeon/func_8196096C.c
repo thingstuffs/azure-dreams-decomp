@@ -1,101 +1,33 @@
+#include "modules/dungeon_ovl_197e800.h"
 #include "common.h"
 #include "shared/game_work.h"
 
-typedef union {
-    s32 w;
-    u16 h[2];
-    u8 b[4];
-} Word;
 
-typedef struct {
-    Word f0;
-    Word f4;
-    Word f8;
-    Word fC;
-    Word f10;
-    Word f14;
-    Word f18;
-    Word f1C;
-    Word f20;
-    Word f24;
-} Record;
 
-typedef struct {
-    u16 index0;
-    u16 index1;
-    u16 index2;
-    u16 index3;
-    s32 value8;
-    s32 valueC;
-    u16 value10;
-    u16 value12;
-    u16 value14;
-} Input;
 
-typedef struct {
-    u8 pad0[0x20];
-    s32 value;
-    u8 pad24[4];
-    u16 h28;
-    u16 h2A;
-    u16 h2C;
-    u8 pad2E[0x22];
-    s32 w50;
-    u8 pad54[0x10];
-    s32 w64;
-    s32 w68;
-    s32 w6C;
-    s32 w70;
-    u16 h74;
-    u16 pad76;
-    s32 w78;
-    u16 h7C;
-    u16 pad7E;
-    s32 w80;
-    u16 h84;
-    u16 pad86;
-    s32 w88;
-    u16 h8C;
-    u16 pad8E;
-    s32 w90;
-    s32 w94;
-} Scratch;
 
-typedef struct {
-    u8 pad0[0x8D0];
-    Record *record;
-} Root;
 
-typedef struct TableEntry {
-    s32 value;
-    s32 pad;
-} TableEntry;
+
+
+
+
+
+
 
 extern u8 D_80027374[12];
-extern u8 D_800273A8;
 
-extern void func_800649A0(void);
-extern void func_80064A40(void);
-extern void func_80064CF0(void *ptr0);
-extern void func_80064D80(void *ptr0);
-extern void func_800654B0(void *ptr0, void *ptr1, void *ptr2, void *ptr3,
-                          u16 *half_ptr4, u16 *half_ptr5, u16 *half_ptr6, u16 *half_ptr7,
-                          s32 *word_ptr8, s32 *word_ptr9);
-extern void func_80065820(void *ptr0, void *ptr1);
-extern void func_8006658C(s32 value, Record *record);
-extern void func_800666F4(Record *record);
 
 static __inline__ u16 translate_x(s32 x, u16 offset) { x -= 0xA0; return offset + x; }
 
 /* Builds and submits a shaded textured quad at the requested screen position. */
-void func_8196096C(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth) {
+void func_8002616C(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth) {
     Root *root = gameWork.unk_000;
     Record *record;
     Record *quad_packet;
     Input *quad_input = quad_data;
     GameWork *globals;
     TableEntry *vertex_table;
-    Scratch *scratch;
+    Bank56_8196096C_Scratch *scratch;
     register void *rotation;
     register void *matrix;
     s32 *scratch_words;
@@ -115,7 +47,7 @@ void func_8196096C(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth
     func_800649A0();
     rotation = (void *)0x1F800028;
     matrix = (void *)0x1F800050;
-    scratch = (Scratch *)0x1F800000;
+    scratch = (Bank56_8196096C_Scratch *)0x1F800000;
     scratch->w6C = 0;
     scratch->w68 = 0;
     scratch->w64 = 0;
@@ -162,7 +94,7 @@ void func_8196096C(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth
         record->fC.b[1] = record->f14.b[1];
         record->f24.b[1] = texture_config[9] + texture_config[11];
         record->f1C.b[1] = record->f24.b[1];
-        shade = (D_800273A8 << 7) / 240;
+        shade = ((u8)D_800273A8 << 7) / 240;
         *(u8 *)&record->f4.b[0] = shade;
         *(u8 *)&record->f4.b[2] = shade;
         *(u8 *)&record->f4.b[1] = shade;

@@ -1,70 +1,24 @@
+#include "modules/dungeon_ovl_197e800.h"
 #include "modules/dungeon_draw_chain.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-typedef struct S_8196012C_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-    u8 pad_14[0xC];
-    s32 unk_20;
-} S_8196012C_0;   /* object in func_8196012C */
+   /* object in func_8002592C */
 
-typedef struct S_8196012C_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    u8 pad_0C[0x2];
-    s16 unk_0E;
-    u8 pad_10[0x2];
-    s16 unk_12;
-    u8 pad_14[0x2];
-    s16 unk_16;
-} S_8196012C_1;   /* position in func_8196012C */
+   /* position in func_8002592C */
 
-typedef struct S_8196012C_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    s16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-    s16 unk_20;
-    s16 unk_22;
-} S_8196012C_2;   /* render in func_8196012C */
+   /* render in func_8002592C */
 
-typedef struct S_8196012C_3 {
-    u8 pad_00[0x4];
-    s16 unk_04;
-    u8 pad_06[0x2];
-    s8 unk_08;
-    s8 unk_09;
-    s8 unk_0A;
-    s8 unk_0B;
-    u8 pad_0C[0x40];
-    s16 unk_4C;
-} S_8196012C_3;   /* primitive in func_8196012C */
+   /* primitive in func_8002592C */
 
 
-extern void *func_8003FC64();
 struct RegistrationNode;
-extern s32 func_8004491C(struct RegistrationNode *, s32);
-extern s16 func_800644B8();
-extern s16 func_80064584();
 extern s32 rand();
-extern s32 D_80025460[];
 
 /* Spawn a textured particle with randomized motion at the given position. */
-void func_8196012C(s16 x, s16 y, s16 z, s16 tile_col, s16 tile_row) {
+void func_8002592C(s16 x, s16 y, s16 z, s16 tile_col, s16 tile_row) {
     s32 random_angle;
     s32 primitive_word;
     s16 tile_row_copy;
@@ -76,7 +30,7 @@ void func_8196012C(s16 x, s16 y, s16 z, s16 tile_col, s16 tile_row) {
     tile_row_copy = tile_row;
     object = func_8003FC64(0x202);
     if (object != NULL) {
-        ((S_8196012C_0 *)object)->unk_10 = D_80025460;
+        ((S_8196012C_0 *)object)->unk_10 = func_80025460;
         func_8004491C(object, (s32)func_800258D8);
         position = ((S_8196012C_0 *)object)->unk_08;
         position->unk_02 = x;

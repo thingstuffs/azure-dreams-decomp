@@ -1,123 +1,30 @@
+#include "modules/dungeon_ovl_197e800.h"
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
-typedef struct S_8195F43C_0 {
-    u8 pad_00[0x20];
-    u8 * unk_20;
-    u8 pad_24[0x10];
-    u32 unk_34;
-    u8 pad_38[0x18];
-    s16 unk_50;
-    u8 pad_52[0x6];
-    s16 unk_58;
-    u8 pad_5A[0x16];
-    s16 unk_70;
-    s16 unk_72;
-    s16 unk_74;
-    u8 pad_76[0x2];
-    s16 unk_78;
-    s16 unk_7A;
-    s16 unk_7C;
-    u8 pad_7E[0x2];
-    s16 unk_80;
-    s16 unk_82;
-    s16 unk_84;
-    u8 pad_86[0x2];
-    s16 unk_88;
-    s16 unk_8A;
-    s16 unk_8C;
-    u8 pad_8E[0x32];
-    u32 unk_C0;
-    u8 pad_C4[0x20];
-    s32 unk_E4;
-    s32 unk_E8;
-    s32 unk_EC;
-} S_8195F43C_0;   /* scratch in func_8195F43C */
+   /* scratch in func_80024C3C */
 
-typedef struct S_8195F43C_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_8195F43C_1;   /* arg1 in func_8195F43C */
+   /* arg1 in func_80024C3C */
 
-typedef struct S_8195F43C_2 {
-    u16 unk_00;
-    u16 unk_02;
-} S_8195F43C_2;   /* table in func_8195F43C */
+   /* table in func_80024C3C */
 
-typedef struct S_8195F43C_3 {
-    u16 unk_00;
-    u16 unk_02;
-} S_8195F43C_3;   /* table2 in func_8195F43C */
+   /* table2 in func_80024C3C */
 
-   /* base in func_8195F43C */
+   /* base in func_80024C3C */
 
-typedef struct S_8195F43C_5 {
-    u8 pad_00[0x8];
-    u8 * unk_08;
-    u32 unk_0C;
-    u16 unk_10;
-    u16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_8195F43C_5;   /* object in func_8195F43C */
+   /* object in func_80024C3C */
 
-typedef struct S_8195F43C_6 {
-    u8 pad_00[0x2];
-    u8 unk_02;
-    u8 unk_03;
-    u16 unk_04;
-    u8 pad_06[0x2];
-    u8 unk_08;
-    u8 unk_09;
-    u8 unk_0A;
-    u8 unk_0B;
-} S_8195F43C_6;   /* texture in func_8195F43C */
+   /* texture in func_80024C3C */
 
-typedef struct S_8195F43C_7 {
-    union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_00;   /* overlapping accesses */
-    union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_04;   /* overlapping accesses */
-    union { u16 u; s16 s; } unk_08;   /* accessed as both */
-    union { u16 u; s16 s; } unk_0A;   /* accessed as both */
-    u8 pad_0C[0x2];
-    u16 unk_0E;
-    u16 unk_10;
-    u16 unk_12;
-    u8 unk_14;
-    u8 pad_15[0x3];
-    u16 unk_18;
-    u16 unk_1A;
-    u8 pad_1C[0x1];
-    u8 unk_1D;
-    u8 pad_1E[0x2];
-    union { u16 u; s16 s; } unk_20;   /* accessed as both */
-    union { u16 u; s16 s; } unk_22;   /* accessed as both */
-    u8 unk_24;
-    u8 unk_25;
-} S_8195F43C_7;   /* packet in func_8195F43C */
+   /* packet in func_80024C3C */
 
-   /* *global in func_8195F43C */
+   /* *global in func_80024C3C */
 
 
 #define VFIELD(p, type, offset) (*(volatile type *)((u8 *)(p) + (offset)))
 #define PFIELD(p, type, offset) (*(type *)((u8 *)(p) + (offset)))
 
-extern void func_80064840(void *, void *, void *);
-extern void func_800649A0(void);
-extern void func_80064A40(void);
-extern void func_80064AE0(void *);
-extern void func_80064BC0(void *, void *);
-extern void func_80064CF0(void *);
-extern void func_80064D80(void *);
-extern u32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void func_80065820(void *, void *);
-extern u8 D_8002745C[];
 
 static __inline__ void set_v_width(s32 *rect, s32 v, s32 width)
 {
@@ -126,11 +33,11 @@ static __inline__ void set_v_width(s32 *rect, s32 v, s32 width)
 }
 
 /* Project a textured object quad onto the height grid and add it to the ordering table. */
-void func_8195F43C(void *unused, void *origin, u8 *object, s16 tile_x, s16 tile_y)
+void func_80024C3C(void *unused, void *origin, u8 *object, s16 tile_x, s16 tile_y)
 {
     u8 **render_state = (u8 **)((u8 *)(&gameWork));
     u8 *scratch = (u8 *)0x1F800000;
-    u8 *height_grid = D_8002745C;
+    u8 *height_grid = ((u8 *)D_8002745C);
     u8 *render_ctx;
     u8 *packet;
     u8 *texture;

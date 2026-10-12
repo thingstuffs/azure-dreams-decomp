@@ -1,0 +1,45 @@
+{
+  "module": "dungeon_ovl_7e6a5800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_7e6a5800.c",
+    "module_index": 186
+  },
+  "members": [
+    "dungeon/func_8195E81C",
+    "dungeon/func_8195EB88",
+    "dungeon/func_8195ED3C",
+    "dungeon/func_8195EE48",
+    "dungeon/func_8195EF44",
+    "dungeon/func_8195F0BC",
+    "dungeon/func_8195F43C",
+    "dungeon/func_8195FA38",
+    "dungeon/func_8195FB34",
+    "dungeon/func_8195FC60",
+    "dungeon/func_8195FD40",
+    "dungeon/func_819600D8",
+    "dungeon/func_8196012C",
+    "dungeon/func_819602D8",
+    "dungeon/func_8196048C",
+    "dungeon/func_81960530",
+    "dungeon/func_81960864",
+    "dungeon/func_8196096C",
+    "dungeon/func_81960CD4",
+    "dungeon/func_819611CC",
+    "dungeon/func_819613A8",
+    "dungeon/func_819615E4",
+    "dungeon/func_81961A04"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "not observable (section-grouping link, no static duplicates, no recipe change)",
+  "basis": [
+    "Owner-approved decisions 37-38: one native TU per DUNGEON grid bank. Selector 56 establishes one physical image; weak groups inside it merge by guarded reassignment citing that receipt.",
+    "All 23 real ledger members in file order cover [0x197e800,0x1981b28), without gaps or owned data between text runs. Every member uses the same registered recipe and is L3. No byte-identical complete static helper, owned data between text runs, or recipe change was found in this cohort.",
+    "One native compile edge emits all 13096 bytes exactly under GNU/maspsx and genuine ASPSX, including typed entry, alignment and compiler switch table; this byte proof supplements the owner rule and does not claim observation of the historic TU boundary.",
+    "r117 rebase: all 23 current readable L3 members are pin-free. The r116 pointer advance and shift-pair truncations in func_819613A8 remain intact. The complete GNU/genuine/retail image is exact; all incoming reviews remain pending."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r117",
+  "holds": []
+}

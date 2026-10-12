@@ -1,80 +1,20 @@
+#include "modules/dungeon_ovl_197e800.h"
 #include "common.h"
 #include "m2c_compat.h"
 
-typedef struct {
-    u8 pad0[8];
-    void *field8;
-    void *fieldC;
-    void *field10;
-    u8 pad14[0xC];
-    u32 field20;
-} TempObj;
 
-typedef struct {
-    u8 pad0[2];
-    s16 field2;
-    u8 pad4[2];
-    s16 field6;
-    u8 pad8[2];
-    s16 fieldA;
-} TempBuffer;
 
-typedef struct {
-    u8 pad0[8];
-    void *field8;
-    u8 padC[8];
-    s16 field14;
-    u8 pad16[6];
-    s16 field1C;
-    s16 field1E;
-} TempChild;
 
-typedef struct {
-    u8 pad0[4];
-    s16 field4;
-    u8 pad6[2];
-    s8 field8;
-    s8 field9;
-    s8 fieldA;
-    s8 fieldB;
-    u8 padC[4];
-    s16 field10;
-    s16 field12;
-    s16 field14;
-    u8 pad16[2];
-    s16 field18;
-    s16 field1A;
-    s16 field1C;
-    u8 pad1E[2];
-    s16 field20;
-    s16 field22;
-    s16 field24;
-    u8 pad26[2];
-    s16 field28;
-    s16 field2A;
-    s16 field2C;
-    u8 pad2E[0x1E];
-    s16 field4C;
-} TempOutput;
 
-extern s8 D_8002745C[];
-TempObj *func_8003FC64();
-s32 func_8004491C();
-extern M2C_UNK D_800264D4;
-extern M2C_UNK D_800269CC;
-extern s16 D_800273BC[5];
 
-typedef struct S_819613A8_0 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_819613A8_0;   /* arg2 in func_819613A8 */
+
+
+
+
+   /* arg2 in func_80026BA8 */
 
 /* Creates a terrain tile quad using grid heights and the supplied origin. */
-void func_819613A8(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
+void func_80026BA8(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
     s16 left_x;
     s16 right_x;
     s16 top_y;
@@ -106,14 +46,14 @@ void func_819613A8(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
         s32 local_x_or_height;
         s32 local_height;
         s32 local_y;
-        object->field10 = &D_800264D4;
-        func_8004491C(object, &D_800269CC);
+        object->field10 = func_800264D4;
+        func_8004491C(object, func_800269CC);
         column = (s16) tile_x;
         x_offset = (column - 3);
         x_offset <<= 6;
         row = (u32) tile_y << 16;
         row >>= 16;
-        height_row = D_8002745C;
+        height_row = ((s8 *)D_8002745C);
         tile_y = row;
         tile_y <<= 4;
         top_heights = (s16 *)(tile_y + (s32)height_row);
@@ -212,6 +152,6 @@ void func_819613A8(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
         ((TempOutput *)quad)->fieldB = height_tr;
         ((TempChild *)height_or_child)->field8 = quad;
         ((TempOutput *)quad)->field4C = 8;
-        (*(s16 *)D_800273BC) = (s16) ((*(u16 *)D_800273BC) + 1);
+        (*(s16 *)((s16 *)&D_800273BC)) = (s16) ((*(u16 *)((s16 *)&D_800273BC)) + 1);
     }
 }

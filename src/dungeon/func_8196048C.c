@@ -1,18 +1,15 @@
+#include "modules/dungeon_ovl_197e800.h"
 #include "common.h"
 #include "shared/game_work.h"
 
-typedef struct {
-    u16 *tiles;
-    u8 pad04[0x10];
-    s16 row_shift;
-} DungeonMap;
 
-extern u16 D_800273CC[8];
+
+extern u16 D_800273CC[];
 extern u8 D_8002744C[9];
 extern u8 D_8002744D[9];
 
 /* Copies a 7-by-7 tile region from the source grid into the dungeon map around the current coordinates. */
-void func_8196048C(void)
+void func_80025C8C(void)
 {
     s8 *dungeon_state;
     DungeonMap *map;

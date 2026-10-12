@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_197e800.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -6,98 +7,28 @@
 #include "shared/object_flags.h"
 #include "shared/dir_step.h"
 
-typedef struct {
-    u16 x;
-    u16 y;
-    u16 z;
-} Vec3s;
 
-typedef struct {
-    u8 pad0[0x30];
-    s16 x;
-    s16 y;
-    s16 z;
-    u8 pad36[2];
-    s16 cur_x;
-    s16 cur_y;
-    s16 cur_z;
-    u8 pad3e[0xA];
-    s16 state;
-    u8 pad4a[2];
-    s16 timer;
-    u8 pad4e[2];
-    s16 phase;
-    u8 pad52[2];
-    s16 step;
-} State;
 
-typedef struct {
-    u8 pad0[2];
-    s16 cur_x;
-    u8 pad4[2];
-    s16 cur_y;
-    u8 pad8[2];
-    s16 cur_z;
-    u8 intensity;
-    u8 padD;
-    s16 x;
-    u8 pad10[2];
-    s16 y;
-    u8 pad14[2];
-    s16 z;
-} Target;
 
-typedef struct S_func_819615E4_0 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-} S_func_819615E4_0;
 
-typedef struct S_func_819615E4_1 {
-    u8 pad_00[2];
-    u16 unk_02;
-    u8 pad_04[2];
-    u16 unk_06;
-} S_func_819615E4_1;
 
-typedef struct S_func_819615E4_2 {
-    u8 pad_00[0x2A];
-    union {
-        s16 s16_value;
-        u16 u16_value;
-    } unk_2A;
-    u8 pad_2C[0x5C];
-    union {
-        s16 s16_value;
-        u16 u16_value;
-    } unk_88;
-} S_func_819615E4_2;
 
-typedef struct S_func_819615E4_3 {
-    void *unk_00;
-} S_func_819615E4_3;
 
-typedef struct S_func_819615E4_4 {
-    u8 pad_00[8];
-    void *unk_08;
-    u8 pad_0C[0x18];
-    u8 unk_24;
-    u8 unk_25;
-} S_func_819615E4_4;
 
-typedef struct S_func_819615E4_5 {
-    s16 unk_00;
-} S_func_819615E4_5;
 
-typedef struct S_func_819615E4_6 {
-    s16 unk_00;
-} S_func_819615E4_6;
 
-extern u16 D_80027330[];
+
+
+
+
+
+
+
+
+
+
 extern void **D_800E3D18;
 
-extern void func_80025334(s16, s16, s16);
-extern void func_8003DE58(void *, void *, Vec3s *, s16);
-extern void func_800B8D64(s16, s16, s16);
 
 /* Interpolate the target position, fade its color, and finish the transition. */
 /* MECHANISM: state->state selects with a switch, cases 0..3 laid out in source order so the
@@ -107,7 +38,7 @@ extern void func_800B8D64(s16, s16, s16);
    case 1 ends with the same `state->state = value + 1; return` tail as case 2 (written out
    in both arms), and case 2's step != 0 path repeats case 3's flag-setting tail.  The 0x80080000 page plus 0x2E80 is the symbol D_80082E80,
    which is what frees the $2 pin; one u16 carrying the 5 and the 4 keeps the join value in v0. */
-void func_819615E4(State *state, Target *target, S_func_819615E4_0 *color)
+void func_80026DE4(State *state, Target *target, S_func_819615E4_0 *color)
 {
     Vec3s position_offset;
     Vec3s position;
@@ -117,7 +48,7 @@ void func_819615E4(State *state, Target *target, S_func_819615E4_0 *color)
     u16 phase_value;
     u16 const_reg;
 
-    D_80027330[0]++;
+    D_80027330++;
 
     switch (state->state) {
     case 0:

@@ -1,6 +1,6 @@
+#include "modules/dungeon_ovl_197e800.h"
 #include "common.h"
 
-extern s32 func_80024C3C();
 
 /* Sets tile bounds and dispatches tiles for a seven-by-seven grid. */
 s32 func_80025238(void *tile_data, s32 draw_arg_1, s32 draw_arg_2) {
