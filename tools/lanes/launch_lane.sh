@@ -1,5 +1,5 @@
 #!/bin/bash
-# Launch a codex lane:  bash tools/lanes/launch_lane.sh <lane directory name under work/native_lane> [luna|sol|luna6|sol6|sol61|astra|agy]
+# Launch a codex lane:  bash tools/lanes/launch_lane.sh <lane directory name under work/native_lane> [luna|sol|luna6|sol6|sol61|daybreak|astra|agy]
 # LANE_EFFORT=high|xhigh|max (codex reasoning effort, default xhigh; round 97: max probed OK on gpt-6-luna / gpt-6.1-sol).
 # luna/sol = gpt-5.6-luna/-sol, luna6/sol6 = gpt-6-luna/-sol (cheaper than astra; A/B them with tools/lanes/ab_report.py).
 # Lanes escalate luna -> sol -> astra (astra sparingly: docs/LANE_KIT.md). Only when no gate or publish will run
@@ -14,10 +14,11 @@ cd "$(dirname "$0")/../.."
 N=${1:?lane name}; D=work/native_lane/$N
 case "${2:-luna}" in astra) M=gpt-6-astra;; luna) M=gpt-5.6-luna;; sol) M=gpt-5.6-sol;;
   luna6) M=gpt-6-luna;; sol6) M=gpt-6-sol;; sol61) M=gpt-6.1-sol;;
+  daybreak) M=gpt-daybreak-blue-latest;;   # r114: defensive-cyber tier; use for gdb/compiler-instrumentation lanes the sol content filter stops
   agy) M=${AGY_MODEL:-gemini-3.8-flash-high};;
   # round 92: agy also serves Claude (claude-opus-5-5-{low,medium,high}, claude-sonnet-5-5-*); tier from agy_model.txt
   agyopus) M=${AGY_MODEL:-claude-opus-5-5-high};; agysonnet) M=${AGY_MODEL:-claude-sonnet-5-5-high};;
-  *) echo "model? luna|sol|luna6|sol6|sol61|astra|agy|agyopus|agysonnet"; exit 1;; esac
+  *) echo "model? luna|sol|luna6|sol6|sol61|daybreak|astra|agy|agyopus|agysonnet"; exit 1;; esac
 [ -f $D/BRIEF.md ] && [ -f $D/PROMPT.txt ] || { echo "pack incomplete: $D needs BRIEF.md and PROMPT.txt"; exit 1; }
 [ -f $D/last_message.txt ] && { echo "$D already ran (last_message.txt exists)"; exit 1; }
 P=$D/PROMPT.txt
