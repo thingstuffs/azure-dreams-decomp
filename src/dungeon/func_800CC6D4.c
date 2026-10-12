@@ -36,7 +36,7 @@ typedef struct S_800D1E34_2 {
         struct { u8 pad[0x2]; u16 v; } at02u;
     } unk_90;   /* overlapping accesses */
     u8 pad_94[0x4];
-    union { u16 n; volatile u16 v; } unk_98;   /* accessed as both */
+    u16 unk_98;
     u8 pad_9A[0x3];
     union { u8 n; s8 n2; u8 v; } unk_9D;   /* accessed as both */
 } S_800D1E34_2;   /* obj in func_800D1E34 */
@@ -75,7 +75,7 @@ void func_800D1E34(void *object_arg, void *motion_arg, void *entity_arg)
     ((S_800D1E34_1 *)motion)->unk_00.at00.v += ((S_800D1E34_1 *)motion)->unk_0C;
     ((S_800D1E34_1 *)motion)->unk_04.at00.v += ((S_800D1E34_1 *)motion)->unk_10;
 
-    if (((S_800D1E34_2 *)object)->unk_98.n & 8) {
+    if (((S_800D1E34_2 *)object)->unk_98 & 8) {
         ((S_800D1E34_2 *)object)->unk_9D.n = 0;
     } else {
         ((S_800D1E34_1 *)motion)->unk_14 += ((S_800D1E34_2 *)object)->unk_9D.n2 * 0x14000;
@@ -83,12 +83,12 @@ void func_800D1E34(void *object_arg, void *motion_arg, void *entity_arg)
     }
     ((S_800D1E34_2 *)object)->unk_90.at00.v += ((S_800D1E34_1 *)motion)->unk_14;
 
-    if (!(((S_800D1E34_2 *)object)->unk_98.v & 4)) {
+    if (!(((S_800D1E34_2 *)object)->unk_98 & 4)) {
         floor_height = func_800BCB04(((S_800D1E34_1 *)motion)->unk_00.at02.v, ((S_800D1E34_1 *)motion)->unk_04.at02.v,
                               (s16)((*(u16 *)((u8 *)object_base + (0x88))) - 0x20));
         if (floor_height < 0x200) {
             if (((S_800D1E34_2 *)object)->unk_90.at02.v + (*(s16 *)((u8 *)object_base + (0x88))) < floor_height) {
-                (void)((S_800D1E34_2 *)object)->unk_98.v;
+                ((S_800D1E34_2 *)object)->unk_98 &= 0xFFFF;   /* +0x98 no-op write-back: retail reads the field, the unchanged store compiles away (decision 39) */
             } else {
                 if (floor_height >= (*(s16 *)((u8 *)object_base + (0x88)))) {
                     ((S_800D1E34_2 *)object)->unk_90.at00.v = 0;
