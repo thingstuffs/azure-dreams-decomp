@@ -1,0 +1,775 @@
+{
+  "sections": {
+    "61444": {
+      "id": 61444,
+      "size": 0,
+      "name": ".rdata",
+      "definition_metadata_hex": "000008",
+      "data_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "initialised_bytes": 0
+    },
+    "61440": {
+      "id": 61440,
+      "size": 416,
+      "name": ".text",
+      "definition_metadata_hex": "000008",
+      "data_sha256": "0864f01eff7d758a3517fcfda4ef1d477fb05c513e18cb202706373c84cc0b9e",
+      "initialised_bytes": 416
+    },
+    "61441": {
+      "id": 61441,
+      "size": 0,
+      "name": ".data",
+      "definition_metadata_hex": "000008",
+      "data_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "initialised_bytes": 0
+    },
+    "61443": {
+      "id": 61443,
+      "size": 0,
+      "name": ".sdata",
+      "definition_metadata_hex": "000008",
+      "data_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "initialised_bytes": 0
+    },
+    "61445": {
+      "id": 61445,
+      "size": 0,
+      "name": ".bss",
+      "definition_metadata_hex": "000008",
+      "data_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "initialised_bytes": 0
+    },
+    "61442": {
+      "id": 61442,
+      "size": 16,
+      "name": ".sbss",
+      "definition_metadata_hex": "000008",
+      "data_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "initialised_bytes": 0
+    }
+  },
+  "symbols": [
+    {
+      "kind": "export",
+      "id": 2,
+      "section": 61440,
+      "offset": 88,
+      "name": "_patch_card"
+    },
+    {
+      "kind": "export",
+      "id": 3,
+      "section": 61440,
+      "offset": 272,
+      "name": "_patch_card2"
+    },
+    {
+      "kind": "import",
+      "id": 11,
+      "name": "EnterCriticalSection"
+    },
+    {
+      "kind": "import",
+      "id": 13,
+      "name": "FlushCache"
+    }
+  ],
+  "relocations": [
+    {
+      "section": 61440,
+      "offset": 0,
+      "type": 82,
+      "expression": [
+        "add",
+        [
+          "constant",
+          20
+        ],
+        [
+          "section_base",
+          61440
+        ]
+      ]
+    },
+    {
+      "section": 61440,
+      "offset": 4,
+      "type": 84,
+      "expression": [
+        "add",
+        [
+          "constant",
+          20
+        ],
+        [
+          "section_base",
+          61440
+        ]
+      ]
+    },
+    {
+      "section": 61440,
+      "offset": 60,
+      "type": 82,
+      "expression": [
+        "add",
+        [
+          "constant",
+          4
+        ],
+        [
+          "section_base",
+          61442
+        ]
+      ]
+    },
+    {
+      "section": 61440,
+      "offset": 64,
+      "type": 84,
+      "expression": [
+        "add",
+        [
+          "constant",
+          4
+        ],
+        [
+          "section_base",
+          61442
+        ]
+      ]
+    },
+    {
+      "section": 61440,
+      "offset": 88,
+      "type": 82,
+      "expression": [
+        "section_base",
+        61442
+      ]
+    },
+    {
+      "section": 61440,
+      "offset": 92,
+      "type": 84,
+      "expression": [
+        "section_base",
+        61442
+      ]
+    },
+    {
+      "section": 61440,
+      "offset": 96,
+      "type": 74,
+      "expression": [
+        "symbol",
+        11
+      ]
+    },
+    {
+      "section": 61440,
+      "offset": 152,
+      "type": 82,
+      "expression": [
+        "section_base",
+        61440
+      ]
+    },
+    {
+      "section": 61440,
+      "offset": 164,
+      "type": 84,
+      "expression": [
+        "section_base",
+        61440
+      ]
+    },
+    {
+      "section": 61440,
+      "offset": 156,
+      "type": 82,
+      "expression": [
+        "add",
+        [
+          "constant",
+          20
+        ],
+        [
+          "section_base",
+          61440
+        ]
+      ]
+    },
+    {
+      "section": 61440,
+      "offset": 168,
+      "type": 84,
+      "expression": [
+        "add",
+        [
+          "constant",
+          20
+        ],
+        [
+          "section_base",
+          61440
+        ]
+      ]
+    },
+    {
+      "section": 61440,
+      "offset": 192,
+      "type": 82,
+      "expression": [
+        "add",
+        [
+          "constant",
+          4
+        ],
+        [
+          "section_base",
+          61442
+        ]
+      ]
+    },
+    {
+      "section": 61440,
+      "offset": 200,
+      "type": 84,
+      "expression": [
+        "add",
+        [
+          "constant",
+          4
+        ],
+        [
+          "section_base",
+          61442
+        ]
+      ]
+    },
+    {
+      "section": 61440,
+      "offset": 196,
+      "type": 74,
+      "expression": [
+        "symbol",
+        13
+      ]
+    },
+    {
+      "section": 61440,
+      "offset": 204,
+      "type": 82,
+      "expression": [
+        "section_base",
+        61442
+      ]
+    },
+    {
+      "section": 61440,
+      "offset": 208,
+      "type": 84,
+      "expression": [
+        "section_base",
+        61442
+      ]
+    },
+    {
+      "section": 61440,
+      "offset": 224,
+      "type": 82,
+      "expression": [
+        "add",
+        [
+          "constant",
+          224
+        ],
+        [
+          "section_base",
+          61440
+        ]
+      ]
+    },
+    {
+      "section": 61440,
+      "offset": 228,
+      "type": 84,
+      "expression": [
+        "add",
+        [
+          "constant",
+          224
+        ],
+        [
+          "section_base",
+          61440
+        ]
+      ]
+    },
+    {
+      "section": 61440,
+      "offset": 272,
+      "type": 82,
+      "expression": [
+        "section_base",
+        61442
+      ]
+    },
+    {
+      "section": 61440,
+      "offset": 276,
+      "type": 84,
+      "expression": [
+        "section_base",
+        61442
+      ]
+    },
+    {
+      "section": 61440,
+      "offset": 280,
+      "type": 74,
+      "expression": [
+        "symbol",
+        11
+      ]
+    },
+    {
+      "section": 61440,
+      "offset": 304,
+      "type": 82,
+      "expression": [
+        "add",
+        [
+          "constant",
+          224
+        ],
+        [
+          "section_base",
+          61440
+        ]
+      ]
+    },
+    {
+      "section": 61440,
+      "offset": 316,
+      "type": 84,
+      "expression": [
+        "add",
+        [
+          "constant",
+          224
+        ],
+        [
+          "section_base",
+          61440
+        ]
+      ]
+    },
+    {
+      "section": 61440,
+      "offset": 308,
+      "type": 82,
+      "expression": [
+        "add",
+        [
+          "constant",
+          244
+        ],
+        [
+          "section_base",
+          61440
+        ]
+      ]
+    },
+    {
+      "section": 61440,
+      "offset": 320,
+      "type": 84,
+      "expression": [
+        "add",
+        [
+          "constant",
+          244
+        ],
+        [
+          "section_base",
+          61440
+        ]
+      ]
+    },
+    {
+      "section": 61440,
+      "offset": 352,
+      "type": 74,
+      "expression": [
+        "symbol",
+        13
+      ]
+    },
+    {
+      "section": 61440,
+      "offset": 360,
+      "type": 82,
+      "expression": [
+        "section_base",
+        61442
+      ]
+    },
+    {
+      "section": 61440,
+      "offset": 364,
+      "type": 84,
+      "expression": [
+        "section_base",
+        61442
+      ]
+    }
+  ],
+  "debug": [
+    {
+      "kind": "cpu",
+      "value": 7
+    }
+  ],
+  "records": [
+    {
+      "file_offset": "0x4",
+      "command": 46
+    },
+    {
+      "file_offset": "0x6",
+      "command": 16
+    },
+    {
+      "file_offset": "0x13",
+      "command": 16
+    },
+    {
+      "file_offset": "0x1f",
+      "command": 16
+    },
+    {
+      "file_offset": "0x2b",
+      "command": 16
+    },
+    {
+      "file_offset": "0x38",
+      "command": 16
+    },
+    {
+      "file_offset": "0x43",
+      "command": 16
+    },
+    {
+      "file_offset": "0x4f",
+      "command": 12
+    },
+    {
+      "file_offset": "0x64",
+      "command": 12
+    },
+    {
+      "file_offset": "0x7a",
+      "command": 14
+    },
+    {
+      "file_offset": "0x92",
+      "command": 14
+    },
+    {
+      "file_offset": "0xa0",
+      "command": 6
+    },
+    {
+      "file_offset": "0xa3",
+      "command": 2
+    },
+    {
+      "file_offset": "0x246",
+      "command": 10
+    },
+    {
+      "file_offset": "0x253",
+      "command": 10
+    },
+    {
+      "file_offset": "0x260",
+      "command": 10
+    },
+    {
+      "file_offset": "0x26d",
+      "command": 10
+    },
+    {
+      "file_offset": "0x27a",
+      "command": 10
+    },
+    {
+      "file_offset": "0x281",
+      "command": 10
+    },
+    {
+      "file_offset": "0x288",
+      "command": 10
+    },
+    {
+      "file_offset": "0x28f",
+      "command": 10
+    },
+    {
+      "file_offset": "0x296",
+      "command": 10
+    },
+    {
+      "file_offset": "0x29d",
+      "command": 10
+    },
+    {
+      "file_offset": "0x2aa",
+      "command": 10
+    },
+    {
+      "file_offset": "0x2b7",
+      "command": 10
+    },
+    {
+      "file_offset": "0x2c4",
+      "command": 10
+    },
+    {
+      "file_offset": "0x2d1",
+      "command": 10
+    },
+    {
+      "file_offset": "0x2d8",
+      "command": 10
+    },
+    {
+      "file_offset": "0x2df",
+      "command": 10
+    },
+    {
+      "file_offset": "0x2e6",
+      "command": 10
+    },
+    {
+      "file_offset": "0x2f3",
+      "command": 10
+    },
+    {
+      "file_offset": "0x300",
+      "command": 10
+    },
+    {
+      "file_offset": "0x307",
+      "command": 10
+    },
+    {
+      "file_offset": "0x30e",
+      "command": 10
+    },
+    {
+      "file_offset": "0x315",
+      "command": 10
+    },
+    {
+      "file_offset": "0x322",
+      "command": 10
+    },
+    {
+      "file_offset": "0x32f",
+      "command": 10
+    },
+    {
+      "file_offset": "0x33c",
+      "command": 10
+    },
+    {
+      "file_offset": "0x349",
+      "command": 10
+    },
+    {
+      "file_offset": "0x350",
+      "command": 10
+    },
+    {
+      "file_offset": "0x357",
+      "command": 10
+    },
+    {
+      "file_offset": "0x35e",
+      "command": 6
+    },
+    {
+      "file_offset": "0x361",
+      "command": 8
+    },
+    {
+      "file_offset": "0x366",
+      "command": 0
+    }
+  ],
+  "end_offset": 871,
+  "trailing_object_bytes": 0,
+  "archive_url": "https://archive.org/download/ps1_sdks/Programmer%20Tools%20Runtime%20Library%203.6%20DTL-S2002%20CD%20Release%201.0.zip/DTL-S2002%20PS1%20Programmer%20Tool.bin",
+  "iso_volume_id": "PROGRAMMER TOOLS CD",
+  "raw_sector_size": 2352,
+  "user_data_offset": 24,
+  "iso_creation_time_raw": "31393936313231333031303932363030e1",
+  "iso_modification_time_raw": "3030303030303030303030303030303000",
+  "iso_libcard_lba": 75450,
+  "iso_libcard_size": 4345,
+  "library_sha256": "c0b60a9c835b13c6e9abd97590a4cfbdc0d17641d6d4b35e41fead8a0143e513",
+  "object_sha256": "db12f78375df9446125b3347b8a353d1b106e7ebfcd689a5052dbebd9e43cbab",
+  "library_members": [
+    {
+      "name": "C112.OBJ",
+      "archive_offset": 4,
+      "object_offset": 34,
+      "object_size": 120,
+      "archive_header_word_raw": "0x72852143",
+      "object_sha256": "60e897ea14e9357ee5b90232f4be74a0d8e43696c2a79dceb9b3a10ef058d8f5"
+    },
+    {
+      "name": "C171.OBJ",
+      "archive_offset": 154,
+      "object_offset": 186,
+      "object_size": 122,
+      "archive_header_word_raw": "0x72852143",
+      "object_sha256": "4fd23713c05e3d87b5ea05fd64c7f53fa5ba2f39175e3f3d747f069642d10243"
+    },
+    {
+      "name": "C172.OBJ",
+      "archive_offset": 308,
+      "object_offset": 340,
+      "object_size": 122,
+      "archive_header_word_raw": "0x72852143",
+      "object_sha256": "e73f1afbd20927f07bab993e88d05df9cd0b79201e183557abf66ed42688cd0e"
+    },
+    {
+      "name": "C173.OBJ",
+      "archive_offset": 462,
+      "object_offset": 494,
+      "object_size": 122,
+      "archive_header_word_raw": "0x72852143",
+      "object_sha256": "31a5c9b8da54e4a22be6279ad621808b46fef1c90de228e40e6741daa76cf791"
+    },
+    {
+      "name": "A74.OBJ",
+      "archive_offset": 616,
+      "object_offset": 647,
+      "object_size": 121,
+      "archive_header_word_raw": "0x72852143",
+      "object_sha256": "2875fc7e09bc5ca12e791ac866f88d6ed69bbb47c926df11c40bd5491ae9277a"
+    },
+    {
+      "name": "A75.OBJ",
+      "archive_offset": 768,
+      "object_offset": 800,
+      "object_size": 122,
+      "archive_header_word_raw": "0x72852143",
+      "object_sha256": "c71c1705f2f9c70fcc095c5f10ca2cfd8852a1b8526d7ecfd3b2fc94a64e10ea"
+    },
+    {
+      "name": "A76.OBJ",
+      "archive_offset": 922,
+      "object_offset": 953,
+      "object_size": 121,
+      "archive_header_word_raw": "0x72852143",
+      "object_sha256": "766bfb57537a2975aa12158b5e7f52557dfe01565167dab8b9c8af2255225cd2"
+    },
+    {
+      "name": "A78.OBJ",
+      "archive_offset": 1074,
+      "object_offset": 1107,
+      "object_size": 123,
+      "archive_header_word_raw": "0x72852143",
+      "object_sha256": "5d1785e350a0737c6c2b157bb48de400522197d36b7e19113c5ecf854f9fedfc"
+    },
+    {
+      "name": "A79.OBJ",
+      "archive_offset": 1230,
+      "object_offset": 1262,
+      "object_size": 122,
+      "archive_header_word_raw": "0x72852143",
+      "object_sha256": "6c64c487ea1d003357b16174e4ade207c71d6c02b8816a45af87d12c75018dfb"
+    },
+    {
+      "name": "A80.OBJ",
+      "archive_offset": 1384,
+      "object_offset": 1415,
+      "object_size": 121,
+      "archive_header_word_raw": "0x72852143",
+      "object_sha256": "9d9d82d340f666fa3ffa42c2b7878884bc1d6614d3ed79ef36c3a9c7e5010ebd"
+    },
+    {
+      "name": "A88.OBJ",
+      "archive_offset": 1536,
+      "object_offset": 1568,
+      "object_size": 122,
+      "archive_header_word_raw": "0x72852143",
+      "object_sha256": "8c930c80560d7795ba67b64e1c271efbabf5eac89371cbb4ffec38a651dee376"
+    },
+    {
+      "name": "A92.OBJ",
+      "archive_offset": 1690,
+      "object_offset": 1724,
+      "object_size": 124,
+      "archive_header_word_raw": "0x72862143",
+      "object_sha256": "143881b8b93c18af665c2b20fed51522be537fc952ca5b05250783a2469049a9"
+    },
+    {
+      "name": "A93.OBJ",
+      "archive_offset": 1848,
+      "object_offset": 1880,
+      "object_size": 122,
+      "archive_header_word_raw": "0x72862143",
+      "object_sha256": "ce6d095967826b3c12b241240da31d4e764200d19f382f3aaa877a0ebb11b319"
+    },
+    {
+      "name": "CARD.OBJ",
+      "archive_offset": 2002,
+      "object_offset": 2035,
+      "object_size": 266,
+      "archive_header_word_raw": "0x72862143",
+      "object_sha256": "d0c3d01e72cd52b09374ff3f6f900107a99e4e8089701ef77e557f9046b84a1d"
+    },
+    {
+      "name": "PATCH.OBJ",
+      "archive_offset": 2301,
+      "object_offset": 2347,
+      "object_size": 871,
+      "archive_header_word_raw": "0x72862143",
+      "object_sha256": "db12f78375df9446125b3347b8a353d1b106e7ebfcd689a5052dbebd9e43cbab"
+    },
+    {
+      "name": "INIT.OBJ",
+      "archive_offset": 3218,
+      "object_offset": 3267,
+      "object_size": 644,
+      "archive_header_word_raw": "0x72862143",
+      "object_sha256": "a194a312b2d0bd5102a48b5b9cdd4d40a04741d5a8ab65f083a656fbfc65bf4d"
+    },
+    {
+      "name": "END.OBJ",
+      "archive_offset": 3911,
+      "object_offset": 3942,
+      "object_size": 403,
+      "archive_header_word_raw": "0x72862143",
+      "object_sha256": "140c9b3123d78c164e2d88d02e65929478fff9e594a30ae5670720f9b8c37f5e"
+    }
+  ],
+  "catalog_comparison": {
+    "text_size": 416,
+    "catalog_fixed_byte_mismatches": [],
+    "catalog_unspecified_bytes": 60,
+    "original_vs_linked_changed_bytes": 60,
+    "all_changed_bytes_in_relocation_fields": true,
+    "all_catalog_wildcards_covered_by_original_relocations": true,
+    "row_24_bytes_equal_unmasked": true,
+    "row_has_relocations": false
+  },
+  "reviewer": "pending"
+}

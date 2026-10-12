@@ -1,0 +1,207 @@
+{
+  "kind": "DIAGNOSTIC_RELOCATION_REPLAY_NOT_GATE",
+  "independent_repo_reader_agrees": true,
+  "reference_reader_source": "tools/fidelity/objread.py (lane-owned copy)",
+  "reference_reader_sha256": "4cab76dc7c0628e784d286eb994bf45764dc03dc037da2127ef8ffecc180840f",
+  "bindings": [
+    {
+      "name": ".text",
+      "address": "0x80408848",
+      "evidence": "Independent devkit-image link map and self/template pointer fields"
+    },
+    {
+      "name": ".sbss",
+      "address": "0x8040923c",
+      "evidence": "Decoded from the return-address save/load fields; size 16 in the original object"
+    },
+    {
+      "name": "EnterCriticalSection",
+      "address": "0x8007ca38",
+      "evidence": "Original import 11; decoded retail call fields at +0x60 and +0x118"
+    },
+    {
+      "name": "FlushCache",
+      "address": "0x8007c938",
+      "evidence": "Original import 13; decoded retail call fields at +0xc4 and +0x160"
+    }
+  ],
+  "qualification": "Bindings include retail-derived values; this is consistent relocation/provenance evidence, not independent SDK link-map recovery or production byte proof.",
+  "bytes_compared": 416,
+  "masked_bytes": 0,
+  "retail_fallback_bytes": 0,
+  "relocations_replayed": 28,
+  "replayed_sha256": "da6667239d5da39af0582721d7ca40011ec5d51becdb020d3b1c155a8e856634",
+  "wrong_binding_control_refused": true,
+  "wrong_binding_mismatching_bytes": 6,
+  "relocations": [
+    {
+      "offset": "0x0",
+      "type": 82,
+      "target": "0x8040885c",
+      "linked_word": "0x3c028041"
+    },
+    {
+      "offset": "0x4",
+      "type": 84,
+      "target": "0x8040885c",
+      "linked_word": "0x2442885c"
+    },
+    {
+      "offset": "0x3c",
+      "type": 82,
+      "target": "0x80409240",
+      "linked_word": "0x3c028041"
+    },
+    {
+      "offset": "0x40",
+      "type": 84,
+      "target": "0x80409240",
+      "linked_word": "0x8c429240"
+    },
+    {
+      "offset": "0x58",
+      "type": 82,
+      "target": "0x8040923c",
+      "linked_word": "0x3c018041"
+    },
+    {
+      "offset": "0x5c",
+      "type": 84,
+      "target": "0x8040923c",
+      "linked_word": "0xac3f923c"
+    },
+    {
+      "offset": "0x60",
+      "type": 74,
+      "target": "0x8007ca38",
+      "linked_word": "0xc01f28e"
+    },
+    {
+      "offset": "0x98",
+      "type": 82,
+      "target": "0x80408848",
+      "linked_word": "0x3c0a8041"
+    },
+    {
+      "offset": "0xa4",
+      "type": 84,
+      "target": "0x80408848",
+      "linked_word": "0x254a8848"
+    },
+    {
+      "offset": "0x9c",
+      "type": 82,
+      "target": "0x8040885c",
+      "linked_word": "0x3c098041"
+    },
+    {
+      "offset": "0xa8",
+      "type": 84,
+      "target": "0x8040885c",
+      "linked_word": "0x2529885c"
+    },
+    {
+      "offset": "0xc0",
+      "type": 82,
+      "target": "0x80409240",
+      "linked_word": "0x3c018041"
+    },
+    {
+      "offset": "0xc8",
+      "type": 84,
+      "target": "0x80409240",
+      "linked_word": "0xac229240"
+    },
+    {
+      "offset": "0xc4",
+      "type": 74,
+      "target": "0x8007c938",
+      "linked_word": "0xc01f24e"
+    },
+    {
+      "offset": "0xcc",
+      "type": 82,
+      "target": "0x8040923c",
+      "linked_word": "0x3c1f8041"
+    },
+    {
+      "offset": "0xd0",
+      "type": 84,
+      "target": "0x8040923c",
+      "linked_word": "0x8fff923c"
+    },
+    {
+      "offset": "0xe0",
+      "type": 82,
+      "target": "0x80408928",
+      "linked_word": "0x3c088041"
+    },
+    {
+      "offset": "0xe4",
+      "type": 84,
+      "target": "0x80408928",
+      "linked_word": "0x25088928"
+    },
+    {
+      "offset": "0x110",
+      "type": 82,
+      "target": "0x8040923c",
+      "linked_word": "0x3c018041"
+    },
+    {
+      "offset": "0x114",
+      "type": 84,
+      "target": "0x8040923c",
+      "linked_word": "0xac3f923c"
+    },
+    {
+      "offset": "0x118",
+      "type": 74,
+      "target": "0x8007ca38",
+      "linked_word": "0xc01f28e"
+    },
+    {
+      "offset": "0x130",
+      "type": 82,
+      "target": "0x80408928",
+      "linked_word": "0x3c0a8041"
+    },
+    {
+      "offset": "0x13c",
+      "type": 84,
+      "target": "0x80408928",
+      "linked_word": "0x254a8928"
+    },
+    {
+      "offset": "0x134",
+      "type": 82,
+      "target": "0x8040893c",
+      "linked_word": "0x3c098041"
+    },
+    {
+      "offset": "0x140",
+      "type": 84,
+      "target": "0x8040893c",
+      "linked_word": "0x2529893c"
+    },
+    {
+      "offset": "0x160",
+      "type": 74,
+      "target": "0x8007c938",
+      "linked_word": "0xc01f24e"
+    },
+    {
+      "offset": "0x168",
+      "type": 82,
+      "target": "0x8040923c",
+      "linked_word": "0x3c1f8041"
+    },
+    {
+      "offset": "0x16c",
+      "type": 84,
+      "target": "0x8040923c",
+      "linked_word": "0x8fff923c"
+    }
+  ],
+  "reviewer": "pending"
+}

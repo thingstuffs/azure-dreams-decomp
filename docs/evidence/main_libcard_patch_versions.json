@@ -1,0 +1,1605 @@
+[
+  {
+    "version": "260",
+    "catalog_has_patch": false
+  },
+  {
+    "version": "300",
+    "catalog_has_patch": false
+  },
+  {
+    "version": "330",
+    "catalog_has_patch": false
+  },
+  {
+    "version": "340",
+    "catalog_has_patch": false
+  },
+  {
+    "version": "350",
+    "catalog_has_patch": false
+  },
+  {
+    "version": "3610",
+    "catalog_has_patch": true,
+    "object": "PATCH.OBJ",
+    "file_start": "0x271848",
+    "whole_object": {
+      "in_bounds": true,
+      "size": 416,
+      "specified_bytes": 356,
+      "unspecified_bytes": 60,
+      "matching_specified_bytes": 356,
+      "mismatch_count": 0,
+      "first_mismatches": [],
+      "exact": true
+    },
+    "whole_object_occurrences_in_main": [
+      "0x271848"
+    ],
+    "row_offsets_in_signature": [
+      "0x17c"
+    ],
+    "signature_sha256": "cfe5bcc8f7f10a0aa69aef9e3939f446c4c16709826eb5baf8838de417fd9e65",
+    "public_labels": [
+      {
+        "name": "_patch_card",
+        "offset": 88
+      },
+      {
+        "name": "_patch_card2",
+        "offset": 272
+      }
+    ],
+    "all_catalog_labels": [
+      {
+        "name": "loc_0",
+        "offset": 0
+      },
+      {
+        "name": "text_14",
+        "offset": 20
+      },
+      {
+        "name": "loc_28",
+        "offset": 40
+      },
+      {
+        "name": "loc_50",
+        "offset": 80
+      },
+      {
+        "name": "_patch_card",
+        "offset": 88
+      },
+      {
+        "name": "loc_AC",
+        "offset": 172
+      },
+      {
+        "name": "text_E0",
+        "offset": 224
+      },
+      {
+        "name": "text_F4",
+        "offset": 244
+      },
+      {
+        "name": "loc_FC",
+        "offset": 252
+      },
+      {
+        "name": "_patch_card2",
+        "offset": 272
+      },
+      {
+        "name": "loc_144",
+        "offset": 324
+      },
+      {
+        "name": "loc_184",
+        "offset": 388
+      }
+    ]
+  },
+  {
+    "version": "3611",
+    "catalog_has_patch": true,
+    "object": "PATCH.OBJ",
+    "file_start": "0x271848",
+    "whole_object": {
+      "in_bounds": true,
+      "size": 416,
+      "specified_bytes": 356,
+      "unspecified_bytes": 60,
+      "matching_specified_bytes": 356,
+      "mismatch_count": 0,
+      "first_mismatches": [],
+      "exact": true
+    },
+    "whole_object_occurrences_in_main": [
+      "0x271848"
+    ],
+    "row_offsets_in_signature": [
+      "0x17c"
+    ],
+    "signature_sha256": "cfe5bcc8f7f10a0aa69aef9e3939f446c4c16709826eb5baf8838de417fd9e65",
+    "public_labels": [
+      {
+        "name": "_patch_card",
+        "offset": 88
+      },
+      {
+        "name": "_patch_card2",
+        "offset": 272
+      }
+    ],
+    "all_catalog_labels": [
+      {
+        "name": "loc_0",
+        "offset": 0
+      },
+      {
+        "name": "text_14",
+        "offset": 20
+      },
+      {
+        "name": "loc_28",
+        "offset": 40
+      },
+      {
+        "name": "loc_50",
+        "offset": 80
+      },
+      {
+        "name": "_patch_card",
+        "offset": 88
+      },
+      {
+        "name": "loc_AC",
+        "offset": 172
+      },
+      {
+        "name": "text_E0",
+        "offset": 224
+      },
+      {
+        "name": "text_F4",
+        "offset": 244
+      },
+      {
+        "name": "loc_FC",
+        "offset": 252
+      },
+      {
+        "name": "_patch_card2",
+        "offset": 272
+      },
+      {
+        "name": "loc_144",
+        "offset": 324
+      },
+      {
+        "name": "loc_184",
+        "offset": 388
+      }
+    ]
+  },
+  {
+    "version": "370",
+    "catalog_has_patch": true,
+    "object": "PATCH.OBJ",
+    "file_start": "0x271848",
+    "whole_object": {
+      "in_bounds": true,
+      "size": 416,
+      "specified_bytes": 356,
+      "unspecified_bytes": 60,
+      "matching_specified_bytes": 356,
+      "mismatch_count": 0,
+      "first_mismatches": [],
+      "exact": true
+    },
+    "whole_object_occurrences_in_main": [
+      "0x271848"
+    ],
+    "row_offsets_in_signature": [
+      "0x17c"
+    ],
+    "signature_sha256": "cfe5bcc8f7f10a0aa69aef9e3939f446c4c16709826eb5baf8838de417fd9e65",
+    "public_labels": [
+      {
+        "name": "_patch_card",
+        "offset": 88
+      },
+      {
+        "name": "_patch_card2",
+        "offset": 272
+      }
+    ],
+    "all_catalog_labels": [
+      {
+        "name": "loc_0",
+        "offset": 0
+      },
+      {
+        "name": "text_14",
+        "offset": 20
+      },
+      {
+        "name": "loc_28",
+        "offset": 40
+      },
+      {
+        "name": "loc_50",
+        "offset": 80
+      },
+      {
+        "name": "_patch_card",
+        "offset": 88
+      },
+      {
+        "name": "loc_AC",
+        "offset": 172
+      },
+      {
+        "name": "text_E0",
+        "offset": 224
+      },
+      {
+        "name": "text_F4",
+        "offset": 244
+      },
+      {
+        "name": "loc_FC",
+        "offset": 252
+      },
+      {
+        "name": "_patch_card2",
+        "offset": 272
+      },
+      {
+        "name": "loc_144",
+        "offset": 324
+      },
+      {
+        "name": "loc_184",
+        "offset": 388
+      }
+    ]
+  },
+  {
+    "version": "400",
+    "catalog_has_patch": true,
+    "object": "PATCH.OBJ",
+    "file_start": "0x271848",
+    "whole_object": {
+      "in_bounds": true,
+      "size": 416,
+      "specified_bytes": 356,
+      "unspecified_bytes": 60,
+      "matching_specified_bytes": 194,
+      "mismatch_count": 162,
+      "first_mismatches": [
+        {
+          "offset": "0xb0",
+          "expected": "00",
+          "actual": "04"
+        },
+        {
+          "offset": "0xb2",
+          "expected": "48",
+          "actual": "4a"
+        },
+        {
+          "offset": "0xb3",
+          "expected": "8c",
+          "actual": "25"
+        },
+        {
+          "offset": "0xb6",
+          "expected": "4a",
+          "actual": "42"
+        },
+        {
+          "offset": "0xb7",
+          "expected": "25",
+          "actual": "24"
+        },
+        {
+          "offset": "0xb8",
+          "expected": "00",
+          "actual": "fc"
+        },
+        {
+          "offset": "0xb9",
+          "expected": "00",
+          "actual": "ff"
+        },
+        {
+          "offset": "0xba",
+          "expected": "43",
+          "actual": "49"
+        },
+        {
+          "offset": "0xbb",
+          "expected": "ac",
+          "actual": "15"
+        },
+        {
+          "offset": "0xbc",
+          "expected": "04",
+          "actual": "fc"
+        },
+        {
+          "offset": "0xbd",
+          "expected": "00",
+          "actual": "ff"
+        },
+        {
+          "offset": "0xbe",
+          "expected": "42",
+          "actual": "43"
+        },
+        {
+          "offset": "0xbf",
+          "expected": "24",
+          "actual": "ac"
+        },
+        {
+          "offset": "0xc0",
+          "expected": "fa",
+          "actual": "41"
+        },
+        {
+          "offset": "0xc1",
+          "expected": "ff",
+          "actual": "80"
+        },
+        {
+          "offset": "0xc2",
+          "expected": "49",
+          "actual": "01"
+        }
+      ],
+      "exact": false
+    },
+    "whole_object_occurrences_in_main": [],
+    "row_offsets_in_signature": [
+      "0x184"
+    ],
+    "signature_sha256": "b26146aeef49a7941441307b6fc76b7f2d90be0842281b907f6a20233c7a9a94",
+    "public_labels": [
+      {
+        "name": "_patch_card",
+        "offset": 88
+      },
+      {
+        "name": "_patch_card2",
+        "offset": 280
+      }
+    ],
+    "all_catalog_labels": [
+      {
+        "name": "loc_0",
+        "offset": 0
+      },
+      {
+        "name": "text_14",
+        "offset": 20
+      },
+      {
+        "name": "loc_28",
+        "offset": 40
+      },
+      {
+        "name": "loc_50",
+        "offset": 80
+      },
+      {
+        "name": "_patch_card",
+        "offset": 88
+      },
+      {
+        "name": "loc_AC",
+        "offset": 172
+      },
+      {
+        "name": "text_E8",
+        "offset": 232
+      },
+      {
+        "name": "text_FC",
+        "offset": 252
+      },
+      {
+        "name": "loc_104",
+        "offset": 260
+      },
+      {
+        "name": "_patch_card2",
+        "offset": 280
+      },
+      {
+        "name": "loc_14C",
+        "offset": 332
+      },
+      {
+        "name": "loc_18C",
+        "offset": 396
+      }
+    ]
+  },
+  {
+    "version": "410",
+    "catalog_has_patch": true,
+    "object": "PATCH.OBJ",
+    "file_start": "0x271848",
+    "whole_object": {
+      "in_bounds": true,
+      "size": 464,
+      "specified_bytes": 412,
+      "unspecified_bytes": 52,
+      "matching_specified_bytes": 58,
+      "mismatch_count": 354,
+      "first_mismatches": [
+        {
+          "offset": "0x0",
+          "expected": "0a",
+          "actual": "41"
+        },
+        {
+          "offset": "0x1",
+          "expected": "00",
+          "actual": "80"
+        },
+        {
+          "offset": "0x2",
+          "expected": "6f",
+          "actual": "02"
+        },
+        {
+          "offset": "0x3",
+          "expected": "94",
+          "actual": "3c"
+        },
+        {
+          "offset": "0x4",
+          "expected": "00",
+          "actual": "5c"
+        },
+        {
+          "offset": "0x5",
+          "expected": "00",
+          "actual": "88"
+        },
+        {
+          "offset": "0x6",
+          "expected": "08",
+          "actual": "42"
+        },
+        {
+          "offset": "0x7",
+          "expected": "3c",
+          "actual": "24"
+        },
+        {
+          "offset": "0x8",
+          "expected": "25",
+          "actual": "08"
+        },
+        {
+          "offset": "0x9",
+          "expected": "c0",
+          "actual": "00"
+        },
+        {
+          "offset": "0xa",
+          "expected": "e2",
+          "actual": "40"
+        },
+        {
+          "offset": "0xb",
+          "expected": "01",
+          "actual": "00"
+        },
+        {
+          "offset": "0xc",
+          "expected": "12",
+          "actual": "00"
+        },
+        {
+          "offset": "0xe",
+          "expected": "19",
+          "actual": "00"
+        },
+        {
+          "offset": "0xf",
+          "expected": "37",
+          "actual": "00"
+        },
+        {
+          "offset": "0x10",
+          "expected": "0a",
+          "actual": "00"
+        }
+      ],
+      "exact": false
+    },
+    "whole_object_occurrences_in_main": [],
+    "row_offsets_in_signature": [],
+    "signature_sha256": "d481a842f0219c88df8b46d1a971ce9eb86bb79f4706f9f8cc7de8d45575ccd9",
+    "public_labels": [
+      {
+        "name": "_patch_card",
+        "offset": 152
+      },
+      {
+        "name": "_patch_card2",
+        "offset": 300
+      },
+      {
+        "name": "_copy_memcard_patch",
+        "offset": 412
+      }
+    ],
+    "all_catalog_labels": [
+      {
+        "name": "loc_0",
+        "offset": 0
+      },
+      {
+        "name": "loc_18",
+        "offset": 24
+      },
+      {
+        "name": "loc_40",
+        "offset": 64
+      },
+      {
+        "name": "loc_68",
+        "offset": 104
+      },
+      {
+        "name": "text_70",
+        "offset": 112
+      },
+      {
+        "name": "text_84",
+        "offset": 132
+      },
+      {
+        "name": "_patch_card",
+        "offset": 152
+      },
+      {
+        "name": "loc_F4",
+        "offset": 244
+      },
+      {
+        "name": "_patch_card2",
+        "offset": 300
+      },
+      {
+        "name": "loc_168",
+        "offset": 360
+      },
+      {
+        "name": "_copy_memcard_patch",
+        "offset": 412
+      },
+      {
+        "name": "loc_1B0",
+        "offset": 432
+      }
+    ]
+  },
+  {
+    "version": "420",
+    "catalog_has_patch": true,
+    "object": "PATCH.OBJ",
+    "file_start": "0x271848",
+    "whole_object": {
+      "in_bounds": true,
+      "size": 464,
+      "specified_bytes": 412,
+      "unspecified_bytes": 52,
+      "matching_specified_bytes": 58,
+      "mismatch_count": 354,
+      "first_mismatches": [
+        {
+          "offset": "0x0",
+          "expected": "0a",
+          "actual": "41"
+        },
+        {
+          "offset": "0x1",
+          "expected": "00",
+          "actual": "80"
+        },
+        {
+          "offset": "0x2",
+          "expected": "6f",
+          "actual": "02"
+        },
+        {
+          "offset": "0x3",
+          "expected": "94",
+          "actual": "3c"
+        },
+        {
+          "offset": "0x4",
+          "expected": "00",
+          "actual": "5c"
+        },
+        {
+          "offset": "0x5",
+          "expected": "00",
+          "actual": "88"
+        },
+        {
+          "offset": "0x6",
+          "expected": "08",
+          "actual": "42"
+        },
+        {
+          "offset": "0x7",
+          "expected": "3c",
+          "actual": "24"
+        },
+        {
+          "offset": "0x8",
+          "expected": "25",
+          "actual": "08"
+        },
+        {
+          "offset": "0x9",
+          "expected": "c0",
+          "actual": "00"
+        },
+        {
+          "offset": "0xa",
+          "expected": "e2",
+          "actual": "40"
+        },
+        {
+          "offset": "0xb",
+          "expected": "01",
+          "actual": "00"
+        },
+        {
+          "offset": "0xc",
+          "expected": "12",
+          "actual": "00"
+        },
+        {
+          "offset": "0xe",
+          "expected": "19",
+          "actual": "00"
+        },
+        {
+          "offset": "0xf",
+          "expected": "37",
+          "actual": "00"
+        },
+        {
+          "offset": "0x10",
+          "expected": "0a",
+          "actual": "00"
+        }
+      ],
+      "exact": false
+    },
+    "whole_object_occurrences_in_main": [],
+    "row_offsets_in_signature": [],
+    "signature_sha256": "d481a842f0219c88df8b46d1a971ce9eb86bb79f4706f9f8cc7de8d45575ccd9",
+    "public_labels": [
+      {
+        "name": "_patch_card",
+        "offset": 152
+      },
+      {
+        "name": "_patch_card2",
+        "offset": 300
+      },
+      {
+        "name": "_copy_memcard_patch",
+        "offset": 412
+      }
+    ],
+    "all_catalog_labels": [
+      {
+        "name": "loc_0",
+        "offset": 0
+      },
+      {
+        "name": "loc_18",
+        "offset": 24
+      },
+      {
+        "name": "loc_40",
+        "offset": 64
+      },
+      {
+        "name": "loc_68",
+        "offset": 104
+      },
+      {
+        "name": "text_70",
+        "offset": 112
+      },
+      {
+        "name": "text_84",
+        "offset": 132
+      },
+      {
+        "name": "_patch_card",
+        "offset": 152
+      },
+      {
+        "name": "loc_F4",
+        "offset": 244
+      },
+      {
+        "name": "_patch_card2",
+        "offset": 300
+      },
+      {
+        "name": "loc_168",
+        "offset": 360
+      },
+      {
+        "name": "_copy_memcard_patch",
+        "offset": 412
+      },
+      {
+        "name": "loc_1B0",
+        "offset": 432
+      }
+    ]
+  },
+  {
+    "version": "430",
+    "catalog_has_patch": true,
+    "object": "PATCH.OBJ",
+    "file_start": "0x271848",
+    "whole_object": {
+      "in_bounds": true,
+      "size": 464,
+      "specified_bytes": 412,
+      "unspecified_bytes": 52,
+      "matching_specified_bytes": 58,
+      "mismatch_count": 354,
+      "first_mismatches": [
+        {
+          "offset": "0x0",
+          "expected": "0a",
+          "actual": "41"
+        },
+        {
+          "offset": "0x1",
+          "expected": "00",
+          "actual": "80"
+        },
+        {
+          "offset": "0x2",
+          "expected": "6f",
+          "actual": "02"
+        },
+        {
+          "offset": "0x3",
+          "expected": "94",
+          "actual": "3c"
+        },
+        {
+          "offset": "0x4",
+          "expected": "00",
+          "actual": "5c"
+        },
+        {
+          "offset": "0x5",
+          "expected": "00",
+          "actual": "88"
+        },
+        {
+          "offset": "0x6",
+          "expected": "08",
+          "actual": "42"
+        },
+        {
+          "offset": "0x7",
+          "expected": "3c",
+          "actual": "24"
+        },
+        {
+          "offset": "0x8",
+          "expected": "25",
+          "actual": "08"
+        },
+        {
+          "offset": "0x9",
+          "expected": "c0",
+          "actual": "00"
+        },
+        {
+          "offset": "0xa",
+          "expected": "e2",
+          "actual": "40"
+        },
+        {
+          "offset": "0xb",
+          "expected": "01",
+          "actual": "00"
+        },
+        {
+          "offset": "0xc",
+          "expected": "12",
+          "actual": "00"
+        },
+        {
+          "offset": "0xe",
+          "expected": "19",
+          "actual": "00"
+        },
+        {
+          "offset": "0xf",
+          "expected": "37",
+          "actual": "00"
+        },
+        {
+          "offset": "0x10",
+          "expected": "0a",
+          "actual": "00"
+        }
+      ],
+      "exact": false
+    },
+    "whole_object_occurrences_in_main": [],
+    "row_offsets_in_signature": [],
+    "signature_sha256": "d481a842f0219c88df8b46d1a971ce9eb86bb79f4706f9f8cc7de8d45575ccd9",
+    "public_labels": [
+      {
+        "name": "_patch_card",
+        "offset": 152
+      },
+      {
+        "name": "_patch_card2",
+        "offset": 300
+      },
+      {
+        "name": "_copy_memcard_patch",
+        "offset": 412
+      }
+    ],
+    "all_catalog_labels": [
+      {
+        "name": "loc_0",
+        "offset": 0
+      },
+      {
+        "name": "loc_18",
+        "offset": 24
+      },
+      {
+        "name": "loc_40",
+        "offset": 64
+      },
+      {
+        "name": "loc_68",
+        "offset": 104
+      },
+      {
+        "name": "text_70",
+        "offset": 112
+      },
+      {
+        "name": "text_84",
+        "offset": 132
+      },
+      {
+        "name": "_patch_card",
+        "offset": 152
+      },
+      {
+        "name": "loc_F4",
+        "offset": 244
+      },
+      {
+        "name": "_patch_card2",
+        "offset": 300
+      },
+      {
+        "name": "loc_168",
+        "offset": 360
+      },
+      {
+        "name": "_copy_memcard_patch",
+        "offset": 412
+      },
+      {
+        "name": "loc_1B0",
+        "offset": 432
+      }
+    ]
+  },
+  {
+    "version": "440",
+    "catalog_has_patch": true,
+    "object": "PATCH.OBJ",
+    "file_start": "0x271848",
+    "whole_object": {
+      "in_bounds": true,
+      "size": 464,
+      "specified_bytes": 412,
+      "unspecified_bytes": 52,
+      "matching_specified_bytes": 58,
+      "mismatch_count": 354,
+      "first_mismatches": [
+        {
+          "offset": "0x0",
+          "expected": "0a",
+          "actual": "41"
+        },
+        {
+          "offset": "0x1",
+          "expected": "00",
+          "actual": "80"
+        },
+        {
+          "offset": "0x2",
+          "expected": "6f",
+          "actual": "02"
+        },
+        {
+          "offset": "0x3",
+          "expected": "94",
+          "actual": "3c"
+        },
+        {
+          "offset": "0x4",
+          "expected": "00",
+          "actual": "5c"
+        },
+        {
+          "offset": "0x5",
+          "expected": "00",
+          "actual": "88"
+        },
+        {
+          "offset": "0x6",
+          "expected": "08",
+          "actual": "42"
+        },
+        {
+          "offset": "0x7",
+          "expected": "3c",
+          "actual": "24"
+        },
+        {
+          "offset": "0x8",
+          "expected": "25",
+          "actual": "08"
+        },
+        {
+          "offset": "0x9",
+          "expected": "c0",
+          "actual": "00"
+        },
+        {
+          "offset": "0xa",
+          "expected": "e2",
+          "actual": "40"
+        },
+        {
+          "offset": "0xb",
+          "expected": "01",
+          "actual": "00"
+        },
+        {
+          "offset": "0xc",
+          "expected": "12",
+          "actual": "00"
+        },
+        {
+          "offset": "0xe",
+          "expected": "19",
+          "actual": "00"
+        },
+        {
+          "offset": "0xf",
+          "expected": "37",
+          "actual": "00"
+        },
+        {
+          "offset": "0x10",
+          "expected": "0a",
+          "actual": "00"
+        }
+      ],
+      "exact": false
+    },
+    "whole_object_occurrences_in_main": [],
+    "row_offsets_in_signature": [],
+    "signature_sha256": "d481a842f0219c88df8b46d1a971ce9eb86bb79f4706f9f8cc7de8d45575ccd9",
+    "public_labels": [
+      {
+        "name": "_patch_card",
+        "offset": 152
+      },
+      {
+        "name": "_patch_card2",
+        "offset": 300
+      },
+      {
+        "name": "_copy_memcard_patch",
+        "offset": 412
+      }
+    ],
+    "all_catalog_labels": [
+      {
+        "name": "loc_0",
+        "offset": 0
+      },
+      {
+        "name": "loc_18",
+        "offset": 24
+      },
+      {
+        "name": "loc_40",
+        "offset": 64
+      },
+      {
+        "name": "loc_68",
+        "offset": 104
+      },
+      {
+        "name": "text_70",
+        "offset": 112
+      },
+      {
+        "name": "text_84",
+        "offset": 132
+      },
+      {
+        "name": "_patch_card",
+        "offset": 152
+      },
+      {
+        "name": "loc_F4",
+        "offset": 244
+      },
+      {
+        "name": "_patch_card2",
+        "offset": 300
+      },
+      {
+        "name": "loc_168",
+        "offset": 360
+      },
+      {
+        "name": "_copy_memcard_patch",
+        "offset": 412
+      },
+      {
+        "name": "loc_1B0",
+        "offset": 432
+      }
+    ]
+  },
+  {
+    "version": "450",
+    "catalog_has_patch": true,
+    "object": "PATCH.OBJ",
+    "file_start": "0x271848",
+    "whole_object": {
+      "in_bounds": true,
+      "size": 544,
+      "specified_bytes": 481,
+      "unspecified_bytes": 63,
+      "matching_specified_bytes": 78,
+      "mismatch_count": 403,
+      "first_mismatches": [
+        {
+          "offset": "0x2",
+          "expected": "01",
+          "actual": "02"
+        },
+        {
+          "offset": "0x6",
+          "expected": "3f",
+          "actual": "42"
+        },
+        {
+          "offset": "0x7",
+          "expected": "ac",
+          "actual": "24"
+        },
+        {
+          "offset": "0x8",
+          "expected": "57",
+          "actual": "08"
+        },
+        {
+          "offset": "0xa",
+          "expected": "09",
+          "actual": "40"
+        },
+        {
+          "offset": "0xb",
+          "expected": "24",
+          "actual": "00"
+        },
+        {
+          "offset": "0xc",
+          "expected": "b0",
+          "actual": "00"
+        },
+        {
+          "offset": "0xe",
+          "expected": "0a",
+          "actual": "00"
+        },
+        {
+          "offset": "0xf",
+          "expected": "24",
+          "actual": "00"
+        },
+        {
+          "offset": "0x10",
+          "expected": "09",
+          "actual": "00"
+        },
+        {
+          "offset": "0x11",
+          "expected": "f8",
+          "actual": "00"
+        },
+        {
+          "offset": "0x12",
+          "expected": "40",
+          "actual": "00"
+        },
+        {
+          "offset": "0x13",
+          "expected": "01",
+          "actual": "00"
+        },
+        {
+          "offset": "0x14",
+          "expected": "00",
+          "actual": "74"
+        },
+        {
+          "offset": "0x15",
+          "expected": "00",
+          "actual": "10"
+        },
+        {
+          "offset": "0x16",
+          "expected": "00",
+          "actual": "62"
+        }
+      ],
+      "exact": false
+    },
+    "whole_object_occurrences_in_main": [],
+    "row_offsets_in_signature": [],
+    "signature_sha256": "4174c4195243260251bdd3ce9fb7ac140a3146eb7e6aada7f88d7c095b003a9d",
+    "public_labels": [
+      {
+        "name": "_patch_card_info",
+        "offset": 0
+      },
+      {
+        "name": "_patch_card",
+        "offset": 220
+      },
+      {
+        "name": "_patch_card2",
+        "offset": 368
+      },
+      {
+        "name": "_copy_memcard_patch",
+        "offset": 480
+      }
+    ],
+    "all_catalog_labels": [
+      {
+        "name": "_patch_card_info",
+        "offset": 0
+      },
+      {
+        "name": "text_44",
+        "offset": 68
+      },
+      {
+        "name": "loc_5C",
+        "offset": 92
+      },
+      {
+        "name": "loc_84",
+        "offset": 132
+      },
+      {
+        "name": "loc_AC",
+        "offset": 172
+      },
+      {
+        "name": "text_B4",
+        "offset": 180
+      },
+      {
+        "name": "text_C8",
+        "offset": 200
+      },
+      {
+        "name": "_patch_card",
+        "offset": 220
+      },
+      {
+        "name": "loc_138",
+        "offset": 312
+      },
+      {
+        "name": "_patch_card2",
+        "offset": 368
+      },
+      {
+        "name": "loc_1AC",
+        "offset": 428
+      },
+      {
+        "name": "_copy_memcard_patch",
+        "offset": 480
+      },
+      {
+        "name": "loc_1F4",
+        "offset": 500
+      }
+    ]
+  },
+  {
+    "version": "460",
+    "catalog_has_patch": true,
+    "object": "PATCH.OBJ",
+    "file_start": "0x271848",
+    "whole_object": {
+      "in_bounds": true,
+      "size": 544,
+      "specified_bytes": 481,
+      "unspecified_bytes": 63,
+      "matching_specified_bytes": 78,
+      "mismatch_count": 403,
+      "first_mismatches": [
+        {
+          "offset": "0x2",
+          "expected": "01",
+          "actual": "02"
+        },
+        {
+          "offset": "0x6",
+          "expected": "3f",
+          "actual": "42"
+        },
+        {
+          "offset": "0x7",
+          "expected": "ac",
+          "actual": "24"
+        },
+        {
+          "offset": "0x8",
+          "expected": "57",
+          "actual": "08"
+        },
+        {
+          "offset": "0xa",
+          "expected": "09",
+          "actual": "40"
+        },
+        {
+          "offset": "0xb",
+          "expected": "24",
+          "actual": "00"
+        },
+        {
+          "offset": "0xc",
+          "expected": "b0",
+          "actual": "00"
+        },
+        {
+          "offset": "0xe",
+          "expected": "0a",
+          "actual": "00"
+        },
+        {
+          "offset": "0xf",
+          "expected": "24",
+          "actual": "00"
+        },
+        {
+          "offset": "0x10",
+          "expected": "09",
+          "actual": "00"
+        },
+        {
+          "offset": "0x11",
+          "expected": "f8",
+          "actual": "00"
+        },
+        {
+          "offset": "0x12",
+          "expected": "40",
+          "actual": "00"
+        },
+        {
+          "offset": "0x13",
+          "expected": "01",
+          "actual": "00"
+        },
+        {
+          "offset": "0x14",
+          "expected": "00",
+          "actual": "74"
+        },
+        {
+          "offset": "0x15",
+          "expected": "00",
+          "actual": "10"
+        },
+        {
+          "offset": "0x16",
+          "expected": "00",
+          "actual": "62"
+        }
+      ],
+      "exact": false
+    },
+    "whole_object_occurrences_in_main": [],
+    "row_offsets_in_signature": [],
+    "signature_sha256": "4174c4195243260251bdd3ce9fb7ac140a3146eb7e6aada7f88d7c095b003a9d",
+    "public_labels": [
+      {
+        "name": "_patch_card_info",
+        "offset": 0
+      },
+      {
+        "name": "_patch_card",
+        "offset": 220
+      },
+      {
+        "name": "_patch_card2",
+        "offset": 368
+      },
+      {
+        "name": "_copy_memcard_patch",
+        "offset": 480
+      }
+    ],
+    "all_catalog_labels": [
+      {
+        "name": "_patch_card_info",
+        "offset": 0
+      },
+      {
+        "name": "text_44",
+        "offset": 68
+      },
+      {
+        "name": "loc_5C",
+        "offset": 92
+      },
+      {
+        "name": "loc_84",
+        "offset": 132
+      },
+      {
+        "name": "loc_AC",
+        "offset": 172
+      },
+      {
+        "name": "text_B4",
+        "offset": 180
+      },
+      {
+        "name": "text_C8",
+        "offset": 200
+      },
+      {
+        "name": "_patch_card",
+        "offset": 220
+      },
+      {
+        "name": "loc_138",
+        "offset": 312
+      },
+      {
+        "name": "_patch_card2",
+        "offset": 368
+      },
+      {
+        "name": "loc_1AC",
+        "offset": 428
+      },
+      {
+        "name": "_copy_memcard_patch",
+        "offset": 480
+      },
+      {
+        "name": "loc_1F4",
+        "offset": 500
+      }
+    ]
+  },
+  {
+    "version": "470",
+    "catalog_has_patch": true,
+    "object": "PATCH.OBJ",
+    "file_start": "0x271848",
+    "whole_object": {
+      "in_bounds": true,
+      "size": 544,
+      "specified_bytes": 481,
+      "unspecified_bytes": 63,
+      "matching_specified_bytes": 78,
+      "mismatch_count": 403,
+      "first_mismatches": [
+        {
+          "offset": "0x2",
+          "expected": "01",
+          "actual": "02"
+        },
+        {
+          "offset": "0x6",
+          "expected": "3f",
+          "actual": "42"
+        },
+        {
+          "offset": "0x7",
+          "expected": "ac",
+          "actual": "24"
+        },
+        {
+          "offset": "0x8",
+          "expected": "57",
+          "actual": "08"
+        },
+        {
+          "offset": "0xa",
+          "expected": "09",
+          "actual": "40"
+        },
+        {
+          "offset": "0xb",
+          "expected": "24",
+          "actual": "00"
+        },
+        {
+          "offset": "0xc",
+          "expected": "b0",
+          "actual": "00"
+        },
+        {
+          "offset": "0xe",
+          "expected": "0a",
+          "actual": "00"
+        },
+        {
+          "offset": "0xf",
+          "expected": "24",
+          "actual": "00"
+        },
+        {
+          "offset": "0x10",
+          "expected": "09",
+          "actual": "00"
+        },
+        {
+          "offset": "0x11",
+          "expected": "f8",
+          "actual": "00"
+        },
+        {
+          "offset": "0x12",
+          "expected": "40",
+          "actual": "00"
+        },
+        {
+          "offset": "0x13",
+          "expected": "01",
+          "actual": "00"
+        },
+        {
+          "offset": "0x14",
+          "expected": "00",
+          "actual": "74"
+        },
+        {
+          "offset": "0x15",
+          "expected": "00",
+          "actual": "10"
+        },
+        {
+          "offset": "0x16",
+          "expected": "00",
+          "actual": "62"
+        }
+      ],
+      "exact": false
+    },
+    "whole_object_occurrences_in_main": [],
+    "row_offsets_in_signature": [],
+    "signature_sha256": "4174c4195243260251bdd3ce9fb7ac140a3146eb7e6aada7f88d7c095b003a9d",
+    "public_labels": [
+      {
+        "name": "_patch_card_info",
+        "offset": 0
+      },
+      {
+        "name": "_patch_card",
+        "offset": 220
+      },
+      {
+        "name": "_patch_card2",
+        "offset": 368
+      },
+      {
+        "name": "_copy_memcard_patch",
+        "offset": 480
+      }
+    ],
+    "all_catalog_labels": [
+      {
+        "name": "_patch_card_info",
+        "offset": 0
+      },
+      {
+        "name": "text_44",
+        "offset": 68
+      },
+      {
+        "name": "loc_5C",
+        "offset": 92
+      },
+      {
+        "name": "loc_84",
+        "offset": 132
+      },
+      {
+        "name": "loc_AC",
+        "offset": 172
+      },
+      {
+        "name": "text_B4",
+        "offset": 180
+      },
+      {
+        "name": "text_C8",
+        "offset": 200
+      },
+      {
+        "name": "_patch_card",
+        "offset": 220
+      },
+      {
+        "name": "loc_138",
+        "offset": 312
+      },
+      {
+        "name": "_patch_card2",
+        "offset": 368
+      },
+      {
+        "name": "loc_1AC",
+        "offset": 428
+      },
+      {
+        "name": "_copy_memcard_patch",
+        "offset": 480
+      },
+      {
+        "name": "loc_1F4",
+        "offset": 500
+      }
+    ]
+  }
+]
