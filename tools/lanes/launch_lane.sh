@@ -46,8 +46,11 @@ PEOF
   # (round 76) stdout goes to agy.out and becomes last_message.txt only at exit: a last_message.txt that exists
   # from the launch made every running agy lane look finished to pool.py, ab_report.py and land_finished2.
 else
-  nohup setsid codex exec -C "$PWD/$D" --dangerously-bypass-approvals-and-sandbox --skip-git-repo-check -m $M \
-      -c "model_reasoning_effort=\"${LANE_EFFORT:-xhigh}\"" -o $D/last_message.txt < $D/PROMPT.txt > $D/codex.log 2>&1 &
+  # r117: start codex FROM the lane directory (process cwd, not just -C), so no child ever has the canonical root as cwd
+  # and a running lane never makes the lander busy (land_packages isolation rule). Paths are absolute for that reason.
+  RD="$PWD/$D"
+  (cd "$RD" && exec nohup setsid codex exec -C "$RD" --dangerously-bypass-approvals-and-sandbox --skip-git-repo-check -m $M \
+      -c "model_reasoning_effort=\"${LANE_EFFORT:-xhigh}\"" -o "$RD/last_message.txt" < "$RD/PROMPT.txt" > "$RD/codex.log" 2>&1) &
 fi
 echo $! > $D/lane.pid
 echo "lane $N model $M pid $(cat $D/lane.pid) started $(date -u +%H:%M)"
