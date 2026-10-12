@@ -681,6 +681,20 @@
       ]
     },
     {
+      "module": "dungeon_ovl_1864800",
+      "source": "src/dungeon/modules/ovl_1864800.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_81844800",
+        "dungeon/func_81844F2C",
+        "dungeon/func_81845068",
+        "dungeon/func_81845484"
+      ]
+    },
+    {
       "source": "src/dungeon/D_80283000.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -28788,46 +28802,6 @@
       },
       "rows": [
         "dungeon/func_8182718C"
-      ]
-    },
-    {
-      "source": "src/dungeon/func_81844800.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "dungeon/func_81844800"
-      ]
-    },
-    {
-      "source": "src/dungeon/func_81844F2C.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "dungeon/func_81844F2C"
-      ]
-    },
-    {
-      "source": "src/dungeon/func_81845068.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "dungeon/func_81845068"
-      ]
-    },
-    {
-      "source": "src/dungeon/func_81845484.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "dungeon/func_81845484"
       ]
     },
     {

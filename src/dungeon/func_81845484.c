@@ -1,18 +1,8 @@
-#include "common.h"
-#include "shared/slus_callbacks.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_ovl_1864800.h"
 
-typedef struct {
-    s32 x, y, z;
-    s32 vx, vy, vz;
-} VecState;
-
-
-extern void func_8004491C(void *, u8 *);
-extern void func_800478B8(void *);
 
 /* Updates effect motion, waits for its timer, then fades its sprite to black. */
-void func_81845484(void *effect, VecState *motion, void *sprite) {
+void func_80024C84(void *effect, VecState *motion, void *sprite) {
     void *owner = *(void **)effect;
     s32 z_velocity;
     s16 state;
@@ -35,7 +25,7 @@ void func_81845484(void *effect, VecState *motion, void *sprite) {
         timer = *(u16 *)((s8 *)effect + 0x48) - 1;
         *(u16 *)((s8 *)effect + 0x48) = timer;
         if ((s16)timer <= 0) {
-            func_8004491C((s8 *)effect - 0x20, func_80045340);
+            func_8004491C((s8 *)effect - 0x20, (s32)func_80045340);
             *(u16 *)((s8 *)effect + 0x4C) += 1;
         }
         break;

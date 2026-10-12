@@ -1,0 +1,38 @@
+{
+  "module": "dungeon_ovl_1864800",
+  "review": "pending",
+  "reviewer": null,
+  "basis": "Existing retail-derived include/modules/dungeon_native_abi.h; changes from current row views are independently byte-neutral in the exact whole-TU proof.",
+  "changes": [
+    {
+      "symbol": "func_8003FD64",
+      "declaration": "ObjectNodeHeader *func_8003FD64(s32, ObjectNodeHeader **)",
+      "call_view": "Node header address cast to its head-slot pointer; returned node uses existing field views."
+    },
+    {
+      "symbol": "func_8004491C",
+      "declaration": "s32 func_8004491C(void *, s32, ...)",
+      "call_view": "Shared callback address remains the 32-bit registration key."
+    },
+    {
+      "symbol": "func_800478B8",
+      "declaration": "void func_800478B8(void *)",
+      "call_view": "The particle updater calls it without a return-value use."
+    },
+    {
+      "symbol": "func_800BCB04",
+      "declaration": "s32 func_800BCB04(s32, s32, s16)",
+      "call_view": "Explicit s16 narrowing retains the old height view at its use."
+    },
+    {
+      "symbol": "func_800A56E0",
+      "declaration": "s32 func_800A56E0(s32)",
+      "call_view": "The caller supplies one value and ignores the return; shared declaration retains the observed arguments."
+    },
+    {
+      "symbol": "func_8002472C/func_80024868/func_80024C84",
+      "declaration": "Complete typed member signatures",
+      "call_view": "Replace the head forward void(void) views with the real member signatures; callback address stores keep their exact operand bits."
+    }
+  ]
+}

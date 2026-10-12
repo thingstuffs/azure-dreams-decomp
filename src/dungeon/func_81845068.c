@@ -1,35 +1,6 @@
-#include "common.h"
-#include "shared/game_work.h"
-
-typedef struct Packed8 {
-    u32 word0;
-    u32 word1;
-} __attribute__((packed)) Packed8;
-
-typedef struct Coord {
-    s16 x;
-    s16 y;
-} Coord;
-
-typedef union Scratch {
-    s32 word;
-    u16 half;
-    u8 byte;
-} Scratch;
+#include "modules/dungeon_ovl_1864800.h"
 
 
-extern s32 func_80065420(Packed8 *, Coord *, Coord *, Coord *);
-extern s32 func_80066460(s32, s32, s32, s32);
-extern s32 func_8006649C(s32, s32);
-extern void func_80066640(void *, s32);
-extern void func_800666F4(void *);
-extern s32 func_80069EF8(void);
-
-typedef struct {
-    unsigned addr: 24;
-    unsigned len: 8;
-    u8 r0, g0, b0, code;
-} P_TAG;
 #define setaddr(p, _addr) (((P_TAG *)(p))->addr = (u32)(_addr))
 #define getaddr(p) (u32)(((P_TAG *)(p))->addr)
 #define OTP(d) ((u32 *)((u8 *)render_state->unk_000 + 0xB0) + (d))
@@ -41,7 +12,7 @@ typedef struct {
 #define STORE_U8(p, v) (*(u8 *)(p) = (v))
 
 /* Draw textured quads with randomized texture and horizontal jitter for each linked effect node. */
-s32 func_81845068(u8 *first_node)
+s32 func_80024868(u8 *first_node)
 {
     u32 uv_choices[4];
     Packed8 world_pos;

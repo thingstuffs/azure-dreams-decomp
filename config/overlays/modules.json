@@ -14180,6 +14180,247 @@
         "ownership": "reviewed",
         "reviewer": "orchestrator-r112"
       }
+    },
+    {
+      "key": "dungeon_ovl_1864800",
+      "container": "dungeon",
+      "name": "ovl_1864800.c",
+      "source": "src/dungeon/modules/ovl_1864800.c",
+      "region": "native_1864800_80024000",
+      "headers": [
+        "include/modules/dungeon_ovl_1864800.h",
+        "include/modules/dungeon_native_abi.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/dungeon_ovl_1864800.recipe.json"
+      },
+      "members": [
+        {
+          "id": "dungeon/func_81844800",
+          "source": "src/dungeon/func_81844800.c",
+          "function": "func_80024020",
+          "foff": 25577472,
+          "vma": 2147631104,
+          "size": 1836,
+          "body_offset": 32
+        },
+        {
+          "id": "dungeon/func_81844F2C",
+          "source": "src/dungeon/func_81844F2C.c",
+          "function": "func_8002472C",
+          "foff": 25579308,
+          "vma": 2147632940,
+          "size": 316,
+          "body_offset": 0
+        },
+        {
+          "id": "dungeon/func_81845068",
+          "source": "src/dungeon/func_81845068.c",
+          "function": "func_80024868",
+          "foff": 25579624,
+          "vma": 2147633256,
+          "size": 1052,
+          "body_offset": 0
+        },
+        {
+          "id": "dungeon/func_81845484",
+          "source": "src/dungeon/func_81845484.c",
+          "function": "func_80024C84",
+          "foff": 25580676,
+          "vma": 2147634308,
+          "size": 364,
+          "body_offset": 0
+        }
+      ],
+      "owned_data": [
+        {
+          "section": ".rodata",
+          "foff": 25577472,
+          "vma": 2147631104,
+          "size": 4,
+          "kind": "typed_function_pointer",
+          "symbol": "dungeon_1864800_entry",
+          "target": "func_80024020"
+        },
+        {
+          "section": ".rodata",
+          "foff": 25577476,
+          "vma": 2147631108,
+          "size": 4,
+          "kind": "alignment",
+          "alignment": 8
+        },
+        {
+          "section": ".rodata",
+          "foff": 25577480,
+          "vma": 2147631112,
+          "size": 24,
+          "kind": "switch_table",
+          "owner": "func_80024020"
+        }
+      ],
+      "imports": [
+        {
+          "symbol": "D_800814A0",
+          "kind": "runtime_data",
+          "vma": 2148013216,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/dungeon_ovl_1864800.imports.json",
+          "declaration": "include/shared/object_flags.h"
+        },
+        {
+          "symbol": "D_80083160",
+          "kind": "runtime_data",
+          "vma": 2148020576,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/dungeon_ovl_1864800.imports.json",
+          "declaration": "include/shared/game_work.h"
+        },
+        {
+          "symbol": "D_80083460",
+          "kind": "runtime_data",
+          "vma": 2148021344,
+          "view_bytes": 32,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/dungeon_ovl_1864800.imports.json",
+          "declaration": "include/shared/dungeon_status.h"
+        },
+        {
+          "symbol": "D_80083498",
+          "kind": "runtime_data",
+          "vma": 2148021400,
+          "view_bytes": 32,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/dungeon_ovl_1864800.imports.json",
+          "declaration": "include/shared/object_node.h"
+        },
+        {
+          "symbol": "D_800DEA68",
+          "kind": "data",
+          "vma": 2148395624,
+          "foff": 1020680,
+          "view_bytes": 8,
+          "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+          "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+          "map": "dungeon_resident",
+          "evidence": "docs/evidence/dungeon_ovl_1864800.imports.json"
+        },
+        {
+          "symbol": "D_800DECF8",
+          "kind": "data",
+          "vma": 2148396280,
+          "foff": 1021336,
+          "view_bytes": 8,
+          "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+          "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+          "map": "dungeon_resident",
+          "evidence": "docs/evidence/dungeon_ovl_1864800.imports.json"
+        },
+        {
+          "symbol": "func_8003DE58",
+          "kind": "function",
+          "vma": 2147737176
+        },
+        {
+          "symbol": "func_8003FD64",
+          "kind": "function",
+          "vma": 2147745124
+        },
+        {
+          "symbol": "func_8004491C",
+          "kind": "function",
+          "vma": 2147764508
+        },
+        {
+          "symbol": "func_80045340",
+          "kind": "function",
+          "vma": 2147767104
+        },
+        {
+          "symbol": "func_800478B8",
+          "kind": "function",
+          "vma": 2147776696
+        },
+        {
+          "symbol": "func_80065420",
+          "kind": "function",
+          "vma": 2147898400
+        },
+        {
+          "symbol": "func_80066460",
+          "kind": "function",
+          "vma": 2147902560
+        },
+        {
+          "symbol": "func_8006649C",
+          "kind": "function",
+          "vma": 2147902620
+        },
+        {
+          "symbol": "func_80066640",
+          "kind": "function",
+          "vma": 2147903040
+        },
+        {
+          "symbol": "func_800666F4",
+          "kind": "function",
+          "vma": 2147903220
+        },
+        {
+          "symbol": "func_80069EF8",
+          "kind": "function",
+          "vma": 2147917560
+        },
+        {
+          "symbol": "func_8009CE1C",
+          "kind": "function",
+          "vma": 2148126236
+        },
+        {
+          "symbol": "func_800A05A4",
+          "kind": "function",
+          "vma": 2148140452
+        },
+        {
+          "symbol": "func_800A3820",
+          "kind": "function",
+          "vma": 2148153376
+        },
+        {
+          "symbol": "func_800A56E0",
+          "kind": "function",
+          "vma": 2148161248
+        },
+        {
+          "symbol": "func_800BCB04",
+          "kind": "function",
+          "vma": 2148256516
+        }
+      ],
+      "membership_evidence": "docs/evidence/dungeon_ovl_1864800.membership.json",
+      "review_inputs": [
+        "docs/evidence/dungeon_ovl_1864800.md",
+        "docs/evidence/dungeon_ovl_1864800.membership.json",
+        "docs/evidence/dungeon_ovl_1864800.imports.json",
+        "docs/evidence/dungeon_ovl_1864800.selector.json",
+        "docs/evidence/dungeon_ovl_1864800.recipe.json",
+        "docs/evidence/dungeon_ovl_1864800.abi.json"
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "orchestrator-r115"
+      }
     }
   ]
 }
