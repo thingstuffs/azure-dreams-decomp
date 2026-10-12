@@ -50,23 +50,18 @@ typedef struct S_80173B08_2 {
 } S_80173B08_2;   /* linked in func_80173B08 */
 
 
-typedef struct S_80173B08_5 {
-    u8 pad_00[0x3228];
-    s16 unk_3228;
-} S_80173B08_5;   /* (void *)page_entry in func_80173B08 */
 
 /* Updates the actor's item-use state, animation, and effects. */
 void func_80173B08(void *action, EntityRec *motion, void *sprite, void *actor)
 {
     u8 *item_slot;
-    register u8 *anim_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    u32 anim_addr;
-    u32 mode_or_angle;
+    u32 stage;
+    s32 flag;
     s16 effect_count;
     u32 state;
     void *target;
 
-    mode_or_angle = 0;
+    flag = 0;
     state = ((S_80173B08_0 *)action)->unk_9B;
     switch (state) {
     case 0:
@@ -76,17 +71,17 @@ void func_80173B08(void *action, EntityRec *motion, void *sprite, void *actor)
             kind_index = ((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF) - 1;
             switch (kind_index) {
             case 6:
-                mode_or_angle = 1;
+                flag = 1;
             case 2:
                 item_slot = (u8 *)actor + 0xE;
                 break;
             case 5:
-                mode_or_angle = 1;
+                flag = 1;
             case 1:
                 item_slot = (u8 *)actor + 0xB;
                 break;
             case 4:
-                mode_or_angle = 1;
+                flag = 1;
             case 0:
                 item_slot = (u8 *)actor + 8;
                 break;
@@ -118,11 +113,10 @@ void func_80173B08(void *action, EntityRec *motion, void *sprite, void *actor)
         if (*item_slot != 0) {
             ((S_80173B08_0 *)action)->unk_98 &= 0xFF7F;
             {
-                s32 is_special;
+                u8 is_special;
                 void *item_id;
 
-                is_special = mode_or_angle;
-                ASM_KEEP(is_special);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                is_special = flag;
                 if (is_special != 0) {
                     target = D_800814A8;
                     (*(void * *)((u8 *)actor + 0x60)) = target;
@@ -160,7 +154,7 @@ void func_80173B08(void *action, EntityRec *motion, void *sprite, void *actor)
                 }
             }
 
-            if (func_800A94A0(actor, item_slot, mode_or_angle,
+            if (func_800A94A0(actor, item_slot, flag,
                               (u8 *)action + 0x98) == 0) {
                 return;
             }
@@ -219,13 +213,13 @@ void func_80173B08(void *action, EntityRec *motion, void *sprite, void *actor)
                 return;
             }
         }
-        anim_table = D_800E2398;
         ((S_80173B08_0 *)action)->unk_96.u = 0;
-        anim_addr = ((S_80173B08_0 *)action)->unk_9B;
-        anim_addr++;
-        ((S_80173B08_0 *)action)->unk_9B = anim_addr;
-        anim_addr = 0x80080000;
-        goto update_table;
+        stage = ((S_80173B08_0 *)action)->unk_9B;
+        stage++;
+        ((S_80173B08_0 *)action)->unk_9B = stage;
+        ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = D_800E2398;
+        func_80047784(sprite, D_800E2398[((gameWork.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7], 0);
+        return;
 
     case 4:
     {
@@ -262,28 +256,17 @@ void func_80173B08(void *action, EntityRec *motion, void *sprite, void *actor)
             } while ((s16)effect_count < 3);
         }
         if ((u32)(((S_80173B08_0 *)action)->unk_96.u - 10) < 7) {
-            s32 next_angle;
-            s32 next_angle_2;
+            s16 angle;
 
-            mode_or_angle = 0;
-            do {
-                s16 angle;
-
-                angle = mode_or_angle;
-                next_angle = angle;
-                if (next_angle != (*(s16 *)((u8 *)actor + 0x2A))) {
+            for (angle = 0; angle < 0x1000; angle += 0x200) {
+                if (angle != (*(s16 *)((u8 *)actor + 0x2A))) {
                     effect_count = 0;
                     do {
                         func_8017145C((u8 *)action - 0x20, angle);
                         effect_count++;
                     } while ((s16)effect_count <= 0);
-                    next_angle_2 = mode_or_angle + 0x200;
-                    mode_or_angle = next_angle_2;
-                } else {
-                    next_angle_2 = mode_or_angle + 0x200;
-                    mode_or_angle = next_angle_2;
                 }
-            } while ((s16)next_angle_2 < 0x1000);
+            }
         }
         {
             s16 timer;
@@ -294,27 +277,16 @@ void func_80173B08(void *action, EntityRec *motion, void *sprite, void *actor)
                 return;
             }
         }
-        anim_table = D_800E2388;
         ((S_80173B08_0 *)action)->unk_96.u = 0;
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
-        {
-
-            state = ((S_80173B08_0 *)action)->unk_98;
-            anim_addr = ((S_80173B08_0 *)action)->unk_9B;
-            anim_addr++;
-            state |= 8;
-            ((S_80173B08_0 *)action)->unk_9B = anim_addr;
-            anim_addr = 0x80080000;
-            ((S_80173B08_0 *)action)->unk_98 = state;
-        }
-update_table:
-        {
-            ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = anim_table;
-            anim_addr = (u32)(((((S_80173B08_5 *)((void *)anim_addr))->unk_3228 +
-                                (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7) +
-                         (u32)anim_table;
-            func_80047784(sprite, *(u8 *)anim_addr, 0);
-        }
+        state = ((S_80173B08_0 *)action)->unk_98;
+        stage = ((S_80173B08_0 *)action)->unk_9B;
+        stage++;
+        state |= 8;
+        ((S_80173B08_0 *)action)->unk_9B = stage;
+        ((S_80173B08_0 *)action)->unk_98 = state;
+        ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = D_800E2388;
+        func_80047784(sprite, D_800E2388[((gameWork.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7], 0);
         return;
 
     case 6:

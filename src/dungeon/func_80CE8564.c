@@ -19,7 +19,6 @@ typedef struct S_80171D64_4 {
     s8 unk_9C;
 } S_80171D64_4;   /* the record, addressed through its copy in func_80171D64 */
 
-
 extern void *func_8003FD64();
 extern void func_8004491C();
 extern void func_80047784();
@@ -121,11 +120,8 @@ void *func_80171D64(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_hei
                 }
 
                 if (((init_flags & ~3) << 16) == 0) {
-                    call_object = (s32)object;
                     if (!(result->flags14 & 0x200)) {
-                        call_object = func_800A6D30();
-                        state_flags = call_object;
-                        call_object = (s32)object;
+                        state_flags = func_800A6D30();
                         if (state_flags & 1) {
                             func_800A48F0(result, 1,
                                 (func_800A6D30() & 0x3F) | 0x20);
@@ -153,20 +149,14 @@ void *func_80171D64(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_hei
                                 }
                                 break;
                             }
-                        } else {
-                            goto setup_args_ready;
                         }
-                    } else {
-                        goto setup_args_ready;
                     }
                 }
             }
         }
 
         call_object = (s32)object;
-setup_args_ready:
         call_position = (s32)position;
-setup_args2_ready:
         func_800A9C18((void *)call_object, (void *)call_position, sprite,
             (s16)init_flags);
         ((S_80171D64_4 *)((void *)record_addr))->unk_9A = 0xFF;

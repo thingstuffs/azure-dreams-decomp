@@ -1,3 +1,22 @@
+# Handover (2026-10-12 ~07:00Z, r113/r114) - START HERE
+**Landed this session:** 61e752bac shared game headers (Opus review B1/B2 fixed); f2ddcafd7 sdk2 (800219C4 = Sony
+LIBCARD vendor asm, pins 61 -> 60); 1cc6c53f2 scoped certificate fingerprints ON (overlay-module-scoped-v2) +
+landproc 6-7 (renew only invalid/new/changed certs; new module headers no longer force gate --all); this commit: r114 pin
+batch (pins 60 -> 49 in 28 rows; hard basket 26 -> 20; only 10/35 certificates renewed under scoped-v2). L5 319.
+**r114 wave** (Agent lanes in a PRIVATE SCRATCH REPO during landings: work/native_lane/_r114/root, built by
+work/native_lane/_r113/mk_scratch_root.sh; scratch lanes symlinked into work/native_lane/ for land_lanes.sh):
+solved 800AED64 4->0, 80D68308 2->0, 81844F2C 1->0 (module 1864800 blocker), 818B6AFC, 819112CC, 809A38E4 1->0,
+8028906C 3->2; goto-free 80A2F000/80CE8564/8190AEB4; tidies 800CA184 + konami 800345B8 (SLUS: land via
+land_slus_rebaseline.sh). All mechanisms/generators/kit gaps: work/native_lane/_r113/harvest_r114.md.
+**Owner rulings 10-12:** union idiom (`union { T v; } x = {0};`) = accepted trade; CALL-ARG family stays pins (no oddity
+class) - new angles only; pin wave with Fable free-hand + LEARNINGS.md (r114_fable_f1).
+**Tools:** r114_sol61_kit package (sncheck, alloc_oracle, value_luid, why uid->block, lab stage-tidy) - land via
+land_packages (kit-only). RUNNING: r114_sol61_oracle2 (sched/combine/alias/loop oracles + SEARCH MODE over all pinned
+rows, validated on r114 known answers) -> route the next Opus wave from its evidence/search_all.md.
+**Next:** module lane 1864800 (head 81844F2C now pin-free; debt 6 -> 5); near-misses: 8180B064 1/5 (store-back blocked
+by construction), 819613A8 (oracle thresholds), w_8005914C plain-cdk pin+10 volatiles at byte 8, 8081FCE0/808119EC
+block-7 tie, 813274E4 alias; types follow-up (F1-F3 + shared ScratchPad type); 809A38E4 compare-into-pointer cleanup.
+
 # Handover (2026-10-11 ~18:30Z, r113 resume after codex login) - START HERE
 Codex re-logged. LANDING ORDER (fixed): (1) headers ALONE -> (2) sdk2 ALONE -> (3) ONE transaction certfp (scoped v2 switch
 ON) + landproc 6-7 package. RUNNING (extend_lane.sh, nohup): r112_sol61_headers RESUME #3 (re-prove onto c00db2a5b: 15

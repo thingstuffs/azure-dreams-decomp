@@ -202,11 +202,10 @@ void func_800CF8E4(void) {
     view_scratch = (RenderScratch *)0x1F800000;
     view = &scene->view;
     map = &scene->map;
-    cells = (CellRec *)scene->map.cells;
+    cells = map->cells;
     vertices = map->unk_08;
     normals = map->unk_0C;
     if (!(render_flags & 2)) {
-        s32 corner_arg;
         s32 column_mask;
         s32 row_mask;
         s32 max_height;
@@ -221,41 +220,40 @@ void func_800CF8E4(void) {
         func_80064D50(&view->unk_058);
         func_80064624(view->unk_084, view->unk_088);
         func_80064D20(&view->unk_038);
-        corner_arg = (s32)(view_corners);
         scratch = view_scratch;
         view_depth = scratch->view_height;
         scene->view.unk_006 = 0x1BA;
-        func_80046884(view, (void *)corner_arg, view_depth);
+        func_80046884(view, (void *)view_corners, view_depth);
         packet = (u8 *)view;
         reset_page = (u8 *)0x800E0000;
         if (reset_page[-0x30A8] != 0) {
             corner_0_x = view_corners[0];
             corner_0_y = view_corners[1];
             corner_0_z = view_corners[2];
-            corner_1_x = (u16)((GameView *)packet)->unk_010;
-            corner_1_y = (u16)((GameView *)packet)->unk_012;
-            corner_1_z = (u16)((GameView *)packet)->unk_014;
-            corner_2_x = (u16)((GameView *)packet)->unk_018;
-            corner_2_y = (u16)((GameView *)packet)->unk_01A;
-            corner_2_z = (u16)((GameView *)packet)->unk_01C;
-            corner_3_x = (u16)((GameView *)packet)->unk_020;
-            corner_3_y = (u16)((GameView *)packet)->unk_022;
-            corner_3_z = (u16)((GameView *)packet)->unk_024;
+            corner_1_x = (u16)view->unk_010;
+            corner_1_y = (u16)view->unk_012;
+            corner_1_z = (u16)view->unk_014;
+            corner_2_x = (u16)view->unk_018;
+            corner_2_y = (u16)view->unk_01A;
+            corner_2_z = (u16)view->unk_01C;
+            corner_3_x = (u16)view->unk_020;
+            corner_3_y = (u16)view->unk_022;
+            corner_3_z = (u16)view->unk_024;
             reset_page[-0x30A8] = 0;
-            ((GameView *)packet)->unk_008 = corner_0_x;
-            ((GameView *)packet)->unk_028 = corner_0_x;
-            ((GameView *)packet)->unk_00A = corner_0_y;
-            ((GameView *)packet)->unk_00C = corner_0_z;
-            ((GameView *)packet)->unk_02C = corner_0_z;
-            ((GameView *)packet)->unk_010 = corner_1_x;
-            ((GameView *)packet)->unk_012 = corner_1_y;
-            ((GameView *)packet)->unk_014 = corner_1_z;
-            ((GameView *)packet)->unk_018 = corner_2_x;
-            ((GameView *)packet)->unk_01A = corner_2_y;
-            ((GameView *)packet)->unk_01C = corner_2_z;
-            ((GameView *)packet)->unk_020 = corner_3_x;
-            ((GameView *)packet)->unk_022 = corner_3_y;
-            ((GameView *)packet)->unk_024 = corner_3_z;
+            view->unk_008 = corner_0_x;
+            view->unk_028 = corner_0_x;
+            view->unk_00A = corner_0_y;
+            view->unk_00C = corner_0_z;
+            view->unk_02C = corner_0_z;
+            view->unk_010 = corner_1_x;
+            view->unk_012 = corner_1_y;
+            view->unk_014 = corner_1_z;
+            view->unk_018 = corner_2_x;
+            view->unk_01A = corner_2_y;
+            view->unk_01C = corner_2_z;
+            view->unk_020 = corner_3_x;
+            view->unk_022 = corner_3_y;
+            view->unk_024 = corner_3_z;
         } else {
             {
                 s32 blended_coord;
@@ -264,97 +262,97 @@ void func_800CF8E4(void) {
                 s32 old_coord;
 
                 coord_delta = (s16)view_corners[0];
-                blended_coord = ((GameView *)packet)->unk_008;
+                blended_coord = view->unk_008;
                 next_delta = (s16)view_corners[1];
-                old_coord = ((GameView *)packet)->unk_00A;
+                old_coord = view->unk_00A;
                 coord_delta -= blended_coord;
                 coord_delta >>= 1;
                 next_delta -= old_coord;
                 next_delta >>= 1;
-                blended_coord = (u16)((GameView *)packet)->unk_008;
-                old_coord = ((GameView *)packet)->unk_00C;
+                blended_coord = (u16)view->unk_008;
+                old_coord = view->unk_00C;
                 blended_coord += coord_delta;
-                ((GameView *)packet)->unk_008 = blended_coord;
-                blended_coord = (u16)((GameView *)packet)->unk_00A;
+                view->unk_008 = blended_coord;
+                blended_coord = (u16)view->unk_00A;
                 coord_delta = (s16)view_corners[2];
                 blended_coord += next_delta;
                 coord_delta -= old_coord;
                 coord_delta >>= 1;
-                ((GameView *)packet)->unk_00A = blended_coord;
-                blended_coord = (u16)((GameView *)packet)->unk_00C;
+                view->unk_00A = blended_coord;
+                blended_coord = (u16)view->unk_00C;
                 next_delta = (s16)view_corners[4];
-                old_coord = ((GameView *)packet)->unk_010;
+                old_coord = view->unk_010;
                 blended_coord += coord_delta;
                 next_delta -= old_coord;
                 next_delta >>= 1;
-                ((GameView *)packet)->unk_00C = blended_coord;
-                blended_coord = (u16)((GameView *)packet)->unk_010;
+                view->unk_00C = blended_coord;
+                blended_coord = (u16)view->unk_010;
                 coord_delta = (s16)view_corners[5];
-                old_coord = ((GameView *)packet)->unk_012;
+                old_coord = view->unk_012;
                 blended_coord += next_delta;
                 coord_delta -= old_coord;
                 coord_delta >>= 1;
-                ((GameView *)packet)->unk_010 = blended_coord;
-                blended_coord = (u16)((GameView *)packet)->unk_012;
+                view->unk_010 = blended_coord;
+                blended_coord = (u16)view->unk_012;
                 next_delta = (s16)view_corners[6];
-                old_coord = ((GameView *)packet)->unk_014;
+                old_coord = view->unk_014;
                 blended_coord += coord_delta;
                 next_delta -= old_coord;
                 next_delta >>= 1;
-                ((GameView *)packet)->unk_012 = blended_coord;
-                blended_coord = (u16)((GameView *)packet)->unk_014;
+                view->unk_012 = blended_coord;
+                blended_coord = (u16)view->unk_014;
                 coord_delta = (s16)view_corners[8];
-                old_coord = ((GameView *)packet)->unk_018;
+                old_coord = view->unk_018;
                 blended_coord += next_delta;
                 coord_delta -= old_coord;
                 coord_delta >>= 1;
-                ((GameView *)packet)->unk_014 = blended_coord;
-                blended_coord = (u16)((GameView *)packet)->unk_018;
+                view->unk_014 = blended_coord;
+                blended_coord = (u16)view->unk_018;
                 next_delta = (s16)view_corners[9];
-                old_coord = ((GameView *)packet)->unk_01A;
+                old_coord = view->unk_01A;
                 blended_coord += coord_delta;
                 next_delta -= old_coord;
                 next_delta >>= 1;
-                ((GameView *)packet)->unk_018 = blended_coord;
-                blended_coord = (u16)((GameView *)packet)->unk_01A;
+                view->unk_018 = blended_coord;
+                blended_coord = (u16)view->unk_01A;
                 coord_delta = (s16)view_corners[10];
-                old_coord = ((GameView *)packet)->unk_01C;
+                old_coord = view->unk_01C;
                 blended_coord += next_delta;
                 coord_delta -= old_coord;
-                ((GameView *)packet)->unk_01A = blended_coord;
-                blended_coord = (u16)((GameView *)packet)->unk_01C;
+                view->unk_01A = blended_coord;
+                blended_coord = (u16)view->unk_01C;
                 coord_delta >>= 1;
                 blended_coord += coord_delta;
                 do {
-                    ((GameView *)packet)->unk_01C = blended_coord;
+                    view->unk_01C = blended_coord;
                 } while (0);
                 coord_delta = (s16)view_corners[12];
-                blended_coord = ((GameView *)packet)->unk_020;
+                blended_coord = view->unk_020;
                 next_delta = (s16)view_corners[13];
-                old_coord = ((GameView *)packet)->unk_022;
-                loop_tmp = (u16)((GameView *)packet)->unk_00C;
+                old_coord = view->unk_022;
+                loop_tmp = (u16)view->unk_00C;
                 coord_delta -= blended_coord;
                 coord_delta >>= 1;
                 next_delta -= old_coord;
-                blended_coord = (u16)((GameView *)packet)->unk_020;
-                old_coord = ((GameView *)packet)->unk_024;
+                blended_coord = (u16)view->unk_020;
+                old_coord = view->unk_024;
                 blended_coord += coord_delta;
-                ((GameView *)packet)->unk_020 = blended_coord;
-                blended_coord = (u16)((GameView *)packet)->unk_022;
+                view->unk_020 = blended_coord;
+                blended_coord = (u16)view->unk_022;
                 coord_delta = (s16)view_corners[14];
                 next_delta >>= 1;
-                ((GameView *)packet)->unk_02C = loop_tmp;
+                view->unk_02C = loop_tmp;
                 blended_coord += next_delta;
                 coord_delta -= old_coord;
                 coord_delta >>= 1;
-                ((GameView *)packet)->unk_022 = blended_coord;
-                blended_coord = (u16)((GameView *)packet)->unk_024;
-                next_delta = (u16)((GameView *)packet)->unk_008;
-                old_coord = (u16)((GameView *)packet)->unk_00A;
+                view->unk_022 = blended_coord;
+                blended_coord = (u16)view->unk_024;
+                next_delta = (u16)view->unk_008;
+                old_coord = (u16)view->unk_00A;
                 blended_coord += coord_delta;
-                ((GameView *)packet)->unk_024 = blended_coord;
-                ((GameView *)packet)->unk_028 = next_delta;
-                ((GameView *)packet)->unk_02A = old_coord;
+                view->unk_024 = blended_coord;
+                view->unk_028 = next_delta;
+                view->unk_02A = old_coord;
             }
         }
         {
@@ -370,7 +368,7 @@ void func_800CF8E4(void) {
             setup_value = *(s32 *)&((GameView *)packet)->unk_090;
             setup_render = (s32)((u32)scratch | 0x174);
             scratch->color = setup_value;
-            setup_value = (s32)0x80010000;
+            setup_value = 0x80010000;
             setup_base = (s32)scene->unk_000;
             width_shift_or_end = map->shiftX;
             face = (CellFace *)(s32)map->shiftY;   /* the height shift word, held in the face register until its store */
@@ -414,7 +412,7 @@ void func_800CF8E4(void) {
             row_mask = 1;
             max_height = 0x7FFF;
             column_mask = 0xFFFFFF;
-            tag_mask = (s32)0xFF000000;
+            tag_mask = 0xFF000000;
             do {
             for (loop_tmp = 3; loop_tmp >= 0; loop_tmp--) {
                 if (scratch->edges[loop_tmp].state == 0) {
@@ -450,7 +448,7 @@ void func_800CF8E4(void) {
                         edge_progress += edge_error;
                         scratch->edges[loop_tmp].error = edge_progress;
                         if (edge_progress >= 0) {
-loop_22:
+next_edge_step:
                             {
                                 edge_progress = scratch->edges[loop_tmp].x;
                                 edge_error = scratch->edges[loop_tmp].x_inc;
@@ -465,7 +463,7 @@ loop_22:
                                 scratch->edges[loop_tmp].height = edge_progress;
                             }
                             if ((edge_progress > 0) && (edge_error >= 0)) {
-                                goto loop_22;
+                                goto next_edge_step;
                             }
                         }
                     }
@@ -503,9 +501,9 @@ loop_22:
                         cell = (CellRec *)((cell_index * 6) + (s32)cells);
                         packet_code = packet + 7;
                         if (cell->index != 0) {
-                            scratch->cell_height.word = (s32) cell->offset;
-                            face = (CellFace *)((void **)map->unk_04)[cells[scratch->cell_index].index];
-L_CFE98:
+                            scratch->cell_height.word = cell->offset;
+                            face = ((CellFace **)map->unk_04)[cells[scratch->cell_index].index];
+next_face:
                             {
                                 s32 vertex_value;
                                 s32 vertex_offset;
@@ -520,7 +518,7 @@ L_CFE98:
                                 vertex_value <<= 3;
                                 vertex_value += (s32)vertices;
                                 scratch->face_info.word = vertex_offset;
-                                vertex_value = ((MapVertex *)((void *)vertex_value))->xy;
+                                vertex_value = ((MapVertex *)vertex_value)->xy;
                                 vertex_offset = scratch->cell_height.h.x;
                                 scratch->vtx.word = vertex_value;
                                 vertex_value = face->v0;
@@ -528,7 +526,7 @@ L_CFE98:
                                 vertex_value <<= 3;
                                 vertex_value += (s32)vertices;
                                 vertex_xy += vertex_x;
-                                vertex_value = ((MapVertex *)((void *)vertex_value))->z;
+                                vertex_value = ((MapVertex *)vertex_value)->z;
                                 vertex_xy &= 0xFFFF;
                                 vertex_value -= vertex_offset;
                                 scratch->v[0].z = (u16)vertex_value;
@@ -545,13 +543,13 @@ L_CFE98:
                                 vertex_offset = scratch->cell_height.h.x;
                                 vertex_value <<= 3;
                                 vertex_value += (s32)vertices;
-                                scratch->vtx.word = ((MapVertex *)((void *)vertex_value))->xy;
+                                scratch->vtx.word = ((MapVertex *)vertex_value)->xy;
                                 vertex_value = face->v1;
                                 vertex_x = scratch->vtx.h.x;
                                 vertex_value <<= 3;
                                 vertex_value += (s32)vertices;
                                 vertex_xy += vertex_x;
-                                vertex_value = ((MapVertex *)((void *)vertex_value))->z;
+                                vertex_value = ((MapVertex *)vertex_value)->z;
                                 vertex_xy &= 0xFFFF;
                                 vertex_value -= vertex_offset;
                                 scratch->v[1].z = (u16)vertex_value;
@@ -567,7 +565,7 @@ L_CFE98:
                                 vertex_xy = scratch->min_x.h.x;
                                 vertex_value <<= 3;
                                 vertex_value += (s32)vertices;
-                                vertex_value = ((MapVertex *)((void *)vertex_value))->xy;
+                                vertex_value = ((MapVertex *)vertex_value)->xy;
                                 scratch->vtx.word = vertex_value;
                                 third_x = scratch->vtx.h.x;
                                 vertex_offset = scratch->vtx.h.y;
@@ -580,7 +578,7 @@ L_CFE98:
                                 vertex_value = face->v2;
                                 vertex_value <<= 3;
                                 vertex_value += (s32)vertices;
-                                vertex_offset = ((MapVertex *)((void *)vertex_value))->z;
+                                vertex_offset = ((MapVertex *)vertex_value)->z;
                                 vertex_value = scratch->cell_height.h.x;
                                 vertex_offset -= vertex_value;
                                 scratch->v[2].z = (u16)vertex_offset;
@@ -605,7 +603,7 @@ L_CFE98:
                                     gte_stotz(&scratch->otz);
                                     normal_index = scratch->face_attr.h.x;
                                     if (scratch->last_normal != normal_index) {
-                                        scratch->last_normal = (s32) normal_index;
+                                        scratch->last_normal = normal_index;
                                         normal = (MapNormal *)((normal_index * 8) + (s32)normals);
                                         if (normal->z >= 0) {
                                             normal_xy = normal->xy;
@@ -613,7 +611,7 @@ L_CFE98:
                                                 scratch->step.word = normal_xy;
                                                 normal_x = scratch->step.h.x;
                                                 if ((s16) normal_x > 0) {
-                                                    scratch->step.h.x = (u16)row_mask;
+                                                    scratch->step.h.x = row_mask;
                                                 } else {
                                                     if ((s16) normal_x < 0) {
                                                         *(s16 *)&scratch->step.h.x = -1;
@@ -662,9 +660,9 @@ L_CFE98:
                                                                     || ((s8) neighbor_face_flags) >= 0) {
                                                                     face++;
                                                                     scratch->last_normal = 0xFFFF;
-                                                                    goto L_CFE98;
+                                                                    goto next_face;
                                                                 }
-                                                                goto block_98;
+                                                                goto check_packet_end;
                                                             }
                                                         }
                                                         scratch->min_height = max_height;
@@ -696,7 +694,7 @@ L_CFE98:
                                             face_skip = scratch->face_info.b.skip;
                                             face_skip &= 0xF;
                                             face += face_skip;
-                                            goto L_CFE98;
+                                            goto next_face;
                                         }
                                     } else {
                                         scratch->vtx.word =
@@ -705,9 +703,9 @@ L_CFE98:
                                             + (u16) scratch->vtx.word) & 0xFFFF)
                                         | ((scratch->cur_y + (s16) scratch->vtx.h.y) << 0x10);
                                         gte_ldv0(&scratch->v[3]);
-                                        *(s32 *)(packet_code + 5) = (s32) face->uv0_clut;
+                                        *(s32 *)(packet_code + 5) = face->uv0_clut;
                                         gte_rtps_nn();
-                                        *(s32 *)(packet_code + 0xD) = (s32) face->uv1_tpage;
+                                        *(s32 *)(packet_code + 0xD) = face->uv1_tpage;
                                         *(u16 *)(packet_code + 0x15) = scratch->face_attr.h.y;
                                         *(u16 *)(packet_code + 0x1D) = (u16) scratch->face_info.word;
                                         gte_stsxy(packet + 0x20);
@@ -727,7 +725,7 @@ L_CFE98:
                                         scratch->otz = quad_depth;
                                         if ((u32) quad_depth < 0x1BEU) {
                                             packet_code[-4] = 9;
-                                            *(s32 *)(packet_code - 3) = (s32) scratch->lit_color;
+                                            *(s32 *)(packet_code - 3) = scratch->lit_color;
                                             face_flags = scratch->face_info.b.flags;
                                             if (face_flags & 1) {
                                                 *packet_code |= 2;
@@ -779,26 +777,26 @@ L_CFE98:
                                             packet_addr = (void *) ((s32) packet & column_mask);
                                         } else if ((u32) quad_depth < 0x1DEU) {
                                             packet_code[-4] = 9;
-                                            *(s32 *)(packet_code - 3) = (s32) scratch->lit_color;
+                                            *(s32 *)(packet_code - 3) = scratch->lit_color;
                                             packet_addr = (void *) ((s32) packet & column_mask);
                                             *packet_code |= 2;
                                             packet_code += 0x28;
                                         } else {
-                                            goto block_98;
+                                            goto check_packet_end;
                                         }
                                         OT_SETADDR(packet, OT_GETADDR((scratch->otz * 4) + scratch->ot_base, column_mask), tag_mask, column_mask);
                                         ot_entry = (scratch->otz * 4) + scratch->ot_base;
-                                        *ot_entry = (*ot_entry & tag_mask) | (s32) packet_addr;
+                                        *ot_entry = (*ot_entry & tag_mask) | (s32)packet_addr;
                                         packet += 0x28;
                                         face_skip = scratch->face_info.b.skip;
                                         if ((face_skip & 0xF) == row_mask) {
                                             if (((s8) scratch->face_info.b.flags) >= 0) {
                                                 face += ((u32)face_skip >> 4) + 1;
-                                                goto L_CFE98;
+                                                goto next_face;
                                             }
                                         } else {
                                             face++;
-                                            goto L_CFE98;
+                                            goto next_face;
                                         }
                                     }
                                 }
@@ -811,18 +809,18 @@ L_CFE98:
                                     edge_progress &= 0x80FF;
                                     if (edge_progress != end_marker) {
                                         face++;
-                                        goto L_CFE98;
+                                        goto next_face;
                                     }
                                 } else {
                                     face_skip = scratch->face_info.b.skip;
                                     if ((face_skip & 0xF0) || ((s8) scratch->face_info.b.flags) >= 0) {
                                         face_skip &= 0xF;
                                         face += face_skip;
-                                        goto L_CFE98;
+                                        goto next_face;
                                     }
                                 }
                             }
-block_98:
+check_packet_end:
                             if ((u32) scratch->packet_end < (u32) packet) {
                                 ((GpuContext *)scene->unk_000)->packetCursor = packet;
                                 return;

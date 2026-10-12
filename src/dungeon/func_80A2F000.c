@@ -72,7 +72,6 @@ void *func_8015E884(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
     s8 held_a;
     s16 held_c;
     s8 held_b;
-    void *call_a1;
 
     work = 0;
     held_a = attr_a;
@@ -107,22 +106,17 @@ void *func_8015E884(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
         } else {
             if (((spawn_flags & ~3) << 16) == 0) {
                 if (!(work->unk_14 & 0x200)) {
-                    call_a1 = part_a;
                     left = func_800A6D30();
-                    call_a1 = obj;
-                    if (!(left & 1)) {
-                        goto call_a1_setup;
+                    if (left & 1) {
+                        work->unk_1C |= 0x200;
+                        func_800A48F0(work, 1,
+                                      (func_800A6D30() & 0x3F) | 0x20);
+                        part_b->unk_2C = D_80162860;
                     }
-                    work->unk_1C |= 0x200;
-                    func_800A48F0(work, 1,
-                                  (func_800A6D30() & 0x3F) | 0x20);
-                    part_b->unk_2C = D_80162860;
                 }
             }
         }
-        call_a1 = obj;
-call_a1_setup:
-        func_800A9C18(call_a1, part_a, part_b, spawn_flags);
+        func_800A9C18(obj, part_a, part_b, spawn_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_8015EE84;
