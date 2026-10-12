@@ -1,6 +1,6 @@
 {
   "schema": "overlay-module-native-v4",
-  "logical_rows": 6588,
+  "logical_rows": 6589,
   "edges": [
     {
       "module": "dungeon_cd_control_d79c4",
@@ -36245,6 +36245,16 @@
       },
       "rows": [
         "town/D_806D283C"
+      ]
+    },
+    {
+      "source": "src/town/D_8094D004.c",
+      "recipe": {
+        "cfg": "2.7.2-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/D_8094D004"
       ]
     },
     {

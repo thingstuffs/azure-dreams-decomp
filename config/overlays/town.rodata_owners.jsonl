@@ -6,3 +6,4 @@
 {"schema": "azure-clean.rodata_owner.v1", "id": "town/D_806D2804", "foff": "0x652804", "rodata_size": 24, "rodata": "image_header", "owner": null, "ownership_status": "owner-unresolved", "reviewer": "orchestrator-r117"}
 {"schema": "azure-clean.rodata_owner.v1", "id": "town/D_806D281C", "foff": "0x65281c", "rodata_size": 32, "rodata": "asset_path", "owner": null, "ownership_status": "owner-unresolved", "reviewer": "orchestrator-r117"}
 {"schema": "azure-clean.rodata_owner.v1", "id": "town/D_806D283C", "foff": "0x65283c", "rodata_size": 28, "rodata": "asset_path", "owner": null, "ownership_status": "owner-unresolved", "reviewer": "orchestrator-r117"}
+{"schema": "azure-clean.rodata_owner.v1", "id": "town/D_8094D004", "foff": "0x8cd004", "rodata_size": 24, "rodata": "image_header", "owner": null, "ownership_status": "owner-unresolved", "reviewer": "orchestrator-r117"}
