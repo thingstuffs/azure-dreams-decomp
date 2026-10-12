@@ -1,0 +1,2452 @@
+{
+ "schema": "r115_opus_town.scene_loader_receipt.v1",
+ "inputs": {
+  "TOWN": "907725012d8d9e1deab18c28b62f4d304057e86a6415df605b9ffb87cfb2fe18",
+  "SLUS": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f",
+  "disc": "$HOME/azure-clean/bin/Azure Dreams.bin",
+  "iso_TOWN": {
+   "lba": "0xc05",
+   "size": 16889856
+  }
+ },
+ "captures": {
+  "sstate1": {
+   "sha256_gz": "42013856b76304ae4144661be238dee45233c887769ba31a6bb56ac6ad90a9bc",
+   "slot_0x80016000": null,
+   "scene_state": {
+    "cur_last_loaded_record": "0x00000000",
+    "cur_record": "0x800d4360",
+    "cur_area": 0,
+    "cur_room": 0,
+    "next_record": "0x800d4360",
+    "next_area": 0,
+    "next_room": 0,
+    "cur_words": [
+     "0x00000000",
+     "0x800d4360",
+     "0x00000000",
+     "0x00000000",
+     "0x00000000",
+     "0x00000000",
+     "0x00000000",
+     "0x800d3cc8",
+     "0x800d401c",
+     "0x00000000",
+     "0x00000000",
+     "0x00000000"
+    ],
+    "cur_record_decoded": {
+     "word0": "0x00000000",
+     "word1": "0x00000000",
+     "sectors": 0,
+     "dest": "default-buffer [0x80081480]",
+     "lba": "0x0",
+     "town_file": null
+    }
+   },
+   "cd_ring_slot_loads": []
+  },
+  "sstate2": {
+   "sha256_gz": "7baaaab1df3a09f2f06087d10210ad9a679466cb87f80e45c38fcae388d32a36",
+   "slot_0x80016000": {
+    "town_file": "0x6f4800",
+    "matching_bytes_from_0x200": "0x1200"
+   },
+   "scene_state": {
+    "cur_last_loaded_record": "0x800d4378",
+    "cur_record": "0x800d4378",
+    "cur_area": 12,
+    "cur_room": 52,
+    "next_record": "0x800d4378",
+    "next_area": 12,
+    "next_room": 52,
+    "cur_words": [
+     "0x800d4378",
+     "0x800d4378",
+     "0x00000000",
+     "0x00010400",
+     "0x800d3640",
+     "0x01000100",
+     "0x0034000c",
+     "0x800d3cc8",
+     "0x800d401c",
+     "0x8003b400",
+     "0x00000000",
+     "0x00000000"
+    ],
+    "cur_record_decoded": {
+     "word0": "0x02016000",
+     "word1": "0x000019ee",
+     "sectors": 4,
+     "dest": "0x80016000",
+     "lba": "0x19ee",
+     "town_file": "0x6f4800"
+    }
+   },
+   "cd_ring_slot_loads": [
+    {
+     "ring_index": 3,
+     "record_ptr": "0x800d4378",
+     "word0": "0x02016000",
+     "word1": "0x000019ee",
+     "sectors": 4,
+     "dest": "0x80016000",
+     "lba": "0x19ee",
+     "town_file": "0x6f4800"
+    }
+   ]
+  },
+  "sstate3": {
+   "sha256_gz": "29e978d0fb9d0fbc90d717ad4cedf62ddfc1e0a4c67c213b31482c03be0dc844",
+   "slot_0x80016000": {
+    "town_file": "0x6f7000",
+    "matching_bytes_from_0x200": "0x1200"
+   },
+   "scene_state": {
+    "cur_last_loaded_record": "0x00000000",
+    "cur_record": "0x800d4380",
+    "cur_area": 12,
+    "cur_room": 53,
+    "next_record": "0x800d4380",
+    "next_area": 12,
+    "next_room": 53,
+    "cur_words": [
+     "0x00000000",
+     "0x800d4380",
+     "0x00000000",
+     "0x00010400",
+     "0x800d3660",
+     "0x012002a0",
+     "0x0035000c",
+     "0x800d3cc8",
+     "0x800d401c",
+     "0x800c19c4",
+     "0x0036000c",
+     "0x00000000"
+    ],
+    "cur_record_decoded": {
+     "word0": "0x02016000",
+     "word1": "0x00001401",
+     "sectors": 4,
+     "dest": "0x80016000",
+     "lba": "0x1401",
+     "town_file": "0x3fe000"
+    }
+   },
+   "cd_ring_slot_loads": [
+    {
+     "ring_index": 11,
+     "record_ptr": "0x800d4388",
+     "word0": "0x01816000",
+     "word1": "0x000019f3",
+     "sectors": 3,
+     "dest": "0x80016000",
+     "lba": "0x19f3",
+     "town_file": "0x6f7000"
+    }
+   ]
+  },
+  "sstate4": {
+   "sha256_gz": "6284bc6b927294c2d7b19a7e3c326d85f4ba28673a8e186b96c9cb35ec1094f2",
+   "slot_0x80016000": {
+    "town_file": "0x2ab800",
+    "matching_bytes_from_0x200": "0x5000"
+   },
+   "scene_state": {
+    "cur_last_loaded_record": "0x800812f8",
+    "cur_record": "0x800812f8",
+    "cur_area": 11,
+    "cur_room": 1,
+    "next_record": "0x800812f8",
+    "next_area": 11,
+    "next_room": 1,
+    "cur_words": [
+     "0x800812f8",
+     "0x800812f8",
+     "0x00000000",
+     "0x00000000",
+     "0x800d2670",
+     "0x03200180",
+     "0x0001000b",
+     "0x800d3cc8",
+     "0x800d401c",
+     "0x8001cff0",
+     "0x0001000c",
+     "0x00000000"
+    ],
+    "cur_record_decoded": {
+     "word0": "0x09816000",
+     "word1": "0x0000115c",
+     "sectors": 19,
+     "dest": "0x80016000",
+     "lba": "0x115c",
+     "town_file": "0x2ab800"
+    }
+   },
+   "cd_ring_slot_loads": [
+    {
+     "ring_index": 1,
+     "record_ptr": "0x800812f8",
+     "word0": "0x09816000",
+     "word1": "0x0000115c",
+     "sectors": 19,
+     "dest": "0x80016000",
+     "lba": "0x115c",
+     "town_file": "0x2ab800"
+    }
+   ]
+  },
+  "sstate5": {
+   "sha256_gz": "d3bb5af9e17e27febe1c154ab2e693deeb79b6a7779063b316b815001b82dd3f",
+   "slot_0x80016000": {
+    "town_file": "0x617000",
+    "matching_bytes_from_0x200": "0x2800"
+   },
+   "scene_state": {
+    "cur_last_loaded_record": "0x8001c27c",
+    "cur_record": "0x8001c27c",
+    "cur_area": 12,
+    "cur_room": 21,
+    "next_record": "0x8001c27c",
+    "next_area": 12,
+    "next_room": 21,
+    "cur_words": [
+     "0x8001c27c",
+     "0x8001c27c",
+     "0x00000000",
+     "0x00000800",
+     "0x800d3260",
+     "0x024001a0",
+     "0x0015000c",
+     "0x800d3cc8",
+     "0x800d401c",
+     "0x00000000",
+     "0x0001000b",
+     "0x00000000"
+    ],
+    "cur_record_decoded": {
+     "word0": "0x03016000",
+     "word1": "0x00001833",
+     "sectors": 6,
+     "dest": "0x80016000",
+     "lba": "0x1833",
+     "town_file": "0x617000"
+    }
+   },
+   "cd_ring_slot_loads": [
+    {
+     "ring_index": 1,
+     "record_ptr": "0x800812f8",
+     "word0": "0x09816000",
+     "word1": "0x0000115c",
+     "sectors": 19,
+     "dest": "0x80016000",
+     "lba": "0x115c",
+     "town_file": "0x2ab800"
+    },
+    {
+     "ring_index": 15,
+     "record_ptr": "0x8001c27c",
+     "word0": "0x03016000",
+     "word1": "0x00001833",
+     "sectors": 6,
+     "dest": "0x80016000",
+     "lba": "0x1833",
+     "town_file": "0x617000"
+    }
+   ],
+   "slot_sector_equality_of_512_words": [
+    {
+     "sector": 0,
+     "eq_0x617000": 511,
+     "eq_0x2AB800": 11
+    },
+    {
+     "sector": 1,
+     "eq_0x617000": 512,
+     "eq_0x2AB800": 12
+    },
+    {
+     "sector": 2,
+     "eq_0x617000": 512,
+     "eq_0x2AB800": 2
+    },
+    {
+     "sector": 3,
+     "eq_0x617000": 512,
+     "eq_0x2AB800": 11
+    },
+    {
+     "sector": 4,
+     "eq_0x617000": 512,
+     "eq_0x2AB800": 7
+    },
+    {
+     "sector": 5,
+     "eq_0x617000": 408,
+     "eq_0x2AB800": 52
+    },
+    {
+     "sector": 6,
+     "eq_0x617000": 0,
+     "eq_0x2AB800": 0
+    },
+    {
+     "sector": 7,
+     "eq_0x617000": 0,
+     "eq_0x2AB800": 0
+    },
+    {
+     "sector": 8,
+     "eq_0x617000": 1,
+     "eq_0x2AB800": 111
+    },
+    {
+     "sector": 9,
+     "eq_0x617000": 0,
+     "eq_0x2AB800": 512
+    },
+    {
+     "sector": 10,
+     "eq_0x617000": 146,
+     "eq_0x2AB800": 487
+    },
+    {
+     "sector": 11,
+     "eq_0x617000": 8,
+     "eq_0x2AB800": 508
+    },
+    {
+     "sector": 12,
+     "eq_0x617000": 0,
+     "eq_0x2AB800": 341
+    },
+    {
+     "sector": 13,
+     "eq_0x617000": 123,
+     "eq_0x2AB800": 273
+    },
+    {
+     "sector": 14,
+     "eq_0x617000": 1,
+     "eq_0x2AB800": 512
+    },
+    {
+     "sector": 15,
+     "eq_0x617000": 0,
+     "eq_0x2AB800": 272
+    },
+    {
+     "sector": 16,
+     "eq_0x617000": 0,
+     "eq_0x2AB800": 11
+    },
+    {
+     "sector": 17,
+     "eq_0x617000": 0,
+     "eq_0x2AB800": 0
+    },
+    {
+     "sector": 18,
+     "eq_0x617000": 0,
+     "eq_0x2AB800": 93
+    }
+   ]
+  },
+  "sstate6": {
+   "sha256_gz": "23216474fd16b59b6f93671f1c58b982c28349be7d367ede71c0a45ea48c3995",
+   "slot_0x80016000": null,
+   "scene_state": {
+    "cur_last_loaded_record": "0x800812f8",
+    "cur_record": "0x800812f8",
+    "cur_area": 11,
+    "cur_room": 3,
+    "next_record": "0x800812f8",
+    "next_area": 5,
+    "next_room": 0,
+    "cur_words": [
+     "0x800812f8",
+     "0x800812f8",
+     "0x00000000",
+     "0x00000000",
+     "0x800d26b0",
+     "0x02600100",
+     "0x0003000b",
+     "0x800d3cc8",
+     "0x800d401c",
+     "0x8001cff0",
+     "0x0003000b",
+     "0x00000000"
+    ],
+    "cur_record_decoded": {
+     "word0": "0x09816000",
+     "word1": "0x0000115c",
+     "sectors": 19,
+     "dest": "0x80016000",
+     "lba": "0x115c",
+     "town_file": "0x2ab800"
+    }
+   },
+   "cd_ring_slot_loads": [
+    {
+     "ring_index": 28,
+     "record_ptr": "0x800df3d4",
+     "word0": "0x09816000",
+     "word1": "0x00003a53",
+     "sectors": 19,
+     "dest": "0x80016000",
+     "lba": "0x3a53",
+     "town_file": null
+    }
+   ]
+  },
+  "sstate7": {
+   "sha256_gz": "40bf8f8c034477b9e0f32a569f56900ed8ec06f5a783c41d295de744d3f6a241",
+   "slot_0x80016000": null,
+   "scene_state": {
+    "cur_last_loaded_record": "0x800812f8",
+    "cur_record": "0x800812f8",
+    "cur_area": 11,
+    "cur_room": 3,
+    "next_record": "0x800812f8",
+    "next_area": 5,
+    "next_room": 0,
+    "cur_words": [
+     "0x800812f8",
+     "0x800812f8",
+     "0x00000000",
+     "0x00000000",
+     "0x800d26b0",
+     "0x02600100",
+     "0x0003000b",
+     "0x800d3cc8",
+     "0x800d401c",
+     "0x8001cff0",
+     "0x0003000b",
+     "0x00000000"
+    ],
+    "cur_record_decoded": {
+     "word0": "0x09816000",
+     "word1": "0x0000115c",
+     "sectors": 19,
+     "dest": "0x80016000",
+     "lba": "0x115c",
+     "town_file": "0x2ab800"
+    }
+   },
+   "cd_ring_slot_loads": [
+    {
+     "ring_index": 3,
+     "record_ptr": "0x800df3d4",
+     "word0": "0x09816000",
+     "word1": "0x00003a53",
+     "sectors": 19,
+     "dest": "0x80016000",
+     "lba": "0x3a53",
+     "town_file": null
+    },
+    {
+     "ring_index": 16,
+     "record_ptr": "0x800df3d4",
+     "word0": "0x09816000",
+     "word1": "0x00003a53",
+     "sectors": 19,
+     "dest": "0x80016000",
+     "lba": "0x3a53",
+     "town_file": null
+    },
+    {
+     "ring_index": 26,
+     "record_ptr": "0x800df3d4",
+     "word0": "0x09816000",
+     "word1": "0x00003a53",
+     "sectors": 19,
+     "dest": "0x80016000",
+     "lba": "0x3a53",
+     "town_file": null
+    }
+   ]
+  },
+  "sstate8": {
+   "sha256_gz": "0feda49fc3da8723e16865cdff617a4371964669d410a3e5ae462c98667a3382",
+   "slot_0x80016000": null,
+   "scene_state": {
+    "cur_last_loaded_record": "0x800812f8",
+    "cur_record": "0x800812f8",
+    "cur_area": 11,
+    "cur_room": 3,
+    "next_record": "0x800812f8",
+    "next_area": 5,
+    "next_room": 0,
+    "cur_words": [
+     "0x800812f8",
+     "0x800812f8",
+     "0x00000000",
+     "0x00000000",
+     "0x800d26b0",
+     "0x02600100",
+     "0x0003000b",
+     "0x800d3cc8",
+     "0x800d401c",
+     "0x8001cff0",
+     "0x0003000b",
+     "0x00000000"
+    ],
+    "cur_record_decoded": {
+     "word0": "0x09816000",
+     "word1": "0x0000115c",
+     "sectors": 19,
+     "dest": "0x80016000",
+     "lba": "0x115c",
+     "town_file": "0x2ab800"
+    }
+   },
+   "cd_ring_slot_loads": [
+    {
+     "ring_index": 7,
+     "record_ptr": "0x800df3d4",
+     "word0": "0x09816000",
+     "word1": "0x00003a53",
+     "sectors": 19,
+     "dest": "0x80016000",
+     "lba": "0x3a53",
+     "town_file": null
+    },
+    {
+     "ring_index": 24,
+     "record_ptr": "0x800df3d4",
+     "word0": "0x09816000",
+     "word1": "0x00003a53",
+     "sectors": 19,
+     "dest": "0x80016000",
+     "lba": "0x3a53",
+     "town_file": null
+    }
+   ]
+  },
+  "sstate9": {
+   "sha256_gz": "d3ee2695edb4b078208129e64bd16384179547a9a38ce165e31f427df3596940",
+   "slot_0x80016000": null,
+   "scene_state": {
+    "cur_last_loaded_record": "0x800812f8",
+    "cur_record": "0x800812f8",
+    "cur_area": 11,
+    "cur_room": 3,
+    "next_record": "0x800812f8",
+    "next_area": 5,
+    "next_room": 0,
+    "cur_words": [
+     "0x800812f8",
+     "0x800812f8",
+     "0x00000000",
+     "0x00000000",
+     "0x800d26b0",
+     "0x02600100",
+     "0x0003000b",
+     "0x800d3cc8",
+     "0x800d401c",
+     "0x8001cff0",
+     "0x0003000b",
+     "0x00000000"
+    ],
+    "cur_record_decoded": {
+     "word0": "0x09816000",
+     "word1": "0x0000115c",
+     "sectors": 19,
+     "dest": "0x80016000",
+     "lba": "0x115c",
+     "town_file": "0x2ab800"
+    }
+   },
+   "cd_ring_slot_loads": [
+    {
+     "ring_index": 12,
+     "record_ptr": "0x800df3cc",
+     "word0": "0x09816000",
+     "word1": "0x0000355c",
+     "sectors": 19,
+     "dest": "0x80016000",
+     "lba": "0x355c",
+     "town_file": null
+    },
+    {
+     "ring_index": 21,
+     "record_ptr": "0x800df3d4",
+     "word0": "0x09816000",
+     "word1": "0x00003a53",
+     "sectors": 19,
+     "dest": "0x80016000",
+     "lba": "0x3a53",
+     "town_file": null
+    }
+   ]
+  }
+ },
+ "chain": {
+  "set_next_scene": {
+   "addr": "0x8003baf8",
+   "words": 143,
+   "what": "desc+0/+2 -> next.area/room (+0x18/+0x1A); desc+8 -> next.record (+4) when area==0xC, else &rec_town_main 0x800812F8",
+   "sha256": "13d02c723925853211e0c2ea7b3d7e18c3b558b0bf60116dd35ece3591f6ec5a",
+   "disasm": "set_next_scene.txt"
+  },
+  "commit_scene": {
+   "addr": "0x8003bd34",
+   "words": 18,
+   "what": "copy 0x30 bytes next(0x8006ADEC) -> cur(0x8006ADBC)",
+   "sha256": "5f410badebb8bf89c53080ee691be88976ba22bf14e2dc75fe329ef9c787f64a",
+   "disasm": "commit_scene.txt"
+  },
+  "load_cur_scene": {
+   "addr": "0x80053c6c",
+   "words": 14,
+   "what": "a0=cur.record; cur.last=a0; if a0: load_record(a0)",
+   "sha256": "5579d8d028c32b36bd839c22584f5e9e8622628a195246d1bbe1eb11745a535e",
+   "disasm": "load_cur_scene.txt"
+  },
+  "load_record": {
+   "addr": "0x80053c3c",
+   "words": 12,
+   "what": "Control_CD(6, record, 0); CdSync-wait",
+   "sha256": "e81bf66fb475a6216849a3722162352e53434809e54921925ec8fca8b3f735fd",
+   "disasm": "load_record.txt"
+  },
+  "control_cd_case6": {
+   "addr": "0x8003e640",
+   "words": 8,
+   "what": "case 6: queue(op, record) via func_8003E39C",
+   "sha256": "d4f1e50a062b0cfedb7a9f79f06e033cbd99bea8f0ce1a84beccac252b276bd1",
+   "disasm": "control_cd_case6.txt"
+  },
+  "queue_enqueue": {
+   "addr": "0x8003e408",
+   "words": 12,
+   "what": "ring 0x80083968[idx]*24: byte op, word record at +4",
+   "sha256": "fb900cf4e66352e213db4c28a08819e322afeb9e63b02982f13080bf8922f558",
+   "disasm": "queue_enqueue.txt"
+  },
+  "worker_case6_decode": {
+   "addr": "0x8003e9ec",
+   "words": 36,
+   "what": "dest = (w0 & 0x7FFFFF) | 0x80000000 (0 -> default buffer [0x80081480]); count = w0 >> 23; CdSetloc(w1)",
+   "sha256": "6069f43f55d21c24c61eafbd90aa0bf5902ccb194120be04a809f8679fe1ce5d",
+   "disasm": "worker_case6_decode.txt"
+  },
+  "door_enter": {
+   "addr": "0x800a0b74",
+   "words": 28,
+   "what": "door actor: set_next_scene(task+0x68 = its descriptor)",
+   "sha256": "dc5488b619c1bbbdf5af0992902ef1bfbf1a1c736629517cb57c3455a7cacde0",
+   "disasm": "door_enter.txt"
+  },
+  "door_fade_then_enter": {
+   "addr": "0x800a0884",
+   "words": 24,
+   "what": "after fade: door_enter(task, task->desc)",
+   "sha256": "6d11bcba4216814d2723a9560ae9c096505798dce78a95327ff846c67116dbc4",
+   "disasm": "door_fade_then_enter.txt"
+  },
+  "service_table": {
+   "root_word": "0x80016000 (module header word 0, patched to root 0x801131B8)",
+   "table": "0x800D3CC8",
+   "+0x218": "0x8003BAF8 set_next_scene",
+   "+0x64": "0x8003e4fc Control_CD",
+   "+0x344": "0x800a09f4 door-demo setter (not a registrar)"
+  }
+ },
+ "descriptor_array": {
+  "module": "TOWN 0x2AB800 (19 sectors, record 0x800812F8, loaded in sstate4/6-9)",
+  "first": "0x8001BEA4",
+  "D_8001BF80": "entry 0 of the 20-count +0x344 call",
+  "entries": [
+   {
+    "addr": "0x8001bea4",
+    "index_from_D_8001BF80": -11,
+    "area": 12,
+    "room": 1,
+    "record_ptr": "0x8001c1ec",
+    "word0": "0x0a016000",
+    "word1": "0x000013cf",
+    "sectors": 20,
+    "dest": "0x80016000",
+    "lba": "0x13cf",
+    "town_file": "0x3e5000",
+    "door_actor_records": [
+     "0x2b4024"
+    ]
+   },
+   {
+    "addr": "0x8001beb8",
+    "index_from_D_8001BF80": -10,
+    "area": 12,
+    "room": 2,
+    "record_ptr": "0x8001c1ec",
+    "word0": "0x0a016000",
+    "word1": "0x000013cf",
+    "sectors": 20,
+    "dest": "0x80016000",
+    "lba": "0x13cf",
+    "town_file": "0x3e5000",
+    "door_actor_records": [
+     "0x2b4074"
+    ]
+   },
+   {
+    "addr": "0x8001becc",
+    "index_from_D_8001BF80": -9,
+    "area": 12,
+    "room": 3,
+    "record_ptr": "0x8001c1ec",
+    "word0": "0x0a016000",
+    "word1": "0x000013cf",
+    "sectors": 20,
+    "dest": "0x80016000",
+    "lba": "0x13cf",
+    "town_file": "0x3e5000",
+    "door_actor_records": [
+     "0x2b40c4"
+    ]
+   },
+   {
+    "addr": "0x8001bee0",
+    "index_from_D_8001BF80": -8,
+    "area": 12,
+    "room": 43,
+    "record_ptr": "0x8001c304",
+    "word0": "0x02016000",
+    "word1": "0x000014b5",
+    "sectors": 4,
+    "dest": "0x80016000",
+    "lba": "0x14b5",
+    "town_file": "0x458000",
+    "door_actor_records": [
+     "0x2b413c"
+    ]
+   },
+   {
+    "addr": "0x8001bef4",
+    "index_from_D_8001BF80": -7,
+    "area": 12,
+    "room": 7,
+    "record_ptr": "0x8001c20c",
+    "word0": "0x03816000",
+    "word1": "0x00001474",
+    "sectors": 7,
+    "dest": "0x80016000",
+    "lba": "0x1474",
+    "town_file": "0x437800",
+    "door_actor_records": [
+     "0x2b4164"
+    ]
+   },
+   {
+    "addr": "0x8001bf08",
+    "index_from_D_8001BF80": -6,
+    "area": 12,
+    "room": 8,
+    "record_ptr": "0x8001c214",
+    "word0": "0x02016000",
+    "word1": "0x000014e5",
+    "sectors": 4,
+    "dest": "0x80016000",
+    "lba": "0x14e5",
+    "town_file": "0x470000",
+    "door_actor_records": [
+     "0x2b418c"
+    ]
+   },
+   {
+    "addr": "0x8001bf1c",
+    "index_from_D_8001BF80": -5,
+    "area": 12,
+    "room": 9,
+    "record_ptr": "0x8001c21c",
+    "word0": "0x01816000",
+    "word1": "0x00001505",
+    "sectors": 3,
+    "dest": "0x80016000",
+    "lba": "0x1505",
+    "town_file": "0x480000",
+    "door_actor_records": [
+     "0x2b41b4"
+    ]
+   },
+   {
+    "addr": "0x8001bf30",
+    "index_from_D_8001BF80": -4,
+    "area": 12,
+    "room": 10,
+    "record_ptr": "0x8001c224",
+    "word0": "0x02016000",
+    "word1": "0x000015a4",
+    "sectors": 4,
+    "dest": "0x80016000",
+    "lba": "0x15a4",
+    "town_file": "0x4cf800",
+    "door_actor_records": [
+     "0x2b41dc"
+    ]
+   },
+   {
+    "addr": "0x8001bf44",
+    "index_from_D_8001BF80": -3,
+    "area": 12,
+    "room": 11,
+    "record_ptr": "0x8001c22c",
+    "word0": "0x04016000",
+    "word1": "0x00001542",
+    "sectors": 8,
+    "dest": "0x80016000",
+    "lba": "0x1542",
+    "town_file": "0x49e800",
+    "door_actor_records": [
+     "0x2b4204",
+     "0x2b4218",
+     "0x2b422c",
+     "0x2b4240",
+     "0x2b4254"
+    ]
+   },
+   {
+    "addr": "0x8001bf58",
+    "index_from_D_8001BF80": -2,
+    "area": 12,
+    "room": 12,
+    "record_ptr": "0x8001c234",
+    "word0": "0x02016000",
+    "word1": "0x000015f7",
+    "sectors": 4,
+    "dest": "0x80016000",
+    "lba": "0x15f7",
+    "town_file": "0x4f9000",
+    "door_actor_records": [
+     "0x2b427c"
+    ]
+   },
+   {
+    "addr": "0x8001bf6c",
+    "index_from_D_8001BF80": -1,
+    "area": 12,
+    "room": 13,
+    "record_ptr": "0x8001c23c",
+    "word0": "0x04016000",
+    "word1": "0x00001641",
+    "sectors": 8,
+    "dest": "0x80016000",
+    "lba": "0x1641",
+    "town_file": "0x51e000",
+    "door_actor_records": [
+     "0x2b42a4"
+    ]
+   },
+   {
+    "addr": "0x8001bf80",
+    "index_from_D_8001BF80": 0,
+    "area": 12,
+    "room": 14,
+    "record_ptr": "0x8001c244",
+    "word0": "0x04816000",
+    "word1": "0x000016a9",
+    "sectors": 9,
+    "dest": "0x80016000",
+    "lba": "0x16a9",
+    "town_file": "0x552000",
+    "door_actor_records": [
+     "0x2b42cc"
+    ]
+   },
+   {
+    "addr": "0x8001bf94",
+    "index_from_D_8001BF80": 1,
+    "area": 12,
+    "room": 15,
+    "record_ptr": "0x8001c24c",
+    "word0": "0x02816000",
+    "word1": "0x00001707",
+    "sectors": 5,
+    "dest": "0x80016000",
+    "lba": "0x1707",
+    "town_file": "0x581000",
+    "door_actor_records": [
+     "0x2b4330"
+    ]
+   },
+   {
+    "addr": "0x8001bfa8",
+    "index_from_D_8001BF80": 2,
+    "area": 12,
+    "room": 16,
+    "record_ptr": "0x8001c254",
+    "word0": "0x03816000",
+    "word1": "0x0000172e",
+    "sectors": 7,
+    "dest": "0x80016000",
+    "lba": "0x172e",
+    "town_file": "0x594800",
+    "door_actor_records": [
+     "0x2b4358"
+    ]
+   },
+   {
+    "addr": "0x8001bfbc",
+    "index_from_D_8001BF80": 3,
+    "area": 12,
+    "room": 17,
+    "record_ptr": "0x8001c25c",
+    "word0": "0x02016000",
+    "word1": "0x00001769",
+    "sectors": 4,
+    "dest": "0x80016000",
+    "lba": "0x1769",
+    "town_file": "0x5b2000",
+    "door_actor_records": [
+     "0x2b4380"
+    ]
+   },
+   {
+    "addr": "0x8001bfd0",
+    "index_from_D_8001BF80": 4,
+    "area": 12,
+    "room": 18,
+    "record_ptr": "0x8001c264",
+    "word0": "0x02016000",
+    "word1": "0x00001793",
+    "sectors": 4,
+    "dest": "0x80016000",
+    "lba": "0x1793",
+    "town_file": "0x5c7000",
+    "door_actor_records": [
+     "0x2b43a8"
+    ]
+   },
+   {
+    "addr": "0x8001bfe4",
+    "index_from_D_8001BF80": 5,
+    "area": 12,
+    "room": 19,
+    "record_ptr": "0x8001c26c",
+    "word0": "0x02816000",
+    "word1": "0x000017bc",
+    "sectors": 5,
+    "dest": "0x80016000",
+    "lba": "0x17bc",
+    "town_file": "0x5db800",
+    "door_actor_records": [
+     "0x2b43d0"
+    ]
+   },
+   {
+    "addr": "0x8001bff8",
+    "index_from_D_8001BF80": 6,
+    "area": 12,
+    "room": 20,
+    "record_ptr": "0x8001c274",
+    "word0": "0x03016000",
+    "word1": "0x00001803",
+    "sectors": 6,
+    "dest": "0x80016000",
+    "lba": "0x1803",
+    "town_file": "0x5ff000",
+    "door_actor_records": [
+     "0x2b4420"
+    ]
+   },
+   {
+    "addr": "0x8001c00c",
+    "index_from_D_8001BF80": 7,
+    "area": 12,
+    "room": 21,
+    "record_ptr": "0x8001c27c",
+    "word0": "0x03016000",
+    "word1": "0x00001833",
+    "sectors": 6,
+    "dest": "0x80016000",
+    "lba": "0x1833",
+    "town_file": "0x617000",
+    "door_actor_records": [
+     "0x2b4470"
+    ]
+   },
+   {
+    "addr": "0x8001c020",
+    "index_from_D_8001BF80": 8,
+    "area": 12,
+    "room": 22,
+    "record_ptr": "0x8001c284",
+    "word0": "0x06016000",
+    "word1": "0x000013e3",
+    "sectors": 12,
+    "dest": "0x80016000",
+    "lba": "0x13e3",
+    "town_file": "0x3ef000",
+    "door_actor_records": [
+     "0x2b44c0"
+    ]
+   },
+   {
+    "addr": "0x8001c034",
+    "index_from_D_8001BF80": 9,
+    "area": 12,
+    "room": 23,
+    "record_ptr": "0x8001c28c",
+    "word0": "0x01816000",
+    "word1": "0x00001857",
+    "sectors": 3,
+    "dest": "0x80016000",
+    "lba": "0x1857",
+    "town_file": "0x629000",
+    "door_actor_records": [
+     "0x2b454c"
+    ]
+   },
+   {
+    "addr": "0x8001c048",
+    "index_from_D_8001BF80": 10,
+    "area": 12,
+    "room": 24,
+    "record_ptr": "0x8001c294",
+    "word0": "0x04016000",
+    "word1": "0x0000188f",
+    "sectors": 8,
+    "dest": "0x80016000",
+    "lba": "0x188f",
+    "town_file": "0x645000",
+    "door_actor_records": [
+     "0x2b4574"
+    ]
+   },
+   {
+    "addr": "0x8001c05c",
+    "index_from_D_8001BF80": 11,
+    "area": 12,
+    "room": 25,
+    "record_ptr": "0x8001c29c",
+    "word0": "0x02016000",
+    "word1": "0x00001897",
+    "sectors": 4,
+    "dest": "0x80016000",
+    "lba": "0x1897",
+    "town_file": "0x649000",
+    "door_actor_records": [
+     "0x2b45c4"
+    ]
+   },
+   {
+    "addr": "0x8001c070",
+    "index_from_D_8001BF80": 12,
+    "area": 12,
+    "room": 26,
+    "record_ptr": "0x8001c2a4",
+    "word0": "0x02016000",
+    "word1": "0x0000189b",
+    "sectors": 4,
+    "dest": "0x80016000",
+    "lba": "0x189b",
+    "town_file": "0x64b000",
+    "door_actor_records": [
+     "0x2b4600"
+    ]
+   },
+   {
+    "addr": "0x8001c084",
+    "index_from_D_8001BF80": 13,
+    "area": 12,
+    "room": 27,
+    "record_ptr": "0x8001c2ac",
+    "word0": "0x02016000",
+    "word1": "0x0000189f",
+    "sectors": 4,
+    "dest": "0x80016000",
+    "lba": "0x189f",
+    "town_file": "0x64d000",
+    "door_actor_records": [
+     "0x2b4664"
+    ]
+   },
+   {
+    "addr": "0x8001c098",
+    "index_from_D_8001BF80": 14,
+    "area": 12,
+    "room": 28,
+    "record_ptr": "0x8001c2b4",
+    "word0": "0x02016000",
+    "word1": "0x000018a3",
+    "sectors": 4,
+    "dest": "0x80016000",
+    "lba": "0x18a3",
+    "town_file": "0x64f000",
+    "door_actor_records": [
+     "0x2b46a0"
+    ]
+   },
+   {
+    "addr": "0x8001c0ac",
+    "index_from_D_8001BF80": 15,
+    "area": 12,
+    "room": 29,
+    "record_ptr": "0x8001c2bc",
+    "word0": "0x01816000",
+    "word1": "0x000018a7",
+    "sectors": 3,
+    "dest": "0x80016000",
+    "lba": "0x18a7",
+    "town_file": "0x651000",
+    "door_actor_records": [
+     "0x2b46dc"
+    ]
+   },
+   {
+    "addr": "0x8001c0c0",
+    "index_from_D_8001BF80": 16,
+    "area": 12,
+    "room": 31,
+    "record_ptr": "0x8001c2c4",
+    "word0": "0x01816000",
+    "word1": "0x000018aa",
+    "sectors": 3,
+    "dest": "0x80016000",
+    "lba": "0x18aa",
+    "town_file": "0x652800",
+    "door_actor_records": []
+   },
+   {
+    "addr": "0x8001c0d4",
+    "index_from_D_8001BF80": 17,
+    "area": 12,
+    "room": 32,
+    "record_ptr": "0x8001c2cc",
+    "word0": "0x06016000",
+    "word1": "0x0000191f",
+    "sectors": 12,
+    "dest": "0x80016000",
+    "lba": "0x191f",
+    "town_file": "0x68d000",
+    "door_actor_records": [
+     "0x2b4894"
+    ]
+   },
+   {
+    "addr": "0x8001c0e8",
+    "index_from_D_8001BF80": 18,
+    "area": 12,
+    "room": 33,
+    "record_ptr": "0x8001c2d4",
+    "word0": "0x02016000",
+    "word1": "0x0000199e",
+    "sectors": 4,
+    "dest": "0x80016000",
+    "lba": "0x199e",
+    "town_file": "0x6cc800",
+    "door_actor_records": [
+     "0x2b48e4"
+    ]
+   },
+   {
+    "addr": "0x8001c0fc",
+    "index_from_D_8001BF80": 19,
+    "area": 12,
+    "room": 34,
+    "record_ptr": "0x8001c2dc",
+    "word0": "0x03816000",
+    "word1": "0x000018ad",
+    "sectors": 7,
+    "dest": "0x80016000",
+    "lba": "0x18ad",
+    "town_file": "0x654000",
+    "door_actor_records": [
+     "0x2b495c"
+    ]
+   },
+   {
+    "addr": "0x8001c110",
+    "index_from_D_8001BF80": 20,
+    "area": 12,
+    "room": 35,
+    "record_ptr": "0x8001c2e4",
+    "word0": "0x03816000",
+    "word1": "0x000018b4",
+    "sectors": 7,
+    "dest": "0x80016000",
+    "lba": "0x18b4",
+    "town_file": "0x657800",
+    "door_actor_records": [
+     "0x2b49ac"
+    ]
+   },
+   {
+    "addr": "0x8001c124",
+    "index_from_D_8001BF80": 21,
+    "area": 12,
+    "room": 36,
+    "record_ptr": "0x8001c2ec",
+    "word0": "0x02016000",
+    "word1": "0x000019c8",
+    "sectors": 4,
+    "dest": "0x80016000",
+    "lba": "0x19c8",
+    "town_file": "0x6e1800",
+    "door_actor_records": [
+     "0x2b49fc"
+    ]
+   }
+  ]
+ },
+ "module_family": {
+  "headers": 54,
+  "with_slot_record": 48,
+  "unreferenced": [
+   "0x8cd000",
+   "0x8ce000",
+   "0x8cf000",
+   "0x8d0000",
+   "0x8d1000",
+   "0x8d2000"
+  ],
+  "members": [
+   {
+    "town_file": "0x2ab800",
+    "entry_words": [
+     "0x8001a484",
+     "0x8001a3fc"
+    ],
+    "slot_records": [
+     {
+      "at": "0x3e7b74",
+      "sectors": 19
+     },
+     {
+      "at": "0x3f4200",
+      "sectors": 19
+     },
+     {
+      "at": "0x43a63c",
+      "sectors": 19
+     },
+     {
+      "at": "0x451d84",
+      "sectors": 19
+     },
+     {
+      "at": "0x4599d0",
+      "sectors": 19
+     },
+     {
+      "at": "0x471690",
+      "sectors": 19
+     },
+     {
+      "at": "0x4814f4",
+      "sectors": 19
+     },
+     {
+      "at": "0x4a1950",
+      "sectors": 19
+     },
+     {
+      "at": "0x4d1298",
+      "sectors": 19
+     },
+     {
+      "at": "0x4fa5ac",
+      "sectors": 19
+     },
+     {
+      "at": "0x521138",
+      "sectors": 19
+     },
+     {
+      "at": "0x555ad8",
+      "sectors": 19
+     },
+     {
+      "at": "0x582fac",
+      "sectors": 19
+     },
+     {
+      "at": "0x597a60",
+      "sectors": 19
+     },
+     {
+      "at": "0x5b3780",
+      "sectors": 19
+     },
+     {
+      "at": "0x5c8b34",
+      "sectors": 19
+     },
+     {
+      "at": "0x5ddb34",
+      "sectors": 19
+     },
+     {
+      "at": "0x6018c0",
+      "sectors": 19
+     },
+     {
+      "at": "0x619ad8",
+      "sectors": 19
+     },
+     {
+      "at": "0x62a4cc",
+      "sectors": 19
+     },
+     {
+      "at": "0x6480b8",
+      "sectors": 19
+     },
+     {
+      "at": "0x64a8c8",
+      "sectors": 19
+     },
+     {
+      "at": "0x64c898",
+      "sectors": 19
+     },
+     {
+      "at": "0x64e858",
+      "sectors": 19
+     },
+     {
+      "at": "0x65065c",
+      "sectors": 19
+     },
+     {
+      "at": "0x652478",
+      "sectors": 19
+     },
+     {
+      "at": "0x656b9c",
+      "sectors": 19
+     },
+     {
+      "at": "0x65a90c",
+      "sectors": 19
+     },
+     {
+      "at": "0x65c664",
+      "sectors": 19
+     },
+     {
+      "at": "0x692158",
+      "sectors": 19
+     },
+     {
+      "at": "0x6abb70",
+      "sectors": 19
+     },
+     {
+      "at": "0x6cde40",
+      "sectors": 19
+     },
+     {
+      "at": "0x6e3364",
+      "sectors": 19
+     },
+     {
+      "at": "SLUS 0x54af8",
+      "sectors": 19
+     }
+    ]
+   },
+   {
+    "town_file": "0x3e5000",
+    "entry_words": [
+     "0x8001e3f0",
+     "0x8001e368"
+    ],
+    "slot_records": [
+     {
+      "at": "0x56c00",
+      "sectors": 20
+     },
+     {
+      "at": "0x2b19ec",
+      "sectors": 20
+     },
+     {
+      "at": "0x3ff8d8",
+      "sectors": 20
+     },
+     {
+      "at": "0x6eff10",
+      "sectors": 20
+     },
+     {
+      "at": "0x6f5c6c",
+      "sectors": 20
+     },
+     {
+      "at": "0x6fdb0c",
+      "sectors": 20
+     },
+     {
+      "at": "0x7050ec",
+      "sectors": 20
+     },
+     {
+      "at": "0x71a0ec",
+      "sectors": 20
+     }
+    ]
+   },
+   {
+    "town_file": "0x3ef000",
+    "entry_words": [
+     "0x8001a144",
+     "0x8001a0bc"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1a84",
+      "sectors": 12
+     }
+    ]
+   },
+   {
+    "town_file": "0x3f5000",
+    "entry_words": [
+     "0x80019650",
+     "0x800195c8"
+    ],
+    "slot_records": [
+     {
+      "at": "0x56c08",
+      "sectors": 9
+     },
+     {
+      "at": "0x2b19f4",
+      "sectors": 9
+     }
+    ]
+   },
+   {
+    "town_file": "0x3f9800",
+    "entry_words": [
+     "0x80019650",
+     "0x800195c8"
+    ],
+    "slot_records": [
+     {
+      "at": "0x56c10",
+      "sectors": 9
+     },
+     {
+      "at": "0x2b19fc",
+      "sectors": 9
+     }
+    ]
+   },
+   {
+    "town_file": "0x3fe000",
+    "entry_words": [
+     "0x800173e0",
+     "0x80017358"
+    ],
+    "slot_records": [
+     {
+      "at": "0x56c20",
+      "sectors": 4
+     },
+     {
+      "at": "0x6f5c74",
+      "sectors": 4
+     },
+     {
+      "at": "0x6f846c",
+      "sectors": 4
+     }
+    ]
+   },
+   {
+    "town_file": "0x400000",
+    "entry_words": [
+     "0x80018268",
+     "0x800181e0"
+    ],
+    "slot_records": [
+     {
+      "at": "0x56c30",
+      "sectors": 7
+     }
+    ]
+   },
+   {
+    "town_file": "0x437800",
+    "entry_words": [
+     "0x800186cc",
+     "0x80018644"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1a0c",
+      "sectors": 7
+     }
+    ]
+   },
+   {
+    "town_file": "0x450800",
+    "entry_words": [
+     "0x80017174",
+     "0x800170ec"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1a04",
+      "sectors": 3
+     },
+     {
+      "at": "0x45998c",
+      "sectors": 3
+     }
+    ]
+   },
+   {
+    "town_file": "0x458000",
+    "entry_words": [
+     "0x80017248",
+     "0x800171c0"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1b04",
+      "sectors": 4
+     },
+     {
+      "at": "0x451d40",
+      "sectors": 4
+     }
+    ]
+   },
+   {
+    "town_file": "0x470000",
+    "entry_words": [
+     "0x8001726c",
+     "0x800171e4"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1a14",
+      "sectors": 4
+     }
+    ]
+   },
+   {
+    "town_file": "0x480000",
+    "entry_words": [
+     "0x80017150",
+     "0x800170c8"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1a1c",
+      "sectors": 3
+     },
+     {
+      "at": "0x48f5c8",
+      "sectors": 3
+     }
+    ]
+   },
+   {
+    "town_file": "0x48e000",
+    "entry_words": [
+     "0x800171f8",
+     "0x80017170"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1afc",
+      "sectors": 4
+     },
+     {
+      "at": "0x4814fc",
+      "sectors": 4
+     }
+    ]
+   },
+   {
+    "town_file": "0x49e800",
+    "entry_words": [
+     "0x800186b0",
+     "0x80018628"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1a2c",
+      "sectors": 8
+     },
+     {
+      "at": "0x4a1904",
+      "sectors": 8
+     }
+    ]
+   },
+   {
+    "town_file": "0x4cf800",
+    "entry_words": [
+     "0x80017398",
+     "0x80017310"
+    ],
+    "slot_records": [
+     {
+      "at": "0x54c50",
+      "sectors": 4
+     },
+     {
+      "at": "0x2b1a24",
+      "sectors": 4
+     }
+    ]
+   },
+   {
+    "town_file": "0x4d9000",
+    "entry_words": [
+     "0x800170e4",
+     "0x8001705c"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1b14",
+      "sectors": 3
+     },
+     {
+      "at": "0x4d124c",
+      "sectors": 3
+     }
+    ]
+   },
+   {
+    "town_file": "0x4f9000",
+    "entry_words": [
+     "0x80017198",
+     "0x80017110"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1a34",
+      "sectors": 4
+     }
+    ]
+   },
+   {
+    "town_file": "0x51e000",
+    "entry_words": [
+     "0x80018564",
+     "0x800184dc"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1a3c",
+      "sectors": 8
+     },
+     {
+      "at": "0x43a5f8",
+      "sectors": 8
+     },
+     {
+      "at": "0x4a190c",
+      "sectors": 8
+     },
+     {
+      "at": "0x5210f0",
+      "sectors": 8
+     }
+    ]
+   },
+   {
+    "town_file": "0x552000",
+    "entry_words": [
+     "0x80018e34",
+     "0x80018dac"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1a44",
+      "sectors": 9
+     }
+    ]
+   },
+   {
+    "town_file": "0x581000",
+    "entry_words": [
+     "0x80017c80",
+     "0x80017bf8"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1a4c",
+      "sectors": 5
+     }
+    ]
+   },
+   {
+    "town_file": "0x594800",
+    "entry_words": [
+     "0x80018850",
+     "0x800187c8"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1a54",
+      "sectors": 7
+     },
+     {
+      "at": "0x673254",
+      "sectors": 7
+     }
+    ]
+   },
+   {
+    "town_file": "0x5b2000",
+    "entry_words": [
+     "0x80017258",
+     "0x800171d0"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1a5c",
+      "sectors": 4
+     }
+    ]
+   },
+   {
+    "town_file": "0x5c7000",
+    "entry_words": [
+     "0x800172ec",
+     "0x80017264"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1a64",
+      "sectors": 4
+     }
+    ]
+   },
+   {
+    "town_file": "0x5db800",
+    "entry_words": [
+     "0x80017cfc",
+     "0x80017c74"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1a6c",
+      "sectors": 5
+     }
+    ]
+   },
+   {
+    "town_file": "0x5ff000",
+    "entry_words": [
+     "0x80018194",
+     "0x8001810c"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1a74",
+      "sectors": 6
+     }
+    ]
+   },
+   {
+    "town_file": "0x617000",
+    "entry_words": [
+     "0x80018264",
+     "0x800181dc"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1a7c",
+      "sectors": 6
+     }
+    ]
+   },
+   {
+    "town_file": "0x629000",
+    "entry_words": [
+     "0x80017108",
+     "0x80017080"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1a8c",
+      "sectors": 3
+     }
+    ]
+   },
+   {
+    "town_file": "0x645000",
+    "entry_words": [
+     "0x8001896c",
+     "0x800188e4"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1a94",
+      "sectors": 8
+     },
+     {
+      "at": "0x597a18",
+      "sectors": 8
+     }
+    ]
+   },
+   {
+    "town_file": "0x649000",
+    "entry_words": [
+     "0x8001733c",
+     "0x800172b4"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1a9c",
+      "sectors": 4
+     }
+    ]
+   },
+   {
+    "town_file": "0x64b000",
+    "entry_words": [
+     "0x80017338",
+     "0x800172b0"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1aa4",
+      "sectors": 4
+     }
+    ]
+   },
+   {
+    "town_file": "0x64d000",
+    "entry_words": [
+     "0x800172e0",
+     "0x80017258"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1aac",
+      "sectors": 4
+     }
+    ]
+   },
+   {
+    "town_file": "0x64f000",
+    "entry_words": [
+     "0x80017144",
+     "0x800170bc"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1ab4",
+      "sectors": 4
+     }
+    ]
+   },
+   {
+    "town_file": "0x651000",
+    "entry_words": [
+     "0x800170b4",
+     "0x8001702c"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1abc",
+      "sectors": 3
+     }
+    ]
+   },
+   {
+    "town_file": "0x652800",
+    "entry_words": [
+     "0x80016c34",
+     "0x80016bd4"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1ac4",
+      "sectors": 3
+     }
+    ]
+   },
+   {
+    "town_file": "0x654000",
+    "entry_words": [
+     "0x80017fe8",
+     "0x80017f60"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1adc",
+      "sectors": 7
+     }
+    ]
+   },
+   {
+    "town_file": "0x657800",
+    "entry_words": [
+     "0x80018194",
+     "0x8001810c"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1ae4",
+      "sectors": 7
+     }
+    ]
+   },
+   {
+    "town_file": "0x65b000",
+    "entry_words": [
+     "0x8001715c",
+     "0x800170d4"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1b0c",
+      "sectors": 4
+     }
+    ]
+   },
+   {
+    "town_file": "0x671800",
+    "entry_words": [
+     "0x80017390",
+     "0x80017308"
+    ],
+    "slot_records": [
+     {
+      "at": "0x648070",
+      "sectors": 4
+     }
+    ]
+   },
+   {
+    "town_file": "0x68d000",
+    "entry_words": [
+     "0x8001a24c",
+     "0x8001a1c4"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1acc",
+      "sectors": 12
+     },
+     {
+      "at": "0x6abb2c",
+      "sectors": 12
+     }
+    ]
+   },
+   {
+    "town_file": "0x6aa000",
+    "entry_words": [
+     "0x800174fc",
+     "0x80017474"
+    ],
+    "slot_records": [
+     {
+      "at": "0x4a18fc",
+      "sectors": 5
+     }
+    ]
+   },
+   {
+    "town_file": "0x6cc800",
+    "entry_words": [
+     "0x80017140",
+     "0x800170b8"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1ad4",
+      "sectors": 4
+     }
+    ]
+   },
+   {
+    "town_file": "0x6e1800",
+    "entry_words": [
+     "0x8001759c",
+     "0x80017514"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1aec",
+      "sectors": 4
+     }
+    ]
+   },
+   {
+    "town_file": "0x6ef800",
+    "entry_words": [
+     "0x8001798c",
+     "0x80017904"
+    ],
+    "slot_records": [
+     {
+      "at": "0x2b1af4",
+      "sectors": 8
+     },
+     {
+      "at": "0x3e7b7c",
+      "sectors": 8
+     }
+    ]
+   },
+   {
+    "town_file": "0x6f4800",
+    "entry_words": [
+     "0x800170f4",
+     "0x8001706c"
+    ],
+    "slot_records": [
+     {
+      "at": "0x56c18",
+      "sectors": 4
+     }
+    ]
+   },
+   {
+    "town_file": "0x6f7000",
+    "entry_words": [
+     "0x800170f4",
+     "0x8001706c"
+    ],
+    "slot_records": [
+     {
+      "at": "0x56c28",
+      "sectors": 3
+     },
+     {
+      "at": "0x3ff8e0",
+      "sectors": 3
+     }
+    ]
+   },
+   {
+    "town_file": "0x6fd800",
+    "entry_words": [
+     "0x80017470",
+     "0x800173e8"
+    ],
+    "slot_records": [
+     {
+      "at": "0x3e7b84",
+      "sectors": 4
+     }
+    ]
+   },
+   {
+    "town_file": "0x705000",
+    "entry_words": [
+     "0x800171f0",
+     "0x80017168"
+    ],
+    "slot_records": [
+     {
+      "at": "0x3e7b8c",
+      "sectors": 3
+     }
+    ]
+   },
+   {
+    "town_file": "0x71a000",
+    "entry_words": [
+     "0x80017218",
+     "0x80017190"
+    ],
+    "slot_records": [
+     {
+      "at": "0x3e7b94",
+      "sectors": 3
+     }
+    ]
+   },
+   {
+    "town_file": "0x8cd000",
+    "entry_words": [
+     "0x80016af4",
+     "0x80016a94"
+    ],
+    "slot_records": []
+   },
+   {
+    "town_file": "0x8ce000",
+    "entry_words": [
+     "0x80016af4",
+     "0x80016a94"
+    ],
+    "slot_records": []
+   },
+   {
+    "town_file": "0x8cf000",
+    "entry_words": [
+     "0x80016af0",
+     "0x80016a90"
+    ],
+    "slot_records": []
+   },
+   {
+    "town_file": "0x8d0000",
+    "entry_words": [
+     "0x80016af0",
+     "0x80016a90"
+    ],
+    "slot_records": []
+   },
+   {
+    "town_file": "0x8d1000",
+    "entry_words": [
+     "0x80016af0",
+     "0x80016a90"
+    ],
+    "slot_records": []
+   },
+   {
+    "town_file": "0x8d2000",
+    "entry_words": [
+     "0x80016bb4",
+     "0x80016b54"
+    ],
+    "slot_records": []
+   }
+  ]
+ },
+ "targets": {},
+ "selfcheck": {
+  "method": "tools/selfcheck.py (lane r115_opus_town): for candidate bases 0x80016000 +- 0x800/0x1000, count in-image jal targets landing on function entries and header entry words on entries",
+  "results": {
+   "651000:652800": [
+    {
+     "base": "0x80015000",
+     "jal_in": 14,
+     "jal_on_prologue": 0,
+     "jal_other_slot": 34,
+     "header_entries_on_prologue": 0,
+     "addr_pairs_in": 26,
+     "addr_pairs_out_of_image": 19
+    },
+    {
+     "base": "0x80015800",
+     "jal_in": 19,
+     "jal_on_prologue": 1,
+     "jal_other_slot": 29,
+     "header_entries_on_prologue": 0,
+     "addr_pairs_in": 26,
+     "addr_pairs_out_of_image": 19
+    },
+    {
+     "base": "0x80016000",
+     "jal_in": 48,
+     "jal_on_prologue": 48,
+     "jal_other_slot": 0,
+     "header_entries_on_prologue": 2,
+     "addr_pairs_in": 45,
+     "addr_pairs_out_of_image": 0
+    },
+    {
+     "base": "0x80016800",
+     "jal_in": 34,
+     "jal_on_prologue": 2,
+     "jal_other_slot": 14,
+     "header_entries_on_prologue": 0,
+     "addr_pairs_in": 19,
+     "addr_pairs_out_of_image": 26
+    },
+    {
+     "base": "0x80017000",
+     "jal_in": 29,
+     "jal_on_prologue": 0,
+     "jal_other_slot": 19,
+     "header_entries_on_prologue": 0,
+     "addr_pairs_in": 19,
+     "addr_pairs_out_of_image": 26
+    }
+   ],
+   "652800:654000": [
+    {
+     "base": "0x80015000",
+     "jal_in": 13,
+     "jal_on_prologue": 0,
+     "jal_other_slot": 17,
+     "header_entries_on_prologue": 0,
+     "addr_pairs_in": 30,
+     "addr_pairs_out_of_image": 13
+    },
+    {
+     "base": "0x80015800",
+     "jal_in": 30,
+     "jal_on_prologue": 0,
+     "jal_other_slot": 0,
+     "header_entries_on_prologue": 0,
+     "addr_pairs_in": 41,
+     "addr_pairs_out_of_image": 2
+    },
+    {
+     "base": "0x80016000",
+     "jal_in": 30,
+     "jal_on_prologue": 30,
+     "jal_other_slot": 0,
+     "header_entries_on_prologue": 2,
+     "addr_pairs_in": 43,
+     "addr_pairs_out_of_image": 0
+    },
+    {
+     "base": "0x80016800",
+     "jal_in": 17,
+     "jal_on_prologue": 1,
+     "jal_other_slot": 13,
+     "header_entries_on_prologue": 0,
+     "addr_pairs_in": 13,
+     "addr_pairs_out_of_image": 30
+    },
+    {
+     "base": "0x80017000",
+     "jal_in": 0,
+     "jal_on_prologue": 0,
+     "jal_other_slot": 30,
+     "header_entries_on_prologue": 0,
+     "addr_pairs_in": 2,
+     "addr_pairs_out_of_image": 41
+    }
+   ],
+   "8cd000:8ce000": [
+    {
+     "base": "0x80015000",
+     "jal_in": 0,
+     "jal_on_prologue": 0,
+     "jal_other_slot": 26,
+     "header_entries_on_prologue": 0,
+     "addr_pairs_in": 0,
+     "addr_pairs_out_of_image": 40
+    },
+    {
+     "base": "0x80015800",
+     "jal_in": 13,
+     "jal_on_prologue": 0,
+     "jal_other_slot": 13,
+     "header_entries_on_prologue": 0,
+     "addr_pairs_in": 28,
+     "addr_pairs_out_of_image": 12
+    },
+    {
+     "base": "0x80016000",
+     "jal_in": 26,
+     "jal_on_prologue": 25,
+     "jal_other_slot": 0,
+     "header_entries_on_prologue": 2,
+     "addr_pairs_in": 40,
+     "addr_pairs_out_of_image": 0
+    },
+    {
+     "base": "0x80016800",
+     "jal_in": 13,
+     "jal_on_prologue": 0,
+     "jal_other_slot": 13,
+     "header_entries_on_prologue": 0,
+     "addr_pairs_in": 12,
+     "addr_pairs_out_of_image": 28
+    },
+    {
+     "base": "0x80017000",
+     "jal_in": 0,
+     "jal_on_prologue": 0,
+     "jal_other_slot": 26,
+     "header_entries_on_prologue": 0,
+     "addr_pairs_in": 0,
+     "addr_pairs_out_of_image": 40
+    }
+   ],
+   "8d0000:8d1000": [
+    {
+     "base": "0x80015000",
+     "jal_in": 0,
+     "jal_on_prologue": 0,
+     "jal_other_slot": 26,
+     "header_entries_on_prologue": 0,
+     "addr_pairs_in": 0,
+     "addr_pairs_out_of_image": 40
+    },
+    {
+     "base": "0x80015800",
+     "jal_in": 13,
+     "jal_on_prologue": 0,
+     "jal_other_slot": 13,
+     "header_entries_on_prologue": 0,
+     "addr_pairs_in": 25,
+     "addr_pairs_out_of_image": 15
+    },
+    {
+     "base": "0x80016000",
+     "jal_in": 26,
+     "jal_on_prologue": 25,
+     "jal_other_slot": 0,
+     "header_entries_on_prologue": 2,
+     "addr_pairs_in": 40,
+     "addr_pairs_out_of_image": 0
+    },
+    {
+     "base": "0x80016800",
+     "jal_in": 13,
+     "jal_on_prologue": 0,
+     "jal_other_slot": 13,
+     "header_entries_on_prologue": 0,
+     "addr_pairs_in": 15,
+     "addr_pairs_out_of_image": 25
+    },
+    {
+     "base": "0x80017000",
+     "jal_in": 0,
+     "jal_on_prologue": 0,
+     "jal_other_slot": 26,
+     "header_entries_on_prologue": 0,
+     "addr_pairs_in": 0,
+     "addr_pairs_out_of_image": 40
+    }
+   ],
+   "8d1000:8d2000": [
+    {
+     "base": "0x80015000",
+     "jal_in": 0,
+     "jal_on_prologue": 0,
+     "jal_other_slot": 26,
+     "header_entries_on_prologue": 0,
+     "addr_pairs_in": 0,
+     "addr_pairs_out_of_image": 40
+    },
+    {
+     "base": "0x80015800",
+     "jal_in": 13,
+     "jal_on_prologue": 0,
+     "jal_other_slot": 13,
+     "header_entries_on_prologue": 0,
+     "addr_pairs_in": 25,
+     "addr_pairs_out_of_image": 15
+    },
+    {
+     "base": "0x80016000",
+     "jal_in": 26,
+     "jal_on_prologue": 25,
+     "jal_other_slot": 0,
+     "header_entries_on_prologue": 2,
+     "addr_pairs_in": 40,
+     "addr_pairs_out_of_image": 0
+    },
+    {
+     "base": "0x80016800",
+     "jal_in": 13,
+     "jal_on_prologue": 0,
+     "jal_other_slot": 13,
+     "header_entries_on_prologue": 0,
+     "addr_pairs_in": 15,
+     "addr_pairs_out_of_image": 25
+    },
+    {
+     "base": "0x80017000",
+     "jal_in": 0,
+     "jal_on_prologue": 0,
+     "jal_other_slot": 26,
+     "header_entries_on_prologue": 0,
+     "addr_pairs_in": 0,
+     "addr_pairs_out_of_image": 40
+    }
+   ],
+   "617000:61a000": [
+    {
+     "base": "0x80015000",
+     "jal_in": 62,
+     "jal_on_prologue": 0,
+     "jal_other_slot": 38,
+     "header_entries_on_prologue": 0,
+     "addr_pairs_in": 66,
+     "addr_pairs_out_of_image": 56
+    },
+    {
+     "base": "0x80015800",
+     "jal_in": 97,
+     "jal_on_prologue": 2,
+     "jal_other_slot": 3,
+     "header_entries_on_prologue": 0,
+     "addr_pairs_in": 66,
+     "addr_pairs_out_of_image": 56
+    },
+    {
+     "base": "0x80016000",
+     "jal_in": 100,
+     "jal_on_prologue": 100,
+     "jal_other_slot": 0,
+     "header_entries_on_prologue": 2,
+     "addr_pairs_in": 115,
+     "addr_pairs_out_of_image": 7
+    },
+    {
+     "base": "0x80016800",
+     "jal_in": 98,
+     "jal_on_prologue": 2,
+     "jal_other_slot": 2,
+     "header_entries_on_prologue": 0,
+     "addr_pairs_in": 50,
+     "addr_pairs_out_of_image": 72
+    },
+    {
+     "base": "0x80017000",
+     "jal_in": 81,
+     "jal_on_prologue": 0,
+     "jal_other_slot": 19,
+     "header_entries_on_prologue": 1,
+     "addr_pairs_in": 55,
+     "addr_pairs_out_of_image": 67
+    }
+   ],
+   "6f4800:6f6800": [
+    {
+     "base": "0x80015000",
+     "jal_in": 19,
+     "jal_on_prologue": 0,
+     "jal_other_slot": 29,
+     "header_entries_on_prologue": 0,
+     "addr_pairs_in": 28,
+     "addr_pairs_out_of_image": 18
+    },
+    {
+     "base": "0x80015800",
+     "jal_in": 48,
+     "jal_on_prologue": 1,
+     "jal_other_slot": 0,
+     "header_entries_on_prologue": 0,
+     "addr_pairs_in": 46,
+     "addr_pairs_out_of_image": 0
+    },
+    {
+     "base": "0x80016000",
+     "jal_in": 48,
+     "jal_on_prologue": 48,
+     "jal_other_slot": 0,
+     "header_entries_on_prologue": 2,
+     "addr_pairs_in": 46,
+     "addr_pairs_out_of_image": 0
+    },
+    {
+     "base": "0x80016800",
+     "jal_in": 33,
+     "jal_on_prologue": 2,
+     "jal_other_slot": 15,
+     "header_entries_on_prologue": 0,
+     "addr_pairs_in": 18,
+     "addr_pairs_out_of_image": 28
+    },
+    {
+     "base": "0x80017000",
+     "jal_in": 29,
+     "jal_on_prologue": 0,
+     "jal_other_slot": 19,
+     "header_entries_on_prologue": 0,
+     "addr_pairs_in": 18,
+     "addr_pairs_out_of_image": 28
+    }
+   ]
+  }
+ },
+ "lane": "work/native_lane/r115_opus_town (tools/receipt_audit.py, tools/selfcheck.py, tools/check_state.py)"
+}
