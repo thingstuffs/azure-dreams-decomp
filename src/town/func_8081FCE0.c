@@ -81,7 +81,6 @@ void func_800224E0(void)
 {
     s16 upload_rect[4];
     s32 child_index;
-    register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u8 *obj;
     u8 *parent_state;
     u8 *child_slot;
@@ -131,16 +130,13 @@ void func_800224E0(void)
         render_state = obj + 0x28;
         func_8004491C(obj, D_80046398);
         neutral_color = 0x00808080;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        value = (s32)D_80023DE0;
-        ((S_800224E0_0 *)obj)->unk_10 = (void *)value;
-        value = 0x1000;
+        ((S_800224E0_0 *)obj)->unk_10 = D_80023DE0;
         prim = ((S_800224E0_0 *)obj)->unk_08;
         draw_state = ((S_800224E0_0 *)obj)->unk_0C;
         ((S_800224E0_0 *)obj)->unk_20.at00.v = parent_state;
-        ((S_800224E0_4 *)draw_state)->unk_1C = value;
-        ((S_800224E0_4 *)draw_state)->unk_1E = value;
-        ((S_800224E0_4 *)draw_state)->unk_20 = value;
+        ((S_800224E0_4 *)draw_state)->unk_1C = 0x1000;
+        ((S_800224E0_4 *)draw_state)->unk_1E = 0x1000;
+        ((S_800224E0_4 *)draw_state)->unk_20 = 0x1000;
         ((S_800224E0_4 *)draw_state)->unk_08 = 0x2C;
         ((S_800224E0_4 *)draw_state)->unk_12 = 0;
         ((S_800224E0_4 *)draw_state)->unk_14 = 0;
@@ -151,7 +147,8 @@ void func_800224E0(void)
         ((S_800224E0_4 *)draw_state)->unk_00 = 0;
         ((S_800224E0_4 *)draw_state)->unk_04 = 0;
         ((S_800224E0_4 *)draw_state)->unk_05 = 0;
-        ((S_800224E0_4 *)draw_state)->unk_0C = neutral_color;
+        draw_state = (u8 *)&((S_800224E0_4 *)draw_state)->unk_0C;
+        *(u32 *)draw_state = neutral_color;
         ((S_800224E0_1 *)prim)->unk_00 = 0x04400000;
         ((S_800224E0_1 *)prim)->unk_04 = 0x02C00000;
         object_state = obj + 0x20;
@@ -171,18 +168,15 @@ void func_800224E0(void)
             ((S_800224E0_0 *)obj)->unk_20.at02.v = child_index;
             switch (child_index) {
             case 0:
-                value = 1;
-                ((S_800224E0_0 *)obj)->unk_20.at00u.v = value;
+                ((S_800224E0_0 *)obj)->unk_20.at00u.v = 1;
                 break;
             case 1:
             case 2:
-                value = 2;
-                ((S_800224E0_0 *)obj)->unk_20.at00u.v = value;
+                ((S_800224E0_0 *)obj)->unk_20.at00u.v = 2;
                 break;
             case 3:
             case 4:
-                value = 3;
-                ((S_800224E0_0 *)obj)->unk_20.at00u.v = value;
+                ((S_800224E0_0 *)obj)->unk_20.at00u.v = 3;
                 break;
             default:
                 break;

@@ -106,6 +106,7 @@ typedef struct S_8195F43C_7 {
 
 
 #define VFIELD(p, type, offset) (*(volatile type *)((u8 *)(p) + (offset)))
+#define PFIELD(p, type, offset) (*(type *)((u8 *)(p) + (offset)))
 
 extern void func_80064840(void *, void *, void *);
 extern void func_800649A0(void);
@@ -232,10 +233,10 @@ void func_8195F43C(void *unused, void *origin, u8 *object, s16 tile_x, s16 tile_
         }
 
         if ((visible_012 | visible_3) != 0) {
-            VFIELD(scratch, s32, 8) = ((S_8195F43C_6 *)texture)->unk_08;
-            VFIELD(scratch, s32, 0x10) = ((S_8195F43C_6 *)texture)->unk_0A;
-            VFIELD(scratch, s32, 0xC) = ((S_8195F43C_6 *)texture)->unk_09;
-            VFIELD(scratch, s32, 0x14) = ((S_8195F43C_6 *)texture)->unk_0B;
+            PFIELD(scratch, s32, 8) = ((S_8195F43C_6 *)texture)->unk_08;
+            PFIELD(scratch, s32, 0x10) = ((S_8195F43C_6 *)texture)->unk_0A;
+            PFIELD(scratch, s32, 0xC) = ((S_8195F43C_6 *)texture)->unk_09;
+            PFIELD(scratch, s32, 0x14) = ((S_8195F43C_6 *)texture)->unk_0B;
 
             ((S_8195F43C_7 *)packet)->unk_0E = ((S_8195F43C_5 *)object)->unk_12 + (*(u16 *)((u8 *)texture + 6));
             page_offset = ((S_8195F43C_5 *)object)->unk_10;
@@ -249,20 +250,20 @@ void func_8195F43C(void *unused, void *origin, u8 *object, s16 tile_x, s16 tile_
                 s32 u;
                 s32 width;
 
-                u = VFIELD(scratch, s32, 8);
-                width = VFIELD(scratch, s32, 0x10);
+                u = PFIELD(scratch, s32, 8);
+                width = PFIELD(scratch, s32, 0x10);
                 if (u + width >= 0x100) {
-                    VFIELD(scratch, s32, 0x10) = width - 1;
+                    PFIELD(scratch, s32, 0x10) = width - 1;
                 }
             }
             {
                 s32 v;
                 s32 height;
 
-                v = VFIELD(scratch, s32, 0xC);
-                height = VFIELD(scratch, s32, 0x14);
+                v = PFIELD(scratch, s32, 0xC);
+                height = PFIELD(scratch, s32, 0x14);
                 if (v + height >= 0x100) {
-                    VFIELD(scratch, s32, 0x14) = height - 1;
+                    PFIELD(scratch, s32, 0x14) = height - 1;
                 }
             }
 
@@ -277,8 +278,8 @@ void func_8195F43C(void *unused, void *origin, u8 *object, s16 tile_x, s16 tile_
                     {
                         s32 width;
 
-                        width = VFIELD(scratch, s32, 0x10);
-                        edge_uv = VFIELD(scratch, s32, 8);
+                        width = PFIELD(scratch, s32, 0x10);
+                        edge_uv = PFIELD(scratch, s32, 8);
                         v = *(s32 *)((u8 *)scratch + 0xC);
                         width += edge_uv;
                         edge_uv = v;
@@ -288,19 +289,19 @@ void func_8195F43C(void *unused, void *origin, u8 *object, s16 tile_x, s16 tile_
 
                         v_end = VFIELD(scratch, s32, 0x14);
                         edge_uv <<= 8;
-                        VFIELD(scratch, s32, 0xC) = edge_uv;
+                        PFIELD(scratch, s32, 0xC) = edge_uv;
                         uv_row = VFIELD(scratch, u16, 0xC);
                         v_end += v;
                     }
                 }
                 VFIELD(scratch, s32, 0x14) = v_end;
                 packed_u = *(u16 *)((u8 *)scratch + 8);
-                VFIELD(scratch, s32, 0x14) = v_end << 8;
+                PFIELD(scratch, s32, 0x14) = v_end << 8;
                 (*(u16 *)((u8 *)packet + 0xC)) = uv_row + packed_u;
             }
-            (*(u16 *)((u8 *)packet + 0x14)) = VFIELD(scratch, u16, 0xC) + VFIELD(scratch, u16, 0x10);
-            (*(u16 *)((u8 *)packet + 0x1C)) = VFIELD(scratch, u16, 0x14) + VFIELD(scratch, u16, 8);
-            (*(u16 *)((u8 *)packet + 0x24)) = VFIELD(scratch, u16, 0x14) + VFIELD(scratch, u16, 0x10);
+            (*(u16 *)((u8 *)packet + 0x14)) = PFIELD(scratch, u16, 0xC) + PFIELD(scratch, u16, 0x10);
+            (*(u16 *)((u8 *)packet + 0x1C)) = PFIELD(scratch, u16, 0x14) + PFIELD(scratch, u16, 8);
+            (*(u16 *)((u8 *)packet + 0x24)) = PFIELD(scratch, u16, 0x14) + PFIELD(scratch, u16, 0x10);
 
             if (((S_8195F43C_0 *)scratch)->unk_50 >= 0x1800) {
                 edge_uv = ((S_8195F43C_7 *)packet)->unk_24;
