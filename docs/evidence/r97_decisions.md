@@ -258,3 +258,16 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     rebaseline (the HI16/LO16 relocation words were our pinned-object reference, not retail evidence; precedent f9c78e692).
     The general rule "no literal address where a symbol exists" stands everywhere else. First rows: dungeon/func_81329AC4,
     slus/w_80042560. dungeon/func_813274E4 stays pinned (a single page access). SECOND LOOK: no (owner decided).
+45. **(r118, OWNER ruling 2026-10-13) A one-arm conditional over a retail-evidenced value, whose arm sets a local nothing
+    reads, is admissible.** r118_fable_f4 (REPORT.md + LEARNINGS.md in work/native_lane/_r118/root3/work/native_lane/
+    r118_fable_f4) traced the dead-instruction class: retail's dead load/copy/reread is the operand of a conditional branch whose
+    only statement stored to a never-read local. flow deletes the store but keeps the test's operands live; jump2 (after reload)
+    deletes the jump-to-next branch; jump.c delete_computation (3594) fails to delete the operands across a SUBREG dest, a
+    CALL_INSN, a JUMP_INSN or a CODE_LABEL; sched2 keeps flow's stale blocks, so the load delay stays a nop (the fingerprint). An
+    EMPTY arm is deleted at jump1 and loses the load, so the original arm held a statement. The most plausible origin is a
+    vestigial or debug-era set-but-unused local. Admitted only with: (a) the condition reads a value retail really loads (the nop
+    fingerprint or a pass trace proves it); (b) the arm sets an EXISTING local that nothing reads; (c) byte-exact, emitting nothing
+    retail lacks; (d) one site per removed pin, with a site comment citing this record; (e) no signature, prototype or arity change
+    to make it work. Tracked in ledger/recipe_trades.jsonl (kind dead_branch) and STATUS.md. First rows: dungeon/func_8105A724,
+    dungeon/func_800A3D40, dungeon/func_81339F68. dungeon/func_80B467DC's proof needs a fabricated second parameter (condition e)
+    and stays pinned. SECOND LOOK: no (owner decided).

@@ -283,6 +283,13 @@ def main():
                    + _union_line("union_host_merge", "host-merge levers (int/pointer share one union variable; owner ruling pending)")
                    + ". Refused union levers (float launders, dead-value keepers) are recorded in the hard basket.\n")
 
+    dead_branch = sorted({t["id"] for t in trades if t.get("kind") == "dead_branch"})
+    if dead_branch:
+        out.append(f"Dead-branch trades (decision 45, owner 2026-10-13; `ledger/recipe_trades.jsonl` kind dead_branch - a one-arm "
+                   f"`if (value) {{ local = 0; }}` over a retail-evidenced value whose arm sets a never-read local, reconstructing a "
+                   f"set-but-unused leftover that jump2 deletes while delete_computation keeps the load): {len(dead_branch):,} rows "
+                   f"({', '.join(r.split('/')[-1] for r in dead_branch)}).\n")
+
     from census import declared_void_callees, void_exact_targets, live_sites, audit_sites
     import census as _census_mod
 
