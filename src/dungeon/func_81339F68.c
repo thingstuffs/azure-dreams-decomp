@@ -124,8 +124,11 @@ void func_80170F68(void *effect) {
             }
         }
         timer_snapshot = S16_AT(effect, 0x18);
-        ASM_KEEP(timer_snapshot);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (ramp_count > 0) {
+            if (timer_snapshot) {
+                /* retail evidence: the test's operands survive (the arm compiled away); reconstructed as a conditional update of a local nothing reads in the retail build - any dead local set reproduces the bytes (lane r118_fable_f4; decision 45, docs/evidence/r97_decisions.md) */
+                next_state = 0;
+            }
             do {
                 ramp_count--;
                 ramp_x = (s16)((rand() & 0x3F) - 0x20);
