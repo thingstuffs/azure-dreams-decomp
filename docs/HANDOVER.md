@@ -1,3 +1,30 @@
+# Handover (2026-10-12 ~01:00Z 10-13, r113-r117 session end) - START HERE
+**State:** pins **40 in 24 rows** (61 at session start; parked ovmovie 80041044 also cleared 4 -> 0), carve debt **1** (6 at start:
+1864800, 7e6a5800 modules + 3 TOWN re-carves landed), L5 **346** (319), 37 live certificates (scoped-v2 fingerprints ON),
+hard basket 18. Volatiles removed from ~12 rows; real_volatiles +3.
+**Landed tools (use them):** oracle family (tools/lanes/lanekit: alloc_oracle, pass_oracle sched/combine/cse/alias/loop/
+global-avoid/reorg/cross-jump/reload/frame/cse-head + composites, oracle_search SEARCH MODE with a trusted 5-row gate,
+attribute.py per-word deciding pass, mutate_search.py, source_refs, value_luid, sncheck), permute.py, native_member.py,
+lab.py stage-tidy; land_slus_rebaseline.sh --equal-pins; lander: item-7 closure fix, isolated busy-check rule.
+**Method that works (r114-r117):** prove the target with the oracle FIRST, route precise targets to Sonnet, composite /
+stalled ones to Opus (<=2), Fable one at a time (2 of 3 preapproved used: r114_fable_f1, r116_fable_f2). Lanes run in
+PRIVATE SCRATCH REPOS (work/native_lane/_rNNN/root via _r113/mk_scratch_root.sh) so landings never wait. Harvest of every
+lane: work/native_lane/_r113/harvest_r114.md (generators, mechanisms, corrections).
+**OPEN / NEXT:**
+1. LANDER FIX (first): land_packages isolated_lane rejects codex lanes because codex spawns the global MCP helper
+   (ghidra-mcp, cwd in an external sibling checkout) - skip descendants entirely outside the canonical root with no fd/argv into it (+test).
+2. Relaunch stopped lanes (extend_lane.sh resumes them; both briefs current): r117_sol61_types (carve out item 2 per
+   _r117/types_review.md + rebase onto b5942c4f5..HEAD) and r117_sol61_align (per-row flags, 80DE48EC cell, w_8005914C).
+3. Unlanded staged: dungeon/func_80F87000 goto-free (native member: needs native-aware landing - kitgaps native_member.py
+   proves it exact; land_lanes' per-row verify cannot); slus/w_800463EC (PPAD twin macro; refused by equal-pin admission because the volatile is macro-held - needs a readability admission or a macro-site count).
+4. Pins: 810332A4 (5; oracle proves ONE order word; frontiers in _r116/.../r117_opus_od + _r117/.../r117_opus_oe),
+   800A1020 (0-pin text at total 2, order conflict), 8180B064 + 80098378 (hard basket, Fable-exhausted, archaeology
+   leads), 800A2988 (a mutation at distance 1! _r117/root/work/native_lane/r117_mut/out_town_func_800A2988), CALL-ARG
+   family (owner: keep as pins, keep trying; 800C7F80 now 1 pin), 8028906C, w_80054B08, 813274E4, 81326794 (oracle 0x10
+   crash bug in pass_oracle on this row), others in harvest. Fable #3 preapproved, unused.
+5. Last carve-debt row: head of 7e7fb800 (blocked by 8180B064).
+6. Decisions 42-43 (TOWN placement) carry SECOND LOOK; my r116 'volatile struct field' decision was WITHDRAWN (wrong).
+
 # Handover (2026-10-12 ~07:00Z, r113/r114) - START HERE
 **Landed this session:** 61e752bac shared game headers (Opus review B1/B2 fixed); f2ddcafd7 sdk2 (800219C4 = Sony
 LIBCARD vendor asm, pins 61 -> 60); 1cc6c53f2 scoped certificate fingerprints ON (overlay-module-scoped-v2) +
