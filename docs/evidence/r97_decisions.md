@@ -276,3 +276,19 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     entry->callback_arg2)` (typedef Callback (void *, s32, s32)), so retail enters it with a real $a1. Its true signature is the
     three-argument handler; the second parameter's variable is reused as the loop-carried successor node. Lands 2 -> 1 under
     this decision. Lesson (owner): check how a function is reached before calling a parameter fake.
+46. **(r118, OWNER ruling 2026-10-13) A never-taken arm over a never-reassigned local, which combine folds only after flow
+    has counted it, is admissible as a tracked reconstruction.** r118_opus_o5 rounds 1-3 (REPORT_round1.md, REPORT_round2.md,
+    REPORT.md in work/native_lane/_r118/root4/work/native_lane/r118_opus_o5) on dungeon/func_80DE48EC: retail's 80-byte frame
+    has 20 unreferenced bytes above output's reload spill, and its `a0 <- actor` copy precedes the X-table add. At cdk only code
+    that dies after combine reproduces both: combine folds `if (result != 0)` (result set once to 0) after flow counted the arm,
+    so sched1 sees x_delta's second set (no birthing boost), global/reload spill two never-assigned s16 locals read in the arm
+    (live from entry across 9 calls, full s-register pressure) into 8-byte narrow slots (cdk reload1.c 2509-2510), and jump2
+    deletes the arm. Evidence: a census of 6,141 pin-free cdk rows finds no other source of an unreferenced reload slot above a
+    spill; in-block temporaries and natural aggregates (BLKmode on MIPS) leave none; the genuine PsyQ 4.1 CC1PSX.EXE
+    (SN32.3.7.0004) produces output identical to our cc1 on these texts. The most plausible origin is leftover code whose flag
+    and assignments were edited out. Admitted only with: (a) a byte proof that the arm emits no code; (b) the test reads a local
+    whose only assignment is its initialiser; (c) one site, with a comment citing this record and stating that the arm BODY is
+    a reconstruction (the bytes fix its shape, not its content); (d) no signature, prototype or arity change made to fit it.
+    Tracked in ledger/recipe_trades.jsonl (kind dead_arm) and STATUS.md. First row: dungeon/func_80DE48EC (4 -> 0 pins, recipe
+    2.8.0-G0 -> 2.7.2-cdk-G0, rule 2 false). Refused precursors: one-member compound-literal wrappers (steering CLOBBERs). SECOND
+    LOOK: no (owner decided).
