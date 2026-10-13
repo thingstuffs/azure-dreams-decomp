@@ -3,6 +3,19 @@
 #include "shared/record_ptrs.h"
 
 typedef struct {
+    u8 pad[0x3714];
+    u16 flags;
+    s16 field_3716, field_3718, field_371A;
+    void *field_371C;
+} StatePage;
+
+typedef struct {
+    u8 pad[0xB0];
+    s16 field_B0;
+    s16 field_B2;
+} StateData;
+
+typedef struct {
     u32 value;
 } __attribute__((packed)) Unaligned32;
 
@@ -19,38 +32,37 @@ extern Unaligned32 D_80174C58;
 void func_801712C4(void)
 {
     s32 entry_index;
-    u8 *state_data;
+    StateData *state_data;
     u8 *entry_header;
 
     D_80174AB4[0] = D_80174B38;
-    state_data = (u8 *)D_80174CD8[0] + 0x20;
+    state_data = (StateData *)((u8 *)D_80174CD8[0] + 0x20);
     D_80174AB8[0] = 0;
     {
         Unaligned32 *source;
         Unaligned32 *destination;
 
-        *(s16 *)(state_data + 0xB2) = 1;
-        *(s16 *)(state_data + 0xB0) = 1;
+        state_data->field_B2 = 1;
+        state_data->field_B0 = 1;
 
         destination = (Unaligned32 *)0x80013720;
         source = &D_80174C58;
         *destination = *source;
 
         {
-            u32 global_flags;
-            register u8 *state_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            StatePage *state_page;
             u32 state_flags;
 
-            global_flags = ((u32)D_800E296C);
-            global_flags |= 0x08000000;
-            state_page = (u8 *)0x80010000;
-            D_800E296C = global_flags;
-            state_flags = *(u16 *)(state_page + 0x3714);
-            *(s16 *)(state_page + 0x371A) = 0;
-            *(s16 *)(state_page + 0x3718) = 0;
-            *(s16 *)(state_page + 0x3716) = 0;
-            *(void **)(state_page + 0x371C) = (void *)&D_80174C58;
-            *(u16 *)(state_page + 0x3714) = (state_flags | 9) & 0xFFEF;
+            /* integer page pointer (decision 44, docs/evidence/r97_decisions.md): retail keeps lui 0x8001 in a register
+               across the accesses below; flags at +0x3714 is D_80013714, +0x371C is D_8001371C */
+            state_page = (StatePage *)0x80010000;
+            D_800E296C |= 0x08000000;
+            state_flags = state_page->flags;
+            state_page->field_371A = 0;
+            state_page->field_3718 = 0;
+            state_page->field_3716 = 0;
+            state_page->field_371C = (void *)&D_80174C58;
+            state_page->flags = (state_flags | 9) & 0xFFEF;
         }
     }
 
