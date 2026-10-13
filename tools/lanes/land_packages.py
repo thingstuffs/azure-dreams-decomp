@@ -340,6 +340,51 @@ def inline_lane_command(info, root, lane):
     return True
 
 
+CANONICAL_MUTABLE=('src','include','config','ledger','raw','docs','asm','build_ovl','build_ovl_gate','build_slus')
+
+
+def workspace_command(info, root, lane):
+    """A lane DESCENDANT working inside a lane-owned scratch tree, with no path into what a landing mutates.
+
+    Lanes build private trees (work/native_lane/<lane>/.../tools/common.py, with toolchain/.venv/tools symlinked in)
+    and run their own gates, builds and gdb oracles there; kitlib and the build scripts take that tree as ROOT. Such a
+    process is isolated when its cwd's nearest workspace root is inside the lane and no argv token (inline text
+    included), fd or gate override resolves into the canonical src/include/config/ledger/raw/docs/asm/build outputs,
+    nor to the root itself or above it (a `cd` out of the lane).
+    """
+    root=root.resolve();cwd=info['cwd'];argv=info['argv']
+    if cwd is None or info['parent'] is None or not argv or not cwd.is_relative_to(lane):return False
+    ws=next((p for p in (cwd,*cwd.parents) if (p/'tools/common.py').exists()),None)
+    if ws is None or not ws.is_relative_to(lane):return False
+    # kitlib/common take ROOT from their own resolved __file__: Python reaching the canonical tools/ scores live.
+    python=bool(re.fullmatch(r'python(?:\d+(?:\.\d+)*)?',Path(argv[0]).name))
+    mutable=tuple(root/n for n in CANONICAL_MUTABLE+(('tools',) if python else ()))
+    def bad(path):
+        if not path.is_absolute():path=cwd/path
+        for q in (Path(os.path.abspath(path)),path.resolve(strict=False)):
+            if root.is_relative_to(q) or any(q.is_relative_to(m) or q.is_relative_to(m.resolve()) for m in mutable):return True
+        return False
+    try:
+        for arg in argv[1:]:
+            for token in re.split(r'[\s\'"`;|&<>(),=:]+',arg):
+                if '$' in token or not ('/' in token or token in ('.','..')):continue
+                token=re.sub(r'^-(?:I|L|B|o|C|isystem|iquote)(?=/)','',token)
+                token=re.split(r'[*?\[]',token,1)[0]
+                if token and bad(Path(token)):return False
+        if bad(Path(argv[0])) and '/' in argv[0]:return False
+        for fd in (info['proc']/'fd').iterdir():
+            try:name=os.readlink(fd)
+            except FileNotFoundError:continue
+            if name.startswith('/') and bad(Path(name.removesuffix(' (deleted)'))):return False
+        for setting in (info['proc']/'environ').read_bytes().split(b'\0'):
+            key,sep,value=setting.partition(b'=')
+            if sep and key in (b'GATE_BUILD_ROOT',b'GATE_JOURNAL',b'SRCROOT',b'PYTHONPATH'):
+                for entry in os.fsdecode(value).split(':'):
+                    if entry and (bad(Path(entry)) or (key==b'PYTHONPATH' and Path(entry).resolve().is_relative_to(root/'tools'))):return False
+    except (OSError,RuntimeError,ValueError):return False
+    return True
+
+
 def foreign_helper(info, root, lane):
     """True for an external program a lane's codex runs that has no path into the root.
 
@@ -405,8 +450,18 @@ def isolated_lane(proc, root, proc_root=Path("/proc"), snapshot=None):
             # (codex's MCP bridge) cannot reach the transaction; its own
             # children are still checked one by one.
             if pid!=int(proc.name) and foreign_helper(item,root,lane):continue
-            if process_lane(item,root)!=lane and not (pid!=int(proc.name) and inline_lane_command(item,root,lane)):return False
-            for fd in (q/'fd').iterdir():
+            if pid!=int(proc.name) and workspace_command(item,root,lane):continue
+            if process_lane(item,root)!=lane and not (pid!=int(proc.name) and inline_lane_command(item,root,lane)):
+                # r118: codex/oracle children (cc1 under gdb) live for milliseconds; one that exited during the
+                # check cannot conflict with the transaction.
+                if pid!=int(proc.name) and not q.exists():continue
+                return False
+            try:
+                fds=list((q/'fd').iterdir());environment=(q/'environ').read_bytes().split(b'\0')
+            except FileNotFoundError:
+                if pid!=int(proc.name) and not q.exists():continue
+                raise
+            for fd in fds:
                 try:
                     name=os.readlink(fd)
                 except FileNotFoundError:continue  # fd closed during the snapshot
@@ -419,7 +474,6 @@ def isolated_lane(proc, root, proc_root=Path("/proc"), snapshot=None):
                 if target.is_relative_to(root) and not target.is_relative_to(lane) and not shared_readonly(target,root):return False
             # These overrides can redirect a scratch gate into canonical output
             # without naming that output in argv. Never print process secrets.
-            environment=(q/'environ').read_bytes().split(b'\0')
             for setting in environment:
                 key,sep,value=setting.partition(b'=')
                 if sep and key in (b'GATE_BUILD_ROOT',b'GATE_JOURNAL',b'SRCROOT'):
@@ -678,6 +732,12 @@ class Lander:
         if self.plan.get('reviewer')=='pending' and self.plan.get('commit',True):
             raise Stop('pending reviewer cannot commit; set commit=false for scratch proof')
         active=busy_processes(self.root,self.scratch,isolated=self.plan.get('isolated',False))
+        # r118: an isolated landing waits for a clean sample (codex lanes are mid-command most of the time and a
+        # transient child can be ambiguous); it never proceeds while any sample is busy.
+        for _ in range(int(os.environ.get('LAND_BUSY_RETRIES','30')) if self.plan.get('isolated',False) else 0):
+            if not active:break
+            time.sleep(float(os.environ.get('LAND_BUSY_POLL','2')))
+            active=busy_processes(self.root,self.scratch,isolated=True)
         if active:raise Stop('lander/gate/codex running: '+json.dumps(active))
         known=bookkeeping_paths(self.plan,self.root)
         dirt=tree_dirt(self.root,self.plan)

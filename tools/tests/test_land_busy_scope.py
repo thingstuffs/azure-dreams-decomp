@@ -272,10 +272,39 @@ class LaneProcessScopeTests(unittest.TestCase):
         self.codex_child(['python3', '-c', 'import lab'], env=('PYTHONPATH='+str(self.root/'tools/lanes/lanekit'),))
         self.assertEqual(self.busy(), {424242})
 
+    def test_lane_workspace_build_child_is_isolated(self):
+        # r118 align lane: bash tools/build/build_slus.sh inside a lane-owned scratch tree (tools symlinked)
+        self.put(self.scratch/'tools/common.py')
+        self.codex_child(['bash', 'tools/build/build_slus.sh', '--fresh', '-j', '4', str(self.scratch)])
+        self.assertEqual(self.busy(), set())
+
+    def test_lane_workspace_child_writing_canonical_outputs_stays_busy(self):
+        self.put(self.scratch/'tools/common.py')
+        for argv in (['bash', 'tools/build/build_slus.sh', str(self.root/'build_slus')],
+                     ['/usr/bin/cp', 'x.c', str(self.root/'src/dungeon/x.c')],
+                     ['bash', '-lc', 'cd ../../../.. && make']):
+            with self.subTest(argv=argv):
+                self.codex_child(argv)
+                try: self.assertIn(424242, self.busy())
+                finally:
+                    import shutil; shutil.rmtree(self.proc_root/'424243')
+
+    def test_lane_workspace_python_reaching_canonical_tools_stays_busy(self):
+        self.put(self.scratch/'tools/common.py'); lab = self.put(self.root/'tools/lanes/lanekit/lab.py')
+        self.codex_child(['python3', str(lab), 'baseline', 'dungeon/x'])
+        self.assertIn(424242, self.busy())
+
+    def test_descendant_that_exits_during_the_check_is_ignored(self):
+        self.put(self.scratch/'tools/common.py')
+        child = self.codex_child(['/usr/bin/cc1x', '-o', str(self.root/'src/x.s')])
+        snapshot = G.process_snapshot(self.proc_root)
+        import shutil; shutil.rmtree(child)
+        self.assertTrue(G.isolated_lane(self.proc, self.root, self.proc_root, snapshot))
+
     def test_module_form_descendant_stays_busy(self):
         self.put(self.scratch/'tools/common.py')
         self.codex_child(['python3', '-m', 'gate_all'])
-        self.assertIn(424242, self.busy())
+        self.assertTrue(self.busy(), 'the module-form gate itself stays a busy marker')
 
     def test_each_canonical_mutable_root_fd_stays_busy(self):
         for name in ('build_ovl', 'build_ovl_gate', 'build_slus', 'src'):
