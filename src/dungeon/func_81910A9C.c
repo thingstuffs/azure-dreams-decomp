@@ -100,7 +100,6 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
         avg_depth = ((*((s32 *) (((u8 *) scratch) + 0xF4))) + (*((s32 *) (((u8 *) scratch) + 0xF8)))) / 2;
         *((s32 *) (((u8 *) scratch) + 0xB4)) = avg_depth;
         if (((u32) avg_depth) < 0x1E0U) {
-            u8 *draw_mode;
             OT_SETADDR(line_packet, OT_GETADDR((*((u32 **) (((u8 *) scratch) + 0x18))) + avg_depth, addr_mask),
                 0xFF000000, addr_mask);
             *((u32 *) (((u8 *) ((*((u32 **) (((u8 *) scratch) + 0x18))) + (*((s32 *) (((u8 *) scratch) + 0xB4)))))

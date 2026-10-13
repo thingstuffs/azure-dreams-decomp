@@ -14,7 +14,7 @@ typedef struct S_80126704_0 {
 } S_80126704_0;   /* arg0 in func_80126704 */
 
 
-extern void (*D_80126B34[])();
+extern void (*D_80126B34[])(void *);
 extern void (*D_80126B74[])(void *);
 
 /* Runs the initial handler, packs and bounds the state code, then runs the final handler. */
@@ -26,11 +26,11 @@ void func_80126704(S_80126704_0 *state) {
 
     {
         u32 handler_index;
-        void (*initial_handler)();
+        void (*initial_handler)(void *);
 
         handler_index = state->unk_0A;
         initial_handler = D_80126B34[handler_index];
-        initial_handler();
+        initial_handler(state);
     }
     code_bits = state->unk_0F;
     middle_bits = state->unk_10;
