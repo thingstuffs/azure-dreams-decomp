@@ -13,9 +13,16 @@ extern int func_80054AF0(int arg0);
 extern void func_80054C58(void);
 extern void func_80054CD4(void);
 extern void func_80054E00(s32 arg0);
+static __inline__ u32 cue_sum(u32 offset, u32 base)
+{
+    return offset + base;
+}
+
 /* Loads pending CD cue fields from the current record or dispatches a countdown message. */
 void func_80054B08(s32 message)
 {
+    u32 final_offset = 0;
+    u32 offset_base = 0;
     s32 message_type = message & 0xF000;
     switch (message_type) {
     case 0:
@@ -26,18 +33,15 @@ void func_80054B08(s32 message)
         u32 first_offset;
         register u32 second_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
         CueRecord *record;
-        u32 offset_base;
         u8 first_tag;
         u8 second_tag;
         u32 flags;
         record = func_8003F534();
         offset_mask = 0xFF0000;
-        ASM_KEEP(offset_mask);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
         record_value = record->value;
         status = &D_800847D0;
         status->unk_1C = record_value;
         offset_base = record->base;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
         first_offset = record->first;
         offset_mask |= 0xFFFF;
         status->unk_10 = first_offset;
@@ -56,8 +60,10 @@ void func_80054B08(s32 message)
         status->unk_33 = second_tag;
         status->unk_14 = second_offset;
         second_offset = second_offset + 0x20;
+        offset_base = cue_sum(second_offset, offset_base);
         flags = status->flags00;
-        status->unk_14 = second_offset + offset_base;
+        final_offset = offset_base;
+        status->unk_14 = final_offset;
         if (flags & 0x400) {
             status->flags00 = flags | 0x4000;
             D_80084864[0] = 2;
@@ -71,8 +77,7 @@ void func_80054B08(s32 message)
             s16 signed_value;
             int initial_value;
             update_state->unk_04 = 0;
-            offset_mask = (s16)record_value;
-            signed_value = (s16)offset_mask;
+            signed_value = (s16)record_value;
             initial_value = func_80054AF0(signed_value);
             update_state->unk_08 = initial_value;
             update_state->unk_0A = initial_value;

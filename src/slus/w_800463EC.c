@@ -91,7 +91,6 @@ typedef struct RenderScratch {
     s32 clip;
 } RenderScratch;
 
-#define SPAD(base, type, field) (((volatile type *)(base))->field)
 #define PPAD(base, type, field) (((type *)(base))->field)
 
 extern void PushMatrix(void);
@@ -221,25 +220,29 @@ void func_800463EC(void *unused, u8 *position, RenderObject *object, s16 depth_b
             clip_xy_0 = ((S_800463EC_4 *)prim)->unk_08;
             clip_xy_1 = ((S_800463EC_4 *)prim)->unk_10;
             clip_xy_2 = ((S_800463EC_4 *)prim)->unk_18;
+            PPAD(scratch, RenderScratch, clip) = NormalClip(clip_xy_0, clip_xy_1, clip_xy_2);
             break;
         case 1:
             clip_xy_0 = ((S_800463EC_4 *)prim)->unk_10;
             clip_xy_1 = ((S_800463EC_4 *)prim)->unk_08;
             clip_xy_2 = ((S_800463EC_4 *)prim)->unk_20;
+            PPAD(scratch, RenderScratch, clip) = NormalClip(clip_xy_0, clip_xy_1, clip_xy_2);
             break;
         case 2:
             clip_xy_0 = ((S_800463EC_4 *)prim)->unk_20;
             clip_xy_1 = ((S_800463EC_4 *)prim)->unk_18;
             clip_xy_2 = ((S_800463EC_4 *)prim)->unk_10;
+            PPAD(scratch, RenderScratch, clip) = NormalClip(clip_xy_0, clip_xy_1, clip_xy_2);
             break;
         default:
             clip_xy_0 = ((S_800463EC_4 *)prim)->unk_18;
             clip_xy_1 = ((S_800463EC_4 *)prim)->unk_20;
             clip_xy_2 = ((S_800463EC_4 *)prim)->unk_08;
+            PPAD(scratch, RenderScratch, clip) = NormalClip(clip_xy_0, clip_xy_1, clip_xy_2);
             break;
         }
 
-        SPAD(scratch, RenderScratch, clip) = NormalClip(clip_xy_0, clip_xy_1, clip_xy_2);
+        
         if (PPAD(scratch, RenderScratch, clip) > 0) {
             depth = PPAD(scratch, RenderScratch, depth) - depth_offset;
             PPAD(scratch, RenderScratch, depth) = depth;
