@@ -725,3 +725,31 @@ Run `package_preflight.py --root REPO --package DELIVERY/apply.py --log LOG.json
 at current HEAD before review. This is an accounting/contract screen; successful
 member scores and preflight do not replace the lander's production proofs.
 See [TOOLS.md](TOOLS.md) for the scorer and fixture commands.
+
+
+### Advisory source lever check
+
+`python3 tools/lanes/lanekit/lever_check.py ROW candidate.c` compares the
+candidate with current registered source and prints candidate line evidence.
+`--base FILE` selects a frozen review baseline; `--root REPO` selects a scratch
+checkout. No compile, source rewrite, review grant, or gate change is performed.
+`lab.py` prints one advisory line after its existing admission check and before
+staging. Staging still uses the existing exactness/admission guards, regardless
+of lever severity or an incomplete source analysis.
+
+`python3 tools/lanes/lanekit/lever_check.py --check LANE/out [OTHER/out ...]`
+checks `container/*.c` without scanning other lane files. `--json` emits bound
+base/candidate hashes and all findings. Batch exits 1 when a REFUSE-LIKELY flag
+exists, 2 for missing/invalid input or a stale `.base_sha`, and 0 otherwise.
+Single-candidate mode returns 0 for completed advisory analysis, including
+REFUSE-LIKELY flags. These statuses cannot replace the real scorer or review.
+
+REFUSE-LIKELY names source patterns that usually fail review; REVIEW requests
+context; INFO includes inherited levers and accepted source idioms. Signature
+and arity findings say NEEDS-CONTEXT and suggest reach analysis when the context
+oracle is installed. A callback may receive genuine hidden entry arguments.
+The zero-init one-member union, decision-44 page with at least two genuine
+accesses, and claimed decision-39/45 sites retain explicit INFO evidence and
+still require their original proofs. Unused leftovers are reported even when
+retained from the base. This bounded lexer/statement analysis does not prove
+retail stores, arbitrary aliasing, all C syntax, or complete ABI reach.

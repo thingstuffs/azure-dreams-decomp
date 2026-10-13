@@ -7,17 +7,17 @@
     "dungeon/func_800B79F8",
     "dungeon/func_800B7A24"
   ],
-  "at": "2026-10-13T13:46:24Z",
+  "at": "2026-10-13T23:42:39Z",
   "reviewer": "orchestrator-r99",
   "fingerprint": {
     "schema": "overlay-module-scoped-v2",
-    "sha256": "28779706cad654b9e51d59d89e88db1b12839af554df0fc8546d603edb3d06b2",
+    "sha256": "d6e33c8fb8eceea3eac5e13af71a6861f3480a87b929db1614b8e4bac9f506cf",
     "module": {
       "sha256": "244d7c1c3a48a83133b05935f921a4484d13dcc3455bc7738f8c9084342d5cf8"
     },
     "windows": {
       "config/overlays/dungeon_engine.overlay.yaml": {
-        "sha256": "c9da06a2fb1a126fed8037ca56b8c12de752423937eeaa3d06b1da3203c7a7c3"
+        "sha256": "00d2dec7be43cc133fc460ebf1eb064fa1d149490b0f8e7fc6abeaeca3b03632"
       }
     },
     "required_windows": [
@@ -25,7 +25,7 @@
     ]
   },
   "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_cd_control_d79c4/module",
-  "receipt_sha256": "839cceded92dbc420ed22b72986670744ab9268d97ba3363d1b97c3c9f6531fa",
+  "receipt_sha256": "9dd8dadab441383c964c978971e53e10c73c0b0a82a94238124af8659b20b31a",
   "windows": [
     {
       "config": "config/overlays/dungeon_engine.overlay.yaml",
@@ -37,10 +37,10 @@
         "gate.log": "a3adeb886745588497e01d1535a97da977c6ec09e33c0da82f4d7f1d2f4d355f",
         "window.bin": "1612c21559c49a3b69f10548bca5ec6d18ec11a0764ea317c396edca9211d796",
         "manifest.json": "ed956459a899fc794ed7eb6fddca2277d6578e50871aece7af1c4c2b53a9901b",
-        "projection.json": "c41c86e9ea1d73599144eb8016cbd48c574435b9ba851dedbbaf427b04a699d9",
-        "module/receipt.json": "5d7ff62974a951991acdf356e270b1f87c708e259bd33956a57abc4331dbbd94"
+        "projection.json": "01d5961604b72e38c402ac7c07644950b674f2eb632a5b740d4c4700f396f070",
+        "module/receipt.json": "86691296b1761c989ccb70f160d775db84444fa13290ee70bd13672dd89228fb"
       },
-      "digest": "c9da06a2fb1a126fed8037ca56b8c12de752423937eeaa3d06b1da3203c7a7c3"
+      "digest": "00d2dec7be43cc133fc460ebf1eb064fa1d149490b0f8e7fc6abeaeca3b03632"
     }
   ]
 }

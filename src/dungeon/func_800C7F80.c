@@ -87,7 +87,7 @@ typedef struct S_800CD6E0_7 {
 } S_800CD6E0_7;   /* link in func_800CD6E0 */
 
 /* Conditionally creates four sprites around the source owner. */
-s32 func_800CD6E0(void *source) {
+s32 func_800CD6E0(void *source, s16 slot_index, s32 slot_bits) {
     void *effect;
     S_800CD6E0_1 *owner;
     S_800CD6E0_4 *position;

@@ -351,6 +351,9 @@ def stage_file(lane, row, base_path, base, text, equal_pins=False):
     if bad:
         print("  NOT staged (%s)" % "; ".join(bad))
         return None
+    # Advisory source evidence; eligibility remains kitlib.admissible + exact scoring.
+    from lever_check import stage_advisory
+    stage_advisory(row, base, text, root=kitlib.ROOT)
     out = Path(lane) / "out" / row["container"]
     out.mkdir(parents=True, exist_ok=True)
     dst = out / Path(row["c_path"]).name
