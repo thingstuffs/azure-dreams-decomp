@@ -8,3 +8,7 @@
 {"tag": "r117slus", "row": "slus/konami_runtime_w_8003800C", "candidate": "work/native_lane/_r116/root/work/native_lane/r116_sonnet_vol5/out/slus/konami_runtime_w_8003800C.c", "equal_pins": true, "how": "SLUS image SHA-1 MATCH + --rebaseline-slus"}
 {"tag": "r117slus", "row": "slus/w_8004AC3C", "candidate": "work/native_lane/_r116/root/work/native_lane/r116_sonnet_vol5/out/slus/w_8004AC3C.c", "equal_pins": true, "how": "SLUS image SHA-1 MATCH + --rebaseline-slus"}
 {"tag": "r116_sonnet_vol5", "row": "slus/w_800463EC", "candidate": "work/native_lane/_r116/root/work/native_lane/r116_sonnet_vol5/out/slus/w_800463EC.c", "equal_pins": true, "how": "SLUS image SHA-1 MATCH + --rebaseline-slus"}
+{"tag": "r118_land1s", "row": "slus/w_80054B08", "candidate": "work/native_lane/r118_land1s/out/slus/w_80054B08.c", "equal_pins": false, "how": "SLUS image SHA-1 MATCH + --rebaseline-slus"}
+{"tag": "r118_land1s", "row": "slus/w_80042560", "candidate": "work/native_lane/r118_land1s/out/slus/w_80042560.c", "equal_pins": false, "how": "SLUS image SHA-1 MATCH + --rebaseline-slus"}
+{"tag": "r118_land1s", "row": "slus/w_800463EC", "candidate": "work/native_lane/r118_land1s/out/slus/w_800463EC.c", "equal_pins": true, "how": "SLUS image SHA-1 MATCH + --rebaseline-slus"}
+{"tag": "r118_land1s", "row": "slus/w_80042A80", "candidate": "work/native_lane/r118_land1s/out/slus/w_80042A80.c", "equal_pins": true, "how": "SLUS image SHA-1 MATCH + --rebaseline-slus"}

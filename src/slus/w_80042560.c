@@ -32,14 +32,14 @@ void func_80042560(CallbackObject *object)
 {
     CallbackSlot saved_slots[4];
     s32 initial_type = 0x1B;
-    s32 slot_index = 0;
-    CallbackGlobals *globals = &D_80013714;
+    s32 slot_index;
+    u8 *page = (u8 *)0x80010000;
     u16 saved_flags;
 
-    ASM_KEEP(initial_type);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    saved_flags = globals->flags;
-    globals->flags = saved_flags | 2;
+    saved_flags = *(u16 *)(page + 0x3714);
+    *(u16 *)(page + 0x3714) = saved_flags | 2;
     func_80042518(object, initial_type);
+    slot_index = 0;
 
     for (; slot_index < 4; slot_index++) {
         saved_slots[slot_index] = object->slots[slot_index];

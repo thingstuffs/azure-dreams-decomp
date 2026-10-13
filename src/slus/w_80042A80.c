@@ -33,7 +33,8 @@ s32 func_80042A80(S_80042A80_Item *item)
     S_80042A80_CategoryEntry *category;
     s32 item_flags;
     u8 kind;
-    u32 category_index;
+    s32 category_index;
+    u16 category_id;
     if (D_80082E6A[0] != 2) {
         return 0;
     }
@@ -50,13 +51,15 @@ s32 func_80042A80(S_80042A80_Item *item)
     }
     {
         S_80042A80_CategoryEntry *categories = itemCategoryTable;
-        category_index = ((volatile S_80042A80_Item *) item)->f1;
-        category = &categories[category_index];
+        category_id = item->f1;
+        category = &categories[category_id];
     }
     if (category->kind != 0) {
         return 0;
     }
     category_index = category->records[item->f0].f0;
     category_index &= 0x400;
-    return (s16)category_index;
+    category_index <<= 16;
+    category_index >>= 16;
+    return category_index;
 }
