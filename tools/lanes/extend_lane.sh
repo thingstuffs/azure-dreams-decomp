@@ -38,9 +38,12 @@ cp $D/codex.log $D/codex_before_extension.log
 # r117: run the resumed session FROM the lane directory, so its shell children never have the canonical root as cwd
 # (land_packages' isolation rule, r116_sol61_landfix: a lane whose processes stay inside work/native_lane/<lane> does
 # not make a live landing busy). Paths below are absolute for that reason.
+# The prompt goes on stdin (like launch_lane.sh): prompt text in argv names paths and <placeholders>, which the
+# lander's process-path proof cannot read as lane-contained, so an argv prompt kept the lane busy.
 RD="$PWD/$D"
+printf '%s\n' "$PROMPT" > "$RD/RESUME_PROMPT.txt"
 (cd "$RD" && exec nohup setsid codex exec resume "$SID" -m "${MODEL:-gpt-6-sol}" --dangerously-bypass-approvals-and-sandbox \
-    --skip-git-repo-check -c 'model_reasoning_effort="xhigh"' -o "$RD/last_message.txt" "$PROMPT" > "$RD/codex.log" 2>&1 < /dev/null) &
+    --skip-git-repo-check -c 'model_reasoning_effort="xhigh"' -o "$RD/last_message.txt" - < "$RD/RESUME_PROMPT.txt" > "$RD/codex.log" 2>&1) &
 echo $! > $D/lane.pid
 CAP=$((PRIOR + EXTRA))
 nohup python3 tools/lanes/lane_cap.py watch "$N" --tokens "$CAP" --minutes "$WALL" > $D/cap_watch_ext.log 2>&1 &

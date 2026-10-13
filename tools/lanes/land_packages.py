@@ -283,32 +283,40 @@ def process_lane(info, root):
     return lane if script_found else None
 
 
-def outside_root(info, root):
-    """True when a process has no visible path into the canonical root at all.
+def foreign_helper(info, root, lane):
+    """True for an external program a lane's codex runs that has no path into the root.
 
-    codex spawns global helpers (the ghidra-mcp bridge, cwd in a sibling
-    checkout) under a lane's codex process. Such a descendant cannot touch the
-    transaction: its cwd, every path-like argv token, every fd and every gate
-    override resolve outside root. Anything ambiguous is not outside.
+    codex spawns global helpers (the ghidra-mcp bridge: an interpreter and a
+    script in a sibling checkout, cwd inherited from the lane) under a lane's
+    codex process. The program and every path-like argv token, fd and gate
+    override must resolve outside the root or inside this lane; the cwd too.
+    Inline code (-c/-e/-m/--command/--eval) is opaque and never qualifies.
     """
-    root=root.resolve();cwd=info['cwd']
-    if cwd is None or info['parent'] is None:return False
-    def inside(path):
+    root=root.resolve();cwd=info['cwd'];argv=info['argv']
+    if cwd is None or info['parent'] is None or not argv:return False
+    def shared(path):
         if not path.is_absolute():path=cwd/path
-        return (Path(os.path.abspath(path)).is_relative_to(root) or
-                path.resolve(strict=False).is_relative_to(root))
+        for p in (Path(os.path.abspath(path)),path.resolve(strict=False)):
+            if p.is_relative_to(root) and not p.is_relative_to(lane):return True
+        return False
     try:
-        if inside(cwd) or str(root) in info['args']:return False
-        for arg in info['argv']:
+        program=Path(argv[0])
+        if not program.is_absolute() or shared(cwd):return False
+        if Path(os.path.abspath(program)).is_relative_to(root) or program.resolve().is_relative_to(root):return False
+        for m in re.finditer(re.escape(str(root)),info['args']):
+            rest=info['args'][m.start():]
+            if not (rest.startswith(str(lane)) and rest[len(str(lane)):][:1] in ('','/',' ')):return False
+        for arg in argv[1:]:
+            if arg in ('-c','-e','-m','--command','--eval') or re.fullmatch(r'-[A-Za-z]*[cm]\S*',arg) and not arg.startswith('--'):return False
             value=arg.split('=',1)[1] if arg.startswith('-') and '=' in arg else arg
-            if ('/' in value or value in ('.','..')) and inside(Path(value)):return False
+            if ('/' in value or value in ('.','..')) and shared(Path(value)):return False
         for fd in (info['proc']/'fd').iterdir():
             try:name=os.readlink(fd)
             except FileNotFoundError:continue
-            if name.startswith('/') and inside(Path(name.removesuffix(' (deleted)'))):return False
+            if name.startswith('/') and shared(Path(name.removesuffix(' (deleted)'))):return False
         for setting in (info['proc']/'environ').read_bytes().split(b'\0'):
             key,sep,value=setting.partition(b'=')
-            if sep and key in (b'GATE_BUILD_ROOT',b'GATE_JOURNAL',b'SRCROOT') and inside(Path(os.fsdecode(value))):return False
+            if sep and key in (b'GATE_BUILD_ROOT',b'GATE_JOURNAL',b'SRCROOT') and shared(Path(os.fsdecode(value))):return False
     except (OSError,RuntimeError,ValueError):return False
     return True
 
@@ -336,10 +344,10 @@ def isolated_lane(proc, root, proc_root=Path("/proc"), snapshot=None):
             if pid in seen:return False
             seen.add(pid);item=snapshot[pid];q=item['proc']
             todo.extend(children.get(pid,[]))
-            # A global helper wholly outside the root (codex's MCP bridge) is
-            # not part of the lane and cannot reach the transaction; its own
+            # An external helper with no path into the root outside this lane
+            # (codex's MCP bridge) cannot reach the transaction; its own
             # children are still checked one by one.
-            if pid!=int(proc.name) and outside_root(item,root):continue
+            if pid!=int(proc.name) and foreign_helper(item,root,lane):continue
             if process_lane(item,root)!=lane:return False
             for fd in (q/'fd').iterdir():
                 try:
