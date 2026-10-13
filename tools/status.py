@@ -269,6 +269,20 @@ def main():
                f"2026-09-23, tracked as a spelling trade, informational, the pin count is unchanged; appended by "
                f"tools/apply_candidates.py at landing): {dead_init:,}.\n")
 
+    unions = list(read_jsonl(LEDGER / "union_trades.jsonl")) if (LEDGER / "union_trades.jsonl").exists() else []
+    if unions:
+        def _union_line(kind, label):
+            sites = [u for u in unions if u.get("kind") == kind]
+            per_row = collections.Counter(u["id"] for u in sites)
+            live = sum(1 for r in per_row if (ROOT / "src" / (r + ".c")).exists() and "union" in (ROOT / "src" / (r + ".c")).read_text(errors="replace"))
+            top = ", ".join(f"{r.split('/')[-1]} {n}" for r, n in per_row.most_common(4))
+            return f"{label}: {len(sites):,} sites in {len(per_row):,} rows ({live:,} rows still carry a union; most: {top})"
+        out.append("Union trades (`ledger/union_trades.jsonl`, owner 2026-10-13: kept as nicer-than-a-pin but TRACKED - their "
+                   "plausibility as original 1997 code is unproven; census work/native_lane/_r118/union_census): "
+                   + _union_line("union_idiom", "zero-init one-member idiom (accepted trade)") + "; "
+                   + _union_line("union_host_merge", "host-merge levers (int/pointer share one union variable; owner ruling pending)")
+                   + ". Refused union levers (float launders, dead-value keepers) are recorded in the hard basket.\n")
+
     from census import declared_void_callees, void_exact_targets, live_sites, audit_sites
     import census as _census_mod
 
