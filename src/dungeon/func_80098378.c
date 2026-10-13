@@ -61,8 +61,6 @@ void func_8009DAD8(s32 draw_param) {
     EntryInfo *info;
     LargeMapEntry *largeMapEntry;
     s32 brightness;
-    union { s32 value; } firstX = {0};
-    union { s32 value; } firstY = {0};
     u8 *firstColour;
     s32 firstContext;
     s32 distance;
@@ -98,20 +96,16 @@ void func_8009DAD8(s32 draw_param) {
     }
     firstContext = draw_param;
     player = (u8 *)&D_80082E80;
-    firstX.value = player[0x24];
-    firstY.value = player[0x25];
     colour[3] = 0x68;
     colour[2] = 0;
     colour[1] = brightness;
     colour[0] = brightness;
-    func_8009DA70(firstX.value, firstY.value, firstColour, firstContext);
+    func_8009DA70(player[0x24], player[0x25], firstColour, firstContext);
 
     entry = ((u8 *)head->unk_5C) + 0x20;
     colour[1] = 0;
     if (entry != head) {
         for (; entry != head; entry = *(u8 **)(entry + 0x5c) + 0x20) {
-            union { s32 value; } flagsMask = {0};
-            union { s32 value; } entryState = {0};
             union { s32 value; } entryFlag = {0};
             union { s32 value; } entryType = {0};
             union { long value; } markerKind = {0};
@@ -119,7 +113,7 @@ void func_8009DAD8(s32 draw_param) {
             union { u8 * value; } object = {0};
             if (*(s8 *)(entry + 0x13) > 0) {
                 object.value = *(u8 **)(entry - 0x14);
-                if (!(flagsMask.value = D_800E296C & 4)) {
+                if (!(D_800E296C & 4)) {
                     if (*(s8 *)(object.value + 0x26) < 0 ||
                         *(s8 *)(object.value + 0x26) != D_80082E80.unk_026) {
                         distance = func_8009FD40(object.value,
@@ -138,8 +132,8 @@ void func_8009DAD8(s32 draw_param) {
                         kind.value = 1;
                     }
                 } else if ((entryType.value = entry[0x13]) != 0x23 ||
-                           (entryState.value = *(s16 *)(entry + 0xa6)) == 0 ||
-                           (flagsMask.value = D_800E296C & 4)) {
+                           (*(s16 *)(entry + 0xa6)) == 0 ||
+                           (D_800E296C & 4)) {
                     kind.value = 1;
                 }
 

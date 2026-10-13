@@ -27,7 +27,6 @@ extern void func_80067014(s32 arg0);
 extern void func_800672D8(void *arg0, void *arg1);
 extern void func_8006733C(void *arg0, void *arg1);
 
-union ColumnBits { u8 bytes[4]; s32 value; };
 
 /* Blend palette colors for the current animation frame and flag completion. */
 void func_80174424(void *effect)
@@ -41,13 +40,12 @@ void func_80174424(void *effect)
     s32 palette_row;
     register s32 palette_index;
     register s32 sample_count;
-    union ColumnBits column = {{0, 0, 0, 0}};
+    s32 column;
     register s32 sample_index;
     register s32 sample_offset;
     register u16 packed_color;
     register u16 result_color;
     register u16 next_frame;
-    register u16 duration;
     register u16 frame;
     register s32 *flags_page;
 
@@ -71,9 +69,9 @@ void func_80174424(void *effect)
         blend_frame = ((S_80174424_0 *)effect)->unk_96;
     } else {
         buffer[1] = 0x102;
-        duration = ((S_80174424_0 *)effect)->unk_A8.u;
+        column = ((S_80174424_0 *)effect)->unk_A8.s;
         frame = ((S_80174424_0 *)effect)->unk_96;
-        blend_frame = duration - frame;
+        blend_frame = (u16)column - frame;
     }
     func_80067014(0);
 
@@ -81,7 +79,7 @@ void func_80174424(void *effect)
     buffer_base = buffer;
     blend_scale = blend_frame;
     blend_scale = (s16)blend_scale;
-    column.value = 15;
+    column = 15;
     do {
         palette_index = (palette_row << 4) + 15;
         do {
@@ -121,7 +119,7 @@ unpack_pair:
                 color_ptr = (s16 *)(u32)(pixel_offset + (u32)(s8 *)buffer_base);
                 sample_index = *(u16 *)((s8 *)color_ptr + 8);
                 result_color = (u16)sample_index;
-                column.value--;
+                column--;
                 result_color &= 0x8000;
                 *(u16 *)((s8 *)color_ptr + 8) = result_color;
                 {
@@ -140,9 +138,9 @@ unpack_pair:
                     *(u16 *)((s8 *)color_ptr + 8) = result_color;
                 }
             }
-        } while (column.value >= 0);
+        } while (column >= 0);
         palette_row -= 4;
-        column.value = 15;
+        column = 15;
     } while (palette_row >= 0);
 
     func_800672D8(buffer, &buffer[4]);

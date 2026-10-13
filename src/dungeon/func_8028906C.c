@@ -34,7 +34,7 @@ s32 func_8001C06C(Pos *start, Pos *dest, s16 rnd, s16 *outX, s16 *outY) {
     s32 dir;
     s16 dstX;
     s16 dstY;
-    union { s16 v; } dirSlot = {0};
+    s16 dirSlot;
     s16 rangeX;
     s16 rangeY;
     s16 wx;
@@ -54,7 +54,7 @@ s32 func_8001C06C(Pos *start, Pos *dest, s16 rnd, s16 *outX, s16 *outY) {
     delta = __builtin_abs(delta);
     rangeX = delta - 4;
     delta2 = (s32)&gameWork;
-    dirSlot.v = dir;
+    dirSlot = dir;
     dstY = dest->y;
     st = (DungeonState *)((u8 *)delta2 + 476);
     dstX = dest->x;
@@ -115,7 +115,7 @@ s32 func_8001C06C(Pos *start, Pos *dest, s16 rnd, s16 *outX, s16 *outY) {
     }
 
     if (wx != dstX || wy != dstY) {
-        if (dirStepX[dirSlot.v] != 0) {
+        if (dirStepX[dirSlot] != 0) {
             wy = dstY;
         } else {
             wx = dstX;

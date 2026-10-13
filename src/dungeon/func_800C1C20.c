@@ -68,10 +68,7 @@ DungeonObject *func_800C7380(s16 tile_x, s16 tile_y, u16 z, s16 height, s16 spee
     DungeonObject *parent;
     DungeonObject *child;
     DungeonState *state;
-    union {
-        u32 word;
-        DungeonCoord *coord;
-    } center;
+    DungeonCoord * center;
     DungeonCoord *child_coord;
     DungeonRender *render;
     void *image_data;
@@ -90,11 +87,11 @@ DungeonObject *func_800C7380(s16 tile_x, s16 tile_y, u16 z, s16 height, s16 spee
         state = &parent->state;
         remaining = 0xB;
         shade = -0xAA7;
-        center.coord = parent->coord;
-        center.coord->x = (s16) (((s32) (tile_x << 0x10) >> 0xA) + 0x20);
+        center = parent->coord;
+        center->x = (s16) (((s32) (tile_x << 0x10) >> 0xA) + 0x20);
         angle = 0xEA7;
-        center.coord->y = (s16) (((s32) (tile_y << 0x10) >> 0xA) + 0x20);
-        center.coord->z = z;
+        center->y = (s16) (((s32) (tile_y << 0x10) >> 0xA) + 0x20);
+        center->z = z;
         render = parent->render;
         render->image = D_800777E8;
         render->limit = 0x1800;
@@ -122,9 +119,9 @@ DungeonObject *func_800C7380(s16 tile_x, s16 tile_y, u16 z, s16 height, s16 spee
                 child->callback = callback_fn;
                 func_8004491C(init_child, child_resource);
                 child_coord = child->coord;
-                child_coord->x = (s16) (center.coord->x + (func_80064584(angle) >> 7));
-                child_coord->y = (s16) (center.coord->y + (func_800644B8(angle) >> 7));
-                child_coord->z = center.coord->z;
+                child_coord->x = (s16) (center->x + (func_80064584(angle) >> 7));
+                child_coord->y = (s16) (center->y + (func_800644B8(angle) >> 7));
+                child_coord->z = center->z;
                 render = child->render;
                 render->blend2 = 0xFC00;
                 render->shade = shade;

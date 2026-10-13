@@ -205,7 +205,7 @@ void func_80026190(void *owner)
     void *child_object;
     void *alloc_container;
     void *setup_container;
-    union { void *pointer; s32 value; } mask_work;
+    s32 mask_work;
     void *spawn_container;
     void *spawn_child;
     void *spawn_resource;
@@ -275,12 +275,12 @@ void func_80026190(void *owner)
         cleanup_page = (u8 *)0x80080000;
         ((S_80026190_7_pre *)setup_container)[-1].unk_00 = owner_bits | 0x8000;
         ((S_80026190_0 *)owner)->unk_00 = NULL;
-        mask_work.pointer = ((S_80026190_5 *)child)->unk_08;
+        mask_work = (s32)(((S_80026190_5 *)child)->unk_08);
         cleanup_flags = ((S_80026190_8 *)cleanup_page)->unk_14A0;
-        child_bits = ((S_80026190_9 *)mask_work.pointer)->unk_1E;
+        child_bits = ((S_80026190_9 *)((void *)mask_work))->unk_1E;
         cleanup_flags |= 0x8000;
         ((S_80026190_8 *)cleanup_page)->unk_14A0 = cleanup_flags;
-        ((S_80026190_9 *)mask_work.pointer)->unk_1E = child_bits | 0x8000;
+        ((S_80026190_9 *)((void *)mask_work))->unk_1E = child_bits | 0x8000;
         ((S_80026190_5 *)child)->unk_08 = NULL;
         return;
     }
@@ -357,13 +357,13 @@ void func_80026190(void *owner)
             ((u8 *)entity)[clear_pairs_left * 2 + 0x2D] = 0;
         }
 
-        mask_work.value = 0xBFFFFFFF;
+        mask_work = 0xBFFFFFFF;
         entity_arg = entity;
         entity_flags = 0x64;
         ((S_80026190_17 *)entity)->unk_25 = entity_flags;
         ((S_80026190_17 *)entity)->unk_88 = 0;
         ((S_80026190_17 *)entity)->unk_1C &= ~0x1EF8;
-        ((S_80026190_17 *)entity)->unk_1C &= mask_work.value;
+        ((S_80026190_17 *)entity)->unk_1C &= mask_work;
         ((S_80026190_17 *)entity)->unk_1C |= 0x40000;
         func_8009A028(entity_arg);
 

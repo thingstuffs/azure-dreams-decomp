@@ -81,9 +81,8 @@ void func_8014F7B0(ActorActionView *action, EntityRec *motion, ActorSpriteView *
     s32 use_player_target;
     s32 particle_count;
     s32 offset_z;
-    /* Alternate selection roles share the retail compiler's scalar live range. */
-    union { s32 flags; s32 playerMode; EntityRec *target; s32 direction; } selection;
-    union { s32 kind; EntityRec *record; } selected;
+    s32 selection;
+    s32 selected;
     s32 particle_zero;
     s32 particle_color;
     s32 offset_x;
@@ -127,8 +126,8 @@ void func_8014F7B0(ActorActionView *action, EntityRec *motion, ActorSpriteView *
                 break;
             }
         } else {
-            selected.kind = actor->unk_46 & 0x3FFF;
-            switch (selected.kind) {
+            selected = actor->unk_46 & 0x3FFF;
+            switch (selected) {
             case 3:
                 action_data = ((ActorActionSlotsView *)actor)->third;
                 break;
@@ -145,32 +144,32 @@ void func_8014F7B0(ActorActionView *action, EntityRec *motion, ActorSpriteView *
         }
         if (*action_data != 0) {
 
-            selection.flags = action->flags;
-            selection.flags &= 0xFF7F;
-            action->flags = selection.flags;
-            selection.playerMode = use_player_target;
-            if (selection.playerMode != 0) {
-                selection.target = D_800814A8;
-                actor->target = selection.target;
+            selection = action->flags;
+            selection = (s32)(selection & 0xFF7F);
+            action->flags = selection;
+            selection = use_player_target;
+            if (selection != 0) {
+                selection = (s32)(D_800814A8);
+                actor->target = ((EntityRec *)selection);
                 {
                     u8 target_coordinate;
 
-                    selected.record = ((ObjectNodeHeader *)selection.target)[-1].unk_0C;
-                    target_coordinate = selected.record->tileX;
+                    selected = (s32)(((ObjectNodeHeader *)((EntityRec *)selection))[-1].unk_0C);
+                    target_coordinate = ((EntityRec *)selected)->tileX;
                     actor->unk_72 = target_coordinate;
-                    target_coordinate = selected.record->tileY;
+                    target_coordinate = ((EntityRec *)selected)->tileY;
                     actor->unk_73 = target_coordinate;
                 }
             } else if (D_8006DE24[*action_data].kind == 2) {
-                selection.target = actor->target;
-                if (selection.target != 0) {
+                selection = (s32)(actor->target);
+                if (((EntityRec *)selection) != 0) {
                     {
                         u8 target_coordinate;
 
-                        selected.record = ((ObjectNodeHeader *)selection.target)[-1].unk_0C;
-                        target_coordinate = selected.record->tileX;
+                        selected = (s32)(((ObjectNodeHeader *)((EntityRec *)selection))[-1].unk_0C);
+                        target_coordinate = ((EntityRec *)selected)->tileX;
                         actor->unk_72 = target_coordinate;
-                        target_coordinate = selected.record->tileY;
+                        target_coordinate = ((EntityRec *)selected)->tileY;
                         actor->unk_73 = target_coordinate;
                     }
                 }
@@ -294,8 +293,8 @@ void func_8014F7B0(ActorActionView *action, EntityRec *motion, ActorSpriteView *
 
         if (sprite->directionFrames != D_80150EB8) {
             sprite->directionFrames = D_80150EB8;
-            selection.direction = ((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7;
-            func_80047784(sprite, D_80150EB8[selection.direction], 0);
+            selection = ((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7;
+            func_80047784(sprite, D_80150EB8[selection], 0);
         }
         if (((s32)dungeonStatus.unk_0C) != 0) {
             return;
