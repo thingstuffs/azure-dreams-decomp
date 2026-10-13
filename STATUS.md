@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-13T06:09:08Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-13T06:30:43Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -95,7 +95,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | dungeon_ovl_189a800 | 13 | current: complete TU + all windows + genuine |
 | dungeon_ovl_188e800 | 6 | current: complete TU + all windows + genuine |
 | dungeon_ovl_198a800 | 17 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1876800 | 5 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1876800 | 5 | current: complete TU + all windows + genuine |
 | dungeon_ovl_1894800 | 11 | current: complete TU + all windows + genuine |
 | dungeon_ovl_18a6800 | 15 | current: complete TU + all windows + genuine |
 | dungeon_ovl_19d2800 | 6 | current: complete TU + all windows + genuine |
@@ -183,12 +183,12 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 | L1 | 2,784,412 | 99.9% |
 | L2 | 2,784,412 | 99.9% |
 | L3 | 2,770,828 | 99.4% |
-| L4 | 212,780 | 7.6% |
-| L5 | 208,160 | 7.5% |
+| L4 | 216,892 | 7.8% |
+| L5 | 212,272 | 7.6% |
 
 On shared record headers (T7, `include/records/`): 903 rows, 577,664 bytes (20.7%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 20 rows (25,000 B), tail_jump 8 rows (4,884 B), not_in_module 7,106 rows (2,568,688 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 20 rows (25,000 B), tail_jump 8 rows (4,884 B), not_in_module 7,101 rows (2,564,576 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 
