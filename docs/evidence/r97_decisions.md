@@ -248,3 +248,13 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     interior). At base 0x80016000, 25 of 26 internal calls and both header entries land on function starts (almost none
     at +-0x800). Accepted as placement for town/func_8094D004 and town/func_80950CC0's data sides, recorded as
     `placement: link-evidence` (distinct from loader-receipt placement). SECOND LOOK: yes.
+44. **(r118, OWNER ruling 2026-10-13) A plain integer page pointer is admissible where retail's load order proves a
+    non-constant base.** r118_fable_f3 (Fable #3; REPORT.md + LEARNINGS.md in work/native_lane/_r118/root2/work/native_lane/
+    r118_fable_f3) traced cdk sched.c: memrefs_conflict_p reduces LO_SUM/HIGH addresses to their CONSTANT_P symbol, so a
+    symbol-relocated load never depends on the sp-based prologue saves. Retail schedules the page-word load after every save, so
+    its base was a register the alias code could not reduce: an integer page (`lui $r,0x8001` + reg+offset), which cc1 keeps in
+    a register only when it has >= 2 uses (combine folds a single-use constant SET). Admitted only with (a) >= 2 genuine uses of
+    the page or the proven save dependence, (b) this record cited at the site, and (c) for SLUS, a full image SHA-1 MATCH plus a
+    rebaseline (the HI16/LO16 relocation words were our pinned-object reference, not retail evidence; precedent f9c78e692).
+    The general rule "no literal address where a symbol exists" stands everywhere else. First rows: dungeon/func_81329AC4,
+    slus/w_80042560. dungeon/func_813274E4 stays pinned (a single page access). SECOND LOOK: no (owner decided).
