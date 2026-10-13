@@ -92,7 +92,8 @@ gotos = lambda t: (lambda c: len(re.findall(r"\bgoto\s+\w+\s*;", c)) + len(re.fi
 m2c = lambda t: len(re.findall(r"\bM2C_[A-Z_]+\b|\b(?:temp|var|phi)_[a-z][a-z0-9_]*\b|\barg[0-9]\b|\bsp[0-9A-F]{2,3}\b|\bNON_MATCHING\b|\bS_[0-9A-F]{8}\w*", re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", t, flags=re.S))))
 ODDITY_OK = {__import__("json").loads(l)["id"] for l in open("ledger/oddities.jsonl")} if os.path.exists("ledger/oddities.jsonl") else set()
 ONETRIP_OK = {__import__("json").loads(l)["id"] for l in open("ledger/onetrip_barrier_rows.jsonl")} if os.path.exists("ledger/onetrip_barrier_rows.jsonl") else set()
-kinds = lambda t: collections.Counter(m.group(0).replace(" ", "") for m in bad.finditer(re.sub(r"/\*.*?\*/", "", t, flags=re.S)))
+# r117: a volatile-bodied accessor macro counts once per invocation (land_admit.macro_volatile_uses)
+kinds = lambda t: +(collections.Counter(m.group(0).replace(" ", "") for m in bad.finditer(re.sub(r"/\*.*?\*/", "", t, flags=re.S))) + collections.Counter(volatile=land_admit.macro_volatile_uses(t)))
 for lane in lanes:
     for f in sorted(glob.glob("work/native_lane/%s/out/*/*.c" % lane)):
         rid = f.split("/out/")[1][:-2]; cand = open(f).read(); cur = open("src/%s.c" % rid).read()
