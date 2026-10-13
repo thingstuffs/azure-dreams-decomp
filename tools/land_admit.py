@@ -24,6 +24,18 @@ def admit(fell, grew, pins_equal, n_cand, n_cur):
     return fell, grew
 
 
+def macro_volatile_uses(text):
+    """Invocations of function-like macros whose body says `volatile` (r117 w_800463EC: the SPAD accessor).
+
+    The `volatile` token sits once in the #define, so a candidate that moves seven of eight accessor sites to a plain
+    twin removed seven volatile accesses that a token count cannot see. Each invocation counts as one volatile.
+    """
+    text = re.sub(r'//[^\n]*', '', re.sub(r'/\*.*?\*/', '', text, flags=re.S))
+    names = set(re.findall(r'^[ \t]*#[ \t]*define[ \t]+(\w+)\([^)\n]*\)[^\n]*\bvolatile\b', text, flags=re.M))
+    body = re.sub(r'^[ \t]*#[ \t]*define[^\n]*', '', text, flags=re.M)
+    return sum(len(re.findall(r'\b%s\s*\(' % re.escape(n), body)) for n in names)
+
+
 def equal_pin_changes(row, cand, cur):
     """Equal-pin scaffolding admission used by land_lanes, without lane opt-ins.
 
@@ -34,8 +46,10 @@ def equal_pin_changes(row, cand, cur):
         return re.sub(r'//[^\n]*', '', re.sub(r'/\*.*?\*/', '', text, flags=re.S))
     bad = re.compile(r'ASM_[A-Z0-9_]+(?=\()|ODDITY_[A-Z_]+(?=\()|while\s*\(\s*0\s*\)|__asm__|\basm\s*\(|\bvolatile\b')
     def kinds(text):
-        return Counter(m.group(0).replace(' ', '') for m in bad.finditer(
+        found = Counter(m.group(0).replace(' ', '') for m in bad.finditer(
             re.sub(r'/\*.*?\*/', '', text, flags=re.S)))
+        found['volatile'] += macro_volatile_uses(text)
+        return +found
     kc, ku = kinds(cand), kinds(cur)
     fell = [k for k in ku if kc[k] < ku[k]]
     grew = [k for k in kc if kc[k] > ku[k]]

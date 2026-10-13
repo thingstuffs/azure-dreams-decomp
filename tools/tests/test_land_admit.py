@@ -72,6 +72,19 @@ class EqualPinScaffolding(unittest.TestCase):
                 fell, grew = self.changes(cur, cand)
                 self.assertIn(kind, grew)
 
+    def test_volatile_accessor_macro_counts_per_use(self):
+        """r117 w_800463EC: seven of eight SPAD sites moved to a plain twin; the one `volatile` token is in the define."""
+        spad = '#define SPAD(b, T, f) (((volatile T *)(b))->f)\n'
+        ppad = '#define PPAD(b, T, f) (((T *)(b))->f)\n'
+        cur = spad + 'x = SPAD(s, R, a); SPAD(s, R, b) = x; y = SPAD(s, R, c);\n'
+        cand = spad + ppad + 'x = PPAD(s, R, a); PPAD(s, R, b) = x; y = SPAD(s, R, c);\n'
+        self.assertEqual(land_admit.macro_volatile_uses(cur), 3)
+        self.assertEqual(land_admit.macro_volatile_uses(cand), 1)
+        self.assertEqual(self.changes(cand, cur), (['volatile'], []))
+        self.assertEqual(self.changes(cur, cand), ([], ['volatile']))
+        # a mention in a comment or the define itself is not a use
+        self.assertEqual(land_admit.macro_volatile_uses(spad + '/* SPAD(s, R, a) */\n'), 0)
+
     def test_fall_does_not_hide_another_kind_growing(self):
         fell, grew = self.changes('goto done;', 'volatile int x;')
         self.assertEqual((fell, grew), (['volatile'], ['goto']))
