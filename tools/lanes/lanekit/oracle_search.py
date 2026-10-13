@@ -12,7 +12,7 @@ from pathlib import Path
 import kitlib, sncheck, pass_oracle
 import alloc263_oracle as alloc_oracle
 KNOWN=('800AED64','81844F2C','8028906C','818B6AFC','80D68308')
-VERSION=3
+VERSION=4
 
 def key(change):return json.dumps(change,sort_keys=True,separators=(',',':'))
 def members(change):return pass_oracle.members(change)
@@ -231,19 +231,20 @@ def run_trial(row,text,ch,out,timeout):
     (out/'trial.json').write_text(json.dumps(rec,indent=2)+'\n')
     return rec
 
-def input_signature(row,text,trials,timeout,composite_budget=0):
+def input_signature(row,text,trials,timeout,composite_budget=0,discovery_hook_cap=None):
     from common import parse_cfg
     cell,_=parse_cfg(row['cfg']);cc=kitlib.ROOT/'toolchain/compilers'/('gcc-'+cell)/'cc1'
     tool_hashes={n:hashlib.sha256(Path(__file__).with_name(n).read_bytes()).hexdigest() for n in ('oracle_search.py','pass_oracle.py','pass_oracle_gdb.py','alloc_oracle.py','alloc_oracle_gdb.py','alloc263_oracle.py')}
     return {'version':VERSION,'row':row['id'],'cfg':row['cfg'],'text_sha256':hashlib.sha256(text.encode()).hexdigest(),
             'compiler_sha256':hashlib.sha256(cc.read_bytes()).hexdigest(),'tools':tool_hashes,'trials':trials,'timeout':timeout,
-            'composite_budget':composite_budget}
+            'composite_budget':composite_budget,'discovery_hook_cap':discovery_hook_cap}
 
-def discover(row,text,out,timeout):
+def discover(row,text,out,timeout,hook_cap=None):
     # Each observer is independently calibrated against plain cc1. Splitting
     # families keeps overlapping debugger return breakpoints out of one run.
-    groups=[['sched'],['combine'],['cse'],['alias'],['loop','dead','reload'],['reorg'],['jump'],['frame'],['refs'],['global']]
-    merged={'events':[],'refs':[],'stats':[],'errors':[],'truncated':False,'discovery_errors':[]}
+    groups=[list(group) for group in pass_oracle.DISCOVERY_GROUPS]
+    merged={'events':[],'refs':[],'stats':[],'errors':[],'truncated':False,'discovery_errors':[],
+            'hook_counts':{},'skipped_hooks':[],'skipped_sites':[]}
     first=None
     for families in groups:
         tag='_'.join(families);cache=out/(tag+'.observation.json')
@@ -254,15 +255,19 @@ def discover(row,text,out,timeout):
                 r=json.loads(cache.read_text())
                 if r.get('failed'):raise ValueError(r['failed'])
             else:
-                try:r=pass_oracle.trace(row,text,families=families,timeout=timeout,keep=out/tag)
+                try:r=pass_oracle.trace(row,text,families=families,timeout=timeout,keep=out/tag,hook_cap=hook_cap)
                 except Exception as e:
                     out.mkdir(parents=True,exist_ok=True);cache.write_text(json.dumps({'failed':type(e).__name__+': '+str(e)}));raise
                 out.mkdir(parents=True,exist_ok=True)
-                cache.write_text(json.dumps({k:r[k] for k in ('events','refs','stats','errors','truncated','asm','cc1_sha256')}))
+                cache.write_text(json.dumps({k:r.get(k,[] if k in ('events','refs','stats','errors','skipped_hooks','skipped_sites') else {} if k=='hook_counts' else False)
+                                                  for k in ('events','refs','stats','errors','truncated','asm','cc1_sha256','hook_counts','skipped_hooks','skipped_sites')}))
             if r['errors']:raise ValueError('; '.join(r['errors']))
             if first is None:first=r;merged['asm']=r['asm'];merged['cc1_sha256']=r['cc1_sha256']
             elif sncheck.normalize(r['asm'])!=sncheck.normalize(first['asm']):raise ValueError('independent observer baselines disagree')
             merged['events'].extend(r['events']);merged['refs'].extend(r['refs']);merged['stats'].extend(r['stats'])
+            for name,count in r.get('hook_counts',{}).items():merged['hook_counts'][name]=merged['hook_counts'].get(name,0)+count
+            merged['skipped_hooks'].extend(dict(item,families=families) for item in r.get('skipped_hooks',[]))
+            merged['skipped_sites'].extend(r.get('skipped_sites',[]))
             merged['truncated']|=r['truncated']
         except Exception as e:merged['discovery_errors'].append({'families':families,'error':type(e).__name__+': '+str(e)})
         finally:
@@ -274,18 +279,39 @@ def discover(row,text,out,timeout):
     merged['faithful']=True
     return merged
 
+def extract_function_asm(asm,name):
+    """Select one .ent/.end body from a native module compile."""
+    lines=asm.splitlines();start=next((i for i,line in enumerate(lines) if re.match(r'^\s*\.ent\s+'+re.escape(name)+r'\s*$',line)),None)
+    if start is None:return ''
+    end=next((i for i in range(start+1,len(lines)) if re.match(r'^\s*\.end\s+'+re.escape(name)+r'\s*$',lines[i])),None)
+    if end is None:return ''
+    return '\t.text\n\t.align\t2\n\t.globl\t%s\n'%name+'\n'.join(lines[start:end+1])+'\n'
+
+def pinned_control(row,text,timeout):
+    """Compile pinned text, extracting/falling back after a native symbol rename."""
+    start=time.monotonic();control=kitlib.dumps(row,text,want=set(),timeout=timeout);method='kitlib.dumps'
+    ents=re.findall(r'^\s*\.ent\s+(\S+)',control.get('asm',''),re.M)
+    if not control.get('error') and len(ents)>1:
+        name=pass_oracle.function_name(text);selected=extract_function_asm(control['asm'],name)
+        if selected:control={'asm':selected,'error':None};method='kitlib.dumps native function extraction'
+    if control.get('error') or len(re.findall(r'^\s*\.ent\s+\S+',control.get('asm',''),re.M))!=1:
+        traced=pass_oracle.trace(row,text,families=[],timeout=timeout)
+        control={'asm':traced.get('asm',''),'error':'; '.join(traced.get('errors',[])) or None}
+        method='pass_oracle uninjected fallback'
+    return control,time.monotonic()-start,method
+
 def run_batch(row,text,changes,out,offset,workers,timeout):
     with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as pool:
         futures={pool.submit(run_trial,row,text,ch,out/'trials'/('%04d'%(offset+i)),timeout):offset+i for i,ch in enumerate(changes)}
         return [dict(f.result(),index=futures[f]) for f in concurrent.futures.as_completed(futures)]
 
-def search(row,text,out,trials=32,workers=4,timeout=30,resume=True,composite_budget=0,calibration_row=None):
+def search(row,text,out,trials=32,workers=4,timeout=30,resume=True,composite_budget=0,calibration_row=None,discovery_hook_cap=None):
     """Singles (tier A first), then bounded composites of improving singles.
     timeout is a floor: trial timeout = max(timeout, 25 x plain compile), discovery 40 x."""
     out=Path(out).resolve()
     if not out.is_relative_to(kitlib.lane_dir()):raise ValueError('search output must be lane-owned')
     out.mkdir(parents=True,exist_ok=True);(out/'.ignore').write_text('*\n')
-    sig=input_signature(row,text,trials,timeout,composite_budget)
+    sig=input_signature(row,text,trials,timeout,composite_budget,discovery_hook_cap)
     # A trial cfg (row_at_cfg) is calibrated with the pinned text at the REGISTERED cfg:
     # the pinned text is exact only there; trials still compare with retail bytes.
     crow=calibration_row or row
@@ -301,24 +327,23 @@ def search(row,text,out,trials=32,workers=4,timeout=30,resume=True,composite_bud
         if state.get('signature')!=sig:raise ValueError('stale partial search: input, compiler, tools or budget changed; choose a new output')
     (out/'input.c').write_text(text)
     rec={'row':row['id'],'cfg':row['cfg'],'signature':sig,'budget':trials,'composite_budget':composite_budget,'workers':workers,'timeout':timeout,
-         'trials':[],'exact_interventions':[],'reviewer':'pending','stageable':False,'errors':[],'routing_trusted':False}
+         'discovery_hook_cap':discovery_hook_cap,'trials':[],'exact_interventions':[],'reviewer':'pending','stageable':False,'errors':[],'routing_trusted':False}
     try:
         from common import parse_cfg
         cell,_=parse_cfg(row['cfg'])
         if cell not in pass_oracle.SUPPORTED:raise ValueError('pass discovery unverified for '+cell+'; allocation-only trace can still be run separately')
-        STATE=('calibration','trial_timeout','discovery_timeout','baseline','wrong_registers','register_pairs','focus_pseudos',
-               'enumerated','discovery_truncated','discovery_errors')
+        STATE=('calibration','calibration_method','trial_timeout','discovery_timeout','baseline','wrong_registers','register_pairs','focus_pseudos',
+               'enumerated','discovery_truncated','discovery_errors','discovery_hook_counts','discovery_skipped_hooks','discovery_skipped_sites')
         if state is not None and (out/'space.json').is_file():
             rec.update({k:state[k] for k in STATE});rec['resumed']=True
             space=json.loads((out/'space.json').read_text())
         else:
-            t0=time.monotonic();control=kitlib.dumps(crow,kitlib.base_text(crow,kitlib.lane_dir()),want=set(),timeout=max(timeout,120))
-            plain=time.monotonic()-t0
+            control,plain,rec['calibration_method']=pinned_control(crow,kitlib.base_text(crow,kitlib.lane_dir()),max(timeout,120))
             if control.get('error'):raise ValueError('pinned control compile failed: '+str(control['error']))
             rec['calibration']=pass_oracle.raw_bytes(crow,kitlib.base_text(crow,kitlib.lane_dir()),control['asm'],out/'pinned_control')
             if not rec['calibration']['raw_equal']:raise ValueError('pinned raw-byte calibration failed')
             rec['trial_timeout']=round(max(timeout,25*plain),1);rec['discovery_timeout']=round(max(timeout,60*plain,240),1)
-            obs=discover(row,text,out/'discovery',rec['discovery_timeout'])
+            obs=discover(row,text,out/'discovery',rec['discovery_timeout'],discovery_hook_cap)
             if obs['errors']:raise ValueError('discovery failed: '+'; '.join(obs['errors']))
             rec['baseline']=pass_oracle.raw_bytes(row,text,obs['asm'],out/'baseline_raw')
             wrong,pairs=wrong_registers((out/'baseline_raw/forced.bin').read_bytes(),(out/'baseline_raw/retail.bin').read_bytes())
@@ -327,6 +352,7 @@ def search(row,text,out,trials=32,workers=4,timeout=30,resume=True,composite_bud
             rec['focus_pseudos']=sorted(focus)
             (out/'discovery.json').write_text(json.dumps(pass_oracle.compact(obs),indent=2)+'\n')
             space=enumerate_changes(obs,focus=focus);rec['enumerated']=len(space);rec['discovery_truncated']=obs['truncated'];rec['discovery_errors']=obs['discovery_errors']
+            rec['discovery_hook_counts']=obs['hook_counts'];rec['discovery_skipped_hooks']=obs['skipped_hooks'];rec['discovery_skipped_sites']=obs['skipped_sites']
             (out/'space.json').write_text(json.dumps(space)+'\n')
             state_p.write_text(json.dumps(dict({k:rec[k] for k in STATE},signature=sig),indent=2)+'\n')
         if rec['baseline']['raw_equal']:
@@ -340,9 +366,14 @@ def search(row,text,out,trials=32,workers=4,timeout=30,resume=True,composite_bud
             rec['trials'].sort(key=rank)
             rec['exact_interventions']=[t['change'] for t in rec['trials'] if t.get('raw',{}).get('raw_equal') and not t['errors']]
             best=rec['trials'][0] if rec['trials'] else None
-            rec['best']={'change':best['change'],'aligned_distance':distance(best)} if best and distance(best)<10**9 else None
+            if best and distance(best)<10**9:
+                rawdir=out/'trials'/('%04d'%best['index'])/'raw';got=rawdir/'forced.bin';retail=rawdir/'retail.bin'
+                rec['best']={'change':best['change'],'trial_index':best['index'],'aligned_distance':distance(best),
+                             'aligned_word_diff':pass_oracle.aligned_word_diff(got.read_bytes(),retail.read_bytes()) if got.is_file() and retail.is_file() else []}
+            else:rec['best']=None
             rec['status']='raw-exact interventions found' if rec['exact_interventions'] else 'none found within budget'
             if rec['discovery_errors']:rec['status']+='; some discovery families held'
+            if rec['discovery_skipped_hooks']:rec['status']+='; discovery hook cap left reported tails unobserved'
     except Exception as e:
         rec['errors'].append(type(e).__name__+': '+str(e));rec['status']='held: calibration/discovery unsupported or failed'
     report.write_text(json.dumps(rec,indent=2)+'\n');(out/'report.md').write_text(render(rec))
@@ -353,6 +384,7 @@ def render(r):
          'Input SHA-256: `'+r['signature']['text_sha256']+'`. Counterfactual, reviewer pending.',
          f"Enumerated {r.get('enumerated',0)}; ran {len(r['trials'])} trials (single budget {r['budget']}, composite budget {r.get('composite_budget',0)}); {len(r['exact_interventions'])} raw-exact.",
          f"Baseline aligned distance {(r.get('baseline') or {}).get('aligned_distance','?')}; wrong registers {r.get('wrong_registers',{})}; focus pseudos {r.get('focus_pseudos',[])}."]
+    if r.get('discovery_skipped_hooks'):out.append('Discovery caps: `'+json.dumps(r['discovery_skipped_hooks'],sort_keys=True)+'`.')
     if r['errors']:out.extend(r['errors'])
     out+=['','| rank | intervention | size | raw exact | aligned distance | word mismatches | errors |','|---:|---|---:|---|---:|---:|---|']
     for i,t in enumerate(r['trials']):
@@ -390,10 +422,12 @@ def main(argv=None):
     g=ap.add_mutually_exclusive_group(required=True);g.add_argument('--row');g.add_argument('--all',action='store_true');g.add_argument('--validate',type=Path)
     ap.add_argument('--text',default='erased');ap.add_argument('--out',required=True,type=Path)
     ap.add_argument('--trials',type=int,default=128);ap.add_argument('--composites',type=int,default=24,help='composite trials after singles (0 = off)');ap.add_argument('--workers',type=int,default=4);ap.add_argument('--timeout',type=float,default=30)
+    ap.add_argument('--discovery-hook-cap',type=int,default=0,help='per-breakpoint cap during discovery; skipped tails are reported')
     ap.add_argument('--gate',type=Path);ap.add_argument('--cfg',help='--row only: trial cfg; calibration stays at the registered cfg');ap.add_argument('--diagnostic',action='store_true');ap.add_argument('--fresh',action='store_true')
     a=ap.parse_args(argv);lane=kitlib.bootstrap()
     os.nice(10)
-    if not 1<=a.workers<=8 or not 1<=a.trials<=10000 or not 1<=a.timeout<=600 or not 0<=a.composites<=500:ap.error('workers 1..8, trials 1..10000, composites 0..500, timeout 1..600 required')
+    if not 1<=a.workers<=8 or not 1<=a.trials<=10000 or not 1<=a.timeout<=600 or not 0<=a.composites<=500 or not 0<=a.discovery_hook_cap<=100000:ap.error('workers 1..8, trials 1..10000, composites 0..500, timeout 1..600, discovery-hook-cap 0..100000 required')
+    hook_cap=a.discovery_hook_cap or None
     out=a.out.resolve()
     if not out.is_relative_to(lane):ap.error('output must be lane-owned')
     out.mkdir(parents=True,exist_ok=True);(out/'.ignore').write_text('*\n')
@@ -405,7 +439,7 @@ def main(argv=None):
         for e in entries:
             row=kitlib.row_of(e['row']);spec=e.get('text','erased')
             if spec not in ('erased','pinned'):spec=str(a.validate.parent/spec)
-            text=sncheck.input_text(spec,row,lane);r=search(row,text,out/e['known'],a.trials,a.workers,a.timeout,not a.fresh,a.composites)
+            text=sncheck.input_text(spec,row,lane);r=search(row,text,out/e['known'],a.trials,a.workers,a.timeout,not a.fresh,a.composites,discovery_hook_cap=hook_cap)
             records.append({'known':e['known'],'row':row['id'],'rediscovered':bool(r['exact_interventions']),
                             'exact_interventions':r['exact_interventions'],'status':r['status'],'errors':r['errors'],'report':str(Path(e['known'])/'report.json')})
             print(e['known'],r['status'],flush=True)
@@ -418,7 +452,7 @@ def main(argv=None):
     for e in entries:
         row=kitlib.row_of(e['row']);text=sncheck.input_text(a.text,row,lane);crow=None
         if a.cfg and a.row:crow,row=row,kitlib.row_at_cfg(row,a.cfg)
-        try:r=search(row,text,out/row['id'].replace('/','__'),a.trials,a.workers,a.timeout,not a.fresh,a.composites,crow)
+        try:r=search(row,text,out/row['id'].replace('/','__'),a.trials,a.workers,a.timeout,not a.fresh,a.composites,crow,hook_cap)
         except ValueError as exc:
             print(row['id'],'held:',exc,flush=True);summary.append({'row':row['id'],'cfg':row['cfg'],'status':'held: '+str(exc),'trials':0,'exact_interventions':[],'errors':[str(exc)],'best':None});continue
         r['routing_trusted']=trusted;(out/row['id'].replace('/','__')/'report.json').write_text(json.dumps(r,indent=2)+'\n')

@@ -74,75 +74,23 @@ else
   done
 fi
 [ "${LAND_GUARD_ONLY:-0}" = 1 ] && { echo "LAND_GUARD_OK iso=$ISO"; exit 0; }
+# Native members require the package lander's production gates and certificate renewal.
+# Emit a reviewable package and stop before any source mutation, including in mixed lanes.
+# Exit 3 means no manifest-native staged rows; only that case uses the ordinary path.
+python3 tools/lanes/native_package.py $LANES --if-native --output "work/native_lane/_native_packages/$TAG"
+NATIVE_RC=$?
+case "$NATIVE_RC" in
+  0) echo "NATIVE_PACKAGE_READY: review plan.json and run land_packages.py; mixed ordinary rows deferred"; exit 0;;
+  3) ;;
+  *) echo "native package refused (rc=$NATIVE_RC)"; exit "$NATIVE_RC";;
+esac
 STAGE=$(mktemp -d -t "land_${TAG}_XXXX")
 echo "== lane wins (staged in $STAGE)"
 python3 - "$STAGE" $LANES <<'EOF'
-import sys, glob, os, re, shutil, hashlib, collections
-sys.path.insert(0, "tools")
-from pin_census import sites_of
-import land_admit
-from common import rows as _rows
-ROWS = {r["id"]: r for r in _rows()}
-stage, lanes = sys.argv[1], sys.argv[2:]
-# round 96: `\basm\s*\(` = plain register asm (`register T x asm("$4")`, LOCAL_ASM_REG macros) - a pin pin_census does not count
-bad = re.compile(r"ASM_[A-Z0-9_]+(?=\()|ODDITY_[A-Z_]+(?=\()|while\s*\(\s*0\s*\)|__asm__|\basm\s*\(|\bvolatile\b")
-# a computed goto counts once plus once per `&&label` address it can reach (a label array is a jump site per entry)
-gotos = lambda t: (lambda c: len(re.findall(r"\bgoto\s+\w+\s*;", c)) + len(re.findall(r"\bgoto\s*\*", c)) + len(re.findall(r"[{,=]\s*&&\s*[A-Za-z_]\w*", c)))(re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", t, flags=re.S)))
-# round 96: S_<addr> address-named struct views count as decompiler leftovers too (typing lanes replace them)
-m2c = lambda t: len(re.findall(r"\bM2C_[A-Z_]+\b|\b(?:temp|var|phi)_[a-z][a-z0-9_]*\b|\barg[0-9]\b|\bsp[0-9A-F]{2,3}\b|\bNON_MATCHING\b|\bS_[0-9A-F]{8}\w*", re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", t, flags=re.S))))
-ODDITY_OK = {__import__("json").loads(l)["id"] for l in open("ledger/oddities.jsonl")} if os.path.exists("ledger/oddities.jsonl") else set()
-ONETRIP_OK = {__import__("json").loads(l)["id"] for l in open("ledger/onetrip_barrier_rows.jsonl")} if os.path.exists("ledger/onetrip_barrier_rows.jsonl") else set()
-# r117: a volatile-bodied accessor macro counts once per invocation (land_admit.macro_volatile_uses)
-kinds = lambda t: +(collections.Counter(m.group(0).replace(" ", "") for m in bad.finditer(re.sub(r"/\*.*?\*/", "", t, flags=re.S))) + collections.Counter(volatile=land_admit.macro_volatile_uses(t)))
-for lane in lanes:
-    for f in sorted(glob.glob("work/native_lane/%s/out/*/*.c" % lane)):
-        rid = f.split("/out/")[1][:-2]; cand = open(f).read(); cur = open("src/%s.c" % rid).read()
-        base = open(f + ".base_sha").read().strip() if os.path.exists(f + ".base_sha") else ""
-        kc, ku = kinds(cand), kinds(cur); grew = [k for k in kc if kc[k] > ku[k]]
-        # round 95 (owner 2026-10-06, decisions item 19): a one-trip `do { } while (0)` that removes pins lands ONLY for rows listed
-        # in ledger/onetrip_barrier_rows.jsonl (tracked: a loop note is a full sched barrier, the macro-body pattern) - never silently
-        # round 95 (owner 2026-10-06, decisions item 21): ODDITY_* fences are orchestrator-placed oddities - growth refused unless the
-        # row is listed in ledger/oddities.jsonl
-        grew = [k for k in grew if not (k.startswith("ODDITY_") and rid in ODDITY_OK)]
-        if "while(0)" in grew and rid in ONETRIP_OK and len(sites_of(cand)) < len(sites_of(cur)): grew.remove("while(0)")
-        if hashlib.sha256(cur.encode()).hexdigest() != base:
-            print("skip", lane, rid, "stale base"); continue
-        fell = [k for k in ku if kc[k] < ku[k]]
-        # round 80 (readability lanes): with pins equal, fewer `goto` statements (and none added) is a landing too
-        gc, gu = gotos(cand), gotos(cur)
-        if gc < gu: fell.append("goto")
-        # round 91 (luna cleanup lanes): with pins equal, fewer decompiler leftovers (M2C_* tokens, temp_/var_/phi_
-        # locals, argN, spXX, NON_MATCHING; comments excluded) is a landing too, and none may be added
-        # round 93: fake dependencies (`+ v - v`, `v ^ v`, `& m & m`) falling is a landing; growing is refused
-        # round 96: also `x = x;` and the split pair `d += h; d -= h;` (same patterns as kitlib._FAKEDEP)
-        fd = lambda x: (lambda c: len(re.findall(r"\+\s*(\w+)\s*-\s*\1\b(?!\s*[\[(.]|\s*->)|-\s*(\w+)\s*\+\s*\2\b(?!\s*[\[(.]|\s*->)|\b(\w+)\s*\^\s*\3\b|&\s*(\w+)\s*&\s*\4\b|(?<![\w.>\]])\b(\w+)\s*=\s*\5\s*;|(?<![\w.>\]])\b(\w+)\s*\+=\s*(\w+)\s*;\s*\6\s*-=\s*\7\s*;", c)))(re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", x, flags=re.S)))
-        if fd(cand) < fd(cur): fell.append("fakedep")
-        if fd(cand) > fd(cur): grew.append("fakedep")
-        mc, mu = m2c(cand), m2c(cur)
-        if mc < mu: fell.append("m2c")
-        if len(sites_of(cand)) == len(sites_of(cur)) and mc > mu: grew.append("m2c")
-        # round 80 (format lanes): a candidate that differs from the current text ONLY in whitespace outside string
-        # literals and preprocessor lines is a formatting landing (C tokens and comment text identical; the byte gate decides)
-        TOK = re.compile(r'"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'|[A-Za-z_]\w*|\d[\w.]*|>>=|<<=|->|\+\+|--|&&|\|\||<<|>>|[<>=!+\-*/%&|^]=|\.\.\.|\S')
-        ws = lambda t: TOK.findall("\n".join(l for l in t.split("\n") if not l.lstrip().startswith("#")))
-        pp = lambda t: [l.strip() for l in t.split("\n") if l.lstrip().startswith("#")]
-        if cand != cur and not fell and ws(cand) == ws(cur) and pp(cand) == pp(cur): fell.append("format")
-        # round 78: a byte-exact candidate that removes scaffolding (volatile, while(0), __asm__, an ASM_* kind)
-        # with no pin growth lands too - r78_opus_b1's `volatile ShortArg` parameter was refused for "no pin fell"
-        if len(sites_of(cand)) == len(sites_of(cur)) and gc > gu: grew.append("goto")
-        # round 93 (readability lanes named in READABLE_LANES, e.g. struct assignments for m2c's unrolled copies,
-        # callee-typed spellings at equal pins): an equal-pin, nothing-grown candidate lands; the byte gate decides
-        if cand != cur and not fell and lane in os.environ.get("READABLE_LANES", "").split(","): fell.append("readability")
-        # round 99: the LIVE fidelity-site count (levels.live_fidelity_sites, the L5 `fidelity_site` predicate that levels.jsonl and
-        # STATUS use) falling is a landing at equal pins (78 call-arity / prototype fixes were hand-applied in round 98 for want of
-        # this); it rising at equal pins is refused.  Rows outside rows() (no census record) are not measured.
-        if cand != cur and rid in ROWS and len(sites_of(cand)) <= len(sites_of(cur)):
-            land_admit.admit(fell, grew, len(sites_of(cand)) == len(sites_of(cur)), *land_admit.fidelity_counts(ROWS[rid], cand, cur))
-        if len(sites_of(cand)) > len(sites_of(cur)) or grew or (len(sites_of(cand)) == len(sites_of(cur)) and not fell):
-            print("skip", lane, rid, "pins", len(sites_of(cur)), "->", len(sites_of(cand)), "grew", grew); continue
-        d = "%s/%s/%s" % (stage, lane, rid.split("/")[0]); os.makedirs(d, exist_ok=True)
-        shutil.copy(f, d); shutil.copy(f + ".base_sha", d)
-        print("keep", lane, rid, "pins", len(sites_of(cur)), "->", len(sites_of(cand)))
+import sys
+sys.path.insert(0, 'tools/lanes')
+from lane_admission import stage
+stage(sys.argv[1], sys.argv[2:])
 EOF
 for lane in $LANES; do
   C=""; [ -n "${CELLS:-}" ] && C="--cells $CELLS"

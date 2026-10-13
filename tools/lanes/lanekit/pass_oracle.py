@@ -6,7 +6,7 @@ UID/pseudo selectors. Each run calibrates the uninjected debugger against plain
 cc1. A no-op, absent target, failed compiler, or ambiguous MEM pair is invalid.
 """
 from __future__ import annotations
-import argparse, difflib, hashlib, json, os, re, shutil, subprocess, tempfile, signal, threading
+import argparse, difflib, hashlib, json, os, re, shutil, subprocess, tempfile, signal, threading, time
 from pathlib import Path
 import kitlib, sncheck
 
@@ -40,6 +40,8 @@ KINDS = {
     'cse-eqv-head': ('new', 'old', 'occurrence', 'head'),
 }
 FAMILIES = ('sched', 'combine', 'cse', 'alias', 'loop', 'dead', 'reload', 'reorg', 'jump', 'frame', 'refs', 'global')
+DISCOVERY_GROUPS = (('sched',), ('combine',), ('cse',), ('alias',), ('loop','dead','reload'),
+                    ('reorg',), ('jump',), ('frame',), ('refs',), ('global',))
 MAX_COMPOSITE = 4
 
 def family_of(change):
@@ -178,12 +180,12 @@ def run_bounded(cmd,cwd,timeout):
         raise subprocess.TimeoutExpired(cmd,timeout,output=stdout,stderr=stderr)
     return subprocess.CompletedProcess(cmd,proc.returncode,stdout,stderr)
 
-def trace(row, text, change=None, families=None, timeout=60, keep=None):
+def trace(row, text, change=None, families=None, timeout=60, keep=None, hook_cap=None):
     validate(change); kitlib.add_paths()
     from common import parse_cfg
     cell,_ = parse_cfg(row['cfg'])
     if cell not in SUPPORTED: raise ValueError('unverified pass-oracle ABI for '+cell)
-    if kitlib.module_fingerprint(row) is not None: raise ValueError('grouped SLUS context unsupported')
+    if row.get('kind')=='slus' and kitlib.module_fingerprint(row) is not None: raise ValueError('grouped SLUS context unsupported')
     fam = list(FAMILIES if families is None else families)
     if set(fam)-set(FAMILIES): raise ValueError('unknown discovery family')
     with tempfile.TemporaryDirectory(prefix='passoracle_') as td:
@@ -198,6 +200,9 @@ def trace(row, text, change=None, families=None, timeout=60, keep=None):
         import alloc_sim
         cfg={'addresses':addrs,'sizes':sizes,'function':ents[0],'change':change,'families':fam,'max_events':12000,
              'first':alloc_sim.FIRST[cell]}
+        if hook_cap is not None:
+            if type(hook_cap) is not int or hook_cap < 1: raise ValueError('hook cap must be a positive integer')
+            cfg['hook_cap']=hook_cap
         if 'reg_n_refs' not in addrs:
             if 'reg_n_info' not in addrs: raise ValueError('cc1 has neither reg_n_refs nor reg_n_info')
             cfg['reginfo']=REGINFO_28
@@ -240,6 +245,47 @@ def trace(row, text, change=None, families=None, timeout=60, keep=None):
             for p in d.iterdir():
                 if p.is_file(): shutil.copy2(p,target/p.name)
         return rec
+
+def discovery_groups(families):
+    """Independently calibrated observer groups for the requested families."""
+    requested=set(families)
+    return [list(f for f in group if f in requested) for group in DISCOVERY_GROUPS if requested.intersection(group)]
+
+def discover_trace(row,text,families=None,timeout=60,keep=None,hook_cap=None):
+    """Observe all requested families without co-installing every expensive hook.
+
+    Each group compiles the same input under an uninjected debugger and its emitted
+    assembly must agree with every other group.  Hook caps are explicit evidence:
+    disabled hooks and their unobserved tails are merged into the returned record.
+    """
+    fam=list(FAMILIES if families is None else families);groups=discovery_groups(fam)
+    if not groups:return trace(row,text,families=[],timeout=timeout,keep=keep,hook_cap=hook_cap)
+    if len(groups)==1:return trace(row,text,families=groups[0],timeout=timeout,keep=keep,hook_cap=hook_cap)
+    merged={'missing_hooks':[],'events':[],'mutations':[],'errors':[],'applied':False,'applied_changes':[],
+            'truncated':False,'refs':[],'stats':[],'hook_counts':{},'skipped_hooks':[],'skipped_sites':[],
+            'family_runs':[],'dumps':{},'commands':[],'change':None,'row':row['id'],'cfg':row['cfg']}
+    baseline=None
+    for group in groups:
+        tag='_'.join(group);start=time.monotonic()
+        target=Path(keep)/tag if keep else None
+        rec=trace(row,text,families=group,timeout=timeout,keep=target,hook_cap=hook_cap)
+        merged['family_runs'].append({'families':group,'seconds':round(time.monotonic()-start,3),
+                                      'events':len(rec['events']),'hook_counts':rec.get('hook_counts',{}),
+                                      'truncated':rec.get('truncated',False),'skipped_hooks':rec.get('skipped_hooks',[])})
+        if baseline is None:
+            baseline=rec;merged['asm']=rec['asm'];merged['cc1_sha256']=rec['cc1_sha256'];merged['input_sha256']=rec['input_sha256']
+        elif sncheck.normalize(rec['asm'])!=sncheck.normalize(baseline['asm']):
+            merged['errors'].append('independent observer baselines disagree for '+tag)
+        for name in ('events','refs','stats','mutations','skipped_hooks','skipped_sites','commands'):
+            merged[name].extend(rec.get(name,[]))
+        for name,count in rec.get('hook_counts',{}).items():merged['hook_counts'][name]=merged['hook_counts'].get(name,0)+count
+        for name in rec.get('missing_hooks',[]):
+            if name not in merged['missing_hooks']:merged['missing_hooks'].append(name)
+        merged['errors'].extend(tag+': '+e for e in rec.get('errors',[]))
+        merged['truncated']|=rec.get('truncated',False);merged['dumps'].update(rec.get('dumps',{}))
+    merged['faithful']=not merged['errors'] and all(r.get('faithful') for r in [baseline] if r)
+    merged['inferior_exit']=0 if not merged['errors'] else None
+    return merged
 
 _SLUS_REF = {}
 _SLUS_LOCK = threading.Lock()
@@ -354,6 +400,18 @@ def aligned_distance(got, retail):
     ops=difflib.SequenceMatcher(None,words(got),words(retail),autojunk=False).get_opcodes()
     return sum(max(i2-i1,j2-j1) for tag,i1,i2,j1,j2 in ops if tag!='equal')
 
+def aligned_word_diff(got,retail):
+    """Machine-readable aligned differing words; insertions/deletions keep a null side."""
+    ga,ra=words(got),words(retail);out=[]
+    for tag,i1,i2,j1,j2 in difflib.SequenceMatcher(None,ga,ra,autojunk=False).get_opcodes():
+        if tag=='equal':continue
+        for n in range(max(i2-i1,j2-j1)):
+            i=i1+n if n<i2-i1 else None;j=j1+n if n<j2-j1 else None
+            out.append({'generated_index':i,'retail_index':j,
+                        'generated_word':None if i is None else '0x%08x'%int.from_bytes(ga[i],'little'),
+                        'retail_word':None if j is None else '0x%08x'%int.from_bytes(ra[j],'little')})
+    return out
+
 def compact(rec):
     return {k:v for k,v in rec.items() if k not in ('asm','dumps')}
 
@@ -361,17 +419,20 @@ def main(argv=None):
     ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('row');ap.add_argument('text')
     g=ap.add_mutually_exclusive_group(required=True);g.add_argument('--discover',action='store_true');g.add_argument('--change',help='JSON object or @file')
     ap.add_argument('--families',default=','.join(FAMILIES));ap.add_argument('--timeout',type=float,default=60)
+    ap.add_argument('--hook-cap',type=int,default=0,help='per-breakpoint discovery cap; disabled hooks and skipped tails are reported')
     ap.add_argument('--keep',required=True,type=Path);ap.add_argument('--json',required=True,type=Path);ap.add_argument('--cfg')
     a=ap.parse_args(argv); lane=kitlib.bootstrap();row=kitlib.row_of(a.row)
     if a.cfg: row=kitlib.row_at_cfg(row,a.cfg)
     try:
         text=sncheck.input_text(a.text,row,lane)
         change=json.loads(Path(a.change[1:]).read_text() if a.change.startswith('@') else a.change) if a.change else None
-        baseline=trace(row,text,families=[f for f in a.families.split(',') if f],timeout=a.timeout,keep=a.keep/'baseline')
+        if a.hook_cap<0:raise ValueError('--hook-cap must be non-negative')
+        fam=[f for f in a.families.split(',') if f];cap=a.hook_cap or None
+        baseline=discover_trace(row,text,families=fam,timeout=a.timeout,keep=a.keep/'baseline',hook_cap=cap)
         if baseline['errors']: raise RuntimeError('; '.join(baseline['errors']))
         out={'baseline':compact(baseline),'counterfactual':True,'stageable':False,'reviewer':'pending'}
         if change:
-            forced=trace(row,text,change,[f for f in a.families.split(',') if f],a.timeout,a.keep/'forced')
+            forced=trace(row,text,change,fam,a.timeout,a.keep/'forced',cap)
             out['forced']=compact(forced)
             if not forced['errors']: out['raw']=raw_bytes(row,text,forced['asm'],a.keep/'raw')
             else: out['raw']=None

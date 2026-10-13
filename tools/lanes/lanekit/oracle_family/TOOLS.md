@@ -5,6 +5,7 @@ Use the kit path from your private scratch checkout and a lane-owned output.
 | Purpose | Command |
 |---|---|
 | Observe candidate sites | `python3 KIT/pass_oracle.py ROW erased --discover --keep oracle/sites --json oracle/sites.json` |
+| Bound a very large discovery | `python3 KIT/pass_oracle.py ROW erased --discover --hook-cap 256 --keep oracle/sites --json oracle/sites.json` (the JSON lists every disabled hook and marks its remaining tail unobserved) |
 | Veto one birthing boost | `python3 KIT/pass_oracle.py ROW candidate.c --change '{"kind":"sched-birth","uid":65,"phase":"sched1","value":0}' --families sched --keep oracle/birth --json oracle/birth.json` |
 | Forbid a combine attempt | `python3 KIT/pass_oracle.py ROW erased --change '{"kind":"combine-veto","uids":[1131,1130,1125]}' --families combine --keep oracle/combine --json oracle/combine.json` |
 | Force a store/load dependency | `python3 KIT/pass_oracle.py ROW candidate.c --change '{"kind":"alias","uids":[279,19],"phase":"sched2","value":1}' --families alias --keep oracle/alias --json oracle/alias.json` |
@@ -24,8 +25,14 @@ Use the kit path from your private scratch checkout and a lane-owned output.
 | Targeted reference/life map | `python3 KIT/source_refs.py dungeon/func_8180B064 erased --pseudo 369 --fewer-refs 3 --life-at-least 180 --out source_refs/goal` |
 | Numeric 2.6.3 allocator | `python3 KIT/alloc263_oracle.py town/func_808119EC erased --pseudo 75 --change '{"kind":"refs","value":14}' --out oracle/263` |
 | Attribute every differing word | `python3 KIT/attribute.py ROW candidate.c --out attribution/ROW` |
-| Cross source mutations with oracle | `python3 KIT/mutate_search.py ROW candidate.c --out mutation/ROW --mutations 8 --oracle-trials 24 --workers 2` |
+| Cross source mutations with oracle | `python3 KIT/mutate_search.py ROW candidate.c --out mutation/ROW --mutations 8 --oracle-trials 24 --workers 2 --discovery-hook-cap 256` |
 
 UIDs and pseudo numbers above are examples for the recorded fixtures. Discover
 again for a different text. `README.md` documents all schemas and ABI limits.
 Outputs remain counterfactual, reviewer pending, and never stageable.
+Full `pass_oracle --discover` runs independently calibrated family observers so
+large rows do not pay the all-hooks GDB interaction cost. Mutation search applies
+its explicit per-hook cap to every mutation; `discovery_skipped_hooks` identifies
+the breakpoint, observed-call cap, and unknown unobserved tail. Each mutation's
+`closest_trial` includes the aligned generated/retail word diff, including a null
+side for an inserted or deleted instruction.

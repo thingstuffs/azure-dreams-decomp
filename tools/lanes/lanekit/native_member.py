@@ -92,6 +92,34 @@ def source_text(m, member_source, candidate):
     return text
 
 
+def source_text_many(m, candidates):
+    """Relocate quoted file includes, replacing each selected member exactly once."""
+    root = kitlib.ROOT.resolve()
+    src = root / m['source']
+    allowed = {a['source'] for a in m['members']}
+    if not candidates or not set(candidates).issubset(allowed):
+        raise ValueError('batch must contain only function members of one native TU')
+    targets = {(root / name).resolve(): Path(path).resolve() for name, path in candidates.items()}
+    if len(targets) != len(candidates):
+        raise ValueError('aliased native member sources')
+    replaced = dict.fromkeys(targets, 0)
+    def include(hit):
+        dest = (src.parent / hit[1]).resolve()
+        if dest.is_file():
+            if not dest.is_relative_to(root):
+                raise ValueError('native TU include escapes root')
+            if dest in targets:
+                replaced[dest] += 1
+                dest = targets[dest]
+            return '#include ' + json.dumps(str(dest))
+        return hit[0]
+    text = re.sub(r'^\s*#\s*include\s+"([^"]+)"\s*$', include,
+                  src.read_text(), flags=re.M)
+    if any(count != 1 for count in replaced.values()):
+        raise ValueError('every member must occur exactly once in its physical TU')
+    return text
+
+
 def listing(row, text, m=None):
     """Normalised listing of the selected function, compiled with all siblings."""
     m = m or membership(row)
@@ -171,13 +199,18 @@ def byte_stats(got, target):
             'retail_sha256': hashlib.sha256(target).hexdigest()}
 
 
-def compile_object(row, text, m, out):
+def compile_object(row, text, m, out, *, texts=None):
     """The same whole-TU GNU pipeline as overlay_module_gate.build."""
     g = gate(); root = kitlib.ROOT
     from common import NICE, parse_cfg
-    a = next(a for a in m['members'] if a['id'] == row['id'])
-    cand = out / 'member.c'; cand.write_text(text)
-    source = out / 'candidate.c'; source.write_text(source_text(m, a['source'], cand))
+    texts = texts if texts is not None else {row['id']: text}
+    candidates = {}
+    for i, (rid, candidate_text) in enumerate(texts.items()):
+        a = next(a for a in m['members'] if a['id'] == rid)
+        cand = out / ('member.c' if len(texts) == 1 else f'member_{i}.c')
+        cand.write_text(candidate_text)
+        candidates[a['source']] = cand
+    source = out / 'candidate.c'; source.write_text(source_text_many(m, candidates))
     env = dict(os.environ, TMPDIR=str(out), PYTHONDONTWRITEBYTECODE='1')
     for k in ('AZURE_MASPSX', 'AZURE_MASPSX_COMPANION', 'MASPSX_NORETURN_FILE', 'MASPSX_SIBCALL_FILE'):
         env.pop(k, None)
@@ -189,7 +222,7 @@ def compile_object(row, text, m, out):
         names = set(census.scoped_census(m['container'], g.module_first(m)['foff'], root=root)['names'])
         names.update(census.scan_text(source.read_text()))
         for member in m['members']:
-            names.update(census.scan_text(text if member['id'] == row['id'] else (root / member['source']).read_text()))
+            names.update(census.scan_text(texts.get(member['id'], (root / member['source']).read_text())))
         evidence = out / 'noreturn_syms.bank.txt'; evidence.write_text(census.render(sorted(names)))
         env['MASPSX_NORETURN_FILE'] = str(evidence)
     cell, flags = parse_cfg(row['cfg']); gcc = root / 'toolchain/compilers' / ('gcc-' + cell)
@@ -232,22 +265,35 @@ def compile_object(row, text, m, out):
     return binary.read_bytes(), placed, trim
 
 
-def score(row, text, m=None, diff=False):
-    m = m or membership(row); g = gate(); root = kitlib.ROOT
-    before = fingerprint(row)
-    # Keep evidence for every score, including compiler/linker failures.
+def score_batch(rows, texts, m=None, diff=False):
+    """One complete TU compile for all candidates; every member and owned byte must match.
+
+    This diagnostic remains separate from production windows and certification.
+    The caller supplies registered rows and a {row_id: text} map, never a cfg override.
+    """
+    if not rows or len({r['id'] for r in rows}) != len(rows) or set(texts) != {r['id'] for r in rows}:
+        raise ValueError('empty, duplicate or inconsistent native batch')
+    validated = [membership(r) for r in rows]
+    if any(x is None for x in validated) or len({x['key'] for x in validated}) != 1:
+        raise ValueError('native batch spans modules or ordinary rows')
+    if m is not None and m != validated[0]:
+        raise ValueError('native batch manifest differs from authority')
+    return _score_batch(rows, texts, validated[0], diff=diff)
+
+
+def _score_batch(rows, texts, m, diff=False):
+    g = gate(); root = kitlib.ROOT
+    row = rows[0]; before = fingerprint(row)
     lane = kitlib.bootstrap()
     out = Path(tempfile.mkdtemp(prefix='native_score_', dir=lane / 'tmp'))
     try:
-        data, placed, trim = compile_object(row, text, m, out)
-        first = g.module_first(m)
-        members = []
+        data, placed, trim = compile_object(row, texts[row['id']], m, out, texts=texts)
+        first = g.module_first(m); members = []
         with (root / 'work/disc/containers' / g.CONTAINERS[m['container']]).open('rb') as f:
             for a in g.all_members(m):
                 if 'function' in a:
                     addr, size = placed[a['function']]
-                    offset = addr - first['vma']
-                    body = a.get('body_offset', 0)
+                    offset = addr - first['vma']; body = a.get('body_offset', 0)
                     got = data[offset - body:offset + size]
                     natural = addr == a['vma'] + body
                 else:
@@ -259,22 +305,37 @@ def score(row, text, m=None, diff=False):
                     (out / 'member.bin').write_bytes(got); (out / 'retail.bin').write_bytes(retail)
             prefix = sum(d['size'] for d in m['owned_data'])
             f.seek(first['foff']); head = f.read(prefix)
-        selected = next(a for a in members if a['id'] == row['id'])
-        collateral = [a for a in members if a['id'] != row['id'] and (not a['exact'] or not a['address_exact'])]
+            f.seek(first['foff']); whole_retail = f.read(sum(a['size'] for a in g.all_members(m)))
+        selected = [a for a in members if a['id'] in texts]
+        collateral = [a for a in members if a['id'] not in texts and (not a['exact'] or not a['address_exact'])]
         data_exact = data[:prefix] == head
-        exact = selected['exact'] and selected['address_exact'] and not collateral and data_exact
-        result = dict(selected, exact=exact, member_exact=selected['exact'],
-                      status='ok' if exact or not selected['exact'] else 'native-collateral-change',
-                      module=m['key'], module_fingerprint=before,
-                      kind='NATIVE_MEMBER_DIAGNOSTIC', other_members_changed=collateral,
-                      members=members, owned_data_exact=data_exact, masked=0,
+        selected_exact = all(a['exact'] and a['address_exact'] for a in selected)
+        whole_exact = data == whole_retail
+        exact = selected_exact and not collateral and data_exact and whole_exact
+        result = dict(exact=exact, status='ok' if exact else 'native-collateral-change' if collateral else 'native-mismatch',
+                      module=m['key'], module_fingerprint=before, selected_members=list(texts),
+                      kind='NATIVE_BATCH_DIAGNOSTIC', other_members_changed=collateral,
+                      members=members, selected_exact=selected_exact, owned_data_exact=data_exact,
+                      module_exact=whole_exact, module_bytes=len(data), masked=0,
                       raw_substitution_bytes=0, trim=trim, artifacts=str(out))
         if diff:
             result['text'] = json.dumps(members, indent=2)
     except (OSError, ValueError, KeyError, RuntimeError, subprocess.TimeoutExpired) as e:
-        result = {'exact': False, 'status': 'native-build-failed', 'err': str(e),
-                  'module': m['key'], 'module_fingerprint': before, 'artifacts': str(out)}
+        result = dict(exact=False, status='native-build-failed', err=str(e),
+                      module=m['key'], module_fingerprint=before, artifacts=str(out))
     if fingerprint(row) != before:
         raise RuntimeError('native module context changed during score; remeasure')
     (out / 'score.json').write_text(json.dumps(result, indent=2) + '\n')
+    return result
+
+
+def score(row, text, m=None, diff=False):
+    # Preserve the prevalidated-module API used by Screen and existing diagnostic callers.
+    m = m or membership(row)
+    result = _score_batch([row], {row['id']: text}, m, diff=diff)
+    selected = next((a for a in result.get('members', []) if a['id'] == row['id']), None)
+    if selected:
+        result = dict(selected, **{k:v for k,v in result.items() if k not in ('id', 'kind')},
+                      member_exact=selected['exact'], kind='NATIVE_MEMBER_DIAGNOSTIC')
+        # The aggregate verdict must never be overwritten by the selected-member metric.
     return result

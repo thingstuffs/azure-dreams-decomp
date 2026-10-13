@@ -92,6 +92,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import kitlib                                                             # noqa: E402
 import nojtbl                                                             # noqa: E402
 import diff as listing_diff                                               # noqa: E402
+import role_split
 
 JTBL_STATUSES = ("jtbl-mismatch",)
 STDERR_LINES = 20          # a no-build candidate prints this many lines of preprocessor/cc1 stderr
@@ -693,6 +694,7 @@ def main():
     ap.add_argument('--raw-only', action='store_true', help='skip the default allocation-pin scorer view')
     ap.add_argument("--subs", help="variants.json: {name: [[old,new],...]} on the pin-erased base; each pair replaces the FIRST occurrence, [old,new,\"all\"] every occurrence")
     ap.add_argument("--grid", help="grid.json: {axis: {label: [[old,new],...]}} -> every combination, named label+label")
+    ap.add_argument("--role-split", help="JSON {symbol, roles:{role:[source lines]}, variants:{name:{newvar:[roles]}}}; starts from pinned text or --base")
     ap.add_argument("--cfg", help="compile/score at this cfg instead of the registered one (no ledger write, no staging)")
     ap.add_argument("--no-rule2", action="store_true", help="cellscore: skip scoring the pinned text at --cfg")
     ap.add_argument("--equal-pins", action="store_true",
@@ -797,6 +799,15 @@ def main():
             print("grid WARNING " + msg)
         for name, reps in expand_grid(grid):
             jobs.append(("subs", (name, reps)))
+    if a.role_split:
+        try:
+            source = lab.base if lab.start is None else lab.start
+            for name, text, remaining in role_split.variants(source, json.loads(Path(a.role_split).read_text())):
+                jobs.append(("roles", (name, text, remaining)))
+        except ValueError as exc:
+            lab.log({"variant": "role_split", "distance": None, "score": None,
+                     "status": "pattern-missing", "why": str(exc)})
+            raise SystemExit("lab: role split refused: " + str(exc))
     if not jobs:
         lab.baseline(score=a.score)
         return
@@ -813,6 +824,10 @@ def main():
     for kind, job in jobs:
         if kind == "file":
             done.append(lab.test_file(job, score=a.score, note=a.note))
+        elif kind == "roles":
+            name, text, remaining = job
+            done.append(lab.test(name, text, score=a.score,
+                                 note=(a.note + " [role split; remaining lines: " + str(remaining) + "]").strip()))
         else:
             done.append(lab.test_subs(job[0], job[1], score=a.score, note=a.note))
     if a.score_top:

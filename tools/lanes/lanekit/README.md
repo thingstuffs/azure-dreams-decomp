@@ -682,3 +682,46 @@ has no priority/ready-list entry; use `uUID` to avoid fallback to a block number
 at the registered cfg with unchanged pins. It writes the ordinary `out/` and base
 hash, applies all admission guards and journals the score. No `--cfg` or recipe
 trade is needed. After staging a tidy, rerun the erase census and attempt its pins.
+
+## Native member landing packages (r118)
+
+`land_lanes.sh TAG LANE...` detects members listed in `config/overlays/modules.json`
+and emits `work/native_lane/_native_packages/TAG/delivery/` plus `plan.json`.
+It stops before source mutation. Ordinary outputs in a mixed invocation are
+reported as deferred; send those through a separate ordinary landing.
+
+To prepare a package directly, run from the repository root:
+
+```sh
+python3 tools/lanes/native_package.py LANE
+python3 tools/lanes/native_package.py LANE_A LANE_B --output work/native_lane/native_batch
+```
+
+A single lane defaults to its own `delivery/` and `plan.json`. Use a fresh output
+when repeating a run. The generator shares the ordinary lander's admission
+policy: current `.base_sha`, pins, scaffolding kinds, goto/fakedep/m2c growth,
+format/readability admission, owner exceptions, volatile accessor macros and
+live fidelity counts. Validation or recipe errors never fall back to row scoring.
+
+All admitted candidates for a module replace their includes together. One native
+TU compile/link checks every selected member, all unselected siblings, natural
+addresses, the complete module extent and owned data against unmasked retail.
+Duplicate staged rows, prefix-data edits, cfg overrides, disabled native modules,
+missing production windows and missing existing certificates are refused. An
+admission failure is reported as skipped, as in the ordinary path; a failed TU
+prevents any delivery. Candidate scores and compiler logs remain diagnostic.
+
+The emitted apply script changes only guarded member sources and supports
+`--root`, `--dry-run` and `--live`. It binds the module context and sibling/header
+inputs; tampered packages and a partially applied batch are refused. It does not
+issue review or certificates. `plan.json` uses the unchanged `land_packages.py`,
+which runs production gates, scoped certificate renewal once per selected
+module, accounting, and final certificate validation. The generator requires an
+existing reviewed module certificate so that the lander's renewal roster cannot
+omit it. Reviewer stays `pending`; the orchestrator reviews the concrete package
+and sets the plan reviewer before a live landing/commit. `commit` defaults false.
+
+Run `package_preflight.py --root REPO --package DELIVERY/apply.py --log LOG.jsonl`
+at current HEAD before review. This is an accounting/contract screen; successful
+member scores and preflight do not replace the lander's production proofs.
+See [TOOLS.md](TOOLS.md) for the scorer and fixture commands.

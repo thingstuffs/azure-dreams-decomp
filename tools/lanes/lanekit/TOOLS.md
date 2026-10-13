@@ -123,3 +123,33 @@ measurement is journalled with `kind=stage-tidy`. It creates no recipe-trade ent
 in `cells.jsonl`. It refuses `--cfg`, `--no-jtbl`, `--no-stage`, `--equal-pins` and
 `--no-rule2`. The orchestrator can consume the normal `out/` through the ordinary
 lane landing route and recheck its fidelity improvement; no lander runs in this tool.
+
+## Native member package path (r118)
+
+From a repository root, `python3 tools/lanes/native_package.py LANE` writes
+`work/native_lane/LANE/delivery/` and `plan.json`. Pass multiple lane names and
+`--output work/native_lane/FRESH_BATCH` to combine candidates; members of the
+same module are substituted and scored in one TU. `land_lanes.sh` emits this
+package automatically for native outputs and stops before any source mutation.
+Mixed ordinary rows are deferred. Exit 3 is reserved for `--if-native` when no
+manifest-native outputs exist; every native validation/build failure is an error.
+
+`native_member.score_batch(rows, {row_id: text}, module)` returns a diagnostic
+receipt with `selected_members`, `members`, `other_members_changed`,
+`owned_data_exact`, `module_exact`, and `module_fingerprint`. `exact` requires
+all selected members and siblings at natural addresses, every owned-data byte,
+and the entire linked module extent to match retail. No cfg override, relocation
+mask or raw substitution is available. `score()` retains the single-row fields
+and the aggregate verdict. Production proof and renewal use `land_packages.py`.
+
+Fixture validation (no live tree):
+
+```sh
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tools/tests -p test_native_package.py -v
+bash -n tools/lanes/land_lanes.sh
+```
+
+Generated packages keep reviewers pending, guard all writes before the first
+mutation, and never install ledger records. A module without an existing
+reviewed certificate needs orchestrator review and complete-module certification
+before this member-only path can prepare a renewable package.

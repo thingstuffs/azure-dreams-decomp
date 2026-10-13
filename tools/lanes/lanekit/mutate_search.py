@@ -128,7 +128,8 @@ def generator_mutations(root, row, text, names, per_generator=6):
     return results, diagnostics
 
 
-def run(row, text, out, mutations=8, oracle_trials=24, workers=2, timeout=30, generators=None, per_generator=4):
+def run(row, text, out, mutations=8, oracle_trials=24, workers=2, timeout=30, generators=None, per_generator=4,
+        discovery_hook_cap=256):
     out = Path(out).resolve()
     if not out.is_relative_to(kitlib.lane_dir()):
         raise ValueError("mutation output must be lane-owned")
@@ -156,7 +157,8 @@ def run(row, text, out, mutations=8, oracle_trials=24, workers=2, timeout=30, ge
         target = out / "mutations" / ("%03d" % index)
         target.mkdir(parents=True, exist_ok=True)
         (target / "source.c").write_text(source)
-        report = oracle_search.search(row, source, target / "oracle", oracle_trials, workers, timeout, True, 0)
+        report = oracle_search.search(row, source, target / "oracle", oracle_trials, workers, timeout, True, 0,
+                                      discovery_hook_cap=discovery_hook_cap)
         singles = [change for change in report.get("exact_interventions", []) if len(pass_oracle.members(change)) == 1]
         records.append({
             "index": index,
@@ -165,10 +167,13 @@ def run(row, text, out, mutations=8, oracle_trials=24, workers=2, timeout=30, ge
             "source_sha256": digest,
             "status": report["status"],
             "baseline_aligned_distance": (report.get("baseline") or {}).get("aligned_distance"),
+            "closest_trial": report.get("best"),
             "trials": len(report.get("trials", [])),
             "exact_single_interventions": singles,
             "hit": bool(singles),
             "errors": report.get("errors", []),
+            "discovery_truncated": report.get("discovery_truncated", False),
+            "discovery_skipped_hooks": report.get("discovery_skipped_hooks", []),
             "report": str((target / "oracle/report.json").relative_to(out)),
         })
         (out / "state.json").write_text(json.dumps({"rows": records}, indent=2) + "\n")
@@ -183,6 +188,7 @@ def run(row, text, out, mutations=8, oracle_trials=24, workers=2, timeout=30, ge
         "generated": len(generated),
         "mutations_run": len(records),
         "oracle_trials_per_mutation": oracle_trials,
+        "discovery_hook_cap": discovery_hook_cap,
         "hits": [record for record in records if record["hit"]],
         "mutations": records,
         "generator_diagnostics": diagnostics,
@@ -193,10 +199,11 @@ def run(row, text, out, mutations=8, oracle_trials=24, workers=2, timeout=30, ge
 
 
 def render(result):
-    lines = ["# Mutation x oracle: " + result["row"], "", "%d source mutations searched; %d exposes an exact single intervention. Counterfactual, reviewer pending." % (result["mutations_run"], len(result["hits"])), "", "| mutation | generator | base distance | exact single intervention | status |", "|---:|---|---:|---|---|"]
+    lines = ["# Mutation x oracle: " + result["row"], "", "%d source mutations searched; %d exposes an exact single intervention. Counterfactual, reviewer pending. Discovery hook cap: %s; every capped tail is listed in JSON." % (result["mutations_run"], len(result["hits"]), result.get("discovery_hook_cap")), "", "| mutation | generator | base distance | closest trial distance / aligned word diff | exact single intervention | status |", "|---:|---|---:|---|---|---|"]
     for record in result["mutations"]:
         changes = "; ".join("`" + oracle_search.key(c) + "`" for c in record["exact_single_interventions"])
-        lines.append("| %d | %s | %s | %s | %s |" % (record["index"], record["generator"], record["baseline_aligned_distance"], changes or "none", record["status"].replace("|", "/")))
+        closest=record.get("closest_trial") or {};diff=json.dumps(closest.get("aligned_word_diff",[]),separators=(",",":"))
+        lines.append("| %d | %s | %s | %s / `%s` | %s | %s |" % (record["index"], record["generator"], record["baseline_aligned_distance"], closest.get("aligned_distance","none"), diff.replace("|","/")[:600], changes or "none", record["status"].replace("|", "/")))
     return "\n".join(lines) + "\n"
 
 
@@ -210,15 +217,17 @@ def main(argv=None):
     parser.add_argument("--workers", type=int, default=2)
     parser.add_argument("--timeout", type=float, default=30)
     parser.add_argument("--per-generator", type=int, default=4)
+    parser.add_argument("--discovery-hook-cap", type=int, default=256, help="per-breakpoint discovery cap; skipped tails are retained in the report")
     parser.add_argument("--generators", help="comma-separated xform module names; default t36..t87 plus perturb catalogues")
     args = parser.parse_args(argv)
     lane = kitlib.bootstrap()
-    if not 1 <= args.mutations <= 256 or not 1 <= args.oracle_trials <= 512 or not 1 <= args.workers <= 8:
-        parser.error("mutations 1..256, oracle-trials 1..512, workers 1..8 required")
+    if not 1 <= args.mutations <= 256 or not 1 <= args.oracle_trials <= 512 or not 1 <= args.workers <= 8 or not 1 <= args.discovery_hook_cap <= 100000:
+        parser.error("mutations 1..256, oracle-trials 1..512, workers 1..8, discovery-hook-cap 1..100000 required")
     row = kitlib.row_of(args.row)
     text = sncheck.input_text(args.text, row, lane)
     names = [name for name in args.generators.split(",") if name] if args.generators else None
-    result = run(row, text, args.out, args.mutations, args.oracle_trials, args.workers, args.timeout, names, args.per_generator)
+    result = run(row, text, args.out, args.mutations, args.oracle_trials, args.workers, args.timeout, names, args.per_generator,
+                 args.discovery_hook_cap)
     print(json.dumps({"row": result["row"], "mutations": result["mutations_run"], "hits": len(result["hits"])}, indent=2))
     return 0
 

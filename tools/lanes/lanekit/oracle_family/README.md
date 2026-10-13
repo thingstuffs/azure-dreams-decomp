@@ -15,6 +15,13 @@ interventions remain invalid; a composite is invalid unless EVERY member applied
 (`applied_changes` lists the member indexes that wrote something). Save a baseline
 discovery first to select UIDs. `--families ''` records nothing: hooks come from the
 change kinds alone, which is what search trials use (5-10x faster than recording).
+When more than one family is requested, discovery runs the same independently
+calibrated groups used by oracle_search instead of installing every breakpoint in
+one GDB process. `family_runs` and `hook_counts` profile the groups and breakpoint
+calls. `--hook-cap N` disables a discovery breakpoint after N active calls; the
+result is marked truncated and `skipped_hooks` reports the hook, cap, first skipped
+call, and that the remaining count is unknown. Null reorg thread/candidate pointers
+are non-selectable sites and appear in `skipped_sites` rather than being dereferenced.
 
 | Kind | Required selectors / forced input | Timing / meaning |
 |---|---|---|
@@ -57,7 +64,14 @@ hooks are absent, so reload-cse sites never appear); first pseudo is 67 (2.6.3),
 reg_info_def: refs +16, deaths +20, live +24, block +32, stride 40 - checked against
 the 2.8.0 `.flow` dump on 80DE48EC p84: 7 refs / 8 insns / 2 deaths). On 2.8.0 the
 local-alloc qty path is verified for symbol resolution only. Grouped SLUS contexts
-and other cells fail closed. A failed pinned raw-byte control holds a search row.
+and other cells fail closed. Overlay native members remain valid standalone oracle
+inputs; their raw replay uses the ordinary native-member scorer. A failed pinned
+raw-byte control holds a search row.
+If a native module compile contains several `.ent` bodies, search extracts the
+source function's true-name body for pinned calibration. If the fast extractor
+instead finds no body after a native-symbol rename, search falls back to an
+uninjected pass-oracle compile of the same pinned text; that fallback still proves
+debugger/plain-cc1 assembly identity.
 
 Raw replay. Overlay rows: emitted assembly through the ordinary scratch
 assembler/linker; `raw_equal` is literal linked-byte equality, no relocation
@@ -93,6 +107,8 @@ with timeout max(--timeout, 60 x plain compile, 240 s); trials get max(--timeout
 Non-exact trials keep receipts, out.s and the trace but not pass dumps (size). Debugger timeouts kill the entire process
 group and preserve available artifacts. Thread concurrency is bounded by workers.
 The CLI process is nice'd so prerequisite allocator children inherit niceness too.
+`--discovery-hook-cap N` applies the same explicit cap to search discovery and is
+part of the resumability signature; zero means uncapped.
 
 `oracle_search.py --all --gate DIR/validation.json --out SWEEP --trials 192 --composites 32 --workers 6`
 censuses live pin sites in registered source rows at the scratch base. A failed
@@ -123,12 +139,15 @@ observed pass that created, rewrote, removed, or moved its deciding UID. The JSO
 contains every differing word, its instruction/history/source evidence, and a
 per-pass histogram. Retail-only words use the aligned neighboring UID and say so.
 
-`mutate_search.py ROW TEXT --out DIR --mutations 8 --oracle-trials 24` enumerates
+`mutate_search.py ROW TEXT --out DIR --mutations 8 --oracle-trials 24 --discovery-hook-cap 256` enumerates
 bounded candidates from sweep transform modules t36..t87 plus perturb_basic and
 perturb_struct. Every distinct admissible, compiling mutation receives a fresh
 observed-site oracle search. A hit means that mutation exposes a raw-exact single
-intervention; composites are intentionally disabled. Generator refusals and
-failures remain in the report rather than disappearing.
+intervention; composites are intentionally disabled. Its default 256-call cap
+bounds every discovery hook on large functions. Each per-mutation record retains
+`discovery_skipped_hooks` and the closest trial's aligned generated/retail word
+diff, so capped tails and one-word insertions are visible rather than reduced to
+counts. Generator refusals and failures remain in the report rather than disappearing.
 
 ## Source references and 2.6.3
 

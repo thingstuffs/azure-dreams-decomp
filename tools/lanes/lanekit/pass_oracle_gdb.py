@@ -4,7 +4,8 @@ with open('pass_cfg.json') as f: C=json.load(f)
 A=C['addresses']; SZ=C['sizes']; F=set(C['families'])
 # One change (dict) or a composite (list of changes, applied together in one run).
 CHANGES=C['change'] if isinstance(C['change'],list) else ([C['change']] if C['change'] else [])
-INF=gdb.selected_inferior(); R={'missing_hooks':[],'events':[],'mutations':[],'errors':[],'applied':False,'applied_changes':[],'truncated':False,'refs':[],'stats':[]}
+INF=gdb.selected_inferior(); R={'missing_hooks':[],'events':[],'mutations':[],'errors':[],'applied':False,'applied_changes':[],'truncated':False,'refs':[],'stats':[],
+                               'hook_counts':{},'skipped_hooks':[],'skipped_sites':[]}
 rtx_names=[]; formats=[]; modes=[]; sched_context=[]; combine_context=[]; cse_context=[]; ref_depth=0
 mem_insns={}; hook_names=[]; occurrences={}; ACTIVE=False
 def mem(a,n): return bytes(INF.read_memory(a,n))
@@ -76,10 +77,17 @@ class Finish(gdb.FinishBreakpoint):
         return False
 class Hook(gdb.Breakpoint):
     def __init__(self,n,fn,address=None):
-        super().__init__('*'+str(address or A[n]),internal=True);self.fn=fn;hook_names.append(n)
+        super().__init__('*'+str(address or A[n]),internal=True);self.fn=fn;self.hook_name=n;hook_names.append(n)
     def stop(self):
         try:
-            if active():self.fn()
+            if active():
+                count=R['hook_counts'].get(self.hook_name,0)+1;R['hook_counts'][self.hook_name]=count
+                cap=C.get('hook_cap')
+                if cap and count>cap:
+                    self.enabled=False;R['truncated']=True
+                    R['skipped_hooks'].append({'hook':self.hook_name,'observed_calls':cap,'skipped_calls_at_least':1,
+                                               'remaining_calls':'unknown (breakpoint disabled)','reason':'discovery hook cap reached'})
+                else:self.fn()
         except Exception as e:R['errors'].append(str(e))
         return False
 
@@ -297,6 +305,10 @@ def reload_noop():
 # for try_merge_delay_insns, whose destructive work cannot be reconstructed.
 def reorg_eligible():
     d,c=arg(0),arg(2);du,cu=uid(d),uid(c)
+    if not d or not c:
+        if 'reorg' in F:R['skipped_sites'].append({'family':'reorg','hook':'eligible_for_delay','uid':du,'candidate_uid':cu,
+                                                   'reason':'null delay or candidate has no selectable RTL site'})
+        return
     if 'reorg' not in F and not matches('reorg-fill',uid=du,candidate_uid=cu):return
     def after():
         before=bool(reg('eax'))
@@ -309,6 +321,10 @@ def reorg_eligible():
     Finish(after)
 def reorg_merge():
     d,t=arg(0),arg(1);du,tu=uid(d),uid(t)
+    if not d or not t:
+        if 'reorg' in F:R['skipped_sites'].append({'family':'reorg','hook':'try_merge_delay_insns','uid':du,'thread_uid':tu,
+                                                   'reason':'null delay or thread has no selectable RTL site'})
+        return
     if 'reorg' in F:record('reorg-merge',uid=du,thread_uid=tu,value=True,
                            delay=brief(field(d,3)),thread=brief(field(t,3)))
     m=matches('reorg-merge',uid=du,thread_uid=tu)

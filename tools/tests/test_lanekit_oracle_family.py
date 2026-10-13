@@ -1,5 +1,5 @@
 """Synthetic ABI and search checks; no canonical root, compiler or ledger reads."""
-import io,json,os,runpy,struct,sys,tempfile,unittest
+import io,json,os,re,runpy,struct,sys,tempfile,unittest
 from pathlib import Path
 from unittest import mock
 ROOT=Path(__file__).resolve().parents[2];KIT=ROOT/'tools/lanes/lanekit';sys.path.insert(0,str(KIT))
@@ -38,6 +38,12 @@ class SchemaTests(unittest.TestCase):
         with self.assertRaises(ValueError),mock.patch.object(P.sncheck,'preprocess') as cpp:
             P.trace({'cfg':'2.95.2-G0','id':'x'},'void f(){}')
         cpp.assert_not_called()
+    def test_grouped_context_guard_is_slus_specific(self):
+        overlay={'cfg':'2.7.2-cdk-G0','id':'x','kind':'overlay'}
+        slus={'cfg':'2.7.2-cdk-G0','id':'x','kind':'slus'}
+        with mock.patch.object(P.kitlib,'module_fingerprint',return_value='fingerprint'),mock.patch.object(P.sncheck,'preprocess',side_effect=RuntimeError('reached preprocess')):
+            with self.assertRaisesRegex(RuntimeError,'reached preprocess'):P.trace(overlay,'void f(){}')
+            with self.assertRaisesRegex(ValueError,'grouped SLUS'):P.trace(slus,'void f(){}')
     def test_composite_schema(self):
         a={'kind':'combine-veto','uids':[3,2,0]};b={'kind':'alloc','pseudo':81,'input':{'kind':'refs-add','value':-2}}
         P.validate([a,b]);self.assertEqual(P.members([a,b]),[a,b]);self.assertEqual(P.members(a),[a])
@@ -50,6 +56,8 @@ class SchemaTests(unittest.TestCase):
         w=lambda *xs:b''.join(struct.pack('<I',x) for x in xs)
         self.assertEqual(P.aligned_distance(w(1,2,3,4,5),w(1,2,3,4,5)),0)
         self.assertEqual(P.aligned_distance(w(1,2,9,3,4,5),w(1,2,3,4,5)),1)
+        self.assertEqual(P.aligned_word_diff(w(1,2,9,3),w(1,2,3)),[
+            {'generated_index':2,'retail_index':None,'generated_word':'0x00000009','retail_word':None}])
     def test_slus_object_without_text_fails_closed(self):
         with self.assertRaises(ValueError):P.slus_text({'.data':b'x'})
         self.assertEqual(P.slus_text({'.text':b'','.text.f':b'abcd'}),b'abcd')
@@ -153,6 +161,19 @@ class SyntheticGDB(unittest.TestCase):
         self.gl['arg']=lambda i:{0:delay,2:cand}[i];self.registers['eax']=1
         self.change({'kind':'reorg-fill','uid':23,'candidate_uid':20,'value':0});self.ns['reorg_eligible']()
         self.assertEqual(self.registers['eax'],0);self.assertEqual(self.gl['R']['mutations'][-1]['kind'],'reorg-fill')
+    def test_reorg_null_thread_is_reported_without_rtx_dereference(self):
+        delay=0x4000;self.u(delay+4,23);self.gl['arg']=lambda i:[delay,0][i];self.gl['F'].add('reorg')
+        self.ns['reorg_merge']()
+        self.assertEqual(self.gl['R']['errors'],[])
+        self.assertEqual(self.gl['R']['skipped_sites'][-1]['hook'],'try_merge_delay_insns')
+        self.assertIn('null',self.gl['R']['skipped_sites'][-1]['reason'])
+    def test_hook_cap_disables_breakpoint_and_reports_unknown_tail(self):
+        calls=[];self.gl['C']['hook_cap']=2;self.gl['active']=lambda:True
+        hook=self.gl['Hook']('probe',lambda:calls.append(1),address=0x500)
+        hook.stop();hook.stop();hook.stop()
+        self.assertEqual(calls,[1,1]);self.assertFalse(hook.enabled)
+        self.assertEqual(self.gl['R']['hook_counts']['probe'],3)
+        self.assertEqual(self.gl['R']['skipped_hooks'][-1]['remaining_calls'],'unknown (breakpoint disabled)')
     def test_jump_cross_veto_clears_tail_outputs(self):
         e1,e2,p1,p2=0x4000,0x4100,0x4200,0x4204
         self.u(e1+4,33);self.u(e2+4,64);self.u(p1,0x4300);self.u(p2,0x4400);self.u(0x4300+4,31);self.u(0x4400+4,62)
@@ -275,6 +296,30 @@ class AttributionAndMutationTests(unittest.TestCase):
         self.assertEqual(len(list(MS._text_values(value))),2)
 
 class DiscoveryAndCellTests(unittest.TestCase):
+    def test_native_symbol_control_falls_back_to_uninjected_oracle(self):
+        fast={'asm':'','error':None};fallback={'asm':'.ent true_name\ntrue_name:\n.end true_name\n','errors':[]}
+        with mock.patch.object(S.kitlib,'dumps',return_value=fast),mock.patch.object(P,'trace',return_value=fallback) as trace:
+            control,elapsed,method=S.pinned_control({'id':'x'},'void true_name(){}',1)
+        self.assertIn('.ent true_name',control['asm']);self.assertIn('fallback',method);self.assertGreaterEqual(elapsed,0)
+        trace.assert_called_once_with({'id':'x'},'void true_name(){}',families=[],timeout=1)
+    def test_native_module_control_extracts_true_function_without_oracle(self):
+        module='.text\n.ent first\nfirst:\n.end first\n.ent true_name\ntrue_name:\n.end true_name\n'
+        with mock.patch.object(S.kitlib,'dumps',return_value={'asm':module,'error':None}),mock.patch.object(P,'function_name',return_value='true_name'),mock.patch.object(P,'trace') as trace:
+            control,_,method=S.pinned_control({'id':'x'},'void true_name(){}',1)
+        self.assertEqual(re.findall(r'^\s*\.ent\s+(\S+)',control['asm'],re.M),['true_name'])
+        self.assertIn('extraction',method);trace.assert_not_called()
+    def test_pass_oracle_full_discovery_splits_calibrated_groups(self):
+        calls=[]
+        def trace(row,text,**kw):
+            calls.append(kw['families']);fam=kw['families'][0]
+            return {'events':[{'kind':fam}],'refs':[],'stats':[],'errors':[],'truncated':False,'mutations':[],
+                    'missing_hooks':[],'skipped_hooks':[],'skipped_sites':[],'hook_counts':{fam:2},'commands':[],
+                    'dumps':{},'asm':'.ent f\nli $2,1\n.end f','cc1_sha256':'abc','input_sha256':'def','faithful':True}
+        with mock.patch.object(P,'trace',side_effect=trace):
+            r=P.discover_trace({'id':'x','cfg':'cell'},'int f(){}',P.FAMILIES,1)
+        self.assertEqual(calls,[list(group) for group in P.DISCOVERY_GROUPS])
+        self.assertEqual(len(r['family_runs']),len(P.DISCOVERY_GROUPS));self.assertFalse(r['truncated'])
+        self.assertEqual(r['hook_counts']['sched'],2)
     def test_independent_discovery_keeps_other_families_after_timeout(self):
         def trace(row,text,**kw):
             fam=kw['families']

@@ -257,11 +257,17 @@ _FAKEDEP = [re.compile(r"\+\s*(\w+)\s*-\s*\1\b(?!\s*[\[(.]|\s*->)"), re.compile(
             re.compile(r"\b(\w+)\s*\^\s*\1\b"), re.compile(r"&\s*(\w+)\s*&\s*\1\b"),
             # round 96 (r96_opus_fd kit gap): self-assignment `x = x;` and the split pair `d += h; d -= h;`
             re.compile(r"(?<![\w.>\]])\b(\w+)\s*=\s*\1\s*;"),
-            re.compile(r"(?<![\w.>\]])\b(\w+)\s*\+=\s*(\w+)\s*;\s*\1\s*-=\s*\2\s*;")]
+            re.compile(r"(?<![\w.>\]])\b(\w+)\s*\+=\s*(\w+)\s*;\s*\1\s*-=\s*\2\s*;"),
+            # r97: an adjacent negate-then-subtract adds a synthetic use of b.
+            # Restrict this to scalar spellings and the immediately next statement.
+            re.compile(r"(?<![\w.>\]])\b(\w+)\s*=\s*-\s*\1\s*;\s*"
+                       r"(?:\w+\s*=\s*)?\w+\s*-\s*\1\s*;"),
+            re.compile(r"(?<![\w.>\]])\b(\w+)\s*=\s*-\s*\1\s*;\s*\w+\s*-=\s*\1\s*;")]
 
 
 def fakedep_count(text):
-    t = re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", text, flags=re.S))
+    # Strings, character literals and comments cannot add executable dependencies.
+    t = re.sub(r'"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'|//[^\n]*|/\*.*?\*/', ' ', text, flags=re.S)
     t = "\n".join(l for l in t.split("\n") if not l.lstrip().startswith("#"))
     return sum(len(rx.findall(t)) for rx in _FAKEDEP)
 
