@@ -9,7 +9,7 @@ extern void *func_8003FE78(s32 node_flags, void *node_buffer, s32 word_count);
 extern void func_8004491C(void *entry, void *registration_id);
 extern void func_80024184(void *object);
 extern void func_80069EC8(void *destination, s32 byte_count);
-extern void func_80023EF4(void *runtime, s32 arg1);
+extern void func_80023EF4(void *runtime, s32 value);
 extern s32 func_80023ECC(void *value);
 extern void func_80023FA0(void *record, s32 setup_value, s32 processing_value);
 

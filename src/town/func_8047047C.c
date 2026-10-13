@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 
 M2C_UNK func_8001628C();    /* extern */
+/* Arity site: the callee definition takes three arguments; this call supplies two. */
 s32 func_80017E98(s32, M2C_UNK);                                /* extern */
 s32 func_80019A04();      /* extern */
 s32 func_80019ABC(); /* extern */
@@ -17,7 +18,7 @@ typedef struct S_8001747C_0 {
 } S_8001747C_0;   /* arg0 in func_8001747C */
 
 /* Returns a handler result or a fixed fallback address based on the object checks. */
-s32 func_8001747C(s32 object, M2C_UNK request, M2C_UNK context) {
+s32 func_8001747C(s32 object, s32 request, s32 context) {
     s32 default_result;
     s32 result;
 

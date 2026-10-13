@@ -24,7 +24,7 @@ extern void func_80405AE8(void *menu);
 extern void func_804062F4(void *menu);
 extern void func_80406358(void *menu);
 extern void func_80406720(void *object);
-extern void func_804083FC(s32 arg0, s32 arg1);
+extern void func_804083FC(s32 value0, s32 value1);
 
 /* Handles menu navigation, button actions, and display refreshes. */
 void func_80406368(void *menu)

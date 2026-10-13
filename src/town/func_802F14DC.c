@@ -1,9 +1,9 @@
 #include "common.h"
 
-extern void func_8007BEF0(s32 arg0);
-extern void func_8007C040(void *arg0, void *arg1, s32 arg2);
-extern void func_80404DBC(s32 arg0);
-extern void func_804077D4(s32 arg0);
+extern void func_8007BEF0(s32 value);
+extern void func_8007C040(void *ptr0, void *ptr1, s32 value);
+extern void func_80404DBC(s32 value);
+extern void func_804077D4(s32 value);
 
 extern u8 D_8040086C[];
 extern u8 D_80400894[];

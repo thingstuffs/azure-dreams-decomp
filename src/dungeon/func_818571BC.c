@@ -26,8 +26,8 @@ typedef struct DungeonShape {
 
 
 extern DungeonDrawState *D_80083160[];
-extern s32 func_80065420(void *world_vertex, void *screen_point, void *arg2, void *arg3);
-extern void func_80066640(void *primitive, s32 arg1);
+extern s32 func_80065420(void *world_vertex, void *screen_point, void *ptr2, void *ptr3);
+extern void func_80066640(void *primitive, s32 value);
 extern void func_800666F4(void *primitive);
 
 typedef struct DungeonTag {

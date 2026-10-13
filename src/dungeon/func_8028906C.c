@@ -8,6 +8,7 @@ typedef struct {
     s16 unk4;
     s16 dir;
 } Pos;
+typedef u32 CoordPair __attribute__((aligned(2)));
 
 typedef struct {
     s16 unused[10];
@@ -41,27 +42,21 @@ s32 func_8001C06C(Pos *start, Pos *dest, s16 rnd, s16 *outX, s16 *outY) {
     s32 delta;
     s32 delta2;
     s32 icy;
-    DungeonState *dead;
     DungeonState *st;
-    u32 r;
 
     count = 0;
     cy = start->y;
-    delta2 = start->x;
-    cx = delta2;
-    delta = dest->x;
+    cx = start->x;
+    delta2 = cx;
+    delta = (s32)(*(CoordPair *)dest << 16) >> 16;
     delta = delta - delta2;
     dir = (u16)start->dir;
-    ASM_USE2_NV(delta2, cx);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    if (delta < 0) {
-        delta = -delta;
-    }
+    delta = __builtin_abs(delta);
     rangeX = delta - 4;
-    dead = (DungeonState *)((u8 *)(&gameWork));
+    delta2 = (s32)&gameWork;
     dirSlot.v = dir;
     dstY = dest->y;
-    st = (DungeonState *)((u8 *)dead + 476);
-    ASM_KEEP_NV(dest);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    st = (DungeonState *)((u8 *)delta2 + 476);
     dstX = dest->x;
     if (rangeX <= 0) {
         rangeX = 1;
@@ -76,9 +71,7 @@ s32 func_8001C06C(Pos *start, Pos *dest, s16 rnd, s16 *outX, s16 *outY) {
     }
 
     icy = dstY;
-    delta2 = __builtin_abs(icy - cy);
-    dead = delta2 - 4;
-    rangeY = dead;
+    rangeY = __builtin_abs(icy - cy) - 4;
     if (rangeY <= 0) {
         rangeY = 1;
     }
@@ -127,7 +120,7 @@ s32 func_8001C06C(Pos *start, Pos *dest, s16 rnd, s16 *outX, s16 *outY) {
         } else {
             wx = dstX;
         }
-        r = func_800A07D0(cx, cy, wx, wy);
+        delta = func_800A07D0(cx, cy, wx, wy);
         for (;;) {
             s32 ix;
             s32 iy;
@@ -140,13 +133,13 @@ s32 func_8001C06C(Pos *start, Pos *dest, s16 rnd, s16 *outX, s16 *outY) {
                 break;
             }
             count++;
-            cx += dirStepX[(r >> 9) & 6];
-            cy += dirStepY[(r >> 9) & 6];
+            cx += dirStepX[((u32)delta >> 9) & 6];
+            cy += dirStepY[((u32)delta >> 9) & 6];
         }
     }
 
     if (wx != dstX || wy != dstY) {
-        r = func_800A07D0(cx, cy, dstX, dstY);
+        delta = func_800A07D0(cx, cy, dstX, dstY);
         for (;;) {
             s32 ix;
             s32 iy;
@@ -159,8 +152,8 @@ s32 func_8001C06C(Pos *start, Pos *dest, s16 rnd, s16 *outX, s16 *outY) {
                 break;
             }
             count++;
-            cx += dirStepX[(r >> 9) & 6];
-            cy += dirStepY[(r >> 9) & 6];
+            cx += dirStepX[((u32)delta >> 9) & 6];
+            cy += dirStepY[((u32)delta >> 9) & 6];
         }
     }
     return count;

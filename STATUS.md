@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-13T04:56:52Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-13T06:09:08Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -79,7 +79,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 
 | module | rows | placement proof |
 |---|---:|---|
-| dungeon_cd_control_d79c4 | 3 | current: complete TU + all windows + genuine |
+| dungeon_cd_control_d79c4 | 3 | source/recipe/graph/tool/review/window inputs changed |
 | town_minigame_dispatch_44b44 | 13 | current: complete TU + all windows + genuine |
 | dungeon_ovl_1852800 | 4 | current: complete TU + all windows + genuine |
 | dungeon_ovl_1870800 | 2 | current: complete TU + all windows + genuine |
@@ -95,7 +95,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | dungeon_ovl_189a800 | 13 | current: complete TU + all windows + genuine |
 | dungeon_ovl_188e800 | 6 | current: complete TU + all windows + genuine |
 | dungeon_ovl_198a800 | 17 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1876800 | 5 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1876800 | 5 | source/recipe/graph/tool/review/window inputs changed |
 | dungeon_ovl_1894800 | 11 | current: complete TU + all windows + genuine |
 | dungeon_ovl_18a6800 | 15 | current: complete TU + all windows + genuine |
 | dungeon_ovl_19d2800 | 6 | current: complete TU + all windows + genuine |
@@ -125,9 +125,9 @@ Placement alone does not override any lower-level or source-residue guard.
 |---|---:|---:|---:|---:|---:|---:|
 | m2c boilerplate block | 2331 | 510,568 | 18.3% | 0 | 0 | 0.0% |
 | M2C_FIELD raw offsets | 2950 | 1,448,168 | 52.0% | 0 | 0 | 0.0% |
-| m2c local names | 5181 | 2,160,832 | 77.6% | 19 | 32,796 | 1.2% |
-| ASM_ pins | 2135 | 1,455,340 | 52.2% | 24 | 32,172 | 1.2% |
-| goto | 1545 | 1,311,404 | 47.1% | 273 | 328,096 | 11.8% |
+| m2c local names | 5181 | 2,160,832 | 77.6% | 9 | 29,928 | 1.1% |
+| ASM_ pins | 2135 | 1,455,340 | 52.2% | 20 | 25,000 | 0.9% |
+| goto | 1545 | 1,311,404 | 47.1% | 272 | 327,768 | 11.8% |
 | computed-goto jump table | 317 | 436,404 | 15.7% | 4 | 7,008 | 0.3% |
 | inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 242,072 | 8.7% | 24 | 21,880 | 0.8% |
 | fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate) | 1489 | 675,960 | 24.3% | 0 | 0 | 0.0% |
@@ -138,9 +138,9 @@ Placement alone does not override any lower-level or source-residue guard.
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 5.6% | 9 | 14,008 | 0.5% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
 | local address-named struct | 633 | 346,872 | 12.4% | 2884 | 1,502,036 | 53.9% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 5.5% | 7149 | 2,408,856 | 86.5% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 5.5% | 7163 | 2,416,248 | 86.7% |
 
-Pin sites now: 40 in 24 rows; REG 18, KEEP 10, KEEP_NV 6, USE_NV 2, UNDEF 1, USE2_NV 1, MEM_BARRIER 1, SCHED_BARRIER 1.  At the pin: 25,901; REG 12,800, KEEP 6,935, KEEP_NV 2,505, SCHED_BARRIER 1,355, TAILSLOT_PIN 506, USE 294, USE_NV 260, KEEP_DEP_NV 190.
+Pin sites now: 29 in 20 rows; REG 12, KEEP 10, KEEP_NV 4, MEM_BARRIER 1, USE_NV 1, SCHED_BARRIER 1.  At the pin: 25,901; REG 12,800, KEEP 6,935, KEEP_NV 2,505, SCHED_BARRIER 1,355, TAILSLOT_PIN 506, USE 294, USE_NV 260, KEEP_DEP_NV 190.
 
 Tracked, not pins (owner 2026-10-06): oddities 1 (ledger/oddities.jsonl - zero-byte fences retail needs, curiosities, not removal targets: dungeon/func_8196096C); one-trip barrier rows 2 (ledger/onetrip_barrier_rows.jsonl); load-bearing one-trip rows 85 (ledger/onetrip_loadbearing.jsonl, statement-macro bodies, not counted in the do{}while(0) row above).
 Carve debt - composite rows (r95 decisions item 8 kept the spelling for bytes; r99: it is an artifact of one-row-per-function carving, owned by module placement): the `asm("func_X")` data prefix (another function's jump table / overlay data that retail places before this row's code) and its `.globl/.type/.size func_X` stamp (`pin_census.composite_asm_spans`), 2 statements in 1 rows - counted here, not in the inline-asm row above; still L5 `inline_asm` residue in levels.py until the module TU owns the data.
@@ -183,12 +183,12 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 | L1 | 2,784,412 | 99.9% |
 | L2 | 2,784,412 | 99.9% |
 | L3 | 2,770,828 | 99.4% |
-| L4 | 217,052 | 7.8% |
-| L5 | 212,432 | 7.6% |
+| L4 | 212,780 | 7.6% |
+| L5 | 208,160 | 7.5% |
 
 On shared record headers (T7, `include/records/`): 903 rows, 577,664 bytes (20.7%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 24 rows (32,172 B), tail_jump 8 rows (4,884 B), not_in_module 7,098 rows (2,564,416 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 20 rows (25,000 B), tail_jump 8 rows (4,884 B), not_in_module 7,106 rows (2,568,688 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 

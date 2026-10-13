@@ -16,7 +16,7 @@ static __inline__ u32 calculate_x(
 }
 
 /* Positions the current record and updates the specified row. */
-void func_800223B4(void *context, s32 column, s32 mode, s32 row, volatile s32 row_value)
+void func_800223B4(void *context, s32 column, s32 mode, s32 row, s32 row_value)
 {
     void *state = context;
     s32 *record;
@@ -30,7 +30,7 @@ void func_800223B4(void *context, s32 column, s32 mode, s32 row, volatile s32 ro
     *(s16 *)((u8 *)*(void **)((u8 *)record + 4) + 8) = (s16)x;
     *(s16 *)((u8 *)*(void **)((u8 *)record + 4) + 0xA) =
         (s16)((row * 0x11) - (*(s32 *)((u8 *)state + 0x1C) / 2) + 0x7A);
-    saved_row_value = row_value;
+    saved_row_value = *(s32 *)&row_value;
     func_80022300(state, position, mode);
     record[0] = (s32)(unsigned long)position;
     func_8002233C(

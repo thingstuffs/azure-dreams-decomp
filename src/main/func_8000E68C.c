@@ -20,40 +20,40 @@ s32 func_8002168C(void) {
     state = func_80021594();
     slot = func_8002190C();
     if (state != 0) {
-    if (*(s32 *)((s8 *)&D_80028538 + slot * 4) == state) {
-        *(s32 *)((s8 *)&D_80028530 + slot * 4) += 1;
-        slot_offset = slot * 4;
-    } else {
-        *(s32 *)((s8 *)&D_80028530 + slot * 4) = 0;
-        slot_offset = slot * 4;
-    }
-    *(s32 *)((s8 *)&D_80028538 + slot * 4) = state;
-    switch (state) {
-    case 1:
-    case 2:
-        D_800287D0[slot] = state;
-        break;
-    case 3:
-        repeat_counts = D_80028530;
-        count_offset = slot * 4;
-        goto check_count;
-    case 4:
-    case 5:
-        D_80084118[slot] = 0;
-        count_offset = slot * 4;
-        repeat_counts = D_80028530;
-check_count:
-        if (*(s32 *)(count_offset + (s32)repeat_counts) < 0xB) {
-            func_80020924(slot, (s32 *)(count_offset + (s32)repeat_counts));
+        if (*(s32 *)((s8 *)&D_80028538 + slot * 4) == state) {
+            *(s32 *)((s8 *)&D_80028530 + slot * 4) += 1;
+            slot_offset = slot * 4;
+        } else {
+            *(s32 *)((s8 *)&D_80028530 + slot * 4) = 0;
+            slot_offset = slot * 4;
+        }
+        *(s32 *)((s8 *)&D_80028538 + slot * 4) = state;
+        switch (state) {
+        case 1:
+        case 2:
+            D_800287D0[slot] = state;
+            func_80020924(slot, (s32 *)slot_offset);
+            return state;
+        case 3:
+            repeat_counts = D_80028530;
+            count_offset = slot * 4;
+            break;
+        case 4:
+        case 5:
+            D_80084118[slot] = 0;
+            count_offset = slot * 4;
+            repeat_counts = D_80028530;
+            break;
+        default:
+            func_80020924(slot, (s32 *)slot_offset);
             return state;
         }
-        *(s32 *)((s8 *)&D_800287D0 + count_offset) = state;
-        *(s32 *)(count_offset + (s32)repeat_counts) = 0;
-        *(s32 *)((s8 *)&D_80028538 + count_offset) = 0;
+        if (*(s32 *)(count_offset + (s32)repeat_counts) >= 0xB) {
+            *(s32 *)((s8 *)&D_800287D0 + count_offset) = state;
+            *(s32 *)(count_offset + (s32)repeat_counts) = 0;
+            *(s32 *)((s8 *)&D_80028538 + count_offset) = 0;
+        }
         func_80020924(slot, (s32 *)(count_offset + (s32)repeat_counts));
-        return state;
-    }
-    func_80020924(slot, (s32 *)slot_offset);
     }
     return state;
 }
