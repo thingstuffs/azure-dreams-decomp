@@ -283,6 +283,36 @@ def process_lane(info, root):
     return lane if script_found else None
 
 
+def outside_root(info, root):
+    """True when a process has no visible path into the canonical root at all.
+
+    codex spawns global helpers (the ghidra-mcp bridge, cwd in a sibling
+    checkout) under a lane's codex process. Such a descendant cannot touch the
+    transaction: its cwd, every path-like argv token, every fd and every gate
+    override resolve outside root. Anything ambiguous is not outside.
+    """
+    root=root.resolve();cwd=info['cwd']
+    if cwd is None or info['parent'] is None:return False
+    def inside(path):
+        if not path.is_absolute():path=cwd/path
+        return (Path(os.path.abspath(path)).is_relative_to(root) or
+                path.resolve(strict=False).is_relative_to(root))
+    try:
+        if inside(cwd) or str(root) in info['args']:return False
+        for arg in info['argv']:
+            value=arg.split('=',1)[1] if arg.startswith('-') and '=' in arg else arg
+            if ('/' in value or value in ('.','..')) and inside(Path(value)):return False
+        for fd in (info['proc']/'fd').iterdir():
+            try:name=os.readlink(fd)
+            except FileNotFoundError:continue
+            if name.startswith('/') and inside(Path(name.removesuffix(' (deleted)'))):return False
+        for setting in (info['proc']/'environ').read_bytes().split(b'\0'):
+            key,sep,value=setting.partition(b'=')
+            if sep and key in (b'GATE_BUILD_ROOT',b'GATE_JOURNAL',b'SRCROOT') and inside(Path(os.fsdecode(value))):return False
+    except (OSError,RuntimeError,ValueError):return False
+    return True
+
+
 def isolated_lane(proc, root, proc_root=Path("/proc"), snapshot=None):
     """Prove one lane from live process paths, independent of launcher receipts.
 
@@ -306,6 +336,10 @@ def isolated_lane(proc, root, proc_root=Path("/proc"), snapshot=None):
             if pid in seen:return False
             seen.add(pid);item=snapshot[pid];q=item['proc']
             todo.extend(children.get(pid,[]))
+            # A global helper wholly outside the root (codex's MCP bridge) is
+            # not part of the lane and cannot reach the transaction; its own
+            # children are still checked one by one.
+            if pid!=int(proc.name) and outside_root(item,root):continue
             if process_lane(item,root)!=lane:return False
             for fd in (q/'fd').iterdir():
                 try:
