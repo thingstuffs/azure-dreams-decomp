@@ -2,8 +2,8 @@
 #include "m2c_compat.h"
 
 M2C_UNK func_8001628C();    /* extern */
-/* Arity site: the callee definition takes three arguments; this call supplies two. */
-s32 func_80017E98(s32, M2C_UNK);                                /* extern */
+/* Retail forwards the entry $a2 context unchanged to this three-argument callee. */
+s32 func_80017E98(s32, s32, s32);                                /* extern */
 s32 func_80019A04();      /* extern */
 s32 func_80019ABC(); /* extern */
 s32 func_8001A510();                             /* extern */
@@ -22,7 +22,7 @@ s32 func_8001747C(s32 object, s32 request, s32 context) {
     s32 default_result;
     s32 result;
 
-    if (func_80017E98(object, request) != 0) {
+    if (func_80017E98(object, request, context) != 0) {
         return (s32)((u8 *)&D_8001B63C);
     }
     default_result = func_80019ABC(&D_8001A9AC, &D_8001B1F8, object, context);

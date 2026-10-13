@@ -17,11 +17,11 @@
     "town/func_800C4D68",
     "town/func_800C4D9C"
   ],
-  "at": "2026-10-13T13:44:10Z",
+  "at": "2026-10-13T21:19:32Z",
   "reviewer": "orchestrator-r99",
   "fingerprint": {
     "schema": "overlay-module-scoped-v2",
-    "sha256": "4b4dbec662c553b37c64e55ff2a818b3522537fa34fd11cae3d77e4f59e81c2e",
+    "sha256": "c398c51087d9c0c1c62e55d731801f741b07cff8e2319edbce16b341a72b1f64",
     "module": {
       "sha256": "fabd563ca20be30c53348baa12416540b0be8e5d92ab41ff76e427d960a5d0e3"
     },
@@ -30,7 +30,7 @@
         "sha256": "6e86f94f07d1fc38fb5e18fc519deddd8a787e8ac5368092b6232f15db59a8f0"
       },
       "config/overlays/town_scene.overlay.yaml": {
-        "sha256": "39774d5301a1084683e763dda42dbfca4e4386a0cf9b5ffbd1b66f35e607ec29"
+        "sha256": "bd7197d076ca26cfabfe74e5891ed8166ee107d8e793fe98356b360141a89d2c"
       }
     },
     "required_windows": [
@@ -39,7 +39,7 @@
     ]
   },
   "proof_dir": "build_ovl_gate/work/module_proofs/town_minigame_dispatch_44b44/module",
-  "receipt_sha256": "ae5cc9218242313ce7c64f39761ebc12a15e6ecf3f4cacced8c1705df64a6318",
+  "receipt_sha256": "39c40986f9ec651f2f60b1e88c4cde5ddf62d8ca836cf9c6628682e94a36b382",
   "windows": [
     {
       "config": "config/overlays/town_deep_t8b_044d9c.overlay.yaml",
@@ -48,11 +48,11 @@
       "file_end": 282156,
       "proof_dir": "build_ovl_gate/work/module_proofs/town_minigame_dispatch_44b44/windows/town_deep_t8b_044d9c",
       "artifacts": {
-        "gate.log": "afb321e5ba11190c243b766b76206d4bb2585c292654c37565ebb6f19ab6f37b",
+        "gate.log": "5e093eb6f99560748dd4a5e98d4fc6cf2125130853a6475d7fd95e01ef07b759",
         "window.bin": "dccefaa3c243e95048db74fff6f0a25ce624cfa225656c878a90b9f0328dfdc6",
         "manifest.json": "8f26bd8e746d6fd6b023fe1e54a12459213b35b6475a37cf281888b5c795a414",
-        "projection.json": "5a9bde996368b176db51a263dd550a2a7b9d900826beb53257b7ad4e2b49c4bf",
-        "module/receipt.json": "b016b9a449ac08739b5b562047cfa3d5615626c06e60e8c27752a8f4c5406a70"
+        "projection.json": "8ea680c5fb544820c8b28b4613ab559f71ea7e5a0077a924b35fc3048a12c24f",
+        "module/receipt.json": "c4aa7c5c7dd5d3e3217d5df4202a7232f3206abd9557f8a811825a71b8a43efa"
       },
       "digest": "6e86f94f07d1fc38fb5e18fc519deddd8a787e8ac5368092b6232f15db59a8f0"
     },
@@ -63,13 +63,13 @@
       "file_end": 335872,
       "proof_dir": "build_ovl_gate/work/module_proofs/town_minigame_dispatch_44b44/windows/town_scene",
       "artifacts": {
-        "gate.log": "24f7c559bfb9eefe8d4f9545c47dc7e84eb80229528638d0639c02e255ff7f9b",
+        "gate.log": "d6b0897ca4a00c035629c298c520147557e8e622e716a01e87d6e5800e622591",
         "window.bin": "6ca153dec42742a952cdfbfc38efb1a793de9ede267a9cebd4b1d1cf00740ed4",
         "manifest.json": "d9b18c79716903cbb320b91963415344b7d4947fb5552d234d84862ed8df49df",
-        "projection.json": "2c95659f896e811d07af2bc3c729b5022b6c82d0d78612cd01aaaa3f08f61fa2",
-        "module/receipt.json": "74d82788ac10bca910b69354f232eb425609415d17841de7b97d50106ea02c41"
+        "projection.json": "24ed6de238cc227b99db1089c7a8526f1377fea08b7c3a81f58ca98777e02fc5",
+        "module/receipt.json": "2bdb0dfa17b3316756f14892c185c535e837c0a3ba2a5d2afef127922344ef90"
       },
-      "digest": "39774d5301a1084683e763dda42dbfca4e4386a0cf9b5ffbd1b66f35e607ec29"
+      "digest": "bd7197d076ca26cfabfe74e5891ed8166ee107d8e793fe98356b360141a89d2c"
     }
   ]
 }
