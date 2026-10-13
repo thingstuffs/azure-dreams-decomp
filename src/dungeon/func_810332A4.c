@@ -99,34 +99,35 @@ extern s32 func_80174A00(void *, s32, s32, s16);
 extern Pair16 D_8017610C[];
 
 /* Update a moving effect, its pushed objects, and its collision and end animations. */
-void func_80174AA4(void *effect, void *motion, void *sprite)
+void func_80174AA4(S_func_810332A4_1 *effect, S_func_810332A4_2 *motion, S_func_810332A4_3 *sprite)
 {
     u16 collision_flags;
     S_func_810332A4_4 *owner;
     S_func_810332A4_5 *object;
     S_func_810332A4_5 *new_object;
-    register S_func_810332A4_6 *display ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register S_func_810332A4_2 *transform ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    S_func_810332A4_6 *display;
+    S_func_810332A4_2 *transform;
     s32 blocked;
     s32 stop_mask;
     s32 step_coord;
     s32 step_x;
+    s32 dy;
+    s32 pos_y;
     s32 cleanup_mask;
-    s32 next_tile;
+    u8 next_tile;
     s32 next_tile_2;
     s32 collision_coord;
     register s32 coord_base ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     S_func_810332A4_7 *object_data;
     s32 state;
     s32 burst_index;
-    s32 target_y;
     u32 check_x;
     u32 check_y;
     u16 object_x;
     s32 object_y;
     s32 floor_height;
     s32 object_tile_x;
-    s32 tile_y;
+    s32 hit_state;
     s32 world_coord;
     s32 tile_x;
     s32 floor_x;
@@ -135,17 +136,8 @@ void func_80174AA4(void *effect, void *motion, void *sprite)
     s32 fade_value;
     s32 delay_pending;
     u16 timer;
-    S_func_810332A4_1 *held_effect;
-    S_func_810332A4_2 *held_motion;
-    register S_func_810332A4_3 *held_sprite ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     S_func_810332A4_4 *effect_owner;
 
-    held_effect = effect;
-    held_motion = motion;
-    held_sprite = sprite;
-#define effect held_effect
-#define motion held_motion
-#define sprite held_sprite
 
     effect_owner = effect->unk_28;
     state = effect->unk_16.s;
@@ -189,31 +181,26 @@ void func_80174AA4(void *effect, void *motion, void *sprite)
                     effect->unk_26 = 1;
                 }
                 coord_base = (s32)D_8017610C;
-                step_x = effect->unk_1C;
                 next_tile_2 = effect->unk_4C.u;
-                step_x <<= 2;
-                step_x += (s32)coord_base;
-                step_x = ((S_func_810332A4_8 *)step_x)->unk_00;
-                next_tile_2 += step_x;
+                dy = (effect->unk_1C << 2) + coord_base;
+                dy = ((S_func_810332A4_8 *)dy)->unk_00;
+                next_tile_2 += dy;
                 effect->unk_4C.u = next_tile_2;
                 collision_coord = effect->unk_1C << 2;
                 collision_coord += (s32)coord_base;
-                ASM_KEEP_NV(effect);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                step_coord = effect->unk_4C.s;
                 next_tile = effect->unk_4D.u;
-                step_coord <<= 6;
-                collision_coord = ((S_func_810332A4_8 *)collision_coord)->unk_02;
-                step_coord += 0x20;
-                coord_base = step_coord;
-                next_tile += collision_coord;
+                next_tile += ((S_func_810332A4_8 *)collision_coord)->unk_02;
                 effect->unk_4D.u = next_tile;
-                target_y = effect->unk_4D.s;
-                target_y <<= 6;
-                target_y += 0x20;
-                collision_coord = effect->unk_26;
-                if (collision_coord == 0) {
+                step_x = effect->unk_4C.s;
+                pos_y = effect->unk_4D.s << 6;
+                step_x <<= 6;
+                hit_state = effect->unk_26;
+                step_x += 0x20;
+                coord_base = step_x;
+                object_y = pos_y + 0x20;
+                if (hit_state == 0) {
                     check_x = (u16)coord_base;
-                    check_y = target_y;
+                    check_y = object_y;
                     if ((func_800A45D8(check_x, (u16)check_y,
                                        motion->unk_0A.s) << 16) != 0) {
                         effect->unk_26 = 1;
@@ -228,8 +215,11 @@ void func_80174AA4(void *effect, void *motion, void *sprite)
                     if (effect->unk_26 == 0) {
                         floor_height = func_800BCB04(check_x, (u16)check_y,
                                               (s16)((u16)motion->unk_0A.s - 0x20));
-                        if (floor_height >= 0x200 || floor_height > motion->unk_0A.s + 0x20 ||
-                            floor_height < motion->unk_0A.s) {
+                        if (floor_height >= 0x200) {
+                            effect->unk_26 = 1;
+                        } else if (floor_height > motion->unk_0A.s + 0x20) {
+                            effect->unk_26 = 1;
+                        } else if (floor_height < motion->unk_0A.s) {
                             effect->unk_26 = 1;
                         }
                     }

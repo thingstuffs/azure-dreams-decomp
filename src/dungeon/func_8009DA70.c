@@ -10,7 +10,7 @@ struct Entity {
     u8 kind;
     u32 flags;
     u32 pad18;
-    volatile u32 status;
+    u32 status;
     u8 pad20[0x3C];
     Entity *next;
     u8 pad60[0xD];
@@ -22,7 +22,7 @@ struct Entity {
     s16 fieldAA;
 };
 
-extern volatile u16 D_800DCE68[];
+extern u16 D_800DCE68[];
 
 /* Mark owned entities of kind 0x1E and increment the dungeon counters. */
 void func_800A31D0(Entity *owner_entity) {
@@ -30,6 +30,7 @@ void func_800A31D0(Entity *owner_entity) {
     EntityRec *sentinel;
     u16 marked_count;
     u32 node_status;
+    u32 incremented_count;
 
     if (owner_entity->kind == 0x1E) {
         if (owner_entity->flags & 0x4000) {
@@ -40,13 +41,14 @@ void func_800A31D0(Entity *owner_entity) {
                     do {
                         if ((node->kind == 0x1E) &&
                             (node->owner == (void *)((u8 *)owner_entity - 0x20))) {
-                            dungeonStatus.unk_0A++;
+                            incremented_count = (u16)dungeonStatus.unk_0A + 1;
+                            dungeonStatus.unk_0A = incremented_count;
                             marked_count = D_800DCE68[0];
                             node_status = node->status;
                             node->field6E = 0;
-                            marked_count++;
+                            incremented_count = marked_count + 1;
                             node_status |= 0x400000;
-                            D_800DCE68[0] = marked_count;
+                            D_800DCE68[0] = incremented_count;
                             node->field6D = 0;
                             node->status = node_status;
                         }

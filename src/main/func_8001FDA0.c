@@ -1,8 +1,8 @@
 #include "common.h"
 
 
-extern volatile s32 D_801379A8;
-extern volatile s32 D_801379B0;
+extern s32 D_801379A8;
+extern s32 D_801379B0;
 
 extern s32 func_80058FF0(s32 value, s32 direction, s32 amount);
 extern void func_80063FF8(s32 sound);
@@ -31,11 +31,14 @@ void func_80406DA0(void *object)
     s32 direction;
     s32 repeat_ticks;
     s32 repeat_buttons;
+    s32 *buttons;
 
-    held_buttons = D_801379A8;
+    buttons = &D_801379A8;
+        held_buttons = buttons[0];
     direction = 0;
     if (held_buttons != 0) {
-        pressed_buttons = D_801379B0;
+        buttons = &D_801379B0;
+        pressed_buttons = buttons[0];
         if (pressed_buttons & 0x40) {
             func_80063FF8(0x515);
             func_804070C4((u8 *)object - 0x20);
@@ -47,8 +50,10 @@ void func_80406DA0(void *object)
             func_80406CFC(object);
         } else if (held_buttons & 0x5000) {
             if (pressed_buttons & 0x5000) {
-                (*(s32 *)((u8 *)object + (0x30))) = 0;
-                pressed_buttons = D_801379B0;
+                buttons = (s32 *)((u8 *)object + 0x30);
+                *buttons = 0;
+                buttons = &D_801379B0;
+        pressed_buttons = buttons[0];
                 if (pressed_buttons & 0x1000) {
                     direction = -1;
                 } else if (pressed_buttons & 0x4000) {
@@ -58,7 +63,8 @@ void func_80406DA0(void *object)
                 repeat_ticks = ((S_80406DA0_0 *)object)->unk_30;
                 if (repeat_ticks >= 13) {
                     (*(s32 *)((u8 *)object + (0x30))) = repeat_ticks - 4;
-                    repeat_buttons = D_801379A8;
+                    buttons = &D_801379A8;
+        repeat_buttons = buttons[0];
                     if (repeat_buttons & 0x1000) {
                         direction = -1;
                     } else if (repeat_buttons & 0x4000) {

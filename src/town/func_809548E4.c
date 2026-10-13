@@ -78,8 +78,8 @@ s32 func_800218E4(MinigameState *game) {
     s32 init_flags;
     s32 x_or_distance;
     s32 one;
-    register s32 x_step ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 other_x ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 x_step;
+    s32 other_x;
     s16 state;
     s32 pair_value;
     s32 transition_timer;
@@ -500,10 +500,10 @@ object_pairs:
                         collision_value = abs(collision_value);
                         pair_value += collision_value;
                         if (pair_value <= 0x3FFFF) {
-                            position_slot->rec->unk_0C =
-                                (s32) (func_80064584(*position_slot->angle) << 6);
-                            position_slot->rec->unk_10 =
-                                (s32) (func_800644B8(*position_slot->angle) << 6);
+                            x_step = func_80064584(*position_slot->angle);
+                            position_slot->rec->unk_0C = (s32) (x_step << 6);
+                            other_x = func_800644B8(*position_slot->angle);
+                            position_slot->rec->unk_10 = (s32) (other_x << 6);
                         }
                         object_velocity = position_slot->rec;
                         partner_xy = game->rec[partner_index];
@@ -546,11 +546,11 @@ object_pairs:
                             pair_value = abs(pair_value);
                             collision_value = collision_value < (other_speed_y + pair_value);
                             if (!collision_value) {
-                                game->rec[partner_index]->unk_0C =
-                                    (s32) (func_80064584(*game->angle[partner_index],
-                                    (void *) x_or_distance, y_step, other_y) << 6);
-                                game->rec[partner_index]->unk_10 =
-                                    (s32) (func_800644B8(*game->angle[partner_index]) << 6);
+                                x_step = func_80064584(*game->angle[partner_index],
+                                    (void *) x_or_distance, y_step, other_y);
+                                game->rec[partner_index]->unk_0C = (s32) (x_step << 6);
+                                other_x = func_800644B8(*game->angle[partner_index]);
+                                game->rec[partner_index]->unk_10 = (s32) (other_x << 6);
                             }
                             partner_velocity = game->rec[partner_index];
                             object_xy = motion_slot->rec;
@@ -600,16 +600,17 @@ object_collision:
         object_index += 1;
         object_slot = (MinigameSlot *) ((u8 *) object_slot + 4);   /* one pointer slot */
         if (object_index >= 3) {
-            if (func_8002263C(game->rec[0], &game->slot[0], &base_object->unk_58, &base_object->unk_5C)
-                != 0) {
+            other_x = func_8002263C(game->rec[0], &game->slot[0], &base_object->unk_58, &base_object->unk_5C);
+            if (other_x != 0) {
                 base_object->unk_48 = 0;
             }
             object_index = 1;
             do {
                 moving_object = game->node[object_index - 1];
                 object_motion = (MinigameBody *)(moving_object + 1);
-                if (func_8002263C(game->rec[object_index], &game->slot[object_index],
-                    &object_motion->unk_0C, &object_motion->unk_10) != 0) {
+                x_step = func_8002263C(game->rec[object_index], &game->slot[object_index],
+                    &object_motion->unk_0C, &object_motion->unk_10);
+                if (x_step != 0) {
                     object_motion->unk_04 = 0;
                 }
                 object_index += 1;

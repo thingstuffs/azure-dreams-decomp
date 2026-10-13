@@ -18,7 +18,7 @@ extern void *func_8003FE78(s32 node_flags, void *node_buffer, s32 word_count);
 extern void func_8004491C(void *entry, void *registration_id);
 extern void func_80023A00(void *record);
 extern void bzero(void *destination, s32 byte_count);
-extern void func_8002727C(void *work_state, s32 arg1);
+extern void func_8002727C(void *work_state, s32 value);
 extern s32 func_80027254(void *input);
 extern void func_80027324(void *work_state, s32 init_value);
 

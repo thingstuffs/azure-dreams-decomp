@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern void func_800250E8(void *menu, s32 arg1);
-extern void func_800230A4(void *object, s32 arg1);
+extern void func_800250E8(void *menu, s32 entry_id);
+extern void func_800230A4(void *object, s32 entry_id);
 
 extern u8 D_8002593C[];
 extern u8 D_80024FAC[];

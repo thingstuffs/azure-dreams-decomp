@@ -53,22 +53,19 @@ void func_8009DAD8(s32 draw_param) {
     u8 colour[4];
     EntityRec *head;
     u8 *entry;
-    u8 *object;
     long playerAndIndex;
+    u8 *player;
     GameWork *system;
     MapEntry *mapEntry;
     ObjectEntry *objectEntry;
     EntryInfo *info;
     LargeMapEntry *largeMapEntry;
     s32 brightness;
-    long kind;
-    s32 firstX;
-    s32 firstY;
+    union { s32 value; } firstX = {0};
+    union { s32 value; } firstY = {0};
     u8 *firstColour;
     s32 firstContext;
     s32 distance;
-    long flagsPage;
-    register long loopFlagsPage ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     system = &gameWork;
     head = D_800E3D7C;
@@ -98,31 +95,34 @@ void func_8009DAD8(s32 draw_param) {
     firstColour = colour;
     if (brightness >= 0x100) {
         brightness = 0xff;
-        firstContext = draw_param;
-    } else {
-        firstContext = draw_param;
     }
-    playerAndIndex = (long)&D_80082E80;
-    firstX = ((u8 *)playerAndIndex)[0x24];
-    firstY = ((u8 *)playerAndIndex)[0x25];
+    firstContext = draw_param;
+    player = (u8 *)&D_80082E80;
+    firstX.value = player[0x24];
+    firstY.value = player[0x25];
     colour[3] = 0x68;
     colour[2] = 0;
     colour[1] = brightness;
     colour[0] = brightness;
-    func_8009DA70(firstX, firstY, firstColour, firstContext);
+    func_8009DA70(firstX.value, firstY.value, firstColour, firstContext);
 
     entry = ((u8 *)head->unk_5C) + 0x20;
     colour[1] = 0;
     if (entry != head) {
-        ASM_UNDEF(flagsPage);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        loopFlagsPage = flagsPage;
         for (; entry != head; entry = *(u8 **)(entry + 0x5c) + 0x20) {
+            union { s32 value; } flagsMask = {0};
+            union { s32 value; } entryState = {0};
+            union { s32 value; } entryFlag = {0};
+            union { s32 value; } entryType = {0};
+            union { long value; } markerKind = {0};
+            union { long value; } kind = {0};
+            union { u8 * value; } object = {0};
             if (*(s8 *)(entry + 0x13) > 0) {
-                object = *(u8 **)(entry - 0x14);
-                if (!(*(s32 *)(loopFlagsPage + 0x296c) & 4)) {
-                    if (*(s8 *)(object + 0x26) < 0 ||
-                        *(s8 *)(object + 0x26) != D_80082E80.unk_026) {
-                        distance = func_8009FD40(object,
+                object.value = *(u8 **)(entry - 0x14);
+                if (!(flagsMask.value = D_800E296C & 4)) {
+                    if (*(s8 *)(object.value + 0x26) < 0 ||
+                        *(s8 *)(object.value + 0x26) != D_80082E80.unk_026) {
+                        distance = func_8009FD40(object.value,
                                                  (u8 *)&D_80082E80);
                         if ((s16)distance >= 4) {
                             continue;
@@ -130,27 +130,27 @@ void func_8009DAD8(s32 draw_param) {
                     }
                 }
 
-                kind = 0;
-                if (entry[0x13] == 0x1e) {
-                    if (entry[0xad] != 0) {
-                        kind = 2;
+                kind.value = 0;
+                if ((entryType.value = entry[0x13]) == 0x1e) {
+                    if ((entryFlag.value = entry[0xad]) != 0) {
+                        kind.value = 2;
                     } else {
-                        kind = 1;
+                        kind.value = 1;
                     }
-                } else if (entry[0x13] != 0x23 ||
-                           *(s16 *)(entry + 0xa6) == 0 ||
-                           (*(s32 *)(loopFlagsPage + 0x296c) & 4)) {
-                    kind = 1;
+                } else if ((entryType.value = entry[0x13]) != 0x23 ||
+                           (entryState.value = *(s16 *)(entry + 0xa6)) == 0 ||
+                           (flagsMask.value = D_800E296C & 4)) {
+                    kind.value = 1;
                 }
 
-                flagsPage = kind;
-                if (flagsPage != 0) {
-                    if (flagsPage == 2) {
+                markerKind.value = kind.value;
+                if (markerKind.value != 0) {
+                    if (markerKind.value == 2) {
                         colour[2] = brightness;
                         colour[0] = 0;
                     }
-                    func_8009DA70(object[0x24], object[0x25], colour, draw_param);
-                    if (flagsPage == 2) {
+                    func_8009DA70(object.value[0x24], object.value[0x25], colour, draw_param);
+                    if (markerKind.value == 2) {
                         colour[2] = 0;
                         colour[0] = brightness;
                     }
