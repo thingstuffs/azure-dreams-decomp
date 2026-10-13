@@ -7,3 +7,4 @@
 {"tag": "r117slus", "row": "slus/konami_runtime_w_800345B8", "candidate": "work/native_lane/_r114/root/work/native_lane/r114_opus_o10/out/slus/konami_runtime_w_800345B8.c", "equal_pins": true, "how": "SLUS image SHA-1 MATCH + --rebaseline-slus"}
 {"tag": "r117slus", "row": "slus/konami_runtime_w_8003800C", "candidate": "work/native_lane/_r116/root/work/native_lane/r116_sonnet_vol5/out/slus/konami_runtime_w_8003800C.c", "equal_pins": true, "how": "SLUS image SHA-1 MATCH + --rebaseline-slus"}
 {"tag": "r117slus", "row": "slus/w_8004AC3C", "candidate": "work/native_lane/_r116/root/work/native_lane/r116_sonnet_vol5/out/slus/w_8004AC3C.c", "equal_pins": true, "how": "SLUS image SHA-1 MATCH + --rebaseline-slus"}
+{"tag": "r116_sonnet_vol5", "row": "slus/w_800463EC", "candidate": "work/native_lane/_r116/root/work/native_lane/r116_sonnet_vol5/out/slus/w_800463EC.c", "equal_pins": true, "how": "SLUS image SHA-1 MATCH + --rebaseline-slus"}

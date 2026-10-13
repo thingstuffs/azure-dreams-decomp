@@ -92,6 +92,7 @@ typedef struct RenderScratch {
 } RenderScratch;
 
 #define SPAD(base, type, field) (((volatile type *)(base))->field)
+#define PPAD(base, type, field) (((type *)(base))->field)
 
 extern void PushMatrix(void);
 extern void PopMatrix(void);
@@ -164,10 +165,10 @@ void func_800463EC(void *unused, u8 *position, RenderObject *object, s16 depth_b
     RotMatrix(vertex_0, vertex_1);
 
     if (object->flags & 1) {
-        SPAD(scratch, RenderScratch, scale[0]) = -SPAD(scratch, RenderScratch, scale[0]);
+        PPAD(scratch, RenderScratch, scale[0]) = -PPAD(scratch, RenderScratch, scale[0]);
     }
     if (object->flags & 2) {
-        SPAD(scratch, RenderScratch, scale[1]) = -SPAD(scratch, RenderScratch, scale[1]);
+        PPAD(scratch, RenderScratch, scale[1]) = -PPAD(scratch, RenderScratch, scale[1]);
     }
 
     ScaleMatrix((void *)0x1F800050, (void *)0x1F800030);
@@ -202,7 +203,7 @@ void func_800463EC(void *unused, u8 *position, RenderObject *object, s16 depth_b
         vertex_data = ((S_800463EC_2 *)((u8 *)vertex_table + vertex_index * 8))->unk_04;
         ((RenderScratch *)scratch)->vertices[3].z = vertex_data;
 
-        SPAD(scratch, RenderScratch, depth) = RotAverage4(
+        PPAD(scratch, RenderScratch, depth) = RotAverage4(
             &((RenderScratch *)scratch)->vertices[0],
             &((RenderScratch *)scratch)->vertices[1],
             &((RenderScratch *)scratch)->vertices[2],
@@ -239,9 +240,9 @@ void func_800463EC(void *unused, u8 *position, RenderObject *object, s16 depth_b
         }
 
         SPAD(scratch, RenderScratch, clip) = NormalClip(clip_xy_0, clip_xy_1, clip_xy_2);
-        if (SPAD(scratch, RenderScratch, clip) > 0) {
-            depth = SPAD(scratch, RenderScratch, depth) - depth_offset;
-            SPAD(scratch, RenderScratch, depth) = depth;
+        if (PPAD(scratch, RenderScratch, clip) > 0) {
+            depth = PPAD(scratch, RenderScratch, depth) - depth_offset;
+            PPAD(scratch, RenderScratch, depth) = depth;
             if (depth < 0x1E0U) {
                 NormalColorCol(
                     normal_table + ((S_800463EC_1 *)face)->unk_10 * 8,
@@ -268,7 +269,7 @@ void func_800463EC(void *unused, u8 *position, RenderObject *object, s16 depth_b
                     }
                 }
 
-                AddPrim((u8 *)((RenderScratch *)scratch)->ordering_table + SPAD(scratch, RenderScratch, depth) * 4, prim);
+                AddPrim((u8 *)((RenderScratch *)scratch)->ordering_table + PPAD(scratch, RenderScratch, depth) * 4, prim);
                 prim += 0x28;
                 object->flags &= 0x7FFF;
             }
