@@ -71,11 +71,7 @@ typedef struct EffectObject {
     u8 phase;
 } EffectObject;
 
-typedef struct EffectPosition {
-    s32 x;
-    s32 y;
-    u32 z;
-} EffectPosition;
+
 
 typedef struct EffectSprite {
     void * source;
@@ -268,13 +264,13 @@ void func_8014CF6C(ActionState *action_state, ActorMotion *motion, ActorSprite *
                     payload = object->motion;
                     object->updateData = D_80151174;
                     part = object->sprite;
-                    ((EffectPosition *)payload)->x = motion->x.v;
+                    ((EntityRec *)payload )->x.v = motion->x.v;
                     payload = object->motion;
-                    ((EffectPosition *)payload)->y = motion->y.v;
+                    ((EntityRec *)payload )->y.v = motion->y.v;
                     payload = object->motion;
                     payload_word = motion->z;
                     color = 0x00800000;
-                    ((EffectPosition *)payload)->z = payload_word;
+                    ((EntityRec *)payload)->z.v = payload_word;
                     ((EffectSprite *)part)->scaleY = 0x1000;
                     ((EffectSprite *)part)->scaleX = 0x1000;
                     ((EffectSprite *)part)->angle = 0;

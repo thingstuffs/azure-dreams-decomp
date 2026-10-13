@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "modules/dungeon_ovl_188e800.h"
 #include "shared/gpu_packets.h"
 #include "common.h"
@@ -10,7 +11,7 @@ extern void func_80067F20(void *, s32, s32, s32, s32);
 
 /* Retail 8186E96C (func_8002416C): projects each linked point and queues a brightness-scaled shaded point
  * followed by a draw-mode packet for it. */
-s32 func_8002416C(PointRecord *start_node, PointPosition *start_coords)
+s32 func_8002416C(PointRecord *start_node, EntityRec *start_coords)
 {
     GpuContext **state_ptr;
     Scratch8002416C *scratch;
@@ -18,7 +19,7 @@ s32 func_8002416C(PointRecord *start_node, PointPosition *start_coords)
     GpuContext *final_state;
     PointPacket *packet;
     PointRecord *node;
-    PointPosition *coords;
+    EntityRec *coords;
     ObjectNodeHeader *prev_entry;
     u32 depth_index;
     u16 coord_x;
@@ -33,11 +34,11 @@ s32 func_8002416C(PointRecord *start_node, PointPosition *start_coords)
     scratch->ot = (u32 *)&render_state->orderTag;
 
     for (;;) {
-        coord_x = coords->x;
+        coord_x = (u16)coords->x.w.i;
         packet = (PointPacket *)scratch->cursor;
         scratch->x = coord_x;
-        scratch->y = coords->y;
-        scratch->z = coords->z;
+        scratch->y = (u16)coords->y.w.i;
+        scratch->z = (u16)coords->z.w.i;
         scratch->cursor = (u8 *)packet + 0xC;
 
         depth_index = func_80065420(scratch, (u8 *)packet + 8, &scratch->xy, &scratch->depth);

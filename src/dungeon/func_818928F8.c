@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -30,7 +31,6 @@ typedef struct Object {
     void *callback;
 } Object;
 
-extern Object *func_8003FC64(s32);
 extern s32 rand(void);
 extern void func_8004491C(void *, void *);
 
@@ -47,7 +47,7 @@ void *func_818928F8(void *context, Copy24 *src_data, s16 state_value)
     s32 random_rotation;
     Object *sprite_obj;
 
-    obj = func_8003FC64(0x212);
+    obj = (Object *)func_8003FC64(0x212);
     if (obj != 0) {
         obj->callback = D_80024028;
         state = (u8 *)obj + 0x20;

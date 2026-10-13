@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 typedef struct { s32 words[22]; } Payload88;
@@ -25,7 +26,6 @@ typedef struct {
     ObjectCallback callback;
 } Object;
 
-extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern void func_8008F074(void *, void *, void *);
 extern u8 D_80020014[], D_80024420[], D_80045340[];

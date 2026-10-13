@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
@@ -9,7 +10,6 @@ typedef struct {
     s32 z;
 } __attribute__((packed)) PackedVec;
 
-extern void *func_8003FC64();
 extern s32 func_8004491C();
 extern s32 D_801717A8;
 extern PackedVec D_80173B40;

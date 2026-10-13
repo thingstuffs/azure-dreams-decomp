@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -59,7 +60,6 @@ typedef struct S_800B6814_4 {
 } S_800B6814_4;   /* image in func_800B6814 */
 
 
-extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern void func_8003DB94(void *, void *, s16);
 extern s32 func_800644B8(s32);

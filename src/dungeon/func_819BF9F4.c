@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 
@@ -104,7 +105,6 @@ typedef struct {
     s16 v[12];
 } QuadUV;
 
-extern void *func_8003FC64(s32);
 extern s32 func_80069EF8(void);
 
 extern M2C_UNK D_800DE870;

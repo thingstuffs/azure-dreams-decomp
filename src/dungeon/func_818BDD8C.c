@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -12,7 +13,6 @@ typedef s32 M2C_UNK;
 #define M2C_FIELD(expr, type_ptr, offset) \
     (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern void *func_8003FC64();
 extern s32 func_8004491C();
 extern s32 rand();
 extern M2C_UNK D_800254E0;

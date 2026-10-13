@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -62,7 +63,6 @@ typedef struct {
     s32 word[6];
 } Copy24;
 
-extern void *func_8003FC64();
 extern void func_8003DB94();
 extern s32 rand();
 extern void func_8004491C();

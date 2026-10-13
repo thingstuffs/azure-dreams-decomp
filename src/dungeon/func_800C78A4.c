@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -68,7 +69,6 @@ typedef struct S_800CD004_6 {
 } S_800CD004_6;   /* counter in func_800CD004 */
 
 
-extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern s32 func_80069EF8(void);
 extern void func_800A56E0(s32);

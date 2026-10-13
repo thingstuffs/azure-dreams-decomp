@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
@@ -41,7 +42,6 @@ extern s16 SD_Call(s32 value);
 extern void *func_800B1BEC(s32 setup_value, s32 x, s32 y);
 extern void *func_80093C70(void);
 extern void func_800B1DBC(void *object);
-extern void *func_8003FC64(s32 value);
 extern void func_8004491C(void *entry, void *registration_id);
 extern void func_8008F074(void *record, void *setup_value, void *setup_param);
 

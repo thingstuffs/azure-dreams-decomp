@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dir_step.h"
@@ -70,7 +71,6 @@ typedef struct {
     SubObject sub20;
 } Object;
 
-extern void *func_8003FC64();
 extern s32 func_8004491C();
 extern s32 rand();
 extern s32 func_8003DB94();

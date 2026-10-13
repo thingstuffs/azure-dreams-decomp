@@ -24,6 +24,6 @@ void func_800478B8(void *);                 /* extern */
 extern u8 D_800DEC70[];
 extern SpriteSourceEntry D_800DED28;
 void func_80024020(ProjectileState *, ProjectileMotion *, ProjectileSprite *);
-s32 func_800248F8(RenderRecord *, PositionFields *);
+s32 func_800248F8(RenderRecord *, EntityRec *);
 void func_80024B58(void *, void *, void *);
 #endif

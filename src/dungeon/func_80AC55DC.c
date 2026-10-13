@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -68,7 +69,6 @@ typedef struct S_80AC55DC_6 {
 } S_80AC55DC_6;   /* ((S_80AC55DC_1 *)arg0)->unk_08 in func_80AC55DC */
 
 
-extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern void func_8003DB94(void *, void *, s32);
 

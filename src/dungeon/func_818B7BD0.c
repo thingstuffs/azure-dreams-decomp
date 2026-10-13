@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "m2c_compat.h"
 
@@ -58,7 +59,6 @@ typedef union {
 #define M2C_HIGH_WORD(product) ((s32) ((u64) (product).value >> 32))
 
 void func_8003DB94(void *, void *, s32);
-void *func_8003FC64();
 s32 func_8004491C();
 s32 func_80069EF8();
 extern M2C_UNK D_800250E8;

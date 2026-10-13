@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "records/Rec_func_8017121C_arg1.h"
@@ -90,7 +91,6 @@ typedef struct Vec3u16 {
     u16 z;
 } Vec3u16;
 
-extern void *func_8003FC64(s32);
 extern s32 func_8003DE58(void *, void *, Vec3u16 *, s32);
 extern void func_8004491C(void *, void *);
 

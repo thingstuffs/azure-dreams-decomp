@@ -26,5 +26,6 @@ typedef struct ObjectNodeHeader {
 } ObjectNodeHeader;
 
 extern ObjectNodeHeader D_80083498;
+ObjectNodeHeader *func_8003FC64(int flags);
 
 #endif

@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -16,7 +17,6 @@ extern int abs(int);
 extern void func_800252B8();
 extern void func_800267DC();
 extern void func_80026978();
-extern void *func_8003FC64();
 extern void func_8004491C();
 extern void SD_Call();
 extern s32 rand();

@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "modules/dungeon_ovl_19cc800.h"
 #include "common.h"
 #include "modules/dungeon_native_abi.h"
@@ -15,19 +16,19 @@
 
 
 /* Update position, reduce movement speed, and flag completion when speed runs out. */
-void func_80024B00(MotionRecord *motion, FixedEffectPosition *position)
+void func_80024B00(MotionRecord *motion, EntityRec *position)
 {
     s16 next_speed;
     u16 update_count = D_80027452[0];
-    u16 z = position->z.part.whole;
-    u16 x = position->x.part.whole;
-    u16 y = position->y.part.whole;
+    u16 z = position->z.w.i;
+    u16 x = position->x.w.i;
+    u16 y = position->y.w.i;
 
     D_80027452[0] = update_count + 1;
-    if (position->z.part.whole < (s16)func_800BCB04(x, y, z + 2)) {
-        position->x.fixed -= (dirStepX[motion->direction] * motion->speed) << 11;
-        position->y.fixed -= (dirStepY[motion->direction] * motion->speed) << 11;
-        position->z.fixed += (0xC0 - motion->speed) << 10;
+    if (position->z.w.i < (s16)func_800BCB04(x, y, z + 2)) {
+        position->x.v -= (dirStepX[motion->direction] * motion->speed) << 11;
+        position->y.v -= (dirStepY[motion->direction] * motion->speed) << 11;
+        position->z.v += (0xC0 - motion->speed) << 10;
     }
 
     next_speed = (u16)motion->speed - 8;

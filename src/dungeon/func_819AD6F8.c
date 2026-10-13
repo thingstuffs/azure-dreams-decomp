@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "modules/dungeon_ovl_19cc800.h"
 #include "common.h"
 #include "modules/dungeon_native_abi.h"
@@ -33,9 +34,9 @@ void func_80024EF8(ObjectNodeHeader *owner, s16 angle) {
     if (spawned != 0) {
         spawned->unk_10 = func_80024E60;
         func_8004491C(spawned, (s32)func_80045340);
-        ((EffectPosition *)spawned->unk_08)->x = ((EffectPosition *)owner->unk_08)->x;
-        ((EffectPosition *)spawned->unk_08)->y = ((EffectPosition *)owner->unk_08)->y;
-        ((EffectPosition *)spawned->unk_08)->z = ((EffectPosition *)owner->unk_08)->z;
+        ((EntityRec *)spawned->unk_08)->x.w.i = (u16)((EntityRec *)owner->unk_08)->x.w.i;
+        ((EntityRec *)spawned->unk_08)->y.w.i = (u16)((EntityRec *)owner->unk_08)->y.w.i;
+        ((EntityRec *)spawned->unk_08)->z.w.i = (u16)((EntityRec *)owner->unk_08)->z.w.i;
         sprite = spawned->unk_0C;
         sprite->unk_08 = D_80027454;
         sprite->size_max = 0x2800;

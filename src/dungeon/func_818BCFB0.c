@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 typedef struct S_818BCFB0_0 {
@@ -36,7 +37,6 @@ typedef struct {
     s32 word[6];
 } Copy24;
 
-extern void *func_8003FC64();
 extern s32 func_8004491C();
 extern u8 D_80024088[];
 extern u8 D_800241CC[];

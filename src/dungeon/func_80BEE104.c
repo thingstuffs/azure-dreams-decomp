@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -55,7 +56,6 @@ typedef struct S_80173904_4 {
 } S_80173904_4;   /* transform in func_80173904 */
 
 
-extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern s32 rand(void);
 extern s32 func_80064584(s32);

@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/game_work.h"
 #include "shared/slus_callbacks.h"
 
@@ -8,7 +9,6 @@ typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
 typedef s32 M2C_UNK;
-extern void *func_8003FC64();
 extern s32 func_8004491C();
 extern u8 D_8002609C[];
 extern u8 D_800F15AC[];

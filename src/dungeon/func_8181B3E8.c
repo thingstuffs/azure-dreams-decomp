@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
@@ -241,7 +242,6 @@ extern void func_80024758(void *, s16, s32, s32, s32, s32, s32);
 extern void func_800249A0(void *, s16, s16, s16, s32);
 extern void func_8003DB94(void *, void *, s32);
 extern s32 func_8003DF74(s32, void *, s16 *, s32);
-extern void *func_8003FC64(s32);
 extern void func_800419EC(s32, s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_80044A50(void *);

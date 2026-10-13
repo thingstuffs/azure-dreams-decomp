@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
@@ -9,7 +10,6 @@ typedef struct Node {
     void *data10;
 } Node;
 
-extern Node *func_8003FC64(s32);
 extern void func_8004491C(Node *, void *);
 extern void func_8003DB94(void *, void *, s32);
 
@@ -24,7 +24,7 @@ void func_80170AEC(void)
     s16 *effect;
     u32 *part_words;
 
-    node = func_8003FC64(0x212);
+    node = (Node *)func_8003FC64(0x212);
     if (node != 0) {
         node_params = (s16 *)((u8 *)node + 0x20);
         node_params[11] = 0x1E;

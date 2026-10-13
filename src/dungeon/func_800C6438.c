@@ -1,10 +1,10 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
 M2C_UNK func_8003DB94();
-void *func_8003FC64();
 s32 func_8004491C();
 s32 func_800A56E0();
 extern M2C_UNK D_800CB9DC;

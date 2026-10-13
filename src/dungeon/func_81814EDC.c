@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
@@ -130,7 +131,6 @@ typedef struct S_81814EDC_12_pre {
 extern u8 D_800DE938[];
 extern u8 D_800DE870[9];
 M2C_UNK func_800245BC();
-void *func_8003FC64();
 s32 func_8004491C();
 s32 func_80069EF8();
 void func_8009CE1C();

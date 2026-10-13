@@ -36,7 +36,7 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
 void func_80024CD4(s32 draw_param_a, s32 draw_param_b, struct Position *restore_area, struct Position *draw_pos, u32 clear_area, s32 draw_option);
 s32 func_80024EDC(struct PointRecord *start_node, EntityRec *start_coords);
 s32 func_8002512C(void);
-void func_8002515C(EntityRec *state, EntityRec *position);
+void func_8002515C(struct PointRecord *state, EntityRec *position);
 void func_80025228( ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
 void func_80025348(struct CountdownRecord *record);
 void func_80025398(void *effect, void *unused, void *primitive);

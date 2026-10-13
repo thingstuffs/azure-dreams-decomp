@@ -1,9 +1,9 @@
+#include "shared/object_node.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef short s16;
 typedef int s32;
 
-extern void *func_8003FC64(s32 size);
 extern void func_8004491C(void *object, void *data);
 extern s16 D_80080B04;
 extern void *D_80081508;

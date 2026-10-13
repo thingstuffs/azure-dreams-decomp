@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -33,7 +34,6 @@ typedef struct {
 } Node;
 
 extern void func_8003DB94(Sub *, M2C_UNK *, s32);
-extern Node *func_8003FC64(s32);
 extern void func_8004491C(Node *, M2C_UNK *);
 extern M2C_UNK D_800DE870;
 extern M2C_UNK D_80170D60;
@@ -45,7 +45,7 @@ void func_80170DCC(void *unused, void *origin) {
     Vec3 *position;
     Sub *display_sub;
 
-    node = func_8003FC64(0x212);
+    node = (Node *)func_8003FC64(0x212);
     if (node != 0) {
         node->callback = &D_80170D60;
         func_8004491C(node, func_80045340);

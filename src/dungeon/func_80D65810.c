@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -64,7 +65,6 @@ typedef struct S_80D65810_5 {
 
 
 M2C_UNK func_8003DB94();
-void *func_8003FC64();
 s32 func_8004491C();
 s32 rand();
 extern u8 D_800DE870[];

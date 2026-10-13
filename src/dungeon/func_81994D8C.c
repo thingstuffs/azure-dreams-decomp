@@ -213,7 +213,7 @@ void func_8002458C(TransitionState *state, void *context, void *parameters) {
         }
         if ((state->countdown < 9) && ((particle_scratch.status = func_8003DF74(D_80082E80.resource, &D_80082E80, &state->current_x, 0)) != 0)) {
             if (state->countdown >= 7) {
-                particle = func_8003FC64(PARTICLE_ALLOC_ID);
+                particle = (TransitionParticle *)func_8003FC64(PARTICLE_ALLOC_ID);
                 particle_scratch.particle = &particle->payload;
                 if (particle != 0) {
                     particle_scratch.particle->lifetime = 1;
@@ -243,7 +243,7 @@ void func_8002458C(TransitionState *state, void *context, void *parameters) {
                     goto spawn_depth_particle;
                 }
             } else {
-                particle = func_8003FC64(PARTICLE_ALLOC_ID);
+                particle = (TransitionParticle *)func_8003FC64(PARTICLE_ALLOC_ID);
                 particle_scratch.particle = &particle->payload;
                 if (particle != 0) {
                     particle_scratch.particle->lifetime = 0xC;
@@ -270,7 +270,7 @@ void func_8002458C(TransitionState *state, void *context, void *parameters) {
                     particle_scratch.particle->resource.extent.height = 0;
                 }
 spawn_depth_particle:
-                particle = func_8003FC64(PARTICLE_ALLOC_ID);
+                particle = (TransitionParticle *)func_8003FC64(PARTICLE_ALLOC_ID);
                 if (particle != 0) {
                     particle->payload.lifetime = 1;
                     particle->header.unk_10 = (void *)func_800244F0;
@@ -301,7 +301,7 @@ spawn_depth_particle:
                 midpoint_sum_y = state->current_y + state->previous_y;
                 state->midpoint_y = (s32)(midpoint_sum_y + (midpoint_sum_y >> 31)) >> 1;
                 state->midpoint_z = (state->current_z + state->previous_z) / 2;
-                particle = func_8003FC64(PARTICLE_ALLOC_ID);
+                particle = (TransitionParticle *)func_8003FC64(PARTICLE_ALLOC_ID);
                 particle_scratch.particle = &particle->payload;
                 if (particle != 0) {
                     particle_scratch.particle->lifetime = 0xC;
@@ -353,7 +353,7 @@ spawn_depth_particle:
             }
         }
         if ((state->countdown >= 0xD) && ((particle_scratch.status = func_8003DF74(D_80082E80.resource, &D_80082E80, &state->current_x, 0)) != 0)) {
-            particle = func_8003FC64(PARTICLE_ALLOC_ID);
+            particle = (TransitionParticle *)func_8003FC64(PARTICLE_ALLOC_ID);
             particle_scratch.particle = &particle->payload;
             if (particle != 0) {
                 particle_scratch.particle->lifetime = 0xC;
@@ -385,7 +385,7 @@ spawn_depth_particle:
                 particle_scratch.particle->resource.extent.height = 0x40;
             }
             if (!(state->countdown & 1)) {
-                particle = func_8003FC64(PARTICLE_ALLOC_ID);
+                particle = (TransitionParticle *)func_8003FC64(PARTICLE_ALLOC_ID);
                 if (particle != 0) {
                     particle->payload.lifetime = 1;
                     particle->header.unk_10 = (void *)func_800244F0;

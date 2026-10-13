@@ -1,7 +1,7 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "m2c_compat.h"
 
-void *func_8003FC64();                       /* extern */
 s32 func_8004491C();           /* extern */
 extern M2C_UNK D_800A6194;
 extern M2C_UNK D_800A624C;

@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -50,7 +51,6 @@ typedef struct {
     s32 words[6];
 } Copy24;
 
-void *func_8003FC64(s32);
 void func_8004491C(void *, void *);
 void func_80047784(void *, u8, s32);
 extern u8 D_8017573C;

@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 typedef signed char s8;
 typedef unsigned char u8;
@@ -19,7 +20,6 @@ typedef struct Object136 {
     Copy20 init;
 } Object136;
 
-extern void *func_8003FC64();
 extern void func_8004491C();
 extern u8 D_8002614C[];
 extern u8 D_800F7944[];

@@ -1,8 +1,8 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
-void *func_8003FC64();                       /* extern */
 
 typedef struct S_80024AE8_0 {
     u8 pad_00[0x20];

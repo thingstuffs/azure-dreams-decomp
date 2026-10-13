@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -59,7 +60,6 @@ typedef struct S_8016E998_5 {
 } S_8016E998_5;   /* temp_a1_3 in func_8016E998 */
 
 
-void *func_8003FC64();                       /* extern */
 s32 func_8004491C();           /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                        /* extern */

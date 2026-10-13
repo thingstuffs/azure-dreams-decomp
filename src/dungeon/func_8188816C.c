@@ -9,14 +9,7 @@ M2C_UNK func_8003DB94();  /* extern */
 s32 rand();                                /* extern */
 extern M2C_UNK D_800263F8;
 
-typedef struct S_8002596C_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    M2C_UNK * unk_10;
-    u8 pad_14[0x26];
-    s16 unk_3A;
-} S_8002596C_0;   /* temp_v0 in func_8002596C */
+   /* temp_v0 in func_8002596C */
 
 typedef struct S_8002596C_1 {
     u8 pad_00[0x2];
@@ -48,7 +41,7 @@ typedef struct S_8002596C_2 {
 void func_8002596C(s16 x, s16 y, s16 z) {
     S_8002596C_1 *transform;
     S_8002596C_2 *sprite;
-    S_8002596C_0 *effect;
+    ObjectNodeHeader *effect;
 
     effect = func_8003FC64(0x202);
     if (effect != NULL) {
@@ -68,6 +61,6 @@ void func_8002596C(s16 x, s16 y, s16 z) {
         sprite->unk_1C = 0x1000;
         sprite->unk_10 = 0x20;
         sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
-        effect->unk_3A = 0x10;
+        ((s16 *)(effect + 1))[0x1A / 2] = 0x10;
     }
 }

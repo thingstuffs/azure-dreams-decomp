@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "modules/dungeon_ovl_19cc800.h"
 #include "modules/dungeon_native_abi.h"
 #include "shared/slus_callbacks.h"
@@ -28,9 +29,9 @@ void func_80024C38(ObjectNodeHeader *source, s16 effect_param, s32 render_param)
             effect->unk_10 = func_80024B00;
             func_8004491C(effect, (s32)func_80045340);
             record = (MotionRecord *)(effect + 1);
-            ((SignedEffectPosition *)effect->unk_08)->x = (((SignedEffectPosition *)source->unk_08)->x + (rand() & 0x3F)) - 0x20;
-            ((SignedEffectPosition *)effect->unk_08)->y = (((SignedEffectPosition *)source->unk_08)->y + (rand() & 0x3F)) - 0x20;
-            ((SignedEffectPosition *)effect->unk_08)->z = (((SignedEffectPosition *)source->unk_08)->z + (rand() & 0x3F)) - 0x20;
+            ((EntityRec *)effect->unk_08)->x.w.i = (((EntityRec *)source->unk_08)->x.w.i + (rand() & 0x3F)) - 0x20;
+            ((EntityRec *)effect->unk_08)->y.w.i = (((EntityRec *)source->unk_08)->y.w.i + (rand() & 0x3F)) - 0x20;
+            ((EntityRec *)effect->unk_08)->z.w.i = (((EntityRec *)source->unk_08)->z.w.i + (rand() & 0x3F)) - 0x20;
             sprite = effect->unk_0C;
             sprite->unk_08 = D_80027484;
             sprite->size_max = 0x1000;
@@ -50,9 +51,9 @@ void func_80024C38(ObjectNodeHeader *source, s16 effect_param, s32 render_param)
             effect->unk_10 = func_80024B00;
             func_8004491C(effect, (s32)func_800C95C0);
             record = (MotionRecord *)(effect + 1);
-            ((SignedEffectPosition *)effect->unk_08)->x = (((SignedEffectPosition *)source->unk_08)->x + (rand() & 0x3F)) - 0x20;
-            ((SignedEffectPosition *)effect->unk_08)->y = (((SignedEffectPosition *)source->unk_08)->y + (rand() & 0x3F)) - 0x20;
-            ((SignedEffectPosition *)effect->unk_08)->z = (((SignedEffectPosition *)source->unk_08)->z + (rand() & 0x3F)) - 0x20;
+            ((EntityRec *)effect->unk_08)->x.w.i = (((EntityRec *)source->unk_08)->x.w.i + (rand() & 0x3F)) - 0x20;
+            ((EntityRec *)effect->unk_08)->y.w.i = (((EntityRec *)source->unk_08)->y.w.i + (rand() & 0x3F)) - 0x20;
+            ((EntityRec *)effect->unk_08)->z.w.i = (((EntityRec *)source->unk_08)->z.w.i + (rand() & 0x3F)) - 0x20;
             record->unk_00 = 0x20;
             record->unk_02 = 0x20;
             record->unk_04 = 1;

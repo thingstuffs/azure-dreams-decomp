@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
@@ -45,7 +46,6 @@ typedef struct {
     PackedVec3i field48;
 } Object;
 
-extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern u8 D_80169754[9];
 extern u8 D_80173B40[12];

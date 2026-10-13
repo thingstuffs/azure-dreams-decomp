@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -61,7 +62,6 @@ typedef struct {
     LocalEntry entries[8];
 } LocalTable;
 
-extern void *func_8003FC64();
 extern void func_8004491C();
 extern void func_8003DB94();
 extern s16 rand();

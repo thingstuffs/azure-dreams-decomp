@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -169,7 +170,6 @@ extern LocalPoints D_80024004;
 extern u8 D_800DEC00[];
 extern s16 D_80025338[5];
 s32 func_8003DF74(s32, void *, Offset *, s32);     /* extern */
-u8 *func_8003FC64();   /* extern */
 s32 func_800A56E0();                     /* extern */
 extern M2C_UNK D_800246DC;
 
@@ -257,7 +257,7 @@ void func_818154FC(void *effect, S_818154FC_5 *position, Rec_D_80082E80 *sprite)
         ((S_818154FC_0 *)effect)->unk_84.s = spawn_tick;
         if (spawn_tick & 1) {
 
-            node = func_8003FC64(0x12);
+            node = (u8 *)func_8003FC64(0x12);
             if (node != NULL) {
                 u8 *work;
                 u8 *map;

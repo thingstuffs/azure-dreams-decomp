@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
 
@@ -6,7 +7,6 @@ typedef struct {
     u8 bytes[12];
 } Packed12;
 
-extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern u8 D_80044BB0[];
 extern Packed12 D_80077818;

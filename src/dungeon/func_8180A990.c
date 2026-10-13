@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -151,7 +152,6 @@ typedef struct S_80026190_19 {
 
 
 extern void *func_80025170(void *);
-extern void *func_8003FC64(s32);
 extern void func_8003F320(void);
 extern void func_80042640(void *, s16);
 extern void func_80042710(void *, void *);

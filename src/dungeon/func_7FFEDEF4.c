@@ -1,10 +1,10 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern void *func_80033BE4(void);
 extern void func_80033C1C(void *, s32);
 extern void func_80033C84(void *);
-extern void *func_8003FC64(s32);
 extern void func_8003FFF0(void *);
 extern void func_80040044(void *);
 extern void func_8008B818(s32 mode, s32 *list, u8 *init_context, u8 *target_object);

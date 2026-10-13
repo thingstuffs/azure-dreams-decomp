@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -17,7 +18,6 @@ typedef struct S_801267B8_0 {
 } S_801267B8_0;   /* obj in func_801267B8 */
 
 
-void *func_8003FC64();
 s32 func_8004491C();
 M2C_UNK func_8004B248();
 M2C_UNK SD_Call();

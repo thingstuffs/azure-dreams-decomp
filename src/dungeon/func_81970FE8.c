@@ -15,14 +15,14 @@ typedef struct Bank1990800_1990fe8_EffectState {
 } Bank1990800_1990fe8_EffectState;
 
 /* Adjust height conditionally and set flags when the countdown reaches zero or below. */
-void func_800247E8(Bank1990800_1990fe8_EffectState *state, FixedEffectPosition *position)
+void func_800247E8(Bank1990800_1990fe8_EffectState *state, EntityRec *position)
 {
     s16 countdown;
 
     D_80025FF4 = 1;
-    if (position->z.part.whole <
-        (s16)func_800BCB04((u16)position->x.part.whole, (u16)position->y.part.whole, position->z.part.whole + 2)) {
-        position->z.fixed += state->height_step;
+    if (position->z.w.i <
+        (s16)func_800BCB04((u16)position->x.w.i, (u16)position->y.w.i, position->z.w.i + 2)) {
+        position->z.v += state->height_step;
     }
 
     countdown = (u16)state->countdown - 4;

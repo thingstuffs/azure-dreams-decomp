@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -64,7 +65,6 @@ struct Func81893244Object {
 
 extern s32 D_800E2178;
 M2C_UNK func_80024824(s32, Func81893244Sub *, s32, s32);
-Func81893244Object *func_8003FC64(s32);
 void func_8003DB94(Func81893244Sub *, s32 *, s32);
 s32 func_8004491C(Func81893244Object *, u8 *);
 s32 func_800644B8(s32);
@@ -81,7 +81,7 @@ void func_81893244(s32 source, Func81893244Data *initial_data, s16 status_param)
     Func81893244Status *status;
     s32 brightness;
     s32 particle_index;
-    effect = func_8003FC64(0x212);
+    effect = (Func81893244Object *)func_8003FC64(0x212);
     if (effect != NULL) {
         status = &effect->status;
         effect->field10 = &D_800248F8;
@@ -102,7 +102,7 @@ void func_81893244(s32 source, Func81893244Data *initial_data, s16 status_param)
     }
     particle_index = 0;
     do {
-        effect = func_8003FC64(0x212);
+        effect = (Func81893244Object *)func_8003FC64(0x212);
         status = &effect->status;
         if (effect != NULL) {
             effect->field10 = &D_800249B8;

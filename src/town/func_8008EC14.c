@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 typedef struct S_8008EC14_node {
@@ -7,7 +8,6 @@ typedef struct S_8008EC14_node {
     s32 field_0x20;
 } S_8008EC14_node;
 
-extern void *func_8003FC64(s32 a0);
 extern s32 D_8008C304[];
 extern void *D_800CFCA8[];
 

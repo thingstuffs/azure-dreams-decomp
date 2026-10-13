@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
@@ -61,7 +62,6 @@ typedef struct S_80173CEC_9 {
 void func_8003DB94();
 s32 Control_CD();
 void func_8003F540();
-void *func_8003FC64();
 void func_80041588();
 int func_800445E0();
 s32 func_8004491C();

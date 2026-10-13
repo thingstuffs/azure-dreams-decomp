@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -51,7 +52,6 @@ typedef struct S_800D5294_4 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void *func_8003FC64();                       /* extern */
 s32 rand();                                /* extern */
 void func_800D4BD4(); /* extern */
 extern M2C_UNK D_800D50FC[3];

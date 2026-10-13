@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 #ifndef NULL
@@ -24,7 +25,6 @@ typedef struct S_8001F354_1 {
 } S_8001F354_1;   /* temp_a0 in func_8001F354 */
 
 
-extern void *func_8003FC64();
 extern s32 func_8004491C();
 extern s32 D_80044BB0[3];
 extern s32 D_800A5AF0[3];

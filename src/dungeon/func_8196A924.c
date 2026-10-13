@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "modules/dungeon_ovl_198a800.h"
 #include "shared/gpu_packets.h"
 #include "common.h"
@@ -10,10 +11,10 @@ extern void func_80067F20(void *, s32, s32, s32, s32);
 
 /* Retail 8196A924 (func_80024124): projects each linked point and queues a brightness-scaled shaded tile
  * followed by a draw-mode packet for it. */
-s32 func_80024124(PointRecord *first_point, PointPosition *first_position)
+s32 func_80024124(PointRecord *first_point, EntityRec *first_position)
 {
     PointRecord *point = first_point;
-    PointPosition *position = first_position;
+    EntityRec *position = first_position;
     GameWork *render_state = &gameWork;
     u32 addr_mask = 0x00FFFFFF;
     GpuContext *render_ctx = gameWork.unk_000;
@@ -34,9 +35,9 @@ s32 func_80024124(PointRecord *first_point, PointPosition *first_position)
 
     for (;;) {
         tile = (PointPacket *)scratch->cursor;
-        scratch->x = position->x;
-        scratch->y = position->y;
-        scratch->z = position->z;
+        scratch->x = (u16)position->x.w.i;
+        scratch->y = (u16)position->y.w.i;
+        scratch->z = (u16)position->z.w.i;
         scratch->cursor = (u8 *)tile + 0xC;
         scratch->index = func_80065420(scratch, (u8 *)tile + 8,
                                        &scratch->xy, &scratch->depth);

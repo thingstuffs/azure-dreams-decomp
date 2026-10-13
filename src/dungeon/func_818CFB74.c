@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -138,7 +139,6 @@ extern PackedTemplate D_80025900;
 
 extern void func_8003DB94(Graphic *, void *, s32);
 extern s32 func_8003DF74(void *, Component *, ShortVec *, s32);
-extern Spawned *func_8003FC64(s32);
 extern void func_8004491C(Spawned *, void (*)(void));
 extern void func_80045340(void);
 extern void func_800248E8(void);
@@ -219,7 +219,7 @@ void func_80025374(State *state, Vec12 *position, Graphic *graphic)
         s32 *path_position;
         s32 path_z;
 
-        spawn = func_8003FC64(0x12);
+        spawn = (Spawned *)func_8003FC64(0x12);
         if (spawn != 0) {
             offset_x = offsets.entry[(s16)state->variant7E].x;
             offset_x <<= 16;

@@ -295,7 +295,7 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
             U8_AT(effect_data, 0x9C) -= 0x18;
         }
 
-        source = func_8003FC64(0x212);
+        source = (u8 *)func_8003FC64(0x212);
         if (source != 0) {
             s32 trig;
 

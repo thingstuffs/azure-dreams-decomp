@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/dungeon_status.h"
@@ -36,7 +37,6 @@ typedef struct {
 extern s16 D_800DCED4[];
 extern u8 D_800C1EC4;
 
-extern void *func_8003FC64(s32);
 extern s32 func_800429E4(void *);
 extern void func_8009A3D0(u8, u8, s32);
 extern s32 func_8009B88C(u8 *entry, s16 target_x, s16 target_y, s16 *out_x, s16 *out_y);

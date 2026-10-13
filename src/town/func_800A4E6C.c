@@ -1,8 +1,8 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 
 extern s32 func_800374F4(u32);
-extern void *func_8003FC64(s32);
 extern u8 D_800A2690[9];
 
 

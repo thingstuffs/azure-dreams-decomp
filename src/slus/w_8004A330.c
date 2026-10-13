@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -22,7 +23,6 @@ typedef struct S_8004A330_Entity {
     u8 sub50[4];
 } S_8004A330_Entity;
 
-extern S_8004A330_Entity *func_8003FC64(s32 a0);
 extern s32 func_8004B404(s32 a0);
 extern void func_8004A24C(S_8004A330_Sub20 *a0, s32 a1, s32 a2,
                           s16 a3, s16 a4, s16 a5);
@@ -42,7 +42,7 @@ S_8004A330_Entity *func_8004A330(s32 style_flags, s16 start_x, s16 start_y, s16 
     s32 global_flags;
     s32 *global_page;
 
-    entity = func_8003FC64(0);
+    entity = (S_8004A330_Entity *)func_8003FC64(0);
     if (entity != 0) {
         state = &entity->sub20;
         buffer_addr = func_8004B404(0);

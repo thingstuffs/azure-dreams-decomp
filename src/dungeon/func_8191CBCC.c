@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "m2c_compat.h"
 
@@ -47,7 +48,6 @@ typedef struct S_8191CBCC_4 {
 } S_8191CBCC_4;   /* copy_dst in func_8191CBCC */
 
 
-void *func_8003FC64();                       /* extern */
 s32 func_8004491C();           /* extern */
 s32 rand();                             /* extern */
 typedef struct { s32 w0, w1, w2, w3, w4, w5; } Blk24;

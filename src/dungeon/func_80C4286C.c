@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -57,7 +58,6 @@ typedef struct S_8017406C_4 {
 
 
 M2C_UNK func_8003DB94();
-void *func_8003FC64();
 s32 func_8004491C();
 s32 rand();
 extern M2C_UNK D_800DEC70;

@@ -20,7 +20,7 @@ void func_80025228(
     u32 saved_field_28 = field_28;
     s16 saved_field_52 = field_52;
     ObjectNodeHeader *spawned;
-    SpawnedRecord *fields;
+    PointRecord *fields;
     s32 jitter_x;
     s32 jitter_y;
     s32 jitter_z;
@@ -59,16 +59,16 @@ void func_80025228(
         init_data = func_80024EDC;
         jitter_z &= 0x1F;
         position_z = ((EntityRec *)source_obj->unk_08)->z.w.i;
-        fields = (SpawnedRecord *)(spawned + 1);
+        fields = (PointRecord *)(spawned + 1);
         dest_z = spawned->unk_08;
         position_z += jitter_z;
         bias_z = offset_z - 0x10;
         position_z += bias_z;
         dest_z->z.w.i = position_z;
         fields->unk_14 = field_34;
-        fields->unk_32 = saved_field_52;
+        fields->brightness = saved_field_52;
         func_8004491C(spawned, (s32)init_data);
-        fields->unk_08 = saved_field_28;
+        fields->color = saved_field_28;
     }
 }
 

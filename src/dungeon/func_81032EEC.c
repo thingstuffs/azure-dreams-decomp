@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_func_801744DC_arg1.h"
@@ -53,7 +54,6 @@ typedef struct {
     s16 y;
 } Pair16;
 
-extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern void func_8003DB94(void *, void *, s32);
 extern s32 rand(void);

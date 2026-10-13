@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -24,7 +25,6 @@ extern s32 D_80175928[];
 extern void func_8003DB94();
 extern s32 Control_CD();
 extern void func_8003F540();
-extern void *func_8003FC64();
 extern void func_80041588();
 extern s32 func_800445E0();
 extern void func_8004491C();

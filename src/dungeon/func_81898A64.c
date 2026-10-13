@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_func_80024264_arg1.h"
@@ -12,7 +13,6 @@ typedef s32 M2C_UNK;
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 M2C_UNK func_8003DB94();
-void *func_8003FC64();
 s32 func_8004491C();
 extern M2C_UNK D_800241D8;
 extern M2C_UNK D_80024EF4;

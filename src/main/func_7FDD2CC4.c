@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
@@ -31,7 +32,6 @@ static inline void sol9_copy8(void *dst, const void *src, s32 ignored_size) {
     (void)ignored_size;
 }
 
-void *func_8003FC64();                       /* extern */
 s32 func_8004491C();           /* extern */
 s32 func_80053428();                      /* extern */
 M2C_UNK SD_Call(); /* extern */

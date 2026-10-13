@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -53,7 +54,6 @@ typedef struct Packed12 {
     u8 bytes[12];
 } Packed12;
 
-extern EffectObject *func_8003FC64(s32 kind);
 extern void func_8004491C(void *object, void *callback);
 extern u8 D_801740B4[];
 extern u8 D_80174108[];
@@ -98,7 +98,7 @@ void func_8017414C(EffectState *state, s32 *position, EffectColor *color)
 
     state->spawn_count++;
     for (object_index = 0; object_index < 4; object_index++) {
-        object = func_8003FC64(0x12);
+        object = (EffectObject *)func_8003FC64(0x12);
         if (object != 0) {
             effect_data = object->sub;
             *(s16 *)(effect_data + 0x1A) = 1;

@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -36,7 +37,6 @@ typedef struct {
     Blob12 blob;
 } Object;
 
-extern void *func_8003FC64(s32 size);
 extern void func_8004491C(Object *object, u8 *data);
 extern u8 D_80170EF4[];
 extern Blob12 D_80175EDC;

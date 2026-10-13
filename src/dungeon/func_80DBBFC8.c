@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 extern int abs(int);
 #include "shared/def_table.h"
@@ -15,7 +16,6 @@ typedef struct {
 } __attribute__((packed)) Copy12;
 
 extern s32 func_8003F270(void);
-extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, s32, s32);
 extern s32 rand(void);

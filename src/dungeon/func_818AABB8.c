@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "records/Rec_func_800243B8_arg0.h"
 
@@ -68,7 +69,6 @@ typedef struct S_800243B8_6 {
 } S_800243B8_6;   /* position in func_800243B8 */
 
 
-extern void *func_8003FC64(s32);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 func_80069EF8(void);

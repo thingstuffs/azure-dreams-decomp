@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -89,7 +90,6 @@ extern u8 D_8014A000[];
 extern s16 D_80174F48[];
 M2C_UNK Control_CD();
 M2C_UNK func_8003F540();
-void *func_8003FC64();
 void func_80041588();
 s32 func_8004491C();
 M2C_UNK func_800445E0();

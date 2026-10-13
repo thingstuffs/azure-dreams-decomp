@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -44,7 +45,6 @@ typedef struct {
 } __attribute__((packed)) PackedWord;
 
 
-extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern void func_800A56E0(s32);
 extern s32 func_800A7A38(void *, s32);

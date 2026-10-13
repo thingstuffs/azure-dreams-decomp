@@ -1,7 +1,7 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
 
-extern void *func_8003FC64(s32);
 extern s32 D_800A5D5C;
 
 

@@ -46,12 +46,12 @@ struct S_819ACB28_4;
 
 void func_80024020(struct EventState *event);
 void func_80024328(void *object, Rec_func_800249DC_arg0 *record, struct S_819ACB28_4 *packed_value);
-void *func_800244C4(EffectPosition *source_pos, s32 offset_base);
+void *func_800244C4(EntityRec *source_pos, s32 offset_base);
 void func_800245A0(struct Motion *motion, struct Position *position, u8 *color);
 void *func_800249DC(void *src);
-void func_80024B00(MotionRecord *motion, FixedEffectPosition *position);
+void func_80024B00(MotionRecord *motion, EntityRec *position);
 void func_80024C38(ObjectNodeHeader *source, s16 effect_param, s32 render_param);
-void func_80024E60(FollowerRecord *record, EffectPosition *position, struct RenderData *render);
+void func_80024E60(FollowerRecord *record, EntityRec *position, struct RenderData *render);
 void func_80024EF8(ObjectNodeHeader *owner, s16 angle);
 void func_8002501C(void *entity, void *motion, void *gfx);
 void *func_800255B8(s16 x, s16 y, s16 z, s16 heading);

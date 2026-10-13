@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -41,7 +42,6 @@ typedef struct S_800244BC_4 {
 } S_800244BC_4;   /* temp_v1_2 in func_800244BC */
 
 
-extern void *func_8003FC64(s32);
 
 /* Creates an object at the supplied position and initializes its state and appearance. */
 void func_800244BC(s32 state_value, S_800244BC_3 *source_pos)

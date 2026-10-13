@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 /* Node returned by func_8003FC64. We only model the fields touched here:
@@ -17,7 +18,6 @@ typedef struct S_8004EDA8_owner {
     u16 flags_0x1E;   /* 0x1E */
 } S_8004EDA8_owner;
 
-extern void *func_8003FC64(s32 a0);
 extern void func_8004EB3C(void *a0);
 extern void func_8004ED5C(void *a0);
 extern s16 SD_Call(s32 a0);

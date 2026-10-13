@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 typedef struct S_800511B4_sub {
@@ -16,7 +17,6 @@ typedef struct S_800511B4_entity {
     u8 pad2D[0x124 - 0x2D];             /* 0x2D */
 } S_800511B4_entity;
 
-extern void *func_8003FC64(s32 a0);
 extern void func_80051164(void *a0);
 
 /* Allocates and initializes a new entity linked to the related entity, or returns NULL. */

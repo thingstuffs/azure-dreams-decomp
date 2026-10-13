@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -22,7 +23,6 @@ typedef struct {
 } Part;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void *func_8003FC64(s32);                       /* extern */
 void func_8004491C(void *, void *);                /* extern */
 extern M2C_UNK D_80024104;
 extern u8 D_800256E0[12];

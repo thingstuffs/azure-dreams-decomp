@@ -40,7 +40,7 @@ void func_80026BA8(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
     s32 height_or_child;
     TempObj *object;
 
-    object = func_8003FC64(0x202);
+    object = (TempObj *)func_8003FC64(0x202);
     saved_row = tile_y;
     if (object != NULL) {
         s32 local_x_or_height;

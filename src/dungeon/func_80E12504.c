@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dir_step.h"
@@ -13,7 +14,6 @@ typedef struct {
     u16 z;
 } Vec3u16;
 
-extern void *func_8003FC64(s32 size);
 extern void func_8004491C(void *object, void *callback);
 extern void func_80047784(void *object, s32 kind, s32 value);
 extern void *func_8003DE58(void *ptr, void *ptr1, Vec3u16 *out, s32 value3);

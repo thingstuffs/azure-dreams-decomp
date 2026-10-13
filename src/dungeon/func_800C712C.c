@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 typedef struct CoordBlock {
@@ -40,7 +41,6 @@ extern s32 D_80045C34[3];
 extern u8 D_800CC744[];
 extern u8 D_800E03D4[];
 
-extern ObjectBlock *func_8003FC64(s32 value);
 extern void func_8004491C(ObjectBlock *obj, s32 *table);
 
 /* Create an object at grid coordinates and initialize its display and tail data. */
@@ -50,7 +50,7 @@ ObjectBlock *func_800CC88C(s16 grid_x, s16 grid_y, s16 z, s16 value, s16 size_mo
     CoordBlock *coords;
     DescBlock *desc;
 
-    obj = func_8003FC64(2);
+    obj = (ObjectBlock *)func_8003FC64(2);
     if (obj != 0) {
         obj->resource = D_800CC744;
         func_8004491C(obj, D_80045C34);

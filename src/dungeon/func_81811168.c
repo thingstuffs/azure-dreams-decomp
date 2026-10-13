@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -15,7 +16,6 @@ typedef struct DungeonObj81811168 {
     DungeonSub81811168 sub20;
 } DungeonObj81811168;
 
-extern DungeonObj81811168 *func_8003FC64(s32);
 extern s32 func_800260CC(DungeonSub81811168 *, s32);
 extern s32 func_80025D74(s32);
 extern void func_80026084(DungeonSub81811168 *, s32, s32, s32);
@@ -30,7 +30,7 @@ DungeonObj81811168 *func_80026168(s32 parent_obj, s32 initial_value, s32 text_ad
     DungeonObj81811168 *obj;
     DungeonSub81811168 *state;
 
-    obj = func_8003FC64(0);
+    obj = (DungeonObj81811168 *)func_8003FC64(0);
     state = &obj->sub20;
     if (obj != 0) {
         if (func_800260CC(state, 13) != 0) {

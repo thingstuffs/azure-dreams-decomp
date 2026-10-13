@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -21,7 +22,6 @@ extern s32 D_80171CE8;
 extern u8 D_80174EB8[];
 extern u8 D_80174F18[];
 
-extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, s32, s32);
 extern void func_800A2B04(void *, s32, s32);

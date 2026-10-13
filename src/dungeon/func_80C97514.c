@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -88,7 +89,6 @@ typedef struct S_80C97514_9 {
 void func_8003DB94();     /* extern */
 s32 Control_CD(); /* extern */
 void func_8003F540(); /* extern */
-void *func_8003FC64();                       /* extern */
 void func_80041588(); /* extern */
 int func_800445E0();                           /* extern */
 s32 func_8004491C();           /* extern */

@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 typedef s32 M2C_UNK;
@@ -37,7 +38,6 @@ typedef struct S_800F63D0_2 {
 
 
 extern s32 func_80033BC0();
-extern void *func_8003FC64();
 extern M2C_UNK file_load_com();
 extern s32 func_8004491C();
 extern s16 func_800BCA68();

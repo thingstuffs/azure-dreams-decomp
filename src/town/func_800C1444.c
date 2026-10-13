@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
@@ -41,7 +42,6 @@ typedef struct Object {
 } Object;
 
 extern void func_8003DB94(Sprite *, void *, s32);
-extern Object *func_8003FC64(s32);
 extern void func_8004491C(Object *, void *);
 extern void SD_Call(s32, s32);
 extern void func_80067014(s32);
@@ -86,7 +86,7 @@ void func_800BEBA4(State *state, Motion *motion, u8 *sprite_data)
         SD_Call(0x519, gravity);
         index = 15;
         do {
-            particle = func_8003FC64(0x136);
+            particle = (Object *)func_8003FC64(0x136);
             if (particle != 0) {
                 particle->callback = func_800BF15C;
                 func_8004491C(particle, func_80045340);

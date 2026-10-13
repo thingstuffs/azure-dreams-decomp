@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 /* cfail-repair: true-name warm-start */
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -83,7 +84,6 @@ typedef struct {
 } Copy32;
 
 extern void func_8003DB94();
-extern void *func_8003FC64();
 extern s32 func_8004491C();
 extern u8 D_800DEAE0[3];
 extern Copy32 D_801648DC;

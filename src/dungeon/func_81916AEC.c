@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -12,7 +13,6 @@ typedef struct Copy6 {
 #endif
 
 
-extern void *func_8003FC64(s32);
 extern void func_8003DB94(void *, void *, s32);
 extern void func_8004491C(void *, void *);
 

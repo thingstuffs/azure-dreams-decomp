@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -73,7 +74,6 @@ typedef struct S_8016EB14_6 {
 } S_8016EB14_6;   /* owner in func_8016EB14 */
 
 
-extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern u8 D_800777B8;
 extern u8 D_8016E528;

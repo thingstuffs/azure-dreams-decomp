@@ -1,3 +1,4 @@
+#include "shared/dungeon_effect_views.h"
 #include "modules/dungeon_ovl_1918800.h"
 #include "common.h"
 #include "modules/dungeon_native_abi.h"
@@ -7,7 +8,7 @@
 
 
 /* Raise the entity toward the queried ground height and set flags when the countdown expires. */
-void func_8002515C(EntityRec *state, EntityRec *position)
+void func_8002515C(PointRecord *state, EntityRec *position)
 {
     u16 countdown;
 
@@ -18,8 +19,8 @@ void func_8002515C(EntityRec *state, EntityRec *position)
         position->z.v += 0x20000 + (rand() & 0xFFF);
     }
 
-    countdown = state->unk_32 - 8;
-    state->unk_32 = countdown;
+    countdown = state->brightness - 8;
+    state->brightness = countdown;
     if ((s32)(countdown << 16) <= 0) {
         ((ObjectNodeHeader *)state - 1)->flags |= 0x8000;
         objectFlagBlock.flags |= 0x8000;

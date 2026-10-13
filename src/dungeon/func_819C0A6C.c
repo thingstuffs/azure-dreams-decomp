@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -17,7 +18,6 @@ typedef struct S_8002626C_4 {
 } S_8002626C_4;   /* ((S_8002626C_3 *)temp_v0)->unk_08 in func_8002626C */
 
 
-void *func_8003FC64();                       /* extern */
 extern M2C_UNK D_800DE870;
 
 typedef struct S_8002626C_0 {

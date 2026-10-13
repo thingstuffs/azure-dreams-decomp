@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -7,7 +8,6 @@ typedef struct {
     u8 field_3C[1];
 } ObjectHeader;
 
-extern void *func_8003FC64(s32);
 extern s32 func_8004B404(s32);
 extern void func_8004491C(void *, void *);
 extern void func_800DC988(void *);

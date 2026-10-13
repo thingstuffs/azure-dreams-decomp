@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 
@@ -7,7 +8,6 @@ typedef struct {
     u32 word8;
 } __attribute__((packed)) Copy12;
 
-extern void *func_8003FC64(u32);
 extern void func_8004491C(void *, void *);
 
 extern u8 D_80044BB0[];

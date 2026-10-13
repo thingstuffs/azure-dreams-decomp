@@ -6,12 +6,7 @@
 #define NULL 0
 #endif
 
-typedef struct S_func_81888810_0 {
-    u8 pad_00[0x8];
-    void *unk_08;
-    void *unk_0C;
-    void *unk_10;
-} S_func_81888810_0;
+
 
 typedef struct S_func_81888810_1 {
     u8 pad_00[0x2];
@@ -80,7 +75,7 @@ void func_80026010(void) {
     Cell *lower_right;
     Cell *lower_left;
     Cell *upper_right;
-    S_func_81888810_0 *fragment;
+    ObjectNodeHeader *fragment;
     S_func_81888810_1 *motion;
     S_func_81888810_2 *angles;
     S_func_81888810_3 *quad;

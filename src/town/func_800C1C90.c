@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -39,7 +40,6 @@ typedef struct S_800BF3F0_4_pre {
 } S_800BF3F0_4_pre;   /* the 0x2 bytes before arg0 in func_800BF3F0, addressed as arg0[-1] */
 
 
-extern void *func_8003FC64(u32);
 extern void func_8004491C(void *, void *);
 extern void func_8008F074(void *, void *, void *);
 

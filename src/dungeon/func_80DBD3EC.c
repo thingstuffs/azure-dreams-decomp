@@ -103,7 +103,6 @@ typedef struct {
 extern void func_8003DB94(void *, void *, s32);
 extern s32 func_8003DE58(void *, void *, Vec3u *, s32);
 extern s32 func_8003DF74(void *, void *, Vec3u *, s32);
-extern void *func_8003FC64(s32);
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, u8, s32);

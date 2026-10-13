@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -49,7 +50,6 @@ typedef struct S_800267DC_4 {
 } S_800267DC_4;   /* D_800F1564 in func_800267DC */
 
 
-void *func_8003FC64();
 void func_8004491C();
 s32 rand();
 

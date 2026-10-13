@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
@@ -116,7 +117,6 @@ typedef struct {
 extern s32 func_80069EF8();
 extern void func_80024358();
 extern s32 func_800A4778();
-extern void *func_8003FC64();
 extern void func_8004491C();
 extern void func_8003DB94();
 extern s32 func_8009D218();

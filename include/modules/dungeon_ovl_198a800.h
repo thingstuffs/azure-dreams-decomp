@@ -559,6 +559,6 @@ void func_80025A80(void *effect, void *position, void *sprite);
 void func_80024A5C(void *effect, s32 unused, u8 *primitive);
 void func_8002407C(void *state, void *unused, void *visual);
 void func_800243C4(ObjectNodeHeader *source, s32 state_14_value, s32 state_08_value, s32 state_32_value, s16 x_offset, s16 y_offset, s16 z_offset);
-s32 func_80024124(PointRecord *first_point, PointPosition *first_position);
+s32 func_80024124(PointRecord *first_point, EntityRec *first_position);
 void func_80024AF8(s32 unused_0, s32 unused_1, s32 unused_2, s16 x, s16 y, s16 z);
 #endif

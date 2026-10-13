@@ -1,5 +1,6 @@
-#include "shared/gpu_packets.h"
 #include "common.h"
+#include "shared/scratchpad.h"
+#include "shared/gpu_packets.h"
 #include "shared/game_work.h"
 
 typedef struct S_819112CC_0 {
@@ -85,10 +86,9 @@ typedef struct S_819112CC_5 {
     u16 unk_22;
 } S_819112CC_5;   /* temp_s1_3 in func_819112CC */
 
-
 /* The 1 KB scratchpad at 0x1F800000, read as halfwords or words. */
-typedef union { u16 h[0x200]; u32 w[0x100]; } ScratchPad;
-#define SP16(off) (((ScratchPad *)scratch)->h[(off) / 2])
+
+#define SP16(off) (scratch->h[(off) / 2])
 typedef struct {
     unsigned addr: 24;
     unsigned len: 8;
@@ -97,7 +97,7 @@ typedef struct {
 #define setaddr(p, _addr) (((P_TAG *)(p))->addr = (u32)(_addr))
 #define getaddr(p) (u32)(((P_TAG *)(p))->addr)
 
-#define SP32(off) (((ScratchPad *)scratch)->w[(off) / 4])
+#define SP32(off) (scratch->w[(off) / 4])
 /* Same address as D_80083160 (0x80083178 - 0x18); this spelling keeps its
    page construction shared with the other references below. */
 #define GFX_ROOT_SLOT ((u8 *)&gameWork)
@@ -158,7 +158,7 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
     s32 modulo_result;
     s32 ot_slot;
     s32 ot_slot2;
-    u8 *scratch;
+    ScratchPad *scratch;
     u8 *context_slot;
     u8 *v1;
     u8 *v2;
@@ -174,7 +174,7 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
 
     context_slot = GFX_ROOT_SLOT;
     point_index = 0;
-    scratch = (u8 *)0x1F800000;
+    scratch = (ScratchPad *)0x1F800000;
     interpolate = step < duration;
     vertex_base = 0x1F800064;
     SP32(0x18) = (u32)render_context + 0xB0;
@@ -234,15 +234,15 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
         SP16(0x70) = bottom_z;
         SP16(0x68) = bottom_z;
         top_z = origin->unk_0A;
-        v1 = scratch + 0x6C;
-        v2 = scratch + 0x74;
-        v3 = scratch + 0x7C;
-        sxy0 = scratch + 0xD8;
-        sxy1 = scratch + 0xDC;
-        sxy2 = scratch + 0xE0;
-        sxy3 = scratch + 0xE4;
-        depth = scratch + 0x84;
-        flag = scratch + 0x88;
+        v1 = (u8 *)scratch + 0x6C;
+        v2 = (u8 *)scratch + 0x74;
+        v3 = (u8 *)scratch + 0x7C;
+        sxy0 = (u8 *)scratch + 0xD8;
+        sxy1 = (u8 *)scratch + 0xDC;
+        sxy2 = (u8 *)scratch + 0xE0;
+        sxy3 = (u8 *)scratch + 0xE4;
+        depth = (u8 *)scratch + 0x84;
+        flag = (u8 *)scratch + 0x88;
         SP32(0xB4) = func_80065590(vertex_base, v1, v2, v3,
                                    sxy0, sxy1, sxy2, sxy3,
                                    depth, flag,

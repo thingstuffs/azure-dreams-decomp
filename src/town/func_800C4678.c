@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 typedef void (*Callback)(void *);
@@ -6,7 +7,6 @@ extern u8 D_800C1E50[];
 extern u8 D_800C1EA4[];
 extern Callback D_800D4668[];
 
-void *func_8003FC64(s32);
 
 /* Initializes an object and replaces the callbacks in the active table entries. */
 void func_800C1DD8(void) {

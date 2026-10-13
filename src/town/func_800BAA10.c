@@ -1,7 +1,7 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "m2c_compat.h"
 
-void *func_8003FC64();                       /* extern */
 extern s32 D_800B7B8C;
 
 typedef struct S_800B8170_0 {

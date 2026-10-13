@@ -1,6 +1,6 @@
+#include "shared/object_node.h"
 #include "common.h"
 
-void *func_8003FC64(s32);
 void func_8004491C(void *, void *);
 s32 func_800644B8(s32);
 s32 func_80064584(s32);

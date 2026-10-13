@@ -1,9 +1,9 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-void *func_8003FC64();                       /* extern */
 s32 func_8004491C();           /* extern */
 extern M2C_UNK D_80174318;
 

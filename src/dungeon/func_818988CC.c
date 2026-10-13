@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -30,7 +31,6 @@ typedef struct Object {
     void *callback;
 } Object;
 
-extern Object *func_8003FC64(s32);
 extern s32 rand(void);
 extern void func_8004491C(void *, void *);
 
@@ -46,7 +46,7 @@ void *func_800240CC(void *context, Copy24 *copy_src, s16 initial_value)
     Copy24 *dst;
     s32 random_value;
 
-    obj = func_8003FC64(0x212);
+    obj = (Object *)func_8003FC64(0x212);
     if (obj != 0) {
         obj->callback = D_80024024;
         fields = (u8 *)obj + 0x20;

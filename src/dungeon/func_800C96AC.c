@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
 
@@ -5,7 +6,6 @@ extern u8 D_800CEA44[];
 extern u8 D_800E3648[];
 
 extern s32 func_8003FA44(s32 limit);
-extern void *func_8003FC64(s32 flags);
 extern void SD_Call(s32 flags);
 
 /* Clamp an indexed entry and create its node if processing succeeds. */

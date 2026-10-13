@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -24,7 +25,6 @@ typedef struct {
     s16 scale_y;
 } Sprite;
 
-extern Object *func_8003FC64(s32);
 extern void func_8003DB94(Sprite *, void *, s32);
 extern void func_8004491C(Object *, void *);
 extern u8 D_80024730[];
@@ -37,7 +37,7 @@ void func_81868FDC(s32 value, void *source_data) {
     u16 *dst;
     u16 *src;
 
-    obj = func_8003FC64(0x212);
+    obj = (Object *)func_8003FC64(0x212);
     if (obj != 0) {
         obj->callback = D_80024730;
         sprite = obj->sprite;

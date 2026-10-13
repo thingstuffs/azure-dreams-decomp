@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
@@ -69,7 +70,6 @@ typedef struct S_80089608_7 {
 } S_80089608_7;   /* ((S_80089608_2 *)temp_v0)->unk_08 in func_80089608 */
 
 
-void *func_8003FC64();                       /* extern */
 s32 func_8004491C();           /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */

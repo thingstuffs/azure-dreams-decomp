@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -58,7 +59,6 @@ typedef struct {
     u16 field_96;
 } Source;
 
-extern Entity *func_8003FC64(s32);
 extern void func_8004491C(Entity *, void *);
 extern s32 func_80064584(s32);
 extern s32 func_800644B8(s32);
@@ -90,7 +90,7 @@ void func_80174E78(Source *source, Vec3i *center)
         s32 trig_angle;
         s32 trig_value;
 
-        entity = func_8003FC64(18);
+        entity = (Entity *)func_8003FC64(18);
         if (entity == 0) {
             continue;
         }

@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_func_800AD058_arg2.h"
@@ -12,7 +13,6 @@ typedef struct {
 #endif
 
 
-extern void *func_8003FC64(s32);
 extern void func_8004491C(void *entry, void *registration_id);
 extern s32 func_8004A658(s32, s32);
 extern void func_800BC26C(void *, s32, s32, s32);

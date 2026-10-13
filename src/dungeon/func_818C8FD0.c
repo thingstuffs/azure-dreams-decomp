@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -114,7 +115,6 @@ extern u8 D_800DEC00[];
 
 extern void func_8003DB94(void *, void *, s32);
 extern void *func_8003DF74(void *, void *, void *, s32);
-extern void *func_8003FC64(s32);
 
 
 

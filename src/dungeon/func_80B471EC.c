@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -171,7 +172,6 @@ typedef struct S_801749EC_21 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-void *func_8003FC64(s32);
 void func_8004491C(void *, void *);
 s32 func_800644B8(s32);
 s32 func_80064584(s32);

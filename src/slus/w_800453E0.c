@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/scratchpad.h"
 #include "slus/gp_shared_81510.h"
 
 typedef struct Command Command;
@@ -93,13 +94,13 @@ extern void CompMatrix(void *, void *, void *);
 extern void SetTransMatrix(void *);
 extern void SetRotMatrix(void *);
 
-#define SP8(base, off)  (*(u8 *)((base) + (off)))
-#define SPS8(base, off) (*(s8 *)((base) + (off)))
+#define SP8(base, off)  ((base)->b[(off)])
+#define SPS8(base, off) ((base)->sb[(off)])
 typedef struct { u8 pad0[0xC0]; u32 depth; } ScratchDepth;
 typedef struct { u8 pad0[0x14]; u16 flags; } EntryFlags;
-#define SP16(base, off) (*(u16 *)((base) + (off)))
-#define SPS16(base, off) (*(s16 *)((base) + (off)))
-#define SP32(base, off) (*(u32 *)((base) + (off)))
+#define SP16(base, off) ((base)->h[(off) / 2])
+#define SPS16(base, off) ((base)->sh[(off) / 2])
+#define SP32(base, off) ((base)->w[(off) / 4])
 #define E8(base, off) (*(u8 *)((u8 *)(base) + (off)))
 #define E16(base, off) (*(u16 *)((u8 *)(base) + (off)))
 #define E32(base, off) (*(u32 *)((u8 *)(base) + (off)))
@@ -113,7 +114,7 @@ typedef struct { u8 pad0[0x14]; u16 flags; } EntryFlags;
 /* Project sprite commands and link visible textured quads into the ordering table. */
 void func_800453E0(void *context, void *position, Entry *entry, s16 depth_bias)
 {
-    u8 *scratch = (u8 *)0x1F800000;
+    ScratchPad *scratch = (ScratchPad *)0x1F800000;
     void **render_state = D_80083160;
     Packet *packet;
     Command *command;
@@ -146,7 +147,7 @@ void func_800453E0(void *context, void *position, Entry *entry, s16 depth_bias)
     SP16(scratch, 0x04) = *(u16 *)((u8 *)position + 0xA);
     packet = *(Packet **)((u8 *)render_state[0] + 0x8D0);
 
-    ((ScratchDepth *)scratch)->depth = RotTransPers(scratch, scratch + 0xB8, scratch + 0x90, scratch + 0x94);
+    ((ScratchDepth *)scratch)->depth = RotTransPers(scratch, (u8 *)scratch + 0xB8, (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
     E16(entry, 0x14) |= 0x8000;
     projected_depth = ((ScratchDepth *)scratch)->depth;
     {
@@ -162,7 +163,7 @@ void func_800453E0(void *context, void *position, Entry *entry, s16 depth_bias)
         {
             u16 screen_x;
             s32 rotation_z;
-            screen_x = *(u16 *)(scratch + 0xB8);
+            screen_x = *(u16 *)((u8 *)scratch + 0xB8);
             SP16(scratch, 0xB8) = screen_x - 0xA0;
             SP16(scratch, 0xBA) -= 0x78;
             SP32(scratch, 0x30) = *(s16 *)((u8 *)render_state + 0xC4);
@@ -183,17 +184,17 @@ void func_800453E0(void *context, void *position, Entry *entry, s16 depth_bias)
             SP32(scratch, 0xE8) = sprite_extent;
             SP16(scratch, 0x10A) = sprite_extent;
 
-            RotMatrix(scratch + 0x100, scratch + 0xD0);
+            RotMatrix((u8 *)scratch + 0x100, (u8 *)scratch + 0xD0);
         }
         scale_x = E16(entry, 0x1C);
         SP32(scratch, 0x30) = scale_x;
         scale_y = E16(entry, 0x1E);
         SP32(scratch, 0x38) = 0x1000;
         SP32(scratch, 0x34) = scale_y;
-        ScaleMatrix(scratch + 0xD0, scratch + 0x30);
-        CompMatrix(D_8006CD30, scratch + 0xD0, scratch + 0x50);
-        SetTransMatrix(scratch + 0x50);
-        SetRotMatrix(scratch + 0x50);
+        ScaleMatrix((u8 *)scratch + 0xD0, (u8 *)scratch + 0x30);
+        CompMatrix(D_8006CD30, (u8 *)scratch + 0xD0, (u8 *)scratch + 0x50);
+        SetTransMatrix((u8 *)scratch + 0x50);
+        SetRotMatrix((u8 *)scratch + 0x50);
 
         command = *(Command **)((u8 *)entry + 8);
         SP16(scratch, 0x24) = E16(entry, 0x14);
@@ -248,11 +249,11 @@ void func_800453E0(void *context, void *position, Entry *entry, s16 depth_bias)
                     SP16(scratch, 0x82) = coord;
                 }
 
-                RotTransPers4(scratch + 0x70, scratch + 0x78,
-                    scratch + 0x80, scratch + 0x88,
-                    scratch + 0xF0, scratch + 0xF4,
-                    scratch + 0xF8, scratch + 0xFC,
-                    scratch + 0x90, scratch + 0x94);
+                RotTransPers4((u8 *)scratch + 0x70, (u8 *)scratch + 0x78,
+                    (u8 *)scratch + 0x80, (u8 *)scratch + 0x88,
+                    (u8 *)scratch + 0xF0, (u8 *)scratch + 0xF4,
+                    (u8 *)scratch + 0xF8, (u8 *)scratch + 0xFC,
+                    (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
 
                 *(u16 *)((u8 *)packet + 0x08) = SP16(scratch, 0xF0) + SP16(scratch, 0xB8);
                 *(u16 *)((u8 *)packet + 0x0A) = SP16(scratch, 0xF2) + SP16(scratch, 0xBA);

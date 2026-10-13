@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -62,7 +63,6 @@ extern u8 D_800C4640[];
 extern u8 D_800DF564[];
 
 extern s32 rand(void);
-extern void *func_8003FC64(s32);
 extern s32 func_8004491C(void *, void *);
 
 /* Spawn two effects at the source position and decrement its remaining count. */
