@@ -271,3 +271,8 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     to make it work. Tracked in ledger/recipe_trades.jsonl (kind dead_branch) and STATUS.md. First rows: dungeon/func_8105A724,
     dungeon/func_800A3D40, dungeon/func_81339F68. dungeon/func_80B467DC's proof needs a fabricated second parameter (condition e)
     and stays pinned. SECOND LOOK: no (owner decided).
+    ADDENDUM (r118, 10-13): dungeon/func_80B467DC is NOT a condition-(e) refusal after all. func_80173FDC is an effect callback:
+    func_8004491C registers it and the runner func_800402F4 calls `callback(entry->data, entry->callback_arg1,
+    entry->callback_arg2)` (typedef Callback (void *, s32, s32)), so retail enters it with a real $a1. Its true signature is the
+    three-argument handler; the second parameter's variable is reused as the loop-carried successor node. Lands 2 -> 1 under
+    this decision. Lesson (owner): check how a function is reached before calling a parameter fake.

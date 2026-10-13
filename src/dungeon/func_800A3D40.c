@@ -172,7 +172,10 @@ void *func_800A94A0(void *actor, EntityRec *effect_record, s16 mode, void *conte
             } else {
                 func_800C77D0(effect, effect_position, 8, 0x300);
             }
-            ASM_KEEP(text_context);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            if (text_context) {
+                /* retail evidence: the test's operands survive (the arm compiled away); reconstructed as a conditional update of a local nothing reads in the retail build - any dead local set reproduces the bytes (lane r118_fable_f4; decision 45, docs/evidence/r97_decisions.md) */
+                effect_mode = 0;
+            }
         } else {
             map_state = &D_80082E80;
             if (!(actor_state->unk_14 & 0x8000)) {
