@@ -16,6 +16,7 @@ extern void CompMatrix(void *, void *, void *);
 extern void SetTransMatrix(void *);
 extern void SetRotMatrix(void *);
 extern void AddPrim(void *, void *);
+extern int abs(int);
 extern s16 D_8006A83E[];
 extern u8 D_8006A847[];
 extern u8 D_8006A84C[32];
@@ -100,13 +101,10 @@ s32 func_800345B8(u8 *node_data, u8 *position, u8 *render_state)
                 PushMatrix();
                 center_x = ((((SpU16 *) (scratch + 0xBC))->v)) - 0xA0;
                 center_y = ((((SpU16 *) (scratch + 0xBE))->v)) - 0x78;
-                *((volatile u16 *) (scratch + 0xBC)) = center_x;
+                *((u16 *) (scratch + 0xBC)) = center_x;
             } while (0);
             base_x = center_x;
-            abs_offset = (s16) base_x;
-            if (abs_offset < 0) {
-                abs_offset = -abs_offset;
-            }
+            abs_offset = abs((s16)base_x);
             (((SpU16 *) (scratch + 0xBE))->v) = center_y;
             base_y = center_y;
             if (abs_offset < 0x330) {

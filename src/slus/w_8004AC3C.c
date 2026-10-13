@@ -52,6 +52,7 @@ s32 func_8004AC3C(S_8004AC3C_Item *item, s32 *out_mode)
     S_8004AC3C_CategoryEntry *categories;
     S_8004AC3C_CategoryEntry *category;
     s32 data_addr;
+    u8 kind;
     *out_mode = 0;
     if (D_80082E6A.f0 != 1) {
         if (item->unk1 == 0x13) {
@@ -60,9 +61,10 @@ s32 func_8004AC3C(S_8004AC3C_Item *item, s32 *out_mode)
         else {
             item_flags = func_80042A80(item);
             if (item_flags != 0) {
-                if ((((u32) (item->unk1 - 0xF)) < 3U) || ((item->unk1 == 4) && ((item_flags & 0x400) == 0))) {
+                kind = item->unk1;
+                if ((((u32) (kind - 0xF)) < 3U) || ((kind == 4) && ((item_flags & 0x400) == 0))) {
                     data_addr =
-                        ((S_8004AC3C_Rec20 *) itemCategoryTable[((volatile S_8004AC3C_Item *) item)->unk1].records)[item->unk0].f4;
+                        ((S_8004AC3C_Rec20 *) itemCategoryTable[item->unk1].records)[item->unk0].f4;
                 }
                 else {
                     data_addr =
