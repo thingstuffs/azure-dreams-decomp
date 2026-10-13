@@ -2,15 +2,16 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_80064624();                /* extern */
-M2C_UNK func_80064D20();                      /* extern */
-M2C_UNK func_80064D50();                      /* extern */
-M2C_UNK func_80064EC0();   /* extern */
-M2C_UNK func_80064EE0();   /* extern */
-M2C_UNK func_80064F00();            /* extern */
-M2C_UNK func_80064F20();                     /* extern */
+void func_80064624(s32, s32);                /* extern */
+void func_80064D20(void *);                      /* extern */
+void func_80064D50(void *);                      /* extern */
+void func_80064EC0(s32, s32, s32);   /* extern */
+void func_80064EE0(s32, s32, s32);   /* extern */
+void func_80064F00(s32, s32);            /* extern */
+void func_80064F20(s32);                     /* extern */
 extern M2C_UNK D_8006ADBC;
-extern u8 D_801C9E40[16];
+/* Retail writes +0x19..+0x1B; the asset allocation extent is not established here. */
+extern u8 D_801C9E40[];
 extern u8 D_801DA714[];
 
 typedef struct S_800AB7FC_1 {
