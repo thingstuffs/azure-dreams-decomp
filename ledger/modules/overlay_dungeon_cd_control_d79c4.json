@@ -7,17 +7,17 @@
     "dungeon/func_800B79F8",
     "dungeon/func_800B7A24"
   ],
-  "at": "2026-10-13T11:02:37Z",
+  "at": "2026-10-13T13:46:24Z",
   "reviewer": "orchestrator-r99",
   "fingerprint": {
     "schema": "overlay-module-scoped-v2",
-    "sha256": "a761460ef0b3819f944a711c7962a38cde576147681752544c3242b62bf214e1",
+    "sha256": "28779706cad654b9e51d59d89e88db1b12839af554df0fc8546d603edb3d06b2",
     "module": {
       "sha256": "244d7c1c3a48a83133b05935f921a4484d13dcc3455bc7738f8c9084342d5cf8"
     },
     "windows": {
       "config/overlays/dungeon_engine.overlay.yaml": {
-        "sha256": "6f9044dfd65e8d91294523185e3f3bbc9517c19b86ad3e531bc73f42b796ab3c"
+        "sha256": "c9da06a2fb1a126fed8037ca56b8c12de752423937eeaa3d06b1da3203c7a7c3"
       }
     },
     "required_windows": [
@@ -25,7 +25,7 @@
     ]
   },
   "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_cd_control_d79c4/module",
-  "receipt_sha256": "68859998054192c807f32397fe8a63bc94c9aa0eb54cecf1fb144300a7839e23",
+  "receipt_sha256": "839cceded92dbc420ed22b72986670744ab9268d97ba3363d1b97c3c9f6531fa",
   "windows": [
     {
       "config": "config/overlays/dungeon_engine.overlay.yaml",
@@ -37,10 +37,10 @@
         "gate.log": "a3adeb886745588497e01d1535a97da977c6ec09e33c0da82f4d7f1d2f4d355f",
         "window.bin": "1612c21559c49a3b69f10548bca5ec6d18ec11a0764ea317c396edca9211d796",
         "manifest.json": "ed956459a899fc794ed7eb6fddca2277d6578e50871aece7af1c4c2b53a9901b",
-        "projection.json": "7d1d250564a2037f032e86bc08b64061833e086e00a36200450e11dabc6f2e3b",
-        "module/receipt.json": "0c9226095afceacf13cc694118ce813f7638e74a4210afbb2853669ae5bd5a4b"
+        "projection.json": "c41c86e9ea1d73599144eb8016cbd48c574435b9ba851dedbbaf427b04a699d9",
+        "module/receipt.json": "5d7ff62974a951991acdf356e270b1f87c708e259bd33956a57abc4331dbbd94"
       },
-      "digest": "6f9044dfd65e8d91294523185e3f3bbc9517c19b86ad3e531bc73f42b796ab3c"
+      "digest": "c9da06a2fb1a126fed8037ca56b8c12de752423937eeaa3d06b1da3203c7a7c3"
     }
   ]
 }

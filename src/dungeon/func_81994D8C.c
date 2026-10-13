@@ -124,7 +124,7 @@ void func_8002458C(TransitionState *state, void *context, void *parameters) {
     TransitionPosition *position;
     EntityRec *target;
     TransitionRenderPart *render_part;
-    union { TransitionParticlePayload *particle; s32 status; } particle_scratch;
+    TransitionParticlePayload * particle_scratch;
     TransitionParticle *particle;
     EntityRec *actor;
     EntityRec *player;
@@ -204,19 +204,19 @@ void func_8002458C(TransitionState *state, void *context, void *parameters) {
             state->phase++;
         }
         if (state->countdown == 0x11) {
-            particle_scratch.status = func_80053EF0(4);
+            particle_scratch = (TransitionParticlePayload *)(func_80053EF0(4));
             sound_request = 0x4300;
-            if (particle_scratch.status != 2) {
+            if (((s32)particle_scratch) != 2) {
                 sound_request = 0x300;
             }
             func_800A56E0(sound_request);
         }
-        if ((state->countdown < 9) && ((particle_scratch.status = func_8003DF74(D_80082E80.resource, &D_80082E80, &state->current_x, 0)) != 0)) {
+        if ((state->countdown < 9) && ((particle_scratch = (TransitionParticlePayload *)(func_8003DF74(D_80082E80.resource, &D_80082E80, &state->current_x, 0))) != 0)) {
             if (state->countdown >= 7) {
                 particle = (TransitionParticle *)func_8003FC64(PARTICLE_ALLOC_ID);
-                particle_scratch.particle = &particle->payload;
+                particle_scratch = &particle->payload;
                 if (particle != 0) {
-                    particle_scratch.particle->lifetime = 1;
+                    particle_scratch->lifetime = 1;
                     particle->header.unk_10 = (void *)func_800244F0;
                     func_8004491C(particle, (s32)func_80045340);
                     render_part = (TransitionRenderPart *)particle->header.unk_0C;
@@ -236,17 +236,17 @@ void func_8002458C(TransitionState *state, void *context, void *parameters) {
                     render_part->color.channel.red = 0xFF;
                     particle->payload.resource.packed = D_80025348;
                     render_part->resource = (void *)&particle->payload.resource;
-                    particle_scratch.particle->resource.extent.width = 0x40;
-                    particle_scratch.particle->resource.extent.height = 0x40;
+                    particle_scratch->resource.extent.width = 0x40;
+                    particle_scratch->resource.extent.height = 0x40;
                 }
                 if (!(state->countdown & 1)) {
                     goto spawn_depth_particle;
                 }
             } else {
                 particle = (TransitionParticle *)func_8003FC64(PARTICLE_ALLOC_ID);
-                particle_scratch.particle = &particle->payload;
+                particle_scratch = &particle->payload;
                 if (particle != 0) {
-                    particle_scratch.particle->lifetime = 0xC;
+                    particle_scratch->lifetime = 0xC;
                     particle->header.unk_10 = (void *)func_800244F0;
                     func_8004491C(particle, (s32)func_80045340);
                     render_part = (TransitionRenderPart *)particle->header.unk_0C;
@@ -266,8 +266,8 @@ void func_8002458C(TransitionState *state, void *context, void *parameters) {
                     render_part->color.channel.red = 0xFF;
                     particle->payload.resource.packed = D_80025348;
                     render_part->resource = (void *)&particle->payload.resource;
-                    particle_scratch.particle->resource.extent.width = 0;
-                    particle_scratch.particle->resource.extent.height = 0;
+                    particle_scratch->resource.extent.width = 0;
+                    particle_scratch->resource.extent.height = 0;
                 }
 spawn_depth_particle:
                 particle = (TransitionParticle *)func_8003FC64(PARTICLE_ALLOC_ID);
@@ -302,9 +302,9 @@ spawn_depth_particle:
                 state->midpoint_y = (s32)(midpoint_sum_y + (midpoint_sum_y >> 31)) >> 1;
                 state->midpoint_z = (state->current_z + state->previous_z) / 2;
                 particle = (TransitionParticle *)func_8003FC64(PARTICLE_ALLOC_ID);
-                particle_scratch.particle = &particle->payload;
+                particle_scratch = &particle->payload;
                 if (particle != 0) {
-                    particle_scratch.particle->lifetime = 0xC;
+                    particle_scratch->lifetime = 0xC;
                     particle->header.unk_10 = (void *)func_800244F0;
                     func_8004491C(particle, (s32)func_80045340);
                     render_part = (TransitionRenderPart *)particle->header.unk_0C;
@@ -324,8 +324,8 @@ spawn_depth_particle:
                     render_part->color.channel.red = 0xFF;
                     particle->payload.resource.packed = D_80025348;
                     render_part->resource = (void *)&particle->payload.resource;
-                    particle_scratch.particle->resource.extent.width = 0;
-                    particle_scratch.particle->resource.extent.height = 0;
+                    particle_scratch->resource.extent.width = 0;
+                    particle_scratch->resource.extent.height = 0;
                 }
             }
             state->previous_x = state->current_x;
@@ -352,13 +352,13 @@ spawn_depth_particle:
                 tint_part->color.rgb = exit_tint;
             }
         }
-        if ((state->countdown >= 0xD) && ((particle_scratch.status = func_8003DF74(D_80082E80.resource, &D_80082E80, &state->current_x, 0)) != 0)) {
+        if ((state->countdown >= 0xD) && ((particle_scratch = (TransitionParticlePayload *)(func_8003DF74(D_80082E80.resource, &D_80082E80, &state->current_x, 0))) != 0)) {
             particle = (TransitionParticle *)func_8003FC64(PARTICLE_ALLOC_ID);
-            particle_scratch.particle = &particle->payload;
+            particle_scratch = &particle->payload;
             if (particle != 0) {
-                particle_scratch.particle->lifetime = 0xC;
+                particle_scratch->lifetime = 0xC;
                 if (state->countdown != 0xD) {
-                    particle_scratch.particle->lifetime = 1;
+                    particle_scratch->lifetime = 1;
                 }
                 particle->header.unk_10 = (void *)func_800244F0;
                 func_8004491C(particle, (s32)func_80045340);
@@ -381,8 +381,8 @@ spawn_depth_particle:
                 render_part->scale_x = particle_scale;
                 particle->payload.resource.packed = D_80025348;
                 render_part->resource = (void *)&particle->payload.resource;
-                particle_scratch.particle->resource.extent.width = 0x40;
-                particle_scratch.particle->resource.extent.height = 0x40;
+                particle_scratch->resource.extent.width = 0x40;
+                particle_scratch->resource.extent.height = 0x40;
             }
             if (!(state->countdown & 1)) {
                 particle = (TransitionParticle *)func_8003FC64(PARTICLE_ALLOC_ID);
