@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -26,7 +27,6 @@ void func_8002407C();          /* extern */
 void func_800244CC(); /* extern */
 void func_80024DB8(); /* extern */
 s32 func_8003DE58();     /* extern */
-void *func_8003FC64();                       /* extern */
 s32 func_8004491C();           /* extern */
 s16 func_80066460(); /* extern */
 s32 func_80069EF8();                                /* extern */

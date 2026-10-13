@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
@@ -83,7 +84,6 @@ typedef struct S_800CB82C_7 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void *func_8003FC64();                       /* extern */
 s32 func_8004491C();                /* extern */
 void func_80099FDC();                      /* extern */
 s32 func_800A94A0(); /* extern */

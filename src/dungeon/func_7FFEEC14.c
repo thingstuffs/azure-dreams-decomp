@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 #ifndef NULL
@@ -11,7 +12,6 @@ typedef struct Node {
     s32 field_0x20;
 } Node;
 
-extern void *func_8003FC64(u32);
 extern void func_8008C304(void);
 extern void *D_800CFCA8;
 

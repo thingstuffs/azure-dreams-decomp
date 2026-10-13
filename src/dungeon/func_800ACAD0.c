@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -22,7 +23,6 @@ typedef struct {
     u16 kind;
 } Object;
 
-extern Object *func_8003FC64(s32 type);
 extern void func_8004491C(Object *object, void *init);
 extern void func_8003DB94(RenderPart *part, void *data, s32 index);
 
@@ -35,7 +35,7 @@ void func_800B2230(CopyBlock *source)
     Object *object;
     RenderPart *part;
 
-    object = func_8003FC64(0x212);
+    object = (Object *)func_8003FC64(0x212);
     if (object != 0) {
         object->callback = D_800B21B8;
         func_8004491C(object, func_80045340);

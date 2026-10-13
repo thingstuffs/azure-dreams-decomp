@@ -1,10 +1,10 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-extern void *func_8003FC64(s32 a0);
 extern s32 func_80026728(void *a0, s32 a1);
 extern void func_8002223C(void);
 extern void func_800220DC(void);

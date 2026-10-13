@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 #ifndef NULL
@@ -11,7 +12,6 @@ typedef struct PackedVec3 {
 } __attribute__((packed)) PackedVec3;
 
 
-extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 
 extern u8 D_80044BB0[];

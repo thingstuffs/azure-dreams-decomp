@@ -15,7 +15,7 @@ void func_80024758(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 fie
     u32 saved_field_28 = field_28;
     s16 saved_field_52 = field_52;
     ObjectNodeHeader *spawned;
-    SpawnedRecord *fields;
+    PointRecord *fields;
     s32 jitter_x;
     s32 jitter_y;
     s32 jitter_z;
@@ -25,42 +25,42 @@ void func_80024758(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 fie
     s16 position_x;
     s16 position_y;
     s16 position_z;
-    SignedEffectPosition *dest_x;
-    SignedEffectPosition *dest_y;
-    SignedEffectPosition *dest_z;
+    EntityRec *dest_x;
+    EntityRec *dest_y;
+    EntityRec *dest_z;
 
     /* the parent's next slot is the list head the new node links behind */
     spawned = func_8003FD64(0x211, (ObjectNodeHeader **)source_obj);
     if (spawned != 0) {
         spawned->unk_10 = (void *)func_80024604;
         jitter_x = rand() & 0x1F;
-        position_x = ((SignedEffectPosition *)source_obj->unk_08)->x;
+        position_x = ((EntityRec *)source_obj->unk_08)->x.w.i;
         dest_x = spawned->unk_08;
         position_x += jitter_x;
         bias_x = offset_x - 0x10;
         position_x += bias_x;
-        dest_x->x = position_x;
+        dest_x->x.w.i = position_x;
 
         jitter_y = rand() & 0x1F;
-        position_y = ((SignedEffectPosition *)source_obj->unk_08)->y;
+        position_y = ((EntityRec *)source_obj->unk_08)->y.w.i;
         dest_y = spawned->unk_08;
         position_y += jitter_y;
         bias_y = offset_y - 0x10;
         position_y += bias_y;
-        dest_y->y = position_y;
+        dest_y->y.w.i = position_y;
 
         jitter_z = rand();
         jitter_z &= 0x1F;
-        position_z = ((SignedEffectPosition *)source_obj->unk_08)->z;
-        fields = (SpawnedRecord *)(spawned + 1);
+        position_z = ((EntityRec *)source_obj->unk_08)->z.w.i;
+        fields = (PointRecord *)(spawned + 1);
         dest_z = spawned->unk_08;
         position_z += jitter_z;
         bias_z = offset_z - 0x10;
         position_z += bias_z;
-        dest_z->z = position_z;
+        dest_z->z.w.i = position_z;
         fields->unk_14 = field_34;
-        fields->unk_32 = saved_field_52;
+        fields->brightness = saved_field_52;
         func_8004491C(spawned, (s32)func_800241EC);
-        fields->unk_08 = saved_field_28;
+        fields->color = saved_field_28;
     }
 }

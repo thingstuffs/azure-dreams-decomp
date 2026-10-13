@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 typedef long long s64;
 
@@ -17,7 +18,6 @@ typedef struct {
 #define MULT_HI(a, b) (0)
 
 extern s32 D_80045C34[3];
-void *func_8003FC64();
 s32 func_8004491C();
 s32 func_80069EF8();
 extern M2C_UNK D_80024C48;

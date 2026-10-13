@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -75,7 +76,6 @@ typedef struct {
     u8 bytes[12];
 } Data12;
 
-extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern void func_800A56E0(s32);
 extern void *memcpy(void *, const void *, u32);

@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -6,7 +7,6 @@
  * retail reuses a single lui-based base register for both the load and the
  * store, so declare it as a >8B struct to force gcc to materialize one
  * shared %hi/%lo address instead of the two-independent-lui -G0 shape. */
-extern void *func_8003FC64(s32 a0);
 extern s32 func_800B0198(void *a0, s32 a1);
 extern s32 func_800AFE10(s32 a0);
 extern s32 func_800B0158(void *a0, s32 a1);

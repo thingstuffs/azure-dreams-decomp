@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -6,7 +7,6 @@ typedef struct {
 } Blob12;
 
 extern void **D_80174CD8[];
-void *func_8003FC64(s32);
 void func_8004491C(void *, void *);
 extern s32 D_801723D0;
 extern Blob12 D_80174AC8;

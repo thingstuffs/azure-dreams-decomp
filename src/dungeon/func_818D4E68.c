@@ -85,11 +85,8 @@ typedef struct Actor33 {
 } Actor33;
 
 typedef struct Task {
-    u8 pad00[8];
-    Motion33 *position;
-    Render33 *render;
-    void (*update)(void *, s32, struct RenderFade33 *);
-    u8 pad14[0x0E];
+    ObjectNodeHeader header;
+    u8 pad20[2];
     s16 field22;
     u8 pad24[0x1C];
     Packed12 image_data;
@@ -231,21 +228,21 @@ void func_80024668(Actor33 *actor, Motion33 *motion, Render33 *render)
             if ((u16)(angle + 0x300) >= 0x1001) {
                 render->angle = angle - 0xD00;
             }
-            task = func_8003FC64(0x212);
+            task = (Task *)func_8003FC64(0x212);
             if (task != 0) {
                 Motion33 *task_motion;
                 Render33 *task_render;
                 task->field22 = 0x10;
-                task->update = func_80024548;
+                task->header.unk_10 = (void *)func_80024548;
                 func_8004491C(task, (s32)func_80045340);
-                task_render = task->render;
+                task_render = task->header.unk_0C;
                 task_render->field10 = 0x40;
                 task_render->flags |= 0xC;
-                task_motion = task->position;
+                task_motion = task->header.unk_08;
                 task_motion->x.half.hi = motion->x.half.hi;
                 task_motion->y.half.hi = motion->y.half.hi;
                 task_motion->z.half.hi = motion->z.half.hi;
-                task_render = task->render;
+                task_render = task->header.unk_0C;
                 task_render->scale_y = 0x800;
                 task_render->scale_x = 0x800;
                 task_render->color2 = 0x78;

@@ -1,10 +1,10 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
 
-void *func_8003FC64();
 M2C_UNK func_80064BC0();
 M2C_UNK func_80064CF0();
 M2C_UNK func_80064D80();

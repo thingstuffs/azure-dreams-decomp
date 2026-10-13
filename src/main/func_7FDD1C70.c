@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
@@ -83,7 +84,6 @@ typedef struct S_80088BD0_9 {
 
 
 M2C_UNK func_8003DB94();  /* extern */
-void *func_8003FC64(); /* extern */
 s32 func_8004491C();           /* extern */
 extern M2C_UNK D_80044BB0;
 extern s32 D_80053A88;

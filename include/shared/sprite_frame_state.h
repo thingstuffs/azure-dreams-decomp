@@ -6,10 +6,16 @@
  * Thus the pointer at +2C is NOT evidence for a union at EntityRec+2C.
  * Byte +24/+25 and word +28 retain offset names until their roles are proven. */
 typedef struct SpriteFrameState {
-    /* 0x00 */ unsigned char pad_00[0x24];
+    /* 0x00 */ unsigned char pad_00[8];
+    /* 0x08 */ void *source;       /* func_8003DE58 attachment-point source */
+    /* 0x0C */ int unk_0C;
+    /* 0x10 */ int unk_10;
+    /* 0x14 */ unsigned short flags;
+    /* 0x16 */ unsigned char pad_16[0xE];
     /* 0x24 */ unsigned char unk_24;
     /* 0x25 */ unsigned char unk_25;
-    /* 0x26 */ unsigned char pad_26[2];
+    /* 0x26 */ unsigned char unk_26; /* func_8009FB34 room result */
+    /* 0x27 */ unsigned char pad_27;
     /* 0x28 */ int unk_28;
     /* 0x2C */ void *frameTable;
 } SpriteFrameState;

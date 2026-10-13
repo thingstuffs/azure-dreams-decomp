@@ -1,7 +1,7 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 /* Externals (never defined here -- the overlay gate's linker resolves them). */
-extern void *func_8003FC64();
 extern s32 func_8004491C();
 extern s32 D_800BA384;
 extern s32 D_800BA6B8;

@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -77,7 +78,6 @@ typedef struct S_func_81331914_4 {
     u8 unk_0E;
 } S_func_81331914_4;
 
-extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern void func_8003DB94(void *, void *, s32);
 

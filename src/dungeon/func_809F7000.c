@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/entity.h"
@@ -7,7 +8,6 @@ typedef struct {
     u32 word[3];
 } __attribute__((packed)) Copy12;
 
-extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern s32 rand(void);
 

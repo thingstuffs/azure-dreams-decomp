@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_func_800247B8_arg0.h"
@@ -8,7 +9,6 @@ typedef struct {
     u8 bytes[12];
 } Block12;
 
-extern void *func_8003FC64();
 extern s32 func_8004491C();
 extern s32 D_800D4954;
 extern Block12 D_800E233C;

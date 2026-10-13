@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 
@@ -5,7 +6,6 @@
 (*(type_ptr)((s8 *)(expr) + (offset)))
 
 s32 func_8003DB94();
-void *func_8003FC64();
 s32 func_8004491C();
 s32 rand();
 extern s32 D_80024264;

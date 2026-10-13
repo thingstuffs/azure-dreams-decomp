@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 /* Sub-object embedded at offset 0x20 of the allocated object. It matches the
@@ -19,7 +20,6 @@ typedef struct S_8004FDE0_obj {
     S_8004FDE0_sub sub;         /* 0x20 */
 } S_8004FDE0_obj;
 
-extern void *func_8003FC64(s32 a0);
 extern void func_8004FC68(void *a0);
 extern void func_8004FC2C(void *a0);
 extern s32 func_8004FD78(void *a0, void *a1);

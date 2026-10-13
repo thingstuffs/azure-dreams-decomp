@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "records/Rec_func_800247B8_arg0.h"
 #include "records/Rec_func_800247B8_arg1.h"
@@ -73,7 +74,6 @@ typedef struct S_800247B8_4 {
 
 
 extern s32 func_8002406C(s32);
-extern void *func_8003FC64(s32);
 extern s32 func_8004491C();
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);

@@ -1,10 +1,10 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 
 typedef s32 M2C_UNK;
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-void *func_8003FC64();
 void func_8004491C(void *, void *);
 s32 func_8004DA74();
 void func_800A6BBC();

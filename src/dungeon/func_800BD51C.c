@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
 
@@ -8,7 +9,6 @@ typedef struct {
     s32 field20;
 } S_800BD51C_node;
 
-extern void *func_8003FC64(s32 size);
 extern u8 D_800C2824[];
 
 /* Create an object with the supplied value and increment the global object count. */

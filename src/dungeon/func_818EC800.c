@@ -1,17 +1,17 @@
-/* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/scratchpad.h"
+/* cfail-repair: tf7-phase1-cache-v3 */
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 typedef struct { s32 w[10]; } Blk40;
 typedef struct { s32 w[4]; } Blk16;
 typedef struct { s32 w[2]; } Blk8;
 
-
 #define M2C_BREAK() 0
 #define M2C_SYNC() 0
 #define SP8(offset) M2C_FIELD(scratch, u8 *, (offset))
-#define SP16(offset) M2C_FIELD(scratch, u16 *, (offset))
-#define SP32(offset) M2C_FIELD(scratch, s32 *, (offset))
+#define SP16(offset) (scratch->h[(offset) / 2])
+#define SP32(offset) (scratch->sw[(offset) / 4])
 #define SP5D M2C_FIELD(quad_copies, u8 *, 53)
 
 typedef struct QuadTail {
@@ -154,7 +154,7 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
     u8 right_u;
     u16 draw_flags;
     s32 left_x;
-    u8 *scratch;
+    ScratchPad *scratch;
     void *frame;
     void *row_effect;
     u8 *frame_data;
@@ -168,7 +168,7 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
     render_context = *((void **) (((struct S_8003E2D8 *)&gameWork)));
     render_state = (u8 *) (((struct S_8003E2D8 *)&gameWork));
     frame = *((void **) (((s8 *) sprite) + 8));
-    scratch = (u8 *) 0x1F800000;
+    scratch = (ScratchPad *)0x1F800000;
     *((s32 *) (((s8 *) scratch) + 0xEC)) = 0;
     *((u16 *) (((s8 *) scratch) + 0x8C)) = 0;
     *((u16 *) (((s8 *) scratch) + 0x84)) = 0;
@@ -268,8 +268,8 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
             *((u16 *) (((s8 *) scratch) + 0x8A)) = quad_y;
             *((u16 *) (((s8 *) scratch) + 0x82)) = quad_y;
         }
-        func_800654B0(scratch + 0x70, scratch + 0x78, scratch + 0x80, scratch + 0x88, scratch + 0xF0, scratch + 0xF4,
-            scratch + 0xF8, scratch + 0xFC, scratch + 0x90, scratch + 0x94);
+        func_800654B0((u8 *)scratch + 0x70, (u8 *)scratch + 0x78, (u8 *)scratch + 0x80, (u8 *)scratch + 0x88, (u8 *)scratch + 0xF0, (u8 *)scratch + 0xF4,
+            (u8 *)scratch + 0xF8, (u8 *)scratch + 0xFC, (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
         *((s16 *) (((s8 *) packet) + 8)) = (s16) ((*((u16 *) (((s8 *) scratch) + 0xF0))) + (*((u16 *) (((s8 *) scratch)
             + 0xB8))));
         *((s16 *) (((s8 *) packet) + 0xA)) = (s16) ((*((u16 *) (((s8 *) scratch) + 0xF2)))
@@ -413,7 +413,7 @@ clut_done_done_done:
                 s32 link_lower;
                 s32 tag_high;
                 tag_high = (*((s32 *)packet) & 0xFF000000);
-                link_lower = (*((s32 *)(*((s32 *)(scratch + 0x20))))) & addr_mask;
+                link_lower = (*((s32 *)(*((s32 *)((u8 *)scratch + 0x20))))) & addr_mask;
                 *((s32 *)packet) = tag_high | link_lower;
             }
             row_tag = (s32 *) (*((s32 *) (((s8 *) scratch) + 0x20)));

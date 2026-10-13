@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -60,7 +61,6 @@ typedef struct {
 } EffectObject;
 
 extern void func_8003DB94(RenderState *, void *, s16);
-extern EffectObject *func_8003FC64(s32);
 extern void func_8004491C(EffectObject *, void *);
 
 extern u8 D_800DEAE0[];
@@ -89,7 +89,7 @@ void func_801685CC(EffectSource *source, Vec3 *origin, void *unused,
     color_mode = (u16)input_color_mode;
     held_source = source;
     positions = D_8016484C;
-    object = func_8003FC64(0x212);
+    object = (EffectObject *)func_8003FC64(0x212);
     if (object != NULL) {
         payload = &object->payload;
         payload->size_x = 0x50;

@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/entity_objects.h"
@@ -58,7 +59,6 @@ typedef struct D_80083780_t {
 } D_80083780_t;
 
 extern s32 func_8003FA44(s32);
-extern Obj *func_8003FC64(s32);
 extern void func_8004491C(Obj *, void *);
 extern void func_800C77D0(Obj *, SubA *, s32, s16);
 extern s32 func_8004A658(u8, u8);
@@ -115,7 +115,7 @@ void *func_800BA074(u8 *selection_data) {
     global_page = (u8 *)0x800E0000;
     object_slot = objects;
     do {
-        *object_slot = func_8003FC64(0x12);
+        *object_slot = (Obj *)func_8003FC64(0x12);
         if (*object_slot != 0) {
             SubA *transform;
             SubB *sprite;

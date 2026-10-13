@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 typedef struct DungeonRenderData {
@@ -31,7 +32,6 @@ typedef struct DungeonSource {
     s32 word[6];
 } DungeonSource;
 
-extern void *func_8003FC64(s32);
 extern void func_8003DB94(DungeonRenderData *, void *, s32);
 extern s32 rand(void);
 extern void func_8004491C(DungeonObject *, void *);

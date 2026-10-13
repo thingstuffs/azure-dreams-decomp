@@ -1,6 +1,7 @@
 #ifndef SHARED_DUNGEON_PROJECTILE_VIEWS_H
 #define SHARED_DUNGEON_PROJECTILE_VIEWS_H
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/sprite_source.h"
 /* Partial game-object views jointly observed by projectile producers and callbacks.
  * Offsets and signed/unsigned access forms are retail constraints; sizes are views. */
@@ -94,28 +95,19 @@ typedef struct ObjectStatusPrefix {
 } ObjectStatusPrefix;
 
 typedef struct {
-    s32 x;
-    s32 y;
-    s32 z;
+    Fixed1616 x;
+    Fixed1616 y;
+    Fixed1616 z;
     s32 rx;
     s32 ry;
     s32 rz;
-} FixedCoords;
+} ProjectileTargetTransform;
 
 typedef struct {
     s16 x;
     s16 y;
     s16 z;
 } SVECTOR;
-
-typedef struct {
-    u8 pad0[2];
-    u16 x;
-    u8 pad4[2];
-    u16 y;
-    u8 pad8[2];
-    u16 z;
-} PositionFields;
 
 typedef struct {
     u32 tag;

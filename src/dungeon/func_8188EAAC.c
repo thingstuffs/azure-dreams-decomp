@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 typedef struct S_800262AC_0 {
@@ -51,7 +52,6 @@ typedef struct S_800262AC_3 {
 
 
 extern s32 func_8003FA44(s32);
-extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 
 extern s32 D_80025E48;

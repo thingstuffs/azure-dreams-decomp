@@ -1,7 +1,7 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "m2c_compat.h"
 
-void *func_8003FC64();                       /* extern */
 extern M2C_UNK D_800B90B4;
 
 typedef struct S_800B90BC_0 {

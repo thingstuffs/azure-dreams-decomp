@@ -5,7 +5,7 @@
 
 
 /* Advance the animation and enqueue a textured quad at the projected position. */
-s32 func_800248F8(RenderRecord *render_record, PositionFields *position)
+s32 func_800248F8(RenderRecord *render_record, EntityRec *position)
 {
     SVECTOR world_point;
     s16 screen[4];
@@ -20,10 +20,10 @@ s32 func_800248F8(RenderRecord *render_record, PositionFields *position)
     POLY_FT4 *poly;
 
 next_record:
-    world_point.x = position->x;
+    world_point.x = (u16)position->x.w.i;
     frame_record = render_record;
-    world_point.y = position->y;
-    world_point.z = position->z - 14;
+    world_point.y = (u16)position->y.w.i;
+    world_point.z = (u16)position->z.w.i - 14;
 
     for (endpoint = 0; endpoint < 2; endpoint++) {
         depth = func_80065420(&world_point, &screen_base[endpoint * 2], projection_out, projection_out) - 8;

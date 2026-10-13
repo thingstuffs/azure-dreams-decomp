@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "modules/dungeon_ovl_19cc800.h"
 #include "common.h"
 #include "shared/object_flags.h"
@@ -17,10 +18,10 @@ typedef struct RenderData {
 
 
 /* Copy the owner's position and colour; flag completion once the owner is finished. */
-void func_80024E60(FollowerRecord *record, EffectPosition *position, RenderData *render)
+void func_80024E60(FollowerRecord *record, EntityRec *position, RenderData *render)
 {
     ObjectNodeHeader *owner;
-    EffectPosition *owner_pos;
+    EntityRec *owner_pos;
     s32 owner_done;
 
     owner = record->owner;
@@ -33,8 +34,8 @@ void func_80024E60(FollowerRecord *record, EffectPosition *position, RenderData 
     }
     render->color = ((RenderData *)owner->unk_0C)->color;
     owner_pos = record->owner->unk_08;
-    position->x = owner_pos->x;
-    position->y = owner_pos->y;
-    position->z = owner_pos->z;
+    position->x.w.i = (u16)owner_pos->x.w.i;
+    position->y.w.i = (u16)owner_pos->y.w.i;
+    position->z.w.i = (u16)owner_pos->z.w.i;
 }
 

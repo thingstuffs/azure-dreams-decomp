@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dir_step.h"
@@ -42,7 +43,6 @@ typedef struct S_81862C28_2 {
 } S_81862C28_2;   /* held_arg1 in func_80024428 */
 
 
-extern void *func_8003FC64(s32);
 extern void func_8003DB94(void *, void *, s32);
 extern void func_8004491C(void *, void *);
 extern s32 func_800A45D8(s32, s32, s16);

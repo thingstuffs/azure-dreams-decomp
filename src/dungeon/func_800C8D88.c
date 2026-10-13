@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/dungeon_status.h"
@@ -30,7 +31,6 @@ typedef struct {
     s16 field_22;
 } DungeonObject;
 
-extern void *func_8003FC64(s32);
 extern void func_800419EC(s32, s32);
 extern s32 func_800A6DA4(s32, s32);
 extern s32 func_800BCA68(s32, s32);

@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -6,7 +7,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern M2C_UNK D_80167540[3];
 extern u8 D_800DEAE0[];
-extern void *func_8003FC64(s32);
 extern s32 func_8004491C(void *, void *);
 extern void func_8003DB94(void *, void *, s32);
 

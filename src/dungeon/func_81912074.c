@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 typedef struct S_80025874_0 {
@@ -31,7 +32,6 @@ typedef struct {
     s32 words[6];
 } Copy24;
 
-extern void *func_8003FC64();
 extern s32 D_800253F4;
 
 /* Allocates and initializes an object, copying 24 bytes of source data into it. */

@@ -1,10 +1,10 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 
 extern s32 func_8003FA44();
-extern void *func_8003FC64();
 extern s32 func_8004491C();
 extern s32 func_800A56E0(s32);
 extern void func_800A6508(void);

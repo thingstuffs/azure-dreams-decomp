@@ -12,8 +12,6 @@ ObjectNodeHeader *func_8003FD64(s32 flags, ObjectNodeHeader **head);
  * while FA7000 declared s16. Preserve both declarations in their separate TUs;
  * the FA7000 row and native byte proofs cover its signed-halfword spelling. */
 #include "shared/dungeon_height_query.h"
-/* Active-list allocator initializes and returns the same node header. */
-ObjectNodeHeader *func_8003FC64(s32 flags);
 /* Some retail callers supply an additional ignored context word in a2. */
 s32 func_8004491C(void *entry, s32 registration_key, ...);
 void func_800478B8(void *render_entry);

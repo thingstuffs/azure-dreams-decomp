@@ -89,7 +89,6 @@ typedef struct S_80022F60_6 {
 extern void func_80033B78(s32);
 extern s32 func_80033BC0(s32);
 extern s32 func_800352FC(void);
-extern void *func_8003FC64(s32);
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void SD_Call(s32);

@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
@@ -6,7 +7,6 @@ extern s32 D_800CBDB4;
 extern u8 D_800E1B5D;
 
 extern s32 func_8003FA44(s32 a0);
-extern void *func_8003FC64(s32 a0);
 extern s32 func_80042900(s32 a0, s32 a1);
 extern s32 func_800A48F0(s32 a0, s32 a1, s32 a2);
 extern void func_800419EC(s32 a0, s32 a1);

@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -66,7 +67,6 @@ typedef struct Rows {
     u16 row[4][3];
 } Rows;
 
-extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern s32 func_80069EF8(void);
 extern void func_80174214(void *, s32, s32, s32, s32, s32, s32);

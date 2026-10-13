@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
@@ -88,7 +89,6 @@ typedef struct S_818C8A70_7_pre {
 extern s16 D_80024D04;
 extern u8 D_800DE870[9];
 extern u8 D_800DEC00[];
-void *func_8003FC64();                       /* extern */
 s32 func_8004491C();                /* extern */
 s32 func_80069EF8();                                /* extern */
 s32 func_8009D218();            /* extern */

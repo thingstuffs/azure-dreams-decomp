@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
@@ -113,7 +114,6 @@ extern u8 D_801752B4[8];
 extern Copy12 D_8017539C;
 
 extern s32 func_8003F270(void);
-extern void *func_8003FC64(s32);
 extern void func_80047784(void *, s32, s32);
 extern void *func_800A05A4(void *, s32, s32, s32, s32);
 extern void func_800A2B04(void *, s32, s32);

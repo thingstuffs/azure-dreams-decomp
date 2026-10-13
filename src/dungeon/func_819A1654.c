@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
@@ -147,7 +148,6 @@ extern Blob12 D_80026180[];
 extern Blob12 D_8002618C[];
 extern Blob24 D_80026198[];
 
-extern Task *func_8003FC64(s32);
 extern s32 func_8003DF74(void *, void *, void *, s32);
 extern void func_8004491C(Task *, void (*)(void));
 extern s32 func_80069EF8(void);
@@ -253,7 +253,7 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                     particle_callback = func_80024B3C;
                     origin_loop = D_80083780;
                     do {
-                        task = func_8003FC64(0x212);
+                        task = (Task *)func_8003FC64(0x212);
                         effect = &task->effect;
                         if (task != 0) {
                             effect->timer3A = 20;
@@ -289,7 +289,7 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
 
             if (entity->timer == 24) {
                 if (func_8003DF74((&D_80082E80[0])->found, &D_80082E80[0], &entity->x, 0) != 0) {
-                    task = func_8003FC64(0x212);
+                    task = (Task *)func_8003FC64(0x212);
                     effect = &task->effect;
                     if (task != 0) {
                         s32 burst_size;
@@ -354,7 +354,7 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                             next_entity->path[2] = entity->z / 4 + (origin_path->z - entity->base[2]) / 2;
 
                             if (entity->timer == first_path_timer) {
-                                task = func_8003FC64(0x212);
+                                task = (Task *)func_8003FC64(0x212);
                                 effect = &task->effect;
                                 if (task != 0) {
                                     effect->timer3A = 20;
@@ -392,7 +392,7 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                             }
 
                             if (entity->timer == 2) {
-                                task = func_8003FC64(0x212);
+                                task = (Task *)func_8003FC64(0x212);
                                 effect = &task->effect;
                                 if (task != 0) {
                                     s32 bright_color;
@@ -442,7 +442,7 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
 
                             saved_timer = entity->timer;
                             if (saved_timer == 1) {
-                                task = func_8003FC64(0x212);
+                                task = (Task *)func_8003FC64(0x212);
                                 effect = &task->effect;
                                 if (task != 0) {
                                     s32 bright_color;
@@ -491,7 +491,7 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
 
                                 rechecked_timer = entity->timer;
                                 if (rechecked_timer == saved_timer) {
-                                    task = func_8003FC64(0x212);
+                                    task = (Task *)func_8003FC64(0x212);
                                     effect = &task->effect;
                                     if (task != 0) {
                                         effect->timer3A = 20;
@@ -544,7 +544,7 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
 
                                     saved_timer = entity->timer;
                                     if (saved_timer == rechecked_timer) {
-                                        task = func_8003FC64(0x212);
+                                        task = (Task *)func_8003FC64(0x212);
                                         effect = &task->effect;
                                         if (task != 0) {
                                             effect->timer3A = 20;
@@ -652,7 +652,7 @@ loop_1:
             world = D_800814A8;
             focus = world->target;
             if (focus != 0 && entity->timer == 1) {
-                task = func_8003FC64(0x212);
+                task = (Task *)func_8003FC64(0x212);
                 effect = &task->effect;
                 if (task != 0) {
                     effect->timer3A = 13;

@@ -1,29 +1,16 @@
+#include "common.h"
+#include "shared/dungeon_effect_views.h"
+#include "shared/entity.h"
 /* Selector 59, retail file [0x1990D98, 0x1990FE8); complete callable clone. */
 #include "shared/gpu_packets.h"
-#include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_node.h"
 
 extern u32 func_80065420();
 
 /* Position the point is projected from: three 4-byte slots, only the second halfword of each is used. */
-typedef struct Bank1990800_1990d98_PointPosition {
-    u16 pad_00;
-    u16 x;
-    u16 pad_04;
-    u16 y;
-    u16 pad_08;
-    u16 z;
-} Bank1990800_1990d98_PointPosition;
 
 /* The effect point's record (the object header precedes it). */
-typedef struct Bank1990800_1990d98_PointRecord {
-    u8 pad_00[8];
-    u32 color;          /* r/g/b/code word copied into the packet */
-    u8 pad_0C[0x26];
-    s16 scale;          /* colour scale: numerator */
-    s16 scale_max;      /* colour scale: denominator */
-} Bank1990800_1990d98_PointRecord;
 
 /* GPU scratchpad (0x1F800000) workspace used while projecting. */
 typedef struct Bank1990800_1990d98_Scratch80024598 {
@@ -42,23 +29,15 @@ typedef struct Bank1990800_1990d98_Scratch80024598 {
 } Bank1990800_1990d98_Scratch80024598;
 
 /* Shaded point primitive (code 0x6A, 3 words). */
-typedef struct Bank1990800_1990d98_Packet80024598 {
-    u32 tag;
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 code;
-    u32 data;
-} Bank1990800_1990d98_Packet80024598;
 
 /* Projects a colored point and links its drawing packets into the ordering table. */
-s32 func_80024598(Bank1990800_1990d98_PointRecord *record, Bank1990800_1990d98_PointPosition *position)
+s32 func_80024598(ScaledPointRecord *record, EntityRec *position)
 {
     GpuContext **state_ptr;
     Bank1990800_1990d98_Scratch80024598 *scratch;
     GpuContext *render_state;
-    Bank1990800_1990d98_Packet80024598 *packet;
-    Bank1990800_1990d98_Packet80024598 *mode_packet;
+    PointPacket *packet;
+    PointPacket *mode_packet;
     ObjectNodeHeader *node;
     u8 blue;
     u32 depth_index;
@@ -69,10 +48,10 @@ s32 func_80024598(Bank1990800_1990d98_PointRecord *record, Bank1990800_1990d98_P
     scratch->cursor = render_state->packetCursor;
     scratch->ot = (u32 *)&render_state->orderTag;
     do {
-        packet = (Bank1990800_1990d98_Packet80024598 *)scratch->cursor;
-        scratch->x = position->x;
-        scratch->y = position->y;
-        scratch->z = position->z;
+        packet = (PointPacket *)scratch->cursor;
+        scratch->x = (u16)position->x.w.i;
+        scratch->y = (u16)position->y.w.i;
+        scratch->z = (u16)position->z.w.i;
         scratch->cursor = (u8 *)packet + 0xC;
 
         depth_index = func_80065420(scratch, (u8 *)packet + 8, &scratch->xy, &scratch->depth);
@@ -89,7 +68,7 @@ s32 func_80024598(Bank1990800_1990d98_PointRecord *record, Bank1990800_1990d98_P
             ((GpuLinkTag *)&packet->tag)->addr = ((GpuLinkTag *)&scratch->ot[scratch->index])->addr;
             scratch->ot[scratch->index] = (scratch->ot[scratch->index] & 0xFF000000) | ((u32)packet & 0x00FFFFFF);
 
-            mode_packet = (Bank1990800_1990d98_Packet80024598 *)scratch->cursor;
+            mode_packet = (PointPacket *)scratch->cursor;
             scratch->cursor = (u8 *)mode_packet + 0xC;
             func_80067F20(mode_packet, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
 
@@ -98,7 +77,7 @@ s32 func_80024598(Bank1990800_1990d98_PointRecord *record, Bank1990800_1990d98_P
         }
 
         node = ((ObjectNodeHeader *)record - 1)->chain_next;
-        record = (Bank1990800_1990d98_PointRecord *)(node + 1);
+        record = (ScaledPointRecord *)(node + 1);
         if (node == 0) {
             break;
         }

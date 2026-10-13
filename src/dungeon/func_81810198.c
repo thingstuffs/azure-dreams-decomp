@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/runtime_dispatch.h"
 #include "common.h"
 #include "shared/object_flags.h"
@@ -9,7 +10,6 @@ extern void func_800253C0();
 extern s32 func_80026168();
 extern s32 func_80026A64();
 extern s32 func_8002845C();
-extern void *func_8003FC64();
 extern s32 func_8004A330();
 extern void func_800DBF38();
 extern s32 D_80029498;

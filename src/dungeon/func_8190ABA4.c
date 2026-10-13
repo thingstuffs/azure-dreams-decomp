@@ -16,15 +16,15 @@ typedef struct EffectRecord {
 } EffectRecord;
 
 /* Raise the position toward the queried height and set flags when the countdown expires. */
-void func_800243A4(EffectRecord *state, RaisedEffectPosition *position)
+void func_800243A4(EffectRecord *state, EntityRec *position)
 {
     u16 countdown;
 
     D_80025630 = 1;
-    if ((s16)position->z_slot.half.z <
-        (s16)func_800BCB04(position->x, position->y,
-                      (s16)(position->z_slot.half.z + 2))) {
-        position->z_slot.word += 0x20000 + (rand() & 0xFFF);
+    if ((s16)(u16)position->z.w.i <
+        (s16)func_800BCB04((u16)position->x.w.i, (u16)position->y.w.i,
+                      (s16)((u16)position->z.w.i + 2))) {
+        position->z.v += 0x20000 + (rand() & 0xFFF);
     }
 
     countdown = state->timer - 8;

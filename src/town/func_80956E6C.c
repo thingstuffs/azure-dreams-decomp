@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 typedef struct S_80956E6C_0 {
@@ -44,7 +45,6 @@ typedef struct Palette {
     s32 value[5];
 } Palette;
 
-extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 
 extern Palette D_800201B4;

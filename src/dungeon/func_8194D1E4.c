@@ -1,7 +1,7 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "m2c_compat.h"
 
-void *func_8003FC64();                       /* extern */
 extern M2C_UNK D_80024918;
 
 typedef s32 UnalignedS32 __attribute__((aligned(1)));

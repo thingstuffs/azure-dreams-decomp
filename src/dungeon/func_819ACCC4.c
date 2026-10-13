@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "modules/dungeon_ovl_19cc800.h"
 #include "common.h"
 #include "shared/object_node.h"
@@ -22,10 +23,10 @@ extern void func_800B835C();
 extern u8 D_8002746C[9];
 
 /* Allocate and initialize an effect object from the supplied part data. */
-void *func_800244C4(EffectPosition *source_pos, s32 offset_base) {
+void *func_800244C4(EntityRec *source_pos, s32 offset_base) {
     s32 init_data[2];
     ObjectNodeHeader *object;
-    EffectPosition *pos;
+    EntityRec *pos;
     EffectSprite *sprite;
     void *result;
 
@@ -37,9 +38,9 @@ void *func_800244C4(EffectPosition *source_pos, s32 offset_base) {
 
         pos = object->unk_08;
         object->unk_10 = func_80024328;
-        pos->x = source_pos->x;
-        pos->y = source_pos->y;
-        pos->z = source_pos->z;
+        pos->x.w.i = (u16)source_pos->x.w.i;
+        pos->y.w.i = (u16)source_pos->y.w.i;
+        pos->z.w.i = (u16)source_pos->z.w.i;
 
         sprite = object->unk_0C;
         sprite->unk_08 = D_80027460;

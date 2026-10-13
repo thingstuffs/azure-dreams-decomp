@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 typedef struct ObjSub {
@@ -27,7 +28,6 @@ typedef struct Obj {
     s32 arg;
 } Obj;
 
-extern Obj *func_8003FC64(s32);
 extern s16 func_800BCAD0(void *);
 extern void func_80025340(Obj *);
 extern u8 D_80025940[];
@@ -45,7 +45,7 @@ void func_8197829C(s32 object_arg, s32 *start_pos, s32 *end_pos)
     s32 z_value;
     s16 height;
 
-    obj = func_8003FC64(0x212);
+    obj = (Obj *)func_8003FC64(0x212);
     if (obj != 0) {
         obj->arg = object_arg;
         motion = (ObjSub *)&obj->arg;

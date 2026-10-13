@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 #ifndef NULL
@@ -16,7 +17,6 @@ typedef struct S_800A47A8_5 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-void *func_8003FC64();
 s32 func_8004491C();
 extern s32 D_800A3918[];
 extern s32 D_800A3B1C[];

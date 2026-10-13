@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -81,7 +82,6 @@ typedef struct {
     s16 field2;
 } TableEntry;
 
-void *func_8003FC64();
 s32 func_8004491C();
 s32 func_80069EF8();
 extern M2C_UNK D_800777F4;

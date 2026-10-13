@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dir_step.h"
@@ -8,7 +9,6 @@ typedef s32 M2C_UNK;
 #define NULL 0
 
 M2C_UNK func_8003DB94();
-void *func_8003FC64();
 s32 func_8004491C();
 M2C_UNK func_800478B8();
 s32 func_800BCB04();

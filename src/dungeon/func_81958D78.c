@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 #ifndef NULL
@@ -40,7 +41,6 @@ typedef struct S_80024578_3 {
 } S_80024578_3;   /* effect in func_80024578 */
 
 
-extern void *func_8003FC64();
 extern s32 func_800B835C();
 extern u8 D_800243C4[9];
 extern u8 D_80028208[9];

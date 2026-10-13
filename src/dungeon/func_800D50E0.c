@@ -1,6 +1,6 @@
+#include "shared/object_node.h"
 #include "common.h"
 
-extern void *func_8003FC64();
 extern void func_8004491C();
 extern s16 func_8006649C();
 extern s32 D_800DA93C[];

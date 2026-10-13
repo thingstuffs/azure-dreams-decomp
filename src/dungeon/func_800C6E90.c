@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/game_work.h"
 
 typedef unsigned char u8;
@@ -46,7 +47,6 @@ typedef struct DungeonPacket
     u16 field1E;
 }
 DungeonPacket;
-extern void *func_8003FC64();
 extern void func_8004491C();
 extern s32 D_800CC4F0;
 extern s32 D_800E03D4[3];

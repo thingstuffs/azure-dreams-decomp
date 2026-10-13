@@ -143,7 +143,7 @@ void func_800257E0(void *state_data, void *source_data) {
     case 1:
         if (((S_8187BFE0_0 *)state_data)->unk_02.s == 0) {
             ((S_8187BFE0_0 *)state_data)->unk_02.u++;
-            node = func_8003FC64(0x212);
+            node = (u8 *)func_8003FC64(0x212);
             if (node == 0) {
                 break;
             }

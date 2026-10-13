@@ -1,8 +1,8 @@
+#include "shared/object_node.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
 
-void *func_8003FC64();                       /* extern */
 void func_8004491C(void *, void *); /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */

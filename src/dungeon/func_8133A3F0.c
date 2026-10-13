@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
@@ -32,7 +33,6 @@ typedef struct S_func_8133A3F0_2 {
     u16 unk_0A;
 } S_func_8133A3F0_2;
 
-extern void *func_8003FC64();
 extern s32 func_8004491C();
 extern s32 D_80170F68;
 extern s8 D_80175DC1;

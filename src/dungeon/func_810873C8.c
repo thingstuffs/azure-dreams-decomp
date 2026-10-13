@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80082E80.h"
@@ -42,7 +43,6 @@ typedef struct {
     s32 w[6];
 } Block24;
 
-extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, s32, s32);
 extern s32 func_8003DE58(s32, void *, u16 *, s32);

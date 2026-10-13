@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "records/Rec_func_8008F074_arg0.h"
 
@@ -48,7 +49,6 @@ typedef struct S_800BF9E4_5 {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern M2C_UNK func_8003DB94();
-extern void *func_8003FC64();
 extern s32 func_8004491C();
 extern void func_8008F074();
 

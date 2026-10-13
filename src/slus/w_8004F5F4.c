@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -16,7 +17,6 @@ typedef struct S_8004F5F4_node {
     S_8004F5F4_sub sub;
 } S_8004F5F4_node;
 
-extern void *func_8003FC64(s32 a0);
 extern void func_8004F5B0(void *a0);
 extern void *func_8004FDE0(void *a0);
 extern s32 D_800814A0_w asm("D_800814A0");

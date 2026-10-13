@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -19,7 +20,6 @@ typedef struct S_800B3D50_node {
     S_800B3D50_sub sub;      /* 0x20 */
 } S_800B3D50_node;
 
-extern void *func_8003FC64(s32 a0);
 extern s32 func_800B1434(void *a0, s32 a1);
 extern void *func_800B091C(void *a0);
 extern void func_800B13D4(void *a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7);

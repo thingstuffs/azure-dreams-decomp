@@ -1,7 +1,7 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void *func_8003FC64();
 extern s32 func_800269E8();
 extern s32 func_800267B0();
 extern void func_800269A0();

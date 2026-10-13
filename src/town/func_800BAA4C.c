@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 typedef struct Obj {
@@ -8,7 +9,6 @@ typedef struct Obj {
     s16 field22;
 } Obj;
 
-extern Obj *func_8003FC64(s32);
 extern u8 D_800D2FB4[];
 extern u8 D_800D381A[];
 extern s32 D_800B7B8C;
@@ -24,7 +24,7 @@ void func_800B81AC(void) {
     u8 entry_index;
     s32 entry_kind;
 
-    obj = func_8003FC64(0);
+    obj = (Obj *)func_8003FC64(0);
     if (obj != 0) {
         entry_table = D_800D2FB4;
         entry_indices = D_800D381A;

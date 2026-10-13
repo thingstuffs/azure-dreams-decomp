@@ -28,7 +28,7 @@ void func_80024020(ProjectileState *effect, ProjectileMotion *motion, Projectile
     s32 index_or_x;
     s32 tile_dx;
     s32 tile_dy;
-    FixedCoords target_pos;
+    ProjectileTargetTransform target_pos;
     s16 launch_offset[3];
     ProjectileObject *caster_obj;
     ProjectileSprite *caster_sprite;
@@ -173,17 +173,17 @@ void func_80024020(ProjectileState *effect, ProjectileMotion *motion, Projectile
         }
         caster->unk_73.u = target_tile;
         target_tile = caster->unk_72.s;
-        HI16(target_pos.x) = (target_tile << 6) + 32;
+        HI16(target_pos.x.v) = (target_tile << 6) + 32;
         target_tile = caster->unk_73.s;
-        HI16(target_pos.y) = (target_tile << 6) + 32;
-        HI16(target_pos.z) = (s16)func_800BCB04(HI16U(target_pos.x), HI16U(target_pos.y),
+        HI16(target_pos.y.v) = (target_tile << 6) + 32;
+        HI16(target_pos.z.v) = (s16)func_800BCB04(HI16U(target_pos.x.v), HI16U(target_pos.y.v),
                                            (s16)(((ProjectileMotion *)caster_obj->unk_08)->unk_08.h.unk_0A - 48));
-        if (HI16(target_pos.z) >= 512) {
-            HI16(target_pos.z) = ((ProjectileMotion *)caster_obj->unk_08)->unk_08.h.unk_0A;
+        if (HI16(target_pos.z.v) >= 512) {
+            HI16(target_pos.z.v) = ((ProjectileMotion *)caster_obj->unk_08)->unk_08.h.unk_0A;
         }
-        HI16(target_pos.z) -= 48;
-        index_or_x = HI16(target_pos.x) - motion->unk_00.h.unk_02;
-        offset_y = HI16(target_pos.y) - motion->unk_04.h.unk_06;
+        HI16(target_pos.z.v) -= 48;
+        index_or_x = HI16(target_pos.x.v) - motion->unk_00.h.unk_02;
+        offset_y = HI16(target_pos.y.v) - motion->unk_04.h.unk_06;
         distance = index_or_x;
         distance = abs(distance);
         abs_dy = offset_y;
@@ -196,7 +196,7 @@ void func_80024020(ProjectileState *effect, ProjectileMotion *motion, Projectile
         effect->unk_50.s = travel_frames;
         motion->unk_0C = (index_or_x << 16) / effect->unk_50.s;
         motion->unk_10 = (offset_y << 16) / effect->unk_50.s;
-        motion->unk_14 = (target_pos.z - motion->unk_08.s) /
+        motion->unk_14 = (target_pos.z.v - motion->unk_08.s) /
                                  effect->unk_50.s;
         effect->unk_0C.s = 8;
         effect->unk_50.u = effect->unk_50.u + effect->unk_0C.u;

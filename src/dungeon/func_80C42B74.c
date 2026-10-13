@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_func_80173CFC_arg1.h"
@@ -45,7 +46,6 @@ typedef struct S_80174374_4 {
 } S_80174374_4;   /* pos in func_80174374 */
 
 
-extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern s32 func_80064584(s32);
 extern s32 func_800644B8(s32);

@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 typedef struct S_80050BA4_s1
@@ -25,7 +26,6 @@ typedef struct S_80050BA4_sub
 }
 S_80050BA4_sub;
 
-extern void *func_8003FC64(s32 a0);
 extern s32 func_80050AF0(void *a0, s32 a1);
 extern void *func_80050B7C(void *a0);
 extern void func_80050A00(void *a0, void *a1);

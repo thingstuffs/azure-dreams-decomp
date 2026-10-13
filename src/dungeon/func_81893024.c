@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "m2c_compat.h"
 
@@ -23,7 +24,6 @@ typedef struct {
 } M2C_OBJECT;
 
 extern s32 D_8002445C[];
-void *func_8003FC64();
 s32 func_8004491C();
 extern M2C_UNK D_800243F8;
 

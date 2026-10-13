@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-13T00:54:40Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-13T04:56:52Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -137,7 +137,7 @@ Placement alone does not override any lower-level or source-residue guard.
 | maspsx marker pins (scaffolding) | 394 | 347,512 | 12.5% | 0 | 0 | 0.0% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 5.6% | 9 | 14,008 | 0.5% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
-| local address-named struct | 633 | 346,872 | 12.4% | 2885 | 1,502,528 | 53.9% |
+| local address-named struct | 633 | 346,872 | 12.4% | 2884 | 1,502,036 | 53.9% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 5.5% | 7149 | 2,408,856 | 86.5% |
 
 Pin sites now: 40 in 24 rows; REG 18, KEEP 10, KEEP_NV 6, USE_NV 2, UNDEF 1, USE2_NV 1, MEM_BARRIER 1, SCHED_BARRIER 1.  At the pin: 25,901; REG 12,800, KEEP 6,935, KEEP_NV 2,505, SCHED_BARRIER 1,355, TAILSLOT_PIN 506, USE 294, USE_NV 260, KEEP_DEP_NV 190.

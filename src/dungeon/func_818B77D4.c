@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 typedef struct {
@@ -32,7 +33,6 @@ typedef struct {
     s32 words[6];
 } Arg1818B77D4;
 
-extern Obj818B77D4 *func_8003FC64();
 extern s32 rand(void);
 extern void func_8004491C(Obj818B77D4 *, void *);
 extern u8 D_800242FC[12];
@@ -44,7 +44,7 @@ void func_818B77D4(Arg0818B77D4 *source, Arg1818B77D4 *payload) {
     Inner818B77D4 *state;
     u16 source_value;
 
-    obj = func_8003FC64(0x212);
+    obj = (Obj818B77D4 *)func_8003FC64(0x212);
     if (obj != 0) {
         obj->unk10 = D_800242FC;
         state = &obj->unk20;

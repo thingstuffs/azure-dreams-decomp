@@ -1,20 +1,15 @@
+#include "shared/entity.h"
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-typedef union {
-    s32 value;
-    struct {
-        u16 lo;
-        s16 hi;
-    } half;
-} FixedCoord;
+
 
 typedef struct {
-    FixedCoord x;
-    FixedCoord y;
+    Fixed1616 x;
+    Fixed1616 y;
     u8 pad08[2];
     s16 height;
     s32 velocity_x;
@@ -104,8 +99,8 @@ void func_80F36D0C(Entity *entity, Motion *motion, Effect *effect, Object *objec
     switch (entity->state) {
     case 0:
         direction = (object->angle >> 9) & 7;
-        entity->saved_x = motion->x.half.hi;
-        entity->saved_y = motion->y.half.hi;
+        entity->saved_x = motion->x.w.i;
+        entity->saved_y = motion->y.w.i;
         index = (s16)func_800A70E4(effect->x_tile + dirStepX[direction],
                                    effect->y_tile + dirStepY[direction], object->height);
         records = ((PackedRecord *)D_800E3548);
@@ -167,8 +162,8 @@ void func_80F36D0C(Entity *entity, Motion *motion, Effect *effect, Object *objec
         motion->velocity_y = -dirStepY[index] << 16;
         effect->callback = (void (*)(void))D_80174A74;
         func_80047784(effect, D_80174A74[((gameWork.view.viewAngle + (s16)object->angle + 0x100) >> 9) & 7], 0);
-        direction = abs(entity->saved_y - motion->y.half.hi);
-        distance = abs(entity->saved_x - motion->x.half.hi);
+        direction = abs(entity->saved_y - motion->y.w.i);
+        distance = abs(entity->saved_x - motion->x.w.i);
         if (distance < direction) {
             distance = direction;
         }
@@ -181,8 +176,8 @@ void func_80F36D0C(Entity *entity, Motion *motion, Effect *effect, Object *objec
         if (entity->timer > 0) {
             break;
         }
-        motion->x.value = entity->saved_x << 16;
-        motion->y.value = entity->saved_y << 16;
+        motion->x.v = entity->saved_x << 16;
+        motion->y.v = entity->saved_y << 16;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         func_800AD594(object, 0x100);

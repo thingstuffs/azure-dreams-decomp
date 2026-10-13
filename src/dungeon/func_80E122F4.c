@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -14,7 +15,6 @@ typedef struct {
 } Vec3u16;
 
 extern s32 func_8003DE58();
-extern void *func_8003FC64();
 extern void func_8004491C();
 extern void func_80047784();
 

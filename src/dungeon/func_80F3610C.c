@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
@@ -60,7 +61,6 @@ typedef struct {
 } __attribute__((packed)) Unaligned32;
 
 
-extern void *func_8003FC64();
 extern s32 func_8004491C();
 extern s32 func_8004A658();
 extern s32 func_800A56E0();

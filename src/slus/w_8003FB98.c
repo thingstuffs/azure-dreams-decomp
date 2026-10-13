@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 typedef struct Node {
@@ -12,7 +13,6 @@ extern void func_80044A50(void *a0);
 extern void func_8003FFF0(void *a0);
 extern void func_80040044(void *a0);
 extern void *func_8003FD64(void *a0, void *a1);
-extern void *func_8003FC64(void *a0);
 
 /* Removes the first eligible active node other than excluded_node, then retries allocation. */
 void *func_8003FB98(void *flags, void *excluded_node)

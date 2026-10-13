@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 extern int abs(int);
@@ -8,7 +9,6 @@ extern int abs(int);
 #define U8_AT(p, o) (*(u8 *)((u8 *)(p) + (o)))
 #define PTR_AT(p, o) (*(void **)((u8 *)(p) + (o)))
 
-extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 
 extern u8 D_80024334[16];

@@ -99,7 +99,6 @@ extern u8 D_800F7968[];
 extern void func_80026CE4(s16 value);
 extern void func_8003DB94(void *, void *, s32);
 extern void func_8003E188(s32, s32);
-extern void *func_8003FC64(s32);
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern s32 rand(void);

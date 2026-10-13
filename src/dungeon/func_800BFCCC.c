@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -66,7 +67,6 @@ extern u8 D_800C4F20[];
 extern u8 D_800C55A0[];
 extern u8 D_800DF630[];
 
-extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern int rand(void);
 extern void func_800A56E0(s32);

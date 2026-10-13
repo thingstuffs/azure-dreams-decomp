@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 typedef struct S_81868E84_0 {
@@ -50,7 +51,6 @@ typedef struct S_81868E84_4 {
 } S_81868E84_4;   /* temp_v0_3 in func_81868E84 */
 
 
-extern void *func_8003FC64(s32);
 extern u8 D_80024384[];
 
 /* Creates object 0x212 with its owner, initial state, and two copies of the supplied coordinates. */

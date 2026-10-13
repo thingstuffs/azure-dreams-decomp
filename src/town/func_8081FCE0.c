@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 #ifndef NULL
@@ -70,7 +71,6 @@ extern u8 D_80046398[];
 
 extern void func_80022290();
 extern void func_80033B9C();
-extern void *func_8003FC64();
 extern void func_8004491C();
 extern void func_8004E9E4();
 extern void func_8006733C();

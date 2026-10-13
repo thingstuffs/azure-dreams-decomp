@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -91,7 +92,6 @@ typedef struct {
     s16 y;
 } DirectionVector;
 
-extern Entity *func_8003FC64(s32);
 extern void func_8004491C(Entity *, void *);
 extern s32 func_801745B4(DungeonArg *selection, u8 *context);
 
@@ -113,7 +113,7 @@ void func_80174D98(void *owner, SourcePosition *source_pos, void *unused,
     s32 *results;
     s32 entry_index;
 
-    entity = func_8003FC64(0x12);
+    entity = (Entity *)func_8003FC64(0x12);
     if (entity == 0) {
         return;
     }

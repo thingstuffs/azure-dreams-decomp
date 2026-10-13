@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 
@@ -56,7 +57,6 @@ typedef struct Obj12State {
 } Obj12State;
 
 
-void *func_8003FC64();                       /* extern */
 s32 func_8004491C();           /* extern */
 struct ConfigWord { s32 value; };
 extern u8 D_8009E038[];

@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -18,7 +19,6 @@ typedef struct {
     PackedVec data;
 } Object;
 
-extern Object *func_8003FC64(s32);
 extern void func_8004491C(Object *, void *);
 extern PackedVec D_80077818[];
 extern s32 *D_80174704[3];
@@ -33,7 +33,7 @@ void func_8016E434(void) {
     u8 *sprite;
 
     source_pos = (s32 *)D_80174704[0][2];
-    obj = func_8003FC64(0x212);
+    obj = (Object *)func_8003FC64(0x212);
     if (obj != 0) {
         obj->callback = D_8016E300;
         func_8004491C(obj, func_80045340);

@@ -74,7 +74,6 @@ extern void func_80023DA0();
 extern void func_80033B9C();
 extern void func_8003DB94();
 extern void func_8003E188();
-extern u8 *func_8003FC64();
 extern u8 *func_8003FD64();
 extern void func_8004491C();
 extern s16 func_800C2AE8();
@@ -182,7 +181,7 @@ s32 func_800212B8(void) {
         sprite_handler = D_80023158;
         sprite = (u8 *)0x1000;
         do {
-            obj = func_8003FC64(0x136);
+            obj = (u8 *)func_8003FC64(0x136);
             if (obj != 0) {
                 func_8004491C(obj, D_80046398);
                 grid_sprite = AT(u8 *, obj, 0xC);
@@ -203,7 +202,7 @@ s32 func_800212B8(void) {
 
     index = 3;
     do {
-        obj = func_8003FC64(0x136);
+        obj = (u8 *)func_8003FC64(0x136);
         if (obj != 0) {
             func_8004491C(obj, func_80045340);
             sprite = AT(u8 *, obj, 0xC);

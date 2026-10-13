@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 /* Sub-object embedded at offset 0x20 of the allocated node. */
@@ -26,7 +27,6 @@ typedef struct S_800525D4_obj {
 
 extern u8 D_80071E44[0x10];
 
-extern void *func_8003FC64(s32 a0);
 extern void func_8003F540(int a0, int a1, int a2, int a3);
 extern short SD_Call(int a0);
 extern void *func_8003FD64(s32 a0, void *a1);

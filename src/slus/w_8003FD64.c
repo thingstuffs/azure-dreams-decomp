@@ -1,17 +1,10 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/sys_flags.h"
 
 #include "common.h"
 
-typedef struct S_80081490 {
-    struct S_80081490 *next;    /* 0x00 */
-    struct S_80081490 **pprev;  /* 0x04 - address of the slot pointing at this node */
-    void *field_0x8;            /* 0x08 */
-    void *field_0xC;            /* 0x0C */
-    u8 pad_0x10[0x1E - 0x10];
-    u16 field_0x1E;             /* 0x1E */
-    u8 pad_0x20[0x124 - 0x20];
-} S_80081490;
+
 
 typedef struct S_80013714 {
     u16 flags;      /* 0x0 */
@@ -23,10 +16,10 @@ extern void func_8003DB4C(int *p, int n);
 extern void *func_8003FB98(s32 a0, void *a1);
 
 /* Allocates and initializes a node with the requested flags and links it at the list head. */
-void *func_8003FD64(s32 flags, S_80081490 **list_head)
+void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head)
 {
-    S_80081490 *node;
-    S_80081490 *free_node;
+    ObjectNodeHeader *node;
+    ObjectNodeHeader *free_node;
     u8 *payload_cursor;
 
     if ((D_80013714 & 0x2) && (flags & 0x200)) {
@@ -34,13 +27,13 @@ void *func_8003FD64(s32 flags, S_80081490 **list_head)
     }
 
     {
-        extern S_80081490 *D_80081490;
+        extern ObjectNodeHeader *D_80081490;
         free_node = D_80081490;
     }
     if (free_node != 0) {
         node = free_node;
         {
-            extern S_80081490 *D_80081490;
+            extern ObjectNodeHeader *D_80081490;
             D_80081490 = node->next;
         }
         func_8003DB4C((int *)node, 0x49);
@@ -49,26 +42,26 @@ void *func_8003FD64(s32 flags, S_80081490 **list_head)
         *list_head = node;
         node->pprev = list_head;
         if (node->next != 0) {
-            node->next->pprev = (S_80081490 **)node;
+            node->next->pprev = (ObjectNodeHeader **)node;
         }
 
-        node->field_0x1E = (u16)(flags | 0x4000);
+        node->flags = (u16)(flags | 0x4000);
 
         payload_cursor = (u8 *)node + 0x124;
         if (flags & 0x100) {
             payload_cursor = (u8 *)node + 0xF4;
-            node->field_0xC = payload_cursor;
+            node->unk_0C = payload_cursor;
         } else if (flags & 0x6) {
             payload_cursor = (u8 *)node + 0x100;
-            node->field_0xC = payload_cursor;
+            node->unk_0C = payload_cursor;
         } else if (flags & 0x41) {
             payload_cursor = (u8 *)node + 0x10C;
-            node->field_0xC = payload_cursor;
+            node->unk_0C = payload_cursor;
         }
 
         if (flags & 0x157) {
             payload_cursor = payload_cursor - 0x18;
-            node->field_0x8 = payload_cursor;
+            node->unk_08 = payload_cursor;
         }
 
         return node;

@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
@@ -9,7 +10,6 @@
 
 extern void func_8003DB94(void *, void *, s32);
 extern s32 func_8003DE58(void *, void *, void *, s32);
-extern void *func_8003FC64(s32);
 extern void func_80047784(void *, s32, s32);
 extern void func_800478B8(void *);
 extern s32 rand(void);

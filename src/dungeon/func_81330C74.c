@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/entity.h"
@@ -138,7 +139,6 @@ typedef struct {
 } PositionTableEntry;
 
 void func_8003DB94();
-void *func_8003FC64();
 void func_800419EC();
 s32 func_8004491C();
 s32 func_800A56E0();

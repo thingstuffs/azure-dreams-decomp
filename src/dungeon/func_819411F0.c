@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -6,7 +7,6 @@ typedef struct {
     s32 words[3];
 } __attribute__((packed)) Packed12;
 
-void *func_8003FC64();
 s32 func_8004491C();
 extern M2C_UNK D_800249A0;
 

@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -27,7 +28,6 @@ extern s32 func_800B8FC8(void *, void *, void *, s32, s32);
 extern s32 func_8003DF74(void *, void *, void *, s32);
 extern s32 func_80069EF8(void);
 extern s32 func_80024798(void *, s32, s32, s32, s16, s16, s16);
-extern void *func_8003FC64(s32);
 extern s32 func_8004491C(void *, void *);
 extern s32 func_80053EF0(s32);
 extern void func_800A56E0(s32);

@@ -1,8 +1,8 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "m2c_compat.h"
 
 M2C_UNK obj_disp23_cancel_sw_set();                     /* extern */
-void *func_8003FC64();                       /* extern */
 M2C_UNK came_bright_set();                     /* extern */
 void func_800B2394();             /* extern */
 s32 func_800B29D0();                          /* extern */

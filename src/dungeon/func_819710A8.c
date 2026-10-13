@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 /* Selector 59, retail file [0x19910A8, 0x19911E0); complete callable clone. */
 #include "common.h"
 #include "modules/dungeon_native_abi.h"
@@ -7,14 +8,7 @@
 #endif
 
 /* Position block (three 4-byte slots, only the second halfword of each is used). */
-typedef struct Bank1990800_19910a8_EffectPosition {
-    u16 pad_00;
-    u16 x;
-    u16 pad_04;
-    u16 y;
-    u16 pad_08;
-    u16 z;
-} Bank1990800_19910a8_EffectPosition;
+
 
 /* The effect record (the object header precedes it). */
 typedef struct Bank1990800_19910a8_EffectRecord {
@@ -50,20 +44,20 @@ void func_800248A8(
     if (effect != NULL) {
         effect->unk_10 = func_800247E8;
         jitter = rand() & 0x1F;
-        effect_pos = ((Bank1990800_19910a8_EffectPosition *)source->unk_08)->x + jitter;
+        effect_pos = (u16)((EntityRec *)source->unk_08)->x.w.i + jitter;
         effect_pos += x_offset - 0x10;
-        ((Bank1990800_19910a8_EffectPosition *)effect->unk_08)->x = effect_pos;
+        ((EntityRec *)effect->unk_08)->x.w.i = effect_pos;
 
         jitter = rand() & 0x1F;
-        effect_pos = ((Bank1990800_19910a8_EffectPosition *)source->unk_08)->y + jitter;
+        effect_pos = (u16)((EntityRec *)source->unk_08)->y.w.i + jitter;
         effect_pos += y_offset - 0x10;
-        ((Bank1990800_19910a8_EffectPosition *)effect->unk_08)->y = effect_pos;
+        ((EntityRec *)effect->unk_08)->y.w.i = effect_pos;
 
         jitter = rand() & 0x1F;
         record = (Bank1990800_19910a8_EffectRecord *)(effect + 1);
-        effect_pos = ((Bank1990800_19910a8_EffectPosition *)source->unk_08)->z + jitter;
+        effect_pos = (u16)((EntityRec *)source->unk_08)->z.w.i + jitter;
         effect_pos += z_offset - 0x10;
-        ((Bank1990800_19910a8_EffectPosition *)effect->unk_08)->z = effect_pos;
+        ((EntityRec *)effect->unk_08)->z.w.i = effect_pos;
         record->unk_14 = property_34;
         record->size = property_52;
         record->size_max = property_52;

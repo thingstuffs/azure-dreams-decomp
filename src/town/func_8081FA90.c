@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 #ifndef NULL
@@ -41,7 +42,6 @@ typedef struct {
     s32 word[2];
 } __attribute__((packed)) Packed8;
 
-extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern void *func_8004DA74(void *, void *, s32);
 extern void func_800BC1DC(void *, void *, void *);

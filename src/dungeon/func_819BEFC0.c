@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
@@ -79,7 +80,6 @@ typedef struct S_800247C0_8 {
 
 
 
-void *func_8003FC64();
 s32 func_80069EF8();
 s32 func_800A48F0();
 extern s32 D_800DE870;

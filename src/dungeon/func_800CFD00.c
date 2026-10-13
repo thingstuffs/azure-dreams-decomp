@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -9,7 +10,6 @@ typedef unsigned int u32;
 typedef int s32;
 typedef s32 M2C_UNK;
 extern void func_8003DB94(void *, void *, s32);
-extern void *func_8003FC64(s32);
 extern void func_800A56E0(s32);
 extern M2C_UNK D_800D5294;
 extern M2C_UNK D_800DECF8[3];

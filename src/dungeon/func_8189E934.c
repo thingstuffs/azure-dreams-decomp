@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -28,7 +29,6 @@ extern u8 D_80024020[];
 extern u8 D_80024C78[];
 
 
-void *func_8003FC64(u32);
 void func_8004491C(void *, u8 *);
 s32 rand(void);
 

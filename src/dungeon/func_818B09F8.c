@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -32,7 +33,6 @@ typedef struct MainObj {
     s32 source_state;
 } MainObj;
 
-extern MainObj *func_8003FC64(u32);
 extern void func_8003DB94(SubObj *, void *, s32);
 extern void func_8004491C(MainObj *, void *);
 extern u8 D_8002417C[];
@@ -40,7 +40,7 @@ extern u8 D_800DEC70[];
 
 /* Creates an object with initialized render state and a copy of the supplied vector. */
 MainObj *func_800241F8(s32 object_value, VecObj *source_vec) {
-    MainObj *obj = func_8003FC64(530);
+    MainObj *obj = (MainObj *)func_8003FC64(530);
     SubObj *sub;
     VecObj *vec;
     MainObj *result;

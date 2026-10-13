@@ -1,8 +1,8 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void *func_8003FC64();                       /* extern */
 extern M2C_UNK D_800B1E80;
 
 typedef struct S_800B1F00_0 {

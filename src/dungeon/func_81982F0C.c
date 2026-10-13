@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -36,7 +37,6 @@ typedef struct {
     void (*callback)(void);
 } Object;
 
-extern Object *func_8003FC64(s32);
 extern void func_8004491C(Object *, void *);
 extern s32 rand(void);
 extern s32 func_80064584(s32);
@@ -54,7 +54,7 @@ void *func_8002470C(s16 x, s16 y, s16 z, s16 heading, s16 count)
     s32 remaining = count;
 
     while (remaining > 0) {
-        particle = func_8003FC64(0x202);
+        particle = (Object *)func_8003FC64(0x202);
         if (particle != 0) {
             s32 angle_offset;
             s32 move_angle;

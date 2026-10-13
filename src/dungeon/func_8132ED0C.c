@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -6,7 +7,6 @@ typedef struct Copy12 {
     M2C_UNK word[3];
 } __attribute__((packed)) Copy12;
 
-void *func_8003FC64();                       /* extern */
 s32 func_8004491C();           /* extern */
 s32 rand();                                /* extern */
 s32 func_80167088();                         /* extern */

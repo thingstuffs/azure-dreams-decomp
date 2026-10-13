@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 
 /* Sub-record written into the node's field_0x8 slot: two words at offset
@@ -17,7 +18,6 @@ typedef struct S_8004B364_Node {
     void (*field_0x10)(void *, void *);
 } S_8004B364_Node;
 
-extern void *func_8003FC64(s32 a0);
 extern void func_8004B324(void *a0, void *a1);
 
 /* Allocates a pool node, installs its record and callback when both values exist, and returns its payload or NULL. */

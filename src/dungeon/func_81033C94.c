@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -87,7 +88,6 @@ extern u8 D_80174AA4[];
 extern u8 D_8017610C[];
 extern u8 D_8017612C[];
 
-extern AllocationObject *func_8003FC64(s32 size);
 extern void func_8004491C(AllocationObject *allocation, void *callback);
 extern void func_8009A3D0(u8 x, u8 y, s32 mode);
 extern s32 func_800BCB04(u16 x, u16 y, s16 height);
@@ -107,7 +107,7 @@ void func_80175494(Arg0Object *owner, Arg1Object *height_source, Arg2Object *ori
     SecondaryBlock *secondary_block;
     void *secondary;
 
-    allocated = func_8003FC64(0x212);
+    allocated = (AllocationObject *)func_8003FC64(0x212);
     if (allocated != 0) {
         block = (BlockObject *)((u8 *)allocated + 0x20);
         block->owner = owner;
