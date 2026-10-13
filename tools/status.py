@@ -292,6 +292,13 @@ def main():
                    f"set-but-unused leftover that jump2 deletes while delete_computation keeps the load): {len(dead_branch):,} rows "
                    f"({', '.join(r.split('/')[-1] for r in dead_branch)}).\n")
 
+    dead_arm = sorted({t["id"] for t in trades if t.get("kind") == "dead_arm"})
+    if dead_arm:
+        out.append(f"Dead-arm trades (decision 46, owner 2026-10-13; `ledger/recipe_trades.jsonl` kind dead_arm - a never-taken "
+                   f"arm over a never-reassigned local that combine folds after flow counted it, so sched/global/reload still see "
+                   f"it and jump2 deletes it; the arm body is a RECONSTRUCTION, only its shape is byte-evidenced): {len(dead_arm):,} rows "
+                   f"({', '.join(r.split('/')[-1] for r in dead_arm)}).\n")
+
     from census import declared_void_callees, void_exact_targets, live_sites, audit_sites
     import census as _census_mod
 

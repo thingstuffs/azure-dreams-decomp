@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "shared/dir_step.h"
 
 typedef struct S_801720EC_0 {
     u8 pad_00[0x2A];
@@ -23,35 +24,31 @@ typedef struct S_801720EC_1 {
 
 typedef struct S_801720EC_2 {
     u8 pad_00[0x8C];
-    volatile s32 unk_8C;
+    s32 unk_8C;
     u8 pad_90[0xA];
-    volatile s8 unk_9A;
-    volatile s8 unk_9B;
+    s8 unk_9A;
+    s8 unk_9B;
 } S_801720EC_2;   /* output in func_801720EC */
 
 
-extern s32 func_80047784();
+extern void func_80047784(void *object, s16 table_index, s16 entry_index);
 extern s32 func_8009B4B0();
 extern s32 func_800A2B5C();
 extern s32 func_800A44E0();
-extern s32 func_800A4ACC();
+extern s32 func_800A4ACC(void *record);
 extern s32 func_800A5690();
 extern s16 func_800BCB04();
-extern s32 func_800C77D0();
-extern s32 func_800C7930();
+extern s32 func_800C77D0(s32 slot_id, void *target, s32 target_id, s16 slot_value);
+extern s32 func_800C7930(s32 object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 
-extern u8 D_8006CCD8;
-extern u8 D_8006CCE8;
 extern u8 D_80174558[];
 
 /* Checks the tile ahead and updates the entity's action when the height permits. */
-s32 func_801720EC(void *action_state, s32 update_arg, void *sprite, void *actor)
+s32 func_801720EC(void *action_state, void *source_pos, void *sprite, void *actor)
 {
-    register void *output ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    struct local_state {
-        void *saved_ptr;
-        u8 pad[20];
-    } state;
+    void *output;
+    s16 next_x;   /* never assigned: read only in the decision-46 dead arm below */
+    s16 next_y;
     u16 result = 0;
     u16 flags;
     s32 direction;
@@ -64,7 +61,7 @@ s32 func_801720EC(void *action_state, s32 update_arg, void *sprite, void *actor)
     u16 *x_delta;
     u8 *x_steps;
     s16 height;
-    s32 table_step_y;
+    s32 step_y;
 
     ((S_801720EC_0 *)actor)->unk_71 &= 0x7f;
     flags = dungeonStatus.flags;
@@ -82,11 +79,8 @@ s32 func_801720EC(void *action_state, s32 update_arg, void *sprite, void *actor)
         return -1;
     }
 
-    {
-        output = (u8 *)actor - 0x20;
-        state.saved_ptr = output;
-        func_800C7930(output, update_arg, 8, 0x300);
-    }
+    output = (u8 *)actor - 0x20;
+    func_800C7930((s32)output, source_pos, 8, 0x300);
     if ((s16)func_800A2B5C(actor) != 0) {
         return -1;
     }
@@ -101,17 +95,16 @@ return_tail:
         return result;
     }
 
-    x_steps = (u8 *)&D_8006CCD8;
+    x_steps = (u8 *)dirStepX;
     x_delta = (u16 *)(x_steps + (direction << 1));
     delta_offset = direction << 1;
-    ASM_KEEP_NV(delta_offset);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    y_delta = (u16 *)((u8 *)&D_8006CCE8 + delta_offset);
+    y_delta = (u16 *)((u8 *)dirStepY + delta_offset);
     {
         s32 step_x;
         step_x = *x_delta;
-        table_step_y = *y_delta;
+        step_y = *y_delta;
         if (func_8009B4B0(actor, (base_x + step_x) & 0xffff,
-                          (base_y + table_step_y) & 0xffff) != 0) {
+                          (base_y + step_y) & 0xffff) != 0) {
             goto return_tail;
         }
     }
@@ -126,26 +119,30 @@ return_tail:
     if (height >= 0x201) {
         return result;
     }
-    if ((s16)(height - ((S_801720EC_0 *)actor)->unk_88.u) >= -0x3f) {
-        output = action_state;
-        ((S_801720EC_2 *)output)->unk_9B = 0;
-        ((S_801720EC_2 *)output)->unk_8C = 0;
-        ((S_801720EC_2 *)output)->unk_9A = 0x17;
-        (*(u8 * *)((u8 *)sprite + 0x2c)) = D_80174558;
-        func_80047784(sprite,
-                      D_80174558[((gameWork.view.viewAngle + ((S_801720EC_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
-                      0);
-        func_800A4ACC(actor);
-        {
-            register s32 step_y ASM_REG("$6");
-            s32 update_flags = 0x300;
-            void *entity_base = state.saved_ptr;
-            step_y = 8;
-            ASM_KEEP_NV(update_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            ((S_801720EC_0 *)actor)->unk_6D--;
-            func_800C77D0(entity_base, update_arg, step_y, update_flags);
-        }
-        return 1;
+    if ((s16)(height - ((S_801720EC_0 *)actor)->unk_88.u) < -0x3f) {
+        return result;
     }
-    return 0;
+    ((S_801720EC_2 *)action_state)->unk_9B = 0;
+    ((S_801720EC_2 *)action_state)->unk_8C = 0;
+    ((S_801720EC_2 *)action_state)->unk_9A = 0x17;
+    (*(u8 * *)((u8 *)sprite + 0x2c)) = D_80174558;
+    func_80047784(sprite,
+                  D_80174558[((gameWork.view.viewAngle + ((S_801720EC_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
+                  0);
+    func_800A4ACC(actor);
+    /* Decision 46 (owner 2026-10-13): post-combine dead arm. result is never reassigned, so combine folds this test
+     * only after flow has counted the arm; scheduling, allocation and reload see it (x_delta's second set, the spilled
+     * next_x/next_y slots retail's frame reserves) and jump2 deletes it - no code. The arm's BODY is a reconstruction:
+     * the bytes fix its shape, not its content. */
+    if (result != 0) {
+        x_delta += next_x;
+        func_800A2B5C(next_y + *x_delta);
+    }
+    {
+        s32 update_flags = 0x300;
+        step_y = 8;
+        ((S_801720EC_0 *)actor)->unk_6D--;
+        func_800C77D0((s32)output, source_pos, step_y, update_flags);
+    }
+    return 1;
 }
