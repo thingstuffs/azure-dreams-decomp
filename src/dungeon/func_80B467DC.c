@@ -116,7 +116,10 @@ typedef struct S_80173FDC_8 {
 } S_80173FDC_8;   /* tail in func_80173FDC */
 
 /* Builds and draws a curved wireframe grid for each linked effect. */
-s32 func_80173FDC(u8 *node)
+/* An effect update handler: registered with func_8004491C and called each frame by func_800402F4 as
+   callback(entry->data, entry->callback_arg1, entry->callback_arg2) (typedef Callback). The second argument's variable is
+   reused as the loop-carried successor node (decision 45 site below). */
+s32 func_80173FDC(u8 *node, s32 next_node, s32 callback_arg2)
 {
     Frame frame;
     u8 *effect;
@@ -134,7 +137,6 @@ s32 func_80173FDC(u8 *node)
     LineG2 *line;
     u8 *tpage;
     u8 *display;
-    s32 next_node;
     s32 row;
     s32 col;
     s32 ot_index;
@@ -149,6 +151,10 @@ s32 func_80173FDC(u8 *node)
     addr_mask = 0x00FFFFFF;
 
     for (;;) {
+        if (next_node) {
+            /* retail evidence: the test's operands survive (the arm compiled away); reconstructed as a conditional update of a local nothing reads in the retail build - any dead local set reproduces the bytes (lane r118_fable_f4; decision 45, docs/evidence/r97_decisions.md); the second parameter is the loop-carried successor field the tail reloads */
+            row = 0;
+        }
         desc.points0 = &points[0][0];
         desc.points1 = &points[0][0];
         desc.zero = 0;
@@ -320,7 +326,6 @@ grid_loop:
             }
             node = (u8 *)next_node + 0x20;
             next_node = (s32)((S_80173FDC_8 *)next_node)->unk_08;
-            ASM_KEEP(next_node);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         }
     }
     return 0;
