@@ -43,10 +43,11 @@ s32 func_800A00E8(s32 entryIndex) {
     TownEntry *entries;
     TownOutput *output;
     TownEntryOwner *owner;
-    u16 rootX;
+    u32 rootX;
     u16 rootY;
     register u32 entryX ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u16 entryY ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u16 entryY;
+    u16 *xSlot;
     u32 entryOffsetOrAddress;
     s32 selectedEntryIndex = entryIndex;
 
@@ -65,10 +66,12 @@ s32 func_800A00E8(s32 entryIndex) {
     entryX = entry->x;
     output = &D_80100B50;
     output->second.word = 0;
-    output->first.half.y = entryX + rootX;
+    xSlot = &output->first.half.y;
+    entryX += rootX;
+    *xSlot = entryX;
     entryY = entry->y;
+    output->second.half.y = entryY + rootY;
     entryX = 0xFFE00000;
     output->third = entryX;
-    output->second.half.y = entryY + rootY;
     return selectedEntryIndex;
 }

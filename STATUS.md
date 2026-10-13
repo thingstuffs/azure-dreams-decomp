@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-13T07:39:06Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-13T08:18:48Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -80,7 +80,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | module | rows | placement proof |
 |---|---:|---|
 | dungeon_cd_control_d79c4 | 3 | source/recipe/graph/tool/review/window inputs changed |
-| town_minigame_dispatch_44b44 | 13 | current: complete TU + all windows + genuine |
+| town_minigame_dispatch_44b44 | 13 | source/recipe/graph/tool/review/window inputs changed |
 | dungeon_ovl_1852800 | 4 | current: complete TU + all windows + genuine |
 | dungeon_ovl_1870800 | 2 | current: complete TU + all windows + genuine |
 | dungeon_ovl_1858800 | 3 | current: complete TU + all windows + genuine |
@@ -140,7 +140,7 @@ Placement alone does not override any lower-level or source-residue guard.
 | local address-named struct | 633 | 346,872 | 12.4% | 2884 | 1,502,036 | 53.9% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 5.5% | 7164 | 2,416,544 | 86.7% |
 
-Pin sites now: 26 in 19 rows; REG 12, KEEP 8, KEEP_NV 4, MEM_BARRIER 1, USE_NV 1.  At the pin: 25,901; REG 12,800, KEEP 6,935, KEEP_NV 2,505, SCHED_BARRIER 1,355, TAILSLOT_PIN 506, USE 294, USE_NV 260, KEEP_DEP_NV 190.
+Pin sites now: 25 in 19 rows; REG 11, KEEP 8, KEEP_NV 4, MEM_BARRIER 1, USE_NV 1.  At the pin: 25,901; REG 12,800, KEEP 6,935, KEEP_NV 2,505, SCHED_BARRIER 1,355, TAILSLOT_PIN 506, USE 294, USE_NV 260, KEEP_DEP_NV 190.
 
 Tracked, not pins (owner 2026-10-06): oddities 1 (ledger/oddities.jsonl - zero-byte fences retail needs, curiosities, not removal targets: dungeon/func_8196096C); one-trip barrier rows 2 (ledger/onetrip_barrier_rows.jsonl); load-bearing one-trip rows 85 (ledger/onetrip_loadbearing.jsonl, statement-macro bodies, not counted in the do{}while(0) row above).
 Carve debt - composite rows (r95 decisions item 8 kept the spelling for bytes; r99: it is an artifact of one-row-per-function carving, owned by module placement): the `asm("func_X")` data prefix (another function's jump table / overlay data that retail places before this row's code) and its `.globl/.type/.size func_X` stamp (`pin_census.composite_asm_spans`), 2 statements in 1 rows - counted here, not in the inline-asm row above; still L5 `inline_asm` residue in levels.py until the module TU owns the data.
@@ -183,12 +183,12 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 | L1 | 2,784,412 | 99.9% |
 | L2 | 2,784,412 | 99.9% |
 | L3 | 2,770,828 | 99.4% |
-| L4 | 216,892 | 7.8% |
-| L5 | 212,272 | 7.6% |
+| L4 | 216,148 | 7.8% |
+| L5 | 211,528 | 7.6% |
 
 On shared record headers (T7, `include/records/`): 903 rows, 577,664 bytes (20.7%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 19 rows (24,704 B), tail_jump 8 rows (4,884 B), not_in_module 7,101 rows (2,564,576 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 19 rows (24,704 B), tail_jump 8 rows (4,884 B), not_in_module 7,114 rows (2,565,320 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 
