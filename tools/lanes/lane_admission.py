@@ -11,7 +11,8 @@ gotos = lambda t: (lambda c: len(re.findall(r"\bgoto\s+\w+\s*;", c)) + len(re.fi
 # round 96: S_<addr> address-named struct views count as decompiler leftovers too (typing lanes replace them)
 m2c = lambda t: len(re.findall(r"\bM2C_[A-Z_]+\b|\b(?:temp|var|phi)_[a-z][a-z0-9_]*\b|\barg[0-9]\b|\bsp[0-9A-F]{2,3}\b|\bNON_MATCHING\b|\bS_[0-9A-F]{8}\w*", re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", t, flags=re.S))))
 # r117: a volatile-bodied accessor macro counts once per invocation (land_admit.macro_volatile_uses)
-kinds = lambda t: +(collections.Counter(m.group(0).replace(" ", "") for m in bad.finditer(re.sub(r"/\*.*?\*/", "", t, flags=re.S))) + collections.Counter(volatile=land_admit.macro_volatile_uses(t)))
+# r118: union sites count as a kind (tracked trades, ledger/union_trades.jsonl): fewer unions is a fidelity gain
+kinds = lambda t: +(collections.Counter(m.group(0).replace(" ", "") for m in bad.finditer(re.sub(r"/\*.*?\*/", "", t, flags=re.S))) + collections.Counter(volatile=land_admit.macro_volatile_uses(t), union=len(re.findall(r"\bunion\b", re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", t, flags=re.S))))))
 
 
 def assess(row, cand, cur, base, lane, *, oddity_ok=(), onetrip_ok=(), readable_lanes=()):

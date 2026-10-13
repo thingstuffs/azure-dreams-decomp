@@ -85,6 +85,13 @@ class EqualPinScaffolding(unittest.TestCase):
         # a mention in a comment or the define itself is not a use
         self.assertEqual(land_admit.macro_volatile_uses(spad + '/* SPAD(s, R, a) */\n'), 0)
 
+    def test_fewer_unions_is_admitted_and_more_is_growth(self):
+        """r118: a union re-spell (host-merge -> reused scalar, idiom -> typed struct) lands at equal pins."""
+        cur = 'union { s32 v; } x = {0};\n'
+        self.assertEqual(self.changes('s16 x;\n', cur), (['union'], []))
+        self.assertEqual(self.changes(cur, 's16 x;\n'), ([], ['union']))
+        self.assertEqual(self.changes('/* union */ s16 x;\n', 's16 x;\n'), ([], []))
+
     def test_fall_does_not_hide_another_kind_growing(self):
         fell, grew = self.changes('goto done;', 'volatile int x;')
         self.assertEqual((fell, grew), (['volatile'], ['goto']))

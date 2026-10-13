@@ -49,6 +49,8 @@ def equal_pin_changes(row, cand, cur):
         found = Counter(m.group(0).replace(' ', '') for m in bad.finditer(
             re.sub(r'/\*.*?\*/', '', text, flags=re.S)))
         found['volatile'] += macro_volatile_uses(text)
+        # r118 (owner 10-13): union sites are tracked trades (ledger/union_trades.jsonl); fewer unions is a fidelity gain
+        found['union'] += len(re.findall(r'\bunion\b', re.sub(r'//[^\n]*', '', re.sub(r'/\*.*?\*/', '', text, flags=re.S))))
         return +found
     kc, ku = kinds(cand), kinds(cur)
     fell = [k for k in ku if kc[k] < ku[k]]
