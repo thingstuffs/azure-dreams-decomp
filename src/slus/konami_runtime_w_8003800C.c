@@ -65,20 +65,12 @@ void func_8003800C(Func8003800CState *state)
 
         {
             s32 pending_value;
-            Func8003800CData *value_data;
-            Func8003800CData *clear_data;
-
-            value_data = *(Func8003800CData * volatile *)&state->field80;
-            do {
-                clear_data = state->field80;
-            } while (0);
-            pending_value = value_data->field34;
-
-            state->callback = func_80038A10;
+            pending_value = state->field80->field34;
             state->field2E = 0;
+            state->callback = func_80038A10;
             state->field7C = &state->field3C;
             state->field1C = pending_value;
-            clear_data->field34 = 0;
+            state->field80->field34 = 0;
         }
     }
 
