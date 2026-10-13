@@ -169,7 +169,7 @@ class LaneProcessScopeTests(unittest.TestCase):
         self.assertEqual(self.busy(), set())
 
     def test_mcp_helper_running_inline_code_stays_busy(self):
-        self.mcp_helper(argv=['/usr/bin/python3', '-c', 'import os'])
+        self.mcp_helper(argv=['/usr/bin/python3', '-c', 'import os'], cwd=self.base)
         self.assertEqual(self.busy(), {424242})
 
     def test_helper_with_a_canonical_relative_path_stays_busy(self):
@@ -225,10 +225,57 @@ class LaneProcessScopeTests(unittest.TestCase):
         self.proc_at(424243, self.scratch, ['/usr/bin/ninja', '-C', str(self.scratch/'build')], parent=424242)
         self.assertEqual(self.busy(), set())
 
-    def test_shared_absolute_child_inputs_are_conservatively_busy(self):
-        # No generic read-only exception is inferred from a compiler flag.
+    def test_shared_readonly_toolchain_inputs_are_isolated(self):
+        # r118: no lander writes toolchain/.venv/baserom (scratch roots symlink them); other canonical inputs stay busy.
         self.proc_at(424243, self.scratch, ['/usr/bin/gcc', '-B'+str(self.root/'toolchain'), '-o', str(self.scratch/'x.o')], parent=424242)
+        self.assertEqual(self.busy(), set())
+
+    def test_shared_canonical_tool_inputs_stay_busy(self):
+        self.proc_at(424243, self.scratch, ['/usr/bin/gcc', '-B'+str(self.root/'tools'), '-o', str(self.scratch/'x.o')], parent=424242)
         self.assertEqual(self.busy(), {424242})
+
+    def codex_child(self, argv, cwd=None, env=()):
+        self.set_args(['codex', 'exec', '-C', str(self.lane), '-o', str(self.lane/'last_message.txt'), '-'])
+        return self.proc_at(424243, cwd or self.scratch, argv, parent=424242, env=env)
+
+    def test_codex_shell_wrapper_with_lane_paths_is_isolated(self):
+        self.codex_child(['/bin/bash', '-lc', "mkdir -p fixtures && cp -a %s/work/native_lane/other/x.json fixtures/ && "
+                          "PYTHONDONTWRITEBYTECODE=1 python3 ../../tools/lanes/lanekit/oracle_search.py --out evidence/v > evidence/v.log 2>&1"
+                          % self.root])
+        self.assertEqual(self.busy(), set())
+
+    def test_codex_shell_wrapper_naming_the_canonical_tree_stays_busy(self):
+        for text in ('python3 %s/tools/build/gate_all.py' % self.root, 'ls %s/src/dungeon/*.c' % self.root,
+                     'cd ../../../.. && python3 tools/build/gate_all.py', 'cat ../../../../ledger/rows.jsonl'):
+            with self.subTest(text=text):
+                self.codex_child(['bash', '-lc', text])
+                try: self.assertIn(424242, self.busy())
+                finally:
+                    import shutil; shutil.rmtree(self.proc_root/'424243')
+
+    def test_shell_wrapper_reading_the_shared_toolchain_is_isolated(self):
+        self.codex_child(['bash', '-lc', '%s/toolchain/gcc/cc1 -quiet x.i -o x.s' % self.root])
+        self.assertEqual(self.busy(), set())
+
+    def test_stdin_python_inside_a_lane_owned_kit_root_is_isolated(self):
+        self.put(self.scratch/'tools/common.py')
+        self.codex_child(['python3', '-'], env=('PYTHONPATH='+str(self.scratch/'tools/lanes/lanekit'),))
+        self.assertEqual(self.busy(), set())
+
+    def test_stdin_python_whose_kit_root_is_canonical_stays_busy(self):
+        self.put(self.root/'tools/common.py')
+        self.codex_child(['python3', '-'], cwd=self.lane)
+        self.assertEqual(self.busy(), {424242})
+
+    def test_inline_python_with_a_canonical_pythonpath_stays_busy(self):
+        self.put(self.scratch/'tools/common.py')
+        self.codex_child(['python3', '-c', 'import lab'], env=('PYTHONPATH='+str(self.root/'tools/lanes/lanekit'),))
+        self.assertEqual(self.busy(), {424242})
+
+    def test_module_form_descendant_stays_busy(self):
+        self.put(self.scratch/'tools/common.py')
+        self.codex_child(['python3', '-m', 'gate_all'])
+        self.assertIn(424242, self.busy())
 
     def test_each_canonical_mutable_root_fd_stays_busy(self):
         for name in ('build_ovl', 'build_ovl_gate', 'build_slus', 'src'):
@@ -241,6 +288,11 @@ class LaneProcessScopeTests(unittest.TestCase):
             with self.subTest(path=name):
                 fd = self.proc/'fd/3'; fd.symlink_to(self.root/name)
                 self.assertEqual(self.busy(), {424242}); fd.unlink()
+
+    def test_shared_toolchain_fd_is_isolated(self):
+        # r118: gdb holds the shared cc1 open while a lane runs the oracle
+        (self.proc/'fd/3').symlink_to(self.root/'toolchain/compilers/gcc-2.7.2-cdk/cc1')
+        self.assertEqual(self.busy(), set())
 
     def test_deleted_canonical_fd_is_still_busy(self):
         (self.proc/'fd/3').symlink_to(str(self.root/'build_slus/result')+' (deleted)')

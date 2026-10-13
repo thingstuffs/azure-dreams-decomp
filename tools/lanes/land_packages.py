@@ -278,9 +278,66 @@ def process_lane(info, root):
         lexical=Path(os.path.abspath(path))
         if any(lexical.is_relative_to(p) for p in protected):return None
         if any(target.is_relative_to(p) for p in physical):return None
-        if not target.is_relative_to(lane):return None
+        # r118: the scratch-root symlinks toolchain/.venv/baserom resolve into the canonical root; no lander writes them.
+        if not target.is_relative_to(lane) and not shared_readonly(target,root):return None
         if is_script and not target.is_file():return None
     return lane if script_found else None
+
+
+SHARED_READONLY=('toolchain','.venv','baserom')
+
+
+def shared_readonly(path, root):
+    """A canonical path no lander writes: the compilers, the venv and the base ROM (scratch roots symlink them)."""
+    return any(path.is_relative_to(root/n) or path.is_relative_to((root/n).resolve()) for n in SHARED_READONLY)
+
+
+def inline_lane_command(info, root, lane):
+    """A lane DESCENDANT running inline shell/Python text whose every visible path stays out of the canonical tree.
+
+    codex runs every command as `bash -lc '<text>'` and feeds Python heredocs on stdin, so a lane is mid-command almost
+    always. A shell wrapper's real work runs in children, which are checked one by one. Its own text must not name a
+    path that resolves into the root outside work/native_lane or the read-only shared inputs. Inline or stdin Python
+    runs in-process, so it also needs a lane-owned kit root (the nearest parent with tools/common.py, which kitlib
+    takes as ROOT) and no PYTHONPATH entry into the canonical tree.
+    """
+    root=root.resolve();cwd=info['cwd'];argv=info['argv']
+    if cwd is None or info['parent'] is None or not argv or not cwd.is_relative_to(lane):return False
+    name=Path(argv[0]).name
+    shell=name in ('bash','sh','dash');python=bool(re.fullmatch(r'python(?:\d+(?:\.\d+)*)?',name))
+    if not (shell or python):return False
+    text=None
+    for i,arg in enumerate(argv[1:],1):
+        if (shell and re.fullmatch(r'-[A-Za-z]*c[A-Za-z]*',arg)) or (python and arg=='-c'):
+            text=argv[i+1] if i+1<len(argv) else '';break
+        if python and arg.startswith('-c'):text=arg[2:];break
+        if python and (arg=='-m' or arg.startswith('-m')):return False
+        if not arg.startswith('-'):
+            if python and arg!='-':return False   # a script path: process_lane decides
+            if shell:return False
+    if shell and text is None:return False
+    allowed=(root/'work/native_lane',)
+    def admissible(path):
+        if not path.is_absolute():path=cwd/path
+        for q in (Path(os.path.abspath(path)),path.resolve(strict=False)):
+            if q.is_relative_to(root) and not any(q.is_relative_to(a) for a in allowed) and not shared_readonly(q,root):
+                return False
+        return True
+    try:
+        for token in re.split(r'[\s\'"`;|&<>(),=]+',text or ''):
+            if '$' in token or not ('/' in token or token in ('.','..')):continue
+            token=re.split(r'[*?\[]',token,1)[0]
+            if token and not admissible(Path(token)):return False
+        if python:
+            kit=next((p for p in (cwd,*cwd.parents) if (p/'tools/common.py').is_file()),None)
+            if kit is None or not kit.resolve().is_relative_to(lane):return False
+            for setting in (info['proc']/'environ').read_bytes().split(b'\0'):
+                key,sep,value=setting.partition(b'=')
+                if sep and key==b'PYTHONPATH':
+                    for entry in os.fsdecode(value).split(':'):
+                        if entry and not admissible(Path(entry)):return False
+    except (OSError,RuntimeError,ValueError):return False
+    return True
 
 
 def foreign_helper(info, root, lane):
@@ -348,7 +405,7 @@ def isolated_lane(proc, root, proc_root=Path("/proc"), snapshot=None):
             # (codex's MCP bridge) cannot reach the transaction; its own
             # children are still checked one by one.
             if pid!=int(proc.name) and foreign_helper(item,root,lane):continue
-            if process_lane(item,root)!=lane:return False
+            if process_lane(item,root)!=lane and not (pid!=int(proc.name) and inline_lane_command(item,root,lane)):return False
             for fd in (q/'fd').iterdir():
                 try:
                     name=os.readlink(fd)
@@ -359,7 +416,7 @@ def isolated_lane(proc, root, proc_root=Path("/proc"), snapshot=None):
                 # Hidden ledger/config/temp descriptors can couple a private
                 # job to a canonical transaction too. No out-of-lane project
                 # fd is presumed read-only merely because argv looks private.
-                if target.is_relative_to(root) and not target.is_relative_to(lane):return False
+                if target.is_relative_to(root) and not target.is_relative_to(lane) and not shared_readonly(target,root):return False
             # These overrides can redirect a scratch gate into canonical output
             # without naming that output in argv. Never print process secrets.
             environment=(q/'environ').read_bytes().split(b'\0')
