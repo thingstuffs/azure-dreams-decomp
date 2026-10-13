@@ -152,23 +152,36 @@ class LaneProcessScopeTests(unittest.TestCase):
         child = self.proc_at(424243, self.scratch, self.argv, parent=424242)
         self.assertEqual(self.busy(), set())
 
-    def mcp_helper(self, argv=None, fds=(), env=()):
-        """codex's global ghidra-mcp bridge: cwd in a sibling checkout outside the root."""
-        self.set_args(['codex', 'exec', '-C', str(self.lane), '-o', str(self.lane/'last_message.txt'), 'task'])
+    def mcp_helper(self, argv=None, fds=(), env=(), cwd=None):
+        """codex's global ghidra-mcp bridge: an interpreter + script in a sibling checkout, cwd inherited from the lane."""
+        self.set_args(['codex', 'exec', '-C', str(self.lane), '-o', str(self.lane/'last_message.txt'), '-'])
         sibling = self.base/'sibling-checkout'; sibling.mkdir(exist_ok=True)
-        bridge = self.put(sibling/'tools/ghidra_mcp_bridge.sh')
-        return self.proc_at(424243, sibling, argv or ['/bin/bash', str(bridge)], parent=424242, fds=fds, env=env)
+        bridge = self.put(sibling/'.venv/bin/bridge-mcp-ghidra')
+        argv = argv or [str(sibling/'.venv/bin/python3'), str(bridge), '--transport', 'stdio']
+        return self.proc_at(424243, cwd or self.lane, argv, parent=424242, fds=fds, env=env)
 
-    def test_codex_global_mcp_helper_outside_the_root_is_isolated(self):
-        self.mcp_helper(fds=('pipe:[7]', str(self.base/'sibling-checkout/log.txt')))
+    def test_codex_global_mcp_helper_with_the_lane_cwd_is_isolated(self):
+        self.mcp_helper(fds=('pipe:[7]', str(self.base/'sibling-checkout/log.txt'), str(self.lane/'mcp.log')))
         self.assertEqual(self.busy(), set())
+
+    def test_codex_global_mcp_helper_with_an_outside_cwd_is_isolated(self):
+        self.mcp_helper(cwd=self.base)
+        self.assertEqual(self.busy(), set())
+
+    def test_mcp_helper_running_inline_code_stays_busy(self):
+        self.mcp_helper(argv=['/usr/bin/python3', '-c', 'import os'])
+        self.assertEqual(self.busy(), {424242})
+
+    def test_helper_with_a_canonical_relative_path_stays_busy(self):
+        self.mcp_helper(argv=['/usr/bin/cat', '../../../ledger/rows.jsonl'])
+        self.assertEqual(self.busy(), {424242})
 
     def test_mcp_helper_with_a_root_fd_stays_busy(self):
         self.mcp_helper(fds=(str(self.root/'ledger/rows.jsonl'),))
         self.assertEqual(self.busy(), {424242})
 
     def test_mcp_helper_naming_the_root_stays_busy(self):
-        self.mcp_helper(argv=['/bin/bash', str(self.base/'sibling-checkout/x.sh'), '--repo', str(self.root)])
+        self.mcp_helper(argv=['/bin/bash', str(self.base/'sibling-checkout/x.sh'), '--repo', str(self.root)+'/'])
         self.assertEqual(self.busy(), {424242})
 
     def test_mcp_helper_with_a_canonical_gate_override_stays_busy(self):
