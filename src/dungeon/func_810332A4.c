@@ -109,21 +109,18 @@ void func_80174AA4(S_func_810332A4_1 *effect, S_func_810332A4_2 *motion, S_func_
     S_func_810332A4_2 *transform;
     s32 blocked;
     s32 stop_mask;
-    s32 step_coord;
     s32 step_x;
-    s32 dy;
     s32 pos_y;
     s32 cleanup_mask;
     u8 next_tile;
-    s32 next_tile_2;
     s32 collision_coord;
-    register s32 coord_base ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 coord_base;
+    s16 converted_x;
     S_func_810332A4_7 *object_data;
     s32 state;
     s32 burst_index;
     u32 check_x;
     u32 check_y;
-    u16 object_x;
     s32 object_y;
     s32 floor_height;
     s32 object_tile_x;
@@ -132,7 +129,6 @@ void func_80174AA4(S_func_810332A4_1 *effect, S_func_810332A4_2 *motion, S_func_
     s32 tile_x;
     s32 floor_x;
     s32 floor_y;
-    s32 object_tile;
     s32 fade_value;
     s32 delay_pending;
     u16 timer;
@@ -180,14 +176,9 @@ void func_80174AA4(S_func_810332A4_1 *effect, S_func_810332A4_2 *motion, S_func_
                 if (collision_flags & 0x8400) {
                     effect->unk_26 = 1;
                 }
-                coord_base = (s32)D_8017610C;
-                next_tile_2 = effect->unk_4C.u;
-                dy = (effect->unk_1C << 2) + coord_base;
-                dy = ((S_func_810332A4_8 *)dy)->unk_00;
-                next_tile_2 += dy;
-                effect->unk_4C.u = next_tile_2;
+                effect->unk_4C.u += (u8)D_8017610C[effect->unk_1C].x;
                 collision_coord = effect->unk_1C << 2;
-                collision_coord += (s32)coord_base;
+                collision_coord += (s32)D_8017610C;
                 next_tile = effect->unk_4D.u;
                 next_tile += ((S_func_810332A4_8 *)collision_coord)->unk_02;
                 effect->unk_4D.u = next_tile;
@@ -196,7 +187,8 @@ void func_80174AA4(S_func_810332A4_1 *effect, S_func_810332A4_2 *motion, S_func_
                 step_x <<= 6;
                 hit_state = effect->unk_26;
                 step_x += 0x20;
-                coord_base = step_x;
+                converted_x = step_x;
+                coord_base = converted_x;
                 object_y = pos_y + 0x20;
                 if (hit_state == 0) {
                     check_x = (u16)coord_base;
@@ -276,33 +268,14 @@ void func_80174AA4(S_func_810332A4_1 *effect, S_func_810332A4_2 *motion, S_func_
                     transform->unk_04.half.unk_06) {
                     func_8009A350(display->unk_24, display->unk_25,
                                   effect->unk_1C, &collision_flags);
-                    coord_base = (s32)D_8017610C;
-                    step_coord = effect->unk_1C;
-                    object_tile = display->unk_24;
-                    collision_coord = collision_flags;
-                    step_coord <<= 2;
-                    step_coord += coord_base;
-                    collision_coord &= 0x8400;
-                    step_coord = ((S_func_810332A4_8 *)step_coord)->unk_00;
-                    blocked = collision_coord != 0;
-                    object_tile += step_coord;
-                    display->unk_24 = object_tile;
-                    step_coord = effect->unk_1C;
-                    object_tile = display->unk_25;
-                    collision_coord = display->unk_24;
-                    step_coord <<= 2;
-                    step_coord += coord_base;
-                    step_coord = ((S_func_810332A4_8 *)step_coord)->unk_02;
-                    object_tile += step_coord;
-                    collision_coord <<= 6;
-                    display->unk_25 = object_tile;
-                    collision_coord += 0x20;
-                    coord_base = collision_coord;
-                    object_x = coord_base & 0xFFFF;
+                    blocked = (collision_flags & 0x8400) != 0;
+                    display->unk_24 += (u8)D_8017610C[effect->unk_1C].x;
+                    display->unk_25 += (u8)D_8017610C[effect->unk_1C].y;
+                    coord_base = (display->unk_24 << 6) + 0x20;
                     object_y = (((S_func_810332A4_6 *)display)->unk_25 << 6) + 0x20;
 
                     if (!blocked) {
-                        if ((func_800A45D8((u16)object_x, (u16)object_y,
+                        if ((func_800A45D8((u16)coord_base, (u16)object_y,
                                            transform->unk_0A.s) << 16) != 0) {
                             blocked = 1;
                         }
@@ -315,7 +288,7 @@ void func_80174AA4(S_func_810332A4_1 *effect, S_func_810332A4_2 *motion, S_func_
                         }
                     }
                     if (!blocked) {
-                        floor_height = func_800BCB04((u16)object_x, (u16)object_y,
+                        floor_height = func_800BCB04((u16)coord_base, (u16)object_y,
                                               (s16)((u16)object_data->unk_88 - 0x20));
                         if (floor_height >= 0x200) {
                             blocked = 1;
