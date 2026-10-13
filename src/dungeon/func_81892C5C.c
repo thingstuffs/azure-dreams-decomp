@@ -118,7 +118,8 @@ s32 func_81892C5C(void *effect, S_81892C5C_2 *center)
         angle_step = 0x100;
 
         for (segment = 0; segment < 8; segment++) {
-            union { void * pointer; s32 value; } context;
+            void * render_context;
+    s32 end_y_scaled;
             void *polyline;
             s32 start_angle;
             s32 angle_base;
@@ -127,9 +128,9 @@ s32 func_81892C5C(void *effect, S_81892C5C_2 *center)
             s32 height;
             s32 x_trig;
 
-            context.pointer = *ot_ctx;
-            polyline = ((S_81892C5C_3 *)context.pointer)->unk_8D0;
-            ((S_81892C5C_3 *)context.pointer)->unk_8D0 = (u8 *)polyline + 0x18;
+            render_context = *ot_ctx;
+            polyline = ((S_81892C5C_3 *)render_context)->unk_8D0;
+            ((S_81892C5C_3 *)render_context)->unk_8D0 = (u8 *)polyline + 0x18;
             ((S_81892C5C_4 *)polyline)->unk_00.at03.v = 5;
             ((S_81892C5C_4 *)polyline)->unk_07 = 0x48;
             ((S_81892C5C_4 *)polyline)->unk_14 = 0x55555555;
@@ -161,8 +162,8 @@ s32 func_81892C5C(void *effect, S_81892C5C_2 *center)
                 (((func_80064584(mid_angle) >> 4) * radius) >> 8));
             {
 
-                context.value = (func_80064584(end_angle) >> 4) * radius;
-                base_height = context.value >> 8;
+                end_y_scaled = (func_80064584(end_angle) >> 4) * radius;
+                base_height = end_y_scaled >> 8;
                 ((S_81892C5C_0 *)scratch)->unk_76 = (s16)(center->unk_06 + base_height);
             }
 

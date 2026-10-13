@@ -19,6 +19,7 @@ void *func_80402A1C(void *buffer, S_80402A1C_0 *layout) {
     M2C_UNK ids_limit;
     s32 width_extent;
     s32 layout_offset;
+    s32 layout_index;
     s32 height_extent;
     s32 outer_height;
     u32 height;
@@ -32,17 +33,18 @@ void *func_80402A1C(void *buffer, S_80402A1C_0 *layout) {
     u8 command_id;
     u8 *size_ptr;
     u8 *write_ptr;
-    register union { u8 *pointer; u64 bits; } stack_end;
+    u8 * stack_end;
 
     write_ptr = (u8 *)buffer;
     memcpy(&command_ids, D_80400000 + 0x544, 4);
     do {
         opcode = 0x48;
+        shade = 0x101010;
+        id_ptr = (u8 *)&command_ids;
+        layout_index = layout->unk_08;
+        stack_end = (u8 *)&ids_limit;
     } while (0);
-    shade = 0x101010;
-    id_ptr = (u8 *)&command_ids;
-    stack_end.pointer = (u8 *)&ids_limit;
-    layout_offset = layout->unk_08 * 4;
+    layout_offset = layout_index * 4;
     size_ptr = write_ptr + 0xB;
     width_extent = D_80408ADC[layout_offset] * 0xC;
     width = width_extent + 8;
@@ -89,7 +91,7 @@ loop:
         write_ptr[0] = command_id;
         write_ptr += 0x18;
     } while (0);
-    if ((s32)id_ptr < (s32)stack_end.pointer)
+    if ((s32)id_ptr < (s32)stack_end)
         goto loop;
     write_ptr[-0x18] |= 0x80;
     return write_ptr;

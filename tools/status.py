@@ -269,8 +269,9 @@ def main():
                f"2026-09-23, tracked as a spelling trade, informational, the pin count is unchanged; appended by "
                f"tools/apply_candidates.py at landing): {dead_init:,}.\n")
 
-    unions = list(read_jsonl(LEDGER / "union_trades.jsonl")) if (LEDGER / "union_trades.jsonl").exists() else []
-    if unions:
+    unions_all = list(read_jsonl(LEDGER / "union_trades.jsonl")) if (LEDGER / "union_trades.jsonl").exists() else []
+    unions = [u for u in unions_all if not u.get("resolved")]
+    if unions_all:
         def _union_line(kind, label):
             sites = [u for u in unions if u.get("kind") == kind]
             per_row = collections.Counter(u["id"] for u in sites)
@@ -281,7 +282,8 @@ def main():
                    "plausibility as original 1997 code is unproven; census work/native_lane/_r118/union_census): "
                    + _union_line("union_idiom", "zero-init one-member idiom (accepted trade)") + "; "
                    + _union_line("union_host_merge", "host-merge levers (int/pointer share one union variable; owner ruling pending)")
-                   + ". Refused union levers (float launders, dead-value keepers) are recorded in the hard basket.\n")
+                   + f". Resolved by re-spells (original-C shapes, byte-exact): {len(unions_all) - len(unions):,} of {len(unions_all):,} recorded sites."
+                   + " Refused union levers (float launders, dead-value keepers) are recorded in the hard basket.\n")
 
     dead_branch = sorted({t["id"] for t in trades if t.get("kind") == "dead_branch"})
     if dead_branch:
