@@ -152,6 +152,41 @@ class LaneProcessScopeTests(unittest.TestCase):
         child = self.proc_at(424243, self.scratch, self.argv, parent=424242)
         self.assertEqual(self.busy(), set())
 
+    def mcp_helper(self, argv=None, fds=(), env=()):
+        """codex's global ghidra-mcp bridge: cwd in a sibling checkout outside the root."""
+        self.set_args(['codex', 'exec', '-C', str(self.lane), '-o', str(self.lane/'last_message.txt'), 'task'])
+        sibling = self.base/'sibling-checkout'; sibling.mkdir(exist_ok=True)
+        bridge = self.put(sibling/'tools/ghidra_mcp_bridge.sh')
+        return self.proc_at(424243, sibling, argv or ['/bin/bash', str(bridge)], parent=424242, fds=fds, env=env)
+
+    def test_codex_global_mcp_helper_outside_the_root_is_isolated(self):
+        self.mcp_helper(fds=('pipe:[7]', str(self.base/'sibling-checkout/log.txt')))
+        self.assertEqual(self.busy(), set())
+
+    def test_mcp_helper_with_a_root_fd_stays_busy(self):
+        self.mcp_helper(fds=(str(self.root/'ledger/rows.jsonl'),))
+        self.assertEqual(self.busy(), {424242})
+
+    def test_mcp_helper_naming_the_root_stays_busy(self):
+        self.mcp_helper(argv=['/bin/bash', str(self.base/'sibling-checkout/x.sh'), '--repo', str(self.root)])
+        self.assertEqual(self.busy(), {424242})
+
+    def test_mcp_helper_with_a_canonical_gate_override_stays_busy(self):
+        self.mcp_helper(env=('SRCROOT='+str(self.root/'src'),))
+        self.assertEqual(self.busy(), {424242})
+
+    def test_child_of_an_outside_helper_in_the_root_stays_busy(self):
+        self.mcp_helper()
+        self.proc_at(424244, self.root, ['sleep', '60'], parent=424243)
+        self.assertEqual(self.busy(), {424242})
+
+    def test_outside_cwd_symlinked_into_the_root_stays_busy(self):
+        alias = self.base/'alias'; alias.symlink_to(self.root/'src', target_is_directory=True)
+        (self.root/'src').mkdir(exist_ok=True)
+        self.set_args(['codex', 'exec', '-C', str(self.lane), 'task'])
+        self.proc_at(424243, alias, ['sleep', '60'], parent=424242)
+        self.assertEqual(self.busy(), {424242})
+
     def test_codex_child_with_canonical_cwd_is_ambiguous_and_stays_busy(self):
         self.set_args(['codex', 'exec', '-C', str(self.lane), '-o', str(self.lane/'last_message.txt'), 'task'])
         self.proc_at(424243, self.root, self.argv, parent=424242)
