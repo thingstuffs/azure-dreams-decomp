@@ -69,13 +69,9 @@ s32 func_800345B8(u8 *node_data, u8 *position, u8 *render_state)
     void *next_node;
     u8 *copy_matrix_a;
     u8 *copy_matrix_b;
-    u8 *matrix_page;
     GpuContext **render_pools;
     GpuContext *render_pool;
     u8 *next_prim;
-    matrix_page = (u8 *) 0x80070000;
-    copy_matrix_a = D_8006A84C;
-    copy_matrix_b = D_8006CD10;
     scratch = (u8 *) 0x1F800000;
     render_pool = gameWork.unk_000;
     next_prim = render_pool->packetCursor;
@@ -85,6 +81,8 @@ s32 func_800345B8(u8 *node_data, u8 *position, u8 *render_state)
     render_pools = ((GpuContext * *)(&gameWork));
     fixed_matrix = (void *) 0x1F8000C8;
     do {
+        copy_matrix_a = D_8006A84C;
+        copy_matrix_b = D_8006CD10;
         (((SpU16 *) (scratch + 0x04))->v) = *((u16 *) (position + 2));
         (((SpU16 *) (scratch + 0x06))->v) = *((u16 *) (position + 6));
         (((SpU16 *) (scratch + 0x08))->v) = *((u16 *) (position + 10));
@@ -143,11 +141,10 @@ s32 func_800345B8(u8 *node_data, u8 *position, u8 *render_state)
                 RotMatrix(scratch + 0xF8, fixed_matrix);
                 if (copy_index != 0) {
                     if (D_8006A847[copy_index] != 0) {
-                        CompMatrix(matrix_page - 0x57B4, fixed_matrix, scratch + 0x54);
+                        CompMatrix(D_8006A84C, fixed_matrix, scratch + 0x54);
                     }
                     else {
-                        ASM_USE_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                        CompMatrix(matrix_page - 0x32F0, fixed_matrix, scratch + 0x54);
+                        CompMatrix(D_8006CD10, fixed_matrix, scratch + 0x54);
                     }
                 }
                 else {
