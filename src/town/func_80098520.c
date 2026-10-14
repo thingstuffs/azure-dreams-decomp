@@ -9,10 +9,10 @@ typedef struct Motion {
     s32 dy;
 } Motion;
 
-s16 func_80095BC0();                  /* extern */
-s16 func_80095BF0();                  /* extern */
-s16 func_80095C20();             /* extern */
-s16 func_80095C50();             /* extern */
+s16 func_80095BC0(s32 input_value, s32 parameter);
+s16 func_80095BF0(s32 input_value, s32 parameter);
+s16 func_80095C20(s32 input_value, s32 parameter);
+s16 func_80095C50(s32 input_value, s32 parameter);
 void func_800961A8(void *);                 /* extern */
 void func_800961D8(void *);                 /* extern */
 extern Motion D_800FE5C0;
@@ -35,7 +35,7 @@ void func_80095C80(EntityRec *position) {
     Motion *neg_xy_motion;
     s32 neg_x_pos_y_x;
     s32 neg_xy_x;
-    register s32 y_step_or_side ASM_REG("$5");
+    s32 y_step_or_side;
     s32 pos_x_hit;
     s32 pos_x_neg_y_y;
     s32 neg_y_hit;
@@ -148,32 +148,27 @@ void func_80095C80(EntityRec *position) {
         }
     }
     {
-        unsigned long motion_or_hit;
-        motion_or_hit = (unsigned long)&D_800FE5C0;
-        if (((Motion *)motion_or_hit)->dx < 0) {
-            if (((Motion *)motion_or_hit)->dy > 0) {
+        Motion *neg_x_motion;
+        neg_x_motion = &D_800FE5C0;
+        if (neg_x_motion->dx < 0) {
+            if (neg_x_motion->dy > 0) {
                 s32 y_test;
-                probe.x = position->x.v - ((Motion *)motion_or_hit)->dx;
+                s32 hit_a;
+                probe.x = position->x.v - neg_x_motion->dx;
                 probe.y = position->y.v;
                 probe.z = position->z.v;
                 neg_x_boundary = func_80095BF0(&probe, 0);
                 neg_x_pos_y_x = position->x.v;
                 probe.x = neg_x_pos_y_x;
-                probe_coord = position->y.v;
-                y_step_or_side = ((Motion *)motion_or_hit)->dy;
-                motion_or_hit = neg_x_boundary << 0x10;
-                motion_or_hit = (s32)motion_or_hit < neg_x_pos_y_x;
-                motion_or_hit ^= 1;
-                probe_coord -= y_step_or_side;
-                probe.y = probe_coord;
-                probe_coord = position->z.v;
-                probe.z = probe_coord;
-                y_test = func_80095C20(&probe, 1, neg_x_pos_y_x);
+                hit_a = (neg_x_boundary << 0x10) >= neg_x_pos_y_x;
+                probe.y = position->y.v - neg_x_motion->dy;
+                probe.z = position->z.v;
+                y_test = func_80095C20(&probe, 1);
                 probe_coord = position->y.v;
                 y_test <<= 0x10;
                 probe_coord = probe_coord < y_test;
                 y_test = probe_coord ^ 1;
-                if (motion_or_hit == 0) {
+                if (hit_a == 0) {
                     neg_x_pos_y_motion = (Motion *)D_80100000;
                     if (y_test == 0) {
                         s32 y_offset;
@@ -208,28 +203,23 @@ void func_80095C80(EntityRec *position) {
                 func_800961D8(position);
                 return;
             }
-            if (((Motion *)motion_or_hit)->dy < 0) {
-                probe.x = position->x.v - ((Motion *)motion_or_hit)->dx;
+            if (neg_x_motion->dy < 0) {
+                s32 hit_b;
+                probe.x = position->x.v - neg_x_motion->dx;
                 probe.y = position->y.v;
                 probe.z = position->z.v;
                 neg_xy_boundary = func_80095BF0(&probe, 1);
                 neg_xy_x = position->x.v;
                 probe.x = neg_xy_x;
-                probe_coord = position->y.v;
-                y_step_or_side = ((Motion *)motion_or_hit)->dy;
-                motion_or_hit = neg_xy_boundary << 0x10;
-                motion_or_hit = (s32)motion_or_hit < neg_xy_x;
-                motion_or_hit ^= 1;
-                probe_coord -= y_step_or_side;
-                probe.y = probe_coord;
-                probe_coord = position->z.v;
-                probe.z = probe_coord;
-                axis_test = func_80095C50(&probe, 1, neg_xy_x);
+                hit_b = (neg_xy_boundary << 0x10) >= neg_xy_x;
+                probe.y = position->y.v - neg_x_motion->dy;
+                probe.z = position->z.v;
+                axis_test = func_80095C50(&probe, 1);
                 probe_coord = position->y.v;
                 axis_test <<= 0x10;
                 axis_test = axis_test < probe_coord;
                 axis_test ^= 1;
-                if (motion_or_hit == 0) {
+                if (hit_b == 0) {
                     neg_xy_motion = (Motion *)D_80100000;
                     if (axis_test == 0) {
                         s32 y_offset;
