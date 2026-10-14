@@ -74,8 +74,7 @@ s32 func_8006A470();                             /* extern */
 M2C_UNK func_8023FB18();                      /* extern */
 M2C_UNK func_80245C10();             /* extern */
 s16 func_8025E01C();                          /* extern */
-extern s16 D_800133A0[5];
-extern s16 D_800133A0_store[5] __asm__("D_800133A0");
+extern s16 D_800133A0;
 extern u8 D_8003C558[3];
 extern s32 D_80084D5C;
 extern M2C_UNK D_8012F130[5];
@@ -406,8 +405,8 @@ void func_8080C650(void *in0, void *motion, void *in2) {
             loop_index -= 1;
             count_sum_or_color += slot_count;
         } while (loop_index >= 0);
-        if ((D_800133A0[0] < count_sum_or_color) || (count_sum_or_color == 0x40)) {
-            D_800133A0_store[0] = count_sum_or_color;
+        if ((D_800133A0 < count_sum_or_color) || (count_sum_or_color == 0x40)) {
+            D_800133A0 = count_sum_or_color;
             func_80050BFC(0x5DA);
         } else {
             func_80050BD8(0x5DA);

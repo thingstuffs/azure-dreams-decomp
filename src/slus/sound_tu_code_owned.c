@@ -1,0 +1,28 @@
+#include "common.h"
+
+/* Partition owner: the seven slus/code functions that live inside the stock-2.7.2
+ * sound TU (0x8005CA90-0x8005FA34, docs/evidence/sound_tu_code_partition.md).
+ * Declarations transplanted unchanged from src/slus/code.c. */
+
+extern int *D_8007996C[4];
+
+extern void DMACallback(int a0, int a1);
+
+typedef struct {
+    u8 pad[0x1AA];
+    u16 field_1AA;
+} TargetStruct;
+
+typedef struct {
+    TargetStruct *ptr;
+    u32 pad2[2]; /* keep total size > 8 bytes so hi/lo addressing (not gp_rel) is used */
+} D_80079958_t;
+
+extern D_80079958_t D_80079958;
+
+extern s32 func_8005E4C4(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8005E7B0(int a0, int a1);
+extern void func_8005F134(void *a0);
+extern void func_8005E97C(int a0, int a1);
+
+#include "../build/partition_sources/code__sound_tu_code.c"

@@ -379,6 +379,35 @@ class ScopedFingerprint(unittest.TestCase):
  def test_exported_roster_mismatch_refused(self):
   with self.edit('overlays/dungeon/overlay_first_pass_results.json',lambda v:v.pop(),True):
    with self.assertRaisesRegex(ValueError,'exported split roster differs:'):self.fp()
+ def test_configure_binds_as_flags_only(self):
+  # configure.py is the SLUS build graph; the gate reads only its AS_FLAGS literal.
+  name='tools/gate/configure.py'
+  def sub(old,new):
+   def change(p):
+    t=p.read_text();self.assertIn(old,t);p.write_text(t.replace(old,new,1))
+   return change
+  def append(text):return lambda p:p.write_text(p.read_text()+text)
+  with self.mutate(name,sub('CC_VER = {','CC_VER = {\n    "src/w_DEADBEEF.c": ("2.7.2-cdk", ""),')):self.assertEqual(self.fp(),self.baseline)
+  with self.mutate(name,append('\n# comment / non-AS_FLAGS edit\n')):self.assertEqual(self.fp(),self.baseline)
+  def as_value(p):
+   t=p.read_text();k=t.index('AS_FLAGS = {');i=t.index('": "',k)+4
+   p.write_text(t[:i]+'-mutation '+t[i:])
+  with self.subTest('value'),self.mutate(name,as_value):self.changed()
+  with self.subTest('key'),self.mutate(name,sub('AS_FLAGS = {','AS_FLAGS = {\n    "src/w_DEADBEEF.c": "--mutation",')):self.changed()
+  # match maps src/w_X.c and src/func_X.c to one function, the later entry winning: order is content.
+  with self.mutate(name,sub('AS_FLAGS = {','AS_FLAGS = {\n    "src/w_DEADBEEF.c": "",\n    "src/func_DEADBEEF.c": "--expand-div",')):
+   before=self.fp()
+   with self.subTest('order'),self.mutate(name,sub('    "src/w_DEADBEEF.c": "",\n    "src/func_DEADBEEF.c": "--expand-div",','    "src/func_DEADBEEF.c": "--expand-div",\n    "src/w_DEADBEEF.c": "",')):
+    self.assertNotEqual(self.fp()['sha256'],before['sha256'])
+  with self.subTest('second'),self.mutate(name,append('\nAS_FLAGS = {}\n')):
+   with self.assertRaisesRegex(ValueError,'one AS_FLAGS'):self.fp()
+  with self.subTest('literal'),self.mutate(name,sub('AS_FLAGS = {','AS_FLAGS = DEFAULT_AS_FLAGS | {')):
+   with self.assertRaisesRegex(ValueError,'not a literal'):self.fp()
+  def as_list(p):
+   sub('AS_FLAGS = {','AS_FLAGS = [{')(p);sub('}\n# Explicit partition','}]\n# Explicit partition')(p)
+  with self.subTest('dict'),self.mutate(name,as_list):
+   with self.assertRaisesRegex(ValueError,'not a dict'):self.fp()
+  with self.subTest('missing'),self.mutate(name,lambda p:p.unlink()):self.changed()
  def test_fidelity_tool_identities(self):
   for name in ['tools/fidelity/aspsx_diff.py','tools/fidelity/objread.py','tools/fidelity/certify_overlay_module.py','tools/build/slus_rodata_trim.py']:
    with self.subTest(name=name),self.mutate(name,lambda p:p.write_text(p.read_text()+'\n# dependency mutation\n')):self.changed()

@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_80003BCC(s32 arg0);
+extern void func_80003BCC(s32);
 extern s32 D_000045F8[];
 extern s32 D_00004148[];
 

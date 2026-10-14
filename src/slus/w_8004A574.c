@@ -25,7 +25,6 @@ s32 func_8004A574(u8 *item, s32 use_value1) {
 
     category = &itemCategoryTable[item[1]];
     record = &category->records[item[0]];
-    asm("" : : "r"(record));
 
     {
         s32 multiplier;

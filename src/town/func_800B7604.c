@@ -19,14 +19,14 @@ typedef struct Obj {
 
 extern u8 D_80078CDC[];
 
-extern void func_800B3558(void *arg0);
-extern void func_800B474C(void *arg0);
-extern void func_800B47BC(void *arg0);
-extern void func_800B48B8(void *arg0);
-extern void func_800B4908(void *arg0);
-extern void func_800B49A8(void *arg0);
-extern void func_800B4A60(void *arg0);
-extern void func_800B4B7C(void *arg0);
+extern void func_800B3558(void *);
+extern void func_800B474C(void *);
+extern void func_800B47BC(void *);
+extern void func_800B48B8(void *);
+extern void func_800B4908(void *);
+extern void func_800B49A8(void *);
+extern void func_800B4A60(void *);
+extern void func_800B4B7C(void *);
 
 /* Initialize slot data and offsets, then configure the object. */
 void func_800B4D64(Obj *obj) {

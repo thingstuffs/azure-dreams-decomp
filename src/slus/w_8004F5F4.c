@@ -19,7 +19,6 @@ typedef struct S_8004F5F4_node {
 
 extern void func_8004F5B0(void *a0);
 extern void *func_8004FDE0(void *a0);
-extern s32 D_800814A0_w asm("D_800814A0");
 
 /* Creates a callback node and initializes its result, marking failure if initialization fails. */
 void *func_8004F5F4(void *unused, void *source)
@@ -38,7 +37,7 @@ void *func_8004F5F4(void *unused, void *source)
             do {
                 node->flags |= 0x8000;
             } while (0);
-            global_flags = D_800814A0_w;
+            global_flags = objectFlagBlock.flags;
             node = 0;
             global_flags |= 0x8000;
 

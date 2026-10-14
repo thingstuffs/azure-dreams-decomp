@@ -13,8 +13,7 @@ extern void RotTransPers4(void *, void *, void *, void *, void *, void *,
 extern void AddPrim(void *, void *);
 
 extern u8 D_80080994[];
-extern u8 *D_80083160_init[3] asm("D_80083160");
-extern u8 *D_80083160_tail[3] asm("D_80083160");
+extern u8 *D_80083160[3];
 
 #define U8_AT(p, o) (*(u8 *)((u8 *)(p) + (o)))
 #define S8_AT(p, o) (*(s8 *)((u8 *)(p) + (o)))
@@ -69,7 +68,7 @@ s32 func_80033D54(u8 *first_node, u8 *first_transform, u8 *first_context) {
     context = first_context;
 
     render_disabled = D_8008099C;
-    state_ptr = D_80083160_init;
+    state_ptr = D_80083160;
     scratch = (u8 *)0x1F800000;
     if (render_disabled != 0) {
         return 0;
@@ -79,7 +78,7 @@ s32 func_80033D54(u8 *first_node, u8 *first_transform, u8 *first_context) {
     translation = (void *)0x1F800044;
     work_matrix = (void *)0x1F8000C8;
 
-    render_state = D_80083160_init[0];
+    render_state = D_80083160[0];
     prim_cursor = S32_AT(render_state, 0x8D0);
     SCR_S32(0x24) = (u32)(render_state + 0x70);
     SCR_S32(0x3C) = 0x1000;
@@ -192,16 +191,16 @@ sprite_loop:
                 SCR_S16(0x7E) = coord;
                 SCR_S16(0x76) = coord;
                 coord -= SCR_U16(0x18);
+                SCR_S16(0x8E) = coord;
+                SCR_S16(0x86) = coord;
             } else {
                 coord = (s32)(U8_AT(sprite, 2) << 24) >> 23;
                 SCR_S16(0x7E) = coord;
                 SCR_S16(0x76) = coord;
                 coord += SCR_U16(0x18);
-            }
-            do {
                 SCR_S16(0x8E) = coord;
-            } while (0);
-            SCR_S16(0x86) = coord;
+                SCR_S16(0x86) = coord;
+            }
 
             RotTransPers4(scratch + 0x74, scratch + 0x7C,
                           scratch + 0x84, scratch + 0x8C,

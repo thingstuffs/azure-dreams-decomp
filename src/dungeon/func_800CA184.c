@@ -317,23 +317,21 @@ void func_800CF8E4(void) {
                 view->unk_014 = blended_coord;
                 blended_coord = (u16)view->unk_018;
                 next_delta = (s16)view_corners[9];
-                old_coord = view->unk_01A;
                 blended_coord += coord_delta;
+                old_coord = view->unk_01A;
                 next_delta -= old_coord;
                 next_delta >>= 1;
                 view->unk_018 = blended_coord;
                 blended_coord = (u16)view->unk_01A;
                 coord_delta = (s16)view_corners[10];
-                old_coord = view->unk_01C;
                 blended_coord += next_delta;
-                coord_delta -= old_coord;
                 view->unk_01A = blended_coord;
+                old_coord = view->unk_01C;
+                coord_delta -= old_coord;
                 blended_coord = (u16)view->unk_01C;
                 coord_delta >>= 1;
                 blended_coord += coord_delta;
-                do {
-                    view->unk_01C = blended_coord;
-                } while (0);
+                view->unk_01C = blended_coord;
                 coord_delta = (s16)view_corners[12];
                 blended_coord = view->unk_020;
                 next_delta = (s16)view_corners[13];

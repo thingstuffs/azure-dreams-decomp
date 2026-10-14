@@ -2,7 +2,8 @@
 
 config/overlay_fingerprint_schema selects this schema; legacy is default. Validation is never
 memoized. File reads may use the identity-sensitive gate_read_cache.
-Full symbol/as-flags/sibcall and executable tool identities stay conservative.
+Full symbol/as-flags/sibcall and executable tool identities stay conservative
+(configure.py: its AS_FLAGS table only, the one part gate code reads).
 """
 from __future__ import annotations
 import ast, hashlib, json, os, re, shutil, subprocess, sys
@@ -298,7 +299,24 @@ def identities(root, versions, G):
     # The inline-ASM macro branch names this through a C string, so -M does
     # not see it. Bind presence/absence even while that branch is unused.
     paths['include/macro.inc']=root/'include/macro.inc'
-    return {n:G.sha(p) if p.exists() else None for n,p in sorted(paths.items())}
+    out={n:G.sha(p) if p.exists() else None for n,p in sorted(paths.items()) if n!=CONFIGURE}
+    if CONFIGURE in paths:out[CONFIGURE]=configure_identity(paths[CONFIGURE])
+    return out
+
+# configure.py is the SLUS build graph. Gate code reads only its AS_FLAGS
+# literal (match._default_func_as_flags, live_truth.main_exe_as_flags), so bind
+# that table's value: a SLUS CC_VER/partition edit must not void overlay certs.
+CONFIGURE='gate/configure.py'
+def configure_identity(path):
+    if not path.exists():return None
+    nodes=[n for n in ast.parse(read_text(path)).body if isinstance(n,ast.Assign)
+           and any(isinstance(t,ast.Name) and t.id=='AS_FLAGS' for t in n.targets)]
+    if len(nodes)!=1:raise ValueError('configure.py: expected one AS_FLAGS assignment, found %d'%len(nodes))
+    try:table=ast.literal_eval(nodes[0].value)
+    except ValueError as exc:raise ValueError('configure.py: AS_FLAGS is not a literal') from exc
+    if not isinstance(table,dict):raise ValueError('configure.py: AS_FLAGS is not a dict')
+    # Insertion order matters: match maps src/w_X.c and src/func_X.c to one key, last wins.
+    return 'AS_FLAGS:'+hashlib.sha256(json.dumps(list(table.items())).encode()).hexdigest()
 
 def noreturn(root, fam, offsets, splits, regions, G):
     if fam not in {'town','dungeon'}:return {}

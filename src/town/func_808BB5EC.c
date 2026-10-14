@@ -14,8 +14,7 @@ typedef struct {
     u8 *ptr_10;
 } TownData;
 extern void func_80000DC8(void);
-extern s32 D_00001020[];
-extern s32 D_00001020_store[] asm("D_00001020");
+extern s32 D_00001020;
 extern TownState *D_00001040[];
 extern TownData *D_00001034[];
 extern s32 *D_0000103C[];
@@ -28,11 +27,11 @@ void func_808BB5EC(void) {
     u8 *record_tag;
     u8 *data;
 
-    if (D_00001020[0] != 0) {
+    if (D_00001020 != 0) {
         D_00001040[0]->func_64(D_00000694, D_000006BC, 0x4B);
         D_00001040[0]->func_70(1);
     }
-    D_00001020_store[0] = 1;
+    D_00001020 = 1;
     func_80000DC8();
     D_00001034[0]->ptr_10 = D_00000FE4;
     data = D_00001034[0]->ptr_10;

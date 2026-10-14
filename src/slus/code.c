@@ -120,24 +120,14 @@ void func_8003F6D4(int tag, int id, int *record, int value)
     record[1] = value;
 }
 
-typedef struct {
-    void *head;
-    int pad1;
-    int pad2;
-} FreelistHead; /* real D_80081490 is >8B so hi/lo addressing is used */
+extern void *D_80081490;
 
 /* Push a node onto the free list and clear its second word. */
 void func_80040044(void *node)
 {
     void *old_head;
-    {
-        extern void *D_80081490;
-        old_head = D_80081490;
-    }
-    {
-        extern FreelistHead D_80081490;
-        D_80081490.head = node;
-    }
+    old_head = D_80081490;
+    D_80081490 = node;
     *(int *)((char *)node + 4) = 0;
     *(void **)node = old_head;
 }
@@ -148,15 +138,12 @@ typedef struct Node {
     unsigned short field_1E; /* 0x1E */
 } Node;
 
-extern struct {
-    Node *head;
-    int pad[2];
-} D_80081498;
+extern Node *D_80081498;
 
 /* Set flag bits 0xC00 on every node in the global list. */
 void func_80040418(void)
 {
-    Node *node = D_80081498.head;
+    Node *node = D_80081498;
 
     if (node != 0) {
         do {
@@ -613,7 +600,7 @@ void func_8004B3DC(void *object) {
 /* Find the target node in the global linked list. */
 Node *func_8004B4A8(Node *target)
 {
-    Node *node = D_80081498.head;
+    Node *node = D_80081498;
 
     while (node != 0) {
         if (node == target) {
@@ -641,11 +628,11 @@ int func_8004B4DC(Unk8004B4DC *record) {
     return count;
 }
 
-extern int D_80080B48[4];
+extern int D_80080B48;
 /* Process the fixed global record with command six. */
 void func_8004B634(void)
 {
-    Control_CD(6, D_80080B48, 0);
+    Control_CD(6, &D_80080B48, 0);
 }
 
 extern void func_8004B634(void);
@@ -664,7 +651,7 @@ int func_8004B8BC(int object, int value)
     return func_8004B854(object, value, 0);
 }
 
-extern unsigned char D_80080A84[16];
+extern unsigned char D_80080A84;
 
 struct S8004CBFC_a1 {
     unsigned short f0;
@@ -681,7 +668,7 @@ struct S8004CBFC_a0 {
 /* Initialize entry state, compute its rate, and optionally copy its value to the cursor. */
 void func_8004CBFC(struct S8004CBFC_a0 *state, struct S8004CBFC_a1 *entry, int *cursor) {
     state->f8 = entry;
-    state->f0 = entry->f0 / D_80080A84[0];
+    state->f0 = entry->f0 / D_80080A84;
     state->f4 = cursor;
     if (cursor != 0) {
         *cursor = entry->f4;
@@ -968,13 +955,13 @@ void func_80050FA8(void)
     func_8003AEF8(D_800717E8);
 }
 
-extern char D_80080C1C[];
+extern char D_80080C1C;
 extern void file_load_com(void *arg);
 
 /* Load the fixed global record D_80080C1C. */
 void func_80051500(void)
 {
-    file_load_com(D_80080C1C);
+    file_load_com(&D_80080C1C);
 }
 
 extern void func_80051548(void);

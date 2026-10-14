@@ -1,6 +1,5 @@
 #include "common.h"
 
-#define LOCAL_ASM_REG(reg) asm(reg)
 
 typedef struct {
     s32 flag;
