@@ -16969,10 +16969,10 @@
         ".text.func_80177D08"
       ],
       "review": {
-        "membership": "pending",
-        "types": "pending",
-        "ownership": "pending",
-        "reviewer": "pending"
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "orchestrator-r120"
       },
       "membership_evidence": "docs/evidence/ovmovie_libpress.membership.json"
     }
