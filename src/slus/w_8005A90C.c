@@ -30,7 +30,6 @@ s32 func_8005A90C(s32 src_addr, s32 sound_addr, s32 size, s16 requested_slot)
     s32 slot_index;
     S_80086A40 *slot;
     s32 reserved_addr;
-    s32 reserve_size;
 
     D_8007382C[0] = 0;
     slot_id = 0;
@@ -45,38 +44,32 @@ s32 func_8005A90C(s32 src_addr, s32 sound_addr, s32 size, s16 requested_slot)
                 return -1;
             }
         }
-        slot_index = slot_id;
-        slot = &D_80086A40[slot_index];
-        slot->unk14 = size;
-        reserve_size = size;
     } else {
         slot_id = selected_slot;
         if (D_80086A40[slot_id].marker != -1) {
             func_8005A1D0(D_80086A40[slot_id].unk10);
         }
-        slot_index = slot_id;
-        slot = &D_80086A40[slot_index];
-        slot->unk14 = size;
-        reserve_size = size;
     }
+    slot_index = slot_id;
+    slot = &D_80086A40[slot_index];
+    slot->unk14 = size;
     slot->marker = slot_id;
     slot->unk04 = src_addr;
     slot->unk08 = size;
-    reserved_addr = sound_addr;
     slot->unk18 = 0x7F;
     slot->unk1B = 0x40;
-    slot->unk10 = reserved_addr;
-    reserved_addr = func_80059F8C(reserved_addr, reserve_size);
+    slot->unk10 = sound_addr;
+    reserved_addr = func_80059F8C(sound_addr, slot->unk14);
     slot->unk10 = reserved_addr;
     if (reserved_addr == -1) {
         return -1;
     }
     sound_addr = func_8005ECA0(reserved_addr);
-    if (func_8005EC40(src_addr, slot->unk14) != slot->unk14) {
+    size = func_8005EC40(src_addr, slot->unk14);
+    if (size != slot->unk14) {
         return -1;
     }
     slot->unk0C = src_addr;
-    reserved_addr = sound_addr;
-    slot->unk10 = reserved_addr;
+    slot->unk10 = sound_addr;
     return slot_index;
 }

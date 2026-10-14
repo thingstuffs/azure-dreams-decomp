@@ -24,10 +24,10 @@ typedef struct {
 } Entity; /* 0x50 */
 
 extern Entity D_80085FA8[];
-extern s32 D_800869B4;
-extern s32 D_800737C4;
-extern s32 D_800737C8;
-extern u8 *D_80085FA4;
+extern s32 D_800869B4[3];
+extern s32 D_800737C4[4];
+extern s32 D_800737C8[4];
+extern u8 *D_80085FA4[4];
 
 extern s32 func_80058B70(void);
 extern s32 func_800597A8(Entity *);
@@ -48,17 +48,17 @@ s32 func_800599B0(void)
     s32 format;
     s32 mode;
 
-    D_800737C4 = 0;
-    D_800737C8 = 1;
+    *(s32 *)&D_800737C4 = 0;
+    D_800737C8[0] = 1;
     offset = 0;
-    format = *D_80085FA4;
+    format = *D_80085FA4[0];
     if (format == 0x70) {
-        D_800737C8 = 0;
+        D_800737C8[0] = 0;
     } else if (format == 0x4B) {
-        D_800737C8 = 2;
+        D_800737C8[0] = 2;
     }
     func_80058B70();
-    mode = D_800737C8;
+    mode = D_800737C8[0];
     if (mode < 0) {
         goto done;
     }
@@ -70,13 +70,13 @@ s32 func_800599B0(void)
     }
     {
         entity_index = 0;
-        if (D_800869B4 == 0) {
+        if (D_800869B4[0] == 0) {
             return 0;
         }
         default_value = 0x68;
         do {
             entity = &D_80085FA8[entity_index];
-            if (D_800737C8 == 1) {
+            if (D_800737C8[0] == 1) {
                 entity->f00 = offset + 1;
                 entity->f24 = default_value;
                 entity->f20 = default_value;
@@ -90,18 +90,18 @@ s32 func_800599B0(void)
             entity->f49 = 0;
             entity->f2C = 0;
             entity->f40 = 0;
-            if (D_800737C4 != 0) {
+            if (*(s32 *)&D_800737C4 != 0) {
                 func_80059814(entity);
             }
             entity_index++;
-        } while (entity_index < (u32)D_800869B4);
+        } while (entity_index < D_800869B4[0]);
         return 0;
     }
 init_spans:
     offset = 0x50;
-    data = D_80085FA4;
+    data = D_80085FA4[0];
     entity_index = 0;
-    if (D_800869B4 == 0) {
+    if (D_800869B4[0] == 0) {
         return 0;
     }
     packed_default = 0x68;
@@ -123,11 +123,11 @@ init_spans:
         entity->f49 = 0;
         entity->f2C = 0;
         entity->f40 = 0;
-        if (D_800737C4 != 0) {
+        if (*(s32 *)&D_800737C4 != 0) {
             func_80059814(entity);
         }
         entity_index++;
-    } while (entity_index < (u32)D_800869B4);
+    } while (entity_index < D_800869B4[0]);
 done:
     return 0;
 }
