@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-14T14:52:01Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-14T17:35:45Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -71,6 +71,8 @@ Baseline NOT exact: 0 rows
 | jtbl_80052144 | 1 | not certified | include/common.h |
 | jtbl_80057D20 | 1 | not certified | include/common.h |
 | sound_tu_code | 0 | not applicable (partition owner) | include/common.h |
+| jtbl_80041588 | 1 | not certified | include/common.h |
+| jtbl_800595C0 | 1 | not certified | include/common.h |
 
 Not certified means no placement certificate has been issued; ownership and retail-byte proofs are separate. Partition owners do not grant whole-row placement.
 
@@ -129,10 +131,10 @@ Placement alone does not override any lower-level or source-residue guard.
 | m2c local names | 5181 | 2,160,832 | 77.6% | 5 | 24,204 | 0.9% |
 | ASM_ pins | 2135 | 1,455,340 | 52.2% | 0 | 0 | 0.0% |
 | goto | 1545 | 1,311,404 | 47.1% | 271 | 326,884 | 11.7% |
-| computed-goto jump table | 317 | 436,404 | 15.7% | 3 | 6,392 | 0.2% |
+| computed-goto jump table | 317 | 436,404 | 15.7% | 1 | 16 | 0.0% |
 | inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 242,072 | 8.7% | 7 | 9,764 | 0.4% |
 | fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate) | 1489 | 675,960 | 24.3% | 0 | 0 | 0.0% |
-| any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,280,480 | 46.0% | 13 | 27,180 | 1.0% |
+| any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,280,480 | 46.0% | 12 | 25,440 | 0.9% |
 | any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,480 | 46.0% | 1650 | 893,352 | 32.1% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 668 | 488,888 | 17.5% | 6 | 1,876 | 0.1% |
 | maspsx marker pins (scaffolding) | 394 | 347,512 | 12.5% | 0 | 0 | 0.0% |
