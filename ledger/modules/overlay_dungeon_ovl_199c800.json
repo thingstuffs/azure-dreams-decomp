@@ -8,17 +8,17 @@
     "dungeon/func_8197D3B8",
     "dungeon/func_8197D468"
   ],
-  "at": "2026-10-13T04:21:00Z",
+  "at": "2026-10-14T06:31:21Z",
   "reviewer": "orchestrator-r106",
   "fingerprint": {
     "schema": "overlay-module-scoped-v2",
-    "sha256": "3ae4c326581e23f73927fe4a64d6cd0461041b700257a02966fcf141ed6404f2",
+    "sha256": "4836db7d3c06d8dbb62a7a97f923dbf7dd81db5ea3913139653754ed876593ec",
     "module": {
       "sha256": "dd35e221eec4edd079de9fe105397926199a8c64286f2f8be2cb5b0b8848e706"
     },
     "windows": {
       "config/overlays/dungeon_deep_t8_197a.overlay.yaml": {
-        "sha256": "12fe56b1373c22401dab74cae2b502a2487fb7bbf05d16c03565675cf1761268"
+        "sha256": "6391754a465294fe912cece596a30a517b55b197f27509e9c475304cc2934b14"
       }
     },
     "required_windows": [
@@ -26,7 +26,7 @@
     ]
   },
   "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_ovl_199c800/module",
-  "receipt_sha256": "26779c94fd7a01aa5b3ccc85476a7d95f7eefe91264b02d069b3762e4b6c103e",
+  "receipt_sha256": "e9b30adb2a56bb8975130fb1ceb9c6790ebad659d3acab0a94be6c8d0caa6217",
   "windows": [
     {
       "config": "config/overlays/dungeon_deep_t8_197a.overlay.yaml",
@@ -38,10 +38,10 @@
         "gate.log": "47c3d068573bbf71eef1234673d6fe8290e4d804ade22e998c13f7556f40732d",
         "window.bin": "5b1d92d50d973ad724391e9304e5035c8ac1f7a02d15a3faaa033e3e36041517",
         "manifest.json": "15fd2213011be09f3e83b90eb04fbb8b4d7f56e9a50332b7cde6e32d425b36dc",
-        "projection.json": "c11fb213977043d8f25d3b6fc42a9c57057411a54a0e18382a0a41623ed4e077",
-        "module/receipt.json": "4a6b87332ca74a408a0c26d2a8c09c1f2ff6759730b20d395daf09f6c82bd9cf"
+        "projection.json": "c812bd9d7211946699557a8118a6448822296283b2acdd7f886aaba66174b9dd",
+        "module/receipt.json": "22a104c65e162719371981fc826ab83d4d18b15d225e909db47fb0c8d54f9c35"
       },
-      "digest": "12fe56b1373c22401dab74cae2b502a2487fb7bbf05d16c03565675cf1761268"
+      "digest": "6391754a465294fe912cece596a30a517b55b197f27509e9c475304cc2934b14"
     }
   ]
 }
