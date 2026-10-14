@@ -1,0 +1,95 @@
+{
+  "row": "slus/w_8004A700",
+  "container": "slus",
+  "kind": "slus",
+  "cfg": "2.7.2-cdk",
+  "pins": 0,
+  "asflags": "",
+  "cell": "2.7.2-cdk",
+  "maspsx_exact": true,
+  "proof": "retail-resolved",
+  "fired": [],
+  "selfcheck": true,
+  "funcs": 1,
+  "words": 33,
+  "maspsx_retail": {
+    "diff": 0,
+    "masked": 0,
+    "checked": 1
+  },
+  "has_div": false,
+  "genuine": {
+    "2.56": {
+      "exact": true,
+      "diff": 0,
+      "len": 33,
+      "mode": "",
+      "retail": [
+        0,
+        0
+      ]
+    },
+    "2.67": {
+      "exact": true,
+      "diff": 0,
+      "len": 33,
+      "mode": "",
+      "retail": [
+        0,
+        0
+      ]
+    },
+    "2.77": {
+      "exact": true,
+      "diff": 0,
+      "len": 33,
+      "mode": "",
+      "retail": [
+        0,
+        0
+      ]
+    },
+    "2.79": {
+      "exact": true,
+      "diff": 0,
+      "len": 33,
+      "mode": "",
+      "retail": [
+        0,
+        0
+      ]
+    },
+    "2.81": {
+      "exact": true,
+      "diff": 0,
+      "len": 33,
+      "mode": "",
+      "retail": [
+        0,
+        0
+      ]
+    },
+    "2.86": {
+      "exact": true,
+      "diff": 0,
+      "len": 33,
+      "mode": "",
+      "retail": [
+        0,
+        0
+      ]
+    }
+  },
+  "exact_versions": [
+    "2.56",
+    "2.67",
+    "2.77",
+    "2.79",
+    "2.81",
+    "2.86"
+  ],
+  "best": "2.56",
+  "status": "ok",
+  "secs": 1.7,
+  "genuine_retail_exact": true
+}

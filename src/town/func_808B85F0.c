@@ -23,10 +23,9 @@ extern TownGlobals D_town_ptr_view __asm__("D_00000000");
 extern TownGlobals D_town_flag_load_view __asm__("D_00000000");
 
 extern s32 func_80003DCC(void);
-extern void func_80003EAC(void) __attribute__((noreturn));
 
-/* Optionally fires two setup callbacks, then either takes a noreturn exit for mode 2 or selects a table entry and remaps each record's field through a lookup table until the terminator tag. */
-void func_808B85F0(s32 table_index, s32 mode) {
+/* Runs setup callbacks, chooses the mode-specific record list, and remaps fields until the terminator. */
+void func_80003DF0(s32 table_index, s32 mode) {
     void *entry_ptr;
     s32 sentinel;
     s32 i;
@@ -40,9 +39,9 @@ void func_808B85F0(s32 table_index, s32 mode) {
     func_80003DCC();
     if (mode == 2) {
         *(void **)((u8 *)D_town_ptr_view.state4604 + 0x10) = D_town_ptr_view.data450C;
-        func_80003EAC();
+    } else {
+        *(void **)((u8 *)D_town_ptr_view.state4604 + 0x10) = D_town_ptr_view.table[table_index];
     }
-    *(void **)((u8 *)D_town_ptr_view.state4604 + 0x10) = D_town_ptr_view.table[table_index];
     entry_ptr = *(void **)((u8 *)D_town_ptr_view.state4604 + 0x10);
     if (*((u8 *)entry_ptr + 1) != 0x80) {
         sentinel = 0x80;
