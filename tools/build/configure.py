@@ -596,7 +596,7 @@ CC_VER = {
     "src/w_800542BC.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_8004B08C.c": ("2.7.2-cdk", ""),
     "src/w_80049374.c": ("2.7.2-cdk", ""),
-    "src/w_80046AFC.c": ("2.7.2", ""),
+    "src/w_80046AFC.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
     "src/w_8004068C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_8004CD28.c": ("2.7.2-cdk", ""),  # fidelity step 4 (dec3): retail-proven splitting recipe
     "src/w_80056098.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe

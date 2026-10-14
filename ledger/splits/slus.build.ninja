@@ -2283,7 +2283,7 @@ build build/src/w_80046A5C.o: cc src/w_80046A5C.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_80046AFC.o: cc src/w_80046AFC.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 
