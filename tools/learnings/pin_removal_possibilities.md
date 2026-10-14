@@ -48,6 +48,22 @@ source reconstruction.
 | a data object's declared size differs between spellings (unsized `T x[]` vs `T x[N]`) on a stock (non-cdk) SLUS file | build the whole image, never discount it: the `.extern SYM, size` the compiler emits changes how the ASSEMBLER expands a `sh $r,SYM` store macro (sized: fills the jal/jr delay slot; unsized: goes through $at with a nop) as well as $gp small-data choice | round 78 phase 9: volumeScale[] shifted the SLUS image by 88,082 words; [8] matches |
 | frame size/stack slots are right only with apparently unused declarations | recover real locals, types, scopes, or aggregate objects from surrounding semantics | frame layout and slot order; do not add fake unused locals merely to shape code |
 
+## CALL-ARG: reconstruct the continuation before declaring a C floor
+
+`town/func_8096C508`, `2.7.2-cdk-G0`, 2026-10-14: a pure-C branch reconstruction
+removed its sole argument-register pin with complete byte equality. Handle each
+selection case with an early return and write its real post-call state updates
+inside that arm. The duplicated state-write tails survive through sched2, giving
+the call a larger basic block; late reorg shares them again. Both call sites then
+emit retail's `move a0,s0; jal; sb` without a special pointer carrier.
+
+This supersedes the o14/o17 claim that only a hard-register binding can produce
+the order for this row. Their three-insn-block argument was conditional on the
+old shared-tail C. The copy still canonicalizes to the original object: changing
+the CSE representative was unnecessary. A final assembly label does not prove
+the same boundary existed during scheduling. See
+`docs/evidence/callarg_plain_c_20261014.md` for the source paths and receipts.
+
 ## Aggregate-copy decision rule
 
 Aggregate copies are a common source family and easy to overclaim.

@@ -14,3 +14,4 @@
 {"tag": "r118_land1s", "row": "slus/w_80042A80", "candidate": "work/native_lane/r118_land1s/out/slus/w_80042A80.c", "equal_pins": true, "how": "SLUS image SHA-1 MATCH + --rebaseline-slus"}
 {"tag": "r118konami", "row": "slus/konami_runtime_w_800345B8", "candidate": "/tmp/claude-1000/-home-david-azure-clean/9b9d0949-5494-4be3-92e0-8c24cade5409/scratchpad/konami_cand.c", "equal_pins": false, "how": "SLUS image SHA-1 MATCH + --rebaseline-slus"}
 {"tag": "r118w914c", "row": "slus/w_8005914C", "candidate": "/tmp/claude-1000/-home-david-azure-clean/9b9d0949-5494-4be3-92e0-8c24cade5409/scratchpad/w914c_cand.c", "equal_pins": false, "how": "SLUS image SHA-1 MATCH + --rebaseline-slus"}
+{"tag": "r118w54b08", "row": "slus/w_80054B08", "candidate": "/tmp/claude-1000/-home-david-azure-clean/9b9d0949-5494-4be3-92e0-8c24cade5409/scratchpad/w54b08_cand.c", "equal_pins": false, "how": "SLUS image SHA-1 MATCH + --rebaseline-slus"}
