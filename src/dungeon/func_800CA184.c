@@ -126,6 +126,14 @@ typedef struct {
 } RenderScratch;
 
 
+/* Draw settings record at 0x80013180 in the 0x80010000 work page (the town renderer town/func_800AED64 reads the
+ * same three fields). */
+typedef struct DrawSettings {
+    s32 flat_color;             /* 0x00 */
+    u8 draw_mode;               /* 0x04 */
+    u8 draw_flags;              /* 0x05 */
+} DrawSettings;
+
 s32 func_80046884();
 s32 func_80046C20();
 s32 func_80064624();
@@ -356,53 +364,57 @@ void func_800CF8E4(void) {
             }
         }
         {
-            s32 setup_arg;
-            s32 setup_render;
-            s32 setup_value;
-            s32 setup_base;
-            s32 width_shift_or_end;
-            register s32 draw_mode ASM_REG("$12");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            void *coord_offset;
+            void *edge_count;
+            s32 base_color;
+            void *ordering_table;
+            s32 width_shift;
+            s32 height_shift;
+            s32 max_column;
+            s32 max_row;
+            s32 flat_color;
+            u32 draw_mode;
+            u32 draw_flags;
+            s32 map_height;
+            u8 *render_buffer;
 
             render_input = packet + 8;
-            setup_arg = (s32)((u32)scratch | 0x01C);
-            setup_value = *(s32 *)&((GameView *)packet)->unk_090;
-            setup_render = (s32)((u32)scratch | 0x174);
-            scratch->color = setup_value;
-            setup_value = 0x80010000;
-            setup_base = (s32)scene->unk_000;
-            width_shift_or_end = map->shiftX;
-            face = (CellFace *)(s32)map->shiftY;   /* the height shift word, held in the face register until its store */
-            column_mask = map->maskX;
-            row_mask = map->maskY;
-            max_height = *(s32 *)(setup_value + 0x3180);
-            setup_base += 0xB8;
-            draw_mode = *(u8 *)(setup_value + 0x3184);
-            setup_value = *(u8 *)(setup_value + 0x3185);
-            scratch->width_shift = width_shift_or_end;
-            scratch->blend = (u16)setup_value;
-            setup_value = scratch->width_shift;
-            scratch->ot_base = setup_base;
-            setup_base = 0x40;
-            setup_value = setup_base << setup_value;
-            scratch->height_shift = (s32)face;
-            scratch->map_width = setup_value;
-            setup_value = scratch->height_shift;
-            setup_base <<= setup_value;
-            scratch->column_mask = column_mask;
-            scratch->row_mask = row_mask;
-            scratch->overlay_color = max_height;
-            scratch->draw_mode = (u16)draw_mode;
-            width_shift_or_end = (s32)scene->unk_000;
-            setup_value = 0xAF3A;
-            scratch->map_height = setup_base;
-            packet = ((GpuContext *)width_shift_or_end)->packetCursor;
-            width_shift_or_end += setup_value;
-            setup_value = 0xFFFF;
-            scratch->last_normal = setup_value;
-            scratch->packet_end = width_shift_or_end;
+            coord_offset = (void *)((u32)scratch | 0x01C);
+            base_color = *(s32 *)&((GameView *)packet)->unk_090;
+            edge_count = (void *)((u32)scratch | 0x174);
+            scratch->color = base_color;
+            ordering_table = scene->unk_000;
+            width_shift = map->shiftX;
+            height_shift = map->shiftY;
+            max_column = map->maskX;
+            max_row = map->maskY;
+            {
+                u8 *work_page;
+
+                work_page = (u8 *)0x80010000;   /* integer page, three genuine field reads (decision 44) */
+                flat_color = ((DrawSettings *)(work_page + 0x3180))->flat_color;
+                draw_mode = ((DrawSettings *)(work_page + 0x3180))->draw_mode;
+                draw_flags = ((DrawSettings *)(work_page + 0x3180))->draw_flags;
+            }
+            ordering_table = (u8 *)ordering_table + 0xB8;
+            scratch->width_shift = width_shift;
+            scratch->blend = draw_flags;
+            scratch->ot_base = (s32)ordering_table;
+            scratch->height_shift = height_shift;
+            scratch->map_width = 0x40 << scratch->width_shift;
+            map_height = 0x40 << scratch->height_shift;
+            scratch->column_mask = max_column;
+            scratch->row_mask = max_row;
+            scratch->overlay_color = flat_color;
+            scratch->draw_mode = draw_mode;
+            render_buffer = scene->unk_000;
+            scratch->map_height = map_height;
+            packet = ((GpuContext *)render_buffer)->packetCursor;
+            render_buffer += 0xAF3A;
+            scratch->last_normal = 0xFFFF;
+            scratch->packet_end = (s32)render_buffer;
             scratch->active_edges = 4U;
-            scratch->cur_y = (s16)func_80046C20(render_input, (void *)setup_arg, setup_render,
-                (void *)width_shift_or_end);
+            scratch->cur_y = (s16)func_80046C20(render_input, coord_offset, edge_count, render_buffer);
         }
         if (scratch->active_edges != 0) {
             s32 tag_mask;

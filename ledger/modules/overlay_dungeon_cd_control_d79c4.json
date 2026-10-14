@@ -7,17 +7,17 @@
     "dungeon/func_800B79F8",
     "dungeon/func_800B7A24"
   ],
-  "at": "2026-10-13T23:42:39Z",
+  "at": "2026-10-14T00:39:01Z",
   "reviewer": "orchestrator-r99",
   "fingerprint": {
     "schema": "overlay-module-scoped-v2",
-    "sha256": "d6e33c8fb8eceea3eac5e13af71a6861f3480a87b929db1614b8e4bac9f506cf",
+    "sha256": "303691e1d833c94ae50bf70f5a581731b3d252b65c5d4a3e91c3e17412969992",
     "module": {
       "sha256": "244d7c1c3a48a83133b05935f921a4484d13dcc3455bc7738f8c9084342d5cf8"
     },
     "windows": {
       "config/overlays/dungeon_engine.overlay.yaml": {
-        "sha256": "00d2dec7be43cc133fc460ebf1eb064fa1d149490b0f8e7fc6abeaeca3b03632"
+        "sha256": "2275119b831091408eac657130839ae183cadfbeedfe6f75f85178ba32e6eeab"
       }
     },
     "required_windows": [
@@ -25,7 +25,7 @@
     ]
   },
   "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_cd_control_d79c4/module",
-  "receipt_sha256": "9dd8dadab441383c964c978971e53e10c73c0b0a82a94238124af8659b20b31a",
+  "receipt_sha256": "b7100baa267f945710ed66d930427a168fa5e9969886df0f9090c6263ed54129",
   "windows": [
     {
       "config": "config/overlays/dungeon_engine.overlay.yaml",
@@ -37,10 +37,10 @@
         "gate.log": "a3adeb886745588497e01d1535a97da977c6ec09e33c0da82f4d7f1d2f4d355f",
         "window.bin": "1612c21559c49a3b69f10548bca5ec6d18ec11a0764ea317c396edca9211d796",
         "manifest.json": "ed956459a899fc794ed7eb6fddca2277d6578e50871aece7af1c4c2b53a9901b",
-        "projection.json": "01d5961604b72e38c402ac7c07644950b674f2eb632a5b740d4c4700f396f070",
-        "module/receipt.json": "86691296b1761c989ccb70f160d775db84444fa13290ee70bd13672dd89228fb"
+        "projection.json": "516d950102966b25cd2cd815ae359e21da2575e78249b9970d4701360542e5d8",
+        "module/receipt.json": "101792916612b40085f014e2bb7215c34156e16fd146092e66b75ddcf854fb7d"
       },
-      "digest": "00d2dec7be43cc133fc460ebf1eb064fa1d149490b0f8e7fc6abeaeca3b03632"
+      "digest": "2275119b831091408eac657130839ae183cadfbeedfe6f75f85178ba32e6eeab"
     }
   ]
 }

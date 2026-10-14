@@ -302,3 +302,10 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     (r118_sonnet_jpdead): no live code at the arm positions in JP for any of the 5 rows examined - inconclusive for arms
     compiled out in both builds; JP frames are larger with more unreferenced bytes (80DE48EC: 44 vs 20), beyond the paired
     calibration range for 800CA184.
+    EVIDENCE (r118, 2026-10-14, r118_sonnet_deadev REPORT.md): condition (g) for dungeon/func_80DE48EC is met independently -
+    compiled at the JP-family compilers (stock 2.7.2 = genuine PsyQ 4.0 CC1PSX.EXE 0002; 2.6.3) the dead-arm family reproduces
+    the JP build's frame size, the exact positions of its unreferenced frame bytes and its instruction ordering, which same-size
+    padding does not (5 dead locals over the existing `result`: frame 112 / 48 orphan bytes = JP, masked distance 47 vs 76-120
+    for no-arm/pad texts; an invented flag scores 55). The arm BODY remains a reconstruction. The same test CONTRADICTS o7's
+    debugMode arm for dungeon/func_800A1020 (it creates a page register JP lacks) and gives no support for slus/w_8005914C;
+    both texts are refused (ledger/hard_basket.jsonl).
