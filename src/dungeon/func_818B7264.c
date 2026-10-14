@@ -1,47 +1,17 @@
+#include "modules/dungeon_ovl_18d6800.h"
 #include "common.h"
 
-typedef struct S_80024A64_0 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    s16 unk_0C;
-    s16 unk_0E;
-} S_80024A64_0;   /* arg0 in func_80024A64 */
+   /* arg0 in func_80024A64 */
 
-typedef struct S_80024A64_1 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_80024A64_1;   /* arg1 in func_80024A64 */
+   /* arg1 in func_80024A64 */
 
-typedef struct S_80024A64_2 {
-    u8 pad_00[0x30];
-    s32 unk_30;
-    s32 unk_34;
-    s32 unk_38;
-    u8 pad_3C[0x4];
-    s32 unk_40;
-    s32 unk_44;
-    s32 unk_48;
-    u8 pad_4C[0x4];
-    s32 unk_50;
-    s32 unk_54;
-    s32 unk_58;
-    u8 pad_5C[0x4];
-    s32 unk_60;
-    s32 unk_64;
-    s32 unk_68;
-} S_80024A64_2;   /* sc in func_80024A64 */
+   /* sc in func_80024A64 */
 
 
 
-extern s32 func_80069EF8(void);
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
-extern s32 func_80024790(s32, s32);
 
 /* Builds and draws two eight-segment radial bands around the effect center. */
-s32 func_80024A64(S_80024A64_0 *effect, S_80024A64_1 *center, s32 draw_arg) {
+s32 func_80024A64(B28_818B7264_S_80024A64_0 *effect, B28_818B7264_S_80024A64_1 *center, s32 draw_arg) {
     u8 *scratch;
     s32 first_outer_x;
     s32 first_outer_y;
@@ -68,8 +38,8 @@ s32 func_80024A64(S_80024A64_0 *effect, S_80024A64_1 *center, s32 draw_arg) {
     if (effect->unk_06 < 8) {
         s32 growing_z;
         growing_z = center->unk_08 - (effect->unk_06 * 0x180000);
-        ((S_80024A64_2 *)scratch)->unk_48 = growing_z;
-        ((S_80024A64_2 *)scratch)->unk_38 = growing_z;
+        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_48 = growing_z;
+        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_38 = growing_z;
         {
             s32 phase_scale = effect->unk_06;
             s32 inner_scale;
@@ -84,8 +54,8 @@ s32 func_80024A64(S_80024A64_0 *effect, S_80024A64_1 *center, s32 draw_arg) {
     } else if (effect->unk_06 < 40) {
         {
             s32 plateau_z = center->unk_08 - (8 * 0x180000);
-            ((S_80024A64_2 *)scratch)->unk_48 = plateau_z;
-            ((S_80024A64_2 *)scratch)->unk_38 = plateau_z;
+            ((B28_818B7264_S_80024A64_2 *)scratch)->unk_48 = plateau_z;
+            ((B28_818B7264_S_80024A64_2 *)scratch)->unk_38 = plateau_z;
         }
         outer_radius = 8 * 6;
         inner_radius = 8 * 2;
@@ -95,8 +65,8 @@ s32 func_80024A64(S_80024A64_0 *effect, S_80024A64_1 *center, s32 draw_arg) {
         s32 fading_z;
         jitter_count = 48;
         fading_z = center->unk_08 - ((jitter_count - effect->unk_06) * 0x180000);
-        ((S_80024A64_2 *)scratch)->unk_48 = fading_z;
-        ((S_80024A64_2 *)scratch)->unk_38 = fading_z;
+        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_48 = fading_z;
+        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_38 = fading_z;
         {
             s32 inner_scale;
             s32 tip_value;
@@ -119,7 +89,7 @@ s32 func_80024A64(S_80024A64_0 *effect, S_80024A64_1 *center, s32 draw_arg) {
 
     segment = 0;
     jitter_limit = (s16)jitter_count;
-    ((S_80024A64_2 *)scratch)->unk_58 = ((S_80024A64_2 *)scratch)->unk_68 = center->unk_08;
+    ((B28_818B7264_S_80024A64_2 *)scratch)->unk_58 = ((B28_818B7264_S_80024A64_2 *)scratch)->unk_68 = center->unk_08;
     do {
         angle_step = segment * 512;
         radial_offset = func_80069EF8() % jitter_limit;
@@ -127,24 +97,24 @@ s32 func_80024A64(S_80024A64_0 *effect, S_80024A64_1 *center, s32 draw_arg) {
             s32 wave_x = func_800644B8(effect->unk_0C + angle_step);
             radial_offset = (s16)radial_offset;
             jittered_outer = (s16)outer_radius + radial_offset;
-            ((S_80024A64_2 *)scratch)->unk_40 = center->unk_00 +
+            ((B28_818B7264_S_80024A64_2 *)scratch)->unk_40 = center->unk_00 +
                 (((wave_x >> 4) * jittered_outer) << 8);
         }
-        ((S_80024A64_2 *)scratch)->unk_44 = center->unk_04 +
+        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_44 = center->unk_04 +
             (((func_80064584(effect->unk_0C + angle_step) >> 4) * jittered_outer) << 8);
         {
             s32 wave_x = func_800644B8(effect->unk_0C + angle_step);
             jittered_inner = (s16)inner_radius + radial_offset;
-            ((S_80024A64_2 *)scratch)->unk_50 = center->unk_00 +
+            ((B28_818B7264_S_80024A64_2 *)scratch)->unk_50 = center->unk_00 +
                 (((wave_x >> 4) * jittered_inner) << 8);
         }
-        ((S_80024A64_2 *)scratch)->unk_54 = center->unk_04 +
+        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_54 = center->unk_04 +
             (((func_80064584(effect->unk_0C + angle_step) >> 4) * jittered_inner) << 8);
         next_segment = segment + 1;
         next_angle = next_segment * 512;
-        ((S_80024A64_2 *)scratch)->unk_30 = ((S_80024A64_2 *)scratch)->unk_60 = center->unk_00 +
+        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_30 = ((B28_818B7264_S_80024A64_2 *)scratch)->unk_60 = center->unk_00 +
             (((func_800644B8(effect->unk_0C + next_angle) >> 4) * (s16)tip_radius) << 8);
-        ((S_80024A64_2 *)scratch)->unk_34 = ((S_80024A64_2 *)scratch)->unk_64 = center->unk_04 +
+        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_34 = ((B28_818B7264_S_80024A64_2 *)scratch)->unk_64 = center->unk_04 +
             (((func_80064584(effect->unk_0C + next_angle) >> 4) * (s16)tip_radius) << 8);
         func_80024790((s16)segment, draw_arg);
         segment = next_segment;
@@ -172,14 +142,14 @@ s32 func_80024A64(S_80024A64_0 *effect, S_80024A64_1 *center, s32 draw_arg) {
         outer_x = center->unk_00 +
             (((wave_x >> 4) * ((s16)outer_radius + (s16)outer_offset)) << 8);
         outer_offset = (s16)outer_radius + (s16)outer_offset;
-        ((S_80024A64_2 *)scratch)->unk_30 = outer_x;
+        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_30 = outer_x;
         first_outer_x = outer_x;
     }
     {
         s32 outer_y;
         outer_y = center->unk_04 +
             (((func_80064584(effect->unk_0E) >> 4) * outer_offset) << 8);
-        ((S_80024A64_2 *)scratch)->unk_34 = outer_y;
+        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_34 = outer_y;
         first_outer_y = outer_y;
     }
     {
@@ -187,26 +157,26 @@ s32 func_80024A64(S_80024A64_0 *effect, S_80024A64_1 *center, s32 draw_arg) {
         s32 inner_x;
         inner_x = center->unk_00 +
             (((wave_x >> 4) * (s16)inner_radius) << 8);
-        ((S_80024A64_2 *)scratch)->unk_60 = inner_x;
+        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_60 = inner_x;
         first_inner_x = inner_x;
     }
     {
         s32 inner_y = center->unk_04 +
             (((func_80064584(effect->unk_0E + 512) >> 4) * (s16)inner_radius) << 8);
-        ((S_80024A64_2 *)scratch)->unk_64 = inner_y;
+        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_64 = inner_y;
         first_inner_y = inner_y;
     }
     angle_step = 512;
     do {
-        ((S_80024A64_2 *)scratch)->unk_40 = ((S_80024A64_2 *)scratch)->unk_30;
-        ((S_80024A64_2 *)scratch)->unk_44 = ((S_80024A64_2 *)scratch)->unk_34;
-        ((S_80024A64_2 *)scratch)->unk_50 = ((S_80024A64_2 *)scratch)->unk_60;
-        ((S_80024A64_2 *)scratch)->unk_54 = ((S_80024A64_2 *)scratch)->unk_64;
+        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_40 = ((B28_818B7264_S_80024A64_2 *)scratch)->unk_30;
+        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_44 = ((B28_818B7264_S_80024A64_2 *)scratch)->unk_34;
+        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_50 = ((B28_818B7264_S_80024A64_2 *)scratch)->unk_60;
+        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_54 = ((B28_818B7264_S_80024A64_2 *)scratch)->unk_64;
         if (segment == 7) {
-            ((S_80024A64_2 *)scratch)->unk_30 = first_outer_x;
-            ((S_80024A64_2 *)scratch)->unk_34 = first_outer_y;
-            ((S_80024A64_2 *)scratch)->unk_60 = first_inner_x;
-            ((S_80024A64_2 *)scratch)->unk_64 = first_inner_y;
+            ((B28_818B7264_S_80024A64_2 *)scratch)->unk_30 = first_outer_x;
+            ((B28_818B7264_S_80024A64_2 *)scratch)->unk_34 = first_outer_y;
+            ((B28_818B7264_S_80024A64_2 *)scratch)->unk_60 = first_inner_x;
+            ((B28_818B7264_S_80024A64_2 *)scratch)->unk_64 = first_inner_y;
         } else {
             {
                 s32 random_raw = func_80069EF8();
@@ -224,15 +194,15 @@ s32 func_80024A64(S_80024A64_0 *effect, S_80024A64_1 *center, s32 draw_arg) {
             {
                 scaled = func_800644B8(effect->unk_0E + (segment * 512)) >> 4;
                 arm_radius = (s16)outer_radius + (s16)arm_offset;
-                ((S_80024A64_2 *)scratch)->unk_30 = center->unk_00 +
+                ((B28_818B7264_S_80024A64_2 *)scratch)->unk_30 = center->unk_00 +
                     ((scaled * arm_radius) << 8);
             }
             scaled = func_80064584(effect->unk_0E + (segment * 512)) >> 4;
-            ((S_80024A64_2 *)scratch)->unk_34 = center->unk_04 +
+            ((B28_818B7264_S_80024A64_2 *)scratch)->unk_34 = center->unk_04 +
                 ((scaled * arm_radius) << 8);
-            ((S_80024A64_2 *)scratch)->unk_60 = center->unk_00 +
+            ((B28_818B7264_S_80024A64_2 *)scratch)->unk_60 = center->unk_00 +
                 (((func_800644B8(effect->unk_0E + angle_step) >> 4) * (s16)inner_radius) << 8);
-            ((S_80024A64_2 *)scratch)->unk_64 = center->unk_04 +
+            ((B28_818B7264_S_80024A64_2 *)scratch)->unk_64 = center->unk_04 +
                 (((func_80064584(effect->unk_0E + angle_step) >> 4) * (s16)inner_radius) << 8);
         }
         func_80024790((s16)segment, draw_arg);

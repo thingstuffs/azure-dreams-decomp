@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-14T18:26:35Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-14T21:46:45Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -9,9 +9,9 @@ Generated 2026-10-14T18:26:35Z. Pin `82f20568` (82f20568997a, raw/ frozen at 202
 | slus | 884 | 473,788 | 884 | 473,788 | 884 | 473,788 | 0 |
 | main | 422 | 62,736 | 422 | 62,736 | 422 | 62,736 | 0 |
 | town | 2706 | 457,832 | 2706 | 457,832 | 2706 | 457,832 | 0 |
-| dungeon | 3442 | 1,789,004 | 3442 | 1,789,004 | 3441 | 1,787,204 | 1 |
-| ovmovie | 22 | 2,852 | 22 | 2,852 | 22 | 2,852 | 0 |
-| ALL | 7476 | 2,786,212 | 7476 | 2,786,212 | 7475 | 2,784,412 | 1 |
+| dungeon | 3442 | 1,789,136 | 3442 | 1,789,136 | 3441 | 1,787,336 | 1 |
+| ovmovie | 28 | 5,516 | 28 | 5,516 | 28 | 5,516 | 0 |
+| ALL | 7482 | 2,789,008 | 7482 | 2,789,008 | 7481 | 2,787,208 | 1 |
 
 Data rows: 498 (13,584 B); stale-image residue DATA: 1 (488 B).
 
@@ -119,6 +119,11 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | dungeon_ovl_184c800 | 3 | current: complete TU + all windows + genuine |
 | dungeon_ovl_1864800 | 4 | current: complete TU + all windows + genuine |
 | dungeon_ovl_7e6a5800 | 23 | current: complete TU + all windows + genuine |
+| dungeon_ovl_18d6800 | 12 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_ovl_18d6800.json' |
+| dungeon_ovl_18ee800 | 8 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_ovl_18ee800.json' |
+| dungeon_ovl_18e8800 | 4 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_ovl_18e8800.json' |
+| dungeon_ovl_18b2800 | 11 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_ovl_18b2800.json' |
+| ovmovie_libpress | 17 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_ovmovie_libpress.json' |
 
 Placement alone does not override any lower-level or source-residue guard.
 
@@ -126,22 +131,22 @@ Placement alone does not override any lower-level or source-residue guard.
 
 | defect | files (pin) | bytes (pin) | % bytes | files (clean) | bytes (clean) | % bytes |
 |---|---:|---:|---:|---:|---:|---:|
-| m2c boilerplate block | 2331 | 510,568 | 18.3% | 0 | 0 | 0.0% |
-| M2C_FIELD raw offsets | 2950 | 1,448,168 | 52.0% | 0 | 0 | 0.0% |
-| m2c local names | 5181 | 2,160,832 | 77.6% | 5 | 24,204 | 0.9% |
-| ASM_ pins | 2135 | 1,455,340 | 52.2% | 0 | 0 | 0.0% |
-| goto | 1545 | 1,311,404 | 47.1% | 271 | 326,884 | 11.7% |
-| computed-goto jump table | 317 | 436,404 | 15.7% | 1 | 16 | 0.0% |
+| m2c boilerplate block | 2331 | 510,604 | 18.3% | 0 | 0 | 0.0% |
+| M2C_FIELD raw offsets | 2950 | 1,448,300 | 51.9% | 0 | 0 | 0.0% |
+| m2c local names | 5181 | 2,160,964 | 77.5% | 3 | 23,924 | 0.9% |
+| ASM_ pins | 2135 | 1,455,436 | 52.2% | 0 | 0 | 0.0% |
+| goto | 1545 | 1,311,404 | 47.0% | 271 | 326,884 | 11.7% |
+| computed-goto jump table | 317 | 436,404 | 15.6% | 1 | 16 | 0.0% |
 | inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 242,072 | 8.7% | 7 | 9,764 | 0.4% |
-| fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate) | 1489 | 675,960 | 24.3% | 0 | 0 | 0.0% |
-| any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,280,480 | 46.0% | 12 | 25,440 | 0.9% |
-| any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,480 | 46.0% | 1647 | 892,704 | 32.0% |
+| fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate) | 1489 | 675,960 | 24.2% | 0 | 0 | 0.0% |
+| any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,280,480 | 45.9% | 12 | 25,440 | 0.9% |
+| any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,480 | 45.9% | 1647 | 892,704 | 32.0% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 668 | 488,888 | 17.5% | 3 | 1,228 | 0.0% |
 | maspsx marker pins (scaffolding) | 394 | 347,512 | 12.5% | 0 | 0 | 0.0% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 5.6% | 4 | 4,140 | 0.1% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
-| local address-named struct | 633 | 346,872 | 12.4% | 2886 | 1,502,408 | 53.9% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 5.5% | 7200 | 2,435,124 | 87.4% |
+| local address-named struct | 633 | 346,872 | 12.4% | 2865 | 1,488,496 | 53.4% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 5.5% | 7208 | 2,438,200 | 87.4% |
 
 Pin sites now: 0 in 0 rows; .  At the pin: 25,918; REG 12,816, KEEP 6,936, KEEP_NV 2,505, SCHED_BARRIER 1,355, TAILSLOT_PIN 506, USE 294, USE_NV 260, KEEP_DEP_NV 190.
 
@@ -166,7 +171,7 @@ The game is one `2.7.2-cdk -G0 -O2` build plus a town -O1 debug family and stock
 
 Rows at a recipe the module census cannot separate from best_recipe (tie_with; not listed above, text cannot decide): main/func_80019E34 2.7.2-G0 (best 2.7.2), main/func_8001C7F4 2.7.2 (best 2.7.2-G0), main/func_800207D4 2.7.2-G0 (best 2.6.3), main/func_80020F68 2.7.2 (best 2.6.3-G0).
 
-Rows at a registered recipe backed by per-row compiler evidence (ledger/recipe_evidence.jsonl, not listed above): ovmovie/func_800402D8 2.7.2-cdk (supported), town/func_806D30B4 2.6.3-G0 (confirmed), town/func_808B2B04 2.6.3-G0 (confirmed).
+Rows at a registered recipe backed by per-row compiler evidence (ledger/recipe_evidence.jsonl, not listed above): ovmovie/func_800400AC 2.7.2-cdk-G0 (supported), ovmovie/func_800402D8 2.7.2-cdk-G0 (supported), ovmovie/func_8004033C 2.7.2-cdk-G0 (supported), ovmovie/func_80040360 2.7.2-cdk-G0 (supported), ovmovie/func_800403EC 2.7.2-cdk-G0 (supported), ovmovie/func_800404A8 2.7.2-cdk-G0 (supported), ovmovie/func_80040690 2.7.2-cdk-G0 (supported), ovmovie/func_8004072C 2.7.2-cdk-G0 (supported), ovmovie/func_800408BC 2.7.2-cdk-G0 (supported), ovmovie/func_80040954 2.7.2-cdk-G0 (supported), ovmovie/func_8004099C 2.7.2-cdk-G0 (supported), ovmovie/func_80040ED8 2.7.2-G0 (supported), ovmovie/func_80040F10 2.7.2-G0 (supported), ovmovie/func_80040F9C 2.7.2-G0 (supported), ovmovie/func_80041038 2.7.2-G0 (supported), ovmovie/func_80041044 2.7.2-G0 (supported), ovmovie/func_800410C0 2.7.2-G0 (supported), ovmovie/func_800410E0 2.7.2-G0 (supported), ovmovie/func_8004111C 2.7.2-G0 (supported), ovmovie/func_80041158 2.7.2-G0 (supported), ovmovie/func_8004117C 2.7.2-G0 (supported), ovmovie/func_800411A0 2.7.2-G0 (supported), ovmovie/func_8004129C 2.7.2-G0 (supported), ovmovie/func_80041330 2.7.2-G0 (supported), ovmovie/func_800413C0 2.7.2-G0 (supported), ovmovie/func_80041458 2.7.2-G0 (supported), ovmovie/func_800414F0 2.7.2-G0 (supported), ovmovie/func_80041508 2.7.2-G0 (supported), town/func_806D30B4 2.6.3-G0 (confirmed), town/func_808B2B04 2.6.3-G0 (confirmed).
 
 Unconfirmed compiler attributions (still listed above; ledger/recipe_evidence.jsonl `to_confirm` names the measurement): main/func_80019E34 2.7.2-G0, main/func_8001C7F4 2.7.2, main/func_800207D4 2.7.2-G0, main/func_80020F68 2.7.2, slus/code 2.7.2-cdk, town/func_80878110 2.6.3-G0.
 
@@ -187,16 +192,16 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 
 | level | bytes | % |
 |---|---:|---:|
-| L0 | 2,784,412 | 99.9% |
-| L1 | 2,784,412 | 99.9% |
-| L2 | 2,784,412 | 99.9% |
-| L3 | 2,770,828 | 99.4% |
+| L0 | 2,787,208 | 99.9% |
+| L1 | 2,787,208 | 99.9% |
+| L2 | 2,787,208 | 99.9% |
+| L3 | 2,773,624 | 99.4% |
 | L4 | 217,052 | 7.8% |
 | L5 | 212,432 | 7.6% |
 
-On shared record headers (T7, `include/records/`): 903 rows, 577,664 bytes (20.7%); records used: 98.
+On shared record headers (T7, `include/records/`): 931 rows, 595,580 bytes (21.4%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 6 rows (4,388 B), not_in_module 7,120 rows (2,567,268 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 5 rows (4,236 B), not_in_module 7,126 rows (2,570,064 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 

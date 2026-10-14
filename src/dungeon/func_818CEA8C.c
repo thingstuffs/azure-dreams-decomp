@@ -1,13 +1,12 @@
+#include "modules/dungeon_ovl_18ee800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern s16 D_80025924[];
 
-extern s16 func_800BCB04(s32 x, s32 y, s16 min_height);
 extern s32 rand(void);
 
 /* Raises the source toward its height limit and flags the object when its counter expires. */
-void func_818CEA8C(void *object_data, void *source_data)
+void func_8002428C(void *object_data, void *source_data)
 {
     u8 *object = object_data;
     u8 *source = source_data;

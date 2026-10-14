@@ -25,7 +25,7 @@ standalone_build:
     container_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
   window:
     file_start: 0x18D6000
-    file_end: 0x18D7000
+    file_end: 0x18D7264
     vram_start: 0x818B6000
     base_confidence: proven-engine/derived-backhalf
   split_results: overlays/dungeon/overlay_first_pass_results.json
@@ -41,5 +41,5 @@ segments:
     vram: 0x818B6000
     subsegments:
       - [0x18D6000, asm]
-  - [0x18D7000, bin]
+  - [0x18D7264, bin]
   - [0x1A86800]

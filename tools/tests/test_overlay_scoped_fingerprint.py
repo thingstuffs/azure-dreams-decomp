@@ -309,9 +309,9 @@ class ScopedFingerprint(unittest.TestCase):
    finally:alias.unlink()
    self.assertEqual(self.fp(),with_facade)
  def test_nonbanked_families_fail_closed(self):
-  for container in ['main','ovmovie','unknown']:
+  for container in ['main','unknown']:
    m=dict(self.m,container=container)
-   with self.assertRaisesRegex(ValueError,'nonbanked module evidence'):F.fingerprint(m,self.r,G)
+   with self.assertRaisesRegex(ValueError,'does not model this container evidence'):F.fingerprint(m,self.r,G)
  def test_mutation_restoration(self):self.assertEqual(self.fp(),self.baseline)
 
  def test_sibcall_is_module_and_window_dependency(self):

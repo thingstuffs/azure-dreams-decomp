@@ -1,0 +1,103 @@
+{
+  "scope": "whole_tu",
+  "cfg": "2.7.2 -G8",
+  "genuine_ASPSX": "2.79 -q -G8",
+  "genuine_vs_maspsx": {
+    "diff": 0,
+    "exact": true,
+    "len_m": 438,
+    "len_g": 438,
+    "missing": [],
+    "regions": [],
+    "delay_only": []
+  },
+  "genuine_retail": [
+    {
+      "function": "func_801776D8",
+      "different_words": 0,
+      "masked": []
+    },
+    {
+      "function": "func_80177710",
+      "different_words": 0,
+      "masked": []
+    },
+    {
+      "function": "func_8017779C",
+      "different_words": 0,
+      "masked": []
+    },
+    {
+      "function": "func_80177838",
+      "different_words": 0,
+      "masked": []
+    },
+    {
+      "function": "func_80177844",
+      "different_words": 0,
+      "masked": []
+    },
+    {
+      "function": "func_801778C0",
+      "different_words": 0,
+      "masked": []
+    },
+    {
+      "function": "func_801778E0",
+      "different_words": 0,
+      "masked": []
+    },
+    {
+      "function": "func_8017791C",
+      "different_words": 0,
+      "masked": []
+    },
+    {
+      "function": "func_80177958",
+      "different_words": 0,
+      "masked": []
+    },
+    {
+      "function": "func_8017797C",
+      "different_words": 0,
+      "masked": []
+    },
+    {
+      "function": "func_801779A0",
+      "different_words": 55,
+      "masked": []
+    },
+    {
+      "function": "func_80177A9C",
+      "different_words": 30,
+      "masked": []
+    },
+    {
+      "function": "func_80177B30",
+      "different_words": 29,
+      "masked": []
+    },
+    {
+      "function": "func_80177BC0",
+      "different_words": 36,
+      "masked": []
+    },
+    {
+      "function": "func_80177C58",
+      "different_words": 36,
+      "masked": []
+    },
+    {
+      "function": "func_80177CF0",
+      "different_words": 6,
+      "masked": []
+    },
+    {
+      "function": "func_80177D08",
+      "different_words": 67,
+      "masked": []
+    }
+  ],
+  "retail_exact": false,
+  "review": "pending"
+}

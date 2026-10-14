@@ -1,0 +1,73 @@
+{
+  "module": "dungeon_ovl_18d6800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_18d6824.c",
+    "module_index": 169
+  },
+  "members": [
+    "dungeon/func_818B6824",
+    "dungeon/func_818B68B8",
+    "dungeon/func_818B6954",
+    "dungeon/func_818B6AFC",
+    "dungeon/func_818B6F90",
+    "dungeon/func_818B7264",
+    "dungeon/func_818B77D4",
+    "dungeon/func_818B78E8",
+    "dungeon/func_818B7BD0",
+    "dungeon/func_818B7D3C",
+    "dungeon/func_818B7E14",
+    "dungeon/func_818B7F38"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "not observable (section-grouping link, no static duplicates, no recipe change)",
+  "basis": [
+    "Owner decisions 37\u201338 model one native TU per physical DUNGEON selector bank. All logical members are within this lane\u2019s AREA.",
+    "Authenticated selector/caller/CD decoder words, actual ISO9660 directory record and all twelve sectors prove one conditional static load. Native ownership is only the complete declared prefix/code extent; asset-tail storage remains external.",
+    "Every complete member is contiguous in retail order under one native compiler recipe. The bounded complete-body hash census below finds no byte-identical complete helpers within this bank. The original historical TU boundary remains not observable."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120",
+  "owned_prefix": [
+    {
+      "kind": "typed_function_pointer",
+      "foff": 26044416,
+      "size": 4,
+      "symbol": "dungeon_18d6800_entry",
+      "owner": null,
+      "target": "func_80025738"
+    },
+    {
+      "kind": "alignment",
+      "foff": 26044420,
+      "size": 4,
+      "symbol": null,
+      "owner": null,
+      "target": null
+    },
+    {
+      "kind": "switch_table",
+      "foff": 26044424,
+      "size": 28,
+      "symbol": null,
+      "owner": "func_80025738",
+      "target": null
+    }
+  ],
+  "complete_body_sha256": {
+    "dungeon/func_818B6824": "f2ddfe38f54ab82f0e02ca499eab1bb1697ddb1843c6f1c48f9e433a03f1bee2",
+    "dungeon/func_818B68B8": "a7bc18019e689fd85681ade0d86c76f1f652fefabd217a8ef8e6177063d7607a",
+    "dungeon/func_818B6954": "c3eb0060c17cfdc22f2792459eed3c6ac5b02954302c26601bd59b4471a85d4c",
+    "dungeon/func_818B6AFC": "5974c1ecc9b35604e8ddbe04dd4d5590b2284f687b0d8130649dbc5d689dcc43",
+    "dungeon/func_818B6F90": "aff71f559499bba5406c82f03ca5a9646e040a9fe87fe9357d17f847420e8152",
+    "dungeon/func_818B7264": "dcb9f2f949f06710b437813a4aec8924a9ab7f710142981118474e8bbbe9decc",
+    "dungeon/func_818B77D4": "c77f71712ba1fcc623361fa4ce345401c039d80c7ead5b542d598a5287aa625f",
+    "dungeon/func_818B78E8": "e8b45bf8fc034a37300d056f7cbd80b9d4a7c908d6971cba0afe39143734cbcd",
+    "dungeon/func_818B7BD0": "0034ddda2c01f4c6c223c74075bade5c6671a318aa7038a7b5af16e3940fe183",
+    "dungeon/func_818B7D3C": "3bd9cd3ae8833283ae107c426277171f676f5bf8b9e70928c18fb84e0cb0051c",
+    "dungeon/func_818B7E14": "d27536590f558c36600b11ead30e89a83d628e829e6e914f41805989b8fe2ebf",
+    "dungeon/func_818B7F38": "d3081c534a9a4d5f401f76b409430c6d5f777ccab03af278c9be755fdfc99235"
+  },
+  "byte_identical_complete_helpers": []
+}

@@ -1,0 +1,13 @@
+#include "modules/dungeon_ovl_18b2800.h"
+void (*const dungeon_18b2800_entry)(B22_81893474_EffectState *, B22_81893474_Motion *, B22_81893474_ColorPart *) = func_80024C74;
+#include "../func_81892800.c"
+#include "../func_818928F8.c"
+#include "../func_81892A0C.c"
+#include "../func_81892AF0.c"
+#include "../func_81892BF8.c"
+#include "../func_81892C5C.c"
+#include "../func_81893024.c"
+#include "../func_818930F8.c"
+#include "../func_818931B8.c"
+#include "../func_81893244.c"
+#include "../func_81893474.c"

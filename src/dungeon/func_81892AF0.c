@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "modules/dungeon_ovl_18b2800.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -9,62 +10,33 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-typedef struct Copy24 {
-    s32 words[6];
-} Copy24;
 
-extern s32 func_8003DB94();
-extern s32 func_8004491C();
-extern s32 D_8002420C;
+
 extern s32 D_800E2178;
 
-typedef struct S_81892AF0_0 {
-    u8 pad_00[0x8];
-    Copy24 * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-    u8 pad_14[0xC];
-    s32 unk_20;
-} S_81892AF0_0;   /* temp_v0 in func_81892AF0 */
+   /* temp_v0 in func_800242F0 */
 
-typedef struct S_81892AF0_1 {
-    u8 pad_00[0x4];
-    s16 unk_04;
-    s16 unk_06;
-} S_81892AF0_1;   /* temp_v0_2 in func_81892AF0 */
+   /* temp_v0_2 in func_800242F0 */
 
-typedef struct S_81892AF0_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0xD];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_81892AF0_2;   /* temp_s0 in func_81892AF0 */
+   /* temp_s0 in func_800242F0 */
 
-typedef struct S_81892AF0_3 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_81892AF0_3;   /* temp_a1 in func_81892AF0 */
+   /* temp_a1 in func_800242F0 */
 
 /* Creates a sprite object with initialized state and a copied, adjusted transform. */
-void *func_81892AF0(s32 state_value, Copy24 *source_transform, s16 variant) {
-    Copy24 *transform;
-    S_81892AF0_2 *sprite;
+void *func_800242F0(s32 state_value, B22_81892AF0_Copy24 *source_transform, s16 variant) {
+    B22_81892AF0_Copy24 *transform;
+    B22_81892AF0_S_81892AF0_2 *sprite;
     void *object;
-    S_81892AF0_1 *state;
+    B22_81892AF0_S_81892AF0_1 *state;
 
     object = func_8003FC64(0x212);
     if (object != NULL) {
-        ((S_81892AF0_0 *)object)->unk_10 = &D_8002420C;
+        ((B22_81892AF0_S_81892AF0_0 *)object)->unk_10 = func_8002420C;
         state = object + 0x20;
-        ((S_81892AF0_0 *)object)->unk_20 = state_value;
+        ((B22_81892AF0_S_81892AF0_0 *)object)->unk_20 = state_value;
         state->unk_04 = 0;
         state->unk_06 = variant;
-        sprite = ((S_81892AF0_0 *)object)->unk_0C;
+        sprite = ((B22_81892AF0_S_81892AF0_0 *)object)->unk_0C;
         sprite->unk_0E = 0x80;
         sprite->unk_0D = 0x80;
         sprite->unk_0C = 0x80;
@@ -72,10 +44,10 @@ void *func_81892AF0(s32 state_value, Copy24 *source_transform, s16 variant) {
         sprite->unk_1E = 0x1800;
         sprite->unk_1C = 0x1800;
         func_8004491C(object, func_80045340);
-        transform = ((S_81892AF0_0 *)object)->unk_08;
+        transform = ((B22_81892AF0_S_81892AF0_0 *)object)->unk_08;
         *transform = *source_transform;
-        ((S_81892AF0_3 *)transform)->unk_14 = 0x10000;
-        ((S_81892AF0_3 *)transform)->unk_08 += 0xFD010000;
+        ((B22_81892AF0_S_81892AF0_3 *)transform)->unk_14 = 0x10000;
+        ((B22_81892AF0_S_81892AF0_3 *)transform)->unk_08 += 0xFD010000;
         return object;
     }
     return NULL;

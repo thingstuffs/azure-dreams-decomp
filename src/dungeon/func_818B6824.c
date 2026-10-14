@@ -1,16 +1,12 @@
+#include "modules/dungeon_ovl_18d6800.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-extern s32 func_8009D218(void *, s32);
-extern s32 func_800A6870(s16 input_value);
-extern void func_800AD4D0(void *);
-extern s16 func_800AD568(void *);
-extern void *func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
 
 /* Adds a computed gain to the target's stored value, doubling it when flagged. */
-void func_818B6824(EntityRec *target, s32 gain_param) {
+void func_80024024(EntityRec *target, s32 gain_param, s32 ignored_context) {
     s32 base_gain;
     register s32 gain;
 

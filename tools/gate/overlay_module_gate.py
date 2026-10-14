@@ -15,6 +15,7 @@ if ROOT.name=='tools': ROOT=ROOT.parent
 SCHEMA='overlay-module-native-v4'
 sys.path.insert(0, str(Path(__file__).resolve().parent))  # sibling import when loaded as gate.overlay_module_gate
 import overlay_native_rodata as N
+import overlay_native_allocations as Z
 from gate_read_cache import digest, read_jsonl, read_text, read_json as _read_json, read_records as _read_records
 from contextvars import ContextVar
 CONTAINERS={'dungeon':'DUNGEON_DUNGEON.BIN','town':'TOWN_TOWN.BIN','main':'MAIN_MAIN.BIN','ovmovie':'OVMOVIE.BIN'}
@@ -43,6 +44,12 @@ def read_records(path):return _load_read(path,'records',_read_records)
 def rows(root):
  return {r['id']:r for r in read_jsonl(root/'ledger/rows.jsonl') if r['kind']=='overlay'}
 
+def module_compiler(m):
+ # Exactly two ordinary G0 recipes. Flags and recipe keys remain fail-closed.
+ recipes=({'cfg':'2.7.2-cdk-G0','row_asflags':''},{'cfg':'2.7.2-G0','row_asflags':''})
+ if m.get('recipe') not in recipes:raise ValueError('unsupported recipe/empty cohort')
+ return '2.7.2-cdk' if m['recipe']['cfg']=='2.7.2-cdk-G0' else '2.7.2'
+
 def all_members(m):
  return m.get('data_members',[])+m['members']
 
@@ -50,7 +57,14 @@ def module_first(m):
  return all_members(m)[0]
 
 def module_size(m):
+ if Z.enabled(m):return sum(a['size'] for a in m['allocations'])
  return sum(a['size'] for a in all_members(m))
+
+def module_extents(m):
+ return Z.spans(m) if Z.enabled(m) else [(a['foff'],a['foff']+a['size']) for a in all_members(m)]
+
+def module_span(m):
+ spans=module_extents(m);return min(a for a,b in spans),max(b for a,b in spans)
 
 def ranges(root,family):
  return read_records(root/'config/overlays'/f'{family}.rowbase.jsonl')
@@ -69,13 +83,16 @@ def _load_modules(root=ROOT):
  for m in doc['modules']:
   if not re.fullmatch('[a-z][a-z0-9_]*',m['key']) or m['key'] in keys:raise ValueError('duplicate/invalid key')
   keys.add(m['key'])
+  if m.get('allocations') and not Z.enabled(m):raise ValueError('unknown allocation model')
+  if Z.enabled(m):Z.validate(m,root)
   if m['owned_data']:validate_owned_layout(m)
   if m.get('data_members'):
    if len(m['data_members'])!=len(m['owned_data']):raise ValueError('separate prefix row count differs')
    for a,d in zip(m['data_members'],m['owned_data']):
     if tuple(a[k] for k in ('foff','vma','size'))!=tuple(d[k] for k in ('foff','vma','size')):raise ValueError('separate prefix row ownership extent differs')
   genuine_flags(m,root)
-  if not m['members'] or m['recipe']!={'cfg':'2.7.2-cdk-G0','row_asflags':''}:raise ValueError('unsupported recipe/empty cohort')
+  if not m['members']:raise ValueError('unsupported recipe/empty cohort')
+  module_compiler(m)
   if not m['headers'] or not m['review_inputs']:raise ValueError('missing shared contract or review inputs')
   for p in [m['source'],*m['headers'],*m['review_inputs']]:local(root,p)
   rr=[r for r in ranges(root,m['container']) if r['region']==m['region'] and r['base_confidence']=='proven']
@@ -94,6 +111,7 @@ def _load_modules(root=ROOT):
    if a!=expected or a['foff']!=cursor or r['container']!=m['container'] or r['cfg']!=m['recipe']['cfg'] or (r.get('row_asflags') or '')!=m['recipe']['row_asflags']:raise ValueError('member identity, contiguity or recipe differs: '+a['id'])
    cursor+=a['size']
   if not int(region['foff_start'],0)<=module_first(m)['foff']<cursor<=int(region['foff_end'],0):raise ValueError('module outside proven load map')
+  if Z.enabled(m):Z.validate(m,root,region)
   if m.get('membership_evidence'):
    ev=read_json(local(root,m['membership_evidence']))
    if m['membership_evidence'] not in m['review_inputs']:raise ValueError('membership evidence not fingerprinted')
@@ -140,6 +158,7 @@ def genuine_flags(m,root):
 
 
 def payload_spec(m):
+ if Z.enabled(m):return Z.expected_payload(m)
  ds=[('.rodata',sum(d['size'] for d in m['owned_data']))] if m['owned_data'] else []
  text=[('.text.'+a['function'],a['size']-a.get('body_offset',0)) for a in m['members']]
  if ds and m['owned_data'][0]['kind']=='switch_table':
@@ -202,7 +221,7 @@ def affected_windows(m,root=ROOT,*,parsed_windows=None):
   # contiguous modules, including a separately registered data prefix.
   configs=scoped.windows(Path(root)) if parsed_windows is None else parsed_windows
   fam='dungeon' if m['container']=='dungeon_engine' else m['container'];out=[]
-  spans=[(a['foff'],a['foff']+a['size']) for a in all_members(m)]
+  spans=module_extents(m)
   integer=lambda v:int(v,0) if isinstance(v,str) else int(v)
   for name,cfg in sorted(configs.items()):
    if cfg['name'].partition('_')[0]!=fam:continue
@@ -210,7 +229,7 @@ def affected_windows(m,root=ROOT,*,parsed_windows=None):
    if any(lo<end and start<hi for start,end in spans):out.append(name)
   if not out:raise ValueError('module has no production window')
   return out
- first=module_first(m)['foff'];end=m['members'][-1]['foff']+m['members'][-1]['size'];out=[]
+ first,end=module_span(m);out=[]
  for p in sorted((root/'config/overlays').glob(m['container']+'*.overlay.yaml')):
   t=p.read_text();a=re.search(r'file_start:\s*(0x[\da-fA-F]+|\d+)',t);b=re.search(r'file_end:\s*(0x[\da-fA-F]+|\d+)',t)
   if a and b and int(a[1],0)<end and first<int(b[1],0):out.append(str(p.relative_to(root)))
@@ -256,7 +275,7 @@ def fingerprint(m,root=ROOT,windows=True):
  return legacy_fingerprint(m,root,windows=windows)
 
 def legacy_fingerprint(m,root=ROOT,windows=True):
- root=Path(root).absolute();wins=affected_windows(m,root);compiler_versions={'2.7.2-cdk'}
+ root=Path(root).absolute();wins=affected_windows(m,root);compiler_versions={module_compiler(m)}
  evidence_foffs={a['foff'] for a in all_members(m)}
  source_starts=[m['source'],*m['headers'],*(a['source'] for a in all_members(m)),'include/labels.inc',*(p for p in m['review_inputs'] if p.endswith(('.c','.h')))]
  names=set()
@@ -304,7 +323,7 @@ def legacy_fingerprint(m,root=ROOT,windows=True):
    if (root/p).exists():names.add(p)
  # Resolve the combined include closure once; shared headers are read once.
  names.update(closure(root,source_starts))
- gate_names=['overlay_scoped_fingerprint.py','gate_read_cache.py','overlay_native_rodata.py','cc.sh','ccproc.py','overlay_local_gate.py','overlay_module_gate.py','overlay_evidence.py','overlay_as_flags.py','gen_noreturn_syms.py','rowbase_naming_debt.py','match.py','rowbase_identity.py','configure.py','live_truth.py','rowbase.py','az_target.py','residue_class.py','overlay_func_compare.py','oracle_scoring.py']
+ gate_names=['overlay_scoped_fingerprint.py','gate_read_cache.py','overlay_native_rodata.py','cc.sh','ccproc.py','overlay_local_gate.py','overlay_module_gate.py','overlay_evidence.py','overlay_as_flags.py','gen_noreturn_syms.py','rowbase_naming_debt.py','match.py','rowbase_identity.py','configure.py','live_truth.py','rowbase.py','az_target.py','residue_class.py','overlay_func_compare.py','oracle_scoring.py','overlay_native_allocations.py']
  tools=[gate_tool(root,n) for n in gate_names]
  tools += [root/'tools/fidelity'/n for n in ['aspsx_diff.py','objread.py','certify_overlay_module.py']]
  tools += [root/'tools/overlay_module_evidence.py',root/'tools/build/slus_rodata_trim.py']
@@ -327,7 +346,10 @@ def legacy_fingerprint(m,root=ROOT,windows=True):
     else:f.seek(d['foff']);b=f.read(d['view_bytes'])
     if len(b)!=d['view_bytes']:raise ValueError('truncated external data view')
     asset[d['symbol']]=hashlib.sha256(b).hexdigest()
-  a=module_first(m);f.seek(a['foff']);b=f.read(module_size(m));asset['module_text']=hashlib.sha256(b).hexdigest()
+  if Z.enabled(m):b=Z.retail_bytes(m,root,sys.modules[__name__])
+  else:
+   a=module_first(m);f.seek(a['foff']);b=f.read(module_size(m))
+  asset['module_text']=hashlib.sha256(b).hexdigest()
  screening={}
  if m.get('membership_evidence'):
   # Do not bind the level number or not_in_module: placement itself changes
@@ -369,6 +391,7 @@ def build(m,out,root=ROOT,substitutions=None):
  import overlay_scoped_fingerprint as scoped
  if scoped.enabled(root):scoped.reject_environment()
  out.mkdir(parents=True,exist_ok=True)
+ if Z.enabled(m):return Z.build(m,out,root,sys.modules[__name__],substitutions)
  if substitutions:
   if set(substitutions)&{a['source'] for a in m.get('data_members',[])}:
    raise ValueError('separate prefix data candidate requires a complete TU edit')
@@ -407,7 +430,7 @@ def build(m,out,root=ROOT,substitutions=None):
    names.update(census.scan_text(path.read_text()))
   evidence=out/'noreturn_syms.bank.txt';evidence.write_text(census.render(sorted(names)))
   env['MASPSX_NORETURN_FILE']=str(evidence)
- gcc=root/'toolchain/compilers/gcc-2.7.2-cdk';asm=out/'module.s';obj=out/'module.o'
+ gcc=root/'toolchain/compilers'/('gcc-'+module_compiler(m));asm=out/'module.s';obj=out/'module.o'
  command([gcc/'gcc','-B'+str(gcc)+'/', '-S','-O2','-G0','-I'+str(root/'include'),'-w',source,'-o',asm],root,env,out/'compile.log')
  raw=asm.read_bytes();proc=command([sys.executable,gate_tool(root,'ccproc.py'),'--names-tsv',root/'config/names.tsv'],root,env,out/'ccproc.log',raw);(out/'sectioned.s').write_bytes(proc)
  command([root/'.venv/bin/python',root/'toolchain/maspsx/maspsx.py','--aspsx-version=2.79','--dont-force-G0','--run-assembler','--gnu-as-path=mipsel-linux-gnu-as','-I'+str(root),'-I'+str(root/'include'),'-EL','-march=r3000','-G8','-o',obj],root,env,out/'assemble.log',proc)
@@ -489,18 +512,21 @@ def project_segments(segments,build_dir,overlay,root=ROOT):
  for m in load_modules(root):
   if m['container']!=family:continue
   hits=[(i,s,a) for i,s in enumerate(segments) for a in all_members(m) if s.start<a['foff']+a['size'] and a['foff']<s.end]
-  if not hits:continue
+  storage_hits=Z.enabled(m) and any(s.start<b and a<s.end for a,b in Z.spans(m) for s in segments)
+  if not hits and not storage_hits:continue
   substitutions={}
   for i,s,a in hits:
    if s.start!=a['foff'] or s.size!=a['size'] or s.kind!='c' or not s.match:raise ValueError('module member missing, raw, partial or multiply covered')
    if s.match.config!=m['recipe']['cfg']:
     # Gate-export labels may use the equivalent space spelling.
-    if s.match.config!='2.7.2-cdk -G0':raise ValueError('per-row recipe move forbidden inside module')
+    if s.match.config!=m['recipe']['cfg'].replace('-G0',' -G0'):raise ValueError('per-row recipe move forbidden inside module')
    if Path(s.match.source).resolve()!=(root/a['source']).resolve():substitutions[a['source']]=str(s.match.source)
   receipt,binary=build(m,build_dir/'modules'/m['key'],root,substitutions);blob=binary.read_bytes()
   for i,s,a in hits:
-   target=binary.parent/(a.get('function',a.get('symbol'))+'.bin');offset=a['foff']-module_first(m)['foff'];target.write_bytes(blob[offset:offset+a['size']]);segments[i]=dataclasses.replace(s,kind='rowbase',bytes_path=target,module_key=m['key'],section=f'.ovlseg_{s.index:04d}')
-  receipts.append({'module':m['key'],'receipt':str(binary.parent/'receipt.json'),'receipt_sha256':sha(binary.parent/'receipt.json'),'fingerprint':receipt['fingerprint']['sha256'],'projected_rows':[a['id'] for _,_,a in hits]})
+   target=binary.parent/(a.get('function',a.get('symbol'))+'.bin');offset=Z.offset(m,a['foff'],a['size']) if Z.enabled(m) else a['foff']-module_first(m)['foff'];target.write_bytes(blob[offset:offset+a['size']]);segments[i]=dataclasses.replace(s,kind='rowbase',bytes_path=target,module_key=m['key'],section=f'.ovlseg_{s.index:04d}')
+  projected_allocations=[]
+  if Z.enabled(m):projected_allocations=Z.project_storage(m,segments,blob,binary.parent)
+  receipts.append({'projected_allocations':projected_allocations,'module':m['key'],'receipt':str(binary.parent/'receipt.json'),'receipt_sha256':sha(binary.parent/'receipt.json'),'fingerprint':receipt['fingerprint']['sha256'],'projected_rows':[a['id'] for _,_,a in hits]})
  return receipts
 
 def verify_window_modules(receipts,root=ROOT):

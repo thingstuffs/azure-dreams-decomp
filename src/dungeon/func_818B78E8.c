@@ -1,49 +1,19 @@
+#include "modules/dungeon_ovl_18d6800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
-extern void func_800478B8(void *);
-M2C_UNK func_80024FD4();
 
-typedef struct {
-    u8 pad[0x14];
-    u16 field14;
-} S818B78E8_Child;
 
-typedef struct {
-    S818B78E8_Child *child;
-    u8 pad04[0xA];
-    s16 state;
-    s16 field10;
-    u16 field12;
-    s16 field14;
-} S818B78E8_Obj;
 
-typedef struct {
-    s32 x0;
-    s32 x4;
-    s32 x8;
-    s32 xC;
-    s32 x10;
-    s32 x14;
-} S818B78E8_Vec;
 
-typedef struct {
-    u8 pad[0xC];
-    s8 fieldC;
-    s8 fieldD;
-    s8 fieldE;
-    u8 pad0F[3];
-    s16 field12;
-    u16 flags;
-    u8 pad16[4];
-    u16 field1A;
-    s16 field1C;
-    s16 field1E;
-} S818B78E8_State;
+
+
+
+
 
 /* Per-frame update for the four-phase spark effect: drift, tint ramp, hold, then mark the owner finished. */
-void func_800250E8(S818B78E8_Obj *obj, S818B78E8_Vec *motion, S818B78E8_State *gfx) {
+void func_800250E8(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78E8_S818B78E8_Vec *motion, B28_818B78E8_S818B78E8_State *gfx) {
     s32 variant_index;
     s16 fade;
     s16 next_tick;
@@ -64,7 +34,7 @@ void func_800250E8(S818B78E8_Obj *obj, S818B78E8_Vec *motion, S818B78E8_State *g
     s32 variant;
     s32 tick;
     u16 phase_value;
-    S818B78E8_Child *child;
+    B28_818B78E8_S818B78E8_Child *child;
 
     child = obj->child;
     child->field14 = (u16) (child->field14 + 1);

@@ -1,37 +1,18 @@
+#include "modules/dungeon_ovl_18d6800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
-typedef struct {
-    s32 x;
-    s32 y;
-    s32 z;
-    s32 dx;
-    s32 dy;
-    s32 dz;
-} VecState;
 
-typedef struct {
-    u8 pad00[0x14];
-    u16 counter;
-} ChildState;
 
-typedef struct {
-    ChildState *child;
-    u8 pad04[12];
-    u16 counter;
-    u8 pad12[2];
-    s16 limit;
-} OwnerState;
 
-typedef struct {
-    u8 pad00[0x1A];
-    u16 angle;
-} EntityState;
 
-extern void func_800478B8(void *);
+
+
+
+
 
 /* Advance counters, rotation, and position, and set flags when the counter exceeds its limit. */
-void func_818B7D3C(OwnerState *owner, VecState *vec, EntityState *entity)
+void func_8002553C(B28_818B7D3C_OwnerState *owner, B28_818B7D3C_VecState *vec, B28_818B7D3C_EntityState *entity)
 {
     owner->child->counter++;
     owner->counter++;

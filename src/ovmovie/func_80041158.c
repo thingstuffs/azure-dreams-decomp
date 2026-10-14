@@ -1,9 +1,7 @@
-#include "common.h"
-#include "m2c_compat.h"
+#include "modules/ovmovie_libpress.h"
 
-M2C_UNK func_8006005C();                /* extern */
 
 /* Forwards the value to func_8006005C with a zero first argument. */
-void func_80041158(s32 value) {
-    func_8006005C(0, value);
+s32 func_80177958(void (*callback)(void)) {
+    return func_8006005C(0, callback);
 }

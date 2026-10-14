@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_18b2800.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
@@ -7,46 +8,13 @@
 #include "shared/entity.h"
 extern int abs(int);
 
-typedef struct Motion {
-    s32 x;
-    s32 y;
-    s32 z;
-    s32 dx;
-    s32 dy;
-    s32 dz;
-} Motion;
 
-typedef struct EffectState {
-    void *owner;
-    void *image;
-    u8 unk8;
-    u8 id;
-    s16 state;
-    s16 unkC;
-    s16 direction;
-    s16 timer;
-    s16 duration;
-    s16 field_14;
-    s16 x;
-    s16 y;
-    s16 z;
-    u8 status;
-    u8 pad1D[0x7B];
-} EffectState;
 
-typedef struct ColorPart {
-    u8 pad[0xC];
-    u32 color;
-} ColorPart;
 
-typedef struct Scratch {
-    s16 work[8];
-    u8 gap[8];
-    s16 probe[3];
-    u8 result_gap[2];
-    s16 result;
-    u16 map_flags;
-} Scratch;
+
+
+
+
 
 #define U8_AT(p, n) (*(u8 *)((u8 *)(p) + (n)))
 #define S8_AT(p, n) (*(s8 *)((u8 *)(p) + (n)))
@@ -58,32 +26,18 @@ typedef struct Scratch {
 #define result scratch.result
 #define map_flags scratch.map_flags
 
-extern s16 func_800A0818(u8, u8, s16, s16, s16 *);
-extern s32 func_8003DE58(void *, void *, void *, s32);
-extern s16 func_800BCAD0(void *);
-extern s32 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern s32 func_800A45D8(s32, s32, s32);
-extern s32 func_800A5690(void);
-extern void func_800A56E0(s32);
-extern void func_800240F8(void *, void *, s16);
-extern void func_800242F0(void *, void *, s32);
-extern void func_80024A44(void *, void *, s32);
-extern void func_800419EC(s32, s32);
-extern void *func_800D1C70(u8, s16, s16, s16);
-extern void func_80042640(void *, s32);
-extern s32 func_800A6D30(void);
 
 /* Updates the effect's launch, travel, impact, and cleanup states. */
-void func_80024C74(EffectState *effect_state, Motion *effect_motion, ColorPart *color_part)
+void func_80024C74(B22_81893474_EffectState *effect_state, B22_81893474_Motion *effect_motion, B22_81893474_ColorPart *color_part)
 {
-    EffectState *state;
-    Motion *motion;
-    ColorPart *part;
+    B22_81893474_EffectState *state;
+    B22_81893474_Motion *motion;
+    B22_81893474_ColorPart *part;
     void *owner;
     void *owner_data;
     void *owner_node;
     void *owner_motion;
-    Scratch scratch;
+    B22_81893474_Scratch scratch;
     register TileObject *origin;
     s32 target_z;
     s32 direction_bits;

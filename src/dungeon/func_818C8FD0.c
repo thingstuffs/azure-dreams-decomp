@@ -1,120 +1,35 @@
 #include "shared/object_node.h"
+#include "modules/dungeon_ovl_18e8800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-typedef struct S_func_818C8FD0_1 {
-    void *unk_00;
-    void *unk_04;
-    u8 pad_08[1];
-    u8 unk_09;
-    union { s16 s16; u16 u16; } unk_0A;
-    u8 pad_0C[0x72];
-    union { s16 s16; u16 u16; } unk_7E;
-    u8 pad_80[2];
-    u16 unk_82;
-    union { s16 s16; u16 u16; } unk_84;
-    s16 unk_86;
-    s16 unk_88;
-    u8 pad_8A[0x16];
-    u8 unk_A0;
-    u8 unk_A1;
-    u8 pad_A2[6];
-    void *unk_A8;
-    void *unk_AC;
-} S_func_818C8FD0_1;
-
-typedef struct S_func_818C8FD0_2 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-    u8 pad_2C[0x34];
-    union { s32 s32; void *ptr; } unk_60;
-    u8 pad_64[0xE];
-    s8 unk_72;
-    s8 unk_73;
-} S_func_818C8FD0_2;
-
-typedef struct S_func_818C8FD0_3 {
-    u8 pad_00[8];
-    void *unk_08;
-    void *unk_0C;
-    void *unk_10;
-    u8 pad_14[0xA];
-    u16 unk_1E;
-} S_func_818C8FD0_3;
-
-typedef struct S_func_818C8FD0_4 {
-    union { s32 s32; struct { u8 pad_00[2]; u16 unk_02; } u16; } unk_00;
-    union { s32 s32; struct { u8 pad_04[2]; u16 unk_06; } u16; } unk_04;
-    union { s32 s32; struct { u8 pad_08[2]; u16 unk_0A; } u16; } unk_08;
-} S_func_818C8FD0_4;
-
-typedef struct S_func_818C8FD0_5 {
-    u8 pad_00[0xC];
-    u32 unk_0C;
-    u8 pad_10[0xC];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_func_818C8FD0_5;
-
-typedef struct S_func_818C8FD0_6 {
-    u8 pad_00[8];
-    void *unk_08;
-    u8 pad_0C[8];
-    u16 unk_14;
-} S_func_818C8FD0_6;
-
-typedef struct S_func_818C8FD0_7 {
-    u8 pad_00[2];
-    union { s16 s16; u16 u16; } unk_02;
-    u8 pad_04[4];
-    s16 unk_08;
-    s16 unk_0A;
-    u8 pad_0C[9];
-    u8 unk_15;
-    u16 unk_16;
-    u8 pad_18[0x14];
-    void *unk_2C;
-    s32 unk_30;
-    u8 pad_34[0x24];
-    s32 unk_58;
-    s32 unk_5C;
-    s32 unk_60;
-} S_func_818C8FD0_7;
-
-typedef struct S_func_818C8FD0_8 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_func_818C8FD0_8;
-
-typedef struct S_func_818C8FD0_9 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0xD];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_func_818C8FD0_9;
-
-typedef struct S_func_818C8FD0_10 {
-    u16 unk_00;
-} S_func_818C8FD0_10;
 
 
-typedef struct OffsetTable {
-    u8 value[32];
-} OffsetTable;
 
-extern OffsetTable D_80024004;
-extern void D_80024270(void);
-extern s16 D_80024D04[5];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 extern u8 D_800DEC00[];
 
-extern void func_8003DB94(void *, void *, s32);
-extern void *func_8003DF74(void *, void *, void *, s32);
 
 
 
@@ -124,21 +39,21 @@ extern void *func_8003DF74(void *, void *, void *, s32);
 
 
 /* Updates an effect through attachment, motion, and timed cleanup. */
-void func_818C8FD0(S_func_818C8FD0_1 *state, S_func_818C8FD0_4 *output_pos, S_func_818C8FD0_5 *part)
+void func_800247D0(B31_818C8FD0_S_func_818C8FD0_1 *state, B31_818C8FD0_S_func_818C8FD0_4 *output_pos, B31_818C8FD0_S_func_818C8FD0_5 *part)
 {
     s16 delta[3];
     s32 mode;
     u16 angle;
     u16 frame_count;
-    OffsetTable offsets;
-    S_func_818C8FD0_2 *object;
-    S_func_818C8FD0_3 *owner_node;
-    S_func_818C8FD0_4 *owner_pos;
-    S_func_818C8FD0_3 *effect_node;
-    S_func_818C8FD0_4 *effect_pos;
-    OffsetTable *offset_table;
+    B31_818C8FD0_OffsetTable offsets;
+    B31_818C8FD0_S_func_818C8FD0_2 *object;
+    B31_818C8FD0_S_func_818C8FD0_3 *owner_node;
+    B31_818C8FD0_S_func_818C8FD0_4 *owner_pos;
+    B31_818C8FD0_S_func_818C8FD0_3 *effect_node;
+    B31_818C8FD0_S_func_818C8FD0_4 *effect_pos;
+    B31_818C8FD0_OffsetTable *offset_table;
     s32 one;
-    OffsetTable *offset_source = &D_80024004;
+    B31_818C8FD0_OffsetTable *offset_source = &D_80024004;
 
     object = state->unk_00;
     offsets = *offset_source;
@@ -146,7 +61,7 @@ void func_818C8FD0(S_func_818C8FD0_1 *state, S_func_818C8FD0_4 *output_pos, S_fu
     one = 1;
     frame_count = state->unk_82;
     mode = state->unk_0A.s16;
-    owner_node = (S_func_818C8FD0_3 *)((u8 *)object - 0x20);
+    owner_node = (B31_818C8FD0_S_func_818C8FD0_3 *)((u8 *)object - 0x20);
     owner_pos = owner_node->unk_08;
     frame_count++;
     state->unk_82 = frame_count;
@@ -158,12 +73,12 @@ void func_818C8FD0(S_func_818C8FD0_1 *state, S_func_818C8FD0_4 *output_pos, S_fu
         part->unk_1C = 0x1000;
         func_8003DB94(part, D_800DEC00, 0);
         angle = object->unk_2A;
-        D_80024D04[0] = one;
+        D_80024D04 = one;
         state->unk_7E.s16 = (angle >> 9) & 7;
         state->unk_0A.u16++;
     case 1:
         {
-            S_func_818C8FD0_6 *owner_part;
+            B31_818C8FD0_S_func_818C8FD0_6 *owner_part;
             u16 position_z;
             u16 final_z;
             u16 delta_z;
@@ -171,13 +86,13 @@ void func_818C8FD0(S_func_818C8FD0_1 *state, S_func_818C8FD0_4 *output_pos, S_fu
             owner_part = owner_node->unk_0C;
 
             if ((func_8003DF74(owner_part->unk_08, owner_part, delta, 0) != 0) ||
-                (((S_func_818C8FD0_6 *)owner_node->unk_0C)->unk_14 & 0x8000)) {
+                (((B31_818C8FD0_S_func_818C8FD0_6 *)owner_node->unk_0C)->unk_14 & 0x8000)) {
                 output_pos->unk_00.u16.unk_02 = owner_pos->unk_00.u16.unk_02;
                 output_pos->unk_04.u16.unk_06 = owner_pos->unk_04.u16.unk_06;
                 position_z = owner_pos->unk_08.u16.unk_0A;
                 output_pos->unk_08.u16.unk_0A = position_z;
 
-                if (!(((S_func_818C8FD0_6 *)owner_node->unk_0C)->unk_14 & 0x8000)) {
+                if (!(((B31_818C8FD0_S_func_818C8FD0_6 *)owner_node->unk_0C)->unk_14 & 0x8000)) {
                     output_pos->unk_00.u16.unk_02 += (u16)delta[0];
                     output_pos->unk_04.u16.unk_06 += (u16)delta[1];
                     final_z = output_pos->unk_08.u16.unk_0A;
@@ -189,7 +104,7 @@ void func_818C8FD0(S_func_818C8FD0_1 *state, S_func_818C8FD0_4 *output_pos, S_fu
                     output_pos->unk_08.u16.unk_0A = final_z;
                 }
 
-                if (((S_func_818C8FD0_10 *)state->unk_04)->unk_00 & 0x80) {
+                if (((B31_818C8FD0_S_func_818C8FD0_10 *)state->unk_04)->unk_00 & 0x80) {
                     state->unk_84.s16 = 0;
                     state->unk_0A.u16++;
                     return;
@@ -203,11 +118,11 @@ void func_818C8FD0(S_func_818C8FD0_1 *state, S_func_818C8FD0_4 *output_pos, S_fu
             effect_node = func_8003FC64(0x12);
 
             if (effect_node != 0) {
-                S_func_818C8FD0_7 *effect;
+                B31_818C8FD0_S_func_818C8FD0_7 *effect;
                 s32 direction_index;
-                S_func_818C8FD0_8 *tile;
+                B31_818C8FD0_S_func_818C8FD0_8 *tile;
 
-                effect = (S_func_818C8FD0_7 *)((u8 *)effect_node + 0x20);
+                effect = (B31_818C8FD0_S_func_818C8FD0_7 *)((u8 *)effect_node + 0x20);
 
                 {
                     s16 *direction_offset;
@@ -233,7 +148,7 @@ void func_818C8FD0(S_func_818C8FD0_1 *state, S_func_818C8FD0_4 *output_pos, S_fu
                     u8 *table_base = (u8 *)((s8 *)dirStepX);
 
                     direction_index = state->unk_7E.s16 * 2;
-                    tile = ((S_func_818C8FD0_3 *)((u8 *)object - 0x20))->unk_0C;
+                    tile = ((B31_818C8FD0_S_func_818C8FD0_3 *)((u8 *)object - 0x20))->unk_0C;
                     state->unk_A0 =
                         tile->unk_24 + table_base[direction_index];
                 }
@@ -248,7 +163,7 @@ void func_818C8FD0(S_func_818C8FD0_1 *state, S_func_818C8FD0_4 *output_pos, S_fu
                 if (object->unk_60.ptr != 0) {
                     s32 tile_distance;
                     s32 duration;
-                    S_func_818C8FD0_4 *target_pos;
+                    B31_818C8FD0_S_func_818C8FD0_4 *target_pos;
                     u16 end_time;
                     u32 tile_coord;
 
@@ -269,7 +184,7 @@ void func_818C8FD0(S_func_818C8FD0_1 *state, S_func_818C8FD0_4 *output_pos, S_fu
                         effect->unk_02.s16 = tile_distance * 2;
                     }
 
-                    target_pos = ((S_func_818C8FD0_3 *)((u8 *)object->unk_60.ptr - 0x20))->unk_08;
+                    target_pos = ((B31_818C8FD0_S_func_818C8FD0_3 *)((u8 *)object->unk_60.ptr - 0x20))->unk_08;
                     duration = effect->unk_02.s16;
                     if (duration != 0) {
                         effect->unk_60 =
@@ -285,7 +200,7 @@ void func_818C8FD0(S_func_818C8FD0_1 *state, S_func_818C8FD0_4 *output_pos, S_fu
                     state->unk_86 = effect->unk_02.s16 + 0x1E;
                 }
 
-                effect_node->unk_10 = D_80024270;
+                effect_node->unk_10 = func_80024270;
                 {
                     effect_pos = effect_node->unk_08;
 
@@ -293,7 +208,7 @@ void func_818C8FD0(S_func_818C8FD0_1 *state, S_func_818C8FD0_4 *output_pos, S_fu
                     effect_pos->unk_04.s32 = output_pos->unk_04.s32;
                     effect_pos->unk_08.s32 = output_pos->unk_08.s32;
                     {
-                        S_func_818C8FD0_9 *effect_part = effect_node->unk_0C;
+                        B31_818C8FD0_S_func_818C8FD0_9 *effect_part = effect_node->unk_0C;
 
                         effect_part->unk_0E = 0x80;
                         effect_part->unk_0D = 0x80;
@@ -333,16 +248,16 @@ void func_818C8FD0(S_func_818C8FD0_1 *state, S_func_818C8FD0_4 *output_pos, S_fu
 
         state->unk_84.u16 = timer;
         if (state->unk_86 < timer) {
-            s32 active_flag = D_80024D04[0];
+            s32 active_flag = D_80024D04;
 
             state->unk_84.u16 = old_timer;
             if (active_flag == 0) {
                 dungeonStatus.unk_0C = 0;
-                ((S_func_818C8FD0_10 *)((u8 *)state - 2))->unk_00 |= 0x8000;
+                ((B31_818C8FD0_S_func_818C8FD0_10 *)((u8 *)state - 2))->unk_00 |= 0x8000;
                 objectFlagBlock.flags |= 0x8000;
                 return;
             } else {
-                D_80024D04[0] = 0;
+                D_80024D04 = 0;
             }
         }
     }

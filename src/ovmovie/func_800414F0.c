@@ -1,8 +1,7 @@
-#include "common.h"
+#include "modules/ovmovie_libpress.h"
 
-extern s32 *D_80178380;
 
 /* Return the value pointed to by D_80178380. */
-s32 func_800414F0(void) {
-    return *D_80178380;
+static u32 func_80177CF0(void) {
+    return *(s32 *)D_80178380;
 }

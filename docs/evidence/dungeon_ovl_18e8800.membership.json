@@ -1,0 +1,49 @@
+{
+  "module": "dungeon_ovl_18e8800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_18e8824.c",
+    "module_index": 172
+  },
+  "members": [
+    "dungeon/func_818C8824",
+    "dungeon/func_818C8924",
+    "dungeon/func_818C8A70",
+    "dungeon/func_818C8FD0"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "not observable (section-grouping link, no static duplicates, no recipe change)",
+  "basis": [
+    "Owner decisions 37\u201338 model one native TU per physical DUNGEON selector bank. All logical members are within this lane\u2019s AREA.",
+    "Authenticated selector/caller/CD decoder words, actual ISO9660 directory record and all twelve sectors prove one conditional static load. Native ownership is only the complete declared prefix/code extent; asset-tail storage remains external.",
+    "Every complete member is contiguous in retail order under one native compiler recipe. The bounded complete-body hash census below finds no byte-identical complete helpers within this bank. The original historical TU boundary remains not observable."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120",
+  "owned_prefix": [
+    {
+      "kind": "typed_function_pointer",
+      "foff": 26118144,
+      "size": 4,
+      "symbol": "dungeon_18e8800_entry",
+      "owner": null,
+      "target": "func_800247D0"
+    },
+    {
+      "kind": "direction_offsets",
+      "foff": 26118148,
+      "size": 32,
+      "symbol": "D_80024004",
+      "owner": null,
+      "target": null
+    }
+  ],
+  "complete_body_sha256": {
+    "dungeon/func_818C8824": "20386fd9b56aa3431439af6e707711c6312bf65a6e79a9032cdd3e86aa471a3f",
+    "dungeon/func_818C8924": "c743a7def9dff5c49739e8e58ede5f4c2134a9be9d0528a79e1c918ab77c8052",
+    "dungeon/func_818C8A70": "be24cd9874b4901ce37da694b204a79e1b70885a8348b514138cc5a499ac7e0f",
+    "dungeon/func_818C8FD0": "88bfd93434af6b20cc09c5955cffd69db99237f6ab317837b1604691eb20a1f3"
+  },
+  "byte_identical_complete_helpers": []
+}

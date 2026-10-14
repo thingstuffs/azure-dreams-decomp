@@ -1,0 +1,414 @@
+{
+  "module": "dungeon_ovl_18b2800",
+  "maps": {
+    "native_bank": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 25896960,
+      "file_end": 25921536,
+      "delta": 2121734144,
+      "basis": "Selector 22 loader receipt; asset views in external tail, no native allocation claim.",
+      "kind": "rowbase",
+      "region": "native_18b2800_80024000"
+    },
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "basis": "PS-X EXE header: load 0x8002D000, payload size 0x54800, file header 0x800.",
+      "kind": "psx_exe"
+    },
+    "dungeon_resident": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 667648,
+      "file_end": 1050624,
+      "delta": 2147374944,
+      "basis": "Existing proven resident xfer_dungeon_A3000 load map.",
+      "kind": "rowbase",
+      "region": "xfer_dungeon_A3000"
+    }
+  },
+  "views": {
+    "D_80025308": {
+      "symbol": "D_80025308",
+      "kind": "data",
+      "vma": 2147635976,
+      "foff": 25901832,
+      "view_bytes": 1,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_bank",
+      "evidence": "docs/evidence/dungeon_ovl_18b2800.imports.json"
+    },
+    "D_800253BC": {
+      "symbol": "D_800253BC",
+      "kind": "data",
+      "vma": 2147636156,
+      "foff": 25902012,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_bank",
+      "evidence": "docs/evidence/dungeon_ovl_18b2800.imports.json"
+    },
+    "D_8006CCD8": {
+      "symbol": "D_8006CCD8",
+      "kind": "data",
+      "vma": 2147929304,
+      "foff": 263384,
+      "view_bytes": 16,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_18b2800.imports.json"
+    },
+    "D_8006CCE8": {
+      "symbol": "D_8006CCE8",
+      "kind": "data",
+      "vma": 2147929320,
+      "foff": 263400,
+      "view_bytes": 16,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_18b2800.imports.json"
+    },
+    "D_800E2178": {
+      "symbol": "D_800E2178",
+      "kind": "data",
+      "vma": 2148409720,
+      "foff": 1034776,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_ovl_18b2800.imports.json"
+    }
+  },
+  "runtime_views": {
+    "D_800814A0": {
+      "symbol": "D_800814A0",
+      "kind": "runtime_data",
+      "vma": 2148013216,
+      "view_bytes": 16,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_18b2800.imports.json",
+      "declaration": "include/shared/object_flags.h"
+    },
+    "D_800814A8": {
+      "symbol": "D_800814A8",
+      "kind": "runtime_data",
+      "vma": 2148013224,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_18b2800.imports.json",
+      "declaration": "include/shared/record_ptrs.h"
+    },
+    "D_80082E80": {
+      "symbol": "D_80082E80",
+      "kind": "runtime_data",
+      "vma": 2148019840,
+      "view_bytes": 64,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_18b2800.imports.json",
+      "declaration": "include/shared/tile_object.h"
+    },
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 512,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_18b2800.imports.json",
+      "declaration": "include/shared/game_work.h"
+    },
+    "D_80083460": {
+      "symbol": "D_80083460",
+      "kind": "runtime_data",
+      "vma": 2148021344,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_18b2800.imports.json",
+      "declaration": "include/shared/dungeon_status.h"
+    }
+  },
+  "functions": {
+    "func_8003DB94": {
+      "vma": 2147736468,
+      "foff": 70548,
+      "map": "slus_load",
+      "first_word": "00140600",
+      "source_clients": [
+        "src/dungeon/func_81892AF0.c",
+        "src/dungeon/func_81893244.c"
+      ]
+    },
+    "func_8003DE58": {
+      "vma": 2147737176,
+      "foff": 71256,
+      "map": "slus_load",
+      "first_word": "d0ffbd27",
+      "source_clients": [
+        "src/dungeon/func_81893474.c"
+      ]
+    },
+    "func_8003FC64": {
+      "vma": 2147744868,
+      "foff": 78948,
+      "map": "slus_load",
+      "first_word": "0180023c",
+      "source_clients": [
+        "src/dungeon/func_818928F8.c",
+        "src/dungeon/func_81892AF0.c",
+        "src/dungeon/func_81893024.c",
+        "src/dungeon/func_81893244.c"
+      ],
+      "contract": {
+        "prototype": "ObjectNodeHeader *func_8003FC64(int flags)",
+        "source": "src/slus/w_8003FC64.c",
+        "source_sha256": "1bae9d01f320d222ebca3e233564cdf56d4d6dcb48baf16ac657ac375219748c",
+        "basis": "Canonical shared/object_node.h API and landed typed callee; incoming explicit allocator casts are retained."
+      }
+    },
+    "func_800419EC": {
+      "vma": 2147752428,
+      "foff": 86508,
+      "map": "slus_load",
+      "first_word": "ffff8230",
+      "source_clients": [
+        "src/dungeon/func_81893474.c"
+      ]
+    },
+    "func_80042640": {
+      "vma": 2147755584,
+      "foff": 89664,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "source_clients": [
+        "src/dungeon/func_81893474.c"
+      ]
+    },
+    "func_8004491C": {
+      "vma": 2147764508,
+      "foff": 98588,
+      "map": "slus_load",
+      "first_word": "21388000",
+      "source_clients": [
+        "src/dungeon/func_818928F8.c",
+        "src/dungeon/func_81892AF0.c",
+        "src/dungeon/func_81893024.c",
+        "src/dungeon/func_81893244.c"
+      ]
+    },
+    "func_80045340": {
+      "vma": 2147767104,
+      "foff": 101184,
+      "map": "slus_load",
+      "first_word": "e0ffbd27",
+      "source_clients": [
+        "src/dungeon/func_818928F8.c",
+        "src/dungeon/func_81892AF0.c",
+        "src/dungeon/func_81893244.c"
+      ]
+    },
+    "func_800478B8": {
+      "vma": 2147776696,
+      "foff": 110776,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "source_clients": [
+        "src/dungeon/func_81892A0C.c",
+        "src/dungeon/func_818930F8.c",
+        "src/dungeon/func_818931B8.c"
+      ]
+    },
+    "func_800644B8": {
+      "vma": 2147894456,
+      "foff": 228536,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "source_clients": [
+        "src/dungeon/func_81892C5C.c",
+        "src/dungeon/func_81893244.c"
+      ]
+    },
+    "func_80064584": {
+      "vma": 2147894660,
+      "foff": 228740,
+      "map": "slus_load",
+      "first_word": "02008104",
+      "source_clients": [
+        "src/dungeon/func_81892C5C.c",
+        "src/dungeon/func_81893244.c"
+      ]
+    },
+    "func_80065530": {
+      "vma": 2147898672,
+      "foff": 232752,
+      "map": "slus_load",
+      "first_word": "000080c8",
+      "source_clients": [
+        "src/dungeon/func_81892C5C.c"
+      ]
+    },
+    "func_80066460": {
+      "vma": 2147902560,
+      "foff": 236640,
+      "map": "slus_load",
+      "first_word": "03008230",
+      "source_clients": [
+        "src/dungeon/func_81892C5C.c"
+      ]
+    },
+    "func_80067F20": {
+      "vma": 2147909408,
+      "foff": 243488,
+      "map": "slus_load",
+      "first_word": "e0ffbd27",
+      "source_clients": [
+        "src/dungeon/func_81892C5C.c"
+      ]
+    },
+    "func_8009A350": {
+      "vma": 2148115280,
+      "foff": 740336,
+      "map": "dungeon_resident",
+      "first_word": "00240400",
+      "source_clients": [
+        "src/dungeon/func_81893474.c"
+      ]
+    },
+    "func_800A0818": {
+      "vma": 2148141080,
+      "foff": 766136,
+      "map": "dungeon_resident",
+      "first_word": "e8ffbd27",
+      "source_clients": [
+        "src/dungeon/func_81893474.c"
+      ]
+    },
+    "func_800A45D8": {
+      "vma": 2148156888,
+      "foff": 781944,
+      "map": "dungeon_resident",
+      "first_word": "d8ffbd27",
+      "source_clients": [
+        "src/dungeon/func_81893474.c"
+      ]
+    },
+    "func_800A5690": {
+      "vma": 2148161168,
+      "foff": 786224,
+      "map": "dungeon_resident",
+      "first_word": "0e80043c",
+      "source_clients": [
+        "src/dungeon/func_81893474.c"
+      ]
+    },
+    "func_800A56E0": {
+      "vma": 2148161248,
+      "foff": 786304,
+      "map": "dungeon_resident",
+      "first_word": "0180023c",
+      "source_clients": [
+        "src/dungeon/func_81893474.c"
+      ]
+    },
+    "func_800A6D30": {
+      "vma": 2148166960,
+      "foff": 792016,
+      "map": "dungeon_resident",
+      "first_word": "c641043c",
+      "source_clients": [
+        "src/dungeon/func_81893474.c"
+      ]
+    },
+    "func_800BCAD0": {
+      "vma": 2148256464,
+      "foff": 881520,
+      "map": "dungeon_resident",
+      "first_word": "e8ffbd27",
+      "source_clients": [
+        "src/dungeon/func_81893474.c"
+      ]
+    },
+    "func_800D1C70": {
+      "vma": 2148342896,
+      "foff": 967952,
+      "map": "dungeon_resident",
+      "first_word": "d0ffbd27",
+      "source_clients": [
+        "src/dungeon/func_81893474.c"
+      ]
+    },
+    "rand": {
+      "vma": 2147917560,
+      "foff": 251640,
+      "map": "slus_load",
+      "first_word": "a0000a24",
+      "source_clients": [
+        "src/dungeon/func_818928F8.c",
+        "src/dungeon/func_81893244.c"
+      ]
+    }
+  },
+  "source_access_bounds": {
+    "D_80025308": {
+      "view_bytes": 1,
+      "sha256": "e4ff5e7d7a7f08e9800a3e25cb774533cb20040df30b6ba10f956f9acd0eb3f7",
+      "bytes_hex": "c0",
+      "basis": "Only its address is stored as a callback/descriptor view. One byte authenticates the external anchor; no whole table allocation is claimed.",
+      "sources": [
+        "src/dungeon/func_818928F8.c"
+      ],
+      "source_sha256": {
+        "src/dungeon/func_818928F8.c": "2d988c796137992246d131591c2961ec911260d99bb727b646c31413269329ff"
+      }
+    },
+    "D_800253BC": {
+      "view_bytes": 8,
+      "sha256": "12533bad07e0cbcd78db18223e17ba1ddcc56ae3361ba061e97b17d256b95cc6",
+      "bytes_hex": "0200020014530280",
+      "basis": "Native calls to retail func_8003DB94 select descriptor index zero. Its lbu +0 and lw +4 require the bounded eight-byte descriptor view.",
+      "sources": [
+        "src/dungeon/func_81893244.c"
+      ],
+      "source_sha256": {
+        "src/dungeon/func_81893244.c": "dfa11497d22079954932217a518f24c64354849bbd7af302e80e16e20ec5f423"
+      }
+    },
+    "D_8006CCD8": {
+      "view_bytes": 16,
+      "sha256": "4371bd43481f6a8812bc1693246ffc102d94eb8a66f92bb59fdb264a201198f1",
+      "bytes_hex": "010001000000ffffffffffff00000100",
+      "basis": "Existing proven asset map and a bounded imported view; initialization/allocation ownership stays external.",
+      "sources": [],
+      "source_sha256": {}
+    },
+    "D_8006CCE8": {
+      "view_bytes": 16,
+      "sha256": "b829d92687b7ab07e3d91ebe5db905b2fb5fbc0360d02ca59bb629435d71d3c0",
+      "bytes_hex": "00000100010001000000ffffffffffff",
+      "basis": "Existing proven asset map and a bounded imported view; initialization/allocation ownership stays external.",
+      "sources": [],
+      "source_sha256": {}
+    },
+    "D_800E2178": {
+      "view_bytes": 8,
+      "sha256": "e8528cbf15e6d3b77e07838dad5f505d7679f1e0f68ff603f16ed3dbec166c72",
+      "bytes_hex": "0200020018210e80",
+      "basis": "Native calls to retail func_8003DB94 select descriptor index zero. Its lbu +0 and lw +4 require the bounded eight-byte descriptor view.",
+      "sources": [
+        "src/dungeon/func_81892AF0.c",
+        "src/dungeon/func_81893244.c"
+      ],
+      "source_sha256": {
+        "src/dungeon/func_81892AF0.c": "b4c0803524f64bb0ced6ab81889db706b22ea06bc26f8a6dae065b269a5fc96d",
+        "src/dungeon/func_81893244.c": "dfa11497d22079954932217a518f24c64354849bbd7af302e80e16e20ec5f423"
+      }
+    }
+  },
+  "review": "pending",
+  "reviewer": null,
+  "source_head": "40f3db9d8a3508b6f77ea75964f76c9172c50224"
+}

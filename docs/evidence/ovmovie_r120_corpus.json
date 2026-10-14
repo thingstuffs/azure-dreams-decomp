@@ -1,0 +1,273 @@
+{
+  "status": "ASM_TO_ASM_FULL_SPAN_COMPARISON",
+  "recipes": {
+    "psy-q-decomp": "GCC 2.6.3 / ASPSX 2.34 (maspsx)",
+    "mmx4": "GCC 2.7.2 / ASPSX 2.56 (maspsx)"
+  },
+  "physical_data_ownership_claimed": false,
+  "data_maps": [
+    {
+      "source_offset_start": 0,
+      "source_offset_end": 264,
+      "retail_vma_start": 2149024316
+    },
+    {
+      "source_offset_start": 264,
+      "source_offset_end": 324,
+      "retail_vma_start": 2149024588
+    }
+  ],
+  "note": "Direct ASM identification precedes our independent stock-2.7.2 whole-text compiler/genuine confirmation. Unequal wrappers/table-copy shapes are retained honestly; no normalized hit is labeled exact.",
+  "comparisons": [
+    {
+      "project": "psy-q-decomp",
+      "function": "DecDCTReset",
+      "foff": 3800,
+      "corpus_bytes": 56,
+      "retail_bytes": 56,
+      "diff_words": [],
+      "masked": [],
+      "exact": true
+    },
+    {
+      "project": "psy-q-decomp",
+      "function": "DecDCTGetEnv",
+      "foff": 3856,
+      "corpus_bytes": 140,
+      "retail_bytes": 140,
+      "diff_words": [
+        3,
+        14,
+        25
+      ],
+      "masked": [],
+      "exact": false
+    },
+    {
+      "project": "psy-q-decomp",
+      "function": "DecDCTPutEnv",
+      "foff": 3996,
+      "corpus_bytes": 156,
+      "retail_bytes": 156,
+      "diff_words": [
+        5,
+        17,
+        28,
+        32
+      ],
+      "masked": [],
+      "exact": false
+    },
+    {
+      "project": "psy-q-decomp",
+      "function": "DecDCTBufSize",
+      "foff": 4152,
+      "corpus_bytes": 12,
+      "retail_bytes": 12,
+      "diff_words": [],
+      "masked": [],
+      "exact": true
+    },
+    {
+      "project": "psy-q-decomp",
+      "function": "DecDCTin",
+      "foff": 4164,
+      "corpus_bytes": 124,
+      "retail_bytes": 124,
+      "diff_words": [],
+      "masked": [],
+      "exact": true
+    },
+    {
+      "project": "psy-q-decomp",
+      "function": "DecDCTout",
+      "foff": 4288,
+      "corpus_bytes": 32,
+      "retail_bytes": 32,
+      "diff_words": [],
+      "masked": [],
+      "exact": true
+    },
+    {
+      "project": "psy-q-decomp",
+      "function": "DecDCTinSync",
+      "foff": 4320,
+      "corpus_bytes": 32,
+      "retail_bytes": 60,
+      "diff_words": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "masked": [],
+      "exact": false
+    },
+    {
+      "project": "psy-q-decomp",
+      "function": "DecDCToutSync",
+      "foff": 4380,
+      "corpus_bytes": 32,
+      "retail_bytes": 60,
+      "diff_words": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "masked": [],
+      "exact": false
+    },
+    {
+      "project": "psy-q-decomp",
+      "function": "DecDCTinCallback",
+      "foff": 4440,
+      "corpus_bytes": 36,
+      "retail_bytes": 36,
+      "diff_words": [],
+      "masked": [],
+      "exact": true
+    },
+    {
+      "project": "psy-q-decomp",
+      "function": "DecDCToutCallback",
+      "foff": 4476,
+      "corpus_bytes": 36,
+      "retail_bytes": 36,
+      "diff_words": [
+        4
+      ],
+      "masked": [],
+      "exact": false
+    },
+    {
+      "project": "psy-q-decomp",
+      "function": "MDEC_reset",
+      "foff": 4512,
+      "corpus_bytes": 252,
+      "retail_bytes": 252,
+      "diff_words": [
+        4,
+        20,
+        31
+      ],
+      "masked": [],
+      "exact": false
+    },
+    {
+      "project": "psy-q-decomp",
+      "function": "MDEC_in",
+      "foff": 4764,
+      "corpus_bytes": 148,
+      "retail_bytes": 148,
+      "diff_words": [],
+      "masked": [],
+      "exact": true
+    },
+    {
+      "project": "psy-q-decomp",
+      "function": "MDEC_out",
+      "foff": 4912,
+      "corpus_bytes": 144,
+      "retail_bytes": 144,
+      "diff_words": [],
+      "masked": [],
+      "exact": true
+    },
+    {
+      "project": "psy-q-decomp",
+      "function": "MDEC_in_sync",
+      "foff": 5056,
+      "corpus_bytes": 152,
+      "retail_bytes": 152,
+      "diff_words": [],
+      "masked": [],
+      "exact": true
+    },
+    {
+      "project": "psy-q-decomp",
+      "function": "MDEC_out_sync",
+      "foff": 5208,
+      "corpus_bytes": 152,
+      "retail_bytes": 152,
+      "diff_words": [],
+      "masked": [],
+      "exact": true
+    },
+    {
+      "project": "psy-q-decomp",
+      "function": "timeout",
+      "foff": 5384,
+      "corpus_bytes": 304,
+      "retail_bytes": 304,
+      "diff_words": [],
+      "masked": [],
+      "exact": true
+    },
+    {
+      "project": "mmx4",
+      "function": "DecDCTReset",
+      "foff": 3800,
+      "corpus_bytes": 56,
+      "retail_bytes": 56,
+      "diff_words": [
+        7
+      ],
+      "masked": [],
+      "exact": false
+    },
+    {
+      "project": "mmx4",
+      "function": "DecDCTin",
+      "foff": 4164,
+      "corpus_bytes": 124,
+      "retail_bytes": 124,
+      "diff_words": [],
+      "masked": [],
+      "exact": true
+    },
+    {
+      "project": "mmx4",
+      "function": "DecDCTout",
+      "foff": 4288,
+      "corpus_bytes": 32,
+      "retail_bytes": 32,
+      "diff_words": [
+        2
+      ],
+      "masked": [],
+      "exact": false
+    },
+    {
+      "project": "mmx4",
+      "function": "DecDCToutCallback",
+      "foff": 4476,
+      "corpus_bytes": 36,
+      "retail_bytes": 36,
+      "diff_words": [],
+      "masked": [],
+      "exact": true
+    }
+  ],
+  "review": "pending"
+}

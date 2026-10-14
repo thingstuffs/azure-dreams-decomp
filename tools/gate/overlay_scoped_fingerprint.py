@@ -319,6 +319,9 @@ def configure_identity(path):
     return 'AS_FLAGS:'+hashlib.sha256(json.dumps(list(table.items())).encode()).hexdigest()
 
 def noreturn(root, fam, offsets, splits, regions, G):
+    if fam=='ovmovie':
+        p=root/'config/noreturn_syms.ovmovie.txt'
+        return {'family_file':G.sha(p) if p.exists() else None}
     if fam not in {'town','dungeon'}:return {}
     # Resolve frozen evidence at the authority; both module and row compiles
     # use this resolver when their view omits raw/.
@@ -357,12 +360,13 @@ def retail(root, container, start, size, G):
     return hashlib.sha256(data).hexdigest()
 
 def required_windows(m, wins, G):
-    start = G.module_first(m)['foff']
-    end = start + G.module_size(m)
+    if m.get('allocation_model')=='separated-literal-allocations-v1':
+        extents=[(a['foff'],a['foff']+a['size']) for a in m['allocations']]
+    else:
+        start=G.module_first(m)['foff'];extents=[(start,start+G.module_size(m))]
     out = [name for name,cfg in sorted(wins.items())
            if cfg['name'].split('_')[0] == family(m['container'])
-           and num(cfg['standalone_build']['window']['file_start']) < end
-           and start < num(cfg['standalone_build']['window']['file_end'])]
+           and any(num(cfg['standalone_build']['window']['file_start'])<end and start<num(cfg['standalone_build']['window']['file_end']) for start,end in extents)]
     if not out: raise ValueError('module has no production window')
     return out
 
@@ -387,8 +391,8 @@ def row_eligibility(row, level):
 
 def fingerprint(m, root, G, windows=True):
     root=Path(root).absolute()
-    if m.get('container') not in {'town','dungeon'}:
-        raise ValueError('scoped fingerprint does not model nonbanked module evidence')
+    if m.get('container') not in {'town','dungeon','ovmovie'}:
+        raise ValueError('scoped fingerprint does not model this container evidence')
     reg,assign,splits,regions,owners,mods,physical,wins=validate(root,G)
     current=next((v for v in mods if v['key']==m['key']),None)
     if current!=m:raise ValueError('stale supplied manifest entry')
@@ -397,7 +401,7 @@ def fingerprint(m, root, G, windows=True):
     levels={r['id']:r for r in read_jsonl(root/'ledger/levels.jsonl')}
     baseline={r['id']:r for r in read_jsonl(root/'ledger/baseline.jsonl')} if any(v.get('data_members') for v in mods) else {}
     ids={a['id'] for a in G.all_members(m)};fam=m['container'];offsets={a['foff'] for a in G.all_members(m)}
-    span_start=G.module_first(m)['foff'];span_end=span_start+G.module_size(m)
+    span_start,span_end=G.module_span(m)
     inputs={p:G.sha(G.local(root,p)) for p in [*m['review_inputs'],'config/names.tsv']}
     starts=[m['source'],*m['headers'],*(a['source'] for a in G.all_members(m)),'include/labels.inc',*(p for p in m['review_inputs'] if p.endswith(('.c','.h'))),*(d['declaration'] for d in m['imports'] if d['kind']=='runtime_data')]
     module={'manifest_schema':read_json(root/'config/overlays/modules.json')['schema'],'entry':m,
@@ -405,11 +409,11 @@ def fingerprint(m, root, G, windows=True):
         'splits':{unit:[r for r in rs if intersects(r,span_start,span_end)] for unit,rs in splits.items() if family(unit)==fam},
         'rowbase':[r for r in regions.get(fam,[]) if num(r['foff_start'])<span_end and span_start<num(r['foff_end'])],
         'owned_data':[r for r in owners.get(fam,[]) if num(r['foff'])<span_end and span_start<num(r['foff'])+num(r['rodata_size'])],
-        'review_inputs':inputs,'closure':include_inputs(root,starts,'2.7.2-cdk','-G0',G),
+        'review_inputs':inputs,'closure':include_inputs(root,starts,G.module_compiler(m),'-G0',G),
         'screening':screening(m,levels,baseline,G) if m.get('membership_evidence') else {},
         'retail':{'module':retail(root,fam,span_start,span_end-span_start,G)},
         'sibcall':G.sha(root/f'config/sibcall_syms.{fam}.txt') if (root/f'config/sibcall_syms.{fam}.txt').exists() else None,
-        'environment_policy':ENV_POLICY,'noreturn':noreturn(root,fam,offsets,splits,regions,G),'tools':identities(root,{'2.7.2-cdk'},G)}
+        'environment_policy':ENV_POLICY,'noreturn':noreturn(root,fam,offsets,splits,regions,G),'tools':identities(root,{G.module_compiler(m)},G)}
     for d in m['imports']:
         if d['kind']=='data':
             if 'asset' in d:
@@ -427,11 +431,12 @@ def fingerprint(m, root, G, windows=True):
             wr=[r for r in reg.values() if family(r['container'])==fam and intersects(r,fs,fe)]
             wid={r['id'] for r in wr}
             edges=[e for e in physical['edges'] if wid.intersection(e['rows'])]
-            wm=[v for v in mods if any(a['id'] in wid for a in G.all_members(v))]
+            wm=[v for v in mods if any(fs<end and start<fe for start,end in G.module_extents(v))]
             sources={};versions={'2.7.2-cdk'};off=set();symbol_inputs={}
             for v in wm:
                 ss=[v['source'],*v['headers'],*(a['source'] for a in G.all_members(v)),*(p for p in v['review_inputs'] if p.endswith(('.c','.h'))),*(d['declaration'] for d in v['imports'] if d['kind']=='runtime_data')]
-                sources.update(include_inputs(root,ss,'2.7.2-cdk','-G0',G))
+                version=G.module_compiler(v);versions.add(version)
+                sources.update(include_inputs(root,ss,version,'-G0',G))
                 off.update(a['foff'] for a in G.all_members(v))
             for grp in sb.get('matched_sources',[]):
                 unit=Path(grp['results']).parts[1]
@@ -458,7 +463,7 @@ def fingerprint(m, root, G, windows=True):
             window['neighbor_eligibility']={rid:row_eligibility(reg[rid],levels.get(rid)) for rid in sorted(wid)}
             storage={}
             for v in wm:
-                first=G.module_first(v)['foff'];last=first+G.module_size(v)
+                first,last=G.module_span(v)
                 storage[v['key']]={'text':retail(root,v['container'],first,last-first,G)}
                 for d in v['imports']:
                     if d['kind']!='data':continue

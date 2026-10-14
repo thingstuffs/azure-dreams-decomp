@@ -1,0 +1,176 @@
+{
+  "base_head": "97f105e7f",
+  "rows": [
+    {
+      "id": "ovmovie/func_800404A8",
+      "name": "Movie_UploadDecodedStrip",
+      "foff": 1192,
+      "size": 488,
+      "source_sha256": "efbec9c2b97a452c08c2a8c3fb6c56529c19cb3d2f3827fc42e515ff69091d2e",
+      "recipe": "2.7.2-cdk-G0",
+      "proof": {
+        "source": "out/ovmovie/func_800404A8.c",
+        "source_sha256": "efbec9c2b97a452c08c2a8c3fb6c56529c19cb3d2f3827fc42e515ff69091d2e",
+        "recipe": "2.7.2-cdk-G0",
+        "function": "func_80176CA8",
+        "foff": 1192,
+        "retail_bytes": 488,
+        "compiled_bytes": 488,
+        "masked": [],
+        "exact": true,
+        "aligned": {
+          "subs": 0,
+          "indels": 0,
+          "total": 0
+        },
+        "genuine_masks": [],
+        "genuine_retail_equal": true,
+        "genuine_maspsx_equal": true
+      },
+      "review": "pending"
+    },
+    {
+      "id": "ovmovie/func_8004072C",
+      "name": "Movie_ReadNextFrame",
+      "foff": 1836,
+      "size": 400,
+      "source_sha256": "4059c210af53210327e105726213e5ff017580d17964c49e0bc2d08a531f6211",
+      "recipe": "2.7.2-cdk-G0",
+      "proof": {
+        "source": "out/ovmovie/func_8004072C.c",
+        "source_sha256": "4059c210af53210327e105726213e5ff017580d17964c49e0bc2d08a531f6211",
+        "recipe": "2.7.2-cdk-G0",
+        "function": "func_80176F2C",
+        "foff": 1836,
+        "retail_bytes": 400,
+        "compiled_bytes": 400,
+        "masked": [],
+        "exact": true,
+        "aligned": {
+          "subs": 0,
+          "indels": 0,
+          "total": 0
+        },
+        "genuine_masks": [],
+        "genuine_retail_equal": true,
+        "genuine_maspsx_equal": true
+      },
+      "review": "pending"
+    },
+    {
+      "id": "ovmovie/func_8004099C",
+      "name": "Movie_PlayStream",
+      "foff": 2460,
+      "size": 1340,
+      "source_sha256": "00cdd4692f5aac2cd86952edeb02bc0bb9d1010f0acb4796020104b33d8f8e79",
+      "recipe": "2.7.2-cdk-G0",
+      "proof": {
+        "source": "out/ovmovie/func_8004099C.c",
+        "source_sha256": "00cdd4692f5aac2cd86952edeb02bc0bb9d1010f0acb4796020104b33d8f8e79",
+        "recipe": "2.7.2-cdk-G0",
+        "function": "func_8017719C",
+        "foff": 2460,
+        "retail_bytes": 1340,
+        "compiled_bytes": 1340,
+        "masked": [],
+        "exact": true,
+        "aligned": {
+          "subs": 0,
+          "indels": 0,
+          "total": 0
+        },
+        "genuine_masks": [],
+        "genuine_retail_equal": true,
+        "genuine_maspsx_equal": true
+      },
+      "review": "pending"
+    },
+    {
+      "id": "ovmovie/func_800410C0",
+      "name": "DecDCTout",
+      "foff": 4288,
+      "size": 32,
+      "source_sha256": "8ceb3650c6895354a8210f5e2e8fb409b67ece24d0f67f3984c129624664f6a0",
+      "recipe": "2.7.2-G0",
+      "proof": {
+        "source": "out/ovmovie/func_800410C0.c",
+        "source_sha256": "8ceb3650c6895354a8210f5e2e8fb409b67ece24d0f67f3984c129624664f6a0",
+        "recipe": "2.7.2-G0",
+        "function": "func_801778C0",
+        "foff": 4288,
+        "retail_bytes": 32,
+        "compiled_bytes": 32,
+        "masked": [],
+        "exact": true,
+        "aligned": {
+          "subs": 0,
+          "indels": 0,
+          "total": 0
+        },
+        "genuine_masks": [],
+        "genuine_retail_equal": true,
+        "genuine_maspsx_equal": true
+      },
+      "review": "pending"
+    },
+    {
+      "id": "ovmovie/func_800411A0",
+      "name": "MDEC_reset",
+      "foff": 4512,
+      "size": 252,
+      "source_sha256": "5239346ef7be69e1ead480bdfbe7edf447064a934cc3727ff4fe657ac701f39f",
+      "recipe": "2.7.2-G0",
+      "proof": {
+        "source": "out/ovmovie/func_800411A0.c",
+        "source_sha256": "5239346ef7be69e1ead480bdfbe7edf447064a934cc3727ff4fe657ac701f39f",
+        "recipe": "2.7.2-G0",
+        "function": "func_801779A0",
+        "foff": 4512,
+        "retail_bytes": 252,
+        "compiled_bytes": 252,
+        "masked": [],
+        "exact": true,
+        "aligned": {
+          "subs": 0,
+          "indels": 0,
+          "total": 0
+        },
+        "genuine_masks": [],
+        "genuine_retail_equal": true,
+        "genuine_maspsx_equal": true
+      },
+      "review": "pending"
+    },
+    {
+      "id": "ovmovie/func_80041458",
+      "name": "MDEC_out_sync",
+      "foff": 5208,
+      "size": 152,
+      "source_sha256": "98a217b8e0aaf6b30319f5d07de0c0395c3c663ea5386278255ea8d3fe8ba7b1",
+      "recipe": "2.7.2-G0",
+      "proof": {
+        "source": "out/ovmovie/func_80041458.c",
+        "source_sha256": "98a217b8e0aaf6b30319f5d07de0c0395c3c663ea5386278255ea8d3fe8ba7b1",
+        "recipe": "2.7.2-G0",
+        "function": "func_80177C58",
+        "foff": 5208,
+        "retail_bytes": 152,
+        "compiled_bytes": 152,
+        "masked": [],
+        "exact": true,
+        "aligned": {
+          "subs": 0,
+          "indels": 0,
+          "total": 0
+        },
+        "genuine_masks": [],
+        "genuine_retail_equal": true,
+        "genuine_maspsx_equal": true
+      },
+      "review": "pending"
+    }
+  ],
+  "coverage": "six complete functions; unchanged ovmovie production window required",
+  "integer_ratio_artifact": "Movie_PlayStream retains display.viewport.w *= 3 / 2. Integer division yields one; cdk emits the otherwise dead width read. This is explicitly documented for source review.",
+  "review": "pending"
+}

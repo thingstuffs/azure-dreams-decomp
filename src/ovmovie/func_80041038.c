@@ -1,6 +1,6 @@
-#include "common.h"
+#include "modules/ovmovie_libpress.h"
 
 /* Returns the unsigned 16-bit value at the given pointer. */
-u16 func_80041038(u16 *value_ptr) {
+s32 func_80177838(u16 *value_ptr) {
     return *value_ptr;
 }

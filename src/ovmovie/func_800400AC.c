@@ -30,7 +30,7 @@ extern s32 D_801B8EBC;
 extern u8 D_801C9E40[];
 
 /* Plays the selected movie and resets both frame buffers afterward. */
-void func_800400AC(void) {
+void func_801768AC(void) {
     u8 *frame_buffers;
     s32 movie_flag;
     s32 saved_movie_flag;

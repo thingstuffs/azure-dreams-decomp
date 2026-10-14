@@ -1,0 +1,29 @@
+{
+  "ledger_group": {
+    "container": "ovmovie",
+    "module": "ovmovie_libpress.c",
+    "module_index": 1
+  },
+  "members": [
+    "ovmovie/func_80040ED8",
+    "ovmovie/func_80040F10",
+    "ovmovie/func_80040F9C",
+    "ovmovie/func_80041038",
+    "ovmovie/func_80041044",
+    "ovmovie/func_800410C0",
+    "ovmovie/func_800410E0",
+    "ovmovie/func_8004111C",
+    "ovmovie/func_80041158",
+    "ovmovie/func_8004117C",
+    "ovmovie/func_800411A0",
+    "ovmovie/func_8004129C",
+    "ovmovie/func_80041330",
+    "ovmovie/func_800413C0",
+    "ovmovie/func_80041458",
+    "ovmovie/func_800414F0",
+    "ovmovie/func_80041508"
+  ],
+  "confidence": "strong",
+  "basis": "Recovered original SDK LIBPRESS object owns public entries, private helpers and all three storage/text allocations; complete native and genuine equality.",
+  "coverage_complete": true
+}

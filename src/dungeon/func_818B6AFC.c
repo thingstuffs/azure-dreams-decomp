@@ -1,53 +1,25 @@
+#include "modules/dungeon_ovl_18d6800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
-typedef struct FxOwner {
-    u8 pad_00[0x14];
-    u16 count;
-} FxOwner;
 
-typedef struct FxEffectPre {
-    u16 flags;   /* the u16 just before the effect, addressed as effect[-1] */
-} FxEffectPre;
 
-typedef struct FxRgb {
-    u8 pad_00[0xC];
-    s8 r;
-    s8 g;
-    s8 b;
-} FxRgb;
 
-typedef struct FxColorOut {
-    u8 pad_00[0xC];
-    union { struct { s8 v; } at00; struct { s32 v; } at00u; struct { u8 pad[0x1]; s8 v; } at01; struct { u8 pad[0x2]; s8 v; } at02; } rgb;   /* overlapping accesses */
-} FxColorOut;
 
-typedef struct FxTarget {
-    u8 pad_00[0x1C];
-    s32 flags;
-} FxTarget;
 
-typedef struct FxTargetPre {
-    void *color;
-    u8 pad_04[0x10];
-} FxTargetPre;   /* the 0x14 bytes before the target, addressed as target[-1] */
 
-typedef struct FxEffect {
-    FxOwner *owner;
-    u8 pad_04[0x2];
-    u16 frame;
-    u16 tick;
-    u8 pad_0A[0x2];
-    u16 scroll_u;
-    u16 scroll_v;
-    FxTarget *target;
-} FxEffect;
 
-M2C_UNK func_80024154();
+
+
+
+   /* the 0x14 bytes before the target, addressed as target[-1] */
+
+
+
 
 /* Cycle through seven colors with fade-in and fade-out, then mark the effect finished. */
-void func_800242FC(FxEffect *effect, M2C_UNK render_arg, FxColorOut *color_out) {
+void func_800242FC(B28_818B6AFC_FxEffect *effect, M2C_UNK render_arg, B28_818B6AFC_FxColorOut *color_out) {
     s32 fade_in_color;
     s16 fade_in_green;
     s32 hold_color;
@@ -77,9 +49,9 @@ void func_800242FC(FxEffect *effect, M2C_UNK render_arg, FxColorOut *color_out) 
     s8 red;
     s8 green;
     s8 blue;
-    FxRgb *target_color;
-    FxOwner *owner;
-    FxOwner *render_owner;
+    B28_818B6AFC_FxRgb *target_color;
+    B28_818B6AFC_FxOwner *owner;
+    B28_818B6AFC_FxOwner *render_owner;
 
     owner = effect->owner;
     owner->count += 1;
@@ -91,7 +63,7 @@ void func_800242FC(FxEffect *effect, M2C_UNK render_arg, FxColorOut *color_out) 
     if (frame < 8) {
         effect->target->flags |= 0x10000000;
         fade_in_tick = effect->tick;
-        target_color = ((FxTargetPre *)(effect->target))[-1].color;
+        target_color = ((B28_818B6AFC_FxTargetPre *)(effect->target))[-1].color;
         fade_in_cycle = (s16) fade_in_tick % 7 + 1;
         packed_channel = (s32) ((u32) fade_in_cycle << 16);
         fade_in_color = packed_channel >> 16;
@@ -122,7 +94,7 @@ void func_800242FC(FxEffect *effect, M2C_UNK render_arg, FxColorOut *color_out) 
     } else if (frame < 0x28) {
         effect->target->flags |= 0x10000000;
         hold_tick = effect->tick;
-        target_color = ((FxTargetPre *)(effect->target))[-1].color;
+        target_color = ((B28_818B6AFC_FxTargetPre *)(effect->target))[-1].color;
         hold_cycle = (s16) hold_tick % 7 + 1;
         cycle_value = (s32) ((u32) hold_cycle << 16);
         hold_color = cycle_value >> 16;
@@ -146,7 +118,7 @@ void func_800242FC(FxEffect *effect, M2C_UNK render_arg, FxColorOut *color_out) 
         if (frame < 0x30) {
             effect->target->flags |= 0x10000000;
             fade_out_tick = effect->tick;
-            target_color = ((FxTargetPre *)(effect->target))[-1].color;
+            target_color = ((B28_818B6AFC_FxTargetPre *)(effect->target))[-1].color;
             fade_out_cycle = (s16) fade_out_tick % 7 + 1;
             packed_color = (s32) ((u32) fade_out_cycle << 16);
             fade_out_color = packed_color >> 16;
@@ -182,7 +154,7 @@ void func_800242FC(FxEffect *effect, M2C_UNK render_arg, FxColorOut *color_out) 
             color_out->rgb.at02.v = (s8) product_result;
         } else {
             effect->target->flags &= 0xEFFFFFFF;
-            ((FxEffectPre *)effect)[-1].flags |= 0x8000;
+            ((B28_818B6AFC_FxEffectPre *)effect)[-1].flags |= 0x8000;
             objectFlagBlock.flags |= 0x8000;
         }
     }
