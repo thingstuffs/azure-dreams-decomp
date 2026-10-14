@@ -181,3 +181,87 @@ accesses, and claimed decision-39/45 sites retain explicit INFO evidence and
 still require their original proofs. Unused leftovers are reported even when
 retained from the base. This bounded lexer/statement analysis does not prove
 retail stores, arbitrary aliasing, all C syntax, or complete ABI reach.
+
+### Retail context oracle (r118)
+
+`context_oracle.py` is a read-only, standard-library diagnostic. Run it from a
+lane with an explicit checkout root when analysing a scratch tree:
+
+```sh
+python3 tools/lanes/lanekit/context_oracle.py --root CHECKOUT reach dungeon/func_80B467DC
+python3 tools/lanes/lanekit/context_oracle.py --root CHECKOUT entry-regs town/func_8009A688
+python3 tools/lanes/lanekit/context_oracle.py --root CHECKOUT entry-regs --all --out LANE/entry.json
+python3 tools/lanes/lanekit/context_oracle.py --root CHECKOUT callsites func_80064584
+python3 tools/lanes/lanekit/context_oracle.py --root CHECKOUT callsites --all --out LANE/calls.json
+python3 tools/lanes/lanekit/context_oracle.py --root CHECKOUT census --format csv --out LANE/census.csv
+python3 tools/lanes/lanekit/context_oracle.py --root CHECKOUT census --format md --out LANE/census.md
+```
+
+`reach` reports analysed direct callers, every aligned address word in all four
+container images and SLUS, raw jal encodings, registration arguments and the
+registrar's retail slot stores, table-root jalr/indirect-tail candidates, script-table entries
+verified against retail, entry state and the inferred callback argument lower
+bound. It traces a pointer passed to a registrar into a slot and follows loads
+from that slot to indirect dispatch. It also reports materialised-pointer stores.
+Address collisions retain all overlay-bank candidates; a full row ID selects
+one member but cannot by itself prove that another bank was loaded at a caller.
+
+`entry-regs` reports MAY-path reads before writes of a0-a3/v0/v1, comparing
+a1-a3 with the declared parameter count. CFG traversal accounts for jump and
+load delay slots, caller-saved clobbers, loops and stack spills. Unknown opcodes,
+nonconvergence, synthetic addresses and missing C definitions remain visible.
+Adjacent complete LWL/LWR pairs retain their physical merge-seed reads but
+qualify them separately from hidden-input evidence. Branches into a pair,
+control-transfer delay slots and immediate load-delay consumers prevent that
+qualification. Variadic reads are permitted; wide-argument ABI layouts remain
+unresolved, and aggregate-by-value layouts need manual review.
+
+`callsites` records the actual retail register values, entry provenance, signed
+byte/halfword promotion shapes, candidate outgoing stack words, and return-value
+consumers. It compares C call arities with local prototypes, include declarations
+and definitions. Empty `()` stays unspecified; default-promotion, arity, void
+and noreturn concerns are diagnostics. A discarded nonvoid return is legal and
+is not a mismatch. C calls are paired to retail only when per-target occurrence
+counts agree; otherwise arity stays unknown and all C candidates are shown.
+An unchanged jalr/jr target held in a0-a3 is flagged as argument/target overlap,
+not counted as evidence for an extra argument. A delay-slot overwrite is tracked
+as a new argument value after the jump target has been sampled.
+Register preparation and narrow loads alone cannot prove exact arity or absence
+of a prototype. Modal typed prototypes are labelled fallbacks when C definitions
+are unavailable. Source parsing is lexical, not preprocessing; conditional
+declarations stay alternatives and complex declarators may remain unsupported.
+
+`census` combines entry/call findings with callback convention mismatches and
+address/table/registration counts, ranks rows, and cross-references current pins,
+argument-register ASM_REG pins, M2C_UNK parameters, arity sites and volatile
+rows. JSON additionally contains dispatcher details and SHA-256 input bindings.
+CSV includes every analysed function; Markdown focuses on ranked findings.
+Overlay native members use their manifest function, physical address and
+body_offset, so a row's owned data prefix is not interpreted as entry code.
+Representative registered spans and exported resident symbol intervals are
+analysed; the `instances` count does not reconstruct duplicate spans. Unregistered
+code, multi-hop registration wrappers, heap aliasing and arbitrary script VM
+protocols remain follow-up work. Raw jal words outside analysed spans may be data.
+These reports do not issue certificates, change signatures, compile or land.
+
+Fixtures use `--root FIXTURE --manifest FIXTURE/fixture.json`; a manifest lists
+`images` (container/file), `functions` (row/container/name/address/foff/size/source),
+optional `mappings` (container/start/end/delta/confidence), and `script_tables`
+(container/foff/entries). No live-tree access is needed by the unit suite:
+
+```sh
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tools/tests -p test_context_oracle.py -v
+```
+
+### JP referee and sibling finder (r118)
+
+Both are read-only measurements; every write goes below `--workspace` (use your lane dir). Their data
+lives in the lanes that built them (keep those dirs):
+
+- `tools/fidelity/jp_dual.py --repo ROOT --workspace LANE --pairs work/native_lane/r118_sol61_jpdual/out_big/pairings.jsonl ROW A.c B.c`
+  compiles two candidate texts and scores each against the JAPANESE build's bytes (masked instruction
+  distance). A relative A/B indicator from a second compiler run, NOT a US-exactness or authenticity proof:
+  use it to choose between byte-neutral spellings or to sanity-check a reconstruction (lower = closer).
+- `tools/fidelity/sibling_find.py --repo ROOT --workspace LANE --inventory work/native_lane/r118_sol61_sibfind/out_big/inventory.json.gz --row ROW [--window A:B | --pins | --near]`
+  finds other functions whose retail words share a window with ROW (the same C operation spelled
+  elsewhere: a clone, a copied block, a shared idiom) and maps hits to their C; ~20 s per query.

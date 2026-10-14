@@ -110,8 +110,8 @@ def check_row(rid: str, cfg: str, asflags_variants: bool, cfile: str | None = No
     captured = {}
     orig_rc = A.retail_compare
 
-    def rc(view, scope, kind, overlay_ctx=None):          # also keep the maspsx leg's positions
-        res = orig_rc(view, scope, kind, overlay_ctx)
+    def rc(view, scope, kind, overlay_ctx=None, section_anchors=None):   # also keep the maspsx leg's positions
+        res = orig_rc(view, scope, kind, overlay_ctx, section_anchors=section_anchors)
         if kind == "overlay" and "m" not in captured:
             captured["m"] = _positions(view, scope[0], overlay_ctx, A)
         return res
