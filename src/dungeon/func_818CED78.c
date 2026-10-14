@@ -1,16 +1,16 @@
+#include "modules/dungeon_ovl_18ee800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern s16 D_80025924;
 
 /* Decrement the record counter and set completion flags when it reaches zero. */
-void func_818CED78(void *record)
+void func_80024578(void *record)
 {
     u8 *record_bytes = record;
     u16 counter;
 
     counter = *(u16 *)(record_bytes + 2);
-    D_80025924 = 1;
+    D_80025924[0] = 1;
     counter--;
     *(u16 *)(record_bytes + 2) = counter;
     if ((counter << 16) <= 0) {

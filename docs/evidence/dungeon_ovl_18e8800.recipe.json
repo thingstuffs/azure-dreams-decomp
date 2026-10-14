@@ -1,0 +1,40 @@
+{
+  "module": "dungeon_ovl_18e8800",
+  "scope": "whole_tu",
+  "flags": [
+    "-q",
+    "-G0",
+    "-0"
+  ],
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "basis": "The same complete compiler stream, all four members, is exact under genuine -0. Default checked genuine adds 36 text bytes. No per-row recipe is used.",
+  "retail_module_sha256": "a76c694060d002f3b4f3852fd2932b9b44cb1529f84cc0f081032898e88bb992",
+  "controls": [
+    {
+      "flags": [
+        "-q",
+        "-G0"
+      ],
+      "exact": false,
+      "text_bytes": 3332,
+      "resolved_equals_retail": false,
+      "masked": 0
+    },
+    {
+      "flags": [
+        "-q",
+        "-G0",
+        "-0"
+      ],
+      "exact": true,
+      "text_bytes": 3296,
+      "resolved_equals_retail": true,
+      "masked": 0
+    }
+  ],
+  "review": "pending",
+  "reviewer": null
+}

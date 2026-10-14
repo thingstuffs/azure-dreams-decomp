@@ -1,170 +1,64 @@
 #include "shared/object_node.h"
+#include "modules/dungeon_ovl_18ee800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-typedef struct {
-    u16 unk0;
-    u16 x;
-    u16 unk4;
-    u16 y;
-    u16 unk8;
-    u16 z;
-} Vec12;
 
-typedef struct {
-    u16 x;
-    u16 y;
-    u16 z;
-} ShortVec;
 
-typedef struct {
-    s16 x;
-    u16 y;
-} OffsetPair;
 
-typedef struct {
-    OffsetPair entry[8];
-} PackedOffsets;
 
-typedef struct {
-    u8 bytes[12];
-} __attribute__((packed)) PackedTemplate;
 
-typedef struct {
-    u8 pad0[8];
-    void *unk8;
-    u8 padC[8];
-    u16 flags14;
-} Component;
 
-typedef struct {
-    u8 pad0[8];
-    void *unk8;
-    u32 flagsC;
-    u16 field10;
-    u8 pad12[2];
-    u16 flags14;
-    u8 pad16[6];
-    u16 scale1C;
-    u16 scale1E;
-} Graphic;
 
-typedef struct {
-    u8 pad0[2];
-    s16 step2;
-    s16 step4;
-    u8 pad6[2];
-    s16 active8;
-    u8 padA[0xB];
-    u8 ownerIndex15;
-    u16 variant16;
-    u8 pad18[8];
-    PackedTemplate template20;
-    void *owner2C;
-    void *path30;
-    void *state34;
-    s16 startX38;
-    s16 startY3A;
-    s16 targetX3C;
-    s16 targetY3E;
-    u8 pad40[0xC];
-    s32 x4C;
-    s32 y50;
-    s32 dx54;
-} SpawnData;
 
-typedef struct Spawned {
-    u8 pad0[8];
-    Vec12 *position8;
-    Graphic *graphicC;
-    void (*update10)(void);
-    u8 pad14[0xA];
-    u16 flags1E;
-    SpawnData data20;
-} Spawned;
 
-typedef struct {
-    void *entity0;
-    u16 *flags4;
-    u8 unk8;
-    u8 index9;
-    s16 stateA;
-    u8 padC[0x72];
-    u16 variant7E;
-    u8 pad80[4];
-    s16 counter84;
-    s16 advance86;
-    s16 sentinel88;
-    u8 pad8A[0x16];
-    u8 valueA0;
-    u8 valueA1;
-    u8 padA2[6];
-    Spawned *spawnA8;
-    Vec12 *savedPositionAC;
-} State;
 
-typedef struct {
-    u8 pad0[8];
-    Vec12 *source8;
-    Component *componentC;
-} EntityHeader;
 
-typedef struct {
-    u8 pad0[0x2A];
-    u16 flags2A;
-    u8 pad2C[0x34];
-    void *path60;
-    u8 pad64[0xE];
-    u8 startX72;
-    u8 startY73;
-} Entity;
 
-typedef struct {
-    u8 pad0[0x24];
-    u8 x24;
-    u8 y25;
-} RoomData;
 
-typedef struct {
-    u8 value;
-    u8 pad;
-} ByteEntry;
 
-extern PackedOffsets D_80024004;
-extern s16 D_80025924;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 extern u8 D_800DEC00[12];
-extern PackedTemplate D_80025900;
+extern B32_818CFB74_PackedTemplate D_80025900;
 
-extern void func_8003DB94(Graphic *, void *, s32);
-extern s32 func_8003DF74(void *, Component *, ShortVec *, s32);
-extern void func_8004491C(Spawned *, void (*)(void));
-extern void func_80045340(void);
-extern void func_800248E8(void);
 
 /* Spawns and follows an entity effect, then completes its delayed cleanup. */
-void func_80025374(State *state, Vec12 *position, Graphic *graphic)
+void func_80025374(B32_818CFB74_State *state, B32_818CFB74_Vec12 *position, B32_818CFB74_Graphic *graphic)
 {
-    ShortVec delta;
-    PackedOffsets offsets;
-    Entity *entity;
-    EntityHeader *header;
-    Vec12 *source;
-    Spawned *spawn;
+    B32_818CFB74_ShortVec delta;
+    B32_818CFB74_PackedOffsets offsets;
+    B32_818CFB74_Entity *entity;
+    B32_818CFB74_EntityHeader *header;
+    B32_818CFB74_Vec12 *source;
+    B32_818CFB74_Spawned *spawn;
     u16 next_state;
     u16 source_z;
     u32 flags;
     u32 variant_bits;
     s32 advance;
     s32 state_index;
-    Vec12 *spawn_position;
+    B32_818CFB74_Vec12 *spawn_position;
     u32 flags_or_result;
 
     entity = state->entity0;
     offsets = D_80024004;
     state_index = state->stateA;
-    header = (EntityHeader *)((u8 *)entity - 0x20);
+    header = (B32_818CFB74_EntityHeader *)((u8 *)entity - 0x20);
     source = header->source8;
     switch (state_index) {
     case 0:
@@ -173,7 +67,7 @@ void func_80025374(State *state, Vec12 *position, Graphic *graphic)
         graphic->scale1C = 0x1000;
         func_8003DB94(graphic, D_800DEC00, 0);
         flags = *(u16 *)((u8 *)entity + 0x2A);
-        D_80025924 = 1;
+        D_80025924[0] = 1;
         next_state = *(u16 *)&state->stateA;
         variant_bits = (flags >> 9) & 7;
         next_state++;
@@ -210,8 +104,8 @@ void func_80025374(State *state, Vec12 *position, Graphic *graphic)
 
     case 2:
     {
-        RoomData *room;
-        SpawnData *data;
+        B32_818CFB74_RoomData *room;
+        B32_818CFB74_SpawnData *data;
         s32 coord_or_variant;
         s32 offset_x;
         s32 offset_y;
@@ -219,7 +113,7 @@ void func_80025374(State *state, Vec12 *position, Graphic *graphic)
         s32 *path_position;
         s32 path_z;
 
-        spawn = (Spawned *)func_8003FC64(0x12);
+        spawn = (B32_818CFB74_Spawned *)func_8003FC64(0x12);
         if (spawn != 0) {
             offset_x = offsets.entry[(s16)state->variant7E].x;
             offset_x <<= 16;
@@ -233,10 +127,10 @@ void func_80025374(State *state, Vec12 *position, Graphic *graphic)
             data->ownerIndex15 = state->index9;
             data->variant16 = state->variant7E;
 
-            room = (RoomData *)((EntityHeader *)((u8 *)entity - 0x20))->componentC;
-            state->valueA0 = room->x24 + ((ByteEntry *)dirStepX)[(s16)state->variant7E].value;
+            room = (B32_818CFB74_RoomData *)((B32_818CFB74_EntityHeader *)((u8 *)entity - 0x20))->componentC;
+            state->valueA0 = room->x24 + ((B32_818CFB74_ByteEntry *)dirStepX)[(s16)state->variant7E].value;
             coord_or_variant = (s16)state->variant7E;
-            state->valueA1 = room->y25 + ((ByteEntry *)dirStepY)[coord_or_variant].value;
+            state->valueA1 = room->y25 + ((B32_818CFB74_ByteEntry *)dirStepY)[coord_or_variant].value;
 
             if (entity->path60 != 0) {
                 s32 target_coord;
@@ -261,7 +155,7 @@ void func_80025374(State *state, Vec12 *position, Graphic *graphic)
                     data->step2 = (s32)flags_or_result * 2;
                 }
 
-                path_position = (s32 *)((EntityHeader *)((u8 *)entity->path60 - 0x20))->source8;
+                path_position = (s32 *)((B32_818CFB74_EntityHeader *)((u8 *)entity->path60 - 0x20))->source8;
                 steps = data->step2;
                 if (steps != 0) {
                     path_z = path_position[2];
@@ -332,14 +226,14 @@ void func_80025374(State *state, Vec12 *position, Graphic *graphic)
         ticks = *(u16 *)&state->counter84;
         state->counter84 = ticks + 1;
         if ((s16)(ticks + 1) >= 11) {
-            pending = D_80025924;
+            pending = D_80025924[0];
             state->counter84 = ticks;
             if (pending == 0) {
                 dungeonStatus.unk_0C = 0;
                 ((u16 *)state)[-1] |= 0x8000;
                 objectFlagBlock.flags |= 0x8000;
             } else {
-                D_80025924 = 0;
+                D_80025924[0] = 0;
             }
         }
         break;

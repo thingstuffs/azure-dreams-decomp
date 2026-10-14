@@ -1,0 +1,40 @@
+{
+  "module": "dungeon_ovl_18b2800",
+  "scope": "whole_tu",
+  "flags": [
+    "-q",
+    "-G0",
+    "-0"
+  ],
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "basis": "The same complete gcc assembly stream resolves to all 4872 retail bytes under genuine -0. Default checked ASPSX emits 108 extra text bytes. -0 applies uniformly across all eleven members; no per-row flags.",
+  "retail_module_sha256": "c04fc73fccedf88dea23a3b1af031394e7efd8aff6c2205eea7d517372a603c5",
+  "controls": [
+    {
+      "flags": [
+        "-q",
+        "-G0"
+      ],
+      "exact": false,
+      "text_bytes": 4940,
+      "resolved_equals_retail": false,
+      "masked": 0
+    },
+    {
+      "flags": [
+        "-q",
+        "-G0",
+        "-0"
+      ],
+      "exact": true,
+      "text_bytes": 4832,
+      "resolved_equals_retail": true,
+      "masked": 0
+    }
+  ],
+  "review": "pending",
+  "reviewer": null
+}

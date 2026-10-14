@@ -1,0 +1,408 @@
+{
+  "scope": "whole_tu",
+  "cfg_G8": "2.7.2 -G8",
+  "cfg_G0": "2.7.2-G0",
+  "changes": [
+    {
+      "function": "func_801779A0",
+      "size_G8": 216,
+      "size_G0": 252
+    },
+    {
+      "function": "func_80177A9C",
+      "size_G8": 128,
+      "size_G0": 148
+    },
+    {
+      "function": "func_80177B30",
+      "size_G8": 124,
+      "size_G0": 144
+    },
+    {
+      "function": "func_80177BC0",
+      "size_G8": 144,
+      "size_G0": 152
+    },
+    {
+      "function": "func_80177C58",
+      "size_G8": 144,
+      "size_G0": 152
+    },
+    {
+      "function": "func_80177CF0",
+      "size_G8": 20,
+      "size_G0": 24
+    },
+    {
+      "function": "func_80177D08",
+      "size_G8": 264,
+      "size_G0": 304
+    }
+  ],
+  "sections": {
+    ".data": 272,
+    ".sdata": 68,
+    ".rodata": 172,
+    ".text.func_801776D8": 56,
+    ".text.func_80177710": 140,
+    ".text.func_8017779C": 156,
+    ".text.func_80177838": 12,
+    ".text.func_80177844": 124,
+    ".text.func_801778C0": 32,
+    ".text.func_801778E0": 60,
+    ".text.func_8017791C": 60,
+    ".text.func_80177958": 36,
+    ".text.func_8017797C": 36,
+    ".text.func_801779A0": 216,
+    ".text.func_80177A9C": 128,
+    ".text.func_80177B30": 124,
+    ".text.func_80177BC0": 144,
+    ".text.func_80177C58": 144,
+    ".text.func_80177CF0": 20,
+    ".text.func_80177D08": 264
+  },
+  "gp_relocations": [
+    [
+      ".text.func_801779A0",
+      36,
+      "GPREL16",
+      [
+        "sym",
+        "D_80178380"
+      ],
+      0
+    ],
+    [
+      ".text.func_801779A0",
+      48,
+      "GPREL16",
+      [
+        "sym",
+        "D_80178354"
+      ],
+      0
+    ],
+    [
+      ".text.func_801779A0",
+      64,
+      "GPREL16",
+      [
+        "sym",
+        "D_80178360"
+      ],
+      0
+    ],
+    [
+      ".text.func_801779A0",
+      76,
+      "GPREL16",
+      [
+        "sym",
+        "D_80178380"
+      ],
+      0
+    ],
+    [
+      ".text.func_801779A0",
+      120,
+      "GPREL16",
+      [
+        "sym",
+        "D_80178380"
+      ],
+      0
+    ],
+    [
+      ".text.func_801779A0",
+      132,
+      "GPREL16",
+      [
+        "sym",
+        "D_80178354"
+      ],
+      0
+    ],
+    [
+      ".text.func_801779A0",
+      144,
+      "GPREL16",
+      [
+        "sym",
+        "D_80178360"
+      ],
+      0
+    ],
+    [
+      ".text.func_801779A0",
+      156,
+      "GPREL16",
+      [
+        "sym",
+        "D_80178360"
+      ],
+      0
+    ],
+    [
+      ".text.func_801779A0",
+      160,
+      "GPREL16",
+      [
+        "sym",
+        "D_80178380"
+      ],
+      0
+    ],
+    [
+      ".text.func_80177A9C",
+      28,
+      "GPREL16",
+      [
+        "sym",
+        "D_80178384"
+      ],
+      0
+    ],
+    [
+      ".text.func_80177A9C",
+      52,
+      "GPREL16",
+      [
+        "sym",
+        "D_8017834C"
+      ],
+      0
+    ],
+    [
+      ".text.func_80177A9C",
+      64,
+      "GPREL16",
+      [
+        "sym",
+        "D_80178350"
+      ],
+      0
+    ],
+    [
+      ".text.func_80177A9C",
+      76,
+      "GPREL16",
+      [
+        "sym",
+        "D_8017837C"
+      ],
+      0
+    ],
+    [
+      ".text.func_80177A9C",
+      92,
+      "GPREL16",
+      [
+        "sym",
+        "D_80178354"
+      ],
+      0
+    ],
+    [
+      ".text.func_80177B30",
+      28,
+      "GPREL16",
+      [
+        "sym",
+        "D_80178384"
+      ],
+      0
+    ],
+    [
+      ".text.func_80177B30",
+      52,
+      "GPREL16",
+      [
+        "sym",
+        "D_80178360"
+      ],
+      0
+    ],
+    [
+      ".text.func_80177B30",
+      64,
+      "GPREL16",
+      [
+        "sym",
+        "D_80178358"
+      ],
+      0
+    ],
+    [
+      ".text.func_80177B30",
+      76,
+      "GPREL16",
+      [
+        "sym",
+        "D_8017835C"
+      ],
+      0
+    ],
+    [
+      ".text.func_80177B30",
+      88,
+      "GPREL16",
+      [
+        "sym",
+        "D_80178360"
+      ],
+      0
+    ],
+    [
+      ".text.func_80177BC0",
+      4,
+      "GPREL16",
+      [
+        "sym",
+        "D_80178380"
+      ],
+      0
+    ],
+    [
+      ".text.func_80177BC0",
+      100,
+      "GPREL16",
+      [
+        "sym",
+        "D_80178380"
+      ],
+      0
+    ],
+    [
+      ".text.func_80177C58",
+      4,
+      "GPREL16",
+      [
+        "sym",
+        "D_80178360"
+      ],
+      0
+    ],
+    [
+      ".text.func_80177C58",
+      100,
+      "GPREL16",
+      [
+        "sym",
+        "D_80178360"
+      ],
+      0
+    ],
+    [
+      ".text.func_80177CF0",
+      0,
+      "GPREL16",
+      [
+        "sym",
+        "D_80178380"
+      ],
+      0
+    ],
+    [
+      ".text.func_80177D08",
+      36,
+      "GPREL16",
+      [
+        "sym",
+        "D_80178380"
+      ],
+      0
+    ],
+    [
+      ".text.func_80177D08",
+      40,
+      "GPREL16",
+      [
+        "sym",
+        "D_80178354"
+      ],
+      0
+    ],
+    [
+      ".text.func_80177D08",
+      52,
+      "GPREL16",
+      [
+        "sym",
+        "D_80178360"
+      ],
+      0
+    ],
+    [
+      ".text.func_80177D08",
+      56,
+      "GPREL16",
+      [
+        "sym",
+        "D_8017834C"
+      ],
+      0
+    ],
+    [
+      ".text.func_80177D08",
+      68,
+      "GPREL16",
+      [
+        "sym",
+        "D_80178358"
+      ],
+      0
+    ],
+    [
+      ".text.func_80177D08",
+      184,
+      "GPREL16",
+      [
+        "sym",
+        "D_80178380"
+      ],
+      0
+    ],
+    [
+      ".text.func_80177D08",
+      196,
+      "GPREL16",
+      [
+        "sym",
+        "D_80178354"
+      ],
+      0
+    ],
+    [
+      ".text.func_80177D08",
+      208,
+      "GPREL16",
+      [
+        "sym",
+        "D_80178360"
+      ],
+      0
+    ],
+    [
+      ".text.func_80177D08",
+      224,
+      "GPREL16",
+      [
+        "sym",
+        "D_80178360"
+      ],
+      0
+    ],
+    [
+      ".text.func_80177D08",
+      228,
+      "GPREL16",
+      [
+        "sym",
+        "D_80178380"
+      ],
+      0
+    ]
+  ],
+  "basis": "Restoring real SDK small-data definitions makes the whole-TU G axis observable. The G0 owned TU is GNU/genuine/retail exact in every semantic allocation; G8 uses gp relocations and changes code sizes. No per-row setting is used.",
+  "review": "pending"
+}

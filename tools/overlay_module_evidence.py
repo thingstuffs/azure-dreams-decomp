@@ -5,6 +5,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'tools/gate'))
 from overlay_module_gate import SCHEMA,CONTAINERS,affected_windows,fingerprint,graph,load_modules,local,sha,closure,payload_spec,genuine_flags,all_members,module_first,module_size
 import overlay_native_rodata as N
+import overlay_native_allocations as Z
 
 def proof_path(root,name):
  p=local(root,name)
@@ -12,6 +13,7 @@ def proof_path(root,name):
  return p
 
 def receipt_reason(m,r,root,proof_dir):
+ if Z.enabled(m):return Z.receipt_reason(m,r,root,proof_path(root,proof_dir),sys.modules['overlay_module_gate'])
  ids=[a['id'] for a in all_members(m)];funcs=[a['function'] for a in m['members']];n=module_size(m);first=module_first(m)
  if r.get('schema')!=SCHEMA or r.get('module')!=m['key'] or r.get('members')!=ids or r.get('candidates')!={}:return 'not canonical complete TU'
  ph=r.get('physical',{});payload=ph.get('payload',[])
@@ -75,7 +77,12 @@ def certificate_reason(m,cert,root=ROOT):
   reason=receipt_reason(m,wr,root,str(Path(w['proof_dir'])/'module'))
   if reason:return reason
   segs=[s for s in manifest['c_segments'] if s.get('module')==m['key']]
-  if [(int(s['file_start'],0),s['size']) for s in segs]!=[(a['foff'],a['size']) for a in selected]:return 'window segment provenance incomplete'
+  expected=[(a['foff'],a['size']) for a in selected]
+  if Z.enabled(m):
+   owned=projection.get('projected_allocations',[])
+   if owned!=Z.expected_storage_projection(m,fs,fe):return 'owned allocation projection incomplete'
+   expected.extend((x['foff'],x['size']) for x in owned)
+  if [(int(s['file_start'],0),s['size']) for s in segs]!=sorted(expected):return 'window segment provenance incomplete'
  return None
 
 def module_status(root=ROOT):

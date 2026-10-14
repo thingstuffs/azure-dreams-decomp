@@ -1,11 +1,10 @@
+#include "modules/dungeon_ovl_18ee800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_800478B8(void *object);
-extern s16 D_80025924[5];
 
 /* Advance position and object state, then flag completion on timeout or object status. */
-void func_818CEC78(void *state, void *position, void *object)
+void func_80024478(void *state, void *position, void *object)
 {
     s32 position_z;
     s32 step_z;

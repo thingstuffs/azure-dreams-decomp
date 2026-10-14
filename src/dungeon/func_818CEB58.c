@@ -1,63 +1,30 @@
+#include "modules/dungeon_ovl_18ee800.h"
 #include "common.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-typedef struct S_818CEB58_0 {
-    u8 pad_00[0x8];
-    union { void * s; s32 u; } unk_08;   /* accessed as both */
-    u8 pad_0C[0x4];
-    s32 unk_10;
-    s16 unk_14;
-    u8 pad_16[0x1C];
-    s16 unk_32;
-} S_818CEB58_0;   /* temp_s0 in func_818CEB58 */
+   /* temp_s0 in func_80024358 */
 
-typedef struct S_818CEB58_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_818CEB58_1;   /* held_arg0 in func_818CEB58 */
+   /* held_arg0 in func_80024358 */
 
-typedef struct S_818CEB58_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-} S_818CEB58_2;   /* dest1 in func_818CEB58 */
+   /* dest1 in func_80024358 */
 
-typedef struct S_818CEB58_3 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-} S_818CEB58_3;   /* dest2 in func_818CEB58 */
+   /* dest2 in func_80024358 */
 
-typedef struct S_818CEB58_4 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_818CEB58_4;   /* call_obj in func_818CEB58 */
+   /* call_obj in func_80024358 */
 
-typedef struct S_818CEB58_5 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_818CEB58_5;   /* dest3 in func_818CEB58 */
+   /* dest3 in func_80024358 */
 
-typedef struct S_818CEB58_6 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_818CEB58_6;   /* ((S_818CEB58_1 *)held_arg0)->unk_08 in func_818CEB58 */
+   /* ((B32_818CEB58_S_818CEB58_1 *)held_arg0)->unk_08 in func_80024358 */
 
 
 
-extern void *func_8003FD64(s32, void *);
 extern s32 rand(void);
-extern void func_8004491C(void *, void *);
-extern u8 D_8002403C[];
-extern u8 D_8002428C[];
 
 /* Creates an object at a randomized offset from the source and initializes its fields. */
-void func_818CEB58(
+void func_80024358(
     void *source,
     s16 field_34,
     s32 field_28,
@@ -70,7 +37,7 @@ void func_818CEB58(
     u32 saved_field_28 = field_28;
     s16 saved_field_52 = field_52;
     void *object_cursor;
-    S_818CEB58_0 *fields;
+    B32_818CEB58_S_818CEB58_0 *fields;
     s32 jitter_x;
     s32 jitter_y;
     s32 jitter_z;
@@ -81,35 +48,35 @@ void func_818CEB58(
     s16 position_y;
     s16 position_z;
     void *init_data;
-    S_818CEB58_2 *dest_x;
-    S_818CEB58_3 *dest_y;
-    S_818CEB58_5 *dest_z;
+    B32_818CEB58_S_818CEB58_2 *dest_x;
+    B32_818CEB58_S_818CEB58_3 *dest_y;
+    B32_818CEB58_S_818CEB58_5 *dest_z;
 
     object_cursor = func_8003FD64(0x211, source_obj);
     if (object_cursor != NULL) {
-        ((S_818CEB58_0 *)object_cursor)->unk_10 = (s32)D_8002428C;
+        ((B32_818CEB58_S_818CEB58_0 *)object_cursor)->unk_10 = (s32)func_8002428C;
         jitter_x = rand() & 0x1F;
-        position_x = ((S_818CEB58_6 *)(((S_818CEB58_1 *)source_obj)->unk_08))->unk_02;
-        dest_x = ((S_818CEB58_0 *)object_cursor)->unk_08.s;
+        position_x = ((B32_818CEB58_S_818CEB58_6 *)(((B32_818CEB58_S_818CEB58_1 *)source_obj)->unk_08))->unk_02;
+        dest_x = ((B32_818CEB58_S_818CEB58_0 *)object_cursor)->unk_08.s;
         position_x += jitter_x;
         bias_x = offset_x - 0x10;
         position_x += bias_x;
         dest_x->unk_02 = (s16)position_x;
 
         jitter_y = rand() & 0x1F;
-        position_y = ((S_818CEB58_6 *)(((S_818CEB58_1 *)source_obj)->unk_08))->unk_06;
-        dest_y = ((S_818CEB58_0 *)object_cursor)->unk_08.s;
+        position_y = ((B32_818CEB58_S_818CEB58_6 *)(((B32_818CEB58_S_818CEB58_1 *)source_obj)->unk_08))->unk_06;
+        dest_y = ((B32_818CEB58_S_818CEB58_0 *)object_cursor)->unk_08.s;
         position_y += jitter_y;
         bias_y = offset_y - 0x10;
         position_y += bias_y;
         dest_y->unk_06 = (s16)position_y;
 
         jitter_z = rand();
-        init_data = &D_8002403C;
+        init_data = func_8002403C;
         jitter_z &= 0x1F;
-        position_z = ((S_818CEB58_6 *)(((S_818CEB58_1 *)source_obj)->unk_08))->unk_0A;
-        fields = (S_818CEB58_0 *)((u8 *)object_cursor + 0x20);
-        dest_z = ((S_818CEB58_4 *)object_cursor)->unk_08;
+        position_z = ((B32_818CEB58_S_818CEB58_6 *)(((B32_818CEB58_S_818CEB58_1 *)source_obj)->unk_08))->unk_0A;
+        fields = (B32_818CEB58_S_818CEB58_0 *)((u8 *)object_cursor + 0x20);
+        dest_z = ((B32_818CEB58_S_818CEB58_4 *)object_cursor)->unk_08;
         position_z += jitter_z;
         bias_z = offset_z - 0x10;
         position_z += bias_z;
@@ -121,5 +88,5 @@ void func_818CEB58(
     }
 }
 
-/* MECHANISM: 2.7.2-cdk-G0 splits D_8002428C / D_8002403C itself (the lui in the beqz delay slot).
+/* MECHANISM: 2.7.2-cdk-G0 splits func_8002428C / func_8002403C itself (the lui in the beqz delay slot).
    The s16 stack offsets stay in s2-s4 from the prologue, and fields is the 0x20-advanced record. */

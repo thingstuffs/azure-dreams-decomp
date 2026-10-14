@@ -7,7 +7,7 @@ s32 func_80061350();                                /* extern */
 s32 func_80063424();                         /* extern */
 
 /* Start operation 0x15 and wait for the 0x1C0 completion check. */
-void func_80040954(void) {
+void func_80177154(void) {
     Control_CD(0x15, func_80061350(), 0);
     func_8003F320();
     do {

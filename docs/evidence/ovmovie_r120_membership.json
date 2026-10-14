@@ -1,0 +1,68 @@
+{
+  "groups": [
+    {
+      "container": "ovmovie",
+      "module": "ovmovie_game.c",
+      "module_index": 0,
+      "confidence": "weak",
+      "members": [
+        "ovmovie/func_800400AC",
+        "ovmovie/func_800402D8",
+        "ovmovie/func_8004033C",
+        "ovmovie/func_80040360",
+        "ovmovie/func_800403EC",
+        "ovmovie/func_800404A8",
+        "ovmovie/func_80040690",
+        "ovmovie/func_8004072C",
+        "ovmovie/func_800408BC",
+        "ovmovie/func_80040954",
+        "ovmovie/func_8004099C"
+      ],
+      "historical_TU_complete": false,
+      "registry_coverage_complete": true,
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "basis": "All eleven bodies have native/genuine cdk-G0 equality; complete shared TU validation remains separate.",
+      "missing_functions": [],
+      "review": "pending",
+      "reviewer": null
+    },
+    {
+      "container": "ovmovie",
+      "module": "ovmovie_libpress.c",
+      "module_index": 1,
+      "confidence": "strong",
+      "members": [
+        "ovmovie/func_80040ED8",
+        "ovmovie/func_80040F10",
+        "ovmovie/func_80040F9C",
+        "ovmovie/func_80041038",
+        "ovmovie/func_80041044",
+        "ovmovie/func_800410C0",
+        "ovmovie/func_800410E0",
+        "ovmovie/func_8004111C",
+        "ovmovie/func_80041158",
+        "ovmovie/func_8004117C",
+        "ovmovie/func_800411A0",
+        "ovmovie/func_8004129C",
+        "ovmovie/func_80041330",
+        "ovmovie/func_800413C0",
+        "ovmovie/func_80041458",
+        "ovmovie/func_800414F0",
+        "ovmovie/func_80041508"
+      ],
+      "historical_TU_complete": true,
+      "registry_coverage_complete": true,
+      "recipe": {
+        "cfg": "2.7.2-G0",
+        "row_asflags": ""
+      },
+      "basis": "Original SDK archive LIBPRESS object, matched named public order and shared local data; rebuilt 17-function owned TU matches every semantic byte",
+      "missing_functions": [],
+      "review": "pending",
+      "reviewer": null
+    }
+  ]
+}

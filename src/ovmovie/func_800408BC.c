@@ -13,7 +13,7 @@ typedef struct {
 } MovieEntity;
 
 /* Waits for readiness, switching entries and copying the selected pair on timeout. */
-void func_800408BC(MovieEntity *entity) {
+void func_801770BC(MovieEntity *entity) {
     volatile s32 timeout;
     s32 entry_index;
     u16 *entry;

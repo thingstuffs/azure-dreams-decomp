@@ -14,6 +14,7 @@ class ModuleScopedFingerprint(ScopedInputsFixture):
     def setUp(self):
         super().setUp()
         self.module={'key':'unit_module','container':'dungeon',
+            'recipe':{'cfg':'2.7.2-cdk-G0','row_asflags':''},
             'source':'src/dungeon/module.c','headers':['include/unit.h'],
             'members':[{'foff':0x100,'size':16,'source':'src/dungeon/func_00000100.c'}],
             'review_inputs':['review.txt'],'imports':[]}

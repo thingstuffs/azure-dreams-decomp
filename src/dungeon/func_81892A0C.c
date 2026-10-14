@@ -1,10 +1,10 @@
+#include "modules/dungeon_ovl_18b2800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_800478B8(void *target);
 
 /* Advance the accumulation step, update the target, and flag completion past the final step. */
-void func_81892A0C(void *step_state, void *accumulator, void *target)
+void func_8002420C(void *step_state, void *accumulator, void *target)
 {
     void *owner;
     s32 total;

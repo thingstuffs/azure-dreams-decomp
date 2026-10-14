@@ -1,6 +1,5 @@
-#include "common.h"
+#include "modules/ovmovie_libpress.h"
 
-extern void func_80177A9C(s32 *arg0, u16 arg1);
 
 /* Apply option flags to a command word and dispatch its update. */
 void func_80177844(s32 *command, s32 flags)

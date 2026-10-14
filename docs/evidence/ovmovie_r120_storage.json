@@ -1,0 +1,69 @@
+{
+  "status": "ORIGINAL_SDK_OBJECT_STORAGE_OWNERSHIP",
+  "object": "LIBPRESS",
+  "original_member": "RuntimeLibrary_4.1_CDRelease2.1_Dec1997.rar / Image.bin / PSX/LIB/PATCHES/410/LIBPRESS.LIB",
+  "public_symbols": [
+    "DecDCTBufSize",
+    "DecDCTGetEnv",
+    "DecDCTPutEnv",
+    "DecDCTReset",
+    "DecDCTin",
+    "DecDCTinCallback",
+    "DecDCTinSync",
+    "DecDCTout",
+    "DecDCToutCallback",
+    "DecDCToutSync"
+  ],
+  "sdk_sections": {
+    ".rdata": 176,
+    ".text": 1856,
+    ".data": 336,
+    ".sdata": 0,
+    ".sbss": 0,
+    ".bss": 0
+  },
+  "retail_allocations": [
+    {
+      "kind": "diagnostic_strings",
+      "file_start": 0,
+      "file_end": 169,
+      "vma": 2149017600
+    },
+    {
+      "kind": "code",
+      "file_start": 3800,
+      "file_end": 5688,
+      "vma": 2149021400
+    },
+    {
+      "kind": "tables_identification_and_device_pointer_variables",
+      "file_start": 6716,
+      "file_end": 7048,
+      "vma": 2149024316
+    }
+  ],
+  "tables_exact_bytes": 264,
+  "device_pointer_storage_exact_bytes": 60,
+  "diagnostic_strings_exact_bytes": 169,
+  "identification_pair": {
+    "retail": [
+      "0x150e7350",
+      "0x40ae9c"
+    ],
+    "sdk41_410": [
+      "0x190e7350",
+      "0x4165b3"
+    ],
+    "interpretation": "SDK library identification pair; values vary by build/release; exact bitfield meaning not claimed"
+  },
+  "tu_boundary": "The original SDK archive places the public API, local decoder implementation, tables, identification pair and device-pointer storage inside the single LIBPRESS object. The Azure rebuilt cohort has the same order/ownership and matches every rebuilt text and storage byte. No boundary at MDEC_reset is indicated.",
+  "compiler_padding": {
+    "GNU_data": 4,
+    "GNU_rodata": 3,
+    "genuine_data": 0,
+    "genuine_rodata": 0,
+    "note": "Comparison separates semantic allocation from GNU section padding; no native gate or certificate is claimed. Original SDK object alignment padding also differs from neighboring retail allocations."
+  },
+  "review": "pending",
+  "reviewer": null
+}

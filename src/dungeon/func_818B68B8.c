@@ -1,42 +1,31 @@
+#include "modules/dungeon_ovl_18d6800.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
-typedef struct S_818B68B8_0_pre {
-    u16 unk_00;
-} S_818B68B8_0_pre;   /* the 0x2 bytes before arg0 in func_818B68B8, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in func_800240B8, addressed as arg0[-1] */
 
-typedef struct S_818B68B8_0 {
-    void * unk_00;
-    u16 unk_04;
-} S_818B68B8_0;   /* arg0 in func_818B68B8 */
+   /* arg0 in func_800240B8 */
 
-typedef struct S_818B68B8_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_818B68B8_1;   /* temp_v1 in func_818B68B8 */
+   /* temp_v1 in func_800240B8 */
 
-typedef struct S_818B68B8_2 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_818B68B8_2;   /* arg1 in func_818B68B8 */
+   /* arg1 in func_800240B8 */
 
 
 
-M2C_UNK func_800478B8();                      /* extern */
 
 /* Increment counters, reduce the stored value, and propagate status flags. */
-void func_818B68B8(void *counter_state, S_818B68B8_2 *value_state, Rec_D_80082E80 *status) {
-    S_818B68B8_1 *linked_counter;
+void func_800240B8(void *counter_state, B28_818B68B8_S_818B68B8_2 *value_state, Rec_D_80082E80 *status) {
+    B28_818B68B8_S_818B68B8_1 *linked_counter;
 
-    linked_counter = ((S_818B68B8_0 *)counter_state)->unk_00;
+    linked_counter = ((B28_818B68B8_S_818B68B8_0 *)counter_state)->unk_00;
     linked_counter->unk_14 = (u16) (linked_counter->unk_14 + 1);
-    ((S_818B68B8_0 *)counter_state)->unk_04 = (u16) (((S_818B68B8_0 *)counter_state)->unk_04 + 1);
+    ((B28_818B68B8_S_818B68B8_0 *)counter_state)->unk_04 = (u16) (((B28_818B68B8_S_818B68B8_0 *)counter_state)->unk_04 + 1);
     value_state->unk_08 = (s32) (value_state->unk_08 + 0xFFF60000);
     func_800478B8(status);
     if (status->unk_14.at00_u16.v & 0x6000) {
-        ((S_818B68B8_0_pre *)counter_state)[-1].unk_00 = (u16) (((S_818B68B8_0_pre *)counter_state)[-1].unk_00 | 0x8000);
+        ((B28_818B68B8_S_818B68B8_0_pre *)counter_state)[-1].unk_00 = (u16) (((B28_818B68B8_S_818B68B8_0_pre *)counter_state)[-1].unk_00 | 0x8000);
         objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     }
 }
