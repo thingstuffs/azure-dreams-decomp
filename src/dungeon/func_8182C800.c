@@ -1,9 +1,49 @@
 #include "modules/dungeon_ovl_184c800.h"
 
+/* The stack frame of the launch/trail states: a target point, a launch offset, a particle spec handed to func_800DBA90
+ * and the particle's velocity vector (offsets are from the frame base; the frame starts at sp+0x20). */
+typedef struct ParticleSpec {
+    s16 *vec_a;         /* 0x40: both point at vel_x */
+    s16 *vec_b;         /* 0x44 */
+    s16 yaw;            /* 0x48 */
+    s16 pad_4A;
+    s16 pitch;          /* 0x4C */
+    s16 pad_4E;
+    s16 w0;             /* 0x50 */
+    s16 w1;
+    s16 w2;
+    s16 pad_56;
+    s16 flag;           /* 0x58 */
+    s16 zero;           /* 0x5A */
+} ParticleSpec;
+
+typedef struct EffectFrame {
+    s16 pad20;
+    s16 target_x;       /* 0x22 */
+    s16 pad24;
+    s16 target_y;       /* 0x26 */
+    union {
+        s32 packed;
+        struct { s16 pad28; s16 z; } half;
+    } target_z;         /* 0x28 */
+    u8 pad2C[12];
+    s16 launch_x;       /* 0x38 */
+    s16 launch_y;
+    s16 launch_z;
+    s16 pad3E;
+    ParticleSpec spec;  /* 0x40 */
+    u8 pad5C[4];
+    s16 vel_x;          /* 0x60 */
+    s16 vel_y;
+    s16 vel_z;
+    s16 pad66;
+} EffectFrame;
+
+
 
 /* Updates a projectile effect through launch, flight, impact particles, and fading. */
 void func_8002401C(void *effect, void *motion, void *sprite) {
-    Func80024000Frame frame;
+    EffectFrame frame;
     S_8182C800_2 *owner_object;
     s32 direction_x;
     s32 direction_y;
@@ -87,21 +127,21 @@ void func_8002401C(void *effect, void *motion, void *sprite) {
     case 0:
         if (*(*(u16 * *)&((EntityRec *)effect)->y) & 0x80) {
             target_x = owner_object->unk_0C;
-            if (func_8003DE58(target_x->unk_08, target_x, &frame.sp38, 0) == 0) {
-                frame.sp3A = 0;
-                frame.sp38 = 0;
+            if (func_8003DE58(target_x->unk_08, target_x, &frame.launch_x, 0) == 0) {
+                frame.launch_y = 0;
+                frame.launch_x = 0;
                 height_offset = 0;
                 if (owner_sprite->unk_14 & 0x8000) {
                     height_offset = -0x30;
                 }
-                frame.sp3C = height_offset;
+                frame.launch_z = height_offset;
             }
             ((S_8182C800_5 *)motion)->unk_00.at00.v = (s32) (((S_8182C800_23 *)(owner_object->unk_08))->unk_00
-                + (frame.sp38 << 0x10));
+                + (frame.launch_x << 0x10));
             ((S_8182C800_5 *)motion)->unk_04.at00.v = (s32) (((S_8182C800_23 *)(owner_object->unk_08))->unk_04
-                + (frame.sp3A << 0x10));
+                + (frame.launch_y << 0x10));
             ((S_8182C800_5 *)motion)->unk_08 = (s32) (((S_8182C800_23 *)(owner_object->unk_08))->unk_08.at00.v
-                + (frame.sp3C << 0x10));
+                + (frame.launch_z << 0x10));
             object = effect - 0x20;
             func_8004491C(object, func_80045340);
             ((S_8182C800_6 *)sprite_or_step_x)->unk_1E = 0x1000;
@@ -155,24 +195,24 @@ void func_8002401C(void *effect, void *motion, void *sprite) {
             }
             target_tile = ((S_8182C800_1 *)owner)->unk_72.u;
 
-            frame.sp22 = (target_tile << 6) + 0x20;
+            frame.target_x = (target_tile << 6) + 0x20;
             target_tile = ((S_8182C800_1 *)owner)->unk_73.u;
 
-            frame.sp26 = (target_tile << 6) + 0x20;
+            frame.target_y = (target_tile << 6) + 0x20;
             if (((S_8182C800_1 *)owner)->unk_60 == 0) {
-                floor_height = (s16)func_800BCB04((u16) frame.sp22, (u16) frame.sp26,
+                floor_height = (s16)func_800BCB04((u16) frame.target_x, (u16) frame.target_y,
                     (s16) (((S_8182C800_23 *)(owner_object->unk_08))->unk_08.at02.v - 0x30));
-                frame.u28.half.sp2A = floor_height;
+                frame.target_z.half.z = floor_height;
                 if (floor_height >= 0x200) {
-                    frame.u28.half.sp2A = ((S_8182C800_23 *)(owner_object->unk_08))->unk_08.at02.v;
+                    frame.target_z.half.z = ((S_8182C800_23 *)(owner_object->unk_08))->unk_08.at02.v;
                 }
-                frame.u28.half.sp2A -= 0x30;
+                frame.target_z.half.z -= 0x30;
             } else {
-                frame.u28.half.sp2A = ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_08.at02.v - 0x28;
+                frame.target_z.half.z = ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_08.at02.v - 0x28;
             }
-            target_x = (S_8182C800_3 *)frame.sp22;
+            target_x = (S_8182C800_3 *)frame.target_x;
             start_x = ((S_8182C800_5 *)motion)->unk_00.at02.v;
-            target_y = frame.sp26;
+            target_y = frame.target_y;
             start_y = ((S_8182C800_5 *)motion)->unk_04.at02.v;
             distance_x = ((s32)target_x) - start_x;
             motion_extent = target_y - start_y;
@@ -206,7 +246,7 @@ void func_8002401C(void *effect, void *motion, void *sprite) {
             base_travel = (s16) ((EntityRec *)effect)->unk_50 * 0x66666;
             accel_y = (s32) ((s32) ((motion_extent << 0x10) - (direction_y * base_travel)) / distance_sum);
             (*(s32 *)&((EntityRec *)effect)->unk_48) = accel_y;
-            ((EntityRec *)effect)->unk_4C = (s32) ((s32) ((s32) frame.u28.sp28
+            ((EntityRec *)effect)->unk_4C = (s32) ((s32) ((s32) frame.target_z.packed
                 - ((S_8182C800_5 *)motion)->unk_08) / distance_sum);
             ((S_8182C800_5 *)motion)->unk_0C = (s32) ((direction_x * 0x66666)
                 + ((s16) ((EntityRec *)effect)->unk_50 * (*(s32 *)&((EntityRec *)effect)->unk_44)));
@@ -228,11 +268,11 @@ spawn_trail:
         if (object != NULL) {
             sprite_work = (s32)(((S_8182C800_8 *)object)->unk_0C);
             ((S_8182C800_8 *)object)->unk_10 = (void *)func_80024D44;
-            frame.sp60 = 0 - ((motion_extent = func_80069EF8()) & 0x1FF);
-            frame.sp64 = 0;
-            frame.sp62 = 0;
-            frame.sp40 = &frame.sp60;
-            frame.sp44 = &frame.sp60;
+            frame.vel_x = 0 - ((motion_extent = func_80069EF8()) & 0x1FF);
+            frame.vel_z = 0;
+            frame.vel_y = 0;
+            frame.spec.vec_a = &frame.vel_x;
+            frame.spec.vec_b = &frame.vel_x;
             elapsed_steps = (s16) ((EntityRec *)effect)->unk_52 - (s16) ((EntityRec *)effect)->unk_50;
             spread_decay = elapsed_steps * 8;
             spread_base = 0x300 - spread_decay;
@@ -241,16 +281,16 @@ spawn_trail:
             if (motion_extent < 0x40) {
                 motion_extent = 0x40;
             }
-            frame.sp48 = (func_80069EF8() & 0xFF) - 0x80;
-            frame.sp4C = (func_80069EF8() & 0xFF) - 0x80;
-            angle_offset = frame.sp48;
+            frame.spec.yaw = (func_80069EF8() & 0xFF) - 0x80;
+            frame.spec.pitch = (func_80069EF8() & 0xFF) - 0x80;
+            angle_offset = frame.spec.yaw;
             if (angle_offset <= 0) {
                 spread_angle = angle_offset - motion_extent;
             } else {
                 spread_angle = angle_offset + motion_extent;
             }
-            angle_offset = frame.sp4C;
-            frame.sp48 = spread_angle;
+            angle_offset = frame.spec.pitch;
+            frame.spec.yaw = spread_angle;
             heading = ((S_8182C800_1 *)owner)->unk_2A.u;
             if (angle_offset <= 0) {
                 spread_angle = heading - motion_extent;
@@ -258,13 +298,13 @@ spawn_trail:
                 spread_angle = motion_extent + heading;
             }
             coord = angle_offset + spread_angle;
-            frame.sp4C = coord;
-            frame.sp50 = 0;
-            frame.sp52 = 0;
-            frame.sp54 = 0;
-            frame.sp58 = 1;
-            frame.sp5A = 0;
-            func_800DBA90(&frame.sp40);
+            frame.spec.pitch = coord;
+            frame.spec.w0 = 0;
+            frame.spec.w1 = 0;
+            frame.spec.w2 = 0;
+            frame.spec.flag = 1;
+            frame.spec.zero = 0;
+            func_800DBA90(&frame.spec);
             ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_00 =
                 (s32) (((S_8182C800_5 *)motion)->unk_00.at00.v + ((((motion_extent = func_80069EF8()) & 0x1FF) - 0xFF) << 9));
             ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_04 =
@@ -272,11 +312,11 @@ spawn_trail:
             ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_08.at00.v =
                 (s32) (((S_8182C800_5 *)motion)->unk_08 + ((((motion_extent = func_80069EF8()) & 0x1FF) - 0xFF) << 9));
             trail_pos_x = ((S_8182C800_8 *)object)->unk_08;
-            trail_pos_x->unk_00 = (s32) (trail_pos_x->unk_00 + ((frame.sp60 << 0xC) + (direction_x << 0x15)));
+            trail_pos_x->unk_00 = (s32) (trail_pos_x->unk_00 + ((frame.vel_x << 0xC) + (direction_x << 0x15)));
             trail_pos_y = ((S_8182C800_8 *)object)->unk_08;
-            trail_pos_y->unk_04 = (s32) (trail_pos_y->unk_04 + ((frame.sp62 << 0xC) + (direction_y << 0x15)));
+            trail_pos_y->unk_04 = (s32) (trail_pos_y->unk_04 + ((frame.vel_y << 0xC) + (direction_y << 0x15)));
             trail_pos_z = ((S_8182C800_8 *)object)->unk_08;
-            trail_pos_z->unk_08 = (s32) (trail_pos_z->unk_08 + (frame.sp64 << 0xC));
+            trail_pos_z->unk_08 = (s32) (trail_pos_z->unk_08 + (frame.vel_z << 0xC));
             ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_0C =
                 (s32) ((s32) ((S_8182C800_5 *)motion)->unk_0C >> 3);
             ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_10 =

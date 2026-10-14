@@ -10,19 +10,7 @@ typedef struct CallbackObject {
     CallbackSlot slots[4];
 } CallbackObject;
 
-typedef struct CallbackGlobals {
-    u16 flags;
-    u8 pad_02[8];
-} CallbackGlobals;
-
-extern CallbackGlobals D_80013714;
-/* Same object, spelled as the bare 2-byte `flags` field: at -G8 gcc treats this
- * declaration as small data and emits the store as a bare assembler macro, which
- * `as` expands through $at (retail's form for this one site).  The 10-byte
- * declaration above stays large, so the read-modify-write at the top keeps its
- * shared %hi base in $3.  Both `.extern` sizes are emitted; `as` honours the last
- * one printed (the 10-byte one), so the macro is NOT $gp-relative. */
-extern u16 D_80013714_flags __asm__("D_80013714");
+#include "shared/sys_flags.h"
 
 extern s32 func_80042518(CallbackObject *object, s32 type);
 extern void func_800A48F0(CallbackObject *object, s32 type, s32 value);
@@ -54,5 +42,5 @@ void func_80042560(CallbackObject *object)
         }
     }
 
-    D_80013714_flags = saved_flags;
+    D_80013714 = saved_flags;
 }

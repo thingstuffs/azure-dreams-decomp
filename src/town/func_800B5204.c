@@ -1,9 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-extern u8 D_80011F80[];
-asm(".globl D_80011F80\nD_80011F80 = 0x80011F80");
-
 typedef struct S_800B2964_0 {
     u8 pad_00[0x1];
     u8 unk_01;

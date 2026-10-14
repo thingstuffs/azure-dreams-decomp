@@ -9,10 +9,10 @@ typedef struct CueRecord {
 } CueRecord;
 
 extern CueRecord *func_8003F534(void);
-extern int func_80054AF0(int arg0);
+extern int func_80054AF0(int);
 extern void func_80054C58(void);
 extern void func_80054CD4(void);
-extern void func_80054E00(s32 arg0);
+extern void func_80054E00(s32);
 
 /* Loads pending CD cue fields from the current record or dispatches a countdown message. */
 void func_80054B08(s32 message)

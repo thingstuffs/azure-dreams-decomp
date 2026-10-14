@@ -6,7 +6,7 @@
       "source": "src/code.c",
       "raw_sha256": "b2c7805e009a7ae79b7cdbd95f4c7d246f4491dd1d4367ac12e101564b302c9c",
       "recipe": {
-        "ccver": "2.7.2",
+        "ccver": "2.7.2-cdk",
         "ccflags": "",
         "asflags": ""
       },
@@ -204,6 +204,18 @@
           "functions": [
             "func_8003F5D4",
             "func_8003F5E0"
+          ]
+        },
+        {
+          "module": "sound_tu_code",
+          "functions": [
+            "func_8005D6D8",
+            "func_8005D704",
+            "func_8005D798",
+            "func_8005DA68",
+            "func_8005E4A0",
+            "func_8005E78C",
+            "func_8005EC0C"
           ]
         }
       ]

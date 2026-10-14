@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-14T11:54:10Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-14T13:55:34Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -11,7 +11,7 @@ Generated 2026-10-14T11:54:10Z. Pin `82f20568` (82f20568997a, raw/ frozen at 202
 | town | 2706 | 457,832 | 2706 | 457,832 | 2706 | 457,832 | 0 |
 | dungeon | 3442 | 1,789,004 | 3442 | 1,789,004 | 3441 | 1,787,204 | 1 |
 | ovmovie | 22 | 2,852 | 22 | 2,852 | 22 | 2,852 | 0 |
-| ALL | 7454 | 2,783,360 | 7454 | 2,783,360 | 7453 | 2,781,560 | 1 |
+| ALL | 7476 | 2,786,212 | 7476 | 2,786,212 | 7475 | 2,784,412 | 1 |
 
 Data rows: 498 (13,584 B); stale-image residue DATA: 1 (488 B).
 
@@ -70,6 +70,7 @@ Baseline NOT exact: 0 rows
 | jtbl_8005EDA0 | 1 | not certified | include/common.h |
 | jtbl_80052144 | 1 | not certified | include/common.h |
 | jtbl_80057D20 | 1 | not certified | include/common.h |
+| sound_tu_code | 0 | not applicable (partition owner) | include/common.h |
 
 Not certified means no placement certificate has been issued; ownership and retail-byte proofs are separate. Partition owners do not grant whole-row placement.
 
@@ -125,26 +126,26 @@ Placement alone does not override any lower-level or source-residue guard.
 |---|---:|---:|---:|---:|---:|---:|
 | m2c boilerplate block | 2331 | 510,568 | 18.3% | 0 | 0 | 0.0% |
 | M2C_FIELD raw offsets | 2950 | 1,448,168 | 52.0% | 0 | 0 | 0.0% |
-| m2c local names | 5181 | 2,160,832 | 77.6% | 9 | 29,928 | 1.1% |
+| m2c local names | 5181 | 2,160,832 | 77.6% | 6 | 24,356 | 0.9% |
 | ASM_ pins | 2135 | 1,455,340 | 52.2% | 0 | 0 | 0.0% |
 | goto | 1545 | 1,311,404 | 47.1% | 271 | 326,884 | 11.7% |
-| computed-goto jump table | 317 | 436,404 | 15.7% | 4 | 7,008 | 0.3% |
-| inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 242,072 | 8.7% | 23 | 19,964 | 0.7% |
+| computed-goto jump table | 317 | 436,404 | 15.7% | 3 | 6,392 | 0.2% |
+| inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 242,072 | 8.7% | 7 | 9,764 | 0.4% |
 | fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate) | 1489 | 675,960 | 24.3% | 0 | 0 | 0.0% |
 | any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,280,480 | 46.0% | 13 | 27,180 | 1.0% |
 | any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,480 | 46.0% | 1650 | 893,352 | 32.1% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 668 | 488,888 | 17.5% | 6 | 1,876 | 0.1% |
 | maspsx marker pins (scaffolding) | 394 | 347,512 | 12.5% | 0 | 0 | 0.0% |
-| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 5.6% | 9 | 14,008 | 0.5% |
+| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 5.6% | 7 | 8,132 | 0.3% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
-| local address-named struct | 633 | 346,872 | 12.4% | 2883 | 1,501,924 | 53.9% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 5.5% | 7176 | 2,430,524 | 87.2% |
+| local address-named struct | 633 | 346,872 | 12.4% | 2886 | 1,502,408 | 53.9% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 5.5% | 7199 | 2,434,972 | 87.4% |
 
-Pin sites now: 0 in 0 rows; .  At the pin: 25,901; REG 12,800, KEEP 6,935, KEEP_NV 2,505, SCHED_BARRIER 1,355, TAILSLOT_PIN 506, USE 294, USE_NV 260, KEEP_DEP_NV 190.
+Pin sites now: 0 in 0 rows; .  At the pin: 25,918; REG 12,816, KEEP 6,936, KEEP_NV 2,505, SCHED_BARRIER 1,355, TAILSLOT_PIN 506, USE 294, USE_NV 260, KEEP_DEP_NV 190.
 
 Tracked, not pins (owner 2026-10-06): oddities 0 (ledger/oddities.jsonl - zero-byte fences retail needs, curiosities, not removal targets: -); one-trip barrier rows 2 (ledger/onetrip_barrier_rows.jsonl); load-bearing one-trip rows 85 (ledger/onetrip_loadbearing.jsonl, statement-macro bodies, not counted in the do{}while(0) row above).
 Carve debt - composite rows (r95 decisions item 8 kept the spelling for bytes; r99: it is an artifact of one-row-per-function carving, owned by module placement): the `asm("func_X")` data prefix (another function's jump table / overlay data that retail places before this row's code) and its `.globl/.type/.size func_X` stamp (`pin_census.composite_asm_spans`), 2 statements in 1 rows - counted here, not in the inline-asm row above; still L5 `inline_asm` residue in levels.py until the module TU owns the data.
-Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 0, calls of local asm wrappers 0, hand-written asm in function bodies 0 (C that is missing); symbol aliases 11 (a second typed name for one symbol: a missing type); file-scope asm directives 6; file-scope global register variables 0 (`register T g asm("$R")`).
+Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 0, calls of local asm wrappers 0, hand-written asm in function bodies 0 (C that is missing); symbol aliases 6 (a second typed name for one symbol: a missing type); file-scope asm directives 6; file-scope global register variables 0 (`register T g asm("$R")`).
 
 Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 89 rows carry one flag, 0 carry two or more.
 
@@ -157,17 +158,15 @@ The game is one `2.7.2-cdk -G0 -O2` build plus a town -O1 debug family and stock
 |---|---:|---|---:|---:|
 | late cell (2.8.x / egcs / 2.95.2: fitted) | 0 | 0 / 0 / 0 / 0 / 0 | 0 | 0 |
 | cdk cell + crutch flags, module is plain | 0 | 0 / 0 / 0 / 0 / 0 | 0 | 0 |
-| stock cell inside a cdk module | 1 | 1 / 0 / 0 / 0 / 0 | 0 | 0 |
+| stock cell inside a cdk module | 0 | 0 / 0 / 0 / 0 / 0 | 0 | 0 |
 | other mismatch with the module recipe (-G, stock flavour, -O1) | 0 | 0 / 0 / 0 / 0 / 0 | 0 | 0 |
-| **total** | **1** | | **0** | **0** |
-
-- stock cell inside a cdk module: slus/code 2.7.2 (yardstick 2.7.2-cdk)
+| **total** | **0** | | **0** | **0** |
 
 Rows at a recipe the module census cannot separate from best_recipe (tie_with; not listed above, text cannot decide): main/func_80019E34 2.7.2-G0 (best 2.7.2), main/func_8001C7F4 2.7.2 (best 2.7.2-G0), main/func_800207D4 2.7.2-G0 (best 2.6.3), main/func_80020F68 2.7.2 (best 2.6.3-G0).
 
 Rows at a registered recipe backed by per-row compiler evidence (ledger/recipe_evidence.jsonl, not listed above): ovmovie/func_800402D8 2.7.2-cdk (supported), town/func_806D30B4 2.6.3-G0 (confirmed), town/func_808B2B04 2.6.3-G0 (confirmed).
 
-Unconfirmed compiler attributions (still listed above; ledger/recipe_evidence.jsonl `to_confirm` names the measurement): main/func_80019E34 2.7.2-G0, main/func_8001C7F4 2.7.2, main/func_800207D4 2.7.2-G0, main/func_80020F68 2.7.2, town/func_80878110 2.6.3-G0.
+Unconfirmed compiler attributions (still listed above; ledger/recipe_evidence.jsonl `to_confirm` names the measurement): main/func_80019E34 2.7.2-G0, main/func_8001C7F4 2.7.2, main/func_800207D4 2.7.2-G0, main/func_80020F68 2.7.2, slus/code 2.7.2-cdk, town/func_80878110 2.6.3-G0.
 
 Sony SDK library objects (ledger/sdk_objects.jsonl, whole-object byte match; not listed above): main/func_800219C4.
 Site-for-pin trades (`ledger/recipe_trades.jsonl` records shaped `{"kind":"site_for_pin","id":row,"site":"LABEL_AS_CALL|ITC|PASSTHRU","pin":macro,"residue_without_pin":str,"at":iso,"note":str}` -- one pin, or two when one is not enough (owner ruling 2026-09-22 afternoon, "accept 2 pins") -- charter rule 3, "a pin moved elsewhere is not a removal"; the trade is tracked, and L4 is where pins stop counting toward removal regardless): 27.
@@ -195,7 +194,7 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 
 On shared record headers (T7, `include/records/`): 903 rows, 577,664 bytes (20.7%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 8 rows (4,884 B), not_in_module 7,098 rows (2,564,416 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 9 rows (5,036 B), not_in_module 7,120 rows (2,567,268 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 

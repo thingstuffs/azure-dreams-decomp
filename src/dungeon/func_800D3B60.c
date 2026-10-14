@@ -57,7 +57,9 @@ typedef struct {
     u8 padE[6];
 } DungeonEntry;
 
-extern u8 D_80082E80_initial[] __asm__("D_80082E80");
+/* Load-bearing second view of D_80082E80: the asm label gives cc1 a distinct SYMBOL_REF ("*D_80082E80") so cse
+ * does not share the base register with the plain D_80082E80 uses (retail rebuilds the address after the calls). */
+extern TileObject D_80082E80_initial __asm__("D_80082E80");
 extern s16 D_8006CD00[];
 void func_8009A3D0();
 s32 func_8009A180();
@@ -121,11 +123,11 @@ void func_800D92C0(void *move_state, void *context, S_800D92C0_2 *position, void
             if (actor_flags & 0x2000) {
                 if (actor_flags & 0x20000) {
                     {
-                        u8 *coord_base = D_80082E80_initial;
+                        
                         target_direction = (((S_800D92C0_0 *)actor)->unk_45
                             + ((s32) (((S_800D92C0_1 *)(((int)D_800814A8)))->unk_2A << 0x10) >> 0x19)) & 7;
-                        target_x = coord_base[0x24] + ((u16 *)dirStepX)[target_direction];
-                        target_y = coord_base[0x25] + ((u16 *)dirStepY)[target_direction];
+                        target_x = D_80082E80_initial.tileX + ((u16 *)dirStepX)[target_direction];
+                        target_y = D_80082E80_initial.tileY + ((u16 *)dirStepY)[target_direction];
                     }
                     if ((position->unk_24.at00.v != (target_x & 0xFFFF))
                         || (position->unk_24.at01.v != (target_y & 0xFFFF))) {

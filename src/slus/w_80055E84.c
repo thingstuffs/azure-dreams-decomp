@@ -1,8 +1,6 @@
 #include "common.h"
 
 
-#define ASM_REG(reg)    asm(reg)
-#define ASM_KEEP(var)   __asm__ __volatile__("" : "+r"(var))
 typedef struct S_80084918
 {
     s32 field0;

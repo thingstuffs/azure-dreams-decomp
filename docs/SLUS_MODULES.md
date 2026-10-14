@@ -274,6 +274,13 @@ records the selected partition-only modules, full collector measurements and
 physical contributors. Genuine debt in a different collector stream remains
 visible and does not become an assertion about the selected owner.
 
+A partition-only owner can also own no data and serve only as a recipe partition.
+`sound_tu_code` is one: it takes the `slus/code` functions in the stock sound TU
+so that the rest of the collector compiles at the game image's 2.7.2-cdk (see
+[its evidence](evidence/sound_tu_code_partition.md)). The full SLUS SHA-1 gate
+proves such an owner. The ownership prover refuses it, reporting "module has no
+owned data".
+
 This option supplies data ownership and physical build organization. It grants
 no whole-row placement credit to a collector: `certify_slus_module.py` refuses
 partition-only placement certificates, and status grants no collector placement

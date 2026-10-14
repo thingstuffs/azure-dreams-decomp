@@ -2118,6 +2118,22 @@
         "ccver": "2.7.2-cdk"
       },
       "source": "src/w_80057D20_jtbl_owned.c"
+    },
+    {
+      "data": [],
+      "evidence": "docs/evidence/sound_tu_code_partition.md",
+      "headers": [
+        "include/common.h"
+      ],
+      "members": [],
+      "name": "sound_tu_code",
+      "partition_only": true,
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2"
+      },
+      "source": "src/sound_tu_code_owned.c"
     }
   ],
   "version": 1

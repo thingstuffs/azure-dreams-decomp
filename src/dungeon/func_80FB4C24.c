@@ -23,9 +23,9 @@ typedef struct S_80174424_1 {
 } S_80174424_1;   /* out in func_80174424 */
 
 
-extern void func_80067014(s32 arg0);
-extern void func_800672D8(void *arg0, void *arg1);
-extern void func_8006733C(void *arg0, void *arg1);
+extern void func_80067014(s32);
+extern void func_800672D8(void *, void *);
+extern void func_8006733C(void *, void *);
 
 
 /* Blend palette colors for the current animation frame and flag completion. */

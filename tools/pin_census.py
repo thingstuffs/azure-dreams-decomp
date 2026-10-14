@@ -254,8 +254,8 @@ def landing_refusal(new, cur, relpath, row=None, port_ref=None):
     return errs[0][:300] if errs else None
 
 
-RAW_ASM_RE = re.compile(r"__asm__(?:\s*(?:__volatile__|volatile))?\s*\((?:[^()]|\([^()]*\))*\)")
-ALIAS_ASM_RE = re.compile(r"__asm__\s*\(\s*\"[A-Za-z_][\w.$]*\"\s*\)\s*[;,=)]")
+RAW_ASM_RE = re.compile(r"(?:__asm__|(?<![\w])asm\b)(?:\s*(?:__volatile__|volatile))?\s*\((?:[^()]|\([^()]*\))*\)")
+ALIAS_ASM_RE = re.compile(r"(?:__asm__|(?<![\w])asm\b)\s*\(\s*\"[A-Za-z_][\w.$]*\"\s*\)\s*[;,=)]")
 WRAPPER_DEF_RE = re.compile(r"^[ \t]*#[ \t]*define[ \t]+(\w+)\(([^)]*)\)((?:[^\n]*\\\n)*[^\n]*)", re.M)
 
 
@@ -296,7 +296,7 @@ def hidden_asm(text):
             out["symbol-alias"] += 1
         elif flat[:m.start()].count("{") - flat[:m.start()].count("}") <= 0:
             out["file-asm"] += 1
-        elif re.match(r"__asm__(?:\s*(?:__volatile__|volatile))?\s*\(\s*\"\"", m.group(0)):
+        elif re.match(r"(?:__asm__|asm)(?:\s*(?:__volatile__|volatile))?\s*\(\s*\"\"", m.group(0)):
             out["raw-pin"] += 1
         else:
             out["asm-code"] += 1

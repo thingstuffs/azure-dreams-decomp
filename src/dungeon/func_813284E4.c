@@ -75,8 +75,7 @@ s32 func_800A6D30(void);
 void func_800A9A0C(void *);
 s16 func_800BCB04(s32 x, s32 y, s16 min_height);
 extern s16 D_8006CD00[];
-extern u8 D_80082E80_b[] __asm__("D_80082E80");
-extern u8 D_80082E80_c[] __asm__("D_80082E80");
+extern TileObject D_80082E80_b __asm__("D_80082E80");
 
 static __inline__ u8 advance_tile(u8 tile, const u8 * table, u16 index)
 {
@@ -163,11 +162,11 @@ void func_8016FCE4(void *move_state, void *unused, void *position_in, void *acto
                         if ((func_8009A66C(target_heading, position_in, actor_in, 0x20) << 0x10) <= 0) {
                             ((S_8016FCE4_0 *)actor_in)->unk_2A.u =
                                 func_800A0818(((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
-                                ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, D_80082E80_b[0x24], D_80082E80_b[0x25],
+                                ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, D_80082E80_b.tileX, D_80082E80_b.tileY,
                                 heading_state);
                         }
                         move_result = func_8009FD7C(((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
-                            ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, D_80082E80_b[0x24], D_80082E80_b[0x25]);
+                            ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, D_80082E80_b.tileX, D_80082E80_b.tileY);
                         if ((move_result << 0x10) != 0) {
                             limit_turns = 1;
                         }

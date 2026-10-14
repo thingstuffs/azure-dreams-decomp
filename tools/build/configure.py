@@ -1047,6 +1047,7 @@ CC_VER = {
     "src/b1b_b1c_table_owned.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
     "src/konami_runtime.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
     "src/w_80057D20_jtbl_owned.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
+    "src/code.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
 }
 DEFAULT_CC = ("2.7.2", "")
 AS_FLAGS = {

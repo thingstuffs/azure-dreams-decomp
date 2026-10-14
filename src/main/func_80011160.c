@@ -4,15 +4,9 @@
 void func_80024160(void *object) {
     s32 slot;
     u8 *cursor;
-    s32 *value;
-
     cursor = object;
-    slot = 0;
-    do {
-        value = *(s32 **)(cursor + 0x25C);
-        asm ("" : : "r"(value));
-        *value = 0;
-        slot++;
+    for (slot = 0; slot < 10; slot++) {
+        **(s32 **)(cursor + 0x25C) = 0;
         cursor += 4;
-    } while (slot < 10);
+    }
 }

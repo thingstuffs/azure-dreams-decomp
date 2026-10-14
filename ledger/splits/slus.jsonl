@@ -1,4 +1,4 @@
-{"src":"src/code.c","out":"build/src/code.o","ccver":"2.7.2","ccflags":"","asflags":""}
+{"src":"src/code.c","out":"build/src/code.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/code10.c","out":"build/src/code10.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/code11.c","out":"build/src/code11.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/code12.c","out":"build/src/code12.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}

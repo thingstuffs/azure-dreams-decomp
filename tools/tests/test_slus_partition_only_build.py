@@ -21,8 +21,10 @@ assert Path(M.__file__).resolve() == (TOOLS / "slus_modules.py").resolve()
 assert Path(P.__file__).resolve() == (TOOLS / "slus_partitions.py").resolve()
 
 RECIPE = {"ccver": "2.7.2-cdk", "ccflags": "", "asflags": ""}
-PARENT_RECIPES = {"code.c": {"ccver": "2.7.2", "ccflags": "", "asflags": ""},
-                  "code2.c": {"ccver": "2.8.1", "ccflags": "", "asflags": ""}}
+# The fixture runs the installed configure.py, so the parents carry the production
+# CC_VER recipes of src/code.c and src/code2.c (both plain 2.7.2-cdk since r119/r112).
+PARENT_RECIPES = {"code.c": {"ccver": "2.7.2-cdk", "ccflags": "", "asflags": ""},
+                  "code2.c": {"ccver": "2.7.2-cdk", "ccflags": "", "asflags": ""}}
 CODE_A, CODE_B = "func_80030000", "func_80030010"
 CODE2_A, CODE2_B = "func_80040000", "func_80040010"
 SOURCE = {

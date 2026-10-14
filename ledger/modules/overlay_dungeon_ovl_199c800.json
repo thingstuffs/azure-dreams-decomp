@@ -8,17 +8,17 @@
     "dungeon/func_8197D3B8",
     "dungeon/func_8197D468"
   ],
-  "at": "2026-10-14T11:40:06Z",
+  "at": "2026-10-14T13:35:35Z",
   "reviewer": "orchestrator-r106",
   "fingerprint": {
     "schema": "overlay-module-scoped-v2",
-    "sha256": "0fbcf5b400ae52be305121a21017115c944f4ee68a99cd863122b1ec11c30ff7",
+    "sha256": "47543b3868afab91db711311f91459e1501b1025a33f974ce9f8ca2cca4a0c2f",
     "module": {
-      "sha256": "2122c388452e0d2037d2808239006f96c6406d8937b0f25b3b2f8830ab29245d"
+      "sha256": "d3fda9f3a5651b66175c301cbe61bfc6024f1aeb3968b2e411e759237fc55dd7"
     },
     "windows": {
       "config/overlays/dungeon_deep_t8_197a.overlay.yaml": {
-        "sha256": "b7866a1d80ca4a33ee6e7ad9721df025f6dd47e852dff9f5bb946511da10fe1f"
+        "sha256": "619c50ee35e4bf6ef42d16392847e4c6ff14574e0df95e85513b8e1cc5d66622"
       }
     },
     "required_windows": [
@@ -26,7 +26,7 @@
     ]
   },
   "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_ovl_199c800/module",
-  "receipt_sha256": "584ff8ea6c121a1fb8e26b3bf5eee994ed1977dc98e9d2ab6cf492136a5230f5",
+  "receipt_sha256": "24181d56f80f6e91fe5264ade739edd5f3f4c35abc4acf1f929f30e5d18488e2",
   "windows": [
     {
       "config": "config/overlays/dungeon_deep_t8_197a.overlay.yaml",
@@ -38,10 +38,10 @@
         "gate.log": "66c1f9c36fd502dd0c98136f5e92a0e537f1256fabb9b155c41e95559a85c73c",
         "window.bin": "5b1d92d50d973ad724391e9304e5035c8ac1f7a02d15a3faaa033e3e36041517",
         "manifest.json": "15fd2213011be09f3e83b90eb04fbb8b4d7f56e9a50332b7cde6e32d425b36dc",
-        "projection.json": "8398a715c0c743b5f98d99ddc546438602e4f1da66d378a46aff8921ba7cefb1",
-        "module/receipt.json": "fdde8491f60c9ceeb4f6f1004c5bc89f054979f22e3c140835abfddf2d203b02"
+        "projection.json": "2aa2a6a52a1daed419ff5b7246ccb892ba2d5f5a0db4c90f1c5e7607e9f6bdc6",
+        "module/receipt.json": "e0116deb5d5cf5ab723056864488a8bdf3d222454773fed22b38ebf6059ea81e"
       },
-      "digest": "b7866a1d80ca4a33ee6e7ad9721df025f6dd47e852dff9f5bb946511da10fe1f"
+      "digest": "619c50ee35e4bf6ef42d16392847e4c6ff14574e0df95e85513b8e1cc5d66622"
     }
   ]
 }

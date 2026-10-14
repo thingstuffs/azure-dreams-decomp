@@ -376,6 +376,15 @@ set: both collectors and seven CD-state rows. Its 891-word genuine proof include
 only the moved 81550 setter from code, not the complete collector. No production
 dependency count changes from this selective private proof.
 
+## Recipe partition: sound_tu_code
+
+`slus/code` spans two retail compilation regions: the 2.7.2-cdk game image and
+the stock-2.7.2 sound TU at 0x8005CA90 and above. The partition-only owner
+`sound_tu_code` (stock 2.7.2) takes the seven sound-TU functions. It owns no
+data, so `prove_slus_ownership` does not apply. The 142-function remainder then
+compiles at plain 2.7.2-cdk, like the rest of the image, and the full SLUS SHA-1
+gate matches. See [the evidence](evidence/sound_tu_code_partition.md).
+
 ## Jump-table (.rodata) owners
 
 Seven switch rows now own their compiler-emitted jump tables:

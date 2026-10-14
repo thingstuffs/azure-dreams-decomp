@@ -1,6 +1,5 @@
 #include "common.h"
 
-#define ASM_KEEP_MEM(var) __asm__ __volatile__("" : "+r"(var) :: "memory")
 
 extern void func_800673A0();
 

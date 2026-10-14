@@ -20,7 +20,6 @@ extern u8 D_80530154[];
 extern u8 D_80530184[];
 extern u8 D_805305B8[];
 extern u8 D_805305F8[];
-extern void *D_8052671C[];
 
 /* Build the town HUD: the frame object, its three child slots, the gauge sprite and the five icons. */
 void func_808119EC(void) {
@@ -33,14 +32,10 @@ void func_808119EC(void) {
     s16 rect[4];
     u8 *common_value;
     u8 *child_handler;
-    static void *const keepalive[3] = {
-        &&case_0, &&case_1_2, &&case_3_4
-    };
 
     parent = NULL;
     object = func_800373DC(0x32);
     common_value = D_80526704;
-    i = 2;
     if (object != NULL) {
         parent = (s8 *)object + 0x20;
         primitive = *(s8 **)((s8 *)object + 8);
@@ -53,6 +48,7 @@ void func_808119EC(void) {
 
     child_handler = D_8052D4B8;
     slot = parent + 8;
+    i = 2;
     do {
         object = func_800373DC(2);
         *(void **)(slot + 0x4C) = object;
@@ -103,7 +99,6 @@ void func_808119EC(void) {
         }
     }
 
-    slot = (s8 *)D_8052671C;
     do {
         object = func_800373DC(0x100);
         if (object != NULL) {
@@ -112,29 +107,27 @@ void func_808119EC(void) {
             *(u8 **)((s8 *)object + 0x10) = D_8052DF68;
             *(s16 *)((s8 *)object + 0x42) = (s16)i;
             object = (s8 *)object + 0x20;
-            if ((u32)i < 5) {
-                goto **(void **)slot;
-            case_0:
+            switch (i) {
+            case 0:
                 case_value = 1;
-                *(s16 *)((s8 *)object + 0x20) = (s16)case_value;
-                i--;
-                slot -= 4;
-                continue;
-            case_1_2:
+                break;
+            case 1:
+            case 2:
                 case_value = 2;
-                *(s16 *)((s8 *)object + 0x20) = (s16)case_value;
-                i--;
-                slot -= 4;
-                continue;
-            case_3_4:
+                break;
+            case 3:
+            case 4:
                 case_value = 3;
-                *(s16 *)((s8 *)object + 0x20) = (s16)case_value;
+                break;
+            default:
+                goto next_icon;
             }
+            *(s16 *)((s8 *)object + 0x20) = (s16)case_value;
+        next_icon:
             i--;
         } else {
             i--;
         }
-        slot -= 4;
     } while (i >= 0);
     rect[0] = 0x40;
     rect[1] = 0x1D0;
@@ -147,6 +140,3 @@ void func_808119EC(void) {
     rect[3] = 1;
     func_8006E8B8(rect, D_805305F8);
 }
-/* MECHANISM: Preserve the seed's exact 0x38 frame, saved-register roles, and computed-goto layout.
-   Cases 0/1 pin constants in $v0 and call the zero-argument noreturn shared target.
-   ASM_TAILSLOT_PIN_TIED lets LEAD 28b sink each li into the converted j delay slot. */

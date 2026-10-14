@@ -46,12 +46,13 @@ typedef struct Block {
     Elem e[4];
 } Block;
 
-typedef struct StackValues {
-    u16 arg0;
-    u16 arg1;
-    u16 arg2;
-    u16 arg3;
-} StackValues;
+/* The four radius arguments as they sit in the caller-allocated argument words: inner (a) and outer (b) ellipse axes. */
+typedef struct RingRadii {
+    u16 inner_x;
+    u16 inner_y;
+    u16 outer_x;
+    u16 outer_y;
+} RingRadii;
 
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
@@ -69,7 +70,7 @@ void func_801750E4(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_
                    u16 center_x, u16 center_y, s32 *color_b_ptr, s32 *color_a_ptr,
                    s32 draw_bucket, s32 start_segment, s32 end_segment)
 {
-    StackValues radii;
+    RingRadii radii;
     union { u16 v; } segment_limit = {0};
     u16 segment;
     s32 scale_b_x;
@@ -102,14 +103,14 @@ void func_801750E4(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_
 
     vertex_data = (u8 *)((s16)start_segment);
     angle = (s32)vertex_data << 7;
-    radii.arg0 = radius_a_x;
+    radii.inner_x = radius_a_x;
     graphics_ptr = &gameWork.unk_000;
     graphics = *graphics_ptr;
     graphics = (GraphicsState *)((u8 *)graphics + 0x8D0);
     prim = *(u8 **)graphics;
-    radii.arg1 = radius_a_y;
-    radii.arg2 = radius_b_x;
-    radii.arg3 = radius_b_y;
+    radii.inner_y = radius_a_y;
+    radii.outer_x = radius_b_x;
+    radii.outer_y = radius_b_y;
     sin_angle = func_80064584(angle) >> 4;
     cos_angle = func_800644B8(angle) >> 4;
     segment_limit.v = end_segment;
@@ -117,11 +118,11 @@ void func_801750E4(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_
 
     vertex_data = (u8 *)((s32)vertex_data < (s16)end_segment);
     if (vertex_data != 0) {
-        scale_b_x = radii.arg2;
-        scale_b_y = radii.arg3;
-        scale_a_x = radii.arg0;
+        scale_b_x = radii.outer_x;
+        scale_b_y = radii.outer_y;
+        scale_a_x = radii.inner_x;
         do {
-            scale_a_y = radii.arg1;
+            scale_a_y = radii.inner_y;
             vertex_data = prim + 0x1A;
         } while (0);
         do {
