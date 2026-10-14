@@ -23,6 +23,9 @@
    function at the same address (overlay address overlap). SECOND LOOK: yes (resolved 2026-10-06: see docs/evidence/r97_decisions.md items 16-18) (which function really sits at 0x80018A70 for this caller).
 7. **CALL-ARG class -> hard basket** (800C7F80, w_80042560, 8096C508, 800AE09C): r96_opus_ca MECHANISM.md is a sourced
    negative in this cdk cc1. SECOND LOOK: no.
+   **2026-10-14 correction for 8096C508:** the negative was source-shape scoped.
+   Plain early-return branches with their real post-call tails remove its pin at
+   the unchanged recipe. See `docs/evidence/callarg_plain_c_20261014.md`.
 8. **HELD: one-field struct cast at re-read sites only** (r96_sonnet_vb3: main/func_8001EFC4, main/func_8001FDA0,
    town/func_8080EEC4 - `((PadWord *)&D_801379B0)->value` replaces a volatile so cse does not forward a global re-read
    across a struct store). Reading ONE global through a struct pun at selected sites only, to steer cse's in_struct

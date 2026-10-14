@@ -48,7 +48,6 @@ void func_801249A0(Object *object)
     input_flags = ((u32)input_state->unk_010);
     if (input_flags & 0x40) {
         s32 slot_index;
-        register Object *slot_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
         if (!func_80123200(object->field_13)) {
             return;
@@ -57,27 +56,28 @@ void func_801249A0(Object *object)
         slot_index = object->field_16;
         target_value = object->field_13;
         active_value = *((u8 *)object + slot_index + 0x17);
-        if (active_value != target_value) {
-            slot_index ^= 1;
-            alternate_value = *((u8 *)object + slot_index + 0x17);
-            if (alternate_value != target_value) {
-                goto check_five;
-            }
-            slot_object = object;
-            object->field_16 = slot_index;
-            func_801237A4(slot_object);
+        if (active_value == target_value) {
+            object->field_A = 6;
+            object->field_4 = 1;
+            object->field_6 = 0x19;
+            return;
         }
-        object->field_A = 6;
-        object->field_4 = 1;
-        object->field_6 = 0x19;
-        return;
-check_five:
-        if (active_value != 0xFF) {
-            if (alternate_value == 0xFF) {
-                slot_object = object;
-                object->field_16 = slot_index;
-                func_801237A4(slot_object);
-            }
+        slot_index ^= 1;
+        alternate_value = *((u8 *)object + slot_index + 0x17);
+        if (alternate_value == target_value) {
+            object->field_16 = slot_index;
+            func_801237A4(object);
+            object->field_A = 6;
+            object->field_4 = 1;
+            object->field_6 = 0x19;
+            return;
+        }
+        if (active_value != 0xFF && alternate_value == 0xFF) {
+            object->field_16 = slot_index;
+            func_801237A4(object);
+            object->field_A = 5;
+            object->field_B = 0;
+            return;
         }
         object->field_A = 5;
         object->field_B = 0;
