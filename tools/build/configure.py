@@ -375,7 +375,7 @@ CC_VER = {
     "src/w_80042984.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_800448BC.c": ("2.7.2-cdk", ""),  # r86 module recipe move (owned_800448BC)
     "src/w_80048AC8.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
-    "src/w_8004CAA0.c": ("2.7.2-cdk", "-fno-schedule-insns2"),  # fidelity step 4 (r95sm): retail-proven splitting recipe
+    "src/w_8004CAA0.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
     "src/w_8004B718.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_8004B774.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_8004B7D0.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
@@ -701,7 +701,7 @@ CC_VER = {
     "src/w_80054B08.c": ("2.7.2-cdk", ""),
     "src/w_80056654.c": ("2.7.2-cdk", ""),
     "src/w_80056E10.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
-    "src/w_80057D20.c": ("2.7.2-cdk", "-G0"),
+    "src/w_80057D20.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
     "src/w_800550E8.c": ("2.7.2-cdk", ""),
     "src/w_8005313C.c": ("2.7.2-cdk", ""),
     "src/w_8005947C.c": ("2.7.2-cdk", ""),
@@ -1046,6 +1046,7 @@ CC_VER = {
     "src/w_80041134_owned.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
     "src/b1b_b1c_table_owned.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
     "src/konami_runtime.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
+    "src/w_80057D20_jtbl_owned.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
 }
 DEFAULT_CC = ("2.7.2", "")
 AS_FLAGS = {

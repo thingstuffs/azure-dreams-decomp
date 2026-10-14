@@ -1,111 +1,120 @@
 {
-  "version": 1,
   "modules": [
     {
-      "name": "runtime_directory",
-      "source": "src/konami_runtime_directory.c",
-      "members": [
+      "data": [
         {
-          "id": "slus/konami_runtime_w_8003C634",
-          "source": "src/konami_runtime_w_8003C634.c",
-          "functions": [
-            "func_8003C634"
-          ]
-        },
-        {
-          "id": "slus/konami_runtime_w_8003C758",
-          "source": "src/konami_runtime_w_8003C758.c",
-          "functions": [
-            "func_8003C758"
-          ]
-        },
-        {
-          "id": "slus/konami_runtime_w_8003C920",
-          "source": "src/konami_runtime_w_8003C920.c",
-          "functions": [
-            "func_8003C920"
-          ]
+          "asset": "assets/54240.bin",
+          "bytes": "04000000",
+          "offset": 44,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_80080A6C",
+          "vram": 2148010604
         }
       ],
+      "evidence": "docs/evidence/runtime_directory_module.md",
       "headers": [
         "include/common.h",
         "include/slus/runtime_directory.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "D_80080A6C",
-          "asset": "assets/54240.bin",
-          "offset": 44,
-          "size": 4,
-          "vram": 2148010604,
-          "bytes": "04000000",
-          "section": ".sdata"
-        }
-      ],
-      "evidence": "docs/evidence/runtime_directory_module.md"
-    },
-    {
-      "name": "entry_words",
-      "source": "src/w_800508F0_owned.c",
       "members": [
         {
-          "id": "slus/w_800508F0",
-          "source": "src/w_800508F0.c",
           "functions": [
-            "func_800508F0"
-          ]
+            "func_8003C634"
+          ],
+          "id": "slus/konami_runtime_w_8003C634",
+          "source": "src/konami_runtime_w_8003C634.c"
+        },
+        {
+          "functions": [
+            "func_8003C758"
+          ],
+          "id": "slus/konami_runtime_w_8003C758",
+          "source": "src/konami_runtime_w_8003C758.c"
+        },
+        {
+          "functions": [
+            "func_8003C920"
+          ],
+          "id": "slus/konami_runtime_w_8003C920",
+          "source": "src/konami_runtime_w_8003C920.c"
         }
       ],
+      "name": "runtime_directory",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/konami_runtime_directory.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "b8b89800",
+          "offset": 320,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_80080B80",
+          "vram": 2148010880
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "68685800",
+          "offset": 324,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_80080B84",
+          "vram": 2148010884
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md",
       "headers": [
         "include/common.h",
         "include/game.h",
         "include/globals.h",
         "include/include_asm.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "D_80080B80",
-          "asset": "assets/54240.bin",
-          "offset": 320,
-          "size": 4,
-          "vram": 2148010880,
-          "bytes": "b8b89800",
-          "section": ".sdata"
-        },
-        {
-          "symbol": "D_80080B84",
-          "asset": "assets/54240.bin",
-          "offset": 324,
-          "size": 4,
-          "vram": 2148010884,
-          "bytes": "68685800",
-          "section": ".sdata"
-        }
-      ],
-      "evidence": "docs/evidence/gp_ownership_wave.md"
-    },
-    {
-      "name": "render_words",
-      "source": "src/konami_runtime_w_80035888_owned.c",
       "members": [
         {
-          "id": "slus/konami_runtime_w_80035888",
-          "source": "src/konami_runtime_w_80035888.c",
           "functions": [
-            "func_80035888"
-          ]
+            "func_800508F0"
+          ],
+          "id": "slus/w_800508F0",
+          "source": "src/w_800508F0.c"
         }
       ],
+      "name": "entry_words",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/w_800508F0_owned.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/3E018.bin",
+          "bytes": "e003de01",
+          "offset": 90528,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_800809B8",
+          "vram": 2148010424
+        },
+        {
+          "asset": "assets/3E018.bin",
+          "bytes": "30001000",
+          "offset": 90532,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_800809BC",
+          "vram": 2148010428
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md",
       "headers": [
         "include/common.h",
         "include/game.h",
@@ -113,444 +122,472 @@
         "include/include_asm.h",
         "include/records/Rec_func_80034F58_arg0.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "D_800809B8",
-          "asset": "assets/3E018.bin",
-          "offset": 90528,
-          "size": 4,
-          "vram": 2148010424,
-          "bytes": "e003de01",
-          "section": ".sdata"
-        },
-        {
-          "symbol": "D_800809BC",
-          "asset": "assets/3E018.bin",
-          "offset": 90532,
-          "size": 4,
-          "vram": 2148010428,
-          "bytes": "30001000",
-          "section": ".sdata"
-        }
-      ],
-      "evidence": "docs/evidence/gp_ownership_wave.md"
-    },
-    {
-      "name": "owned_80035484",
-      "source": "src/konami_runtime_w_80035484_owned.c",
       "members": [
         {
-          "id": "slus/konami_runtime_w_80035484",
-          "source": "src/konami_runtime_w_80035484.c",
+          "functions": [
+            "func_80035888"
+          ],
+          "id": "slus/konami_runtime_w_80035888",
+          "source": "src/konami_runtime_w_80035888.c"
+        }
+      ],
+      "name": "render_words",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/konami_runtime_w_80035888_owned.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "00000000",
+          "offset": 2560,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_80081440",
+          "vram": 2148013120
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md",
+      "headers": [
+        "include/common.h",
+        "include/game.h",
+        "include/globals.h",
+        "include/include_asm.h"
+      ],
+      "members": [
+        {
           "functions": [
             "func_80035484"
-          ]
+          ],
+          "id": "slus/konami_runtime_w_80035484",
+          "source": "src/konami_runtime_w_80035484.c"
         }
       ],
+      "name": "owned_80035484",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/konami_runtime_w_80035484_owned.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "00000000",
+          "offset": 2568,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_80081448",
+          "vram": 2148013128
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md",
       "headers": [
         "include/common.h",
         "include/game.h",
         "include/globals.h",
         "include/include_asm.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "D_80081440",
-          "asset": "assets/54240.bin",
-          "offset": 2560,
-          "size": 4,
-          "vram": 2148013120,
-          "bytes": "00000000",
-          "section": ".sdata"
-        }
-      ],
-      "evidence": "docs/evidence/gp_ownership_wave.md"
-    },
-    {
-      "name": "owned_80038A10",
-      "source": "src/konami_runtime_w_80038A10_owned.c",
       "members": [
         {
-          "id": "slus/konami_runtime_w_80038A10",
-          "source": "src/konami_runtime_w_80038A10.c",
           "functions": [
             "func_80038A10"
-          ]
+          ],
+          "id": "slus/konami_runtime_w_80038A10",
+          "source": "src/konami_runtime_w_80038A10.c"
         }
       ],
+      "name": "owned_80038A10",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/konami_runtime_w_80038A10_owned.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "0000",
+          "offset": 192,
+          "section": ".sdata",
+          "size": 2,
+          "symbol": "D_80080B00",
+          "vram": 2148010752
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md",
       "headers": [
         "include/common.h",
         "include/game.h",
         "include/globals.h",
         "include/include_asm.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "D_80081448",
-          "asset": "assets/54240.bin",
-          "offset": 2568,
-          "size": 4,
-          "vram": 2148013128,
-          "bytes": "00000000",
-          "section": ".sdata"
-        }
-      ],
-      "evidence": "docs/evidence/gp_ownership_wave.md"
-    },
-    {
-      "name": "owned_80044698",
-      "source": "src/w_80044698_owned.c",
       "members": [
         {
-          "id": "slus/w_80044698",
-          "source": "src/w_80044698.c",
           "functions": [
             "func_80044698"
-          ]
+          ],
+          "id": "slus/w_80044698",
+          "source": "src/w_80044698.c"
         }
       ],
+      "name": "owned_80044698",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/w_80044698_owned.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "00000000",
+          "offset": 2760,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_80081508",
+          "vram": 2148013320
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md",
       "headers": [
         "include/common.h",
         "include/game.h",
         "include/globals.h",
         "include/include_asm.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "D_80080B00",
-          "asset": "assets/54240.bin",
-          "offset": 192,
-          "size": 2,
-          "vram": 2148010752,
-          "bytes": "0000",
-          "section": ".sdata"
-        }
-      ],
-      "evidence": "docs/evidence/gp_ownership_wave.md"
-    },
-    {
-      "name": "owned_800448BC",
-      "source": "src/w_800448BC_owned.c",
       "members": [
         {
-          "id": "slus/w_800448BC",
-          "source": "src/w_800448BC.c",
           "functions": [
             "func_800448BC"
-          ]
+          ],
+          "id": "slus/w_800448BC",
+          "source": "src/w_800448BC.c"
         }
       ],
+      "name": "owned_800448BC",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/w_800448BC_owned.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "0000",
+          "offset": 200,
+          "section": ".sdata",
+          "size": 2,
+          "symbol": "D_80080B08",
+          "vram": 2148010760
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "0000",
+          "offset": 202,
+          "section": ".sdata",
+          "size": 2,
+          "symbol": "D_80080B0A",
+          "vram": 2148010762
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md",
       "headers": [
         "include/common.h",
         "include/game.h",
         "include/globals.h",
         "include/include_asm.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "D_80081508",
-          "asset": "assets/54240.bin",
-          "offset": 2760,
-          "size": 4,
-          "vram": 2148013320,
-          "bytes": "00000000",
-          "section": ".sdata"
-        }
-      ],
-      "evidence": "docs/evidence/gp_ownership_wave.md"
-    },
-    {
-      "name": "owned_8004713C",
-      "source": "src/w_8004713C_owned.c",
       "members": [
         {
-          "id": "slus/w_8004713C",
-          "source": "src/w_8004713C.c",
           "functions": [
             "func_8004713C"
-          ]
+          ],
+          "id": "slus/w_8004713C",
+          "source": "src/w_8004713C.c"
         }
       ],
+      "name": "owned_8004713C",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/w_8004713C_owned.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "0000",
+          "offset": 2776,
+          "section": ".sdata",
+          "size": 2,
+          "symbol": "D_80081518",
+          "vram": 2148013336
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "0000",
+          "offset": 2778,
+          "section": ".sdata",
+          "size": 2,
+          "symbol": "D_8008151A",
+          "vram": 2148013338
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "0000",
+          "offset": 2780,
+          "section": ".sdata",
+          "size": 2,
+          "symbol": "D_8008151C",
+          "vram": 2148013340
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "0000",
+          "offset": 2782,
+          "section": ".sdata",
+          "size": 2,
+          "symbol": "D_8008151E",
+          "vram": 2148013342
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md",
       "headers": [
         "include/common.h",
         "include/game.h",
         "include/globals.h",
         "include/include_asm.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "D_80080B08",
-          "asset": "assets/54240.bin",
-          "offset": 200,
-          "size": 2,
-          "vram": 2148010760,
-          "bytes": "0000",
-          "section": ".sdata"
-        },
-        {
-          "symbol": "D_80080B0A",
-          "asset": "assets/54240.bin",
-          "offset": 202,
-          "size": 2,
-          "vram": 2148010762,
-          "bytes": "0000",
-          "section": ".sdata"
-        }
-      ],
-      "evidence": "docs/evidence/gp_ownership_wave.md"
-    },
-    {
-      "name": "owned_80047338",
-      "source": "src/w_80047338_owned.c",
       "members": [
         {
-          "id": "slus/w_80047338",
-          "source": "src/w_80047338.c",
           "functions": [
             "func_80047338"
-          ]
+          ],
+          "id": "slus/w_80047338",
+          "source": "src/w_80047338.c"
         }
       ],
+      "name": "owned_80047338",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/w_80047338_owned.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "0000",
+          "offset": 2784,
+          "section": ".sdata",
+          "size": 2,
+          "symbol": "D_80081520",
+          "vram": 2148013344
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "0000",
+          "offset": 2786,
+          "section": ".sdata",
+          "size": 2,
+          "symbol": "D_80081522",
+          "vram": 2148013346
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "0000",
+          "offset": 2788,
+          "section": ".sdata",
+          "size": 2,
+          "symbol": "D_80081524",
+          "vram": 2148013348
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "0000",
+          "offset": 2790,
+          "section": ".sdata",
+          "size": 2,
+          "symbol": "D_80081526",
+          "vram": 2148013350
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md",
       "headers": [
         "include/common.h",
         "include/game.h",
         "include/globals.h",
         "include/include_asm.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "D_80081518",
-          "asset": "assets/54240.bin",
-          "offset": 2776,
-          "size": 2,
-          "vram": 2148013336,
-          "bytes": "0000",
-          "section": ".sdata"
-        },
-        {
-          "symbol": "D_8008151A",
-          "asset": "assets/54240.bin",
-          "offset": 2778,
-          "size": 2,
-          "vram": 2148013338,
-          "bytes": "0000",
-          "section": ".sdata"
-        },
-        {
-          "symbol": "D_8008151C",
-          "asset": "assets/54240.bin",
-          "offset": 2780,
-          "size": 2,
-          "vram": 2148013340,
-          "bytes": "0000",
-          "section": ".sdata"
-        },
-        {
-          "symbol": "D_8008151E",
-          "asset": "assets/54240.bin",
-          "offset": 2782,
-          "size": 2,
-          "vram": 2148013342,
-          "bytes": "0000",
-          "section": ".sdata"
-        }
-      ],
-      "evidence": "docs/evidence/gp_ownership_wave.md"
-    },
-    {
-      "name": "owned_80047468",
-      "source": "src/w_80047468_owned.c",
       "members": [
         {
-          "id": "slus/w_80047468",
-          "source": "src/w_80047468.c",
           "functions": [
             "func_80047468"
-          ]
+          ],
+          "id": "slus/w_80047468",
+          "source": "src/w_80047468.c"
         }
       ],
+      "name": "owned_80047468",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/w_80047468_owned.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "80fd0000",
+          "offset": 280,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_80080B58",
+          "vram": 2148010840
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "00000000",
+          "offset": 284,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_80080B5C",
+          "vram": 2148010844
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "00000000",
+          "offset": 288,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_80080B60",
+          "vram": 2148010848
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "00040000",
+          "offset": 292,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_80080B64",
+          "vram": 2148010852
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md",
       "headers": [
         "include/common.h",
         "include/game.h",
         "include/globals.h",
         "include/include_asm.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "D_80081520",
-          "asset": "assets/54240.bin",
-          "offset": 2784,
-          "size": 2,
-          "vram": 2148013344,
-          "bytes": "0000",
-          "section": ".sdata"
-        },
-        {
-          "symbol": "D_80081522",
-          "asset": "assets/54240.bin",
-          "offset": 2786,
-          "size": 2,
-          "vram": 2148013346,
-          "bytes": "0000",
-          "section": ".sdata"
-        },
-        {
-          "symbol": "D_80081524",
-          "asset": "assets/54240.bin",
-          "offset": 2788,
-          "size": 2,
-          "vram": 2148013348,
-          "bytes": "0000",
-          "section": ".sdata"
-        },
-        {
-          "symbol": "D_80081526",
-          "asset": "assets/54240.bin",
-          "offset": 2790,
-          "size": 2,
-          "vram": 2148013350,
-          "bytes": "0000",
-          "section": ".sdata"
-        }
-      ],
-      "evidence": "docs/evidence/gp_ownership_wave.md"
-    },
-    {
-      "name": "state_defaults",
-      "source": "src/gp_state_defaults.c",
       "members": [
         {
-          "id": "slus/w_8004D614",
-          "source": "src/w_8004D614.c",
           "functions": [
             "func_8004D614"
-          ]
+          ],
+          "id": "slus/w_8004D614",
+          "source": "src/w_8004D614.c"
         }
       ],
+      "name": "state_defaults",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/gp_state_defaults.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "0000",
+          "offset": 2728,
+          "section": ".sdata",
+          "size": 2,
+          "symbol": "D_800814E8",
+          "vram": 2148013288
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md",
       "headers": [
         "include/common.h",
         "include/game.h",
         "include/globals.h",
-        "include/include_asm.h"
+        "include/include_asm.h",
+        "include/slus/slot_transition.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "D_80080B58",
-          "asset": "assets/54240.bin",
-          "offset": 280,
-          "size": 4,
-          "vram": 2148010840,
-          "bytes": "80fd0000",
-          "section": ".sdata"
-        },
-        {
-          "symbol": "D_80080B5C",
-          "asset": "assets/54240.bin",
-          "offset": 284,
-          "size": 4,
-          "vram": 2148010844,
-          "bytes": "00000000",
-          "section": ".sdata"
-        },
-        {
-          "symbol": "D_80080B60",
-          "asset": "assets/54240.bin",
-          "offset": 288,
-          "size": 4,
-          "vram": 2148010848,
-          "bytes": "00000000",
-          "section": ".sdata"
-        },
-        {
-          "symbol": "D_80080B64",
-          "asset": "assets/54240.bin",
-          "offset": 292,
-          "size": 4,
-          "vram": 2148010852,
-          "bytes": "00040000",
-          "section": ".sdata"
-        }
-      ],
-      "evidence": "docs/evidence/gp_ownership_wave.md"
-    },
-    {
-      "name": "slot_transition",
-      "source": "src/slot_transition.c",
       "members": [
         {
-          "id": "slus/w_80041AE4",
-          "source": "src/w_80041AE4.c",
           "functions": [
             "func_80041AE4"
-          ]
+          ],
+          "id": "slus/w_80041AE4",
+          "source": "src/w_80041AE4.c"
         },
         {
-          "id": "slus/w_80041B98",
-          "source": "src/w_80041B98.c",
           "functions": [
             "func_80041B98"
-          ]
+          ],
+          "id": "slus/w_80041B98",
+          "source": "src/w_80041B98.c"
         },
         {
-          "id": "slus/w_80041BE4",
-          "source": "src/w_80041BE4.c",
           "functions": [
             "func_80041BE4"
-          ]
+          ],
+          "id": "slus/w_80041BE4",
+          "source": "src/w_80041BE4.c"
         },
         {
-          "id": "slus/w_80041C64",
-          "source": "src/w_80041C64.c",
           "functions": [
             "func_80041C64"
-          ]
+          ],
+          "id": "slus/w_80041C64",
+          "source": "src/w_80041C64.c"
         }
       ],
+      "name": "slot_transition",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/slot_transition.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "0000",
+          "offset": 2752,
+          "section": ".sdata",
+          "size": 2,
+          "symbol": "D_80081500",
+          "vram": 2148013312
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md",
       "headers": [
         "include/common.h",
         "include/game.h",
@@ -558,288 +595,244 @@
         "include/include_asm.h",
         "include/slus/slot_transition.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "D_800814E8",
-          "asset": "assets/54240.bin",
-          "offset": 2728,
-          "size": 2,
-          "vram": 2148013288,
-          "bytes": "0000",
-          "section": ".sdata"
-        }
-      ],
-      "evidence": "docs/evidence/gp_ownership_wave.md"
-    },
-    {
-      "name": "slot_transition_secondary",
-      "source": "src/slot_transition_secondary.c",
       "members": [
         {
-          "id": "slus/w_80043D04",
-          "source": "src/w_80043D04.c",
           "functions": [
             "func_80043D04"
-          ]
+          ],
+          "id": "slus/w_80043D04",
+          "source": "src/w_80043D04.c"
         },
         {
-          "id": "slus/w_80043DB8",
-          "source": "src/w_80043DB8.c",
           "functions": [
             "func_80043DB8"
-          ]
+          ],
+          "id": "slus/w_80043DB8",
+          "source": "src/w_80043DB8.c"
         },
         {
-          "id": "slus/w_80043E04",
-          "source": "src/w_80043E04.c",
           "functions": [
             "func_80043E04"
-          ]
+          ],
+          "id": "slus/w_80043E04",
+          "source": "src/w_80043E04.c"
         },
         {
-          "id": "slus/w_80043E60",
-          "source": "src/w_80043E60.c",
           "functions": [
             "func_80043E60"
-          ]
+          ],
+          "id": "slus/w_80043E60",
+          "source": "src/w_80043E60.c"
         }
       ],
+      "name": "slot_transition_secondary",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/slot_transition_secondary.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "00000000",
+          "offset": 2592,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_80081460",
+          "vram": 2148013152
+        }
+      ],
+      "evidence": "docs/evidence/gp_count_and_slots.md",
       "headers": [
         "include/common.h",
         "include/game.h",
         "include/globals.h",
-        "include/include_asm.h",
-        "include/slus/slot_transition.h"
+        "include/include_asm.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "D_80081500",
-          "asset": "assets/54240.bin",
-          "offset": 2752,
-          "size": 2,
-          "vram": 2148013312,
-          "bytes": "0000",
-          "section": ".sdata"
-        }
-      ],
-      "evidence": "docs/evidence/gp_ownership_wave.md"
-    },
-    {
-      "name": "konami_runtime_gp_count",
-      "source": "src/konami_runtime_gp_count.c",
       "members": [
         {
-          "id": "slus/konami_runtime_w_8003C6F8",
-          "source": "src/konami_runtime_w_8003C6F8.c",
           "functions": [
             "func_8003C6F8"
-          ]
+          ],
+          "id": "slus/konami_runtime_w_8003C6F8",
+          "source": "src/konami_runtime_w_8003C6F8.c"
         }
       ],
+      "name": "konami_runtime_gp_count",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/konami_runtime_gp_count.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "0000",
+          "offset": 100,
+          "section": ".sdata",
+          "size": 2,
+          "symbol": "D_80080AA4",
+          "vram": 2148010660
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "0000",
+          "offset": 102,
+          "section": ".sdata",
+          "size": 2,
+          "symbol": "D_80080AA6",
+          "vram": 2148010662
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "0000",
+          "offset": 104,
+          "section": ".sdata",
+          "size": 2,
+          "symbol": "D_80080AA8",
+          "vram": 2148010664
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "0000",
+          "offset": 106,
+          "section": ".sdata",
+          "size": 2,
+          "symbol": "D_80080AAA",
+          "vram": 2148010666
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "00000000",
+          "offset": 108,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_80080AAC",
+          "vram": 2148010668
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "00000000",
+          "offset": 112,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_80080AB0",
+          "vram": 2148010672
+        }
+      ],
+      "evidence": "docs/evidence/gp_count_and_slots.md",
       "headers": [
         "include/common.h",
         "include/game.h",
         "include/globals.h",
         "include/include_asm.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "D_80081460",
-          "asset": "assets/54240.bin",
-          "offset": 2592,
-          "size": 4,
-          "vram": 2148013152,
-          "bytes": "00000000",
-          "section": ".sdata"
-        }
-      ],
-      "evidence": "docs/evidence/gp_count_and_slots.md"
-    },
-    {
-      "name": "gp_shared_slots",
-      "source": "src/gp_shared_slots.c",
       "members": [
         {
-          "id": "slus/w_8003CB08",
-          "source": "src/w_8003CB08.c",
           "functions": [
             "func_8003CB08"
-          ]
+          ],
+          "id": "slus/w_8003CB08",
+          "source": "src/w_8003CB08.c"
         },
         {
-          "id": "slus/w_8003CCB0",
-          "source": "src/w_8003CCB0.c",
           "functions": [
             "func_8003CCB0"
-          ]
+          ],
+          "id": "slus/w_8003CCB0",
+          "source": "src/w_8003CCB0.c"
         }
       ],
+      "name": "gp_shared_slots",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/gp_shared_slots.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "0000",
+          "offset": 208,
+          "section": ".sdata",
+          "size": 2,
+          "symbol": "D_80080B10",
+          "vram": 2148010768
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "0000",
+          "offset": 210,
+          "section": ".sdata",
+          "size": 2,
+          "symbol": "D_80080B12",
+          "vram": 2148010770
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "0000",
+          "offset": 212,
+          "section": ".sdata",
+          "size": 2,
+          "symbol": "D_80080B14",
+          "vram": 2148010772
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "0000",
+          "offset": 2800,
+          "section": ".sbss",
+          "size": 2,
+          "symbol": "D_80081530",
+          "vram": 2148013360
+        }
+      ],
+      "evidence": "docs/evidence/gp_split_storage.md",
       "headers": [
         "include/common.h",
         "include/game.h",
         "include/globals.h",
         "include/include_asm.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "D_80080AA4",
-          "asset": "assets/54240.bin",
-          "offset": 100,
-          "size": 2,
-          "vram": 2148010660,
-          "bytes": "0000",
-          "section": ".sdata"
-        },
-        {
-          "symbol": "D_80080AA6",
-          "asset": "assets/54240.bin",
-          "offset": 102,
-          "size": 2,
-          "vram": 2148010662,
-          "bytes": "0000",
-          "section": ".sdata"
-        },
-        {
-          "symbol": "D_80080AA8",
-          "asset": "assets/54240.bin",
-          "offset": 104,
-          "size": 2,
-          "vram": 2148010664,
-          "bytes": "0000",
-          "section": ".sdata"
-        },
-        {
-          "symbol": "D_80080AAA",
-          "asset": "assets/54240.bin",
-          "offset": 106,
-          "size": 2,
-          "vram": 2148010666,
-          "bytes": "0000",
-          "section": ".sdata"
-        },
-        {
-          "symbol": "D_80080AAC",
-          "asset": "assets/54240.bin",
-          "offset": 108,
-          "size": 4,
-          "vram": 2148010668,
-          "bytes": "00000000",
-          "section": ".sdata"
-        },
-        {
-          "symbol": "D_80080AB0",
-          "asset": "assets/54240.bin",
-          "offset": 112,
-          "size": 4,
-          "vram": 2148010672,
-          "bytes": "00000000",
-          "section": ".sdata"
-        }
-      ],
-      "evidence": "docs/evidence/gp_count_and_slots.md"
-    },
-    {
-      "name": "gp_split_storage",
-      "source": "src/gp_split_storage.c",
       "members": [
         {
-          "id": "slus/w_80048660",
-          "source": "src/w_80048660.c",
           "functions": [
             "func_80048660"
-          ]
+          ],
+          "id": "slus/w_80048660",
+          "source": "src/w_80048660.c"
         }
       ],
-      "headers": [
-        "include/common.h",
-        "include/game.h",
-        "include/globals.h",
-        "include/include_asm.h"
-      ],
+      "name": "gp_split_storage",
       "recipe": {
-        "ccver": "2.7.2-cdk",
+        "asflags": "",
         "ccflags": "",
-        "asflags": ""
+        "ccver": "2.7.2-cdk"
       },
-      "data": [
-        {
-          "symbol": "D_80080B10",
-          "asset": "assets/54240.bin",
-          "offset": 208,
-          "size": 2,
-          "vram": 2148010768,
-          "bytes": "0000",
-          "section": ".sdata"
-        },
-        {
-          "symbol": "D_80080B12",
-          "asset": "assets/54240.bin",
-          "offset": 210,
-          "size": 2,
-          "vram": 2148010770,
-          "bytes": "0000",
-          "section": ".sdata"
-        },
-        {
-          "symbol": "D_80080B14",
-          "asset": "assets/54240.bin",
-          "offset": 212,
-          "size": 2,
-          "vram": 2148010772,
-          "bytes": "0000",
-          "section": ".sdata"
-        },
-        {
-          "symbol": "D_80081530",
-          "asset": "assets/54240.bin",
-          "offset": 2800,
-          "size": 2,
-          "vram": 2148013360,
-          "bytes": "0000",
-          "section": ".sbss"
-        }
-      ],
-      "evidence": "docs/evidence/gp_split_storage.md"
+      "source": "src/gp_split_storage.c"
     },
     {
-      "name": "gp_shared_81510",
-      "source": "src/gp_shared_81510.c",
-      "members": [
+      "data": [
         {
-          "id": "slus/w_80045340",
-          "source": "src/w_80045340.c",
-          "functions": [
-            "func_80045340"
-          ]
-        },
-        {
-          "id": "slus/w_800453E0",
-          "source": "src/w_800453E0.c",
-          "functions": [
-            "func_800453E0"
-          ]
+          "asset": "assets/54240.bin",
+          "bytes": "00000000",
+          "offset": 2768,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_80081510",
+          "vram": 2148013328
         }
       ],
+      "evidence": "docs/evidence/gp_shared_state_81510.md",
       "headers": [
         "include/common.h",
         "include/game.h",
@@ -847,43 +840,43 @@
         "include/include_asm.h",
         "include/slus/gp_shared_81510.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "D_80081510",
-          "asset": "assets/54240.bin",
-          "offset": 2768,
-          "size": 4,
-          "vram": 2148013328,
-          "bytes": "00000000",
-          "section": ".sdata"
-        }
-      ],
-      "evidence": "docs/evidence/gp_shared_state_81510.md"
-    },
-    {
-      "name": "gp_shared_8099c",
-      "source": "src/konami_runtime_gp_shared_8099c.c",
       "members": [
         {
-          "id": "slus/konami_runtime_w_80033D44",
-          "source": "src/konami_runtime_w_80033D44.c",
           "functions": [
-            "func_80033D44"
-          ]
+            "func_80045340"
+          ],
+          "id": "slus/w_80045340",
+          "source": "src/w_80045340.c"
         },
         {
-          "id": "slus/konami_runtime_w_80033D54",
-          "source": "src/konami_runtime_w_80033D54.c",
           "functions": [
-            "func_80033D54"
-          ]
+            "func_800453E0"
+          ],
+          "id": "slus/w_800453E0",
+          "source": "src/w_800453E0.c"
         }
       ],
+      "name": "gp_shared_81510",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/gp_shared_81510.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/3E018.bin",
+          "bytes": "00000000",
+          "offset": 90500,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_8008099C",
+          "vram": 2148010396
+        }
+      ],
+      "evidence": "docs/evidence/gp_shared_8099c.md",
       "headers": [
         "include/common.h",
         "include/game.h",
@@ -891,72 +884,79 @@
         "include/include_asm.h",
         "include/slus/gp_shared_8099c.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "D_8008099C",
-          "asset": "assets/3E018.bin",
-          "offset": 90500,
-          "size": 4,
-          "vram": 2148010396,
-          "bytes": "00000000",
-          "section": ".sdata"
-        }
-      ],
-      "evidence": "docs/evidence/gp_shared_8099c.md"
-    },
-    {
-      "name": "cache_afe",
-      "source": "src/w_80044618_owned.c",
       "members": [
         {
-          "id": "slus/w_80044618",
-          "source": "src/w_80044618.c",
           "functions": [
-            "func_80044618"
-          ]
+            "func_80033D44"
+          ],
+          "id": "slus/konami_runtime_w_80033D44",
+          "source": "src/konami_runtime_w_80033D44.c"
+        },
+        {
+          "functions": [
+            "func_80033D54"
+          ],
+          "id": "slus/konami_runtime_w_80033D54",
+          "source": "src/konami_runtime_w_80033D54.c"
         }
       ],
+      "name": "gp_shared_8099c",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/konami_runtime_gp_shared_8099c.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "0000",
+          "offset": 190,
+          "section": ".sdata",
+          "size": 2,
+          "symbol": "D_80080AFE",
+          "vram": 2148010750
+        }
+      ],
+      "evidence": "docs/evidence/gp_cache_afe.md",
       "headers": [
         "include/common.h",
         "include/game.h",
         "include/globals.h",
         "include/include_asm.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "D_80080AFE",
-          "asset": "assets/54240.bin",
-          "offset": 190,
-          "size": 2,
-          "vram": 2148010750,
-          "bytes": "0000",
-          "section": ".sdata"
-        }
-      ],
-      "evidence": "docs/evidence/gp_cache_afe.md"
-    },
-    {
-      "name": "list_cursor_e0",
-      "source": "src/w_80041134_owned.c",
       "members": [
         {
-          "id": "slus/w_80041134",
-          "source": "src/w_80041134.c",
           "functions": [
-            "func_80041134"
-          ]
+            "func_80044618"
+          ],
+          "id": "slus/w_80044618",
+          "source": "src/w_80044618.c"
         }
       ],
+      "name": "cache_afe",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/w_80044618_owned.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "00000000",
+          "offset": 2720,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_800814E0",
+          "vram": 2148013280
+        }
+      ],
+      "evidence": "docs/evidence/list_cursor_e0.md",
       "headers": [
         "include/common.h",
         "include/game.h",
@@ -964,474 +964,473 @@
         "include/include_asm.h",
         "include/slus/list_cursor_e0.h"
       ],
+      "members": [
+        {
+          "functions": [
+            "func_80041134"
+          ],
+          "id": "slus/w_80041134",
+          "source": "src/w_80041134.c"
+        }
+      ],
+      "name": "list_cursor_e0",
       "recipe": {
         "asflags": "",
         "ccflags": "",
         "ccver": "2.7.2-cdk"
       },
-      "data": [
-        {
-          "symbol": "D_800814E0",
-          "asset": "assets/54240.bin",
-          "offset": 2720,
-          "size": 4,
-          "vram": 2148013280,
-          "bytes": "00000000",
-          "section": ".sdata"
-        }
-      ],
-      "evidence": "docs/evidence/list_cursor_e0.md"
+      "source": "src/w_80041134_owned.c"
     },
     {
-      "name": "saved_value_b98",
-      "source": "src/w_80050DA8_owned.c",
-      "members": [
+      "data": [
         {
-          "id": "slus/w_80050DA8",
-          "source": "src/w_80050DA8.c",
-          "functions": [
-            "func_80050DA8"
-          ]
+          "asset": "assets/54240.bin",
+          "bytes": "01000000",
+          "offset": 340,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_80080B94",
+          "vram": 2148010900
         },
         {
-          "id": "slus/w_80050E20",
-          "source": "src/w_80050E20.c",
-          "functions": [
-            "func_80050E20"
-          ]
+          "asset": "assets/54240.bin",
+          "bytes": "00000000",
+          "offset": 344,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_80080B98",
+          "vram": 2148010904
         }
       ],
+      "evidence": "docs/evidence/gp_b98_partition.md",
       "headers": [
         "include/common.h",
         "include/slus/saved_value_b98.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "D_80080B94",
-          "asset": "assets/54240.bin",
-          "offset": 340,
-          "size": 4,
-          "vram": 2148010900,
-          "bytes": "01000000",
-          "section": ".sdata"
-        },
-        {
-          "symbol": "D_80080B98",
-          "asset": "assets/54240.bin",
-          "offset": 344,
-          "size": 4,
-          "vram": 2148010904,
-          "bytes": "00000000",
-          "section": ".sdata"
-        }
-      ],
-      "evidence": "docs/evidence/gp_b98_partition.md"
-    },
-    {
-      "name": "sort_rank_81540",
-      "source": "src/sort_rank_81540_owned.c",
       "members": [
         {
-          "id": "slus/w_8004B08C",
-          "source": "src/w_8004B08C.c",
           "functions": [
-            "func_8004B08C"
-          ]
+            "func_80050DA8"
+          ],
+          "id": "slus/w_80050DA8",
+          "source": "src/w_80050DA8.c"
+        },
+        {
+          "functions": [
+            "func_80050E20"
+          ],
+          "id": "slus/w_80050E20",
+          "source": "src/w_80050E20.c"
         }
       ],
+      "name": "saved_value_b98",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/w_80050DA8_owned.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "00000000",
+          "offset": 2816,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_80081540",
+          "vram": 2148013376
+        }
+      ],
+      "evidence": "docs/evidence/gp_b98_partition.md",
       "headers": [
         "include/common.h",
         "include/slus/sort_rank_81540.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "D_80081540",
-          "asset": "assets/54240.bin",
-          "offset": 2816,
-          "size": 4,
-          "vram": 2148013376,
-          "bytes": "00000000",
-          "section": ".sdata"
-        }
-      ],
-      "evidence": "docs/evidence/gp_b98_partition.md"
-    },
-    {
-      "name": "command_slots_81554",
-      "source": "src/w_8004DCA8_owned.c",
       "members": [
         {
-          "id": "slus/w_8004DCA8",
-          "source": "src/w_8004DCA8.c",
           "functions": [
-            "func_8004DCA8"
-          ]
-        },
-        {
-          "id": "slus/w_8004DD2C",
-          "source": "src/w_8004DD2C.c",
-          "functions": [
-            "func_8004DD2C"
-          ]
-        },
-        {
-          "id": "slus/w_8004DDE4",
-          "source": "src/w_8004DDE4.c",
-          "functions": [
-            "func_8004DDE4"
-          ]
-        },
-        {
-          "id": "slus/w_8004E130",
-          "source": "src/w_8004E130.c",
-          "functions": [
-            "func_8004E130"
-          ]
+            "func_8004B08C"
+          ],
+          "id": "slus/w_8004B08C",
+          "source": "src/w_8004B08C.c"
         }
       ],
+      "name": "sort_rank_81540",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/sort_rank_81540_owned.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "00000000",
+          "offset": 2836,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_80081554",
+          "vram": 2148013396
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "00000000",
+          "offset": 2840,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_80081558",
+          "vram": 2148013400
+        }
+      ],
+      "evidence": "docs/evidence/gp_81554_partition.md",
       "headers": [
         "include/common.h",
         "include/slus/command_slots_81554.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "D_80081554",
-          "asset": "assets/54240.bin",
-          "offset": 2836,
-          "size": 4,
-          "vram": 2148013396,
-          "bytes": "00000000",
-          "section": ".sdata"
-        },
-        {
-          "symbol": "D_80081558",
-          "asset": "assets/54240.bin",
-          "offset": 2840,
-          "size": 4,
-          "vram": 2148013400,
-          "bytes": "00000000",
-          "section": ".sdata"
-        }
-      ],
-      "evidence": "docs/evidence/gp_81554_partition.md"
-    },
-    {
-      "name": "address_slot",
-      "source": "src/w_80047E78_owned.c",
       "members": [
         {
-          "id": "slus/w_80047E78",
-          "source": "src/w_80047E78.c",
+          "functions": [
+            "func_8004DCA8"
+          ],
+          "id": "slus/w_8004DCA8",
+          "source": "src/w_8004DCA8.c"
+        },
+        {
+          "functions": [
+            "func_8004DD2C"
+          ],
+          "id": "slus/w_8004DD2C",
+          "source": "src/w_8004DD2C.c"
+        },
+        {
+          "functions": [
+            "func_8004DDE4"
+          ],
+          "id": "slus/w_8004DDE4",
+          "source": "src/w_8004DDE4.c"
+        },
+        {
+          "functions": [
+            "func_8004E130"
+          ],
+          "id": "slus/w_8004E130",
+          "source": "src/w_8004E130.c"
+        }
+      ],
+      "name": "command_slots_81554",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/w_8004DCA8_owned.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "00000000",
+          "offset": 2792,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_80081528",
+          "vram": 2148013352
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md",
+      "headers": [
+        "include/common.h"
+      ],
+      "members": [
+        {
           "functions": [
             "func_80047E78"
-          ]
+          ],
+          "id": "slus/w_80047E78",
+          "source": "src/w_80047E78.c"
         }
       ],
+      "name": "address_slot",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/w_80047E78_owned.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "00000000",
+          "offset": 2856,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_80081568",
+          "vram": 2148013416
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "00000000",
+          "offset": 2860,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_8008156C",
+          "vram": 2148013420
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md",
       "headers": [
         "include/common.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "D_80081528",
-          "asset": "assets/54240.bin",
-          "offset": 2792,
-          "size": 4,
-          "vram": 2148013352,
-          "bytes": "00000000",
-          "section": ".sdata"
-        }
-      ],
-      "evidence": "docs/evidence/gp_ownership_wave.md"
-    },
-    {
-      "name": "command_words",
-      "source": "src/w_80053CFC_owned.c",
       "members": [
         {
-          "id": "slus/w_80053CFC",
-          "source": "src/w_80053CFC.c",
           "functions": [
             "func_80053CFC"
-          ]
+          ],
+          "id": "slus/w_80053CFC",
+          "source": "src/w_80053CFC.c"
         }
       ],
+      "name": "command_words",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/w_80053CFC_owned.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "00000000",
+          "offset": 2796,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_8008152C",
+          "vram": 2148013356
+        }
+      ],
+      "evidence": "docs/evidence/fidelity_gp_repair_progress.md",
       "headers": [
         "include/common.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "D_80081568",
-          "asset": "assets/54240.bin",
-          "offset": 2856,
-          "size": 4,
-          "vram": 2148013416,
-          "bytes": "00000000",
-          "section": ".sdata"
-        },
-        {
-          "symbol": "D_8008156C",
-          "asset": "assets/54240.bin",
-          "offset": 2860,
-          "size": 4,
-          "vram": 2148013420,
-          "bytes": "00000000",
-          "section": ".sdata"
-        }
-      ],
-      "evidence": "docs/evidence/gp_ownership_wave.md"
-    },
-    {
-      "name": "gp_shared_8152c",
-      "source": "src/gp_shared_8152c.c",
       "members": [
         {
-          "id": "slus/w_80047D44",
-          "source": "src/w_80047D44.c",
           "functions": [
             "func_80047D44"
-          ]
+          ],
+          "id": "slus/w_80047D44",
+          "source": "src/w_80047D44.c"
         },
         {
-          "id": "slus/w_80047DF0",
-          "source": "src/w_80047DF0.c",
           "functions": [
             "func_80047DF0"
-          ]
+          ],
+          "id": "slus/w_80047DF0",
+          "source": "src/w_80047DF0.c"
         },
         {
-          "id": "slus/w_80047E30",
-          "source": "src/w_80047E30.c",
           "functions": [
             "func_80047E30"
-          ]
+          ],
+          "id": "slus/w_80047E30",
+          "source": "src/w_80047E30.c"
         }
       ],
+      "name": "gp_shared_8152c",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/gp_shared_8152c.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "0000",
+          "offset": 124,
+          "section": ".sdata",
+          "size": 2,
+          "symbol": "D_80080ABC",
+          "vram": 2148010684
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "0000",
+          "offset": 126,
+          "section": ".sdata",
+          "size": 2,
+          "symbol": "D_80080ABE",
+          "vram": 2148010686
+        }
+      ],
+      "evidence": "docs/evidence/fidelity_step4_measure.md",
       "headers": [
         "include/common.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "D_8008152C",
-          "asset": "assets/54240.bin",
-          "offset": 2796,
-          "size": 4,
-          "vram": 2148013356,
-          "bytes": "00000000",
-          "section": ".sdata"
-        }
-      ],
-      "evidence": "docs/evidence/fidelity_gp_repair_progress.md"
-    },
-    {
-      "name": "gp_d92c_owned",
-      "source": "src/gp_d92c_owned.c",
       "members": [
         {
-          "id": "slus/w_8003D92C",
-          "source": "src/w_8003D92C.c",
           "functions": [
             "func_8003D92C"
-          ]
+          ],
+          "id": "slus/w_8003D92C",
+          "source": "src/w_8003D92C.c"
         }
       ],
+      "name": "gp_d92c_owned",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/gp_d92c_owned.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "01030204",
+          "offset": 240,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_80080B30",
+          "vram": 2148010800
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md",
       "headers": [
         "include/common.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "D_80080ABC",
-          "asset": "assets/54240.bin",
-          "offset": 124,
-          "size": 2,
-          "vram": 2148010684,
-          "bytes": "0000",
-          "section": ".sdata"
-        },
-        {
-          "symbol": "D_80080ABE",
-          "asset": "assets/54240.bin",
-          "offset": 126,
-          "size": 2,
-          "vram": 2148010686,
-          "bytes": "0000",
-          "section": ".sdata"
-        }
-      ],
-      "evidence": "docs/evidence/fidelity_step4_measure.md"
-    },
-    {
-      "name": "gp_order_bytes_owner",
-      "source": "src/gp_order_bytes_owner.c",
       "members": [
         {
-          "id": "slus/w_80049F68",
-          "source": "src/w_80049F68.c",
           "functions": [
             "func_80049F68"
-          ]
+          ],
+          "id": "slus/w_80049F68",
+          "source": "src/w_80049F68.c"
         }
       ],
+      "name": "gp_order_bytes_owner",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/gp_order_bytes_owner.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "ff",
+          "offset": 179,
+          "section": ".sdata",
+          "size": 1,
+          "symbol": "D_80080AF3",
+          "vram": 2148010739
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "0000",
+          "offset": 188,
+          "section": ".sbss",
+          "size": 2,
+          "symbol": "D_80080AFC",
+          "vram": 2148010748
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md",
       "headers": [
         "include/common.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "D_80080B30",
-          "asset": "assets/54240.bin",
-          "offset": 240,
-          "size": 4,
-          "vram": 2148010800,
-          "bytes": "01030204",
-          "section": ".sdata"
-        }
-      ],
-      "evidence": "docs/evidence/gp_ownership_wave.md"
-    },
-    {
-      "name": "gp_af3_pair",
-      "source": "src/w_8004437C_pair.c",
       "members": [
         {
-          "id": "slus/w_8004437C",
-          "source": "src/w_8004437C.c",
           "functions": [
             "func_8004437C"
-          ]
+          ],
+          "id": "slus/w_8004437C",
+          "source": "src/w_8004437C.c"
         },
         {
-          "id": "slus/w_8004450C",
-          "source": "src/w_8004450C.c",
           "functions": [
             "func_8004450C"
-          ]
+          ],
+          "id": "slus/w_8004450C",
+          "source": "src/w_8004450C.c"
         }
       ],
-      "headers": [
-        "include/common.h"
-      ],
+      "name": "gp_af3_pair",
       "recipe": {
-        "ccver": "2.7.2-cdk",
+        "asflags": "",
         "ccflags": "",
-        "asflags": ""
+        "ccver": "2.7.2-cdk"
       },
-      "data": [
-        {
-          "symbol": "D_80080AF3",
-          "asset": "assets/54240.bin",
-          "offset": 179,
-          "size": 1,
-          "vram": 2148010739,
-          "bytes": "ff",
-          "section": ".sdata"
-        },
-        {
-          "symbol": "D_80080AFC",
-          "asset": "assets/54240.bin",
-          "offset": 188,
-          "size": 2,
-          "vram": 2148010748,
-          "bytes": "0000",
-          "section": ".sbss"
-        }
-      ],
-      "evidence": "docs/evidence/gp_ownership_wave.md"
+      "source": "src/w_8004437C_pair.c"
     },
     {
-      "name": "message_mode_81550",
-      "source": "src/w_8004DCEC_owned.c",
-      "members": [
+      "data": [
         {
-          "id": "slus/w_8004DCEC",
-          "source": "src/w_8004DCEC.c",
-          "functions": [
-            "func_8004DCEC"
-          ]
+          "asset": "assets/54240.bin",
+          "bytes": "00000000",
+          "offset": 2828,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_8008154C",
+          "vram": 2148013388
         },
         {
-          "id": "slus/w_8004DE88",
-          "source": "src/w_8004DE88.c",
-          "functions": [
-            "func_8004DE88"
-          ]
-        },
-        {
-          "id": "slus/w_8004DF8C",
-          "source": "src/w_8004DF8C.c",
-          "functions": [
-            "func_8004DF8C"
-          ]
+          "asset": "assets/54240.bin",
+          "bytes": "00000000",
+          "offset": 2832,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_80081550",
+          "vram": 2148013392
         }
       ],
+      "evidence": "docs/evidence/gp_81550_partition.md",
       "headers": [
         "include/common.h",
         "include/slus/message_mode_81550.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
+      "members": [
         {
-          "symbol": "D_8008154C",
-          "asset": "assets/54240.bin",
-          "offset": 2828,
-          "size": 4,
-          "vram": 2148013388,
-          "bytes": "00000000",
-          "section": ".sdata"
+          "functions": [
+            "func_8004DCEC"
+          ],
+          "id": "slus/w_8004DCEC",
+          "source": "src/w_8004DCEC.c"
         },
         {
-          "symbol": "D_80081550",
-          "asset": "assets/54240.bin",
-          "offset": 2832,
-          "size": 4,
-          "vram": 2148013392,
-          "bytes": "00000000",
-          "section": ".sdata"
+          "functions": [
+            "func_8004DE88"
+          ],
+          "id": "slus/w_8004DE88",
+          "source": "src/w_8004DE88.c"
+        },
+        {
+          "functions": [
+            "func_8004DF8C"
+          ],
+          "id": "slus/w_8004DF8C",
+          "source": "src/w_8004DF8C.c"
         }
       ],
-      "evidence": "docs/evidence/gp_81550_partition.md"
+      "name": "message_mode_81550",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/w_8004DCEC_owned.c"
     },
     {
       "data": [
@@ -1535,13 +1534,13 @@
           "vram": 2148013236
         },
         {
-          "symbol": "jtbl_8002D5C0",
           "asset": "assets/800.bin",
-          "offset": 1472,
-          "size": 112,
-          "vram": 2147669440,
           "bytes": "60ee0380f8f10380f8f10380f8f10380f8f10380f8f1038098ee0380f8f10380f8f10380b8ef0380f8f10380f8f10380f8f10380f8f10380f8f10380f8f10380f8f10380f8f10380f8f10380f8f10380f8f10380e4ef0380f8f10380f8f10380f8f10380f8f10380f8f1038088f00380",
-          "section": ".rodata"
+          "offset": 1472,
+          "section": ".rodata",
+          "size": 112,
+          "symbol": "jtbl_8002D5C0",
+          "vram": 2147669440
         }
       ],
       "data_pieces": [
@@ -1667,458 +1666,459 @@
       "source": "src/cd_command_state_owned.c"
     },
     {
-      "name": "accessors_814c8",
-      "source": "src/c8_accessors_owned.c",
-      "members": [],
-      "partition_only": true,
-      "headers": [
-        "include/common.h"
-      ],
-      "recipe": {
-        "ccver": "2.7.2",
-        "ccflags": "",
-        "asflags": ""
-      },
       "data": [
         {
-          "symbol": "D_800814C8",
           "asset": "assets/54240.bin",
-          "offset": 2696,
-          "size": 4,
-          "vram": 2148013256,
           "bytes": "00000000",
-          "section": ".sdata"
+          "offset": 2696,
+          "section": ".sdata",
+          "size": 4,
+          "symbol": "D_800814C8",
+          "vram": 2148013256
         }
       ],
-      "evidence": "docs/evidence/gp_cd_cohort.md"
-    },
-    {
-      "name": "table_counters_b1b_b1c",
-      "source": "src/b1b_b1c_table_owned.c",
-      "members": [],
-      "partition_only": true,
+      "evidence": "docs/evidence/gp_cd_cohort.md",
       "headers": [
         "include/common.h"
       ],
+      "members": [],
+      "name": "accessors_814c8",
+      "partition_only": true,
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2"
+      },
+      "source": "src/c8_accessors_owned.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "00",
+          "offset": 219,
+          "section": ".sdata.D_80080B1B",
+          "size": 1,
+          "symbol": "D_80080B1B",
+          "vram": 2148010779
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "00",
+          "offset": 220,
+          "section": ".sdata.D_80080B1C",
+          "size": 1,
+          "symbol": "D_80080B1C",
+          "vram": 2148010780
+        }
+      ],
+      "data_pieces": [
+        {
+          "alignment": 1,
+          "source_section": ".sdata",
+          "symbol": "D_80080B1B"
+        },
+        {
+          "alignment": 1,
+          "source_section": ".sdata",
+          "symbol": "D_80080B1C"
+        }
+      ],
+      "evidence": "docs/evidence/gp_cd_cohort.md",
+      "headers": [
+        "include/common.h"
+      ],
+      "members": [],
+      "name": "table_counters_b1b_b1c",
+      "partition_only": true,
       "recipe": {
         "asflags": "",
         "ccflags": "",
         "ccver": "2.7.2-cdk"
       },
-      "data": [
-        {
-          "symbol": "D_80080B1B",
-          "asset": "assets/54240.bin",
-          "offset": 219,
-          "size": 1,
-          "vram": 2148010779,
-          "bytes": "00",
-          "section": ".sdata.D_80080B1B"
-        },
-        {
-          "symbol": "D_80080B1C",
-          "asset": "assets/54240.bin",
-          "offset": 220,
-          "size": 1,
-          "vram": 2148010780,
-          "bytes": "00",
-          "section": ".sdata.D_80080B1C"
-        }
-      ],
-      "data_pieces": [
-        {
-          "symbol": "D_80080B1B",
-          "source_section": ".sdata",
-          "alignment": 1
-        },
-        {
-          "symbol": "D_80080B1C",
-          "source_section": ".sdata",
-          "alignment": 1
-        }
-      ],
-      "evidence": "docs/evidence/gp_cd_cohort.md"
+      "source": "src/b1b_b1c_table_owned.c"
     },
     {
-      "name": "jtbl_80054F9C",
-      "source": "src/w_80054F9C_jtbl_owned.c",
+      "data": [
+        {
+          "asset": "assets/800.bin",
+          "bytes": "e84f05800050058000500580e84f0580005005800050058000500580005005800050058000500580005005800050058000500580005005800050058000500580f04f05800050058000500580f04f0580005005800050058000500580005005800050058000500580005005800050058000500580005005800050058000500580f84f05800050058000500580f84f0580",
+          "offset": 24084,
+          "section": ".rodata",
+          "size": 144,
+          "symbol": "jtbl_80032E14",
+          "vram": 2147692052
+        }
+      ],
+      "evidence": "docs/evidence/slus_rodata_migration.md",
+      "headers": [
+        "include/common.h"
+      ],
       "members": [
         {
-          "id": "slus/w_80054F9C",
-          "source": "src/w_80054F9C.c",
           "functions": [
             "func_80054F9C"
-          ]
+          ],
+          "id": "slus/w_80054F9C",
+          "source": "src/w_80054F9C.c"
         }
       ],
+      "name": "jtbl_80054F9C",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/w_80054F9C_jtbl_owned.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/800.bin",
+          "bytes": "a0130480dc130480dc14048000150480c4130480f4130480101404806014048028150480",
+          "offset": 1584,
+          "section": ".rodata",
+          "size": 36,
+          "symbol": "jtbl_8002D630",
+          "vram": 2147669552
+        }
+      ],
+      "evidence": "docs/evidence/slus_rodata_migration.md",
       "headers": [
         "include/common.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "jtbl_80032E14",
-          "asset": "assets/800.bin",
-          "offset": 24084,
-          "size": 144,
-          "vram": 2147692052,
-          "bytes": "e84f05800050058000500580e84f0580005005800050058000500580005005800050058000500580005005800050058000500580005005800050058000500580f04f05800050058000500580f04f0580005005800050058000500580005005800050058000500580005005800050058000500580005005800050058000500580f84f05800050058000500580f84f0580",
-          "section": ".rodata"
-        }
-      ],
-      "evidence": "docs/evidence/slus_rodata_migration.md"
-    },
-    {
-      "name": "jtbl_80041344",
-      "source": "src/w_80041344_jtbl_owned.c",
       "members": [
         {
-          "id": "slus/w_80041344",
-          "source": "src/w_80041344.c",
           "functions": [
             "func_80041344"
-          ]
+          ],
+          "id": "slus/w_80041344",
+          "source": "src/w_80041344.c"
         }
       ],
+      "name": "jtbl_80041344",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/w_80041344_jtbl_owned.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/800.bin",
+          "bytes": "087d0580e47a0580f07a0580fc7a0580087b0580287b05804c7b0580647b0580807b05809c7b0580c47b0580e87b0580107c0580087d0580087d05804c7c0580947c0580d47c0580ec7c0580ec7c0580087d0580087d0580087d0580",
+          "offset": 24228,
+          "section": ".rodata",
+          "size": 92,
+          "symbol": "jtbl_80032EA4",
+          "vram": 2147692196
+        }
+      ],
+      "evidence": "docs/evidence/slus_rodata_migration.md",
       "headers": [
         "include/common.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "jtbl_8002D630",
-          "asset": "assets/800.bin",
-          "offset": 1584,
-          "size": 36,
-          "vram": 2147669552,
-          "bytes": "a0130480dc130480dc14048000150480c4130480f4130480101404806014048028150480",
-          "section": ".rodata"
-        }
-      ],
-      "evidence": "docs/evidence/slus_rodata_migration.md"
-    },
-    {
-      "name": "jtbl_80057A94",
-      "source": "src/w_80057A94_jtbl_owned.c",
       "members": [
         {
-          "id": "slus/w_80057A94",
-          "source": "src/w_80057A94.c",
           "functions": [
             "func_80057A94"
-          ]
+          ],
+          "id": "slus/w_80057A94",
+          "source": "src/w_80057A94.c"
         }
       ],
+      "name": "jtbl_80057A94",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/w_80057A94_jtbl_owned.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/800.bin",
+          "bytes": "282d0580802d0580a02d0580e82d0580342e0580402f0580682f0580a42f0580",
+          "offset": 8176,
+          "section": ".rodata",
+          "size": 32,
+          "symbol": "jtbl_8002EFF0",
+          "vram": 2147676144
+        }
+      ],
+      "evidence": "docs/evidence/slus_rodata_migration.md",
       "headers": [
         "include/common.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "jtbl_80032EA4",
-          "asset": "assets/800.bin",
-          "offset": 24228,
-          "size": 92,
-          "vram": 2147692196,
-          "bytes": "087d0580e47a0580f07a0580fc7a0580087b0580287b05804c7b0580647b0580807b05809c7b0580c47b0580e87b0580107c0580087d0580087d05804c7c0580947c0580d47c0580ec7c0580ec7c0580087d0580087d0580087d0580",
-          "section": ".rodata"
-        }
-      ],
-      "evidence": "docs/evidence/slus_rodata_migration.md"
-    },
-    {
-      "name": "jtbl_80052CE0",
-      "source": "src/w_80052CE0_jtbl_owned.c",
       "members": [
         {
-          "id": "slus/w_80052CE0",
-          "source": "src/w_80052CE0.c",
           "functions": [
             "func_80052CE0"
-          ]
+          ],
+          "id": "slus/w_80052CE0",
+          "source": "src/w_80052CE0.c"
         }
       ],
+      "name": "jtbl_80052CE0",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/w_80052CE0_jtbl_owned.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/800.bin",
+          "bytes": "301805804c18058058180580c0180580541905807c190580401a05804c1b0580",
+          "offset": 6500,
+          "section": ".rodata",
+          "size": 32,
+          "symbol": "jtbl_8002E964",
+          "vram": 2147674468
+        }
+      ],
+      "evidence": "docs/evidence/slus_rodata_migration.md",
       "headers": [
         "include/common.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "jtbl_8002EFF0",
-          "asset": "assets/800.bin",
-          "offset": 8176,
-          "size": 32,
-          "vram": 2147676144,
-          "bytes": "282d0580802d0580a02d0580e82d0580342e0580402f0580682f0580a42f0580",
-          "section": ".rodata"
-        }
-      ],
-      "evidence": "docs/evidence/slus_rodata_migration.md"
-    },
-    {
-      "name": "jtbl_800517CC",
-      "source": "src/w_800517CC_jtbl_owned.c",
       "members": [
         {
-          "id": "slus/w_800517CC",
-          "source": "src/w_800517CC.c",
           "functions": [
             "func_800517CC"
-          ]
+          ],
+          "id": "slus/w_800517CC",
+          "source": "src/w_800517CC.c"
         }
       ],
+      "name": "jtbl_800517CC",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/w_800517CC_jtbl_owned.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/800.bin",
+          "bytes": "00d0048010d0048020d0048030d0048040d0048050d00480",
+          "offset": 5624,
+          "section": ".rodata",
+          "size": 24,
+          "symbol": "jtbl_8002E5F8",
+          "vram": 2147673592
+        }
+      ],
+      "evidence": "docs/evidence/slus_rodata_migration.md",
       "headers": [
         "include/common.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "jtbl_8002E964",
-          "asset": "assets/800.bin",
-          "offset": 6500,
-          "size": 32,
-          "vram": 2147674468,
-          "bytes": "301805804c18058058180580c0180580541905807c190580401a05804c1b0580",
-          "section": ".rodata"
-        }
-      ],
-      "evidence": "docs/evidence/slus_rodata_migration.md"
-    },
-    {
-      "name": "jtbl_8004CECC",
-      "source": "src/w_8004CECC_jtbl_owned.c",
       "members": [
         {
-          "id": "slus/w_8004CECC",
-          "source": "src/w_8004CECC.c",
           "functions": [
             "func_8004CECC"
-          ]
+          ],
+          "id": "slus/w_8004CECC",
+          "source": "src/w_8004CECC.c"
         }
       ],
+      "name": "jtbl_8004CECC",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/w_8004CECC_jtbl_owned.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/800.bin",
+          "bytes": "2c2c04806c2c0480ac2c0480202d0480602d0480a02d0480e02d0480182e04802c2e04806c2e048088310480dc310480303404803034048030340480303404803034048074330480ac330480e43304803c3304803c3304803c33048030340480303404807c320480443104803034048030340480303404803034048004330480",
+          "offset": 1660,
+          "section": ".rodata",
+          "size": 128,
+          "symbol": "jtbl_8002D67C",
+          "vram": 2147669628
+        }
+      ],
+      "evidence": "docs/evidence/slus_rodata_migration.md",
       "headers": [
         "include/common.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "jtbl_8002E5F8",
-          "asset": "assets/800.bin",
-          "offset": 5624,
-          "size": 24,
-          "vram": 2147673592,
-          "bytes": "00d0048010d0048020d0048030d0048040d0048050d00480",
-          "section": ".rodata"
-        }
-      ],
-      "evidence": "docs/evidence/slus_rodata_migration.md"
-    },
-    {
-      "name": "jtbl_80042BDC",
-      "source": "src/w_80042BDC_jtbl_owned.c",
       "members": [
         {
-          "id": "slus/w_80042BDC",
-          "source": "src/w_80042BDC.c",
           "functions": [
             "func_80042BDC"
-          ]
+          ],
+          "id": "slus/w_80042BDC",
+          "source": "src/w_80042BDC.c"
         }
       ],
+      "name": "jtbl_80042BDC",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/w_80042BDC_jtbl_owned.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/800.bin",
+          "bytes": "78f2058080f2058088f2058090f2058098f20580a0f20580a8f2058000000000",
+          "offset": 25212,
+          "section": ".rodata",
+          "size": 32,
+          "symbol": "jtbl_8003327C",
+          "vram": 2147693180
+        },
+        {
+          "asset": "assets/800.bin",
+          "bytes": "58f3058060f3058068f3058070f3058078f3058080f3058088f30580",
+          "offset": 25244,
+          "section": ".rodata",
+          "size": 28,
+          "symbol": "jtbl_8003329C",
+          "vram": 2147693212
+        }
+      ],
+      "evidence": "docs/evidence/slus_rodata_migration.md",
       "headers": [
         "include/common.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "jtbl_8002D67C",
-          "asset": "assets/800.bin",
-          "offset": 1660,
-          "size": 128,
-          "vram": 2147669628,
-          "bytes": "2c2c04806c2c0480ac2c0480202d0480602d0480a02d0480e02d0480182e04802c2e04806c2e048088310480dc310480303404803034048030340480303404803034048074330480ac330480e43304803c3304803c3304803c33048030340480303404807c320480443104803034048030340480303404803034048004330480",
-          "section": ".rodata"
-        }
-      ],
-      "evidence": "docs/evidence/slus_rodata_migration.md"
-    },
-    {
-      "name": "jtbl_8005F134",
-      "source": "src/w_8005F134_jtbl_owned.c",
       "members": [
         {
-          "id": "slus/w_8005F134",
-          "source": "src/w_8005F134.c",
           "functions": [
             "func_8005F134"
-          ]
+          ],
+          "id": "slus/w_8005F134",
+          "source": "src/w_8005F134.c"
         }
       ],
+      "name": "jtbl_8005F134",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2"
+      },
+      "source": "src/w_8005F134_jtbl_owned.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/800.bin",
+          "bytes": "34ee0580fced058004ee05800cee058014ee05801cee058024ee05802cee0580",
+          "offset": 25148,
+          "section": ".rodata",
+          "size": 32,
+          "symbol": "jtbl_8003323C",
+          "vram": 2147693116
+        },
+        {
+          "asset": "assets/800.bin",
+          "bytes": "fcee0580c4ee0580ccee0580d4ee0580dcee0580e4ee0580ecee0580f4ee0580",
+          "offset": 25180,
+          "section": ".rodata",
+          "size": 32,
+          "symbol": "jtbl_8003325C",
+          "vram": 2147693148
+        }
+      ],
+      "evidence": "docs/evidence/slus_rodata_migration.md",
       "headers": [
         "include/common.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "jtbl_8003327C",
-          "asset": "assets/800.bin",
-          "offset": 25212,
-          "size": 32,
-          "vram": 2147693180,
-          "bytes": "78f2058080f2058088f2058090f2058098f20580a0f20580a8f2058000000000",
-          "section": ".rodata"
-        },
-        {
-          "symbol": "jtbl_8003329C",
-          "asset": "assets/800.bin",
-          "offset": 25244,
-          "size": 28,
-          "vram": 2147693212,
-          "bytes": "58f3058060f3058068f3058070f3058078f3058080f3058088f30580",
-          "section": ".rodata"
-        }
-      ],
-      "evidence": "docs/evidence/slus_rodata_migration.md"
-    },
-    {
-      "name": "jtbl_8005EDA0",
-      "source": "src/w_8005EDA0_jtbl_owned.c",
       "members": [
         {
-          "id": "slus/w_8005EDA0",
-          "source": "src/w_8005EDA0.c",
           "functions": [
             "func_8005EDA0"
-          ]
+          ],
+          "id": "slus/w_8005EDA0",
+          "source": "src/w_8005EDA0.c"
         }
       ],
+      "name": "jtbl_8005EDA0",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2"
+      },
+      "source": "src/w_8005EDA0_jtbl_owned.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/800.bin",
+          "bytes": "f822058038230580a4230580d823058008240580",
+          "offset": 8156,
+          "section": ".rodata",
+          "size": 20,
+          "symbol": "jtbl_8002EFDC",
+          "vram": 2147676124
+        }
+      ],
+      "evidence": "docs/evidence/slus_rodata_migration.md",
       "headers": [
         "include/common.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2",
-        "ccflags": "",
-        "asflags": ""
-      },
-      "data": [
-        {
-          "symbol": "jtbl_8003323C",
-          "asset": "assets/800.bin",
-          "offset": 25148,
-          "size": 32,
-          "vram": 2147693116,
-          "bytes": "34ee0580fced058004ee05800cee058014ee05801cee058024ee05802cee0580",
-          "section": ".rodata"
-        },
-        {
-          "symbol": "jtbl_8003325C",
-          "asset": "assets/800.bin",
-          "offset": 25180,
-          "size": 32,
-          "vram": 2147693148,
-          "bytes": "fcee0580c4ee0580ccee0580d4ee0580dcee0580e4ee0580ecee0580f4ee0580",
-          "section": ".rodata"
-        }
-      ],
-      "evidence": "docs/evidence/slus_rodata_migration.md"
-    },
-    {
-      "name": "jtbl_80052144",
-      "source": "src/w_80052144_jtbl_owned.c",
       "members": [
         {
-          "id": "slus/w_80052144",
-          "source": "src/w_80052144.c",
           "functions": [
             "func_80052144"
-          ]
+          ],
+          "id": "slus/w_80052144",
+          "source": "src/w_80052144.c"
         }
       ],
-      "headers": [
-        "include/common.h"
-      ],
+      "name": "jtbl_80052144",
       "recipe": {
-        "ccver": "2.7.2-cdk",
+        "asflags": "",
         "ccflags": "",
-        "asflags": ""
+        "ccver": "2.7.2-cdk"
       },
-      "data": [
-        {
-          "symbol": "jtbl_8002EFDC",
-          "asset": "assets/800.bin",
-          "offset": 8156,
-          "size": 20,
-          "vram": 2147676124,
-          "bytes": "f822058038230580a4230580d823058008240580",
-          "section": ".rodata"
-        }
-      ],
-      "evidence": "docs/evidence/slus_rodata_migration.md"
+      "source": "src/w_80052144_jtbl_owned.c"
     },
     {
-      "name": "jtbl_80057D20",
-      "source": "src/w_80057D20_jtbl_owned.c",
-      "members": [
+      "data": [
         {
-          "id": "slus/w_80057D20",
-          "source": "src/w_80057D20.c",
-          "functions": [
-            "func_80057D20"
-          ]
+          "asset": "assets/800.bin",
+          "bytes": "b07d0580cc7f0580f87f05800480058010800580208305801c800580708305807083058034800580688005808c80058070830580708305807083058070830580708305807083058070830580a0800580ac800580b4800580d480058070830580108105801c81058024810580448105807083058080810580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580988105807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580148305807083058070830580708305807083058070830580708305804c8305805483058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305805c8305805c830580708305805c83058070830580708305806c830580",
+          "offset": 24324,
+          "section": ".rodata",
+          "size": 504,
+          "symbol": "jtbl_80032F04",
+          "vram": 2147692292
         }
       ],
+      "evidence": "docs/evidence/slus_rodata_migration.md",
       "headers": [
         "include/common.h"
       ],
-      "recipe": {
-        "ccver": "2.7.2-cdk",
-        "ccflags": "-G0",
-        "asflags": ""
-      },
-      "data": [
+      "members": [
         {
-          "symbol": "jtbl_80032F04",
-          "asset": "assets/800.bin",
-          "offset": 24324,
-          "size": 504,
-          "vram": 2147692292,
-          "bytes": "b07d0580cc7f0580f87f05800480058010800580208305801c800580708305807083058034800580688005808c80058070830580708305807083058070830580708305807083058070830580a0800580ac800580b4800580d480058070830580108105801c81058024810580448105807083058080810580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580988105807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580148305807083058070830580708305807083058070830580708305804c8305805483058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305807083058070830580708305805c8305805c830580708305805c83058070830580708305806c830580",
-          "section": ".rodata"
+          "functions": [
+            "func_80057D20"
+          ],
+          "id": "slus/w_80057D20",
+          "source": "src/w_80057D20.c"
         }
       ],
-      "evidence": "docs/evidence/slus_rodata_migration.md"
+      "name": "jtbl_80057D20",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/w_80057D20_jtbl_owned.c"
     }
-  ]
+  ],
+  "version": 1
 }
