@@ -7,17 +7,17 @@
     "dungeon/func_800B79F8",
     "dungeon/func_800B7A24"
   ],
-  "at": "2026-10-14T14:38:21Z",
+  "at": "2026-10-14T18:16:52Z",
   "reviewer": "orchestrator-r99",
   "fingerprint": {
     "schema": "overlay-module-scoped-v2",
-    "sha256": "6191b1a174bf9cd1ca28149098c5ea533a9031d3a0bf1e38a5d070cb6a7ef29b",
+    "sha256": "c5fae460aa0ed95c8fb0c8cd138b43f5dd5792d5943fb80872fcbe846dbaa60f",
     "module": {
       "sha256": "4cecb241fc833d3fa459614c890d5c2a8a837a66205675b0978288685b8b45e0"
     },
     "windows": {
       "config/overlays/dungeon_engine.overlay.yaml": {
-        "sha256": "41a80e438ce777375a00e7cc5342ece724265baa9904d1aad94e2f2ef48bfe30"
+        "sha256": "8f69f97662775e48cb1b4e6ff1e06bc5f0481f0e642804b18029600584e3a1a3"
       }
     },
     "required_windows": [
@@ -25,7 +25,7 @@
     ]
   },
   "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_cd_control_d79c4/module",
-  "receipt_sha256": "d7f9df307a2b02892832351df9eab3c70b8e1a7fe416ba9a51ce9a29b21ba63f",
+  "receipt_sha256": "3d9a7633ae456813cd8a8c1f84c90165d38ce9eeab5ca3af28c85f4f69cae844",
   "windows": [
     {
       "config": "config/overlays/dungeon_engine.overlay.yaml",
@@ -34,13 +34,13 @@
       "file_end": 1048576,
       "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_cd_control_d79c4/windows/dungeon_engine",
       "artifacts": {
-        "gate.log": "a3adeb886745588497e01d1535a97da977c6ec09e33c0da82f4d7f1d2f4d355f",
+        "gate.log": "f8b7e312b19df70d45d41fb265a2f685394ab59bee90e6d09b47697dcb87160a",
         "window.bin": "1612c21559c49a3b69f10548bca5ec6d18ec11a0764ea317c396edca9211d796",
         "manifest.json": "ed956459a899fc794ed7eb6fddca2277d6578e50871aece7af1c4c2b53a9901b",
-        "projection.json": "72b3f0f0d29dbadf922f5a301e3622d05a45221b1e1bed7c8e69f09938791689",
-        "module/receipt.json": "907e9af3b708ce8ba034ea455c7450e0363d25a509ecd84419e863faea4380a2"
+        "projection.json": "32c6eb8b8853602809bc32b753a669c475fd148c47408c1bef5bef94a6b1a340",
+        "module/receipt.json": "ac93a33ab5ff2474444b756837a51167c9d00e453dce102e156f24778fbd0d85"
       },
-      "digest": "41a80e438ce777375a00e7cc5342ece724265baa9904d1aad94e2f2ef48bfe30"
+      "digest": "8f69f97662775e48cb1b4e6ff1e06bc5f0481f0e642804b18029600584e3a1a3"
     }
   ]
 }

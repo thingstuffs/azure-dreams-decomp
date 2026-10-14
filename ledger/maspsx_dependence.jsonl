@@ -3,8 +3,6 @@
 {"id": "dungeon/func_8008EE88", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "dungeon/func_8008F814", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "dungeon/func_80092B48", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
-{"id": "dungeon/func_80093898", "kinds": ["maspsx_pass"], "cause": "_fold_selfinc_la", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
-{"id": "dungeon/func_800938EC", "kinds": ["maspsx_pass"], "cause": "_fold_selfinc_la", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "dungeon/func_80094C70", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "dungeon/func_80094DE0", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "dungeon/func_800969CC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
@@ -21,7 +19,7 @@
 {"id": "dungeon/func_800BFE94", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "dungeon/func_800C23D8", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "dungeon/func_800C379C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
-{"id": "dungeon/func_800C3928", "kinds": ["maspsx_dependent", "maspsx_pass"], "cause": "several passes jointly: _rotate_marked_store_into_jal_delay+_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
+{"id": "dungeon/func_800C3928", "kinds": ["maspsx_dependent"], "cause": "several passes jointly: _rotate_marked_store_into_jal_delay+_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md", "note": "r120: maspsx_pass retired (stale; genuine ASPSX retail-exact, no pass fires) - docs/evidence/r120_maspsx_stale.jsonl"}
 {"id": "dungeon/func_800D1A48", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "dungeon/func_80284BEC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "dungeon/func_8028A328", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
@@ -39,7 +37,7 @@
 {"id": "dungeon/func_80BEE104", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "dungeon/func_80C412B4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "dungeon/func_80CC266C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
-{"id": "dungeon/func_80CC2828", "kinds": ["maspsx_dependent", "maspsx_pass"], "cause": "several passes jointly: _rotate_marked_store_into_jal_delay+_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
+{"id": "dungeon/func_80CC2828", "kinds": ["maspsx_dependent"], "cause": "several passes jointly: _rotate_marked_store_into_jal_delay+_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md", "note": "r120: maspsx_pass retired (stale; genuine ASPSX retail-exact, no pass fires) - docs/evidence/r120_maspsx_stale.jsonl"}
 {"id": "dungeon/func_80CE8CBC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "dungeon/func_80CEAF2C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "dungeon/func_80CEBD74", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
@@ -81,10 +79,6 @@
 {"id": "dungeon/func_81335190", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "dungeon/func_81337998", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "dungeon/func_8180F208", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
-{"id": "dungeon/func_81811E30", "kinds": ["maspsx_pass"], "cause": "_fold_selfinc_la", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
-{"id": "dungeon/func_81811E70", "kinds": ["maspsx_pass"], "cause": "_fold_selfinc_la", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
-{"id": "dungeon/func_81811EC0", "kinds": ["maspsx_pass"], "cause": "_fold_selfinc_la", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
-{"id": "dungeon/func_81811F54", "kinds": ["maspsx_pass"], "cause": "_fold_selfinc_la", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "dungeon/func_81875B38", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "dungeon/func_8187A9A8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "dungeon/func_81881F60", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
@@ -110,21 +104,12 @@
 {"id": "slus/code2", "kinds": ["maspsx_dependent"], "cause": "owner-specific: several passes jointly: _fold_lo_into_accesses+_unfill_via_load_delay+_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md", "attribution_scope": "physical-unit", "dependent_physical_units": [{"source": "src/code2.c", "role": "remainder", "module": null, "cause": "several passes jointly: _fold_lo_into_accesses+_unfill_via_load_delay+_maybe_unfill_return_delay", "closest_version": "2.67", "ablations": ["no:all-fired"], "functions": ["func_8003F540", "func_8003F7E4", "func_80040A88", "func_80040B88", "func_800419EC", "func_8004827C", "func_800499BC", "func_8004A8D8", "func_8004AC18", "func_8004D0C8", "func_8004D110", "func_80050F74", "func_80053C6C", "func_80053CA4", "func_800542AC", "func_8005A3E0", "func_8005B348", "func_8005C818", "func_8005C8B8", "func_8005C918", "func_8005C94C"], "fired": ["_fold_lo_into_accesses", "_unfill_via_load_delay", "_maybe_unfill_return_delay"]}], "classification_note": "Existing ladder blocks retained. Owner-only ablations do not establish whole-row or minimal per-pass source attribution."}
 {"id": "slus/code7", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "slus/konami_runtime_w_80033D54", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md", "cause_was": "combined: extern-abs+no:all-fired", "ownership_proof": "docs/evidence/gp_shared_8099c/ownership_receipt.json"}
-{"id": "slus/w_8003E188", "kinds": ["maspsx_pass"], "cause": "_fold_lo_into_accesses", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
-{"id": "slus/w_800463EC", "kinds": ["maspsx_pass"], "cause": "_rotate_marked_store_into_jal_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
-{"id": "slus/w_80048224", "kinds": ["maspsx_pass"], "cause": "_prefer_lui_over_sll_branch_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
-{"id": "slus/w_8004A700", "kinds": ["maspsx_pass"], "cause": "_fold_lo_into_accesses", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
-{"id": "slus/w_8004A7D8", "kinds": ["maspsx_pass"], "cause": "_fold_lo_into_accesses", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
-{"id": "slus/w_8004CAA0", "kinds": ["maspsx_pass"], "cause": "_unfill_jal_sp_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "slus/w_8005D7BC", "kinds": ["maspsx_pass"], "cause": "_hoist_zero_arg_before_global_clears", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "town/func_8009A0E4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
-{"id": "town/func_800A1480", "kinds": ["maspsx_pass"], "cause": "_fold_selfinc_la", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
-{"id": "town/func_800A2244", "kinds": ["maspsx_pass"], "cause": "_fold_selfinc_la", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "town/func_800B998C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "town/func_800B9B58", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "town/func_800BAE88", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "town/func_800BEB30", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
-{"id": "town/func_800C3800", "kinds": ["maspsx_pass"], "cause": "_fold_selfinc_la", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "town/func_800C738C", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "town/func_8032E44C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "town/func_8047E0D8", "kinds": ["maspsx_dependent", "maspsx_pass"], "cause": "several passes jointly: _unfill_via_load_delay+_rewrite_tail_call_jal_to_j", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
@@ -136,7 +121,6 @@
 {"id": "town/func_8081822C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "town/func_80819B14", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "town/func_8081F8A8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
-{"id": "town/func_808213CC", "kinds": ["maspsx_pass"], "cause": "_prefer_marked_target_arg_setup", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "town/func_80874D84", "kinds": ["maspsx_dependent"], "cause": "row dial --aspsx-version=2.40", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "town/func_80874E18", "kinds": ["maspsx_dependent"], "cause": "row dial --aspsx-version=2.40", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "town/func_80874F4C", "kinds": ["maspsx_dependent"], "cause": "row dial --aspsx-version=2.40", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
@@ -160,6 +144,8 @@
 {"id": "town/func_80881478", "kinds": ["maspsx_dependent"], "cause": "row dial --aspsx-version=2.40", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "town/func_808816D8", "kinds": ["maspsx_dependent"], "cause": "row dial --aspsx-version=2.40", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "town/func_808B2D90", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
-{"id": "town/func_808B8184", "kinds": ["maspsx_pass"], "cause": "_rewrite_tail_call_jal_to_j", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "town/func_808B85F0", "kinds": ["maspsx_pass"], "cause": "_rewrite_tail_call_jal_to_j", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
 {"id": "town/func_808BB138", "kinds": ["maspsx_pass"], "cause": "_rewrite_tail_call_jal_to_j", "source": "docs/evidence/gp_partition_only/production_transition/README.md"}
+{"cause": "r120_tailjump: recovered local control flow and corrected address-space identity; no fired maspsx passes; fixed recipe, genuine equality and unmasked retail equality", "id": "town/func_8047E0D8", "kinds": [], "source": "work/native_lane/r120_tailjump/REPORT.md"}
+{"cause": "r120_tailjump: recovered local control flow and corrected address-space identity; no fired maspsx passes; fixed recipe, genuine equality and unmasked retail equality", "id": "town/func_808B85F0", "kinds": [], "source": "work/native_lane/r120_tailjump/REPORT.md"}
+{"cause": "r120_tailjump: recovered local control flow and corrected address-space identity; no fired maspsx passes; fixed recipe, genuine equality and unmasked retail equality", "id": "town/func_808BB138", "kinds": [], "source": "work/native_lane/r120_tailjump/REPORT.md"}
