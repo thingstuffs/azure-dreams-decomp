@@ -96,12 +96,12 @@ build build/src/code10.o: cc src/code10.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/code11.o: cc src/code11.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
-  ccflags = -G0
+  ccver = 2.7.2-cdk
+  ccflags = 
   asflags = 
 
 build build/src/code12.o: cc src/code12.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 
@@ -201,7 +201,7 @@ build build/src/gte_port_state.o: cc src/gte_port_state.c | tools/cc.sh tools/cc
   asflags = 
 
 build build/src/konami_runtime.o: cc src/konami_runtime.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 

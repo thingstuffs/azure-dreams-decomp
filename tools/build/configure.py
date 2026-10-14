@@ -175,8 +175,8 @@ CC_VER = {
     "src/code8.c": ("2.7.2-cdk", ""),
     "src/code9.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r98r98_sol61_slus1): retail-proven splitting recipe
     "src/code10.c": ("2.7.2-cdk", "-G0"),  # SLUS physical TU recipe alignment
-    "src/code11.c": ("2.7.2", "-G0"),
-    "src/code12.c": ("2.7.2", ""),
+    "src/code11.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
+    "src/code12.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
     "src/code13.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
     "src/code14.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
     "src/code15.c": ("2.7.2", ""),
@@ -1045,6 +1045,7 @@ CC_VER = {
     "src/w_80041588.c": ("2.7.2-cdk", ""),
     "src/w_80041134_owned.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
     "src/b1b_b1c_table_owned.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
+    "src/konami_runtime.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
 }
 DEFAULT_CC = ("2.7.2", "")
 AS_FLAGS = {
