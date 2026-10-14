@@ -3,6 +3,15 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
+typedef struct {
+    u8 pad[0x3714];
+    u16 flags;        /* 0x3714 */
+    s16 f3716;
+    s16 f3718;
+    s16 f371A;
+    void *handler;    /* 0x371C */
+} SysWork;
+
 extern void func_8009A028(void *);
 extern u16 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void func_8016A908(u8 *state);
@@ -19,40 +28,31 @@ extern s16 D_80174CD0;
 void func_8016DF94(void) {
     s32 coord_aux;
     s16 entry_slot;
-    s32 map_base;
-    s32 state_value;
+    s32 slot_offset;
     u16 coord_result;
-    u16 status_count;
-    u16 state_flags;
     u16 lookup_key;
     u8 *map_object;
+    u8 *active_object;
     u8 *map_data;
     u8 *entry;
     u8 *entry_page;
-    u8 *state_page;
+    SysWork *sys_work;
 
     entry_slot = 0;
-    state_page = (u8 *)0x80010000;
     entry_page = (u8 *)0x800E0000;
+    sys_work = (SysWork *)0x80010000;   /* integer page, five genuine accesses (decision 44); same SysWork view as func_81337FAC */
     D_80174704[0xD2] = 1;
-    *(s16 *)(state_page + 0x371A) = 0;
-    *(s16 *)(state_page + 0x3718) = 0;
-    *(s16 *)(state_page + 0x3716) = 0;
-    status_count = ((u16)dungeonStatus.unk_0A);
-    state_flags = *(u16 *)(state_page + 0x3714);
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    map_base = (s32)D_80174704;
-    status_count--;
-    state_flags |= 9;
-    dungeonStatus.unk_0A = status_count;
+    sys_work->f371A = 0;
+    sys_work->f3718 = 0;
+    sys_work->f3716 = 0;
+    dungeonStatus.unk_0A -= 1;
+    active_object = D_80174704;
+    sys_work->flags = (sys_work->flags | 9) & 0xFFEF;
     lookup_key = D_800834E2;
-    state_flags &= 0xFFEF;
-    *(u16 *)(state_page + 0x3714) = state_flags;
-    state_value = *(s32 *)((u8 *)D_801748C8 + ((lookup_key >> 9) & 7) * 4);
-    *(s32 *)(state_page + 0x371C) = state_value;
-    map_object = *(u8 **)(((u8 *)map_base) + 0xC);
+    sys_work->handler = (void *)D_801748C8[(lookup_key >> 9) & 7];
+    map_object = *(u8 **)(active_object + 0xC);
     D_800DCF4D = -1;
-    map_data = ((u8 *)map_base) + 0x20;
+    map_data = active_object + 0x20;
     coord_result = func_800A0818(map_object[0x24], map_object[0x25],
                            D_80082E80.tileX, D_80082E80.tileY, &coord_aux);
     *(u16 *)(map_data + 0x2A) = coord_result;
@@ -60,13 +60,13 @@ void func_8016DF94(void) {
     D_80174CCC = (s32 *)D_801749E0[(coord_result >> 9) & 7];
 
 loop:
-    map_base = ((s32)entry_slot << 16) >> 14;
-    entry = *(u8 **)&(*(u8 **)(entry_page + 0x3D7C))[map_base + 0xAC];
+    slot_offset = ((s32)entry_slot << 16) >> 14;
+    entry = *(u8 **)&(*(u8 **)(entry_page + 0x3D7C))[slot_offset + 0xAC];
     if (entry != 0) {
 
         func_8016A908(entry);
-        func_8009A028(*(u8 **)&(*(u8 **)(entry_page + 0x3D7C))[map_base + 0xAC]);
-        entry = *(u8 **)&(*(u8 **)(entry_page + 0x3D7C))[map_base + 0xAC];
+        func_8009A028(*(u8 **)&(*(u8 **)(entry_page + 0x3D7C))[slot_offset + 0xAC]);
+        entry = *(u8 **)&(*(u8 **)(entry_page + 0x3D7C))[slot_offset + 0xAC];
         entry -= 0x20;
         *(u32 *)(entry + 0x10) |= 0x80000000;
     }
