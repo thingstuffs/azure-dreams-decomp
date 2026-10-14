@@ -174,7 +174,7 @@ CC_VER = {
     "src/code7.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r98r98_sol61_slus1): retail-proven splitting recipe
     "src/code8.c": ("2.7.2-cdk", ""),
     "src/code9.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r98r98_sol61_slus1): retail-proven splitting recipe
-    "src/code10.c": ("2.7.2-cdk", "-G0"),  # SLUS physical TU recipe alignment
+    "src/code10.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
     "src/code11.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
     "src/code12.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
     "src/code13.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
@@ -229,7 +229,7 @@ CC_VER = {
     "src/w_8004D5D0.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/w_8004D7A8.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/w_8004D7E8.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
-    "src/w_8003E188.c": ("2.95.2", "-G0 -fno-schedule-insns"),
+    "src/w_8003E188.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
     "src/w_80042640.c": ("2.7.2-cdk", ""),
     "src/w_800422DC.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_80042518.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
@@ -471,10 +471,10 @@ CC_VER = {
     "src/w_8005AFF4.c": ("2.7.2-cdk", ""),
     "src/w_8005AF74.c": ("2.7.2-cdk", ""),
     "src/w_8005A26C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl2): retail-proven splitting recipe
-    "src/w_800599B0.c": ("2.7.2-cdk", "-G0"),  # fidelity step 4 (r98r98_sol61_slus3): retail-proven splitting recipe
+    "src/w_800599B0.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
     "src/w_80059F8C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86opusdecl): retail-proven splitting recipe
     "src/w_8005A608.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r98r98_sol61_slus2): retail-proven splitting recipe
-    "src/w_8005A90C.c": ("2.7.2-cdk", "-O1 -fschedule-insns2"),
+    "src/w_8005A90C.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
     "src/w_8005C130.c": ("2.7.2-cdk", ""),
     "src/w_80044618.c": ("2.7.2-cdk", ""),  # r86 module recipe move (cache_afe)
     "src/w_80047694.c": ("2.7.2-cdk", ""),
