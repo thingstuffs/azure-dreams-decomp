@@ -7,17 +7,17 @@
     "dungeon/func_800B79F8",
     "dungeon/func_800B7A24"
   ],
-  "at": "2026-10-14T00:39:01Z",
+  "at": "2026-10-14T02:03:25Z",
   "reviewer": "orchestrator-r99",
   "fingerprint": {
     "schema": "overlay-module-scoped-v2",
-    "sha256": "303691e1d833c94ae50bf70f5a581731b3d252b65c5d4a3e91c3e17412969992",
+    "sha256": "6aaa9722814aae093b60e2217c5e4df03b9e0b1d450ff2bf4cdd0a82f05c2306",
     "module": {
       "sha256": "244d7c1c3a48a83133b05935f921a4484d13dcc3455bc7738f8c9084342d5cf8"
     },
     "windows": {
       "config/overlays/dungeon_engine.overlay.yaml": {
-        "sha256": "2275119b831091408eac657130839ae183cadfbeedfe6f75f85178ba32e6eeab"
+        "sha256": "62ab5b87ad16ff76c619629d528cae91b376dc69633a60ff29235103ac57c79e"
       }
     },
     "required_windows": [
@@ -25,7 +25,7 @@
     ]
   },
   "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_cd_control_d79c4/module",
-  "receipt_sha256": "b7100baa267f945710ed66d930427a168fa5e9969886df0f9090c6263ed54129",
+  "receipt_sha256": "8068e7e32da1c4a9e4ef834a6d7a3b8889fa1689c0fee3f47b7a434caf21b33b",
   "windows": [
     {
       "config": "config/overlays/dungeon_engine.overlay.yaml",
@@ -37,10 +37,10 @@
         "gate.log": "a3adeb886745588497e01d1535a97da977c6ec09e33c0da82f4d7f1d2f4d355f",
         "window.bin": "1612c21559c49a3b69f10548bca5ec6d18ec11a0764ea317c396edca9211d796",
         "manifest.json": "ed956459a899fc794ed7eb6fddca2277d6578e50871aece7af1c4c2b53a9901b",
-        "projection.json": "516d950102966b25cd2cd815ae359e21da2575e78249b9970d4701360542e5d8",
-        "module/receipt.json": "101792916612b40085f014e2bb7215c34156e16fd146092e66b75ddcf854fb7d"
+        "projection.json": "c0d6299ff9fef6712241b8e9a8f16209603d11eb37dad56f7536ad5723f31430",
+        "module/receipt.json": "34e6936b6aa22b916ebb4b323e7265b17599f901adb0c9a97a7f7aae964b4f4f"
       },
-      "digest": "2275119b831091408eac657130839ae183cadfbeedfe6f75f85178ba32e6eeab"
+      "digest": "62ab5b87ad16ff76c619629d528cae91b376dc69633a60ff29235103ac57c79e"
     }
   ]
 }
