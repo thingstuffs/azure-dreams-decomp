@@ -292,3 +292,13 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     Tracked in ledger/recipe_trades.jsonl (kind dead_arm) and STATUS.md. First row: dungeon/func_80DE48EC (4 -> 0 pins, recipe
     2.8.0-G0 -> 2.7.2-cdk-G0, rule 2 false). Refused precursors: one-member compound-literal wrappers (steering CLOBBERs). SECOND
     LOOK: no (owner decided).
+    AMENDMENT (r118, OWNER ruling 2026-10-14): decision 46 TIGHTENED. A dead arm is admissible only if (f) the test reads an
+    EXISTING variable of the function (present for its own purpose; assigned only by its initialiser) - never a newly
+    invented flag such as `u8 debugMode = 0`; and (g) there is independent retail evidence of the dead code beyond the
+    matched bytes (unreferenced frame words the arm's locals account for, a nop fingerprint, a pass trace ordinary code
+    cannot explain, or a variant build with live code there). Reason: r118_opus_o7 made dungeon/func_800A1020 (2 -> 0) and
+    slus/w_8005914C (1 -> 0) exact with an invented debugMode flag whose arms only steer priorities / register preferences;
+    without (g) the decision would erase any pin. Both texts are HELD as evidence (root5 r118_opus_o7/out). JP check
+    (r118_sonnet_jpdead): no live code at the arm positions in JP for any of the 5 rows examined - inconclusive for arms
+    compiled out in both builds; JP frames are larger with more unreferenced bytes (80DE48EC: 44 vs 20), beyond the paired
+    calibration range for 800CA184.
