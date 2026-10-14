@@ -8693,3 +8693,4 @@
 {"id":"town/func_800A2988","transform":"t49_looptest","in_sha":"d0c92e53e52f3c149145716db3ac11e5eedd97c76845d04a0c8d469b737ca6c1","from_clean":true,"size":104,"outcome":"refused","reason":"no pin sites","at":"2026-10-14T04:38:36Z"}
 {"id":"dungeon/func_800A1020","transform":"t49_looptest","in_sha":"47aa92bcc0d5486bd5294f9ce5401e40b2903345e8823bd3172557b0ffa81e78","from_clean":true,"size":116,"outcome":"refused","reason":"no pin sites","at":"2026-10-14T05:11:51Z"}
 {"id":"town/func_80098520","transform":"t49_looptest","in_sha":"b28bfd39693c7a7dce004b1a98841108e25400b59603433d8085f4ed86cddc99","from_clean":true,"size":1320,"outcome":"refused","reason":"no pin sites","at":"2026-10-14T06:54:20Z"}
+{"id":"dungeon/func_800C7F80","transform":"t49_looptest","in_sha":"50c6a2b71461d4304af3a86a46b77d44e858045268c8a3013eb861f443f6edc3","from_clean":true,"size":560,"outcome":"refused","reason":"no pin sites","at":"2026-10-14T10:44:33Z"}

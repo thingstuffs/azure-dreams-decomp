@@ -61,10 +61,6 @@ typedef struct S_800CD6E0_4 {
     s16 unk_0A;
 } S_800CD6E0_4;   /* prim in func_800CD6E0 */
 
-typedef struct S_800CD6E0_5 {
-    s16 unk_00;
-} S_800CD6E0_5;   /* (void *)table_offset in func_800CD6E0 */
-
 typedef struct S_800CD6E0_6 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -92,16 +88,18 @@ s32 func_800CD6E0(void *source, s16 slot_index, s32 slot_bits) {
     S_800CD6E0_1 *owner;
     S_800CD6E0_4 *position;
     S_800CD6E0_6 *sprite;
-    union { S_800CD6E0_7 * pointer; s32 value; } effect_link;
+    S_800CD6E0_7 *effect_link;
+    s32 color;
     s16 *x_offsets;
     DungeonGlobalStatus *effect_counts;
     s32 effect_index;
     s32 random;
-    s32 random_or_effect_id;
     s16 roll;
     s32 spawn_roll;
     s32 owner_coord;
     s32 owner_coord_2;
+    s32 y_offset;
+    s32 y_table;
     s32 y_entry;
     void *update_callback;
 
@@ -130,31 +128,26 @@ s32 func_800CD6E0(void *source, s16 slot_index, s32 slot_bits) {
         update_callback = (void *)D_800CD474;
         effect_counts = &dungeonStatus;
         x_offsets = dirStepX;
-        do {
+        for (; effect_index < 4; x_offsets += 2) {
             ((S_800CD6E0_2 *)((effect = func_8003FC64(2))))->unk_10 = update_callback;
             func_8004491C(effect, D_80045C34);
-            effect_link.value = 0x808080;
-            random_or_effect_id = 0x50D;
-            y_entry = effect_index << 2;
-            ASM_KEEP_NV(random_or_effect_id);
+            color = 0x808080;
+            y_offset = effect_index << 2;
 
-            owner_coord_2 = owner->unk_24;
+            owner_coord_2 = owner->unk_24 << 6;
             spawn_roll = *x_offsets;
             position = ((S_800CD6E0_3 *)effect)->unk_08;
-            owner_coord_2 <<= 6;
             spawn_roll = (spawn_roll << 5) + 0x20;
             owner_coord_2 += spawn_roll;
-            spawn_roll = (u32)dirStepY;
-            y_entry += spawn_roll;
-            position->unk_02 = owner_coord_2;
-            owner_coord = owner->unk_25;
-            y_entry += 2;
-            spawn_roll = ((S_800CD6E0_5 *)((void *)(y_entry - 2)))->unk_00;
-            owner_coord <<= 6;
+            y_table = (u32)dirStepY;
+            y_entry = y_offset + y_table;
+            y_table = owner_coord_2;
+            position->unk_02 = y_table;
+            owner_coord = owner->unk_25 << 6;
+            spawn_roll = *(s16 *)y_entry;
             spawn_roll = (spawn_roll << 5) + 0x20;
             owner_coord += spawn_roll;
             position->unk_06 = owner_coord;
-            x_offsets += 2;
             position->unk_0A = ((S_800CD6E0_0 *)source)->unk_88 - 0x200;
 
             sprite = ((S_800CD6E0_3 *)effect)->unk_0C;
@@ -166,20 +159,21 @@ s32 func_800CD6E0(void *source, s16 slot_index, s32 slot_bits) {
             sprite->unk_08 = (void *)spawn_roll;
             sprite->unk_10 = 0x20;
             sprite->unk_16 = 0x400;
-            sprite->unk_0C = effect_link.value;
+            sprite->unk_0C = color;
             sprite->unk_18 = (effect_index << 10) + 0x400;
             sprite->unk_14 |= 0xC;
 
-            effect_link.pointer = (u8 *)effect + 0x20;
-            effect_link.pointer->unk_0A = ((S_800CD6E0_0 *)source)->unk_88;
+            effect_link = (S_800CD6E0_7 *)((u8 *)effect + 0x20);
+            effect_link->unk_0A = ((S_800CD6E0_0 *)source)->unk_88;
             ((S_800CD6E0_3 *)effect)->unk_20 = source;
-            effect_link.pointer->unk_06 = 0xC;
-            effect_link.pointer->unk_08 = effect_index;
+            effect_link->unk_06 = 0xC;
+            color = effect_index;
+            effect_link->unk_08 = color;
             ((S_800CD6E0_3 *)effect)->unk_20 = source;
             effect_index++;
             effect_counts->unk_0A++;
-            func_800A56E0(random_or_effect_id);
-        } while (effect_index < 4);
+            func_800A56E0(0x50D);
+        }
 
         return 1;
     }
