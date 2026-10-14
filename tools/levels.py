@@ -17,7 +17,13 @@ symbol may mean a mis-split, and that deserves a check before L3) whose `kind` i
 (mis-split/pseudo-call) nor `unresolved`; a row with no tail-jump dependency is unaffected.  L4
 adds the module criterion (`l4_modules` sweep) AND pins == 0 AND no tail-jump dependency of any
 kind, audited or not -- the sibcall/noreturn tail-jump scaffolding is a residue class in its own
-right (owner ruling: "needs to be covered by a level, somewhere").  L5 STRICT: no fidelity site of
+right (owner ruling: "needs to be covered by a level, somewhere") -- EXCEPT a call-verified target (owner
+ruling 2026-10-14): the latest `ledger/split_audit.jsonl` record for (row, target) is `byte_verified`, its
+`observed_opcodes` at the row's own sites are all `jal` (a real call, no `j`), it records `maspsx_fired: []` (no
+assembler rewrite fires on the current source) and its kind is not `intra`/`unresolved`.  That is a genuine call
+(e.g. a real noreturn assert exit, or a returning callee on a family sibcall list), not scaffolding: it still
+lists in `split_audit` and needs its L3 audit, but does not count in `tail_jumps` (see `tail_calls_verified`).
+L5 STRICT: no fidelity site of
 ANY audit class, no computed-goto table, no inline asm, no NON_MATCHING guard (pins and tail-jumps
 are already excluded by L4).  A row that cannot reach L5 stays at L4 with its residue documented;
 `l5_residue` names what is left, `l4_residue` names what blocks L4 (`pins`/`tail_jump`/
@@ -317,6 +323,22 @@ def split_audit_index():
             idx[(j.get("id"), j.get("target"))] = j.get("kind")
     return idx
 
+def call_verified_index(records=None):
+    """{(row id, target)} whose LATEST split_audit record proves a real call (owner ruling 2026-10-14):
+    byte_verified, observed_opcodes non-empty and all `jal`, `maspsx_fired` present and empty, kind not
+    intra/unresolved.  A later record without that evidence supersedes an earlier one (latest wins, as in
+    split_audit_index); a record that never measured maspsx_fired or the opcodes proves nothing."""
+    if records is None:
+        p = LEDGER / "split_audit.jsonl"
+        records = read_jsonl(p) if p.exists() else []
+    latest = {}
+    for j in records:
+        latest[(j.get("id"), j.get("target"))] = j
+    return {k for k, j in latest.items()
+            if j.get("byte_verified") is True and j.get("observed_opcodes")
+            and all(o == "jal" for o in j["observed_opcodes"])
+            and j.get("maspsx_fired") == [] and j.get("kind") not in ("intra", "unresolved", None)}
+
 def audit_gate(row_id, targets, split_idx):
     """kinds aligned to `targets`, and whether every one clears L3: a record must exist and its
     kind must be neither `intra` (mis-split) nor `unresolved`.  `"missing"` is this function's own
@@ -375,7 +397,7 @@ def cfg_splits(cfg):
 
 WHOLE_ASM_FN_RE = re.compile(r'"\s*\.ent\s+[A-Za-z_]\w*')
 
-def evaluate_row(r, text, raw_text, promoted, sweeps, split_idx, defidx=None):
+def evaluate_row(r, text, raw_text, promoted, sweeps, split_idx, defidx=None, call_verified=frozenset()):
     """Pure per-row ladder logic for one L0 row (main() only calls this once l0 is confirmed): `r`
     the row dict, `text`/`raw_text` the current and pinned source, `promoted` the set of ids
     landed per ledger/promotions.jsonl, `sweeps` {sweep name: {id: record}}, `split_idx` from
@@ -414,12 +436,14 @@ def evaluate_row(r, text, raw_text, promoted, sweeps, split_idx, defidx=None):
     pins = len(sites_of(text))
     # a real noreturn tail call (declared noreturn AND called as a tail statement) -- not the `asm("func_X")`
     # symbol name of a composite row's data prefix, and not a bare noreturn attribute with no call.
-    tail_idiom = len(real_tail_call_targets(text))
+    tail_idiom = sum((r["id"], tgt) not in call_verified for tgt in real_tail_call_targets(text))   # 2026-10-14: a verified call is not a tail idiom
     computed_goto = len(re.findall(r"\bgoto\s*\*", text)); inline_asm = len(re.findall(r"__asm__|\basm\s*\(", re.sub(r"\bASM_[A-Z0-9_]+\(", "", strip_composite_asm(text) if L5_EXCLUDE_COMPOSITE_ASM else text)))
     boiler = "This header contains macros emitted by m2c" in text or "typedef float f32;" in text
     tj_targets = tail_jump_targets(r, text, nr_targets)
     tj_kinds, tail_ok = audit_gate(r["id"], tj_targets, split_idx)
-    tail_jumps = len(tj_targets)
+    # owner ruling 2026-10-14: a byte-verified real call (call_verified_index) is not a tail jump
+    tail_calls_verified = sum((r["id"], tgt) in call_verified for tgt in tj_targets)
+    tail_jumps = len(tj_targets) - tail_calls_verified
     placement_unproven = r.get("placement") == "unproven"
     in_module = r["id"] in sweeps.get("l4_modules", {}) and not placement_unproven
     level = 0
@@ -445,7 +469,8 @@ def evaluate_row(r, text, raw_text, promoted, sweeps, split_idx, defidx=None):
                             and "maspsx_dependent" not in dep.get(r["id"], ()):
                         level = 5
     recs = sorted(set(re.findall(r'#include "records/(Rec_[A-Za-z0-9_]+)\.h"', text)))
-    return {"level": level, "pins_left": pins, "m2c_field": len(re.findall(r"(?<![A-Za-z0-9_])(?:M2C_)?FIELD\(", "\n".join(l for l in text.splitlines() if not l.lstrip().startswith("#")))), "blocking": blocking, "records": recs,
+    extra = {"tail_calls_verified": tail_calls_verified} if tail_calls_verified else {}
+    return {**extra, "level": level, "pins_left": pins, "m2c_field": len(re.findall(r"(?<![A-Za-z0-9_])(?:M2C_)?FIELD\(", "\n".join(l for l in text.splitlines() if not l.lstrip().startswith("#")))), "blocking": blocking, "records": recs,
             "tail_jumps": tail_jumps, "split_audit": tj_kinds,
             "l5_residue": [k for k, v in (("pins", pins), ("tail_call", tail_idiom), ("fidelity_site", int(any_site)), ("computed_goto", computed_goto), ("inline_asm", inline_asm), ("non_matching", int("NON_MATCHING" in text)), ("maspsx_dependent", _fid_has(r, "maspsx_dependent"))) if v],
             "l4_residue": [k for k, v in (("pins", pins), ("tail_jump", tail_jumps), ("not_in_module", int(not in_module)), ("placement_unproven", int(placement_unproven)), ("cell_imitation", _fid_cell(r)), ("maspsx_pass", _fid_has(r, "maspsx_pass"))) if v],
@@ -473,6 +498,7 @@ def main():
     sweeps["l4_modules"] = placement
     audit = audit_index()
     split_idx = split_audit_index()   # ledger/split_audit.jsonl -- see the module docstring; empty until it exists
+    call_verified = call_verified_index()
     out = []; tally = collections.Counter()
     for r in rows():
         b = base.get(r["id"], {})
@@ -486,7 +512,7 @@ def main():
         if context:
             text += "\n" + context
             raw_text += "\n" + context
-        rec = evaluate_row(r, text, raw_text, promoted, sweeps, split_idx)
+        rec = evaluate_row(r, text, raw_text, promoted, sweeps, split_idx, call_verified=call_verified)
         rec["id"] = r["id"]; rec["evidence"] = list(_ev.get(r["id"], []))
         if r["id"] in placement and r.get("placement") != "unproven":
             rec["module"] = placement[r["id"]].get("module")
