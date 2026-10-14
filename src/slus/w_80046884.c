@@ -38,7 +38,7 @@ typedef struct GlobalGeometry_80046884 {
 extern s32 ReadGeomScreen(void);
 extern void func_80046A5C(UVec4_80046884 *, SVec4_80046884 *);
 extern s16 func_80046AFC(
-    SVec4_80046884 *, SVec4_80046884 *, SVec4_80046884 *, s32);
+    SVec4_80046884 *, SVec4_80046884 *, SVec4_80046884 *, s16);
 extern s32 rsin(s32);
 extern s32 rcos(s32);
 
@@ -92,7 +92,7 @@ void func_80046884(
     for (corner_index = 3; corner_index >= 0; corner_index--) {
         func_80046A5C(&corners[corner_index], &transformed_corners[corner_index]);
         if (func_80046AFC(&geometry->vectors[5], &transformed_corners[corner_index],
-                          &geometry->vectors[corner_index], (s16)depth)) {
+                          &geometry->vectors[corner_index], depth)) {
             use_fallback = 1;
         }
     }

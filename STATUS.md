@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-14T11:07:59Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-14T11:15:35Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -79,43 +79,43 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 
 | module | rows | placement proof |
 |---|---:|---|
-| dungeon_cd_control_d79c4 | 3 | current: complete TU + all windows + genuine |
-| town_minigame_dispatch_44b44 | 13 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1852800 | 4 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1870800 | 2 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1858800 | 3 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1840800 | 3 | current: complete TU + all windows + genuine |
-| dungeon_ovl_185e800 | 3 | current: complete TU + all windows + genuine |
-| dungeon_ovl_18ac800 | 2 | current: complete TU + all windows + genuine |
-| dungeon_ovl_18fa800 | 3 | current: complete TU + all windows + genuine |
-| dungeon_ovl_19ba800 | 3 | current: complete TU + all windows + genuine |
-| dungeon_ovl_199c800 | 4 | current: complete TU + all windows + genuine |
-| dungeon_ovl_18f4800 | 5 | current: complete TU + all windows + genuine |
-| dungeon_ovl_19a8800 | 5 | current: complete TU + all windows + genuine |
-| dungeon_ovl_189a800 | 13 | current: complete TU + all windows + genuine |
-| dungeon_ovl_188e800 | 6 | current: complete TU + all windows + genuine |
-| dungeon_ovl_198a800 | 17 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1876800 | 5 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1894800 | 11 | current: complete TU + all windows + genuine |
-| dungeon_ovl_18a6800 | 15 | current: complete TU + all windows + genuine |
-| dungeon_ovl_19d2800 | 6 | current: complete TU + all windows + genuine |
-| dungeon_ovl_197281c | 5 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1990800 | 13 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1960800 | 11 | current: complete TU + all windows + genuine |
-| dungeon_ovl_183a800 | 10 | current: complete TU + all windows + genuine |
-| dungeon_ovl_18a0800 | 15 | current: complete TU + all windows + genuine |
-| dungeon_ovl_19c6800 | 5 | current: complete TU + all windows + genuine |
-| dungeon_ovl_19cc800 | 22 | current: complete TU + all windows + genuine |
-| dungeon_ovl_192a800 | 7 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1918800 | 11 | current: complete TU + all windows + genuine |
-| dungeon_ovl_19de800 | 22 | current: complete TU + all windows + genuine |
-| dungeon_ovl_7ce800 | 30 | current: complete TU + all windows + genuine |
-| dungeon_ovl_fa7000 | 28 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1924800 | 11 | current: complete TU + all windows + genuine |
-| dungeon_ovl_19b4800 | 5 | current: complete TU + all windows + genuine |
-| dungeon_ovl_184c800 | 3 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1864800 | 4 | current: complete TU + all windows + genuine |
-| dungeon_ovl_7e6a5800 | 23 | current: complete TU + all windows + genuine |
+| dungeon_cd_control_d79c4 | 3 | source/recipe/graph/tool/review/window inputs changed |
+| town_minigame_dispatch_44b44 | 13 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1852800 | 4 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1870800 | 2 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1858800 | 3 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1840800 | 3 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_185e800 | 3 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_18ac800 | 2 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_18fa800 | 3 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_19ba800 | 3 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_199c800 | 4 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_18f4800 | 5 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_19a8800 | 5 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_189a800 | 13 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_188e800 | 6 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_198a800 | 17 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1876800 | 5 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1894800 | 11 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_18a6800 | 15 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_19d2800 | 6 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_197281c | 5 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1990800 | 13 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1960800 | 11 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_183a800 | 10 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_18a0800 | 15 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_19c6800 | 5 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_19cc800 | 22 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_192a800 | 7 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1918800 | 11 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_19de800 | 22 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_7ce800 | 30 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_fa7000 | 28 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1924800 | 11 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_19b4800 | 5 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_184c800 | 3 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1864800 | 4 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_7e6a5800 | 23 | source/recipe/graph/tool/review/window inputs changed |
 
 Placement alone does not override any lower-level or source-residue guard.
 
@@ -153,19 +153,25 @@ Per-row optimization flags (weak evidence about the real build; each switch is u
 
 The game is one `2.7.2-cdk -G0 -O2` build plus a town -O1 debug family and stock Sony/devkit/minigame objects (r84_fable_build). A row listed here carries a recipe its module's pin-free rows do not use - usually pins fitted at the wrong compiler. Module recipe = ledger/module_recipe_census.jsonl `best_recipe`; per row see src/<container>/INDEX.md.
 
-| class | rows | dungeon / town / main | pinned rows | pins |
+| class | rows | slus / ovmovie / dungeon / town / main | pinned rows | pins |
 |---|---:|---|---:|---:|
-| late cell (2.8.x / egcs / 2.95.2: fitted) | 0 | 0 / 0 / 0 | 0 | 0 |
-| cdk cell + crutch flags, module is plain | 0 | 0 / 0 / 0 | 0 | 0 |
-| stock cell inside a cdk module | 0 | 0 / 0 / 0 | 0 | 0 |
-| other mismatch with the module recipe (-G, stock flavour, -O1) | 0 | 0 / 0 / 0 | 0 | 0 |
-| **total** | **0** | | **0** | **0** |
+| late cell (2.8.x / egcs / 2.95.2: fitted) | 0 | 0 / 0 / 0 / 0 / 0 | 0 | 0 |
+| cdk cell + crutch flags, module is plain | 0 | 0 / 0 / 0 / 0 / 0 | 0 | 0 |
+| stock cell inside a cdk module | 1 | 1 / 0 / 0 / 0 / 0 | 0 | 0 |
+| other mismatch with the module recipe (-G, stock flavour, -O1) | 1 | 0 / 1 / 0 / 0 / 0 | 0 | 0 |
+| **total** | **2** | | **0** | **0** |
+
+- other mismatch with the module recipe (-G, stock flavour, -O1): ovmovie/func_800402D8 2.7.2-cdk (yardstick 2.7.2)
+
+- stock cell inside a cdk module: slus/code 2.7.2 (yardstick 2.7.2-cdk)
+
+Rows at a recipe the module census cannot separate from best_recipe (tie_with; not listed above, text cannot decide): main/func_80019E34 2.7.2-G0 (best 2.7.2), main/func_8001C7F4 2.7.2 (best 2.7.2-G0), main/func_800207D4 2.7.2-G0 (best 2.6.3), main/func_80020F68 2.7.2 (best 2.6.3-G0).
 
 Rows at a registered recipe backed by per-row compiler evidence (ledger/recipe_evidence.jsonl, not listed above): town/func_806D30B4 2.6.3-G0 (confirmed), town/func_808B2B04 2.6.3-G0 (confirmed).
 
-Sony SDK library objects (ledger/sdk_objects.jsonl, whole-object byte match; not listed above): main/func_800219C4.
+Unconfirmed compiler attributions (still listed above; ledger/recipe_evidence.jsonl `to_confirm` names the measurement): main/func_80019E34 2.7.2-G0, main/func_8001C7F4 2.7.2, main/func_800207D4 2.7.2-G0, main/func_80020F68 2.7.2, town/func_80878110 2.6.3-G0.
 
-SLUS rows off their region's build (game image = 2.7.2-cdk, sound TU = stock 2.7.2; module members included): 1 rows, 0 pinned / 0 pins.
+Sony SDK library objects (ledger/sdk_objects.jsonl, whole-object byte match; not listed above): main/func_800219C4.
 Site-for-pin trades (`ledger/recipe_trades.jsonl` records shaped `{"kind":"site_for_pin","id":row,"site":"LABEL_AS_CALL|ITC|PASSTHRU","pin":macro,"residue_without_pin":str,"at":iso,"note":str}` -- one pin, or two when one is not enough (owner ruling 2026-09-22 afternoon, "accept 2 pins") -- charter rule 3, "a pin moved elsewhere is not a removal"; the trade is tracked, and L4 is where pins stop counting toward removal regardless): 27.
 
 Dead-initializer trades (`ledger/recipe_trades.jsonl` records shaped `{"kind":"dead_init","id":row,"site":pins,"init":decl,"lane":lane,"at":iso,"note":str}` -- a never-read `= 0` at a declaration makes the variable multi-set; ordinary C by the owner ruling 2026-09-23, tracked as a spelling trade, informational, the pin count is unchanged; appended by tools/apply_candidates.py at landing): 24.
@@ -186,12 +192,12 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 | L1 | 2,784,412 | 99.9% |
 | L2 | 2,784,412 | 99.9% |
 | L3 | 2,770,828 | 99.4% |
-| L4 | 217,052 | 7.8% |
-| L5 | 212,432 | 7.6% |
+| L4 | 0 | 0.0% |
+| L5 | 0 | 0.0% |
 
 On shared record headers (T7, `include/records/`): 903 rows, 577,664 bytes (20.7%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 8 rows (4,884 B), not_in_module 7,098 rows (2,564,416 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 8 rows (4,884 B), not_in_module 7,453 rows (2,781,560 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 

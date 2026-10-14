@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Generate STATUS.md from the ledger (rows, baseline, census, levels)."""
-import collections, json, time
+import collections, json, re, time
 from common import LEDGER, ROOT, rows, read_jsonl, PARKED_CONTAINERS
 from pin_census import sites_of, hidden_asm, strip_composite_asm, composite_asm_spans
 import levels as _levels   # the live L5 predicates: the clean column reuses them, never a second copy
@@ -22,6 +22,22 @@ def placement_unproven_status(rs):
             (": " + ", ".join(r['id'] for r in unproven) if unproven else "") + "\n")
 
 
+# SLUS regions (r82_fable_slus): game image 0x80033AA8-0x8005CA70 = one 2.7.2-cdk build, sound TU 0x8005CA90-0x8005FA34 = stock 2.7.2
+def _slus_want(r):
+    """Region build of a SLUS row: its w_<addr> id address, else the majority region of its function definitions."""
+    m = re.search(r"w_([0-9A-F]{8})", r["id"])
+    addrs = [int(m.group(1), 16)] if m else [int(x, 16) for x in re.findall(r"func_([0-9A-F]{8})", " ".join(r.get("defs") or []))]
+    votes = collections.Counter("2.7.2-cdk" if 0x80033AA8 <= a < 0x8005CA70 else "2.7.2" if 0x8005CA90 <= a <= 0x8005FA34 else None
+                                for a in addrs)
+    votes.pop(None, None)
+    return votes.most_common(1)[0][0] if votes else None
+
+
+def _no_g(cfg):
+    """Overlays and ovmovie are -G0 everywhere (no overlay function touches $gp): the -G axis is not a compiler fact there."""
+    return " ".join(x for x in cfg.replace("-G0", " ").split())
+
+
 def _recipe_tracker(rs, curc):
     """Rows whose registered recipe is likely NOT their real build (round 84 build structure, r84_fable_build): every
     2.8.x / egcs / 2.95.2 cell is fitted, and a row off its module's census recipe is a crutch candidate."""
@@ -39,22 +55,43 @@ def _recipe_tracker(rs, curc):
     # only evidence that decides the row exempts it; an unconfirmed attribution stays listed with what would confirm it
     rev = {i: r for i, r in rev_all.items() if r.get("confidence") in ("supported", "confirmed")}
     unconf = {i: r for i, r in rev_all.items() if i not in rev}
+    # retail split-address fingerprint (tools/fidelity/split_fingerprint.py): positive evidence that the row's CELL is cdk
+    # (the flags/-G stay candidates); a fingerprinted ovmovie head row at a cdk cell is not "likely incorrect"
+    fp = {r["id"] for r in read_jsonl(LEDGER / "split_fingerprint_rows.jsonl") if r.get("kinds")} \
+        if (LEDGER / "split_fingerprint_rows.jsonl").exists() else set()
+    # ovmovie has no module census: the yardstick is the container's majority recipe on the -G-normalised cfg
+    ovm = collections.Counter(_no_g(r["cfg"]) for r in rs if r["id"].split("/")[0] == "ovmovie")
+    ovm_best = ovm.most_common(1)[0][0] if ovm else None
+    members = collections.defaultdict(list)
+    tied = []
     cats = collections.OrderedDict((k, collections.Counter()) for k in (
         "late cell (2.8.x / egcs / 2.95.2: fitted)", "cdk cell + crutch flags, module is plain",
         "stock cell inside a cdk module", "other mismatch with the module recipe (-G, stock flavour, -O1)"))
     worst = []
     for r in rs:
         c = r["id"].split("/")[0]
-        if c not in ("dungeon", "town", "main") or r["id"] in sdk or rev.get(r["id"], {}).get("cfg") == r["cfg"]:
+        if r["id"] in sdk or rev.get(r["id"], {}).get("cfg") == r["cfg"] or r.get("row_kind") == "data":
             continue
         cell = r["cfg"].split()[0]
-        best = cen.get((c, mod.get(r["id"])))
-        if best and best.split()[0] == "2.7.2-cdk":
+        if c == "slus":
+            best = _slus_want(r)            # no code (gte_port_state) -> None -> not judged
+        elif c == "ovmovie":
+            best = ovm_best
+            if best and _no_g(r["cfg"]) == best:
+                continue
+            if cell.startswith("2.7.2-cdk") and r["id"] in fp and not [x for x in r["cfg"].split()[1:] if x.startswith(("-f", "-O", "-m"))]:
+                continue                    # fingerprint-evidenced cdk head of the movie overlay
+        else:
+            best = cen.get((c, mod.get(r["id"])))
+        if c in ("dungeon", "town", "main", "ovmovie") and best and best.split()[0] == "2.7.2-cdk":
             # overlays are -G0 everywhere (r84_fable_build: no overlay function touches $gp); a census that picked cdk -G8
             # only saw texts neutral on the -G axis, so the yardstick is the -G0 cell (r86: 132 rows moved to it)
             best = " ".join(["2.7.2-cdk-G0"] + best.split()[1:])
         late = cell.startswith(("2.8", "2.9"))
-        if not late and (not best or r["cfg"] == best or r["cfg"] in tie.get((c, mod.get(r["id"])), ())):
+        if not late and (not best or r["cfg"] == best):
+            continue
+        if not late and r["cfg"] in tie.get((c, mod.get(r["id"])), ()):
+            tied.append((r["id"], r["cfg"], best))   # the module's pin-free texts cannot separate the two recipes
             continue
         flags = [x for x in r["cfg"].replace("+", " ").split()[1:] if x.startswith(("-f", "-O", "-m"))]
         if late:
@@ -67,17 +104,24 @@ def _recipe_tracker(rs, curc):
             k = "other mismatch with the module recipe (-G, stock flavour, -O1)"
         n = (curc.get(r["id"]) or {}).get("pin_total", 0)
         cats[k]["rows"] += 1; cats[k]["pinned"] += bool(n); cats[k]["pins"] += n; cats[k][c] += 1
+        members[k].append("%s %s (yardstick %s)" % (r["id"], r["cfg"], best or "?"))
         if n:
             worst.append((n, r["id"], r["cfg"], best or "?"))
     out = ["\n## Likely incorrect compiler (registered recipe vs the real build)\n",
            "The game is one `2.7.2-cdk -G0 -O2` build plus a town -O1 debug family and stock Sony/devkit/minigame objects "
            "(r84_fable_build). A row listed here carries a recipe its module's pin-free rows do not use - usually pins fitted "
            "at the wrong compiler. Module recipe = ledger/module_recipe_census.jsonl `best_recipe`; per row see src/<container>/INDEX.md.\n",
-           "| class | rows | dungeon / town / main | pinned rows | pins |", "|---|---:|---|---:|---:|"]
+           "| class | rows | slus / ovmovie / dungeon / town / main | pinned rows | pins |", "|---|---:|---|---:|---:|"]
     for k, v in cats.items():
-        out.append(f"| {k} | {v['rows']} | {v['dungeon']} / {v['town']} / {v['main']} | {v['pinned']} | {v['pins']} |")
+        out.append(f"| {k} | {v['rows']} | {v['slus']} / {v['ovmovie']} / {v['dungeon']} / {v['town']} / {v['main']} | {v['pinned']} | {v['pins']} |")
     tot = sum(v["rows"] for v in cats.values()); tp = sum(v["pins"] for v in cats.values())
     out.append(f"| **total** | **{tot}** | | **{sum(v['pinned'] for v in cats.values())}** | **{tp}** |")
+    for k, v in members.items():
+        if v:
+            out.append(f"\n- {k}: " + "; ".join(v[:40]) + (f"; ... +{len(v) - 40}" if len(v) > 40 else ""))
+    if tied:
+        out.append("\nRows at a recipe the module census cannot separate from best_recipe (tie_with; not listed above, text cannot decide): "
+                   + ", ".join("%s %s (best %s)" % t for t in tied) + ".")
     if rev:
         out.append("\nRows at a registered recipe backed by per-row compiler evidence (ledger/recipe_evidence.jsonl, not listed above): "
                    + ", ".join("%s %s (%s)" % (i, x["cfg"], x["confidence"]) for i, x in sorted(rev.items())) + ".")
@@ -86,20 +130,6 @@ def _recipe_tracker(rs, curc):
                    + ", ".join("%s %s" % (i, x["cfg"]) for i, x in sorted(unconf.items())) + ".")
     if sdk:
         out.append(f"\nSony SDK library objects (ledger/sdk_objects.jsonl, whole-object byte match; not listed above): {', '.join(sorted(sdk))}.")
-    # SLUS (r82_fable_slus): game image 0x80033AA8-0x8005CA70 = one 2.7.2-cdk (-G8) build, sound TU 0x8005CA90-0x8005FA34 = stock 2.7.2
-    import re as _re
-    sl = collections.Counter()
-    for r in rs:
-        if r["id"].split("/")[0] != "slus":
-            continue
-        m = _re.search(r"w_([0-9A-F]{8})", r["id"])
-        a = int(m.group(1), 16) if m else 0
-        want = "2.7.2-cdk" if 0x80033AA8 <= a < 0x8005CA70 else "2.7.2" if 0x8005CA90 <= a <= 0x8005FA34 else None
-        if want and r["cfg"] != want:
-            n = (curc.get(r["id"]) or {}).get("pin_total", 0)
-            sl["rows"] += 1; sl["pinned"] += bool(n); sl["pins"] += n
-    out.append(f"\nSLUS rows off their region's build (game image = 2.7.2-cdk, sound TU = stock 2.7.2; module members included): "
-               f"{sl['rows']} rows, {sl['pinned']} pinned / {sl['pins']} pins.")
     if worst:
         out.append("\nMost-pinned rows off their build recipe: " + "; ".join(
             f"{i} {n} pins ({cfg} -> {best})" for n, i, cfg, best in sorted(worst, reverse=True)[:12]) + ".\n")
