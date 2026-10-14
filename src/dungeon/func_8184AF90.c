@@ -61,16 +61,10 @@ typedef struct S_80024790_4 {
 
 /* Creates an effect at the origin with index-dependent color, scale, and position. */
 s32 func_80024790(S_80024790_1 *origin, s32 color_index) {
-    s32 signed_index;
-    s32 index_high;
-    s16 scale;
-    s32 frame_dividend;
     s32 index;
-    s32 angle;
-    s32 angle_dividend;
-    s32 height;
+    s32 frame;
+    s16 scale;
     s8 shade;
-    u8 *sprite_data;
     S_80024790_3 *sprite;
     S_80024790_4 *position;
     S_80024790_2 *state;
@@ -83,27 +77,16 @@ s32 func_80024790(S_80024790_1 *origin, s32 color_index) {
         ((S_80024790_0 *)effect)->unk_20 = (u16) origin->unk_02;
         state = effect + 0x20;
         state->unk_02 = (u16) origin->unk_06;
-        index_high = index << 16;
-        signed_index = index_high >> 16;
-        angle = signed_index << 8;
-        angle_dividend = angle;
+        frame = (s16) index;
         state->unk_04 = (u16) origin->unk_0A;
-        if (angle < 0) {
-            angle_dividend = angle + 0xFFF;
-        }
-        frame_dividend = signed_index;
-        state->unk_08 = (s16) (angle - ((angle_dividend >> 0xC) << 0xC));
+        state->unk_08 = (s16) ((frame << 8) % 0x1000);
         sprite = ((S_80024790_0 *)effect)->unk_0C;
         shade = ~(color_index * 8);
         sprite->unk_0E = shade;
         sprite->unk_0D = shade;
         sprite->unk_0C = shade;
-        sprite_data = D_800E0000 - 0x14D8;
-        if (signed_index < 0) {
-            frame_dividend = signed_index + 7;
-        }
-        func_8003DB94(sprite, sprite_data, (s16) (7 - (signed_index - ((frame_dividend >> 3) * 8))));
-        scale = (signed_index << 6) + 0x1000;
+        func_8003DB94(sprite, D_800E0000 - 0x14D8, (s16) (7 - frame % 8));
+        scale = (frame << 6) + 0x1000;
         sprite->unk_1E = scale;
         sprite->unk_1C = scale;
         sprite->unk_10 = (u16) (sprite->unk_10 | 0x20);
@@ -112,8 +95,7 @@ s32 func_80024790(S_80024790_1 *origin, s32 color_index) {
         position = ((S_80024790_0 *)effect)->unk_08;
         position->unk_02 = (s16) (((S_80024790_0 *)effect)->unk_20 + ((s32) (func_800644B8(state->unk_08) * 2) >> 8));
         position->unk_06 = (s16) (state->unk_02 + ((s32) (func_80064584(state->unk_08) * 2) >> 8));
-        height = state->unk_04 - (index * 8);
-        position->unk_0A = (u16) height;
+        position->unk_0A = (u16) (state->unk_04 - (index * 8));
         return (s32) effect;
     }
     return 0;
