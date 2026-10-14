@@ -23,7 +23,6 @@ typedef struct {
 
 extern Slot D_80085FA8[];
 extern s32 D_800869B4[3];
-extern void *jtbl_8003310C[];
 
 extern s32 func_800589B8(Entity *);
 extern void func_80057948(s32, s32, s32);
@@ -41,11 +40,6 @@ s32 func_800595C0(Entity *entity)
     s32 value;
     s16 saved_command;
     s32 command_index;
-    static void *const case_labels[] = {
-        &&L_case_46, &&L_case_47, &&L_case_48, &&L_case_49,
-        &&L_case_4A, &&L_case_4B, &&L_case_7F, &&L_default
-    };
-    (void)case_labels;
 
     command = func_800589B8(ent);
     saved_command = command;
@@ -65,18 +59,18 @@ s32 func_800595C0(Entity *entity)
 
     command_index = (command & 0x7F) - 0x46;
     if ((u32)command_index >= 0x3A) {
-        goto L_default;
+        goto default_command;
     }
     command = command_index;
-    goto *jtbl_8003310C[command];
+    switch (command) {
 
-L_case_46:
+    case 4:
     func_80057948(ent->field_4C, ent->field_4A, 0);
     return 0;
-L_case_47:
+    case 5:
     func_80057948(ent->field_4C, ent->field_4A, 0);
     return 1;
-L_case_48:
+    case 1:
     {
         s32 next_byte = func_800589B8(ent);
         u32 slot_count;
@@ -91,37 +85,39 @@ L_case_48:
         }
         return 0 < (operand & 0x80);
     }
-L_case_49:
+    case 2:
     {
         s32 next_byte = func_800589B8(ent);
         operand = next_byte;
         func_80058494(ent->field_4C, 0, next_byte & 0x7F);
         goto ret_bool;
     }
-L_case_4A:
+    case 3:
     {
         s32 next_byte = func_800589B8(ent);
         operand = next_byte;
         func_8005845C(ent->field_4C, next_byte & 0x7F);
         goto ret_bool;
     }
-L_case_4B:
+    case 0:
     {
         s32 next_byte = func_800589B8(ent);
         operand = next_byte;
         ent->field_4C = next_byte & 0xF;
         goto ret_bool;
     }
-L_case_7F:
+    case 57:
     operand = func_800589B8(ent);
     ent->field_2C = 1;
     goto ret_bool;
-L_default:
+    default:
+    default_command:
     {
         s32 next_byte = func_800589B8(ent);
         operand = next_byte;
         func_8005914C(ent, (ent->field_4C + 0xB0) & 0xFF,
                       saved_command & 0x7F, next_byte & 0x7F);
+    }
     }
 
 ret_bool:

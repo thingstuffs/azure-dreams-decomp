@@ -2134,6 +2134,72 @@
         "ccver": "2.7.2"
       },
       "source": "src/sound_tu_code_owned.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/800.bin",
+          "bytes": "4c160480881604807c1704809417048070160480a0160480bc16048000170480b0170480",
+          "offset": 1624,
+          "section": ".rodata",
+          "size": 36,
+          "symbol": "jtbl_8002D658",
+          "vram": 2147669592
+        }
+      ],
+      "evidence": "docs/evidence/r120_jtbl_slus_ownership.md",
+      "headers": [
+        "include/common.h"
+      ],
+      "members": [
+        {
+          "functions": [
+            "func_80041588"
+          ],
+          "id": "slus/w_80041588",
+          "source": "src/w_80041588.c"
+        }
+      ],
+      "name": "jtbl_80041588",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/w_80041588_jtbl_owned.c"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/800.bin",
+          "bytes": "2897058090960580e496058008970580609605807896058058970580589705805897058058970580589705805897058058970580589705805897058058970580589705805897058058970580589705805897058058970580589705805897058058970580589705805897058058970580589705805897058058970580589705805897058058970580589705805897058058970580589705805897058058970580589705805897058058970580589705805897058058970580589705805897058058970580589705805897058058970580589705805897058058970580589705805897058040970580",
+          "offset": 24844,
+          "section": ".rodata",
+          "size": 232,
+          "symbol": "jtbl_8003310C",
+          "vram": 2147692812
+        }
+      ],
+      "evidence": "docs/evidence/r120_jtbl_slus_ownership.md",
+      "headers": [
+        "include/common.h"
+      ],
+      "members": [
+        {
+          "functions": [
+            "func_800595C0"
+          ],
+          "id": "slus/w_800595C0",
+          "source": "src/w_800595C0.c"
+        }
+      ],
+      "name": "jtbl_800595C0",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/w_800595C0_jtbl_owned.c"
     }
   ],
   "version": 1

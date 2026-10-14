@@ -19,7 +19,6 @@ extern s32 LoadImage(void *, void *);
 extern void *memcpy(void *, const void *, u32);
 extern s32 D_80081480;
 extern s32 D_8008148C;
-extern void *jtbl_8002D658[];
 
 /* Processes a command stream for VRAM uploads, tile caching, memory copies, and pointer relocation. */
 void func_80041588(u32 *stream_ref, u8 *state, s32 execute)
@@ -30,7 +29,6 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute)
     u8 *data;
     u16 *color;
     u32 *words;
-    void **table;
     s32 item_idx;
     s32 color_idx;
     s32 flags;
@@ -43,10 +41,6 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute)
     s32 buffer_addr;
     void *tile_src;
     u32 *input;
-    static void *const case_labels[] = {
-        &&case_1, &&case_2, &&case_3, &&case_4, &&case_5,
-        &&case_6, &&case_7, &&case_8, &&case_9
-    };
 
     input = stream_ref;
     cmd = (StreamCommand *)state;
@@ -63,18 +57,16 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute)
     DrawSync(0);
     buffer_addr = D_8008148C;
     D_80081480 = buffer_addr;
-    table = jtbl_8002D658;
     buffer = (u8 *)buffer_addr;
 
     while (1) {
         command_idx = cmd->type - 1;
         words = (u32 *)cmd;
-        if ((u32)command_idx >= 9) {
+        switch (command_idx) {
+        default:
             return;
-        }
-        goto *table[command_idx];
 
-    case_1:
+        case 0:
         func_8004068C(base + words[1], buffer);
         LoadImage(&cmd->x, buffer);
         DrawSync(0);
@@ -84,7 +76,7 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute)
         cmd = (StreamCommand *)((u8 *)cmd + cmd->next);
         continue;
 
-    case_2:
+        case 4:
         LoadImage(&cmd->x, base + words[1]);
         DrawSync(0);
         if (cmd->next == 0) {
@@ -93,7 +85,7 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute)
         cmd = (StreamCommand *)((u8 *)cmd + cmd->next);
         continue;
 
-    case_3:
+        case 1:
         vram_offset = cmd->x;
         tile_count = cmd->y;
         tile_src = (void *)words[1];
@@ -101,7 +93,7 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute)
         src_addr = (s32)((void *)((void *)(base + (s32)tile_src)));
         goto call_tile;
 
-    case_4:
+        case 5:
         item_count = (u16)cmd->flags;
         vram_offset = cmd->x;
         tile_count = cmd->y;
@@ -110,7 +102,7 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute)
         src_addr = (s32)((void *)((void *)(base + (s32)tile_src)));
         goto convert_flags;
 
-    case_5:
+        case 6:
         src_addr = (s32)(base + words[1]);
         item_count = (s32)cmd->y << 4;
         data = (u8 *)src_addr;
@@ -123,7 +115,7 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute)
         }
         goto masked_tile;
 
-    case_6:
+        case 7:
         src_addr = (s32)(base + words[1]);
         item_count = cmd->y;
         data = (u8 *)src_addr;
@@ -155,7 +147,7 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute)
         DrawSync(0);
         goto advance;
 
-    case_7:
+        case 2:
         func_8004068C(base + words[1], (u8 *)words[2]);
         if (cmd->next == 0) {
             return;
@@ -163,7 +155,7 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute)
         cmd = (StreamCommand *)((u8 *)cmd + cmd->next);
         continue;
 
-    case_8:
+        case 3:
         memcpy((void *)words[2], base + words[1], words[3]);
         if (cmd->next == 0) {
             return;
@@ -171,7 +163,7 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute)
         cmd = (StreamCommand *)((u8 *)cmd + cmd->next);
         continue;
 
-    case_9:
+        case 8:
         item_idx = cmd->x;
         data = base + words[1];
         if (item_idx > 0) {
@@ -182,6 +174,7 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute)
                 item_idx--;
                 data += 8;
             } while (item_idx > 0);
+        }
         }
     advance:
         if (cmd->next == 0) {

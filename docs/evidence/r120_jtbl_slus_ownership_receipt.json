@@ -1,0 +1,164 @@
+{
+  "schema": 2,
+  "at": "2026-10-14T14:22:40Z",
+  "purpose": "data ownership only; no L4/L5 placement certificate",
+  "modules": [
+    "jtbl_80041588",
+    "jtbl_800595C0"
+  ],
+  "module_fingerprints": {
+    "slus/w_80041588": "1956f59e5e34d339e5887d5412feb71a7ffcd9812a51a562c17dd782de80fc31",
+    "slus/w_800595C0": "89cfafca17b9bda652b2714183165632c4bdcf56767fe1ed3c7c27e3dc0d9176"
+  },
+  "tool_fingerprint": "53dfedcff581c967d034",
+  "recipe_sha256": "e384f60a87942ddb6b35e1b603e94ebb7b3aff133f15df2301ad85e3df81af3c",
+  "image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+  "gate": {
+    "result": "MATCH",
+    "words_diff": 0
+  },
+  "data": {
+    "jtbl_80041588": {
+      "sections": {
+        ".rodata": {
+          "size": 36,
+          "bytes": "c400000000010000f40100000c020000e800000018010000340100007801000028020000",
+          "symbols": [
+            {
+              "asset": "assets/800.bin",
+              "bytes": "4c160480881604807c1704809417048070160480a0160480bc16048000170480b0170480",
+              "offset": 1624,
+              "section": ".rodata",
+              "size": 36,
+              "symbol": "jtbl_8002D658",
+              "vram": 2147669592,
+              "object_offset": 0,
+              "object_binding": "compiler-local"
+            }
+          ],
+          "placement": [
+            2147669592,
+            36
+          ],
+          "table_words": 9,
+          "align_pads": [],
+          "text_references": 1
+        }
+      }
+    },
+    "jtbl_800595C0": {
+      "sections": {
+        ".rodata": {
+          "size": 232,
+          "bytes": "68010000d00000002401000048010000a0000000b800000098010000980100009801000098010000980100009801000098010000980100009801000098010000980100009801000098010000980100009801000098010000980100009801000098010000980100009801000098010000980100009801000098010000980100009801000098010000980100009801000098010000980100009801000098010000980100009801000098010000980100009801000098010000980100009801000098010000980100009801000098010000980100009801000098010000980100009801000080010000",
+          "symbols": [
+            {
+              "asset": "assets/800.bin",
+              "bytes": "2897058090960580e496058008970580609605807896058058970580589705805897058058970580589705805897058058970580589705805897058058970580589705805897058058970580589705805897058058970580589705805897058058970580589705805897058058970580589705805897058058970580589705805897058058970580589705805897058058970580589705805897058058970580589705805897058058970580589705805897058058970580589705805897058058970580589705805897058058970580589705805897058058970580589705805897058040970580",
+              "offset": 24844,
+              "section": ".rodata",
+              "size": 232,
+              "symbol": "jtbl_8003310C",
+              "vram": 2147692812,
+              "object_offset": 0,
+              "object_binding": "compiler-local"
+            }
+          ],
+          "placement": [
+            2147692812,
+            232
+          ],
+          "table_words": 58,
+          "align_pads": [],
+          "text_references": 1
+        }
+      }
+    }
+  },
+  "rows": {
+    "slus/w_80041588": {
+      "row": "slus/w_80041588",
+      "container": "slus",
+      "kind": "slus",
+      "cfg": "2.7.2-cdk",
+      "pins": 0,
+      "asflags": "",
+      "cell": "2.7.2-cdk",
+      "maspsx_exact": true,
+      "proof": "whole SLUS image, module context",
+      "fired": [],
+      "module": "jtbl_80041588",
+      "module_fingerprint": "1956f59e5e34d339e5887d5412feb71a7ffcd9812a51a562c17dd782de80fc31",
+      "trace_scope": "whole-module",
+      "selfcheck": true,
+      "funcs": 1,
+      "words": 164,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "has_div": false,
+      "genuine": {
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 164,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ]
+        }
+      },
+      "exact_versions": [
+        "2.79"
+      ],
+      "best": "2.79",
+      "status": "ok",
+      "secs": 5.3
+    },
+    "slus/w_800595C0": {
+      "row": "slus/w_800595C0",
+      "container": "slus",
+      "kind": "slus",
+      "cfg": "2.7.2-cdk",
+      "pins": 0,
+      "asflags": "",
+      "cell": "2.7.2-cdk",
+      "maspsx_exact": true,
+      "proof": "whole SLUS image, module context",
+      "fired": [],
+      "module": "jtbl_800595C0",
+      "module_fingerprint": "89cfafca17b9bda652b2714183165632c4bdcf56767fe1ed3c7c27e3dc0d9176",
+      "trace_scope": "whole-module",
+      "selfcheck": true,
+      "funcs": 1,
+      "words": 122,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "has_div": false,
+      "genuine": {
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 122,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ]
+        }
+      },
+      "exact_versions": [
+        "2.79"
+      ],
+      "best": "2.79",
+      "status": "ok",
+      "secs": 5.2
+    }
+  }
+}
