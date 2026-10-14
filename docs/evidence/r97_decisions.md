@@ -309,3 +309,15 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     for no-arm/pad texts; an invented flag scores 55). The arm BODY remains a reconstruction. The same test CONTRADICTS o7's
     debugMode arm for dungeon/func_800A1020 (it creates a page register JP lacks) and gives no support for slus/w_8005914C;
     both texts are refused (ledger/hard_basket.jsonl).
+
+47. **(r120, OWNER ruling 2026-10-14) main/func_80021848's computed goto is a genuine system-jump wrapper.** Retail is
+    `lui v0,0x8041; addiu v0,-0x77A4; jr v0` -> 0x8040885C (0x280 below D_80408ADC; likely the RAM mirror of the kernel
+    entry 0x8000885C); the neighbour restores ra from 0x8040922C. A jump to a fixed code address has no other C spelling,
+    so `goto *(void *)(D_80408ADC - 0x280)` stays. It remains the one `computed_goto` L5 residue row, tracked, not a target.
+48. **(r120, OWNER ruling 2026-10-14) A byte-verified real call is not tail-jump scaffolding.** L4 `tail_jump` (and the
+    STATUS noreturn tail-call census / L5 `tail_call` residue) skip a (row, target) whose latest ledger/split_audit.jsonl
+    record is byte_verified with observed_opcodes all `jal` and maspsx_fired == [] (tools/levels.py call_verified_index).
+    A retail `j` or a fired jal->j rewrite still blocks. First rows: main/func_80019A10, func_800207D4, func_80020830
+    (noreturn assert exit func_8007BEF0, the declaration is load-bearing: removing it costs 8-16 bytes) and
+    dungeon/func_8127CD6C, func_8128ED6C (returning func_800A17D4 listed only by the family sibcall file). Evidence:
+    r120_tailjump REPORT.md (r120 root3). Charter: "Ruling 2026-10-14".

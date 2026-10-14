@@ -174,6 +174,31 @@ class TailJumpLadder(unittest.TestCase):
         self.assertNotIn("pins", rec["l4_residue"])
         self.assertNotIn("not_in_module", rec["l4_residue"])
 
+    def test_call_verified_target_reaches_l4(self):
+        """Owner ruling 2026-10-14: a byte-verified real `jal` with no fired maspsx rewrite is a call,
+        not tail-jump scaffolding.  It keeps its L3 audit kind but leaves `tail_jumps`/L4 residue."""
+        r, text, raw_text, promoted, sweeps = self._row_ready_for_l3()
+        split_idx = {(r["id"], "func_80098765"): "cross-image"}
+        rec = L.evaluate_row(r, text, raw_text, promoted, sweeps, split_idx,
+                             call_verified={(r["id"], "func_80098765")})
+        self.assertEqual(rec["split_audit"], ["cross-image"])
+        self.assertEqual(rec["tail_jumps"], 0)
+        self.assertEqual(rec["tail_calls_verified"], 1)
+        self.assertNotIn("tail_jump", rec["l4_residue"])
+        self.assertGreaterEqual(rec["level"], 4)
+
+    def test_call_verified_index_needs_full_evidence(self):
+        base = {"id": "x", "target": "f", "kind": "cross-image", "byte_verified": True,
+                "observed_opcodes": ["jal"], "maspsx_fired": []}
+        self.assertEqual(L.call_verified_index([base]), {("x", "f")})
+        for broken in ({"observed_opcodes": ["jal", "j"]}, {"observed_opcodes": []}, {"byte_verified": False},
+                       {"kind": "intra"}, {"kind": "unresolved"}, {"maspsx_fired": ["_rewrite_tail_call_jal_to_j"]}):
+            self.assertEqual(L.call_verified_index([{**base, **broken}]), set(), broken)
+        no_masp = dict(base); del no_masp["maspsx_fired"]
+        self.assertEqual(L.call_verified_index([no_masp]), set())
+        # latest record wins: a later unverified record withdraws the proof
+        self.assertEqual(L.call_verified_index([base, {"id": "x", "target": "f", "kind": "cross-image"}]), set())
+
     def test_no_tail_jump_dependency_reaches_l4(self):
         r = row()
         text = "s32 %s(s32 a) { return a + 1; }" % r["func"]

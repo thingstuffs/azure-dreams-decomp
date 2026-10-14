@@ -153,7 +153,8 @@ def main():
         out.append(f"| {c} | {len(sel)} | {sum(r['size'] for r in sel):,} | {len(st)} | {sum(r['size'] for r in st):,} | {len(ex)} | {sum(r['size'] for r in ex):,} | {len(nb)} |")
     out.append(placement_unproven_status(rs))
     bad = [r for r in rs if r["stock"] and r["id"] in base and base[r["id"]].get("exact") is False]
-    out.append(f"\novmovie is parked by the owner (listed, excluded from ALL). Ordinary SLUS rows use pinned-TU object verification; grouped module candidates use the full SLUS image gate, including sibling functions and owned data. Historical raw baselines stay per row. Overlay rows use retail-slice comparison through the per-row scorer, with the window gate as the fallback of record. Non-stock rows (bridge cells, per-row assembler dials, platform asm) would be excluded; there are none at the pin.\n\nBaseline NOT exact: {len(bad)} rows" + (": " + ", ".join(r["id"] for r in bad[:20]) if bad else "") + "\n")
+    parked = (", ".join(sorted(PARKED_CONTAINERS)) + " parked by the owner (listed, excluded from ALL).") if PARKED_CONTAINERS else "No container is parked (ovmovie unparked by the owner 2026-10-14)."
+    out.append(f"\n{parked} Ordinary SLUS rows use pinned-TU object verification; grouped module candidates use the full SLUS image gate, including sibling functions and owned data. Historical raw baselines stay per row. Overlay rows use retail-slice comparison through the per-row scorer, with the window gate as the fallback of record. Non-stock rows (bridge cells, per-row assembler dials, platform asm) would be excluded; there are none at the pin.\n\nBaseline NOT exact: {len(bad)} rows" + (": " + ", ".join(r["id"] for r in bad[:20]) if bad else "") + "\n")
     from slus_module_evidence import module_status
     module_records = module_status()
     if module_records:
@@ -214,12 +215,14 @@ def main():
                 # defect), "audit_any" = every live audit site, unnarrowed.
                 "audit": collections.Counter(x.split("|")[0] for x in _levels.live_fidelity_sites(r, t)),
                 "audit_any": collections.Counter(x.split("|")[0] for x in _levels.live_audit_sites(r, t)),
-                "tail_idiom": _real_tail_count(t),   # r95: real noreturn tail calls only, not composite data aliases
+                # r95: real noreturn tail calls only, not composite data aliases; 2026-10-14: minus byte-verified real calls
+                "tail_idiom": sum((r["id"], tgt) not in _call_verified for tgt in _levels.real_tail_call_targets(t)),
                 "dowhile0": 0 if r["id"] in _onetrip_tracked else len(_re.findall(r"\bdo\s*\{[^{}]*\}\s*while\s*\(\s*0\s*\)", t, _re.S)),
                 "fakedep": _fakedep(t),
                 "markers": sum(1 for _s in sites_of(t) if _s[1] in (
                     "ASM_TAILSLOT_PIN", "ASM_TAILSLOT_PIN_TIED", "ASM_PAGEBASE_PIN", "ASM_JALDELAY_PIN",
                     "ASM_LIVE_SIBCALL_PIN", "ASM_SHAPE_D_SIBCALL_PIN", "ASM_BRANCH_LABEL_SPLIT"))}
+    _call_verified = _levels.call_verified_index()   # owner ruling 2026-10-14 (levels.py)
     curc = {r["id"]: cur_facts(r) for r in rs}
     defs = [("m2c boilerplate block", lambda c: c["boiler"]), ("M2C_FIELD raw offsets", lambda c: c["m2c_field"] > 0), ("m2c local names", lambda c: c["m2c_locals"] > 0),
             ("ASM_ pins", lambda c: c["pin_total"] > 0), ("goto", lambda c: c["gotos"] > 0), ("computed-goto jump table", lambda c: c["computed_goto"] > 0),

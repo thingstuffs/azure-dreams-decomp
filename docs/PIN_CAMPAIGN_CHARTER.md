@@ -207,3 +207,7 @@ never read. It emits no code, but it makes the variable set more than once (REG_
 initializers exist. It does **not** cover dead assignments added between statements; those stay under rule 3's
 dead-store ban. Each landing that relies on it is recorded as a spelling trade, for later review. The first case
 is `dungeon/func_809CAE20` (lane r76_opus_b12_2): `void *effect = 0;` replaces `ASM_KEEP(allocated_effect)`.
+
+## Ruling 2026-10-14 (owner): real calls are not tail-jump scaffolding
+
+L4 `tail_jump` counts a dependency only while it can be scaffolding. A target whose latest `ledger/split_audit.jsonl` record is `byte_verified`, saw only `jal` at the row's own retail sites (`observed_opcodes`) and recorded `maspsx_fired: []` is a genuine call and no longer blocks L4 (`tools/levels.py` `call_verified_index`). It still needs its L3 audit. Rows a retail `j` or a fired jal->j rewrite depends on stay blocked. First rows: main/func_80019A10, func_800207D4, func_80020830 (real noreturn assert exit func_8007BEF0) and dungeon/func_8127CD6C, func_8128ED6C (returning func_800A17D4 on the family sibcall list); evidence work/native_lane/r120_tailjump (r120 root3).
