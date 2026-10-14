@@ -645,7 +645,7 @@ CC_VER = {
     "src/w_80040AA0.c": ("2.7.2-cdk", ""),
     "src/w_80043FD0.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_80042710.c": ("2.7.2-cdk", ""),  # fidelity step 4 (sc2): retail-proven splitting recipe
-    "src/w_8005914C.c": ("2.7.2-cdk", "-fno-strength-reduce"),  # fidelity step 4 (cdk211): retail-proven splitting recipe
+    "src/w_8005914C.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
     "src/w_80055E84.c": ("2.7.2-cdk", ""),
     "src/w_80042A80.c": ("2.7.2-cdk", ""),
     "src/w_8003E34C.c": ("2.7.2-cdk", ""),  # r86 module recipe move (cd_command_state)
@@ -1174,6 +1174,10 @@ for cfile in cfiles:
 # split asm (psyq libs, data) — everything except the .included nonmatchings
 for s in sorted(glob.glob("asm/**/*.s", recursive=True)):
     if s.startswith("asm/nonmatchings/"):
+        continue
+    # MAIN-only LIBCARD/PATCH.OBJ twin written into this tree by tools/build/main_sdk_asm.py (f2ddcafd7); not a SLUS
+    # object - a fresh configure would otherwise link it and the recipe would drift from ledger/splits/slus.build.ninja
+    if s == "asm/psyq/libcard/main_patch_delay.s":
         continue
     o = f"{BUILDDIR}/" + s[:-2] + ".o"
     out.append(f"build {o}: as {s} | tools/as.sh tools/asproc.py\n")
