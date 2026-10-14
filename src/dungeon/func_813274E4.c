@@ -89,16 +89,14 @@ extern u8 D_8016E528;
 extern void *D_80174704[];
 extern TableEntry D_80174708[];
 
-static __inline__ u32 retain_page(u32 mode_page) { ASM_KEEP_NV(mode_page); return mode_page; }
 
 /* Spawn and initialize an effect at the source position when its mode and status allow it. */
 void func_8016ECE4(void) {
-    s32 frame_pad[2];
     s32 rounded_x;
     s32 rounded_y;
-    u32 mode;
-    u32 mode_page;
-    u16 one;
+    u8 high_byte;
+    u8 low_byte;
+    u16 count;
     register S_8016ECE4_3 *sprite;
     S_8016ECE4_1 *effect_state;
     S_8016ECE4_5 *source_pos;
@@ -108,14 +106,15 @@ void func_8016ECE4(void) {
     void *source;
 
     source = D_80174704[0];
-    mode_page = 0x80010000;
-    mode_page = retain_page(mode_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    one = 1;
-    mode = mode_page;
-    mode = *(u8 *)(mode + 0x3611);
+    {
+        u8 *addr = (u8 *)0x80010000;   /* integer page, two genuine reads of the 16-bit counter at 0x80013610 (decision 44; func_8132C638 uses the same counter) */
+        low_byte = addr[0x3611];
+        high_byte = addr[0x3610];
+    }
+    count = low_byte | (high_byte << 8);
     source_pos = ((S_8016ECE4_0 *)source)->unk_08;
     source_state = source + 0x20;
-    if (((mode & 3) == one) && !(func_80069EF8(source) & 1)) {
+    if (((count & 3) == 1) && !(func_80069EF8(source) & 1)) {
         effect = func_8003FC64(0x12);
         if (effect != NULL) {
             effect_state = effect + 0x20;
