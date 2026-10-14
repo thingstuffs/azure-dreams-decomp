@@ -2,20 +2,16 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-
-
-
-
-
-
-
-
-
-
-
-
 extern u8 D_80027374[12];
-
+typedef struct TextureConfig {
+    u8 pad0[4];
+    u16 word4;
+    u16 word6;
+    u8 byte8;
+    u8 byte9;
+    u8 byteA;
+    u8 byteB;
+} TextureConfig;
 
 static __inline__ u16 translate_x(s32 x, u16 offset) { x -= 0xA0; return offset + x; }
 
@@ -30,24 +26,21 @@ void func_8002616C(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth
     Bank56_8196096C_Scratch *scratch;
     register void *rotation;
     register void *matrix;
-    s32 *scratch_words;
     s32 saved_y_offset = y_offset;
-    u8 *texture_config;
+    TextureConfig *texture_config;
     u16 texture_word;
     s32 corner_uv;
     s32 neutral_color;
     s32 shade;
 
-
     record = root->record;
     globals = &gameWork;
-    scratch_words = (s32 *)0x1F800000;
-    scratch_words[8] = draw_depth;
+    scratch = (Bank56_8196096C_Scratch *)0x1F800000;
+    scratch->value = draw_depth;
     vertex_table = ((struct TableEntry *)globals->map.unk_08);
     func_800649A0();
     rotation = (void *)0x1F800028;
     matrix = (void *)0x1F800050;
-    scratch = (Bank56_8196096C_Scratch *)0x1F800000;
     scratch->w6C = 0;
     scratch->w68 = 0;
     scratch->w64 = 0;
@@ -80,19 +73,18 @@ void func_8002616C(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth
         scratch->w70 = 0;
         scratch->w80 = 0x400000;
         scratch->w88 = 0x400040;
-        texture_config = D_80027374;
-        ODDITY_SCHED_FENCE();   /* oddity (ledger/oddities.jsonl): retail needs a zero-byte barrier here; no C path in cdk (r95_fable_opaque2/ANSWER.md) */
-        texture_word = *(u16 *)(texture_config + 4);
+        texture_config = (TextureConfig *)D_80027374;
+        texture_word = texture_config->word4;
         record->f14.h[1] = texture_word;
-        texture_word = *(u16 *)(texture_config + 6);
+        texture_word = texture_config->word6;
         record->fC.h[1] = texture_word;
-        record->f1C.b[0] = texture_config[8];
+        record->f1C.b[0] = texture_config->byte8;
         record->fC.b[0] = record->f1C.b[0];
-        record->f24.b[0] = texture_config[8] + texture_config[10];
+        record->f24.b[0] = texture_config->byte8 + texture_config->byteA;
         record->f14.b[0] = record->f24.b[0];
-        record->f14.b[1] = texture_config[9];
+        record->f14.b[1] = texture_config->byte9;
         record->fC.b[1] = record->f14.b[1];
-        record->f24.b[1] = texture_config[9] + texture_config[11];
+        record->f24.b[1] = texture_config->byte9 + texture_config->byteB;
         record->f1C.b[1] = record->f24.b[1];
         shade = ((u8)D_800273A8 << 7) / 240;
         *(u8 *)&record->f4.b[0] = shade;
