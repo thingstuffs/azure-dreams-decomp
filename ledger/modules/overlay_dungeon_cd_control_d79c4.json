@@ -7,17 +7,17 @@
     "dungeon/func_800B79F8",
     "dungeon/func_800B7A24"
   ],
-  "at": "2026-10-14T13:10:46Z",
+  "at": "2026-10-14T14:38:21Z",
   "reviewer": "orchestrator-r99",
   "fingerprint": {
     "schema": "overlay-module-scoped-v2",
-    "sha256": "0718e283122a6b4af40e8042e11e4393642246e7d5297590ba9434cc0c064d1d",
+    "sha256": "6191b1a174bf9cd1ca28149098c5ea533a9031d3a0bf1e38a5d070cb6a7ef29b",
     "module": {
       "sha256": "4cecb241fc833d3fa459614c890d5c2a8a837a66205675b0978288685b8b45e0"
     },
     "windows": {
       "config/overlays/dungeon_engine.overlay.yaml": {
-        "sha256": "0143bda8b777276b4a48728fbfc502a05e4f825d161714ffb1d100cb7f7a7dfa"
+        "sha256": "41a80e438ce777375a00e7cc5342ece724265baa9904d1aad94e2f2ef48bfe30"
       }
     },
     "required_windows": [
@@ -25,7 +25,7 @@
     ]
   },
   "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_cd_control_d79c4/module",
-  "receipt_sha256": "19ad270d43b6837dec460bb6fef3720c11a642071a04120fbfc92ccca311ef5b",
+  "receipt_sha256": "d7f9df307a2b02892832351df9eab3c70b8e1a7fe416ba9a51ce9a29b21ba63f",
   "windows": [
     {
       "config": "config/overlays/dungeon_engine.overlay.yaml",
@@ -37,10 +37,10 @@
         "gate.log": "a3adeb886745588497e01d1535a97da977c6ec09e33c0da82f4d7f1d2f4d355f",
         "window.bin": "1612c21559c49a3b69f10548bca5ec6d18ec11a0764ea317c396edca9211d796",
         "manifest.json": "ed956459a899fc794ed7eb6fddca2277d6578e50871aece7af1c4c2b53a9901b",
-        "projection.json": "a9017b991e605b21a33efc1b049f95e1ca46e37ab3dab11af3f64d98a2dd0340",
-        "module/receipt.json": "c2bb14e89e0dfec65436d7e3481aa1f7ddca3d017a06ee796717235cf5a6b097"
+        "projection.json": "72b3f0f0d29dbadf922f5a301e3622d05a45221b1e1bed7c8e69f09938791689",
+        "module/receipt.json": "907e9af3b708ce8ba034ea455c7450e0363d25a509ecd84419e863faea4380a2"
       },
-      "digest": "0143bda8b777276b4a48728fbfc502a05e4f825d161714ffb1d100cb7f7a7dfa"
+      "digest": "41a80e438ce777375a00e7cc5342ece724265baa9904d1aad94e2f2ef48bfe30"
     }
   ]
 }
