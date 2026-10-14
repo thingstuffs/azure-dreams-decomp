@@ -44,7 +44,6 @@ void func_8005914C(S_80085FA8 *track_arg, s32 status, s32 first_data, s32 second
     s32 channel;
     u32 track_index;
     s32 track_count;
-    S_80085FA8 *track_iter;
     u8 event_data;
     channel = status & 0xF;
     event_data = first_data;
@@ -70,21 +69,13 @@ void func_8005914C(S_80085FA8 *track_arg, s32 status, s32 first_data, s32 second
         if ((event_data & 0xFF) == 0x63) {
             if ((second_data & 0xFF) == 0x14) {
                 if (D_800869B8[0] != 0) {
-                    s32 repeat_count;
-                    track_index = 0;
-                    if (track_index < *(u32 *)&D_800869B4) {
-                        repeat_count = 0x14;
-                        track_iter = D_80085FA8;
-                        while (track_index < *(u32 *)&D_800869B4) {
-                            track_iter->unk04 = track_iter->unk00;
-                            track_iter->unk08 = repeat_count;
-                            track_iter->unk14 = track_iter->unk10;
-                            track_iter->unk44 = track_iter->unk40;
-                            track_iter->unk30 = track_iter->unk2C;
-                            track_iter->unk4B = track_iter->unk4A;
-                            track_iter++;
-                            track_index++;
-                        }
+                    for (track_index = 0; track_index < *(u32 *)&D_800869B4; track_index++) {
+                        D_80085FA8[track_index].unk04 = D_80085FA8[track_index].unk00;
+                        D_80085FA8[track_index].unk08 = 0x14;
+                        D_80085FA8[track_index].unk14 = D_80085FA8[track_index].unk10;
+                        D_80085FA8[track_index].unk44 = D_80085FA8[track_index].unk40;
+                        D_80085FA8[track_index].unk30 = D_80085FA8[track_index].unk2C;
+                        D_80085FA8[track_index].unk4B = D_80085FA8[track_index].unk4A;
                     }
                 }
                 else {
@@ -98,18 +89,12 @@ void func_8005914C(S_80085FA8 *track_arg, s32 status, s32 first_data, s32 second
                         track_arg->unk08 = track_arg->unk08 - 1;
                     }
                     if (D_800869B8[0] != 0) {
-                        track_index = 0;
-                        if (track_index < *(u32 *)&D_800869B4) {
-                            track_iter = D_80085FA8;
-                            while (track_index < *(u32 *)&D_800869B4) {
-                                track_iter->unk00 = track_iter->unk04;
-                                track_iter->unk10 = track_iter->unk14;
-                                track_iter->unk40 = track_iter->unk44;
-                                track_iter->unk2C = track_iter->unk30;
-                                track_iter->unk4A = track_iter->unk4B;
-                                track_iter++;
-                                track_index++;
-                            }
+                        for (track_index = 0; track_index < *(u32 *)&D_800869B4; track_index++) {
+                            D_80085FA8[track_index].unk00 = D_80085FA8[track_index].unk04;
+                            D_80085FA8[track_index].unk10 = D_80085FA8[track_index].unk14;
+                            D_80085FA8[track_index].unk40 = D_80085FA8[track_index].unk44;
+                            D_80085FA8[track_index].unk2C = D_80085FA8[track_index].unk30;
+                            D_80085FA8[track_index].unk4A = D_80085FA8[track_index].unk4B;
                         }
                     }
                     else {
@@ -123,14 +108,11 @@ void func_8005914C(S_80085FA8 *track_arg, s32 status, s32 first_data, s32 second
                 if (D_800869B8[0] != 0) {
                     if (D_800869B4[0] != 0) {
                         s32 repeat_count;
-                        register S_80085FA8 *broadcast_track;
                         track_index = 0;
                         repeat_count = second_data & 0xFF;
                         track_count = D_800869B4[0];
-                        broadcast_track = D_80085FA8;
                         do {
-                            broadcast_track->unk08 = repeat_count;
-                            broadcast_track++;
+                            D_80085FA8[track_index].unk08 = repeat_count;
                             track_index++;
                         }
                         while (track_index < ((u32) track_count));
