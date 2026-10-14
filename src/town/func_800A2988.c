@@ -18,23 +18,20 @@ typedef struct TownRoot {
     TownEntryOwner *owner;
 } TownRoot;
 
-typedef union TownOutputWord {
-    u32 word;
-    struct {
-        u16 x;
-        u16 y;
-    } half;
-} TownOutputWord;
+typedef struct TownOutputHalf {
+    u16 low;
+    u16 coordinate;
+} TownOutputHalf;
 
 typedef struct TownOutput {
-    TownOutputWord first;
-    TownOutputWord second;
+    u32 first;
+    u32 second;
     u32 third;
 } TownOutput;
 
 extern TownRoot *D_80100900[];
 extern TownOutput D_80100B50;
-extern s32 D_80100B68[];
+extern s32 D_80100B68;
 
 /* Selects a town entry and writes its root-relative coordinates to the output. */
 s32 func_800A00E8(s32 entryIndex) {
@@ -45,33 +42,27 @@ s32 func_800A00E8(s32 entryIndex) {
     TownEntryOwner *owner;
     u32 rootX;
     u16 rootY;
-    register u32 entryX ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u32 entryX;
     u16 entryY;
-    u16 *xSlot;
     u32 entryOffsetOrAddress;
     s32 selectedEntryIndex = entryIndex;
 
-    D_80100B68[0] = selectedEntryIndex;
-
+    D_80100B68 = selectedEntryIndex;
     entryOffsetOrAddress = selectedEntryIndex * sizeof(TownEntry);
     owner = root->owner;
+    entries = owner->entries;
     rootX = root->x;
     rootY = root->y;
-    entries = owner->entries;
-    ASM_KEEP(root);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-
-    D_80100B50.first.word = 0;
+    D_80100B50.first = 0;
     entryOffsetOrAddress += (u32)entries;
     entry = (TownEntry *)entryOffsetOrAddress;
     entryX = entry->x;
     output = &D_80100B50;
-    output->second.word = 0;
-    xSlot = &output->first.half.y;
+    output->second = 0;
     entryX += rootX;
-    *xSlot = entryX;
+    ((TownOutputHalf *)&output->first)->coordinate = entryX;
     entryY = entry->y;
-    output->second.half.y = entryY + rootY;
-    entryX = 0xFFE00000;
-    output->third = entryX;
+    ((TownOutputHalf *)&output->second)->coordinate = entryY + rootY;
+    output->third = 0xFFE00000;
     return selectedEntryIndex;
 }

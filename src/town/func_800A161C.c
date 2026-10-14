@@ -28,7 +28,7 @@ typedef struct {
 } Record84;
 extern Record84 D_80100AF8;
 extern s32 D_80100B50[];
-extern s32 D_80100B68[];
+extern s32 D_80100B68;
 
 /* Move toward the target and finalize the object when its countdown expires. */
 void func_8009ED7C(void *object, s32 context, EntityRec *motion) {
@@ -46,7 +46,7 @@ void func_8009ED7C(void *object, s32 context, EntityRec *motion) {
     ticks_or_flags = ((Rec_D_80082D58 *)object)->unk_6C.as_u16 - 1;
     ((Rec_D_80082D58 *)object)->unk_6C.as_u16 = ticks_or_flags;
     if ((ticks_or_flags << 0x10) <= 0) {
-        itm_mon_koyaw_set(D_80100B68[0], object + 0x4C, &D_80100AF8, 0);
+        itm_mon_koyaw_set(D_80100B68, object + 0x4C, &D_80100AF8, 0);
         func_8008F134(object);
         func_80033D08(object);
         ticks_or_flags = ((S_8009ED7C_2_pre *)object)[-1].unk_00;
