@@ -7,17 +7,17 @@
     "dungeon/func_800B79F8",
     "dungeon/func_800B7A24"
   ],
-  "at": "2026-10-14T02:03:25Z",
+  "at": "2026-10-14T05:33:27Z",
   "reviewer": "orchestrator-r99",
   "fingerprint": {
     "schema": "overlay-module-scoped-v2",
-    "sha256": "6aaa9722814aae093b60e2217c5e4df03b9e0b1d450ff2bf4cdd0a82f05c2306",
+    "sha256": "5f424f06c5af9e1d6a53137ff9d65490bde094cc3120e8252daf826582a04b58",
     "module": {
       "sha256": "244d7c1c3a48a83133b05935f921a4484d13dcc3455bc7738f8c9084342d5cf8"
     },
     "windows": {
       "config/overlays/dungeon_engine.overlay.yaml": {
-        "sha256": "62ab5b87ad16ff76c619629d528cae91b376dc69633a60ff29235103ac57c79e"
+        "sha256": "3c5fe89b54efc6b3187ccaf0de84bfa6582e8f563ebb1d24b3dfb3a210aea320"
       }
     },
     "required_windows": [
@@ -25,7 +25,7 @@
     ]
   },
   "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_cd_control_d79c4/module",
-  "receipt_sha256": "8068e7e32da1c4a9e4ef834a6d7a3b8889fa1689c0fee3f47b7a434caf21b33b",
+  "receipt_sha256": "e463612b1a447e7f84afae619c92b3a9c62e9a8665508a5f4c9763003255f711",
   "windows": [
     {
       "config": "config/overlays/dungeon_engine.overlay.yaml",
@@ -37,10 +37,10 @@
         "gate.log": "a3adeb886745588497e01d1535a97da977c6ec09e33c0da82f4d7f1d2f4d355f",
         "window.bin": "1612c21559c49a3b69f10548bca5ec6d18ec11a0764ea317c396edca9211d796",
         "manifest.json": "ed956459a899fc794ed7eb6fddca2277d6578e50871aece7af1c4c2b53a9901b",
-        "projection.json": "c0d6299ff9fef6712241b8e9a8f16209603d11eb37dad56f7536ad5723f31430",
-        "module/receipt.json": "34e6936b6aa22b916ebb4b323e7265b17599f901adb0c9a97a7f7aae964b4f4f"
+        "projection.json": "46ec5e75837a0811646c52f19b8542b77985c9345602055d2ec2d86f10eadaba",
+        "module/receipt.json": "80f053eca2a471b49abf131428f6a077de0ac1fc3df14e416a34386e3262a6da"
       },
-      "digest": "62ab5b87ad16ff76c619629d528cae91b376dc69633a60ff29235103ac57c79e"
+      "digest": "3c5fe89b54efc6b3187ccaf0de84bfa6582e8f563ebb1d24b3dfb3a210aea320"
     }
   ]
 }
