@@ -167,7 +167,7 @@ void func_8017182C(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject 
     turn_index = 0;
     turn_table = D_8006CD00;
 
-    do {
+    for (; turn_index < 8; turn_index++) {
         turn_flags = move_data->unk_98;
         current_angle = actor_data->facing;
         if (turn_flags & 2) {
@@ -215,17 +215,11 @@ void func_8017182C(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject 
             *(u16 *)(&D_80082E80.tileX) != *(u16 *)&position_data->tileX) {
             if ((s16)func_8009A180(actor_data,
                     (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
-                do {
-                    return;
-                } while (0);
+                return;
             }
         }
 
-        turn_index++;
-        if (turn_index >= 8) {
-            break;
-        }
-    } while (1);
+    }
 
     if (turn_index >= 8) {
         actor_data->unk_71 &= 0x7F;

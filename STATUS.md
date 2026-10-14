@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-14T13:55:34Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-14T14:52:01Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -126,7 +126,7 @@ Placement alone does not override any lower-level or source-residue guard.
 |---|---:|---:|---:|---:|---:|---:|
 | m2c boilerplate block | 2331 | 510,568 | 18.3% | 0 | 0 | 0.0% |
 | M2C_FIELD raw offsets | 2950 | 1,448,168 | 52.0% | 0 | 0 | 0.0% |
-| m2c local names | 5181 | 2,160,832 | 77.6% | 6 | 24,356 | 0.9% |
+| m2c local names | 5181 | 2,160,832 | 77.6% | 5 | 24,204 | 0.9% |
 | ASM_ pins | 2135 | 1,455,340 | 52.2% | 0 | 0 | 0.0% |
 | goto | 1545 | 1,311,404 | 47.1% | 271 | 326,884 | 11.7% |
 | computed-goto jump table | 317 | 436,404 | 15.7% | 3 | 6,392 | 0.2% |
@@ -136,10 +136,10 @@ Placement alone does not override any lower-level or source-residue guard.
 | any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,480 | 46.0% | 1650 | 893,352 | 32.1% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 668 | 488,888 | 17.5% | 6 | 1,876 | 0.1% |
 | maspsx marker pins (scaffolding) | 394 | 347,512 | 12.5% | 0 | 0 | 0.0% |
-| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 5.6% | 7 | 8,132 | 0.3% |
+| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 5.6% | 4 | 4,140 | 0.1% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
 | local address-named struct | 633 | 346,872 | 12.4% | 2886 | 1,502,408 | 53.9% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 5.5% | 7199 | 2,434,972 | 87.4% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 5.5% | 7200 | 2,435,124 | 87.4% |
 
 Pin sites now: 0 in 0 rows; .  At the pin: 25,918; REG 12,816, KEEP 6,936, KEEP_NV 2,505, SCHED_BARRIER 1,355, TAILSLOT_PIN 506, USE 294, USE_NV 260, KEEP_DEP_NV 190.
 

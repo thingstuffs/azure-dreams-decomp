@@ -9,7 +9,7 @@ extern void func_8004491C(void *, Callback);
 extern void func_80045340(void);
 extern s32 func_800A6D30(void);
 extern void func_800A48F0(void *, s32, s32);
-extern void func_800A9C18(void *, void *, void *, s32);
+extern void func_800A9C18(void *, void *, void *, s16);
 extern void func_800AA36C(void *, void *, void *, void *);
 extern void D_8016AAA4(void);
 extern void D_8016DFB8(void);
@@ -38,7 +38,7 @@ typedef struct S_8016A898_2 {
 } S_8016A898_2;   /* tail_entity in func_8016A898 */
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
-void *func_8016A898(s32 spawn_flags, s16 param_a, s16 param_b, s32 param_c)
+void *func_8016A898(s16 spawn_flags, s16 param_a, s16 param_b, s32 param_c)
 {
     register void *result;
     void *object;
@@ -46,7 +46,6 @@ void *func_8016A898(s32 spawn_flags, s16 param_a, s16 param_b, s32 param_c)
     s8 held_a;
     s16 held_b;
     s32 held_c;
-    register s16 flags_held;
     void *tail_actor;
     void *state_data;
     S_8016A898_2 *tail_entity;
@@ -60,9 +59,6 @@ void *func_8016A898(s32 spawn_flags, s16 param_a, s16 param_b, s32 param_c)
     held_b = param_b;
     object = func_8003FD64(0x112, ((s32 *)(&D_80083498)));
     if (object != 0) {
-        do {
-            flags_held = spawn_flags;
-        } while (0);
         result = (u8 *)object + 0x20;
         (*(Callback *)((u8 *)object + 0x10)) = D_8016AAA4;
         ((S_8016A898_0 *)result)->unk_13 = 0x2B;
@@ -97,7 +93,7 @@ void *func_8016A898(s32 spawn_flags, s16 param_a, s16 param_b, s32 param_c)
                 }
             }
         }
-        func_800A9C18(object, motion, (void *)part_data, flags_held);
+        func_800A9C18(object, motion, (void *)part_data, spawn_flags);
 
         tail_actor = state_data;
         (*(u8 *)((u8 *)tail_actor + 0x9A)) = 0xFF;
