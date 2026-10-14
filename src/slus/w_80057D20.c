@@ -85,7 +85,7 @@ typedef struct S_80073738
     s16 pad[7];
 }
 S_80073738;
-extern s32 D_80073734; /* scalar: MEM_IN_STRUCT_P == 0, needs -G0 */
+extern s32 D_80073734[4];
 extern S_80073738 D_80073738;
 extern s32 D_80073740[64];
 extern S_80084960 D_80084960[16];
@@ -121,7 +121,7 @@ void func_80057D20(u8 channel, u8 control, u32 value)
             }
             else {
                 settings->f3a = 0;
-                for (voice_idx = 0; voice_idx < D_80073734; voice_idx++) {
+                for (voice_idx = 0; voice_idx < *(s32 *)&D_80073734; voice_idx++) {
                     if (D_80085458[voice_idx].f06 == channel) {
                         func_80056654(&D_80085458[voice_idx], 1);
                     }
@@ -129,7 +129,7 @@ void func_80057D20(u8 channel, u8 control, u32 value)
             }
             if (((control_value & 0xFF) == 0) || (settings->f38 == 0)) {
                 settings->f3a = 0;
-                for (voice_idx = 0; voice_idx < D_80073734; voice_idx++) {
+                for (voice_idx = 0; voice_idx < *(s32 *)&D_80073734; voice_idx++) {
                     if (D_80085458[voice_idx].f06 == channel) {
                         func_80056654(&D_80085458[voice_idx], 1);
                     }
@@ -144,7 +144,7 @@ void func_80057D20(u8 channel, u8 control, u32 value)
             }
             else {
                 settings->f3a = 0;
-                for (voice_idx = 0; voice_idx < D_80073734; voice_idx++) {
+                for (voice_idx = 0; voice_idx < *(s32 *)&D_80073734; voice_idx++) {
                     if (D_80085458[voice_idx].f06 == channel) {
                         func_80056654(&D_80085458[voice_idx], 1);
                     }
@@ -152,7 +152,7 @@ void func_80057D20(u8 channel, u8 control, u32 value)
             }
             if (((control_value & 0xFF) == 0) || (settings->f38 == 0)) {
                 settings->f3a = 0;
-                for (voice_idx = 0; voice_idx < D_80073734; voice_idx++) {
+                for (voice_idx = 0; voice_idx < *(s32 *)&D_80073734; voice_idx++) {
                     if (D_80085458[voice_idx].f06 == channel) {
                         func_80056654(&D_80085458[voice_idx], 1);
                     }
@@ -274,10 +274,10 @@ void func_80057D20(u8 channel, u8 control, u32 value)
         break;
 
     case 64:
-        for (entry_idx = 0; entry_idx < D_80073734; entry_idx++) {
+        for (entry_idx = 0; entry_idx < *(s32 *)&D_80073734; entry_idx++) {
             if (channel == D_80085458[entry_idx].f06) {
                 if (((u32) (control_value & 0xFF)) < 0x40) {
-                    for (voice_idx = 0; voice_idx < D_80073734; voice_idx++) {
+                    for (voice_idx = 0; voice_idx < *(s32 *)&D_80073734; voice_idx++) {
                         if (((D_80085458[voice_idx].f06 == channel) && (D_80085458[voice_idx].f1d != 0))
                             && (D_80085458[voice_idx].f1c & 0x80)) {
                             {
@@ -356,7 +356,7 @@ void func_80057D20(u8 channel, u8 control, u32 value)
     {
         s32 needs_refresh = refresh_notes;
         if (needs_refresh) {
-            for (entry_idx = 0; entry_idx < D_80073734; entry_idx++) {
+            for (entry_idx = 0; entry_idx < *(s32 *)&D_80073734; entry_idx++) {
                 if ((channel == D_80085458[entry_idx].f06) && (D_80085458[entry_idx].f1a != 0)) {
                     func_800561D8(&D_80085458[entry_idx], &D_80084960[channel]);
                     func_800563B0(entry_idx, D_80085458[entry_idx].f10, D_80085458[entry_idx].f12);

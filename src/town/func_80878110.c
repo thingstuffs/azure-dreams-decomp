@@ -1,19 +1,20 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-typedef struct S_80702110_0 {
-    u8 pad_00[0x1DFE];
-    u16 unk_1DFE;
-} S_80702110_0;   /* (D_80700000 + (arg0 * 4)) in func_80702110 */
+typedef struct ListLink {
+    u16 first;
+    u16 next;
+} ListLink;
+
 s32 func_80702714();                             /* extern */
-extern u8 D_80700000[8];
+extern ListLink D_80701DFC[];
+extern s16 *D_80701DEC[];
 
 /* Skips entries accepted by func_80702714 and checks whether the next entry is zero. */
 s32 func_80702110(s32 list_index) {
     s16 *entry;
 
-    entry = (*(s16 **)((u8 *)((D_80700000 + (((S_80702110_0 *)((D_80700000 + (list_index * 4))))->unk_1DFE * 4)))
-        + 0x1DEC));
+    entry = D_80701DEC[D_80701DFC[list_index].next];
     while (func_80702714(*entry) != 0) {
         entry += 1;
     }

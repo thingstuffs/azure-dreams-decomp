@@ -61570,7 +61570,7 @@
     {
       "source": "src/town/func_80878110.c",
       "recipe": {
-        "cfg": "2.7.2",
+        "cfg": "2.6.3-G0",
         "row_asflags": ""
       },
       "rows": [
