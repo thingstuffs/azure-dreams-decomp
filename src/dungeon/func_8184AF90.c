@@ -60,8 +60,8 @@ typedef struct S_80024790_4 {
 } S_80024790_4;   /* temp_s0_2 in func_80024790 */
 
 /* Creates an effect at the origin with index-dependent color, scale, and position. */
-s32 func_80024790(S_80024790_1 *origin, s32 color_index) {
-    s32 index;
+s32 func_80024790(S_80024790_1 *origin, u16 index) {
+    u8 color_index;
     s32 frame;
     s16 scale;
     s8 shade;
@@ -70,7 +70,7 @@ s32 func_80024790(S_80024790_1 *origin, s32 color_index) {
     S_80024790_2 *state;
     void *effect;
 
-    index = color_index;
+    color_index = index;
     effect = func_8003FC64(0x212);
     if (effect != NULL) {
         ((S_80024790_0 *)effect)->unk_10 = &D_800246AC;
@@ -81,7 +81,8 @@ s32 func_80024790(S_80024790_1 *origin, s32 color_index) {
         state->unk_04 = (u16) origin->unk_0A;
         state->unk_08 = (s16) ((frame << 8) % 0x1000);
         sprite = ((S_80024790_0 *)effect)->unk_0C;
-        shade = ~(color_index * 8);
+        color_index <<= 3;
+        shade = ~color_index;
         sprite->unk_0E = shade;
         sprite->unk_0D = shade;
         sprite->unk_0C = shade;
@@ -95,7 +96,8 @@ s32 func_80024790(S_80024790_1 *origin, s32 color_index) {
         position = ((S_80024790_0 *)effect)->unk_08;
         position->unk_02 = (s16) (((S_80024790_0 *)effect)->unk_20 + ((s32) (func_800644B8(state->unk_08) * 2) >> 8));
         position->unk_06 = (s16) (state->unk_02 + ((s32) (func_80064584(state->unk_08) * 2) >> 8));
-        position->unk_0A = (u16) (state->unk_04 - (index * 8));
+        index <<= 3;
+        position->unk_0A = state->unk_04 - index;
         return (s32) effect;
     }
     return 0;

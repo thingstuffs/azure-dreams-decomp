@@ -151,16 +151,22 @@ s32 func_80173FDC(u8 *node, s32 next_node, s32 callback_arg2)
     addr_mask = 0x00FFFFFF;
 
     for (;;) {
-        if (next_node) {
-            /* retail evidence: the test's operands survive (the arm compiled away); reconstructed as a conditional update of a local nothing reads in the retail build - any dead local set reproduces the bytes (lane r118_fable_f4; decision 45, docs/evidence/r97_decisions.md); the second parameter is the loop-carried successor field the tail reloads */
-            row = 0;
-        }
         desc.points0 = &points[0][0];
         desc.points1 = &points[0][0];
         desc.zero = 0;
         desc.angle = ((S_80173FDC_0 *)node)->unk_10 - 0x400;
         effect = node;
-        ASM_KEEP(effect);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        if (*(s32 *)screen_xy && next_node) {
+            /* retail evidence (decision 45, docs/evidence/r97_decisions.md): both operands of this test are loaded in retail's
+               compilation and the arm compiled away. next_node: the tail's successor load (lw $5,8($5)) survives as this test's
+               operand (lane r118_fable_f4). The scratchpad word: jump2 deleted it with the branch; its fingerprint is the empty
+               load-delay slot after the desc.angle field load (sched2 cannot issue the effect store there while this load waits on
+               the angle store), and the branch's label is why node is reloaded for func_80065F90 (lane r118_opus_o9; JP build:
+               this placement matches JP at stock 2.7.2). The arm reconstructs a conditional update of a local nothing reads; the
+               bytes fix the test's shape (a scratchpad word, then next_node), not its meaning. The second parameter is the
+               loop-carried successor field the tail reloads. */
+            row = 0;
+        }
         desc.value = func_80065F90(((S_80173FDC_0 *)node)->unk_12, 0x40);
         row = 0;
 grid_row:
