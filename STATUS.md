@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-15T12:11:17Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-15T12:53:30Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -82,48 +82,48 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 
 | module | rows | placement proof |
 |---|---:|---|
-| dungeon_cd_control_d79c4 | 3 | source/recipe/graph/tool/review/window inputs changed |
-| town_minigame_dispatch_44b44 | 13 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_1852800 | 4 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_1870800 | 2 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_1858800 | 3 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_1840800 | 3 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_185e800 | 3 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_18ac800 | 2 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_18fa800 | 3 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_19ba800 | 3 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_199c800 | 4 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_18f4800 | 5 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_19a8800 | 5 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_189a800 | 13 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_188e800 | 6 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_198a800 | 17 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_1876800 | 5 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_1894800 | 11 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_18a6800 | 15 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_19d2800 | 6 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_197281c | 5 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_1990800 | 13 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_1960800 | 11 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_183a800 | 10 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_18a0800 | 15 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_19c6800 | 5 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_19cc800 | 22 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_192a800 | 7 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_1918800 | 11 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_19de800 | 22 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_7ce800 | 30 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_fa7000 | 28 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_1924800 | 11 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_19b4800 | 5 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_184c800 | 3 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_1864800 | 4 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_7e6a5800 | 23 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_18d6800 | 12 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_18ee800 | 8 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_18e8800 | 4 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_18b2800 | 11 | source/recipe/graph/tool/review/window inputs changed |
-| ovmovie_libpress | 17 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_cd_control_d79c4 | 3 | current: complete TU + all windows + genuine |
+| town_minigame_dispatch_44b44 | 13 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1852800 | 4 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1870800 | 2 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1858800 | 3 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1840800 | 3 | current: complete TU + all windows + genuine |
+| dungeon_ovl_185e800 | 3 | current: complete TU + all windows + genuine |
+| dungeon_ovl_18ac800 | 2 | current: complete TU + all windows + genuine |
+| dungeon_ovl_18fa800 | 3 | current: complete TU + all windows + genuine |
+| dungeon_ovl_19ba800 | 3 | current: complete TU + all windows + genuine |
+| dungeon_ovl_199c800 | 4 | current: complete TU + all windows + genuine |
+| dungeon_ovl_18f4800 | 5 | current: complete TU + all windows + genuine |
+| dungeon_ovl_19a8800 | 5 | current: complete TU + all windows + genuine |
+| dungeon_ovl_189a800 | 13 | current: complete TU + all windows + genuine |
+| dungeon_ovl_188e800 | 6 | current: complete TU + all windows + genuine |
+| dungeon_ovl_198a800 | 17 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1876800 | 5 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1894800 | 11 | current: complete TU + all windows + genuine |
+| dungeon_ovl_18a6800 | 15 | current: complete TU + all windows + genuine |
+| dungeon_ovl_19d2800 | 6 | current: complete TU + all windows + genuine |
+| dungeon_ovl_197281c | 5 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1990800 | 13 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1960800 | 11 | current: complete TU + all windows + genuine |
+| dungeon_ovl_183a800 | 10 | current: complete TU + all windows + genuine |
+| dungeon_ovl_18a0800 | 15 | current: complete TU + all windows + genuine |
+| dungeon_ovl_19c6800 | 5 | current: complete TU + all windows + genuine |
+| dungeon_ovl_19cc800 | 22 | current: complete TU + all windows + genuine |
+| dungeon_ovl_192a800 | 7 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1918800 | 11 | current: complete TU + all windows + genuine |
+| dungeon_ovl_19de800 | 22 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7ce800 | 30 | current: complete TU + all windows + genuine |
+| dungeon_ovl_fa7000 | 28 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1924800 | 11 | current: complete TU + all windows + genuine |
+| dungeon_ovl_19b4800 | 5 | current: complete TU + all windows + genuine |
+| dungeon_ovl_184c800 | 3 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1864800 | 4 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7e6a5800 | 23 | current: complete TU + all windows + genuine |
+| dungeon_ovl_18d6800 | 12 | current: complete TU + all windows + genuine |
+| dungeon_ovl_18ee800 | 8 | current: complete TU + all windows + genuine |
+| dungeon_ovl_18e8800 | 4 | current: complete TU + all windows + genuine |
+| dungeon_ovl_18b2800 | 11 | current: complete TU + all windows + genuine |
+| ovmovie_libpress | 17 | current: complete TU + all windows + genuine |
 
 Placement alone does not override any lower-level or source-residue guard.
 
@@ -196,12 +196,12 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 | L1 | 2,787,208 | 99.9% |
 | L2 | 2,787,208 | 99.9% |
 | L3 | 2,773,624 | 99.4% |
-| L4 | 0 | 0.0% |
-| L5 | 0 | 0.0% |
+| L4 | 241,284 | 8.7% |
+| L5 | 241,284 | 8.7% |
 
 On shared record headers (T7, `include/records/`): 931 rows, 595,580 bytes (21.4%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 7,481 rows (2,787,208 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 7,074 rows (2,545,832 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 
