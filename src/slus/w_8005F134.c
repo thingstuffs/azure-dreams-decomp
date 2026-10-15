@@ -1,42 +1,5 @@
-#include "common.h"
+#include "slus/jtbl_8005F134.h"
 
-typedef struct SpuVolume_ {
-    s16 left;
-    s16 right;
-} SpuVolume_;
-
-typedef struct SpuVoiceAttr_ {
-    u32 voice;          /* 0x00 */
-    u32 mask;           /* 0x04 */
-    SpuVolume_ volume;  /* 0x08 */
-    SpuVolume_ volmode; /* 0x0C */
-    SpuVolume_ volumex; /* 0x10 */
-    u16 pitch;          /* 0x14 */
-    u16 note;           /* 0x16 */
-    u16 sample_note;    /* 0x18 */
-    s16 envx;           /* 0x1A */
-    u32 addr;           /* 0x1C */
-    u32 loop_addr;      /* 0x20 */
-    s32 a_mode;         /* 0x24 */
-    s32 s_mode;         /* 0x28 */
-    s32 r_mode;         /* 0x2C */
-    u16 ar;             /* 0x30 */
-    u16 dr;             /* 0x32 */
-    u16 sr;             /* 0x34 */
-    u16 rr;             /* 0x36 */
-    u16 sl;             /* 0x38 */
-    u16 adsr1;          /* 0x3A */
-    u16 adsr2;          /* 0x3C */
-} SpuVoiceAttr_;
-
-typedef struct { volatile u16 *ptr; u32 pad2[2]; } S_80079958;
-extern S_80079958 D_80079958;
-extern u16 D_80079520[24];
-
-extern s16 func_8005F7D0(u16 center_note, u16 center_fine, u16 note, u16 fine);
-extern s32 func_8005D598(s32 reg, u32 val);
-
-/* Apply masked voice attributes to the selected SPU voices. */
 void func_8005F134(SpuVoiceAttr_ *attr)
 {
     s32 voice;
@@ -63,7 +26,7 @@ void func_8005F134(SpuVoiceAttr_ *attr)
         if (attr->voice & (1 << voice)) {
             reg_base = voice * 8;
             if (set_all || (mask & 0x10)) {
-                D_80079958.ptr[voice * 8 + 2] = attr->pitch;
+                D_80079958[voice * 8 + 2] = attr->pitch;
             }
             if (set_all || (mask & 0x40)) {
                 D_80079520[voice] = attr->sample_note;
@@ -71,7 +34,7 @@ void func_8005F134(SpuVoiceAttr_ *attr)
             if (set_all || (mask & 0x20)) {
                 sample_note = D_80079520[voice];
                 note = attr->note;
-                D_80079958.ptr[reg_base + 2] =
+                D_80079958[reg_base + 2] =
                     func_8005F7D0(sample_note >> 8, sample_note & 0xFF, note >> 8, note & 0xFF);
             }
             if (set_all || (mask & 0x1)) {
@@ -114,7 +77,7 @@ void func_8005F134(SpuVoiceAttr_ *attr)
                         left_volume = 0;
                     }
                 }
-                D_80079958.ptr[reg_base + 0] = left_volume | volume_mode;
+                D_80079958[reg_base + 0] = left_volume | volume_mode;
             }
             if (set_all || (mask & 0x2)) {
                 volume_mode = 0;
@@ -156,7 +119,7 @@ void func_8005F134(SpuVoiceAttr_ *attr)
                         right_volume = 0;
                     }
                 }
-                D_80079958.ptr[reg_base + 1] = right_volume | volume_mode;
+                D_80079958[reg_base + 1] = right_volume | volume_mode;
             }
             if (set_all || (mask & 0x80)) {
                 func_8005D598(reg_base + 3, attr->addr);
@@ -165,10 +128,10 @@ void func_8005F134(SpuVoiceAttr_ *attr)
                 func_8005D598(reg_base + 7, attr->loop_addr);
             }
             if (set_all || (mask & 0x20000)) {
-                D_80079958.ptr[reg_base + 4] = attr->adsr1;
+                D_80079958[reg_base + 4] = attr->adsr1;
             }
             if (set_all || (mask & 0x40000)) {
-                D_80079958.ptr[reg_base + 5] = attr->adsr2;
+                D_80079958[reg_base + 5] = attr->adsr2;
             }
             if (set_all || (mask & 0x800)) {
                 env_value = attr->ar;
@@ -181,18 +144,18 @@ void func_8005F134(SpuVoiceAttr_ *attr)
                         env_mode = 0x80;
                     }
                 }
-                adsr = D_80079958.ptr[reg_base + 4];
+                adsr = D_80079958[reg_base + 4];
                 adsr = (adsr & 0xFF) | ((env_value | env_mode) << 8);
-                D_80079958.ptr[reg_base + 4] = adsr;
+                D_80079958[reg_base + 4] = adsr;
             }
             if (set_all || (mask & 0x1000)) {
                 env_value = attr->dr;
                 if (env_value >= 0x10) {
                     env_value = 0xF;
                 }
-                adsr = D_80079958.ptr[reg_base + 4];
+                adsr = D_80079958[reg_base + 4];
                 adsr = (adsr & 0xFF0F) | (env_value << 4);
-                D_80079958.ptr[reg_base + 4] = adsr;
+                D_80079958[reg_base + 4] = adsr;
             }
             if (set_all || (mask & 0x2000)) {
                 env_value = attr->sr;
@@ -213,9 +176,9 @@ void func_8005F134(SpuVoiceAttr_ *attr)
                         break;
                     }
                 }
-                adsr = D_80079958.ptr[reg_base + 5];
+                adsr = D_80079958[reg_base + 5];
                 adsr = (adsr & 0x3F) | ((env_value | env_mode) << 6);
-                D_80079958.ptr[reg_base + 5] = adsr;
+                D_80079958[reg_base + 5] = adsr;
             }
             if (set_all || (mask & 0x4000)) {
                 env_value = attr->rr;
@@ -233,18 +196,18 @@ void func_8005F134(SpuVoiceAttr_ *attr)
                         break;
                     }
                 }
-                adsr = D_80079958.ptr[reg_base + 5];
+                adsr = D_80079958[reg_base + 5];
                 adsr = (adsr & 0xFFC0) | (env_value | env_mode);
-                D_80079958.ptr[reg_base + 5] = adsr;
+                D_80079958[reg_base + 5] = adsr;
             }
             if (set_all || (mask & 0x8000)) {
                 env_value = attr->sl;
                 if (env_value >= 0x10) {
                     env_value = 0xF;
                 }
-                adsr = D_80079958.ptr[reg_base + 4];
+                adsr = D_80079958[reg_base + 4];
                 adsr = (adsr & 0xFFF0) | env_value;
-                D_80079958.ptr[reg_base + 4] = adsr;
+                D_80079958[reg_base + 4] = adsr;
             }
         }
     }

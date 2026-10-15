@@ -20,24 +20,25 @@ typedef struct Tail {
     u16 value32;
 } Tail;
 
-typedef struct Object {
+typedef struct Object_800B34C0 {
     u8 pad0[0xC];
     Child *child;
     void *state;
     u8 pad14[0xC];
     Tail tail;
-} Object;
+} Object_800B34C0;
 
-extern u8 D_800B8830[];
+struct S_800B8830_1;
+extern void func_800B8830(void *motion, S_800B8830_3 *coords, struct S_800B8830_1 *render);
 extern u8 D_800DF2F8[];
 extern u8 D_800DF334[];
 
-extern void *func_8003FD64(s32, void *);
+extern void * func_8003FD64();
 
 /* Create an object with default child and tail data when none are supplied. */
 void func_800B8C20(void *owner, s32 value, void *child_data, void *tail_data)
 {
-    Object *object;
+    Object_800B34C0 *object;
     Child *child;
     void *descriptor;
     EntityRec *header;
@@ -52,7 +53,7 @@ void func_800B8C20(void *owner, s32 value, void *child_data, void *tail_data)
     }
     if (object != 0) {
         child = object->child;
-        object->state = D_800B8830;
+        object->state = func_800B8830;
 
         if (child_data != 0) {
             child->value8 = child_data;
@@ -61,7 +62,7 @@ void func_800B8C20(void *owner, s32 value, void *child_data, void *tail_data)
         }
 
         child->value10 = 0x60;
-        object = (Object *)&object->tail;
+        object = (Object_800B34C0 *)&object->tail;
 
         if (tail_data != 0) {
             ((Tail *)object)->valueC = tail_data;

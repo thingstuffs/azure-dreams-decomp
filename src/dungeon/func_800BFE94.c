@@ -81,17 +81,17 @@ typedef struct S_800C55F4_8 {
 
 
 extern s32 func_8004CECC();
-extern s32 func_80064840();
-extern s32 func_800649A0();
-extern s32 func_80064A40();
+extern void *func_80064840(void *, void *, void *);
+extern void func_800649A0(void);
+extern void func_80064A40(void);
 extern s32 func_80064AE0();
-extern s32 func_80064BC0();
-extern s32 func_80064CF0();
-extern s32 func_80064D80();
-extern s32 func_80065420();
+extern void *func_80064BC0(void *, void *);
+extern void func_80064CF0(void *);
+extern void func_80064D80(void *);
+extern s32 func_80065420(void *, void *, ...);
 extern s32 func_80065480();
-extern s32 func_80065820();
-extern s32 func_8006658C();
+extern void *func_80065820(void *, void *);
+extern void func_8006658C(void *, void *);
 extern s32 func_800666B8();
 extern s32 func_80067F20();
 

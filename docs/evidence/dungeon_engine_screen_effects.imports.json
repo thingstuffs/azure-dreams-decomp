@@ -1,0 +1,133 @@
+{
+  "module": "dungeon_engine_screen_effects",
+  "maps": {
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "kind": "psx_exe",
+      "basis": "Actual PS-X EXE load/size header."
+    },
+    "dungeon_resident": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 667648,
+      "file_end": 1050624,
+      "delta": 2147374944,
+      "kind": "rowbase",
+      "region": "xfer_dungeon_A3000",
+      "basis": "Existing proven runtime DMA load receipt, unchanged."
+    }
+  },
+  "views": {
+    "D_80080000": {
+      "symbol": "D_80080000",
+      "kind": "data",
+      "vma": 2148007936,
+      "foff": 342016,
+      "view_bytes": 4,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_engine_screen_effects.imports.json"
+    }
+  },
+  "runtime_views": {
+    "D_801C9E40": {
+      "symbol": "D_801C9E40",
+      "kind": "runtime_data",
+      "vma": 2149359168,
+      "view_bytes": 16,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_engine_screen_effects.imports.json",
+      "declaration": "src/dungeon/func_800B2BFC.c"
+    }
+  },
+  "functions": {
+    "D_80083160": {
+      "vma": 2148020576,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_80064840": {
+      "vma": 2147895360,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_800649A0": {
+      "vma": 2147895712,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_80064A40": {
+      "vma": 2147895872,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_80064AE0": {
+      "vma": 2147896032,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_80064B90": {
+      "vma": 2147896208,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_80064BC0": {
+      "vma": 2147896256,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_80064CF0": {
+      "vma": 2147896560,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_80064D80": {
+      "vma": 2147896704,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_80065034": {
+      "vma": 2147897396,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_80065420": {
+      "vma": 2147898400,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_80065480": {
+      "vma": 2147898496,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_80065590": {
+      "vma": 2147898768,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_80065AB0": {
+      "vma": 2147900080,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_80065C50": {
+      "vma": 2147900496,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_80065DF0": {
+      "vma": 2147900912,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_8006658C": {
+      "vma": 2147902860,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_8006671C": {
+      "vma": 2147903260,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_80066890": {
+      "vma": 2147903632,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    }
+  },
+  "source_sha256": {
+    "src/dungeon/func_800C3928.c": "a6eea88d7c89048cbe70b2d446c8e2c13a6869fc251a6a50c47e71e0de8eb5bd",
+    "src/dungeon/func_800C3E60.c": "f774006f58f727a050b87e0d935396a3de67c59b4cbc08e89a2e8aa9701f02d9",
+    "src/dungeon/func_800C3F04.c": "fceeb084d42787debd9fa582b398786735436e8bd82b49829a3fdff13c18835c",
+    "src/dungeon/func_800C3F88.c": "1b6a59504f44c5534b7dae70e95e3ad6e1aa93f43e9478865438f45891ffa316"
+  },
+  "scope": "External anchor views only. Four-byte asset anchors identify imported resident bytes, not an allocated array extent or complete dynamic access bound; source record/array views remain external. Runtime declaration extents reuse established shared-header evidence.",
+  "review": "pending",
+  "reviewer": null
+}

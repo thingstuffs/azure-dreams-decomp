@@ -1,9 +1,11 @@
+#include "modules/dungeon_engine_tile_map_abi_views.h"
+extern s16 D_800DCEBC[];
+extern s16 D_800DCEAC[];
 #include "common.h"
 
 extern s16 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern s16 func_800BCB04(u16, u16, s16);
-extern u16 D_800DCEAC[];
-extern u16 D_800DCEBC[];
+
+
 
 /* Checks the sides of a diagonal direction for terrain above 0x200. */
 s32 func_8009A540(s32 direction, s16 tile_x, s16 tile_y, s16 height)
@@ -24,7 +26,7 @@ s32 func_8009A540(s32 direction, s16 tile_x, s16 tile_y, s16 height)
         for (side = -1; side < 2; side += 2) {
             if (func_8009A350(x, y, (saved + side) & 7, &tile_flags) != 0) {
                 dir = ((u16)saved + side) & 7;
-                if (func_800BCB04((x << 6) + 0x20 + D_800DCEAC[dir], (y << 6) + 0x20 + D_800DCEBC[dir], h) > 0x200) {
+                if (map_height_wrapped((x << 6) + 0x20 + ((u16 *)D_800DCEAC)[dir], (y << 6) + 0x20 + ((u16 *)D_800DCEBC)[dir], h) > 0x200) {
                     break;
                 }
             }

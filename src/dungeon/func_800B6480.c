@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-typedef struct {
+typedef struct State {
     u8 target0[3];
     u8 pad03;
     u16 value4;
@@ -15,14 +15,14 @@ typedef struct {
     u16 delta;
 } State;
 
-typedef struct {
+typedef struct Output {
     u8 pad00[2];
     s16 value2;
     u8 pad06[2];
     s16 value6;
 } Output;
 
-typedef struct {
+typedef struct Interp {
     u8 pad00[0x0c];
     u8 value0c;
     u8 value0d;
@@ -31,8 +31,8 @@ typedef struct {
     s16 value1a;
 } Interp;
 
-extern s32 func_800644B8(s16);
-extern s32 func_80064584(s16);
+extern s32 func_800644B8(s32, ...);
+extern s32 func_80064584(s32, ...);
 
 /* Updates angular motion and fades three channels in, holds them, then fades them out. */
 void func_800BBBE0(State *state, Output *output, Interp *interp) {

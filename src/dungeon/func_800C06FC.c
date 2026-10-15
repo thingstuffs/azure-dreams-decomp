@@ -9,10 +9,11 @@ typedef struct CounterBlock {
 } CounterBlock;
 
 M2C_UNK func_8003DB94();        /* extern */
-s32 func_8004491C();           /* extern */
-s32 func_800A56E0();                     /* extern */
-extern M2C_UNK D_80045C34;
-extern M2C_UNK D_800C5D80;
+extern s32 func_8004491C();
+extern s32 func_800A56E0();
+extern s32 func_80045C34();
+struct S_800C5D80_0;
+extern void func_800C5D80(void *effect_data, struct S_800C5D80_0 *motion, Rec_D_80082E80 *primitive);
 
 typedef struct S_800C5E5C_0 {
     u8 pad_00[0x8];
@@ -79,8 +80,8 @@ void func_800C5E5C(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound) {
             effect = func_8003FC64(object_type);
         }
         if (effect != NULL) {
-            ((S_800C5E5C_0 *)effect)->unk_10 = &D_800C5D80;
-            func_8004491C(effect, &D_80045C34);
+            ((S_800C5E5C_0 *)effect)->unk_10 = func_800C5D80;
+            func_8004491C(effect, func_80045C34);
             transform = ((S_800C5E5C_0 *)effect)->unk_08;
             transform->unk_02 = x;
             transform->unk_06 = y;

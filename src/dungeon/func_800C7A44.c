@@ -1,17 +1,18 @@
+#include "modules/trap_effects_candidate.h"
 #include "common.h"
 #include "shared/entity.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern void func_80099844(void *, void *);
-extern void func_800A56E0(s32);
-extern void func_800A6508(void);
-extern void func_800C5BBC(s16 x, s16 y, s16 z, s32 sprite_data, u16 sprite_id, s16 play_sound);
+extern void func_80099844();
+extern s32 func_800A56E0();
+extern void func_800A6508();
+extern void * func_800C5BBC();
 extern s32 func_800C8ABC(void *record, s16 chance, s8 action);
 extern void func_800DC1B8(s32);
 extern s32 D_800DCF0C;
 extern u8 D_800E1BF3[];
-extern u8 D_800E3D40[];
+
 
 
 typedef struct S_800CD1A4_0_pre {
@@ -34,7 +35,7 @@ s32 func_800CD1A4(void *actor) {
     S_800CD1A4_1 *owner;
 
     chance = 0x40;
-    if (D_800E3D40[0] != 0) {
+    if (D_800E3D40 != 0) {
         chance = 0x400;
     }
     if (func_800C8ABC(actor, chance, 0x10) == 0) {

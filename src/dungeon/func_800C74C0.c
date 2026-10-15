@@ -1,3 +1,4 @@
+#include "modules/trap_effects_candidate.h"
 #include "common.h"
 
 typedef struct {
@@ -5,17 +6,17 @@ typedef struct {
     u8 flags;
 } Entry4;
 
-extern u8 D_800E3648[];
-extern u8 D_800E39C8[];
-extern u8 D_800E3D40;
+
+
+
 extern u8 D_800E5908;
 extern s32 D_800DCF78;
 
-void func_800A56E0(s32);
-void func_800A6508(void);
+extern s32 func_800A56E0();
+extern void func_800A6508();
 s32 func_800A6D30(void);
 void func_800B835C(void *, void *, s32, s32);
-void func_800CCA14(u8, u8, s16);
+extern void func_800CCA14(u16 x, u16 y, s16 z);
 
 /* Take the item in map slot `slot`: with no object, drop the slot's 0x80 flag and bump the pickup count; otherwise roll the object's 0x3 chance and give the fallback cue at or above 0x40, then cue 0x817 for the slot's item. */
 s32 func_800CCC20(void *object, s16 slot)
@@ -38,14 +39,14 @@ s32 func_800CCC20(void *object, s16 slot)
     u8 *tail_base;
 
     if (object == 0) {
-        map_base = D_800E3648;
+        map_base = (u8 *)D_800E3648;
         index = slot;
         scaled_index = index * 4;
         entry = scaled_index + map_base;
         flags = entry[3];
         if (flags & 0x80) {
             value = flags & 0x7F;
-            item_base = D_800E39C8;
+            item_base = (u8 *)D_800E39C8;
             entry[3] = value;
             item = item_base + index * 24;
             countp = &D_800E5908;
@@ -83,7 +84,7 @@ s32 func_800CCC20(void *object, s16 slot)
         D_800E5908 = 0;
     }
 
-    tail_base = D_800E39C8;
+    tail_base = (u8 *)D_800E39C8;
     tail_index = slot;
     item_2 = tail_base + tail_index * 24;
     func_800CCA14(item_2[6], item_2[7], *(s16 *)(item_2 + 0x12));

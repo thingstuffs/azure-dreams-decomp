@@ -1,0 +1,62 @@
+{
+  "module": "dungeon_engine_trap_effects",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "trap_effects.c",
+    "module_index": 27
+  },
+  "members": [
+    "dungeon/func_800C6438",
+    "dungeon/func_800C6540",
+    "dungeon/func_800C6654",
+    "dungeon/func_800C6828",
+    "dungeon/func_800C68F8",
+    "dungeon/func_800C6A2C",
+    "dungeon/func_800C6B48",
+    "dungeon/func_800C6C10",
+    "dungeon/func_800C6D90",
+    "dungeon/func_800C6E90",
+    "dungeon/func_800C6FE4",
+    "dungeon/func_800C712C",
+    "dungeon/func_800C725C",
+    "dungeon/func_800C72B4",
+    "dungeon/func_800C74C0",
+    "dungeon/func_800C7640",
+    "dungeon/func_800C78A4",
+    "dungeon/func_800C7A44",
+    "dungeon/func_800C7B34",
+    "dungeon/func_800C7C24",
+    "dungeon/func_800C7D14",
+    "dungeon/func_800C7F4C",
+    "dungeon/func_800C7F80",
+    "dungeon/func_800C81B0",
+    "dungeon/func_800C8234",
+    "dungeon/func_800C8310",
+    "dungeon/func_800C84B8",
+    "dungeon/func_800C85AC",
+    "dungeon/func_800C86AC",
+    "dungeon/func_800C86E0",
+    "dungeon/func_800C87E0",
+    "dungeon/func_800C88C8",
+    "dungeon/func_800C8D88",
+    "dungeon/func_800C8F3C",
+    "dungeon/func_800C8F90",
+    "dungeon/func_800C8FE8",
+    "dungeon/func_800C92E4",
+    "dungeon/func_800C96AC"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "original_ledger_confidence": [
+    "strong"
+  ],
+  "membership_scope": "complete reconstructed ledger cohort, assigned as one object cohort by the user in ROUND 2; historical source-file boundary unobservable",
+  "tu_boundary": "not observable (section-grouping link, no static duplicates, no recipe change)",
+  "basis": [
+    "Complete resident-engine cohort owned under the user\u2019s ROUND 2 object-cohort instruction; every member is included in file order, with no internal gaps or recipe change. The original ledger confidence is retained separately.",
+    "Whole natural-order TU matches GNU/maspsx, genuine ASPSX and every retail function; no hidden allocated data, compiler padding, static duplicate body, masked relocation or raw replacement.",
+    "The registered xfer_dungeon_A3000 runtime DMA load map proves delta 0x7FFE5760. The original object boundary remains observationally limited; coherent complete cohort reconstruction is the pending reviewed membership claim."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120"
+}

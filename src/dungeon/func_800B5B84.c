@@ -34,10 +34,12 @@ typedef struct {
     s16 y;
 } CoordPair;
 
-extern s32 func_8006658C();
-extern s32 func_80067E2C();
-extern s32 func_80067EF4();
-extern s32 func_800B8FC8();
+extern void func_8006658C(void *, void *, ...);
+extern void func_80067E2C(void *, void *);
+extern void func_80067EF4(void *, s32, s32, ...);
+struct Position;
+struct Position;
+extern void func_800B8FC8(s32 sprite, struct Position *clip_rect, struct Position *screen_pos, s32 clear_bg, s16 draw_flags);
 
 extern u8 D_801C9E40[16];
 

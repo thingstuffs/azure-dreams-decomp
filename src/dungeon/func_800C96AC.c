@@ -1,9 +1,10 @@
+#include "modules/trap_effects_candidate.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
 
 extern u8 D_800CEA44[];
-extern u8 D_800E3648[];
+
 
 extern s32 func_8003FA44(s32 limit);
 extern void SD_Call(s32 flags);
@@ -24,7 +25,7 @@ unsigned int func_800CEE0C(void *object, s16 entry_index)
         result = 1;
     } else {
         state = &dungeonStatus;
-        entries = D_800E3648;
+        entries = (u8 *)D_800E3648;
         entry = (u8 *)(((s32)(entry_index << 0x10) >> 0xE) + (u32)entries);
         if ((s16)(((u16)state->unk_1C) + *(s8 *)(entry + 2)) >= 0x21) {
             *(u8 *)(entry + 2) = 0x20 - *(u8 *)((u16 *)&state->unk_1C);

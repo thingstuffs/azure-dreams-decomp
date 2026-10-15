@@ -1,27 +1,4 @@
-#include "common.h"
-
-extern u8 D_8009DEBC[];
-extern u8 D_800D073C[];
-extern u8 D_800D0754[];
-extern u8 D_800D076C[];
-extern u8 D_800D0788[];
-extern u8 D_80010000[];
-extern u8 T_80010000[];
-
-extern s32 func_8004A658();
-extern void func_8008F0D4();
-extern void func_8008F104();
-extern void func_8009B218();
-extern void func_8009DC8C();
-extern void func_8009F148();
-extern s32 func_8009FF50();
-extern u8 D_8009DD40;
-extern u8 D_8006E240;
-
-#define BU(p, off) (*(u8 *)((u8 *)(p) + (off)))
-#define WD(p, off) (*(s32 *)((u8 *)(p) + (off)))
-#define PP(p, off) (*(u8 **)((u8 *)(p) + (off)))
-#define TB(idx, off) (D_80010000[(idx) * 4 + (off)])
+#include "modules/town_town_windows.h"
 
 /* Sets object type fields and selects the corresponding resource. */
 void func_8009E504(void *object, s32 index, void *output)
@@ -58,10 +35,10 @@ void func_8009E504(void *object, s32 index, void *output)
     }
 
     if (func_8009FF50() == 0) {
-        resource = (u32)&D_8009DD40;
+        resource = (u32)&func_8009DD40;
         PP(object, -0x10) = (u8 *)resource;
     } else {
-        resource = (u32)D_8009DEBC;
+        resource = (u32)func_8009DEBC;
         PP(object, -0x10) = (u8 *)resource;
     }
     if ((u32)(BU(object, 0x4D) - 0x12) < 2U) {

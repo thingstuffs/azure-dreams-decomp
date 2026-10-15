@@ -1,12 +1,12 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-typedef struct {
+typedef struct Object_800B36B8 {
     u8 pad0[2];
     s16 field2;
-} Object;
+} Object_800B36B8;
 
-typedef struct {
+typedef struct Effect {
     u8 pad0[0xC];
     u8 fieldC;
     u8 fieldD;
@@ -18,7 +18,7 @@ typedef struct {
 
 
 /* Attenuates an effect and sets object and global flags when its byte level reaches zero. */
-void func_800B8E18(Object *object, s32 unused, Effect *effect) {
+void func_800B8E18(Object_800B36B8 *object, s32 unused, Effect *effect) {
     u16 magnitude;
     u8 level;
     ObjectFlagBlock *state_flags = &objectFlagBlock;

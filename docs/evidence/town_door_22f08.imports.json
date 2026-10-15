@@ -1,0 +1,252 @@
+{
+  "views": {
+    "D_800CFCB4": {
+      "symbol": "D_800CFCB4",
+      "kind": "data",
+      "vma": 2148334772,
+      "foff": 337236,
+      "view_bytes": 64,
+      "owner": "retail_asset:town:xfer_town_B000",
+      "evidence": "docs/evidence/town_door_22f08.imports.json"
+    },
+    "D_800D09E0": {
+      "symbol": "D_800D09E0",
+      "kind": "data",
+      "vma": 2148338144,
+      "foff": 340608,
+      "view_bytes": 4,
+      "owner": "retail_asset:town:xfer_town_B000",
+      "evidence": "docs/evidence/town_door_22f08.imports.json"
+    },
+    "D_800D4404": {
+      "symbol": "D_800D4404",
+      "kind": "data",
+      "vma": 2148353028,
+      "foff": 355492,
+      "view_bytes": 4,
+      "owner": "retail_asset:town:xfer_town_B000",
+      "evidence": "docs/evidence/town_door_22f08.imports.json"
+    },
+    "D_80100B70": {
+      "symbol": "D_80100B70",
+      "kind": "data",
+      "vma": 2148535152,
+      "foff": 537616,
+      "view_bytes": 4,
+      "owner": "retail_asset:town:xfer_town_B000",
+      "evidence": "docs/evidence/town_door_22f08.imports.json"
+    }
+  },
+  "runtime_views": {
+    "D_80013714": {
+      "symbol": "D_80013714",
+      "kind": "runtime_data",
+      "vma": 2147563284,
+      "view_bytes": 2,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/modules/town_door.h",
+      "evidence": "docs/evidence/town_door_22f08.imports.json"
+    },
+    "D_8006CD58": {
+      "symbol": "D_8006CD58",
+      "kind": "runtime_data",
+      "vma": 2147929432,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/modules/town_door.h",
+      "evidence": "docs/evidence/town_door_22f08.imports.json"
+    },
+    "D_8008146C": {
+      "symbol": "D_8008146C",
+      "kind": "runtime_data",
+      "vma": 2148013164,
+      "view_bytes": 2,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/modules/town_door.h",
+      "evidence": "docs/evidence/town_door_22f08.imports.json"
+    },
+    "D_80081498": {
+      "symbol": "D_80081498",
+      "kind": "runtime_data",
+      "vma": 2148013208,
+      "view_bytes": 12,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/modules/town_door.h",
+      "evidence": "docs/evidence/town_door_22f08.imports.json"
+    },
+    "D_800814A0": {
+      "symbol": "D_800814A0",
+      "kind": "runtime_data",
+      "vma": 2148013216,
+      "view_bytes": 16,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/modules/town_door.h",
+      "evidence": "docs/evidence/town_door_22f08.imports.json"
+    },
+    "D_80082E60": {
+      "symbol": "D_80082E60",
+      "kind": "runtime_data",
+      "vma": 2148019808,
+      "view_bytes": 18,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/modules/town_door.h",
+      "evidence": "docs/evidence/town_door_22f08.imports.json"
+    },
+    "D_800834B8": {
+      "symbol": "D_800834B8",
+      "kind": "runtime_data",
+      "vma": 2148021432,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/modules/town_door.h",
+      "evidence": "docs/evidence/town_door_22f08.imports.json"
+    }
+  },
+  "review": "pending",
+  "reviewer": null,
+  "basis": "All symbols are genuine undefined imports of the complete object. Addresses are resolved by canonical names/catalogs or the address-encoded labels and corroborated by the retail relocations. External storage is a bounded view, with no definition, initialization or allocation claim. xfer_town_B000 is the existing proven resident load region; lower resident/scratch globals remain SLUS runtime imports. Code-label views are listed separately as function imports.",
+  "function_views": [
+    {
+      "symbol": "D_80091260",
+      "kind": "function",
+      "vma": 2148078176,
+      "basis": "Address-only code-label view of town/func_80093B00"
+    },
+    {
+      "symbol": "D_80091528",
+      "kind": "function",
+      "vma": 2148078888,
+      "basis": "Address-only code-label view of town/func_80093DC8"
+    },
+    {
+      "symbol": "func_80033AE8",
+      "kind": "function",
+      "vma": 2147695336
+    },
+    {
+      "symbol": "func_80033D08",
+      "kind": "function",
+      "vma": 2147695880
+    },
+    {
+      "symbol": "func_800352FC",
+      "kind": "function",
+      "vma": 2147701500
+    },
+    {
+      "symbol": "func_8003BAF8",
+      "kind": "function",
+      "vma": 2147728120
+    },
+    {
+      "symbol": "func_8003E1C4",
+      "kind": "function",
+      "vma": 2147738052
+    },
+    {
+      "symbol": "func_8003F540",
+      "kind": "function",
+      "vma": 2147743040
+    },
+    {
+      "symbol": "func_80053DA8",
+      "kind": "function",
+      "vma": 2147827112
+    },
+    {
+      "symbol": "func_8008FAC0",
+      "kind": "function",
+      "vma": 2148072128
+    },
+    {
+      "symbol": "func_8009A674",
+      "kind": "function",
+      "vma": 2148116084
+    },
+    {
+      "symbol": "func_8009A8EC",
+      "kind": "function",
+      "vma": 2148116716
+    },
+    {
+      "symbol": "func_8009A99C",
+      "kind": "function",
+      "vma": 2148116892
+    },
+    {
+      "symbol": "func_8009CFE0",
+      "kind": "function",
+      "vma": 2148126688
+    },
+    {
+      "symbol": "func_8009F9A4",
+      "kind": "function",
+      "vma": 2148137380
+    },
+    {
+      "symbol": "func_800A0F9C",
+      "kind": "function",
+      "vma": 2148143004
+    },
+    {
+      "symbol": "func_800A1080",
+      "kind": "function",
+      "vma": 2148143232
+    },
+    {
+      "symbol": "func_800A12AC",
+      "kind": "function",
+      "vma": 2148143788
+    },
+    {
+      "symbol": "func_800A12B4",
+      "kind": "function",
+      "vma": 2148143796
+    },
+    {
+      "symbol": "func_800A20D8",
+      "kind": "function",
+      "vma": 2148147416
+    },
+    {
+      "symbol": "func_800A2304",
+      "kind": "function",
+      "vma": 2148147972
+    },
+    {
+      "symbol": "func_800B074C",
+      "kind": "function",
+      "vma": 2148206412
+    },
+    {
+      "symbol": "func_800B2834",
+      "kind": "function",
+      "vma": 2148214836
+    },
+    {
+      "symbol": "func_800B28A0",
+      "kind": "function",
+      "vma": 2148214944
+    },
+    {
+      "symbol": "func_800B8A40",
+      "kind": "function",
+      "vma": 2148239936
+    },
+    {
+      "symbol": "func_800C24FC",
+      "kind": "function",
+      "vma": 2148279548
+    }
+  ],
+  "declared_view_sizes": {
+    "D_8008146C": 2,
+    "D_80081498": 12,
+    "D_800814A0": 16,
+    "D_800834B8": 4,
+    "D_800CFCB4": 4,
+    "D_800D09E0": 4,
+    "D_800D4404": 4
+  },
+  "size_basis": "Compiler sizeof queries of the complete shared ABI declarations. Array/address-only views retain their explicit minimum; casts requiring larger observed layouts retain that larger bounded view. Function symbols are not storage views."
+}

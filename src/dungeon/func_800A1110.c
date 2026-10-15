@@ -1,3 +1,4 @@
+#include "modules/dungeon_engine_dungeon_util_fragment_c1094.h"
 #include "common.h"
 
 s32 func_800A6D30();                             /* extern */

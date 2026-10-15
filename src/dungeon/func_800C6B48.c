@@ -1,11 +1,12 @@
+#include "modules/trap_effects_candidate.h"
 #include "common.h"
 
-extern u8 D_800E3D40[];
+
 
 extern s32 func_800C8CD8(void *object, s32 amount, s32 slots);
-extern void func_800A6508(void);
-extern void func_800C5BBC(s16 x, s16 y, s16 z, s32 sprite_data, u16 sprite_id, s16 play_sound);
-extern void func_800A56E0(s32);
+extern void func_800A6508();
+extern void * func_800C5BBC();
+extern s32 func_800A56E0();
 
 typedef struct {
     u8 pad0[0x14];
@@ -20,7 +21,7 @@ s32 func_800CC2A8(void *object) {
     s32 amount = 0x40;
     Entry *entry;
 
-    if (D_800E3D40[0] != 0) {
+    if (D_800E3D40 != 0) {
         amount = 0x400;
     }
     if (func_800C8CD8(object, amount, 0x10) == 0) {

@@ -79,20 +79,20 @@ typedef struct S_800BBDEC_5 {
 } S_800BBDEC_5;   /* prim in func_800BBDEC */
 
 
-extern void func_80064840(void *, void *, void *);
-extern void func_800649A0(void);
+extern void *func_80064840(void *, void *, void *);
+extern void func_800649A0();
 extern void func_80064A40(void);
 extern void func_80064AE0(void *);
 extern void func_80064CF0(void *);
 extern void func_80064D80(void *);
 extern u32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void func_80065820(void *, void *);
-extern void func_8006658C(void *, void *);
+extern void *func_80065820(void *, void *);
+extern void func_8006658C(void *, void *, ...);
 extern void func_80066708(void *);
 extern void func_80067F20(void *, s32, s32, s32, s32);
 
 /* Projects and queues a shaded quad with optional semitransparency. */
-void func_800BBDEC(S_800BBDEC_4 *object, S_800BBDEC_1 *position, S_800BBDEC_3 *appearance)
+void func_800BBDEC(S_800BBDEC_4 *object, S_800BBDEC_1 *position, S_800BBDEC_3 *appearance, s32 unused_draw_value)
 {
     u8 *scratch = (u8 *)0x1F800000;
     void **render_ctx = (void **)((u8 *)(&gameWork));

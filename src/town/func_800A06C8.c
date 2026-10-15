@@ -1,18 +1,7 @@
-#include "common.h"
-
-extern s32 func_8009706C(s32 state);
-extern void func_800970AC(s32 flags, u8 *state);
-extern void func_800478B8(void *callback_data);
-
-typedef struct {
-    /* 0x00 */ u8 pad[0x4D];
-    /* 0x4D */ u8 unk4D;
-    /* 0x4E */ u8 pad2[0x2];
-    /* 0x50 */ void (*unk50)(void *, void *, s32, s32);
-} EntityLike;
+#include "modules/town_town_windows.h"
 
 /* Invoke the entity callback and perform follow-up processing unless its flags suppress it. */
-void func_8009DE28(EntityLike *entity, s32 callback_id, s32 callback_data)
+void func_8009DE28(func_800A06C8_EntityLike *entity, s32 callback_id, s32 callback_data)
 {
     u16 *flags = (u16 *)((u8 *)entity - 2);
 

@@ -1,0 +1,35 @@
+{
+  "module": "dungeon_engine_experience",
+  "scope": "whole_tu",
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "flags": [
+    "-q",
+    "-G0",
+    "-0"
+  ],
+  "controls": [
+    {
+      "flags": [
+        "-q",
+        "-G0"
+      ],
+      "exact": false
+    },
+    {
+      "flags": [
+        "-q",
+        "-G0",
+        "-0"
+      ],
+      "exact": true
+    }
+  ],
+  "basis": [
+    "Complete same compiler stream measured under uniform genuine ASPSX flags; zero masks and raw substitutions."
+  ],
+  "review": "pending",
+  "reviewer": null
+}

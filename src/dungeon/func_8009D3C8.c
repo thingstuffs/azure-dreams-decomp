@@ -1,3 +1,4 @@
+#include "modules/dungeon_engine_experience_fragment_bc5ec.h"
 #include "common.h"
 #include "shared/sys_flags.h"
 

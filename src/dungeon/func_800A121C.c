@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_800A6928(s32, s32);
+extern s32 utility_count_word(s32, s32) __asm__("func_800A6928");
 
 /* Returns 1 if the packed byte pair is in the table, otherwise checks func_800A6928. */
 s16 func_800A697C(s32 highByte, s32 lowByte) {
@@ -21,5 +21,5 @@ s16 func_800A697C(s32 highByte, s32 lowByte) {
             break;
         entry -= 2;
     }
-    return func_800A6928(highByte & 0xFF, lowByte & 0xFF);
+    return utility_count_word(highByte & 0xFF, lowByte & 0xFF);
 }

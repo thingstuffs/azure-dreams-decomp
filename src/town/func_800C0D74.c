@@ -1,10 +1,5 @@
+#include "modules/town_map_props.h"
 #include "shared/game_work.h"
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-typedef short s16;
-typedef unsigned int u32;
-typedef int s32;
 typedef union
 {
     s32 coord;
@@ -20,19 +15,10 @@ SpBuf;
 extern void strcpy(void *, s32);
 extern s32 strlen(void *);
 extern void func_8008F074(void *, s32, void *);
-extern void *func_800BDB20(s32 *, void *, s32);
-extern void *func_800BDBD0(s32 *, void *, s32, s32);
-extern void func_800BDC98(s16, s16, s16, s16);
-extern void func_800BDDD0(s16, s16, s16);
 extern s16 func_800C2AE8(s32 *);
 extern s16 D_8006CCD8[][2];
 extern s16 D_8006CCE8[][2];
 extern u8 *D_80073600[];
-extern u8 D_800BDE7C[];
-extern u8 D_800BDF98[];
-extern u8 D_800BDFA0[];
-extern u8 D_800BE0D4[];
-extern u8 D_800BE214[];
 extern s32 D_800D2134[][2];
 extern s32 D_800D214C[][2];
 extern s32 D_800D215C[];
@@ -74,11 +60,11 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
     switch (shifted_type_index >> 16) {
     case 0:
     case 1:
-        func_800BDC98(x_or_object.coord, y_or_state.coord, object_type, spawn_param);
+        func_800BDC98((s16)x_or_object.coord, (s16)y_or_state.coord, object_type, (s16)spawn_param);
         return;
 
     case 7:
-        func_800BDDD0(x_or_object.coord, y_or_state.coord, spawn_param);
+        func_800BDDD0((s16)x_or_object.coord, (s16)y_or_state.coord, (s16)spawn_param);
         return;
 
     case 15:
@@ -99,7 +85,7 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
         position.w[1] = ((y_or_state.coord << 6) + (D_8006CCD8[direction][0] << 3)) << 16;
         position.w[2] = 0;
         variant_row = D_800D2134[entry_index];
-        x_or_object.object = func_800BDBD0(position.w, D_800BDE7C, direction << 10, *variant_row);
+        x_or_object.object = func_800BDBD0(position.w, func_800BDE7C, direction << 10, *variant_row);
         y_or_state.object = x_or_object.object + 0x20;
         *((s32 **) (y_or_state.object + 0xA0)) = variant_row;
         break;
@@ -113,7 +99,7 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
         position.w[1] = y_or_state.coord << 22;
         position.w[2] = -0x80000;
         do {
-            func_800BDBD0(position.w, D_800BDF98, 0, D_800D214C[entry_index][part_index]);
+            func_800BDBD0(position.w, func_800BDF98, 0, D_800D214C[entry_index][part_index]);
             part_index--;
         }
         while (part_index >= 0);
@@ -126,7 +112,7 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
         position.w[1] = y_or_state.coord << 22;
         position.w[2] = -0x80000;
         do {
-            func_800BDBD0(position.w, D_800BDF98, 0, D_800D215C[entry_index]);
+            func_800BDBD0(position.w, func_800BDF98, 0, D_800D215C[entry_index]);
             entry_index--;
         }
         while (entry_index >= 0);
@@ -136,7 +122,7 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
         {
             s32 shifted_type = object_type << 16;
             u8 *type_table = (u8 *) D_800D21B4;
-            x_or_object.object = func_800BDB20(position.w, D_800BDF98, *((s32 *) (type_table + (shifted_type >> 14))));
+            x_or_object.object = func_800BDB20(position.w, func_800BDF98, *((s32 *) (type_table + (shifted_type >> 14))));
         }
         y_or_state.object = x_or_object.object + 0x20;
         *((s16 *) (((u8 *) (*((void **) (x_or_object.object + 0xC)))) + 6)) = 0x18;
@@ -154,7 +140,7 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
         if (position.w[2] > 0) {
             position.w[2] = 0;
         }
-        x_or_object.object = func_800BDB20(position.w, D_800BDF98, D_800D21B4[object_type]);
+        x_or_object.object = func_800BDB20(position.w, func_800BDF98, D_800D21B4[object_type]);
         y_or_state.object = x_or_object.object + 0x20;
         if (object_type == 0xA) {
             display_data = *((void **) (x_or_object.object + 0xC));
@@ -178,7 +164,7 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
         position.w[0] = (x_or_object.coord << 22) + 0x200000;
         position.w[1] = (y_or_state.coord << 22) + 0x200000;
         position.h[5] = func_800C2AE8(position.w);
-        x_or_object.object = func_800BDB20(position.w, D_800BDFA0, D_800D21B4[(s16) object_type]);
+        x_or_object.object = func_800BDB20(position.w, func_800BDFA0, D_800D21B4[(s16) object_type]);
         y_or_state.object = x_or_object.object + 0x20;
         *((s32 *) (y_or_state.object + 0xA0)) = D_800D216C[entry_index][0];
         *((s32 *) (y_or_state.object + 0xA4)) = D_800D216C[entry_index][1];
@@ -197,7 +183,7 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
         position.w[0] = (x_or_object.coord << 22) + 0x200000;
         position.w[1] = (y_or_state.coord << 22) + 0x200000;
         position.h[5] = func_800C2AE8(position.w);
-        x_or_object.object = func_800BDB20(position.w, D_800BE0D4, D_800D21B4[(s16) object_type]);
+        x_or_object.object = func_800BDB20(position.w, func_800BE0D4, D_800D21B4[(s16) object_type]);
         y_or_state.object = x_or_object.object + 0x20;
         *((s32 *) (y_or_state.object + 0xA0)) = D_800D219C[entry_index][0];
         *((s32 *) (y_or_state.object + 0xA4)) = D_800D219C[entry_index][1];
@@ -217,7 +203,7 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
         {
             s32 shifted_type = object_type << 16;
             u8 *type_table = (u8 *) D_800D21B4;
-            x_or_object.object = func_800BDB20(position.w, D_800BE214, *((s32 *) (type_table + (shifted_type >> 14))));
+            x_or_object.object = func_800BDB20(position.w, func_800BE214, *((s32 *) (type_table + (shifted_type >> 14))));
         }
         y_or_state.object = x_or_object.object + 0x20;
         *((s32 *) (y_or_state.object + 0xA0)) = position.h[5];

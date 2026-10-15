@@ -1,7 +1,8 @@
+#include "modules/dungeon_engine_dungeon_util_fragment_c05e4.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "records/Rec_D_80083160.h"
-typedef s32 M2C_UNK;
+#include "m2c_compat.h"
 
 typedef struct S_800A5FC0_0 {
     u8 pad_00[0x8D0];
@@ -39,10 +40,10 @@ typedef struct S_800A5FC0_5 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern M2C_UNK func_8006658C();
-extern M2C_UNK func_80066640();
-extern M2C_UNK func_800666E0();
-extern M2C_UNK func_80067F20();
+extern void func_8006658C(void *, void *);
+extern void func_80066640(void *, s32);
+extern void func_800666E0(void *);
+extern void func_80067F20(void *, s32, s32, s32, s32);
 
 /* Advance a rectangle's right edge toward 320 and queue it for rendering. */
 s32 func_800A5FC0(S_800A5FC0_2 *state) {

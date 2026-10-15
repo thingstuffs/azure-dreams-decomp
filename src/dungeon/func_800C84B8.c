@@ -1,12 +1,13 @@
+#include "modules/trap_effects_candidate.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
-extern s32 func_80042900(void *, s32);
-extern s32 func_800A6508(void);
+extern s32 func_80042900();
+extern void func_800A6508();
 extern s32 func_800A6D30(void);
 
-extern u8 D_800E3D40;
+
 
 s32 func_800CDC18(void *ptr, s32 unused1, s32 unused2, s32 unused3)
 {

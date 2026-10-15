@@ -1,8 +1,9 @@
 #include "shared/object_node.h"
+#include "modules/dungeon_engine_dungeon_util_fragment_c0bec.h"
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 func_8004491C();           /* extern */
+s32 func_8004491C(void *entry, s32 registration_id);           /* extern */
 extern M2C_UNK D_800A6194;
 extern M2C_UNK D_800A624C;
 

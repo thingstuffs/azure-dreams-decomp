@@ -1,3 +1,4 @@
+#include "modules/trap_effects_candidate.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -8,9 +9,9 @@ extern u8 D_800E1B08[];
 extern u8 D_800E1B2E[];
 
 extern void func_800997FC();
-extern s32 func_80042900(void *, s32);
-extern void func_800419EC(s32, s32);
-extern void func_800A56E0(s32);
+extern s32 func_80042900();
+extern void func_800419EC();
+extern s32 func_800A56E0();
 
 /* Advances a timed Z transition, waits for readiness, and marks completion. */
 void func_800CBDB4(s16 *transition) {

@@ -1,3 +1,4 @@
+#include "modules/main_title_callbacks.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
@@ -77,7 +78,6 @@ extern M2C_UNK D_80044BB0;
 extern M2C_UNK D_80088790;
 extern M2C_UNK D_800887B8;
 extern M2C_UNK D_800887CC;
-extern M2C_UNK D_80089A14;
 
 typedef struct {
     s32 w0;
@@ -190,7 +190,7 @@ void func_80089608(void *effect) {
         break;
     }
     color_step_or_index = 9;
-    callback = &D_80089A14;
+    callback = (void *)func_80089A14;
     do {
         element = func_8003FC64(0x111);
         if (element != NULL) {

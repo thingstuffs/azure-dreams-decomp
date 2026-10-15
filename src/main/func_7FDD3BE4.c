@@ -3,7 +3,7 @@
 
 
 /* Packs three capped source components, copies an attribute, and propagates the high-bit flag. */
-void func_7FDD3BE4(void *dest) {
+void func_8008AB44(void *dest) {
     void *source;
     void *component_cursor;
     s32 component;

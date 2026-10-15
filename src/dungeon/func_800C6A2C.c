@@ -1,3 +1,4 @@
+#include "modules/trap_effects_candidate.h"
 #include "common.h"
 
 typedef struct S_800CC18C_0 {
@@ -10,11 +11,11 @@ typedef struct S_800CC18C_0 {
 } S_800CC18C_0;   /* arg0 in func_800CC18C; pointer addresses record offset 0x18 */
 
 
-extern u8 D_800E3D40[];
+
 extern u8 D_800E1BDA[];
-extern s32 func_80099844(void *, void *);
-extern s32 func_800A56E0(u32);
-extern s32 func_800A6508(void);
+extern void func_80099844();
+extern s32 func_800A56E0();
+extern void func_800A6508();
 extern s32 func_800A6D30(void);
 extern s32 func_800AA5E4(void *, s32, s32, void *);
 
@@ -30,7 +31,7 @@ s32 func_800CC18C(void *entity, s32 forwarded_1, s32 forwarded_2, s32 forwarded_
     s32 feedback_or_result;
 
     outcome = 0;
-    if (D_800E3D40[0] == 0) {
+    if (D_800E3D40 == 0) {
         random_value = func_800A6D30() & 0xFFFF;
         if (((s32)(((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_1B)) != 0) {
             roll = ((s32)(((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_1B));
@@ -46,7 +47,7 @@ s32 func_800CC18C(void *entity, s32 forwarded_1, s32 forwarded_2, s32 forwarded_
         func_800AA5E4(entity, ((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_00,
             ((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_04, entity);
         func_800A56E0(0x705);
-        if (D_800E3D40[0] != 0) {
+        if (D_800E3D40 != 0) {
             outcome = -1;
         }
         feedback_kind = ((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_2B == 0;

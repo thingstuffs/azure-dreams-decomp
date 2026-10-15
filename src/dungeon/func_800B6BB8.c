@@ -16,7 +16,7 @@ struct S_8003FFF0 {
 };
 
 extern S_8003FFF0 *D_80081498[4];
-extern u8 D_800BC388[9];
+extern void func_800BC388(void *context);
 
 // Set bit 0x8000 in the first matching node's flags and the shared flags.
 void func_800BC318(s32 targetId) {
@@ -25,7 +25,7 @@ void func_800BC318(s32 targetId) {
     node = *D_80081498;
     if (node != NULL) {
         do {
-            if ((node->kind == D_800BC388) && (node->id == targetId)) {
+            if ((node->kind == func_800BC388) && (node->id == targetId)) {
                 u16 nodeFlags = node->flags;
                 s32 sharedFlags = objectFlagBlock.flags;
 

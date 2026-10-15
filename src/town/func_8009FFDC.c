@@ -1,12 +1,4 @@
-#include "common.h"
-#include "m2c_compat.h"
-
-void func_8009D7D0();                         /* extern */
-
-typedef struct S_8009D73C_0 {
-    u8 pad_00[0xC];
-    s32 * unk_0C;
-} S_8009D73C_0;   /* *var_s1 in func_8009D73C */
+#include "modules/town_town_windows.h"
 
 /* Process each zero-terminated value list in the null-terminated entry array. */
 void func_8009D73C(void **entries) {
@@ -17,7 +9,7 @@ void func_8009D73C(void **entries) {
     entry_ptr = entries;
     if (*entry_ptr != NULL) {
         do {
-            value_ptr = ((S_8009D73C_0 *)(*entry_ptr))->unk_0C;
+            value_ptr = ((func_8009FFDC_S_8009D73C_0 *)(*entry_ptr))->unk_0C;
             if ((value_ptr != NULL) && (*value_ptr != 0)) {
                 do {
                     value = *value_ptr;

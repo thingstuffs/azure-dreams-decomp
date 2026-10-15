@@ -56,7 +56,8 @@ typedef struct WorkBlock {
 
 extern s32 func_800644B8();
 extern s32 func_80066460();
-extern void func_800DBA90(WorkBlock *);
+struct Struct_800D6330;
+extern void func_800DBA90(struct Struct_800D6330 *transform);
 
 /* Update the effect vertices, animate their color, and advance the rotation. */
 void func_800DAB50(void *effect_data) {

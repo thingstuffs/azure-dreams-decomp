@@ -1,3 +1,4 @@
+#include "modules/trap_effects_candidate.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
@@ -6,15 +7,15 @@
 
 extern s32 func_8003FA44();
 extern s32 func_8004491C();
-extern s32 func_800A56E0(s32);
-extern void func_800A6508(void);
+extern s32 func_800A56E0();
+extern void func_800A6508();
 extern s32 func_800A6D30(void);
 extern void func_800CD6AC();
 
-extern u8 D_80045C34[];
+
 extern u8 D_800CD474[];
 extern u8 D_800E03E0[];
-extern u8 D_800E3D40;
+
 
 
 typedef struct S_800CD6E0_0_pre {
@@ -130,7 +131,7 @@ s32 func_800CD6E0(void *source, s16 slot_index, s32 slot_bits) {
         x_offsets = dirStepX;
         for (; effect_index < 4; x_offsets += 2) {
             ((S_800CD6E0_2 *)((effect = func_8003FC64(2))))->unk_10 = update_callback;
-            func_8004491C(effect, D_80045C34);
+            func_8004491C(effect, func_80045C34);
             color = 0x808080;
             y_offset = effect_index << 2;
 

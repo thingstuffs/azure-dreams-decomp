@@ -1,3 +1,4 @@
+#include "modules/trap_effects_candidate.h"
 #include "common.h"
 #define U8(p,o) (*(u8 *)((u8 *)(p)+(o)))
 #define S16(p,o) (*(s16 *)((u8 *)(p)+(o)))
@@ -5,11 +6,11 @@
 #define U32(p,o) (*(u32 *)((u8 *)(p)+(o)))
 #define P32(p,o) (*(void **)((u8 *)(p)+(o)))
 extern s32 func_800A6D30(void);
-extern s32 func_800A48F0();
-extern void func_800C5BBC();
-extern void func_800A56E0(s32);
+extern s16 func_800A48F0();
+extern void * func_800C5BBC();
+extern s32 func_800A56E0();
 extern void func_80099844();
-extern u8 D_800E3D40;
+
 extern u8 D_800E1BBC[];
 /* Attempts a random status effect and plays its visual and sound effects on success. */
 s32 func_800CC058(void *entity, s32 rng_input_a, s32 rng_input_b, s32 rng_input_c)

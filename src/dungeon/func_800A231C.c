@@ -1,3 +1,4 @@
+#include "modules/dungeon_engine_entity_effects_storage.h"
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -12,18 +13,19 @@ typedef struct {
     s32 value;
 } DungeonRecord;
 
-extern DungeonRecord D_800E36C8[];
+
 extern s32 D_800E0B54;
 
 extern s32 func_800990FC(void);
 extern s32 func_80099194(u8 *src, u8 *dst);
 extern s32 func_80099290(s8 *byte_ptr);
 extern s32 func_80099368(s32 *, s32);
-extern s32 func_800A4300(void *, void *);
+extern void func_800A4300(void *entity, void *search_state);
 extern void func_800A5720(s8 *text);
-extern s16 func_800A71F4(void);
+extern s32 func_800A71F4(void);
 extern s32 func_800A7234(s16 x, s16 y, s16 z, s16 *out_x, s16 *out_y, s16 *out_distance);
-extern void func_800A7700(s32, s32, s32, s32 *);
+struct DungeonDescriptor;
+extern struct DungeonDescriptor * func_800A7700(s32 tile_x, s32 tile_y, s32 z, s32 *init_data);
 extern s32 func_800A794C(s32, s32, s32, s32 *, s32, s32, s32);
 extern s32 func_800A7A38(u8 *item);
 extern void func_8009A21C(s16 x, s16 y, u16 flags);
@@ -52,7 +54,7 @@ s32 func_800A7A7C(s32 x, s32 y, s32 z, s32 unused, s32 *object_data) {
             if (func_800A794C(x_short, y_short, z_short, object_data,
                               tile_x, tile_y, tile_value) == 0) {
                 ((s32 *)D_800E3548)[record_index] = *object_data;
-                record = &D_800E36C8[record_index];
+                record = &((DungeonRecord *)D_800E36C8)[record_index];
                 record->b0 = (u8)tile_x;
                 record->b1 = (u8)tile_y;
                 record->w4 = (u16)tile_value;

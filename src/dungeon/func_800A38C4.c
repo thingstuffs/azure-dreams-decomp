@@ -1,19 +1,8 @@
+#include "modules/dungeon_engine_entity_effects_fragment_c2fbc.h"
 #include "common.h"
 
-typedef struct {
-    u16 flags;
-    u8 pad2[18];
-} DungeonItem;
 
-typedef struct {
-    u8 pad0[2];
-    u8 count;
-    u8 pad3[9];
-    DungeonItem *entries;
-    u8 pad10[4];
-} DungeonGroup;
 
-extern DungeonGroup D_80073414[];
 
 /* Sets flag 0x400 and bitmap bits for items without flag 0x200 in selected item categories. */
 void func_800A9024(s32 group_bit) {

@@ -1,9 +1,9 @@
+#include "modules/main_server_ship.h"
 #include "common.h"
 
 extern s32 open(s32 path, s32 flags);
 extern s32 lseek(s32 fd, s32 offset, s32 whence);
 extern s32 read(s32 fd, s32 buffer, s32 count);
-extern void close(s32 fd);
 
 /* Reads a file range in 128-byte units and returns whether the full read succeeded. */
 s32 func_80021B98(s32 path, s32 buffer, s32 read_size, s32 block_offset) {

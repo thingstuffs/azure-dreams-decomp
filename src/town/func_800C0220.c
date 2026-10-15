@@ -1,13 +1,9 @@
+#include "modules/town_map_props.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
-void func_8003DB94(void *, void *, s32);
-void *func_8003FD64(s32, void *);
-void func_8004491C(void *, void *);
-extern M2C_UNK D_800BD688;
-extern M2C_UNK D_800BD898;
 extern M2C_UNK D_800E9E14;
 
 typedef struct {
@@ -51,19 +47,19 @@ s32 event_tori_in(void *source) {
     void *object;
     S_800BD980_0 *origin;
     void *child_slot;
-    M2C_UNK *child_handler;
+    void (*child_handler)(void *, void *, s32);
 
     source_data = source;
     child_slot = NULL;
     object = func_8003FD64(0x202, ((M2C_UNK *)&D_80083498.next));
     if (object != NULL) {
         child_slot = object + 0x20;
-        (*(M2C_UNK **)((u8 *)object + 0x10)) = &D_800BD688;
+        (*(void (**)(void *))((u8 *)object + 0x10)) = func_800BD688;
         (*(Copy16 *)((u8 *)object + 0x28)) = (*(Copy16 *)((u8 *)source_data + 0));
         (*(Copy8 *)((u8 *)object + 0x38)) = (*(Copy8 *)((u8 *)source_data + 0x10));
     }
     child_index = 1;
-    child_handler = &D_800BD898;
+    child_handler = func_800BD898;
     x_step = 0x300000;
     child_slot = child_slot + 4;
     do {
@@ -82,7 +78,7 @@ s32 event_tori_in(void *source) {
             color = 0x800000;
             transform = (*(void **)((u8 *)object + 8));
             color |= 0x8080;
-            (*(M2C_UNK **)((u8 *)object + 0x10)) = child_handler;
+            (*(void (**)(void *, void *, s32))((u8 *)object + 0x10)) = child_handler;
             *(void **)child_slot = transform;
             render_state = (*(void **)((u8 *)object + 0xC));
             source_x_hi = (*(u16 *)((u8 *)source_data + 2));

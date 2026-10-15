@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #define F(p,t,o) (*(t *)((u8 *)(p) + (o)))
-extern s16 func_80042900(void *, s32);
+extern s32 func_80042900(void *entry, s32 effect_id);
 extern s32 D_800835E8[];
 extern u8 D_800E0000[];
 /* Checks whether an entity can level up with its current experience. */

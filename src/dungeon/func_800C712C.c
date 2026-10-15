@@ -1,3 +1,4 @@
+#include "modules/trap_effects_candidate.h"
 #include "shared/object_node.h"
 #include "common.h"
 
@@ -37,11 +38,11 @@ typedef struct ObjectBlock {
     void *resource;
 } ObjectBlock;
 
-extern s32 D_80045C34[3];
-extern u8 D_800CC744[];
-extern u8 D_800E03D4[];
 
-extern void func_8004491C(ObjectBlock *obj, s32 *table);
+extern u8 D_800CC744[];
+
+
+extern s32 func_8004491C();
 
 /* Create an object at grid coordinates and initialize its display and tail data. */
 ObjectBlock *func_800CC88C(s16 grid_x, s16 grid_y, s16 z, s16 value, s16 size_mode) {
@@ -53,7 +54,7 @@ ObjectBlock *func_800CC88C(s16 grid_x, s16 grid_y, s16 z, s16 value, s16 size_mo
     obj = (ObjectBlock *)func_8003FC64(2);
     if (obj != 0) {
         obj->resource = D_800CC744;
-        func_8004491C(obj, D_80045C34);
+        func_8004491C(obj, func_80045C34);
         coords = obj->coords;
         coords->x = (s16)(((grid_x << 16) >> 10) + 0x20);
         coords->y = (s16)(((grid_y << 16) >> 10) + 0x20);

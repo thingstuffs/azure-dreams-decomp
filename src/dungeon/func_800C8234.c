@@ -1,10 +1,11 @@
+#include "modules/trap_effects_candidate.h"
 #include "common.h"
 #include "shared/entity.h"
 
 
-extern s32 func_80042900(void *, s8);
-extern s32 func_80099844(void *, void *);
-extern s32 func_800A48F0(void *, s8, s8);
+extern s32 func_80042900();
+extern void func_80099844();
+extern s16 func_800A48F0();
 extern u8 D_800E1C25[];
 
 /* Runs action 0xA when eligible, using the prior state for the flagged callback. */

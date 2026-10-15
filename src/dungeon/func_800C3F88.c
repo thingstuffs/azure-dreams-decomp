@@ -5,14 +5,14 @@ typedef struct {
     u8 *field_8D0;
 } Ctx;
 
-typedef struct {
+typedef struct S_Rect {
     s16 x;
     s16 y;
     s16 w;
     s16 h;
 } S_Rect;
 
-typedef struct {
+typedef struct S_Arg1 {
     char pad0[0xB8];
     s16 x;
     s16 y;
@@ -30,7 +30,7 @@ typedef struct {
 extern u8 D_80080000[];
 extern u8 D_801C9E40[16];
 extern void func_80066890(u8 *dst, S_Stack *rect, s32 x, s32 y);
-extern void func_8006658C(void *addr, u8 *cursor);
+extern void func_8006658C(void *, void *);
 
 /* Queue a rectangle copy when both source and destination fit on screen. */
 void func_800C96E8(S_Rect *copy_rect, S_Arg1 *source) {

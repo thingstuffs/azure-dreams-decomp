@@ -31,7 +31,7 @@ extern s16 D_800120A2;
 extern s16 D_800DD264[];
 extern s16 D_800DCE66[5];
 
-extern void func_800C77D0(void *a0, void *a1, s32 a2, s16 a3);
+extern s32 func_800C77D0(s32 slot_id, void *target, s32 target_id, s32 slot_value);
 
 /* Blend toward the entity target, then dispatch the next state. */
 void func_800C7B38(void *entity_data) {

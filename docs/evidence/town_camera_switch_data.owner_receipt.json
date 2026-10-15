@@ -1,0 +1,494 @@
+{
+  "key": "camera",
+  "variant": "head253897988",
+  "status": "EXACT_DIAGNOSTIC",
+  "review": "pending",
+  "reviewer": null,
+  "module_gate": false,
+  "certificate": false,
+  "native_inputs_sha256": {
+    "native/camera/members.json": "02da15be94ac5632095f04fa9da64b9675f4b1473c24f0f9b9b354880f99d94d",
+    "native/camera/allocation.json": "3815d4f47dd2b764c9d8d9dcf182306c3b15f30ead1e198ef16c5bd432753627",
+    "native/camera/src/town/func_800A7048.c": "ef12e33ed509b4a7f6b3c62de7e9fa95e538939092ba7deb69ec91fa441e5ec2",
+    "native/camera/src/town/func_800A712C.c": "8bde2a0902116e89ae5871868341918e9f148a9164aac1eb9a9527e3d95cbd30",
+    "native/camera/src/town/func_800A7138.c": "9327adfb1221cd0c9ee0b8ed76903eec8a7124e115da4c554435dd79ee25ab29",
+    "native/camera/src/town/func_800A7144.c": "1f8b4b66bd0e7df35082e69c636b30585da353703e55c8880756b26ffb94a5f9",
+    "native/camera/src/town/func_800A7150.c": "1c5d3d451789531c78b9a6d1221639701833ed96aa64e4694bddba94a5721fb0",
+    "native/camera/src/town/func_800A7198.c": "5e0128837a702ef284ba0fe47828a1130243818bf633a30839d1c6d711b78ba4",
+    "native/camera/src/town/func_800A71C8.c": "7b5567b09ca7e2588bf6e1c2cc5447eb5387eb1382cc21b4059cd5fc0b564ae0",
+    "native/camera/src/town/func_800A720C.c": "6aa6e71d9223b567f56c69a1e4c74ed9d4902766ecf652e6c89fa3e34361d6b4",
+    "native/camera/src/town/func_800A72EC.c": "d43a27342eb9cfdcc3ac6b925b9fe2274b54bd032126b1365a0bbf59c4a044ba",
+    "native/camera/src/town/func_800A72F8.c": "af45f4848a5d41db67b3576285ffff58b8a914b02f0b4730249991940a26b89e",
+    "native/camera/src/town/func_800A73E0.c": "b280b385ec2d022408a14c4d2ba42b4eb29b750efb2a658cb8154e9e9ac50de7",
+    "native/camera/src/town/func_800A7434.c": "b4e22640abd8d7fada248af67c36a460dacb3aafc3800a4b3980314f376152c1",
+    "native/camera/src/town/func_800A74B0.c": "dc1e86474a482688183c299d336e8032682eb1283e80ee8f44c1a8f118ff5d87",
+    "native/camera/src/town/func_800A7588.c": "2d67072eeed3b72b475706143aa6e39f6d64c053bf8d44d20b32a9bab3d196ab",
+    "native/camera/src/town/func_800A75EC.c": "8dad6bfc0d00a2c339e3d2f86b446bc322c2d2beaac26760e796224c7b4ce2ce",
+    "native/camera/src/town/func_800A76BC.c": "3421d1f73fd8934725e6590776b8f48267aa330c272f90e5617c64723b1d23d3",
+    "native/camera/src/town/func_800A77EC.c": "34f8163df5dab97b5533b0a7ec147f440ed374284c8cc457296c817950fb4e8b",
+    "native/camera/src/town/func_800A7824.c": "b0a431f9683f2d2ba125f9dd7248c138c395d1a087294fd89ed36fdd5d9e0b10",
+    "native/camera/src/town/func_800A7920.c": "b80cde321484e8766ae396ed7aee9d8739478a3515852ec4b5678b51ed2e3cc3",
+    "native/camera/src/town/func_800A7934.c": "01495591a7bf47b01d473bc7f65a4faf2140faf78631871b063764511d0fed0f",
+    "native/camera/src/town/func_800A7958.c": "7faff9b78681082df184f4e740839b296dd2b625bff34f1e0c588fd69f600f2d",
+    "native/camera/src/town/func_800A7980.c": "eabd319d082637c52a357875af7ad933b8b775a1906ff2295f4eafe64949e4c4",
+    "native/camera/src/town/func_800A79AC.c": "2d4f7ae54a2e9ae7efeebc6e92325d1c919b6bcacefe54c099b11ea87fb6f1d4",
+    "native/camera/src/town/func_800A79D0.c": "e419b17012704ec267481f6197dccef11aa004df2aba4834130a55f616944e2a",
+    "native/camera/src/town/func_800A7A00.c": "7643065db4b6796d899132238b4ec8a79299aeff944ea997273e1380b37b7456",
+    "native/camera/src/town/func_800A7A0C.c": "6201ea47e03b3cf48b7eae27d9500aacce09132c3f29df395b818e3dd4e89410",
+    "native/camera/src/town/func_800A7A18.c": "4608a1d7338291fff096c7651851bd9070ead88df1fb06167cc4f15935631af1",
+    "native/camera/src/town/func_800A7A6C.c": "a87c68939ca55abe6aed37e248e13f7e06b826faacf972db4c9c85ba24913b46",
+    "native/camera/src/town/func_800A7B0C.c": "c9b7c9068ef8938ae6508c97cee8159fe1cbb858490213e4789519a540219c0a",
+    "native/camera/src/town/func_800A7BE0.c": "cac2c24e9685ed90486a6e141d7db174a768766076958eb8f639b2e1ca50c8fc",
+    "native/camera/src/town/func_800A7CE0.c": "b0566f4313206a2a77373404d967186657c8cd55fa8bf5fc203c63791e9c8518",
+    "native/camera/src/town/func_800A7D3C.c": "d0efd468453571473d30c297891798a384063984104fede416b276b5de7e7a37",
+    "native/camera/src/town/func_800A7D9C.c": "55aebaf164a7f31e2320a026dd675513674b8fabb95a4e93b6f323afa6d38b6e",
+    "native/camera/src/town/modules/camera.c": "5260cf98eef5f1529a519e54d27748375de82bf8791e81f5e8a11f6599eb09cb",
+    "native/camera/include/modules/town_camera.h": "076ba671d7be2b30d8fd29709b393bb791e5114b52676b005255cdf00b9798a6"
+  },
+  "imports": {
+    "D_8006ADD4": 2147921364,
+    "D_80082660": 2148017760,
+    "D_80082A38": 2148018744,
+    "D_80083160": 2148020576,
+    "D_80083498": 2148021400,
+    "D_80083780": 2148022144,
+    "D_800A3918": 2148153624,
+    "D_800A3B1C": 2148154140,
+    "D_800A5638": 2148161080,
+    "D_800A58CC": 2148161740,
+    "D_800A5A98": 2148162200,
+    "D_800D0C40": 2148338752,
+    "D_800D0C48": 2148338760,
+    "D_800D1554": 2148341076,
+    "D_80100D88": 2148535688,
+    "D_80100D8A": 2148535690,
+    "D_80100D90": 2148535696,
+    "D_80100D94": 2148535700,
+    "D_80100D98": 2148535704,
+    "D_80100DB0": 2148535728,
+    "D_80100DB8": 2148535736,
+    "D_80100DE0": 2148535776,
+    "D_80100E10": 2148535824,
+    "D_80100E18": 2148535832,
+    "func_800352FC": 2147701500,
+    "func_8003BD84": 2147728772,
+    "func_8003FC64": 2147744868,
+    "func_8004491C": 2147764508,
+    "func_8004D0C8": 2147799240,
+    "func_80094AA0": 2148092576
+  },
+  "payload": [
+    {
+      "name": ".text.func_800A47A8",
+      "type": 1,
+      "flags": 6,
+      "size": 228
+    },
+    {
+      "name": ".text.func_800A488C",
+      "type": 1,
+      "flags": 6,
+      "size": 12
+    },
+    {
+      "name": ".text.func_800A4898",
+      "type": 1,
+      "flags": 6,
+      "size": 12
+    },
+    {
+      "name": ".text.func_800A48A4",
+      "type": 1,
+      "flags": 6,
+      "size": 12
+    },
+    {
+      "name": ".text.func_800A48B0",
+      "type": 1,
+      "flags": 6,
+      "size": 72
+    },
+    {
+      "name": ".text.func_800A48F8",
+      "type": 1,
+      "flags": 6,
+      "size": 48
+    },
+    {
+      "name": ".text.func_800A4928",
+      "type": 1,
+      "flags": 6,
+      "size": 68
+    },
+    {
+      "name": ".text.func_800A496C",
+      "type": 1,
+      "flags": 6,
+      "size": 224
+    },
+    {
+      "name": ".text.func_800A4A4C",
+      "type": 1,
+      "flags": 6,
+      "size": 12
+    },
+    {
+      "name": ".text.func_800A4A58",
+      "type": 1,
+      "flags": 6,
+      "size": 232
+    },
+    {
+      "name": ".rodata",
+      "type": 1,
+      "flags": 2,
+      "size": 24
+    },
+    {
+      "name": ".text.func_800A4B40",
+      "type": 1,
+      "flags": 6,
+      "size": 84
+    },
+    {
+      "name": ".text.func_800A4B94",
+      "type": 1,
+      "flags": 6,
+      "size": 124
+    },
+    {
+      "name": ".text.func_800A4C10",
+      "type": 1,
+      "flags": 6,
+      "size": 216
+    },
+    {
+      "name": ".text.func_800A4CE8",
+      "type": 1,
+      "flags": 6,
+      "size": 100
+    },
+    {
+      "name": ".text.func_800A4D4C",
+      "type": 1,
+      "flags": 6,
+      "size": 208
+    },
+    {
+      "name": ".text.func_800A4E1C",
+      "type": 1,
+      "flags": 6,
+      "size": 304
+    },
+    {
+      "name": ".text.func_800A4F4C",
+      "type": 1,
+      "flags": 6,
+      "size": 56
+    },
+    {
+      "name": ".text.func_800A4F84",
+      "type": 1,
+      "flags": 6,
+      "size": 252
+    },
+    {
+      "name": ".text.func_800A5080",
+      "type": 1,
+      "flags": 6,
+      "size": 20
+    },
+    {
+      "name": ".text.func_800A5094",
+      "type": 1,
+      "flags": 6,
+      "size": 36
+    },
+    {
+      "name": ".text.func_800A50B8",
+      "type": 1,
+      "flags": 6,
+      "size": 40
+    },
+    {
+      "name": ".text.func_800A50E0",
+      "type": 1,
+      "flags": 6,
+      "size": 44
+    },
+    {
+      "name": ".text.func_800A510C",
+      "type": 1,
+      "flags": 6,
+      "size": 36
+    },
+    {
+      "name": ".text.func_800A5130",
+      "type": 1,
+      "flags": 6,
+      "size": 48
+    },
+    {
+      "name": ".text.func_800A5160",
+      "type": 1,
+      "flags": 6,
+      "size": 12
+    },
+    {
+      "name": ".text.func_800A516C",
+      "type": 1,
+      "flags": 6,
+      "size": 12
+    },
+    {
+      "name": ".text.func_800A5178",
+      "type": 1,
+      "flags": 6,
+      "size": 84
+    },
+    {
+      "name": ".text.func_800A51CC",
+      "type": 1,
+      "flags": 6,
+      "size": 160
+    },
+    {
+      "name": ".text.func_800A526C",
+      "type": 1,
+      "flags": 6,
+      "size": 212
+    },
+    {
+      "name": ".text.func_800A5340",
+      "type": 1,
+      "flags": 6,
+      "size": 256
+    },
+    {
+      "name": ".text.func_800A5440",
+      "type": 1,
+      "flags": 6,
+      "size": 92
+    },
+    {
+      "name": ".text.func_800A549C",
+      "type": 1,
+      "flags": 6,
+      "size": 96
+    },
+    {
+      "name": ".text.func_800A54FC",
+      "type": 1,
+      "flags": 6,
+      "size": 64
+    }
+  ],
+  "payload_exact": true,
+  "bytes": 3476,
+  "mismatch_words": [],
+  "natural_addresses": {
+    "town/func_800A7048": {
+      "expected": 2148157352,
+      "generated": 2148157352
+    },
+    "town/func_800A712C": {
+      "expected": 2148157580,
+      "generated": 2148157580
+    },
+    "town/func_800A7138": {
+      "expected": 2148157592,
+      "generated": 2148157592
+    },
+    "town/func_800A7144": {
+      "expected": 2148157604,
+      "generated": 2148157604
+    },
+    "town/func_800A7150": {
+      "expected": 2148157616,
+      "generated": 2148157616
+    },
+    "town/func_800A7198": {
+      "expected": 2148157688,
+      "generated": 2148157688
+    },
+    "town/func_800A71C8": {
+      "expected": 2148157736,
+      "generated": 2148157736
+    },
+    "town/func_800A720C": {
+      "expected": 2148157804,
+      "generated": 2148157804
+    },
+    "town/func_800A72EC": {
+      "expected": 2148158028,
+      "generated": 2148158028
+    },
+    "town/func_800A72F8": {
+      "expected": 2148158040,
+      "generated": 2148158040
+    },
+    "town/func_800A73E0": {
+      "expected": 2148158272,
+      "generated": 2148158272
+    },
+    "town/func_800A7434": {
+      "expected": 2148158356,
+      "generated": 2148158356
+    },
+    "town/func_800A74B0": {
+      "expected": 2148158480,
+      "generated": 2148158480
+    },
+    "town/func_800A7588": {
+      "expected": 2148158696,
+      "generated": 2148158696
+    },
+    "town/func_800A75EC": {
+      "expected": 2148158796,
+      "generated": 2148158796
+    },
+    "town/func_800A76BC": {
+      "expected": 2148159004,
+      "generated": 2148159004
+    },
+    "town/func_800A77EC": {
+      "expected": 2148159308,
+      "generated": 2148159308
+    },
+    "town/func_800A7824": {
+      "expected": 2148159364,
+      "generated": 2148159364
+    },
+    "town/func_800A7920": {
+      "expected": 2148159616,
+      "generated": 2148159616
+    },
+    "town/func_800A7934": {
+      "expected": 2148159636,
+      "generated": 2148159636
+    },
+    "town/func_800A7958": {
+      "expected": 2148159672,
+      "generated": 2148159672
+    },
+    "town/func_800A7980": {
+      "expected": 2148159712,
+      "generated": 2148159712
+    },
+    "town/func_800A79AC": {
+      "expected": 2148159756,
+      "generated": 2148159756
+    },
+    "town/func_800A79D0": {
+      "expected": 2148159792,
+      "generated": 2148159792
+    },
+    "town/func_800A7A00": {
+      "expected": 2148159840,
+      "generated": 2148159840
+    },
+    "town/func_800A7A0C": {
+      "expected": 2148159852,
+      "generated": 2148159852
+    },
+    "town/func_800A7A18": {
+      "expected": 2148159864,
+      "generated": 2148159864
+    },
+    "town/func_800A7A6C": {
+      "expected": 2148159948,
+      "generated": 2148159948
+    },
+    "town/func_800A7B0C": {
+      "expected": 2148160108,
+      "generated": 2148160108
+    },
+    "town/func_800A7BE0": {
+      "expected": 2148160320,
+      "generated": 2148160320
+    },
+    "town/func_800A7CE0": {
+      "expected": 2148160576,
+      "generated": 2148160576
+    },
+    "town/func_800A7D3C": {
+      "expected": 2148160668,
+      "generated": 2148160668
+    },
+    "town/func_800A7D9C": {
+      "expected": 2148160764,
+      "generated": 2148160764
+    }
+  },
+  "separated_rodata": {
+    "owner_row": "town/func_800A72F8",
+    "owner_function": "func_800A4A58",
+    "table_vma": 2148045072,
+    "table_foff": 47536,
+    "bytes": 24,
+    "retail_hi16_site": 160548,
+    "retail_lo16_site": 160552,
+    "compiled_label_addends": [
+      76,
+      96,
+      116,
+      136,
+      144,
+      152
+    ],
+    "target_vmas": [
+      2148158116,
+      2148158136,
+      2148158156,
+      2148158176,
+      2148158184,
+      2148158192
+    ],
+    "sha256": "e7d5cd8bed4346e49c41fc3a2c3110056cffefbeafad74f802925b3de3854615",
+    "section": ".rodata",
+    "kind": "jump_table",
+    "entry_size": 4,
+    "entries": 6,
+    "separate_from_text": true,
+    "review": "pending",
+    "reviewer": null,
+    "proof": "evidence/camera_switch/receipt.json",
+    "gnu": "MATCH",
+    "gnu_sha256": "e7d5cd8bed4346e49c41fc3a2c3110056cffefbeafad74f802925b3de3854615",
+    "owned_bytes": 24,
+    "intervening_bytes_claimed": 0,
+    "genuine": "MATCH",
+    "genuine_sha256": "e7d5cd8bed4346e49c41fc3a2c3110056cffefbeafad74f802925b3de3854615"
+  },
+  "genuine_flags": [
+    "-q",
+    "-G0",
+    "-0"
+  ],
+  "genuine_comparison": {
+    "diff": 0,
+    "exact": true,
+    "len_m": 869,
+    "len_g": 869,
+    "missing": [],
+    "regions": [],
+    "delay_only": []
+  },
+  "masked": 0,
+  "raw_substitution_bytes": 0,
+  "retail_sha256": "f3f3ed21ea35c28d43d7e3f50e1078db03aa71468b1bb8c5d7ea0594081742e7",
+  "at": "2026-10-14T23:55:38.303298+00:00",
+  "native_probe": true,
+  "seconds": 1.669,
+  "authority": {
+    "head": "253897988a60cc24e84bec0b6f9636ef366b2d15",
+    "root": "c3b",
+    "tools": {
+      "tools/ccproc.py": "fdfcf0cb45308cd2722f1eb055a2b06c3d907434c058265d838c76e96161195c",
+      "tools/gate/overlay_module_gate.py": "758b3e892f017bc1e7d7c441499be23bef5163e4a467e3a9cf0d045f919ba913",
+      "tools/fidelity/aspsx_diff.py": "7581f7c89353952c4b2edeedfee6df50549f77cf20513e860faff5d27459f27d",
+      "config/names.tsv": "230d776d2f0877959debf4edb04b9065030b27712420ae003b195d0ce06c94c1",
+      "include/common.h": "35ebd67ff9f32d587459e79e964f1d4f9013849bb766ea442ab0965c32971dac"
+    }
+  }
+}

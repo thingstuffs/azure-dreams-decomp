@@ -1,0 +1,187 @@
+{
+  "kind": "INDIVIDUAL_ENTRY_FUNCTION_BASELINES",
+  "review": "pending",
+  "reviewer": null,
+  "entries": [
+    {
+      "start": 1000632,
+      "bytes": 100,
+      "function": "func_800D9C18",
+      "source": "drafts/recovered_callbacks/actor_movement/func_800B44B8.c",
+      "source_sha256": "66a1a298eba8887f98cf390ac550853d1ab12461c39e159745dc777d2e74e134",
+      "output": "diagnostics/recovered_functions/f44b8",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "1a56124f4de3ef9a1eda3d8b1bbcaa02aadba74a7d41702c717e6820e797dd98",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "1a56124f4de3ef9a1eda3d8b1bbcaa02aadba74a7d41702c717e6820e797dd98",
+        "genuine.bin": "1a56124f4de3ef9a1eda3d8b1bbcaa02aadba74a7d41702c717e6820e797dd98",
+        "checked.OBJ": "76eb36c6f46736dd5ae4489194d82ad951fd7c8405c0e6b9a99fb06f14ce5ad4",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "1a56124f4de3ef9a1eda3d8b1bbcaa02aadba74a7d41702c717e6820e797dd98",
+        "sectioned.s": "00c63349348a5c1d33fb4e98e078ff1f538bfc57951e3cd88f2fd77bd540eec5",
+        "IN.S": "a4f16fa207a2ec21d1761c4d583d28e822af12e3cc31be76c79cf49469a7b439",
+        "function.o": "0636a117189be4e0ea42206ad779cbcdb679ae9aa6291132a1da162d82e129e1",
+        "function.s": "6d523928322156e9ddf7e82b5f2bbfa5d89abd0e31f5527f659f45c9a4058cc6"
+      }
+    },
+    {
+      "start": 1001500,
+      "bytes": 32,
+      "function": "func_800D9F7C",
+      "source": "drafts/recovered_callbacks/actor_movement/func_800B481C.c",
+      "source_sha256": "5646263c92b00bdf51394cac10b9ea043bcdbab9b3eb204cc9202e0885d08e7b",
+      "output": "diagnostics/recovered_functions/f481c",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "897af133fd7eeec76cafa6c9f86460bebb1c2a72435dfa6aeed0bf5663a0d79a",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "897af133fd7eeec76cafa6c9f86460bebb1c2a72435dfa6aeed0bf5663a0d79a",
+        "genuine.bin": "897af133fd7eeec76cafa6c9f86460bebb1c2a72435dfa6aeed0bf5663a0d79a",
+        "checked.OBJ": "24c3b2f21b862aed493634d3ab2bbe22c76416889b4dbd6bb80b2ac135e5d0e1",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "897af133fd7eeec76cafa6c9f86460bebb1c2a72435dfa6aeed0bf5663a0d79a",
+        "sectioned.s": "14900e7598a72a4e565dba3218c4fc1a84bc01e7a79633217cc7ebb98afa4142",
+        "IN.S": "ee6d0792a5a7a0fcc763b2d61aa7fce47bf883dcf3615e59fe6ab07e0d434853",
+        "function.o": "6f7df96c96a966fa8142ba8f48fa436a2bacfa11b36a1ca02ee655819352d1d8",
+        "function.s": "6554cb1e1e6f1159cd8e16bc2fb3cc77fdad7903dd2fc53bdcc6a588d75da775"
+      }
+    },
+    {
+      "start": 1001532,
+      "bytes": 32,
+      "function": "func_800D9F9C",
+      "source": "drafts/recovered_callbacks/actor_movement/func_800B483C.c",
+      "source_sha256": "eef79021c6d23db3bf53a1fef2afaf462c7446fb2824f0f2051cf13bfbb60096",
+      "output": "diagnostics/recovered_functions/f483c",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "5d90ad4ef2a93c845fb1da3dc24372376083e84e9938f33d3ca121e0c88d90cb",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "5d90ad4ef2a93c845fb1da3dc24372376083e84e9938f33d3ca121e0c88d90cb",
+        "genuine.bin": "5d90ad4ef2a93c845fb1da3dc24372376083e84e9938f33d3ca121e0c88d90cb",
+        "checked.OBJ": "23e380852152a7a429bcfafbcf11b3c5a538936a9530b32a25b8d37740ff0b18",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "5d90ad4ef2a93c845fb1da3dc24372376083e84e9938f33d3ca121e0c88d90cb",
+        "sectioned.s": "cd13303e85bb241555c09fb43940106753b8f4c91e70d5b8045ac2546f36355c",
+        "IN.S": "2fcb2c35e9c65fb428faeb570b55657634969bb4d6fc15c8ec83bd9e7886ec54",
+        "function.o": "3914efd2006b142609cefdc5d8f502f7a33c2bdb727fc8eaae69105800f70f1d",
+        "function.s": "1533526dbc6d399565f9fb8dc451dc85c4c1ace146c58e82d875b70732d2f62f"
+      }
+    },
+    {
+      "start": 1001564,
+      "bytes": 32,
+      "function": "func_800D9FBC",
+      "source": "drafts/recovered_callbacks/actor_movement/func_800B485C.c",
+      "source_sha256": "7143559f0d24fcf5885b27cf0e9036ee2ade8130341d4c8dd9499777a1cd39ee",
+      "output": "diagnostics/recovered_functions/f485c",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "42604a78f605c9d25623baa60f5ea1c64a4b86bcb050976cd3d9195ce7ecde28",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "42604a78f605c9d25623baa60f5ea1c64a4b86bcb050976cd3d9195ce7ecde28",
+        "genuine.bin": "42604a78f605c9d25623baa60f5ea1c64a4b86bcb050976cd3d9195ce7ecde28",
+        "checked.OBJ": "230d5c9f8ee631675d1cb3c5708d34dc454d56e7208579ffa370d649bfe8512e",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "42604a78f605c9d25623baa60f5ea1c64a4b86bcb050976cd3d9195ce7ecde28",
+        "sectioned.s": "4fd57b2eb016e034d58cd3cd0b7102a7302fcd91b68e814e68418a15434e1f26",
+        "IN.S": "d539aff785a235ff55608f6fad49fbd1c74323d42a2bad802074556524a4e149",
+        "function.o": "7302229e8cc896ab0577227b6b72106ab0aa30dc26f6b83ae6aff07117137fbe",
+        "function.s": "22ad64262cdec5061cfffd721b8acd97dd9b7d00364fc6ca1e3d0833d1b92dae"
+      }
+    },
+    {
+      "start": 1001596,
+      "bytes": 56,
+      "function": "func_800D9FDC",
+      "source": "drafts/recovered_callbacks/actor_movement/func_800B487C.c",
+      "source_sha256": "bc5b64a8d39e5e2e964c4be0f4d48eba8ac75940911edcdcd9007f7c60551714",
+      "output": "diagnostics/recovered_functions/f487c",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "b792f4348170d094a5da03fef8b8c088635f3f8b2e7bd8e16861801c65aa2822",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "b792f4348170d094a5da03fef8b8c088635f3f8b2e7bd8e16861801c65aa2822",
+        "genuine.bin": "b792f4348170d094a5da03fef8b8c088635f3f8b2e7bd8e16861801c65aa2822",
+        "checked.OBJ": "8ec0fdd7ecf029eac4c1e25e3a85cf4d2ddd678f74ee55540cc502fbb26ebf5a",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "b792f4348170d094a5da03fef8b8c088635f3f8b2e7bd8e16861801c65aa2822",
+        "sectioned.s": "86460c8fe46cc38ed4dddc44c24f2ba952c810b0c4621d803a81062cb87b6138",
+        "IN.S": "d5e6f5be9032c8960ed021f17a9a220bdc097af37f9380557334f71a9efe0c6f",
+        "function.o": "082bf8c24b670654b7593869058784768e565ac07767f3f83a69510b2c6fe417",
+        "function.s": "0c2c547645643d54ec463562a59aee971872f001c602aa078769e4fc58043729"
+      }
+    }
+  ]
+}

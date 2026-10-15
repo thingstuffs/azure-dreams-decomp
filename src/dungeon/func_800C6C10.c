@@ -1,3 +1,4 @@
+#include "modules/trap_effects_candidate.h"
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
@@ -13,8 +14,8 @@ extern s32 func_8009B390();
 extern void func_8009CE1C();
 extern s16 func_800B500C();
 extern s16 func_800A70E4();
-extern void func_800CCC20();
-extern u8 D_800E3648[];
+extern s32 func_800CCC20(void *object, s16 slot);
+
 
 /* Advance the effect, process collisions, and mark it finished when its steps run out. */
 void func_800CC370(void *effect)
@@ -31,7 +32,7 @@ void func_800CC370(void *effect)
     }
     entry_index = func_800B500C(S16(effect, 0), S16(effect, 2), S16(effect, 4));
     if (entry_index >= 0) {
-        if (D_800E3648[entry_index * 4] == 7) {
+        if (((u8 *)D_800E3648)[entry_index * 4] == 7) {
             func_800CCC20(0, entry_index);
         } else {
             U32(D_800E3648, entry_index * 4) = 0;

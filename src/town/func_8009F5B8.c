@@ -1,8 +1,4 @@
-#include "common.h"
-#include "shared/game_work.h"
-
-extern void func_8004491C(s32, void *);
-extern u8 D_80046398[];
+#include "modules/town_town_windows.h"
 
 /* Initializes an object with default transform and global state values. */
 void func_8009CD18(s32 slot_id, void *object, s32 object_id)

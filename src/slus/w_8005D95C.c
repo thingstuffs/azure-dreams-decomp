@@ -1,11 +1,4 @@
-#include "common.h"
-
-typedef struct S_800799BC {
-    u32 flags;
-    u32 size;
-} S_800799BC;
-
-extern S_800799BC *D_800799BC[3];
+#include "slus/sound_range_records.h"
 
 /* Returns whether a non-skipped block contains the address or starts at or beyond it. */
 s32 func_8005D95C(u32 address) {
@@ -15,13 +8,13 @@ s32 func_8005D95C(u32 address) {
     u32 end_mask;
     u32 start_mask;
 
-    if (D_800799BC[0] == 0) {
+    if (D_800799BC == 0) {
         return 0;
     }
     skip_mask = 0x80000000;
     end_mask = 0x40000000;
     start_mask = 0x0FFFFFFF;
-    entry = D_800799BC[0];
+    entry = D_800799BC;
     do {
         block_start = entry->flags;
         if (block_start & skip_mask) {

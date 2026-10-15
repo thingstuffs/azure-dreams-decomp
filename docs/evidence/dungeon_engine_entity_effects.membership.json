@@ -1,0 +1,42 @@
+{
+  "module": "dungeon_engine_entity_effects",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "entity_effects.c",
+    "module_index": 12
+  },
+  "members": [
+    "dungeon/func_800A172C",
+    "dungeon/func_800A18D0",
+    "dungeon/func_800A1984",
+    "dungeon/func_800A1A94",
+    "dungeon/func_800A1AD4",
+    "dungeon/func_800A1DE8",
+    "dungeon/func_800A1FA0",
+    "dungeon/func_800A204C",
+    "dungeon/func_800A21EC",
+    "dungeon/func_800A22D8",
+    "dungeon/func_800A231C",
+    "dungeon/func_800A2504",
+    "dungeon/func_800A2564",
+    "dungeon/func_800A2EA8",
+    "dungeon/func_800A2F7C",
+    "dungeon/func_800A2FBC",
+    "dungeon/func_800A3714",
+    "dungeon/func_800A38C4",
+    "dungeon/func_800A3988",
+    "dungeon/func_800A3A00",
+    "dungeon/func_800A3AD0"
+  ],
+  "confidence": "strong",
+  "original_ledger_confidence": "weak",
+  "coverage_complete": true,
+  "tu_boundary": "not observable (section-grouping link, no static duplicates, no recipe change)",
+  "basis": [
+    "Complete majority-owned resident-engine cohort under ROUND 2: all registered members in physical file order; no foreign registered row, gap or recipe change.",
+    "The complete naturally laid out TU emits exactly the registered functions with no other allocated storage; genuine ASPSX and GNU both reproduce every retail byte. Original historical source-file boundary remains observationally limited.",
+    "Existing proven DMA rowbase xfer_dungeon_A3000 establishes the runtime delta; no placement or ledger transaction is proposed."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120"
+}

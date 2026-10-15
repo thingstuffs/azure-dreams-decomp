@@ -1,3 +1,4 @@
+#include "modules/dungeon_engine_entity_effects_fragment_c2fbc.h"
 #include "common.h"
 
 typedef struct S_800A9160_0 {
@@ -11,25 +12,13 @@ typedef struct S_800A9160_1 {
 } S_800A9160_1;   /* temp_a0 in func_800A9160 */
 
 
-typedef struct {
-    u16 flags;
-    u8 pad02[0x12];
-} DungeonCell;
 
-typedef struct {
-    u8 pad00[2];
-    u8 count;
-    u8 pad03[9];
-    DungeonCell *cells;
-    u8 pad10[4];
-} DungeonGroup;
 
 typedef struct {
     u8 pad00[0x5720];
     u8 bits[1];
 } RamPage;
 
-extern DungeonGroup D_80073414[];
 
 /* Packs item flag 0x400 into a RAM bitset for each item category. */
 void func_800A9160(void)
@@ -61,7 +50,7 @@ void func_800A9160(void)
                     clear_index = cell_index;
                     ((S_800A9160_0 *)(group_bits_offset + (clear_index / 8) + (s32)ram))->unk_5720 = 0;
                 }
-                if (*(u16 *)(cell_offset + (s32)cell_group->cells) & 0x400) {
+                if (*(u16 *)(cell_offset + (s32)cell_group->entries) & 0x400) {
                     set_index = cell_index;
                     bit_byte = group_bits_offset + (set_index / 8) + (s32)ram;
                     bit_index = cell_index & 7;

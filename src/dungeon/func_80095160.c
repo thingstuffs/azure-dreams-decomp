@@ -1,21 +1,10 @@
+#include "modules/dungeon_engine_tile_map_fragment_b4f0c.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
 
-typedef struct {
-    u8 pad24[0x24];
-    u8 x;
-    u8 y;
-    s8 flag;
-} FuncArg1;
 
-typedef struct {
-    u8 pad1c[0x1c];
-    u32 flags;
-    u8 pad20[0x68];
-    u16 height;
-} FuncArg2;
 
 typedef struct {
     u16 value;
@@ -24,11 +13,7 @@ typedef struct {
 
 extern s16 D_800DCEAC[];
 extern s16 D_800DCEBC[];
-extern s32 func_8009A350(s32, s32, s32, u16 *);
-extern s32 func_8009A540(s32, s32, s32, s16);
-s32 func_8009B25C(FuncArg2 *, s32, s32, s32);
 s16 func_8009FB34(u16, u16);
-s32 func_800BCB04(s32, s32, s16);
 
 /* Check a directional move against map bounds, collisions, monsters, and floor height. */
 s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_offset) {
@@ -96,7 +81,7 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
                     center_y = offset_work + 0x20;
                     y_or_direction = (s16)center_y >> 6;
                     coord_or_height = (s16)(height - height_offset);
-                    result = func_8009A540(direction_or_x, tile_coord, y_or_direction,
+                    result = clearance_word_coords(direction_or_x, tile_coord, y_or_direction,
                                            coord_or_height) << 0x10;
                     if (result != 0) {
                         y_or_direction = direction;

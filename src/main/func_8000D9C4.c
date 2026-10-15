@@ -1,10 +1,8 @@
+#include "modules/main_server_ship.h"
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 func_800213C4();                         /* extern */
-void func_800214A4();                            /* extern */
-M2C_UNK _card_wait();                     /* extern */
-extern s32 D_800287CC[];
+
 
 /* Waits for both card channels and requests information for the alternate channel. */
 void func_800209C4(void) {

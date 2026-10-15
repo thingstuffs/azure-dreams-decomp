@@ -1,3 +1,5 @@
+#include "modules/dungeon_engine_tile_map_abi_views.h"
+#include "modules/dungeon_engine_tile_map_fragment_b5d50.h"
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
@@ -9,11 +11,10 @@ typedef struct Spawned Spawned;
 extern u8 D_80081484[];
 
 extern s32 func_8009A540(s32 direction, s16 tile_x, s16 tile_y, s16 height);
-extern Spawned *func_8009B25C(void *, s32, s32, s32);
 extern s32 func_800A4298(Spawned *);
 extern s32 func_800A70E4(s32, s32, s32);
 extern Spawned *func_800A8E74(void *, s32, s32, void *, void *, s32);
-extern void func_8009A3D0(s32, s32, s32);
+extern void func_8009A3D0(s32 x, s32 y, u16 flags);
 
 struct Spawned {
     u8 unk00[0x13];
@@ -73,7 +74,7 @@ void *func_8009B5AC(Source *source, s16 target_x, s16 target_y) {
         return (void *)0;
     }
 
-    spawned = func_8009B25C(source, spawn_x, spawn_y,
+    spawned = tile_finder_words(source, spawn_x, spawn_y,
                             source->height);
     if (spawned != (void *)0) {
         if ((spawned->flags & 0x80000) && source == *active_source) {

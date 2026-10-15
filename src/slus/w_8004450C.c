@@ -1,29 +1,5 @@
-#include "common.h"
+#include "slus/gp_af3_pair.h"
 
-/* gp-relative scalar: current registered state index */
-extern s8 D_80080AF3;
-
-/* S_8006E6F4: array of 8-byte entries, indexed by state; forces %hi/%lo
- * addressing (accessed with a computed base + reused offsets). */
-typedef struct {
-    s32 field0; /* offset 0x0 */
-    s32 field4; /* offset 0x4 */
-} S_8006E6F4;
-extern S_8006E6F4 D_8006E6F4[];
-
-/* External words: current buffer write position and buffer base. */
-extern s32 D_80081480;
-extern s32 D_8008148C;
-
-extern int Control_CD(int a0, void *a1, int a2);
-extern void DrawSync(s32 a0);
-extern void func_8003F320(void);
-extern void func_8003F5E0(int a0);
-extern short SD_Call(int a0);
-extern void func_800542BC(void);
-extern s16 func_8005405C(s16 n);
-
-/* Register callbacks and complete a state transition, returning 1 if already current. */
 s32 func_8004450C(s16 state_index)
 {
     if (D_80080AF3 != state_index) {

@@ -1,19 +1,14 @@
+#include "modules/trap_effects_candidate.h"
 #include "common.h"
 
-typedef struct {
-    u8 pad0[0x14];
-    u16 flags;
-    u8 pad16[0xE];
-    u8 x;
-    u8 y;
-} Entry;
 
-extern u8 D_800E3D40[];
+
+
 extern u8 D_800DF870[];
 
 extern s32 func_800A6D30(void);
-extern void func_800A6508(void);
-extern void func_800A56E0(s32);
+extern void func_800A6508();
+extern s32 func_800A56E0();
 extern void func_800C8DB0(void *, s32, s32);
 extern void func_800C5E5C(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound);
 
@@ -25,7 +20,7 @@ s32 func_800CDD0C(void *state, s32 rng_arg1, s32 rng_arg2, s32 rng_arg3)
     s32 effect_amount;
     Entry *entry;
 
-    if (!D_800E3D40[0] &&
+    if (!D_800E3D40 &&
         (random_value = func_800A6D30() & 0xffff,
          *(u8 *)((u8 *)state + 3))) {
         s32 remainder;
@@ -36,7 +31,7 @@ s32 func_800CDD0C(void *state, s32 rng_arg1, s32 rng_arg2, s32 rng_arg3)
     }
     if (roll < 0x30) {
         effect_amount = 0x20;
-        if (D_800E3D40[0] != 0) {
+        if (D_800E3D40 != 0) {
             effect_amount = 0x400;
         }
         func_800C8DB0(state, effect_amount, 0x10);

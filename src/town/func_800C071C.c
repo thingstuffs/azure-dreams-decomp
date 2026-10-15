@@ -1,3 +1,4 @@
+#include "modules/town_map_props.h"
 #include "common.h"
 
 typedef struct S_800BDE7C_0 {
@@ -13,8 +14,6 @@ typedef struct S_800BDE7C_1 {
 } S_800BDE7C_1;   /* arg2 in func_800BDE7C */
 
 
-s32 func_800352FC(void);
-s32 func_800C2AB4(void *);
 
 void func_800BDE7C(S_800BDE7C_0 *record, s32 unused_value, S_800BDE7C_1 *output, s32 unused_value2)
 {

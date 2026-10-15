@@ -2,7 +2,7 @@
 #include "shared/object_flags.h"
 
 /* Load an indexed value divided by four and propagate the source flag. */
-void func_7FDD3B24(void *entry) {
+void func_8008AA84(void *entry) {
     u8 *value_data = *(u8 **)((u8 *) entry + 4);
     s32 value_index = *(s32 *)((u8 *) entry + 0x18);
     s16 scaled_value;

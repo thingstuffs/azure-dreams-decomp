@@ -1,0 +1,155 @@
+{
+  "kind": "REAL_ENTRY_FUNCTION_BASELINES_NOT_PROMOTIONS",
+  "base_head": "0d5566a95f74a1211d677c6b592d4d5a6128ef4a",
+  "entries": [
+    {
+      "start": 850440,
+      "bytes": 96,
+      "function": "func_800B5168",
+      "source": "work/map_constructor/constructor.c",
+      "source_sha256": "7cf32e8eac028b10512394c330f78f807232d14867c24c3011e234cbfa4a387a",
+      "output": "diagnostics/map_constructor/cfa08",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "a2e2287de7c512398788a24f95f9016d7fde0205a9038df08cdf79187cb217e0",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "a2e2287de7c512398788a24f95f9016d7fde0205a9038df08cdf79187cb217e0",
+        "genuine.bin": "a2e2287de7c512398788a24f95f9016d7fde0205a9038df08cdf79187cb217e0",
+        "checked.OBJ": "64af5994572d12e633218f29a48c856a28ebf579ae69fadc2f10fb9c55cfe663",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "a2e2287de7c512398788a24f95f9016d7fde0205a9038df08cdf79187cb217e0",
+        "sectioned.s": "ae1b9e1d22894110053b57503541b76589d5da6cc7650c900608039cbaa4fbc8",
+        "IN.S": "e139507b7154e81925cf2ead4c167489441e5c562712c9ff378ebe38747b70de",
+        "function.o": "c57b1bb9ade60cc00fe19c3739132c27de4712a2c4caf2e09d0ffcfc81cba31e",
+        "function.s": "bb6b958ea6834fcb601626bef369d4449d0d1f3ffbb00dea3a2b2405a406e600"
+      },
+      "installed_source": "src/dungeon/func_800AFA08.c",
+      "id": "dungeon/func_800AFA08"
+    }
+  ],
+  "primary_entry_evidence": {
+    "evidence/map_constructor_entry.json": {
+      "kind": "PRIMARY_REGISTERED_SLUS_CALLBACK_AND_PROVEN_ENGINE_LOAD_ENTRY",
+      "base_head": "0d5566a95f74a1211d677c6b592d4d5a6128ef4a",
+      "entries": [
+        {
+          "start": 850440,
+          "size": 96,
+          "vma": 2148225384,
+          "source": "work/map_constructor/constructor.c",
+          "group": "map_objects.c",
+          "actual_registered_callback": true
+        }
+      ],
+      "dispatch": {
+        "entry_index": 17,
+        "table_vma": 2147929728,
+        "entry_vma": 2147929932,
+        "resource_type": 2,
+        "handler": 2147930408,
+        "list_vma": 2147930240,
+        "slot": 16,
+        "pointer_word_vma": 2147930304,
+        "pointer_word_file": 264384,
+        "callbacks": [
+          "0x800bd074",
+          "0x8001625c",
+          "0x8001607c",
+          "0x8004d614",
+          "0x8001703c",
+          "0x80016f70",
+          "0x8001e994",
+          "0x800161d8",
+          "0x80037e58",
+          "0x8003c128",
+          "0x80033c8c",
+          "0x80034e48",
+          "0x80034e40",
+          "0x800a5dbc",
+          "0x800165b8",
+          "0x8001ef0c",
+          "0x800b5168",
+          "0x8001e18c",
+          "0x800a7c64",
+          "0x800a69e4",
+          "0x800dcd38",
+          "0x8004e9e4",
+          "0x800b1f00",
+          "0x800d1648",
+          "0x8009ed30",
+          "0x8001f450",
+          "0x80017294"
+        ],
+        "consumer": "func_80040F2C",
+        "consumer_words": {
+          "0x80040f34": "0x41040",
+          "0x80040f38": "0x441021",
+          "0x80040f3c": "0x21080",
+          "0x80040f40": "0x3c038007",
+          "0x80040f44": "0x2463ce80",
+          "0x80040f58": "0x8c420004",
+          "0x80040f68": "0x8c500000",
+          "0x80040f8c": "0x8e020000",
+          "0x80040f94": "0x40f809",
+          "0x80040f98": "0x0",
+          "0x80040f9c": "0x9222000e",
+          "0x80040fac": "0x26100004"
+        },
+        "calling_convention": "Actual list consumer executes a no-argument JALR and tests D80082E60+0E instead of consuming v0. This supports a void constructor view, not an inferred return-value range."
+      },
+      "placement": {
+        "resource_descriptor": 2148011072,
+        "packed": "0x5d888760",
+        "lba": 12636,
+        "sectors": 187,
+        "load_vma": 2148042592,
+        "container_lba": 12310,
+        "container_foff": 667648,
+        "delta": 2147374944,
+        "existing_proven_rowbase": "config/overlays/dungeon.rowbase.jsonl; matching census runtime187sector engine receipt",
+        "load_consumer": "func_80040CBC selects resource type2 and the same12byte dispatch entry; type2 init func_80041A10 ->41AB0 ->41AE4 ->40F2C(field_B)."
+      },
+      "body_sha256": "a2e2287de7c512398788a24f95f9016d7fde0205a9038df08cdf79187cb217e0",
+      "source_sha256": "7cf32e8eac028b10512394c330f78f807232d14867c24c3011e234cbfa4a387a",
+      "evidence_sources": {
+        "baserom/slus_006.14": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f",
+        "config/overlays/dungeon.rowbase.jsonl": "0e1547c783be3261e88e7e5dfa5804a20d19297286c5e49841beb8fa77d6f112",
+        "src/slus/w_80040F2C.c": "c5d7ee2723488db017bac7945df68a7720c473f36b87f0b3a837171282a8ab9f",
+        "src/slus/w_80040CBC.c": "13afe5e6044aebc0c128af234c8af3f6d77c20cfbe330896d56944f6cd78b459",
+        "src/slus/w_80041A10.c": "a75a8b4aa4514432343226edaabf244eb83cd1856d3383ef804dbd86d60fdf84",
+        "src/slus/w_80041AB0.c": "38e6eba7ca19b4f91ecc63b6f2b0a74e966e268cc912ae3820588cdd83d68816",
+        "src/slus/w_80041AE4.c": "f9dc742064bf5f306e475c0280423d7d295781ad00c010235b1c2c9377f54b20",
+        "src/slus/code.c": "4f4adcea884868bc542c768e82517f60f14378a5ddf8fa51ab1c1e231b666316",
+        "src/dungeon/func_800AFA68.c": "064fbbcfedfdf41865fc861cf1647f2aceaa2376a5f547b1df59fe39b949fe81"
+      },
+      "allocation_extent": "Private render prefix ends at+20; observed constructor stores only color+C/D/E and signed-half scales+1C/1E. Node fields use the established ObjectNodeHeader. No external capacity is inferred.",
+      "review": "pending",
+      "reviewer": null
+    },
+    "work/map_constructor/lineage.json": {
+      "compiler": "gcc-2.7.2-cdk -O2 -G0",
+      "assembler": "GNU/maspsx2.79 and genuine ASPSX2.79",
+      "source": "constructor.c",
+      "mechanism": "Direct no-arg allocator/registration constructor; one render pointer lives across registration in s0. Exact source and complete bytes still require the independent probe.",
+      "primary": "evidence/map_constructor_entry.json",
+      "review": "pending",
+      "reviewer": null
+    }
+  },
+  "review": "pending",
+  "reviewer": null
+}

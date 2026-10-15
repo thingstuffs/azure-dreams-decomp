@@ -1,0 +1,42 @@
+{
+  "module": "dungeon_engine_effect_dispatch",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "effect_dispatch.c",
+    "module_index": 23
+  },
+  "members": [
+    "dungeon/func_800BFE94",
+    "dungeon/func_800C0304",
+    "dungeon/func_800C045C",
+    "dungeon/func_800C0620",
+    "dungeon/func_800C06FC",
+    "dungeon/func_800C0848",
+    "dungeon/func_800C1350",
+    "dungeon/func_800C138C",
+    "dungeon/func_800C13E0",
+    "dungeon/func_800C1C20",
+    "dungeon/func_800C1E70",
+    "dungeon/func_800C2070",
+    "dungeon/func_800C2140",
+    "dungeon/func_800C21D0",
+    "dungeon/func_800C22DC",
+    "dungeon/func_800C23D8",
+    "dungeon/func_800C25F4",
+    "dungeon/func_800C268C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "original_ledger_confidence": [
+    "weak"
+  ],
+  "membership_scope": "complete reconstructed ledger cohort, assigned as one object cohort by the user in ROUND 2; historical source-file boundary unobservable",
+  "tu_boundary": "not observable (section-grouping link, no static duplicates, no recipe change)",
+  "basis": [
+    "Complete resident-engine cohort owned under the user\u2019s ROUND 2 object-cohort instruction; every member is included in file order, with no internal gaps or recipe change. The original ledger confidence is retained separately.",
+    "Whole natural-order TU matches GNU/maspsx, genuine ASPSX and every retail function; no hidden allocated data, compiler padding, static duplicate body, masked relocation or raw replacement.",
+    "The registered xfer_dungeon_A3000 runtime DMA load map proves delta 0x7FFE5760. The original object boundary remains observationally limited; coherent complete cohort reconstruction is the pending reviewed membership claim."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120"
+}

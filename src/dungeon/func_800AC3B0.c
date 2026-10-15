@@ -85,19 +85,19 @@ typedef struct S_800B1B10_7 {
 } S_800B1B10_7;   /* ((style_held * 4) + sub) in func_800B1B10 */
 
 
-void *func_8003FD64();
-s32 func_8004491C();
+extern void * func_8003FD64();
+extern s32 func_8004491C();
 s32 func_8004DA74();
 s32 func_80069E98();
 s32 func_800990FC();
 s8 *func_80099368();
-void *func_800B12F4();
+extern s32 func_800B12F4(void);
 void func_800B1320();
 void func_800B135C();
 void func_800B1400();
 void *func_800B1434();
-extern M2C_UNK D_800B14FC;
-extern M2C_UNK D_800B06F0;
+extern void func_800B14FC(void *effect, s32 unused, void *render_arg);
+extern s32 func_800B06F0(u8 *, s32, u8 *);
 
 /* Build the floating number/icon widget for the owner: allocate it and lay out its digit sprites. */
 void func_800B1B10(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact, u16 flags) {
@@ -141,8 +141,8 @@ void func_800B1B10(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact
         ((S_800B1B10_2 *)sub)->unk_08 = 1;
         meta->unk_1C = 0x1000;
         meta->unk_0C = 0;
-        ((S_800B1B10_0 *)obj)->unk_10 = &D_800B14FC;
-        func_8004491C(obj, &D_800B06F0);
+        ((S_800B1B10_0 *)obj)->unk_10 = func_800B14FC;
+        func_8004491C(obj, func_800B06F0);
         call_kind = 3;
         style_byte = (s32) (style_held << 0x10) >> 0x18;
         ((S_800B1B10_2 *)sub)->unk_24 = (s16) style_byte;

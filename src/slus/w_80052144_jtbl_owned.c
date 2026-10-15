@@ -1,3 +1,5 @@
+#include "slus/jtbl_80052144.h"
+
 #include "common.h"
 
 /* Rodata owner: the row's switch emits its jump table(s) into this object's .rodata,

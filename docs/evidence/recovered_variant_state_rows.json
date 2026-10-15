@@ -1,0 +1,1305 @@
+{
+  "kind": "REAL_ENTRY_FUNCTION_BASELINES_NOT_PROMOTIONS",
+  "base_head": "0d5566a95f74a1211d677c6b592d4d5a6128ef4a",
+  "entries": [
+    {
+      "start": 971384,
+      "bytes": 664,
+      "function": "func_800D29D8",
+      "source": "drafts/recovered_variant_states/func_800CD278.c",
+      "source_sha256": "6c605a773aef5d8b51b47d271c4fc24a7e17ee58e573492ca1515635b516e10a",
+      "output": "diagnostics/variant_states/ed278",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "4543531bb29e602c513d44eb8a2b32dd5ed01b840d96a37bd49d59da70c4d4fd",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": false,
+          "masked": []
+        },
+        {
+          "flags": [
+            "-q",
+            "-G0",
+            "-0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "4543531bb29e602c513d44eb8a2b32dd5ed01b840d96a37bd49d59da70c4d4fd",
+        "genuine.bin": "4543531bb29e602c513d44eb8a2b32dd5ed01b840d96a37bd49d59da70c4d4fd",
+        "checked.OBJ": "9aeb57aaf72e6cbfe7d861e6ca7384a386847ed6574fc0046401ea8d0d5b7c82",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "4543531bb29e602c513d44eb8a2b32dd5ed01b840d96a37bd49d59da70c4d4fd",
+        "sectioned.s": "981404de28f1189a1ad1f45b3bb5a487bce1796b764f4388ac3ac13dfd811987",
+        "unchecked.OBJ": "4a31ef48ac6db8c9c565f49b1dc452bc9a30edfd3e7bcd11d5f038104e55f9d9",
+        "IN.S": "738bfea30b63ea10dd51468242023e923f81a2dc25cc08a58a52f52d44792b2e",
+        "function.o": "933c5bf0f1a2dccb8f4918c921b20ef9b7ee631b86a00a0cdc78a218c3e7727a",
+        "function.s": "67636f842b1e65234ddbd343a84637fb1df8d3cf757562410842237b6c995825"
+      },
+      "installed_source": "src/dungeon/func_800CD278.c",
+      "id": "dungeon/func_800CD278"
+    },
+    {
+      "start": 973524,
+      "bytes": 664,
+      "function": "func_800D3234",
+      "source": "drafts/recovered_variant_states/func_800CDAD4.c",
+      "source_sha256": "e4b7c9fd05cd2c48420f7cc8a6015867e679269b3af31071ba28013dd431c2be",
+      "output": "diagnostics/variant_states/edad4",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "6a45276477847349a1787fe533ac3905bf40bcb1ee67301dc9e84015c2bdeb24",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": false,
+          "masked": []
+        },
+        {
+          "flags": [
+            "-q",
+            "-G0",
+            "-0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "6a45276477847349a1787fe533ac3905bf40bcb1ee67301dc9e84015c2bdeb24",
+        "genuine.bin": "6a45276477847349a1787fe533ac3905bf40bcb1ee67301dc9e84015c2bdeb24",
+        "checked.OBJ": "e7cd8fb9b6a6abd505d7fe72e94faab91156051b07a0c64d10baa2af7328a880",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "6a45276477847349a1787fe533ac3905bf40bcb1ee67301dc9e84015c2bdeb24",
+        "sectioned.s": "7559bd2ea91536bfadb1cce687ac3fca8400181453fab223f6c179abc4ec9249",
+        "unchecked.OBJ": "f6dcbf0ec3165be6d087881fb8cfe701f7b5a80340f22adad93fa9e909cc4d71",
+        "IN.S": "012c8b62991f214600081ef23ed37f7c07afb838eaf423d5d78b903f429837cc",
+        "function.o": "8e4a86c5d44d676efd3f4207f7f6ee07b317658c4ca0fc154fc948fe28b6d023",
+        "function.s": "5645f8d07d54bfebfb8fefd5aaeeb4a299577d23aac6e4c4bec82db77ea818a1"
+      },
+      "installed_source": "src/dungeon/func_800CDAD4.c",
+      "id": "dungeon/func_800CDAD4"
+    },
+    {
+      "start": 978644,
+      "bytes": 664,
+      "function": "func_800D4634",
+      "source": "drafts/recovered_variant_states/func_800CEED4.c",
+      "source_sha256": "8b0835dcef4a46450d9b2b6bd03e5c93d45c65df7b735ac91eb1ba9a9c84806a",
+      "output": "diagnostics/variant_states/eeed4",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "cd20a9e9aef8ec75f6648a3860a83198b1be40bd5b77174a0b0031ca3eca7c7c",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": false,
+          "masked": []
+        },
+        {
+          "flags": [
+            "-q",
+            "-G0",
+            "-0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "cd20a9e9aef8ec75f6648a3860a83198b1be40bd5b77174a0b0031ca3eca7c7c",
+        "genuine.bin": "cd20a9e9aef8ec75f6648a3860a83198b1be40bd5b77174a0b0031ca3eca7c7c",
+        "checked.OBJ": "86fcd64e015cea6d934bd768bfa7bf2365c6ed194075f4a1b60b4ccc8ab5e064",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "cd20a9e9aef8ec75f6648a3860a83198b1be40bd5b77174a0b0031ca3eca7c7c",
+        "sectioned.s": "97bcd5bc4e563e53ab858eca88a904f48c90f28a82aae199d6e3a088db121605",
+        "unchecked.OBJ": "6312d06cad59ee7f3deca82e348b2c61421b56b2f8d9d2cf7cd5e44ac8220df4",
+        "IN.S": "6036b168b395f7d182d31c8e9332a2ce90a58568533237a916c1236bb13276e7",
+        "function.o": "c7faa17fc654fcb5e761bc82a0968c3f103766bf9dc87142eec6b800d42bbcff",
+        "function.s": "92fc32e601bf322c341eb9b85fbae482b2f1f6cf860f6d005e48206ca43727b1"
+      },
+      "installed_source": "src/dungeon/func_800CEED4.c",
+      "id": "dungeon/func_800CEED4"
+    }
+  ],
+  "primary_entry_evidence": {
+    "evidence/variant_state_entries.json": {
+      "kind": "REAL_DISPATCH_TABLE_STATE_ENTRIES",
+      "base_head": "0d5566a95",
+      "entries": [
+        {
+          "id": "dungeon/func_800CD278",
+          "function": "func_800D29D8",
+          "start": 971384,
+          "end": 972048,
+          "size": 664,
+          "vma": 2148346328,
+          "source": "drafts/recovered_variant_states/func_800CD278.c",
+          "primary_entry_evidence": "evidence/variant_state_entries.json",
+          "retail_sha256": "4543531bb29e602c513d44eb8a2b32dd5ed01b840d96a37bd49d59da70c4d4fd",
+          "actual_readable_sibling": {
+            "source": "src/dungeon/func_800CCA6C.c",
+            "sha256": "9a1bb1ebd5802b5dd7251c99bc0b97cf674c8ce3baed9dfb1450669b533cde24",
+            "function": "func_800D21CC"
+          },
+          "normalized_full_body_comparison": {
+            "words": 166,
+            "normalize": "Only absolute J targets inside the same complete function become function-relative; no opcode/register/memory operand is masked.",
+            "differences": [
+              {
+                "word": 154,
+                "old": "0x244220d8",
+                "new": "0x244228e4",
+                "meaning": "actual final callback address low half"
+              }
+            ]
+          },
+          "actual_table_witness": {
+            "base_vma": 2148409896,
+            "slot": 7,
+            "foff": 1034980,
+            "word": "0x800d29d8",
+            "dispatcher": "src/dungeon/func_800CCF04.c",
+            "selection": "Unsigned byte state9A indexes4byte entries; JALR forwards4words."
+          }
+        },
+        {
+          "id": "dungeon/func_800CDAD4",
+          "function": "func_800D3234",
+          "start": 973524,
+          "end": 974188,
+          "size": 664,
+          "vma": 2148348468,
+          "source": "drafts/recovered_variant_states/func_800CDAD4.c",
+          "primary_entry_evidence": "evidence/variant_state_entries.json",
+          "retail_sha256": "6a45276477847349a1787fe533ac3905bf40bcb1ee67301dc9e84015c2bdeb24",
+          "actual_readable_sibling": {
+            "source": "src/dungeon/func_800CCA6C.c",
+            "sha256": "9a1bb1ebd5802b5dd7251c99bc0b97cf674c8ce3baed9dfb1450669b533cde24",
+            "function": "func_800D21CC"
+          },
+          "normalized_full_body_comparison": {
+            "words": 166,
+            "normalize": "Only absolute J targets inside the same complete function become function-relative; no opcode/register/memory operand is masked.",
+            "differences": [
+              {
+                "word": 154,
+                "old": "0x244220d8",
+                "new": "0x24423140",
+                "meaning": "actual final callback address low half"
+              }
+            ]
+          },
+          "actual_table_witness": {
+            "base_vma": 2148409988,
+            "slot": 7,
+            "foff": 1035072,
+            "word": "0x800d3234",
+            "dispatcher": "Actual D2E9C body in embedded consumer evidence",
+            "selection": "Unsigned byte state9A indexes4byte entries; JALR forwards4words."
+          }
+        },
+        {
+          "id": "dungeon/func_800CEED4",
+          "function": "func_800D4634",
+          "start": 978644,
+          "end": 979308,
+          "size": 664,
+          "vma": 2148353588,
+          "source": "drafts/recovered_variant_states/func_800CEED4.c",
+          "primary_entry_evidence": "evidence/variant_state_entries.json",
+          "retail_sha256": "cd20a9e9aef8ec75f6648a3860a83198b1be40bd5b77174a0b0031ca3eca7c7c",
+          "actual_readable_sibling": {
+            "source": "src/dungeon/func_800CCA6C.c",
+            "sha256": "9a1bb1ebd5802b5dd7251c99bc0b97cf674c8ce3baed9dfb1450669b533cde24",
+            "function": "func_800D21CC"
+          },
+          "normalized_full_body_comparison": {
+            "words": 166,
+            "normalize": "Only absolute J targets inside the same complete function become function-relative; no opcode/register/memory operand is masked.",
+            "differences": [
+              {
+                "word": 154,
+                "old": "0x244220d8",
+                "new": "0x24424494",
+                "meaning": "actual final callback address low half"
+              }
+            ]
+          }
+        }
+      ],
+      "actual_consumer_evidence": {
+        "kind": "REAL_REGISTERED_PRODUCER_AND_CALLBACK_TABLE_ENTRIES",
+        "base_head": "0d5566a95",
+        "entries": [
+          {
+            "id": "dungeon/func_800CD184",
+            "function": "func_800D28E4",
+            "start": 971140,
+            "end": 971384,
+            "size": 244,
+            "vma": 2148346084,
+            "source": "drafts/recovered_variant_callbacks/func_800CD184.c",
+            "primary_entry_evidence": "evidence/variant_callback_entries.json",
+            "retail_sha256": "827d81d2b06c07ac1268ba67281b36dd48bd716ec9a6ae9b88b544113c88fe87",
+            "reused_readable_body": {
+              "path": "src/dungeon/func_800CC978.c",
+              "function": "func_800D20D8",
+              "sha256": "5f72c6e80f6ee1851a86c4400e50a378ed347c075df94ee6e49bb51a23a0364f"
+            },
+            "candidate_witness": {
+              "function": "func_800D28E4",
+              "vma": 2148346084,
+              "foff": 971140,
+              "hits": [
+                {
+                  "kind": "resident_address_producer_candidate",
+                  "foff": 970280,
+                  "lui_foff": 970276,
+                  "owner": "dungeon/func_800CCD48",
+                  "words": [
+                    "0x3c02800d",
+                    "0x244228e4",
+                    "0xae42008c",
+                    "0x92040024",
+                    "0x92050025"
+                  ]
+                },
+                {
+                  "kind": "resident_address_producer_candidate",
+                  "foff": 972000,
+                  "lui_foff": 971996,
+                  "owner": null,
+                  "words": [
+                    "0x3c02800d",
+                    "0x244228e4",
+                    "0xae02008c",
+                    "0x2402000e",
+                    "0xa202009a"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "id": "dungeon/func_800CD9E0",
+            "function": "func_800D3140",
+            "start": 973280,
+            "end": 973524,
+            "size": 244,
+            "vma": 2148348224,
+            "source": "drafts/recovered_variant_callbacks/func_800CD9E0.c",
+            "primary_entry_evidence": "evidence/variant_callback_entries.json",
+            "retail_sha256": "acb18e1f8c8ae1000e643144589a2cf19e0a8dd41e1686310dccc44a11ff5b88",
+            "reused_readable_body": {
+              "path": "src/dungeon/func_800CC978.c",
+              "function": "func_800D20D8",
+              "sha256": "5f72c6e80f6ee1851a86c4400e50a378ed347c075df94ee6e49bb51a23a0364f"
+            },
+            "candidate_witness": {
+              "function": "func_800D3140",
+              "vma": 2148348224,
+              "foff": 973280,
+              "hits": [
+                {
+                  "kind": "resident_address_producer_candidate",
+                  "foff": 972380,
+                  "lui_foff": 972376,
+                  "owner": "dungeon/func_800CD554",
+                  "words": [
+                    "0x3c02800d",
+                    "0x24423140",
+                    "0xae42008c",
+                    "0x92040024",
+                    "0x92050025"
+                  ]
+                },
+                {
+                  "kind": "resident_address_producer_candidate",
+                  "foff": 974140,
+                  "lui_foff": 974136,
+                  "owner": null,
+                  "words": [
+                    "0x3c02800d",
+                    "0x24423140",
+                    "0xae02008c",
+                    "0x2402000e",
+                    "0xa202009a"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "id": "dungeon/func_800CD510",
+            "function": "func_800D2C70",
+            "start": 972048,
+            "end": 972116,
+            "size": 68,
+            "vma": 2148346992,
+            "source": "drafts/recovered_variant_callbacks/func_800CD510.c",
+            "primary_entry_evidence": "evidence/variant_callback_entries.json",
+            "retail_sha256": "c8bc08605f43add5b0cd4b563990d96651f7b46106889197c57b342ba2eb948c",
+            "reused_readable_body": {
+              "path": "src/dungeon/func_800CCD04.c",
+              "function": "func_800D2464",
+              "sha256": "63daa4cfea2c5116512643cdf7a7752eeafc30b76f94fe7fe2e364bf333e68ff"
+            },
+            "candidate_witness": {
+              "function": "func_800D2C70",
+              "vma": 2148346992,
+              "foff": 972048,
+              "hits": [
+                {
+                  "kind": "pointer",
+                  "foff": 1034984,
+                  "owner": null
+                }
+              ]
+            }
+          }
+        ],
+        "registered_consumers": {
+          "src/dungeon/func_800CCD48.c": {
+            "sha256": "00b94d8a0029e6132ed39a191428428b3239b2806ad1224dee9a4b4e60a0aebb",
+            "source": "#include \"common.h\"\n#include \"shared/object_node.h\"\n#include \"shared/slus_callbacks.h\"\n#include \"m2c_compat.h\"\n\ntypedef struct S_800D24A8_0 {\n    u8 pad_00[0x13];\n    s8 unk_13;\n    s32 unk_14;\n    u8 pad_18[0x4];\n    s32 unk_1C;\n    u8 pad_20[0x68];\n    s16 unk_88;\n    u8 pad_8A[0x2];\n    M2C_UNK * unk_8C;\n    u8 pad_90[0xA];\n    s8 unk_9A;\n    u8 pad_9B[0x1];\n    s8 unk_9C;\n} S_800D24A8_0;   /* var_s2 in func_800D24A8 */\n\ntypedef struct S_800D24A8_1 {\n    u8 pad_00[0x8];\n    void * unk_08;\n    void * unk_0C;\n    M2C_UNK * unk_10;\n} S_800D24A8_1;   /* temp_v0 in func_800D24A8 */\n\ntypedef struct S_800D24A8_2 {\n    u8 pad_00[0x2];\n    u16 unk_02;\n    u8 pad_04[0x2];\n    u16 unk_06;\n    u8 pad_08[0x2];\n    s16 unk_0A;\n} S_800D24A8_2;   /* temp_s1 in func_800D24A8 */\n\ntypedef struct S_800D24A8_3 {\n    u8 pad_00[0x8];\n    M2C_UNK * unk_08;\n    union {\n        struct { u8 v; } at00;\n        struct { s32 v; } at00u;\n        struct { u8 pad[0x1]; u8 v; } at01;\n        struct { u8 pad[0x2]; u8 v; } at02;\n    } unk_0C;   /* overlapping accesses */\n    u8 pad_10[0x4];\n    u16 unk_14;\n    u8 pad_16[0x6];\n    s16 unk_1C;\n    s16 unk_1E;\n    u8 pad_20[0x4];\n    u8 unk_24;\n    u8 unk_25;\n    s8 unk_26;\n} S_800D24A8_3;   /* temp_s0 in func_800D24A8 */\n\n\nvoid *func_8003FD64();            /* extern */\ns32 func_8004491C();           /* extern */\nvoid func_80099FDC();                      /* extern */\nvoid func_8009A21C();             /* extern */\ns8 func_8009FB34();                           /* extern */\nvoid func_800A2B04();              /* extern */\ns16 func_800BCB04();                   /* extern */\nextern M2C_UNK D_800D2664;\nextern M2C_UNK D_800D28E4;\nextern M2C_UNK D_800E221C;\n\n/* Create a dungeon object at the given tile and initialize its sprite and tile flags. */\nvoid *func_800D24A8(s16 object_kind, u16 tile_x, u16 tile_y, s16 height) {\n    s32 tile_flags;\n    s16 saved_kind;\n    S_800D24A8_3 *sprite;\n    S_800D24A8_2 *position;\n    void *object;\n    S_800D24A8_0 *state;\n    u8 saved_tile_x;\n    s16 saved_height;\n    u8 saved_tile_y;\n    s32 kind;\n    u8 flag_tile_x;\n    u8 flag_tile_y;\n\n    saved_kind = object_kind;\n    state = NULL;\n    saved_tile_x = tile_x;\n    saved_height = height;\n    saved_tile_y = tile_y;\n    object = func_8003FD64(0x112, ((M2C_UNK *)&D_80083498.next));\n    if (object != NULL) {\n        state = object + 0x20;\n        state->unk_13 = 0x34;\n        kind = (s16) saved_kind;\n        if (kind == 1) {\n            state->unk_14 = (s32) (state->unk_14 | 0x2000);\n            state->unk_1C = (s32) (state->unk_1C | 0x2000);\n        }\n        func_8004491C(object, func_80045340);\n        position = ((S_800D24A8_1 *)object)->unk_08;\n        position->unk_0A = saved_height;\n        sprite = ((S_800D24A8_1 *)object)->unk_0C;\n        sprite->unk_08 = &D_800E221C;\n        sprite->unk_0C.at02.v = 0x80;\n        sprite->unk_0C.at01.v = 0x80;\n        sprite->unk_0C.at00.v = 0x80;\n        sprite->unk_1E = 0x1400;\n        sprite->unk_1C = 0x1400;\n        sprite->unk_24 = saved_tile_x;\n        sprite->unk_25 = saved_tile_y;\n        ((S_800D24A8_1 *)object)->unk_10 = &D_800D2664;\n        state->unk_8C = &D_800D28E4;\n        sprite->unk_26 = func_8009FB34(sprite->unk_24, sprite->unk_25);\n        func_800A2B04(position, sprite->unk_24, sprite->unk_25);\n        state->unk_88 = func_800BCB04(position->unk_02, position->unk_06, position->unk_0A);\n        sprite->unk_0C.at00u.v = 0x2C808080;\n        sprite->unk_14 = (u16) (sprite->unk_14 | 0x8000);\n        func_80099FDC(object);\n        flag_tile_x = sprite->unk_24;\n        flag_tile_y = sprite->unk_25;\n        tile_flags = 0x3000;\n        if (state->unk_1C & 0x2000) {\n            tile_flags = 0x300;\n        }\n        func_8009A21C(flag_tile_x, flag_tile_y, tile_flags);\n        state->unk_9A = 0xE;\n        state->unk_9C = -1;\n        state->unk_1C = (s32) (state->unk_1C | 0x40000200);\n    }\n    return state;\n}\n/* MECHANISM: The exact 0x30 frame comes from one named live range for each\n   retail s0/s2/s6/s4/s5/s3/s1 role, with s0 reused for the later object base.\n   Preloading call bytes removes the displacement cascade; u8 color fields and\n   the 2.7.2-cdk-G0 scheduler produce the final literal and load-slot ordering. */\n"
+          },
+          "src/dungeon/func_800CD554.c": {
+            "sha256": "41c4a190b0408168efbb275d5a7044a9399e11402a08d14174359d0fa07f50f9",
+            "source": "#include \"common.h\"\n#include \"shared/object_node.h\"\n#include \"m2c_compat.h\"\n\nvoid func_8003DB94();  /* extern */\nvoid *func_8003FD64();            /* extern */\ns32 func_8004491C();           /* extern */\nvoid func_80099FDC();                      /* extern */\nvoid func_8009A21C();             /* extern */\ns8 func_8009FB34();                           /* extern */\nvoid func_800A2B04();              /* extern */\ns16 func_800BCB04();                   /* extern */\nextern M2C_UNK D_800D2E9C;\nextern M2C_UNK D_800D3140;\nextern M2C_UNK D_800D36D0;\nextern M2C_UNK D_800DEF08;\n\ntypedef struct S_800D2CB4_0 {\n    u8 pad_00[0x13];\n    s8 unk_13;\n    s32 unk_14;\n    u8 pad_18[0x4];\n    s32 unk_1C;\n    u8 pad_20[0x68];\n    s16 unk_88;\n    u8 pad_8A[0x2];\n    M2C_UNK * unk_8C;\n    u8 pad_90[0xA];\n    s8 unk_9A;\n    u8 pad_9B[0x1];\n    s8 unk_9C;\n    u8 pad_9D[0x1];\n    s16 unk_9E;\n} S_800D2CB4_0;   /* var_s2 in func_800D2CB4 */\n\ntypedef struct S_800D2CB4_1 {\n    u8 pad_00[0x8];\n    void * unk_08;\n    void * unk_0C;\n    M2C_UNK * unk_10;\n} S_800D2CB4_1;   /* temp_v0 in func_800D2CB4 */\n\ntypedef struct S_800D2CB4_2 {\n    u8 pad_00[0x2];\n    u16 unk_02;\n    u8 pad_04[0x2];\n    u16 unk_06;\n    u8 pad_08[0x2];\n    s16 unk_0A;\n} S_800D2CB4_2;   /* temp_s1 in func_800D2CB4 */\n\ntypedef struct S_800D2CB4_3 {\n    u8 pad_00[0xC];\n    s32 unk_0C;\n    u16 unk_10;\n    s16 unk_12;\n    u16 unk_14;\n    u8 pad_16[0x6];\n    s16 unk_1C;\n    s16 unk_1E;\n    u8 pad_20[0x4];\n    u8 unk_24;\n    u8 unk_25;\n    s8 unk_26;\n} S_800D2CB4_3;   /* temp_s0 in func_800D2CB4 */\n\n/* Creates a dungeon object at the given tile and initializes its graphics and state. */\nvoid *func_800D2CB4(s16 object_kind, u16 tile_x, u16 tile_y, s16 height) {\n    s32 tile_flags;\n    s16 saved_kind;\n    S_800D2CB4_3 *graphics;\n    S_800D2CB4_2 *position;\n    void *object;\n    S_800D2CB4_0 *state;\n    u8 saved_x;\n    s16 saved_height;\n    u8 saved_y;\n    s32 kind;\n    u8 call_x;\n    u8 call_y;\n\n    saved_kind = object_kind;\n    state = NULL;\n    saved_x = tile_x;\n    saved_height = height;\n    saved_y = tile_y;\n    object = func_8003FD64(0x112, ((M2C_UNK *)&D_80083498.next));\n    if (object != NULL) {\n        state = object + 0x20;\n        state->unk_13 = 0x34;\n        kind = (s16) saved_kind;\n        if (kind == 1) {\n            state->unk_14 = (s32) (state->unk_14 | 0x2000);\n            state->unk_1C = (s32) (state->unk_1C | 0x2000);\n        }\n        func_8004491C(object, &D_800D36D0);\n        position = ((S_800D2CB4_1 *)object)->unk_08;\n        position->unk_0A = saved_height;\n        graphics = ((S_800D2CB4_1 *)object)->unk_0C;\n        graphics->unk_24 = saved_x;\n        graphics->unk_25 = saved_y;\n        func_8003DB94(graphics, &D_800DEF08, 0);\n        graphics->unk_12 = 0x7E02;\n        graphics->unk_1C = 0x1800;\n        graphics->unk_1E = 0x2000;\n        graphics->unk_14 = (u16) (graphics->unk_14 | 0xC);\n        graphics->unk_10 = (u16) (graphics->unk_10 | 0x20);\n        graphics->unk_14 = (u16) (graphics->unk_14 | 0x100);\n        ((S_800D2CB4_1 *)object)->unk_10 = &D_800D2E9C;\n        state->unk_8C = &D_800D3140;\n        graphics->unk_26 = func_8009FB34(graphics->unk_24, graphics->unk_25);\n        func_800A2B04(position, graphics->unk_24, graphics->unk_25);\n        state->unk_88 = func_800BCB04(position->unk_02, position->unk_06, position->unk_0A);\n        graphics->unk_0C = 0x808080;\n        graphics->unk_14 = (u16) (graphics->unk_14 | 0x8000);\n        func_80099FDC(object);\n        call_x = graphics->unk_24;\n        call_y = graphics->unk_25;\n        tile_flags = 0x3000;\n        if (state->unk_1C & 0x2000) {\n            tile_flags = 0x300;\n        }\n        func_8009A21C(call_x, call_y, tile_flags);\n        state->unk_9A = 0xE;\n        state->unk_9C = -1;\n        state->unk_9E = 0;\n        state->unk_1C = (s32) (state->unk_1C | 0x40000200);\n    }\n    return state;\n}\n"
+          },
+          "src/dungeon/func_800CCF04.c": {
+            "sha256": "4cb1eda38f6fca42b60d8bb2308f2f614a495177dc183ca594debb66aafe0522",
+            "source": "#include \"common.h\"\n#include \"shared/dungeon_status.h\"\n\n\ntypedef void (*DungeonCallback)(void *, void *, void *, void *);\n\nextern DungeonCallback D_800E2228[];\n\nextern s16 func_800BCB04(u16, u16, s16);\n\n\ntypedef struct S_800D2664_0 {\n    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */\n    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */\n    u8 pad_08[0x2];\n    u16 unk_0A;\n    s32 unk_0C;\n    s32 unk_10;\n    s32 unk_14;\n} S_800D2664_0;   /* pos in func_800D2664 */\n\ntypedef struct S_800D2664_1 {\n    u8 pad_00[0x90];\n    union {\n        struct { s32 v; } at00;\n        struct { u8 pad[0x2]; s16 v; } at02;\n        struct { u8 pad[0x2]; u16 v; } at02u;\n    } unk_90;   /* overlapping accesses */\n    u8 pad_94[0x4];\n    u16 unk_98;\n    u8 pad_9A[0x3];\n    u8 unk_9D;\n} S_800D2664_1;   /* obj in func_800D2664 */\n\ntypedef struct S_800D2664_2 {\n    u8 pad_00[0x14];\n    u16 unk_14;\n    u8 pad_16[0xE];\n    u8 unk_24;\n    u8 unk_25;\n} S_800D2664_2;   /* ent in func_800D2664 */\n\n/* Runs object callbacks, applies movement and gravity, and updates ground height. */\nvoid func_800D2664(void *object, void *motion, void *entity) {\n    void *ent = entity;\n    void *update_obj = object;\n    DungeonCallback callback;\n    s32 x;\n    s32 y;\n    s32 dx;\n    s32 dy;\n    s32 fall_offset;\n    s32 fall_speed;\n    u16 fall_flags;\n    s16 ground_height;\n    s16 base_height;\n    s32 base_height_u;\n\n    if (dungeonStatus.flags & 0x2000) {\n        (*(u8 *)((u8 *)update_obj + (0x71))) &= 0x7F;\n        return;\n    }\n\n\n    callback = (*(DungeonCallback *)((u8 *)update_obj + (0x8C)));\n    if (callback != 0) {\n        callback(update_obj, motion, ent, update_obj);\n    }\n    D_800E2228[(*(u8 *)((u8 *)update_obj + (0x9A)))](update_obj, motion, ent, update_obj);\n\n    x = ((S_800D2664_0 *)motion)->unk_00.at00.v;\n    dx = ((S_800D2664_0 *)motion)->unk_0C;\n    y = ((S_800D2664_0 *)motion)->unk_04.at00.v;\n    dy = ((S_800D2664_0 *)motion)->unk_10;\n    ((S_800D2664_0 *)motion)->unk_00.at00.v = x + dx;\n    ((S_800D2664_0 *)motion)->unk_04.at00.v = y + dy;\n\n    if ((*(u16 *)((u8 *)update_obj + (0x98))) & 8) {\n        (*(u8 *)((u8 *)update_obj + (0x9D))) = 0;\n    } else {\n        ((S_800D2664_0 *)motion)->unk_14 += (*(s8 *)((u8 *)update_obj + (0x9D))) * 0x14000;\n        (*(u8 *)((u8 *)update_obj + (0x9D)))++;\n    }\n    fall_offset = ((S_800D2664_1 *)object)->unk_90.at00.v;\n    fall_speed = ((S_800D2664_0 *)motion)->unk_14;\n    fall_flags = ((S_800D2664_1 *)object)->unk_98;\n    ((S_800D2664_1 *)object)->unk_90.at00.v = fall_offset + fall_speed;\n\n    if (!(fall_flags & 4) && (ground_height = func_800BCB04(\n            ((S_800D2664_0 *)motion)->unk_00.at02.v,\n            ((S_800D2664_0 *)motion)->unk_04.at02.v,\n            (s16)((*(u16 *)((u8 *)update_obj + (0x88))) - 0x20))) < 0x200) {\n            base_height_u = (*(u16 *)((u8 *)update_obj + (0x88)));\n            base_height = (*(s16 *)((u8 *)update_obj + (0x88)));\n            if (((S_800D2664_1 *)object)->unk_90.at02.v + base_height < ground_height) {\n                u16 object_flags = ((S_800D2664_1 *)object)->unk_98;\n                ((S_800D2664_1 *)object)->unk_98 = object_flags;\n            } else {\n                if (ground_height >= base_height) {\n                    ((S_800D2664_1 *)object)->unk_90.at00.v = 0;\n                } else {\n                    ((S_800D2664_1 *)object)->unk_90.at02.v = ground_height - base_height_u;\n                }\n                ((S_800D2664_0 *)motion)->unk_14 = 0;\n                (*(u32 *)((u8 *)update_obj + (0x1C))) |= 0x08000000;\n                ((S_800D2664_1 *)object)->unk_9D = 0;\n            }\n\n            if ((*(u32 *)((u8 *)update_obj + (0x1C))) & 0x40000000) {\n                s32 tile_x;\n                s32 tile_y;\n                (*(u32 *)((u8 *)update_obj + (0x1C))) &= ~0x40000000;\n                tile_x = (((S_800D2664_2 *)ent)->unk_24 << 6) | 0x20;\n                tile_y = (((S_800D2664_2 *)ent)->unk_25 << 6) | 0x20;\n                ground_height = func_800BCB04(\n                    tile_x, tile_y, (s16)((*(u16 *)((u8 *)update_obj + (0x88))) - 0x20));\n                ((S_800D2664_1 *)object)->unk_90.at02.v += (*(u16 *)((u8 *)update_obj + (0x88))) - ground_height;\n                (*(s16 *)((u8 *)update_obj + (0x88))) = ground_height;\n            }\n    } else {\n        (*(u32 *)((u8 *)update_obj + (0x1C))) &= ~0x08000000;\n    }\n\n\n    ((S_800D2664_0 *)motion)->unk_0A = (*(u16 *)((u8 *)update_obj + (0x88))) + ((S_800D2664_1 *)object)->unk_90.at02u.v;\n    ((S_800D2664_2 *)ent)->unk_14 |= 0x40;\n    (*(u32 *)((u8 *)update_obj + (0x1C))) |= 0x200;\n}\n"
+          }
+        },
+        "slot8": {
+          "base_vma": 2148409896,
+          "slot": 8,
+          "foff": 1034984,
+          "word": "0x800d2c70",
+          "dispatcher": "src/dungeon/func_800CCF04.c",
+          "dispatch": "Registered func800D2664 reads state9A, loads E2228[index] and JALR forwards4words."
+        },
+        "field8C": {
+          "dispatcher": "src/dungeon/func_800CCF04.c",
+          "known_second_dispatcher": "work/gap_followups/0xed73c.asm",
+          "consumer": "Both actual dispatchers read the callback at payload+8C and JALR pass the payload as arg0 and arg3, motion/render as arg1/arg2.",
+          "producers": "Registered constructors CCD48/CD554 materialize exact D28E4/D3140 and store payload+8C. Full producer sources are bound above."
+        },
+        "boundaries": "The two inherited gap intervals contain three real functions each, not one giant function. Complete disassembly in work/gap_followups shows all returns and subsequent entries; only the3entry-proven complete small functions are selected here. The other3large bodies remain C work.",
+        "review": "pending",
+        "reviewer": null,
+        "object_task_dispatcher": {
+          "source": "src/slus/w_80040190.c",
+          "source_sha256": "721f60e3f498ca71fe0e86e966ff36f1f50857cb09ae947e38672120149237c1",
+          "source_text": "#include \"common.h\"\n\n/* Linked-list node with a next pointer at offset 0x0, two callback-argument\n * fields at 0x8/0xC, a raw (possibly-null) function-pointer value at 0x10,\n * and a 16-bit flags field at 0x1E. */\ntypedef struct S_80081498_Node {\n    struct S_80081498_Node *next;   /* 0x00 */\n    u8 pad_04[0x08 - 0x04];\n    void *field_08;                 /* 0x08 */\n    void *field_0C;                 /* 0x0C */\n    s32 field_10;                   /* 0x10 - raw function pointer value, checked via signed bgez */\n    u8 pad_14[0x1E - 0x14];\n    u16 field_1E;                   /* 0x1E */\n} S_80081498_Node;\n\n/* head of the active node list (8 bytes to D_800814A0; only the head word is read) */\nextern S_80081498_Node *D_80081498;\n\n/* Invokes negative-address callbacks on nodes in D_80081498 whose flags omit bit 0x400. */\nvoid func_80040190(void)\n{\n    S_80081498_Node *node;\n    S_80081498_Node *next_node;\n    s32 callback_address;\n\n    node = D_80081498;\n    if (node != 0) {\n        do {\n            callback_address = node->field_10;\n            next_node = node->next;\n            if (callback_address >= 0 || (node->field_1E & 0x400)) {\n                ;\n            } else {\n                ((void (*)(void *, void *, void *))callback_address)((u8 *)node + 0x20, node->field_08, node->field_0C);\n            }\n            node = next_node;\n        } while (node != 0);\n    }\n}\n",
+          "retail_sha256": "fccef6ac059408c70e960c8c0d0698892ea2a88b7cdf87539f1ac4d7f77098fd",
+          "bytes": 108,
+          "actual_disassembly": "80040190: lui      $a0, 0x8008\n80040194: lw       $a0, 0x1498($a0)\n80040198: addiu    $sp, $sp, -0x18\n8004019C: sw       $ra, 0x14($sp)\n800401A0: beqz     $a0, 0x800401e8\n800401A4: sw       $s0, 0x10($sp)\n800401A8: lw       $v1, 0x10($a0)\n800401AC: lw       $s0, ($a0)\n800401B0: bgez     $v1, 0x800401dc\n800401B4: nop      \n800401B8: lhu      $v0, 0x1e($a0)\n800401BC: nop      \n800401C0: andi     $v0, $v0, 0x400\n800401C4: bnez     $v0, 0x800401dc\n800401C8: nop      \n800401CC: lw       $a1, 8($a0)\n800401D0: lw       $a2, 0xc($a0)\n800401D4: jalr     $v1\n800401D8: addiu    $a0, $a0, 0x20\n800401DC: move     $a0, $s0\n800401E0: bnez     $a0, 0x800401a8\n800401E4: nop      \n800401E8: lw       $ra, 0x14($sp)\n800401EC: lw       $s0, 0x10($sp)\n800401F0: addiu    $sp, $sp, 0x18\n800401F4: jr       $ra\n800401F8: nop      \n",
+          "semantics": "Loads node+10 as signed callback word; if negative and flags400 clear, JALR supplies node+20,+8,+C."
+        },
+        "unregistered_second_dispatcher": {
+          "file": "work/gap_followups/0xed73c.asm",
+          "full_gap_sha256": "4b794073d48fe49a75c2817ec6f3a380306fe5ec9ea10cbdf05d7b5d4fce484c",
+          "dispatch_extent": {
+            "start": 972604,
+            "size": 676
+          },
+          "actual_disassembly": "800D2E9C lui      $v0, 0x8008\n800D2EA0 lhu      $v0, 0x3462($v0)\n800D2EA4 addiu    $sp, $sp, -0x28\n800D2EA8 sw       $s1, 0x14($sp)\n800D2EAC move     $s1, $a0\n800D2EB0 sw       $s2, 0x18($sp)\n800D2EB4 move     $s2, $a1\n800D2EB8 sw       $s3, 0x1c($sp)\n800D2EBC move     $s3, $a2\n800D2EC0 sw       $s0, 0x10($sp)\n800D2EC4 move     $s0, $s1\n800D2EC8 andi     $v0, $v0, 0x2000\n800D2ECC beqz     $v0, 0x800d2ee8\n800D2ED0 sw       $ra, 0x20($sp)\n800D2ED4 lbu      $v0, 0x71($s0)\n800D2ED8 nop      \n800D2EDC andi     $v0, $v0, 0x7f\n800D2EE0 j        0x800d3120\n800D2EE4 sb       $v0, 0x71($s0)\n800D2EE8 lw       $v0, 0x8c($s0)\n800D2EEC nop      \n800D2EF0 beqz     $v0, 0x800d2f08\n800D2EF4 move     $a0, $s0\n800D2EF8 move     $a1, $s2\n800D2EFC move     $a2, $s3\n800D2F00 jalr     $v0\n800D2F04 move     $a3, $s0\n800D2F08 move     $a0, $s0\n800D2F0C move     $a1, $s2\n800D2F10 move     $a2, $s3\n800D2F14 lui      $v1, 0x800e\n800D2F18 lbu      $v0, 0x9a($s0)\n800D2F1C addiu    $v1, $v1, 0x2284\n800D2F20 sll      $v0, $v0, 2\n800D2F24 addu     $v0, $v0, $v1\n800D2F28 lw       $v0, ($v0)\n800D2F2C nop      \n800D2F30 jalr     $v0\n800D2F34 move     $a3, $s0\n800D2F38 lhu      $v1, 0x14($s3)\n800D2F3C nop      \n800D2F40 andi     $v0, $v1, 0x8000\n800D2F44 bnez     $v0, 0x800d2f5c\n800D2F48 andi     $v0, $v1, 0x40\n800D2F4C bnez     $v0, 0x800d2f5c\n800D2F50 nop      \n800D2F54 jal      0x800478b8\n800D2F58 move     $a0, $s3\n800D2F5C lw       $v0, ($s2)\n800D2F60 lw       $a0, 0xc($s2)\n800D2F64 lw       $v1, 4($s2)\n800D2F68 lw       $a1, 0x10($s2)\n800D2F6C addu     $v0, $v0, $a0\n800D2F70 addu     $v1, $v1, $a1\n800D2F74 sw       $v0, ($s2)\n800D2F78 sw       $v1, 4($s2)\n800D2F7C lhu      $v0, 0x98($s1)\n800D2F80 nop      \n800D2F84 andi     $v0, $v0, 8\n800D2F88 beqz     $v0, 0x800d2f98\n800D2F8C nop      \n800D2F90 j        0x800d2fc8\n800D2F94 sb       $zero, 0x9d($s1)\n800D2F98 lb       $v1, 0x9d($s1)\n800D2F9C nop      \n800D2FA0 sll      $v0, $v1, 2\n800D2FA4 addu     $v0, $v0, $v1\n800D2FA8 lw       $v1, 0x14($s2)\n800D2FAC sll      $v0, $v0, 0xe\n800D2FB0 addu     $v1, $v1, $v0\n800D2FB4 sw       $v1, 0x14($s2)\n800D2FB8 lbu      $v0, 0x9d($s1)\n800D2FBC nop      \n800D2FC0 addiu    $v0, $v0, 1\n800D2FC4 sb       $v0, 0x9d($s1)\n800D2FC8 lw       $v0, 0x90($s1)\n800D2FCC lw       $a0, 0x14($s2)\n800D2FD0 lhu      $v1, 0x98($s1)\n800D2FD4 addu     $v0, $v0, $a0\n800D2FD8 andi     $v1, $v1, 4\n800D2FDC bnez     $v1, 0x800d30d8\n800D2FE0 sw       $v0, 0x90($s1)\n800D2FE4 lhu      $a0, 2($s2)\n800D2FE8 lhu      $a2, 0x88($s0)\n800D2FEC lhu      $a1, 6($s2)\n800D2FF0 addiu    $a2, $a2, -0x20\n800D2FF4 sll      $a2, $a2, 0x10\n800D2FF8 jal      0x800bcb04\n800D2FFC sra      $a2, $a2, 0x10\n800D3000 move     $a1, $v0\n800D3004 sll      $v0, $a1, 0x10\n800D3008 sra      $v1, $v0, 0x10\n800D300C slti     $v0, $v1, 0x200\n800D3010 beqz     $v0, 0x800d30d8\n800D3014 nop      \n800D3018 lh       $v0, 0x92($s1)\n800D301C lh       $a2, 0x88($s0)\n800D3020 lhu      $a0, 0x88($s0)\n800D3024 addu     $v0, $v0, $a2\n800D3028 slt      $v0, $v0, $v1\n800D302C beqz     $v0, 0x800d3040\n800D3030 slt      $v0, $v1, $a2\n800D3034 lhu      $v0, 0x98($s1)\n800D3038 j        0x800d306c\n800D303C nop      \n800D3040 bnez     $v0, 0x800d3050\n800D3044 subu     $v0, $a1, $a0\n800D3048 j        0x800d3054\n800D304C sw       $zero, 0x90($s1)\n800D3050 sh       $v0, 0x92($s1)\n800D3054 sw       $zero, 0x14($s2)\n800D3058 lw       $v0, 0x1c($s0)\n800D305C lui      $v1, 0x800\n800D3060 or       $v0, $v0, $v1\n800D3064 sw       $v0, 0x1c($s0)\n800D3068 sb       $zero, 0x9d($s1)\n800D306C lw       $v1, 0x1c($s0)\n800D3070 lui      $v0, 0x4000\n800D3074 and      $v0, $v1, $v0\n800D3078 beqz     $v0, 0x800d30ec\n800D307C lui      $v0, 0xbfff\n800D3080 ori      $v0, $v0, 0xffff\n800D3084 and      $v0, $v1, $v0\n800D3088 sw       $v0, 0x1c($s0)\n800D308C lbu      $a0, 0x24($s3)\n800D3090 lbu      $a1, 0x25($s3)\n800D3094 lhu      $a2, 0x88($s0)\n800D3098 sll      $a0, $a0, 6\n800D309C ori      $a0, $a0, 0x20\n800D30A0 sll      $a1, $a1, 6\n800D30A4 ori      $a1, $a1, 0x20\n800D30A8 addiu    $a2, $a2, -0x20\n800D30AC sll      $a2, $a2, 0x10\n800D30B0 jal      0x800bcb04\n800D30B4 sra      $a2, $a2, 0x10\n800D30B8 move     $a1, $v0\n800D30BC lhu      $v0, 0x88($s0)\n800D30C0 lhu      $v1, 0x92($s1)\n800D30C4 subu     $v0, $v0, $a1\n800D30C8 addu     $v1, $v1, $v0\n800D30CC sh       $v1, 0x92($s1)\n800D30D0 j        0x800d30ec\n800D30D4 sh       $a1, 0x88($s0)\n800D30D8 lui      $v1, 0xf7ff\n800D30DC lw       $v0, 0x1c($s0)\n800D30E0 ori      $v1, $v1, 0xffff\n800D30E4 and      $v0, $v0, $v1\n800D30E8 sw       $v0, 0x1c($s0)\n800D30EC lhu      $v0, 0x88($s0)\n800D30F0 lhu      $v1, 0x92($s1)\n800D30F4 nop      \n800D30F8 addu     $v0, $v0, $v1\n800D30FC sh       $v0, 0xa($s2)\n800D3100 lhu      $v0, 0x14($s3)\n800D3104 nop      \n800D3108 ori      $v0, $v0, 0x40\n800D310C sh       $v0, 0x14($s3)\n800D3110 lw       $v0, 0x1c($s0)\n800D3114 nop      \n800D3118 ori      $v0, $v0, 0x200\n800D311C sw       $v0, 0x1c($s0)\n800D3120 lw       $ra, 0x20($sp)\n800D3124 lw       $s3, 0x1c($sp)\n800D3128 lw       $s2, 0x18($sp)\n800D312C lw       $s1, 0x14($sp)\n800D3130 lw       $s0, 0x10($sp)\n800D3134 addiu    $sp, $sp, 0x28\n800D3138 jr       $ra\n800D313C nop      ",
+          "producer": "Registered CD554 installs D2E9C at node+10, which actual SLUS40190 calls. D2E9C calls node-payload+8C and the E2284 state table."
+        }
+      },
+      "old_4634_primary_table_evidence": {
+        "results": [
+          {
+            "cohort": "combat_effects.c",
+            "gap_start": 842028,
+            "gap_vma": 2148216972,
+            "reference_file": 1022608,
+            "word": 2148216972,
+            "kind": "full_32_bit_pointer",
+            "basis": "Bounded resident data/pool scan; consumer/producer semantics still required before declaring a callable entry.",
+            "review": "pending",
+            "reviewer": null,
+            "possible_table_bases": [
+              {
+                "symbol": "D_800DF1E8",
+                "offset": 8,
+                "consumer_rows": [
+                  "dungeon/func_800ACFEC"
+                ]
+              },
+              {
+                "symbol": "D_800DF068",
+                "offset": 392,
+                "consumer_rows": [
+                  "dungeon/func_800AC720"
+                ]
+              },
+              {
+                "symbol": "D_800DF03C",
+                "offset": 436,
+                "consumer_rows": [
+                  "dungeon/func_800AC008"
+                ]
+              },
+              {
+                "symbol": "D_800DF030",
+                "offset": 448,
+                "consumer_rows": [
+                  "dungeon/func_800ABD9C"
+                ]
+              },
+              {
+                "symbol": "D_800DEFF8",
+                "offset": 504,
+                "consumer_rows": [
+                  "dungeon/func_800AB7F0"
+                ]
+              }
+            ]
+          },
+          {
+            "cohort": "combat_effects.c",
+            "gap_start": 842284,
+            "gap_vma": 2148217228,
+            "reference_file": 1022644,
+            "word": 2148217228,
+            "kind": "full_32_bit_pointer",
+            "basis": "Bounded resident data/pool scan; consumer/producer semantics still required before declaring a callable entry.",
+            "review": "pending",
+            "reviewer": null,
+            "possible_table_bases": [
+              {
+                "symbol": "D_800DF1E8",
+                "offset": 44,
+                "consumer_rows": [
+                  "dungeon/func_800ACFEC"
+                ]
+              },
+              {
+                "symbol": "D_800DF068",
+                "offset": 428,
+                "consumer_rows": [
+                  "dungeon/func_800AC720"
+                ]
+              },
+              {
+                "symbol": "D_800DF03C",
+                "offset": 472,
+                "consumer_rows": [
+                  "dungeon/func_800AC008"
+                ]
+              },
+              {
+                "symbol": "D_800DF030",
+                "offset": 484,
+                "consumer_rows": [
+                  "dungeon/func_800ABD9C"
+                ]
+              },
+              {
+                "symbol": "D_800DEFF8",
+                "offset": 540,
+                "consumer_rows": [
+                  "dungeon/func_800AB7F0"
+                ]
+              }
+            ]
+          },
+          {
+            "cohort": "actor_actions.c",
+            "gap_start": 804016,
+            "gap_vma": 2148178960,
+            "reference_file": 1022656,
+            "word": 2148178960,
+            "kind": "full_32_bit_pointer",
+            "basis": "Bounded resident data/pool scan; consumer/producer semantics still required before declaring a callable entry.",
+            "review": "pending",
+            "reviewer": null,
+            "possible_table_bases": [
+              {
+                "symbol": "D_800DF1E8",
+                "offset": 56,
+                "consumer_rows": [
+                  "dungeon/func_800ACFEC"
+                ]
+              },
+              {
+                "symbol": "D_800DF068",
+                "offset": 440,
+                "consumer_rows": [
+                  "dungeon/func_800AC720"
+                ]
+              },
+              {
+                "symbol": "D_800DF03C",
+                "offset": 484,
+                "consumer_rows": [
+                  "dungeon/func_800AC008"
+                ]
+              },
+              {
+                "symbol": "D_800DF030",
+                "offset": 496,
+                "consumer_rows": [
+                  "dungeon/func_800ABD9C"
+                ]
+              },
+              {
+                "symbol": "D_800DEFF8",
+                "offset": 552,
+                "consumer_rows": [
+                  "dungeon/func_800AB7F0"
+                ]
+              }
+            ]
+          },
+          {
+            "cohort": "actor_actions.c",
+            "gap_start": 804016,
+            "gap_vma": 2148178960,
+            "reference_file": 1027116,
+            "word": 2148178960,
+            "kind": "full_32_bit_pointer",
+            "basis": "Bounded resident data/pool scan; consumer/producer semantics still required before declaring a callable entry.",
+            "review": "pending",
+            "reviewer": null,
+            "possible_table_bases": [
+              {
+                "symbol": "D_800E0354",
+                "offset": 56,
+                "consumer_rows": [
+                  "dungeon/func_800C434C"
+                ]
+              },
+              {
+                "symbol": "D_800E0334",
+                "offset": 88,
+                "consumer_rows": [
+                  "dungeon/func_800C40F0"
+                ]
+              },
+              {
+                "symbol": "D_800E02CC",
+                "offset": 192,
+                "consumer_rows": [
+                  "dungeon/func_800C5D60"
+                ]
+              },
+              {
+                "symbol": "D_800E0040",
+                "offset": 844,
+                "consumer_rows": [
+                  "dungeon/func_8008BCD0"
+                ]
+              },
+              {
+                "symbol": "D_800E0000",
+                "offset": 908,
+                "consumer_rows": [
+                  "dungeon/func_80084084",
+                  "dungeon/func_800969CC",
+                  "dungeon/func_8009C4F8",
+                  "dungeon/func_8009F8EC",
+                  "dungeon/func_800AF9C8",
+                  "dungeon/func_800B4318"
+                ]
+              }
+            ]
+          },
+          {
+            "cohort": "actor_actions.c",
+            "gap_start": 804016,
+            "gap_vma": 2148178960,
+            "reference_file": 1034904,
+            "word": 2148178960,
+            "kind": "full_32_bit_pointer",
+            "basis": "Bounded resident data/pool scan; consumer/producer semantics still required before declaring a callable entry.",
+            "review": "pending",
+            "reviewer": null,
+            "possible_table_bases": [
+              {
+                "symbol": "D_800E21C0",
+                "offset": 56,
+                "consumer_rows": [
+                  "dungeon/func_800CC6D4"
+                ]
+              },
+              {
+                "symbol": "D_800E2178",
+                "offset": 128,
+                "consumer_rows": [
+                  "dungeon/func_800CC510"
+                ]
+              },
+              {
+                "symbol": "D_800E2082",
+                "offset": 374,
+                "consumer_rows": [
+                  "dungeon/func_800BE068"
+                ]
+              },
+              {
+                "symbol": "D_800E206A",
+                "offset": 398,
+                "consumer_rows": [
+                  "dungeon/func_800BA8DC"
+                ]
+              },
+              {
+                "symbol": "D_800E2056",
+                "offset": 418,
+                "consumer_rows": [
+                  "dungeon/func_800BA620"
+                ]
+              }
+            ]
+          },
+          {
+            "cohort": "actor_actions.c",
+            "gap_start": 804016,
+            "gap_vma": 2148178960,
+            "reference_file": 1035008,
+            "word": 2148178960,
+            "kind": "full_32_bit_pointer",
+            "basis": "Bounded resident data/pool scan; consumer/producer semantics still required before declaring a callable entry.",
+            "review": "pending",
+            "reviewer": null,
+            "possible_table_bases": [
+              {
+                "symbol": "D_800E2228",
+                "offset": 56,
+                "consumer_rows": [
+                  "dungeon/func_800CCF04"
+                ]
+              },
+              {
+                "symbol": "D_800E221C",
+                "offset": 68,
+                "consumer_rows": [
+                  "dungeon/func_800CCD48"
+                ]
+              },
+              {
+                "symbol": "D_800E21C0",
+                "offset": 160,
+                "consumer_rows": [
+                  "dungeon/func_800CC6D4"
+                ]
+              },
+              {
+                "symbol": "D_800E2178",
+                "offset": 232,
+                "consumer_rows": [
+                  "dungeon/func_800CC510"
+                ]
+              },
+              {
+                "symbol": "D_800E2082",
+                "offset": 478,
+                "consumer_rows": [
+                  "dungeon/func_800BE068"
+                ]
+              }
+            ]
+          },
+          {
+            "cohort": "actor_actions.c",
+            "gap_start": 804016,
+            "gap_vma": 2148178960,
+            "reference_file": 1035100,
+            "word": 2148178960,
+            "kind": "full_32_bit_pointer",
+            "basis": "Bounded resident data/pool scan; consumer/producer semantics still required before declaring a callable entry.",
+            "review": "pending",
+            "reviewer": null,
+            "possible_table_bases": [
+              {
+                "symbol": "D_800E2228",
+                "offset": 148,
+                "consumer_rows": [
+                  "dungeon/func_800CCF04"
+                ]
+              },
+              {
+                "symbol": "D_800E221C",
+                "offset": 160,
+                "consumer_rows": [
+                  "dungeon/func_800CCD48"
+                ]
+              },
+              {
+                "symbol": "D_800E21C0",
+                "offset": 252,
+                "consumer_rows": [
+                  "dungeon/func_800CC6D4"
+                ]
+              },
+              {
+                "symbol": "D_800E2178",
+                "offset": 324,
+                "consumer_rows": [
+                  "dungeon/func_800CC510"
+                ]
+              },
+              {
+                "symbol": "D_800E2082",
+                "offset": 570,
+                "consumer_rows": [
+                  "dungeon/func_800BE068"
+                ]
+              }
+            ]
+          },
+          {
+            "cohort": "actor_variants.c",
+            "gap_start": 978644,
+            "gap_vma": 2148353588,
+            "reference_file": 1035164,
+            "word": 2148353588,
+            "kind": "full_32_bit_pointer",
+            "basis": "Bounded resident data/pool scan; consumer/producer semantics still required before declaring a callable entry.",
+            "review": "pending",
+            "reviewer": null,
+            "possible_table_bases": [
+              {
+                "symbol": "D_800E22E0",
+                "offset": 28,
+                "consumer_rows": [
+                  "dungeon/func_800CE9F8"
+                ]
+              },
+              {
+                "symbol": "D_800E2228",
+                "offset": 212,
+                "consumer_rows": [
+                  "dungeon/func_800CCF04"
+                ]
+              },
+              {
+                "symbol": "D_800E221C",
+                "offset": 224,
+                "consumer_rows": [
+                  "dungeon/func_800CCD48"
+                ]
+              },
+              {
+                "symbol": "D_800E21C0",
+                "offset": 316,
+                "consumer_rows": [
+                  "dungeon/func_800CC6D4"
+                ]
+              },
+              {
+                "symbol": "D_800E2178",
+                "offset": 388,
+                "consumer_rows": [
+                  "dungeon/func_800CC510"
+                ]
+              }
+            ]
+          },
+          {
+            "cohort": "actor_actions.c",
+            "gap_start": 804016,
+            "gap_vma": 2148178960,
+            "reference_file": 1035192,
+            "word": 2148178960,
+            "kind": "full_32_bit_pointer",
+            "basis": "Bounded resident data/pool scan; consumer/producer semantics still required before declaring a callable entry.",
+            "review": "pending",
+            "reviewer": null,
+            "possible_table_bases": [
+              {
+                "symbol": "D_800E22E0",
+                "offset": 56,
+                "consumer_rows": [
+                  "dungeon/func_800CE9F8"
+                ]
+              },
+              {
+                "symbol": "D_800E2228",
+                "offset": 240,
+                "consumer_rows": [
+                  "dungeon/func_800CCF04"
+                ]
+              },
+              {
+                "symbol": "D_800E221C",
+                "offset": 252,
+                "consumer_rows": [
+                  "dungeon/func_800CCD48"
+                ]
+              },
+              {
+                "symbol": "D_800E21C0",
+                "offset": 344,
+                "consumer_rows": [
+                  "dungeon/func_800CC6D4"
+                ]
+              },
+              {
+                "symbol": "D_800E2178",
+                "offset": 416,
+                "consumer_rows": [
+                  "dungeon/func_800CC510"
+                ]
+              }
+            ]
+          },
+          {
+            "cohort": "actor_movement.c",
+            "gap_start": 1001500,
+            "gap_vma": 2148376444,
+            "reference_file": 1036044,
+            "word": 2148376444,
+            "kind": "full_32_bit_pointer",
+            "basis": "Bounded resident data/pool scan; consumer/producer semantics still required before declaring a callable entry.",
+            "review": "pending",
+            "reviewer": null,
+            "possible_table_bases": [
+              {
+                "symbol": "D_800E264C",
+                "offset": 32,
+                "consumer_rows": [
+                  "dungeon/func_800D2FC8"
+                ]
+              },
+              {
+                "symbol": "D_800E262C",
+                "offset": 64,
+                "consumer_rows": [
+                  "dungeon/func_800D2E30",
+                  "dungeon/func_800D3504",
+                  "dungeon/func_800D41BC",
+                  "dungeon/func_800D48B4",
+                  "dungeon/func_800D4C38"
+                ]
+              },
+              {
+                "symbol": "D_800E260C",
+                "offset": 96,
+                "consumer_rows": [
+                  "dungeon/func_800D2FC8",
+                  "dungeon/func_800D38EC",
+                  "dungeon/func_800D40C0"
+                ]
+              },
+              {
+                "symbol": "D_800E2468",
+                "offset": 516,
+                "consumer_rows": [
+                  "dungeon/func_800D066C",
+                  "dungeon/func_800D0820"
+                ]
+              },
+              {
+                "symbol": "D_800E2460",
+                "offset": 524,
+                "consumer_rows": [
+                  "dungeon/func_800CFE34"
+                ]
+              }
+            ]
+          },
+          {
+            "cohort": "actor_movement.c",
+            "gap_start": 1000632,
+            "gap_vma": 2148375576,
+            "reference_file": 1036052,
+            "word": 2148375576,
+            "kind": "full_32_bit_pointer",
+            "basis": "Bounded resident data/pool scan; consumer/producer semantics still required before declaring a callable entry.",
+            "review": "pending",
+            "reviewer": null,
+            "possible_table_bases": [
+              {
+                "symbol": "D_800E264C",
+                "offset": 40,
+                "consumer_rows": [
+                  "dungeon/func_800D2FC8"
+                ]
+              },
+              {
+                "symbol": "D_800E262C",
+                "offset": 72,
+                "consumer_rows": [
+                  "dungeon/func_800D2E30",
+                  "dungeon/func_800D3504",
+                  "dungeon/func_800D41BC",
+                  "dungeon/func_800D48B4",
+                  "dungeon/func_800D4C38"
+                ]
+              },
+              {
+                "symbol": "D_800E260C",
+                "offset": 104,
+                "consumer_rows": [
+                  "dungeon/func_800D2FC8",
+                  "dungeon/func_800D38EC",
+                  "dungeon/func_800D40C0"
+                ]
+              },
+              {
+                "symbol": "D_800E2468",
+                "offset": 524,
+                "consumer_rows": [
+                  "dungeon/func_800D066C",
+                  "dungeon/func_800D0820"
+                ]
+              },
+              {
+                "symbol": "D_800E2460",
+                "offset": 532,
+                "consumer_rows": [
+                  "dungeon/func_800CFE34"
+                ]
+              }
+            ]
+          },
+          {
+            "cohort": "actor_actions.c",
+            "gap_start": 804016,
+            "gap_vma": 2148178960,
+            "reference_file": 1036068,
+            "word": 2148178960,
+            "kind": "full_32_bit_pointer",
+            "basis": "Bounded resident data/pool scan; consumer/producer semantics still required before declaring a callable entry.",
+            "review": "pending",
+            "reviewer": null,
+            "possible_table_bases": [
+              {
+                "symbol": "D_800E264C",
+                "offset": 56,
+                "consumer_rows": [
+                  "dungeon/func_800D2FC8"
+                ]
+              },
+              {
+                "symbol": "D_800E262C",
+                "offset": 88,
+                "consumer_rows": [
+                  "dungeon/func_800D2E30",
+                  "dungeon/func_800D3504",
+                  "dungeon/func_800D41BC",
+                  "dungeon/func_800D48B4",
+                  "dungeon/func_800D4C38"
+                ]
+              },
+              {
+                "symbol": "D_800E260C",
+                "offset": 120,
+                "consumer_rows": [
+                  "dungeon/func_800D2FC8",
+                  "dungeon/func_800D38EC",
+                  "dungeon/func_800D40C0"
+                ]
+              },
+              {
+                "symbol": "D_800E2468",
+                "offset": 540,
+                "consumer_rows": [
+                  "dungeon/func_800D066C",
+                  "dungeon/func_800D0820"
+                ]
+              },
+              {
+                "symbol": "D_800E2460",
+                "offset": 548,
+                "consumer_rows": [
+                  "dungeon/func_800CFE34"
+                ]
+              }
+            ]
+          },
+          {
+            "cohort": "actor_actions.c",
+            "gap_start": 804016,
+            "gap_vma": 2148178960,
+            "reference_file": 1036080,
+            "word": 2148178960,
+            "kind": "full_32_bit_pointer",
+            "basis": "Bounded resident data/pool scan; consumer/producer semantics still required before declaring a callable entry.",
+            "review": "pending",
+            "reviewer": null,
+            "possible_table_bases": [
+              {
+                "symbol": "D_800E264C",
+                "offset": 68,
+                "consumer_rows": [
+                  "dungeon/func_800D2FC8"
+                ]
+              },
+              {
+                "symbol": "D_800E262C",
+                "offset": 100,
+                "consumer_rows": [
+                  "dungeon/func_800D2E30",
+                  "dungeon/func_800D3504",
+                  "dungeon/func_800D41BC",
+                  "dungeon/func_800D48B4",
+                  "dungeon/func_800D4C38"
+                ]
+              },
+              {
+                "symbol": "D_800E260C",
+                "offset": 132,
+                "consumer_rows": [
+                  "dungeon/func_800D2FC8",
+                  "dungeon/func_800D38EC",
+                  "dungeon/func_800D40C0"
+                ]
+              },
+              {
+                "symbol": "D_800E2468",
+                "offset": 552,
+                "consumer_rows": [
+                  "dungeon/func_800D066C",
+                  "dungeon/func_800D0820"
+                ]
+              },
+              {
+                "symbol": "D_800E2460",
+                "offset": 560,
+                "consumer_rows": [
+                  "dungeon/func_800CFE34"
+                ]
+              }
+            ]
+          },
+          {
+            "cohort": "actor_actions.c",
+            "gap_start": 804016,
+            "gap_vma": 2148178960,
+            "reference_file": 1036084,
+            "word": 2148178960,
+            "kind": "full_32_bit_pointer",
+            "basis": "Bounded resident data/pool scan; consumer/producer semantics still required before declaring a callable entry.",
+            "review": "pending",
+            "reviewer": null,
+            "possible_table_bases": [
+              {
+                "symbol": "D_800E264C",
+                "offset": 72,
+                "consumer_rows": [
+                  "dungeon/func_800D2FC8"
+                ]
+              },
+              {
+                "symbol": "D_800E262C",
+                "offset": 104,
+                "consumer_rows": [
+                  "dungeon/func_800D2E30",
+                  "dungeon/func_800D3504",
+                  "dungeon/func_800D41BC",
+                  "dungeon/func_800D48B4",
+                  "dungeon/func_800D4C38"
+                ]
+              },
+              {
+                "symbol": "D_800E260C",
+                "offset": 136,
+                "consumer_rows": [
+                  "dungeon/func_800D2FC8",
+                  "dungeon/func_800D38EC",
+                  "dungeon/func_800D40C0"
+                ]
+              },
+              {
+                "symbol": "D_800E2468",
+                "offset": 556,
+                "consumer_rows": [
+                  "dungeon/func_800D066C",
+                  "dungeon/func_800D0820"
+                ]
+              },
+              {
+                "symbol": "D_800E2460",
+                "offset": 564,
+                "consumer_rows": [
+                  "dungeon/func_800CFE34"
+                ]
+              }
+            ]
+          },
+          {
+            "cohort": "dungeon_hud.c",
+            "gap_start": 1010004,
+            "gap_vma": 2148384948,
+            "reference_file": 1036768,
+            "word": 2148384948,
+            "kind": "full_32_bit_pointer",
+            "basis": "Bounded resident data/pool scan; consumer/producer semantics still required before declaring a callable entry.",
+            "review": "pending",
+            "reviewer": null,
+            "possible_table_bases": [
+              {
+                "symbol": "D_800E2934",
+                "offset": 12,
+                "consumer_rows": [
+                  "dungeon/func_800D6EF0",
+                  "dungeon/func_800D7198"
+                ]
+              },
+              {
+                "symbol": "D_800E2924",
+                "offset": 28,
+                "consumer_rows": [
+                  "dungeon/func_800D6FC4"
+                ]
+              },
+              {
+                "symbol": "D_800E28B8",
+                "offset": 136,
+                "consumer_rows": [
+                  "dungeon/func_800D7594"
+                ]
+              },
+              {
+                "symbol": "D_800E2828",
+                "offset": 280,
+                "consumer_rows": [
+                  "dungeon/func_800D7594"
+                ]
+              },
+              {
+                "symbol": "D_800E2804",
+                "offset": 316,
+                "consumer_rows": [
+                  "dungeon/func_800D7594"
+                ]
+              }
+            ]
+          }
+        ],
+        "review": "pending",
+        "reviewer": null,
+        "scope": "Nearest source-named bases only; not ownership or callable proof. Read the listed consumers and their actual JALR/stride sites before carving."
+      },
+      "boundaries": "Three complete664byte functions, all166instructions read; actual7/7 dispatch slots establish the first two and the existing table discriminator establishes D4634. No failed draft is registered.",
+      "review": "pending",
+      "reviewer": null
+    },
+    "work/variant_states/lineage.json": [
+      {
+        "function": "func_800D29D8",
+        "evidence": {
+          "at_macro": [],
+          "split_store": [],
+          "held_page": [],
+          "slot_store": [
+            "[61] j 0xd2c50 + [62] sb $v0, 0x9b($s0)",
+            "[96] jal 0xaaa54 + [97] sw $zero, 0xc($a1)",
+            "[103] j 0xd2c50 + [104] sb $v0, 0x9b($s0)"
+          ],
+          "split_la": [
+            "[143] lui $v0, 0x8008 + [144] addiu $a0, $v0, 0x3460"
+          ],
+          "zero_copy": [],
+          "ret_copy": []
+        },
+        "verdict": {
+          "verdict": "insufficient store-emission evidence (few globals?)",
+          "family": null,
+          "notes": [
+            "store-filled call/jump slots (observed scheduling; family-neutral)",
+            "SPLIT_ADDRESSES two-reg la (cdk/4.1-lineage)"
+          ]
+        },
+        "gp_refs": 0,
+        "claim_conflict": false,
+        "review": "pending",
+        "reviewer": null
+      },
+      {
+        "function": "func_800D3234",
+        "evidence": {
+          "at_macro": [],
+          "split_store": [],
+          "held_page": [],
+          "slot_store": [
+            "[61] j 0xd34ac + [62] sb $v0, 0x9b($s0)",
+            "[96] jal 0xaaa54 + [97] sw $zero, 0xc($a1)",
+            "[103] j 0xd34ac + [104] sb $v0, 0x9b($s0)"
+          ],
+          "split_la": [
+            "[143] lui $v0, 0x8008 + [144] addiu $a0, $v0, 0x3460"
+          ],
+          "zero_copy": [],
+          "ret_copy": []
+        },
+        "verdict": {
+          "verdict": "insufficient store-emission evidence (few globals?)",
+          "family": null,
+          "notes": [
+            "store-filled call/jump slots (observed scheduling; family-neutral)",
+            "SPLIT_ADDRESSES two-reg la (cdk/4.1-lineage)"
+          ]
+        },
+        "gp_refs": 0,
+        "claim_conflict": false,
+        "review": "pending",
+        "reviewer": null
+      },
+      {
+        "function": "func_800D4634",
+        "evidence": {
+          "at_macro": [],
+          "split_store": [],
+          "held_page": [],
+          "slot_store": [
+            "[61] j 0xd48ac + [62] sb $v0, 0x9b($s0)",
+            "[96] jal 0xaaa54 + [97] sw $zero, 0xc($a1)",
+            "[103] j 0xd48ac + [104] sb $v0, 0x9b($s0)"
+          ],
+          "split_la": [
+            "[143] lui $v0, 0x8008 + [144] addiu $a0, $v0, 0x3460"
+          ],
+          "zero_copy": [],
+          "ret_copy": []
+        },
+        "verdict": {
+          "verdict": "insufficient store-emission evidence (few globals?)",
+          "family": null,
+          "notes": [
+            "store-filled call/jump slots (observed scheduling; family-neutral)",
+            "SPLIT_ADDRESSES two-reg la (cdk/4.1-lineage)"
+          ]
+        },
+        "gp_refs": 0,
+        "claim_conflict": false,
+        "review": "pending",
+        "reviewer": null
+      }
+    ]
+  },
+  "review": "pending",
+  "reviewer": null
+}

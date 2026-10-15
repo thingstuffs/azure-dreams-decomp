@@ -1,0 +1,54 @@
+{
+  "row": "dungeon/func_800C3928",
+  "old_record": {
+    "id": "dungeon/func_800C3928",
+    "kinds": [
+      "maspsx_dependent",
+      "maspsx_pass"
+    ],
+    "cause": "several passes jointly: _rotate_marked_store_into_jal_delay+_maybe_unfill_return_delay",
+    "source": "docs/evidence/gp_partition_only/production_transition/README.md"
+  },
+  "postpasses_fired": [],
+  "named_passes_ablation_identical": true,
+  "object_sha256": "876ab8793c2582bb5f6cdc23b3010ff625b3dfb30aedb2694eada1e8c8a40090",
+  "whole_tu_genuine": "checked 2.79 -q -G0 equals all four retail bodies without masks",
+  "review": "pending",
+  "reviewer": null,
+  "next_step": "Guarded dependence-record refresh supported by current source/compiler stream; preserve unrelated records and actual gate checks.",
+  "candidate_sources": {
+    "drafts/complete/e3928/func_800C3928.c": "a6eea88d7c89048cbe70b2d446c8e2c13a6869fc251a6a50c47e71e0de8eb5bd",
+    "drafts/complete/e3928/func_800C3E60.c": "f774006f58f727a050b87e0d935396a3de67c59b4cbc08e89a2e8aa9701f02d9",
+    "drafts/complete/e3928/func_800C3F04.c": "fceeb084d42787debd9fa582b398786735436e8bd82b49829a3fdff13c18835c",
+    "drafts/complete/e3928/func_800C3F88.c": "1b6a59504f44c5534b7dae70e95e3ad6e1aa93f43e9478865438f45891ffa316"
+  },
+  "retail_code_sha256": "419c9f8c4ad746aed6de1d1d97ac5e21356a45bd64f12668f650be8f68bf1459",
+  "native_gate": {
+    "result": "MATCH",
+    "foff": 932136,
+    "vma": 2148307080,
+    "bytes": 1992,
+    "rebuilt_sha256": "d0bed04f993eeb65c459b39b54d98f3dd7c741570beb0b7e05179b146cc5537e",
+    "retail_sha256": "d0bed04f993eeb65c459b39b54d98f3dd7c741570beb0b7e05179b146cc5537e",
+    "masked": 0,
+    "raw_substitution_bytes": 0
+  },
+  "genuine": {
+    "result": "MATCH",
+    "version": "2.79",
+    "whole_tu": true,
+    "flags": [
+      "-q",
+      "-G0"
+    ],
+    "bytes": 1992,
+    "masked": 0,
+    "sha256": "d0bed04f993eeb65c459b39b54d98f3dd7c741570beb0b7e05179b146cc5537e"
+  },
+  "installed_source_sha256": {
+    "src/dungeon/func_800C3928.c": "a6eea88d7c89048cbe70b2d446c8e2c13a6869fc251a6a50c47e71e0de8eb5bd",
+    "src/dungeon/func_800C3E60.c": "f774006f58f727a050b87e0d935396a3de67c59b4cbc08e89a2e8aa9701f02d9",
+    "src/dungeon/func_800C3F04.c": "fceeb084d42787debd9fa582b398786735436e8bd82b49829a3fdff13c18835c",
+    "src/dungeon/func_800C3F88.c": "1b6a59504f44c5534b7dae70e95e3ad6e1aa93f43e9478865438f45891ffa316"
+  }
+}

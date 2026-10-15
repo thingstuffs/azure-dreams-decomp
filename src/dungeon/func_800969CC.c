@@ -1,3 +1,4 @@
+#include "modules/dungeon_engine_transition_effects_abi_views.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/record_ptrs.h"
@@ -15,18 +16,17 @@ void func_80094E34();
 s32 func_80098250();
 s32 func_800990FC();
 s32 func_80099194();
-void *func_80099290();
+extern void * func_80099290(s8 *byte_ptr);
 s32 func_8009929C();
 s32 func_8009955C();
 s32 func_80099734();
-void func_80099C58();
-void func_8009BF7C();
+extern void func_8009BF7C(s32 flag, s8 value);
 void func_8009BFF8();
 s32 func_8009CD58();
 void func_800A2D68();
 s32 func_800A56E0();
-s32 func_800A5720();
-void *func_800B4C7C();
+extern s32 func_800A5720(s8 *text);
+extern void * func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 s16 func_800B5ED0();
 s32 func_800C7DEC();
 s32 func_800C82B8();
@@ -406,7 +406,7 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     ox = (dirStepX[opp] << 5) + 0x20;
     y = ((S_8009C12C_2 *)tile_in)->unk_25 + dirStepY[d] * distance;
     oy = (dirStepY[opp] << 5) + 0x20;
-    func_80099C58((s16)((x << 6) + ox), (s16)((y << 6) + oy),
+    transition_effect_legacy((s16)((x << 6) + ox), (s16)((y << 6) + oy),
         (s16)(((S_8009C12C_7 *)((S_8009C12C_0 *)attacker_in)->unk_60)->unk_88 - 0x30), effect_elements,
         ((S_8009C12C_0 *)attacker_in)->unk_2A);
     return target;

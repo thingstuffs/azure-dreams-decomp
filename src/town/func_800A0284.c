@@ -1,28 +1,7 @@
-#include "common.h"
-#include "m2c_compat.h"
-
-typedef struct S_8009D9E4_0 {
-    u16 unk_00;
-    u16 unk_02;
-    u16 unk_04;
-    u16 unk_06;
-    u16 unk_08;
-    u16 unk_0A;
-} S_8009D9E4_0;   /* arg0 in func_8009D9E4 */
-
-typedef struct S_8009D9E4_1 {
-    s16 unk_00;
-    s16 unk_02;
-    s16 unk_04;
-    s16 unk_06;
-    s16 unk_08;
-    s16 unk_0A;
-    s16 unk_0C;
-    s16 unk_0E;
-} S_8009D9E4_1;   /* arg1 in func_8009D9E4 */
+#include "modules/town_town_windows.h"
 
 /* Builds four corner vertices from a rectangle with position offsets. */
-void func_8009D9E4(S_8009D9E4_0 *rectangle, S_8009D9E4_1 *vertices) {
+void func_8009D9E4(func_800A0284_S_8009D9E4_0 *rectangle, func_800A0284_S_8009D9E4_1 *vertices) {
     s16 left;
     s16 right;
     s16 top;

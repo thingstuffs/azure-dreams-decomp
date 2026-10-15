@@ -27,9 +27,11 @@ typedef struct {
 
 extern u8 D_801C9E40[16];
 
-extern void func_80067E2C(u8 *, GpuContext *);
-extern void func_8006658C(u8 *, u8 *);
-extern void func_800B84E4(s16 *, s32, u8 *, s32);
+extern void func_80067E2C(void *, void *);
+extern void func_8006658C(void *, void *, ...);
+struct DungeonPosition;
+struct DungeonParameters;
+extern void func_800B84E4(struct DungeonPosition *position, struct DungeonParameters *parameters, s32 draw_order, s32 blend_mode);
 
 /* Draw at the rectangle center and optionally emit a filled rectangle. */
 void func_800B835C(s32 draw_value, DungeonInput *rect, u16 fill_rect, u16 draw_mode) {

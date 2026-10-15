@@ -1,9 +1,4 @@
-#include "common.h"
-#include "m2c_compat.h"
-
-extern M2C_UNK change_map();
-extern s32 get_player_homerank();
-extern s32 func_800B28A0();
+#include "modules/town_door.h"
 
 /* Changes maps using direct map data or a selected table entry. */
 void func_800A0B74(void *map_source, s32 *map_table) {

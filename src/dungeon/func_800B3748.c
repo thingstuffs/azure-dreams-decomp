@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-typedef struct {
+typedef struct FuncInput {
     u16 unk0;
     u16 unk2;
     u16 unk4;
@@ -46,10 +46,12 @@ typedef struct {
     s16 unk22;
 } FuncObject;
 
-extern s32 D_800CEEFC[3];
-extern s32 D_800B8E18;
-extern void *func_8003FD64(s16, s32);
-extern s32 func_8004491C(void *, s32 *);
+extern s32 func_800CEEFC();
+struct Object_800B36B8;
+struct Effect;
+extern void func_800B8E18(struct Object_800B36B8 *object, s32 unused, struct Effect *effect);
+extern void * func_8003FD64();
+extern s32 func_8004491C();
 
 /* Allocate and initialize a type-0x12 object with child and metadata values. */
 void func_800B8EA8(s32 alloc_arg, s32 child_x, s32 child_y, s32 child_z,
@@ -62,8 +64,8 @@ void func_800B8EA8(s32 alloc_arg, s32 child_x, s32 child_y, s32 child_z,
 
     object = func_8003FD64(0x12, alloc_arg);
     if (object != NULL) {
-        object->unk10 = &D_800B8E18;
-        func_8004491C(object, D_800CEEFC);
+        object->unk10 = func_800B8E18;
+        func_8004491C(object, func_800CEEFC);
         child = object->child;
         child->unk2 = input->unk0;
         child->unk6 = input->unk2;

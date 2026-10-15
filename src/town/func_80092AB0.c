@@ -1,44 +1,4 @@
-#include "common.h"
-#include "shared/tile_object.h"
-#include "shared/entity_objects.h"
-#include "m2c_compat.h"
-
-typedef struct S_80090210_0 {
-    s32 unk_00;
-    u8 pad_04[0x10];
-    M2C_UNK * unk_14;
-    u8 pad_18[0x2];
-    s16 unk_1A;
-    u8 pad_1C[0xA];
-    s16 unk_26;
-} S_80090210_0;   /* base_834B8 in func_80090210; pointer addresses record offset 0x10 */
-
-typedef struct S_80090210_1 {
-    u8 pad_00[0x28];
-    s32 unk_28;
-} S_80090210_1;   /* base_82E80 in func_80090210 */
-
-typedef struct S_80090210_2 {
-    u8 pad_00[0x438];
-    union { M2C_UNK (*s)(); s32 u; } unk_438;   /* accessed as both */
-} S_80090210_2;   /* callback_page in func_80090210 */
-
-
-void func_80033AA8();                     /* extern */
-void func_80033AE8();                     /* extern */
-s32 func_80033B2C();                         /* extern */
-s32 func_80048D20();                            /* extern */
-s32 func_80048D40();                                /* extern */
-void func_80094984(); /* extern */
-void func_80098868(); /* extern */
-void func_80098928(); /* extern */
-void func_80099764();                   /* extern */
-extern s32 D_80080A80;
-extern s32 D_800834B8;
-extern u8 D_8008FFC0[];
-extern M2C_UNK D_80097D54;
-extern u8 D_800D0078[];
-extern s32 D_800D0438;
+#include "modules/town_player_init.h"
 
 /* Synchronizes the mode flag, updates state, and runs the pending callback. */
 void func_80090210(void) {
@@ -50,9 +10,9 @@ void func_80090210(void) {
     u8 *handler_state = (u8 *)&D_800834B8;
     void (*callback)();
 
-    if (((S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_00 != D_8008FFC0) {
+    if (((func_80092AB0_S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_00 != D_8008FFC0) {
         if (func_80033B2C(0x1202) == 0) {
-            ((S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_26 = 0;
+            ((func_80092AB0_S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_26 = 0;
             disabled_flag = func_80033B2C(0x1202);
             if (disabled_flag != func_80033B2C(0x9D)) {
                 mode_result = func_80048D20();
@@ -60,7 +20,7 @@ void func_80090210(void) {
                 update_state->unk_028 = mode_result;
             }
         } else {
-            ((S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_26 = 1;
+            ((func_80092AB0_S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_26 = 1;
             enabled_flag = func_80033B2C(0x1202);
             if (enabled_flag != func_80033B2C(0x9D)) {
                 s32 mode_result;
@@ -79,8 +39,8 @@ void func_80090210(void) {
         func_80098868(handler_state, work_state, update_state);
         func_80098928(handler_state, work_state, update_state);
         callback = (void (*)())D_800D0438;
-        ((S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_14 = (M2C_UNK *)&D_80097D54;
-        ((S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_1A = 0x10;
+        ((func_80092AB0_S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_14 = (s32 *)&D_80097D54;
+        ((func_80092AB0_S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_1A = 0x10;
         if (callback != NULL) {
             callback();
             D_800D0438 = 0;

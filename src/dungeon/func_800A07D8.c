@@ -1,9 +1,10 @@
+#include "modules/dungeon_engine_dungeon_util_fragment_c05e4.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
 
 extern s32 func_8004A658(u8, u8);
 extern void func_80098B38(void *);
-extern void func_800A56E0(s32);
+extern s32 func_800A56E0(s32);
 extern void func_800A7A7C(u16, u16, s16, s32, void *);
 
 /* Processes a target using the linked object's position, then decrements the shared count. */

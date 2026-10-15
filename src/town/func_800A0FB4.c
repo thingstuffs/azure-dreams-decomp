@@ -1,37 +1,7 @@
-#include "common.h"
-#include "shared/slus_callbacks.h"
-#include "shared/object_flags.h"
-
-typedef s32 M2C_UNK;
-
-typedef struct S_func_8009E714_0 {
-    u8 pad_00[0x4D];
-    u8 unk_4D;
-    u8 pad_4E[0x1E];
-    u16 unk_6C;
-    u8 pad_6E[0x2A];
-    void *unk_98;
-} S_func_8009E714_0;
-
-typedef struct S_func_8009E714_1 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-} S_func_8009E714_1;
-
-typedef struct S_func_8009E714_2 {
-    u16 unk_00;
-} S_func_8009E714_2;
-
-extern M2C_UNK func_80033CD8();
-extern M2C_UNK func_80033D08();
-extern M2C_UNK func_800478B8();
-extern s32 func_800644B8();
-extern s32 func_8009D20C(void *, M2C_UNK);
+#include "modules/town_town_windows.h"
 
 /* Updates an object's pulse brightness and handles its completion state. */
-void func_8009E714(S_func_8009E714_0 *object, M2C_UNK context, S_func_8009E714_1 *primitive) {
+void func_8009E714(func_800A0FB4_S_func_8009E714_0 *object, s32 context, func_800A0FB4_S_func_8009E714_1 *primitive) {
     s32 status_match;
     s16 phase;
     s32 wave;
@@ -45,7 +15,7 @@ void func_8009E714(S_func_8009E714_0 *object, M2C_UNK context, S_func_8009E714_1
             *active_flag = 0;
         }
         func_80033D08(object);
-        ((S_func_8009E714_2 *)object)[-1].unk_00 |= 0x8000;
+        ((func_800A0FB4_S_func_8009E714_2 *)object)[-1].unk_00 |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
         return;
     }
@@ -69,7 +39,7 @@ void func_8009E714(S_func_8009E714_0 *object, M2C_UNK context, S_func_8009E714_1
     primitive->unk_0E = (s8)brightness;
     primitive->unk_0D = (s8)brightness;
     primitive->unk_0C = (s8)brightness;
-    if (!(((S_func_8009E714_2 *)object)[-1].unk_00 & 0x8000) &&
+    if (!(((func_800A0FB4_S_func_8009E714_2 *)object)[-1].unk_00 & 0x8000) &&
         object->unk_4D == 0x13) {
         func_800478B8(primitive);
     }

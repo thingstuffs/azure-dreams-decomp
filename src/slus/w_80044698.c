@@ -1,13 +1,5 @@
-#include "common.h"
+#include "slus/owned_80044698.h"
 
-extern s32 func_80053EF0(s32 a0);
-extern s16 SD_Call(s32 a0);
-extern void func_80044618(s32 a0);
-extern s32 VSync(s32 mode);
-
-extern u16 D_80080B00;
-
-/* Pumps frames until polling returns zero, handling the first poll and caching the VSync field. */
 void func_80044698(void)
 {
     s32 first_poll_done = 0;

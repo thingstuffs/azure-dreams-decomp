@@ -1,7 +1,8 @@
+#include "modules/trap_effects_candidate.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 
-extern s32 func_800CE4E8();
+extern s32 func_800CE4E8(s32 center_x, s32 center_y, s16 unused_value, void *unused_data, s32 reverse_offset);
 
 /* Checks the entity at its linked coordinates unless a global override is set. */
 s32 func_800CE6F0(void *entity) {

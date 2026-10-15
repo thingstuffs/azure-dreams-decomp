@@ -33,29 +33,29 @@ typedef struct {
     s32 wA0;
     s32 wA8;
     s32 wB0;
-} Scratch;
+} Scratch_800B39E4;
 
 typedef struct {
     u8 bytes[12];
 } Record;
 
 
-extern void func_800649A0(void);
+extern void func_800649A0();
 extern void func_80064A40(void);
 extern void func_80064B90(void *, void *, s32, s32);
-extern void func_80064BC0(void *, void *);
+extern void *func_80064BC0(void *, void *);
 extern void func_80064CF0(void *);
 extern void func_80064D80(void *);
 extern void func_80065320(void *, void *, void *);
-extern void func_80065820(void *, void *);
-extern void func_8006658C(s32, void *);
-extern void func_80067EF4();
+extern void *func_80065820(void *, void *);
+extern void func_8006658C(void *, void *, ...);
+extern void func_80067EF4(void *, s32, s32, ...);
 
 /* Build transformed textured quads from sprite parts and append them to the draw list. */
 void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
 {
     s32 (*callback)(void *, s32, void *, void *, void *);
-    Scratch *scratch = (Scratch *)0x1F800000;
+    Scratch_800B39E4 *scratch = (Scratch_800B39E4 *)0x1F800000;
     u8 *sprite = P32(context, -0x14);
     s32 callback_arg = S32(context, -0x18);
     s16 saved_mode = draw_mode;
@@ -129,7 +129,7 @@ void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
     }
 
     do {
-        scratch = (Scratch *)0x1F800000;
+        scratch = (Scratch_800B39E4 *)0x1F800000;
         if (!(U8(part, 0) & 0x20)) {
             s32 edge;
             s16 edge1;

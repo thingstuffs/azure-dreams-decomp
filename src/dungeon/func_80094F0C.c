@@ -1,28 +1,13 @@
+#include "modules/dungeon_engine_tile_map_fragment_b4f0c.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/dir_step.h"
 
 #define FIELD(ptr, type, offset) (*(type *)((u8 *)(ptr) + (offset)))
 
-typedef struct {
-    u8 pad24[0x24];
-    u8 x;
-    u8 y;
-    s8 flag;
-} FuncArg1;
 
-typedef struct {
-    u8 pad1c[0x1c];
-    u32 flags;
-    u8 pad20[0x68];
-    u16 height;
-} FuncArg2;
 
-extern s32 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern s32 func_8009A540(s32 direction, s16 tile_x, s16 tile_y, s16 height);
-extern s32 func_8009B25C(FuncArg2 *, s32, s32, s16);
 extern s16 func_8009FB34(u16, u16);
-extern s16 func_800BCB04(s32, s32, s16);
 
 extern s16 D_800DCEAC[];
 extern s16 D_800DCEBC[];
@@ -95,14 +80,14 @@ s32 func_8009A66C(u32 move_flags, FuncArg1 *position, FuncArg2 *actor, s16 heigh
             x_pos &= 0xFFFF;
             x_coord = x_pos;
             y_coord = y_pos & 0xFFFF;
-            offset_or_height = func_800BCB04(x_coord, y_coord, (s16)(height - height_offset));
+            offset_or_height = terrain_height_short(x_coord, y_coord, (s16)(height - height_offset));
             if (func_8009B25C(actor, (u32)x_pos >> 6, (u32)y_coord >> 6,
                               (s16)offset_or_height)) {
                 status = -1;
                 return status;
             }
         } else {
-            offset_or_height = func_800BCB04(x_pos & 0xFFFF, y_pos & 0xFFFF,
+            offset_or_height = terrain_height_short(x_pos & 0xFFFF, y_pos & 0xFFFF,
                                    (s16)(height - height_offset));
         }
 

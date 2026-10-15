@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-15T12:53:30Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-15T14:48:52Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -8,12 +8,12 @@ Generated 2026-10-15T12:53:30Z. Pin `82f20568` (82f20568997a, raw/ frozen at 202
 |---|---:|---:|---:|---:|---:|---:|---:|
 | slus | 884 | 473,788 | 884 | 473,788 | 884 | 473,788 | 0 |
 | main | 422 | 62,736 | 422 | 62,736 | 422 | 62,736 | 0 |
-| town | 2706 | 457,832 | 2706 | 457,832 | 2706 | 457,832 | 0 |
-| dungeon | 3442 | 1,789,136 | 3442 | 1,789,136 | 3441 | 1,787,336 | 1 |
+| town | 2803 | 467,892 | 2803 | 467,892 | 2803 | 467,892 | 0 |
+| dungeon | 3478 | 1,794,520 | 3478 | 1,794,520 | 3477 | 1,792,720 | 1 |
 | ovmovie | 28 | 5,516 | 28 | 5,516 | 28 | 5,516 | 0 |
-| ALL | 7482 | 2,789,008 | 7482 | 2,789,008 | 7481 | 2,787,208 | 1 |
+| ALL | 7615 | 2,804,452 | 7615 | 2,804,452 | 7614 | 2,802,652 | 1 |
 
-Data rows: 498 (13,584 B); stale-image residue DATA: 1 (488 B).
+Data rows: 499 (13,608 B); stale-image residue DATA: 1 (488 B).
 
 Placement unproven (excluded from L4 module placement): 6 rows (1,688 B): town/D_802F100C, town/D_802F1074, town/D_802F11AC, dungeon/func_80921000, dungeon/D_808CB000, dungeon/D_80921000
 
@@ -27,52 +27,64 @@ Baseline NOT exact: 0 rows
 | module | logical rows | placement evidence | shared headers |
 |---|---:|---|---|
 | runtime_directory | 3 | unproved: module sources, headers or manifest changed | include/common.h, include/slus/runtime_directory.h |
-| entry_words | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
-| render_words | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/records/Rec_func_80034F58_arg0.h |
-| owned_80035484 | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
-| owned_80038A10 | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
-| owned_80044698 | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
-| owned_800448BC | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
-| owned_8004713C | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
-| owned_80047338 | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
-| owned_80047468 | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
-| state_defaults | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
+| entry_words | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/entry_words.h |
+| render_words | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/records/Rec_func_80034F58_arg0.h, include/slus/render_words.h |
+| owned_80035484 | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/owned_80035484.h |
+| owned_80038A10 | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/owned_80038A10.h |
+| owned_80044698 | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/owned_80044698.h |
+| owned_800448BC | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/owned_800448BC.h |
+| owned_8004713C | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/owned_8004713C.h |
+| owned_80047338 | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/owned_80047338.h |
+| owned_80047468 | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/owned_80047468.h |
+| state_defaults | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/state_defaults.h |
 | slot_transition | 4 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/slot_transition.h |
 | slot_transition_secondary | 4 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/slot_transition.h |
-| konami_runtime_gp_count | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
-| gp_shared_slots | 2 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
-| gp_split_storage | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
-| gp_shared_81510 | 2 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/gp_shared_81510.h |
+| konami_runtime_gp_count | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/konami_runtime_gp_count.h |
+| gp_shared_slots | 2 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/gp_shared_slots.h |
+| gp_split_storage | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/gp_split_storage.h |
+| gp_shared_81510 | 2 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/gp_shared_81510.h, include/shared/scratchpad.h |
 | gp_shared_8099c | 2 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/gp_shared_8099c.h |
-| cache_afe | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
+| cache_afe | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/cache_afe.h |
 | list_cursor_e0 | 1 | unproved: certificate physical contributors or destination changed | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/list_cursor_e0.h |
 | saved_value_b98 | 2 | not certified | include/common.h, include/slus/saved_value_b98.h |
 | sort_rank_81540 | 1 | not certified | include/common.h, include/slus/sort_rank_81540.h |
 | command_slots_81554 | 4 | not certified | include/common.h, include/slus/command_slots_81554.h |
-| address_slot | 1 | not certified | include/common.h |
-| command_words | 1 | not certified | include/common.h |
-| gp_shared_8152c | 3 | not certified | include/common.h |
-| gp_d92c_owned | 1 | not certified | include/common.h |
-| gp_order_bytes_owner | 1 | not certified | include/common.h |
-| gp_af3_pair | 2 | not certified | include/common.h |
+| address_slot | 1 | not certified | include/common.h, include/slus/address_slot.h |
+| command_words | 1 | not certified | include/common.h, include/slus/command_words.h |
+| gp_shared_8152c | 3 | not certified | include/common.h, include/slus/gp_shared_8152c.h |
+| gp_d92c_owned | 1 | not certified | include/common.h, include/slus/gp_d92c_owned.h |
+| gp_order_bytes_owner | 1 | not certified | include/common.h, include/slus/gp_order_bytes_owner.h |
+| gp_af3_pair | 2 | not certified | include/common.h, include/slus/gp_af3_pair.h |
 | message_mode_81550 | 3 | not certified | include/common.h, include/slus/message_mode_81550.h |
 | cd_command_state | 7 | not certified | include/common.h, include/slus/cd_state.h, include/slus/cd_cohort_types.h |
 | accessors_814c8 | 0 | not applicable (partition owner) | include/common.h |
 | table_counters_b1b_b1c | 0 | not applicable (partition owner) | include/common.h |
-| jtbl_80054F9C | 1 | not certified | include/common.h |
-| jtbl_80041344 | 1 | not certified | include/common.h |
-| jtbl_80057A94 | 1 | not certified | include/common.h |
-| jtbl_80052CE0 | 1 | not certified | include/common.h |
-| jtbl_800517CC | 1 | not certified | include/common.h |
-| jtbl_8004CECC | 1 | not certified | include/common.h |
-| jtbl_80042BDC | 1 | not certified | include/common.h |
-| jtbl_8005F134 | 1 | not certified | include/common.h |
-| jtbl_8005EDA0 | 1 | not certified | include/common.h |
-| jtbl_80052144 | 1 | not certified | include/common.h |
-| jtbl_80057D20 | 1 | not certified | include/common.h |
+| jtbl_80054F9C | 1 | not certified | include/common.h, include/slus/jtbl_80054F9C.h |
+| jtbl_80041344 | 1 | not certified | include/common.h, include/slus/jtbl_80041344.h |
+| jtbl_80057A94 | 1 | not certified | include/common.h, include/slus/jtbl_80057A94.h |
+| jtbl_80052CE0 | 1 | not certified | include/common.h, include/slus/jtbl_80052CE0.h |
+| jtbl_800517CC | 1 | not certified | include/common.h, include/slus/jtbl_800517CC.h |
+| jtbl_8004CECC | 1 | not certified | include/common.h, include/slus/jtbl_8004CECC.h |
+| jtbl_80042BDC | 1 | not certified | include/common.h, include/slus/jtbl_80042BDC.h |
+| jtbl_8005F134 | 3 | not certified | include/common.h, include/slus/jtbl_8005F134.h, include/shared/spu_voice.h |
+| jtbl_8005EDA0 | 2 | not certified | include/common.h, include/slus/jtbl_8005EDA0.h |
+| jtbl_80052144 | 1 | not certified | include/common.h, include/slus/jtbl_80052144.h |
+| jtbl_80057D20 | 1 | not certified | include/common.h, include/slus/jtbl_80057D20.h |
 | sound_tu_code | 0 | not applicable (partition owner) | include/common.h |
 | jtbl_80041588 | 1 | not certified | include/common.h |
 | jtbl_800595C0 | 1 | not certified | include/common.h |
+| sound_pitch_conversions | 3 | not certified | include/common.h, include/slus/sound_pitch_conversions.h |
+| sound_register_helpers | 3 | not certified | include/common.h, include/slus/sound_register_helpers.h |
+| sound_range_records | 3 | not certified | include/common.h, include/slus/sound_range_records.h |
+| sound_transfer_helpers | 3 | not certified | include/common.h, include/slus/sound_transfer_helpers.h |
+| sound_streaming_transfer | 1 | not certified | include/common.h, include/slus/sound_streaming_transfer.h |
+| sound_key_buffer | 2 | not certified | include/common.h, include/slus/sound_key_buffer.h |
+| sound_dma_lifecycle | 6 | not certified | include/common.h, include/slus/sound_dma_lifecycle.h |
+| sound_reset_state | 2 | not certified | include/common.h, include/slus/sound_reset_state.h, include/slus/sound_range_records.h |
+| sound_transfer_frontends | 2 | not certified | include/common.h, include/slus/sound_transfer_frontends.h |
+| sound_event_start | 1 | not certified | include/common.h, include/slus/sound_event_service.h, include/slus/sound_dma_lifecycle.h |
+| sound_register_value | 1 | not certified | include/common.h, include/slus/sound_register_helpers.h |
+| sound_reverb_writer | 1 | not certified | include/common.h, include/slus/sound_dma_lifecycle.h, include/slus/sound_reverb.h |
 
 Not certified means no placement certificate has been issued; ownership and retail-byte proofs are separate. Partition owners do not grant whole-row placement.
 
@@ -82,13 +94,13 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 
 | module | rows | placement proof |
 |---|---:|---|
-| dungeon_cd_control_d79c4 | 3 | current: complete TU + all windows + genuine |
-| town_minigame_dispatch_44b44 | 13 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1852800 | 4 | current: complete TU + all windows + genuine |
+| dungeon_cd_control_d79c4 | 3 | source/recipe/graph/tool/review/window inputs changed |
+| town_minigame_dispatch_44b44 | 13 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1852800 | 4 | source/recipe/graph/tool/review/window inputs changed |
 | dungeon_ovl_1870800 | 2 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1858800 | 3 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1840800 | 3 | current: complete TU + all windows + genuine |
-| dungeon_ovl_185e800 | 3 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1858800 | 3 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1840800 | 3 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_185e800 | 3 | source/recipe/graph/tool/review/window inputs changed |
 | dungeon_ovl_18ac800 | 2 | current: complete TU + all windows + genuine |
 | dungeon_ovl_18fa800 | 3 | current: complete TU + all windows + genuine |
 | dungeon_ovl_19ba800 | 3 | current: complete TU + all windows + genuine |
@@ -105,7 +117,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | dungeon_ovl_197281c | 5 | current: complete TU + all windows + genuine |
 | dungeon_ovl_1990800 | 13 | current: complete TU + all windows + genuine |
 | dungeon_ovl_1960800 | 11 | current: complete TU + all windows + genuine |
-| dungeon_ovl_183a800 | 10 | current: complete TU + all windows + genuine |
+| dungeon_ovl_183a800 | 10 | source/recipe/graph/tool/review/window inputs changed |
 | dungeon_ovl_18a0800 | 15 | current: complete TU + all windows + genuine |
 | dungeon_ovl_19c6800 | 5 | current: complete TU + all windows + genuine |
 | dungeon_ovl_19cc800 | 22 | current: complete TU + all windows + genuine |
@@ -116,14 +128,28 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | dungeon_ovl_fa7000 | 28 | current: complete TU + all windows + genuine |
 | dungeon_ovl_1924800 | 11 | current: complete TU + all windows + genuine |
 | dungeon_ovl_19b4800 | 5 | current: complete TU + all windows + genuine |
-| dungeon_ovl_184c800 | 3 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1864800 | 4 | current: complete TU + all windows + genuine |
+| dungeon_ovl_184c800 | 3 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1864800 | 4 | source/recipe/graph/tool/review/window inputs changed |
 | dungeon_ovl_7e6a5800 | 23 | current: complete TU + all windows + genuine |
 | dungeon_ovl_18d6800 | 12 | current: complete TU + all windows + genuine |
 | dungeon_ovl_18ee800 | 8 | current: complete TU + all windows + genuine |
 | dungeon_ovl_18e8800 | 4 | current: complete TU + all windows + genuine |
 | dungeon_ovl_18b2800 | 11 | current: complete TU + all windows + genuine |
 | ovmovie_libpress | 17 | current: complete TU + all windows + genuine |
+| dungeon_engine_dungeon_util | 43 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_engine_dungeon_util.json' |
+| dungeon_engine_experience | 17 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_engine_experience.json' |
+| dungeon_engine_transition_effects | 12 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_engine_transition_effects.json' |
+| dungeon_engine_entity_effects | 21 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_engine_entity_effects.json' |
+| dungeon_engine_tile_map | 25 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_engine_tile_map.json' |
+| dungeon_engine_entity_panel | 21 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_engine_entity_panel.json' |
+| dungeon_engine_particle_effects | 11 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_engine_particle_effects.json' |
+| dungeon_engine_screen_effects | 4 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_engine_screen_effects.json' |
+| dungeon_engine_trap_effects | 38 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_engine_trap_effects.json' |
+| dungeon_engine_menu_effects | 38 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_engine_menu_effects.json' |
+| dungeon_engine_effect_dispatch | 18 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_engine_effect_dispatch.json' |
+| town_door_22f08 | 25 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_town_door_22f08.json' |
+| town_player_init_12868 | 12 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_town_player_init_12868.json' |
+| town_town_windows_1f5b8 | 36 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_town_town_windows_1f5b8.json' |
 
 Placement alone does not override any lower-level or source-residue guard.
 
@@ -131,28 +157,28 @@ Placement alone does not override any lower-level or source-residue guard.
 
 | defect | files (pin) | bytes (pin) | % bytes | files (clean) | bytes (clean) | % bytes |
 |---|---:|---:|---:|---:|---:|---:|
-| m2c boilerplate block | 2331 | 510,604 | 18.3% | 0 | 0 | 0.0% |
-| M2C_FIELD raw offsets | 2950 | 1,448,300 | 51.9% | 0 | 0 | 0.0% |
-| m2c local names | 5181 | 2,160,964 | 77.5% | 3 | 23,924 | 0.9% |
-| ASM_ pins | 2135 | 1,455,436 | 52.2% | 0 | 0 | 0.0% |
-| goto | 1545 | 1,311,404 | 47.0% | 271 | 326,884 | 11.7% |
+| m2c boilerplate block | 2331 | 510,604 | 18.2% | 0 | 0 | 0.0% |
+| M2C_FIELD raw offsets | 2950 | 1,448,300 | 51.6% | 0 | 0 | 0.0% |
+| m2c local names | 5181 | 2,160,964 | 77.1% | 3 | 23,924 | 0.9% |
+| ASM_ pins | 2135 | 1,455,436 | 51.9% | 0 | 0 | 0.0% |
+| goto | 1545 | 1,311,404 | 46.8% | 271 | 326,884 | 11.7% |
 | computed-goto jump table | 317 | 436,404 | 15.6% | 1 | 16 | 0.0% |
-| inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 242,072 | 8.7% | 7 | 9,764 | 0.4% |
-| fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate) | 1489 | 675,960 | 24.2% | 0 | 0 | 0.0% |
-| any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,280,480 | 45.9% | 12 | 25,440 | 0.9% |
-| any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,480 | 45.9% | 1647 | 892,704 | 32.0% |
-| noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 668 | 488,888 | 17.5% | 0 | 0 | 0.0% |
-| maspsx marker pins (scaffolding) | 394 | 347,512 | 12.5% | 0 | 0 | 0.0% |
+| inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 242,072 | 8.6% | 8 | 9,868 | 0.4% |
+| fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate) | 1489 | 675,960 | 24.1% | 0 | 0 | 0.0% |
+| any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,280,480 | 45.7% | 12 | 25,440 | 0.9% |
+| any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,480 | 45.7% | 1647 | 892,704 | 31.8% |
+| noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 668 | 488,888 | 17.4% | 0 | 0 | 0.0% |
+| maspsx marker pins (scaffolding) | 394 | 347,512 | 12.4% | 0 | 0 | 0.0% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 5.6% | 4 | 4,140 | 0.1% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
-| local address-named struct | 633 | 346,872 | 12.4% | 2865 | 1,488,496 | 53.4% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 5.5% | 7208 | 2,438,200 | 87.4% |
+| local address-named struct | 633 | 346,872 | 12.4% | 2852 | 1,476,952 | 52.7% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 5.5% | 7341 | 2,453,644 | 87.5% |
 
 Pin sites now: 0 in 0 rows; .  At the pin: 25,918; REG 12,816, KEEP 6,936, KEEP_NV 2,505, SCHED_BARRIER 1,355, TAILSLOT_PIN 506, USE 294, USE_NV 260, KEEP_DEP_NV 190.
 
 Tracked, not pins (owner 2026-10-06): oddities 0 (ledger/oddities.jsonl - zero-byte fences retail needs, curiosities, not removal targets: -); one-trip barrier rows 2 (ledger/onetrip_barrier_rows.jsonl); load-bearing one-trip rows 85 (ledger/onetrip_loadbearing.jsonl, statement-macro bodies, not counted in the do{}while(0) row above).
 Carve debt - composite rows (r95 decisions item 8 kept the spelling for bytes; r99: it is an artifact of one-row-per-function carving, owned by module placement): the `asm("func_X")` data prefix (another function's jump table / overlay data that retail places before this row's code) and its `.globl/.type/.size func_X` stamp (`pin_census.composite_asm_spans`), 2 statements in 1 rows - counted here, not in the inline-asm row above; still L5 `inline_asm` residue in levels.py until the module TU owns the data.
-Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 0, calls of local asm wrappers 0, hand-written asm in function bodies 0 (C that is missing); symbol aliases 6 (a second typed name for one symbol: a missing type); file-scope asm directives 6; file-scope global register variables 0 (`register T g asm("$R")`).
+Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 0, calls of local asm wrappers 0, hand-written asm in function bodies 0 (C that is missing); symbol aliases 7 (a second typed name for one symbol: a missing type); file-scope asm directives 6; file-scope global register variables 0 (`register T g asm("$R")`).
 
 Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 89 rows carry one flag, 0 carry two or more.
 
@@ -192,16 +218,16 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 
 | level | bytes | % |
 |---|---:|---:|
-| L0 | 2,787,208 | 99.9% |
-| L1 | 2,787,208 | 99.9% |
-| L2 | 2,787,208 | 99.9% |
-| L3 | 2,773,624 | 99.4% |
-| L4 | 241,284 | 8.7% |
-| L5 | 241,284 | 8.7% |
+| L0 | 2,802,652 | 99.9% |
+| L1 | 2,802,652 | 99.9% |
+| L2 | 2,802,652 | 99.9% |
+| L3 | 2,773,636 | 98.9% |
+| L4 | 214,244 | 7.6% |
+| L5 | 214,244 | 7.6% |
 
-On shared record headers (T7, `include/records/`): 931 rows, 595,580 bytes (21.4%); records used: 98.
+On shared record headers (T7, `include/records/`): 1122 rows, 636,744 bytes (22.7%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 7,074 rows (2,545,832 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 7,253 rows (2,588,316 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 

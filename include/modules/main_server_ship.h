@@ -1,0 +1,101 @@
+#ifndef MAIN_SERVER_SHIP_H
+#define MAIN_SERVER_SHIP_H
+#include "common.h"
+
+/* Runtime/storage views. This diagnostic header makes no allocation claim. */
+typedef struct MainCardPair { s32 a; s32 b; } MainCardPair;
+typedef s32 (*MainCallback)(void);
+typedef struct CallbackSet { MainCallback value[5]; } CallbackSet;
+typedef struct CallbackWork { CallbackSet first; s32 pad; CallbackSet second; } CallbackWork;
+typedef struct MainCardDirectoryEntry { u8 name[0x18]; s32 size; u8 tail[0xC]; } MainCardDirectoryEntry;
+typedef struct MainSaveSlot { s32 words[32]; } MainSaveSlot;
+extern u8 D_80020000[];
+extern u8 D_80020028[];
+extern CallbackSet D_80020034;
+extern CallbackSet D_80020048;
+extern u8 D_80020084[];
+extern s32 D_80027F18[];
+extern u8 D_80027F20[];
+extern u8 D_80027F30[];
+extern s32 D_80028530[];
+extern s32 D_80028538[];
+extern s32 D_80028540[];
+extern s32 D_80028548[];
+extern s32 D_80028550[];
+extern s32 D_80028554[];
+extern s32 D_80028558[];
+extern s32 D_8002855C[];
+extern s32 D_80028560[];
+extern s32 D_80028564[];
+extern s32 D_80028568[];
+extern s32 D_8002856C[];
+extern MainCardDirectoryEntry D_80028570[15];
+extern MainCardPair D_800287C8;
+extern s32 D_800287CC[];
+extern MainCardPair D_800287D0;
+extern MainCardPair D_800287D8;
+extern s32 D_800287E0[];
+extern s32 D_800287E4[];
+extern MainSaveSlot D_80083E98[5];
+extern MainCardPair D_80084118;
+extern s32 D_80084120[];
+extern s32 D_80084128[];
+
+extern void _card_wait(s32 channel);
+extern s32 func_8006A024(s32 event);
+extern s32 func_8006A084(void);
+extern s32 func_8006A094(void);
+extern void printf(void *format, ...);
+extern void exit(s32 status) __attribute__((noreturn));
+extern void strcpy(void *dest, s32 source);
+extern void strcat(void *dest, void *source);
+extern void close(s32 file);
+
+/* Complete member contracts, one prototype per line. */
+void func_80020924(s32 mode_enabled, s32 *unused_repeat_counts);
+void func_80020984(void);
+void func_800209C4(void);
+void func_80020A0C(void);
+s32 func_80020A30(void);
+s32 func_80020A44(void);
+s32 func_80020A58(void);
+s32 func_80020A6C(void);
+void func_80020A80(void);
+void func_80020EA0(void);
+void func_80020F18(void);
+s32 func_800210E0(void);
+s32 func_800210F0(void);
+s32 func_8002121C(void);
+s32 func_80021298(void);
+s32 func_8002137C(void);
+s32 func_800213A0(void);
+s32 func_800213C4(s32 card_channel);
+s32 func_80021410(void);
+void func_800214A4(void);
+s32 func_800214FC(void);
+void func_80021538(void);
+s32 func_80021594(void);
+s32 func_8002168C(void);
+s32 *func_800217D4(void);
+void func_80021904(void);
+s32 func_8002190C(void);
+s32 func_8002191C(void);
+s32 func_800219B8(s32 entry_count);
+s32 func_80021A04(s32 count, u8 *text);
+s32 func_80021A84(s32 card_slot);
+void func_80021B18(s32 dest, s32 suffix_index);
+s32 func_80021B98(s32 path, s32 buffer, s32 read_size, s32 block_offset);
+s32 func_80021C4C(s32 path, s32 buffer, s32 unit_count, s32 unit_offset, s32 skip_create);
+s32 func_80021D38(s32 entry_index);
+s32 func_80021D54(s32 slot);
+void func_80021DF4(s32 entry_index, void *source);
+void func_80021EB8(void *buffer);
+s32 func_80021EE0(void *save_data);
+s32 func_80021F18(s32 slot, void *data);
+void func_80021FF0(s32 entry_index, void *data, s32 update_entry);
+void func_800220DC(void);
+s32 func_80022138(void);
+s32 func_80022160(void);
+s32 func_8002219C(s32 file_index);
+void func_8002223C(void);
+#endif

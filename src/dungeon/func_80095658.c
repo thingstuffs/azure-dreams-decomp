@@ -24,15 +24,15 @@ typedef struct {
     u16 type;
     u16 unk2;
     u16 flags;
-} MapCell;
+} FacingMapCell;
 
-extern s16 func_800BCB04(s32, s32, s16);
+extern s32 func_800BCB04(s32 x, s32 y, s16 min_height);
 
 /* Checks the facing cell for valid terrain flags and an acceptable height. */
 s32 func_8009ADB8(S_8009ADB8_0 *facing_state, S_8009ADB8_1 *attributes, s16 tile_x, s16 tile_y,
     s16 initial_height)
 {
-    MapCell *map;
+    FacingMapCell *map;
     u8 *map_state;
     s16 height;
     s32 next_height;
@@ -40,10 +40,10 @@ s32 func_8009ADB8(S_8009ADB8_0 *facing_state, S_8009ADB8_1 *attributes, s16 tile
     s16 next_x;
     s16 next_y_sum;
     s16 next_y;
-    MapCell *next_cell;
+    FacingMapCell *next_cell;
 
-    map = ((MapCell *)gameWork.map.cells);
-    map_state = (u8 *)((MapCell * *)&gameWork.map.cells);
+    map = ((FacingMapCell *)gameWork.map.cells);
+    map_state = (u8 *)((FacingMapCell * *)&gameWork.map.cells);
     direction = (facing_state->unk_2A >> 9) & 7;
     if (!(attributes->unk_14 & 0x100) ||
         (height = func_800BCB04(
@@ -57,7 +57,7 @@ s32 func_8009ADB8(S_8009ADB8_0 *facing_state, S_8009ADB8_1 *attributes, s16 tile
     next_x = tile_x + ((u16 *)dirStepX)[direction];
     next_y_sum = tile_y + ((u16 *)dirStepY)[direction];
     next_y = (s16)next_y_sum;
-    next_cell = (MapCell *)((uptr)((s16)(next_x +
+    next_cell = (FacingMapCell *)((uptr)((s16)(next_x +
         (next_y << ((S_8009ADB8_2 *)map_state)->unk_14)) * 6) + (uptr)map);
 
     if (!(next_cell->flags & 0xB300)) {

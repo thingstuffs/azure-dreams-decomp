@@ -1,0 +1,43 @@
+{
+  "kind": "CALLER_PROVEN_GAP_LEAF_DIAGNOSTIC",
+  "foff": 792120,
+  "vma": 2148167064,
+  "bytes": 12,
+  "function": "func_800A6D98",
+  "prospective_id": "dungeon/func_800A1638",
+  "group": "dungeon_util.c",
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "result": "GNU_GENUINE_RETAIL_MATCH",
+  "sha256": "01b1f7f62e4a12708c5cf4809271c4de5cd9daeddc9b8010cdf75d56f76493e8",
+  "source_sha256": "71f2a4c15bf03a368e03041aef9e05fe5aac6ac9da556f07cbd904681ff42b4c",
+  "source_inputs": {
+    "include/common.h": "35ebd67ff9f32d587459e79e964f1d4f9013849bb766ea442ab0965c32971dac",
+    "include/game.h": "b80e856a3c4f4c4586c312a28336781390d102ba6f7af599d094bfa6900e7c83",
+    "include/globals.h": "5ff21c9f144187d9a1666588951ee1f3489b89d666b18cf712c46523d820f689",
+    "include/include_asm.h": "b07191b5b52fe5a0cc20e2114349a7ccfb537bba948ba277f375d9de2559a16e",
+    "include/shared/game_work.h": "813f5e364376a12ed80235a4f1b63ed27105d4b1362d7493ef90ca6c321b6366",
+    "src/slus/w_8004AB7C.c": "43b1cad48154576b7c58bc64245c55fe1372e454ff2f320965fef889797403ce"
+  },
+  "caller_witnesses": [
+    {
+      "caller": "slus/w_8004AB7C",
+      "file_offset": 123816,
+      "vma": 2147789736,
+      "word": "0c029b66",
+      "target": 2148167064
+    }
+  ],
+  "placement": "existing proven xfer_dungeon_A3000",
+  "new_registry_row": false,
+  "baseline": false,
+  "production_window": false,
+  "certified": false,
+  "masked": 0,
+  "raw_substitution_bytes": 0,
+  "review": "pending",
+  "reviewer": null,
+  "next_step": "Append guarded split/baseline/assignment records and run production windows; then a genuine Layer-2 journal is needed for L3. Resolve the two func_800A1020 pins before complete-group native activation."
+}

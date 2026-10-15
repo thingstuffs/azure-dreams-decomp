@@ -1,10 +1,4 @@
-#include "common.h"
-
-extern s32 func_800A0668(void *);
-extern s32 func_800A0F10(void *object, void *test_value);
-extern void func_800A0B74(void *map_source, s32 map_table);
-extern void func_8009A8EC(s16 actor_value, s16 position_value_1, s16 position_value_2);
-extern void *D_800A08E8;
+#include "modules/town_door.h"
 
 /* Check interaction conditions, apply the target value, and trigger a positional effect. */
 void func_800A0AC8(void *actor, void *target, void *position) {
@@ -21,6 +15,6 @@ void func_800A0AC8(void *actor, void *target, void *position) {
         return;
     }
     func_800A0B74(actor, *(s32 *)((u8 *)target + 0x48));
-    *(void **)((u8 *)actor + 0x50) = &D_800A08E8;
+    *(void **)((u8 *)actor + 0x50) = &func_800A08E8;
     func_8009A8EC(*(s16 *)((u8 *)actor + 0x72), *(s16 *)((u8 *)position + 2), *(s16 *)((u8 *)position + 6));
 }

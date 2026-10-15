@@ -1,16 +1,16 @@
+#include "modules/trap_effects_candidate.h"
 #include "common.h"
 #include "shared/entity.h"
 
-typedef s32 M2C_UNK;
 
 extern void func_80099844();
-extern void func_800A6508(void);
-extern void *func_800C5BBC();
+extern void func_800A6508();
+extern void * func_800C5BBC();
 extern s32 func_800C8844();
 extern void func_800DC1B8();
 extern s32 D_800DCF1C;
 extern M2C_UNK D_800E1C14;
-extern u8 D_800E3D40;
+
 
 
 typedef struct S_800CD384_0_pre {

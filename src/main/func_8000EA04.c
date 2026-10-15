@@ -1,6 +1,7 @@
+#include "modules/main_server_ship.h"
 #include "common.h"
 
-extern u8 D_80028570[];
+
 
 /* Return whether any record matches text through its terminator or the first 21 bytes. */
 s32 func_80021A04(s32 count, u8 *text)
@@ -11,7 +12,7 @@ s32 func_80021A04(s32 count, u8 *text)
 
     record_index = 0;
     found = record_index;
-    records = D_80028570;
+    records = (*(u8 (*)[])(&D_80028570));
     if (count > 0) {
         u8 *record;
 

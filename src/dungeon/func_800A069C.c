@@ -1,3 +1,4 @@
+#include "modules/dungeon_engine_dungeon_util_fragment_c05e4.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"

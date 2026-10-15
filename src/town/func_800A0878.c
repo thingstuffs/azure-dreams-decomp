@@ -1,42 +1,4 @@
-#include "common.h"
-#include "shared/object_node.h"
-
-/* The type-0x13 table consists of 32 records, each 21 words (0x54 bytes). */
-typedef struct Copy84 {
-    s32 word[21];
-} Copy84;
-
-/* These are the real external routines used by this function. */
-extern void *func_8003FD64(s32 size, void *template);
-extern s32 func_8004A658(s32 type, s32 value);
-extern void func_8008F0D4(void *object, void *part_a, void *table);
-extern void func_8009B218(void *object, void *part_a, void *part_b,
-                          void *callback);
-extern void func_8009C1B4(void *object, void *object_again, void *part_a,
-                          void *part_b);
-extern void func_8009DC8C(void *object, void *part_b, s32 value,
-                          void *callback);
-extern void del_t_item_w_ptr(void *object_data);
-
-extern s32 D_8006E240;
-extern u8 D_8009DEBC[];
-extern u8 D_800D073C[];
-extern u8 D_800D0754[];
-extern u8 D_800D076C[];
-extern u8 D_800D0788[];
-extern Copy84 D_80100AF8;
-extern void *D_80100B0C;
-
-/* The fixed table is intentionally addressed by its period source literal.
- * Retail emits `lui 0x8001` / `ori 0x02f0`; naming it as a linked extern
- * changes that pair to `%hi` / `%lo` (`lui` / `addiu`) under cdk. */
-#define COPY_TABLE_ADDRESS ((Copy84 *)0x800102F0)
-
-/* Typed byte/halfword/word/pointer accessors for the established object maps. */
-#define BYTE_AT(base, offset) (*(u8 *)((u8 *)(base) + (offset)))
-#define HALF_AT(base, offset) (*(u16 *)((u8 *)(base) + (offset)))
-#define WORD_AT(base, offset) (*(s32 *)((u8 *)(base) + (offset)))
-#define POINTER_AT(base, offset) (*(void **)((u8 *)(base) + (offset)))
+#include "modules/town_town_windows.h"
 
 /* Creates an object with the supplied data, position, and callback mode. */
 void *func_8009DFD8(void *object_data, void *source_position, s32 alternate_callback)
@@ -73,10 +35,10 @@ void *func_8009DFD8(void *object_data, void *source_position, s32 alternate_call
     type = BYTE_AT(object, 0x4D);
 
     if (type == 0x13) {
-        Copy84 *copy_table = COPY_TABLE_ADDRESS;
-        Copy84 *copy_src;
+        func_800A0878_Copy84 *copy_table = COPY_TABLE_ADDRESS;
+        func_800A0878_Copy84 *copy_src;
 
-        copy_src = (Copy84 *)((u32)(BYTE_AT(object, 0x4F) & 0x1F) * 84U
+        copy_src = (func_800A0878_Copy84 *)((u32)(BYTE_AT(object, 0x4F) & 0x1F) * 84U
                               + (u32)copy_table);
         D_80100AF8 = *copy_src;
     }
@@ -102,7 +64,7 @@ void *func_8009DFD8(void *object_data, void *source_position, s32 alternate_call
             BYTE_AT(object, 0x4D), BYTE_AT(object, 0x4C));
     }
 
-    POINTER_AT(created, 0x10) = D_8009DEBC;
+    POINTER_AT(created, 0x10) = func_8009DEBC;
     func_8009C1B4(object, object, position, render_state);
     del_t_item_w_ptr(object_data);
     return created;

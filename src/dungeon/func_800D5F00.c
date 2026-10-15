@@ -91,7 +91,8 @@ extern s32 func_800644B8(s32);
 extern s32 func_800654B0(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern void func_80066640(Primitive *, s32);
 extern void func_800666F4(Primitive *);
-extern void func_800DBA90(Transform *);
+struct Struct_800D6330;
+extern void func_800DBA90(struct Struct_800D6330 *transform);
 /* Draw linked items as fading textured quads along interpolated, oscillating paths. */
 s32 func_800DB660(Item *item)
 {

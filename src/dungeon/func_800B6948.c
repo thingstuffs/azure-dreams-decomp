@@ -2,10 +2,13 @@
 #include "shared/object_node.h"
 #include "m2c_compat.h"
 
-void *func_8003FD64();
-s32 func_8004491C();
-extern M2C_UNK D_800BBBE0;
-extern M2C_UNK D_800BC054;
+extern void * func_8003FD64();
+extern s32 func_8004491C();
+struct State;
+struct Output;
+struct Interp;
+extern void func_800BBBE0(struct State *state, struct Output *output, struct Interp *interp);
+extern s32 func_800BC054(void *initial_state, void *context, void *data);
 
 typedef struct S_800BC0A8_0 {
     u8 pad_00[0x8];
@@ -59,8 +62,8 @@ void *func_800BC0A8(s16 x, s16 y, s16 z, s16 angle, s16 value_50, s16 value_58, 
 
     object = func_8003FD64(0x202, ((M2C_UNK *)&D_80083498.next));
     if (object != NULL) {
-        ((S_800BC0A8_0 *)object)->unk_10 = &D_800BBBE0;
-        func_8004491C(object, &D_800BC054);
+        ((S_800BC0A8_0 *)object)->unk_10 = func_800BBBE0;
+        func_8004491C(object, func_800BC054);
         position = ((S_800BC0A8_0 *)object)->unk_08;
         state = object + 0x20;
         position->unk_02 = x;

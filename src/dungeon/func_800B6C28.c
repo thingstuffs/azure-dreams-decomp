@@ -1,9 +1,5 @@
+#include "common.h"
 #include "shared/object_flags.h"
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef short s16;
-typedef unsigned int u32;
-typedef int s32;
 
 
 /* Mark completion when the referenced object is flagged or the tracked value is zero. */

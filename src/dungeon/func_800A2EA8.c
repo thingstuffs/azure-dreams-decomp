@@ -4,8 +4,8 @@
 #define NULL 0
 #endif
 #define F(e,t,o) (*(t)((s8 *)(e)+(o)))
-extern void *func_8003FD64(s32, void *);
-extern void func_8004491C(void *, void *);
+extern void * func_8003FD64(s32 flags, void **list_head);
+extern s32 func_8004491C(void *entry, s32 registration_id);
 extern s32 func_800A7A38(u8 *item);
 extern void func_800BC26C(void *, s32, s32, s32);
 

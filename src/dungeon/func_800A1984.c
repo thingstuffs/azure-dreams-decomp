@@ -1,3 +1,4 @@
+#include "modules/dungeon_engine_entity_effects_storage.h"
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
 
@@ -11,8 +12,8 @@ typedef struct {
     u8 pad6[6];
 } PositionEntry;
 
-extern void func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern u8 D_800E36C8[];
+extern s16 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
+
 
 /* Finds an active entry at the given tile within 64 height units if the left tile has flag 0x800. */
 s32 func_800A70E4(s32 input_x, s32 input_y, s32 input_z) {

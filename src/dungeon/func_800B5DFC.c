@@ -3,12 +3,12 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
-s32 func_800644B8();
-s32 func_80064584();
+extern s32 func_800644B8(s32, ...);
+extern s32 func_80064584(s32, ...);
 s16 func_800A07D0();
-s32 func_800A56E0();
+extern s32 func_800A56E0();
 void func_800BB2E4();
-void *func_800BC0A8();
+extern void * func_800BC0A8(s16 x, s16 y, s16 z, s16 angle, s16 value_50, s16 value_58, s32 state_word, s16 value_48);
 
 typedef struct DungeonWork {
     u8 pad_00[0x30];

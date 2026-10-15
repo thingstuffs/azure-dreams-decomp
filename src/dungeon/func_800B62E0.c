@@ -3,14 +3,15 @@
 #include "shared/entity_objects.h"
 #include "m2c_compat.h"
 
-void func_8003DB94();    /* extern */
-void *func_8003FD64();            /* extern */
-s32 func_8004491C();           /* extern */
-s32 func_800A56E0();                     /* extern */
+extern void func_8003DB94();
+extern void * func_8003FD64();
+extern s32 func_8004491C();
+extern s32 func_800A56E0();
 void func_800BB2E4(); /* extern */
-s32 func_800C77D0(); /* extern */
-extern M2C_UNK D_800BB55C;
-extern M2C_UNK D_800BBA20;
+extern s32 func_800C77D0();
+struct S_800BB55C_2;
+extern void func_800BB55C(void *effect, struct S_800BB55C_2 *position, s32 restore_link);
+extern s32 func_800BBA20(u8 *buffer, s32 value, void *data);
 extern M2C_UNK D_800DF3C0;
 
 typedef struct S_800BBA40_0 {
@@ -73,8 +74,8 @@ void *func_800BBA40(s16 tile_x, s16 tile_y, s16 pos_z, void *transform_data, s16
         void *setup_cursor;
 
         func_800A56E0(0x704);
-        ((S_800BBA40_0 *)effect)->unk_10 = &D_800BB55C;
-        func_8004491C(effect, &D_800BBA20);
+        ((S_800BBA40_0 *)effect)->unk_10 = func_800BB55C;
+        func_8004491C(effect, func_800BBA20);
         position = ((S_800BBA40_0 *)effect)->unk_08;
         position->unk_02 = (s16) (((s32) (tile_x << 0x10) >> 0xA) + 0x20);
         position->unk_06 = (s16) (((s32) (tile_y << 0x10) >> 0xA) + 0x20);

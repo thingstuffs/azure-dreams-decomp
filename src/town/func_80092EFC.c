@@ -1,27 +1,4 @@
-#include "common.h"
-#include "shared/game_work.h"
-
-extern s16 D_8006ADD4[5];
-extern s32 D_80090A64;
-extern s32 D_80091260;
-extern s32 D_80091528;
-extern s32 D_80097D2C[3];
-extern s16 D_800D01F8[];
-extern u8 D_80100D98[];
-extern s32 D_80100DB0[3];
-extern s32 D_80100E18[3];
-
-extern s32 func_800352FC(void);
-extern s32 func_8003BD84(s32, s32);
-extern void func_800489F4(void *, u8, s8, s32);
-extern void func_80048AC8(void *, s32);
-extern void to_camera_zero_00(void);
-extern void func_80090A04(void *);
-extern s16 func_80094AA0(s16, s16, s32);
-extern s32 func_80095360(s16);
-extern void func_80095544(void *);
-extern void func_80096868(void *, void *, void *);
-extern void func_800A48B0(void *, void *);
+#include "modules/town_player_init.h"
 
 void func_8009065C(void *context, void *input, void *record) {
     GameWork *work = &gameWork;
@@ -40,10 +17,10 @@ void func_8009065C(void *context, void *input, void *record) {
 
         callback = *(void **)context;
                 /* garbage-passthru: a1/a2/a3 are caller-saved residue after func_80095544. */
-        if (callback == (void *)D_80097D2C || callback == (void *)&D_80090A64 ||
+        if (callback == (void *)D_80097D2C || callback == (void *)&func_80090A64 ||
             func_800352FC() != 0) {
             if (D_8006ADD4[0] == 12) {
-                to_camera_zero_00();
+                func_800909A0();
             } else if (*(s16 *)((u8 *)input + 6) < 0x400) {
                 func_80090A04(input);
             }
@@ -60,7 +37,7 @@ void func_8009065C(void *context, void *input, void *record) {
                     work->view.viewAngle = 0x1E0;
                 }
             } else {
-                to_camera_zero_00();
+                func_800909A0();
             }
         } else if (*(s16 *)((u8 *)input + 6) < 0x400) {
             func_80090A04(input);

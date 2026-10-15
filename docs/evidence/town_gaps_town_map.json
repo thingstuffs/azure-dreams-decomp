@@ -1,0 +1,154 @@
+{
+  "kind": "NEW_GAP_FUNCTIONS",
+  "review": "pending",
+  "reviewer": null,
+  "group": "town_map.c",
+  "original_code_gaps": 2,
+  "boundary_basis": "No cross-partition branch or direct jump; each complete natural C function independently reproduces its full GNU and genuine ASPSX extent and exact retail bytes.",
+  "functions": [
+    {
+      "row": {
+        "func_vram": "func_8008E474",
+        "true_name": "func_8008BBD4",
+        "true_vram": 2148056020,
+        "foff": 58484,
+        "size": 132,
+        "vram": 2148066420,
+        "result": "MATCH",
+        "config": "2.7.2-cdk-G0",
+        "c_path": "overlays/town/first_pass_matched/func_8008E474.c",
+        "gate_config": "config/overlays/town_scene.overlay.yaml",
+        "gate_verified": false,
+        "instances": 1,
+        "base_confidence": "proven",
+        "load_base": 2147997536
+      },
+      "receipt": {
+        "id": "town/func_8008E474",
+        "row": "town/func_8008E474",
+        "variant": "head253897988_raw",
+        "status": "exact",
+        "source_sha256": "4abf58ad253553acd0c22d9e6879ee60b0d2be190a55909b31b9ad546d533417",
+        "source": "delivery_253897988/town_scene_gaps_96/sources/raw/town/func_8008E474.c",
+        "artifacts": "evidence/gap_trials/func_8008E474/head253897988_raw",
+        "recipe": "2.7.2-cdk-G0",
+        "review": "pending",
+        "reviewer": null,
+        "production_gate": false,
+        "module_or_placement_claim": false,
+        "payload": [
+          {
+            "name": ".text.func_8008BBD4",
+            "type": 1,
+            "flags": 6,
+            "size": 132
+          }
+        ],
+        "imports": {
+          "D_8008BC58": 2148056152,
+          "D_800CFC70": 2148334704,
+          "D_800CFC7C": 2148334716
+        },
+        "retail_sha256": "f1b9ba1fc6005f736e08de77b605f178618e269002fc667a3f19e00f8fb1d464",
+        "rebuilt_sha256": "f1b9ba1fc6005f736e08de77b605f178618e269002fc667a3f19e00f8fb1d464",
+        "gen_bytes": 132,
+        "target_bytes": 132,
+        "mismatch_words": [],
+        "genuine_comparison": {
+          "diff": 0,
+          "exact": true,
+          "len_m": 33,
+          "len_g": 33,
+          "missing": [],
+          "regions": [],
+          "delay_only": []
+        },
+        "exact": true,
+        "total": 0,
+        "masked": 0,
+        "raw_substitution_bytes": 0,
+        "genuine_sha256": "f1b9ba1fc6005f736e08de77b605f178618e269002fc667a3f19e00f8fb1d464",
+        "genuine_flags": [
+          "-q",
+          "-G0"
+        ],
+        "seconds": 1.208,
+        "at": "2026-10-14T23:55:39.853609+00:00"
+      }
+    },
+    {
+      "row": {
+        "func_vram": "func_8008E8F8",
+        "true_name": "func_8008C058",
+        "true_vram": 2148057176,
+        "foff": 59640,
+        "size": 84,
+        "vram": 2148067576,
+        "result": "MATCH",
+        "config": "2.7.2-cdk-G0",
+        "c_path": "overlays/town/first_pass_matched/func_8008E8F8.c",
+        "gate_config": "config/overlays/town_scene.overlay.yaml",
+        "gate_verified": false,
+        "instances": 1,
+        "base_confidence": "proven",
+        "load_base": 2147997536
+      },
+      "receipt": {
+        "id": "town/func_8008E8F8",
+        "row": "town/func_8008E8F8",
+        "variant": "head253897988_raw",
+        "status": "exact",
+        "source_sha256": "4019b831a4fe93d56f15e4655b8c476c3fe01e5f7d04539f385c81634ad0b2f1",
+        "source": "delivery_253897988/town_scene_gaps_96/sources/raw/town/func_8008E8F8.c",
+        "artifacts": "evidence/gap_trials/func_8008E8F8/head253897988_raw",
+        "recipe": "2.7.2-cdk-G0",
+        "review": "pending",
+        "reviewer": null,
+        "production_gate": false,
+        "module_or_placement_claim": false,
+        "payload": [
+          {
+            "name": ".text.func_8008C058",
+            "type": 1,
+            "flags": 6,
+            "size": 84
+          }
+        ],
+        "imports": {
+          "func_8008BF0C": 2148056844
+        },
+        "retail_sha256": "0c3e326681834d915a48f0bfd235ae95f81f3659bff9eca9bf6bdd81e10cb71c",
+        "rebuilt_sha256": "0c3e326681834d915a48f0bfd235ae95f81f3659bff9eca9bf6bdd81e10cb71c",
+        "gen_bytes": 84,
+        "target_bytes": 84,
+        "mismatch_words": [],
+        "genuine_comparison": {
+          "diff": 0,
+          "exact": true,
+          "len_m": 21,
+          "len_g": 21,
+          "missing": [],
+          "regions": [],
+          "delay_only": []
+        },
+        "exact": true,
+        "total": 0,
+        "masked": 0,
+        "raw_substitution_bytes": 0,
+        "genuine_sha256": "0c3e326681834d915a48f0bfd235ae95f81f3659bff9eca9bf6bdd81e10cb71c",
+        "genuine_flags": [
+          "-q",
+          "-G0"
+        ],
+        "seconds": 0.511,
+        "at": "2026-10-14T23:55:40.366058+00:00"
+      }
+    }
+  ],
+  "production_window": "config/overlays/town_scene.overlay.yaml",
+  "proof_authority": {
+    "head": "253897988a60cc24e84bec0b6f9636ef366b2d15",
+    "receipt_origin": "Fresh complete GNU/genuine executions in evidence/rebase253/raw_controls.json",
+    "review": "pending"
+  }
+}

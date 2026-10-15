@@ -1,15 +1,16 @@
+#include "modules/trap_effects_candidate.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
 
-extern u8 D_800E3D40[];
-extern s32 func_80042900(void *, s32);
+
+extern s32 func_80042900();
 extern s32 func_8003FA44(s32);
 extern void func_800C5E5C(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound);
-extern s32 func_800A56E0(s32);
-extern s32 func_800A6508(void);
+extern s32 func_800A56E0();
+extern void func_800A6508();
 extern s32 func_800A6D30(void);
-extern s32 func_800CD994(void *, s32);
+extern s32 func_800CD994(EntityRec *entity, s8 action_arg);
 extern u8 D_800CD910[];
 extern u8 D_800DF820[];
 
@@ -32,7 +33,7 @@ s32 func_800CDA70(void *object) {
         if (index >= 4) {
             return 1;
         }
-        if (*D_800E3D40 == 0) {
+        if (D_800E3D40 == 0) {
             seed = func_800A6D30() & 0xFFFF;
             if (*(u8 *)((u8 *)object + 3) != 0) {
                 index = seed % *(u8 *)((u8 *)object + 3);

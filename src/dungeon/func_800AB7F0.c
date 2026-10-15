@@ -1,23 +1,23 @@
+#include "m2c_compat.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/object_node.h"
 
 
-typedef s32 M2C_UNK;
 void *func_8003FD64();
-s32 func_8004491C();
+extern s32 func_8004491C();
 s32 func_8004DA74();
 s32 func_8004E298();
 M2C_UNK func_8004E5A0();
 s32 func_80069E98();
 void *func_800B119C();
-void *func_800B12F4();
+extern s32 func_800B12F4(void);
 void func_800B1320();
 void func_800B135C();
 extern M2C_UNK D_80077FEC;
-extern M2C_UNK D_800B0D34;
+extern void func_800B0D34();
 extern s32 D_800DEFF8[];
-extern M2C_UNK D_800B06F0;
+extern s32 func_800B06F0(u8 *, s32, u8 *);
 /* Creates an entity panel with numeric labels, centered text, and a shaded background. */
 void *func_800B0F50(void *owner)
 {
@@ -58,8 +58,8 @@ void *func_800B0F50(void *owner)
         *((u16 *) (((s8 *) panel_pos) + 6)) = (u16) (*((u16 *) (((s8 *) owner_pos) + 6)));
         *((s16 *) (((s8 *) panel_pos) + 0xA)) = (s16) ((*((u16 *) (((s8 *) owner_pos) + 0xA)))
             - (D_800DDC40[*((u8 *) (((s8 *) entity) + 0x13))] + 0x50));
-        *((M2C_UNK **) (((s8 *) panel) + 0x10)) = &D_800B0D34;
-        func_8004491C(panel, &D_800B06F0, owner_pos, panel_pos);
+        *((M2C_UNK **) (((s8 *) panel) + 0x10)) = func_800B0D34;
+        func_8004491C(panel, func_800B06F0, owner_pos, panel_pos);
         panel_data = panel + 0x20;
         *((void **) (((s8 *) panel_data) + 0x14)) = entity;
         *((void **) (((s8 *) panel) + 0x20)) = (void *) (panel + 0x70);

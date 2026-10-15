@@ -71,14 +71,15 @@ typedef struct GlobalObj {
 } GlobalObj;
 
 
-extern s32 func_800644B8();
-extern s32 func_80064584();
+extern s32 func_800644B8(s32, ...);
+extern s32 func_80064584(s32, ...);
 extern s32 func_80098C80();
 extern s32 func_80098920();
-extern s32 func_800BA33C();
+struct S_800BA33C_0;
+extern s32 func_800BA33C(struct S_800BA33C_0 *object);
 extern void func_800478B8();
 extern void func_8009F644();
-extern void func_800C77D0();
+extern s32 func_800C77D0();
 
 /* Updates entity selection, interpolates its position, and animates the rendered output. */
 void func_800B9A78(Work *work, Out *out, Render *render_arg)

@@ -1,9 +1,9 @@
+#include "modules/town_map_props.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "m2c_compat.h"
 
-extern s32 func_8004491C();
-extern M2C_UNK D_80046398;
+
 
 typedef struct S_800BDBD0_0 {
     u8 pad_00[0x8];
@@ -29,21 +29,16 @@ typedef struct S_800BDBD0_2 {
     s32 unk_08;
 } S_800BDBD0_2;   /* temp_v1_2 in func_800BDBD0 */
 
-typedef struct S_800BDBD0_3 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800BDBD0_3;   /* arg0 in func_800BDBD0 */
 
 /* Creates an object at the supplied position and initializes its visual properties. */
-void *func_800BDBD0(S_800BDBD0_3 *source_pos, s32 object_data, s32 angle, s32 visual_data) {
+void *func_800BDBD0(TownPropPosition *source_pos, s32 object_data, s32 angle, s32 visual_data) {
     S_800BDBD0_0 *object;
     S_800BDBD0_1 *visual;
     S_800BDBD0_2 *position;
 
     object = func_8003FC64(0x136);
     if (object != NULL) {
-        func_8004491C(object, &D_80046398);
+        func_8004491C(object, func_80046398);
         visual = object->unk_0C;
         object->unk_10 = object_data;
         visual->unk_1A = (s16) angle;

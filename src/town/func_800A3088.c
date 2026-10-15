@@ -1,25 +1,4 @@
-#include "common.h"
-
-typedef struct {
-    u8 pad00[0x50];
-    void *unk50;
-    u8 pad54[0x68 - 0x54];
-    s16 unk68;
-    u8 pad6A[0x72 - 0x6A];
-    s16 unk72;
-} S800A3088Arg0;
-
-typedef struct {
-    u8 pad0[2];
-    s16 unk2;
-    u8 pad4[2];
-    s16 unk6;
-} S800A3088Arg2;
-
-extern s32 func_800A0668(S800A3088Arg0 *);
-extern s32 func_800A0F10(S800A3088Arg0 *object, s32 test_value);
-extern void func_8009A674(s32 entity_id, s32 x, s32 y);
-extern u8 D_800A0884[16];
+#include "modules/town_door.h"
 
 /* Set the entity effect and emit it at the supplied position when the checks pass. */
 void func_800A07E8(S800A3088Arg0 *entity, s32 action, S800A3088Arg2 *position) {
@@ -31,7 +10,7 @@ void func_800A07E8(S800A3088Arg0 *entity, s32 action, S800A3088Arg2 *position) {
         return;
     }
     if (func_800A0F10(entity, action) != 0) {
-        entity->unk50 = D_800A0884;
+        entity->unk50 = func_800A0884;
         action = position->unk2;
         func_8009A674(entity->unk72, action, position->unk6);
     }

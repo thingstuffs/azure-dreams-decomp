@@ -1,12 +1,11 @@
+#include "modules/main_server_ship.h"
 #include "common.h"
 
-extern u8 D_80020084[];
-extern s32 D_80027F18[];
-extern u8 D_80028570[];
-extern s32 D_800287CC[];
 
-extern void strcpy(void *, s32);
-extern void strcat(void *, void *);
+
+
+
+
 extern s32 firstfile2(void *, void *);
 extern void *nextfile(void *);
 
@@ -19,7 +18,7 @@ s32 func_8002191C(void)
     s32 file_count;
 
     file_count = 0;
-    dir_entry = D_80028570;
+    dir_entry = (*(u8 (*)[])(&D_80028570));
     path_ptr = D_80027F18;
     if (D_800287CC[0] != 0) {
         path_ptr++;
@@ -28,7 +27,7 @@ s32 func_8002191C(void)
     strcpy(search_path, *path_ptr);
     strcat(search_path, D_80020084);
 
-    if (firstfile2(search_path, D_80028570) != 0) {
+    if (firstfile2(search_path, (*(u8 (*)[])(&D_80028570))) != 0) {
         do {
             file_count++;
             dir_entry += 40;

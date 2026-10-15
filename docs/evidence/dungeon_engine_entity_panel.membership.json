@@ -1,0 +1,41 @@
+{
+  "module": "dungeon_engine_entity_panel",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "entity_panel.c",
+    "module_index": 15
+  },
+  "members": [
+    "dungeon/func_800AB7F0",
+    "dungeon/func_800ABB94",
+    "dungeon/func_800ABBC0",
+    "dungeon/func_800ABBFC",
+    "dungeon/func_800ABC4C",
+    "dungeon/func_800ABC6C",
+    "dungeon/func_800ABCA0",
+    "dungeon/func_800ABCD4",
+    "dungeon/func_800ABD24",
+    "dungeon/func_800ABD54",
+    "dungeon/func_800ABD6C",
+    "dungeon/func_800ABD7C",
+    "dungeon/func_800ABD9C",
+    "dungeon/func_800AC008",
+    "dungeon/func_800AC3B0",
+    "dungeon/func_800AC720",
+    "dungeon/func_800AC7A0",
+    "dungeon/func_800AC7D4",
+    "dungeon/func_800AC914",
+    "dungeon/func_800ACA58",
+    "dungeon/func_800ACAD0"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "not observable (section-grouping link, no static duplicates, no recipe change)",
+  "basis": [
+    "Complete strong resident-engine ledger cohort; every member included in file order, with no internal gaps or recipe change.",
+    "Whole natural-order TU matches GNU/maspsx, genuine ASPSX and every retail function; no hidden allocated data, compiler padding, static duplicate body, masked relocation or raw replacement.",
+    "The registered xfer_dungeon_A3000 runtime DMA load map proves delta 0x7FFE5760. The original object boundary remains observationally limited; coherent complete cohort reconstruction is the reviewed membership claim."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120"
+}

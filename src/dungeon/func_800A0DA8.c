@@ -1,3 +1,4 @@
+#include "modules/dungeon_engine_dungeon_util_fragment_c0bec.h"
 #include "common.h"
 #include "m2c_compat.h"
 

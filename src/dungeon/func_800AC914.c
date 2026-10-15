@@ -5,10 +5,10 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
-void func_8004491C(void *, void *);
+extern s32 func_8004491C();
 void func_800A56E0(s32);
-extern s32 D_80046398;
-extern s8 D_800B1F34[];
+extern int func_80046398();
+extern void func_800B1F34(S_800B1F34_0 *animation, S_800B1F34_1 *motion);
 
 typedef struct S_800B2074_0 {
     u8 pad_00[0x1DC];
@@ -82,8 +82,8 @@ s32 func_800B2074(s32 world_x, s32 world_z) {
     if (object != NULL) {
         init_object = object;
         {
-            InitSlot slot = { D_800B1F34 };
-            init_data = &D_80046398;
+            InitSlot slot = { func_800B1F34 };
+            init_data = func_80046398;
             ((S_800B2074_1 *)object)->unk_10 = slot.pointer;
             func_8004491C(init_object, init_data);
         }

@@ -1,3 +1,4 @@
+#include "modules/trap_effects_candidate.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -15,7 +16,7 @@ typedef struct S_800C81B0_a0 {
 
 /* Shared counter/flags block; only the 16-bit field at offset 0xA is
  * touched here. */
-extern void func_800CD994(s32 entity, s32 action_arg);
+extern s32 func_800CD994(EntityRec *entity, s8 action_arg);
 
 /* Ticks the object's countdown, releasing its handle and updating the shared counter and flags on expiry. */
 void func_800CD910(S_800C81B0_a0 *object)

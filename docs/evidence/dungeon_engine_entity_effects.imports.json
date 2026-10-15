@@ -1,0 +1,511 @@
+{
+  "module": "dungeon_engine_entity_effects",
+  "maps": {
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "kind": "psx_exe",
+      "basis": "Actual PS-X EXE load and size header."
+    },
+    "dungeon_resident": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 667648,
+      "file_end": 1050624,
+      "delta": 2147374944,
+      "kind": "rowbase",
+      "region": "xfer_dungeon_A3000",
+      "basis": "Existing proven runtime DMA receipt, unchanged."
+    }
+  },
+  "views": {
+    "D_8006CCD8": {
+      "symbol": "D_8006CCD8",
+      "kind": "data",
+      "vma": 2147929304,
+      "foff": 263384,
+      "view_bytes": 4,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_engine_entity_effects.imports.json"
+    },
+    "D_8006CCE8": {
+      "symbol": "D_8006CCE8",
+      "kind": "data",
+      "vma": 2147929320,
+      "foff": 263400,
+      "view_bytes": 4,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_engine_entity_effects.imports.json"
+    },
+    "D_8006CD30": {
+      "symbol": "D_8006CD30",
+      "kind": "data",
+      "vma": 2147929392,
+      "foff": 263472,
+      "view_bytes": 4,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_engine_entity_effects.imports.json"
+    },
+    "D_8006E240": {
+      "symbol": "D_8006E240",
+      "kind": "data",
+      "vma": 2147934784,
+      "foff": 268864,
+      "view_bytes": 4,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_engine_entity_effects.imports.json"
+    },
+    "D_80073414": {
+      "symbol": "D_80073414",
+      "kind": "data",
+      "vma": 2147955732,
+      "foff": 289812,
+      "view_bytes": 4,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_engine_entity_effects.imports.json"
+    },
+    "D_8008146C": {
+      "symbol": "D_8008146C",
+      "kind": "data",
+      "vma": 2148013164,
+      "foff": 347244,
+      "view_bytes": 4,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_engine_entity_effects.imports.json"
+    },
+    "D_80081484": {
+      "symbol": "D_80081484",
+      "kind": "data",
+      "vma": 2148013188,
+      "foff": 347268,
+      "view_bytes": 4,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_engine_entity_effects.imports.json"
+    },
+    "D_800814A0": {
+      "symbol": "D_800814A0",
+      "kind": "data",
+      "vma": 2148013216,
+      "foff": 347296,
+      "view_bytes": 4,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_engine_entity_effects.imports.json"
+    },
+    "D_800814A8": {
+      "symbol": "D_800814A8",
+      "kind": "data",
+      "vma": 2148013224,
+      "foff": 347304,
+      "view_bytes": 4,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_engine_entity_effects.imports.json"
+    },
+    "D_800A7548": {
+      "symbol": "D_800A7548",
+      "kind": "data",
+      "vma": 2148169032,
+      "foff": 794088,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_engine_entity_effects.imports.json"
+    },
+    "D_800A77AC": {
+      "symbol": "D_800A77AC",
+      "kind": "data",
+      "vma": 2148169644,
+      "foff": 794700,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_engine_entity_effects.imports.json"
+    },
+    "D_800A7CC4": {
+      "symbol": "D_800A7CC4",
+      "kind": "data",
+      "vma": 2148170948,
+      "foff": 796004,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_engine_entity_effects.imports.json"
+    },
+    "D_800A871C": {
+      "symbol": "D_800A871C",
+      "kind": "data",
+      "vma": 2148173596,
+      "foff": 798652,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_engine_entity_effects.imports.json"
+    },
+    "D_800DCE6C": {
+      "symbol": "D_800DCE6C",
+      "kind": "data",
+      "vma": 2148388460,
+      "foff": 1013516,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_engine_entity_effects.imports.json"
+    },
+    "D_800DCE8C": {
+      "symbol": "D_800DCE8C",
+      "kind": "data",
+      "vma": 2148388492,
+      "foff": 1013548,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_engine_entity_effects.imports.json"
+    },
+    "D_800DCF5A": {
+      "symbol": "D_800DCF5A",
+      "kind": "data",
+      "vma": 2148388698,
+      "foff": 1013754,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_engine_entity_effects.imports.json"
+    },
+    "D_800DD7DC": {
+      "symbol": "D_800DD7DC",
+      "kind": "data",
+      "vma": 2148390876,
+      "foff": 1015932,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_engine_entity_effects.imports.json"
+    },
+    "D_800E0B54": {
+      "symbol": "D_800E0B54",
+      "kind": "data",
+      "vma": 2148404052,
+      "foff": 1029108,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_engine_entity_effects.imports.json"
+    },
+    "D_800E3540": {
+      "symbol": "D_800E3540",
+      "kind": "data",
+      "vma": 2148414784,
+      "foff": 1039840,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_engine_entity_effects.imports.json"
+    },
+    "D_800E3548": {
+      "symbol": "D_800E3548",
+      "kind": "data",
+      "vma": 2148414792,
+      "foff": 1039848,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_engine_entity_effects.imports.json"
+    },
+    "D_800E36C8": {
+      "symbol": "D_800E36C8",
+      "kind": "data",
+      "vma": 2148415176,
+      "foff": 1040232,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_engine_entity_effects.imports.json"
+    },
+    "D_800E3CCC": {
+      "symbol": "D_800E3CCC",
+      "kind": "data",
+      "vma": 2148416716,
+      "foff": 1041772,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_engine_entity_effects.imports.json"
+    },
+    "D_800E3D7C": {
+      "symbol": "D_800E3D7C",
+      "kind": "data",
+      "vma": 2148416892,
+      "foff": 1041948,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_engine_entity_effects.imports.json"
+    }
+  },
+  "runtime_views": {
+    "D_80082E80": {
+      "symbol": "D_80082E80",
+      "kind": "runtime_data",
+      "vma": 2148019840,
+      "view_bytes": 1,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_engine_entity_effects.imports.json",
+      "declaration": "include/shared/tile_object.h"
+    },
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 512,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_engine_entity_effects.imports.json",
+      "declaration": "include/shared/game_work.h"
+    },
+    "D_80083460": {
+      "symbol": "D_80083460",
+      "kind": "runtime_data",
+      "vma": 2148021344,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_engine_entity_effects.imports.json",
+      "declaration": "src/dungeon/func_8009C5EC.c"
+    },
+    "D_80083498": {
+      "symbol": "D_80083498",
+      "kind": "runtime_data",
+      "vma": 2148021400,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_engine_entity_effects.imports.json",
+      "declaration": "include/shared/object_node.h"
+    }
+  },
+  "functions": {
+    "func_80033BC0": {
+      "vma": 2147695552,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_8003DE58": {
+      "vma": 2147737176,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_8003FC64": {
+      "vma": 2147744868,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_8003FD64": {
+      "vma": 2147745124,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_8004491C": {
+      "vma": 2147764508,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_80045340": {
+      "vma": 2147767104,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_8004A658": {
+      "vma": 2147788376,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_8004A8D8": {
+      "vma": 2147789016,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_800644B8": {
+      "vma": 2147894456,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_80064840": {
+      "vma": 2147895360,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_800649A0": {
+      "vma": 2147895712,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_80064A40": {
+      "vma": 2147895872,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_80064BC0": {
+      "vma": 2147896256,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_80064CF0": {
+      "vma": 2147896560,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_80064D80": {
+      "vma": 2147896704,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_80065420": {
+      "vma": 2147898400,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_800654B0": {
+      "vma": 2147898544,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_80065820": {
+      "vma": 2147899424,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_8006658C": {
+      "vma": 2147902860,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_800666F4": {
+      "vma": 2147903220,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_80098920": {
+      "vma": 2148108576,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_800990FC": {
+      "vma": 2148110588,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_80099194": {
+      "vma": 2148110740,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_80099290": {
+      "vma": 2148110992,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_80099368": {
+      "vma": 2148111208,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_80099FDC": {
+      "vma": 2148114396,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_8009A028": {
+      "vma": 2148114472,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_8009A21C": {
+      "vma": 2148114972,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_8009A350": {
+      "vma": 2148115280,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_8009A3D0": {
+      "vma": 2148115408,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_8009B164": {
+      "vma": 2148118884,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_8009B25C": {
+      "vma": 2148119132,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_8009FB34": {
+      "vma": 2148137780,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_800A2B04": {
+      "vma": 2148150020,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_800A4300": {
+      "vma": 2148156160,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_800A5720": {
+      "vma": 2148161312,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_800A697C": {
+      "vma": 2148166012,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_800A6D30": {
+      "vma": 2148166960,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_800A6DA4": {
+      "vma": 2148167076,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_800B66C8": {
+      "vma": 2148230856,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_800BC26C": {
+      "vma": 2148254316,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    },
+    "func_800BCB04": {
+      "vma": 2148256516,
+      "basis": "Canonical executable import; actual relocation operand reproduced in GNU/genuine/retail bytes."
+    }
+  },
+  "source_sha256": {
+    "src/dungeon/func_800A172C.c": "1770d9c2fa3959aec883b300e743d4d3b09e4300e04793c46a7025a416a4693e",
+    "src/dungeon/func_800A18D0.c": "a75e0fa5fe5b33f084cc368b618f0d763795bfc17378aa6ff3a19560c9d56eb7",
+    "src/dungeon/func_800A1984.c": "4fb46fbfeb39a3391b9beeb52add3e4423f4a961a8507a2b4975ef5178281cf2",
+    "src/dungeon/func_800A1A94.c": "055366390ce2c1df7141077ee90afdf4df38f047c4ccce2f09881f2b2991d832",
+    "src/dungeon/func_800A1AD4.c": "a1db6e2b9f4a292aabdb9d8eb0a3ff03cd644c2a58f4c2f0f950e8a42d7f4193",
+    "src/dungeon/func_800A1DE8.c": "6b782e85945ab514018b37276b1d89036a68f9457f77446b00ae43d6a7ab2a9f",
+    "src/dungeon/func_800A1FA0.c": "9328dc3c7652ee963bdf185fcd6f98b2c1d9f2cbbbc5657b55683f00b431c490",
+    "src/dungeon/func_800A204C.c": "42f3991c01754bf25e65e049d001c217ba14bfce75224097bd125e22ba7f8633",
+    "src/dungeon/func_800A21EC.c": "2dac6c04826ab35d3f0941ffba95abcf4a3409568cd259a9e621d574e44558a0",
+    "src/dungeon/func_800A22D8.c": "7699290637daaa31aa9ff43ac5762dafa2905fcaeca0cc558d74fed97c229efb",
+    "src/dungeon/func_800A231C.c": "99155a40a8f1d2ccab3317db6cf179c072cce90afc2c80c8f72ef587151939b3",
+    "src/dungeon/func_800A2504.c": "1aa83ee097bf9d80fa8f94e72c947b1051424b95e066be92ae67235a2f1c7323",
+    "src/dungeon/func_800A2564.c": "dc91e4a924e9595cd6d0a6a7b49c5a4dbcd1569a2dc5abc0c75ff823d2be397a",
+    "src/dungeon/func_800A2EA8.c": "99cedc93c3116d3d65b5d520a847f852fce662546012ad92a28cea6932d91398",
+    "src/dungeon/func_800A2F7C.c": "46000c9d1d952b62d9de8b47528129c7f1f83b13a93a8b39359b4766285fae70",
+    "src/dungeon/func_800A2FBC.c": "ca6c00b2df49ab45cbf4a1cb0abe855ef906996a00773b8a90c9865529595fcb",
+    "src/dungeon/func_800A3714.c": "cd082f81644f1e65b12ff97a79b6efe64906e5e6567012f876e83e7f5b812c4b",
+    "src/dungeon/func_800A38C4.c": "8b7a42c0d6fba2aeedbfe212922c4ef40e6b03141f88c3c80abf3fcf07dc0219",
+    "src/dungeon/func_800A3988.c": "a02096bb99c0084a984b1fbc206e91b56c5d64b651ea2ed2e53bb1299cbd9725",
+    "src/dungeon/func_800A3A00.c": "496d3510583da26f9f12f4aefe2b6f4dd4b0e0aea57d0ab98ae44ba0d2017185",
+    "src/dungeon/func_800A3AD0.c": "f5f71a97f568d7be98fdd76ea6cfe5aa649e0843ea7302956943771d5cf4b2be"
+  },
+  "scope": "External asset anchors only; four-byte views locate the imported bytes and do not assert the full allocation or dynamic access extent. Source declarations retain their record/array views. No external allocation is claimed.",
+  "review": "pending",
+  "reviewer": null
+}

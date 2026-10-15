@@ -1,0 +1,46 @@
+{
+  "module": "dungeon_engine_tile_map",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "tile_map.c",
+    "module_index": 5
+  },
+  "members": [
+    "dungeon/func_80094744",
+    "dungeon/func_800947A4",
+    "dungeon/func_80094810",
+    "dungeon/func_8009487C",
+    "dungeon/func_800948C8",
+    "dungeon/func_80094918",
+    "dungeon/func_8009499C",
+    "dungeon/func_80094A20",
+    "dungeon/func_80094ABC",
+    "dungeon/func_80094B58",
+    "dungeon/func_80094BF0",
+    "dungeon/func_80094C70",
+    "dungeon/func_80094DE0",
+    "dungeon/func_80094F0C",
+    "dungeon/func_80095160",
+    "dungeon/func_80095440",
+    "dungeon/func_80095658",
+    "dungeon/func_800957B8",
+    "dungeon/func_80095A04",
+    "dungeon/func_80095AFC",
+    "dungeon/func_80095C30",
+    "dungeon/func_80095D50",
+    "dungeon/func_80095E4C",
+    "dungeon/func_80096084",
+    "dungeon/func_8009612C"
+  ],
+  "confidence": "strong",
+  "original_ledger_confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "not observable (section-grouping link, no static duplicates, no recipe change)",
+  "basis": [
+    "Complete majority-owned resident-engine cohort under ROUND 2: all registered members in physical file order; no foreign registered row, gap or recipe change.",
+    "The complete naturally laid out TU emits exactly the registered functions with no other allocated storage; genuine ASPSX and GNU both reproduce every retail byte. Original historical source-file boundary remains observationally limited.",
+    "Existing proven DMA rowbase xfer_dungeon_A3000 establishes the runtime delta; no placement or ledger transaction is proposed."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120"
+}

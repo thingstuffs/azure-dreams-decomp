@@ -1,3 +1,4 @@
+#include "modules/dungeon_engine_entity_effects_storage.h"
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/game_work.h"
@@ -17,7 +18,7 @@ extern void func_800666F4();
 extern u8 D_8006CD30[];
 typedef struct { u8 b0, b1, b2, b3; } Ent4;
 typedef struct { u8 b0, b1; u16 h2, h4; u8 *p8; } Ent12;
-extern Ent12 D_800E36C8[];
+
 
 #define U8(p, o)  (*(u8  *)((u8 *)(p) + (o)))
 #define S8(p, o)  (*(s8  *)((u8 *)(p) + (o)))
@@ -91,7 +92,7 @@ s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
 
     do {
         if (((Ent4 *)((entity_index * 4) + (s32)((Ent4 *)D_800E3548)))->b1 != 0) {
-            entities = (u8 *)D_800E36C8;
+            entities = (u8 *)((Ent12 *)D_800E36C8);
             entity = entities + entity_index * 12;
             U16(scratch, 0) = (U8(entity, 0) << 6) + 0x20;
             U16(scratch, 2) = (U8(entity, 1) << 6) + 0x20;
