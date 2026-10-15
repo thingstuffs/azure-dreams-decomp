@@ -204,8 +204,83 @@ def busy_processes(root, scratch, isolated=False, proc_root=Path("/proc")):
             continue
         if scratch and not cwd.is_relative_to(root) and str(root) not in args:continue
         if isolated and isolated_lane(info['proc'],root,proc_root,snapshot):continue
+        if isolated and external_process(pid,root,snapshot):continue
         found.append({'pid':pid,'command':args[:400]})
     return found
+
+
+# r120: lanes that run in a private repo copy OUTSIDE the live root (tools/lanes/launch_external_lane.sh) are
+# unrelated to a landing. Those trees are the only managed trees a landing can touch through a descriptor.
+MANAGED_TREES=('src','ledger','config','build_ovl','build_ovl_gate','build_slus','raw','include','tools','asm','docs','.git')
+ENV_PATHS=(b'GATE_BUILD_ROOT',b'GATE_JOURNAL',b'SRCROOT',b'PYTHONPATH')
+
+
+def external_process(pid, root, snapshot):
+    """True when this process and every descendant provably stay outside the live root.
+
+    Per process: cwd resolves outside the root (an ancestor of the root is not outside); every path-like argv token,
+    including tokens inside inline `-c` text, ~ and $VAR expansions, resolves outside the root or into the read-only
+    shared inputs (toolchain/.venv/baserom, which scratch roots symlink); the root path appears nowhere in the
+    arguments; no open descriptor resolves into the managed trees of the root; no gate/path environment variable
+    points into the root. Unreadable state of a still-present process fails closed. A process that vanished while
+    being checked cannot conflict. Opaque text is acceptable only because cwd and fds still prove where it works.
+    """
+    try:
+        root=root.resolve();rs=str(root)
+        managed=tuple(p for n in MANAGED_TREES for p in (root/n,(root/n).resolve()))
+        children={}
+        for q,item in snapshot.items():children.setdefault(item['parent'],[]).append(q)
+        todo=[pid];seen=set()
+        while todo:
+            cur=todo.pop()
+            if cur in seen:return False
+            seen.add(cur);todo.extend(children.get(cur,[]))
+            item=snapshot.get(cur)
+            if item is None:continue
+            proc=item['proc'];cwd=item['cwd'];argv=item['argv']
+            if cwd is None or item['parent'] is None:
+                if cur!=pid and not proc.exists():continue
+                return False
+            if not cwd.is_dir():return False
+            if root.is_relative_to(cwd) or (cwd.is_relative_to(root) and not shared_readonly(cwd,root)):return False
+            if re.search(re.escape(rs)+r'(?![\w.+-])',item['args']):return False
+            try:environment=[x for x in (proc/'environ').read_bytes().split(b'\0') if x]
+            except FileNotFoundError:
+                if cur!=pid and not proc.exists():continue
+                return False
+            env={}
+            for setting in environment:
+                key,sep,value=setting.partition(b'=')
+                if sep:env[os.fsdecode(key)]=os.fsdecode(value)
+            def inside(path):
+                if not path.is_absolute():path=cwd/path
+                for q in (Path(os.path.abspath(path)),path.resolve(strict=False)):
+                    if q.is_relative_to(root) and not shared_readonly(q,root):return True
+                return False
+            for arg in argv:
+                for token in re.split(r'[\s\'"`;|&<>(),=:{}\[\]]+',arg):
+                    token=re.sub(r'^-(?:I|L|B|o|C|isystem|iquote)(?=[/~$])','',token)
+                    if not token or not ('/' in token or token in ('.','..') or token[0] in '~$'):continue
+                    expanded=os.path.expanduser(token)
+                    if '$' in expanded:
+                        # Unresolvable text (command substitution, unset variable) hides its target: fail closed.
+                        expanded=re.sub(r'\$\{?(\w+)\}?',lambda m:env.get(m.group(1),'\0'),expanded)
+                        if '\0' in expanded or '$' in expanded:continue
+                    expanded=re.split(r'[*?]',expanded,1)[0]
+                    if expanded and inside(Path(expanded)):return False
+            for key in ENV_PATHS:
+                value=env.get(os.fsdecode(key))
+                for entry in (value or '').split(':'):
+                    if entry and inside(Path(entry)):return False
+            for fd in (proc/'fd').iterdir():
+                try:name=os.readlink(fd)
+                except FileNotFoundError:continue
+                if not name.startswith('/'):continue
+                target=Path(name.removesuffix(' (deleted)'))
+                for q in (Path(os.path.abspath(target)),target.resolve(strict=False)):
+                    if any(q.is_relative_to(m) for m in managed):return False
+        return True
+    except (OSError,RuntimeError,ValueError,KeyError,IndexError,TypeError):return False
 
 
 def process_snapshot(proc_root):

@@ -417,7 +417,10 @@ class LaneProcessScopeTests(unittest.TestCase):
         (self.proc/'cwd').unlink(); (self.proc/'cwd').symlink_to(outside)
         self.set_args(['python3', str(script)])
         self.assertEqual(self.busy(scratch=True), set())
-        self.assertEqual(self.busy(scratch=False), {424242})
+        # r120: isolated mode now proves an external checkout contained (cwd, argv and fds all outside the root);
+        # the non-isolated check still refuses it. tools/tests/test_land_external_lane.py covers the refusals.
+        self.assertEqual(self.busy(isolated=False, scratch=False), {424242})
+        self.assertEqual(self.busy(scratch=False), set())
 
 
 if __name__ == '__main__':

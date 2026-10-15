@@ -20,11 +20,11 @@ standalone_build:
     out_dir: work/s3_splat/extract
     container_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
   window:
-    file_start: 16424316
-    file_end: 16429056
-    vram_start: 2149004668
+    file_start: 0xFA9D7C
+    file_end: 0xFAB000
+    vram_start: 0x8017357C
     base_confidence: proven-resource-loader
-    true_vram_start: 2149004668
+    true_vram_start: 0x8017357C
   split_results: overlays/dungeon/overlay_first_pass_results.json
   matched_sources:
   - name: overlays/dungeon
