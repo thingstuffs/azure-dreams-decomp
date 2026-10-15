@@ -1,140 +1,26 @@
-#include "common.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
-#include "shared/dir_step.h"
-extern int abs(int);
+#include "modules/dungeon_ovl_18d0850.h"
 
-typedef union FixedWord {
-    s32 word;
-    struct {
-        u16 lo;
-        s16 hi;
-    } half;
-} FixedWord;
-
-typedef struct Motion {
-    FixedWord x;
-    FixedWord y;
-    FixedWord z;
-    FixedWord dx;
-    FixedWord dy;
-    FixedWord dz;
-} Motion;
-
-typedef struct WorkFrame {
-    Motion target;
-    s16 distance[3];
-} WorkFrame;
-
-typedef struct TargetInfo {
-    u8 pad0[8];
-    void *map;
-    u8 padC[8];
-    u16 flags;
-    u8 pad16[14];
-    u8 tileX;
-    u8 tileY;
-} TargetInfo;
-
-typedef struct EntityHeader {
-    u8 pad0[8];
-    Motion *position;
-    TargetInfo *info;
-} EntityHeader;
-
-typedef struct Child {
-    u8 pad0[0x1C];
-    u32 flags;
-} Child;
-
-typedef struct Entity {
-    u8 pad0[0x2A];
-    u16 flags2A;
-    u8 pad2C[0x34];
-    Child *child;
-    u8 pad64[0x24];
-    s16 height;
-} Entity;
-
-typedef struct EffectInner {
-    u8 pad0[0xC];
-    s32 value;
-} EffectInner;
-
-typedef struct Effect {
-    u8 pad0[0xC];
-    EffectInner *inner;
-    u8 pad10[0xE];
-    u16 flags;
-} Effect;
-
-typedef struct Resource {
-    u16 flags;
-} Resource;
-
-typedef struct State {
-    Entity *entity;
-    Resource *resource;
-    u8 pad8;
-    u8 id;
-    s16 state;
-    u16 flags;
-    s16 direction;
-    s16 timer;
-    s16 duration;
-    s16 field14;
-    s16 timer2;
-    s16 angleStep;
-    s16 angles[8];
-    s16 pad2A;
-    Effect *effects[10];
-} State;
-
-typedef struct DrawInfo {
-    u8 pad0[0xC];
-    s32 color;
-} DrawInfo;
-
-typedef struct LargeScalar {
-    s32 value;
-    s32 pad[2];
-} LargeScalar;
-
-
-extern void func_800240EC(u8 *, u8 *, DrawInfo *);
-extern s32 func_8003DE58(void *, void *, s16 *, s32);
-extern void func_8004491C(void *, void *);
-extern s32 func_80024DF4(void *, void *, void *);
-extern s32 func_800A44E0(s32, s32, s32, s32);
-extern s32 func_800BCB04(s32, s32, s32);
-extern void func_800241F8(State *, Motion *);
-extern void func_800A56E0(s32);
-extern Effect *func_8002443C(State *, Motion *, s16, s16);
-extern void func_80024050(void *, u8);
-
-
-/* Updates movement toward a child or terrain target and animates the associated effects. */
-void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
+void func_80024E64(ovl_18d0850_818B1664_State *state_arg, ovl_18d0850_818B1664_Motion *motion_arg, ovl_18d0850_818B1664_DrawInfo *draw_info)
 {
-    WorkFrame work;
+    ovl_18d0850_818B1664_WorkFrame work;
     u16 saved_y;
-    DrawInfo *draw = draw_info;
-    Entity *entity;
-    EntityHeader *header;
+    ovl_18d0850_818B1664_DrawInfo *draw = draw_info;
+    ovl_18d0850_818B1664_Entity *entity;
+    ovl_18d0850_818B1664_EntityHeader *header;
     s32 dispatch_state;
     s32 direction;
     s32 color;
     u16 source_z;
-    TargetInfo *target_info;
-    Motion *step_x;
+    ovl_18d0850_818B1664_TargetInfo *target_info;
+    ovl_18d0850_818B1664_Motion *step_x;
     u8 *angle_update;
     u8 *angle_clear;
     u8 *angle_build;
     u8 *effect_clear;
-    Effect **effect_create;
-    Effect **effect_grow;
-    Effect **effect_shrink;
-    Effect **effect_cleanup;
+    ovl_18d0850_818B1664_Effect **effect_create;
+    ovl_18d0850_818B1664_Effect **effect_grow;
+    ovl_18d0850_818B1664_Effect **effect_shrink;
+    ovl_18d0850_818B1664_Effect **effect_cleanup;
     s32 index;
     s32 next_state;
     s32 angle;
@@ -204,7 +90,7 @@ loop_0:
         index = 9;
         effect_clear = (u8 *)state_arg + 36;
         do {
-            *(Effect **)(effect_clear + 44) = 0;
+            *(ovl_18d0850_818B1664_Effect **)(effect_clear + 44) = 0;
             index--;
             effect_clear -= 4;
         } while (index >= 0);
@@ -215,7 +101,7 @@ loop_0:
         draw->color = color;
 
     case 1:
-        header = (EntityHeader *)((u8 *)entity - 0x20);
+        header = (ovl_18d0850_818B1664_EntityHeader *)((u8 *)entity - 0x20);
         target_info = header->info;
         if (func_8003DE58(target_info->map, target_info, work.distance, 0) == 0) {
             if (!(header->info->flags & 0x8000)) {
@@ -247,17 +133,17 @@ loop_0:
 
         index = 0;
         if (entity->child != 0) {
-            cleanup_base = (void *)(*(Motion **)((u8 *)entity->child - 0x18));
+            cleanup_base = (void *)(*(ovl_18d0850_818B1664_Motion **)((u8 *)entity->child - 0x18));
 
             color = motion_arg->x.half.hi;
-            work.distance[0] = abs(((Motion *)cleanup_base)->x.half.hi - color);
-            work.distance[1] = abs(((Motion *)cleanup_base)->y.half.hi - motion_arg->y.half.hi);
+            work.distance[0] = abs(((ovl_18d0850_818B1664_Motion *)cleanup_base)->x.half.hi - color);
+            work.distance[1] = abs(((ovl_18d0850_818B1664_Motion *)cleanup_base)->y.half.hi - motion_arg->y.half.hi);
             if (entity->child->flags & 0x40000) {
                 color = motion_arg->z.half.hi;
                 color -= 16;
-                work.distance[2] = abs(((Motion *)cleanup_base)->z.half.hi - color);
+                work.distance[2] = abs(((ovl_18d0850_818B1664_Motion *)cleanup_base)->z.half.hi - color);
             } else {
-                work.distance[2] = abs(((Motion *)cleanup_base)->z.half.hi - motion_arg->z.half.hi);
+                work.distance[2] = abs(((ovl_18d0850_818B1664_Motion *)cleanup_base)->z.half.hi - motion_arg->z.half.hi);
             }
             index = 1;
 
@@ -276,17 +162,17 @@ loop_0:
             }
 
             motion_arg->dx.half.hi =
-                (((Motion *)cleanup_base)->x.half.hi - motion_arg->x.half.hi) / state_arg->duration;
+                (((ovl_18d0850_818B1664_Motion *)cleanup_base)->x.half.hi - motion_arg->x.half.hi) / state_arg->duration;
             motion_arg->dy.half.hi =
-                (((Motion *)cleanup_base)->y.half.hi - motion_arg->y.half.hi) / state_arg->duration;
+                (((ovl_18d0850_818B1664_Motion *)cleanup_base)->y.half.hi - motion_arg->y.half.hi) / state_arg->duration;
             if (entity->child->flags & 0x40000) {
                 s32 coord;
                 coord = motion_arg->z.half.hi - 16;
                 motion_arg->dz.half.hi =
-                    (((Motion *)cleanup_base)->z.half.hi - coord) / state_arg->duration;
+                    (((ovl_18d0850_818B1664_Motion *)cleanup_base)->z.half.hi - coord) / state_arg->duration;
             } else {
                 motion_arg->dz.half.hi =
-                    (((Motion *)cleanup_base)->z.half.hi - motion_arg->z.half.hi) /
+                    (((ovl_18d0850_818B1664_Motion *)cleanup_base)->z.half.hi - motion_arg->z.half.hi) /
                     state_arg->duration;
             }
             next_state = (u16)state_arg->state + 1;
@@ -294,7 +180,7 @@ loop_0:
         }
 
         {
-            TargetInfo *tile_info;
+            ovl_18d0850_818B1664_TargetInfo *tile_info;
 
             tile_info = header->info;
             tile_x = tile_info->tileX;
@@ -314,7 +200,7 @@ loop_0:
             if ((s16)collision_result != 0) {
                 break;
             }
-            step_x = (Motion *)&dirStepX[state_arg->direction];
+            step_x = (ovl_18d0850_818B1664_Motion *)&dirStepX[state_arg->direction];
             target = (u16)entity->height;
             target -= 32;
             target = (u32)target << 16;
@@ -339,13 +225,13 @@ loop_0:
         index = 1;
         target_cursor = &work.target.x.half.hi;
         target_x = ((final_x << 16) >> 10) + ((dirStepX[state_arg->direction] + 1) << 5);
-        ((Motion *)target)->x.half.hi = target_x;
+        ((ovl_18d0850_818B1664_Motion *)target)->x.half.hi = target_x;
         target_y = ((saved_y << 16) >> 10) + ((dirStepY[state_arg->direction] + 1) << 5);
-        ((Motion *)target)->y.half.hi = target_y;
-        ((Motion *)target)->z.half.hi = motion_arg->z.half.hi + 32;
-        work.distance[0] = abs(((Motion *)target)->x.half.hi - motion_arg->x.half.hi);
-        work.distance[1] = abs(((Motion *)target)->y.half.hi - motion_arg->y.half.hi);
-        work.distance[2] = abs(((Motion *)target)->z.half.hi - motion_arg->z.half.hi);
+        ((ovl_18d0850_818B1664_Motion *)target)->y.half.hi = target_y;
+        ((ovl_18d0850_818B1664_Motion *)target)->z.half.hi = motion_arg->z.half.hi + 32;
+        work.distance[0] = abs(((ovl_18d0850_818B1664_Motion *)target)->x.half.hi - motion_arg->x.half.hi);
+        work.distance[1] = abs(((ovl_18d0850_818B1664_Motion *)target)->y.half.hi - motion_arg->y.half.hi);
+        work.distance[2] = abs(((ovl_18d0850_818B1664_Motion *)target)->z.half.hi - motion_arg->z.half.hi);
 
         state_arg->duration = work.distance[0];
         do {
@@ -359,9 +245,9 @@ loop_0:
         if (state_arg->duration == 0) {
             state_arg->duration = 1;
         }
-        motion_arg->dx.word = (((Motion *)target)->x.word - motion_arg->x.word) / state_arg->duration;
-        motion_arg->dy.word = (((Motion *)target)->y.word - motion_arg->y.word) / state_arg->duration;
-        motion_arg->dz.word = (((Motion *)target)->z.word - motion_arg->z.word) / state_arg->duration;
+        motion_arg->dx.word = (((ovl_18d0850_818B1664_Motion *)target)->x.word - motion_arg->x.word) / state_arg->duration;
+        motion_arg->dy.word = (((ovl_18d0850_818B1664_Motion *)target)->y.word - motion_arg->y.word) / state_arg->duration;
+        motion_arg->dz.word = (((ovl_18d0850_818B1664_Motion *)target)->z.word - motion_arg->z.word) / state_arg->duration;
         state_arg->state = 8;
         state_arg->timer = 0;
         state_arg->timer2 = 0;
@@ -385,13 +271,13 @@ loop_0:
         state_arg->timer = 0;
         state_arg->timer2 = 0;
         state_arg->state++;
-        cleanup_base = (void *)(*(Motion **)((u8 *)entity->child - 0x18));
-        motion_arg->x.half.hi = ((Motion *)cleanup_base)->x.half.hi;
-        motion_arg->y.half.hi = ((Motion *)cleanup_base)->y.half.hi;
+        cleanup_base = (void *)(*(ovl_18d0850_818B1664_Motion **)((u8 *)entity->child - 0x18));
+        motion_arg->x.half.hi = ((ovl_18d0850_818B1664_Motion *)cleanup_base)->x.half.hi;
+        motion_arg->y.half.hi = ((ovl_18d0850_818B1664_Motion *)cleanup_base)->y.half.hi;
         if (entity->child->flags & 0x40000) {
-            motion_arg->z.half.hi = ((Motion *)cleanup_base)->z.half.hi + 16;
+            motion_arg->z.half.hi = ((ovl_18d0850_818B1664_Motion *)cleanup_base)->z.half.hi + 16;
         } else {
-            motion_arg->z.half.hi = ((Motion *)cleanup_base)->z.half.hi;
+            motion_arg->z.half.hi = ((ovl_18d0850_818B1664_Motion *)cleanup_base)->z.half.hi;
         }
 
         index = 7;
@@ -406,7 +292,7 @@ loop_0:
         state_arg->angles[0] = 0;
 
         index = 9;
-        effect_create = (Effect **)((u8 *)state_arg + 36);
+        effect_create = (ovl_18d0850_818B1664_Effect **)((u8 *)state_arg + 36);
         effect_angle = (s32)0xFF1F0000;
 create_loop:
         {
@@ -424,13 +310,13 @@ create_loop:
 
     case 4:
     {
-        Effect *effect;
-        EffectInner *inner;
+        ovl_18d0850_818B1664_Effect *effect;
+        ovl_18d0850_818B1664_EffectInner *inner;
         s32 effect_delta;
 
         index = 9;
         effect_delta = 0x40404;
-        effect_grow = (Effect **)((u8 *)state_arg + 36);
+        effect_grow = (ovl_18d0850_818B1664_Effect **)((u8 *)state_arg + 36);
         do {
             effect = effect_grow[11];
             inner = effect->inner;
@@ -460,16 +346,16 @@ create_loop:
 
     case 6:
     {
-        Effect *effect;
-        EffectInner *inner;
-        Effect *cleanup_effect;
+        ovl_18d0850_818B1664_Effect *effect;
+        ovl_18d0850_818B1664_EffectInner *inner;
+        ovl_18d0850_818B1664_Effect *cleanup_effect;
         s32 cleanup_flags;
         s32 global_flags;
         s32 effect_delta;
 
         index = 9;
         effect_delta = -0x40404;
-        effect_shrink = (Effect **)((u8 *)state_arg + 36);
+        effect_shrink = (ovl_18d0850_818B1664_Effect **)((u8 *)state_arg + 36);
         do {
             effect = effect_shrink[11];
             inner = effect->inner;
@@ -481,7 +367,7 @@ create_loop:
         if (state_arg->timer2 < 32) {
             break;
         }
-        func_80024050(((Entity *)cleanup_base)->child, state_arg->id);
+        func_80024050(((ovl_18d0850_818B1664_Entity *)cleanup_base)->child, state_arg->id);
         index = 9;
         cleanup_base = (void *)0x80080000;
         next_state = (u16)state_arg->state;
@@ -489,7 +375,7 @@ create_loop:
         next_state++;
         state_arg->state = next_state;
         do {
-            effect_cleanup = (Effect **)((u8 *)state_arg + index * 4);
+            effect_cleanup = (ovl_18d0850_818B1664_Effect **)((u8 *)state_arg + index * 4);
             cleanup_effect = effect_cleanup[11];
             if (cleanup_effect != 0) {
                 cleanup_flags = cleanup_effect->flags;

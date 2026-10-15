@@ -1,15 +1,5 @@
-#include "common.h"
+#include "modules/dungeon_ovl_1831cd8.h"
 
-extern s32 func_80026EC0();
-extern s32 func_80026F04();
-extern s32 func_8004B404();
-extern void strncpy();
-
-typedef struct {
-    u8 bytes[0x13];
-} Entry19;
-
-/* Copy up to eight selected entries into a packed buffer of 18-byte records. */
 s32 func_80027008(s32 held_entry_set, s32 position, s32 entry_count) {
     s32 start_entry;
     s32 buffer;
@@ -17,7 +7,7 @@ s32 func_80027008(s32 held_entry_set, s32 position, s32 entry_count) {
     s32 copied_count;
     register s32 write_ptr;
     s32 copy_count;
-    Entry19 *entries;
+    ovl_1831cd8_81812008_Entry19 *entries;
 
     entry_index = position;
     entry_index /= 72;
@@ -32,7 +22,7 @@ s32 func_80027008(s32 held_entry_set, s32 position, s32 entry_count) {
         entry_index = func_80026EC0(held_entry_set, start_entry);
         copied_count = 0;
         if (copy_count > 0) {
-            entries = (Entry19 *)0x800157C0;
+            entries = (ovl_1831cd8_81812008_Entry19 *)0x800157C0;
             write_ptr = buffer;
             do {
                 strncpy(write_ptr,

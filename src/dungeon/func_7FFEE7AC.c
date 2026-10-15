@@ -1,9 +1,5 @@
-#include "common.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_town_map.h"
 
-void func_80033C84(void *);
-
-/* Processes the referenced object and marks the record and global state. */
 void func_8008BF0C(void *record) {
     int global_flags;
     func_80033C84(*(void **)record);

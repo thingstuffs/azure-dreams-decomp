@@ -1,16 +1,6 @@
-#include "common.h"
-#include "m2c_compat.h"
-#include "shared/entity.h"
+#include "modules/dungeon_ovl_18d0850.h"
 
-extern s32 func_8009D218(void *entity, s32 flags);
-extern s32 func_800A6870(s16 input_value);
-extern void func_800AD4D0(void *entity);
-extern void func_800AD568(void *entry);
-extern void func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
-
-
-/* Applies a flag-adjusted value increase to an eligible entity and updates it. */
-void func_818B0850(EntityRec *entity, s32 value_id) {
+void func_80024050(EntityRec *entity, s32 value_id) {
     if (func_8009D218(entity, 4) == 0) {
         s32 base_gain;
         s16 bonus;

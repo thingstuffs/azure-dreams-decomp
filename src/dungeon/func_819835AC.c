@@ -1,242 +1,7 @@
-#include "common.h"
-#include "shared/tile_object.h"
-#include "shared/entity_objects.h"
-#include "shared/game_work.h"
-#include "shared/object_flags.h"
-#include "shared/entity.h"
-#include "m2c_compat.h"
+#include "modules/dungeon_ovl_19a332c.h"
 
-typedef struct { s32 a, b; } __attribute__((packed)) M2C_PACKED_PAIR;
-typedef struct { s16 x, y, z; } M2C_VEC3S;
-
-typedef struct { s32 sf; } M2C_S32F;
-#define M2C_SFIELD(expr, offset) (((M2C_S32F *)((s8 *)(expr) + (offset)))->sf)
-typedef struct S_819835AC_1 {
-    u8 pad_00[0x20];
-    s32 unk_20;
-    u8 pad_24[0x4];
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_28;
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_2A;
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_2C;
-    u8 pad_2E[0x2];
-    s16 unk_30;
-    u8 pad_32[0x2];
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_34;
-    s16 unk_36;
-    u16 unk_38;
-    s16 unk_3A;
-    s16 unk_3C;
-    s16 unk_3E;
-    s16 unk_40;
-    s16 unk_42;
-    u16 unk_44;
-    u16 unk_46;
-    u16 unk_48;
-    u16 unk_4A;
-    u16 unk_4C;
-    u8 pad_4E[0x3A];
-    s16 unk_88;
-    u16 unk_8A;
-    u8 pad_8C[0x8];
-    u16 unk_94;
-    s16 unk_96;
-    u8 unk_98;
-    u8 unk_99;
-    u16 unk_9A;
-    void * unk_9C;
-} S_819835AC_1;
-
-typedef struct S_819835AC_2 {
-    union {
-        s32 word;
-        struct {
-            u8 pad_00[0x2];
-            union {
-                s16 s16;
-                u16 u16;
-            } unk_02;
-        } half;
-    } unk_00;
-    union {
-        s32 word;
-        struct {
-            u8 pad_04[0x2];
-            union {
-                s16 s16;
-                u16 u16;
-            } unk_06;
-        } half;
-    } unk_04;
-    union {
-        s32 word;
-        struct {
-            u8 pad_08[0x2];
-            union {
-                s16 s16;
-                u16 u16;
-            } unk_0A;
-        } half;
-    } unk_08;
-    union {
-        s32 word;
-        struct {
-            u8 pad_0C[0x2];
-            s16 unk_0E;
-        } half;
-    } unk_0C;
-    union {
-        s32 word;
-        struct {
-            u8 pad_10[0x2];
-            s16 unk_12;
-        } half;
-    } unk_10;
-    union {
-        s32 word;
-        struct {
-            u8 pad_14[0x2];
-            s16 unk_16;
-        } half;
-    } unk_14;
-} S_819835AC_2;
-
-typedef struct S_819835AC_3 {
-    s32 unk_00;
-    u8 unk_04;
-    u8 pad_05[0x7];
-    union {
-        s32 word;
-        struct {
-            u8 unk_0C;
-            u8 unk_0D;
-            u8 unk_0E;
-        } half;
-    } unk_0C;
-    u8 pad_10[0x4];
-    u16 unk_14;
-    u16 unk_16;
-    u16 unk_18;
-    u16 unk_1A;
-    u16 unk_1C;
-    u16 unk_1E;
-    u16 unk_20;
-} S_819835AC_3;
-
-typedef struct S_819835AC_4 {
-    u8 pad_00[0x48];
-    M2C_PACKED_PAIR unk_48;
-    M2C_PACKED_PAIR unk_50;
-} S_819835AC_4;
-
-typedef struct S_819835AC_5 {
-    u8 pad_00[0x2A];
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_2A;
-    u8 pad_2C[0x5C];
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_88;
-} S_819835AC_5;
-
-typedef struct S_819835AC_6 {
-    u8 pad_00[0x5C];
-    s32 unk_5C;
-    u8 pad_60[0x28];
-    s16 unk_88;
-    u8 pad_8A[0xC];
-    s16 unk_96;
-    u8 pad_98[0xE];
-    u16 unk_A6;
-} S_819835AC_6;
-
-typedef struct S_819835AC_7 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0x3];
-    s32 unk_08;
-    s32 unk_0C;
-    u8 pad_10[0x4];
-    u16 unk_14;
-    u16 unk_16;
-    u16 unk_18;
-    u16 unk_1A;
-    u16 unk_1C;
-    u16 unk_1E;
-    u16 unk_20;
-    u8 pad_22[0x2];
-    u8 unk_24;
-    u8 unk_25;
-} S_819835AC_7;
-
-typedef struct S_819835AC_8 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    u8 pad_10[0xE];
-    u16 unk_1E;
-} S_819835AC_8;
-
-typedef struct S_819835AC_9 {
-    u8 pad_00[0x50];
-    u16 unk_50;
-    u16 unk_52;
-    u16 unk_54;
-} S_819835AC_9;
-
-typedef struct S_819835AC_10 {
-    u16 unk_00;
-} S_819835AC_10;
-
-typedef struct S_819835AC_11 {
-    void * unk_00;
-} S_819835AC_11;
-
-/* cfail-repair: tf7-phase1-cache-v3 */
-void *func_8002470C();     /* extern */
-void *func_80024938();     /* extern */
-void *func_80024B2C();     /* extern */
-M2C_UNK func_80026240();                 /* extern */
-M2C_UNK func_800262F4();    /* extern */
-void func_800263C0();                  /* extern */
-void *func_80026444();        /* extern */
-M2C_UNK func_80026694(); /* extern */
-s32 func_8003DE58();  /* extern */
-s32 func_800644B8();                             /* extern */
-s32 func_80064584();                /* extern */
-s32 func_80069EF8();                              /* extern */
-void func_8009CE1C(); /* extern */
-s16 func_800A07D0();              /* extern */
-s32 func_800A56E0();                /* extern */
-void func_800B8D64();               /* extern */
-extern M2C_UNK D_800269F8;
-extern s16 D_80026B28;
-extern u8 D_80026BC8[];
-extern u8 D_80026BD4[];
-extern s16 D_80027C94;
-extern u8 D_80027C96;
-extern s32 D_80027C98;
-extern void *D_800814A8;
-extern s32 D_800E3D18;
-extern M2C_UNK D_800E3D7C;
-
-/* Update a homing effect's movement, target hits, appearance, and attached copies. */
-void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *visual) {
-    M2C_VEC3S emit_offset;
+void func_80024DAC(ovl_19a332c_819835AC_S_819835AC_1 *effect, ovl_19a332c_819835AC_S_819835AC_2 *motion, ovl_19a332c_819835AC_S_819835AC_3 *visual) {
+    ovl_19a332c_819835AC_M2C_VEC3S emit_offset;
     s32 aim_angle;
     s32 angle_mask;
     s32 normalized_angle;
@@ -299,25 +64,25 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
     u8 fade_red;
     u8 fade_green;
     u8 fade_blue;
-    S_819835AC_9 *owner_state;
-    S_819835AC_7 *actor_data;
-    S_819835AC_2 *related_motion;
-    S_819835AC_6 *new_target;
-    S_819835AC_6 *target;
-    S_819835AC_4 *history;
-    S_819835AC_6 *hit_actor;
+    ovl_19a332c_819835AC_S_819835AC_9 *owner_state;
+    ovl_19a332c_819835AC_S_819835AC_7 *actor_data;
+    ovl_19a332c_819835AC_S_819835AC_2 *related_motion;
+    ovl_19a332c_819835AC_S_819835AC_6 *new_target;
+    ovl_19a332c_819835AC_S_819835AC_6 *target;
+    ovl_19a332c_819835AC_S_819835AC_4 *history;
+    ovl_19a332c_819835AC_S_819835AC_6 *hit_actor;
     EntityRec *state0_move;
-    S_819835AC_5 *state0_actor;
-    S_819835AC_5 *state0_height_actor;
+    ovl_19a332c_819835AC_S_819835AC_5 *state0_actor;
+    ovl_19a332c_819835AC_S_819835AC_5 *state0_height_actor;
     s32 state0_delta_x;
     s32 coord_delta;
     s32 step_y;
     s32 step_z;
-    S_819835AC_6 *state1_global;
+    ovl_19a332c_819835AC_S_819835AC_6 *state1_global;
     s32 target_coord;
     EntityRec *state1_move;
-    S_819835AC_6 *state1_actor;
-    S_819835AC_6 *state2_stage;
+    ovl_19a332c_819835AC_S_819835AC_6 *state1_actor;
+    ovl_19a332c_819835AC_S_819835AC_6 *state2_stage;
     u8 tile_x;
     u16 tile_counter;
     u8 tile_y;
@@ -325,7 +90,7 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
     TileObject *state34_base;
     EntityRec *state34_move;
     EntityRec *state34_emit;
-    S_819835AC_5 *state2_actor;
+    ovl_19a332c_819835AC_S_819835AC_5 *state2_actor;
     u32 state2_angle;
     TileObject *tile_base;
     u32 tile_coord;
@@ -340,9 +105,9 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
     s32 alternate_scale;
     u16 approach_frames;
 
-    (*(s16 *)&D_800269F8) = (s16) (((S_819835AC_10 *) &D_800269F8)->unk_00 + 1);
+    (*(s16 *)&D_800269F8) = (s16) (((ovl_19a332c_819835AC_S_819835AC_10 *) &D_800269F8)->unk_00 + 1);
     for (history_index = 0; history_index >= 0; history_index--) {
-        history = (S_819835AC_4 *) ((u8 *) effect + history_index * 8);
+        history = (ovl_19a332c_819835AC_S_819835AC_4 *) ((u8 *) effect + history_index * 8);
         history->unk_50 = history->unk_48;
     }
     owner_ref = effect->unk_20;
@@ -354,27 +119,27 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
         switch (state) {
         case 0:
             func_8003DE58(*(M2C_UNK *)((((s32) (gameWork.view.viewAngle
-                + ((S_819835AC_5 *) ((S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_2A.s16 + 0x100) >> 7) & 0x1C)
+                + ((ovl_19a332c_819835AC_S_819835AC_5 *) ((ovl_19a332c_819835AC_S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_2A.s16 + 0x100) >> 7) & 0x1C)
                 + D_800E3D18), &D_80082E80.unk_000, (u8 *) effect + 0x28, 0);
-            sin_x = func_80064584(((S_819835AC_5 *) (*(void **)&D_800E3D7C))->unk_2A.s16);
-            cos_x = func_80064584(((S_819835AC_5 *) (*(void **)&D_800E3D7C))->unk_2A.s16 - 0x400);
+            sin_x = func_80064584(((ovl_19a332c_819835AC_S_819835AC_5 *) (*(void **)&D_800E3D7C))->unk_2A.s16);
+            cos_x = func_80064584(((ovl_19a332c_819835AC_S_819835AC_5 *) (*(void **)&D_800E3D7C))->unk_2A.s16 - 0x400);
             state0_move = &D_80083780;
             sin_x >>= 4;
             state0_delta_x = ((u16)state0_move->x.w.i);
             cos_x >>= 4;
             state0_delta_x -= sin_x;
             state0_delta_x += cos_x;
-            state0_actor = ((S_819835AC_11 *) &D_800E3D7C)->unk_00;
+            state0_actor = ((ovl_19a332c_819835AC_S_819835AC_11 *) &D_800E3D7C)->unk_00;
             effect->unk_28.u16 += state0_delta_x;
             sin_y = func_800644B8(state0_actor->unk_2A.s16);
-            cos_y = func_800644B8(((S_819835AC_5 *) (*(void **)&D_800E3D7C))->unk_2A.s16 - 0x400);
+            cos_y = func_800644B8(((ovl_19a332c_819835AC_S_819835AC_5 *) (*(void **)&D_800E3D7C))->unk_2A.s16 - 0x400);
             sin_y_shift = sin_y >> 4;
             cos_y >>= 4;
             step_y = ((u16)state0_move->y.w.i);
             coord_delta = effect->unk_2A.u16;
             step_y -= sin_y_shift;
             step_y += cos_y;
-            state0_height_actor = ((S_819835AC_11 *) &D_800E3D7C)->unk_00;
+            state0_height_actor = ((ovl_19a332c_819835AC_S_819835AC_11 *) &D_800E3D7C)->unk_00;
             coord_delta += step_y;
             effect->unk_2A.u16 = (u16) coord_delta;
             coord_delta = effect->unk_2C.u16;
@@ -389,7 +154,7 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
             motion->unk_14.word = height_numerator_2 / height_frames;
             effect->unk_30 = (s16) ((u16) effect->unk_30 + 1);
         case 1:
-            aim_angle = func_800A07D0((s16) motion->unk_00.half.unk_02.u16, (s16) motion->unk_04.half.unk_06.u16,
+            aim_angle = (s16)func_800A07D0((s16) motion->unk_00.half.unk_02.u16, (s16) motion->unk_04.half.unk_06.u16,
                 (s16) effect->unk_28.u16, (s16) effect->unk_2A.u16);
             approach_heading = effect->unk_38;
             if (approach_heading & 0x800) {
@@ -436,7 +201,7 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
                 effect->unk_34.u16 = 0U;
                 motion->unk_14.word = 0;
             }
-            state1_global = ((S_819835AC_11 *) &D_800814A8)->unk_00;
+            state1_global = ((ovl_19a332c_819835AC_S_819835AC_11 *) &D_800814A8)->unk_00;
             state1_global->unk_96 = 2;
             boost_speed_x = motion->unk_00.word;
             coord_delta = motion->unk_0C.word;
@@ -469,14 +234,14 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
                 break;
             }
             func_8003DE58(*(M2C_UNK *)((((s32) (gameWork.view.viewAngle
-                + ((S_819835AC_5 *) ((S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_2A.s16 + 0x100) >> 7) & 0x1C)
+                + ((ovl_19a332c_819835AC_S_819835AC_5 *) ((ovl_19a332c_819835AC_S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_2A.s16 + 0x100) >> 7) & 0x1C)
                 + D_800E3D18), &D_80082E80.unk_000, (u8 *) effect + 0x28, 0);
             state1_move = &D_80083780;
             effect->unk_28.u16 += (u16)state1_move->x.w.i;
-            state1_actor = ((S_819835AC_11 *) &D_800814A8)->unk_00;
+            state1_actor = ((ovl_19a332c_819835AC_S_819835AC_11 *) &D_800814A8)->unk_00;
             effect->unk_2A.u16 += (u16)state1_move->y.w.i;
             coord_delta = effect->unk_2C.u16;
-            boost_speed_x = ((S_819835AC_5 *) ((S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_88.u16;
+            boost_speed_x = ((ovl_19a332c_819835AC_S_819835AC_5 *) ((ovl_19a332c_819835AC_S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_88.u16;
             coord_delta -= 0x50;
             boost_speed_x += coord_delta;
             effect->unk_2C.u16 = boost_speed_x;
@@ -484,7 +249,7 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
             effect->unk_30 = (s16) ((u16) effect->unk_30 + 1);
             break;
         case 2:
-            aim_angle = func_800A07D0((s16) motion->unk_00.half.unk_02.u16, (s16) motion->unk_04.half.unk_06.u16,
+            aim_angle = (s16)func_800A07D0((s16) motion->unk_00.half.unk_02.u16, (s16) motion->unk_04.half.unk_06.u16,
                 (s16) effect->unk_28.u16, (s16) effect->unk_2A.u16);
             travel_heading = effect->unk_38;
             if (travel_heading & 0x800) {
@@ -564,9 +329,9 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
                 break;
             }
             effect->unk_34.u16 = 4U;
-            state2_actor = ((S_819835AC_11 *) &D_800E3D7C)->unk_00;
+            state2_actor = ((ovl_19a332c_819835AC_S_819835AC_11 *) &D_800E3D7C)->unk_00;
             effect->unk_30 = (s16) ((u16) effect->unk_30 + 1);
-            ((S_819835AC_6 *) ((S_819835AC_11 *) &D_800814A8)->unk_00)->unk_96 = 0;
+            ((ovl_19a332c_819835AC_S_819835AC_6 *) ((ovl_19a332c_819835AC_S_819835AC_11 *) &D_800814A8)->unk_00)->unk_96 = 0;
             effect->unk_38 = (u16) state2_actor->unk_2A.s16;
             state2_angle = state2_actor->unk_2A.u16;
             D_80026B28 = 0;
@@ -586,7 +351,7 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
                 func_80024B2C((s16) (((u16)state34_emit->x.w.i) + (u16) emit_offset.x),
                     (s16) (((u16)state34_emit->y.w.i) + (u16) emit_offset.y),
                     (s16) (((u16)state34_emit->z.w.i) + (u16) emit_offset.z),
-                    ((S_819835AC_5 *) ((S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_2A.s16, 0);
+                    ((ovl_19a332c_819835AC_S_819835AC_5 *) ((ovl_19a332c_819835AC_S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_2A.s16, 0);
             }
             motion->unk_0C.word = (s32) (func_80064584((s16) effect->unk_38) << 8);
             motion->unk_10.word = (s32) (func_800644B8((s16) effect->unk_38) << 8);
@@ -595,10 +360,10 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
             motion->unk_00.word = (s32) (motion->unk_00.word + motion->unk_0C.word);
             motion->unk_04.word = (s32) (motion->unk_04.word + motion->unk_10.word);
             M2C_SFIELD(motion, 8) = (s32) (motion->unk_08.word + motion->unk_14.word);
-            if ((s16) motion->unk_08.half.unk_0A.u16 > ((S_819835AC_5 *) (*(void **)((u8 *)&D_800E3D7C
+            if ((s16) motion->unk_08.half.unk_0A.u16 > ((ovl_19a332c_819835AC_S_819835AC_5 *) (*(void **)((u8 *)&D_800E3D7C
                 + 0)))->unk_88.s16) {
                 motion->unk_08.half.unk_0A.u16 =
-                    (u16) ((S_819835AC_5 *) ((S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_88.s16;
+                    (u16) ((ovl_19a332c_819835AC_S_819835AC_5 *) ((ovl_19a332c_819835AC_S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_88.s16;
             }
             launch_ticks = effect->unk_34.u16 - 1;
             effect->unk_34.u16 = launch_ticks;
@@ -639,13 +404,13 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
                     break;
                 }
             }
-            hit_actor = ((S_819835AC_11 *) &D_800814A8)->unk_00;
+            hit_actor = ((ovl_19a332c_819835AC_S_819835AC_11 *) &D_800814A8)->unk_00;
             hit_origin = (s32)(hit_actor);
             coord_delta = hit_actor->unk_5C;
             hit_actor = coord_delta + 0x20;
             if (hit_actor != (void *)hit_origin) {
                 do {
-                    actor_data = ((S_819835AC_8 *) ((u8 *) hit_actor - 0x20))->unk_0C;
+                    actor_data = ((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) hit_actor - 0x20))->unk_0C;
                     if ((actor_data->unk_24 == effect->unk_40) &&
                         (actor_data->unk_25 == effect->unk_42)) {
                         hit_height_gap = hit_actor->unk_88;
@@ -658,7 +423,7 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
                         if ((hit_height_gap < 0x80) && !(actor_data->unk_1E & 0x2000)) {
                             func_8009CE1C(hit_actor, 0xC, D_80027C96, 0xA, (s32) (s16) (effect->unk_44 << 9),
                                 D_80027C98, 2);
-                            related_motion = ((S_819835AC_8 *) ((u8 *) hit_actor - 0x20))->unk_08;
+                            related_motion = ((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) hit_actor - 0x20))->unk_08;
                             func_80024938(related_motion->unk_00.half.unk_02.s16,
                                 related_motion->unk_04.half.unk_06.s16, related_motion->unk_08.half.unk_0A.s16,
                                 (s16) effect->unk_38, (func_80069EF8() & 3) | 4);
@@ -667,7 +432,7 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
                     }
                     coord_delta = hit_actor->unk_5C;
                     hit_actor = coord_delta + 0x20;
-                } while (hit_actor != ((S_819835AC_11 *) &D_800814A8)->unk_00);
+                } while (hit_actor != ((ovl_19a332c_819835AC_S_819835AC_11 *) &D_800814A8)->unk_00);
             }
             tile_x = (u8) effect->unk_40;
             tile_counter = effect->unk_46;
@@ -686,8 +451,8 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
         case 6:
             target = effect->unk_9C;
             if (target != NULL) {
-                related_motion = ((S_819835AC_8 *) ((u8 *) target - 0x20))->unk_08;
-                aim_angle = func_800A07D0((s16) motion->unk_00.half.unk_02.u16, (s16) motion->unk_04.half.unk_06.u16,
+                related_motion = ((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) target - 0x20))->unk_08;
+                aim_angle = (s16)func_800A07D0((s16) motion->unk_00.half.unk_02.u16, (s16) motion->unk_04.half.unk_06.u16,
                     related_motion->unk_00.half.unk_02.s16, related_motion->unk_04.half.unk_06.s16);
                 homing_heading = effect->unk_38;
                 if (homing_heading & 0x800) {
@@ -796,7 +561,7 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
                         effect->unk_30 = 0x10;
                         effect->unk_8A = 8U;
                     } else {
-                        related_motion = ((S_819835AC_8 *) ((u8 *) new_target - 0x20))->unk_08;
+                        related_motion = ((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) new_target - 0x20))->unk_08;
                         effect->unk_34.u16 = 0x10U;
                         state6_target_base = motion->unk_08.half.unk_0A.s16;
                         height_value = related_motion->unk_08.half.unk_0A.s16;
@@ -841,7 +606,7 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
             D_80027C94 = 0;
             goto block_139;
         }
-        visual->unk_1A = (u16) (func_800A07D0(0, 0, motion->unk_0C.half.unk_0E, motion->unk_10.half.unk_12) - 0x400);
+        visual->unk_1A = (u16) ((s16)func_800A07D0(0, 0, motion->unk_0C.half.unk_0E, motion->unk_10.half.unk_12) - 0x400);
         boost_speed_x = motion->unk_14.half.unk_16;
         step_y = (*(u16 *)((u8 *)visual + 0x1C));
         coord_delta = visual->unk_0C.half.unk_0C;
@@ -882,20 +647,20 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
         return;
     }
     owner_ptr = owner_ref | 0x80000000;
-    if (!(((S_819835AC_8 *) owner_ptr)->unk_1E & 0x8000)) {
+    if (!(((ovl_19a332c_819835AC_S_819835AC_8 *) owner_ptr)->unk_1E & 0x8000)) {
         goto block_140;
     }
 block_139:
-    ((S_819835AC_8 *) ((u8 *) effect - 0x20))->unk_1E = (u16) (((S_819835AC_8 *) ((u8 *) effect - 0x20))->unk_1E
+    ((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) effect - 0x20))->unk_1E = (u16) (((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) effect - 0x20))->unk_1E
         | 0x8000);
     (*(s32 *)&objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
     return;
 block_140:
-    actor_data = ((S_819835AC_8 *) owner_ptr)->unk_0C;
-    related_motion = ((S_819835AC_8 *) owner_ptr)->unk_08;
+    actor_data = ((ovl_19a332c_819835AC_S_819835AC_8 *) owner_ptr)->unk_0C;
+    related_motion = ((ovl_19a332c_819835AC_S_819835AC_8 *) owner_ptr)->unk_08;
     if (owner_ref & 0x80000000) {
         owner_state = owner_ptr + 0x20;
-        visual->unk_1A = (u16) (func_800A07D0((s16) motion->unk_00.half.unk_02.u16,
+        visual->unk_1A = (u16) ((s16)func_800A07D0((s16) motion->unk_00.half.unk_02.u16,
             (s16) motion->unk_04.half.unk_06.u16, related_motion->unk_00.half.unk_02.s16,
             related_motion->unk_04.half.unk_06.s16) - 0x400);
         alternate_delta = related_motion->unk_08.half.unk_0A.s16;

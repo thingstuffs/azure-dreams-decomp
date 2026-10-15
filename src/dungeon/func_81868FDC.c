@@ -1,45 +1,14 @@
-#include "shared/object_node.h"
-#include "common.h"
-#include "shared/slus_callbacks.h"
+#include "modules/dungeon_ovl_188898c.h"
 
-typedef struct {
-    u8 pad0[8];
-    void *dst;
-    void *sprite;
-    void *callback;
-    u8 pad14[12];
-    s32 value;
-} Object;
-
-typedef struct {
-    u8 pad0[12];
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 padF;
-    u16 flags10;
-    s16 angle;
-    u16 flags14;
-    u8 pad16[6];
-    s16 scale_x;
-    s16 scale_y;
-} Sprite;
-
-extern void func_8003DB94(Sprite *, void *, s32);
-extern void func_8004491C(Object *, void *);
-extern u8 D_80024730[];
-extern u8 D_80025368[];
-
-/* Create and initialize a sprite object, storing a value and copying three source halfwords. */
-void func_81868FDC(s32 value, void *source_data) {
-    Object *obj;
-    Sprite *sprite;
+void func_800247DC(s32 value, void *source_data) {
+    ovl_188898c_81868FDC_Object *obj;
+    ovl_188898c_81868FDC_Sprite *sprite;
     u16 *dst;
     u16 *src;
 
-    obj = (Object *)func_8003FC64(0x212);
+    obj = (ovl_188898c_81868FDC_Object *)func_8003FC64(0x212);
     if (obj != 0) {
-        obj->callback = D_80024730;
+        obj->callback = (void *)func_80024730;
         sprite = obj->sprite;
         obj->value = value;
         sprite->b = 0x80;

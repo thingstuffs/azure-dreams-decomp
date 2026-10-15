@@ -1,29 +1,9 @@
-#include "common.h"
+#include "modules/dungeon_ovl_d54c.h"
 
-typedef struct {
-    s8 field_0;
-    s8 field_1;
-    s16 field_2;
-    s32 field_4;
-} DungeonEntry;
-
-typedef struct {
-    u8 pad_0[0x2C];
-    s32 field_2C;
-} DungeonState;
-
-extern DungeonEntry D_800CF720[];
-extern DungeonState D_801131B8;
-extern s32 func_80040574(s32 size);
-extern s32 func_8008ACE8(s32 entry_count);
-extern void func_80069ED8(s32, s32, s32);
-extern void func_8008AD90(s32 record_count, s32 data_offset);
-
-/* Move the selected entry data to the start and copy its metadata to entry zero. */
 void func_8008AE4C(s32 entry_index) {
-    DungeonEntry *entries;
-    DungeonEntry *entry;
-    DungeonState *state;
+    ovl_d54c_7FFED6EC_DungeonEntry *entries;
+    ovl_d54c_7FFED6EC_DungeonEntry *entry;
+    DungeonCacheState *state;
     s32 saved_field_0;
     s32 saved_field_1;
     s32 saved_field_2;

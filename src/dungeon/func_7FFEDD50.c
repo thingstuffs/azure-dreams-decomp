@@ -1,11 +1,5 @@
-#include "common.h"
+#include "modules/dungeon_town_load.h"
 
-extern u8 D_800CF828[15];
-extern s32 D_800CF838[];
-extern void file_load_com(s32);
-extern s32 func_8008B328(void);
-
-/* Processes nonzero table entries and updates the first slots from the status check. */
 void func_8008B4B0(void) {
     s32 slot;
     u8 *entry_id;

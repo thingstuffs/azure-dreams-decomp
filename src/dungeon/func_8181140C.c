@@ -1,30 +1,6 @@
-#include "common.h"
-#include "shared/game_work.h"
+#include "modules/dungeon_ovl_1831370.h"
 
-typedef struct {
-    s32 unk0;
-    s32 unk4;
-    s32 field8;
-    s32 unkC;
-    s32 field10;
-} PadState;
-
-typedef struct {
-    s32 unk0;
-    s32 field4;
-    s32 field8;
-    s32 unkC;
-    s32 field10;
-    s32 pad14[23];
-    s32 field70;
-} MenuState;
-
-extern void func_80026370(s32, s32);
-extern s32 func_80026388(s32, s32, s32);
-extern s16 SD_Call(s32);
-
-/* Updates the menu selection from directional input with key repeat and a sound. */
-void func_8002640C(MenuState *menu) {
+void func_8002640C(ovl_1831370_8181140C_MenuState *menu) {
     s32 direction = 0;
     s32 buttons;
     s32 repeat_ticks;

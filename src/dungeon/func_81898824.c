@@ -1,9 +1,6 @@
-#include "common.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_ovl_18b8824.h"
 
-
-/* Advance motion, rotation, and counters, flagging completion after the time limit. */
-void func_81898824(void *state, void *motion, void *transform)
+void func_80024024(void *state, void *motion, void *transform)
 {
     u16 tick_count;
     void *linked_state;

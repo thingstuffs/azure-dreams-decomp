@@ -1,36 +1,6 @@
-#include "common.h"
+#include "modules/dungeon_ovl_18ca83c.h"
 
-extern void func_800247D4(void);
-extern void func_8002488C(void);
-extern void func_800248D4(void);
-extern void func_80024DF0(void);
-extern void func_80024F30(void);
-extern void func_80024FB0(void);
-extern void func_80024FD8(void);
-extern void func_800250E0(void);
-extern void func_80025118(void);
-
-extern s32 func_8009D218(void *, s32);
-extern s32 func_800A6870(s16 input_value);
-extern void func_800AD4D0(void *);
-extern void func_800AD568(void *);
-extern void func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
-
-static void (*const callbacks[])(void) = {
-    func_800247D4,
-    0,
-    func_8002488C,
-    func_800248D4,
-    func_80024DF0,
-    func_80024F30,
-    func_80024FB0,
-    func_80024FD8,
-    func_800250E0,
-    func_80025118,
-};
-
-/* Adds a flag-adjusted amount to the target's 16-bit value and updates its state. */
-void func_818AA83C(void *target, s32 amount_input) {
+void func_8002403C(void *target, s32 amount_input, void *owner) {
     s32 base_amount;
     register s32 adjusted_amount;
 

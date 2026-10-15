@@ -1,6 +1,5 @@
-#include "common.h"
+#include "modules/dungeon_ovl_1831cd8.h"
 
-/* Return the index of the requested zero-based occurrence matching both bytes, or -1. */
 s32 func_80026F54(s32 target_value, s32 prefix_value, s32 target_occurrence)
 {
     s32 occurrence;

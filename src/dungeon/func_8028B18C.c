@@ -1,49 +1,5 @@
-#include "shared/dungeon_item_entries.h"
-#include "common.h"
+#include "modules/dungeon_floor_spawns.h"
 
-
-
-typedef struct {
-    u8 x;
-    u8 y;
-    u8 pad2[2];
-    s16 field4;
-    u8 pad6;
-    u8 field7;
-    s32 field8;
-} DungeonRecord;
-
-typedef struct {
-    u16 flags;
-    u8 pad2[18];
-} DungeonItem;
-
-typedef struct {
-    u8 pad0[12];
-    DungeonItem *entries;
-    u8 pad10[4];
-} DungeonGroup;
-
-extern s32 func_8001E110(s32, u8, u8);
-extern s32 func_8001E660(u8 *, u8 *, s32, s32);
-extern void func_8001E824(DungeonItemEntry *);
-extern void func_8001EC54(void);
-extern void func_8009A21C(s16 x, s16 y, u16 flags);
-extern s32 func_800A4E2C(u8 *, u8 *);
-extern s16 func_800A6928(s32, s32);
-extern s32 func_800A6D30(void);
-extern s32 func_800A71F4(void);
-extern s32 func_800A7A38(u8 *item);
-extern s16 func_800BCA68(s32, s32);
-
-extern s8 D_8001F6F0[];
-extern u8 D_800DDC9C[];
-extern DungeonGroup D_80073414[];
-extern s16 D_80081468[3];
-extern u8 D_800E36C8[];
-extern s32 D_800E3D6C[];
-
-/* Populates dungeon items with special item rolls or restores their occupied tiles on reload. */
 void func_8001E18C(void)
 {
     u8 tile_x;
@@ -58,15 +14,15 @@ void func_8001E18C(void)
     s32 spawn_index;
     s32 special_flag;
     s32 spawn_check;
-    DungeonGroup *item_category_table;
-    DungeonRecord *item_record;
+    floor_spawns_isolated_8028B18C_DungeonGroup *item_category_table;
+    floor_spawns_isolated_8028B18C_DungeonRecord *item_record;
     DungeonItemEntry *item_state;
-    DungeonRecord *saved_record;
-    DungeonRecord *spawn_records;
+    floor_spawns_isolated_8028B18C_DungeonRecord *saved_record;
+    floor_spawns_isolated_8028B18C_DungeonRecord *spawn_records;
     u8 *setup_globals;
     if (D_800E3D6C[0] & 2) {
         count = 0;
-        saved_record = (DungeonRecord *)D_800E36C8;
+        saved_record = (floor_spawns_isolated_8028B18C_DungeonRecord *)((u8 *)D_800E36C8);
         item_state = (DungeonItemEntry *)((u8 *)D_800E3548);
         do {
             if (item_state->unk_00 != 0) {
@@ -82,7 +38,7 @@ void func_8001E18C(void)
     setup_globals = (u8 *)0x80010000;
     *(u16 *)(setup_globals + 0x3626) = *(u16 *)(setup_globals + 0x3624);
     *(u16 *)(setup_globals + 0x209E) = *(u16 *)(setup_globals + 0x209C);
-    D_8001F6F0[0] = 0;
+    ((s8 *)D_8001F6F0)[0] = 0;
     *(u16 *)(setup_globals + 0x3626) += (func_800A6D30() & 3) + 0x33;
     *(u16 *)(setup_globals + 0x209E) += (func_800A6D30() & 3) + 0x33;
 
@@ -125,7 +81,7 @@ void func_8001E18C(void)
                         s32 *spawn_table = (s32 *)((u8 *)D_800E3548);
                         spawn_table[spawn_index] = 0x603;
                     }
-                    spawn_records = (DungeonRecord *)D_800E36C8;
+                    spawn_records = (floor_spawns_isolated_8028B18C_DungeonRecord *)((u8 *)D_800E36C8);
                     spawn_records[spawn_index].x = tile_x;
                     spawn_records[spawn_index].y = tile_y;
                     func_8009A21C(spawn_records[spawn_index].x,
@@ -137,9 +93,9 @@ void func_8001E18C(void)
 
     count = 0;
     spawn_check = (s32)((u8 *)0x80010000);
-    item_category_table = D_80073414;
+    item_category_table = ((floor_spawns_isolated_8028B18C_DungeonGroup *)D_80073414);
     item_state = (DungeonItemEntry *)((u8 *)D_800E3548);
-    item_record = (DungeonRecord *)D_800E36C8;
+    item_record = (floor_spawns_isolated_8028B18C_DungeonRecord *)((u8 *)D_800E36C8);
 main_loop:
     if (item_state->kind == 0) {
         if (count >= slot_limit) {

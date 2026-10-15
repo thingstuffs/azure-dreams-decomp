@@ -1,8 +1,5 @@
-#include "common.h"
+#include "modules/dungeon_ovl_1831cd8.h"
 
-extern u8 D_800287EC[];
-
-/* Return a table entry, mapping row 0x39 to row 2. */
 void *func_80027110(s32 row_id, s32 entry_index)
 {
     s32 row;

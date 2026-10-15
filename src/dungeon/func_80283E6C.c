@@ -1,9 +1,5 @@
-#include "common.h"
-#include "shared/game_work.h"
+#include "modules/dungeon_dungeon_setup.h"
 
-extern s32 func_80016BF0();
-
-/* Pass the two state indices as bit masks to func_80016BF0. */
 void func_80016E6C(void)
 {
     void *state = ((u8 *)(&gameWork));

@@ -1,51 +1,13 @@
-#include "common.h"
-#include "shared/sys_flags.h"
-#include "shared/game_work.h"
-#include "shared/dungeon_status.h"
-#include "m2c_compat.h"
+#include "modules/dungeon_dungeon_setup.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
-s32 func_800644B8();                             /* extern */
-s32 func_80064584();                             /* extern */
-s32 rand();                                /* extern */
-extern M2C_UNK D_800C7B38;
-
-typedef struct S_800172A0_0 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800172A0_0;   /* arg0 in func_800172A0 */
-
-typedef struct S_800172A0_2 {
-    u8 pad_00[0x1C];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800172A0_2;   /* temp_s5 in func_800172A0 */
-
-typedef struct S_800172A0_3 {
-    void * unk_00;
-    u8 pad_04[0x8];
-    void * unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-    s32 unk_18;
-    u8 pad_1C[0x8];
-    s16 unk_24;
-    s16 unk_26;
-} S_800172A0_3;   /* temp_s1 in func_800172A0 */
-
-/* Initialize a bounded random position and its associated effect state. */
-void func_800172A0(S_800172A0_0 *source, s16 base_offset) {
+void func_800172A0(dungeon_setup_802842A0_S_800172A0_0 *source, s16 base_offset) {
     s16 state_offset;
     s16 position_x;
     s16 position_y;
     GameView *state;
     void *effect;
     s32 random_angle;
-    S_800172A0_2 *bounds;
+    dungeon_setup_802842A0_S_800172A0_2 *bounds;
     s16 rotation_step;
     s32 random_bits;
 
@@ -77,16 +39,16 @@ void func_800172A0(S_800172A0_0 *source, s16 base_offset) {
             rotation_step = 0x800;
         }
         state->viewAngle = rotation_step;
-        ((S_800172A0_3 *)effect)->unk_00 = (void *) (effect + 4);
-        ((S_800172A0_3 *)effect)->unk_14 = 1;
-        ((S_800172A0_3 *)effect)->unk_24 = 0x40;
-        ((S_800172A0_3 *)effect)->unk_0C = source;
-        ((S_800172A0_3 *)effect)->unk_18 = 0;
-        ((S_800172A0_3 *)effect)->unk_26 = base_offset;
+        ((dungeon_setup_802842A0_S_800172A0_3 *)effect)->unk_00 = (void *) (effect + 4);
+        ((dungeon_setup_802842A0_S_800172A0_3 *)effect)->unk_14 = 1;
+        ((dungeon_setup_802842A0_S_800172A0_3 *)effect)->unk_24 = 0x40;
+        ((dungeon_setup_802842A0_S_800172A0_3 *)effect)->unk_0C = source;
+        ((dungeon_setup_802842A0_S_800172A0_3 *)effect)->unk_18 = 0;
+        ((dungeon_setup_802842A0_S_800172A0_3 *)effect)->unk_26 = base_offset;
         state->slot[0].callback = &D_800C7B38;
-        state_offset = base_offset + ((((S_800172A0_3 *)effect)->unk_24 + 1) * 0x30);
+        state_offset = base_offset + ((((dungeon_setup_802842A0_S_800172A0_3 *)effect)->unk_24 + 1) * 0x30);
         state->unk_098 = state_offset;
-        ((S_800172A0_3 *)effect)->unk_10 = (s32) state_offset;
+        ((dungeon_setup_802842A0_S_800172A0_3 *)effect)->unk_10 = (s32) state_offset;
         dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) + 1);
     }
 }

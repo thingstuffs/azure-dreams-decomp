@@ -1,0 +1,6 @@
+#include "modules/dungeon_town_load.h"
+#include "../func_7FFEDB84.c"
+#include "../func_7FFEDBC8.c"
+#include "../func_7FFEDC4C.c"
+#include "../func_7FFEDCA8.c"
+#include "../func_7FFEDD50.c"

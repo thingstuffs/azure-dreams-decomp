@@ -1,0 +1,15 @@
+{
+  "module": "dungeon_ovl_18d0850",
+  "region": {
+    "schema": "azure-clean.rowbase.v1",
+    "region": "native_18d0800_80024000",
+    "foff_start": "0x18d0800",
+    "foff_end": "0x18d6800",
+    "delta": "0x7e753800",
+    "base_confidence": "proven",
+    "evidence": "docs/evidence/dungeon_ovl_18d0850.selector.json",
+    "proof": "Authenticated conditional selector load: twelve sector payloads equal the container; 47 retail loader/caller/CD decoder words and the ISO9660 directory record verify destination 0x80024000 and this complete extent. Static evidence; no runtime observation claimed. Existing code-proven records agree without contradiction."
+  },
+  "basis": "Existing proven rowbase record; complete module extent is contained in this map.",
+  "review": "pending"
+}

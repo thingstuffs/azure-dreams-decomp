@@ -61,10 +61,11 @@ class ScopedFingerprint(unittest.TestCase):
   m['imports'].append(runtime);m['review_inputs'].append('storage.json')
   (r/'include/storage.h').write_text('extern int runtime_obj;\n')
   cls.write('storage.json',{'runtime_views':{'runtime_obj':runtime}},True)
-  asset={'symbol':'asset_obj','kind':'data','foff':80,'vma':0x80024050,'view_bytes':4,'owner':'retail_asset:external.bin','asset':'external.bin','evidence':'asset.json','map':'fixture'}
+  asset={'symbol':'asset_obj','kind':'data','foff':80,'vma':0x80024050,'view_bytes':4,'owner':'retail_asset:work/disc/containers/TOWN_TOWN.BIN','asset':'work/disc/containers/TOWN_TOWN.BIN','evidence':'asset.json','map':'fixture'}
   m['imports'].append(asset);m['review_inputs'].append('asset.json')
-  (r/'external.bin').write_bytes(bytes(112))
-  cls.write('asset.json',{'views':{'asset_obj':asset},'maps':{'fixture':{'asset':'external.bin','delta':0x80024000,'file_start':0,'file_end':112,'basis':'fixture','kind':'rowbase','region':'bank0'}}},True)
+  (r/'work/disc/containers/TOWN_TOWN.BIN').write_bytes(bytes(112))
+  cls.write('config/overlays/town.rowbase.jsonl',[{'schema':'azure-clean.rowbase.v1','region':'external_town','foff_start':'0x0','foff_end':'0x70','delta':'0x80024000','base_confidence':'proven','proof':'fixture'}])
+  cls.write('asset.json',{'views':{'asset_obj':asset},'maps':{'fixture':{'asset':'work/disc/containers/TOWN_TOWN.BIN','container':'town','delta':0x80024000,'file_start':0,'file_end':112,'basis':'fixture','kind':'rowbase','region':'external_town'}}},True)
   cls.write('ledger/rows.jsonl',rows);cls.write('ledger/modules.jsonl',assign);cls.write('ledger/levels.jsonl',levels);cls.write('ledger/splits/dungeon.jsonl',splits);cls.write('config/overlays/dungeon.rowbase.jsonl',regions);cls.write('config/overlays/dungeon.rodata_owners.jsonl',[])
   cls.write('config/overlays/modules.json',{'schema':G.SCHEMA,'modules':mods},True)
   import yaml
@@ -203,7 +204,7 @@ class ScopedFingerprint(unittest.TestCase):
  def test_import_storage_bytes(self):
   with self.mutate('work/disc/containers/DUNGEON_DUNGEON.BIN',lambda p:p.write_bytes(p.read_bytes()[:80]+b'1'+p.read_bytes()[81:])):self.changed()
  def test_external_asset_bytes(self):
-  with self.mutate('external.bin',lambda p:p.write_bytes(p.read_bytes()[:80]+b'1'+p.read_bytes()[81:])):self.changed()
+  with self.mutate('work/disc/containers/TOWN_TOWN.BIN',lambda p:p.write_bytes(p.read_bytes()[:80]+b'1'+p.read_bytes()[81:])):self.changed()
  def test_runtime_declaration(self):
   with self.mutate('include/storage.h',lambda p:p.write_text(p.read_text()+'/* storage */\n')):self.changed()
  def test_runtime_evidence(self):

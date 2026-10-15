@@ -1,38 +1,6 @@
-#include "common.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_ovl_1930844.h"
 
-typedef struct Inner81911BF4 {
-    u8 pad00[0x14];
-    u16 field14;
-} Inner81911BF4;
-
-typedef struct Obj81911BF4 {
-    Inner81911BF4 *inner;
-    s16 state;
-    s16 timer;
-    s16 duration;
-    s16 angle;
-    u16 angle_step;
-    s16 scale;
-    u16 field10;
-    s16 field12;
-    s16 field14;
-    s32 x[5];
-    s32 y[5];
-    u8 field40;
-    u8 field41;
-    u8 field42;
-} Obj81911BF4;
-
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
-extern void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_factor);
-extern void func_800246C0(Obj81911BF4 *, s32 *, s32, s32);
-extern void func_80024ACC(Obj81911BF4 *, s32 *, s32, s32);
-extern void func_8002539C(Obj81911BF4 *);
-
-/* Update the five orbiting points and advance the effect animation. */
-void func_800253F4(Obj81911BF4 *effect, s32 *position)
+void func_800253F4(ovl_1930844_81911BF4_Obj81911BF4 *effect, s32 *position)
 {
     s32 point_index;
     s32 brightness;

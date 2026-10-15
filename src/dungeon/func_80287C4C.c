@@ -1,47 +1,9 @@
-#include "common.h"
-#include "shared/dungeon_floor.h"
-#include "shared/game_work.h"
-#include "shared/dir_step.h"
+#include "modules/dungeon_floor_generate.h"
 
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 unk4;
-    s16 dir;
-} Pos;
-
-typedef struct {
-    s16 kind;
-    s16 value;
-    u16 flags;
-} DungeonCell;
-
-typedef struct {
-    u16 x;
-    u16 y;
-    u16 w;
-    u16 h;
-    u8 pad08[2];
-    s16 active;
-    u8 pad0C[8];
-} Room;
-
-extern s32 D_8001F660;
-extern DungeonCell D_800EA000[];
-
-extern void func_800177D8(s16, s16, s16, s32);
-extern void func_800A6D60(s32);
-extern u32 func_800A07D0(s16, s16, s16, s16);
-extern void func_8001CCEC(s16, s16 *, s16 *, Room *);
-extern s16 func_8001C06C(Pos *, Pos *, s16, s16 *, s16 *);
-extern s16 func_8001C5E4(Pos *, Pos *, s16, s16 *, s16 *, s32 *, s32 *);
-extern s32 func_8001CE14(s16, s32, s16);
-
-/* Connects rooms with a two-cell-wide corridor and interpolates its floor heights. */
-s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room_marks) {
-    Pos start;
-    Pos end;
-    Pos side_start;
+s16 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room_marks) {
+    floor_generate_isolated_80287C4C_Pos start;
+    floor_generate_isolated_80287C4C_Pos end;
+    floor_generate_isolated_80287C4C_Pos side_start;
     s16 src_offset_x;
     s16 src_offset_y;
     s16 dest_offset_x;
@@ -54,13 +16,13 @@ s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room
     s32 dest_x;
     s32 dest_y;
     s16 back_dir;
-    Room *src_room;
+    floor_generate_isolated_80287C4C_Room *src_room;
     s16 path_length;
     s16 saved_dir;
-    Room *dest_room;
+    floor_generate_isolated_80287C4C_Room *dest_room;
     MapGrid *dungeon;
-    DungeonCell *edge_cell;
-    DungeonCell *inner_cell;
+    floor_generate_isolated_80287C4C_DungeonCell *edge_cell;
+    floor_generate_isolated_80287C4C_DungeonCell *inner_cell;
     s16 travel_dir;
     s16 entry_dir;
     s16 room_idx;

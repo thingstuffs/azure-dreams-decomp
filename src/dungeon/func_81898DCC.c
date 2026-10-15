@@ -1,30 +1,13 @@
-#include "shared/object_node.h"
-#include "common.h"
-#include "shared/slus_callbacks.h"
+#include "modules/dungeon_ovl_18b8824.h"
 
-typedef struct Object {
-    u8 pad0[8];
-    void *data;
-    void *sprite;
-    void *callback;
-    u8 pad14[12];
-    s32 field20;
-} Object;
-
-extern void func_8003DB94(void *, void *, s32);
-extern void func_8004491C(Object *, void *);
-extern u8 D_80024550[];
-extern u8 D_80024FC4[];
-
-/* Creates and initializes a sprite object, offsetting its third data value. */
-Object *func_800245CC(s32 field_value, s32 *initial_data) {
-    Object *obj;
+ovl_18b8824_81898DCC_Object *func_800245CC(s32 field_value, s32 *initial_data) {
+    ovl_18b8824_81898DCC_Object *obj;
     u8 *sprite;
     s32 *data;
 
-    obj = (Object *)func_8003FC64(0x212);
+    obj = (ovl_18b8824_81898DCC_Object *)func_8003FC64(0x212);
     if (obj != 0) {
-        obj->callback = D_80024550;
+        obj->callback = (void *)func_80024550;
         sprite = obj->sprite;
         obj->field20 = field_value;
         sprite[0xE] = 0x80;

@@ -1,90 +1,12 @@
-#include "common.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
-#include "shared/dir_step.h"
+#include "modules/dungeon_ovl_188298c.h"
 
-typedef union Fixed32 {
-    s32 val;
-    struct {
-        u16 lo;
-        s16 hi;
-    } h;
-} Fixed32;
-
-typedef struct Motion {
-    Fixed32 x;
-    Fixed32 y;
-    Fixed32 z;
-    Fixed32 dx;
-    Fixed32 dy;
-    Fixed32 dz;
-} Motion;
-
-typedef struct Lookup {
-    u8 pad00[8];
-    void *key;
-    u8 pad0C[8];
-    u16 flags;
-    u8 pad16[14];
-    u8 cell_x;
-    u8 cell_y;
-} Lookup;
-
-typedef struct RootPrefix {
-    u8 pad00[8];
-    Motion *motion;
-    Lookup *lookup;
-} RootPrefix;
-
-typedef struct Controller {
-    u8 *root;
-    u16 *flags;
-    u8 pad08;
-    u8 kind;
-    s16 state;
-    s16 pad0C;
-    u16 angle;
-    s16 timer;
-    s16 pad12;
-    s16 active;
-    u8 slots[8];
-    u8 pad1E[2];
-    Motion saved;
-    Fixed32 target[3];
-    u8 pad44[12];
-    s16 cell_x;
-    s16 cell_y;
-} Controller;
-
-typedef union WideProduct {
-    long long value;
-    struct {
-        s32 upper;
-        s32 lower;
-    } word;
-} WideProduct;
-
-typedef struct LargeFlag {
-    u32 value;
-    u32 pad[2];
-} LargeFlag;
-
-extern s32 func_8003DE58();
-extern s32 func_800A44E0();
-extern s32 func_800BCB04();
-extern void func_800A56E0();
-extern void func_800246D8();
-extern void func_80024428();
-extern void func_80024060();
-
-/* Moves toward a linked object or a reachable cell, then runs the arrival effects. */
-void func_80024AE4(Controller *ctrl, Motion *motion, void *render_data)
+void func_80024AE4(ovl_188298c_818632E4_Controller *ctrl, ovl_188298c_818632E4_Motion *motion, void *render_data)
 {
     u8 *root;
-    RootPrefix *prefix;
-    Lookup *lookup;
-    Lookup *lookup_2;
-    Motion *root_motion;
+    ovl_188298c_818632E4_RootPrefix *prefix;
+    ovl_188298c_818632E4_Lookup *lookup;
+    ovl_188298c_818632E4_Lookup *lookup_2;
+    ovl_188298c_818632E4_Motion *root_motion;
 
     u8 *linked_root;
     u8 *slot;
@@ -120,7 +42,7 @@ void func_80024AE4(Controller *ctrl, Motion *motion, void *render_data)
         ((s32 *)render_data)[3] = 0x00808080;
 
     case 1:
-        prefix = (RootPrefix *)(root - 0x20);
+        prefix = (ovl_188298c_818632E4_RootPrefix *)(root - 0x20);
         if (func_8003DE58(prefix->lookup->key, prefix->lookup, delta, 0) == 0) {
             if (!(prefix->lookup->flags & 0x8000)) {
                 break;
@@ -146,24 +68,24 @@ void func_80024AE4(Controller *ctrl, Motion *motion, void *render_data)
         ctrl->saved = *motion;
         linked_root = *(u8 **)(root + 0x60);
         if (linked_root != 0) {
-            prefix = (RootPrefix *)*(Motion **)(linked_root - 0x18);
+            prefix = (ovl_188298c_818632E4_RootPrefix *)*(ovl_188298c_818632E4_Motion **)(linked_root - 0x18);
 
             start_coord = motion->x.h.hi;
-            delta[0] = __builtin_abs(((Motion *)prefix)->x.h.hi - start_coord);
+            delta[0] = __builtin_abs(((ovl_188298c_818632E4_Motion *)prefix)->x.h.hi - start_coord);
 
-            delta[1] = __builtin_abs(((Motion *)prefix)->y.h.hi - motion->y.h.hi);
+            delta[1] = __builtin_abs(((ovl_188298c_818632E4_Motion *)prefix)->y.h.hi - motion->y.h.hi);
 
             linked_root = *(u8 **)(root + 0x60);
             start_coord = motion->z.h.hi;
             delta[2] = __builtin_abs(*(s16 *)(linked_root + 0x88) - start_coord);
 
             linked_root = *(u8 **)(root + 0x60);
-            lookup = *(Lookup **)(linked_root - 0x14);
+            lookup = *(ovl_188298c_818632E4_Lookup **)(linked_root - 0x14);
             ctrl->cell_x = lookup->cell_x;
             ctrl->cell_y = lookup->cell_y;
 
-            ctrl->target[0].val = ((Motion *)prefix)->x.val;
-            ctrl->target[1].val = ((Motion *)prefix)->y.val;
+            ctrl->target[0].val = ((ovl_188298c_818632E4_Motion *)prefix)->x.val;
+            ctrl->target[1].val = ((ovl_188298c_818632E4_Motion *)prefix)->y.val;
             diff = *(u16 *)(*(u8 **)(root + 0x60) + 0x88);
             ctrl->target[2].h.lo = 0;
             ctrl->target[2].h.hi = diff;
@@ -226,17 +148,17 @@ void func_80024AE4(Controller *ctrl, Motion *motion, void *render_data)
             {
 
 
-                prefix = (RootPrefix *)ctrl->target;
-                ((Fixed32 *)prefix)[2].val = 0;
-                ((Fixed32 *)prefix)[1].val = 0;
+                prefix = (ovl_188298c_818632E4_RootPrefix *)ctrl->target;
+                ((ovl_188298c_818632E4_Fixed32 *)prefix)[2].val = 0;
+                ((ovl_188298c_818632E4_Fixed32 *)prefix)[1].val = 0;
                 ctrl->target[0].val = 0;
-                ((Fixed32 *)prefix)[0].h.hi = ((final_x << 16) >> 10) + 32;
-                ((Fixed32 *)prefix)[1].h.hi = ((final_y << 16) >> 10) + 32;
-                ((Fixed32 *)prefix)[2].h.hi = -1024;
-                ((Fixed32 *)prefix)[2].h.hi = func_800BCB04((u16)((Fixed32 *)prefix)[0].h.hi,
-                                               (u16)((Fixed32 *)prefix)[1].h.hi, -1024);
-                if ((s16)((Fixed32 *)prefix)[2].h.hi >= 513) {
-                    ((Fixed32 *)prefix)[2].h.hi = motion->z.h.hi + 32;
+                ((ovl_188298c_818632E4_Fixed32 *)prefix)[0].h.hi = ((final_x << 16) >> 10) + 32;
+                ((ovl_188298c_818632E4_Fixed32 *)prefix)[1].h.hi = ((final_y << 16) >> 10) + 32;
+                ((ovl_188298c_818632E4_Fixed32 *)prefix)[2].h.hi = -1024;
+                ((ovl_188298c_818632E4_Fixed32 *)prefix)[2].h.hi = func_800BCB04((u16)((ovl_188298c_818632E4_Fixed32 *)prefix)[0].h.hi,
+                                               (u16)((ovl_188298c_818632E4_Fixed32 *)prefix)[1].h.hi, -1024);
+                if ((s16)((ovl_188298c_818632E4_Fixed32 *)prefix)[2].h.hi >= 513) {
+                    ((ovl_188298c_818632E4_Fixed32 *)prefix)[2].h.hi = motion->z.h.hi + 32;
                 }
             }
 

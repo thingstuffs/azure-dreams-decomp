@@ -1,13 +1,5 @@
-#include "shared/game_work.h"
+#include "modules/dungeon_floor_generate.h"
 
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-typedef short s16;
-typedef unsigned int u32;
-typedef int s32;
-typedef s8 M2C_UNK8;
-/* Test whether the value lies within the inclusive lower and upper bounds. */
 s32 func_8001CE14(s16 value, s32 lower_bound, s16 upper_bound)
 {
     s32 in_range;

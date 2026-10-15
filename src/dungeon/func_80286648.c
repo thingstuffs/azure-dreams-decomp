@@ -1,8 +1,5 @@
-#include "common.h"
+#include "modules/dungeon_floor_generate.h"
 
-extern s8 D_80012D52;
-
-/* Change the selected entry from code 2 to code 0x39 when its index is valid. */
 void func_80019648(void)
 {
     s32 index;

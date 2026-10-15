@@ -1,29 +1,13 @@
-#include "common.h"
+#include "modules/dungeon_ovl_19a332c.h"
 
-typedef struct S_81984AF4_0 {
-    s32 unk_00;
-    union { s8 s; u8 u; } unk_04;   /* accessed as both */
-    u8 pad_05[0x3];
-    void * unk_08;
-    u8 pad_0C[0x8];
-    union { u16 s; u16 u; } unk_14;   /* accessed as both */
-} S_81984AF4_0;   /* obj in func_81984AF4 */
-
-typedef struct S_81984AF4_1 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-} S_81984AF4_1;   /* owner in func_81984AF4 */
-
-
-/* Resolve the current entry, apply an index step, and enforce the index bounds. */
-void func_81984AF4(void *object, s16 *index_step, s32 min_index, s32 max_index) {
+void func_800262F4(void *object, s16 *index_step, s32 min_index, s32 max_index) {
     s16 step;
     s32 shifted_index;
     u32 clamp_flags;
     u8 index;
-    S_81984AF4_0 *obj = object;
+    ovl_19a332c_81984AF4_S_81984AF4_0 *obj = object;
     s32 initial_index = obj->unk_04.s;
-    S_81984AF4_1 *owner = obj->unk_08;
+    ovl_19a332c_81984AF4_S_81984AF4_1 *owner = obj->unk_08;
 
     obj->unk_00 =
         owner->unk_0C + (initial_index * 22);

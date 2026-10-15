@@ -1,6 +1,4 @@
-#include "common.h"
-
-extern void func_8001D4AC(void);
+#include "modules/dungeon_floor_switch_owners.h"
 
 /* Exact jump_table span; dispatch consumer dungeon/func_8028A4AC. */
 const u32 D_80016000[13] __attribute__((aligned(4))) = {

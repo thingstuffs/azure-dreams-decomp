@@ -1,80 +1,11 @@
-#include "common.h"
-#include "shared/dungeon_floor.h"
+#include "modules/dungeon_floor_spawns.h"
 
-typedef void *(*SpawnFunc)(s32, s32, s32, s32);
-
-typedef struct S_8001EF0C_0 {
-    u8 pad_00[0x11];
-    u8 unk_11;
-    s8 unk_12;
-    u8 pad_13[0x5];
-    u32 unk_18;
-    u8 pad_1C[0x27];
-    union { u8 s; s8 u; } unk_43;   /* accessed as both */
-} S_8001EF0C_0;   /* object in func_8001EF0C */
-
-typedef struct S_8001EF0C_1 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-} S_8001EF0C_1;   /* config in func_8001EF0C */
-
-
-typedef struct {
-    u8 type;
-    u8 state;
-    u8 unk2;
-    u8 unk3;
-} SpawnMeta;
-
-typedef struct {
-    u8 pad0[6];
-    u8 x;
-    u8 y;
-    s32 value;
-    s32 zero;
-    s16 unk10;
-    s16 unk12;
-    u16 flags;
-    u16 pad16;
-} SpawnPosition;
-
-typedef struct {
-    u32 initial[1];
-    s32 limits[1];
-} SpawnTables;
-
-extern s16 D_80081468[3];
-extern s16 D_8008146C[];
-extern SpawnTables D_800835E4[];
-extern s32 D_800835E8[];
-extern SpawnMeta D_800E3648[];
-extern SpawnPosition D_800E39C8[];
-extern s32 D_800E3D6C[];
-extern u8 *D_800735C4[];
-extern u8 D_800DF258[];
-
-extern void func_8003DB94(void *, s32, s32);
-extern void func_80042640(void *, s32);
-extern void func_8009A21C(s16 x, s16 y, u16 flags);
-extern SpawnFunc func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read);
-extern void func_800A152C(s32, s32);
-extern s32 func_800A1618(s32, s32);
-extern void func_800A1D4C(void *, s32);
-extern s32 func_800A4E2C(u8 *, u8 *);
-extern s32 func_800A6D30(void);
-extern s32 func_800A6DA4(s32, s32);
-extern s16 func_800BCB04(s32 x, s32 y, s16 min_height);
-
-
-#define PAGE_8008 ((u8 *)0x80080000)
-
-/* Restores saved spawns and places random traps within the floor budget. */
 void func_8001EF0C(void) {
     u8 x;
     u8 y;
     u8 *floor_config;
-    SpawnPosition *position;
-    SpawnMeta *meta;
+    floor_spawns_isolated_8028BF0C_SpawnPosition *position;
+    floor_spawns_isolated_8028BF0C_SpawnMeta *meta;
     s32 *limits;
     u32 *initial;
     s32 slot;
@@ -95,12 +26,12 @@ void func_8001EF0C(void) {
     u8 spawn_variant;
     u8 spawn_marker;
     s32 spawn_height;
-    S_8001EF0C_0 *object;
+    floor_spawns_isolated_8028BF0C_S_8001EF0C_0 *object;
 
     slot = 0;
     initial = D_800835E4->initial;
     limits = (s32 *)(initial + 1);
-    meta = D_800E3648;
+    meta = ((floor_spawns_isolated_8028BF0C_SpawnMeta *)D_800E3648);
     position = D_800E39C8;
     do {
         if (meta[slot].state == 0x13) {
@@ -133,10 +64,10 @@ void func_8001EF0C(void) {
     } while (slot < 0x20);
 
     floor_config = (u8 *)D_80081468;
-    if (((S_8001EF0C_1 *)floor_config)->unk_06 == 1) {
+    if (((floor_spawns_isolated_8028BF0C_S_8001EF0C_1 *)floor_config)->unk_06 == 1) {
         spawn_limit = (func_800A6D30() & 3) + 4;
     } else {
-        spawn_limit = ((S_8001EF0C_1 *)floor_config)->unk_06 / 2 + (func_800A6D30() & 3);
+        spawn_limit = ((floor_spawns_isolated_8028BF0C_S_8001EF0C_1 *)floor_config)->unk_06 / 2 + (func_800A6D30() & 3);
     }
     if (spawn_limit >= 0x21) {
         spawn_limit = 0x20;
@@ -146,8 +77,8 @@ void func_8001EF0C(void) {
     slot = 0;
     trap_state = 0x15;
     position = D_800E39C8;
-    trap_budget = D_8008146C[0] / 2 + (value & 0x3F);
-    meta = D_800E3648;
+    trap_budget = ((s16 *)D_8008146C)[0] / 2 + (value & 0x3F);
+    meta = ((floor_spawns_isolated_8028BF0C_SpawnMeta *)D_800E3648);
 
     for (; slot < 0x20; slot++) {
         if (meta[slot].state == trap_state) {

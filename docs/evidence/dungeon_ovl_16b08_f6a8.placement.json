@@ -1,0 +1,14 @@
+{
+  "module": "dungeon_ovl_16b08_f6a8",
+  "region": {
+    "schema": "azure-clean.rowbase.v1",
+    "region": "img_f6a8_8008ce08",
+    "foff_start": "0xF6A8",
+    "foff_end": "0xF7E8",
+    "delta": "0x8007D760",
+    "base_confidence": "proven",
+    "proof": "CORRECTED 2026-08-24 from delta 0x8007D800 together with img_d54c_8008ad4c -- same image (img0000@0xD54C), same 0xA0 error, same cause (the K = 0 mod 0x800 snap). RUNTIME: DUNGEON.BIN 0xF600-0xF800 matches RAM 512/512 at this delta in az-captures ram_town / ram_town_menu / ram_menu / ram_movie; the image's own local-`j` interval is [0x8007D759,0x8007D788]. See img_d54c_8008ad4c for the full measurement. Scoring-grade (`solved`) until a byte-exact recompile inside THIS extent promotes it. [2026-08-24: region id renamed from img_f6a8_8008cea8 - id encoded the pre-correction vram; delta unchanged]; PROMOTED solved->proven: byte-exact recompile func_7FFEF6A8 at true base 0x8008CE08 (candidate sha a7dbc00fb95a @ 2.8.1-G0, linked-strict isolation compare, phase-2 item-3 hook)"
+  },
+  "basis": "Existing proven rowbase record; complete module extent is contained in this map.",
+  "review": "pending"
+}

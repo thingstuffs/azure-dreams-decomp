@@ -1,6 +1,5 @@
-#include "common.h"
+#include "modules/dungeon_ovl_1831cd8.h"
 
-/* Set eight object fields to a scaled value with successive 0x10 offsets. */
 void func_80027B6C(s32 object_table, s32 scale_numerator, s32 scale_denominator) {
     s32 scaled_value;
     s32 entry_index;

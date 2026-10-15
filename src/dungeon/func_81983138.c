@@ -1,63 +1,15 @@
-#include "shared/object_node.h"
-#include "common.h"
-#include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
+#include "modules/dungeon_ovl_19a332c.h"
 
-s32 func_8004491C();
-s32 func_800644B8();
-s32 func_80064584();
-extern M2C_UNK D_80024888;
-extern M2C_UNK D_800269EC;
-
-typedef struct S_80024938_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    M2C_UNK * unk_10;
-} S_80024938_0;   /* temp_v0 in func_80024938 */
-
-typedef struct S_80024938_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80024938_1;   /* temp_s2 in func_80024938 */
-
-typedef struct S_80024938_2 {
-    u8 pad_00[0x8];
-    M2C_UNK * unk_08;
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80024938_2;   /* temp_a0 in func_80024938 */
-
-typedef struct S_80024938_3 {
-    u8 pad_00[0x30];
-    s16 unk_30;
-    u8 pad_32[0x4];
-    u16 unk_36;
-} S_80024938_3;   /* temp_v1 in func_80024938 */
-
-/* Spawns 32 effect particles at the given position with angle-based velocities. */
-void *func_80024938(s16 x, s16 y, s16 z, s16 angle) {
+void *func_80024938(s16 x, s16 y, s16 z, s16 angle, s32 unused_context) {
     s32 direction_x;
     s32 direction_y;
     s32 ring_angle;
     s32 direction_angle;
     s32 particle_index;
-    S_80024938_2 *sprite;
-    S_80024938_1 *motion;
+    ovl_19a332c_81983138_S_80024938_2 *sprite;
+    ovl_19a332c_81983138_S_80024938_1 *motion;
     void *particle;
-    union { S_80024938_3 * pointer; s32 value; } effect_state;
+    union { ovl_19a332c_81983138_S_80024938_3 * pointer; s32 value; } effect_state;
     union { s32 value; M2C_UNK *pointer; } size_texture;
 
     particle_index = 0;
@@ -65,9 +17,9 @@ void *func_80024938(s16 x, s16 y, s16 z, s16 angle) {
     do {
         particle = func_8003FC64(0x202);
         if (particle != NULL) {
-            ((S_80024938_0 *)particle)->unk_10 = &D_80024888;
+            ((ovl_19a332c_81983138_S_80024938_0 *)particle)->unk_10 = (void *)func_80024888;
             func_8004491C(particle, func_80045340);
-            motion = ((S_80024938_0 *)particle)->unk_08;
+            motion = ((ovl_19a332c_81983138_S_80024938_0 *)particle)->unk_08;
             motion->unk_02 = x;
             motion->unk_06 = y;
             motion->unk_0A = z;
@@ -78,7 +30,7 @@ void *func_80024938(s16 x, s16 y, s16 z, s16 angle) {
             motion->unk_10 = (s32) ((s32) (direction_y * func_80064584(ring_angle)) >> 6);
             motion->unk_14 = (s32) (func_800644B8(ring_angle) << 6);
             effect_state.value = 0x808080;
-            sprite = ((S_80024938_0 *)particle)->unk_0C;
+            sprite = ((ovl_19a332c_81983138_S_80024938_0 *)particle)->unk_0C;
             size_texture.value = 0x400;
             sprite->unk_1E = size_texture.value;
             sprite->unk_1C = size_texture.value;

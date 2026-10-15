@@ -1,17 +1,6 @@
-#include "common.h"
-#include "shared/dungeon_floor.h"
-#include "shared/game_work.h"
+#include "modules/dungeon_floor_generate.h"
 
-typedef struct {
-    u16 x;
-    u16 y;
-    u16 flags;
-} DungeonCell;
-
-extern s16 func_800BCB04(s32 x, s32 y, s16 min_height);
-
-/* Finds the eligible tile with the highest sampled value below 0x200 in a rectangle. */
-s32 func_80017F88(s16 rect_index, s16 *out_x, s16 *out_y, s16 check_flags)
+s16 func_80017F88(s16 rect_index, s16 *out_x, s16 *out_y, s16 check_flags)
 {
     s16 best_value;
     s16 rows_left;
@@ -22,14 +11,14 @@ s32 func_80017F88(s16 rect_index, s16 *out_x, s16 *out_y, s16 check_flags)
     s32 row_index;
     u16 flags;
     s32 tile_center_y;
-    DungeonCell *cells;
+    floor_generate_isolated_80284F88_DungeonCell *cells;
     MapGrid *state;
 
     best_value = -0x200;
     rows_left = D_800E2970[rect_index].h;
     tile_y = D_800E2970[rect_index].y;
     state = &gameWork.map;
-    cells = ((DungeonCell *)state->cells);
+    cells = ((floor_generate_isolated_80284F88_DungeonCell *)state->cells);
     if (rows_left > 0) {
         do {
             cols_left = D_800E2970[rect_index].w;

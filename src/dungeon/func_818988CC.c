@@ -1,54 +1,16 @@
-#include "shared/object_node.h"
-#include "common.h"
-#include "shared/slus_callbacks.h"
+#include "modules/dungeon_ovl_18b8824.h"
 
-typedef struct S_800240CC_0 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-    s16 unk_10;
-    s16 unk_12;
-} S_800240CC_0;   /* fields in func_800240CC */
-
-
-typedef struct Copy24 {
-    s32 word[6];
-} Copy24;
-
-typedef struct Sprite {
-    u8 pad0[8];
-    void *callback;
-    u8 color[3];
-    u8 padF[11];
-    s16 rotation;
-    s16 scale_x;
-    s16 scale_y;
-} Sprite;
-
-typedef struct Object {
-    u8 pad0[8];
-    Copy24 *dst;
-    Sprite *sprite;
-    void *callback;
-} Object;
-
-extern s32 rand(void);
-extern void func_8004491C(void *, void *);
-
-extern u8 D_80024024[];
-extern u8 D_80024E88[];
-
-/* Creates a sprite object with random rotation and copies its initial data. */
-void *func_800240CC(void *context, Copy24 *copy_src, s16 initial_value)
+void *func_800240CC(void *context, ovl_18b8824_818988CC_Copy24 *copy_src, s16 initial_value)
 {
-    Object *obj;
-    S_800240CC_0 *fields;
-    Sprite *sprite;
-    Copy24 *dst;
+    ovl_18b8824_818988CC_Object *obj;
+    ovl_18b8824_818988CC_S_800240CC_0 *fields;
+    ovl_18b8824_818988CC_Sprite *sprite;
+    ovl_18b8824_818988CC_Copy24 *dst;
     s32 random_value;
 
-    obj = (Object *)func_8003FC64(0x212);
+    obj = (ovl_18b8824_818988CC_Object *)func_8003FC64(0x212);
     if (obj != 0) {
-        obj->callback = D_80024024;
+        obj->callback = (void *)func_80024024;
         fields = (u8 *)obj + 0x20;
         fields->unk_0C = context;
         fields->unk_10 = 0;

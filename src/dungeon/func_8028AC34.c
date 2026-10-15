@@ -1,28 +1,6 @@
-#include "common.h"
-#include "shared/game_work.h"
+#include "modules/dungeon_floor_generate.h"
 
-typedef struct S_8001DC34_0 {
-    u16 unk_00;
-    u16 unk_02;
-    u16 unk_04;
-    u16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_8001DC34_0;   /* argp in func_8001DC34 */
-
-typedef struct S_8001DC34_1_pre {
-    s16 unk_00;
-} S_8001DC34_1_pre;   /* the 0x2 bytes before var_a0 in func_8001DC34, addressed as var_a0[-1] */
-
-typedef struct S_8001DC34_1 {
-    s16 unk_00;
-} S_8001DC34_1;   /* var_a0 in func_8001DC34 */
-
-
-extern u8 D_800E9FFA[];
-
-/* Clear a padded rectangle of grid entries and reset the region state. */
-void func_8001DC34(S_8001DC34_0 *region)
+void func_8001DC34(floor_generate_isolated_8028AC34_S_8001DC34_0 *region)
 {
     s16 row;
     s16 cells_left;
@@ -53,8 +31,8 @@ void func_8001DC34(S_8001DC34_0 *region)
                     remaining = cells_left - 1;
                     cells_left = remaining;
                     *cell = 0;
-                    ((S_8001DC34_1_pre *)cell_tail)[-1].unk_00 = 0;
-                    ((S_8001DC34_1 *)cell_tail)->unk_00 = 0;
+                    ((floor_generate_isolated_8028AC34_S_8001DC34_1_pre *)cell_tail)[-1].unk_00 = 0;
+                    ((floor_generate_isolated_8028AC34_S_8001DC34_1 *)cell_tail)->unk_00 = 0;
                     cell_tail += 6;
                     cell = (s16 *)((u8 *)cell + 6);
                 } while ((remaining << 16) > 0);

@@ -57,6 +57,9 @@ mkdir -p "$B/tools/fidelity" "$B/tools/build" "$B/work/disc"
 cp "$ROOT/tools/build/slus_rodata_trim.py" "$B/tools/build/slus_rodata_trim.py"
 ln -sfn "$ROOT/work/disc/containers" "$B/work/disc/containers"
 cp "$ROOT/tools/overlay_module_evidence.py" "$B/tools/overlay_module_evidence.py"
+# Native review inputs can include compiler ABI learning notes. Preserve the
+# same bytes in the exported proof view as in its source authority.
+if [ -d "$ROOT/tools/learnings" ]; then cp -rL "$ROOT/tools/learnings" "$B/tools/"; fi
 for f in aspsx_diff.py objread.py certify_overlay_module.py; do
   cp "$ROOT/tools/fidelity/$f" "$B/tools/fidelity/$f"
 done

@@ -1,94 +1,14 @@
-#include "common.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
-#include "shared/dir_step.h"
+#include "modules/dungeon_ovl_188898c.h"
 
-typedef union Fixed32 {
-    s32 val;
-    struct {
-        u16 lo;
-        s16 hi;
-    } h;
-} Fixed32;
-
-typedef struct Motion {
-    Fixed32 x;
-    Fixed32 y;
-    Fixed32 z;
-    Fixed32 dx;
-    Fixed32 dy;
-    Fixed32 dz;
-} Motion;
-
-typedef struct Lookup {
-    u8 pad00[8];
-    void *key;
-    u8 pad0C[8];
-    u16 flags;
-    u8 pad16[14];
-    u8 cell_x;
-    u8 cell_y;
-} Lookup;
-
-typedef struct RootPrefix {
-    u8 pad00[8];
-    Motion *motion;
-    Lookup *lookup;
-} RootPrefix;
-
-typedef struct Controller {
-    u8 *root;
-    u16 *flags;
-    u8 pad08;
-    u8 kind;
-    s16 state;
-    s16 pad0C;
-    u16 angle;
-    s16 timer;
-    s16 pad12;
-    s16 active;
-    u8 ready;
-    u8 pad17;
-    Motion saved;
-    Fixed32 target[3];
-    u8 pad3C[12];
-    s16 cell_x;
-    s16 cell_y;
-} Controller;
-
-typedef union WideProduct {
-    long long value;
-    struct {
-        s32 upper;
-        s32 lower;
-    } word;
-} WideProduct;
-
-typedef struct LargeFlag {
-    u32 value;
-    u32 pad[2];
-} LargeFlag;
-
-extern int abs(int);
-extern s32 func_8003DE58();
-extern s32 func_800A44E0();
-extern s32 func_800BCB04();
-extern void func_800248C8();
-extern void func_800247DC();
-extern void func_800A56E0();
-extern void func_80024684();
-extern void func_80024060();
-
-/* Moves toward a linked object or forward cell over 15 ticks, then completes the action. */
-void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_render_data)
+void func_80024CD4(ovl_188898c_818694D4_Controller *input_ctrl, ovl_188898c_818694D4_Motion *input_motion, void *input_render_data)
 {
     u8 *root;
     void *render_data;
-    RootPrefix *root_prefix;
-    Lookup *lookup;
-    Lookup *lookup_2;
-    Motion *source_motion;
-    Motion *linked_motion;
+    ovl_188898c_818694D4_RootPrefix *root_prefix;
+    ovl_188898c_818694D4_Lookup *lookup;
+    ovl_188898c_818694D4_Lookup *lookup_2;
+    ovl_188898c_818694D4_Motion *source_motion;
+    ovl_188898c_818694D4_Motion *linked_motion;
     u8 *linked_root;
     u8 *linked_root_2;
     u8 *linked_root_3;
@@ -119,7 +39,7 @@ void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_ren
         ((s32 *)render_data)[3] = 0x00808080;
 
     case 1:
-        root_prefix = (RootPrefix *)(root - 0x20);
+        root_prefix = (ovl_188898c_818694D4_RootPrefix *)(root - 0x20);
         if (func_8003DE58(root_prefix->lookup->key, root_prefix->lookup, offsets, 0) == 0) {
             if (!(root_prefix->lookup->flags & 0x8000)) {
                 break;
@@ -145,7 +65,7 @@ void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_ren
         input_ctrl->saved = *input_motion;
         linked_root = *(u8 **)(root + 0x60);
         if (linked_root != 0) {
-            linked_motion = *(Motion **)(linked_root - 0x18);
+            linked_motion = *(ovl_188898c_818694D4_Motion **)(linked_root - 0x18);
 
             origin_coord = input_motion->x.h.hi;
             offsets[0] = abs(linked_motion->x.h.hi - origin_coord);
@@ -157,7 +77,7 @@ void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_ren
             offsets[2] = abs(*(s16 *)(linked_root_2 + 0x88) - origin_coord);
 
             linked_root_3 = *(u8 **)(root + 0x60);
-            lookup = *(Lookup **)(linked_root_3 - 0x14);
+            lookup = *(ovl_188898c_818694D4_Lookup **)(linked_root_3 - 0x14);
             input_ctrl->cell_x = lookup->cell_x;
             input_ctrl->cell_y = lookup->cell_y;
 
@@ -228,17 +148,17 @@ void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_ren
 
         {
 
-            linked_motion = (Motion *)input_ctrl->target;
-            ((Fixed32 *)linked_motion)[2].val = 0;
-            ((Fixed32 *)linked_motion)[1].val = 0;
+            linked_motion = (ovl_188898c_818694D4_Motion *)input_ctrl->target;
+            ((ovl_188898c_818694D4_Fixed32 *)linked_motion)[2].val = 0;
+            ((ovl_188898c_818694D4_Fixed32 *)linked_motion)[1].val = 0;
             input_ctrl->target[0].val = 0;
-            ((Fixed32 *)linked_motion)[0].h.hi = ((end_x << 16) >> 10) + 32;
-            ((Fixed32 *)linked_motion)[1].h.hi = ((end_y << 16) >> 10) + 32;
-            ((Fixed32 *)linked_motion)[2].h.hi = -1024;
-            ((Fixed32 *)linked_motion)[2].h.hi = func_800BCB04((u16)((Fixed32 *)linked_motion)[0].h.hi,
-                (u16)((Fixed32 *)linked_motion)[1].h.hi, -1024);
-            if ((s16)((Fixed32 *)linked_motion)[2].h.hi >= 513) {
-                ((Fixed32 *)linked_motion)[2].h.hi = input_motion->z.h.hi + 32;
+            ((ovl_188898c_818694D4_Fixed32 *)linked_motion)[0].h.hi = ((end_x << 16) >> 10) + 32;
+            ((ovl_188898c_818694D4_Fixed32 *)linked_motion)[1].h.hi = ((end_y << 16) >> 10) + 32;
+            ((ovl_188898c_818694D4_Fixed32 *)linked_motion)[2].h.hi = -1024;
+            ((ovl_188898c_818694D4_Fixed32 *)linked_motion)[2].h.hi = func_800BCB04((u16)((ovl_188898c_818694D4_Fixed32 *)linked_motion)[0].h.hi,
+                (u16)((ovl_188898c_818694D4_Fixed32 *)linked_motion)[1].h.hi, -1024);
+            if ((s16)((ovl_188898c_818694D4_Fixed32 *)linked_motion)[2].h.hi >= 513) {
+                ((ovl_188898c_818694D4_Fixed32 *)linked_motion)[2].h.hi = input_motion->z.h.hi + 32;
             }
         }
 

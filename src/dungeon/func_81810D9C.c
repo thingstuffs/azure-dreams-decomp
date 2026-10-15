@@ -1,43 +1,9 @@
-#include "common.h"
+#include "modules/dungeon_ovl_1830850.h"
 
-typedef struct {
-    s32 unk0;
-    s32 unk4;
-    s32 unk8;
-    s32 unkC;
-} S_8002E5D8;
-
-typedef struct {
-    s32 unk0;
-    s32 unk4;
-    s32 unk8;
-} S_8002E5E8;
-
-extern S_8002E5D8 D_8002E5D8;
-extern S_8002E5E8 D_8002E5E8;
-
-typedef struct {
-    s32 unk0;
-    s16 unk4;
-    s16 unk6;
-    s16 unk8;
-    s16 unkA;
-    s16 unkC;
-    u8 unkE;
-    u8 unkF;
-} PatchRecord;
-
-typedef struct {
-    s32 unk0;
-    PatchRecord *unk4;
-    S_8002E5E8 *unk8;
-} Owner;
-
-/* Initialize the owner and its patch and state records from defaults. */
-void func_80025D9C(void *unused, Owner *owner, S_8002E5D8 *patch,
-                   S_8002E5E8 *state) {
-    S_8002E5D8 *patch_defaults = &D_8002E5D8;
-    S_8002E5E8 *state_defaults = &D_8002E5E8;
+void func_80025D9C(void *unused, ovl_1830850_81810D9C_Owner *owner, ovl_1830850_81810D9C_S_8002E5D8 *patch,
+                   ovl_1830850_81810D9C_S_8002E5E8 *state) {
+    ovl_1830850_81810D9C_S_8002E5D8 *patch_defaults = &D_8002E5D8;
+    ovl_1830850_81810D9C_S_8002E5E8 *state_defaults = &D_8002E5E8;
     s32 *state_first_word;
 
     patch->unk0 = patch_defaults->unk0;
@@ -50,7 +16,7 @@ void func_80025D9C(void *unused, Owner *owner, S_8002E5D8 *patch,
     state->unk4 = state_defaults->unk4;
     state->unk8 = state_defaults->unk8;
 
-    owner->unk4 = (PatchRecord *)patch;
+    owner->unk4 = (ovl_1830850_81810D9C_PatchRecord *)patch;
     owner->unk8 = state;
     owner->unk0 = 0;
 

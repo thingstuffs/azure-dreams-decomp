@@ -68,7 +68,7 @@ class AllocationLayout(unittest.TestCase):
   self.assertEqual([s.index for s in segments],list(range(len(segments))))
  def test_storage_cannot_overwrite_registered_code(self):
   segments=self.segments();segments[0]=dataclasses.replace(segments[0],kind='c')
-  with self.assertRaisesRegex(ValueError,'raw projection source'):Z.project_storage(self.m,segments,bytes(15),self.root)
+  with self.assertRaisesRegex(ValueError,'raw projection source|canonical switch-data context row'):Z.project_storage(self.m,segments,bytes(15),self.root)
  def test_literal_record_rejects_hidden_fields(self):
   (self.root/'record.c').write_text('struct Record { u32 a; u8 hidden[4]; }; static struct Record stamp = {1,2};')
   slot={'symbol':'stamp','size':8,'source':'record.c','kind':'u32_record'}

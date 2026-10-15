@@ -1,10 +1,5 @@
-#include "common.h"
+#include "modules/dungeon_ovl_1831cd8.h"
 
-extern void func_80027328();
-extern void func_80027384();
-extern void func_800273E4();
-
-/* Dispatch an update according to the mode and current state. */
 void func_80027454(s32 *state, s32 mode, s32 value, s32 extra_value)
 {
     if (mode == 0) {

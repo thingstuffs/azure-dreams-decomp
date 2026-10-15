@@ -1,15 +1,5 @@
-#include "common.h"
+#include "modules/dungeon_town_map.h"
 
-
-typedef s32 M2C_UNK;
-
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
-extern void func_80035208();
-extern s8 D_800CFC24[12];
-
-
-/* Packs a value and command byte into the global buffer and submits it. */
 void func_8008B5D8(s32 value, s32 command) {
     D_800CFC24[3] = (s8)(value >> 8);
     D_800CFC24[2] = value;

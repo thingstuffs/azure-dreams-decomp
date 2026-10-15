@@ -1,3 +1,4 @@
+# W1D-1: extend the verification window to complete the intersecting native member; preserve the proven load delta.
 # Standalone overlay-local build seed for a DEEP-DUNGEON code subwindow.
 # Do NOT add to configure.py / build.ninja.
 #
@@ -37,7 +38,7 @@ standalone_build:
     container_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
   window:
     file_start: 0x1882000
-    file_end: 0x1883000
+    file_end: 0x18832E4
     vram_start: 0x81862000          # = 0x1882000 + 0x7FFE0000 (func_8186xxxx naming base); was 0x81802000 (typo)
     base_confidence: proven-engine/derived-backhalf
   split_results: overlays/dungeon/overlay_first_pass_results.json

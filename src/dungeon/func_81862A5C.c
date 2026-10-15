@@ -1,14 +1,6 @@
-#include "shared/object_node.h"
-#include "common.h"
-#include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
-extern M2C_UNK func_8003DB94();
-extern s32 func_8004491C();
-extern s32 rand();
-extern M2C_UNK D_8002418C;
-extern M2C_UNK D_800DEDB0[3];
-/* Spawn a 0x212 effect object at the source position, jittered upward by a random amount. */
-void func_81862A5C(s32 owner, void *source)
+#include "modules/dungeon_ovl_188298c.h"
+
+void func_8002425C(s32 owner, void *source)
 {
     s32 roll;
     void *render;
@@ -17,7 +9,7 @@ void func_81862A5C(s32 owner, void *source)
     obj = func_8003FC64(0x212);
     if (obj != 0) {
         *((s32 *) (((s8 *) obj) + 0x20)) = owner;
-        *((M2C_UNK **) (((s8 *) obj) + 0x10)) = &D_8002418C;
+        *((M2C_UNK **) (((s8 *) obj) + 0x10)) = (void *)func_8002418C;
         render = *((void **) (((s8 *) obj) + 0xC));
         *((s8 *) (((s8 *) obj) + 0x24)) = 0;
         white = 0x80;

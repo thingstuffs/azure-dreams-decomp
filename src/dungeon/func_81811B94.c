@@ -1,25 +1,8 @@
-#include "common.h"
+#include "modules/dungeon_ovl_1831370.h"
 
-typedef struct {
-    u8 pad[0x70];
-    void *field_70;
-    void *field_74;
-} CleanupData;
-
-typedef struct {
-    u8 pad_00[0x1E];
-    u16 flags;
-    CleanupData cleanup;
-} CleanupObject;
-
-extern int D_800814A0;
-extern void func_80026B44(void *owner);
-extern void func_8004B1A4(void *object);
-
-/* Cleans up an object's resources and sets its object and global cleanup flags. */
-void func_80026B94(CleanupObject *object)
+void func_80026B94(ovl_1831370_81811B94_CleanupObject *object)
 {
-    CleanupData *cleanup;
+    ovl_1831370_81811B94_CleanupData *cleanup;
 
     if (object != 0) {
         cleanup = &object->cleanup;

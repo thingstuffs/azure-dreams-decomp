@@ -1,65 +1,5 @@
-#include "common.h"
-#include "shared/game_work.h"
+#include "modules/dungeon_floor_generate.h"
 
-typedef struct MapCell {
-    s16 kind;
-    u16 value;
-    s16 flags;
-} MapCell;
-
-typedef struct DungeonCfg {
-    MapCell *cells;
-    u8 pad04[16];
-    s16 shift_x;
-    s16 shift_y;
-    s16 mask_x;
-    s16 mask_y;
-    s16 span_x;
-    s16 span_y;
-} DungeonCfg;
-
-typedef struct Room {
-    u16 x;
-    u16 y;
-    u16 w;
-    u16 h;
-    s16 tint;
-    s16 active;
-    u16 link;
-    u8 pad0E[2];
-    u8 *tiles;
-} Room;
-
-typedef struct Pair {
-    u8 a;
-    u8 b;
-} Pair;
-
-extern MapCell D_800EA000[];
-extern Room D_800E2970[];
-extern s16 D_80081468[];
-extern s32 D_8001F660;
-extern s32 D_8001F664;
-extern s16 D_8001F668;
-extern u16 D_8001F66A;
-extern Pair D_8001F6A8[];
-
-extern s32 func_800A6D30(void);
-extern s32 func_800A6DA4(s32, u16);
-extern s16 func_80017584(s16, s16, s16, s16);
-extern void func_80017668(s16, s16, s16, s16, u16);
-extern void func_80017530(void);
-extern void func_80017560(void);
-extern void func_800176EC(void);
-extern void func_80019A84(s16);
-extern void func_8001A710(void);
-extern s16 func_8001A768(s16 *, s16, s16, s8 *, s32 *, s32, s32);
-extern s16 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room_marks);
-extern void func_8001CE44(Room *, s16);
-extern void func_8001DC34(Room *);
-extern void func_8001DE2C(void);
-
-/* Generate the floor layout: divide the map into the room grid, choose which cells are active and how they link, and fall back to one full-size room when fewer than two survive. */
 s32 func_80019AF8(void)
 {
     s8 flags[16];
@@ -83,14 +23,14 @@ s32 func_80019AF8(void)
     s32 dir;
     s32 dw;
     s32 *cn;
-    Room *dc;
-    Room *rp;
+    floor_generate_isolated_80286AF8_Room *dc;
+    floor_generate_isolated_80286AF8_Room *rp;
     s32 rh;
     s32 x0;
     s32 y0;
     s32 x1;
     s32 y1;
-    dc = (Room *) ((DungeonCfg *)((u8 *)&gameWork + 476));
+    dc = (floor_generate_isolated_80286AF8_Room *) ((floor_generate_isolated_80286AF8_DungeonCfg *)((u8 *)&gameWork + 476));
     j = 0;
     tries = 1024;
     rnd = func_800A6D30();
@@ -116,11 +56,11 @@ s32 func_80019AF8(void)
         D_8001F664 = 4;
     }
     for (i = 32; i > 0; i--) {
-        D_8001F6A8[i].b = 0;
-        D_8001F6A8[i].a = 0;
+        ((floor_generate_isolated_80286AF8_Pair *)D_8001F6A8)[i].b = 0;
+        ((floor_generate_isolated_80286AF8_Pair *)D_8001F6A8)[i].a = 0;
     }
 
-    D_8001F668 = 0;
+    (*(s16 *)D_8001F668) = 0;
     if (((s16) func_800A6DA4(0, 512)) < 2) {
         j = 1;
     }
@@ -155,13 +95,13 @@ s32 func_80019AF8(void)
                     x1 = (s16) (dw + 9);
                     y1 = (s16) (rh + 4);
                     if (func_80017584(x0, y0, x1, y1) == 0) {
-                        D_800E2970[k].active = 1;
+                        D_800E2970[k].unk_0A = 1;
                         func_80017668(x0, y0, x1, y1, k + 1);
                         D_800E2970[k].x = rx + 1;
                         D_800E2970[k].y = ry + 1;
                         D_800E2970[k].w = dw + 3;
                         D_800E2970[k].h = rh - 2;
-                        D_800E2970[k].tint = func_800A6D30() & 0x60;
+                        D_800E2970[k].unk_08 = func_800A6D30() & 0x60;
                         j++;
                         flags[k] = 2;
                         conn[k] += 0x01010101;
@@ -175,7 +115,7 @@ s32 func_80019AF8(void)
                         sy = sy + 6;
                         D_800E2970[k].x = sx;
                         D_800E2970[k].y = sy;
-                        D_800EA000[(((s16) sy) << ((DungeonCfg *) dc)->shift_x) + ((s16) sx)].value =
+                        D_800EA000[(((s16) sy) << ((floor_generate_isolated_80286AF8_DungeonCfg *) dc)->shift_x) + ((s16) sx)].value =
                             func_800A6D30() & 0x60;
                     }
                 }
@@ -187,7 +127,7 @@ s32 func_80019AF8(void)
                     sy = sy + 6;
                     D_800E2970[k].x = sx;
                     D_800E2970[k].y = sy;
-                    D_800EA000[(((s16) sy) << ((DungeonCfg *) dc)->shift_x) + ((s16) sx)].value =
+                    D_800EA000[(((s16) sy) << ((floor_generate_isolated_80286AF8_DungeonCfg *) dc)->shift_x) + ((s16) sx)].value =
                         func_800A6D30() & 0x60;
                 }
             }
@@ -196,26 +136,26 @@ s32 func_80019AF8(void)
 
     }
     func_80017560();
-    hdr = D_80081468;
+    hdr = ((s16 *)D_80081468);
     hdr[3] = j;
     if (((s16) j) < 2) {
         hdr[3] = 1;
         D_800E2970[0].x = 2;
         D_800E2970[0].y = 2;
-        full_height = 1 << ((DungeonCfg *) dc)->shift_y;
-        D_800E2970[0].active = 1;
-        D_800E2970[0].w = (1 << ((DungeonCfg *) dc)->shift_x) - 4;
+        full_height = 1 << ((floor_generate_isolated_80286AF8_DungeonCfg *) dc)->shift_y;
+        D_800E2970[0].unk_0A = 1;
+        D_800E2970[0].w = (1 << ((floor_generate_isolated_80286AF8_DungeonCfg *) dc)->shift_x) - 4;
         D_800E2970[0].h = full_height - 4;
-        D_800E2970[0].tint = func_800A6D30() & 0x60;
+        D_800E2970[0].unk_08 = func_800A6D30() & 0x60;
         func_8001CE44(&D_800E2970[0], 0);
     }
     else {
-        Room *room;
+        floor_generate_isolated_80286AF8_Room *room;
         s32 x;
         for (oy = 0; oy < D_8001F664; oy++) {
             for (ox = 0; ox < D_8001F660; ox++) {
                 k = (oy * D_8001F660) + ox;
-                if (D_800E2970[k].active != 0) {
+                if (D_800E2970[k].unk_0A != 0) {
                     func_8001CE44(&D_800E2970[k], k);
                 }
             }
@@ -254,7 +194,7 @@ s32 func_80019AF8(void)
             cn = conn;
             j = ((s32) cn) + x;
             ks = (s16) k;
-            room = (Room *) ((((x + k) << 2)) + ((s32) rp));
+            room = (floor_generate_isolated_80286AF8_Room *) ((((x + k) << 2)) + ((s32) rp));
             do {
                 rh = (s16) dir;
                 bp = (u8 *) (j + (((u32) (dir << 16)) >> 17));
@@ -271,17 +211,17 @@ s32 func_80019AF8(void)
                         bq = (u8 *) (&cn[next]);
                         (*bp)--;
                         bq[((dirv + 4) & 7) >> 1]--;
-                        x0 = (s32) (&D_8001F668);
+                        x0 = (s32) (&(*(s16 *)D_8001F668));
                         idx = ((s16 *) x0)[0];
                         room->link = 1;
                         rp[next].link = 1;
                         do {
                         } while (0);
-                        n = (s32) D_8001F6A8;
+                        n = (s32) ((floor_generate_isolated_80286AF8_Pair *)D_8001F6A8);
                         do {
-                            ((Pair *) n)[idx].a = k;
+                            ((floor_generate_isolated_80286AF8_Pair *) n)[idx].a = k;
                         } while (0);
-                        ((Pair *) n)[((s16 *) x0)[0]].b = next;
+                        ((floor_generate_isolated_80286AF8_Pair *) n)[((s16 *) x0)[0]].b = next;
                         ((s16 *) x0)[0]++;
                         break;
                     }
@@ -326,7 +266,7 @@ s32 func_80019AF8(void)
 
         nt = D_8001F664 * D_8001F660;
         for (i = 0; i < nt; i++) {
-            if ((D_800E2970[i].link == 0) && (D_800E2970[i].active != 0)) {
+            if ((D_800E2970[i].flags == 0) && (D_800E2970[i].unk_0A != 0)) {
                 D_8001F66A++;
             }
         }

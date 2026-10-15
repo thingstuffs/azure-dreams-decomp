@@ -1,21 +1,9 @@
-#include "shared/game_work.h"
-typedef signed short s16;
-typedef unsigned short u16;
-typedef signed int s32;
+#include "modules/dungeon_floor_generate.h"
 
-typedef struct {
-    u16 field_0;
-    u16 field_2;
-    u16 field_4;
-} Cell;
-
-extern Cell D_800EA000[];
-
-/* Initializes the grid border cells. */
 void func_80017A9C(void)
 {
     s32 edge_index;
-    Cell *cell;
+    floor_generate_isolated_80284A9C_Cell *cell;
     MapGrid *grid_config = &gameWork.map;
 
     edge_index = 0;
@@ -25,12 +13,12 @@ void func_80017A9C(void)
         s32 step = 1;
 
         do {
-            cell = &D_800EA000[edge_index << grid_config->shiftX];
+            cell = &((floor_generate_isolated_80284A9C_Cell *)D_800EA000)[edge_index << grid_config->shiftX];
             cell->field_0 = border_type;
             cell->field_2 = border_attr;
             cell->field_4 |= 0x8001;
 
-            cell = &D_800EA000[((step + edge_index) << grid_config->shiftX) - 1];
+            cell = &((floor_generate_isolated_80284A9C_Cell *)D_800EA000)[((step + edge_index) << grid_config->shiftX) - 1];
             cell->field_0 = border_type;
             cell->field_2 = border_attr;
             cell->field_4 |= 0x8001;
@@ -38,12 +26,12 @@ void func_80017A9C(void)
     }
 
     for (edge_index = 0; edge_index < (1 << grid_config->shiftY); edge_index++) {
-        cell = &D_800EA000[edge_index];
+        cell = &((floor_generate_isolated_80284A9C_Cell *)D_800EA000)[edge_index];
         cell->field_0 = 3;
         cell->field_2 = 0x400;
         cell->field_4 |= 0x8001;
 
-        cell = &D_800EA000[(((1 << grid_config->shiftY) - 1) << grid_config->shiftX) + edge_index - 1];
+        cell = &((floor_generate_isolated_80284A9C_Cell *)D_800EA000)[(((1 << grid_config->shiftY) - 1) << grid_config->shiftX) + edge_index - 1];
         cell->field_0 = 3;
         cell->field_2 = 0x400;
         cell->field_4 |= 0x8001;

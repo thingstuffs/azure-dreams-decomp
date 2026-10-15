@@ -1,62 +1,5 @@
-#include "shared/dungeon_item_entries.h"
-#include "common.h"
-#include "shared/dungeon_floor.h"
-#include "shared/dungeon_status.h"
-#include "m2c_compat.h"
-#include "records/Rec_D_80083460.h"
+#include "modules/dungeon_dungeon_setup.h"
 
-typedef struct S_8001625C_0 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    s16 unk_04;
-    u8 pad_06[0x2];
-    s16 unk_08;
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-} S_8001625C_0;   /* state in func_8001625C */
-
-
-typedef struct S_8001625C_2 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    s32 unk_08;
-} S_8001625C_2;   /* temp_v0 in func_8001625C */
-
-typedef struct S_8001625C_3 {
-    s8 unk_00;
-} S_8001625C_3;   /* var_s0 in func_8001625C; pointer addresses record offset 0x30B2 */
-
-
-M2C_UNK file_load_com();                   /* extern */
-s32 func_80048D00();                                /* extern */
-M2C_UNK bzero();          /* extern */
-extern s32 D_80012D60;
-extern s32 D_80080A80;
-extern M2C_UNK *D_80080A90;
-extern M2C_UNK D_80080AE0;
-extern M2C_UNK D_80080AE8;
-extern M2C_UNK D_80080E18;
-extern M2C_UNK D_80080E20;
-extern M2C_UNK D_80080E30;
-extern M2C_UNK D_80080EE8;
-extern s16 D_80081468[3];
-extern u8 D_80082E6B;
-extern s16 D_800DCE68;
-extern s8 D_800DCF4F;
-extern s8 D_800DCF58;
-extern s8 D_800DCF5B;
-extern M2C_UNK D_800E36C8;
-extern s16 D_800E3CCC;
-extern s16 D_800E3CCE;
-extern s32 D_800E3D70;
-extern s8 D_800E3E40;
-extern M2C_UNK D_8014A000;
-
-/* Reset dungeon state, update peak progress, and initialize shared resources once. */
 void func_8001625C(void) {
     u8 *init_flag_page;
     s16 *progress_stats;
@@ -82,8 +25,8 @@ void func_8001625C(void) {
     D_80080A90 = &D_8014A000;
     D_800E3D70 = 0;
     reset_values = &D_800E3D70;
-    ((S_8001625C_2 *)reset_values)->unk_04 = 0;
-    ((S_8001625C_2 *)reset_values)->unk_08 = 0;
+    ((dungeon_setup_8028325C_S_8001625C_2 *)reset_values)->unk_04 = 0;
+    ((dungeon_setup_8028325C_S_8001625C_2 *)reset_values)->unk_08 = 0;
     D_800DCF58 = 1;
     D_800DCF5B = 0;
     if (D_80082E6B != 5) {
@@ -96,7 +39,7 @@ void func_8001625C(void) {
         }
     }
     init_flag_page = (u8 *)0x800E0000;
-    if (((S_8001625C_3 *)((u8 *)init_flag_page - 0x30B2))->unk_00 == 0) {
+    if (((dungeon_setup_8028325C_S_8001625C_3 *)((u8 *)init_flag_page - 0x30B2))->unk_00 == 0) {
         file_load_com(&D_80080AE0);
         file_load_com(&D_80080AE8);
         file_load_com(&D_80080E18);
@@ -104,7 +47,7 @@ void func_8001625C(void) {
         file_load_com(&D_80080EE8);
         file_load_com(&D_80080E30);
         D_80080A80 = func_80048D00();
-        ((S_8001625C_3 *)((u8 *)init_flag_page - 0x30B2))->unk_00 = 1;
+        ((dungeon_setup_8028325C_S_8001625C_3 *)((u8 *)init_flag_page - 0x30B2))->unk_00 = 1;
     }
 }
 

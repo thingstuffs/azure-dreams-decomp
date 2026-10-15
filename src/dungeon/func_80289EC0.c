@@ -1,24 +1,6 @@
-#include "common.h"
-#include "shared/game_work.h"
+#include "modules/dungeon_floor_generate.h"
 
-typedef struct {
-    u16 x;
-    u16 y;
-    u16 width;
-    u16 height;
-} Rect;
-
-typedef struct {
-    s16 height;
-    u16 y;
-    u16 flags;
-} Tile;
-
-extern s32 func_800A6D30(void);
-extern u8 D_800EA000[];
-
-/* Adjust tile heights and flags where both coordinates match a random parity. */
-void func_8001CEC0(Rect *rect, s32 rng_input_1)
+void func_8001CEC0(floor_generate_isolated_80289EC0_Rect *rect, s32 rng_input_1)
 {
     MapGrid *dungeon = &gameWork.map;
     s32 parity;
@@ -31,7 +13,7 @@ void func_8001CEC0(Rect *rect, s32 rng_input_1)
     s32 initial_width;
     s32 initial_height;
     s32 y_parity;
-    Tile *tile;
+    floor_generate_isolated_80289EC0_Tile *tile;
 
     parity = func_800A6D30() & 1;
     initial_y = rect->y;
@@ -49,7 +31,7 @@ void func_8001CEC0(Rect *rect, s32 rng_input_1)
                 y_parity = y & 1;
                 do {
                     if (((x & 1) == parity) && (y_parity == parity)) {
-                        tile = (Tile *) (D_800EA000 +
+                        tile = (floor_generate_isolated_80289EC0_Tile *) (((u8 *)D_800EA000) +
                             (((y << dungeon->shiftX) + x) * 6));
                         tile->height = (tile->flags >> 1) + 0x63;
                         tile->y -= 0x60;

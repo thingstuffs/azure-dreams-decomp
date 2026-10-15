@@ -1,36 +1,5 @@
-#include "shared/runtime_dispatch.h"
-#include "common.h"
-#include "shared/sys_flags.h"
-#include "shared/tile_object.h"
-#include "shared/dungeon_status.h"
+#include "modules/dungeon_dungeon_setup.h"
 
-extern void func_80016EC0(void);
-extern void func_80017018(void);
-extern void bzero(void *, s32);
-extern void func_80017068(void);
-extern void func_8004A918(void);
-extern s32 func_80048D00(void);
-extern s32 rand(void);
-extern void func_800A9024(s32);
-extern void func_8004AB7C(void);
-extern void func_80040AA0(s32);
-extern void func_8003F6D4(s32, void *, void *, s32);
-extern void Control_CD(s32, void *, s32);
-extern void func_8003F320(void);
-extern void func_8009FAC4(void);
-extern void func_800499BC(void);
-
-extern s32 D_8001022C;
-extern s32 D_80080A80;
-extern s8 D_80080A88;
-extern s16 D_8008146C;
-
-extern s8 D_800DCF4E;
-extern u8 D_800E3CD0;
-extern s32 D_800E3D1C;
-extern u8 D_800E3E48[];
-
-/* Initialize dungeon state, random seeds, and floor-specific data. */
 void func_800163F4(void) {
     s32 floor_data;
     s32 floor_index;

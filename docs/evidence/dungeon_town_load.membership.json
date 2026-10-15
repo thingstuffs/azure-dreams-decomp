@@ -1,0 +1,25 @@
+{
+  "module": "dungeon_town_load",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "town_load.c",
+    "module_index": 6
+  },
+  "members": [
+    "dungeon/func_7FFEDB84",
+    "dungeon/func_7FFEDBC8",
+    "dungeon/func_7FFEDC4C",
+    "dungeon/func_7FFEDCA8",
+    "dungeon/func_7FFEDD50"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Historical compiler TU boundary is not observable; complete existing strong ledger cohort is the native module boundary.",
+  "basis": [
+    "Complete ledger group, with no omitted or added member; existing strong assignment is preserved.",
+    "Contiguous retail code in the proven img_d54c_8008ad4c load region, in file order, under one unmodified 2.7.2-cdk-G0 recipe.",
+    "Shared header reconciles member declarations and object views; no per-member flags or artificial code scheduling constraints."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120"
+}

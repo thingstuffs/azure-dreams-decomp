@@ -1,14 +1,5 @@
-#include "common.h"
+#include "modules/dungeon_floor_spawns.h"
 
-extern void func_8001F354(s16 x, s16 y, s16 tinted, s32 render_param);
-extern void func_8004E634(s16, u8 *);
-
-extern void *D_8001F5B4[];
-extern u8 D_80077DE8[];
-extern u8 D_80077E00[];
-extern s16 D_8008146C;
-
-/* Draw the current value and its label, using a special label when needed. */
 void func_8001F450(void)
 {
     u8 digits[2];
@@ -21,7 +12,7 @@ void func_8001F450(void)
     u8 digit;
     special_label = 0;
     if (*(s32 *)0x80012090 != 2) {
-        if (D_8008146C == 0x28) {
+        if ((*(s16 *)D_8008146C) == 0x28) {
             special_label = D_80077E00;
         }
         draw_mode = 0;
@@ -38,7 +29,7 @@ void func_8001F450(void)
     do {
         digit_ptr = digits;
     } while (0);
-    func_8004E634(D_8008146C, digit_ptr);
+    func_8004E634((*(s16 *)D_8008146C), digit_ptr);
 
     draw_x = 0xC8;
     if (digits[1] == 0) {

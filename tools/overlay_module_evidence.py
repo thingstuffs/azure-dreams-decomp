@@ -77,7 +77,7 @@ def certificate_reason(m,cert,root=ROOT):
   reason=receipt_reason(m,wr,root,str(Path(w['proof_dir'])/'module'))
   if reason:return reason
   segs=[s for s in manifest['c_segments'] if s.get('module')==m['key']]
-  expected=[(a['foff'],a['size']) for a in selected]
+  expected=[(a['foff'],a['size']) for a in selected if not Z.switches(m) or a in m['members']]
   if Z.enabled(m):
    owned=projection.get('projected_allocations',[])
    if owned!=Z.expected_storage_projection(m,fs,fe):return 'owned allocation projection incomplete'

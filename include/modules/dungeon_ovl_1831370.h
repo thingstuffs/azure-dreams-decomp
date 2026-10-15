@@ -1,0 +1,220 @@
+#ifndef DUNGEON_OVL_1831370_H
+#define DUNGEON_OVL_1831370_H
+#include "common.h"
+#include "m2c_compat.h"
+#include "shared/game_work.h"
+#include "shared/object_node.h"
+#include "shared/object_flags.h"
+typedef struct ovl_1831370_81811370_S_80026370_0 {
+    u8 pad_00[0x4];
+    void * unk_04;
+} ovl_1831370_81811370_S_80026370_0;
+typedef struct ovl_1831370_81811370_S_80026370_1 {
+    u8 pad_00[0x4];
+    void * unk_04;
+} ovl_1831370_81811370_S_80026370_1;
+typedef struct ovl_1831370_81811370_S_80026370_2 {
+    u8 pad_00[0x8];
+    s16 unk_08;
+} ovl_1831370_81811370_S_80026370_2;
+typedef struct ovl_1831370_818113C0_S_800263C0_0 {
+    u8 pad_00[0xC];
+    s32 * unk_0C;
+} ovl_1831370_818113C0_S_800263C0_0;
+typedef struct {
+    s32 unk0;
+    s32 unk4;
+    s32 field8;
+    s32 unkC;
+    s32 field10;
+} ovl_1831370_8181140C_PadState;
+typedef struct {
+    s32 unk0;
+    s32 field4;
+    s32 field8;
+    s32 unkC;
+    s32 field10;
+    s32 pad14[23];
+    s32 field70;
+} ovl_1831370_8181140C_MenuState;
+typedef struct ovl_1831370_81811508_S_80026508_0 {
+    u8 pad_00[0x8];
+    s32 unk_08;
+    u8 pad_0C[0x4];
+    s32 unk_10;
+    u8 pad_14[0x5C];
+    s32 unk_70;
+} ovl_1831370_81811508_S_80026508_0;
+typedef struct ovl_1831370_8181154C_S_8002654C_0 {
+    u8 pad_00[0x8];
+    s32 unk_08;
+    u8 pad_0C[0x4];
+    s32 unk_10;
+    s32 unk_14;
+    u8 pad_18[0x58];
+    s32 unk_70;
+} ovl_1831370_8181154C_S_8002654C_0;
+typedef struct {
+    s8 pad_00[0x10];
+    s32 index;
+    s32 field_14;
+    u8 pad_18[0x58];
+    s32 field_70;
+} ovl_1831370_8181161C_Func8181161CData;
+typedef struct {
+    u8 unk0;
+    s8 unk1;
+    s8 unk2;
+    s8 unk3;
+    s32 unk4;
+    s8 pad8[2];
+    s8 unkA;
+    s8 unkB;
+} ovl_1831370_81811708_Packet;
+typedef struct S_800491F4 S_800491F4;
+typedef struct {
+    s32 unk0;
+    s32 unk4;
+    s32 unk8;
+    s32 unkC;
+} ovl_1831370_818117D8_S_8002E5D8;
+typedef struct {
+    s32 unk0;
+    s32 unk4;
+    s32 unk8;
+} ovl_1831370_818117D8_S_8002E5E8;
+typedef struct {
+    s32 unk0;
+    s16 unk4;
+    s16 unk6;
+    s16 unk8;
+    s16 unkA;
+    s16 unkC;
+    u8 unkE;
+    u8 unkF;
+} ovl_1831370_818117D8_PatchRecord;
+typedef struct {
+    s32 unk0;
+    ovl_1831370_818117D8_PatchRecord *unk4;
+    ovl_1831370_818117D8_S_8002E5E8 *unk8;
+} ovl_1831370_818117D8_Owner;
+typedef struct {
+    s32 unk0;
+    s16 unk4;
+    s16 unk6;
+    s16 unk8;
+    s16 unkA;
+} ovl_1831370_81811878_Inner;
+typedef struct {
+    s32 unk0;
+    ovl_1831370_81811878_Inner *unk4;
+} ovl_1831370_81811878_Result;
+typedef struct {
+    s32 index;
+    s32 unk4;
+    s32 unk8;
+    s32 unkC;
+    s32 word10;
+    s32 word14;
+    s32 unk18;
+    s32 unk1C;
+    s32 word20;
+    s32 unk24;
+    s32 unk28;
+    s32 word2C;
+} ovl_1831370_81811878_Source;
+typedef struct {
+    s32 *dst0;
+    s32 **dst4;
+    s32 **dst8;
+    ovl_1831370_81811878_Result *dstC;
+} ovl_1831370_81811878_Destinations;
+typedef struct ovl_1831370_8181192C_S_8002692C_0 {
+    M2C_UNK * unk_00;
+    u8 pad_04[0x18];
+    s32 unk_1C;
+    s32 unk_20;
+    s32 unk_24;
+    u8 pad_28[0x4];
+    s32 unk_2C;
+} ovl_1831370_8181192C_S_8002692C_0;
+typedef struct ovl_1831370_818119A0_S_800269A0_0 {
+    u8 pad_00[0x70];
+    s32 unk_70;
+} ovl_1831370_818119A0_S_800269A0_0;
+typedef struct {
+    s32 x;
+    s32 y;
+    s32 z;
+} ovl_1831370_818119E8_Vec3;
+typedef struct ovl_1831370_81811B44_S_80026B44_0 {
+    u8 pad_00[0xC];
+    s32 * unk_0C;
+} ovl_1831370_81811B44_S_80026B44_0;
+typedef struct {
+    u8 pad[0x70];
+    void *field_70;
+    void *field_74;
+} ovl_1831370_81811B94_CleanupData;
+typedef struct {
+    u8 pad_00[0x1E];
+    u16 flags;
+    ovl_1831370_81811B94_CleanupData cleanup;
+} ovl_1831370_81811B94_CleanupObject;
+typedef struct ovl_1831370_81811C20_S_80026C20_0 {
+    u8 pad_00[0xC];
+    s32 unk_0C;
+    u8 pad_10[0x4];
+    void * unk_14;
+} ovl_1831370_81811C20_S_80026C20_0;
+typedef struct ovl_1831370_81811C20_S_80026C20_1 {
+    u8 unk_00;
+    union { u8 s; u8 u; } ovl_1831370_81811C20_unk_01;   
+} ovl_1831370_81811C20_S_80026C20_1;
+#define M2C_FIELD(expr, type_ptr, offset)  (*(type_ptr)((s8 *)(expr) + (offset)))
+extern s32 func_80049DE8(s32 target, s32 input_value, s32 count);
+extern u8 D_800294F8[9];
+s32 func_8004DC14();
+extern s16 SD_Call(s32);
+extern s32 memset();
+extern void func_8004EAC4();
+extern void strcpy(s32, s32);
+extern s32 D_800294FC;
+S_800491F4 *func_800491F4(S_800491F4 **, u8 *, s32);
+extern u8 D_80029500[5];
+extern ovl_1831370_818117D8_S_8002E5D8 D_8002E5D8;
+extern ovl_1831370_818117D8_S_8002E5E8 D_8002E5E8;
+extern s32 D_80029508[2];
+extern s32 func_80048EE4(void *pool, s32 record_count);
+extern void func_800491CC(s32 entries, void *value, s32 count);
+extern void func_8004491C();
+extern void func_8004B1A4();
+extern int func_8004CAA0(void *object, int unused, void *data);
+M2C_UNK func_8004E99C();
+extern int D_800814A0;
+extern u8 D_80029510[12];
+void func_80026370(ovl_1831370_81811370_S_80026370_0 *object, s32 index);
+s32 func_80026388(s32 input_value, s32 target, s32 lookup_index);
+void func_800263C0(ovl_1831370_818113C0_S_800263C0_0 *object, M2C_UNK source);
+void func_8002640C(ovl_1831370_8181140C_MenuState *menu);
+void func_80026508(s32 object_addr);
+void func_8002654C(s32 objectAddress);
+void func_800265B8(s32 objectAddress, s32 updateValue);
+void func_8002661C(s8 *object, s32 sourceString);
+void func_800266B0(s32 *step);
+void *func_80026708(ovl_1831370_81811708_Packet *packet, s32 variant);
+void func_8002675C(void *descriptor);
+S_800491F4 *func_800267B0(S_800491F4 **value);
+void func_800267D8(void *unused, ovl_1831370_818117D8_Owner *owner, ovl_1831370_818117D8_S_8002E5D8 *patch_data,
+                   ovl_1831370_818117D8_S_8002E5E8 *aux_data);
+void func_80026878(ovl_1831370_81811878_Source *src, ovl_1831370_81811878_Destinations *dst);
+void func_8002692C(void *recordFields, s32 recordValue2C, s32 typeCode, s32 recordValue24);
+void func_800269A0(void *state, s32 parent, s32 type, s32 config);
+s32 func_800269E8(void *object);
+void *func_80026A64(s32 parent_object, s32 type_code, s32 config_value);
+void func_80026B44(ovl_1831370_81811B44_S_80026B44_0 *owner);
+void func_80026B94(ovl_1831370_81811B94_CleanupObject *object);
+u32 func_80026BFC(void *object);
+s32 func_80026C20(s32 object_addr);
+void func_80026690(ovl_1831370_8181140C_MenuState *menu);
+#endif

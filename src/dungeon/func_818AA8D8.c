@@ -1,21 +1,5 @@
-#include "shared/game_work.h"
-#include "shared/slus_callbacks.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_ovl_18ca83c.h"
 
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-typedef short s16;
-typedef unsigned int u32;
-typedef int s32;
-typedef s32 M2C_UNK;
-extern void func_8003DB94(void *, void *, s32);
-extern void func_8004491C(void *, void *);
-extern void func_800478B8(void *);
-extern s32 func_800644B8(s32);
-extern s32 rand(void);
-extern M2C_UNK D_800DECF8;
-/* Updates a rotating effect through movement, fading, and deactivation. */
 void func_800240D8(void *effect, void *position, void *sprite)
 {
     s32 quarter_turn;

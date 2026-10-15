@@ -1,93 +1,19 @@
-#include "common.h"
-#include "shared/object_node.h"
-#include "shared/entity_objects.h"
+#include "modules/dungeon_ovl_19a332c.h"
 
-typedef struct Pos {
-    u8 pad0[2];
-    s16 x;
-    u8 pad4[2];
-    s16 y;
-    u8 pad8[2];
-    s16 z;
-} Pos;
-
-typedef struct Part {
-    void *unk0;
-    u8 pad4[4];
-    void *table;
-    u8 padC[4];
-    u16 f10;
-    u8 pad12[2];
-    u16 flags;
-    s16 f16;
-    u8 pad18[2];
-    s16 f1A;
-} Part;
-
-typedef struct History {
-    u16 x;
-    u16 y;
-    u16 z;
-    u16 pad6;
-} History;
-
-typedef struct Entity {
-    u8 pad0[0x20];
-    void *parent;
-    void *next;
-    u8 pad28[0x34 - 0x28];
-    s16 f34;
-    s16 f36;
-    s16 angle;
-    s16 f3A;
-    s16 f3C;
-    u8 pad3E[0x44 - 0x3E];
-    s16 f44;
-    u8 pad46[2];
-    History history[8];
-    s16 index;
-    u8 pad8A[0x96 - 0x8A];
-    s16 direction;
-} Entity;
-
-typedef struct Object {
-    u8 pad0[8];
-    Pos *pos;
-    Part *part;
-    void (*state)(void *);
-    u8 pad14[0x20 - 0x14];
-    Entity entity;
-} Object;
-
-extern u8 D_80024DAC[];
-extern u8 D_80026B2C[];
-extern u8 D_80026BBC[];
-extern u8 D_80026BC8[];
-extern u8 D_80080010[];
-extern u8 D_800C9034[];
-
-extern void func_80026240(Entity *, void *);
-extern void func_800262B0(Part *, s32);
-extern s32 func_8003FA44(s32);
-extern Object *func_8003FD64(s32, void *);
-extern void func_8004491C(Object *, void *);
-extern s32 func_800A07D0(s16, s16, s16, s16);
-
-/* Create nine linked objects and initialize their positions, headings, and position histories. */
-void *func_81984754(s32 x, s32 y, s32 z, s32 angle)
+void *func_80025F54(s32 x, s32 y, s32 z, s32 angle)
 {
-    Object *objects[9];
+    ovl_19a332c_81984754_Object *objects[9];
     u16 spawn_x;
     u16 spawn_y;
     u16 spawn_z;
     s32 spawn_angle;
     EntityRec *target_pos;
-    Object **object_base;
-    Object **object_slot;
-    Pos *pos;
-    Part *part;
-    Entity *entity;
-    Entity *prev_entity;
+    ovl_19a332c_81984754_Object **object_base;
+    ovl_19a332c_81984754_Object **object_slot;
+    ovl_19a332c_81984754_Pos *pos;
+    ovl_19a332c_81984754_Part *part;
+    ovl_19a332c_81984754_Entity *entity;
+    ovl_19a332c_81984754_Entity *prev_entity;
     s32 object_index;
     s32 history_index;
     s32 target_angle;
@@ -96,7 +22,7 @@ void *func_81984754(s32 x, s32 y, s32 z, s32 angle)
     s32 angle_bits;
     s32 angle_delta;
     u8 *allocation_page;
-    Object *prev_object;
+    ovl_19a332c_81984754_Object *prev_object;
 
     spawn_angle = angle;
     prev_entity = 0;
@@ -116,11 +42,11 @@ void *func_81984754(s32 x, s32 y, s32 z, s32 angle)
         if (object_index != 0) {
             prev_object = object_slot[-1];
         } else {
-            prev_object = (Object *)((u8 *)(&D_80083498));
+            prev_object = (ovl_19a332c_81984754_Object *)((u8 *)(&D_80083498));
         }
         *object_slot = func_8003FD64(2, prev_object);
-        (*object_slot)->state = (void (*)(void *))D_80024DAC;
-        func_8004491C(*object_slot, D_800C9034);
+        (*object_slot)->state = (void (*)(void *))(void *)func_80024DAC;
+        func_8004491C(*object_slot, func_800C9034);
 
         pos = (*object_slot)->pos;
         pos->x = spawn_x;
@@ -143,7 +69,7 @@ void *func_81984754(s32 x, s32 y, s32 z, s32 angle)
             parent_link = *(u8 *)link_scratch;
             if (parent_link != 0) {
                 link_scratch = 0x7FFFFFFF;
-                entity->parent = (Object *)((u32)object_base[parent_link - 1] & link_scratch);
+                entity->parent = (ovl_19a332c_81984754_Object *)((u32)object_base[parent_link - 1] & link_scratch);
             } else {
                 entity->parent = object_slot[-1];
             }

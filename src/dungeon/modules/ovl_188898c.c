@@ -1,0 +1,11 @@
+#include "modules/dungeon_ovl_188898c.h"
+void (*const dungeon_ovl_188898c_entry)(void) = (void (*)(void))func_80024CD4;
+#include "../func_81868860.c"
+#include "../func_8186898C.c"
+#include "../func_81868A64.c"
+#include "../func_81868B84.c"
+#include "../func_81868E84.c"
+#include "../func_81868F30.c"
+#include "../func_81868FDC.c"
+#include "../func_818690C8.c"
+#include "../func_818694D4.c"

@@ -1,0 +1,34 @@
+{
+  "module": "dungeon_dungeon_setup",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "dungeon_setup.c",
+    "module_index": 12
+  },
+  "members": [
+    "dungeon/func_80283000",
+    "dungeon/func_802831D8",
+    "dungeon/func_8028325C",
+    "dungeon/func_802833F4",
+    "dungeon/func_802835B8",
+    "dungeon/func_80283BF0",
+    "dungeon/func_80283E6C",
+    "dungeon/func_80283EC0",
+    "dungeon/func_80283F70",
+    "dungeon/func_80284018",
+    "dungeon/func_8028403C",
+    "dungeon/func_80284068",
+    "dungeon/func_80284294",
+    "dungeon/func_802842A0"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Historical compiler TU boundary is not observable; complete existing strong ledger cohort is the native module boundary.",
+  "basis": [
+    "Complete ledger group, with no omitted or added member; existing strong assignment is preserved.",
+    "Contiguous retail code in the proven xfer_dungeon_2A3000 load region, in file order, under one unmodified 2.7.2-cdk-G0 recipe.",
+    "Shared header reconciles member declarations and object views; no per-member flags or artificial code scheduling constraints."
+  ],
+  "review": "pending",
+  "reviewer": null
+}

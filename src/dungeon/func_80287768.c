@@ -1,19 +1,14 @@
-#include "common.h"
-#include "shared/dir_step.h"
+#include "modules/dungeon_floor_generate.h"
 
-extern s32 D_8001F660;
-extern s32 D_8001F664;
-extern s8 D_8001F66C[];
-extern u8 D_8001F6A0;
-extern s8 D_8001F6A4[];
-extern s8 D_8001F6E8[];
-
-extern s32 func_8001ABC8(s16 value_a, s16 value_b);
-extern s32 func_800A6D30(void);
-
-/* Search outward for an eligible tile, updating the facing direction when turning. */
-s16 func_8001A768(u16 *facing, s32 origin_x, s32 origin_y, s8 *tiles, s32 search_arg, s32 radius,
-                  s16 filter_arg) {
+/* C89 default promotions keep the public final argument a word while this
+ * definition gives the filter its original signed-halfword view. */
+s16 func_8001A768(facing, origin_x, origin_y, tiles, search_arg, radius, filter_arg)
+u16 *facing;
+s32 origin_x, origin_y;
+s8 *tiles;
+s32 search_arg, radius;
+s16 filter_arg;
+{
     u16 start_x;
     u16 start_y;
     u16 saved_radius;
@@ -54,10 +49,11 @@ s16 func_8001A768(u16 *facing, s32 origin_x, s32 origin_y, s8 *tiles, s32 search
     failures = 0;
     x = origin_x + *(u16 *)(initial_x_steps + facing_offset) * radius;
     y = origin_y + *(u16 *)(((u8 *)dirStepY) + facing_offset) * radius;
+
     saved_filter = filter_arg;
 
     if (((s16)x >= 0) && ((s16)x < D_8001F660) && ((s16)y >= 0) &&
-        ((s16)y < D_8001F664) && (D_8001F6A4[facing_high >> 17] == 0)) {
+        ((s16)y < D_8001F664) && (((s8 *)D_8001F6A4)[facing_high >> 17] == 0)) {
         tile_index_u16 = x + (s16)y * D_8001F660;
         tile_index = (s16)tile_index_u16;
         tile = tiles[tile_index];
@@ -74,7 +70,7 @@ s16 func_8001A768(u16 *facing, s32 origin_x, s32 origin_y, s8 *tiles, s32 search
     }
 
     if (failures != 0) {
-        D_8001F6A4[((s32)*facing << 16) >> 17] = 1;
+        ((s8 *)D_8001F6A4)[((s32)*facing << 16) >> 17] = 1;
         if ((s16)saved_radius < (s8)D_8001F6A0) {
             D_8001F6A0 = saved_radius;
         }
@@ -109,7 +105,7 @@ s16 func_8001A768(u16 *facing, s32 origin_x, s32 origin_y, s8 *tiles, s32 search
                     + *(s16 *)(turn_offset + y_steps_base) * side_steps;
                     if (((s16)next_x >= 0) && ((s16)next_x < D_8001F660) &&
                         ((s16)next_y >= 0) && ((s16)next_y < D_8001F664)) {
-                        map_base = D_8001F6E8;
+                        map_base = ((s8 *)D_8001F6E8);
                         side_marks = map_base + side * 4;
                         blocked = side_marks + forward_steps;
                         if (*blocked == 0) {

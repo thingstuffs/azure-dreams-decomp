@@ -1,19 +1,6 @@
-#include "common.h"
+#include "modules/dungeon_ovl_1830850.h"
 
-typedef struct S_80025CD8_0 {
-    u8 unk_00;
-    s8 unk_01;
-    s8 unk_02;
-    s8 unk_03;
-    s32 unk_04;
-    u8 pad_08[0x2];
-    s8 unk_0A;
-    s8 unk_0B;
-} S_80025CD8_0;   /* arg0 in func_80025CD8 */
-
-
-/* Initialize the packet fields with a zero payload and set flag 0x80. */
-void func_80025CD8(S_80025CD8_0 *packet) {
+void func_80025CD8(ovl_1830850_81810CD8_S_80025CD8_0 *packet) {
     s32 zero;
     s32 payload;
 

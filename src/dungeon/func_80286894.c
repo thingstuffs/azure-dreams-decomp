@@ -1,34 +1,10 @@
-#include "common.h"
-#include "m2c_compat.h"
-#include "records/Rec_D_80082E80.h"
+#include "modules/dungeon_floor_generate.h"
 
-s32 Control_CD();       /* extern */
-void func_8003F320();                            /* extern */
-void func_8003F5E0();                         /* extern */
-short SD_Call();                    /* extern */
-s16 func_8005405C();                             /* extern */
-void func_800542BC();                            /* extern */
-M2C_UNK func_8005FE18();                     /* extern */
-M2C_UNK func_80067014();                     /* extern */
-extern M2C_UNK D_8006E61C;
-extern M2C_UNK D_80080AF0;
-extern s32 D_80081480;
-extern M2C_UNK D_8008148C;
-
-typedef struct S_80019894_0 {
-    u16 unk_00;
-    u8 pad_02[0x2];
-    s32 unk_04;
-    void * unk_08;
-} S_80019894_0;   /* temp_s1 in func_80019894 */
-
-
-/* Loads a resource into its slot unless already loaded, then waits for completion. */
 s32 func_80019894(s16 resource_index) {
     s16 slot_index;
     s32 resource_id;
     u8 *loaded_id;
-    S_80019894_0 *resource;
+    floor_generate_isolated_80286894_S_80019894_0 *resource;
     void *cd_data;
 
     resource = (resource_index * 0xC) + (s8 *)&D_8006E61C;
@@ -44,11 +20,11 @@ s32 func_80019894(s16 resource_index) {
     func_80067014(0);
     func_8005FE18(0);
     cd_data = resource->unk_08;
-    D_80081480 = ((Rec_D_80082E80 *)(&D_8008148C))->unk_00;
+    (*(s32 *)D_80081480) = ((Rec_D_80082E80 *)(&(*(M2C_UNK *)D_8008148C)))->unk_00;
     Control_CD(6, cd_data, 0);
     Control_CD(6, resource->unk_04, 0);
     func_8003F320();
-    func_8003F5E0(D_8008148C);
+    func_8003F5E0((*(M2C_UNK *)D_8008148C));
     SD_Call(((2 << slot_index) | 0x10) & 0xFFFF);
     func_800542BC();
     do {

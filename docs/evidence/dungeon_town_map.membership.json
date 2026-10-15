@@ -1,0 +1,36 @@
+{
+  "module": "dungeon_town_map",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "town_map.c",
+    "module_index": 7
+  },
+  "members": [
+    "dungeon/func_7FFEDDFC",
+    "dungeon/func_7FFEDE78",
+    "dungeon/func_7FFEDEC0",
+    "dungeon/func_7FFEDEF4",
+    "dungeon/func_7FFEE094",
+    "dungeon/func_7FFEE0A8",
+    "dungeon/func_7FFEE0B8",
+    "dungeon/func_7FFEE278",
+    "dungeon/func_7FFEE2A0",
+    "dungeon/func_7FFEE2E4",
+    "dungeon/func_7FFEE36C",
+    "dungeon/func_7FFEE3F0",
+    "dungeon/func_7FFEE474",
+    "dungeon/func_7FFEE4F8",
+    "dungeon/func_7FFEE778",
+    "dungeon/func_7FFEE7AC"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Historical compiler TU boundary is not observable; complete existing strong ledger cohort is the native module boundary.",
+  "basis": [
+    "Complete ledger group, with no omitted or added member; existing strong assignment is preserved.",
+    "Contiguous retail code in the proven img_d54c_8008ad4c load region, in file order, under one unmodified 2.7.2-cdk-G0 recipe.",
+    "Shared header reconciles member declarations and object views; no per-member flags or artificial code scheduling constraints."
+  ],
+  "review": "pending",
+  "reviewer": null
+}

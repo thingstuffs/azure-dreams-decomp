@@ -1,30 +1,6 @@
-#include "common.h"
+#include "modules/dungeon_ovl_18d0850.h"
 
-typedef struct S_818B11B4_0 {
-    u8 pad_00[0x10];
-    s16 unk_10;
-    u8 pad_12[0x4];
-    u16 unk_16;
-} S_818B11B4_0;   /* arg0 in func_818B11B4 */
-
-typedef struct S_818B11B4_1 {
-    u8 pad_00[0x1A];
-    u16 unk_1A;
-} S_818B11B4_1;   /* height_cursor in func_818B11B4 */
-
-typedef struct S_818B11B4_2 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_818B11B4_2;   /* arg1 in func_818B11B4 */
-
-
-extern s32 func_80024610(void *, void *, void *, s32, s32, s32 *, u8, s32);
-extern s32 func_800644B8();
-extern s32 func_80064584();
-
-
-/* Builds a trigonometric table and processes up to eight height-offset segments. */
-s32 func_818B11B4(S_818B11B4_0 *source, S_818B11B4_2 *height_ref, void *context) {
+s32 func_800249B4(ovl_18d0850_818B11B4_S_818B11B4_0 *source, ovl_18d0850_818B11B4_S_818B11B4_2 *height_ref, void *context) {
     s32 trig_table[34];
     s32 *trig_buffer;
     s32 *trig_cursor;
@@ -68,7 +44,7 @@ s32 func_818B11B4(S_818B11B4_0 *source, S_818B11B4_2 *height_ref, void *context)
             angle = (func_800644B8((phase - ((biased_phase / 16) * 0x10)) << 9) >> 9) + 0x20;
             func_80064584(segment_index << 9);
             segment_source = source;
-            height = ((S_818B11B4_1 *)height_cursor)->unk_1A;
+            height = ((ovl_18d0850_818B11B4_S_818B11B4_1 *)height_cursor)->unk_1A;
             scaled_segment = segment_index << 0x11;
             func_80024610(segment_source, height_ref, context, angle,
                          (u32)(s16)(height_ref->unk_0A - height),

@@ -1,32 +1,8 @@
-#include "common.h"
-#include "shared/game_work.h"
+#include "modules/dungeon_ovl_19a332c.h"
 
-
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
-typedef struct {
-    void *field_B8;
-    s32 unkBC;
-    char padC0[4];
-    s32 unkC4;
-    char padC8[4];
-    s32 unkCC;
-    s32 unkD0;
-    char padD4[4];
-    void *ptr;
-    s16 unkDC;
-    s16 unkDE;
-    s32 unkE0;
-} S_8191696C_state;
-
-extern void D_8002654C(void);
-extern s8 D_800E3D20[];
-
-
-/* Reset shared state to mode 13 and report changes to its key and prior mode. */
-s32 func_81984E94(s32 unused, s32 state_key, s32 value, s16 secondary_value) {
+s32 func_80026694(s32 unused, s32 state_key, s32 value, s16 secondary_value) {
     GameView *state = &gameWork.view;
-    S_8191696C_state *substate = (S_8191696C_state *)&state->slot[0].unk_04;
+    ovl_19a332c_81984E94_S_8191696C_state *substate = (ovl_19a332c_81984E94_S_8191696C_state *)&state->slot[0].unk_04;
     void *next_field = (void *)((u8 *)&state->slot[0].unk_04 + 4);
     s16 saved_value;
     s32 previous_key;
@@ -44,7 +20,7 @@ s32 func_81984E94(s32 unused, s32 state_key, s32 value, s16 secondary_value) {
     substate->unkCC = 0xD;
     substate->unkD0 = 0;
     substate->unkDE = secondary_value;
-    state->slot[0].callback = D_8002654C;
+    state->slot[0].callback = (void *)func_8002654C;
     if (change_flags & 1) {
         D_800E3D20[0] = saved_value;
     }

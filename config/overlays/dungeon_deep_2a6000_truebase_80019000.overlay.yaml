@@ -31,13 +31,13 @@ standalone_build:
     out_dir: work/s3_splat/extract
     container_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
   window:
-    file_start: 0x2A6000
+    file_start: 0x2A5E80
     file_end: 0x2A6AF8
-    vram_start: 0x80019000
+    vram_start: 0x80018E80
     # Stated again as true_vram_start so every consumer that keys on that
     # field (tools/campaign_sentinels.py, tools/test_tool_contracts.py)
     # reads the same proven runtime base as vram_start.
-    true_vram_start: 0x80019000
+    true_vram_start: 0x80018E80
     base_confidence: jump-implied
   split_results: overlays/dungeon/overlay_first_pass_results.json
   matched_sources:

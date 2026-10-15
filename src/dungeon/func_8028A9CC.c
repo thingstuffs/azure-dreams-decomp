@@ -1,9 +1,5 @@
-#include "common.h"
-#include "shared/game_work.h"
+#include "modules/dungeon_floor_generate.h"
 
-extern u8 D_800E9FFA[];
-
-/* Writes the corners and edges of a rectangular border in the dungeon tile grid. */
 void func_8001D9CC(s16 left_x, s16 top_y, s16 right_x, s16 bottom_y, s32 tile_value_base) {
     s16 *tile;
     s16 *opposite_tile;

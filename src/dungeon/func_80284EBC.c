@@ -1,37 +1,19 @@
-#include "common.h"
-#include "shared/dungeon_floor.h"
-#include "shared/game_work.h"
+#include "modules/dungeon_floor_generate.h"
 
-typedef struct {
-    u16 x;
-    u16 y;
-    s16 width;
-    s16 height;
-    s8 pad[12];
-} DungeonEntry;
-
-typedef struct {
-    u16 f0;
-    u16 f2;
-    u16 flags;
-} DungeonCell;
-
-
-/* Counts cells in the selected dungeon entry with no flags in mask 0x8500. */
 s16 func_80017EBC(s16 entry_index) {
     s16 count = 0;
     u8 *entry_base = (u8 *)D_800E2970;
-    DungeonEntry *region = (DungeonEntry *)(entry_base + (entry_index * 20));
+    floor_generate_isolated_80284EBC_DungeonEntry *region = (floor_generate_isolated_80284EBC_DungeonEntry *)(entry_base + (entry_index * 20));
     MapGrid *state = &gameWork.map;
     s16 height = region->height;
     u16 y = region->y;
     s16 rows_left = height;
 
     if (height > 0) {
-        DungeonEntry *entry = region;
+        floor_generate_isolated_80284EBC_DungeonEntry *entry = region;
 
         while (rows_left > 0) {
-            DungeonCell *cell = (DungeonCell *)((u8 *)((DungeonCell *)state->cells) + (((s16)y << state->shiftX) * 6)
+            floor_generate_isolated_80284EBC_DungeonCell *cell = (floor_generate_isolated_80284EBC_DungeonCell *)((u8 *)((floor_generate_isolated_80284EBC_DungeonCell *)state->cells) + (((s16)y << state->shiftX) * 6)
                 + (entry->x * 6));
             s16 cols_left = entry->width;
 

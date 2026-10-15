@@ -1,36 +1,7 @@
-#include "common.h"
+#include "modules/dungeon_ovl_d54c.h"
 
-typedef struct {
-    u8 pad0[8];
-    u32 flags0;
-    u32 flags1;
-} Item;
-
-typedef struct {
-    u8 pad0[0x48];
-    s32 value48;
-    u8 pad4C[0x14];
-    s32 value60;
-    u8 pad64[0x34];
-    Item *item98;
-} Object;
-
-typedef struct {
-    s32 value0;
-    s32 value4;
-    s32 value8;
-    s32 valueC;
-    s32 value10;
-    s32 value14;
-} TownState;
-
-extern TownState D_801131B8;
-extern void func_80035208(void *);
-extern void func_8008B0E8(s32, u32, u32);
-
-/* Copies tagged item fields into town state and dispatches the associated data. */
-void func_8008B158(Object *object) {
-    Item *item;
+void func_8008B158(ovl_d54c_7FFED9F8_Object *object) {
+    ovl_d54c_7FFED9F8_Item *item;
     u32 tag_mask;
     u32 extra_flags;
     s32 option_bit;

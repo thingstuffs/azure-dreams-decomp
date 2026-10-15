@@ -85,8 +85,9 @@ def _load_modules(root=ROOT):
   keys.add(m['key'])
   if m.get('allocations') and not Z.enabled(m):raise ValueError('unknown allocation model')
   if Z.enabled(m):Z.validate(m,root)
+  if Z.switches(m):Z.X.validate_ownership(m,reg)
   if m['owned_data']:validate_owned_layout(m)
-  if m.get('data_members'):
+  if m.get('data_members') and not Z.switches(m):
    if len(m['data_members'])!=len(m['owned_data']):raise ValueError('separate prefix row count differs')
    for a,d in zip(m['data_members'],m['owned_data']):
     if tuple(a[k] for k in ('foff','vma','size'))!=tuple(d[k] for k in ('foff','vma','size')):raise ValueError('separate prefix row ownership extent differs')
@@ -108,8 +109,8 @@ def _load_modules(root=ROOT):
     if r.get('row_kind')!='data':raise ValueError('prefix row is not data')
    elif r.get('row_kind')=='data':raise ValueError('function member is data')
    if 'body_offset' in a:expected['body_offset']=a['body_offset']
-   if a!=expected or a['foff']!=cursor or r['container']!=m['container'] or r['cfg']!=m['recipe']['cfg'] or (r.get('row_asflags') or '')!=m['recipe']['row_asflags']:raise ValueError('member identity, contiguity or recipe differs: '+a['id'])
-   cursor+=a['size']
+   if a!=expected or (a['foff']!=cursor and not (Z.switches(m) and a is m['members'][0])) or r['container']!=m['container'] or r['cfg']!=m['recipe']['cfg'] or (r.get('row_asflags') or '')!=m['recipe']['row_asflags']:raise ValueError('member identity, contiguity or recipe differs: '+a['id'])
+   cursor=a['foff']+a['size']
   if not int(region['foff_start'],0)<=module_first(m)['foff']<cursor<=int(region['foff_end'],0):raise ValueError('module outside proven load map')
   if Z.enabled(m):Z.validate(m,root,region)
   if m.get('membership_evidence'):
@@ -195,7 +196,9 @@ def validate_asset(root,d):
   load,size=struct.unpack_from('<II',head,0x18)
   if (mp['file_start'],mp['file_end'],mp['delta'])!=(0x800,0x800+size,load-0x800):raise ValueError('PS-X EXE map differs')
  elif mp['kind']=='rowbase':
-  match=[r for r in ranges(root,'dungeon') if r['region']==mp['region'] and r['base_confidence']=='proven']
+  family=mp.get('container','dungeon')
+  if family not in CONTAINERS or mp['asset']!='work/disc/containers/'+CONTAINERS[family]:raise ValueError('resident asset/container differs')
+  match=[r for r in ranges(root,family) if r['region']==mp['region'] and r['base_confidence']=='proven']
   if len(match)!=1 or tuple(int(match[0][k],0) for k in ('foff_start','foff_end','delta'))!=(mp['file_start'],mp['file_end'],mp['delta']):raise ValueError('resident load-map evidence differs')
  else:raise ValueError('unsupported external asset map')
 
@@ -323,7 +326,7 @@ def legacy_fingerprint(m,root=ROOT,windows=True):
    if (root/p).exists():names.add(p)
  # Resolve the combined include closure once; shared headers are read once.
  names.update(closure(root,source_starts))
- gate_names=['overlay_scoped_fingerprint.py','gate_read_cache.py','overlay_native_rodata.py','cc.sh','ccproc.py','overlay_local_gate.py','overlay_module_gate.py','overlay_evidence.py','overlay_as_flags.py','gen_noreturn_syms.py','rowbase_naming_debt.py','match.py','rowbase_identity.py','configure.py','live_truth.py','rowbase.py','az_target.py','residue_class.py','overlay_func_compare.py','oracle_scoring.py','overlay_native_allocations.py']
+ gate_names=['overlay_scoped_fingerprint.py','gate_read_cache.py','overlay_native_rodata.py','cc.sh','ccproc.py','overlay_local_gate.py','overlay_module_gate.py','overlay_evidence.py','overlay_as_flags.py','gen_noreturn_syms.py','rowbase_naming_debt.py','match.py','rowbase_identity.py','configure.py','live_truth.py','rowbase.py','az_target.py','residue_class.py','overlay_func_compare.py','oracle_scoring.py','overlay_native_allocations.py','overlay_switch_allocations.py']
  tools=[gate_tool(root,n) for n in gate_names]
  tools += [root/'tools/fidelity'/n for n in ['aspsx_diff.py','objread.py','certify_overlay_module.py']]
  tools += [root/'tools/overlay_module_evidence.py',root/'tools/build/slus_rodata_trim.py']
@@ -511,7 +514,7 @@ def project_segments(segments,build_dir,overlay,root=ROOT):
  root=Path(root).absolute();family=overlay.split('_')[0];receipts=[]
  for m in load_modules(root):
   if m['container']!=family:continue
-  hits=[(i,s,a) for i,s in enumerate(segments) for a in all_members(m) if s.start<a['foff']+a['size'] and a['foff']<s.end]
+  hits=[(i,s,a) for i,s in enumerate(segments) for a in (m['members'] if Z.switches(m) else all_members(m)) if s.start<a['foff']+a['size'] and a['foff']<s.end]
   storage_hits=Z.enabled(m) and any(s.start<b and a<s.end for a,b in Z.spans(m) for s in segments)
   if not hits and not storage_hits:continue
   substitutions={}
@@ -525,8 +528,8 @@ def project_segments(segments,build_dir,overlay,root=ROOT):
   for i,s,a in hits:
    target=binary.parent/(a.get('function',a.get('symbol'))+'.bin');offset=Z.offset(m,a['foff'],a['size']) if Z.enabled(m) else a['foff']-module_first(m)['foff'];target.write_bytes(blob[offset:offset+a['size']]);segments[i]=dataclasses.replace(s,kind='rowbase',bytes_path=target,module_key=m['key'],section=f'.ovlseg_{s.index:04d}')
   projected_allocations=[]
-  if Z.enabled(m):projected_allocations=Z.project_storage(m,segments,blob,binary.parent)
-  receipts.append({'projected_allocations':projected_allocations,'module':m['key'],'receipt':str(binary.parent/'receipt.json'),'receipt_sha256':sha(binary.parent/'receipt.json'),'fingerprint':receipt['fingerprint']['sha256'],'projected_rows':[a['id'] for _,_,a in hits]})
+  if Z.enabled(m):projected_allocations=Z.project_storage(m,segments,blob,binary.parent,root)
+  receipts.append({'projected_allocations':projected_allocations,'module':m['key'],'receipt':str(binary.parent/'receipt.json'),'receipt_sha256':sha(binary.parent/'receipt.json'),'fingerprint':receipt['fingerprint']['sha256'],'projected_rows':([a['id'] for a in all_members(m) if any(s.start<a['foff']+a['size'] and a['foff']<s.end for s in segments)] if Z.switches(m) else [a['id'] for _,_,a in hits])})
  return receipts
 
 def verify_window_modules(receipts,root=ROOT):

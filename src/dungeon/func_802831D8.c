@@ -1,36 +1,9 @@
-#include "common.h"
-#include "shared/game_work.h"
+#include "modules/dungeon_dungeon_setup.h"
 
-typedef struct {
-    u32 unk00;
-    u8 pad04[0x10];
-    u16 unk14;
-    u16 unk16;
-    u16 unk18;
-    u16 unk1A;
-    u16 unk1C;
-    u16 unk1E;
-} InitBlock;
-
-typedef struct {
-    u8 pad00[0xA8];
-    u32 unkA8;
-    u8 padAC[0x130];
-    InitBlock unk1DC;
-} GlobalState;
-
-extern u8 D_80080AA0[16];
-extern u8 D_800EA000[16];
-extern u8 D_800E3D20[];
-
-extern void func_80018A70();
-extern void func_80099188(void *);
-
-/* Initializes the global state block and clears associated flags. */
 void func_800161D8(void) {
     u32 color_command = 0x2C808080;
-    GlobalState *state = ((GlobalState *)&gameWork);
-    InitBlock *init_block = &state->unk1DC;
+    dungeon_setup_802831D8_GlobalState *state = ((dungeon_setup_802831D8_GlobalState *)&gameWork);
+    dungeon_setup_802831D8_InitBlock *init_block = &state->unk1DC;
     u16 block_extent = 0x3F;
     u32 block_offset;
     u8 *flag_page;

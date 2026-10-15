@@ -1,75 +1,4 @@
-#include "shared/gpu_packets.h"
-#include "common.h"
-#include "shared/game_work.h"
-
-typedef struct S_800248C8_0 {
-    u8 pad_00[0x18];
-    u32 * unk_18;
-    u8 pad_1C[0x48];
-    u16 unk_64;
-    u16 unk_66;
-    u16 unk_68;
-    u8 pad_6A[0x2];
-    u16 unk_6C;
-    u16 unk_6E;
-    u16 unk_70;
-    u8 pad_72[0x42];
-    s32 unk_B4;
-    u8 pad_B8[0x20];
-    u16 unk_D8;
-    u16 unk_DA;
-    u16 unk_DC;
-    u16 unk_DE;
-    u8 pad_E0[0x14];
-    s32 unk_F4;
-    s32 unk_F8;
-} S_800248C8_0;   /* scratch in func_800248C8 */
-
-   /* ctx in func_800248C8 */
-
-typedef struct S_800248C8_2 {
-    union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_00;   /* overlapping accesses */
-    u8 unk_04;
-    u8 unk_05;
-    u8 unk_06;
-    u8 unk_07;
-    u16 unk_08;
-    u16 unk_0A;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    u16 unk_12;
-} S_800248C8_2;   /* packet in func_800248C8 */
-
-typedef struct S_800248C8_3 {
-    u8 pad_00[0x10];
-    s16 unk_10;
-    u8 pad_12[0x8];
-    u16 unk_1A;
-    u8 pad_1C[0x2];
-    u16 unk_1E;
-    u8 pad_20[0x2];
-    u16 unk_22;
-    u8 pad_24[0xE];
-    u16 unk_32;
-    u8 pad_34[0x2];
-    u16 unk_36;
-    u8 pad_38[0x2];
-    u16 unk_3A;
-} S_800248C8_3;   /* arg in func_800248C8 */
-
-
-extern s32 func_80065420(void *, void *, void *, void *);
-
-typedef union {
-    s32 word;
-    struct {
-        u16 low;
-        s16 high;
-    } half;
-} PackedDelta;
+#include "modules/dungeon_ovl_188898c.h"
 
 static __inline__ s32 first_delta_s32_s32(s32 end, s32 start)
 {
@@ -77,14 +6,14 @@ static __inline__ s32 first_delta_s32_s32(s32 end, s32 start)
 }
 
 /* Interpolate and shade a line, project its endpoints, and add it to the ordering table. */
-s32 func_800248C8(void *line_data)
+s32 func_800248C8(void *line_data, void *unused_render_context)
 {
     u8 *line;
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet;
     void *projection_work_a;
     void *projection_work_b;
-    PackedDelta coord_delta;
+    ovl_188898c_818690C8_PackedDelta coord_delta;
     s32 bit_mask;
     s32 index;
     s32 multiplier;
@@ -98,22 +27,22 @@ s32 func_800248C8(void *line_data)
     u32 *ordering_table;
     u8 *render_ctx = *(u8 **)((u8 *)(&gameWork));
 
-    ((S_800248C8_0 *)scratch)->unk_18 = (u32 *)(render_ctx + 0xB0);
+    ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_18 = (u32 *)(render_ctx + 0xB0);
     packet = ((GpuContext *)render_ctx)->packetCursor;
     line = line_bytes;
     ((GpuContext *)render_ctx)->packetCursor = packet + 0x14;
 
-    ((S_800248C8_2 *)packet)->unk_00.at03.v = 4;
-    ((S_800248C8_2 *)packet)->unk_07 = 0x50;
+    ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_00.at03.v = 4;
+    ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_07 = 0x50;
 
-    ((S_800248C8_0 *)scratch)->unk_64 = ((S_800248C8_3 *)line)->unk_1A;
-    ((S_800248C8_0 *)scratch)->unk_66 = ((S_800248C8_3 *)line)->unk_1E;
-    ((S_800248C8_0 *)scratch)->unk_68 = ((S_800248C8_3 *)line)->unk_22;
-    ((S_800248C8_0 *)scratch)->unk_6C = ((S_800248C8_3 *)line)->unk_32;
-    ((S_800248C8_0 *)scratch)->unk_6E = ((S_800248C8_3 *)line)->unk_36;
-    ((S_800248C8_0 *)scratch)->unk_70 = ((S_800248C8_3 *)line)->unk_3A;
+    ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_64 = ((ovl_188898c_818690C8_S_800248C8_3 *)line)->unk_1A;
+    ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_66 = ((ovl_188898c_818690C8_S_800248C8_3 *)line)->unk_1E;
+    ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_68 = ((ovl_188898c_818690C8_S_800248C8_3 *)line)->unk_22;
+    ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_6C = ((ovl_188898c_818690C8_S_800248C8_3 *)line)->unk_32;
+    ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_6E = ((ovl_188898c_818690C8_S_800248C8_3 *)line)->unk_36;
+    ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_70 = ((ovl_188898c_818690C8_S_800248C8_3 *)line)->unk_3A;
 
-    index = ((S_800248C8_3 *)line)->unk_10 - 1;
+    index = ((ovl_188898c_818690C8_S_800248C8_3 *)line)->unk_10 - 1;
     switch (index) {
     case 0:
     case 1:
@@ -132,60 +61,60 @@ s32 func_800248C8(void *line_data)
         s32 step_y;
         s32 end_z;
 
-        coord_delta.word = first_delta_s32_s32(((S_800248C8_0 *)scratch)->unk_6C,
-            (x0 = ((S_800248C8_0 *)scratch)->unk_64)) << 16;
+        coord_delta.word = first_delta_s32_s32(((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_6C,
+            (x0 = ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_64)) << 16;
         coord_delta.word >>= 3;
-        coord_delta.word *= ((S_800248C8_3 *)line)->unk_10 + 1;
+        coord_delta.word *= ((ovl_188898c_818690C8_S_800248C8_3 *)line)->unk_10 + 1;
 
-        y0 = ((S_800248C8_0 *)scratch)->unk_66;
+        y0 = ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_66;
         mask = 0xFFFF0000;
         step_x = (coord_delta.word & mask) >> 16;
-        coord_delta.half.high = ((S_800248C8_0 *)scratch)->unk_6E - y0;
+        coord_delta.half.high = ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_6E - y0;
         coord_delta.word &= mask;
-        ((S_800248C8_0 *)scratch)->unk_6C = x0 + step_x;
+        ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_6C = x0 + step_x;
         coord_delta.word >>= 3;
-        coord_delta.word *= ((S_800248C8_3 *)line)->unk_10 + 1;
+        coord_delta.word *= ((ovl_188898c_818690C8_S_800248C8_3 *)line)->unk_10 + 1;
 
-        end_z = ((S_800248C8_0 *)scratch)->unk_70;
-        z0 = ((S_800248C8_0 *)scratch)->unk_68;
+        end_z = ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_70;
+        z0 = ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_68;
         step_y = coord_delta.half.high;
         coord_delta.half.high = end_z - z0;
         coord_delta.word &= mask;
-        ((S_800248C8_0 *)scratch)->unk_6E = y0 + step_y;
+        ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_6E = y0 + step_y;
         coord_delta.word >>= 3;
-        coord_delta.word *= ((S_800248C8_3 *)line)->unk_10 + 1;
+        coord_delta.word *= ((ovl_188898c_818690C8_S_800248C8_3 *)line)->unk_10 + 1;
         z0 += coord_delta.half.high;
-        ((S_800248C8_0 *)scratch)->unk_70 = z0;
+        ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_70 = z0;
     }
         {
             s32 level;
 
-            bit_mask = ((S_800248C8_3 *)line)->unk_10;
+            bit_mask = ((ovl_188898c_818690C8_S_800248C8_3 *)line)->unk_10;
             multiplier = 15;
             level = bit_mask + 1;
             line = (u8 *)(level * multiplier);
             multiplier = 23;
             coord_y = level * multiplier;
             level = 0x40;
-            ((S_800248C8_2 *)packet)->unk_04 = level;
-            ((S_800248C8_2 *)packet)->unk_05 = level;
-            ((S_800248C8_2 *)packet)->unk_06 = level;
+            ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_04 = level;
+            ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_05 = level;
+            ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_06 = level;
             level -= (7 - bit_mask) * 8;
             multiplier = (s32)line + 0x40;
-            ((S_800248C8_2 *)packet)->unk_0D = level;
-            ((S_800248C8_2 *)packet)->unk_0C = multiplier;
+            ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_0D = level;
+            ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_0C = multiplier;
             multiplier = coord_y + 0x40;
-            ((S_800248C8_2 *)packet)->unk_0E = multiplier;
+            ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_0E = multiplier;
         }
         break;
     case 7:
 
-        ((S_800248C8_2 *)packet)->unk_04 = 0x40;
-        ((S_800248C8_2 *)packet)->unk_05 = 0x40;
-        ((S_800248C8_2 *)packet)->unk_06 = 0x40;
-        ((S_800248C8_2 *)packet)->unk_0C = 0x7F;
-        ((S_800248C8_2 *)packet)->unk_0D = 0;
-        ((S_800248C8_2 *)packet)->unk_0E = 0xFF;
+        ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_04 = 0x40;
+        ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_05 = 0x40;
+        ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_06 = 0x40;
+        ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_0C = 0x7F;
+        ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_0D = 0;
+        ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_0E = 0xFF;
         break;
     case 8:
     case 9:
@@ -204,51 +133,51 @@ s32 func_800248C8(void *line_data)
         s32 step_y;
         s32 end_z;
 
-        coord_delta.word = first_delta_s32_s32(((S_800248C8_0 *)scratch)->unk_6C,
-            (x0 = ((S_800248C8_0 *)scratch)->unk_64)) << 16;
+        coord_delta.word = first_delta_s32_s32(((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_6C,
+            (x0 = ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_64)) << 16;
         coord_delta.word >>= 3;
-        coord_delta.word *= ((S_800248C8_3 *)line)->unk_10 - 7;
+        coord_delta.word *= ((ovl_188898c_818690C8_S_800248C8_3 *)line)->unk_10 - 7;
 
-        y0 = ((S_800248C8_0 *)scratch)->unk_66;
+        y0 = ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_66;
         mask = 0xFFFF0000;
         step_x = (coord_delta.word & mask) >> 16;
-        coord_delta.half.high = ((S_800248C8_0 *)scratch)->unk_6E - y0;
+        coord_delta.half.high = ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_6E - y0;
         coord_delta.word &= mask;
-        ((S_800248C8_0 *)scratch)->unk_64 = x0 + step_x;
+        ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_64 = x0 + step_x;
         coord_delta.word >>= 3;
-        coord_delta.word *= ((S_800248C8_3 *)line)->unk_10 - 7;
+        coord_delta.word *= ((ovl_188898c_818690C8_S_800248C8_3 *)line)->unk_10 - 7;
 
-        end_z = ((S_800248C8_0 *)scratch)->unk_70;
-        z0 = ((S_800248C8_0 *)scratch)->unk_68;
+        end_z = ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_70;
+        z0 = ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_68;
         step_y = coord_delta.half.high;
         coord_delta.half.high = end_z - z0;
         coord_delta.word &= mask;
-        ((S_800248C8_0 *)scratch)->unk_66 = y0 + step_y;
+        ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_66 = y0 + step_y;
         coord_delta.word >>= 3;
-        coord_delta.word *= ((S_800248C8_3 *)line)->unk_10 - 7;
+        coord_delta.word *= ((ovl_188898c_818690C8_S_800248C8_3 *)line)->unk_10 - 7;
         z0 += coord_delta.half.high;
-        ((S_800248C8_0 *)scratch)->unk_68 = z0;
+        ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_68 = z0;
     }
         {
             s32 k;
             s32 k23;
 
-            coord_y = ((S_800248C8_3 *)line)->unk_10;
+            coord_y = ((ovl_188898c_818690C8_S_800248C8_3 *)line)->unk_10;
             k = 15;
             bit_mask = coord_y - 7;
             line = (u8 *)(bit_mask * k);
             k23 = 23;
             bit_mask *= k23;
-            ((S_800248C8_2 *)packet)->unk_0D = 0;
-            ((S_800248C8_2 *)packet)->unk_05 = (k - coord_y) * 8;
+            ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_0D = 0;
+            ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_05 = (k - coord_y) * 8;
             multiplier = 0x7F;
-            ((S_800248C8_2 *)packet)->unk_0C = multiplier;
+            ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_0C = multiplier;
             multiplier = 0xFF;
-            ((S_800248C8_2 *)packet)->unk_0E = multiplier;
+            ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_0E = multiplier;
             multiplier = (s32)line + 0x40;
-            ((S_800248C8_2 *)packet)->unk_04 = multiplier;
+            ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_04 = multiplier;
             multiplier = bit_mask + 0x40;
-            ((S_800248C8_2 *)packet)->unk_06 = multiplier;
+            ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_06 = multiplier;
         }
         break;
     }
@@ -257,35 +186,35 @@ s32 func_800248C8(void *line_data)
     projection_work_b = scratch + 0x88;
     first_z = func_80065420((void *)((u32)scratch | 0x64),
                             (void *)((u32)scratch | 0xD8), projection_work_a, projection_work_b);
-    ((S_800248C8_0 *)scratch)->unk_F4 = first_z;
+    ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_F4 = first_z;
     second_z = func_80065420((void *)((u32)scratch | 0x6C),
                              (void *)((u32)scratch | 0xDC), projection_work_a, projection_work_b);
-    ((S_800248C8_0 *)scratch)->unk_F8 = second_z;
+    ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_F8 = second_z;
 
-    ((S_800248C8_2 *)packet)->unk_08 = ((S_800248C8_0 *)scratch)->unk_D8;
-    ((S_800248C8_2 *)packet)->unk_0A = ((S_800248C8_0 *)scratch)->unk_DA;
-    ((S_800248C8_2 *)packet)->unk_10 = ((S_800248C8_0 *)scratch)->unk_DC;
-    ((S_800248C8_2 *)packet)->unk_12 = ((S_800248C8_0 *)scratch)->unk_DE;
+    ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_08 = ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_D8;
+    ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_0A = ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_DA;
+    ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_10 = ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_DC;
+    ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_12 = ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_DE;
 
-    depth_sum = ((S_800248C8_0 *)scratch)->unk_F4;
-    depth_sum += ((S_800248C8_0 *)scratch)->unk_F8;
+    depth_sum = ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_F4;
+    depth_sum += ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_F8;
     depth = (s32)(depth_sum + ((u32)depth_sum >> 31)) >> 1;
-    ((S_800248C8_0 *)scratch)->unk_B4 = depth;
+    ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_B4 = depth;
     if ((u32)depth < 0x1E0U) {
         u32 entry_addr;
         u32 *ot_base;
         s32 low_mask;
         low_mask = 0x00FFFFFF;
         entry_addr = depth << 2;
-        ot_base = ((S_800248C8_0 *)scratch)->unk_18;
+        ot_base = ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_18;
         depth = 0xFF000000;
         entry_addr += (u32)ot_base;
-        ((S_800248C8_2 *)packet)->unk_00.at00.v =
-            (((S_800248C8_2 *)packet)->unk_00.at00.v & depth) |
+        ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_00.at00.v =
+            (((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_00.at00.v & depth) |
             (*(u32 *)entry_addr & low_mask);
 
-        index = ((S_800248C8_0 *)scratch)->unk_B4;
-        ordering_table = ((S_800248C8_0 *)scratch)->unk_18;
+        index = ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_B4;
+        ordering_table = ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_18;
         ordering_table[index] =
             (ordering_table[index] & depth) |
             ((u32)packet & low_mask);

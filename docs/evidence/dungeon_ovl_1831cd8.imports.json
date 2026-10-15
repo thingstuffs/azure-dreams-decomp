@@ -1,0 +1,552 @@
+{
+  "maps": {
+    "xfer_dungeon_1830000": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 25362432,
+      "file_end": 25380864,
+      "delta": 2122272768,
+      "basis": "overlay-streamer transfer observed at runtime (capture_kit/loader_watch_remote.lua on PCSX-Redux, poll-record): CdRead of 9 sectors from disc LBA 24694 -> 0x80025000. Container dungeon foff 0x1830000 (LBA base 12310), so delta = 0x80025000 - 0x1830000 = 0x7E7F5000. CONFIRMED: RAM[0x80025000..+18432] in ram_auto_dungeon_1829A0C_1.bin is 100.00% identical to the disc image's Mode2/Form1 user data at LBA 24694, i.e. the payload is verifiably resident at that base. Scoring-only: runtime DMA evidence, not a byte-exact recompile -- promote via rowbase.promote() when one lands.; PROMOTED solved->proven: byte-exact recompile func_8181140C at true base 0x8002640C (candidate sha cf927f3886bc @ 2.7.2-cdk-G0, linked-strict isolation compare, phase-2 item-3 hook)",
+      "kind": "rowbase",
+      "region": "xfer_dungeon_1830000"
+    },
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "basis": "PS-X EXE header load address and payload size.",
+      "kind": "psx_exe"
+    }
+  },
+  "views": {
+    "D_80025034": {
+      "symbol": "D_80025034",
+      "kind": "data",
+      "vma": 2147635252,
+      "foff": 25362484,
+      "view_bytes": 16,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_1830000",
+      "evidence": "docs/evidence/dungeon_ovl_1831cd8.imports.json"
+    },
+    "D_8002503C": {
+      "symbol": "D_8002503C",
+      "kind": "data",
+      "vma": 2147635260,
+      "foff": 25362492,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_1830000",
+      "evidence": "docs/evidence/dungeon_ovl_1831cd8.imports.json"
+    },
+    "D_800287EC": {
+      "symbol": "D_800287EC",
+      "kind": "data",
+      "vma": 2147649516,
+      "foff": 25376748,
+      "view_bytes": 1,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_1830000",
+      "evidence": "docs/evidence/dungeon_ovl_1831cd8.imports.json"
+    },
+    "D_80029514": {
+      "symbol": "D_80029514",
+      "kind": "data",
+      "vma": 2147652884,
+      "foff": 25380116,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_1830000",
+      "evidence": "docs/evidence/dungeon_ovl_1831cd8.imports.json"
+    },
+    "D_8002951C": {
+      "symbol": "D_8002951C",
+      "kind": "data",
+      "vma": 2147652892,
+      "foff": 25380124,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_1830000",
+      "evidence": "docs/evidence/dungeon_ovl_1831cd8.imports.json"
+    },
+    "D_80029524": {
+      "symbol": "D_80029524",
+      "kind": "data",
+      "vma": 2147652900,
+      "foff": 25380132,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_1830000",
+      "evidence": "docs/evidence/dungeon_ovl_1831cd8.imports.json"
+    },
+    "D_8002952C": {
+      "symbol": "D_8002952C",
+      "kind": "data",
+      "vma": 2147652908,
+      "foff": 25380140,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_1830000",
+      "evidence": "docs/evidence/dungeon_ovl_1831cd8.imports.json"
+    },
+    "D_80029534": {
+      "symbol": "D_80029534",
+      "kind": "data",
+      "vma": 2147652916,
+      "foff": 25380148,
+      "view_bytes": 16,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_1830000",
+      "evidence": "docs/evidence/dungeon_ovl_1831cd8.imports.json"
+    },
+    "D_80029544": {
+      "symbol": "D_80029544",
+      "kind": "data",
+      "vma": 2147652932,
+      "foff": 25380164,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_1830000",
+      "evidence": "docs/evidence/dungeon_ovl_1831cd8.imports.json"
+    },
+    "D_80029548": {
+      "symbol": "D_80029548",
+      "kind": "data",
+      "vma": 2147652936,
+      "foff": 25380168,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_1830000",
+      "evidence": "docs/evidence/dungeon_ovl_1831cd8.imports.json"
+    },
+    "D_8002954C": {
+      "symbol": "D_8002954C",
+      "kind": "data",
+      "vma": 2147652940,
+      "foff": 25380172,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_1830000",
+      "evidence": "docs/evidence/dungeon_ovl_1831cd8.imports.json"
+    },
+    "D_80029550": {
+      "symbol": "D_80029550",
+      "kind": "data",
+      "vma": 2147652944,
+      "foff": 25380176,
+      "view_bytes": 24,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_1830000",
+      "evidence": "docs/evidence/dungeon_ovl_1831cd8.imports.json"
+    },
+    "D_8002E5D8": {
+      "symbol": "D_8002E5D8",
+      "kind": "data",
+      "vma": 2147673560,
+      "foff": 7640,
+      "view_bytes": 16,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_1831cd8.imports.json"
+    },
+    "D_8002E5E8": {
+      "symbol": "D_8002E5E8",
+      "kind": "data",
+      "vma": 2147673576,
+      "foff": 7656,
+      "view_bytes": 12,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_1831cd8.imports.json"
+    },
+    "D_800789B8": {
+      "symbol": "D_800789B8",
+      "kind": "data",
+      "vma": 2147977656,
+      "foff": 311736,
+      "view_bytes": 4,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_1831cd8.imports.json"
+    },
+    "D_80078AB4": {
+      "symbol": "D_80078AB4",
+      "kind": "data",
+      "vma": 2147977908,
+      "foff": 311988,
+      "view_bytes": 4,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_1831cd8.imports.json"
+    },
+    "D_80078AD8": {
+      "symbol": "D_80078AD8",
+      "kind": "data",
+      "vma": 2147977944,
+      "foff": 312024,
+      "view_bytes": 4,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_1831cd8.imports.json"
+    },
+    "D_80079324": {
+      "symbol": "D_80079324",
+      "kind": "data",
+      "vma": 2147980068,
+      "foff": 314148,
+      "view_bytes": 4,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_1831cd8.imports.json"
+    },
+    "D_80080B54": {
+      "symbol": "D_80080B54",
+      "kind": "data",
+      "vma": 2148010836,
+      "foff": 344916,
+      "view_bytes": 1,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_1831cd8.imports.json"
+    }
+  },
+  "functions": {
+    "func_80025040": {
+      "vma": 2147635264,
+      "foff": 25362496,
+      "map": "xfer_dungeon_1830000",
+      "first_word": "e8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_80025080": {
+      "vma": 2147635328,
+      "foff": 25362560,
+      "map": "xfer_dungeon_1830000",
+      "first_word": "e8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8002553C": {
+      "vma": 2147636540,
+      "foff": 25363772,
+      "map": "xfer_dungeon_1830000",
+      "first_word": "4800828c",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_80025598": {
+      "vma": 2147636632,
+      "foff": 25363864,
+      "map": "xfer_dungeon_1830000",
+      "first_word": "0280023c",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800255AC": {
+      "vma": 2147636652,
+      "foff": 25363884,
+      "map": "xfer_dungeon_1830000",
+      "first_word": "e8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800265B8": {
+      "vma": 2147640760,
+      "foff": 25367992,
+      "map": "xfer_dungeon_1830000",
+      "first_word": "e8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8002661C": {
+      "vma": 2147640860,
+      "foff": 25368092,
+      "map": "xfer_dungeon_1830000",
+      "first_word": "e0ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_80026BFC": {
+      "vma": 2147642364,
+      "foff": 25369596,
+      "map": "xfer_dungeon_1830000",
+      "first_word": "06008010",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8003FC64": {
+      "vma": 2147744868,
+      "foff": 78948,
+      "map": "slus_load",
+      "first_word": "0180023c",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8004491C": {
+      "vma": 2147764508,
+      "foff": 98588,
+      "map": "slus_load",
+      "first_word": "21388000",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_80048FBC": {
+      "vma": 2147782588,
+      "foff": 116668,
+      "map": "slus_load",
+      "first_word": "e0ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_80049004": {
+      "vma": 2147782660,
+      "foff": 116740,
+      "map": "slus_load",
+      "first_word": "60ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800491CC": {
+      "vma": 2147783116,
+      "foff": 117196,
+      "map": "slus_load",
+      "first_word": "0700c018",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800491F4": {
+      "vma": 2147783156,
+      "foff": 117236,
+      "map": "slus_load",
+      "first_word": "0000a290",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800499E8": {
+      "vma": 2147785192,
+      "foff": 119272,
+      "map": "slus_load",
+      "first_word": "d0ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8004B1A4": {
+      "vma": 2147791268,
+      "foff": 125348,
+      "map": "slus_load",
+      "first_word": "0b008010",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8004B248": {
+      "vma": 2147791432,
+      "foff": 125512,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8004B404": {
+      "vma": 2147791876,
+      "foff": 125956,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8004CAA0": {
+      "vma": 2147797664,
+      "foff": 131744,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8004CB2C": {
+      "vma": 2147797804,
+      "foff": 131884,
+      "map": "slus_load",
+      "first_word": "0400828c",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8004CBFC": {
+      "vma": 2147798012,
+      "foff": 132092,
+      "map": "slus_load",
+      "first_word": "080085ac",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8004DC14": {
+      "vma": 2147802132,
+      "foff": 136212,
+      "map": "slus_load",
+      "first_word": "e0ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8004E99C": {
+      "vma": 2147805596,
+      "foff": 139676,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_80053DA8": {
+      "vma": 2147827112,
+      "foff": 161192,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_80069E88": {
+      "vma": 2147917448,
+      "foff": 251528,
+      "map": "slus_load",
+      "first_word": "a0000a24",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "strncat": {
+      "vma": 2147917384,
+      "foff": 251464,
+      "map": "slus_load",
+      "first_word": "a0000a24",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "strncpy": {
+      "vma": 2147917448,
+      "foff": 251528,
+      "map": "slus_load",
+      "first_word": "a0000a24",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    }
+  },
+  "runtime_views": {
+    "D_800814A0": {
+      "symbol": "D_800814A0",
+      "kind": "runtime_data",
+      "vma": 2148013216,
+      "view_bytes": 16,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_1831cd8.imports.json",
+      "declaration": "include/shared/object_flags.h"
+    },
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 512,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_1831cd8.imports.json",
+      "declaration": "include/shared/game_work.h"
+    }
+  },
+  "review": "pending",
+  "reviewer": null,
+  "target_sizeof_audit": {
+    "D_80025034": {
+      "declared_bytes": 16,
+      "manifest_view_bytes": 16,
+      "previous_view_bytes": 2
+    },
+    "D_8002503C": {
+      "declared_bytes": 4,
+      "manifest_view_bytes": 4,
+      "previous_view_bytes": 4
+    },
+    "D_800287EC": {
+      "declared_bytes": null,
+      "manifest_view_bytes": 1,
+      "basis": "Incomplete extern/address view; no complete external object extent is claimed."
+    },
+    "D_80029514": {
+      "declared_bytes": 8,
+      "manifest_view_bytes": 8,
+      "previous_view_bytes": 8
+    },
+    "D_8002951C": {
+      "declared_bytes": 8,
+      "manifest_view_bytes": 8,
+      "previous_view_bytes": 8
+    },
+    "D_80029524": {
+      "declared_bytes": 8,
+      "manifest_view_bytes": 8,
+      "previous_view_bytes": 8
+    },
+    "D_8002952C": {
+      "declared_bytes": 8,
+      "manifest_view_bytes": 8,
+      "previous_view_bytes": 8
+    },
+    "D_80029534": {
+      "declared_bytes": 16,
+      "manifest_view_bytes": 16,
+      "previous_view_bytes": 16
+    },
+    "D_80029544": {
+      "declared_bytes": 4,
+      "manifest_view_bytes": 4,
+      "previous_view_bytes": 4
+    },
+    "D_80029548": {
+      "declared_bytes": 4,
+      "manifest_view_bytes": 4,
+      "previous_view_bytes": 4
+    },
+    "D_8002954C": {
+      "declared_bytes": 4,
+      "manifest_view_bytes": 4,
+      "previous_view_bytes": 4
+    },
+    "D_80029550": {
+      "declared_bytes": 24,
+      "manifest_view_bytes": 24,
+      "previous_view_bytes": 1
+    },
+    "D_8002E5D8": {
+      "declared_bytes": 16,
+      "manifest_view_bytes": 16,
+      "previous_view_bytes": 1
+    },
+    "D_8002E5E8": {
+      "declared_bytes": 12,
+      "manifest_view_bytes": 12,
+      "previous_view_bytes": 1
+    },
+    "D_800789B8": {
+      "declared_bytes": 4,
+      "manifest_view_bytes": 4,
+      "previous_view_bytes": 4
+    },
+    "D_80078AB4": {
+      "declared_bytes": 4,
+      "manifest_view_bytes": 4,
+      "previous_view_bytes": 4
+    },
+    "D_80078AD8": {
+      "declared_bytes": 4,
+      "manifest_view_bytes": 4,
+      "previous_view_bytes": 4
+    },
+    "D_80079324": {
+      "declared_bytes": 4,
+      "manifest_view_bytes": 4,
+      "previous_view_bytes": 4
+    },
+    "D_80080B54": {
+      "declared_bytes": null,
+      "manifest_view_bytes": 1,
+      "basis": "Incomplete extern/address view; no complete external object extent is claimed."
+    },
+    "D_800814A0": {
+      "declared_bytes": 16,
+      "manifest_view_bytes": 16,
+      "previous_view_bytes": 16
+    },
+    "D_80083160": {
+      "declared_bytes": 512,
+      "manifest_view_bytes": 512,
+      "previous_view_bytes": 512
+    }
+  }
+}

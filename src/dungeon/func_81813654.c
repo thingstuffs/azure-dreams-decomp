@@ -1,9 +1,5 @@
-#include "common.h"
+#include "modules/dungeon_ovl_1831cd8.h"
 
-extern u32 D_80029548;
-extern u32 D_8002954C;
-
-/* Initializes four drawing packets from coordinates and returns the last packet. */
 void *func_80028654(void *packet, void *coords) {
     u32 packet_type;
     u8 *coord_bytes = (u8 *)coords;

@@ -1,47 +1,5 @@
-#include "common.h"
-#include "shared/game_work.h"
+#include "modules/dungeon_ovl_1831cd8.h"
 
-typedef s32 M2C_UNK;
-
-
-extern s32 func_8002553C();
-extern void func_80025598(); /* extern */
-extern void func_800255AC(); /* extern */
-extern void func_8002661C(); /* extern */
-extern void func_80026CD8(); /* extern */
-extern void func_80026D0C(); /* extern */
-extern void func_80027454();
-extern void func_800274A8(); /* extern */
-extern void func_80028620(); /* extern */
-extern M2C_UNK SD_Call();
-
-extern M2C_UNK D_80027E10;
-extern M2C_UNK D_80027E84;
-
-
-typedef struct S_800277A8_1_pre {
-    M2C_UNK * unk_00;
-    u8 pad_04[0xC];
-} S_800277A8_1_pre;   /* the 0x10 bytes before arg0 in func_800277A8, addressed as arg0[-1] */
-
-typedef struct S_800277A8_1 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    u8 pad_10[0x4];
-    s32 unk_14;
-    u8 pad_18[0x10];
-    s32 unk_28;
-    u8 pad_2C[0x10];
-    s32 unk_3C;
-    s32 unk_40;
-    s32 unk_44;
-    u8 pad_48[0x40];
-    s32 unk_88;
-} S_800277A8_1;   /* arg0 in func_800277A8 */
-
-/* Handle menu buttons and move the selection, refreshing the page when needed. */
 void func_800277A8(void *menu) {
     GameWork *input = &gameWork;
     s32 held_buttons;
@@ -61,34 +19,34 @@ void func_800277A8(void *menu) {
     buttons = ((s32)input->unk_010);
     if (buttons & 0x20) {
         SD_Call(0x515);
-        ((S_800277A8_1_pre *)menu)[-1].unk_00 = &D_80027E10;
-        ((S_800277A8_1 *)menu)->unk_00 = ((S_800277A8_1 *)menu)->unk_04;
+        ((ovl_1831cd8_818127A8_S_800277A8_1_pre *)menu)[-1].unk_00 = (void *)func_80027E10;
+        ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_00 = ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_04;
         func_80028620((u8 *)menu - 0x20);
-        func_80025598(((S_800277A8_1 *)menu)->unk_44);
+        func_80025598(((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_44);
         return;
     }
 
     if (buttons & 0x10) {
         SD_Call(0x503);
         func_800274A8(menu);
-        func_800255AC(((S_800277A8_1 *)menu)->unk_44);
+        func_800255AC(((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_44);
         return;
     }
 
     if (buttons & 0x40) {
         SD_Call(0x503);
-        func_80027454((u8 *)menu + 0x38, ((S_800277A8_1 *)menu)->unk_14,
-                      (((S_800277A8_1 *)menu)->unk_08 / 72) * 72,
-                      ((S_800277A8_1 *)menu)->unk_28);
-        func_8002661C(func_8002553C(((S_800277A8_1 *)menu)->unk_44),
-                      ((S_800277A8_1 *)menu)->unk_40 +
-                      (((S_800277A8_1 *)menu)->unk_08 % 72) * 2);
+        func_80027454((u8 *)menu + 0x38, ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_14,
+                      (((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_08 / 72) * 72,
+                      ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_28);
+        func_8002661C(func_8002553C(((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_44),
+                      ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_40 +
+                      (((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_08 % 72) * 2);
         return;
     }
 
     if (held_buttons & 0x5000) {
         if (buttons & 0x5000) {
-            ((S_800277A8_1 *)menu)->unk_0C = 0;
+            ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_0C = 0;
             buttons = ((s32)input->unk_010);
             if (buttons & 0x1000) {
                 cursor_step = -9;
@@ -96,9 +54,9 @@ void func_800277A8(void *menu) {
                 cursor_step = 9;
             }
         } else {
-            repeat_count = ((S_800277A8_1 *)menu)->unk_0C;
+            repeat_count = ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_0C;
             if (repeat_count >= 9) {
-                ((S_800277A8_1 *)menu)->unk_0C = repeat_count - 1;
+                ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_0C = repeat_count - 1;
                 buttons = input->buttons;
                 if (buttons & 0x1000) {
                     cursor_step = -9;
@@ -106,7 +64,7 @@ void func_800277A8(void *menu) {
                     cursor_step = 9;
                 }
             } else {
-                ((S_800277A8_1 *)menu)->unk_0C = repeat_count + 1;
+                ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_0C = repeat_count + 1;
             }
         }
     }
@@ -116,21 +74,21 @@ void func_800277A8(void *menu) {
     }
 
     SD_Call(0x502);
-    new_offset = ((S_800277A8_1 *)menu)->unk_08 + cursor_step;
-    row_count = ((S_800277A8_1 *)menu)->unk_3C;
+    new_offset = ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_08 + cursor_step;
+    row_count = ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_3C;
     rows_left = row_count - new_offset / 9;
     if (rows_left <= 0 || row_count < rows_left) {
         return;
     }
 
     old_offset = new_offset - cursor_step;
-    ((S_800277A8_1 *)menu)->unk_08 = new_offset;
+    ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_08 = new_offset;
     if (new_offset / 72 != old_offset / 72) {
-        func_80026CD8(((S_800277A8_1 *)menu)->unk_88);
-        ((S_800277A8_1_pre *)menu)[-1].unk_00 = &D_80027E84;
-        ((S_800277A8_1 *)menu)->unk_00 = ((S_800277A8_1 *)menu)->unk_04;
+        func_80026CD8(((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_88);
+        ((ovl_1831cd8_818127A8_S_800277A8_1_pre *)menu)[-1].unk_00 = (void *)func_80027E84;
+        ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_00 = ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_04;
         return;
     }
 
-    func_80026D0C(((S_800277A8_1 *)menu)->unk_88);
+    func_80026D0C(((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_88, new_offset);
 }

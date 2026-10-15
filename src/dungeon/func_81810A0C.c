@@ -1,39 +1,7 @@
-#include "common.h"
+#include "modules/dungeon_ovl_1830850.h"
 
-typedef struct {
-    s32 unk0;
-    s32 unk4;
-    s32 unk8;
-    s32 unkC;
-    s32 unk10;
-    s32 unk14;
-    u8 pad18[0x3C];
-    s32 unk54;
-} DungeonArg;
-
-typedef struct {
-    s32 unk0;
-    s32 unk4;
-    s32 unk8;
-    s32 unkC;
-    s32 unk10;
-} DungeonState;
-
-extern DungeonState D_80083160[];
-
-extern void SD_Call(s32 value);
-extern s32 func_80025514(s32 unk14);
-extern s32 func_80025850(DungeonArg *menu, s32 unk8);
-extern s32 func_80025888(s32 unk54, s32 unk8);
-extern s32 func_800258B0(DungeonArg *menu);
-extern s32 func_800258B8(DungeonArg *menu);
-extern void func_80025964(DungeonArg *menu);
-extern s32 func_800259CC(DungeonArg *menu);
-extern s32 func_80049DE8(s32 selection_step, s32 unk8, s32 value);
-
-/* Handles menu actions and selection movement with held-button repeat. */
-void func_80025A0C(DungeonArg *menu) {
-    DungeonState *input = D_80083160;
+void func_80025A0C(ovl_1830850_81810A0C_DungeonArg *menu) {
+    ovl_1830850_81810A0C_DungeonState *input = D_80083160;
     s32 selection_step;
 
     if (input->unk8 != 0 && menu->unk10 != 0) {

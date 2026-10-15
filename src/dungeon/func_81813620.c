@@ -1,19 +1,7 @@
-#include "common.h"
-#include "m2c_compat.h"
+#include "modules/dungeon_ovl_1831cd8.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
-void func_80026CD8();                         /* extern */
-
-typedef struct S_80028620_0 {
-    u8 pad_00[0x20];
-    s32 unk_20;
-    u8 pad_24[0x64];
-    s32 unk_88;
-} S_80028620_0;   /* temp_v0 in func_80028620 */
-
-/* Clears the object's embedded state field and passes its stored value to func_80026CD8. */
 void func_80028620(s32 object_addr) {
-    S_80028620_0 *state;
+    ovl_1831cd8_81813620_S_80028620_0 *state;
 
     state = object_addr + 0x20;
     state->unk_20 = 0;

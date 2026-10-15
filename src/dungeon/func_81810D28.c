@@ -1,11 +1,5 @@
-#include "common.h"
-#include "records/Rec_func_80025D28_arg0.h"
+#include "modules/dungeon_ovl_1830850.h"
 
-
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
-
-/* Initialize the packet fields with payload 0xB8C8 and set flag 0x80. */
 void func_80025D28(Rec_func_80025D28_arg0 *packet) {
     s32 initial_payload;
     s32 payload;

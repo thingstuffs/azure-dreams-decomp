@@ -1,37 +1,5 @@
-#include "common.h"
-#include "shared/game_work.h"
+#include "modules/dungeon_dungeon_setup.h"
 
-typedef struct S_80016BF0_0 {
-    u8 pad_00[0x10];
-    u8 * unk_10;
-    s16 unk_14;
-    s16 unk_16;
-} S_80016BF0_0;   /* temp_t0 in func_80016BF0 */
-
-typedef struct S_80016BF0_2_pre {
-    u16 unk_00;
-} S_80016BF0_2_pre;   /* the 0x2 bytes before temp_a0 in func_80016BF0, addressed as temp_a0[-1] */
-
-typedef struct S_80016BF0_2 {
-    u16 unk_00;
-    u8 pad_02[0x2];
-    u16 unk_04;
-    u8 pad_06[0x4];
-    u16 unk_0A;
-} S_80016BF0_2;   /* temp_a0 in func_80016BF0 */
-
-typedef struct S_80016BF0_3 {
-    u8 pad_00[0x4];
-    u16 unk_04;
-} S_80016BF0_3;   /* temp_v1_4 in func_80016BF0 */
-
-typedef struct S_80016BF0_4 {
-    u8 pad_00[0x4];
-    u16 unk_04;
-} S_80016BF0_4;   /* temp_v1_5 in func_80016BF0 */
-
-
-/* Apply tile type flags to a map rectangle and mark adjacent tiles where required. */
 void func_80016BF0(s16 start_x, s16 start_y, s16 width, s16 height)
 {
     s32 tile_y;
@@ -46,10 +14,10 @@ void func_80016BF0(s16 start_x, s16 start_y, s16 width, s16 height)
     u8 *flags;
     u8 *extra_flags;
     void *tile;
-    S_80016BF0_0 *map;
+    dungeon_setup_80283BF0_S_80016BF0_0 *map;
     GameWork *state;
-    S_80016BF0_3 *tile_above;
-    S_80016BF0_4 *tile_below;
+    dungeon_setup_80283BF0_S_80016BF0_3 *tile_above;
+    dungeon_setup_80283BF0_S_80016BF0_4 *tile_below;
 
     state = &gameWork;
     map = (u8 *)state + 0x1DC;
@@ -66,28 +34,28 @@ void func_80016BF0(s16 start_x, s16 start_y, s16 width, s16 height)
                     row_width = width;
                     do {
                         tile = (void *)(tiles_base + (((tile_y << map->unk_14) + start_x + col) * 6));
-                        tile_id = ((S_80016BF0_2 *)tile)->unk_00;
+                        tile_id = ((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_00;
                         flags = tile_flags + tile_id;
                         if (*flags & 1) {
-                            ((S_80016BF0_2 *)tile)->unk_04 = (u16)(((S_80016BF0_2 *)tile)->unk_04 | 1);
+                            ((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_04 = (u16)(((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_04 | 1);
                         }
                         if (*flags & 4) {
-                            ((S_80016BF0_2 *)tile)->unk_04 = (u16)(((S_80016BF0_2 *)tile)->unk_04 | 4);
+                            ((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_04 = (u16)(((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_04 | 4);
                         }
                         if (*flags & 8) {
-                            ((S_80016BF0_2 *)tile)->unk_04 = (u16)(((S_80016BF0_2 *)tile)->unk_04 | 8);
+                            ((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_04 = (u16)(((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_04 | 8);
                         }
                         if (*flags & 0x20) {
-                            ((S_80016BF0_2 *)tile)->unk_04 = (u16)(((S_80016BF0_2 *)tile)->unk_04 | 0x400);
+                            ((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_04 = (u16)(((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_04 | 0x400);
                         }
                         tile_x = col + start_x;
                         if (*flags & 2) {
                             if (tile_x > 0) {
-                                ((S_80016BF0_2_pre *)tile)[-1].unk_00 =
-                                    (u16)(((S_80016BF0_2_pre *)tile)[-1].unk_00 | 1);
+                                ((dungeon_setup_80283BF0_S_80016BF0_2_pre *)tile)[-1].unk_00 =
+                                    (u16)(((dungeon_setup_80283BF0_S_80016BF0_2_pre *)tile)[-1].unk_00 | 1);
                             }
                             if (tile_x < ((1 << map->unk_14) - 1)) {
-                                ((S_80016BF0_2 *)tile)->unk_0A = (u16)(((S_80016BF0_2 *)tile)->unk_0A | 1);
+                                ((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_0A = (u16)(((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_0A | 1);
                             }
                             if (tile_y > 0) {
                                 tile_above = (void *)((((0 - (1 << map->unk_14)) * 6)) + (u32)tile);
@@ -100,10 +68,10 @@ void func_80016BF0(s16 start_x, s16 start_y, s16 width, s16 height)
                         }
                         extra_flags = tile_flags + tile_id;
                         if (*extra_flags & 0x80) {
-                            ((S_80016BF0_2 *)tile)->unk_04 = (u16)(((S_80016BF0_2 *)tile)->unk_04 | 0x8000);
+                            ((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_04 = (u16)(((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_04 | 0x8000);
                         }
                         if (*extra_flags & 0x40) {
-                            ((S_80016BF0_2 *)tile)->unk_04 = (u16)(((S_80016BF0_2 *)tile)->unk_04 | 0x40);
+                            ((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_04 = (u16)(((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_04 | 0x40);
                         }
                         col += 1;
                     } while (col < row_width);

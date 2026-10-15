@@ -1,48 +1,6 @@
-#include "common.h"
-#include "shared/slus_callbacks.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_ovl_19a332c.h"
 
-typedef struct EntityInner {
-    u8 pad0[8];
-    void *coords;
-    void *actor;
-} EntityInner;
-
-typedef struct Entity {
-    u8 pad0[8];
-    EntityInner *inner;
-    u8 padC[0x18];
-    u16 x;
-    u16 y;
-    s16 z;
-    u16 pad2A;
-    s16 state;
-    s16 active;
-} Entity;
-
-typedef struct Position {
-    u8 pad0[2];
-    s16 x;
-    u8 pad4[2];
-    s16 y;
-    u8 pad8[2];
-    s16 z;
-} Position;
-
-typedef struct Motion {
-    u8 pad0[12];
-    u32 value;
-} Motion;
-
-extern u16 D_800269F8;
-extern u8 *D_80027C98[];
-
-extern s32 func_80025F54(s16, s16, s16, s16);
-extern s32 func_8003DE58(s32, void *, u16 *, s32);
-extern void func_8004491C(void *, void *);
-
-/* Initialize the entity's position and advance its motion state through completion. */
-void func_8002432C(Entity *entity, Position *position, Motion *motion)
+void func_8002432C(ovl_19a332c_81982B2C_Entity *entity, ovl_19a332c_81982B2C_Position *position, ovl_19a332c_81982B2C_Motion *motion)
 {
     s16 state;
     void *actor;
@@ -81,7 +39,7 @@ void func_8002432C(Entity *entity, Position *position, Motion *motion)
             return;
         }
         if (func_80025F54(position->x, position->y, position->z,
-                          *(s16 *)(D_80027C98[0] + 0x2A)) != 0) {
+                          *(s16 *)(((u8 **)&D_80027C98)[0] + 0x2A)) != 0) {
             entity->state++;
         }
         return;

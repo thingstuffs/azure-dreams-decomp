@@ -1,40 +1,6 @@
-#include "common.h"
-extern u8 D_80080000[];
+#include "modules/dungeon_floor_generate.h"
 
-typedef struct {
-    u16 x;
-    u16 y;
-    u16 width;
-    u16 height;
-    u16 value;
-} DungeonRect;
-
-typedef struct {
-    s16 unused[10];
-    s16 stride;
-} DungeonState;
-
-typedef struct {
-    s16 kind;
-    s16 value;
-    s16 flags;
-} DungeonCell;
-
-typedef struct {
-    u8 unused[0x146E];
-    s16 level;
-} DungeonPage;
-
-extern DungeonState D_8008333C;
-extern DungeonCell D_800EA000[];
-
-extern void func_8001D9CC(s16 x0, s16 y0, s16 x1, s16 y1, s16 value);
-extern void func_8001DD08(DungeonCell *cell, s16 value);
-extern void func_8001DD48(DungeonCell *cell, s16 value);
-extern s32 func_800A6D30(void);
-
-/* Fills a dungeon rectangle and applies randomly sized patches of two cell styles. */
-void func_8001D5D8(DungeonRect *rect) {
+void func_8001D5D8(floor_generate_isolated_8028A5D8_DungeonRect *rect, s32 update_id) {
     register u32 value = rect->value;
     s16 left;
     u16 top;
@@ -60,11 +26,11 @@ void func_8001D5D8(DungeonRect *rect) {
     s16 patch_style;
     s16 fill_value;
     s32 style_value_hi;
-    DungeonCell *cell;
+    floor_generate_isolated_8028A5D8_DungeonCell *cell;
     s32 patch_row;
     s32 right_hi;
     u32 col_hi;
-    DungeonState *state = &D_8008333C;
+    floor_generate_isolated_8028A5D8_DungeonState *state = &(*(floor_generate_isolated_8028A5D8_DungeonState *)D_8008333C);
 
     left = rect->x;
     top = rect->y;
@@ -92,7 +58,7 @@ void func_8001D5D8(DungeonRect *rect) {
                     col_hi = (u32)(u16)scan_x << 16;
                     next_x = scan_x + 1;
                     scan_x = next_x;
-                    cell = &D_800EA000[
+                    cell = &((floor_generate_isolated_8028A5D8_DungeonCell *)D_800EA000)[
                         (fill_row << state->stride) +
                         ((s32)col_hi >> 16)];
                     cell->kind = 25;
@@ -112,7 +78,7 @@ void func_8001D5D8(DungeonRect *rect) {
     }
     patch_count = size_sum >> 2;
     {
-        DungeonPage *level_page = (DungeonPage *)D_80080000;
+        floor_generate_isolated_8028A5D8_DungeonPage *level_page = (floor_generate_isolated_8028A5D8_DungeonPage *)D_80080000;
 
         if (level_page->level < 5) {
             patch_count = size_sum >> 4;
@@ -148,11 +114,11 @@ void func_8001D5D8(DungeonRect *rect) {
                             style_value_hi = (value - 0x40) << 16;
                             do {
                                 s32 alt_value;
-                                DungeonCell *patch_cell;
+                                floor_generate_isolated_8028A5D8_DungeonCell *patch_cell;
                                 coord_hi = (s32)cell_x << 16;
                                 coord = coord_hi >> 16;
                                 if (coord < (s16)right) {
-                                    cell = &D_800EA000[(patch_row << state->stride) + coord];
+                                    cell = &((floor_generate_isolated_8028A5D8_DungeonCell *)D_800EA000)[(patch_row << state->stride) + coord];
                                     coord = swap_styles;
                                     if (coord != 0) {
                                         patch_cell = cell;

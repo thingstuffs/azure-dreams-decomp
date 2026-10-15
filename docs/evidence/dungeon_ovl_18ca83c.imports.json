@@ -1,0 +1,255 @@
+{
+  "maps": {
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "basis": "PS-X EXE header load address and payload size.",
+      "kind": "psx_exe"
+    },
+    "xfer_dungeon_A3000": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 667648,
+      "file_end": 1050624,
+      "delta": 2147374944,
+      "basis": "overlay-streamer transfer observed at runtime (capture_kit/loader_watch_remote.lua on PCSX-Redux, poll-record): CdRead of 187 sectors from disc LBA 12636 -> 0x80088760. Container dungeon foff 0xA3000 (LBA base 12310), so delta = 0x80088760 - 0xA3000 = 0x7FFE5760. CONFIRMED: RAM[0x80088760..+382976] in ram_auto_dungeon_1829A0C_lba24681.bin is 99.81% identical to the disc image's Mode2/Form1 user data at LBA 12636, i.e. the payload is verifiably resident at that base. Scoring-only: runtime DMA evidence, not a byte-exact recompile -- promote via rowbase.promote() when one lands.; PROMOTED solved->proven: byte-exact recompile func_80094ABC at true base 0x8009A21C (candidate sha d95d3f0bfce6 @ 2.8.1, linked-strict isolation compare, phase-2 item-3 hook)",
+      "kind": "rowbase",
+      "region": "xfer_dungeon_A3000"
+    }
+  },
+  "views": {
+    "D_8006CCD8": {
+      "symbol": "D_8006CCD8",
+      "kind": "data",
+      "vma": 2147929304,
+      "foff": 263384,
+      "view_bytes": 1,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_18ca83c.imports.json"
+    },
+    "D_8006CCE8": {
+      "symbol": "D_8006CCE8",
+      "kind": "data",
+      "vma": 2147929320,
+      "foff": 263400,
+      "view_bytes": 1,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_18ca83c.imports.json"
+    },
+    "D_800777DC": {
+      "symbol": "D_800777DC",
+      "kind": "data",
+      "vma": 2147973084,
+      "foff": 307164,
+      "view_bytes": 1,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_18ca83c.imports.json"
+    },
+    "D_800DECF8": {
+      "symbol": "D_800DECF8",
+      "kind": "data",
+      "vma": 2148396280,
+      "foff": 1021336,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_A3000",
+      "evidence": "docs/evidence/dungeon_ovl_18ca83c.imports.json"
+    }
+  },
+  "functions": {
+    "func_8003DB94": {
+      "vma": 2147736468,
+      "foff": 70548,
+      "map": "slus_load",
+      "first_word": "00140600",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8003DE58": {
+      "vma": 2147737176,
+      "foff": 71256,
+      "map": "slus_load",
+      "first_word": "d0ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8003FC64": {
+      "vma": 2147744868,
+      "foff": 78948,
+      "map": "slus_load",
+      "first_word": "0180023c",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8004491C": {
+      "vma": 2147764508,
+      "foff": 98588,
+      "map": "slus_load",
+      "first_word": "21388000",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_80045340": {
+      "vma": 2147767104,
+      "foff": 101184,
+      "map": "slus_load",
+      "first_word": "e0ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800478B8": {
+      "vma": 2147776696,
+      "foff": 110776,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800644B8": {
+      "vma": 2147894456,
+      "foff": 228536,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_80064584": {
+      "vma": 2147894660,
+      "foff": 228740,
+      "map": "slus_load",
+      "first_word": "02008104",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_80069EF8": {
+      "vma": 2147917560,
+      "foff": 251640,
+      "map": "slus_load",
+      "first_word": "a0000a24",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8009D218": {
+      "vma": 2148127256,
+      "foff": 752312,
+      "map": "xfer_dungeon_A3000",
+      "first_word": "e0ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800A44E0": {
+      "vma": 2148156640,
+      "foff": 781696,
+      "map": "xfer_dungeon_A3000",
+      "first_word": "d0ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800A56E0": {
+      "vma": 2148161248,
+      "foff": 786304,
+      "map": "xfer_dungeon_A3000",
+      "first_word": "0180023c",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800A6870": {
+      "vma": 2148165744,
+      "foff": 790800,
+      "map": "xfer_dungeon_A3000",
+      "first_word": "e8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800AD4D0": {
+      "vma": 2148193488,
+      "foff": 818544,
+      "map": "xfer_dungeon_A3000",
+      "first_word": "e8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800AD568": {
+      "vma": 2148193640,
+      "foff": 818696,
+      "map": "xfer_dungeon_A3000",
+      "first_word": "64008284",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800B4C7C": {
+      "vma": 2148224124,
+      "foff": 849180,
+      "map": "xfer_dungeon_A3000",
+      "first_word": "b0ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800BCB04": {
+      "vma": 2148256516,
+      "foff": 881572,
+      "map": "xfer_dungeon_A3000",
+      "first_word": "d8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "rand": {
+      "vma": 2147917560,
+      "foff": 251640,
+      "map": "slus_load",
+      "first_word": "a0000a24",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    }
+  },
+  "runtime_views": {
+    "D_800814A0": {
+      "symbol": "D_800814A0",
+      "kind": "runtime_data",
+      "vma": 2148013216,
+      "view_bytes": 16,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_18ca83c.imports.json",
+      "declaration": "include/shared/object_flags.h"
+    },
+    "D_80083460": {
+      "symbol": "D_80083460",
+      "kind": "runtime_data",
+      "vma": 2148021344,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_18ca83c.imports.json",
+      "declaration": "include/shared/dungeon_status.h"
+    }
+  },
+  "review": "pending",
+  "reviewer": null,
+  "target_sizeof_audit": {
+    "D_8006CCD8": {
+      "declared_bytes": null,
+      "view_bytes": 1,
+      "previous_view_bytes": 1,
+      "basis": "Complete target sizeof when available; otherwise a bounded external address view, with no allocation ownership claim."
+    },
+    "D_8006CCE8": {
+      "declared_bytes": null,
+      "view_bytes": 1,
+      "previous_view_bytes": 1,
+      "basis": "Complete target sizeof when available; otherwise a bounded external address view, with no allocation ownership claim."
+    },
+    "D_800777DC": {
+      "declared_bytes": null,
+      "view_bytes": 1,
+      "previous_view_bytes": 1,
+      "basis": "Complete target sizeof when available; otherwise a bounded external address view, with no allocation ownership claim."
+    },
+    "D_800814A0": {
+      "declared_bytes": 16,
+      "view_bytes": 16,
+      "previous_view_bytes": 16,
+      "basis": "Complete target sizeof when available; otherwise a bounded external address view, with no allocation ownership claim."
+    },
+    "D_80083460": {
+      "declared_bytes": null,
+      "view_bytes": 32,
+      "previous_view_bytes": 32,
+      "basis": "Complete target sizeof when available; otherwise a bounded external address view, with no allocation ownership claim."
+    },
+    "D_800DECF8": {
+      "declared_bytes": 4,
+      "view_bytes": 4,
+      "previous_view_bytes": 4,
+      "basis": "Complete target sizeof when available; otherwise a bounded external address view, with no allocation ownership claim."
+    }
+  }
+}

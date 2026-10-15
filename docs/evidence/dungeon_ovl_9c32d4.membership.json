@@ -1,0 +1,64 @@
+{
+  "module": "dungeon_ovl_9c32d4",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_9c32d4.c",
+    "module_index": 7
+  },
+  "members": [
+    "dungeon/func_809A32D4",
+    "dungeon/func_809A35A0",
+    "dungeon/func_809A3698",
+    "dungeon/func_809A37C0",
+    "dungeon/func_809A38E4"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Complete existing strong cohort plus independently proved interior functions; no assertion of historical compiler TU boundaries.",
+  "basis": [
+    "3 previously registered cohort members are retained in file order.",
+    "2 independently recovered complete C routines close every unregistered interior gap. Their standalone retail/genuine proofs are exact, with zero masks.",
+    "The resulting 5-function native TU is contiguous and its entire 2212-byte payload matches retail and genuine ASPSX under one stock CDK G0 recipe.",
+    "The existing static, code-proven map img_9c3110_80174910 contains every function member. The independently authenticated resource-2 slot-0 twelve-sector load confirms the complete enclosing 0x9BF000..0x9C5000 image at 0x80170800, without claiming runtime observation.",
+    "The 248-byte interior rendering routine at 0x9C35A0 is explicitly moved from its weak ovl_7f7b1800 bucket. The first strong member calls the recovered creator; the creator installs the recovered update callback. The five-function cohort is contiguous and matches as one TU."
+  ],
+  "review": "pending",
+  "reviewer": null,
+  "recovered_rows": [
+    {
+      "id": "dungeon/func_809A3698",
+      "foff": 10237592,
+      "vma": 2149011096,
+      "size": 296,
+      "raw_sha": "2c298f64ebbe20294005bf83a149eed2607a8b01f2064a25cff717aa82ff269c",
+      "source_sha": "b83263226dc8ae8397dc0bc333daa86844a6e5682cebe4a4b3831b38cc149352"
+    },
+    {
+      "id": "dungeon/func_809A37C0",
+      "foff": 10237888,
+      "vma": 2149011392,
+      "size": 292,
+      "raw_sha": "1ab60b41e1bd6045a1ca2ed9a974f5423e0be8b53616b64579aa10c06c4d1d86",
+      "source_sha": "4c141aa6109d3d24ce56ce68ce58bcf73486b3c7b5e98fac340b54a53e4e60c5"
+    }
+  ],
+  "assignment_changes": [
+    {
+      "before": {
+        "id": "dungeon/func_809A35A0",
+        "container": "dungeon",
+        "module": "ovl_7f7b1800.c",
+        "module_index": 26,
+        "confidence": "weak"
+      },
+      "after": {
+        "id": "dungeon/func_809A35A0",
+        "container": "dungeon",
+        "module": "ovl_9c32d4.c",
+        "module_index": 7,
+        "confidence": "strong",
+        "evidence": "docs/evidence/dungeon_ovl_9c32d4.membership.json"
+      }
+    }
+  ]
+}

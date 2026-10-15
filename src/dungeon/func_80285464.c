@@ -1,95 +1,10 @@
-#include "shared/dungeon_item_entries.h"
-#include "common.h"
-#include "shared/game_work.h"
+#include "modules/dungeon_floor_generate.h"
 
-typedef struct MapCell {
-    s16 kind;
-    u16 value;
-    s16 flags;
-} MapCell;
-
-typedef struct Room {
-    u16 x;
-    u16 y;
-    u16 w;
-    u16 h;
-    u8 pad08[2];
-    s16 active;
-    u8 pad0C[2];
-    s16 count;
-    u8 *tiles;
-} Room;
-
-typedef struct RoomCell {
-    u8 a;
-    u8 b;
-    u16 c;
-} RoomCell;
-
-typedef struct Ent8 {
-    s16 kind;
-    s16 x;
-    s16 y;
-    s16 value;
-} Ent8;
-
-typedef struct RecB {
-    u8 f0;
-    u8 f1;
-    u8 f2;
-    u8 f3;
-    s16 f4;
-    s16 f6;
-    s32 f8;
-} RecB;
-
-typedef struct RecC {
-    u8 pad00[6];
-    u8 f6;
-    u8 f7;
-    s32 f8;
-    u8 pad0C[12];
-} RecC;
-
-typedef struct RecD {
-    u8 f0;
-    u8 f1;
-    u8 f2;
-    u8 f3;
-} RecD;
-
-#define ROOM_CELL(r, n) (*(RoomCell *)&D_800E2C40[((n) << 2) + ((r) << 6)])
-
-extern void Control_CD(s32, s32, s32);
-extern void func_8003F320(void);
-extern s32 func_800199C8(s16);
-extern void func_8009A21C(s16 x, s16 y, u16 flags);
-extern s32 func_800A7A38(u8 *item);
-extern void func_8004068C(u8 *, u8 *);
-extern s32 func_800BCA68(s32, s32);
-
-extern s32 D_8001F604[];
-extern s16 D_8001F586;
-extern u8 *D_8008148C;
-extern u8 *D_80081480;
-extern s16 D_8008146E;
-extern s32 D_800DF258[];
-extern Room D_800E2970[];
-extern s32 D_800E296C;
-extern u8 D_800E2C40[];
-extern RecD D_800E3648[];
-extern RecB D_800E36C8[];
-extern RecC D_800E39C8[];
-extern Ent8 D_800E3CD8[];
-extern s32 D_800E3D6C;
-extern u8 D_800EA000[];
-
-/* Loads a predefined dungeon layout with rooms, elevators, map cells, and placed records. */
 void func_80018464(s16 layout_number)
 {
     MapGrid *cfg;
-    MapCell *map;
-    RecB *placed_record;
+    floor_generate_isolated_80285464_MapCell *map;
+    floor_generate_isolated_80285464_RecB *placed_record;
     u8 *data;
     u8 *data_2;
     u16 *room_header;
@@ -102,11 +17,11 @@ void func_80018464(s16 layout_number)
     u16 shift_y;
 
     layout_index = layout_number - 1;
-    data_2 = D_8008148C;
-    D_80081480 = data_2;
+    data_2 = (*(u8 * *)D_8008148C);
+    (*(u8 * *)D_80081480) = data_2;
     layout_id = D_8001F604[layout_index];
     cfg = &gameWork.map;
-    map = ((MapCell *)cfg->cells);
+    map = ((floor_generate_isolated_80285464_MapCell *)cfg->cells);
     Control_CD(6, layout_id, 0);
     func_8003F320();
     entry_index = 0;
@@ -121,21 +36,21 @@ void func_80018464(s16 layout_number)
     cfg->spanY = 64 << cfg->shiftY;
 
     while (room_header[2] != 0) {
-        D_800E2970[entry_index].active = 1;
-        D_800E2970[entry_index].x = room_header[0];
-        D_800E2970[entry_index].y = room_header[1];
-        D_800E2970[entry_index].w = room_header[2];
-        D_800E2970[entry_index].h = room_header[3];
-        D_800E2970[entry_index].count = 0;
+        ((floor_generate_isolated_80285464_Room *)D_800E2970)[entry_index].active = 1;
+        ((floor_generate_isolated_80285464_Room *)D_800E2970)[entry_index].x = room_header[0];
+        ((floor_generate_isolated_80285464_Room *)D_800E2970)[entry_index].y = room_header[1];
+        ((floor_generate_isolated_80285464_Room *)D_800E2970)[entry_index].w = room_header[2];
+        ((floor_generate_isolated_80285464_Room *)D_800E2970)[entry_index].h = room_header[3];
+        ((floor_generate_isolated_80285464_Room *)D_800E2970)[entry_index].count = 0;
         room_header += 4;
         data = (u8 *)room_header;
         while (*data != 0) {
-            D_800E2970[entry_index].tiles = &D_800E2C40[entry_index << 6];
-            ROOM_CELL(entry_index, D_800E2970[entry_index].count).a = *data++;
-            ROOM_CELL(entry_index, D_800E2970[entry_index].count).b = *data++;
-            ROOM_CELL(entry_index, D_800E2970[entry_index].count).c = *data;
+            ((floor_generate_isolated_80285464_Room *)D_800E2970)[entry_index].tiles = &D_800E2C40[entry_index << 6];
+            floor_generate_isolated_80285464_ROOM_CELL(entry_index, ((floor_generate_isolated_80285464_Room *)D_800E2970)[entry_index].count).a = *data++;
+            floor_generate_isolated_80285464_ROOM_CELL(entry_index, ((floor_generate_isolated_80285464_Room *)D_800E2970)[entry_index].count).b = *data++;
+            floor_generate_isolated_80285464_ROOM_CELL(entry_index, ((floor_generate_isolated_80285464_Room *)D_800E2970)[entry_index].count).c = *data;
             data += 2;
-            D_800E2970[entry_index].count++;
+            ((floor_generate_isolated_80285464_Room *)D_800E2970)[entry_index].count++;
         }
         entry_index++;
         data += 2;
@@ -143,16 +58,16 @@ void func_80018464(s16 layout_number)
     }
     room_header += 4;
     data = (u8 *)room_header;
-    D_8008146E = entry_index;
+    (*(s16 *)D_8008146E) = entry_index;
     entry_index = 0;
     while (*data != 0) {
-        D_800E3CD8[entry_index].kind = data[2] + 2;
-        D_800E3CD8[entry_index].x = data[0];
-        D_800E3CD8[entry_index].y = data[1];
+        ((floor_generate_isolated_80285464_Ent8 *)D_800E3CD8)[entry_index].kind = data[2] + 2;
+        ((floor_generate_isolated_80285464_Ent8 *)D_800E3CD8)[entry_index].x = data[0];
+        ((floor_generate_isolated_80285464_Ent8 *)D_800E3CD8)[entry_index].y = data[1];
         tile_value = map[data[0] + (data[1] << cfg->shiftX)].value - 32;
         map[data[0] + (data[1] << cfg->shiftX)].value = tile_value;
-        D_800E3CD8[entry_index].value = tile_value;
-        if (D_800E3CD8[entry_index].kind == 2) {
+        ((floor_generate_isolated_80285464_Ent8 *)D_800E3CD8)[entry_index].value = tile_value;
+        if (((floor_generate_isolated_80285464_Ent8 *)D_800E3CD8)[entry_index].kind == 2) {
             map[data[0] + (data[1] << cfg->shiftX)].kind = 1;
         }
         func_8009A21C(data[0], data[1], 32);
@@ -165,7 +80,7 @@ void func_80018464(s16 layout_number)
     D_8001F586 = 1;
     entry_index++;
     while (entry_index < 4) {
-        D_800E3CD8[entry_index].kind = 0;
+        ((floor_generate_isolated_80285464_Ent8 *)D_800E3CD8)[entry_index].kind = 0;
         entry_index++;
     }
 
@@ -178,13 +93,13 @@ void func_80018464(s16 layout_number)
             break;
         }
         data++;
-        D_800E36C8[entry_index].f0 = x_or_marker;
-        D_800E36C8[entry_index].f1 = *data++;
+        ((floor_generate_isolated_80285464_RecB *)D_800E36C8)[entry_index].f0 = x_or_marker;
+        ((floor_generate_isolated_80285464_RecB *)D_800E36C8)[entry_index].f1 = *data++;
         D_800E3548[entry_index].unk_00 = *data++;
         D_800E3548[entry_index].kind = *data++;
         D_800E3548[entry_index].unk_03 = *data++;
         D_800E3548[entry_index].unk_02 = *data++;
-        D_800E36C8[entry_index].f8 = func_800A7A38(&D_800E3548[entry_index]);
+        ((floor_generate_isolated_80285464_RecB *)D_800E36C8)[entry_index].f8 = func_800A7A38(&D_800E3548[entry_index]);
         entry_index++;
     }
     while (entry_index < 64) {
@@ -202,38 +117,38 @@ void func_80018464(s16 layout_number)
             break;
         }
         data++;
-        D_800E39C8[entry_index].f6 = x_or_marker;
-        D_800E39C8[entry_index].f7 = *data++;
-        D_800E3648[entry_index].f0 = *data++;
-        D_800E3648[entry_index].f1 = *data++;
-        D_800E3648[entry_index].f3 = *data++;
-        D_800E3648[entry_index].f2 = *data++;
-        D_800E39C8[entry_index].f8 = D_800DF258[D_800E3648[entry_index].f0];
-        func_8009A21C(D_800E39C8[entry_index].f6, D_800E39C8[entry_index].f7, 32);
+        ((floor_generate_isolated_80285464_RecC *)D_800E39C8)[entry_index].f6 = x_or_marker;
+        ((floor_generate_isolated_80285464_RecC *)D_800E39C8)[entry_index].f7 = *data++;
+        ((floor_generate_isolated_80285464_RecD *)D_800E3648)[entry_index].f0 = *data++;
+        ((floor_generate_isolated_80285464_RecD *)D_800E3648)[entry_index].f1 = *data++;
+        ((floor_generate_isolated_80285464_RecD *)D_800E3648)[entry_index].f3 = *data++;
+        ((floor_generate_isolated_80285464_RecD *)D_800E3648)[entry_index].f2 = *data++;
+        ((floor_generate_isolated_80285464_RecC *)D_800E39C8)[entry_index].f8 = D_800DF258[((floor_generate_isolated_80285464_RecD *)D_800E3648)[entry_index].f0];
+        func_8009A21C(((floor_generate_isolated_80285464_RecC *)D_800E39C8)[entry_index].f6, ((floor_generate_isolated_80285464_RecC *)D_800E39C8)[entry_index].f7, 32);
         entry_index++;
     }
 
     data += 2;
     while (*data != 0) {
         D_800E296C |= 0x10000000;
-        D_800E39C8[entry_index].f6 = *data++;
-        D_800E39C8[entry_index].f7 = *data++;
-        D_800E3648[entry_index].f0 = *data++;
-        D_800E3648[entry_index].f1 = *data++;
-        D_800E3648[entry_index].f3 = *data++;
-        D_800E3648[entry_index].f2 = *data++;
+        ((floor_generate_isolated_80285464_RecC *)D_800E39C8)[entry_index].f6 = *data++;
+        ((floor_generate_isolated_80285464_RecC *)D_800E39C8)[entry_index].f7 = *data++;
+        ((floor_generate_isolated_80285464_RecD *)D_800E3648)[entry_index].f0 = *data++;
+        ((floor_generate_isolated_80285464_RecD *)D_800E3648)[entry_index].f1 = *data++;
+        ((floor_generate_isolated_80285464_RecD *)D_800E3648)[entry_index].f3 = *data++;
+        ((floor_generate_isolated_80285464_RecD *)D_800E3648)[entry_index].f2 = *data++;
         entry_index++;
     }
     data += 2;
     while (entry_index < 32) {
-        D_800E3648[entry_index].f1 = 0;
-        D_800E3648[entry_index].f0 = 0;
+        ((floor_generate_isolated_80285464_RecD *)D_800E3648)[entry_index].f1 = 0;
+        ((floor_generate_isolated_80285464_RecD *)D_800E3648)[entry_index].f0 = 0;
         entry_index++;
     }
 
-    func_8004068C(data, D_800EA000);
+    func_8004068C(data, ((u8 *)D_800EA000));
     for (entry_index = 0; D_800E3548[entry_index].kind != 0; entry_index++) {
-        placed_record = &D_800E36C8[entry_index];
+        placed_record = &((floor_generate_isolated_80285464_RecB *)D_800E36C8)[entry_index];
         map_value = func_800BCA68(placed_record->f0 << 6, placed_record->f1 << 6);
         placed_record->f4 = map_value;
         *(s16 *)&placed_record->f2 = map_value;

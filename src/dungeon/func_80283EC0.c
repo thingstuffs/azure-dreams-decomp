@@ -1,13 +1,5 @@
-#include "shared/game_work.h"
+#include "modules/dungeon_dungeon_setup.h"
 
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-typedef short s16;
-typedef unsigned int u32;
-typedef int s32;
-extern u8 D_800E3DB0[];
-/* Initializes seven indexed records with kinds 1, 3, and 2 and clears their remaining fields. */
 void func_80016EC0(void)
 {
     s16 next_type1_count;

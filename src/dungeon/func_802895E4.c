@@ -1,33 +1,7 @@
-#include "common.h"
-#include "shared/game_work.h"
-#include "shared/dir_step.h"
+#include "modules/dungeon_floor_generate.h"
 
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 unk4;
-    s16 dir;
-} Pos;
-
-typedef struct {
-    s16 kind;
-    s16 value;
-    s16 flags;
-} DungeonCell;
-
-typedef struct {
-    u16 unk0;
-    u16 tile;
-} Walker;
-
-extern DungeonCell D_800EA000[];
-
-extern s32 func_800A6D30(void);
-extern u32 func_800A07D0(s16 x0, s16 y0, s16 x1, s16 y1);
-
-/* Carve a corridor from start toward dest in up to three straight legs: stamp the walker's tile id into every cell it crosses, add the per-step cost, give up with -1 when a cell already holds an incompatible tile, and return the step count. */
-s16 func_8001C5E4(Pos *start, Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
-                  Walker *walker, s32 *cost) {
+s16 func_8001C5E4(floor_generate_isolated_802895E4_Pos *start, floor_generate_isolated_802895E4_Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
+                  floor_generate_isolated_802895E4_Walker *walker, s32 *cost) {
     s16 count;
     s16 cx;
     s16 cy;
@@ -107,12 +81,12 @@ s16 func_8001C5E4(Pos *start, Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
         s32 iy;
         s32 ix;
         s32 tile;
-        DungeonCell *cell;
+        floor_generate_isolated_802895E4_DungeonCell *cell;
         s32 d;
 
         tile = walker->tile & 0xFFE0;
         iy = cy;
-        cell = &D_800EA000[(iy << st->shiftX) + (ix = cx)];
+        cell = &((floor_generate_isolated_802895E4_DungeonCell *)D_800EA000)[(iy << st->shiftX) + (ix = cx)];
         if (cell->value != 16384) {
             d = abs(cell->value - (s16)tile);
             if (d >= 33) {
@@ -141,12 +115,12 @@ s16 func_8001C5E4(Pos *start, Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
             s32 iy;
             s32 ix;
             s32 tile;
-            DungeonCell *cell;
+            floor_generate_isolated_802895E4_DungeonCell *cell;
             s32 d;
 
             tile = walker->tile & 0xFFE0;
             iy = cy;
-            cell = &D_800EA000[(iy << st->shiftX) + (ix = cx)];
+            cell = &((floor_generate_isolated_802895E4_DungeonCell *)D_800EA000)[(iy << st->shiftX) + (ix = cx)];
             if (cell->value != 16384) {
                 d = abs(cell->value - (s16)tile);
                 if (d >= 33) {
@@ -171,12 +145,12 @@ s16 func_8001C5E4(Pos *start, Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
             s32 iy;
             s32 ix;
             s32 tile;
-            DungeonCell *cell;
+            floor_generate_isolated_802895E4_DungeonCell *cell;
             s32 d;
 
             tile = walker->tile & 0xFFE0;
             iy = cy;
-            cell = &D_800EA000[(iy << st->shiftX) + (ix = cx)];
+            cell = &((floor_generate_isolated_802895E4_DungeonCell *)D_800EA000)[(iy << st->shiftX) + (ix = cx)];
             if (cell->value != 16384) {
                 d = abs(cell->value - (s16)tile);
                 if (d >= 33) {

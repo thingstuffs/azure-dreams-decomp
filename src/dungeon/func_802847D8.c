@@ -1,31 +1,12 @@
-#include "common.h"
-#include "shared/dungeon_floor.h"
-#include "m2c_compat.h"
+#include "modules/dungeon_floor_generate.h"
 
-extern u8 D_800E2C40[];
-
-typedef struct S_800177D8_0 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-    u8 pad_0C[0x2];
-    u16 unk_0E;
-    void * unk_10;
-} S_800177D8_0;   /* temp_t0 in func_800177D8 */
-
-typedef struct S_800177D8_1 {
-    s8 unk_00;
-    s8 unk_01;
-    s16 unk_02;
-} S_800177D8_1;   /* temp_v0_2 in func_800177D8 */
-
-/* Appends two bytes and a value to the selected row if it is enabled. */
-void func_800177D8(s16 row_index, s8 first_byte, s8 second_byte, s16 value) {
+void func_800177D8(s16 row_index, s16 first_byte, s16 second_byte, s16 value) {
     s32 row_offset;
     u16 entry_count;
     void *rows_base;
     void *entries_base;
-    S_800177D8_0 *row;
-    S_800177D8_1 *entry;
+    floor_generate_isolated_802847D8_S_800177D8_0 *row;
+    floor_generate_isolated_802847D8_S_800177D8_1 *entry;
 
     rows_base = (void *)D_800E2970;
     row = (row_index * 0x14) + rows_base;

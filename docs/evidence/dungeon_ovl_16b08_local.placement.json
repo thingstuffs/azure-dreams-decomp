@@ -1,0 +1,14 @@
+{
+  "module": "dungeon_ovl_16b08_local",
+  "region": {
+    "schema": "azure-clean.rowbase.v1",
+    "region": "img_16ae8_80094248",
+    "foff_start": "0x16AE8",
+    "foff_end": "0x17000",
+    "delta": "0x8007D760",
+    "base_confidence": "proven",
+    "proof": "overlay-streamer load address observed at runtime by container-content residency matching (work/redux_capture_20260824/probe2.py): the container bytes for this extent are byte-identical to RAM at the stated address in az-captures ram_town / ram_town_menu / ram_menu / ram_movie -- observed RAM 0x80094248, maximal contiguous match 0x16AE8-0x17000 (1304 B), container occurrences of that extent: 1; the needle is UNIQUE in DUNGEON_DUNGEON.BIN, so the RAM image can only be this extent. delta = observed RAM address - container file offset. Corroboration: all 25 `jal` targets in the extent land on a function start in the observed RAM; TOWN_TOWN.BIN is byte-identical over the same file offsets and carries MATCH rows func_800942B0 (0x16B50), func_8009431C (0x16BBC), func_800943B8 (0x16C58), func_80094414 (0x16CB4), func_8009455C (0x16DFC), func_800945B8 (0x16E58), func_800946FC (0x16F9C) at load_base 0x8007D760, and brackets the four uncarved ones (0x16B08, 0x16BD0, 0x16C18, 0x16D5C) between MATCH rows at that single base. Closes shopping-list group 0x16000-0x17000 (11 candidates, 840 B).; PROMOTED solved->proven: byte-exact recompile func_7FFF6B08 at true base 0x80094268 (candidate sha 36fe4ed7e84a @ 2.8.1-G0, linked-strict isolation compare, phase-2 item-3 hook)"
+  },
+  "basis": "Existing proven rowbase record; complete module extent is contained in this map.",
+  "review": "pending"
+}

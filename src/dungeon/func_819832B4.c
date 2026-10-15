@@ -1,23 +1,11 @@
-#include "common.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_ovl_19a332c.h"
 
-extern u16 D_800269F8[5];
-
-
-typedef struct {
-    u8 pad[12];
-    u8 red;
-    u8 green;
-    u8 blue;
-} EffectColor;
-
-/* Fade the effect color and set flags when red falls below four. */
-void func_80024AB4(u16 *effect_data, s32 unused, EffectColor *color) {
+void func_80024AB4(u16 *effect_data, s32 unused, ovl_19a332c_819832B4_EffectColor *color) {
     u8 red;
     u8 green;
     u8 blue;
 
-    D_800269F8[0]++;
+    D_800269F8++;
 
     red = color->red;
     green = color->green;

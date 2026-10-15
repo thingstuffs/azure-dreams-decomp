@@ -1,0 +1,26 @@
+{
+  "maps": {
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "basis": "PS-X EXE header load address and payload size.",
+      "kind": "psx_exe"
+    }
+  },
+  "views": {},
+  "functions": {
+    "func_80065F90": {
+      "vma": 2147901328,
+      "foff": 235408,
+      "map": "slus_load",
+      "first_word": "21300000",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    }
+  },
+  "runtime_views": {},
+  "review": "pending",
+  "reviewer": null,
+  "target_sizeof_audit": {}
+}

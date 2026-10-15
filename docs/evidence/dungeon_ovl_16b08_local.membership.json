@@ -1,0 +1,269 @@
+{
+  "module": "dungeon_ovl_16b08_local",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_16b08_local.c",
+    "module_index": 9
+  },
+  "members": [
+    "dungeon/func_7FFF6B08",
+    "dungeon/func_7FFF6B50",
+    "dungeon/func_7FFF6BBC",
+    "dungeon/func_7FFF6BD0",
+    "dungeon/func_7FFF6C18",
+    "dungeon/func_7FFF6C58",
+    "dungeon/func_7FFF6CB4",
+    "dungeon/func_7FFF6D14",
+    "dungeon/func_7FFF6D5C",
+    "dungeon/func_7FFF6DBC",
+    "dungeon/func_7FFF6DFC",
+    "dungeon/func_7FFF6E58",
+    "dungeon/func_7FFF6EC0",
+    "dungeon/func_7FFF6F00",
+    "dungeon/func_7FFF6F40",
+    "dungeon/func_7FFF6F9C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Explicit image split of ovl_16b08.c#9: 0xF6A8..0xF7E8 and 0x16B08..0x16FB4 are distinct runtime image extents, with unrelated intervening code. Each native TU retains one complete contiguous image-local cohort.",
+  "basis": [
+    "11 previously registered cohort members are retained in file order.",
+    "5 independently recovered complete C routines close every unregistered interior gap. Their standalone retail/genuine proofs are exact, with zero masks.",
+    "The resulting 16-function native TU is contiguous and its entire 1196-byte payload matches retail and genuine ASPSX under one stock CDK G0 recipe.",
+    "The existing runtime RAM payload equality map img_16ae8_80094248 contains all members.",
+    "The old 12-row assignment mixed a 320-byte routine in img_f6a8_8008ce08 with eleven routines in img_16ae8_80094248. The two proven maps are disjoint even though both have delta 0x8007D760. Group names change explicitly with guarded predecessor records; no historical row, extent, recipe, baseline or promotion is rewritten."
+  ],
+  "review": "pending",
+  "reviewer": null,
+  "recovered_rows": [
+    {
+      "id": "dungeon/func_7FFF6D14",
+      "foff": 93460,
+      "vma": 2148090996,
+      "size": 72,
+      "raw_sha": "469d079973714ac1537ddbc55d8b82506b52ad4b2843b947fea2a94a9aed2160",
+      "source_sha": "e7a97437a4b8d290bf84e44a7dca34a3568d7225f7335efe79a196a3787dfb18"
+    },
+    {
+      "id": "dungeon/func_7FFF6DBC",
+      "foff": 93628,
+      "vma": 2148091164,
+      "size": 64,
+      "raw_sha": "3d21e0bea5b3461f74a22cbfad16ce7193f7f96edf80518f6ddd05fad607fb96",
+      "source_sha": "b3c087c3085ddaa3fb7d77b20319808ffd62f112df5a5b27830bbb1594777577"
+    },
+    {
+      "id": "dungeon/func_7FFF6EC0",
+      "foff": 93888,
+      "vma": 2148091424,
+      "size": 64,
+      "raw_sha": "49745e98781ba1c0d08ba095c9fb10c74a23192689cb861b6f82f758f3a74d8c",
+      "source_sha": "d2660397a156366168f3d8d8ea76e31fb2c33057704a4decec77d93fbb5a33ae"
+    },
+    {
+      "id": "dungeon/func_7FFF6F00",
+      "foff": 93952,
+      "vma": 2148091488,
+      "size": 64,
+      "raw_sha": "60acfff59d18198fa8456edca7c366725096a31cadadd38183bf4ea4100349e7",
+      "source_sha": "26af27f3e75e2a90f54c91341b7a9cfaeb7194fe68b30369b65674ea06dd9407"
+    },
+    {
+      "id": "dungeon/func_7FFF6F40",
+      "foff": 94016,
+      "vma": 2148091552,
+      "size": 92,
+      "raw_sha": "296f9d332b6c76f43a646515d903b21cdc94856de01de738af9b382b6a496833",
+      "source_sha": "66cc5b1be2d0e3adf3f172590ec2d0d2092b761a826779d73ee3195b470f38ec"
+    }
+  ],
+  "assignment_changes": [
+    {
+      "before": {
+        "id": "dungeon/func_7FFF6B08",
+        "container": "dungeon",
+        "module": "ovl_16b08.c",
+        "module_index": 9,
+        "confidence": "strong"
+      },
+      "after": {
+        "id": "dungeon/func_7FFF6B08",
+        "container": "dungeon",
+        "module": "ovl_16b08_local.c",
+        "module_index": 9,
+        "confidence": "strong",
+        "evidence": "docs/evidence/dungeon_ovl_16b08_local.membership.json"
+      }
+    },
+    {
+      "before": {
+        "id": "dungeon/func_7FFF6B50",
+        "container": "dungeon",
+        "module": "ovl_16b08.c",
+        "module_index": 9,
+        "confidence": "strong"
+      },
+      "after": {
+        "id": "dungeon/func_7FFF6B50",
+        "container": "dungeon",
+        "module": "ovl_16b08_local.c",
+        "module_index": 9,
+        "confidence": "strong",
+        "evidence": "docs/evidence/dungeon_ovl_16b08_local.membership.json"
+      }
+    },
+    {
+      "before": {
+        "id": "dungeon/func_7FFF6BBC",
+        "container": "dungeon",
+        "module": "ovl_16b08.c",
+        "module_index": 9,
+        "confidence": "strong"
+      },
+      "after": {
+        "id": "dungeon/func_7FFF6BBC",
+        "container": "dungeon",
+        "module": "ovl_16b08_local.c",
+        "module_index": 9,
+        "confidence": "strong",
+        "evidence": "docs/evidence/dungeon_ovl_16b08_local.membership.json"
+      }
+    },
+    {
+      "before": {
+        "id": "dungeon/func_7FFF6BD0",
+        "container": "dungeon",
+        "module": "ovl_16b08.c",
+        "module_index": 9,
+        "confidence": "strong"
+      },
+      "after": {
+        "id": "dungeon/func_7FFF6BD0",
+        "container": "dungeon",
+        "module": "ovl_16b08_local.c",
+        "module_index": 9,
+        "confidence": "strong",
+        "evidence": "docs/evidence/dungeon_ovl_16b08_local.membership.json"
+      }
+    },
+    {
+      "before": {
+        "id": "dungeon/func_7FFF6C18",
+        "container": "dungeon",
+        "module": "ovl_16b08.c",
+        "module_index": 9,
+        "confidence": "strong"
+      },
+      "after": {
+        "id": "dungeon/func_7FFF6C18",
+        "container": "dungeon",
+        "module": "ovl_16b08_local.c",
+        "module_index": 9,
+        "confidence": "strong",
+        "evidence": "docs/evidence/dungeon_ovl_16b08_local.membership.json"
+      }
+    },
+    {
+      "before": {
+        "id": "dungeon/func_7FFF6C58",
+        "container": "dungeon",
+        "module": "ovl_16b08.c",
+        "module_index": 9,
+        "confidence": "strong"
+      },
+      "after": {
+        "id": "dungeon/func_7FFF6C58",
+        "container": "dungeon",
+        "module": "ovl_16b08_local.c",
+        "module_index": 9,
+        "confidence": "strong",
+        "evidence": "docs/evidence/dungeon_ovl_16b08_local.membership.json"
+      }
+    },
+    {
+      "before": {
+        "id": "dungeon/func_7FFF6CB4",
+        "container": "dungeon",
+        "module": "ovl_16b08.c",
+        "module_index": 9,
+        "confidence": "strong"
+      },
+      "after": {
+        "id": "dungeon/func_7FFF6CB4",
+        "container": "dungeon",
+        "module": "ovl_16b08_local.c",
+        "module_index": 9,
+        "confidence": "strong",
+        "evidence": "docs/evidence/dungeon_ovl_16b08_local.membership.json"
+      }
+    },
+    {
+      "before": {
+        "id": "dungeon/func_7FFF6D5C",
+        "container": "dungeon",
+        "module": "ovl_16b08.c",
+        "module_index": 9,
+        "confidence": "strong"
+      },
+      "after": {
+        "id": "dungeon/func_7FFF6D5C",
+        "container": "dungeon",
+        "module": "ovl_16b08_local.c",
+        "module_index": 9,
+        "confidence": "strong",
+        "evidence": "docs/evidence/dungeon_ovl_16b08_local.membership.json"
+      }
+    },
+    {
+      "before": {
+        "id": "dungeon/func_7FFF6DFC",
+        "container": "dungeon",
+        "module": "ovl_16b08.c",
+        "module_index": 9,
+        "confidence": "strong"
+      },
+      "after": {
+        "id": "dungeon/func_7FFF6DFC",
+        "container": "dungeon",
+        "module": "ovl_16b08_local.c",
+        "module_index": 9,
+        "confidence": "strong",
+        "evidence": "docs/evidence/dungeon_ovl_16b08_local.membership.json"
+      }
+    },
+    {
+      "before": {
+        "id": "dungeon/func_7FFF6E58",
+        "container": "dungeon",
+        "module": "ovl_16b08.c",
+        "module_index": 9,
+        "confidence": "strong"
+      },
+      "after": {
+        "id": "dungeon/func_7FFF6E58",
+        "container": "dungeon",
+        "module": "ovl_16b08_local.c",
+        "module_index": 9,
+        "confidence": "strong",
+        "evidence": "docs/evidence/dungeon_ovl_16b08_local.membership.json"
+      }
+    },
+    {
+      "before": {
+        "id": "dungeon/func_7FFF6F9C",
+        "container": "dungeon",
+        "module": "ovl_16b08.c",
+        "module_index": 9,
+        "confidence": "strong"
+      },
+      "after": {
+        "id": "dungeon/func_7FFF6F9C",
+        "container": "dungeon",
+        "module": "ovl_16b08_local.c",
+        "module_index": 9,
+        "confidence": "strong",
+        "evidence": "docs/evidence/dungeon_ovl_16b08_local.membership.json"
+      }
+    }
+  ]
+}

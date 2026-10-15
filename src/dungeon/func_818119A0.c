@@ -1,19 +1,7 @@
-#include "common.h"
-#include "m2c_compat.h"
+#include "modules/dungeon_ovl_1831370.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
-void func_800267D8();       /* extern */
-void func_80026878();                 /* extern */
-void func_8002692C();                            /* extern */
-
-typedef struct S_800269A0_0 {
-    u8 pad_00[0x70];
-    s32 unk_70;
-} S_800269A0_0;   /* arg0 in func_800269A0 */
-
-/* Initialize state using its embedded blocks and stored configuration value. */
-void func_800269A0(void *state) {
-    func_8002692C();
+void func_800269A0(void *state, s32 parent, s32 type, s32 config) {
+    func_8002692C(state, parent, type, config);
     func_800267D8(state, state + 0x60, state + 0x38, state + 0x48);
-    func_80026878(state, ((S_800269A0_0 *)state)->unk_70);
+    func_80026878(state, ((ovl_1831370_818119A0_S_800269A0_0 *)state)->unk_70);
 }

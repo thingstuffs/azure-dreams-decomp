@@ -1,87 +1,9 @@
-#include "shared/runtime_dispatch.h"
-#include "common.h"
-#include "shared/entity_objects.h"
-#include "shared/game_work.h"
+#include "modules/dungeon_floor_generate.h"
 
-typedef struct {
-    s32 seed;
-    u16 flags;
-    s16 field6;
-    s16 field8;
-    s16 fieldA;
-    u8 padC[4];
-    s8 field10;
-    s8 field11;
-} State13710;
-
-typedef struct {
-    u8 pad0000[0x234];
-    s32 level;
-    u8 pad0238[0x2090 - 0x238];
-    s32 mode;
-} Page8001;
-
-typedef struct {
-    u8 kind;
-    u8 arg;
-    u8 track;
-    u8 table_index;
-    u8 special;
-} TrackRecord;
-
-typedef struct {
-    u8 pad0000[0x296C];
-    u32 flags;
-} Page800E;
-
-extern void func_80016E6C(void);
-extern void func_8001744C(void);
-extern void func_80017560(void);
-extern void func_800177A8(void);
-extern void func_8001784C(void);
-extern void func_80017A9C(void);
-extern void func_80018464();
-extern void func_8004D0C8();
-extern void func_80046E38();
-extern s32 bzero();
-extern s32 rand(void);
-extern s32 srand();
-extern void func_800A0E44(void);
-extern s32 func_800A6D30(void);
-extern void func_800A6D98();
-extern void func_800B0544();
-extern void func_800BC228();
-extern void func_800C7D54();
-extern s32 func_80018E80(void);
-extern s32 func_80019AF8(void);
-extern void func_8001E96C(void);
-extern void func_8001F32C(void);
-extern void file_load_com();
-
-extern s32 D_800E3D6C;
-extern s16 D_800E3CD8[8];
-extern TrackRecord D_8001F62C[];
-extern s32 D_8001F588[];
-extern u8 D_8001F584;
-extern s16 D_8001F586;
-extern s32 D_8001F594[];
-extern u8 D_800F0000[];
-typedef struct {
-    s32 seed;
-    u16 level;
-    s16 ready;
-} SaveHead;
-extern SaveHead D_80081468;
-typedef struct {
-    u8 pad0000[0x234];
-    u16 level;
-} LevelPage;
-
-/* Sets up the run's save state and RNG (new game or continue), then loads the selected dungeon track and waits for it to finish loading. */
-void func_80018A70(void *caller_state, u32 block_extent, u32 color_command) {
-    State13710 *state;
-    Page8001 *page1;
-    TrackRecord *track;
+void func_80018A70(void) {
+    floor_generate_isolated_80285A70_State13710 *state;
+    floor_generate_isolated_80285A70_Page8001 *page1;
+    floor_generate_isolated_80285A70_TrackRecord *track;
     s16 *clearp;
     s32 value;
     s32 track_no;
@@ -91,7 +13,7 @@ void func_80018A70(void *caller_state, u32 block_extent, u32 color_command) {
         GameWork *xor_base;
         u16 entry_flags;
 
-        state = (State13710 *)0x80013710;
+        state = (floor_generate_isolated_80285A70_State13710 *)0x80013710;
         entry_flags = state->flags;
         xor_base = &gameWork;
 
@@ -105,9 +27,9 @@ void func_80018A70(void *caller_state, u32 block_extent, u32 color_command) {
             state->fieldA = 0;
             state->field6 = 0;
             state->seed += r & 0xFFFF;
-            D_80081468.seed = state->seed;
+            (*(floor_generate_isolated_80285A70_SaveHead *)D_80081468).seed = state->seed;
             fl = state->flags;
-            D_80081468.level = ((LevelPage *)0x80010000)->level;
+            (*(floor_generate_isolated_80285A70_SaveHead *)D_80081468).level = ((floor_generate_isolated_80285A70_LevelPage *)0x80010000)->level;
             fl &= 0xFFFC;
             state->flags = fl;
             func_8004D0C8(((u8 *)(&D_80083780)));
@@ -115,8 +37,8 @@ void func_80018A70(void *caller_state, u32 block_extent, u32 color_command) {
         } else if (entry_flags & 1) {
             state->field8 = 0;
             state->fieldA = 0;
-            D_80081468.seed = state->seed;
-            D_80081468.level = ((LevelPage *)0x80010000)->level;
+            (*(floor_generate_isolated_80285A70_SaveHead *)D_80081468).seed = state->seed;
+            (*(floor_generate_isolated_80285A70_SaveHead *)D_80081468).level = ((floor_generate_isolated_80285A70_LevelPage *)0x80010000)->level;
             func_8004D0C8(((u8 *)(&D_80083780)));
         } else {
             u32 hi;
@@ -128,14 +50,14 @@ void func_80018A70(void *caller_state, u32 block_extent, u32 color_command) {
             state->field6 = 0;
             state->field11 = 0;
             state->field10 = 0;
-            state->seed = D_80081468.seed = (value | (hi << 16)) ^ xor_base->unk_004;
+            state->seed = (*(floor_generate_isolated_80285A70_SaveHead *)D_80081468).seed = (value | (hi << 16)) ^ xor_base->unk_004;
             func_8004D0C8(((u8 *)(&D_80083780)));
             bzero((void *)0x80013720, 0x2000);
         }
     }
 
-    srand(D_80081468.seed);
-    func_800A6D98(D_80081468.seed);
+    srand((*(floor_generate_isolated_80285A70_SaveHead *)D_80081468).seed);
+    func_800A6D98((*(floor_generate_isolated_80285A70_SaveHead *)D_80081468).seed);
     func_800A0E44();
     D_80082E60.flags16 = 0;
     D_800E3D6C = 0;
@@ -143,7 +65,7 @@ void func_80018A70(void *caller_state, u32 block_extent, u32 color_command) {
     func_8001E96C();
 
     i = 3;
-    clearp = D_800E3CD8;
+    clearp = ((s16 *)D_800E3CD8);
     clearp += 12;
     do {
         *clearp = 0;
@@ -151,14 +73,14 @@ void func_80018A70(void *caller_state, u32 block_extent, u32 color_command) {
         clearp -= 4;
     } while (i >= 0);
 
-    page1 = (Page8001 *)0x80010000;
+    page1 = (floor_generate_isolated_80285A70_Page8001 *)0x80010000;
     if ((u32)page1->level >= 100U) {
         page1->level = 99;
     }
 
     track_no = func_80018E80();
     if (track_no != 0) {
-        TrackRecord *tracks;
+        floor_generate_isolated_80285A70_TrackRecord *tracks;
 
         track_no--;
         func_80017560();
@@ -173,10 +95,10 @@ void func_80018A70(void *caller_state, u32 block_extent, u32 color_command) {
             func_80018464(track->arg);
         }
         if (track->special == 0) {
-            ((Page800E *)0x800E0000)->flags &= ~0x20000000;
+            ((floor_generate_isolated_80285A70_Page800E *)0x800E0000)->flags &= ~0x20000000;
         } else {
             func_800C7D54(track->special - 1);
-            ((Page800E *)0x800E0000)->flags &= ~0x20000000;
+            ((floor_generate_isolated_80285A70_Page800E *)0x800E0000)->flags &= ~0x20000000;
         }
     } else {
         if (page1->mode != 2) {
@@ -192,14 +114,14 @@ void func_80018A70(void *caller_state, u32 block_extent, u32 color_command) {
         }
 
         file_load_com(action);
-        ((Page800E *)0x800E0000)->flags |= 0x20000000;
-        func_80046E38(0x29, D_800F0000, (Page800E *)0x800E0000);
+        ((floor_generate_isolated_80285A70_Page800E *)0x800E0000)->flags |= 0x20000000;
+        func_80046E38(0x29, D_800F0000, (floor_generate_isolated_80285A70_Page800E *)0x800E0000);
         func_800BC228(2);
 
         do {
             func_8001744C();
             func_800177A8();
-        } while ((func_80019AF8() << 16) != 0 || D_80081468.ready == 0);
+        } while ((func_80019AF8() << 16) != 0 || (*(floor_generate_isolated_80285A70_SaveHead *)D_80081468).ready == 0);
 
     }
     func_80016E6C();
