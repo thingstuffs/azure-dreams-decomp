@@ -77,13 +77,6 @@ class FollowupTests(unittest.TestCase):
         p.unlink()
         with self.assertRaisesRegex(G.Stop,'removed'):G.check_bookkeeping(self.root,initial)
 
-    def test_default_workers_reserve_one_third_and_cap_at_sixteen(self):
-        with patch.object(G.os,'sched_getaffinity',return_value=set(range(24))):self.assertEqual(G.worker_counts({}),(16,4,4))
-        with patch.object(G.os,'sched_getaffinity',return_value={0}):self.assertEqual(G.worker_counts({}),(1,1,1))
-        self.assertEqual(G.worker_counts({'workers':6,'certificate_workers':3}),(6,3,2))
-        for bad in (0,-1,True,'16'):
-            with self.assertRaisesRegex(G.Stop,'positive integer'):G.worker_counts({'workers':bad})
-
     def dependency(self,name,writes=(),reads=None,aliases=None):
         base=self.base/name;base.mkdir();entry=base/'apply.py';entry.write_text('pass')
         (base/'files.json').write_text(json.dumps([{'path':p,'before':'old','after':'new'} for p in writes]))
@@ -123,5 +116,16 @@ class FollowupTests(unittest.TestCase):
         hints=P.ordering_hints([writer,reader]);self.assertEqual(hints['suggested_order'],[1,0])
         self.assertEqual(hints['conflicts'][0]['path'],'tools/build/configure.py')
         self.assertTrue(hints['conflicts'][0]['inferred'])
+
+class WorkerCountsTests(unittest.TestCase):
+    # Pure plan policy needs no git fixture or scratch checkout.
+    def test_default_workers_reserve_one_third_and_cap_at_sixteen(self):
+        with patch.object(G.os,'sched_getaffinity',return_value=set(range(24))):self.assertEqual(G.worker_counts({}),(16,12,1))
+        with patch.object(G.os,'sched_getaffinity',return_value={0}):self.assertEqual(G.worker_counts({}),(1,1,1))
+        self.assertEqual(G.worker_counts({'workers':4}),(4,4,1))
+        self.assertEqual(G.worker_counts({'workers':6,'certificate_workers':3}),(6,3,2))
+        for bad in (0,-1,True,'16'):
+            with self.assertRaisesRegex(G.Stop,'positive integer'):G.worker_counts({'workers':bad})
+
 
 if __name__=='__main__':unittest.main()
