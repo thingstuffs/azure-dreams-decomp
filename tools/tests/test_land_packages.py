@@ -24,7 +24,7 @@ class LandPackagesTests(unittest.TestCase):
         for p,data in {'.gitignore':'build_ovl*/\nbuild_slus/\nwork/\nledger/cache/\n',
           'src/demo/a.c':'original\n','ledger/model_capacity.jsonl':'initial bookkeeping\n',
           'ledger/levels.jsonl':'{"level":5}\n','ledger/splits/dungeon.jsonl':'{"id":"old","reviewer":null}\n',
-          'config/noreturn_syms.town.txt':'census\n','config/overlays/existing.overlay.yaml':'file_start: 10\n',
+          'config/noreturn_syms.town.txt':'census\n','config/overlays/modules.json':'{"modules": []}\n','config/overlays/existing.overlay.yaml':'file_start: 10\n',
           'tools/registry.py':'','STATUS.md':'before\n'}.items():
             q=self.root/p;q.parent.mkdir(parents=True,exist_ok=True);q.write_text(data)
         self.git('add','.');self.git('commit','-qm','initial')

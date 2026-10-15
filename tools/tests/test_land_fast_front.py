@@ -33,6 +33,7 @@ class FastFrontTests(unittest.TestCase):
         self.put('docs/member.json',json.dumps({'ledger_group':{'module':'fixture'},'members':['dungeon/member']}))
         self.put('config/overlays/existing.overlay.yaml','standalone_build:\n  window:\n    file_start: 0\n    file_end: 4\n')
         self.put('tools/registry.py','')
+        self.put('tools/row_db.py','')
         self.put('tools/gen_src_index.py','')
         self.put('tools/lanes/land_packages.py','')
         self.put('tools/levels.py',"import json\nfrom pathlib import Path\np=Path('ledger/levels.jsonl');r=json.loads(p.read_text());r['level']="+('2' if bad else '3')+";p.write_text(json.dumps(r)+'\\n')\n")
@@ -62,7 +63,7 @@ class FastFrontTests(unittest.TestCase):
         self.screen(bad=True)
         self.assertEqual(self.invoke(),1)
         events=[json.loads(s) for s in self.log.read_text().splitlines()]
-        self.assertEqual([e['step'] for e in events if 'command' in e],['unit-dotted','unit-discover-test_fixture.py','registry','index','graph','fast-levels','fast-graph'])
+        self.assertEqual([e['step'] for e in events if 'command' in e],['unit-dotted','unit-discover-test_fixture.py','registry','index','graph','row-db-check','fast-levels','fast-graph'])
         self.assertIn('fixture_module member=dungeon/member L3/placement screen failed',events[-1]['error'])
         self.assertIsInstance(events[-1]['rollback'],dict)
         self.assertEqual(json.loads((self.root/'ledger/levels.jsonl').read_text())['level'],3)

@@ -52,6 +52,7 @@ import uuid
 
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 from window_dependencies import window_recipes, dependency_closure
+from certify_batch import uncertified
 
 # the canonical live checkout (no literal private path: the scrub hook refuses those); override for another host
 LIVE = Path(os.environ.get('LAND_LIVE_ROOT', str(Path.home() / 'azure-clean'))).resolve()
@@ -162,7 +163,10 @@ def worker_counts(plan):
     available=len(os.sched_getaffinity(0)) if hasattr(os,'sched_getaffinity') else (os.cpu_count() or 1)
     workers=plan.get('workers',max(1,min(16,available-available//3)))
     if type(workers) is not int or workers<1:raise Stop('workers must be a positive integer')
-    certificates=plan.get('certificate_workers',max(1,min(4,workers//4)))
+    # Receipt renewal is mostly Python validation: use independent
+    # certificate interpreters before adding window threads to one GIL.
+    # The 24-CPU/64-GB sweep favors twelve; explicit overrides still win.
+    certificates=plan.get('certificate_workers',max(1,min(12,workers)))
     for name,value in (('workers',workers),('certificate_workers',certificates)):
         if type(value) is not int or value<1:raise Stop(name+' must be a positive integer')
     return workers,certificates,max(1,workers//certificates)
@@ -951,7 +955,18 @@ class Lander:
                 if pattern.encode() in data:failures.append({'file':rel,'pattern':pattern})
         self.event('scrub',result='FAIL' if failures else 'PASS',checked=checked,failures=failures)
         if failures:raise Stop('scrub hook patterns: '+json.dumps(failures,sort_keys=True))
+    def row_db_check(self):
+        # Runs on the tree AFTER the plan's packages/registry/index/graph.
+        try:self.run('row-db-check',[sys.executable,'tools/row_db.py','check'])
+        except Stop as e:
+            detail=''
+            if self.results and self.results[-1]['step']=='row-db-check':
+                try:detail=Path(self.results[-1]['log']).read_text().strip()
+                except OSError:pass
+            raise Stop('row_db check failed: '+detail[-4000:]+'\n'+str(e)) from e
+        self.event('ROW_DB_CHECK_PASS',message='split tables, windows and MATCH raw/src files verified')
     def fast_front(self):
+        self.row_db_check()
         self.unit_checks()
         self.run('fast-levels',[sys.executable,'tools/levels.py'])
         self.run('fast-graph',[sys.executable,'tools/gate/overlay_module_gate.py','--root',str(self.root),'--graph'])
@@ -1000,6 +1015,12 @@ class Lander:
         if 'SLUS SHA-1 gate: MATCH' not in slus_log.read_text() or 'recipe identical to the pinned copy' not in slus_log.read_text():raise Stop('forced SLUS lacks MATCH/identical recipe')
         certs=self.certificates()
         if not set(self.before_certs).issubset(certs):raise Stop('a pre-landing live certificate disappeared')
+        # First certificates for reviewed modules that have none; each is
+        # certified by its manifest review.reviewer in the same worker pool.
+        try:issue,unreviewed=uncertified(self.root)
+        except (OSError,ValueError,KeyError,TypeError) as e:raise Stop('cannot determine uncertified modules: '+str(e))
+        self.event('certificate-first-issue',issue=issue,unreviewed_uncertified=unreviewed)
+        expected={**certs,**issue}
         self.event('certificate-discovery',modules=sorted(certs))
         current_evidence=certificate_evidence(self.root)
         forced=sorted(key for key in certs if self.before_certificate_evidence.get(key)!=current_evidence[key])
@@ -1010,9 +1031,9 @@ class Lander:
         self.event('certificate-renewal-policy',mode='invalid-or-changed' if selective else 'all',forced=forced,reasons=self.gate_reasons)
         cert_logs=self.log.parent/(self.log.stem+'.certificates')
         self.run('certify-all',[sys.executable,'tools/lanes/certify_batch.py','--root',str(self.root),
-                 '--workers',str(certificate_workers),'--window-workers',str(window_workers),'--log-dir',str(cert_logs),
-                 '--gate-receipts',str(receipts),'--transaction',transaction]+selection,timeout=7200*max(1,(len(certs)+certificate_workers-1)//certificate_workers))
-        if self.certificates()!=certs:raise Stop('live certificate identities/reviewers changed during certification')
+                 '--workers',str(certificate_workers),'--worker-mode','process','--window-workers',str(window_workers),'--log-dir',str(cert_logs),
+                 '--gate-receipts',str(receipts),'--transaction',transaction]+selection+[arg for key in sorted(issue) for arg in ('--issue',key)],timeout=7200*max(1,(len(expected)+certificate_workers-1)//certificate_workers))
+        if self.certificates()!=expected:raise Stop('live certificate identities/reviewers changed during certification')
         self.run('levels',[sys.executable,'tools/levels.py'])
         self.run('status',[sys.executable,'tools/status.py'])
         after=l5(self.root)
@@ -1026,7 +1047,7 @@ class Lander:
         # Validate every recorded certificate again; never hide a final drop.
         self.run('certificate-final-validation',[sys.executable,'tools/lanes/certify_batch.py','--root',str(self.root),
                  '--workers',str(certificate_workers),'--log-dir',str(cert_logs/'final'),'--validate-only'],timeout=7200)
-        if self.certificates()!=certs:raise Stop('live certificate identities/reviewers changed during final validation')
+        if self.certificates()!=expected:raise Stop('live certificate identities/reviewers changed during final validation')
     def preserve_diagnostics(self):
         candidates=[]
         for rel in ['build_ovl_gate/work/s3_splat','build_ovl_gate/work/module_proofs','build_slus']:
