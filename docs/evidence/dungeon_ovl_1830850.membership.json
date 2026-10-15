@@ -1,0 +1,85 @@
+{
+  "module": "dungeon_ovl_1830850",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_1830850.c",
+    "module_index": 161
+  },
+  "members": [
+    "dungeon/func_81810850",
+    "dungeon/func_81810888",
+    "dungeon/func_818108B0",
+    "dungeon/func_818108B8",
+    "dungeon/func_81810964",
+    "dungeon/func_818109CC",
+    "dungeon/func_81810A0C",
+    "dungeon/func_81810BD4",
+    "dungeon/func_81810BF4",
+    "dungeon/func_81810C4C",
+    "dungeon/func_81810C58",
+    "dungeon/func_81810C6C",
+    "dungeon/func_81810CD8",
+    "dungeon/func_81810D28",
+    "dungeon/func_81810D74",
+    "dungeon/func_81810D9C",
+    "dungeon/func_81810E3C",
+    "dungeon/func_81810FFC",
+    "dungeon/func_81811084",
+    "dungeon/func_818110CC",
+    "dungeon/func_81811168",
+    "dungeon/func_81811250",
+    "dungeon/func_81811294",
+    "dungeon/func_818112EC",
+    "dungeon/func_81811314",
+    "dungeon/func_81811340"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Complete existing strong cohort plus independently proved interior functions; no assertion of historical compiler TU boundaries.",
+  "basis": [
+    "24 previously registered cohort members are retained in file order.",
+    "2 independently recovered complete C routines close every unregistered interior gap. Their standalone retail/genuine proofs are exact, with zero masks.",
+    "The resulting 26-function native TU is contiguous and its entire 2848-byte payload matches retail and genuine ASPSX under one stock CDK G0 recipe.",
+    "The existing runtime RAM payload equality map xfer_dungeon_1830000 contains all members.",
+    "The 20-byte interior setter func_80025C58 at 0x1830C58 updates the same buffer node as its immediate neighbours. Its weak ovl_1830514 bucket assignment is explicitly replaced; extent, source, recipe, baseline and promotion history remain unchanged."
+  ],
+  "review": "pending",
+  "reviewer": null,
+  "recovered_rows": [
+    {
+      "id": "dungeon/func_818108B0",
+      "foff": 25364656,
+      "vma": 2147637424,
+      "size": 8,
+      "raw_sha": "a9514bd933aa0ee765cea5cded876fa0203c8ac2c196b1dbb3168914718720d9",
+      "source_sha": "829cd020afde45e2b2a2ca8ed0f513721a8bdbd8962cfb3c3875a608b42e87f2"
+    },
+    {
+      "id": "dungeon/func_81810BD4",
+      "foff": 25365460,
+      "vma": 2147638228,
+      "size": 32,
+      "raw_sha": "adc7a6acc1f9fbe846d1762d25062da6401fe237467e1d2f121e95fe8a4eb39c",
+      "source_sha": "8877153d289030bd1f52001c3b8a12b3d0541673e9443b8cf8b65ddedba6e3f8"
+    }
+  ],
+  "assignment_changes": [
+    {
+      "before": {
+        "id": "dungeon/func_81810C58",
+        "container": "dungeon",
+        "module": "ovl_1830514.c",
+        "module_index": 141,
+        "confidence": "weak"
+      },
+      "after": {
+        "id": "dungeon/func_81810C58",
+        "container": "dungeon",
+        "module": "ovl_1830850.c",
+        "module_index": 161,
+        "confidence": "strong",
+        "evidence": "docs/evidence/dungeon_ovl_1830850.membership.json"
+      }
+    }
+  ]
+}

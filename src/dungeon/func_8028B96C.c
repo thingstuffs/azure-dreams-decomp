@@ -1,8 +1,5 @@
-#include "shared/dungeon_item_entries.h"
-#include "common.h"
+#include "modules/dungeon_floor_spawns.h"
 
-
-/* Clears all 64 entries in D_800E3548. */
 void func_8001E96C(void) {
     s32 entry_index;
 

@@ -1,9 +1,5 @@
-#include "common.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_ovl_18b8824.h"
 
-extern void func_800478B8(void *target);
-
-/* Increment entry and object counters, process the target, and propagate its status flags. */
 void func_800241D8(void *entry, void *unused, void *target)
 {
     void *object;

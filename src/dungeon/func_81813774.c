@@ -1,17 +1,6 @@
-#include "common.h"
+#include "modules/dungeon_ovl_1831cd8.h"
 
-typedef struct {
-    s32 words[3];
-} __attribute__((packed)) UnalignedBlock12;
-
-typedef struct {
-    UnalignedBlock12 chunks[2];
-} UnalignedBlock24;
-
-extern UnalignedBlock24 D_80029550;
-
-/* Copies the 24-byte block at D_80029550 to the destination and returns it. */
-UnalignedBlock12 *func_80028774(UnalignedBlock12 *dest) {
+ovl_1831cd8_81813774_UnalignedBlock12 *func_80028774(ovl_1831cd8_81813774_UnalignedBlock12 *dest) {
     dest[0] = D_80029550.chunks[0];
     dest[1] = D_80029550.chunks[1];
     return dest;

@@ -1,53 +1,6 @@
-#include "common.h"
-#include "shared/game_work.h"
+#include "modules/dungeon_ovl_1831cd8.h"
 
-typedef struct S_8003E2D8 {
-    s32 unk0;
-    s32 unk4;
-    s32 unk8;
-    s32 unkC;
-    s32 unk10;
-} S_8003E2D8;
-
-typedef struct S_800274F0_Nested {
-    u8 pad[0x28];
-    s32 unk28;
-} S_800274F0_Nested;
-
-typedef struct S_800274F0_Arg {
-    s32 unk0;
-    s32 unk4;
-    s32 unk8;
-    s32 unkC;
-    s32 unk10;
-    s32 unk14;
-    u8 pad18[0x10];
-    void *unk28;
-    u8 pad2C[0x0C];
-    u8 unk38;
-    u8 pad39[3];
-    s32 unk3C;
-    u8 *unk40;
-    void *unk44;
-    S_800274F0_Nested *unk48;
-    u8 pad4C[0x3C];
-    void *unk88;
-} S_800274F0_Arg;
-
-extern u8 D_80027E84[];
-
-extern s16 SD_Call(s32, S_8003E2D8 *);
-extern void func_800274A8(S_800274F0_Arg *);
-extern void func_80027454(void *, s32, s32, void *);
-extern void *func_8002553C(void *);
-extern void func_800255AC(void *);
-extern void func_800265B8(void *, void *);
-extern s32 func_80026BFC(s32);
-extern void func_80026D0C(void *);
-extern void func_80026CD8(void *);
-
-/* Handles menu actions and repeated grid navigation, updating the selection and page. */
-void func_800274F0(S_800274F0_Arg *menu) {
+void func_800274F0(ovl_1831cd8_818124F0_S_800274F0_Arg *menu) {
     GameWork *input;
     s32 held_buttons;
     s32 pressed_buttons;
@@ -133,11 +86,11 @@ void func_800274F0(S_800274F0_Arg *menu) {
         return;
     menu->unk8 = next_index;
     if ((next_index - index_step) / 72 == next_index / 72) {
-        func_80026D0C(menu->unk88);
+        func_80026D0C(menu->unk88, next_index);
         return;
     }
     func_80026CD8(menu->unk88);
-    *(void **)((u8 *)menu - 0x10) = D_80027E84;
+    *(void **)((u8 *)menu - 0x10) = (void *)func_80027E84;
     menu->unk0 = menu->unk4;
 
     return;

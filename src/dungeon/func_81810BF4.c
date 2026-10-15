@@ -1,16 +1,6 @@
-#include "common.h"
+#include "modules/dungeon_ovl_1830850.h"
 
-typedef struct Entity {
-    s32 state;
-    u8 pad_04[0x44];
-    void *object;
-} Entity;
-
-extern void func_80025A0C(void);
-extern u8 D_80025BD4[];
-
-/* Apply the current step to the object and reset the state after five steps. */
-void func_80025BF4(Entity *entity) {
+void func_80025BF4(ovl_1830850_81810BF4_Entity *entity) {
     s32 next_state;
     s32 t;
 
@@ -20,7 +10,7 @@ void func_80025BF4(Entity *entity) {
     entity->state = next_state;
     if (next_state >= 5) {
         entity->state = 0;
-        *(void **)((u8 *)entity - 0x10) = D_80025BD4;
+        *(void **)((u8 *)entity - 0x10) = (void *)func_80025BD4;
     }
-    func_80025A0C();
+    func_80025A0C((ovl_1830850_81810A0C_DungeonArg *)entity);
 }

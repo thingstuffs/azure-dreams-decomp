@@ -1,24 +1,5 @@
-#include "common.h"
+#include "modules/dungeon_ovl_1831370.h"
 
-typedef struct S_80026C20_0 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u8 pad_10[0x4];
-    void * unk_14;
-} S_80026C20_0;   /* temp_a0 in func_80026C20 */
-
-typedef struct S_80026C20_1 {
-    u8 unk_00;
-    union { u8 s; u8 u; } unk_01;   /* accessed as both */
-} S_80026C20_1;   /* var_a2 in func_80026C20 */
-
-
-#define M2C_FIELD(expr, type_ptr, offset) \
-(*(type_ptr)((s8 *)(expr) + (offset)))
-
-extern u8 D_80029510[12];
-
-/* Returns whether the object's byte pairs contain a nondefault, nonspace pair. */
 s32 func_80026C20(s32 object_addr) {
     s32 byte_count;
     s32 loop_bound;
@@ -28,9 +9,9 @@ s32 func_80026C20(s32 object_addr) {
     s32 has_content;
     u8 first_byte;
     u8 default_first;
-    S_80026C20_0 *pair_info;
+    ovl_1831370_81811C20_S_80026C20_0 *pair_info;
     void *pair_data;
-    S_80026C20_1 *pair;
+    ovl_1831370_81811C20_S_80026C20_1 *pair;
     u8 *default_pair;
 
     has_content = 0;
@@ -53,10 +34,10 @@ next_pair:
             first_byte = pair->unk_00;
             if (first_byte != 0) {
                 if (((first_byte != default_first) ||
-                     (pair->unk_01.s !=
+                     (pair->ovl_1831370_81811C20_unk_01.s !=
                       default_pair[1])) &&
                     ((first_byte != compare_space) ||
-                     (pair->unk_01.u != first_byte))) {
+                     (pair->ovl_1831370_81811C20_unk_01.u != first_byte))) {
                     has_content = 1;
                 }
                 byte_offset += 2;

@@ -1,0 +1,14 @@
+{
+  "module": "dungeon_ovl_1831cd8",
+  "region": {
+    "schema": "azure-clean.rowbase.v1",
+    "region": "xfer_dungeon_1830000",
+    "foff_start": "0x1830000",
+    "foff_end": "0x1834800",
+    "delta": "0x7E7F5000",
+    "base_confidence": "proven",
+    "proof": "overlay-streamer transfer observed at runtime (capture_kit/loader_watch_remote.lua on PCSX-Redux, poll-record): CdRead of 9 sectors from disc LBA 24694 -> 0x80025000. Container dungeon foff 0x1830000 (LBA base 12310), so delta = 0x80025000 - 0x1830000 = 0x7E7F5000. CONFIRMED: RAM[0x80025000..+18432] in ram_auto_dungeon_1829A0C_1.bin is 100.00% identical to the disc image's Mode2/Form1 user data at LBA 24694, i.e. the payload is verifiably resident at that base. Scoring-only: runtime DMA evidence, not a byte-exact recompile -- promote via rowbase.promote() when one lands.; PROMOTED solved->proven: byte-exact recompile func_8181140C at true base 0x8002640C (candidate sha cf927f3886bc @ 2.7.2-cdk-G0, linked-strict isolation compare, phase-2 item-3 hook)"
+  },
+  "basis": "Existing proven rowbase record; complete module extent is contained in this map.",
+  "review": "pending"
+}

@@ -1,11 +1,5 @@
-#include "common.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_ovl_1831cd8.h"
 
-extern void func_80028534(void *state);
-extern void func_8004B1A4(void *object);
-extern void func_8004B248(void *entries);
-
-// Updates linked and embedded object data, then sets the object and global 0x8000 flags.
 void func_800285B0(void *object)
 {
     u8 *objectData;

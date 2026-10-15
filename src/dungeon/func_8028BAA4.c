@@ -1,16 +1,5 @@
-#include "common.h"
+#include "modules/dungeon_floor_spawns.h"
 
-typedef struct ItemCategoryRow {
-    u8 pad_00[0xC];
-    s32 item_table;
-} ItemCategoryRow;
-
-
-extern s32 func_800A6D30(void);
-extern s16 D_8001F6F8[];
-extern u8 D_80073414[];
-
-/* Selects a random item by category thresholds and eligible item weights. */
 s32 func_8001EAA4(s8 *category_out, s8 *item_out) {
     s32 category_index;
     s32 selected_category;
@@ -53,7 +42,7 @@ s32 func_8001EAA4(s8 *category_out, s8 *item_out) {
     }
     category_scale_or_weight = category_index * 4;
     entry = &((u16 *)item_offset)[category_index];
-    table_base_or_mode = (unsigned long)D_80073414;
+    table_base_or_mode = (unsigned long)((u8 *)D_80073414);
     scan_value = category_scale_or_weight + category_index;
     scan_value *= 4;
     table_cursor_or_item_offset = (u8 *)(scan_value + table_base_or_mode);
@@ -67,14 +56,14 @@ s32 func_8001EAA4(s8 *category_out, s8 *item_out) {
         selected_category = scan_value >> 16;
         item_offset = (u8 *)0x14;
 loop_6:
-        item_flags = *(u16 *)(item_offset + ((ItemCategoryRow *)(item_category_table
+        item_flags = *(u16 *)(item_offset + ((floor_spawns_isolated_8028BAA4_ItemCategoryRow *)(item_category_table
             + ((category_scale_or_weight + category_index) * 4)))->item_table);
         if (!(item_flags & 0x10)) {
             if ((item_flags & 0x40) && (*(s32 *)0x80012090) != (s32)table_base_or_mode) {
                 category_scale_or_weight = category_index * 4;
                 scan_value = item_category_table[((category_scale_or_weight + category_index) * 4) + 2];
             } else {
-                scan_value = *(u16 *)(item_offset + ((ItemCategoryRow *)category_entry)->item_table) & 0x3000;
+                scan_value = *(u16 *)(item_offset + ((floor_spawns_isolated_8028BAA4_ItemCategoryRow *)category_entry)->item_table) & 0x3000;
                 if (scan_value < 0) {
                     scan_value += 0xFFF;
                     rarity = (scan_value >> 0xC) & 3;

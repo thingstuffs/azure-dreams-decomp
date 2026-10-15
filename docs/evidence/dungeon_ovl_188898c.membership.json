@@ -1,0 +1,75 @@
+{
+  "module": "dungeon_ovl_188898c",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_188898c.c",
+    "module_index": 156
+  },
+  "members": [
+    "dungeon/func_81868860",
+    "dungeon/func_8186898C",
+    "dungeon/func_81868A64",
+    "dungeon/func_81868B84",
+    "dungeon/func_81868E84",
+    "dungeon/func_81868F30",
+    "dungeon/func_81868FDC",
+    "dungeon/func_818690C8",
+    "dungeon/func_818694D4"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Complete existing strong cohort, complete related weak-assigned or independently recovered routines, and the compiler-owned bank data prefix. The historical compiler TU boundary is not asserted.",
+  "basis": [
+    "The original strong cohort and all complete intervening routines form one contiguous code extent under one stock CDK G0 recipe. Weak bucket membership changes are explicit guarded replacements.",
+    "Authenticated caller/loader/CD decoder words, the ISO directory record, and all twelve disc sector payloads prove the conditional selector load at this exact base. Existing code-proven records agree without contradiction.",
+    "The first entry pointer targets a complete member. Every switch-table target lies inside its declared complete owner; compiler-generated tables and minimal alignment account for the entire prefix. No literal switch replacement is used.",
+    "The complete 4968-byte native TU equals retail and genuine ASPSX, zero masks or raw substitutions.",
+    "Historical function baselines and promotion lines are preserved byte-for-byte. The composite first row carries its native prefix extent and body offset explicitly, as in the worked package."
+  ],
+  "owned_prefix": [
+    {
+      "kind": "typed_function_pointer",
+      "section": ".rodata",
+      "foff": 25724928,
+      "vma": 2147631104,
+      "size": 4,
+      "symbol": "dungeon_ovl_188898c_entry",
+      "target": "func_80024CD4"
+    },
+    {
+      "kind": "alignment",
+      "section": ".rodata",
+      "foff": 25724932,
+      "vma": 2147631108,
+      "size": 4,
+      "alignment": 8
+    },
+    {
+      "kind": "switch_table",
+      "section": ".rodata",
+      "foff": 25724936,
+      "vma": 2147631112,
+      "size": 60,
+      "owner": "func_800248C8"
+    },
+    {
+      "kind": "alignment",
+      "section": ".rodata",
+      "foff": 25724996,
+      "vma": 2147631172,
+      "size": 4,
+      "alignment": 8
+    },
+    {
+      "kind": "switch_table",
+      "section": ".rodata",
+      "foff": 25725000,
+      "vma": 2147631176,
+      "size": 24,
+      "owner": "func_80024CD4"
+    }
+  ],
+  "assignment_changes": [],
+  "review": "pending",
+  "reviewer": null
+}

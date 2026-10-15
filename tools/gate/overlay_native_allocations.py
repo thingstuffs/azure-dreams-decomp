@@ -5,8 +5,10 @@ accounted for. Only zero GNU section-end alignment padding may be removed.
 """
 import ast,hashlib,json,re,struct,sys,shutil,tempfile,os,dataclasses
 from pathlib import Path
+import overlay_switch_allocations as X
 MODEL='separated-literal-allocations-v1'
-def enabled(m):return m.get('allocation_model')==MODEL
+def switches(m):return X.enabled(m)
+def enabled(m):return m.get('allocation_model')==MODEL or switches(m)
 def spans(m):return [(a['foff'],a['foff']+a['size']) for a in m['allocations']]
 def offset(m,foff,size):
  total=0
@@ -55,6 +57,7 @@ def slot_literal(slot,root):
  if len(data)!=slot['size']:raise ValueError('literal slot extent differs')
  return data
 def validate(m,root=None,region=None):
+ if switches(m):return X.validate(m,root,region)
  if not enabled(m) or m.get('owned_data') or m.get('data_members') or any(a.get('body_offset') for a in m['members']):raise ValueError('mixed/unsupported separated allocation model')
  allocations=m['allocations']
  if not allocations or len({a['section'] for a in allocations})!=len(allocations):raise ValueError('duplicate or absent allocation')
@@ -85,6 +88,7 @@ def elf_headers(blob):
  headers=[struct.unpack_from('<10I',blob,offset+i*stride) for i in range(count)];names=blob[headers[strings][4]:headers[strings][4]+headers[strings][5]]
  return offset,stride,{names[h[0]:].split(b'\0',1)[0].decode():(i,h) for i,h in enumerate(headers)}
 def prepare(m,blob,root):
+ if switches(m):return X.prepare(m,blob,root)
  validate(m,root);table,stride,headers=elf_headers(blob);out=bytearray(blob);proof=[]
  for a in m['allocations']:
   if a['section']=='.text.*':continue
@@ -108,6 +112,7 @@ def expected_payload(m):
  sizes={a['section']:a['size'] for a in m['allocations'] if a['section']!='.text.*'};sizes.update({'.text.'+a['function']:a['size'] for a in m['members']})
  return [(name,sizes[name]) for name in m['section_order']]
 def check_views(m,ma,ge,addresses):
+ if switches(m):return X.check_views(m,ma,ge,addresses)
  expected={a['function'] for a in m['members']}
  if set(ma.funcs)!=expected or set(ge.funcs)!=expected or ma.obj.unknown or ge.obj.unknown:raise ValueError('complete known function/record inventory differs')
  allowed={'.text','.data','.rdata','.rodata'}
@@ -184,7 +189,7 @@ def build(m,out,root,G,substitutions=None):
   if len(data)!=a['size']:raise ValueError('linked allocation extent differs')
   packed.extend(data)
   for slot in a.get('slots',[]):
-   if placed.get(slot['symbol'])!=a['vma']+slot['offset']:raise ValueError('natural linked storage address differs')
+   if 'symbol' in slot and placed.get(slot['symbol'])!=a['vma']+slot['offset']:raise ValueError('natural linked storage address differs')
  if any(placed.get(a['function'])!=a['vma'] for a in m['members']):raise ValueError('natural linked code address differs')
  retail=retail_bytes(m,root,G);(out/'module.bin').write_bytes(packed);(out/'retail.bin').write_bytes(retail)
  if packed!=retail:raise ValueError('complete allocation retail mismatch')
@@ -192,21 +197,23 @@ def build(m,out,root,G,substitutions=None):
  sys.path.insert(0,str(root/'tools/fidelity'));import aspsx_diff as A
  (out/'IN.S').write_bytes(A.aspsx_input(canonical.decode()))
  with tempfile.TemporaryDirectory(prefix='g',dir=root/'work') as td:
-  td=Path(td);shutil.copy2(out/'IN.S',td/'IN.S');run([root/'toolchain/genuine/bin/wibo',root/'toolchain/genuine/psyq/psyq4.4/ASPSX.EXE','-q','-G0',*G.genuine_flags(m,root),'-o','OUT.OBJ','IN.S'],'genuine',cwd=td);shutil.copy2(td/'OUT.OBJ',out/'OUT.OBJ')
+  td=Path(td);shutil.copy2(out/'IN.S',td/'IN.S')
+  G.command([root/'toolchain/genuine/bin/wibo',root/'toolchain/genuine/psyq/psyq4.4/ASPSX.EXE','-q','-G0',*G.genuine_flags(m,root),'-o','OUT.OBJ','IN.S'],td,dict(env,TMPDIR=str(td),TMP=str(td),TEMP=str(td)),out/'genuine.log')
+  shutil.copy2(td/'OUT.OBJ',out/'OUT.OBJ')
  ma=A.View(A.read_elf(cooked));ge=A.View(A.read_lnk((out/'OUT.OBJ').read_bytes()),ref=ma);check_views(m,ma,ge,addresses)
  genuine=bytearray()
  for allocation in sorted(m['allocations'],key=lambda a:a['foff']):
-  if allocation['section']!='.text.*':genuine.extend(ge.obj.sections['.rdata' if allocation['section']=='.rodata' else allocation['section']]);continue
+  if allocation['section']!='.text.*':genuine.extend(X.resolve_storage(m,ge,allocation,addresses,A) if switches(m) else ge.obj.sections['.rdata' if allocation['section']=='.rodata' else allocation['section']]);continue
   for member in m['members']:
    words,masked=A.resolve_tokens(ge,member['function'],member['vma'],addresses.get,0x80080994,section_anchors=anchors)
    if masked:raise ValueError('unresolved genuine code relocation')
    genuine.extend(struct.pack('<'+'I'*len(words),*words))
  if genuine!=packed or not A.compare_units(ma,ge)['exact']:raise ValueError('whole-object genuine mismatch')
- (out/'genuine.bin').write_bytes(genuine);(out/'rodata_proof.json').write_text(json.dumps(dict(model=MODEL,padding=padding,allocations=m['allocations']),indent=2)+'\n')
+ (out/'genuine.bin').write_bytes(genuine);(out/'rodata_proof.json').write_text(json.dumps(proof_record(m,padding,original,cooked,ma,ge,(out/'IN.S').read_text(),root,out),indent=2)+'\n')
  after=G.fingerprint(m,root)
  if before!=after or any(G.sha(substitutions[k])!=h for k,h in candidate_hashes.items()):raise ValueError('inputs changed during complete-object build')
  first=min(m['allocations'],key=lambda a:a['foff']);h=hashlib.sha256(packed).hexdigest()
- receipt=dict(schema=G.SCHEMA,module=m['key'],fingerprint=before,members=[a['id'] for a in G.all_members(m)],physical=dict(compile_edges=1,functions=[a['function'] for a in m['members']],payload=payload,owned_data=[],imports=m['imports'],allocation_model=MODEL,allocations=m['allocations']),gate=dict(result='MATCH',foff=first['foff'],vma=first['vma'],bytes=len(packed),rebuilt_sha256=h,retail_sha256=h,masked=0,raw_substitution_bytes=0),genuine=dict(result='MATCH',version='2.79',whole_tu=True,flags=['-q','-G0']+G.genuine_flags(m,root),bytes=len(genuine),masked=0,sha256=h),candidates=candidate_hashes,candidate_paths={k:str(Path(v).absolute()) for k,v in (substitutions or {}).items()})
+ receipt=dict(schema=G.SCHEMA,module=m['key'],fingerprint=before,members=[a['id'] for a in G.all_members(m)],physical=dict(compile_edges=1,functions=[a['function'] for a in m['members']],payload=payload,owned_data=[],imports=m['imports'],allocation_model=m['allocation_model'],allocations=m['allocations']),gate=dict(result='MATCH',foff=first['foff'],vma=first['vma'],bytes=len(packed),rebuilt_sha256=h,retail_sha256=h,masked=0,raw_substitution_bytes=0),genuine=dict(result='MATCH',version='2.79',whole_tu=True,flags=['-q','-G0']+G.genuine_flags(m,root),bytes=len(genuine),masked=0,sha256=h),candidates=candidate_hashes,candidate_paths={k:str(Path(v).absolute()) for k,v in (substitutions or {}).items()})
  receipt['artifacts']={n:G.sha(out/n) for n in ['module.s','sectioned.s','module.untrimmed.o','rodata_proof.json','module.o','module.ld','module.elf','module.bin','retail.bin','IN.S','OUT.OBJ','genuine.bin']};(out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');return receipt,out/'module.bin'
 
 def expected_storage_projection(m,start,end):
@@ -216,15 +223,18 @@ def expected_storage_projection(m,start,end):
   lo=max(start,a['foff']);hi=min(end,a['foff']+a['size'])
   if lo<hi:result.append(dict(section=a['section'],foff=lo,size=hi-lo))
  return result
-def project_storage(m,segments,blob,out):
- """Owned storage must replace the raw source segment, never merely compare it."""
+def project_storage(m,segments,blob,out,root=None):
+ """Replace raw storage or the exact registered switch-data context row."""
  if not segments:return []
  start=min(s.start for s in segments);end=max(s.end for s in segments)
  projected=expected_storage_projection(m,start,end)
  for piece in projected:
   lo=piece['foff'];hi=lo+piece['size'];overlaps=[(i,s) for i,s in enumerate(segments) if s.start<hi and lo<s.end]
-  if len(overlaps)!=1 or overlaps[0][1].kind!='raw' or not overlaps[0][1].start<=lo<hi<=overlaps[0][1].end:raise ValueError('owned storage is not one complete raw projection source')
+  if len(overlaps)!=1 or not overlaps[0][1].start<=lo<hi<=overlaps[0][1].end:raise ValueError('owned storage is not one complete raw projection source')
   index,original=overlaps[0];chunks=[]
+  if original.kind!='raw':
+   row=m['data_members'][0] if switches(m) else None
+   if not row or root is None or original.kind!='c' or (original.start,original.end)!=(row['foff'],row['foff']+row['size']) or (lo,hi)!=(original.start,original.end) or not original.match or original.match.config not in [m['recipe']['cfg'],m['recipe']['cfg'].replace('-G0',' -G0')] or Path(original.match.source).resolve()!=(Path(root)/row['source']).resolve():raise ValueError('owned storage is not the complete canonical switch-data context row')
   if original.start<lo:chunks.append(dataclasses.replace(original,end=lo))
   allocation=next(a for a in m['allocations'] if a['section']==piece['section'])
   target=out/('owned_'+piece['section'].lstrip('.')+'_'+format(lo,'x')+'.bin');position=offset(m,lo,hi-lo);target.write_bytes(blob[position:position+hi-lo])
@@ -241,21 +251,22 @@ def receipt_reason(m,r,root,out,G):
   validate(m,root)
   funcs=[a['function'] for a in m['members']];ids=[a['id'] for a in G.all_members(m)];ph=r.get('physical',{})
   if r.get('schema')!=G.SCHEMA or r.get('module')!=m['key'] or r.get('members')!=ids or r.get('candidates')!={}:raise ValueError('not canonical complete separated TU')
-  if ph.get('compile_edges')!=1 or ph.get('functions')!=funcs or ph.get('imports')!=m['imports'] or ph.get('owned_data')!=[] or ph.get('allocations')!=m['allocations'] or ph.get('allocation_model')!=MODEL:raise ValueError('incomplete physical allocation inventory')
+  if ph.get('compile_edges')!=1 or ph.get('functions')!=funcs or ph.get('imports')!=m['imports'] or ph.get('owned_data')!=[] or ph.get('allocations')!=m['allocations'] or ph.get('allocation_model')!=m['allocation_model']:raise ValueError('incomplete physical allocation inventory')
   if [(s['name'],s['size']) for s in ph.get('payload',[])]!=expected_payload(m):raise ValueError('allocated payload differs')
   artifacts=['module.s','sectioned.s','module.untrimmed.o','rodata_proof.json','module.o','module.ld','module.elf','module.bin','retail.bin','IN.S','OUT.OBJ','genuine.bin']
   if set(r.get('artifacts',{}))!=set(artifacts):raise ValueError('missing object artifacts')
   for n,h in r['artifacts'].items():
    if G.sha(out/n)!=h:raise ValueError('changed object artifact: '+n)
   cooked,padding=prepare(m,(out/'module.untrimmed.o').read_bytes(),root)
-  if cooked!=(out/'module.o').read_bytes() or json.loads((out/'rodata_proof.json').read_text())!=dict(model=MODEL,padding=padding,allocations=m['allocations']):raise ValueError('padding replay differs')
+  if cooked!=(out/'module.o').read_bytes():raise ValueError('padding replay differs')
   sys.path.insert(0,str(root/'tools/fidelity'));import aspsx_diff as A
   ma=A.View(A.read_elf(cooked));ge=A.View(A.read_lnk((out/'OUT.OBJ').read_bytes()),ref=ma)
   addresses={d['symbol']:d['vma'] for d in m['imports']};addresses.update({a['function']:a['vma'] for a in m['members']});check_views(m,ma,ge,addresses)
   if not A.compare_units(ma,ge)['exact']:raise ValueError('genuine object differs')
+  if json.loads((out/'rodata_proof.json').read_text())!=proof_record(m,padding,(out/'module.untrimmed.o').read_bytes(),cooked,ma,ge,(out/'IN.S').read_text(),root,out):raise ValueError('storage proof replay differs')
   anchors={a['section']:a['vma'] for a in m['allocations'] if a['section']!='.text.*'};rebuilt=bytearray()
   for allocation in sorted(m['allocations'],key=lambda a:a['foff']):
-   if allocation['section']!='.text.*':rebuilt.extend(ge.obj.sections['.rdata' if allocation['section']=='.rodata' else allocation['section']]);continue
+   if allocation['section']!='.text.*':rebuilt.extend(X.resolve_storage(m,ge,allocation,addresses,A) if switches(m) else ge.obj.sections['.rdata' if allocation['section']=='.rodata' else allocation['section']]);continue
    for member in m['members']:
     words,masked=A.resolve_tokens(ge,member['function'],member['vma'],addresses.get,0x80080994,section_anchors=anchors)
     if masked:raise ValueError('masked code relocation')
@@ -266,3 +277,11 @@ def receipt_reason(m,r,root,out,G):
   if rebuilt!=ret or any((out/n).read_bytes()!=ret for n in ['module.bin','retail.bin','genuine.bin']):raise ValueError('complete allocation bytes differ')
  except (OSError,ValueError,KeyError,TypeError,IndexError) as e:return 'invalid separated-allocation proof: '+str(e)
  return None
+
+
+def proof_record(m,padding,original,cooked,ma,ge,assembly,root,out):
+ record=dict(model=m['allocation_model'],padding=padding,allocations=m['allocations'])
+ if switches(m):
+  artifacts={name:(out/name).read_bytes() for name in ['module.s','sectioned.s','module.untrimmed.o','module.o','IN.S','OUT.OBJ']}
+  record['native']=X.proof(m,original,cooked,ma,ge,assembly,root,artifacts)
+ return record

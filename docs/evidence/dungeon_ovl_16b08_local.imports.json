@@ -1,0 +1,446 @@
+{
+  "maps": {
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "basis": "PS-X EXE header load address and payload size.",
+      "kind": "psx_exe"
+    },
+    "xfer_town_B000": {
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "file_start": 45056,
+      "file_end": 614400,
+      "delta": 2147997536,
+      "basis": "overlay-streamer transfer observed at runtime (capture_kit/loader_watch_remote.lua on PCSX-Redux, poll-record): CdRead of 278 sectors from disc LBA 3099 -> 0x80088760. Container town foff 0xB000 (LBA base 3077), so delta = 0x80088760 - 0xB000 = 0x8007D760. CONFIRMED: RAM[0x80088760..+569344] in ram_auto_town_271644_lba4322.bin is 99.98% identical to the disc image's Mode2/Form1 user data at LBA 3099, i.e. the payload is verifiably resident at that base. Scoring-only: runtime DMA evidence, not a byte-exact recompile -- promote via rowbase.promote() when one lands.; PROMOTED solved->proven: byte-exact recompile func_8008D850 at true base 0x8008AFB0 (candidate sha c290de118878 @ 2.8.1-G0, linked-strict isolation compare, phase-2 item-3 hook)",
+      "kind": "rowbase",
+      "container": "town",
+      "region": "xfer_town_B000"
+    }
+  },
+  "views": {
+    "D_800D00A0": {
+      "symbol": "D_800D00A0",
+      "kind": "data",
+      "vma": 2148335776,
+      "foff": 338240,
+      "view_bytes": 16,
+      "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "map": "xfer_town_B000",
+      "evidence": "docs/evidence/dungeon_ovl_16b08_local.imports.json"
+    },
+    "D_800D00B0": {
+      "symbol": "D_800D00B0",
+      "kind": "data",
+      "vma": 2148335792,
+      "foff": 338256,
+      "view_bytes": 16,
+      "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "map": "xfer_town_B000",
+      "evidence": "docs/evidence/dungeon_ovl_16b08_local.imports.json"
+    },
+    "D_800D00B8": {
+      "symbol": "D_800D00B8",
+      "kind": "data",
+      "vma": 2148335800,
+      "foff": 338264,
+      "view_bytes": 16,
+      "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "map": "xfer_town_B000",
+      "evidence": "docs/evidence/dungeon_ovl_16b08_local.imports.json"
+    },
+    "D_800D00C0": {
+      "symbol": "D_800D00C0",
+      "kind": "data",
+      "vma": 2148335808,
+      "foff": 338272,
+      "view_bytes": 16,
+      "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "map": "xfer_town_B000",
+      "evidence": "docs/evidence/dungeon_ovl_16b08_local.imports.json"
+    },
+    "D_800D0108": {
+      "symbol": "D_800D0108",
+      "kind": "data",
+      "vma": 2148335880,
+      "foff": 338344,
+      "view_bytes": 16,
+      "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "map": "xfer_town_B000",
+      "evidence": "docs/evidence/dungeon_ovl_16b08_local.imports.json"
+    },
+    "D_800D0110": {
+      "symbol": "D_800D0110",
+      "kind": "data",
+      "vma": 2148335888,
+      "foff": 338352,
+      "view_bytes": 16,
+      "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "map": "xfer_town_B000",
+      "evidence": "docs/evidence/dungeon_ovl_16b08_local.imports.json"
+    },
+    "D_800D0118": {
+      "symbol": "D_800D0118",
+      "kind": "data",
+      "vma": 2148335896,
+      "foff": 338360,
+      "view_bytes": 16,
+      "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "map": "xfer_town_B000",
+      "evidence": "docs/evidence/dungeon_ovl_16b08_local.imports.json"
+    },
+    "D_800D0120": {
+      "symbol": "D_800D0120",
+      "kind": "data",
+      "vma": 2148335904,
+      "foff": 338368,
+      "view_bytes": 16,
+      "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "map": "xfer_town_B000",
+      "evidence": "docs/evidence/dungeon_ovl_16b08_local.imports.json"
+    },
+    "D_800D0128": {
+      "symbol": "D_800D0128",
+      "kind": "data",
+      "vma": 2148335912,
+      "foff": 338376,
+      "view_bytes": 16,
+      "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "map": "xfer_town_B000",
+      "evidence": "docs/evidence/dungeon_ovl_16b08_local.imports.json"
+    },
+    "D_800D0130": {
+      "symbol": "D_800D0130",
+      "kind": "data",
+      "vma": 2148335920,
+      "foff": 338384,
+      "view_bytes": 16,
+      "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "map": "xfer_town_B000",
+      "evidence": "docs/evidence/dungeon_ovl_16b08_local.imports.json"
+    },
+    "D_800D0138": {
+      "symbol": "D_800D0138",
+      "kind": "data",
+      "vma": 2148335928,
+      "foff": 338392,
+      "view_bytes": 16,
+      "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "map": "xfer_town_B000",
+      "evidence": "docs/evidence/dungeon_ovl_16b08_local.imports.json"
+    },
+    "D_800D0140": {
+      "symbol": "D_800D0140",
+      "kind": "data",
+      "vma": 2148335936,
+      "foff": 338400,
+      "view_bytes": 16,
+      "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "map": "xfer_town_B000",
+      "evidence": "docs/evidence/dungeon_ovl_16b08_local.imports.json"
+    },
+    "D_800D0148": {
+      "symbol": "D_800D0148",
+      "kind": "data",
+      "vma": 2148335944,
+      "foff": 338408,
+      "view_bytes": 16,
+      "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "map": "xfer_town_B000",
+      "evidence": "docs/evidence/dungeon_ovl_16b08_local.imports.json"
+    }
+  },
+  "functions": {
+    "func_80053DA8": {
+      "vma": 2147827112,
+      "foff": 161192,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_80090E78": {
+      "vma": 2148077176,
+      "foff": 79640,
+      "map": "xfer_town_B000",
+      "first_word": "d8ffbd27",
+      "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
+    },
+    "func_80090F00": {
+      "vma": 2148077312,
+      "foff": 79776,
+      "map": "xfer_town_B000",
+      "first_word": "d8ffbd27",
+      "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
+    },
+    "func_80091F64": {
+      "vma": 2148081508,
+      "foff": 83972,
+      "map": "xfer_town_B000",
+      "first_word": "d8ffbd27",
+      "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
+    },
+    "func_8009204C": {
+      "vma": 2148081740,
+      "foff": 84204,
+      "map": "xfer_town_B000",
+      "first_word": "e0ffbd27",
+      "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
+    },
+    "func_800920F4": {
+      "vma": 2148081908,
+      "foff": 84372,
+      "map": "xfer_town_B000",
+      "first_word": "d8ffbd27",
+      "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
+    },
+    "func_8009221C": {
+      "vma": 2148082204,
+      "foff": 84668,
+      "map": "xfer_town_B000",
+      "first_word": "d8ffbd27",
+      "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
+    },
+    "func_80092320": {
+      "vma": 2148082464,
+      "foff": 84928,
+      "map": "xfer_town_B000",
+      "first_word": "d8ffbd27",
+      "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
+    },
+    "func_800924EC": {
+      "vma": 2148082924,
+      "foff": 85388,
+      "map": "xfer_town_B000",
+      "first_word": "d8ffbd27",
+      "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
+    },
+    "func_80092698": {
+      "vma": 2148083352,
+      "foff": 85816,
+      "map": "xfer_town_B000",
+      "first_word": "d8ffbd27",
+      "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
+    },
+    "func_800927EC": {
+      "vma": 2148083692,
+      "foff": 86156,
+      "map": "xfer_town_B000",
+      "first_word": "d8ffbd27",
+      "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
+    },
+    "func_80092A84": {
+      "vma": 2148084356,
+      "foff": 86820,
+      "map": "xfer_town_B000",
+      "first_word": "d8ffbd27",
+      "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
+    },
+    "func_80092CD4": {
+      "vma": 2148084948,
+      "foff": 87412,
+      "map": "xfer_town_B000",
+      "first_word": "d8ffbd27",
+      "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
+    },
+    "func_80092DA8": {
+      "vma": 2148085160,
+      "foff": 87624,
+      "map": "xfer_town_B000",
+      "first_word": "d8ffbd27",
+      "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
+    },
+    "func_80092ECC": {
+      "vma": 2148085452,
+      "foff": 87916,
+      "map": "xfer_town_B000",
+      "first_word": "d8ffbd27",
+      "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
+    },
+    "func_80092FF0": {
+      "vma": 2148085744,
+      "foff": 88208,
+      "map": "xfer_town_B000",
+      "first_word": "d8ffbd27",
+      "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
+    },
+    "func_800930E4": {
+      "vma": 2148085988,
+      "foff": 88452,
+      "map": "xfer_town_B000",
+      "first_word": "d8ffbd27",
+      "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
+    },
+    "func_800948DC": {
+      "vma": 2148092124,
+      "foff": 94588,
+      "map": "xfer_town_B000",
+      "first_word": "0d80023c",
+      "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
+    },
+    "func_80094984": {
+      "vma": 2148092292,
+      "foff": 94756,
+      "map": "xfer_town_B000",
+      "first_word": "e8ffbd27",
+      "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
+    },
+    "func_80094C1C": {
+      "vma": 2148092956,
+      "foff": 95420,
+      "map": "xfer_town_B000",
+      "first_word": "e8ffbd27",
+      "basis": "TOWN resident transfer map in the same runtime context as img_16ae8_80094248; no overlapping DUNGEON-image bytes are claimed."
+    }
+  },
+  "runtime_views": {},
+  "review": "pending",
+  "reviewer": null,
+  "residency_discriminator": {
+    "basis": "The local module rowbase proof names RAM town captures and byte equality with TOWN at these local offsets. The resident TOWN transfer map covers callback code and initializer tables. DUNGEON A3000 is a different resident image with different bytes at the overlapping VMAs.",
+    "rowbase": {
+      "base_confidence": "proven",
+      "delta": "0x8007D760",
+      "foff_end": "0x96000",
+      "foff_start": "0xB000",
+      "proof": "overlay-streamer transfer observed at runtime (capture_kit/loader_watch_remote.lua on PCSX-Redux, poll-record): CdRead of 278 sectors from disc LBA 3099 -> 0x80088760. Container town foff 0xB000 (LBA base 3077), so delta = 0x80088760 - 0xB000 = 0x8007D760. CONFIRMED: RAM[0x80088760..+569344] in ram_auto_town_271644_lba4322.bin is 99.98% identical to the disc image's Mode2/Form1 user data at LBA 3099, i.e. the payload is verifiably resident at that base. Scoring-only: runtime DMA evidence, not a byte-exact recompile -- promote via rowbase.promote() when one lands.; PROMOTED solved->proven: byte-exact recompile func_8008D850 at true base 0x8008AFB0 (candidate sha c290de118878 @ 2.8.1-G0, linked-strict isolation compare, phase-2 item-3 hook)",
+      "region": "xfer_town_B000",
+      "schema": "azure-clean.rowbase.v1",
+      "reviewer": "orchestrator-r120"
+    },
+    "table_views": {
+      "D_800D00A0": {
+        "foff": 338240,
+        "view_bytes": 16
+      },
+      "D_800D00B0": {
+        "foff": 338256,
+        "view_bytes": 16
+      },
+      "D_800D00B8": {
+        "foff": 338264,
+        "view_bytes": 16
+      },
+      "D_800D00C0": {
+        "foff": 338272,
+        "view_bytes": 16
+      },
+      "D_800D0108": {
+        "foff": 338344,
+        "view_bytes": 16
+      },
+      "D_800D0110": {
+        "foff": 338352,
+        "view_bytes": 16
+      },
+      "D_800D0118": {
+        "foff": 338360,
+        "view_bytes": 16
+      },
+      "D_800D0120": {
+        "foff": 338368,
+        "view_bytes": 16
+      },
+      "D_800D0128": {
+        "foff": 338376,
+        "view_bytes": 16
+      },
+      "D_800D0130": {
+        "foff": 338384,
+        "view_bytes": 16
+      },
+      "D_800D0138": {
+        "foff": 338392,
+        "view_bytes": 16
+      },
+      "D_800D0140": {
+        "foff": 338400,
+        "view_bytes": 16
+      },
+      "D_800D0148": {
+        "foff": 338408,
+        "view_bytes": 16
+      }
+    }
+  },
+  "target_sizeof_audit": {
+    "D_800D00A0": {
+      "declared_bytes": 4,
+      "manifest_view_bytes": 4,
+      "previous_view_bytes": 4
+    },
+    "D_800D00B0": {
+      "declared_bytes": 4,
+      "manifest_view_bytes": 4,
+      "previous_view_bytes": 4
+    },
+    "D_800D00B8": {
+      "declared_bytes": 16,
+      "manifest_view_bytes": 16,
+      "previous_view_bytes": 16
+    },
+    "D_800D00C0": {
+      "declared_bytes": 4,
+      "manifest_view_bytes": 4,
+      "previous_view_bytes": 4
+    },
+    "D_800D0108": {
+      "declared_bytes": 4,
+      "manifest_view_bytes": 4,
+      "previous_view_bytes": 4
+    },
+    "D_800D0110": {
+      "declared_bytes": 4,
+      "manifest_view_bytes": 4,
+      "previous_view_bytes": 4
+    },
+    "D_800D0118": {
+      "declared_bytes": null,
+      "manifest_view_bytes": 1,
+      "basis": "Incomplete extern/address view; no complete external object extent is claimed."
+    },
+    "D_800D0120": {
+      "declared_bytes": 4,
+      "manifest_view_bytes": 4,
+      "previous_view_bytes": 4
+    },
+    "D_800D0128": {
+      "declared_bytes": null,
+      "manifest_view_bytes": 1,
+      "basis": "Incomplete extern/address view; no complete external object extent is claimed."
+    },
+    "D_800D0130": {
+      "declared_bytes": 4,
+      "manifest_view_bytes": 4,
+      "previous_view_bytes": 4
+    },
+    "D_800D0138": {
+      "declared_bytes": null,
+      "manifest_view_bytes": 1,
+      "basis": "Incomplete extern/address view; no complete external object extent is claimed."
+    },
+    "D_800D0140": {
+      "declared_bytes": 4,
+      "manifest_view_bytes": 4,
+      "previous_view_bytes": 4
+    },
+    "D_800D0148": {
+      "declared_bytes": null,
+      "manifest_view_bytes": 1,
+      "basis": "Incomplete extern/address view; no complete external object extent is claimed."
+    }
+  }
+}

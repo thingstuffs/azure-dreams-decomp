@@ -1,4 +1,5 @@
-#include "common.h"
+#include "modules/dungeon_ovl_1831cd8.h"
+
 s32 func_80026FA8(s32 match_byte_2, s32 match_byte_1, s32 start_index)
 {
     s32 i;

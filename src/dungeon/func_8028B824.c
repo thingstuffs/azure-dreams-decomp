@@ -1,13 +1,4 @@
-#include "common.h"
-
-typedef struct S_8001E824_0 {
-    u8 unk_00;
-    u8 unk_01;
-    s8 unk_02;
-    s8 unk_03;
-} S_8001E824_0;   /* entity in func_8001E824 */
-
-s32 func_800A6D30();
+#include "modules/dungeon_floor_spawns.h"
 
 void func_8001E824(void *entity_data) {
     u8 *entity = entity_data;
@@ -19,18 +10,18 @@ void func_8001E824(void *entity_data) {
     u8 case_value;
 
     output_flags = 0;
-    case_value = ((S_8001E824_0 *)entity)->unk_01;
+    case_value = ((floor_spawns_isolated_8028B824_S_8001E824_0 *)entity)->unk_01;
     output_value = output_flags;
     switch (case_value) {
     case 4:
         output_value = 1;
-        if (((S_8001E824_0 *)entity)->unk_00 != 0x11) {
+        if (((floor_spawns_isolated_8028B824_S_8001E824_0 *)entity)->unk_00 != 0x11) {
             output_value = (func_800A6D30() & 7) | 4;
         }
         output_flags = -0x80;
         break;
     case 15:
-        if (((S_8001E824_0 *)entity)->unk_00 == 9) {
+        if (((floor_spawns_isolated_8028B824_S_8001E824_0 *)entity)->unk_00 == 9) {
             output_flags |= 0x40;
         }
     case 17:
@@ -58,6 +49,6 @@ void func_8001E824(void *entity_data) {
     default:
         break;
     }
-    ((S_8001E824_0 *)entity)->unk_02 = output_value;
-    ((S_8001E824_0 *)entity)->unk_03 = output_flags;
+    ((floor_spawns_isolated_8028B824_S_8001E824_0 *)entity)->unk_02 = output_value;
+    ((floor_spawns_isolated_8028B824_S_8001E824_0 *)entity)->unk_03 = output_flags;
 }

@@ -1,6 +1,5 @@
-#include "common.h"
+#include "modules/dungeon_ovl_1831cd8.h"
 
-/* Count matching entry values, stopping at a zero value or 64 entries. */
 s32 func_80026E30(s32 target_value) {
     s32 index;
     s32 count;

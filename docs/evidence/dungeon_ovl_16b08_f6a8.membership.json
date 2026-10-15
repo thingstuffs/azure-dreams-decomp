@@ -1,0 +1,43 @@
+{
+  "module": "dungeon_ovl_16b08_f6a8",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_16b08_f6a8.c",
+    "module_index": 9
+  },
+  "members": [
+    "dungeon/func_7FFEF6A8"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Explicit image split of ovl_16b08.c#9: 0xF6A8..0xF7E8 and 0x16B08..0x16FB4 are distinct runtime image extents, with unrelated intervening code. Each native TU retains one complete contiguous image-local cohort.",
+  "basis": [
+    "1 previously registered cohort members are retained in file order.",
+    "0 independently recovered complete C routines close every unregistered interior gap. Their standalone retail/genuine proofs are exact, with zero masks.",
+    "The resulting 1-function native TU is contiguous and its entire 320-byte payload matches retail and genuine ASPSX under one stock CDK G0 recipe.",
+    "The existing runtime RAM payload equality map img_f6a8_8008ce08 contains all members.",
+    "The old 12-row assignment mixed a 320-byte routine in img_f6a8_8008ce08 with eleven routines in img_16ae8_80094248. The two proven maps are disjoint even though both have delta 0x8007D760. Group names change explicitly with guarded predecessor records; no historical row, extent, recipe, baseline or promotion is rewritten."
+  ],
+  "review": "pending",
+  "reviewer": null,
+  "recovered_rows": [],
+  "assignment_changes": [
+    {
+      "before": {
+        "id": "dungeon/func_7FFEF6A8",
+        "container": "dungeon",
+        "module": "ovl_16b08.c",
+        "module_index": 9,
+        "confidence": "weak"
+      },
+      "after": {
+        "id": "dungeon/func_7FFEF6A8",
+        "container": "dungeon",
+        "module": "ovl_16b08_f6a8.c",
+        "module_index": 9,
+        "confidence": "strong",
+        "evidence": "docs/evidence/dungeon_ovl_16b08_f6a8.membership.json"
+      }
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "module": "dungeon_town_load",
+  "region": {
+    "schema": "azure-clean.rowbase.v1",
+    "region": "img_d54c_8008ad4c",
+    "foff_start": "0xD54C",
+    "foff_end": "0xF6A8",
+    "delta": "0x8007D760",
+    "base_confidence": "proven",
+    "proof": "CORRECTED 2026-08-24 from delta 0x8007D800 (off by exactly 0xA0). The 0x8007D800 value came from the 2026-08-23 static image solve, which snapped K to the assumed image-base law K = 0 mod 0x800. That law is WRONG for this band: the resident overlay engine sits at 0x80088760, i.e. K = 0x760 mod 0x800 (the dungeon engine's own proven delta 0x7FFE5760 has the same residue). Three independent measurements, all rejecting 0x8007D800: (1) RUNTIME -- DUNGEON.BIN[0xD54C..0xD64C] is byte-identical to RAM at 0x8008ACAC in four independent captures (az-captures ram_town, ram_town_menu, ram_menu, ram_movie, owner 2026-07-13), so delta = 0x8008ACAC - 0xD54C = 0x8007D760; over 0xD000-0xE800 the container matches RAM 512/512 bytes per 0x200 block at this delta. (2) THIS CONTAINER'S OWN local-`j` containment -- the 23 in-function absolute `j` targets in the image's member spans constrain K to [0x8007D759, 0x8007D788] (max-coverage 22 of 23 pins); 0x8007D760 is inside, 0x8007D800 is outside, and 7 individual pins discriminate (e.g. func at 0xD7CC: j@0xD828 -> 0x8008AFA8 forces K in [0x8007D759,0x8007D7DC]). (3) TOWN.BIN holds the same master image at the SAME file offsets; 38 landed TOWN rows in 0xD54C-0xE800 are result MATCH (byte-exact recompiles) with load_base 0x8007D760 and names func_8008ACAC.. -- exactly 0xA0 below the names this record was generating. The prior promotion (`byte-exact recompile of func_7FFED988/E0A8/E278/EB58 at this base`) is NOT evidence for 0x8007D800: those four functions carry no self-referential absolute word, so they reproduce the container bytes at any base. Audit: of the 393 images in the 2026-08-23 proofs.json, this is the ONLY one whose recorded k falls outside its own local-`j` max-coverage interval (work/redux_capture_20260824/kinterval_audit.py). base_confidence stays `proven`: byte-exact recompiles at exactly this base exist for these same bytes (the 38 TOWN rows)."
+  },
+  "basis": "Existing proven rowbase record; complete module extent is contained in this map.",
+  "review": "pending"
+}

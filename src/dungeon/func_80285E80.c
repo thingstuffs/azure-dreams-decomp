@@ -1,56 +1,5 @@
-#include "common.h"
-#include "shared/dungeon_floor.h"
-#include "shared/dungeon_status.h"
+#include "modules/dungeon_floor_generate.h"
 
-typedef struct DungeonRecord80285E80 {
-    u8 value;
-    u8 level;
-} DungeonRecord80285E80;
-
-typedef struct DungeonState80285E80 {
-    u8 pad00[0x18];
-    DungeonRecord80285E80 *records;
-} DungeonState80285E80;
-
-typedef struct Packed16_80285E80 {
-    s32 w0;
-    s32 w4;
-    s32 w8;
-    s32 wC;
-} __attribute__((packed)) Packed16_80285E80;
-
-typedef struct DungeonGlobals80285E80 {
-    u8 pad022c[0x22C];
-    s32 state_022c;
-    u8 pad0230[4];
-    s32 floor_0234;
-    u8 pad0238[0x2090 - 0x238];
-    s32 state_2090;
-} DungeonGlobals80285E80;
-
-
-#define DUNGEON_GLOBALS ((DungeonGlobals80285E80 *)0x80010000)
-extern s8 D_80080A88[12];
-extern u8 D_80081468[12];
-extern s16 D_8008146C[5];
-extern u8 D_80082E6B[9];
-extern u8 D_800DDC9C[4][8];
-extern u8 D_800E3648[12];
-extern u8 D_800E39C8[12];
-
-extern void func_800194C4(s16 resource_index);
-extern void func_80019648(void);
-extern s32 func_80019684(s16 object_index, s16 mode, s16 activate);
-extern void func_80019A74(void);
-extern s32 func_80033BC0(s32 value);
-extern void func_80044698(void);
-extern void func_80048088(s16 entity_type);
-extern void SD_Call(s32 flags);
-extern void func_800542BC(void);
-extern s32 func_800A6D30(void);
-extern s32 func_800A6DA4(s32 bound_a, s32 bound_b);
-
-/* Sets up dungeon floor encounters and monster records, including tutorial and special-floor events. */
 s32 func_80018E80(void)
 {
     s32 floor_event;
@@ -66,13 +15,13 @@ s32 func_80018E80(void)
 
     floor_event = 0;
     skip_floor_setup = 0;
-    state = DUNGEON_GLOBALS->state_022c;
+    state = floor_generate_isolated_80285E80_DUNGEON_GLOBALS->state_022c;
     if (state == 1) {
-        if (D_8008146C[0] < 2) {
-            DUNGEON_GLOBALS->state_2090 = state;
+        if (((s16 *)D_8008146C)[0] < 2) {
+            floor_generate_isolated_80285E80_DUNGEON_GLOBALS->state_2090 = state;
             func_80019648();
-        } else if (DUNGEON_GLOBALS->state_2090 == state) {
-            DUNGEON_GLOBALS->state_2090 = 0;
+        } else if (floor_generate_isolated_80285E80_DUNGEON_GLOBALS->state_2090 == state) {
+            floor_generate_isolated_80285E80_DUNGEON_GLOBALS->state_2090 = 0;
         }
     }
 
@@ -84,15 +33,15 @@ s32 func_80018E80(void)
         }
     }
 
-    state = DUNGEON_GLOBALS->state_2090;
+    state = floor_generate_isolated_80285E80_DUNGEON_GLOBALS->state_2090;
     if (state == 0) {
-        floor_group = (s16)(D_8008146C[0] / 5);
-        if (D_8008146C[0] >= 0x28) {
+        floor_group = (s16)(((s16 *)D_8008146C)[0] / 5);
+        if (((s16 *)D_8008146C)[0] >= 0x28) {
             skip_floor_setup = 1;
             D_800E296C |= 0x10000000;
         }
 
-        if (D_8008146C[0] == 0x28) {
+        if (((s16 *)D_8008146C)[0] == 0x28) {
             floor_event = 1;
             if (func_80033BC0(0xA2) != 0) {
                 floor_group = 7;
@@ -101,18 +50,18 @@ s32 func_80018E80(void)
                 func_80019A74();
             }
             skip_floor_setup = 1;
-        } else if (D_8008146C[0] < 2) {
+        } else if (((s16 *)D_8008146C)[0] < 2) {
             floor_event = (func_800A6D30() & 3) + 3;
-        } else if (D_8008146C[0] == 2 && DUNGEON_GLOBALS->state_022c != 1) {
+        } else if (((s16 *)D_8008146C)[0] == 2 && floor_generate_isolated_80285E80_DUNGEON_GLOBALS->state_022c != 1) {
             floor_event = 2;
             D_800E296C |= 0x10000000;
-        } else if (D_8008146C[0] == 0x1F && func_80033BC0(0x1389) == 0) {
+        } else if (((s16 *)D_8008146C)[0] == 0x1F && func_80033BC0(0x1389) == 0) {
             D_800E39C8[6] = 1;
             D_800E39C8[7] = 1;
-            D_800E3648[0] = 0x37;
-            D_800E3648[1] = 0x13;
-            D_800E3648[3] = 0;
-            D_800E3648[2] = 0x63;
+            ((u8 *)D_800E3648)[0] = 0x37;
+            ((u8 *)D_800E3648)[1] = 0x13;
+            ((u8 *)D_800E3648)[3] = 0;
+            ((u8 *)D_800E3648)[2] = 0x63;
             D_800E296C |= 0x10000000;
         }
 
@@ -139,7 +88,7 @@ s32 func_80018E80(void)
         }
 
         if (skip_floor_setup == 0) {
-            func_800194C4(D_8008146C[0]);
+            func_800194C4(((s16 *)D_8008146C)[0]);
         }
     } else {
         skip_floor_setup = 1;
@@ -161,14 +110,14 @@ s32 func_80018E80(void)
                 func_80019684(0, 1, 0);
             }
 
-            floor_data = (s16 *)D_80081468;
+            floor_data = (s16 *)((u8 *)D_80081468);
             if (floor_data[2] == 1) {
                 s32 i;
                 {
 
                     u8 *even_ids;
                     u8 *odd_ids;
-                    DungeonState80285E80 *ds;
+                    floor_generate_isolated_80285E80_DungeonState80285E80 *ds;
 
                     monster_id = func_800A6DA4(3, 0x2D) & 0xFFFF;
                     level = floor_data[2] + (func_800A6D30() & 1);
@@ -176,8 +125,8 @@ s32 func_80018E80(void)
                         level = 99;
                     }
                     i = 0;
-                    ds = ((DungeonState80285E80 *)&dungeonStatus);
-                    base = D_800DDC9C[0];
+                    ds = ((floor_generate_isolated_80285E80_DungeonState80285E80 *)&dungeonStatus);
+                    base = ((u8 (*)[8])D_800DDC9C)[0];
                     even_ids = base;
                     odd_ids = even_ids + 1;
                     do {
@@ -195,16 +144,16 @@ s32 func_80018E80(void)
 
                     u8 *even_ids;
                     u8 *odd_ids;
-                    DungeonState80285E80 *ds;
+                    floor_generate_isolated_80285E80_DungeonState80285E80 *ds;
 
                     monster_id = func_800A6DA4(3, 0x2D) & 0xFFFF;
-                    level = D_8008146C[0] + (func_800A6D30() & 1);
+                    level = ((s16 *)D_8008146C)[0] + (func_800A6D30() & 1);
                     if (level >= 100) {
                         level = 99;
                     }
                     i = 0;
-                    ds = ((DungeonState80285E80 *)&dungeonStatus);
-                    base = D_800DDC9C[1];
+                    ds = ((floor_generate_isolated_80285E80_DungeonState80285E80 *)&dungeonStatus);
+                    base = ((u8 (*)[8])D_800DDC9C)[1];
                     even_ids = base;
                     odd_ids = even_ids + 1;
                     do {
@@ -218,10 +167,10 @@ s32 func_80018E80(void)
                     } while (i < 4);
                 }
             } else {
-                *(Packed16_80285E80 *)dungeonStatus.unk_18 =
-                    *(Packed16_80285E80 *)(dungeonStatus.unk_18 + 0x10);
-                *(Packed16_80285E80 *)D_800DDC9C[0] =
-                    *(Packed16_80285E80 *)D_800DDC9C[2];
+                *(floor_generate_isolated_80285E80_Packed16_80285E80 *)dungeonStatus.unk_18 =
+                    *(floor_generate_isolated_80285E80_Packed16_80285E80 *)(dungeonStatus.unk_18 + 0x10);
+                *(floor_generate_isolated_80285E80_Packed16_80285E80 *)((u8 (*)[8])D_800DDC9C)[0] =
+                    *(floor_generate_isolated_80285E80_Packed16_80285E80 *)((u8 (*)[8])D_800DDC9C)[2];
             }
 
             {
@@ -229,17 +178,17 @@ s32 func_80018E80(void)
                 s32 level_bonus;
                 u8 *even_ids;
                 u8 *odd_ids;
-                DungeonState80285E80 *ds;
+                floor_generate_isolated_80285E80_DungeonState80285E80 *ds;
 
                 monster_id = func_800A6DA4(3, 0x2D) & 0xFFFF;
                 level_bonus = func_800A6D30() & 1;
                 i_m = 0;
-                base = ((DungeonState80285E80 *)&dungeonStatus);
+                base = ((floor_generate_isolated_80285E80_DungeonState80285E80 *)&dungeonStatus);
                 ds = base;
-                final_floor = (s32)D_800DDC9C[2];
+                final_floor = (s32)((u8 (*)[8])D_800DDC9C)[2];
                 even_ids = (u8 *)final_floor;
                 odd_ids = even_ids + 1;
-                final_floor = D_8008146C[0];
+                final_floor = ((s16 *)D_8008146C)[0];
                 level = final_floor + level_bonus;
                 do {
                     ds->records[i_m + 8].value = monster_id;
@@ -257,16 +206,16 @@ s32 func_80018E80(void)
                 s32 level_bonus;
                 u8 *even_ids;
                 u8 *odd_ids;
-                DungeonState80285E80 *ds;
+                floor_generate_isolated_80285E80_DungeonState80285E80 *ds;
 
                 monster_id = func_800A6DA4(3, 0x2D) & 0xFFFF;
                 level_bonus = func_800A6D30() & 1;
                 i_m = 0;
-                ds = ((DungeonState80285E80 *)&dungeonStatus);
-                final_floor = (s32)D_800DDC9C[3];
+                ds = ((floor_generate_isolated_80285E80_DungeonState80285E80 *)&dungeonStatus);
+                final_floor = (s32)((u8 (*)[8])D_800DDC9C)[3];
                 even_ids = (u8 *)final_floor;
                 odd_ids = even_ids + 1;
-                final_floor = D_8008146C[0];
+                final_floor = ((s16 *)D_8008146C)[0];
                 level = final_floor + level_bonus;
                 do {
                     ds->records[i_m + 12].value = monster_id;
@@ -282,7 +231,7 @@ s32 func_80018E80(void)
     }
 
 final:
-    final_floor = D_8008146C[0];
-    DUNGEON_GLOBALS->floor_0234 = final_floor;
+    final_floor = ((s16 *)D_8008146C)[0];
+    floor_generate_isolated_80285E80_DUNGEON_GLOBALS->floor_0234 = final_floor;
     return floor_event;
 }

@@ -1,0 +1,37 @@
+{
+  "module": "dungeon_floor_spawns",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "floor_spawns.c",
+    "module_index": 14
+  },
+  "members": [
+    "dungeon/D_80283034",
+    "dungeon/func_8028B110",
+    "dungeon/func_8028B18C",
+    "dungeon/func_8028B660",
+    "dungeon/func_8028B824",
+    "dungeon/func_8028B96C",
+    "dungeon/func_8028B994",
+    "dungeon/func_8028BAA4",
+    "dungeon/func_8028BC54",
+    "dungeon/func_8028BF0C",
+    "dungeon/func_8028C32C",
+    "dungeon/func_8028C354",
+    "dungeon/func_8028C450"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Complete original floor cohort, preserving its one existing switch-data row and all original strong function members. Compiler-generated switch storage and natural contiguous code occupy two original disjoint extents; no historical compiler TU boundary is asserted.",
+  "basis": [
+    "All 12 original strong function members and their existing compiler switch-data row are retained in file order.",
+    "The 72-byte switch table is generated from func_8001E824, not from a literal table or raw retail copy. The registry independently records the same jump-table owner and evidenced ownership.",
+    "The complete native TU has one unchanged 2.7.2-cdk-G0 recipe and natural contiguous text. Both allocations lie inside the existing proven xfer_dungeon_2A3000 transfer map.",
+    "All allocated GNU and genuine ASPSX bytes match retail, with zero masked relocations and zero raw substitution. The intervening allocation gap belongs to other code/data and remains outside this cohort.",
+    "No original function or data member is dropped and no unrelated strong cohort is split."
+  ],
+  "review": "pending",
+  "reviewer": null,
+  "recovered_rows": [],
+  "assignment_changes": []
+}

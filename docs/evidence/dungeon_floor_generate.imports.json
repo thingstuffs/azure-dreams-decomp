@@ -1,0 +1,1949 @@
+{
+  "maps": {
+    "xfer_dungeon_2A3000": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 2764800,
+      "file_end": 2803712,
+      "delta": 2144808960,
+      "basis": "overlay-streamer transfer observed at runtime (capture_kit/loader_watch_remote.lua on PCSX-Redux, poll-record): CdRead of 19 sectors from disc LBA 13660 -> 0x80016000. Container dungeon foff 0x2A3000 (LBA base 12310), so delta = 0x80016000 - 0x2A3000 = 0x7FD73000. CONFIRMED: RAM[0x80016000..+38912] in ram_dungeon_f1.bin is 99.90% identical to the disc image's Mode2/Form1 user data at LBA 13660, i.e. the payload is verifiably resident at that base. Scoring-only: runtime DMA evidence, not a byte-exact recompile -- promote via rowbase.promote() when one lands.; PROMOTED solved->proven: byte-exact recompile func_80289CEC at true base 0x8001CCEC (candidate sha cdc527edbbb6 @ 2.7.2-cdk-G0, linked-strict isolation compare, phase-2 item-3 hook)",
+      "kind": "rowbase",
+      "region": "xfer_dungeon_2A3000"
+    },
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "basis": "PS-X EXE header load address and payload size.",
+      "kind": "psx_exe"
+    },
+    "xfer_dungeon_A3000": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 667648,
+      "file_end": 1050624,
+      "delta": 2147374944,
+      "basis": "overlay-streamer transfer observed at runtime (capture_kit/loader_watch_remote.lua on PCSX-Redux, poll-record): CdRead of 187 sectors from disc LBA 12636 -> 0x80088760. Container dungeon foff 0xA3000 (LBA base 12310), so delta = 0x80088760 - 0xA3000 = 0x7FFE5760. CONFIRMED: RAM[0x80088760..+382976] in ram_auto_dungeon_1829A0C_lba24681.bin is 99.81% identical to the disc image's Mode2/Form1 user data at LBA 12636, i.e. the payload is verifiably resident at that base. Scoring-only: runtime DMA evidence, not a byte-exact recompile -- promote via rowbase.promote() when one lands.; PROMOTED solved->proven: byte-exact recompile func_80094ABC at true base 0x8009A21C (candidate sha d95d3f0bfce6 @ 2.8.1, linked-strict isolation compare, phase-2 item-3 hook)",
+      "kind": "rowbase",
+      "region": "xfer_dungeon_A3000"
+    }
+  },
+  "views": {
+    "D_8001F584": {
+      "symbol": "D_8001F584",
+      "kind": "data",
+      "vma": 2147612036,
+      "foff": 2803076,
+      "view_bytes": 1,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_2A3000",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_8001F586": {
+      "symbol": "D_8001F586",
+      "kind": "data",
+      "vma": 2147612038,
+      "foff": 2803078,
+      "view_bytes": 2,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_2A3000",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_8001F588": {
+      "symbol": "D_8001F588",
+      "kind": "data",
+      "vma": 2147612040,
+      "foff": 2803080,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_2A3000",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_8001F594": {
+      "symbol": "D_8001F594",
+      "kind": "data",
+      "vma": 2147612052,
+      "foff": 2803092,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_2A3000",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_8001F604": {
+      "symbol": "D_8001F604",
+      "kind": "data",
+      "vma": 2147612164,
+      "foff": 2803204,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_2A3000",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_8001F62C": {
+      "symbol": "D_8001F62C",
+      "kind": "data",
+      "vma": 2147612204,
+      "foff": 2803244,
+      "view_bytes": 5,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_2A3000",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_8001F660": {
+      "symbol": "D_8001F660",
+      "kind": "data",
+      "vma": 2147612256,
+      "foff": 2803296,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_2A3000",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_8001F664": {
+      "symbol": "D_8001F664",
+      "kind": "data",
+      "vma": 2147612260,
+      "foff": 2803300,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_2A3000",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_8001F668": {
+      "symbol": "D_8001F668",
+      "kind": "data",
+      "vma": 2147612264,
+      "foff": 2803304,
+      "view_bytes": 2,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_2A3000",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_8001F66A": {
+      "symbol": "D_8001F66A",
+      "kind": "data",
+      "vma": 2147612266,
+      "foff": 2803306,
+      "view_bytes": 2,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_2A3000",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_8001F66C": {
+      "symbol": "D_8001F66C",
+      "kind": "data",
+      "vma": 2147612268,
+      "foff": 2803308,
+      "view_bytes": 1,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_2A3000",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_8001F670": {
+      "symbol": "D_8001F670",
+      "kind": "data",
+      "vma": 2147612272,
+      "foff": 2803312,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_2A3000",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_8001F6A0": {
+      "symbol": "D_8001F6A0",
+      "kind": "data",
+      "vma": 2147612320,
+      "foff": 2803360,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_2A3000",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_8001F6A4": {
+      "symbol": "D_8001F6A4",
+      "kind": "data",
+      "vma": 2147612324,
+      "foff": 2803364,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_2A3000",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_8001F6A8": {
+      "symbol": "D_8001F6A8",
+      "kind": "data",
+      "vma": 2147612328,
+      "foff": 2803368,
+      "view_bytes": 132,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_2A3000",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_8001F6E8": {
+      "symbol": "D_8001F6E8",
+      "kind": "data",
+      "vma": 2147612392,
+      "foff": 2803432,
+      "view_bytes": 1,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_2A3000",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_8006CCD8": {
+      "symbol": "D_8006CCD8",
+      "kind": "data",
+      "vma": 2147929304,
+      "foff": 263384,
+      "view_bytes": 1,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_8006CCE8": {
+      "symbol": "D_8006CCE8",
+      "kind": "data",
+      "vma": 2147929320,
+      "foff": 263400,
+      "view_bytes": 1,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_8006E61C": {
+      "symbol": "D_8006E61C",
+      "kind": "data",
+      "vma": 2147935772,
+      "foff": 269852,
+      "view_bytes": 4,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_8006E704": {
+      "symbol": "D_8006E704",
+      "kind": "data",
+      "vma": 2147936004,
+      "foff": 270084,
+      "view_bytes": 4,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_80073414": {
+      "symbol": "D_80073414",
+      "kind": "data",
+      "vma": 2147955732,
+      "foff": 289812,
+      "view_bytes": 20,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_80080A88": {
+      "symbol": "D_80080A88",
+      "kind": "data",
+      "vma": 2148010632,
+      "foff": 344712,
+      "view_bytes": 12,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_80080AF0": {
+      "symbol": "D_80080AF0",
+      "kind": "data",
+      "vma": 2148010736,
+      "foff": 344816,
+      "view_bytes": 4,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_80080AF3": {
+      "symbol": "D_80080AF3",
+      "kind": "data",
+      "vma": 2148010739,
+      "foff": 344819,
+      "view_bytes": 1,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_80080AF4": {
+      "symbol": "D_80080AF4",
+      "kind": "data",
+      "vma": 2148010740,
+      "foff": 344820,
+      "view_bytes": 8,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_80080AFC": {
+      "symbol": "D_80080AFC",
+      "kind": "data",
+      "vma": 2148010748,
+      "foff": 344828,
+      "view_bytes": 2,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_80081468": {
+      "symbol": "D_80081468",
+      "kind": "data",
+      "vma": 2148013160,
+      "foff": 347240,
+      "view_bytes": 1,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_8008146C": {
+      "symbol": "D_8008146C",
+      "kind": "data",
+      "vma": 2148013164,
+      "foff": 347244,
+      "view_bytes": 2,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_8008146E": {
+      "symbol": "D_8008146E",
+      "kind": "data",
+      "vma": 2148013166,
+      "foff": 347246,
+      "view_bytes": 1,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_80081480": {
+      "symbol": "D_80081480",
+      "kind": "data",
+      "vma": 2148013184,
+      "foff": 347264,
+      "view_bytes": 1,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_8008148C": {
+      "symbol": "D_8008148C",
+      "kind": "data",
+      "vma": 2148013196,
+      "foff": 347276,
+      "view_bytes": 1,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_800DDC9C": {
+      "symbol": "D_800DDC9C",
+      "kind": "data",
+      "vma": 2148392092,
+      "foff": 1017148,
+      "view_bytes": 32,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_A3000",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_800DF258": {
+      "symbol": "D_800DF258",
+      "kind": "data",
+      "vma": 2148397656,
+      "foff": 1022712,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_A3000",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_800E296C": {
+      "symbol": "D_800E296C",
+      "kind": "data",
+      "vma": 2148411756,
+      "foff": 1036812,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_A3000",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_800E2970": {
+      "symbol": "D_800E2970",
+      "kind": "data",
+      "vma": 2148411760,
+      "foff": 1036816,
+      "view_bytes": 320,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_A3000",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_800E2C40": {
+      "symbol": "D_800E2C40",
+      "kind": "data",
+      "vma": 2148412480,
+      "foff": 1037536,
+      "view_bytes": 1024,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_A3000",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_800E3548": {
+      "symbol": "D_800E3548",
+      "kind": "data",
+      "vma": 2148414792,
+      "foff": 1039848,
+      "view_bytes": 256,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_A3000",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_800E3549": {
+      "symbol": "D_800E3549",
+      "kind": "data",
+      "vma": 2148414793,
+      "foff": 1039849,
+      "view_bytes": 1,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_A3000",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_800E3648": {
+      "symbol": "D_800E3648",
+      "kind": "data",
+      "vma": 2148415048,
+      "foff": 1040104,
+      "view_bytes": 128,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_A3000",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_800E36C8": {
+      "symbol": "D_800E36C8",
+      "kind": "data",
+      "vma": 2148415176,
+      "foff": 1040232,
+      "view_bytes": 768,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_A3000",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_800E39C8": {
+      "symbol": "D_800E39C8",
+      "kind": "data",
+      "vma": 2148415944,
+      "foff": 1041000,
+      "view_bytes": 768,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_A3000",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_800E3CD8": {
+      "symbol": "D_800E3CD8",
+      "kind": "data",
+      "vma": 2148416728,
+      "foff": 1041784,
+      "view_bytes": 1,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_A3000",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_800E3D6C": {
+      "symbol": "D_800E3D6C",
+      "kind": "data",
+      "vma": 2148416876,
+      "foff": 1041932,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_A3000",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    }
+  },
+  "functions": {
+    "bzero": {
+      "vma": 2147917512,
+      "foff": 251592,
+      "map": "slus_load",
+      "first_word": "a0000a24",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_80016E6C": {
+      "vma": 2147577452,
+      "foff": 2768492,
+      "map": "xfer_dungeon_2A3000",
+      "first_word": "e8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8001E660": {
+      "vma": 2147608160,
+      "foff": 2799200,
+      "map": "xfer_dungeon_2A3000",
+      "first_word": "e0ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8001E96C": {
+      "vma": 2147608940,
+      "foff": 2799980,
+      "map": "xfer_dungeon_2A3000",
+      "first_word": "3f000324",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8001F32C": {
+      "vma": 2147611436,
+      "foff": 2802476,
+      "map": "xfer_dungeon_2A3000",
+      "first_word": "1f000324",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_80033BC0": {
+      "vma": 2147695552,
+      "foff": 29632,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8003E4FC": {
+      "vma": 2147738876,
+      "foff": 72956,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8003F320": {
+      "vma": 2147742496,
+      "foff": 76576,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8003F5E0": {
+      "vma": 2147743200,
+      "foff": 77280,
+      "map": "slus_load",
+      "first_word": "340b84af",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8003F6D4": {
+      "vma": 2147743444,
+      "foff": 77524,
+      "map": "slus_load",
+      "first_word": "7f00023c",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8004068C": {
+      "vma": 2147747468,
+      "foff": 81548,
+      "map": "slus_load",
+      "first_word": "21380000",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_80041284": {
+      "vma": 2147750532,
+      "foff": 84612,
+      "map": "slus_load",
+      "first_word": "e0ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8004425C": {
+      "vma": 2147762780,
+      "foff": 96860,
+      "map": "slus_load",
+      "first_word": "d8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8004450C": {
+      "vma": 2147763468,
+      "foff": 97548,
+      "map": "slus_load",
+      "first_word": "e0ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_80044698": {
+      "vma": 2147763864,
+      "foff": 97944,
+      "map": "slus_load",
+      "first_word": "e0ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_80046E38": {
+      "vma": 2147774008,
+      "foff": 108088,
+      "map": "slus_load",
+      "first_word": "c8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_80048088": {
+      "vma": 2147778696,
+      "foff": 112776,
+      "map": "slus_load",
+      "first_word": "e0ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8004D0C8": {
+      "vma": 2147799240,
+      "foff": 133320,
+      "map": "slus_load",
+      "first_word": "0880033c",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_80053DA8": {
+      "vma": 2147827112,
+      "foff": 161192,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8005405C": {
+      "vma": 2147827804,
+      "foff": 161884,
+      "map": "slus_load",
+      "first_word": "0880063c",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800542BC": {
+      "vma": 2147828412,
+      "foff": 162492,
+      "map": "slus_load",
+      "first_word": "0880033c",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8005FE18": {
+      "vma": 2147876376,
+      "foff": 210456,
+      "map": "slus_load",
+      "first_word": "0880023c",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_80067014": {
+      "vma": 2147905556,
+      "foff": 239636,
+      "map": "slus_load",
+      "first_word": "0880023c",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8009A21C": {
+      "vma": 2148114972,
+      "foff": 740028,
+      "map": "xfer_dungeon_A3000",
+      "first_word": "0880033c",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8009A350": {
+      "vma": 2148115280,
+      "foff": 740336,
+      "map": "xfer_dungeon_A3000",
+      "first_word": "00240400",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8009A540": {
+      "vma": 2148115776,
+      "foff": 740832,
+      "map": "xfer_dungeon_A3000",
+      "first_word": "c0ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800A07D0": {
+      "vma": 2148141008,
+      "foff": 766064,
+      "map": "xfer_dungeon_A3000",
+      "first_word": "e8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800A0E44": {
+      "vma": 2148142660,
+      "foff": 767716,
+      "map": "xfer_dungeon_A3000",
+      "first_word": "e8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800A4E2C": {
+      "vma": 2148159020,
+      "foff": 784076,
+      "map": "xfer_dungeon_A3000",
+      "first_word": "c0ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800A6928": {
+      "vma": 2148165928,
+      "foff": 790984,
+      "map": "xfer_dungeon_A3000",
+      "first_word": "00220400",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800A6D30": {
+      "vma": 2148166960,
+      "foff": 792016,
+      "map": "xfer_dungeon_A3000",
+      "first_word": "c641043c",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800A6D60": {
+      "vma": 2148167008,
+      "foff": 792064,
+      "map": "xfer_dungeon_A3000",
+      "first_word": "0880023c",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800A6D98": {
+      "vma": 2148167064,
+      "foff": 792120,
+      "map": "xfer_dungeon_A3000",
+      "first_word": "0880023c",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800A6DA4": {
+      "vma": 2148167076,
+      "foff": 792132,
+      "map": "xfer_dungeon_A3000",
+      "first_word": "e0ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800A7A38": {
+      "vma": 2148170296,
+      "foff": 795352,
+      "map": "xfer_dungeon_A3000",
+      "first_word": "e8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800B0544": {
+      "vma": 2148205892,
+      "foff": 830948,
+      "map": "xfer_dungeon_A3000",
+      "first_word": "e0ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800BC228": {
+      "vma": 2148254248,
+      "foff": 879304,
+      "map": "xfer_dungeon_A3000",
+      "first_word": "e8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800BCA68": {
+      "vma": 2148256360,
+      "foff": 881416,
+      "map": "xfer_dungeon_A3000",
+      "first_word": "0880033c",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800BCB04": {
+      "vma": 2148256516,
+      "foff": 881572,
+      "map": "xfer_dungeon_A3000",
+      "first_word": "d8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800C7D54": {
+      "vma": 2148302164,
+      "foff": 927220,
+      "map": "xfer_dungeon_A3000",
+      "first_word": "e0ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "rand": {
+      "vma": 2147917560,
+      "foff": 251640,
+      "map": "slus_load",
+      "first_word": "a0000a24",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "srand": {
+      "vma": 2147917576,
+      "foff": 251656,
+      "map": "slus_load",
+      "first_word": "a0000a24",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    }
+  },
+  "runtime_views": {
+    "D_80012090": {
+      "symbol": "D_80012090",
+      "kind": "runtime_data",
+      "vma": 2147557520,
+      "view_bytes": 12,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/modules/dungeon_floor_generate.h",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_80012D52": {
+      "symbol": "D_80012D52",
+      "kind": "runtime_data",
+      "vma": 2147560786,
+      "view_bytes": 1,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/modules/dungeon_floor_generate.h",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_80080000": {
+      "symbol": "D_80080000",
+      "kind": "runtime_data",
+      "vma": 2148007936,
+      "view_bytes": 5292,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json",
+      "declaration": "src/dungeon/func_8199A800.c"
+    },
+    "D_80082E60": {
+      "symbol": "D_80082E60",
+      "vma": 2148019808,
+      "view_bytes": 28,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/shared/runtime_dispatch.h",
+      "kind": "runtime_data",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_80082E6B": {
+      "symbol": "D_80082E6B",
+      "kind": "runtime_data",
+      "vma": 2148019819,
+      "view_bytes": 9,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/modules/dungeon_floor_generate.h",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 512,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json",
+      "declaration": "include/shared/game_work.h"
+    },
+    "D_8008333C": {
+      "symbol": "D_8008333C",
+      "vma": 2148021052,
+      "view_bytes": 24,
+      "owner": "resident_runtime:slus",
+      "declaration": "src/dungeon/func_807AEF8C.c",
+      "kind": "runtime_data",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_80083460": {
+      "symbol": "D_80083460",
+      "kind": "runtime_data",
+      "vma": 2148021344,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json",
+      "declaration": "include/shared/dungeon_status.h"
+    },
+    "D_80083780": {
+      "symbol": "D_80083780",
+      "kind": "runtime_data",
+      "vma": 2148022144,
+      "view_bytes": 300,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json",
+      "declaration": "include/shared/entity_objects.h"
+    },
+    "D_800E9FFA": {
+      "symbol": "D_800E9FFA",
+      "kind": "runtime_data",
+      "vma": 2148442106,
+      "view_bytes": 1,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/modules/dungeon_floor_generate.h",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_800EA000": {
+      "symbol": "D_800EA000",
+      "kind": "runtime_data",
+      "vma": 2148442112,
+      "view_bytes": 24576,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/modules/dungeon_floor_generate.h",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_800F0000": {
+      "symbol": "D_800F0000",
+      "kind": "runtime_data",
+      "vma": 2148466688,
+      "view_bytes": 1,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/modules/dungeon_floor_generate.h",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_8014A000": {
+      "symbol": "D_8014A000",
+      "kind": "runtime_data",
+      "vma": 2148835328,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/modules/dungeon_floor_generate.h",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_801BEE40": {
+      "symbol": "D_801BEE40",
+      "kind": "runtime_data",
+      "vma": 2149314112,
+      "view_bytes": 16,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/modules/dungeon_floor_generate.h",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    },
+    "D_801C4640": {
+      "symbol": "D_801C4640",
+      "kind": "runtime_data",
+      "vma": 2149336640,
+      "view_bytes": 16,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/modules/dungeon_floor_generate.h",
+      "evidence": "docs/evidence/dungeon_floor_generate.imports.json"
+    }
+  },
+  "review": "pending",
+  "reviewer": null,
+  "runtime_basis": {
+    "D_80012090": {
+      "basis": "Existing matched member declaration and fixed-address retail accesses; complete unmasked whole-TU retail/genuine proof binds the numeric address. Runtime view only: no file bytes, allocation, initialization, or complete-object ownership is claimed.",
+      "declaration": "extern s32 D_80012090[3];",
+      "source_clients": [
+        "src/dungeon/func_802869C8.c"
+      ]
+    },
+    "D_80012D52": {
+      "basis": "Existing matched member declaration and fixed-address retail accesses; complete unmasked whole-TU retail/genuine proof binds the numeric address. Runtime view only: no file bytes, allocation, initialization, or complete-object ownership is claimed.",
+      "declaration": "extern s8 D_80012D52;",
+      "source_clients": [
+        "src/dungeon/func_80286648.c"
+      ]
+    },
+    "D_80082E6B": {
+      "basis": "Existing matched member declaration and fixed-address retail accesses; complete unmasked whole-TU retail/genuine proof binds the numeric address. Runtime view only: no file bytes, allocation, initialization, or complete-object ownership is claimed.",
+      "declaration": "extern u8 D_80082E6B[9];",
+      "source_clients": [
+        "src/dungeon/func_80285E80.c"
+      ]
+    },
+    "D_800E9FFA": {
+      "basis": "Existing matched member declaration and fixed-address retail accesses; complete unmasked whole-TU retail/genuine proof binds the numeric address. Runtime view only: no file bytes, allocation, initialization, or complete-object ownership is claimed.",
+      "declaration": "extern u8 D_800E9FFA[];",
+      "source_clients": [
+        "src/dungeon/func_8028A9CC.c",
+        "src/dungeon/func_8028AC34.c"
+      ]
+    },
+    "D_800EA000": {
+      "basis": "Existing matched member declaration and fixed-address retail accesses; complete unmasked whole-TU retail/genuine proof binds the numeric address. Runtime view only: no file bytes, allocation, initialization, or complete-object ownership is claimed.",
+      "declaration": "extern floor_generate_isolated_80286AF8_MapCell D_800EA000[];",
+      "source_clients": [
+        "src/dungeon/func_8028444C.c",
+        "src/dungeon/func_80284480.c",
+        "src/dungeon/func_80284584.c",
+        "src/dungeon/func_80284668.c",
+        "src/dungeon/func_80284A9C.c",
+        "src/dungeon/func_80285464.c",
+        "src/dungeon/func_80286A84.c",
+        "src/dungeon/func_80286AF8.c",
+        "src/dungeon/func_80287C4C.c",
+        "src/dungeon/func_8028906C.c",
+        "src/dungeon/func_802895E4.c",
+        "src/dungeon/func_80289BD4.c",
+        "src/dungeon/func_80289EC0.c",
+        "src/dungeon/func_8028A5D8.c",
+        "src/dungeon/func_8028AD84.c",
+        "src/dungeon/func_8028AE2C.c"
+      ]
+    },
+    "D_800F0000": {
+      "basis": "Existing matched member declaration and fixed-address retail accesses; complete unmasked whole-TU retail/genuine proof binds the numeric address. Runtime view only: no file bytes, allocation, initialization, or complete-object ownership is claimed.",
+      "declaration": "extern u8 D_800F0000[];",
+      "source_clients": [
+        "src/dungeon/func_80285A70.c"
+      ]
+    },
+    "D_8014A000": {
+      "basis": "Existing matched member declaration and fixed-address retail accesses; complete unmasked whole-TU retail/genuine proof binds the numeric address. Runtime view only: no file bytes, allocation, initialization, or complete-object ownership is claimed.",
+      "declaration": "extern floor_generate_isolated_802864C4_Copy32 D_8014A000;",
+      "source_clients": [
+        "src/dungeon/func_802864C4.c"
+      ]
+    },
+    "D_801BEE40": {
+      "basis": "Existing matched member declaration and fixed-address retail accesses; complete unmasked whole-TU retail/genuine proof binds the numeric address. Runtime view only: no file bytes, allocation, initialization, or complete-object ownership is claimed.",
+      "declaration": "extern s32 D_801BEE40[4];",
+      "source_clients": [
+        "src/dungeon/func_80286684.c"
+      ]
+    },
+    "D_801C4640": {
+      "basis": "Existing matched member declaration and fixed-address retail accesses; complete unmasked whole-TU retail/genuine proof binds the numeric address. Runtime view only: no file bytes, allocation, initialization, or complete-object ownership is claimed.",
+      "declaration": "extern s32 D_801C4640[4];",
+      "source_clients": [
+        "src/dungeon/func_80286684.c"
+      ]
+    }
+  },
+  "declaration_extent_audit": {
+    "D_80012090": {
+      "original": 12,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 0,
+          "bytes": 12
+        }
+      ],
+      "target_bytes": 12,
+      "scope": "complete shared-header declaration",
+      "view_bytes": 12
+    },
+    "D_80012D52": {
+      "original": 1,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 0,
+          "bytes": 1
+        }
+      ],
+      "target_bytes": 1,
+      "scope": "complete shared-header declaration",
+      "view_bytes": 1
+    },
+    "D_8001F584": {
+      "original": 1,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 0,
+          "bytes": 1
+        }
+      ],
+      "target_bytes": 1,
+      "scope": "complete shared-header declaration",
+      "view_bytes": 1
+    },
+    "D_8001F586": {
+      "original": 2,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 0,
+          "bytes": 2
+        }
+      ],
+      "target_bytes": 2,
+      "scope": "complete shared-header declaration",
+      "view_bytes": 2
+    },
+    "D_8001F588": {
+      "original": 4,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 0,
+          "bytes": 4
+        }
+      ],
+      "target_bytes": 4,
+      "scope": "one typed element of an incomplete external array",
+      "view_bytes": 4
+    },
+    "D_8001F594": {
+      "original": 4,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 0,
+          "bytes": 4
+        }
+      ],
+      "target_bytes": 4,
+      "scope": "one typed element of an incomplete external array",
+      "view_bytes": 4
+    },
+    "D_8001F604": {
+      "original": 4,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 0,
+          "bytes": 4
+        }
+      ],
+      "target_bytes": 4,
+      "scope": "one typed element of an incomplete external array",
+      "view_bytes": 4
+    },
+    "D_8001F62C": {
+      "original": 1,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 0,
+          "bytes": 5
+        }
+      ],
+      "target_bytes": 5,
+      "scope": "one typed element of an incomplete external array",
+      "view_bytes": 5
+    },
+    "D_8001F660": {
+      "original": 4,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 0,
+          "bytes": 4
+        }
+      ],
+      "target_bytes": 4,
+      "scope": "complete shared-header declaration",
+      "view_bytes": 4
+    },
+    "D_8001F664": {
+      "original": 4,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 0,
+          "bytes": 4
+        }
+      ],
+      "target_bytes": 4,
+      "scope": "complete shared-header declaration",
+      "view_bytes": 4
+    },
+    "D_8001F668": {
+      "original": 1,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 0,
+          "bytes": 1
+        }
+      ],
+      "target_bytes": 1,
+      "scope": "one typed element of an incomplete external array",
+      "view_bytes": 2,
+      "indexed_view_basis": "Halfword count load/store in complete floor generation source."
+    },
+    "D_8001F66A": {
+      "original": 2,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 0,
+          "bytes": 2
+        }
+      ],
+      "target_bytes": 2,
+      "scope": "complete shared-header declaration",
+      "view_bytes": 2
+    },
+    "D_8001F66C": {
+      "original": 1,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 0,
+          "bytes": 1
+        }
+      ],
+      "target_bytes": 1,
+      "scope": "one typed element of an incomplete external array",
+      "view_bytes": 1
+    },
+    "D_8001F670": {
+      "original": 4,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 0,
+          "bytes": 4
+        }
+      ],
+      "target_bytes": 4,
+      "scope": "complete shared-header declaration",
+      "view_bytes": 4
+    },
+    "D_8001F6A0": {
+      "original": 1,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 0,
+          "bytes": 1
+        }
+      ],
+      "target_bytes": 1,
+      "scope": "complete shared-header declaration",
+      "view_bytes": 4,
+      "indexed_view_basis": "Word storage view in complete floor generation source."
+    },
+    "D_8001F6A4": {
+      "original": 1,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 0,
+          "bytes": 1
+        }
+      ],
+      "target_bytes": 1,
+      "scope": "one typed element of an incomplete external array",
+      "view_bytes": 4,
+      "indexed_view_basis": "Word storage accessed through a shared-contract cast."
+    },
+    "D_8001F6A8": {
+      "original": 1,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 0,
+          "bytes": 1
+        }
+      ],
+      "target_bytes": 1,
+      "scope": "one typed element of an incomplete external array",
+      "view_bytes": 132,
+      "indexed_view_basis": "33 four-byte pair entries including index32; func_80019AF8 clears indices32 down through1."
+    },
+    "D_8001F6E8": {
+      "original": 1,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 0,
+          "bytes": 1
+        }
+      ],
+      "target_bytes": 1,
+      "scope": "one typed element of an incomplete external array",
+      "view_bytes": 1
+    },
+    "D_8006CCD8": {
+      "original": 1,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 1,
+          "bytes": null
+        }
+      ],
+      "view_bytes": 1
+    },
+    "D_8006CCE8": {
+      "original": 1,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 1,
+          "bytes": null
+        }
+      ],
+      "view_bytes": 1
+    },
+    "D_8006E61C": {
+      "original": 4,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 0,
+          "bytes": 4
+        }
+      ],
+      "target_bytes": 4,
+      "scope": "complete shared-header declaration",
+      "view_bytes": 4
+    },
+    "D_8006E704": {
+      "original": 4,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 0,
+          "bytes": 4
+        }
+      ],
+      "target_bytes": 4,
+      "scope": "one typed element of an incomplete external array",
+      "view_bytes": 4
+    },
+    "D_80073414": {
+      "original": 1,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 0,
+          "bytes": 20
+        }
+      ],
+      "target_bytes": 20,
+      "scope": "one typed element of an incomplete external array",
+      "view_bytes": 20
+    },
+    "D_80080000": {
+      "original": 5292,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 0,
+          "bytes": 1
+        }
+      ],
+      "target_bytes": 1,
+      "scope": "one typed element of an incomplete external array",
+      "view_bytes": 5292
+    },
+    "D_80080A88": {
+      "original": 12,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 0,
+          "bytes": 12
+        }
+      ],
+      "target_bytes": 12,
+      "scope": "complete shared-header declaration",
+      "view_bytes": 12
+    },
+    "D_80080AF0": {
+      "original": 4,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 0,
+          "bytes": 4
+        }
+      ],
+      "target_bytes": 4,
+      "scope": "complete shared-header declaration",
+      "view_bytes": 4
+    },
+    "D_80080AF3": {
+      "original": 1,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 0,
+          "bytes": 1
+        }
+      ],
+      "target_bytes": 1,
+      "scope": "complete shared-header declaration",
+      "view_bytes": 1
+    },
+    "D_80080AF4": {
+      "original": 8,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 0,
+          "bytes": 8
+        }
+      ],
+      "target_bytes": 8,
+      "scope": "complete shared-header declaration",
+      "view_bytes": 8
+    },
+    "D_80080AFC": {
+      "original": 2,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 0,
+          "bytes": 2
+        }
+      ],
+      "target_bytes": 2,
+      "scope": "complete shared-header declaration",
+      "view_bytes": 2
+    },
+    "D_80081468": {
+      "original": 1,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 0,
+          "bytes": 1
+        }
+      ],
+      "target_bytes": 1,
+      "scope": "one typed element of an incomplete external array",
+      "view_bytes": 1
+    },
+    "D_8008146C": {
+      "original": 1,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 0,
+          "bytes": 1
+        }
+      ],
+      "target_bytes": 1,
+      "scope": "one typed element of an incomplete external array",
+      "view_bytes": 2,
+      "indexed_view_basis": "Halfword floor-setting read."
+    },
+    "D_8008146E": {
+      "original": 1,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 0,
+          "bytes": 1
+        }
+      ],
+      "target_bytes": 1,
+      "scope": "one typed element of an incomplete external array",
+      "view_bytes": 1
+    },
+    "D_80081480": {
+      "original": 1,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 0,
+          "bytes": 1
+        }
+      ],
+      "target_bytes": 1,
+      "scope": "one typed element of an incomplete external array",
+      "view_bytes": 1
+    },
+    "D_8008148C": {
+      "original": 1,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 0,
+          "bytes": 1
+        }
+      ],
+      "target_bytes": 1,
+      "scope": "one typed element of an incomplete external array",
+      "view_bytes": 1
+    },
+    "D_80082E60": {
+      "original": 28,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 0,
+          "bytes": 28
+        }
+      ],
+      "target_bytes": 28,
+      "scope": "complete shared-header declaration",
+      "view_bytes": 28
+    },
+    "D_80082E6B": {
+      "original": 9,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 0,
+          "bytes": 9
+        }
+      ],
+      "target_bytes": 9,
+      "scope": "complete shared-header declaration",
+      "view_bytes": 9
+    },
+    "D_80083160": {
+      "original": 512,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 1,
+          "bytes": null
+        }
+      ],
+      "view_bytes": 512
+    },
+    "D_8008333C": {
+      "original": 24,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 0,
+          "bytes": 1
+        }
+      ],
+      "target_bytes": 1,
+      "scope": "one typed element of an incomplete external array",
+      "view_bytes": 24
+    },
+    "D_80083460": {
+      "original": 32,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 1,
+          "bytes": null
+        }
+      ],
+      "view_bytes": 32
+    },
+    "D_80083780": {
+      "original": 300,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 0,
+          "bytes": 300
+        }
+      ],
+      "target_bytes": 300,
+      "scope": "complete shared-header declaration",
+      "view_bytes": 300
+    },
+    "D_800DDC9C": {
+      "original": 1,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 0,
+          "bytes": 1
+        }
+      ],
+      "target_bytes": 1,
+      "scope": "one typed element of an incomplete external array",
+      "view_bytes": 32,
+      "indexed_view_basis": "Four eight-byte rows in generate; random item subtype masked to 0x1f in spawns."
+    },
+    "D_800DF258": {
+      "original": 4,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 0,
+          "bytes": 4
+        }
+      ],
+      "target_bytes": 4,
+      "scope": "one typed element of an incomplete external array",
+      "view_bytes": 4
+    },
+    "D_800E296C": {
+      "original": 4,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 0,
+          "bytes": 4
+        }
+      ],
+      "target_bytes": 4,
+      "scope": "complete shared-header declaration",
+      "view_bytes": 4,
+      "indexed_view_basis": "Shared dungeon_floor.h declares the floor-state flag as a word."
+    },
+    "D_800E2970": {
+      "original": 1,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 0,
+          "bytes": 20
+        }
+      ],
+      "target_bytes": 20,
+      "scope": "one typed element of an incomplete external array",
+      "view_bytes": 320,
+      "indexed_view_basis": "Sixteen 0x14-byte room records; initialization and generation loops bound indices to 0..15."
+    },
+    "D_800E2C40": {
+      "original": 1,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 0,
+          "bytes": 1
+        }
+      ],
+      "target_bytes": 1,
+      "scope": "one typed element of an incomplete external array",
+      "view_bytes": 1024,
+      "indexed_view_basis": "Sixteen room connector rows, each 64 bytes; ROOM_CELL source indexing uses room<<6."
+    },
+    "D_800E3548": {
+      "original": 64,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 0,
+          "bytes": 256
+        }
+      ],
+      "target_bytes": 256,
+      "scope": "complete shared-header declaration",
+      "view_bytes": 256,
+      "indexed_view_basis": "Sixty-four four-byte DungeonItemEntry records; item search loop in func_8001EC54."
+    },
+    "D_800E3549": {
+      "original": 1,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 0,
+          "bytes": 1
+        }
+      ],
+      "target_bytes": 1,
+      "scope": "one typed element of an incomplete external array",
+      "view_bytes": 1
+    },
+    "D_800E3648": {
+      "original": 1,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 0,
+          "bytes": 1
+        }
+      ],
+      "target_bytes": 1,
+      "scope": "one typed element of an incomplete external array",
+      "view_bytes": 128,
+      "indexed_view_basis": "Thirty-two four-byte spawn metadata records, loop in func_8001EF0C."
+    },
+    "D_800E36C8": {
+      "original": 1,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 0,
+          "bytes": 1
+        }
+      ],
+      "target_bytes": 1,
+      "scope": "one typed element of an incomplete external array",
+      "view_bytes": 768,
+      "indexed_view_basis": "Sixty-four 12-byte item/position records, loop in func_8001EC54."
+    },
+    "D_800E39C8": {
+      "original": 12,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 0,
+          "bytes": 12
+        }
+      ],
+      "target_bytes": 12,
+      "scope": "complete shared-header declaration",
+      "view_bytes": 768,
+      "indexed_view_basis": "Thirty-two 24-byte spawn position records, loop in func_8001EF0C."
+    },
+    "D_800E3CD8": {
+      "original": 1,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 0,
+          "bytes": 1
+        }
+      ],
+      "target_bytes": 1,
+      "scope": "one typed element of an incomplete external array",
+      "view_bytes": 1
+    },
+    "D_800E3D6C": {
+      "original": 4,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 0,
+          "bytes": 4
+        }
+      ],
+      "target_bytes": 4,
+      "scope": "complete shared-header declaration",
+      "view_bytes": 4
+    },
+    "D_800E9FFA": {
+      "original": 1,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 0,
+          "bytes": 1
+        }
+      ],
+      "target_bytes": 1,
+      "scope": "one typed element of an incomplete external array",
+      "view_bytes": 1
+    },
+    "D_800EA000": {
+      "original": 1,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 0,
+          "bytes": 6
+        }
+      ],
+      "target_bytes": 6,
+      "scope": "one typed element of an incomplete external array",
+      "view_bytes": 24576,
+      "indexed_view_basis": "64 by 64 map of six-byte cells; source rows use cell coordinates with stride 64."
+    },
+    "D_800F0000": {
+      "original": 1,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 1,
+          "bytes": null
+        },
+        {
+          "form": "element",
+          "returncode": 0,
+          "bytes": 1
+        }
+      ],
+      "target_bytes": 1,
+      "scope": "one typed element of an incomplete external array",
+      "view_bytes": 1
+    },
+    "D_8014A000": {
+      "original": 1,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 0,
+          "bytes": 32
+        }
+      ],
+      "target_bytes": 32,
+      "scope": "complete shared-header declaration",
+      "view_bytes": 32
+    },
+    "D_801BEE40": {
+      "original": 16,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 0,
+          "bytes": 16
+        }
+      ],
+      "target_bytes": 16,
+      "scope": "complete shared-header declaration",
+      "view_bytes": 16
+    },
+    "D_801C4640": {
+      "original": 16,
+      "probes": [
+        {
+          "form": "complete",
+          "returncode": 0,
+          "bytes": 16
+        }
+      ],
+      "target_bytes": 16,
+      "scope": "complete shared-header declaration",
+      "view_bytes": 16
+    }
+  },
+  "extent_policy": "Target GCC sizeof measures complete declarations or one typed element of an incomplete external array; explicit indexed bounds cover the source-visible room, item, spawn, map-cell and coordinate arrays. These are address views, never allocation/initialization ownership."
+}

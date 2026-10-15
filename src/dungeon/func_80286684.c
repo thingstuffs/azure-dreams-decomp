@@ -1,25 +1,5 @@
-#include "common.h"
+#include "modules/dungeon_floor_generate.h"
 
-extern s32 func_80019894(s16 resource_index);
-extern void Control_CD(s32, void *, s32);
-extern void func_8003F320(void);
-extern void func_8004425C(s32);
-extern void func_8004450C(s16);
-extern void func_80044698(void);
-extern void SD_Call(s32);
-
-typedef struct Object {
-    s32 field_0;
-} Object;
-
-extern Object *D_8006E704[];
-extern s8 D_80080AF3;
-extern Object *D_80080AF4[2];
-extern s16 D_80080AFC;
-extern s32 D_801BEE40[4];
-extern s32 D_801C4640[4];
-
-/* Loads an object into the alternate buffer and optionally activates it. */
 s32 func_80019684(s16 object_index, s16 mode, s16 activate) {
     s16 activate_flag = activate;
     u16 saved_index = 0;
@@ -27,14 +7,14 @@ s32 func_80019684(s16 object_index, s16 mode, s16 activate) {
     s16 saved_mode = mode;
     s16 activate_tail = (s16)activate_flag;
     s32 object_offset = (s32)object_index << 16;
-    Object **objects = D_8006E704;
-    Object **slot =
-        (Object **)((u8 *)objects + (object_offset >> 14));
-    Object **buffers = D_80080AF4;
+    floor_generate_isolated_80286684_Object **objects = D_8006E704;
+    floor_generate_isolated_80286684_Object **slot =
+        (floor_generate_isolated_80286684_Object **)((u8 *)objects + (object_offset >> 14));
+    floor_generate_isolated_80286684_Object **buffers = D_80080AF4;
     u16 buffer_index;
-    Object *requested_object;
-    Object *header_object;
-    Object *load_object;
+    floor_generate_isolated_80286684_Object *requested_object;
+    floor_generate_isolated_80286684_Object *header_object;
+    floor_generate_isolated_80286684_Object *load_object;
     u32 header;
     u32 buffer_addr;
     u32 mask_2;
@@ -78,14 +58,14 @@ s32 func_80019684(s16 object_index, s16 mode, s16 activate) {
         {
             register s32 reload_left;
             register s32 reload_offset;
-            register Object **reload_objects;
+            register floor_generate_isolated_80286684_Object **reload_objects;
             s16 cd_command = 6;
             reload_left = (s32)saved_object_index << 16;
             load_object->field_0 = buffer_addr;
             reload_objects = D_8006E704;
             reload_offset = reload_left >> 14;
             {
-                Object **reload_slot = (Object **)((u8 *)reload_objects + reload_offset);
+                floor_generate_isolated_80286684_Object **reload_slot = (floor_generate_isolated_80286684_Object **)((u8 *)reload_objects + reload_offset);
                 Control_CD(cd_command, *reload_slot, 0);
                 D_80080AF4[D_80080AFC] = *reload_slot;
             }

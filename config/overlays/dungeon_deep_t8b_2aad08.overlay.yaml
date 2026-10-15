@@ -32,7 +32,7 @@ standalone_build:
     container_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
   window:
     file_start: 0x2AAD08
-    file_end: 0x2AB108
+    file_end: 0x2AB110
     vram_start: 0x8028AD08          # = 0x2AAD08 + 0x7FFE0000 (synthetic sweep base)
     base_confidence: synthetic-self-consistent   # copied; see BASE NOTE
   split_results: overlays/dungeon/overlay_first_pass_results.json

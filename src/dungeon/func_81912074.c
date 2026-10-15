@@ -1,50 +1,15 @@
-#include "shared/object_node.h"
-#include "common.h"
+#include "modules/dungeon_ovl_1930844.h"
 
-typedef struct S_80025874_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x4];
-    void * unk_10;
-    u8 pad_14[0xC];
-    s32 unk_20;
-} S_80025874_0;   /* obj in func_80025874 */
-
-typedef struct S_80025874_1 {
-    u8 pad_00[0x4];
-    s16 unk_04;
-    s16 unk_06;
-    s16 unk_08;
-    s16 unk_0A;
-    s16 unk_0C;
-    s16 unk_0E;
-    s16 unk_10;
-    s16 unk_12;
-    s16 unk_14;
-    u8 pad_16[0x2A];
-    u8 unk_40;
-    s8 unk_41;
-    s8 unk_42;
-} S_80025874_1;   /* fields in func_80025874 */
-
-
-typedef struct {
-    s32 words[6];
-} Copy24;
-
-extern s32 D_800253F4;
-
-/* Allocates and initializes an object, copying 24 bytes of source data into it. */
-void *func_80025874(s32 state_value, Copy24 *source_data, s16 initial_setting) {
+void *func_80025874(s32 state_value, ovl_1930844_81912074_Copy24 *source_data, s16 initial_setting) {
     void *obj;
-    S_80025874_1 *fields;
+    ovl_1930844_81912074_S_80025874_1 *fields;
     void *object_data;
 
     obj = func_8003FC64(0x212);
     if (obj != 0) {
-        ((S_80025874_0 *)obj)->unk_10 = &D_800253F4;
+        ((ovl_1930844_81912074_S_80025874_0 *)obj)->unk_10 = (void *)func_800253F4;
         fields = obj + 0x20;
-        ((S_80025874_0 *)obj)->unk_20 = state_value;
+        ((ovl_1930844_81912074_S_80025874_0 *)obj)->unk_20 = state_value;
         fields->unk_08 = 8;
         fields->unk_10 = 2;
         fields->unk_0E = 0x48;
@@ -57,8 +22,8 @@ void *func_80025874(s32 state_value, Copy24 *source_data, s16 initial_setting) {
         fields->unk_42 = 0;
         fields->unk_41 = 0;
         fields->unk_14 = initial_setting;
-        object_data = ((S_80025874_0 *)obj)->unk_08;
-        *(Copy24 *)object_data = *source_data;
+        object_data = ((ovl_1930844_81912074_S_80025874_0 *)obj)->unk_08;
+        *(ovl_1930844_81912074_Copy24 *)object_data = *source_data;
         return obj;
     }
     return 0;

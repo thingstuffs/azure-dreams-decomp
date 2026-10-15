@@ -1,8 +1,5 @@
-#include "common.h"
+#include "modules/dungeon_ovl_1831cd8.h"
 
-extern void func_8004E99C(s32);
-
-/* Calls func_8004E99C on nine referenced values, clearing the first eight. */
 void func_80028534(void *state) {
     s32 **value_slot;
     s32 slot_index;

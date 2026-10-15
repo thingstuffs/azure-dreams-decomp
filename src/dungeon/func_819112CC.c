@@ -1,114 +1,4 @@
-#include "common.h"
-#include "shared/scratchpad.h"
-#include "shared/gpu_packets.h"
-#include "shared/game_work.h"
-
-typedef struct S_819112CC_0 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-    u8 pad_0C[0x2];
-    s16 unk_0E;
-    u16 unk_10;
-    s16 unk_12;
-    u8 pad_14[0x2C];
-    u8 unk_40;
-    u8 unk_41;
-    u8 unk_42;
-} S_819112CC_0;   /* arg0 in func_819112CC */
-
-typedef struct S_819112CC_1 {
-    s32 unk_00;
-    s32 unk_04;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_819112CC_1;   /* arg1 in func_819112CC */
-
-typedef struct S_819112CC_2 {
-    union { struct { u32 v; } at00; struct { u8 pad[0x3]; s8 v; } at03; } unk_00;   /* overlapping accesses */
-    u8 unk_04;
-    u8 unk_05;
-    u8 unk_06;
-    s8 unk_07;
-    u16 unk_08;
-    u16 unk_0A;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    u16 unk_12;
-    u8 unk_14;
-    u8 unk_15;
-    u8 unk_16;
-    u8 pad_17[0x1];
-    u16 unk_18;
-    u16 unk_1A;
-    u8 unk_1C;
-    u8 unk_1D;
-    u8 unk_1E;
-    u8 pad_1F[0x1];
-    u16 unk_20;
-    u16 unk_22;
-} S_819112CC_2;   /* temp_s1 in func_819112CC */
-
-typedef struct S_819112CC_3 {
-    u8 pad_00[0x18];
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_18;   /* overlapping accesses */
-    u8 pad_1C[0x10];
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_2C;   /* overlapping accesses */
-} S_819112CC_3;   /* temp_a3 in func_819112CC */
-
-typedef struct S_819112CC_5 {
-    union { struct { u32 v; } at00; struct { u8 pad[0x3]; s8 v; } at03; } unk_00;   /* overlapping accesses */
-    u8 unk_04;
-    u8 unk_05;
-    u8 unk_06;
-    s8 unk_07;
-    u16 unk_08;
-    u16 unk_0A;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    u16 unk_12;
-    u8 unk_14;
-    u8 unk_15;
-    u8 unk_16;
-    u8 pad_17[0x1];
-    u16 unk_18;
-    u16 unk_1A;
-    u8 unk_1C;
-    u8 unk_1D;
-    u8 unk_1E;
-    u8 pad_1F[0x1];
-    u16 unk_20;
-    u16 unk_22;
-} S_819112CC_5;   /* temp_s1_3 in func_819112CC */
-
-/* The 1 KB scratchpad at 0x1F800000, read as halfwords or words. */
-
-#define SP16(off) (scratch->h[(off) / 2])
-typedef struct {
-    unsigned addr: 24;
-    unsigned len: 8;
-    u8 r0, g0, b0, code;
-} P_TAG;
-#define setaddr(p, _addr) (((P_TAG *)(p))->addr = (u32)(_addr))
-#define getaddr(p) (u32)(((P_TAG *)(p))->addr)
-
-#define SP32(off) (scratch->w[(off) / 4])
-/* Same address as D_80083160 (0x80083178 - 0x18); this spelling keeps its
-   page construction shared with the other references below. */
-#define GFX_ROOT_SLOT ((u8 *)&gameWork)
-
-extern s32 func_800644B8();
-extern s32 func_80064584();
-extern u32 func_80065590();
-extern s32 func_80066460();
-extern void func_80067F20();
-
-typedef struct {} EmptyArg;
+#include "modules/dungeon_ovl_1930844.h"
 
 static __inline__ s32 radial_coordinate(s32 center, s32 trig, s16 radius)
 {
@@ -119,7 +9,7 @@ typedef union { s32 value; struct { u16 low, high; } half; } PointCoord;
 typedef struct { u8 prefix[0x18]; PointCoord x[5]; PointCoord y[5]; } EffectCoords;
 
 /* Build and queue interpolated vertical quads around five perimeter points. */
-void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 duration_in)
+void func_80024ACC(void *effect_in, ovl_1930844_819112CC_S_819112CC_1 *origin, s16 step_in, s16 duration_in)
 {
     void *effect = effect_in;
     s32 step = step_in;
@@ -169,70 +59,70 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
     u8 *sxy3;
     u8 *depth;
     u8 *flag;
-    EmptyArg empty_arg;
-    u8 *render_context = *(u8 **)GFX_ROOT_SLOT;
+    ovl_1930844_819112CC_EmptyArg empty_arg;
+    u8 *render_context = *(u8 **)ovl_1930844_819112CC_GFX_ROOT_SLOT;
 
-    context_slot = GFX_ROOT_SLOT;
+    context_slot = ovl_1930844_819112CC_GFX_ROOT_SLOT;
     point_index = 0;
     scratch = (ScratchPad *)0x1F800000;
     interpolate = step < duration;
     vertex_base = 0x1F800064;
-    SP32(0x18) = (u32)render_context + 0xB0;
+    ovl_1930844_819112CC_SP32(0x18) = (u32)render_context + 0xB0;
     for (; point_index < 5; point_index = next_index) {
         twice_index = point_index * 2;
         angle_x_or_mask_2 = (twice_index + 1) * 0x199;
-        link = (u32 *)(angle_x_or_mask_2 + ((S_819112CC_0 *)effect)->unk_0A);
+        link = (u32 *)(angle_x_or_mask_2 + ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_0A);
         radial_x = func_800644B8((s32)link);
-        target_x = radial_coordinate(origin->unk_00, radial_x, ((S_819112CC_0 *)effect)->unk_0E);
-        row_off = func_80064584(angle_x_or_mask_2 + ((S_819112CC_0 *)effect)->unk_0A);
+        target_x = radial_coordinate(origin->unk_00, radial_x, ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_0E);
+        row_off = func_80064584(angle_x_or_mask_2 + ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_0A);
         row_off >>= 4;
         radial_y = origin->unk_04 +
-            ((row_off * ((S_819112CC_0 *)effect)->unk_0E) << 8);
+            ((row_off * ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_0E) << 8);
         target_y = radial_y;
         {
             GpuContext **pool = (GpuContext **)context_slot;
             prim = (*pool)->packetCursor;
             (*pool)->packetCursor = prim + 0x24;
         }
-        ((S_819112CC_2 *)prim)->unk_00.at03.v = 8;
-        ((S_819112CC_2 *)prim)->unk_07 = 0x3A;
-        ((S_819112CC_2 *)prim)->unk_04 = ((S_819112CC_0 *)effect)->unk_40;
-        ((S_819112CC_2 *)prim)->unk_05 = ((S_819112CC_0 *)effect)->unk_41;
-        ((S_819112CC_2 *)prim)->unk_06 = ((S_819112CC_0 *)effect)->unk_42;
-        ((S_819112CC_2 *)prim)->unk_0C = ((S_819112CC_0 *)effect)->unk_40;
-        ((S_819112CC_2 *)prim)->unk_0D = ((S_819112CC_0 *)effect)->unk_41;
-        ((S_819112CC_2 *)prim)->unk_0E = ((S_819112CC_0 *)effect)->unk_42;
-        ((S_819112CC_2 *)prim)->unk_14 = ((S_819112CC_0 *)effect)->unk_40;
-        ((S_819112CC_2 *)prim)->unk_15 = ((S_819112CC_0 *)effect)->unk_41;
-        ((S_819112CC_2 *)prim)->unk_16 = ((S_819112CC_0 *)effect)->unk_42;
-        ((S_819112CC_2 *)prim)->unk_1C = ((S_819112CC_0 *)effect)->unk_40;
-        ((S_819112CC_2 *)prim)->unk_1D = ((S_819112CC_0 *)effect)->unk_41;
-        ((S_819112CC_2 *)prim)->unk_1E = ((S_819112CC_0 *)effect)->unk_42;
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_00.at03.v = 8;
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_07 = 0x3A;
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_04 = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_40;
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_05 = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_41;
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_06 = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_42;
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_0C = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_40;
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_0D = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_41;
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_0E = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_42;
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_14 = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_40;
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_15 = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_41;
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_16 = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_42;
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_1C = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_40;
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_1D = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_41;
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_1E = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_42;
         start_x = ((EffectCoords *)effect)->x[point_index].half.high;
-        SP16(0x74) = start_x;
-        SP16(0x64) = start_x;
+        ovl_1930844_819112CC_SP16(0x74) = start_x;
+        ovl_1930844_819112CC_SP16(0x64) = start_x;
         delta_x = target_x - ((EffectCoords *)effect)->x[point_index].value;
-        SP32(0x108) = delta_x;
+        ovl_1930844_819112CC_SP32(0x108) = delta_x;
         if (interpolate != 0) {
-            SP32(0x108) = (delta_x / duration) * step;
+            ovl_1930844_819112CC_SP32(0x108) = (delta_x / duration) * step;
         }
-        end_x = ((EffectCoords *)effect)->x[point_index].half.high + SP16(0x10A);
-        SP16(0x7C) = end_x;
-        SP16(0x6C) = end_x;
+        end_x = ((EffectCoords *)effect)->x[point_index].half.high + ovl_1930844_819112CC_SP16(0x10A);
+        ovl_1930844_819112CC_SP16(0x7C) = end_x;
+        ovl_1930844_819112CC_SP16(0x6C) = end_x;
         start_y = ((EffectCoords *)effect)->y[point_index].half.high;
-        SP16(0x76) = start_y;
-        SP16(0x66) = start_y;
+        ovl_1930844_819112CC_SP16(0x76) = start_y;
+        ovl_1930844_819112CC_SP16(0x66) = start_y;
         delta_y = radial_y - ((EffectCoords *)effect)->y[point_index].value;
-        SP32(0x10C) = delta_y;
+        ovl_1930844_819112CC_SP32(0x10C) = delta_y;
         if (interpolate != 0) {
-            SP32(0x10C) = (delta_y / duration) * step;
+            ovl_1930844_819112CC_SP32(0x10C) = (delta_y / duration) * step;
         }
-        end_y = ((EffectCoords *)effect)->y[point_index].half.high + SP16(0x10E);
-        SP16(0x7E) = end_y;
-        SP16(0x6E) = end_y;
-        bottom_z = origin->unk_0A - ((S_819112CC_0 *)effect)->unk_10;
-        SP16(0x70) = bottom_z;
-        SP16(0x68) = bottom_z;
+        end_y = ((EffectCoords *)effect)->y[point_index].half.high + ovl_1930844_819112CC_SP16(0x10E);
+        ovl_1930844_819112CC_SP16(0x7E) = end_y;
+        ovl_1930844_819112CC_SP16(0x6E) = end_y;
+        bottom_z = origin->unk_0A - ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_10;
+        ovl_1930844_819112CC_SP16(0x70) = bottom_z;
+        ovl_1930844_819112CC_SP16(0x68) = bottom_z;
         top_z = origin->unk_0A;
         v1 = (u8 *)scratch + 0x6C;
         v2 = (u8 *)scratch + 0x74;
@@ -243,29 +133,28 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
         sxy3 = (u8 *)scratch + 0xE4;
         depth = (u8 *)scratch + 0x84;
         flag = (u8 *)scratch + 0x88;
-        SP32(0xB4) = func_80065590(vertex_base, v1, v2, v3,
+        ovl_1930844_819112CC_SP32(0xB4) = func_80065590(vertex_base, v1, v2, v3,
                                    sxy0, sxy1, sxy2, sxy3,
-                                   depth, flag,
-                                   (SP16(0x78) = top_z,
-                                    SP16(0x80) = top_z,
-                                    empty_arg));
-        ((S_819112CC_2 *)prim)->unk_08 = SP16(0xD8);
-        ((S_819112CC_2 *)prim)->unk_0A = SP16(0xDA);
-        ((S_819112CC_2 *)prim)->unk_10 = SP16(0xDC);
-        ((S_819112CC_2 *)prim)->unk_12 = SP16(0xDE);
-        ((S_819112CC_2 *)prim)->unk_18 = SP16(0xE0);
-        ((S_819112CC_2 *)prim)->unk_1A = SP16(0xE2);
-        ((S_819112CC_2 *)prim)->unk_20 = SP16(0xE4);
-        ((S_819112CC_2 *)prim)->unk_22 = SP16(0xE6);
-        link = (u32 *)(SP32(0xB4));
+                                   depth, (ovl_1930844_819112CC_SP16(0x78) = top_z,
+                                    ovl_1930844_819112CC_SP16(0x80) = top_z,
+                                    flag));
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_08 = ovl_1930844_819112CC_SP16(0xD8);
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_0A = ovl_1930844_819112CC_SP16(0xDA);
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_10 = ovl_1930844_819112CC_SP16(0xDC);
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_12 = ovl_1930844_819112CC_SP16(0xDE);
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_18 = ovl_1930844_819112CC_SP16(0xE0);
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_1A = ovl_1930844_819112CC_SP16(0xE2);
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_20 = ovl_1930844_819112CC_SP16(0xE4);
+        ((ovl_1930844_819112CC_S_819112CC_2 *)prim)->unk_22 = ovl_1930844_819112CC_SP16(0xE6);
+        link = (u32 *)(ovl_1930844_819112CC_SP32(0xB4));
         if ((u32)link < 0x1E0U) {
             ot_slot = (u32)link << 2;
             angle_x_or_mask = (s32)0xFF000000;
-            ot_slot += SP32(0x18);
-            setaddr(prim, getaddr(ot_slot));
-            link = (u32 *)SP32(0xB4);
+            ot_slot += ovl_1930844_819112CC_SP32(0x18);
+            ovl_1930844_819112CC_setaddr(prim, ovl_1930844_819112CC_getaddr(ot_slot));
+            link = (u32 *)ovl_1930844_819112CC_SP32(0xB4);
             link = (u32 *)((u32)link << 2);
-            link = (u32 *)((u8 *)link + SP32(0x18));
+            link = (u32 *)((u8 *)link + ovl_1930844_819112CC_SP32(0x18));
             *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & 0xFFFFFF);
             {
                 GpuContext *ctx = *(GpuContext **)context_slot;
@@ -273,12 +162,12 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
                 ctx->packetCursor = prim + 0xC;
             }
             func_80067F20(prim, 0, 0,
-                          func_80066460(0, ((S_819112CC_0 *)effect)->unk_12, 0, 0) & 0xFFFF,
+                          func_80066460(0, ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_12, 0, 0) & 0xFFFF,
                           0);
-            setaddr(prim, getaddr(&((u32 *)SP32(0x18))[SP32(0xB4)]));
-            link = (u32 *)SP32(0xB4);
+            ovl_1930844_819112CC_setaddr(prim, ovl_1930844_819112CC_getaddr(&((u32 *)ovl_1930844_819112CC_SP32(0x18))[ovl_1930844_819112CC_SP32(0xB4)]));
+            link = (u32 *)ovl_1930844_819112CC_SP32(0xB4);
             link = (u32 *)((u32)link << 2);
-            link = (u32 *)((u8 *)link + SP32(0x18));
+            link = (u32 *)((u8 *)link + ovl_1930844_819112CC_SP32(0x18));
             *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & 0xFFFFFF);
         }
         {
@@ -286,70 +175,69 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
             prim = (*pool)->packetCursor;
             (*pool)->packetCursor = prim + 0x24;
         }
-        ((S_819112CC_5 *)prim)->unk_00.at03.v = 8;
-        ((S_819112CC_5 *)prim)->unk_07 = 0x3A;
-        ((S_819112CC_5 *)prim)->unk_04 = ((S_819112CC_0 *)effect)->unk_40;
-        ((S_819112CC_5 *)prim)->unk_05 = ((S_819112CC_0 *)effect)->unk_41;
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_00.at03.v = 8;
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_07 = 0x3A;
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_04 = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_40;
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_05 = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_41;
         next_index = point_index + 1;
-        ((S_819112CC_5 *)prim)->unk_06 = ((S_819112CC_0 *)effect)->unk_42;
-        ((S_819112CC_5 *)prim)->unk_0C = ((S_819112CC_0 *)effect)->unk_40;
-        ((S_819112CC_5 *)prim)->unk_0D = ((S_819112CC_0 *)effect)->unk_41;
-        ((S_819112CC_5 *)prim)->unk_0E = ((S_819112CC_0 *)effect)->unk_42;
-        ((S_819112CC_5 *)prim)->unk_14 = ((S_819112CC_0 *)effect)->unk_40;
-        ((S_819112CC_5 *)prim)->unk_15 = ((S_819112CC_0 *)effect)->unk_41;
-        ((S_819112CC_5 *)prim)->unk_16 = ((S_819112CC_0 *)effect)->unk_42;
-        ((S_819112CC_5 *)prim)->unk_1C = ((S_819112CC_0 *)effect)->unk_40;
-        ((S_819112CC_5 *)prim)->unk_1D = ((S_819112CC_0 *)effect)->unk_41;
-        row_off = ((S_819112CC_0 *)effect)->unk_42;
-        ((S_819112CC_5 *)prim)->unk_1E = row_off;
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_06 = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_42;
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_0C = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_40;
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_0D = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_41;
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_0E = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_42;
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_14 = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_40;
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_15 = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_41;
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_16 = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_42;
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_1C = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_40;
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_1D = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_41;
+        row_off = ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_42;
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_1E = row_off;
         modulo_result = next_index % 5;
         row_off = modulo_result;
         point = (u8 *)effect + row_off * 4;
-        next_start_x = ((S_819112CC_3 *)point)->unk_18.at02.v;
-        SP16(0x74) = next_start_x;
-        SP16(0x64) = next_start_x;
-        next_delta_x = target_x - ((S_819112CC_3 *)point)->unk_18.at00.v;
-        SP32(0x108) = next_delta_x;
+        next_start_x = ((ovl_1930844_819112CC_S_819112CC_3 *)point)->unk_18.at02.v;
+        ovl_1930844_819112CC_SP16(0x74) = next_start_x;
+        ovl_1930844_819112CC_SP16(0x64) = next_start_x;
+        next_delta_x = target_x - ((ovl_1930844_819112CC_S_819112CC_3 *)point)->unk_18.at00.v;
+        ovl_1930844_819112CC_SP32(0x108) = next_delta_x;
         if (interpolate != 0) {
-            SP32(0x108) = (next_delta_x / duration) * step;
+            ovl_1930844_819112CC_SP32(0x108) = (next_delta_x / duration) * step;
         }
-        next_end_x = ((S_819112CC_3 *)point)->unk_18.at02.v + SP16(0x10A);
-        SP16(0x7C) = next_end_x;
-        SP16(0x6C) = next_end_x;
-        next_start_y = ((S_819112CC_3 *)point)->unk_2C.at02.v;
-        SP16(0x76) = next_start_y;
-        SP16(0x66) = next_start_y;
-        next_delta_y = target_y - ((S_819112CC_3 *)point)->unk_2C.at00.v;
-        SP32(0x10C) = next_delta_y;
+        next_end_x = ((ovl_1930844_819112CC_S_819112CC_3 *)point)->unk_18.at02.v + ovl_1930844_819112CC_SP16(0x10A);
+        ovl_1930844_819112CC_SP16(0x7C) = next_end_x;
+        ovl_1930844_819112CC_SP16(0x6C) = next_end_x;
+        next_start_y = ((ovl_1930844_819112CC_S_819112CC_3 *)point)->unk_2C.at02.v;
+        ovl_1930844_819112CC_SP16(0x76) = next_start_y;
+        ovl_1930844_819112CC_SP16(0x66) = next_start_y;
+        next_delta_y = target_y - ((ovl_1930844_819112CC_S_819112CC_3 *)point)->unk_2C.at00.v;
+        ovl_1930844_819112CC_SP32(0x10C) = next_delta_y;
         if (interpolate != 0) {
-            SP32(0x10C) = (next_delta_y / duration) * step;
+            ovl_1930844_819112CC_SP32(0x10C) = (next_delta_y / duration) * step;
         }
-        next_end_y = ((S_819112CC_3 *)point)->unk_2C.at02.v;
-        y_step = SP16(0x10E);
-        SP32(0xB4) = func_80065590(vertex_base, v1, v2, v3,
+        next_end_y = ((ovl_1930844_819112CC_S_819112CC_3 *)point)->unk_2C.at02.v;
+        y_step = ovl_1930844_819112CC_SP16(0x10E);
+        ovl_1930844_819112CC_SP32(0xB4) = func_80065590(vertex_base, v1, v2, v3,
                                    sxy0, sxy1, sxy2, sxy3,
-                                   depth, flag,
-                                   (next_end_y += y_step,
-                                    SP16(0x7E) = next_end_y,
-                                    SP16(0x6E) = next_end_y,
-                                    empty_arg));
-        ((S_819112CC_5 *)prim)->unk_08 = SP16(0xD8);
-        ((S_819112CC_5 *)prim)->unk_0A = SP16(0xDA);
-        ((S_819112CC_5 *)prim)->unk_10 = SP16(0xDC);
-        ((S_819112CC_5 *)prim)->unk_12 = SP16(0xDE);
-        ((S_819112CC_5 *)prim)->unk_18 = SP16(0xE0);
-        ((S_819112CC_5 *)prim)->unk_1A = SP16(0xE2);
-        ((S_819112CC_5 *)prim)->unk_20 = SP16(0xE4);
-        ((S_819112CC_5 *)prim)->unk_22 = SP16(0xE6);
-        link = (u32 *)(SP32(0xB4));
+                                   depth, (next_end_y += y_step,
+                                    ovl_1930844_819112CC_SP16(0x7E) = next_end_y,
+                                    ovl_1930844_819112CC_SP16(0x6E) = next_end_y,
+                                    flag));
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_08 = ovl_1930844_819112CC_SP16(0xD8);
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_0A = ovl_1930844_819112CC_SP16(0xDA);
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_10 = ovl_1930844_819112CC_SP16(0xDC);
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_12 = ovl_1930844_819112CC_SP16(0xDE);
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_18 = ovl_1930844_819112CC_SP16(0xE0);
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_1A = ovl_1930844_819112CC_SP16(0xE2);
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_20 = ovl_1930844_819112CC_SP16(0xE4);
+        ((ovl_1930844_819112CC_S_819112CC_5 *)prim)->unk_22 = ovl_1930844_819112CC_SP16(0xE6);
+        link = (u32 *)(ovl_1930844_819112CC_SP32(0xB4));
         if ((u32)link < 0x1E0U) {
             ot_slot2 = (u32)link << 2;
             angle_x_or_mask = (s32)0xFF000000;
-            ot_slot2 += SP32(0x18);
-            setaddr(prim, getaddr(ot_slot2));
-            link = (u32 *)SP32(0xB4);
+            ot_slot2 += ovl_1930844_819112CC_SP32(0x18);
+            ovl_1930844_819112CC_setaddr(prim, ovl_1930844_819112CC_getaddr(ot_slot2));
+            link = (u32 *)ovl_1930844_819112CC_SP32(0xB4);
             link = (u32 *)((u32)link << 2);
-            link = (u32 *)((u8 *)link + SP32(0x18));
+            link = (u32 *)((u8 *)link + ovl_1930844_819112CC_SP32(0x18));
             *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & 0xFFFFFF);
             {
                 GpuContext *ctx = *(GpuContext **)context_slot;
@@ -357,12 +245,12 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
                 ctx->packetCursor = prim + 0xC;
             }
             func_80067F20(prim, 0, 0,
-                          func_80066460(0, ((S_819112CC_0 *)effect)->unk_12, 0, 0) & 0xFFFF,
+                          func_80066460(0, ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_12, 0, 0) & 0xFFFF,
                           0);
-            setaddr(prim, getaddr(&((u32 *)SP32(0x18))[SP32(0xB4)]));
-            link = (u32 *)SP32(0xB4);
+            ovl_1930844_819112CC_setaddr(prim, ovl_1930844_819112CC_getaddr(&((u32 *)ovl_1930844_819112CC_SP32(0x18))[ovl_1930844_819112CC_SP32(0xB4)]));
+            link = (u32 *)ovl_1930844_819112CC_SP32(0xB4);
             link = (u32 *)((u32)link << 2);
-            link = (u32 *)((u8 *)link + SP32(0x18));
+            link = (u32 *)((u8 *)link + ovl_1930844_819112CC_SP32(0x18));
             *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & 0xFFFFFF);
         }
     }

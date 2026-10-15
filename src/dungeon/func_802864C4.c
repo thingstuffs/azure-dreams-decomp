@@ -1,19 +1,5 @@
-#include "common.h"
-#include "shared/dungeon_status.h"
+#include "modules/dungeon_floor_generate.h"
 
-typedef struct {
-    u8 bytes[0x20];
-} __attribute__((packed)) Copy32;
-
-extern void Control_CD(s32, void *, s32);
-extern void func_8003F320(void);
-extern void func_8003F6D4(s32, void *, s32 *, s32);
-
-extern u8 D_8001F584;
-extern Copy32 D_800DDC9C;
-extern Copy32 D_8014A000;
-
-/* Loads an indexed resource and copies two 32-byte blocks and a trailing byte to globals. */
 void func_800194C4(s16 resource_index)
 {
     s32 load_result;
@@ -23,8 +9,8 @@ void func_800194C4(s16 resource_index)
     func_8003F6D4(1, resource_data, &load_result, resource_index + 0x3F5E);
     Control_CD(6, &load_result, 0);
     func_8003F320();
-    *(Copy32 *)dungeonStatus.unk_18 = D_8014A000;
-    D_800DDC9C = *(Copy32 *)(resource_data + 0x20);
+    *(floor_generate_isolated_802864C4_Copy32 *)dungeonStatus.unk_18 = D_8014A000;
+    (*(floor_generate_isolated_802864C4_Copy32 *)D_800DDC9C) = *(floor_generate_isolated_802864C4_Copy32 *)(resource_data + 0x20);
     D_8001F584 = resource_data[0x40];
 }
 

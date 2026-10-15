@@ -30,9 +30,9 @@ standalone_build:
     out_dir: work/s3_splat/extract
     container_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
   window:
-    file_start: 0x19A2864
+    file_start: 0x19A2800
     file_end: 0x19A2B2C
-    vram_start: 0x81982864          # = 0x19A2864 + 0x7FFE0000 (synthetic sweep base)
+    vram_start: 0x81982800          # = 0x19A2800 + 0x7FFE0000 (synthetic sweep base)
     base_confidence: synthetic-self-consistent   # copied; see BASE NOTE
   split_results: overlays/dungeon/overlay_first_pass_results.json
   matched_sources:

@@ -1,41 +1,15 @@
-#include "shared/dungeon_item_entries.h"
-#include "common.h"
-#include "shared/game_work.h"
+#include "modules/dungeon_floor_generate.h"
 
-typedef struct {
-    s16 kind;
-    s16 x;
-    s16 y;
-    s16 value;
-} SpawnEntry;
-
-typedef struct {
-    u16 flags;
-    u16 value;
-    u16 extra;
-} MapCell;
-
-extern u16 func_800A4E2C(u8 *, u8 *);
-extern void func_8009A21C(s16 x, s16 y, u16 flags);
-extern s32 func_800A6D30(void);
-
-extern s16 D_8008146C;
-extern u8 D_800E3648[];
-extern u8 D_800E36C8[];
-extern u8 D_800E39C8[];
-extern u8 D_800E3CD8[];
-
-/* Spawns up to four elevators at unoccupied positions and updates their map cells. */
 void func_8001784C(void) {
     s32 state;
     u8 x;
     u8 y;
     MapGrid *config;
-    MapCell *map;
+    floor_generate_isolated_8028484C_MapCell *map;
     s32 spawn_count;
     s32 slot_index;
     u8 *meta_base;
-    SpawnEntry *entries;
+    floor_generate_isolated_8028484C_SpawnEntry *entries;
 
     {
         u8 *state_page;
@@ -43,9 +17,9 @@ void func_8001784C(void) {
         state = *(s32 *)(state_page + 0x2090);
     }
     config = &gameWork.map;
-    map = *(MapCell **)((u8 *)(&gameWork.map));
+    map = *(floor_generate_isolated_8028484C_MapCell **)((u8 *)(&gameWork.map));
 
-    if ((state == 2) || (D_8008146C != 0x28)) {
+    if ((state == 2) || ((*(s16 *)D_8008146C) != 0x28)) {
         spawn_count = 0;
         meta_base = ((u8 *)D_800E3548);
 
@@ -59,7 +33,7 @@ retry:
             u8 *position;
 
             slot_index = 0;
-            position = D_800E36C8;
+            position = ((u8 *)D_800E36C8);
             meta = meta_base;
 
             do {
@@ -79,8 +53,8 @@ retry:
             u8 *position;
 
             slot_index = 0;
-            position = D_800E39C8;
-            meta = (u8 *)&D_800E3648;
+            position = ((u8 *)D_800E39C8);
+            meta = (u8 *)((u8 *)D_800E3648);
 
             do {
                 position_page = (meta + slot_index * 4)[1];
@@ -92,9 +66,9 @@ retry:
             } while (slot_index < 0x20);
         }
 
-        entries = (SpawnEntry *)D_800E3CD8;
+        entries = (floor_generate_isolated_8028484C_SpawnEntry *)((u8 *)D_800E3CD8);
         {
-            SpawnEntry *entry = &entries[spawn_count];
+            floor_generate_isolated_8028484C_SpawnEntry *entry = &entries[spawn_count];
             s32 spawn_x;
             s32 spawn_y;
             s32 cell_offset;
@@ -103,7 +77,7 @@ retry:
             s32 copy_row_shift;
             s32 flags_row_shift;
             s32 cell_index;
-            MapCell *spawn_cell;
+            floor_generate_isolated_8028484C_MapCell *spawn_cell;
             s32 update_size;
 
             spawn_x = x;
@@ -124,7 +98,7 @@ retry:
             flags_row_shift = config->shiftX;
             row_offset <<= flags_row_shift;
             cell_offset += row_offset;
-            spawn_cell = (MapCell *)(cell_offset * 6 + (s32)map);
+            spawn_cell = (floor_generate_isolated_8028484C_MapCell *)(cell_offset * 6 + (s32)map);
             update_size = 0x20;
             spawn_cell->flags = 1;
             func_8009A21C(spawn_x, spawn_y, update_size);

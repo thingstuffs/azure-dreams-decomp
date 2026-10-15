@@ -1,13 +1,5 @@
-#include "common.h"
-#include "m2c_compat.h"
-#include "records/Rec_func_80027328_arg0.h"
+#include "modules/dungeon_ovl_1831cd8.h"
 
-s32 func_80026E30();                             /* extern */
-s32 func_80027008();               /* extern */
-M2C_UNK func_8004B1A4();                         /* extern */
-
-
-/* Release the previous resource and rebuild it using the refreshed record value. */
 void *func_80027384(Rec_func_80027328_arg0 *record, M2C_UNK resource_arg) {
     s32 resource_value;
 

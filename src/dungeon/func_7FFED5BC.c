@@ -1,8 +1,5 @@
-#include "common.h"
+#include "modules/dungeon_ovl_d54c.h"
 
-extern s8 D_800CF720[16];
-
-/* Returns the matching entry index, or the entry count with the high bit set if absent. */
 s32 func_8008AD1C(s32 first_byte, s32 second_byte, s32 halfword_value) {
     s32 entry_index;
     s32 end_marker;

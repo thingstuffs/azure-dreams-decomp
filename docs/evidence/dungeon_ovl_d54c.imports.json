@@ -1,0 +1,138 @@
+{
+  "maps": {
+    "xfer_dungeon_A3000": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 667648,
+      "file_end": 1050624,
+      "delta": 2147374944,
+      "basis": "overlay-streamer transfer observed at runtime (capture_kit/loader_watch_remote.lua on PCSX-Redux, poll-record): CdRead of 187 sectors from disc LBA 12636 -> 0x80088760. Container dungeon foff 0xA3000 (LBA base 12310), so delta = 0x80088760 - 0xA3000 = 0x7FFE5760. CONFIRMED: RAM[0x80088760..+382976] in ram_auto_dungeon_1829A0C_lba24681.bin is 99.81% identical to the disc image's Mode2/Form1 user data at LBA 12636, i.e. the payload is verifiably resident at that base. Scoring-only: runtime DMA evidence, not a byte-exact recompile -- promote via rowbase.promote() when one lands.; PROMOTED solved->proven: byte-exact recompile func_80094ABC at true base 0x8009A21C (candidate sha d95d3f0bfce6 @ 2.8.1, linked-strict isolation compare, phase-2 item-3 hook)",
+      "kind": "rowbase",
+      "region": "xfer_dungeon_A3000"
+    },
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "basis": "PS-X EXE header load address and payload size.",
+      "kind": "psx_exe"
+    },
+    "town_link_capture_context": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 53248,
+      "file_end": 59392,
+      "delta": 2147997536,
+      "kind": "runtime_capture_context",
+      "basis": "The existing proven img_d54c_8008ad4c rowbase record explicitly reports DUNGEON[0xD000..0xE800] matching runtime at this delta, in four independent captures. This context is used only for the external function prelude; no new rowbase region or allocation is claimed.",
+      "rowbase_region": "img_d54c_8008ad4c"
+    }
+  },
+  "views": {
+    "D_800CF720": {
+      "symbol": "D_800CF720",
+      "kind": "data",
+      "vma": 2148333344,
+      "foff": 958400,
+      "view_bytes": 1,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_A3000",
+      "evidence": "docs/evidence/dungeon_ovl_d54c.imports.json"
+    }
+  },
+  "functions": {
+    "func_80035208": {
+      "vma": 2147701256,
+      "foff": 35336,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_80040574": {
+      "vma": 2147747188,
+      "foff": 81268,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_80053CFC": {
+      "vma": 2147826940,
+      "foff": 161020,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_80069ED8": {
+      "vma": 2147917528,
+      "foff": 251608,
+      "map": "slus_load",
+      "first_word": "a0000a24",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8008AC84": {
+      "vma": 2148052100,
+      "foff": 54564,
+      "map": "town_link_capture_context",
+      "first_word": "c0200400",
+      "bytes": 40,
+      "sha256": "f66c3ba40a0e5326b2128f5617942e5fbdadd22cf1468ffbfb466d1928668cc1",
+      "basis": "Complete external cache-entry reset helper immediately before the native cohort. Its three scalar fields and word at offsets 0/1/2/4 address D_800CF720 + index*8; runtime capture context proves the same delta. It remains external and unregistered; native ownership is not claimed."
+    }
+  },
+  "runtime_views": {
+    "D_801131B8": {
+      "symbol": "D_801131B8",
+      "kind": "runtime_data",
+      "vma": 2148610488,
+      "view_bytes": 48,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/modules/dungeon_ovl_d54c.h",
+      "evidence": "docs/evidence/dungeon_ovl_d54c.imports.json"
+    },
+    "D_801131E4": {
+      "symbol": "D_801131E4",
+      "kind": "runtime_data",
+      "vma": 2148610532,
+      "view_bytes": 12,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/modules/dungeon_ovl_d54c.h",
+      "evidence": "docs/evidence/dungeon_ovl_d54c.imports.json"
+    },
+    "D_801131EC": {
+      "symbol": "D_801131EC",
+      "kind": "runtime_data",
+      "vma": 2148610540,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/modules/dungeon_ovl_d54c.h",
+      "evidence": "docs/evidence/dungeon_ovl_d54c.imports.json"
+    }
+  },
+  "review": "pending",
+  "reviewer": null,
+  "runtime_basis": {
+    "D_801131B8": {
+      "basis": "Existing matched member declaration and fixed-address retail accesses; complete unmasked whole-TU retail/genuine proof binds the numeric address. Runtime view only: no file bytes, allocation, initialization, or complete-object ownership is claimed.",
+      "declaration": "extern DungeonCacheState D_801131B8;",
+      "source_clients": [
+        "src/dungeon/func_7FFED630.c",
+        "src/dungeon/func_7FFED6EC.c",
+        "src/dungeon/func_7FFED9F8.c"
+      ]
+    },
+    "D_801131E4": {
+      "basis": "Existing matched member declaration and fixed-address retail accesses; complete unmasked whole-TU retail/genuine proof binds the numeric address. Runtime view only: no file bytes, allocation, initialization, or complete-object ownership is claimed.",
+      "declaration": "extern s32 D_801131E4[3];",
+      "source_clients": [
+        "src/dungeon/func_7FFED850.c"
+      ]
+    },
+    "D_801131EC": {
+      "basis": "Existing matched member declaration and fixed-address retail accesses; complete unmasked whole-TU retail/genuine proof binds the numeric address. Runtime view only: no file bytes, allocation, initialization, or complete-object ownership is claimed.",
+      "declaration": "extern u32 *D_801131EC;",
+      "source_clients": [
+        "src/dungeon/func_7FFED7CC.c"
+      ]
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "module": "dungeon_ovl_1831370",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_1831370.c",
+    "module_index": 162
+  },
+  "members": [
+    "dungeon/func_81811370",
+    "dungeon/func_81811388",
+    "dungeon/func_818113C0",
+    "dungeon/func_8181140C",
+    "dungeon/func_81811508",
+    "dungeon/func_8181154C",
+    "dungeon/func_818115B8",
+    "dungeon/func_8181161C",
+    "dungeon/func_81811690",
+    "dungeon/func_818116B0",
+    "dungeon/func_81811708",
+    "dungeon/func_8181175C",
+    "dungeon/func_818117B0",
+    "dungeon/func_818117D8",
+    "dungeon/func_81811878",
+    "dungeon/func_8181192C",
+    "dungeon/func_818119A0",
+    "dungeon/func_818119E8",
+    "dungeon/func_81811A64",
+    "dungeon/func_81811B44",
+    "dungeon/func_81811B94",
+    "dungeon/func_81811BFC",
+    "dungeon/func_81811C20"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Complete existing strong ledger cohort expanded only by its previously unregistered interior routine.",
+  "basis": [
+    "Original 22 strong-assigned functions occupy 0x1831370..0x1831CCC except 32 bytes at 0x1831690.",
+    "The 32-byte routine has its own prologue, jal func_8002640C, epilogue and jr ra. It is also taken as a callback by func_80026A64; it is a function, not padding or a fragment.",
+    "Independently recovered void wrapper passes its menu argument explicitly. Standalone stock-CDK retail and genuine-ASPSX bytes match all 32 bytes.",
+    "Adding the wrapper yields 23 adjacent complete functions in one proven xfer_dungeon_1830000 load map, one recipe and one natural-order native TU.",
+    "No claim of an independently observable historical compiler-TU boundary is made."
+  ],
+  "registration": {
+    "id": "dungeon/func_81811690",
+    "foff": 25368208,
+    "vma": 2147640976,
+    "size": 32,
+    "raw_sha": "3a8943b8e2bc9c1b98fde6b0d476b63e67c19b7a14598b43f1b62a5e4a8190a4",
+    "source_sha": "d9770e6070718dddb677c6b4c86307316eb059692bdb09f01c6576178f3e100e"
+  },
+  "review": "pending",
+  "reviewer": null
+}

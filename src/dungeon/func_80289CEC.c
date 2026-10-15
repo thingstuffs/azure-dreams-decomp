@@ -1,17 +1,6 @@
-#include "common.h"
+#include "modules/dungeon_floor_generate.h"
 
-typedef struct {
-    u8 pad0[4];
-    u16 field4;
-    u16 field6;
-    u16 field8;
-    s16 fieldA;
-} Entry;
-
-extern s32 func_800A6D30(void);
-
-/* Pick a point on one edge of the room rectangle: side selects the edge, the outputs get that edge's fixed coordinate and a random offset along it. */
-void func_8001CCEC(s16 side, s16 *out_x, s16 *out_y, Entry *room) {
+void func_8001CCEC(s16 side, s16 *out_x, s16 *out_y, floor_generate_isolated_80289CEC_Entry *room) {
     if (room->fieldA == 0) {
         *out_x = 0;
         *out_y = 0;

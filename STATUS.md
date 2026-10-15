@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-15T17:02:09Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-15T17:15:31Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -9,9 +9,9 @@ Generated 2026-10-15T17:02:09Z. Pin `82f20568` (82f20568997a, raw/ frozen at 202
 | slus | 884 | 473,788 | 884 | 473,788 | 884 | 473,788 | 0 |
 | main | 422 | 62,736 | 422 | 62,736 | 422 | 62,736 | 0 |
 | town | 2803 | 467,892 | 2803 | 467,892 | 2803 | 467,892 | 0 |
-| dungeon | 3478 | 1,794,520 | 3478 | 1,794,520 | 3477 | 1,792,720 | 1 |
+| dungeon | 3496 | 1,797,004 | 3496 | 1,797,004 | 3495 | 1,795,204 | 1 |
 | ovmovie | 28 | 5,516 | 28 | 5,516 | 28 | 5,516 | 0 |
-| ALL | 7615 | 2,804,452 | 7615 | 2,804,452 | 7614 | 2,802,652 | 1 |
+| ALL | 7633 | 2,806,936 | 7633 | 2,806,936 | 7632 | 2,805,136 | 1 |
 
 Data rows: 499 (13,608 B); stale-image residue DATA: 1 (488 B).
 
@@ -94,62 +94,81 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 
 | module | rows | placement proof |
 |---|---:|---|
-| dungeon_cd_control_d79c4 | 3 | current: complete TU + all windows + genuine |
-| town_minigame_dispatch_44b44 | 13 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1852800 | 4 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1870800 | 2 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1858800 | 3 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1840800 | 3 | current: complete TU + all windows + genuine |
-| dungeon_ovl_185e800 | 3 | current: complete TU + all windows + genuine |
-| dungeon_ovl_18ac800 | 2 | current: complete TU + all windows + genuine |
-| dungeon_ovl_18fa800 | 3 | current: complete TU + all windows + genuine |
-| dungeon_ovl_19ba800 | 3 | current: complete TU + all windows + genuine |
-| dungeon_ovl_199c800 | 4 | current: complete TU + all windows + genuine |
-| dungeon_ovl_18f4800 | 5 | current: complete TU + all windows + genuine |
-| dungeon_ovl_19a8800 | 5 | current: complete TU + all windows + genuine |
-| dungeon_ovl_189a800 | 13 | current: complete TU + all windows + genuine |
-| dungeon_ovl_188e800 | 6 | current: complete TU + all windows + genuine |
-| dungeon_ovl_198a800 | 17 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1876800 | 5 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1894800 | 11 | current: complete TU + all windows + genuine |
-| dungeon_ovl_18a6800 | 15 | current: complete TU + all windows + genuine |
-| dungeon_ovl_19d2800 | 6 | current: complete TU + all windows + genuine |
-| dungeon_ovl_197281c | 5 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1990800 | 13 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1960800 | 11 | current: complete TU + all windows + genuine |
-| dungeon_ovl_183a800 | 10 | current: complete TU + all windows + genuine |
-| dungeon_ovl_18a0800 | 15 | current: complete TU + all windows + genuine |
-| dungeon_ovl_19c6800 | 5 | current: complete TU + all windows + genuine |
-| dungeon_ovl_19cc800 | 22 | current: complete TU + all windows + genuine |
-| dungeon_ovl_192a800 | 7 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1918800 | 11 | current: complete TU + all windows + genuine |
-| dungeon_ovl_19de800 | 22 | current: complete TU + all windows + genuine |
-| dungeon_ovl_7ce800 | 30 | current: complete TU + all windows + genuine |
-| dungeon_ovl_fa7000 | 28 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1924800 | 11 | current: complete TU + all windows + genuine |
-| dungeon_ovl_19b4800 | 5 | current: complete TU + all windows + genuine |
-| dungeon_ovl_184c800 | 3 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1864800 | 4 | current: complete TU + all windows + genuine |
-| dungeon_ovl_7e6a5800 | 23 | current: complete TU + all windows + genuine |
-| dungeon_ovl_18d6800 | 12 | current: complete TU + all windows + genuine |
-| dungeon_ovl_18ee800 | 8 | current: complete TU + all windows + genuine |
-| dungeon_ovl_18e8800 | 4 | current: complete TU + all windows + genuine |
-| dungeon_ovl_18b2800 | 11 | current: complete TU + all windows + genuine |
-| ovmovie_libpress | 17 | current: complete TU + all windows + genuine |
-| dungeon_engine_dungeon_util | 43 | current: complete TU + all windows + genuine |
-| dungeon_engine_experience | 17 | current: complete TU + all windows + genuine |
-| dungeon_engine_transition_effects | 12 | current: complete TU + all windows + genuine |
-| dungeon_engine_entity_effects | 21 | current: complete TU + all windows + genuine |
-| dungeon_engine_tile_map | 25 | current: complete TU + all windows + genuine |
-| dungeon_engine_entity_panel | 21 | current: complete TU + all windows + genuine |
-| dungeon_engine_particle_effects | 11 | current: complete TU + all windows + genuine |
-| dungeon_engine_screen_effects | 4 | current: complete TU + all windows + genuine |
-| dungeon_engine_trap_effects | 38 | current: complete TU + all windows + genuine |
-| dungeon_engine_menu_effects | 38 | current: complete TU + all windows + genuine |
-| dungeon_engine_effect_dispatch | 18 | current: complete TU + all windows + genuine |
-| town_door_22f08 | 25 | current: complete TU + all windows + genuine |
-| town_player_init_12868 | 12 | current: complete TU + all windows + genuine |
-| town_town_windows_1f5b8 | 36 | current: complete TU + all windows + genuine |
+| dungeon_cd_control_d79c4 | 3 | source/recipe/graph/tool/review/window inputs changed |
+| town_minigame_dispatch_44b44 | 13 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1852800 | 4 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1870800 | 2 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1858800 | 3 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1840800 | 3 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_185e800 | 3 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_18ac800 | 2 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_18fa800 | 3 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_19ba800 | 3 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_199c800 | 4 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_18f4800 | 5 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_19a8800 | 5 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_189a800 | 13 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_188e800 | 6 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_198a800 | 17 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1876800 | 5 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1894800 | 11 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_18a6800 | 15 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_19d2800 | 6 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_197281c | 5 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1990800 | 13 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1960800 | 11 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_183a800 | 10 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_18a0800 | 15 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_19c6800 | 5 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_19cc800 | 22 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_192a800 | 7 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1918800 | 11 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_19de800 | 22 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_7ce800 | 30 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_fa7000 | 28 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1924800 | 11 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_19b4800 | 5 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_184c800 | 3 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1864800 | 4 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_7e6a5800 | 23 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_18d6800 | 12 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_18ee800 | 8 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_18e8800 | 4 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_18b2800 | 11 | source/recipe/graph/tool/review/window inputs changed |
+| ovmovie_libpress | 17 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_engine_dungeon_util | 43 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_engine_experience | 17 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_engine_transition_effects | 12 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_engine_entity_effects | 21 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_engine_tile_map | 25 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_engine_entity_panel | 21 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_engine_particle_effects | 11 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_engine_screen_effects | 4 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_engine_trap_effects | 38 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_engine_menu_effects | 38 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_engine_effect_dispatch | 18 | source/recipe/graph/tool/review/window inputs changed |
+| town_door_22f08 | 25 | source/recipe/graph/tool/review/window inputs changed |
+| town_player_init_12868 | 12 | source/recipe/graph/tool/review/window inputs changed |
+| town_town_windows_1f5b8 | 36 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_town_load | 5 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_town_load.json' |
+| dungeon_town_map | 16 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_town_map.json' |
+| dungeon_ovl_d54c | 10 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_ovl_d54c.json' |
+| dungeon_dungeon_setup | 14 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_dungeon_setup.json' |
+| dungeon_ovl_16b08_local | 16 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_ovl_16b08_local.json' |
+| dungeon_ovl_16b08_f6a8 | 1 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_ovl_16b08_f6a8.json' |
+| dungeon_ovl_1831370 | 23 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_ovl_1831370.json' |
+| dungeon_ovl_1831cd8 | 50 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_ovl_1831cd8.json' |
+| dungeon_ovl_1830850 | 26 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_ovl_1830850.json' |
+| dungeon_ovl_9c32d4 | 5 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_ovl_9c32d4.json' |
+| dungeon_ovl_19a332c | 19 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_ovl_19a332c.json' |
+| dungeon_ovl_1930844 | 10 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_ovl_1930844.json' |
+| dungeon_ovl_18d0850 | 12 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_ovl_18d0850.json' |
+| dungeon_ovl_188898c | 9 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_ovl_188898c.json' |
+| dungeon_ovl_188298c | 7 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_ovl_188298c.json' |
+| dungeon_ovl_18ca83c | 4 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_ovl_18ca83c.json' |
+| dungeon_ovl_18b8824 | 9 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_ovl_18b8824.json' |
+| dungeon_floor_spawns | 12 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_floor_spawns.json' |
+| dungeon_floor_generate | 50 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_floor_generate.json' |
 
 Placement alone does not override any lower-level or source-residue guard.
 
@@ -157,22 +176,22 @@ Placement alone does not override any lower-level or source-residue guard.
 
 | defect | files (pin) | bytes (pin) | % bytes | files (clean) | bytes (clean) | % bytes |
 |---|---:|---:|---:|---:|---:|---:|
-| m2c boilerplate block | 2331 | 510,604 | 18.2% | 0 | 0 | 0.0% |
-| M2C_FIELD raw offsets | 2950 | 1,448,300 | 51.6% | 0 | 0 | 0.0% |
-| m2c local names | 5181 | 2,160,964 | 77.1% | 3 | 23,924 | 0.9% |
-| ASM_ pins | 2135 | 1,455,436 | 51.9% | 0 | 0 | 0.0% |
-| goto | 1545 | 1,311,404 | 46.8% | 271 | 326,884 | 11.7% |
-| computed-goto jump table | 317 | 436,404 | 15.6% | 1 | 16 | 0.0% |
+| m2c boilerplate block | 2331 | 510,784 | 18.2% | 0 | 0 | 0.0% |
+| M2C_FIELD raw offsets | 2950 | 1,448,548 | 51.6% | 0 | 0 | 0.0% |
+| m2c local names | 5181 | 2,161,308 | 77.0% | 3 | 23,924 | 0.9% |
+| ASM_ pins | 2135 | 1,455,576 | 51.9% | 0 | 0 | 0.0% |
+| goto | 1545 | 1,311,504 | 46.7% | 271 | 326,884 | 11.6% |
+| computed-goto jump table | 317 | 436,504 | 15.6% | 1 | 16 | 0.0% |
 | inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 242,072 | 8.6% | 8 | 9,868 | 0.4% |
-| fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate) | 1489 | 675,960 | 24.1% | 0 | 0 | 0.0% |
-| any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,280,480 | 45.7% | 12 | 25,440 | 0.9% |
-| any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,480 | 45.7% | 1647 | 892,704 | 31.8% |
-| noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 668 | 488,888 | 17.4% | 0 | 0 | 0.0% |
+| fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate) | 1489 | 676,060 | 24.1% | 0 | 0 | 0.0% |
+| any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,280,580 | 45.6% | 11 | 25,316 | 0.9% |
+| any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,580 | 45.6% | 1647 | 892,704 | 31.8% |
+| noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 668 | 488,988 | 17.4% | 0 | 0 | 0.0% |
 | maspsx marker pins (scaffolding) | 394 | 347,512 | 12.4% | 0 | 0 | 0.0% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 5.6% | 4 | 4,140 | 0.1% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
-| local address-named struct | 633 | 346,872 | 12.4% | 2852 | 1,476,952 | 52.7% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 5.5% | 7341 | 2,453,644 | 87.5% |
+| local address-named struct | 633 | 346,972 | 12.4% | 2752 | 1,440,868 | 51.3% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 5.5% | 7359 | 2,456,128 | 87.5% |
 
 Pin sites now: 0 in 0 rows; .  At the pin: 25,918; REG 12,816, KEEP 6,936, KEEP_NV 2,505, SCHED_BARRIER 1,355, TAILSLOT_PIN 506, USE 294, USE_NV 260, KEEP_DEP_NV 190.
 
@@ -218,16 +237,16 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 
 | level | bytes | % |
 |---|---:|---:|
-| L0 | 2,802,652 | 99.9% |
-| L1 | 2,802,652 | 99.9% |
-| L2 | 2,802,652 | 99.9% |
-| L3 | 2,773,636 | 98.9% |
-| L4 | 343,216 | 12.2% |
-| L5 | 318,328 | 11.4% |
+| L0 | 2,805,136 | 99.9% |
+| L1 | 2,805,136 | 99.9% |
+| L2 | 2,805,136 | 99.9% |
+| L3 | 2,776,244 | 98.9% |
+| L4 | 0 | 0.0% |
+| L5 | 0 | 0.0% |
 
-On shared record headers (T7, `include/records/`): 1122 rows, 636,744 bytes (22.7%); records used: 98.
+On shared record headers (T7, `include/records/`): 1316 rows, 708,736 bytes (25.2%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 6,886 rows (2,459,344 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 7,632 rows (2,805,136 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 

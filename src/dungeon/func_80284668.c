@@ -1,13 +1,5 @@
-#include "common.h"
-#include "shared/game_work.h"
+#include "modules/dungeon_floor_generate.h"
 
-
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((u8 *)(expr) + (offset)))
-
-extern u8 D_800EA000[];
-
-
-/* Fill the third field of each grid cell in a rectangle with the given value. */
 void func_80017668(s16 start_x, s16 y, s16 width, s32 height, u16 fill_value) {
     s16 rows_left;
     s32 span_left;
@@ -35,7 +27,7 @@ void func_80017668(s16 start_x, s16 y, s16 width, s32 height, u16 fill_value) {
                     cell_index = row_y << cell_index;
                     cell_index += x;
                     x++;
-                    cell = (u16 *)(D_800EA000 + cell_index * 6);
+                    cell = (u16 *)(((u8 *)D_800EA000) + cell_index * 6);
                     cell[2] = fill_value;
                 } while (span_left > 0);
             }

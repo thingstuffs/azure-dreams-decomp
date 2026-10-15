@@ -1,14 +1,5 @@
-#include "common.h"
-#include "m2c_compat.h"
-#include "records/Rec_func_8001CE44_arg0.h"
+#include "modules/dungeon_floor_generate.h"
 
-void func_80017480();     /* extern */
-s32 func_80017BEC();                             /* extern */
-void func_8001D4AC(Rec_func_8001CE44_arg0 *, s32);                 /* extern */
-void func_8001D5D8();                 /* extern */
-
-
-/* Update the region until its completion check succeeds, then finalize it. */
 void func_8001CE44(Rec_func_8001CE44_arg0 *region, s16 update_id) {
     do {
         func_8001D5D8(region, update_id);

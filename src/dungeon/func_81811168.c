@@ -1,43 +1,18 @@
-#include "shared/object_node.h"
-#include "common.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_ovl_1830850.h"
 
-typedef struct DungeonSub81811168 {
-    u8 pad00[0x50];
-    s32 value50;
-    s32 value54;
-} DungeonSub81811168;
-
-typedef struct DungeonObj81811168 {
-    u8 pad00[0xC];
-    void *field0C;
-    u8 pad10[0xE];
-    u16 flags1E;
-    DungeonSub81811168 sub20;
-} DungeonObj81811168;
-
-extern s32 func_800260CC(DungeonSub81811168 *, s32);
-extern s32 func_80025D74(s32);
-extern void func_80026084(DungeonSub81811168 *, s32, s32, s32);
-extern void func_8004491C(DungeonObj81811168 *, void *);
-extern void func_80026314(DungeonObj81811168 *);
-extern void func_8004B248(void *);
-extern u8 D_8004CAA0[9];
-
-/* Allocate and initialize a child object, releasing its resources if setup fails. */
-DungeonObj81811168 *func_80026168(s32 parent_obj, s32 initial_value, s32 text_addr)
+ovl_1830850_81811168_DungeonObj81811168 *func_80026168(s32 parent_obj, s32 initial_value, s32 text_addr)
 {
-    DungeonObj81811168 *obj;
-    DungeonSub81811168 *state;
+    ovl_1830850_81811168_DungeonObj81811168 *obj;
+    ovl_1830850_81811168_DungeonSub81811168 *state;
 
-    obj = (DungeonObj81811168 *)func_8003FC64(0);
+    obj = (ovl_1830850_81811168_DungeonObj81811168 *)func_8003FC64(0);
     state = &obj->sub20;
     if (obj != 0) {
         if (func_800260CC(state, 13) != 0) {
             obj->field0C = (u8 *)obj + 0x64;
-            state->value50 = func_80025D74(state->value54);
+            state->value50 = (s32)func_80025D74(state->value54);
             func_80026084(state, parent_obj, initial_value, text_addr);
-            func_8004491C(obj, D_8004CAA0);
+            func_8004491C(obj, (void *)func_8004CAA0);
             func_80026314(obj);
         } else {
             func_8004B248((u8 *)obj + 0x78);

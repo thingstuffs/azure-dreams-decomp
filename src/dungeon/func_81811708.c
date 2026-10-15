@@ -1,20 +1,6 @@
-#include "common.h"
+#include "modules/dungeon_ovl_1831370.h"
 
-extern s32 D_800294FC;
-
-typedef struct {
-    u8 unk0;
-    s8 unk1;
-    s8 unk2;
-    s8 unk3;
-    s32 unk4;
-    s8 pad8[2];
-    s8 unkA;
-    s8 unkB;
-} Packet;
-
-/* Initialize and return a packet with the shared payload and a variant-dependent field. */
-void *func_80026708(Packet *packet, s32 variant) {
+void *func_80026708(ovl_1831370_81811708_Packet *packet, s32 variant) {
     s32 payload;
 
     packet->unk1 = 0x28;

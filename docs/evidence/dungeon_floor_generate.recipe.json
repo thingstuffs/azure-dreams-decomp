@@ -1,0 +1,14 @@
+{
+  "module": "dungeon_floor_generate",
+  "scope": "whole_tu",
+  "flags": [
+    "-q",
+    "-G0",
+    "-0"
+  ],
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "basis": "One stock CDK G0 compiler TU; genuine ASPSX 2.79 -q -G0 -0."
+}

@@ -1,0 +1,162 @@
+{
+  "module": "dungeon_ovl_18b8824",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_18b8824.c",
+    "module_index": 164
+  },
+  "members": [
+    "dungeon/func_81898824",
+    "dungeon/func_818988CC",
+    "dungeon/func_818989D8",
+    "dungeon/func_81898A64",
+    "dungeon/func_81898B70",
+    "dungeon/func_81898C1C",
+    "dungeon/func_81898D50",
+    "dungeon/func_81898DCC",
+    "dungeon/func_81898EBC"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Complete existing strong cohort, complete related weak-assigned or independently recovered routines, and the compiler-owned bank data prefix. The historical compiler TU boundary is not asserted.",
+  "basis": [
+    "The original strong cohort and all complete intervening routines form one contiguous code extent under one stock CDK G0 recipe. Weak bucket membership changes are explicit guarded replacements.",
+    "Authenticated caller/loader/CD decoder words, the ISO directory record, and all twelve disc sector payloads prove the conditional selector load at this exact base. Existing code-proven records agree without contradiction.",
+    "The first entry pointer targets a complete member. Every switch-table target lies inside its declared complete owner; compiler-generated tables and minimal alignment account for the entire prefix. No literal switch replacement is used.",
+    "The complete 3592-byte native TU equals retail and genuine ASPSX, zero masks or raw substitutions.",
+    "Historical function baselines and promotion lines are preserved byte-for-byte. The composite first row carries its native prefix extent and body offset explicitly, as in the worked package."
+  ],
+  "owned_prefix": [
+    {
+      "kind": "typed_function_pointer",
+      "section": ".rodata",
+      "foff": 25921536,
+      "vma": 2147631104,
+      "size": 4,
+      "symbol": "dungeon_ovl_18b8824_entry",
+      "target": "func_800246BC"
+    },
+    {
+      "kind": "alignment",
+      "section": ".rodata",
+      "foff": 25921540,
+      "vma": 2147631108,
+      "size": 4,
+      "alignment": 8
+    },
+    {
+      "kind": "switch_table",
+      "section": ".rodata",
+      "foff": 25921544,
+      "vma": 2147631112,
+      "size": 28,
+      "owner": "func_800246BC"
+    }
+  ],
+  "assignment_changes": [
+    {
+      "before": {
+        "id": "dungeon/func_818988CC",
+        "container": "dungeon",
+        "module": "ovl_7e76b800.c",
+        "module_index": 169,
+        "confidence": "weak"
+      },
+      "after": {
+        "id": "dungeon/func_818988CC",
+        "container": "dungeon",
+        "module": "ovl_18b8824.c",
+        "module_index": 164,
+        "confidence": "strong",
+        "evidence": "docs/evidence/dungeon_ovl_18b8824.membership.json"
+      }
+    },
+    {
+      "before": {
+        "id": "dungeon/func_818989D8",
+        "container": "dungeon",
+        "module": "ovl_7e76b800.c",
+        "module_index": 169,
+        "confidence": "weak"
+      },
+      "after": {
+        "id": "dungeon/func_818989D8",
+        "container": "dungeon",
+        "module": "ovl_18b8824.c",
+        "module_index": 164,
+        "confidence": "strong",
+        "evidence": "docs/evidence/dungeon_ovl_18b8824.membership.json"
+      }
+    },
+    {
+      "before": {
+        "id": "dungeon/func_81898A64",
+        "container": "dungeon",
+        "module": "ovl_7e76b800.c",
+        "module_index": 169,
+        "confidence": "weak"
+      },
+      "after": {
+        "id": "dungeon/func_81898A64",
+        "container": "dungeon",
+        "module": "ovl_18b8824.c",
+        "module_index": 164,
+        "confidence": "strong",
+        "evidence": "docs/evidence/dungeon_ovl_18b8824.membership.json"
+      }
+    },
+    {
+      "before": {
+        "id": "dungeon/func_81898B70",
+        "container": "dungeon",
+        "module": "ovl_7e76b800.c",
+        "module_index": 169,
+        "confidence": "weak"
+      },
+      "after": {
+        "id": "dungeon/func_81898B70",
+        "container": "dungeon",
+        "module": "ovl_18b8824.c",
+        "module_index": 164,
+        "confidence": "strong",
+        "evidence": "docs/evidence/dungeon_ovl_18b8824.membership.json"
+      }
+    },
+    {
+      "before": {
+        "id": "dungeon/func_81898C1C",
+        "container": "dungeon",
+        "module": "ovl_7e76b800.c",
+        "module_index": 169,
+        "confidence": "weak"
+      },
+      "after": {
+        "id": "dungeon/func_81898C1C",
+        "container": "dungeon",
+        "module": "ovl_18b8824.c",
+        "module_index": 164,
+        "confidence": "strong",
+        "evidence": "docs/evidence/dungeon_ovl_18b8824.membership.json"
+      }
+    },
+    {
+      "before": {
+        "id": "dungeon/func_81898D50",
+        "container": "dungeon",
+        "module": "ovl_7e76b800.c",
+        "module_index": 169,
+        "confidence": "weak"
+      },
+      "after": {
+        "id": "dungeon/func_81898D50",
+        "container": "dungeon",
+        "module": "ovl_18b8824.c",
+        "module_index": 164,
+        "confidence": "strong",
+        "evidence": "docs/evidence/dungeon_ovl_18b8824.membership.json"
+      }
+    }
+  ],
+  "review": "pending",
+  "reviewer": null
+}

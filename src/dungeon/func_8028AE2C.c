@@ -1,25 +1,7 @@
-#include "common.h"
-#include "shared/dungeon_floor.h"
-#include "shared/game_work.h"
+#include "modules/dungeon_floor_generate.h"
 
-typedef struct {
-    u16 x;
-    u16 y;
-    u16 width;
-    u16 height;
-    s16 unk8;
-    s16 active;
-    u8 pad[8];
-} DungeonArea;
-
-extern s32 func_8001CE14(s16 value, s32 lower_bound, s16 upper_bound);
-extern void func_8001E108(s32 x, s32 y, s16 *tile, s32 kind, s32 amount);
-
-extern u8 D_800EA000[];
-
-/* Update tiles in active dungeon areas, alternating variants in the first tile range. */
 void func_8001DE2C(void) {
-    DungeonArea *area;
+    floor_generate_isolated_8028AE2C_DungeonArea *area;
     MapGrid *map_config = &gameWork.map;
     s16 *tile_id;
     s32 area_index;
@@ -36,7 +18,7 @@ void func_8001DE2C(void) {
     area_index = 0;
     amount_small = 0x20;
     amount_large = 0x100;
-    area = (DungeonArea *)D_800E2970;
+    area = (floor_generate_isolated_8028AE2C_DungeonArea *)D_800E2970;
 
 outer_loop:
     if (area->active != 0) {
@@ -50,7 +32,7 @@ outer_loop:
             x = area->x;
             if (x < x_end) {
 x_loop_done:
-                tile_id = (s16 *)&D_800EA000[((y << map_config->shiftX) + x) * 6];
+                tile_id = (s16 *)&((u8 *)D_800EA000)[((y << map_config->shiftX) + x) * 6];
                 if (func_8001CE14(*tile_id, 0x13, 0x1C) != 0) {
                     func_8001E108(x, y, tile_id, 0x13, amount_small);
                     if ((y & 1) ? (x & 1) : !(x & 1)) {

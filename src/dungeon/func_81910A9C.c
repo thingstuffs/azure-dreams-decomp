@@ -1,12 +1,5 @@
-#include "common.h"
-#include "shared/game_work.h"
-#include "shared/ot_link.h"
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
-extern s32 func_80065420(void *, void *, void *, void *);
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_80067F20(void *, s32, s32, u16, s32);
-/* Builds and depth-sorts five radial line segments for an effect. */
+#include "modules/dungeon_ovl_1930844.h"
+
 void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_factor)
 {
     s32 scale;

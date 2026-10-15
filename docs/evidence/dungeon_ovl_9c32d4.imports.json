@@ -1,0 +1,240 @@
+{
+  "maps": {
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "basis": "PS-X EXE header load address and payload size.",
+      "kind": "psx_exe"
+    },
+    "bank_9bf000_assets": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 10241936,
+      "file_end": 10244096,
+      "delta": 2138773504,
+      "basis": "The authenticated resource-2 slot-0 twelve-sector load transfers the complete 0x9BF000..0x9C5000 bank to 0x80170800. This disjoint tail contains the referenced descriptors; code ownership remains with the original code-proven map. Static loader/CD/ISO evidence and every sector payload are bound by the selector receipt.",
+      "kind": "rowbase",
+      "region": "bank_9bf000_assets"
+    },
+    "xfer_dungeon_A3000": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 667648,
+      "file_end": 1050624,
+      "delta": 2147374944,
+      "basis": "overlay-streamer transfer observed at runtime (capture_kit/loader_watch_remote.lua on PCSX-Redux, poll-record): CdRead of 187 sectors from disc LBA 12636 -> 0x80088760. Container dungeon foff 0xA3000 (LBA base 12310), so delta = 0x80088760 - 0xA3000 = 0x7FFE5760. CONFIRMED: RAM[0x80088760..+382976] in ram_auto_dungeon_1829A0C_lba24681.bin is 99.81% identical to the disc image's Mode2/Form1 user data at LBA 12636, i.e. the payload is verifiably resident at that base. Scoring-only: runtime DMA evidence, not a byte-exact recompile -- promote via rowbase.promote() when one lands.; PROMOTED solved->proven: byte-exact recompile func_80094ABC at true base 0x8009A21C (candidate sha d95d3f0bfce6 @ 2.8.1, linked-strict isolation compare, phase-2 item-3 hook)",
+      "kind": "rowbase",
+      "region": "xfer_dungeon_A3000"
+    }
+  },
+  "views": {
+    "D_8006CCD8": {
+      "symbol": "D_8006CCD8",
+      "kind": "data",
+      "vma": 2147929304,
+      "foff": 263384,
+      "view_bytes": 2,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_9c32d4.imports.json"
+    },
+    "D_8006CCE8": {
+      "symbol": "D_8006CCE8",
+      "kind": "data",
+      "vma": 2147929320,
+      "foff": 263400,
+      "view_bytes": 2,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_9c32d4.imports.json"
+    },
+    "D_80175F9C": {
+      "symbol": "D_80175F9C",
+      "kind": "data",
+      "vma": 2149015452,
+      "foff": 10241948,
+      "view_bytes": 12,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_9bf000_assets",
+      "evidence": "docs/evidence/dungeon_ovl_9c32d4.imports.json"
+    },
+    "D_80175F90": {
+      "symbol": "D_80175F90",
+      "kind": "data",
+      "vma": 2149015440,
+      "foff": 10241936,
+      "view_bytes": 12,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_9bf000_assets",
+      "evidence": "docs/evidence/dungeon_ovl_9c32d4.imports.json"
+    }
+  },
+  "functions": {
+    "func_8003FD64": {
+      "vma": 2147745124,
+      "foff": 79204,
+      "map": "slus_load",
+      "first_word": "0180023c",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8004491C": {
+      "vma": 2147764508,
+      "foff": 98588,
+      "map": "slus_load",
+      "first_word": "21388000",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_80045340": {
+      "vma": 2147767104,
+      "foff": 101184,
+      "map": "slus_load",
+      "first_word": "e0ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800644B8": {
+      "vma": 2147894456,
+      "foff": 228536,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_80064584": {
+      "vma": 2147894660,
+      "foff": 228740,
+      "map": "slus_load",
+      "first_word": "02008104",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8006658C": {
+      "vma": 2147902860,
+      "foff": 236940,
+      "map": "slus_load",
+      "first_word": "ff00063c",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_8006671C": {
+      "vma": 2147903260,
+      "foff": 237340,
+      "map": "slus_load",
+      "first_word": "0c000224",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_80067E2C": {
+      "vma": 2147909164,
+      "foff": 243244,
+      "map": "slus_load",
+      "first_word": "e0ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_80069EF8": {
+      "vma": 2147917560,
+      "foff": 251640,
+      "map": "slus_load",
+      "first_word": "a0000a24",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800BCB04": {
+      "vma": 2148256516,
+      "foff": 881572,
+      "map": "xfer_dungeon_A3000",
+      "first_word": "d8ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    },
+    "func_800CEEFC": {
+      "vma": 2148331260,
+      "foff": 956316,
+      "map": "xfer_dungeon_A3000",
+      "first_word": "e0ffbd27",
+      "basis": "Encoded canonical function address; resolved through the proven load map."
+    }
+  },
+  "runtime_views": {
+    "D_800814A0": {
+      "symbol": "D_800814A0",
+      "kind": "runtime_data",
+      "vma": 2148013216,
+      "view_bytes": 16,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_9c32d4.imports.json",
+      "declaration": "include/shared/object_flags.h"
+    },
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 512,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_9c32d4.imports.json",
+      "declaration": "include/shared/game_work.h"
+    },
+    "D_801C9E40": {
+      "symbol": "D_801C9E40",
+      "vma": 2149359168,
+      "view_bytes": 16,
+      "owner": "resident_runtime:slus",
+      "declaration": "src/dungeon/func_818F94D4.c",
+      "kind": "runtime_data",
+      "evidence": "docs/evidence/dungeon_ovl_9c32d4.imports.json"
+    }
+  },
+  "review": "pending",
+  "reviewer": null,
+  "runtime_basis": {},
+  "target_sizeof_audit": {
+    "D_8006CCD8": {
+      "declared_bytes": null,
+      "view_bytes": 2,
+      "previous_view_bytes": 2,
+      "basis": "Complete target sizeof when available; otherwise a bounded external address view, with no allocation ownership claim."
+    },
+    "D_8006CCE8": {
+      "declared_bytes": null,
+      "view_bytes": 2,
+      "previous_view_bytes": 2,
+      "basis": "Complete target sizeof when available; otherwise a bounded external address view, with no allocation ownership claim."
+    },
+    "D_800814A0": {
+      "declared_bytes": 16,
+      "view_bytes": 16,
+      "previous_view_bytes": 16,
+      "basis": "Complete target sizeof when available; otherwise a bounded external address view, with no allocation ownership claim."
+    },
+    "D_80083160": {
+      "declared_bytes": 512,
+      "view_bytes": 512,
+      "previous_view_bytes": 512,
+      "basis": "Complete target sizeof when available; otherwise a bounded external address view, with no allocation ownership claim."
+    },
+    "D_80175F90": {
+      "declared_bytes": 12,
+      "view_bytes": 12,
+      "previous_view_bytes": 12,
+      "basis": "Complete target sizeof when available; otherwise a bounded external address view, with no allocation ownership claim."
+    },
+    "D_80175F9C": {
+      "declared_bytes": 12,
+      "view_bytes": 12,
+      "previous_view_bytes": 12,
+      "basis": "Complete target sizeof when available; otherwise a bounded external address view, with no allocation ownership claim."
+    },
+    "D_801C9E40": {
+      "declared_bytes": 16,
+      "view_bytes": 16,
+      "previous_view_bytes": 16,
+      "basis": "Complete target sizeof when available; otherwise a bounded external address view, with no allocation ownership claim."
+    }
+  },
+  "descriptor_extent_discriminator": {
+    "symbols": [
+      "D_80175F90",
+      "D_80175F9C"
+    ],
+    "first_foff": 10241936,
+    "stride": 12,
+    "basis": "Adjacent complete 12-byte resource descriptors within the same authenticated resource-2 bank. Both are file-backed external data; neither is runtime-only SLUS storage."
+  }
+}

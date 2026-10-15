@@ -1,25 +1,4 @@
-#include "common.h"
-#include "shared/game_work.h"
-#include "shared/dungeon_status.h"
-
-typedef struct {
-    u8 pad_00[0x19];
-    s8 red;
-    s8 green;
-    s8 blue;
-} ColorState;
-
-extern void func_80064624(s32, s32);
-extern void func_80064D20(void *);
-extern void func_80064D50(void *);
-extern void func_80064EC0(s32, s32, s32);
-extern void func_80064EE0(s32, s32, s32);
-extern void func_80064F00(s32, s32);
-extern void func_80064F20(s32);
-
-extern u8 D_800DDC7C;
-extern ColorState D_801C9E40;
-extern ColorState D_801DA714;
+#include "modules/dungeon_dungeon_setup.h"
 
 static __inline__ void set_light_vectors(u8 *view_state, s16 x, s16 y)
 {

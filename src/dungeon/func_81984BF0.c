@@ -1,19 +1,6 @@
-#include "common.h"
-#include "shared/record_ptrs.h"
+#include "modules/dungeon_ovl_19a332c.h"
 
-typedef struct S_81984BF0_0 {
-    u8 pad_00[0x5C];
-    s32 unk_5C;
-} S_81984BF0_0;   /* link in func_81984BF0 */
-
-typedef struct S_81984BF0_1 {
-    u8 pad_00[0x1E];
-    u16 unk_1E;
-} S_81984BF0_1;   /* object in func_81984BF0 */
-
-
-/* Clears flag 0x2000 on every object in the circular list. */
-void func_81984BF0(void)
+void func_800263F0(void *unused_actor)
 {
     void *link;
     void *object;
@@ -22,7 +9,7 @@ void func_81984BF0(void)
     s32 next;
 
     link = D_800814A8;
-    next = ((S_81984BF0_0 *)link)->unk_5C;
+    next = ((ovl_19a332c_81984BF0_S_81984BF0_0 *)link)->unk_5C;
     link_value = (u32)link;
     next += 0x20;
     link = next;
@@ -32,10 +19,10 @@ void func_81984BF0(void)
     head = (void *)(u32)link_value;
     do {
         object = link - 0x20;
-        next = ((S_81984BF0_1 *)object)->unk_1E;
+        next = ((ovl_19a332c_81984BF0_S_81984BF0_1 *)object)->unk_1E;
         next &= 0xDFFF;
-        ((S_81984BF0_1 *)object)->unk_1E = next;
-        link_value = ((S_81984BF0_0 *)link)->unk_5C;
+        ((ovl_19a332c_81984BF0_S_81984BF0_1 *)object)->unk_1E = next;
+        link_value = ((ovl_19a332c_81984BF0_S_81984BF0_0 *)link)->unk_5C;
         link = (void *)(link_value + 0x20);
     } while (link != head);
 }

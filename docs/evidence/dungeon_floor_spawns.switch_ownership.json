@@ -1,0 +1,22 @@
+{
+  "module": "dungeon_floor_spawns",
+  "data_row": {
+    "id": "dungeon/D_80283034",
+    "source": "src/dungeon/D_80283034.c",
+    "symbol": "D_80016034",
+    "foff": 2764852,
+    "vma": 2147573812,
+    "size": 72
+  },
+  "compiler_switch": {
+    "kind": "switch_table",
+    "section": ".rodata",
+    "foff": 2764852,
+    "vma": 2147573812,
+    "size": 72,
+    "owner": "func_8001E824"
+  },
+  "owner_source": "src/dungeon/func_8028B824.c",
+  "basis": "Existing registry ownership plus complete compiler-generated table/dispatch and genuine relocation proof. The preserved data-row C file is ledger context, not the source of native table bytes.",
+  "data_context": "The legacy explicit table remains a separately checked ledger context. Its clean file uses the shared header and correct owner signature; raw/ preserves the historical void-prototype baseline. The native TU never includes this literal table and emits its own complete compiler switch table from the owning function."
+}

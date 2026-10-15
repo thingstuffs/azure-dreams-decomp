@@ -1,10 +1,6 @@
-#include "common.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_ovl_188898c.h"
 
-extern void func_800478B8(void *render_data);
-
-/* Advance and fade the effect, marking it finished when faded out or flagged. */
-void func_8186898C(void *effect, void *position, void *render_data)
+void func_8002418C(void *effect, void *position, void *render_data)
 {
     u8 *effect_state = *(u8 **)effect;
     u16 coordinate;

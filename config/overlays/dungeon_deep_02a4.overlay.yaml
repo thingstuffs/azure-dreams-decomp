@@ -1,3 +1,6 @@
+# Native module projection requires complete members. Extended start from
+# 0x2A4000 to the existing func_80283F70 boundary (adds 0x90 bytes);
+# end and recipe unchanged. The complete affected row is now C-projected.
 # Standalone overlay-local build seed for a DEEP-DUNGEON code subwindow.
 # Do NOT add to configure.py / build.ninja.
 #
@@ -24,9 +27,9 @@ standalone_build:
     out_dir: work/s3_splat/extract
     container_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
   window:
-    file_start: 0x2A4000
-    file_end: 0x2A5000
-    vram_start: 0x80284000
+    file_start: 0x2A3F70
+    file_end: 0x2A516C
+    vram_start: 0x80283F70
     base_confidence: proven-engine/derived-backhalf
   split_results: overlays/dungeon/overlay_first_pass_results.json
   matched_sources:
@@ -37,9 +40,9 @@ standalone_build:
 segments:
   - [0x0, bin]
   - type: code
-    start: 0x2A4000
-    vram: 0x80284000
+    start: 0x2A3F70
+    vram: 0x80283F70
     subsegments:
-      - [0x2A4000, asm]
+      - [0x2A3F70, asm]
   - [0x2A5000, bin]
   - [0x1A86800]

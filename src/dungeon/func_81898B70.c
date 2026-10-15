@@ -1,53 +1,27 @@
-#include "common.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_ovl_18b8824.h"
 
-typedef struct S_80024370_0_pre {
-    u16 unk_00;
-} S_80024370_0_pre;   /* the 0x2 bytes before entry in func_80024370, addressed as entry[-1] */
-
-typedef struct S_80024370_0 {
-    void * unk_00;
-    u16 unk_04;
-} S_80024370_0;   /* entry in func_80024370 */
-
-typedef struct S_80024370_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_80024370_1;   /* object in func_80024370 */
-
-typedef struct S_80024370_2 {
-    u8 pad_00[0x14A0];
-    s32 unk_14A0;
-} S_80024370_2;   /* global_page in func_80024370 */
-
-
-extern void func_80024264(void *entry);
-#define func_80024264_returning func_80024264
-extern void func_800478B8(void *target);
-
-/* Advance the entry counters, trigger count milestones, and update the target. */
 void func_80024370(void *entry, s32 unused, void *target)
 {
-    S_80024370_1 *object;
+    ovl_18b8824_81898B70_S_80024370_1 *object;
     u16 count;
 
-    object = ((S_80024370_0 *)entry)->unk_00;
+    object = ((ovl_18b8824_81898B70_S_80024370_0 *)entry)->unk_00;
     object->unk_14++;
 
-    count = ((S_80024370_0 *)entry)->unk_04 + 1;
-    ((S_80024370_0 *)entry)->unk_04 = count;
+    count = ((ovl_18b8824_81898B70_S_80024370_0 *)entry)->unk_04 + 1;
+    ((ovl_18b8824_81898B70_S_80024370_0 *)entry)->unk_04 = count;
 
     switch ((s16)count) {
     case 8:
-        func_80024264_returning(((S_80024370_0 *)entry)->unk_00);
+        func_80024264((s32)((ovl_18b8824_81898B70_S_80024370_0 *)entry)->unk_00, (Rec_func_80024264_arg1 *)unused);
         break;
     case 0x10:
     {
         s32 *global_page;
 
         global_page = (s32 *)0x80080000;
-        ((S_80024370_0_pre *)entry)[-1].unk_00 |= 0x8000;
-        ((S_80024370_2 *)global_page)->unk_14A0 |= 0x8000;
+        ((ovl_18b8824_81898B70_S_80024370_0_pre *)entry)[-1].unk_00 |= 0x8000;
+        ((ovl_18b8824_81898B70_S_80024370_2 *)global_page)->unk_14A0 |= 0x8000;
         break;
     }
     }

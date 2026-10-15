@@ -1,10 +1,6 @@
-#include "common.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_ovl_188898c.h"
 
-extern u32 func_800478B8();
-
-/* Shrinks and brightens the effect, recording completion when flagged. */
-void func_81868F30(void *state_ref, void *unused, void *effect) {
+void func_80024730(void *state_ref, void *unused, void *effect) {
     u16 scale;
     u8 brightness;
     void *state;

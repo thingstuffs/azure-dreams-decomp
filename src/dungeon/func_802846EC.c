@@ -1,18 +1,5 @@
-#include "common.h"
-#include "shared/dungeon_floor.h"
+#include "modules/dungeon_floor_generate.h"
 
-typedef struct {
-    s32 words[2];
-    s16 field_8;
-    s16 field_A;
-    s16 field_C;
-    s16 field_E;
-    s32 field_10;
-} DungeonEntry;
-
-extern s16 D_8008146E[5];
-
-/* Compact occupied dungeon entries, clear the unused tail, and update the count. */
 void func_800176EC(void) {
     s8 *read_entry;
     s8 *write_entry;
@@ -26,7 +13,7 @@ void func_800176EC(void) {
     do {
         if (*(s16 *)(read_entry + 0xA) != 0) {
             if (entry_index != entry_count) {
-                *(DungeonEntry *)write_entry = *(DungeonEntry *)read_entry;
+                *(floor_generate_isolated_802846EC_DungeonEntry *)write_entry = *(floor_generate_isolated_802846EC_DungeonEntry *)read_entry;
             }
             write_entry += 0x14;
             entry_count += 1;
@@ -43,5 +30,5 @@ void func_800176EC(void) {
             D_800E2970[entry_index].unk_10 = 0;
         } while (++entry_index < 0x24);
     }
-    D_8008146E[0] = entry_count;
+    ((s16 *)D_8008146E)[0] = entry_count;
 }

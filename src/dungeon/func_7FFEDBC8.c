@@ -1,11 +1,5 @@
-#include "common.h"
+#include "modules/dungeon_town_load.h"
 
-extern s32 func_8008B2E4(s32 value);
-
-extern u8 D_800CF828[15];
-extern s32 D_800CF838[16];
-
-/* Return whether any of the 15 indexed table entries passes func_8008B2E4. */
 s32 func_8008B328(void) {
     s32 slot;
     u8 *entry_indices;

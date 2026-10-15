@@ -1,31 +1,6 @@
-#include "shared/dungeon_item_entries.h"
-#include "common.h"
+#include "modules/dungeon_floor_spawns.h"
 
-
-
-typedef struct {
-    u8 x;
-    u8 y;
-    u8 pad2[2];
-    s16 height;
-    u8 pad6;
-    u8 flag7;
-    s32 object;
-} DungeonCell;
-
-extern s32 func_800A4E2C(u8 *, u8 *);
-extern s32 func_800A6D30(void);
-extern u16 func_800A6DA4(s32, s32);
-extern s32 func_800A71F4(void);
-extern s32 func_8009A21C(s32, s32, s32);
-extern s32 func_800A7A38(void *);
-extern s16 func_800BCA68(s32, s32);
-
-extern s16 D_8008146C;
-extern u8 D_80010000[];
-extern u8 D_800E36C8[];
-
-void func_8001EC54(s32 unused0, s32 unused1, s32 unused2, s32 unused3)
+void func_8001EC54(void)
 {
     u8 x;
     u8 y;
@@ -42,32 +17,32 @@ void func_8001EC54(s32 unused0, s32 unused1, s32 unused2, s32 unused3)
     u8 *mode_page;
     s32 entry_state;
     DungeonItemEntry *entry;
-    DungeonCell *cell;
+    floor_spawns_isolated_8028BC54_DungeonCell *cell;
     DungeonItemEntry *entry_scan;
-    DungeonCell *cell_scan;
+    floor_spawns_isolated_8028BC54_DungeonCell *cell_scan;
     DungeonItemEntry *entry_base;
     u8 *cell_page;
-    DungeonCell *cell_base = 0;
+    floor_spawns_isolated_8028BC54_DungeonCell *cell_base = 0;
 
     mode_page = D_80010000;
     if (*(s32 *)(mode_page + 0x2090) == 2) {
-        mode_page = (u8 *)D_8008146C;
+        mode_page = (u8 *)(*(s16 *)D_8008146C);
         scaled = ((s32)mode_page) * 25;
         budget = scaled << 3;
     } else {
         budget = 75;
-        if (D_8008146C >= 12) {
+        if ((*(s16 *)D_8008146C) >= 12) {
             budget = 700;
-            if (D_8008146C < 22) {
+            if ((*(s16 *)D_8008146C) < 22) {
                 budget = 200;
             }
         }
     }
 
     if (func_800A6D30() & 1) {
-        budget += func_800A6DA4(0, (budget / 2) & 0xFFFF);
+        budget += (u16)func_800A6DA4(0, (budget / 2) & 0xFFFF);
     } else {
-        budget -= func_800A6DA4(0, (budget / 2) & 0xFFFF);
+        budget -= (u16)func_800A6DA4(0, (budget / 2) & 0xFFFF);
     }
 
     if (budget >= 0) {
@@ -80,17 +55,17 @@ void func_8001EC54(s32 unused0, s32 unused1, s32 unused2, s32 unused3)
         }
 
         if (budget >= 301) {
-            decrement = func_800A6DA4(160, 240);
+            decrement = (u16)func_800A6DA4(160, 240);
             flag = 1;
             type = 3;
             amount = (decrement / 10 + (decrement >> 31)) & 0x3FFFFFFF;
         } else if (budget >= 151) {
-            decrement = func_800A6DA4(80, 120);
+            decrement = (u16)func_800A6DA4(80, 120);
             amount = decrement;
             flag = 0;
             type = 2;
         } else {
-            decrement = func_800A6DA4(16, 24);
+            decrement = (u16)func_800A6DA4(16, 24);
             amount = decrement;
             flag = 0;
             type = 1;
@@ -101,7 +76,7 @@ void func_8001EC54(s32 unused0, s32 unused1, s32 unused2, s32 unused3)
 
         scan_x = x;
         scan_y = y;
-        for (index = 0, cell_scan = (DungeonCell *)D_800E36C8, entry_scan = entry_base;
+        for (index = 0, cell_scan = (floor_spawns_isolated_8028BC54_DungeonCell *)((u8 *)D_800E36C8), entry_scan = entry_base;
              index < 64;
              cell_scan++, index++, entry_scan++) {
             if (!(entry_scan->kind == 0 || cell_scan->x != scan_x || cell_scan->y != scan_y)) {
@@ -111,16 +86,16 @@ void func_8001EC54(s32 unused0, s32 unused1, s32 unused2, s32 unused3)
 
         if (index == 64) {
             entry = (DungeonItemEntry *)((cell_index << 2) + (unsigned long)entry_base);
-            cell_base = (DungeonCell *)(cell_page + 0x36C8);
+            cell_base = (floor_spawns_isolated_8028BC54_DungeonCell *)(cell_page + 0x36C8);
             entry->unk_00 = type;
             entry->kind = 14;
             entry->unk_03 = flag;
             entry->unk_02 = amount;
-            cell = (DungeonCell *)((cell_index * 12) +
+            cell = (floor_spawns_isolated_8028BC54_DungeonCell *)((cell_index * 12) +
                                             (unsigned long)cell_base);
             cell->x = x;
             cell->y = y;
-            ((DungeonCell *)cell)->height = func_800BCA68((x << 6) | 32, (y << 6) | 32);
+            ((floor_spawns_isolated_8028BC54_DungeonCell *)cell)->height = func_800BCA68((x << 6) | 32, (y << 6) | 32);
             cell->flag7 = 0;
             func_8009A21C(x, y, 0x800);
             cell->object = func_800A7A38((void *)entry);

@@ -1,16 +1,5 @@
-#include "shared/dungeon_floor.h"
-#include "shared/game_work.h"
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-typedef short s16;
-typedef unsigned int u32;
-typedef int s32;
-extern u8 D_800E3648[];
-s32 func_800A6D30(void);
-s32 func_800A6DA4();
-extern u8 D_800E39C8[];
-/* Initializes a free slot at a random position within the room. */
+#include "modules/dungeon_floor_generate.h"
+
 void func_8001CFB8(void *room, s32 rng_arg1)
 {
     u8 *slot_data;
@@ -33,10 +22,10 @@ void func_8001CFB8(void *room, s32 rng_arg1)
         }
         slot_index = 0;
         for (; slot_index < 0x20; slot_index++) {
-            slot_info = (u8 *)((u32 *)D_800E3648 + slot_index);
-            slot_data = (u8 *)D_800E39C8 + slot_index * 0x18;
+            slot_info = (u8 *)((u32 *)((u8 *)D_800E3648) + slot_index);
+            slot_data = (u8 *)((u8 *)D_800E39C8) + slot_index * 0x18;
             if ((*((u8 *) (((s8 *) slot_info) + 1))) == 0) {
-                x_offset = func_800A6DA4(0, ((*((u16 *) (((s8 *) room) + 4))) - 1) & 0xFFFF, room_area) & 0xFFFF;
+                x_offset = func_800A6DA4(0, ((*((u16 *) (((s8 *) room) + 4))) - 1) & 0xFFFF) & 0xFFFF;
                 y_roll = func_800A6DA4(0, ((*((u16 *) (((s8 *) room) + 6))) - 1) & 0xFFFF);
                 y_offset = y_roll & 0xFFFF;
                 *((s8 *) (((s8 *) slot_data) + 6)) = (s8) ((*((u8 *) (((s8 *) room) + 0))) + x_offset);

@@ -1,52 +1,13 @@
-#include "shared/object_node.h"
-#include "common.h"
-#include "shared/slus_callbacks.h"
+#include "modules/dungeon_ovl_18d0850.h"
 
-typedef struct SubObj {
-    u8 pad0[0xC];
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 padF[3];
-    s16 unk12;
-    u16 unk14;
-    u8 pad16[6];
-    s16 unk1C;
-    s16 unk1E;
-} SubObj;
-
-typedef struct VecObj {
-    u16 pad0;
-    u16 unk2;
-    u16 pad4;
-    u16 unk6;
-    u16 pad8;
-    u16 unkA;
-} VecObj;
-
-typedef struct MainObj {
-    u8 pad0[8];
-    VecObj *vec;
-    SubObj *sub;
-    void *callback;
-    u8 pad14[0xC];
-    s32 source_state;
-} MainObj;
-
-extern void func_8003DB94(SubObj *, void *, s32);
-extern void func_8004491C(MainObj *, void *);
-extern u8 D_8002417C[];
-extern u8 D_800DEC70[];
-
-/* Creates an object with initialized render state and a copy of the supplied vector. */
-MainObj *func_800241F8(s32 object_value, VecObj *source_vec) {
-    MainObj *obj = (MainObj *)func_8003FC64(530);
-    SubObj *sub;
-    VecObj *vec;
-    MainObj *result;
+ovl_18d0850_818B09F8_MainObj *func_800241F8(s32 object_value, ovl_18d0850_818B09F8_VecObj *source_vec) {
+    ovl_18d0850_818B09F8_MainObj *obj = (ovl_18d0850_818B09F8_MainObj *)func_8003FC64(530);
+    ovl_18d0850_818B09F8_SubObj *sub;
+    ovl_18d0850_818B09F8_VecObj *vec;
+    ovl_18d0850_818B09F8_MainObj *result;
 
     if (obj != 0) {
-        obj->callback = D_8002417C;
+        obj->callback = (void *)func_8002417C;
         sub = obj->sub;
         obj->source_state = object_value;
         sub->b = 128;

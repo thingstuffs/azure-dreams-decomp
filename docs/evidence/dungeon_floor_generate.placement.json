@@ -1,0 +1,13 @@
+{
+  "module": "dungeon_floor_generate",
+  "region": {
+    "schema": "azure-clean.rowbase.v1",
+    "region": "xfer_dungeon_2A3000",
+    "foff_start": "0x2A3000",
+    "foff_end": "0x2AC800",
+    "delta": "0x7FD73000",
+    "base_confidence": "proven",
+    "proof": "overlay-streamer transfer observed at runtime (capture_kit/loader_watch_remote.lua on PCSX-Redux, poll-record): CdRead of 19 sectors from disc LBA 13660 -> 0x80016000. Container dungeon foff 0x2A3000 (LBA base 12310), so delta = 0x80016000 - 0x2A3000 = 0x7FD73000. CONFIRMED: RAM[0x80016000..+38912] in ram_dungeon_f1.bin is 99.90% identical to the disc image's Mode2/Form1 user data at LBA 13660, i.e. the payload is verifiably resident at that base. Scoring-only: runtime DMA evidence, not a byte-exact recompile -- promote via rowbase.promote() when one lands.; PROMOTED solved->proven: byte-exact recompile func_80289CEC at true base 0x8001CCEC (candidate sha cdc527edbbb6 @ 2.7.2-cdk-G0, linked-strict isolation compare, phase-2 item-3 hook)"
+  },
+  "basis": "Existing proven transfer map contains both original, disjoint allocations."
+}

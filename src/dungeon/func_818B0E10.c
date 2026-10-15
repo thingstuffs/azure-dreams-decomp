@@ -1,50 +1,6 @@
-#include "common.h"
-#include "shared/gpu_packets.h"
-#include "shared/game_work.h"
-#include "m2c_compat.h"
+#include "modules/dungeon_ovl_18d0850.h"
 
-extern unsigned char D_80080000[];
-s32 func_80065420();
-s32 func_80066460();
-M2C_UNK func_80067F20();
-extern M2C_UNK D_8002588C;
-
-typedef struct
-{
-  u8 pad00[0x18];
-  u32 *ot;
-  u8 pad1C[0x48];
-  u16 unk_64;
-  u16 unk_66;
-  u16 unk_68;
-  u8 pad6A[0x2];
-  u16 unk_6C;
-  u16 unk_6E;
-  u16 unk_70;
-  u8 pad72[0x12];
-  s32 unk_84;
-  s32 unk_88;
-  u8 pad8C[0x28];
-  s32 unk_B4;
-  u8 padB8[0x20];
-  u16 unk_D8;
-  u16 unk_DA;
-  u16 unk_DC;
-  u16 unk_DE;
-  u8 padE0[0x14];
-  s32 unk_F4;
-  s32 unk_F8;
-} LineSegmentScratch;
-typedef struct {
-    unsigned addr: 24;
-    unsigned len: 8;
-    u8 r0, g0, b0, code;
-} P_TAG;
-#define setaddr(p, _addr) (((P_TAG *)(p))->addr = (u32)(_addr))
-#define getaddr(p) (u32)(((P_TAG *)(p))->addr)
-#define addPrim(ot, p) setaddr(p, getaddr(ot)), setaddr(ot, p)
-/* Draw 16 shaded line segments and link them into the ordering table by depth. */
-s32 func_818B0E10(void *unused_0, void *origin, void *unused_2, s32 point_scale, s32 plane_z, s32 *points_addr, u8 intensity, s32 color_phase)
+s32 func_80024610(void *unused_0, void *origin, void *unused_2, s32 point_scale, s32 plane_z, s32 *points_addr, u8 intensity, s32 color_phase)
 {
   u8 *globals_page = D_80080000;
   s32 segment = 15;
@@ -58,9 +14,9 @@ s32 func_818B0E10(void *unused_0, void *origin, void *unused_2, s32 point_scale,
   s32 depth;
   initial_ctx = *((GpuContext **) (globals_page + 0x3160));
   scratch = (u8 *) 0x1F800000;
-  ((LineSegmentScratch *) scratch)->unk_70 = (u16) initial_z;
-  ((LineSegmentScratch *) scratch)->unk_68 = (u16) initial_z;
-  ((LineSegmentScratch *) scratch)->ot = (u32 *) (((u8 *) initial_ctx) + 0xB0);
+  ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_70 = (u16) initial_z;
+  ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_68 = (u16) initial_z;
+  ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->ot = (u32 *) (((u8 *) initial_ctx) + 0xB0);
   do
   {
     s32 phase_offset = phase;
@@ -114,19 +70,19 @@ s32 func_818B0E10(void *unused_0, void *origin, void *unused_2, s32 point_scale,
       point_component = point_base[segment];
       coord_offset = point_component * (s16) point_scale;
       coord_offset >>= 8;
-      ((LineSegmentScratch *) scratch)->unk_64 = (*((u16 *) (origin_bytes + 2))) + coord_offset;
+      ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_64 = (*((u16 *) (origin_bytes + 2))) + coord_offset;
       point_component = point_base[segment + 1];
       coord_offset = point_component * (s16) point_scale;
       coord_offset >>= 8;
-      ((LineSegmentScratch *) scratch)->unk_6C = (*((u16 *) (origin_bytes + 2))) + coord_offset;
+      ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_6C = (*((u16 *) (origin_bytes + 2))) + coord_offset;
       point_component = point_base[segment + 0x11];
       coord_offset = point_component * (s16) point_scale;
       coord_offset >>= 8;
-      ((LineSegmentScratch *) scratch)->unk_66 = (*((u16 *) (origin_bytes + 6))) + coord_offset;
+      ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_66 = (*((u16 *) (origin_bytes + 6))) + coord_offset;
       point_component = point_base[segment + 0x12];
       coord_offset = point_component * (s16) point_scale;
       coord_offset >>= 8;
-      ((LineSegmentScratch *) scratch)->unk_6E = (*((u16 *) (origin_bytes + 6))) + coord_offset;
+      ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_6E = (*((u16 *) (origin_bytes + 6))) + coord_offset;
     }
     {
       u8 *start_vertex = scratch + 0x64;
@@ -135,28 +91,28 @@ s32 func_818B0E10(void *unused_0, void *origin, void *unused_2, s32 point_scale,
       u8 *end_screen = scratch + 0xDC;
       u8 *projection_aux = scratch + 0x84;
       u8 *projection_flags = scratch + 0x88;
-      ((LineSegmentScratch *) scratch)->unk_F4 = func_80065420(start_vertex, start_screen, projection_aux, projection_flags);
-      ((LineSegmentScratch *) scratch)->unk_F8 = func_80065420(end_vertex, end_screen, projection_aux, projection_flags);
+      ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_F4 = func_80065420(start_vertex, start_screen, projection_aux, projection_flags);
+      ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_F8 = func_80065420(end_vertex, end_screen, projection_aux, projection_flags);
     }
-    *((u16 *) (line_prim + 8)) = ((LineSegmentScratch *) scratch)->unk_D8;
-    *((u16 *) (line_prim + 0xA)) = ((LineSegmentScratch *) scratch)->unk_DA;
-    *((u16 *) (line_prim + 0x10)) = ((LineSegmentScratch *) scratch)->unk_DC;
-    *((u16 *) (line_prim + 0x12)) = ((LineSegmentScratch *) scratch)->unk_DE;
+    *((u16 *) (line_prim + 8)) = ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_D8;
+    *((u16 *) (line_prim + 0xA)) = ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_DA;
+    *((u16 *) (line_prim + 0x10)) = ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_DC;
+    *((u16 *) (line_prim + 0x12)) = ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_DE;
     {
       s32 depth_sum;
-      depth_sum = ((LineSegmentScratch *) scratch)->unk_F4;
-      depth_sum += ((LineSegmentScratch *) scratch)->unk_F8;
+      depth_sum = ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_F4;
+      depth_sum += ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_F8;
       depth = depth_sum / 2;
     }
-    ((LineSegmentScratch *) scratch)->unk_B4 = depth;
+    ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_B4 = depth;
     if (((u32) depth) < 0x1E0U)
     {
       u8 *draw_mode_prim;
-      addPrim(((LineSegmentScratch *) scratch)->ot + ((LineSegmentScratch *) scratch)->unk_B4, line_prim);
+      ovl_18d0850_818B0E10_addPrim(((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->ot + ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_B4, line_prim);
       draw_mode_prim = ((GpuContext *)render_state->unk_000)->packetCursor;
       ((GpuContext *)render_state->unk_000)->packetCursor = draw_mode_prim + 0xC;
       func_80067F20(draw_mode_prim, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
-      addPrim(((LineSegmentScratch *) scratch)->ot + ((LineSegmentScratch *) scratch)->unk_B4, draw_mode_prim);
+      ovl_18d0850_818B0E10_addPrim(((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->ot + ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_B4, draw_mode_prim);
     }
     segment -= 1;
   }

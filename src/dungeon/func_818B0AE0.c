@@ -1,44 +1,9 @@
-#include "common.h"
-#include "records/Rec_D_80082E80.h"
+#include "modules/dungeon_ovl_18d0850.h"
 
-typedef struct S_800242E0_0 {
-    void * unk_00;
-    u16 unk_04;
-    u16 unk_06;
-    u16 unk_08;
-    u16 unk_0A;
-    u16 unk_0C;
-} S_800242E0_0;   /* arg0 in func_800242E0 */
-
-typedef struct S_800242E0_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_800242E0_1;   /* temp_v1 in func_800242E0 */
-
-typedef struct S_800242E0_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800242E0_2;   /* arg1 in func_800242E0 */
-
-
-
-
-extern void func_8003DB94(void *, void *, s32);
-extern void func_800478B8(void *);
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
-extern s32 rand(void);
-extern u8 D_800DEC70[];
-
-/* Advances the height offset, randomizes lateral placement on wrap, and updates the object. */
-void func_800242E0(S_800242E0_0 *state, S_800242E0_2 *position, Rec_D_80082E80 *object) {
+void func_800242E0(ovl_18d0850_818B0AE0_S_800242E0_0 *state, ovl_18d0850_818B0AE0_S_800242E0_2 *position, Rec_D_80082E80 *object) {
     s32 angle;
     u16 height_offset;
-    S_800242E0_1 *counter;
+    ovl_18d0850_818B0AE0_S_800242E0_1 *counter;
 
     counter = state->unk_00;
     counter->unk_14 = (u16)(counter->unk_14 + 1);

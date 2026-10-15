@@ -365,10 +365,7 @@ def retail(root, container, start, size, G):
     return hashlib.sha256(data).hexdigest()
 
 def required_windows(m, wins, G):
-    if m.get('allocation_model')=='separated-literal-allocations-v1':
-        extents=[(a['foff'],a['foff']+a['size']) for a in m['allocations']]
-    else:
-        start=G.module_first(m)['foff'];extents=[(start,start+G.module_size(m))]
+    extents=G.module_extents(m)
     out = [name for name,cfg in sorted(wins.items())
            if cfg['name'].split('_')[0] == family(m['container'])
            and any(num(cfg['standalone_build']['window']['file_start'])<end and start<num(cfg['standalone_build']['window']['file_end']) for start,end in extents)]

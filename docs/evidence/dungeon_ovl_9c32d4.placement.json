@@ -1,0 +1,14 @@
+{
+  "module": "dungeon_ovl_9c32d4",
+  "region": {
+    "schema": "azure-clean.rowbase.v1",
+    "region": "img_9c3110_80174910",
+    "foff_start": "0x9C3110",
+    "foff_end": "0x9C4014",
+    "delta": "0x7F7B1800",
+    "base_confidence": "proven",
+    "proof": "static per-floor image base proof 2026-08-23 (docs/port_handback_20260822/dungeon_base_proofs/proofs.json, image img0017@0x9C1000, verdict PROVEN, K 0x7F7B1800). M1 local-`j` containment: 13 of 33 functions in the image are pinned to this delta by 55 in-function absolute `j` target(s) that can only land inside their own function's span, 0 more by in-function switch-table containment, pin_conflict=false, under the measured image-base law K = 0 mod 0x800; M4 Evidence-B1 10 same-K `jal` onto in-image function start(s) of 11 in-band target(s), in-image coherence 0.91; M5 Evidence-B2 3/3 switch table(s) resolved in span, 0 violation(s); M6 Evidence-A 65 resident-EXE call confirm(s) over 18 distinct callee(s), 0 contra; M7 57 re-link resident identit(y/ies), 8 unexplained; M3 0/0 leading inline jump table(s) fully contained; corroborating methods: b1-same-K-call-hits, evidence-A-resident-calls, rowbase-ledger-agreement, b2-switch-table-containment, relink-resident-identity; EXTENT = 8 of the image's own member function span(s), 0x9C3110-0x9C4014; the image's other bytes are either already covered by an existing rowbase record (dungeon_func_809A2FB8_true_0x801747B8, engine_alias_copy7_9C2650, img_9c4014_80175814) or are not member spans, and are left uncovered rather than asserted; gate window dungeon_deep_9c1000_truebase_80172800 (0x9C1000-0x9C457C) states this same base and re-gated MATCH against the container on 2026-08-23 (381/381); 3 already-landed C TU(s) inside this extent -- func_809A3110, func_809A32D4, func_809A35A0 -- were recompiled and linked at this base inside that window during the 2026-08-23 apply and reproduced the container bytes exactly (the 105-window / 525-TU set); STATIC EVIDENCE ONLY -- no RAM capture, no overlay-streamer transfer observed at runtime, nothing here is a runtime observation. Scoring-grade (`solved`) until a byte-exact recompile at this base promotes it via tools/rowbase.py promote; PROMOTED solved->proven: byte-exact recompile func_809A35A0 at true base 0x80174DA0 (candidate sha 6a6028c11756 @ 2.8.1-G0, linked-strict isolation compare, phase-2 item-3 hook)"
+  },
+  "basis": "Existing proven rowbase record; complete module extent is contained in this map.",
+  "review": "pending"
+}

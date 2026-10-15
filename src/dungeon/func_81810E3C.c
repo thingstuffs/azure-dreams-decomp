@@ -1,35 +1,6 @@
-#include "common.h"
+#include "modules/dungeon_ovl_1830850.h"
 
-typedef struct {
-    u32 unk0;
-    s16 unk4;
-    s16 unk6;
-    s16 unk8;
-    s16 unkA;
-} PatchRecord;
-
-typedef struct {
-    void *unk0;
-    PatchRecord *unk4;
-} Owner;
-
-typedef struct {
-    u8 pad0[0x74];
-    u8 *unk74;
-} Source;
-
-extern u8 D_80078C10[9];
-extern u8 D_800789B8[9];
-extern u8 D_8007795C[9];
-extern u8 D_80029474[9];
-
-extern void func_80025888(Owner **, s32);
-extern void func_80025C6C(void *);
-extern void *func_8004DC14(void *, s32);
-extern void func_80025964(Source *);
-
-/* Initializes owner data pointers and patch offsets from shared and source data. */
-void func_80025E3C(Source *source, Owner **owners)
+void func_80025E3C(ovl_1830850_81810E3C_Source *source, ovl_1830850_81810E3C_Owner **owners)
 {
     s32 owner_idx;
 

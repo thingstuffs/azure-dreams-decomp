@@ -1,20 +1,8 @@
-#include "common.h"
+#include "modules/dungeon_ovl_1831370.h"
 
-extern s32 func_80048EE4(void *pool, s32 record_count);
-extern void func_800491CC(s32 entries, void *value, s32 count);
-
-typedef struct {
-    s32 x;
-    s32 y;
-    s32 z;
-} Vec3;
-
-extern Vec3 D_8002E5E8;
-
-/* Obtains an object handle and initializes its position on success. */
 s32 func_800269E8(void *object)
 {
-    Vec3 *initial_pos;
+    ovl_1831370_818119E8_Vec3 *initial_pos;
     s32 success = 0;
 
     if ((*(s32 *)((s8 *)object + 0x70) = func_80048EE4((s8 *)object + 0x74, 4)) != 0) {

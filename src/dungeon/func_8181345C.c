@@ -1,34 +1,9 @@
-#include "shared/object_node.h"
-#include "common.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_ovl_1831cd8.h"
 
-extern s32 func_80028284(void *, s32);
-extern s32 func_80027FCC(s32);
-extern void func_8002823C(void *, s32, s32);
-extern void func_8004491C(void *, void *);
-extern void func_80028620(void *);
-extern void func_8004B248(void *);
-extern u8 D_8004CAA0[];
-
-typedef struct {
-    u8 pad00[0x84];
-    s32 field84;
-    s32 field88;
-} Sub8181345C;
-
-typedef struct {
-    u8 pad00[0x0C];
-    void *field0C;
-    u8 pad10[0x0E];
-    u16 flags;
-    Sub8181345C sub;
-} Obj8181345C;
-
-/* Allocate and initialize a child object, marking allocation failure for cleanup. */
 void *func_8002845C(s32 parent_obj, s32 descriptor_value)
 {
-    Obj8181345C *obj;
-    Sub8181345C *sub;
+    ovl_1831cd8_8181345C_Obj8181345C *obj;
+    ovl_1831cd8_8181345C_Sub8181345C *sub;
 
     obj = func_8003FC64(0);
     sub = &obj->sub;
@@ -37,7 +12,7 @@ void *func_8002845C(s32 parent_obj, s32 descriptor_value)
             obj->field0C = (u8 *)obj + 0x98;
             sub->field84 = func_80027FCC(sub->field88);
             func_8002823C(sub, parent_obj, descriptor_value);
-            func_8004491C(obj, D_8004CAA0);
+            func_8004491C(obj, (void *)func_8004CAA0);
             func_80028620(obj);
         } else {
             func_8004B248((u8 *)obj + 0xAC);

@@ -1,42 +1,6 @@
-#include "common.h"
+#include "modules/dungeon_floor_generate.h"
 
-typedef struct {
-    u8 pad0[12];
-    u8 *entries;
-    u8 pad10[4];
-} DungeonGroup;
-
-typedef struct {
-    u16 x;
-    u16 y;
-    u16 width;
-    u16 height;
-} DungeonRect;
-
-typedef struct {
-    u8 pad0[6];
-    u8 px;
-    u8 py;
-    u8 pad8[16];
-} DungeonSpot;
-
-typedef struct {
-    u8 kind;
-    u8 f1;
-    u8 f2;
-    u8 f3;
-} DungeonSlot;
-
-extern void func_8009A21C(s16 x, s16 y, u16 flags);
-extern s32 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern s32 func_800A6D30(void);
-extern s32 func_800A6DA4(s32, s32);
-extern DungeonGroup D_80073414[];
-extern DungeonSlot D_800E3648[];
-extern DungeonSpot D_800E39C8[];
-
-/* Populate dungeon slots at random eligible positions within the rectangle. */
-void func_8001D0F4(DungeonRect *rect)
+void func_8001D0F4(floor_generate_isolated_8028A0F4_DungeonRect *rect, s32 update_id)
 {
     u16 tile_flags;
     s32 slot_limit_calc;
@@ -47,7 +11,7 @@ void func_8001D0F4(DungeonRect *rect)
     s32 slot_index;
     u32 kind_roll;
     u16 item_flags;
-    DungeonGroup *item_category_table;
+    floor_generate_isolated_8028A0F4_DungeonGroup *item_category_table;
     u32 x_offset;
     u32 y_offset;
 
@@ -70,10 +34,10 @@ void func_8001D0F4(DungeonRect *rect)
             func_8009A350((s16)(rect->x + x_offset - 1),
                           (s16)(rect->y + y_offset), 0, &tile_flags);
             if (!(tile_flags & 0x8820)) {
-                D_800E39C8[slot_index].px = (u8)rect->x + x_offset;
-                D_800E39C8[slot_index].py = (u8)rect->y + y_offset;
+                ((floor_generate_isolated_8028A0F4_DungeonSpot *)D_800E39C8)[slot_index].px = (u8)rect->x + x_offset;
+                ((floor_generate_isolated_8028A0F4_DungeonSpot *)D_800E39C8)[slot_index].py = (u8)rect->y + y_offset;
                 if (special_roll == 0) {
-                    D_800E3648[slot_index].kind = 7;
+                    ((floor_generate_isolated_8028A0F4_DungeonSlot *)D_800E3648)[slot_index].kind = 7;
                 } else {
                     kind_roll = func_800A6D30() & 0xFFFF;
                     item_kind = (kind_roll % 19) + 1;
@@ -83,12 +47,12 @@ void func_8001D0F4(DungeonRect *rect)
                     if ((item_flags & 0x3000) == 0x3000) {
                         continue;
                     }
-                    D_800E3648[slot_index].kind = stored_kind;
+                    ((floor_generate_isolated_8028A0F4_DungeonSlot *)D_800E3648)[slot_index].kind = stored_kind;
                 }
-                D_800E3648[slot_index].f1 = 0x15;
-                D_800E3648[slot_index].f3 = 0x80;
-                D_800E3648[slot_index].f2 = 0;
-                func_8009A21C(D_800E39C8[slot_index].px, D_800E39C8[slot_index].py, 0x20);
+                ((floor_generate_isolated_8028A0F4_DungeonSlot *)D_800E3648)[slot_index].f1 = 0x15;
+                ((floor_generate_isolated_8028A0F4_DungeonSlot *)D_800E3648)[slot_index].f3 = 0x80;
+                ((floor_generate_isolated_8028A0F4_DungeonSlot *)D_800E3648)[slot_index].f2 = 0;
+                func_8009A21C(((floor_generate_isolated_8028A0F4_DungeonSpot *)D_800E39C8)[slot_index].px, ((floor_generate_isolated_8028A0F4_DungeonSpot *)D_800E39C8)[slot_index].py, 0x20);
             }
         }
     }

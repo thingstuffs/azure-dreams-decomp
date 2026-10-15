@@ -1,6 +1,5 @@
-#include "common.h"
+#include "modules/dungeon_ovl_1831370.h"
 
-/* Initialize descriptor fields and set its high flag bit. */
 void func_8002675C(void *descriptor)
 {
     s32 saved_settings;

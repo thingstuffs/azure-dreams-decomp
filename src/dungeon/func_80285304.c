@@ -1,11 +1,5 @@
-#include "common.h"
-#include "shared/dir_step.h"
+#include "modules/dungeon_floor_generate.h"
 
-extern s32 func_8009A350(s16, s16, s16, u16 *);
-extern s32 func_8009A540(u16, s16, s16, s16);
-extern s16 func_800BCB04(s32, s32, s16);
-
-/* Classify movement in a direction by tile flags and destination height. */
 s32 func_80018304(s16 input_x, s16 input_y, s32 current_height, s16 direction)
 {
     u16 tile_flags;

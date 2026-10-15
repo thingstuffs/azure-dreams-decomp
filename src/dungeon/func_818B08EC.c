@@ -1,10 +1,6 @@
-#include "common.h"
+#include "modules/dungeon_ovl_18d0850.h"
 
-extern void func_800672D8();
-extern void func_80067014();
-
-/* Write two single-pixel values to VRAM and wait for completion. */
-void func_800240EC(void) {
+void func_800240EC(void *unused0, void *unused1, void *unused2) {
     s16 rect[4];
     u16 pixel;
 

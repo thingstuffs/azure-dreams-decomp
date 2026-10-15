@@ -1,0 +1,128 @@
+{
+  "module": "dungeon_ovl_1930844",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_1930844.c",
+    "module_index": 184
+  },
+  "members": [
+    "dungeon/func_81910844",
+    "dungeon/func_81910970",
+    "dungeon/func_81910A9C",
+    "dungeon/func_81910EC0",
+    "dungeon/func_819112CC",
+    "dungeon/func_81911A8C",
+    "dungeon/func_81911B9C",
+    "dungeon/func_81911BF4",
+    "dungeon/func_81912074",
+    "dungeon/func_81912154"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Complete existing strong cohort, complete related weak-assigned or independently recovered routines, and the compiler-owned bank data prefix. The historical compiler TU boundary is not asserted.",
+  "basis": [
+    "The original strong cohort and all complete intervening routines form one contiguous code extent under one stock CDK G0 recipe. Weak bucket membership changes are explicit guarded replacements.",
+    "Authenticated caller/loader/CD decoder words, the ISO directory record, and all twelve disc sector payloads prove the conditional selector load at this exact base. Existing code-proven records agree without contradiction.",
+    "The first entry pointer targets a complete member. Every switch-table target lies inside its declared complete owner; compiler-generated tables and minimal alignment account for the entire prefix. No literal switch replacement is used.",
+    "The complete 8300-byte native TU equals retail and genuine ASPSX, zero masks or raw substitutions.",
+    "Historical function baselines and promotion lines are preserved byte-for-byte. The composite first row carries its native prefix extent and body offset explicitly, as in the worked package."
+  ],
+  "owned_prefix": [
+    {
+      "kind": "typed_function_pointer",
+      "section": ".rodata",
+      "foff": 26413056,
+      "vma": 2147631104,
+      "size": 4,
+      "symbol": "dungeon_ovl_1930844_entry",
+      "target": "func_80025954"
+    },
+    {
+      "kind": "alignment",
+      "section": ".rodata",
+      "foff": 26413060,
+      "vma": 2147631108,
+      "size": 4,
+      "alignment": 8
+    },
+    {
+      "kind": "switch_table",
+      "section": ".rodata",
+      "foff": 26413064,
+      "vma": 2147631112,
+      "size": 28,
+      "owner": "func_800253F4"
+    },
+    {
+      "kind": "alignment",
+      "section": ".rodata",
+      "foff": 26413092,
+      "vma": 2147631140,
+      "size": 4,
+      "alignment": 8
+    },
+    {
+      "kind": "switch_table",
+      "section": ".rodata",
+      "foff": 26413096,
+      "vma": 2147631144,
+      "size": 28,
+      "owner": "func_80025954"
+    }
+  ],
+  "assignment_changes": [
+    {
+      "before": {
+        "id": "dungeon/func_81910970",
+        "container": "dungeon",
+        "module": "ovl_7e6f3800.c",
+        "module_index": 179,
+        "confidence": "weak"
+      },
+      "after": {
+        "id": "dungeon/func_81910970",
+        "container": "dungeon",
+        "module": "ovl_1930844.c",
+        "module_index": 184,
+        "confidence": "strong",
+        "evidence": "docs/evidence/dungeon_ovl_1930844.membership.json"
+      }
+    },
+    {
+      "before": {
+        "id": "dungeon/func_81912074",
+        "container": "dungeon",
+        "module": "ovl_7e6f3800.c",
+        "module_index": 179,
+        "confidence": "weak"
+      },
+      "after": {
+        "id": "dungeon/func_81912074",
+        "container": "dungeon",
+        "module": "ovl_1930844.c",
+        "module_index": 184,
+        "confidence": "strong",
+        "evidence": "docs/evidence/dungeon_ovl_1930844.membership.json"
+      }
+    },
+    {
+      "before": {
+        "id": "dungeon/func_81912154",
+        "container": "dungeon",
+        "module": "ovl_7e6f3800.c",
+        "module_index": 179,
+        "confidence": "weak"
+      },
+      "after": {
+        "id": "dungeon/func_81912154",
+        "container": "dungeon",
+        "module": "ovl_1930844.c",
+        "module_index": 184,
+        "confidence": "strong",
+        "evidence": "docs/evidence/dungeon_ovl_1930844.membership.json"
+      }
+    }
+  ],
+  "review": "pending",
+  "reviewer": null
+}

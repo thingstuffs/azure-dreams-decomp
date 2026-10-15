@@ -1,35 +1,6 @@
-#include "common.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_ovl_188298c.h"
 
-typedef struct {
-    u8 pad00[0x14];
-    u16 unk14;
-} SubEnt;
-
-typedef struct {
-    SubEnt *unk00;
-    u8 unk04;
-} Arg0Ent;
-
-typedef struct {
-    u8 pad00[0xC];
-    u8 unk0C;
-    u8 unk0D;
-    u8 unk0E;
-    u8 pad0F[0x14 - 0xF];
-    u16 unk14;
-    u8 pad16[0x1C - 0x16];
-    u16 unk1C;
-    u16 unk1E;
-} Arg2Ent;
-
-extern s32 D_800DEDB0[3];
-
-extern void func_800478B8(void *a0);
-extern void func_8003DB94(void *a0, void *a1, s16 a2);
-
-/* Grow and fade the effect, advancing or finishing it when its status flags are set. */
-void func_8186298C(Arg0Ent *state, void *unused, Arg2Ent *effect)
+void func_8002418C(ovl_188298c_8186298C_Arg0Ent *state, void *unused, ovl_188298c_8186298C_Arg2Ent *effect)
 {
     u16 size;
     u8 brightness;

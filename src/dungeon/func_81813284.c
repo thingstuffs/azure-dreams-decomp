@@ -1,22 +1,6 @@
-#include "common.h"
+#include "modules/dungeon_ovl_1831cd8.h"
 
-typedef struct {
-    u8 pad00[0x4C];
-    s32 unk4C;
-    u8 pad50[0x6C - 0x50];
-    s32 unk6C[3];
-    u8 pad78[0x88 - 0x78];
-    s32 unk88;
-    s32 unk8C[7];
-} Unk818110CC;
-
-extern s32 func_80049004(s32 *buffer_slot, s32 entry_count, s32 clear_words);
-extern s32 func_80048FBC(s32 *values, s32 lookup_key);
-extern void func_800491CC(s32 entries, s32 *value, s32 count);
-extern s32 D_8002E5E8[3];
-
-/* Allocates object buffers and links them to the initialized three-word state. */
-s32 func_80028284(Unk818110CC *object, s32 buffer_param)
+s32 func_80028284(ovl_1831cd8_81813284_Unk818110CC *object, s32 buffer_param)
 {
     s32 success = 0;
     s32 *buffers = object->unk8C;
@@ -28,9 +12,9 @@ s32 func_80028284(Unk818110CC *object, s32 buffer_param)
         allocated_buffer = func_80048FBC(buffers, 8);
         object->unk4C = allocated_buffer;
         if (allocated_buffer != 0) {
-            object->unk6C[0] = D_8002E5E8[0];
-            object->unk6C[1] = D_8002E5E8[1];
-            object->unk6C[2] = D_8002E5E8[2];
+            object->unk6C[0] = D_8002E5E8.unk0;
+            object->unk6C[1] = D_8002E5E8.unk4;
+            object->unk6C[2] = D_8002E5E8.unk8;
             func_800491CC(object->unk88, object->unk6C, 15);
             success = 1;
         }

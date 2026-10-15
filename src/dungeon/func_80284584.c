@@ -1,16 +1,6 @@
-#include "common.h"
-#include "shared/game_work.h"
+#include "modules/dungeon_floor_generate.h"
 
-typedef struct {
-    u16 field_0;
-    u16 field_2;
-    u16 field_4;
-} DungeonCell;
-
-extern DungeonCell D_800EA000[];
-
-/* Returns the first nonzero field_4 in a rectangle, zero if none, or -1 for invalid bounds. */
-s32 func_80017584(s16 start_x, s16 start_y, s16 width, s16 height) {
+s16 func_80017584(s16 start_x, s16 start_y, s16 width, s16 height) {
     MapGrid *config;
     s32 shifted_x;
     s32 shifted_width;
@@ -42,9 +32,9 @@ ret_err:
         cols_left = shifted_width >> 16;
         x = shifted_x >> 16;
         while (cols_left > 0) {
-            DungeonCell *cell;
+            floor_generate_isolated_80284584_DungeonCell *cell;
 
-            cell = &D_800EA000[(row << config->shiftX) + x];
+            cell = &((floor_generate_isolated_80284584_DungeonCell *)D_800EA000)[(row << config->shiftX) + x];
             if (cell->field_4 != 0) {
                 return (s16)cell->field_4;
             }

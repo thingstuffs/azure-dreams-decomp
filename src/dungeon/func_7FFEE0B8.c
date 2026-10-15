@@ -1,24 +1,5 @@
-#include "common.h"
+#include "modules/dungeon_town_map.h"
 
-typedef void (*Callback)(void);
-
-extern void func_8008B9D8(void);
-extern void func_8008BA00(void);
-extern void *func_8004491C(void *, void *);
-extern void func_80033C1C(void *, s32);
-extern void func_800375C0(void *, u32);
-extern void func_8003DB94(void *, void *, s32);
-extern void func_80033D08(void *);
-
-extern u8 D_80033D54;
-extern u8 D_80037714;
-extern u8 D_800794AC;
-extern u32 D_80082ABC;
-extern u32 D_800CFB74[];
-extern u8 D_800CFC38[];
-extern u32 D_800CFC44[];
-
-/* Initialize the object context, callbacks, and display settings for the selected mode. */
 void func_8008B818(s32 mode, s32 *list, u8 *init_context, u8 *target_object) {
     u8 *context = init_context;
     u8 *object = target_object;
