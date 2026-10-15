@@ -69,6 +69,16 @@ def apply(root, dry_run=False, live=False):
     if not dry_run:
         for src, dest in files:
             shutil.copy2(src, dest)
+        # The helper has always been source-only. Register its production proof
+        # requirements explicitly when a complete landing transaction calls it.
+        if files and os.environ.get('LAND_SKIP_PACKAGE_PROOF') == '1' and os.environ.get('LAND_PACKAGE_PROOF_CONTEXT'):
+            sys.path.insert(0, str(root/'tools/lanes'))
+            from package_proofs import defer_proof
+            lane_receipts = [name for name in ('manifest.json','scores.json') if (P/name).is_file()]
+            for key in manifest['certificates_requiring_renewal']:
+                defer_proof(root, P, 'overlay-module', key, lane_receipts)
+            for config in manifest.get('production_windows', []):
+                defer_proof(root, P, 'overlay-window', config, lane_receipts)
         print('APPLIED source-only; review, production gates and renewal remain required.', flush=True)
 
 

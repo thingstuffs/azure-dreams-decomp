@@ -1,0 +1,1885 @@
+{
+  "row": "slus/code2",
+  "container": "slus",
+  "kind": "slus",
+  "cfg": "2.7.2-cdk",
+  "pins": 0,
+  "module_fingerprint": "e2692019c0ff9a47e8c0f8c3095f4ce81c544ead9a8b785cb27ff9a500e4d55b",
+  "partition_gate": {
+    "status": "ok",
+    "exact": true,
+    "proof": "whole SLUS image, partition context",
+    "module_fingerprint": "e2692019c0ff9a47e8c0f8c3095f4ce81c544ead9a8b785cb27ff9a500e4d55b",
+    "physical_units": [
+      {
+        "source": "src/code2.c",
+        "recipe": {
+          "asflags": "",
+          "ccflags": "",
+          "ccver": "2.7.2-cdk"
+        },
+        "functions": [
+          "func_8003F540",
+          "func_8003F7E4",
+          "func_80040A88",
+          "func_80040B88",
+          "func_800419EC",
+          "func_8004827C",
+          "func_800499BC",
+          "func_8004A8D8",
+          "func_8004AC18",
+          "func_8004D0C8",
+          "func_8004D110",
+          "func_80050F74",
+          "func_80053C6C",
+          "func_80053CA4",
+          "func_800542AC",
+          "func_8005A3E0",
+          "func_8005B348",
+          "func_8005C818",
+          "func_8005C8B8",
+          "func_8005C918",
+          "func_8005C94C"
+        ],
+        "role": "remainder"
+      },
+      {
+        "source": "src/w_80041134_owned.c",
+        "recipe": {
+          "asflags": "",
+          "ccflags": "",
+          "ccver": "2.7.2-cdk"
+        },
+        "functions": [
+          "func_800410FC"
+        ],
+        "role": "module",
+        "module": "list_cursor_e0"
+      },
+      {
+        "source": "src/cd_command_state_owned.c",
+        "recipe": {
+          "asflags": "",
+          "ccflags": "",
+          "ccver": "2.7.2-cdk"
+        },
+        "functions": [
+          "func_8003F240"
+        ],
+        "role": "module",
+        "module": "cd_command_state"
+      },
+      {
+        "source": "src/b1b_b1c_table_owned.c",
+        "recipe": {
+          "asflags": "",
+          "ccflags": "",
+          "ccver": "2.7.2-cdk"
+        },
+        "functions": [
+          "func_80048DA0"
+        ],
+        "role": "module",
+        "module": "table_counters_b1b_b1c"
+      }
+    ],
+    "total": 0,
+    "err": null,
+    "secs": 4.68
+  },
+  "physical_units": [
+    {
+      "source": "src/code2.c",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "functions": [
+        "func_8003F540",
+        "func_8003F7E4",
+        "func_80040A88",
+        "func_80040B88",
+        "func_800419EC",
+        "func_8004827C",
+        "func_800499BC",
+        "func_8004A8D8",
+        "func_8004AC18",
+        "func_8004D0C8",
+        "func_8004D110",
+        "func_80050F74",
+        "func_80053C6C",
+        "func_80053CA4",
+        "func_800542AC",
+        "func_8005A3E0",
+        "func_8005B348",
+        "func_8005C818",
+        "func_8005C8B8",
+        "func_8005C918",
+        "func_8005C94C"
+      ],
+      "expected_functions": [
+        "func_8003F540",
+        "func_8003F7E4",
+        "func_80040A88",
+        "func_80040B88",
+        "func_800419EC",
+        "func_8004827C",
+        "func_800499BC",
+        "func_8004A8D8",
+        "func_8004AC18",
+        "func_8004D0C8",
+        "func_8004D110",
+        "func_80050F74",
+        "func_80053C6C",
+        "func_80053CA4",
+        "func_800542AC",
+        "func_8005A3E0",
+        "func_8005B348",
+        "func_8005C818",
+        "func_8005C8B8",
+        "func_8005C918",
+        "func_8005C94C"
+      ],
+      "role": "remainder",
+      "row": "slus/code2",
+      "container": "slus",
+      "kind": "slus",
+      "cfg": "2.7.2-cdk",
+      "asflags": "",
+      "cell": "2.7.2-cdk",
+      "maspsx_exact": true,
+      "proof": "whole SLUS image, partition context",
+      "fired": [],
+      "module_fingerprint": "e2692019c0ff9a47e8c0f8c3095f4ce81c544ead9a8b785cb27ff9a500e4d55b",
+      "trace_scope": "whole-physical-unit",
+      "selfcheck": true,
+      "funcs": 21,
+      "words": 213,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 21
+      },
+      "maspsx_physical_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 21
+      },
+      "has_div": true,
+      "genuine": {
+        "2.56": {
+          "err": "IN.S(83) : Error : Syntax error in expression; IN.S(84) : Error : Syntax error in expression; IN.S(101) : Error : Syntax error in expression",
+          "err_kind": "hilo",
+          "mode": ""
+        },
+        "2.67": {
+          "exact": true,
+          "diff": 0,
+          "len": 213,
+          "mode": "-0",
+          "retail": [
+            0,
+            0
+          ],
+          "retail_checked": 21,
+          "physical": {
+            "exact": true,
+            "diff": 0,
+            "len_m": 213,
+            "len_g": 213,
+            "missing": [],
+            "retail": {
+              "diff": 0,
+              "masked": 0,
+              "checked": 21
+            }
+          }
+        },
+        "2.77": {
+          "exact": true,
+          "diff": 0,
+          "len": 213,
+          "mode": "-0",
+          "retail": [
+            0,
+            0
+          ],
+          "retail_checked": 21,
+          "physical": {
+            "exact": true,
+            "diff": 0,
+            "len_m": 213,
+            "len_g": 213,
+            "missing": [],
+            "retail": {
+              "diff": 0,
+              "masked": 0,
+              "checked": 21
+            }
+          }
+        },
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 213,
+          "mode": "-0",
+          "retail": [
+            0,
+            0
+          ],
+          "retail_checked": 21,
+          "physical": {
+            "exact": true,
+            "diff": 0,
+            "len_m": 213,
+            "len_g": 213,
+            "missing": [],
+            "retail": {
+              "diff": 0,
+              "masked": 0,
+              "checked": 21
+            }
+          }
+        },
+        "2.81": {
+          "exact": true,
+          "diff": 0,
+          "len": 213,
+          "mode": "-0",
+          "retail": [
+            0,
+            0
+          ],
+          "retail_checked": 21,
+          "physical": {
+            "exact": true,
+            "diff": 0,
+            "len_m": 213,
+            "len_g": 213,
+            "missing": [],
+            "retail": {
+              "diff": 0,
+              "masked": 0,
+              "checked": 21
+            }
+          }
+        },
+        "2.86": {
+          "exact": true,
+          "diff": 0,
+          "len": 213,
+          "mode": "-0",
+          "retail": [
+            0,
+            0
+          ],
+          "retail_checked": 21,
+          "physical": {
+            "exact": true,
+            "diff": 0,
+            "len_m": 213,
+            "len_g": 213,
+            "missing": [],
+            "retail": {
+              "diff": 0,
+              "masked": 0,
+              "checked": 21
+            }
+          }
+        }
+      },
+      "exact_versions": [
+        "2.67",
+        "2.77",
+        "2.79",
+        "2.81",
+        "2.86"
+      ],
+      "best": "2.67",
+      "status": "ok"
+    },
+    {
+      "source": "src/w_80041134_owned.c",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "functions": [
+        "func_800410FC"
+      ],
+      "expected_functions": [
+        "func_800410FC",
+        "func_80041110",
+        "func_80041134"
+      ],
+      "role": "module",
+      "module": "list_cursor_e0",
+      "row": "slus/code2",
+      "container": "slus",
+      "kind": "slus",
+      "cfg": "2.7.2-cdk",
+      "asflags": "",
+      "cell": "2.7.2-cdk",
+      "maspsx_exact": true,
+      "proof": "whole SLUS image, partition context",
+      "fired": [],
+      "module_fingerprint": "e2692019c0ff9a47e8c0f8c3095f4ce81c544ead9a8b785cb27ff9a500e4d55b",
+      "trace_scope": "whole-physical-unit",
+      "selfcheck": true,
+      "funcs": 1,
+      "words": 5,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "maspsx_physical_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 3
+      },
+      "has_div": false,
+      "genuine": {
+        "2.56": {
+          "err": "IN.S(37) : Error : Syntax error in expression; IN.S(38) : Error : Syntax error in expression; IN.S(43) : Error : Syntax error in expression",
+          "err_kind": "hilo",
+          "mode": ""
+        },
+        "2.67": {
+          "exact": true,
+          "diff": 0,
+          "len": 5,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ],
+          "retail_checked": 1,
+          "physical": {
+            "exact": true,
+            "diff": 0,
+            "len_m": 44,
+            "len_g": 44,
+            "missing": [],
+            "retail": {
+              "diff": 0,
+              "masked": 0,
+              "checked": 3
+            }
+          }
+        },
+        "2.77": {
+          "exact": true,
+          "diff": 0,
+          "len": 5,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ],
+          "retail_checked": 1,
+          "physical": {
+            "exact": true,
+            "diff": 0,
+            "len_m": 44,
+            "len_g": 44,
+            "missing": [],
+            "retail": {
+              "diff": 0,
+              "masked": 0,
+              "checked": 3
+            }
+          }
+        },
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 5,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ],
+          "retail_checked": 1,
+          "physical": {
+            "exact": true,
+            "diff": 0,
+            "len_m": 44,
+            "len_g": 44,
+            "missing": [],
+            "retail": {
+              "diff": 0,
+              "masked": 0,
+              "checked": 3
+            }
+          }
+        },
+        "2.81": {
+          "exact": true,
+          "diff": 0,
+          "len": 5,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ],
+          "retail_checked": 1,
+          "physical": {
+            "exact": true,
+            "diff": 0,
+            "len_m": 44,
+            "len_g": 44,
+            "missing": [],
+            "retail": {
+              "diff": 0,
+              "masked": 0,
+              "checked": 3
+            }
+          }
+        },
+        "2.86": {
+          "exact": true,
+          "diff": 0,
+          "len": 5,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ],
+          "retail_checked": 1,
+          "physical": {
+            "exact": true,
+            "diff": 0,
+            "len_m": 44,
+            "len_g": 44,
+            "missing": [],
+            "retail": {
+              "diff": 0,
+              "masked": 0,
+              "checked": 3
+            }
+          }
+        }
+      },
+      "exact_versions": [
+        "2.67",
+        "2.77",
+        "2.79",
+        "2.81",
+        "2.86"
+      ],
+      "best": "2.67",
+      "status": "ok"
+    },
+    {
+      "source": "src/cd_command_state_owned.c",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "functions": [
+        "func_8003F240"
+      ],
+      "expected_functions": [
+        "func_8003E34C",
+        "func_8003E4FC",
+        "func_8003E758",
+        "func_8003F240",
+        "func_8003F2A4",
+        "func_8003F368",
+        "func_8003F5AC",
+        "func_8003F624"
+      ],
+      "role": "module",
+      "module": "cd_command_state",
+      "row": "slus/code2",
+      "container": "slus",
+      "kind": "slus",
+      "cfg": "2.7.2-cdk",
+      "asflags": "",
+      "cell": "2.7.2-cdk",
+      "maspsx_exact": true,
+      "proof": "whole SLUS image, partition context",
+      "fired": [
+        "_expand_smalldata_la"
+      ],
+      "data_piece_transform": {
+        "schema": 1,
+        "module": "cd_command_state",
+        "plan": [
+          {
+            "symbol": "D_800814D0",
+            "size": 1,
+            "section": ".sdata.D_800814D0",
+            "alignment": 1,
+            "source_section": ".sdata"
+          },
+          {
+            "symbol": "D_800814D4",
+            "size": 1,
+            "section": ".sdata.D_800814D4",
+            "alignment": 1,
+            "source_section": ".sdata"
+          },
+          {
+            "symbol": "D_800814CC",
+            "size": 4,
+            "section": ".sdata.D_800814CC",
+            "alignment": 4,
+            "source_section": ".sdata"
+          },
+          {
+            "symbol": "D_80081450",
+            "size": 8,
+            "section": ".sdata.D_80081450",
+            "alignment": 4,
+            "source_section": ".sdata"
+          },
+          {
+            "symbol": "D_80080AD0",
+            "size": 1,
+            "section": ".sdata.D_80080AD0",
+            "alignment": 1,
+            "source_section": ".sdata"
+          },
+          {
+            "symbol": "D_80080AD2",
+            "size": 2,
+            "section": ".sdata.D_80080AD2",
+            "alignment": 2,
+            "source_section": ".sdata"
+          },
+          {
+            "symbol": "D_80080AD4",
+            "size": 2,
+            "section": ".sdata.D_80080AD4",
+            "alignment": 2,
+            "source_section": ".sdata"
+          },
+          {
+            "symbol": "D_80080AD8",
+            "size": 4,
+            "section": ".sdata.D_80080AD8",
+            "alignment": 4,
+            "source_section": ".sdata"
+          },
+          {
+            "symbol": "D_80080ADC",
+            "size": 4,
+            "section": ".sdata.D_80080ADC",
+            "alignment": 4,
+            "source_section": ".sdata"
+          },
+          {
+            "symbol": "D_800814B0",
+            "size": 4,
+            "section": ".sdata.D_800814B0",
+            "alignment": 4,
+            "source_section": ".sdata"
+          },
+          {
+            "symbol": "D_800814B4",
+            "size": 4,
+            "section": ".sdata.D_800814B4",
+            "alignment": 4,
+            "source_section": ".sdata"
+          }
+        ],
+        "core_sha256": "d72b0b7c9c910315dc1c344f64af6b6799d7036ee0709533d09422cbf28daea2",
+        "pre_object_sha256": "c4bf273694c18a296b56fa4c8ff57f51b7a3a0da92bc9a0fd49874cb72f5721f",
+        "post_object_sha256": "cebe7332cdbeb4564b68e25234a68e9bf5afe4121ca675621854a3305ff8d665",
+        "split_elf": {
+          "schema": 1,
+          "input_sha256": "c4bf273694c18a296b56fa4c8ff57f51b7a3a0da92bc9a0fd49874cb72f5721f",
+          "output_sha256": "cebe7332cdbeb4564b68e25234a68e9bf5afe4121ca675621854a3305ff8d665",
+          "original_section_count": 31,
+          "new_section_count": 42,
+          "original_symbol_count": 66,
+          "relocation_entries": 394,
+          "selected_relocations": [
+            {
+              "relocation_section": ".rel.text.func_8003E34C",
+              "offset": 36,
+              "symbol": "D_800814D0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E34C",
+              "offset": 56,
+              "symbol": "D_80080AD0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E34C",
+              "offset": 60,
+              "symbol": "D_80080ADC",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E34C",
+              "offset": 64,
+              "symbol": "D_80080AD4",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E4FC",
+              "offset": 336,
+              "symbol": "D_80080ADC",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E4FC",
+              "offset": 368,
+              "symbol": "D_80080AD4",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E4FC",
+              "offset": 424,
+              "symbol": "D_80080ADC",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 32,
+              "symbol": "D_800814D0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 88,
+              "symbol": "D_800814D0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 388,
+              "symbol": "D_800814D0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 440,
+              "symbol": "D_800814D0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 504,
+              "symbol": "D_800814D0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 552,
+              "symbol": "D_80081450",
+              "type": 5,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 556,
+              "symbol": "D_80081450",
+              "type": 6,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 576,
+              "symbol": "D_800814D0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 628,
+              "symbol": "D_800814D0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 788,
+              "symbol": "D_800814CC",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 796,
+              "symbol": "D_800814D4",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 988,
+              "symbol": "D_80081450",
+              "type": 5,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 992,
+              "symbol": "D_80081450",
+              "type": 6,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 1068,
+              "symbol": "D_800814D0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 1072,
+              "symbol": "D_80081450",
+              "type": 5,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 1076,
+              "symbol": "D_80081450",
+              "type": 6,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 1124,
+              "symbol": "D_800814D0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 1188,
+              "symbol": "D_800814D0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 1192,
+              "symbol": "D_80081450",
+              "type": 5,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 1196,
+              "symbol": "D_80081450",
+              "type": 6,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 1244,
+              "symbol": "D_800814D0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 1304,
+              "symbol": "D_800814D0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 1416,
+              "symbol": "D_800814D0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 1684,
+              "symbol": "D_800814D0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 1704,
+              "symbol": "D_800814D0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 1728,
+              "symbol": "D_800814D0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 1856,
+              "symbol": "D_80081450",
+              "type": 5,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 1860,
+              "symbol": "D_80081450",
+              "type": 6,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 1908,
+              "symbol": "D_80080AD8",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 1928,
+              "symbol": "D_80080AD0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 1944,
+              "symbol": "D_800814CC",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 1984,
+              "symbol": "D_80080AD2",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 2004,
+              "symbol": "D_80080AD2",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 2144,
+              "symbol": "D_80081450",
+              "type": 5,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 2148,
+              "symbol": "D_80081450",
+              "type": 6,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 2264,
+              "symbol": "D_80081450",
+              "type": 5,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 2268,
+              "symbol": "D_80081450",
+              "type": 6,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 2288,
+              "symbol": "D_80081450",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 2320,
+              "symbol": "D_800814D0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 2340,
+              "symbol": "D_800814D0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 2352,
+              "symbol": "D_80081450",
+              "type": 5,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 2356,
+              "symbol": "D_80081450",
+              "type": 6,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 2388,
+              "symbol": "D_80081450",
+              "type": 5,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 2392,
+              "symbol": "D_80081450",
+              "type": 6,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 2444,
+              "symbol": "D_80081450",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 2556,
+              "symbol": "D_80080AD4",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 2660,
+              "symbol": "D_800814D0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 2688,
+              "symbol": "D_800814D0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 2748,
+              "symbol": "D_800814D0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003E758",
+              "offset": 2760,
+              "symbol": "D_800814D0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003F240",
+              "offset": 4,
+              "symbol": "D_800814D0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003F2A4",
+              "offset": 16,
+              "symbol": "D_800814D0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003F2A4",
+              "offset": 80,
+              "symbol": "D_800814B0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003F2A4",
+              "offset": 100,
+              "symbol": "D_800814B4",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003F368",
+              "offset": 12,
+              "symbol": "D_80081450",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003F368",
+              "offset": 28,
+              "symbol": "D_80081450",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003F368",
+              "offset": 220,
+              "symbol": "D_800814D0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003F368",
+              "offset": 232,
+              "symbol": "D_800814D0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003F368",
+              "offset": 248,
+              "symbol": "D_800814D0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003F368",
+              "offset": 260,
+              "symbol": "D_800814D0",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003F368",
+              "offset": 280,
+              "symbol": "D_80081450",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003F368",
+              "offset": 292,
+              "symbol": "D_80081450",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003F368",
+              "offset": 332,
+              "symbol": "D_80081450",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003F5AC",
+              "offset": 4,
+              "symbol": "D_80080AD4",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_8003F624",
+              "offset": 20,
+              "symbol": "D_800814D4",
+              "type": 7,
+              "addend": 0
+            }
+          ],
+          "relocation_entries_unchanged": true,
+          "original_nondata_payloads_unchanged": true,
+          "symbol_indices_and_order_unchanged": true,
+          "moved": [
+            {
+              "symbol": "D_800814D0",
+              "old_section": ".sdata",
+              "old_section_index": 8,
+              "old_offset": 0,
+              "size": 1,
+              "alignment": 1,
+              "new_section": ".sdata.D_800814D0",
+              "new_section_index": 31,
+              "content_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+              "content_hex": "00",
+              "old_symbol_size": 0
+            },
+            {
+              "symbol": "D_800814D4",
+              "old_section": ".sdata",
+              "old_section_index": 8,
+              "old_offset": 1,
+              "size": 1,
+              "alignment": 1,
+              "new_section": ".sdata.D_800814D4",
+              "new_section_index": 32,
+              "content_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+              "content_hex": "00",
+              "old_symbol_size": 0
+            },
+            {
+              "symbol": "D_800814CC",
+              "old_section": ".sdata",
+              "old_section_index": 8,
+              "old_offset": 4,
+              "size": 4,
+              "alignment": 4,
+              "new_section": ".sdata.D_800814CC",
+              "new_section_index": 33,
+              "content_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+              "content_hex": "00000000",
+              "old_symbol_size": 0
+            },
+            {
+              "symbol": "D_80081450",
+              "old_section": ".sdata",
+              "old_section_index": 8,
+              "old_offset": 8,
+              "size": 8,
+              "alignment": 4,
+              "new_section": ".sdata.D_80081450",
+              "new_section_index": 34,
+              "content_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+              "content_hex": "0000000000000000",
+              "old_symbol_size": 0
+            },
+            {
+              "symbol": "D_80080AD0",
+              "old_section": ".sdata",
+              "old_section_index": 8,
+              "old_offset": 16,
+              "size": 1,
+              "alignment": 1,
+              "new_section": ".sdata.D_80080AD0",
+              "new_section_index": 35,
+              "content_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+              "content_hex": "00",
+              "old_symbol_size": 0
+            },
+            {
+              "symbol": "D_80080AD2",
+              "old_section": ".sdata",
+              "old_section_index": 8,
+              "old_offset": 18,
+              "size": 2,
+              "alignment": 2,
+              "new_section": ".sdata.D_80080AD2",
+              "new_section_index": 36,
+              "content_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+              "content_hex": "0000",
+              "old_symbol_size": 0
+            },
+            {
+              "symbol": "D_80080AD4",
+              "old_section": ".sdata",
+              "old_section_index": 8,
+              "old_offset": 20,
+              "size": 2,
+              "alignment": 2,
+              "new_section": ".sdata.D_80080AD4",
+              "new_section_index": 37,
+              "content_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+              "content_hex": "0000",
+              "old_symbol_size": 0
+            },
+            {
+              "symbol": "D_80080AD8",
+              "old_section": ".sdata",
+              "old_section_index": 8,
+              "old_offset": 24,
+              "size": 4,
+              "alignment": 4,
+              "new_section": ".sdata.D_80080AD8",
+              "new_section_index": 38,
+              "content_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+              "content_hex": "00000000",
+              "old_symbol_size": 0
+            },
+            {
+              "symbol": "D_80080ADC",
+              "old_section": ".sdata",
+              "old_section_index": 8,
+              "old_offset": 28,
+              "size": 4,
+              "alignment": 4,
+              "new_section": ".sdata.D_80080ADC",
+              "new_section_index": 39,
+              "content_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+              "content_hex": "00000000",
+              "old_symbol_size": 0
+            },
+            {
+              "symbol": "D_800814B0",
+              "old_section": ".sdata",
+              "old_section_index": 8,
+              "old_offset": 32,
+              "size": 4,
+              "alignment": 4,
+              "new_section": ".sdata.D_800814B0",
+              "new_section_index": 40,
+              "content_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+              "content_hex": "00000000",
+              "old_symbol_size": 0
+            },
+            {
+              "symbol": "D_800814B4",
+              "old_section": ".sdata",
+              "old_section_index": 8,
+              "old_offset": 36,
+              "size": 4,
+              "alignment": 4,
+              "new_section": ".sdata.D_800814B4",
+              "new_section_index": 41,
+              "content_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+              "content_hex": "00000000",
+              "old_symbol_size": 0
+            }
+          ],
+          "emptied_source_sections": {
+            ".sdata": {
+              "old_section_index": 8,
+              "old_size": 40,
+              "kind": "PROGBITS",
+              "discarded_alignment_ranges": [
+                {
+                  "start": 2,
+                  "end": 4
+                },
+                {
+                  "start": 17,
+                  "end": 18
+                },
+                {
+                  "start": 22,
+                  "end": 24
+                }
+              ],
+              "discarded_alignment_bytes": 5,
+              "all_discarded_bytes_zero": true
+            }
+          },
+          "text_section_sha256": {
+            ".text": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            ".text.func_8003E34C": "e972d2d7facdeb48c29562484a5bdbbb4bab9351814a06b1c813a182db025b17",
+            ".text.func_8003E4FC": "08265f44b2fe903b53a72e1cf2fa32c6fdbca7b65c0bf9a675050b62176beeae",
+            ".text.func_8003E758": "1053cfcf0e92ca917bc75290917b227687b068a0bc9feb9a690aa06653035c55",
+            ".text.func_8003F240": "f8074df22d4fc8287082fbd264f2c51d95bc8a2fa4ba36661918ea3e72446c26",
+            ".text.func_8003F2A4": "5e9abbc20745236c776013df13d4069a3db49d4dfeb358928c20bf7964346189",
+            ".text.func_8003F368": "8cf84b63e75846909552f40df62fdabe5e9ce0fdb745ba84c604db6dd3424469",
+            ".text.func_8003F5AC": "1efd2da013a6961b221031881f29276661dafc0b32843abf9331d8819e1cdf1a",
+            ".text.func_8003F624": "16306cf7fc0d2117be5aeadf8a550ca605c3e1256824f7f801d317cfb1a26141"
+          },
+          "boundaries": {
+            "program_headers": 0,
+            "symtabs": 1,
+            "rela": 0,
+            "extended_indices": false
+          }
+        }
+      },
+      "data_piece_functions": [
+        "func_8003E34C",
+        "func_8003E4FC",
+        "func_8003E758",
+        "func_8003F240",
+        "func_8003F2A4",
+        "func_8003F368",
+        "func_8003F5AC",
+        "func_8003F624"
+      ],
+      "module_fingerprint": "e2692019c0ff9a47e8c0f8c3095f4ce81c544ead9a8b785cb27ff9a500e4d55b",
+      "trace_scope": "whole-physical-unit",
+      "selfcheck": true,
+      "funcs": 1,
+      "words": 12,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "maspsx_physical_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 8
+      },
+      "has_div": false,
+      "genuine": {
+        "2.56": {
+          "err": "IN.S(99) : Error : Syntax error in expression; IN.S(100) : Error : Syntax error in expression; IN.S(101) : Error : Syntax error in expression",
+          "err_kind": "hilo",
+          "mode": ""
+        },
+        "2.67": {
+          "exact": true,
+          "diff": 0,
+          "len": 12,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ],
+          "retail_checked": 1,
+          "physical": {
+            "exact": true,
+            "diff": 0,
+            "len_m": 1041,
+            "len_g": 1041,
+            "missing": [],
+            "retail": {
+              "diff": 0,
+              "masked": 0,
+              "checked": 8
+            }
+          }
+        },
+        "2.77": {
+          "exact": true,
+          "diff": 0,
+          "len": 12,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ],
+          "retail_checked": 1,
+          "physical": {
+            "exact": true,
+            "diff": 0,
+            "len_m": 1041,
+            "len_g": 1041,
+            "missing": [],
+            "retail": {
+              "diff": 0,
+              "masked": 0,
+              "checked": 8
+            }
+          }
+        },
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 12,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ],
+          "retail_checked": 1,
+          "physical": {
+            "exact": true,
+            "diff": 0,
+            "len_m": 1041,
+            "len_g": 1041,
+            "missing": [],
+            "retail": {
+              "diff": 0,
+              "masked": 0,
+              "checked": 8
+            }
+          }
+        },
+        "2.81": {
+          "exact": true,
+          "diff": 0,
+          "len": 12,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ],
+          "retail_checked": 1,
+          "physical": {
+            "exact": true,
+            "diff": 0,
+            "len_m": 1041,
+            "len_g": 1041,
+            "missing": [],
+            "retail": {
+              "diff": 0,
+              "masked": 0,
+              "checked": 8
+            }
+          }
+        },
+        "2.86": {
+          "exact": true,
+          "diff": 0,
+          "len": 12,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ],
+          "retail_checked": 1,
+          "physical": {
+            "exact": false,
+            "diff": 99,
+            "len_m": 1041,
+            "len_g": 1032,
+            "missing": [],
+            "retail": {
+              "diff": 569,
+              "masked": 0,
+              "checked": 8
+            }
+          }
+        }
+      },
+      "exact_versions": [
+        "2.67",
+        "2.77",
+        "2.79",
+        "2.81",
+        "2.86"
+      ],
+      "best": "2.67",
+      "status": "ok"
+    },
+    {
+      "source": "src/b1b_b1c_table_owned.c",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "functions": [
+        "func_80048DA0"
+      ],
+      "expected_functions": [
+        "func_80048DA0"
+      ],
+      "role": "module",
+      "module": "table_counters_b1b_b1c",
+      "row": "slus/code2",
+      "container": "slus",
+      "kind": "slus",
+      "cfg": "2.7.2-cdk",
+      "asflags": "",
+      "cell": "2.7.2-cdk",
+      "maspsx_exact": true,
+      "proof": "whole SLUS image, partition context",
+      "fired": [],
+      "data_piece_transform": {
+        "schema": 1,
+        "module": "table_counters_b1b_b1c",
+        "plan": [
+          {
+            "symbol": "D_80080B1B",
+            "size": 1,
+            "section": ".sdata.D_80080B1B",
+            "alignment": 1,
+            "source_section": ".sdata"
+          },
+          {
+            "symbol": "D_80080B1C",
+            "size": 1,
+            "section": ".sdata.D_80080B1C",
+            "alignment": 1,
+            "source_section": ".sdata"
+          }
+        ],
+        "core_sha256": "d72b0b7c9c910315dc1c344f64af6b6799d7036ee0709533d09422cbf28daea2",
+        "pre_object_sha256": "98571620015702adc5d92a78d8a8d468c66901ccc9584651d920085f41bbf6a9",
+        "post_object_sha256": "148a7cea9f8e232527337a9037c12ea348a3cbd92abe148fb691c9f148a81ce4",
+        "split_elf": {
+          "schema": 1,
+          "input_sha256": "98571620015702adc5d92a78d8a8d468c66901ccc9584651d920085f41bbf6a9",
+          "output_sha256": "148a7cea9f8e232527337a9037c12ea348a3cbd92abe148fb691c9f148a81ce4",
+          "original_section_count": 15,
+          "new_section_count": 17,
+          "original_symbol_count": 17,
+          "relocation_entries": 5,
+          "selected_relocations": [
+            {
+              "relocation_section": ".rel.text.func_80048DA0",
+              "offset": 12,
+              "symbol": "D_80080B1B",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_80048DA0",
+              "offset": 28,
+              "symbol": "D_80080B1C",
+              "type": 7,
+              "addend": 0
+            }
+          ],
+          "relocation_entries_unchanged": true,
+          "original_nondata_payloads_unchanged": true,
+          "symbol_indices_and_order_unchanged": true,
+          "moved": [
+            {
+              "symbol": "D_80080B1B",
+              "old_section": ".sdata",
+              "old_section_index": 8,
+              "old_offset": 0,
+              "size": 1,
+              "alignment": 1,
+              "new_section": ".sdata.D_80080B1B",
+              "new_section_index": 15,
+              "content_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+              "content_hex": "00",
+              "old_symbol_size": 0
+            },
+            {
+              "symbol": "D_80080B1C",
+              "old_section": ".sdata",
+              "old_section_index": 8,
+              "old_offset": 1,
+              "size": 1,
+              "alignment": 1,
+              "new_section": ".sdata.D_80080B1C",
+              "new_section_index": 16,
+              "content_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+              "content_hex": "00",
+              "old_symbol_size": 0
+            }
+          ],
+          "emptied_source_sections": {
+            ".sdata": {
+              "old_section_index": 8,
+              "old_size": 2,
+              "kind": "PROGBITS",
+              "discarded_alignment_ranges": [],
+              "discarded_alignment_bytes": 0,
+              "all_discarded_bytes_zero": true
+            }
+          },
+          "text_section_sha256": {
+            ".text": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            ".text.func_80048DA0": "35b27668a1534830b7395d6db287af4023eddcb067c3cdcda21dc6f921140fb2"
+          },
+          "boundaries": {
+            "program_headers": 0,
+            "symtabs": 1,
+            "rela": 0,
+            "extended_indices": false
+          }
+        }
+      },
+      "data_piece_functions": [
+        "func_80048DA0"
+      ],
+      "module_fingerprint": "e2692019c0ff9a47e8c0f8c3095f4ce81c544ead9a8b785cb27ff9a500e4d55b",
+      "trace_scope": "whole-physical-unit",
+      "selfcheck": true,
+      "funcs": 1,
+      "words": 11,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "maspsx_physical_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "has_div": false,
+      "genuine": {
+        "2.56": {
+          "err": "IN.S(39) : Error : Syntax error in expression; IN.S(40) : Error : Syntax error in expression; Errors during pass 1 - pass 2 aborted",
+          "err_kind": "hilo",
+          "mode": ""
+        },
+        "2.67": {
+          "exact": true,
+          "diff": 0,
+          "len": 11,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ],
+          "retail_checked": 1,
+          "physical": {
+            "exact": true,
+            "diff": 0,
+            "len_m": 11,
+            "len_g": 11,
+            "missing": [],
+            "retail": {
+              "diff": 0,
+              "masked": 0,
+              "checked": 1
+            }
+          }
+        },
+        "2.77": {
+          "exact": true,
+          "diff": 0,
+          "len": 11,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ],
+          "retail_checked": 1,
+          "physical": {
+            "exact": true,
+            "diff": 0,
+            "len_m": 11,
+            "len_g": 11,
+            "missing": [],
+            "retail": {
+              "diff": 0,
+              "masked": 0,
+              "checked": 1
+            }
+          }
+        },
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 11,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ],
+          "retail_checked": 1,
+          "physical": {
+            "exact": true,
+            "diff": 0,
+            "len_m": 11,
+            "len_g": 11,
+            "missing": [],
+            "retail": {
+              "diff": 0,
+              "masked": 0,
+              "checked": 1
+            }
+          }
+        },
+        "2.81": {
+          "exact": true,
+          "diff": 0,
+          "len": 11,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ],
+          "retail_checked": 1,
+          "physical": {
+            "exact": true,
+            "diff": 0,
+            "len_m": 11,
+            "len_g": 11,
+            "missing": [],
+            "retail": {
+              "diff": 0,
+              "masked": 0,
+              "checked": 1
+            }
+          }
+        },
+        "2.86": {
+          "exact": true,
+          "diff": 0,
+          "len": 11,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ],
+          "retail_checked": 1,
+          "physical": {
+            "exact": true,
+            "diff": 0,
+            "len_m": 11,
+            "len_g": 11,
+            "missing": [],
+            "retail": {
+              "diff": 0,
+              "masked": 0,
+              "checked": 1
+            }
+          }
+        }
+      },
+      "exact_versions": [
+        "2.67",
+        "2.77",
+        "2.79",
+        "2.81",
+        "2.86"
+      ],
+      "best": "2.67",
+      "status": "ok"
+    }
+  ],
+  "functions": [
+    "func_8003F240",
+    "func_8003F540",
+    "func_8003F7E4",
+    "func_80040A88",
+    "func_80040B88",
+    "func_800410FC",
+    "func_800419EC",
+    "func_8004827C",
+    "func_80048DA0",
+    "func_800499BC",
+    "func_8004A8D8",
+    "func_8004AC18",
+    "func_8004D0C8",
+    "func_8004D110",
+    "func_80050F74",
+    "func_80053C6C",
+    "func_80053CA4",
+    "func_800542AC",
+    "func_8005A3E0",
+    "func_8005B348",
+    "func_8005C818",
+    "func_8005C8B8",
+    "func_8005C918",
+    "func_8005C94C"
+  ],
+  "funcs": 24,
+  "words": 241,
+  "selfcheck": true,
+  "maspsx_exact": true,
+  "trace_scope": "union-of-whole-physical-units",
+  "cfg_scope": "original-logical-row",
+  "proof": "whole SLUS image, partition context",
+  "cell": "2.7.2-cdk",
+  "asflags": "",
+  "maspsx_retail": {
+    "diff": 0,
+    "masked": 0,
+    "checked": 24
+  },
+  "fired": [
+    "_expand_smalldata_la"
+  ],
+  "has_div": true,
+  "genuine": {
+    "2.56": {
+      "err": "one or more physical streams lack genuine comparison",
+      "unit_errors": {
+        "src/code2.c": "IN.S(83) : Error : Syntax error in expression; IN.S(84) : Error : Syntax error in expression; IN.S(101) : Error : Syntax error in expression",
+        "src/w_80041134_owned.c": "IN.S(37) : Error : Syntax error in expression; IN.S(38) : Error : Syntax error in expression; IN.S(43) : Error : Syntax error in expression",
+        "src/cd_command_state_owned.c": "IN.S(99) : Error : Syntax error in expression; IN.S(100) : Error : Syntax error in expression; IN.S(101) : Error : Syntax error in expression",
+        "src/b1b_b1c_table_owned.c": "IN.S(39) : Error : Syntax error in expression; IN.S(40) : Error : Syntax error in expression; Errors during pass 1 - pass 2 aborted"
+      }
+    },
+    "2.67": {
+      "exact": true,
+      "diff": 0,
+      "len": 241,
+      "retail": [
+        0,
+        0
+      ],
+      "retail_checked": 24,
+      "modes": {
+        "src/code2.c": "-0",
+        "src/w_80041134_owned.c": "",
+        "src/cd_command_state_owned.c": "",
+        "src/b1b_b1c_table_owned.c": ""
+      }
+    },
+    "2.77": {
+      "exact": true,
+      "diff": 0,
+      "len": 241,
+      "retail": [
+        0,
+        0
+      ],
+      "retail_checked": 24,
+      "modes": {
+        "src/code2.c": "-0",
+        "src/w_80041134_owned.c": "",
+        "src/cd_command_state_owned.c": "",
+        "src/b1b_b1c_table_owned.c": ""
+      }
+    },
+    "2.79": {
+      "exact": true,
+      "diff": 0,
+      "len": 241,
+      "retail": [
+        0,
+        0
+      ],
+      "retail_checked": 24,
+      "modes": {
+        "src/code2.c": "-0",
+        "src/w_80041134_owned.c": "",
+        "src/cd_command_state_owned.c": "",
+        "src/b1b_b1c_table_owned.c": ""
+      }
+    },
+    "2.81": {
+      "exact": true,
+      "diff": 0,
+      "len": 241,
+      "retail": [
+        0,
+        0
+      ],
+      "retail_checked": 24,
+      "modes": {
+        "src/code2.c": "-0",
+        "src/w_80041134_owned.c": "",
+        "src/cd_command_state_owned.c": "",
+        "src/b1b_b1c_table_owned.c": ""
+      }
+    },
+    "2.86": {
+      "exact": true,
+      "diff": 0,
+      "len": 241,
+      "retail": [
+        0,
+        0
+      ],
+      "retail_checked": 24,
+      "modes": {
+        "src/code2.c": "-0",
+        "src/w_80041134_owned.c": "",
+        "src/cd_command_state_owned.c": "",
+        "src/b1b_b1c_table_owned.c": ""
+      }
+    }
+  },
+  "exact_versions": [
+    "2.67",
+    "2.77",
+    "2.79",
+    "2.81",
+    "2.86"
+  ],
+  "ownerwise_exact_versions": true,
+  "best": "2.67",
+  "partition_attribution": {
+    "src/code2.c": {},
+    "src/w_80041134_owned.c": {},
+    "src/cd_command_state_owned.c": {},
+    "src/b1b_b1c_table_owned.c": {}
+  },
+  "status": "ok",
+  "secs": 8.2,
+  "genuine_retail_exact": true,
+  "row_asflags_now": null
+}

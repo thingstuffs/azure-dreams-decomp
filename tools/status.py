@@ -5,6 +5,7 @@ from common import LEDGER, ROOT, rows, read_jsonl, PARKED_CONTAINERS
 from pin_census import sites_of, hidden_asm, strip_composite_asm, composite_asm_spans
 import levels as _levels   # the live L5 predicates: the clean column reuses them, never a second copy
 from census import _fakedep, _real_tail_count
+from row_cache import RowCache, FactInputs, text_key
 
 def current_row_records(records, current_ids):
     """A retired composite's historical census/levels entry is not a current row."""
@@ -137,6 +138,7 @@ def _recipe_tracker(rs, curc):
 
 
 def main():
+    cache = RowCache(ROOT, "status")
     rs = rows(); by = {r["id"]: r for r in rs}
     base = {b["id"]: b for b in read_jsonl(LEDGER / "baseline.jsonl")}
     cen = {c["id"]: c for c in current_row_records(read_jsonl(LEDGER / "census.jsonl"), by)}
@@ -156,7 +158,8 @@ def main():
     parked = (", ".join(sorted(PARKED_CONTAINERS)) + " parked by the owner (listed, excluded from ALL).") if PARKED_CONTAINERS else "No container is parked (ovmovie unparked by the owner 2026-10-14)."
     out.append(f"\n{parked} Ordinary SLUS rows use pinned-TU object verification; grouped module candidates use the full SLUS image gate, including sibling functions and owned data. Historical raw baselines stay per row. Overlay rows use retail-slice comparison through the per-row scorer, with the window gate as the fallback of record. Non-stock rows (bridge cells, per-row assembler dials, platform asm) would be excluded; there are none at the pin.\n\nBaseline NOT exact: {len(bad)} rows" + (": " + ", ".join(r["id"] for r in bad[:20]) if bad else "") + "\n")
     from slus_module_evidence import module_status
-    module_records = module_status()
+    with cache.phase("slus_placements"):
+        module_records = module_status()
     if module_records:
         out.append("## SLUS modules\n\n| module | logical rows | placement evidence | shared headers |\n|---|---:|---|---|")
         for entry in module_records:
@@ -172,8 +175,9 @@ def main():
             out.append(f"| {module['name']} | {len(module['members'])} | {proof} | " + ", ".join(module["headers"]) + " |")
         out.append("\nNot certified means no placement certificate has been issued; ownership and retail-byte proofs are separate. Partition owners do not grant whole-row placement.\n")
         out.append("Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump and fidelity requirements still apply; changed shared inputs invalidate placement evidence.\n")
-    from overlay_module_evidence import module_status as overlay_module_status
-    overlay_records = overlay_module_status()
+    from accounting_modules import overlay_statuses as overlay_module_status
+    with cache.phase("overlay_placements"):
+        overlay_records = overlay_module_status(ROOT)
     if overlay_records:
         out.append("## Overlay modules\n\n| module | rows | placement proof |\n|---|---:|---|")
         for entry in overlay_records:
@@ -193,12 +197,15 @@ def main():
     for _lf in ("ledger/onetrip_barrier_rows.jsonl", "ledger/onetrip_loadbearing.jsonl"):
         if (ROOT / _lf).exists():
             _onetrip_tracked |= {json.loads(l)["id"] for l in open(ROOT / _lf) if l.strip()}
+    with cache.phase("dependencies"):
+        facts = FactInputs(ROOT, _levels)
     def cur_facts(r):
         cp = ROOT / "src" / r["container"] / _P(r["c_path"]).name
         p = cp if cp.exists() else ROOT / "raw" / r["container"] / _P(r["c_path"]).name
         if not p.exists(): return None
         t = p.read_text(errors="replace")
-        return {"boiler": "This header contains macros emitted by m2c" in t or "typedef float f32;" in t,
+        def compute():
+            return {"boiler": "This header contains macros emitted by m2c" in t or "typedef float f32;" in t,
                 "m2c_field": len(_re.findall(r"(?<![A-Za-z0-9_])(?:M2C_)?FIELD\(", "\n".join(l for l in t.splitlines() if not l.lstrip().startswith("#")))),
                 # through the pin machinery, not the raw text: PIN_RE also matches a pin note in a
                 # comment and a local wrapper #define, so a row the campaign had freed kept
@@ -222,8 +229,13 @@ def main():
                 "markers": sum(1 for _s in sites_of(t) if _s[1] in (
                     "ASM_TAILSLOT_PIN", "ASM_TAILSLOT_PIN_TIED", "ASM_PAGEBASE_PIN", "ASM_JALDELAY_PIN",
                     "ASM_LIVE_SIBCALL_PIN", "ASM_SHAPE_D_SIBCALL_PIN", "ASM_BRANCH_LABEL_SPLIT"))}
+        with cache.phase("dependencies"):
+            inputs = [r, text_key(t), facts.for_row(r), r["id"] in _onetrip_tracked,
+                      sorted(tgt for rid, tgt in _call_verified if rid == r["id"])]
+        return cache.get(r["id"], inputs, compute)
     _call_verified = _levels.call_verified_index()   # owner ruling 2026-10-14 (levels.py)
     curc = {r["id"]: cur_facts(r) for r in rs}
+    cache.save()
     defs = [("m2c boilerplate block", lambda c: c["boiler"]), ("M2C_FIELD raw offsets", lambda c: c["m2c_field"] > 0), ("m2c local names", lambda c: c["m2c_locals"] > 0),
             ("ASM_ pins", lambda c: c["pin_total"] > 0), ("goto", lambda c: c["gotos"] > 0), ("computed-goto jump table", lambda c: c["computed_goto"] > 0),
             ("inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below)", lambda c: c["inline_asm"] > 0), ("fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate)", lambda c: any(k in ("LABEL_AS_CALL", "PASSTHRU_NO_ARGS") for k in c["audit"])),

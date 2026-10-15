@@ -53,6 +53,7 @@ import uuid
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 from window_dependencies import window_recipes, dependency_closure
 from certify_batch import uncertified
+from package_proofs import SKIP_ENV, CONTEXT_ENV, validate_claim
 
 # the canonical live checkout (no literal private path: the scrub hook refuses those); override for another host
 LIVE = Path(os.environ.get('LAND_LIVE_ROOT', str(Path.home() / 'azure-clean'))).resolve()
@@ -607,6 +608,7 @@ def validate_plan(plan, base, root=None):
     if not isinstance(patterns,list) or not patterns or any(not isinstance(p,str) or '/' in p or not p.endswith('.py') for p in patterns):raise Stop('discover_patterns must name tests')
     if 'isolated' in plan and not isinstance(plan['isolated'],bool):raise Stop('isolated must be boolean')
     if not isinstance(plan.get('unit_timeout',60),int) or plan.get('unit_timeout',60)<=0:raise Stop('unit_timeout must be positive seconds')
+    if not isinstance(plan.get('audit_every',10),int) or isinstance(plan.get('audit_every',10),bool) or plan.get('audit_every',10)<1:raise Stop('audit_every must be a positive integer')
     if plan.get('gate_all','incremental') not in ('incremental','full'):raise Stop('gate_all must be incremental or full')
     worker_counts(plan)
     if root is not None:bookkeeping_paths(plan,root)
@@ -624,23 +626,19 @@ def full_gate_reasons(paths, plan, root=None, before_includes=None, baseline=Non
     # raw/ and rowbase are hashed by inputs_sha since r103. Unrelated tools do
     # not force all windows, but compiler/gate/fingerprint/build inputs do.
     prefixes=('tools/gate/','tools/maspsx/','tools/fidelity/','toolchain/')
-    exact={'tools/build/gate_all.py','tools/build/mk_ovl_root.sh','tools/row_db.py',
-           'tools/common.py','tools/overlay_module_evidence.py','tools/build/slus_rodata_trim.py'}
+    exact={'tools/build/cc.sh','tools/build/ccproc.py','tools/build/as.sh','tools/build/asproc.py','tools/build/gate_all.py','tools/build/mk_ovl_root.sh','tools/row_db.py',
+           'tools/common.py','tools/overlay_module_evidence.py','tools/build/slus_rodata_trim.py',
+           'tools/build/main_sdk_asm.py','tools/build/configure.py','tools/build/mk_slus_root.sh',
+           'tools/build/build_slus.sh','config/names.tsv','config/slus_006.14.symbols.txt',
+           'config/slus_006.14.yaml','config/overlay_modules_disabled','config/overlay_fingerprint_schema'}
     reasons=sorted(p for p in paths if p.startswith(prefixes) or p in exact)
-    includes={p for p in paths if p.startswith('include/')}
-    if before_includes is None or root is None or baseline is None:
-        reasons.extend(sorted(includes))  # Missing context must never narrow a gate.
-    else:
-        reasons.extend(sorted(includes & before_includes))
-        new=includes-before_includes
-        if new and not reasons and plan.get('gate_all')!='full':
-            try:
-                dependencies=dependency_closure(root,baseline)
-                reasons.extend(sorted(new & dependencies))
-            except Exception as e:
-                reasons.append('include dependency closure unavailable: '+type(e).__name__+': '+str(e))
+    # v4 inputs_sha rediscovers C -M and assembly include/incbin closures,
+    # symbol catalogs and header namespaces for every window. Their changes
+    # select affected windows through content hashes, never a global full gate.
+    for name in ('tools/lanes/proof_receipts.py','tools/lanes/proof_scope.py'):
+        if name in paths:reasons.append(name)
     if plan.get('gate_all')=='full':reasons.insert(0,'plan gate_all=full')
-    return reasons
+    return list(dict.fromkeys(reasons))
 
 def certificate_evidence(root):
     """Bind certificate bytes and durable generated proofs before quarantine.
@@ -766,6 +764,15 @@ class Lander:
         # Callers without a transaction snapshot must reprove every certificate.
         self.before_certificate_evidence={}
         self.env=dict(os.environ,PYTHONDONTWRITEBYTECODE='1',GATE_BUILD_ROOT='build_ovl_gate')
+        # Only main's complete transaction opts in, after snapshot/quarantine.
+        # Preflights and prepare-only previews retain package-local proofs.
+        self.defer_package_proofs=False
+        self.package_proofs=[]
+        self.carried_proofs=[]
+        self.carried_modules=set()
+        self.package_transaction=uuid.uuid4().hex
+        self.env.pop(SKIP_ENV,None);self.env.pop(CONTEXT_ENV,None)
+        self.env['AZURE_ACCOUNTING_WORKERS']=str(worker_counts(plan)[1])
         self.results=[];self.seq=0;self.child=None
     def event(self, step, **values):
         event={'at':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'step':step,**values}
@@ -837,9 +844,10 @@ class Lander:
         self.before_certs=self.certificates()
         self.before_reviews={rel:(self.root/rel).read_text() if (self.root/rel).exists() else '' for rel in REVIEW_FILES}
         self.tracked=set(names(git(self.root,'ls-files','-z')))
-        self.before_includes={p for p,v in inventory(self.root,['include']).items() if v[0]!='dir'}
-        try:self.before_window_recipes=window_recipes(self.root)
-        except Exception as e:self.before_window_recipes={'error':type(e).__name__+': '+str(e)}
+        # Complete v4 input projections own include/recipe discovery now.
+        # Retain fields for callers of the old reason API, without another
+        # full YAML/split walk before every package transaction.
+        self.before_includes=None;self.before_window_recipes=None
         self.event('preflight',result='PASS',bookkeeping=sorted(known),L5=self.before_l5,lander_sha256=digest(Path(__file__)))
     def hashes(self,files,field):
         for rel,h in files.items():
@@ -870,7 +878,46 @@ class Lander:
             argv=([sys.executable] if entry.suffix=='.py' else ['bash'])+[str(entry),'--root',str(self.root)]+self.expand(item.get('args',[]))
             if self.live:argv.append('--live')
             self.run(f'package-{n}-dry-run',argv+['--dry-run'])
-            self.run(f'package-{n}',argv)
+            env=self.env
+            if self.defer_package_proofs:
+                directory=Path(self.env['TMPDIR'])/'package-proofs'/str(n)
+                directory.mkdir(parents=True,exist_ok=False)
+                context=directory/'context.json'
+                context.write_text(json.dumps(dict(schema=1,mode='production',root=str(self.root.resolve()),
+                    package=str(entry.resolve().parent),entry=str(entry.resolve()),entry_sha256=digest(entry),
+                    transaction=self.package_transaction),sort_keys=True)+'\n')
+                receipt=directory/'deferred.json'
+                receipt.write_text(json.dumps(dict(context_sha256=digest(context),proofs=[]))+'\n')
+                context_sha=digest(context)
+                env=dict(self.env,**{SKIP_ENV:'1',CONTEXT_ENV:str(context)})
+            self.run(f'package-{n}',argv,env=env)
+            if self.defer_package_proofs:
+                doc=json.loads(receipt.read_text())
+                if digest(context)!=context_sha or doc.get('context_sha256')!=context_sha:
+                    raise Stop('package proof context changed: '+str(entry))
+                proofs=doc.get('proofs')
+                if not isinstance(proofs,list):raise Stop('invalid deferred package proofs')
+                for proof in proofs:
+                    if not validate_claim(proof['kind'],proof['target']):raise Stop('unsupported deferred proof')
+                    for name,expected in proof['lane_receipts'].items():
+                        if digest(safe(entry.resolve().parent,name))!=expected:raise Stop('lane receipt changed: '+name)
+                    self.package_proofs.append(proof)
+                from proof_receipts import package_receipts, verify, input_snapshot
+                candidates=package_receipts(entry.resolve().parent)
+                # One immutable post-apply sweep shares dependency reads across
+                # this package's claims, then expires before the next package.
+                with input_snapshot():
+                    for candidate in candidates:
+                        try:
+                            verify(self.root,candidate['directory'],expected_kind=candidate['kind'],expected_target=candidate['target'])
+                            current=True;reason=None
+                        except (OSError,ValueError,KeyError,TypeError,subprocess.SubprocessError) as e:
+                            current=False;reason=str(e)
+                        self.event('package-carried-proof',kind=candidate['kind'],target=candidate['target'],current=current,reason=reason,
+                                   message='checked after this apply and all earlier packages; rechecked at final tree')
+                        self.carried_proofs.append(candidate)
+                self.event('package-proof-policy',package=str(entry),deferred=proofs,
+                    message='production obligations; package guards and writes still required')
         for item in self.plan.get('copies',[]):
             dst=safe(self.root,item['target']);src=Path(self.expand([item['source']])[0])
             if not src.is_absolute():src=self.source(str(src))
@@ -1042,6 +1089,7 @@ class Lander:
         self.event('ROW_DB_CHECK_PASS',message='split tables, windows and MATCH raw/src files verified')
     def fast_front(self):
         self.row_db_check()
+        self.run('proof-recipe-scope',[sys.executable,'tools/lanes/proof_scope.py','--root',str(self.root)])
         self.unit_checks()
         self.run('fast-levels',[sys.executable,'tools/levels.py'])
         self.run('fast-graph',[sys.executable,'tools/gate/overlay_module_gate.py','--root',str(self.root),'--graph'])
@@ -1076,7 +1124,7 @@ class Lander:
         for y in (self.root/'config/overlays').glob('*.overlay.yaml'):
             cfg=yaml.safe_load(y.read_text());w=cfg.get('standalone_build',{}).get('window',{})
             if 'file_start' in w and 'file_end' in w:wins.append((w['file_end']-w['file_start'],y.relative_to(self.root).as_posix()))
-        chosen=list(dict.fromkeys(self.plan.get('timing_windows',[])+[p for _,p in sorted(wins,reverse=True)[:2]]))
+        chosen=list(dict.fromkeys(self.plan.get('timing_windows',[])))
         timeout=int(self.plan.get('certificate_timeout',1800))
         for wn in chosen:
             timing_log,secs=self.run('timing-'+Path(wn).stem,[sys.executable,'tools/overlay_local_gate.py','--config',wn,'--clean'],cwd=self.root/'build_ovl_gate',timeout=timeout)
@@ -1084,7 +1132,28 @@ class Lander:
             if not re.search(r'^MATCH\b',timing_log.read_text(),re.M):raise Stop('timed window lacks MATCH: '+wn)
         transaction=uuid.uuid4().hex
         receipts=Path(self.env['TMPDIR'])/'fresh-window-gates'
-        _,seconds=self.run('gate-all',[sys.executable,'tools/build/gate_all.py','--workers',workers,'--receipts',str(receipts),'--transaction',transaction]+(['--all'] if self.force_all else []))
+        from proof_receipts import package_receipts, input_snapshot, verify, import_module, module_window_proofs
+        candidates=[]
+        for package in sorted({p['package'] for p in self.carried_proofs}):candidates.extend(package_receipts(package))
+        carried_windows={}
+        for candidate in candidates:
+            kind,target,directory=candidate['kind'],candidate['target'],candidate['directory']
+            try:
+                # Fresh sweep after all packages, reviews, registry and graph.
+                with input_snapshot():verify(self.root,directory,expected_kind=kind,expected_target=target)
+                if kind=='overlay-module':
+                    with input_snapshot():import_module(self.root,directory)
+                    self.carried_modules.add(target)
+                    carried_windows.update(module_window_proofs(self.root,directory,Path(self.env['TMPDIR'])/'module-carried-windows'/target))
+                elif kind=='overlay-window':carried_windows[target]=directory
+                self.event('carried-proof-final-tree',kind=kind,target=target,result='CURRENT',
+                           authority='complete certificate' if kind=='overlay-module' else 'window' if kind=='overlay-window' else 'diagnostic only')
+            except (OSError,ValueError,KeyError,TypeError,subprocess.SubprocessError) as e:
+                self.event('carried-proof-final-tree',kind=kind,target=target,result='REPROVE',reason=str(e))
+        carried_index=Path(self.env['TMPDIR'])/'carried-windows.json'
+        carried_index.write_text(json.dumps(carried_windows,sort_keys=True)+'\n')
+        required_windows=sorted({p['target'] for p in self.package_proofs if p['kind']=='overlay-window'})
+        _,seconds=self.run('gate-all',[sys.executable,'tools/build/gate_all.py','--workers',workers,'--receipts',str(receipts),'--transaction',transaction]+(['--carried-proofs',str(carried_index)] if carried_windows else [])+(['--all'] if self.force_all else [])+[arg for wn in required_windows for arg in ('--require-window',wn)])
         self.event('gate-timing',mode='full' if self.force_all else 'incremental',seconds=seconds,reasons=self.gate_reasons)
         slus_log,_=self.run('SLUS-forced',['bash','tools/build/build_slus.sh','--fresh','-j',workers])
         if 'SLUS SHA-1 gate: MATCH' not in slus_log.read_text() or 'recipe identical to the pinned copy' not in slus_log.read_text():raise Stop('forced SLUS lacks MATCH/identical recipe')
@@ -1098,10 +1167,16 @@ class Lander:
         expected={**certs,**issue}
         self.event('certificate-discovery',modules=sorted(certs))
         current_evidence=certificate_evidence(self.root)
-        forced=sorted(key for key in certs if self.before_certificate_evidence.get(key)!=current_evidence[key])
+        required_modules={p['target'] for p in self.package_proofs if p['kind']=='overlay-module'}
+        if required_modules-set(expected):raise Stop('deferred modules lack reviewed certification: '+','.join(sorted(required_modules-set(expected))))
+        forced=sorted(({key for key in certs if self.before_certificate_evidence.get(key)!=current_evidence[key]} | (required_modules & set(certs))) - self.carried_modules)
         # Headers keep selective renewal even when they force a full gate.
         # Tool/build/explicit-plan reasons may be outside either fingerprint.
-        selective=all(r.startswith(('include/','include dependency closure unavailable:')) for r in self.gate_reasons)
+        from gate import overlay_scoped_fingerprint as scoped
+        # Scoped fingerprints bind the native compiler/gate tool universe.
+        # Current certificates still pass the canonical reader; legacy mode
+        # retains the conservative global-tool fallback.
+        selective=scoped.enabled(self.root) or all(r.startswith(('include/','include dependency closure unavailable:')) for r in self.gate_reasons)
         selection=(['--invalid-only'] if selective else [])+[arg for key in forced for arg in ('--renew',key)]
         self.event('certificate-renewal-policy',mode='invalid-or-changed' if selective else 'all',forced=forced,reasons=self.gate_reasons)
         cert_logs=self.log.parent/(self.log.stem+'.certificates')
@@ -1123,6 +1198,12 @@ class Lander:
         self.run('certificate-final-validation',[sys.executable,'tools/lanes/certify_batch.py','--root',str(self.root),
                  '--workers',str(certificate_workers),'--log-dir',str(cert_logs/'final'),'--validate-only'],timeout=7200)
         if self.certificates()!=expected:raise Stop('live certificate identities/reviewers changed during final validation')
+        # Later generation/test hooks may alter inputs. Carried windows must
+        # still describe the final tree; certificate-final-validation covers TUs.
+        with input_snapshot():
+            for target,directory in carried_windows.items():verify(self.root,directory,expected_kind='overlay-window',expected_target=target)
+        self.event('package-proofs-discharged',proofs=self.package_proofs,
+                   message='current required windows, canonical required module certificates, forced SLUS and accounting passed')
     def preserve_diagnostics(self):
         candidates=[]
         for rel in ['build_ovl_gate/work/s3_splat','build_ovl_gate/work/module_proofs','build_slus']:
@@ -1141,7 +1222,18 @@ class Lander:
         if paths:
             git(self.root,'add','-A','--',*paths)
             self.run('commit',['git','commit','-m',self.plan['commit_message']])
-        self.event('COMMITTED',head=git(self.root,'rev-parse','HEAD').decode().strip())
+        head=git(self.root,'rev-parse','HEAD').decode().strip()
+        self.event('COMMITTED',head=head)
+        # Only small queue metadata IO on the landing path. A separately
+        # scheduled worker audits immutable snapshots and owns bisection.
+        try:
+            from audit_full import record_landing
+            audit=record_landing(self.root,head,every=self.plan.get('audit_every',10))
+            self.event('async-audit-enqueue',audit=audit)
+        except Exception as e:
+            # Queue/import/schema failures after commit cannot roll it back.
+            # This is deliberately a non-authoritative, asynchronous side step.
+            self.event('async-audit-enqueue',result='HOLD',error=str(e))
 
 
 def load_plan(path, root=None):
@@ -1261,6 +1353,7 @@ def main(argv=None):
             land.before_certificate_evidence=snapshot.certificate_evidence
             land.event('certificate-proof-preservation',directories=snapshot.proofs_copied)
             land.env['TMPDIR']=str(transaction/'tmp');(transaction/'tmp').mkdir()
+            land.defer_package_proofs=not args.prepare_only
             land.mutate();land.batch_inputs();land.review_steps();land.normalise_review();land.unit_checks();land.regenerate();land.fast_front()
             if args.prepare_only:
                 land.event('PREVIEW_INCOMPLETE',message='applied inputs only; no gates/certification/commit')

@@ -48,6 +48,7 @@ def window_recipes(root):
                       for m in [*module['members'], *module.get('data_members', [])]}
     tables = {}
     windows = 0
+    unhashed_inputs = set()
     for path in sorted((root / 'config/overlays').glob('*.overlay.yaml')):
         cfg = yaml.safe_load(path.read_text())
         sb = cfg.get('standalone_build', {})
@@ -58,6 +59,10 @@ def window_recipes(root):
         if not isinstance(fs, int) or not isinstance(fe, int) or fs >= fe:
             raise ValueError('invalid production window: ' + path.name)
         windows += 1
+        symbols = cfg.get('options', {}).get('symbol_addrs_path')
+        if symbols:
+            local(root, symbols)
+            unhashed_inputs.add(symbols)
         for group in sb.get('matched_sources', []):
             name = group['results']
             if name not in tables:
@@ -87,7 +92,7 @@ def window_recipes(root):
         if module['recipe']['cfg'] != '2.7.2-cdk-G0':
             raise ValueError('unknown native module recipe')
         recipes.add((module['source'], '2.7.2-cdk', '-G0', 'c'))
-    return {'windows': windows, 'recipes': sorted(recipes)}
+    return {'windows': windows, 'recipes': sorted(recipes), 'unhashed_inputs': sorted(unhashed_inputs)}
 
 
 def generated_sdk_sources(root):

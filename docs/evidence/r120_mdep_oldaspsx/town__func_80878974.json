@@ -1,0 +1,171 @@
+{
+ "row": "town/func_80878974",
+ "container": "town",
+ "kind": "overlay",
+ "old_aspsx": {
+  "mode": "on",
+  "enabled": [
+   "2.21",
+   "2.34"
+  ],
+  "skipped": null,
+  "exe_sha256": {
+   "2.21": "b52bf3d40a516333e679f18e9297883158e3015e8d97ac501e108b049617ce41",
+   "2.34": "313b950580ab63eeed5c69f1adc96628c65b20ab5f6e5438cb414eae22c8c68b"
+  }
+ },
+ "cfg": "2.7.2-G0",
+ "pins": 0,
+ "asflags": "--aspsx-version=2.40",
+ "cell": "2.7.2",
+ "maspsx_exact": true,
+ "proof": "scorer-linked",
+ "fired": [],
+ "selfcheck": true,
+ "funcs": 1,
+ "words": 56,
+ "maspsx_retail": {
+  "diff": 0,
+  "masked": 0,
+  "checked": 1,
+  "len": 56,
+  "retail_len": 56
+ },
+ "has_div": false,
+ "genuine": {
+  "2.56": {
+   "exact": false,
+   "diff": 1,
+   "len": 56,
+   "mode": "-G0",
+   "retail": [
+    1,
+    0
+   ]
+  },
+  "2.67": {
+   "exact": false,
+   "diff": 1,
+   "len": 56,
+   "mode": "-G0",
+   "retail": [
+    1,
+    0
+   ]
+  },
+  "2.77": {
+   "exact": false,
+   "diff": 1,
+   "len": 56,
+   "mode": "-G0",
+   "retail": [
+    1,
+    0
+   ]
+  },
+  "2.79": {
+   "exact": false,
+   "diff": 1,
+   "len": 56,
+   "mode": "-G0",
+   "retail": [
+    1,
+    0
+   ]
+  },
+  "2.81": {
+   "exact": false,
+   "diff": 1,
+   "len": 56,
+   "mode": "-G0",
+   "retail": [
+    1,
+    0
+   ]
+  },
+  "2.86": {
+   "exact": false,
+   "diff": 1,
+   "len": 56,
+   "mode": "-G0",
+   "retail": [
+    1,
+    0
+   ]
+  },
+  "2.21": {
+   "exact": true,
+   "diff": 0,
+   "len": 56,
+   "mode": "-G0",
+   "retail": [
+    0,
+    0
+   ]
+  },
+  "2.34": {
+   "exact": true,
+   "diff": 0,
+   "len": 56,
+   "mode": "-G0",
+   "retail": [
+    0,
+    0
+   ]
+  }
+ },
+ "exact_versions": [
+  "2.21",
+  "2.34"
+ ],
+ "best": "2.21",
+ "attrib": {
+  "2.56": {
+   "base": 1,
+   "fix": [
+    "drop:--aspsx-version=2.40"
+   ]
+  },
+  "2.67": {
+   "base": 1,
+   "fix": [
+    "drop:--aspsx-version=2.40"
+   ]
+  },
+  "2.77": {
+   "base": 1,
+   "fix": [
+    "drop:--aspsx-version=2.40"
+   ]
+  },
+  "2.79": {
+   "base": 1,
+   "fix": [
+    "drop:--aspsx-version=2.40"
+   ]
+  },
+  "2.81": {
+   "base": 1,
+   "fix": [
+    "drop:--aspsx-version=2.40"
+   ]
+  },
+  "2.86": {
+   "base": 1,
+   "fix": [
+    "drop:--aspsx-version=2.40"
+   ]
+  },
+  "_nochange": [
+   "asv:2.67",
+   "asv:2.67+extern-abs",
+   "asv:2.77",
+   "asv:2.77+extern-abs",
+   "asv:2.79",
+   "asv:2.79+extern-abs",
+   "extern-abs"
+  ]
+ },
+ "status": "ok",
+ "secs": 4.6
+}

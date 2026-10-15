@@ -188,6 +188,27 @@ class Fixture(unittest.TestCase):
         self.assertEqual(plan['reviewer'],'pending');self.assertTrue(plan['isolated'])
         self.assertFalse(plan['allow_census_change']);self.assertNotIn('scripts',plan)
 
+    def test_carried_proof_artifacts_remain_sealed_without_rewriting_machine_paths(self):
+        self.prepare_package();proof_root=self.base/'post-apply';proof_root.mkdir()
+        for rid in ('a','b'):
+            p=proof_root/f'src/dungeon/{rid}.c';p.parent.mkdir(parents=True,exist_ok=True)
+            p.write_bytes((self.lane/f'out/dungeon/{rid}.c').read_bytes())
+        import proof_receipts as R
+        def export(root,key,directory):
+            directory.mkdir(parents=True);(directory/'proof-receipt.json').write_text('{}')
+            (directory/'module.s').write_text('.file "'+chr(47)+'home/lane/module.c"')
+        with patch.object(R,'export_module',side_effect=export),contextlib.redirect_stdout(io.StringIO()):
+            P.generate([self.lane],self.lane,proof_root)
+        package=self.lane/'delivery';index=json.loads((package/'proofs.json').read_text())
+        directory=index[0]['directory'];self.assertTrue(directory.startswith('diagnostics/portable_proofs/'))
+        sealed=json.loads((package/'package.sha256.json').read_text())
+        self.assertIn(directory+'/module.s',sealed);self.assertIn('proofs.json',sealed)
+        # The generic package lint permits sealed diagnostic origins, while
+        # the proof reader independently validates these immutable artifacts.
+        import package_preflight
+        result=package_preflight.lint_inventory(package/'apply.py',self.root)
+        self.assertEqual(result['sources'],2)
+
     def test_duplicate_native_rows_across_lanes_refused(self):
         self.prepare_package();other=self.root/'work/native_lane/other';other.mkdir()
         import shutil

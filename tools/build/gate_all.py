@@ -89,7 +89,7 @@ def census_files(cont):
         else (f"noreturn_syms.{fam}.txt", f"sibcall_syms.{fam}.txt")
     return [p for p in (ROOT / "config" / n for n in names) if p.exists()]
 
-def inputs_sha(yaml_path):
+def legacy_inputs_sha(yaml_path):
     """sha over the window YAML, the row table, every src/<container>/*.c inside the window, and
     the container family's noreturn + sibcall census files (census_files), plus
     every banked C segment's per-region frozen evidence and family false members.  Those census files are
@@ -99,7 +99,7 @@ def inputs_sha(yaml_path):
     silently gated nothing (measured 2026-09-22: `--container dungeon` gated 0 windows; `--retry`
     gated 1,458).  Changing this function invalidates every window's cached inputs_sha at once; the
     next standing full gate pays that cost once, which is intended."""
-    h = hashlib.sha256(b"gate_all.inputs.v2.scoped-noreturn\0")
+    h = hashlib.sha256(b"gate_all.inputs.v3.scoped-rowbase\0")
     h.update(yaml_path.read_bytes())
     cont = container_of(yaml_path.stem)
     # the window's own split records (config, extent, verdict) rather than the whole table, so a
@@ -109,19 +109,27 @@ def inputs_sha(yaml_path):
     for r in window_rows().get(yaml_path.name, []):
         p = ROOT / "src" / r["container"] / Path(r["c_path"]).name
         if p.exists(): h.update(p.read_bytes())
+    # Production C selectors, shared by noreturn and rowbase dependencies.
+    records = [*window_rows().get(yaml_path.name, []),
+               *(r for r in split_records(cont, yaml_path.name)
+                 if r.get("result") == "MATCH" and not r.get("rerun"))]
+    if cont == "dungeon_engine":
+        records.extend(r for r in split_records("dungeon", yaml_path.name)
+                       if r.get("result") == "MATCH" and not r.get("rerun"))
+    offsets = [r["foff"] for r in records if isinstance(r.get("foff"), int)
+               and r.get("source_kind", "c") == "c"]
+    fam = "dungeon" if cont == "dungeon_engine" else cont
+    # scoped_inputs binds region identities and noreturn names, not the delta
+    # or confidence the LINKER reads. Bind complete selected rowbase records.
+    rowbase = ROOT / 'config/overlays' / (fam + '.rowbase.jsonl')
+    if rowbase.exists():
+        from gate.gate_read_cache import read_records
+        selected = [r for r in read_records(rowbase)
+                    if any(int(str(r['foff_start']), 0) <= off < int(str(r['foff_end']), 0)
+                           for off in offsets)]
+        h.update(json.dumps(selected, sort_keys=True, separators=(',', ':')).encode())
     if cont in {"town", "dungeon", "dungeon_engine"}:
         from gate.gen_noreturn_syms import scoped_inputs
-        fam = "dungeon" if cont == "dungeon_engine" else cont
-        # Dungeon-engine windows also compile canonical dungeon matched sources.
-        # window_rows covers registered matches; split rows cover engine-only C.
-        records = [*window_rows().get(yaml_path.name, []),
-                   *(r for r in split_records(cont, yaml_path.name)
-                     if r.get("result") == "MATCH" and not r.get("rerun"))]
-        if cont == "dungeon_engine":
-            records.extend(r for r in split_records("dungeon", yaml_path.name)
-                           if r.get("result") == "MATCH" and not r.get("rerun"))
-        offsets = [r["foff"] for r in records if isinstance(r.get("foff"), int)
-                   and r.get("source_kind", "c") == "c"]
         h.update(json.dumps(scoped_inputs(fam, offsets, root=ROOT),
                             sort_keys=True, separators=(",", ":")).encode())
     for p in census_files(cont):
@@ -148,6 +156,12 @@ def inputs_sha(yaml_path):
         h.update(digest.encode())
     return h.hexdigest()
 
+def inputs_sha(yaml_path):
+    # v4: complete dependency projection for ordinary windows as well as TUs.
+    # No historical v3 journal digest can be promoted without a new proof.
+    from lanes.proof_receipts import window_inputs, hashed
+    return hashed(window_inputs(ROOT, 'config/overlays/'+yaml_path.name))
+
 _MODULE_SHA_SNAPSHOT = ContextVar("gate_module_sha_snapshot", default=None)
 
 @contextlib.contextmanager
@@ -160,7 +174,8 @@ def inputs_snapshot():
     from gate.gen_noreturn_syms import scoped_input_snapshot
     token = _MODULE_SHA_SNAPSHOT.set({})
     try:
-        with scoped_input_snapshot():
+        from lanes.proof_receipts import input_snapshot
+        with scoped_input_snapshot(), input_snapshot():
             yield
     finally:
         _MODULE_SHA_SNAPSHOT.reset(token)
@@ -241,14 +256,15 @@ def schedule_windows(windows, prior):
 
 _GATE_WORKER = None
 
-def init_worker(receipts=None,transaction=None):
+def init_worker(receipts=None,transaction=None,portable_output=None):
     # Same scheduling priority as the old `nice -n10 python3` subprocess.
     os.nice(10)
     os.chdir(B)
     sys.path.insert(0, str(B / "tools"))
     global _GATE_WORKER
     global _RECEIPTS,_TRANSACTION
-    _RECEIPTS=receipts;_TRANSACTION=transaction
+    global _PORTABLE_OUTPUT
+    _RECEIPTS=receipts;_TRANSACTION=transaction;_PORTABLE_OUTPUT=portable_output
     import overlay_local_gate
     _GATE_WORKER = overlay_local_gate
 
@@ -287,12 +303,17 @@ def worker_output(yaml_path):
 
 _RECEIPTS = None
 _TRANSACTION = None
+_PORTABLE_OUTPUT = None
 
 def run_window(yaml_path, in_process=False):
     t0 = time.time()
     with window_lock(yaml_path.name):
         publish = _RECEIPTS is not None and bool(window_modules().get(yaml_path.name))
-        before = inputs_sha(yaml_path) if publish else None
+        from lanes import proof_receipts as P
+        target=yaml_path.relative_to(B).as_posix()
+        P.validate_view(ROOT,B,target)
+        with P.input_snapshot():proof_before=P.window_inputs(ROOT,target)
+        before = P.hashed(proof_before)
         try:
             if in_process:
                 out = worker_output(yaml_path)
@@ -307,11 +328,14 @@ def run_window(yaml_path, in_process=False):
                 res, detail = ("MATCH" if last.startswith("MATCH") else "NO MATCH"), last[:200]
         except (subprocess.TimeoutExpired, TimeoutError):
             res, detail = "ERROR", "timeout"
+        P.validate_view(ROOT,B,target)
         sha = inputs_sha(yaml_path)   # under the lock: the sha describes the text that was gated
         if before is not None and sha != before:
             res, detail = 'ERROR', 'inputs changed during fresh window gate'
         rec = {"window": yaml_path.stem.replace(".overlay", ""), "container": container_of(yaml_path.stem), "result": res,
                "inputs_sha": sha}
+        if _PORTABLE_OUTPUT is not None and res == 'MATCH':
+            P.export_window(ROOT,B,target,Path(_PORTABLE_OUTPUT)/yaml_path.stem.replace('.overlay',''),proof_before,out)
         if publish and res == 'MATCH':
             from fidelity.certify_overlay_module import snapshot_gate_window
             snapshot_gate_window(B,yaml_path.relative_to(B).as_posix(),_RECEIPTS,_TRANSACTION,rec,out)
@@ -322,6 +346,10 @@ def run_window(yaml_path, in_process=False):
 
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument('--only-window',action='append',default=[],help='explicit production configs for a scoped lane proof run; never passed by the production lander')
+    ap.add_argument('--portable-output',type=Path,help='export input-bound lane proof artifacts for every freshly built window')
+    ap.add_argument('--carried-proofs',type=Path,help='reviewed index mapping production configs to portable lane evidence directories')
+    ap.add_argument('--require-window', action='append', default=[], help='production config that must be freshly gated even when its input hash is current')
     ap.add_argument("--container"); ap.add_argument("--workers", type=int, default=default_workers()); ap.add_argument("--limit", type=int); ap.add_argument("--retry", action="store_true"); ap.add_argument("--all", action="store_true", help="gate every window regardless of its cached inputs_sha (after a pipeline/tool change, which inputs_sha does not cover)")
     ap.add_argument("--worker-mode", choices=("process", "subprocess"), default="process",
                     help="persistent gate interpreters (default) or the legacy per-window subprocess")
@@ -330,7 +358,9 @@ def main():
     a = ap.parse_args()
     if a.workers<1:ap.error('workers must be positive')
     if bool(a.receipts)!=bool(a.transaction):ap.error('--receipts and --transaction are required together')
-    global _RECEIPTS,_TRANSACTION
+    global _RECEIPTS,_TRANSACTION,_PORTABLE_OUTPUT
+    _PORTABLE_OUTPUT=a.portable_output.resolve() if a.portable_output else None
+    if _PORTABLE_OUTPUT is not None:_PORTABLE_OUTPUT.mkdir(parents=True,exist_ok=False)
     _RECEIPTS=a.receipts.resolve() if a.receipts else None;_TRANSACTION=a.transaction
     if _RECEIPTS is not None:_RECEIPTS.mkdir(parents=True,exist_ok=False)
     tool_sha=hashlib.sha256((ROOT/'tools/build/gate_all.py').read_bytes()).hexdigest() if _RECEIPTS is not None else None
@@ -338,6 +368,16 @@ def main():
     sup = superseded(yamls)
     yamls = [y for y in yamls if y.name not in sup]
     if a.container: yamls = [y for y in yamls if container_of(y.stem) == a.container]
+    if a.only_window:
+        requested=set(a.only_window);available={y.relative_to(B).as_posix() for y in yamls}
+        if requested-available:ap.error('requested windows outside active production scope: '+', '.join(sorted(requested-available)))
+        yamls=[y for y in yamls if y.relative_to(B).as_posix() in requested]
+    required = set(a.require_window)
+    active = {y.relative_to(B).as_posix() for y in yamls}
+    if required - active:
+        ap.error('required windows outside active production scope: ' + ', '.join(sorted(required - active)))
+    if required and a.limit:
+        ap.error('--limit cannot truncate required window proofs')
     prior = {j["window"]: j for j in read_jsonl(JOURNAL)}
     dead = [w for w in prior if w + ".overlay.yaml" in sup]
     if dead:
@@ -345,20 +385,42 @@ def main():
         write_jsonl(JOURNAL, [j for j in read_jsonl(JOURNAL) if j["window"] + ".overlay.yaml" not in sup])
         prior = {j["window"]: j for j in read_jsonl(JOURNAL)}
         print(f"{len(sup)} superseded synthetic-base seed windows skipped ({len(dead)} stale journal records dropped); their _truebase_ twins are gated")
+    carried={}
+    if a.carried_proofs:
+        carried=json.loads(a.carried_proofs.read_text())
+        if not isinstance(carried,dict) or set(carried)-active:ap.error('carried windows outside active production scope')
+    reused={}
     todo = []
     with inputs_snapshot():
         for y in yamls:
             w = y.stem.replace(".overlay", ""); p = prior.get(w)
-            if p and p["result"] == "MATCH" and p.get("inputs_sha") == inputs_sha(y) and not a.retry and not a.all: continue
+            target=y.relative_to(B).as_posix()
+            if a.all or a.retry:
+                todo.append(y);continue
+            if target in carried and not a.all and not a.retry:
+                from lanes import proof_receipts as P
+                try:
+                    current=inputs_sha(y)
+                    rec=dict(window=w,container=container_of(y.stem),result='MATCH',inputs_sha=current,
+                             detail='input-bound lane proof',secs=0,at=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()))
+                    if _RECEIPTS is not None:P.import_window(ROOT,B,target,carried[target],_RECEIPTS,_TRANSACTION,rec)
+                    else:P.verify(ROOT,carried[target],expected_kind='overlay-window',expected_target=target)
+                    append_jsonl(JOURNAL,rec);prior[w]=rec;reused[target]=carried[target]
+                    continue
+                except (OSError,ValueError,KeyError,TypeError,subprocess.SubprocessError) as e:
+                    print('portable proof miss '+target+': '+str(e),flush=True)
+                    todo.append(y);continue
+            if p and p["result"] == "MATCH" and p.get("inputs_sha") == inputs_sha(y) and not a.retry and not a.all and y.relative_to(B).as_posix() not in required: continue
             if p and p["result"] != "MATCH" and not a.retry and not a.all and p.get("inputs_sha") == inputs_sha(y): continue
             todo.append(y)
     if a.limit: todo = todo[:a.limit]
+    print(f'{len(reused)} windows use current input-bound lane proofs',flush=True)
     todo = schedule_windows(todo, prior)
     print(f"{len(todo)} windows to gate ({len(yamls) - len(todo)} up to date), {a.workers} workers", flush=True)
     t0 = time.time(); n = 0; tally = {}
     in_process = a.worker_mode == "process"
     pool = ProcessPoolExecutor if in_process else ThreadPoolExecutor
-    options = {"initializer": init_worker,"initargs":(_RECEIPTS,_TRANSACTION)} if in_process else {}
+    options = {"initializer": init_worker,"initargs":(_RECEIPTS,_TRANSACTION,_PORTABLE_OUTPUT)} if in_process else {}
     with pool(max_workers=a.workers, **options) as ex:
         for future in as_completed([ex.submit(run_window, y, in_process) for y in todo]):
             rec = future.result()
@@ -375,6 +437,9 @@ def main():
     scope = todo if a.limit else yamls
     with inputs_snapshot():
         bad = [y.name for y in scope if not gate_current(last.get(y.stem.replace(".overlay", "")), inputs_sha(y))]
+    from lanes import proof_receipts as P
+    with P.input_snapshot():
+        for target,directory in reused.items():P.verify(ROOT,directory,expected_kind='overlay-window',expected_target=target)
     if bad:
         print(f"FAILED: {len(bad)} windows lack a current MATCH: {bad[:8]}", file=sys.stderr)
         raise SystemExit(1)
@@ -382,7 +447,7 @@ def main():
         from fidelity.certify_overlay_module import sha
         if sha(ROOT/'tools/build/gate_all.py')!=tool_sha:raise ValueError('gate tool changed during fresh receipt publication')
         fresh={}
-        proved={y.relative_to(B).as_posix() for y in todo}
+        proved={y.relative_to(B).as_posix() for y in todo}|set(reused)
         for directory in _RECEIPTS.iterdir():
             p=directory/'receipt.json'
             if p.is_file():

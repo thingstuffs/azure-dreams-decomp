@@ -84,7 +84,7 @@ def collect(lanes):
     return groups, rejected, ordinary, native_seen
 
 
-def generate(lanes, output):
+def generate(lanes, output, proof_root=None):
     groups, rejected, ordinary, native_seen = collect(lanes)
     if not native_seen:
         return 3
@@ -115,6 +115,7 @@ def generate(lanes, output):
             'ledger/modules.jsonl', 'ledger/splits/overlay_modules.build.json',
             'config/overlays/'+m['container']+'.rowbase.jsonl', 'config/names.tsv',
             'tools/gate/overlay_module_gate.py', 'tools/lanes/native_package_apply.py',
+            'tools/lanes/package_proofs.py',
             'tools/lanes/lane_admission.py', 'tools/lanes/lanekit/native_member.py',
             'tools/lanes/land_packages.py', 'tools/build/gate_all.py',
             'tools/fidelity/certify_overlay_module.py', 'tools/lanes/certify_batch.py',
@@ -157,6 +158,19 @@ def generate(lanes, output):
             (delivery/name).write_text(json.dumps(doc,indent=2,sort_keys=True)+'\n')
         write('files.json',[{k:v for k,v in r.items() if k != 'admission'} for r in records])
         write('manifest.json',manifest); write('scores.json',scores)
+        if proof_root is not None:
+            from proof_receipts import export_module
+            proof_root=Path(proof_root).resolve()
+            # The lane may prepare a complete post-apply proof root separately;
+            # never substitute scorer diagnostics for canonical certificates.
+            for rec in records:
+                if sha(safe(proof_root,rec['path']))!=rec['after']:raise ValueError('proof-root candidate differs: '+rec['path'])
+            proofs=[]
+            for key in sorted(groups):
+                name='diagnostics/portable_proofs/'+key
+                export_module(proof_root,key,delivery/name)
+                proofs.append(dict(kind='overlay-module',target=key,directory=name))
+            write('proofs.json',proofs)
         write('tests.json',dict(unit_modules=['tools.tests.test_land_packages'],
                                discover_patterns=['test_land_packages.py','test_native_package.py']))
         paths = [p for p in delivery.rglob('*') if p.is_file()]
@@ -176,13 +190,14 @@ def generate(lanes, output):
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('lanes', nargs='+'); ap.add_argument('--output', type=Path)
+    ap.add_argument('--proof-root',type=Path,help='already applied and canonically certified lane root; carry its full module proofs')
     ap.add_argument('--if-native', action='store_true')
     args = ap.parse_args(argv)
     try:
         lanes = [lane_path(name) for name in args.lanes]
         if len(lanes) > 1 and args.output is None:
             raise ValueError('multiple lanes require --output')
-        result = generate(lanes, args.output or lanes[0])
+        result = generate(lanes, args.output or lanes[0], args.proof_root)
         if result == 3 and not args.if_native:
             raise ValueError('no staged native module members')
         return result

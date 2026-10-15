@@ -265,7 +265,7 @@ def compile_object(row, text, m, out, *, texts=None):
     return binary.read_bytes(), placed, trim
 
 
-def score_batch(rows, texts, m=None, diff=False):
+def score_batch(rows, texts, m=None, diff=False, receipt_output=None):
     """One complete TU compile for all candidates; every member and owned byte must match.
 
     This diagnostic remains separate from production windows and certification.
@@ -278,7 +278,24 @@ def score_batch(rows, texts, m=None, diff=False):
         raise ValueError('native batch spans modules or ordinary rows')
     if m is not None and m != validated[0]:
         raise ValueError('native batch manifest differs from authority')
-    return _score_batch(rows, texts, validated[0], diff=diff)
+    proof_before=None
+    if receipt_output is not None:
+        # Diagnostics are transferable only for source already installed in
+        # an isolated lane root. Candidate-only contexts must be re-proved.
+        for a in validated[0]['members']:
+            if a['id'] in texts and (kitlib.ROOT/a['source']).read_text()!=texts[a['id']]:
+                raise ValueError('receipt requires current canonical native sources')
+        sys.path.insert(0,str(kitlib.ROOT/'tools/lanes'))
+        import proof_receipts as P
+        proof_before=P.inputs(kitlib.ROOT,'native-candidate',validated[0]['key'])
+    result=_score_batch(rows,texts,validated[0],diff=diff)
+    if receipt_output is not None:
+        if not result.get('exact'):raise ValueError('cannot receipt inexact native diagnostic')
+        directory=Path(receipt_output);directory.mkdir(parents=True,exist_ok=False)
+        (directory/'score.json').write_text(json.dumps(result,sort_keys=True)+'\n')
+        P.publish(directory,'native-candidate',validated[0]['key'],proof_before,
+                  P.inputs(kitlib.ROOT,'native-candidate',validated[0]['key']),'MATCH')
+    return result
 
 
 def _score_batch(rows, texts, m, diff=False):

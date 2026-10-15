@@ -37,6 +37,14 @@ recipe and every tool input (tool_fingerprint); a row whose key is unchanged is 
     python3 tools/fidelity/aspsx_diff.py [--workers 12] [--only ID,ID|@file] [--container slus] [--limit N]
     python3 tools/fidelity/aspsx_diff.py --one slus/w_8003D92C [--cfile X.c] [--cfg "2.7.2-cdk"] [--asflags ""]
     python3 tools/fidelity/aspsx_diff.py --controls        # the validation controls (exit 1 on a failure)
+
+Old (16-bit DOS) genuine ASPSX, opt-in: `--old-aspsx {off,auto,on}` (or env AZURE_OLD_ASPSX) adds the genuine
+Sony ASPSX 2.21 (PsyQ 3.3) and 2.34 (PsyQ 3.5 = 3.6) to the version list. They are DOS executables run under
+dosemu2 (`dosemu -dumb -K <dir> -E "ASPSX.EXE -q [-G0] [-0] -o OUT.OBJ IN.S"`) from the same CRLF stream and
+read through the same LNK reader as the WIBO versions. `off` (default): not run. `auto`: run when dosemu and the
+EXEs are present, else skipped with the reason recorded in rec["old_aspsx"]. `on`: absent dosemu/EXE is an error
+(SystemExit here, a status=error record in a worker). Binaries: GENUINE_OLD_TOOLCHAIN (default
+toolchain/genuine/psyq_old); dosemu: AZURE_DOSEMU (default `dosemu` on PATH).
 """
 from __future__ import annotations
 
@@ -63,13 +71,23 @@ from objread import read_elf, read_lnk  # noqa: E402
 
 BROOT = ROOT / "build_ovl"
 JOURNAL = ROOT / "work/fidelity/aspsx_diff.jsonl"
-TMP = ROOT / "work/fidelity/tmp/rows"            # per-row scratch, removed when a run ends
+TMP = Path(os.environ.get("AZURE_ASPSX_TMP") or ROOT / "work/fidelity/tmp/rows")   # per-row scratch, removed when a run ends
+# (a SHORT path matters under wibo: ASPSX cannot open an input whose DOS path exceeds ~100 characters)
 # genuine PsyQ toolchain (ASPSX.EXE per version + wibo): a local, git-ignored link toolchain/genuine -> the sibling
 # decomp repo's toolchain/ directory (override with GENUINE_TOOLCHAIN)
 GENUINE = Path(os.environ.get("GENUINE_TOOLCHAIN", str(ROOT / "toolchain/genuine")))
 WIBO = GENUINE / "bin/wibo"
 VERSIONS = ["2.56", "2.67", "2.77", "2.79", "2.81", "2.86"]
 ASPSX = {"2.56": "psyq4.0", "2.67": "psyq4.1", "2.77": "psyq4.3", "2.79": "psyq4.4", "2.81": "psyq4.5", "2.86": "psyq4.6"}
+BASE_VERSIONS = list(VERSIONS)
+# Old 16-bit DOS genuine ASPSX (opt-in, see use_old_aspsx): PsyQ 3.3 = ASPSX 2.21, PsyQ 3.5/3.6 = ASPSX 2.34
+# (the 3.6 ASPSX.EXE is byte-identical to 3.5's). Run under dosemu2 headless.
+OLD_GENUINE = Path(os.environ.get("GENUINE_OLD_TOOLCHAIN", str(GENUINE / "psyq_old")))
+OLD_VERSIONS = ["2.21", "2.34"]
+OLD_ASPSX = {"2.21": "psyq3.3/psyq3.3/ASPSX.EXE", "2.34": "psyq3.5/psyq3.5/ASPSX.EXE"}
+DOSEMU = os.environ.get("AZURE_DOSEMU", "dosemu")
+DOSEMU_TIMEOUT = 300
+OLD_STATUS = {"mode": "off", "enabled": [], "skipped": None}
 NICE = ["nice", "-n10", "ionice", "-c2", "-n7"]
 VENV_PY = ROOT / ".venv/bin/python"
 TRACE = HERE / "maspsx_trace.py"
@@ -77,11 +95,69 @@ SLUS_ELF = ROOT / "build_slus/build/slus_006.14.elf"
 SLUS_BIN = ROOT / "baserom/slus_006.14"
 TOOL_VERSION = "1"
 # maspsx behaviour thresholds (tools/maspsx/maspsx.py config_for_aspsx_version): the distinct configs
-MASPSX_VCONF = {"2.67": "2.67", "2.77": "2.77", "2.79": "2.79", "2.81": "2.79", "2.86": "2.79"}
+MASPSX_VCONF = {"2.67": "2.67", "2.77": "2.77", "2.79": "2.79", "2.81": "2.79", "2.86": "2.79",
+                "2.21": "2.21", "2.34": "2.34"}
+
+
+# ------------------------------------------------------------------ old (DOS) genuine ASPSX, opt-in
+def old_aspsx_exe(ver: str) -> Path:
+    return OLD_GENUINE / OLD_ASPSX[ver]
+
+
+def old_aspsx_unavailable(ver: str | None = None) -> str | None:
+    """None when the old genuine ASPSX `ver` (default: both) can run here, else the reason it cannot."""
+    why = []
+    if shutil.which(DOSEMU) is None:
+        why.append(f"dosemu not found ({DOSEMU!r}; install dosemu2 or set AZURE_DOSEMU)")
+    for v in ([ver] if ver else OLD_VERSIONS):
+        if not old_aspsx_exe(v).is_file():
+            why.append(f"ASPSX {v} binary missing: {old_aspsx_exe(v)} (see docs/TOOLCHAIN_FIDELITY_PLAN.md, genuine ASPSX 2.34)")
+    return "; ".join(why) or None
+
+
+def use_old_aspsx(mode: str) -> dict:
+    """off: only the WIBO versions. auto: add each old version whose dosemu + EXE exist; the rest are skipped
+    and the reason recorded in OLD_STATUS['skipped'] (copied to every record). on: all old versions, or
+    SystemExit naming what is absent. Mutates VERSIONS in place; exports the mode so worker processes inherit it."""
+    global OLD_STATUS
+    if mode not in ("off", "auto", "on"):
+        raise ValueError(f"--old-aspsx must be off, auto or on, not {mode!r}")
+    enabled, skipped = [], None
+    if mode != "off":
+        if mode == "on":
+            why = old_aspsx_unavailable()
+            if why:
+                raise SystemExit("aspsx_diff: --old-aspsx on, but " + why)
+            enabled = list(OLD_VERSIONS)
+        else:
+            enabled = [v for v in OLD_VERSIONS if old_aspsx_unavailable(v) is None]
+            skipped = "; ".join(sorted({old_aspsx_unavailable(v) for v in OLD_VERSIONS if v not in enabled})) or None
+            if skipped:
+                skipped = "old genuine ASPSX skipped: " + skipped
+    VERSIONS[:] = BASE_VERSIONS + enabled
+    OLD_STATUS = {"mode": mode, "enabled": enabled, "skipped": skipped}
+    if mode == "off":
+        os.environ.pop("AZURE_OLD_ASPSX", None)
+    else:
+        os.environ["AZURE_OLD_ASPSX"] = mode
+    return OLD_STATUS
+
+
+def old_aspsx_record() -> dict | None:
+    """The per-record attribution of the old versions: mode, which ran, why any was skipped, EXE sha256."""
+    if OLD_STATUS["mode"] == "off":
+        return None
+    rec = dict(OLD_STATUS)
+    rec["exe_sha256"] = {v: _sha(old_aspsx_exe(v).read_bytes()) for v in OLD_STATUS["enabled"]}
+    return rec
 
 
 def _sha(b: bytes) -> str:
     return hashlib.sha256(b).hexdigest()
+
+
+if os.environ.get("AZURE_OLD_ASPSX", "off") != "off":       # worker processes inherit the parent's mode
+    use_old_aspsx(os.environ["AZURE_OLD_ASPSX"])
 
 
 # ------------------------------------------------------------------------------------ fingerprint
@@ -102,7 +178,8 @@ def tool_fingerprint() -> str:
              BROOT / "tools/rowbase.py", BROOT / "config/names.tsv", SLUS_ELF, ROOT / "ledger/cache/slus_obj.json"]
     files += sorted((ROOT / "config").glob("noreturn_syms*.txt")) + sorted((ROOT / "config").glob("sibcall_syms*.txt"))
     files += sorted((ROOT / "config/overlays").glob("*.as_flags.jsonl"))
-    files += [GENUINE / "psyq" / ASPSX[v] / "ASPSX.EXE" for v in VERSIONS]
+    files += [GENUINE / "psyq" / ASPSX[v] / "ASPSX.EXE" for v in VERSIONS if v in ASPSX]
+    files += [old_aspsx_exe(v) for v in VERSIONS if v in OLD_ASPSX]       # empty unless --old-aspsx
     for f in files:
         h.update(str(f).encode())
         h.update(_sha(f.read_bytes()).encode() if f.exists() else b"-")
@@ -708,7 +785,37 @@ def aspsx_input(s_text, equ=False):
     return ("\r\n".join(kept) + "\r\n").encode()
 
 
+def dosemu_command(d, flags) -> list:
+    """The argv that runs the old DOS ASPSX on `d`/IN.S (8.3 names; `-K d` mounts d as the DOS cwd)."""
+    return NICE + [DOSEMU, "-dumb", "-K", str(d), "-E", " ".join(["ASPSX.EXE", *flags, "-o", "OUT.OBJ", "IN.S"])]
+
+
+def run_aspsx_dosemu(src_bytes, ver, flags, td):
+    """Old genuine ASPSX (2.21 / 2.34) under dosemu2 -> (LNK bytes | None, error). The stream is the one the
+    WIBO leg gets; the object is read by the same read_lnk. Absent dosemu/EXE raises (never a silent skip)."""
+    why = old_aspsx_unavailable(ver)
+    if why:
+        raise RuntimeError("old genuine ASPSX " + ver + " unavailable: " + why)
+    TMP.mkdir(parents=True, exist_ok=True)
+    d = Path(tempfile.mkdtemp(prefix="o", dir=TMP))
+    try:
+        shutil.copy(old_aspsx_exe(ver), d / "ASPSX.EXE")
+        (d / "IN.S").write_bytes(src_bytes)
+        r = subprocess.run(dosemu_command(d, flags), cwd=str(d), stdin=subprocess.DEVNULL,
+                           capture_output=True, timeout=DOSEMU_TIMEOUT)
+        obj = [p for p in d.iterdir() if p.name.lower() == "out.obj"]      # dosemu lowercases DOS file names
+        if not obj:
+            out = (r.stdout + r.stderr).decode(errors="replace")
+            errs = [l.strip() for l in out.splitlines() if "rror" in l and "KVM" not in l and "kvm" not in l]
+            return None, ("; ".join(errs[:3]) or out.strip()[-200:] or "no object")[:240]
+        return obj[0].read_bytes(), None
+    finally:
+        shutil.rmtree(d, ignore_errors=True)
+
+
 def run_aspsx(src_bytes, ver, flags, td):
+    if ver in OLD_ASPSX:
+        return run_aspsx_dosemu(src_bytes, ver, flags, td)
     # a SHORT directory directly under the scratch root: ASPSX cannot open an input whose DOS path
     # (wibo's Z:\...) is longer than ~100 characters ("Could not open file")
     d = Path(tempfile.mkdtemp(prefix="a", dir=TMP))
@@ -819,14 +926,27 @@ def prepare_overlay(row, cfile, cfg, asflags_override, td):
     target_symbol = func
     if rowbase is not None:
         target_symbol = ofc._ROWBASE.target_symbol(overlay, int(orow["foff"]), func, c_text)
+    # a rodata-owner row (config/overlays/<family>.rodata_owners.jsonl) is scored exactly as overlay_func_compare
+    # does: the owner's function is the target, built and linked with its owned rodata first (rodata_first
+    # bytes), compared against the whole retail row. The measured unit is then the function only (below).
+    owner = ofc.rodata_owner_record(overlay, int(orow["foff"])) if rowbase is not None else None
+    if owner is not None:
+        target_symbol = owner["function"]
     as_flags = ofc.default_as_flags(func, overlay, target_symbol if target_symbol != func else None) \
         if asflags_override is None else asflags_override
     asm_out = Path(td) / "gcc.latest.s"
+    bt_extra = ({"retail_data": (str(cont), int(orow["foff"])), "rodata_first": int(owner["rodata_size"])}
+                if owner is not None else {})
     got, err = M.build_text(str(cfile), ofc.compiler_for(gcc_ver), "O2", "2.79", gcc_flags, as_flags, link_vram,
-                            target=target_symbol, retail_text=target, asm_output=str(asm_out))
+                            target=target_symbol, retail_text=target, asm_output=str(asm_out), **bt_extra)
     if not asm_out.exists():
         return None, err or "no assembly"
     exact = got is not None and ofc.linked_words_equal(got, target)
+    if owner is not None:
+        ro = int(owner["rodata_size"])           # skip the owned-rodata prefix of the retail window
+        target = target[ro:]
+        got = got[ro:] if got is not None else None
+        link_vram += ro
     s = asm_out.read_text(errors="replace")
     as_args = ["--aspsx-version=2.79", "--dont-force-G0", f"-I{BROOT}", f"-I{BROOT / 'include'}",
                "-EL", "-march=r3000", "-G8"] + as_flags.split()
@@ -1170,6 +1290,9 @@ def process_row(row, cfile=None, cfg=None, asflags=None, keep=False):
     td = tempfile.mkdtemp(prefix=row["id"].replace("/", "__") + "_", dir=TMP)
     rec = {"row": row["id"], "container": row["container"], "kind": row["kind"]}
     try:
+        old = old_aspsx_record()
+        if old:
+            rec["old_aspsx"] = old
         from slus_module_context import fingerprint
         module_before = fingerprint(row)
         cfile = Path(cfile) if cfile else clean_path(row)
@@ -1429,8 +1552,12 @@ def main():
     ap.add_argument("--keep", action="store_true", help="--one: keep the temp dir")
     ap.add_argument("--controls", action="store_true", help="run the validation controls and exit")
     ap.add_argument("--journal", default=str(JOURNAL), help="journal path (default work/fidelity/aspsx_diff.jsonl)")
+    ap.add_argument("--old-aspsx", choices=("off", "auto", "on"), default=None,
+                    help="add genuine ASPSX 2.21/2.34 (DOS, dosemu2) to the version list; default off "
+                         "(env AZURE_OLD_ASPSX); auto skips with a recorded reason when dosemu/EXEs are absent, on fails")
     ap.add_argument("--worker", help=argparse.SUPPRESS)
     a = ap.parse_args()
+    use_old_aspsx(a.old_aspsx or os.environ.get("AZURE_OLD_ASPSX", "off"))
     JOURNAL = Path(a.journal)
     from common import rows, clean_path
     by = {r["id"]: r for r in rows()}
