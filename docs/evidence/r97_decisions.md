@@ -321,3 +321,18 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     (noreturn assert exit func_8007BEF0, the declaration is load-bearing: removing it costs 8-16 bytes) and
     dungeon/func_8127CD6C, func_8128ED6C (returning func_800A17D4 listed only by the family sibcall file). Evidence:
     r120_tailjump REPORT.md (r120 root3). Charter: "Ruling 2026-10-14".
+
+49. **(r120, orchestrator, delegated) maspsx_dependent re-measured at the current recipes: 118 of 140 rows retired; the other 22 are genuine ASPSX 2.34.**
+    The 09-25 causes (`_maybe_unfill_return_delay`, `_unfill_via_load_delay`, joint passes) were recorded when the
+    rows sat at proxy cells (2.8.x / 2.9x); at today's cdk recipes 114 rows fire no maspsx pass and genuine ASPSX is
+    retail-exact (74 with 0 differing / 0 masked words, 40 by the cell_retail_check masked-relocation clause).
+    slus/code, code2, code7 fire only `_expand_smalldata_la` - the pass that MODELS genuine ASPSX's la expansion -
+    and genuine ASPSX alone is retail-exact (0 masked), so they are not dependent either (a pass that reproduces
+    genuine behaviour is not a dependence). dungeon/func_8197C800 (rodata-first module: its code symbol is func_8002401C, owner record 28 B) is stale too
+    once measured as the scorer links it (genuine 2.67-2.86 retail-exact, 2 masked jump-table relocations).
+    The 22 town rows on the `--aspsx-version=2.40`/2.34 dial (expand_li) are retail-exact (0 differing, 0 masked)
+    under GENUINE Sony ASPSX 2.34 (PsyQ 3.5/3.6, byte-identical ASPSX.EXE, run under dosemu2); 2.21 matches 11/22,
+    2.56+ misses by 1-6 words. Those TUs were assembled with the older SDK assembler: they retire once ASPSX 2.34 is
+    a first-class genuine cell (work/native_lane/_r120/oldaspsx/).
+    Evidence: docs/evidence/r120_mdep_stale.jsonl + r120_mdep_stale/ (receipts), study
+    work/native_lane/_r120/maspsx_dep/FINDINGS.md, measurement work/native_lane/_r120/mdep_retire/. SECOND LOOK: no.

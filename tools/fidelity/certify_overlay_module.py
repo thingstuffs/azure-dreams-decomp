@@ -131,8 +131,14 @@ def certify(key,root,reviewer,gate_receipts=None,transaction=None,window_workers
 
 def main():
  ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('module');ap.add_argument('--root',required=True,type=Path);ap.add_argument('--reviewer',required=True)
+ ap.add_argument('--portable-output',type=Path,help='freeze this successful canonical certificate and all consumed inputs for a reviewed package')
  ap.add_argument('--gate-receipts',type=Path);ap.add_argument('--transaction');ap.add_argument('--window-workers',type=int,default=8)
  args=ap.parse_args()
  if bool(args.gate_receipts)!=bool(args.transaction) or args.window_workers<1:ap.error('receipt directory/token must be supplied together; window workers must be positive')
- c,p=certify(args.module,args.root,args.reviewer,args.gate_receipts,args.transaction,args.window_workers);print(json.dumps({'module':c['module'],'members':c['members'],'certificate':str(p),'windows':[w['config'] for w in c['windows']],'result':'CERTIFIED'},indent=2))
+ c,p=certify(args.module,args.root,args.reviewer,args.gate_receipts,args.transaction,args.window_workers)
+ if args.portable_output:
+  authority=(args.root/'ledger').resolve().parent;sys.path.insert(0,str(authority/'tools/lanes'))
+  from proof_receipts import export_module
+  export_module(authority,args.module,args.portable_output)
+ print(json.dumps({'module':c['module'],'members':c['members'],'certificate':str(p),'windows':[w['config'] for w in c['windows']],'result':'CERTIFIED'},indent=2))
 if __name__=='__main__':main()

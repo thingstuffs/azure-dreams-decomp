@@ -760,6 +760,7 @@ def verify(row, cfile, regions=False, include_root=None, diff=False):
 
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument("--proof-receipt",type=Path,help="export a diagnostic hash-bound score of the current canonical overlay source")
     ap.add_argument("row_id", nargs="?"); ap.add_argument("cfile", nargs="?")
     ap.add_argument("--regions", action="store_true"); ap.add_argument("--include-root")
     ap.add_argument("--diff", action="store_true", help="print the scorer's positional disasm diff (overlay rows; free iteration for reader lanes)")
@@ -826,11 +827,25 @@ def main():
                   f"{sum(1 for r in upd.values() if r.get('exact') is not True)} still not exact")
         return
     row = by[a.row_id]
+    proof_before=None
+    if a.proof_receipt:
+        if a.regions or a.diff or a.include_root:ap.error('receipt requires canonical includes and exact score mode')
+        source=ROOT/'src'/row['container']/Path(row['c_path']).name
+        if Path(a.cfile).read_bytes()!=source.read_bytes():ap.error('row receipt requires the current canonical source')
+        sys.path.insert(0,str(ROOT/'tools/lanes'))
+        import proof_receipts as P
+        P.validate_view(ROOT,gate_root(False),row['gate_config'])
+        proof_before=P.inputs(ROOT,'row-score',row['id'])
     v = verify(row, Path(a.cfile).resolve(), a.regions, a.include_root, a.diff)
     if a.diff:
         print(v.get("text", "")); return
     if a.gate:
         v.update(gate_candidate(row, Path(a.cfile).resolve()) if v.get("exact") else {"gate": "skipped: not exact in isolation"})
+    if a.proof_receipt:
+        if not v.get('exact'):raise ValueError('cannot receipt an inexact row')
+        a.proof_receipt.mkdir(parents=True,exist_ok=False)
+        (a.proof_receipt/'score.json').write_text(json.dumps(v,sort_keys=True)+'\n')
+        P.publish(a.proof_receipt,'row-score',row['id'],proof_before,P.inputs(ROOT,'row-score',row['id']),'MATCH')
     print(json.dumps(v, indent=1))
 
 if __name__ == "__main__":

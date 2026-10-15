@@ -30,7 +30,8 @@ are already excluded by L4).  A row that cannot reach L5 stays at L4 with its re
 `not_in_module`).  See docs/PIN_CAMPAIGN_CHARTER.md "Rulings 2026-09-22 (evening)" and "Rulings
 2026-09-22 (afternoon, goal round)".
 """
-import re, collections
+import re, collections, sys
+from row_cache import RowCache, FactInputs, text_key
 from pathlib import Path
 from common import ROOT, LEDGER, rows, read_jsonl, write_jsonl, raw_path
 from census import (M2C_LOCAL_RE, audit_index, DECL_LINE, DEF_HEADER_RE,
@@ -477,6 +478,7 @@ def evaluate_row(r, text, raw_text, promoted, sweeps, split_idx, defidx=None, ca
             "l5_fidelity": sorted(fidelity_index()[1].get(r["id"], ()))}
 
 def main():
+    cache = RowCache(ROOT, "levels")
     promoted = {j["id"] for j in read_jsonl(LEDGER / "promotions.jsonl") if j.get("outcome") == "landed"} if (LEDGER / "promotions.jsonl").exists() else set()
     try:
         from evidence import EV as _EV
@@ -490,15 +492,26 @@ def main():
     # SLUS placement comes from a reviewed build certificate whose shared inputs
     # are still current. A historical sweep entry cannot substitute for that proof.
     from slus_module_evidence import valid_placements
-    from overlay_module_evidence import valid_placements as overlay_placements
-    placement = overlay_placements()
+    from accounting_modules import overlay_placements
+    with cache.phase("overlay_placements"):
+        placement = overlay_placements(ROOT)
     from overlay_module_evidence import source_contexts
-    module_contexts = source_contexts()
-    placement.update(valid_placements())
+    with cache.phase("source_contexts"):
+        module_contexts = source_contexts()
+    with cache.phase("slus_placements"):
+        placement.update(valid_placements())
     sweeps["l4_modules"] = placement
     audit = audit_index()
     split_idx = split_audit_index()   # ledger/split_audit.jsonl -- see the module docstring; empty until it exists
     call_verified = call_verified_index()
+    with cache.phase("dependencies"):
+        facts = FactInputs(ROOT, sys.modules[__name__])
+    split_by_row = collections.defaultdict(list)
+    for (rid, target), kind in split_idx.items():
+        split_by_row[rid].append((target, kind))
+    verified_by_row = collections.defaultdict(list)
+    for rid, target in call_verified:
+        verified_by_row[rid].append(target)
     out = []; tally = collections.Counter()
     for r in rows():
         b = base.get(r["id"], {})
@@ -512,7 +525,16 @@ def main():
         if context:
             text += "\n" + context
             raw_text += "\n" + context
-        rec = evaluate_row(r, text, raw_text, promoted, sweeps, split_idx, call_verified=call_verified)
+        with cache.phase("dependencies"):
+            # All non-argument reads of evaluate_row are represented explicitly:
+            # audit/arity/void config, scoped raw tail symbols and fidelity ledger.
+            fp, dep = fidelity_index()
+            inputs = [r, text_key(text), text_key(raw_text), facts.for_row(r),
+                      r["id"] in promoted, sorted(k for k, v in sweeps.items() if r["id"] in v),
+                      split_by_row[r["id"]], sorted(verified_by_row[r["id"]], key=str),
+                      sorted(row_tail_syms(r)), r["id"] in fp, sorted(dep.get(r["id"], ()))]
+        rec = cache.get(r["id"], inputs, lambda: evaluate_row(
+            r, text, raw_text, promoted, sweeps, split_idx, call_verified=call_verified))
         rec["id"] = r["id"]; rec["evidence"] = list(_ev.get(r["id"], []))
         if r["id"] in placement and r.get("placement") != "unproven":
             rec["module"] = placement[r["id"]].get("module")
@@ -520,6 +542,7 @@ def main():
         out.append(rec); tally[rec["level"]] += r["size"]
         if rec["records"]: tally["records"] += r["size"]; tally["records_rows"] += 1
     write_jsonl(LEDGER / "levels.jsonl", out)
+    cache.save()
     tot = sum(r["size"] for r in rows())
     for l in sorted(k for k in tally if isinstance(k, int)): print(f"L{l}: {tally[l]:,} B ({100*tally[l]/tot:.1f}%)")
     print(f"on shared record headers (T7): {tally['records_rows']} rows, {tally['records']:,} B ({100*tally['records']/tot:.1f}%)")

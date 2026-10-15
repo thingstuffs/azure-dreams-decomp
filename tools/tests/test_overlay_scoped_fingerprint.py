@@ -574,3 +574,16 @@ class TownScopedFingerprint(unittest.TestCase):
 
 from unittest import mock
 if __name__=='__main__':unittest.main()
+
+class WindowModulesFamily(unittest.TestCase):
+    def test_foreign_container_module_is_not_in_window(self):
+        import overlay_scoped_fingerprint as S
+        class G:
+            @staticmethod
+            def module_extents(m): return m['ext']
+        mods = [{'key': 'town_a', 'container': 'town', 'ext': [(0x100, 0x200)]},
+                {'key': 'ovm', 'container': 'ovmovie', 'ext': [(0x0, 0x1b88)]},
+                {'key': 'eng', 'container': 'dungeon_engine', 'ext': [(0x10, 0x20)]}]
+        self.assertEqual([m['key'] for m in S.window_modules(mods, 'town', 0x0, 0x52000, G)], ['town_a'])
+        self.assertEqual([m['key'] for m in S.window_modules(mods, 'dungeon', 0x0, 0x100, G)], ['eng'])
+        self.assertEqual(S.window_modules(mods, 'town', 0x300, 0x400, G), [])

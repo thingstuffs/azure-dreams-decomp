@@ -55,7 +55,8 @@ def _reader(root):
 
 
 def _validate_certificate(item):
-    root,m=item;reader=_reader(root)
+    root,m,*options=item;reader=_reader(root)
+    details=bool(options and options[0])
     # The same per-module body and exception policy as module_status. Every
     # certificate_reason call still performs the full manifest/fingerprint,
     # object, genuine proof, artifact, placement and retail checks.
@@ -66,10 +67,11 @@ def _validate_certificate(item):
         reason=reader.certificate_reason(m,cert,root)
     except (OSError,ValueError,KeyError,TypeError,AttributeError,IndexError,NameError,yaml.YAMLError,subprocess.SubprocessError) as e:
         reason='certificate missing/invalid: '+type(e).__name__+': '+str(e)
+    if details:return {'module':m,'certificate':cert,'valid':reason is None,'reason':reason}
     return {'module':{'key':m['key']},'valid':reason is None,'reason':reason}
 
 
-def _statuses(root,workers):
+def _statuses(root,workers,details=False):
     reader=_reader(root)
     if workers==1 or not all(hasattr(reader,n) for n in ('load_modules','certificate_reason')):
         return reader.module_status(root)
@@ -79,7 +81,7 @@ def _statuses(root,workers):
         return [{'module':{'key':'manifest','members':[]},'valid':False,
                  'reason':'manifest invalid: '+type(e).__name__+': '+str(e)}]
     with ProcessPoolExecutor(max_workers=workers,mp_context=multiprocessing.get_context('spawn')) as pool:
-        try:return list(pool.map(_validate_certificate,((root,m) for m in modules)))
+        try:return list(pool.map(_validate_certificate,((root,m,details) for m in modules)))
         except BaseException:
             # Do not enter Executor.__exit__'s wait while a descendant is
             # still compiling/preprocessing after a cancellation.

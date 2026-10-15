@@ -117,6 +117,11 @@ def windows(root):
 
 def family(name): return 'dungeon' if name == 'dungeon_engine' else name
 
+def window_modules(mods, fam, fs, fe, G):
+    # Same container family only: file offsets of different containers overlap numerically (r120 fix:
+    # OVMOVIE's libpress at 0x0-0x1b88 was counted inside TOWN's town_scene window 0x0-0x52000).
+    return [v for v in mods if family(v['container'])==fam and any(fs<end and start<fe for start,end in G.module_extents(v))]
+
 def validate(root, G):
     """Validate complete inputs before reducing them, on EVERY fingerprint.
 
@@ -431,7 +436,7 @@ def fingerprint(m, root, G, windows=True):
             wr=[r for r in reg.values() if family(r['container'])==fam and intersects(r,fs,fe)]
             wid={r['id'] for r in wr}
             edges=[e for e in physical['edges'] if wid.intersection(e['rows'])]
-            wm=[v for v in mods if any(fs<end and start<fe for start,end in G.module_extents(v))]
+            wm=window_modules(mods,fam,fs,fe,G)
             sources={};versions={'2.7.2-cdk'};off=set();symbol_inputs={}
             for v in wm:
                 ss=[v['source'],*v['headers'],*(a['source'] for a in G.all_members(v)),*(p for p in v['review_inputs'] if p.endswith(('.c','.h'))),*(d['declaration'] for d in v['imports'] if d['kind']=='runtime_data')]

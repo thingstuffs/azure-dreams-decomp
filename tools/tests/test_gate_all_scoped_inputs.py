@@ -1,4 +1,4 @@
-"""Region-aware incremental SHA regression tests, with lane-independent temp roots."""
+"""Legacy v3 bank projection oracle; v4 production dependencies are tested in test_proof_receipts."""
 import importlib.util
 import json
 import tempfile
@@ -76,7 +76,7 @@ class ScopedInputsFixture(unittest.TestCase):
     def write(self,name,records):
         (self.root/name).write_text(''.join(json.dumps(r)+'\n' for r in records))
 
-    def shas(self):return {n:G.inputs_sha(p) for n,p in self.windows.items()}
+    def shas(self):return {n:G.legacy_inputs_sha(p) for n,p in self.windows.items()}
 
     def changed(self,before):
         after=self.shas()
@@ -106,6 +106,13 @@ class InputsShaBankScopes(ScopedInputsFixture):
         self.regions[1]['region']='b_renamed'
         self.write('config/overlays/dungeon.rowbase.jsonl',self.regions)
         self.assertEqual(self.changed(before),{'dungeon_b','dungeon_cross'})
+
+    def test_rowbase_link_delta_and_confidence_are_not_just_scope_names(self):
+        for field, value in [('delta', '0x80001000'), ('base_confidence', 'proven')]:
+            before=self.shas()
+            self.regions[0][field]=value
+            self.write('config/overlays/dungeon.rowbase.jsonl',self.regions)
+            self.assertEqual(self.changed(before),{'dungeon_a','dungeon_engine','dungeon_cross'})
 
     def test_false_member_edit_regates_its_family_even_if_not_in_region(self):
         before=self.shas()
@@ -168,12 +175,12 @@ class InputsShaSnapshots(ScopedInputsFixture):
     def test_snapshot_does_not_leak_to_worker_thread(self):
         from concurrent.futures import ThreadPoolExecutor
         with G.inputs_snapshot():
-            before=G.inputs_sha(self.windows['dungeon_a'])
+            before=G.legacy_inputs_sha(self.windows['dungeon_a'])
             (self.root/'raw/dungeon/func_00000110.c').write_text(self.decl('new_callee'))
             with ThreadPoolExecutor(max_workers=1) as pool:
-                after=pool.submit(G.inputs_sha,self.windows['dungeon_a']).result()
+                after=pool.submit(G.legacy_inputs_sha,self.windows['dungeon_a']).result()
         self.assertNotEqual(before,after)
-        self.assertEqual(after,G.inputs_sha(self.windows['dungeon_a']))
+        self.assertEqual(after,G.legacy_inputs_sha(self.windows['dungeon_a']))
 
     def test_split_index_preserves_ledger_order_and_inclusive_zero_size_boundary(self):
         records=[{'foff':0x110,'size':0,'marker':'end'},

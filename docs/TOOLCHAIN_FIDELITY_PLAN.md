@@ -111,3 +111,38 @@ Steps 1 and 2 are measurements and need no sign-off.
   [production transition evidence](evidence/gp_partition_only/production_transition/README.md).
   The retained split pass still has a required consumer; accepted model rules and
   old-ASPSX dials remain. Earlier sign-off-pending entries are historical.
+
+## Genuine ASPSX 2.34 (PsyQ 3.5 / 3.6) and 2.21 (PsyQ 3.3): the old DOS assemblers (2026-10-15, r120)
+
+`tools/fidelity/aspsx_diff.py` carries two more genuine Sony ASPSX versions beside the WIBO 2.56 .. 2.86 set:
+**2.34** (the `ASPSX.EXE` of PsyQ 3.5 and 3.6, byte-identical, 75,849 B) and **2.21** (PsyQ 3.3). They are 16-bit DOS programs,
+so they run under dosemu2 (headless) instead of wibo, from the SAME prepared stream (CRLF, `.include`/`#APP`/`.size`/`.type`
+stripped, equates dropped, `-q [-G0] [-0]` modes) and are read by the SAME LNK reader (`objread.read_lnk`):
+
+    nice dosemu -dumb -K <dir> -E "ASPSX.EXE -q [-G0] [-0] -o OUT.OBJ IN.S" </dev/null      # <dir> holds ASPSX.EXE + IN.S (8.3 names); dosemu writes out.obj
+
+- Binaries: `toolchain/genuine/psyq_old/psyq3.3/psyq3.3/ASPSX.EXE` (2.21) and `psyq3.5/psyq3.5/ASPSX.EXE` (2.34), git-ignored with the
+  rest of `toolchain/genuine` (override with `GENUINE_OLD_TOOLCHAIN`; tarballs `psyq3.3|3.5|3.6.tar.gz` from github.com/mkst/esa release
+  `psyq-binaries`). dosemu2 is `dosemu` on PATH (override `AZURE_DOSEMU`); ~0.6 s per assembly, parallel jobs need separate directories.
+- Opt-in: `aspsx_diff.py --old-aspsx {off,auto,on}` (env `AZURE_OLD_ASPSX`; `cell_retail_check.py` takes the same flag). `off` (default) changes
+  nothing for existing users. `auto` runs the old versions when dosemu and the EXEs exist, else skips them and records the reason in
+  `rec["old_aspsx"]["skipped"]`. `on` fails clearly (SystemExit / a `status=error` record) when either is absent. Enabled runs record the
+  EXE sha256 in `rec["old_aspsx"]["exe_sha256"]` and add the EXEs to `tool_fingerprint()`.
+- A row is retail-exact under an old version by exactly the existing rule (`cell_retail_check.genuine_retail_exact`: 0 differing, 0 masked
+  words vs retail, or masked-only with maspsx scorer-exact and genuine == maspsx). `exact_versions` / `genuine[v]` carry `"2.21"` / `"2.34"`.
+- Behaviour that distinguishes them: `li $2,0` -> `ori $v0,$zero,0` (0x34020000) under 2.21 and 2.34, `addiu` (0x24020000) under >= 2.56
+  (`toolchain/maspsx/aspsx/ASM/EXPND_LI.S`; test `tools/tests/test_aspsx_old.py`). maspsx's `--aspsx-version` dial (2.40 / 2.34, threshold
+  `expand_li` below 2.50) is only the maspsx reproduction of this assembler.
+
+The town "dial" island was assembled with it: all 22 rows below are retail-exact (0 differing words, 0 masked) under genuine ASPSX 2.34
+at their registered recipe (ASPSX 2.21 is exact on 11 of 22; the WIBO versions differ by 1-6 words). 21 rows carry `--aspsx-version=2.40`,
+town/func_80878924 carries `--aspsx-version=2.34`. Evidence: `docs/evidence/r120_mdep_oldaspsx.jsonl` and `docs/evidence/r120_mdep_oldaspsx/` (installed by the r120 oldaspsx retire package).
+
+- town cfg 2.6.3 (11 rows, `town/func_<hex>`): 80874D84, 80874E18, 80874F4C, 80875060, 80875124, 8087514C, 80875238, 808752CC, 80875364, 808755AC, 808757A0
+- town cfg 2.7.2-G0 (3 rows): 80878924, 80878974, 80878A78
+- town cfg 2.6.3-G0 (8 rows): 8087FD58, 8087FDA4, 8087FE98, 8088116C, 8088124C, 808813CC, 80881478, 808816D8
+
+Rodata-owner rows: `prepare_overlay` now honours `config/overlays/<family>.rodata_owners.jsonl` as `overlay_func_compare` does (target = the
+owner's function, built with `rodata_first`, compared against the whole retail row; the measured unit is then the function only, retail
+`[rodata_size:]`, link vram + rodata_size). `dungeon/func_8197C800` is measured this way (maspsx scorer-exact; 2.67 .. 2.86 equal and
+retail-exact with 2 masked jump-table relocations).

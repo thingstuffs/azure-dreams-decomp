@@ -1,0 +1,92 @@
+{
+  "row": "dungeon/func_812CA7A4",
+  "container": "dungeon",
+  "kind": "overlay",
+  "cfg": "2.7.2-cdk-G0",
+  "pins": 0,
+  "asflags": "--fill-shadowed-return-delay",
+  "cell": "2.7.2-cdk",
+  "maspsx_exact": true,
+  "proof": "scorer-linked",
+  "fired": [],
+  "selfcheck": true,
+  "funcs": 1,
+  "words": 347,
+  "maspsx_retail": {
+    "diff": 0,
+    "masked": 2,
+    "checked": 1,
+    "len": 347,
+    "retail_len": 347
+  },
+  "has_div": false,
+  "genuine": {
+    "2.56": {
+      "err": "IN.S(24) : Error : Syntax error in expression; IN.S(25) : Error : Syntax error in expression; IN.S(72) : Error : Syntax error in expression",
+      "err_kind": "hilo",
+      "mode": "-G0"
+    },
+    "2.67": {
+      "exact": true,
+      "diff": 0,
+      "len": 347,
+      "mode": "-G0",
+      "retail": [
+        0,
+        2
+      ]
+    },
+    "2.77": {
+      "exact": true,
+      "diff": 0,
+      "len": 347,
+      "mode": "-G0",
+      "retail": [
+        0,
+        2
+      ]
+    },
+    "2.79": {
+      "exact": true,
+      "diff": 0,
+      "len": 347,
+      "mode": "-G0",
+      "retail": [
+        0,
+        2
+      ]
+    },
+    "2.81": {
+      "exact": true,
+      "diff": 0,
+      "len": 347,
+      "mode": "-G0",
+      "retail": [
+        0,
+        2
+      ]
+    },
+    "2.86": {
+      "exact": true,
+      "diff": 0,
+      "len": 347,
+      "mode": "-G0",
+      "retail": [
+        0,
+        2
+      ]
+    }
+  },
+  "exact_versions": [
+    "2.67",
+    "2.77",
+    "2.79",
+    "2.81",
+    "2.86"
+  ],
+  "best": "2.67",
+  "status": "ok",
+  "secs": 1.5,
+  "genuine_retail_exact": true,
+  "row_asflags_now": null
+}

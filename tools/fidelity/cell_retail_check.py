@@ -11,6 +11,8 @@ maspsx != retail. This tool keeps the two questions apart. Per row and cfg it re
   maspsx_retail   positional differing words vs retail (relocations resolved), with the positions
   genuine_eq      genuine versions whose object equals the maspsx leg's (aspsx_diff `exact_versions`)
   genuine_retail  per genuine version: differing words vs retail (relocations resolved), best mode
+  (the genuine versions are aspsx_diff.VERSIONS: the WIBO 2.56..2.86 and, with --old-aspsx, the DOS 2.21/2.34
+  under dosemu2 - an older-SDK island counts as genuine-backed by the same rule)
   genuine_retail_exact  True when some genuine version resolves to 0 differing words vs retail, with 0
                   masked words - or with masked (unresolvable) relocations only, while its object equals a
                   scorer-exact maspsx leg
@@ -122,6 +124,8 @@ def check_row(rid: str, cfg: str, asflags_variants: bool, cfile: str | None = No
            "maspsx_exact": rec.get("maspsx_exact"), "maspsx_retail": (rec.get("maspsx_retail") or {}).get("diff"),
            "words": rec.get("words"), "maspsx_diff_pos": captured.get("m"),
            "genuine_eq": rec.get("exact_versions")}
+    if rec.get("old_aspsx"):
+        out["old_aspsx"] = rec["old_aspsx"]
     gr = {}
     for v, g in (rec.get("genuine") or {}).items():
         if "retail" in g:
@@ -154,8 +158,12 @@ def main():
     ap.add_argument("--workers", type=int, default=8)
     ap.add_argument("--out", required=True)
     ap.add_argument("--cfile-dir", help="use DIR/<func>.c as the row text when it exists (candidate texts)")
+    ap.add_argument("--old-aspsx", choices=("off", "auto", "on"), default=None,
+                    help="also measure genuine ASPSX 2.21/2.34 (DOS, dosemu2); see aspsx_diff.py (default off, env AZURE_OLD_ASPSX)")
     ap.add_argument("--worker", nargs="+", help=argparse.SUPPRESS)
     a = ap.parse_args()
+    import aspsx_diff as A0
+    A0.use_old_aspsx(a.old_aspsx or os.environ.get("AZURE_OLD_ASPSX", "off"))   # exports the mode to the workers
     if a.worker:
         cf = a.worker[2] if len(a.worker) > 2 else None
         try:
