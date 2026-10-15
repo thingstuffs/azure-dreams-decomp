@@ -1,3 +1,4 @@
+#include "modules/town_map_props.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/game_work.h"
@@ -13,7 +14,7 @@ typedef struct S_800BDDD0_0 {
 } S_800BDDD0_0;   /* temp_t3 in func_800BDDD0 */
 
 /* Writes values 1 through 16 in row order into a wrapped 4x4 grid region. */
-void func_800BDDD0(s32 start_x, s16 start_y) {
+void func_800BDDD0(s32 start_x, s16 start_y, s32 unused_value) {
     s16 cell_value;
     s32 y;
     s32 x;

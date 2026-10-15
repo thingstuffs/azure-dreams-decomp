@@ -1,3 +1,4 @@
+#include "modules/trap_effects_candidate.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"

@@ -4,20 +4,20 @@
 
 s32 func_800A6D30(void);
 s32 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-void func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
+extern void * func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 s32 func_800990FC(void);
 s32 func_80099194(u8 *src, u8 *dst);
 s32 func_8003AD08(s32, s32);
 s32 func_80099734(void *record, u8 *out);
-void func_80099290(s8 *byte_ptr);
-void func_800A5720(s8 *text);
+extern void * func_80099290(s8 *byte_ptr);
+extern s32 func_800A5720(s8 *text);
 
 extern u8 D_80088CAC[];
 extern u8 D_800E0D51[];
 extern u8 D_800E0D6D[];
 
 /* Randomly adds a quarter of the source value to the target and reports the change. */
-void func_8009BFF8(void *source, void *target, s32 passthru_2, s32 passthru_3) {
+void func_8009BFF8(void *source, void *target) {
     int direction_aux;
     s32 amount;
     s16 signed_amount;

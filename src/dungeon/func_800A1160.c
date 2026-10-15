@@ -1,10 +1,10 @@
+#include "modules/dungeon_engine_dungeon_util_fragment_c1094.h"
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 
 
-extern s8 D_800DD878;
 
 /* Save and clear bit 4 of the current record flags. */
 void func_800A68C0(void) {

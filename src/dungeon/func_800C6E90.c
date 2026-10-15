@@ -1,12 +1,7 @@
+#include "modules/trap_effects_candidate.h"
 #include "shared/object_node.h"
 #include "shared/game_work.h"
 
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-typedef short s16;
-typedef unsigned int u32;
-typedef int s32;
 extern s32 D_800CEEFC[3];
 typedef struct DungeonObject
 {
@@ -47,9 +42,9 @@ typedef struct DungeonPacket
     u16 field1E;
 }
 DungeonPacket;
-extern void func_8004491C();
+extern s32 func_8004491C();
 extern s32 D_800CC4F0;
-extern s32 D_800E03D4[3];
+
 /* Create a dungeon object at the tile center and initialize its rendering settings. */
 void *func_800CC5F0(s16 tile_x, s16 tile_y, s16 z, s16 tail_value, s16 render_mode, u16 tail_config)
 {

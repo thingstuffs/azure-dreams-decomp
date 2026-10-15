@@ -1,3 +1,5 @@
+#include "modules/dungeon_engine_entity_effects_storage.h"
+#include "modules/dungeon_engine_entity_effects_fragment_c2fbc.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -54,10 +56,10 @@ typedef struct {
 } DungeonTile;
 
 extern u8 D_800A871C[];
-extern DungeonTile D_800E36C8[];
 
-extern void *func_8003FD64(s32, s32);
-extern void func_8004491C(void *, void *);
+
+extern void * func_8003FD64(s32 flags, void **list_head);
+extern s32 func_8004491C(void *entry, s32 registration_id);
 extern s32 func_80099FDC(void *);
 extern s32 func_800A7A38(u8 *item);
 extern void func_800BC26C(void *, s32, s32, s32);
@@ -81,7 +83,7 @@ void *func_800A8E74(s32 object_key, DungeonCoords *source_coords, s32 unused,
         data->field60 = source_data;
         if (tile_id >= 0) {
             DungeonTile *tile;
-            tiles = D_800E36C8;
+            tiles = ((DungeonTile *)D_800E36C8);
             tile = &tiles[tile_id];
             coords->field2 = (tile->field0 << 6) + 0x20;
             coords->field6 = (tile->field1 << 6) + 0x20;

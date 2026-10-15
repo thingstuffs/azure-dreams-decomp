@@ -1,7 +1,4 @@
-#include "common.h"
-
-extern s16 func_800A20D8();
-extern s32 D_800A0C30;
+#include "modules/town_door.h"
 
 /* Update the entity step state and switch handlers when the result is zero. */
 void func_800A0BE4(void *entity) {
@@ -12,6 +9,6 @@ void func_800A0BE4(void *entity) {
         + 0x90));
     *(s16 *)((u8 *)entity + 0x90) = step_result;
     if ((step_result << 0x10) == 0) {
-        *(void **)((u8 *)entity + 0x50) = &D_800A0C30;
+        *(void **)((u8 *)entity + 0x50) = &func_800A0C30;
     }
 }

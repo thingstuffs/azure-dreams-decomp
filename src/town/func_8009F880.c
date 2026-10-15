@@ -1,47 +1,14 @@
-#include "common.h"
-
-
-#ifndef NULL
-#define NULL 0
-#endif
-
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
-s32 func_80033B2C();
-s32 func_8008CC90();
-extern s16 D_8006ADD4;
-extern u16 D_80082D08[];
-
-typedef struct S_8009CFE0_0 {
-    u8 pad_00[0x84];
-    u16 unk_84;
-    u16 unk_86;
-    u8 pad_88[0x10];
-    void * unk_98;
-} S_8009CFE0_0;   /* arg0 in func_8009CFE0 */
-
-typedef struct S_8009CFE0_1 {
-    u8 pad_00[0x1];
-    u8 unk_01;
-    s16 unk_02;
-} S_8009CFE0_1;   /* temp_s0 in func_8009CFE0 */
-
-typedef struct S_8009CFE0_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-} S_8009CFE0_2;   /* arg1 in func_8009CFE0 */
+#include "modules/town_town_windows.h"
 
 /* Classify an object using its state and two positions relative to the geometry bounds. */
-s32 func_8009CFE0(S_8009CFE0_0 *object, void *position_data)
+s32 func_8009CFE0(func_8009F880_S_8009CFE0_0 *object, void *position_data)
 {
-    S_8009CFE0_2 *position = position_data;
+    func_8009F880_S_8009CFE0_2 *position = position_data;
     s32 result;
     s32 one;
     s32 geometry_result;
     s32 state_result;
-    S_8009CFE0_1 *state;
+    func_8009F880_S_8009CFE0_1 *state;
 
     state = object->unk_98;
     if (state != NULL) {

@@ -1,3 +1,4 @@
+#include "modules/dungeon_engine_experience_fragment_bc5ec.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"

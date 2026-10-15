@@ -2,9 +2,9 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
-s32 func_8004491C();           /* extern */
+extern s32 func_8004491C();
 s32 rand();                                /* extern */
-extern void func_800BABA8(void);
+extern s32 func_800BABA8(DungeonObject *object, u16 *position);
 
 
 typedef struct S_800BAF04_0_pre {

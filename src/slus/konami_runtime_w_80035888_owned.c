@@ -1,3 +1,5 @@
+#include "slus/render_words.h"
+
 #include "common.h"
 
 /* Retail bytes at assets/3E018.bin + 0x161A0; current ownership reconstruction only. */

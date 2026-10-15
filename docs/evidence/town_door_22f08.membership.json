@@ -1,0 +1,49 @@
+{
+  "ledger_group": {
+    "container": "town",
+    "module": "door.c",
+    "module_index": 13
+  },
+  "members": [
+    "town/func_800A2F08",
+    "town/func_800A2F44",
+    "town/func_800A2FA8",
+    "town/func_800A3044",
+    "town/func_800A3088",
+    "town/func_800A3124",
+    "town/func_800A3188",
+    "town/func_800A3190",
+    "town/func_800A31CC",
+    "town/func_800A31F8",
+    "town/func_800A3228",
+    "town/func_800A3294",
+    "town/func_800A32D4",
+    "town/func_800A32F4",
+    "town/func_800A3328",
+    "town/func_800A3368",
+    "town/func_800A3414",
+    "town/func_800A3484",
+    "town/func_800A34D0",
+    "town/func_800A3560",
+    "town/func_800A3598",
+    "town/func_800A364C",
+    "town/func_800A36DC",
+    "town/func_800A3758",
+    "town/func_800A37B0"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Existing strong original-file cohort attribution; include every assigned and closure row.",
+    "No unregistered hole, interleaved member from another group, initialized allocation, COMMON or per-row recipe.",
+    "Whole-TU canonical GNU and genuine ASPSX rebuild has exact natural function order, addresses and full retail bytes.",
+    "Address-taken callback closure and shared declarations are reconciled in one module header."
+  ],
+  "source_group_confidence": "strong",
+  "ownership_authorization": "r118m_ts1 ROUND 2 majority-of-AREA full-cohort authorization",
+  "assigned_rows": 19,
+  "closure_rows": 6,
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120",
+  "tu_boundary": "Existing strong original-file attribution; no new internal split inferred from AREA routing."
+}

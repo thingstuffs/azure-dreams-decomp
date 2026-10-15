@@ -1,11 +1,9 @@
+#include "modules/main_server_ship.h"
 #include "common.h"
 
-extern s32 func_800214FC();
-extern void func_80021538();
 extern void func_8005FE18(s32);
-extern void _card_wait(s32);
 extern void format(s32);
-extern s32 D_80027F18[];
+
 
 /* Format the selected memory card and return its completion status. */
 s32 func_80021A84(s32 card_slot) {

@@ -1,0 +1,106 @@
+{
+  "schema": "overlay-pool-carve-scope-v1",
+  "head": "253897988a60cc24e84bec0b6f9636ef366b2d15",
+  "container": "town",
+  "parent": {
+    "func_vram": "func_8008B804",
+    "vram": 2148055044,
+    "foff": 47108,
+    "size": 7496,
+    "result": "M2C_FAIL",
+    "instances": 1,
+    "data_segment": true,
+    "base_confidence": "proven",
+    "reviewer": "orchestrator-r120"
+  },
+  "replacements": [
+    {
+      "func_vram": "func_8008B804",
+      "vram": 2148055044,
+      "foff": 47108,
+      "size": 428,
+      "result": "M2C_FAIL",
+      "instances": 1,
+      "data_segment": true,
+      "base_confidence": "proven",
+      "reviewer": "orchestrator-r120"
+    },
+    {
+      "func_vram": "D_8008B9B0",
+      "true_name": "D_80089110",
+      "vram": 2148045072,
+      "foff": 47536,
+      "size": 24,
+      "result": "MATCH",
+      "config": "2.7.2-cdk-G0",
+      "c_path": "overlays/town/first_pass_matched/D_8008B9B0.c",
+      "instances": 1,
+      "data_segment": true,
+      "row_kind": "data",
+      "data_kind": "compiler_switch_table",
+      "gate_config": "config/overlays/town_scene.overlay.yaml",
+      "base_confidence": "proven",
+      "parent_id": "town/func_8008B804",
+      "owner": "camera.c",
+      "ownership_status": "pending",
+      "reviewer": "pending"
+    },
+    {
+      "func_vram": "func_8008B9C8",
+      "vram": 2148055496,
+      "foff": 47560,
+      "size": 7044,
+      "result": "M2C_FAIL",
+      "instances": 1,
+      "data_segment": true,
+      "base_confidence": "proven",
+      "reviewer": "orchestrator-r120"
+    }
+  ],
+  "owned_members": [
+    "town/D_8008B9B0"
+  ],
+  "allocation": {
+    "owner_row": "town/func_800A72F8",
+    "owner_function": "func_800A4A58",
+    "table_vma": 2148045072,
+    "table_foff": 47536,
+    "bytes": 24,
+    "retail_hi16_site": 160548,
+    "retail_lo16_site": 160552,
+    "compiled_label_addends": [
+      76,
+      96,
+      116,
+      136,
+      144,
+      152
+    ],
+    "target_vmas": [
+      2148158116,
+      2148158136,
+      2148158156,
+      2148158176,
+      2148158184,
+      2148158192
+    ],
+    "sha256": "e7d5cd8bed4346e49c41fc3a2c3110056cffefbeafad74f802925b3de3854615",
+    "section": ".rodata",
+    "kind": "jump_table",
+    "entry_size": 4,
+    "entries": 6,
+    "separate_from_text": true,
+    "review": "pending",
+    "reviewer": null,
+    "proof": "evidence/camera_switch/receipt.json"
+  },
+  "genuine_receipt_sha256": "ed2c614920ec8097887c53aa169021308b8a4be0228c304bb24dbaaa6e067f34",
+  "intervening_bytes_claimed": 0,
+  "review": "pending",
+  "reviewer": null,
+  "scope_basis": [
+    "Fresh complete-owner GNU/genuine ASPSX proof resolves exactly six owner-label relocations to retail case blocks.",
+    "Retail HI16/LO16 dispatch anchors exactly the 24-byte allocation.",
+    "428-byte prefix and 7044-byte suffix retain failed source-less status."
+  ]
+}

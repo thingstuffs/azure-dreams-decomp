@@ -1,6 +1,8 @@
 #include "common.h"
 
-extern void func_800C96E8();
+struct S_Rect;
+struct S_Arg1;
+extern void func_800C96E8(struct S_Rect *copy_rect, struct S_Arg1 *source);
 
 /* Processes linked entries with position values staged in scratchpad memory. */
 s32 func_800C9664(void *entry_data, void *position) {

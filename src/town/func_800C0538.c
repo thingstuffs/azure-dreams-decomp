@@ -1,9 +1,9 @@
+#include "modules/town_map_props.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
-extern u8 D_80089660[];
-extern void *memcpy(void *dst, const void *src, u32 n);
+extern const u16 D_80089660[8];
 
 typedef struct S_800BDC98_1 {
     u8 pad_00[0x14];

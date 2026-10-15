@@ -1,3 +1,4 @@
+#include "modules/dungeon_engine_tile_map_fragment_b48c8.h"
 #include "common.h"
 #include "shared/entity.h"
 
@@ -6,7 +7,6 @@ typedef struct S_8009A180_2 {
     void * unk_58;
 } S_8009A180_2;
 
-extern void func_8009A028(void *node);
 
 s32 func_8009A180(EntityRec *entry, EntityRec *anchor) {
     u32 link_bits;

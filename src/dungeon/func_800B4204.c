@@ -3,16 +3,16 @@
 #include "shared/entity_objects.h"
 #include "shared/dungeon_status.h"
 
-typedef struct SubA {
+typedef struct SubA_800B4204 {
     u8 pad0[2];
     s16 f2;
     u8 pad4[2];
     s16 f6;
     u8 pad8[2];
     s16 fA;
-} SubA;
+} SubA_800B4204;
 
-typedef struct SubB {
+typedef struct SubB_800B4204 {
     u8 pad0[6];
     u16 f6;
     u8 pad8[4];
@@ -23,16 +23,16 @@ typedef struct SubB {
     u8 pad16[6];
     u16 f1C;
     u16 f1E;
-} SubB;
+} SubB_800B4204;
 
-typedef struct Obj {
+typedef struct Obj_800B4204 {
     u8 pad0[8];
-    SubA *sub1;
-    SubB *sub2;
+    SubA_800B4204 *sub1;
+    SubB_800B4204 *sub2;
     void (*stateFn)(void *);
     u8 pad14[0x20 - 0x14];
     void *owner;
-} Obj;
+} Obj_800B4204;
 
 typedef struct EntityHdr {
     u8 pad[0x88];
@@ -42,18 +42,18 @@ typedef struct EntityHdr {
 extern u8 D_80079444[];
 extern s16 D_800DCE66[5];
 
-extern void *func_8003FD64(s32 a0, void *a1);
-extern void func_8004491C(void *a0, void *a1);
-extern s32 func_80045C34(u8 *a0, s32 a1, void *a2);
-extern void func_800B96C4(void *a0);
-extern void func_8003DB94(void *a0, void *a1, s16 a2);
-extern void func_800C77D0(void *a0, void *a1, s32 a2, s16 a3);
+extern void * func_8003FD64();
+extern s32 func_8004491C();
+extern s32 func_80045C34();
+extern void func_800B96C4(void *state, void *position_arg, void *marker_arg);
+extern void func_8003DB94();
+extern s32 func_800C77D0();
 
 /* Creates and initializes a display object attached to the entity. */
 void *func_800B9964(EntityHdr **entity_ref) {
-    Obj *object;
-    SubA *transform;
-    SubB *sprite;
+    Obj_800B4204 *object;
+    SubA_800B4204 *transform;
+    SubB_800B4204 *sprite;
     u8 *owner_data;
 
     object = func_8003FD64(18, &D_80083498.next);

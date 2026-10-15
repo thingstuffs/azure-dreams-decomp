@@ -2,7 +2,7 @@
 #include "shared/dungeon_status.h"
 
 
-extern u16 func_800A2B28();
+extern s32 func_800A2B28(void);
 
 /* Sets or reuses the requested value and calls func_800A2B28 when state permits. */
 s16 func_800A2B5C(s32 requested_value) {

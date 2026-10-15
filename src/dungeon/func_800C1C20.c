@@ -52,13 +52,13 @@ typedef struct {
 
 extern void func_8003DB6C(void *, void *, s32);
 extern DungeonObject *func_8003FD64(s32, void *);
-extern void func_8004491C(DungeonObject *, void *);
+extern s32 func_8004491C();
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
-extern u8 D_80045C34[];
+extern s32 func_80045C34();
 extern u8 D_800777E8[];
-extern u8 D_800BB0A8[];
-extern u8 D_800BB14C[];
+extern void func_800BB0A8();
+extern void func_800BB14C();
 extern u8 D_800D0774[];
 extern u8 D_800DF3B4[];
 
@@ -81,8 +81,8 @@ DungeonObject *func_800C7380(s16 tile_x, s16 tile_y, u16 z, s16 height, s16 spee
     if (parent != NULL) {
         s16 frame;
         u16 state_limit;
-        parent->callback = D_800BB0A8;
-        func_8004491C(parent, D_80045C34);
+        parent->callback = func_800BB0A8;
+        func_8004491C(parent, func_80045C34);
         color = 0x404040;
         state = &parent->state;
         remaining = 0xB;
@@ -108,7 +108,7 @@ DungeonObject *func_800C7380(s16 tile_x, s16 tile_y, u16 z, s16 height, s16 spee
         state->height = height;
         state->limit = state_limit;
         state->speed = speed;
-        callback_fn = D_800BB14C;
+        callback_fn = func_800BB14C;
         do {
             child = func_8003FD64(0x12, parent);
             if (child != NULL) {

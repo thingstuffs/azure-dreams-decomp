@@ -1,0 +1,151 @@
+{
+  "kind": "REAL_ENTRY_FUNCTION_BASELINES_NOT_PROMOTIONS",
+  "base_head": "0d5566a95f74a1211d677c6b592d4d5a6128ef4a",
+  "entries": [
+    {
+      "start": 989468,
+      "bytes": 300,
+      "function": "func_800D707C",
+      "source": "drafts/recovered_sprite_callback.c",
+      "source_sha256": "41ab433372b7e378023482089da45a42bcb0c3df9ab7512abb6bddc617d030ee",
+      "output": "diagnostics/recovered_functions/f191c",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "deda33f46efd8e4ed9983e2a92ebb4a76a02799b8964c4cf27800ccbe83538be",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": false,
+          "masked": []
+        },
+        {
+          "flags": [
+            "-q",
+            "-G0",
+            "-0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "deda33f46efd8e4ed9983e2a92ebb4a76a02799b8964c4cf27800ccbe83538be",
+        "genuine.bin": "deda33f46efd8e4ed9983e2a92ebb4a76a02799b8964c4cf27800ccbe83538be",
+        "checked.OBJ": "711fca22d1ff4260c064faa0b9bbfb0774d4d4a68063704125083a122b2fe1d8",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "deda33f46efd8e4ed9983e2a92ebb4a76a02799b8964c4cf27800ccbe83538be",
+        "sectioned.s": "2c1e22cae8b8ea8a6f1202a1ca37da719569495f03dc1386126743514f06fd3c",
+        "unchecked.OBJ": "52cba3ed01d991c83dfb58fa67705e62caa9a76ef98d241d7b76a82e3fe4f314",
+        "IN.S": "28336945fcb87768442318b966d732c452e504bd071b06a57ab2a59244e4e665",
+        "function.o": "a2206931e9dc9bc9c51348723456bd06e354dc8c74fca7c428e3ddc1165b44cd",
+        "function.s": "4cd52ee6b2fffce66e32faa68adf92284226ad01cfd253a7ac3cd6518abbbb88"
+      },
+      "installed_source": "src/dungeon/func_800D191C.c",
+      "id": "dungeon/func_800D191C"
+    }
+  ],
+  "primary_entry_evidence": {
+    "evidence/sprite_callback_entry.json": {
+      "entries": [
+        {
+          "id": "dungeon/func_800D191C",
+          "start": 989468,
+          "end": 989768,
+          "size": 300,
+          "vma": 2148364412,
+          "function": "func_800D707C",
+          "source": "drafts/recovered_sprite_callback.c",
+          "primary_entry_evidence": "evidence/sprite_callback_entry.json"
+        }
+      ],
+      "kind": "ACTUAL_OBJECT_CALLBACK_STORE_AND_DISPATCH_PROVEN",
+      "review": "pending",
+      "reviewer": null,
+      "base_head": "0d5566a95",
+      "producer": {
+        "row": "dungeon/func_80D659DC",
+        "foff": 14178840,
+        "lui_foff": 14178836,
+        "register": 2,
+        "window_words": [
+          "0x3c02800d",
+          "0x2442707c",
+          "0xae220010",
+          "0x8e020008",
+          "0x8e230008"
+        ],
+        "gate_config": "config/overlays/dungeon_deep_t8b_d84b74.overlay.yaml",
+        "registered_source": "src/dungeon/func_80D659DC.c",
+        "source_sha256": "d38fba858bc3aa466682e555a87be0242dc81eeb2a90a4b319125684425db71b",
+        "actual_callback_store_words": [
+          "0x3c02800d",
+          "0x2442707c",
+          "0xae220010"
+        ],
+        "alloc_flags": "0x211: active node callback eligibility bit0x400 clear"
+      },
+      "dispatcher": {
+        "source": "src/slus/w_80040190.c",
+        "source_sha256": "721f60e3f498ca71fe0e86e966ff36f1f50857cb09ae947e38672120149237c1",
+        "source_text": "#include \"common.h\"\n\n/* Linked-list node with a next pointer at offset 0x0, two callback-argument\n * fields at 0x8/0xC, a raw (possibly-null) function-pointer value at 0x10,\n * and a 16-bit flags field at 0x1E. */\ntypedef struct S_80081498_Node {\n    struct S_80081498_Node *next;   /* 0x00 */\n    u8 pad_04[0x08 - 0x04];\n    void *field_08;                 /* 0x08 */\n    void *field_0C;                 /* 0x0C */\n    s32 field_10;                   /* 0x10 - raw function pointer value, checked via signed bgez */\n    u8 pad_14[0x1E - 0x14];\n    u16 field_1E;                   /* 0x1E */\n} S_80081498_Node;\n\n/* head of the active node list (8 bytes to D_800814A0; only the head word is read) */\nextern S_80081498_Node *D_80081498;\n\n/* Invokes negative-address callbacks on nodes in D_80081498 whose flags omit bit 0x400. */\nvoid func_80040190(void)\n{\n    S_80081498_Node *node;\n    S_80081498_Node *next_node;\n    s32 callback_address;\n\n    node = D_80081498;\n    if (node != 0) {\n        do {\n            callback_address = node->field_10;\n            next_node = node->next;\n            if (callback_address >= 0 || (node->field_1E & 0x400)) {\n                ;\n            } else {\n                ((void (*)(void *, void *, void *))callback_address)((u8 *)node + 0x20, node->field_08, node->field_0C);\n            }\n            node = next_node;\n        } while (node != 0);\n    }\n}\n",
+        "retail_sha256": "fccef6ac059408c70e960c8c0d0698892ea2a88b7cdf87539f1ac4d7f77098fd",
+        "bytes": 108,
+        "actual_disassembly": "80040190: lui      $a0, 0x8008\n80040194: lw       $a0, 0x1498($a0)\n80040198: addiu    $sp, $sp, -0x18\n8004019C: sw       $ra, 0x14($sp)\n800401A0: beqz     $a0, 0x800401e8\n800401A4: sw       $s0, 0x10($sp)\n800401A8: lw       $v1, 0x10($a0)\n800401AC: lw       $s0, ($a0)\n800401B0: bgez     $v1, 0x800401dc\n800401B4: nop      \n800401B8: lhu      $v0, 0x1e($a0)\n800401BC: nop      \n800401C0: andi     $v0, $v0, 0x400\n800401C4: bnez     $v0, 0x800401dc\n800401C8: nop      \n800401CC: lw       $a1, 8($a0)\n800401D0: lw       $a2, 0xc($a0)\n800401D4: jalr     $v1\n800401D8: addiu    $a0, $a0, 0x20\n800401DC: move     $a0, $s0\n800401E0: bnez     $a0, 0x800401a8\n800401E4: nop      \n800401E8: lw       $ra, 0x14($sp)\n800401EC: lw       $s0, 0x10($sp)\n800401F0: addiu    $sp, $sp, 0x18\n800401F4: jr       $ra\n800401F8: nop      \n",
+        "semantics": "Loads node+10 as signed callback word; if negative and flags400 clear, JALR supplies node+20,+8,+C."
+      },
+      "lineage": {
+        "verdict": {
+          "verdict": "cdk/2.8.x-family store emission/cse habits",
+          "family": "cdk/2.8.x-family",
+          "notes": []
+        },
+        "evidence": {
+          "at_macro": [],
+          "split_store": [
+            "[66] lui $v1,0x8008 + [72] sw $v0, 0x14a0($v1)"
+          ],
+          "held_page": [],
+          "slot_store": [],
+          "split_la": [],
+          "zero_copy": [],
+          "ret_copy": []
+        },
+        "gp_refs": 0,
+        "claim": "Uniform proven surrounding cdk/O2/G0; no family conflict.",
+        "review": "pending",
+        "reviewer": null
+      }
+    },
+    "work/sprite_callback/lineage.json": {
+      "verdict": {
+        "verdict": "cdk/2.8.x-family store emission/cse habits",
+        "family": "cdk/2.8.x-family",
+        "notes": []
+      },
+      "evidence": {
+        "at_macro": [],
+        "split_store": [
+          "[66] lui $v1,0x8008 + [72] sw $v0, 0x14a0($v1)"
+        ],
+        "held_page": [],
+        "slot_store": [],
+        "split_la": [],
+        "zero_copy": [],
+        "ret_copy": []
+      },
+      "gp_refs": 0,
+      "claim": "Uniform proven surrounding cdk/O2/G0; no family conflict.",
+      "review": "pending",
+      "reviewer": null
+    }
+  },
+  "review": "pending",
+  "reviewer": null
+}

@@ -1,3 +1,5 @@
+#include "slus/gp_order_bytes_owner.h"
+
 #include "common.h"
 
 u8 D_80080B30[4] = { 1, 3, 2, 4 };

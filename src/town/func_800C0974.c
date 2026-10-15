@@ -1,6 +1,7 @@
+#include "modules/town_map_props.h"
 #include "common.h"
 
-typedef struct S0 {
+typedef struct TownPropAnimationActor {
     char pad0[0x68];
     s16 state;   /* 0x68 */
     char pad6A[0xA0 - 0x6A];
@@ -9,15 +10,11 @@ typedef struct S0 {
     s32 fieldA8; /* 0xA8 */
 } S0;
 
-typedef struct S1 {
+typedef struct TownPropAnimationDestination {
     char pad0[0x14];
     u16 field14; /* 0x14 */
 } S1;
 
-extern void func_800478B8(S1 *);
-extern s32 func_800352FC(void);
-extern s32 func_800C2AB4(S0 *);
-extern void func_8003DB94(S1 *, s32, s32);
 
 void func_800BE0D4(S0 *self, s32 unused_value, S1 *destination) {
     S0 *obj = self;

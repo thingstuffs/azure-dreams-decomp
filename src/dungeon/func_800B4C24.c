@@ -1,6 +1,7 @@
 #include "common.h"
 
-extern void func_800BA414(void *unused, s32 position, void *owner_data, s16 depth_bias);
+struct S_800BA414_1;
+extern void func_800BA414(void *unused, struct S_800BA414_1 *position, void *owner_data, s16 depth_bias);
 
 /* Initialize scratchpad quad coordinates and process each linked node. */
 s32 func_800BA384(void *node_payload, s32 node_value, u8 *node_data) {

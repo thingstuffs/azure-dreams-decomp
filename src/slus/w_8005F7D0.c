@@ -1,8 +1,5 @@
-#include "common.h"
+#include "slus/sound_pitch_conversions.h"
 
-extern int abs(int);
-
-/* Convert a note and fine tuning relative to the center note into a clamped SPU pitch. */
 u32 func_8005F7D0(u16 center_note, u16 center_fine, u16 note, u16 fine)
 {
     s32 center_tuning;

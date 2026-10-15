@@ -1,6 +1,6 @@
 #include "common.h"
 
-s32 func_8003FC64();                         /* extern */
+extern ObjectNodeHeader * func_8003FC64();
 
 /* Add 0x20 to a nonzero result from func_8003FC64(0), preserving zero. */
 s32 func_800B12F4(void) {

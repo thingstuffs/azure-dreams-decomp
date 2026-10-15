@@ -1,3 +1,6 @@
+#include "modules/dungeon_engine_tile_map_abi_views.h"
+extern s16 D_800DCEBC[];
+extern s16 D_800DCEAC[];
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/dir_step.h"
@@ -8,14 +11,13 @@
 typedef struct {
     u8 pad0A[0xA];
     s16 height;
-} FuncArg1;
+} PositionHeightView;
 
-extern u16 D_800DCEAC[];
-extern u16 D_800DCEBC[];
-s32 func_8009A350();            /* extern */
-void *func_8009B25C();           /* extern */
+
+
+extern s16 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
+struct Node;
 s32 func_800A0548();                        /* extern */
-s16 func_800BCB04();                   /* extern */
 extern s8 D_800DD7DC;
 
 
@@ -44,7 +46,7 @@ typedef struct S_8009AF18_4 {
 } S_8009AF18_4;   /* ((S_8009AF18_3 *)(*(void **)(page + 0x3D7C)))->unk_124 in func_8009AF18 */
 
 /* Checks successive tiles in a direction and returns the stopping distance. */
-s32 func_8009AF18(u32 direction_flags, FuncArg1 *origin, S_8009AF18_0 *start_tile, u16 max_steps) {
+s32 func_8009AF18(u32 direction_flags, PositionHeightView *origin, S_8009AF18_0 *start_tile, u16 max_steps) {
     u16 tile_flags;
     s32 direction_index;
     s32 direction;
@@ -79,7 +81,7 @@ s32 func_8009AF18(u32 direction_flags, FuncArg1 *origin, S_8009AF18_0 *start_til
                         EntityRec *world;
 
                         world = D_800E3D7C;
-                        occupant = func_8009B25C(world, tile_x & 0xFFFF, tile_y & 0xFFFF, world->unk_88);
+                        occupant = tile_finder_words(world, tile_x & 0xFFFF, tile_y & 0xFFFF, world->unk_88);
                     }
                     if (occupant != NULL) {
                         if (occupant->unk_13 == 0x1F) {
@@ -93,9 +95,9 @@ s32 func_8009AF18(u32 direction_flags, FuncArg1 *origin, S_8009AF18_0 *start_til
                     }
                     return (s16)step;
                 }
-                world_x += D_800DCEAC[direction];
-                world_y += D_800DCEBC[direction];
-                height_result = func_800BCB04(world_x & 0xFFFF, world_y & 0xFFFF, origin->height);
+                world_x += ((u16 *)D_800DCEAC)[direction];
+                world_y += ((u16 *)D_800DCEBC)[direction];
+                height_result = map_height_short(world_x & 0xFFFF, world_y & 0xFFFF, origin->height);
                 if (height_result >= 0x200) {
                     return (s16) (step - 1);
                 }

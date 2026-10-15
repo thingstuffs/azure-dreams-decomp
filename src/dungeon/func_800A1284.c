@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern void func_800A08A0(s32 spawn_mode);
-extern s32 func_800A6DA4(s32 bound_a, s32 bound_b);
+extern s32 func_800A6DA4(u32 bound_a, u32 bound_b);
 
 /* Initializes monster spawn rates with values 2 through 17 and a random number of value 1 entries. */
 void func_800A69E4(void) {

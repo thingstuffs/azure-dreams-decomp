@@ -3,8 +3,8 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
-s32 func_8004491C();           /* extern */
-extern M2C_UNK D_800B8CF0;
+extern s32 func_8004491C();
+extern void func_800B8CF0(void *state, s32 unused, void *primitive);
 extern M2C_UNK D_800DF358;
 
 typedef struct S_800B8D64_0 {
@@ -43,7 +43,7 @@ void func_800B8D64(s16 x, s16 y, s16 z) {
 
     effect = func_8003FC64(0x212);
     if (effect != NULL) {
-        effect->unk_10 = &D_800B8CF0;
+        effect->unk_10 = func_800B8CF0;
         func_8004491C(effect, func_80045340);
         position = effect->unk_08;
         position->unk_02 = x;

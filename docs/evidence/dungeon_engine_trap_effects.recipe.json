@@ -1,0 +1,35 @@
+{
+  "module": "dungeon_engine_trap_effects",
+  "scope": "whole_tu",
+  "flags": [
+    "-q",
+    "-G0",
+    "-0"
+  ],
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "basis": [
+    "One uniform genuine ASPSX recipe applied to the complete canonical compiler stream; checked control and unchecked exact measurements are preserved."
+  ],
+  "controls": [
+    {
+      "flags": [
+        "-q",
+        "-G0"
+      ],
+      "objects_exact": false
+    },
+    {
+      "flags": [
+        "-q",
+        "-G0",
+        "-0"
+      ],
+      "objects_exact": true
+    }
+  ],
+  "review": "pending",
+  "reviewer": null
+}

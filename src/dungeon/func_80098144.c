@@ -1,10 +1,7 @@
+#include "modules/dungeon_engine_transition_effects_fragment_b7c20.h"
 #include "common.h"
 #include "shared/game_work.h"
 
-typedef struct {
-    s32 word0 __attribute__((packed));
-    s32 word4 __attribute__((packed));
-} PackedPair;
 
 typedef struct {
     u8 pad0[0x14];
@@ -12,16 +9,12 @@ typedef struct {
     s16 field_16;
 } DungeonConfig;
 
-extern PackedPair D_80088CB0;
-extern u8 D_800E50A8[];
-extern u8 D_800EA000[];
 
-extern void func_800672D8(PackedPair *, u8 *);
 extern void func_8009BF7C(s32 flag, s8 value);
 
 /* Pack dungeon cell height levels into nibbles and submit the buffer. */
 void func_8009D8A4(void) {
-    PackedPair upload_pair;
+    TransitionWords upload_pair;
     DungeonConfig *config;
     u8 *dungeon_data;
     u8 *buffer;
@@ -51,7 +44,7 @@ void func_8009D8A4(void) {
     if ((1 << config->field_16) > 0) {
         zero = 0;
         one = 1;
-        cells = D_800EA000;
+        cells = (u8 *)D_800EA000;
         do {
             column = 0;
             {

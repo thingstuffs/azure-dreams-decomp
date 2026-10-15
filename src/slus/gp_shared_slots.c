@@ -1,3 +1,5 @@
+#include "slus/gp_shared_slots.h"
+
 #include "w_8003CB08.c"
 #include "w_8003CCB0.c"
 s16 D_80080AA4 = 0;

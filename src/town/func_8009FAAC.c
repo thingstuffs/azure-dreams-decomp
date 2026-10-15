@@ -1,39 +1,14 @@
-#include "common.h"
-#include "records/Rec_D_80082D58.h"
-
-#ifndef NULL
-#define NULL 0
-#endif
-
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
-s32 func_80033B2C();
-s32 func_8008CC90();
-extern u16 D_80082D08[];
-
-
-typedef struct S_8009D20C_1 {
-    u8 pad_00[0x1];
-    u8 unk_01;
-    s16 unk_02;
-} S_8009D20C_1;   /* temp_s0 in func_8009D20C */
-
-typedef struct S_8009D20C_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-} S_8009D20C_2;   /* arg1 in func_8009D20C */
+#include "modules/town_town_windows.h"
 
 /* Classifies a record using its attached state and two position tests. */
 s32 func_8009D20C(Rec_D_80082D58 *record, void *position_data)
 {
-    S_8009D20C_2 *position = position_data;
+    func_8009FAAC_S_8009D20C_2 *position = position_data;
     s32 result;
     s32 one;
     s32 geom_result;
     s32 state_result;
-    S_8009D20C_1 *state;
+    func_8009FAAC_S_8009D20C_1 *state;
 
     state = record->unk_98.as_pv;
     if (state != NULL) {

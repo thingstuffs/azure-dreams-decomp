@@ -2,13 +2,13 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-typedef struct
+typedef struct DungeonPosition
 {
     u16 x;
     u16 y;
 }
 DungeonPosition;
-typedef struct
+typedef struct DungeonParameters
 {
     u8 pad0[4];
     u16 flags;
@@ -40,9 +40,9 @@ typedef struct
     u16 cur_z;
 }
 EllipseWork;
-extern s32 func_800644B8(s32 value);
-extern s32 func_80064584(s32 value);
-extern void func_8006658C(s32, u8 *);
+extern s32 func_800644B8(s32, ...);
+extern s32 func_80064584(s32, ...);
+extern void func_8006658C(void *, void *, ...);
 extern void func_8006671C(u8 *);
 /* Emit textured ellipse segments around the given position. */
 void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32 draw_order, s32 blend_mode)

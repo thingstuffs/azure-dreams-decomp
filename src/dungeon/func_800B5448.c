@@ -19,7 +19,7 @@ struct DungeonObject {
     s8 level;
 };
 
-typedef struct Scratch Scratch;
+typedef struct Scratch_800B5448 Scratch_800B5448;
 
 typedef struct S_800BABA8_0_pre {
     s8 unk_00;
@@ -43,7 +43,7 @@ typedef struct S_800BABA8_1 {
     s32 unk_8D0;
 } S_800BABA8_1;   /* *(DungeonRoot **)global_field in func_800BABA8 */
 
-struct Scratch {
+struct Scratch_800B5448 {
     u16 values[3];
     u8 pad06[0x1A];
     u8 *base;
@@ -60,10 +60,10 @@ struct Scratch {
 };
 
 
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
-extern s32 func_80065420(void *, void *, void *, void *);
-extern void func_8006658C(void *, void *);
+extern s32 func_800644B8(s32, ...);
+extern s32 func_80064584(s32, ...);
+extern s32 func_80065420(void *, void *, ...);
+extern void func_8006658C(void *, void *, ...);
 extern void func_80067F20(void *, s32, s32, s32, s32);
 extern s16 func_80069EF8(void);
 
@@ -73,14 +73,14 @@ s32 func_800BABA8(DungeonObject *object, u16 *position) {
         *(DungeonRoot **)((u8 *)(&gameWork));
     GameWork *root_slot = &gameWork;
     s32 packet_cursor = root->cursor;
-    Scratch *scratch;
+    Scratch_800B5448 *scratch;
     s16 particle = 0;
     u8 *scratch_90 = (u8 *)0x1F800090;
     u8 *scratch_94;
     void *packet;
 
     object->count = 0;
-    scratch = (Scratch *)0x1F800000;
+    scratch = (Scratch_800B5448 *)0x1F800000;
     scratch->base = ((u8 *)root_slot->unk_000) + 0xB0;
     scratch->values[0] = position[1];
     scratch_94 = (u8 *)scratch;

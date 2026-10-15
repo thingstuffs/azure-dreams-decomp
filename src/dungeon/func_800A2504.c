@@ -2,7 +2,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 func_8004491C();           /* extern */
+extern s32 func_8004491C(void *entry, s32 registration_id);
 extern M2C_UNK D_800A7CC4;
 
 typedef struct S_800A7C64_0 {

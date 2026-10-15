@@ -1,0 +1,473 @@
+{
+  "kind": "REAL_CALLER_PROVEN_STATUS_PREDICATES",
+  "entries": [
+    {
+      "start": 928688,
+      "end": 928812,
+      "size": 124,
+      "vma": 2148303632,
+      "id": "dungeon/func_800C2BB0",
+      "function": "func_800C8310",
+      "mask": "0x80000",
+      "source": "drafts/recovered_status_predicates/func_800C2BB0.c",
+      "primary_entry_evidence": "evidence/status_helpers_entries.json",
+      "witnesses": [
+        {
+          "row": "dungeon/func_80EAF000",
+          "foff": 15528200,
+          "bytes": 492,
+          "source": "src/dungeon/func_80EAF000.c",
+          "source_sha256": "b717b8d2ab8bfadc8658af9877ae0fc3a3fc417ea941f156fe3526910c36f771",
+          "gate_config": "config/overlays/dungeon_deep_t8b_ecf000.overlay.yaml",
+          "call_offsets": [
+            15528408
+          ],
+          "jal_word": "0xc0320c4",
+          "target_vma": "0x800c8310"
+        },
+        {
+          "row": "dungeon/func_80EA3000",
+          "foff": 15479048,
+          "bytes": 492,
+          "source": "src/dungeon/func_80EA3000.c",
+          "source_sha256": "7b34e6327886eee75483665c390badd29074d87861333e69adb5d86b62352d37",
+          "gate_config": "config/overlays/dungeon_deep_t8b_ec3000.overlay.yaml",
+          "call_offsets": [
+            15479256
+          ],
+          "jal_word": "0xc0320c4",
+          "target_vma": "0x800c8310"
+        },
+        {
+          "row": "dungeon/func_80E9D000",
+          "foff": 15454472,
+          "bytes": 492,
+          "source": "src/dungeon/func_80E9D000.c",
+          "source_sha256": "5d056b1fcefb48e431c8c041c5d20942849ce62ba96f80873d2e4c1a068005ea",
+          "gate_config": "config/overlays/dungeon_deep_t8b_ebd000.overlay.yaml",
+          "call_offsets": [
+            15454680
+          ],
+          "jal_word": "0xc0320c4",
+          "target_vma": "0x800c8310"
+        },
+        {
+          "row": "dungeon/func_80E91000",
+          "foff": 15405320,
+          "bytes": 492,
+          "source": "src/dungeon/func_80E91000.c",
+          "source_sha256": "932fcccf1594be03139569aeaae141aec7093f5f64d6d886a292436ae29077e2",
+          "gate_config": "config/overlays/dungeon_deep_t8b_eb1000.overlay.yaml",
+          "call_offsets": [
+            15405528
+          ],
+          "jal_word": "0xc0320c4",
+          "target_vma": "0x800c8310"
+        }
+      ]
+    },
+    {
+      "start": 928812,
+      "end": 928936,
+      "size": 124,
+      "vma": 2148303756,
+      "id": "dungeon/func_800C2C2C",
+      "function": "func_800C838C",
+      "mask": "0x8000000",
+      "source": "drafts/recovered_status_predicates/func_800C2C2C.c",
+      "primary_entry_evidence": "evidence/status_helpers_entries.json",
+      "witnesses": [
+        {
+          "foff": 928812,
+          "vma": 2148303756,
+          "witnesses": [
+            {
+              "caller_file": 931032,
+              "caller_vma": 2148305976,
+              "instruction": "0x0c0320e3",
+              "operation": "jal",
+              "target_file": 928812,
+              "target_vma": 2148303756,
+              "caller_registered_row": "dungeon/func_800C34BC"
+            }
+          ],
+          "registered_jal_witnesses": 1
+        }
+      ]
+    },
+    {
+      "start": 928936,
+      "end": 929060,
+      "size": 124,
+      "vma": 2148303880,
+      "id": "dungeon/func_800C2CA8",
+      "function": "func_800C8408",
+      "mask": "0x2000000",
+      "source": "drafts/recovered_status_predicates/func_800C2CA8.c",
+      "primary_entry_evidence": "evidence/status_helpers_entries.json",
+      "witnesses": [
+        {
+          "foff": 928936,
+          "vma": 2148303880,
+          "witnesses": [
+            {
+              "caller_file": 930680,
+              "caller_vma": 2148305624,
+              "instruction": "0x0c032102",
+              "operation": "jal",
+              "target_file": 928936,
+              "target_vma": 2148303880,
+              "caller_registered_row": "dungeon/func_800C335C"
+            }
+          ],
+          "registered_jal_witnesses": 1
+        }
+      ]
+    },
+    {
+      "start": 929060,
+      "end": 929184,
+      "size": 124,
+      "vma": 2148304004,
+      "id": "dungeon/func_800C2D24",
+      "function": "func_800C8484",
+      "mask": "0x10000000",
+      "source": "drafts/recovered_status_predicates/func_800C2D24.c",
+      "primary_entry_evidence": "evidence/status_helpers_entries.json",
+      "witnesses": [
+        {
+          "foff": 929060,
+          "vma": 2148304004,
+          "witnesses": [
+            {
+              "caller_file": 930364,
+              "caller_vma": 2148305308,
+              "instruction": "0x0c032121",
+              "operation": "jal",
+              "target_file": 929060,
+              "target_vma": 2148304004,
+              "caller_registered_row": "dungeon/func_800C3220"
+            }
+          ],
+          "registered_jal_witnesses": 1
+        }
+      ]
+    },
+    {
+      "start": 929184,
+      "end": 929308,
+      "size": 124,
+      "vma": 2148304128,
+      "id": "dungeon/func_800C2DA0",
+      "function": "func_800C8500",
+      "mask": "0x100000",
+      "source": "drafts/recovered_status_predicates/func_800C2DA0.c",
+      "primary_entry_evidence": "evidence/status_helpers_entries.json",
+      "witnesses": [
+        {
+          "foff": 929184,
+          "vma": 2148304128,
+          "witnesses": [
+            {
+              "caller_file": 929340,
+              "caller_vma": 2148304284,
+              "instruction": "0x0c032140",
+              "operation": "jal",
+              "target_file": 929184,
+              "target_vma": 2148304128,
+              "caller_registered_row": "dungeon/func_800C2E1C"
+            }
+          ],
+          "registered_jal_witnesses": 1
+        }
+      ]
+    }
+  ],
+  "compiler_controls": [
+    {
+      "start": 928688,
+      "bytes": 124,
+      "function": "func_800C8310",
+      "source": "drafts/recovered_status_predicates/func_800C2BB0.c",
+      "source_sha256": "fd8ad7e8d470e74b15c231e46098d4a0135d0bbb01a5c591283a9a232102372c",
+      "output": "diagnostics/recovered_functions/e2bb0",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "1b9df94a56088a54ef56c9a990b0dbfeec6a725a75b913c132a5df2b3a9c36ff",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "1b9df94a56088a54ef56c9a990b0dbfeec6a725a75b913c132a5df2b3a9c36ff",
+        "genuine.bin": "1b9df94a56088a54ef56c9a990b0dbfeec6a725a75b913c132a5df2b3a9c36ff",
+        "checked.OBJ": "6e3da2ce7a0b2dc3870bbf4bf4e5da0604728dfac7a86ee1e74fad4073c70180",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "1b9df94a56088a54ef56c9a990b0dbfeec6a725a75b913c132a5df2b3a9c36ff",
+        "sectioned.s": "9dc6f36eb772b94cb885542592e98abb0738b638a4c8cb25f61b9c95e552e852",
+        "IN.S": "704fb7e29701eac34817592c994be91672030342cb813708213b5d3a75a475d2",
+        "function.o": "b55e96a6b18d1f58494faa60ec277cb020cf5c57d326d7d5905c640761966376",
+        "function.s": "0a1f1d8d8d0f1ff01cab5a3398a8a23d063974c525f9d8bf0ca425dc9f561acc"
+      }
+    },
+    {
+      "start": 928812,
+      "bytes": 124,
+      "function": "func_800C838C",
+      "source": "drafts/recovered_status_predicates/func_800C2C2C.c",
+      "source_sha256": "9834b87ca2520ea3bdb0b3b0f8d696b5eafc004068a42bc5309709686803b760",
+      "output": "diagnostics/recovered_functions/e2c2c",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "d1335a414edc0e5d719f2f65ebd4beea02d0d3b862e63234e5c34482db7edc20",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "d1335a414edc0e5d719f2f65ebd4beea02d0d3b862e63234e5c34482db7edc20",
+        "genuine.bin": "d1335a414edc0e5d719f2f65ebd4beea02d0d3b862e63234e5c34482db7edc20",
+        "checked.OBJ": "f37f256bba19e8f373dd2d1a7f6c0668716183e99ea62a61b4be92401244a1cc",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "d1335a414edc0e5d719f2f65ebd4beea02d0d3b862e63234e5c34482db7edc20",
+        "sectioned.s": "6f65192c295ad28dabba1f6238ba8902db7a181163d53ec456f5d09dd06cbb11",
+        "IN.S": "6ce0eb1686cc9da90f3b877fc9f205fc63f21a20eff28ca7d8ea74ce916bc05f",
+        "function.o": "6b1e2661d6b9a1a0dc6a0bca5ac7062248b4a511386a46413f8442cdaca78be5",
+        "function.s": "4d0845c78ebdc22e1713af67302b62d46f5c2f2b01919571f75ac090f2ed2d0d"
+      }
+    },
+    {
+      "start": 928936,
+      "bytes": 124,
+      "function": "func_800C8408",
+      "source": "drafts/recovered_status_predicates/func_800C2CA8.c",
+      "source_sha256": "7b1f8d11519efb3c497c8fa44099a774d46eada39fbf2ff3c5756f8275c267fd",
+      "output": "diagnostics/recovered_functions/e2ca8",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "ed94a1ba514610ddbe66c3cb661acf6ce76237c5337fb2f52b0e467eaf4c9839",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "ed94a1ba514610ddbe66c3cb661acf6ce76237c5337fb2f52b0e467eaf4c9839",
+        "genuine.bin": "ed94a1ba514610ddbe66c3cb661acf6ce76237c5337fb2f52b0e467eaf4c9839",
+        "checked.OBJ": "31910904299a334e07f4cf56af792e69ad4bacc8a05e0cf69abdc9640b3d6fa2",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "ed94a1ba514610ddbe66c3cb661acf6ce76237c5337fb2f52b0e467eaf4c9839",
+        "sectioned.s": "f7ef9ea817ad4c9772df52c1ca8cd01fc0857f9cf6222f462b710b465de36b7e",
+        "IN.S": "badb8f5c804b66b52e54a21880d8ca448cf5415b2ca35d0e622f5915055f4962",
+        "function.o": "c7e944d4b0b8926129fcf228cd3b86f47b1f9705dc653b54dbc621a9a6d94089",
+        "function.s": "68c3c967aa769f8e952348ca9bb05ae73ac379b6ecda7d88f14b5ffee2388d3f"
+      }
+    },
+    {
+      "start": 929060,
+      "bytes": 124,
+      "function": "func_800C8484",
+      "source": "drafts/recovered_status_predicates/func_800C2D24.c",
+      "source_sha256": "57282281c704e844331f733340cf61cae07ca80fd6cd03f7216079b3b355b7d1",
+      "output": "diagnostics/recovered_functions/e2d24",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "24527b6aaf8c1aa7c9f0d5b1dd71cd7df3b061dc82277c23f524a1d51ddcabc3",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "24527b6aaf8c1aa7c9f0d5b1dd71cd7df3b061dc82277c23f524a1d51ddcabc3",
+        "genuine.bin": "24527b6aaf8c1aa7c9f0d5b1dd71cd7df3b061dc82277c23f524a1d51ddcabc3",
+        "checked.OBJ": "8bacf4ef4bd4415120ef0b59622211056ed304c92973dd907f28fcd20c89048b",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "24527b6aaf8c1aa7c9f0d5b1dd71cd7df3b061dc82277c23f524a1d51ddcabc3",
+        "sectioned.s": "d66f4eb0647e8589edc0e1753a5d64104d146c37115ee0cb84ca2ca4c8529ed5",
+        "IN.S": "ed3794daf3e6cc5596fdb91d7874f75e86cde0de18dd7f01efccfebe295e7fbc",
+        "function.o": "3834e526b7d6ffc456eecb9c209f469d3468eea22828da5b8d4e5a22f7d14f6f",
+        "function.s": "acd22f50c2fa6ec468b523be56a90782562c866ca84119a51e815ce55c120e30"
+      }
+    },
+    {
+      "start": 929184,
+      "bytes": 124,
+      "function": "func_800C8500",
+      "source": "drafts/recovered_status_predicates/func_800C2DA0.c",
+      "source_sha256": "18c911d288d19c6e18d461f88f5c538a8819e078a9d9935d3255da1b99789979",
+      "output": "diagnostics/recovered_functions/e2da0",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "1aabc7cdbd9008b443f983e0878b543d7619d376ddcb810c5423b014068134e6",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "1aabc7cdbd9008b443f983e0878b543d7619d376ddcb810c5423b014068134e6",
+        "genuine.bin": "1aabc7cdbd9008b443f983e0878b543d7619d376ddcb810c5423b014068134e6",
+        "checked.OBJ": "4bc9a9ef47a06bedd72df85cbdb7c17706ff1c9c12b6cc0f30760dbc24beeeb1",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "1aabc7cdbd9008b443f983e0878b543d7619d376ddcb810c5423b014068134e6",
+        "sectioned.s": "29d8512516328451ca8adf298d58d545ba94cc8a821a35e5dc55fa918d754ab4",
+        "IN.S": "95b07cf182914671fb9974869c62039174004798fe1585f3fb21f44a43536839",
+        "function.o": "67f9ea1ff2fa2a0381db6b0d7594100dfedb27adfd89b80968f06593cf52b899",
+        "function.s": "32253cb47b124bc79d96b68f1f98591b0d5769c043104f7b4b4fcefca81694fd"
+      }
+    }
+  ],
+  "site_map": "# Five 124-byte status predicate entries\n\nFull retail range 0xE2BB0..0xE2E1C (620 bytes), runtime 0x800C8310..0x800C857C, was read end to end in retail.asm. Each body is 31 instructions, leaf/no frame/no allocated data. Predicate masks in retail order: 0x00080000, 0x08000000, 0x02000000, 0x10000000, 0x00100000. The bodies differ only in those two LUI immediates per predicate.\n\nEntry evidence: first predicate is JAL-called by four registered DUNGEON bank rows, independently verified in the actual container (evidence/status_helpers_entries.json). The other four predicates have actual registered engine JAL callers from the existing primary call census. The physical row id for the first is dungeon/func_800C2BB0 and its true runtime function is func_800C8310; do not confuse it with the existing nominal func_800C8310 row, whose true function is elsewhere.\n\nRoles: a0 begins as entity pointer; flags14 bit0x4000 selects aggregate behavior. Direct branch loads signed/word entity+0x54 into v1 and tests the mask, returning 1 or0. Aggregate branch loads the resident EntityRec pointer at D_800E3D7C. a0 becomes descending index1..0; v1 starts at root+4, and links are loaded at cursor+0xAC, then cursor-=4, selecting root's pointer fields +0xB0 then+0xAC. v0 is the linked object pointer, then its +0x54 flags. a1 holds the mask. Null links skip. A set bit branches to common return with li v0,1 in the branch delay. Loop exhaustion jumps to common return with v0=0 in the jump delay. Direct branch is after the loop, then common jr ra/nop. No GP accesses, stores or calls occur inside the predicates.\n\nAttribution: load-only, family-neutral predicates give no conflicting store-emission signature. Use the surrounding uniform proven engine/cohort GCC2.7.2-cdk -O2 -G0 recipe and the unchanged lineage scanner; no compiler sweep ranking is used. Plain pointer/loop C owns the initial reconstruction. All source/ABI statements follow actual registered callers and the shared EntityRec pointer fields; no accounting stub is inferred.\n",
+  "lineage": [
+    {
+      "function": "func_800C8310",
+      "verdict": {
+        "verdict": "insufficient store-emission evidence (few globals?)",
+        "family": null,
+        "notes": []
+      },
+      "evidence": {
+        "at_macro": [],
+        "split_store": [],
+        "held_page": [],
+        "slot_store": [],
+        "split_la": [],
+        "zero_copy": [],
+        "ret_copy": []
+      },
+      "gp_refs": 0,
+      "claim": "2.7.2-cdk-G0 from surrounding uniform cohort; byte signatures family-neutral",
+      "claim_conflict": false
+    },
+    {
+      "function": "func_800C838C",
+      "verdict": {
+        "verdict": "insufficient store-emission evidence (few globals?)",
+        "family": null,
+        "notes": []
+      },
+      "evidence": {
+        "at_macro": [],
+        "split_store": [],
+        "held_page": [],
+        "slot_store": [],
+        "split_la": [],
+        "zero_copy": [],
+        "ret_copy": []
+      },
+      "gp_refs": 0,
+      "claim": "2.7.2-cdk-G0 from surrounding uniform cohort; byte signatures family-neutral",
+      "claim_conflict": false
+    },
+    {
+      "function": "func_800C8408",
+      "verdict": {
+        "verdict": "insufficient store-emission evidence (few globals?)",
+        "family": null,
+        "notes": []
+      },
+      "evidence": {
+        "at_macro": [],
+        "split_store": [],
+        "held_page": [],
+        "slot_store": [],
+        "split_la": [],
+        "zero_copy": [],
+        "ret_copy": []
+      },
+      "gp_refs": 0,
+      "claim": "2.7.2-cdk-G0 from surrounding uniform cohort; byte signatures family-neutral",
+      "claim_conflict": false
+    },
+    {
+      "function": "func_800C8484",
+      "verdict": {
+        "verdict": "insufficient store-emission evidence (few globals?)",
+        "family": null,
+        "notes": []
+      },
+      "evidence": {
+        "at_macro": [],
+        "split_store": [],
+        "held_page": [],
+        "slot_store": [],
+        "split_la": [],
+        "zero_copy": [],
+        "ret_copy": []
+      },
+      "gp_refs": 0,
+      "claim": "2.7.2-cdk-G0 from surrounding uniform cohort; byte signatures family-neutral",
+      "claim_conflict": false
+    },
+    {
+      "function": "func_800C8500",
+      "verdict": {
+        "verdict": "insufficient store-emission evidence (few globals?)",
+        "family": null,
+        "notes": []
+      },
+      "evidence": {
+        "at_macro": [],
+        "split_store": [],
+        "held_page": [],
+        "slot_store": [],
+        "split_la": [],
+        "zero_copy": [],
+        "ret_copy": []
+      },
+      "gp_refs": 0,
+      "claim": "2.7.2-cdk-G0 from surrounding uniform cohort; byte signatures family-neutral",
+      "claim_conflict": false
+    }
+  ],
+  "review": "pending",
+  "reviewer": null
+}

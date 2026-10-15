@@ -1,3 +1,4 @@
+#include "modules/trap_effects_candidate.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -5,8 +6,8 @@
 #include "m2c_compat.h"
 
 M2C_UNK func_8003DB94();
-s32 func_8004491C();
-s32 func_800A56E0();
+extern s32 func_8004491C();
+extern s32 func_800A56E0();
 extern M2C_UNK D_800CB9DC;
 extern u8 D_800DF650[];
 

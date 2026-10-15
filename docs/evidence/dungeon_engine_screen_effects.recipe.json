@@ -1,0 +1,96 @@
+{
+  "module": "dungeon_engine_screen_effects",
+  "scope": "whole_tu",
+  "flags": [
+    "-q",
+    "-G0"
+  ],
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "basis": [
+    "One uniform genuine ASPSX recipe applied to the complete canonical compiler stream; checked control and unchecked exact measurements are preserved."
+  ],
+  "controls": [
+    {
+      "flags": [
+        "-q",
+        "-G0"
+      ],
+      "objects_exact": true,
+      "compare": {
+        "diff": 0,
+        "exact": true,
+        "len_m": 498,
+        "len_g": 498,
+        "missing": [],
+        "delay_only": []
+      },
+      "text_exact": true,
+      "natural_text_order_exact": true,
+      "unknown": [],
+      "members": [
+        {
+          "id": "dungeon/func_800C3928",
+          "function": "func_800C9088",
+          "foff": 932136,
+          "vma": 2148307080,
+          "bytes": 1336,
+          "expected_bytes": 1336,
+          "masked": [],
+          "different_bytes": 0,
+          "first_differences": [],
+          "exact": true,
+          "sha256": "419c9f8c4ad746aed6de1d1d97ac5e21356a45bd64f12668f650be8f68bf1459",
+          "retail_sha256": "419c9f8c4ad746aed6de1d1d97ac5e21356a45bd64f12668f650be8f68bf1459"
+        },
+        {
+          "id": "dungeon/func_800C3E60",
+          "function": "func_800C95C0",
+          "foff": 933472,
+          "vma": 2148308416,
+          "bytes": 164,
+          "expected_bytes": 164,
+          "masked": [],
+          "different_bytes": 0,
+          "first_differences": [],
+          "exact": true,
+          "sha256": "d2f39d187443675faaeca546da67aca76a1ebf8a63d840a6e4d32c4f47077f8e",
+          "retail_sha256": "d2f39d187443675faaeca546da67aca76a1ebf8a63d840a6e4d32c4f47077f8e"
+        },
+        {
+          "id": "dungeon/func_800C3F04",
+          "function": "func_800C9664",
+          "foff": 933636,
+          "vma": 2148308580,
+          "bytes": 132,
+          "expected_bytes": 132,
+          "masked": [],
+          "different_bytes": 0,
+          "first_differences": [],
+          "exact": true,
+          "sha256": "b0d69c68e054be4930edaf740fcc255682fd5d84cda8b8afbe50ee14020e45eb",
+          "retail_sha256": "b0d69c68e054be4930edaf740fcc255682fd5d84cda8b8afbe50ee14020e45eb"
+        },
+        {
+          "id": "dungeon/func_800C3F88",
+          "function": "func_800C96E8",
+          "foff": 933768,
+          "vma": 2148308712,
+          "bytes": 360,
+          "expected_bytes": 360,
+          "masked": [],
+          "different_bytes": 0,
+          "first_differences": [],
+          "exact": true,
+          "sha256": "350554583ff949628091df691e2ef2c464a52321c557854505e64b05ecf85391",
+          "retail_sha256": "350554583ff949628091df691e2ef2c464a52321c557854505e64b05ecf85391"
+        }
+      ],
+      "data_matches": []
+    }
+  ],
+  "review": "pending",
+  "reviewer": null
+}

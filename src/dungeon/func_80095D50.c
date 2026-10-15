@@ -1,19 +1,14 @@
+#include "modules/dungeon_engine_tile_map_fragment_b5d50.h"
 #include "shared/game_work.h"
 
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-typedef short s16;
-typedef unsigned int u32;
-typedef int s32;
 typedef struct Rec
 {
     u8 pad[0x5c];
     u8 *next;
 }
 Rec;
-extern s32 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern s32 func_800A41F0(u8 *);
+extern s16 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
+extern s32 func_800A41F0(void *entity);
 /* Finds an eligible entry at the requested coordinates after checking the tile to the left. */
 void *func_8009B4B0(u8 *entry, s16 x, s16 y)
 {

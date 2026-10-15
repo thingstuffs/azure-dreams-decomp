@@ -1,22 +1,14 @@
+#include "modules/main_server_ship.h"
 #include "common.h"
 
-typedef s32 (*MainCallback)(void);
 
-typedef struct CallbackSet {
-    MainCallback value[5];
-} CallbackSet;
 
-typedef struct CallbackWork {
-    CallbackSet first;
-    s32 pad;
-    CallbackSet second;
-} CallbackWork;
 
-extern s32 func_80021410(void);
-extern s32 func_800214FC(void);
-extern CallbackSet D_80020034;
-extern CallbackSet D_80020048;
-extern s32 D_800287E0[];
+
+
+
+
+
 
 /* Dispatches a nonzero handler result through the current mode's callback table. */
 s32 func_80021594(void)

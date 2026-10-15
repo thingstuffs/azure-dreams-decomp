@@ -1,3 +1,4 @@
+#include "modules/trap_effects_candidate.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -38,9 +39,9 @@ typedef struct S_800CD474_3 {
 } S_800CD474_3;   /* global_base in func_800CD474 */
 
 
-extern s32 func_800419EC();
+extern void func_800419EC();
 extern s32 func_800A56E0();
-extern s32 func_800CD6AC();
+extern void func_800CD6AC();
 
 /* Advance a falling effect through impact, flashing, and fade-out. */
 void func_800CD474(void *effect, S_800CD474_1 *motion, S_800CD474_2 *primitive) {

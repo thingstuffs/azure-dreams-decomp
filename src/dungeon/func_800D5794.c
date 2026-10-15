@@ -74,7 +74,7 @@ typedef struct S_800DAEF4_7 {
 extern void *func_8003FD64();
 extern void func_8004491C();
 extern s32 func_80069EF8(void);
-extern s32 D_800DB164;
+extern void func_800DB164(void *effect, void *motion, void *visual);
 extern s32 D_800DEA68;
 
 /* Spawns up to 13 scattered objects and marks the owner finished when its timer expires. */
@@ -100,7 +100,7 @@ void func_800DAEF4(void *source_owner, void *spawn_params)
     do {
         object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
         if (object != 0) {
-            ((S_800DAEF4_0 *)object)->unk_10 = &D_800DB164;
+            ((S_800DAEF4_0 *)object)->unk_10 = func_800DB164;
             func_8004491C(object, func_80045340);
             node = ((S_800DAEF4_0 *)object)->unk_0C;
             work = (u8 *)object;

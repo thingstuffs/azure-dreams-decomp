@@ -19,7 +19,7 @@ typedef struct S_800C5A64_2 {
 } S_800C5A64_2;   /* counter_base in func_800C5A64 */
 
 
-extern void func_800478B8(void *);
+extern void func_800478B8();
 
 /* Advance and damp effect motion, fade its primitive, and mark it expired when its lifetime ends. */
 void func_800C5A64(void *effect, s32 *motion, void *primitive)

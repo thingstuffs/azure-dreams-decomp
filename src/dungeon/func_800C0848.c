@@ -32,7 +32,7 @@ void func_8009A3D0();
 void func_8009D6F4();
 s32 func_8009FBF0();
 void func_800A32A4();
-void func_800A56E0();
+extern s32 func_800A56E0();
 void func_800A5720();
 void func_800A6780();
 s32 func_800A6D30(void);

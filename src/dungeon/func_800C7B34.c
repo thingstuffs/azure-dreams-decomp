@@ -1,3 +1,4 @@
+#include "modules/trap_effects_candidate.h"
 #include "common.h"
 #include "m2c_compat.h"
 
@@ -19,12 +20,12 @@ typedef struct S_800CD294_1 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 D_800E3D40[];
+
 extern s32 D_800DCF14;
-void func_80099844();           /* extern */
-s32 func_800A56E0();                     /* extern */
-void func_800A6508();                          /* extern */
-void *func_800C5BBC(); /* extern */
+extern void func_80099844();
+extern s32 func_800A56E0();
+extern void func_800A6508();
+extern void * func_800C5BBC();
 s32 func_800C8C1C();        /* extern */
 void func_800DC1B8();                         /* extern */
 extern M2C_UNK D_800E1C03;
@@ -37,7 +38,7 @@ s32 func_800CD294(void *record_data) {
     S_800CD294_1 *entity;
 
     check_mask = 0x40;
-    if (*D_800E3D40 != 0) {
+    if (D_800E3D40 != 0) {
         check_mask = 0x400;
     }
     if (func_800C8C1C(record_data, check_mask, 0x10) == 0) {

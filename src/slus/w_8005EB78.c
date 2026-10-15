@@ -1,18 +1,4 @@
-#include "common.h"
-
-typedef struct {
-    u8 pad0[0xC];
-    u16 field_C;
-    u16 padE;
-} S_8005EB78_VoiceSlot;
-
-typedef struct {
-    S_8005EB78_VoiceSlot *ptr;
-    u32 pad[2];
-} S_8005EB78_79958;
-
-extern S_8005EB78_79958 D_80079958;
-extern s32 D_800794F0[3];
+#include "slus/jtbl_8005F134.h"
 
 /* Returns the active/key-on state of the first selected voice, or -1 if none is selected. */
 s32 func_8005EB78(s32 voice_mask)
@@ -39,8 +25,8 @@ s32 func_8005EB78(s32 voice_mask)
     }
 
     voice_mask = voice << 4;
-    result = (s32)D_80079958.ptr;
-    voice_index = D_800794F0[0];
+    result = (s32)D_80079958;
+    voice_index = D_800794F0;
     voice_mask = voice_mask + result;
     result = 1;
     result = result << voice;

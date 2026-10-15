@@ -1,31 +1,5 @@
-#include "shared/runtime_dispatch.h"
-#include "common.h"
+#include "slus/gp_shared_slots.h"
 
-
-extern void *D_80083160[3];
-extern u8 D_801C9E40[2][0x108D4];
-extern u16 D_80083960[5];
-extern s16 D_80080AA4;
-extern u16 D_80080AA6;
-extern u16 D_80080AA8;
-extern u8 D_80080AAA;
-extern s16 D_80083858[64];
-extern s16 D_800838D8[64];
-extern s32 VSync(s32 mode);
-extern void PutDispEnv(void *env);
-extern void PutDrawEnv(void *env);
-extern void DrawSync(s32 mode);
-extern s32 rcos(s32 angle);
-extern s32 rsin(s32 angle);
-extern void func_8003D0F0(void);
-extern void func_8003CCB0(s32 layer);
-
-static inline s32 shift10(s32 value)
-{
-    return value >> 10;
-}
-
-/* Swap draw buffers and update the animated coordinate history on a new display field. */
 void func_8003CB08(void)
 {
     void **draw_buffer = &D_80083160[0];

@@ -1,3 +1,4 @@
+#include "modules/trap_effects_candidate.h"
 #include "shared/object_node.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
@@ -69,16 +70,16 @@ typedef struct S_800CD004_6 {
 } S_800CD004_6;   /* counter in func_800CD004 */
 
 
-extern void func_8004491C(void *, void *);
+extern s32 func_8004491C();
 extern s32 func_80069EF8(void);
-extern void func_800A56E0(s32);
+extern s32 func_800A56E0();
 extern void func_800A6508();
 extern s32 func_800A6D30(void);
 
 extern u8 D_800CCDA0;
 extern u8 D_800DFD0C[];
 extern u8 D_800DFD30[];
-extern u8 D_800E3D40;
+
 
 /* Spawn a sprite effect for the source or invoke its fallback action. */
 s32 func_800CD004(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 rng_arg_3)

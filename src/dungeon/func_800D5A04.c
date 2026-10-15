@@ -25,7 +25,7 @@ typedef struct S_800DB164_2 {
 } S_800DB164_2;   /* arg1 in func_800DB164 */
 
 
-M2C_UNK func_800478B8();                      /* extern */
+extern void func_800478B8();
 s32 rand();                             /* extern */
 
 /* Updates a timed effect's animation and motion, marking it for removal when finished. */

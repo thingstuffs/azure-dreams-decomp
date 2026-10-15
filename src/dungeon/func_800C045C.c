@@ -5,10 +5,10 @@
 #include "m2c_compat.h"
 
 M2C_UNK func_8003DB94();  /* extern */
-s32 func_8004491C();           /* extern */
+extern s32 func_8004491C();
 s32 rand();                                /* extern */
-s32 func_800A56E0();                     /* extern */
-extern M2C_UNK D_800C5A64;
+extern s32 func_800A56E0();
+extern void func_800C5A64(void *effect, s32 *motion, void *primitive);
 extern M2C_UNK D_800DEA68;
 
 typedef struct S_800C5BBC_0 {
@@ -78,7 +78,7 @@ void *func_800C5BBC(s16 x, s16 y, s16 z, s32 sprite_data, u16 sprite_id, s16 pla
             }
             particle = func_8003FC64(alloc_flags);
             if (particle != NULL) {
-                ((S_800C5BBC_0 *)particle)->unk_10 = &D_800C5A64;
+                ((S_800C5BBC_0 *)particle)->unk_10 = func_800C5A64;
                 func_8004491C(particle, func_80045340);
                 position = ((S_800C5BBC_0 *)particle)->unk_08;
                 position->unk_02 = (u16) x;

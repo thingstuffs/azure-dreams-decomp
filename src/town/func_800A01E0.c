@@ -1,32 +1,12 @@
-#include "common.h"
-#include "m2c_compat.h"
-
-typedef struct S_8009D940_0 {
-    s16 unk_00;
-    s16 unk_02;
-    s16 unk_04;
-    s16 unk_06;
-    s16 unk_08;
-    s16 unk_0A;
-} S_8009D940_0;   /* temp_t0 in func_8009D940 */
-
-typedef struct S_8009D940_1 {
-    s16 unk_00;
-    s16 unk_02;
-} S_8009D940_1;   /* arg0 in func_8009D940 */
-
-typedef struct S_8009D940_2 {
-    s16 unk_00;
-    s16 unk_02;
-} S_8009D940_2;   /* arg1 in func_8009D940 */
+#include "modules/town_town_windows.h"
 
 /* Collect rectangles overlapping the query bounds into a null-terminated list. */
-void func_8009D940(S_8009D940_1 *query_max, S_8009D940_2 *query_min, void **entries, void **matches) {
+void func_8009D940(func_800A01E0_S_8009D940_1 *query_max, func_800A01E0_S_8009D940_2 *query_min, void **entries, void **matches) {
     s32 top;
     s32 left;
     void **entry_ptr;
     void **match_ptr;
-    S_8009D940_0 *rect;
+    func_800A01E0_S_8009D940_0 *rect;
 
     entry_ptr = entries;
     match_ptr = matches;

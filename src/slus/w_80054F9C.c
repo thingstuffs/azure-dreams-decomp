@@ -1,10 +1,5 @@
-#include "shared/sound_state.h"
-#include "common.h"
+#include "slus/jtbl_80054F9C.h"
 
-/* Task/timer object struct, shared with w_800559B4.c's SoundTask (field0 is a
- * callback function pointer; field8/fieldA/field18 are s16). */
-
-/* Activates the task, snapshots its timer on entry, and assigns the pad event priority. */
 void func_80054F9C(s32 pad_event, SoundTask *task) {
     u32 event_index;
     s32 priority;

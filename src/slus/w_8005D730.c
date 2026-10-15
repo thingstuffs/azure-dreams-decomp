@@ -1,4 +1,4 @@
-#include "common.h"
+#include "slus/sound_dma_lifecycle.h"
 
 /* Multiplies a volatile stack value by 13 sixty times, then discards the result. */
 void func_8005D730(void) {

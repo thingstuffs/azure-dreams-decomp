@@ -1,28 +1,16 @@
+#include "modules/dungeon_engine_transition_effects_fragment_b7c20.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
 
-typedef struct {
-    u32 word0;
-    u32 word1;
-} __attribute__((packed)) UA64;
 
-typedef struct MapTile {
-    u16 type;
-    u16 height;
-    u16 unk_04;
-} MapTile;
 
-extern void func_800672D8(void *, u8 *);
-extern UA64 D_80088CB0;
-extern u8 D_800E50A8[];
-extern MapTile D_800EA000[];
 
 /* Update packed map levels for the current region or neighboring tiles, then submit the map. */
 void func_8009D3B0(void) {
-    UA64 map_params;
+    TransitionWords map_params;
     MapGrid *grid;
     TileObject *obj;
     DungeonRoom *room;

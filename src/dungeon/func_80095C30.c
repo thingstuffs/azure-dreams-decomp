@@ -1,8 +1,8 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 
-extern s32 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern s32 func_800A41F0(void *object);
+extern s16 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
+extern s32 func_800A41F0(void *entity);
 
 /* Find an eligible object at the tile within 64 units of the target height. */
 void *func_8009B390(s16 tile_x, s16 tile_y, s16 target_height)

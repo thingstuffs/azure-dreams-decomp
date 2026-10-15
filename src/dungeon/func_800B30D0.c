@@ -19,10 +19,12 @@ typedef struct ShortVec {
 extern void *D_800E3D18;
 
 extern void *func_8003DE58(void *, void *, ShortVec *, s16);
-extern void func_8004491C(void *, void *);
-extern s32 func_800644B8(s32);
+extern s32 func_8004491C();
+extern s32 func_800644B8(s32, ...);
 extern void func_800B8D64(s16, s16, s16);
-extern void func_800B8EA8(void *, s16, s16, s16, ShortVec *, s32, s32, s32, s32);
+struct FuncInput;
+extern void func_800B8EA8(s32 alloc_arg, s32 child_x, s32 child_y, s32 child_z,
+                   struct FuncInput *input, s32 meta_value, s16 step_count, s32 range_value, s16 object_tag);
 
 
 typedef struct S_800B8830_0_pre {

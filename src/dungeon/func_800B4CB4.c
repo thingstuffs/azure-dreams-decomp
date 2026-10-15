@@ -48,16 +48,16 @@ typedef struct S_800BA414_4 {
    /* *global in func_800BA414 */
 
 
-extern void func_80064840(void *, void *, void *);
-extern void func_800649A0(void);
+extern void *func_80064840(void *, void *, void *);
+extern void func_800649A0();
 extern void func_80064A40(void);
 extern void func_80064AE0(void *);
 extern void func_80064CF0(void *);
 extern void func_80064D80(void *);
 extern u32 func_80065590(void *, void *, void *, void *, void *, void *,
                          void *, void *, void *, void *);
-extern void func_80065820(void *, void *);
-extern void func_8006658C(void *, void *);
+extern void *func_80065820(void *, void *);
+extern void func_8006658C(void *, void *, ...);
 extern void func_800666E0(void *);
 extern void func_80067F20(void *, s32, s32, s32, s32);
 

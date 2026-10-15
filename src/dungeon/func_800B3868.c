@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-typedef struct {
+typedef struct Position {
     u16 x;
     s16 y;
 } Position;
@@ -21,9 +21,9 @@ typedef struct DrawContext {
     Packet *next_packet;
 } DrawContext;
 
-extern void func_8006658C(void *, void *);
+extern void func_8006658C(void *, void *, ...);
 extern void func_80067E2C(void *, void *);
-extern void func_800B9144(Position *, s32, void *, s16);
+extern void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode);
 extern u8 D_801C9E40[16];
 
 /* Queue a clipped sprite with an optional black background, adjusting Y for the active buffer. */

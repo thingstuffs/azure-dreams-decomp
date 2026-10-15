@@ -4,7 +4,7 @@ extern s32 func_800A6D30(void);
 
 
 /* Return a 16-bit random value within the inclusive bounds. */
-s32 func_800A6DA4(u32 bound_a, u32 bound_b, s32 rng_arg2, s32 rng_arg3) {
+s32 func_800A6DA4(u32 bound_a, u32 bound_b) {
     u32 result;
     u32 range;
     u32 random_value;

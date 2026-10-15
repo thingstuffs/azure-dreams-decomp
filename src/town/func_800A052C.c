@@ -1,13 +1,4 @@
-#include "common.h"
-#include "m2c_compat.h"
-#include "records/Rec_func_80094268_arg0.h"
-#include "records/Rec_D_80082E80.h"
-
-M2C_UNK func_8003DB94();        /* extern */
-M2C_UNK func_80047784();        /* extern */
-extern s32 D_80081458[];
-extern M2C_UNK D_800D07A4[];
-extern s16 D_800D07AC;
+#include "modules/town_town_windows.h"
 
 /* Sets the object state for the selected mode and flags. */
 void func_8009DC8C(void *owner, void *object, s32 mode, s32 flags) {

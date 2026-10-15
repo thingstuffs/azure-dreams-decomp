@@ -1,63 +1,4 @@
-#include "common.h"
-
-typedef struct {
-    volatile u16 voll;    /* 0x0 */
-    volatile u16 volr;    /* 0x2 */
-    volatile u16 pitch;   /* 0x4 */
-    volatile u16 addr;    /* 0x6 */
-    volatile u16 adsr1;   /* 0x8 */
-    volatile u16 adsr2;   /* 0xA */
-    volatile u16 curvol;  /* 0xC */
-    volatile u16 repaddr; /* 0xE */
-} SpuVoiceRegs;
-
-typedef struct {
-    SpuVoiceRegs voice[24];   /* 0x000 .. 0x17F */
-    volatile u16 mvoll;       /* 0x180 */
-    volatile u16 mvolr;       /* 0x182 */
-    u16 rvoll;       /* 0x184 */
-    u16 rvolr;       /* 0x186 */
-    u16 keyon_lo;    /* 0x188 */
-    volatile u16 keyon_hi;    /* 0x18A */
-    u16 keyoff_lo;   /* 0x18C */
-    volatile u16 keyoff_hi;   /* 0x18E */
-    u16 fm_lo;       /* 0x190 */
-    u16 fm_hi;       /* 0x192 */
-    u16 noise_lo;    /* 0x194 */
-    u16 noise_hi;    /* 0x196 */
-    u16 rev_lo;      /* 0x198 */
-    u16 rev_hi;      /* 0x19A */
-    u8  pad19C[0x1AA - 0x19C];
-    volatile u16 spucnt;      /* 0x1AA */
-    u16 dt_ctrl;     /* 0x1AC */
-    volatile u16 spustat;     /* 0x1AE */
-    u8  pad1B0[0x1B0 - 0x1B0];
-    u16 cdvoll;      /* 0x1B0 */
-    u16 cdvolr;      /* 0x1B2 */
-    u16 extvoll;     /* 0x1B4 */
-    volatile u16 extvolr;     /* 0x1B6 */
-} SpuRegs;
-
-extern SpuRegs *D_80079958;
-extern s32 *D_80079968;
-extern u16 D_80079970;
-extern s32 D_80079974;
-extern s32 D_80079978;
-extern s32 D_8007997C;
-extern s32 D_80079980;
-extern s32 D_80079984;
-extern s32 D_80079988;
-extern s32 D_8007998C;
-extern volatile s32 D_80079990;
-extern volatile s32 D_80079994;
-extern u16 D_80079998[8];
-extern u16 D_80086D58[10];
-extern char D_800331F4[];
-extern char D_80033204[];
-
-extern void func_8005D730(void);
-extern s32 func_8005CE98(u16 *src, u32 size);
-extern void printf();
+#include "slus/sound_dma_lifecycle.h"
 
 /* Initialize the SPU, resetting voice settings on a cold start. */
 s32 func_8005CC04(s32 warm)
@@ -66,7 +7,7 @@ s32 func_8005CC04(s32 warm)
     s32 result;
     u32 status_polls;
     volatile u16 *clear_entry;
-    SpuRegs *spu_regs;
+    SoundTransferRegisters *spu_regs;
 
     *D_80079968 |= 0xB0000;
     D_80079974 = 0;
@@ -74,12 +15,12 @@ s32 func_8005CC04(s32 warm)
     D_80079970 = 0;
     D_80079958->mvoll = 0;
     D_80079958->mvolr = 0;
-    D_80079958->spucnt = 0;
+    D_80079958->control = 0;
     func_8005D730();
     D_80079958->mvoll = 0;
     D_80079958->mvolr = 0;
     status_polls = 0;
-    while (D_80079958->spustat & 0x7FF) {
+    while (D_80079958->status.ordered & 0x7FF) {
         if (++status_polls >= 0xF01) {
             printf(D_800331F4, D_80033204);
             break;
@@ -89,7 +30,7 @@ s32 func_8005CC04(s32 warm)
     D_80079980 = 3;
     D_80079984 = 8;
     D_80079988 = 7;
-    D_80079958->dt_ctrl = 4;
+    D_80079958->transfer_control = 4;
     D_80079958->rvoll = 0;
     D_80079958->rvolr = 0;
     D_80079958->keyoff_lo = 0xFFFF;
@@ -137,7 +78,7 @@ s32 func_8005CC04(s32 warm)
     }
     result = 0;
     D_8007998C = 1;
-    D_80079958->spucnt = 0xC000;
+    D_80079958->control = 0xC000;
     D_80079990 = 0;
     D_80079994 = 0;
     return result;

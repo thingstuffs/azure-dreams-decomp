@@ -1,0 +1,422 @@
+{
+  "kind": "REAL_ENTRY_FUNCTION_BASELINES_NOT_PROMOTIONS",
+  "base_head": "0d5566a95f74a1211d677c6b592d4d5a6128ef4a",
+  "entries": [
+    {
+      "start": 962580,
+      "bytes": 84,
+      "function": "func_800D0774",
+      "source": "drafts/recovered_registry_callbacks/func_800CB014.c",
+      "source_sha256": "be309c96e82cbe916255cbd22137c9cda1168c1214f6603605e250196a25ffa6",
+      "output": "diagnostics/recovered_functions/eb014",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "068d3f29b31481f9b521dcc226a15d3f59055d9e914b3075ba061a649f21fb9e",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "068d3f29b31481f9b521dcc226a15d3f59055d9e914b3075ba061a649f21fb9e",
+        "genuine.bin": "068d3f29b31481f9b521dcc226a15d3f59055d9e914b3075ba061a649f21fb9e",
+        "checked.OBJ": "93667376b04fda68c651173eb0935b9ae331a3703c75a7363cca1dd0871c5dfa",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "068d3f29b31481f9b521dcc226a15d3f59055d9e914b3075ba061a649f21fb9e",
+        "sectioned.s": "b02fcf4b87c7cdee1e1e37c5a07647964cda55a78fe3aa57ae59820f8e35987b",
+        "IN.S": "988139d3ae85e6c314cf5bc3c4e673a87276f41598513e59af9272edbbc47efc",
+        "function.o": "be1bdaa75a54452db8bd3f2c94a14ff00c786400d876f87a714ca3590e1924cb",
+        "function.s": "268e70c49597331940abb7b0753a9805e699c6d13d323a4005890466f01901ae"
+      },
+      "installed_source": "src/dungeon/func_800CB014.c",
+      "id": "dungeon/func_800CB014"
+    },
+    {
+      "start": 987216,
+      "bytes": 84,
+      "function": "func_800D67B0",
+      "source": "drafts/recovered_registry_callbacks/func_800D1050.c",
+      "source_sha256": "626b705b0ff274ce7dab989e7837ad52ef3028d32cd63303ccd8bf3624ba1bbc",
+      "output": "diagnostics/recovered_functions/f1050",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "7e576a1d54dbd394efaf9516c7d95a179a7479e4734caab8f1774c846771d9ba",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "7e576a1d54dbd394efaf9516c7d95a179a7479e4734caab8f1774c846771d9ba",
+        "genuine.bin": "7e576a1d54dbd394efaf9516c7d95a179a7479e4734caab8f1774c846771d9ba",
+        "checked.OBJ": "4ddaa7fe7573818ac7bfe9fccbf7f6e3090d36b3c14c1cf874e00993b4be9777",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "7e576a1d54dbd394efaf9516c7d95a179a7479e4734caab8f1774c846771d9ba",
+        "sectioned.s": "71585b5bce7a484e464117aa9d9d64452490a3fa4e2bb3c7e53fad18727d7fad",
+        "IN.S": "c63fceab41c2e73c4749e24d9298663f0912ec6b68e13f7705edb123b143537e",
+        "function.o": "4c04e5fcb7bc661bd09337840401c3f8a7fac37b138a67117cec475e4746e7d8",
+        "function.s": "6f82b3cd7abb3f7761ad3ecbbcbbea3c74e5d179ea492027a4c161123b0d8d23"
+      },
+      "installed_source": "src/dungeon/func_800D1050.c",
+      "id": "dungeon/func_800D1050"
+    }
+  ],
+  "primary_entry_evidence": {
+    "evidence/registry_callback_entries.json": {
+      "entries": [
+        {
+          "id": "dungeon/func_800CB014",
+          "function": "func_800D0774",
+          "start": 962580,
+          "end": 962664,
+          "size": 84,
+          "vma": 2148337524,
+          "source": "drafts/recovered_registry_callbacks/func_800CB014.c",
+          "primary_entry_evidence": "evidence/registry_callback_entries.json",
+          "producer": "dungeon/func_800C1C20",
+          "dispatcher": "slus/w_800402F4",
+          "registration": "slus/w_8004491C",
+          "semantics": "Registration stores the address in D_80083360; dispatcher reads that slot and calls it with node+20, node+8 and node+C. Registration writes node+18; walker follows the same link.",
+          "witnesses": [
+            {
+              "row": "dungeon/func_800C1C20",
+              "foff": 925040,
+              "lui_foff": 925036,
+              "register": 5,
+              "window_words": [
+                "0x3c05800d",
+                "0x24a50774",
+                "0x3c08800c",
+                "0x2508b14c",
+                "0xc011247"
+              ],
+              "gate_config": "config/overlays/dungeon_deep_t8b_0e1c20.overlay.yaml",
+              "registered_row_source": "src/dungeon/func_800C1C20.c",
+              "source_sha256": "1b37b13de4fd51902967b4f863c352bc4d28879c28945e769c5e37112c9a26e5",
+              "retail_bytes_sha256": "a8b96cfab20fa1e464eae3168ee56fa0c80f534df3bb0de720cadf25f492d03a",
+              "consumer_disassembly": [
+                "800C74BC: move     $a1, $s4",
+                "800C74C0: move     $s1, $v0",
+                "800C74C4: beqz     $s1, 0x800c7584",
+                "800C74C8: move     $a0, $s1",
+                "800C74CC: lui      $a1, 0x800d",
+                "800C74D0: addiu    $a1, $a1, 0x774",
+                "800C74D4: lui      $t0, 0x800c",
+                "800C74D8: addiu    $t0, $t0, -0x4eb4",
+                "800C74DC: jal      0x8004491c",
+                "800C74E0: sw       $t0, 0x10($s1)"
+              ]
+            }
+          ],
+          "retail_sha256": "068d3f29b31481f9b521dcc226a15d3f59055d9e914b3075ba061a649f21fb9e",
+          "return_contract": "Returns actual v0=0; callee return values unused.",
+          "private_word_views": "The registry forwards unmodified MIPS pointer words in a1/a2. Each walker dereferences them as the actual callee record pointers; pointer spelling is observationally equivalent to dispatcher s32 words."
+        },
+        {
+          "id": "dungeon/func_800D1050",
+          "function": "func_800D67B0",
+          "start": 987216,
+          "end": 987300,
+          "size": 84,
+          "vma": 2148362160,
+          "source": "drafts/recovered_registry_callbacks/func_800D1050.c",
+          "primary_entry_evidence": "evidence/registry_callback_entries.json",
+          "producer": "dungeon/func_800D1660",
+          "dispatcher": "slus/w_800402F4",
+          "registration": "slus/w_8004491C",
+          "semantics": "Registration stores the address in D_80083360; dispatcher reads that slot and calls it with node+20, node+8 and node+C. Registration writes node+18; walker follows the same link.",
+          "witnesses": [
+            {
+              "row": "dungeon/func_800D1660",
+              "foff": 988972,
+              "lui_foff": 988968,
+              "register": 5,
+              "window_words": [
+                "0x3c05800d",
+                "0x24a567b0",
+                "0x96630014",
+                "0x24020020",
+                "0xa6620010"
+              ],
+              "gate_config": "config/overlays/dungeon_engine.overlay.yaml",
+              "registered_row_source": "src/dungeon/func_800D1660.c",
+              "source_sha256": "811b81dccc9d0b0aea499966a4761811b395b3b95688e4e08dc1c789d065820b",
+              "retail_bytes_sha256": "89d4c5d256473d6a4593875a135042564b5b7d417651999319550d8a54a02755",
+              "consumer_disassembly": [
+                "800D6E78: addiu    $a3, $a3, 0x10",
+                "800D6E7C: bne      $a3, $t0, 0x800d6e58",
+                "800D6E80: addiu    $a2, $a2, 0x10",
+                "800D6E84: move     $a0, $s0",
+                "800D6E88: lui      $a1, 0x800d",
+                "800D6E8C: addiu    $a1, $a1, 0x67b0",
+                "800D6E90: lhu      $v1, 0x14($s3)",
+                "800D6E94: addiu    $v0, $zero, 0x20",
+                "800D6E98: sh       $v0, 0x10($s3)",
+                "800D6E9C: ori      $v1, $v1, 0xc"
+              ]
+            }
+          ],
+          "retail_sha256": "7e576a1d54dbd394efaf9516c7d95a179a7479e4734caab8f1774c846771d9ba",
+          "return_contract": "Returns actual v0=0; callee return values unused.",
+          "private_word_views": "The registry forwards unmodified MIPS pointer words in a1/a2. Each walker dereferences them as the actual callee record pointers; pointer spelling is observationally equivalent to dispatcher s32 words."
+        }
+      ],
+      "review": "pending",
+      "reviewer": null,
+      "base_head": "0d5566a95",
+      "kind": "REGISTRATION_AND_REAL_DISPATCH_PROVEN_ENTRIES",
+      "registry_sources": {
+        "src/slus/w_8004491C.c": {
+          "sha256": "d22f0309f5be1a66c6a53402a6be4c3cd059b5a3f20d794969c18b953a74a46d",
+          "text": "#include \"common.h\"\n\ntypedef struct RegistrationNode {\n    u8 pad00[0x14];\n    struct RegistrationNode *prev;\n    struct RegistrationNode *next;\n    u16 type;\n} RegistrationNode;\n\nextern s32 D_80083360[0x20];\nextern RegistrationNode *D_800833E0[0x20];\nextern s32 D_8006E7B4[];\n\n/* Registers a node under an existing or newly allocated registration ID. */\ns32 func_8004491C(RegistrationNode *entry, s32 registration_id)\n{\n    s32 slot;\n    s32 first_free;\n    s32 last_free;\n    s32 no_slot;\n    RegistrationNode *head;\n    s32 success;\n\n    first_free = -1;\n    last_free = 0;\n    slot = last_free;\n    no_slot = first_free;\n\n    for (; slot < 0x20; slot++) {\n        if (D_80083360[slot] == registration_id) {\n            head = D_800833E0[slot];\n            entry->next = head;\n            if (head != 0) {\n                head->prev = entry;\n                D_800833E0[slot] = entry;\n            } else {\n                D_800833E0[slot] = entry;\n            }\n            success = 1;\n            entry->prev = (RegistrationNode *)&D_800833E0[slot];\n            entry->type = slot;\n            return success;\n        }\n        if (D_80083360[slot] == 0) {\n            if (first_free == no_slot) {\n                first_free = slot;\n            }\n            last_free = slot;\n        }\n    }\n\n    if (first_free >= 0) {\n        entry->next = 0;\n        if (D_8006E7B4[0] != 0) {\n            s32 preferred_index = 0;\n            do {\n                if (D_8006E7B4[preferred_index] == registration_id) {\n                    D_80083360[first_free] = registration_id;\n                    D_800833E0[first_free] = entry;\n                    success = 1;\n                    entry->prev = (RegistrationNode *)&D_800833E0[first_free];\n                    entry->type = first_free;\n                    return success;\n                }\n                preferred_index++;\n            } while (D_8006E7B4[preferred_index] != 0);\n        }\n\n        D_80083360[last_free] = registration_id;\n        D_800833E0[last_free] = entry;\n        success = 1;\n        entry->prev = (RegistrationNode *)&D_800833E0[last_free];\n        entry->type = last_free;\n        return success;\n    }\n    return 0;\n}\n"
+        },
+        "src/slus/w_800402F4.c": {
+          "sha256": "e030ae18b5bdec242f997fce4153edbc92001637866dc0279a40ef65ce2ce693",
+          "text": "#include \"common.h\"\n#include \"shared/game_work.h\"\n\ntypedef s32 (*Callback)(void *, s32, s32);\n\ntypedef struct Entry {\n    u8 pad0[8];\n    s32 callback_arg1;\n    s32 callback_arg2;\n    u8 pad10[0xE];\n    u16 flags;\n    u8 data[1];\n} Entry;\n\nextern s32 func_80045310(s32);\nextern Callback D_80083360[0x20];\nextern Entry *D_800833E0[0x20];\n\nvoid func_800402F4(void)\n{\n    s32 i;\n\n    for (i = 0; i < 32; i++) {\n        Callback callback = D_80083360[i];\n        if (callback != 0) {\n            Entry *entry = D_800833E0[i];\n            if (entry != 0) {\n                if (!(entry->flags & 0x800)) {\n                    callback(entry->data, entry->callback_arg1, entry->callback_arg2);\n                    if (func_80045310(*(s32 *)((u8 *)gameWork.unk_000 + 0x8D0))) {\n                        break;\n                    }\n                }\n            } else {\n                D_80083360[i] = 0;\n            }\n        }\n    }\n}\n"
+        }
+      },
+      "callee_contracts": {
+        "src/dungeon/func_800CB068.c": {
+          "sha256": "3d5dd156bdacf05ba3f3ff6066ca07fa03d9f2070f32a31b8154f4950a2c8c0a",
+          "signature": "void func_800D07C8(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {"
+        },
+        "src/dungeon/func_800D0A10.c": {
+          "sha256": "803d7d9ee972db820aa2d233bf48f53a8043a45aec645be33dcf73d484abeca6",
+          "signature": "void func_800D6170(void *geometry, S_800D6170_1 *position, S_800D6170_2 *render_state, s16 depth_bias)"
+        }
+      }
+    },
+    "work/registry_callbacks/lineage.json": [
+      {
+        "function": "func_800D0774",
+        "scan": [
+          [
+            [
+              "addiu",
+              "$sp, $sp, -0x18"
+            ],
+            [
+              "sw",
+              "$s0, 0x10($sp)"
+            ],
+            [
+              "move",
+              "$s0, $a0"
+            ],
+            [
+              "sw",
+              "$ra, 0x14($sp)"
+            ],
+            [
+              "lh",
+              "$a3, 6($a2)"
+            ],
+            [
+              "jal",
+              "0xd07c8"
+            ],
+            [
+              "move",
+              "$a0, $s0"
+            ],
+            [
+              "lw",
+              "$a2, -8($s0)"
+            ],
+            [
+              "nop",
+              ""
+            ],
+            [
+              "beqz",
+              "$a2, 0x3c"
+            ],
+            [
+              "addiu",
+              "$s0, $a2, 0x20"
+            ],
+            [
+              "lw",
+              "$a1, 8($a2)"
+            ],
+            [
+              "lw",
+              "$a2, 0xc($a2)"
+            ],
+            [
+              "j",
+              "0xd0784"
+            ],
+            [
+              "nop",
+              ""
+            ],
+            [
+              "move",
+              "$v0, $zero"
+            ],
+            [
+              "lw",
+              "$ra, 0x14($sp)"
+            ],
+            [
+              "lw",
+              "$s0, 0x10($sp)"
+            ],
+            [
+              "addiu",
+              "$sp, $sp, 0x18"
+            ],
+            [
+              "jr",
+              "$ra"
+            ],
+            [
+              "nop",
+              ""
+            ]
+          ],
+          {
+            "at_macro": [],
+            "split_store": [],
+            "held_page": [],
+            "slot_store": [],
+            "split_la": [],
+            "zero_copy": [],
+            "ret_copy": []
+          },
+          [],
+          0
+        ],
+        "claim": "Surrounding uniform GCC2.7.2-cdk -O2 -G0; 21-insn local load/call walker provides no contrary store-emission signature.",
+        "review": "pending",
+        "reviewer": null
+      },
+      {
+        "function": "func_800D67B0",
+        "scan": [
+          [
+            [
+              "addiu",
+              "$sp, $sp, -0x18"
+            ],
+            [
+              "sw",
+              "$s0, 0x10($sp)"
+            ],
+            [
+              "move",
+              "$s0, $a0"
+            ],
+            [
+              "sw",
+              "$ra, 0x14($sp)"
+            ],
+            [
+              "move",
+              "$a0, $s0"
+            ],
+            [
+              "jal",
+              "0xd6170"
+            ],
+            [
+              "move",
+              "$a3, $zero"
+            ],
+            [
+              "lw",
+              "$a2, -8($s0)"
+            ],
+            [
+              "nop",
+              ""
+            ],
+            [
+              "beqz",
+              "$a2, 0x3c"
+            ],
+            [
+              "addiu",
+              "$s0, $a2, 0x20"
+            ],
+            [
+              "lw",
+              "$a1, 8($a2)"
+            ],
+            [
+              "lw",
+              "$a2, 0xc($a2)"
+            ],
+            [
+              "j",
+              "0xd67c4"
+            ],
+            [
+              "move",
+              "$a0, $s0"
+            ],
+            [
+              "move",
+              "$v0, $zero"
+            ],
+            [
+              "lw",
+              "$ra, 0x14($sp)"
+            ],
+            [
+              "lw",
+              "$s0, 0x10($sp)"
+            ],
+            [
+              "addiu",
+              "$sp, $sp, 0x18"
+            ],
+            [
+              "jr",
+              "$ra"
+            ],
+            [
+              "nop",
+              ""
+            ]
+          ],
+          {
+            "at_macro": [],
+            "split_store": [],
+            "held_page": [],
+            "slot_store": [],
+            "split_la": [],
+            "zero_copy": [],
+            "ret_copy": []
+          },
+          [],
+          0
+        ],
+        "claim": "Surrounding uniform GCC2.7.2-cdk -O2 -G0; 21-insn local load/call walker provides no contrary store-emission signature.",
+        "review": "pending",
+        "reviewer": null
+      }
+    ]
+  },
+  "review": "pending",
+  "reviewer": null
+}

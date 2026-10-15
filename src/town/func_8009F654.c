@@ -1,7 +1,4 @@
-#include "common.h"
-
-extern s32 *D_801007F4;
-extern s32 D_80100900[];
+#include "modules/town_town_windows.h"
 
 /* Initializes the shared data pointer, clears its first word and returns it. */
 s32 *func_8009CDB4(void) {

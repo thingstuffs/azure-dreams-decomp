@@ -1,3 +1,4 @@
+#include "modules/main_server_ship.h"
 #include "common.h"
 
 /* Returns without performing any work. */

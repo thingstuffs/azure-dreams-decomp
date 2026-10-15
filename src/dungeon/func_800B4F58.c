@@ -22,7 +22,7 @@ typedef struct S_800BA6B8_1 {
 } S_800BA6B8_1;   /* arg2 in func_800BA6B8 */
 
 
-s32 func_800644B8();                             /* extern */
+extern s32 func_800644B8(s32, ...);
 extern u16 D_800DF37C;
 
 /* Updates enabled output channels with a shared value and sets flags when active. */

@@ -1,0 +1,31 @@
+{
+  "module": "dungeon_engine_particle_effects",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "particle_effects.c",
+    "module_index": 33
+  },
+  "members": [
+    "dungeon/func_800D50E0",
+    "dungeon/func_800D51DC",
+    "dungeon/func_800D53F0",
+    "dungeon/func_800D56E4",
+    "dungeon/func_800D5794",
+    "dungeon/func_800D5A04",
+    "dungeon/func_800D5B7C",
+    "dungeon/func_800D5CC0",
+    "dungeon/func_800D5EB8",
+    "dungeon/func_800D5F00",
+    "dungeon/func_800D6330"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "not observable (section-grouping link, no static duplicates, no recipe change)",
+  "basis": [
+    "Complete strong resident-engine ledger cohort; every member included in file order, with no internal gaps or recipe change.",
+    "Whole natural-order TU matches GNU/maspsx, genuine ASPSX and every retail function; no hidden allocated data, compiler padding, static duplicate body, masked relocation or raw replacement.",
+    "The registered xfer_dungeon_A3000 runtime DMA load map proves delta 0x7FFE5760. The original object boundary remains observationally limited; coherent complete cohort reconstruction is the reviewed membership claim."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120"
+}

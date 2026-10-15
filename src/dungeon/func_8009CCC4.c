@@ -1,9 +1,10 @@
+#include "modules/dungeon_engine_experience_fragment_bc5ec.h"
 #include "common.h"
 #include "shared/def_table.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_status.h"
 
-typedef s32 M2C_UNK;
+#include "m2c_compat.h"
 
 extern s32 func_8003AD08();
 extern s32 func_80041E70();
@@ -11,19 +12,16 @@ extern s32 func_800647A0();
 extern s32 func_800990FC();
 extern s32 func_80099194();
 extern s32 func_80099254();
-extern s32 func_80099290();
+extern void * func_80099290(s8 *byte_ptr);
 extern s32 func_8009929C();
 extern s32 func_80099734();
 extern s32 func_800A56E0();
 extern s32 func_800A5720();
-extern s32 func_800B4C7C();
+extern void * func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
 extern u8 D_8006D168[];
 extern s32 D_800835E8[];
-extern M2C_UNK D_80089000;
-extern s8 D_800DCF4F[];
 extern u8 D_800DDCBC[];
-extern M2C_UNK D_800E0458;
 extern M2C_UNK D_800E098B;
 extern M2C_UNK D_800E099A;
 extern M2C_UNK D_800E09B2;
@@ -309,7 +307,7 @@ loop_0:
         message_end = func_80099734(entity, message_end);
         message_end = func_80099194(&D_800E099A, message_end);
         message_end = func_8003AD08(entity[0x11], message_end);
-        message_end = func_80099194(&D_80089000, message_end);
+        message_end = func_80099194(D_80089000, message_end);
 
         if (entity[0x13] != 0 && ((*(s32 *)(entity + 0x14) & 0x4000) != 0)) {
             spell_index = 0;

@@ -1,0 +1,3111 @@
+{
+  "kind": "REAL_ENTRY_FUNCTION_BASELINES_NOT_PROMOTIONS",
+  "base_head": "0d5566a95f74a1211d677c6b592d4d5a6128ef4a",
+  "entries": [
+    {
+      "start": 842028,
+      "bytes": 32,
+      "function": "func_800B308C",
+      "source": "drafts/recovered_callbacks/combat_effects/func_8008D92C.c",
+      "source_sha256": "1f37c3f211638a506c7f0c7bba0023d26a0161cbc0a63c427b4e620a02e70540",
+      "output": "diagnostics/recovered_functions/cd92c",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "42604a78f605c9d25623baa60f5ea1c64a4b86bcb050976cd3d9195ce7ecde28",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "42604a78f605c9d25623baa60f5ea1c64a4b86bcb050976cd3d9195ce7ecde28",
+        "genuine.bin": "42604a78f605c9d25623baa60f5ea1c64a4b86bcb050976cd3d9195ce7ecde28",
+        "checked.OBJ": "83b66d0e77f2692a4e235c77396287daa14013304c192a37407e7607838fe6bb",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "42604a78f605c9d25623baa60f5ea1c64a4b86bcb050976cd3d9195ce7ecde28",
+        "sectioned.s": "a3598bca30bda55d7c809da67f0d128b80630646aff829336a5d9f7462599d42",
+        "IN.S": "b5027f6facefd2aa149ba89562a0870f2053fc798cf880dc3e9bcd7c936c353f",
+        "function.o": "14ee5a8f1bf8923af1374f9061f2dd8425b8b54940e497e915f8cd8f7be68e2f",
+        "function.s": "92b87eeb7f7587a93c837fcde27a11804c1eb3f59d9c13a6d077090b8468a16f"
+      },
+      "installed_source": "src/dungeon/func_800AD92C.c",
+      "id": "dungeon/func_800AD92C"
+    },
+    {
+      "start": 842060,
+      "bytes": 56,
+      "function": "func_800B30AC",
+      "source": "drafts/recovered_callbacks/combat_effects/func_8008D94C.c",
+      "source_sha256": "67548d3ca1a796cc2b1861f636e053fdfc1928fedb81d2163d8f7c8b798c62bd",
+      "output": "diagnostics/recovered_functions/cd94c",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "b4e56f031733aff1431c7c439b49feaa693f9a692247617aa3dbea8f797e92c5",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "b4e56f031733aff1431c7c439b49feaa693f9a692247617aa3dbea8f797e92c5",
+        "genuine.bin": "b4e56f031733aff1431c7c439b49feaa693f9a692247617aa3dbea8f797e92c5",
+        "checked.OBJ": "870fda2bb0929c84f1f01b3687efd66a55dd34398ab0f4f77ed3504224513fe7",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "b4e56f031733aff1431c7c439b49feaa693f9a692247617aa3dbea8f797e92c5",
+        "sectioned.s": "d8f6391343311a0f572ddefdb1bd02a44418a7da52840e739d89392a59bdb01d",
+        "IN.S": "f97d000d8153aea3028284b4a6694db4215dbe7191c5976a40ae3230cd3d6f02",
+        "function.o": "6427c57c02b82e01b9e46d28ed14e061af95afbf8452803e406d4c146adacf67",
+        "function.s": "83cbb7a23cbe226a962c82a17e292db2bd2404c7b286cb080ee2f7aaed63f184"
+      },
+      "installed_source": "src/dungeon/func_800AD94C.c",
+      "id": "dungeon/func_800AD94C"
+    },
+    {
+      "start": 842284,
+      "bytes": 32,
+      "function": "func_800B318C",
+      "source": "drafts/recovered_callbacks/combat_effects/func_8008DA2C.c",
+      "source_sha256": "5a78a8dcb98187b08630fd641af94cf0ace1d0e5097012e2bf9b3880681a37a8",
+      "output": "diagnostics/recovered_functions/cda2c",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "8f44c8e36e38a14282fccfbfb49e103b8b86c117164232557b8eff7895b2c3d9",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "8f44c8e36e38a14282fccfbfb49e103b8b86c117164232557b8eff7895b2c3d9",
+        "genuine.bin": "8f44c8e36e38a14282fccfbfb49e103b8b86c117164232557b8eff7895b2c3d9",
+        "checked.OBJ": "8255a6a2000832d0cd37f4fc647db61e4ec57180565b3fabed4b3b176923bfb7",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "8f44c8e36e38a14282fccfbfb49e103b8b86c117164232557b8eff7895b2c3d9",
+        "sectioned.s": "5fcb21103550ab8f8243c189941d8503c5708ec2d044e515dcfc1fdd33fa29ca",
+        "IN.S": "e72b5240946f05abd4a7c7312fdf8399656f35f92a83f6dc50c2c5b336edf371",
+        "function.o": "cfbef37cdbfef24c56a4f804e8d99223cced87f9b3d08829340a2db3e7bb89f7",
+        "function.s": "6a32a78690ab50b4b4aadfde90d14f8977442cbcb70a056c1f1e351df024ed41"
+      },
+      "installed_source": "src/dungeon/func_800ADA2C.c",
+      "id": "dungeon/func_800ADA2C"
+    },
+    {
+      "start": 842316,
+      "bytes": 56,
+      "function": "func_800B31AC",
+      "source": "drafts/recovered_callbacks/combat_effects/func_8008DA4C.c",
+      "source_sha256": "4813725af8871a8b44ce75bc761e9f99282294f7e51370aafe65b1ef650896e1",
+      "output": "diagnostics/recovered_functions/cda4c",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "dc2e224e8547a35f29eb2c51227508ce2e001e071f541dce1fe8494e328edd31",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "dc2e224e8547a35f29eb2c51227508ce2e001e071f541dce1fe8494e328edd31",
+        "genuine.bin": "dc2e224e8547a35f29eb2c51227508ce2e001e071f541dce1fe8494e328edd31",
+        "checked.OBJ": "701ca33484fe237a9c61cd7fa65fcf51c87f1c95be9cf8d7827669debec2448b",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "dc2e224e8547a35f29eb2c51227508ce2e001e071f541dce1fe8494e328edd31",
+        "sectioned.s": "3cb3b78f72f632bd7375e6008bbb31df3bfe225a5a1f62a9a4e4ac20bb01ba27",
+        "IN.S": "6825a7a273ad4ca6f79ec0a128a073a86a00349583c566144e14c8e6089ecbe5",
+        "function.o": "d81cf5b42b113c3fcdbe1d07e190c712443c0c526111f694b0226d71eb9f83fa",
+        "function.s": "0ce18826618efd3163a59b8d18e45b7ceb27c86a1fff0db78905d9eb18732015"
+      },
+      "installed_source": "src/dungeon/func_800ADA4C.c",
+      "id": "dungeon/func_800ADA4C"
+    },
+    {
+      "start": 842372,
+      "bytes": 56,
+      "function": "func_800B31E4",
+      "source": "drafts/recovered_callbacks/combat_effects/func_8008DA84.c",
+      "source_sha256": "1d099a98669844fdea4d5cc49e8feca51495f17aa2f37d26ff68e201c908c94d",
+      "output": "diagnostics/recovered_functions/cda84",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "9a6e198a214881923aae9cd2c529d017004fff7c4860f270771d178833d5f0c7",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "9a6e198a214881923aae9cd2c529d017004fff7c4860f270771d178833d5f0c7",
+        "genuine.bin": "9a6e198a214881923aae9cd2c529d017004fff7c4860f270771d178833d5f0c7",
+        "checked.OBJ": "77cc645dfe1241d3689efb5dc1a735f8625eb52fc168863c136c1db2b1559e26",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "9a6e198a214881923aae9cd2c529d017004fff7c4860f270771d178833d5f0c7",
+        "sectioned.s": "a562d617d894ab4c8a3815b9836ea12681c26acc821d38315f7b1abbec020cbe",
+        "IN.S": "37e4523fbfabaa5ba18b0587dcf30a523c2df4cab1f2559823dea51f88eea129",
+        "function.o": "f86f6143ad5dac954c4c6d0f4947dbc24139354975f4595d29a674f15b8a0dbf",
+        "function.s": "ea7611831d31e940b4feeb116d41e56eed3fbca3cdbff61c179b8f228f123077"
+      },
+      "installed_source": "src/dungeon/func_800ADA84.c",
+      "id": "dungeon/func_800ADA84"
+    },
+    {
+      "start": 842428,
+      "bytes": 56,
+      "function": "func_800B321C",
+      "source": "drafts/recovered_callbacks/combat_effects/func_8008DABC.c",
+      "source_sha256": "dd8ccf0269aac62cacd95993213f5a5efa6333cf8a8125cc7d38323121731fe2",
+      "output": "diagnostics/recovered_functions/cdabc",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "e8b5b2ad3643ad233026fe61c2183865bbb351e86b9606120bf442150dbbf27b",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "e8b5b2ad3643ad233026fe61c2183865bbb351e86b9606120bf442150dbbf27b",
+        "genuine.bin": "e8b5b2ad3643ad233026fe61c2183865bbb351e86b9606120bf442150dbbf27b",
+        "checked.OBJ": "1e4afd3ec1ccd54412201b01ee70560dfb01d64d0f02a5c0fc00a0f3bc059287",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "e8b5b2ad3643ad233026fe61c2183865bbb351e86b9606120bf442150dbbf27b",
+        "sectioned.s": "93a2e98a3db74bc763826c04d0ca05018b0b3bdb3fb5007b9bcb40e40e871565",
+        "IN.S": "27effc426ed7c6599380e6e559e8d839628677111bc85a90840be2b9b0e32b1a",
+        "function.o": "04e490cdc25127565c398902d89ae35dd5785a51b7c2e8bb967209e88dd0b2ef",
+        "function.s": "2a8ffafe2a95152bd4680810ae250e39b6886ad95eac22bf6e50cfc7649762b6"
+      },
+      "installed_source": "src/dungeon/func_800ADABC.c",
+      "id": "dungeon/func_800ADABC"
+    },
+    {
+      "start": 842484,
+      "bytes": 56,
+      "function": "func_800B3254",
+      "source": "drafts/recovered_callbacks/combat_effects/func_8008DAF4.c",
+      "source_sha256": "6cf85e69e93ca71bd30c255e984b3f17b6775be65bf1b6fe9814ad16742d714b",
+      "output": "diagnostics/recovered_functions/cdaf4",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "72620cf4208fa7cb3e8bbf2d854b970c920ace18fa597c8db42019c0ee919d55",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "72620cf4208fa7cb3e8bbf2d854b970c920ace18fa597c8db42019c0ee919d55",
+        "genuine.bin": "72620cf4208fa7cb3e8bbf2d854b970c920ace18fa597c8db42019c0ee919d55",
+        "checked.OBJ": "9702d5383284817c57780052efea1186fceb9924b74546e72a6f7d4dd922327c",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "72620cf4208fa7cb3e8bbf2d854b970c920ace18fa597c8db42019c0ee919d55",
+        "sectioned.s": "a38b6dbc4c65f19c11a647d46e4780d9c1a5d25e1f7c6ca3d4ff28897bf992cf",
+        "IN.S": "3c4e5cd85539c6db40878f7a5921702481e515e62395c3c828b57806c880fed2",
+        "function.o": "54df473e8b2142d8997bf3a54d1f9b2324e358284e869291369f43c22c158783",
+        "function.s": "093d4ccce74bc89d2907b99f6db30083d1241c34318727d5da6ed6ad044337bf"
+      },
+      "installed_source": "src/dungeon/func_800ADAF4.c",
+      "id": "dungeon/func_800ADAF4"
+    },
+    {
+      "start": 804016,
+      "bytes": 8,
+      "function": "func_800A9C10",
+      "source": "drafts/recovered_callback_stubs/func_800A44B0.c",
+      "source_sha256": "d033b70429282b94cdf04b2b2a4599b2dcf07744f675fbbe0a023d0c354c88b8",
+      "output": "diagnostics/recovered_functions/c44b0",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
+        "genuine.bin": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
+        "checked.OBJ": "e6f422cb7473c35534ff155fe940408e5bd8f3c6042f6528d74ef0e4a25f7cd0",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
+        "sectioned.s": "2ed2cac52a9330909307a05e808b3c7b697e93b03fd89f25d1e4aa64c0da1da2",
+        "IN.S": "b780657177d77ba41c23f68ffab927cef4c4ece58c79e14b7b00d7f04033ccd4",
+        "function.o": "c6f36689ea028cb2164407edf00be89b9191eeccfbd490fe3bc50a294291b596",
+        "function.s": "fb471257ba4e2772a6e938cbc9910bfa777c9efcde44a4f568da099561dcf23f"
+      },
+      "installed_source": "src/dungeon/func_800A44B0.c",
+      "id": "dungeon/func_800A44B0"
+    },
+    {
+      "start": 1010004,
+      "bytes": 8,
+      "function": "func_800DC0B4",
+      "source": "drafts/recovered_callback_stubs/func_800D6954.c",
+      "source_sha256": "dd100187bb2905378f066562945222c1e05a6fc0735788997e205f5279e55f6c",
+      "output": "diagnostics/recovered_functions/f6954",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
+        "genuine.bin": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
+        "checked.OBJ": "b652777b5a66256acb7b115ba26704bc50ea7b09e39b16cf4224a9a883d837aa",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
+        "sectioned.s": "2f5ae7d53f4e587fa805a44c7fa5c8335413d3245bf4868f37058a4237a29b6b",
+        "IN.S": "1ad1f544c8854baef2c4ba9b74aea90fa01948394ed02a8e6598654e0aa84532",
+        "function.o": "0253a45c5d63da8e6f5e51481edf933822f9b2b70bd8b598053f3eb3da26ed54",
+        "function.s": "7453df43d3ba8f618d8002625b35fc26faeebf5e6477ce025a2bfffc6e925426"
+      },
+      "installed_source": "src/dungeon/func_800D6954.c",
+      "id": "dungeon/func_800D6954"
+    },
+    {
+      "start": 803492,
+      "bytes": 8,
+      "function": "func_800A9A04",
+      "source": "drafts/recovered_callback_stubs/func_800A42A4.c",
+      "source_sha256": "5ccb6a42a73db2c885fcae16aed871f7778370fa6e23500b444c9deec9587337",
+      "output": "diagnostics/recovered_functions/c42a4",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
+        "genuine.bin": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
+        "checked.OBJ": "78d4e087b3987311f4e329d6e405bd919eb6d39c201e48c4a23a01f976a425dd",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
+        "sectioned.s": "a21df2646bbf362afbcafa87fdb24ffded88371666f20b844a169b02affc1af5",
+        "IN.S": "7800b9e37c97ebd3b449227d91e70cccefb2b85eb67bf865228dca9c35c218c8",
+        "function.o": "6b73f9a2ef7c626115cec9cc03e47cebfcc65033f78211e3544ff4ed52af4e9e",
+        "function.s": "5c489374f98b89f4c4993d3f2f1e58248d382f045aa384071793a6a83b0da7a7"
+      },
+      "installed_source": "src/dungeon/func_800A42A4.c",
+      "id": "dungeon/func_800A42A4"
+    },
+    {
+      "start": 930208,
+      "bytes": 128,
+      "function": "func_800C8900",
+      "source": "drafts/recovered_status_gaps/func_800C31A0.c",
+      "source_sha256": "b3c42cb9b4b0dda05c525f2eea6ee1badecaf1718c8d40429b868d1d88b1487c",
+      "output": "diagnostics/recovered_functions/e31a0",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "df5d4142936737f23b070a07162b905fe2968994699f64ba3737119dd2d7c80e",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "df5d4142936737f23b070a07162b905fe2968994699f64ba3737119dd2d7c80e",
+        "genuine.bin": "df5d4142936737f23b070a07162b905fe2968994699f64ba3737119dd2d7c80e",
+        "checked.OBJ": "16fc858dfb598e827da82459db6ebbd8b1bfb146027b41788bf64befa8424535",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "df5d4142936737f23b070a07162b905fe2968994699f64ba3737119dd2d7c80e",
+        "sectioned.s": "811fd2910968ad1205b6d5d7b16147bb6e0dab7922b3e3c128011376c2403ade",
+        "IN.S": "fc82574680086d70edbc8d815010425b1844b86c0521926986ec1d9b99fe36eb",
+        "function.o": "bbab95788732043096a958c47581000c05cab75c7e5deb964d6a8251a4bf8323",
+        "function.s": "6901fc976b7a9a2e286f6ca5661fcc5bed4bc08e39c43dee6416e067e8829962"
+      },
+      "installed_source": "src/dungeon/func_800C31A0.c",
+      "id": "dungeon/func_800C31A0"
+    },
+    {
+      "start": 930524,
+      "bytes": 128,
+      "function": "func_800C8A3C",
+      "source": "drafts/recovered_status_gaps/func_800C32DC.c",
+      "source_sha256": "cb44daea809ec9d54dba97e22cdeaca8dd8816dda44b516667b778cd9738f638",
+      "output": "diagnostics/recovered_functions/e32dc",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "bc77254610aac0420e824f9580095c276f238532fcc76f60910dcfc85b031abe",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "bc77254610aac0420e824f9580095c276f238532fcc76f60910dcfc85b031abe",
+        "genuine.bin": "bc77254610aac0420e824f9580095c276f238532fcc76f60910dcfc85b031abe",
+        "checked.OBJ": "77f0db8ecdc8e16d8d4673a2d0cda8a5938f1a39300f42205c063dbcc8c4bd3e",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "bc77254610aac0420e824f9580095c276f238532fcc76f60910dcfc85b031abe",
+        "sectioned.s": "ee6413b3c3cef6d7a7b03a003e5cc46d13b84c77cf1b75ba8cf7157dd7174512",
+        "IN.S": "11e2d60aba8f03861e0bbec88f9a7b4656deb20a95d9fe2f49ce342838c0a488",
+        "function.o": "e6edc7bc565241639f609fac522e209be3e6f1b8350e7a832e7b76aaae29579f",
+        "function.s": "1fd0b7b894260ffc3e002a72f0346539f9a9d2f6f025545cd51b37bb4bbeba9f"
+      },
+      "installed_source": "src/dungeon/func_800C32DC.c",
+      "id": "dungeon/func_800C32DC"
+    },
+    {
+      "start": 1009544,
+      "bytes": 80,
+      "function": "func_800DBEE8",
+      "source": "drafts/recovered_hud_gap/func_800D6788.c",
+      "source_sha256": "f6d056b687cd1da3f2b36b73ab838444b12ffa1223369b2a2b76b02a223a9c2b",
+      "output": "diagnostics/recovered_functions/f6788",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "93ec0a42bb92949c296fc93cc06ddf891c08d58af26479af7be18b4f9c719181",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "93ec0a42bb92949c296fc93cc06ddf891c08d58af26479af7be18b4f9c719181",
+        "genuine.bin": "93ec0a42bb92949c296fc93cc06ddf891c08d58af26479af7be18b4f9c719181",
+        "checked.OBJ": "ac8a8d731e58c7582d6d61519cc1862b48046669ebd89723e8051437272b841d",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "93ec0a42bb92949c296fc93cc06ddf891c08d58af26479af7be18b4f9c719181",
+        "sectioned.s": "d2f0d2ba382a42da290a1c317bb82370ace4c8d3d7e8d157b0f055791588e144",
+        "IN.S": "7ff592518398781ee4c1f5d8568a6df163f971ad785223556a8eb367a8b0452c",
+        "function.o": "937665b4d565c7219ed9ea125d1ddd1f69addcaab9c800d3085c12decb701d7c",
+        "function.s": "41d232e622a19e2cc9dbf77022f5b23764974cb318a54e19cf0981460254ba33"
+      },
+      "installed_source": "src/dungeon/func_800D6788.c",
+      "id": "dungeon/func_800D6788"
+    },
+    {
+      "start": 882780,
+      "bytes": 8,
+      "function": "func_800BCFBC",
+      "source": "drafts/recovered_terrain_hook/func_800B785C.c",
+      "source_sha256": "a4305685ac0085c199c8efa79b8c0729c00f3ebbf056fdc1353eca94e494e350",
+      "output": "diagnostics/recovered_functions/d785c",
+      "kind": "COMPLETE_FUNCTION_DIAGNOSTIC_NOT_PRODUCTION_GATE",
+      "status": "GNU_GENUINE_RETAIL_MATCH",
+      "review": "pending",
+      "reviewer": null,
+      "masked": 0,
+      "raw_substitution_bytes": 0,
+      "sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
+      "genuine": [
+        {
+          "flags": [
+            "-q",
+            "-G0"
+          ],
+          "exact": true,
+          "masked": []
+        }
+      ],
+      "artifacts": {
+        "retail.bin": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
+        "genuine.bin": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
+        "checked.OBJ": "c12553a7b7153ff1f0189b0635b57ff1d27dc1e5bc5f248d75db938bfa27ae1a",
+        "noreturn.bank.txt": "28f7ea7826ba125190efe7188adcb0b5521dfdb9cb81828fd6c3cb06f8e714b3",
+        "gnu.bin": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
+        "sectioned.s": "3869c880e947630979e05c9d060e95dc75c2d679c3492cf44deee61ad0b526e1",
+        "IN.S": "5d177b0a1e06dc5c14db17602e5f0b865065658c4b12c0a3265c79877c0f17a6",
+        "function.o": "22068eb5f1ed28c9e42f795047420586a7f939a574480ac90c5106468ffcb4d5",
+        "function.s": "ac95c36573b58919cb67cc69821e4bac316e1856385603ed42f76fbcfff8a808"
+      },
+      "installed_source": "src/dungeon/func_800B785C.c",
+      "id": "dungeon/func_800B785C"
+    }
+  ],
+  "primary_entry_evidence": {
+    "evidence/recovered_callback_gap_drafts.json": {
+      "kind": "INDIVIDUAL_CALLBACK_RECONSTRUCTIONS_NOT_REGISTERED_ROWS",
+      "entries": [
+        {
+          "start": 842028,
+          "end": 842060,
+          "size": 32,
+          "vma": 2148216972,
+          "pointer_references": [
+            {
+              "foff": 1022608,
+              "vma": 2148397552,
+              "word": "0x800b308c"
+            }
+          ],
+          "direct_calls": [],
+          "review": "pending",
+          "reviewer": null,
+          "group": "combat_effects",
+          "source": "drafts/recovered_callbacks/combat_effects/func_8008D92C.c",
+          "source_sha256": "1f37c3f211638a506c7f0c7bba0023d26a0161cbc0a63c427b4e620a02e70540",
+          "dispatch_table": 2148397544,
+          "dispatch_consumer": "dungeon/func_800ACFEC",
+          "primary_pointer_entries": [
+            {
+              "foff": 1022608,
+              "vma": 2148397552,
+              "word": "0x800b308c",
+              "table_vma": 2148397544,
+              "table_entry": 2
+            }
+          ],
+          "callee_contract": {
+            "name": "func_800AB778",
+            "id": "dungeon/func_800A6018",
+            "source": "src/dungeon/func_800A6018.c",
+            "sha256": "5a87d1ca34e57a1f8720664459de43988f96ce17e9892f2ae619a0862e14598a",
+            "signature": "s32 func_800AB778(S_800AB778_1 *state, void *unused_context, S_800AB778_3 *visual, void *actor)",
+            "foff": 811032,
+            "size": 1604
+          },
+          "callable": "resident callback-table entry; actual registered consumer calls through this table with four word arguments",
+          "status": "ENTRY_PROVEN_C_BYTE_CHECK_PENDING"
+        },
+        {
+          "start": 842060,
+          "end": 842116,
+          "size": 56,
+          "vma": 2148217004,
+          "pointer_references": [
+            {
+              "foff": 1022600,
+              "vma": 2148397544,
+              "word": "0x800b30ac"
+            }
+          ],
+          "direct_calls": [],
+          "review": "pending",
+          "reviewer": null,
+          "group": "combat_effects",
+          "source": "drafts/recovered_callbacks/combat_effects/func_8008D94C.c",
+          "source_sha256": "67548d3ca1a796cc2b1861f636e053fdfc1928fedb81d2163d8f7c8b798c62bd",
+          "dispatch_table": 2148397544,
+          "dispatch_consumer": "dungeon/func_800ACFEC",
+          "primary_pointer_entries": [
+            {
+              "foff": 1022600,
+              "vma": 2148397544,
+              "word": "0x800b30ac",
+              "table_vma": 2148397544,
+              "table_entry": 0
+            }
+          ],
+          "callee_contract": {
+            "name": "func_800ABDBC",
+            "id": "dungeon/func_800A665C",
+            "source": "src/dungeon/func_800A665C.c",
+            "sha256": "27d179661abac775e515b3d8724ed26492b2651ee2cafd15a62628c3705c2939",
+            "signature": "s32 func_800ABDBC(State *state, Motion *motion, Params *params, Extra *extra)",
+            "foff": 812636,
+            "size": 596
+          },
+          "callable": "resident callback-table entry; actual registered consumer calls through this table with four word arguments",
+          "status": "ENTRY_PROVEN_C_BYTE_CHECK_PENDING"
+        },
+        {
+          "start": 842284,
+          "end": 842316,
+          "size": 32,
+          "vma": 2148217228,
+          "pointer_references": [
+            {
+              "foff": 1022644,
+              "vma": 2148397588,
+              "word": "0x800b318c"
+            }
+          ],
+          "direct_calls": [
+            {
+              "foff": 840760,
+              "op": "jal"
+            }
+          ],
+          "review": "pending",
+          "reviewer": null,
+          "group": "combat_effects",
+          "source": "drafts/recovered_callbacks/combat_effects/func_8008DA2C.c",
+          "source_sha256": "5a78a8dcb98187b08630fd641af94cf0ace1d0e5097012e2bf9b3880681a37a8",
+          "dispatch_table": 2148397544,
+          "dispatch_consumer": "dungeon/func_800ACFEC",
+          "primary_pointer_entries": [
+            {
+              "foff": 1022644,
+              "vma": 2148397588,
+              "word": "0x800b318c",
+              "table_vma": 2148397544,
+              "table_entry": 11
+            }
+          ],
+          "callee_contract": {
+            "name": "func_800AC82C",
+            "id": "dungeon/func_800A70CC",
+            "source": "src/dungeon/func_800A70CC.c",
+            "sha256": "48aea8dd7c32b9ab5c33634fc7756324b6567f92be7962423d09d1331a961b0f",
+            "signature": "s32 func_800AC82C(Rec_func_800A9E70_arg0 *state, EntityRec *position, Rec_D_80082E80 *tile, void *actor)",
+            "foff": 815308,
+            "size": 876
+          },
+          "callable": "resident callback-table entry; actual registered consumer calls through this table with four word arguments",
+          "status": "ENTRY_PROVEN_C_BYTE_CHECK_PENDING"
+        },
+        {
+          "start": 842316,
+          "end": 842372,
+          "size": 56,
+          "vma": 2148217260,
+          "pointer_references": [
+            {
+              "foff": 1022648,
+              "vma": 2148397592,
+              "word": "0x800b31ac"
+            }
+          ],
+          "direct_calls": [],
+          "review": "pending",
+          "reviewer": null,
+          "group": "combat_effects",
+          "source": "drafts/recovered_callbacks/combat_effects/func_8008DA4C.c",
+          "source_sha256": "4813725af8871a8b44ce75bc761e9f99282294f7e51370aafe65b1ef650896e1",
+          "dispatch_table": 2148397544,
+          "dispatch_consumer": "dungeon/func_800ACFEC",
+          "primary_pointer_entries": [
+            {
+              "foff": 1022648,
+              "vma": 2148397592,
+              "word": "0x800b31ac",
+              "table_vma": 2148397544,
+              "table_entry": 12
+            }
+          ],
+          "callee_contract": {
+            "name": "func_800AC010",
+            "id": "dungeon/func_800A68B0",
+            "source": "src/dungeon/func_800A68B0.c",
+            "sha256": "27f31c95e818af6c8cc90d80dabbb48ff0ccad0b4ee85395fc14c6c793112580",
+            "signature": "s32 func_800AC010(void *move_state, EntityRec *motion, Rec_D_80082E80 *tile_pos, EntityRec *actor)",
+            "foff": 813232,
+            "size": 1136
+          },
+          "callable": "resident callback-table entry; actual registered consumer calls through this table with four word arguments",
+          "status": "ENTRY_PROVEN_C_BYTE_CHECK_PENDING"
+        },
+        {
+          "start": 842372,
+          "end": 842428,
+          "size": 56,
+          "vma": 2148217316,
+          "pointer_references": [
+            {
+              "foff": 1022612,
+              "vma": 2148397556,
+              "word": "0x800b31e4"
+            }
+          ],
+          "direct_calls": [],
+          "review": "pending",
+          "reviewer": null,
+          "group": "combat_effects",
+          "source": "drafts/recovered_callbacks/combat_effects/func_8008DA84.c",
+          "source_sha256": "1d099a98669844fdea4d5cc49e8feca51495f17aa2f37d26ff68e201c908c94d",
+          "dispatch_table": 2148397544,
+          "dispatch_consumer": "dungeon/func_800ACFEC",
+          "primary_pointer_entries": [
+            {
+              "foff": 1022612,
+              "vma": 2148397556,
+              "word": "0x800b31e4",
+              "table_vma": 2148397544,
+              "table_entry": 3
+            }
+          ],
+          "callee_contract": {
+            "name": "func_800AC480",
+            "id": "dungeon/func_800A6D20",
+            "source": "src/dungeon/func_800A6D20.c",
+            "sha256": "f2f2b9c112e59878ab33acb3279720593144dba882bb44eb5ab15595ce00376d",
+            "signature": "s32 func_800AC480(S_800AC480_0 *move_state, EntityRec *motion, S_800AC480_1 *target_tile, S_800AC480_3 *height_state)",
+            "foff": 814368,
+            "size": 328
+          },
+          "callable": "resident callback-table entry; actual registered consumer calls through this table with four word arguments",
+          "status": "ENTRY_PROVEN_C_BYTE_CHECK_PENDING"
+        },
+        {
+          "start": 842428,
+          "end": 842484,
+          "size": 56,
+          "vma": 2148217372,
+          "pointer_references": [
+            {
+              "foff": 1022616,
+              "vma": 2148397560,
+              "word": "0x800b321c"
+            }
+          ],
+          "direct_calls": [],
+          "review": "pending",
+          "reviewer": null,
+          "group": "combat_effects",
+          "source": "drafts/recovered_callbacks/combat_effects/func_8008DABC.c",
+          "source_sha256": "dd8ccf0269aac62cacd95993213f5a5efa6333cf8a8125cc7d38323121731fe2",
+          "dispatch_table": 2148397544,
+          "dispatch_consumer": "dungeon/func_800ACFEC",
+          "primary_pointer_entries": [
+            {
+              "foff": 1022616,
+              "vma": 2148397560,
+              "word": "0x800b321c",
+              "table_vma": 2148397544,
+              "table_entry": 4
+            }
+          ],
+          "callee_contract": {
+            "name": "func_800AC5C8",
+            "id": "dungeon/func_800A6E68",
+            "source": "src/dungeon/func_800A6E68.c",
+            "sha256": "3242fa9983301683c416edb71b2203bf37e4764f65c6c9f1ba93e476c24c4f15",
+            "signature": "s32 func_800AC5C8(S_800AC5C8_0 *animation, EntityRec *position, S_800AC5C8_3 *tile, void *object)",
+            "foff": 814696,
+            "size": 548
+          },
+          "callable": "resident callback-table entry; actual registered consumer calls through this table with four word arguments",
+          "status": "ENTRY_PROVEN_C_BYTE_CHECK_PENDING"
+        },
+        {
+          "start": 842484,
+          "end": 842540,
+          "size": 56,
+          "vma": 2148217428,
+          "pointer_references": [
+            {
+              "foff": 1022676,
+              "vma": 2148397620,
+              "word": "0x800b3254"
+            }
+          ],
+          "direct_calls": [],
+          "review": "pending",
+          "reviewer": null,
+          "group": "combat_effects",
+          "source": "drafts/recovered_callbacks/combat_effects/func_8008DAF4.c",
+          "source_sha256": "6cf85e69e93ca71bd30c255e984b3f17b6775be65bf1b6fe9814ad16742d714b",
+          "dispatch_table": 2148397544,
+          "dispatch_consumer": "dungeon/func_800ACFEC",
+          "primary_pointer_entries": [
+            {
+              "foff": 1022676,
+              "vma": 2148397620,
+              "word": "0x800b3254",
+              "table_vma": 2148397544,
+              "table_entry": 19
+            }
+          ],
+          "callee_contract": {
+            "name": "func_800ACE34",
+            "id": "dungeon/func_800A76D4",
+            "source": "src/dungeon/func_800A76D4.c",
+            "sha256": "1711c7c8c891c88e6d326396c3228c555cf8f9dd7d9f71c368dd65ac46cdf9d9",
+            "signature": "s32 func_800ACE34(StructArg0 *object_arg, s32 unused, StructArg2 *effect_arg)",
+            "foff": 816852,
+            "size": 340
+          },
+          "callable": "resident callback-table entry; actual registered consumer calls through this table with four word arguments",
+          "status": "ENTRY_PROVEN_C_BYTE_CHECK_PENDING"
+        },
+        {
+          "start": 1000632,
+          "end": 1000732,
+          "size": 100,
+          "vma": 2148375576,
+          "pointer_references": [
+            {
+              "foff": 1036052,
+              "vma": 2148410996,
+              "word": "0x800d9c18"
+            }
+          ],
+          "direct_calls": [],
+          "review": "pending",
+          "reviewer": null,
+          "group": "actor_movement",
+          "source": "drafts/recovered_callbacks/actor_movement/func_800B44B8.c",
+          "source_sha256": "66a1a298eba8887f98cf390ac550853d1ab12461c39e159745dc777d2e74e134",
+          "dispatch_table": 2148410956,
+          "dispatch_consumer": "dungeon/func_800D2FC8",
+          "primary_pointer_entries": [
+            {
+              "foff": 1036052,
+              "vma": 2148410996,
+              "word": "0x800d9c18",
+              "table_vma": 2148410956,
+              "table_entry": 10
+            }
+          ],
+          "callee_contract": {
+            "name": "func_800AB378",
+            "id": "dungeon/func_800A5C18",
+            "source": "src/dungeon/func_800A5C18.c",
+            "sha256": "bd4328898d5d87cee7b94e25f783e2f6efb212198d139dd396e2ef95ccfe8c4a",
+            "signature": "s32 func_800AB378(void *state, void *transform, void *config, void *object)",
+            "foff": 810008,
+            "size": 236
+          },
+          "callable": "resident callback-table entry; actual registered consumer calls through this table with four word arguments",
+          "status": "ENTRY_PROVEN_C_BYTE_CHECK_PENDING"
+        },
+        {
+          "start": 1001500,
+          "end": 1001532,
+          "size": 32,
+          "vma": 2148376444,
+          "pointer_references": [
+            {
+              "foff": 1036044,
+              "vma": 2148410988,
+              "word": "0x800d9f7c"
+            }
+          ],
+          "direct_calls": [],
+          "review": "pending",
+          "reviewer": null,
+          "group": "actor_movement",
+          "source": "drafts/recovered_callbacks/actor_movement/func_800B481C.c",
+          "source_sha256": "5646263c92b00bdf51394cac10b9ea043bcdbab9b3eb204cc9202e0885d08e7b",
+          "dispatch_table": 2148410956,
+          "dispatch_consumer": "dungeon/func_800D2FC8",
+          "primary_pointer_entries": [
+            {
+              "foff": 1036044,
+              "vma": 2148410988,
+              "word": "0x800d9f7c",
+              "table_vma": 2148410956,
+              "table_entry": 8
+            }
+          ],
+          "callee_contract": {
+            "name": "func_800AD058",
+            "id": "dungeon/func_800A78F8",
+            "source": "src/dungeon/func_800A78F8.c",
+            "sha256": "72c573911fd1fede2c730a7c166f1fd85822bbdd1af16b98267feb88e76b4d89",
+            "signature": "s32 func_800AD058(u8 *state, s32 *position, u8 *sprite, u8 *entity_data)",
+            "foff": 817400,
+            "size": 1144
+          },
+          "callable": "resident callback-table entry; actual registered consumer calls through this table with four word arguments",
+          "status": "ENTRY_PROVEN_C_BYTE_CHECK_PENDING"
+        },
+        {
+          "start": 1001532,
+          "end": 1001564,
+          "size": 32,
+          "vma": 2148376476,
+          "pointer_references": [
+            {
+              "foff": 1036016,
+              "vma": 2148410960,
+              "word": "0x800d9f9c"
+            }
+          ],
+          "direct_calls": [],
+          "review": "pending",
+          "reviewer": null,
+          "group": "actor_movement",
+          "source": "drafts/recovered_callbacks/actor_movement/func_800B483C.c",
+          "source_sha256": "eef79021c6d23db3bf53a1fef2afaf462c7446fb2824f0f2051cf13bfbb60096",
+          "dispatch_table": 2148410956,
+          "dispatch_consumer": "dungeon/func_800D2FC8",
+          "primary_pointer_entries": [
+            {
+              "foff": 1036016,
+              "vma": 2148410960,
+              "word": "0x800d9f9c",
+              "table_vma": 2148410956,
+              "table_entry": 1
+            }
+          ],
+          "callee_contract": {
+            "name": "func_800AB538",
+            "id": "dungeon/func_800A5DD8",
+            "source": "src/dungeon/func_800A5DD8.c",
+            "sha256": "aef68b18ad8d6b0f9be99c7a6d22f19a252455793b973bc0014cc6996c1aec07",
+            "signature": "s32 func_800AB538(void *animation, void *motion, void *scale, void *render)",
+            "foff": 810456,
+            "size": 576
+          },
+          "callable": "resident callback-table entry; actual registered consumer calls through this table with four word arguments",
+          "status": "ENTRY_PROVEN_C_BYTE_CHECK_PENDING"
+        },
+        {
+          "start": 1001564,
+          "end": 1001596,
+          "size": 32,
+          "vma": 2148376508,
+          "pointer_references": [
+            {
+              "foff": 1036020,
+              "vma": 2148410964,
+              "word": "0x800d9fbc"
+            }
+          ],
+          "direct_calls": [],
+          "review": "pending",
+          "reviewer": null,
+          "group": "actor_movement",
+          "source": "drafts/recovered_callbacks/actor_movement/func_800B485C.c",
+          "source_sha256": "7143559f0d24fcf5885b27cf0e9036ee2ade8130341d4c8dd9499777a1cd39ee",
+          "dispatch_table": 2148410956,
+          "dispatch_consumer": "dungeon/func_800D2FC8",
+          "primary_pointer_entries": [
+            {
+              "foff": 1036020,
+              "vma": 2148410964,
+              "word": "0x800d9fbc",
+              "table_vma": 2148410956,
+              "table_entry": 2
+            }
+          ],
+          "callee_contract": {
+            "name": "func_800AB778",
+            "id": "dungeon/func_800A6018",
+            "source": "src/dungeon/func_800A6018.c",
+            "sha256": "5a87d1ca34e57a1f8720664459de43988f96ce17e9892f2ae619a0862e14598a",
+            "signature": "s32 func_800AB778(S_800AB778_1 *state, void *unused_context, S_800AB778_3 *visual, void *actor)",
+            "foff": 811032,
+            "size": 1604
+          },
+          "callable": "resident callback-table entry; actual registered consumer calls through this table with four word arguments",
+          "status": "ENTRY_PROVEN_C_BYTE_CHECK_PENDING"
+        },
+        {
+          "start": 1001596,
+          "end": 1001652,
+          "size": 56,
+          "vma": 2148376540,
+          "pointer_references": [
+            {
+              "foff": 1036012,
+              "vma": 2148410956,
+              "word": "0x800d9fdc"
+            }
+          ],
+          "direct_calls": [],
+          "review": "pending",
+          "reviewer": null,
+          "group": "actor_movement",
+          "source": "drafts/recovered_callbacks/actor_movement/func_800B487C.c",
+          "source_sha256": "bc5b64a8d39e5e2e964c4be0f4d48eba8ac75940911edcdcd9007f7c60551714",
+          "dispatch_table": 2148410956,
+          "dispatch_consumer": "dungeon/func_800D2FC8",
+          "primary_pointer_entries": [
+            {
+              "foff": 1036012,
+              "vma": 2148410956,
+              "word": "0x800d9fdc",
+              "table_vma": 2148410956,
+              "table_entry": 0
+            }
+          ],
+          "callee_contract": {
+            "name": "func_800ABDBC",
+            "id": "dungeon/func_800A665C",
+            "source": "src/dungeon/func_800A665C.c",
+            "sha256": "27d179661abac775e515b3d8724ed26492b2651ee2cafd15a62628c3705c2939",
+            "signature": "s32 func_800ABDBC(State *state, Motion *motion, Params *params, Extra *extra)",
+            "foff": 812636,
+            "size": 596
+          },
+          "callable": "resident callback-table entry; actual registered consumer calls through this table with four word arguments",
+          "status": "ENTRY_PROVEN_C_BYTE_CHECK_PENDING"
+        }
+      ],
+      "review": "pending",
+      "reviewer": null
+    },
+    "evidence/recovered_callback_gap_boundaries.json": {
+      "kind": "PRIMARY_ENTRY_REFERENCES_AND_RETURN_BOUNDARIES",
+      "entries": [
+        {
+          "start": 842028,
+          "end": 842060,
+          "size": 32,
+          "vma": 2148216972,
+          "pointer_references": [
+            {
+              "foff": 1022608,
+              "vma": 2148397552,
+              "word": "0x800b308c"
+            }
+          ],
+          "direct_calls": [],
+          "review": "pending",
+          "reviewer": null
+        },
+        {
+          "start": 842060,
+          "end": 842116,
+          "size": 56,
+          "vma": 2148217004,
+          "pointer_references": [
+            {
+              "foff": 1022600,
+              "vma": 2148397544,
+              "word": "0x800b30ac"
+            }
+          ],
+          "direct_calls": [],
+          "review": "pending",
+          "reviewer": null
+        },
+        {
+          "start": 842284,
+          "end": 842316,
+          "size": 32,
+          "vma": 2148217228,
+          "pointer_references": [
+            {
+              "foff": 1022644,
+              "vma": 2148397588,
+              "word": "0x800b318c"
+            }
+          ],
+          "direct_calls": [
+            {
+              "foff": 840760,
+              "op": "jal"
+            }
+          ],
+          "review": "pending",
+          "reviewer": null
+        },
+        {
+          "start": 842316,
+          "end": 842372,
+          "size": 56,
+          "vma": 2148217260,
+          "pointer_references": [
+            {
+              "foff": 1022648,
+              "vma": 2148397592,
+              "word": "0x800b31ac"
+            }
+          ],
+          "direct_calls": [],
+          "review": "pending",
+          "reviewer": null
+        },
+        {
+          "start": 842372,
+          "end": 842428,
+          "size": 56,
+          "vma": 2148217316,
+          "pointer_references": [
+            {
+              "foff": 1022612,
+              "vma": 2148397556,
+              "word": "0x800b31e4"
+            }
+          ],
+          "direct_calls": [],
+          "review": "pending",
+          "reviewer": null
+        },
+        {
+          "start": 842428,
+          "end": 842484,
+          "size": 56,
+          "vma": 2148217372,
+          "pointer_references": [
+            {
+              "foff": 1022616,
+              "vma": 2148397560,
+              "word": "0x800b321c"
+            }
+          ],
+          "direct_calls": [],
+          "review": "pending",
+          "reviewer": null
+        },
+        {
+          "start": 842484,
+          "end": 842540,
+          "size": 56,
+          "vma": 2148217428,
+          "pointer_references": [
+            {
+              "foff": 1022676,
+              "vma": 2148397620,
+              "word": "0x800b3254"
+            }
+          ],
+          "direct_calls": [],
+          "review": "pending",
+          "reviewer": null
+        },
+        {
+          "start": 1000632,
+          "end": 1000732,
+          "size": 100,
+          "vma": 2148375576,
+          "pointer_references": [
+            {
+              "foff": 1036052,
+              "vma": 2148410996,
+              "word": "0x800d9c18"
+            }
+          ],
+          "direct_calls": [],
+          "review": "pending",
+          "reviewer": null
+        },
+        {
+          "start": 1001500,
+          "end": 1001532,
+          "size": 32,
+          "vma": 2148376444,
+          "pointer_references": [
+            {
+              "foff": 1036044,
+              "vma": 2148410988,
+              "word": "0x800d9f7c"
+            }
+          ],
+          "direct_calls": [],
+          "review": "pending",
+          "reviewer": null
+        },
+        {
+          "start": 1001532,
+          "end": 1001564,
+          "size": 32,
+          "vma": 2148376476,
+          "pointer_references": [
+            {
+              "foff": 1036016,
+              "vma": 2148410960,
+              "word": "0x800d9f9c"
+            }
+          ],
+          "direct_calls": [],
+          "review": "pending",
+          "reviewer": null
+        },
+        {
+          "start": 1001564,
+          "end": 1001596,
+          "size": 32,
+          "vma": 2148376508,
+          "pointer_references": [
+            {
+              "foff": 1036020,
+              "vma": 2148410964,
+              "word": "0x800d9fbc"
+            }
+          ],
+          "direct_calls": [],
+          "review": "pending",
+          "reviewer": null
+        },
+        {
+          "start": 1001596,
+          "end": 1001652,
+          "size": 56,
+          "vma": 2148376540,
+          "pointer_references": [
+            {
+              "foff": 1036012,
+              "vma": 2148410956,
+              "word": "0x800d9fdc"
+            }
+          ],
+          "direct_calls": [],
+          "review": "pending",
+          "reviewer": null
+        }
+      ],
+      "review": "pending",
+      "reviewer": null
+    },
+    "evidence/recovered_callback_stub_entries.json": [
+      {
+        "gap_start": 804016,
+        "gap_vma": 2148178960,
+        "bytes": 8,
+        "table_vma": 2148397544,
+        "table_entry": 14,
+        "pointer_file": 1022656,
+        "pointer_word": 2148178960,
+        "consumer": "dungeon/func_800ACFEC",
+        "consumer_source": "src/dungeon/func_800ACFEC.c",
+        "source_sha256": "af5c577c74461c89c8b62f41de462aefd20c0acb9d04c6470f11b1f3055c2f7b",
+        "jalr_sites": [
+          {
+            "vma": 2148214768,
+            "word": "09f84000",
+            "operation": "jalr $v0"
+          },
+          {
+            "vma": 2148214816,
+            "word": "09f84000",
+            "operation": "jalr $v0"
+          }
+        ],
+        "retail_return_bytes": "0800e00300000000",
+        "claim": "Existing typed callback table and real indirect call establish a callable entry; no padding/function fabrication.",
+        "status": "CALLABLE_ENTRY_PROVEN_C_BYTE_CHECK_PENDING",
+        "review": "pending",
+        "reviewer": null
+      },
+      {
+        "gap_start": 1010004,
+        "gap_vma": 2148384948,
+        "bytes": 8,
+        "table_vma": 2148411700,
+        "table_entry": 3,
+        "pointer_file": 1036768,
+        "pointer_word": 2148384948,
+        "consumer": "dungeon/func_800D7198",
+        "consumer_source": "src/dungeon/func_800D7198.c",
+        "source_sha256": "33116eca7aeb2e3665b53ba1f4b608e7015e199bfb2d6bbaf9fed6b7d2d22012",
+        "jalr_sites": [
+          {
+            "vma": 2148387128,
+            "word": "09f86000",
+            "operation": "jalr $v1"
+          },
+          {
+            "vma": 2148387172,
+            "word": "09f84000",
+            "operation": "jalr $v0"
+          }
+        ],
+        "retail_return_bytes": "0800e00300000000",
+        "claim": "Existing typed callback table and real indirect call establish a callable entry; no padding/function fabrication.",
+        "status": "CALLABLE_ENTRY_PROVEN_C_BYTE_CHECK_PENDING",
+        "review": "pending",
+        "reviewer": null
+      }
+    ],
+    "evidence/gap_pointer_table_discriminators.json": {
+      "results": [
+        {
+          "cohort": "combat_effects.c",
+          "gap_start": 842028,
+          "gap_vma": 2148216972,
+          "reference_file": 1022608,
+          "word": 2148216972,
+          "kind": "full_32_bit_pointer",
+          "basis": "Bounded resident data/pool scan; consumer/producer semantics still required before declaring a callable entry.",
+          "review": "pending",
+          "reviewer": null,
+          "possible_table_bases": [
+            {
+              "symbol": "D_800DF1E8",
+              "offset": 8,
+              "consumer_rows": [
+                "dungeon/func_800ACFEC"
+              ]
+            },
+            {
+              "symbol": "D_800DF068",
+              "offset": 392,
+              "consumer_rows": [
+                "dungeon/func_800AC720"
+              ]
+            },
+            {
+              "symbol": "D_800DF03C",
+              "offset": 436,
+              "consumer_rows": [
+                "dungeon/func_800AC008"
+              ]
+            },
+            {
+              "symbol": "D_800DF030",
+              "offset": 448,
+              "consumer_rows": [
+                "dungeon/func_800ABD9C"
+              ]
+            },
+            {
+              "symbol": "D_800DEFF8",
+              "offset": 504,
+              "consumer_rows": [
+                "dungeon/func_800AB7F0"
+              ]
+            }
+          ]
+        },
+        {
+          "cohort": "combat_effects.c",
+          "gap_start": 842284,
+          "gap_vma": 2148217228,
+          "reference_file": 1022644,
+          "word": 2148217228,
+          "kind": "full_32_bit_pointer",
+          "basis": "Bounded resident data/pool scan; consumer/producer semantics still required before declaring a callable entry.",
+          "review": "pending",
+          "reviewer": null,
+          "possible_table_bases": [
+            {
+              "symbol": "D_800DF1E8",
+              "offset": 44,
+              "consumer_rows": [
+                "dungeon/func_800ACFEC"
+              ]
+            },
+            {
+              "symbol": "D_800DF068",
+              "offset": 428,
+              "consumer_rows": [
+                "dungeon/func_800AC720"
+              ]
+            },
+            {
+              "symbol": "D_800DF03C",
+              "offset": 472,
+              "consumer_rows": [
+                "dungeon/func_800AC008"
+              ]
+            },
+            {
+              "symbol": "D_800DF030",
+              "offset": 484,
+              "consumer_rows": [
+                "dungeon/func_800ABD9C"
+              ]
+            },
+            {
+              "symbol": "D_800DEFF8",
+              "offset": 540,
+              "consumer_rows": [
+                "dungeon/func_800AB7F0"
+              ]
+            }
+          ]
+        },
+        {
+          "cohort": "actor_actions.c",
+          "gap_start": 804016,
+          "gap_vma": 2148178960,
+          "reference_file": 1022656,
+          "word": 2148178960,
+          "kind": "full_32_bit_pointer",
+          "basis": "Bounded resident data/pool scan; consumer/producer semantics still required before declaring a callable entry.",
+          "review": "pending",
+          "reviewer": null,
+          "possible_table_bases": [
+            {
+              "symbol": "D_800DF1E8",
+              "offset": 56,
+              "consumer_rows": [
+                "dungeon/func_800ACFEC"
+              ]
+            },
+            {
+              "symbol": "D_800DF068",
+              "offset": 440,
+              "consumer_rows": [
+                "dungeon/func_800AC720"
+              ]
+            },
+            {
+              "symbol": "D_800DF03C",
+              "offset": 484,
+              "consumer_rows": [
+                "dungeon/func_800AC008"
+              ]
+            },
+            {
+              "symbol": "D_800DF030",
+              "offset": 496,
+              "consumer_rows": [
+                "dungeon/func_800ABD9C"
+              ]
+            },
+            {
+              "symbol": "D_800DEFF8",
+              "offset": 552,
+              "consumer_rows": [
+                "dungeon/func_800AB7F0"
+              ]
+            }
+          ]
+        },
+        {
+          "cohort": "actor_actions.c",
+          "gap_start": 804016,
+          "gap_vma": 2148178960,
+          "reference_file": 1027116,
+          "word": 2148178960,
+          "kind": "full_32_bit_pointer",
+          "basis": "Bounded resident data/pool scan; consumer/producer semantics still required before declaring a callable entry.",
+          "review": "pending",
+          "reviewer": null,
+          "possible_table_bases": [
+            {
+              "symbol": "D_800E0354",
+              "offset": 56,
+              "consumer_rows": [
+                "dungeon/func_800C434C"
+              ]
+            },
+            {
+              "symbol": "D_800E0334",
+              "offset": 88,
+              "consumer_rows": [
+                "dungeon/func_800C40F0"
+              ]
+            },
+            {
+              "symbol": "D_800E02CC",
+              "offset": 192,
+              "consumer_rows": [
+                "dungeon/func_800C5D60"
+              ]
+            },
+            {
+              "symbol": "D_800E0040",
+              "offset": 844,
+              "consumer_rows": [
+                "dungeon/func_8008BCD0"
+              ]
+            },
+            {
+              "symbol": "D_800E0000",
+              "offset": 908,
+              "consumer_rows": [
+                "dungeon/func_80084084",
+                "dungeon/func_800969CC",
+                "dungeon/func_8009C4F8",
+                "dungeon/func_8009F8EC",
+                "dungeon/func_800AF9C8",
+                "dungeon/func_800B4318"
+              ]
+            }
+          ]
+        },
+        {
+          "cohort": "actor_actions.c",
+          "gap_start": 804016,
+          "gap_vma": 2148178960,
+          "reference_file": 1034904,
+          "word": 2148178960,
+          "kind": "full_32_bit_pointer",
+          "basis": "Bounded resident data/pool scan; consumer/producer semantics still required before declaring a callable entry.",
+          "review": "pending",
+          "reviewer": null,
+          "possible_table_bases": [
+            {
+              "symbol": "D_800E21C0",
+              "offset": 56,
+              "consumer_rows": [
+                "dungeon/func_800CC6D4"
+              ]
+            },
+            {
+              "symbol": "D_800E2178",
+              "offset": 128,
+              "consumer_rows": [
+                "dungeon/func_800CC510"
+              ]
+            },
+            {
+              "symbol": "D_800E2082",
+              "offset": 374,
+              "consumer_rows": [
+                "dungeon/func_800BE068"
+              ]
+            },
+            {
+              "symbol": "D_800E206A",
+              "offset": 398,
+              "consumer_rows": [
+                "dungeon/func_800BA8DC"
+              ]
+            },
+            {
+              "symbol": "D_800E2056",
+              "offset": 418,
+              "consumer_rows": [
+                "dungeon/func_800BA620"
+              ]
+            }
+          ]
+        },
+        {
+          "cohort": "actor_actions.c",
+          "gap_start": 804016,
+          "gap_vma": 2148178960,
+          "reference_file": 1035008,
+          "word": 2148178960,
+          "kind": "full_32_bit_pointer",
+          "basis": "Bounded resident data/pool scan; consumer/producer semantics still required before declaring a callable entry.",
+          "review": "pending",
+          "reviewer": null,
+          "possible_table_bases": [
+            {
+              "symbol": "D_800E2228",
+              "offset": 56,
+              "consumer_rows": [
+                "dungeon/func_800CCF04"
+              ]
+            },
+            {
+              "symbol": "D_800E221C",
+              "offset": 68,
+              "consumer_rows": [
+                "dungeon/func_800CCD48"
+              ]
+            },
+            {
+              "symbol": "D_800E21C0",
+              "offset": 160,
+              "consumer_rows": [
+                "dungeon/func_800CC6D4"
+              ]
+            },
+            {
+              "symbol": "D_800E2178",
+              "offset": 232,
+              "consumer_rows": [
+                "dungeon/func_800CC510"
+              ]
+            },
+            {
+              "symbol": "D_800E2082",
+              "offset": 478,
+              "consumer_rows": [
+                "dungeon/func_800BE068"
+              ]
+            }
+          ]
+        },
+        {
+          "cohort": "actor_actions.c",
+          "gap_start": 804016,
+          "gap_vma": 2148178960,
+          "reference_file": 1035100,
+          "word": 2148178960,
+          "kind": "full_32_bit_pointer",
+          "basis": "Bounded resident data/pool scan; consumer/producer semantics still required before declaring a callable entry.",
+          "review": "pending",
+          "reviewer": null,
+          "possible_table_bases": [
+            {
+              "symbol": "D_800E2228",
+              "offset": 148,
+              "consumer_rows": [
+                "dungeon/func_800CCF04"
+              ]
+            },
+            {
+              "symbol": "D_800E221C",
+              "offset": 160,
+              "consumer_rows": [
+                "dungeon/func_800CCD48"
+              ]
+            },
+            {
+              "symbol": "D_800E21C0",
+              "offset": 252,
+              "consumer_rows": [
+                "dungeon/func_800CC6D4"
+              ]
+            },
+            {
+              "symbol": "D_800E2178",
+              "offset": 324,
+              "consumer_rows": [
+                "dungeon/func_800CC510"
+              ]
+            },
+            {
+              "symbol": "D_800E2082",
+              "offset": 570,
+              "consumer_rows": [
+                "dungeon/func_800BE068"
+              ]
+            }
+          ]
+        },
+        {
+          "cohort": "actor_variants.c",
+          "gap_start": 978644,
+          "gap_vma": 2148353588,
+          "reference_file": 1035164,
+          "word": 2148353588,
+          "kind": "full_32_bit_pointer",
+          "basis": "Bounded resident data/pool scan; consumer/producer semantics still required before declaring a callable entry.",
+          "review": "pending",
+          "reviewer": null,
+          "possible_table_bases": [
+            {
+              "symbol": "D_800E22E0",
+              "offset": 28,
+              "consumer_rows": [
+                "dungeon/func_800CE9F8"
+              ]
+            },
+            {
+              "symbol": "D_800E2228",
+              "offset": 212,
+              "consumer_rows": [
+                "dungeon/func_800CCF04"
+              ]
+            },
+            {
+              "symbol": "D_800E221C",
+              "offset": 224,
+              "consumer_rows": [
+                "dungeon/func_800CCD48"
+              ]
+            },
+            {
+              "symbol": "D_800E21C0",
+              "offset": 316,
+              "consumer_rows": [
+                "dungeon/func_800CC6D4"
+              ]
+            },
+            {
+              "symbol": "D_800E2178",
+              "offset": 388,
+              "consumer_rows": [
+                "dungeon/func_800CC510"
+              ]
+            }
+          ]
+        },
+        {
+          "cohort": "actor_actions.c",
+          "gap_start": 804016,
+          "gap_vma": 2148178960,
+          "reference_file": 1035192,
+          "word": 2148178960,
+          "kind": "full_32_bit_pointer",
+          "basis": "Bounded resident data/pool scan; consumer/producer semantics still required before declaring a callable entry.",
+          "review": "pending",
+          "reviewer": null,
+          "possible_table_bases": [
+            {
+              "symbol": "D_800E22E0",
+              "offset": 56,
+              "consumer_rows": [
+                "dungeon/func_800CE9F8"
+              ]
+            },
+            {
+              "symbol": "D_800E2228",
+              "offset": 240,
+              "consumer_rows": [
+                "dungeon/func_800CCF04"
+              ]
+            },
+            {
+              "symbol": "D_800E221C",
+              "offset": 252,
+              "consumer_rows": [
+                "dungeon/func_800CCD48"
+              ]
+            },
+            {
+              "symbol": "D_800E21C0",
+              "offset": 344,
+              "consumer_rows": [
+                "dungeon/func_800CC6D4"
+              ]
+            },
+            {
+              "symbol": "D_800E2178",
+              "offset": 416,
+              "consumer_rows": [
+                "dungeon/func_800CC510"
+              ]
+            }
+          ]
+        },
+        {
+          "cohort": "actor_movement.c",
+          "gap_start": 1001500,
+          "gap_vma": 2148376444,
+          "reference_file": 1036044,
+          "word": 2148376444,
+          "kind": "full_32_bit_pointer",
+          "basis": "Bounded resident data/pool scan; consumer/producer semantics still required before declaring a callable entry.",
+          "review": "pending",
+          "reviewer": null,
+          "possible_table_bases": [
+            {
+              "symbol": "D_800E264C",
+              "offset": 32,
+              "consumer_rows": [
+                "dungeon/func_800D2FC8"
+              ]
+            },
+            {
+              "symbol": "D_800E262C",
+              "offset": 64,
+              "consumer_rows": [
+                "dungeon/func_800D2E30",
+                "dungeon/func_800D3504",
+                "dungeon/func_800D41BC",
+                "dungeon/func_800D48B4",
+                "dungeon/func_800D4C38"
+              ]
+            },
+            {
+              "symbol": "D_800E260C",
+              "offset": 96,
+              "consumer_rows": [
+                "dungeon/func_800D2FC8",
+                "dungeon/func_800D38EC",
+                "dungeon/func_800D40C0"
+              ]
+            },
+            {
+              "symbol": "D_800E2468",
+              "offset": 516,
+              "consumer_rows": [
+                "dungeon/func_800D066C",
+                "dungeon/func_800D0820"
+              ]
+            },
+            {
+              "symbol": "D_800E2460",
+              "offset": 524,
+              "consumer_rows": [
+                "dungeon/func_800CFE34"
+              ]
+            }
+          ]
+        },
+        {
+          "cohort": "actor_movement.c",
+          "gap_start": 1000632,
+          "gap_vma": 2148375576,
+          "reference_file": 1036052,
+          "word": 2148375576,
+          "kind": "full_32_bit_pointer",
+          "basis": "Bounded resident data/pool scan; consumer/producer semantics still required before declaring a callable entry.",
+          "review": "pending",
+          "reviewer": null,
+          "possible_table_bases": [
+            {
+              "symbol": "D_800E264C",
+              "offset": 40,
+              "consumer_rows": [
+                "dungeon/func_800D2FC8"
+              ]
+            },
+            {
+              "symbol": "D_800E262C",
+              "offset": 72,
+              "consumer_rows": [
+                "dungeon/func_800D2E30",
+                "dungeon/func_800D3504",
+                "dungeon/func_800D41BC",
+                "dungeon/func_800D48B4",
+                "dungeon/func_800D4C38"
+              ]
+            },
+            {
+              "symbol": "D_800E260C",
+              "offset": 104,
+              "consumer_rows": [
+                "dungeon/func_800D2FC8",
+                "dungeon/func_800D38EC",
+                "dungeon/func_800D40C0"
+              ]
+            },
+            {
+              "symbol": "D_800E2468",
+              "offset": 524,
+              "consumer_rows": [
+                "dungeon/func_800D066C",
+                "dungeon/func_800D0820"
+              ]
+            },
+            {
+              "symbol": "D_800E2460",
+              "offset": 532,
+              "consumer_rows": [
+                "dungeon/func_800CFE34"
+              ]
+            }
+          ]
+        },
+        {
+          "cohort": "actor_actions.c",
+          "gap_start": 804016,
+          "gap_vma": 2148178960,
+          "reference_file": 1036068,
+          "word": 2148178960,
+          "kind": "full_32_bit_pointer",
+          "basis": "Bounded resident data/pool scan; consumer/producer semantics still required before declaring a callable entry.",
+          "review": "pending",
+          "reviewer": null,
+          "possible_table_bases": [
+            {
+              "symbol": "D_800E264C",
+              "offset": 56,
+              "consumer_rows": [
+                "dungeon/func_800D2FC8"
+              ]
+            },
+            {
+              "symbol": "D_800E262C",
+              "offset": 88,
+              "consumer_rows": [
+                "dungeon/func_800D2E30",
+                "dungeon/func_800D3504",
+                "dungeon/func_800D41BC",
+                "dungeon/func_800D48B4",
+                "dungeon/func_800D4C38"
+              ]
+            },
+            {
+              "symbol": "D_800E260C",
+              "offset": 120,
+              "consumer_rows": [
+                "dungeon/func_800D2FC8",
+                "dungeon/func_800D38EC",
+                "dungeon/func_800D40C0"
+              ]
+            },
+            {
+              "symbol": "D_800E2468",
+              "offset": 540,
+              "consumer_rows": [
+                "dungeon/func_800D066C",
+                "dungeon/func_800D0820"
+              ]
+            },
+            {
+              "symbol": "D_800E2460",
+              "offset": 548,
+              "consumer_rows": [
+                "dungeon/func_800CFE34"
+              ]
+            }
+          ]
+        },
+        {
+          "cohort": "actor_actions.c",
+          "gap_start": 804016,
+          "gap_vma": 2148178960,
+          "reference_file": 1036080,
+          "word": 2148178960,
+          "kind": "full_32_bit_pointer",
+          "basis": "Bounded resident data/pool scan; consumer/producer semantics still required before declaring a callable entry.",
+          "review": "pending",
+          "reviewer": null,
+          "possible_table_bases": [
+            {
+              "symbol": "D_800E264C",
+              "offset": 68,
+              "consumer_rows": [
+                "dungeon/func_800D2FC8"
+              ]
+            },
+            {
+              "symbol": "D_800E262C",
+              "offset": 100,
+              "consumer_rows": [
+                "dungeon/func_800D2E30",
+                "dungeon/func_800D3504",
+                "dungeon/func_800D41BC",
+                "dungeon/func_800D48B4",
+                "dungeon/func_800D4C38"
+              ]
+            },
+            {
+              "symbol": "D_800E260C",
+              "offset": 132,
+              "consumer_rows": [
+                "dungeon/func_800D2FC8",
+                "dungeon/func_800D38EC",
+                "dungeon/func_800D40C0"
+              ]
+            },
+            {
+              "symbol": "D_800E2468",
+              "offset": 552,
+              "consumer_rows": [
+                "dungeon/func_800D066C",
+                "dungeon/func_800D0820"
+              ]
+            },
+            {
+              "symbol": "D_800E2460",
+              "offset": 560,
+              "consumer_rows": [
+                "dungeon/func_800CFE34"
+              ]
+            }
+          ]
+        },
+        {
+          "cohort": "actor_actions.c",
+          "gap_start": 804016,
+          "gap_vma": 2148178960,
+          "reference_file": 1036084,
+          "word": 2148178960,
+          "kind": "full_32_bit_pointer",
+          "basis": "Bounded resident data/pool scan; consumer/producer semantics still required before declaring a callable entry.",
+          "review": "pending",
+          "reviewer": null,
+          "possible_table_bases": [
+            {
+              "symbol": "D_800E264C",
+              "offset": 72,
+              "consumer_rows": [
+                "dungeon/func_800D2FC8"
+              ]
+            },
+            {
+              "symbol": "D_800E262C",
+              "offset": 104,
+              "consumer_rows": [
+                "dungeon/func_800D2E30",
+                "dungeon/func_800D3504",
+                "dungeon/func_800D41BC",
+                "dungeon/func_800D48B4",
+                "dungeon/func_800D4C38"
+              ]
+            },
+            {
+              "symbol": "D_800E260C",
+              "offset": 136,
+              "consumer_rows": [
+                "dungeon/func_800D2FC8",
+                "dungeon/func_800D38EC",
+                "dungeon/func_800D40C0"
+              ]
+            },
+            {
+              "symbol": "D_800E2468",
+              "offset": 556,
+              "consumer_rows": [
+                "dungeon/func_800D066C",
+                "dungeon/func_800D0820"
+              ]
+            },
+            {
+              "symbol": "D_800E2460",
+              "offset": 564,
+              "consumer_rows": [
+                "dungeon/func_800CFE34"
+              ]
+            }
+          ]
+        },
+        {
+          "cohort": "dungeon_hud.c",
+          "gap_start": 1010004,
+          "gap_vma": 2148384948,
+          "reference_file": 1036768,
+          "word": 2148384948,
+          "kind": "full_32_bit_pointer",
+          "basis": "Bounded resident data/pool scan; consumer/producer semantics still required before declaring a callable entry.",
+          "review": "pending",
+          "reviewer": null,
+          "possible_table_bases": [
+            {
+              "symbol": "D_800E2934",
+              "offset": 12,
+              "consumer_rows": [
+                "dungeon/func_800D6EF0",
+                "dungeon/func_800D7198"
+              ]
+            },
+            {
+              "symbol": "D_800E2924",
+              "offset": 28,
+              "consumer_rows": [
+                "dungeon/func_800D6FC4"
+              ]
+            },
+            {
+              "symbol": "D_800E28B8",
+              "offset": 136,
+              "consumer_rows": [
+                "dungeon/func_800D7594"
+              ]
+            },
+            {
+              "symbol": "D_800E2828",
+              "offset": 280,
+              "consumer_rows": [
+                "dungeon/func_800D7594"
+              ]
+            },
+            {
+              "symbol": "D_800E2804",
+              "offset": 316,
+              "consumer_rows": [
+                "dungeon/func_800D7594"
+              ]
+            }
+          ]
+        }
+      ],
+      "review": "pending",
+      "reviewer": null,
+      "scope": "Nearest source-named bases only; not ownership or callable proof. Read the listed consumers and their actual JALR/stride sites before carving."
+    },
+    "evidence/gap_calls.json": {
+      "kind": "STATIC_ENGINE_CALL_WITNESSES_NOT_FUNCTION_OR_TU_CERTIFICATION",
+      "review": "pending",
+      "reviewer": null,
+      "scan": {
+        "start": 671040,
+        "end": 1013504,
+        "delta": 2147374944,
+        "sha256": "4b026de7e8f83908564992fdaa1871c3c3d7fdb9ae237b29a6f8db0f65338f1f"
+      },
+      "results": [
+        {
+          "group": "map_objects.c",
+          "start": 850440,
+          "end": 850536,
+          "bytes": 96,
+          "first_word": "0x27bdffe8",
+          "direct_targets": [],
+          "new_record": false,
+          "status": "CARVE_EVIDENCE_WORK_REQUIRED"
+        },
+        {
+          "group": "actor_movement.c",
+          "start": 1000632,
+          "end": 1000732,
+          "bytes": 100,
+          "first_word": "0x27bdffe0",
+          "direct_targets": [],
+          "new_record": false,
+          "status": "CARVE_EVIDENCE_WORK_REQUIRED"
+        },
+        {
+          "group": "actor_movement.c",
+          "start": 1001500,
+          "end": 1001652,
+          "bytes": 152,
+          "first_word": "0x27bdffe8",
+          "direct_targets": [],
+          "new_record": false,
+          "status": "CARVE_EVIDENCE_WORK_REQUIRED"
+        },
+        {
+          "group": "terrain_height.c",
+          "start": 882780,
+          "end": 882788,
+          "bytes": 8,
+          "first_word": "0x03e00008",
+          "direct_targets": [
+            {
+              "foff": 882780,
+              "vma": 2148257724,
+              "witnesses": [
+                {
+                  "caller_file": 705376,
+                  "caller_vma": 2148080320,
+                  "instruction": "0x0c02f3ef",
+                  "operation": "jal",
+                  "target_file": 882780,
+                  "target_vma": 2148257724,
+                  "caller_registered_row": "dungeon/func_8008C2D8"
+                },
+                {
+                  "caller_file": 733916,
+                  "caller_vma": 2148108860,
+                  "instruction": "0x0c02f3ef",
+                  "operation": "jal",
+                  "target_file": 882780,
+                  "target_vma": 2148257724,
+                  "caller_registered_row": "dungeon/func_800931C0"
+                }
+              ],
+              "registered_jal_witnesses": 2
+            }
+          ],
+          "new_record": false,
+          "status": "CARVE_CANDIDATE_WITH_DIRECT_CALLS"
+        },
+        {
+          "group": "actor_variants.c",
+          "start": 971140,
+          "end": 972116,
+          "bytes": 976,
+          "first_word": "0x27bdffd8",
+          "direct_targets": [
+            {
+              "foff": 971348,
+              "vma": 2148346292,
+              "witnesses": [
+                {
+                  "caller_file": 971308,
+                  "caller_vma": 2148346252,
+                  "instruction": "0x08034a6d",
+                  "operation": "j",
+                  "target_file": 971348,
+                  "target_vma": 2148346292,
+                  "caller_registered_row": null
+                }
+              ],
+              "registered_jal_witnesses": 0
+            },
+            {
+              "foff": 972016,
+              "vma": 2148346960,
+              "witnesses": [
+                {
+                  "caller_file": 971456,
+                  "caller_vma": 2148346400,
+                  "instruction": "0x08034b14",
+                  "operation": "j",
+                  "target_file": 972016,
+                  "target_vma": 2148346960,
+                  "caller_registered_row": null
+                },
+                {
+                  "caller_file": 971476,
+                  "caller_vma": 2148346420,
+                  "instruction": "0x08034b14",
+                  "operation": "j",
+                  "target_file": 972016,
+                  "target_vma": 2148346960,
+                  "caller_registered_row": null
+                },
+                {
+                  "caller_file": 971628,
+                  "caller_vma": 2148346572,
+                  "instruction": "0x08034b14",
+                  "operation": "j",
+                  "target_file": 972016,
+                  "target_vma": 2148346960,
+                  "caller_registered_row": null
+                },
+                {
+                  "caller_file": 971776,
+                  "caller_vma": 2148346720,
+                  "instruction": "0x08034b14",
+                  "operation": "j",
+                  "target_file": 972016,
+                  "target_vma": 2148346960,
+                  "caller_registered_row": null
+                },
+                {
+                  "caller_file": 971796,
+                  "caller_vma": 2148346740,
+                  "instruction": "0x08034b14",
+                  "operation": "j",
+                  "target_file": 972016,
+                  "target_vma": 2148346960,
+                  "caller_registered_row": null
+                }
+              ],
+              "registered_jal_witnesses": 0
+            },
+            {
+              "foff": 972096,
+              "vma": 2148347040,
+              "witnesses": [
+                {
+                  "caller_file": 972084,
+                  "caller_vma": 2148347028,
+                  "instruction": "0x08034b28",
+                  "operation": "j",
+                  "target_file": 972096,
+                  "target_vma": 2148347040,
+                  "caller_registered_row": null
+                }
+              ],
+              "registered_jal_witnesses": 0
+            }
+          ],
+          "new_record": false,
+          "status": "CARVE_EVIDENCE_WORK_REQUIRED"
+        },
+        {
+          "group": "actor_variants.c",
+          "start": 972604,
+          "end": 974188,
+          "bytes": 1584,
+          "first_word": "0x3c028008",
+          "direct_targets": [
+            {
+              "foff": 972904,
+              "vma": 2148347848,
+              "witnesses": [
+                {
+                  "caller_file": 972848,
+                  "caller_vma": 2148347792,
+                  "instruction": "0x08034bf2",
+                  "operation": "j",
+                  "target_file": 972904,
+                  "target_vma": 2148347848,
+                  "caller_registered_row": null
+                }
+              ],
+              "registered_jal_witnesses": 0
+            },
+            {
+              "foff": 973044,
+              "vma": 2148347988,
+              "witnesses": [
+                {
+                  "caller_file": 973032,
+                  "caller_vma": 2148347976,
+                  "instruction": "0x08034c15",
+                  "operation": "j",
+                  "target_file": 973044,
+                  "target_vma": 2148347988,
+                  "caller_registered_row": null
+                }
+              ],
+              "registered_jal_witnesses": 0
+            },
+            {
+              "foff": 973068,
+              "vma": 2148348012,
+              "witnesses": [
+                {
+                  "caller_file": 973016,
+                  "caller_vma": 2148347960,
+                  "instruction": "0x08034c1b",
+                  "operation": "j",
+                  "target_file": 973068,
+                  "target_vma": 2148348012,
+                  "caller_registered_row": null
+                }
+              ],
+              "registered_jal_witnesses": 0
+            },
+            {
+              "foff": 973196,
+              "vma": 2148348140,
+              "witnesses": [
+                {
+                  "caller_file": 973168,
+                  "caller_vma": 2148348112,
+                  "instruction": "0x08034c3b",
+                  "operation": "j",
+                  "target_file": 973196,
+                  "target_vma": 2148348140,
+                  "caller_registered_row": null
+                }
+              ],
+              "registered_jal_witnesses": 0
+            },
+            {
+              "foff": 973248,
+              "vma": 2148348192,
+              "witnesses": [
+                {
+                  "caller_file": 972672,
+                  "caller_vma": 2148347616,
+                  "instruction": "0x08034c48",
+                  "operation": "j",
+                  "target_file": 973248,
+                  "target_vma": 2148348192,
+                  "caller_registered_row": null
+                }
+              ],
+              "registered_jal_witnesses": 0
+            },
+            {
+              "foff": 973488,
+              "vma": 2148348432,
+              "witnesses": [
+                {
+                  "caller_file": 973448,
+                  "caller_vma": 2148348392,
+                  "instruction": "0x08034c84",
+                  "operation": "j",
+                  "target_file": 973488,
+                  "target_vma": 2148348432,
+                  "caller_registered_row": null
+                }
+              ],
+              "registered_jal_witnesses": 0
+            },
+            {
+              "foff": 974156,
+              "vma": 2148349100,
+              "witnesses": [
+                {
+                  "caller_file": 973596,
+                  "caller_vma": 2148348540,
+                  "instruction": "0x08034d2b",
+                  "operation": "j",
+                  "target_file": 974156,
+                  "target_vma": 2148349100,
+                  "caller_registered_row": null
+                },
+                {
+                  "caller_file": 973616,
+                  "caller_vma": 2148348560,
+                  "instruction": "0x08034d2b",
+                  "operation": "j",
+                  "target_file": 974156,
+                  "target_vma": 2148349100,
+                  "caller_registered_row": null
+                },
+                {
+                  "caller_file": 973768,
+                  "caller_vma": 2148348712,
+                  "instruction": "0x08034d2b",
+                  "operation": "j",
+                  "target_file": 974156,
+                  "target_vma": 2148349100,
+                  "caller_registered_row": null
+                },
+                {
+                  "caller_file": 973916,
+                  "caller_vma": 2148348860,
+                  "instruction": "0x08034d2b",
+                  "operation": "j",
+                  "target_file": 974156,
+                  "target_vma": 2148349100,
+                  "caller_registered_row": null
+                },
+                {
+                  "caller_file": 973936,
+                  "caller_vma": 2148348880,
+                  "instruction": "0x08034d2b",
+                  "operation": "j",
+                  "target_file": 974156,
+                  "target_vma": 2148349100,
+                  "caller_registered_row": null
+                }
+              ],
+              "registered_jal_witnesses": 0
+            }
+          ],
+          "new_record": false,
+          "status": "CARVE_EVIDENCE_WORK_REQUIRED"
+        },
+        {
+          "group": "actor_variants.c",
+          "start": 978644,
+          "end": 979308,
+          "bytes": 664,
+          "first_word": "0x27bdffd8",
+          "direct_targets": [
+            {
+              "foff": 979276,
+              "vma": 2148354220,
+              "witnesses": [
+                {
+                  "caller_file": 978716,
+                  "caller_vma": 2148353660,
+                  "instruction": "0x0803522b",
+                  "operation": "j",
+                  "target_file": 979276,
+                  "target_vma": 2148354220,
+                  "caller_registered_row": null
+                },
+                {
+                  "caller_file": 978736,
+                  "caller_vma": 2148353680,
+                  "instruction": "0x0803522b",
+                  "operation": "j",
+                  "target_file": 979276,
+                  "target_vma": 2148354220,
+                  "caller_registered_row": null
+                },
+                {
+                  "caller_file": 978888,
+                  "caller_vma": 2148353832,
+                  "instruction": "0x0803522b",
+                  "operation": "j",
+                  "target_file": 979276,
+                  "target_vma": 2148354220,
+                  "caller_registered_row": null
+                },
+                {
+                  "caller_file": 979036,
+                  "caller_vma": 2148353980,
+                  "instruction": "0x0803522b",
+                  "operation": "j",
+                  "target_file": 979276,
+                  "target_vma": 2148354220,
+                  "caller_registered_row": null
+                },
+                {
+                  "caller_file": 979056,
+                  "caller_vma": 2148354000,
+                  "instruction": "0x0803522b",
+                  "operation": "j",
+                  "target_file": 979276,
+                  "target_vma": 2148354220,
+                  "caller_registered_row": null
+                }
+              ],
+              "registered_jal_witnesses": 0
+            }
+          ],
+          "new_record": false,
+          "status": "CARVE_EVIDENCE_WORK_REQUIRED"
+        },
+        {
+          "group": "combat_effects.c",
+          "start": 842028,
+          "end": 842116,
+          "bytes": 88,
+          "first_word": "0x27bdffe8",
+          "direct_targets": [],
+          "new_record": false,
+          "status": "CARVE_EVIDENCE_WORK_REQUIRED"
+        },
+        {
+          "group": "combat_effects.c",
+          "start": 842284,
+          "end": 842540,
+          "bytes": 256,
+          "first_word": "0x27bdffe8",
+          "direct_targets": [
+            {
+              "foff": 842284,
+              "vma": 2148217228,
+              "witnesses": [
+                {
+                  "caller_file": 840760,
+                  "caller_vma": 2148215704,
+                  "instruction": "0x0c02cc63",
+                  "operation": "jal",
+                  "target_file": 842284,
+                  "target_vma": 2148217228,
+                  "caller_registered_row": "dungeon/func_800AD300"
+                }
+              ],
+              "registered_jal_witnesses": 1
+            }
+          ],
+          "new_record": false,
+          "status": "CARVE_CANDIDATE_WITH_DIRECT_CALLS"
+        },
+        {
+          "group": "sprite_effects.c",
+          "start": 989468,
+          "end": 989768,
+          "bytes": 300,
+          "first_word": "0x00803821",
+          "direct_targets": [],
+          "new_record": false,
+          "status": "CARVE_EVIDENCE_WORK_REQUIRED"
+        },
+        {
+          "group": "sprite_effects.c",
+          "start": 991908,
+          "end": 991924,
+          "bytes": 16,
+          "first_word": "0x03e00008",
+          "direct_targets": [],
+          "new_record": false,
+          "status": "CARVE_EVIDENCE_WORK_REQUIRED"
+        },
+        {
+          "group": "aura_effects.c",
+          "start": 987216,
+          "end": 987300,
+          "bytes": 84,
+          "first_word": "0x27bdffe8",
+          "direct_targets": [
+            {
+              "foff": 987236,
+              "vma": 2148362180,
+              "witnesses": [
+                {
+                  "caller_file": 987268,
+                  "caller_vma": 2148362212,
+                  "instruction": "0x080359f1",
+                  "operation": "j",
+                  "target_file": 987236,
+                  "target_vma": 2148362180,
+                  "caller_registered_row": null
+                }
+              ],
+              "registered_jal_witnesses": 0
+            }
+          ],
+          "new_record": false,
+          "status": "CARVE_EVIDENCE_WORK_REQUIRED"
+        },
+        {
+          "group": "status_effects.c",
+          "start": 928688,
+          "end": 929308,
+          "bytes": 620,
+          "first_word": "0x8c820014",
+          "direct_targets": [
+            {
+              "foff": 928804,
+              "vma": 2148303748,
+              "witnesses": [
+                {
+                  "caller_file": 928772,
+                  "caller_vma": 2148303716,
+                  "instruction": "0x080320e1",
+                  "operation": "j",
+                  "target_file": 928804,
+                  "target_vma": 2148303748,
+                  "caller_registered_row": null
+                }
+              ],
+              "registered_jal_witnesses": 0
+            },
+            {
+              "foff": 928812,
+              "vma": 2148303756,
+              "witnesses": [
+                {
+                  "caller_file": 931032,
+                  "caller_vma": 2148305976,
+                  "instruction": "0x0c0320e3",
+                  "operation": "jal",
+                  "target_file": 928812,
+                  "target_vma": 2148303756,
+                  "caller_registered_row": "dungeon/func_800C34BC"
+                }
+              ],
+              "registered_jal_witnesses": 1
+            },
+            {
+              "foff": 928928,
+              "vma": 2148303872,
+              "witnesses": [
+                {
+                  "caller_file": 928896,
+                  "caller_vma": 2148303840,
+                  "instruction": "0x08032100",
+                  "operation": "j",
+                  "target_file": 928928,
+                  "target_vma": 2148303872,
+                  "caller_registered_row": null
+                }
+              ],
+              "registered_jal_witnesses": 0
+            },
+            {
+              "foff": 928936,
+              "vma": 2148303880,
+              "witnesses": [
+                {
+                  "caller_file": 930680,
+                  "caller_vma": 2148305624,
+                  "instruction": "0x0c032102",
+                  "operation": "jal",
+                  "target_file": 928936,
+                  "target_vma": 2148303880,
+                  "caller_registered_row": "dungeon/func_800C335C"
+                }
+              ],
+              "registered_jal_witnesses": 1
+            },
+            {
+              "foff": 929052,
+              "vma": 2148303996,
+              "witnesses": [
+                {
+                  "caller_file": 929020,
+                  "caller_vma": 2148303964,
+                  "instruction": "0x0803211f",
+                  "operation": "j",
+                  "target_file": 929052,
+                  "target_vma": 2148303996,
+                  "caller_registered_row": null
+                }
+              ],
+              "registered_jal_witnesses": 0
+            },
+            {
+              "foff": 929060,
+              "vma": 2148304004,
+              "witnesses": [
+                {
+                  "caller_file": 930364,
+                  "caller_vma": 2148305308,
+                  "instruction": "0x0c032121",
+                  "operation": "jal",
+                  "target_file": 929060,
+                  "target_vma": 2148304004,
+                  "caller_registered_row": "dungeon/func_800C3220"
+                }
+              ],
+              "registered_jal_witnesses": 1
+            },
+            {
+              "foff": 929176,
+              "vma": 2148304120,
+              "witnesses": [
+                {
+                  "caller_file": 929144,
+                  "caller_vma": 2148304088,
+                  "instruction": "0x0803213e",
+                  "operation": "j",
+                  "target_file": 929176,
+                  "target_vma": 2148304120,
+                  "caller_registered_row": null
+                }
+              ],
+              "registered_jal_witnesses": 0
+            },
+            {
+              "foff": 929184,
+              "vma": 2148304128,
+              "witnesses": [
+                {
+                  "caller_file": 929340,
+                  "caller_vma": 2148304284,
+                  "instruction": "0x0c032140",
+                  "operation": "jal",
+                  "target_file": 929184,
+                  "target_vma": 2148304128,
+                  "caller_registered_row": "dungeon/func_800C2E1C"
+                }
+              ],
+              "registered_jal_witnesses": 1
+            },
+            {
+              "foff": 929300,
+              "vma": 2148304244,
+              "witnesses": [
+                {
+                  "caller_file": 929268,
+                  "caller_vma": 2148304212,
+                  "instruction": "0x0803215d",
+                  "operation": "j",
+                  "target_file": 929300,
+                  "target_vma": 2148304244,
+                  "caller_registered_row": null
+                }
+              ],
+              "registered_jal_witnesses": 0
+            }
+          ],
+          "new_record": false,
+          "status": "CARVE_EVIDENCE_WORK_REQUIRED"
+        },
+        {
+          "group": "status_effects.c",
+          "start": 930208,
+          "end": 930336,
+          "bytes": 128,
+          "first_word": "0x27bdffe8",
+          "direct_targets": [
+            {
+              "foff": 930208,
+              "vma": 2148305152,
+              "witnesses": [
+                {
+                  "caller_file": 908172,
+                  "caller_vma": 2148283116,
+                  "instruction": "0x0c032240",
+                  "operation": "jal",
+                  "target_file": 930208,
+                  "target_vma": 2148305152,
+                  "caller_registered_row": "dungeon/func_800BDAD8"
+                },
+                {
+                  "caller_file": 928500,
+                  "caller_vma": 2148303444,
+                  "instruction": "0x0c032240",
+                  "operation": "jal",
+                  "target_file": 930208,
+                  "target_vma": 2148305152,
+                  "caller_registered_row": "dungeon/func_800C29F0"
+                },
+                {
+                  "caller_file": 928556,
+                  "caller_vma": 2148303500,
+                  "instruction": "0x0c032240",
+                  "operation": "jal",
+                  "target_file": 930208,
+                  "target_vma": 2148305152,
+                  "caller_registered_row": "dungeon/func_800C29F0"
+                },
+                {
+                  "caller_file": 950120,
+                  "caller_vma": 2148325064,
+                  "instruction": "0x0c032240",
+                  "operation": "jal",
+                  "target_file": 930208,
+                  "target_vma": 2148305152,
+                  "caller_registered_row": "dungeon/func_800C7F4C"
+                }
+              ],
+              "registered_jal_witnesses": 4
+            },
+            {
+              "foff": 930316,
+              "vma": 2148305260,
+              "witnesses": [
+                {
+                  "caller_file": 930292,
+                  "caller_vma": 2148305236,
+                  "instruction": "0x0803225b",
+                  "operation": "j",
+                  "target_file": 930316,
+                  "target_vma": 2148305260,
+                  "caller_registered_row": null
+                }
+              ],
+              "registered_jal_witnesses": 0
+            }
+          ],
+          "new_record": false,
+          "status": "CARVE_CANDIDATE_WITH_DIRECT_CALLS"
+        },
+        {
+          "group": "status_effects.c",
+          "start": 930524,
+          "end": 930652,
+          "bytes": 128,
+          "first_word": "0x27bdffe8",
+          "direct_targets": [
+            {
+              "foff": 930524,
+              "vma": 2148305468,
+              "witnesses": [
+                {
+                  "caller_file": 912244,
+                  "caller_vma": 2148287188,
+                  "instruction": "0x0c03228f",
+                  "operation": "jal",
+                  "target_file": 930524,
+                  "target_vma": 2148305468,
+                  "caller_registered_row": "dungeon/func_800BEAC0"
+                }
+              ],
+              "registered_jal_witnesses": 1
+            },
+            {
+              "foff": 930632,
+              "vma": 2148305576,
+              "witnesses": [
+                {
+                  "caller_file": 930608,
+                  "caller_vma": 2148305552,
+                  "instruction": "0x080322aa",
+                  "operation": "j",
+                  "target_file": 930632,
+                  "target_vma": 2148305576,
+                  "caller_registered_row": null
+                }
+              ],
+              "registered_jal_witnesses": 0
+            }
+          ],
+          "new_record": false,
+          "status": "CARVE_CANDIDATE_WITH_DIRECT_CALLS"
+        },
+        {
+          "group": "dungeon_hud.c",
+          "start": 1009544,
+          "end": 1009624,
+          "bytes": 80,
+          "first_word": "0x27bdffe0",
+          "direct_targets": [
+            {
+              "foff": 1009544,
+              "vma": 2148384488,
+              "witnesses": [
+                {
+                  "caller_file": 1010672,
+                  "caller_vma": 2148385616,
+                  "instruction": "0x0c036fba",
+                  "operation": "jal",
+                  "target_file": 1009544,
+                  "target_vma": 2148384488,
+                  "caller_registered_row": "dungeon/func_800D6A98"
+                }
+              ],
+              "registered_jal_witnesses": 1
+            }
+          ],
+          "new_record": false,
+          "status": "CARVE_CANDIDATE_WITH_DIRECT_CALLS"
+        },
+        {
+          "group": "dungeon_hud.c",
+          "start": 1010004,
+          "end": 1010012,
+          "bytes": 8,
+          "first_word": "0x03e00008",
+          "direct_targets": [],
+          "new_record": false,
+          "status": "CARVE_EVIDENCE_WORK_REQUIRED"
+        },
+        {
+          "group": "mesh_effects.c",
+          "start": 962580,
+          "end": 962664,
+          "bytes": 84,
+          "first_word": "0x27bdffe8",
+          "direct_targets": [
+            {
+              "foff": 962596,
+              "vma": 2148337540,
+              "witnesses": [
+                {
+                  "caller_file": 962632,
+                  "caller_vma": 2148337576,
+                  "instruction": "0x080341e1",
+                  "operation": "j",
+                  "target_file": 962596,
+                  "target_vma": 2148337540,
+                  "caller_registered_row": null
+                }
+              ],
+              "registered_jal_witnesses": 0
+            }
+          ],
+          "new_record": false,
+          "status": "CARVE_EVIDENCE_WORK_REQUIRED"
+        },
+        {
+          "group": "actor_actions.c",
+          "start": 803492,
+          "end": 803500,
+          "bytes": 8,
+          "first_word": "0x03e00008",
+          "direct_targets": [
+            {
+              "foff": 803492,
+              "vma": 2148178436,
+              "witnesses": [
+                {
+                  "caller_file": 1000592,
+                  "caller_vma": 2148375536,
+                  "instruction": "0x0c02a681",
+                  "operation": "jal",
+                  "target_file": 803492,
+                  "target_vma": 2148178436,
+                  "caller_registered_row": "dungeon/func_800D41BC"
+                },
+                {
+                  "caller_file": 1002188,
+                  "caller_vma": 2148377132,
+                  "instruction": "0x0c02a681",
+                  "operation": "jal",
+                  "target_file": 803492,
+                  "target_vma": 2148178436,
+                  "caller_registered_row": "dungeon/func_800D48B4"
+                },
+                {
+                  "caller_file": 1003028,
+                  "caller_vma": 2148377972,
+                  "instruction": "0x0c02a681",
+                  "operation": "jal",
+                  "target_file": 803492,
+                  "target_vma": 2148178436,
+                  "caller_registered_row": "dungeon/func_800D4C38"
+                }
+              ],
+              "registered_jal_witnesses": 3
+            }
+          ],
+          "new_record": false,
+          "status": "CARVE_CANDIDATE_WITH_DIRECT_CALLS"
+        },
+        {
+          "group": "actor_actions.c",
+          "start": 804016,
+          "end": 804024,
+          "bytes": 8,
+          "first_word": "0x03e00008",
+          "direct_targets": [],
+          "new_record": false,
+          "status": "CARVE_EVIDENCE_WORK_REQUIRED"
+        }
+      ]
+    },
+    "evidence/recovered_gap_callee_contracts.json": {
+      "kind": "ACTUAL_EXISTING_CALLEE_C_CONTRACTS",
+      "callees": [
+        {
+          "name": "func_800AB778",
+          "id": "dungeon/func_800A6018",
+          "source": "src/dungeon/func_800A6018.c",
+          "sha256": "5a87d1ca34e57a1f8720664459de43988f96ce17e9892f2ae619a0862e14598a",
+          "signature": "s32 func_800AB778(S_800AB778_1 *state, void *unused_context, S_800AB778_3 *visual, void *actor)",
+          "foff": 811032,
+          "size": 1604
+        },
+        {
+          "name": "func_800ABDBC",
+          "id": "dungeon/func_800A665C",
+          "source": "src/dungeon/func_800A665C.c",
+          "sha256": "27d179661abac775e515b3d8724ed26492b2651ee2cafd15a62628c3705c2939",
+          "signature": "s32 func_800ABDBC(State *state, Motion *motion, Params *params, Extra *extra)",
+          "foff": 812636,
+          "size": 596
+        },
+        {
+          "name": "func_800AC82C",
+          "id": "dungeon/func_800A70CC",
+          "source": "src/dungeon/func_800A70CC.c",
+          "sha256": "48aea8dd7c32b9ab5c33634fc7756324b6567f92be7962423d09d1331a961b0f",
+          "signature": "s32 func_800AC82C(Rec_func_800A9E70_arg0 *state, EntityRec *position, Rec_D_80082E80 *tile, void *actor)",
+          "foff": 815308,
+          "size": 876
+        },
+        {
+          "name": "func_800AC010",
+          "id": "dungeon/func_800A68B0",
+          "source": "src/dungeon/func_800A68B0.c",
+          "sha256": "27f31c95e818af6c8cc90d80dabbb48ff0ccad0b4ee85395fc14c6c793112580",
+          "signature": "s32 func_800AC010(void *move_state, EntityRec *motion, Rec_D_80082E80 *tile_pos, EntityRec *actor)",
+          "foff": 813232,
+          "size": 1136
+        },
+        {
+          "name": "func_800AC480",
+          "id": "dungeon/func_800A6D20",
+          "source": "src/dungeon/func_800A6D20.c",
+          "sha256": "f2f2b9c112e59878ab33acb3279720593144dba882bb44eb5ab15595ce00376d",
+          "signature": "s32 func_800AC480(S_800AC480_0 *move_state, EntityRec *motion, S_800AC480_1 *target_tile, S_800AC480_3 *height_state)",
+          "foff": 814368,
+          "size": 328
+        },
+        {
+          "name": "func_800AC5C8",
+          "id": "dungeon/func_800A6E68",
+          "source": "src/dungeon/func_800A6E68.c",
+          "sha256": "3242fa9983301683c416edb71b2203bf37e4764f65c6c9f1ba93e476c24c4f15",
+          "signature": "s32 func_800AC5C8(S_800AC5C8_0 *animation, EntityRec *position, S_800AC5C8_3 *tile, void *object)",
+          "foff": 814696,
+          "size": 548
+        },
+        {
+          "name": "func_800ACE34",
+          "id": "dungeon/func_800A76D4",
+          "source": "src/dungeon/func_800A76D4.c",
+          "sha256": "1711c7c8c891c88e6d326396c3228c555cf8f9dd7d9f71c368dd65ac46cdf9d9",
+          "signature": "s32 func_800ACE34(StructArg0 *object_arg, s32 unused, StructArg2 *effect_arg)",
+          "foff": 816852,
+          "size": 340
+        },
+        {
+          "name": "func_800AB378",
+          "id": "dungeon/func_800A5C18",
+          "source": "src/dungeon/func_800A5C18.c",
+          "sha256": "bd4328898d5d87cee7b94e25f783e2f6efb212198d139dd396e2ef95ccfe8c4a",
+          "signature": "s32 func_800AB378(void *state, void *transform, void *config, void *object)",
+          "foff": 810008,
+          "size": 236
+        },
+        {
+          "name": "func_800AD9B4",
+          "id": "dungeon/func_800A8254",
+          "source": "src/dungeon/func_800A8254.c",
+          "sha256": "75d13c1147e608a81c2d9d6b32da8833343c84e04bb4b3389146b52cfdb6d335",
+          "signature": "s32 func_800AD9B4(Rec_D_80082E80 *actor, EntityRec *target)",
+          "foff": 819796,
+          "size": 304
+        },
+        {
+          "name": "func_800AD058",
+          "id": "dungeon/func_800A78F8",
+          "source": "src/dungeon/func_800A78F8.c",
+          "sha256": "72c573911fd1fede2c730a7c166f1fd85822bbdd1af16b98267feb88e76b4d89",
+          "signature": "s32 func_800AD058(u8 *state, s32 *position, u8 *sprite, u8 *entity_data)",
+          "foff": 817400,
+          "size": 1144
+        },
+        {
+          "name": "func_800AB538",
+          "id": "dungeon/func_800A5DD8",
+          "source": "src/dungeon/func_800A5DD8.c",
+          "sha256": "aef68b18ad8d6b0f9be99c7a6d22f19a252455793b973bc0014cc6996c1aec07",
+          "signature": "s32 func_800AB538(void *animation, void *motion, void *scale, void *render)",
+          "foff": 810456,
+          "size": 576
+        },
+        {
+          "name": "func_800B2A60",
+          "id": "dungeon/func_800AD300",
+          "source": "src/dungeon/func_800AD300.c",
+          "sha256": "b87594010631fd40b073a0ca7f015ed9e318a48dd8cde2cd9a144a04184f9fb1",
+          "signature": "void func_800B2A60(u8 *actor, s32 action_context, u8 *destination, u8 *target)",
+          "foff": 840448,
+          "size": 520
+        },
+        {
+          "name": "func_800D8C64",
+          "id": "dungeon/func_800D3504",
+          "source": "src/dungeon/func_800D3504.c",
+          "sha256": "58119b89dfa21279826157dc8cf9bed6c6dbd0f42fda2e6181a2318c9f49da8e",
+          "signature": "void func_800D8C64(void *actor, EntityRec *motion, void *sprite, EntityRec *status)",
+          "foff": 996612,
+          "size": 1000
+        }
+      ],
+      "review": "pending",
+      "reviewer": null
+    },
+    "delivery/preparation/recovered_terrain_hook/receipt.json": {
+      "status": "REAL_CALLER_PROVEN_GAP_FUNCTION_BYTE_MATCH_NOT_REGISTERED",
+      "id": "dungeon/func_800B785C",
+      "function": "func_800BCFBC",
+      "foff": 882780,
+      "vma": 2148257724,
+      "size": 8,
+      "source_sha256": "a4305685ac0085c199c8efa79b8c0729c00f3ebbf056fdc1353eca94e494e350",
+      "gnu_genuine_retail_equal": true,
+      "masked": 0,
+      "padding": 0,
+      "direct_jal_witnesses": [
+        {
+          "foff": 882780,
+          "vma": 2148257724,
+          "witnesses": [
+            {
+              "caller_file": 705376,
+              "caller_vma": 2148080320,
+              "instruction": "0x0c02f3ef",
+              "operation": "jal",
+              "target_file": 882780,
+              "target_vma": 2148257724,
+              "caller_registered_row": "dungeon/func_8008C2D8"
+            },
+            {
+              "caller_file": 733916,
+              "caller_vma": 2148108860,
+              "instruction": "0x0c02f3ef",
+              "operation": "jal",
+              "target_file": 882780,
+              "target_vma": 2148257724,
+              "caller_registered_row": "dungeon/func_800931C0"
+            }
+          ],
+          "registered_jal_witnesses": 2
+        }
+      ],
+      "review": "pending",
+      "reviewer": null,
+      "next_step": "Append a genuine split/assignment/baseline record, prove the production engine window, then obtain real Layer-2 promotion before native cohort activation."
+    }
+  },
+  "review": "pending",
+  "reviewer": null
+}

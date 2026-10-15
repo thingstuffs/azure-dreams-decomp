@@ -1,3 +1,4 @@
+#include "modules/dungeon_engine_entity_effects_fragment_c2fbc.h"
 #include "common.h"
 
 typedef struct {
@@ -5,19 +6,9 @@ typedef struct {
     u8 group;
 } DungeonArg;
 
-typedef struct {
-    u16 flags;
-    u8 pad2[18];
-} DungeonItem;
 
-typedef struct {
-    u8 pad[12];
-    DungeonItem *entries;
-    u8 pad10[4];
-} DungeonGroup;
 
 extern void func_8004A8D8(u8, u8);
-extern DungeonGroup D_80073414[];
 
 /* Updates the selected item through func_8004A8D8 and clears its flag 0x400 in the item category table. */
 void func_800A90E8(DungeonArg *selection)

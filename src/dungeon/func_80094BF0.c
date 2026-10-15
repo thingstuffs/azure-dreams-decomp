@@ -1,9 +1,7 @@
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
-typedef signed short s16;
-typedef unsigned short u16;
-typedef unsigned char u8;
-typedef signed int s32;
+
+
 
 typedef struct {
     s16 value;

@@ -1,3 +1,5 @@
+#include "slus/entry_words.h"
+
 #include "common.h"
 
 /* Retail bytes at assets/54240.bin + 0x140; current ownership reconstruction only. */

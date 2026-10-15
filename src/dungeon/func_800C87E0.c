@@ -1,32 +1,16 @@
+#include "modules/trap_effects_candidate.h"
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
 
-typedef struct {
-    u8 pad0;
-    u8 active;
-    u8 pad2[2];
-} ActiveEntry;
 
-typedef struct {
-    u8 x;
-    u8 y;
-    u8 pad2[2];
-    s16 value;
-    u8 pad6[6];
-} FirstEntry;
 
-typedef struct {
-    u8 pad0[6];
-    u8 x;
-    u8 y;
-    u8 pad8[10];
-    s16 value;
-    u8 pad20[4];
-} SecondEntry;
 
-extern ActiveEntry D_800E3648[32];
-extern FirstEntry D_800E36C8[64];
-extern SecondEntry D_800E39C8[32];
+
+
+
+
+
+
 
 /* Sets the value of all active entries at the given coordinates in both tables. */
 void func_800CDF40(s16 x, s16 y, s16 value) {

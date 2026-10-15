@@ -7,7 +7,7 @@
 
 extern void *D_800DF364[];
 
-extern void func_800A56E0(s32);
+extern s32 func_800A56E0();
 extern void func_800478B8(void *);
 
 /* Updates a target marker's position, scale, color, and rotation. */

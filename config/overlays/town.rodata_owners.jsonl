@@ -10,3 +10,4 @@
 {"schema": "azure-clean.rodata_owner.v1", "id": "town/D_80950CC0", "foff": "0x8d0cc0", "rodata_size": 832, "rodata": "prior_image_tail", "owner": null, "ownership_status": "owner-unresolved", "reviewer": "orchestrator-r117"}
 {"schema": "azure-clean.rodata_owner.v1", "id": "town/D_80951000", "foff": "0x8d1000", "rodata_size": 4, "rodata": "entry_root", "owner": null, "ownership_status": "owner-unresolved", "reviewer": "orchestrator-r117"}
 {"schema": "azure-clean.rodata_owner.v1", "id": "town/D_80951004", "foff": "0x8d1004", "rodata_size": 24, "rodata": "image_header", "owner": null, "ownership_status": "owner-unresolved", "reviewer": "orchestrator-r117"}
+{"schema": "azure-clean.rodata_owner.v1", "id": "town/D_8008B9B0", "foff": "0xb9b0", "rodata_size": 24, "rodata": "switch_table", "owner": "camera.c", "owner_row": "town/func_800A72F8", "ownership_status": "pending", "reviewer": "pending"}

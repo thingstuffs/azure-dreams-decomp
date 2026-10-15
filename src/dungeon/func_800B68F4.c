@@ -1,6 +1,9 @@
 #include "common.h"
 
-extern void func_800BBDEC(void *state, void *context, void *data, s16 value);
+struct S_800BBDEC_4;
+struct S_800BBDEC_1;
+struct S_800BBDEC_3;
+extern void func_800BBDEC(struct S_800BBDEC_4 *object, struct S_800BBDEC_1 *position, struct S_800BBDEC_3 *appearance, s32 unused_draw_value);
 
 /* Process each linked state using the signed halfword at data offset 6. */
 s32 func_800BC054(void *initial_state, void *context, void *data) {

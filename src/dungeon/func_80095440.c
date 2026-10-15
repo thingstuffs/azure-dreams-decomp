@@ -1,3 +1,4 @@
+#include "modules/dungeon_engine_tile_map_fragment_b4f0c.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
@@ -27,10 +28,6 @@ typedef struct {
 } Func95440Object;
 
 
-extern s32 func_8009A540(s32 direction, s16 tile_x, s16 tile_y, s16 height);
-extern s32 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern s32 func_800BCB04(s32, s32, s32);
-extern Func95440Object *func_8009B25C(s32, s32, s32, s32);
 
 /* Checks the adjacent tile and classifies its height relative to the source height. */
 s32 func_8009ABA0(u32 direction_bits, Func95440Input *position, Func95440Actor *actor, u32 source_height,
@@ -73,7 +70,7 @@ s32 func_8009ABA0(u32 direction_bits, Func95440Input *position, Func95440Actor *
     if (tile_flags & 0x3300) {
         wrapped_x = x;
         wrapped_y = y;
-        target_height = func_800BCB04(wrapped_x, wrapped_y, target_height);
+        target_height = terrain_height_words(wrapped_x, wrapped_y, target_height);
         x = wrapped_x;
         y = wrapped_y;
         object = func_8009B25C(((s32)D_800814A8), x >> 6, y >> 6, (s16)target_height);
@@ -95,7 +92,7 @@ s32 func_8009ABA0(u32 direction_bits, Func95440Input *position, Func95440Actor *
             }
         }
     } else {
-        target_height = func_800BCB04(x & 0xffff, y & 0xffff, target_height);
+        target_height = terrain_height_words(x & 0xffff, y & 0xffff, target_height);
     }
 
     signed_height = (target_height << 16) >> 16;

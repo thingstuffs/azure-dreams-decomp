@@ -1,11 +1,11 @@
+#include "modules/main_server_ship.h"
 #include "common.h"
 
-extern s32 D_80028550[];
-extern s32 D_80028554[];
-extern s32 D_80028558[];
-extern s32 D_8002855C[];
 
-extern s32 func_8006A024();
+
+
+
+
 /* Returns the first slot (1-4) whose value passes func_8006A024, or zero. */
 s32 func_80021410(void)
 {

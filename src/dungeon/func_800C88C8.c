@@ -1,3 +1,4 @@
+#include "modules/trap_effects_candidate.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
@@ -23,11 +24,11 @@ typedef struct {
 
 
 extern void func_8009D6F4(void);
-extern void func_800A56E0(s32);
+extern s32 func_800A56E0();
 extern void func_800CDE0C(void);
 extern void func_800CDE40(s16 x, s16 y, s32 amount);
 extern void func_800CDF40(s16 x, s16 y, s16 value);
-extern void func_800419EC(s32, s32);
+extern void func_800419EC();
 
 /* Animate a 5x5 tile patch to target heights, wait, then restore its initial heights. */
 void func_800CE028(DungeonEffect *effect) {

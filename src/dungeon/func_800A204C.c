@@ -1,3 +1,5 @@
+#include "modules/dungeon_engine_entity_effects_abi_views.h"
+#include "modules/dungeon_engine_entity_effects_storage.h"
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -7,8 +9,7 @@
 
 
 extern void func_8009A21C(s16 x, s16 y, u16 flags);
-extern void func_800A4300(void *, s32);
-extern s16 func_800A71F4(void);
+extern void func_800A4300(void *entity, void *search_state);
 
 typedef struct {
     u8 x;
@@ -18,7 +19,7 @@ typedef struct {
     u16 pad6;
     s32 value8;
 } D_800E36C8_Entry;
-extern D_800E36C8_Entry D_800E36C8[];
+
 
 typedef struct {
     u8 pad0[0x98];
@@ -65,10 +66,10 @@ void func_800A77AC(FuncObj *obj, FuncVec *pos, FuncVec *target) {
     remaining = (u16)obj->fieldA0 - 1;
     obj->fieldA0 = remaining;
     if ((s16)remaining <= 0) {
-        slot = func_800A71F4();
+        slot = free_entry_short();
         if (slot >= 0) {
             ((s32 *)D_800E3548)[slot] = obj->field98;
-            tab = D_800E36C8;
+            tab = ((D_800E36C8_Entry *)D_800E36C8);
             entry = &tab[slot];
             entry->x = obj->fieldAA;
             entry->y = obj->fieldAC;

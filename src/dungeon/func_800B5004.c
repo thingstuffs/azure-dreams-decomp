@@ -3,8 +3,8 @@
 
 /* Externals (never defined here -- the overlay gate's linker resolves them). */
 extern s32 func_8004491C();
-extern s32 D_800BA384;
-extern s32 D_800BA6B8;
+extern s32 func_800BA384(void *node_payload, s32 node_value, u8 *node_data);
+extern void func_800BA6B8(void *channel_config, void *unused, void *output);
 
 typedef struct S_func_800BA764_0 {
     u8 pad_00[0x8];
@@ -33,8 +33,8 @@ void *func_800BA764(u16 tile_x, u16 tile_y, s16 coord_z, s32 user_data) {
 
     object = func_8003FC64(0x202);
     if (object != 0) {
-        object->unk_10 = &D_800BA6B8;
-        func_8004491C(object, &D_800BA384);
+        object->unk_10 = func_800BA6B8;
+        func_8004491C(object, func_800BA384);
         position = object->unk_08;
         tile_x_u32 = (u32)tile_x & 0xFFFFU;
         position->unk_02 = (tile_x_u32 * 64) + 0x20;

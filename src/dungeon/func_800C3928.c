@@ -115,12 +115,12 @@ typedef struct {
     s32 t[3];
 } MATRIX;
 
-extern void func_80064840(void *, void *, void *);
+extern void *func_80064840(void *, void *, void *);
 extern void func_800649A0(void);
 extern void func_80064A40(void);
 extern void func_80064AE0(void *);
 extern void func_80064B90(void *, void *);
-extern void func_80064BC0(void *, void *);
+extern void *func_80064BC0(void *, void *);
 extern void func_80064CF0(void *);
 extern void func_80064D80(void *);
 extern void func_80065034(void *, void *, void *);

@@ -1,3 +1,4 @@
+#include "modules/main_title_callbacks.h"
 #include "shared/object_node.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
@@ -89,7 +90,6 @@ extern M2C_UNK D_80044BB0;
 extern s32 D_80053A88;
 extern s8 D_80080A84;
 extern M2C_UNK D_80088760;
-extern M2C_UNK D_8008896C;
 void func_80088B48();  /* extern */
 void func_80088EDC();  /* extern */
 void func_800890EC();  /* extern */
@@ -123,7 +123,7 @@ void func_80088BD0(void) {
     if (object != NULL) {
         parent_state = object + 0x20;
         ((S_80088BD0_0 *)object)->unk_10 = (void *)func_800890EC;
-        func_8004491C(object, &D_8008896C);
+        func_8004491C(object, func_8008896C);
         ((S_80088BD0_1 *)parent_state)->unk_22 = 0x708;
         ((S_80088BD0_9 *)(((S_80088BD0_0 *)object)->unk_08))->unk_06 = 0xF0;
         ((S_80088BD0_1 *)parent_state)->unk_1A = 0;

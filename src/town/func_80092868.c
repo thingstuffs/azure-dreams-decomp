@@ -1,92 +1,13 @@
-#include "common.h"
-#include "shared/object_node.h"
-#include "shared/tile_object.h"
-#include "shared/entity_objects.h"
-
-typedef struct ScenePos {
-    s16 pad0;
-    u16 x;
-    s16 pad4;
-    u16 y;
-    s16 pad8;
-    s16 angle;
-} ScenePos;
-
-typedef struct RenderState {
-    u8 pad0[0xC];
-    s32 color;
-    u8 pad10[0xC];
-    s16 scale0;
-    s16 scale1;
-    u8 pad20[8];
-    s32 source;
-} RenderState;
-
-typedef struct TownState {
-    u8 pad0[0xC];
-    u16 frame;
-    s16 alternate;
-    u16 *coords;
-    u16 x_offset;
-    u16 y_offset;
-    s32 mode;
-} TownState;
-
-typedef struct TownObject {
-    void *next;
-    void *prev;
-    ScenePos *scene;
-    RenderState *render;
-    void *callback;
-} TownObject;
-
-typedef struct TownWork {
-    u8 pad0[0x10];
-    u16 frame0;
-    s16 field12;
-    u8 pad14[2];
-    s16 active;
-    u16 frame1;
-} TownWork;
-
-extern void func_80033AE8(s32 flag_id);
-extern s32 func_80033B2C(s32 bit_id);
-extern void func_8003DB4C(void *ptr, s32 count);
-extern TownObject *func_8003FE78(s32 flags, void *storage, s16 size);
-extern void func_8004491C(TownObject *object, void *data);
-extern void func_8008EF58(void);
-extern void func_8008F01C(void *node, ScenePos *scene, void *value_0c);
-extern void func_8008FCE0(void);
-extern void func_8008FD48(void *record, ScenePos *scene, void *value_0c);
-extern void func_8008FF5C(void);
-extern void func_8009550C(ScenePos *scene);
-extern s32 func_8009F830(s32 first_value, s32 second_value);
-extern void func_800A48B0(void *state, ScenePos *scene);
-extern void func_800AB084(void);
-extern void func_800C01DC(void);
-extern s16 func_800C2AE8(ScenePos *scene);
-
-extern TownState D_8006ADBC;
-extern s16 D_8006ADD4;
-extern s32 D_80080A80;
-extern u8 D_8008FFC0[];
-extern u8 D_800903FC[];
-extern u8 D_800970FC[];
-extern u8 D_800CFCB4[];
-extern u8 D_800D0420[];
-extern u8 D_800FE490[];
-extern u8 D_80100D98[];
-extern s32 D_80100DB0;
-extern s32 D_80100E18;
+#include "modules/town_player_init.h"
 
 /* Initialize the town scene and configure its object for the current mode. */
 void func_8008FFC8(void)
 {
     EntityRec *scene;
     TileObject *render;
-    TownState *state;
-    TownObject *object;
-    TownWork *work;
+    func_80092868_TownState *state;
+    func_80092868_TownObject *object;
+    func_80092868_TownWork *work;
     void *shared_data;
     s32 neutral_color;
     u16 x_offset;
@@ -96,8 +17,8 @@ void func_8008FFC8(void)
     u16 frame;
 
     scene = &D_80083780;
-    D_80100E18 = 0;
-    D_80100DB0 = 0;
+    D_80100E18[0] = 0;
+    D_80100DB0[0] = 0;
     func_8003DB4C(scene, 6);
     render = &D_80082E80;
     func_8003DB4C(render, 0xC);
@@ -134,7 +55,7 @@ void func_8008FFC8(void)
     {
         u16 *coords;
 
-        object->callback = D_800903FC;
+        object->callback = func_800903FC;
         func_8004491C(object, D_800970FC);
         neutral_color = 0x808080;
         render->unk_01E = 0x1000;
@@ -153,7 +74,7 @@ void func_8008FFC8(void)
         func_8008FF5C();
         func_8009550C(scene);
 
-        work = (TownWork *)((u8 *)object + 0x20);
+        work = (func_80092868_TownWork *)((u8 *)object + 0x20);
         work->field12 = -1;
         frame = state->frame;
         work->frame0 = frame;
@@ -167,7 +88,7 @@ void func_8008FFC8(void)
         }
 
         render->unk_028 = D_80080A80;
-        if ((D_8006ADD4 != 0xC) && (func_8009F830(2, 0x13) != 0)) {
+        if ((D_8006ADD4[0] != 0xC) && (func_8009F830(2, 0x13) != 0)) {
             func_800AB084();
         }
     }

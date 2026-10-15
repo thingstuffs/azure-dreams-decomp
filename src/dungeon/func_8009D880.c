@@ -5,12 +5,12 @@
 s32 func_8003AD08();                        /* extern */
 s32 func_800990FC();                                /* extern */
 s32 func_80099194();                  /* extern */
-void *func_80099290();                         /* extern */
+extern void * func_80099290(s8 *byte_ptr);
 s32 func_80099734();                     /* extern */
 s32 func_800A2DB8();                          /* extern */
 s32 func_800A5720();                         /* extern */
 extern void *D_8007359C;
-extern M2C_UNK D_80089000;
+
 extern M2C_UNK D_800E09CD;
 extern M2C_UNK D_800E09D9;
 extern M2C_UNK D_800E09E6;
@@ -63,7 +63,7 @@ void func_800A2FE0(EntityRec *entity) {
             targetState = entity->target;
             if ((targetState != NULL) && (targetState->unk_13 >= 0)) {
                 currentValue = func_800990FC();
-                func_80099290(func_80099194(&D_80089000, func_80099734(entity, func_80099194(&D_800E09CD, currentValue))));
+                func_80099290(func_80099194(D_80089000, func_80099734(entity, func_80099194(&D_800E09CD, currentValue))));
                 func_800A5720(currentValue);
             }
         }

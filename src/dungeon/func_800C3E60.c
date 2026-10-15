@@ -12,8 +12,10 @@ typedef struct S_800C95C0_1_pre {
 } S_800C95C0_1_pre;   /* the 0x8 bytes before state in func_800C95C0, addressed as state[-1] */
 
 
-extern s32 func_80065420(void *, void *, void *, void *);
-extern void func_800C96E8(void *, void *);
+extern s32 func_80065420(void *, void *, ...);
+struct S_Rect;
+struct S_Arg1;
+extern void func_800C96E8(struct S_Rect *copy_rect, struct S_Arg1 *source);
 
 /* Updates each linked state from its input values and delta using scratchpad memory. */
 s32 func_800C95C0(void *initial_state, void *input_values, s16 *initial_delta) {

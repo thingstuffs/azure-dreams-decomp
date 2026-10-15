@@ -1,3 +1,4 @@
+#include "modules/town_map_props.h"
 #include "common.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -25,14 +26,8 @@ typedef struct {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern s32 func_800352FC();
-extern void func_8003DB94(struct Dst *, struct Elem *, s16);
-extern M2C_UNK func_800478B8();
-extern s32 func_80064584();
-extern s32 rand();
-extern s32 func_800C2AB4();
 
-extern M2C_UNK D_80089684[9];
+extern void *const D_80089684[9];
 extern M2C_UNK D_800F9D80[3];
 
 typedef struct S_800BE214_0 {

@@ -17,27 +17,7 @@
  *   D_800799AC is declared a volatile OBJECT with the store cast back to non-volatile
  *        so the reload survives cse without costing the bne's delay-slot fill.
  */
-#include "common.h"
-
-typedef struct {
-    u8  pad000[0x1A6];
-    volatile u16 dt_addr;   /* 0x1A6 */
-    u8  pad1A8[2];
-    volatile u16 spucnt;    /* 0x1AA */
-} SpuRegs;
-
-extern SpuRegs *D_80079958;
-extern s32 *D_8007995C;
-extern s32 *D_80079960;
-extern s32 *D_80079964;
-extern u16 D_80079970;
-extern s32 D_80079980;
-extern s32 D_800799A8;
-extern s32 D_800799AC;
-extern s32 D_800799B0;
-
-extern void func_8005D6D8(void);
-extern void func_8005D704(void);
+#include "slus/sound_dma_lifecycle.h"
 
 typedef char *va_list_t;
 #define VA_START(ap, last) (ap = (char *)&(last) + sizeof(s32))
@@ -65,35 +45,35 @@ s32 func_8005D1D0(s32 command, ...)
         transfer_arg = VA_ARG(args, s32);
         spu_addr = (u32)transfer_arg >> D_80079980;
         D_80079970 = spu_addr;
-        D_80079958->dt_addr = spu_addr;
+        D_80079958->transfer_address.ordered = spu_addr;
         break;
 
     case 1:
         D_800799A8 = 0;
         expected_addr = D_80079970;
         poll_count = 0;
-        while ((D_80079958->dt_addr & 0xFFFF) != expected_addr) {
+        while ((D_80079958->transfer_address.ordered & 0xFFFF) != expected_addr) {
             if (++poll_count >= 0xF01) {
                 return -2;
             }
         }
-        spu_control = D_80079958->spucnt;
+        spu_control = D_80079958->control;
         spu_control = (spu_control & 0xFFCF) | 0x20;
-        D_80079958->spucnt = spu_control;
+        D_80079958->control = spu_control;
         break;
 
     case 0:
         D_800799A8 = 1;
         expected_addr = D_80079970;
         poll_count = 0;
-        while ((D_80079958->dt_addr & 0xFFFF) != expected_addr) {
+        while ((D_80079958->transfer_address.ordered & 0xFFFF) != expected_addr) {
             if (++poll_count >= 0xF01) {
                 return -2;
             }
         }
-        spu_control = D_80079958->spucnt;
+        spu_control = D_80079958->control;
         spu_control |= 0x30;
-        D_80079958->spucnt = spu_control;
+        D_80079958->control = spu_control;
         break;
 
     case 3:
@@ -102,7 +82,7 @@ s32 func_8005D1D0(s32 command, ...)
             transfer_mode = 0x30;
         }
         poll_count = 0;
-        while ((D_80079958->spucnt & 0x30) != (transfer_mode & 0xFFFF)) {
+        while ((D_80079958->control & 0x30) != (transfer_mode & 0xFFFF)) {
             if (++poll_count >= 0xF01) {
                 return -2;
             }
@@ -119,7 +99,7 @@ s32 func_8005D1D0(s32 command, ...)
         partial_block = ((u32)transfer_arg & 0x3F) != 0;
         D_800799B0 = block_count + partial_block;
         *D_8007995C = D_800799AC;
-        *D_80079960 = (D_800799B0 << 16) | 0x10;
+        **(s32 **)&D_80079960 = (D_800799B0 << 16) | 0x10;
         dma_control = 0x1000201;
         if (D_800799A8 == 1) {
             dma_control = 0x1000200;

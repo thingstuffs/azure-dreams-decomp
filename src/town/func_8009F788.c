@@ -1,29 +1,14 @@
-#include "common.h"
-#include "m2c_compat.h"
-
-void func_8009D808(); /* extern */
-void func_8009D940(); /* extern */
-void func_8009DA50();    /* extern */
-extern u16 D_80082D08[];
-extern s32 D_801007F8[];
-extern s32 D_80100900[];
-
-typedef struct S_8009CEE8_0 {
-    u16 unk_00;
-    u16 unk_02;
-    u8 pad_04[0x8];
-    s32 * unk_0C;
-} S_8009CEE8_0;   /* temp_v1 in func_8009CEE8 */
+#include "modules/town_town_windows.h"
 
 /* Builds the entry list and processes each entry's items at its coordinates. */
 void func_8009CEE8(void) {
-    M2C_UNK setup_a[2];
-    M2C_UNK setup_b[2];
+    s32 setup_a[2];
+    s32 setup_b[2];
     s32 *item_cursor;
     s32 coord_x;
     s32 coord_y;
     void **entry_cursor;
-    S_8009CEE8_0 *entry;
+    func_8009F788_S_8009CEE8_0 *entry;
     u16 *base;
 
     base = D_80082D08;

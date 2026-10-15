@@ -1,3 +1,4 @@
+#include "modules/main_title_callbacks.h"
 #include "shared/object_node.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
@@ -53,16 +54,7 @@ extern s32 D_80080A94;
 extern s32 D_80080A98;
 extern s32 D_80080A9C;
 extern u8 D_800888AC;
-extern M2C_UNK D_8008A288;
-extern M2C_UNK D_8008A794;
-extern M2C_UNK D_8008AA40;
-extern M2C_UNK D_8008AA84;
-extern M2C_UNK D_8008AAE4;
-extern M2C_UNK D_8008AB44;
 extern M2C_UNK D_8008AC70;
-extern M2C_UNK D_8008ACB4;
-extern M2C_UNK D_8008AD58;
-extern M2C_UNK D_8008AEEC;
 extern M2C_UNK D_8008B030;
 extern s32 D_8008B2B0;
 extern s32 D_8008B2B4;
@@ -154,8 +146,8 @@ void func_80089C24(void) {
     func_800672D8(frame + 0x270, frame + 0x70);
     screen_object = func_8003FC64(0x11);
     if (screen_object != NULL) {
-        ((S_80089C24_0 *)screen_object)->unk_10 = &D_8008A288;
-        func_8004491C(screen_object, &D_8008A794);
+        ((S_80089C24_0 *)screen_object)->unk_10 = (void *)func_8008A288;
+        func_8004491C(screen_object, func_8008A794);
         settings = screen_object + 0x20;
         ((S_80089C24_2 *)(((S_80089C24_0 *)screen_object)->unk_08))->unk_06 = 0xF0;
         (*(s16 *)((u8 *)settings + 4)) = 0x20;
@@ -186,7 +178,7 @@ void func_80089C24(void) {
     heading_y = 0x44;
     *(s16 *)(frame + 0x2) = heading_x;
     *(s16 *)(frame + 0x6) = heading_y;
-    func_8008A98C(frame, &D_8008ACB4, &D_800786E8, settings);
+    func_8008A98C(frame, func_8008ACB4, &D_800786E8, settings);
     label_y = 0xD0;
     label_style = 1;
     label_extra = 0;
@@ -200,7 +192,7 @@ void func_80089C24(void) {
         footer_text = ((s32 *)&D_8008B2FC)[index];
         label_order = index * 2 + 30;
         label_text = footer_text;
-        func_8008AE60((u8 *)&D_8008AEEC, &label_flags);
+        func_8008AE60((u8 *)func_8008AEEC, &label_flags);
         index -= 1;
     } while (index >= 0);
     label_x = 0x74;
@@ -224,7 +216,7 @@ void func_80089C24(void) {
         label_x = item_index * 0x40 + 0xBE;
         choice_text = ((s32 *)&D_8008B2BC)[item_index];
         label_text = choice_text;
-        func_8008AE60((u8 *)&D_8008AD58, &label_flags);
+        func_8008AE60((u8 *)func_8008AD58, &label_flags);
         item_index += 1;
     } while (item_index < 2);
     label_x = 0x20;
@@ -272,18 +264,18 @@ void func_80089C24(void) {
     panel_owner = settings;
     panel_height = 0x1C;
     panel_y = 0x1C;
-    func_8008ABD4(&D_8008AA40, &panel_flags);
+    func_8008ABD4(func_8008AA40, &panel_flags);
     panel_height = 0x34;
     panel_y = 0x3C;
-    func_8008ABD4(&D_8008AA40, &panel_flags);
+    func_8008ABD4(func_8008AA40, &panel_flags);
     panel_height = 0x2E;
     panel_y = 0x74;
-    func_8008ABD4(&D_8008AA40, &panel_flags);
+    func_8008ABD4(func_8008AA40, &panel_flags);
     panel_x = 0x20;
     panel_y = 0xA6;
     panel_width = 0x40;
     panel_height = 0x18;
-    func_8008ABD4(&D_8008AB44, &panel_flags);
+    func_8008ABD4(func_8008AB44, &panel_flags);
     panel_x = 0xCA;
     panel_height = 8;
     panel_width = 0x40;
@@ -292,7 +284,7 @@ void func_80089C24(void) {
     do {
         panel_color = 0xFF << (slider_index * 8);
         panel_y = (slider_index * 0xC) + 0x7E;
-        func_8008ABD4(&D_8008AA84, &panel_flags);
+        func_8008ABD4(func_8008AA84, &panel_flags);
         next_channel = slider_index - 1;
         slider_index = next_channel;
     } while (next_channel >= 0);
@@ -303,7 +295,7 @@ void func_80089C24(void) {
     slider_index = 2;
     do {
         panel_y = ((slider_index + 1) * 0xC) + 0x40;
-        func_8008ABD4(&D_8008AAE4, &panel_flags);
+        func_8008ABD4(func_8008AAE4, &panel_flags);
         next_slider = slider_index - 1;
         slider_index = next_slider;
     } while (next_slider >= 0);

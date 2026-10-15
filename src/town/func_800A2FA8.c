@@ -1,19 +1,4 @@
-#include "common.h"
-#include "shared/object_flags.h"
-
-typedef struct S_func_800A0708_0 {
-    u8 pad_00[0x50];
-    void (*unk_50)(void *, void *, void *, s32);
-    u8 pad_54[0x44];
-    s8 *unk_98;
-} S_func_800A0708_0;
-
-typedef struct S_func_800A0708_1 {
-    u16 unk_00;
-} S_func_800A0708_1;
-
-extern void func_80033D08(void *);
-extern s32 func_8009CFE0(void *, void *);
+#include "modules/town_door.h"
 
 /* Clear and flag the object on a nonzero check result, or invoke its callback. */
 void func_800A0708(S_func_800A0708_0 *object, void *callback_arg, s32 callback_data)

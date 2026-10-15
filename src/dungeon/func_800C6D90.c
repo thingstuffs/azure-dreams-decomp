@@ -1,3 +1,4 @@
+#include "modules/trap_effects_candidate.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
@@ -26,7 +27,7 @@ typedef struct S_800CC4F0_1 {
 
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
-void *func_800CC5F0(); /* extern */
+extern void * func_800CC5F0(s16 tile_x, s16 tile_y, s16 z, s16 tail_value, s16 render_mode, u16 tail_config);
 
 /* Updates directional motion, emits paired effects, and marks completion when the timer expires. */
 void func_800CC4F0(void *effect_data, S_800CC4F0_0 *position) {

@@ -1,3 +1,4 @@
+#include "modules/main_title_callbacks.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -27,7 +28,6 @@ typedef struct Obj {
 
 extern u8 D_80080A84[];
 extern u8 D_80080A78[];
-extern u8 D_80088930[];
 
 extern s32 func_80053428();
 extern s32 func_80053604();
@@ -172,7 +172,7 @@ void func_800890EC(Obj *obj, s32 *position) {
                 obj->state = next_state;
                 break;
             }
-            *(void **) ((u8 *) child + 16) = (void *) D_80088930;
+            *(void **) ((u8 *) child + 16) = (void *) func_80088930;
             obj->state = 253;
             break;
         case 1:

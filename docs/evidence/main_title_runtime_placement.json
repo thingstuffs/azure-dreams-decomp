@@ -1,0 +1,607 @@
+{
+  "schema": "r120-main-title-runtime-placement-v1",
+  "head": "253897988a60cc24e84bec0b6f9636ef366b2d15",
+  "capture": "work/native_lane/r118m_main/inputs/runtime/ram_title.bin",
+  "capture_sha256": "99c0ce0ff4b7ad0dee2ff51f485f61f818e2255a805b47ebb78290c4e20b5c06",
+  "complete_span": {
+    "start": 137212,
+    "end": 165888,
+    "delta": 2147905376,
+    "sha256": "b15b1302adc3ed9a0b4897c2abfd71f053521cee1688dded2c226ec87dee174f"
+  },
+  "rows": [
+    {
+      "id": "main/func_7FDD1970",
+      "file_start": 137584,
+      "file_end": 137680,
+      "true_vram": 2148042960,
+      "bytes": 96,
+      "sha256": "cbbd5310e2e8d49d6d29d5bfd29fa3a0e6dc2092a687427203c16148967f9de1",
+      "source_replacements": {
+        "func_70088BD0": "func_80088BD0"
+      },
+      "retail_j_words": [
+        {
+          "offset": "0x24",
+          "opcode": "jal",
+          "word": "0xc0222f4",
+          "target": "0x80088bd0"
+        }
+      ],
+      "review": "pending",
+      "reviewer": null,
+      "source_changed": true,
+      "source_before_sha256": "a1d032238dccf732b03a1072f7db36a9dc3c3e6a40222f97ea1b93807accc0e2",
+      "source_after_sha256": "9bea5781072e1c57274f26f761a6b10767f1c5b990876fe1565310db2775adad",
+      "registered_cfg": "2.7.2-cdk-G0",
+      "compile_exact": true,
+      "pins": 0,
+      "compile_method": "unchanged lab.py stage-tidy"
+    },
+    {
+      "id": "main/func_7FDD19D0",
+      "file_start": 137680,
+      "file_end": 137740,
+      "true_vram": 2148043056,
+      "bytes": 60,
+      "sha256": "20df787ed6752a13e0eac84c1c8cbce9acf31388bb8d22ff4fc3429fa520be75",
+      "source_replacements": {
+        "func_7004EE30": "func_8004EE30"
+      },
+      "retail_j_words": [
+        {
+          "offset": "0x10",
+          "opcode": "jal",
+          "word": "0xc013b8c",
+          "target": "0x8004ee30"
+        }
+      ],
+      "review": "pending",
+      "reviewer": null,
+      "source_changed": true,
+      "source_before_sha256": "57f259d1d6fdd27c0c71a756009d4baec6b355822368a9f79bd25d293488e877",
+      "source_after_sha256": "c5eb2006ba0b3694414fe0943b33efb5dbf743ab7c1699919b2fc5d5b83cbef7",
+      "registered_cfg": "2.7.2-cdk-G0",
+      "compile_exact": true,
+      "pins": 0,
+      "compile_method": "unchanged lab.py stage-tidy"
+    },
+    {
+      "id": "main/func_7FDD1BE8",
+      "file_start": 138216,
+      "file_end": 138352,
+      "true_vram": 2148043592,
+      "bytes": 136,
+      "sha256": "2d454cb40a55461e4da1383f5973cc343c511bc49c36879bdea61d7048f0ad1a",
+      "source_replacements": {},
+      "retail_j_words": [],
+      "review": "pending",
+      "reviewer": null,
+      "source_changed": true,
+      "source_before_sha256": "897712eae114dbec9586167b1d2c436313d0c3c1a3f5a0928519905db40847b9",
+      "source_after_sha256": "c31830dac3546a333c0805fefe84e267f29ea43c3268973252afced6cdab230c",
+      "registered_cfg": "2.7.2-cdk-G0",
+      "compile_exact": true,
+      "pins": 0,
+      "compile_method": "unchanged lab.py stage-tidy"
+    },
+    {
+      "id": "main/func_7FDD1C70",
+      "file_start": 138352,
+      "file_end": 139132,
+      "true_vram": 2148043728,
+      "bytes": 780,
+      "sha256": "7ece74f87635a17b7161357631623c2ecfdf917cca341a0a8780f406d1851f50",
+      "source_replacements": {},
+      "retail_j_words": [],
+      "review": "pending",
+      "reviewer": null,
+      "source_changed": true,
+      "source_before_sha256": "a510f751f7987e0ce5e5b2bab7213ed1a733aa67382feda711c3adc7224caba8",
+      "source_after_sha256": "4461588a38d6382a58c834f8b49703d9dce2a5c69243de17a4badf96de6b5316",
+      "registered_cfg": "2.7.2-cdk-G0",
+      "compile_exact": true,
+      "pins": 0,
+      "compile_method": "unchanged lab.py stage-tidy"
+    },
+    {
+      "id": "main/func_7FDD218C",
+      "file_start": 139660,
+      "file_end": 140968,
+      "true_vram": 2148045036,
+      "bytes": 1308,
+      "sha256": "e26a1e6a5f3d7f9e87f7b7115fc14c6d56ede2b77c0396bd465b7a1c7672e97d",
+      "source_replacements": {},
+      "retail_j_words": [],
+      "review": "pending",
+      "reviewer": null,
+      "source_changed": true,
+      "source_before_sha256": "7f6d23bb7a9f1b9ba9ee2a7a419142ad2853c8df0f86cd33842e8ef07ea0c183",
+      "source_after_sha256": "3015751415de858bcae22f5b9ef53577c382f2b0e8bae5620b4b0262efcb83e4",
+      "registered_cfg": "2.7.2-cdk-G0",
+      "compile_exact": true,
+      "pins": 0,
+      "compile_method": "unchanged lab.py stage-tidy"
+    },
+    {
+      "id": "main/func_7FDD26A8",
+      "file_start": 140968,
+      "file_end": 142004,
+      "true_vram": 2148046344,
+      "bytes": 1036,
+      "sha256": "631ffb8ecc2fbaaec2e5992a787758981441eae5725f394d4ee326a664e0e3a5",
+      "source_replacements": {},
+      "retail_j_words": [],
+      "review": "pending",
+      "reviewer": null,
+      "source_changed": true,
+      "source_before_sha256": "b05a92ba383c6754f609187e9abcec6544a6b2d8bcf3f9bd08e6d598ff2f62fa",
+      "source_after_sha256": "8ec0aec524e00e18eb95349d5d5330d9d8211e30ce8e7bee20fe42cb953e0377",
+      "registered_cfg": "2.7.2-cdk-G0",
+      "compile_exact": true,
+      "pins": 0,
+      "compile_method": "unchanged lab.py stage-tidy"
+    },
+    {
+      "id": "main/func_7FDD2AB4",
+      "file_start": 142004,
+      "file_end": 142040,
+      "true_vram": 2148047380,
+      "bytes": 36,
+      "sha256": "b24c45270c832b180d1e93d29b02e8bc945556a9db5cb735494f00692f9d8b42",
+      "source_replacements": {},
+      "retail_j_words": [],
+      "review": "pending",
+      "reviewer": null,
+      "source_changed": true,
+      "source_before_sha256": "cc359147f76cd35f20deeec9819b206a13f82198d813531a9f02e057498c1b37",
+      "source_after_sha256": "67284d18e6ede8940894a5db8f658196462242a0c6942839608103940e2ebc9d",
+      "registered_cfg": "2.7.2-cdk-G0",
+      "compile_exact": true,
+      "pins": 0,
+      "compile_method": "unchanged lab.py stage-tidy"
+    },
+    {
+      "id": "main/func_7FDD2CC4",
+      "file_start": 142532,
+      "file_end": 144168,
+      "true_vram": 2148047908,
+      "bytes": 1636,
+      "sha256": "74f49280dd2305fd2f11849283de734806aaf7ac59bcf8b745f57e3511243976",
+      "source_replacements": {},
+      "retail_j_words": [],
+      "review": "pending",
+      "reviewer": null,
+      "source_changed": true,
+      "source_before_sha256": "3aaf95770305dd1784fe7b8b80486247ced88a9001871e69f1768b1e8fb92215",
+      "source_after_sha256": "4b888bf239b501fbbc2161ae33c7af6e0e41687b216dbc4a63d1f3eacec7af4d",
+      "registered_cfg": "2.7.2-cdk-G0",
+      "compile_exact": true,
+      "pins": 0,
+      "compile_method": "unchanged lab.py stage-tidy"
+    },
+    {
+      "id": "main/func_7FDD3A2C",
+      "file_start": 145964,
+      "file_end": 146144,
+      "true_vram": 2148051340,
+      "bytes": 180,
+      "sha256": "e5ec35adebe6f0b4e4e24a46398427ddf0b69e9b19a965e973a6b87c4129bafe",
+      "source_replacements": {
+        "func_7003FC64": "func_8003FC64",
+        "func_7004491C": "func_8004491C"
+      },
+      "retail_j_words": [
+        {
+          "offset": "0x2c",
+          "opcode": "jal",
+          "word": "0xc00ff19",
+          "target": "0x8003fc64"
+        },
+        {
+          "offset": "0x60",
+          "opcode": "jal",
+          "word": "0xc011247",
+          "target": "0x8004491c"
+        }
+      ],
+      "review": "pending",
+      "reviewer": null,
+      "source_changed": true,
+      "source_before_sha256": "a8a1fd2d1b133ff9a9f0b2f10cc51423875f8a17201b5d97f02ab64684107204",
+      "source_after_sha256": "a1f00fd2193ffbd022b6fcd8180ec923d6e6c1ff47460b0086f7cd91df058f50",
+      "registered_cfg": "2.7.2-cdk-G0",
+      "compile_exact": true,
+      "pins": 0,
+      "compile_method": "unchanged lab.py stage-tidy"
+    },
+    {
+      "id": "main/func_7FDD3AE0",
+      "file_start": 146144,
+      "file_end": 146212,
+      "true_vram": 2148051520,
+      "bytes": 68,
+      "sha256": "4caa4e7e0a263f84d4520935a0b3673b716449fd0d582b58037f69f09269c4df",
+      "source_replacements": {},
+      "retail_j_words": [],
+      "review": "pending",
+      "reviewer": null,
+      "source_changed": true,
+      "source_before_sha256": "ca5eaa27e9e27856115b6ffe25e1481193aa1e2289085089c23e38878d72402e",
+      "source_after_sha256": "bf65f71a87579dcdc3f446058c2ce47c3d17b0d2a4f727b1a343bbfc817d0ecb",
+      "registered_cfg": "2.7.2-cdk-G0",
+      "compile_exact": true,
+      "pins": 0,
+      "compile_method": "unchanged lab.py stage-tidy"
+    },
+    {
+      "id": "main/func_7FDD3B24",
+      "file_start": 146212,
+      "file_end": 146308,
+      "true_vram": 2148051588,
+      "bytes": 96,
+      "sha256": "8611d50da4f06d1106fe7e37a342cce638242892a75e532e19a48e668028793b",
+      "source_replacements": {},
+      "retail_j_words": [],
+      "review": "pending",
+      "reviewer": null,
+      "source_changed": true,
+      "source_before_sha256": "58b88fa959c72899efe67dc4393f6a8adc448454dc0f49b81327616d1299508a",
+      "source_after_sha256": "690d43a1e1597755d1f3ec72588bbaa6731b457794a51716a8157ae6199a9ebc",
+      "registered_cfg": "2.7.2-cdk-G0",
+      "compile_exact": true,
+      "pins": 0,
+      "compile_method": "unchanged lab.py stage-tidy"
+    },
+    {
+      "id": "main/func_7FDD3B84",
+      "file_start": 146308,
+      "file_end": 146404,
+      "true_vram": 2148051684,
+      "bytes": 96,
+      "sha256": "dcc6c1b9460d748fbe6b2f9d5e8a497b4089155ad3d8be180a9f6b7dea4522cf",
+      "source_replacements": {},
+      "retail_j_words": [],
+      "review": "pending",
+      "reviewer": null,
+      "source_changed": true,
+      "source_before_sha256": "f8bd4368ddb93aa5f848aedcf86a53517fcf56b2339ee7f4d96e0003395cdb20",
+      "source_after_sha256": "6b4f49a5dddfb0c971a37b3112e5181097a45f8611f5a95f2b4613b405994288",
+      "registered_cfg": "2.7.2-cdk-G0",
+      "compile_exact": true,
+      "pins": 0,
+      "compile_method": "unchanged lab.py stage-tidy"
+    },
+    {
+      "id": "main/func_7FDD3BE4",
+      "file_start": 146404,
+      "file_end": 146548,
+      "true_vram": 2148051780,
+      "bytes": 144,
+      "sha256": "3cd4bebde85d5fedcd87f1b1af3a46e97521ac71bf60aadebad070fd37ebd7fc",
+      "source_replacements": {},
+      "retail_j_words": [],
+      "review": "pending",
+      "reviewer": null,
+      "source_changed": true,
+      "source_before_sha256": "bfbeb0fc886cf42d49f90e02abbd93018aeb96d10091e8871729b4c011bc24fb",
+      "source_after_sha256": "c4b994e577621f0212937970131e369ce309803a11a679e06f6c101de1a8078a",
+      "registered_cfg": "2.7.2-cdk-G0",
+      "compile_exact": true,
+      "pins": 0,
+      "compile_method": "unchanged lab.py stage-tidy"
+    },
+    {
+      "id": "main/func_7FDD3C74",
+      "file_start": 146548,
+      "file_end": 146704,
+      "true_vram": 2148051924,
+      "bytes": 156,
+      "sha256": "ca9e70ddb4ef264ca1b61a0c65fe53337d8f054509c80b81ad1383c5506dcfda",
+      "source_replacements": {
+        "func_7003FC64": "func_8003FC64",
+        "func_7004491C": "func_8004491C"
+      },
+      "retail_j_words": [
+        {
+          "offset": "0x18",
+          "opcode": "jal",
+          "word": "0xc00ff19",
+          "target": "0x8003fc64"
+        },
+        {
+          "offset": "0x7c",
+          "opcode": "jal",
+          "word": "0xc011247",
+          "target": "0x8004491c"
+        }
+      ],
+      "review": "pending",
+      "reviewer": null,
+      "source_changed": true,
+      "source_before_sha256": "d026827ed472eb5d9ef1405956e6497c99fdb0de70c579cecafdb16930fc9699",
+      "source_after_sha256": "fb249d2552d34c182abb98412f543d84056f01a1c4e3582ec938fd515a4407d1",
+      "registered_cfg": "2.7.2-cdk-G0",
+      "compile_exact": true,
+      "pins": 0,
+      "compile_method": "unchanged lab.py stage-tidy"
+    },
+    {
+      "id": "main/func_7FDD3F00",
+      "file_start": 147200,
+      "file_end": 147340,
+      "true_vram": 2148052576,
+      "bytes": 140,
+      "sha256": "e9d9c9f76b9e78c81f46e2a512dae00384f79c60832b04608df90e6a32fd5a6c",
+      "source_replacements": {
+        "func_7003FC64": "func_8003FC64",
+        "func_7004491C": "func_8004491C"
+      },
+      "retail_j_words": [
+        {
+          "offset": "0x18",
+          "opcode": "jal",
+          "word": "0xc00ff19",
+          "target": "0x8003fc64"
+        },
+        {
+          "offset": "0x6c",
+          "opcode": "jal",
+          "word": "0xc011247",
+          "target": "0x8004491c"
+        }
+      ],
+      "review": "pending",
+      "reviewer": null,
+      "source_changed": true,
+      "source_before_sha256": "8591ddbe8ffa783597f90942866797b220183e479ddc809b95bb1756bd585a0d",
+      "source_after_sha256": "bdc3cf74cbc10bb39a8d80cb5201b9512948c2de44660b7e5c5e9e32b9fe45bc",
+      "registered_cfg": "2.7.2-cdk-G0",
+      "compile_exact": true,
+      "pins": 0,
+      "compile_method": "unchanged lab.py stage-tidy"
+    }
+  ],
+  "new_rows": 0,
+  "new_region_records": 11,
+  "native_membership_claim": false,
+  "review": "pending",
+  "reviewer": null,
+  "typed_callback_contract": {
+    "row": "main/func_7FDD19D0",
+    "field_offset": "0x10",
+    "previous_symbol": "D_800888D0",
+    "target_function": "main/func_7FDD1970",
+    "true_name": "func_800888D0",
+    "target_vma": 2148042960,
+    "target_file_offset": 137584,
+    "delta": 2147905376,
+    "basis": "The primary title RAM placement maps the existing 96-byte function at MAIN 0x21970 exactly to 0x800888D0; its existing C definition returns void and consumes an entry pointer. The constructor stores that address at object+0x10.",
+    "ownership_claim": false,
+    "review": "pending",
+    "reviewer": null
+  },
+  "known_function_address_references": [
+    {
+      "row": "main/func_7FDD1C70",
+      "symbol": "D_8008896C",
+      "code_target": "main/func_7FDD1A0C"
+    },
+    {
+      "row": "main/func_7FDD218C",
+      "symbol": "D_80088930",
+      "code_target": "main/func_7FDD19D0"
+    },
+    {
+      "row": "main/func_7FDD26A8",
+      "symbol": "D_80089A14",
+      "code_target": "main/func_7FDD2AB4"
+    },
+    {
+      "row": "main/func_7FDD2CC4",
+      "symbol": "D_8008A288",
+      "code_target": "main/func_7FDD3328"
+    },
+    {
+      "row": "main/func_7FDD2CC4",
+      "symbol": "D_8008A794",
+      "code_target": "main/func_7FDD3834"
+    },
+    {
+      "row": "main/func_7FDD2CC4",
+      "symbol": "D_8008AA40",
+      "code_target": "main/func_7FDD3AE0"
+    },
+    {
+      "row": "main/func_7FDD2CC4",
+      "symbol": "D_8008AA84",
+      "code_target": "main/func_7FDD3B24"
+    },
+    {
+      "row": "main/func_7FDD2CC4",
+      "symbol": "D_8008AAE4",
+      "code_target": "main/func_7FDD3B84"
+    },
+    {
+      "row": "main/func_7FDD2CC4",
+      "symbol": "D_8008AB44",
+      "code_target": "main/func_7FDD3BE4"
+    },
+    {
+      "row": "main/func_7FDD2CC4",
+      "symbol": "D_8008ACB4",
+      "code_target": "main/func_7FDD3D54"
+    },
+    {
+      "row": "main/func_7FDD2CC4",
+      "symbol": "D_8008AD58",
+      "code_target": "main/func_7FDD3DF8"
+    },
+    {
+      "row": "main/func_7FDD2CC4",
+      "symbol": "D_8008AEEC",
+      "code_target": "main/func_7FDD3F8C"
+    }
+  ],
+  "rowbase_append_sha256": "780a7320aa0324520f4eabd8553947b409a90555180e3eb413aa3e9a05c7e072",
+  "existing_regions_unchanged": true,
+  "baselines_unchanged": true,
+  "true_name_changes": [
+    {
+      "id": "main/func_7FDD1970",
+      "true_name": "func_800888D0"
+    },
+    {
+      "id": "main/func_7FDD19D0",
+      "true_name": "func_80088930"
+    },
+    {
+      "id": "main/func_7FDD3F00",
+      "true_name": "func_8008AE60"
+    }
+  ],
+  "source_true_definitions": {
+    "main/func_7FDD1970": "func_800888D0",
+    "main/func_7FDD19D0": "func_80088930",
+    "main/func_7FDD1BE8": "func_80088B48",
+    "main/func_7FDD1C70": "func_80088BD0",
+    "main/func_7FDD218C": "func_800890EC",
+    "main/func_7FDD26A8": "func_80089608",
+    "main/func_7FDD2AB4": "func_80089A14",
+    "main/func_7FDD2CC4": "func_80089C24",
+    "main/func_7FDD3A2C": "func_8008A98C",
+    "main/func_7FDD3AE0": "func_8008AA40",
+    "main/func_7FDD3B24": "func_8008AA84",
+    "main/func_7FDD3B84": "func_8008AAE4",
+    "main/func_7FDD3BE4": "func_8008AB44",
+    "main/func_7FDD3C74": "func_8008ABD4",
+    "main/func_7FDD3F00": "func_8008AE60"
+  },
+  "proof_authority": {
+    "head": "253897988a60cc24e84bec0b6f9636ef366b2d15",
+    "kit": "tools/lanes/lanekit/lab.py",
+    "stages": [
+      {
+        "row": "main/func_7FDD1970",
+        "base_sha": "a1d032238dccf732b03a1072f7db36a9dc3c3e6a40222f97ea1b93807accc0e2",
+        "candidate_sha": "9bea5781072e1c57274f26f761a6b10767f1c5b990876fe1565310db2775adad",
+        "cfg": "2.7.2-cdk-G0",
+        "pins": 0,
+        "stage_log": "evidence/rebase253/stage_cli/func_7FDD1970.log"
+      },
+      {
+        "row": "main/func_7FDD19D0",
+        "base_sha": "57f259d1d6fdd27c0c71a756009d4baec6b355822368a9f79bd25d293488e877",
+        "candidate_sha": "c5eb2006ba0b3694414fe0943b33efb5dbf743ab7c1699919b2fc5d5b83cbef7",
+        "cfg": "2.7.2-cdk-G0",
+        "pins": 0,
+        "stage_log": "evidence/rebase253/stage_cli/func_7FDD19D0.log"
+      },
+      {
+        "row": "main/func_7FDD1BE8",
+        "base_sha": "897712eae114dbec9586167b1d2c436313d0c3c1a3f5a0928519905db40847b9",
+        "candidate_sha": "c31830dac3546a333c0805fefe84e267f29ea43c3268973252afced6cdab230c",
+        "cfg": "2.7.2-cdk-G0",
+        "pins": 0,
+        "stage_log": "evidence/rebase253/stage_cli/func_7FDD1BE8.log"
+      },
+      {
+        "row": "main/func_7FDD1C70",
+        "base_sha": "a510f751f7987e0ce5e5b2bab7213ed1a733aa67382feda711c3adc7224caba8",
+        "candidate_sha": "4461588a38d6382a58c834f8b49703d9dce2a5c69243de17a4badf96de6b5316",
+        "cfg": "2.7.2-cdk-G0",
+        "pins": 0,
+        "stage_log": "evidence/rebase253/stage_cli/func_7FDD1C70.log"
+      },
+      {
+        "row": "main/func_7FDD218C",
+        "base_sha": "7f6d23bb7a9f1b9ba9ee2a7a419142ad2853c8df0f86cd33842e8ef07ea0c183",
+        "candidate_sha": "3015751415de858bcae22f5b9ef53577c382f2b0e8bae5620b4b0262efcb83e4",
+        "cfg": "2.7.2-cdk-G0",
+        "pins": 0,
+        "stage_log": "evidence/rebase253/stage_cli/func_7FDD218C.log"
+      },
+      {
+        "row": "main/func_7FDD26A8",
+        "base_sha": "b05a92ba383c6754f609187e9abcec6544a6b2d8bcf3f9bd08e6d598ff2f62fa",
+        "candidate_sha": "8ec0aec524e00e18eb95349d5d5330d9d8211e30ce8e7bee20fe42cb953e0377",
+        "cfg": "2.7.2-cdk-G0",
+        "pins": 0,
+        "stage_log": "evidence/rebase253/stage_cli/func_7FDD26A8.log"
+      },
+      {
+        "row": "main/func_7FDD2AB4",
+        "base_sha": "cc359147f76cd35f20deeec9819b206a13f82198d813531a9f02e057498c1b37",
+        "candidate_sha": "67284d18e6ede8940894a5db8f658196462242a0c6942839608103940e2ebc9d",
+        "cfg": "2.7.2-cdk-G0",
+        "pins": 0,
+        "stage_log": "evidence/rebase253/stage_cli/func_7FDD2AB4.log"
+      },
+      {
+        "row": "main/func_7FDD2CC4",
+        "base_sha": "3aaf95770305dd1784fe7b8b80486247ced88a9001871e69f1768b1e8fb92215",
+        "candidate_sha": "4b888bf239b501fbbc2161ae33c7af6e0e41687b216dbc4a63d1f3eacec7af4d",
+        "cfg": "2.7.2-cdk-G0",
+        "pins": 0,
+        "stage_log": "evidence/rebase253/stage_cli/func_7FDD2CC4.log"
+      },
+      {
+        "row": "main/func_7FDD3A2C",
+        "base_sha": "a8a1fd2d1b133ff9a9f0b2f10cc51423875f8a17201b5d97f02ab64684107204",
+        "candidate_sha": "a1f00fd2193ffbd022b6fcd8180ec923d6e6c1ff47460b0086f7cd91df058f50",
+        "cfg": "2.7.2-cdk-G0",
+        "pins": 0,
+        "stage_log": "evidence/rebase253/stage_cli/func_7FDD3A2C.log"
+      },
+      {
+        "row": "main/func_7FDD3AE0",
+        "base_sha": "ca5eaa27e9e27856115b6ffe25e1481193aa1e2289085089c23e38878d72402e",
+        "candidate_sha": "bf65f71a87579dcdc3f446058c2ce47c3d17b0d2a4f727b1a343bbfc817d0ecb",
+        "cfg": "2.7.2-cdk-G0",
+        "pins": 0,
+        "stage_log": "evidence/rebase253/stage_cli/func_7FDD3AE0.log"
+      },
+      {
+        "row": "main/func_7FDD3B24",
+        "base_sha": "58b88fa959c72899efe67dc4393f6a8adc448454dc0f49b81327616d1299508a",
+        "candidate_sha": "690d43a1e1597755d1f3ec72588bbaa6731b457794a51716a8157ae6199a9ebc",
+        "cfg": "2.7.2-cdk-G0",
+        "pins": 0,
+        "stage_log": "evidence/rebase253/stage_cli/func_7FDD3B24.log"
+      },
+      {
+        "row": "main/func_7FDD3B84",
+        "base_sha": "f8bd4368ddb93aa5f848aedcf86a53517fcf56b2339ee7f4d96e0003395cdb20",
+        "candidate_sha": "6b4f49a5dddfb0c971a37b3112e5181097a45f8611f5a95f2b4613b405994288",
+        "cfg": "2.7.2-cdk-G0",
+        "pins": 0,
+        "stage_log": "evidence/rebase253/stage_cli/func_7FDD3B84.log"
+      },
+      {
+        "row": "main/func_7FDD3BE4",
+        "base_sha": "bfbeb0fc886cf42d49f90e02abbd93018aeb96d10091e8871729b4c011bc24fb",
+        "candidate_sha": "c4b994e577621f0212937970131e369ce309803a11a679e06f6c101de1a8078a",
+        "cfg": "2.7.2-cdk-G0",
+        "pins": 0,
+        "stage_log": "evidence/rebase253/stage_cli/func_7FDD3BE4.log"
+      },
+      {
+        "row": "main/func_7FDD3C74",
+        "base_sha": "d026827ed472eb5d9ef1405956e6497c99fdb0de70c579cecafdb16930fc9699",
+        "candidate_sha": "fb249d2552d34c182abb98412f543d84056f01a1c4e3582ec938fd515a4407d1",
+        "cfg": "2.7.2-cdk-G0",
+        "pins": 0,
+        "stage_log": "evidence/rebase253/stage_cli/func_7FDD3C74.log"
+      },
+      {
+        "row": "main/func_7FDD3F00",
+        "base_sha": "8591ddbe8ffa783597f90942866797b220183e479ddc809b95bb1756bd585a0d",
+        "candidate_sha": "bdc3cf74cbc10bb39a8d80cb5201b9512948c2de44660b7e5c5e9e32b9fe45bc",
+        "cfg": "2.7.2-cdk-G0",
+        "pins": 0,
+        "stage_log": "evidence/rebase253/stage_cli/func_7FDD3F00.log"
+      }
+    ],
+    "primary_replay": "work/native_lane/r118m_main/evidence/rebase253/placement_replay.json"
+  }
+}

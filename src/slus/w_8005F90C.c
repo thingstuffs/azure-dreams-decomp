@@ -1,6 +1,5 @@
-#include "common.h"
+#include "slus/sound_pitch_conversions.h"
 
-/* Convert SPU pitch to a packed note and fine value relative to the center note and fine offset. */
 u32 func_8005F90C(u16 center_note, u16 center_fine, u16 pitch)
 {
     u16 inverted_pitch;

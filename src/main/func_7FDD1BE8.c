@@ -21,7 +21,7 @@ typedef struct {
 } S_7FDD1BE8;
 
 /* Updates object flags and display offset from its linked sub-object. */
-void func_7FDD1BE8(S_7FDD1BE8 *object)
+void func_80088B48(S_7FDD1BE8 *object)
 {
     S_7FDD1BE8_sub *sub_object = object->unk04;
     u16 *prior_flags = (u16 *)((u8 *)object - 2);

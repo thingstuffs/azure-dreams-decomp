@@ -1,0 +1,33 @@
+{
+  "module": "dungeon_engine_transition_effects",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "transition_effects.c",
+    "module_index": 6
+  },
+  "members": [
+    "dungeon/func_800966CC",
+    "dungeon/func_8009681C",
+    "dungeon/func_80096898",
+    "dungeon/func_800969CC",
+    "dungeon/func_800971DC",
+    "dungeon/func_800975F8",
+    "dungeon/func_800976BC",
+    "dungeon/func_80097AB8",
+    "dungeon/func_80097C20",
+    "dungeon/func_80097C50",
+    "dungeon/func_80097F94",
+    "dungeon/func_80098144"
+  ],
+  "confidence": "strong",
+  "original_ledger_confidence": "weak",
+  "coverage_complete": true,
+  "tu_boundary": "not observable (section-grouping link, no static duplicates, no recipe change)",
+  "basis": [
+    "Complete majority-owned resident-engine cohort under ROUND 2: all registered members in physical file order; no foreign registered row, gap or recipe change.",
+    "The complete naturally laid out TU emits exactly the registered functions with no other allocated storage; genuine ASPSX and GNU both reproduce every retail byte. Original historical source-file boundary remains observationally limited.",
+    "Existing proven DMA rowbase xfer_dungeon_A3000 establishes the runtime delta; no placement or ledger transaction is proposed."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120"
+}

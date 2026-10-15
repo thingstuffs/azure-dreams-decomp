@@ -27,14 +27,14 @@ typedef struct S_800BA810_3 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern s32 D_800BA6B8;
+extern void func_800BA6B8(void *channel_config, void *unused, void *output);
 void func_800403BC(s32 *);                  /* extern */
 typedef struct S_8006DE24_Entry {
     u8 pad[0x12];
     u8 type;
     u8 pad13;
 } S_8006DE24_Entry;
-void func_800BA764(u16, u16, s16, u32);      /* extern */
+extern void * func_800BA764(u16 tile_x, u16 tile_y, s16 coord_z, s32 user_data);
 s16 func_800BCB04();                   /* extern */
 typedef struct S_800B50B0_Entity {
     u8 pad00[0x13];
@@ -77,16 +77,16 @@ void func_800BA810(S_800B50B0_Entity *entity, s32 selection) {
 
     if (entity == NULL) {
         D_800DF374 = NULL;
-        func_800403BC(&D_800BA6B8);
+        func_800403BC(func_800BA6B8);
         return;
     }
-    tile_list = &D_800BA6B8;
+    tile_list = func_800BA6B8;
     if (D_800DF374 != entity || D_800DF37A != (s16) entity->angle2a || D_800DF378 != (selection & 0xFFFF)) {
         angle = entity->angle2a;
         D_800DF374 = entity;
         D_800DF378 = selection;
         D_800DF37A = angle;
-        func_800403BC(&D_800BA6B8);
+        func_800403BC(func_800BA6B8);
         direction = (entity->angle2a >> 9) & 7;
         mode = selection & 0x3FFF;
         position = ((S_800BA810_0 *)((u8 *)entity - 0x18))->unk_00;

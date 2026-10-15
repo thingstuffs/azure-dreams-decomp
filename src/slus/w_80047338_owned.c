@@ -1,3 +1,5 @@
+#include "slus/owned_80047338.h"
+
 #include "w_80047338.c"
 u16 D_80081518 = 0;
 u16 D_8008151A = 0;

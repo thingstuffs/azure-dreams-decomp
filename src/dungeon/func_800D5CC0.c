@@ -4,7 +4,7 @@
 #include "shared/object_flags.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-typedef struct {
+typedef struct D_800DB420_Obj {
     u16 *random_data;
     s16 mode;
     u16 count;
@@ -12,7 +12,7 @@ typedef struct {
     s16 value2a;
 } D_800DB420_Obj;
 
-typedef struct {
+typedef struct D_800DB420_RngOut {
     u8 unk0[2];
     s16 x;
     u8 unk4[2];
@@ -21,7 +21,7 @@ typedef struct {
     s16 z;
 } D_800DB420_RngOut;
 
-typedef struct {
+typedef struct D_800DB420_Effect {
     u8 unk0[0xC];
     u32 wordC;
     s16 half10;
@@ -32,7 +32,7 @@ typedef struct {
 extern void func_8004491C(void *, void *);
 extern s32 rand(void);
 extern void func_80047784(void *, s32, s32);
-extern void func_800478B8(void *);
+extern void func_800478B8();
 
 /* Jitter the position and advance the effect through its modes and countdown. */
 void func_800DB420(D_800DB420_Obj *state, D_800DB420_RngOut *position, D_800DB420_Effect *effect) {

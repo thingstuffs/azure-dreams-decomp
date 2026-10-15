@@ -1,0 +1,16 @@
+/* Recovered retail twin; complete-function proof is in the lane receipt. */
+#include "common.h"
+#include "m2c_compat.h"
+#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_handler.h"
+
+extern s8 D_80082668;
+extern s32 D_80098078;
+extern s32 D_800D0170;
+
+void func_80098E70(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2) {
+    func_80094984((s32 *) &D_800D0170, record, ptr2);
+    D_80082668 = 0;
+    record->unk_04.as_pm = &D_80098078;
+    record->unk_0A.as_s16 = 0x15;
+}

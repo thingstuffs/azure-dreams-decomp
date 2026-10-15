@@ -1,3 +1,4 @@
+#include "modules/trap_effects_candidate.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
@@ -29,9 +30,9 @@ typedef struct {
     u8 pad_14[0xC];
     s16 field_20;
     s16 field_22;
-} DungeonObject;
+} GridEffectObject;
 
-extern void func_800419EC(s32, s32);
+extern void func_800419EC();
 extern s32 func_800A6DA4(s32, s32);
 extern s32 func_800BCA68(s32, s32);
 
@@ -53,7 +54,7 @@ s32 func_800CE4E8(s32 center_x, s32 center_y, s16 unused_value, void *unused_dat
     s32 random_offset;
     u8 *base_row;
     u8 *grid_data;
-    DungeonObject *object;
+    GridEffectObject *object;
     u8 *row_data;
     u8 *row_base;
 

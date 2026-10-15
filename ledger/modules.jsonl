@@ -523,18 +523,18 @@
 {"id": "town/func_80092730", "container": "town", "module": "scene_state.c", "module_index": 3, "confidence": "weak"}
 {"id": "town/func_800927FC", "container": "town", "module": "scene_state.c", "module_index": 3, "confidence": "weak"}
 {"id": "town/func_80092860", "container": "town", "module": "scene_state.c", "module_index": 3, "confidence": "weak"}
-{"id": "town/func_80092868", "container": "town", "module": "player_init.c", "module_index": 4, "confidence": "strong"}
-{"id": "town/func_80092AB0", "container": "town", "module": "player_init.c", "module_index": 4, "confidence": "strong"}
-{"id": "town/func_80092C18", "container": "town", "module": "player_init.c", "module_index": 4, "confidence": "strong"}
-{"id": "town/func_80092C48", "container": "town", "module": "player_init.c", "module_index": 4, "confidence": "strong"}
-{"id": "town/func_80092C5C", "container": "town", "module": "player_init.c", "module_index": 4, "confidence": "strong"}
-{"id": "town/func_80092C7C", "container": "town", "module": "player_init.c", "module_index": 4, "confidence": "strong"}
-{"id": "town/func_80092C9C", "container": "town", "module": "player_init.c", "module_index": 4, "confidence": "strong"}
-{"id": "town/func_80092EFC", "container": "town", "module": "player_init.c", "module_index": 4, "confidence": "strong"}
-{"id": "town/func_80093240", "container": "town", "module": "player_init.c", "module_index": 4, "confidence": "strong"}
-{"id": "town/func_800932A4", "container": "town", "module": "player_init.c", "module_index": 4, "confidence": "strong"}
-{"id": "town/func_80093304", "container": "town", "module": "player_init.c", "module_index": 4, "confidence": "strong"}
-{"id": "town/func_8009330C", "container": "town", "module": "player_init.c", "module_index": 4, "confidence": "strong"}
+{"id": "town/func_80092868", "container": "town", "module": "player_init.c", "module_index": 4, "confidence": "strong", "evidence": "docs/evidence/town_player_init_12868.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_80092AB0", "container": "town", "module": "player_init.c", "module_index": 4, "confidence": "strong", "evidence": "docs/evidence/town_player_init_12868.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_80092C18", "container": "town", "module": "player_init.c", "module_index": 4, "confidence": "strong", "evidence": "docs/evidence/town_player_init_12868.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_80092C48", "container": "town", "module": "player_init.c", "module_index": 4, "confidence": "strong", "evidence": "docs/evidence/town_player_init_12868.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_80092C5C", "container": "town", "module": "player_init.c", "module_index": 4, "confidence": "strong", "evidence": "docs/evidence/town_player_init_12868.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_80092C7C", "container": "town", "module": "player_init.c", "module_index": 4, "confidence": "strong", "evidence": "docs/evidence/town_player_init_12868.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_80092C9C", "container": "town", "module": "player_init.c", "module_index": 4, "confidence": "strong", "evidence": "docs/evidence/town_player_init_12868.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_80092EFC", "container": "town", "module": "player_init.c", "module_index": 4, "confidence": "strong", "evidence": "docs/evidence/town_player_init_12868.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_80093240", "container": "town", "module": "player_init.c", "module_index": 4, "confidence": "strong", "evidence": "docs/evidence/town_player_init_12868.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800932A4", "container": "town", "module": "player_init.c", "module_index": 4, "confidence": "strong", "evidence": "docs/evidence/town_player_init_12868.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_80093304", "container": "town", "module": "player_init.c", "module_index": 4, "confidence": "strong", "evidence": "docs/evidence/town_player_init_12868.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_8009330C", "container": "town", "module": "player_init.c", "module_index": 4, "confidence": "strong", "evidence": "docs/evidence/town_player_init_12868.membership.json", "reviewer": "orchestrator-r120"}
 {"id": "town/func_80093314", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
 {"id": "town/func_80093508", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
 {"id": "town/func_800935E4", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
@@ -805,42 +805,42 @@
 {"id": "town/func_8009F430", "container": "town", "module": "town_interaction.c", "module_index": 10, "confidence": "weak"}
 {"id": "town/func_8009F454", "container": "town", "module": "town_interaction.c", "module_index": 10, "confidence": "weak"}
 {"id": "town/func_8009F478", "container": "town", "module": "town_interaction.c", "module_index": 10, "confidence": "weak"}
-{"id": "town/func_8009F5B8", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_8009F654", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_8009F66C", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_8009F6D4", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_8009F720", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_8009F748", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_8009F788", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_8009F880", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_8009FAAC", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_8009FCC4", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_8009FE60", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_8009FFDC", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_800A0070", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_800A00A8", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_800A01E0", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_800A0284", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_800A02F0", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_800A052C", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_800A05E0", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_800A06C8", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_800A075C", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_800A0824", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_800A0878", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_800A0AB8", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_800A0AF8", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_800A0B60", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_800A0BE8", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_800A0C10", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_800A0C74", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_800A0C8C", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_800A0CC4", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_800A0D5C", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_800A0D8C", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_800A0DA4", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_800A0FB4", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
-{"id": "town/func_800A10FC", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong"}
+{"id": "town/func_8009F5B8", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_8009F654", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_8009F66C", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_8009F6D4", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_8009F720", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_8009F748", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_8009F788", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_8009F880", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_8009FAAC", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_8009FCC4", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_8009FE60", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_8009FFDC", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A0070", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A00A8", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A01E0", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A0284", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A02F0", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A052C", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A05E0", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A06C8", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A075C", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A0824", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A0878", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A0AB8", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A0AF8", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A0B60", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A0BE8", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A0C10", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A0C74", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A0C8C", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A0CC4", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A0D5C", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A0D8C", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A0DA4", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A0FB4", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A10FC", "container": "town", "module": "town_windows.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/town_town_windows_1f5b8.membership.json", "reviewer": "orchestrator-r120"}
 {"id": "town/func_800A1234", "container": "town", "module": "town_item.c", "module_index": 12, "confidence": "strong"}
 {"id": "town/func_800A1350", "container": "town", "module": "town_item.c", "module_index": 12, "confidence": "strong"}
 {"id": "town/func_800A13C0", "container": "town", "module": "town_item.c", "module_index": 12, "confidence": "strong"}
@@ -891,31 +891,31 @@
 {"id": "town/func_800A2DA4", "container": "town", "module": "town_item.c", "module_index": 12, "confidence": "strong"}
 {"id": "town/func_800A2E00", "container": "town", "module": "town_item.c", "module_index": 12, "confidence": "strong"}
 {"id": "town/func_800A2EA8", "container": "town", "module": "town_item.c", "module_index": 12, "confidence": "strong"}
-{"id": "town/func_800A2F08", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong"}
-{"id": "town/func_800A2F44", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong"}
-{"id": "town/func_800A2FA8", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong"}
-{"id": "town/func_800A3044", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong"}
-{"id": "town/func_800A3088", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong"}
-{"id": "town/func_800A3124", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong"}
-{"id": "town/func_800A3188", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong"}
-{"id": "town/func_800A3190", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong"}
-{"id": "town/func_800A31CC", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong"}
-{"id": "town/func_800A31F8", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong"}
-{"id": "town/func_800A3228", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong"}
-{"id": "town/func_800A3294", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong"}
-{"id": "town/func_800A32D4", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong"}
-{"id": "town/func_800A32F4", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong"}
-{"id": "town/func_800A3328", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong"}
-{"id": "town/func_800A3368", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong"}
-{"id": "town/func_800A3414", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong"}
-{"id": "town/func_800A3484", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong"}
-{"id": "town/func_800A34D0", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong"}
-{"id": "town/func_800A3560", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong"}
-{"id": "town/func_800A3598", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong"}
-{"id": "town/func_800A364C", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong"}
-{"id": "town/func_800A36DC", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong"}
-{"id": "town/func_800A3758", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong"}
-{"id": "town/func_800A37B0", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong"}
+{"id": "town/func_800A2F08", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong", "evidence": "docs/evidence/town_door_22f08.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A2F44", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong", "evidence": "docs/evidence/town_door_22f08.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A2FA8", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong", "evidence": "docs/evidence/town_door_22f08.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A3044", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong", "evidence": "docs/evidence/town_door_22f08.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A3088", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong", "evidence": "docs/evidence/town_door_22f08.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A3124", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong", "evidence": "docs/evidence/town_door_22f08.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A3188", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong", "evidence": "docs/evidence/town_door_22f08.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A3190", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong", "evidence": "docs/evidence/town_door_22f08.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A31CC", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong", "evidence": "docs/evidence/town_door_22f08.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A31F8", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong", "evidence": "docs/evidence/town_door_22f08.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A3228", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong", "evidence": "docs/evidence/town_door_22f08.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A3294", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong", "evidence": "docs/evidence/town_door_22f08.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A32D4", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong", "evidence": "docs/evidence/town_door_22f08.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A32F4", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong", "evidence": "docs/evidence/town_door_22f08.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A3328", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong", "evidence": "docs/evidence/town_door_22f08.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A3368", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong", "evidence": "docs/evidence/town_door_22f08.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A3414", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong", "evidence": "docs/evidence/town_door_22f08.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A3484", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong", "evidence": "docs/evidence/town_door_22f08.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A34D0", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong", "evidence": "docs/evidence/town_door_22f08.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A3560", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong", "evidence": "docs/evidence/town_door_22f08.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A3598", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong", "evidence": "docs/evidence/town_door_22f08.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A364C", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong", "evidence": "docs/evidence/town_door_22f08.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A36DC", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong", "evidence": "docs/evidence/town_door_22f08.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A3758", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong", "evidence": "docs/evidence/town_door_22f08.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "town/func_800A37B0", "container": "town", "module": "door.c", "module_index": 13, "confidence": "strong", "evidence": "docs/evidence/town_door_22f08.membership.json", "reviewer": "orchestrator-r120"}
 {"id": "town/func_800A383C", "container": "town", "module": "menu_draw.c", "module_index": 14, "confidence": "weak"}
 {"id": "town/func_800A3920", "container": "town", "module": "menu_draw.c", "module_index": 14, "confidence": "weak"}
 {"id": "town/func_800A3B4C", "container": "town", "module": "menu_draw.c", "module_index": 14, "confidence": "weak"}
@@ -3264,43 +3264,43 @@
 {"id": "dungeon/func_800942BC", "container": "dungeon", "module": "item_messages.c", "module_index": 4, "confidence": "strong"}
 {"id": "dungeon/func_800943B8", "container": "dungeon", "module": "item_messages.c", "module_index": 4, "confidence": "strong"}
 {"id": "dungeon/func_800944F8", "container": "dungeon", "module": "item_messages.c", "module_index": 4, "confidence": "strong"}
-{"id": "dungeon/func_80094744", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong"}
-{"id": "dungeon/func_800947A4", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong"}
-{"id": "dungeon/func_80094810", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong"}
-{"id": "dungeon/func_8009487C", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong"}
-{"id": "dungeon/func_800948C8", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong"}
-{"id": "dungeon/func_80094918", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong"}
-{"id": "dungeon/func_8009499C", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong"}
-{"id": "dungeon/func_80094A20", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong"}
-{"id": "dungeon/func_80094ABC", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong"}
-{"id": "dungeon/func_80094B58", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong"}
-{"id": "dungeon/func_80094BF0", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong"}
-{"id": "dungeon/func_80094C70", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong"}
-{"id": "dungeon/func_80094DE0", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong"}
-{"id": "dungeon/func_80094F0C", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong"}
-{"id": "dungeon/func_80095160", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong"}
-{"id": "dungeon/func_80095440", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong"}
-{"id": "dungeon/func_80095658", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong"}
-{"id": "dungeon/func_800957B8", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong"}
-{"id": "dungeon/func_80095A04", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong"}
-{"id": "dungeon/func_80095AFC", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong"}
-{"id": "dungeon/func_80095C30", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong"}
-{"id": "dungeon/func_80095D50", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong"}
-{"id": "dungeon/func_80095E4C", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong"}
-{"id": "dungeon/func_80096084", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong"}
-{"id": "dungeon/func_8009612C", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong"}
-{"id": "dungeon/func_800966CC", "container": "dungeon", "module": "transition_effects.c", "module_index": 6, "confidence": "weak"}
-{"id": "dungeon/func_8009681C", "container": "dungeon", "module": "transition_effects.c", "module_index": 6, "confidence": "weak"}
-{"id": "dungeon/func_80096898", "container": "dungeon", "module": "transition_effects.c", "module_index": 6, "confidence": "weak"}
-{"id": "dungeon/func_800969CC", "container": "dungeon", "module": "transition_effects.c", "module_index": 6, "confidence": "weak"}
-{"id": "dungeon/func_800971DC", "container": "dungeon", "module": "transition_effects.c", "module_index": 6, "confidence": "weak"}
-{"id": "dungeon/func_800975F8", "container": "dungeon", "module": "transition_effects.c", "module_index": 6, "confidence": "weak"}
-{"id": "dungeon/func_800976BC", "container": "dungeon", "module": "transition_effects.c", "module_index": 6, "confidence": "weak"}
-{"id": "dungeon/func_80097AB8", "container": "dungeon", "module": "transition_effects.c", "module_index": 6, "confidence": "weak"}
-{"id": "dungeon/func_80097C20", "container": "dungeon", "module": "transition_effects.c", "module_index": 6, "confidence": "weak"}
-{"id": "dungeon/func_80097C50", "container": "dungeon", "module": "transition_effects.c", "module_index": 6, "confidence": "weak"}
-{"id": "dungeon/func_80097F94", "container": "dungeon", "module": "transition_effects.c", "module_index": 6, "confidence": "weak"}
-{"id": "dungeon/func_80098144", "container": "dungeon", "module": "transition_effects.c", "module_index": 6, "confidence": "weak"}
+{"id": "dungeon/func_80094744", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_tile_map.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800947A4", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_tile_map.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_80094810", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_tile_map.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_8009487C", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_tile_map.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800948C8", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_tile_map.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_80094918", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_tile_map.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_8009499C", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_tile_map.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_80094A20", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_tile_map.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_80094ABC", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_tile_map.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_80094B58", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_tile_map.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_80094BF0", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_tile_map.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_80094C70", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_tile_map.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_80094DE0", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_tile_map.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_80094F0C", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_tile_map.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_80095160", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_tile_map.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_80095440", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_tile_map.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_80095658", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_tile_map.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800957B8", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_tile_map.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_80095A04", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_tile_map.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_80095AFC", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_tile_map.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_80095C30", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_tile_map.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_80095D50", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_tile_map.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_80095E4C", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_tile_map.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_80096084", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_tile_map.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_8009612C", "container": "dungeon", "module": "tile_map.c", "module_index": 5, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_tile_map.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800966CC", "container": "dungeon", "module": "transition_effects.c", "module_index": 6, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_transition_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_8009681C", "container": "dungeon", "module": "transition_effects.c", "module_index": 6, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_transition_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_80096898", "container": "dungeon", "module": "transition_effects.c", "module_index": 6, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_transition_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800969CC", "container": "dungeon", "module": "transition_effects.c", "module_index": 6, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_transition_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800971DC", "container": "dungeon", "module": "transition_effects.c", "module_index": 6, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_transition_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800975F8", "container": "dungeon", "module": "transition_effects.c", "module_index": 6, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_transition_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800976BC", "container": "dungeon", "module": "transition_effects.c", "module_index": 6, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_transition_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_80097AB8", "container": "dungeon", "module": "transition_effects.c", "module_index": 6, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_transition_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_80097C20", "container": "dungeon", "module": "transition_effects.c", "module_index": 6, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_transition_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_80097C50", "container": "dungeon", "module": "transition_effects.c", "module_index": 6, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_transition_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_80097F94", "container": "dungeon", "module": "transition_effects.c", "module_index": 6, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_transition_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_80098144", "container": "dungeon", "module": "transition_effects.c", "module_index": 6, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_transition_effects.membership.json", "reviewer": "orchestrator-r120"}
 {"id": "dungeon/func_80098310", "container": "dungeon", "module": "menu_draw.c", "module_index": 7, "confidence": "strong"}
 {"id": "dungeon/func_80098378", "container": "dungeon", "module": "menu_draw.c", "module_index": 7, "confidence": "strong"}
 {"id": "dungeon/func_800987AC", "container": "dungeon", "module": "menu_draw.c", "module_index": 7, "confidence": "strong"}
@@ -3356,23 +3356,23 @@
 {"id": "dungeon/func_8009C284", "container": "dungeon", "module": "item_monster.c", "module_index": 8, "confidence": "strong"}
 {"id": "dungeon/func_8009C3E4", "container": "dungeon", "module": "item_monster.c", "module_index": 8, "confidence": "strong"}
 {"id": "dungeon/func_8009C470", "container": "dungeon", "module": "item_monster.c", "module_index": 8, "confidence": "strong"}
-{"id": "dungeon/func_8009C4F8", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong"}
-{"id": "dungeon/func_8009C5EC", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong"}
-{"id": "dungeon/func_8009CCC4", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong"}
-{"id": "dungeon/func_8009D384", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong"}
-{"id": "dungeon/func_8009D3A4", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong"}
-{"id": "dungeon/func_8009D3C8", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong"}
-{"id": "dungeon/func_8009D3FC", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong"}
-{"id": "dungeon/func_8009D47C", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong"}
-{"id": "dungeon/func_8009D4D4", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong"}
-{"id": "dungeon/func_8009D518", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong"}
-{"id": "dungeon/func_8009D54C", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong"}
-{"id": "dungeon/func_8009D558", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong"}
-{"id": "dungeon/func_8009D608", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong"}
-{"id": "dungeon/func_8009D658", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong"}
-{"id": "dungeon/func_8009D880", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong"}
-{"id": "dungeon/func_8009DA70", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong"}
-{"id": "dungeon/func_8009DB44", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong"}
+{"id": "dungeon/func_8009C4F8", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_experience.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_8009C5EC", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_experience.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_8009CCC4", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_experience.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_8009D384", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_experience.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_8009D3A4", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_experience.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_8009D3C8", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_experience.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_8009D3FC", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_experience.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_8009D47C", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_experience.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_8009D4D4", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_experience.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_8009D518", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_experience.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_8009D54C", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_experience.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_8009D558", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_experience.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_8009D608", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_experience.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_8009D658", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_experience.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_8009D880", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_experience.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_8009DA70", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_experience.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_8009DB44", "container": "dungeon", "module": "experience.c", "module_index": 9, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_experience.membership.json", "reviewer": "orchestrator-r120"}
 {"id": "dungeon/func_8009DD5C", "container": "dungeon", "module": "actor_status.c", "module_index": 10, "confidence": "weak"}
 {"id": "dungeon/func_8009DDB8", "container": "dungeon", "module": "actor_status.c", "module_index": 10, "confidence": "weak"}
 {"id": "dungeon/func_8009DDE4", "container": "dungeon", "module": "actor_status.c", "module_index": 10, "confidence": "weak"}
@@ -3401,69 +3401,69 @@
 {"id": "dungeon/func_8009F428", "container": "dungeon", "module": "actor_status.c", "module_index": 10, "confidence": "weak"}
 {"id": "dungeon/func_8009F6CC", "container": "dungeon", "module": "actor_status.c", "module_index": 10, "confidence": "weak"}
 {"id": "dungeon/func_8009F8EC", "container": "dungeon", "module": "actor_status.c", "module_index": 10, "confidence": "weak"}
-{"id": "dungeon/func_8009FF30", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_8009FF60", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_8009FF80", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_8009FFC0", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A0054", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A00C8", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A02B8", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A0390", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A0510", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A05E4", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A05FC", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A065C", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A069C", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A07D8", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A0860", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A09A4", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A09DC", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A0A34", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A0AEC", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A0BEC", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A0C58", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A0D20", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A0DA8", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A0DCC", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A0EC0", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A1020", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A1094", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A1110", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A1160", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A1194", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A11C8", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A121C", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A1284", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A130C", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A133C", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A1410", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A145C", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A14A0", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A15D0", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A1600", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A1644", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A16B0", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "weak"}
-{"id": "dungeon/func_800A172C", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "weak"}
-{"id": "dungeon/func_800A18D0", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "weak"}
-{"id": "dungeon/func_800A1984", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "weak"}
-{"id": "dungeon/func_800A1A94", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "weak"}
-{"id": "dungeon/func_800A1AD4", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "weak"}
-{"id": "dungeon/func_800A1DE8", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "weak"}
-{"id": "dungeon/func_800A1FA0", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "weak"}
-{"id": "dungeon/func_800A204C", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "weak"}
-{"id": "dungeon/func_800A21EC", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "weak"}
-{"id": "dungeon/func_800A22D8", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "weak"}
-{"id": "dungeon/func_800A231C", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "weak"}
-{"id": "dungeon/func_800A2504", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "weak"}
-{"id": "dungeon/func_800A2564", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "weak"}
-{"id": "dungeon/func_800A2EA8", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "weak"}
-{"id": "dungeon/func_800A2F7C", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "weak"}
-{"id": "dungeon/func_800A2FBC", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "weak"}
-{"id": "dungeon/func_800A3714", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "weak"}
-{"id": "dungeon/func_800A38C4", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "weak"}
-{"id": "dungeon/func_800A3988", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "weak"}
-{"id": "dungeon/func_800A3A00", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "weak"}
-{"id": "dungeon/func_800A3AD0", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "weak"}
+{"id": "dungeon/func_8009FF30", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_8009FF60", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_8009FF80", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_8009FFC0", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A0054", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A00C8", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A02B8", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A0390", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A0510", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A05E4", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A05FC", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A065C", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A069C", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A07D8", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A0860", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A09A4", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A09DC", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A0A34", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A0AEC", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A0BEC", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A0C58", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A0D20", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A0DA8", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A0DCC", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A0EC0", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A1020", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A1094", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A1110", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A1160", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A1194", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A11C8", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A121C", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A1284", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A130C", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A133C", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A1410", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A145C", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A14A0", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A15D0", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A1600", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A1644", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A16B0", "container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A172C", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A18D0", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A1984", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A1A94", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A1AD4", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A1DE8", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A1FA0", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A204C", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A21EC", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A22D8", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A231C", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A2504", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A2564", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A2EA8", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A2F7C", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A2FBC", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A3714", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A38C4", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A3988", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A3A00", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800A3AD0", "container": "dungeon", "module": "entity_effects.c", "module_index": 12, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_effects.membership.json", "reviewer": "orchestrator-r120"}
 {"id": "dungeon/func_800A3C30", "container": "dungeon", "module": "actor_actions.c", "module_index": 13, "confidence": "strong"}
 {"id": "dungeon/func_800A3CA0", "container": "dungeon", "module": "actor_actions.c", "module_index": 13, "confidence": "strong"}
 {"id": "dungeon/func_800A3D40", "container": "dungeon", "module": "actor_actions.c", "module_index": 13, "confidence": "strong"}
@@ -3526,27 +3526,27 @@
 {"id": "dungeon/func_800AAF90", "container": "dungeon", "module": "entity_interaction.c", "module_index": 14, "confidence": "weak"}
 {"id": "dungeon/func_800AB480", "container": "dungeon", "module": "entity_interaction.c", "module_index": 14, "confidence": "weak"}
 {"id": "dungeon/func_800AB5D4", "container": "dungeon", "module": "entity_interaction.c", "module_index": 14, "confidence": "weak"}
-{"id": "dungeon/func_800AB7F0", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong"}
-{"id": "dungeon/func_800ABB94", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong"}
-{"id": "dungeon/func_800ABBC0", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong"}
-{"id": "dungeon/func_800ABBFC", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong"}
-{"id": "dungeon/func_800ABC4C", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong"}
-{"id": "dungeon/func_800ABC6C", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong"}
-{"id": "dungeon/func_800ABCA0", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong"}
-{"id": "dungeon/func_800ABCD4", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong"}
-{"id": "dungeon/func_800ABD24", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong"}
-{"id": "dungeon/func_800ABD54", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong"}
-{"id": "dungeon/func_800ABD6C", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong"}
-{"id": "dungeon/func_800ABD7C", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong"}
-{"id": "dungeon/func_800ABD9C", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong"}
-{"id": "dungeon/func_800AC008", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong"}
-{"id": "dungeon/func_800AC3B0", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong"}
-{"id": "dungeon/func_800AC720", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong"}
-{"id": "dungeon/func_800AC7A0", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong"}
-{"id": "dungeon/func_800AC7D4", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong"}
-{"id": "dungeon/func_800AC914", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong"}
-{"id": "dungeon/func_800ACA58", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong"}
-{"id": "dungeon/func_800ACAD0", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong"}
+{"id": "dungeon/func_800AB7F0", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_panel.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800ABB94", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_panel.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800ABBC0", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_panel.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800ABBFC", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_panel.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800ABC4C", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_panel.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800ABC6C", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_panel.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800ABCA0", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_panel.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800ABCD4", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_panel.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800ABD24", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_panel.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800ABD54", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_panel.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800ABD6C", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_panel.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800ABD7C", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_panel.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800ABD9C", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_panel.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800AC008", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_panel.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800AC3B0", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_panel.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800AC720", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_panel.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800AC7A0", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_panel.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800AC7D4", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_panel.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800AC914", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_panel.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800ACA58", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_panel.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800ACAD0", "container": "dungeon", "module": "entity_panel.c", "module_index": 15, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_entity_panel.membership.json", "reviewer": "orchestrator-r120"}
 {"id": "dungeon/func_800ACB90", "container": "dungeon", "module": "combat_effects.c", "module_index": 16, "confidence": "weak"}
 {"id": "dungeon/func_800ACC98", "container": "dungeon", "module": "combat_effects.c", "module_index": 16, "confidence": "weak"}
 {"id": "dungeon/func_800ACDDC", "container": "dungeon", "module": "combat_effects.c", "module_index": 16, "confidence": "weak"}
@@ -3588,44 +3588,44 @@
 {"id": "dungeon/func_800B28C4", "container": "dungeon", "module": "egg_effects.c", "module_index": 18, "confidence": "weak"}
 {"id": "dungeon/func_800B2978", "container": "dungeon", "module": "egg_effects.c", "module_index": 18, "confidence": "weak"}
 {"id": "dungeon/func_800B2AC8", "container": "dungeon", "module": "egg_effects.c", "module_index": 18, "confidence": "weak"}
-{"id": "dungeon/func_800B2BFC", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B2D84", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B30D0", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B34C0", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B3590", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B3604", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B36B8", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B3748", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B3868", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B39E4", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B3F64", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B4204", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B4318", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B4914", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B4BDC", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B4C24", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B4CB4", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B4F58", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B5004", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B50B0", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B5448", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B57A4", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B58E4", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B5948", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B59EC", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B5B84", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B5DFC", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B62C0", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B62E0", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B6480", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B668C", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B68F4", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B6948", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B6A54", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B6AC8", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B6B0C", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B6BB8", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
-{"id": "dungeon/func_800B6C28", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "weak"}
+{"id": "dungeon/func_800B2BFC", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B2D84", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B30D0", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B34C0", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B3590", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B3604", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B36B8", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B3748", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B3868", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B39E4", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B3F64", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B4204", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B4318", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B4914", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B4BDC", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B4C24", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B4CB4", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B4F58", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B5004", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B50B0", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B5448", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B57A4", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B58E4", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B5948", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B59EC", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B5B84", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B5DFC", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B62C0", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B62E0", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B6480", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B668C", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B68F4", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B6948", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B6A54", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B6AC8", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B6B0C", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B6BB8", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800B6C28", "container": "dungeon", "module": "menu_effects.c", "module_index": 19, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_menu_effects.membership.json", "reviewer": "orchestrator-r120"}
 {"id": "dungeon/func_800B6C84", "container": "dungeon", "module": "terrain_height.c", "module_index": 20, "confidence": "strong"}
 {"id": "dungeon/func_800B6D74", "container": "dungeon", "module": "terrain_height.c", "module_index": 20, "confidence": "strong"}
 {"id": "dungeon/func_800B7308", "container": "dungeon", "module": "terrain_height.c", "module_index": 20, "confidence": "strong"}
@@ -3714,24 +3714,24 @@
 {"id": "dungeon/func_800BF754", "container": "dungeon", "module": "item_effects.c", "module_index": 22, "confidence": "strong"}
 {"id": "dungeon/func_800BF7C0", "container": "dungeon", "module": "item_effects.c", "module_index": 22, "confidence": "strong"}
 {"id": "dungeon/func_800BFCCC", "container": "dungeon", "module": "item_effects.c", "module_index": 22, "confidence": "strong"}
-{"id": "dungeon/func_800BFE94", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "weak"}
-{"id": "dungeon/func_800C0304", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "weak"}
-{"id": "dungeon/func_800C045C", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "weak"}
-{"id": "dungeon/func_800C0620", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "weak"}
-{"id": "dungeon/func_800C06FC", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "weak"}
-{"id": "dungeon/func_800C0848", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "weak"}
-{"id": "dungeon/func_800C1350", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "weak"}
-{"id": "dungeon/func_800C138C", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "weak"}
-{"id": "dungeon/func_800C13E0", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "weak"}
-{"id": "dungeon/func_800C1C20", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "weak"}
-{"id": "dungeon/func_800C1E70", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "weak"}
-{"id": "dungeon/func_800C2070", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "weak"}
-{"id": "dungeon/func_800C2140", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "weak"}
-{"id": "dungeon/func_800C21D0", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "weak"}
-{"id": "dungeon/func_800C22DC", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "weak"}
-{"id": "dungeon/func_800C23D8", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "weak"}
-{"id": "dungeon/func_800C25F4", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "weak"}
-{"id": "dungeon/func_800C268C", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "weak"}
+{"id": "dungeon/func_800BFE94", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_effect_dispatch.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C0304", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_effect_dispatch.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C045C", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_effect_dispatch.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C0620", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_effect_dispatch.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C06FC", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_effect_dispatch.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C0848", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_effect_dispatch.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C1350", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_effect_dispatch.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C138C", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_effect_dispatch.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C13E0", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_effect_dispatch.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C1C20", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_effect_dispatch.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C1E70", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_effect_dispatch.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C2070", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_effect_dispatch.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C2140", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_effect_dispatch.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C21D0", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_effect_dispatch.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C22DC", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_effect_dispatch.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C23D8", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_effect_dispatch.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C25F4", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_effect_dispatch.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C268C", "container": "dungeon", "module": "effect_dispatch.c", "module_index": 23, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_effect_dispatch.membership.json", "reviewer": "orchestrator-r120"}
 {"id": "dungeon/func_800C2808", "container": "dungeon", "module": "status_effects.c", "module_index": 24, "confidence": "strong"}
 {"id": "dungeon/func_800C289C", "container": "dungeon", "module": "status_effects.c", "module_index": 24, "confidence": "strong"}
 {"id": "dungeon/func_800C2918", "container": "dungeon", "module": "status_effects.c", "module_index": 24, "confidence": "strong"}
@@ -3749,10 +3749,10 @@
 {"id": "dungeon/func_800C3578", "container": "dungeon", "module": "status_effects.c", "module_index": 24, "confidence": "strong"}
 {"id": "dungeon/func_800C3650", "container": "dungeon", "module": "status_effects.c", "module_index": 24, "confidence": "strong"}
 {"id": "dungeon/func_800C379C", "container": "dungeon", "module": "status_effects.c", "module_index": 24, "confidence": "strong"}
-{"id": "dungeon/func_800C3928", "container": "dungeon", "module": "screen_effects.c", "module_index": 25, "confidence": "weak"}
-{"id": "dungeon/func_800C3E60", "container": "dungeon", "module": "screen_effects.c", "module_index": 25, "confidence": "weak"}
-{"id": "dungeon/func_800C3F04", "container": "dungeon", "module": "screen_effects.c", "module_index": 25, "confidence": "weak"}
-{"id": "dungeon/func_800C3F88", "container": "dungeon", "module": "screen_effects.c", "module_index": 25, "confidence": "weak"}
+{"id": "dungeon/func_800C3928", "container": "dungeon", "module": "screen_effects.c", "module_index": 25, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_screen_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C3E60", "container": "dungeon", "module": "screen_effects.c", "module_index": 25, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_screen_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C3F04", "container": "dungeon", "module": "screen_effects.c", "module_index": 25, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_screen_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C3F88", "container": "dungeon", "module": "screen_effects.c", "module_index": 25, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_screen_effects.membership.json", "reviewer": "orchestrator-r120"}
 {"id": "dungeon/func_800C40F0", "container": "dungeon", "module": "trap_actor.c", "module_index": 26, "confidence": "strong"}
 {"id": "dungeon/func_800C434C", "container": "dungeon", "module": "trap_actor.c", "module_index": 26, "confidence": "strong"}
 {"id": "dungeon/func_800C47D4", "container": "dungeon", "module": "trap_actor.c", "module_index": 26, "confidence": "strong"}
@@ -3772,44 +3772,44 @@
 {"id": "dungeon/func_800C5EA0", "container": "dungeon", "module": "trap_actor.c", "module_index": 26, "confidence": "strong"}
 {"id": "dungeon/func_800C60CC", "container": "dungeon", "module": "trap_actor.c", "module_index": 26, "confidence": "strong"}
 {"id": "dungeon/func_800C627C", "container": "dungeon", "module": "trap_actor.c", "module_index": 26, "confidence": "strong"}
-{"id": "dungeon/func_800C6438", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C6540", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C6654", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C6828", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C68F8", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C6A2C", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C6B48", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C6C10", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C6D90", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C6E90", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C6FE4", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C712C", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C725C", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C72B4", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C74C0", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C7640", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C78A4", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C7A44", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C7B34", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C7C24", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C7D14", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C7F4C", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C7F80", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C81B0", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C8234", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C8310", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C84B8", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C85AC", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C86AC", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C86E0", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C87E0", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C88C8", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C8D88", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C8F3C", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C8F90", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C8FE8", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C92E4", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
-{"id": "dungeon/func_800C96AC", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong"}
+{"id": "dungeon/func_800C6438", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C6540", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C6654", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C6828", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C68F8", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C6A2C", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C6B48", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C6C10", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C6D90", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C6E90", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C6FE4", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C712C", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C725C", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C72B4", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C74C0", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C7640", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C78A4", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C7A44", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C7B34", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C7C24", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C7D14", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C7F4C", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C7F80", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C81B0", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C8234", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C8310", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C84B8", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C85AC", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C86AC", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C86E0", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C87E0", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C88C8", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C8D88", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C8F3C", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C8F90", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C8FE8", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C92E4", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800C96AC", "container": "dungeon", "module": "trap_effects.c", "module_index": 27, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_trap_effects.membership.json", "reviewer": "orchestrator-r120"}
 {"id": "dungeon/func_800C979C", "container": "dungeon", "module": "mesh_effects.c", "module_index": 28, "confidence": "weak"}
 {"id": "dungeon/func_800C97F4", "container": "dungeon", "module": "mesh_effects.c", "module_index": 28, "confidence": "weak"}
 {"id": "dungeon/func_800C9858", "container": "dungeon", "module": "mesh_effects.c", "module_index": 28, "confidence": "weak"}
@@ -3885,17 +3885,17 @@
 {"id": "dungeon/func_800D451C", "container": "dungeon", "module": "actor_movement.c", "module_index": 32, "confidence": "strong"}
 {"id": "dungeon/func_800D48B4", "container": "dungeon", "module": "actor_movement.c", "module_index": 32, "confidence": "strong"}
 {"id": "dungeon/func_800D4C38", "container": "dungeon", "module": "actor_movement.c", "module_index": 32, "confidence": "strong"}
-{"id": "dungeon/func_800D50E0", "container": "dungeon", "module": "particle_effects.c", "module_index": 33, "confidence": "strong"}
-{"id": "dungeon/func_800D51DC", "container": "dungeon", "module": "particle_effects.c", "module_index": 33, "confidence": "strong"}
-{"id": "dungeon/func_800D53F0", "container": "dungeon", "module": "particle_effects.c", "module_index": 33, "confidence": "strong"}
-{"id": "dungeon/func_800D56E4", "container": "dungeon", "module": "particle_effects.c", "module_index": 33, "confidence": "strong"}
-{"id": "dungeon/func_800D5794", "container": "dungeon", "module": "particle_effects.c", "module_index": 33, "confidence": "strong"}
-{"id": "dungeon/func_800D5A04", "container": "dungeon", "module": "particle_effects.c", "module_index": 33, "confidence": "strong"}
-{"id": "dungeon/func_800D5B7C", "container": "dungeon", "module": "particle_effects.c", "module_index": 33, "confidence": "strong"}
-{"id": "dungeon/func_800D5CC0", "container": "dungeon", "module": "particle_effects.c", "module_index": 33, "confidence": "strong"}
-{"id": "dungeon/func_800D5EB8", "container": "dungeon", "module": "particle_effects.c", "module_index": 33, "confidence": "strong"}
-{"id": "dungeon/func_800D5F00", "container": "dungeon", "module": "particle_effects.c", "module_index": 33, "confidence": "strong"}
-{"id": "dungeon/func_800D6330", "container": "dungeon", "module": "particle_effects.c", "module_index": 33, "confidence": "strong"}
+{"id": "dungeon/func_800D50E0", "container": "dungeon", "module": "particle_effects.c", "module_index": 33, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_particle_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800D51DC", "container": "dungeon", "module": "particle_effects.c", "module_index": 33, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_particle_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800D53F0", "container": "dungeon", "module": "particle_effects.c", "module_index": 33, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_particle_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800D56E4", "container": "dungeon", "module": "particle_effects.c", "module_index": 33, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_particle_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800D5794", "container": "dungeon", "module": "particle_effects.c", "module_index": 33, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_particle_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800D5A04", "container": "dungeon", "module": "particle_effects.c", "module_index": 33, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_particle_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800D5B7C", "container": "dungeon", "module": "particle_effects.c", "module_index": 33, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_particle_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800D5CC0", "container": "dungeon", "module": "particle_effects.c", "module_index": 33, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_particle_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800D5EB8", "container": "dungeon", "module": "particle_effects.c", "module_index": 33, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_particle_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800D5F00", "container": "dungeon", "module": "particle_effects.c", "module_index": 33, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_particle_effects.membership.json", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800D6330", "container": "dungeon", "module": "particle_effects.c", "module_index": 33, "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_particle_effects.membership.json", "reviewer": "orchestrator-r120"}
 {"id": "dungeon/func_800D64C0", "container": "dungeon", "module": "dungeon_hud.c", "module_index": 34, "confidence": "strong"}
 {"id": "dungeon/func_800D65FC", "container": "dungeon", "module": "dungeon_hud.c", "module_index": 34, "confidence": "strong"}
 {"id": "dungeon/func_800D6738", "container": "dungeon", "module": "dungeon_hud.c", "module_index": 34, "confidence": "strong"}
@@ -7479,3 +7479,130 @@
 {"id": "ovmovie/func_800410C0", "container": "ovmovie", "module": "ovmovie_libpress.c", "module_index": 1, "confidence": "strong", "reviewer": "orchestrator-r120", "evidence": "docs/evidence/ovmovie_libpress.membership.json"}
 {"id": "ovmovie/func_800411A0", "container": "ovmovie", "module": "ovmovie_libpress.c", "module_index": 1, "confidence": "strong", "reviewer": "orchestrator-r120", "evidence": "docs/evidence/ovmovie_libpress.membership.json"}
 {"id": "ovmovie/func_80041458", "container": "ovmovie", "module": "ovmovie_libpress.c", "module_index": 1, "confidence": "strong", "reviewer": "orchestrator-r120", "evidence": "docs/evidence/ovmovie_libpress.membership.json"}
+{"container": "dungeon", "module": "dungeon_util.c", "module_index": 11, "id": "dungeon/func_800A1638", "confidence": "strong", "evidence": "docs/evidence/dungeon_engine_dungeon_util.membership.json", "review": "pending", "reviewer": "orchestrator-r120"}
+{"id": "dungeon/func_800D44B8", "container": "dungeon", "module": "actor_movement.c", "module_index": 32, "confidence": "strong"}
+{"id": "dungeon/func_800D481C", "container": "dungeon", "module": "actor_movement.c", "module_index": 32, "confidence": "strong"}
+{"id": "dungeon/func_800D483C", "container": "dungeon", "module": "actor_movement.c", "module_index": 32, "confidence": "strong"}
+{"id": "dungeon/func_800D485C", "container": "dungeon", "module": "actor_movement.c", "module_index": 32, "confidence": "strong"}
+{"id": "dungeon/func_800D487C", "container": "dungeon", "module": "actor_movement.c", "module_index": 32, "confidence": "strong"}
+{"id": "dungeon/func_800B785C", "container": "dungeon", "module": "terrain_height.c", "module_index": 20, "confidence": "strong"}
+{"id": "dungeon/func_800AD92C", "container": "dungeon", "module": "combat_effects.c", "module_index": 16, "confidence": "weak"}
+{"id": "dungeon/func_800AD94C", "container": "dungeon", "module": "combat_effects.c", "module_index": 16, "confidence": "weak"}
+{"id": "dungeon/func_800ADA2C", "container": "dungeon", "module": "combat_effects.c", "module_index": 16, "confidence": "weak"}
+{"id": "dungeon/func_800ADA4C", "container": "dungeon", "module": "combat_effects.c", "module_index": 16, "confidence": "weak"}
+{"id": "dungeon/func_800ADA84", "container": "dungeon", "module": "combat_effects.c", "module_index": 16, "confidence": "weak"}
+{"id": "dungeon/func_800ADABC", "container": "dungeon", "module": "combat_effects.c", "module_index": 16, "confidence": "weak"}
+{"id": "dungeon/func_800ADAF4", "container": "dungeon", "module": "combat_effects.c", "module_index": 16, "confidence": "weak"}
+{"id": "dungeon/func_800C31A0", "container": "dungeon", "module": "status_effects.c", "module_index": 24, "confidence": "strong"}
+{"id": "dungeon/func_800C32DC", "container": "dungeon", "module": "status_effects.c", "module_index": 24, "confidence": "strong"}
+{"id": "dungeon/func_800D6788", "container": "dungeon", "module": "dungeon_hud.c", "module_index": 34, "confidence": "strong"}
+{"id": "dungeon/func_800D6954", "container": "dungeon", "module": "dungeon_hud.c", "module_index": 34, "confidence": "strong"}
+{"id": "dungeon/func_800A42A4", "container": "dungeon", "module": "actor_actions.c", "module_index": 13, "confidence": "strong"}
+{"id": "dungeon/func_800A44B0", "container": "dungeon", "module": "actor_actions.c", "module_index": 13, "confidence": "strong"}
+{"id": "dungeon/func_800C2BB0", "container": "dungeon", "module": "status_effects.c", "module_index": 24, "confidence": "strong"}
+{"id": "dungeon/func_800C2C2C", "container": "dungeon", "module": "status_effects.c", "module_index": 24, "confidence": "strong"}
+{"id": "dungeon/func_800C2CA8", "container": "dungeon", "module": "status_effects.c", "module_index": 24, "confidence": "strong"}
+{"id": "dungeon/func_800C2D24", "container": "dungeon", "module": "status_effects.c", "module_index": 24, "confidence": "strong"}
+{"id": "dungeon/func_800C2DA0", "container": "dungeon", "module": "status_effects.c", "module_index": 24, "confidence": "strong"}
+{"id": "dungeon/func_800D1050", "container": "dungeon", "module": "aura_effects.c", "module_index": 30, "confidence": "weak"}
+{"id": "dungeon/func_800CB014", "container": "dungeon", "module": "mesh_effects.c", "module_index": 28, "confidence": "weak"}
+{"id": "dungeon/func_800D191C", "container": "dungeon", "module": "sprite_effects.c", "module_index": 31, "confidence": "weak"}
+{"id": "dungeon/func_800CD184", "container": "dungeon", "module": "actor_variants.c", "module_index": 29, "confidence": "weak"}
+{"id": "dungeon/func_800CD9E0", "container": "dungeon", "module": "actor_variants.c", "module_index": 29, "confidence": "weak"}
+{"id": "dungeon/func_800CD510", "container": "dungeon", "module": "actor_variants.c", "module_index": 29, "confidence": "weak"}
+{"id": "dungeon/func_800CD278", "container": "dungeon", "module": "actor_variants.c", "module_index": 29, "confidence": "weak"}
+{"id": "dungeon/func_800CDAD4", "container": "dungeon", "module": "actor_variants.c", "module_index": 29, "confidence": "weak"}
+{"id": "dungeon/func_800CEED4", "container": "dungeon", "module": "actor_variants.c", "module_index": 29, "confidence": "weak"}
+{"id": "dungeon/func_800CD73C", "container": "dungeon", "module": "actor_variants.c", "module_index": 29, "confidence": "weak"}
+{"id": "dungeon/func_800AFA08", "container": "dungeon", "module": "map_objects.c", "module_index": 17, "confidence": "weak"}
+{"id": "town/func_8008E474", "container": "town", "module": "town_map.c", "module_index": 1, "confidence": "strong"}
+{"id": "town/func_8008E8F8", "container": "town", "module": "town_map.c", "module_index": 1, "confidence": "strong"}
+{"id": "town/func_8008ED68", "container": "town", "module": "map_queries.c", "module_index": 2, "confidence": "strong"}
+{"id": "town/func_8008EEB0", "container": "town", "module": "map_queries.c", "module_index": 2, "confidence": "strong"}
+{"id": "town/func_8008EF58", "container": "town", "module": "map_queries.c", "module_index": 2, "confidence": "strong"}
+{"id": "town/func_8008F3F8", "container": "town", "module": "map_queries.c", "module_index": 2, "confidence": "strong"}
+{"id": "town/func_8008F494", "container": "town", "module": "map_queries.c", "module_index": 2, "confidence": "strong"}
+{"id": "town/func_80091BF0", "container": "town", "module": "scene_state.c", "module_index": 3, "confidence": "weak"}
+{"id": "town/func_80091CBC", "container": "town", "module": "scene_state.c", "module_index": 3, "confidence": "weak"}
+{"id": "town/func_80091D5C", "container": "town", "module": "scene_state.c", "module_index": 3, "confidence": "weak"}
+{"id": "town/func_80091E54", "container": "town", "module": "scene_state.c", "module_index": 3, "confidence": "weak"}
+{"id": "town/func_80091EAC", "container": "town", "module": "scene_state.c", "module_index": 3, "confidence": "weak"}
+{"id": "town/func_80093718", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
+{"id": "town/func_80094390", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
+{"id": "town/func_80094804", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
+{"id": "town/func_8009576C", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
+{"id": "town/func_80096630", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
+{"id": "town/func_80096678", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
+{"id": "town/func_800966B8", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
+{"id": "town/func_800966F8", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
+{"id": "town/func_80096738", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
+{"id": "town/func_80096868", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
+{"id": "town/func_800968E8", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
+{"id": "town/func_80096928", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
+{"id": "town/func_80096A30", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
+{"id": "town/func_80096A78", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
+{"id": "town/func_80096AC0", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
+{"id": "town/func_80096B08", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
+{"id": "town/func_80096BD0", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
+{"id": "town/func_80096C18", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
+{"id": "town/func_80096D14", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
+{"id": "town/func_80096D5C", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
+{"id": "town/func_80096DBC", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
+{"id": "town/func_80096EC0", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
+{"id": "town/func_80096F00", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
+{"id": "town/func_80096F40", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
+{"id": "town/func_80096FB4", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
+{"id": "town/func_80097014", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
+{"id": "town/func_800970D4", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
+{"id": "town/func_80097134", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
+{"id": "town/func_80098B58", "container": "town", "module": "player_motion.c", "module_index": 6, "confidence": "weak"}
+{"id": "town/func_80098DB8", "container": "town", "module": "player_motion.c", "module_index": 6, "confidence": "weak"}
+{"id": "town/func_80098E90", "container": "town", "module": "player_motion.c", "module_index": 6, "confidence": "weak"}
+{"id": "town/func_8009A83C", "container": "town", "module": "player_animation.c", "module_index": 8, "confidence": "weak"}
+{"id": "town/func_8009B168", "container": "town", "module": "player_animation.c", "module_index": 8, "confidence": "weak"}
+{"id": "town/func_8009B660", "container": "town", "module": "player_animation.c", "module_index": 8, "confidence": "weak"}
+{"id": "town/func_8009B710", "container": "town", "module": "player_animation.c", "module_index": 8, "confidence": "weak"}
+{"id": "town/func_8009B760", "container": "town", "module": "player_animation.c", "module_index": 8, "confidence": "weak"}
+{"id": "town/func_8009B8C0", "container": "town", "module": "player_animation.c", "module_index": 8, "confidence": "weak"}
+{"id": "town/func_8009B924", "container": "town", "module": "player_animation.c", "module_index": 8, "confidence": "weak"}
+{"id": "town/func_8009B988", "container": "town", "module": "player_animation.c", "module_index": 8, "confidence": "weak"}
+{"id": "town/func_8009BB34", "container": "town", "module": "player_animation.c", "module_index": 8, "confidence": "weak"}
+{"id": "town/func_8009BC30", "container": "town", "module": "player_animation.c", "module_index": 8, "confidence": "weak"}
+{"id": "town/func_8009BC94", "container": "town", "module": "player_animation.c", "module_index": 8, "confidence": "weak"}
+{"id": "town/func_8009BE48", "container": "town", "module": "player_animation.c", "module_index": 8, "confidence": "weak"}
+{"id": "town/func_8009BEB4", "container": "town", "module": "player_animation.c", "module_index": 8, "confidence": "weak"}
+{"id": "town/func_8009C1C0", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
+{"id": "town/func_8009C24C", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
+{"id": "town/func_8009C2D8", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
+{"id": "town/func_8009C5E4", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
+{"id": "town/func_8009C648", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
+{"id": "town/func_8009C6AC", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
+{"id": "town/func_8009C770", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
+{"id": "town/func_8009C7D4", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
+{"id": "town/func_8009C838", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
+{"id": "town/func_8009C89C", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
+{"id": "town/func_8009C900", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
+{"id": "town/func_8009C964", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
+{"id": "town/func_8009C9C8", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
+{"id": "town/func_8009CE60", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
+{"id": "town/func_8009D18C", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
+{"id": "town/func_8009D414", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
+{"id": "town/func_8009D59C", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
+{"id": "town/func_8009F19C", "container": "town", "module": "town_interaction.c", "module_index": 10, "confidence": "weak"}
+{"id": "town/func_8009F27C", "container": "town", "module": "town_interaction.c", "module_index": 10, "confidence": "weak"}
+{"id": "town/func_8009F2C4", "container": "town", "module": "town_interaction.c", "module_index": 10, "confidence": "weak"}
+{"id": "town/func_8009F334", "container": "town", "module": "town_interaction.c", "module_index": 10, "confidence": "weak"}
+{"id": "town/func_8009F39C", "container": "town", "module": "town_interaction.c", "module_index": 10, "confidence": "weak"}
+{"id": "town/func_800A20D0", "container": "town", "module": "town_item.c", "module_index": 12, "confidence": "strong"}
+{"id": "town/func_800A2210", "container": "town", "module": "town_item.c", "module_index": 12, "confidence": "strong"}
+{"id": "town/func_800A6148", "container": "town", "module": "menu_draw.c", "module_index": 14, "confidence": "weak"}
+{"id": "town/func_800A9410", "container": "town", "module": "player_event.c", "module_index": 16, "confidence": "weak"}
+{"id": "town/func_800A948C", "container": "town", "module": "player_event.c", "module_index": 16, "confidence": "weak"}
+{"id": "town/func_800AA590", "container": "town", "module": "town_emotes.c", "module_index": 17, "confidence": "strong"}
+{"id": "town/func_800AA5E8", "container": "town", "module": "town_emotes.c", "module_index": 17, "confidence": "strong"}
+{"id": "town/func_800AA640", "container": "town", "module": "town_emotes.c", "module_index": 17, "confidence": "strong"}
+{"id": "town/func_800AA698", "container": "town", "module": "town_emotes.c", "module_index": 17, "confidence": "strong"}
+{"id": "town/func_800AB524", "container": "town", "module": "map_item_events.c", "module_index": 18, "confidence": "weak"}
+{"id": "town/func_800AC098", "container": "town", "module": "carry_event.c", "module_index": 19, "confidence": "weak"}
+{"id": "town/func_800ADDFC", "container": "town", "module": "person_interaction.c", "module_index": 20, "confidence": "weak"}
+{"id": "town/D_8008B9B0", "container": "town", "module": "camera.c", "module_index": 15, "confidence": "strong"}

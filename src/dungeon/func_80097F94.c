@@ -1,3 +1,4 @@
+#include "modules/dungeon_engine_transition_effects_fragment_b7c20.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
@@ -8,14 +9,7 @@ typedef struct S_8009D6F4_1 {
 } S_8009D6F4_1;   /* ((((row << shift) + col) * 6) + table) in func_8009D6F4 */
 
 
-typedef struct {
-    u32 word[2];
-} __attribute__((packed)) Copy8;
 
-extern u8 D_800E50A8[];
-extern void func_800672D8(Copy8 *, u8 *);
-extern Copy8 D_80088CB0;
-extern u8 D_800EA000[];
 
 typedef struct S_8009D6F4_0 {
     u8 pad_00[0x14];
@@ -25,8 +19,8 @@ typedef struct S_8009D6F4_0 {
 
 /* Refresh nonzero packed grid nibbles from clamped table values, then pass on the saved data. */
 void func_8009D6F4(void) {
-    Copy8 saved_data;
-    Copy8 *data_source;
+    TransitionWords saved_data;
+    TransitionWords *data_source;
     register u8 *base;
     u8 *cursor;
     u8 *state;
@@ -55,7 +49,7 @@ void func_8009D6F4(void) {
 
         first_col = 0;
         dimension_unit = 1;
-        table = D_800EA000;
+        table = (u8 *)D_800EA000;
         do {
             col_index = 0;
             if (first_col < (dimension_unit << ((S_8009D6F4_0 *)grid_dims)->unk_14)) {

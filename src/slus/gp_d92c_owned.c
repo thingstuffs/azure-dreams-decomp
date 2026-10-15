@@ -1,3 +1,5 @@
+#include "slus/gp_d92c_owned.h"
+
 #include "w_8003D92C.c"
 
 short D_80080ABC = 0;

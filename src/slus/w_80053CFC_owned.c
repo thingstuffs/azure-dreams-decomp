@@ -1,3 +1,5 @@
+#include "slus/command_words.h"
+
 #include "common.h"
 
 /* Inferred present ownership; canonical row body is included unchanged. */

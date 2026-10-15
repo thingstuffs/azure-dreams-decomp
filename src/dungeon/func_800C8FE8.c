@@ -1,3 +1,4 @@
+#include "modules/trap_effects_candidate.h"
 #include "common.h"
 #include "m2c_compat.h"
 
@@ -35,17 +36,17 @@ typedef struct S_800CE748_3 {
 } S_800CE748_3;   /* objectData in func_800CE748 */
 
 
-extern u8 D_800E3D40[];
+
 s32 func_800990FC(void);
 s32 func_80099194(u8 *src, u8 *dst);
 void func_80099290(s8 *byte_ptr);
 s32 func_8009929C(s8 value, s8 *dest);
 s32 func_8009955C(void *, s32);
-void func_800A56E0(s32);
+extern s32 func_800A56E0();
 void func_800A5720(s8 *text);
-void func_800A6508(void);
+extern void func_800A6508();
 s32 func_800A6D30();
-void func_800C5BBC(s16 x, s16 y, s16 z, s32 sprite_data, u16 sprite_id, s16 play_sound);
+extern void * func_800C5BBC();
 s32 func_800C80F0(void *);
 
 extern u8 D_800E1B76[18];
@@ -83,7 +84,7 @@ s32 func_800CE748(void *record, s32 unused1, s32 unused2, s32 unused3) {
                 is_one = firstEntry->unk_00 == 1;
                 entryFlags = is_one;
             }
-            if (*D_800E3D40 == 0) {
+            if (D_800E3D40 == 0) {
                                 /* garbage-passthru: a1/a3 are residue from func_800C80F0, without a defined C value. */
                 randomValueFirst = func_800A6D30() & 0xFFFF;
                 if (((S_800CE748_0 *)((u8 *)record - 0x14))->unk_17 != 0) {
@@ -112,7 +113,7 @@ s32 func_800CE748(void *record, s32 unused1, s32 unused2, s32 unused3) {
             if ((entryCode == 1) || (entryCode == 7) || (((u32) (entryValue - 2) < 2U) != 0)) {
                 entryFlags |= 2;
             }
-            if (*D_800E3D40 == 0) {
+            if (D_800E3D40 == 0) {
                                 /* garbage-passthru: a1/a3 remain residue from earlier calls. */
                 randomValueSecond = func_800A6D30() & 0xFFFF;
                 if (((S_800CE748_0 *)((u8 *)record - 0x14))->unk_17 != 0) {

@@ -1,9 +1,9 @@
+#include "modules/main_server_ship.h"
 #include "common.h"
 
 extern s32 open();
 extern s32 lseek();
 extern s32 write();
-extern s32 close();
 
 /* Writes 128-byte units at a file offset, optionally creating the file first. */
 s32 func_80021C4C(s32 path, s32 buffer, s32 unit_count, s32 unit_offset, s32 skip_create) {

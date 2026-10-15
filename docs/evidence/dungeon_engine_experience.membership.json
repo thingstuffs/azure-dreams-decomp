@@ -1,0 +1,38 @@
+{
+  "module": "dungeon_engine_experience",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "experience.c",
+    "module_index": 9
+  },
+  "members": [
+    "dungeon/func_8009C4F8",
+    "dungeon/func_8009C5EC",
+    "dungeon/func_8009CCC4",
+    "dungeon/func_8009D384",
+    "dungeon/func_8009D3A4",
+    "dungeon/func_8009D3C8",
+    "dungeon/func_8009D3FC",
+    "dungeon/func_8009D47C",
+    "dungeon/func_8009D4D4",
+    "dungeon/func_8009D518",
+    "dungeon/func_8009D54C",
+    "dungeon/func_8009D558",
+    "dungeon/func_8009D608",
+    "dungeon/func_8009D658",
+    "dungeon/func_8009D880",
+    "dungeon/func_8009DA70",
+    "dungeon/func_8009DB44"
+  ],
+  "confidence": "strong",
+  "original_ledger_confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "not observable (section-grouping link, no static duplicates, no recipe change)",
+  "basis": [
+    "Complete majority-owned resident-engine cohort under ROUND 2: all registered members in physical file order; no foreign registered row, gap or recipe change.",
+    "The complete naturally laid out TU emits exactly the registered functions with no other allocated storage; genuine ASPSX and GNU both reproduce every retail byte. Original historical source-file boundary remains observationally limited.",
+    "Existing proven DMA rowbase xfer_dungeon_A3000 establishes the runtime delta; no placement or ledger transaction is proposed."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120"
+}

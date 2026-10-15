@@ -1,9 +1,7 @@
-#include "common.h"
-#include "shared/game_work.h"
+#include "modules/town_player_init.h"
 
-
-/* to_camera_zero_00: Moves the camera offset toward zero in steps of 16. */
-s32 func_800909A0(void) {
+/* func_800909A0: Moves the camera offset toward zero in steps of 16. */
+s32 func_800909A0() {
     GameWork *camera_state = &gameWork;
     s16 camera_offset = camera_state->view.viewAngle;
     u16 next_offset = ((u16)camera_state->view.viewAngle);

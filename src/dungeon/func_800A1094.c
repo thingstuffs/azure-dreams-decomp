@@ -1,3 +1,4 @@
+#include "modules/dungeon_engine_dungeon_util_fragment_c1094.h"
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"

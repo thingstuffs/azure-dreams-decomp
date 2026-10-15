@@ -1,3 +1,4 @@
+#include "modules/dungeon_engine_dungeon_util_fragment_c1094.h"
 #include "common.h"
 
 /* Count the 20 table entries whose first halfword matches the packed input bytes. */

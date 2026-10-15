@@ -1,3 +1,4 @@
+#include "modules/trap_effects_candidate.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -40,10 +41,10 @@ typedef struct S_800CCDA0_3 {
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern void func_8009CE1C(s32, s32, s32, s32, s32, s32, s32);
-extern void func_800A56E0(s32);
+extern s32 func_800A56E0();
 
 
-extern u8 *D_800E3D7C;
+
 
 /* Updates a bouncing effect's motion, rotation, and fading until its lifetime expires. */
 void func_800CCDA0(void *effect, void *motion, void *sprite)
@@ -61,7 +62,7 @@ void func_800CCDA0(void *effect, void *motion, void *sprite)
 
         if (((S_800CCDA0_0 *)effect)->unk_0A < ((S_800CCDA0_1 *)motion)->unk_08.at02.v) {
             func_8009CE1C(((S_800CCDA0_0 *)effect)->unk_00, 10,
-                          D_800E3D7C[0x11], 8,
+                          ((u8 *)D_800E3D7C)[0x11], 8,
                           (((S_800CCDA0_0 *)effect)->unk_08 << 25) >> 16, 0, 2);
 
             ((S_800CCDA0_1 *)motion)->unk_14 = -((S_800CCDA0_1 *)motion)->unk_14;

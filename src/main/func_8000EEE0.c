@@ -1,3 +1,4 @@
+#include "modules/main_server_ship.h"
 #include "common.h"
 
 /* Checks the stored checksum against the XOR of 6014 data words. */

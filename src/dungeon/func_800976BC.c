@@ -1,3 +1,6 @@
+#include "modules/dungeon_engine_transition_effects_abi_views.h"
+#include "shared/entity.h"
+#include "records/Rec_D_800287A4.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
@@ -56,10 +59,9 @@ s32 func_80098250();
 M2C_UNK func_8009CFB4();
 M2C_UNK func_8009CFF4();
 M2C_UNK func_8009D034();
-s32 func_8009D218(void *, s32, s32);
+extern s32 func_8009D218(EntityRec *entity, s32 flags, Rec_D_800287A4 *record);
 s32 func_800A56E0(s32);
-void *func_800B4C7C(s32, u8 *, s16, u16);
-extern void func_80099C58(s16, s16, s16, s16, s32);
+extern void * func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
 /* Compute elemental damage for a target and trigger its hit response. */
 void func_8009CE1C(void *target, s16 base_power, s16 power_bonus, s16 elements,
@@ -190,7 +192,7 @@ void func_8009CE1C(void *target, s16 base_power, s16 power_bonus, s16 elements,
         func_800A56E0(event_id);
         position = ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_00;
         direction_offset = ((u16) ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_3E >> 8) & 0xE;
-        func_80099C58(
+        transition_effect_halfwords(
             (u16) ((position->unk_24 << 6) + ((dirStepX[(u32) direction_offset >> 1] * 0x20) + 0x20)),
             (u16) ((position->unk_25 << 6) + ((dirStepY[(u32) direction_offset >> 1] * 0x20) + 0x20)),
             (s16) (((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_9C - 0x30),

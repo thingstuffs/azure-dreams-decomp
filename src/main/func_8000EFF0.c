@@ -1,12 +1,8 @@
+#include "modules/main_server_ship.h"
 #include "common.h"
 
-extern void func_80021B18(void *dest, s32 suffix_index);
-extern s32 func_80021B98(void *path, void *buffer, s32 read_size, s32 block_offset);
-extern s32 func_80021C4C(void *path, void *buffer, s32 unit_count, s32 unit_offset, s32 skip_create);
-extern void func_80021EB8(void *buffer);
-extern s32 func_80021EE0(void *save_data);
 
-extern s32 D_80083E98[][32];
+
 
 /* Marks quest data as loaded, optionally refreshing its indexed entry while preserving its state. */
 void func_80021FF0(s32 entry_index, void *data, s32 update_entry) {
@@ -27,7 +23,7 @@ void func_80021FF0(s32 entry_index, void *data, s32 update_entry) {
         *(s16 *)((u8 *)data + 0x208) = 0;
         *(s32 *)((u8 *)data + 0x204) = 0;
         func_80021EB8(data);
-        entry_table = (s32 *)&D_80083E98;
+        entry_table = (s32 *)&(*(s32 (*)[][32])(&D_80083E98));
         entry = (s32 *)((u8 *)entry_table + (entry_index << 7));
         *(s16 *)((u8 *)entry + 8) = 0;
         *(s32 *)((u8 *)entry + 4) = *(s32 *)((u8 *)data + 0x204);

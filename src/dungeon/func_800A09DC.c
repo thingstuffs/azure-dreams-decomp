@@ -1,7 +1,7 @@
+#include "modules/dungeon_engine_dungeon_util_fragment_c05e4.h"
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 func_8003FC64();                         /* extern */
 s32 func_8004491C();              /* extern */
 extern M2C_UNK D_800A5FC0;
 
@@ -17,7 +17,7 @@ s32 func_800A613C(void) {
     s32 object;
     S_800A613C_0 *object_data;
 
-    object = func_8003FC64(0);
+    object = (s32)func_8003FC64(0);
     if (object != 0) {
         func_8004491C(object, &D_800A5FC0);
         object_data = object + 0x20;

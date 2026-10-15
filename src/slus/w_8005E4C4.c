@@ -1,9 +1,4 @@
-#include "common.h"
-
-extern u16 D_80086BD0[];
-extern u16 *D_80079958;
-extern s32 D_80079950;
-extern volatile s32 D_8007951C;
+#include "slus/sound_key_buffer.h"
 
 /* Reads or updates a 24-bit value stored across two words, marking buffered changes. */
 u32 func_8005E4C4(s32 mode, u32 value, s32 low_index, s32 high_index)

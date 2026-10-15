@@ -14,7 +14,7 @@ typedef struct {
     u8 pad10[4];
 } DungeonGroup;
 
-extern s32 func_800A6A6C();
+extern void func_800A6A6C(void);
 extern DungeonGroup D_80073414[];
 
 typedef struct {

@@ -1,3 +1,4 @@
+#include "modules/town_map_props.h"
 #include "common.h"
 #include "m2c_compat.h"
 
@@ -10,10 +11,6 @@ typedef struct S_800BDFA0_0 {
 } S_800BDFA0_0;   /* record in func_800BDFA0 */
 
 
-s32 func_800352FC(void);                                /* extern */
-M2C_UNK func_8003DB94();       /* extern */
-M2C_UNK func_800478B8();                     /* extern */
-s32 func_800C2AB4();                          /* extern */
 
 void func_800BDFA0(S_800BDFA0_0 *record, M2C_UNK unused, M2C_UNK value) {
     s16 state;

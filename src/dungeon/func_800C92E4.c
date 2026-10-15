@@ -1,3 +1,4 @@
+#include "modules/trap_effects_candidate.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
@@ -26,20 +27,20 @@ typedef struct AreaRecord {
 extern u32 D_800835E4[];
 extern u8 D_800E1C3A;
 extern s8 D_800E2968;
-extern u8 D_800E3648[];
+
 
 extern s32 func_8003FA44(s32);
-extern void func_800419EC(s32, s32);
+extern void func_800419EC();
 extern void func_80042640(void *, s32);
 extern void func_8004437C(s32, s32);
 extern void SD_Call(s32);
-extern void func_800997FC(void *);
+extern void func_800997FC();
 extern s32 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern SpawnFunc func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read);
 extern void func_800A152C(s16 entry_type, s16 entry_key);
 extern s32 func_800A1618(s32, s32);
 extern void func_800A1D4C(void *, s32);
-extern void func_800A56E0(s32);
+extern s32 func_800A56E0();
 extern s32 func_800A6D30(void);
 extern s32 func_800A6DA4(s32, s32);
 
@@ -176,7 +177,7 @@ void func_800CEA44(void *den_event) {
         if ((s16)delay_timer < 0) {
             func_8004437C(0, 1);
             SD_Call(0x200);
-            *(s32 *)(D_800E3648 + *(s16 *)(den_event + 0xC) * 4) = 0;
+            *(s32 *)((u8 *)D_800E3648 + *(s16 *)(den_event + 0xC) * 4) = 0;
             {
 
                 dungeonStatus.unk_0A -= 1;

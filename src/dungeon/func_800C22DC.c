@@ -1,8 +1,8 @@
 #include "common.h"
 #include "shared/entity_objects.h"
 
-extern s16 D_800E58F8[];
-extern void func_800C77D0();
+extern u16 D_800E58F8[];
+extern s32 func_800C77D0(s32 slot_id, void *target, s32 target_id, s32 slot_value);
 
 /* Process the midpoint of two objects when it is near the reference position. */
 void func_800C7A3C(u8 *start_obj, u8 *end_obj, s16 start_height, s16 end_height, s16 call_param, s32 call_arg) {

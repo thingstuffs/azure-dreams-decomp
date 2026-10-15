@@ -2,8 +2,8 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-s16 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
-s32 func_800BCB04(s32 x, s32 y, s16 min_height);
+extern s16 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
+extern s32 func_800BCB04(s32 x, s32 y, s16 min_height);
 extern u16 D_800DCE6C[];
 extern u16 D_800DCE8C[];
 

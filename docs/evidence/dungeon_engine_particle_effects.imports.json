@@ -1,0 +1,172 @@
+{
+  "module": "dungeon_engine_particle_effects",
+  "maps": {
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "kind": "psx_exe",
+      "basis": "Actual PS-X EXE load/size header."
+    },
+    "dungeon_resident": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 667648,
+      "file_end": 1050624,
+      "delta": 2147374944,
+      "kind": "rowbase",
+      "region": "xfer_dungeon_A3000",
+      "basis": "Existing proven runtime DMA load receipt, unchanged."
+    }
+  },
+  "views": {
+    "D_800DEA68": {
+      "symbol": "D_800DEA68",
+      "kind": "data",
+      "vma": 2148395624,
+      "foff": 1020680,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_engine_particle_effects.imports.json"
+    }
+  },
+  "runtime_views": {
+    "D_80083498": {
+      "symbol": "D_80083498",
+      "kind": "runtime_data",
+      "vma": 2148021400,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_engine_particle_effects.imports.json",
+      "declaration": "include/shared/object_node.h"
+    }
+  },
+  "functions": {
+    "D_800814A0": {
+      "vma": 2148013216,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "D_80083160": {
+      "vma": 2148020576,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_8003FC64": {
+      "vma": 2147744868,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_8003FD64": {
+      "vma": 2147745124,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_8004491C": {
+      "vma": 2147764508,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_80045340": {
+      "vma": 2147767104,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_80047784": {
+      "vma": 2147776388,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_800478B8": {
+      "vma": 2147776696,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_800644B8": {
+      "vma": 2147894456,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_800649A0": {
+      "vma": 2147895712,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_80064A40": {
+      "vma": 2147895872,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_80064CF0": {
+      "vma": 2147896560,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_80064D80": {
+      "vma": 2147896704,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_80065420": {
+      "vma": 2147898400,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_80065450": {
+      "vma": 2147898448,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_800654B0": {
+      "vma": 2147898544,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_80065820": {
+      "vma": 2147899424,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_80065AB0": {
+      "vma": 2147900080,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_80065C50": {
+      "vma": 2147900496,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_80065DF0": {
+      "vma": 2147900912,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_80066460": {
+      "vma": 2147902560,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_8006649C": {
+      "vma": 2147902620,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_80066640": {
+      "vma": 2147903040,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_800666F4": {
+      "vma": 2147903220,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_80069EF8": {
+      "vma": 2147917560,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "func_800BCB04": {
+      "vma": 2148256516,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    },
+    "rand": {
+      "vma": 2147917560,
+      "basis": "Canonical named code import; all actual relocation operands independently reproduce retail."
+    }
+  },
+  "source_sha256": {
+    "src/dungeon/func_800D50E0.c": "e9e48aade80198b8da6afdc4bf4c47f67b10f887b757c714b025b5fb8e40d78d",
+    "src/dungeon/func_800D51DC.c": "62914d744f311de1699fd5fe3c029ced891f30f56207c8d577432864cd6f0bf9",
+    "src/dungeon/func_800D53F0.c": "2317f659d087dff332dbb6e81f08b6cb7d668ea5e5692fe3ab26608f41e720f9",
+    "src/dungeon/func_800D56E4.c": "9748e1a70d0783c14bb6d92b6eb810f99edae5243b54617081f73093e75f9bdc",
+    "src/dungeon/func_800D5794.c": "de1688c3315c11626fca4fbd480ac474916fb610629d7685ae7755bab6819c37",
+    "src/dungeon/func_800D5A04.c": "83d6085bbc5f55ad93e38a131892a03d956dcecdf8b09692a941ae4106e36974",
+    "src/dungeon/func_800D5B7C.c": "e93f0d32db2bc3108e26cfcce061526eb15f14d6ff35e693497a12378b0f507a",
+    "src/dungeon/func_800D5CC0.c": "0ec06c1023e372c2b0a393d89779b8490d04bd95166ea6eae864487cee44fec7",
+    "src/dungeon/func_800D5EB8.c": "d3f5c4fa8a06a3399a62c53c28f79fd55c7abc09e5e7a380d8f5eadf02e94e40",
+    "src/dungeon/func_800D5F00.c": "0cc8da87a214285cc2a891655fd7d7df09255e9ef2f8e8cf47d6e1d2ee2aca03",
+    "src/dungeon/func_800D6330.c": "ae7f5b7bc68c77dff121d3f7d1dcc3191a785ccde7c4089bce741836298cd009"
+  },
+  "scope": "External anchor views only. Four-byte asset anchors identify imported resident bytes, not an allocated array extent or complete dynamic access bound; source record/array views remain external. Runtime declaration extents reuse established shared-header evidence.",
+  "review": "pending",
+  "reviewer": null
+}

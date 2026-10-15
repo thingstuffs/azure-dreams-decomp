@@ -1,0 +1,36 @@
+{
+  "ledger_group": {
+    "container": "town",
+    "module": "player_init.c",
+    "module_index": 4
+  },
+  "members": [
+    "town/func_80092868",
+    "town/func_80092AB0",
+    "town/func_80092C18",
+    "town/func_80092C48",
+    "town/func_80092C5C",
+    "town/func_80092C7C",
+    "town/func_80092C9C",
+    "town/func_80092EFC",
+    "town/func_80093240",
+    "town/func_800932A4",
+    "town/func_80093304",
+    "town/func_8009330C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Existing strong original-file cohort attribution; include every assigned and closure row.",
+    "No unregistered hole, interleaved member from another group, initialized allocation, COMMON or per-row recipe.",
+    "Whole-TU canonical GNU and genuine ASPSX rebuild has exact natural function order, addresses and full retail bytes.",
+    "Address-taken callback closure and shared declarations are reconciled in one module header."
+  ],
+  "source_group_confidence": "strong",
+  "ownership_authorization": "r118m_ts1 ROUND 2 majority-of-AREA full-cohort authorization",
+  "assigned_rows": 8,
+  "closure_rows": 4,
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120",
+  "tu_boundary": "Existing strong original-file attribution; no new internal split inferred from AREA routing."
+}

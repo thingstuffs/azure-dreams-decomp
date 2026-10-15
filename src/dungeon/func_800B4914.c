@@ -6,14 +6,14 @@
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
 
-typedef struct SubA {
+typedef struct SubA_800B4914 {
     u8 pad0[2];
     u16 f2;
     u8 pad4[2];
     u16 f6;
-} SubA;
+} SubA_800B4914;
 
-typedef struct SubB {
+typedef struct SubB_800B4914 {
     u8 pad0[6];
     s16 f6;
     void *f8;
@@ -23,14 +23,14 @@ typedef struct SubB {
     u8 pad16[6];
     s16 f1C;
     s16 f1E;
-} SubB;
+} SubB_800B4914;
 
-typedef struct Obj {
+typedef struct Obj_800B4914 {
     u8 pad0[8];
-    SubA *subA;
-    SubB *subB;
+    SubA_800B4914 *subA;
+    SubB_800B4914 *subB;
     void *state;
-} Obj;
+} Obj_800B4914;
 
 typedef struct Aux {
     void *f0;
@@ -59,22 +59,26 @@ typedef struct D_80083780_t {
 } D_80083780_t;
 
 extern s32 func_8003FA44(s32);
-extern void func_8004491C(Obj *, void *);
-extern void func_800C77D0(Obj *, SubA *, s32, s16);
+extern s32 func_8004491C();
+extern s32 func_800C77D0();
 extern s32 func_8004A658(u8, u8);
-extern void func_8003DB94(SubB *, void *, s32);
+extern void func_8003DB94();
 extern void *func_800BA110();
 extern void *func_800BA1D0();
 extern void *func_800BA224();
 extern void func_800BA2A0(void);
 extern void func_800BA308(void);
-extern s32 func_800BA33C(s32);
+struct S_800BA33C_0;
+extern s32 func_800BA33C(struct S_800BA33C_0 *object);
 extern void func_800B1768(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u16 unused_flags);
 extern void func_800B1B10(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact, u16 flags);
 
-extern u8 D_80045C34[];
+extern s32 func_80045C34();
 extern u8 D_80079444[];
-extern u8 D_800B9A78[];
+struct Work;
+struct Out;
+struct Render;
+extern void func_800B9A78(struct Work *work, struct Out *out, struct Render *render_arg);
 extern s16 D_800DCE66[5];
 extern u8 D_800DF368[];
 
@@ -97,9 +101,9 @@ typedef struct S_800BA074_2 {
 
 /* Creates three linked display objects for the selection and initializes their appearance. */
 void *func_800BA074(u8 *selection_data) {
-    Obj *objects[3];
+    Obj_800B4914 *objects[3];
     EntityRec *layout;
-    Obj **object_slot;
+    Obj_800B4914 **object_slot;
     s32 part_index;
     u8 *global_page;
     s32 last_part;
@@ -115,16 +119,16 @@ void *func_800BA074(u8 *selection_data) {
     global_page = (u8 *)0x800E0000;
     object_slot = objects;
     do {
-        *object_slot = (Obj *)func_8003FC64(0x12);
+        *object_slot = (Obj_800B4914 *)func_8003FC64(0x12);
         if (*object_slot != 0) {
-            SubA *transform;
-            SubB *sprite;
+            SubA_800B4914 *transform;
+            SubB_800B4914 *sprite;
 
-            (*object_slot)->state = D_800B9A78;
+            (*object_slot)->state = func_800B9A78;
             if (part_index == last_part) {
-                func_8004491C(objects[2], D_80045C34);
+                func_8004491C(objects[2], func_80045C34);
             } else {
-                Obj *object;
+                Obj_800B4914 *object;
                 void *state_def;
                 object = *object_slot;
                 state_def = func_80045340;
@@ -149,7 +153,7 @@ void *func_800BA074(u8 *selection_data) {
                 sprite->f14 |= 0xC;
             }
             {
-                Obj *object;
+                Obj_800B4914 *object;
                 Aux *part_state;
 
                 object = *object_slot;

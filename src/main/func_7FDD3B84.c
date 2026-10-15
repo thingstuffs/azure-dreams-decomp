@@ -1,9 +1,10 @@
+#include "modules/main_title_callbacks.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
 extern s32 D_8008B2F0[];
 
-typedef struct {
+typedef struct MainTitleValueEntry {
     /* 0x00 */ char pad0[4];
     /* 0x04 */ void *unk04;
     /* 0x08 */ char pad08[0x18 - 0x08];
@@ -11,7 +12,7 @@ typedef struct {
 } EntA;
 
 /* Load a table value divided by four and propagate the source flag. */
-void func_7FDD3B84(EntA *entry)
+void func_8008AAE4(EntA *entry)
 {
     unsigned short *scaled_value = (unsigned short *)((char *)entry + 0x10);
     *(short *)scaled_value = (s16)(D_8008B2F0[entry->unk18] >> 2);

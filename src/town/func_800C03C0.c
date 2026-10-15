@@ -1,10 +1,9 @@
+#include "modules/town_map_props.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_8003DB94();    /* extern */
-s32 func_8004491C();           /* extern */
 
 typedef struct S_800BDB20_0 {
     u8 pad_00[0x8];
@@ -19,11 +18,6 @@ typedef struct S_800BDB20_1 {
     s32 unk_08;
 } S_800BDB20_1;   /* temp_v1 in func_800BDB20 */
 
-typedef struct S_800BDB20_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800BDB20_2;   /* arg0 in func_800BDB20 */
 
 typedef struct S_800BDB20_3 {
     u8 pad_00[0xC];
@@ -34,7 +28,7 @@ typedef struct S_800BDB20_3 {
 } S_800BDB20_3;   /* temp_a0 in func_800BDB20 */
 
 /* Creates an object at the given position and initializes its graphics. */
-void *func_800BDB20(S_800BDB20_2 *position, s32 object_param, M2C_UNK graphics_id) {
+void *func_800BDB20(TownPropPosition *position, s32 object_param, M2C_UNK graphics_id) {
     S_800BDB20_3 *render_data;
     S_800BDB20_0 *object;
     S_800BDB20_1 *object_pos;

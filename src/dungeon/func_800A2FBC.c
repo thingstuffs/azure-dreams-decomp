@@ -1,3 +1,5 @@
+#include "modules/dungeon_engine_entity_effects_abi_views.h"
+#include "modules/dungeon_engine_entity_effects_fragment_c2fbc.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/record_ptrs.h"
@@ -15,7 +17,6 @@ void *func_8009B25C();
 void func_800A2B04();
 s32 func_800A7A7C();
 void func_800B66C8();
-s16 func_800BCB04();
 extern M2C_UNK D_80081484;
 extern u8 D_800DD7DC[];
 extern s32 D_800E3540;
@@ -260,7 +261,7 @@ void func_800A871C(void *object, register void *motion, void *tile) {
                 dir_offset = direction * 2;
                 y_steps = (u8 *)((s8 *)dirStepY);
                 y_step = (u8 *)((unsigned long)dir_offset + (unsigned long)y_steps);
-                target_height = func_800BCB04((((((S_800A871C_4 *)tile)->unk_24.n + (*(s16 *)((u8 *)x_steps
+                target_height = effect_height_short((((((S_800A871C_4 *)tile)->unk_24.n + (*(s16 *)((u8 *)x_steps
                     + dir_offset) * travel_steps)) << 6) + 0x20) & 0xFFE0,
                     (((((S_800A871C_4 *)tile)->unk_25.n + (((S_800A871C_6 *)y_step)->unk_00 * travel_steps)) << 6)
                     + 0x20) & 0xFFE0, ((S_800A871C_3 *)motion)->unk_08.at02.v);
@@ -314,7 +315,7 @@ void func_800A871C(void *object, register void *motion, void *tile) {
                 ((S_800A871C_4 *)tile)->unk_25.n = (u8) (((S_800A871C_12 *)drop_sprite)->unk_25
                     + ((S_800A871C_14 *)((u8 *)((s8 *)dirStepY) + drop_dir_offset))->unk_00);
                 func_800A2B04(motion, ((S_800A871C_4 *)tile)->unk_24.v, ((S_800A871C_4 *)tile)->unk_25.v);
-                drop_height = func_800BCB04((((S_800A871C_4 *)tile)->unk_24.n << 6) | 0x20,
+                drop_height = effect_height_short((((S_800A871C_4 *)tile)->unk_24.n << 6) | 0x20,
                     (((S_800A871C_4 *)tile)->unk_25.n << 6) | 0x20, ((S_800A871C_3 *)motion)->unk_08.at02.v);
                 if (drop_height >= 0x201) {
                     drop_height = (s16) (u16) ((S_800A871C_3 *)motion)->unk_08.at02.v;
@@ -325,7 +326,7 @@ void func_800A871C(void *object, register void *motion, void *tile) {
                 dungeon_flags = objectFlagBlock.flags;
                 height = ((S_800A871C_3 *)motion)->unk_08.at02.v;
                 objectFlagBlock.flags = (s32) (dungeon_flags | 0x8000);
-                ((S_800A871C_3 *)motion)->unk_08.at02.v = func_800BCB04((((S_800A871C_4 *)tile)->unk_24.n << 6) | 0x20,
+                ((S_800A871C_3 *)motion)->unk_08.at02.v = effect_height_short((((S_800A871C_4 *)tile)->unk_24.n << 6) | 0x20,
                     (((S_800A871C_4 *)tile)->unk_25.n << 6) | 0x20, height);
                 func_800B66C8(motion);
                 func_8009A028(object_data);
@@ -404,7 +405,7 @@ check_completion:
                 break;
             }
         }
-        land_height = func_800BCB04((((S_800A871C_4 *)tile)->unk_24.n << 6) | 0x20, (((S_800A871C_4 *)tile)->unk_25.n << 6)
+        land_height = effect_height_short((((S_800A871C_4 *)tile)->unk_24.n << 6) | 0x20, (((S_800A871C_4 *)tile)->unk_25.n << 6)
             | 0x20, ((S_800A871C_3 *)motion)->unk_08.at02.v);
         if (land_height >= 0x201) {
             land_height = (s16) (u16) ((S_800A871C_3 *)motion)->unk_08.at02.v;

@@ -1,9 +1,10 @@
+#include "modules/trap_effects_candidate.h"
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
-typedef struct ObjectBlock ObjectBlock;
+
 
 typedef struct S_800CCA14_0 {
     u8 pad_00[0x10];
@@ -36,7 +37,7 @@ typedef struct S_800CCA14_2 {
 void *func_8003FE78();      /* extern */
 s32 func_8009B390();                   /* extern */
 void func_8009CE1C(); /* extern */
-void *func_800CC5F0(); /* extern */
+extern void * func_800CC5F0(s16 tile_x, s16 tile_y, s16 z, s16 tail_value, s16 render_mode, u16 tail_config);
 ObjectBlock *func_800CC88C();     /* extern */
 extern u8 D_800CC370;
 extern u8 D_800CC9BC;
@@ -44,7 +45,7 @@ extern u8 D_800E5908;
 extern u8 D_8014A000;
 
 /* Creates a five-part effect at the given position and applies its target effect. */
-void func_800CCA14(u16 x, u16 y, u16 z) {
+void func_800CCA14(u16 x, u16 y, s16 z) {
     s32 direction;
     s32 first_base_angle;
     s32 first_angle;

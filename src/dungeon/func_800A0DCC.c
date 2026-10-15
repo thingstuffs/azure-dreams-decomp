@@ -1,6 +1,7 @@
+#include "modules/dungeon_engine_dungeon_util_fragment_c0bec.h"
 #include "common.h"
 
-extern s32 func_80042900(void *, s8);
+extern s32 func_80042900(void *, s32);
 
 extern s32 D_800DCF08[];
 extern s32 D_800DCF3C;
@@ -27,7 +28,7 @@ s32 func_800A652C(void *object) {
     state_index = 14;
     special_index = 7;
     for (; state_index >= 0; state_index--) {
-        state_result = (s16)func_80042900(object, state_index);
+        state_result = (s16)func_80042900(object, (s8)state_index);
         if (state_result > 0) {
             if (state_index == special_index) {
                 selected_value = D_800DCF48;

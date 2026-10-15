@@ -10,7 +10,7 @@ extern void func_80065AB0(s16 value, void *matrix, s32 diagonal_value, s32 last_
 extern void func_80065C50(s16 value, void *matrix);
 extern void func_80065DF0(s16 value, void *matrix);
 
-typedef struct {
+typedef struct Struct_800D6330 {
     /* 0x00 */ s32 *unk00;
     /* 0x04 */ s16 *unk04;
     /* 0x08 */ s16 unk08;

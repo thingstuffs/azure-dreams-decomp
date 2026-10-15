@@ -2,7 +2,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-extern M2C_UNK D_800BC1B4;
+extern void func_800BC1B4(void *scrollState);
 
 typedef struct S_800BC228_0 {
     u8 pad_00[0x10];
@@ -11,13 +11,13 @@ typedef struct S_800BC228_0 {
     s16 unk_2C;
 } S_800BC228_0;   /* temp_v0 in func_800BC228 */
 
-/* Create an object with D_800BC1B4 as its data pointer and store the supplied value. */
+/* Create an object with func_800BC1B4 as its data pointer and store the supplied value. */
 void func_800BC228(s16 value) {
     S_800BC228_0 *object;
 
     object = func_8003FC64(0);
     if (object != NULL) {
-        object->unk_10 = &D_800BC1B4;
+        object->unk_10 = func_800BC1B4;
         object->unk_2C = value;
     }
 }

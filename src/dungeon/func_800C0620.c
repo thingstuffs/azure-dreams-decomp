@@ -21,7 +21,7 @@ typedef struct S_800C5D80_2 {
 } S_800C5D80_2;   /* arg0 in func_800C5D80; pointer addresses record offset 0x2 */
 
 
-M2C_UNK func_800478B8();                      /* extern */
+extern void func_800478B8();
 
 /* Advance effect motion, fade its color, and mark it finished when its timer expires. */
 void func_800C5D80(void *effect_data, S_800C5D80_0 *motion, Rec_D_80082E80 *primitive) {
