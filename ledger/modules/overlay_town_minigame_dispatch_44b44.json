@@ -17,20 +17,20 @@
     "town/func_800C4D68",
     "town/func_800C4D9C"
   ],
-  "at": "2026-10-15T15:00:26Z",
+  "at": "2026-10-15T18:48:52Z",
   "reviewer": "orchestrator-r99",
   "fingerprint": {
     "schema": "overlay-module-scoped-v2",
-    "sha256": "21fb5ab1b4adb87cf9e0e9c773e7b195614d972494451c179b2b0d8c8e642518",
+    "sha256": "936b5e1bdee334aa236da81c19ea9e8f89592fc4c4810117f921d40dd08ac569",
     "module": {
-      "sha256": "452e7c2c04df3901b9adec9878173b802ebc4bb605172beefe8f9f6db7f56eb3"
+      "sha256": "eb1e647314bf1a66f74de6bdb6cad2b9268a9c448685bf860305251caa44a5d9"
     },
     "windows": {
       "config/overlays/town_deep_t8b_044d9c.overlay.yaml": {
-        "sha256": "e24f0c26113851452e577e987c94725f56393c8b505dbb8634ad1f78391552e9"
+        "sha256": "14f88121b6f8c79ccbfd04eec3604f9c87788c5cb5a37659eb600df60644d911"
       },
       "config/overlays/town_scene.overlay.yaml": {
-        "sha256": "d819be063dd3a428caa6f4eb4cfbd89c5cda96c4ff2edaae2dbca2721eab27a6"
+        "sha256": "92e5ba1f7c9645db40ba41d521def7322c35d320bee142a98507160944ef1570"
       }
     },
     "required_windows": [
@@ -39,7 +39,7 @@
     ]
   },
   "proof_dir": "build_ovl_gate/work/module_proofs/town_minigame_dispatch_44b44/module",
-  "receipt_sha256": "70ac961853bc37fa7964ae983675ed93e6e1a61bebd8be535e5a428de2bdee4d",
+  "receipt_sha256": "c56beea80439aa990736c3645aff78f2698f3781c26867623627f9951cf7b18d",
   "windows": [
     {
       "config": "config/overlays/town_deep_t8b_044d9c.overlay.yaml",
@@ -51,10 +51,10 @@
         "gate.log": "5e093eb6f99560748dd4a5e98d4fc6cf2125130853a6475d7fd95e01ef07b759",
         "window.bin": "dccefaa3c243e95048db74fff6f0a25ce624cfa225656c878a90b9f0328dfdc6",
         "manifest.json": "8f26bd8e746d6fd6b023fe1e54a12459213b35b6475a37cf281888b5c795a414",
-        "projection.json": "0fc690ce3a2a4075bcb1ffba0bfb468940db9b5a6b46a263b5f60c3a767a9164",
-        "module/receipt.json": "71179ad9545818ea02688256f44115aa78142a7bf4a29275f41e6c18db18558d"
+        "projection.json": "f498c17d2860df3dac3340fd7e064e96bfe2cf9cfaea4b303cfcd5c8629db55b",
+        "module/receipt.json": "e206a443a09afc5dfef538a4742db798b58c983c44fcf598fda54f03bbafa719"
       },
-      "digest": "e24f0c26113851452e577e987c94725f56393c8b505dbb8634ad1f78391552e9"
+      "digest": "14f88121b6f8c79ccbfd04eec3604f9c87788c5cb5a37659eb600df60644d911"
     },
     {
       "config": "config/overlays/town_scene.overlay.yaml",
@@ -66,10 +66,10 @@
         "gate.log": "cabb8b341f81e47638896fd49c27bfae28f4857c7d8d3945a1f289aa02b8defc",
         "window.bin": "6ca153dec42742a952cdfbfc38efb1a793de9ede267a9cebd4b1d1cf00740ed4",
         "manifest.json": "4ac0de38a1f82666f9a127dee48cb7b929276727af58d28b051560953d515e75",
-        "projection.json": "0703a74619f454a680a35f2ce5e8d340266bb0281a0a7c79f6b2a993a03faa0a",
-        "module/receipt.json": "1786e33d021bc09d442c336e19416ffdd0d3022c167f514442d1abcbbd1c3b52"
+        "projection.json": "c93eff22eb39034a6ad8d5893bd0a221e14c1f3baf07397162a092c3e6beb206",
+        "module/receipt.json": "6b77bf9edcfe9f9518c53403b652f829d9d3d58ac91f60ba547e89f4a8db1088"
       },
-      "digest": "d819be063dd3a428caa6f4eb4cfbd89c5cda96c4ff2edaae2dbca2721eab27a6"
+      "digest": "92e5ba1f7c9645db40ba41d521def7322c35d320bee142a98507160944ef1570"
     }
   ]
 }
