@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-15T14:48:52Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-15T17:02:09Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -94,13 +94,13 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 
 | module | rows | placement proof |
 |---|---:|---|
-| dungeon_cd_control_d79c4 | 3 | source/recipe/graph/tool/review/window inputs changed |
-| town_minigame_dispatch_44b44 | 13 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_1852800 | 4 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_cd_control_d79c4 | 3 | current: complete TU + all windows + genuine |
+| town_minigame_dispatch_44b44 | 13 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1852800 | 4 | current: complete TU + all windows + genuine |
 | dungeon_ovl_1870800 | 2 | current: complete TU + all windows + genuine |
-| dungeon_ovl_1858800 | 3 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_1840800 | 3 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_185e800 | 3 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_1858800 | 3 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1840800 | 3 | current: complete TU + all windows + genuine |
+| dungeon_ovl_185e800 | 3 | current: complete TU + all windows + genuine |
 | dungeon_ovl_18ac800 | 2 | current: complete TU + all windows + genuine |
 | dungeon_ovl_18fa800 | 3 | current: complete TU + all windows + genuine |
 | dungeon_ovl_19ba800 | 3 | current: complete TU + all windows + genuine |
@@ -117,7 +117,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | dungeon_ovl_197281c | 5 | current: complete TU + all windows + genuine |
 | dungeon_ovl_1990800 | 13 | current: complete TU + all windows + genuine |
 | dungeon_ovl_1960800 | 11 | current: complete TU + all windows + genuine |
-| dungeon_ovl_183a800 | 10 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_183a800 | 10 | current: complete TU + all windows + genuine |
 | dungeon_ovl_18a0800 | 15 | current: complete TU + all windows + genuine |
 | dungeon_ovl_19c6800 | 5 | current: complete TU + all windows + genuine |
 | dungeon_ovl_19cc800 | 22 | current: complete TU + all windows + genuine |
@@ -128,28 +128,28 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | dungeon_ovl_fa7000 | 28 | current: complete TU + all windows + genuine |
 | dungeon_ovl_1924800 | 11 | current: complete TU + all windows + genuine |
 | dungeon_ovl_19b4800 | 5 | current: complete TU + all windows + genuine |
-| dungeon_ovl_184c800 | 3 | source/recipe/graph/tool/review/window inputs changed |
-| dungeon_ovl_1864800 | 4 | source/recipe/graph/tool/review/window inputs changed |
+| dungeon_ovl_184c800 | 3 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1864800 | 4 | current: complete TU + all windows + genuine |
 | dungeon_ovl_7e6a5800 | 23 | current: complete TU + all windows + genuine |
 | dungeon_ovl_18d6800 | 12 | current: complete TU + all windows + genuine |
 | dungeon_ovl_18ee800 | 8 | current: complete TU + all windows + genuine |
 | dungeon_ovl_18e8800 | 4 | current: complete TU + all windows + genuine |
 | dungeon_ovl_18b2800 | 11 | current: complete TU + all windows + genuine |
 | ovmovie_libpress | 17 | current: complete TU + all windows + genuine |
-| dungeon_engine_dungeon_util | 43 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_engine_dungeon_util.json' |
-| dungeon_engine_experience | 17 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_engine_experience.json' |
-| dungeon_engine_transition_effects | 12 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_engine_transition_effects.json' |
-| dungeon_engine_entity_effects | 21 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_engine_entity_effects.json' |
-| dungeon_engine_tile_map | 25 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_engine_tile_map.json' |
-| dungeon_engine_entity_panel | 21 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_engine_entity_panel.json' |
-| dungeon_engine_particle_effects | 11 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_engine_particle_effects.json' |
-| dungeon_engine_screen_effects | 4 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_engine_screen_effects.json' |
-| dungeon_engine_trap_effects | 38 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_engine_trap_effects.json' |
-| dungeon_engine_menu_effects | 38 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_engine_menu_effects.json' |
-| dungeon_engine_effect_dispatch | 18 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_engine_effect_dispatch.json' |
-| town_door_22f08 | 25 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_town_door_22f08.json' |
-| town_player_init_12868 | 12 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_town_player_init_12868.json' |
-| town_town_windows_1f5b8 | 36 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_town_town_windows_1f5b8.json' |
+| dungeon_engine_dungeon_util | 43 | current: complete TU + all windows + genuine |
+| dungeon_engine_experience | 17 | current: complete TU + all windows + genuine |
+| dungeon_engine_transition_effects | 12 | current: complete TU + all windows + genuine |
+| dungeon_engine_entity_effects | 21 | current: complete TU + all windows + genuine |
+| dungeon_engine_tile_map | 25 | current: complete TU + all windows + genuine |
+| dungeon_engine_entity_panel | 21 | current: complete TU + all windows + genuine |
+| dungeon_engine_particle_effects | 11 | current: complete TU + all windows + genuine |
+| dungeon_engine_screen_effects | 4 | current: complete TU + all windows + genuine |
+| dungeon_engine_trap_effects | 38 | current: complete TU + all windows + genuine |
+| dungeon_engine_menu_effects | 38 | current: complete TU + all windows + genuine |
+| dungeon_engine_effect_dispatch | 18 | current: complete TU + all windows + genuine |
+| town_door_22f08 | 25 | current: complete TU + all windows + genuine |
+| town_player_init_12868 | 12 | current: complete TU + all windows + genuine |
+| town_town_windows_1f5b8 | 36 | current: complete TU + all windows + genuine |
 
 Placement alone does not override any lower-level or source-residue guard.
 
@@ -222,12 +222,12 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 | L1 | 2,802,652 | 99.9% |
 | L2 | 2,802,652 | 99.9% |
 | L3 | 2,773,636 | 98.9% |
-| L4 | 214,244 | 7.6% |
-| L5 | 214,244 | 7.6% |
+| L4 | 343,216 | 12.2% |
+| L5 | 318,328 | 11.4% |
 
 On shared record headers (T7, `include/records/`): 1122 rows, 636,744 bytes (22.7%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 7,253 rows (2,588,316 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 6,886 rows (2,459,344 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 

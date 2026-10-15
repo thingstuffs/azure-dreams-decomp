@@ -7,17 +7,17 @@
     "dungeon/func_818390F8",
     "dungeon/func_81839358"
   ],
-  "at": "2026-10-15T12:37:25Z",
+  "at": "2026-10-15T14:59:41Z",
   "reviewer": "orchestrator-r106",
   "fingerprint": {
     "schema": "overlay-module-scoped-v2",
-    "sha256": "8cc3bacb7d04f03f944e24744d9ab231f32b571d1280d27ff0fcdec54cc6496c",
+    "sha256": "d6c73f5772d1acfa56aab7f9a2af288f1a38d8e375542e37e7d7594e8419299b",
     "module": {
       "sha256": "ced1ac64d095a084e57a84cb6fa8e3f41fb4bc4aba738510eb4d975e4b4b5915"
     },
     "windows": {
       "config/overlays/dungeon_deep_t8_1830.overlay.yaml": {
-        "sha256": "da4fccfdfa41858614c8d587f358307b2b6b572c60d2dbc3aa66e6db831c68db"
+        "sha256": "8d1387672cf47d6bbcea7bede0954fda7e55746793c2765d0f1609440b211731"
       }
     },
     "required_windows": [
@@ -25,7 +25,7 @@
     ]
   },
   "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_ovl_1858800/module",
-  "receipt_sha256": "655ba4ed4d00a8fd3c066e34be97eafb0c670a75ae282efceda7c512bfd1858c",
+  "receipt_sha256": "289fcd8e6d57730b64b8ca9dc1aff81e279a545d80a85fce763cf3d6944c065d",
   "windows": [
     {
       "config": "config/overlays/dungeon_deep_t8_1830.overlay.yaml",
@@ -37,10 +37,10 @@
         "gate.log": "aad149a15ec77666e7066cf644c29c30c63e4890d90475f0272e503e4f20fd13",
         "window.bin": "a9cb4d9cbdc5c950e5423b805617a95a203baa4e8f0a31c7a4fcbb91cff3ac57",
         "manifest.json": "11e75848c8f6247d50821832dc931e4f74d64c5d7695f1f920c6b3a956484f3d",
-        "projection.json": "631e06807720967ff889bf49f2b28d1c93924a8202003f8a35ab2ba0a47eaf22",
-        "module/receipt.json": "5d7cd51266d81e835a31086d0f64faf6b53f29caed4fe0e3fa639510e0d00bd9"
+        "projection.json": "450b509b4de58354354f96e812600daa5d963c5763911d336d5155af4b10ace0",
+        "module/receipt.json": "18633dd625face8a0289c1e5eb15c7bdde3df423b4cd74af50a27ef73c14a935"
       },
-      "digest": "da4fccfdfa41858614c8d587f358307b2b6b572c60d2dbc3aa66e6db831c68db"
+      "digest": "8d1387672cf47d6bbcea7bede0954fda7e55746793c2765d0f1609440b211731"
     }
   ]
 }
