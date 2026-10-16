@@ -1,0 +1,225 @@
+/* Relink of matched dungeon/func_8102F83C; every changed retail word is a paired relocation. */
+#define D_801714B8 D_801534B8
+#define D_80176138 D_80158138
+#include "common.h"
+#include "shared/dir_step.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_status.h"
+
+
+typedef void (*Callback)(void *, void *, void *, void *);
+
+extern s32 func_80042900();
+extern void func_80047738();
+extern void func_800478B8();
+extern void func_800A020C();
+extern s32 func_800A9E70();
+extern void func_800AA36C();
+extern s16 func_800BCB04();
+
+extern u8 D_801534B8;
+extern Callback D_80158138[];
+
+
+typedef struct S_8017103C_0 {
+    u8 pad_00[0x4];
+    s8 unk_04;
+    u8 pad_05[0x7];
+    u8 unk_0C;
+    u8 unk_0D;
+    u8 unk_0E;
+    u8 pad_0F[0x5];
+    u16 unk_14;
+    u8 pad_16[0xE];
+    u8 unk_24;
+    u8 unk_25;
+    u8 pad_26[0x6];
+    u8 * unk_2C;
+} S_8017103C_0;   /* monster in func_8015303C */
+
+typedef struct S_8017103C_1 {
+    u8 pad_00[0x1C];
+    u32 unk_1C;
+    u8 pad_20[0x68];
+    union { u16 u; s16 s; } unk_88;   /* accessed as both */
+} S_8017103C_1;   /* actor in func_8015303C */
+
+typedef struct S_8017103C_2 {
+    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
+    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
+    u8 pad_08[0x2];
+    u16 unk_0A;
+    s32 unk_0C;
+    s32 unk_10;
+    s32 unk_14;
+} S_8017103C_2;   /* motion in func_8015303C */
+
+/* Runs entity callbacks, updates monster appearance, and advances motion with floor collision. */
+void func_8015303C(void *entity_arg, void *motion_arg, void *monster_arg)
+{
+    S_8017103C_2 *motion = motion_arg;
+    void *monster = monster_arg;
+    S_8017103C_1 *actor = entity_arg;
+    s32 direction;
+    s16 direction_copy;
+    s32 facing_angle;
+    s16 old_direction;
+    void *call_entity;
+    void *call_motion;
+    void *call_monster;
+    void *call_context;
+    s16 direction_index;
+    u16 monster_flags;
+    u16 new_flags;
+    s16 floor_height;
+    s16 actor_height;
+
+    if (dungeonStatus.flags & 0x2000) {
+        Callback first_callback;
+
+        first_callback = (*(Callback *)((u8 *)entity_arg + 0x8C));
+        if (first_callback == (Callback)&D_801534B8) {
+            first_callback(entity_arg, motion_arg, monster_arg, entity_arg);
+            return;
+        } else {
+            (*(u8 *)((u8 *)entity_arg + 0x71)) &= 0x7F;
+            return;
+        }
+    } else {
+        call_entity = entity_arg;
+        call_motion = motion;
+        call_monster = monster;
+        old_direction = (s8)(*(u8 *)((u8 *)entity_arg + 0x6D));
+        call_context = entity_arg;
+    }
+
+
+    if (func_800A9E70(call_entity, call_motion, call_monster, call_context) != 0) {
+        return;
+    }
+
+    {
+        Callback callback;
+
+        callback = (*(Callback *)((u8 *)entity_arg + 0x8C));
+        if (callback != 0) {
+            callback(entity_arg, motion, monster, entity_arg);
+        }
+    }
+    D_80158138[(*(u8 *)((u8 *)entity_arg + 0x9A))](entity_arg, motion, monster, entity_arg);
+
+    if ((s16)old_direction != (*(s8 *)((u8 *)entity_arg + 0x6D))) {
+        func_800AA36C(entity_arg, motion, monster, entity_arg);
+    }
+
+    monster_flags = ((S_8017103C_0 *)monster)->unk_14;
+    if (!(monster_flags & 0x8000)) {
+        facing_angle = gameWork.view.viewAngle + (*(s16 *)((u8 *)entity_arg + 0x2A)) + 0x100;
+        direction = (facing_angle >> 9) & 7;
+        direction_copy = direction;
+        direction_index = direction;
+
+        if ((*(s16 *)((u8 *)entity_arg + 0x94)) != direction_index) {
+            u8 *tile_map = ((S_8017103C_0 *)monster)->unk_2C;
+
+            if (tile_map != 0) {
+                func_80047738(monster, tile_map[direction_index],
+                              ((S_8017103C_0 *)monster)->unk_04);
+            }
+            (*(s16 *)((u8 *)entity_arg + 0x94)) = direction;
+        }
+
+        if (dirSpriteFlag[direction_copy] != 0) {
+            ((S_8017103C_0 *)monster)->unk_14 |= 1;
+        } else {
+            ((S_8017103C_0 *)monster)->unk_14 &= 0xFFFE;
+        }
+
+        if (!(actor->unk_1C & 0x20)) {
+            if (!(((S_8017103C_0 *)monster)->unk_14 & 0x40)) {
+                func_800478B8(monster);
+            }
+        } else {
+            ((S_8017103C_0 *)monster)->unk_14 |= 0x7000;
+        }
+
+        if (!(actor->unk_1C & 0x10000000)) {
+            if ((func_80042900(actor, 1) << 16) != 0) {
+                s32 monster_state = ((S_8017103C_0 *)monster)->unk_04;
+                s32 shade;
+                if (monster_state == 0) {
+                    ((S_8017103C_0 *)monster)->unk_0E = 0x80;
+                    ((S_8017103C_0 *)monster)->unk_0D = 0x80;
+                    ((S_8017103C_0 *)monster)->unk_0C = 0x80;
+                } else {
+                    if (monster_state == 1) {
+                        shade = 0x64;
+                    } else if (monster_state == 2) {
+                        shade = 0x50;
+                    } else if (monster_state == 3) {
+                        shade = 0x64;
+                    } else {
+                        goto flags_done;
+                    }
+                    ((S_8017103C_0 *)monster)->unk_0E = shade;
+                    ((S_8017103C_0 *)monster)->unk_0D = shade;
+                    ((S_8017103C_0 *)monster)->unk_0C = shade;
+                }
+            } else {
+                func_800A020C(actor->unk_1C,
+                              (u8 *)monster + 0xC);
+            }
+        }
+    } else {
+        new_flags = (monster_flags & 0x0800) ? (monster_flags & 0x8FFF) : (monster_flags | 0x7000);
+        ((S_8017103C_0 *)monster)->unk_14 = new_flags;
+    }
+
+flags_done:
+    motion->unk_00.at00.v += motion->unk_0C;
+    motion->unk_04.at00.v += motion->unk_10;
+
+    if ((*(u16 *)((u8 *)entity_arg + 0x98)) & 8) {
+        (*(u8 *)((u8 *)entity_arg + 0x9D)) = 0;
+    } else {
+        motion->unk_14 += (*(s8 *)((u8 *)entity_arg + 0x9D)) * 0x14000;
+        (*(u8 *)((u8 *)entity_arg + 0x9D))++;
+    }
+
+    (*(s32 *)((u8 *)entity_arg + 0x90)) += motion->unk_14;
+
+    if (!((*(u16 *)((u8 *)entity_arg + 0x98)) & 4) && (floor_height = func_800BCB04(motion->unk_00.at02.v,
+                              motion->unk_04.at02.v,
+                              (s16)(actor->unk_88.u - 0x20))) < 0x200) {
+        actor_height = actor->unk_88.s;
+        if ((*(s16 *)((u8 *)entity_arg + 0x92)) + actor_height < floor_height) {
+            actor->unk_1C &= 0xF7FFFFFF;
+        } else if (floor_height >= actor_height) {
+            (*(s32 *)((u8 *)entity_arg + 0x90)) = 0;
+            motion->unk_14 = 0;
+            actor->unk_1C |= 0x08000000;
+            (*(u8 *)((u8 *)entity_arg + 0x9D)) = 0;
+        } else {
+            (*(s16 *)((u8 *)entity_arg + 0x92)) = floor_height - actor->unk_88.u;
+            motion->unk_14 = 0;
+            actor->unk_1C |= 0x08000000;
+            (*(u8 *)((u8 *)entity_arg + 0x9D)) = 0;
+        }
+        if (actor->unk_1C & 0x40000000) {
+            actor->unk_1C &= 0xBFFFFFFF;
+            floor_height = func_800BCB04(
+                (((S_8017103C_0 *)monster)->unk_24 << 6) | 0x20,
+                (((S_8017103C_0 *)monster)->unk_25 << 6) | 0x20,
+                (s16)(actor->unk_88.u - 0x20));
+            (*(s16 *)((u8 *)entity_arg + 0x92)) +=
+                actor->unk_88.u - floor_height;
+            actor->unk_88.u = floor_height;
+        }
+    } else {
+        actor->unk_1C &= 0xF7FFFFFF;
+    }
+    motion->unk_0A =
+        actor->unk_88.u + (*(u16 *)((u8 *)entity_arg + 0x92));
+    ((S_8017103C_0 *)monster)->unk_14 |= 0x40;
+
+}

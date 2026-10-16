@@ -1,0 +1,17 @@
+/* Relink of matched town/func_80468BB0; every changed retail word is a paired relocation. */
+#define D_80017B30 D_80017B60
+#include "common.h"
+#include "shared/record_ptrs.h"
+#include "shared/town_root.h"
+#include "m2c_compat.h"
+
+
+
+void func_80019B70();                      /* extern */
+extern u8 D_80017B60;
+
+
+/* Pass the callback-selected eight-byte table entry to func_80019B70. */
+void func_80019C48(void) {
+    func_80019B70((D_80016000->unk_20->callback_2D4(0) * 8) + &D_80017B60);
+}

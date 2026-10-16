@@ -1,0 +1,16 @@
+/* Relink of matched dungeon/func_80287710; every changed retail word is a paired relocation. */
+#include "modules/dungeon_floor_generate.h"
+
+void func_8001A710(void) {
+    s32 entry_index;
+
+    ((u8 *)D_8001F6A4)[0] = ((u8 *)D_8001F6A4)[1] = ((u8 *)D_8001F6A4)[2] = ((u8 *)D_8001F6A4)[3] = 0;
+    D_8001F6A0 = D_8001F660;
+
+    for (entry_index = D_8001F660 - 1; entry_index >= 0; entry_index--) {
+        u8* entry = &((u8 *)D_8001F6E8)[entry_index];
+
+        entry[0] = 0;
+        entry[4] = 0;
+    }
+}

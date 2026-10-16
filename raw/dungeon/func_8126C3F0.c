@@ -1,0 +1,17 @@
+#include "common.h"
+#include "m2c_compat.h"
+
+extern M2C_UNK D_8015BFBC;
+extern s32 D_8015C710;
+extern s32 D_8015C714;
+extern s16 D_8015C718;
+
+void func_8015BBF0(s16 arg0) {
+    void *temp_a1;
+
+    D_8015C718 = 0;
+    temp_a1 = D_8015C710 + 0x20;
+    D_8015C714 = *((arg0 * 4) + &D_8015BFBC);
+    M2C_FIELD(temp_a1, s8 *, 0xBA) = 1;
+    M2C_FIELD(temp_a1, s16 *, 0xB8) = arg0;
+}

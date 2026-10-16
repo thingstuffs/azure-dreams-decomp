@@ -1,0 +1,140 @@
+/* Relink of matched dungeon/func_80AC8DBC; every changed retail word is a paired relocation. */
+#define D_80170884 D_8015E854
+#include "common.h"
+
+typedef struct S_801745BC_0_pre {
+    void * unk_00;
+    void * unk_04;
+    u8 pad_08[0x10];
+} S_801745BC_0_pre;   /* the 0x18 bytes before head in func_8016242C, addressed as head[-1] */
+
+typedef struct S_801745BC_0 {
+    u8 pad_00[0x5C];
+    void * unk_5C;
+} S_801745BC_0;   /* head in func_8016242C */
+
+typedef struct S_801745BC_1_pre {
+    void * unk_00;
+    void * unk_04;
+    u8 pad_08[0x10];
+} S_801745BC_1_pre;   /* the 0x18 bytes before node in func_8016242C, addressed as node[-1] */
+
+typedef struct S_801745BC_1 {
+    u8 pad_00[0x13];
+    u8 unk_13;
+    u8 pad_14[0x14];
+    s8 unk_28;
+    u8 pad_29[0x33];
+    void * unk_5C;
+    u8 pad_60[0x4];
+    s16 unk_64;
+} S_801745BC_1;   /* node in func_8016242C */
+
+typedef struct S_801745BC_2 {
+    u8 pad_00[0x24];
+    u8 unk_24;
+    u8 unk_25;
+} S_801745BC_2;   /* data in func_8016242C */
+
+typedef struct S_801745BC_3 {
+    u8 pad_00[0xA];
+    s16 unk_0A;
+} S_801745BC_3;   /* node_position in func_8016242C */
+
+typedef struct S_801745BC_4 {
+    u8 pad_00[0x14];
+    s16 unk_14;
+    u8 pad_16[0x14];
+    u16 unk_2A;
+} S_801745BC_4;   /* owner in func_8016242C */
+
+typedef struct S_801745BC_5 {
+    u8 pad_00[0x2];
+    u16 unk_02;
+    u8 pad_04[0x2];
+    u16 unk_06;
+    u8 pad_08[0x2];
+    u16 unk_0A;
+} S_801745BC_5;   /* position in func_8016242C */
+
+
+typedef struct OffsetPair {
+    s16 x;
+    u16 y;
+} OffsetPair;
+
+typedef struct OffsetTable {
+    OffsetPair entries[8];
+} OffsetTable;
+
+extern OffsetTable D_8015E854;
+
+extern void func_800419EC(u16, u32);
+extern void func_80099C58(s16, s16, s16, s16, s32);
+extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void func_800A56E0(s32);
+
+/* Process nodes at the target tile and height, triggering type-specific effects. */
+void func_8016242C(void *node, s32 target_x, s32 target_y, s32 target_height)
+{
+    OffsetTable offsets = D_8015E854;
+    void *head = node;
+    register void *owner = head;
+    s32 match_x = target_x;
+    s32 match_y;
+    register void *owner_data = ((S_801745BC_0_pre *)head)[-1].unk_04;
+    void *next_link = ((S_801745BC_0 *)head)->unk_5C;
+    void *position = ((S_801745BC_0_pre *)head)[-1].unk_00;
+    u16 height_arg = target_height;
+    s32 center_height;
+    s32 low_height;
+
+    node = (u8 *)next_link + 0x20;
+    match_y = target_y;
+
+    if (node != head) {
+        center_height = (s32)(height_arg << 16) >> 16;
+        low_height = center_height - 0x40;
+        do {
+            S_801745BC_2 *node_data = ((S_801745BC_1_pre *)node)[-1].unk_04;
+            S_801745BC_3 *node_position = ((S_801745BC_1_pre *)node)[-1].unk_00;
+            s32 height;
+
+            if ((node_data->unk_24 == (match_x & 0xFFFF)) &&
+                (node_data->unk_25 == (match_y & 0xFFFF))) {
+                height = node_position->unk_0A;
+                if (((center_height + 0x40) >= height) && (low_height < height)) {
+                    if ((u32)(((S_801745BC_1 *)node)->unk_13 - 0x33) < 4U) {
+                        u16 angle;
+                        OffsetPair *offset;
+
+                        ((S_801745BC_1 *)node)->unk_28 = 0;
+                        ((S_801745BC_1 *)node)->unk_64 = -1;
+                        func_800419EC(6, 0xC);
+                        target_y = 0x601;
+                        if (((S_801745BC_1 *)node)->unk_13 == 0x34) {
+                            target_y = 0x80B;
+                        }
+                        func_800A56E0(target_y);
+
+                        angle = ((S_801745BC_4 *)owner)->unk_2A;
+                        offset = (OffsetPair *)((u8 *)&offsets +
+                            (((s16)angle >> 7) & 0x1C));
+                        func_80099C58(
+                            (s16)(((S_801745BC_5 *)position)->unk_02 + (offset->x * 32)),
+                            (s16)(((S_801745BC_5 *)position)->unk_06 +
+                                  ((s32)(offset->y << 16) >> 11)),
+                            (s16)(((S_801745BC_5 *)position)->unk_0A - 0x20),
+                            ((S_801745BC_4 *)owner)->unk_14,
+                            (s32)(s16)angle);
+                    } else {
+                        func_8009C12C(owner, owner_data,
+                            (s16)((S_801745BC_4 *)owner)->unk_2A, 1);
+                    }
+                }
+            }
+            node = (u8 *)((S_801745BC_1 *)node)->unk_5C + 0x20;
+        } while (node != head);
+    }
+
+}

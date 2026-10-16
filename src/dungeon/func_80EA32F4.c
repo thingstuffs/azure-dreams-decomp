@@ -1,0 +1,136 @@
+/* Relink of matched dungeon/func_80E8B2F4; every changed retail word is a paired relocation. */
+#define D_80170CC8 D_80158CC8
+#define D_801710F4 D_801590F4
+#define D_80174F00 D_8015CF00
+#define D_80174F48 D_8015CF48
+#include "common.h"
+#include "shared/object_node.h"
+#include "shared/slus_callbacks.h"
+
+
+typedef s32 M2C_UNK;
+
+typedef struct S_80170AF4_0 {
+    u8 pad_00[0x8];
+    void * unk_08;
+    void * unk_0C;
+    void * unk_10;
+} S_80170AF4_0;   /* obj in func_80158AF4 */
+
+typedef struct S_80170AF4_1 {
+    u8 pad_00[0x13];
+    s8 unk_13;
+    s32 unk_14;
+    u8 pad_18[0x4];
+    s32 unk_1C;
+} S_80170AF4_1;   /* work in func_80158AF4 */
+
+typedef struct S_80170AF4_2 {
+    u8 pad_00[0xA];
+    s16 unk_0A;
+} S_80170AF4_2;   /* part_a in func_80158AF4 */
+
+typedef struct S_80170AF4_3 {
+    u8 pad_00[0x24];
+    s8 unk_24;
+    s8 unk_25;
+    u8 pad_26[0x6];
+    void * unk_2C;
+} S_80170AF4_3;   /* part_b in func_80158AF4 */
+
+typedef struct S_80170AF4_4 {
+    u8 pad_00[0x8C];
+    void * unk_8C;
+    u8 pad_90[0xA];
+    u8 unk_9A;
+    u8 pad_9B[0x1];
+    s8 unk_9C;
+} S_80170AF4_4;   /* actor in func_80158AF4 */
+
+
+extern void *func_8003FD64();
+extern void func_8004491C();
+extern s32 func_800A6D30();
+extern void func_800A48F0();
+extern void func_800A9C18();
+extern void func_800AA36C();
+extern u8 D_80158CC8[];
+extern M2C_UNK D_801590F4;
+extern u8 D_8015CF00[];
+extern u8 D_8015CF48[];
+
+/* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
+void *func_80158AF4(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
+{
+    s32 kind;
+    void *obj;
+    S_80170AF4_2 *part_a;
+    S_80170AF4_3 *part_b;
+    S_80170AF4_1 *work;
+    S_80170AF4_4 *actor;
+    s32 left;
+    s32 right;
+    s8 saved_kind_id;
+    s16 saved_spawn;
+    s8 saved_variant;
+    void *call_a1;
+
+    work = 0;
+    saved_kind_id = kind_id;
+    saved_spawn = spawn_value;
+    saved_variant = variant;
+    obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
+    if (obj != 0) {
+        work = (u8 *)obj + 0x20;
+        ((S_80170AF4_0 *)obj)->unk_10 = D_80158CC8;
+        work->unk_13 = 0x20;
+        func_8004491C(obj, func_80045340);
+
+        part_a = ((S_80170AF4_0 *)obj)->unk_08;
+        part_a->unk_0A = saved_spawn;
+        part_b = ((S_80170AF4_0 *)obj)->unk_0C;
+        kind = flags & 3;
+        part_b->unk_25 = saved_variant;
+        actor = work;
+        part_b->unk_2C = D_8015CF00;
+        part_b->unk_24 = saved_kind_id;
+
+        if (kind == 1) {
+            left = work->unk_14 | 0x6000;
+            right = work->unk_1C | 0x6000;
+            work->unk_14 = left;
+            work->unk_1C = right;
+        } else if (kind >= 2) {
+            left = work->unk_14 | 0x2000;
+            right = work->unk_1C | 0x2000;
+            work->unk_14 = left;
+            work->unk_1C = right;
+        } else {
+            call_a1 = obj;
+            if (((flags & ~3) << 16) == 0 && !(work->unk_14 & 0x200)) {
+                call_a1 = part_a;
+                left = func_800A6D30();
+                call_a1 = obj;
+                if (!(left & 1)) {
+                    goto call_a1_setup;
+                }
+                work->unk_1C |= 0x200;
+                func_800A48F0(work, 1,
+                              (func_800A6D30() & 0x3F) | 0x20);
+                part_b->unk_2C = D_8015CF48;
+            }
+        }
+        call_a1 = obj;
+call_a1_setup:
+        func_800A9C18(call_a1, part_a, part_b, flags);
+        actor->unk_9A = 0xFF;
+        actor->unk_9C = -1;
+        actor->unk_8C = &D_801590F4;
+        func_800AA36C(actor, part_a, part_b, work);
+    }
+    return work;
+}
+
+/* MECHANISM: Preserve the seed's exact 0x38 frame, s0-s7 holds, CFG, and true-base name.
+   The sole residue was part_b's saved_kind_id byte field at 0x20 versus retail offset 0x24.
+   part_b->unk_24 closes the substitution at emitted word 32. */

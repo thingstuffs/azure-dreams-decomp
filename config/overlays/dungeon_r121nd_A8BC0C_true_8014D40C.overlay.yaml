@@ -1,0 +1,32 @@
+# r121_nodonor bounded C window (no-donor decompilation, proven rowbase region r121nd_A8BC0C).
+# Do NOT add to configure.py / build.ninja; run via tools/overlay_local_gate.py --clean.
+name: dungeon_r121nd_A8BC0C_true_8014D40C
+sha1: 27f9fcc384a570a991e349b920881e7070c0e13c
+options:
+  basename: dungeon_r121nd_A8BC0C_true_8014D40C
+  target_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  base_path: ..
+  platform: psx
+  compiler: GCC
+  subalign: 4
+  find_file_boundaries: false
+  gp_value: 0x80080994
+standalone_build:
+  work_dir: work/s3_splat
+  extract:
+    extractor: work/overlay_recon/extract_bins.py
+    disc_path: bin/Azure Dreams.bin
+    out_dir: work/s3_splat/extract
+    container_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  window:
+    file_start: 0xA8BC0C
+    file_end: 0xA8C164
+    vram_start: 0x8014D40C
+    true_vram_start: 0x8014D40C
+    base_confidence: proven-rowbase
+  split_results: overlays/dungeon/overlay_first_pass_results.json
+  matched_sources:
+  - name: overlays/dungeon
+    results: overlays/dungeon/overlay_first_pass_results.json
+    source_dir: overlays/dungeon/first_pass_matched
+    skip_rerun: true

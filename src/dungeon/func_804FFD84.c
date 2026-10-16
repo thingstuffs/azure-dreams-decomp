@@ -1,0 +1,49 @@
+/* Relink of matched dungeon/func_80284584; every changed retail word is a paired relocation. */
+#include "modules/dungeon_floor_generate.h"
+
+s16 func_80017584(s16 start_x, s16 start_y, s16 width, s16 height) {
+    MapGrid *config;
+    s32 shifted_x;
+    s32 shifted_width;
+    s32 row;
+    s32 rows_left;
+
+    row = start_y;
+    if (row <= 0) {
+        return -1;
+    }
+    shifted_x = start_x << 16;
+    if ((shifted_x >> 16) <= 0) {
+        goto ret_err;
+    }
+    config = &gameWork.map;
+    if (row + height >= (1 << config->shiftY)) {
+        return -1;
+    }
+    shifted_width = width << 16;
+    if ((shifted_x >> 16) + (shifted_width >> 16) >= (1 << config->shiftX)) {
+ret_err:
+        return -1;
+    }
+    rows_left = height;
+    while (rows_left > 0) {
+        s32 cols_left;
+        s32 x;
+
+        cols_left = shifted_width >> 16;
+        x = shifted_x >> 16;
+        while (cols_left > 0) {
+            floor_generate_isolated_80284584_DungeonCell *cell;
+
+            cell = &((floor_generate_isolated_80284584_DungeonCell *)D_800EA000)[(row << config->shiftX) + x];
+            if (cell->field_4 != 0) {
+                return (s16)cell->field_4;
+            }
+            cols_left -= 1;
+            x += 1;
+        }
+        rows_left -= 1;
+        row += 1;
+    }
+    return 0;
+}
