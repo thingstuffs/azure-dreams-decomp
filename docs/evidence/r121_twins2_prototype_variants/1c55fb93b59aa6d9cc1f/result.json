@@ -1,0 +1,104 @@
+{
+ "id": "1c55fb93b59aa6d9cc1f",
+ "row": "dungeon/func_809CA5A0",
+ "original_sha256": "d6ae0a7809edcb6fc45c87013f62c1b6421d7b224481b7e7bd5951ede5b915c3",
+ "source_sha256": "69433f2e7c9598f2e6ca7639a4a25c652743c616ed01e501c9aaa30b01e6e3b2",
+ "cfg": "2.7.2-cdk-G0",
+ "callee": {
+  "row": "dungeon/func_809CA5A0",
+  "source": "src/dungeon/func_809CA5A0.c",
+  "name": "func_80171DA0",
+  "definition": "s32 func_80171DA0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *sprite_arg, EntityRec *actor)"
+ },
+ "variant": {
+  "name": "func_80171DA0",
+  "definition": "s32 func_80171DA0(Rec_func_800A9E70_arg0 *action_state, void * motion_param, void *sprite_arg, EntityRec *actor)"
+ },
+ "changes": [
+  {
+   "index": 1,
+   "kind": "used-word-parameter-original-use-conversion",
+   "before": "s32 motion_param",
+   "after": "void * motion_param",
+   "cast": "s32"
+  }
+ ],
+ "interface": {
+  "name": "func_80171E38",
+  "return_type": "s32",
+  "arity": 4,
+  "prototype": "extern s32 callee(void *, void *, void *, void *);",
+  "definition": "s32 func_80171E38(void *, void *, void *, void *)",
+  "typed_boundary_conversions": true,
+  "parameter_conversion_style": "cast-uses"
+ },
+ "unused_machine_args": {
+  "basis": "typed-C-copy-original-local-and-return-conversions",
+  "passed": true
+ },
+ "source_authority": {
+  "row": "dungeon/func_809CA5A0",
+  "source": "src/dungeon/func_809CA5A0.c",
+  "name": "func_80171DA0",
+  "definition": "s32 func_80171DA0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *sprite_arg, EntityRec *actor)",
+  "binding": "prototype-inherited-from-admitted-complete-twin",
+  "inherited_row": "dungeon/func_80E38638",
+  "inherited_source_sha256": "2ae5377b41ce3d26fc730d25c54facf90d600d1037703bad62c5257188ec8085",
+  "callee_foff": "0xe58638"
+ },
+ "authority_mode": "same-complete-body-matched-caller-interface",
+ "caller": {
+  "row": "dungeon/func_80E376E4",
+  "source": "src/dungeon/func_80E376E4.c"
+ },
+ "score": {
+  "status": "ok",
+  "exact": true,
+  "subs": 0,
+  "indels": 0,
+  "total": 0,
+  "gen_words": 113,
+  "tgt_words": 113,
+  "class": "match",
+  "signals": [],
+  "secs": 1.59,
+  "err": null
+ },
+ "source": "evidence/continue3/prototype_variants/1c55fb93b59aa6d9cc1f/variant.c",
+ "status": "PROVED",
+ "prototype_only": true,
+ "additional_c_rows": 0,
+ "additional_c_bytes": 0,
+ "production_gate_sha256": "f3eee2a67ab948cebf469e4b359e61105ccafbca456eae8264b018f38c907f25",
+ "headers_sha256": "d2f27c97e9b7966f712a70587984e1e3c63c11f7fbd21449cadd5756719ce753",
+ "window_gate": {
+  "command": [
+   "work/native_lane/r121_twins2/staging/workers/w06/staging/root/.venv/bin/python",
+   "tools/overlay_local_gate.py",
+   "--config",
+   "config/overlays/dungeon_deep_09ea.overlay.yaml",
+   "--clean",
+   "--stage-match",
+   "func_809CA5A0",
+   "work/native_lane/r121_twins2/evidence/continue3/prototype_variants/1c55fb93b59aa6d9cc1f/variant.c",
+   "2.7.2-cdk-G0"
+  ],
+  "returncode": 0,
+  "stdout": "overlay: dungeon_deep_09ea\nconfig: config/overlays/dungeon_deep_09ea.overlay.yaml\ncontainer: work/s3_splat/extract/DUNGEON_DUNGEON.BIN\nwindow: 0x9EA000..0x9EB000 -> 0x809CA000..0x809CB000\nsegments: 8 total, 5 c, 0 platform asm, 0 game asm, 0 asm, 3 raw\nmatched source counts: overlays/dungeon=5, staged=1\nmanifest: work/s3_splat/dungeon_deep_09ea/dungeon_deep_09ea_manifest.json\nMATCH: rebuilt overlay window byte-identical (4096 bytes)\n",
+  "stderr": ""
+ },
+ "manifest_entry": {
+  "func": "func_80171DA0",
+  "file_start": "0x9EA5A0",
+  "vram": "0x809CA5A0",
+  "size": 452,
+  "source": "work/native_lane/r121_twins2/evidence/continue3/prototype_variants/1c55fb93b59aa6d9cc1f/variant.c",
+  "config": "2.7.2-cdk-G0",
+  "source_group": "staged",
+  "module": null,
+  "rowbase_link_vram": "0x80171DA0"
+ },
+ "object_sha256": "6041addb73101d729f8715fd50fffb65ba9e3334f4a7b3a434999a19cf729054",
+ "object": "evidence/continue3/prototype_variants/1c55fb93b59aa6d9cc1f/variant.o",
+ "retail_sha256": "df8601032e20e1ab89759e9df4f6b0cdfe0739857c4ed64f90248cf3d13a317d"
+}

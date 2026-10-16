@@ -1,0 +1,70 @@
+/* Relink of matched town/func_8032E514; every changed retail word is a paired relocation. */
+#define townClearShopObjectAndLink func_80018AC4
+#define D_80016034 D_80016050
+#define D_8001605C D_80016078
+#include "shared/town_root.h"
+#include "common.h"
+#include "shared/record_ptrs.h"
+
+
+typedef void (*TownCall3)(void *, void *, s32);
+typedef void (*TownCall1)(s32);
+
+typedef struct S_80018D14_0 {
+    u8 pad_00[0x6000];
+    u8 * unk_6000;
+} S_80018D14_0;   /* page in func_80018AC4 */
+
+
+extern u8 D_80016050[16];
+extern u8 D_80016078[];
+
+/* Clear a shop object and its linked state after asserting that the reference matches. */
+void func_80018AC4(u8 *object_ref)
+{
+    void **global_page;
+    Rec_D_80016000 *context;
+    u8 *object_flags;
+    TownCall3 callback_168;
+    Rec_D_80016000 *updated_context;
+    u8 *updated_callbacks;
+    TownCall1 callback_174;
+    u8 *state_base;
+    u8 *object_table;
+    u8 *entry;
+    u8 *link_state;
+    s32 slot;
+    s32 object_offset;
+    s32 link_offset;
+
+    global_page = (void **)0x80010000;
+    context = ((S_80018D14_0 *)global_page)->unk_6000;
+    object_flags = (u8 *)context->unk_38;
+    object_table = object_flags + 0x2F0;
+    state_base = object_flags;
+    object_flags = (u8 *)object_ref[3];
+    slot = ((u8)object_flags) & 0x1F;
+
+    if (object_ref[0] != object_table[slot * 0x54 + 0x13]) {
+        object_flags = (u8 *)context->unk_20;
+        callback_168 = (*(TownCall3 *)((u8 *)object_flags + 0x168));
+        callback_168(D_80016050, D_80016078, 0x41);
+        updated_context = ((S_80018D14_0 *)global_page)->unk_6000;
+        updated_callbacks = (u8 *)updated_context->unk_20;
+        callback_174 = (*(TownCall1 *)((u8 *)updated_callbacks + 0x174));
+        callback_174(1);
+    }
+
+    object_offset = slot * 4;
+    entry = (u8 *)((u32)(((object_offset + slot) * 4 + slot) * 4) +
+                   (u32)object_table);
+    entry[0x13] = 0;
+    entry = (u8 *)entry[0x43];
+    slot = ((u32)entry) & 0x3F;
+    link_offset = slot * 4;
+    link_state = state_base + link_offset;
+    link_state[0x980] = 0;
+    link_state[0x981] = 0;
+    entry = (((link_offset + slot) * 4 + slot) * 4) + state_base;
+    entry[0xA93] = 0;
+}

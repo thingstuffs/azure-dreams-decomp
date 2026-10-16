@@ -1,0 +1,139 @@
+{
+ "id": "9a0100a703267e2aa0dc",
+ "row": "dungeon/func_80E38914",
+ "original_sha256": "32c4610288eb6276b6be1db8a445866cb2f5d87843800cdc9f8b799748bd8a45",
+ "source_sha256": "ab9c1436820ab1dd7f6a83723639baf4c7722c8cb00d18d43293bc83dd2d293c",
+ "cfg": "2.7.2-cdk-G0",
+ "callee": {
+  "row": "dungeon/func_80E38914",
+  "source": "src/dungeon/func_80E38914.c",
+  "name": "func_80172114",
+  "definition": "s32 func_80172114(void *object, s32 state_input_a, s32 state_input_b)"
+ },
+ "variant": {
+  "name": "func_80172114",
+  "definition": "s32 func_80172114(void *object, void * state_input_a, void * state_input_b, s32 abi_unused_3)"
+ },
+ "changes": [
+  {
+   "index": 1,
+   "kind": "used-word-parameter-original-use-conversion",
+   "before": "s32 state_input_a",
+   "after": "void * state_input_a",
+   "cast": "s32"
+  },
+  {
+   "index": 2,
+   "kind": "used-word-parameter-original-use-conversion",
+   "before": "s32 state_input_b",
+   "after": "void * state_input_b",
+   "cast": "s32"
+  },
+  {
+   "index": 3,
+   "kind": "unused-parameter-added",
+   "after": "s32 abi_unused_3"
+  }
+ ],
+ "interface": {
+  "name": "func_80172114",
+  "return_type": "s32",
+  "arity": 4,
+  "prototype": "extern s32 callee(void *, void *, void *, s32);",
+  "definition": "s32 func_80172114(void *, void *, void *, s32)",
+  "typed_boundary_conversions": true,
+  "parameter_conversion_style": "cast-uses"
+ },
+ "unused_machine_args": {
+  "basis": "incoming-changed-register-def-use-with-delay-slots",
+  "changed_argument_registers": [
+   7
+  ],
+  "read_registers": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   16,
+   17,
+   18,
+   29,
+   31
+  ],
+  "changed_stack_arguments": false,
+  "external_transfer_delay_slots": [
+   16,
+   37,
+   43,
+   50
+  ],
+  "overwrite_words": [
+   10
+  ],
+  "passed": true
+ },
+ "source_authority": {
+  "row": "dungeon/func_80E38914",
+  "source": "src/dungeon/func_80E38914.c",
+  "name": "func_80172114",
+  "definition": "s32 func_80172114(void *object, s32 state_input_a, s32 state_input_b)",
+  "binding": "local-complete-retail-twin",
+  "callee_foff": "0xe58914"
+ },
+ "authority_mode": "same-complete-body-matched-caller-interface",
+ "caller": {
+  "row": "dungeon/func_80E376E4",
+  "source": "src/dungeon/func_80E376E4.c"
+ },
+ "score": {
+  "status": "ok",
+  "exact": true,
+  "subs": 0,
+  "indels": 0,
+  "total": 0,
+  "gen_words": 75,
+  "tgt_words": 75,
+  "class": "match",
+  "signals": [],
+  "secs": 1.57,
+  "err": null
+ },
+ "source": "evidence/continue3/prototype_variants/9a0100a703267e2aa0dc/variant.c",
+ "status": "PROVED",
+ "prototype_only": true,
+ "additional_c_rows": 0,
+ "additional_c_bytes": 0,
+ "production_gate_sha256": "f3eee2a67ab948cebf469e4b359e61105ccafbca456eae8264b018f38c907f25",
+ "headers_sha256": "d2f27c97e9b7966f712a70587984e1e3c63c11f7fbd21449cadd5756719ce753",
+ "window_gate": {
+  "command": [
+   "work/native_lane/r121_twins2/staging/workers/w06/staging/root/.venv/bin/python",
+   "tools/overlay_local_gate.py",
+   "--config",
+   "config/overlays/dungeon_deep_t8b_e58914.overlay.yaml",
+   "--clean",
+   "--stage-match",
+   "func_80E38914",
+   "work/native_lane/r121_twins2/evidence/continue3/prototype_variants/9a0100a703267e2aa0dc/variant.c",
+   "2.7.2-cdk-G0"
+  ],
+  "returncode": 0,
+  "stdout": "overlay: dungeon_deep_t8b_e58914\nconfig: config/overlays/dungeon_deep_t8b_e58914.overlay.yaml\ncontainer: work/s3_splat/extract/DUNGEON_DUNGEON.BIN\nwindow: 0xE58914..0xE58A40 -> 0x80E38914..0x80E38A40\nsegments: 1 total, 1 c, 0 platform asm, 0 game asm, 0 asm, 0 raw\nmatched source counts: overlays/dungeon=1, staged=1\nmanifest: work/s3_splat/dungeon_deep_t8b_e58914/dungeon_deep_t8b_e58914_manifest.json\nMATCH: rebuilt overlay window byte-identical (300 bytes)\n",
+  "stderr": ""
+ },
+ "manifest_entry": {
+  "func": "func_80172114",
+  "file_start": "0xE58914",
+  "vram": "0x80E38914",
+  "size": 300,
+  "source": "work/native_lane/r121_twins2/evidence/continue3/prototype_variants/9a0100a703267e2aa0dc/variant.c",
+  "config": "2.7.2-cdk-G0",
+  "source_group": "staged",
+  "module": null,
+  "rowbase_link_vram": "0x80172114"
+ },
+ "object_sha256": "db1144a44f189d329b2f093e6db121c711e84e65113648c0daa2e6b6761b6e31",
+ "object": "evidence/continue3/prototype_variants/9a0100a703267e2aa0dc/variant.o",
+ "retail_sha256": "4ebfdee2f6f09b45b0b7631c309df55dde459b20250d274a2b13d445878fa943"
+}

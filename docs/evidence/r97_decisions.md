@@ -367,3 +367,10 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     B3 was wrong. r121_nodonor delivery2_fix corrects the 6 rowbase records (and drops 6 NOMATCH splits, 3 load_base
     lines); the hardholds packages may be re-delivered on the corrected base. Evidence: r121_nodonor REPORT.md
     (placement pass). SECOND LOOK: no.
+57. **(r121, OWNER rulings 2026-10-16) Byte-accounting census labels.** (a) Proven non-code without a format type
+    (high-entropy content and bytes that cannot decode as gcc code, 31.2 MB at 04fdefa7d) is a terminal label
+    "non-code, typing pending" under data/leftover; "unknown = 0" refers to the unresolved remainder (68 KB). Typing
+    happens only where matched C reads the bytes or a loader is found. (b) Partial instances (a byte-exact copy of part
+    of a C function, 690 KB) stay in label 1, proven code. (c) gcc-shaped spans without a reference (T4) or without a
+    placed base (T5) are admitted as a separate, visible sub-tier "strongly code (shape only)" at their measured
+    precision (1.0 on proven spans). Method and validation: work/native_lane/_r120/census/REPORT.md. SECOND LOOK: no.

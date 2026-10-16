@@ -1,0 +1,86 @@
+/* Relink of matched dungeon/func_812A8E10; every changed retail word is a paired relocation. */
+#define D_80171FA4 D_8014DFA4
+#include "common.h"
+#include "shared/dungeon_status.h"
+#include "shared/dir_step.h"
+
+typedef struct { u8 pad0[0x8C]; void *field8c; u8 pad90[6]; s16 count96; u8 pad98[3]; u8 state9b; } S_A;
+typedef struct { u8 pad0[2]; s16 x2; u8 pad4[2]; s16 y6; u8 pad8[4]; s32 dxC; s32 dy10; s32 dz14; } S_B;
+typedef struct { u8 pad0[0x14]; u16 flags14; u8 pad16[0x0E]; u8 x24; u8 y25; } S_C;
+typedef struct { u8 pad0[0x28]; u8 flag28; u8 pad29[0x41]; u16 index6A; } S_D;
+
+extern u8 D_8014DFA4[];
+extern void func_800A2B04(S_B *, u8, u8);
+extern void func_800AD4D0(S_D *);
+
+/* Updates staged motion and snaps to the target tile when the countdown ends. */
+void func_80150610(S_A *motion_state, S_B *motion, S_C *target, S_D *actor) {
+    s16 ticks_left;
+    s32 target_pos;
+    s32 current_pos;
+    u16 next_count;
+    s32 active_flag;
+    s32 state;
+
+    state = motion_state->state9b;
+    active_flag = 1;
+    switch (state) {
+    case 0:
+        func_800AD4D0(actor);
+        motion_state->state9b = (u8)(motion_state->state9b + 1);
+        if (actor->flag28 == 0) {
+            actor->flag28 = (u8)active_flag;
+        }
+        if (target->flags14 & 0x8000) {
+            motion_state->count96 = 0;
+            motion_state->state9b = 2;
+            return;
+        }
+        motion->dxC = (-(*(s16 *)(((u8 *)dirStepX) + (((u16)actor->index6A >> 8) & 0xE)))) << 0xF;
+        motion->dy10 = (-(*(s16 *)(((u8 *)dirStepY) + (((u16)actor->index6A >> 8) & 0xE)))) << 0xF;
+        motion_state->count96 = 8;
+    case 1:
+        motion->dxC += (*(s16 *)(((u8 *)dirStepX) + (((u16)actor->index6A >> 8) & 0xE))) << 0xA;
+        motion->dy10 += (*(s16 *)(((u8 *)dirStepY) + (((u16)actor->index6A >> 8) & 0xE))) << 0xA;
+        next_count = (u16)motion_state->count96 - 1;
+        motion_state->count96 = (s16)next_count;
+        if ((next_count << 0x10) <= 0) {
+            if (actor->flag28 == 0) {
+                actor->flag28 = 1;
+            }
+            motion_state->count96 = 8;
+            motion_state->state9b = (u8)(motion_state->state9b + 1);
+            return;
+        }
+        return;
+    case 2:
+        ticks_left = motion_state->count96;
+        if (ticks_left != 0) {
+            target_pos = (s32)target->x24 << 6;
+            current_pos = motion->x2;
+            current_pos -= 0x20;
+            motion->dxC = ((target_pos - current_pos) << 0xF) / ticks_left;
+            target_pos = (s32)target->y25 << 6;
+            current_pos = motion->y6;
+            current_pos -= 0x20;
+            motion->dy10 = ((target_pos - current_pos) << 0xF) / motion_state->count96;
+        }
+        next_count = (u16)motion_state->count96 - 1;
+        motion_state->count96 = (s16)next_count;
+        if ((next_count << 0x10) <= 0) {
+            motion->dz14 = 0;
+            motion->dy10 = 0;
+            motion->dxC = 0;
+            func_800A2B04(motion, target->x24, target->y25);
+            if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)actor - 0x20)) {
+                *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
+                motion_state->field8c = D_8014DFA4;
+            } else {
+                motion_state->field8c = D_8014DFA4;
+            }
+        }
+        return;
+    default:
+        return;
+    }
+}

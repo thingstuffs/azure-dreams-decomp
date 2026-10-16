@@ -604,12 +604,18 @@ scenario scripts (NPC dialogue and event scripts with native scene-setup code). 
 whole range "not shipped game code" and the images a scene-authoring / test tool. The investigation in `work/native_lane/_r120/vram0/SCENES.md`
 (with `work/native_lane/_r120/vram0/REPORT.md`) shows:
 
-- The images linked at `0x80700000` are retail: they lie inside records of the scene table at TOWN `0x564A0` (25 records of 8 bytes, loaded by
-  Control_CD case 6 in `func_8003E758`), so the shipped game loads them. The scripts are the theater (the Fon manzai routine), the
-  archaeologist professor's house (library facility) and the clinic doctor (hospital facility).
+- The 25 images linked at `0x80700000` are the records of the scene table at TOWN `0x564A0` (25 records of 8 bytes, read by Control_CD case 6
+  in `func_8003E758`). Correction to the earlier wording: static evidence says they are not loaded in retail. They are writing-room draft
+  scripts (theater, archaeologist professor / library facility, clinic doctor / hospital facility) and are reached only through `S_flgtst`
+  (call-table index 22, `src/town/func_800C374C.c`, table slot at TOWN `0x565C0`), which no shipped US or JP script calls: `NATIVE_IDX 22` occurs
+  6 times in the drafts and 0 times in all 54 shipped modules, and nothing else references `flgtst`. The only code that reads the matching LBAs
+  (a SLUS load-descriptor array at `0x800812B0..F8`) goes through `func_80053CA4`/`func_80053CD0`, which have no callers. Open: a runtime check
+  (CD-read breakpoint on LBAs 7139..7413 during the theater, library and clinic scenes). Evidence: `work/native_lane/_r120/leftovers/REPORT.md`
+  section Q3 and `work/native_lane/_r120/vram0/SCENES.md`.
 - The zero-base images (link address 0, listed below as unrelocated) are older alternate builds of those same scenario scripts. Their text is a strict
-  subset of the retail records and they call service slots `+0x64`/`+0x70` where retail uses `+0x68`/`+0x74`. No scene-table record, LBA or loader
-  path reaches them, so they are unreachable leftovers; they are admitted as code in the repository under decision 52 of `docs/evidence/r97_decisions.md`.
+  subset of the scene-table records and they call service slots `+0x64`/`+0x70` where retail uses `+0x68`/`+0x74`. No scene-table record, LBA or loader
+  path reaches them. Each of the 25 scene-table records has such a base-0 twin (the link-at-0 images); both sets are admitted as code in the repository
+  under decision 52 of `docs/evidence/r97_decisions.md`, as static evidence of the build, not of what the retail game loads.
 - The pool table below is unchanged; only the "test tool" description and the "not shipped" claim are corrected.
 
 Link images in this range:
