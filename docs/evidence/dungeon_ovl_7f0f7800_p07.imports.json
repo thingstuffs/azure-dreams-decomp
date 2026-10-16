@@ -1,0 +1,189 @@
+{
+  "module": "dungeon_ovl_7f0f7800_p07",
+  "maps": {
+    "native_bank": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "kind": "rowbase",
+      "region": "native_slot_1079000_80170800",
+      "file_start": 17272832,
+      "file_end": 17297408,
+      "delta": 2131720192,
+      "basis": "Authenticated retail normal slot transfer in docs/evidence/dungeon_slot_1079000_80170800.load.json"
+    },
+    "dungeon_resident": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "kind": "rowbase",
+      "region": "xfer_dungeon_A3000",
+      "file_start": 667648,
+      "file_end": 1050624,
+      "delta": 2147374944,
+      "basis": "Existing proven resident transfer map."
+    },
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "kind": "psx_exe",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "basis": "PS-X EXE header."
+    }
+  },
+  "views": {
+    "D_80170854": {
+      "symbol": "D_80170854",
+      "kind": "data",
+      "vma": 2148993108,
+      "foff": 17272916,
+      "view_bytes": 24492,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_bank",
+      "evidence": "docs/evidence/dungeon_ovl_7f0f7800_p07.imports.json"
+    },
+    "D_80173FD0": {
+      "symbol": "D_80173FD0",
+      "kind": "data",
+      "vma": 2149007312,
+      "foff": 17287120,
+      "view_bytes": 10288,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_bank",
+      "evidence": "docs/evidence/dungeon_ovl_7f0f7800_p07.imports.json"
+    }
+  },
+  "runtime_views": {
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 512,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_7f0f7800_p07.imports.json",
+      "declaration": "include/shared/game_work.h"
+    },
+    "D_80083460": {
+      "symbol": "D_80083460",
+      "kind": "runtime_data",
+      "vma": 2148021344,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_7f0f7800_p07.imports.json",
+      "declaration": "include/shared/dungeon_status.h"
+    }
+  },
+  "functions": {
+    "func_80047784": {
+      "vma": 2147776388,
+      "foff": 110468,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "source_clients": [
+        "src/dungeon/func_8105C2D4.c"
+      ],
+      "basis": "Existing direct call/address declaration; linked whole-cohort instruction proof resolves this entry without masks."
+    },
+    "func_800990FC": {
+      "vma": 2148110588,
+      "foff": 735644,
+      "map": "dungeon_resident",
+      "first_word": "aa2a023c",
+      "source_clients": [
+        "src/dungeon/func_8105C2D4.c"
+      ],
+      "basis": "Existing direct call/address declaration; linked whole-cohort instruction proof resolves this entry without masks."
+    },
+    "func_80099194": {
+      "vma": 2148110740,
+      "foff": 735796,
+      "map": "dungeon_resident",
+      "first_word": "21300000",
+      "source_clients": [
+        "src/dungeon/func_8105C2D4.c"
+      ],
+      "basis": "Existing direct call/address declaration; linked whole-cohort instruction proof resolves this entry without masks."
+    },
+    "func_80099290": {
+      "vma": 2148110992,
+      "foff": 736048,
+      "map": "dungeon_resident",
+      "first_word": "000080a0",
+      "source_clients": [
+        "src/dungeon/func_8105C2D4.c"
+      ],
+      "basis": "Existing direct call/address declaration; linked whole-cohort instruction proof resolves this entry without masks."
+    },
+    "func_80099734": {
+      "vma": 2148112180,
+      "foff": 737236,
+      "map": "dungeon_resident",
+      "first_word": "0e80023c",
+      "source_clients": [
+        "src/dungeon/func_8105C2D4.c"
+      ],
+      "basis": "Existing direct call/address declaration; linked whole-cohort instruction proof resolves this entry without masks."
+    },
+    "func_8009A21C": {
+      "vma": 2148114972,
+      "foff": 740028,
+      "map": "dungeon_resident",
+      "first_word": "0880033c",
+      "source_clients": [
+        "src/dungeon/func_8105C2D4.c"
+      ],
+      "basis": "Existing direct call/address declaration; linked whole-cohort instruction proof resolves this entry without masks."
+    },
+    "func_8009A3D0": {
+      "vma": 2148115408,
+      "foff": 740464,
+      "map": "dungeon_resident",
+      "first_word": "d8ffbd27",
+      "source_clients": [
+        "src/dungeon/func_8105C2D4.c"
+      ],
+      "basis": "Existing direct call/address declaration; linked whole-cohort instruction proof resolves this entry without masks."
+    },
+    "func_800A2BDC": {
+      "vma": 2148150236,
+      "foff": 775292,
+      "map": "dungeon_resident",
+      "first_word": "0880023c",
+      "source_clients": [
+        "src/dungeon/func_8105C2D4.c"
+      ],
+      "basis": "Existing direct call/address declaration; linked whole-cohort instruction proof resolves this entry without masks."
+    },
+    "func_800A5720": {
+      "vma": 2148161312,
+      "foff": 786368,
+      "map": "dungeon_resident",
+      "first_word": "0180023c",
+      "source_clients": [
+        "src/dungeon/func_8105C2D4.c"
+      ],
+      "basis": "Existing direct call/address declaration; linked whole-cohort instruction proof resolves this entry without masks."
+    }
+  },
+  "source_access_bounds": {
+    "D_80170854": {
+      "view_bytes": 24492,
+      "sha256": "917c83134f851b702879ca5b7a30c3c543d7ea3cfe50e3ddfc652acc6f3f8e8e",
+      "bytes_hex": null,
+      "sources": [
+        "src/dungeon/func_8105C2D4.c"
+      ],
+      "basis": "Scalar/explicit-array declaration view when known. An unsized imported table uses the remaining authenticated byte interval as an opaque external asset view, not one claimed allocation. No filler or initialization object is introduced; typed clients and resolved relocations remain in the proof."
+    },
+    "D_80173FD0": {
+      "view_bytes": 10288,
+      "sha256": "b6e95894d49e129fcd04c3fc11aa4616446d76c55cdab547c4bb1ceb0cc207cb",
+      "bytes_hex": null,
+      "sources": [
+        "src/dungeon/func_8105C2D4.c"
+      ],
+      "basis": "Scalar/explicit-array declaration view when known. An unsized imported table uses the remaining authenticated byte interval as an opaque external asset view, not one claimed allocation. No filler or initialization object is introduced; typed clients and resolved relocations remain in the proof."
+    }
+  },
+  "review": "pending",
+  "reviewer": null
+}

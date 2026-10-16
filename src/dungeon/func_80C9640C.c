@@ -1,8 +1,5 @@
-#include "common.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_ovl_cb3000.h"
 
-
-/* Fade the primitive color and flag the effect when its countdown expires. */
 void func_80173C0C(void *effect, s32 unused, void *primitive)
 {
     u16 ticks_left;

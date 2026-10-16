@@ -1,0 +1,65 @@
+{
+  "module": "dungeon_ovl_c8f084",
+  "runtime_views": {
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_c8f084.imports.json",
+      "declaration": "include/shared/game_work.h"
+    }
+  },
+  "functions": {
+    "func_80065420": {
+      "vma": 2147898400,
+      "foff": 232480,
+      "map": "slus_load",
+      "first_word": "000080c8",
+      "source_clients": [
+        "src/dungeon/func_80C6F084.c"
+      ]
+    },
+    "func_80066460": {
+      "vma": 2147902560,
+      "foff": 236640,
+      "map": "slus_load",
+      "first_word": "03008230",
+      "source_clients": [
+        "src/dungeon/func_80C6F084.c"
+      ]
+    },
+    "func_80067F20": {
+      "vma": 2147909408,
+      "foff": 243488,
+      "map": "slus_load",
+      "first_word": "e0ffbd27",
+      "source_clients": [
+        "src/dungeon/func_80C6F084.c"
+      ]
+    }
+  },
+  "maps": {
+    "slus_load": {
+      "kind": "psx_exe",
+      "asset": "baserom/slus_006.14",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "basis": "PS-X EXE header plus resident symbols; these three calls are unchanged in the original row and the natural TU link."
+    }
+  },
+  "views": {},
+  "source_access_bounds": {
+    "D_80083160": {
+      "view_bytes": 4,
+      "basis": "Only the first pointer of gameWork is loaded. Stores target the separately allocated render context reached through that pointer; no resident allocation ownership claimed.",
+      "sources": [
+        "src/dungeon/func_80C6F084.c"
+      ]
+    }
+  },
+  "review": "pending",
+  "reviewer": null
+}

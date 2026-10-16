@@ -1,104 +1,4 @@
-#include "common.h"
-#include "shared/dungeon_floor.h"
-#include "shared/tile_object.h"
-#include "shared/entity.h"
-#include "shared/record_ptrs.h"
-#include "shared/dungeon_status.h"
-#include "shared/dir_step.h"
-
-#ifndef NULL
-#define NULL 0
-#endif
-
-typedef struct S_80172F58_1 {
-    u8 pad_00[0x12];
-    u8 unk_12;
-    u8 pad_13[0x1];
-    s32 unk_14;
-    u8 pad_18[0x4];
-    u32 unk_1C;
-    u8 pad_20[0xA];
-    union { u16 u; s16 s; } unk_2A;   /* accessed as both */
-    u8 pad_2C[0x19];
-    u8 unk_45;
-    u16 unk_46;
-    u8 pad_48[0x25];
-    union { u8 u; s8 s; } unk_6D;   /* accessed as both */
-    u8 pad_6E[0x3];
-    union { s8 s; u8 u; } unk_71;   /* accessed as both */
-    u8 pad_72[0x16];
-    u16 unk_88;
-} S_80172F58_1;   /* arg3 in func_80172F58 */
-
-typedef struct S_80172F58_2 {
-    u8 pad_00[0x24];
-    union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-    union { s8 s; u8 u; } unk_26;   /* accessed as both */
-} S_80172F58_2;   /* arg2 in func_80172F58 */
-
-typedef struct S_80172F58_3_pre {
-    u8 * unk_00;
-    u8 pad_04[0x10];
-} S_80172F58_3_pre;   /* the 0x14 bytes before found in func_80172F58, addressed as found[-1] */
-
-typedef struct S_80172F58_3 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-} S_80172F58_3;   /* found in func_80172F58 */
-
-typedef struct S_80172F58_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80172F58_4;   /* object in func_80172F58 */
-
-
-typedef struct S_80172F58_9 {
-    u8 pad_00[0xC];
-    u16 unk_0C;
-} S_80172F58_9;   /* kind_table + kind * 0x14 in func_80172F58 */
-
-typedef struct S_80172F58_10 {
-    u8 pad_00[0x98];
-    u16 unk_98;
-    u8 pad_9A[0x2];
-    union { s8 s; u8 u; } unk_9C;   /* accessed as both */
-} S_80172F58_10;   /* arg0 in func_80172F58 */
-
-typedef struct S_80172F58_11 {
-    u16 unk_00;
-} S_80172F58_11;   /* &D_80082EA4 in func_80172F58 */
-
-typedef struct S_80172F58_13 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} S_80172F58_13;   /* arg3 + (((S_80172F58_1 *)arg3)->unk_71.u & 0x7F) in func_80172F58 */
-
-
-extern s32 func_8009A180();
-extern void func_8009A21C();
-extern void func_8009A3D0();
-extern s32 func_8009A540();
-extern s32 func_8009A66C();
-extern s32 func_8009FD7C();
-extern s16 func_800A0134();
-extern void *func_800A02AC();
-extern void *func_800A04F0();
-extern u16 func_800A0818();
-extern void func_800A0E6C();
-extern void func_800A19E4();
-extern s32 func_800A6D30();
-extern void func_800A9A0C();
-extern s16 func_800BCB04();
-extern s32 func_80173734();
-
-extern s16 D_8006CD00[];
+#include "modules/dungeon_ovl_7f469800_p03.h"
 
 /* Select a movement direction, move the actor, and update its path history and height. */
 void func_80172F58(u8 *move_input, void *action_context, u8 *position, u8 *actor) {
@@ -125,8 +25,8 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position, u8 *actor
     state_flags = dungeon_state->flags;
     near_target = 0;
 
-    if ((state_flags & 0x4000) || (((S_80172F58_1 *)actor)->unk_71.s >= 0)) {
-        if ((((S_80172F58_1 *)actor)->unk_12 >= 2) ||
+    if ((state_flags & 0x4000) || (((T_80172F58_S_80172F58_1 *)actor)->unk_71.s >= 0)) {
+        if ((((T_80172F58_S_80172F58_1 *)actor)->unk_12 >= 2) ||
             ((func_80173734(move_input, action_context, position, actor) << 16) == 0)) {
             func_800A9A0C(actor);
             return;
@@ -134,7 +34,7 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position, u8 *actor
         if (dungeon_state->unk_0C != actor) {
             return;
         }
-        ((S_80172F58_1 *)actor)->unk_46 = 0xC008;
+        ((T_80172F58_S_80172F58_1 *)actor)->unk_46 = 0xC008;
         return;
     }
     if (!(state_flags & 0x2000)) {
@@ -142,17 +42,17 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position, u8 *actor
     }
 
     func_800A19E4(position, actor, 3, 6, move_input + 0x9C);
-    actor_flags = ((S_80172F58_1 *)actor)->unk_1C;
+    actor_flags = ((T_80172F58_S_80172F58_1 *)actor)->unk_1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
-            found_target = func_800A02AC(actor, ((S_80172F58_2 *)position)->unk_24.at00.v,
-                ((S_80172F58_2 *)position)->unk_24.at01.v);
+            found_target = func_800A02AC(actor, ((T_80172F58_S_80172F58_2 *)position)->unk_24.at00.v,
+                ((T_80172F58_S_80172F58_2 *)position)->unk_24.at01.v);
             if (found_target != NULL) {
-                object = ((S_80172F58_3_pre *)found_target)[-1].unk_00;
-                ((S_80172F58_1 *)actor)->unk_2A.u = func_800A0818(
-                    ((S_80172F58_2 *)position)->unk_24.at00.v, ((S_80172F58_2 *)position)->unk_24.at01.v,
-                    ((S_80172F58_4 *)object)->unk_24, ((S_80172F58_4 *)object)->unk_25, move_input + 0x98);
-                ((S_80172F58_1 *)actor)->unk_71.u &= 0x7F;
+                object = ((T_80172F58_S_80172F58_3_pre *)found_target)[-1].unk_00;
+                ((T_80172F58_S_80172F58_1 *)actor)->unk_2A.u = (u16)func_800A0818(
+                    ((T_80172F58_S_80172F58_2 *)position)->unk_24.at00.v, ((T_80172F58_S_80172F58_2 *)position)->unk_24.at01.v,
+                    ((T_80172F58_S_80172F58_4 *)object)->unk_24, ((T_80172F58_S_80172F58_4 *)object)->unk_25, move_input + 0x98);
+                ((T_80172F58_S_80172F58_1 *)actor)->unk_71.u &= 0x7F;
                 return;
             }
             {
@@ -160,25 +60,25 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position, u8 *actor
 
                 s32 random_turn;
 
-                object_status = ((S_80172F58_1 *)actor)->unk_14;
+                object_status = ((T_80172F58_S_80172F58_1 *)actor)->unk_14;
                 if (!(object_status & 0x80000000)) {
                     object_status |= 0x80000000;
-                    ((S_80172F58_1 *)actor)->unk_14 = object_status;
+                    ((T_80172F58_S_80172F58_1 *)actor)->unk_14 = object_status;
                     random_turn = func_800A6D30();
-                    ((S_80172F58_1 *)actor)->unk_2A.u += (random_turn & 7) << 9;
+                    ((T_80172F58_S_80172F58_1 *)actor)->unk_2A.u += (random_turn & 7) << 9;
                 }
             }
         } else {
-            found_target = func_800A04F0(actor, ((S_80172F58_2 *)position)->unk_24.at00.v,
-                ((S_80172F58_2 *)position)->unk_24.at01.v,
-                                  ((S_80172F58_1 *)actor)->unk_2A.s);
+            found_target = func_800A04F0(actor, ((T_80172F58_S_80172F58_2 *)position)->unk_24.at00.v,
+                ((T_80172F58_S_80172F58_2 *)position)->unk_24.at01.v,
+                                  ((T_80172F58_S_80172F58_1 *)actor)->unk_2A.s);
             if (found_target != NULL) {
-                ((S_80172F58_1 *)actor)->unk_71.u &= 0x7F;
+                ((T_80172F58_S_80172F58_1 *)actor)->unk_71.u &= 0x7F;
                 return;
             }
         }
     } else if (actor_flags & 0x2000) {
-        if (!(((S_80172F58_1 *)actor)->unk_46 & 0x8000)) {
+        if (!(((T_80172F58_S_80172F58_1 *)actor)->unk_46 & 0x8000)) {
             if (actor_flags & 0x20000) {
                 s32 direction;
                 s16 target_x;
@@ -187,80 +87,80 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position, u8 *actor
                 TileObject *target;
 
                 target = &D_80082E80;
-                direction = (((S_80172F58_1 *)actor)->unk_45 +
+                direction = (((T_80172F58_S_80172F58_1 *)actor)->unk_45 +
                              ((s32)(((u16)D_800814A8->facing) << 16) >> 25)) & 7;
                 target_x = target->tileX +
                            ((u16 *)((s8 *)dirStepX))[direction];
                 target_y = target->tileY +
                            ((u16 *)((s8 *)dirStepY))[direction];
-                if ((((S_80172F58_2 *)position)->unk_24.at00.v == (u16)target_x) &&
-                    (((S_80172F58_2 *)position)->unk_24.at01.v == (u16)target_y)) {
-                    ((S_80172F58_1 *)actor)->unk_71.u &= 0x7F;
+                if ((((T_80172F58_S_80172F58_2 *)position)->unk_24.at00.v == (u16)target_x) &&
+                    (((T_80172F58_S_80172F58_2 *)position)->unk_24.at01.v == (u16)target_y)) {
+                    ((T_80172F58_S_80172F58_1 *)actor)->unk_71.u &= 0x7F;
                     return;
                 }
-                new_angle = func_800A0818(((S_80172F58_2 *)position)->unk_24.at00.v,
-                    ((S_80172F58_2 *)position)->unk_24.at01.v,
+                new_angle = (u16)func_800A0818(((T_80172F58_S_80172F58_2 *)position)->unk_24.at00.v,
+                    ((T_80172F58_S_80172F58_2 *)position)->unk_24.at01.v,
                                           target_x, (s16)target_y, move_input + 0x98);
-                ((S_80172F58_1 *)actor)->unk_2A.u = new_angle;
+                ((T_80172F58_S_80172F58_1 *)actor)->unk_2A.u = new_angle;
                 if ((func_8009A66C(new_angle, position, actor, 0x20) << 16) <= 0) {
                     TileObject *retry_target = &D_80082E80;
 
-                    ((S_80172F58_1 *)actor)->unk_2A.u = func_800A0818(
-                        ((S_80172F58_2 *)position)->unk_24.at00.v, ((S_80172F58_2 *)position)->unk_24.at01.v,
+                    ((T_80172F58_S_80172F58_1 *)actor)->unk_2A.u = (u16)func_800A0818(
+                        ((T_80172F58_S_80172F58_2 *)position)->unk_24.at00.v, ((T_80172F58_S_80172F58_2 *)position)->unk_24.at01.v,
                         retry_target->tileX, retry_target->tileY,
                         move_input + 0x98);
                 }
                 {
                     TileObject *check_target = &D_80082E80;
 
-                    if ((func_8009FD7C(((S_80172F58_2 *)position)->unk_24.at00.v, ((S_80172F58_2 *)position)->unk_24.at01.v,
+                    if ((func_8009FD7C(((T_80172F58_S_80172F58_2 *)position)->unk_24.at00.v, ((T_80172F58_S_80172F58_2 *)position)->unk_24.at01.v,
                                        check_target->tileX,
                                        check_target->tileY) << 16) != 0) {
                         near_target = 1;
                     }
                 }
             } else {
-                func_800A0E6C(position, ((S_80172F58_10 *)move_input)->unk_9C.s, actor, move_input + 0x98);
+                func_800A0E6C(position, ((T_80172F58_S_80172F58_10 *)move_input)->unk_9C.s, actor, move_input + 0x98);
             }
         }
     } else {
         s32 kind;
 
-        kind = ((S_80172F58_2 *)position)->unk_26.s;
-        if (kind >= 0 && (((S_80172F58_9 *)((u8 *)D_800E2970 + kind * 0x14))->unk_0C & 2)) {
-            func_800A0E6C(position, ((S_80172F58_10 *)move_input)->unk_9C.s, actor, move_input + 0x98);
-        } else if (!(((S_80172F58_1 *)actor)->unk_46 & 0x8000)) {
-            found_target = func_800A04F0(actor, ((S_80172F58_2 *)position)->unk_24.at00.v,
-                ((S_80172F58_2 *)position)->unk_24.at01.v,
-                                  ((S_80172F58_1 *)actor)->unk_2A.s);
-            if ((found_target != NULL) && (((S_80172F58_3 *)found_target)->unk_1C & 0x2000) &&
+        kind = ((T_80172F58_S_80172F58_2 *)position)->unk_26.s;
+        if (kind >= 0 && (((T_80172F58_S_80172F58_9 *)((u8 *)D_800E2970 + kind * 0x14))->unk_0C & 2)) {
+            func_800A0E6C(position, ((T_80172F58_S_80172F58_10 *)move_input)->unk_9C.s, actor, move_input + 0x98);
+        } else if (!(((T_80172F58_S_80172F58_1 *)actor)->unk_46 & 0x8000)) {
+            found_target = func_800A04F0(actor, ((T_80172F58_S_80172F58_2 *)position)->unk_24.at00.v,
+                ((T_80172F58_S_80172F58_2 *)position)->unk_24.at01.v,
+                                  ((T_80172F58_S_80172F58_1 *)actor)->unk_2A.s);
+            if ((found_target != NULL) && (((T_80172F58_S_80172F58_3 *)found_target)->unk_1C & 0x2000) &&
                 (func_800A0134(found_target, actor) < 0x81) &&
-                ((func_8009A540(((s32)(((S_80172F58_1 *)actor)->unk_2A.u << 16) >> 25) & 0xFFFF,
-                                ((S_80172F58_2 *)position)->unk_24.at00.v, ((S_80172F58_2 *)position)->unk_24.at01.v,
-                                (s16)(((S_80172F58_1 *)actor)->unk_88 - 0x20)) << 16) != 0)) {
-                ((S_80172F58_1 *)actor)->unk_71.u &= 0x7F;
+                ((func_8009A540(((s32)(((T_80172F58_S_80172F58_1 *)actor)->unk_2A.u << 16) >> 25) & 0xFFFF,
+                                ((T_80172F58_S_80172F58_2 *)position)->unk_24.at00.v, ((T_80172F58_S_80172F58_2 *)position)->unk_24.at01.v,
+                                (s16)(((T_80172F58_S_80172F58_1 *)actor)->unk_88 - 0x20)) << 16) != 0)) {
+                ((T_80172F58_S_80172F58_1 *)actor)->unk_71.u &= 0x7F;
                 return;
             }
-            if (((S_80172F58_1 *)actor)->unk_1C & 0x20000) {
+            if (((T_80172F58_S_80172F58_1 *)actor)->unk_1C & 0x20000) {
                 TileObject *target = &D_80082E80;
-                ((S_80172F58_1 *)actor)->unk_2A.u = func_800A0818(
-                    ((S_80172F58_2 *)position)->unk_24.at00.v, ((S_80172F58_2 *)position)->unk_24.at01.v,
+                ((T_80172F58_S_80172F58_1 *)actor)->unk_2A.u = (u16)func_800A0818(
+                    ((T_80172F58_S_80172F58_2 *)position)->unk_24.at00.v, ((T_80172F58_S_80172F58_2 *)position)->unk_24.at01.v,
                     target->tileX, target->tileY, move_input + 0x98);
-                if ((func_8009FD7C(((S_80172F58_2 *)position)->unk_24.at00.v, ((S_80172F58_2 *)position)->unk_24.at01.v,
+                if ((func_8009FD7C(((T_80172F58_S_80172F58_2 *)position)->unk_24.at00.v, ((T_80172F58_S_80172F58_2 *)position)->unk_24.at01.v,
                                    target->tileX, target->tileY) << 16) != 0) {
                     if (func_800A0134(D_800814A8, actor) < 0x81) {
                         direction_clear = func_8009A540(
-                            ((s32)(((S_80172F58_1 *)actor)->unk_2A.u << 16) >> 25) & 0xFFFF,
-                            ((S_80172F58_2 *)position)->unk_24.at00.v, ((S_80172F58_2 *)position)->unk_24.at01.v,
-                            (s16)(((S_80172F58_1 *)actor)->unk_88 - 0x20));
+                            ((s32)(((T_80172F58_S_80172F58_1 *)actor)->unk_2A.u << 16) >> 25) & 0xFFFF,
+                            ((T_80172F58_S_80172F58_2 *)position)->unk_24.at00.v, ((T_80172F58_S_80172F58_2 *)position)->unk_24.at01.v,
+                            (s16)(((T_80172F58_S_80172F58_1 *)actor)->unk_88 - 0x20));
                         if ((direction_clear << 16) != 0) {
-                            ((S_80172F58_1 *)actor)->unk_71.u &= 0x7F;
+                            ((T_80172F58_S_80172F58_1 *)actor)->unk_71.u &= 0x7F;
                             return;
                         }
                     }
                 }
             } else {
-                func_800A0E6C(position, ((S_80172F58_10 *)move_input)->unk_9C.s, actor, move_input + 0x98);
+                func_800A0E6C(position, ((T_80172F58_S_80172F58_10 *)move_input)->unk_9C.s, actor, move_input + 0x98);
             }
         }
     }
@@ -268,8 +168,8 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position, u8 *actor
     x_offsets = (u8 *)((s8 *)dirStepX);
 
     do {
-        base_angle = (s32)((S_80172F58_1 *)actor)->unk_2A.s;
-        if (((S_80172F58_10 *)move_input)->unk_98 & 2) {
+        base_angle = (s32)((T_80172F58_S_80172F58_1 *)actor)->unk_2A.s;
+        if (((T_80172F58_S_80172F58_10 *)move_input)->unk_98 & 2) {
             {
                 s32 angle_delta = (s32)D_8006CD00[attempt];
 
@@ -287,33 +187,33 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position, u8 *actor
                 target_nearby = near_target;
 
                 if (target_nearby) {
-                    ((S_80172F58_1 *)actor)->unk_71.u &= 0x7F;
+                    ((T_80172F58_S_80172F58_1 *)actor)->unk_71.u &= 0x7F;
                     return;
                 }
             }
-            ((S_80172F58_1 *)actor)->unk_2A.u = move_angle;
-            ((S_80172F58_13 *)(actor + (((S_80172F58_1 *)actor)->unk_71.u & 0x7F)))->unk_74 =
-                ((S_80172F58_2 *)position)->unk_24.at00.v;
-            ((S_80172F58_13 *)(actor + (((S_80172F58_1 *)actor)->unk_71.u & 0x7F)))->unk_7C =
-                ((S_80172F58_2 *)position)->unk_24.at01.v;
-            ((S_80172F58_1 *)actor)->unk_71.u++;
-            func_8009A3D0(((S_80172F58_2 *)position)->unk_24.at00.v, ((S_80172F58_2 *)position)->unk_24.at01.v,
-                          (((S_80172F58_1 *)actor)->unk_1C & 0x2000) ? 0x300 : 0x3000);
-            direction_offset = (((S_80172F58_1 *)actor)->unk_2A.u >> 8) & 0xE;
-            ((S_80172F58_2 *)position)->unk_24.at00.v +=
+            ((T_80172F58_S_80172F58_1 *)actor)->unk_2A.u = move_angle;
+            ((T_80172F58_S_80172F58_13 *)(actor + (((T_80172F58_S_80172F58_1 *)actor)->unk_71.u & 0x7F)))->unk_74 =
+                ((T_80172F58_S_80172F58_2 *)position)->unk_24.at00.v;
+            ((T_80172F58_S_80172F58_13 *)(actor + (((T_80172F58_S_80172F58_1 *)actor)->unk_71.u & 0x7F)))->unk_7C =
+                ((T_80172F58_S_80172F58_2 *)position)->unk_24.at01.v;
+            ((T_80172F58_S_80172F58_1 *)actor)->unk_71.u++;
+            func_8009A3D0(((T_80172F58_S_80172F58_2 *)position)->unk_24.at00.v, ((T_80172F58_S_80172F58_2 *)position)->unk_24.at01.v,
+                          (((T_80172F58_S_80172F58_1 *)actor)->unk_1C & 0x2000) ? 0x300 : 0x3000);
+            direction_offset = (((T_80172F58_S_80172F58_1 *)actor)->unk_2A.u >> 8) & 0xE;
+            ((T_80172F58_S_80172F58_2 *)position)->unk_24.at00.v +=
                 *((u8 *)((u32)direction_offset + (u32)x_offsets));
-            ((S_80172F58_2 *)position)->unk_24.at01.v += *((u8 *)((s8 *)dirStepY) + direction_offset);
-            next_x = ((S_80172F58_2 *)position)->unk_24.at00.v;
-            next_y = ((S_80172F58_2 *)position)->unk_24.at01.v;
+            ((T_80172F58_S_80172F58_2 *)position)->unk_24.at01.v += *((u8 *)((s8 *)dirStepY) + direction_offset);
+            next_x = ((T_80172F58_S_80172F58_2 *)position)->unk_24.at00.v;
+            next_y = ((T_80172F58_S_80172F58_2 *)position)->unk_24.at01.v;
             tile_mask = 0x3000;
-            if (((S_80172F58_1 *)actor)->unk_1C & 0x2000) {
+            if (((T_80172F58_S_80172F58_1 *)actor)->unk_1C & 0x2000) {
                 tile_mask = 0x300;
             }
             func_8009A21C(next_x, next_y, tile_mask);
             break;
         }
         if (attempt == 0) {
-            if ((((S_80172F58_11 *)(((s8 *)&D_80082E80.tileX)))->unk_00 != ((S_80172F58_2 *)position)->unk_24.at00u.v)
+            if ((((T_80172F58_S_80172F58_11 *)(((s8 *)&D_80082E80.tileX)))->unk_00 != ((T_80172F58_S_80172F58_2 *)position)->unk_24.at00u.v)
                 &&
                 ((s16)func_8009A180(actor, ((s32)D_800814A8->unk_58) + 0x20) != 0)) {
                 return;
@@ -323,25 +223,25 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position, u8 *actor
     } while (attempt < 8);
     move_found = attempt < 8;
     if (!move_found) {
-        ((S_80172F58_1 *)actor)->unk_71.u &= 0x7F;
-        ((S_80172F58_1 *)actor)->unk_46 &= 0x7FFF;
+        ((T_80172F58_S_80172F58_1 *)actor)->unk_71.u &= 0x7F;
+        ((T_80172F58_S_80172F58_1 *)actor)->unk_46 &= 0x7FFF;
         func_800A9A0C(actor);
         return;
     }
     turn_state = &dungeonStatus;
-    ((S_80172F58_1 *)actor)->unk_46 &= 0x7FFF;
-    ((S_80172F58_10 *)move_input)->unk_9C.u = ((S_80172F58_2 *)position)->unk_26.u;
-    ((S_80172F58_1 *)actor)->unk_6D.u--;
+    ((T_80172F58_S_80172F58_1 *)actor)->unk_46 &= 0x7FFF;
+    ((T_80172F58_S_80172F58_10 *)move_input)->unk_9C.u = ((T_80172F58_S_80172F58_2 *)position)->unk_26.u;
+    ((T_80172F58_S_80172F58_1 *)actor)->unk_6D.u--;
     turn_state->unk_08++;
-    if (((S_80172F58_1 *)actor)->unk_6D.s == 0) {
-        ((S_80172F58_1 *)actor)->unk_71.u &= 0x7F;
+    if (((T_80172F58_S_80172F58_1 *)actor)->unk_6D.s == 0) {
+        ((T_80172F58_S_80172F58_1 *)actor)->unk_71.u &= 0x7F;
         return;
     }
-    attempt = func_800BCB04((((S_80172F58_2 *)position)->unk_24.at00.v << 6) | 0x20,
-                      (((S_80172F58_2 *)position)->unk_24.at01.v << 6) | 0x20,
-                      (s16)(((S_80172F58_1 *)actor)->unk_88 - 0x20));
+    attempt = func_800BCB04((((T_80172F58_S_80172F58_2 *)position)->unk_24.at00.v << 6) | 0x20,
+                      (((T_80172F58_S_80172F58_2 *)position)->unk_24.at01.v << 6) | 0x20,
+                      (s16)(((T_80172F58_S_80172F58_1 *)actor)->unk_88 - 0x20));
     if (attempt < 0x200) {
-        ((S_80172F58_1 *)actor)->unk_88 = attempt;
+        ((T_80172F58_S_80172F58_1 *)actor)->unk_88 = attempt;
     }
     return;
 }

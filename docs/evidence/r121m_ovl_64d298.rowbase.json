@@ -1,0 +1,215 @@
+{
+  "group": "ovl_64d298.c#49",
+  "start": 6607512,
+  "end": 6607596,
+  "delta": 2140966912,
+  "loader_descriptor": {
+    "addr": "0x8001c084",
+    "index_from_D_8001BF80": 13,
+    "area": 12,
+    "room": 27,
+    "record_ptr": "0x8001c2ac",
+    "word0": "0x02016000",
+    "word1": "0x0000189f",
+    "sectors": 4,
+    "dest": "0x80016000",
+    "lba": "0x189f",
+    "town_file": "0x64d000",
+    "door_actor_records": [
+      "0x2b4664"
+    ]
+  },
+  "loader_evidence": "docs/evidence/town_scene_loader_receipt.json",
+  "town_sha256": "907725012d8d9e1deab18c28b62f4d304057e86a6415df605b9ffb87cfb2fe18",
+  "local_jumps": [
+    {
+      "foff": 6608496,
+      "word": "0x080059A0",
+      "target": 2147575424,
+      "target_foff": 6608512,
+      "target_words": [
+        "0x9223FFED",
+        "0x24020080",
+        "0x1462FFE5",
+        "0x02002021"
+      ]
+    },
+    {
+      "foff": 6608656,
+      "word": "0x080059CA",
+      "target": 2147575592,
+      "target_foff": 6608680,
+      "target_words": [
+        "0x0C005D1A",
+        "0x00042403",
+        "0x8FBF0020",
+        "0x8FB3001C"
+      ]
+    },
+    {
+      "foff": 6609292,
+      "word": "0x08005A6A",
+      "target": 2147576232,
+      "target_foff": 6609320,
+      "target_words": [
+        "0x03E00008",
+        "0x01001021",
+        "0x27BDFFE0",
+        "0xAFBF0018"
+      ]
+    },
+    {
+      "foff": 6609364,
+      "word": "0x08005A81",
+      "target": 2147576324,
+      "target_foff": 6609412,
+      "target_words": [
+        "0x8FBF0018",
+        "0x8FB10014",
+        "0x8FB00010",
+        "0x27BD0020"
+      ]
+    },
+    {
+      "foff": 6609644,
+      "word": "0x08005AC7",
+      "target": 2147576604,
+      "target_foff": 6609692,
+      "target_words": [
+        "0x8FBF0018",
+        "0x8FB10014",
+        "0x8FB00010",
+        "0x27BD0020"
+      ]
+    },
+    {
+      "foff": 6610288,
+      "word": "0x08005B68",
+      "target": 2147577248,
+      "target_foff": 6610336,
+      "target_words": [
+        "0x00521021",
+        "0x84440000",
+        "0x0C005D38",
+        "0x26310001"
+      ]
+    },
+    {
+      "foff": 6610536,
+      "word": "0x08005B89",
+      "target": 2147577380,
+      "target_foff": 6610468,
+      "target_words": [
+        "0x8E420010",
+        "0x00118100",
+        "0x02021021",
+        "0x8444000C"
+      ]
+    },
+    {
+      "foff": 6610896,
+      "word": "0x08005C00",
+      "target": 2147577856,
+      "target_foff": 6610944,
+      "target_words": [
+        "0x26310001",
+        "0x001110C0",
+        "0x00511023",
+        "0x00021080"
+      ]
+    },
+    {
+      "foff": 6612016,
+      "word": "0x08005D13",
+      "target": 2147578956,
+      "target_foff": 6612044,
+      "target_words": [
+        "0x90A20000",
+        "0x00000000",
+        "0x1440FFF8",
+        "0x00000000"
+      ]
+    },
+    {
+      "foff": 6612404,
+      "word": "0x08005D72",
+      "target": 2147579336,
+      "target_foff": 6612424,
+      "target_words": [
+        "0x03E00008",
+        "0x00000000",
+        "0x3C028001",
+        "0x8C426000"
+      ]
+    },
+    {
+      "foff": 6612412,
+      "word": "0x08005D72",
+      "target": 2147579336,
+      "target_foff": 6612424,
+      "target_words": [
+        "0x03E00008",
+        "0x00000000",
+        "0x3C028001",
+        "0x8C426000"
+      ]
+    },
+    {
+      "foff": 6612656,
+      "word": "0x08005DB1",
+      "target": 2147579588,
+      "target_foff": 6612676,
+      "target_words": [
+        "0x26100001",
+        "0x0213102A",
+        "0x1440FFF4",
+        "0x32220001"
+      ]
+    }
+  ],
+  "shared_epilogue_anchors": [
+    {
+      "foff": 6609292,
+      "word": "0x08005A6A",
+      "target": 2147576232,
+      "target_foff": 6609320,
+      "target_words": [
+        "0x03E00008",
+        "0x01001021",
+        "0x27BDFFE0",
+        "0xAFBF0018"
+      ]
+    },
+    {
+      "foff": 6612404,
+      "word": "0x08005D72",
+      "target": 2147579336,
+      "target_foff": 6612424,
+      "target_words": [
+        "0x03E00008",
+        "0x00000000",
+        "0x3C028001",
+        "0x8C426000"
+      ]
+    },
+    {
+      "foff": 6612412,
+      "word": "0x08005D72",
+      "target": 2147579336,
+      "target_foff": 6612424,
+      "target_words": [
+        "0x03E00008",
+        "0x00000000",
+        "0x3C028001",
+        "0x8C426000"
+      ]
+    }
+  ],
+  "boundary_note": "This record covers only the 84-byte assigned function. It neither overlaps nor extends the conflicting adjacent town100_64D0C0 record. The scene descriptor and raw CFG establish this row independently; the adjacent record remains a separate audit hold.",
+  "source_sha256": {
+    "src/town/modules/ovl_64d298.c": "d020fda8955f98adb48bfd7c3ac1e2711629717b9b067109bab05ded2287b16b",
+    "include/modules/town_ovl_64d298.h": "144832f7865f40a2c47d7a4fe4fd546eb15f927b3213e150eba103a19ba4c0b3",
+    "src/town/func_806CD298.c": "ea869a2f8b605cec84d0a924a397093a2e9557c30147533994ae48b3be23ae47"
+  },
+  "native_proof_artifacts": "work/module_proofs/town_ovl_64d298/module/receipt.json"
+}

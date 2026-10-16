@@ -1,0 +1,103 @@
+{
+  "kind": "RETAIL_C89_ARGUMENT_INHERITANCE",
+  "review": "pending",
+  "caller": {
+    "id": "dungeon/func_80A47C0C",
+    "source": "src/dungeon/func_80A47C0C.c",
+    "original_source_sha256": "60e7f10a0cce7570b3481450e27e43c2ef170a6f21be88065b6974c81eac2808",
+    "native_source_sha256": "9ea2775925efde0a975d317e75da6bc44963e671e40d8f17dda074a80b1dd20e",
+    "retained_expression": "func_80171964(actor, actor_context);"
+  },
+  "callee": {
+    "id": "dungeon/func_80A48164",
+    "source": "src/dungeon/func_80A48164.c",
+    "native_source_sha256": "14b1c4e89c186574f7c32dbf2d8eb4ff8070c458cc60dae4545994a34882a5de",
+    "definition": "void func_80171964(void *motion, void *unused, void *actor, void *path_state)",
+    "consumed_incoming_registers": [
+      "a0",
+      "a2",
+      "a3"
+    ],
+    "unused_parameter": "a1"
+  },
+  "declaration": "void func_80171964();",
+  "type_basis": "One C89 declaration with unspecified argument types is compatible with the later four-pointer definition: each parameter is unchanged by default argument promotion. This replaces the original caller-specific, incorrect two-pointer prototype. The original call expression is retained; no function-pointer cast, alias entry, compiler override or synthetic use is introduced.",
+  "retail_call": {
+    "foff": 10910792,
+    "vma": 2148996168,
+    "target": 2148997476,
+    "trace_foff": 10910732,
+    "trace_vma": 2148996108,
+    "words": [
+      1006796808,
+      2487366754,
+      666763208,
+      2947547168,
+      8421409,
+      2947743788,
+      10524705,
+      2947612708,
+      12617761,
+      2947678248,
+      14716961,
+      809635840,
+      272629766,
+      2948530224,
+      604110862,
+      201705049,
+      2718040218
+    ],
+    "sha256": "b414ff1f5d1dbf0fea2763e2f76de549342743af998eac0c5ba070255a3e9e8c",
+    "register_writes": [
+      {
+        "word": 0,
+        "register": 2
+      },
+      {
+        "word": 1,
+        "register": 2
+      },
+      {
+        "word": 2,
+        "register": 29
+      },
+      {
+        "word": 4,
+        "register": 16
+      },
+      {
+        "word": 6,
+        "register": 19
+      },
+      {
+        "word": 8,
+        "register": 17
+      },
+      {
+        "word": 10,
+        "register": 18
+      },
+      {
+        "word": 11,
+        "register": 2
+      },
+      {
+        "word": 14,
+        "register": 2
+      },
+      {
+        "word": 15,
+        "register": 31
+      }
+    ],
+    "arguments_at_call": {
+      "a0": "incoming actor",
+      "a1": "incoming context (unused by helper)",
+      "a2": "incoming sprite",
+      "a3": "incoming creature/path state"
+    },
+    "proof": "No instruction from entry through the jal delay slot writes a0..a3. The helper therefore receives all four original callback inputs even though the inherited call expression names two."
+  },
+  "scope": "Implementation-specific retail ABI at the fixed CDK G0 recipe. This is not a portable two-argument API. Byte-exact whole-TU, genuine-ASPSX and all affected window proofs remain mandatory; the private source expression and later four-parameter definition are both exposed for orchestrator type review.",
+  "not_stageable_oracle": false
+}

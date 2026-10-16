@@ -1,14 +1,5 @@
-#include "common.h"
-#include "shared/game_work.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_resource16_slot0.h"
 
-extern void func_80044A50(void *node);
-extern void func_800478B8(void *source);
-
-extern u16 D_801742E0;
-extern s32 D_801742E8;
-
-/* Update the entity timer, then fade colors to neutral and flag completion. */
 void func_80173B94(void *entity_data, void *unused, void *source_data)
 {
     u8 *entity = entity_data;
@@ -18,7 +9,7 @@ void func_80173B94(void *entity_data, void *unused, void *source_data)
     u16 fade_left;
 
     if (entity[0x9A] == 0) {
-        D_801742E8 = *(s32 *)(source + 8);
+        (*(s32 *)D_801742E8) = *(s32 *)(source + 8);
         func_800478B8(source);
 
         if (*(u16 *)(source + 0x14) & 0xE000) {
@@ -30,7 +21,7 @@ void func_80173B94(void *entity_data, void *unused, void *source_data)
         ticks = *(u16 *)(entity + 0x96);
         *(u16 *)(entity + 0x96) = ticks + 1;
         if ((ticks & 3) == 0) {
-            D_801742E0--;
+            (*(u16 *)D_801742E0)--;
             return;
         }
     } else {

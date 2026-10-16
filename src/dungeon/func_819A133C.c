@@ -1,10 +1,6 @@
-#include "common.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_ovl_19c088c.h"
 
-extern s16 D_800261B0;
-
-/* Advance the effect fade and mark it finished when its countdown expires. */
-void func_819A133C(void *effect, s32 unused, void *primitive)
+void func_80024B3C(void *effect, s32 unused, void *primitive)
 {
     s32 intensity;
     u16 ticks_left;
@@ -12,7 +8,7 @@ void func_819A133C(void *effect, s32 unused, void *primitive)
     ticks_left = *(u16 *)((u8 *)effect + 0x3A) - 1;
     intensity = ((s32)(ticks_left << 16) >> 9) /
             *(s16 *)((u8 *)effect + 0x3C);
-    D_800261B0 = 1;
+    (*(s16 *)D_800261B0) = 1;
     *(u16 *)((u8 *)effect + 0x3A) = ticks_left;
     *(s8 *)((u8 *)primitive + 0x0E) = intensity;
     *(s8 *)((u8 *)primitive + 0x0D) = intensity;

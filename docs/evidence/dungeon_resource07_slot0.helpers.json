@@ -1,0 +1,906 @@
+{
+  "module": "dungeon_resource07_slot0",
+  "new_rows": [
+    {
+      "id": "dungeon/func_80A71054",
+      "foff": 11079764,
+      "vma": 2148993108,
+      "size": 468,
+      "raw_source": "raw/dungeon/func_80A71054.c",
+      "raw_sha256": "2e432cfa3cd8440c9992a21b14d45b59733568ccd739631d1d680c022a5dce00",
+      "source": "src/dungeon/func_80A71054.c",
+      "source_sha256": "2d015f7e119f04a0900d3d672a80778e9339c0a6e89a61f367d89adf369788a4",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80A71054",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "distance": null,
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Share a typed callback state; explicitly forward resident arguments; reconcile the bank declarations and narrow result views.",
+        "pins": 0,
+        "pins_before": 0,
+        "row": "dungeon/func_80A71054",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80A71054.c",
+        "status": "exact",
+        "variant": "func_80A71054"
+      }
+    },
+    {
+      "id": "dungeon/func_80A71228",
+      "foff": 11080232,
+      "vma": 2148993576,
+      "size": 1068,
+      "raw_source": "raw/dungeon/func_80A71228.c",
+      "raw_sha256": "ee37f2d94b758b6acc53e5e97e85017a8a64b7082e1269f5fc44aee18eaa6734",
+      "source": "src/dungeon/func_80A71228.c",
+      "source_sha256": "2d3faf3e534fef6c9556b5f7c0d070ac8d99b7bb65054543f34092c69de8cdf0",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80A71228",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "distance": null,
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Share a typed callback state; explicitly forward resident arguments; reconcile the bank declarations and narrow result views.",
+        "pins": 0,
+        "pins_before": 0,
+        "row": "dungeon/func_80A71228",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80A71228.c",
+        "status": "exact",
+        "variant": "func_80A71228"
+      }
+    },
+    {
+      "id": "dungeon/func_80A71FB4",
+      "foff": 11083700,
+      "vma": 2148997044,
+      "size": 1864,
+      "raw_source": "raw/dungeon/func_80A71FB4.c",
+      "raw_sha256": "883ae1b766d2fd3eb6d48381e70270f564845a6d4ec041c78d1a0fcd46227b1c",
+      "source": "src/dungeon/func_80A71FB4.c",
+      "source_sha256": "ec621b9d41031dde91ab7a7fd0f72b6a49cead1af1786a431015d1489e5e68aa",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80A71FB4",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "distance": null,
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Share a typed callback state; explicitly forward resident arguments; reconcile the bank declarations and narrow result views.",
+        "pins": 0,
+        "pins_before": 0,
+        "row": "dungeon/func_80A71FB4",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80A71FB4.c",
+        "status": "exact",
+        "variant": "func_80A71FB4"
+      }
+    },
+    {
+      "id": "dungeon/func_80A727C0",
+      "foff": 11085760,
+      "vma": 2148999104,
+      "size": 452,
+      "raw_source": "raw/dungeon/func_80A727C0.c",
+      "raw_sha256": "fbdb40047e8ccd1c8a984a03f7edf4161b569c70165cf7dc0e769341fce62d31",
+      "source": "src/dungeon/func_80A727C0.c",
+      "source_sha256": "9d6301a7b80664edcebc90f2f84dd73687634e394da95c52ba1a1a0f1a4a60d3",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80A727C0",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "distance": null,
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Share a typed callback state; explicitly forward resident arguments; reconcile the bank declarations and narrow result views.",
+        "pins": 0,
+        "pins_before": 0,
+        "row": "dungeon/func_80A727C0",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80A727C0.c",
+        "status": "exact",
+        "variant": "func_80A727C0"
+      }
+    },
+    {
+      "id": "dungeon/func_80A72984",
+      "foff": 11086212,
+      "vma": 2148999556,
+      "size": 280,
+      "raw_source": "raw/dungeon/func_80A72984.c",
+      "raw_sha256": "bb59f1cda796e135bb9f915cc4226ad193b730e278b0cb727dd3f2a9d350d605",
+      "source": "src/dungeon/func_80A72984.c",
+      "source_sha256": "52ca4f2563ae3cd6187bffeba31072e49b4b61b0fae98d5d3d9da14fa59f95ba",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80A72984",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "distance": null,
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Share a typed callback state; explicitly forward resident arguments; reconcile the bank declarations and narrow result views.",
+        "pins": 0,
+        "pins_before": 0,
+        "row": "dungeon/func_80A72984",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80A72984.c",
+        "status": "exact",
+        "variant": "func_80A72984"
+      }
+    },
+    {
+      "id": "dungeon/func_80A72A9C",
+      "foff": 11086492,
+      "vma": 2148999836,
+      "size": 324,
+      "raw_source": "raw/dungeon/func_80A72A9C.c",
+      "raw_sha256": "402603447e449f669f0d2d63320201c8612ffe0da706f041f24c0056710b39a2",
+      "source": "src/dungeon/func_80A72A9C.c",
+      "source_sha256": "ca1390bc0e55c8a40afe0cbd40cb01f32ef69739c3444a759eab8b8158f547f2",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80A72A9C",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "distance": null,
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Share a typed callback state; explicitly forward resident arguments; reconcile the bank declarations and narrow result views.",
+        "pins": 0,
+        "pins_before": 0,
+        "row": "dungeon/func_80A72A9C",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80A72A9C.c",
+        "status": "exact",
+        "variant": "func_80A72A9C"
+      }
+    },
+    {
+      "id": "dungeon/func_80A72BE0",
+      "foff": 11086816,
+      "vma": 2149000160,
+      "size": 152,
+      "raw_source": "raw/dungeon/func_80A72BE0.c",
+      "raw_sha256": "569d98b10b3fafbed7804c202f5d94716726f7ff76d6c2e13babdc8f534aacf6",
+      "source": "src/dungeon/func_80A72BE0.c",
+      "source_sha256": "70013a74355b43a046334398a1677604bf4e5f1fcde73b098e4c05f5c2827a05",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80A72BE0",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "distance": null,
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Share a typed callback state; explicitly forward resident arguments; reconcile the bank declarations and narrow result views.",
+        "pins": 0,
+        "pins_before": 0,
+        "row": "dungeon/func_80A72BE0",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80A72BE0.c",
+        "status": "exact",
+        "variant": "func_80A72BE0"
+      }
+    },
+    {
+      "id": "dungeon/func_80A72FE8",
+      "foff": 11087848,
+      "vma": 2149001192,
+      "size": 100,
+      "raw_source": "raw/dungeon/func_80A72FE8.c",
+      "raw_sha256": "c562ef611b32d2d0895de58aeda4d13fff0919ff92ad353f977dee185f92d7d0",
+      "source": "src/dungeon/func_80A72FE8.c",
+      "source_sha256": "1a3f042e0c264db501e3e7dba149b40c2b48f15deca9f8d362dd6b10362fd82b",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80A72FE8",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "distance": null,
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Share a typed callback state; explicitly forward resident arguments; reconcile the bank declarations and narrow result views.",
+        "pins": 0,
+        "pins_before": 0,
+        "row": "dungeon/func_80A72FE8",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80A72FE8.c",
+        "status": "exact",
+        "variant": "func_80A72FE8"
+      }
+    },
+    {
+      "id": "dungeon/func_80A73E5C",
+      "foff": 11091548,
+      "vma": 2149004892,
+      "size": 32,
+      "raw_source": "raw/dungeon/func_80A73E5C.c",
+      "raw_sha256": "0382e881c3c39bb58fcafe5af96769e8038c64fd6f2780914ca756ac523956cb",
+      "source": "src/dungeon/func_80A73E5C.c",
+      "source_sha256": "ce845e11624e46444274dbab29899510f84d73665adebee7bd4aec1d8cb5ad82",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80A73E5C",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "distance": null,
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Share a typed callback state; explicitly forward resident arguments; reconcile the bank declarations and narrow result views.",
+        "pins": 0,
+        "pins_before": 0,
+        "row": "dungeon/func_80A73E5C",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80A73E5C.c",
+        "status": "exact",
+        "variant": "func_80A73E5C"
+      }
+    },
+    {
+      "id": "dungeon/func_80A73E7C",
+      "foff": 11091580,
+      "vma": 2149004924,
+      "size": 32,
+      "raw_source": "raw/dungeon/func_80A73E7C.c",
+      "raw_sha256": "25eec4135a2873e0101a41cd13996eeb255c3f6851b0264aab01f1f4bdb7b0d7",
+      "source": "src/dungeon/func_80A73E7C.c",
+      "source_sha256": "cf44f31911b0f31ffb2585a9b74b90e17c014e0ba03b7a651b708cc15fc777c1",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80A73E7C",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "distance": null,
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Share a typed callback state; explicitly forward resident arguments; reconcile the bank declarations and narrow result views.",
+        "pins": 0,
+        "pins_before": 0,
+        "row": "dungeon/func_80A73E7C",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80A73E7C.c",
+        "status": "exact",
+        "variant": "func_80A73E7C"
+      }
+    },
+    {
+      "id": "dungeon/func_80A73E9C",
+      "foff": 11091612,
+      "vma": 2149004956,
+      "size": 32,
+      "raw_source": "raw/dungeon/func_80A73E9C.c",
+      "raw_sha256": "575084e69d985678a9c012a63f0f3e195862703445031a3e0f4b6bec8f0211da",
+      "source": "src/dungeon/func_80A73E9C.c",
+      "source_sha256": "19ef2b81799ccd0e405c94a919d79619ed649fdc212fcf4718ee11f25af2eff9",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80A73E9C",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "distance": null,
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Share a typed callback state; explicitly forward resident arguments; reconcile the bank declarations and narrow result views.",
+        "pins": 0,
+        "pins_before": 0,
+        "row": "dungeon/func_80A73E9C",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80A73E9C.c",
+        "status": "exact",
+        "variant": "func_80A73E9C"
+      }
+    },
+    {
+      "id": "dungeon/func_80A73EBC",
+      "foff": 11091644,
+      "vma": 2149004988,
+      "size": 56,
+      "raw_source": "raw/dungeon/func_80A73EBC.c",
+      "raw_sha256": "fef66f13370ba21308781f5a6dfa25a07eed2789e35a070c9746abd14cb01704",
+      "source": "src/dungeon/func_80A73EBC.c",
+      "source_sha256": "283bf4a6b494143f2c761cfe226c3a0e5e208c86a740f195f47a62c8f796b18f",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80A73EBC",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "distance": null,
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Share a typed callback state; explicitly forward resident arguments; reconcile the bank declarations and narrow result views.",
+        "pins": 0,
+        "pins_before": 0,
+        "row": "dungeon/func_80A73EBC",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80A73EBC.c",
+        "status": "exact",
+        "variant": "func_80A73EBC"
+      }
+    },
+    {
+      "id": "dungeon/func_80A743B8",
+      "foff": 11092920,
+      "vma": 2149006264,
+      "size": 828,
+      "raw_source": "raw/dungeon/func_80A743B8.c",
+      "raw_sha256": "890cfc54b94d22a15297ea374c9f63bc67ef3bcbad43dc67f343aed5deb220df",
+      "source": "src/dungeon/func_80A743B8.c",
+      "source_sha256": "3d825764c1d387a313079390dab9e01ab7d2701fce64f141c5099b40a1489401",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80A743B8",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "distance": null,
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Share a typed callback state; explicitly forward resident arguments; reconcile the bank declarations and narrow result views.",
+        "pins": 0,
+        "pins_before": 0,
+        "row": "dungeon/func_80A743B8",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80A743B8.c",
+        "status": "exact",
+        "variant": "func_80A743B8"
+      }
+    },
+    {
+      "id": "dungeon/func_80A746F4",
+      "foff": 11093748,
+      "vma": 2149007092,
+      "size": 200,
+      "raw_source": "raw/dungeon/func_80A746F4.c",
+      "raw_sha256": "9311d10f251d82d85b4d509d96f90c57a354a5f3ae3914716480dd61f5d05827",
+      "source": "src/dungeon/func_80A746F4.c",
+      "source_sha256": "d0ea4b30e2d61ffd028f39aa06dd59c10de8dccb57c9405d00a3b0e7598aa0a6",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80A746F4",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "distance": null,
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Share a typed callback state; explicitly forward resident arguments; reconcile the bank declarations and narrow result views.",
+        "pins": 0,
+        "pins_before": 0,
+        "row": "dungeon/func_80A746F4",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80A746F4.c",
+        "status": "exact",
+        "variant": "func_80A746F4"
+      }
+    },
+    {
+      "id": "dungeon/func_80A747BC",
+      "foff": 11093948,
+      "vma": 2149007292,
+      "size": 100,
+      "raw_source": "raw/dungeon/func_80A747BC.c",
+      "raw_sha256": "67f58364ca8cae26716b9f38c9fd6b568777687c039143515057373ba7d8bdfa",
+      "source": "src/dungeon/func_80A747BC.c",
+      "source_sha256": "be738a19aa756e8f18daf3ef3b77da2187ae02331b94ce567bfee9b7477ea825",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80A747BC",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "distance": null,
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Share a typed callback state; explicitly forward resident arguments; reconcile the bank declarations and narrow result views.",
+        "pins": 0,
+        "pins_before": 0,
+        "row": "dungeon/func_80A747BC",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80A747BC.c",
+        "status": "exact",
+        "variant": "func_80A747BC"
+      }
+    },
+    {
+      "id": "dungeon/func_80A74820",
+      "foff": 11094048,
+      "vma": 2149007392,
+      "size": 56,
+      "raw_source": "raw/dungeon/func_80A74820.c",
+      "raw_sha256": "5a6ef6f7189d4a99df06a98d48eb91099242314f16e4edc347b4350ff044984c",
+      "source": "src/dungeon/func_80A74820.c",
+      "source_sha256": "2bf352d90b153dd107f26624e308e2a5d9827c03f453ba4259840e375b95f5b6",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80A74820",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "distance": null,
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Share a typed callback state; explicitly forward resident arguments; reconcile the bank declarations and narrow result views.",
+        "pins": 0,
+        "pins_before": 0,
+        "row": "dungeon/func_80A74820",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80A74820.c",
+        "status": "exact",
+        "variant": "func_80A74820"
+      }
+    },
+    {
+      "id": "dungeon/func_80A74858",
+      "foff": 11094104,
+      "vma": 2149007448,
+      "size": 56,
+      "raw_source": "raw/dungeon/func_80A74858.c",
+      "raw_sha256": "a42694baa18c341c41bb540a32e2aefbc974cdfc10a61a56d757f669ecc25c74",
+      "source": "src/dungeon/func_80A74858.c",
+      "source_sha256": "cbd52164e2539dedfa976fec12941b40661895dcd8fe8a6474c81ceb29699a59",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80A74858",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "distance": null,
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Share a typed callback state; explicitly forward resident arguments; reconcile the bank declarations and narrow result views.",
+        "pins": 0,
+        "pins_before": 0,
+        "row": "dungeon/func_80A74858",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80A74858.c",
+        "status": "exact",
+        "variant": "func_80A74858"
+      }
+    },
+    {
+      "id": "dungeon/func_80A74890",
+      "foff": 11094160,
+      "vma": 2149007504,
+      "size": 56,
+      "raw_source": "raw/dungeon/func_80A74890.c",
+      "raw_sha256": "cf0f7b47140454deaa9a16252380923cdf52f11620e4b2dbb4eea6d75209b072",
+      "source": "src/dungeon/func_80A74890.c",
+      "source_sha256": "4e8811d278d254a94b1c1b903826c526ce9f64f12210871606c390c11f4040c3",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80A74890",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "distance": null,
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Share a typed callback state; explicitly forward resident arguments; reconcile the bank declarations and narrow result views.",
+        "pins": 0,
+        "pins_before": 0,
+        "row": "dungeon/func_80A74890",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80A74890.c",
+        "status": "exact",
+        "variant": "func_80A74890"
+      }
+    },
+    {
+      "id": "dungeon/func_80A748C8",
+      "foff": 11094216,
+      "vma": 2149007560,
+      "size": 56,
+      "raw_source": "raw/dungeon/func_80A748C8.c",
+      "raw_sha256": "12d15e7fb80dd673546214ba08ef3df8b5137f2ab1dc28e39b8464453c21fde8",
+      "source": "src/dungeon/func_80A748C8.c",
+      "source_sha256": "4b3439eb013f7d339390294b4d2b391861ecc93d46c2bf89750b3353ecad6a06",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80A748C8",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "distance": null,
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Share a typed callback state; explicitly forward resident arguments; reconcile the bank declarations and narrow result views.",
+        "pins": 0,
+        "pins_before": 0,
+        "row": "dungeon/func_80A748C8",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80A748C8.c",
+        "status": "exact",
+        "variant": "func_80A748C8"
+      }
+    },
+    {
+      "id": "dungeon/func_80A74900",
+      "foff": 11094272,
+      "vma": 2149007616,
+      "size": 56,
+      "raw_source": "raw/dungeon/func_80A74900.c",
+      "raw_sha256": "5a145fcc50fcdb840e69a1c5e1d72f753066dd43456a1838bdfce4cbc79c5e81",
+      "source": "src/dungeon/func_80A74900.c",
+      "source_sha256": "a687e28bcc5d689c3d704f176b37c1a3418ed5bc198cdd1b774cddffb7d838ea",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80A74900",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "distance": null,
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Share a typed callback state; explicitly forward resident arguments; reconcile the bank declarations and narrow result views.",
+        "pins": 0,
+        "pins_before": 0,
+        "row": "dungeon/func_80A74900",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80A74900.c",
+        "status": "exact",
+        "variant": "func_80A74900"
+      }
+    }
+  ],
+  "basis": "Each initial raw C translation was calibrated by canonical lab baseline. Each actual shared-header cleanup was separately byte-verified and staged by lab stage-tidy. Every historical baseline is retained unchanged."
+}

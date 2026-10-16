@@ -1,0 +1,54 @@
+{
+  "module": "dungeon_ovl_c3b09c",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_c3b09c.c",
+    "module_index": 48
+  },
+  "members": [
+    "dungeon/func_80C1B09C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": "Complete original singleton ledger cohort; one complete routine in the proven conditional resource bank. The natural code allocation is the exact row extent. The verified loader establishes the full surrounding bank; external data remains imported. No row is shared with another module.",
+  "boundary": {
+    "file_start": 12824732,
+    "file_end": 12825528,
+    "region": {
+      "schema": "azure-clean.rowbase.v1",
+      "region": "native_resource_17_slot_1",
+      "foff_start": "0xc3b000",
+      "foff_end": "0xc41000",
+      "delta": "0x7f52f800",
+      "base_confidence": "proven",
+      "proof": "Verified conditional normal resource-loader transfer (func_800A0B94): resource 17, slot 1, twelve sectors at LBA 0x488c -> 0x8016a800. Retail instruction words, descriptor decoder, ISO extent and every disc/container sector verified in docs/evidence/dungeon_resource_17_slot_1.placement.json. Existing proven row recompiles agree with this delta; no runtime occurrence is claimed."
+    },
+    "other_rows_intersecting": [],
+    "resource_loader_receipt": "docs/evidence/dungeon_resource_17_slot_1.placement.json"
+  },
+  "cohesion": {
+    "function": "func_8016A89C",
+    "external_symbols": [
+      "D_80083228",
+      "D_80083498",
+      "D_800D71A8",
+      "D_800D78C0",
+      "D_8016ABB8",
+      "D_8016B3A8",
+      "D_8016E494",
+      "D_8016E4FC",
+      "func_8003FD64",
+      "func_8004491C",
+      "func_80045340",
+      "func_80047784",
+      "func_800478E8",
+      "func_800A48F0",
+      "func_800A6D30",
+      "func_800A9C18",
+      "func_800AA36C"
+    ],
+    "description": "One complete routine and its referenced external services/storage; no invented cross-row cohesion."
+  },
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120"
+}

@@ -1,17 +1,6 @@
-#include "common.h"
-#include "shared/record_ptrs.h"
-#include "shared/town_root.h"
-#include "m2c_compat.h"
+#include "modules/town_ovl_4f9100.h"
 
-
-
-M2C_UNK func_80017398();             /* extern */
-extern M2C_UNK D_80017500;
-extern s16 D_800175B4;
-extern M2C_UNK *D_800175B8;
-
-/* Selects the global buffer, clamps the state value to at least 30, and invokes func_80017398 three times. */
-void func_80579100(void) {
+void func_80016100(void) {
     TownStateRecord *activeState;
     s32 valueBeforeClamp;
 

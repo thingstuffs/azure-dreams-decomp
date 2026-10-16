@@ -1,0 +1,5 @@
+#include "modules/dungeon_ovl_191284c.h"
+#include "../func_818F2800.c"
+#include "../func_818F3098.c"
+#include "../func_818F30EC.c"
+#include "../func_818F333C.c"

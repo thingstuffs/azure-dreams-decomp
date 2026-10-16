@@ -1,107 +1,5 @@
-#include "common.h"
-#include "shared/object_node.h"
-#include "shared/slus_callbacks.h"
-extern u8 D_801744E4[];
+#include "modules/dungeon_resource17_slot0.h"
 
-typedef unsigned long uptr;
-
-typedef struct S_8017089C_0 {
-    u8 pad_00[0x10];
-    void * unk_10;
-} S_8017089C_0;   /* init_root in func_8017089C */
-
-typedef struct S_8017089C_1 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-} S_8017089C_1;   /* object in func_8017089C */
-
-typedef struct S_8017089C_2 {
-    u8 pad_00[0x8];
-    union { struct { void * v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
-    void * unk_0C;
-} S_8017089C_2;   /* (void *)temp_t0 in func_8017089C */
-
-typedef struct S_8017089C_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x2];
-    s32 unk_28;
-    void * unk_2C;
-} S_8017089C_3;   /* part in func_8017089C */
-
-typedef struct S_8017089C_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x2];
-    s16 unk_92;
-    u8 pad_94[0x4];
-    u16 unk_98;
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-    u8 pad_9D[0x1];
-    s16 unk_9E;
-    u8 pad_A0[0x8];
-    s16 unk_A8;
-} S_8017089C_4;   /* stable_object in func_8017089C */
-
-typedef struct S_8017089C_5 {
-    u8 pad_00[0xA4];
-    void * unk_A4;
-} S_8017089C_5;   /* outer in func_8017089C */
-
-typedef struct S_8017089C_6 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u16 unk_04;
-    s16 unk_06;
-    u8 pad_08[0x90];
-    void * unk_98;
-} S_8017089C_6;   /* entry in func_8017089C */
-
-typedef struct S_8017089C_7 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x16];
-    s32 unk_28;
-} S_8017089C_7;   /* item in func_8017089C */
-
-typedef struct S_8017089C_8 {
-    u8 pad_00[0xA4];
-    void * unk_A4;
-} S_8017089C_8;   /* outer_base in func_8017089C */
-
-typedef struct S_8017089C_9 {
-    u8 pad_00[0x10];
-    void * unk_10;
-} S_8017089C_9;   /* outer_child in func_8017089C */
-
-
-extern void *func_8003FD64(s32, void *);
-extern void func_8004491C(void *, void *);
-extern s32 func_800A6D30();
-extern void func_800A48F0(void *, s32, s32);
-extern void func_800A9C18(void *, void *, void *, s16);
-extern void func_800AA36C(void *, void *, void *, void *);
-extern void func_80047784(void *, s32, s32);
-extern void func_800478E8(void *, void *, s32);
-
-extern s16 D_80083228;
-extern u8 D_800D71A8[];
-extern u8 D_800D78C0[];
-extern u8 D_80170BB8[];
-extern u8 D_801713A8[];
-extern u8 D_80174494[];
-extern u8 D_801744FC[];
-
-/* Allocate and initialize an object, its part, and linked child entries. */
 void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
 {
     void *root;
@@ -139,71 +37,71 @@ void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
             object = (u8 *)allocated + 0x20;
             init_root = allocated;
             setup = func_80045340;
-            ((S_8017089C_0 *)init_root)->unk_10 = D_80170BB8;
-            ((S_8017089C_1 *)object)->unk_13 = 17;
+            ((R17_8017089C_S_8017089C_0 *)init_root)->unk_10 = ((u8 *)func_80170BB8);
+            ((R17_8017089C_S_8017089C_1 *)object)->unk_13 = 17;
             func_8004491C(init_root, setup);
         }
 
         {
             void *part_callback;
 
-            part_callback = D_80174494;
-            copy = ((S_8017089C_2 *)root)->unk_08.at00.v;
-            ((S_8017089C_2 *)copy)->unk_08.at02.v = saved_copy_value;
+            part_callback = ((u8 *)D_80174494);
+            copy = ((R17_8017089C_S_8017089C_2 *)root)->unk_08.at00.v;
+            ((R17_8017089C_S_8017089C_2 *)copy)->unk_08.at02.v = saved_copy_value;
             stable_object = object;
-            part = ((S_8017089C_2 *)root)->unk_0C;
-            ((S_8017089C_3 *)part)->unk_2C = part_callback;
+            part = ((R17_8017089C_S_8017089C_2 *)root)->unk_0C;
+            ((R17_8017089C_S_8017089C_3 *)part)->unk_2C = part_callback;
         }
-        ((S_8017089C_3 *)part)->unk_24 = saved_tile_x;
-        ((S_8017089C_3 *)part)->unk_25 = saved_tile_y;
+        ((R17_8017089C_S_8017089C_3 *)part)->unk_24 = saved_tile_x;
+        ((R17_8017089C_S_8017089C_3 *)part)->unk_25 = saved_tile_y;
 
         {
             s32 object_flags;
             s32 state_flags;
 
             if ((saved_kind & 3) == 1) {
-                object_flags = ((S_8017089C_1 *)object)->unk_14 | 0x6000;
-                state_flags = ((S_8017089C_1 *)object)->unk_1C | 0x6000;
-                ((S_8017089C_1 *)object)->unk_14 = object_flags;
-                ((S_8017089C_1 *)object)->unk_1C = state_flags;
+                object_flags = ((R17_8017089C_S_8017089C_1 *)object)->unk_14 | 0x6000;
+                state_flags = ((R17_8017089C_S_8017089C_1 *)object)->unk_1C | 0x6000;
+                ((R17_8017089C_S_8017089C_1 *)object)->unk_14 = object_flags;
+                ((R17_8017089C_S_8017089C_1 *)object)->unk_1C = state_flags;
             } else if ((saved_kind & 3) >= 2) {
-                object_flags = ((S_8017089C_1 *)object)->unk_14 | 0x2000;
-                state_flags = ((S_8017089C_1 *)object)->unk_1C | 0x2000;
-                ((S_8017089C_1 *)object)->unk_14 = object_flags;
-                ((S_8017089C_1 *)object)->unk_1C = state_flags;
+                object_flags = ((R17_8017089C_S_8017089C_1 *)object)->unk_14 | 0x2000;
+                state_flags = ((R17_8017089C_S_8017089C_1 *)object)->unk_1C | 0x2000;
+                ((R17_8017089C_S_8017089C_1 *)object)->unk_14 = object_flags;
+                ((R17_8017089C_S_8017089C_1 *)object)->unk_1C = state_flags;
             } else {
                 object_flags = saved_kind & ~3;
                 if ((s16)object_flags == 0) {
-                    if ((((S_8017089C_1 *)object)->unk_14 & 0x200) == 0) {
+                    if ((((R17_8017089C_S_8017089C_1 *)object)->unk_14 & 0x200) == 0) {
                         if (func_800A6D30() & 1) {
-                            ((S_8017089C_1 *)object)->unk_1C |= 0x200;
+                            ((R17_8017089C_S_8017089C_1 *)object)->unk_1C |= 0x200;
                             func_800A48F0(object, 1,
                                 (func_800A6D30() & 0x3F) | 0x20);
-                            ((S_8017089C_3 *)part)->unk_2C = D_801744FC;
+                            ((R17_8017089C_S_8017089C_3 *)part)->unk_2C = ((u8 *)D_801744FC);
                         }
                     }
                 }
             }
         }
 
-        func_800A9C18(root, copy, part, (s16)kind_copy);
+        func_800A9C18(root, copy, part,(s16)((s16)kind_copy));
 
         outer = stable_object;
         outer_index = 0;
-        ((S_8017089C_4 *)stable_object)->unk_9A = 0xFF;
-        ((S_8017089C_4 *)stable_object)->unk_9C = -1;
-        ((S_8017089C_4 *)stable_object)->unk_8C = D_801713A8;
-        ((S_8017089C_1 *)object)->unk_1C |= 0x40000;
-        ((S_8017089C_4 *)stable_object)->unk_92 = -48;
-        ((S_8017089C_4 *)stable_object)->unk_A8 = 0;
-        ((S_8017089C_4 *)stable_object)->unk_9E = 1;
-        ((S_8017089C_4 *)stable_object)->unk_98 |= 0x4000;
+        ((R17_8017089C_S_8017089C_4 *)stable_object)->unk_9A = 0xFF;
+        ((R17_8017089C_S_8017089C_4 *)stable_object)->unk_9C = -1;
+        ((R17_8017089C_S_8017089C_4 *)stable_object)->unk_8C = ((u8 *)func_801713A8);
+        ((R17_8017089C_S_8017089C_1 *)object)->unk_1C |= 0x40000;
+        ((R17_8017089C_S_8017089C_4 *)stable_object)->unk_92 = -48;
+        ((R17_8017089C_S_8017089C_4 *)stable_object)->unk_A8 = 0;
+        ((R17_8017089C_S_8017089C_4 *)stable_object)->unk_9E = 1;
+        ((R17_8017089C_S_8017089C_4 *)stable_object)->unk_98 |= 0x4000;
 
         do {
 
             saved_copy_value = (s32)func_8003FD64(0x112, ((u8 *)(&D_80083498)));
             allocated = (void *)saved_copy_value;
-            ((S_8017089C_5 *)outer)->unk_A4 = allocated;
+            ((R17_8017089C_S_8017089C_5 *)outer)->unk_A4 = allocated;
             if (allocated != 0) {
                 s32 item_offset;
                 s32 item_index;
@@ -212,10 +110,10 @@ void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
                 s32 more_items;
 
                 saved_kind = (s32)((u8 *)allocated + 0x20);
-                ((S_8017089C_6 *)(void *)saved_kind)->unk_02 = 1;
+                ((R17_8017089C_S_8017089C_6 *)(void *)saved_kind)->unk_02 = 1;
                 item_index = 0;
                 outer_base = outer;
-                table = D_801744E4;
+                table = ((u8 *)D_801744E4);
                 item_offset = 8;
                 do {
                     void *item;
@@ -225,32 +123,32 @@ void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
                     void *outer_child;
 
                     item = (u8 *)(void *)saved_kind + item_offset;
-                    ((S_8017089C_6 *)(void *)saved_kind)->unk_04 |= 0x8000;
-                    part_value = ((S_8017089C_3 *)part)->unk_28;
-                    ((S_8017089C_7 *)item)->unk_10 = 0x20;
-                    ((S_8017089C_7 *)item)->unk_0C = 0x00808080;
-                    ((S_8017089C_7 *)item)->unk_28 = part_value;
-                    outer_child = ((S_8017089C_8 *)outer_base)->unk_A4;
+                    ((R17_8017089C_S_8017089C_6 *)(void *)saved_kind)->unk_04 |= 0x8000;
+                    part_value = ((R17_8017089C_S_8017089C_3 *)part)->unk_28;
+                    ((R17_8017089C_S_8017089C_7 *)item)->unk_10 = 0x20;
+                    ((R17_8017089C_S_8017089C_7 *)item)->unk_0C = 0x00808080;
+                    ((R17_8017089C_S_8017089C_7 *)item)->unk_28 = part_value;
+                    outer_child = ((R17_8017089C_S_8017089C_8 *)outer_base)->unk_A4;
                     call_zero = 0;
-                    ((S_8017089C_9 *)outer_child)->unk_10 = D_800D78C0;
+                    ((R17_8017089C_S_8017089C_9 *)outer_child)->unk_10 = ((u8 *)D_800D78C0);
                     (*(void * *)((u8 *)item + 0x2C)) = table;
-                    direction_index = ((D_80083228 +
-                        ((S_8017089C_1 *)object)->unk_2A + 0x100) >> 9) & 7;
+                    direction_index = (((*(s16 *)D_80083228) +
+                        ((R17_8017089C_S_8017089C_1 *)object)->unk_2A + 0x100) >> 9) & 7;
                     func_80047784(item,
-                        *(u8 *)((uptr)direction_index + (uptr)table), call_zero);
+                        *(u8 *)((R17_8017089C_uptr)direction_index + (R17_8017089C_uptr)table), call_zero);
                     item_offset += 0x30;
                     item_index++;
-                    ((S_8017089C_6 *)(void *)saved_kind)->unk_06 = 1;
-                    func_800478E8(part, D_800D71A8, 1);
-                    more_items = item_index < ((S_8017089C_6 *)(void *)saved_kind)->unk_02;
-                    ((S_8017089C_6 *)(void *)saved_kind)->unk_98 = (u8 *)root + 0x1E;
+                    ((R17_8017089C_S_8017089C_6 *)(void *)saved_kind)->unk_06 = 1;
+                    func_800478E8(part, ((u8 *)D_800D71A8), 1);
+                    more_items = item_index < ((R17_8017089C_S_8017089C_6 *)(void *)saved_kind)->unk_02;
+                    ((R17_8017089C_S_8017089C_6 *)(void *)saved_kind)->unk_98 = (u8 *)root + 0x1E;
                 } while (more_items);
             }
             outer = (u8 *)outer + 4;
             {
                 s32 child_count;
 
-                child_count = ((S_8017089C_4 *)stable_object)->unk_9E;
+                child_count = ((R17_8017089C_S_8017089C_4 *)stable_object)->unk_9E;
                 outer_index++;
                 if (outer_index >= child_count) {
                     break;

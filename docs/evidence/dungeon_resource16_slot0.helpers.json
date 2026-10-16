@@ -1,0 +1,972 @@
+{
+  "module": "dungeon_resource16_slot0",
+  "new_rows": [
+    {
+      "id": "dungeon/func_80BEBD74",
+      "foff": 12631412,
+      "vma": 2148996468,
+      "size": 528,
+      "raw_source": "raw/dungeon/func_80BEBD74.c",
+      "raw_sha256": "8ea66d987c70567024d57589328a90decade7540808fe0cd64b6b0ab7e9f9a64",
+      "source": "src/dungeon/func_80BEBD74.c",
+      "source_sha256": "fbca953aa1a5cbdeb958f010b6d0332e68f213409b4a593875f1acefff7c6570",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80BEBD74",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Canonical complete native-TU retail and genuine proof; original body baseline is retained when the entry/switch prefix is owned by the TU.",
+        "pins": 0,
+        "pins_before": 0,
+        "proof": "proofs/dungeon_resource16_slot0",
+        "proof_sha256": "aea437f553e8ad67a95a292d75ae4437331085e25413f2078221fc5889d56631",
+        "row": "dungeon/func_80BEBD74",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80BEBD74.c",
+        "status": "exact",
+        "variant": "complete-native-bank"
+      }
+    },
+    {
+      "id": "dungeon/func_80BEBF84",
+      "foff": 12631940,
+      "vma": 2148996996,
+      "size": 1864,
+      "raw_source": "raw/dungeon/func_80BEBF84.c",
+      "raw_sha256": "466ab20e1500e8e2246504744299bd75633a07a5268bb88d8065e49081629124",
+      "source": "src/dungeon/func_80BEBF84.c",
+      "source_sha256": "383b7a186bd0bae301745ce7616634e52f5e50f907d627d90e88e1e5e3a31dd3",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80BEBF84",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Canonical complete native-TU retail and genuine proof; original body baseline is retained when the entry/switch prefix is owned by the TU.",
+        "pins": 0,
+        "pins_before": 0,
+        "proof": "proofs/dungeon_resource16_slot0",
+        "proof_sha256": "aea437f553e8ad67a95a292d75ae4437331085e25413f2078221fc5889d56631",
+        "row": "dungeon/func_80BEBF84",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80BEBF84.c",
+        "status": "exact",
+        "variant": "complete-native-bank"
+      }
+    },
+    {
+      "id": "dungeon/func_80BEC9B4",
+      "foff": 12634548,
+      "vma": 2148999604,
+      "size": 324,
+      "raw_source": "raw/dungeon/func_80BEC9B4.c",
+      "raw_sha256": "c1ed20321aec7c96f215b10907ff4750e95178061f0430cacc665d8a4282c555",
+      "source": "src/dungeon/func_80BEC9B4.c",
+      "source_sha256": "911de2d5906e5fae2b0af21ab86cf85db08de1ac032f8520cb0f611ec2a7688e",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80BEC9B4",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Canonical complete native-TU retail and genuine proof; original body baseline is retained when the entry/switch prefix is owned by the TU.",
+        "pins": 0,
+        "pins_before": 0,
+        "proof": "proofs/dungeon_resource16_slot0",
+        "proof_sha256": "aea437f553e8ad67a95a292d75ae4437331085e25413f2078221fc5889d56631",
+        "row": "dungeon/func_80BEC9B4",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80BEC9B4.c",
+        "status": "exact",
+        "variant": "complete-native-bank"
+      }
+    },
+    {
+      "id": "dungeon/func_80BECAF8",
+      "foff": 12634872,
+      "vma": 2148999928,
+      "size": 148,
+      "raw_source": "raw/dungeon/func_80BECAF8.c",
+      "raw_sha256": "151907ef3bcd2d50d3182736ff53a9d4db818c3d6fd32ed51a56aac9956a7176",
+      "source": "src/dungeon/func_80BECAF8.c",
+      "source_sha256": "7b98291c7329a917fb8b1139c6d34c6e9ae31367c53f0bc7f707bed1c2a3b87d",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80BECAF8",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Canonical complete native-TU retail and genuine proof; original body baseline is retained when the entry/switch prefix is owned by the TU.",
+        "pins": 0,
+        "pins_before": 0,
+        "proof": "proofs/dungeon_resource16_slot0",
+        "proof_sha256": "aea437f553e8ad67a95a292d75ae4437331085e25413f2078221fc5889d56631",
+        "row": "dungeon/func_80BECAF8",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80BECAF8.c",
+        "status": "exact",
+        "variant": "complete-native-bank"
+      }
+    },
+    {
+      "id": "dungeon/func_80BECB8C",
+      "foff": 12635020,
+      "vma": 2149000076,
+      "size": 100,
+      "raw_source": "raw/dungeon/func_80BECB8C.c",
+      "raw_sha256": "35b6615ab9af61dd124595e6bc6d1af68fb1bae7556283771f195bf1d2f6df2e",
+      "source": "src/dungeon/func_80BECB8C.c",
+      "source_sha256": "f31ebfce3806d3dd40b46953938ec0eea49138a8e893752b60d472ab69530f56",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80BECB8C",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Canonical complete native-TU retail and genuine proof; original body baseline is retained when the entry/switch prefix is owned by the TU.",
+        "pins": 0,
+        "pins_before": 0,
+        "proof": "proofs/dungeon_resource16_slot0",
+        "proof_sha256": "aea437f553e8ad67a95a292d75ae4437331085e25413f2078221fc5889d56631",
+        "row": "dungeon/func_80BECB8C",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80BECB8C.c",
+        "status": "exact",
+        "variant": "complete-native-bank"
+      }
+    },
+    {
+      "id": "dungeon/func_80BED1D8",
+      "foff": 12636632,
+      "vma": 2149001688,
+      "size": 724,
+      "raw_source": "raw/dungeon/func_80BED1D8.c",
+      "raw_sha256": "af962392c468d14c263e0a3f1c4618920d2ddc46fc534abe51eb1ecf450cde07",
+      "source": "src/dungeon/func_80BED1D8.c",
+      "source_sha256": "d5a9b706e6caccd9139ca0cfa2ce7122098db70230fdfbc157145a97d4ec87c7",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80BED1D8",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Canonical complete native-TU retail and genuine proof; original body baseline is retained when the entry/switch prefix is owned by the TU.",
+        "pins": 0,
+        "pins_before": 0,
+        "proof": "proofs/dungeon_resource16_slot0",
+        "proof_sha256": "aea437f553e8ad67a95a292d75ae4437331085e25413f2078221fc5889d56631",
+        "row": "dungeon/func_80BED1D8",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80BED1D8.c",
+        "status": "exact",
+        "variant": "complete-native-bank"
+      }
+    },
+    {
+      "id": "dungeon/func_80BED4AC",
+      "foff": 12637356,
+      "vma": 2149002412,
+      "size": 32,
+      "raw_source": "raw/dungeon/func_80BED4AC.c",
+      "raw_sha256": "bf80dec8be1a1cb7b3f5b09c75429c4567a3914c967e25d411f207d70e9acc7f",
+      "source": "src/dungeon/func_80BED4AC.c",
+      "source_sha256": "7ac7cfb35a91cb57fa39c9df4069e9e3618f0d32dc875c0535cfe840d93cab59",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80BED4AC",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Canonical complete native-TU retail and genuine proof; original body baseline is retained when the entry/switch prefix is owned by the TU.",
+        "pins": 0,
+        "pins_before": 0,
+        "proof": "proofs/dungeon_resource16_slot0",
+        "proof_sha256": "aea437f553e8ad67a95a292d75ae4437331085e25413f2078221fc5889d56631",
+        "row": "dungeon/func_80BED4AC",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80BED4AC.c",
+        "status": "exact",
+        "variant": "complete-native-bank"
+      }
+    },
+    {
+      "id": "dungeon/func_80BED4CC",
+      "foff": 12637388,
+      "vma": 2149002444,
+      "size": 44,
+      "raw_source": "raw/dungeon/func_80BED4CC.c",
+      "raw_sha256": "5af120399283ddf15b68800b6a3a2427470acdc844dcca496db20e5ded851eb1",
+      "source": "src/dungeon/func_80BED4CC.c",
+      "source_sha256": "f3dba918747833d5c1bae80e0ebbcf24c62cbdb062d9f827789793b21a240dc2",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80BED4CC",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Canonical complete native-TU retail and genuine proof; original body baseline is retained when the entry/switch prefix is owned by the TU.",
+        "pins": 0,
+        "pins_before": 0,
+        "proof": "proofs/dungeon_resource16_slot0",
+        "proof_sha256": "aea437f553e8ad67a95a292d75ae4437331085e25413f2078221fc5889d56631",
+        "row": "dungeon/func_80BED4CC",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80BED4CC.c",
+        "status": "exact",
+        "variant": "complete-native-bank"
+      }
+    },
+    {
+      "id": "dungeon/func_80BED4F8",
+      "foff": 12637432,
+      "vma": 2149002488,
+      "size": 32,
+      "raw_source": "raw/dungeon/func_80BED4F8.c",
+      "raw_sha256": "31c20d20d123af441ecc5132e4d5bacc80cfbaed82a3044300c3acee81a935bb",
+      "source": "src/dungeon/func_80BED4F8.c",
+      "source_sha256": "074e15b515897ffbf4d5a22b9c8a8af5c67af743e7ec6b78ea796071cfe89940",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80BED4F8",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Canonical complete native-TU retail and genuine proof; original body baseline is retained when the entry/switch prefix is owned by the TU.",
+        "pins": 0,
+        "pins_before": 0,
+        "proof": "proofs/dungeon_resource16_slot0",
+        "proof_sha256": "aea437f553e8ad67a95a292d75ae4437331085e25413f2078221fc5889d56631",
+        "row": "dungeon/func_80BED4F8",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80BED4F8.c",
+        "status": "exact",
+        "variant": "complete-native-bank"
+      }
+    },
+    {
+      "id": "dungeon/func_80BED518",
+      "foff": 12637464,
+      "vma": 2149002520,
+      "size": 56,
+      "raw_source": "raw/dungeon/func_80BED518.c",
+      "raw_sha256": "af5c46bebd4530a5800911583fabb50038dde5ddde9aa4bfbbad617565e864ba",
+      "source": "src/dungeon/func_80BED518.c",
+      "source_sha256": "7b7aec1c80d7979c83e6dfb9cb66ab618a21e3191dd0e6e7ec02aa76562718a7",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80BED518",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Canonical complete native-TU retail and genuine proof; original body baseline is retained when the entry/switch prefix is owned by the TU.",
+        "pins": 0,
+        "pins_before": 0,
+        "proof": "proofs/dungeon_resource16_slot0",
+        "proof_sha256": "aea437f553e8ad67a95a292d75ae4437331085e25413f2078221fc5889d56631",
+        "row": "dungeon/func_80BED518",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80BED518.c",
+        "status": "exact",
+        "variant": "complete-native-bank"
+      }
+    },
+    {
+      "id": "dungeon/func_80BED550",
+      "foff": 12637520,
+      "vma": 2149002576,
+      "size": 964,
+      "raw_source": "raw/dungeon/func_80BED550.c",
+      "raw_sha256": "c4967762c19eeeb1a5a0c8a10f0963d1a5227b7673a9a155737885e8c14315fc",
+      "source": "src/dungeon/func_80BED550.c",
+      "source_sha256": "44dbf43a58421507176a1ca178820da58661dec8aac4fa4197e8a89bf1f4745e",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80BED550",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Canonical complete native-TU retail and genuine proof; original body baseline is retained when the entry/switch prefix is owned by the TU.",
+        "pins": 0,
+        "pins_before": 0,
+        "proof": "proofs/dungeon_resource16_slot0",
+        "proof_sha256": "aea437f553e8ad67a95a292d75ae4437331085e25413f2078221fc5889d56631",
+        "row": "dungeon/func_80BED550",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80BED550.c",
+        "status": "exact",
+        "variant": "complete-native-bank"
+      }
+    },
+    {
+      "id": "dungeon/func_80BED914",
+      "foff": 12638484,
+      "vma": 2149003540,
+      "size": 852,
+      "raw_source": "raw/dungeon/func_80BED914.c",
+      "raw_sha256": "68624b3f3e1587e355f56c222ca88c3a6b7e4fde7288629055d34afd7a0842a5",
+      "source": "src/dungeon/func_80BED914.c",
+      "source_sha256": "80c5e0a738be0b6266e7f0963b1235c08e3c82377f069be2092b6446e282b11d",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80BED914",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Canonical complete native-TU retail and genuine proof; original body baseline is retained when the entry/switch prefix is owned by the TU.",
+        "pins": 0,
+        "pins_before": 0,
+        "proof": "proofs/dungeon_resource16_slot0",
+        "proof_sha256": "aea437f553e8ad67a95a292d75ae4437331085e25413f2078221fc5889d56631",
+        "row": "dungeon/func_80BED914",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80BED914.c",
+        "status": "exact",
+        "variant": "complete-native-bank"
+      }
+    },
+    {
+      "id": "dungeon/func_80BEDC68",
+      "foff": 12639336,
+      "vma": 2149004392,
+      "size": 200,
+      "raw_source": "raw/dungeon/func_80BEDC68.c",
+      "raw_sha256": "fe0a1a1768d1f8cc3630090f37090f8929243e6574e6f8c4c2345ffb0ccab3a4",
+      "source": "src/dungeon/func_80BEDC68.c",
+      "source_sha256": "229541b57c78cc6dc9c5842a1e3a1b0e6cc4846e4da4f180d33e86707d1514c9",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80BEDC68",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Canonical complete native-TU retail and genuine proof; original body baseline is retained when the entry/switch prefix is owned by the TU.",
+        "pins": 0,
+        "pins_before": 0,
+        "proof": "proofs/dungeon_resource16_slot0",
+        "proof_sha256": "aea437f553e8ad67a95a292d75ae4437331085e25413f2078221fc5889d56631",
+        "row": "dungeon/func_80BEDC68",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80BEDC68.c",
+        "status": "exact",
+        "variant": "complete-native-bank"
+      }
+    },
+    {
+      "id": "dungeon/func_80BEDD30",
+      "foff": 12639536,
+      "vma": 2149004592,
+      "size": 100,
+      "raw_source": "raw/dungeon/func_80BEDD30.c",
+      "raw_sha256": "04acbdfd057aa1554080456371a005f709fd5ea0d6e168289494b5aa8a1f23e3",
+      "source": "src/dungeon/func_80BEDD30.c",
+      "source_sha256": "753ad4b1685c722a82d61f38f8ff2fe5acf40d5d35ae941e279e540101e1d785",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80BEDD30",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Canonical complete native-TU retail and genuine proof; original body baseline is retained when the entry/switch prefix is owned by the TU.",
+        "pins": 0,
+        "pins_before": 0,
+        "proof": "proofs/dungeon_resource16_slot0",
+        "proof_sha256": "aea437f553e8ad67a95a292d75ae4437331085e25413f2078221fc5889d56631",
+        "row": "dungeon/func_80BEDD30",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80BEDD30.c",
+        "status": "exact",
+        "variant": "complete-native-bank"
+      }
+    },
+    {
+      "id": "dungeon/func_80BEDD94",
+      "foff": 12639636,
+      "vma": 2149004692,
+      "size": 56,
+      "raw_source": "raw/dungeon/func_80BEDD94.c",
+      "raw_sha256": "3e18c38a411d313203164625adef8cbec9541b204c7c79566d928524572f6648",
+      "source": "src/dungeon/func_80BEDD94.c",
+      "source_sha256": "8396079abc482fb180d627a4ce9bc707d5a9d822d1189551d5554fef557ade03",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80BEDD94",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Canonical complete native-TU retail and genuine proof; original body baseline is retained when the entry/switch prefix is owned by the TU.",
+        "pins": 0,
+        "pins_before": 0,
+        "proof": "proofs/dungeon_resource16_slot0",
+        "proof_sha256": "aea437f553e8ad67a95a292d75ae4437331085e25413f2078221fc5889d56631",
+        "row": "dungeon/func_80BEDD94",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80BEDD94.c",
+        "status": "exact",
+        "variant": "complete-native-bank"
+      }
+    },
+    {
+      "id": "dungeon/func_80BEDDCC",
+      "foff": 12639692,
+      "vma": 2149004748,
+      "size": 56,
+      "raw_source": "raw/dungeon/func_80BEDDCC.c",
+      "raw_sha256": "09e9075fec12ac832d93c5266a79e470e8938fc1011b4dd3626d6345763483b0",
+      "source": "src/dungeon/func_80BEDDCC.c",
+      "source_sha256": "2dbb2c0141b4c5b8da2d6ef6a0597714107bd82bb2089a3c83ef2095659835ba",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80BEDDCC",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Canonical complete native-TU retail and genuine proof; original body baseline is retained when the entry/switch prefix is owned by the TU.",
+        "pins": 0,
+        "pins_before": 0,
+        "proof": "proofs/dungeon_resource16_slot0",
+        "proof_sha256": "aea437f553e8ad67a95a292d75ae4437331085e25413f2078221fc5889d56631",
+        "row": "dungeon/func_80BEDDCC",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80BEDDCC.c",
+        "status": "exact",
+        "variant": "complete-native-bank"
+      }
+    },
+    {
+      "id": "dungeon/func_80BEDE04",
+      "foff": 12639748,
+      "vma": 2149004804,
+      "size": 56,
+      "raw_source": "raw/dungeon/func_80BEDE04.c",
+      "raw_sha256": "8903b41550e7cd62471c71fd90781f82d99f6499c8cb9c658686839f54af79f7",
+      "source": "src/dungeon/func_80BEDE04.c",
+      "source_sha256": "5a441c2e6d648814fbb1a032254140de9d6db127819da5bf3575bdd61fac6ab5",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80BEDE04",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Canonical complete native-TU retail and genuine proof; original body baseline is retained when the entry/switch prefix is owned by the TU.",
+        "pins": 0,
+        "pins_before": 0,
+        "proof": "proofs/dungeon_resource16_slot0",
+        "proof_sha256": "aea437f553e8ad67a95a292d75ae4437331085e25413f2078221fc5889d56631",
+        "row": "dungeon/func_80BEDE04",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80BEDE04.c",
+        "status": "exact",
+        "variant": "complete-native-bank"
+      }
+    },
+    {
+      "id": "dungeon/func_80BEDE3C",
+      "foff": 12639804,
+      "vma": 2149004860,
+      "size": 56,
+      "raw_source": "raw/dungeon/func_80BEDE3C.c",
+      "raw_sha256": "b41e2800873b93ccc6a7f7ad6e0c7e410e6a7d164fc031272d2d88b49e6be7f2",
+      "source": "src/dungeon/func_80BEDE3C.c",
+      "source_sha256": "dccf4d2342f6c1e5875857a1bf7346c647dd1edc5c0fd8bb496be5661abef9ac",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80BEDE3C",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Canonical complete native-TU retail and genuine proof; original body baseline is retained when the entry/switch prefix is owned by the TU.",
+        "pins": 0,
+        "pins_before": 0,
+        "proof": "proofs/dungeon_resource16_slot0",
+        "proof_sha256": "aea437f553e8ad67a95a292d75ae4437331085e25413f2078221fc5889d56631",
+        "row": "dungeon/func_80BEDE3C",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80BEDE3C.c",
+        "status": "exact",
+        "variant": "complete-native-bank"
+      }
+    },
+    {
+      "id": "dungeon/func_80BEDE74",
+      "foff": 12639860,
+      "vma": 2149004916,
+      "size": 56,
+      "raw_source": "raw/dungeon/func_80BEDE74.c",
+      "raw_sha256": "b67d99def477e59244d2fdd1f0f04d508244ae3b01ecef8d56add50b5261ae31",
+      "source": "src/dungeon/func_80BEDE74.c",
+      "source_sha256": "2d5b116ca17d655f10b1e81471666df586108ed36036e19e14d467217f4e8ece",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80BEDE74",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Canonical complete native-TU retail and genuine proof; original body baseline is retained when the entry/switch prefix is owned by the TU.",
+        "pins": 0,
+        "pins_before": 0,
+        "proof": "proofs/dungeon_resource16_slot0",
+        "proof_sha256": "aea437f553e8ad67a95a292d75ae4437331085e25413f2078221fc5889d56631",
+        "row": "dungeon/func_80BEDE74",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80BEDE74.c",
+        "status": "exact",
+        "variant": "complete-native-bank"
+      }
+    },
+    {
+      "id": "dungeon/func_80BEDEAC",
+      "foff": 12639916,
+      "vma": 2149004972,
+      "size": 140,
+      "raw_source": "raw/dungeon/func_80BEDEAC.c",
+      "raw_sha256": "e2d50ef784f63971939298f967f2b025565ecd23b715cb2163f2ad28a3254397",
+      "source": "src/dungeon/func_80BEDEAC.c",
+      "source_sha256": "73084e199dc01aa5aa3b8ccc7eaf24bbf67b4127b1eef7ec2650950cf153460d",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80BEDEAC",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Canonical complete native-TU retail and genuine proof; original body baseline is retained when the entry/switch prefix is owned by the TU.",
+        "pins": 0,
+        "pins_before": 0,
+        "proof": "proofs/dungeon_resource16_slot0",
+        "proof_sha256": "aea437f553e8ad67a95a292d75ae4437331085e25413f2078221fc5889d56631",
+        "row": "dungeon/func_80BEDEAC",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80BEDEAC.c",
+        "status": "exact",
+        "variant": "complete-native-bank"
+      }
+    },
+    {
+      "id": "dungeon/func_80BEE2E8",
+      "foff": 12641000,
+      "vma": 2149006056,
+      "size": 172,
+      "raw_source": "raw/dungeon/func_80BEE2E8.c",
+      "raw_sha256": "3a334e4410c16cbcd3a7b13e36aee0d2c593dc130f25d17ea05aa5ae5043c32c",
+      "source": "src/dungeon/func_80BEE2E8.c",
+      "source_sha256": "471663c3f9de3fbc67f9b5d9432d825069aac128ffc00e8f298abe116c964540",
+      "baseline": {
+        "distance": 0,
+        "kind": "baseline",
+        "pins": 0,
+        "row": "dungeon/func_80BEE2E8",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "status": "calibrated",
+        "variant": "pinned_control"
+      },
+      "tidy": {
+        "cfg": "2.7.2-cdk-G0",
+        "equal_pins": true,
+        "kind": "stage-tidy",
+        "note": "Canonical complete native-TU retail and genuine proof; original body baseline is retained when the entry/switch prefix is owned by the TU.",
+        "pins": 0,
+        "pins_before": 0,
+        "proof": "proofs/dungeon_resource16_slot0",
+        "proof_sha256": "aea437f553e8ad67a95a292d75ae4437331085e25413f2078221fc5889d56631",
+        "row": "dungeon/func_80BEE2E8",
+        "score": {
+          "exact": true,
+          "indels": 0,
+          "status": "ok",
+          "subs": 0,
+          "total": 0
+        },
+        "staged": "out/dungeon/func_80BEE2E8.c",
+        "status": "exact",
+        "variant": "complete-native-bank"
+      }
+    }
+  ],
+  "basis": "Each initial raw C translation was calibrated by canonical lab baseline. Each actual shared-header cleanup was separately byte-verified and staged by lab stage-tidy. Every historical baseline is retained unchanged."
+}

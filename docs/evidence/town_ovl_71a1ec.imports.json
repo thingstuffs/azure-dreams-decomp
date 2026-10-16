@@ -1,0 +1,42 @@
+{
+  "module": "town_ovl_71a1ec",
+  "views": {
+    "D_80016000": {
+      "symbol": "D_80016000",
+      "kind": "data",
+      "vma": 2147573760,
+      "foff": 7446528,
+      "view_bytes": 4,
+      "owner": "retail_asset:town:r121m_cfg_ovl_71a1ec",
+      "evidence": "docs/evidence/town_ovl_71a1ec.imports.json"
+    },
+    "D_8001601C": {
+      "symbol": "D_8001601C",
+      "kind": "data",
+      "vma": 2147573788,
+      "foff": 7446556,
+      "view_bytes": 4,
+      "owner": "retail_asset:town:r121m_cfg_ovl_71a1ec",
+      "evidence": "docs/evidence/town_ovl_71a1ec.imports.json"
+    },
+    "D_80016084": {
+      "symbol": "D_80016084",
+      "kind": "data",
+      "vma": 2147573892,
+      "foff": 7446660,
+      "view_bytes": 4,
+      "owner": "retail_asset:town:r121m_cfg_ovl_71a1ec",
+      "evidence": "docs/evidence/town_ovl_71a1ec.imports.json"
+    },
+    "D_80017508": {
+      "symbol": "D_80017508",
+      "kind": "data",
+      "vma": 2147579144,
+      "foff": 7451912,
+      "view_bytes": 4,
+      "owner": "retail_asset:town:r121m_cfg_ovl_71a1ec",
+      "evidence": "docs/evidence/town_ovl_71a1ec.imports.json"
+    }
+  },
+  "basis": "Every undefined symbol is a data view in the independently proved contiguous scene map. The root/pointer/scalar slots require four bytes; the address-only char array view makes no allocation-bound claim. Callback offsets and register arguments are expressed through the existing shared root headers, with no copied structures or duplicate declarations."
+}

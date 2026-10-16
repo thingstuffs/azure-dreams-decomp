@@ -1,0 +1,1093 @@
+{
+  "module": "dungeon_ovl_cb3000",
+  "maps": {
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "kind": "psx_exe",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "basis": "PS-X EXE load header."
+    },
+    "dungeon_resident": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "kind": "rowbase",
+      "region": "xfer_dungeon_A3000",
+      "file_start": 667648,
+      "file_end": 1050624,
+      "delta": 2147374944,
+      "basis": "Proven resident loader map."
+    },
+    "cb3000_bank": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "kind": "rowbase",
+      "region": "w4d1_cb3000_bank",
+      "file_start": 13316096,
+      "file_end": 13335472,
+      "delta": 2135676928,
+      "basis": "Same complete image: local jumps, prefix switches and 24-entry callback table bind the code/data addresses at one proven delta."
+    }
+  },
+  "views": {
+    "D_8003E140": {
+      "symbol": "D_8003E140",
+      "kind": "data",
+      "vma": 2147737920,
+      "foff": 72000,
+      "view_bytes": 4,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_8006CCD8": {
+      "symbol": "D_8006CCD8",
+      "kind": "data",
+      "vma": 2147929304,
+      "foff": 263384,
+      "view_bytes": 16,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_8006CCE8": {
+      "symbol": "D_8006CCE8",
+      "kind": "data",
+      "vma": 2147929320,
+      "foff": 263400,
+      "view_bytes": 16,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_8006CCF8": {
+      "symbol": "D_8006CCF8",
+      "kind": "data",
+      "vma": 2147929336,
+      "foff": 263416,
+      "view_bytes": 8,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_8006CD00": {
+      "symbol": "D_8006CD00",
+      "kind": "data",
+      "vma": 2147929344,
+      "foff": 263424,
+      "view_bytes": 16,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_8006CD58": {
+      "symbol": "D_8006CD58",
+      "kind": "data",
+      "vma": 2147929432,
+      "foff": 263512,
+      "view_bytes": 4,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_8006DE24": {
+      "symbol": "D_8006DE24",
+      "kind": "data",
+      "vma": 2147933732,
+      "foff": 267812,
+      "view_bytes": 8,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_800DCEEC": {
+      "symbol": "D_800DCEEC",
+      "kind": "data",
+      "vma": 2148388588,
+      "foff": 1013644,
+      "view_bytes": 1024,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_800DCF5C": {
+      "symbol": "D_800DCF5C",
+      "kind": "data",
+      "vma": 2148388700,
+      "foff": 1013756,
+      "view_bytes": 2,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_800DCF5E": {
+      "symbol": "D_800DCF5E",
+      "kind": "data",
+      "vma": 2148388702,
+      "foff": 1013758,
+      "view_bytes": 2,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_800E2970": {
+      "symbol": "D_800E2970",
+      "kind": "data",
+      "vma": 2148411760,
+      "foff": 1036816,
+      "view_bytes": 5120,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_801752AC": {
+      "symbol": "D_801752AC",
+      "kind": "data",
+      "vma": 2149012140,
+      "foff": 13335212,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "cb3000_bank",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_801752B4": {
+      "symbol": "D_801752B4",
+      "kind": "data",
+      "vma": 2149012148,
+      "foff": 13335220,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "cb3000_bank",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_801752BC": {
+      "symbol": "D_801752BC",
+      "kind": "data",
+      "vma": 2149012156,
+      "foff": 13335228,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "cb3000_bank",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_801752C4": {
+      "symbol": "D_801752C4",
+      "kind": "data",
+      "vma": 2149012164,
+      "foff": 13335236,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "cb3000_bank",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_801752CC": {
+      "symbol": "D_801752CC",
+      "kind": "data",
+      "vma": 2149012172,
+      "foff": 13335244,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "cb3000_bank",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_801752D4": {
+      "symbol": "D_801752D4",
+      "kind": "data",
+      "vma": 2149012180,
+      "foff": 13335252,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "cb3000_bank",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_801752DC": {
+      "symbol": "D_801752DC",
+      "kind": "data",
+      "vma": 2149012188,
+      "foff": 13335260,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "cb3000_bank",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_801752E4": {
+      "symbol": "D_801752E4",
+      "kind": "data",
+      "vma": 2149012196,
+      "foff": 13335268,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "cb3000_bank",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_801752EC": {
+      "symbol": "D_801752EC",
+      "kind": "data",
+      "vma": 2149012204,
+      "foff": 13335276,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "cb3000_bank",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_801752F4": {
+      "symbol": "D_801752F4",
+      "kind": "data",
+      "vma": 2149012212,
+      "foff": 13335284,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "cb3000_bank",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_801752FC": {
+      "symbol": "D_801752FC",
+      "kind": "data",
+      "vma": 2149012220,
+      "foff": 13335292,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "cb3000_bank",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_80175304": {
+      "symbol": "D_80175304",
+      "kind": "data",
+      "vma": 2149012228,
+      "foff": 13335300,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "cb3000_bank",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_8017530C": {
+      "symbol": "D_8017530C",
+      "kind": "data",
+      "vma": 2149012236,
+      "foff": 13335308,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "cb3000_bank",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_80175314": {
+      "symbol": "D_80175314",
+      "kind": "data",
+      "vma": 2149012244,
+      "foff": 13335316,
+      "view_bytes": 2,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "cb3000_bank",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_80175318": {
+      "symbol": "D_80175318",
+      "kind": "data",
+      "vma": 2149012248,
+      "foff": 13335320,
+      "view_bytes": 12,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "cb3000_bank",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_80175324": {
+      "symbol": "D_80175324",
+      "kind": "data",
+      "vma": 2149012260,
+      "foff": 13335332,
+      "view_bytes": 12,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "cb3000_bank",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_80175330": {
+      "symbol": "D_80175330",
+      "kind": "data",
+      "vma": 2149012272,
+      "foff": 13335344,
+      "view_bytes": 12,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "cb3000_bank",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_8017533C": {
+      "symbol": "D_8017533C",
+      "kind": "data",
+      "vma": 2149012284,
+      "foff": 13335356,
+      "view_bytes": 96,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "cb3000_bank",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_8017539C": {
+      "symbol": "D_8017539C",
+      "kind": "data",
+      "vma": 2149012380,
+      "foff": 13335452,
+      "view_bytes": 12,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "cb3000_bank",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_801753A8": {
+      "symbol": "D_801753A8",
+      "kind": "data",
+      "vma": 2149012392,
+      "foff": 13335464,
+      "view_bytes": 1,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "cb3000_bank",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_801753A9": {
+      "symbol": "D_801753A9",
+      "kind": "data",
+      "vma": 2149012393,
+      "foff": 13335465,
+      "view_bytes": 1,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "cb3000_bank",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    },
+    "D_801753AC": {
+      "symbol": "D_801753AC",
+      "kind": "data",
+      "vma": 2149012396,
+      "foff": 13335468,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "cb3000_bank",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json"
+    }
+  },
+  "runtime_views": {
+    "D_800814A0": {
+      "symbol": "D_800814A0",
+      "kind": "runtime_data",
+      "vma": 2148013216,
+      "view_bytes": 16,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json",
+      "declaration": "include/shared/object_flags.h"
+    },
+    "D_800814A8": {
+      "symbol": "D_800814A8",
+      "kind": "runtime_data",
+      "vma": 2148013224,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json",
+      "declaration": "include/shared/record_ptrs.h"
+    },
+    "D_80082E80": {
+      "symbol": "D_80082E80",
+      "kind": "runtime_data",
+      "vma": 2148019840,
+      "view_bytes": 64,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json",
+      "declaration": "include/shared/tile_object.h"
+    },
+    "D_80082EA4": {
+      "symbol": "D_80082EA4",
+      "kind": "runtime_data",
+      "vma": 2148019876,
+      "view_bytes": 2,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json",
+      "declaration": "include/modules/dungeon_ovl_cb3000.h"
+    },
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 512,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json",
+      "declaration": "include/shared/game_work.h"
+    },
+    "D_80083460": {
+      "symbol": "D_80083460",
+      "kind": "runtime_data",
+      "vma": 2148021344,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json",
+      "declaration": "include/shared/dungeon_status.h"
+    },
+    "D_80083462": {
+      "symbol": "D_80083462",
+      "kind": "runtime_data",
+      "vma": 2148021346,
+      "view_bytes": 2,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json",
+      "declaration": "include/modules/dungeon_ovl_cb3000.h"
+    },
+    "D_80083498": {
+      "symbol": "D_80083498",
+      "kind": "runtime_data",
+      "vma": 2148021400,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json",
+      "declaration": "include/shared/object_node.h"
+    },
+    "D_8014A000": {
+      "symbol": "D_8014A000",
+      "kind": "runtime_data",
+      "vma": 2148835328,
+      "view_bytes": 1,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_cb3000.imports.json",
+      "declaration": "include/modules/dungeon_ovl_cb3000.h"
+    }
+  },
+  "functions": {
+    "func_8003DB94": {
+      "vma": 2147736468,
+      "foff": 70548,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_8003E4FC": {
+      "vma": 2147738876,
+      "foff": 72956,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_8003F270": {
+      "vma": 2147742320,
+      "foff": 76400,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_8003F540": {
+      "vma": 2147743040,
+      "foff": 77120,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_8003FC64": {
+      "vma": 2147744868,
+      "foff": 78948,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_8003FD64": {
+      "vma": 2147745124,
+      "foff": 79204,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_80041588": {
+      "vma": 2147751304,
+      "foff": 85384,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800419EC": {
+      "vma": 2147752428,
+      "foff": 86508,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_80042900": {
+      "vma": 2147756288,
+      "foff": 90368,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_80042B68": {
+      "vma": 2147756904,
+      "foff": 90984,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800445E0": {
+      "vma": 2147763680,
+      "foff": 97760,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_8004491C": {
+      "vma": 2147764508,
+      "foff": 98588,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_80044A50": {
+      "vma": 2147764816,
+      "foff": 98896,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_80045340": {
+      "vma": 2147767104,
+      "foff": 101184,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_80047738": {
+      "vma": 2147776312,
+      "foff": 110392,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_80047784": {
+      "vma": 2147776388,
+      "foff": 110468,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800478B8": {
+      "vma": 2147776696,
+      "foff": 110776,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800498A0": {
+      "vma": 2147784864,
+      "foff": 118944,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800644B8": {
+      "vma": 2147894456,
+      "foff": 228536,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_80064584": {
+      "vma": 2147894660,
+      "foff": 228740,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_80064840": {
+      "vma": 2147895360,
+      "foff": 229440,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800649A0": {
+      "vma": 2147895712,
+      "foff": 229792,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_80064A40": {
+      "vma": 2147895872,
+      "foff": 229952,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_80064AE0": {
+      "vma": 2147896032,
+      "foff": 230112,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_80064BC0": {
+      "vma": 2147896256,
+      "foff": 230336,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_80064CF0": {
+      "vma": 2147896560,
+      "foff": 230640,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_80064D80": {
+      "vma": 2147896704,
+      "foff": 230784,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_80065590": {
+      "vma": 2147898768,
+      "foff": 232848,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_80065820": {
+      "vma": 2147899424,
+      "foff": 233504,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_80066460": {
+      "vma": 2147902560,
+      "foff": 236640,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_80066708": {
+      "vma": 2147903240,
+      "foff": 237320,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_80067F20": {
+      "vma": 2147909408,
+      "foff": 243488,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_80069EF8": {
+      "vma": 2147917560,
+      "foff": 251640,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_8009A028": {
+      "vma": 2148114472,
+      "foff": 739528,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_8009A180": {
+      "vma": 2148114816,
+      "foff": 739872,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_8009A21C": {
+      "vma": 2148114972,
+      "foff": 740028,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_8009A3D0": {
+      "vma": 2148115408,
+      "foff": 740464,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_8009A540": {
+      "vma": 2148115776,
+      "foff": 740832,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_8009A66C": {
+      "vma": 2148116076,
+      "foff": 741132,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_8009C12C": {
+      "vma": 2148122924,
+      "foff": 747980,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_8009C93C": {
+      "vma": 2148124988,
+      "foff": 750044,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_8009FB34": {
+      "vma": 2148137780,
+      "foff": 762836,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_8009FD40": {
+      "vma": 2148138304,
+      "foff": 763360,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_8009FD7C": {
+      "vma": 2148138364,
+      "foff": 763420,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800A0134": {
+      "vma": 2148139316,
+      "foff": 764372,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800A020C": {
+      "vma": 2148139532,
+      "foff": 764588,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800A02AC": {
+      "vma": 2148139692,
+      "foff": 764748,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800A04F0": {
+      "vma": 2148140272,
+      "foff": 765328,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800A05A4": {
+      "vma": 2148140452,
+      "foff": 765508,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800A0818": {
+      "vma": 2148141080,
+      "foff": 766136,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800A0E6C": {
+      "vma": 2148142700,
+      "foff": 767756,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800A18E8": {
+      "vma": 2148145384,
+      "foff": 770440,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800A19E4": {
+      "vma": 2148145636,
+      "foff": 770692,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800A1C58": {
+      "vma": 2148146264,
+      "foff": 771320,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800A2B04": {
+      "vma": 2148150020,
+      "foff": 775076,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800A2B5C": {
+      "vma": 2148150108,
+      "foff": 775164,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800A2BDC": {
+      "vma": 2148150236,
+      "foff": 775292,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800A2C34": {
+      "vma": 2148150324,
+      "foff": 775380,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800A2CB8": {
+      "vma": 2148150456,
+      "foff": 775512,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800A48F0": {
+      "vma": 2148157680,
+      "foff": 782736,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800A4ACC": {
+      "vma": 2148158156,
+      "foff": 783212,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800A504C": {
+      "vma": 2148159564,
+      "foff": 784620,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800A56E0": {
+      "vma": 2148161248,
+      "foff": 786304,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800A6D30": {
+      "vma": 2148166960,
+      "foff": 792016,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800A94A0": {
+      "vma": 2148177056,
+      "foff": 802112,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800A9A04": {
+      "vma": 2148178436,
+      "foff": 803492,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800A9A0C": {
+      "vma": 2148178444,
+      "foff": 803500,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800A9C18": {
+      "vma": 2148178968,
+      "foff": 804024,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800A9E70": {
+      "vma": 2148179568,
+      "foff": 804624,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800AA258": {
+      "vma": 2148180568,
+      "foff": 805624,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800AA36C": {
+      "vma": 2148180844,
+      "foff": 805900,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800AA6B4": {
+      "vma": 2148181684,
+      "foff": 806740,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800AA79C": {
+      "vma": 2148181916,
+      "foff": 806972,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800AA888": {
+      "vma": 2148182152,
+      "foff": 807208,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800AA924": {
+      "vma": 2148182308,
+      "foff": 807364,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800AAA54": {
+      "vma": 2148182612,
+      "foff": 807668,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800AAB10": {
+      "vma": 2148182800,
+      "foff": 807856,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800AAF00": {
+      "vma": 2148183808,
+      "foff": 808864,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800AB1C0": {
+      "vma": 2148184512,
+      "foff": 809568,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800AB378": {
+      "vma": 2148184952,
+      "foff": 810008,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800AB464": {
+      "vma": 2148185188,
+      "foff": 810244,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800AB538": {
+      "vma": 2148185400,
+      "foff": 810456,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800AB778": {
+      "vma": 2148185976,
+      "foff": 811032,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800ABDBC": {
+      "vma": 2148187580,
+      "foff": 812636,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800AC010": {
+      "vma": 2148188176,
+      "foff": 813232,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800AC480": {
+      "vma": 2148189312,
+      "foff": 814368,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800AC5C8": {
+      "vma": 2148189640,
+      "foff": 814696,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800AC7EC": {
+      "vma": 2148190188,
+      "foff": 815244,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800AC82C": {
+      "vma": 2148190252,
+      "foff": 815308,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800ACE34": {
+      "vma": 2148191796,
+      "foff": 816852,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800AD058": {
+      "vma": 2148192344,
+      "foff": 817400,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800AD4D0": {
+      "vma": 2148193488,
+      "foff": 818544,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800AD594": {
+      "vma": 2148193684,
+      "foff": 818740,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800AD9B4": {
+      "vma": 2148194740,
+      "foff": 819796,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800ADC4C": {
+      "vma": 2148195404,
+      "foff": 820460,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800ADDA0": {
+      "vma": 2148195744,
+      "foff": 820800,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800B66C8": {
+      "vma": 2148230856,
+      "foff": 855912,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800BCB04": {
+      "vma": 2148256516,
+      "foff": 881572,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800C77D0": {
+      "vma": 2148300752,
+      "foff": 925808,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "func_800C7930": {
+      "vma": 2148301104,
+      "foff": 926160,
+      "map": "dungeon_resident",
+      "basis": "Retail direct callee, bound to resident file load map."
+    },
+    "rand": {
+      "vma": 2147917560,
+      "foff": 251640,
+      "map": "slus_load",
+      "basis": "Retail direct callee, bound to resident file load map."
+    }
+  },
+  "review": "pending",
+  "runtime_basis": {
+    "D_80082EA4": "The u16 coordinate-pair view at TileObject +0x24, not a new allocation.",
+    "D_80083462": "The flags halfword at dungeonStatus +2, not a new allocation.",
+    "D_8014A000": "Runtime image/resource base anchor only. Resident src/slus/w_80047EEC.c passes this exact address to src/slus/w_80047AB0.c (uploadImageTiles). The CB bank adds its three native resource offsets to this same base; no retail bytes or resource extent are claimed by the one-byte anchor view."
+  }
+}

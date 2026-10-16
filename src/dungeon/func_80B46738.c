@@ -1,7 +1,5 @@
-#include "common.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_resource12_slot0.h"
 
-/* Counts down a delay, then dims the effect color until completion. */
 void func_80173F38(void *effect) {
     s16 state;
     u16 timer;

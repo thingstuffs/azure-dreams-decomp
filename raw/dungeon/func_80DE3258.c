@@ -1,0 +1,182 @@
+#include "common.h"
+#include "shared/dir_step.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_status.h"
+
+typedef void (*Callback)(void *, void *, void *, void *);
+
+
+extern void func_80047738();
+extern void func_800478B8();
+extern void func_800A020C();
+extern s32 func_800A9E70();
+extern void func_800AA36C();
+extern s16 func_800BCB04();
+
+extern void func_80170E5C(void *,void *,void *,void *);
+extern Callback D_80174568[];
+
+
+typedef struct S_80170A58_0 {
+    u8 pad_00[0x4];
+    s8 unk_04;
+    u8 pad_05[0xF];
+    u16 unk_14;
+    u8 pad_16[0xE];
+    u8 unk_24;
+    u8 unk_25;
+    u8 pad_26[0x6];
+    u8 * unk_2C;
+} S_80170A58_0;   /* monster in func_80170A58 */
+
+typedef struct S_80170A58_1 {
+    u8 pad_00[0x1C];
+    s32 unk_1C;
+    u8 pad_20[0x4D];
+    s8 unk_6D;
+    u8 pad_6E[0x1A];
+    union { u16 u; s16 s; } unk_88;   /* accessed as both */
+} S_80170A58_1;   /* actor in func_80170A58 */
+
+typedef struct S_80170A58_2 {
+    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
+    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
+    u8 pad_08[0x2];
+    u16 unk_0A;
+    s32 unk_0C;
+    s32 unk_10;
+    s32 unk_14;
+} S_80170A58_2;   /* motion in func_80170A58 */
+
+/* Updates monster facing, runs actor callbacks, and applies motion and floor contact. */
+void func_80170A58(void *entity, S_80170A58_2 *motion, void *monster)
+{
+    void *actor = entity;
+    s32 direction;
+    s16 direction_copy;
+    s16 old_direction;
+    s32 facing_angle;
+    Callback callback;
+    u16 monster_flags;
+    s16 floor_height;
+    s16 actor_height;
+    s16 direction_index;
+
+    if (dungeonStatus.flags & 0x2000) {
+        Callback early_callback;
+
+        early_callback = (*(Callback *)((u8 *)entity + 0x8C));
+        if (early_callback == (Callback)&func_80170E5C) {
+            early_callback(entity, motion, monster, entity);
+        } else {
+            (*(u8 *)((u8 *)entity + 0x71)) &= 0x7F;
+        }
+        return;
+    }
+
+
+    old_direction = (*(s8 *)((u8 *)entity + 0x6D));
+    if (func_800A9E70(entity, motion, monster, entity) != 0) {
+        return;
+    }
+
+    monster_flags = ((S_80170A58_0 *)monster)->unk_14;
+    if (!(monster_flags & 0x8000)) {
+        facing_angle = gameWork.view.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
+        direction = (facing_angle >> 9) & 7;
+        direction_index = direction;
+        direction_copy = direction;
+
+        if ((*(s16 *)((u8 *)entity + 0x94)) != direction_index) {
+            u8 *tile_map = ((S_80170A58_0 *)monster)->unk_2C;
+            if (tile_map != 0) {
+                func_80047738(monster, tile_map[direction_index], ((S_80170A58_0 *)monster)->unk_04);
+            }
+            (*(s16 *)((u8 *)entity + 0x94)) = direction;
+        }
+
+        if (dirSpriteFlag[direction_copy] != 0) {
+            ((S_80170A58_0 *)monster)->unk_14 |= 1;
+        } else {
+            ((S_80170A58_0 *)monster)->unk_14 &= 0xFFFE;
+        }
+
+        if (!(((S_80170A58_1 *)actor)->unk_1C & 0x20)) {
+            if (!(((S_80170A58_0 *)monster)->unk_14 & 0x40)) {
+                func_800478B8(monster);
+            }
+            func_800A020C(((S_80170A58_1 *)actor)->unk_1C, (u8 *)monster + 0xC);
+        } else {
+            ((S_80170A58_0 *)monster)->unk_14 |= 0x7000;
+            func_800A020C(((S_80170A58_1 *)actor)->unk_1C, (u8 *)monster + 0xC);
+        }
+    } else {
+        if (monster_flags & 0x0800) {
+            ((S_80170A58_0 *)monster)->unk_14 = monster_flags & 0x8FFF;
+        } else {
+            ((S_80170A58_0 *)monster)->unk_14 = monster_flags | 0x7000;
+        }
+    }
+
+    callback = (*(Callback *)((u8 *)entity + 0x8C));
+    if (callback != 0) {
+        callback(entity, motion, monster, actor);
+    }
+
+    D_80174568[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, monster, actor);
+
+    if (old_direction != ((S_80170A58_1 *)actor)->unk_6D) {
+        func_800AA36C(entity, motion, monster, actor);
+    }
+
+    motion->unk_00.at00.v += motion->unk_0C;
+    motion->unk_04.at00.v += motion->unk_10;
+
+    if ((*(u16 *)((u8 *)entity + 0x98)) & 8) {
+        (*(u8 *)((u8 *)entity + 0x9D)) = 0;
+    } else {
+        motion->unk_14 += (*(s8 *)((u8 *)entity + 0x9D)) * 0x14000;
+        (*(u8 *)((u8 *)entity + 0x9D))++;
+    }
+
+    (*(s32 *)((u8 *)entity + 0x90)) += motion->unk_14;
+
+    if (!((*(u16 *)((u8 *)entity + 0x98)) & 4)) {
+        floor_height = func_800BCB04(motion->unk_00.at02.v,
+                              motion->unk_04.at02.v,
+                              (s16)(((S_80170A58_1 *)actor)->unk_88.u - 0x20));
+        if (floor_height < 0x200) {
+            actor_height = ((S_80170A58_1 *)actor)->unk_88.s;
+            if ((*(s16 *)((u8 *)entity + 0x92)) + actor_height < floor_height) {
+                (*(u16 *)((u8 *)entity + 0x98)) &= 0xF7FFFFFF;
+            } else {
+                if (floor_height >= actor_height) {
+                    (*(s32 *)((u8 *)entity + 0x90)) = 0;
+                } else {
+                    (*(s16 *)((u8 *)entity + 0x92)) = floor_height - ((S_80170A58_1 *)actor)->unk_88.u;
+                }
+
+                motion->unk_14 = 0;
+                ((S_80170A58_1 *)actor)->unk_1C |= 0x08000000;
+                (*(u8 *)((u8 *)entity + 0x9D)) = 0;
+            }
+            if (((S_80170A58_1 *)actor)->unk_1C & 0x40000000) {
+                ((S_80170A58_1 *)actor)->unk_1C &= 0xBFFFFFFF;
+                floor_height = func_800BCB04((((S_80170A58_0 *)monster)->unk_24 << 6) | 0x20,
+                                      (((S_80170A58_0 *)monster)->unk_25 << 6) | 0x20,
+                                      (s16)(((S_80170A58_1 *)actor)->unk_88.u - 0x20));
+                (*(s16 *)((u8 *)entity + 0x92)) += ((S_80170A58_1 *)actor)->unk_88.u - floor_height;
+                ((S_80170A58_1 *)actor)->unk_88.u = floor_height;
+            }
+        } else {
+            ((S_80170A58_1 *)actor)->unk_1C &= 0xF7FFFFFF;
+        }
+    } else {
+        ((S_80170A58_1 *)actor)->unk_1C &= 0xF7FFFFFF;
+    }
+
+    motion->unk_0A =
+        ((S_80170A58_1 *)actor)->unk_88.u + (*(u16 *)((u8 *)entity + 0x92));
+    ((S_80170A58_0 *)monster)->unk_14 |= 0x40;
+
+}

@@ -1,14 +1,5 @@
-#include "common.h"
-#include "shared/game_work.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_resource06_slot0.h"
 
-extern void func_800478B8();
-extern void func_80044A50();
-
-extern u16 D_8017591C[];
-extern s32 D_80175928[];
-
-/* Updates an effect, then fades its colors to neutral and marks it finished. */
 void func_80175114(void *entity_data, void *unused, void *source_data)
 {
     u8 *entity = entity_data;
@@ -18,7 +9,7 @@ void func_80175114(void *entity_data, void *unused, void *source_data)
     u16 fade_left;
 
     if (entity[0x9A] == 0) {
-        D_80175928[0] = *(s32 *)(source + 8);
+        ((s32 *)D_80175928)[0] = *(s32 *)(source + 8);
         func_800478B8(source);
 
         if (*(u16 *)(source + 0x14) & 0xE000) {
@@ -30,7 +21,7 @@ void func_80175114(void *entity_data, void *unused, void *source_data)
         frame_count = *(u16 *)(entity + 0x96);
         *(u16 *)(entity + 0x96) = frame_count + 1;
         if ((frame_count & 3) == 1) {
-            D_8017591C[0]++;
+            ((u16 *)D_8017591C)[0]++;
             return;
         }
     } else {

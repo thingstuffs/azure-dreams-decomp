@@ -1,57 +1,7 @@
-#include "common.h"
-#include "shared/dir_step.h"
-#include "shared/game_work.h"
-#include "shared/dungeon_status.h"
-
-
-typedef void (*EntityCallback)(void *, void *, void *, void *);
-
-extern void func_80042984();
-extern void func_80047738();
-extern void func_800478B8();
-extern void func_800A020C();
-extern void func_800A56E0();
-extern s32 func_800A9E70();
-extern void func_800AA36C();
-extern s32 func_800BCB04();
-extern s32 D_80170F68;
-extern EntityCallback D_80174018[];
-
-
-typedef struct S_80170AA4_0 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xD];
-    s16 unk_12;
-    union { u16 n; u16 v; } unk_14;   /* accessed as both */
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_80170AA4_0;   /* arg2 in func_80170AA4 */
-
-typedef struct S_80170AA4_1 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x5C];
-    u16 unk_88;
-} S_80170AA4_1;   /* entity in func_80170AA4 */
-
-typedef struct S_80170AA4_2 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80170AA4_2;   /* arg1 in func_80170AA4 */
+#include "modules/dungeon_ovl_7f0f7800_p01.h"
 
 /* Updates entity callbacks, directional animation, movement, and ground contact. */
-void func_80170AA4(void *actor, S_80170AA4_2 *motion, void *part)
+void func_80170AA4(void *actor, T_80170AA4_S_80170AA4_2 *motion, void *part)
 {
     void *entity = actor;
     s16 state_direction;
@@ -62,7 +12,7 @@ void func_80170AA4(void *actor, S_80170AA4_2 *motion, void *part)
     void *call_self;
     s32 previous_state;
     s32 previous_state_2;
-    EntityCallback callback;
+    T_80170AA4_EntityCallback callback;
     s32 view_angle;
     s32 ground_height;
     s16 base_height;
@@ -76,8 +26,8 @@ void func_80170AA4(void *actor, S_80170AA4_2 *motion, void *part)
     u8 direction_flag;
 
     if (dungeonStatus.flags & 0x2000) {
-        callback = (*(EntityCallback *)((u8 *)actor + 0x8C));
-        if (callback == (EntityCallback)&D_80170F68) {
+        callback = (*(T_80170AA4_EntityCallback *)((u8 *)actor + 0x8C));
+        if (callback == (T_80170AA4_EntityCallback)&func_80170F68) {
             call_self = actor;
             callback(call_self, motion, part, call_self);
             return;
@@ -97,8 +47,8 @@ void func_80170AA4(void *actor, S_80170AA4_2 *motion, void *part)
     }
 
     {
-        EntityCallback update_callback;
-        update_callback = (*(EntityCallback *)((u8 *)actor + 0x8C));
+        T_80170AA4_EntityCallback update_callback;
+        update_callback = (*(T_80170AA4_EntityCallback *)((u8 *)actor + 0x8C));
         if (update_callback != 0) {
             update_callback(actor, motion, part, actor);
         }
@@ -126,48 +76,48 @@ void func_80170AA4(void *actor, S_80170AA4_2 *motion, void *part)
             wobble = -wobble;
         }
         wobble_base += wobble;
-        ((S_80170AA4_0 *)part)->unk_12 = wobble_base;
+        ((T_80170AA4_S_80170AA4_0 *)part)->unk_12 = wobble_base;
     } else if (((*(s32 *)((u8 *)actor + 0x14)) & 7) != (*(s16 *)((u8 *)actor + 0xAA))) {
         func_80042984(actor);
         (*(s16 *)((u8 *)actor + 0xAA)) = (*(u16 *)((u8 *)actor + 0x14)) & 7;
     }
 
-    part_flags = ((S_80170AA4_0 *)part)->unk_14.n;
+    part_flags = ((T_80170AA4_S_80170AA4_0 *)part)->unk_14.n;
     if (!(part_flags & 0x8000)) {
-        view_angle = gameWork.view.viewAngle + ((S_80170AA4_1 *)entity)->unk_2A + 0x100;
+        view_angle = gameWork.view.viewAngle + ((T_80170AA4_S_80170AA4_1 *)entity)->unk_2A + 0x100;
         state_direction = (view_angle >> 9) & 7;
         previous_direction = (*(s16 *)((u8 *)actor + 0x94));
         direction_index = (u16)state_direction;
         if (previous_direction != state_direction) {
-            if (((S_80170AA4_0 *)part)->unk_2C != 0) {
+            if (((T_80170AA4_S_80170AA4_0 *)part)->unk_2C != 0) {
                 func_80047738(part,
-                              ((S_80170AA4_0 *)part)->unk_2C[state_direction],
-                              ((S_80170AA4_0 *)part)->unk_04);
+                              ((T_80170AA4_S_80170AA4_0 *)part)->unk_2C[state_direction],
+                              ((T_80170AA4_S_80170AA4_0 *)part)->unk_04);
             }
             (*(s16 *)((u8 *)actor + 0x94)) = state_direction;
         }
 
         direction_flag = dirSpriteFlag[direction_index];
         if (direction_flag != 0) {
-            ((S_80170AA4_0 *)part)->unk_14.n |= 1;
+            ((T_80170AA4_S_80170AA4_0 *)part)->unk_14.n |= 1;
         } else {
-            ((S_80170AA4_0 *)part)->unk_14.n &= 0xFFFE;
+            ((T_80170AA4_S_80170AA4_0 *)part)->unk_14.n &= 0xFFFE;
         }
-        if (!(((S_80170AA4_1 *)entity)->unk_1C & 0x20)) {
-            if (!(((S_80170AA4_0 *)part)->unk_14.v & 0x40)) {
+        if (!(((T_80170AA4_S_80170AA4_1 *)entity)->unk_1C & 0x20)) {
+            if (!(((T_80170AA4_S_80170AA4_0 *)part)->unk_14.v & 0x40)) {
                 func_800478B8(part);
             }
         } else {
-            ((S_80170AA4_0 *)part)->unk_14.v |= 0x7000;
+            ((T_80170AA4_S_80170AA4_0 *)part)->unk_14.v |= 0x7000;
         }
-        func_800A020C(((S_80170AA4_1 *)entity)->unk_1C, (u8 *)part + 0xC);
+        func_800A020C(((T_80170AA4_S_80170AA4_1 *)entity)->unk_1C, (u8 *)part + 0xC);
     } else {
         if (part_flags & 0x800) {
             new_part_flags = part_flags & 0x8FFF;
         } else {
             new_part_flags = part_flags | 0x7000;
         }
-        ((S_80170AA4_0 *)part)->unk_14.n = new_part_flags;
+        ((T_80170AA4_S_80170AA4_0 *)part)->unk_14.n = new_part_flags;
     }
     motion->unk_00.at00.v += motion->unk_0C;
     motion->unk_04.at00.v += motion->unk_10;
@@ -183,45 +133,45 @@ void func_80170AA4(void *actor, S_80170AA4_2 *motion, void *part)
     if (!((*(u16 *)((u8 *)actor + 0x98)) & 4)) {
         ground_height = func_800BCB04(motion->unk_00.at02.v,
                                motion->unk_04.at02.v,
-                               (s16)(((S_80170AA4_1 *)entity)->unk_88 - 0x20));
+                               (s16)(((T_80170AA4_S_80170AA4_1 *)entity)->unk_88 - 0x20));
         if ((s16)ground_height < 0x200) {
-            base_height = (s16)((S_80170AA4_1 *)entity)->unk_88;
+            base_height = (s16)((T_80170AA4_S_80170AA4_1 *)entity)->unk_88;
             if ((*(s16 *)((u8 *)actor + 0x92)) + base_height < (s16)ground_height) {
-                ((S_80170AA4_1 *)entity)->unk_1C &= 0xF7FFFFFF;
+                ((T_80170AA4_S_80170AA4_1 *)entity)->unk_1C &= 0xF7FFFFFF;
             } else {
                 if ((s16)ground_height >= base_height) {
                     (*(s32 *)((u8 *)actor + 0x90)) = 0;
                     motion->unk_14 = 0;
-                    ((S_80170AA4_1 *)entity)->unk_1C |= 0x08000000;
+                    ((T_80170AA4_S_80170AA4_1 *)entity)->unk_1C |= 0x08000000;
                     (*(s8 *)((u8 *)actor + 0x9D)) = 0;
                 } else {
                     motion->unk_14 = 0;
-                    ((S_80170AA4_1 *)entity)->unk_1C |= 0x08000000;
+                    ((T_80170AA4_S_80170AA4_1 *)entity)->unk_1C |= 0x08000000;
                     (*(s8 *)((u8 *)actor + 0x9D)) = 0;
-                    (*(s16 *)((u8 *)actor + 0x92)) = ground_height - ((S_80170AA4_1 *)entity)->unk_88;
+                    (*(s16 *)((u8 *)actor + 0x92)) = ground_height - ((T_80170AA4_S_80170AA4_1 *)entity)->unk_88;
                 }
             }
-            entity_flags = ((S_80170AA4_1 *)entity)->unk_1C;
+            entity_flags = ((T_80170AA4_S_80170AA4_1 *)entity)->unk_1C;
             if (entity_flags & 0x40000000) {
-                ((S_80170AA4_1 *)entity)->unk_1C = entity_flags & 0xBFFFFFFF;
+                ((T_80170AA4_S_80170AA4_1 *)entity)->unk_1C = entity_flags & 0xBFFFFFFF;
                 ground_height = func_800BCB04(
-                    (((S_80170AA4_0 *)part)->unk_24 << 6) | 0x20,
-                    (((S_80170AA4_0 *)part)->unk_25 << 6) | 0x20,
-                    (s16)(((S_80170AA4_1 *)entity)->unk_88 - 0x20));
+                    (((T_80170AA4_S_80170AA4_0 *)part)->unk_24 << 6) | 0x20,
+                    (((T_80170AA4_S_80170AA4_0 *)part)->unk_25 << 6) | 0x20,
+                    (s16)(((T_80170AA4_S_80170AA4_1 *)entity)->unk_88 - 0x20));
                 (*(s16 *)((u8 *)actor + 0x92)) +=
-                    ((S_80170AA4_1 *)entity)->unk_88 - ground_height;
-                ((S_80170AA4_1 *)entity)->unk_88 = ground_height;
+                    ((T_80170AA4_S_80170AA4_1 *)entity)->unk_88 - ground_height;
+                ((T_80170AA4_S_80170AA4_1 *)entity)->unk_88 = ground_height;
             }
         } else {
-            ((S_80170AA4_1 *)entity)->unk_1C &= 0xF7FFFFFF;
+            ((T_80170AA4_S_80170AA4_1 *)entity)->unk_1C &= 0xF7FFFFFF;
         }
     } else {
-        ((S_80170AA4_1 *)entity)->unk_1C &= 0xF7FFFFFF;
+        ((T_80170AA4_S_80170AA4_1 *)entity)->unk_1C &= 0xF7FFFFFF;
     }
 
     motion->unk_0A =
-        ((S_80170AA4_1 *)entity)->unk_88 + (*(u16 *)((u8 *)actor + 0x92));
-    ((S_80170AA4_0 *)part)->unk_14.n |= 0x40;
+        ((T_80170AA4_S_80170AA4_1 *)entity)->unk_88 + (*(u16 *)((u8 *)actor + 0x92));
+    ((T_80170AA4_S_80170AA4_0 *)part)->unk_14.n |= 0x40;
 
     return;
 }

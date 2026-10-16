@@ -1,0 +1,17 @@
+{
+  "module": "dungeon_ovl_f95070",
+  "scope": "whole_tu",
+  "flags": [
+    "-q",
+    "-G0",
+    "-0"
+  ],
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "basis": [
+    "Original single GCC 2.7.2-cdk -O2 -G0 recipe.",
+    "Whole-TU genuine ASPSX 2.79 -0 matches the R3000 production assembler; no per-row flags."
+  ]
+}

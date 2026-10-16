@@ -1,0 +1,44 @@
+{
+  "schema": "overlay-module-native-v4",
+  "kind": "overlay_module_placement",
+  "module": "dungeon_ovl_a130dc",
+  "members": [
+    "dungeon/func_809F30DC"
+  ],
+  "at": "2026-10-16T01:15:44Z",
+  "reviewer": "orchestrator-r120",
+  "fingerprint": {
+    "schema": "overlay-module-scoped-v2",
+    "sha256": "da2c0039d2bea04fd7d36c03ba9d39deb5cf758af43f39435a86d198d2410130",
+    "module": {
+      "sha256": "4de7e791e50f2f909abdbb97f09943a12f2d54713d472663ff3edcad6e75f172"
+    },
+    "windows": {
+      "config/overlays/dungeon_deep_t8b_a13000.overlay.yaml": {
+        "sha256": "71edeaf4df0fb23ad9d7bb380fc2b79882506b28fef5eba0ad23ab61b5e0f6fa"
+      }
+    },
+    "required_windows": [
+      "config/overlays/dungeon_deep_t8b_a13000.overlay.yaml"
+    ]
+  },
+  "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_ovl_a130dc/module",
+  "receipt_sha256": "27bc050ab2ea51e8c4790dae9865434185c0b538d84ad271c4ba3708419d1b5e",
+  "windows": [
+    {
+      "config": "config/overlays/dungeon_deep_t8b_a13000.overlay.yaml",
+      "result": "MATCH",
+      "file_start": 10563584,
+      "file_end": 10568488,
+      "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_ovl_a130dc/windows/dungeon_deep_t8b_a13000",
+      "artifacts": {
+        "gate.log": "5cd907a430d7aa40d1f988f081633275c9fd16b48c140c63fd276ab93325a2b9",
+        "window.bin": "273a4806e227ab3c09f23730414a705267fab7e7a69f7e8e97354f48a5e3937a",
+        "manifest.json": "9cfdef1d69b82a9d32e67ed67b6b07a519d9595383bf39f211b5ba60e0b481e8",
+        "projection.json": "a02cd6da03d0b47eeb19787f3327212ccbaed1858837f9bb61a8f94108e03f28",
+        "module/receipt.json": "27bc050ab2ea51e8c4790dae9865434185c0b538d84ad271c4ba3708419d1b5e"
+      },
+      "digest": "71edeaf4df0fb23ad9d7bb380fc2b79882506b28fef5eba0ad23ab61b5e0f6fa"
+    }
+  ]
+}

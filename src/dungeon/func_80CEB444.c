@@ -1,36 +1,7 @@
-#include "common.h"
-#include "shared/dungeon_status.h"
-#include "shared/dir_step.h"
-#include "shared/entity.h"
-#include "records/Rec_D_80082E80.h"
-
-typedef struct S_80174C44_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_80174C44_0;   /* arg0 in func_80174C44 */
-
-
-typedef struct S_80174C44_4 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_80174C44_4;   /* global in func_80174C44 */
-
-
-extern u8 D_801724BC[];
-extern u8 D_80175E3C[];
-extern u8 D_80175E44[];
-extern u8 D_80175E4C[];
-
-extern void func_800A2B04(void *, u8, u8);
-extern void func_800AAA54(void *actor, void *unused, void *display, u8 *facing_variants);
-extern void func_800AD4D0(void *);
+#include "modules/dungeon_ovl_7f469800_p06.h"
 
 /* Updates timed movement toward the entity's tile and selects the next behavior. */
-void func_80174C44(S_80174C44_0 *controller, EntityRec *transform, Rec_D_80082E80 *entity, void *actor)
+void func_80174C44(T_80174C44_S_80174C44_0 *controller, EntityRec *transform, Rec_D_80082E80 *entity, void *actor)
 {
     s32 actor_kind;
     s16 timer;
@@ -140,7 +111,7 @@ void func_80174C44(S_80174C44_0 *controller, EntityRec *transform, Rec_D_80082E8
         if (((s32)dungeonStatus.unk_10) == (s32)actor - 0x20) {
             *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
         }
-        controller->unk_8C = D_801724BC;
+        controller->unk_8C = func_801724BC;
         break;
     }
 }

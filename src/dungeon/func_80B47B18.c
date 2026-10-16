@@ -1,14 +1,5 @@
-#include "common.h"
-#include "shared/game_work.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_resource12_slot0.h"
 
-extern void func_800478B8();
-extern void func_80044A50();
-
-extern u16 D_80175B20[];
-extern s32 D_80175B28[];
-
-/* Advances the effect timer, then fades colors to neutral and marks completion. */
 void func_80175318(void *entity_data, void *unused, void *source_data)
 {
     u8 *entity = entity_data;
@@ -18,7 +9,7 @@ void func_80175318(void *entity_data, void *unused, void *source_data)
     u16 fade_ticks;
 
     if (entity[0x9A] == 0) {
-        D_80175B28[0] = *(s32 *)(source + 8);
+        ((s32 *)D_80175B28)[0] = *(s32 *)(source + 8);
         func_800478B8(source);
 
         if (*(u16 *)(source + 0x14) & 0xE000) {
@@ -30,7 +21,7 @@ void func_80175318(void *entity_data, void *unused, void *source_data)
         elapsed_ticks = *(u16 *)(entity + 0x96);
         *(u16 *)(entity + 0x96) = elapsed_ticks + 1;
         if ((elapsed_ticks & 7) == 0) {
-            D_80175B20[0]++;
+            ((u16 *)D_80175B20)[0]++;
             return;
         }
     } else {

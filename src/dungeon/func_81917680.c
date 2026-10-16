@@ -1,83 +1,10 @@
-#include "common.h"
-#include "shared/slus_callbacks.h"
-#include "records/Rec_func_80024E80_arg1.h"
+#include "modules/dungeon_ovl_1936800.h"
 
-typedef struct S_80024E80_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-    u8 pad_14[0xC];
-    s32 unk_20;
-} S_80024E80_0;   /* obj in func_80024E80 */
-
-typedef struct S_80024E80_1 {
-    s32 unk_00;
-    u8 pad_04[0x1C];
-    s32 unk_20;
-    s32 unk_24;
-    s32 unk_28;
-} S_80024E80_1;   /* arg0 in func_80024E80 */
-
-typedef struct S_80024E80_2 {
-    u8 pad_00[0x4];
-    s16 unk_04;
-    u8 pad_06[0x8];
-    s16 unk_0E;
-    s16 unk_10;
-    s16 unk_12;
-} S_80024E80_2;   /* work in func_80024E80 */
-
-typedef struct S_80024E80_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x3];
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80024E80_3;   /* control in func_80024E80 */
-
-typedef struct S_80024E80_4 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80024E80_4;   /* points in func_80024E80 */
-
-
-typedef struct S_80024E80_6 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_80024E80_6;   /* slot in func_80024E80 */
-
-
-typedef struct SixWords {
-    s32 word[6];
-} SixWords;
-
-extern s32 func_80024804();
-extern void *func_8003FD64();
-extern s32 func_8004491C();
-extern s32 func_800647A0();
-extern s16 func_80065F90();
-extern s32 rand();
-
-extern u8 D_80024C0C[];
-extern u8 D_800DE39C[];
-
-
-/* Creates an oriented effect between the supplied position and its owner. */
 void *func_80024E80(void *owner, Rec_func_80024E80_arg1 *start_pos) {
     void *effect;
-    S_80024E80_2 *state;
-    S_80024E80_3 *render;
-    S_80024E80_4 *endpoints;
+    Row_81917680_S_80024E80_2 *state;
+    Row_81917680_S_80024E80_3 *render;
+    Row_81917680_S_80024E80_4 *endpoints;
     s32 dx;
     s32 dy;
     s32 dz;
@@ -87,12 +14,12 @@ void *func_80024E80(void *owner, Rec_func_80024E80_arg1 *start_pos) {
 
     effect = func_8003FD64(0x212, (u8 *)owner - 0x20);
     if (effect != 0) {
-        ((S_80024E80_0 *)effect)->unk_10 = D_80024C0C;
+        ((Row_81917680_S_80024E80_0 *)effect)->unk_10 = D_80024C0C;
         state = (u8 *)effect + 0x20;
-        ((S_80024E80_0 *)effect)->unk_20 = ((S_80024E80_1 *)owner)->unk_00;
+        ((Row_81917680_S_80024E80_0 *)effect)->unk_20 = ((Row_81917680_S_80024E80_1 *)owner)->unk_00;
         state->unk_04 = 0;
 
-        render = ((S_80024E80_0 *)effect)->unk_0C;
+        render = ((Row_81917680_S_80024E80_0 *)effect)->unk_0C;
         render->unk_0E = 0x80;
         render->unk_0D = 0x80;
         render->unk_0C = 0x80;
@@ -107,15 +34,15 @@ void *func_80024E80(void *owner, Rec_func_80024E80_arg1 *start_pos) {
 
         func_8004491C(effect, func_80045340);
 
-        endpoints = ((S_80024E80_0 *)effect)->unk_08;
-        *(SixWords *)endpoints = *(SixWords *)start_pos;
-        endpoints->unk_0C = ((S_80024E80_1 *)owner)->unk_20;
-        endpoints->unk_10 = ((S_80024E80_1 *)owner)->unk_24;
-        endpoints->unk_14 = ((S_80024E80_1 *)owner)->unk_28;
+        endpoints = ((Row_81917680_S_80024E80_0 *)effect)->unk_08;
+        *(Row_81917680_SixWords *)endpoints = *(Row_81917680_SixWords *)start_pos;
+        endpoints->unk_0C = ((Row_81917680_S_80024E80_1 *)owner)->unk_20;
+        endpoints->unk_10 = ((Row_81917680_S_80024E80_1 *)owner)->unk_24;
+        endpoints->unk_14 = ((Row_81917680_S_80024E80_1 *)owner)->unk_28;
 
-        dx = ((S_80024E80_1 *)owner)->unk_20 - start_pos->unk_00.at00_s32.v;
-        dy = ((S_80024E80_1 *)owner)->unk_24 - start_pos->unk_04.at00_s32.v;
-        dz = ((S_80024E80_1 *)owner)->unk_28 - start_pos->unk_08.at00_s32.v;
+        dx = ((Row_81917680_S_80024E80_1 *)owner)->unk_20 - start_pos->unk_00.at00_s32.v;
+        dy = ((Row_81917680_S_80024E80_1 *)owner)->unk_24 - start_pos->unk_04.at00_s32.v;
+        dz = ((Row_81917680_S_80024E80_1 *)owner)->unk_28 - start_pos->unk_08.at00_s32.v;
 
         state->unk_0E = func_80065F90(
             func_800647A0((((dx >> 12) * (dx >> 12)) +
@@ -130,7 +57,7 @@ void *func_80024E80(void *owner, Rec_func_80024E80_arg1 *start_pos) {
         slot_index = 0;
         slot_ptr = state;
         do {
-            ((S_80024E80_6 *)slot_ptr)->unk_14 = func_80024804(state, endpoints, (s16)slot_index);
+            ((Row_81917680_S_80024E80_6 *)slot_ptr)->unk_14 = func_80024804(state, endpoints, (s16)slot_index);
             slot_index++;
             slot_ptr += 4;
         } while (slot_index < 3);

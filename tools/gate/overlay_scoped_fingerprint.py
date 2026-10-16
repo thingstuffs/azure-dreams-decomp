@@ -1,15 +1,52 @@
 """Experimental certificate dependency projection; opt-in, fail closed.
 
-config/overlay_fingerprint_schema selects this schema; legacy is default. Validation is never
-memoized. File reads may use the identity-sensitive gate_read_cache.
+config/overlay_fingerprint_schema selects this schema; legacy is default. File reads may use the
+identity-sensitive gate_read_cache. validate(), each window digest and each module fingerprint are
+memoized per process (memo() below) and reused only while every input identity they probed is
+unchanged; every validation rule still runs on any change. AZ_FP_MEMO=0 disables reuse.
 Full symbol/as-flags/sibcall and executable tool identities stay conservative
 (configure.py: its AS_FLAGS table only, the one part gate code reads).
 """
 from __future__ import annotations
-import ast, hashlib, json, os, re, shutil, subprocess, sys
+import ast, bisect, hashlib, json, os, pickle, re, shutil, subprocess, sys, threading
 from pathlib import Path
 from functools import lru_cache
-from gate_read_cache import read_json, read_jsonl, read_text, read_records
+from gate_read_cache import read_json, read_jsonl, read_text, read_records, observe, observing, merge_observed, stamp_of, volatile, VOLATILE
+
+# Per-process memo. An entry holds {path: identity} for every input probed while it was computed
+# (gate_read_cache.observing: reads, cache hits, exists/is_file probes below, parent directories,
+# and an audit-hook net for open()/listings elsewhere), captured at first probe, i.e. before the
+# value was derived from it. Reuse requires every identity to be unchanged now, the same
+# (dev, ino, mtime_ns, ctime_ns, size) identity gate_read_cache and _M_CACHE already trust.
+# -M subprocess inputs are covered by _M_CACHE's observed-set signature, which is recorded too.
+_MEMO = {}
+_MEMO_LOCK = threading.Lock()
+
+def memo(key, compute):
+    if os.environ.get('AZ_FP_MEMO', '1') == '0':
+        return compute()
+    with _MEMO_LOCK:
+        entry = _MEMO.get(key)
+    if entry is not None and all(stamp_of(p) == v for p, v in entry[0].items()):
+        merge_observed(entry[0])
+        return pickle.loads(entry[1])
+    from gate_read_cache import observers
+    outer = observers()
+    # A nested value (one window digest) may derive from records the caller already read.
+    with observing(outer[-1] if outer else None) as seen:
+        value = compute()
+    if VOLATILE in seen:
+        return value
+    with _MEMO_LOCK:
+        _MEMO[key] = (seen, pickle.dumps(value, protocol=5))
+        if len(_MEMO) > 512: _MEMO.pop(next(iter(_MEMO)))
+    return value
+
+def _exists(p):
+    observe(p); return Path(p).exists()
+
+def _is_file(p):
+    observe(p); return Path(p).is_file()
 SCHEMA = 'overlay-module-scoped-v2'
 FLAG = 'AZ_OVERLAY_SCOPED_FINGERPRINT'  # retired; never selects certificate semantics
 SWITCH = 'config/overlay_fingerprint_schema'
@@ -30,7 +67,7 @@ def enabled(root=None):
         root = Path(__file__).resolve().parents[1]
         if root.name == 'tools': root = root.parent
     p = switch_path(root)
-    value = read_text(p).strip() if p.exists() else 'legacy'
+    value = read_text(p).strip() if _exists(p) else 'legacy'
     if value not in ('legacy', SCHEMA):
         raise ValueError('unsupported tracked fingerprint schema: ' + value)
     return value == SCHEMA
@@ -72,7 +109,7 @@ def parse_config_label(root, label, G):
 
 
 def records(path):
-    if not path.exists(): return []
+    if not _exists(path): return []
     return list(read_records(path))
 
 def num(v): return int(str(v), 0) if isinstance(v, str) else int(v)
@@ -122,7 +159,25 @@ def window_modules(mods, fam, fs, fe, G):
     # OVMOVIE's libpress at 0x0-0x1b88 was counted inside TOWN's town_scene window 0x0-0x52000).
     return [v for v in mods if family(v['container'])==fam and any(fs<end and start<fe for start,end in G.module_extents(v))]
 
+def family_spans(reg):
+    """Per family: registry rows sorted by start, with start and end keys (spans proven disjoint)."""
+    spans = {}
+    for i, x in enumerate(reg.values()): spans.setdefault(family(x['container']), []).append((x['foff'], i, x))
+    out = {}
+    for fam, rows in spans.items():
+        rows.sort(key=lambda t: t[0])
+        out[fam] = (rows, [t[0] for t in rows], [t[2]['foff']+t[2]['size'] for t in rows])
+    return out
+
+def overlapping(spans, fam, off, size):
+    """Registry rows of fam overlapping [off, off+size), in registry order (== the former full scan)."""
+    rows, starts, ends = spans.get(fam, ([], [], []))
+    return [t[2] for t in sorted(rows[bisect.bisect_right(ends, off):bisect.bisect_left(starts, off+size)], key=lambda t: t[1])]
+
 def validate(root, G):
+    return memo(('validate', str(Path(root).absolute()), G.__name__), lambda: _validate(root, G))
+
+def _validate(root, G):
     """Validate complete inputs before reducing them, on EVERY fingerprint.
 
     Preserve the existing load_modules cohort/type/recipe/eligibility screens,
@@ -149,6 +204,10 @@ def validate(root, G):
         no_overlap([(num(r['foff_start']),num(r['foff_end']),r['region']) for r in regions[fam]],'load regions ' + fam)
         if any(not r.get('proof') or r.get('schema')!='azure-clean.rowbase.v1' for r in regions[fam]):
             raise ValueError('invalid load region evidence: '+fam)
+    # Registry spans were proven non-overlapping above, so per family starts and ends are both
+    # sorted and the overlap query is two bisections (it was a scan of every registry row per
+    # owner: 24.8 M family() calls). Same competitor set, in registry order.
+    spans = family_spans(reg)
     for p in sorted((root/'config/overlays').glob('*.rodata_owners.jsonl')):
         fam = p.name.split('.')[0]; owners[fam] = records(p)
         unique(owners[fam],lambda r:num(r['foff']),'rodata owner ' + fam)
@@ -156,7 +215,7 @@ def validate(root, G):
         for r in owners[fam]:
             off = num(r['foff']); size = num(r['rodata_size'])
             if size % 4 or r.get('schema')!='azure-clean.rodata_owner.v1':raise ValueError('invalid rodata owner')
-            competitors = [x for x in reg.values() if family(x['container'])==fam and x['foff']<off+size and off<x['foff']+x['size']]
+            competitors = overlapping(spans, fam, off, size)
             if len(competitors)!=1 or competitors[0]['foff']!=off or size>competitors[0]['size'] or r.get('id')!=competitors[0]['id']:
                 raise ValueError('competing/missing rodata registry owner: '+str(r.get('id')))
     mods = G.load_modules(root)  # ALL cohorts/regions/import evidence, never just this module
@@ -178,7 +237,7 @@ def validate(root, G):
             if grp['results'] in exported:continue
             exported.add(grp['results'])
             p=G.local(root,grp['results']); fam=Path(grp['results']).parts[1]
-            if p.exists() and read_json(p)!=splits[fam]:raise ValueError('exported split roster differs: '+grp['results'])
+            if _exists(p) and read_json(p)!=splits[fam]:raise ValueError('exported split roster differs: '+grp['results'])
     return reg, assignments, splits, regions, owners, mods, physical, wins
 
 _M_CACHE = {}
@@ -211,10 +270,10 @@ def include_inputs(root, starts, version, flags, G):
         for line in text.splitlines():
             hit=re.match(r'\s*(?:#\s*include|\.include)\s+"([^"]+)"',line)
             if not hit:continue
-            target=next((Path(os.path.abspath(x)) for x in [p.parent/hit[1],root/'include'/hit[1],root/hit[1]] if x.is_file()),None)
+            target=next((Path(os.path.abspath(x)) for x in [p.parent/hit[1],root/'include'/hit[1],root/hit[1]] if _is_file(x)),None)
             if target is None or not target.is_relative_to(root):raise ValueError('literal include missing/escapes root: '+line)
             pending.append(str(target.relative_to(root)))
-    gcc=root/'toolchain/compilers'/('gcc-'+version)
+    gcc=root/'toolchain/compilers'/('gcc-'+version);gcc_files=None
     for name in sorted(set(starts)):
         if not name.endswith(('.c','.h')):continue
         import shlex
@@ -225,6 +284,7 @@ def include_inputs(root, starts, version, flags, G):
         # Nonstandard include search recipes get a fresh -M scan. This also
         # observes previously absent custom search directories and shadows.
         reusable=not any(flag.startswith(('-I','-i','-nostdinc')) for flag in argv_flags)
+        if not reusable:volatile()  # custom search dirs are rescanned every time; never memoize over them
         key=(root,name,version,flags)
         # Include namespace additions (shadowing/macro includes) invalidate,
         # as do every previous dependency, literal dependency and compiler.
@@ -238,8 +298,11 @@ def include_inputs(root, starts, version, flags, G):
         observed={root/name,*(root/n for n in deps)}
         observed.update(p.parent for p in observed.copy())
         observed.update(dirs)
-        observed.update(p for p in gcc.rglob('*') if p.is_file())
+        # One compiler walk per call (it was repeated for every start).
+        if gcc_files is None:gcc_files=[p for p in gcc.rglob('*') if p.is_file()]
+        observed.update(gcc_files)
         signature={str(p):stamp(p) for p in observed}
+        for n,v in signature.items():observe(n,v)
         if reusable and cached and cached[1]==signature:
             found.update(deps);continue
         p=subprocess.run([str(gcc/'gcc'),'-B'+str(gcc)+'/', '-M','-x','c','-O2',*argv_flags,'-I'+str(root/'include'),'-w',str(G.local(root,name))],cwd=root,env=reader_environment(),capture_output=True,text=True,check=True,timeout=300)
@@ -255,6 +318,7 @@ def include_inputs(root, starts, version, flags, G):
         observed.update(added)
         observed.update(p.parent for p in added)
         _M_CACHE[key]=(actual,{str(p):stamp(p) for p in observed})
+        for n,v in _M_CACHE[key][1].items():observe(n,v)
         if len(_M_CACHE)>4096:_M_CACHE.pop(next(iter(_M_CACHE)))
     return {n:G.sha(G.local(root,n)) for n in sorted(found)}
 
@@ -267,19 +331,20 @@ def matched_source(root, group, row):
     """
     filename = row['func_vram'] + '.c'
     path = root / group['source_dir'] / filename
-    if not path.is_file():
+    if not _is_file(path):
         parts = Path(group['source_dir']).parts
         if len(parts) != 3 or parts[0] != 'overlays' or parts[2] != 'first_pass_matched':
             raise ValueError('unknown missing matched source facade: ' + group['source_dir'])
         unit = {'dungeon_engine':'dungeon', 'dungeon_engine_pilot_only':'dungeon_engine'}.get(parts[1], parts[1])
         path = root / 'src' / unit / filename
-        if not path.is_file():
+        if not _is_file(path):
             raise ValueError('canonical matched source missing: ' + str(path))
     return str(path.resolve().relative_to((root / 'src').resolve().parent))
 
 def identities(root, versions, G):
     # Conservative tool universe: additions/removals participate too. Both
     # layouts give gate tools the same identity; view copies are real files.
+    observe(root/'tools/gate')
     gd=root/'tools/gate' if (root/'tools/gate').is_dir() else root/'tools'
     paths={ 'gate/'+p.name:p for p in gd.iterdir() if p.is_file() and p.suffix in ('.py','.sh')}
     # A flat view contains fidelity/evidence extras: don't count twice.
@@ -292,7 +357,7 @@ def identities(root, versions, G):
         paths[n]=root/n
     for v in sorted(versions):
         for p in sorted((root/'toolchain/compilers'/('gcc-'+v)).rglob('*')):
-            if p.is_file():paths['compiler/'+v+'/'+str(p.relative_to(root/'toolchain/compilers'/('gcc-'+v)))]=p
+            if _is_file(p):paths['compiler/'+v+'/'+str(p.relative_to(root/'toolchain/compilers'/('gcc-'+v)))]=p
     for n in ['toolchain/genuine/bin/wibo','toolchain/genuine/psyq/psyq4.4/ASPSX.EXE','.venv/bin/python']:
         paths[n]=root/n
     for p in sorted((root/'toolchain/maspsx').rglob('*.py')):paths[str(p.relative_to(root))]=p
@@ -304,7 +369,7 @@ def identities(root, versions, G):
     # The inline-ASM macro branch names this through a C string, so -M does
     # not see it. Bind presence/absence even while that branch is unused.
     paths['include/macro.inc']=root/'include/macro.inc'
-    out={n:G.sha(p) if p.exists() else None for n,p in sorted(paths.items()) if n!=CONFIGURE}
+    out={n:G.sha(p) if _exists(p) else None for n,p in sorted(paths.items()) if n!=CONFIGURE}
     if CONFIGURE in paths:out[CONFIGURE]=configure_identity(paths[CONFIGURE])
     return out
 
@@ -313,7 +378,7 @@ def identities(root, versions, G):
 # that table's value: a SLUS CC_VER/partition edit must not void overlay certs.
 CONFIGURE='gate/configure.py'
 def configure_identity(path):
-    if not path.exists():return None
+    if not _exists(path):return None
     nodes=[n for n in ast.parse(read_text(path)).body if isinstance(n,ast.Assign)
            and any(isinstance(t,ast.Name) and t.id=='AS_FLAGS' for t in n.targets)]
     if len(nodes)!=1:raise ValueError('configure.py: expected one AS_FLAGS assignment, found %d'%len(nodes))
@@ -326,11 +391,11 @@ def configure_identity(path):
 def noreturn(root, fam, offsets, splits, regions, G):
     if fam=='ovmovie':
         p=root/'config/noreturn_syms.ovmovie.txt'
-        return {'family_file':G.sha(p) if p.exists() else None}
+        return {'family_file':G.sha(p) if _exists(p) else None}
     if fam not in {'town','dungeon'}:return {}
     # Resolve frozen evidence at the authority; both module and row compiles
     # use this resolver when their view omits raw/.
-    if (root/'tools/gate/gen_noreturn_syms.py').exists():
+    if _exists(root/'tools/gate/gen_noreturn_syms.py'):
         sys.path.insert(0,str(root/'tools'))
         from gate.gen_noreturn_syms import _find_root, scoped_inputs
     else:
@@ -355,7 +420,7 @@ def noreturn(root, fam, offsets, splits, regions, G):
             if source:
                 name=f'raw/{fam}/'+Path(source).name
                 if name in selected:continue
-                p=evidence/name;selected[name]=G.sha(p) if p.exists() else None
+                p=evidence/name;selected[name]=G.sha(p) if _exists(p) else None
     return {'semantic':scoped_inputs(fam,offsets,root=evidence),'regions':scope_records,'frozen_sources':dict(sorted(selected.items())), 'false_member_records':[r for r in records(evidence/'config/noreturn_false_members.jsonl') if r.get('family',r.get('container'))==fam]}
 
 def retail(root, container, start, size, G):
@@ -393,6 +458,9 @@ def row_eligibility(row, level):
 
 def fingerprint(m, root, G, windows=True):
     root=Path(root).absolute()
+    return memo(('fingerprint',str(root),json.dumps(m,sort_keys=True),bool(windows),G.__name__),lambda:_fingerprint(m,root,G,windows))
+
+def _fingerprint(m, root, G, windows):
     if m.get('container') not in {'town','dungeon','ovmovie'}:
         raise ValueError('scoped fingerprint does not model this container evidence')
     reg,assign,splits,regions,owners,mods,physical,wins=validate(root,G)
@@ -414,7 +482,7 @@ def fingerprint(m, root, G, windows=True):
         'review_inputs':inputs,'closure':include_inputs(root,starts,G.module_compiler(m),'-G0',G),
         'screening':screening(m,levels,baseline,G) if m.get('membership_evidence') else {},
         'retail':{'module':retail(root,fam,span_start,span_end-span_start,G)},
-        'sibcall':G.sha(root/f'config/sibcall_syms.{fam}.txt') if (root/f'config/sibcall_syms.{fam}.txt').exists() else None,
+        'sibcall':G.sha(root/f'config/sibcall_syms.{fam}.txt') if _exists(root/f'config/sibcall_syms.{fam}.txt') else None,
         'environment_policy':ENV_POLICY,'noreturn':noreturn(root,fam,offsets,splits,regions,G),'tools':identities(root,{G.module_compiler(m)},G)}
     for d in m['imports']:
         if d['kind']=='data':
@@ -427,56 +495,61 @@ def fingerprint(m, root, G, windows=True):
     if windows:
         # Window digests contain no module/window fingerprints: no cycles.
         for wn in required:
-            cfg=wins[wn];sb=cfg['standalone_build'];w=sb['window'];fs,fe=num(w['file_start']),num(w['file_end'])
-            units={Path(g['results']).parts[1] for g in [{'results':sb['split_results']},*sb.get('matched_sources',[])]}
-            roster={unit:[r for r in splits[unit] if intersects(r,fs,fe)] for unit in sorted(units)}
-            wr=[r for r in reg.values() if family(r['container'])==fam and intersects(r,fs,fe)]
-            wid={r['id'] for r in wr}
-            edges=[e for e in physical['edges'] if wid.intersection(e['rows'])]
-            wm=window_modules(mods,fam,fs,fe,G)
-            sources={};versions={'2.7.2-cdk'};off=set();symbol_inputs={}
-            for v in wm:
-                ss=[v['source'],*v['headers'],*(a['source'] for a in G.all_members(v)),*(p for p in v['review_inputs'] if p.endswith(('.c','.h'))),*(d['declaration'] for d in v['imports'] if d['kind']=='runtime_data')]
-                version=G.module_compiler(v);versions.add(version)
-                sources.update(include_inputs(root,ss,version,'-G0',G))
-                off.update(a['foff'] for a in G.all_members(v))
-            for grp in sb.get('matched_sources',[]):
-                unit=Path(grp['results']).parts[1]
-                for r in roster[unit]:
-                    if r.get('result')!='MATCH' or (grp.get('skip_rerun',True) and r.get('rerun')):continue
-                    version,flags=parse_config_label(root,r.get('config') or '2.7.2',G);versions.add(version)
-                    if r.get('source_kind','c')=='c':
-                        off.add(r['foff'])
-                        name=matched_source(root,grp,r)
-                        sources.update(include_inputs(root,[name],version,flags,G))
-                    else:
-                        sources.update({n:G.sha(root/n) for n in G.closure(root,[r['asm_path']])})
-            for name in ['config/names.tsv','config/slus_006.14.symbols.txt','config/overlays/abs_syms.txt',cfg.get('options',{}).get('symbol_addrs_path'),f'config/overlays/{fam}.as_flags.jsonl',f'config/sibcall_syms.{fam}.txt']:
-                if name:symbol_inputs[name]=G.sha(root/name) if (root/name).exists() else None
-            window={'config':cfg,'registry':wr,'splits':roster,'edges':edges,'modules':wm,'sources':sources,'symbols':symbol_inputs,
-                    'assignments':[r for r in assign if r['id'] in wid],
-                    'rowbase':[r for r in regions.get(fam,[]) if num(r['foff_start'])<fe and fs<num(r['foff_end'])],
-                    'owned_data':[r for r in owners.get(fam,[]) if num(r['foff'])<fe and fs<num(r['foff'])+num(r['rodata_size'])],
-                    'noreturn':noreturn(root,fam,off,splits,regions,G),'retail':retail(root,fam,fs,fe-fs,G),'tools':identities(root,versions,G)}
-            # Every neighbor TU can consume own review/storage evidence too.
-            window['module_inputs']={v['key']:{p:G.sha(root/p) for p in v['review_inputs']} for v in wm}
-            window['module_registry']={v['key']:[reg[a['id']] for a in G.all_members(v)] for v in wm}
-            window['module_screening']={v['key']:screening(v,levels,baseline,G) for v in wm if v.get('membership_evidence')}
-            window['neighbor_eligibility']={rid:row_eligibility(reg[rid],levels.get(rid)) for rid in sorted(wid)}
-            storage={}
-            for v in wm:
-                first,last=G.module_span(v)
-                storage[v['key']]={'text':retail(root,v['container'],first,last-first,G)}
-                for d in v['imports']:
-                    if d['kind']!='data':continue
-                    if 'asset' in d:
-                        with G.local(root,d['asset']).open('rb') as f:f.seek(d['foff']);b=f.read(d['view_bytes'])
-                        if len(b)!=d['view_bytes']:raise ValueError('truncated neighboring storage')
-                        h=hashlib.sha256(b).hexdigest()
-                    else:h=retail(root,v['container'],d['foff'],d['view_bytes'],G)
-                    storage[v['key']][d['symbol']]=h
-            window['module_storage']=storage
-            receipts[wn]={'sha256':G.hashed(window)}
+            receipts[wn]=memo(('window',str(root),wn,fam,G.__name__),
+                              lambda wn=wn:_window_digest(root,wn,wins,splits,reg,physical,assign,regions,owners,mods,levels,baseline,fam,G))
     module_hash=G.hashed(module)
     return {'schema':SCHEMA,'sha256':G.hashed({'schema':SCHEMA,'module':module_hash,'windows':{n:r['sha256'] for n,r in receipts.items()},'required_windows':required}),
             'module':{'sha256':module_hash},'windows':receipts,'required_windows':required}
+
+def _window_digest(root,wn,wins,splits,reg,physical,assign,regions,owners,mods,levels,baseline,fam,G):
+    # Window digests contain no module/window fingerprints: no cycles.
+    cfg=wins[wn];sb=cfg['standalone_build'];w=sb['window'];fs,fe=num(w['file_start']),num(w['file_end'])
+    units={Path(g['results']).parts[1] for g in [{'results':sb['split_results']},*sb.get('matched_sources',[])]}
+    roster={unit:[r for r in splits[unit] if intersects(r,fs,fe)] for unit in sorted(units)}
+    wr=[r for r in reg.values() if family(r['container'])==fam and intersects(r,fs,fe)]
+    wid={r['id'] for r in wr}
+    edges=[e for e in physical['edges'] if wid.intersection(e['rows'])]
+    wm=window_modules(mods,fam,fs,fe,G)
+    sources={};versions={'2.7.2-cdk'};off=set();symbol_inputs={}
+    for v in wm:
+        ss=[v['source'],*v['headers'],*(a['source'] for a in G.all_members(v)),*(p for p in v['review_inputs'] if p.endswith(('.c','.h'))),*(d['declaration'] for d in v['imports'] if d['kind']=='runtime_data')]
+        version=G.module_compiler(v);versions.add(version)
+        sources.update(include_inputs(root,ss,version,'-G0',G))
+        off.update(a['foff'] for a in G.all_members(v))
+    for grp in sb.get('matched_sources',[]):
+        unit=Path(grp['results']).parts[1]
+        for r in roster[unit]:
+            if r.get('result')!='MATCH' or (grp.get('skip_rerun',True) and r.get('rerun')):continue
+            version,flags=parse_config_label(root,r.get('config') or '2.7.2',G);versions.add(version)
+            if r.get('source_kind','c')=='c':
+                off.add(r['foff'])
+                name=matched_source(root,grp,r)
+                sources.update(include_inputs(root,[name],version,flags,G))
+            else:
+                sources.update({n:G.sha(root/n) for n in G.closure(root,[r['asm_path']])})
+    for name in ['config/names.tsv','config/slus_006.14.symbols.txt','config/overlays/abs_syms.txt',cfg.get('options',{}).get('symbol_addrs_path'),f'config/overlays/{fam}.as_flags.jsonl',f'config/sibcall_syms.{fam}.txt']:
+        if name:symbol_inputs[name]=G.sha(root/name) if _exists(root/name) else None
+    window={'config':cfg,'registry':wr,'splits':roster,'edges':edges,'modules':wm,'sources':sources,'symbols':symbol_inputs,
+            'assignments':[r for r in assign if r['id'] in wid],
+            'rowbase':[r for r in regions.get(fam,[]) if num(r['foff_start'])<fe and fs<num(r['foff_end'])],
+            'owned_data':[r for r in owners.get(fam,[]) if num(r['foff'])<fe and fs<num(r['foff'])+num(r['rodata_size'])],
+            'noreturn':noreturn(root,fam,off,splits,regions,G),'retail':retail(root,fam,fs,fe-fs,G),'tools':identities(root,versions,G)}
+    # Every neighbor TU can consume own review/storage evidence too.
+    window['module_inputs']={v['key']:{p:G.sha(root/p) for p in v['review_inputs']} for v in wm}
+    window['module_registry']={v['key']:[reg[a['id']] for a in G.all_members(v)] for v in wm}
+    window['module_screening']={v['key']:screening(v,levels,baseline,G) for v in wm if v.get('membership_evidence')}
+    window['neighbor_eligibility']={rid:row_eligibility(reg[rid],levels.get(rid)) for rid in sorted(wid)}
+    storage={}
+    for v in wm:
+        first,last=G.module_span(v)
+        storage[v['key']]={'text':retail(root,v['container'],first,last-first,G)}
+        for d in v['imports']:
+            if d['kind']!='data':continue
+            if 'asset' in d:
+                with G.local(root,d['asset']).open('rb') as f:f.seek(d['foff']);b=f.read(d['view_bytes'])
+                if len(b)!=d['view_bytes']:raise ValueError('truncated neighboring storage')
+                h=hashlib.sha256(b).hexdigest()
+            else:h=retail(root,v['container'],d['foff'],d['view_bytes'],G)
+            storage[v['key']][d['symbol']]=h
+    window['module_storage']=storage
+    return {'sha256':G.hashed(window)}

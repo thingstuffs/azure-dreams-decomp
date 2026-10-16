@@ -1,16 +1,5 @@
-#include "shared/object_node.h"
-#include "shared/game_work.h"
+#include "modules/dungeon_ovl_7e6b7800.h"
 
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-typedef short s16;
-typedef unsigned int u32;
-typedef int s32;
-typedef s32 M2C_UNK;
-extern void *func_8003FD64();
-extern M2C_UNK D_800240F0;
-/* Allocate an effect and initialize its state and sprite. */
 void func_80024494(s32 effect_data, s32 effect_param, s32 render_param)
 {
     int color;

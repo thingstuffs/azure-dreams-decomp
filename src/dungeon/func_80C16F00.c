@@ -1,31 +1,5 @@
-#include "common.h"
-#include "shared/game_work.h"
-#include "shared/dungeon_status.h"
-#include "shared/dir_step.h"
+#include "modules/dungeon_resource17_slot0.h"
 
-#define F8(p, o) (*(u8 *)((u8 *)(p) + (o)))
-#define FS8(p, o) (*(s8 *)((u8 *)(p) + (o)))
-#define F16(p, o) (*(u16 *)((u8 *)(p) + (o)))
-#define FS16(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define F32(p, o) (*(s32 *)((u8 *)(p) + (o)))
-#define FPTR(p, o) (*(void **)((u8 *)(p) + (o)))
-
-extern void *D_800E3DE8;
-extern u8 D_801713A8[];
-extern u8 D_8017449C[];
-extern u8 D_801744B4[];
-extern u8 D_801744BC[];
-extern u8 D_801744C4[];
-extern u8 D_801744CC[];
-
-extern void func_80047784(void *, s32, s32);
-extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void func_800A2B04(void *, s32, s32);
-extern void func_800A4ACC(void *);
-extern void func_800A56E0(s32);
-extern void func_800AD594(void *, s32);
-
-/* Updates a staged movement action, its velocity, and directional animation. */
 void func_80172700(void *action, void *motion, void *sprite, void *actor)
 {
     s32 step_x;
@@ -56,13 +30,13 @@ void func_80172700(void *action, void *motion, void *sprite, void *actor)
         if (flags & 0x8000) {
             F8(action, 0x9B) = 0xFF;
             F16(sprite, 0x14) |= 0x6000;
-            func_8009C12C(turn_actor, sprite, FS16(turn_actor, 0x2A), 1);
+            func_8009C12C(turn_actor, sprite,(s16)(FS16(turn_actor, 0x2A)),(s16)(1));
             return;
         }
         if (!(flags & 0xE000))
             return;
-        FPTR(sprite, 0x2C) = D_801744B4;
-        func_80047784(sprite, D_801744B4[((gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
+        FPTR(sprite, 0x2C) = ((u8 *)D_801744B4);
+        func_80047784(sprite, ((u8 *)D_801744B4)[((gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
         F32(motion, 0xC) = (-step_x) << 18;
         F32(motion, 0x10) = (-step_y) << 18;
         F16(action, 0x98) |= 8;
@@ -91,8 +65,8 @@ void func_80172700(void *action, void *motion, void *sprite, void *actor)
             F32(motion, 0xC) = 0;
             F32(motion, 0x10) = 0;
             F32(motion, 0x14) = 0;
-            FPTR(sprite, 0x2C) = D_801744BC;
-            func_80047784(sprite, D_801744BC[((gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
+            FPTR(sprite, 0x2C) = ((u8 *)D_801744BC);
+            func_80047784(sprite, ((u8 *)D_801744BC)[((gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
         }
         if (FS16(action, 0x96) > 0)
             return;
@@ -101,8 +75,8 @@ void func_80172700(void *action, void *motion, void *sprite, void *actor)
         F16(action, 0x96) = phase_ticks;
         F32(motion, 0xC) = (step_x << 18) + (step_x << 17);
         F32(motion, 0x10) = (step_y << 18) + (step_y << 17);
-        FPTR(sprite, 0x2C) = D_801744C4;
-        func_80047784(sprite, D_801744C4[((gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
+        FPTR(sprite, 0x2C) = ((u8 *)D_801744C4);
+        func_80047784(sprite, ((u8 *)D_801744C4)[((gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
         F8(action, 0x9B)++;
         return;
 
@@ -116,7 +90,7 @@ void func_80172700(void *action, void *motion, void *sprite, void *actor)
         turn_actor = actor;
         if (FS16(action, 0x96) > 0)
             return;
-        func_8009C12C(turn_actor, sprite, FS16(turn_actor, 0x2A), 1);
+        func_8009C12C(turn_actor, sprite,(s16)(FS16(turn_actor, 0x2A)),(s16)(1));
 
         F8(action, 0x9B)++;
         return;
@@ -125,8 +99,8 @@ void func_80172700(void *action, void *motion, void *sprite, void *actor)
         F32(action, 0x90) += 0x80000;
         if (!(F16(sprite, 0x14) & 0xE000))
             return;
-        FPTR(sprite, 0x2C) = D_801744CC;
-        func_80047784(sprite, D_801744CC[((gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
+        FPTR(sprite, 0x2C) = ((u8 *)D_801744CC);
+        func_80047784(sprite, ((u8 *)D_801744CC)[((gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
         F32(motion, 0x14) = 0;
         F32(action, 0x90) = 0;
         F16(action, 0x98) &= 0xFFF7;
@@ -156,16 +130,16 @@ void func_80172700(void *action, void *motion, void *sprite, void *actor)
         F32(actor, 0x1C) |= 0x40000;
         func_800A2B04(motion, F8(sprite, 0x24), F8(sprite, 0x25));
         func_800AD594(actor, 0x100);
-        FPTR(action, 0x8C) = D_801713A8;
+        FPTR(action, 0x8C) = ((u8 *)func_801713A8);
         dungeonStatus.unk_0C = 0;
         func_800A4ACC(actor);
-        FPTR(sprite, 0x2C) = D_8017449C;
-        func_80047784(sprite, D_8017449C[((gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
+        FPTR(sprite, 0x2C) = ((u8 *)D_8017449C);
+        func_80047784(sprite, ((u8 *)D_8017449C)[((gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
         if (FS8(actor, 0x6D) == 0) {
             F16(actor, 0x46) &= 0x7FFF;
             return;
         }
-        D_800E3DE8 = (u8 *)actor - 0x20;
+        (*(void * *)D_800E3DE8) = (u8 *)actor - 0x20;
 
         return;
     default:

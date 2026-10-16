@@ -1,0 +1,77 @@
+{
+  "module": "dungeon_ovl_193c848",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_193c848.c",
+    "module_index": 186
+  },
+  "members": [
+    "dungeon/func_8191C848",
+    "dungeon/func_8191C938",
+    "dungeon/func_8191CA88",
+    "dungeon/func_8191CBCC",
+    "dungeon/func_8191CD78"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Native grouping of the complete ledger run; original compiler TU boundary is not separately observable.",
+  "basis": [
+    "Complete ledger cohort, strictly contiguous in file order with one selector load delta, a uniform recipe, no member assigned to another certified module.",
+    "Authenticated selector 45 loads bank [0x193c800, 0x1942800) to 0x80024000; all members lie within it.",
+    "Shared header reconciles private structure views and declarations; retail control-flow edges and shared data references recorded below. Singleton cohorts are complete standalone helper units; multirow cohorts share the same loaded bank and effect/object services.",
+    "The 64-byte switch prefix at file 0x193c808 immediately precedes the ledger text run. Retail HI16/LO16 relocations bind it to the complete func_80024578 switch; the first logical row expands over this native prefix while its historical body baseline remains unchanged.",
+    "Carve 64 bytes of compiler-emitted switch storage from the existing raw data segment at 0x193c800; preserve its first 8 bytes as raw data. No registered member or executable code is removed. Expand the first matched logical row over this adjacent prefix; retain the historical body-only baseline. Every switch target belongs to its complete native member."
+  ],
+  "run": {
+    "file_start": 26462216,
+    "file_end": 26466164,
+    "delta": 2121168896,
+    "selector": 45
+  },
+  "internal_calls": {
+    "dungeon/func_8191C848": [],
+    "dungeon/func_8191C938": [],
+    "dungeon/func_8191CA88": [],
+    "dungeon/func_8191CBCC": [],
+    "dungeon/func_8191CD78": [
+      "func_80024138",
+      "func_800243CC"
+    ]
+  },
+  "data_references": {
+    "dungeon/func_8191C848": [
+      "objectFlagBlock"
+    ],
+    "dungeon/func_8191C938": [
+      "D_80024048",
+      "D_800DED70"
+    ],
+    "dungeon/func_8191CA88": [],
+    "dungeon/func_8191CBCC": [
+      "D_80024288",
+      "D_80024F74",
+      "D_80045C34"
+    ],
+    "dungeon/func_8191CD78": [
+      "D_800DDC40",
+      "objectFlagBlock"
+    ]
+  },
+  "complete_body_sha256": {
+    "dungeon/func_8191C848": "531aaeb723cf20e33b0de8fbc548cfc7c63076a74261f51ba13ebf266c14817e",
+    "dungeon/func_8191C938": "9b89c0d2cc3633d88298b0ce8a1e1a2a96b4bd8a9351accffb3be7b524436894",
+    "dungeon/func_8191CA88": "42672d7280df8373a158c60a98d80f005e2329826b277bf6215d9794de3bb099",
+    "dungeon/func_8191CBCC": "ae3e8d651f09931ac7813ae5b486f7194b0d3c6c05945b850cc61fedcad43a34",
+    "dungeon/func_8191CD78": "f7d64812c37901c2970da12fca5e57e0afca4615bfc0cdddd8601b2ded2461ae"
+  },
+  "no_shared_members": true,
+  "reviewer": "orchestrator-r120",
+  "raw_data_prefix_carve": {
+    "original_start": 26462208,
+    "original_end": 26462280,
+    "remaining_raw_end": 26462216,
+    "native_start": 26462216,
+    "native_end": 26462280
+  },
+  "review": "reviewed"
+}

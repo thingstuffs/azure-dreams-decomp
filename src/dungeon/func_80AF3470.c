@@ -1,76 +1,31 @@
-#include "common.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_resource10_slot0.h"
 
-
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 z;
-    s16 pad;
-} LocalVector;
-
-typedef struct {
-    LocalVector vectors[4];
-} __attribute__((packed)) LocalTable;
-
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
-
-extern LocalTable D_80170874;
-
-
-typedef struct S_80174C70_0 {
-    u8 pad_00[0x18];
-    s16 unk_18;
-    union { s16 s; u16 u; } unk_1A;   /* accessed as both */
-    u8 pad_1C[0x46];
-    s16 unk_62;
-} S_80174C70_0;   /* arg0 in func_80174C70 */
-
-typedef struct S_80174C70_1 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0xB];
-    union { s16 s; u16 u; } unk_1A;   /* accessed as both */
-} S_80174C70_1;   /* (void *)work_role in func_80174C70 */
-
-typedef struct S_80174C70_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-} S_80174C70_2;   /* arg1 in func_80174C70 */
-
-/* Advance the effect's brightness, rotation phase, and position until completion. */
 void func_80174C70(void *effect, void *motion, void *render)
 {
-    LocalVector direction;
-    LocalTable directions;
+    R10_80174C70_LocalVector direction;
+    R10_80174C70_LocalTable directions;
     long render_or_step = (long)render;
     s32 phase_angle;
     s32 phase_offset;
     u8 brightness;
     u32 frame;
 
-    directions = D_80170874;
+    directions = (*(R10_80174C70_LocalTable *)&D_80170874);
 
-    frame = (u32)((S_80174C70_0 *)effect)->unk_1A.s;
+    frame = (u32)((R10_80174C70_S_80174C70_0 *)effect)->unk_1A.s;
     switch (frame) {
     case 0:
     case 1:
     case 2:
     case 3:
-        brightness = ((S_80174C70_1 *)((void *)render_or_step))->unk_0E + 0x18;
-        ((S_80174C70_1 *)((void *)render_or_step))->unk_0E = brightness;
-        ((S_80174C70_1 *)((void *)render_or_step))->unk_0D = brightness;
-        ((S_80174C70_1 *)((void *)render_or_step))->unk_0C = brightness;
+        brightness = ((R10_80174C70_S_80174C70_1 *)((void *)render_or_step))->unk_0E + 0x18;
+        ((R10_80174C70_S_80174C70_1 *)((void *)render_or_step))->unk_0E = brightness;
+        ((R10_80174C70_S_80174C70_1 *)((void *)render_or_step))->unk_0D = brightness;
+        ((R10_80174C70_S_80174C70_1 *)((void *)render_or_step))->unk_0C = brightness;
 
     case 4:
-        ((S_80174C70_0 *)effect)->unk_62 = 0x20;
-        ((S_80174C70_1 *)((void *)render_or_step))->unk_1A.s = 0xA00;
+        ((R10_80174C70_S_80174C70_0 *)effect)->unk_62 = 0x20;
+        ((R10_80174C70_S_80174C70_1 *)((void *)render_or_step))->unk_1A.s = 0xA00;
         break;
 
     case 5:
@@ -85,8 +40,8 @@ void func_80174C70(void *effect, void *motion, void *render)
     case 14:
     case 16:
     case 15:
-        ((S_80174C70_0 *)effect)->unk_62 = 0x18;
-        ((S_80174C70_1 *)((void *)render_or_step))->unk_1A.u += 0x180;
+        ((R10_80174C70_S_80174C70_0 *)effect)->unk_62 = 0x18;
+        ((R10_80174C70_S_80174C70_1 *)((void *)render_or_step))->unk_1A.u += 0x180;
         break;
 
     case 17:
@@ -98,12 +53,12 @@ void func_80174C70(void *effect, void *motion, void *render)
     case 23:
     case 24:
     case 25:
-        brightness = ((S_80174C70_1 *)((void *)render_or_step))->unk_0E - 0xE;
-        ((S_80174C70_1 *)((void *)render_or_step))->unk_0E = brightness;
-        ((S_80174C70_1 *)((void *)render_or_step))->unk_0D = brightness;
-        ((S_80174C70_1 *)((void *)render_or_step))->unk_0C = brightness;
-        ((S_80174C70_0 *)effect)->unk_62 = 0x18;
-        ((S_80174C70_1 *)((void *)render_or_step))->unk_1A.u += 0x30;
+        brightness = ((R10_80174C70_S_80174C70_1 *)((void *)render_or_step))->unk_0E - 0xE;
+        ((R10_80174C70_S_80174C70_1 *)((void *)render_or_step))->unk_0E = brightness;
+        ((R10_80174C70_S_80174C70_1 *)((void *)render_or_step))->unk_0D = brightness;
+        ((R10_80174C70_S_80174C70_1 *)((void *)render_or_step))->unk_0C = brightness;
+        ((R10_80174C70_S_80174C70_0 *)effect)->unk_62 = 0x18;
+        ((R10_80174C70_S_80174C70_1 *)((void *)render_or_step))->unk_1A.u += 0x30;
         break;
 
     case 26:
@@ -112,13 +67,13 @@ void func_80174C70(void *effect, void *motion, void *render)
         return;
     }
 
-    ((S_80174C70_0 *)effect)->unk_1A.u++;
+    ((R10_80174C70_S_80174C70_0 *)effect)->unk_1A.u++;
 
-    if (((S_80174C70_1 *)((void *)render_or_step))->unk_1A.u >= 0x1000) {
-        ((S_80174C70_1 *)((void *)render_or_step))->unk_1A.u -= 0x1000;
+    if (((R10_80174C70_S_80174C70_1 *)((void *)render_or_step))->unk_1A.u >= 0x1000) {
+        ((R10_80174C70_S_80174C70_1 *)((void *)render_or_step))->unk_1A.u -= 0x1000;
     }
 
-    phase_angle = ((S_80174C70_1 *)((void *)render_or_step))->unk_1A.u;
+    phase_angle = ((R10_80174C70_S_80174C70_1 *)((void *)render_or_step))->unk_1A.u;
     phase_offset = phase_angle - 0x400;
     phase_angle = phase_offset;
     if ((s16)phase_offset < 0) {
@@ -127,7 +82,7 @@ void func_80174C70(void *effect, void *motion, void *render)
     {
         s16 normalized_phase = phase_angle;
         s32 sine = func_80064584(normalized_phase);
-        s32 sine_radius = ((S_80174C70_0 *)effect)->unk_62;
+        s32 sine_radius = ((R10_80174C70_S_80174C70_0 *)effect)->unk_62;
         s32 sine_product = sine_radius * sine;
         s32 cosine_angle = normalized_phase;
 
@@ -137,14 +92,14 @@ void func_80174C70(void *effect, void *motion, void *render)
 
     {
         u8 *direction_ptr = (u8 *)&directions;
-        s32 heading_x = ((S_80174C70_0 *)effect)->unk_18;
-        s32 radius = ((S_80174C70_0 *)effect)->unk_62;
+        s32 heading_x = ((R10_80174C70_S_80174C70_0 *)effect)->unk_18;
+        s32 radius = ((R10_80174C70_S_80174C70_0 *)effect)->unk_62;
 
         direction.x = (*(u16 *)((u8 *)direction_ptr + (((heading_x - 0x400) >> 7) & 0x1C)));
 
         {
             s32 cosine_product = radius * phase_offset;
-            s32 heading_y = ((S_80174C70_0 *)effect)->unk_18;
+            s32 heading_y = ((R10_80174C70_S_80174C70_0 *)effect)->unk_18;
 
             direction_ptr += ((heading_y - 0x400) >> 7) & 0x1C;
             direction.y = (*(u16 *)((u8 *)direction_ptr + (2)));
@@ -152,7 +107,7 @@ void func_80174C70(void *effect, void *motion, void *render)
             {
                 s32 height_step = cosine_product << 4;
 
-                ((S_80174C70_2 *)motion)->unk_08 += height_step;
+                ((R10_80174C70_S_80174C70_2 *)motion)->unk_08 += height_step;
             }
         }
     }
@@ -161,16 +116,16 @@ void func_80174C70(void *effect, void *motion, void *render)
         s32 axis_product = axis_step * render_or_step;
 
         axis_step = axis_product >> 4;
-        ((S_80174C70_2 *)motion)->unk_0C = axis_step;
+        ((R10_80174C70_S_80174C70_2 *)motion)->unk_0C = axis_step;
     }
     {
         s32 axis_step = direction.y;
         s32 axis_product = axis_step * render_or_step;
 
-        ((S_80174C70_2 *)motion)->unk_10 = axis_product >> 4;
+        ((R10_80174C70_S_80174C70_2 *)motion)->unk_10 = axis_product >> 4;
     }
-    ((S_80174C70_2 *)motion)->unk_00 += ((S_80174C70_2 *)motion)->unk_0C;
-    ((S_80174C70_2 *)motion)->unk_04 += ((S_80174C70_2 *)motion)->unk_10;
+    ((R10_80174C70_S_80174C70_2 *)motion)->unk_00 += ((R10_80174C70_S_80174C70_2 *)motion)->unk_0C;
+    ((R10_80174C70_S_80174C70_2 *)motion)->unk_04 += ((R10_80174C70_S_80174C70_2 *)motion)->unk_10;
 
     return;
 }

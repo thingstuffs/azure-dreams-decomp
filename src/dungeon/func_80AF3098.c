@@ -1,75 +1,23 @@
-#include "common.h"
-#include "shared/game_work.h"
-#include "shared/dungeon_status.h"
-#include "shared/entity.h"
+#include "modules/dungeon_resource10_slot0.h"
 
-typedef struct S_80174898_0 {
-    u8 pad_00[0x8C];
-    s32 * unk_8C;
-    u8 pad_90[0x6];
-    s16 unk_96;
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_80174898_0;   /* arg0 in func_80174898 */
-
-typedef struct S_80174898_1 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80174898_1;   /* arg1 in func_80174898 */
-
-typedef struct S_80174898_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_80174898_2;   /* arg2 in func_80174898 */
-
-
-typedef struct OffsetPair {
-    s16 x;
-    s16 y;
-} OffsetPair;
-
-typedef struct OffsetTable {
-    OffsetPair entries[8];
-} OffsetTable;
-
-extern OffsetTable D_80170854;
-extern s32 D_801717F4;
-extern u8 D_80175988[];
-
-extern void func_80047784(void *, s32, s32);
-extern void func_800A2B04(void *, s32, s32);
-extern void func_800A56E0(s32);
-extern void func_800AD594(void *, s32);
-extern void func_8017442C(void *, s32, s32, s32);
-extern void func_80174670(void *, s32, s32, s32);
-
-/* Updates timed directional effects, then resets animation and action state. */
 void func_80174898(void *action, void *position, void *sprite, EntityRec *entity)
 {
-    OffsetTable direction_offsets = D_80170854;
+    R10_80174898_OffsetTable direction_offsets = (*(R10_80174898_OffsetTable *)&D_80170854);
     s32 offset_coord;
 
-    switch (((S_80174898_0 *)action)->unk_9B) {
+    switch (((R10_80174898_S_80174898_0 *)action)->unk_9B) {
     case 0:
-        ((S_80174898_1 *)position)->unk_14 = 0;
-        ((S_80174898_1 *)position)->unk_10 = 0;
-        ((S_80174898_1 *)position)->unk_0C = 0;
-        ((S_80174898_0 *)action)->unk_96 = 0x14;
-        ((S_80174898_0 *)action)->unk_9B++;
+        ((R10_80174898_S_80174898_1 *)position)->unk_14 = 0;
+        ((R10_80174898_S_80174898_1 *)position)->unk_10 = 0;
+        ((R10_80174898_S_80174898_1 *)position)->unk_0C = 0;
+        ((R10_80174898_S_80174898_0 *)action)->unk_96 = 0x14;
+        ((R10_80174898_S_80174898_0 *)action)->unk_9B++;
         break;
 
     case 1:
-        if ((--((S_80174898_0 *)action)->unk_96 == 0x11) ||
-            (((S_80174898_2 *)sprite)->unk_14 & 0x8000)) {
-            OffsetPair *direction_offset;
+        if ((--((R10_80174898_S_80174898_0 *)action)->unk_96 == 0x11) ||
+            (((R10_80174898_S_80174898_2 *)sprite)->unk_14 & 0x8000)) {
+            R10_80174898_OffsetPair *direction_offset;
             u16 flags;
             s32 height;
             s32 target_x;
@@ -77,26 +25,26 @@ void func_80174898(void *action, void *position, void *sprite, EntityRec *entity
             s32 y_offset;
             s32 x_offset;
 
-            flags = ((S_80174898_2 *)sprite)->unk_14;
-            ((S_80174898_2 *)sprite)->unk_14 = flags | 0x0800;
-            height = ((S_80174898_1 *)position)->unk_0A;
-            tile_x = ((S_80174898_2 *)sprite)->unk_24;
+            flags = ((R10_80174898_S_80174898_2 *)sprite)->unk_14;
+            ((R10_80174898_S_80174898_2 *)sprite)->unk_14 = flags | 0x0800;
+            height = ((R10_80174898_S_80174898_1 *)position)->unk_0A;
+            tile_x = ((R10_80174898_S_80174898_2 *)sprite)->unk_24;
             direction_offset = &direction_offsets.entries[(((u16)entity->facing) >> 9) & 7];
             x_offset = direction_offset->x;
             target_x = tile_x + x_offset;
             y_offset = direction_offset->y;
-            offset_coord = ((S_80174898_2 *)sprite)->unk_25 + y_offset;
+            offset_coord = ((R10_80174898_S_80174898_2 *)sprite)->unk_25 + y_offset;
             target_x = target_x & 0xFFFF;
             func_80174670(entity, target_x, offset_coord & 0xFFFF, height);
         }
-        if ((((S_80174898_0 *)action)->unk_96 == 0x0A) ||
-            (((S_80174898_2 *)sprite)->unk_14 & 0x8000)) {
-            ((S_80174898_2 *)sprite)->unk_14 &= 0xF7FF;
+        if ((((R10_80174898_S_80174898_0 *)action)->unk_96 == 0x0A) ||
+            (((R10_80174898_S_80174898_2 *)sprite)->unk_14 & 0x8000)) {
+            ((R10_80174898_S_80174898_2 *)sprite)->unk_14 &= 0xF7FF;
             func_800A56E0(0x606);
         }
-        if ((((S_80174898_0 *)action)->unk_96 == 9) ||
-            (((S_80174898_2 *)sprite)->unk_14 & 0x8000)) {
-            OffsetPair *direction_offset;
+        if ((((R10_80174898_S_80174898_0 *)action)->unk_96 == 9) ||
+            (((R10_80174898_S_80174898_2 *)sprite)->unk_14 & 0x8000)) {
+            R10_80174898_OffsetPair *direction_offset;
             u16 angle;
             s32 height;
             s32 tile_x;
@@ -106,44 +54,44 @@ void func_80174898(void *action, void *position, void *sprite, EntityRec *entity
 
             angle = ((u16)entity->facing);
             direction_offset = direction_offsets.entries + ((angle >> 9) & 7);
-            height = ((S_80174898_1 *)position)->unk_0A;
-            tile_x = ((S_80174898_2 *)sprite)->unk_24;
+            height = ((R10_80174898_S_80174898_1 *)position)->unk_0A;
+            tile_x = ((R10_80174898_S_80174898_2 *)sprite)->unk_24;
             offset_coord = direction_offset->x;
             target_x = tile_x + offset_coord;
             y_offset = direction_offset->y;
-            offset_coord = ((S_80174898_2 *)sprite)->unk_25 + y_offset;
+            offset_coord = ((R10_80174898_S_80174898_2 *)sprite)->unk_25 + y_offset;
             x = target_x & 0xFFFF;
             func_8017442C(entity, x, offset_coord & 0xFFFF, height);
         }
-        if ((((S_80174898_0 *)action)->unk_96 <= 0) ||
-            (((S_80174898_2 *)sprite)->unk_14 & 0x8000)) {
-            ((S_80174898_0 *)action)->unk_96 = 0;
-            ((S_80174898_0 *)action)->unk_9B++;
+        if ((((R10_80174898_S_80174898_0 *)action)->unk_96 <= 0) ||
+            (((R10_80174898_S_80174898_2 *)sprite)->unk_14 & 0x8000)) {
+            ((R10_80174898_S_80174898_0 *)action)->unk_96 = 0;
+            ((R10_80174898_S_80174898_0 *)action)->unk_9B++;
         }
         break;
 
     case 2:
-        if (((S_80174898_2 *)sprite)->unk_14 & 0xE000) {
-            ((S_80174898_1 *)position)->unk_14 = 0;
-            ((S_80174898_1 *)position)->unk_10 = 0;
-            ((S_80174898_1 *)position)->unk_0C = 0;
+        if (((R10_80174898_S_80174898_2 *)sprite)->unk_14 & 0xE000) {
+            ((R10_80174898_S_80174898_1 *)position)->unk_14 = 0;
+            ((R10_80174898_S_80174898_1 *)position)->unk_10 = 0;
+            ((R10_80174898_S_80174898_1 *)position)->unk_0C = 0;
             func_800A2B04(position,
-                ((S_80174898_2 *)sprite)->unk_24, ((S_80174898_2 *)sprite)->unk_25);
-            if (((S_80174898_2 *)sprite)->unk_2C != D_80175988) {
-                ((S_80174898_2 *)sprite)->unk_2C = D_80175988;
-                ((S_80174898_2 *)sprite)->unk_14 &= 0xF7FF;
+                ((R10_80174898_S_80174898_2 *)sprite)->unk_24, ((R10_80174898_S_80174898_2 *)sprite)->unk_25);
+            if (((R10_80174898_S_80174898_2 *)sprite)->unk_2C != ((u8 *)D_80175988)) {
+                ((R10_80174898_S_80174898_2 *)sprite)->unk_2C = ((u8 *)D_80175988);
+                ((R10_80174898_S_80174898_2 *)sprite)->unk_14 &= 0xF7FF;
                 func_80047784(sprite,
-                    ((S_80174898_2 *)sprite)->unk_2C[((gameWork.view.viewAngle +
+                    ((R10_80174898_S_80174898_2 *)sprite)->unk_2C[((gameWork.view.viewAngle +
                         entity->facing + 0x100) >> 9) & 7],
                     0);
-                ((S_80174898_0 *)action)->unk_9B++;
+                ((R10_80174898_S_80174898_0 *)action)->unk_9B++;
             }
         }
         break;
 
     case 3:
         func_800AD594(entity, 0x400);
-        ((S_80174898_0 *)action)->unk_8C = &D_801717F4;
+        ((R10_80174898_S_80174898_0 *)action)->unk_8C = ((void *)func_801717F4);
         dungeonStatus.unk_0C = 0;
         (entity->unk_46) &= 0x7FFF;
         break;

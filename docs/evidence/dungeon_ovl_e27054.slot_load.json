@@ -1,0 +1,907 @@
+{
+  "schema": "r121m.slot-loader-authentication.v1",
+  "runtime_observed": false,
+  "normal_formula": {
+    "lba": "0x4340+(resource_id-1)*0x54+slot*12",
+    "destination": "0x80170800-slot*0x6000",
+    "sectors": 12,
+    "slot_domain": "0..6",
+    "exceptions": [
+      49,
+      56
+    ]
+  },
+  "loader": {
+    "id": "dungeon/func_8009B434",
+    "function": "func_800A0B94",
+    "foff": 767028,
+    "vma": 2148141972,
+    "size": 580,
+    "sha256": "02c31c35604cf5760235a28ec6ed0a5bfd4b488137288bb461ac7721e2710af8",
+    "source_sha256": "0f42cf43c2ba3196794e1bafb2288783c1032a5e2fa58c6afc1f5d6c13b35606",
+    "instructions": [
+      {
+        "foff": 767028,
+        "vma": 2148141972,
+        "word": "0x27bdffd0"
+      },
+      {
+        "foff": 767032,
+        "vma": 2148141976,
+        "word": "0xafb20018"
+      },
+      {
+        "foff": 767036,
+        "vma": 2148141980,
+        "word": "0x00a09021"
+      },
+      {
+        "foff": 767040,
+        "vma": 2148141984,
+        "word": "0xafb40020"
+      },
+      {
+        "foff": 767044,
+        "vma": 2148141988,
+        "word": "0x0000a021"
+      },
+      {
+        "foff": 767048,
+        "vma": 2148141992,
+        "word": "0xafb3001c"
+      },
+      {
+        "foff": 767052,
+        "vma": 2148141996,
+        "word": "0x00809821"
+      },
+      {
+        "foff": 767056,
+        "vma": 2148142000,
+        "word": "0xafb50024"
+      },
+      {
+        "foff": 767060,
+        "vma": 2148142004,
+        "word": "0xafbf0028"
+      },
+      {
+        "foff": 767064,
+        "vma": 2148142008,
+        "word": "0xafb10014"
+      },
+      {
+        "foff": 767068,
+        "vma": 2148142012,
+        "word": "0xafb00010"
+      },
+      {
+        "foff": 767072,
+        "vma": 2148142016,
+        "word": "0x92430000"
+      },
+      {
+        "foff": 767076,
+        "vma": 2148142020,
+        "word": "0x24020002"
+      },
+      {
+        "foff": 767080,
+        "vma": 2148142024,
+        "word": "0x10620011"
+      },
+      {
+        "foff": 767084,
+        "vma": 2148142028,
+        "word": "0x00c0a821"
+      },
+      {
+        "foff": 767088,
+        "vma": 2148142032,
+        "word": "0x3c02800e"
+      },
+      {
+        "foff": 767092,
+        "vma": 2148142036,
+        "word": "0x92430003"
+      },
+      {
+        "foff": 767096,
+        "vma": 2148142040,
+        "word": "0x24423da0"
+      },
+      {
+        "foff": 767100,
+        "vma": 2148142044,
+        "word": "0x00621821"
+      },
+      {
+        "foff": 767104,
+        "vma": 2148142048,
+        "word": "0x80620000"
+      },
+      {
+        "foff": 767108,
+        "vma": 2148142052,
+        "word": "0x00000000"
+      },
+      {
+        "foff": 767112,
+        "vma": 2148142056,
+        "word": "0x04410002"
+      },
+      {
+        "foff": 767116,
+        "vma": 2148142060,
+        "word": "0x00401821"
+      },
+      {
+        "foff": 767120,
+        "vma": 2148142064,
+        "word": "0x00031823"
+      },
+      {
+        "foff": 767124,
+        "vma": 2148142068,
+        "word": "0x00041400"
+      },
+      {
+        "foff": 767128,
+        "vma": 2148142072,
+        "word": "0x00021403"
+      },
+      {
+        "foff": 767132,
+        "vma": 2148142076,
+        "word": "0x14620004"
+      },
+      {
+        "foff": 767136,
+        "vma": 2148142080,
+        "word": "0x24020039"
+      },
+      {
+        "foff": 767140,
+        "vma": 2148142084,
+        "word": "0x10620002"
+      },
+      {
+        "foff": 767144,
+        "vma": 2148142088,
+        "word": "0x00000000"
+      },
+      {
+        "foff": 767148,
+        "vma": 2148142092,
+        "word": "0xa2530001"
+      },
+      {
+        "foff": 767152,
+        "vma": 2148142096,
+        "word": "0x92420001"
+      },
+      {
+        "foff": 767156,
+        "vma": 2148142100,
+        "word": "0x00000000"
+      },
+      {
+        "foff": 767160,
+        "vma": 2148142104,
+        "word": "0x14400046"
+      },
+      {
+        "foff": 767164,
+        "vma": 2148142108,
+        "word": "0x24020002"
+      },
+      {
+        "foff": 767168,
+        "vma": 2148142112,
+        "word": "0x00131400"
+      },
+      {
+        "foff": 767172,
+        "vma": 2148142116,
+        "word": "0x00022c03"
+      },
+      {
+        "foff": 767176,
+        "vma": 2148142120,
+        "word": "0x24020038"
+      },
+      {
+        "foff": 767180,
+        "vma": 2148142124,
+        "word": "0x14a20006"
+      },
+      {
+        "foff": 767184,
+        "vma": 2148142128,
+        "word": "0x24020031"
+      },
+      {
+        "foff": 767188,
+        "vma": 2148142132,
+        "word": "0x3c028016"
+      },
+      {
+        "foff": 767192,
+        "vma": 2148142136,
+        "word": "0x24514800"
+      },
+      {
+        "foff": 767196,
+        "vma": 2148142140,
+        "word": "0x240756b1"
+      },
+      {
+        "foff": 767200,
+        "vma": 2148142144,
+        "word": "0x08028329"
+      },
+      {
+        "foff": 767204,
+        "vma": 2148142148,
+        "word": "0x24060024"
+      },
+      {
+        "foff": 767208,
+        "vma": 2148142152,
+        "word": "0x14a20005"
+      },
+      {
+        "foff": 767212,
+        "vma": 2148142156,
+        "word": "0x3c028017"
+      },
+      {
+        "foff": 767216,
+        "vma": 2148142160,
+        "word": "0x2451a800"
+      },
+      {
+        "foff": 767220,
+        "vma": 2148142164,
+        "word": "0x2407569c"
+      },
+      {
+        "foff": 767224,
+        "vma": 2148142168,
+        "word": "0x08028329"
+      },
+      {
+        "foff": 767228,
+        "vma": 2148142172,
+        "word": "0x24060018"
+      },
+      {
+        "foff": 767232,
+        "vma": 2148142176,
+        "word": "0x92420003"
+      },
+      {
+        "foff": 767236,
+        "vma": 2148142180,
+        "word": "0x2406000c"
+      },
+      {
+        "foff": 767240,
+        "vma": 2148142184,
+        "word": "0x00022040"
+      },
+      {
+        "foff": 767244,
+        "vma": 2148142188,
+        "word": "0x00822021"
+      },
+      {
+        "foff": 767248,
+        "vma": 2148142192,
+        "word": "0x00041b40"
+      },
+      {
+        "foff": 767252,
+        "vma": 2148142196,
+        "word": "0x3c028017"
+      },
+      {
+        "foff": 767256,
+        "vma": 2148142200,
+        "word": "0x24420800"
+      },
+      {
+        "foff": 767260,
+        "vma": 2148142204,
+        "word": "0x00438823"
+      },
+      {
+        "foff": 767264,
+        "vma": 2148142208,
+        "word": "0x24a3ffff"
+      },
+      {
+        "foff": 767268,
+        "vma": 2148142212,
+        "word": "0x00031080"
+      },
+      {
+        "foff": 767272,
+        "vma": 2148142216,
+        "word": "0x00431021"
+      },
+      {
+        "foff": 767276,
+        "vma": 2148142220,
+        "word": "0x00021080"
+      },
+      {
+        "foff": 767280,
+        "vma": 2148142224,
+        "word": "0x00431021"
+      },
+      {
+        "foff": 767284,
+        "vma": 2148142228,
+        "word": "0x00021080"
+      },
+      {
+        "foff": 767288,
+        "vma": 2148142232,
+        "word": "0x00042080"
+      },
+      {
+        "foff": 767292,
+        "vma": 2148142236,
+        "word": "0x24844340"
+      },
+      {
+        "foff": 767296,
+        "vma": 2148142240,
+        "word": "0x00443821"
+      },
+      {
+        "foff": 767300,
+        "vma": 2148142244,
+        "word": "0x00c02021"
+      },
+      {
+        "foff": 767304,
+        "vma": 2148142248,
+        "word": "0x02202821"
+      },
+      {
+        "foff": 767308,
+        "vma": 2148142252,
+        "word": "0x3c10800e"
+      },
+      {
+        "foff": 767312,
+        "vma": 2148142256,
+        "word": "0x261058a8"
+      },
+      {
+        "foff": 767316,
+        "vma": 2148142260,
+        "word": "0x0c00fdb5"
+      },
+      {
+        "foff": 767320,
+        "vma": 2148142264,
+        "word": "0x02003021"
+      },
+      {
+        "foff": 767324,
+        "vma": 2148142268,
+        "word": "0x24040006"
+      },
+      {
+        "foff": 767328,
+        "vma": 2148142272,
+        "word": "0x02002821"
+      },
+      {
+        "foff": 767332,
+        "vma": 2148142276,
+        "word": "0x0c00f93f"
+      },
+      {
+        "foff": 767336,
+        "vma": 2148142280,
+        "word": "0x00003021"
+      },
+      {
+        "foff": 767340,
+        "vma": 2148142284,
+        "word": "0x00151400"
+      },
+      {
+        "foff": 767344,
+        "vma": 2148142288,
+        "word": "0x1040000e"
+      },
+      {
+        "foff": 767348,
+        "vma": 2148142292,
+        "word": "0x24020002"
+      },
+      {
+        "foff": 767352,
+        "vma": 2148142296,
+        "word": "0x0c00fcc8"
+      },
+      {
+        "foff": 767356,
+        "vma": 2148142300,
+        "word": "0x00000000"
+      },
+      {
+        "foff": 767360,
+        "vma": 2148142304,
+        "word": "0x92430000"
+      },
+      {
+        "foff": 767364,
+        "vma": 2148142308,
+        "word": "0x24020002"
+      },
+      {
+        "foff": 767368,
+        "vma": 2148142312,
+        "word": "0x10620005"
+      },
+      {
+        "foff": 767372,
+        "vma": 2148142316,
+        "word": "0x3c02800e"
+      },
+      {
+        "foff": 767376,
+        "vma": 2148142320,
+        "word": "0x92430003"
+      },
+      {
+        "foff": 767380,
+        "vma": 2148142324,
+        "word": "0x24423da0"
+      },
+      {
+        "foff": 767384,
+        "vma": 2148142328,
+        "word": "0x00621821"
+      },
+      {
+        "foff": 767388,
+        "vma": 2148142332,
+        "word": "0xa0730000"
+      },
+      {
+        "foff": 767392,
+        "vma": 2148142336,
+        "word": "0x8e340000"
+      },
+      {
+        "foff": 767396,
+        "vma": 2148142340,
+        "word": "0x0802836a"
+      },
+      {
+        "foff": 767400,
+        "vma": 2148142344,
+        "word": "0xae540004"
+      },
+      {
+        "foff": 767404,
+        "vma": 2148142348,
+        "word": "0x92430000"
+      },
+      {
+        "foff": 767408,
+        "vma": 2148142352,
+        "word": "0x00000000"
+      },
+      {
+        "foff": 767412,
+        "vma": 2148142356,
+        "word": "0x10620024"
+      },
+      {
+        "foff": 767416,
+        "vma": 2148142360,
+        "word": "0x3c02800e"
+      },
+      {
+        "foff": 767420,
+        "vma": 2148142364,
+        "word": "0x92430003"
+      },
+      {
+        "foff": 767424,
+        "vma": 2148142368,
+        "word": "0x24423da0"
+      },
+      {
+        "foff": 767428,
+        "vma": 2148142372,
+        "word": "0x00621821"
+      },
+      {
+        "foff": 767432,
+        "vma": 2148142376,
+        "word": "0x00131023"
+      },
+      {
+        "foff": 767436,
+        "vma": 2148142380,
+        "word": "0x0802836a"
+      },
+      {
+        "foff": 767440,
+        "vma": 2148142384,
+        "word": "0xa0620000"
+      },
+      {
+        "foff": 767444,
+        "vma": 2148142388,
+        "word": "0x92430000"
+      },
+      {
+        "foff": 767448,
+        "vma": 2148142392,
+        "word": "0x00000000"
+      },
+      {
+        "foff": 767452,
+        "vma": 2148142396,
+        "word": "0x10620005"
+      },
+      {
+        "foff": 767456,
+        "vma": 2148142400,
+        "word": "0x3c02800e"
+      },
+      {
+        "foff": 767460,
+        "vma": 2148142404,
+        "word": "0x92430003"
+      },
+      {
+        "foff": 767464,
+        "vma": 2148142408,
+        "word": "0x24423da0"
+      },
+      {
+        "foff": 767468,
+        "vma": 2148142412,
+        "word": "0x00621821"
+      },
+      {
+        "foff": 767472,
+        "vma": 2148142416,
+        "word": "0xa0730000"
+      },
+      {
+        "foff": 767476,
+        "vma": 2148142420,
+        "word": "0x00131400"
+      },
+      {
+        "foff": 767480,
+        "vma": 2148142424,
+        "word": "0x00021c03"
+      },
+      {
+        "foff": 767484,
+        "vma": 2148142428,
+        "word": "0x24020038"
+      },
+      {
+        "foff": 767488,
+        "vma": 2148142432,
+        "word": "0x14620004"
+      },
+      {
+        "foff": 767492,
+        "vma": 2148142436,
+        "word": "0x24020031"
+      },
+      {
+        "foff": 767496,
+        "vma": 2148142440,
+        "word": "0x3c028016"
+      },
+      {
+        "foff": 767500,
+        "vma": 2148142444,
+        "word": "0x08028369"
+      },
+      {
+        "foff": 767504,
+        "vma": 2148142448,
+        "word": "0x24514800"
+      },
+      {
+        "foff": 767508,
+        "vma": 2148142452,
+        "word": "0x14620003"
+      },
+      {
+        "foff": 767512,
+        "vma": 2148142456,
+        "word": "0x3c028017"
+      },
+      {
+        "foff": 767516,
+        "vma": 2148142460,
+        "word": "0x08028369"
+      },
+      {
+        "foff": 767520,
+        "vma": 2148142464,
+        "word": "0x2451a800"
+      },
+      {
+        "foff": 767524,
+        "vma": 2148142468,
+        "word": "0x92420003"
+      },
+      {
+        "foff": 767528,
+        "vma": 2148142472,
+        "word": "0x00000000"
+      },
+      {
+        "foff": 767532,
+        "vma": 2148142476,
+        "word": "0x00021840"
+      },
+      {
+        "foff": 767536,
+        "vma": 2148142480,
+        "word": "0x00621821"
+      },
+      {
+        "foff": 767540,
+        "vma": 2148142484,
+        "word": "0x00031b40"
+      },
+      {
+        "foff": 767544,
+        "vma": 2148142488,
+        "word": "0x3c028017"
+      },
+      {
+        "foff": 767548,
+        "vma": 2148142492,
+        "word": "0x24420800"
+      },
+      {
+        "foff": 767552,
+        "vma": 2148142496,
+        "word": "0x00438823"
+      },
+      {
+        "foff": 767556,
+        "vma": 2148142500,
+        "word": "0x8e340000"
+      },
+      {
+        "foff": 767560,
+        "vma": 2148142504,
+        "word": "0x00000000"
+      },
+      {
+        "foff": 767564,
+        "vma": 2148142508,
+        "word": "0x02801021"
+      },
+      {
+        "foff": 767568,
+        "vma": 2148142512,
+        "word": "0x8fbf0028"
+      },
+      {
+        "foff": 767572,
+        "vma": 2148142516,
+        "word": "0x8fb50024"
+      },
+      {
+        "foff": 767576,
+        "vma": 2148142520,
+        "word": "0x8fb40020"
+      },
+      {
+        "foff": 767580,
+        "vma": 2148142524,
+        "word": "0x8fb3001c"
+      },
+      {
+        "foff": 767584,
+        "vma": 2148142528,
+        "word": "0x8fb20018"
+      },
+      {
+        "foff": 767588,
+        "vma": 2148142532,
+        "word": "0x8fb10014"
+      },
+      {
+        "foff": 767592,
+        "vma": 2148142536,
+        "word": "0x8fb00010"
+      },
+      {
+        "foff": 767596,
+        "vma": 2148142540,
+        "word": "0x27bd0030"
+      },
+      {
+        "foff": 767600,
+        "vma": 2148142544,
+        "word": "0x03e00008"
+      },
+      {
+        "foff": 767604,
+        "vma": 2148142548,
+        "word": "0x00000000"
+      }
+    ]
+  },
+  "iso_extent": {
+    "path": "DUNGEON/DUNGEON.BIN",
+    "lba": 12310,
+    "size": 27813888,
+    "directory_lba": 12309,
+    "record_offset": 96,
+    "record_hex": "3c0016300000000030160068a80101a86800620306111f0424000000010000010d44554e47454f4e2e42494e3b31000000000d555841000000000000"
+  },
+  "iso_record_verified": true,
+  "cd_decoder": [
+    {
+      "container": "SLUS",
+      "file_offset": "0x12ed4",
+      "word": "0x3c02007f"
+    },
+    {
+      "container": "SLUS",
+      "file_offset": "0x12ed8",
+      "word": "0x3442ffff"
+    },
+    {
+      "container": "SLUS",
+      "file_offset": "0x12edc",
+      "word": "0x00a22824"
+    },
+    {
+      "container": "SLUS",
+      "file_offset": "0x12ee0",
+      "word": "0x000425c0"
+    },
+    {
+      "container": "SLUS",
+      "file_offset": "0x12ee4",
+      "word": "0x00a42825"
+    },
+    {
+      "container": "SLUS",
+      "file_offset": "0x12ee8",
+      "word": "0xacc50000"
+    },
+    {
+      "container": "SLUS",
+      "file_offset": "0x12eec",
+      "word": "0x03e00008"
+    },
+    {
+      "container": "SLUS",
+      "file_offset": "0x12ef0",
+      "word": "0xacc70004"
+    },
+    {
+      "container": "SLUS",
+      "file_offset": "0x121ec",
+      "word": "0x8c510004"
+    },
+    {
+      "container": "SLUS",
+      "file_offset": "0x121f0",
+      "word": "0x3c03007f"
+    },
+    {
+      "container": "SLUS",
+      "file_offset": "0x121f4",
+      "word": "0x8e220000"
+    },
+    {
+      "container": "SLUS",
+      "file_offset": "0x121f8",
+      "word": "0x3463ffff"
+    },
+    {
+      "container": "SLUS",
+      "file_offset": "0x121fc",
+      "word": "0x00438024"
+    },
+    {
+      "container": "SLUS",
+      "file_offset": "0x12204",
+      "word": "0x000295c2"
+    },
+    {
+      "container": "SLUS",
+      "file_offset": "0x12218",
+      "word": "0x3c028000"
+    },
+    {
+      "container": "SLUS",
+      "file_offset": "0x1221c",
+      "word": "0x02028025"
+    },
+    {
+      "container": "SLUS",
+      "file_offset": "0x122a4",
+      "word": "0x8e240004"
+    },
+    {
+      "container": "SLUS",
+      "file_offset": "0x122a8",
+      "word": "0x0c018493"
+    },
+    {
+      "container": "SLUS",
+      "file_offset": "0x122e4",
+      "word": "0x02402021"
+    },
+    {
+      "container": "SLUS",
+      "file_offset": "0x122e8",
+      "word": "0x02002821"
+    },
+    {
+      "container": "SLUS",
+      "file_offset": "0x122ec",
+      "word": "0x0c018c89"
+    },
+    {
+      "container": "SLUS",
+      "file_offset": "0x122f0",
+      "word": "0x24060080"
+    }
+  ],
+  "slot_load": {
+    "resource_id": 28,
+    "slot": 6,
+    "lba": 19556,
+    "file_start": 14839808,
+    "file_end": 14864384,
+    "destination": 2148845568,
+    "delta": 2134005760,
+    "sectors": 12,
+    "disc_container_equal": true,
+    "bank_sha256": "3c5056d43f640f02e0bd7cbedc51b5ab2c00a7f9d5f9e5944de0132dc2b40e8b",
+    "entry_word": "0x8014c854",
+    "existing_regions": [
+      {
+        "schema": "azure-clean.rowbase.v1",
+        "region": "sweep_0E27000",
+        "foff_start": "0xE27000",
+        "foff_end": "0xE27258",
+        "delta": "0x7F325800",
+        "base_confidence": "proven",
+        "proof": "j-solve sweep 2026-07-19 (decision C): unique 0x800-aligned delta with full j-consistency across 1 row(s); scoring-only until a byte-exact recompile promotes to proven; PROMOTED solved->proven: byte-exact recompile func_80E07054 at true base 0x8014C854 (candidate sha bbbfe22be54c @ 2.7.2, linked-strict isolation compare, phase-2 item-3 hook)"
+      },
+      {
+        "schema": "azure-clean.rowbase.v1",
+        "region": "img_e27258_8014ca58",
+        "foff_start": "0xE27258",
+        "foff_end": "0xE2AD10",
+        "delta": "0x7F325800",
+        "base_confidence": "solved",
+        "proof": "static per-floor image base proof 2026-08-23 (docs/port_handback_20260822/dungeon_base_proofs/proofs.json, image img0206@0xE27054, verdict PROVEN, K 0x7F325800). M1 local-`j` containment: 19 of 38 functions in the image are pinned to this delta by 88 in-function absolute `j` target(s) that can only land inside their own function's span, 0 more by in-function switch-table containment, pin_conflict=false, under the measured image-base law K = 0 mod 0x800; M4 Evidence-B1 18 same-K `jal` onto in-image function start(s) of 18 in-band target(s), in-image coherence 1.00; M5 Evidence-B2 2/2 switch table(s) resolved in span, 0 violation(s); M6 Evidence-A 40 resident-EXE call confirm(s) over 15 distinct callee(s), 0 contra; M7 146 re-link resident identit(y/ies), 8 unexplained; M3 1/1 leading inline jump table(s) fully contained; corroborating methods: b1-same-K-call-hits, leading-jump-table-containment, evidence-A-resident-calls, rowbase-ledger-agreement, b2-switch-table-containment, relink-resident-identity; EXTENT = 37 of the image's own member function span(s), 0xE27258-0xE2AD10; the image's other bytes are either already covered by an existing rowbase record (sweep_0E27000) or are not member spans, and are left uncovered rather than asserted; gate window dungeon_deep_e27054_truebase_8014c854 (0xE27054-0xE2AD10) states this same base and re-gated MATCH against the container on 2026-08-23 (381/381); STATIC EVIDENCE ONLY -- no RAM capture, no overlay-streamer transfer observed at runtime, nothing here is a runtime observation. Scoring-grade (`solved`) until a byte-exact recompile at this base promotes it via tools/rowbase.py promote"
+      }
+    ],
+    "conflicts": []
+  },
+  "review": "pending",
+  "reviewer": null
+}

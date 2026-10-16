@@ -1,98 +1,32 @@
-#include "shared/object_node.h"
-#include "common.h"
-#include "shared/slus_callbacks.h"
+#include "modules/dungeon_resource16_slot0.h"
 
-#ifndef NULL
-#define NULL 0
-#endif
-
-typedef struct S_80173904_0 {
-    u8 unk_00;
-    u8 unk_01;
-    u8 unk_02;
-    u8 pad_03[0x17];
-    s16 unk_1A;
-    u8 pad_1C[0x2];
-    s16 unk_1E;
-    s16 unk_20;
-    u8 pad_22[0x1E];
-    s32 unk_40;
-    s32 unk_44;
-} S_80173904_0;   /* state in func_80173904 */
-
-typedef struct S_80173904_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80173904_1;   /* object in func_80173904 */
-
-typedef struct S_80173904_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80173904_2;   /* display in func_80173904 */
-
-typedef struct S_80173904_3 {
-    s32 unk_00;
-    s32 unk_04;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80173904_3;   /* held_arg1 in func_80173904 */
-
-typedef struct S_80173904_4 {
-    s32 unk_00;
-    s32 unk_04;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80173904_4;   /* transform in func_80173904 */
-
-
-extern void func_8004491C(void *, void *);
-extern s32 rand(void);
-extern s32 func_80064584(s32);
-extern s32 func_800644B8(s32);
-extern void func_8003DB94(void *, void *, s32);
-
-extern u8 D_800DEC70[];
-extern u8 D_80173738;
-
-/* Creates and positions a sprite effect around the source at the given angle. */
 void func_80173904(
-    s32 unused_0, S_80173904_3 *origin, s32 unused_2, s32 unused_3, s16 angle, u16 depth_offset)
+    s32 unused_0, R16_80173904_S_80173904_3 *origin, s32 unused_2, s32 unused_3, s16 angle, u16 depth_offset)
 {
     void *object;
-    S_80173904_0 *state;
-    S_80173904_2 *display;
-    S_80173904_4 *transform;
+    R16_80173904_S_80173904_0 *state;
+    R16_80173904_S_80173904_2 *display;
+    R16_80173904_S_80173904_4 *transform;
     s16 wrapped_angle;
 
     object = func_8003FC64(0x212);
     wrapped_angle = angle;
     if (object != NULL) {
-        state = (S_80173904_0 *)((u8 *)object + 0x20);
+        state = (R16_80173904_S_80173904_0 *)((u8 *)object + 0x20);
         state->unk_1A = 0x14;
         state->unk_20 = 0x14;
         state->unk_1E = angle;
-        ((S_80173904_1 *)object)->unk_10 = &D_80173738;
+        ((R16_80173904_S_80173904_1 *)object)->unk_10 = ((void *)func_80173738);
         func_8004491C(object, func_80045340);
 
-        display = ((S_80173904_1 *)object)->unk_0C;
+        display = ((R16_80173904_S_80173904_1 *)object)->unk_0C;
         display->unk_10 = 0x60;
         display->unk_14 |= 0xC;
         if (rand() & 1) {
             display->unk_14 |= 1;
         }
 
-        transform = ((S_80173904_1 *)object)->unk_08;
+        transform = ((R16_80173904_S_80173904_1 *)object)->unk_08;
         state->unk_40 = origin->unk_00;
         state->unk_44 = origin->unk_04;
         while (wrapped_angle >= 0x1001) {
@@ -103,7 +37,7 @@ void func_80173904(
         transform->unk_04 = state->unk_44 + ((state->unk_20 * func_800644B8(wrapped_angle)) << 4);
         transform->unk_0A = origin->unk_0A + depth_offset;
 
-        display = ((S_80173904_1 *)object)->unk_0C;
+        display = ((R16_80173904_S_80173904_1 *)object)->unk_0C;
         display->unk_1E = 0x1000;
         display->unk_1C = 0x1000;
         display->unk_0C = 0x40;
@@ -112,7 +46,7 @@ void func_80173904(
         state->unk_00 = display->unk_0C;
         state->unk_01 = display->unk_0D;
         state->unk_02 = display->unk_0E;
-        func_8003DB94(display, D_800DEC70, 0);
+        func_8003DB94(display, ((u8 *)D_800DEC70), 0);
         display->unk_12 = 0x7DCF;
         display->unk_14 |= 0x100;
     }

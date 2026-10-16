@@ -1,29 +1,7 @@
-#include "common.h"
-#include "shared/dungeon_status.h"
-#include "shared/dir_step.h"
-#include "shared/entity.h"
-#include "records/Rec_D_80082E80.h"
-
-
-typedef struct S_8017314C_1 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_8017314C_1;   /* arg0 in func_8017314C */
-
-
-extern void func_800A2B04();
-extern void func_800AAA54();
-extern void func_800AD4D0();
-
-extern u8 D_80170E7C;
-extern u8 D_80174D5C;
+#include "modules/dungeon_ovl_7f511800_p03.h"
 
 /* Updates directional movement, decelerates it, and recenters the actor on its tile. */
-void func_8017314C(S_8017314C_1 *action, EntityRec *motion, Rec_D_80082E80 *actor, void *source)
+void func_8017314C(T_8017314C_S_8017314C_1 *action, EntityRec *motion, Rec_D_80082E80 *actor, void *source)
 {
     s16 timer;
     s32 direction;

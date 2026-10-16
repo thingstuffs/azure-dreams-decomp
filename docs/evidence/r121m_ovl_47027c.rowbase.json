@@ -1,0 +1,270 @@
+{
+  "module": "town_ovl_47027c",
+  "group": "ovl_47027c.c#25",
+  "start": 4653056,
+  "end": 4661248,
+  "delta": 2142920704,
+  "loader_descriptor": {
+    "addr": "0x8001bf08",
+    "index_from_D_8001BF80": -6,
+    "area": 12,
+    "room": 8,
+    "record_ptr": "0x8001c214",
+    "word0": "0x02016000",
+    "word1": "0x000014e5",
+    "sectors": 4,
+    "dest": "0x80016000",
+    "lba": "0x14e5",
+    "town_file": "0x470000",
+    "door_actor_records": [
+      "0x2b418c"
+    ]
+  },
+  "loader_evidence": "docs/evidence/town_scene_loader_receipt.json",
+  "local_jumps": [
+    {
+      "foff": 4653596,
+      "word": "0x08005896",
+      "target": 2147574360,
+      "target_foff": 4653656,
+      "target_words": [
+        "0x8FBF001C",
+        "0x8FB20018",
+        "0x8FB10014",
+        "0x8FB00010"
+      ]
+    },
+    {
+      "foff": 4653608,
+      "word": "0x08005896",
+      "target": 2147574360,
+      "target_foff": 4653656,
+      "target_words": [
+        "0x8FBF001C",
+        "0x8FB20018",
+        "0x8FB10014",
+        "0x8FB00010"
+      ]
+    },
+    {
+      "foff": 4653620,
+      "word": "0x08005896",
+      "target": 2147574360,
+      "target_foff": 4653656,
+      "target_words": [
+        "0x8FBF001C",
+        "0x8FB20018",
+        "0x8FB10014",
+        "0x8FB00010"
+      ]
+    },
+    {
+      "foff": 4653632,
+      "word": "0x08005896",
+      "target": 2147574360,
+      "target_foff": 4653656,
+      "target_words": [
+        "0x8FBF001C",
+        "0x8FB20018",
+        "0x8FB10014",
+        "0x8FB00010"
+      ]
+    },
+    {
+      "foff": 4653644,
+      "word": "0x08005896",
+      "target": 2147574360,
+      "target_foff": 4653656,
+      "target_words": [
+        "0x8FBF001C",
+        "0x8FB20018",
+        "0x8FB10014",
+        "0x8FB00010"
+      ]
+    },
+    {
+      "foff": 4654588,
+      "word": "0x08005983",
+      "target": 2147575308,
+      "target_foff": 4654604,
+      "target_words": [
+        "0x9223FFED",
+        "0x24020080",
+        "0x1462FFE5",
+        "0x02002021"
+      ]
+    },
+    {
+      "foff": 4654748,
+      "word": "0x080059AD",
+      "target": 2147575476,
+      "target_foff": 4654772,
+      "target_words": [
+        "0x0C005CFD",
+        "0x00042403",
+        "0x8FBF0020",
+        "0x8FB3001C"
+      ]
+    },
+    {
+      "foff": 4655384,
+      "word": "0x08005A4D",
+      "target": 2147576116,
+      "target_foff": 4655412,
+      "target_words": [
+        "0x03E00008",
+        "0x01001021",
+        "0x27BDFFE0",
+        "0xAFBF0018"
+      ]
+    },
+    {
+      "foff": 4655456,
+      "word": "0x08005A64",
+      "target": 2147576208,
+      "target_foff": 4655504,
+      "target_words": [
+        "0x8FBF0018",
+        "0x8FB10014",
+        "0x8FB00010",
+        "0x27BD0020"
+      ]
+    },
+    {
+      "foff": 4655736,
+      "word": "0x08005AAA",
+      "target": 2147576488,
+      "target_foff": 4655784,
+      "target_words": [
+        "0x8FBF0018",
+        "0x8FB10014",
+        "0x8FB00010",
+        "0x27BD0020"
+      ]
+    },
+    {
+      "foff": 4656380,
+      "word": "0x08005B4B",
+      "target": 2147577132,
+      "target_foff": 4656428,
+      "target_words": [
+        "0x00521021",
+        "0x84440000",
+        "0x0C005D1B",
+        "0x26310001"
+      ]
+    },
+    {
+      "foff": 4656628,
+      "word": "0x08005B6C",
+      "target": 2147577264,
+      "target_foff": 4656560,
+      "target_words": [
+        "0x8E420010",
+        "0x00118100",
+        "0x02021021",
+        "0x8444000C"
+      ]
+    },
+    {
+      "foff": 4656988,
+      "word": "0x08005BE3",
+      "target": 2147577740,
+      "target_foff": 4657036,
+      "target_words": [
+        "0x26310001",
+        "0x001110C0",
+        "0x00511023",
+        "0x00021080"
+      ]
+    },
+    {
+      "foff": 4658108,
+      "word": "0x08005CF6",
+      "target": 2147578840,
+      "target_foff": 4658136,
+      "target_words": [
+        "0x90A20000",
+        "0x00000000",
+        "0x1440FFF8",
+        "0x00000000"
+      ]
+    },
+    {
+      "foff": 4658496,
+      "word": "0x08005D55",
+      "target": 2147579220,
+      "target_foff": 4658516,
+      "target_words": [
+        "0x03E00008",
+        "0x00000000",
+        "0x05220521",
+        "0x00000000"
+      ]
+    },
+    {
+      "foff": 4658504,
+      "word": "0x08005D55",
+      "target": 2147579220,
+      "target_foff": 4658516,
+      "target_words": [
+        "0x03E00008",
+        "0x00000000",
+        "0x05220521",
+        "0x00000000"
+      ]
+    }
+  ],
+  "shared_epilogue_anchors": [
+    {
+      "foff": 4655384,
+      "word": "0x08005A4D",
+      "target": 2147576116,
+      "target_foff": 4655412,
+      "target_words": [
+        "0x03E00008",
+        "0x01001021",
+        "0x27BDFFE0",
+        "0xAFBF0018"
+      ]
+    },
+    {
+      "foff": 4658496,
+      "word": "0x08005D55",
+      "target": 2147579220,
+      "target_foff": 4658516,
+      "target_words": [
+        "0x03E00008",
+        "0x00000000",
+        "0x05220521",
+        "0x00000000"
+      ]
+    },
+    {
+      "foff": 4658504,
+      "word": "0x08005D55",
+      "target": 2147579220,
+      "target_foff": 4658516,
+      "target_words": [
+        "0x03E00008",
+        "0x00000000",
+        "0x05220521",
+        "0x00000000"
+      ]
+    }
+  ],
+  "town_sha256": "907725012d8d9e1deab18c28b62f4d304057e86a6415df605b9ffb87cfb2fe18",
+  "affected_rows": [
+    "func_804F027C"
+  ],
+  "old_regions": [],
+  "native_proof_artifacts": "work/module_proofs/town_ovl_47027c/module/receipt.json",
+  "source_sha256": {
+    "src/town/modules/ovl_47027c.c": "ce689dc54c9f5ab4bb9a0788c84d5e0a5f1dac4495bd499163c1f853621d8dfe",
+    "include/modules/town_ovl_47027c.h": "53f7ee478d682434046fee134084a064c0290f4b9296a44718dd175e9df350a8",
+    "src/town/func_804F027C.c": "0b313d48d8566630e85d0fee0156c78404083f475d9c818a61b1db8e38d6bf53"
+  },
+  "retail_body_sha256": {
+    "town/func_804F027C": "592387e0f63cc51a05f6cb59713afcf9ae521f016cf27b56f8ae8593d4d3f548"
+  }
+}

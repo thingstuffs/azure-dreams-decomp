@@ -1,24 +1,7 @@
-#include "common.h"
-#include "shared/game_work.h"
-#include "records/Rec_func_80172CC0_arg0.h"
-#include "records/Rec_D_80082E80.h"
-
-
-typedef struct S_80173678_1 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x1C];
-    u8 unk_48;
-} S_80173678_1;   /* arg3 in func_80173678 */
-
-
-extern void func_80047784();
-extern u8 D_80175E9C[];
-extern u8 D_80175EA4[];
-extern u8 D_80175EAC[];
+#include "modules/dungeon_ovl_7f469800_p03.h"
 
 /* Reset display state and apply the kind-specific directional entry when its table changes. */
-void func_80173678(Rec_func_80172CC0_arg0 *state, s32 unused, Rec_D_80082E80 *display, S_80173678_1 *entity) {
+void func_80173678(Rec_func_80172CC0_arg0 *state, s32 unused, Rec_D_80082E80 *display, T_80173678_S_80173678_1 *entity) {
     s32 kind;
     u8 *direction_table;
     u8 *previous_table;

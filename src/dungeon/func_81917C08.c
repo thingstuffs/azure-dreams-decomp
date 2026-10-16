@@ -1,72 +1,15 @@
-#include "common.h"
-#include "shared/entity.h"
-#include "shared/object_node.h"
-#include "shared/dir_step.h"
+#include "modules/dungeon_ovl_1936800.h"
 
-/* Payload of the action object. The entity and motion data are separate objects. */
-typedef struct ActionState {
-    EntityRec *actor;
-    u16 *flags;
-    u8 reserved_08;
-    u8 event_id;
-    s16 phase;
-    s16 reserved_0C;
-    s16 direction;
-    s16 ticks;
-    s16 reserved_12;
-    s16 pending;
-    s16 completed_a;
-    s16 completed_b;
-} ActionState;
-
-typedef struct EffectMotion {
-    Fixed1616 x, y, z;
-    s32 next_x, next_y, next_z;
-} EffectMotion;
-
-typedef struct EffectVisual {
-    u8 reserved_00[0xC];
-    u32 color;
-} EffectVisual;
-
-typedef struct ActorVisual {
-    u8 reserved_00[8];
-    void *resource;
-    u8 reserved_0C[8];
-    u16 flags;
-    u8 reserved_16[0xE];
-    u8 tile_x, tile_y;
-} ActorVisual;
-
-extern u8 D_800DDC40[];
-#include "shared/object_flags.h"
-typedef struct ActionSlot { s32 value; } ActionSlot;
-extern ActionSlot D_8008346C;
-extern s32 func_8002416C(ObjectNodeHeader *, EffectMotion *, s32, s16);
-extern s32 func_8003DE58(void *, ActorVisual *, s16 *, s32);
-extern s16 func_800A44E0(u16, u16, s16, s16);
-extern s32 func_800BCB04(u16, u16, s16);
-extern void *func_800242EC(ActionState *, EffectMotion *, EntityRec *);
-extern s32 func_80064584(s16);
-extern s32 func_800644B8(s16);
-extern void func_800A56E0(s32);
-extern s32 func_80025270(ActionState *, EffectMotion *, s16);
-extern void func_8002452C(ActionState *);
-extern void func_8009CE1C(EntityRec *, s32, s32, s32, s16, EntityRec *, s32);
-
-/* Advance the seven-stage action and its attached movement/effects.
- * Every finished stage clears the tick counter and steps to the next phase in place
- * (the compiler merges the identical stage tails into one copy). */
-void func_80025408(ActionState *action, EffectMotion *motion, EffectVisual *visual)
+void func_80025408(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *motion, Row_81917C08_EffectVisual *visual)
 {
     EntityRec *actor;
     EntityRec *target;
     ObjectNodeHeader *node;
-    EffectMotion *target_motion;
-    EffectMotion *actor_motion;
-    ActorVisual *actor_visual;
-    ActorVisual *scan_visual;
-    EffectMotion destination;
+    Row_81917C08_EffectMotion *target_motion;
+    Row_81917C08_EffectMotion *actor_motion;
+    Row_81917C08_ActorVisual *actor_visual;
+    Row_81917C08_ActorVisual *scan_visual;
+    Row_81917C08_EffectMotion destination;
     s16 offset[3];
     s16 dest_tile_y;
     u16 tile_x, tile_y;
@@ -90,14 +33,14 @@ void func_80025408(ActionState *action, EffectMotion *motion, EffectVisual *visu
         node = (ObjectNodeHeader *)actor - 1;
         actor_visual = node->unk_0C;
         if (!func_8003DE58(actor_visual->resource, actor_visual, offset, 0)) {
-            if (!( ((ActorVisual *)node->unk_0C)->flags & 0x8000))
+            if (!( ((Row_81917C08_ActorVisual *)node->unk_0C)->flags & 0x8000))
                 break;
         }
         actor_motion = node->unk_08;
         motion->x.w.i = actor_motion->x.w.i;
         motion->y.w.i = actor_motion->y.w.i;
         motion->z.w.i = actor_motion->z.w.i;
-        if (!(((ActorVisual *)node->unk_0C)->flags & 0x8000)) {
+        if (!(((Row_81917C08_ActorVisual *)node->unk_0C)->flags & 0x8000)) {
             motion->x.w.i += offset[0];
             motion->y.w.i += offset[1];
             motion->z.w.i += offset[2];

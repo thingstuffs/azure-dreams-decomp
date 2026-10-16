@@ -1,0 +1,56 @@
+{
+  "module": "dungeon_ovl_bf3084",
+  "maps": {
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "kind": "psx_exe",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "basis": "Verified PS-X EXE header: load address and payload size. All external function entries for this module lie in that resident payload."
+    }
+  },
+  "views": {},
+  "runtime_views": {
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "vma": 2148020576,
+      "view_bytes": 512,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/shared/game_work.h",
+      "kind": "runtime_data",
+      "evidence": "docs/evidence/dungeon_ovl_bf3084.imports.json"
+    }
+  },
+  "unbound": [],
+  "view_policy": "Runtime data is imported through the established shared declaration. Function imports map to the verified PS-X EXE payload; entry bytes are recorded. This module owns no external storage.",
+  "function_views": {
+    "func_80065420": {
+      "symbol": "func_80065420",
+      "kind": "function",
+      "vma": 2147898400,
+      "map": "slus_load",
+      "foff": 232480,
+      "entry_bytes": "000080c8040081c8000000000100184a",
+      "entry_sha256": "5ed8b1e3aa5976dc28627d2b9c270d5e667f681bfc289095cf3cb6b034e82a2c"
+    },
+    "func_80066460": {
+      "symbol": "func_80066460",
+      "kind": "function",
+      "vma": 2147902560,
+      "map": "slus_load",
+      "foff": 236640,
+      "entry_bytes": "03008230c01102000300a53040290500",
+      "entry_sha256": "5cea361dc5c9f0e81b17f4da7ac9dd92f80e6b513fc85620d27083290f98e663"
+    },
+    "func_80067F20": {
+      "symbol": "func_80067F20",
+      "kind": "function",
+      "vma": 2147909408,
+      "map": "slus_load",
+      "foff": 243488,
+      "entry_bytes": "e0ffbd271000b0af218080002120a000",
+      "entry_sha256": "72c09695d62d432399c0316c2277eaa0498b25eeb1baba0d9d58f536b1362cc8"
+    }
+  }
+}

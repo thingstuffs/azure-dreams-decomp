@@ -1,68 +1,5 @@
-#include "shared/gpu_packets.h"
-#include "common.h"
-#include "shared/game_work.h"
+#include "modules/dungeon_resource06_slot0.h"
 
-typedef struct OrderingTag { u32 addr : 24; u32 count : 8; } OrderingTag;
-
-   /* state in func_80173E94 */
-
-typedef struct S_80173E94_1 {
-    u16 unk_00;
-    u16 unk_02;
-    u16 unk_04;
-    u8 pad_06[0x12];
-    u8 * unk_18;
-    u8 pad_1C[0x4];
-    union { u8 * p; u32 * p2; } unk_20;   /* accessed as both */
-    u8 pad_24[0x9C];
-    u32 unk_C0;
-} S_80173E94_1;   /* scratch in func_80173E94 */
-
-typedef struct S_80173E94_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80173E94_2;   /* input in func_80173E94 */
-
-typedef struct S_80173E94_3 {
-    union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_00;   /* overlapping accesses */
-    union {
-        struct { u32 v; } at00;
-        struct { u8 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-        struct { u8 pad[0x2]; u8 v; } at02;
-        struct { u8 pad[0x3]; u8 v; } at03;
-    } unk_04;   /* overlapping accesses */
-} S_80173E94_3;   /* packet in func_80173E94 */
-
-typedef struct S_80173E94_4_pre {
-    void * unk_00;
-    u8 pad_04[0x4];
-} S_80173E94_4_pre;   /* the 0x8 bytes before node in func_80173E94, addressed as node[-1] */
-
-typedef struct S_80173E94_4 {
-    u8 pad_00[0x8];
-    u32 unk_08;
-    u8 pad_0C[0x26];
-    s16 unk_32;
-} S_80173E94_4;   /* node in func_80173E94 */
-
-typedef struct S_80173E94_5 {
-    u8 pad_00[0x8];
-    u8 * unk_08;
-} S_80173E94_5;   /* previous in func_80173E94 */
-
-   /* final_state in func_80173E94 */
-
-
-extern s32 func_80065420(void *, void *, void *, void *);
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_80067F20(void *, s32, s32, s32, s32);
-
-/* Append shaded point and draw-mode packets for the linked nodes to the ordering table. */
 s32 func_80173E94(u8 *node, void *vertex_arg)
 {
     u8 **state_ptr;
@@ -83,19 +20,19 @@ s32 func_80173E94(u8 *node, void *vertex_arg)
     scratch = (u8 *)0x1F800000;
 
     *(u8 * *)(scratch + 0x18) = ((GpuContext *)state)->packetCursor;
-    ((S_80173E94_1 *)scratch)->unk_20.p = state + 0xB0;
+    ((R06_80173E94_S_80173E94_1 *)scratch)->unk_20.p = state + 0xB0;
 
     do {
-        vertex_x = ((S_80173E94_2 *)vertex)->unk_02;
+        vertex_x = ((R06_80173E94_S_80173E94_2 *)vertex)->unk_02;
         packet = *(u8 * *)(scratch + 0x18);
-        ((S_80173E94_1 *)scratch)->unk_00 = vertex_x;
-        ((S_80173E94_1 *)scratch)->unk_02 = ((S_80173E94_2 *)vertex)->unk_06;
-        ((S_80173E94_1 *)scratch)->unk_04 = ((S_80173E94_2 *)vertex)->unk_0A;
+        ((R06_80173E94_S_80173E94_1 *)scratch)->unk_00 = vertex_x;
+        ((R06_80173E94_S_80173E94_1 *)scratch)->unk_02 = ((R06_80173E94_S_80173E94_2 *)vertex)->unk_06;
+        ((R06_80173E94_S_80173E94_1 *)scratch)->unk_04 = ((R06_80173E94_S_80173E94_2 *)vertex)->unk_0A;
         *(u8 * *)(scratch + 0x18) = packet + 0xC;
 
         depth_index = func_80065420(scratch, packet + 8, scratch + 0x90,
                              scratch + 0x94);
-        ((S_80173E94_1 *)scratch)->unk_C0 = depth_index;
+        ((R06_80173E94_S_80173E94_1 *)scratch)->unk_C0 = depth_index;
 
         if (depth_index < 0x1E0) {
             s32 shade_or_page;
@@ -104,20 +41,20 @@ s32 func_80173E94(u8 *node, void *vertex_arg)
             s32 page_x;
             s32 tile_code;
 
-            ((S_80173E94_3 *)packet)->unk_04.at00.v = ((S_80173E94_4 *)node)->unk_08;
-            shade_or_page = ((S_80173E94_3 *)packet)->unk_04.at00u.v * ((S_80173E94_4 *)node)->unk_32;
+            ((R06_80173E94_S_80173E94_3 *)packet)->unk_04.at00.v = ((R06_80173E94_S_80173E94_4 *)node)->unk_08;
+            shade_or_page = ((R06_80173E94_S_80173E94_3 *)packet)->unk_04.at00u.v * ((R06_80173E94_S_80173E94_4 *)node)->unk_32;
             if (shade_or_page < 0) {
                 shade_or_page += 0xFF;
             }
-            ((S_80173E94_3 *)packet)->unk_04.at00u.v = shade_or_page >> 8;
+            ((R06_80173E94_S_80173E94_3 *)packet)->unk_04.at00u.v = shade_or_page >> 8;
 
-            shade_or_page = ((S_80173E94_3 *)packet)->unk_04.at01.v * ((S_80173E94_4 *)node)->unk_32;
+            shade_or_page = ((R06_80173E94_S_80173E94_3 *)packet)->unk_04.at01.v * ((R06_80173E94_S_80173E94_4 *)node)->unk_32;
             if (shade_or_page < 0) {
                 shade_or_page += 0xFF;
             }
-            ((S_80173E94_3 *)packet)->unk_04.at01.v = shade_or_page >> 8;
+            ((R06_80173E94_S_80173E94_3 *)packet)->unk_04.at01.v = shade_or_page >> 8;
 
-            shade_or_page = ((S_80173E94_3 *)packet)->unk_04.at02.v * ((S_80173E94_4 *)node)->unk_32;
+            shade_or_page = ((R06_80173E94_S_80173E94_3 *)packet)->unk_04.at02.v * ((R06_80173E94_S_80173E94_4 *)node)->unk_32;
             if (shade_or_page < 0) {
                 shade_or_page += 0xFF;
                 pixel_mode = 0;
@@ -125,52 +62,52 @@ s32 func_80173E94(u8 *node, void *vertex_arg)
                 pixel_mode = 0;
             }
             blend_mode = 1;
-            ((S_80173E94_3 *)packet)->unk_04.at02.v = shade_or_page >> 8;
-            ((S_80173E94_3 *)packet)->unk_00.at03.v = 2;
+            ((R06_80173E94_S_80173E94_3 *)packet)->unk_04.at02.v = shade_or_page >> 8;
+            ((R06_80173E94_S_80173E94_3 *)packet)->unk_00.at03.v = 2;
             tile_code = 0x6A;
             page_x = pixel_mode;
-            ((S_80173E94_3 *)packet)->unk_04.at03.v = tile_code;
+            ((R06_80173E94_S_80173E94_3 *)packet)->unk_04.at03.v = tile_code;
 
-            ((OrderingTag *)packet)->addr =
-                ((OrderingTag *)(((S_80173E94_1 *)scratch)->unk_20.p2
-                    + ((S_80173E94_1 *)scratch)->unk_C0))->addr;
+            ((R06_80173E94_OrderingTag *)packet)->addr =
+                ((R06_80173E94_OrderingTag *)(((R06_80173E94_S_80173E94_1 *)scratch)->unk_20.p2
+                    + ((R06_80173E94_S_80173E94_1 *)scratch)->unk_C0))->addr;
             {
                 u32 *ot_entry;
                 u32 ot_tag;
                 u32 packet_addr;
 
-                ot_entry = (u32 *)(((S_80173E94_1 *)scratch)->unk_C0 << 2);
+                ot_entry = (u32 *)(((R06_80173E94_S_80173E94_1 *)scratch)->unk_C0 << 2);
                 ot_entry = (u32 *)((u32)ot_entry +
-                                   (u32)((S_80173E94_1 *)scratch)->unk_20.p2);
+                                   (u32)((R06_80173E94_S_80173E94_1 *)scratch)->unk_20.p2);
                 ot_tag = *ot_entry;
                 *ot_entry = ((u32)((ot_tag & 0xFF000000) | ((u32)((u32)packet & 0x00FFFFFF))));
             }
 
             mode_packet = *(u8 * *)(scratch + 0x18);
-            ((S_80173E94_1 *)scratch)->unk_18 = mode_packet + 0xC;
+            ((R06_80173E94_S_80173E94_1 *)scratch)->unk_18 = mode_packet + 0xC;
             shade_or_page = func_80066460(pixel_mode, blend_mode, page_x, pixel_mode);
             func_80067F20(mode_packet, 0, 0, (u16)shade_or_page, 0);
 
-            ((OrderingTag *)mode_packet)->addr =
-                ((OrderingTag *)(((S_80173E94_1 *)scratch)->unk_20.p2
-                    + ((S_80173E94_1 *)scratch)->unk_C0))->addr;
+            ((R06_80173E94_OrderingTag *)mode_packet)->addr =
+                ((R06_80173E94_OrderingTag *)(((R06_80173E94_S_80173E94_1 *)scratch)->unk_20.p2
+                    + ((R06_80173E94_S_80173E94_1 *)scratch)->unk_C0))->addr;
             mode_packet = (u8 *)((u32)mode_packet & 0x00FFFFFF);
-            (*(u32 *)((u8 *)(((S_80173E94_1 *)scratch)->unk_20.p2) + ((S_80173E94_1 *)scratch)->unk_C0 * 4)) =
-                ((*(u32 *)((u8 *)(((S_80173E94_1 *)scratch)->unk_20.p2)
-                    + ((S_80173E94_1 *)scratch)->unk_C0 * 4)) & 0xFF000000) |
+            (*(u32 *)((u8 *)(((R06_80173E94_S_80173E94_1 *)scratch)->unk_20.p2) + ((R06_80173E94_S_80173E94_1 *)scratch)->unk_C0 * 4)) =
+                ((*(u32 *)((u8 *)(((R06_80173E94_S_80173E94_1 *)scratch)->unk_20.p2)
+                    + ((R06_80173E94_S_80173E94_1 *)scratch)->unk_C0 * 4)) & 0xFF000000) |
                 (u32)mode_packet;
         }
 
-        previous = ((S_80173E94_4_pre *)node)[-1].unk_00;
+        previous = ((R06_80173E94_S_80173E94_4_pre *)node)[-1].unk_00;
         node = (u8 *)previous + 0x20;
         if (previous == 0) {
             break;
         }
-        vertex = ((S_80173E94_5 *)previous)->unk_08;
+        vertex = ((R06_80173E94_S_80173E94_5 *)previous)->unk_08;
     } while (1);
 
     final_state = *state_ptr;
-    packet_end = ((S_80173E94_1 *)scratch)->unk_18;
+    packet_end = ((R06_80173E94_S_80173E94_1 *)scratch)->unk_18;
     ((GpuContext *)final_state)->packetCursor = packet_end;
     return 0;
 }

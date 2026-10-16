@@ -1,32 +1,8 @@
-#include "common.h"
-#include "shared/game_work.h"
+#include "modules/dungeon_ovl_1936800.h"
 
-
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
-typedef struct {
-    void *field_B8;
-    s32 unkBC;
-    char padC0[4];
-    s32 unkC4;
-    char padC8[4];
-    s32 unkCC;
-    s32 unkD0;
-    char padD4[4];
-    void *ptr;
-    s16 unkDC;
-    s16 unkDE;
-    s32 unkE0;
-} S_8191696C_state;
-
-extern void D_80024024(void);
-extern s8 D_800E3D20[];
-
-
-/* Initializes a dispatch request and reports changes to its identifier and prior mode. */
 s32 func_8002416C(s32 unused, s32 request_id, s32 request_value, s16 request_param) {
     GameView *state = &gameWork.view;
-    S_8191696C_state *dispatch = (S_8191696C_state *)&state->slot[0].unk_04;
+    Row_8191696C_S_8191696C_state *dispatch = (Row_8191696C_S_8191696C_state *)&state->slot[0].unk_04;
     void *payload_start = (void *)((u8 *)&state->slot[0].unk_04 + 4);
     s16 saved_value;
     s32 prev_request_id;
@@ -46,7 +22,7 @@ s32 func_8002416C(s32 unused, s32 request_id, s32 request_value, s16 request_par
     dispatch->unkDE = request_param;
     state->slot[0].callback = D_80024024;
     if (change_flags & 1) {
-        D_800E3D20[0] = saved_value;
+        ((s8 *)D_800E3D20)[0] = saved_value;
     }
     dispatch->unkDC = request_value;
     return change_flags;

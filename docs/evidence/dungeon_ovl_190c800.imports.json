@@ -1,0 +1,46 @@
+{
+  "module": "dungeon_ovl_190c800",
+  "maps": {
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "basis": "PS-X EXE header: load 0x8002D000, payload size 0x54800, file header 0x800.",
+      "kind": "psx_exe"
+    }
+  },
+  "views": {
+    "D_8006CD10": {
+      "symbol": "D_8006CD10",
+      "kind": "data",
+      "vma": 2147929360,
+      "foff": 263440,
+      "view_bytes": 3,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_190c800.imports.json"
+    }
+  },
+  "runtime_views": {
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 512,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_190c800.imports.json",
+      "declaration": "include/shared/game_work.h"
+    },
+    "D_801C9E40": {
+      "symbol": "D_801C9E40",
+      "kind": "runtime_data",
+      "vma": 2149359168,
+      "view_bytes": 16,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_190c800.imports.json",
+      "declaration": "src/dungeon/func_81960864.c"
+    }
+  }
+}

@@ -1,9 +1,5 @@
-#include "common.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_ovl_1936800.h"
 
-extern s32 func_800478B8();
-
-/* Updates the target and records object counts and flags from its status. */
 void func_8002457C(void *object_slot, void *unused, void *target)
 {
     void *post_object;

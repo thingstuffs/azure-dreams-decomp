@@ -1,0 +1,243 @@
+{
+  "module": "dungeon_ovl_c5909c",
+  "maps": {
+    "native_bank": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "kind": "rowbase",
+      "region": "native_slot_c59000_8014c800",
+      "file_start": 12947456,
+      "file_end": 12972032,
+      "delta": 2135898112,
+      "basis": "Authenticated complete slot transfer in docs/evidence/dungeon_ovl_c5909c.slot_load.json"
+    },
+    "dungeon_resident": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "kind": "rowbase",
+      "region": "xfer_dungeon_A3000",
+      "file_start": 667648,
+      "file_end": 1050624,
+      "delta": 2147374944,
+      "basis": "Existing proven resident transfer map."
+    },
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "kind": "psx_exe",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "basis": "PS-X EXE header load and payload size."
+    }
+  },
+  "views": {
+    "D_80150494": {
+      "symbol": "D_80150494",
+      "kind": "data",
+      "vma": 2148861076,
+      "foff": 12962964,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_bank",
+      "evidence": "docs/evidence/dungeon_ovl_c5909c.imports.json"
+    },
+    "D_801504FC": {
+      "symbol": "D_801504FC",
+      "kind": "data",
+      "vma": 2148861180,
+      "foff": 12963068,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_bank",
+      "evidence": "docs/evidence/dungeon_ovl_c5909c.imports.json"
+    }
+  },
+  "runtime_views": {
+    "D_80083498": {
+      "symbol": "D_80083498",
+      "kind": "runtime_data",
+      "vma": 2148021400,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_c5909c.imports.json",
+      "declaration": "include/shared/object_node.h"
+    },
+    "D_80083228": {
+      "symbol": "D_80083228",
+      "kind": "runtime_data",
+      "vma": 2148020776,
+      "view_bytes": 2,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_c5909c.imports.json",
+      "declaration": "include/modules/dungeon_ovl_c5909c.h"
+    }
+  },
+  "functions": {
+    "func_8003FD64": {
+      "vma": 2147745124,
+      "foff": 79204,
+      "map": "slus_load",
+      "first_word": "0180023c",
+      "source_clients": [
+        "src/dungeon/func_80C3909C.c"
+      ],
+      "basis": "Direct call or address-only callback token; natural whole-TU relocation verified against retail."
+    },
+    "func_8004491C": {
+      "vma": 2147764508,
+      "foff": 98588,
+      "map": "slus_load",
+      "first_word": "21388000",
+      "source_clients": [
+        "src/dungeon/func_80C3909C.c"
+      ],
+      "basis": "Direct call or address-only callback token; natural whole-TU relocation verified against retail."
+    },
+    "func_80045340": {
+      "vma": 2147767104,
+      "foff": 101184,
+      "map": "slus_load",
+      "first_word": "e0ffbd27",
+      "source_clients": [
+        "src/dungeon/func_80C3909C.c"
+      ],
+      "basis": "Direct call or address-only callback token; natural whole-TU relocation verified against retail."
+    },
+    "func_80047784": {
+      "vma": 2147776388,
+      "foff": 110468,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "source_clients": [
+        "src/dungeon/func_80C3909C.c"
+      ],
+      "basis": "Direct call or address-only callback token; natural whole-TU relocation verified against retail."
+    },
+    "func_800478E8": {
+      "vma": 2147776744,
+      "foff": 110824,
+      "map": "slus_load",
+      "first_word": "21488000",
+      "source_clients": [
+        "src/dungeon/func_80C3909C.c"
+      ],
+      "basis": "Direct call or address-only callback token; natural whole-TU relocation verified against retail."
+    },
+    "func_800A48F0": {
+      "vma": 2148157680,
+      "foff": 782736,
+      "map": "dungeon_resident",
+      "first_word": "d0ffbd27",
+      "source_clients": [
+        "src/dungeon/func_80C3909C.c"
+      ],
+      "basis": "Direct call or address-only callback token; natural whole-TU relocation verified against retail."
+    },
+    "func_800A6D30": {
+      "vma": 2148166960,
+      "foff": 792016,
+      "map": "dungeon_resident",
+      "first_word": "c641043c",
+      "source_clients": [
+        "src/dungeon/func_80C3909C.c"
+      ],
+      "basis": "Direct call or address-only callback token; natural whole-TU relocation verified against retail."
+    },
+    "func_800A9C18": {
+      "vma": 2148178968,
+      "foff": 804024,
+      "map": "dungeon_resident",
+      "first_word": "d8ffbd27",
+      "source_clients": [
+        "src/dungeon/func_80C3909C.c"
+      ],
+      "basis": "Direct call or address-only callback token; natural whole-TU relocation verified against retail."
+    },
+    "func_800AA36C": {
+      "vma": 2148180844,
+      "foff": 805900,
+      "map": "dungeon_resident",
+      "first_word": "d0ffbd27",
+      "source_clients": [
+        "src/dungeon/func_80C3909C.c"
+      ],
+      "basis": "Direct call or address-only callback token; natural whole-TU relocation verified against retail."
+    },
+    "func_800D78C0": {
+      "vma": 2148366528,
+      "foff": 991584,
+      "map": "dungeon_resident",
+      "first_word": "e0ffbd27",
+      "source_clients": [
+        "src/dungeon/func_80C3909C.c"
+      ],
+      "basis": "Direct call or address-only callback token; natural whole-TU relocation verified against retail."
+    },
+    "func_8014CBB8": {
+      "vma": 2148846520,
+      "foff": 12948408,
+      "map": "native_bank",
+      "first_word": "0880023c",
+      "source_clients": [
+        "src/dungeon/func_80C3909C.c"
+      ],
+      "basis": "Direct call or address-only callback token; natural whole-TU relocation verified against retail."
+    },
+    "func_8014D3A8": {
+      "vma": 2148848552,
+      "foff": 12950440,
+      "map": "native_bank",
+      "first_word": "0880023c",
+      "source_clients": [
+        "src/dungeon/func_80C3909C.c"
+      ],
+      "basis": "Direct call or address-only callback token; natural whole-TU relocation verified against retail."
+    },
+    "func_800D71A8": {
+      "vma": 2148364712,
+      "foff": 989768,
+      "map": "dungeon_resident",
+      "first_word": "a8ffbd27",
+      "registered_entry": "dungeon/func_800D1A48",
+      "source_clients": [
+        "src/dungeon/func_80C3909C.c"
+      ],
+      "basis": "Mapped physical entry of the registered complete function; clients only store or compare this callback address. Preserve callable identity rather than claiming data storage."
+    }
+  },
+  "source_access_bounds": {
+    "D_80150494": {
+      "view_bytes": 8,
+      "sha256": "29646f7cd23978782271a3939205ea1bb361bcd7d793803c04c5131b8758fbd5",
+      "bytes_hex": "0201000102030403",
+      "sources": [
+        "src/dungeon/func_80C3909C.c"
+      ],
+      "basis": "Eight direction bytes indexed by (viewAngle+facing+0x100)>>9 & 7 in resident func_800A9C18; allocation and later handler ownership stay external."
+    },
+    "D_801504FC": {
+      "view_bytes": 8,
+      "sha256": "cb23845594347527266b764fc2d6649a7dcfc545adb6ea109fe6bd697d8c7f0f",
+      "bytes_hex": "1615141516171817",
+      "sources": [
+        "src/dungeon/func_80C3909C.c"
+      ],
+      "basis": "Eight direction bytes indexed by (viewAngle+facing+0x100)>>9 & 7 in resident func_800A9C18; allocation and later handler ownership stay external."
+    },
+    "D_80083228": {
+      "view_bytes": 2,
+      "sources": [
+        "src/dungeon/func_80C3909C.c"
+      ],
+      "basis": "Preserve the original signed-halfword view at gameWork+0xC8. Native GCC emits the original single lui/lh address pair; replacing the view with the complete gameWork object adds an addiu and fails retail. No storage or ABI pin is introduced."
+    }
+  },
+  "source_changes": {
+    "D_8014CBB8": "func_8014CBB8",
+    "D_8014D3A8": "func_8014D3A8",
+    "D_800D78C0": "func_800D78C0",
+    "D_800D71A8": "func_800D71A8"
+  },
+  "review": "pending",
+  "reviewer": null
+}

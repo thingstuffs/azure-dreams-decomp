@@ -1,0 +1,1042 @@
+{
+  "group": "ovl_79dd70.c#69",
+  "delta": 2139629568,
+  "start": 7985152,
+  "end": 8002656,
+  "local_jumps": [
+    {
+      "row": "func_8081DED0",
+      "foff": 7987068,
+      "word": "0x080081E4",
+      "target": 2147616656,
+      "offset": 192,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081DED0",
+      "foff": 7987076,
+      "word": "0x080081E4",
+      "target": 2147616656,
+      "offset": 192,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081DED0",
+      "foff": 7987168,
+      "word": "0x080081FD",
+      "target": 2147616756,
+      "offset": 292,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081DED0",
+      "foff": 7987192,
+      "word": "0x080082FC",
+      "target": 2147617776,
+      "offset": 1312,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081DED0",
+      "foff": 7987268,
+      "word": "0x08008219",
+      "target": 2147616868,
+      "offset": 404,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081DED0",
+      "foff": 7987476,
+      "word": "0x080082FC",
+      "target": 2147617776,
+      "offset": 1312,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081DED0",
+      "foff": 7987780,
+      "word": "0x080082FC",
+      "target": 2147617776,
+      "offset": 1312,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081DED0",
+      "foff": 7987948,
+      "word": "0x080082FC",
+      "target": 2147617776,
+      "offset": 1312,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081DED0",
+      "foff": 7987984,
+      "word": "0x080082C9",
+      "target": 2147617572,
+      "offset": 1108,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081DED0",
+      "foff": 7988160,
+      "word": "0x080082FC",
+      "target": 2147617776,
+      "offset": 1312,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E410",
+      "foff": 7988444,
+      "word": "0x08008359",
+      "target": 2147618148,
+      "offset": 340,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E410",
+      "foff": 7988568,
+      "word": "0x0800838F",
+      "target": 2147618364,
+      "offset": 556,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E410",
+      "foff": 7988712,
+      "word": "0x0800837E",
+      "target": 2147618296,
+      "offset": 488,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E410",
+      "foff": 7988732,
+      "word": "0x0800838F",
+      "target": 2147618364,
+      "offset": 556,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E410",
+      "foff": 7988760,
+      "word": "0x0800838E",
+      "target": 2147618360,
+      "offset": 552,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E410",
+      "foff": 7988776,
+      "word": "0x0800838E",
+      "target": 2147618360,
+      "offset": 552,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E410",
+      "foff": 7988948,
+      "word": "0x08008454",
+      "target": 2147619152,
+      "offset": 1344,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E410",
+      "foff": 7989024,
+      "word": "0x08008454",
+      "target": 2147619152,
+      "offset": 1344,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E410",
+      "foff": 7989100,
+      "word": "0x08008454",
+      "target": 2147619152,
+      "offset": 1344,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E410",
+      "foff": 7989132,
+      "word": "0x080083F2",
+      "target": 2147618760,
+      "offset": 952,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E410",
+      "foff": 7989300,
+      "word": "0x08008454",
+      "target": 2147619152,
+      "offset": 1344,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E410",
+      "foff": 7989412,
+      "word": "0x08008454",
+      "target": 2147619152,
+      "offset": 1344,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E9A4",
+      "foff": 7990176,
+      "word": "0x08008794",
+      "target": 2147622480,
+      "offset": 3244,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E9A4",
+      "foff": 7990364,
+      "word": "0x08008794",
+      "target": 2147622480,
+      "offset": 3244,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E9A4",
+      "foff": 7990416,
+      "word": "0x08008527",
+      "target": 2147619996,
+      "offset": 760,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E9A4",
+      "foff": 7990552,
+      "word": "0x08008565",
+      "target": 2147620244,
+      "offset": 1008,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E9A4",
+      "foff": 7990772,
+      "word": "0x08008794",
+      "target": 2147622480,
+      "offset": 3244,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E9A4",
+      "foff": 7990812,
+      "word": "0x08008794",
+      "target": 2147622480,
+      "offset": 3244,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E9A4",
+      "foff": 7990944,
+      "word": "0x08008794",
+      "target": 2147622480,
+      "offset": 3244,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E9A4",
+      "foff": 7991040,
+      "word": "0x08008794",
+      "target": 2147622480,
+      "offset": 3244,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E9A4",
+      "foff": 7991136,
+      "word": "0x08008794",
+      "target": 2147622480,
+      "offset": 3244,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E9A4",
+      "foff": 7991228,
+      "word": "0x08008653",
+      "target": 2147621196,
+      "offset": 1960,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E9A4",
+      "foff": 7991372,
+      "word": "0x08008643",
+      "target": 2147621132,
+      "offset": 1896,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E9A4",
+      "foff": 7991384,
+      "word": "0x08008643",
+      "target": 2147621132,
+      "offset": 1896,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E9A4",
+      "foff": 7991432,
+      "word": "0x08008643",
+      "target": 2147621132,
+      "offset": 1896,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E9A4",
+      "foff": 7991444,
+      "word": "0x08008643",
+      "target": 2147621132,
+      "offset": 1896,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E9A4",
+      "foff": 7991456,
+      "word": "0x08008643",
+      "target": 2147621132,
+      "offset": 1896,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E9A4",
+      "foff": 7991500,
+      "word": "0x08008643",
+      "target": 2147621132,
+      "offset": 1896,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E9A4",
+      "foff": 7991524,
+      "word": "0x08008641",
+      "target": 2147621124,
+      "offset": 1888,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E9A4",
+      "foff": 7991632,
+      "word": "0x08008794",
+      "target": 2147622480,
+      "offset": 3244,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E9A4",
+      "foff": 7991748,
+      "word": "0x08008683",
+      "target": 2147621388,
+      "offset": 2152,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E9A4",
+      "foff": 7991760,
+      "word": "0x08008683",
+      "target": 2147621388,
+      "offset": 2152,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E9A4",
+      "foff": 7991784,
+      "word": "0x08008681",
+      "target": 2147621380,
+      "offset": 2144,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E9A4",
+      "foff": 7991892,
+      "word": "0x08008794",
+      "target": 2147622480,
+      "offset": 3244,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E9A4",
+      "foff": 7992076,
+      "word": "0x08008794",
+      "target": 2147622480,
+      "offset": 3244,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E9A4",
+      "foff": 7992088,
+      "word": "0x08008794",
+      "target": 2147622480,
+      "offset": 3244,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E9A4",
+      "foff": 7992436,
+      "word": "0x08008725",
+      "target": 2147622036,
+      "offset": 2800,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E9A4",
+      "foff": 7992716,
+      "word": "0x08008794",
+      "target": 2147622480,
+      "offset": 3244,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081E9A4",
+      "foff": 7992776,
+      "word": "0x08008794",
+      "target": 2147622480,
+      "offset": 3244,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081F688",
+      "foff": 7993076,
+      "word": "0x080087C6",
+      "target": 2147622680,
+      "offset": 144,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081F688",
+      "foff": 7993144,
+      "word": "0x08008821",
+      "target": 2147623044,
+      "offset": 508,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081F688",
+      "foff": 7993172,
+      "word": "0x08008821",
+      "target": 2147623044,
+      "offset": 508,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081F688",
+      "foff": 7993216,
+      "word": "0x08008821",
+      "target": 2147623044,
+      "offset": 508,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081F688",
+      "foff": 7993360,
+      "word": "0x08008821",
+      "target": 2147623044,
+      "offset": 508,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081F688",
+      "foff": 7993368,
+      "word": "0x08008821",
+      "target": 2147623044,
+      "offset": 508,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081F688",
+      "foff": 7993412,
+      "word": "0x08008821",
+      "target": 2147623044,
+      "offset": 508,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081F8A8",
+      "foff": 7993596,
+      "word": "0x08008886",
+      "target": 2147623448,
+      "offset": 368,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081F8A8",
+      "foff": 7993620,
+      "word": "0x08008886",
+      "target": 2147623448,
+      "offset": 368,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081F8A8",
+      "foff": 7993664,
+      "word": "0x08008868",
+      "target": 2147623328,
+      "offset": 248,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081F8A8",
+      "foff": 7993708,
+      "word": "0x08008886",
+      "target": 2147623448,
+      "offset": 368,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081F8A8",
+      "foff": 7993764,
+      "word": "0x08008886",
+      "target": 2147623448,
+      "offset": 368,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081F8A8",
+      "foff": 7993812,
+      "word": "0x08008886",
+      "target": 2147623448,
+      "offset": 368,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081FCE0",
+      "foff": 7995072,
+      "word": "0x080089B5",
+      "target": 2147624660,
+      "offset": 500,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081FCE0",
+      "foff": 7995080,
+      "word": "0x080089B5",
+      "target": 2147624660,
+      "offset": 500,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081FF68",
+      "foff": 7995364,
+      "word": "0x08008A01",
+      "target": 2147624964,
+      "offset": 156,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081FF68",
+      "foff": 7995588,
+      "word": "0x08008CB2",
+      "target": 2147627720,
+      "offset": 2912,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081FF68",
+      "foff": 7995640,
+      "word": "0x08008A41",
+      "target": 2147625220,
+      "offset": 412,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081FF68",
+      "foff": 7995788,
+      "word": "0x08008CB2",
+      "target": 2147627720,
+      "offset": 2912,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081FF68",
+      "foff": 7995912,
+      "word": "0x08008CB2",
+      "target": 2147627720,
+      "offset": 2912,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081FF68",
+      "foff": 7995948,
+      "word": "0x08008CB2",
+      "target": 2147627720,
+      "offset": 2912,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081FF68",
+      "foff": 7996004,
+      "word": "0x08008CB2",
+      "target": 2147627720,
+      "offset": 2912,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081FF68",
+      "foff": 7996088,
+      "word": "0x08008CB2",
+      "target": 2147627720,
+      "offset": 2912,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081FF68",
+      "foff": 7996156,
+      "word": "0x08008CB2",
+      "target": 2147627720,
+      "offset": 2912,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081FF68",
+      "foff": 7996208,
+      "word": "0x08008CB2",
+      "target": 2147627720,
+      "offset": 2912,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081FF68",
+      "foff": 7996552,
+      "word": "0x08008BDB",
+      "target": 2147626860,
+      "offset": 2052,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081FF68",
+      "foff": 7996568,
+      "word": "0x08008BDB",
+      "target": 2147626860,
+      "offset": 2052,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081FF68",
+      "foff": 7996696,
+      "word": "0x08008BDB",
+      "target": 2147626860,
+      "offset": 2052,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081FF68",
+      "foff": 7996980,
+      "word": "0x08008BD4",
+      "target": 2147626832,
+      "offset": 2024,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081FF68",
+      "foff": 7997340,
+      "word": "0x08008CB2",
+      "target": 2147627720,
+      "offset": 2912,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081FF68",
+      "foff": 7997620,
+      "word": "0x08008C34",
+      "target": 2147627216,
+      "offset": 2408,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081FF68",
+      "foff": 7997656,
+      "word": "0x08008CB2",
+      "target": 2147627720,
+      "offset": 2912,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081FF68",
+      "foff": 7997816,
+      "word": "0x08008CB2",
+      "target": 2147627720,
+      "offset": 2912,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081FF68",
+      "foff": 7997996,
+      "word": "0x08008CA1",
+      "target": 2147627652,
+      "offset": 2844,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_8081FF68",
+      "foff": 7998036,
+      "word": "0x08008CA0",
+      "target": 2147627648,
+      "offset": 2840,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_80820AF4",
+      "foff": 7998240,
+      "word": "0x08008CFB",
+      "target": 2147628012,
+      "offset": 248,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_80820AF4",
+      "foff": 7998348,
+      "word": "0x08008CFB",
+      "target": 2147628012,
+      "offset": 248,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_80820C04",
+      "foff": 7998560,
+      "word": "0x08008D59",
+      "target": 2147628388,
+      "offset": 352,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_80820C04",
+      "foff": 7998612,
+      "word": "0x08008D29",
+      "target": 2147628196,
+      "offset": 160,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_80820C04",
+      "foff": 7998740,
+      "word": "0x08008D54",
+      "target": 2147628368,
+      "offset": 332,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_80820EBC",
+      "foff": 7999348,
+      "word": "0x08008EEB",
+      "target": 2147629996,
+      "offset": 1264,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_80820EBC",
+      "foff": 7999380,
+      "word": "0x08008EEB",
+      "target": 2147629996,
+      "offset": 1264,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_80820EBC",
+      "foff": 7999592,
+      "word": "0x08008EEB",
+      "target": 2147629996,
+      "offset": 1264,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_80820EBC",
+      "foff": 7999692,
+      "word": "0x08008EEB",
+      "target": 2147629996,
+      "offset": 1264,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_80820EBC",
+      "foff": 7999760,
+      "word": "0x08008EEB",
+      "target": 2147629996,
+      "offset": 1264,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_80820EBC",
+      "foff": 7999900,
+      "word": "0x08008E6F",
+      "target": 2147629500,
+      "offset": 768,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_80820EBC",
+      "foff": 7999996,
+      "word": "0x08008E9D",
+      "target": 2147629684,
+      "offset": 952,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_80820EBC",
+      "foff": 8000168,
+      "word": "0x08008EEB",
+      "target": 2147629996,
+      "offset": 1264,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_80820EBC",
+      "foff": 8000328,
+      "word": "0x08008ED7",
+      "target": 2147629916,
+      "offset": 1184,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_80820EBC",
+      "foff": 8000380,
+      "word": "0x08008EEB",
+      "target": 2147629996,
+      "offset": 1264,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_808213CC",
+      "foff": 8000520,
+      "word": "0x08008F72",
+      "target": 2147630536,
+      "offset": 508,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_808213CC",
+      "foff": 8000608,
+      "word": "0x08008F22",
+      "target": 2147630216,
+      "offset": 188,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_808213CC",
+      "foff": 8000756,
+      "word": "0x08008F63",
+      "target": 2147630476,
+      "offset": 448,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_808213CC",
+      "foff": 8000776,
+      "word": "0x08008F63",
+      "target": 2147630476,
+      "offset": 448,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_808213CC",
+      "foff": 8000824,
+      "word": "0x08008F61",
+      "target": 2147630468,
+      "offset": 440,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_808213CC",
+      "foff": 8000872,
+      "word": "0x08008F61",
+      "target": 2147630468,
+      "offset": 440,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_808215E0",
+      "foff": 8001036,
+      "word": "0x08008FAA",
+      "target": 2147630760,
+      "offset": 200,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_808215E0",
+      "foff": 8001056,
+      "word": "0x08008FAA",
+      "target": 2147630760,
+      "offset": 200,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_808215E0",
+      "foff": 8001092,
+      "word": "0x08008F9C",
+      "target": 2147630704,
+      "offset": 144,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_808215E0",
+      "foff": 8001144,
+      "word": "0x08008FAA",
+      "target": 2147630760,
+      "offset": 200,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_808216B0",
+      "foff": 8001260,
+      "word": "0x0800904D",
+      "target": 2147631412,
+      "offset": 644,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_808216B0",
+      "foff": 8001352,
+      "word": "0x08008FD7",
+      "target": 2147630940,
+      "offset": 172,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_808216B0",
+      "foff": 8001360,
+      "word": "0x08008FD7",
+      "target": 2147630940,
+      "offset": 172,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_808216B0",
+      "foff": 8001376,
+      "word": "0x08008FE2",
+      "target": 2147630984,
+      "offset": 216,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_808216B0",
+      "foff": 8001392,
+      "word": "0x08008FE1",
+      "target": 2147630980,
+      "offset": 212,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_808216B0",
+      "foff": 8001624,
+      "word": "0x0800901B",
+      "target": 2147631212,
+      "offset": 444,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_808216B0",
+      "foff": 8001736,
+      "word": "0x0800904D",
+      "target": 2147631412,
+      "offset": 644,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_80821B34",
+      "foff": 8002388,
+      "word": "0x080090DA",
+      "target": 2147631976,
+      "offset": 52,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_80821B34",
+      "foff": 8002428,
+      "word": "0x080090E3",
+      "target": 2147632012,
+      "offset": 88,
+      "delta": 2139629568
+    },
+    {
+      "row": "func_80821B34",
+      "foff": 8002492,
+      "word": "0x080090FA",
+      "target": 2147632104,
+      "offset": 180,
+      "delta": 2139629568
+    }
+  ],
+  "old_regions": [
+    {
+      "base_confidence": "proven",
+      "delta": "0x7F882800",
+      "foff_end": "0x7a1bf0",
+      "foff_start": "0x79ded0",
+      "proof": "gap probe town-rowbase j-solve sweep (2026-07-19): unique 0x800-aligned delta with full j-consistency across 14 row(s), 55 j constraints (12 multi-j rows); hard delta interval 0x7f8827fc..0x7f882834 (H4 caveat: town has proven unaligned bases, so the exact delta within this interval is fixture-pending); scoring-only until a byte-exact recompile promotes to proven; PROVEN 2026-07-20: byte-exact gate recompile func_8081FBE8 .text.func_800223E8 @0x800223E8 100B (sha1 5b28a951876cdac9307c1f68f58c81472d4db1fe == retail; gapfix G2)",
+      "region": "sweep_79DED0",
+      "schema": "azure-clean.rowbase.v1",
+      "reviewer": "orchestrator-r120"
+    }
+  ],
+  "affected_rows": [
+    "func_8081DD70",
+    "func_8081DED0",
+    "func_8081E410",
+    "func_8081E9A4",
+    "func_8081F688",
+    "func_8081F8A8",
+    "func_8081FA90",
+    "func_8081FBE8",
+    "func_8081FCE0",
+    "func_8081FF68",
+    "func_80820AF4",
+    "func_80820C04",
+    "func_80820D78",
+    "func_80820EBC",
+    "func_808213CC",
+    "func_808215E0",
+    "func_808216B0",
+    "func_8082195C",
+    "func_80821B34"
+  ],
+  "recipe": "2.7.2-cdk-G0| x1",
+  "extension_links": [
+    {
+      "row": "func_8081DD70",
+      "true": "0x80020570",
+      "incoming": [
+        {
+          "foff": 7989924,
+          "kind": "jal",
+          "word": "0x0C00815C"
+        },
+        {
+          "foff": 7992692,
+          "kind": "jal",
+          "word": "0x0C00815C"
+        }
+      ]
+    }
+  ],
+  "asset_views": [
+    {
+      "symbol": "D_80020014",
+      "kind": "data",
+      "vma": 2147614740,
+      "foff": 7985172,
+      "view_bytes": 1,
+      "owner": "retail_asset:town:sweep_79DED0",
+      "evidence": "docs/evidence/town_ovl_79dd70.imports.json"
+    },
+    {
+      "symbol": "D_80024420",
+      "kind": "data",
+      "vma": 2147632160,
+      "foff": 8002592,
+      "view_bytes": 1,
+      "owner": "retail_asset:town:sweep_79DED0",
+      "evidence": "docs/evidence/town_ovl_79dd70.imports.json"
+    },
+    {
+      "symbol": "D_8002445C",
+      "kind": "data",
+      "vma": 2147632220,
+      "foff": 8002652,
+      "view_bytes": 4,
+      "owner": "retail_asset:town:sweep_79DED0",
+      "evidence": "docs/evidence/town_ovl_79dd70.imports.json"
+    }
+  ],
+  "scope_note": "Asset views fingerprint minimum accessed bytes, not allocation bounds. Code and all references occupy one physical bank under the j-proved delta. Historical TU boundary remains unobservable."
+}

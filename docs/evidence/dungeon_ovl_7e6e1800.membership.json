@@ -1,0 +1,108 @@
+{
+  "module": "dungeon_ovl_7e6e1800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_7e6e1800.c",
+    "module_index": 181
+  },
+  "members": [
+    "dungeon/func_81922998",
+    "dungeon/func_81922E70",
+    "dungeon/func_81922EC4",
+    "dungeon/func_81922FB8",
+    "dungeon/func_819231FC",
+    "dungeon/func_819232EC",
+    "dungeon/func_8192340C",
+    "dungeon/func_81923534",
+    "dungeon/func_8192365C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Native grouping of the complete ledger run; original compiler TU boundary is not separately observable.",
+  "basis": [
+    "Complete ledger cohort, strictly contiguous in file order with one selector load delta, a uniform recipe, no member assigned to another certified module.",
+    "Authenticated selector 46 loads bank [0x1942800, 0x1948800) to 0x80024000; all members lie within it.",
+    "Shared header reconciles private structure views and declarations; retail control-flow edges and shared data references recorded below. Singleton cohorts are complete standalone helper units; multirow cohorts share the same loaded bank and effect/object services.",
+    "The unregistered 84-byte span is a complete linked-node renderer walk. Its stack frame, return and internal loop delimit a function; the natural C loop matches every retail and genuine ASPSX byte. Register it as its own row with exact baseline and Layer-2 promotion; no gap bytes are raw substitutes."
+  ],
+  "run": {
+    "file_start": 26487192,
+    "file_end": 26492368,
+    "delta": 2121144320,
+    "selector": 46
+  },
+  "internal_calls": {
+    "dungeon/func_81922998": [],
+    "dungeon/func_81922E70": [
+      "func_80024198"
+    ],
+    "dungeon/func_81922EC4": [],
+    "dungeon/func_81922FB8": [],
+    "dungeon/func_819231FC": [],
+    "dungeon/func_819232EC": [],
+    "dungeon/func_8192340C": [],
+    "dungeon/func_81923534": [],
+    "dungeon/func_8192365C": [
+      "func_800247B8",
+      "func_80024AEC",
+      "func_80024D34"
+    ]
+  },
+  "data_references": {
+    "dungeon/func_81922998": [
+      "gameWork"
+    ],
+    "dungeon/func_81922E70": [],
+    "dungeon/func_81922EC4": [
+      "D_80025B60",
+      "objectFlagBlock"
+    ],
+    "dungeon/func_81922FB8": [
+      "D_80024670",
+      "D_800246C4"
+    ],
+    "dungeon/func_819231FC": [
+      "D_80025B60",
+      "objectFlagBlock"
+    ],
+    "dungeon/func_819232EC": [
+      "D_800249FC",
+      "D_80025B48"
+    ],
+    "dungeon/func_8192340C": [
+      "D_80025B60",
+      "objectFlagBlock"
+    ],
+    "dungeon/func_81923534": [
+      "D_80024C0C",
+      "D_800DE870"
+    ],
+    "dungeon/func_8192365C": [
+      "D_80025B38",
+      "D_80025B60",
+      "D_800DDC40",
+      "objectFlagBlock"
+    ]
+  },
+  "complete_body_sha256": {
+    "dungeon/func_81922998": "ab0977e5f5b3cf3cf490ebfd4927d03823c6d5d2ec22adc99d7ae4ae6ad42ef8",
+    "dungeon/func_81922EC4": "8164dcc107222a9ada0522fd1fcd04b549a5751c57ef68b845ea4c4302259d43",
+    "dungeon/func_81922FB8": "88471da1a14f46071bb7cd9f94e27129ae038df709eb7e5b906237ef4cae4538",
+    "dungeon/func_819231FC": "9f705e8b3601dd5021da33406e5e75d37cc4f6fe3218cb9e4cd0e80cf0aee9f1",
+    "dungeon/func_819232EC": "b23cca358e1bcab2a735c4a6483f5b2cef8565caff1a29578d0234d28fa7536b",
+    "dungeon/func_8192340C": "79d6ebbb8c61c27de19ff3592053b2865c6190a535286af40a816fb02b5baded",
+    "dungeon/func_81923534": "2550233e4b17a9a31d6b2f319b597af4dc66fc1a0b33c4826ebbf7bd8aba4873",
+    "dungeon/func_8192365C": "d2091dc11200acc473be4ab67ba4fb854d7a741110f715b519236bf88480713e"
+  },
+  "no_shared_members": true,
+  "reviewer": "orchestrator-r120",
+  "recovered_gap_rows": [
+    {
+      "id": "dungeon/func_81922E70",
+      "foff": 26488432,
+      "size": 84,
+      "evidence": "docs/evidence/dungeon_ovl_7e6e1800.gap.json"
+    }
+  ],
+  "review": "reviewed"
+}

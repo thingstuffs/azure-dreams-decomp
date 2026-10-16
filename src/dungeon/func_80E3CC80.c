@@ -13,7 +13,7 @@ typedef struct S_80E3CC80_0 {
     void * unk_10;
     u8 pad_14[0x2C];
     s16 unk_40;
-} S_80E3CC80_0;   /* object in func_80E3CC80 */
+} S_80E3CC80_0;   /* object in func_80176480 */
 
 typedef struct S_80E3CC80_1 {
     u8 pad_00[0xC];
@@ -26,14 +26,14 @@ typedef struct S_80E3CC80_1 {
     s16 unk_1E;
     u8 pad_20[0x8];
     s32 unk_28;
-} S_80E3CC80_1;   /* a in func_80E3CC80 */
+} S_80E3CC80_1;   /* a in func_80176480 */
 
 typedef struct S_80E3CC80_2 {
     u8 pad_00[0x12];
     u16 unk_12;
     u8 pad_14[0x14];
     s32 unk_28;
-} S_80E3CC80_2;   /* arg1 in func_80E3CC80 */
+} S_80E3CC80_2;   /* arg1 in func_80176480 */
 
 typedef struct S_80E3CC80_3 {
     u8 pad_00[0x2];
@@ -46,7 +46,7 @@ typedef struct S_80E3CC80_3 {
     s32 unk_10;
     u8 pad_14[0x2];
     s16 unk_16;
-} S_80E3CC80_3;   /* b in func_80E3CC80 */
+} S_80E3CC80_3;   /* b in func_80176480 */
 
 typedef struct S_80E3CC80_4 {
     u8 pad_00[0x2];
@@ -55,7 +55,7 @@ typedef struct S_80E3CC80_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80E3CC80_4;   /* arg0 in func_80E3CC80 */
+} S_80E3CC80_4;   /* arg0 in func_80176480 */
 
 
 extern void func_8004491C(void *object, void *data);
@@ -64,7 +64,7 @@ extern s32 rand(void);
 extern u8 D_801763D0[];
 
 /* Spawns up to sixteen particles with randomized offsets and velocities. */
-void func_80E3CC80(S_80E3CC80_4 *origin, S_80E3CC80_2 *source_sprite) {
+void func_80176480(S_80E3CC80_4 *origin, S_80E3CC80_2 *source_sprite) {
     s32 remaining;
     s32 image;
     u16 sprite_flags;

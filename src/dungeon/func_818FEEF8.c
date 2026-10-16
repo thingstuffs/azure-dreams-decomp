@@ -1,10 +1,6 @@
-#include "common.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_ovl_191eef8.h"
 
-extern s16 D_80025E80[5];
-
-/* Decrement the countdown, reset scale, and flag completion when it expires. */
-void func_818FEEF8(void *state_data, s32 unused, void *scale_data)
+void func_800246F8(void *state_data, s32 unused, void *scale_data)
 {
     u8 *state = state_data;
     s32 remaining_ticks;
@@ -15,7 +11,7 @@ void func_818FEEF8(void *state_data, s32 unused, void *scale_data)
     *(s16 *)(scale + 0x1C) = 0x1000;
     *(s16 *)(scale + 0x1E) = 0x1000;
     remaining_ticks = *(s16 *)(state + 2);
-    D_80025E80[0] = 1;
+    ((s16 *)D_80025E80)[0] = 1;
     if (remaining_ticks <= 0) {
         *(u16 *)(state - 2) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;

@@ -1,16 +1,6 @@
-#include "common.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_resource08_slot0.h"
 
-typedef struct {
-    u8 pad[0x1A];
-    u16 field_1A;
-    u16 field_1C;
-    u16 field_1E;
-} Object;
-
-
-/* Advance the object angle and height and set completion flags at height 0x2000. */
-void func_80174180(u16 *record_data, s32 unused, Object *object) {
+void func_80174180(u16 *record_data, s32 unused, R08_80174180_Object *object) {
     u16 height;
 
     object->field_1A += 0x320;

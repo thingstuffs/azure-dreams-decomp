@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-15T20:24:47Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-16T01:20:16Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -9,11 +9,11 @@ Generated 2026-10-15T20:24:47Z. Pin `82f20568` (82f20568997a, raw/ frozen at 202
 | slus | 884 | 473,788 | 884 | 473,788 | 884 | 473,788 | 0 |
 | main | 422 | 62,736 | 422 | 62,736 | 422 | 62,736 | 0 |
 | town | 2803 | 467,892 | 2803 | 467,892 | 2803 | 467,892 | 0 |
-| dungeon | 3496 | 1,797,004 | 3496 | 1,797,004 | 3495 | 1,795,204 | 1 |
+| dungeon | 3880 | 1,943,704 | 3880 | 1,943,704 | 3880 | 1,943,704 | 0 |
 | ovmovie | 28 | 5,516 | 28 | 5,516 | 28 | 5,516 | 0 |
-| ALL | 7633 | 2,806,936 | 7633 | 2,806,936 | 7632 | 2,805,136 | 1 |
+| ALL | 8017 | 2,953,636 | 8017 | 2,953,636 | 8017 | 2,953,636 | 0 |
 
-Data rows: 499 (13,608 B); stale-image residue DATA: 1 (488 B).
+Data rows: 503 (13,692 B); stale-image residue DATA: 1 (488 B).
 
 Placement unproven (excluded from L4 module placement): 6 rows (1,688 B): town/D_802F100C, town/D_802F1074, town/D_802F11AC, dungeon/func_80921000, dungeon/D_808CB000, dungeon/D_80921000
 
@@ -169,6 +169,133 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | dungeon_ovl_18b8824 | 9 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_ovl_18b8824.json' |
 | dungeon_floor_spawns | 12 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_floor_spawns.json' |
 | dungeon_floor_generate | 50 | certificate missing/invalid: FileNotFoundError: [Errno 2] No such file or directory: 'ledger/modules/overlay_dungeon_floor_generate.json' |
+| dungeon_ovl_12c50ac | 2 | current: complete TU + all windows + genuine |
+| dungeon_ovl_e0365c | 38 | current: complete TU + all windows + genuine |
+| dungeon_ovl_be1084 | 6 | current: complete TU + all windows + genuine |
+| dungeon_ovl_cb3000 | 39 | current: complete TU + all windows + genuine |
+| dungeon_ovl_9950e8 | 3 | current: complete TU + all windows + genuine |
+| dungeon_ovl_d5b0b8 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_cb9000 | 39 | current: complete TU + all windows + genuine |
+| dungeon_ovl_cc5000 | 39 | current: complete TU + all windows + genuine |
+| dungeon_ovl_ccb000 | 39 | current: complete TU + all windows + genuine |
+| dungeon_ovl_cd7000 | 39 | current: complete TU + all windows + genuine |
+| dungeon_ovl_18be820 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7e705800 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_194286c | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7e711800 | 2 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1966800 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7e765800 | 3 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7e67b800 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7e71d800 | 4 | current: complete TU + all windows + genuine |
+| dungeon_ovl_193c848 | 5 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1954800 | 3 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7e6b7800 | 8 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7e6e1800 | 9 | current: complete TU + all windows + genuine |
+| dungeon_ovl_19c088c | 11 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1936800 | 16 | current: complete TU + all windows + genuine |
+| dungeon_ovl_190d6a4 | 3 | current: complete TU + all windows + genuine |
+| dungeon_ovl_190081c | 2 | current: complete TU + all windows + genuine |
+| dungeon_ovl_1906f98 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_190681c | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_191284c | 4 | current: complete TU + all windows + genuine |
+| dungeon_ovl_19134e4 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_18c4828 | 9 | current: complete TU + all windows + genuine |
+| dungeon_ovl_190c800 | 2 | current: complete TU + all windows + genuine |
+| dungeon_ovl_191e87c | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_191eef8 | 5 | current: complete TU + all windows + genuine |
+| dungeon_ovl_be7084 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_bf3084 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_bf9084 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_c05084 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_a130dc | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_a190dc | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_a250dc | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_a2b0dc | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_a370dc | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_c3b09c | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_c4709c | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_c4d09c | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_bbd094 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_bc9094 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_bcf094 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_bdb094 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7f559800 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7f535800 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7f51d800 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_bb1054 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_9ef054 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_9fb054 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_a01054 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_a0d054 | 1 | current: complete TU + all windows + genuine |
+| dungeon_resource03_slot0 | 28 | current: complete TU + all windows + genuine |
+| dungeon_resource17_slot0 | 26 | current: complete TU + all windows + genuine |
+| dungeon_resource07_slot0 | 28 | current: complete TU + all windows + genuine |
+| dungeon_resource08_slot0 | 36 | current: complete TU + all windows + genuine |
+| dungeon_resource10_slot0 | 41 | current: complete TU + all windows + genuine |
+| dungeon_resource12_slot0 | 39 | current: complete TU + all windows + genuine |
+| dungeon_resource16_slot0 | 32 | current: complete TU + all windows + genuine |
+| dungeon_resource06_slot0 | 38 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7f0f7800_p01 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7f0f7800_p03 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7f0f7800_p04 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7f0f7800_p05 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7f0f7800_p07 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7f1d5800 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7f1ed800 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7f211800 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7f217800 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7f223800 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7f23b800 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7f43f800_p01 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7f43f800_p02 | 3 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7f469800_p01 | 12 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7f469800_p03 | 5 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7f469800_p04 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7f469800_p06 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7f469800_p07 | 3 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7f511800_p01 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_7f511800_p03 | 2 | current: complete TU + all windows + genuine |
+| dungeon_ovl_c5909c | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_c89084 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_c8f084 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_c9b084 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_ca1084 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_cad084 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_d10bc4_p02 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_d16bc4_p02 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_d1cbc4_p02 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_d28bc4_p02 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_d2ebc4_p02 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_dd9000_p03 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_e09000_code | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_e15054 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_e1b054 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_e27054 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_edb06c | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_ee706c | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_eed06c | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_ef906c | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_f7d070_p01 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_f8f070 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_f95070 | 1 | current: complete TU + all windows + genuine |
+| dungeon_ovl_fa1070 | 1 | current: complete TU + all windows + genuine |
+| town_ovl_79dd70 | 1 | current: complete TU + all windows + genuine |
+| town_ovl_6490c0 | 1 | current: complete TU + all windows + genuine |
+| town_ovl_64b0c0 | 1 | current: complete TU + all windows + genuine |
+| town_ovl_64f0c0 | 1 | current: complete TU + all windows + genuine |
+| town_ovl_64f118 | 1 | current: complete TU + all windows + genuine |
+| town_ovl_6510c0 | 1 | current: complete TU + all windows + genuine |
+| town_ovl_480100 | 2 | current: complete TU + all windows + genuine |
+| town_ovl_4f9100 | 1 | current: complete TU + all windows + genuine |
+| town_ovl_629100 | 1 | current: complete TU + all windows + genuine |
+| town_ovl_47027c | 1 | current: complete TU + all windows + genuine |
+| town_ovl_5c7308 | 1 | current: complete TU + all windows + genuine |
+| town_ovl_65b134 | 2 | current: complete TU + all windows + genuine |
+| town_ovl_64d298 | 1 | current: complete TU + all windows + genuine |
+| town_ovl_450958 | 1 | current: complete TU + all windows + genuine |
+| town_ovl_4d9100 | 1 | current: complete TU + all windows + genuine |
+| town_ovl_71a1ec | 1 | current: complete TU + all windows + genuine |
+| town_ovl_8d2114 | 1 | current: complete TU + all windows + genuine |
 
 Placement alone does not override any lower-level or source-residue guard.
 
@@ -176,28 +303,28 @@ Placement alone does not override any lower-level or source-residue guard.
 
 | defect | files (pin) | bytes (pin) | % bytes | files (clean) | bytes (clean) | % bytes |
 |---|---:|---:|---:|---:|---:|---:|
-| m2c boilerplate block | 2331 | 510,784 | 18.2% | 0 | 0 | 0.0% |
-| M2C_FIELD raw offsets | 2950 | 1,448,548 | 51.6% | 0 | 0 | 0.0% |
-| m2c local names | 5181 | 2,161,308 | 77.0% | 3 | 23,924 | 0.9% |
-| ASM_ pins | 2135 | 1,455,576 | 51.9% | 0 | 0 | 0.0% |
-| goto | 1545 | 1,311,504 | 46.7% | 271 | 326,884 | 11.6% |
-| computed-goto jump table | 317 | 436,504 | 15.6% | 1 | 16 | 0.0% |
-| inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 242,072 | 8.6% | 8 | 9,868 | 0.4% |
-| fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate) | 1489 | 676,060 | 24.1% | 0 | 0 | 0.0% |
-| any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,280,580 | 45.6% | 11 | 25,316 | 0.9% |
-| any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,580 | 45.6% | 1647 | 892,704 | 31.8% |
-| noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 668 | 488,988 | 17.4% | 0 | 0 | 0.0% |
-| maspsx marker pins (scaffolding) | 394 | 347,512 | 12.4% | 0 | 0 | 0.0% |
-| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 5.6% | 4 | 4,140 | 0.1% |
+| m2c boilerplate block | 2331 | 510,576 | 17.3% | 0 | 0 | 0.0% |
+| M2C_FIELD raw offsets | 2950 | 1,449,308 | 49.1% | 0 | 0 | 0.0% |
+| m2c local names | 5181 | 2,162,116 | 73.2% | 7 | 25,812 | 0.9% |
+| ASM_ pins | 2135 | 1,456,292 | 49.3% | 0 | 0 | 0.0% |
+| goto | 1545 | 1,312,068 | 44.4% | 271 | 326,328 | 11.0% |
+| computed-goto jump table | 317 | 436,504 | 14.8% | 1 | 16 | 0.0% |
+| inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 242,072 | 8.2% | 7 | 8,984 | 0.3% |
+| fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate) | 1489 | 676,096 | 22.9% | 0 | 0 | 0.0% |
+| any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,280,740 | 43.4% | 9 | 24,496 | 0.8% |
+| any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,740 | 43.4% | 1647 | 892,864 | 30.2% |
+| noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 668 | 489,140 | 16.6% | 0 | 0 | 0.0% |
+| maspsx marker pins (scaffolding) | 394 | 347,664 | 11.8% | 0 | 0 | 0.0% |
+| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 5.3% | 14 | 20,140 | 0.7% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
-| local address-named struct | 633 | 346,972 | 12.4% | 2752 | 1,440,868 | 51.3% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 5.5% | 7359 | 2,456,128 | 87.5% |
+| local address-named struct | 633 | 346,824 | 11.7% | 2616 | 1,307,120 | 44.3% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 5.2% | 7739 | 2,601,496 | 88.1% |
 
 Pin sites now: 0 in 0 rows; .  At the pin: 25,918; REG 12,816, KEEP 6,936, KEEP_NV 2,505, SCHED_BARRIER 1,355, TAILSLOT_PIN 506, USE 294, USE_NV 260, KEEP_DEP_NV 190.
 
 Tracked, not pins (owner 2026-10-06): oddities 0 (ledger/oddities.jsonl - zero-byte fences retail needs, curiosities, not removal targets: -); one-trip barrier rows 2 (ledger/onetrip_barrier_rows.jsonl); load-bearing one-trip rows 85 (ledger/onetrip_loadbearing.jsonl, statement-macro bodies, not counted in the do{}while(0) row above).
 Carve debt - composite rows (r95 decisions item 8 kept the spelling for bytes; r99: it is an artifact of one-row-per-function carving, owned by module placement): the `asm("func_X")` data prefix (another function's jump table / overlay data that retail places before this row's code) and its `.globl/.type/.size func_X` stamp (`pin_census.composite_asm_spans`), 2 statements in 1 rows - counted here, not in the inline-asm row above; still L5 `inline_asm` residue in levels.py until the module TU owns the data.
-Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 0, calls of local asm wrappers 0, hand-written asm in function bodies 0 (C that is missing); symbol aliases 7 (a second typed name for one symbol: a missing type); file-scope asm directives 6; file-scope global register variables 0 (`register T g asm("$R")`).
+Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 0, calls of local asm wrappers 0, hand-written asm in function bodies 0 (C that is missing); symbol aliases 7 (a second typed name for one symbol: a missing type); file-scope asm directives 4; file-scope global register variables 0 (`register T g asm("$R")`).
 
 Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 89 rows carry one flag, 0 carry two or more.
 
@@ -237,16 +364,16 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 
 | level | bytes | % |
 |---|---:|---:|
-| L0 | 2,805,136 | 99.9% |
-| L1 | 2,805,136 | 99.9% |
-| L2 | 2,805,136 | 99.9% |
-| L3 | 2,776,244 | 98.9% |
-| L4 | 343,836 | 12.2% |
-| L5 | 318,948 | 11.4% |
+| L0 | 2,953,636 | 100.0% |
+| L1 | 2,953,636 | 100.0% |
+| L2 | 2,953,636 | 100.0% |
+| L3 | 2,924,700 | 99.0% |
+| L4 | 713,500 | 24.2% |
+| L5 | 688,532 | 23.3% |
 
-On shared record headers (T7, `include/records/`): 1316 rows, 708,736 bytes (25.2%); records used: 98.
+On shared record headers (T7, `include/records/`): 1839 rows, 949,472 bytes (32.1%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 6,899 rows (2,461,208 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 6,561 rows (2,239,960 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 
@@ -254,7 +381,7 @@ L4 residue (rows below L4, by blocker; a row can carry more than one; parked con
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | slus | 0 | 0 | 1 | 0 | 72 | 7 | 408 | 14 | 479 / 328,024 |
 | main | 18 | 5 | 1 | 0 | 0 | 0 | 0 | 0 | 19 / 6,420 |
-| town | 21 | 8 | 1 | 1 | 0 | 114 | 0 | 0 | 137 / 18,196 |
+| town | 26 | 8 | 1 | 1 | 0 | 114 | 0 | 0 | 142 / 19,536 |
 | dungeon | 0 | 0 | 24 | 21 | 0 | 0 | 0 | 0 | 44 / 35,592 |
 
 Every lane prompt (tools/agent_task.py) carries the row's block; L4 module placement must agree with the assertion source map.

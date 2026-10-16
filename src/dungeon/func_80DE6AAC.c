@@ -1,86 +1,18 @@
-#include "shared/object_node.h"
-#include "common.h"
-#include "shared/slus_callbacks.h"
-#include "shared/dir_step.h"
-typedef s32 M2C_UNK;
+#include "modules/dungeon_ovl_e0365c.h"
 
-
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-#define NULL 0
-
-M2C_UNK func_8003DB94();
-s32 func_8004491C();
-M2C_UNK func_800478B8();
-s32 func_800BCB04();
-extern M2C_UNK D_800DEEC0;
-extern M2C_UNK D_80174254;
-
-typedef struct {
-    s32 words[6];
-} Copy24;
-
-typedef struct S_80DE6AAC_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    M2C_UNK * unk_10;
-    u8 pad_14[0xC];
-    s16 unk_20;
-} S_80DE6AAC_0;   /* temp_v0 in func_80DE6AAC */
-
-typedef struct S_80DE6AAC_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-} S_80DE6AAC_1;   /* temp_s1 in func_80DE6AAC */
-
-typedef struct S_80DE6AAC_2 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-    u8 pad_2C[0x5C];
-    u16 unk_88;
-} S_80DE6AAC_2;   /* arg0 in func_80DE6AAC */
-
-typedef struct S_80DE6AAC_3 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x3];
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80DE6AAC_3;   /* temp_s0 in func_80DE6AAC */
-
-typedef struct S_80DE6AAC_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80DE6AAC_4;   /* arg2 in func_80DE6AAC */
-
-typedef struct S_80DE6AAC_5 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    s32 unk_08;
-} S_80DE6AAC_5;   /* temp_s0_2 in func_80DE6AAC */
-
-/* Creates an effect at a directional tile offset and clamps its height. */
-s32 func_80DE6AAC(S_80DE6AAC_2 *source, void *initial_position, S_80DE6AAC_4 *tile_origin) {
-    S_80DE6AAC_3 *sprite;
-    S_80DE6AAC_5 *position;
-    S_80DE6AAC_1 *effect_state;
+s32 func_801742AC(E_801742AC_S_80DE6AAC_2 *source, void *initial_position, E_801742AC_S_80DE6AAC_4 *tile_origin) {
+    E_801742AC_S_80DE6AAC_3 *sprite;
+    E_801742AC_S_80DE6AAC_5 *position;
+    E_801742AC_S_80DE6AAC_1 *effect_state;
     void *effect;
 
     effect = func_8003FC64(0x212);
     if (effect != NULL) {
         effect_state = effect + 0x20;
-        ((S_80DE6AAC_0 *)effect)->unk_10 = &D_80174254;
-        ((S_80DE6AAC_0 *)effect)->unk_20 = 0;
+        ((E_801742AC_S_80DE6AAC_0 *)effect)->unk_10 = func_80174254;
+        ((E_801742AC_S_80DE6AAC_0 *)effect)->unk_20 = 0;
         effect_state->unk_02 = (s16)(((u16)source->unk_2A >> 9) & 7);
-        sprite = ((S_80DE6AAC_0 *)effect)->unk_0C;
+        sprite = ((E_801742AC_S_80DE6AAC_0 *)effect)->unk_0C;
         sprite->unk_0E = 0x80;
         sprite->unk_0D = 0x80;
         sprite->unk_0C = 0x80;
@@ -91,8 +23,8 @@ s32 func_80DE6AAC(S_80DE6AAC_2 *source, void *initial_position, S_80DE6AAC_4 *ti
         sprite->unk_1E = 0x800;
         sprite->unk_1C = 0x800;
         func_8004491C(effect, func_80045340);
-        position = ((S_80DE6AAC_0 *)effect)->unk_08;
-        *(Copy24 *)position = *(Copy24 *)initial_position;
+        position = ((E_801742AC_S_80DE6AAC_0 *)effect)->unk_08;
+        *(E_801742AC_Copy24 *)position = *(E_801742AC_Copy24 *)initial_position;
         {
             s32 world_y;
             s32 direction_offset;

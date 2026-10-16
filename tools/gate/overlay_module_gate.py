@@ -44,11 +44,23 @@ def read_records(path):return _load_read(path,'records',_read_records)
 def rows(root):
  return {r['id']:r for r in read_jsonl(root/'ledger/rows.jsonl') if r['kind']=='overlay'}
 
+def module_recipe(m):
+ # Closed uniform recipes, with the same default/override order as cc.sh.
+ recipes={
+  '2.7.2-cdk-G0':('2.7.2-cdk',('-O2','-G0')),
+  '2.7.2-G0':('2.7.2',('-O2','-G0')),
+  '2.7.2-cdk-G0 -O1':('2.7.2-cdk',('-O2','-G0','-O1')),
+ }
+ r=m.get('recipe')
+ if (not isinstance(r,dict) or set(r)!={'cfg','row_asflags'} or r['row_asflags']!=''
+     or r['cfg'] not in recipes):raise ValueError('unsupported recipe/empty cohort')
+ return recipes[r['cfg']]
+
 def module_compiler(m):
- # Exactly two ordinary G0 recipes. Flags and recipe keys remain fail-closed.
- recipes=({'cfg':'2.7.2-cdk-G0','row_asflags':''},{'cfg':'2.7.2-G0','row_asflags':''})
- if m.get('recipe') not in recipes:raise ValueError('unsupported recipe/empty cohort')
- return '2.7.2-cdk' if m['recipe']['cfg']=='2.7.2-cdk-G0' else '2.7.2'
+ return module_recipe(m)[0]
+
+def module_cflags(m):
+ return list(module_recipe(m)[1])
 
 def all_members(m):
  return m.get('data_members',[])+m['members']
@@ -434,7 +446,7 @@ def build(m,out,root=ROOT,substitutions=None):
   evidence=out/'noreturn_syms.bank.txt';evidence.write_text(census.render(sorted(names)))
   env['MASPSX_NORETURN_FILE']=str(evidence)
  gcc=root/'toolchain/compilers'/('gcc-'+module_compiler(m));asm=out/'module.s';obj=out/'module.o'
- command([gcc/'gcc','-B'+str(gcc)+'/', '-S','-O2','-G0','-I'+str(root/'include'),'-w',source,'-o',asm],root,env,out/'compile.log')
+ command([gcc/'gcc','-B'+str(gcc)+'/', '-S',*module_cflags(m),'-I'+str(root/'include'),'-w',source,'-o',asm],root,env,out/'compile.log')
  raw=asm.read_bytes();proc=command([sys.executable,gate_tool(root,'ccproc.py'),'--names-tsv',root/'config/names.tsv'],root,env,out/'ccproc.log',raw);(out/'sectioned.s').write_bytes(proc)
  command([root/'.venv/bin/python',root/'toolchain/maspsx/maspsx.py','--aspsx-version=2.79','--dont-force-G0','--run-assembler','--gnu-as-path=mipsel-linux-gnu-as','-I'+str(root),'-I'+str(root/'include'),'-EL','-march=r3000','-G8','-o',obj],root,env,out/'assemble.log',proc)
  shutil.copy2(obj,out/'module.untrimmed.o')

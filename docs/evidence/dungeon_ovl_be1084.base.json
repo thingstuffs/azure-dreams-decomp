@@ -1,0 +1,408 @@
+{
+  "module": "dungeon_ovl_be1084",
+  "delta": 2136537088,
+  "image_start": 12455936,
+  "image_end": 12480512,
+  "static_only": true,
+  "witnesses": [
+    {
+      "row": "func_80BC19D0",
+      "foff": 12458448,
+      "size": 472,
+      "jumps": [
+        {
+          "file": 12458636,
+          "target": 2148995760
+        },
+        {
+          "file": 12458676,
+          "target": 2148995868
+        }
+      ],
+      "aligned_delta_candidates": [
+        2136537088
+      ]
+    },
+    {
+      "row": "func_80BC1BA8",
+      "foff": 12458920,
+      "size": 1588,
+      "jumps": [
+        {
+          "file": 12459012,
+          "target": 2148997556
+        },
+        {
+          "file": 12459032,
+          "target": 2148997556
+        },
+        {
+          "file": 12459312,
+          "target": 2148996412
+        },
+        {
+          "file": 12459472,
+          "target": 2148996580
+        },
+        {
+          "file": 12459556,
+          "target": 2148996688
+        },
+        {
+          "file": 12459752,
+          "target": 2148996940
+        },
+        {
+          "file": 12459804,
+          "target": 2148996940
+        },
+        {
+          "file": 12459892,
+          "target": 2148997392
+        },
+        {
+          "file": 12459920,
+          "target": 2148997092
+        },
+        {
+          "file": 12460104,
+          "target": 2148997392
+        },
+        {
+          "file": 12460148,
+          "target": 2148997332
+        },
+        {
+          "file": 12460200,
+          "target": 2148997336
+        }
+      ],
+      "aligned_delta_candidates": [
+        2136537088
+      ]
+    },
+    {
+      "row": "func_80BC21DC",
+      "foff": 12460508,
+      "size": 1516,
+      "jumps": [
+        {
+          "file": 12460580,
+          "target": 2148999076
+        },
+        {
+          "file": 12460696,
+          "target": 2148999076
+        },
+        {
+          "file": 12460776,
+          "target": 2148999076
+        },
+        {
+          "file": 12460872,
+          "target": 2148999076
+        },
+        {
+          "file": 12461160,
+          "target": 2148999076
+        },
+        {
+          "file": 12461520,
+          "target": 2148999076
+        },
+        {
+          "file": 12461604,
+          "target": 2148999076
+        },
+        {
+          "file": 12461648,
+          "target": 2148999076
+        },
+        {
+          "file": 12461676,
+          "target": 2148999076
+        }
+      ],
+      "aligned_delta_candidates": [
+        2136537088
+      ]
+    },
+    {
+      "row": "func_80BC27C8",
+      "foff": 12462024,
+      "size": 528,
+      "jumps": [
+        {
+          "file": 12462244,
+          "target": 2148999508
+        },
+        {
+          "file": 12462472,
+          "target": 2148999604
+        }
+      ],
+      "aligned_delta_candidates": [
+        2136537088
+      ]
+    },
+    {
+      "row": "func_80BC35B0",
+      "foff": 12465584,
+      "size": 1300,
+      "jumps": [
+        {
+          "file": 12465732,
+          "target": 2149003940
+        },
+        {
+          "file": 12465840,
+          "target": 2149003940
+        },
+        {
+          "file": 12466076,
+          "target": 2149003940
+        },
+        {
+          "file": 12466288,
+          "target": 2149003940
+        },
+        {
+          "file": 12466428,
+          "target": 2149003940
+        },
+        {
+          "file": 12466612,
+          "target": 2149003940
+        }
+      ],
+      "aligned_delta_candidates": [
+        2136537088
+      ]
+    },
+    {
+      "row": "func_80BC3AC4",
+      "foff": 12466884,
+      "size": 1872,
+      "jumps": [
+        {
+          "file": 12467060,
+          "target": 2149004232
+        },
+        {
+          "file": 12467068,
+          "target": 2149004240
+        },
+        {
+          "file": 12467076,
+          "target": 2149004248
+        },
+        {
+          "file": 12467124,
+          "target": 2149004260
+        },
+        {
+          "file": 12467144,
+          "target": 2149004260
+        },
+        {
+          "file": 12467152,
+          "target": 2149004260
+        },
+        {
+          "file": 12467160,
+          "target": 2149004260
+        },
+        {
+          "file": 12467220,
+          "target": 2149004376
+        },
+        {
+          "file": 12467312,
+          "target": 2149004476
+        },
+        {
+          "file": 12467416,
+          "target": 2149005540
+        },
+        {
+          "file": 12467532,
+          "target": 2149005804
+        },
+        {
+          "file": 12467568,
+          "target": 2149005804
+        },
+        {
+          "file": 12467636,
+          "target": 2149005544
+        },
+        {
+          "file": 12468176,
+          "target": 2149005804
+        },
+        {
+          "file": 12468352,
+          "target": 2149005376
+        },
+        {
+          "file": 12468464,
+          "target": 2149005804
+        }
+      ],
+      "aligned_delta_candidates": [
+        2136537088
+      ]
+    },
+    {
+      "row": "func_80BC4214",
+      "foff": 12468756,
+      "size": 524,
+      "jumps": [
+        {
+          "file": 12468828,
+          "target": 2149006336
+        },
+        {
+          "file": 12468848,
+          "target": 2149006336
+        },
+        {
+          "file": 12468928,
+          "target": 2149006336
+        },
+        {
+          "file": 12468988,
+          "target": 2149006108
+        },
+        {
+          "file": 12469088,
+          "target": 2149006336
+        },
+        {
+          "file": 12469108,
+          "target": 2149006336
+        }
+      ],
+      "aligned_delta_candidates": [
+        2136537088
+      ]
+    },
+    {
+      "row": "func_80BC44D4",
+      "foff": 12469460,
+      "size": 968,
+      "jumps": [
+        {
+          "file": 12469536,
+          "target": 2149007480
+        },
+        {
+          "file": 12469556,
+          "target": 2149007480
+        },
+        {
+          "file": 12469660,
+          "target": 2149007408
+        },
+        {
+          "file": 12469808,
+          "target": 2149007480
+        },
+        {
+          "file": 12469872,
+          "target": 2149007480
+        },
+        {
+          "file": 12469968,
+          "target": 2149007480
+        },
+        {
+          "file": 12470332,
+          "target": 2149007480
+        }
+      ],
+      "aligned_delta_candidates": [
+        2136537088
+      ]
+    },
+    {
+      "row": "func_80BC489C",
+      "foff": 12470428,
+      "size": 852,
+      "jumps": [
+        {
+          "file": 12470504,
+          "target": 2149008332
+        },
+        {
+          "file": 12470524,
+          "target": 2149008332
+        },
+        {
+          "file": 12470628,
+          "target": 2149008260
+        },
+        {
+          "file": 12470744,
+          "target": 2149008260
+        },
+        {
+          "file": 12470876,
+          "target": 2149008332
+        },
+        {
+          "file": 12470972,
+          "target": 2149008332
+        },
+        {
+          "file": 12471184,
+          "target": 2149008332
+        }
+      ],
+      "aligned_delta_candidates": [
+        2136537088
+      ]
+    }
+  ],
+  "basis": "Leading assigned rows belong to the on-disc callback/switch-head image; the following local-j-bearing routines independently solve the delta under the existing 0x800-aligned image-base law. Position-independent recompiles are not base evidence.",
+  "method": "same-image local-j solve",
+  "header_entry_hits": [
+    {
+      "file": 12455936,
+      "vma": 2148995536,
+      "foff": 12458448
+    },
+    {
+      "file": 12455940,
+      "vma": 2148996008,
+      "foff": 12458920
+    }
+  ],
+  "members": [
+    {
+      "id": "dungeon/func_80BC1084",
+      "foff": 12456068,
+      "size": 480
+    },
+    {
+      "id": "dungeon/func_80BC1264",
+      "foff": 12456548,
+      "size": 408
+    },
+    {
+      "id": "dungeon/func_80BC1528",
+      "foff": 12457256,
+      "size": 516
+    },
+    {
+      "id": "dungeon/func_80BC172C",
+      "foff": 12457772,
+      "size": 340
+    },
+    {
+      "id": "dungeon/func_80BC1880",
+      "foff": 12458112,
+      "size": 336
+    }
+  ]
+}

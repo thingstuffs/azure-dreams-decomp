@@ -1,7 +1,4 @@
-#include "common.h"
-
-extern void func_80067014(s32 arg0);
-extern void func_800671A8();
+#include "modules/ovmovie_game.h"
 
 // Clears a 480-wide rectangle with a height of 448 or 480.
 void func_80176AD8(s32 useFullHeight) {

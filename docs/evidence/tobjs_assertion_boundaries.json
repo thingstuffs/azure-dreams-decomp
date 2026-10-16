@@ -1,0 +1,14 @@
+{
+  "schema": "azure-clean.assertion-boundaries.v1",
+  "reason": "Stack-allocation refinement skipped lui/lw flag loads scheduled before the prologue. These are attribution corrections; existing row extents remain intact.",
+  "sites": [
+    {"site_foff": "0x7F8ABC", "entry_foff": "0x7F8A78", "size": 304, "line": 226, "scan_start": "0x7F6000", "scan_end": "0x7FF000"},
+    {"site_foff": "0x8002D4", "entry_foff": "0x800298", "size": 260, "line": 89, "scan_start": "0x7FF000", "scan_end": "0x800800"},
+    {"site_foff": "0x80170C", "entry_foff": "0x8016D8", "size": 236, "line": 75, "scan_start": "0x800800", "scan_end": "0x802800"},
+    {"site_foff": "0x80357C", "entry_foff": "0x803548", "size": 236, "line": 75, "scan_start": "0x802800", "scan_end": "0x804000"},
+    {"site_foff": "0x838634", "entry_foff": "0x8385F0", "size": 304, "line": 225, "scan_start": "0x837800", "scan_end": "0x839000"},
+    {"site_foff": "0x83990C", "entry_foff": "0x8398D0", "size": 260, "line": 89, "scan_start": "0x839000", "scan_end": "0x83A800"},
+    {"site_foff": "0x83B620", "entry_foff": "0x83B5EC", "size": 236, "line": 75, "scan_start": "0x83A800", "scan_end": "0x83C000"},
+    {"site_foff": "0x844CE4", "entry_foff": "0x844CB0", "size": 236, "line": 75, "scan_start": "0x844000", "scan_end": "0x845000"}
+  ]
+}

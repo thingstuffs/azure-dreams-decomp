@@ -1,0 +1,260 @@
+{
+  "module": "dungeon_ovl_cb3000",
+  "delta": 2135676928,
+  "original_groups": [
+    {
+      "module": "ovl_cb3000.c",
+      "module_index": 58,
+      "rows": 2
+    },
+    {
+      "module": "ovl_7f4bd800.c",
+      "module_index": 85,
+      "rows": 12
+    }
+  ],
+  "recovered_rows": [
+    {
+      "row": "dungeon/func_80C95B04",
+      "foff": 13327108,
+      "vma": 2149004036,
+      "size": 32,
+      "standalone_receipt": "evidence/cb_recovery/candidates/func_80173304/contract/receipt.json",
+      "source_sha256": "bd587034e5a6f3ad5da08cca13a46c3f2190fcb0c91cc084d0c69cdd3aee26ca",
+      "retail_sha256": "897af133fd7eeec76cafa6c9f86460bebb1c2a72435dfa6aeed0bf5663a0d79a"
+    },
+    {
+      "row": "dungeon/func_80C95B24",
+      "foff": 13327140,
+      "vma": 2149004068,
+      "size": 32,
+      "standalone_receipt": "evidence/cb_recovery/candidates/func_80173324/contract/receipt.json",
+      "source_sha256": "2486263231af5e0270f1aa9964b8f1cd0ac5f1b4b8a9df9e336782bececea563",
+      "retail_sha256": "5d90ad4ef2a93c845fb1da3dc24372376083e84e9938f33d3ca121e0c88d90cb"
+    },
+    {
+      "row": "dungeon/func_80C95B44",
+      "foff": 13327172,
+      "vma": 2149004100,
+      "size": 32,
+      "standalone_receipt": "evidence/cb_recovery/candidates/func_80173344/contract/receipt.json",
+      "source_sha256": "c5afdc0cbd50a68747c1e088bd3be2fd93d93b533f5ee0ab518543d595a8c3d1",
+      "retail_sha256": "42604a78f605c9d25623baa60f5ea1c64a4b86bcb050976cd3d9195ce7ecde28"
+    },
+    {
+      "row": "dungeon/func_80C95B64",
+      "foff": 13327204,
+      "vma": 2149004132,
+      "size": 56,
+      "standalone_receipt": "evidence/cb_recovery/candidates/func_80173364/contract/receipt.json",
+      "source_sha256": "f365686f956d6ead3f882eca3249280bd21d43c1bae73dc773a430e871e756a6",
+      "retail_sha256": "4bec4ffd4583aea2e157a2e7c37266ce3b11e8439b043ecea66b3152d9939e47"
+    },
+    {
+      "row": "dungeon/func_80C96364",
+      "foff": 13329252,
+      "vma": 2149006180,
+      "size": 56,
+      "standalone_receipt": "evidence/cb_recovery/candidates/func_80173B64/contract/receipt.json",
+      "source_sha256": "02f018a8059859608a8946350ba4fdf09dbc5150f6688fff106cf3adad0cc44d",
+      "retail_sha256": "8cbe475e14782a091cbe8bbeaaee9210063d7bc7192fe13c336011f9bf3a4fb2"
+    },
+    {
+      "row": "dungeon/func_80C9639C",
+      "foff": 13329308,
+      "vma": 2149006236,
+      "size": 56,
+      "standalone_receipt": "evidence/cb_recovery/candidates/func_80173B9C/contract/receipt.json",
+      "source_sha256": "5e9c542e43169dc04927336333ff006f20a9498fe1e178c37ce2aed3d87ff3f6",
+      "retail_sha256": "10d6d59313a5b357f64ef11b73c743d98b06f997ae5500c4f29d1088d2fb2752"
+    },
+    {
+      "row": "dungeon/func_80C963D4",
+      "foff": 13329364,
+      "vma": 2149006292,
+      "size": 56,
+      "standalone_receipt": "evidence/cb_recovery/candidates/func_80173BD4/contract/receipt.json",
+      "source_sha256": "e1663d2a5cdb084315bf04a3fdcafc4df6b57f44922d93261cefa319eb36b762",
+      "retail_sha256": "cc51815e4d27b08c086e1654c7c0969d2437777762a3ed96de6422309f22f387"
+    },
+    {
+      "row": "dungeon/func_80C95144",
+      "foff": 13324612,
+      "vma": 2149001540,
+      "size": 100,
+      "standalone_receipt": "evidence/cb_recovery/candidates/func_80172944/contract/receipt.json",
+      "source_sha256": "d616ee63bc2eff7a011b4d493c2c8171e88d0d0edac80a3c2e5668fc07fd3d2e",
+      "retail_sha256": "362327a1c8f2603cb259508dc99a9296c1f87505de5d91ee118bc646ae5e604c"
+    },
+    {
+      "row": "dungeon/func_80C96300",
+      "foff": 13329152,
+      "vma": 2149006080,
+      "size": 100,
+      "standalone_receipt": "evidence/cb_recovery/candidates/func_80173B00/contract/receipt.json",
+      "source_sha256": "b98328724a11606a26e296abeba3f900deceebc07b3969e8ea0d66eb562c05ce",
+      "retail_sha256": "0914a6d85fd839ef80c21fe1ff6500f20e95ee3e9dccd7191ebde2d5ad75d147"
+    },
+    {
+      "row": "dungeon/func_80C9733C",
+      "foff": 13333308,
+      "vma": 2149010236,
+      "size": 172,
+      "standalone_receipt": "evidence/cb_recovery/candidates/func_80174B3C/contract/receipt.json",
+      "source_sha256": "f7f897865e0c4a6096fd415c2d2df927da6f478c2a27315a2c5decc0d526aa7a",
+      "retail_sha256": "cfdbd0b157cfca539948cfea4948ef7c9ac12bb6f909c805cadc53a7d2e5b51a"
+    },
+    {
+      "row": "dungeon/func_80C96B20",
+      "foff": 13331232,
+      "vma": 2149008160,
+      "size": 84,
+      "standalone_receipt": "evidence/cb_recovery/candidates/func_80174320/contract/receipt.json",
+      "source_sha256": "3852d2fccab25d8af69886636b63a8a4f6ab1f76afd35df25594e20d45c59ac6",
+      "retail_sha256": "3f2b6a8f409181855728fcadeea49be29f1f6cd5ee47fe5800c9663e1921084f"
+    },
+    {
+      "row": "dungeon/func_80C94758",
+      "foff": 13322072,
+      "vma": 2148999000,
+      "size": 100,
+      "standalone_receipt": "evidence/cb_recovery/candidates/func_80171F58/contract/receipt.json",
+      "source_sha256": "caa7e3619cfb7ac6cf0e29c9388aaed8c03704e2beeae38e87525882474462ab",
+      "retail_sha256": "04fba582465f6e4145564762a90899685e84cc572951b017226ba9fea7d968f2"
+    },
+    {
+      "row": "dungeon/func_80C94980",
+      "foff": 13322624,
+      "vma": 2148999552,
+      "size": 280,
+      "standalone_receipt": "evidence/cb_recovery/candidates/func_80172180/contract/receipt.json",
+      "source_sha256": "afbf0655b7742d48ed0518228d893490a5107be050bf0da2b086b117f58f78f6",
+      "retail_sha256": "b2e49ef014162e89307f274bd80ed0ec73b734ec3883b31a70d1547deb845a18"
+    },
+    {
+      "row": "dungeon/func_80C94BDC",
+      "foff": 13323228,
+      "vma": 2149000156,
+      "size": 124,
+      "standalone_receipt": "evidence/cb_recovery/candidates/func_801723DC/contract/receipt.json",
+      "source_sha256": "af2103970628a7aba219dd5da917345484496c81f3057149de5befecb90234ff",
+      "retail_sha256": "0d6300b4a6ba88ede4027eee640af32252057f4462a3e7090c5ded60c5f0444c"
+    },
+    {
+      "row": "dungeon/func_80C93424",
+      "foff": 13317156,
+      "vma": 2148994084,
+      "size": 1032,
+      "standalone_receipt": "evidence/cb_recovery/candidates/func_80170C24/sibling/receipt.json",
+      "source_sha256": "6f2cf49070580b807454d08523300b0cf2869b3dbf019b9bbe8959aef56cd15d",
+      "retail_sha256": "c83c7cd8875f9f1f26ce195a37e0a8e8f6a14b440afd7ed6b66972810de21c37"
+    },
+    {
+      "row": "dungeon/func_80C94010",
+      "foff": 13320208,
+      "vma": 2148997136,
+      "size": 1864,
+      "standalone_receipt": "evidence/cb_recovery/candidates/func_80171810/certified_sibling/receipt.json",
+      "source_sha256": "25d462ad454c546a9a2e7503b5c317a05e4c4cebc3f9856f9e68783ab9281977",
+      "retail_sha256": "211c18e8075a53379a2db1b7b5da435b4adcdf81346bef96a5eb2bd66048bcca"
+    },
+    {
+      "row": "dungeon/func_80C947BC",
+      "foff": 13322172,
+      "vma": 2148999100,
+      "size": 452,
+      "standalone_receipt": "evidence/cb_recovery/candidates/func_80171FBC/sibling/receipt.json",
+      "source_sha256": "4df91f9d51718056f0f54801fc2be4baab4efe83481590bd494e65f43ab6b454",
+      "retail_sha256": "6129669a4469dcf3a859f5491f1dcc43f839063b3570d310564ea441e99b5a9b"
+    },
+    {
+      "row": "dungeon/func_80C94A98",
+      "foff": 13322904,
+      "vma": 2148999832,
+      "size": 324,
+      "standalone_receipt": "evidence/cb_recovery/candidates/func_80172298/sibling/receipt.json",
+      "source_sha256": "3151ca037411f27265f8c50b510819771d2d18de5aba33e495ca7af19221ba8f",
+      "retail_sha256": "953b0edf5e8a5bfa5f690d4295bcd0ed861354c4c3a6387b5db91ed2b66776bf"
+    },
+    {
+      "row": "dungeon/func_80C973E8",
+      "foff": 13333480,
+      "vma": 2149010408,
+      "size": 300,
+      "standalone_receipt": "evidence/cb_recovery/candidates/func_80174BE8/final/receipt.json",
+      "source_sha256": "c2ab5185534a5cb274b8734d6fab3541b135635869e84378ee23c3b2c5e68816",
+      "retail_sha256": "f9544dba9029936c1c4d07fee614dba083862c63a1ce6bb0c20625d533650a5c"
+    },
+    {
+      "row": "dungeon/func_80C95F2C",
+      "foff": 13328172,
+      "vma": 2149005100,
+      "size": 780,
+      "standalone_receipt": "evidence/cb_recovery/candidates/func_8017372C/clean/receipt.json",
+      "source_sha256": "0eb94a4f67b60db160207996859e2610606ddaf1561435f033aec9c050dab5f2",
+      "retail_sha256": "bcf301cbd08cdbd75646187753bad9e398204cad34af42a1c5a6feeac91694fd"
+    },
+    {
+      "row": "dungeon/func_80C96238",
+      "foff": 13328952,
+      "vma": 2149005880,
+      "size": 200,
+      "standalone_receipt": "evidence/cb_recovery/candidates/func_80173A38/clean/receipt.json",
+      "source_sha256": "be7f66f26890a38ecbc01ec2fa08b7bccaaf82f587d185c756c0446e5aea0dba",
+      "retail_sha256": "1e68c3f2988948e50c885f53b7b720028a3e7c03ff64853d2cd77c7aa4e1e762"
+    },
+    {
+      "row": "dungeon/func_80C95B9C",
+      "foff": 13327260,
+      "vma": 2149004188,
+      "size": 912,
+      "standalone_receipt": "evidence/cb_recovery/candidates/func_8017339C/scoped/receipt.json",
+      "source_sha256": "e21529ebf1efa3199f2411fb38489e028d6c1c8792b60ace4f074060ada7b476",
+      "retail_sha256": "bd3a81c48dfa3002c08bf3764df309e485c7a08207888ac149b3190bd26d5205"
+    },
+    {
+      "row": "dungeon/func_80C9382C",
+      "foff": 13318188,
+      "vma": 2148995116,
+      "size": 1380,
+      "standalone_receipt": "evidence/cb_recovery/candidates/func_8017102C/early_exit/receipt.json",
+      "source_sha256": "c372ad79cdcb9137226c5b22173648a4543ce0978d729339fd8876cb76a04000",
+      "retail_sha256": "a10a8650cb56f2e4a0f50932e3be32cf82b0155b295f49cf6105c72e0681f1fd"
+    },
+    {
+      "row": "dungeon/func_80C97A3C",
+      "foff": 13335100,
+      "vma": 2149012028,
+      "size": 56,
+      "standalone_receipt": "evidence/cb_recovery/candidates/func_8017523C/v1/receipt.json",
+      "source_sha256": "2190370e883eedb5147a7a8e22af8eee3e3e2b4718620efb766ff6da56c18711",
+      "retail_sha256": "4544667af6ff3213741f0f7eb4771136553e9dcf700fa585e7e1a97fe426a804"
+    },
+    {
+      "row": "dungeon/func_80C97A74",
+      "foff": 13335156,
+      "vma": 2149012084,
+      "size": 56,
+      "standalone_receipt": "evidence/cb_recovery/candidates/func_80175274/v1/receipt.json",
+      "source_sha256": "fddda86b517ea1fb76109a09a2ab1b1a2482d669609dc0f8e145f58f8a31691f",
+      "retail_sha256": "37190d14a2ffde72c6e8208634820df75c8472390b39be77aaa8e841db779567"
+    }
+  ],
+  "boundary": {
+    "start": 13316096,
+    "end": 13335212,
+    "next_frame_data": 13335212,
+    "tail_callbacks": [
+      2149012028,
+      2149012084
+    ],
+    "callback_table_vma": 2149012284,
+    "callback_entries": 24
+  },
+  "mechanisms": [
+    "Inactive actor path uses an early return and its direct animation selection; natural GCC tail merging reproduces the exact register roles and complete switch head.",
+    "Shared signed-halfword height-query contract follows the already-certified fa7000 bank. Full-word room/visibility/angle returns remain explicit where the code narrows them.",
+    "The final state machine has no goto: use a signed-halfword eight-direction index and a structured failed-alignment guard. The second inherited join is a positive flag test. Complete 1320-byte standalone code and 36-byte switch proof match retail; no assembler, volatile or pin is added."
+  ],
+  "review": "pending"
+}

@@ -1,44 +1,4 @@
-#include "common.h"
-typedef struct { s16 x,y,w,h; } MovieRect;
-typedef struct {
-    s32 tag;
-    void *frame_buffers[2];
-    s32 frame_buffer_index;
-    void *output;
-    MovieRect screen[2];
-    s32 screen_index;
-    MovieRect strip;
-    s32 ready;
-    s32 done;
-    s32 width,height;
-} MovieState;
-extern MovieState *D_80189390;
-extern s32 D_801781D0, D_801781D4, D_801781D8, D_801781DC, D_801781E0;
-
-#include "shared/game_work.h"
-typedef struct { MovieRect viewport,screen; u8 interlaced,rgb24,pad[6]; } MovieDisplayEnv;
-typedef struct { u8 bytes[96]; } MovieDrawEnv;
-extern u8 D_80082E6B;
-extern u8 D_801C9E40[],D_80189398[];
-extern s32 D_801B8EBC;
-extern s32 func_8003E240(s32);
-extern void func_8006124C(s32,void *);
-extern void func_80063538(void);
-extern void func_8006636C(void *,s32,s32,s32,s32);
-extern void func_80066424(void *,s32,s32,s32,s32);
-extern void func_80066F78(s32);
-extern void func_80067688(void *);
-extern void func_800678E0(void *);
-extern void func_8005FE18(s32);
-extern void func_8005A56C(s32,s16,s16);
-extern void func_8005A4E8(s32,s32,s32);
-extern void func_80176CA8(void);
-extern void func_80176BEC(void *,s32,s32,s32,s32);
-extern void func_80176B60(void *,void (*)(void));
-extern s32 func_80176E90(void *);
-extern void func_801770BC(void *,s32);
-extern void func_80177844(void *,s32);
-extern void func_801778C0(void *,s32);
+#include "modules/ovmovie_game.h"
 
 static inline s32 movie_skip_requested(s32 buttons,s32 previous) {
     s32 requested = 0;
@@ -61,8 +21,8 @@ s32 func_8017719C(s32 unused,s32 frame_limit,s32 stream,s32 mode) {
     D_801781D0 = 0;
     D_80189390 = (MovieState *)D_80189398;
     func_8006124C(stream,D_80189398);
-    if (mode) func_80176BEC((u8 *)D_80189390 + 4,0,0,0,240);
-    else func_80176BEC((u8 *)D_80189390 + 4,0,0,0,224);
+    if (mode) func_80176BEC((MovieBuffer *)((u8 *)D_80189390 + 4),0,0,0,240);
+    else func_80176BEC((MovieBuffer *)((u8 *)D_80189390 + 4),0,0,0,224);
     func_80176B60(D_80189390,func_80176CA8);
     if (func_80176E90((u8 *)D_80189390 + 4)) {
         func_80066F78(1);
@@ -84,9 +44,9 @@ s32 func_8017719C(s32 unused,s32 frame_limit,s32 stream,s32 mode) {
         previous_buttons = 0;
         while (1) {
             func_80177844(D_80189390->frame_buffers[D_80189390->frame_buffer_index],(D_801781E0 & 1) | 2);
-            func_801778C0(D_80189390->output,(D_80189390->strip.w * D_80189390->strip.h) / 2);
+            func_801778C0((s32)D_80189390->output,(D_80189390->strip.w * D_80189390->strip.h) / 2);
             if (!func_80176E90((u8 *)D_80189390 + 4)) break;
-            func_801770BC((u8 *)D_80189390 + 4,0);
+            func_801770BC((MovieEntity *)((u8 *)D_80189390 + 4),0);
             func_8005FE18(2);
             if (D_80189390->height >= 225) {
                 s32 index = !D_80189390->screen_index;

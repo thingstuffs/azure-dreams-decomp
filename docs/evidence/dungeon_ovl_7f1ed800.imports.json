@@ -1,0 +1,184 @@
+{
+  "module": "dungeon_ovl_7f1ed800",
+  "maps": {
+    "native_bank": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "kind": "rowbase",
+      "region": "native_slot_f6b000_80158800",
+      "file_start": 16166912,
+      "file_end": 16191488,
+      "delta": 2132727808,
+      "basis": "Authenticated complete slot transfer in docs/evidence/dungeon_ovl_7f1ed800.slot_load.json"
+    },
+    "dungeon_resident": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "kind": "rowbase",
+      "region": "xfer_dungeon_A3000",
+      "file_start": 667648,
+      "file_end": 1050624,
+      "delta": 2147374944,
+      "basis": "Existing proven resident transfer map."
+    },
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "kind": "psx_exe",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "basis": "PS-X EXE header load and payload size."
+    }
+  },
+  "views": {
+    "D_8015CA7C": {
+      "symbol": "D_8015CA7C",
+      "kind": "data",
+      "vma": 2148911740,
+      "foff": 16183932,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_bank",
+      "evidence": "docs/evidence/dungeon_ovl_7f1ed800.imports.json"
+    },
+    "D_8015CAD4": {
+      "symbol": "D_8015CAD4",
+      "kind": "data",
+      "vma": 2148911828,
+      "foff": 16184020,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_bank",
+      "evidence": "docs/evidence/dungeon_ovl_7f1ed800.imports.json"
+    }
+  },
+  "runtime_views": {
+    "D_80083498": {
+      "symbol": "D_80083498",
+      "kind": "runtime_data",
+      "vma": 2148021400,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_7f1ed800.imports.json",
+      "declaration": "include/shared/object_node.h"
+    }
+  },
+  "functions": {
+    "func_8003FD64": {
+      "vma": 2147745124,
+      "foff": 79204,
+      "map": "slus_load",
+      "first_word": "0180023c",
+      "source_clients": [
+        "src/dungeon/func_80F4B094.c"
+      ],
+      "basis": "Direct call or address-only callback token; natural whole-TU relocation verified against retail."
+    },
+    "func_8004491C": {
+      "vma": 2147764508,
+      "foff": 98588,
+      "map": "slus_load",
+      "first_word": "21388000",
+      "source_clients": [
+        "src/dungeon/func_80F4B094.c"
+      ],
+      "basis": "Direct call or address-only callback token; natural whole-TU relocation verified against retail."
+    },
+    "func_80045340": {
+      "vma": 2147767104,
+      "foff": 101184,
+      "map": "slus_load",
+      "first_word": "e0ffbd27",
+      "source_clients": [
+        "src/dungeon/func_80F4B094.c"
+      ],
+      "basis": "Direct call or address-only callback token; natural whole-TU relocation verified against retail."
+    },
+    "func_800A48F0": {
+      "vma": 2148157680,
+      "foff": 782736,
+      "map": "dungeon_resident",
+      "first_word": "d0ffbd27",
+      "source_clients": [
+        "src/dungeon/func_80F4B094.c"
+      ],
+      "basis": "Direct call or address-only callback token; natural whole-TU relocation verified against retail."
+    },
+    "func_800A6D30": {
+      "vma": 2148166960,
+      "foff": 792016,
+      "map": "dungeon_resident",
+      "first_word": "c641043c",
+      "source_clients": [
+        "src/dungeon/func_80F4B094.c"
+      ],
+      "basis": "Direct call or address-only callback token; natural whole-TU relocation verified against retail."
+    },
+    "func_800A9C18": {
+      "vma": 2148178968,
+      "foff": 804024,
+      "map": "dungeon_resident",
+      "first_word": "d8ffbd27",
+      "source_clients": [
+        "src/dungeon/func_80F4B094.c"
+      ],
+      "basis": "Direct call or address-only callback token; natural whole-TU relocation verified against retail."
+    },
+    "func_800AA36C": {
+      "vma": 2148180844,
+      "foff": 805900,
+      "map": "dungeon_resident",
+      "first_word": "d0ffbd27",
+      "source_clients": [
+        "src/dungeon/func_80F4B094.c"
+      ],
+      "basis": "Direct call or address-only callback token; natural whole-TU relocation verified against retail."
+    },
+    "func_80158A68": {
+      "vma": 2148895336,
+      "foff": 16167528,
+      "map": "native_bank",
+      "first_word": "0880023c",
+      "source_clients": [
+        "src/dungeon/func_80F4B094.c"
+      ],
+      "basis": "Direct call or address-only callback token; natural whole-TU relocation verified against retail."
+    },
+    "func_80158E94": {
+      "vma": 2148896404,
+      "foff": 16168596,
+      "map": "native_bank",
+      "first_word": "0880023c",
+      "source_clients": [
+        "src/dungeon/func_80F4B094.c"
+      ],
+      "basis": "Direct call or address-only callback token; natural whole-TU relocation verified against retail."
+    }
+  },
+  "source_access_bounds": {
+    "D_8015CA7C": {
+      "view_bytes": 8,
+      "sha256": "29646f7cd23978782271a3939205ea1bb361bcd7d793803c04c5131b8758fbd5",
+      "bytes_hex": "0201000102030403",
+      "sources": [
+        "src/dungeon/func_80F4B094.c"
+      ],
+      "basis": "Eight direction bytes indexed by (viewAngle+facing+0x100)>>9 & 7 in resident func_800A9C18; allocation and later handler ownership stay external."
+    },
+    "D_8015CAD4": {
+      "view_bytes": 8,
+      "sha256": "9fb5227c1e0d65f97dff3721d5ec3e316399c1b9b2df10be83dfadedf37cfcd9",
+      "bytes_hex": "1e1e1e1e1e1e1e1e",
+      "sources": [
+        "src/dungeon/func_80F4B094.c"
+      ],
+      "basis": "Eight direction bytes indexed by (viewAngle+facing+0x100)>>9 & 7 in resident func_800A9C18; allocation and later handler ownership stay external."
+    }
+  },
+  "source_changes": {
+    "D_80158A68": "func_80158A68",
+    "D_80158E94": "func_80158E94"
+  },
+  "review": "pending",
+  "reviewer": null
+}

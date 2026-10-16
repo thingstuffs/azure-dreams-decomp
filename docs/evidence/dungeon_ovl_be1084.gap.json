@@ -1,0 +1,14 @@
+{
+  "row": "dungeon/func_80BC13FC",
+  "foff": 12456956,
+  "vma": 2148994044,
+  "size": 300,
+  "method": "Full 75-instruction retail site map transcribed as typed C; local callback reference from func_80170F2C independently identifies the entry; prior function returns at 80170BF4, this function returns at 80170D20, next starts 80170D28.",
+  "lineage": "cdk/2.8.x split-store dialect: lui v1,8008 followed by sw v0,14a0(v1); matches neighboring assigned stock 2.7.2-cdk-G0 recipe.",
+  "mechanism": "Write each byte color component after its division. Character-field aliasing requires reloading the signed lifetime/divisor; GCC schedules final byte stores together. No volatile or assembler additions.",
+  "result": "MATCH",
+  "masked": 0,
+  "sha256": "deda33f46efd8e4ed9983e2a92ebb4a76a02799b8964c4cf27800ccbe83538be",
+  "raw_source_sha256": "38154249a0f59288886cff87d11213a7bb6e20e0b3c071f4ab2a3073816b2d68",
+  "review": "pending"
+}

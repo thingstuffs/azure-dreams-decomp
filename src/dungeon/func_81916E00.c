@@ -1,51 +1,10 @@
-#include "common.h"
-#include "shared/slus_callbacks.h"
+#include "modules/dungeon_ovl_1936800.h"
 
-
-typedef s32 M2C_UNK;
-typedef struct Copy24 {
-    s32 words[6];
-} Copy24;
-
-#ifndef NULL
-#define NULL 0
-#endif
-
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
-M2C_UNK func_8003DB94();
-void *func_8003FD64();
-s32 func_8004491C();
-extern M2C_UNK D_8002457C;
-extern M2C_UNK D_800DEC50;
-
-typedef struct S_80024600_0 {
-    u8 pad_00[0x8];
-    Copy24 * unk_08;
-    void * unk_0C;
-    M2C_UNK * unk_10;
-    u8 pad_14[0xC];
-    s32 unk_20;
-    s16 unk_24;
-} S_80024600_0;   /* temp_v0 in func_80024600 */
-
-typedef struct S_80024600_1 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80024600_1;   /* temp_s0 in func_80024600 */
-
-/* Creates an object with default rendering settings and copies its initial data. */
-void *func_80024600(s32 *owner_data, Copy24 *initial_data) {
+void *func_80024600(s32 *owner_data, Row_81916E00_Copy24 *initial_data) {
     s32 owner_value;
-    S_80024600_1 *render_state;
-    S_80024600_0 *object;
-    Copy24 *object_data;
+    Row_81916E00_S_80024600_1 *render_state;
+    Row_81916E00_S_80024600_0 *object;
+    Row_81916E00_Copy24 *object_data;
 
     object = func_8003FD64(0x212, (s8 *) owner_data - 0x20);
     if (object != NULL) {

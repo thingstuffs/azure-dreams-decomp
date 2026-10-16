@@ -12,12 +12,12 @@ typedef struct S_80E3C98C_1 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_80E3C98C_1;   /* arg2 in func_80E3C98C */
+} S_80E3C98C_1;   /* arg2 in func_8017618C */
 
 typedef struct S_80E3C98C_2_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_80E3C98C_2_pre;   /* the 0x14 bytes before var_s0 in func_80E3C98C, addressed as var_s0[-1] */
+} S_80E3C98C_2_pre;   /* the 0x14 bytes before var_s0 in func_8017618C, addressed as var_s0[-1] */
 
 typedef struct S_80E3C98C_2 {
     u8 pad_00[0x13];
@@ -27,39 +27,39 @@ typedef struct S_80E3C98C_2 {
     s32 unk_1C;
     u8 pad_20[0x8];
     u8 unk_28;
-} S_80E3C98C_2;   /* var_s0 in func_80E3C98C */
+} S_80E3C98C_2;   /* var_s0 in func_8017618C */
 
 typedef struct S_80E3C98C_3_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_80E3C98C_3_pre;   /* the 0x14 bytes before var_s1 in func_80E3C98C, addressed as var_s1[-1] */
+} S_80E3C98C_3_pre;   /* the 0x14 bytes before var_s1 in func_8017618C, addressed as var_s1[-1] */
 
 typedef struct S_80E3C98C_3 {
     u8 pad_00[0x13];
     u8 unk_13;
-} S_80E3C98C_3;   /* var_s1 in func_80E3C98C */
+} S_80E3C98C_3;   /* var_s1 in func_8017618C */
 
 typedef struct S_80E3C98C_4 {
     u8 pad_00[0x1];
     u8 unk_01;
-} S_80E3C98C_4;   /* var_s0_2 in func_80E3C98C */
+} S_80E3C98C_4;   /* var_s0_2 in func_8017618C */
 
 typedef struct S_80E3C98C_5 {
     u8 pad_00[0xAC];
     void * unk_AC;
     u8 pad_B0[0x34];
     void * unk_E4;
-} S_80E3C98C_5;   /* temp_v0 in func_80E3C98C */
+} S_80E3C98C_5;   /* temp_v0 in func_8017618C */
 
 typedef struct S_80E3C98C_6 {
     u8 pad_00[0x12];
     s16 unk_12;
-} S_80E3C98C_6;   /* ((S_80E3C98C_2_pre *)var_s0)[-1].unk_00 in func_80E3C98C */
+} S_80E3C98C_6;   /* ((S_80E3C98C_2_pre *)var_s0)[-1].unk_00 in func_8017618C */
 
 typedef struct S_80E3C98C_7 {
     u8 pad_00[0x12];
     u16 unk_12;
-} S_80E3C98C_7;   /* ((S_80E3C98C_3_pre *)var_s1)[-1].unk_00 in func_80E3C98C */
+} S_80E3C98C_7;   /* ((S_80E3C98C_3_pre *)var_s1)[-1].unk_00 in func_8017618C */
 
 
 extern s32 func_8003F320();
@@ -74,7 +74,7 @@ extern void *func_800B23F8();
 extern s8 D_800E2968;
 
 /* Create an entity from spawn data and update its tracked reference. */
-void *func_80E3C98C(void *unused0, void *unused1, S_80E3C98C_1 *position, Rec_D_80082E80 *spawn_data) {
+void *func_8017618C(void *unused0, void *unused1, S_80E3C98C_1 *position, Rec_D_80082E80 *spawn_data) {
     s32 spawn_mode;
     s32 source_ref;
     u8 *table_base;

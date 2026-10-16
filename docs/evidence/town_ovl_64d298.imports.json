@@ -1,0 +1,21 @@
+{
+  "module": "town_ovl_64d298",
+  "views": {
+    "func_800175D0": {
+      "symbol": "func_800175D0",
+      "kind": "function",
+      "vma": 2147579344
+    },
+    "func_80016A1C": {
+      "symbol": "func_80016A1C",
+      "kind": "function",
+      "vma": 2147576348
+    },
+    "func_80016AC4": {
+      "symbol": "func_80016AC4",
+      "kind": "function",
+      "vma": 2147576516
+    }
+  },
+  "basis": "All undefined symbols are functions at the absolute retail jal addresses; no external storage ownership is claimed."
+}

@@ -1,0 +1,210 @@
+{
+  "module": "town_ovl_629100",
+  "group": "ovl_629100.c#43",
+  "start": 6459392,
+  "end": 6465536,
+  "delta": 2141114368,
+  "loader_descriptor": {
+    "addr": "0x8001c034",
+    "index_from_D_8001BF80": 9,
+    "area": 12,
+    "room": 23,
+    "record_ptr": "0x8001c28c",
+    "word0": "0x01816000",
+    "word1": "0x00001857",
+    "sectors": 3,
+    "dest": "0x80016000",
+    "lba": "0x1857",
+    "town_file": "0x629000",
+    "door_actor_records": [
+      "0x2b454c"
+    ]
+  },
+  "loader_evidence": "docs/evidence/town_scene_loader_receipt.json",
+  "local_jumps": [
+    {
+      "foff": 6460568,
+      "word": "0x0800592A",
+      "target": 2147574952,
+      "target_foff": 6460584,
+      "target_words": [
+        "0x9223FFED",
+        "0x24020080",
+        "0x1462FFE5",
+        "0x02002021"
+      ]
+    },
+    {
+      "foff": 6460728,
+      "word": "0x08005954",
+      "target": 2147575120,
+      "target_foff": 6460752,
+      "target_words": [
+        "0x0C005CA4",
+        "0x00042403",
+        "0x8FBF0020",
+        "0x8FB3001C"
+      ]
+    },
+    {
+      "foff": 6461364,
+      "word": "0x080059F4",
+      "target": 2147575760,
+      "target_foff": 6461392,
+      "target_words": [
+        "0x03E00008",
+        "0x01001021",
+        "0x27BDFFE0",
+        "0xAFBF0018"
+      ]
+    },
+    {
+      "foff": 6461436,
+      "word": "0x08005A0B",
+      "target": 2147575852,
+      "target_foff": 6461484,
+      "target_words": [
+        "0x8FBF0018",
+        "0x8FB10014",
+        "0x8FB00010",
+        "0x27BD0020"
+      ]
+    },
+    {
+      "foff": 6461716,
+      "word": "0x08005A51",
+      "target": 2147576132,
+      "target_foff": 6461764,
+      "target_words": [
+        "0x8FBF0018",
+        "0x8FB10014",
+        "0x8FB00010",
+        "0x27BD0020"
+      ]
+    },
+    {
+      "foff": 6462360,
+      "word": "0x08005AF2",
+      "target": 2147576776,
+      "target_foff": 6462408,
+      "target_words": [
+        "0x00521021",
+        "0x84440000",
+        "0x0C005CC2",
+        "0x26310001"
+      ]
+    },
+    {
+      "foff": 6462608,
+      "word": "0x08005B13",
+      "target": 2147576908,
+      "target_foff": 6462540,
+      "target_words": [
+        "0x8E420010",
+        "0x00118100",
+        "0x02021021",
+        "0x8444000C"
+      ]
+    },
+    {
+      "foff": 6462968,
+      "word": "0x08005B8A",
+      "target": 2147577384,
+      "target_foff": 6463016,
+      "target_words": [
+        "0x26310001",
+        "0x001110C0",
+        "0x00511023",
+        "0x00021080"
+      ]
+    },
+    {
+      "foff": 6464088,
+      "word": "0x08005C9D",
+      "target": 2147578484,
+      "target_foff": 6464116,
+      "target_words": [
+        "0x90A20000",
+        "0x00000000",
+        "0x1440FFF8",
+        "0x00000000"
+      ]
+    },
+    {
+      "foff": 6464476,
+      "word": "0x08005CFC",
+      "target": 2147578864,
+      "target_foff": 6464496,
+      "target_words": [
+        "0x03E00008",
+        "0x00000000",
+        "0x07A707A6",
+        "0x00000000"
+      ]
+    },
+    {
+      "foff": 6464484,
+      "word": "0x08005CFC",
+      "target": 2147578864,
+      "target_foff": 6464496,
+      "target_words": [
+        "0x03E00008",
+        "0x00000000",
+        "0x07A707A6",
+        "0x00000000"
+      ]
+    }
+  ],
+  "shared_epilogue_anchors": [
+    {
+      "foff": 6461364,
+      "word": "0x080059F4",
+      "target": 2147575760,
+      "target_foff": 6461392,
+      "target_words": [
+        "0x03E00008",
+        "0x01001021",
+        "0x27BDFFE0",
+        "0xAFBF0018"
+      ]
+    },
+    {
+      "foff": 6464476,
+      "word": "0x08005CFC",
+      "target": 2147578864,
+      "target_foff": 6464496,
+      "target_words": [
+        "0x03E00008",
+        "0x00000000",
+        "0x07A707A6",
+        "0x00000000"
+      ]
+    },
+    {
+      "foff": 6464484,
+      "word": "0x08005CFC",
+      "target": 2147578864,
+      "target_foff": 6464496,
+      "target_words": [
+        "0x03E00008",
+        "0x00000000",
+        "0x07A707A6",
+        "0x00000000"
+      ]
+    }
+  ],
+  "town_sha256": "907725012d8d9e1deab18c28b62f4d304057e86a6415df605b9ffb87cfb2fe18",
+  "affected_rows": [
+    "func_806A9100"
+  ],
+  "old_regions": [],
+  "native_proof_artifacts": "work/module_proofs/town_ovl_629100/module/receipt.json",
+  "source_sha256": {
+    "src/town/modules/ovl_629100.c": "70b22167d87b366ef1dde612b83ccc19893a08fa10aa980d77c8620e9a1f1be7",
+    "include/modules/town_ovl_629100.h": "450e10e7d782094f5f0f2f43b5a3991249ae4dd011ee3a0eecd84e3b24135160",
+    "src/town/func_806A9100.c": "f098fcf83205a6fd34c4eac21d1a0e76a2cececfc7f0dd882db96a10f801a0b4"
+  },
+  "retail_body_sha256": {
+    "town/func_806A9100": "be9c7c934e5f2f1e8047ba8b54808ab02a884e4d16af8c2020eebc4432e10bf3"
+  }
+}

@@ -1,45 +1,12 @@
-#include "common.h"
-#include "shared/object_flags.h"
-#include "records/Rec_func_800249DC_arg0.h"
+#include "modules/dungeon_ovl_7e71d800.h"
 
-
-extern void func_800478B8(void *visual);
-
-
-typedef struct S_800249DC_0_pre {
-    u16 unk_00;
-} S_800249DC_0_pre;   /* the 0x2 bytes before arg0 in func_800249DC, addressed as arg0[-1] */
-
-
-typedef struct S_800249DC_1 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_800249DC_1;   /* temp_ptr in func_800249DC */
-
-typedef struct S_800249DC_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800249DC_2;   /* arg1 in func_800249DC */
-
-typedef struct S_800249DC_3 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0x6];
-    union { u8 u8; s32 s32; } unk_0C;   /* accessed as both */
-    u8 pad_10[0x4];
-    u16 unk_14;
-} S_800249DC_3;   /* arg2 in func_800249DC */
-
-/* Advance the target, ease the position toward it, and update visual brightness and flags. */
-void func_800249DC(void *motion, S_800249DC_2 *position, S_800249DC_3 *visual) {
+void func_800249DC(void *motion, Row_818E71DC_S_800249DC_2 *position, Row_818E71DC_S_800249DC_3 *visual) {
     s32 current_x;
     s32 current_y;
     s32 current_z;
     s32 delta;
     u16 ticks_left;
-    S_800249DC_1 *owner;
+    Row_818E71DC_S_800249DC_1 *owner;
 
     owner = ((Rec_func_800249DC_arg0 *)motion)->unk_00.at00_pv.v;
     owner->unk_10 =
@@ -79,8 +46,8 @@ void func_800249DC(void *motion, S_800249DC_2 *position, S_800249DC_3 *visual) {
     }
 
     if ((u8)visual->unk_0C.u8 >= 0x60U) {
-        ((S_800249DC_0_pre *)motion)[-1].unk_00 =
-            (u16)(((S_800249DC_0_pre *)motion)[-1].unk_00 | 0x8000);
+        ((Row_818E71DC_S_800249DC_0_pre *)motion)[-1].unk_00 =
+            (u16)(((Row_818E71DC_S_800249DC_0_pre *)motion)[-1].unk_00 | 0x8000);
         objectFlagBlock.flags = (s32)(objectFlagBlock.flags | 0x8000);
         return;
     }

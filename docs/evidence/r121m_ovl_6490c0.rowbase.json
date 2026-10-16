@@ -1,0 +1,203 @@
+{
+  "module": "town_ovl_6490c0",
+  "group": "ovl_6490c0.c#45",
+  "delta": 2140983296,
+  "start": 6590464,
+  "end": 6598656,
+  "local_jumps": [
+    {
+      "foff": 6592204,
+      "word": "0x080059B7",
+      "target": 2147575516,
+      "target_foff": 6592220,
+      "target_words": [
+        "0x9223FFED",
+        "0x24020080",
+        "0x1462FFE5",
+        "0x02002021"
+      ]
+    },
+    {
+      "foff": 6592364,
+      "word": "0x080059E1",
+      "target": 2147575684,
+      "target_foff": 6592388,
+      "target_words": [
+        "0x0C005D31",
+        "0x00042403",
+        "0x8FBF0020",
+        "0x8FB3001C"
+      ]
+    },
+    {
+      "foff": 6593000,
+      "word": "0x08005A81",
+      "target": 2147576324,
+      "target_foff": 6593028,
+      "target_words": [
+        "0x03E00008",
+        "0x01001021",
+        "0x27BDFFE0",
+        "0xAFBF0018"
+      ]
+    },
+    {
+      "foff": 6593072,
+      "word": "0x08005A98",
+      "target": 2147576416,
+      "target_foff": 6593120,
+      "target_words": [
+        "0x8FBF0018",
+        "0x8FB10014",
+        "0x8FB00010",
+        "0x27BD0020"
+      ]
+    },
+    {
+      "foff": 6593352,
+      "word": "0x08005ADE",
+      "target": 2147576696,
+      "target_foff": 6593400,
+      "target_words": [
+        "0x8FBF0018",
+        "0x8FB10014",
+        "0x8FB00010",
+        "0x27BD0020"
+      ]
+    },
+    {
+      "foff": 6593996,
+      "word": "0x08005B7F",
+      "target": 2147577340,
+      "target_foff": 6594044,
+      "target_words": [
+        "0x00521021",
+        "0x84440000",
+        "0x0C005D4F",
+        "0x26310001"
+      ]
+    },
+    {
+      "foff": 6594244,
+      "word": "0x08005BA0",
+      "target": 2147577472,
+      "target_foff": 6594176,
+      "target_words": [
+        "0x8E420010",
+        "0x00118100",
+        "0x02021021",
+        "0x8444000C"
+      ]
+    },
+    {
+      "foff": 6594604,
+      "word": "0x08005C17",
+      "target": 2147577948,
+      "target_foff": 6594652,
+      "target_words": [
+        "0x26310001",
+        "0x001110C0",
+        "0x00511023",
+        "0x00021080"
+      ]
+    },
+    {
+      "foff": 6595724,
+      "word": "0x08005D2A",
+      "target": 2147579048,
+      "target_foff": 6595752,
+      "target_words": [
+        "0x90A20000",
+        "0x00000000",
+        "0x1440FFF8",
+        "0x00000000"
+      ]
+    },
+    {
+      "foff": 6596112,
+      "word": "0x08005D89",
+      "target": 2147579428,
+      "target_foff": 6596132,
+      "target_words": [
+        "0x03E00008",
+        "0x00000000",
+        "0x3C028001",
+        "0x8C426000"
+      ]
+    },
+    {
+      "foff": 6596120,
+      "word": "0x08005D89",
+      "target": 2147579428,
+      "target_foff": 6596132,
+      "target_words": [
+        "0x03E00008",
+        "0x00000000",
+        "0x3C028001",
+        "0x8C426000"
+      ]
+    },
+    {
+      "foff": 6596364,
+      "word": "0x08005DC8",
+      "target": 2147579680,
+      "target_foff": 6596384,
+      "target_words": [
+        "0x26100001",
+        "0x0213102A",
+        "0x1440FFF4",
+        "0x32220001"
+      ]
+    }
+  ],
+  "shared_epilogue_anchors": [
+    {
+      "foff": 6593000,
+      "word": "0x08005A81",
+      "target": 2147576324,
+      "target_foff": 6593028,
+      "target_words": [
+        "0x03E00008",
+        "0x01001021",
+        "0x27BDFFE0",
+        "0xAFBF0018"
+      ]
+    },
+    {
+      "foff": 6596112,
+      "word": "0x08005D89",
+      "target": 2147579428,
+      "target_foff": 6596132,
+      "target_words": [
+        "0x03E00008",
+        "0x00000000",
+        "0x3C028001",
+        "0x8C426000"
+      ]
+    },
+    {
+      "foff": 6596120,
+      "word": "0x08005D89",
+      "target": 2147579428,
+      "target_foff": 6596132,
+      "target_words": [
+        "0x03E00008",
+        "0x00000000",
+        "0x3C028001",
+        "0x8C426000"
+      ]
+    }
+  ],
+  "loader_evidence": "docs/evidence/town_scene_loader_receipt.json",
+  "loader_basis": "Packed scene descriptor names TOWN 0x649000; sector extent 4 sectors; destination 0x80016000. Deltas independently reproduce all 12 in-image direct-jump CFG targets, including the shared jr ra epilogue. TOWN input SHA256 matches the loader receipt.",
+  "town_sha256": "907725012d8d9e1deab18c28b62f4d304057e86a6415df605b9ffb87cfb2fe18",
+  "affected_rows": [
+    "func_806C90C0",
+    "func_806C90F8",
+    "func_806C91D8"
+  ],
+  "additional_groups": [
+    "ovl_6490f8.c#46"
+  ],
+  "old_regions": []
+}

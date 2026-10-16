@@ -1,0 +1,40 @@
+{
+  "resource_id": 17,
+  "slot": 1,
+  "lba": 18572,
+  "destination": 2148968448,
+  "file_start": 12824576,
+  "file_end": 12849152,
+  "delta": 2136143872,
+  "sectors": 12,
+  "status": "PROVEN_STATIC_TRANSFER",
+  "runtime_observed": false,
+  "loader_receipt": "docs/evidence/dungeon_normal_resource_loader.json",
+  "loader_receipt_sha256": "363507fb11e119d2f1abfb0dbae4c7d7ea63f39d61cbb5fecdeb1e39b78f3a87",
+  "disc_container_equal": true,
+  "all_sector_payloads_equal": true,
+  "loaded_bank_sha256": "699bc1f78fd96edcbb5b5c0461568d5aa84aedb5684f556c9b3d048f31aa6f40",
+  "previous_regions": [
+    {
+      "schema": "azure-clean.rowbase.v1",
+      "region": "sweep_0C3B000",
+      "foff_start": "0xC3B000",
+      "foff_end": "0xC3B3B8",
+      "delta": "0x7F52F800",
+      "base_confidence": "proven",
+      "proof": "j-solve sweep 2026-07-19 (decision C): unique 0x800-aligned delta with full j-consistency across 1 row(s); scoring-only until a byte-exact recompile promotes to proven; PROMOTED solved->proven: byte-exact recompile func_80C1B09C at true base 0x8016A89C (candidate sha 5e113cac136c @ 2.8.1-G0, linked-strict isolation compare, phase-2 item-3 hook)"
+    },
+    {
+      "schema": "azure-clean.rowbase.v1",
+      "region": "img_c3c000_8016b800",
+      "foff_start": "0xC3C000",
+      "foff_end": "0xC3EC94",
+      "delta": "0x7F52F800",
+      "base_confidence": "solved",
+      "proof": "static per-floor image base proof 2026-08-23 (docs/port_handback_20260822/dungeon_base_proofs/proofs.json, image img0127@0xC3C000, verdict PROVEN, K 0x7F52F800). M1 local-`j` containment: 12 of 24 functions in the image are pinned to this delta by 72 in-function absolute `j` target(s) that can only land inside their own function's span, 0 more by in-function switch-table containment, pin_conflict=false, under the measured image-base law K = 0 mod 0x800; M4 Evidence-B1 5 same-K `jal` onto in-image function start(s) of 5 in-band target(s), in-image coherence 1.00; M5 Evidence-B2 2/2 switch table(s) resolved in span, 0 violation(s); M6 Evidence-A 27 resident-EXE call confirm(s) over 4 distinct callee(s), 0 contra; M7 94 re-link resident identit(y/ies), 7 unexplained; M3 0/0 leading inline jump table(s) fully contained; corroborating methods: b1-same-K-call-hits, evidence-A-resident-calls, b2-switch-table-containment, relink-resident-identity; EXTENT = 24 of the image's own member function span(s), 0xC3C000-0xC3EC94; the image's other bytes are either already covered by an existing rowbase record (none) or are not member spans, and are left uncovered rather than asserted; gate window dungeon_deep_c3c000_truebase_8016b800 (0xC3C000-0xC3EC94) states this same base and re-gated MATCH against the container on 2026-08-23 (381/381); STATIC EVIDENCE ONLY -- no RAM capture, no overlay-streamer transfer observed at runtime, nothing here is a runtime observation. Scoring-grade (`solved`) until a byte-exact recompile at this base promotes it via tools/rowbase.py promote"
+    }
+  ],
+  "basis": "Complete twelve-sector load extent follows directly from verified retail loader arithmetic. Existing proven byte recompiles within this bank independently agree on the same delta. Coverage extends to external data without asserting native ownership of that data.",
+  "review": "pending",
+  "reviewer": null
+}

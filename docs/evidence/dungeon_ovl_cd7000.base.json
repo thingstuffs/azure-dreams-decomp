@@ -1,0 +1,198 @@
+{
+  "module": "dungeon_ovl_cd7000",
+  "delta": 2135382016,
+  "image_start": 13463552,
+  "image_end": 13488128,
+  "static_only": true,
+  "witnesses": [],
+  "basis": "All 30 nonzero entries of this 31-word head are the same table as the j-proven cb3000 image, shifted by one constant runtime-slot displacement; the zero entry stays zero. At least two distinct independently file-mapped target instruction prefixes also match the reference image. The 164-byte initializer body after the table is identical. This is a table/target fingerprint, not proximity interpolation. Static evidence only; complete-row recompilation is separately required.",
+  "method": "relocated jump/callback-table fingerprint",
+  "reference_image": 13316096,
+  "reference_delta": 2135676928,
+  "table_entries": [
+    2148846172,
+    2148846628,
+    2148848656,
+    2148848656,
+    2148848656,
+    2148848700,
+    2148848572,
+    2148848572,
+    2148848572,
+    2148848516,
+    2148848516,
+    2148848700,
+    2148848700,
+    2148848640,
+    2148855024,
+    2148855016,
+    2148855008,
+    2148855032,
+    2148854944,
+    2148854936,
+    2148854928,
+    0,
+    2148863348,
+    2148863360,
+    2148863412,
+    2148863652,
+    2148863864,
+    2148864132,
+    2148864184,
+    2148864312,
+    2148864448
+  ],
+  "reference_entries": [
+    2148993628,
+    2148994084,
+    2148996112,
+    2148996112,
+    2148996112,
+    2148996156,
+    2148996028,
+    2148996028,
+    2148996028,
+    2148995972,
+    2148995972,
+    2148996156,
+    2148996156,
+    2148996096,
+    2149002480,
+    2149002472,
+    2149002464,
+    2149002488,
+    2149002400,
+    2149002392,
+    2149002384,
+    0,
+    2149010804,
+    2149010816,
+    2149010868,
+    2149011108,
+    2149011320,
+    2149011588,
+    2149011640,
+    2149011768,
+    2149011904
+  ],
+  "nonzero_entries": 30,
+  "uniform_pointer_delta": -147456,
+  "target_code_matches": [
+    {
+      "entry": 0,
+      "vma": 2148846172,
+      "foff": 13464156,
+      "reference_foff": 13316700,
+      "head16": "c8ffbd271c00b3af219880001000b0af"
+    },
+    {
+      "entry": 1,
+      "vma": 2148846628,
+      "foff": 13464612,
+      "reference_foff": 13317156,
+      "head16": "0880023c62344294d0ffbd271400b1af"
+    },
+    {
+      "entry": 6,
+      "vma": 2148848572,
+      "foff": 13466556,
+      "reference_foff": 13319100,
+      "head16": "24000492250005921800a2271000a2af"
+    },
+    {
+      "entry": 7,
+      "vma": 2148848572,
+      "foff": 13466556,
+      "reference_foff": 13319100,
+      "head16": "24000492250005921800a2271000a2af"
+    },
+    {
+      "entry": 8,
+      "vma": 2148848572,
+      "foff": 13466556,
+      "reference_foff": 13319100,
+      "head16": "24000492250005921800a2271000a2af"
+    },
+    {
+      "entry": 17,
+      "vma": 2148855032,
+      "foff": 13473016,
+      "reference_foff": 13325560,
+      "head16": "2188000000002292000000003f004010"
+    },
+    {
+      "entry": 24,
+      "vma": 2148863412,
+      "foff": 13481396,
+      "reference_foff": 13333940,
+      "head16": "0880023c283242842a00438600000000"
+    },
+    {
+      "entry": 25,
+      "vma": 2148863652,
+      "foff": 13481636,
+      "reference_foff": 13334180,
+      "head16": "9600239600000000ffff6224960022a6"
+    },
+    {
+      "entry": 26,
+      "vma": 2148863864,
+      "foff": 13481848,
+      "reference_foff": 13334392,
+      "head16": "19ff000c1200042421804000a4000012"
+    },
+    {
+      "entry": 27,
+      "vma": 2148864132,
+      "foff": 13482116,
+      "reference_foff": 13334660,
+      "head16": "ac00308e000000000c00108e00000000"
+    },
+    {
+      "entry": 28,
+      "vma": 2148864184,
+      "foff": 13482168,
+      "reference_foff": 13334712,
+      "head16": "9b002392060002245500621421206002"
+    },
+    {
+      "entry": 29,
+      "vma": 2148864312,
+      "foff": 13482296,
+      "reference_foff": 13334840,
+      "head16": "212080021394020c2128400234004010"
+    },
+    {
+      "entry": 30,
+      "vma": 2148864448,
+      "foff": 13482432,
+      "reference_foff": 13334976,
+      "head16": "9600229600000000ffff4224960022a6"
+    }
+  ],
+  "members": [
+    {
+      "id": "dungeon/func_80CB7000",
+      "foff": 13463552,
+      "size": 288
+    }
+  ],
+  "aligned_fingerprint_candidates": [
+    {
+      "delta": 2135377920,
+      "matching_target_prefixes": 0,
+      "distinct_matching_targets": 0
+    },
+    {
+      "delta": 2135379968,
+      "matching_target_prefixes": 0,
+      "distinct_matching_targets": 0
+    },
+    {
+      "delta": 2135382016,
+      "matching_target_prefixes": 13,
+      "distinct_matching_targets": 11
+    }
+  ],
+  "unique_candidate": 2135382016
+}

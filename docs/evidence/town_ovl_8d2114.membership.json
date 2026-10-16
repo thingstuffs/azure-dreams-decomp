@@ -1,0 +1,20 @@
+{
+  "module": "town_ovl_8d2114",
+  "ledger_group": {
+    "container": "town",
+    "module": "ovl_8d2114.c",
+    "module_index": 88
+  },
+  "members": [
+    "town/func_80952114"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Complete singleton ledger group; historical TU boundary unobservable.",
+  "basis": [
+    "The entire 16-byte cohort returns an external retained byte-array address.",
+    "Two distinct raw CFG blocks independently fix the scene delta before the getter is recompiled exactly."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120"
+}

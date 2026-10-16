@@ -1,0 +1,38 @@
+{
+  "module": "dungeon_ovl_190d6a4",
+  "maps": {
+    "native_bank_native_ovl_7e717800_map": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 26265600,
+      "file_end": 26290176,
+      "delta": 2121365504,
+      "basis": "Authenticated selector load receipt; externally referenced data view only.",
+      "kind": "rowbase",
+      "region": "native_ovl_7e717800_map"
+    }
+  },
+  "views": {
+    "D_80026428": {
+      "symbol": "D_80026428",
+      "kind": "data",
+      "vma": 2147640360,
+      "foff": 26274856,
+      "view_bytes": 1,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_bank_native_ovl_7e717800_map",
+      "evidence": "docs/evidence/dungeon_ovl_190d6a4.imports.json"
+    }
+  },
+  "runtime_views": {
+    "D_800814A0": {
+      "symbol": "D_800814A0",
+      "kind": "runtime_data",
+      "vma": 2148013216,
+      "view_bytes": 16,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_190d6a4.imports.json",
+      "declaration": "include/shared/object_flags.h"
+    }
+  }
+}

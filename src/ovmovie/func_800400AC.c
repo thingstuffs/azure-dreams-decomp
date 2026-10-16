@@ -1,33 +1,4 @@
-#include "common.h"
-#include "shared/game_work.h"
-
-extern s32 Control_CD(s32, s32, s32);
-extern void func_8003F320(void);
-extern void SD_Call(s32);
-extern void func_800542BC(void);
-extern void func_8005A4E8(s32, s32, s32);
-extern void func_8005A56C(s32, s16, s16);
-extern void func_8005FE18(s32);
-extern void func_80060DE8(s32);
-extern void func_80061208(s32);
-extern void func_80066F78(s32);
-extern void func_80067014(s32);
-extern void func_8006751C(void *, s32);
-extern void func_80067688(void *);
-extern void func_800678E0(void *);
-extern void func_80176AD8(s32);
-extern void func_80176B3C(s32, s32);
-extern void func_8017719C(s32, s32, s32, s32);
-extern void func_8017797C(s32);
-
-extern s8 D_80080A88;
-extern s32 D_80082E60;
-extern s32 D_801781E0;
-extern s32 D_801781E4;
-extern s32 D_80189394;
-extern s32 D_801B8EB8;
-extern s32 D_801B8EBC;
-extern u8 D_801C9E40[];
+#include "modules/ovmovie_game.h"
 
 /* Plays the selected movie and resets both frame buffers afterward. */
 void func_801768AC(void) {
@@ -37,7 +8,7 @@ void func_801768AC(void) {
     u8 *resident_globals_hi = (u8 *) 0x80080000;
     u8 *movie_globals_hi;
 
-    D_80082E60 &= ~1;
+    D_80082E60.field_0 &= ~1;
     if (D_80080A88 == 0) {
         SD_Call(0x7F);
         func_800542BC();

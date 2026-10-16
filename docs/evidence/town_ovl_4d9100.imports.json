@@ -1,0 +1,33 @@
+{
+  "module": "town_ovl_4d9100",
+  "views": {
+    "D_80016000": {
+      "symbol": "D_80016000",
+      "kind": "data",
+      "vma": 2147573760,
+      "foff": 5083136,
+      "view_bytes": 4,
+      "owner": "retail_asset:town:r121m_cfg_ovl_4d9100",
+      "evidence": "docs/evidence/town_ovl_4d9100.imports.json"
+    },
+    "D_800173FC": {
+      "symbol": "D_800173FC",
+      "kind": "data",
+      "vma": 2147578876,
+      "foff": 5088252,
+      "view_bytes": 1,
+      "owner": "retail_asset:town:r121m_cfg_ovl_4d9100",
+      "evidence": "docs/evidence/town_ovl_4d9100.imports.json"
+    },
+    "D_80017494": {
+      "symbol": "D_80017494",
+      "kind": "data",
+      "vma": 2147579028,
+      "foff": 5088404,
+      "view_bytes": 4,
+      "owner": "retail_asset:town:r121m_cfg_ovl_4d9100",
+      "evidence": "docs/evidence/town_ovl_4d9100.imports.json"
+    }
+  },
+  "basis": "Every undefined symbol is a data view in the independently proved contiguous scene map. The root/pointer/scalar slots require four bytes; the address-only char array view makes no allocation-bound claim. Callback offsets and register arguments are expressed through the existing shared root headers, with no copied structures or duplicate declarations."
+}

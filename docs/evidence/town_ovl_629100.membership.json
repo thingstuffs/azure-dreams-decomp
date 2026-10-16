@@ -1,0 +1,21 @@
+{
+  "module": "town_ovl_629100",
+  "ledger_group": {
+    "container": "town",
+    "module": "ovl_629100.c",
+    "module_index": 43
+  },
+  "members": [
+    "town/func_806A9100"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Complete ledger cohort; historical TU boundary unobservable.",
+  "basis": [
+    "All ledger members are contiguous, in retail order and use one compiler recipe.",
+    "The scene descriptor and raw local jump CFG correspondences establish one load map.",
+    "Shared header reconciles declarations; emitted payload contains only the declared functions. All storage remains imported from the loaded image."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120"
+}

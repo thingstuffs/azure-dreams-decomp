@@ -1,0 +1,63 @@
+#ifndef DUNGEON_OVL_7F511800_P01_H
+#define DUNGEON_OVL_7F511800_P01_H
+#include "common.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_status.h"
+#include "shared/dir_step.h"
+
+typedef struct T_80172664_S_80172664_0 {
+    u8 pad_00[0x1C];
+    s32 unk_1C;
+    u8 pad_20[0xA];
+    s16 unk_2A;
+    u8 pad_2C[0x1A];
+    u16 unk_46;
+    u8 pad_48[0x25];
+    s8 unk_6D;
+} T_80172664_S_80172664_0;   /* arg3 in func_80172664 */
+
+typedef struct T_80172664_S_80172664_1 {
+    u8 pad_00[0x8C];
+    u8 * unk_8C;
+    s32 unk_90;
+    u8 pad_94[0x2];
+    union { u16 s; s16 u; } unk_96;   /* accessed as both */
+    u16 unk_98;
+    u8 pad_9A[0x1];
+    u8 unk_9B;
+} T_80172664_S_80172664_1;   /* arg0 in func_80172664 */
+
+typedef struct T_80172664_S_80172664_2 {
+    u8 pad_00[0x14];
+    u16 unk_14;
+    u8 pad_16[0xE];
+    u8 unk_24;
+    u8 unk_25;
+} T_80172664_S_80172664_2;   /* arg2 in func_80172664 */
+
+typedef struct T_80172664_S_80172664_3 {
+    u8 pad_00[0x2];
+    s16 unk_02;
+    u8 pad_04[0x2];
+    s16 unk_06;
+    u8 pad_08[0x4];
+    s32 unk_0C;
+    s32 unk_10;
+    s32 unk_14;
+} T_80172664_S_80172664_3;   /* arg1 in func_80172664 */
+
+
+
+extern void func_80047784(void *, u8, s32);
+extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void func_800A2B04(void *, u8, u8);
+extern void func_800A4ACC(void *);
+extern void func_800A56E0(s32);
+extern void func_800AD594(void *, s32);
+extern void * D_800E3DE8;
+extern u8 D_80170E7C;
+extern u8 D_80174D7C;
+extern u8 D_80174D84;
+extern u8 D_80174D8C;
+void func_80172664(void *animation, void *motion, void *sprite, void *actor);
+#endif

@@ -1,62 +1,6 @@
-#include "common.h"
+#include "modules/dungeon_ovl_7e705800.h"
 
-#ifndef NULL
-#define NULL 0
-#endif
-
-typedef struct S_818FECCC_0 {
-    u8 pad_00[0x8];
-    union { void * s; s32 u; } unk_08;   /* accessed as both */
-    u8 pad_0C[0x4];
-    s32 unk_10;
-    s16 unk_14;
-    u8 pad_16[0x1C];
-    s16 unk_32;
-} S_818FECCC_0;   /* temp_s0 in func_818FECCC */
-
-typedef struct S_818FECCC_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_818FECCC_1;   /* held_arg0 in func_818FECCC */
-
-typedef struct S_818FECCC_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-} S_818FECCC_2;   /* dest1 in func_818FECCC */
-
-typedef struct S_818FECCC_3 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-} S_818FECCC_3;   /* dest2 in func_818FECCC */
-
-typedef struct S_818FECCC_4 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_818FECCC_4;   /* call_obj in func_818FECCC */
-
-typedef struct S_818FECCC_5 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_818FECCC_5;   /* dest3 in func_818FECCC */
-
-typedef struct S_818FECCC_6 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_818FECCC_6;   /* ((S_818FECCC_1 *)held_arg0)->unk_08 in func_818FECCC */
-
-
-extern void *func_8003FD64(s32, void *);
-extern s32 func_80069EF8(void);
-extern void func_8004491C(void *, void *);
-extern u8 D_800241B0[];
-extern u8 D_80024400[];
-
-/* Creates an effect at randomized offsets from the source object's position. */
-void func_818FECCC(
+void func_800244CC(
     void *source,
     s16 field_34,
     s32 field_28,
@@ -69,7 +13,7 @@ void func_818FECCC(
     u32 saved_field_28 = field_28;
     s16 saved_field_52 = field_52;
     void *object_cursor;
-    S_818FECCC_0 *fields;
+    Row_818FECCC_S_818FECCC_0 *fields;
     s32 jitter_x;
     s32 jitter_y;
     s32 jitter_z;
@@ -80,24 +24,24 @@ void func_818FECCC(
     s16 position_y;
     s16 position_z;
     void *init_data;
-    S_818FECCC_2 *dest_x;
-    S_818FECCC_3 *dest_y;
-    S_818FECCC_5 *dest_z;
+    Row_818FECCC_S_818FECCC_2 *dest_x;
+    Row_818FECCC_S_818FECCC_3 *dest_y;
+    Row_818FECCC_S_818FECCC_5 *dest_z;
 
     object_cursor = func_8003FD64(0x211, source_obj);
     if (object_cursor != NULL) {
-        ((S_818FECCC_0 *)object_cursor)->unk_10 = (s32)D_80024400;
+        ((Row_818FECCC_S_818FECCC_0 *)object_cursor)->unk_10 = (s32)D_80024400;
         jitter_x = func_80069EF8() & 0x1F;
-        position_x = ((S_818FECCC_6 *)(((S_818FECCC_1 *)source_obj)->unk_08))->unk_02;
-        dest_x = ((S_818FECCC_0 *)object_cursor)->unk_08.s;
+        position_x = ((Row_818FECCC_S_818FECCC_6 *)(((Row_818FECCC_S_818FECCC_1 *)source_obj)->unk_08))->unk_02;
+        dest_x = ((Row_818FECCC_S_818FECCC_0 *)object_cursor)->unk_08.s;
         position_x += jitter_x;
         bias_x = offset_x - 0x10;
         position_x += bias_x;
         dest_x->unk_02 = (s16)position_x;
 
         jitter_y = func_80069EF8() & 0x1F;
-        position_y = ((S_818FECCC_6 *)(((S_818FECCC_1 *)source_obj)->unk_08))->unk_06;
-        dest_y = ((S_818FECCC_0 *)object_cursor)->unk_08.s;
+        position_y = ((Row_818FECCC_S_818FECCC_6 *)(((Row_818FECCC_S_818FECCC_1 *)source_obj)->unk_08))->unk_06;
+        dest_y = ((Row_818FECCC_S_818FECCC_0 *)object_cursor)->unk_08.s;
         position_y += jitter_y;
         bias_y = offset_y - 0x10;
         position_y += bias_y;
@@ -106,9 +50,9 @@ void func_818FECCC(
         jitter_z = func_80069EF8();
         init_data = &D_800241B0;
         jitter_z &= 0x1F;
-        position_z = ((S_818FECCC_6 *)(((S_818FECCC_1 *)source_obj)->unk_08))->unk_0A;
-        fields = (S_818FECCC_0 *)((u8 *)object_cursor + 0x20);
-        dest_z = ((S_818FECCC_4 *)object_cursor)->unk_08;
+        position_z = ((Row_818FECCC_S_818FECCC_6 *)(((Row_818FECCC_S_818FECCC_1 *)source_obj)->unk_08))->unk_0A;
+        fields = (Row_818FECCC_S_818FECCC_0 *)((u8 *)object_cursor + 0x20);
+        dest_z = ((Row_818FECCC_S_818FECCC_4 *)object_cursor)->unk_08;
         position_z += jitter_z;
         bias_z = offset_z + 0x10;
         position_z += bias_z;

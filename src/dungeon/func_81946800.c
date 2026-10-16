@@ -1,37 +1,6 @@
-#include "common.h"
-#include "shared/object_node.h"
-#include "shared/tile_object.h"
-#include "shared/record_ptrs.h"
-#include "shared/slus_callbacks.h"
-#include "shared/game_work.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
-#include "shared/entity.h"
+#include "modules/dungeon_ovl_1966800.h"
 
-
-/* Row head: the 884-byte row begins with one raw data word (0x80024004)
- * ahead of the code entry. Landed idiom (overlays/dungeon/first_pass_matched/
- * func_8199A800.c): label the row symbol at the head of the function's own
- * named section, emit the word there, and compile the body into the same
- * section under a renamed assembler symbol so the bytes stay contiguous. */
-#ifdef __mips__
-__asm__(".section .text.func_81946800,\"a\",@progbits\n.globl func_81946800\n.type func_81946800,@function\nfunc_81946800:\n.size func_81946800, 884");
-static const u32 func_81946800_head[] __attribute__((section(".text.func_81946800"))) = { 0x80024004 };
-#endif
-extern s32 func_8003DE58(s32, void *, s16 *, s32);
-extern void *func_8003FD64(s32, void *);
-extern void func_8004491C(void *, void *);
-extern void func_80047784(void *, u8, s32);
-extern s32 func_80053EF0(s32);
-extern void func_800A56E0(s32);
-extern s32 D_80024374;
-#ifdef __mips__
-void func_81946800(void *action_in, void *saved_position) __asm__("func_81946800_body")
-__attribute__((section(".text.func_81946800")));
-#endif
-
-/* Advance a timed action, spawn its effect, and update completion flags. */
-void func_81946800(void *action, void *saved_position)
+void func_80024004(void *action, void *saved_position)
 {
     void *owner_work;
     u8 *owner;

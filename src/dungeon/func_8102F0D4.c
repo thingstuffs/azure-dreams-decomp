@@ -11,11 +11,11 @@ typedef struct S_8102F0D4_0 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8102F0D4_0;   /* arg1 in func_8102F0D4 */
+} S_8102F0D4_0;   /* arg1 in func_801708D4 */
 
 typedef struct S_8102F0D4_1_pre {
     u16 unk_00;
-} S_8102F0D4_1_pre;   /* the 0x2 bytes before arg0 in func_8102F0D4, addressed as arg0[-1] */
+} S_8102F0D4_1_pre;   /* the 0x2 bytes before arg0 in func_801708D4, addressed as arg0[-1] */
 
 typedef struct S_8102F0D4_1 {
     u8 pad_00[0x94];
@@ -23,7 +23,7 @@ typedef struct S_8102F0D4_1 {
     u16 unk_96;
     u8 pad_98[0x10];
     void * unk_A8;
-} S_8102F0D4_1;   /* arg0 in func_8102F0D4 */
+} S_8102F0D4_1;   /* arg0 in func_801708D4 */
 
 typedef struct S_8102F0D4_2 {
     u8 pad_00[0x2];
@@ -32,7 +32,7 @@ typedef struct S_8102F0D4_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8102F0D4_2;   /* temp_v1 in func_8102F0D4 */
+} S_8102F0D4_2;   /* temp_v1 in func_801708D4 */
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -42,7 +42,7 @@ s32 func_80065420();
 extern s32 func_800478B8();
 
 /* Updates relative depth with a direction offset and flags expiration when the countdown ends. */
-void func_8102F0D4(void *state, S_8102F0D4_0 *position, Rec_D_80082E80 *entity) {
+void func_801708D4(void *state, S_8102F0D4_0 *position, Rec_D_80082E80 *entity) {
     u16 coords[3];
     M2C_S64 transform_result;
     s16 transform_aux;

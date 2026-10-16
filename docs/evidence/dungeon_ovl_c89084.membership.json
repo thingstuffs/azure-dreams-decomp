@@ -1,0 +1,52 @@
+{
+  "module": "dungeon_ovl_c89084",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_c89084.c",
+    "module_index": 53
+  },
+  "members": [
+    "dungeon/func_80C69084"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Historical object boundary is not observable; native module is the complete existing one-row ledger cohort.",
+  "basis": [
+    "Complete ledger cohort is one contiguous 480-byte retail function. No other ledger group shares this row.",
+    "One proven load region row_c89084_80170884 binds this function to 0x80170884. The adjacent rows are outside the ledger cohort; they are not claimed.",
+    "One rendering loop builds point and draw-mode GPU packets, traverses a linked object list, and updates the resident packet cursor. Its three direct calls are resident GTE/GPU helpers. The sole global access is the first word of gameWork."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120",
+  "boundary": {
+    "start": 13144196,
+    "end": 13144676,
+    "load_region": {
+      "schema": "azure-clean.rowbase.v1",
+      "region": "row_c89084_80170884",
+      "foff_start": "0xC89084",
+      "foff_end": "0xC89264",
+      "delta": "0x7F4E7800",
+      "base_confidence": "proven",
+      "proof": "local-`j` solve + byte-exact recompile, 2026-08-25 (work/dungeon_push_20260825/mech_ladder_r2, mechanical ladder round 2). M1: a twin-ported candidate for this row differed from retail in 1 word(s), 1 of them `j`/`jal`, and EVERY one of those absolute targets was off by the same constant 0xFF507800 -- the signature of a wrong link base, not a source defect. True base = row link base 0x80C69084 + that constant = 0x80170884 (delta 0x7F4E7800). Proof: the same candidate recompiles BYTE-EXACT at this base (2.7.2-cdk, func_80C69084, linked-strict isolation compare through work/codex_wave/dungeon_lane_20260823/ofc_true.py, container work/roundtrip/extract/DUNGEON/DUNGEON.BIN); at the row's own vram it is 1 words off. Extent is CONSERVATIVE -- this row's own 480 bytes only; the span overlaps no existing rowbase record and contains no other row. Candidate: work/dungeon_push_20260825/mech_ladder_r2/polish_twink1/func_80C69084.c"
+    }
+  },
+  "complete_body_sha256": {
+    "dungeon/func_80C69084": "8f7526e36bf72b264376b1c59d6705d27ad83ae5d4aa1ab09f506d1ca514231e"
+  },
+  "call_graph": {
+    "resident_calls": [
+      "func_80065420",
+      "func_80066460",
+      "func_80067F20"
+    ],
+    "internal_calls": []
+  },
+  "data_cohesion": {
+    "runtime": [
+      "D_80083160"
+    ],
+    "owned_data": []
+  },
+  "no_shared_members": true
+}

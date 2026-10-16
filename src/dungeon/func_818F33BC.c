@@ -1,61 +1,5 @@
-#include "common.h"
-#include "shared/entity.h"
+#include "modules/dungeon_ovl_7e711800.h"
 
-#ifndef NULL
-#define NULL 0
-#endif
-
-typedef struct S_80024BBC_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x4];
-    void * unk_10;
-} S_80024BBC_0;   /* object in func_80024BBC */
-
-
-typedef struct S_80024BBC_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-} S_80024BBC_2;   /* dest1 in func_80024BBC */
-
-typedef struct S_80024BBC_3 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-} S_80024BBC_3;   /* dest2 in func_80024BBC */
-
-typedef struct S_80024BBC_4 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80024BBC_4;   /* dest3 in func_80024BBC */
-
-typedef struct S_80024BBC_5 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x8];
-    s16 unk_14;
-    u8 pad_16[0x1C];
-    s16 unk_32;
-    u8 pad_34[0x1C];
-    s32 unk_50;
-} S_80024BBC_5;   /* base in func_80024BBC */
-
-typedef struct S_80024BBC_6 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80024BBC_6;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_80024BBC */
-
-
-extern void *func_8003FD64(s32, void *);
-extern s32 rand(void);
-extern void func_8004491C(void *, void *);
-extern void func_80024B6C(void);
-extern void func_800248EC(void);
-
-/* Creates an object with randomized position offsets and initializes its state and callbacks. */
 void func_80024BBC(
     EntityRec *source, s16 field_14_value, void *payload, s16 field_32_value,
     s16 x_offset, s16 y_offset, s16 z_offset)
@@ -64,7 +8,7 @@ void func_80024BBC(
     s16 held_y_offset = y_offset;
     s16 held_z_offset = z_offset;
     void *object;
-    S_80024BBC_5 *state;
+    Row_818F33BC_S_80024BBC_5 *state;
 
     object = func_8003FD64(0x211, source);
     if (object != NULL) {
@@ -74,27 +18,27 @@ void func_80024BBC(
         s32 x_pos;
         s32 y_pos;
         s32 z_pos;
-        S_80024BBC_2 *x_dest;
-        S_80024BBC_3 *y_dest;
-        S_80024BBC_4 *z_dest;
+        Row_818F33BC_S_80024BBC_2 *x_dest;
+        Row_818F33BC_S_80024BBC_3 *y_dest;
+        Row_818F33BC_S_80024BBC_4 *z_dest;
 
-        ((S_80024BBC_0 *)object)->unk_10 = func_80024B6C;
+        ((Row_818F33BC_S_80024BBC_0 *)object)->unk_10 = func_80024B6C;
 
         x_jitter = rand() & 0x1F;
-        x_pos = ((S_80024BBC_6 *)((*(void * *)&source->z)))->unk_02;
-        x_dest = ((S_80024BBC_0 *)object)->unk_08;
+        x_pos = ((Row_818F33BC_S_80024BBC_6 *)((*(void * *)&source->z)))->unk_02;
+        x_dest = ((Row_818F33BC_S_80024BBC_0 *)object)->unk_08;
         x_pos += x_jitter;
         x_dest->unk_02 = (s16)x_pos + (s16)(held_x_offset - 0x10);
         y_jitter = rand() & 0x1F;
-        y_pos = ((S_80024BBC_6 *)((*(void * *)&source->z)))->unk_06;
-        y_dest = ((S_80024BBC_0 *)object)->unk_08;
+        y_pos = ((Row_818F33BC_S_80024BBC_6 *)((*(void * *)&source->z)))->unk_06;
+        y_dest = ((Row_818F33BC_S_80024BBC_0 *)object)->unk_08;
         y_pos += y_jitter;
         y_dest->unk_06 = (s16)y_pos + (s16)(held_y_offset - 0x10);
 
         state = (u8 *)object + 0x20;
         z_jitter = rand() & 0x1F;
-        z_pos = ((S_80024BBC_6 *)((*(void * *)&source->z)))->unk_0A;
-        z_dest = ((S_80024BBC_0 *)object)->unk_08;
+        z_pos = ((Row_818F33BC_S_80024BBC_6 *)((*(void * *)&source->z)))->unk_0A;
+        z_dest = ((Row_818F33BC_S_80024BBC_0 *)object)->unk_08;
         z_pos += z_jitter;
         z_dest->unk_0A = (s16)z_pos + (s16)(held_z_offset - 0x10);
         state->unk_14 = field_14_value;

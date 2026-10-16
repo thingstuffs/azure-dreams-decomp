@@ -1,0 +1,78 @@
+{
+  "module": "town_ovl_79dd70",
+  "views": {
+    "func_8003FC64": {
+      "symbol": "func_8003FC64",
+      "kind": "function",
+      "vma": 2147744868
+    },
+    "func_8004491C": {
+      "symbol": "func_8004491C",
+      "kind": "function",
+      "vma": 2147764508
+    },
+    "func_80045340": {
+      "symbol": "func_80045340",
+      "kind": "function",
+      "vma": 2147767104
+    },
+    "func_8008F074": {
+      "symbol": "func_8008F074",
+      "kind": "function",
+      "vma": 2148069492
+    },
+    "func_800206D0": {
+      "symbol": "func_800206D0",
+      "kind": "function",
+      "vma": 2147616464
+    },
+    "D_80020014": {
+      "symbol": "D_80020014",
+      "kind": "data",
+      "vma": 2147614740,
+      "foff": 7985172,
+      "view_bytes": 1,
+      "owner": "retail_asset:town:sweep_79DED0",
+      "evidence": "docs/evidence/town_ovl_79dd70.imports.json"
+    },
+    "D_80024420": {
+      "symbol": "D_80024420",
+      "kind": "data",
+      "vma": 2147632160,
+      "foff": 8002592,
+      "view_bytes": 1,
+      "owner": "retail_asset:town:sweep_79DED0",
+      "evidence": "docs/evidence/town_ovl_79dd70.imports.json"
+    },
+    "D_8002445C": {
+      "symbol": "D_8002445C",
+      "kind": "data",
+      "vma": 2147632220,
+      "foff": 8002652,
+      "view_bytes": 4,
+      "owner": "retail_asset:town:sweep_79DED0",
+      "evidence": "docs/evidence/town_ovl_79dd70.imports.json"
+    }
+  },
+  "basis": [
+    "Function symbols encode retail call/callback addresses; no function bytes are substituted.",
+    "Asset views use the proven sweep_79DED0 map; only the minimum indexed/retained view is fingerprinted; no storage ownership is claimed."
+  ],
+  "producer_abi": {
+    "func_8004491C": {
+      "source": "src/slus/w_8004491C.c",
+      "declaration": "s32 func_8004491C(struct RegistrationNode *, s32 registration_id)",
+      "use": "The routine address 0x80045340 is a signed registration ID, not a storage buffer."
+    },
+    "func_80045340": {
+      "source": "src/slus/w_80045340.c",
+      "declaration": "s32 func_80045340(void *, s32, struct S_80045340_Entry *, s32)",
+      "use": "Address only; no call is emitted by this module."
+    },
+    "func_800206D0": {
+      "source": "src/town/func_8081DED0.c",
+      "declaration": "void func_800206D0(void *, void *, void *)",
+      "use": "The three-pointer callback matches the adjacent owned-bank producer signature."
+    }
+  }
+}

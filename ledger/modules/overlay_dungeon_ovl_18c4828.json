@@ -1,0 +1,52 @@
+{
+  "schema": "overlay-module-native-v4",
+  "kind": "overlay_module_placement",
+  "module": "dungeon_ovl_18c4828",
+  "members": [
+    "dungeon/func_818A4828",
+    "dungeon/func_818A48C4",
+    "dungeon/func_818A4948",
+    "dungeon/func_818A4A30",
+    "dungeon/func_818A4A64",
+    "dungeon/func_818A4B40",
+    "dungeon/func_818A4CA0",
+    "dungeon/func_818A4E74",
+    "dungeon/func_818A4ED0"
+  ],
+  "at": "2026-10-16T01:14:48Z",
+  "reviewer": "orchestrator-r120",
+  "fingerprint": {
+    "schema": "overlay-module-scoped-v2",
+    "sha256": "7c85ec6eb6fbcca11aa30ce1906032c74bfebea6647cd1313f96d3b5f4d59f42",
+    "module": {
+      "sha256": "9785d1e44acded3088fa30f5be66c2d7efebe8624b1aa361847f6882a7d70e7b"
+    },
+    "windows": {
+      "config/overlays/dungeon_deep_18c4.overlay.yaml": {
+        "sha256": "883dee3e67873e569ff453b300af8105fb9939b94e88a430bfca4bfde32e6444"
+      }
+    },
+    "required_windows": [
+      "config/overlays/dungeon_deep_18c4.overlay.yaml"
+    ]
+  },
+  "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_ovl_18c4828/module",
+  "receipt_sha256": "4abb2511403b6a7ecbe828ced159d4a7d3b90cfb7f1c2428d228bfbfef75545c",
+  "windows": [
+    {
+      "config": "config/overlays/dungeon_deep_18c4.overlay.yaml",
+      "result": "MATCH",
+      "file_start": 25968640,
+      "file_end": 25972736,
+      "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_ovl_18c4828/windows/dungeon_deep_18c4",
+      "artifacts": {
+        "gate.log": "2d45a3c7d6eff127dbef9e7afc6522f3c082d2833a7f8f91e58b4384a2676e1e",
+        "window.bin": "9c797cac1cb3e5996dc79175a76b6bab3adc3d30fc442e0a0fde9c27adfef5ef",
+        "manifest.json": "3e2cfd09fe64b9effdba285221473b2ea3f9fd5a90e749573d53ff98f9107005",
+        "projection.json": "c2e3ada6c494e708516058ddac83694a1ea52034cd36617150bd4e5444808630",
+        "module/receipt.json": "4abb2511403b6a7ecbe828ced159d4a7d3b90cfb7f1c2428d228bfbfef75545c"
+      },
+      "digest": "883dee3e67873e569ff453b300af8105fb9939b94e88a430bfca4bfde32e6444"
+    }
+  ]
+}

@@ -1,77 +1,5 @@
-#include "shared/gpu_packets.h"
-#include "common.h"
-#include "shared/game_work.h"
-typedef struct {
-    u32 addr : 24;
-    u32 len : 8;
-} P_TAG;
+#include "modules/dungeon_ovl_191284c.h"
 
-   /* ctx in func_800248EC */
-
-typedef struct S_800248EC_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800248EC_1;   /* input in func_800248EC */
-
-typedef struct S_800248EC_2 {
-    u8 pad_00[0x3];
-    u8 unk_03;
-    union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_04;   /* overlapping accesses */
-} S_800248EC_2;   /* packet in func_800248EC */
-
-typedef struct S_800248EC_3_pre {
-    void * unk_00;
-    u8 pad_04[0x4];
-} S_800248EC_3_pre;   /* the 0x8 bytes before cur in func_800248EC, addressed as cur[-1] */
-
-typedef struct S_800248EC_3 {
-    u8 pad_00[0x8];
-    u32 unk_08;
-    u8 pad_0C[0x26];
-    s16 unk_32;
-} S_800248EC_3;   /* cur in func_800248EC */
-
-typedef struct S_800248EC_4 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_800248EC_4;   /* next in func_800248EC */
-
-   /* final_ctx in func_800248EC */
-
-
-typedef struct {
-    u16 x;
-    u16 y;
-    u16 z;
-    u8 pad06[0x12];
-    u8 *cursor;
-    u8 pad1C[4];
-    u32 *ot;
-    u8 pad24[0x6C];
-    u32 xy;
-    u32 depth;
-    u8 pad98[0x28];
-    u32 index;
-} Scratch800248EC;
-
-typedef struct {
-    u32 tag;
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 code;
-    u32 data;
-} Packet800248EC;
-
-extern u32 func_80065420(void *, void *, void *, void *);
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_80067F20(void *, s32, s32, s32, s32);
-
-/* Projects linked points and queues shaded tiles with draw-mode packets. */
 s32 func_800248EC(void *first_point, void *first_position)
 {
     void *point = first_point;
@@ -81,10 +9,10 @@ s32 func_800248EC(void *first_point, void *first_position)
     u8 *render_ctx = *(u8 **)((u8 *)(&gameWork));
     u8 *packet_start;
     u32 tag_mask = 0xFF000000;
-    Scratch800248EC *scratch =
-        (Scratch800248EC *)0x1F800000;
-    Packet800248EC *tile;
-    Packet800248EC *draw_mode;
+    Row_818F30EC_Scratch800248EC *scratch =
+        (Row_818F30EC_Scratch800248EC *)0x1F800000;
+    Row_818F30EC_Packet800248EC *tile;
+    Row_818F30EC_Packet800248EC *draw_mode;
     u8 *final_render_ctx;
     s32 color_value;
     s32 draw_page;
@@ -95,50 +23,50 @@ s32 func_800248EC(void *first_point, void *first_position)
     scratch->cursor = packet_start;
 
     for (;;) {
-        tile = *(Packet800248EC **)&scratch->cursor;
-        scratch->x = ((S_800248EC_1 *)position)->unk_02;
-        scratch->y = ((S_800248EC_1 *)position)->unk_06;
-        scratch->z = ((S_800248EC_1 *)position)->unk_0A;
+        tile = *(Row_818F30EC_Packet800248EC **)&scratch->cursor;
+        scratch->x = ((Row_818F30EC_S_800248EC_1 *)position)->unk_02;
+        scratch->y = ((Row_818F30EC_S_800248EC_1 *)position)->unk_06;
+        scratch->z = ((Row_818F30EC_S_800248EC_1 *)position)->unk_0A;
         scratch->cursor = (u8 *)tile + 0xC;
         scratch->index = func_80065420(scratch, (u8 *)tile + 8,
                                        &scratch->xy, &scratch->depth);
 
         if (scratch->index < 0x1E0U) {
-            ((S_800248EC_2 *)tile)->unk_04.at00.v = ((S_800248EC_3 *)point)->unk_08;
+            ((Row_818F30EC_S_800248EC_2 *)tile)->unk_04.at00.v = ((Row_818F30EC_S_800248EC_3 *)point)->unk_08;
 
-            color_value = (s32)tile->r * ((S_800248EC_3 *)point)->unk_32;
+            color_value = (s32)tile->r * ((Row_818F30EC_S_800248EC_3 *)point)->unk_32;
             if (color_value < 0) {
                 color_value += 0x7F;
             }
             tile->r = color_value >> 7;
 
-            color_value = (s32)tile->g * ((S_800248EC_3 *)point)->unk_32;
+            color_value = (s32)tile->g * ((Row_818F30EC_S_800248EC_3 *)point)->unk_32;
             if (color_value < 0) {
                 color_value += 0x7F;
             }
             tile->g = color_value >> 7;
 
-            color_value = (s32)tile->b * ((S_800248EC_3 *)point)->unk_32;
+            color_value = (s32)tile->b * ((Row_818F30EC_S_800248EC_3 *)point)->unk_32;
             tile->b = (color_value / 128);
 
-            ((S_800248EC_2 *)tile)->unk_03 = 2;
-            ((S_800248EC_2 *)tile)->unk_04.at03.v = 0x6A;
-            ((P_TAG *)&tile->tag)->addr = ((P_TAG *)&scratch->ot[scratch->index])->addr;
-            ((P_TAG *)&scratch->ot[scratch->index])->addr = (u32)tile;
+            ((Row_818F30EC_S_800248EC_2 *)tile)->unk_03 = 2;
+            ((Row_818F30EC_S_800248EC_2 *)tile)->unk_04.at03.v = 0x6A;
+            ((Row_818F30EC_P_TAG *)&tile->tag)->addr = ((Row_818F30EC_P_TAG *)&scratch->ot[scratch->index])->addr;
+            ((Row_818F30EC_P_TAG *)&scratch->ot[scratch->index])->addr = (u32)tile;
 
-            draw_mode = (Packet800248EC *)scratch->cursor;
+            draw_mode = (Row_818F30EC_Packet800248EC *)scratch->cursor;
             scratch->cursor = (u8 *)draw_mode + 0xC;
             draw_page = func_80066460(0, 1, 0, 0);
             func_80067F20(draw_mode, 0, 0, (u16)draw_page, 0);
 
-            ((P_TAG *)&draw_mode->tag)->addr = ((P_TAG *)&scratch->ot[scratch->index])->addr;
-            ((P_TAG *)&scratch->ot[scratch->index])->addr = (u32)((u32)draw_mode);
+            ((Row_818F30EC_P_TAG *)&draw_mode->tag)->addr = ((Row_818F30EC_P_TAG *)&scratch->ot[scratch->index])->addr;
+            ((Row_818F30EC_P_TAG *)&scratch->ot[scratch->index])->addr = (u32)((u32)draw_mode);
         }
 
-        next_node = ((S_800248EC_3_pre *)point)[-1].unk_00;
+        next_node = ((Row_818F30EC_S_800248EC_3_pre *)point)[-1].unk_00;
         if (next_node != 0) {
             point = (u8 *)next_node + 0x20;
-            position = ((S_800248EC_4 *)next_node)->unk_08;
+            position = ((Row_818F30EC_S_800248EC_4 *)next_node)->unk_08;
             continue;
         }
 

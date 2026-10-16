@@ -1,44 +1,6 @@
-#include "common.h"
-#include "shared/object_flags.h"
-#include "records/Rec_D_80082E80.h"
+#include "modules/dungeon_ovl_9950e8.h"
 
-typedef struct S_80975170_0_pre {
-    u16 unk_00;
-} S_80975170_0_pre;   /* the 0x2 bytes before arg0 in func_80975170, addressed as arg0[-1] */
-
-typedef struct S_80975170_0 {
-    u8 pad_00[0x96];
-    union { u16 s; s16 u; } unk_96;   /* accessed as both */
-    u8 pad_98[0x12];
-    s16 unk_AA;
-    u8 pad_AC[0x4];
-    void * unk_B0;
-} S_80975170_0;   /* arg0 in func_80975170 */
-
-typedef struct S_80975170_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80975170_1;   /* arg1 in func_80975170 */
-
-typedef struct S_80975170_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80975170_2;   /* src in func_80975170 */
-
-
-extern void func_800478B8(void *render_state);
-
-
-/* Copy the source transform, advance and fade the effect, and flag completion when its timer expires. */
-void func_80975170(void *effect, S_80975170_1 *transform, Rec_D_80082E80 *render_state)
+void func_80170970(void *effect, S_80975170_1 *transform, Rec_D_80082E80 *render_state)
 {
     s16 ticks_left;
     s32 brightness;

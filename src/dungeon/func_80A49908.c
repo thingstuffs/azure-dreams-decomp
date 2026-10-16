@@ -1,26 +1,5 @@
-#include "common.h"
-#include "shared/game_work.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
+#include "modules/dungeon_resource06_slot0.h"
 
-#define U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
-#define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
-#define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define U32(p, o) (*(u32 *)((u8 *)(p) + (o)))
-#define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
-#define PTR(p, o) (*(void **)((u8 *)(p) + (o)))
-
-extern u8 D_8017588C[];
-
-extern void func_80047784(void *, u8, s32);
-extern void func_8009A028(void *);
-extern void func_8009A3D0(u8, u8, s32);
-extern void func_800A2FE0(void *);
-extern void func_800A32A4(void *);
-extern void func_800A56E0(s32);
-extern void func_800ACF88(void *);
-
-/* Fade the entity's sprites, then remove the entity and trigger its final effect. */
 void func_80173108(void *actor, s32 unused, void *sprite, void *entity)
 {
     u8 state;
@@ -68,7 +47,7 @@ void func_80173108(void *actor, s32 unused, void *sprite, void *entity)
                     do {
                         group_sprite = sprite_group + sprite_offset;
                         U32(group_sprite, 0xC) = white_rgb;
-                        func_80047784(group_sprite, 0x23, 0);
+                        func_80047784(group_sprite,(u8)(0x23), 0);
                         sprite_offset += 0x30;
                         sprite_index++;
                     } while (sprite_index < S16(sprite_group, 2));
@@ -104,9 +83,8 @@ void func_80173108(void *actor, s32 unused, void *sprite, void *entity)
             } while (group_index < S16(actor, 0x9E));
         }
         if (U16(sprite_group, 0x1C) & 0x6000) {
-            PTR(sprite, 0x2C) = D_8017588C;
-            func_80047784(sprite,
-                D_8017588C[((gameWork.view.viewAngle + S16(entity, 0x2A) + 0x100) >> 9) & 7],
+            PTR(sprite, 0x2C) = ((u8 *)D_8017588C);
+            func_80047784(sprite,(u8)(((u8 *)D_8017588C)[((gameWork.view.viewAngle + S16(entity, 0x2A) + 0x100) >> 9) & 7]),
                 0);
             U16(actor, 0x96) = 0x80;
             U8(actor, 0x9B) = U8(actor, 0x9B) + 1;
@@ -143,7 +121,7 @@ void func_80173108(void *actor, s32 unused, void *sprite, void *entity)
         if (U32(entity, 0x1C) & 0x2000) {
             effect_id = 0x300;
         }
-        func_8009A3D0(tile_x, tile_y, effect_id);
+        func_8009A3D0((u8)(tile_x),(u8)(tile_y), effect_id);
         func_8009A028(entity);
         U16(entity, -2) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;

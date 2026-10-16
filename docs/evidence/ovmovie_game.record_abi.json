@@ -1,0 +1,214 @@
+{
+  "status": "POINTEE_AND_CALLER_ABI_RESOLVED_ORIGINAL_STORAGE_OWNERSHIP_HELD",
+  "maps": {
+    "slus": {
+      "kind": "psx_exe",
+      "asset": "work/disc/extract/SLUS_006.14",
+      "sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "basis": "PS-X EXE load header at byte 0x18; direct resident resource-loader accesses."
+    },
+    "ovmovie": {
+      "kind": "rowbase",
+      "asset": "work/disc/containers/OVMOVIE.BIN",
+      "sha256": "897d285e85a4f870850fc7f797b71f648214b34f1aa825c343935ffb11fbc6e0",
+      "region": "ovmovie_resident",
+      "file_start": 0,
+      "file_end": 7048,
+      "delta": 2149017600,
+      "basis": "Existing proven rowbase record; all twenty-eight registered bodies independently exact at this delta."
+    }
+  },
+  "records": [
+    {
+      "index": 0,
+      "foff": 6632,
+      "vma": 2149024232,
+      "resource_word_pointer": 2147929424,
+      "slus_pointee_foff": 263504,
+      "slus_pointee_value": 87535,
+      "flags": 3221225613,
+      "unknown08": 0,
+      "resource_directory_references": [
+        {
+          "slus_foff": 263828,
+          "slus_vma": 2147929748,
+          "directory_index": 1,
+          "resource_type": 4
+        },
+        {
+          "slus_foff": 264188,
+          "slus_vma": 2147930108,
+          "directory_index": 31,
+          "resource_type": 4
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "foff": 6644,
+      "vma": 2149024244,
+      "resource_word_pointer": 2147929428,
+      "slus_pointee_foff": 263508,
+      "slus_pointee_value": 38340,
+      "flags": 1073741939,
+      "unknown08": 0,
+      "resource_directory_references": [
+        {
+          "slus_foff": 264128,
+          "slus_vma": 2147930048,
+          "directory_index": 26,
+          "resource_type": 4
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "foff": 6656,
+      "vma": 2149024256,
+      "resource_word_pointer": 2147929500,
+      "slus_pointee_foff": 263580,
+      "slus_pointee_value": 39501,
+      "flags": 1073742022,
+      "unknown08": 0,
+      "resource_directory_references": [
+        {
+          "slus_foff": 264140,
+          "slus_vma": 2147930060,
+          "directory_index": 27,
+          "resource_type": 4
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "foff": 6668,
+      "vma": 2149024268,
+      "resource_word_pointer": 2147929504,
+      "slus_pointee_foff": 263584,
+      "slus_pointee_value": 41493,
+      "flags": 1073742596,
+      "unknown08": 0,
+      "resource_directory_references": [
+        {
+          "slus_foff": 264152,
+          "slus_vma": 2147930072,
+          "directory_index": 28,
+          "resource_type": 4
+        },
+        {
+          "slus_foff": 264164,
+          "slus_vma": 2147930084,
+          "directory_index": 29,
+          "resource_type": 4
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "foff": 6680,
+      "vma": 2149024280,
+      "resource_word_pointer": 2147929508,
+      "slus_pointee_foff": 263588,
+      "slus_pointee_value": 64255,
+      "flags": 1073744056,
+      "unknown08": 0,
+      "resource_directory_references": [
+        {
+          "slus_foff": 264176,
+          "slus_vma": 2147930096,
+          "directory_index": 30,
+          "resource_type": 4
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "foff": 6692,
+      "vma": 2149024292,
+      "resource_word_pointer": 2147929512,
+      "slus_pointee_foff": 263592,
+      "slus_pointee_value": 49231,
+      "flags": 1499,
+      "unknown08": 0,
+      "resource_directory_references": [
+        {
+          "slus_foff": 264200,
+          "slus_vma": 2147930120,
+          "directory_index": 32,
+          "resource_type": 4
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "foff": 6704,
+      "vma": 2149024304,
+      "resource_word_pointer": 2147929516,
+      "slus_pointee_foff": 263596,
+      "slus_pointee_value": 86585,
+      "flags": 1073741918,
+      "unknown08": 0,
+      "resource_directory_references": [
+        {
+          "slus_foff": 264212,
+          "slus_vma": 2147930132,
+          "directory_index": 33,
+          "resource_type": 4
+        }
+      ]
+    }
+  ],
+  "scalar_words": [
+    {
+      "symbol": "D_801781D0",
+      "foff": 6608,
+      "value": 0
+    },
+    {
+      "symbol": "D_801781D4",
+      "foff": 6612,
+      "value": 0
+    },
+    {
+      "symbol": "D_801781D8",
+      "foff": 6616,
+      "value": 0
+    },
+    {
+      "symbol": "D_801781DC",
+      "foff": 6620,
+      "value": 0
+    },
+    {
+      "symbol": "D_801781E0",
+      "foff": 6624,
+      "value": 0
+    },
+    {
+      "symbol": "D_801781E4",
+      "foff": 6628,
+      "value": 0
+    }
+  ],
+  "consumer": "src/slus/w_80040CBC.c: resource_type == 4 calls func_800418B4, dereferences the first record word, stores the second into D_80189394, and stores the dereferenced value into D_801B8EB8. func_801768AC later uses the upper flags and passes the lower 30 bits as the frame limit.",
+  "limits": [
+    "No original game object, assertion file, map boundary or defining source establishes ownership of the scalar/table allocation.",
+    "The third record word is zero in all seven records but has no known consumer.",
+    "Six scalar words plus seven records reproduce a 108-byte candidate, not an independently proven original object extent.",
+    "The preceding 36 bytes are VLC assembly spill workspace per retained evidence and stay excluded."
+  ],
+  "source_guards": {
+    "src/slus/w_80040CBC.c": "13afe5e6044aebc0c128af234c8af3f6d77c20cfbe330896d56944f6cd78b459",
+    "src/slus/w_80041818.c": "4913299f14000db17ae567b3907cb5f92157102c608077e955fce67614d42d96",
+    "src/slus/konami_runtime_w_8003AF94.c": "88944b2f2bdd00c0b650bb6e65f3698fc83a8770411a65e26c73f3ed8dba37f2",
+    "src/slus/konami_runtime_w_8003AFE0.c": "be6d9de88f1fe33a8aba2d4e656464f9d7cdd64ab0cf59b2fdeec87bc5536280",
+    "docs/evidence/ovmovie_r120_attribution.md": "3e6fca20577f65d24ba432eaa267e6b939d12436f9aae2c02f0022e2b04ec70c",
+    "docs/evidence/ovmovie_r120_census.md": "3839880b772a7e99ef6eb3f26a419d5181a848e8d8b7e7d0757781893c9c2b4f",
+    "docs/evidence/ovmovie_r120_membership.json": "627998ad55eb50cc7cc919ab44c5c8de7d030b4146ca32cd80e2e2aef589693e",
+    "config/overlays/ovmovie.rowbase.jsonl": "421c535c23557b389c2051c7467858b93f10e18ee5559eec23be97c8bbce7327",
+    "config/overlays/ovmovie.overlay.yaml": "277540896af669e383e259c9f723d6405825b6f53f61a8707521846d170e1a3c"
+  }
+}

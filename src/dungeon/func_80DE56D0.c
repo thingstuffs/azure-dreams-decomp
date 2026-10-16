@@ -1,29 +1,6 @@
-#include "common.h"
-#include "shared/dungeon_status.h"
-#include "shared/dir_step.h"
-#include "shared/entity.h"
-#include "records/Rec_D_80082E80.h"
+#include "modules/dungeon_ovl_e0365c.h"
 
-typedef struct S_80172ED0_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_80172ED0_0;   /* arg0 in func_80172ED0 */
-
-
-extern void func_800A2B04();
-extern void func_800AAA54();
-extern void func_800AD4D0();
-
-extern s32 D_80170E5C;
-extern s32 D_80174550;
-
-
-/* Damp entity movement and align it to its tile before starting an action or resetting state. */
-void func_80172ED0(S_80172ED0_0 *action, EntityRec *motion, Rec_D_80082E80 *tile_state, void *entity)
+void func_80172ED0(E_80172ED0_S_80172ED0_0 *action, EntityRec *motion, Rec_D_80082E80 *tile_state, void *entity)
 {
     s16 timer;
     s32 tracked_entity;
@@ -124,7 +101,7 @@ void func_80172ED0(S_80172ED0_0 *action, EntityRec *motion, Rec_D_80082E80 *tile
             if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
                 dungeonStatus.unk_10 = tracked_entity & 0x7FFFFFFF;
             }
-            action->unk_8C = &D_80170E5C;
+            action->unk_8C = func_80170E5C;
             return;
         }
 

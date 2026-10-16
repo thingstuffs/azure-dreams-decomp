@@ -1,219 +1,13 @@
-#include "shared/entity_height_offsets.h"
-#include "common.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
-#include "shared/dir_step.h"
-extern int abs(int);
+#include "modules/dungeon_ovl_193c848.h"
 
-
-extern s32 func_8003DE58(void *, void *, s16 *, s32);
-extern s32 func_800A44E0(s32, s32, s16, s32);
-extern s16 func_800BCB04(s32, s32, s16);
-extern void func_80024138(void *);
-extern void func_800243CC(void *, void *);
-extern void func_800419EC(u16, u16);
-extern s32 func_80053EF0(s32);
-extern void func_800542BC(void);
-extern void func_8009CE1C(void *, s32, u8, s32, s32, void *, s32);
-extern void func_800A56E0(s32);
-
-
-typedef struct {
-    s32 x;
-    s32 y;
-    s32 z;
-} Coord;
-
-typedef struct S_func_80024578_1 {
-    void *unk_00;
-    void *unk_04;
-    u8 pad_08[0x1];
-    u8 unk_09;
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_0A;
-    u8 pad_0C[0x2];
-    u16 unk_0E;
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_10;
-    s16 unk_12;
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_14;
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_16;
-    u16 unk_18;
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_1A;
-    void *unk_1C;
-    void *unk_20;
-    void *unk_24;
-    union {
-        s32 s32;
-        void *ptr;
-    } unk_28;
-} S_func_80024578_1;
-
-typedef struct S_func_80024578_2 {
-    union {
-        s32 s32;
-        struct {
-            u8 pad_00[0x2];
-            union {
-                s16 s16;
-                u16 u16;
-            } unk_02;
-        } parts_02;
-    } unk_00;
-    union {
-        s32 s32;
-        struct {
-            u8 pad_04[0x2];
-            union {
-                s16 s16;
-                u16 u16;
-            } unk_06;
-        } parts_06;
-    } unk_04;
-    union {
-        s32 s32;
-        void *ptr;
-        struct {
-            u8 pad_08[0x2];
-            union {
-                s16 s16;
-                u16 u16;
-            } unk_0A;
-        } parts_0A;
-    } unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_func_80024578_2;
-
-typedef struct S_func_80024578_3 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x12];
-    u16 unk_2A;
-    u8 pad_2C[0x34];
-    void *unk_60;
-    u8 pad_64[0x24];
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_88;
-} S_func_80024578_3;
-
-typedef struct S_func_80024578_4 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u8 pad_10[0xA];
-    u16 unk_1A;
-} S_func_80024578_4;
-
-typedef struct S_func_80024578_5 {
-    union {
-        s32 s32;
-        struct {
-            u8 pad_00[0x2];
-            union {
-                s16 s16;
-                u16 u16;
-            } unk_02;
-        } parts_02;
-    } unk_00;
-    union {
-        s32 s32;
-        struct {
-            u8 pad_04[0x2];
-            union {
-                s16 s16;
-                u16 u16;
-            } unk_06;
-        } parts_06;
-    } unk_04;
-    union {
-        s32 s32;
-        void *ptr;
-        struct {
-            u8 pad_08[0x2];
-            s16 unk_0A;
-        } parts_0A;
-    } unk_08;
-    void *unk_0C;
-} S_func_80024578_5;
-
-typedef struct S_func_80024578_6 {
-    u8 pad_00[0x8];
-    void *unk_08;
-    u8 pad_0C[0x8];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_func_80024578_6;
-
-typedef struct S_func_80024578_7 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_func_80024578_7;
-
-typedef struct S_func_80024578_8 {
-    u16 unk_00;
-} S_func_80024578_8;
-
-typedef struct S_func_80024578_9 {
-    u8 pad_00[0x18];
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_18;
-} S_func_80024578_9;
-
-typedef struct S_func_80024578_10 {
-    u8 unk_00;
-} S_func_80024578_10;
-
-typedef struct S_func_80024578_11 {
-    u8 pad_00[0x8];
-    void *unk_08;
-    void *unk_0C;
-} S_func_80024578_11;
-
-typedef struct S_func_80024578_12 {
-    u16 unk_00;
-} S_func_80024578_12;
-
-typedef struct S_func_80024578_13 {
-    u8 pad_00[0x18];
-    s16 unk_18[3];
-} S_func_80024578_13;
-
-#define DELTA(i) (((S_func_80024578_13 *)scratch)->unk_18[(i)])
-
-/* Updates effect movement, target spinning, and completion across animation states. */
-void func_80024578(S_func_80024578_1 *effect, S_func_80024578_2 *position, void *render_data)
+void func_80024578(Row_8191CD78_S_func_80024578_1 *effect, Row_8191CD78_S_func_80024578_2 *position, void *render_data)
 {
-    register S_func_80024578_3 *actor;
-    register S_func_80024578_4 *render = render_data;
-    register S_func_80024578_5 *work_base;
-    S_func_80024578_6 *motion_data;
-    S_func_80024578_6 *map_data;
-    S_func_80024578_7 *origin_pos;
+    register Row_8191CD78_S_func_80024578_3 *actor;
+    register Row_8191CD78_S_func_80024578_4 *render = render_data;
+    register Row_8191CD78_S_func_80024578_5 *work_base;
+    Row_8191CD78_S_func_80024578_6 *motion_data;
+    Row_8191CD78_S_func_80024578_6 *map_data;
+    Row_8191CD78_S_func_80024578_7 *origin_pos;
     void *target;
     s32 state;
     u16 frame;
@@ -234,7 +28,7 @@ void func_80024578(S_func_80024578_1 *effect, S_func_80024578_2 *position, void 
     u32 page_base;
     s16 final_floor;
     s32 expanded_floor;
-    S_func_80024578_4 *finished_render;
+    Row_8191CD78_S_func_80024578_4 *finished_render;
 
     frame = effect->unk_10.u16;
     state = effect->unk_0A.s16;
@@ -247,10 +41,10 @@ void func_80024578(S_func_80024578_1 *effect, S_func_80024578_2 *position, void 
         effect->unk_0E = (u16)((actor->unk_2A >> 9) & 7);
         render->unk_0C = 0x808080;
     case 1:
-        work_base = (S_func_80024578_5 *)((u8 *)actor - 0x20);
+        work_base = (Row_8191CD78_S_func_80024578_5 *)((u8 *)actor - 0x20);
         motion_data = work_base->unk_0C;
         if (func_8003DE58(motion_data->unk_08, motion_data, (s16 *)(scratch + 0x18), 0) == 0) {
-            if ((((S_func_80024578_6 *)(work_base->unk_0C))->unk_14 & 0x8000) == 0) {
+            if ((((Row_8191CD78_S_func_80024578_6 *)(work_base->unk_0C))->unk_14 & 0x8000) == 0) {
                 break;
             }
         }
@@ -262,7 +56,7 @@ void func_80024578(S_func_80024578_1 *effect, S_func_80024578_2 *position, void 
         {
             u16 next_z;
 
-            if ((((S_func_80024578_6 *)(work_base->unk_0C))->unk_14 & 0x8000) == 0) {
+            if ((((Row_8191CD78_S_func_80024578_6 *)(work_base->unk_0C))->unk_14 & 0x8000) == 0) {
                 position->unk_00.parts_02.unk_02.u16 = (u16)(position->unk_00.parts_02.unk_02.u16 + DELTA(0));
                 position->unk_04.parts_06.unk_06.u16 = (u16)(position->unk_04.parts_06.unk_06.u16 + DELTA(1));
                 {
@@ -279,19 +73,19 @@ void func_80024578(S_func_80024578_1 *effect, S_func_80024578_2 *position, void 
                 position->unk_08.parts_0A.unk_0A.u16 = next_z;
             }
         }
-        if ((((S_func_80024578_8 *)(effect->unk_04))->unk_00 & 0x80) == 0) {
+        if ((((Row_8191CD78_S_func_80024578_8 *)(effect->unk_04))->unk_00 & 0x80) == 0) {
             break;
         }
         target = actor->unk_60;
         index = 1;
         if (target != 0) {
-            work_base = ((S_func_80024578_11 *)((u8 *)(actor->unk_60) - 0x20))->unk_08;
+            work_base = ((Row_8191CD78_S_func_80024578_11 *)((u8 *)(actor->unk_60) - 0x20))->unk_08;
             effect->unk_20 = work_base;
             effect->unk_1C = actor->unk_60;
             effect->unk_24 =
-                ((S_func_80024578_11 *)((u8 *)(actor->unk_60) - 0x20))->unk_0C;
-            effect->unk_16.u16 = ((S_func_80024578_3 *)(effect->unk_1C))->unk_88.u16;
-            effect->unk_18 = ((S_func_80024578_3 *)(effect->unk_1C))->unk_2A;
+                ((Row_8191CD78_S_func_80024578_11 *)((u8 *)(actor->unk_60) - 0x20))->unk_0C;
+            effect->unk_16.u16 = ((Row_8191CD78_S_func_80024578_3 *)(effect->unk_1C))->unk_88.u16;
+            effect->unk_18 = ((Row_8191CD78_S_func_80024578_3 *)(effect->unk_1C))->unk_2A;
 
             abs_delta_x = abs((work_base->unk_00.parts_02.unk_02.s16) - (position->unk_00.parts_02.unk_02.s16));
             DELTA(0) = (s16)abs_delta_x;
@@ -308,7 +102,7 @@ void func_80024578(S_func_80024578_1 *effect, S_func_80024578_2 *position, void 
                 s32 distance_z;
                 s32 position_z;
                 position_z = position->unk_08.parts_0A.unk_0A.s16;
-                distance_z = ((S_func_80024578_3 *)(actor->unk_60))->unk_88.s16;
+                distance_z = ((Row_8191CD78_S_func_80024578_3 *)(actor->unk_60))->unk_88.s16;
 
                 delta_cursor = (s16 *)(scratch + 2);
                 distance_z -= position_z;
@@ -319,8 +113,8 @@ void func_80024578(S_func_80024578_1 *effect, S_func_80024578_2 *position, void 
             index = 1;
             do {
                 {
-                    if (((S_func_80024578_9 *)(delta_cursor))->unk_18.s16 > effect->unk_12) {
-                        effect->unk_12 = ((S_func_80024578_9 *)(delta_cursor))->unk_18.u16;
+                    if (((Row_8191CD78_S_func_80024578_9 *)(delta_cursor))->unk_18.s16 > effect->unk_12) {
+                        effect->unk_12 = ((Row_8191CD78_S_func_80024578_9 *)(delta_cursor))->unk_18.u16;
                     }
                     index++;
                     delta_cursor++;
@@ -336,7 +130,7 @@ void func_80024578(S_func_80024578_1 *effect, S_func_80024578_2 *position, void 
             position->unk_10 =
                 (work_base->unk_04.s32 - position->unk_04.s32) / effect->unk_12;
             position->unk_14 =
-                (((s32)((S_func_80024578_3 *)(actor->unk_60))->unk_88.s16 << 16) -
+                (((s32)((Row_8191CD78_S_func_80024578_3 *)(actor->unk_60))->unk_88.s16 << 16) -
                  position->unk_08.s32) / effect->unk_12;
             effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
             goto set_state;
@@ -392,7 +186,7 @@ void func_80024578(S_func_80024578_1 *effect, S_func_80024578_2 *position, void 
                 break;
             } while (index < 8);
 
-            work_base = (S_func_80024578_5 *)scratch;
+            work_base = (Row_8191CD78_S_func_80024578_5 *)scratch;
             x_base = (last_tile_x << 16) >> 10;
             floor_x = (x_base + 0x20);
             floor_x &= 0xFFE0;
@@ -431,8 +225,8 @@ void func_80024578(S_func_80024578_1 *effect, S_func_80024578_2 *position, void 
                 DELTA(2) = (s16)(abs(expanded_floor));
                 effect->unk_12 = DELTA(0);
                 do {
-                    if (((S_func_80024578_9 *)(delta_scan))->unk_18.s16 > effect->unk_12) {
-                        effect->unk_12 = ((S_func_80024578_9 *)(delta_scan))->unk_18.s16;
+                    if (((Row_8191CD78_S_func_80024578_9 *)(delta_scan))->unk_18.s16 > effect->unk_12) {
+                        effect->unk_12 = ((Row_8191CD78_S_func_80024578_9 *)(delta_scan))->unk_18.s16;
                     }
                     index++;
                     delta_scan++;
@@ -468,7 +262,7 @@ set_state:
         func_800A56E0(0x300);
         func_800542BC();
         {
-            S_func_80024578_3 *owner = effect->unk_1C;
+            Row_8191CD78_S_func_80024578_3 *owner = effect->unk_1C;
             s32 flags;
 
             effect->unk_1A.u16 = 0;
@@ -488,10 +282,10 @@ set_state:
         break;
 
     case 6:
-        ((S_func_80024578_2 *)(effect->unk_20))->unk_08.parts_0A.unk_0A.u16 =
-            (u16)(((S_func_80024578_2 *)(effect->unk_20))->unk_08.parts_0A.unk_0A.u16 - effect->unk_10.u16);
-        ((S_func_80024578_3 *)(effect->unk_1C))->unk_2A =
-            (u16)(((S_func_80024578_3 *)(effect->unk_1C))->unk_2A + 0x200);
+        ((Row_8191CD78_S_func_80024578_2 *)(effect->unk_20))->unk_08.parts_0A.unk_0A.u16 =
+            (u16)(((Row_8191CD78_S_func_80024578_2 *)(effect->unk_20))->unk_08.parts_0A.unk_0A.u16 - effect->unk_10.u16);
+        ((Row_8191CD78_S_func_80024578_3 *)(effect->unk_1C))->unk_2A =
+            (u16)(((Row_8191CD78_S_func_80024578_3 *)(effect->unk_1C))->unk_2A + 0x200);
         if (effect->unk_10.s16 >= 28) {
             finished_render = effect->unk_24;
 
@@ -503,22 +297,22 @@ set_state:
         break;
 
     case 7:
-        ((S_func_80024578_2 *)(effect->unk_20))->unk_08.parts_0A.unk_0A.u16 =
-            (u16)(((S_func_80024578_2 *)(effect->unk_20))->unk_08.parts_0A.unk_0A.u16 + effect->unk_10.s16 * 4);
-        ((S_func_80024578_3 *)(effect->unk_1C))->unk_2A =
-            (u16)(((S_func_80024578_3 *)(effect->unk_1C))->unk_2A + 0x200);
+        ((Row_8191CD78_S_func_80024578_2 *)(effect->unk_20))->unk_08.parts_0A.unk_0A.u16 =
+            (u16)(((Row_8191CD78_S_func_80024578_2 *)(effect->unk_20))->unk_08.parts_0A.unk_0A.u16 + effect->unk_10.s16 * 4);
+        ((Row_8191CD78_S_func_80024578_3 *)(effect->unk_1C))->unk_2A =
+            (u16)(((Row_8191CD78_S_func_80024578_3 *)(effect->unk_1C))->unk_2A + 0x200);
         {
             u8 *height_base;
-            S_func_80024578_2 *target_pos;
-            S_func_80024578_10 *height_entry;
+            Row_8191CD78_S_func_80024578_2 *target_pos;
+            Row_8191CD78_S_func_80024578_10 *height_entry;
             u16 max_height;
-            S_func_80024578_3 *owner;
+            Row_8191CD78_S_func_80024578_3 *owner;
             s32 effect_size;
 
             height_base = D_800DDC40;
             owner = effect->unk_1C;
             target_pos = effect->unk_20;
-            height_entry = (S_func_80024578_10 *)(height_base + owner->unk_13);
+            height_entry = (Row_8191CD78_S_func_80024578_10 *)(height_base + owner->unk_13);
             effect_size = 16;
             if (target_pos->unk_08.parts_0A.unk_0A.s16 >=
                 effect->unk_16.s16 - height_entry->unk_00) {
@@ -540,8 +334,8 @@ case_3_loop:
         break;
 
     case 8:
-        ((S_func_80024578_3 *)(effect->unk_1C))->unk_2A =
-            (u16)(((S_func_80024578_3 *)(effect->unk_1C))->unk_2A + 0x200);
+        ((Row_8191CD78_S_func_80024578_3 *)(effect->unk_1C))->unk_2A =
+            (u16)(((Row_8191CD78_S_func_80024578_3 *)(effect->unk_1C))->unk_2A + 0x200);
         index = 0;
         if (effect->unk_10.s16 == 2) {
             do {
@@ -558,12 +352,12 @@ case_3_loop:
         if (effect->unk_10.s16 < 4) {
             break;
         }
-        ((S_func_80024578_2 *)(effect->unk_20))->unk_08.s32 = effect->unk_28.s32;
-        ((S_func_80024578_3 *)(effect->unk_1C))->unk_2A = effect->unk_18;
+        ((Row_8191CD78_S_func_80024578_2 *)(effect->unk_20))->unk_08.s32 = effect->unk_28.s32;
+        ((Row_8191CD78_S_func_80024578_3 *)(effect->unk_1C))->unk_2A = effect->unk_18;
         if (effect->unk_1A.s16 != 0) {
-            ((S_func_80024578_3 *)(effect->unk_1C))->unk_14 &= 0xFFEFFFFF;
+            ((Row_8191CD78_S_func_80024578_3 *)(effect->unk_1C))->unk_14 &= 0xFFEFFFFF;
         }
-        ((S_func_80024578_4 *)(effect->unk_24))->unk_1A -= 0x800;
+        ((Row_8191CD78_S_func_80024578_4 *)(effect->unk_24))->unk_1A -= 0x800;
         func_8009CE1C(actor->unk_60, 24, effect->unk_09, 4,
                       (s16)(effect->unk_0E << 9), actor, 1);
         goto advance_state;
@@ -573,7 +367,7 @@ case_3_loop:
             break;
         }
         dungeonStatus.unk_0C = 0;
-        ((S_func_80024578_12 *)((u8 *)(effect) - 2))->unk_00 |= 0x8000;
+        ((Row_8191CD78_S_func_80024578_12 *)((u8 *)(effect) - 2))->unk_00 |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
         break;
 
@@ -584,7 +378,7 @@ case_3_loop:
             break;
         }
         {
-            void *saved_height = ((S_func_80024578_2 *)(effect->unk_20))->unk_08.ptr;
+            void *saved_height = ((Row_8191CD78_S_func_80024578_2 *)(effect->unk_20))->unk_08.ptr;
 
             effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
             effect->unk_10.u16 = 0;

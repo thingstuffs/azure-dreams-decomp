@@ -1,0 +1,130 @@
+{
+  "module": "dungeon_ovl_7f0f7800_p05",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_7f0f7800_p05.c",
+    "module_index": 134005
+  },
+  "members": [
+    "dungeon/func_8105AFCC"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "original_group": "ovl_7f0f7800.c#140",
+  "original_members": [
+    "dungeon/func_810592A4",
+    "dungeon/func_81059768",
+    "dungeon/func_81059F68",
+    "dungeon/func_8105A724",
+    "dungeon/func_8105AFCC",
+    "dungeon/func_8105B1D4",
+    "dungeon/func_8105C2D4",
+    "dungeon/func_8105C45C"
+  ],
+  "boundary_parts": [
+    {
+      "name": "ovl_7f0f7800_p01.c",
+      "module_index": 134001,
+      "ready": true,
+      "rows": [
+        "dungeon/func_810592A4"
+      ]
+    },
+    {
+      "name": "ovl_7f0f7800_p02.c",
+      "module_index": 134002,
+      "ready": false,
+      "rows": [
+        "dungeon/func_81059768"
+      ]
+    },
+    {
+      "name": "ovl_7f0f7800_p03.c",
+      "module_index": 134003,
+      "ready": true,
+      "rows": [
+        "dungeon/func_81059F68"
+      ]
+    },
+    {
+      "name": "ovl_7f0f7800_p04.c",
+      "module_index": 134004,
+      "ready": true,
+      "rows": [
+        "dungeon/func_8105A724"
+      ]
+    },
+    {
+      "name": "ovl_7f0f7800_p05.c",
+      "module_index": 134005,
+      "ready": true,
+      "rows": [
+        "dungeon/func_8105AFCC"
+      ]
+    },
+    {
+      "name": "ovl_7f0f7800_p06.c",
+      "module_index": 134006,
+      "ready": false,
+      "rows": [
+        "dungeon/func_8105B1D4"
+      ]
+    },
+    {
+      "name": "ovl_7f0f7800_p07.c",
+      "module_index": 134007,
+      "ready": true,
+      "rows": [
+        "dungeon/func_8105C2D4"
+      ]
+    },
+    {
+      "name": "ovl_7f0f7800_p08.c",
+      "module_index": 134008,
+      "ready": false,
+      "rows": [
+        "dungeon/func_8105C45C"
+      ]
+    }
+  ],
+  "split_rationale": "Refine weak region bucket at physical gaps and independently emitted storage boundaries. Every assigned row remains in exactly one complete new cohort; native code runs claim no omitted row or gap storage. Historical original TU identity is not asserted.",
+  "tu_boundary": "Native boundary at a complete covered contiguous run. Historical original compiler object boundary is not observable.",
+  "basis": [
+    "Every original assigned row is accounted for once in the guarded boundary refinement.",
+    "This complete new ledger cohort is contiguous in retail order, has one recipe and authenticated load base, and shares no member.",
+    "The covered actor/state/effect functions use the same bank-local callback and table environment. Imported functions, tables and runtime objects retain separate ownership.",
+    "Whole TU natural-order code, genuine ASPSX and retail bytes agree with zero masks. Gaps and independently emitted tables are not filled or claimed."
+  ],
+  "complete_body_sha256": {
+    "dungeon/func_8105AFCC": "4ab6549db49160fa1e88e85f6fd32e37a15300dde76d11635d22dae79cf36bcb"
+  },
+  "call_graph": {
+    "functions": [
+      "func_801727CC"
+    ],
+    "imports": [
+      "func_80047784",
+      "func_8009C12C",
+      "func_800A2B04",
+      "func_800A4ACC",
+      "func_800A56E0",
+      "func_800AD594"
+    ],
+    "callback_entries": [
+      "func_80170F68"
+    ]
+  },
+  "data_cohesion": {
+    "external_asset_views": [
+      "D_800E3DE8",
+      "D_80173FE8",
+      "D_80174010"
+    ],
+    "runtime_views": [
+      "D_80083160",
+      "D_80083460"
+    ]
+  },
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120"
+}

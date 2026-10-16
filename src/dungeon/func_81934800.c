@@ -1,34 +1,4 @@
-#include "common.h"
-
-
-typedef struct DungeonCell {
-    s16 flags;
-    u8 pad02[0x12];
-} DungeonCell;
-
-typedef struct DungeonGroup {
-    u8 pad00[0xC];
-    DungeonCell *cells;
-    u8 pad10[4];
-} DungeonGroup;
-
-typedef struct DungeonObjectEntry {
-    u8 column;
-    u8 group;
-    s8 amount;
-    u8 pad03[0x11];
-} DungeonObjectEntry;
-
-typedef struct DungeonObject {
-    u8 pad00[0x4C];
-    DungeonObjectEntry *entry4C;
-    DungeonObjectEntry *entry50;
-} DungeonObject;
-
-extern s32 func_800C80F0(void);
-extern DungeonGroup D_80073414[];
-
-/* Decrement eligible entry amounts on flagged cells and return the number changed. */
+#include "modules/dungeon_ovl_1954800.h"
 s32 func_80024004(DungeonObject *object) {
     s32 changed_count;
     DungeonObjectEntry *entry;

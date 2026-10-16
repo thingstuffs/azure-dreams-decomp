@@ -285,5 +285,21 @@ class ShellRoute(unittest.TestCase):
             self.assertEqual(result.returncode,1);self.assertNotIn('cascade:',result.stdout)
 
 
+class WindowBoundaries(unittest.TestCase):
+    def test_window_cutting_through_member_never_builds_or_projects_raw_bytes(self):
+        gate = N.gate()
+        member = dict(id='dungeon/fixture', source='src/dungeon/fixture.c',
+                      function='fixture', foff=0x200, vma=0x80010200, size=0x100)
+        module = dict(key='fixture', container='dungeon', members=[member])
+        partial = SimpleNamespace(start=0x240, end=0x300, size=0xC0,
+                                  kind='c', match=SimpleNamespace())
+        with patch.object(gate, 'load_modules', return_value=[module]), \
+             patch.object(gate, 'build') as build:
+            with self.assertRaisesRegex(ValueError, 'partial'):
+                gate.project_segments([partial], Path('unused'),
+                                      'dungeon_fixture', root=Path.cwd())
+            build.assert_not_called()
+
+
 if __name__ == '__main__':
     unittest.main()

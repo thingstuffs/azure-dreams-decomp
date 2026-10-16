@@ -1,65 +1,6 @@
-#include "common.h"
+#include "modules/dungeon_ovl_be1084.h"
 
-typedef struct S_80BC1528_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x4];
-    void * unk_10;
-    u8 pad_14[0xC];
-    s32 unk_20;
-} S_80BC1528_0;   /* obj in func_80BC1528 */
-
-typedef struct S_80BC1528_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80BC1528_1;   /* saved_arg0 in func_80BC1528 */
-
-typedef struct S_80BC1528_2 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    s16 unk_14;
-    u8 pad_16[0x1C];
-    s16 unk_32;
-    u8 pad_34[0x2];
-    u16 unk_36;
-    u16 unk_38;
-    u16 unk_3A;
-    u8 pad_3C[0x4];
-    s32 unk_40;
-    s32 unk_44;
-    s32 unk_48;
-    s32 unk_4C;
-    s32 unk_50;
-    s32 unk_54;
-} S_80BC1528_2;   /* tail in func_80BC1528 */
-
-typedef struct S_80BC1528_3 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_80BC1528_3;   /* ((S_80BC1528_0 *)obj)->unk_08 in func_80BC1528 */
-
-typedef struct S_80BC1528_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80BC1528_4;   /* ((S_80BC1528_1 *)saved_arg0)->unk_08 in func_80BC1528 */
-
-
-extern void *func_8003FD64(s32, void *);
-extern void func_8004491C();
-extern u8 D_80170884[];
-extern u8 D_80170A64[];
-
-/* Creates an offset effect and initializes its motion back toward the parent. */
-void func_80BC1528(
+void func_80170D28(
     void *parent_obj, s16 effect_param, s32 initial_value, s16 duration,
     s16 offset_x, s16 offset_y, s16 offset_z)
 {
@@ -74,7 +15,7 @@ void func_80BC1528(
 
     effect = func_8003FD64(0x211, parent);
     if (effect != 0) {
-        ((S_80BC1528_0 *)effect)->unk_10 = D_80170A64;
+        ((S_80BC1528_0 *)effect)->unk_10 = func_80170A64;
 
         ((S_80BC1528_3 *)(((S_80BC1528_0 *)effect)->unk_08))->unk_02 =
             ((S_80BC1528_4 *)(parent->unk_08))->unk_02 + offset_x;
@@ -112,7 +53,7 @@ void func_80BC1528(
 
         effect_data->unk_14 = effect_param;
         effect_data->unk_32 = duration;
-        func_8004491C(effect, D_80170884, step_x);
+        func_8004491C(effect, func_80170884, step_x);
         rounded_step_x = initial_value;
         ((S_80BC1528_0 *)effect)->unk_20 = rounded_step_x;
         effect_data->unk_08 = initial_value;

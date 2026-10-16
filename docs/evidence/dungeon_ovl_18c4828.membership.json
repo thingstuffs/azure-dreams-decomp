@@ -1,0 +1,94 @@
+{
+  "module": "dungeon_ovl_18c4828",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_18c4828.c",
+    "module_index": 166
+  },
+  "members": [
+    "dungeon/func_818A4828",
+    "dungeon/func_818A48C4",
+    "dungeon/func_818A4948",
+    "dungeon/func_818A4A30",
+    "dungeon/func_818A4A64",
+    "dungeon/func_818A4B40",
+    "dungeon/func_818A4CA0",
+    "dungeon/func_818A4E74",
+    "dungeon/func_818A4ED0"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Native grouping of the complete ledger run; original compiler TU boundary is not separately observable.",
+  "basis": [
+    "Complete ledger cohort, strictly contiguous in file order with one selector load delta, a uniform recipe, no member assigned to another certified module.",
+    "Authenticated selector 25 loads bank [0x18c4800, 0x18ca800) to 0x80024000; all members lie within it.",
+    "Shared header reconciles private structure views and declarations; retail control-flow edges and shared data references recorded below. Singleton cohorts are complete standalone helper units; multirow cohorts share the same loaded bank and effect/object services.",
+    "The inherited static callbacks array in the first row is unreferenced scaffolding for the preceding 40 bytes, not a consumer-backed allocation of this cohort. Remove it and its extern-only targets. The complete nine-function run begins at bank+0x28 and emits no rodata; all 40 predecessor bytes stay in their existing raw segment and no ownership/ABI claim is made for their targets.",
+    "The complete cohort remains exactly its original nine rows and assignments. Internal callback address aliases are reconciled to their native function definitions. Independent full-TU retail/genuine proofs and unchanged-prefix production windows establish that removing the unused array changes no owned byte."
+  ],
+  "run": {
+    "file_start": 25970728,
+    "file_end": 25972692,
+    "delta": 2121660416,
+    "selector": 25
+  },
+  "internal_calls": {
+    "dungeon/func_818A4828": [],
+    "dungeon/func_818A48C4": [],
+    "dungeon/func_818A4948": [],
+    "dungeon/func_818A4A30": [],
+    "dungeon/func_818A4A64": [],
+    "dungeon/func_818A4B40": [],
+    "dungeon/func_818A4CA0": [],
+    "dungeon/func_818A4E74": [],
+    "dungeon/func_818A4ED0": []
+  },
+  "data_references": {
+    "dungeon/func_818A4828": [],
+    "dungeon/func_818A48C4": [
+      "D_80025238"
+    ],
+    "dungeon/func_818A4948": [
+      "D_800240C4",
+      "D_80025238"
+    ],
+    "dungeon/func_818A4A30": [],
+    "dungeon/func_818A4A64": [
+      "D_80024230",
+      "D_800DEAE0"
+    ],
+    "dungeon/func_818A4B40": [
+      "D_800DECF8"
+    ],
+    "dungeon/func_818A4CA0": [
+      "D_80024340",
+      "D_800DECF8"
+    ],
+    "dungeon/func_818A4E74": [],
+    "dungeon/func_818A4ED0": [
+      "D_80024674",
+      "D_80025214"
+    ]
+  },
+  "complete_body_sha256": {
+    "dungeon/func_818A4828": "6a36a4bf7b6c7d30e779159960bdea7419380d947fc2fac362ffb8c89eff5519",
+    "dungeon/func_818A48C4": "9f566aaa0f3aa453d546120f350c2083d6b115c9216af6002c16367685b974e5",
+    "dungeon/func_818A4948": "e027e7ff0d6c935f45457e25f9a1d4200700be2e691a2006ff47c7d11989b46f",
+    "dungeon/func_818A4A30": "0ed6ef9073d3ab6c932d4c4214bc27183234924280af58f7f859992da3adbe7c",
+    "dungeon/func_818A4A64": "a7b6e102dc54ded97d40aca38e29597afae5e69a725a720711c1270b3c310e62",
+    "dungeon/func_818A4B40": "ff5bd13e90e633b6f0f02fccc936ac263316d4bbbcb7729eb5f9533f61312c7c",
+    "dungeon/func_818A4CA0": "781cf3da1a831ba0eecf4bc2c42580edcbc02ab02f488812516efa160e4e9a8b",
+    "dungeon/func_818A4E74": "eee5c75c864d82fec14620fbfdbec20bd65628924d0a8c48f9db70b5dc25c29f",
+    "dungeon/func_818A4ED0": "8d25d16a394cace615dcecae3d8b86c66b31765838b7e70e9914196a708d9c08"
+  },
+  "no_shared_members": true,
+  "reviewer": "orchestrator-r120",
+  "predecessor_storage": {
+    "foff": "0x18c4800",
+    "size": 40,
+    "ownership": "unchanged external raw segment",
+    "native_ownership_claim": false,
+    "removed_source": "unreferenced callbacks array"
+  },
+  "review": "reviewed"
+}

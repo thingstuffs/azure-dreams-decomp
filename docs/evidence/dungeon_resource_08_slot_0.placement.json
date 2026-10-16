@@ -1,0 +1,31 @@
+{
+  "resource_id": 8,
+  "slot": 0,
+  "lba": 17804,
+  "destination": 2148993024,
+  "file_start": 11251712,
+  "file_end": 11276288,
+  "delta": 2137741312,
+  "sectors": 12,
+  "status": "PROVEN_STATIC_TRANSFER",
+  "runtime_observed": false,
+  "loader_receipt": "docs/evidence/dungeon_normal_resource_loader.json",
+  "loader_receipt_sha256": "363507fb11e119d2f1abfb0dbae4c7d7ea63f39d61cbb5fecdeb1e39b78f3a87",
+  "disc_container_equal": true,
+  "all_sector_payloads_equal": true,
+  "loaded_bank_sha256": "a2baaed0b0ba74fcbff1cec236cb4c7db7e86fb338bdd776e7cf5731c4113509",
+  "previous_regions": [
+    {
+      "schema": "azure-clean.rowbase.v1",
+      "region": "sweep_0ABB000",
+      "foff_start": "0xABB000",
+      "foff_end": "0xABF3BC",
+      "delta": "0x7F6B5800",
+      "base_confidence": "proven",
+      "proof": "j-solve sweep 2026-07-19 (decision C): unique 0x800-aligned delta with full j-consistency across 5 row(s); scoring-only until a byte-exact recompile promotes to proven; PROMOTED solved->proven: byte-exact recompile func_80A9D4E8 at true base 0x80172CE8 (candidate sha 56802faf8ffe @ 2.7.2-cdk-G0, linked-strict isolation compare, phase-2 item-3 hook)"
+    }
+  ],
+  "basis": "Complete twelve-sector load extent follows directly from verified retail loader arithmetic. Existing proven byte recompiles within this bank independently agree on the same delta. Coverage extends to external data without asserting native ownership of that data.",
+  "review": "pending",
+  "reviewer": null
+}

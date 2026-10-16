@@ -1,0 +1,14 @@
+{
+  "module": "dungeon_resource06_slot0",
+  "scope": "whole_tu",
+  "flags": [
+    "-q",
+    "-G0",
+    "-0"
+  ],
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "basis": "Every complete routine uses ordinary cdk G0. Standard genuine-ASPSX -0 suppresses assembler-added division checks across the entire object, as in the landed native example. No per-member assembler flags."
+}

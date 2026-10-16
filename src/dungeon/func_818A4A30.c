@@ -1,9 +1,6 @@
-#include "common.h"
+#include "modules/dungeon_ovl_18c4828.h"
 
-s32 func_800478B8();
-
-/* Increment the object counter and pass the low 32 bits of the value to the helper. */
-void func_818A4A30(void **object_ref, long long value) {
+void func_80024230(void **object_ref, long long value) {
     void *object;
     u16 *counter;
     u32 low_value;

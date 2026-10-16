@@ -1,0 +1,47 @@
+{
+  "module": "town_ovl_4f9100",
+  "views": {
+    "D_80016000": {
+      "symbol": "D_80016000",
+      "kind": "data",
+      "vma": 2147573760,
+      "foff": 5214208,
+      "view_bytes": 4,
+      "owner": "retail_asset:town:r121m_scene_4f9000",
+      "evidence": "docs/evidence/town_ovl_4f9100.imports.json"
+    },
+    "D_80017500": {
+      "symbol": "D_80017500",
+      "kind": "data",
+      "vma": 2147579136,
+      "foff": 5219584,
+      "view_bytes": 4,
+      "owner": "retail_asset:town:r121m_scene_4f9000",
+      "evidence": "docs/evidence/town_ovl_4f9100.imports.json"
+    },
+    "D_800175B4": {
+      "symbol": "D_800175B4",
+      "kind": "data",
+      "vma": 2147579316,
+      "foff": 5219764,
+      "view_bytes": 4,
+      "owner": "retail_asset:town:r121m_scene_4f9000",
+      "evidence": "docs/evidence/town_ovl_4f9100.imports.json"
+    },
+    "D_800175B8": {
+      "symbol": "D_800175B8",
+      "kind": "data",
+      "vma": 2147579320,
+      "foff": 5219768,
+      "view_bytes": 4,
+      "owner": "retail_asset:town:r121m_scene_4f9000",
+      "evidence": "docs/evidence/town_ovl_4f9100.imports.json"
+    },
+    "func_80017398": {
+      "symbol": "func_80017398",
+      "kind": "function",
+      "vma": 2147578776
+    }
+  },
+  "basis": "Exact undefined-symbol inventory from the module object. Data views use the decoded scene load map and fingerprint four bytes, without asserting allocation extents."
+}

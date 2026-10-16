@@ -72,6 +72,26 @@ def fresh_window_source(view,wn,directory,transaction):
  if actual!=rec['artifacts']:raise ValueError('fresh gate artifacts changed')
  return snapshot
 
+def adopt_window_module(m,source,dest,before):
+ """Install the window gate's own module proof as the certificate's module proof directory.
+
+ It must be a canonical whole-TU receipt for this module at the certificate's fingerprint, with no
+ candidate substitution; certificate_reason then re-checks every artifact, replays the native
+ rodata/trim proof and compares the bytes with retail, exactly as for a locally built proof."""
+ source=Path(source);dest=Path(dest)
+ if source.is_symlink() or any(p.is_symlink() for p in source.rglob('*')):raise ValueError('linked window module proof')
+ r=json.loads((source/'receipt.json').read_text())
+ if r.get('module')!=m['key'] or r.get('fingerprint')!=before or r.get('candidates')!={} or r.get('candidate_paths')!={}:
+  raise ValueError('window module proof is not this module at this fingerprint')
+ for name,h in r.get('artifacts',{}).items():
+  if sha(source/name)!=h:raise ValueError('window module artifact changed: '+name)
+ tmp=dest.with_name(dest.name+'.tmp')
+ if tmp.exists():shutil.rmtree(tmp)
+ shutil.copytree(source,tmp)
+ if dest.exists():shutil.rmtree(dest)
+ tmp.rename(dest)
+ return r
+
 @contextlib.contextmanager
 def certification_window_lock(root,name):
  p=root/'work'/('cert-'+name+'.lock');p.parent.mkdir(parents=True,exist_ok=True)
@@ -95,7 +115,10 @@ def certify(key,root,reviewer,gate_receipts=None,transaction=None,window_workers
    expected=[json.loads(l) for l in (root/'ledger/splits'/f'{family}.jsonl').read_text().splitlines() if l.strip()]
    if json.loads((root/g['results']).read_text())!=expected:raise ValueError('exported split roster differs: '+g['results'])
  before=fingerprint(m,root);out=root/'work/module_proofs'/key;out.mkdir(parents=True,exist_ok=True)
- r,_=build(m,out/'module',root);windows=[]
+ # With fresh gate receipts the module proof is the one the gate built for its windows (the same
+ # build(), same fingerprint, copied into every certificate window as module/receipt.json);
+ # building it again here only repeated that work. Without receipts: build as before.
+ r=None if gate_receipts is not None else build(m,out/'module',root)[0];windows=[]
  def prove_window(wn):
   cfg=yaml.safe_load((root/wn).read_text());name=cfg['name'];sb=cfg['standalone_build'];win=out/'windows'/name;win.mkdir(parents=True,exist_ok=True)
   with certification_window_lock(root,name):
@@ -122,6 +145,7 @@ def certify(key,root,reviewer,gate_receipts=None,transaction=None,window_workers
   return result
  with ThreadPoolExecutor(max_workers=window_workers) as pool:
   windows=list(pool.map(prove_window,affected_windows(m,root)))
+ if r is None:r=adopt_window_module(m,authority/windows[0]['proof_dir']/'module',out/'module',before)
  if before!=fingerprint(m,root):raise ValueError('inputs changed during full certification')
  cert={'schema':r['schema'],'kind':'overlay_module_placement','module':key,'members':r['members'],'at':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'reviewer':reviewer,'fingerprint':before,'proof_dir':str((out/'module').relative_to(authority)),'receipt_sha256':sha(out/'module/receipt.json'),'windows':windows}
  reason=certificate_reason(m,cert,authority)

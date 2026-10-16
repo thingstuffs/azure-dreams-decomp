@@ -1,0 +1,195 @@
+{
+  "module": "dungeon_ovl_7f469800_p03",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_7f469800_p03.c",
+    "module_index": 129303
+  },
+  "members": [
+    "dungeon/func_80CE94C0",
+    "dungeon/func_80CE9758",
+    "dungeon/func_80CE9E78",
+    "dungeon/func_80CE9F34",
+    "dungeon/func_80CEA348"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "original_group": "ovl_7f469800.c#93",
+  "original_members": [
+    "dungeon/func_80CE7540",
+    "dungeon/func_80CE75C4",
+    "dungeon/func_80CE762C",
+    "dungeon/func_80CE76F4",
+    "dungeon/func_80CE7794",
+    "dungeon/func_80CE7A1C",
+    "dungeon/func_80CE7CFC",
+    "dungeon/func_80CE7F90",
+    "dungeon/func_80CE8128",
+    "dungeon/func_80CE8238",
+    "dungeon/func_80CE83EC",
+    "dungeon/func_80CE8564",
+    "dungeon/func_80CE8CBC",
+    "dungeon/func_80CE94C0",
+    "dungeon/func_80CE9758",
+    "dungeon/func_80CE9E78",
+    "dungeon/func_80CE9F34",
+    "dungeon/func_80CEA348",
+    "dungeon/func_80CEA86C",
+    "dungeon/func_80CEABC4",
+    "dungeon/func_80CEAF2C",
+    "dungeon/func_80CEB444",
+    "dungeon/func_80CEB850",
+    "dungeon/func_80CEBD74",
+    "dungeon/func_80CEC1A0"
+  ],
+  "boundary_parts": [
+    {
+      "name": "ovl_7f469800_p01.c",
+      "module_index": 129301,
+      "ready": true,
+      "rows": [
+        "dungeon/func_80CE7540",
+        "dungeon/func_80CE75C4",
+        "dungeon/func_80CE762C",
+        "dungeon/func_80CE76F4",
+        "dungeon/func_80CE7794",
+        "dungeon/func_80CE7A1C",
+        "dungeon/func_80CE7CFC",
+        "dungeon/func_80CE7F90",
+        "dungeon/func_80CE8128",
+        "dungeon/func_80CE8238",
+        "dungeon/func_80CE83EC",
+        "dungeon/func_80CE8564"
+      ]
+    },
+    {
+      "name": "ovl_7f469800_p02.c",
+      "module_index": 129302,
+      "ready": false,
+      "rows": [
+        "dungeon/func_80CE8CBC"
+      ]
+    },
+    {
+      "name": "ovl_7f469800_p03.c",
+      "module_index": 129303,
+      "ready": true,
+      "rows": [
+        "dungeon/func_80CE94C0",
+        "dungeon/func_80CE9758",
+        "dungeon/func_80CE9E78",
+        "dungeon/func_80CE9F34",
+        "dungeon/func_80CEA348"
+      ]
+    },
+    {
+      "name": "ovl_7f469800_p04.c",
+      "module_index": 129304,
+      "ready": true,
+      "rows": [
+        "dungeon/func_80CEA86C"
+      ]
+    },
+    {
+      "name": "ovl_7f469800_p05.c",
+      "module_index": 129305,
+      "ready": false,
+      "rows": [
+        "dungeon/func_80CEABC4",
+        "dungeon/func_80CEAF2C"
+      ]
+    },
+    {
+      "name": "ovl_7f469800_p06.c",
+      "module_index": 129306,
+      "ready": true,
+      "rows": [
+        "dungeon/func_80CEB444"
+      ]
+    },
+    {
+      "name": "ovl_7f469800_p07.c",
+      "module_index": 129307,
+      "ready": true,
+      "rows": [
+        "dungeon/func_80CEB850",
+        "dungeon/func_80CEBD74",
+        "dungeon/func_80CEC1A0"
+      ]
+    }
+  ],
+  "split_rationale": "Refine weak region bucket at physical gaps and independently emitted storage boundaries. Every assigned row remains in exactly one complete new cohort; native code runs claim no omitted row or gap storage. Historical original TU identity is not asserted.",
+  "tu_boundary": "Native boundary at a complete covered contiguous run. Historical original compiler object boundary is not observable.",
+  "basis": [
+    "Every original assigned row is accounted for once in the guarded boundary refinement.",
+    "This complete new ledger cohort is contiguous in retail order, has one recipe and authenticated load base, and shares no member.",
+    "The covered actor/state/effect functions use the same bank-local callback and table environment. Imported functions, tables and runtime objects retain separate ownership.",
+    "Whole TU natural-order code, genuine ASPSX and retail bytes agree with zero masks. Gaps and independently emitted tables are not filled or claimed."
+  ],
+  "complete_body_sha256": {
+    "dungeon/func_80CE94C0": "898e4d204e799c96ff95cc93ad777718e3e8a0d0fd8bfa742a8966f70b24fa3c",
+    "dungeon/func_80CE9758": "d2de313e0100e6e986d17718c0d2f0eaccd80e44eec2f02e454dbfc2cb30d217",
+    "dungeon/func_80CE9E78": "b8426280bce16de97d8515cc08a451f9d99527e1ee67159c2f60ded2f6a02ce6",
+    "dungeon/func_80CE9F34": "1b885fbf43ad9fe4671d40fb752a1b4d4b2763db49e441ce4f3f11d8b29c217d",
+    "dungeon/func_80CEA348": "1ce492ccdd5703c9f3b322c925b585df661c0a21971ff739b231ee91cd672e2c"
+  },
+  "call_graph": {
+    "functions": [
+      "func_80172CC0",
+      "func_80172F58",
+      "func_80173678",
+      "func_80173734",
+      "func_80173B48"
+    ],
+    "imports": [
+      "func_80047784",
+      "func_8009A180",
+      "func_8009A21C",
+      "func_8009A3D0",
+      "func_8009A540",
+      "func_8009A66C",
+      "func_8009C12C",
+      "func_8009C93C",
+      "func_8009FD40",
+      "func_8009FD7C",
+      "func_800A0134",
+      "func_800A02AC",
+      "func_800A04F0",
+      "func_800A05A4",
+      "func_800A0818",
+      "func_800A0E6C",
+      "func_800A19E4",
+      "func_800A2B5C",
+      "func_800A2CB8",
+      "func_800A6D30",
+      "func_800A9A0C",
+      "func_800BCB04",
+      "func_800C78A0",
+      "func_800C7930"
+    ]
+  },
+  "data_cohesion": {
+    "external_asset_views": [
+      "D_8006CCD8",
+      "D_8006CCE8",
+      "D_8006CD00",
+      "D_800DCEAC",
+      "D_800DCEBC",
+      "D_800E2970",
+      "D_80175DC4",
+      "D_80175DCC",
+      "D_80175DD4",
+      "D_80175E9C",
+      "D_80175EA4",
+      "D_80175EAC"
+    ],
+    "runtime_views": [
+      "D_800814A8",
+      "D_80082E80",
+      "D_80083160",
+      "D_80083460"
+    ]
+  },
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120"
+}

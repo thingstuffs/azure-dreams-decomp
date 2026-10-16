@@ -1,17 +1,13 @@
-#include "common.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_resource08_slot0.h"
 
-extern void func_801741D0(void *, s32, s32, s8, s32);
-
-/* Update a timed effect and flag completion when its countdown expires. */
 void func_80174318(void *effect, s32 x, s32 y)
 {
     s32 ticks_left = *(s16 *)((u8 *)effect + 0x1A);
 
     if (ticks_left >= 16) {
-        func_801741D0(effect, x, y, 0x70, 16);
+        func_801741D0(effect, x, y,(s8)(0x70), 16);
     } else {
-        func_801741D0(effect, x, y, 0x70,
+        func_801741D0(effect, x, y,(s8)(0x70),
                       ((15 - ticks_left) * 6 + 16) & 0xFF);
     }
 

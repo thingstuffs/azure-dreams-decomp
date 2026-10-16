@@ -1,0 +1,34 @@
+{
+  "module": "town_ovl_64f118",
+  "views": {
+    "func_80017434": {
+      "symbol": "func_80017434",
+      "kind": "function",
+      "vma": 2147578932
+    },
+    "func_80016ABC": {
+      "symbol": "func_80016ABC",
+      "kind": "function",
+      "vma": 2147576508
+    },
+    "D_80017570": {
+      "symbol": "D_80017570",
+      "kind": "data",
+      "vma": 2147579248,
+      "foff": 6620528,
+      "view_bytes": 1,
+      "owner": "retail_asset:town:r121m_scene_64f000",
+      "evidence": "docs/evidence/town_ovl_64f118.imports.json"
+    },
+    "D_80017658": {
+      "symbol": "D_80017658",
+      "kind": "data",
+      "vma": 2147579480,
+      "foff": 6620760,
+      "view_bytes": 1,
+      "owner": "retail_asset:town:r121m_scene_64f000",
+      "evidence": "docs/evidence/town_ovl_64f118.imports.json"
+    }
+  },
+  "basis": "Both function imports are retail jal targets within the proven scene. The two data addresses are external table/asset views within that same map; one-byte fingerprints establish passed addresses and do not claim allocation bounds. The shared handler prototype forwards two const char pointers and two s32 register arguments; the selection producer returns the retail v0 word. All M2C_UNK declarations were replaced by explicit 32-bit register types."
+}

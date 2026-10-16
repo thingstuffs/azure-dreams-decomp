@@ -1,59 +1,28 @@
-#include "common.h"
-#include "shared/object_flags.h"
-extern u8 D_80020000[];
+#include "modules/dungeon_ovl_19c088c.h"
 
-typedef struct S_819A1034_0 {
-    u8 pad_00[0x3A];
-    union { u16 s; s16 u; } unk_3A;   /* accessed as both */
-    s16 unk_3C;
-} S_819A1034_0;   /* base in func_819A1034 */
-
-typedef struct S_819A1034_1 {
-    u8 pad_00[0x61B0];
-    s16 unk_61B0;
-} S_819A1034_1;   /* page in func_819A1034 */
-
-typedef struct S_819A1034_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0xD];
-    u8 unk_1C;
-    u8 unk_1D;
-    u8 unk_1E;
-} S_819A1034_2;   /* p in func_819A1034 */
-
-
-extern s16 D_800261B0;
-
-
-/* Decrement the fade timer, scale four colors, and flag completion at zero. */
-void func_819A1034(void *fade_data)
+void func_80024834(void *fade_data)
 {
     void *fade;
     s32 color_index;
-    u8 *global_page;
     u16 ticks_left;
 
     fade = fade_data;
-    global_page = (u8 *)D_80020000;
-    ticks_left = ((S_819A1034_0 *)fade)->unk_3A.s;
-    ((S_819A1034_1 *)global_page)->unk_61B0 = 1;
+    ticks_left = ((Row_819A1034_S_819A1034_0 *)fade)->unk_3A.s;
+    (*(s16 *)D_800261B0) = 1;
     ticks_left--;
-    ((S_819A1034_0 *)fade)->unk_3A.s = ticks_left;
+    ((Row_819A1034_S_819A1034_0 *)fade)->unk_3A.s = ticks_left;
     for (color_index = 0; color_index < 4; color_index++) {
-        ((S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_0C =
-            ((S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_1C * ((S_819A1034_0 *)fade)->unk_3A.u /
-            ((S_819A1034_0 *)fade)->unk_3C;
-        ((S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_0D =
-            ((S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_1D * ((S_819A1034_0 *)fade)->unk_3A.u /
-            ((S_819A1034_0 *)fade)->unk_3C;
-        ((S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_0E =
-            ((S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_1E * ((S_819A1034_0 *)fade)->unk_3A.u /
-            ((S_819A1034_0 *)fade)->unk_3C;
+        ((Row_819A1034_S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_0C =
+            ((Row_819A1034_S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_1C * ((Row_819A1034_S_819A1034_0 *)fade)->unk_3A.u /
+            ((Row_819A1034_S_819A1034_0 *)fade)->unk_3C;
+        ((Row_819A1034_S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_0D =
+            ((Row_819A1034_S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_1D * ((Row_819A1034_S_819A1034_0 *)fade)->unk_3A.u /
+            ((Row_819A1034_S_819A1034_0 *)fade)->unk_3C;
+        ((Row_819A1034_S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_0E =
+            ((Row_819A1034_S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_1E * ((Row_819A1034_S_819A1034_0 *)fade)->unk_3A.u /
+            ((Row_819A1034_S_819A1034_0 *)fade)->unk_3C;
     }
-    if (((S_819A1034_0 *)fade)->unk_3A.u <= 0) {
+    if (((Row_819A1034_S_819A1034_0 *)fade)->unk_3A.u <= 0) {
         (*(u16 *)((u8 *)fade + -2)) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
     }

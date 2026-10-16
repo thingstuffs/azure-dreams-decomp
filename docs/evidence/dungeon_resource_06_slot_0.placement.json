@@ -1,0 +1,37 @@
+{
+  "schema": "azure-clean.resource-loader-union.v1",
+  "resource_id": 6,
+  "slot": 0,
+  "lba": 17636,
+  "destination": 2148993024,
+  "file_start": 10907648,
+  "file_end": 10932224,
+  "delta": 2138085376,
+  "sectors": 12,
+  "loader_receipt": "docs/evidence/dungeon_normal_resource_loader.json",
+  "loader_receipt_sha256": "363507fb11e119d2f1abfb0dbae4c7d7ea63f39d61cbb5fecdeb1e39b78f3a87",
+  "disc_container_equal": true,
+  "loaded_bank_sha256": "1a7270eafce686af0055557afe98e5bb62d847989400889a057097d0246abf39",
+  "legacy_region": {
+    "schema": "azure-clean.rowbase.v1",
+    "region": "beldo_boss_cluster",
+    "foff_start": "0xA65000",
+    "foff_end": "0xA6C000",
+    "delta": "0x7F709800",
+    "base_confidence": "proven",
+    "proof": "gap probe 5 (2026-07-19): 3 local j's in func_80A4AB34 solve one base (row 0xA6AB34 -> 0x80174334); adjacent row func_80A4AA14 ends exactly at that base; byte-exact plain-C recompile 346/346 words @2.8.1 at true base; region-wide anchors adrando 0xA607A4->0x80169FA4, customBeldoCode 0xA685AC->0x80171DAC, beldoIdle 0xA6A3CC->0x80173BCC (delta 0x7F709800 across 0xA60000-0xA6C000); NARROWED 2026-08-23 (docs/port_handback_20260822/dungeon_base_proofs/REPORT.md \u00a76.1 + its 2026-08-23 apply section): the record was over-broad \u2014 0xA61000-0xA65000 is a DIFFERENT per-floor image at delta 0x7F6EB800 (5 image steps of 0x6000) and is now its own record beldo_cluster_low_A61000. What is left keeps this delta and its own evidence: 22 of the 38 detected function starts in [0xA65000,0xA6C000) are uniquely pinned to 0x7F709800 by in-function local-j containment with zero runner-up (8 in 0xA65000-0xA69000, 14 in 0xA69000-0xA6C000), plus the byte-exact func_80A4AB34 recompile and the customBeldoCode/beldoIdle anchors above. \u00a76.1's suggested lower bound of 0xA69000 was MEASURED WRONG and refused: it strips the true base from the landed MATCH rows func_80A47C0C (0xA67C0C -> func_8017140C) and func_80A48F8C (0xA68F8C -> func_8017278C) and flips gate windows dungeon_deep_t8b_a67000 and dungeon_deep_t8b_a68f8c from MATCH to NO MATCH. The dropped head [0xA60000,0xA61000) carries zero detected function starts and zero rows, so it is left uncovered rather than asserted"
+  },
+  "union_region": {
+    "schema": "azure-clean.rowbase.v1",
+    "region": "beldo_boss_cluster",
+    "foff_start": "0xA65000",
+    "foff_end": "0xa6d000",
+    "delta": "0x7F709800",
+    "base_confidence": "proven",
+    "proof": "gap probe 5 (2026-07-19): 3 local j's in func_80A4AB34 solve one base (row 0xA6AB34 -> 0x80174334); adjacent row func_80A4AA14 ends exactly at that base; byte-exact plain-C recompile 346/346 words @2.8.1 at true base; region-wide anchors adrando 0xA607A4->0x80169FA4, customBeldoCode 0xA685AC->0x80171DAC, beldoIdle 0xA6A3CC->0x80173BCC (delta 0x7F709800 across 0xA60000-0xA6C000); NARROWED 2026-08-23 (docs/port_handback_20260822/dungeon_base_proofs/REPORT.md \u00a76.1 + its 2026-08-23 apply section): the record was over-broad \u2014 0xA61000-0xA65000 is a DIFFERENT per-floor image at delta 0x7F6EB800 (5 image steps of 0x6000) and is now its own record beldo_cluster_low_A61000. What is left keeps this delta and its own evidence: 22 of the 38 detected function starts in [0xA65000,0xA6C000) are uniquely pinned to 0x7F709800 by in-function local-j containment with zero runner-up (8 in 0xA65000-0xA69000, 14 in 0xA69000-0xA6C000), plus the byte-exact func_80A4AB34 recompile and the customBeldoCode/beldoIdle anchors above. \u00a76.1's suggested lower bound of 0xA69000 was MEASURED WRONG and refused: it strips the true base from the landed MATCH rows func_80A47C0C (0xA67C0C -> func_8017140C) and func_80A48F8C (0xA68F8C -> func_8017278C) and flips gate windows dungeon_deep_t8b_a67000 and dungeon_deep_t8b_a68f8c from MATCH to NO MATCH. The dropped head [0xA60000,0xA61000) carries zero detected function starts and zero rows, so it is left uncovered rather than asserted; r121m_w2dn_1: preserved the complete prior proven region and extended its end to 0xA6D000. The conditional normal resource-6 slot-0 loader independently proves [0xA67000,0xA6D000) at the SAME delta, with every disc sector equal to the container. This is a compatible union, not a claim that the legacy head is read by the normal loader. Full receipt: docs/evidence/dungeon_resource_06_slot_0.placement.json."
+  },
+  "runtime_observed": false,
+  "basis": "Both independently proven extents have the identical address delta. Keep every old placement fact and extend only the formerly uncovered tail. Normal-loader residency is asserted only for the twelve-sector bank; the old head retains its separate prior evidence.",
+  "review": "pending",
+  "reviewer": null
+}

@@ -1,48 +1,15 @@
-#include "common.h"
-#include "shared/game_work.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_ovl_1936800.h"
 
-typedef struct Prim81916C1C {
-    u8 pad0[4];
-    s8 x0;
-    s8 x1;
-    u8 y0;
-    u8 flags;
-    s16 x2;
-    s16 y2;
-    s16 x3;
-    s16 y3;
-} Prim81916C1C;
-
-typedef struct State81916C1C {
-    u8 pad0[0x8D0];
-    Prim81916C1C *next;
-} State81916C1C;
-
-typedef struct Inner81916C1C {
-    u8 pad0[0x14];
-    u16 counter;
-} Inner81916C1C;
-
-typedef struct Arg81916C1C {
-    u8 pad0[5];
-    s8 count;
-} Arg81916C1C;
-
-extern void func_800667A8(Prim81916C1C *, s32);
-extern void func_8006658C(void *, Prim81916C1C *);
-
-/* Queue a full-screen primitive and mark completion when the countdown expires. */
-void func_8002441C(void *context, s32 unused, Arg81916C1C *countdown)
+void func_8002441C(void *context, s32 unused, Row_81916C1C_Arg81916C1C *countdown)
 {
-    Inner81916C1C *tick_state;
-    State81916C1C *render_state;
-    Prim81916C1C *prim;
+    Row_81916C1C_Inner81916C1C *tick_state;
+    Row_81916C1C_State81916C1C *render_state;
+    Row_81916C1C_Prim81916C1C *prim;
     s32 step;
     s8 x_value;
     s8 remaining;
 
-    tick_state = *(Inner81916C1C **)context;
+    tick_state = *(Row_81916C1C_Inner81916C1C **)context;
     tick_state->counter++;
     render_state = gameWork.unk_000;
     prim = render_state->next;

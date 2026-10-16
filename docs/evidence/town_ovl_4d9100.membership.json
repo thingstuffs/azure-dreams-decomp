@@ -1,0 +1,21 @@
+{
+  "module": "town_ovl_4d9100",
+  "ledger_group": {
+    "container": "town",
+    "module": "ovl_4d9100.c",
+    "module_index": 30
+  },
+  "members": [
+    "town/func_80559100"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Complete singleton ledger group; historical TU boundary unobservable.",
+  "basis": [
+    "The entire assigned ledger cohort is naturally emitted as one function under the supported row recipe.",
+    "The rowbase was solved from two raw-CFG absolute jumps and all affected rows recompiled exactly before this native contract was prepared.",
+    "Shared root and callback types use the existing common typed headers; storage remains externally owned."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120"
+}

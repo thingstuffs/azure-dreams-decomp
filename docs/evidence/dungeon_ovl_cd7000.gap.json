@@ -1,0 +1,368 @@
+{
+  "module": "dungeon_ovl_cd7000",
+  "reference": "dungeon_ovl_cb3000",
+  "reference_bytes": 19116,
+  "foff": 13463552,
+  "vma": 2148845568,
+  "delta": 2135382016,
+  "rows": 39,
+  "recovered_rows": [
+    {
+      "row": "dungeon/func_80CB7120",
+      "function": "func_8014C920",
+      "foff": 13463840,
+      "size": 316,
+      "source_sha256": "8dce1fc5be6b61a7fe85deb98765e65980b8bc5e3e30e0ce36c329e819b1092a",
+      "retail_sha256": "36cedb952f559e7cd2e57d2d24668f9de903ee806b36215222787c154284a2b8",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8014C920/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CB725C",
+      "function": "func_8014CA5C",
+      "foff": 13464156,
+      "size": 456,
+      "source_sha256": "1d6490cd417f25304fcde698fed94378fc84db17a6fd3be5348cdcd35f635976",
+      "retail_sha256": "32c749ce58b4decc90e62b2dcf37d6545561e6c74e5459fc0135096af3223275",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8014CA5C/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CB7424",
+      "function": "func_8014CC24",
+      "foff": 13464612,
+      "size": 1032,
+      "source_sha256": "3f1ccf855b301cbf90489b36a759e46ff3e738251b77dbef2dacb2694f86ff40",
+      "retail_sha256": "eb267cd907c6a70f5c01b57ccb8b60dec805871e63cfefb5cd9d9e9782b5bc85",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8014CC24/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CB782C",
+      "function": "func_8014D02C",
+      "foff": 13465644,
+      "size": 1380,
+      "source_sha256": "5b404873f27103b53da9937f5d67166262c6967a5d90ccd62554455a7d5621c3",
+      "retail_sha256": "407d1e7edf632a86fca6bce5bb5bf1c5dcad2ff23c52e8a0060ea46b9dc04e24",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8014D02C/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CB7D90",
+      "function": "func_8014D590",
+      "foff": 13467024,
+      "size": 640,
+      "source_sha256": "6c0e78fbca52172cca1b9d01564c3f8d7930be533461c7a59d53f46073235b3d",
+      "retail_sha256": "0ddea523a689541cff4b94f4b63ca0009167394fb8c6fdc516b7b6e4fc19d098",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8014D590/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CB8010",
+      "function": "func_8014D810",
+      "foff": 13467664,
+      "size": 1864,
+      "source_sha256": "a90e65741b2a0f742a9748fd0bf40bf3254ddb16045592dcad09436c863654c4",
+      "retail_sha256": "9ed2211b788624e3084f7a5416af4360aff844a90006cb806d85d39d9a307512",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8014D810/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CB8758",
+      "function": "func_8014DF58",
+      "foff": 13469528,
+      "size": 100,
+      "source_sha256": "f65b0da1b1081d04618bbce7623d48a0433564e1b5ce0a9d72130cde4a98f942",
+      "retail_sha256": "20b95c5a1a51125a33a38452038e5bc40d21058fd1d7f1874dbe0395b19fef48",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8014DF58/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CB87BC",
+      "function": "func_8014DFBC",
+      "foff": 13469628,
+      "size": 452,
+      "source_sha256": "c31fada38d14fac76fbea8eef015136176d47d6c7d0ffc3d1b59d0b84bf954a8",
+      "retail_sha256": "fa2b0f90315ae04ccabbc2f6284af4c1501beb97f98a3a1b79042064f267f40c",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8014DFBC/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CB8980",
+      "function": "func_8014E180",
+      "foff": 13470080,
+      "size": 280,
+      "source_sha256": "9f76cb63065149fdaed2bdd3a5c27673f709fc43cafb81aa02fc949a5d9c10b4",
+      "retail_sha256": "30b47c63e5f5562ce75b792e301507f821b2e5026674c95ffd5b4a2617ee8aea",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8014E180/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CB8A98",
+      "function": "func_8014E298",
+      "foff": 13470360,
+      "size": 324,
+      "source_sha256": "5bbd1016747866a63ecc839f844bd09c0c79df4d5575a165e3ac58cb44cdd57f",
+      "retail_sha256": "201d8057eba0e7bf4b112799ddb07813955b80470420abf23e43d0eec19ff5a7",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8014E298/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CB8BDC",
+      "function": "func_8014E3DC",
+      "foff": 13470684,
+      "size": 124,
+      "source_sha256": "aee130a481c3176181e6a3deeb33fee408ec23cf2d67e78d4f36a37d732ab8fd",
+      "retail_sha256": "b374c7aa8df816f719fb8c76822b509e060e64311f8c6073ba56bdfb69ec16c3",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8014E3DC/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CB8C58",
+      "function": "func_8014E458",
+      "foff": 13470808,
+      "size": 1260,
+      "source_sha256": "a15091604779cf9e58813a393803bdfdd0139dddb83bc3080aee100d6c941f66",
+      "retail_sha256": "8fb3921abd598b9e0deee2a6683f5171d0dfe87346aa768d8f3298905bfebfae",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8014E458/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CB9144",
+      "function": "func_8014E944",
+      "foff": 13472068,
+      "size": 100,
+      "source_sha256": "4c8033b758ca55902f86636b7e68430e61bc15b9b43e83aa4c4bad311fad4ab9",
+      "retail_sha256": "58c8ac01a68f94221c1645591e5b3b3775aa8a18bf13af4c8d7f930f2d85a013",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8014E944/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CB91A8",
+      "function": "func_8014E9A8",
+      "foff": 13472168,
+      "size": 548,
+      "source_sha256": "e0c8eb9e186b7d6fe343795e76572f205e73c2881be1be79e545c0e160252a1b",
+      "retail_sha256": "415668c5bcac1fa5d83f8524e800f9c358c2053c92fd49879a177f0921bc48db",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8014E9A8/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CB93CC",
+      "function": "func_8014EBCC",
+      "foff": 13472716,
+      "size": 1300,
+      "source_sha256": "eb5daeac78de6e805621d92ff3af436cf7d869cca67c755b29ca9c3cf47e1c36",
+      "retail_sha256": "4d2490f056e0a0dee37b72eeb0f3fdea29241466e6dc6e91caf2746867fb7ded",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8014EBCC/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CB98E0",
+      "function": "func_8014F0E0",
+      "foff": 13474016,
+      "size": 548,
+      "source_sha256": "890c53d1e474a05401c73206fb3e13c9d54a03b45d420b2459bdc743e90027cd",
+      "retail_sha256": "bff6c6c39d7212905bdc72a5c3b394b2eba433a7205eed09dc747710e1660309",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8014F0E0/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CB9B04",
+      "function": "func_8014F304",
+      "foff": 13474564,
+      "size": 32,
+      "source_sha256": "53fddafbdaaeaaaea9af349c9fec08f70251706dceef7f44c9be783fcaed6b2b",
+      "retail_sha256": "897af133fd7eeec76cafa6c9f86460bebb1c2a72435dfa6aeed0bf5663a0d79a",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8014F304/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CB9B24",
+      "function": "func_8014F324",
+      "foff": 13474596,
+      "size": 32,
+      "source_sha256": "447669431bc0b20a7e9d1970751045326e976e7545ce62a8ce3801b4159a429a",
+      "retail_sha256": "5d90ad4ef2a93c845fb1da3dc24372376083e84e9938f33d3ca121e0c88d90cb",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8014F324/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CB9B44",
+      "function": "func_8014F344",
+      "foff": 13474628,
+      "size": 32,
+      "source_sha256": "2d6d2a2975c5514051b25961bfb7f3a4093761bb0ce42bebe38842253b292c5d",
+      "retail_sha256": "42604a78f605c9d25623baa60f5ea1c64a4b86bcb050976cd3d9195ce7ecde28",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8014F344/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CB9B64",
+      "function": "func_8014F364",
+      "foff": 13474660,
+      "size": 56,
+      "source_sha256": "e58e53f83c507a441425500b31f2272541753e42d5631bf6392e6a8f3b9358cb",
+      "retail_sha256": "881079cc409e6f4e29e689c770813845a31dcb76440557eddc3961bc492597b7",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8014F364/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CB9B9C",
+      "function": "func_8014F39C",
+      "foff": 13474716,
+      "size": 912,
+      "source_sha256": "f18da04baa445d24cb577e069b6b74dc54be0c666116c747bf8fb86660fafebf",
+      "retail_sha256": "2fdbd0cf264c6e4a907b9df8000d5fca34beab610066b90c993f7e4b3afa14f0",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8014F39C/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CB9F2C",
+      "function": "func_8014F72C",
+      "foff": 13475628,
+      "size": 780,
+      "source_sha256": "68546f1559ff7229339d49fe2f5d20dad8fc0baad55fa03095862d9d7f654eaf",
+      "retail_sha256": "c644011dceb086a798d3a9e67051a7b58963cdb90de84ad3245c84f3156d873d",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8014F72C/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CBA238",
+      "function": "func_8014FA38",
+      "foff": 13476408,
+      "size": 200,
+      "source_sha256": "39ba7a363101cbe870a9c4c9a3cde540d9ecbcceee8dc6e3c11a0f85fbbfa110",
+      "retail_sha256": "209604742c32cf4d9bfb22ef4fe764d820744e6cd6d95b8c48776748fee254ae",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8014FA38/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CBA300",
+      "function": "func_8014FB00",
+      "foff": 13476608,
+      "size": 100,
+      "source_sha256": "937ae7cebbdefa119805ddf8a4f48ab08bd65a1ee71aabc74d3cdbbe45b6bff8",
+      "retail_sha256": "6b5f624ad736cda450c64959e8fba8f693a4f63c5bd0cc8f3d964c79584ecca4",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8014FB00/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CBA364",
+      "function": "func_8014FB64",
+      "foff": 13476708,
+      "size": 56,
+      "source_sha256": "20f1fedab76a27cbe834dadfdc777c9601b47f3a10edb540c32f05df03a8ac0d",
+      "retail_sha256": "4dc1d14ffa5976e90c6a51c2346690543c2d54acd45076ecd387cf02ee0db9e9",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8014FB64/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CBA39C",
+      "function": "func_8014FB9C",
+      "foff": 13476764,
+      "size": 56,
+      "source_sha256": "8188311904e1787403727adc9a0e39ce42428ba6d4be204864cc18abf5263aad",
+      "retail_sha256": "b47e8bf3d4422d57cbe67eb9fe5a7c242d0ebeb704cdf6c2cede207152b8fd2a",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8014FB9C/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CBA3D4",
+      "function": "func_8014FBD4",
+      "foff": 13476820,
+      "size": 56,
+      "source_sha256": "c6fe39412cb7764121ac9322fe18fa1eb30fe79caf7f6cb94ef9aeebca800f10",
+      "retail_sha256": "885e7701b9b359bb269a83f7df2bd4b3be4f1e43e5eec4c4793b2dca930100da",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8014FBD4/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CBA40C",
+      "function": "func_8014FC0C",
+      "foff": 13476876,
+      "size": 240,
+      "source_sha256": "0e0e9934df137df242328e3eb0b5bbb629ef550feb11d4ac36c773fd5b6509a8",
+      "retail_sha256": "62e275ecd50708d643a3bce7ac9d91a086512b9dc55dae0b0396bd6eccdc3c2c",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8014FC0C/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CBA4FC",
+      "function": "func_8014FCFC",
+      "foff": 13477116,
+      "size": 324,
+      "source_sha256": "2bd0cb72dbd5e35898622686393ba2ecb7a71dc1daa027ca10a0df0f8864ea20",
+      "retail_sha256": "1e6d111b0d0c7caca995b43e51728ce1dcf3836f8b3d1e6706eca6d0aa7b6519",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8014FCFC/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CBA640",
+      "function": "func_8014FE40",
+      "foff": 13477440,
+      "size": 1248,
+      "source_sha256": "14ad215a48beadebbdf59f1737d4bb83dae5fea5049463f5c0e54aebf2a96e69",
+      "retail_sha256": "1cff46cd67c7fd8b8f1b15cb34d6c2839f933d2a1e43181fe5067013b37c64fc",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8014FE40/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CBAB20",
+      "function": "func_80150320",
+      "foff": 13478688,
+      "size": 84,
+      "source_sha256": "fce64222fcb0c0c46543fa2bed18029d32925c7e90ac3ddfc5cababaf3f03b05",
+      "retail_sha256": "d2556cbbaf74e56e4a83ae5bcdc339309262f00bd834ed1bdaf6730178f0a776",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_80150320/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CBAB74",
+      "function": "func_80150374",
+      "foff": 13478772,
+      "size": 944,
+      "source_sha256": "b1cf306df81c09481009c9c3f20ea4799b08f8c625828136a7b206be20864273",
+      "retail_sha256": "eaf5c4b2889fc7e02647305c50ef3b65d5c335e9d7cbee9d09a2750c1b653e59",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_80150374/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CBAF24",
+      "function": "func_80150724",
+      "foff": 13479716,
+      "size": 1048,
+      "source_sha256": "2c645d75f6d13716a1dfdd099c63d07e53fea201bc1725799a063c92650de716",
+      "retail_sha256": "b0e03f50097044af8e28827799d78f4665ee0a2bd97d6801c210be62674daf58",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_80150724/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CBB33C",
+      "function": "func_80150B3C",
+      "foff": 13480764,
+      "size": 172,
+      "source_sha256": "9c5492d9235e0d62bfe74181eec7168b37b866f689e9a97b1693c371673fb20b",
+      "retail_sha256": "e59cbb647c54319b68c8b7df50524d3974b3479e9d0c2219fd52c121267f1650",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_80150B3C/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CBB3E8",
+      "function": "func_80150BE8",
+      "foff": 13480936,
+      "size": 300,
+      "source_sha256": "1fd18b75bceaaef4a81ce1889f3144df76a4da79e6e63dd400a37fd3c9be1746",
+      "retail_sha256": "170b119527b72027cea81e72e851b8bad67492c9e4da87c226ac36de2ed5e726",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_80150BE8/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CBB514",
+      "function": "func_80150D14",
+      "foff": 13481236,
+      "size": 1320,
+      "source_sha256": "4318fa410e5d2dca2d197c4c3e11d27676f011514ac21ef8be9c94c2e825a67d",
+      "retail_sha256": "cdce84f48a1ce58bef3901d0651229abd0865b902546d63bbd0ad0f5429c8802",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_80150D14/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CBBA3C",
+      "function": "func_8015123C",
+      "foff": 13482556,
+      "size": 56,
+      "source_sha256": "c8b80452c695408765bcb7bd1f0e0c616a3a35fa79f6f87691deab4cc68bb31a",
+      "retail_sha256": "4eb77725916e488441143adb9a8837dd4e32aa937b6ff91faf51fa6f9fbe67a7",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_8015123C/seed/receipt.json"
+    },
+    {
+      "row": "dungeon/func_80CBBA74",
+      "function": "func_80151274",
+      "foff": 13482612,
+      "size": 56,
+      "source_sha256": "baccf8473e208ef1be02b737fffd64b2802bd3d4cae1257f4a9db9922407c751",
+      "retail_sha256": "b8d970a0887d156d085acff4a4455198126b6201d95e29ddd75d1122a677b238",
+      "proof": "evidence/clone_seeds/dungeon_ovl_cd7000/candidates/func_80151274/seed/receipt.json"
+    }
+  ],
+  "boundary": {
+    "code_start": 13463676,
+    "code_end": 13482668,
+    "frame_data_start": 13482668,
+    "action_table_foff": 13482812,
+    "action_table_entries": 24
+  },
+  "full_tu": {
+    "result": "MATCH",
+    "masked": 0,
+    "bytes": 19116,
+    "sha256": "c5e4ab472f370343cb147aa57cf1d0f961d8c1df8426d01dd92e44598c8e3ed1"
+  },
+  "basis": "The complete clean source template is renamed using the established uniform bank/address mapping. All 38 recovered rows have independent standalone full-code/switch MATCH receipts; the full 39-function fresh native compile also matches. Relink-only measurements were a discriminator, never substituted for these fresh compilations.",
+  "review": "pending"
+}

@@ -1,0 +1,83 @@
+{
+  "module": "dungeon_ovl_f7d070_p01",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_f7d070_p01.c",
+    "module_index": 130301
+  },
+  "members": [
+    "dungeon/func_80F5D070"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "original_group": "ovl_f7d070.c#103",
+  "original_members": [
+    "dungeon/func_80F5D070",
+    "dungeon/func_80F5F040",
+    "dungeon/func_80F5FAA4"
+  ],
+  "boundary_parts": [
+    {
+      "name": "ovl_f7d070_p01.c",
+      "module_index": 130301,
+      "ready": true,
+      "rows": [
+        "dungeon/func_80F5D070"
+      ]
+    },
+    {
+      "name": "ovl_f7d070_p02.c",
+      "module_index": 130302,
+      "ready": false,
+      "rows": [
+        "dungeon/func_80F5F040"
+      ]
+    },
+    {
+      "name": "ovl_f7d070_p03.c",
+      "module_index": 130303,
+      "ready": false,
+      "rows": [
+        "dungeon/func_80F5FAA4"
+      ]
+    }
+  ],
+  "split_rationale": "Refine weak region bucket at physical gaps and independently emitted storage boundaries. Every assigned row remains in exactly one complete new cohort; native code runs claim no omitted row or gap storage. Historical original TU identity is not asserted.",
+  "tu_boundary": "Native boundary at a complete covered contiguous run. Historical original compiler object boundary is not observable.",
+  "basis": [
+    "Every original assigned row is accounted for once in the guarded boundary refinement.",
+    "This complete new ledger cohort is contiguous in retail order, has one recipe and authenticated load base, and shares no member.",
+    "The covered actor/state/effect functions use the same bank-local callback and table environment. Imported functions, tables and runtime objects retain separate ownership.",
+    "Whole TU natural-order code, genuine ASPSX and retail bytes agree with zero masks. Gaps and independently emitted tables are not filled or claimed."
+  ],
+  "complete_body_sha256": {
+    "dungeon/func_80F5D070": "65624531870f91986f1c513979dfdaa7eee3f8cbfcd829dc49c922534948aad2"
+  },
+  "call_graph": {
+    "functions": [
+      "func_80170870"
+    ],
+    "imports": [
+      "func_8003FD64",
+      "func_8004491C",
+      "func_80045340",
+      "func_800A48F0",
+      "func_800A6D30",
+      "func_800A9C18",
+      "func_800AA36C"
+    ]
+  },
+  "data_cohesion": {
+    "external_asset_views": [
+      "D_80170A3C",
+      "D_80170E68",
+      "D_80174194",
+      "D_801741DC"
+    ],
+    "runtime_views": [
+      "D_80083498"
+    ]
+  },
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120"
+}

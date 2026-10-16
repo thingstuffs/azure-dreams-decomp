@@ -1,0 +1,15 @@
+{
+  "module": "town_ovl_8d2114",
+  "views": {
+    "D_8001601C": {
+      "symbol": "D_8001601C",
+      "kind": "data",
+      "vma": 2147573788,
+      "foff": 9248796,
+      "view_bytes": 1,
+      "owner": "retail_asset:town:r121m_cfg_8d2114",
+      "evidence": "docs/evidence/town_ovl_8d2114.imports.json"
+    }
+  },
+  "basis": "The sole undefined symbol is the retained address within the proven scene prefix. A one-byte view establishes the address without claiming the array allocation bound."
+}

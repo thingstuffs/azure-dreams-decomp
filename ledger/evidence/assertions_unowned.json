@@ -255,21 +255,6 @@
   "size": 404
  },
  {
-  "source_file": "tobjs.c",
-  "line": 226,
-  "kind": "assert",
-  "expression": null,
-  "distinct_id": "D067",
-  "site_vram": "0x80702ABC",
-  "copy_foff": "0x7F8A80",
-  "copy_func": "func_80878A80",
-  "attribution": "direct",
-  "container": "town",
-  "true_name": null,
-  "func_status": "not-in-sweep",
-  "size": 296
- },
- {
   "source_file": "sn_main.c",
   "line": null,
   "kind": "expr",
@@ -313,21 +298,6 @@
   "true_name": null,
   "func_status": "not-in-sweep",
   "size": 224
- },
- {
-  "source_file": "tobjs.c",
-  "line": 89,
-  "kind": "assert",
-  "expression": null,
-  "distinct_id": "D069",
-  "site_vram": "0x807012D4",
-  "copy_foff": "0x8002A0",
-  "copy_func": "func_808802A0",
-  "attribution": "direct",
-  "container": "town",
-  "true_name": null,
-  "func_status": "not-in-sweep",
-  "size": 252
  },
  {
   "source_file": "sn_main.c",
@@ -380,29 +350,14 @@
   "kind": "assert",
   "expression": null,
   "distinct_id": "D068",
-  "site_vram": "0x80700F0C",
-  "copy_foff": "0x8016E0",
-  "copy_func": "func_808816E0",
-  "attribution": "direct",
-  "container": "town",
-  "true_name": null,
-  "func_status": "not-in-sweep",
-  "size": 228
- },
- {
-  "source_file": "tobjs.c",
-  "line": 75,
-  "kind": "assert",
-  "expression": null,
-  "distinct_id": "D068",
   "site_vram": "0x80700D7C",
-  "copy_foff": "0x803550",
-  "copy_func": "func_80883550",
+  "copy_foff": "0x803548",
+  "copy_func": "func_80883548",
   "attribution": "direct",
   "container": "town",
   "true_name": null,
   "func_status": "not-in-sweep",
-  "size": 228
+  "size": 236
  },
  {
   "source_file": "sn_main.c",
@@ -451,48 +406,18 @@
  },
  {
   "source_file": "tobjs.c",
-  "line": 225,
-  "kind": "assert",
-  "expression": null,
-  "distinct_id": "D066",
-  "site_vram": "0x00003E34",
-  "copy_foff": "0x8385F8",
-  "copy_func": "func_808B85F8",
-  "attribution": "direct",
-  "container": "town",
-  "true_name": null,
-  "func_status": "not-in-sweep",
-  "size": 296
- },
- {
-  "source_file": "tobjs.c",
   "line": 89,
   "kind": "assert",
   "expression": null,
   "distinct_id": "D069",
   "site_vram": "0xA070090C",
-  "copy_foff": "0x8398D8",
-  "copy_func": "func_808B98D8",
+  "copy_foff": "0x8398D0",
+  "copy_func": "func_808B98D0",
   "attribution": "direct",
   "container": "town",
   "true_name": null,
   "func_status": "not-in-sweep",
-  "size": 252
- },
- {
-  "source_file": "tobjs.c",
-  "line": 75,
-  "kind": "assert",
-  "expression": null,
-  "distinct_id": "D068",
-  "site_vram": "0x00000E20",
-  "copy_foff": "0x83B5F4",
-  "copy_func": "func_808BB5F4",
-  "attribution": "direct",
-  "container": "town",
-  "true_name": null,
-  "func_status": "not-in-sweep",
-  "size": 228
+  "size": 260
  },
  {
   "source_file": "tobjs.c",
@@ -501,12 +426,12 @@
   "expression": null,
   "distinct_id": "D068",
   "site_vram": "0x00000CE4",
-  "copy_foff": "0x844CB8",
-  "copy_func": "func_808C4CB8",
+  "copy_foff": "0x844CB0",
+  "copy_func": "func_808C4CB0",
   "attribution": "direct",
   "container": "town",
   "true_name": null,
   "func_status": "not-in-sweep",
-  "size": 228
+  "size": 236
  }
 ]

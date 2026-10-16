@@ -39,7 +39,7 @@ struct CallbackBlock {
     u32 vectors[8];
 };
 
-const struct CallbackBlock func_80AC5000 __attribute__((section(".text.func_80AC5000"))) = {
+const struct CallbackBlock func_80170800 __attribute__((section(".text.func_80170800"))) = {
     {
         func_80171158, func_80171320, func_80171B54, func_80171B54,
         func_80171B54, func_80171B80, func_80171B00, func_80171B00,
@@ -58,7 +58,7 @@ const struct CallbackBlock func_80AC5000 __attribute__((section(".text.func_80AC
 };
 
 #ifdef __mips__
-__asm__(".size func_80AC5000, 644");
+__asm__(".size func_80170800, 644");
 #endif
 
 
@@ -95,7 +95,7 @@ typedef struct Packet {
 } Packet;
 
 /* Projects a point and queues a semitransparent pixel and its drawing mode. */
-s32 func_80AC50A4(u8 *node_data, u16 *position)
+s32 func_801708A4(u8 *node_data, u16 *position)
 {
     Scratch *scratch = (Scratch *)0x1F800000;
     void **global_state = ((void * *)(&gameWork));

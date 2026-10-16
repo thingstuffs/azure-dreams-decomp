@@ -1,0 +1,30 @@
+{
+  "method": "same-image entry pointer plus already-proven local-j records",
+  "entry_pointer": {
+    "foff": 19681280,
+    "value": 2148993196,
+    "target_foff": 19681452
+  },
+  "delta": 2129311744,
+  "prior_records": [
+    {
+      "schema": "azure-clean.rowbase.v1",
+      "region": "img_12c6000_80171800",
+      "foff_start": "0x12C6000",
+      "foff_end": "0x12CA06C",
+      "delta": "0x7EEAB800",
+      "base_confidence": "proven",
+      "proof": "static per-floor image base proof 2026-08-23 (docs/port_handback_20260822/dungeon_base_proofs/proofs.json, image img0342@0x12C6000, verdict PROVEN, K 0x7EEAB800). M1 local-`j` containment: 16 of 29 functions in the image are pinned to this delta by 91 in-function absolute `j` target(s) that can only land inside their own function's span, 0 more by in-function switch-table containment, pin_conflict=false, under the measured image-base law K = 0 mod 0x800; M4 Evidence-B1 11 same-K `jal` onto in-image function start(s) of 13 in-band target(s), in-image coherence 0.85; M5 Evidence-B2 4/4 switch table(s) resolved in span, 0 violation(s); M6 Evidence-A 49 resident-EXE call confirm(s) over 16 distinct callee(s), 0 contra; M7 114 re-link resident identit(y/ies), 7 unexplained; M3 0/0 leading inline jump table(s) fully contained; corroborating methods: b1-same-K-call-hits, evidence-A-resident-calls, b2-switch-table-containment, relink-resident-identity; EXTENT = 29 of the image's own member function span(s), 0x12C6000-0x12CA06C; the image's other bytes are either already covered by an existing rowbase record (none) or are not member spans, and are left uncovered rather than asserted; gate window dungeon_deep_12c6000_truebase_80171800 (0x12C6000-0x12CA06C) states this same base and re-gated MATCH against the container on 2026-08-23 (381/381); 5 already-landed C TU(s) inside this extent -- func_812A67A4, func_812A7C08, func_812A8130, func_812A85D4, func_812A8E10 -- were recompiled and linked at this base inside that window during the 2026-08-23 apply and reproduced the container bytes exactly (the 105-window / 525-TU set); STATIC EVIDENCE ONLY -- no RAM capture, no overlay-streamer transfer observed at runtime, nothing here is a runtime observation. Scoring-grade (`solved`) until a byte-exact recompile at this base promotes it via tools/rowbase.py promote; PROMOTED solved->proven: byte-exact recompile func_812A8E10 at true base 0x80174610 (candidate sha 95ef150b4db9 @ 2.8.1-G0, linked-strict isolation compare, phase-2 item-3 hook)"
+    },
+    {
+      "schema": "azure-clean.rowbase.v1",
+      "region": "row_12c524c_80170a4c",
+      "foff_start": "0x12C524C",
+      "foff_end": "0x12C6000",
+      "delta": "0x7EEAB800",
+      "base_confidence": "proven",
+      "proof": "Static local-j solve 2026-09-14 (work/tailslot_honest, tail-slot region-less wave; method and per-row evidence in work/tailslot_honest/ROWBASE_REPORT.md): all 15 plausible absolute `j` words of func_812A524C (0 further word(s) decode as `j` but are data -- `j 0` or a target above RAM -- and are discarded) land INSIDE the row at base 0x80170A4C (delta 0x7EEAB800, alignment 0x800), at offsets +0x29C, +0x9A0, +0xA1C, +0xA98, +0xF1C, +0x108C, +0x1120, +0x11A0 of the row's [0x12C524C,0x12C67A4) extent; targets 0x80170CE8, 0x801713EC, 0x80171468, 0x801714E4, 0x80171968, 0x80171AD8, 0x80171B6C, 0x80171BEC. Containment alone leaves 179 candidate bases in [0x80170A20,0x80170CE8] -- it is an interval, not a point -- so the base is fixed by BANK CONSISTENCY: 1 existing dungeon.rowbase.jsonl record(s) within 0x8000 file bytes carry exactly this delta (img_12c6000_80171800), and 5 other ledger row(s) in the same span admit it; vote score 8, unique winner: yes. Recompile: the row's CURRENT pinned tree text (src/dungeon/func_812A524C.c, cfg 2.7.2-cdk) links byte-exact at this base (exact) -- but it also links byte-exact at the synthetic base 0x812A524C and the two linked outputs are BYTE-IDENTICAL, so this recompile is NON-DISCRIMINATING: the pinned pseudo-call spells the row's own jump as an absolute extern, which is the one construct that does not move with the link base. It satisfies the letter of the T1 recompile clause and adds no base evidence. Extent is the row's own 5464 bytes, conservatively carved: it overlaps no existing rowbase record and contains no other registered row. Extent CLIPPED at 0x12C6000, where the abutting record img_12c6000_80171800 begins at delta 0x7EEAB800 -- which is the IDENTICAL delta this row solves, so the two records are byte-contiguous in file and in true space (corroboration, not a conflict).  STATIC EVIDENCE ONLY (no RAM capture). Scoring-grade (`solved`) until a byte-exact recompile of HONEST C at this base promotes it via tools/gate/rowbase.py promote; promotion also turns on the owner-decision-B naming inversion (tools/gate/overlay_local_gate.py: an in-region source must define func_80170A4C and never mention func_812A524C).; PROMOTED solved->proven: byte-exact recompile func_812A524C at true base 0x80170A4C (candidate sha 05bf5db4b2e4 @ 2.7.2-cdk, linked-strict isolation compare, phase-2 item-3 hook)"
+    }
+  ],
+  "basis": "Header entry at file 0x12c5000 directly references the leading function. The adjacent large member has 15 absolute local j witnesses and the following image record independently states exactly the same delta. Consolidation covers only the existing same-bank image and its header/tail; external views grant no ownership."
+}

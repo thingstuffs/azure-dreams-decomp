@@ -1,0 +1,105 @@
+{
+  "group": "ovl_8d2114.c#88",
+  "start": 9248768,
+  "end": 9249060,
+  "delta": 2138324992,
+  "method": "Two distinct raw-CFG local-j equations; no loader observation claimed.",
+  "local_jumps": [
+    {
+      "foff": 9250144,
+      "word": "0x0800595E",
+      "target": 2147575160,
+      "target_foff": 9250168,
+      "solved_delta": 2138324992
+    },
+    {
+      "foff": 9250412,
+      "word": "0x080059A3",
+      "target": 2147575436,
+      "target_foff": 9250444,
+      "solved_delta": 2138324992
+    }
+  ],
+  "cfg_witnesses": [
+    {
+      "start": 9250084,
+      "end": 9250200,
+      "words": [
+        "0x27BDFFE0",
+        "0x00801021",
+        "0xAFB00010",
+        "0x00A08021",
+        "0x00022400",
+        "0x00042403",
+        "0xAFB10014",
+        "0xAFBF0018",
+        "0x0C005B3E",
+        "0x00408821",
+        "0x10400006",
+        "0x00000000",
+        "0x00102400",
+        "0x0C005B13",
+        "0x00042403",
+        "0x0800595E",
+        "0x00112400",
+        "0x00102400",
+        "0x0C005B28",
+        "0x00042403",
+        "0x00112400",
+        "0x0C005B13",
+        "0x00042403",
+        "0x8FBF0018",
+        "0x8FB10014",
+        "0x8FB00010",
+        "0x27BD0020",
+        "0x03E00008",
+        "0x00000000"
+      ],
+      "physical_target": 9250168,
+      "basis": "PC-relative beqz selects the alternate arm at 0x8D2568. Both arms prepare s1 as a signed 16-bit argument and join at the final repeated jal before the shared register restore. The first j bypasses the alternate arm and its redundant preparation, so its independently identified target is that final jal at 0x8D2578."
+    },
+    {
+      "start": 9250400,
+      "end": 9250492,
+      "words": [
+        "0x27BDFFD8",
+        "0xAFB00020",
+        "0x00808021",
+        "0x080059A3",
+        "0xAFBF0024",
+        "0x00042400",
+        "0x0C005B3E",
+        "0x00042403",
+        "0x10400006",
+        "0x00000000",
+        "0x26100002",
+        "0x86020000",
+        "0x96040000",
+        "0x1440FFF7",
+        "0x00000000",
+        "0x86020000",
+        "0x00000000",
+        "0x2C420001",
+        "0x8FBF0024",
+        "0x8FB00020",
+        "0x27BD0028",
+        "0x03E00008",
+        "0x00000000"
+      ],
+      "physical_target": 9250444,
+      "basis": "The frame prologue jumps to the bottom-tested loop condition before the first iteration. The PC-relative bnez at 0x8D2694 returns to the call body at 0x8D2674. The unique preceding lh/lhu condition block at 0x8D268C loads both the test and next call argument; entry through the body would use an undefined a0. This independently locates the second j target."
+    }
+  ],
+  "extent_basis": "Bounded scene prefix through the assigned getter and its retained D_8001601C address. No broader loader extent is asserted.",
+  "town_sha256": "907725012d8d9e1deab18c28b62f4d304057e86a6415df605b9ffb87cfb2fe18",
+  "affected_rows": [
+    "func_80952114"
+  ],
+  "byte_reproof": {
+    "status": "MATCH",
+    "exact": true,
+    "source_sha": "17b41537bdeeb80c5bea0595558b7826bdc41f8cb38f71a4b078fe223a61328f",
+    "target_sha": "1133563f3a8c02f0fbac158d9297a3916b19ade2f65e65fdfa27f9f0c938d7f9",
+    "config": "2.7.2-G0"
+  }
+}

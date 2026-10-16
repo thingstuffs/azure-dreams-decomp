@@ -1,0 +1,331 @@
+{
+  "module": "dungeon_resource07_slot0",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "resource07_slot0.c",
+    "module_index": 1
+  },
+  "members": [
+    "dungeon/func_80A71054",
+    "dungeon/func_80A71228",
+    "dungeon/func_80A71654",
+    "dungeon/func_80A71D70",
+    "dungeon/func_80A71FB4",
+    "dungeon/func_80A726FC",
+    "dungeon/func_80A727C0",
+    "dungeon/func_80A72984",
+    "dungeon/func_80A72A9C",
+    "dungeon/func_80A72BE0",
+    "dungeon/func_80A72C78",
+    "dungeon/func_80A72FE8",
+    "dungeon/func_80A7304C",
+    "dungeon/func_80A734C0",
+    "dungeon/func_80A73A38",
+    "dungeon/func_80A73E5C",
+    "dungeon/func_80A73E7C",
+    "dungeon/func_80A73E9C",
+    "dungeon/func_80A73EBC",
+    "dungeon/func_80A73EF4",
+    "dungeon/func_80A743B8",
+    "dungeon/func_80A746F4",
+    "dungeon/func_80A747BC",
+    "dungeon/func_80A74820",
+    "dungeon/func_80A74858",
+    "dungeon/func_80A74890",
+    "dungeon/func_80A748C8",
+    "dungeon/func_80A74900"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "reviewer": "orchestrator-r120",
+  "basis": "Complete contiguous resource 7 slot 0 code cohort: every original ledger member plus 20 recovered leading, intervening and trailing routines, and the complete 84-byte typed entry/switch head. One proven normal resource load, one uniform recipe and one C TU. No member is shared with another native module.",
+  "original_groups": [
+    {
+      "container": "dungeon",
+      "module": "ovl_a91654.c",
+      "module_index": 21,
+      "rows": 1,
+      "assigned": true
+    },
+    {
+      "container": "dungeon",
+      "module": "ovl_7f6df800.c",
+      "module_index": 39,
+      "rows": 7,
+      "assigned": true
+    }
+  ],
+  "boundary": {
+    "region": {
+      "schema": "azure-clean.rowbase.v1",
+      "region": "native_resource_07_slot_0",
+      "foff_start": "0xa91000",
+      "foff_end": "0xa97000",
+      "delta": "0x7f6df800",
+      "base_confidence": "proven",
+      "proof": "Verified conditional normal resource-loader transfer (func_800A0B94): resource 7, slot 0, twelve sectors at LBA 0x4538 -> 0x80170800. Retail instruction words, descriptor decoder, ISO extent and every disc/container sector verified in docs/evidence/dungeon_resource_07_slot_0.placement.json. Existing proven row recompiles agree with this delta; no runtime occurrence is claimed."
+    },
+    "resource_loader_receipt": "docs/evidence/dungeon_resource_07_slot_0.placement.json",
+    "file_start": 11079680,
+    "file_end": 11094328,
+    "code_start": 11079764,
+    "code_end": 11094328,
+    "next_allocation": {
+      "foff": 11094328,
+      "vma": 2149007672,
+      "kind": "animation-byte-tables"
+    },
+    "prefix_bytes": 84,
+    "internal_gaps": [],
+    "coverage": [
+      {
+        "id": "dungeon/func_80A71054",
+        "foff": 11079680,
+        "size": 552
+      },
+      {
+        "id": "dungeon/func_80A71228",
+        "foff": 11080232,
+        "size": 1068
+      },
+      {
+        "id": "dungeon/func_80A71654",
+        "foff": 11081300,
+        "size": 1820
+      },
+      {
+        "id": "dungeon/func_80A71D70",
+        "foff": 11083120,
+        "size": 580
+      },
+      {
+        "id": "dungeon/func_80A71FB4",
+        "foff": 11083700,
+        "size": 1864
+      },
+      {
+        "id": "dungeon/func_80A726FC",
+        "foff": 11085564,
+        "size": 196
+      },
+      {
+        "id": "dungeon/func_80A727C0",
+        "foff": 11085760,
+        "size": 452
+      },
+      {
+        "id": "dungeon/func_80A72984",
+        "foff": 11086212,
+        "size": 280
+      },
+      {
+        "id": "dungeon/func_80A72A9C",
+        "foff": 11086492,
+        "size": 324
+      },
+      {
+        "id": "dungeon/func_80A72BE0",
+        "foff": 11086816,
+        "size": 152
+      },
+      {
+        "id": "dungeon/func_80A72C78",
+        "foff": 11086968,
+        "size": 880
+      },
+      {
+        "id": "dungeon/func_80A72FE8",
+        "foff": 11087848,
+        "size": 100
+      },
+      {
+        "id": "dungeon/func_80A7304C",
+        "foff": 11087948,
+        "size": 1140
+      },
+      {
+        "id": "dungeon/func_80A734C0",
+        "foff": 11089088,
+        "size": 1400
+      },
+      {
+        "id": "dungeon/func_80A73A38",
+        "foff": 11090488,
+        "size": 1060
+      },
+      {
+        "id": "dungeon/func_80A73E5C",
+        "foff": 11091548,
+        "size": 32
+      },
+      {
+        "id": "dungeon/func_80A73E7C",
+        "foff": 11091580,
+        "size": 32
+      },
+      {
+        "id": "dungeon/func_80A73E9C",
+        "foff": 11091612,
+        "size": 32
+      },
+      {
+        "id": "dungeon/func_80A73EBC",
+        "foff": 11091644,
+        "size": 56
+      },
+      {
+        "id": "dungeon/func_80A73EF4",
+        "foff": 11091700,
+        "size": 1220
+      },
+      {
+        "id": "dungeon/func_80A743B8",
+        "foff": 11092920,
+        "size": 828
+      },
+      {
+        "id": "dungeon/func_80A746F4",
+        "foff": 11093748,
+        "size": 200
+      },
+      {
+        "id": "dungeon/func_80A747BC",
+        "foff": 11093948,
+        "size": 100
+      },
+      {
+        "id": "dungeon/func_80A74820",
+        "foff": 11094048,
+        "size": 56
+      },
+      {
+        "id": "dungeon/func_80A74858",
+        "foff": 11094104,
+        "size": 56
+      },
+      {
+        "id": "dungeon/func_80A74890",
+        "foff": 11094160,
+        "size": 56
+      },
+      {
+        "id": "dungeon/func_80A748C8",
+        "foff": 11094216,
+        "size": 56
+      },
+      {
+        "id": "dungeon/func_80A74900",
+        "foff": 11094272,
+        "size": 56
+      }
+    ],
+    "preserved_external_slices": [
+      {
+        "func_vram": "func_80A7006C",
+        "vram": 2158428268,
+        "foff": 11075692,
+        "size": 3988,
+        "result": "M2C_FAIL",
+        "instances": 1,
+        "data_segment": true,
+        "base_confidence": "proven-engine/derived-backhalf"
+      }
+    ]
+  },
+  "cohesion": {
+    "entry_targets": [
+      "func_80170854",
+      "func_80170A28"
+    ],
+    "callback_table": {
+      "symbol": "D_80174198",
+      "entries": 23,
+      "retail_values": [
+        2149004988,
+        2149004924,
+        2149004956,
+        2149007392,
+        2149007448,
+        2149006264,
+        0,
+        2149003832,
+        2149004892,
+        0,
+        2149001192,
+        2149007092,
+        2149007292,
+        2149005044,
+        2148178960,
+        2149000160,
+        2149000312,
+        2149001292,
+        2149002432,
+        2149007504,
+        2148191204,
+        2149007560,
+        2149007616
+      ],
+      "all_local_nonzero_targets_are_members": true,
+      "resident_callbacks": [
+        "func_800A9C10",
+        "func_800ACBE4"
+      ],
+      "dispatch_proof": {
+        "id": "dungeon/func_80A71228",
+        "source": "src/dungeon/func_80A71228.c",
+        "source_sha256": "2d3faf3e534fef6c9556b5f7c0d070ac8d99b7bb65054543f34092c69de8cdf0",
+        "expression": "((R07_80170A28_EntityCallback *)D_80174198)[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, part, entity);",
+        "retail_slices": [
+          {
+            "foff": 11080420,
+            "vma": 2148993764,
+            "formed_address_word": 53,
+            "words": [
+              37763105,
+              37756961,
+              41953313,
+              39858209,
+              1006862359,
+              2453799066,
+              610484632,
+              135296,
+              4395041,
+              2353135616,
+              0,
+              4257801,
+              37763105,
+              1053696,
+              2185429101
+            ],
+            "sha256": "802f11adfba1404474aabaa74ed6787bec3aa705d90420115cb02f042bc0e14a"
+          }
+        ]
+      },
+      "basis": "The exact C function indexes and calls this symbol. Its linked retail instructions form this address. All 23 recorded external cells are verified complete-member or established resident pointers. This is an external view; no allocation extent or initialization is granted."
+    },
+    "owned_switches": [
+      {
+        "section": ".rodata",
+        "foff": 11079688,
+        "vma": 2148993032,
+        "size": 48,
+        "kind": "switch_table",
+        "owner": "func_80170E54"
+      },
+      {
+        "section": ".rodata",
+        "foff": 11079736,
+        "vma": 2148993080,
+        "size": 28,
+        "kind": "switch_table",
+        "owner": "func_80172CC0"
+      }
+    ]
+  },
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "reconciliation": "One declaration per imported address, disjoint local record names and explicit original narrow argument/result conversions. Recovered forwarding callbacks explicitly pass resident arguments. The legacy large fictitious base plus offset is replaced by the proven native table address where the complete byte proof permits it.",
+  "review": "reviewed"
+}

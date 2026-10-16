@@ -1,108 +1,6 @@
-#include "common.h"
-#include "shared/scratchpad.h"
-/* cfail-repair: tf7-phase1-cache-v3 */
-#include "shared/game_work.h"
-#include "m2c_compat.h"
-typedef struct { s32 w[10]; } Blk40;
-typedef struct { s32 w[4]; } Blk16;
-typedef struct { s32 w[2]; } Blk8;
+#include "modules/dungeon_ovl_190c800.h"
 
-#define M2C_BREAK() 0
-#define M2C_SYNC() 0
-#define SP8(offset) M2C_FIELD(scratch, u8 *, (offset))
-#define SP16(offset) (scratch->h[(offset) / 2])
-#define SP32(offset) (scratch->sw[(offset) / 4])
-#define SP5D M2C_FIELD(quad_copies, u8 *, 53)
-
-typedef struct QuadTail {
-    u8 pad0[50];
-    u16 y;
-    u8 pad1;
-    u8 flag;
-} QuadTail;
-
-s32 func_800644B8();
-void func_80064840();
-void func_800649A0();
-void func_80064A40();
-void func_80064BC0();
-void func_80064CF0();
-void func_80064D80();
-void func_800654B0();
-void func_80065820();
-void func_80067EF4();
-extern u8 D_8006CD10[3];
-
-#ifdef __mips__
-extern void func_800255B4(void);
-extern void func_80025150(void);
-extern void func_8002516C(void);
-extern void func_80025194(void);
-extern void func_800252C8(void);
-extern void func_800252E4(void);
-extern void func_8002530C(void);
-extern void func_800256A8(void);
-extern void func_8002576C(void);
-extern void func_80025A34(void);
-extern void func_80025C10(void);
-extern void func_80025F64(void);
-extern void func_800262F4(void);
-extern void func_80026318(void);
-extern void func_800263B0(void);
-extern void func_8002634C(void);
-
-static void (*const func_818EC800_table_a[])(void)
-__attribute__((section(".text.func_818EC800"))) = {
-    func_800255B4,
-    0,
-    func_80025150,
-    func_80025150,
-    func_80025150,
-    func_8002516C,
-    func_80025150,
-    func_80025150,
-    func_80025150,
-    func_80025194,
-    func_800252C8,
-    func_800252C8,
-    func_800252C8,
-    func_800252E4,
-    func_800252C8,
-    func_800252C8,
-    func_800252C8,
-    func_8002530C,
-};
-
-static const u32 func_818EC800_table_b[]
-__attribute__((section(".text.func_818EC800"))) = {
-    0x01000340,
-    0x00540060,
-    0x00000020,
-    0x00200020,
-    0x00200000,
-    0x0020FFE0,
-    0x0000FFE0,
-    0xFFE0FFE0,
-    0xFFE00000,
-    0xFFE00020,
-};
-
-static void (*const func_818EC800_table_c[])(void)
-__attribute__((section(".text.func_818EC800"))) = {
-    func_800256A8,
-    func_8002576C,
-    func_80025A34,
-    func_80025C10,
-    func_80025F64,
-    func_800262F4,
-    func_80026318,
-    func_800263B0,
-    func_8002634C,
-};
-#endif
-
-/* Draws a transformed sprite as horizontally displaced scanline quads. */
-void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_mode)
+void func_80024094(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_mode)
 {
     s32 quad_copies[20];
     u16 saved_draw_mode;
@@ -400,10 +298,10 @@ clut_done_done_done:
                 + (((s32) (func_800644B8(wave_phase) * (*((u8 *) (((s8 *) row_effect) + 0x50))))) >> 0x10));
             *((u16 *) (((s8 *) packet) + 0x20)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x20)))
                 + (((s32) (func_800644B8(wave_phase) * (*((u8 *) (((s8 *) row_effect) + 0x50))))) >> 0x10));
-            *((u16 *) (((s8 *) packet) + 0xA)) = ((QuadTail *) quad_copies)->y;
-            *((u16 *) (((s8 *) packet) + 0x12)) = ((QuadTail *) quad_copies)->y;
-            *((s16 *) (((s8 *) packet) + 0x1A)) = (s16) (((QuadTail *) quad_copies)->y + 1);
-            *((s16 *) (((s8 *) packet) + 0x22)) = (s16) (((QuadTail *) quad_copies)->y + 1);
+            *((u16 *) (((s8 *) packet) + 0xA)) = ((Row_818EC800_QuadTail *) quad_copies)->y;
+            *((u16 *) (((s8 *) packet) + 0x12)) = ((Row_818EC800_QuadTail *) quad_copies)->y;
+            *((s16 *) (((s8 *) packet) + 0x1A)) = (s16) (((Row_818EC800_QuadTail *) quad_copies)->y + 1);
+            *((s16 *) (((s8 *) packet) + 0x22)) = (s16) (((Row_818EC800_QuadTail *) quad_copies)->y + 1);
             *((u8 *) (((s8 *) packet) + 0xD)) = *((u8 *) (((s8 *) quad_copies) + 53));
             *((u8 *) (((s8 *) packet) + 0x15)) = *((u8 *) (((s8 *) quad_copies) + 53));
             row_index += 1;

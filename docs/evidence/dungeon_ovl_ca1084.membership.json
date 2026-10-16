@@ -1,0 +1,52 @@
+{
+  "module": "dungeon_ovl_ca1084",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_ca1084.c",
+    "module_index": 56
+  },
+  "members": [
+    "dungeon/func_80C81084"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Historical object boundary is not observable; native module is the complete existing one-row ledger cohort.",
+  "basis": [
+    "Complete ledger cohort is one contiguous 480-byte retail function. No other ledger group shares this row.",
+    "One proven load region img_ca1060_80158860 binds this function to 0x80158884. The adjacent rows are outside the ledger cohort; they are not claimed.",
+    "One rendering loop builds point and draw-mode GPU packets, traverses a linked object list, and updates the resident packet cursor. Its three direct calls are resident GTE/GPU helpers. The sole global access is the first word of gameWork."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120",
+  "boundary": {
+    "start": 13242500,
+    "end": 13242980,
+    "load_region": {
+      "schema": "azure-clean.rowbase.v1",
+      "region": "img_ca1060_80158860",
+      "foff_start": "0xCA1060",
+      "foff_end": "0xCA4AC0",
+      "delta": "0x7F4B7800",
+      "base_confidence": "proven",
+      "proof": "static per-floor image base proof 2026-08-23 (docs/port_handback_20260822/dungeon_base_proofs/proofs.json, image img0145@0xCA1060, verdict PROVEN, K 0x7F4B7800). M1 local-`j` containment: 15 of 33 functions in the image are pinned to this delta by 81 in-function absolute `j` target(s) that can only land inside their own function's span, 0 more by in-function switch-table containment, pin_conflict=false, under the measured image-base law K = 0 mod 0x800; M4 Evidence-B1 13 same-K `jal` onto in-image function start(s) of 13 in-band target(s), in-image coherence 1.00; M5 Evidence-B2 3/3 switch table(s) resolved in span, 0 violation(s); M6 Evidence-A 41 resident-EXE call confirm(s) over 13 distinct callee(s), 0 contra; M7 109 re-link resident identit(y/ies), 10 unexplained; M3 1/1 leading inline jump table(s) fully contained; corroborating methods: b1-same-K-call-hits, leading-jump-table-containment, evidence-A-resident-calls, b2-switch-table-containment, relink-resident-identity; EXTENT = 33 of the image's own member function span(s), 0xCA1060-0xCA4AC0; the image's other bytes are either already covered by an existing rowbase record (none) or are not member spans, and are left uncovered rather than asserted; gate window dungeon_deep_ca1060_truebase_80158860 (0xCA1060-0xCA4AC0) states this same base and re-gated MATCH against the container on 2026-08-23 (381/381); STATIC EVIDENCE ONLY -- no RAM capture, no overlay-streamer transfer observed at runtime, nothing here is a runtime observation. Scoring-grade (`solved`) until a byte-exact recompile at this base promotes it via tools/rowbase.py promote; PROMOTED solved->proven: byte-exact recompile func_80C81084 at true base 0x80158884 (candidate sha cf4b12b59a72 @ 2.7.2-cdk-G0, linked-strict isolation compare, phase-2 item-3 hook)"
+    }
+  },
+  "complete_body_sha256": {
+    "dungeon/func_80C81084": "4a68acf9b3b78e7313ce7b694885524de2d6430d585cccf89c750367a076e1d9"
+  },
+  "call_graph": {
+    "resident_calls": [
+      "func_80065420",
+      "func_80066460",
+      "func_80067F20"
+    ],
+    "internal_calls": []
+  },
+  "data_cohesion": {
+    "runtime": [
+      "D_80083160"
+    ],
+    "owned_data": []
+  },
+  "no_shared_members": true
+}

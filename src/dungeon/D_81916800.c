@@ -1,8 +1,3 @@
-#include "common.h"
-
-extern void func_80025408(void *, void *, void *);
-
-/* Bank entry pointer (selector-44 image loaded at 0x80024000). Storage owner remains unresolved. */
-const u32 D_80024000[1] __attribute__((aligned(4))) = {
-    (u32)func_80025408,
-};
+#include "modules/dungeon_ovl_1936800.h"
+/* Selector entry invokes this complete native state machine. */
+void (*const D_80024000)(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *motion, Row_81917C08_EffectVisual *visual) = func_80025408;

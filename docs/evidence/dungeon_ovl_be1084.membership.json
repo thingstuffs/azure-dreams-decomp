@@ -1,0 +1,24 @@
+{
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_be1084.c",
+    "module_index": 40
+  },
+  "members": [
+    "dungeon/func_80BC1084",
+    "dungeon/func_80BC1264",
+    "dungeon/func_80BC13FC",
+    "dungeon/func_80BC1528",
+    "dungeon/func_80BC172C",
+    "dungeon/func_80BC1880"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": "Complete ledger group with one recovered callback function filling its sole gap. Retail header is 132 bytes; contiguous complete functions run from BE1084 through BE19D0; registered next function starts BE19D0. Callback reference in func_80170F2C resolves to the new complete function at 80170BFC. No per-function placement or raw gaps.",
+  "boundaries": {
+    "start": 12456068,
+    "end": 12458448
+  },
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120"
+}

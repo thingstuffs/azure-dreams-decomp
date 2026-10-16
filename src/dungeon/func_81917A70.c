@@ -1,71 +1,20 @@
-#include "common.h"
-#include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
-#include "records/Rec_D_80082E80.h"
+#include "modules/dungeon_ovl_1936800.h"
 
-typedef struct Copy24 {
-    s32 word0;
-    s32 word4;
-    s32 word8;
-    s32 wordC;
-    s32 word10;
-    s32 word14;
-} Copy24;
-
-extern s32 D_800DEB70;
-
-void *func_8003FD64();
-s32 func_8004491C();
-s32 rand();
-extern M2C_UNK D_80025094;
-
-typedef struct S_80025270_0 {
-    u8 pad_00[0x8];
-    Copy24 * unk_08;
-    void * unk_0C;
-    M2C_UNK * unk_10;
-    u8 pad_14[0xC];
-    s32 unk_20;
-} S_80025270_0;   /* temp_v0 in func_80025270 */
-
-typedef struct S_80025270_1 {
-    u8 pad_00[0x4];
-    s16 unk_04;
-    s16 unk_06;
-    s16 unk_08;
-    s16 unk_0A;
-    s16 unk_0C;
-    u8 pad_0E[0x12];
-    s32 unk_20;
-    s32 unk_24;
-    s32 unk_28;
-} S_80025270_1;   /* temp_a0_2 in func_80025270 */
-
-
-typedef struct S_80025270_3 {
-    s32 unk_00;
-    s32 unk_04;
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s32 unk_10;
-} S_80025270_3;   /* temp_v1 in func_80025270 */
-
-/* Creates an attached effect with copied transform data and a randomized angle. */
-s32 func_80025270(void *object, Copy24 *src_transform, s16 effect_index) {
+s32 func_80025270(void *object, Row_81917A70_Copy24 *src_transform, s16 effect_index) {
     s32 first_word;
     s32 second_word;
     s32 random_value;
     s32 adjusted_random;
-    S_80025270_1 *state;
-    Copy24 *transform;
+    Row_81917A70_S_80025270_1 *state;
+    Row_81917A70_Copy24 *transform;
     void *effect;
     s16 saved_index;
     effect = func_8003FD64(0x212, (u8 *)object - 0x20);
     if (effect != NULL) {
         saved_index = effect_index;
         state = effect + 0x20;
-        ((S_80025270_0 *)effect)->unk_10 = &D_80025094;
-        ((S_80025270_0 *)effect)->unk_20 = (s32)object;
+        ((Row_81917A70_S_80025270_0 *)effect)->unk_10 = &D_80025094;
+        ((Row_81917A70_S_80025270_0 *)effect)->unk_20 = (s32)object;
         state->unk_08 = (s16) (saved_index * 7);
         state->unk_04 = 0;
         state->unk_06 = 0;
@@ -74,7 +23,7 @@ s32 func_80025270(void *object, Copy24 *src_transform, s16 effect_index) {
         state->unk_20 = src_transform->wordC;
         state->unk_24 = src_transform->word10;
         state->unk_28 = src_transform->word14;
-        object = ((S_80025270_0 *)effect)->unk_0C;
+        object = ((Row_81917A70_S_80025270_0 *)effect)->unk_0C;
         ((Rec_D_80082E80 *)object)->unk_0C.at02_s8.v = 0x20;
         ((Rec_D_80082E80 *)object)->unk_0C.at01_s8.v = 0x20;
         ((Rec_D_80082E80 *)object)->unk_0C.at00_s8.v = 0x20;
@@ -92,12 +41,12 @@ s32 func_80025270(void *object, Copy24 *src_transform, s16 effect_index) {
         ((Rec_D_80082E80 *)object)->unk_1C.at02_s16.v = 0x400;
         ((Rec_D_80082E80 *)object)->unk_1C.at00_s16.v = 0x400;
         func_8004491C(effect, func_80045340);
-        transform = ((S_80025270_0 *)effect)->unk_08;
+        transform = ((Row_81917A70_S_80025270_0 *)effect)->unk_08;
         *transform = *src_transform;
-        first_word = ((S_80025270_3 *)transform)->unk_00;
-        second_word = ((S_80025270_3 *)transform)->unk_04;
-        ((S_80025270_3 *)transform)->unk_0C = first_word;
-        ((S_80025270_3 *)transform)->unk_10 = second_word;
+        first_word = ((Row_81917A70_S_80025270_3 *)transform)->unk_00;
+        second_word = ((Row_81917A70_S_80025270_3 *)transform)->unk_04;
+        ((Row_81917A70_S_80025270_3 *)transform)->unk_0C = first_word;
+        ((Row_81917A70_S_80025270_3 *)transform)->unk_10 = second_word;
         return (s32)effect;
     }
     return 0;

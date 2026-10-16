@@ -1,41 +1,4 @@
-#include "shared/sprite_frame_state.h"
-#include "common.h"
-#include "shared/object_node.h"
-#include "shared/slus_callbacks.h"
-#include "shared/game_work.h"
-#include "shared/entity.h"
-
-typedef struct S_80171D64_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80171D64_2;   /* position in func_80171D64 */
-
-typedef struct S_80171D64_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xA];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-} S_80171D64_4;   /* the record, addressed through its copy in func_80171D64 */
-
-extern void *func_8003FD64();
-extern void func_8004491C();
-extern void func_80047784();
-extern void func_800A48F0();
-extern s32 func_800A6D30(void);
-extern void func_800A9C18();
-extern void func_800AA36C();
-
-extern s8 D_800E2968;
-extern u8 D_801720B4[];
-extern u8 D_801724BC[];
-extern u8 D_80175E24[];
-extern u8 D_80175E2C[];
-extern u8 D_80175E34[];
-extern u8 D_80175E54[];
-extern u8 D_80175E5C[];
-extern u8 D_80175E64[];
+#include "modules/dungeon_ovl_7f469800_p01.h"
 
 /* Creates an object and initializes its position, flags, and directional frame table. */
 void *func_80171D64(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_height)
@@ -80,7 +43,7 @@ void *func_80171D64(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_hei
         call_position = 0xE;
         position = object->unk_08;
         alternate_kind = 0xF;
-        ((S_80171D64_2 *)position)->unk_0A = initial_height;
+        ((T_80171D64_S_80171D64_2 *)position)->unk_0A = initial_height;
         sprite = object->unk_0C;
         
         sprite->unk_24 = saved_x;
@@ -159,9 +122,9 @@ void *func_80171D64(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_hei
         call_position = (s32)position;
         func_800A9C18((void *)call_object, (void *)call_position, sprite,
             (s16)init_flags);
-        ((S_80171D64_4 *)((void *)record_addr))->unk_9A = 0xFF;
-        ((S_80171D64_4 *)((void *)record_addr))->unk_9C = -1;
-        ((S_80171D64_4 *)((void *)record_addr))->unk_8C = D_801724BC;
+        ((T_80171D64_S_80171D64_4 *)((void *)record_addr))->unk_9A = 0xFF;
+        ((T_80171D64_S_80171D64_4 *)((void *)record_addr))->unk_9C = -1;
+        ((T_80171D64_S_80171D64_4 *)((void *)record_addr))->unk_8C = func_801724BC;
         func_800AA36C((void *)record_addr, position, sprite, result);
 
         kind = result->unk_48;

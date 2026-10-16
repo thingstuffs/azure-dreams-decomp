@@ -1,0 +1,55 @@
+{
+  "module": "dungeon_ovl_c5909c",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_c5909c.c",
+    "module_index": 51
+  },
+  "members": [
+    "dungeon/func_80C3909C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Historical original object boundary is not observable. This native TU owns the complete existing singleton ledger cohort.",
+  "basis": [
+    "The sole complete function is a contiguous run with no shared ledger member.",
+    "The authenticated normal slot transfer proves one file-to-VMA map for every instruction and local external view.",
+    "The function allocates one actor and initializes its parts, callback tokens, flags and eight-direction animation views. All storage and callbacks outside its code stay imported.",
+    "The original two-byte view at gameWork+0xC8 is retained; replacing its address expression with the whole gameWork declaration adds an instruction. This is a storage-view contract, with no register/address pin."
+  ],
+  "complete_body_sha256": {
+    "dungeon/func_80C3909C": "d4c3aded68ad6350d64f1edbd07d9f159ab00a179adc4d73e4c2a1ab7f11f46f"
+  },
+  "slot_load": "docs/evidence/dungeon_ovl_c5909c.slot_load.json",
+  "call_graph": {
+    "imported_functions": [
+      "func_8003FD64",
+      "func_8004491C",
+      "func_80045340",
+      "func_80047784",
+      "func_800478E8",
+      "func_800A48F0",
+      "func_800A6D30",
+      "func_800A9C18",
+      "func_800AA36C",
+      "func_800D78C0",
+      "func_8014CBB8",
+      "func_8014D3A8"
+    ],
+    "callback_entries": [
+      "func_800D71A8"
+    ]
+  },
+  "data_cohesion": {
+    "external_views": [
+      "D_80150494",
+      "D_801504FC"
+    ],
+    "runtime_views": [
+      "D_80083228",
+      "D_80083498"
+    ]
+  },
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120"
+}

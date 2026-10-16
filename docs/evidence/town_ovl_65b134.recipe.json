@@ -1,0 +1,14 @@
+{
+  "module": "town_ovl_65b134",
+  "scope": "whole_tu",
+  "flags": [
+    "-q",
+    "-G0",
+    "-0"
+  ],
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "basis": "One stock 2.7.2-cdk-G0 stream with natural function order; complete-TU genuine/retail proof required."
+}

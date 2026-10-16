@@ -21,17 +21,17 @@
     "ovmovie/func_800414F0",
     "ovmovie/func_80041508"
   ],
-  "at": "2026-10-15T18:39:49Z",
+  "at": "2026-10-16T01:14:33Z",
   "reviewer": "orchestrator-r120",
   "fingerprint": {
     "schema": "overlay-module-scoped-v2",
-    "sha256": "2b70297e51df98934e6b2bd989014e16f9a874ee496031319048a66f426fb0af",
+    "sha256": "3d2fa265f274e0c9dc45666de16b45f0cb040432431a2c315f512de7f6eed421",
     "module": {
-      "sha256": "48e8fea0d2f8c55aaeb3a97cb9b31842fe8adc40410d392f740cf8bbd152ad67"
+      "sha256": "d645f64d2ec1f9ef1d661c4fb157092fcb943892e3db8863910091bda2001ae8"
     },
     "windows": {
       "config/overlays/ovmovie.overlay.yaml": {
-        "sha256": "66ce2e0ee48ff695adbaa746c7980a5af04c07c6d918fc027b4b69193a0dd20c"
+        "sha256": "d6f63d0779607ac434cfd943b7e6f8d4944ecd25eec4a11acbbdf967cfd63532"
       }
     },
     "required_windows": [
@@ -39,7 +39,7 @@
     ]
   },
   "proof_dir": "build_ovl_gate/work/module_proofs/ovmovie_libpress/module",
-  "receipt_sha256": "7eba29824bb6a1875731204963abcb490d5fb1178f7ec35682d246f9ebb5bf65",
+  "receipt_sha256": "051695652a36c365f1c489e2d3742d436a2bb5314a848dd125aa8e0a0bebb0bf",
   "windows": [
     {
       "config": "config/overlays/ovmovie.overlay.yaml",
@@ -48,13 +48,13 @@
       "file_end": 131072,
       "proof_dir": "build_ovl_gate/work/module_proofs/ovmovie_libpress/windows/ovmovie",
       "artifacts": {
-        "gate.log": "d654aa6b10eeb561e8c71d2fcba0551401f754eff8688b261eb63b320ff206c2",
+        "gate.log": "fdf7f0ebbb6e412664a7c4ca37e78c89e8692a2af1e395bd460e94d36ff815b8",
         "window.bin": "3728150db3cd6137be49142b923d7e8a39bd3ce497451bbc592a169027ae70f4",
         "manifest.json": "15e03eff523302ae0126211d9fd66609f310f3d6026635585fb8a1bed96c1366",
-        "projection.json": "86e6828b0a79761ada0cd5e236f03590c929f38c62798c4a92f96af3373e3833",
-        "module/receipt.json": "17c1013568f0bbf15a437f83562ff6e9cf2e1cf8b463a40c139dd806376255f6"
+        "projection.json": "789a62f81b1157807611b3c4ab05b352a6710af1fb85ab22b0c24044bcafc829",
+        "module/receipt.json": "051695652a36c365f1c489e2d3742d436a2bb5314a848dd125aa8e0a0bebb0bf"
       },
-      "digest": "66ce2e0ee48ff695adbaa746c7980a5af04c07c6d918fc027b4b69193a0dd20c"
+      "digest": "d6f63d0779607ac434cfd943b7e6f8d4944ecd25eec4a11acbbdf967cfd63532"
     }
   ]
 }

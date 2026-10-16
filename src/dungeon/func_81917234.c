@@ -1,23 +1,5 @@
-#include "common.h"
-#include "shared/object_flags.h"
-#include "m2c_compat.h"
-#include "records/Rec_D_80082E80.h"
-#include "records/Rec_func_80024600_arg1.h"
+#include "modules/dungeon_ovl_1936800.h"
 
-extern s32 D_800DEDB0[3];
-void *func_80024600();
-s32 func_8003DB94();
-s32 func_800644B8();
-s32 func_80064584();
-s32 rand();
-
-typedef struct S_80024A34_0 {
-    u8 pad_00[0x1E];
-    u16 unk_1E;
-} S_80024A34_0;   /* temp_a0 in func_80024A34 */
-
-
-/* Initialize the object's visual state and apply a random spherical position offset. */
 void func_80024A34(void *object, Rec_func_80024600_arg1 *position, Rec_D_80082E80 *visual) {
     s16 azimuth;
     s16 polar_angle;
@@ -32,7 +14,7 @@ void func_80024A34(void *object, Rec_func_80024600_arg1 *position, Rec_D_80082E8
     s32 polar_quotient;
     s32 *flags_base;
     void **node_slot;
-    S_80024A34_0 *node;
+    Row_81917234_S_80024A34_0 *node;
 
     node_index = 0;
     flags_base = (s32 *)(u32)0x80080000;

@@ -1,0 +1,91 @@
+{
+  "group": "ovl_4d9100.c#30",
+  "start": 5083136,
+  "end": 5088408,
+  "delta": 2142490624,
+  "method": "Two raw absolute local-j equations, independently located physical common return; no loader observation claimed.",
+  "local_jumps": [
+    {
+      "foff": 5088184,
+      "word": "0x08005CF3",
+      "target": 2147578828,
+      "target_foff": 5088204,
+      "solved_delta": 2142490624
+    },
+    {
+      "foff": 5088192,
+      "word": "0x08005CF3",
+      "target": 2147578828,
+      "target_foff": 5088204,
+      "solved_delta": 2142490624
+    }
+  ],
+  "cfg_witness": {
+    "function_start": 5088100,
+    "function_end": 5088212,
+    "words": [
+      "0x10800018",
+      "0x24020001",
+      "0x10820014",
+      "0x3C028001",
+      "0x8C436000",
+      "0x04810002",
+      "0x00801021",
+      "0x2482001F",
+      "0x00021143",
+      "0x8C630018",
+      "0x00021080",
+      "0x00432821",
+      "0x04810002",
+      "0x00801021",
+      "0x2482001F",
+      "0x00021143",
+      "0x00021140",
+      "0x00821023",
+      "0x24030001",
+      "0x00431804",
+      "0x8CA20000",
+      "0x08005CF3",
+      "0x00621024",
+      "0x08005CF3",
+      "0x24020001",
+      "0x00001021",
+      "0x03E00008",
+      "0x00000000"
+    ],
+    "branches": [
+      {
+        "foff": 5088100,
+        "target_foff": 5088200,
+        "meaning": "a0 == 0: v0=0 then fall through to return"
+      },
+      {
+        "foff": 5088108,
+        "target_foff": 5088192,
+        "meaning": "a0 == 1: v0=1 in the second j delay slot"
+      }
+    ],
+    "return_foff": 5088204,
+    "return_words": [
+      "0x03E00008",
+      "0x00000000"
+    ],
+    "basis": "The PC-relative branches identify constant-zero and constant-one arms. Both j instructions bypass the zero assignment and share the only following jr ra/nop, immediately before non-code/data or the next routine. Each independent absolute target minus that physical epilogue yields the same delta. The 112-byte integer bit-predicate body is byte-identical across these scene witnesses apart from its absolute j words; no aligned-range containment is used to pick the base."
+  },
+  "extent_basis": "Bounded scene storage/code interval needed by assigned rows and their explicitly addressed root/data views; no broader loader extent or historical TU boundary is claimed.",
+  "town_sha256": "907725012d8d9e1deab18c28b62f4d304057e86a6415df605b9ffb87cfb2fe18",
+  "affected_rows": [
+    "func_80559100"
+  ],
+  "old_regions": [],
+  "byte_reproofs": [
+    {
+      "row": "func_80559100",
+      "status": "MATCH",
+      "source_sha256": "e982b3fe50c70720d28dee97706eff06dab8a9a80b9aac932f7af56e38e9ce99",
+      "target_sha256": "1c53152647bc24a9910d89fc061128b35eeb061b800023095a6f89ffc4156393",
+      "config": "2.7.2-cdk-G0",
+      "exact": true
+    }
+  ]
+}

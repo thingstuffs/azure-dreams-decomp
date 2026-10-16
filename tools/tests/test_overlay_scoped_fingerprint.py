@@ -290,9 +290,15 @@ class ScopedFingerprint(unittest.TestCase):
   one=G.ranges(self.r,'dungeon');one[0]['proof']='local mutation'
   self.assertEqual(G.ranges(self.r,'dungeon')[0]['proof'],'fixture')
  def test_storage_checks_run_again(self):
-  with mock.patch.object(G,'validate_asset',wraps=G.validate_asset) as validate:
+  # Without the per-process memo every fingerprint re-runs every check.
+  with mock.patch.dict(os.environ,{'AZ_FP_MEMO':'0'}),mock.patch.object(G,'validate_asset',wraps=G.validate_asset) as validate:
    self.fp();first=validate.call_count;self.fp()
    self.assertGreater(first,0);self.assertEqual(validate.call_count,2*first)
+  # With it, an unchanged tree reuses the value and any input edit re-runs every check.
+  with mock.patch.object(G,'validate_asset',wraps=G.validate_asset) as validate:
+   self.fp();first=validate.call_count;self.fp();self.assertEqual(validate.call_count,first)
+   with self.mutate('ledger/levels.jsonl',lambda p:p.write_text(p.read_text()+'\n')):
+    self.fp();self.assertGreater(validate.call_count,first)
  def test_canonical_checkout_without_view_facade(self):
   alias=self.r/'overlays/dungeon/first_pass_matched'
   alias.unlink()
@@ -360,7 +366,7 @@ class ScopedFingerprint(unittest.TestCase):
    self.assertEqual(G.affected_windows(self.m,self.r,parsed_windows=parsed),self.baseline['required_windows'])
   # If the aggregate-TU selection regresses, the per-member selection must
   # stay unchanged and the fingerprint must refuse the disagreement.
-  with mock.patch.object(F,'required_windows',return_value=[]):
+  with mock.patch.object(F,'required_windows',return_value=[]),mock.patch.dict(os.environ,{'AZ_FP_MEMO':'0'}):
    with self.assertRaisesRegex(ValueError,'parsed required windows differ'):self.fp()
  def test_neighbor_levels_eligibility_is_bound(self):
   with self.edit('ledger/levels.jsonl',lambda v:v[3].update(level=2)):self.assert_window_only_change()

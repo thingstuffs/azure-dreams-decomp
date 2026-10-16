@@ -1,40 +1,5 @@
-#include "common.h"
-#include "shared/def_table.h"
-#include "shared/record_ptrs.h"
-#include "shared/game_work.h"
-#include "shared/dungeon_status.h"
-#include "records/Rec_D_80082E80.h"
-#include "shared/entity.h"
-#include "records/Rec_func_80172CC0_arg0.h"
+#include "modules/dungeon_resource07_slot0.h"
 
-
-extern u8 D_80170E54;
-extern u8 D_80174148[8];
-extern u8 D_80174180[8];
-
-extern s32 func_8003F270();
-extern void func_80047784();
-extern void *func_800A05A4();
-extern void func_800A2B04();
-extern void func_800A4ACC();
-extern void func_800A56E0();
-extern s32 func_800A94A0();
-extern void func_800DA840();
-
-
-typedef struct S_80172CC0_1_pre {
-    u8 * unk_00;
-    u8 pad_04[0x10];
-} S_80172CC0_1_pre;   /* the 0x14 bytes before node in func_80172CC0, addressed as node[-1] */
-
-typedef struct S_80172CC0_2 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80172CC0_2;   /* owner in func_80172CC0 */
-
-
-/* Updates an actor's item action, animation, and completion state. */
 void func_80172CC0(void *action, EntityRec *motion, void *sprite, void *actor) {
     u16 pos[3];
     s16 is_special;
@@ -112,9 +77,9 @@ void func_80172CC0(void *action, EntityRec *motion, void *sprite, void *actor) {
 copy_existing:
                         {
 
-                            state = ((S_80172CC0_1_pre *)node)[-1].unk_00;
-                            (*(u8 *)((u8 *)actor + 0x72)) = ((S_80172CC0_2 *)state)->unk_24;
-                            (*(u8 *)((u8 *)actor + 0x73)) = ((S_80172CC0_2 *)state)->unk_25;
+                            state = ((R07_80172CC0_S_80172CC0_1_pre *)node)[-1].unk_00;
+                            (*(u8 *)((u8 *)actor + 0x72)) = ((R07_80172CC0_S_80172CC0_2 *)state)->unk_24;
+                            (*(u8 *)((u8 *)actor + 0x73)) = ((R07_80172CC0_S_80172CC0_2 *)state)->unk_25;
                         }
 
                     }
@@ -166,7 +131,7 @@ copy_existing:
         }
         func_800A4ACC(actor);
         (*(u8 *)((u8 *)actor + 0x6D))--;
-        ((Rec_func_80172CC0_arg0 *)action)->unk_8C.as_pv = &D_80170E54;
+        ((Rec_func_80172CC0_arg0 *)action)->unk_8C.as_pv = ((void *)func_80170E54);
         (*(u8 *)((u8 *)actor + 0x73)) = 0;
         (*(u8 *)((u8 *)actor + 0x72)) = 0;
         (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
@@ -185,10 +150,10 @@ copy_existing:
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
             return;
         }
-        (*(void * *)((u8 *)sprite + 0x2C)) = D_80174180;
+        (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174180);
         func_80047784(
             sprite,
-            D_80174180[((gameWork.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
+            ((u8 *)D_80174180)[((gameWork.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
             0);
         ((Rec_func_80172CC0_arg0 *)action)->unk_A8 = 0x10;
         ((Rec_func_80172CC0_arg0 *)action)->unk_9B.as_u8++;
@@ -229,11 +194,11 @@ copy_existing:
         motion->unk_0C = 0;
         func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
 
-        if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pv != D_80174148) {
-            (*(void * *)((u8 *)sprite + 0x2C)) = D_80174148;
+        if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pv != ((u8 *)D_80174148)) {
+            (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174148);
             func_80047784(
                 sprite,
-                D_80174148[((gameWork.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
+                ((u8 *)D_80174148)[((gameWork.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
                 0);
         }
 
@@ -244,7 +209,7 @@ copy_existing:
             dungeonStatus.unk_0A--;
         }
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
-        ((Rec_func_80172CC0_arg0 *)action)->unk_8C.as_pv = &D_80170E54;
+        ((Rec_func_80172CC0_arg0 *)action)->unk_8C.as_pv = ((void *)func_80170E54);
         func_800A4ACC(actor);
         if ((*(s8 *)((u8 *)actor + 0x6D)) > 0) {
             (*(u8 *)((u8 *)actor + 0x6D))--;

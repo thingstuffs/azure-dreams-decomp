@@ -1,30 +1,6 @@
-#include "common.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_ovl_7e6e1800.h"
 
-typedef struct S_800249FC_0 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x4];
-    u16 unk_1A;
-    u16 unk_1C;
-    u16 unk_1E;
-} S_800249FC_0;   /* arg2 in func_800249FC */
-
-typedef struct S_800249FC_1_pre {
-    u16 unk_00;
-} S_800249FC_1_pre;   /* the 0x2 bytes before arg0 in func_800249FC, addressed as arg0[-1] */
-
-typedef struct S_800249FC_1 {
-    u8 pad_00[0x5A];
-    union { s16 s; u16 u; } unk_5A;   /* accessed as both */
-} S_800249FC_1;   /* arg0 in func_800249FC */
-
-
-extern s32 func_8002406C(s32 limit);
-extern s16 D_80025B60[5];
-
-/* Update effect values and flags, then mark the object when its countdown expires. */
-void func_800249FC(void *object, s32 unused, S_800249FC_0 *effect) {
+void func_800249FC(void *object, s32 unused, Row_819231FC_S_800249FC_0 *effect) {
     s32 ticks_left;
     s16 next_ticks;
     s16 check_result;
@@ -32,8 +8,8 @@ void func_800249FC(void *object, s32 unused, S_800249FC_0 *effect) {
     u16 paired_value;
 
     effect->unk_1A += 0x2BC;
-    ticks_left = ((S_800249FC_1 *)object)->unk_5A.s;
-    D_80025B60[0] = 1;
+    ticks_left = ((Row_819231FC_S_800249FC_1 *)object)->unk_5A.s;
+    ((s16 *)D_80025B60)[0] = 1;
 
     if (ticks_left >= 0x29) {
         paired_value = effect->unk_1E + 0xC8;
@@ -55,10 +31,10 @@ void func_800249FC(void *object, s32 unused, S_800249FC_0 *effect) {
         effect->unk_14 = flags | 0x80;
     }
 
-    next_ticks = ((S_800249FC_1 *)object)->unk_5A.s - 1;
-    ((S_800249FC_1 *)object)->unk_5A.s = next_ticks;
+    next_ticks = ((Row_819231FC_S_800249FC_1 *)object)->unk_5A.s - 1;
+    ((Row_819231FC_S_800249FC_1 *)object)->unk_5A.s = next_ticks;
     if (next_ticks <= 0) {
-        ((S_800249FC_1_pre *)object)[-1].unk_00 |= 0x8000;
+        ((Row_819231FC_S_800249FC_1_pre *)object)[-1].unk_00 |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
     }
 }

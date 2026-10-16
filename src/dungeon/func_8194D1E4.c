@@ -1,33 +1,7 @@
-#include "shared/object_node.h"
-#include "common.h"
-#include "m2c_compat.h"
+#include "modules/dungeon_ovl_7e6b7800.h"
 
-extern M2C_UNK D_80024918;
-
-typedef s32 UnalignedS32 __attribute__((aligned(1)));
-
-typedef struct {
-    UnalignedS32 word;
-} Packed4;
-
-typedef struct {
-    s32 words[4];
-} FourWords;
-
-typedef struct {
-    Packed4 part[2];
-} Packed8;
-
-
-typedef struct S_800249E4_0 {
-    u8 pad_00[0x74];
-    s16 unk_74;
-    s16 unk_76;
-} S_800249E4_0;   /* temp_a0 in func_800249E4 */
-
-/* Allocate an object and initialize its endpoints, one-eighth movement steps, and parameters. */
-void func_800249E4(s32 object_value, void *start_pos, void *end_pos, s16 setting, FourWords params_a,
-    FourWords params_b, Packed8 packed_params) {
+void func_800249E4(s32 object_value, void *start_pos, void *end_pos, s16 setting, Row_8194D1E4_FourWords params_a,
+    Row_8194D1E4_FourWords params_b, Row_8194D1E4_Packed8 packed_params) {
     s32 start_x;
     s32 start_y;
     s32 start_z;
@@ -43,8 +17,8 @@ void func_800249E4(s32 object_value, void *start_pos, void *end_pos, s16 setting
         state = object + 0x20;
         (*(M2C_UNK **)((u8 *)object + 0x10)) = &D_80024918;
         (*(s32 *)((u8 *)object + 0x20)) = object_value;
-        ((S_800249E4_0 *)state)->unk_74 = 0;
-        ((S_800249E4_0 *)state)->unk_76 = setting;
+        ((Row_8194D1E4_S_800249E4_0 *)state)->unk_74 = 0;
+        ((Row_8194D1E4_S_800249E4_0 *)state)->unk_76 = setting;
         start_x = (*(s32 *)((u8 *)start_pos + 0));
         (*(s32 *)((u8 *)state + 0x1C)) = start_x;
         (*(s32 *)((u8 *)state + 0x34)) = start_x;
@@ -79,7 +53,7 @@ void func_800249E4(s32 object_value, void *start_pos, void *end_pos, s16 setting
         (*(s32 *)((u8 *)object + 0x80)) = word_1;
         (*(s32 *)((u8 *)object + 0x84)) = word_2;
         (*(s32 *)((u8 *)object + 0x88)) = word_3;
-        *(Packed8 *)((u8 *)object + 0x8C) = packed_params;
+        *(Row_8194D1E4_Packed8 *)((u8 *)object + 0x8C) = packed_params;
     }
 }
 
