@@ -1,0 +1,87 @@
+/* Relink of matched dungeon/func_80D91E14; every changed retail word is a paired relocation. */
+#define D_80170854 D_80152854
+#define D_80170E68 D_80152E68
+#define D_801738A4 D_801558A4
+#include "common.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_status.h"
+
+#define U8(p, o) (*(u8 *)((u8 *)(p) + (o)))
+#define S8(p, o) (*(s8 *)((u8 *)(p) + (o)))
+#define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
+#define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
+#define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
+#define PTR(p, o) (*(void **)((u8 *)(p) + (o)))
+
+extern void func_80047784(void *, s32, s32);
+extern s32 func_800990FC(void);
+extern s32 func_80099194(u8 *src, u8 *dst);
+extern void func_80099290(s8 *byte_ptr);
+extern s32 func_80099734(void *record, u8 *out);
+extern void *func_800A05A4(void *, u8, u8, s16, s32);
+extern void func_800A4ACC(void *);
+extern void func_800A56E0(s32);
+extern void func_800A5720(s8 *text);
+extern void func_800AD594(void *, s32);
+extern void func_800C8A3C(void *, s32, s32);
+
+extern void *D_800E3DE8;
+extern u8 D_80152854[];
+extern u8 D_80152E68;
+extern u8 D_801558A4[];
+
+/* Run the actor's two-step death sequence: post its message, then spawn the drop and release it. */
+void func_80155614(void *work, void *part_a, void *part_b, void *actor)
+{
+    s32 first;
+    s32 result;
+    s32 saved_first;
+    void *object;
+    u8 state;
+
+    state = U8(work, 0x9B);
+    switch (state) {
+    case 0:
+        result = func_80099734(actor, first = func_800990FC());
+        saved_first = first;
+        first = result;
+        func_80099290(func_80099194(D_80152854, first));
+        func_800A5720(saved_first);
+        object = func_800A05A4(actor, U8(part_b, 0x24), U8(part_b, 0x25),
+                               S16(actor, 0x2A), 0x10);
+        PTR(actor, 0x60) = object;
+        PTR(part_b, 0x2C) = D_801558A4;
+        func_80047784(part_b,
+            D_801558A4[((gameWork.view.viewAngle + S16(actor, 0x2A) + 0x100) >> 9) & 7],
+            0);
+        func_800A56E0(0x812);
+        U8(work, 0x9B) = U8(work, 0x9B) + 1;
+        S32(part_a, 0x14) = 0;
+        S32(part_a, 0x10) = 0;
+        S32(part_a, 0x0C) = 0;
+        return;
+    case 1:
+        if (!(U16(part_b, 0x14) & 0xE000)) {
+            return;
+        }
+        func_800AD594(actor, 0xC00);
+        PTR(work, 0x8C) = &D_80152E68;
+        dungeonStatus.unk_0C = 0;
+        func_800A4ACC(actor);
+        if (S8(actor, 0x6D) == 0) {
+            U16(actor, 0x46) &= 0x7FFF;
+        } else {
+            D_800E3DE8 = (u8 *)actor - 0x20;
+        }
+        object = PTR(actor, 0x60);
+        if (object != 0) {
+            func_800C8A3C(object, 0x10, 0x10);
+        }
+        break;
+    }
+}
+
+/* MECHANISM: True-space func_80155614 turns 0x80155780/0x80155798 into local CFG joins
+   and orders state-zero before state-one, preserving the 0x30 frame and five held bases.
+   Byte-scaled table indexing keeps lbu/shift-nine; distinct result/saved_first lifetimes
+   emit retail's a1<-v0 and call-delay s0<-a1 around func_80099734. */

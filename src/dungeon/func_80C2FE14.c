@@ -1,0 +1,156 @@
+/* Relink of matched dungeon/func_80C17E14; every changed retail word is a paired relocation. */
+#include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
+#include "shared/dir_step.h"
+
+typedef struct S_func_80C17E14_0 {
+    u8 pad_00[0x96];
+    union {
+        u8 unk_00_u8;
+        u16 unk_00_u16;
+    } unk_96;
+    u16 unk_98;
+    u8 pad_9A[1];
+    u8 unk_9B;
+} S_func_80C17E14_0;
+
+typedef struct S_func_80C17E14_1 {
+    u8 pad_00[0xC];
+    s32 unk_0C;
+    s32 unk_10;
+    s32 unk_14;
+} S_func_80C17E14_1;
+
+typedef struct S_func_80C17E14_2 {
+    u8 pad_00[0xC];
+    u8 unk_0C;
+    u8 unk_0D;
+    u8 unk_0E;
+    u8 pad_0F[1];
+    s16 unk_10;
+    u16 unk_12;
+    u16 unk_14;
+    u8 pad_16[0xE];
+    u8 unk_24;
+    u8 unk_25;
+} S_func_80C17E14_2;
+
+typedef struct S_func_80C17E14_3 {
+    u8 pad_00[0x14];
+    s32 unk_14;
+    u8 pad_18[4];
+    u32 unk_1C;
+    u8 pad_20[0x4A];
+    u16 unk_6A;
+} S_func_80C17E14_3;
+
+void func_8009A028();
+void func_8009A3D0();
+void func_800A2FE0();
+s32 func_800A32A4();
+s32 func_800A56E0();
+extern void func_800ACF88(void *);
+
+
+/* Advances an entity removal animation, fading its sprite before cleanup. */
+void func_8015B614(S_func_80C17E14_0 *action, S_func_80C17E14_1 *motion, S_func_80C17E14_2 *sprite,
+    S_func_80C17E14_3 *entity) {
+    s32 direction_offset;
+    s32 offset_x;
+    s32 offset_y;
+    s32 state;
+
+    direction_offset = (entity->unk_6A >> 8) & 0xE;
+    offset_x = *(s16 *)((u8 *)((s8 *)dirStepX) + direction_offset);
+    offset_y = *(s16 *)((u8 *)((s8 *)dirStepY) + direction_offset);
+    state = action->unk_9B;
+
+    switch (state) {
+    case 0:
+        *(s32 *)((u8 *)motion + 0xC) = offset_x << 16;
+        *(s32 *)((u8 *)motion + 0x10) = offset_y << 16;
+        *(s32 *)((u8 *)motion + 0x14) = 0x8000;
+        if (dungeonStatus.unk_0A != 0) {
+            return;
+        }
+        action->unk_9B = action->unk_9B + 1;
+    case 1:
+    {
+        s32 entity_status;
+        u32 entity_flags;
+        u32 clear_bit_27;
+        u32 clear_bit_18;
+        u16 action_flags;
+
+        entity_status = entity->unk_14;
+        if (entity_status & 0x4000) {
+            if (!(entity_status & 0x20000000)) {
+                func_800ACF88(entity);
+            }
+        }
+        func_800A56E0(0x805);
+
+        clear_bit_27 = 0xF7FFFFFF;
+        action_flags = action->unk_98;
+        clear_bit_18 = 0xFFFBFFFF;
+        action_flags |= 8;
+        action->unk_98 = action_flags;
+        entity_flags = entity->unk_1C;
+        entity_flags &= clear_bit_27;
+        entity_flags &= clear_bit_18;
+        entity->unk_1C = entity_flags;
+        sprite->unk_10 = 0x60;
+        sprite->unk_12 = 0xFF80;
+        sprite->unk_14 |= 0xC;
+        action->unk_9B = action->unk_9B + 1;
+        return;
+    }
+    case 2:
+        if (!(sprite->unk_14 & 0x6000)) {
+            return;
+        }
+        action->unk_96.unk_00_u16 = 0x80;
+        action->unk_9B = action->unk_9B + 1;
+        return;
+    case 3:
+    {
+        s32 sound_kind;
+        u32 entity_flags;
+        u32 sound_x;
+        u32 sound_y;
+        u16 next_brightness;
+        u8 brightness;
+
+        entity->unk_1C |= 0x10000000;
+        brightness = action->unk_96.unk_00_u8;
+        sprite->unk_0E = brightness;
+        sprite->unk_0D = brightness;
+        sprite->unk_0C = brightness;
+        next_brightness = action->unk_96.unk_00_u16 - 0x10;
+        action->unk_96.unk_00_u16 = next_brightness;
+        if ((s16)next_brightness >= 0x10) {
+            return;
+        }
+
+        if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)entity - 0x20)) {
+            *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
+        }
+        func_800A2FE0(entity);
+        func_800A32A4(entity);
+
+        entity_flags = entity->unk_1C;
+        sound_x = sprite->unk_24;
+        sound_y = sprite->unk_25;
+        sound_kind = 0x3000;
+        if (entity_flags & 0x2000) {
+            sound_kind = 0x300;
+        }
+        func_8009A3D0(sound_x, sound_y, sound_kind);
+        func_8009A028(entity);
+        *(u16 *)((u8 *)entity - 2) |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
+    }
+        break;
+    }
+}

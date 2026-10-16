@@ -1,0 +1,34 @@
+/* Relink of matched dungeon/func_800D4124; every changed retail word is a paired relocation. */
+#define D_800D8C64 D_80170F74
+#include "common.h"
+#include "shared/dungeon_status.h"
+#include "m2c_compat.h"
+
+typedef struct S_800D9884_0 {
+    u8 pad_00[0x8C];
+    M2C_UNK * unk_8C;
+    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_90;   /* overlapping accesses */
+} S_800D9884_0;   /* arg0 in func_8017244C */
+
+
+s32 func_800A4ACC();                     /* extern */
+s32 func_800AB1C0();                                /* extern */
+void func_800AD594();            /* extern */
+s32 func_800AD9B4();                /* extern */
+extern M2C_UNK D_80170F74;
+
+/* Updates the target and resets state after a successful check or a reset flag. */
+void func_8017244C(S_800D9884_0 *state, void *unused, void *source, void *target) {
+    if (func_800AB1C0() != 0) {
+        func_800AD594(target, 4);
+        func_800A4ACC(target);
+        if ((func_800AD9B4(source, target) << 0x10) <= 0) {
+            return;
+        }
+        state->unk_8C = &D_80170F74;
+        state->unk_90.at00.v = 0;
+    }
+    if (dungeonStatus.flags & 0x80) {
+        state->unk_90.at02.v = 0;
+    }
+}

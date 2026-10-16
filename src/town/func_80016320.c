@@ -1,0 +1,31 @@
+/* Relink of matched town/func_800B2C54; every changed retail word is a paired relocation. */
+#include "common.h"
+
+typedef struct {
+    s8 pad00[0xA8];
+    s32 field_A8;
+} Inner;
+
+typedef struct {
+    u8 pad00[0x1E];
+    u16 flags;
+    Inner inner;
+} Object;
+
+extern void func_8004B248(void *entries);
+extern void func_800B39E4(s32);
+extern s32 D_800814A0;
+
+// Process a non-null object and set its local and global 0x8000 flags.
+void func_800B3A80(Object *object)
+{
+    Inner *inner;
+
+    if (object != 0) {
+        inner = &object->inner;
+        func_8004B248((u8 *)object + 0xCC);
+        func_800B39E4(inner->field_A8);
+        object->flags |= 0x8000;
+        D_800814A0 |= 0x8000;
+    }
+}

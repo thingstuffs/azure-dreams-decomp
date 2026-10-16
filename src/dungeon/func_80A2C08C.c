@@ -1,0 +1,179 @@
+/* Relink of matched dungeon/func_80A2008C; every changed retail word is a paired relocation. */
+#define D_80170E84 D_80164E84
+#define D_80174860 D_80168860
+#include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity.h"
+#include "shared/record_ptrs.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_status.h"
+
+typedef struct S_8017388C_0 {
+    u8 pad_00[0x8C];
+    void * unk_8C;
+    u8 pad_90[0xB];
+    u8 unk_9B;
+} S_8017388C_0;   /* arg0 in func_8016788C */
+
+typedef struct S_8017388C_1 {
+    u8 pad_00[0x14];
+    u16 unk_14;
+    u8 pad_16[0x10];
+    s8 unk_26;
+} S_8017388C_1;   /* arg2 in func_8016788C */
+
+typedef struct S_8017388C_2 {
+    u8 pad_00[0x1C];
+    s32 unk_1C;
+    u8 pad_20[0x5];
+    u8 unk_25;
+    u8 pad_26[0x4];
+    s16 unk_2A;
+    u8 pad_2C[0x38];
+    s16 unk_64;
+    u8 pad_66[0x7];
+    s8 unk_6D;
+} S_8017388C_2;   /* arg3 in func_8016788C */
+
+
+extern s32 func_80042900(void *, s32);
+extern void func_80042B68(void *, s32);
+extern void func_80047784(void *, s32, s32);
+extern s32 func_8009A180(void *, void *);
+extern s16 func_8009FD40(void *, void *);
+extern s32 func_800A2C34(void *);
+extern s32 func_800A6D30(void);
+extern void func_800A9A04(void *);
+extern void func_800A9A0C(void *);
+extern void func_800AA258(void *, void *, void *, void *);
+extern s32 func_800AA6B4(void *, void *, void *, void *);
+extern void func_800AA79C(void *, void *, void *, void *);
+extern void func_800AA888(void *, void *, void *, void *);
+extern void func_80167F28(void *, s32, void *, void *);
+
+extern u8 D_80164E84[];
+extern u8 D_80168860[];
+
+/* Advance the actor action through animation setup, status handling, and completion. */
+void func_8016788C(void *in_action, void *in_context, void *in_sprite, void *in_actor)
+{
+    void *context = in_context;
+    void *actor = in_actor;
+    s32 state;
+
+    state = ((S_8017388C_0 *)in_action)->unk_9B;
+    switch (state) {
+    case 0:
+        if (((S_8017388C_1 *)in_sprite)->unk_14 & 0xE000) {
+            u8 *direction_frames;
+            DungeonGlobalStatus *system_base;
+
+            direction_frames = D_80168860;
+            (*(void * *)((u8 *)in_sprite + 0x2C)) = direction_frames;
+            func_80047784(in_sprite,
+                direction_frames[((gameWork.view.viewAngle + ((S_8017388C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                0);
+            system_base = &dungeonStatus;
+            (*(u16 *)&system_base->unk_0A)--;
+            ((S_8017388C_0 *)in_action)->unk_9B++;
+        }
+        return;
+
+    case 1:
+        if ((func_80042900(actor, 1) << 16) != 0) {
+            s32 actor_flags;
+            DungeonGlobalStatus *system_base;
+
+            system_base = &dungeonStatus;
+            if (system_base->flags & 0x1000) {
+                return;
+            }
+
+            if ((((S_8017388C_2 *)actor)->unk_64 != 0) &&
+                (func_800AA6B4(in_action, context, in_sprite, 0) != 0)) {
+                return;
+            }
+
+            if (((S_8017388C_2 *)actor)->unk_25 == 0) {
+                if (system_base->flags & 0x2008) {
+                    return;
+                }
+                func_800AA79C(in_action, context, in_sprite, actor);
+                return;
+            }
+
+            if ((func_800A2C34(actor) << 16) != 0) {
+                return;
+            }
+
+            actor_flags = ((S_8017388C_2 *)actor)->unk_1C;
+            if (actor_flags & 0x100) {
+                func_800AA258(in_action, context, in_sprite, actor);
+                return;
+            }
+
+            if (actor_flags & 0x80000) {
+                func_800AA888(in_action, context, in_sprite, actor);
+                func_80167F28(in_action, context, in_sprite, actor);
+                return;
+            }
+
+            if (((S_8017388C_2 *)actor)->unk_6D == 0) {
+                return;
+            }
+
+            if ((func_800A2C34(actor) << 16) != 0) {
+                if ((func_8009A180(actor,
+                    (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
+                    return;
+                }
+            }
+
+            func_800A9A0C(actor);
+            func_800A9A04(actor);
+
+            if ((func_80042900(actor, 1) << 16) != 0) {
+                TileObject *origin;
+                s8 coordinate;
+
+                origin = &D_80082E80;
+                coordinate = ((S_8017388C_1 *)in_sprite)->unk_26;
+                if ((((coordinate == origin->unk_026) &&
+                    (coordinate >= 0)) ||
+                    (func_8009FD40(origin, in_sprite) < 2)) &&
+                    ((func_800A6D30() & 7) == 0)) {
+                    func_80042B68(actor, 1);
+                }
+            }
+
+            if ((func_80042900(actor, 1) << 16) != 0) {
+                return;
+            }
+        }
+
+        if (!(((S_8017388C_1 *)in_sprite)->unk_14 & 0x8000)) {
+            DungeonGlobalStatus *system_base = &dungeonStatus;
+
+            (*(u16 *)&system_base->unk_0A)++;
+            ((S_8017388C_0 *)in_action)->unk_9B++;
+            return;
+        }
+        break;
+
+    case 2:
+        if (!(((S_8017388C_1 *)in_sprite)->unk_14 & 0xE000)) {
+            return;
+        }
+        {
+            DungeonGlobalStatus *system_base = &dungeonStatus;
+            (*(u16 *)&system_base->unk_0A)--;
+        }
+
+        break;
+    default:
+        return;
+    }
+    ((S_8017388C_2 *)actor)->unk_1C &= ~0x200;
+    in_action = (u8 *)in_action + 0x8C;
+    *(void **)in_action = D_80164E84;
+}
