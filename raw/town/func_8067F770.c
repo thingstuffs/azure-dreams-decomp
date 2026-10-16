@@ -1,6 +1,10 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void func_80039F70(void) {
-    *(s32 *)0x800188C8 = (s32 (*)(M2C_UNK, M2C_UNK))0x80016A4C(0x800188D0, 0);
+s32 func_80016A4C(M2C_UNK *, M2C_UNK);              /* extern */
+extern s32 D_800188C8;
+extern M2C_UNK D_800188D0;
+
+void func_80016770(void) {
+    D_800188C8 = func_80016A4C(&D_800188D0, 0);
 }

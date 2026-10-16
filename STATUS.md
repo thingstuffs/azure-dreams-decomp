@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-16T16:14:07Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-16T18:12:10Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -8,10 +8,10 @@ Generated 2026-10-16T16:14:07Z. Pin `82f20568` (82f20568997a, raw/ frozen at 202
 |---|---:|---:|---:|---:|---:|---:|---:|
 | slus | 884 | 473,788 | 884 | 473,788 | 884 | 473,788 | 0 |
 | main | 452 | 64,968 | 452 | 64,968 | 452 | 64,968 | 0 |
-| town | 3562 | 516,644 | 3562 | 516,644 | 3562 | 516,644 | 0 |
-| dungeon | 11681 | 4,705,080 | 11681 | 4,705,080 | 11681 | 4,705,080 | 0 |
+| town | 3598 | 518,812 | 3598 | 518,812 | 3598 | 518,812 | 0 |
+| dungeon | 11718 | 4,720,888 | 11718 | 4,720,888 | 11718 | 4,720,888 | 0 |
 | ovmovie | 28 | 5,516 | 28 | 5,516 | 28 | 5,516 | 0 |
-| ALL | 16607 | 5,765,996 | 16607 | 5,765,996 | 16607 | 5,765,996 | 0 |
+| ALL | 16680 | 5,783,972 | 16680 | 5,783,972 | 16680 | 5,783,972 | 0 |
 
 Data rows: 503 (13,692 B); stale-image residue DATA: 1 (488 B).
 
@@ -313,22 +313,22 @@ Placement alone does not override any lower-level or source-residue guard.
 
 | defect | files (pin) | bytes (pin) | % bytes | files (clean) | bytes (clean) | % bytes |
 |---|---:|---:|---:|---:|---:|---:|
-| m2c boilerplate block | 2331 | 510,576 | 8.9% | 0 | 0 | 0.0% |
+| m2c boilerplate block | 2331 | 510,576 | 8.8% | 0 | 0 | 0.0% |
 | M2C_FIELD raw offsets | 2950 | 1,449,308 | 25.1% | 9 | 2,132 | 0.0% |
-| m2c local names | 5181 | 2,162,116 | 37.5% | 65 | 29,660 | 0.5% |
-| ASM_ pins | 2135 | 1,456,292 | 25.3% | 0 | 0 | 0.0% |
-| goto | 1545 | 1,312,068 | 22.8% | 373 | 438,516 | 7.6% |
-| computed-goto jump table | 317 | 436,504 | 7.6% | 1 | 16 | 0.0% |
+| m2c local names | 5181 | 2,162,116 | 37.4% | 65 | 29,660 | 0.5% |
+| ASM_ pins | 2135 | 1,456,292 | 25.2% | 0 | 0 | 0.0% |
+| goto | 1545 | 1,312,068 | 22.7% | 373 | 438,516 | 7.6% |
+| computed-goto jump table | 317 | 436,504 | 7.5% | 1 | 16 | 0.0% |
 | inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 242,072 | 4.2% | 7 | 8,984 | 0.2% |
 | fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate) | 1489 | 676,096 | 11.7% | 0 | 0 | 0.0% |
-| any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,280,740 | 22.2% | 3 | 23,788 | 0.4% |
-| any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,740 | 22.2% | 1647 | 892,864 | 15.5% |
+| any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,280,740 | 22.1% | 3 | 23,788 | 0.4% |
+| any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,740 | 22.1% | 1647 | 892,864 | 15.4% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 668 | 489,140 | 8.5% | 0 | 0 | 0.0% |
 | maspsx marker pins (scaffolding) | 394 | 347,664 | 6.0% | 0 | 0 | 0.0% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 2.7% | 156 | 100,728 | 1.7% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
-| local address-named struct | 633 | 346,824 | 6.0% | 5979 | 3,134,948 | 54.4% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 2.7% | 16165 | 5,297,604 | 91.9% |
+| local address-named struct | 633 | 346,824 | 6.0% | 6012 | 3,149,764 | 54.5% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 2.7% | 16238 | 5,315,580 | 91.9% |
 
 Pin sites now: 0 in 0 rows; .  At the pin: 25,918; REG 12,816, KEEP 6,936, KEEP_NV 2,505, SCHED_BARRIER 1,355, TAILSLOT_PIN 506, USE 294, USE_NV 260, KEEP_DEP_NV 190.
 
@@ -374,16 +374,16 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 
 | level | bytes | % |
 |---|---:|---:|
-| L0 | 5,765,996 | 100.0% |
-| L1 | 5,765,996 | 100.0% |
-| L2 | 5,763,864 | 100.0% |
-| L3 | 5,711,088 | 99.0% |
+| L0 | 5,783,972 | 100.0% |
+| L1 | 5,783,972 | 100.0% |
+| L2 | 5,781,840 | 100.0% |
+| L3 | 5,729,064 | 99.1% |
 | L4 | 0 | 0.0% |
 | L5 | 0 | 0.0% |
 
-On shared record headers (T7, `include/records/`): 3656 rows, 2,065,036 bytes (35.8%); records used: 98.
+On shared record headers (T7, `include/records/`): 3656 rows, 2,065,036 bytes (35.7%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 19 rows (14,352 B), not_in_module 16,607 rows (5,765,996 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 19 rows (14,352 B), not_in_module 16,680 rows (5,783,972 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 

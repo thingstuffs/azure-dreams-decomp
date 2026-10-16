@@ -1,0 +1,5 @@
+_gp = 0x80080994;
+func_800478B8 = 0x800478B8;
+func_800A45D8 = 0x800A45D8;
+func_800BCB04 = 0x800BCB04;
+SECTIONS { . = 0x80158B48; .text ALIGN(4) : SUBALIGN(4) { *(.text.func_8102F348) } }

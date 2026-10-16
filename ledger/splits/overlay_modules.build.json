@@ -1,6 +1,6 @@
 {
   "schema": "overlay-module-native-v4",
-  "logical_rows": 15723,
+  "logical_rows": 15796,
   "edges": [
     {
       "module": "dungeon_cd_control_d79c4",
@@ -18541,6 +18541,16 @@
       ]
     },
     {
+      "source": "src/dungeon/func_809AA57C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_809AA57C"
+      ]
+    },
+    {
       "source": "src/dungeon/func_809AB8EC.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -18798,6 +18808,16 @@
       },
       "rows": [
         "dungeon/func_809B031C"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_809B057C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_809B057C"
       ]
     },
     {
@@ -19061,6 +19081,16 @@
       ]
     },
     {
+      "source": "src/dungeon/func_809B657C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_809B657C"
+      ]
+    },
+    {
       "source": "src/dungeon/func_809B78EC.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -19318,6 +19348,16 @@
       },
       "rows": [
         "dungeon/func_809BC31C"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_809BC57C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_809BC57C"
       ]
     },
     {
@@ -19848,6 +19888,16 @@
       },
       "rows": [
         "dungeon/func_809C831C"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_809C857C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_809C857C"
       ]
     },
     {
@@ -29501,6 +29551,16 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80ACB5DC.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80ACB5DC"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80ACB958.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -29791,6 +29851,16 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80AD15DC.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80AD15DC"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80AD1958.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -30058,6 +30128,16 @@
       },
       "rows": [
         "dungeon/func_80AD7000"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80AD75DC.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80AD75DC"
       ]
     },
     {
@@ -30341,6 +30421,16 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80ADD5DC.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80ADD5DC"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80ADD958.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -30608,6 +30698,16 @@
       },
       "rows": [
         "dungeon/func_80AE1228"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80AE35DC.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80AE35DC"
       ]
     },
     {
@@ -30881,6 +30981,16 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80AE95DC.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80AE95DC"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80AE9958.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -31148,6 +31258,16 @@
       },
       "rows": [
         "dungeon/func_80AED228"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80AF54F8.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80AF54F8"
       ]
     },
     {
@@ -31461,6 +31581,16 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80AFB4F8.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80AFB4F8"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80AFB73C.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -31741,6 +31871,16 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80B014F8.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80B014F8"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80B0173C.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -32008,6 +32148,16 @@
       },
       "rows": [
         "dungeon/func_80B05A6C"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80B074F8.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80B074F8"
       ]
     },
     {
@@ -32281,6 +32431,16 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80B0D4F8.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80B0D4F8"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80B0D73C.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -32548,6 +32708,16 @@
       },
       "rows": [
         "dungeon/func_80B11A6C"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80B134F8.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80B134F8"
       ]
     },
     {
@@ -54371,6 +54541,26 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80D71810.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80D71810"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80D71C5C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80D71C5C"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80D71F80.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -54578,6 +54768,26 @@
       },
       "rows": [
         "dungeon/func_80D764D8"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80D77810.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80D77810"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80D77C5C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80D77C5C"
       ]
     },
     {
@@ -54791,6 +55001,26 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80D7D810.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80D7D810"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80D7DC5C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80D7DC5C"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80D7DF80.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -55001,6 +55231,26 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80D83810.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80D83810"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80D83C5C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80D83C5C"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80D83F80.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -55208,6 +55458,26 @@
       },
       "rows": [
         "dungeon/func_80D884D8"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80D89810.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80D89810"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80D89C5C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80D89C5C"
       ]
     },
     {
@@ -64251,6 +64521,16 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80E42C80.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80E42C80"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80E432D0.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -64638,6 +64918,16 @@
       },
       "rows": [
         "dungeon/func_80E48BD0"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80E48C80.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80E48C80"
       ]
     },
     {
@@ -65031,6 +65321,16 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80E4EC80.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80E4EC80"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80E4F2D0.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -65418,6 +65718,16 @@
       },
       "rows": [
         "dungeon/func_80E54BD0"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80E54C80.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80E54C80"
       ]
     },
     {
@@ -65811,6 +66121,16 @@
       ]
     },
     {
+      "source": "src/dungeon/func_80E5AC80.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80E5AC80"
+      ]
+    },
+    {
       "source": "src/dungeon/func_80E5B2D0.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -66198,6 +66518,16 @@
       },
       "rows": [
         "dungeon/func_80E60BD0"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_80E60C80.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80E60C80"
       ]
     },
     {
@@ -99021,6 +99351,16 @@
       ]
     },
     {
+      "source": "src/dungeon/func_812B006C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_812B006C"
+      ]
+    },
+    {
       "source": "src/dungeon/func_812B27A4.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -99218,6 +99558,16 @@
       },
       "rows": [
         "dungeon/func_812B5A84"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_812B606C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_812B606C"
       ]
     },
     {
@@ -99421,6 +99771,16 @@
       ]
     },
     {
+      "source": "src/dungeon/func_812BC06C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_812BC06C"
+      ]
+    },
+    {
       "source": "src/dungeon/func_812BE7A4.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -99618,6 +99978,16 @@
       },
       "rows": [
         "dungeon/func_812C1A84"
+      ]
+    },
+    {
+      "source": "src/dungeon/func_812C206C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_812C206C"
       ]
     },
     {
@@ -127121,6 +127491,36 @@
       ]
     },
     {
+      "source": "src/town/func_80353EE4.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_80353EE4"
+      ]
+    },
+    {
+      "source": "src/town/func_80353F04.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_80353F04"
+      ]
+    },
+    {
+      "source": "src/town/func_8035A5AC.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8035A5AC"
+      ]
+    },
+    {
       "source": "src/town/func_803C8728.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -135451,6 +135851,66 @@
       ]
     },
     {
+      "source": "src/town/func_8067F770.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8067F770"
+      ]
+    },
+    {
+      "source": "src/town/func_8067F79C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8067F79C"
+      ]
+    },
+    {
+      "source": "src/town/func_8067F7C8.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8067F7C8"
+      ]
+    },
+    {
+      "source": "src/town/func_8067F7F0.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8067F7F0"
+      ]
+    },
+    {
+      "source": "src/town/func_8067F818.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8067F818"
+      ]
+    },
+    {
+      "source": "src/town/func_8067F840.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8067F840"
+      ]
+    },
+    {
       "source": "src/town/func_8067F850.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -139561,6 +140021,16 @@
       ]
     },
     {
+      "source": "src/town/func_8080E594.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8080E594"
+      ]
+    },
+    {
       "source": "src/town/func_8080E59C.c",
       "recipe": {
         "cfg": "2.6.3-G0",
@@ -140901,6 +141371,16 @@
       ]
     },
     {
+      "source": "src/town/func_80875510.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_80875510"
+      ]
+    },
+    {
       "source": "src/town/func_80875518.c",
       "recipe": {
         "cfg": "2.6.3",
@@ -140941,6 +141421,16 @@
       ]
     },
     {
+      "source": "src/town/func_80875798.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_80875798"
+      ]
+    },
+    {
       "source": "src/town/func_808757A0.c",
       "recipe": {
         "cfg": "2.6.3",
@@ -140948,6 +141438,16 @@
       },
       "rows": [
         "town/func_808757A0"
+      ]
+    },
+    {
+      "source": "src/town/func_80875800.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_80875800"
       ]
     },
     {
@@ -141361,6 +141861,26 @@
       ]
     },
     {
+      "source": "src/town/func_80880090.c",
+      "recipe": {
+        "cfg": "2.6.3",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_80880090"
+      ]
+    },
+    {
+      "source": "src/town/func_808800E0.c",
+      "recipe": {
+        "cfg": "2.6.3",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_808800E0"
+      ]
+    },
+    {
       "source": "src/town/func_80880194.c",
       "recipe": {
         "cfg": "2.6.3-G0",
@@ -141471,6 +141991,16 @@
       ]
     },
     {
+      "source": "src/town/func_808817C4.c",
+      "recipe": {
+        "cfg": "2.6.3",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_808817C4"
+      ]
+    },
+    {
       "source": "src/town/func_80883004.c",
       "recipe": {
         "cfg": "2.6.3-G0",
@@ -141531,6 +142061,26 @@
       ]
     },
     {
+      "source": "src/town/func_808833D8.c",
+      "recipe": {
+        "cfg": "2.6.3",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_808833D8"
+      ]
+    },
+    {
+      "source": "src/town/func_80883428.c",
+      "recipe": {
+        "cfg": "2.6.3",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_80883428"
+      ]
+    },
+    {
       "source": "src/town/func_808834DC.c",
       "recipe": {
         "cfg": "2.6.3-G0",
@@ -141558,6 +142108,16 @@
       },
       "rows": [
         "town/func_80883548"
+      ]
+    },
+    {
+      "source": "src/town/func_808B2AA4.c",
+      "recipe": {
+        "cfg": "2.6.3",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_808B2AA4"
       ]
     },
     {
@@ -141618,6 +142178,16 @@
       },
       "rows": [
         "town/func_808B2D90"
+      ]
+    },
+    {
+      "source": "src/town/func_808B2E6C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_808B2E6C"
       ]
     },
     {
@@ -141691,6 +142261,16 @@
       ]
     },
     {
+      "source": "src/town/func_808B3218.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_808B3218"
+      ]
+    },
+    {
       "source": "src/town/func_808B3220.c",
       "recipe": {
         "cfg": "2.7.2-G0",
@@ -141731,6 +142311,16 @@
       ]
     },
     {
+      "source": "src/town/func_808B3488.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_808B3488"
+      ]
+    },
+    {
       "source": "src/town/func_808B3490.c",
       "recipe": {
         "cfg": "2.7.2-G0",
@@ -141748,6 +142338,16 @@
       },
       "rows": [
         "town/func_808B34B0"
+      ]
+    },
+    {
+      "source": "src/town/func_808B356C.c",
+      "recipe": {
+        "cfg": "2.6.3",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_808B356C"
       ]
     },
     {
@@ -142031,6 +142631,16 @@
       ]
     },
     {
+      "source": "src/town/func_808B8720.c",
+      "recipe": {
+        "cfg": "2.6.3",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_808B8720"
+      ]
+    },
+    {
       "source": "src/town/func_808B9348.c",
       "recipe": {
         "cfg": "2.6.3-G0",
@@ -142131,6 +142741,36 @@
       ]
     },
     {
+      "source": "src/town/func_808B96AC.c",
+      "recipe": {
+        "cfg": "2.6.3",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_808B96AC"
+      ]
+    },
+    {
+      "source": "src/town/func_808B96FC.c",
+      "recipe": {
+        "cfg": "2.6.3",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_808B96FC"
+      ]
+    },
+    {
+      "source": "src/town/func_808B97B0.c",
+      "recipe": {
+        "cfg": "2.7.2-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_808B97B0"
+      ]
+    },
+    {
       "source": "src/town/func_808B98AC.c",
       "recipe": {
         "cfg": "2.6.3-G0",
@@ -142138,6 +142778,16 @@
       },
       "rows": [
         "town/func_808B98AC"
+      ]
+    },
+    {
+      "source": "src/town/func_808B98D0.c",
+      "recipe": {
+        "cfg": "2.6.3-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_808B98D0"
       ]
     },
     {
@@ -142248,6 +142898,16 @@
       },
       "rows": [
         "town/func_808BB5EC"
+      ]
+    },
+    {
+      "source": "src/town/func_808BB6D8.c",
+      "recipe": {
+        "cfg": "2.6.3",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_808BB6D8"
       ]
     },
     {
@@ -142411,6 +143071,16 @@
       ]
     },
     {
+      "source": "src/town/func_8094D4D8.c",
+      "recipe": {
+        "cfg": "2.7.2-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8094D4D8"
+      ]
+    },
+    {
       "source": "src/town/func_8094D708.c",
       "recipe": {
         "cfg": "2.7.2-G0",
@@ -142441,6 +143111,16 @@
       ]
     },
     {
+      "source": "src/town/func_8094E4D8.c",
+      "recipe": {
+        "cfg": "2.7.2-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8094E4D8"
+      ]
+    },
+    {
       "source": "src/town/func_8094EB74.c",
       "recipe": {
         "cfg": "2.7.2-G0",
@@ -142458,6 +143138,16 @@
       },
       "rows": [
         "town/func_8094ECC4"
+      ]
+    },
+    {
+      "source": "src/town/func_8094F4D4.c",
+      "recipe": {
+        "cfg": "2.7.2-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8094F4D4"
       ]
     },
     {
@@ -142491,6 +143181,16 @@
       ]
     },
     {
+      "source": "src/town/func_809504D4.c",
+      "recipe": {
+        "cfg": "2.7.2-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_809504D4"
+      ]
+    },
+    {
       "source": "src/town/func_80950B70.c",
       "recipe": {
         "cfg": "2.7.2-G0",
@@ -142511,6 +143211,16 @@
       ]
     },
     {
+      "source": "src/town/func_809514D4.c",
+      "recipe": {
+        "cfg": "2.7.2-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_809514D4"
+      ]
+    },
+    {
       "source": "src/town/func_80951B70.c",
       "recipe": {
         "cfg": "2.7.2-G0",
@@ -142528,6 +143238,16 @@
       },
       "rows": [
         "town/func_8095212C"
+      ]
+    },
+    {
+      "source": "src/town/func_80952598.c",
+      "recipe": {
+        "cfg": "2.7.2-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_80952598"
       ]
     },
     {
@@ -142738,6 +143458,16 @@
       },
       "rows": [
         "town/func_80956DA0"
+      ]
+    },
+    {
+      "source": "src/town/func_80956E64.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_80956E64"
       ]
     },
     {

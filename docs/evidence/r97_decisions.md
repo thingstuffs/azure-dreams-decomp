@@ -352,3 +352,18 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
 53. **(r121, OWNER ruling 2026-10-16) Land fast, gate once.** Backlog batches land with cheap checks only (patches,
     privacy scrub, unit, row_db, SLUS, regen); one full gate + certificate renewal runs after the backlog is in, and
     whatever it finds is fixed then. Temporary breakage is accepted over tracking many disjoint deliveries.
+54. **(r121, orchestrator, delegated) SDK callee contracts: the donor's own declaration, else the PsyQ prototype.**
+    Twins rows that call PsyQ SDK functions take the callee declaration from the donor row when it has one; otherwise
+    the PsyQ library prototype, which is also the dominant matched declaration in the tree: `s32 rand(void)` (200 of 205
+    matched rows: 127 prototyped + 73 old-style, 5 outliers) and `s32 rsin(s32)` (10 of 10). The r121_twins2 CONTINUE3
+    survey found 37 bound / 23 conflicting / 311 with no header declaration. Evidence: r121_twins2 REPORT.md (CONTINUE3
+    item 0), r121_sdk BRIEF.md. SECOND LOOK: no.
+55. **(r121, OWNER ruling 2026-10-16) PsyQ SDK code is library code.** Bytes identified as a PsyQ library object are
+    labelled "library code" in coverage and the byte-accounting census, not decompile targets, unless C for them already
+    exists in the tree.
+56. **(r121, orchestrator, delegated) Decision 51 resolved: town 0x5FF770 loads at 0x7FA17000.** The module header at
+    file 0x5FF000 (6 sectors), the jal to 0x80016A4C that lands on a prologue only at 0x7FA17000, and the neighbouring
+    records r121c2_5FF74C / r121o_5FF850 all agree with the hardholds base; the r121_remnants base 0x7FA3A800 landed in
+    B3 was wrong. r121_nodonor delivery2_fix corrects the 6 rowbase records (and drops 6 NOMATCH splits, 3 load_base
+    lines); the hardholds packages may be re-delivered on the corrected base. Evidence: r121_nodonor REPORT.md
+    (placement pass). SECOND LOOK: no.
