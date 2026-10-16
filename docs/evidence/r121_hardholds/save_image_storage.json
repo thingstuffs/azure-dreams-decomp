@@ -1,0 +1,97 @@
+{
+  "schema": "azure-clean.imported-storage-evidence.v1",
+  "object": "memory-card serialized save image",
+  "base": 2147549184,
+  "view_bytes": 24576,
+  "base_witnesses": [
+    "save_func_80012230.s",
+    "save_func_80012398.s"
+  ],
+  "transfer_units": 192,
+  "unit_bytes": 128,
+  "checksum_start": 520,
+  "checksum_words": 6014,
+  "checksum_end": 24576,
+  "field_offsets": {
+    "pending": 8332,
+    "active": 8336
+  },
+  "field_witness": "save_reset_80043458.s",
+  "inputs": [
+    {
+      "id": "main/func_80012230",
+      "foff": 2499120,
+      "size": 116,
+      "vram": 2147635760,
+      "retail_sha256": "c667730a05306006382c9bac7df47fa960684ee897fa38c3a7518be31cae7293",
+      "source": "src/main/func_80012230.c"
+    },
+    {
+      "id": "main/func_80012398",
+      "foff": 2499480,
+      "size": 212,
+      "vram": 2147636120,
+      "retail_sha256": "2658b831c49e16bd1f1708e6e47baf440e9010c28e460f42d87c3322c079088d",
+      "source": "src/main/func_80012398.c"
+    },
+    {
+      "id": "main/func_8000EFF0",
+      "foff": 2486256,
+      "size": 236,
+      "vram": 2147622896,
+      "retail_sha256": "97f5e050ce9ab8d868e989947655a08011dc1df57d624ee8a988a6b7343c5121",
+      "source": "src/main/func_8000EFF0.c"
+    },
+    {
+      "id": "main/func_8000EF18",
+      "foff": 2486040,
+      "size": 216,
+      "vram": 2147622680,
+      "retail_sha256": "d0a245ba54a3982d28f8c9fc879c19acbe02d80a6c533fa0645f965d8d0f65f1",
+      "source": "src/main/func_8000EF18.c"
+    },
+    {
+      "id": "main/func_8000EB98",
+      "foff": 2485144,
+      "size": 180,
+      "vram": 2147621784,
+      "retail_sha256": "ac4cde128868dfdce4da94ecc643194b7d174dab0e4d40c3b3cbad5088edfceb",
+      "source": "src/main/func_8000EB98.c"
+    },
+    {
+      "id": "main/func_8000EC4C",
+      "foff": 2485324,
+      "size": 236,
+      "vram": 2147621964,
+      "retail_sha256": "5d99ca008242b87260dcddb904c6bed0227bef6ddac5db1cb9cb4fb50911c28a",
+      "source": "src/main/func_8000EC4C.c"
+    },
+    {
+      "id": "main/func_8000EEB8",
+      "foff": 2485944,
+      "size": 40,
+      "vram": 2147622584,
+      "retail_sha256": "f753ba17d54abc0b50200b3a6cee787c36459f6cced91f2bb6f1853191363fbb",
+      "source": "src/main/func_8000EEB8.c"
+    },
+    {
+      "id": "main/func_8000EEE0",
+      "foff": 2485984,
+      "size": 56,
+      "vram": 2147622624,
+      "retail_sha256": "ae75a636f03efa28f6c11df566c65a3a1e82d73a643a350f5223fb8bf7fefcc5",
+      "source": "src/main/func_8000EEE0.c"
+    },
+    {
+      "id": "slus/w_80043458",
+      "foff": 93272,
+      "size": 140,
+      "vram": 2147759192,
+      "retail_sha256": "907c09c48a2a0b4f9e384111edb0553f47247ec3eb779436cceae08d05592a21",
+      "source": "src/slus/w_80043458.c"
+    }
+  ],
+  "basis": "actual pointer passed as complete buffer, counted read/write extent, independent full checksum extent, exact fixed-address field reset",
+  "not_basis": "shared LUI page or neighbor C spelling",
+  "runtime_capture": false
+}

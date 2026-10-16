@@ -1,0 +1,104 @@
+{
+ "id": "af029333b0b9f233a28d",
+ "row": "dungeon/func_80AC9128",
+ "original_sha256": "cee6e8dcf3b6b98955c9a3af51ba473bc0273b66f1d7e8f2760fb70488e0209d",
+ "source_sha256": "95fdd4fa122556d3b1e13c3865bcb6cb636ff3421949e983bb9126b43abd77d1",
+ "cfg": "2.7.2-cdk-G0",
+ "callee": {
+  "row": "dungeon/func_80AC9128",
+  "source": "src/dungeon/func_80AC9128.c",
+  "name": "func_80174928",
+  "definition": "void func_80174928(void *action_state, s32 effect_arg, void *anim_state, EntityRec *actor)"
+ },
+ "variant": {
+  "name": "func_80174928",
+  "definition": "void func_80174928(void *action_state, void * effect_arg, void *anim_state, EntityRec *actor)"
+ },
+ "changes": [
+  {
+   "index": 1,
+   "kind": "used-word-parameter-original-use-conversion",
+   "before": "s32 effect_arg",
+   "after": "void * effect_arg",
+   "cast": "s32"
+  }
+ ],
+ "interface": {
+  "name": "func_80174798",
+  "return_type": "void",
+  "arity": 4,
+  "prototype": "extern void callee(void *, void *, void *, void *);",
+  "definition": "void func_80174798(void *, void *, void *, void *)",
+  "typed_boundary_conversions": true,
+  "parameter_conversion_style": "cast-uses"
+ },
+ "unused_machine_args": {
+  "basis": "typed-C-copy-original-local-and-return-conversions",
+  "passed": true
+ },
+ "source_authority": {
+  "row": "dungeon/func_80AC9128",
+  "source": "src/dungeon/func_80AC9128.c",
+  "name": "func_80174928",
+  "definition": "void func_80174928(void *action_state, s32 effect_arg, void *anim_state, EntityRec *actor)",
+  "binding": "prototype-inherited-from-admitted-complete-twin",
+  "inherited_row": "dungeon/func_80AF2F98",
+  "inherited_source_sha256": "882103149afaa421a41dfd615f68da829424919c0cd8dced3d647defd6f06c37",
+  "callee_foff": "0xb12f98"
+ },
+ "authority_mode": "same-complete-body-matched-caller-interface",
+ "caller": {
+  "row": "dungeon/func_80AEFFF4",
+  "source": "src/dungeon/func_80AEFFF4.c"
+ },
+ "score": {
+  "status": "ok",
+  "exact": true,
+  "subs": 0,
+  "indels": 0,
+  "total": 0,
+  "gen_words": 64,
+  "tgt_words": 64,
+  "class": "match",
+  "signals": [],
+  "secs": 2.81,
+  "err": null
+ },
+ "source": "evidence/continue3/prototype_variants/af029333b0b9f233a28d/variant.c",
+ "status": "PROVED",
+ "prototype_only": true,
+ "additional_c_rows": 0,
+ "additional_c_bytes": 0,
+ "production_gate_sha256": "f3eee2a67ab948cebf469e4b359e61105ccafbca456eae8264b018f38c907f25",
+ "headers_sha256": "d2f27c97e9b7966f712a70587984e1e3c63c11f7fbd21449cadd5756719ce753",
+ "window_gate": {
+  "command": [
+   "work/native_lane/r121_twins2/staging/workers/w06/staging/root/.venv/bin/python",
+   "tools/overlay_local_gate.py",
+   "--config",
+   "config/overlays/dungeon_deep_t8b_0ae9.overlay.yaml",
+   "--clean",
+   "--stage-match",
+   "func_80AC9128",
+   "work/native_lane/r121_twins2/evidence/continue3/prototype_variants/af029333b0b9f233a28d/variant.c",
+   "2.7.2-cdk-G0"
+  ],
+  "returncode": 0,
+  "stdout": "overlay: dungeon_deep_t8b_0ae9\nconfig: config/overlays/dungeon_deep_t8b_0ae9.overlay.yaml\ncontainer: work/s3_splat/extract/DUNGEON_DUNGEON.BIN\nwindow: 0xAE9128..0xAE9574 -> 0x80AC9128..0x80AC9574\nsegments: 2 total, 2 c, 0 platform asm, 0 game asm, 0 asm, 0 raw\nmatched source counts: overlays/dungeon=2, staged=1\nmanifest: work/s3_splat/dungeon_deep_t8b_0ae9/dungeon_deep_t8b_0ae9_manifest.json\nMATCH: rebuilt overlay window byte-identical (1100 bytes)\n",
+  "stderr": ""
+ },
+ "manifest_entry": {
+  "func": "func_80174928",
+  "file_start": "0xAE9128",
+  "vram": "0x80AC9128",
+  "size": 256,
+  "source": "work/native_lane/r121_twins2/evidence/continue3/prototype_variants/af029333b0b9f233a28d/variant.c",
+  "config": "2.7.2-cdk-G0",
+  "source_group": "staged",
+  "module": null,
+  "rowbase_link_vram": "0x80174928"
+ },
+ "object_sha256": "a07e58799c1bbd3f62f43b17e95f7529785c311eba1d7f094ff6e4b61451afd8",
+ "object": "evidence/continue3/prototype_variants/af029333b0b9f233a28d/variant.o",
+ "retail_sha256": "3b25811eca71fbcdca069e25f32d867fae2c427a5abc98f421fcae5f125323f8"
+}

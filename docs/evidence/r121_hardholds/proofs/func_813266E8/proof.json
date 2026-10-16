@@ -1,0 +1,13 @@
+{
+  "symbol": "func_8016DEE8",
+  "address": 2148982504,
+  "symbol_size": 32,
+  "generated_size": 32,
+  "retail_size": 32,
+  "exact": true,
+  "generated_sha256": "c4e4660bbd6be625c44ccfd548413ef9e2021a4ce4005fe00c91649f1d6029b3",
+  "retail_sha256": "c4e4660bbd6be625c44ccfd548413ef9e2021a4ce4005fe00c91649f1d6029b3",
+  "source_sha256": "caefc48e47daf374bcbcf946f4dc31ee20826e4916e1abab3a758a202078a94d",
+  "object_sha256": "dd59b12bd99e4083797944a8b816edc4cded2ac24746cb9e5f0672a89a8181ab",
+  "elf_sha256": "7cb7e86e4d0873362a967bc560d839cf82ec04662f80a3a8a9eeecb3669a8311"
+}

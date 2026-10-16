@@ -1,0 +1,184 @@
+{
+ "EnterCriticalSection": {
+  "name": "EnterCriticalSection",
+  "definition": "int EnterCriticalSection(void)",
+  "archive": "toolchain/genuine/psyq/_archives/PSYQ_SDK.zip",
+  "member": "psyq/include/LIBAPI.H",
+  "member_sha256": "80d30e4857d9043e05dbb973f22fb8ab0fb2f7b0f6846e7573f63a55699c6815"
+ },
+ "ExitCriticalSection": {
+  "name": "ExitCriticalSection",
+  "definition": "void ExitCriticalSection(void)",
+  "archive": "toolchain/genuine/psyq/_archives/PSYQ_SDK.zip",
+  "member": "psyq/include/LIBAPI.H",
+  "member_sha256": "80d30e4857d9043e05dbb973f22fb8ab0fb2f7b0f6846e7573f63a55699c6815"
+ },
+ "GetTPage": {
+  "name": "GetTPage",
+  "definition": "u_short GetTPage(int tp, int abr, int x, int y)",
+  "archive": "toolchain/genuine/psyq/_archives/PSYQ_SDK.zip",
+  "member": "psyq/include/LIBGPU.H",
+  "member_sha256": "58161767a34aa41e2c4647316a56da4acd75c3a6d6b77d9ceebbdd4bd81107ac"
+ },
+ "GetClut": {
+  "name": "GetClut",
+  "definition": "u_short GetClut(int x, int y)",
+  "archive": "toolchain/genuine/psyq/_archives/PSYQ_SDK.zip",
+  "member": "psyq/include/LIBGPU.H",
+  "member_sha256": "58161767a34aa41e2c4647316a56da4acd75c3a6d6b77d9ceebbdd4bd81107ac"
+ },
+ "AddPrim": {
+  "name": "AddPrim",
+  "definition": "void AddPrim(void *ot, void *p)",
+  "archive": "toolchain/genuine/psyq/_archives/PSYQ_SDK.zip",
+  "member": "psyq/include/LIBGPU.H",
+  "member_sha256": "58161767a34aa41e2c4647316a56da4acd75c3a6d6b77d9ceebbdd4bd81107ac"
+ },
+ "SetSemiTrans": {
+  "name": "SetSemiTrans",
+  "definition": "void SetSemiTrans(void *p, int abe)",
+  "archive": "toolchain/genuine/psyq/_archives/PSYQ_SDK.zip",
+  "member": "psyq/include/LIBGPU.H",
+  "member_sha256": "58161767a34aa41e2c4647316a56da4acd75c3a6d6b77d9ceebbdd4bd81107ac"
+ },
+ "SetPolyFT4": {
+  "name": "SetPolyFT4",
+  "definition": "void SetPolyFT4(POLY_FT4 *p)",
+  "archive": "toolchain/genuine/psyq/_archives/PSYQ_SDK.zip",
+  "member": "psyq/include/LIBGPU.H",
+  "member_sha256": "58161767a34aa41e2c4647316a56da4acd75c3a6d6b77d9ceebbdd4bd81107ac"
+ },
+ "DrawSync": {
+  "name": "DrawSync",
+  "definition": "int DrawSync(int mode)",
+  "archive": "toolchain/genuine/psyq/_archives/PSYQ_SDK.zip",
+  "member": "psyq/include/LIBGPU.H",
+  "member_sha256": "58161767a34aa41e2c4647316a56da4acd75c3a6d6b77d9ceebbdd4bd81107ac"
+ },
+ "LoadImage": {
+  "name": "LoadImage",
+  "definition": "int LoadImage(RECT *rect, u_long *p)",
+  "archive": "toolchain/genuine/psyq/_archives/PSYQ_SDK.zip",
+  "member": "psyq/include/LIBGPU.H",
+  "member_sha256": "58161767a34aa41e2c4647316a56da4acd75c3a6d6b77d9ceebbdd4bd81107ac"
+ },
+ "SetDrawArea": {
+  "name": "SetDrawArea",
+  "definition": "void SetDrawArea(DR_AREA *p, RECT *r)",
+  "archive": "toolchain/genuine/psyq/_archives/PSYQ_SDK.zip",
+  "member": "psyq/include/LIBGPU.H",
+  "member_sha256": "58161767a34aa41e2c4647316a56da4acd75c3a6d6b77d9ceebbdd4bd81107ac"
+ },
+ "SetDrawMode": {
+  "name": "SetDrawMode",
+  "definition": "void SetDrawMode(DR_MODE *p, int dfe, int dtd, int tpage, RECT *tw)",
+  "archive": "toolchain/genuine/psyq/_archives/PSYQ_SDK.zip",
+  "member": "psyq/include/LIBGPU.H",
+  "member_sha256": "58161767a34aa41e2c4647316a56da4acd75c3a6d6b77d9ceebbdd4bd81107ac"
+ },
+ "rsin": {
+  "name": "rsin",
+  "definition": "int rsin(int a)",
+  "archive": "toolchain/genuine/psyq/_archives/PSYQ_SDK.zip",
+  "member": "psyq/include/LIBGTE.H",
+  "member_sha256": "1cec18e1a50c950c8911a6c7caa2cbc1e896e9345d4977846a76a2d9447540f1"
+ },
+ "PushMatrix": {
+  "name": "PushMatrix",
+  "definition": "void PushMatrix()",
+  "archive": "toolchain/genuine/psyq/_archives/PSYQ_SDK.zip",
+  "member": "psyq/include/LIBGTE.H",
+  "member_sha256": "1cec18e1a50c950c8911a6c7caa2cbc1e896e9345d4977846a76a2d9447540f1"
+ },
+ "PopMatrix": {
+  "name": "PopMatrix",
+  "definition": "void PopMatrix()",
+  "archive": "toolchain/genuine/psyq/_archives/PSYQ_SDK.zip",
+  "member": "psyq/include/LIBGTE.H",
+  "member_sha256": "1cec18e1a50c950c8911a6c7caa2cbc1e896e9345d4977846a76a2d9447540f1"
+ },
+ "RotTransPers": {
+  "name": "RotTransPers",
+  "definition": "long RotTransPers(SVECTOR *v0,long *sxy,long *p,long *flag)",
+  "archive": "toolchain/genuine/psyq/_archives/PSYQ_SDK.zip",
+  "member": "psyq/include/LIBGTE.H",
+  "member_sha256": "1cec18e1a50c950c8911a6c7caa2cbc1e896e9345d4977846a76a2d9447540f1"
+ },
+ "RotTransPers4": {
+  "name": "RotTransPers4",
+  "definition": "long RotTransPers4(SVECTOR *v0,SVECTOR *v1,SVECTOR *v2,SVECTOR *v3, long *sxy0,long *sxy1,long *sxy2,long *sxy3, long *p,long *flag)",
+  "archive": "toolchain/genuine/psyq/_archives/PSYQ_SDK.zip",
+  "member": "psyq/include/LIBGTE.H",
+  "member_sha256": "1cec18e1a50c950c8911a6c7caa2cbc1e896e9345d4977846a76a2d9447540f1"
+ },
+ "RotAverage4": {
+  "name": "RotAverage4",
+  "definition": "long RotAverage4(SVECTOR *v0,SVECTOR *v1,SVECTOR *v2,SVECTOR *v3, long *sxy0,long *sxy1,long *sxy2,long *sxy3, long *p,long *flag)",
+  "archive": "toolchain/genuine/psyq/_archives/PSYQ_SDK.zip",
+  "member": "psyq/include/LIBGTE.H",
+  "member_sha256": "1cec18e1a50c950c8911a6c7caa2cbc1e896e9345d4977846a76a2d9447540f1"
+ },
+ "ratan2": {
+  "name": "ratan2",
+  "definition": "long ratan2(long y, long x)",
+  "archive": "toolchain/genuine/psyq/_archives/PSYQ_SDK.zip",
+  "member": "psyq/include/LIBGTE.H",
+  "member_sha256": "1cec18e1a50c950c8911a6c7caa2cbc1e896e9345d4977846a76a2d9447540f1"
+ },
+ "bzero": {
+  "name": "bzero",
+  "definition": "void *bzero(unsigned char *, int)",
+  "archive": "toolchain/genuine/psyq/_archives/PSYQ_SDK.zip",
+  "member": "psyq/include/MEMORY.H",
+  "member_sha256": "fdd92da7b5c8e516a94dd9345cb29e8e95842022ec22f93642426e958f2b48f1"
+ },
+ "memcpy": {
+  "name": "memcpy",
+  "definition": "void *memcpy ()",
+  "archive": "toolchain/genuine/psyq/_archives/PSYQ_SDK.zip",
+  "member": "psyq/include/MEMORY.H",
+  "member_sha256": "fdd92da7b5c8e516a94dd9345cb29e8e95842022ec22f93642426e958f2b48f1"
+ },
+ "rand": {
+  "name": "rand",
+  "definition": "int rand(void)",
+  "archive": "toolchain/genuine/psyq/_archives/PSYQ_SDK.zip",
+  "member": "psyq/include/RAND.H",
+  "member_sha256": "cb5e0a9c3d891eaad884ebc7ee34786e30a0a828a9afcc1b169e85ddbe9a9c14"
+ },
+ "printf": {
+  "name": "printf",
+  "definition": "int printf(const char *fmt, ...)",
+  "archive": "toolchain/genuine/psyq/_archives/PSYQ_SDK.zip",
+  "member": "psyq/include/STDIO.H",
+  "member_sha256": "0d372857e53c2a88c59959f7b3f3c6e8f6889b1c3e8b632022fd09ac53773c8a"
+ },
+ "strcpy": {
+  "name": "strcpy",
+  "definition": "char *strcpy ()",
+  "archive": "toolchain/genuine/psyq/_archives/PSYQ_SDK.zip",
+  "member": "psyq/include/STRINGS.H",
+  "member_sha256": "f8b51e5ece663bf26f9415bea541905a1872e8aecc0307ed639e29c92a51c1e9"
+ },
+ "RotMatrix": {
+  "name": "RotMatrix",
+  "definition": "MATRIX *RotMatrix(SVECTOR *r,MATRIX *m)",
+  "archive": "toolchain/genuine/psyq/_archives/PSYQ_SDK.zip",
+  "member": "psyq/include/LIBGTE.H",
+  "member_sha256": "1cec18e1a50c950c8911a6c7caa2cbc1e896e9345d4977846a76a2d9447540f1"
+ },
+ "StoreImage": {
+  "name": "StoreImage",
+  "definition": "int StoreImage(RECT *rect, u_long *p)",
+  "archive": "toolchain/genuine/psyq/_archives/PSYQ_SDK.zip",
+  "member": "psyq/include/LIBGPU.H",
+  "member_sha256": "58161767a34aa41e2c4647316a56da4acd75c3a6d6b77d9ceebbdd4bd81107ac"
+ },
+ "SetTile": {
+  "name": "SetTile",
+  "definition": "void SetTile(TILE *p)",
+  "archive": "toolchain/genuine/psyq/_archives/PSYQ_SDK.zip",
+  "member": "psyq/include/LIBGPU.H",
+  "member_sha256": "58161767a34aa41e2c4647316a56da4acd75c3a6d6b77d9ceebbdd4bd81107ac"
+ }
+}

@@ -1,0 +1,104 @@
+{
+ "id": "ab4a0482363521f3d974",
+ "row": "dungeon/func_80976E28",
+ "original_sha256": "0928de453639483c27622d760c904d462f5d31e19fc6566ca4044e07cba846fa",
+ "source_sha256": "dce2fb786ce293666b756f3bfb56104112aab69aa3e823c3ba456f84fc7e0629",
+ "cfg": "2.7.2-cdk-G0",
+ "callee": {
+  "row": "dungeon/func_80976E28",
+  "source": "src/dungeon/func_80976E28.c",
+  "name": "func_80172628",
+  "definition": "s32 func_80172628(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg)"
+ },
+ "variant": {
+  "name": "func_80172628",
+  "definition": "s32 func_80172628(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, void * force_state_arg)"
+ },
+ "changes": [
+  {
+   "index": 3,
+   "kind": "used-word-parameter-original-use-conversion",
+   "before": "s32 force_state_arg",
+   "after": "void * force_state_arg",
+   "cast": "s32"
+  }
+ ],
+ "interface": {
+  "name": "func_801721B4",
+  "return_type": "s32",
+  "arity": 4,
+  "prototype": "extern s32 callee(void *, void *, void *, void *);",
+  "definition": "s32 func_801721B4(void *, void *, void *, void *)",
+  "typed_boundary_conversions": true,
+  "parameter_conversion_style": "cast-uses"
+ },
+ "unused_machine_args": {
+  "basis": "typed-C-copy-original-local-and-return-conversions",
+  "passed": true
+ },
+ "source_authority": {
+  "row": "dungeon/func_80976E28",
+  "source": "src/dungeon/func_80976E28.c",
+  "name": "func_80172628",
+  "definition": "s32 func_80172628(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg)",
+  "binding": "prototype-inherited-from-admitted-complete-twin",
+  "inherited_row": "dungeon/func_80BEC9B4",
+  "inherited_source_sha256": "933f09ea071d33b8e8c37fc21cf84694b62a71a2322674483d43e4fbb3ffd75b",
+  "callee_foff": "0xc0c9b4"
+ },
+ "authority_mode": "same-complete-body-matched-caller-interface",
+ "caller": {
+  "row": "dungeon/func_80BEB814",
+  "source": "src/dungeon/func_80BEB814.c"
+ },
+ "score": {
+  "status": "ok",
+  "exact": true,
+  "subs": 0,
+  "indels": 0,
+  "total": 0,
+  "gen_words": 81,
+  "tgt_words": 81,
+  "class": "match",
+  "signals": [],
+  "secs": 1.56,
+  "err": null
+ },
+ "source": "evidence/continue3/prototype_variants/ab4a0482363521f3d974/variant.c",
+ "status": "PROVED",
+ "prototype_only": true,
+ "additional_c_rows": 0,
+ "additional_c_bytes": 0,
+ "production_gate_sha256": "f3eee2a67ab948cebf469e4b359e61105ccafbca456eae8264b018f38c907f25",
+ "headers_sha256": "d2f27c97e9b7966f712a70587984e1e3c63c11f7fbd21449cadd5756719ce753",
+ "window_gate": {
+  "command": [
+   "work/native_lane/r121_twins2/staging/workers/w06/staging/root/.venv/bin/python",
+   "tools/overlay_local_gate.py",
+   "--config",
+   "config/overlays/dungeon_deep_t8b_995cd4.overlay.yaml",
+   "--clean",
+   "--stage-match",
+   "func_80976E28",
+   "work/native_lane/r121_twins2/evidence/continue3/prototype_variants/ab4a0482363521f3d974/variant.c",
+   "2.7.2-cdk-G0"
+  ],
+  "returncode": 0,
+  "stdout": "overlay: dungeon_deep_t8b_995cd4\nconfig: config/overlays/dungeon_deep_t8b_995cd4.overlay.yaml\ncontainer: work/s3_splat/extract/DUNGEON_DUNGEON.BIN\nwindow: 0x995CD4..0x997000 -> 0x80975CD4..0x80977000\nsegments: 7 total, 7 c, 0 platform asm, 0 game asm, 0 asm, 0 raw\nmatched source counts: overlays/dungeon=7, staged=1\nmanifest: work/s3_splat/dungeon_deep_t8b_995cd4/dungeon_deep_t8b_995cd4_manifest.json\nMATCH: rebuilt overlay window byte-identical (4908 bytes)\n",
+  "stderr": ""
+ },
+ "manifest_entry": {
+  "func": "func_80172628",
+  "file_start": "0x996E28",
+  "vram": "0x80976E28",
+  "size": 324,
+  "source": "work/native_lane/r121_twins2/evidence/continue3/prototype_variants/ab4a0482363521f3d974/variant.c",
+  "config": "2.7.2-cdk-G0",
+  "source_group": "staged",
+  "module": null,
+  "rowbase_link_vram": "0x80172628"
+ },
+ "object_sha256": "2c20b13546bd06dc679b144e415e3fef4c2b62e3157621af23100d41c3ca641b",
+ "object": "evidence/continue3/prototype_variants/ab4a0482363521f3d974/variant.o",
+ "retail_sha256": "3cb1ebdceada87417f0c955df6eef38100f37daf6e83f88ec1c20fad93171d34"
+}

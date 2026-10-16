@@ -1,0 +1,51 @@
+
+generated.elf:     file format elf32-tradlittlemips
+
+
+Disassembly of section .text:
+
+800bd074 <func_800BD074>:
+800bd074:	27bdffe8 	addiu	sp,sp,-24
+800bd078:	3c028008 	lui	v0,0x8008
+800bd07c:	90432e6b 	lbu	v1,11883(v0)
+800bd080:	24020011 	li	v0,17
+800bd084:	afbf0014 	sw	ra,20(sp)
+800bd088:	1462001a 	bne	v1,v0,800bd0f4 <func_800BD074+0x80>
+800bd08c:	afb00010 	sw	s0,16(sp)
+800bd090:	3c108001 	lui	s0,0x8001
+800bd094:	8e022090 	lw	v0,8336(s0)
+800bd098:	00000000 	nop
+800bd09c:	14400016 	bnez	v0,800bd0f8 <func_800BD074+0x84>
+800bd0a0:	24040006 	li	a0,6
+800bd0a4:	3c028008 	lui	v0,0x8008
+800bd0a8:	8443146c 	lh	v1,5228(v0)
+800bd0ac:	24020028 	li	v0,40
+800bd0b0:	14620012 	bne	v1,v0,800bd0fc <func_800BD074+0x88>
+800bd0b4:	3c05800e 	lui	a1,0x800e
+800bd0b8:	0c00cef0 	jal	80033bc0 <func_80033BC0>
+800bd0bc:	240400a2 	li	a0,162
+800bd0c0:	1440000d 	bnez	v0,800bd0f8 <func_800BD074+0x84>
+800bd0c4:	24040006 	li	a0,6
+800bd0c8:	8e02208c 	lw	v0,8332(s0)
+800bd0cc:	00000000 	nop
+800bd0d0:	1440000a 	bnez	v0,800bd0fc <func_800BD074+0x88>
+800bd0d4:	3c05800e 	lui	a1,0x800e
+800bd0d8:	24040021 	li	a0,33
+800bd0dc:	24020001 	li	v0,1
+800bd0e0:	0c0102a8 	jal	80040aa0 <func_80040AA0>
+800bd0e4:	ae02208c 	sw	v0,8332(s0)
+800bd0e8:	3c02800e 	lui	v0,0x800e
+800bd0ec:	0802f444 	j	800bd110 <func_800BD074+0x9c>
+800bd0f0:	a040cf4e 	sb	zero,-12466(v0)
+800bd0f4:	24040006 	li	a0,6
+800bd0f8:	3c05800e 	lui	a1,0x800e
+800bd0fc:	24a5f3d4 	addiu	a1,a1,-3116
+800bd100:	0c00f93f 	jal	8003e4fc <func_8003E4FC>
+800bd104:	00003021 	move	a2,zero
+800bd108:	0c00fcc8 	jal	8003f320 <func_8003F320>
+800bd10c:	00000000 	nop
+800bd110:	8fbf0014 	lw	ra,20(sp)
+800bd114:	8fb00010 	lw	s0,16(sp)
+800bd118:	27bd0018 	addiu	sp,sp,24
+800bd11c:	03e00008 	jr	ra
+800bd120:	00000000 	nop

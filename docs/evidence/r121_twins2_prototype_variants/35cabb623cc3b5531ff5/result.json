@@ -1,0 +1,127 @@
+{
+ "id": "35cabb623cc3b5531ff5",
+ "row": "town/func_8032FD14",
+ "original_sha256": "14bfd1b1a39446287b5cbd09cea98fc1f99c8313e6522fefaaa4a31a55f45891",
+ "source_sha256": "ea03abc511f97b80df6731bc82de4b7e2c3f39d8cc3a4fb51217669c3eeadf05",
+ "cfg": "2.7.2-cdk-G0 -O1",
+ "callee": {
+  "row": "town/func_8032FD14",
+  "source": "src/town/func_8032FD14.c",
+  "name": "func_8001A514",
+  "definition": "s32 func_8001A514(void)"
+ },
+ "variant": {
+  "name": "func_8001A514",
+  "definition": "s32 func_8001A514(void * abi_unused_0, void * abi_unused_1, void * abi_unused_2, void * abi_unused_3)"
+ },
+ "changes": [
+  {
+   "index": 0,
+   "kind": "unused-parameter-added",
+   "after": "void * abi_unused_0"
+  },
+  {
+   "index": 1,
+   "kind": "unused-parameter-added",
+   "after": "void * abi_unused_1"
+  },
+  {
+   "index": 2,
+   "kind": "unused-parameter-added",
+   "after": "void * abi_unused_2"
+  },
+  {
+   "index": 3,
+   "kind": "unused-parameter-added",
+   "after": "void * abi_unused_3"
+  }
+ ],
+ "interface": {
+  "name": "func_8017237C",
+  "return_type": "s32",
+  "arity": 4,
+  "prototype": "extern s32 callee(void *, void *, void *, void *);",
+  "definition": "s32 func_8017237C(void *, void *, void *, void *)",
+  "typed_boundary_conversions": true,
+  "parameter_conversion_style": "cast-uses"
+ },
+ "unused_machine_args": {
+  "changed_argument_registers": [
+   4,
+   5,
+   6,
+   7
+  ],
+  "read_registers": [
+   0,
+   31
+  ],
+  "changed_stack_arguments": false,
+  "calls": false,
+  "computed_transfers": false,
+  "passed": true
+ },
+ "source_authority": {
+  "row": "dungeon/func_80976B7C",
+  "source": "src/dungeon/func_80976B7C.c",
+  "name": "func_8017237C",
+  "definition": "s32 func_8017237C(S_8017237C_2 *action, void *effect, S_8017237C_1 *target, void *actor_data)",
+  "binding": "local-complete-retail-twin",
+  "callee_foff": "0x996b7c"
+ },
+ "authority_mode": "matched-source-callee-body",
+ "caller": {
+  "row": "dungeon/func_80976434",
+  "source": "src/dungeon/func_80976434.c"
+ },
+ "score": {
+  "status": "ok",
+  "exact": true,
+  "subs": 0,
+  "indels": 0,
+  "total": 0,
+  "gen_words": 2,
+  "tgt_words": 2,
+  "class": "match",
+  "signals": [],
+  "secs": 1.16,
+  "err": null
+ },
+ "source": "evidence/continue3/prototype_variants/35cabb623cc3b5531ff5/variant.c",
+ "status": "PROVED",
+ "prototype_only": true,
+ "additional_c_rows": 0,
+ "additional_c_bytes": 0,
+ "production_gate_sha256": "f3eee2a67ab948cebf469e4b359e61105ccafbca456eae8264b018f38c907f25",
+ "headers_sha256": "d2f27c97e9b7966f712a70587984e1e3c63c11f7fbd21449cadd5756719ce753",
+ "window_gate": {
+  "command": [
+   "work/native_lane/r121_twins2/staging/workers/w06/staging/root/.venv/bin/python",
+   "tools/overlay_local_gate.py",
+   "--config",
+   "config/overlays/town_scene_2af.overlay.yaml",
+   "--clean",
+   "--stage-match",
+   "func_8032FD14",
+   "work/native_lane/r121_twins2/evidence/continue3/prototype_variants/35cabb623cc3b5531ff5/variant.c",
+   "2.7.2-cdk-G0 -O1"
+  ],
+  "returncode": 0,
+  "stdout": "overlay: town_scene_2af\nconfig: config/overlays/town_scene_2af.overlay.yaml\ncontainer: work/s3_splat/extract/TOWN_TOWN.BIN\nwindow: 0x2AF000..0x2B0000 -> 0x8032F000..0x80330000\nsegments: 36 total, 32 c, 0 platform asm, 0 game asm, 0 asm, 4 raw\nmatched source counts: overlays/town=32, staged=1\nmanifest: work/s3_splat/town_scene_2af/town_scene_2af_manifest.json\nMATCH: rebuilt overlay window byte-identical (4096 bytes)\n",
+  "stderr": ""
+ },
+ "manifest_entry": {
+  "func": "func_8001A514",
+  "file_start": "0x2AFD14",
+  "vram": "0x8032FD14",
+  "size": 8,
+  "source": "work/native_lane/r121_twins2/evidence/continue3/prototype_variants/35cabb623cc3b5531ff5/variant.c",
+  "config": "2.7.2-cdk-G0 -O1",
+  "source_group": "staged",
+  "module": null,
+  "rowbase_link_vram": "0x8001A514"
+ },
+ "object_sha256": "2dd42b6c8d9678b67c93e724c5e6a819a9856c409cec6f0fc6c858b207afa16d",
+ "object": "evidence/continue3/prototype_variants/35cabb623cc3b5531ff5/variant.o",
+ "retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43"
+}

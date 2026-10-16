@@ -1,0 +1,15 @@
+
+generated.elf:     file format elf32-tradlittlemips
+
+
+Disassembly of section .text:
+
+8016dee8 <func_8016DEE8>:
+8016dee8:	27bdffe8 	addiu	sp,sp,-24
+8016deec:	afbf0010 	sw	ra,16(sp)
+8016def0:	0c05ab6e 	jal	8016adb8 <func_8016ADB8>
+8016def4:	00000000 	nop
+8016def8:	8fbf0010 	lw	ra,16(sp)
+8016defc:	27bd0018 	addiu	sp,sp,24
+8016df00:	03e00008 	jr	ra
+8016df04:	00000000 	nop

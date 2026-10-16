@@ -1,10 +1,10 @@
-# r121_twins2: 8,034 exact C rows / 2,742,084 bytes
+# r121_twins2: 8,614 exact C rows / 3,150,852 bytes
 
 Base: `9fe78bff5269271682eeb182c738bdb15d4d8203` (`SCRATCH_HEAD`). No commits. Changes, builds and measurements are in the lane's `staging/root`; the supplied private root is unchanged. Its external toolchain and venv are used read-only.
 
 1. Census grouping: 205 ranked groups, including 49 bank families. `families.tsv` records every window, template lead, file step and link step. Families require a common source lead at the same relative offset, common file stride and opposite link stride. Different window lengths are retained. Lead bytes include untyped gaps and overlapping window views; they are not a coverage total.
 2. Automation: `scripts/twins.py run FAMILY ...` performs complete donor-row relocation checks, source generation, body-backed import audit, normal scoring, genuine spimdisasm/m2c generation, normal rowbase promotion, all covering production window gates, baseline measurement and registry/graph checks. `scripts/parallel.py --jobs 6` gives each family worker private mutable files, build views and temporary paths, uses one compile worker per tree, and re-gates admitted windows after merging into the cumulative tree. It refreshes this package after every four families. Each failed bank is rolled back and recorded. Relocated direct-callee declarations are derived from matched callee bodies, with pointer pointees kept opaque across translation units. Unchanged resident declarations preserve the matched template. The bank surveys use complete registered donor extents at the fixed stride. CONTINUE2 also chains fully admitted predecessor banks while retaining the original matched C donor for every new row. Additional census hits remain leads until entry, placement and imports are proved.
-3. Delivery: 8,034 new rows / 2,742,084 C bytes; 391 complete production windows MATCH. 49/49 bank families and 156/156 single-window groups processed. The following table distinguishes lead sizes from delivered code.
+3. Delivery: 8,614 new rows / 3,150,852 C bytes; 391 complete production windows MATCH. 49/49 bank families and 156/156 single-window groups processed. The following table distinguishes lead sizes from delivered code.
 4. Single-window groups use `scripts/single_plan.py`: a complete matched body must bind to the census entry anchor and an existing complete rowbase region, fit the whole untyped gap, avoid existing extents, and pass the same relocation, import, source/raw and production gates. A broad window's synthetic view address never substitutes for a function's existing rowbase. Solved regions use the normal promotion hook before admission. `scripts/recover_bank_anchors.py --kind all --apply` applies that same policy to remaining gaps after the parallel queues finish, including earlier single-window holds; accepted rows are retained and temporary transactions are archived separately. Alternate masked hits without independent entry evidence remain holds. No source is admitted by masked similarity alone.
 5. Included post-queue recovery: 171 census-anchor rows, 1 alternate-layout rows and 113 static direct-callee rows. Direct-callee seeds are frozen from previously admitted callers; newly recovered callees do not expand the survey. Every recovered row passes the same normal admission gates.
 
@@ -12,97 +12,97 @@ Base: `9fe78bff5269271682eeb182c738bdb15d4d8203` (`SCRATCH_HEAD`). No commits. C
 |---:|---|---:|---:|---:|---:|---:|---:|---|
 | 1 | dungeon_1830080 | 1 | 190,260 | 2 | 16 | 1/1 | 17 | MATCH |
 | 2 | town_52000 | 1 | 184,678 | 0 | 0 | 0/1 | 1 | HOLD |
-| 3 | dungeon_e5d2d0 | 6 | 137,760 | 235 | 91,104 | 6/6 | 102 | MATCH |
-| 4 | dungeon_e332e8 | 6 | 137,376 | 237 | 88,056 | 6/6 | 142 | MATCH |
-| 5 | dungeon_d61284 | 6 | 136,048 | 135 | 61,864 | 6/6 | 194 | MATCH |
-| 6 | dungeon_ce32e0 | 6 | 133,344 | 169 | 84,368 | 6/6 | 181 | MATCH |
-| 7 | town_5dc000 | 1 | 132,212 | 0 | 0 | 0/1 | 59 | HOLD |
+| 3 | dungeon_e5d2d0 | 6 | 137,760 | 241 | 99,528 | 6/6 | 105 | MATCH |
+| 4 | dungeon_e332e8 | 6 | 137,376 | 258 | 106,368 | 6/6 | 126 | MATCH |
+| 5 | dungeon_d61284 | 6 | 136,048 | 151 | 70,784 | 6/6 | 188 | MATCH |
+| 6 | dungeon_ce32e0 | 6 | 133,344 | 192 | 105,816 | 6/6 | 152 | MATCH |
+| 7 | town_5dc000 | 1 | 132,212 | 0 | 0 | 0/1 | 65 | HOLD |
 | 8 | dungeon_197ad48 | 1 | 131,996 | 0 | 0 | 0/1 | 7 | HOLD |
 | 9 | dungeon_18d08ec | 1 | 129,452 | 0 | 0 | 0/1 | 7 | HOLD |
-| 10 | dungeon_b69244 | 6 | 122,256 | 170 | 66,040 | 6/6 | 92 | MATCH |
+| 10 | dungeon_b69244 | 6 | 122,256 | 186 | 77,400 | 6/6 | 90 | MATCH |
 | 11 | dungeon_d07540 | 1 | 120,932 | 10 | 3,344 | 1/1 | 257 | MATCH |
-| 12 | dungeon_9c5294 | 6 | 118,608 | 153 | 49,696 | 6/6 | 218 | MATCH |
-| 13 | dungeon_b0f73c | 7 | 115,376 | 184 | 54,544 | 7/7 | 101 | MATCH |
-| 14 | dungeon_12cb24c | 6 | 112,636 | 117 | 36,252 | 6/6 | 119 | MATCH |
-| 15 | dungeon_cb9120 | 6 | 112,296 | 153 | 47,312 | 6/6 | 132 | MATCH |
-| 16 | dungeon_e87060 | 6 | 112,176 | 164 | 50,384 | 6/6 | 86 | MATCH |
+| 12 | dungeon_9c5294 | 6 | 118,608 | 163 | 58,136 | 6/6 | 208 | MATCH |
+| 13 | dungeon_b0f73c | 7 | 115,376 | 198 | 72,688 | 7/7 | 104 | MATCH |
+| 14 | dungeon_12cb24c | 6 | 112,636 | 127 | 44,432 | 6/6 | 119 | MATCH |
+| 15 | dungeon_cb9120 | 6 | 112,296 | 169 | 57,552 | 6/6 | 135 | MATCH |
+| 16 | dungeon_e87060 | 6 | 112,176 | 169 | 54,384 | 6/6 | 93 | MATCH |
 | 17 | ovmovie_0 | 1 | 109,932 | 0 | 0 | 0/1 | 8 | HOLD |
-| 18 | dungeon_10af284 | 5 | 108,220 | 171 | 66,628 | 5/5 | 92 | MATCH |
+| 18 | dungeon_10af284 | 5 | 108,220 | 185 | 75,720 | 5/5 | 85 | MATCH |
 | 19 | dungeon_187c98c | 1 | 107,692 | 0 | 0 | 0/1 | 6 | HOLD |
-| 20 | dungeon_bbd298 | 6 | 104,832 | 153 | 57,984 | 6/6 | 113 | MATCH |
-| 21 | dungeon_ddf7d8 | 6 | 104,232 | 147 | 49,148 | 6/6 | 112 | MATCH |
-| 22 | dungeon_c65250 | 6 | 102,168 | 152 | 63,400 | 6/6 | 97 | MATCH |
-| 23 | dungeon_d91e5c | 5 | 101,760 | 105 | 37,800 | 5/5 | 78 | MATCH |
-| 24 | dungeon_a6e000 | 6 | 98,280 | 151 | 57,032 | 6/6 | 131 | MATCH |
-| 25 | dungeon_e03054 | 7 | 98,080 | 177 | 59,020 | 7/7 | 77 | MATCH |
-| 26 | dungeon_ac1250 | 6 | 93,952 | 145 | 47,096 | 6/6 | 95 | MATCH |
-| 27 | dungeon_d372d0 | 6 | 92,688 | 129 | 34,688 | 6/6 | 144 | MATCH |
-| 28 | dungeon_a14000 | 7 | 91,064 | 151 | 57,672 | 7/7 | 60 | MATCH |
-| 29 | dungeon_fd2000 | 7 | 89,500 | 142 | 39,316 | 7/7 | 92 | MATCH |
-| 30 | dungeon_c0b060 | 7 | 89,484 | 161 | 52,572 | 7/7 | 85 | MATCH |
-| 31 | dungeon_c8f060 | 6 | 87,744 | 146 | 49,684 | 6/6 | 84 | MATCH |
-| 32 | dungeon_f83060 | 6 | 85,976 | 153 | 69,900 | 6/6 | 35 | MATCH |
-| 33 | dungeon_eff6d8 | 7 | 85,296 | 150 | 44,160 | 7/7 | 91 | MATCH |
-| 34 | dungeon_edb060 | 6 | 84,632 | 137 | 57,552 | 6/6 | 51 | MATCH |
-| 35 | dungeon_1061674 | 4 | 83,648 | 100 | 28,816 | 4/4 | 48 | MATCH |
-| 36 | dungeon_be7060 | 6 | 83,520 | 141 | 51,680 | 6/6 | 97 | MATCH |
-| 37 | dungeon_fad270 | 6 | 82,004 | 91 | 28,664 | 6/6 | 162 | MATCH |
-| 38 | dungeon_a97054 | 6 | 81,024 | 120 | 34,776 | 6/6 | 74 | MATCH |
-| 39 | dungeon_10d3054 | 6 | 79,968 | 145 | 72,304 | 6/6 | 23 | MATCH |
-| 40 | town_0 | 1 | 79,176 | 150 | 12,252 | 1/1 | 99 | MATCH |
-| 41 | dungeon_b93054 | 6 | 79,024 | 136 | 55,744 | 6/6 | 40 | MATCH |
-| 42 | dungeon_9ef054 | 6 | 78,192 | 136 | 48,492 | 6/6 | 70 | MATCH |
-| 43 | dungeon_f2f054 | 6 | 76,228 | 145 | 54,816 | 6/6 | 52 | MATCH |
-| 44 | dungeon_b3f054 | 6 | 75,864 | 139 | 57,076 | 6/6 | 31 | MATCH |
-| 45 | dungeon_99b060 | 6 | 75,224 | 142 | 56,608 | 6/6 | 43 | MATCH |
-| 46 | dungeon_c36000 | 7 | 74,364 | 140 | 61,316 | 7/7 | 30 | MATCH |
-| 47 | dungeon_107f2a4 | 6 | 71,292 | 140 | 58,392 | 6/6 | 38 | MATCH |
-| 48 | dungeon_ffb27c | 7 | 70,992 | 144 | 47,420 | 7/7 | 79 | MATCH |
-| 49 | dungeon_aeb958 | 6 | 70,936 | 144 | 48,048 | 6/6 | 59 | MATCH |
-| 50 | dungeon_1271060 | 7 | 69,012 | 216 | 42,864 | 7/7 | 89 | MATCH |
-| 51 | dungeon_f59268 | 4 | 64,912 | 97 | 50,740 | 4/4 | 27 | MATCH |
-| 52 | town_3eac60 | 1 | 58,512 | 3 | 24 | 1/1 | 386 | MATCH |
-| 53 | dungeon_eab2f4 | 5 | 56,524 | 116 | 42,556 | 5/5 | 39 | MATCH |
-| 54 | dungeon_a3d258 | 5 | 54,396 | 96 | 32,180 | 5/5 | 46 | MATCH |
-| 55 | dungeon_a0000 | 1 | 50,744 | 12 | 744 | 1/1 | 8 | MATCH |
-| 56 | dungeon_1025278 | 5 | 47,172 | 92 | 24,424 | 5/5 | 39 | MATCH |
-| 57 | dungeon_1055674 | 2 | 41,824 | 52 | 16,032 | 2/2 | 42 | MATCH |
-| 58 | dungeon_db5054 | 4 | 39,756 | 87 | 28,268 | 4/4 | 28 | MATCH |
+| 20 | dungeon_bbd298 | 6 | 104,832 | 168 | 64,776 | 6/6 | 103 | MATCH |
+| 21 | dungeon_ddf7d8 | 6 | 104,232 | 163 | 60,268 | 6/6 | 105 | MATCH |
+| 22 | dungeon_c65250 | 6 | 102,168 | 168 | 74,760 | 6/6 | 85 | MATCH |
+| 23 | dungeon_d91e5c | 5 | 101,760 | 120 | 53,380 | 5/5 | 80 | MATCH |
+| 24 | dungeon_a6e000 | 6 | 98,280 | 156 | 61,152 | 6/6 | 126 | MATCH |
+| 25 | dungeon_e03054 | 7 | 98,080 | 199 | 73,788 | 7/7 | 67 | MATCH |
+| 26 | dungeon_ac1250 | 6 | 93,952 | 157 | 48,680 | 6/6 | 92 | MATCH |
+| 27 | dungeon_d372d0 | 6 | 92,688 | 134 | 38,648 | 6/6 | 148 | MATCH |
+| 28 | dungeon_a14000 | 7 | 91,064 | 160 | 68,568 | 7/7 | 58 | MATCH |
+| 29 | dungeon_fd2000 | 7 | 89,500 | 154 | 43,876 | 7/7 | 104 | MATCH |
+| 30 | dungeon_c0b060 | 7 | 89,484 | 172 | 62,388 | 7/7 | 82 | MATCH |
+| 31 | dungeon_c8f060 | 6 | 87,744 | 157 | 53,904 | 6/6 | 78 | MATCH |
+| 32 | dungeon_f83060 | 6 | 85,976 | 164 | 74,360 | 6/6 | 28 | MATCH |
+| 33 | dungeon_eff6d8 | 7 | 85,296 | 161 | 49,408 | 7/7 | 92 | MATCH |
+| 34 | dungeon_edb060 | 6 | 84,632 | 146 | 69,608 | 6/6 | 52 | MATCH |
+| 35 | dungeon_1061674 | 4 | 83,648 | 104 | 31,664 | 4/4 | 48 | MATCH |
+| 36 | dungeon_be7060 | 6 | 83,520 | 156 | 66,720 | 6/6 | 82 | MATCH |
+| 37 | dungeon_fad270 | 6 | 82,004 | 127 | 53,984 | 6/6 | 120 | MATCH |
+| 38 | dungeon_a97054 | 6 | 81,024 | 126 | 42,096 | 6/6 | 78 | MATCH |
+| 39 | dungeon_10d3054 | 6 | 79,968 | 156 | 76,824 | 6/6 | 12 | MATCH |
+| 40 | town_0 | 1 | 79,176 | 151 | 12,472 | 1/1 | 97 | MATCH |
+| 41 | dungeon_b93054 | 6 | 79,024 | 152 | 67,504 | 6/6 | 24 | MATCH |
+| 42 | dungeon_9ef054 | 6 | 78,192 | 152 | 60,552 | 6/6 | 53 | MATCH |
+| 43 | dungeon_f2f054 | 6 | 76,228 | 156 | 59,356 | 6/6 | 41 | MATCH |
+| 44 | dungeon_b3f054 | 6 | 75,864 | 150 | 61,536 | 6/6 | 24 | MATCH |
+| 45 | dungeon_99b060 | 6 | 75,224 | 152 | 66,968 | 6/6 | 38 | MATCH |
+| 46 | dungeon_c36000 | 7 | 74,364 | 149 | 72,516 | 7/7 | 28 | MATCH |
+| 47 | dungeon_107f2a4 | 6 | 71,292 | 153 | 65,748 | 6/6 | 29 | MATCH |
+| 48 | dungeon_ffb27c | 7 | 70,992 | 156 | 52,200 | 7/7 | 72 | MATCH |
+| 49 | dungeon_aeb958 | 6 | 70,936 | 151 | 55,192 | 6/6 | 57 | MATCH |
+| 50 | dungeon_1271060 | 7 | 69,012 | 230 | 61,900 | 7/7 | 68 | MATCH |
+| 51 | dungeon_f59268 | 4 | 64,912 | 104 | 53,504 | 4/4 | 20 | MATCH |
+| 52 | town_3eac60 | 1 | 58,512 | 6 | 1,236 | 1/1 | 416 | MATCH |
+| 53 | dungeon_eab2f4 | 5 | 56,524 | 121 | 43,056 | 5/5 | 35 | MATCH |
+| 54 | dungeon_a3d258 | 5 | 54,396 | 101 | 32,680 | 5/5 | 46 | MATCH |
+| 55 | dungeon_a0000 | 1 | 50,744 | 13 | 800 | 1/1 | 8 | MATCH |
+| 56 | dungeon_1025278 | 5 | 47,172 | 97 | 24,924 | 5/5 | 42 | MATCH |
+| 57 | dungeon_1055674 | 2 | 41,824 | 53 | 16,744 | 2/2 | 44 | MATCH |
+| 58 | dungeon_db5054 | 4 | 39,756 | 90 | 30,956 | 4/4 | 25 | MATCH |
 | 59 | dungeon_19c0fc0 | 1 | 36,396 | 0 | 0 | 0/1 | 2 | HOLD |
-| 60 | main_25d000 | 1 | 32,544 | 17 | 900 | 1/1 | 146 | MATCH |
-| 61 | dungeon_daf23c | 3 | 23,912 | 57 | 16,528 | 3/3 | 18 | MATCH |
-| 62 | dungeon_d8b3b8 | 1 | 23,076 | 27 | 12,004 | 1/1 | 20 | MATCH |
-| 63 | dungeon_10a9060 | 1 | 22,192 | 35 | 13,328 | 1/1 | 19 | MATCH |
+| 60 | main_25d000 | 1 | 32,544 | 17 | 900 | 1/1 | 148 | MATCH |
+| 61 | dungeon_daf23c | 3 | 23,912 | 59 | 18,320 | 3/3 | 17 | MATCH |
+| 62 | dungeon_d8b3b8 | 1 | 23,076 | 27 | 12,004 | 1/1 | 21 | MATCH |
+| 63 | dungeon_10a9060 | 1 | 22,192 | 36 | 13,908 | 1/1 | 18 | MATCH |
 | 64 | main_217fc | 1 | 18,664 | 0 | 0 | 0/1 | 5 | HOLD |
-| 65 | dungeon_eb72f4 | 1 | 17,300 | 28 | 14,120 | 1/1 | 6 | MATCH |
-| 66 | dungeon_ec92f4 | 1 | 17,300 | 28 | 14,120 | 1/1 | 6 | MATCH |
+| 65 | dungeon_eb72f4 | 1 | 17,300 | 29 | 14,220 | 1/1 | 5 | MATCH |
+| 66 | dungeon_ec92f4 | 1 | 17,300 | 29 | 14,220 | 1/1 | 5 | MATCH |
 | 67 | dungeon_51ebf4 | 1 | 17,268 | 33 | 11,388 | 1/1 | 12 | MATCH |
-| 68 | dungeon_f6b268 | 1 | 16,228 | 24 | 12,488 | 1/1 | 6 | MATCH |
-| 69 | dungeon_1031278 | 1 | 15,768 | 22 | 10,368 | 1/1 | 6 | MATCH |
-| 70 | dungeon_1043278 | 1 | 15,768 | 22 | 10,368 | 1/1 | 6 | MATCH |
-| 71 | dungeon_a49258 | 1 | 15,752 | 23 | 8,460 | 1/1 | 10 | MATCH |
-| 72 | dungeon_a5b258 | 1 | 15,752 | 23 | 8,460 | 1/1 | 10 | MATCH |
+| 68 | dungeon_f6b268 | 1 | 16,228 | 25 | 12,588 | 1/1 | 5 | MATCH |
+| 69 | dungeon_1031278 | 1 | 15,768 | 23 | 10,468 | 1/1 | 6 | MATCH |
+| 70 | dungeon_1043278 | 1 | 15,768 | 23 | 10,468 | 1/1 | 6 | MATCH |
+| 71 | dungeon_a49258 | 1 | 15,752 | 24 | 8,560 | 1/1 | 10 | MATCH |
+| 72 | dungeon_a5b258 | 1 | 15,752 | 24 | 8,560 | 1/1 | 10 | MATCH |
 | 73 | dungeon_525000 | 1 | 11,652 | 27 | 10,044 | 1/1 | 2 | MATCH |
-| 74 | dungeon_f65268 | 1 | 11,608 | 22 | 9,828 | 1/1 | 4 | MATCH |
+| 74 | dungeon_f65268 | 1 | 11,608 | 23 | 9,928 | 1/1 | 3 | MATCH |
 | 75 | dungeon_12c6000 | 1 | 11,216 | 20 | 6,692 | 1/1 | 8 | MATCH |
-| 76 | dungeon_b39228 | 1 | 9,548 | 21 | 7,528 | 1/1 | 7 | MATCH |
-| 77 | dungeon_c89880 | 1 | 9,356 | 21 | 7,336 | 1/1 | 7 | MATCH |
-| 78 | dungeon_f7d23c | 1 | 9,148 | 21 | 7,128 | 1/1 | 7 | MATCH |
-| 79 | dungeon_cb3060 | 1 | 8,716 | 21 | 6,560 | 1/1 | 7 | MATCH |
-| 80 | dungeon_f2928c | 1 | 8,608 | 19 | 5,696 | 1/1 | 10 | MATCH |
-| 81 | dungeon_b63060 | 1 | 8,544 | 22 | 6,552 | 1/1 | 7 | MATCH |
-| 82 | dungeon_cdd2e0 | 1 | 8,148 | 16 | 7,484 | 1/1 | 13 | MATCH |
+| 76 | dungeon_b39228 | 1 | 9,548 | 22 | 7,628 | 1/1 | 6 | MATCH |
+| 77 | dungeon_c89880 | 1 | 9,356 | 22 | 7,436 | 1/1 | 6 | MATCH |
+| 78 | dungeon_f7d23c | 1 | 9,148 | 22 | 7,228 | 1/1 | 6 | MATCH |
+| 79 | dungeon_cb3060 | 1 | 8,716 | 22 | 6,660 | 1/1 | 6 | MATCH |
+| 80 | dungeon_f2928c | 1 | 8,608 | 20 | 5,796 | 1/1 | 9 | MATCH |
+| 81 | dungeon_b63060 | 1 | 8,544 | 23 | 6,652 | 1/1 | 6 | MATCH |
+| 82 | dungeon_cdd2e0 | 1 | 8,148 | 18 | 7,684 | 1/1 | 11 | MATCH |
 | 83 | dungeon_d32000 | 1 | 8,068 | 17 | 4,384 | 1/1 | 4 | MATCH |
-| 84 | dungeon_f53268 | 1 | 7,980 | 18 | 6,988 | 1/1 | 6 | MATCH |
-| 85 | dungeon_c5f060 | 1 | 7,804 | 11 | 3,964 | 1/1 | 6 | MATCH |
-| 86 | dungeon_b8d230 | 1 | 7,392 | 18 | 5,372 | 1/1 | 7 | MATCH |
-| 87 | dungeon_dd97d8 | 1 | 7,196 | 20 | 5,176 | 1/1 | 7 | MATCH |
+| 84 | dungeon_f53268 | 1 | 7,980 | 19 | 7,088 | 1/1 | 5 | MATCH |
+| 85 | dungeon_c5f060 | 1 | 7,804 | 12 | 4,064 | 1/1 | 5 | MATCH |
+| 86 | dungeon_b8d230 | 1 | 7,392 | 19 | 5,472 | 1/1 | 6 | MATCH |
+| 87 | dungeon_dd97d8 | 1 | 7,196 | 21 | 5,276 | 1/1 | 6 | MATCH |
 | 88 | dungeon_e812fc | 1 | 6,964 | 19 | 4,440 | 1/1 | 8 | MATCH |
 | 89 | dungeon_104f674 | 1 | 6,292 | 18 | 4,428 | 1/1 | 4 | MATCH |
-| 90 | dungeon_abb060 | 1 | 5,980 | 11 | 3,108 | 1/1 | 7 | MATCH |
+| 90 | dungeon_abb060 | 1 | 5,980 | 12 | 3,208 | 1/1 | 6 | MATCH |
 | 91 | dungeon_10cd228 | 1 | 5,836 | 18 | 5,680 | 1/1 | 5 | MATCH |
 | 92 | dungeon_a91228 | 1 | 5,800 | 17 | 3,880 | 1/1 | 5 | MATCH |
-| 93 | dungeon_10792a4 | 1 | 5,680 | 18 | 4,656 | 1/1 | 8 | MATCH |
+| 93 | dungeon_10792a4 | 1 | 5,680 | 19 | 4,756 | 1/1 | 6 | MATCH |
 | 94 | dungeon_ed5364 | 1 | 5,548 | 18 | 5,492 | 1/1 | 4 | MATCH |
 | 95 | main_20000 | 1 | 3,956 | 0 | 0 | 0/1 | 4 | HOLD |
 | 96 | dungeon_d89000 | 1 | 3,932 | 10 | 2,416 | 1/1 | 1 | MATCH |
@@ -123,9 +123,9 @@ Base: `9fe78bff5269271682eeb182c738bdb15d4d8203` (`SCRATCH_HEAD`). No commits. C
 | 111 | town_2abfe8 | 1 | 2,560 | 19 | 928 | 1/1 | 18 | MATCH |
 | 112 | dungeon_f03000 | 1 | 2,532 | 1 | 8 | 1/1 | 5 | MATCH |
 | 113 | dungeon_e2e000 | 1 | 2,496 | 1 | 452 | 1/1 | 3 | MATCH |
-| 114 | dungeon_bb8000 | 1 | 2,368 | 2 | 680 | 1/1 | 1 | MATCH |
+| 114 | dungeon_bb8000 | 1 | 2,368 | 3 | 780 | 1/1 | 0 | MATCH |
 | 115 | dungeon_9c0000 | 1 | 2,352 | 0 | 0 | 0/1 | 6 | HOLD |
-| 116 | dungeon_d5d000 | 1 | 2,256 | 6 | 988 | 1/1 | 4 | MATCH |
+| 116 | dungeon_d5d000 | 1 | 2,256 | 7 | 1,088 | 1/1 | 2 | MATCH |
 | 117 | dungeon_9ea000 | 1 | 2,244 | 3 | 432 | 1/1 | 1 | MATCH |
 | 118 | town_2ab000 | 1 | 2,244 | 2 | 16 | 1/1 | 4 | MATCH |
 | 119 | dungeon_18ad004 | 1 | 2,204 | 2 | 388 | 1/1 | 5 | MATCH |
@@ -165,7 +165,7 @@ Base: `9fe78bff5269271682eeb182c738bdb15d4d8203` (`SCRATCH_HEAD`). No commits. C
 | 153 | town_2ac000 | 1 | 972 | 0 | 0 | 0/1 | 11 | HOLD |
 | 154 | dungeon_abf000 | 1 | 956 | 0 | 0 | 0/1 | 1 | HOLD |
 | 155 | dungeon_d60000 | 1 | 936 | 0 | 0 | 0/1 | 1 | HOLD |
-| 156 | dungeon_bb769c | 1 | 932 | 0 | 0 | 0/1 | 2 | HOLD |
+| 156 | dungeon_bb769c | 1 | 932 | 0 | 0 | 0/1 | 1 | HOLD |
 | 157 | dungeon_1356000 | 1 | 912 | 5 | 324 | 1/1 | 3 | MATCH |
 | 158 | dungeon_1354004 | 1 | 892 | 5 | 336 | 1/1 | 1 | MATCH |
 | 159 | dungeon_191e9b0 | 1 | 796 | 0 | 0 | 0/1 | 4 | HOLD |
@@ -178,7 +178,7 @@ Base: `9fe78bff5269271682eeb182c738bdb15d4d8203` (`SCRATCH_HEAD`). No commits. C
 | 166 | dungeon_997000 | 1 | 600 | 9 | 544 | 1/1 | 2 | MATCH |
 | 167 | town_83b2b8 | 1 | 596 | 0 | 0 | 0/1 | 4 | HOLD |
 | 168 | dungeon_1345000 | 1 | 564 | 4 | 128 | 1/1 | 1 | MATCH |
-| 169 | dungeon_129b060 | 7 | 560 | 49 | 1,540 | 7/7 | 61 | MATCH |
+| 169 | dungeon_129b060 | 7 | 560 | 49 | 1,540 | 7/7 | 65 | MATCH |
 | 170 | dungeon_1e0fc | 1 | 556 | 0 | 0 | 0/1 | 2 | HOLD |
 | 171 | dungeon_1359000 | 1 | 548 | 1 | 36 | 1/1 | 1 | MATCH |
 | 172 | town_801478 | 1 | 484 | 0 | 0 | 0/1 | 5 | HOLD |
@@ -218,9 +218,9 @@ Base: `9fe78bff5269271682eeb182c738bdb15d4d8203` (`SCRATCH_HEAD`). No commits. C
 
 Windows may contain retained raw segments. New C totals count only admitted complete bodies. `next.tsv` retains failed-attempt history: `SUPERSEDED_ROW_HOLD` entries now have an identical delivered extent, and `SUPERSEDED_ATTEMPT` marks an older failed attempt in a now-MATCH bank. Continue with the active `ROW_HOLD` and `BANK_HOLD` records. The table counts active candidate holds.
 
-Every admitted source is ordinary C from an existing matched body, renamed using retail address pairs. Every differing word is a j/jal field or a reaching lui/lo16 pair. An independent audit binds every changed word to a R_MIPS_26, R_MIPS_HI16 or R_MIPS_LO16 relocation in the production compiler object. The source audit refuses pins, asm and volatile. Relocation masking is used only for candidate discovery; all final production gates compare complete bytes without masking. Existing rowbase extents and deltas are unchanged; solved regions are upgraded only by the normal `rowbase.py promote` hook. No compiler, flags registry, header, gate or runtime contract is changed. Existing indirect-call declarations and expressions are inherited from the matched source; no dynamic target is asserted.
+Every admitted source is ordinary C from an existing matched body, renamed using retail address pairs. Differing words are j/jal fields or reaching lui/lo16 pairs, apart from explicit CONTINUE3 literal variants recorded with their original C token and retail word. An independent audit binds every relocation difference to R_MIPS_26, R_MIPS_HI16 or R_MIPS_LO16 in the production compiler object. The source audit refuses pins, asm and volatile; CONTINUE3 sources also refuse goto. Relocation masking is used only for candidate discovery; all final production gates compare complete bytes without masking. Existing rowbase extents and deltas are unchanged; solved regions are upgraded only by the normal `rowbase.py promote` hook. No compiler, flags registry, header, gate or runtime contract is changed. Existing indirect-call declarations and expressions are inherited from the matched source; no dynamic target is asserted.
 
-Direct import records bind each admitted call to a matched definition or a complete retail callee twin. Prototype-only callee proofs do not contribute to delivered totals. A finite one-hop recovery can admit those static callees only after independently checking their caller, existing rowbase, complete gap extent and ABI agreement, followed by every normal source/raw/window gate. Alternate donor layouts require two independent complete anchors or a strict complete-window relocation proof. Missing C bodies, including SDK assembly-only callees, remain explicit row holds. A byte match proves static placement, without asserting runtime reachability.
+Direct import records bind each admitted call to a matched definition, a complete retail callee twin, or a consistent existing matched-header declaration for an unchanged resident PsyQ SDK symbol. Declaration-only callee proofs do not contribute to delivered totals. A finite one-hop recovery can admit static callees only after independently checking their caller, existing rowbase, complete gap extent and ABI agreement, followed by every normal source/raw/window gate. Alternate donor layouts require two independent complete anchors or a strict complete-window relocation proof. Missing non-SDK C bodies and conflicting SDK header declarations remain explicit holds. A byte match proves static placement, without asserting runtime reachability.
 
 `delivery_twins2/` contains src/raw pairs, append-only split/registry/baseline/promotion/reverify transactions, changed rowbase records and physical graph, source and raw scores, relocation/import evidence, window receipts, first-pass commands and m2c revision, guards and full before-images. Raw is actual generated output, never copied matched C. Baselines record measured raw outcomes, including build failures. `records/levels_seed_needed.tsv` lists every new row that still needs an integrator ledger/levels.jsonl seed; that ledger is not silently populated. Coverage events are provided for integration.
 
@@ -251,17 +251,69 @@ Chain queue: 49/49 families; 67 additional merged rows in this pass.
 
 Overlap audit: already-matched-C-protected: 183. The replacement helper is tested and requires exact tiling of a raw/asm code extent, preserves ledger order, refuses matched C/data, and re-runs the production gates after replacement.
 
-12 delivered rows also append the same proven extents to independent production split ledgers. Existing ledger bytes and active ownership are preserved; historical reruns remain unchanged. These mirrors follow canonical rollback and contribute no duplicate C rows or bytes.
+13 delivered rows also append the same proven extents to independent production split ledgers. Existing ledger bytes and active ownership are preserved; historical reruns remain unchanged. These mirrors follow canonical rollback and contribute no duplicate C rows or bytes.
 
-6 static function-value declarations derive from complete matched bodies. Source and target prototypes must agree; the encoded address resolves through an existing complete rowbase region and a whole target-body proof. These records assert no dynamic call or runtime reachability.
+45 static function-value declarations derive from complete matched bodies. Source and target prototypes must agree; the encoded address resolves through an existing complete rowbase region and a whole target-body proof. These records assert no dynamic call or runtime reachability.
 
 The native object audit binds each row to its measured production manifest extent, source hash, compiler recipe and object section before checking every differing word’s relocation. A green window that retained the proposed extent as raw bytes cannot admit that row.
 
-The report-only near-twin table is records/continue2/near_twins/table.tsv, with complete differing-word details in table.json. A missing donor is explicit. Comparisons extending beyond the held span and overlap with delivered C are marked; 20 historical spans are now fully covered by separately bounded admitted C. No near-twin source is ported.
+The report-only near-twin table is records/continue2/near_twins/table.tsv, with complete differing-word details in table.json. A missing donor is explicit. Comparisons extending beyond the held span and overlap with delivered C are marked; 20 historical spans are now fully covered by separately bounded admitted C. No near-twin source was ported by CONTINUE2. CONTINUE3 reopens its explicitly authorized classes under separate proofs.
 
-The frozen report-only scope excludes no-whole-body-twin gaps and the exact held nonrelocation/source-score extents from admission. A differently bounded complete function is a separate re-anchor candidate, with its own entry and full production proof.
+The frozen report-only scope excludes no-whole-body-twin gaps and the exact held nonrelocation/source-score extents from CONTINUE2 admission. A differently bounded complete function is a separate re-anchor candidate, with its own entry and full production proof.
 
 Ordered continuation (original lane, one mutation runner at a time): `nice -n 15 python3 scripts/finish_continue2.py`, then `nice -n 15 python3 scripts/close_continue2.py` after the first driver completes. The second driver retries the workers that predate the declaration fix and iterates cross-class bank/callee/replacement closure before its final package. Both retain explicit resume checkpoints. Individual class commands: `nice -n 15 python3 scripts/recover_continue2.py chain --apply`, then `contracts --apply`, `boundaries --apply`, and `replace --apply`. Repeat chain/contracts after boundary admissions; finish with final_shared_windows.py and package.py. Completed transaction hashes prevent repeated identical compiler attempts. Normal production gates and the base SHA remain unchanged.
+
+
+
+## CONTINUE3 — remaining holds
+
+Start: 8,034 rows / 2,742,084 B. SDK declarations are read from existing include/ headers used by matched C. Conflicting declarations remain holds, including disagreements between named SDK functions and address aliases. No SDK C body or runtime contract is invented.
+
+| item | class | additional rows | additional C bytes | unique holds before | frozen holds still uncovered | remaining class B before / latest | status |
+|---:|---|---:|---:|---:|---:|---|---|
+| 0 | SDK contracts and bank closure | 0 | 0 | 1593 | 1538 | 1,229,468 / 1,244,008 | DELIVERED |
+| 1 | source score recovery | 233 | 74,468 | 314 | 74 | 43,484 / 13,492 | DELIVERED |
+| 2 | differing-word recovery | 347 | 334,300 | 339 | 96 | 305,472 / 35,104 | DELIVERED |
+| 3 | pinned templates and boundary fragments | 0 | 0 | — | — | count only | LEFT |
+
+Hold counts use distinct physical extents in the initial next.tsv; the after column counts those spans not fully covered by delivered C, even when a different complete boundary recovered part of the span. Rows and bytes are credited to the item that admitted them; another item can also reduce a frozen hold class. Remaining bytes use remaining.py with both direct and census-supplement results. Categories can move when new holds become known. Evidence is under records/continue3/.
+
+SDK symbol survey: BOUND: 37, CONFLICT: 23, NO_USABLE_MATCHED_HEADER: 311. `rand` (signed/unsigned return) and `rsin` (signed/unsigned argument) are held because matched headers disagree. Old-style unspecified declarations are also recorded and never silently turned into prototypes.
+
+The completed CONTINUE2 payload contains 98 inherited rows using goto. Their existing sources and proofs are retained. Every new CONTINUE3 admission rejects goto. The inherited inventory is recorded in cumulative_goto_audit.json.
+
+218 callee declarations use 25 independently proved copies of matched C with unused formal parameters or explicit word conversions at the interface. The interface comes from the matched source callee or a matched caller whose complete source callee independently proves that interface. Each word-width interface is independently recompiled at the original recipe and gated over the full window. Original return conversions are retained; unused argument changes additionally require incoming-register proofs for both canonical and encoded callees. Each changed input is unread before overwrite and cannot survive to an external transfer, including through its delay slot. Each C copy has an exact source score and ordinary full production-window proof, archived with its native object. Prototype proofs add no coverage bytes. SDK conflicts remain holds.
+
+2 genuine m2c first passes supply a bounded, owned switch table lying inside the bank window to the normal disassembler as rodata. Table extents use existing rowbases, with the normal solved-to-proven promotion still required before admission, and every entry has the same function-relative destination. Generated assembly and C are unedited. The table witnesses add no C coverage bytes.
+
+1 row spells additional C call arguments using its own incoming word-sized parameters. The existing complete matched callee owns the prototype. At the unique encoded call, both source and target CFG proofs require the same untouched incoming register values, including load and call delay slots. Intervening calls erase all inferred values; unknown and stack values are refused. Switch edges require an explicit bounded selector, a registered source table owned by the caller, proven rowbases for both tables, and every retail entry relocated to the same relative instruction. The source audit independently reconstructs every edit, and each caller passes all normal source/raw/window/native-object gates.
+
+3 rows / 1,212 B recover missing link-base coverage. Each new rowbase record covers exactly one complete function, overlaps no supplied record, and uses two distinct internal jump targets from a complete matched C twin to identify the same link base. The target entry and terminal return are independently checked. Normal source/raw/window admission and the standard solved-to-proven promotion are required; the package audit recomputes the static evidence. Existing region extents and deltas are retained. No runtime-residency claim is added.
+
+The pre-admission classification below counts complete donor comparisons. Six registered data donors are excluded from the function admission path.
+
+| comparison class | spans |
+|---|---:|
+| unpaired-data-upper | 257 |
+| multiple differences | 46 |
+| already strict twin | 23 |
+| address-low-or-arithmetic | 6 |
+| struct-or-stack-offset | 1 |
+| registered data | 6 |
+
+Differing-word classification was emitted before admission: unpaired-data-upper: 266, instruction-or-register-change: 9734, address-low-or-arithmetic: 23, struct-or-stack-offset: 13, data-symbol-pointer: 38. Counts include every differing word in complete donor comparisons, including large structural mismatches; a near-twin comparison alone does not establish entry or extent.
+
+Item 0 closure rounds: 1: 0 rows / 0 B; 2: 0 rows / 0 B.
+
+Item 1 closure rounds: 1: 11 rows / 16,388 B; 2: 10 rows / 5,424 B; 3: 0 rows / 0 B; 4: 7 rows / 13,048 B; 5: 0 rows / 0 B; 6: 0 rows / 0 B.
+
+Item 2 closure rounds: 1: 150 rows / 140,552 B; 2: 1 rows / 1,376 B; 3: 2 rows / 2,368 B; 4: 0 rows / 0 B; 5: 0 rows / 0 B.
+
+Cross-class source/word closure: round 1: 0 rows / 0 B. The last round adds neither rows nor new proved interface models.
+
+Left classes (initial unique physical extents): boundary_candidates_held: 2098, census_anchor_not_complete_twin: 171, template has pins/asm/volatile: 35.
+
+Resume the ordered run in the original lane with `nice -n 15 python3 scripts/finish_continue3.py`. After it completes, run `nice -n 15 python3 scripts/close_continue3.py` for cross-class source/word closure. For a specific unfinished item, use `nice -n 15 python3 scripts/continue3_driver.py --item N`. The drivers record completed steps and publish after each item. Only one mutation runner may be active. The package keeps SCRATCH_HEAD guards and all normal source/raw/window/object checks.
 
 
 ## HOW TO CONTINUE

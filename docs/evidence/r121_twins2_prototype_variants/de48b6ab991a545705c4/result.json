@@ -1,0 +1,109 @@
+{
+ "id": "de48b6ab991a545705c4",
+ "row": "dungeon/func_80B98600",
+ "original_sha256": "e360e7d805b0a9c70573cae9a9795fe708636d1569aa8902204557adf100e43a",
+ "source_sha256": "576af1a8798852f8ab07cb85f8239fdcc7e31a85743b80e85db0c1d8d3459078",
+ "cfg": "2.7.2-cdk-G0",
+ "callee": {
+  "row": "dungeon/func_80B98600",
+  "source": "src/dungeon/func_80B98600.c",
+  "name": "func_80171E00",
+  "definition": "s32 func_80171E00(void *action_state, void *action_ctx, void *sprite, EntityRec *actor)"
+ },
+ "variant": {
+  "name": "func_80171E00",
+  "definition": "s16 func_80171E00(void *action_state, s32 action_ctx, void *sprite, EntityRec *actor)"
+ },
+ "changes": [
+  {
+   "index": 1,
+   "kind": "used-word-parameter-original-use-conversion",
+   "before": "void *action_ctx",
+   "after": "s32 action_ctx",
+   "cast": "void *"
+  },
+  {
+   "kind": "return-original-then-public-word-conversion",
+   "before": "s32",
+   "after": "s16"
+  }
+ ],
+ "interface": {
+  "name": "func_80174BCC",
+  "return_type": "s16",
+  "arity": 4,
+  "prototype": "extern s16 callee(void *, s32, void *, void *);",
+  "definition": "s16 func_80174BCC(void *, s32, void *, void *)",
+  "typed_boundary_conversions": true,
+  "parameter_conversion_style": "cast-uses"
+ },
+ "unused_machine_args": {
+  "basis": "typed-C-copy-original-local-and-return-conversions",
+  "passed": true
+ },
+ "source_authority": {
+  "row": "dungeon/func_80B98600",
+  "source": "src/dungeon/func_80B98600.c",
+  "name": "func_80171E00",
+  "definition": "s32 func_80171E00(void *action_state, void *action_ctx, void *sprite, EntityRec *actor)",
+  "binding": "prototype-inherited-from-admitted-complete-twin",
+  "inherited_row": "dungeon/func_80CC13CC",
+  "inherited_source_sha256": "c33af377aa9935b10c7e2bf706755e56e1704628000e2aeaa61bf27530cb6899",
+  "callee_foff": "0xce13cc"
+ },
+ "authority_mode": "same-complete-body-matched-caller-interface",
+ "caller": {
+  "row": "dungeon/func_80CC085C",
+  "source": "src/dungeon/func_80CC085C.c"
+ },
+ "score": {
+  "status": "ok",
+  "exact": true,
+  "subs": 0,
+  "indels": 0,
+  "total": 0,
+  "gen_words": 113,
+  "tgt_words": 113,
+  "class": "match",
+  "signals": [],
+  "secs": 1.94,
+  "err": null
+ },
+ "source": "evidence/continue3/prototype_variants/de48b6ab991a545705c4/variant.c",
+ "status": "PROVED",
+ "prototype_only": true,
+ "additional_c_rows": 0,
+ "additional_c_bytes": 0,
+ "production_gate_sha256": "f3eee2a67ab948cebf469e4b359e61105ccafbca456eae8264b018f38c907f25",
+ "headers_sha256": "d2f27c97e9b7966f712a70587984e1e3c63c11f7fbd21449cadd5756719ce753",
+ "window_gate": {
+  "command": [
+   "work/native_lane/r121_twins2/staging/workers/w06/staging/root/.venv/bin/python",
+   "tools/overlay_local_gate.py",
+   "--config",
+   "config/overlays/dungeon_deep_0bb8.overlay.yaml",
+   "--clean",
+   "--stage-match",
+   "func_80B98600",
+   "work/native_lane/r121_twins2/evidence/continue3/prototype_variants/de48b6ab991a545705c4/variant.c",
+   "2.7.2-cdk-G0"
+  ],
+  "returncode": 0,
+  "stdout": "overlay: dungeon_deep_0bb8\nconfig: config/overlays/dungeon_deep_0bb8.overlay.yaml\ncontainer: work/s3_splat/extract/DUNGEON_DUNGEON.BIN\nwindow: 0xBB8000..0xBB9000 -> 0x80B98000..0x80B99000\nsegments: 6 total, 4 c, 0 platform asm, 0 game asm, 0 asm, 2 raw\nmatched source counts: overlays/dungeon=4, staged=1\nmanifest: work/s3_splat/dungeon_deep_0bb8/dungeon_deep_0bb8_manifest.json\nMATCH: rebuilt overlay window byte-identical (4096 bytes)\n",
+  "stderr": ""
+ },
+ "manifest_entry": {
+  "func": "func_80171E00",
+  "file_start": "0xBB8600",
+  "vram": "0x80B98600",
+  "size": 452,
+  "source": "work/native_lane/r121_twins2/evidence/continue3/prototype_variants/de48b6ab991a545705c4/variant.c",
+  "config": "2.7.2-cdk-G0",
+  "source_group": "staged",
+  "module": null,
+  "rowbase_link_vram": "0x80171E00"
+ },
+ "object_sha256": "592bedc941f14f28f34941fa1ac89ce15bdc9986e112b0eb56a7e54b98e2f153",
+ "object": "evidence/continue3/prototype_variants/de48b6ab991a545705c4/variant.o",
+ "retail_sha256": "dfdd5def8b995cda7df6b4cef7f701386031ce89ae9281af9cf9ce8d3349902d"
+}
