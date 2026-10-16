@@ -336,3 +336,19 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     a first-class genuine cell (work/native_lane/_r120/oldaspsx/).
     Evidence: docs/evidence/r120_mdep_stale.jsonl + r120_mdep_stale/ (receipts), study
     work/native_lane/_r120/maspsx_dep/FINDINGS.md, measurement work/native_lane/_r120/mdep_retire/. SECOND LOOK: no.
+
+50. **(r121, orchestrator, delegated) Twins rows land with their exact promotion record as baseline.** 1,909 twins
+    rows have failing m2c first passes (raw/ is the genuine first pass and may not compile), which put them at level
+    -1 and crashed gate_all. B3 patch 038 appends each row's exact promotion record as its baseline, the same treatment
+    HEAD already gives the r120 rawfill rows. Evidence: work/native_lane/_r120/b3/REPORT.md. SECOND LOOK: no.
+51. **(r121, orchestrator, delegated) Both hardholds packages held.** They place town 0x5FF770 at load base 0x7FA17000
+    ("proven") while the landed r121_remnants chain uses 0x7FA3A800 ("solved"); the remnants chain came first in B3,
+    so hardholds stay out until the conflict is investigated. SECOND LOOK: yes (which base is right).
+52. **(r121, orchestrator, delegated; reversed same day) Link-at-0 TOWN images are admitted as code in the existing
+    `unrelocated-object-code-projection` class.** They are fully linked zero-base builds of town facility scenario
+    scripts (older alternates of retail scene-table records 4/6/7), not objects or data; A and B already had proven
+    rowbase records in this class. Rows carry runtime_placement unproven and a coverage_class tag so coverage can be
+    reported with and without them. Evidence: work/native_lane/_r120/vram0/REPORT.md, SCENES.md. SECOND LOOK: no.
+53. **(r121, OWNER ruling 2026-10-16) Land fast, gate once.** Backlog batches land with cheap checks only (patches,
+    privacy scrub, unit, row_db, SLUS, regen); one full gate + certificate renewal runs after the backlog is in, and
+    whatever it finds is fixed then. Temporary breakage is accepted over tracking many disjoint deliveries.
