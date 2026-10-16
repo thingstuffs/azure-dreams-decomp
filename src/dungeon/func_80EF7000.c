@@ -98,7 +98,7 @@ typedef struct S_func_80EF7000_5 {
     u16 unk_00;
 } S_func_80EF7000_5;
 
-extern s32 func_800A45D8(u16, u16, s16);
+extern s32 dungeonCheckLeftTileAndCenterHeight(u16, u16, s16);
 extern s32 func_800A7234(s8, s8, s16, s16 *, s16 *, s16 *);
 extern void func_800A7A7C(s16, s16, s16, s32, s8 *);
 extern s16 func_800BCB04(s32, s32, s16);
@@ -106,10 +106,10 @@ extern s16 func_800BCB04(s32, s32, s16);
 extern u8 D_80158808[];
 extern FlagBlock D_800814A0;
 
-void func_801588BC(S_func_80EF7000_1 *motion, S_func_80EF7000_2 *position, S_func_80EF7000_3 *animation);
+void advanceMotionThroughLandingAndFall(S_func_80EF7000_1 *motion, S_func_80EF7000_2 *position, S_func_80EF7000_3 *animation);
 
 /* Advance motion through travel, landing interpolation, and falling. */
-void func_801588BC(S_func_80EF7000_1 *motion, S_func_80EF7000_2 *position, S_func_80EF7000_3 *animation)
+void advanceMotionThroughLandingAndFall(S_func_80EF7000_1 *motion, S_func_80EF7000_2 *position, S_func_80EF7000_3 *animation)
 {
     s8 command[4];
     GridPoint directions[8];
@@ -284,7 +284,7 @@ move:
                 rounded += 0x3F;
             coord = rounded >> 6;
             if (interp_goal == coord) {
-                if ((func_800A45D8(position->unk_00.half.unk_02.unk_02_u16, position->unk_04.half.unk_06.unk_06_u16,
+                if ((dungeonCheckLeftTileAndCenterHeight(position->unk_00.half.unk_02.unk_02_u16, position->unk_04.half.unk_06.unk_06_u16,
                     position->unk_08.half.unk_0A) << 16) != 0 ||
                     func_800BCB04(position->unk_00.half.unk_02.unk_02_u16, position->unk_04.half.unk_06.unk_06_u16,
                                       position->unk_08.half.unk_0A) >= 0x200) {

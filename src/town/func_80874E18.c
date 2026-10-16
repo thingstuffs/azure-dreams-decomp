@@ -27,7 +27,7 @@ extern s32 func_80701060(s32 *word, s32 old_value);
 extern s32 func_807018AC(s16 value);
 
 /* Record the pressed input, or toggle the 0x40000000 state flag from the callback's answer and advance the slot. */
-s32 func_80700E18(s32 slot) {
+s32 townRecordDevkitInputAndAdvanceSlot(s32 slot) {
     s32 callback;
 
     if (func_80700D84() > 0) {

@@ -29,27 +29,27 @@ typedef struct S_800243E4_0 {
     s16 unk_2A;
     u8 pad_2C[0x34];
     void * unk_60;
-} S_800243E4_0;   /* temp_v1 in func_800243E4 */
+} S_800243E4_0;   /* temp_v1 in dungeonCreateAnLinkedParentInitializePositionPartData */
 
 typedef struct S_800243E4_1_pre {
     void * unk_00;
     u8 pad_04[0x14];
-} S_800243E4_1_pre;   /* the 0x18 bytes before arg0 in func_800243E4, addressed as arg0[-1] */
+} S_800243E4_1_pre;   /* the 0x18 bytes before arg0 in dungeonCreateAnLinkedParentInitializePositionPartData, addressed as arg0[-1] */
 
 typedef struct S_800243E4_2 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_800243E4_2;   /* temp_a0 in func_800243E4 */
+} S_800243E4_2;   /* temp_a0 in dungeonCreateAnLinkedParentInitializePositionPartData */
 
 typedef struct S_800243E4_3 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_800243E4_3;   /* temp_v1_2 in func_800243E4 */
+} S_800243E4_3;   /* temp_v1_2 in dungeonCreateAnLinkedParentInitializePositionPartData */
 
 /* Create an object linked to its parent and initialize its position and part data. */
-void func_800243E4(void *parent, void *unused_context, void *unused_parameters) {
+void dungeonCreateAnLinkedParentInitializePositionPartData(void *parent, void *unused_context, void *unused_parameters) {
     S_800243E4_2 *position;
     Part *part;
     void *object;

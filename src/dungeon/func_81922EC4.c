@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7e6e1800.h"
 
-void func_800246C4(Row_81922EC4_DungeonColorWork *work)
+void dungeonFadeFourColorsToBlack(Row_81922EC4_DungeonColorWork *work)
 {
     s16 color_index;
     Row_81922EC4_DungeonColor *color;

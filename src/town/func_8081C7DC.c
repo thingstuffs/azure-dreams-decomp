@@ -11,7 +11,7 @@ typedef struct S_800267DC_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_800267DC_0;   /* temp_v0 in func_800267DC */
+} S_800267DC_0;   /* temp_v0 in townCreateRandomizedTrailParticle */
 
 typedef struct S_800267DC_1 {
     s32 unk_00;
@@ -20,14 +20,14 @@ typedef struct S_800267DC_1 {
     s32 unk_0C;
     u8 pad_10[0x4];
     s32 unk_14;
-} S_800267DC_1;   /* temp_s1 in func_800267DC */
+} S_800267DC_1;   /* temp_s1 in townCreateRandomizedTrailParticle */
 
 typedef struct S_800267DC_2 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
     s32 unk_0C;
-} S_800267DC_2;   /* arg0 in func_800267DC */
+} S_800267DC_2;   /* arg0 in townCreateRandomizedTrailParticle */
 
 typedef struct S_800267DC_3 {
     void * unk_00;
@@ -42,12 +42,12 @@ typedef struct S_800267DC_3 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_800267DC_3;   /* temp_s0 in func_800267DC */
+} S_800267DC_3;   /* temp_s0 in townCreateRandomizedTrailParticle */
 
 typedef struct S_800267DC_4 {
     u8 pad_00[0x4];
     s32 unk_04;
-} S_800267DC_4;   /* D_800F1564 in func_800267DC */
+} S_800267DC_4;   /* D_800F1564 in townCreateRandomizedTrailParticle */
 
 
 void func_8004491C();
@@ -57,7 +57,7 @@ extern u8 D_800268DC[];
 extern u8 D_800F1564[];
 
 /* Creates a sprite effect offset from the source with randomized motion. */
-void func_800267DC(S_800267DC_2 *source) {
+void townCreateRandomizedTrailParticle(S_800267DC_2 *source) {
     S_800267DC_3 *sprite;
     S_800267DC_1 *motion;
     S_800267DC_0 *effect;

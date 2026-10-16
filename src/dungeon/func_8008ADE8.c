@@ -42,12 +42,12 @@ typedef struct {
 extern u8 D_800DCF58[9];
 
 extern void func_8009A21C(s16 x, s16 y, u16 flags);
-extern void func_800A2B04(FuncArg1 *, u8, u8);
+extern void dungeonSetRecordIntegerTileCenter(FuncArg1 *, u8, u8);
 extern s16 func_800BCB04(s32 x, s32 y, s16 min_height);
-extern void func_80096088(FuncArg0 *, FuncArg3 *);
+extern void dungeonRestorePlayerControlCallback(FuncArg0 *, FuncArg3 *);
 
 /* Updates a spinning movement sequence and restores the actor's original rotation. */
-void func_80090548(FuncArg0 *motion, FuncArg1 *position, FuncArg2 *tile, FuncArg3 *actor_arg) {
+void dungeonUpdatePlayerRandomWarp(FuncArg0 *motion, FuncArg1 *position, FuncArg2 *tile, FuncArg3 *actor_arg) {
     FuncArg3 *actor;
     register s32 flags_mask;
     s32 state;
@@ -71,7 +71,7 @@ void func_80090548(FuncArg0 *motion, FuncArg1 *position, FuncArg2 *tile, FuncArg
             return;
         }
         position->field14 = 0;
-        func_800A2B04(position, tile->field24, tile->field25);
+        dungeonSetRecordIntegerTileCenter(position, tile->field24, tile->field25);
         height_offset = -0x400;
         actor->field88 = func_800BCB04(position->field2, position->field6,
                                        (D_800DCF58[0] = 1, height_offset));
@@ -99,7 +99,7 @@ void func_80090548(FuncArg0 *motion, FuncArg1 *position, FuncArg2 *tile, FuncArg
         actor_flags = actor->field1C & flags_mask;
         actor->field2A = actor->field6A;
         actor->field1C = actor_flags;
-        func_80096088(motion, actor);
+        dungeonRestorePlayerControlCallback(motion, actor);
 
         return;
     default:

@@ -16,7 +16,7 @@ extern s32 func_800C95C0(void *, void *, s16 *);
 
 
 /* Spawn two pairs of effects at random offsets around the source. */
-void func_80024C38(ObjectNodeHeader *source, s16 effect_param, s32 render_param)
+void dungeonUpdateEffectPositionAndColor(ObjectNodeHeader *source, s16 effect_param, s32 render_param)
 {
     s32 remaining;
     ObjectNodeHeader *effect;
@@ -26,7 +26,7 @@ void func_80024C38(ObjectNodeHeader *source, s16 effect_param, s32 render_param)
     do {
         effect = func_8003FD64(0x212, &source->next);
         if (effect != 0) {
-            effect->unk_10 = func_80024B00;
+            effect->unk_10 = dungeonAdvanceEffectMotionAndSpeed;
             func_8004491C(effect, (s32)func_80045340);
             record = (MotionRecord *)(effect + 1);
             ((EntityRec *)effect->unk_08)->x.w.i = (((EntityRec *)source->unk_08)->x.w.i + (rand() & 0x3F)) - 0x20;
@@ -48,7 +48,7 @@ void func_80024C38(ObjectNodeHeader *source, s16 effect_param, s32 render_param)
     do {
         effect = func_8003FD64(0x212, &source->next);
         if (effect != 0) {
-            effect->unk_10 = func_80024B00;
+            effect->unk_10 = dungeonAdvanceEffectMotionAndSpeed;
             func_8004491C(effect, (s32)func_800C95C0);
             record = (MotionRecord *)(effect + 1);
             ((EntityRec *)effect->unk_08)->x.w.i = (((EntityRec *)source->unk_08)->x.w.i + (rand() & 0x3F)) - 0x20;

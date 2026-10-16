@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_8005A2FC(void);
+extern void audioResetSequenceSubsystem(void);
 extern void func_8005A39C(s32 value);
 extern s32 func_8005A3F0(s32 a0);
 extern void func_8005A420(void *a0, s32 a1, s32 a2);
@@ -9,10 +9,10 @@ extern s32 func_8005B378(s16 a0);
 extern s32 func_8005E7E0(s32 a0);
 extern void func_8005B320(void);
 extern s32 func_8005B3D8(s16 a0, s16 a1);
-extern void func_8005A5C8(s32 left_volume, s32 right_volume);
-extern void func_8005A4E8(u8 a0, u8 a1, u8 a2);
-extern void func_8005A56C(s32 mode, s32 value_1, s32 value_2);
-extern void func_80055B44(u8 a0);
+extern void soundSetSpuMasterVolume(s32 left_volume, s32 right_volume);
+extern void submitTaggedDriverByte(u8 a0, u8 a1, u8 a2);
+extern void submitScaledDriverHalfwordPair(s32 mode, s32 value_1, s32 value_2);
+extern void setCdAudioMixMode(u8 a0);
 extern void func_800559B4(void);
 extern void func_80055864(void);
 extern void func_800557BC(void);
@@ -22,7 +22,7 @@ extern u8 D_80084548[];
 
 /* Initializes audio subsystems, buffers, and playback defaults. */
 void func_80053F98(void) {
-    func_8005A2FC();
+    audioResetSequenceSubsystem();
     func_8005A39C(1);
     func_8005A3F0(0x18);
     func_8005A420(D_80084548, 1, 1);
@@ -31,10 +31,10 @@ void func_80053F98(void) {
     func_8005E7E0(4);
     func_8005B320();
     func_8005B3D8(0x3C, 0x3C);
-    func_8005A5C8(0x7F, 0x7F);
-    func_8005A4E8(0, 0, 0);
-    func_8005A56C(0, 0, 0);
-    func_80055B44(2);
+    soundSetSpuMasterVolume(0x7F, 0x7F);
+    submitTaggedDriverByte(0, 0, 0);
+    submitScaledDriverHalfwordPair(0, 0, 0);
+    setCdAudioMixMode(2);
     func_800559B4();
     func_80055864();
     func_800557BC();

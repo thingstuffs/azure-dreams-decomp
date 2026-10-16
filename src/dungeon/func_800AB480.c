@@ -21,13 +21,13 @@ typedef struct S_800B0BE0_0 {
     u8 pad_1E[0x6];
     s8 unk_24;
     s8 unk_25;
-} S_800B0BE0_0;   /* arg3 in func_800B0BE0 */
+} S_800B0BE0_0;   /* arg3 in dungeonSubmitTexturedQuad */
 
 typedef struct S_800B0BE0_1 {
     u8 pad_00[0xC];
     s32 unk_0C;
     u16 unk_10;
-} S_800B0BE0_1;   /* arg1 in func_800B0BE0 */
+} S_800B0BE0_1;   /* arg1 in dungeonSubmitTexturedQuad */
 
 typedef struct S_800B0BE0_2 {
     u8 pad_00[0x4];
@@ -35,28 +35,28 @@ typedef struct S_800B0BE0_2 {
     u16 unk_06;
     u8 unk_08;
     u8 unk_09;
-} S_800B0BE0_2;   /* *arg2 in func_800B0BE0 */
+} S_800B0BE0_2;   /* *arg2 in dungeonSubmitTexturedQuad */
 
 typedef struct S_800B0BE0_3 {
     u8 pad_00[0x8];
     u8 unk_08;
     u8 pad_09[0x1];
     u8 unk_0A;
-} S_800B0BE0_3;   /* temp_v1 in func_800B0BE0 */
+} S_800B0BE0_3;   /* temp_v1 in dungeonSubmitTexturedQuad */
 
 typedef struct S_800B0BE0_4 {
     u8 pad_00[0x9];
     u8 unk_09;
     u8 pad_0A[0x1];
     u8 unk_0B;
-} S_800B0BE0_4;   /* temp_v1_2 in func_800B0BE0 */
+} S_800B0BE0_4;   /* temp_v1_2 in dungeonSubmitTexturedQuad */
 
 typedef struct S_800B0BE0_5 {
     s8 unk_00;
-} S_800B0BE0_5;   /* temp_v1_3 in func_800B0BE0 */
+} S_800B0BE0_5;   /* temp_v1_3 in dungeonSubmitTexturedQuad */
 
 /* Fill and submit a textured quad, then advance the primitive and texture cursors. */
-void *func_800B0BE0(s32 draw_context, S_800B0BE0_1 *draw_settings, void **texture_cursor, void *primitive) {
+void *dungeonSubmitTexturedQuad(s32 draw_context, S_800B0BE0_1 *draw_settings, void **texture_cursor, void *primitive) {
     s32 submit_context;
     u32 texture_page;
     s8 u_end;

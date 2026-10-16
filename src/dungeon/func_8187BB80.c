@@ -30,7 +30,7 @@ typedef struct S_8187BB80_0 {
     u16 unk_62;
     u8 pad_64[0x2];
     u16 unk_66;
-} S_8187BB80_0;   /* obj in func_80025380 */
+} S_8187BB80_0;   /* obj in advanceFadingEffectAnimation */
 
 typedef struct S_8187BB80_1 {
     u8 pad_00[0xC];
@@ -39,7 +39,7 @@ typedef struct S_8187BB80_1 {
     u8 unk_0E;
     u8 pad_0F[0x5];
     u16 unk_14;
-} S_8187BB80_1;   /* aux in func_80025380 */
+} S_8187BB80_1;   /* aux in advanceFadingEffectAnimation */
 
 
 
@@ -47,7 +47,7 @@ extern s16 D_8002694C[5];
 
 
 /* Advance the effect animation, fade its colors, and mark it for removal when its lifetime ends. */
-void func_80025380(void *effect_data, s32 unused_arg, void *color_data) {
+void advanceFadingEffectAnimation(void *effect_data, s32 unused_arg, void *color_data) {
     u8 *colors = color_data;
     register s32 tick_limit;
     s32 phase_state;

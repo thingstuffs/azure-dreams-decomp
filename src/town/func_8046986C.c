@@ -3,11 +3,11 @@
 typedef struct S_8001A86C_0 {
     u8 pad_00[0x2];
     s16 unk_02;
-} S_8001A86C_0;   /* out in func_8001A86C */
+} S_8001A86C_0;   /* out in townBuildSelectedEntryOutput */
 
 
-extern void func_8001A1A0(void *, void *);
-extern void func_8001A200(void *, void *);
+extern void townCopyCallbackValueToDestination(void *, void *);
+extern void townDispatchRecordsByKind(void *, void *);
 extern s32 func_8001E670(s32);
 
 typedef struct {
@@ -28,7 +28,7 @@ extern u8 D_80017D50;
 
 
 /* Sets entry flags from record state and selection, then prepares the output buffer. */
-u8 *func_8001A86C(s32 selected_index) {
+u8 *townBuildSelectedEntryOutput(s32 selected_index) {
     s32 entry_index;
     s32 first_marked;
     s32 entry_flag;
@@ -66,16 +66,16 @@ loop:
         }
     }
 
-    func_8001A200(output_base, &D_80017ADC);
-    func_8001A1A0(output_base, &D_80017AE8);
+    townDispatchRecordsByKind(output_base, &D_80017ADC);
+    townCopyCallbackValueToDestination(output_base, &D_80017AE8);
     if (first_marked != 0) {
         *(s16 *)(output_base + 0xA2) = 0x400;
-        func_8001A1A0(output_base + 0xA0, &D_80017B00);
+        townCopyCallbackValueToDestination(output_base + 0xA0, &D_80017B00);
     } else {
         *(s16 *)(output_base + 0xB6) = 0x400;
-        func_8001A1A0(output_base + 0xB4, &D_80017B0C);
+        townCopyCallbackValueToDestination(output_base + 0xB4, &D_80017B0C);
     }
-    func_8001A1A0(output_base + 0xDC, &D_80017AF4);
-    func_8001A1A0(output_base + 0xC8, &D_80017B18);
+    townCopyCallbackValueToDestination(output_base + 0xDC, &D_80017AF4);
+    townCopyCallbackValueToDestination(output_base + 0xC8, &D_80017B18);
     return output_base;
 }

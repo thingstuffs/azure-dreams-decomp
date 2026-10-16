@@ -3,7 +3,7 @@
 typedef struct S_8009F9E8_0 {
     u8 unk_00;
     u8 unk_01;
-} S_8009F9E8_0;   /* p in func_8009F9E8 */
+} S_8009F9E8_0;   /* p in dungeonFindMonsterSpecialEntry */
 
 
 extern u16 D_80013716;
@@ -16,7 +16,7 @@ typedef struct {
 
 
 /* Scan backward through special entry kinds for a matching kind and flag bit. */
-void *func_8009F9E8(s32 wanted_kind, s32 wanted_flag) {
+void *dungeonFindMonsterSpecialEntry(s32 wanted_kind, s32 wanted_flag) {
     s32 entry_index;
     s32 count_page;
     s32 kind_group;

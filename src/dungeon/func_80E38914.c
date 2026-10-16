@@ -4,8 +4,8 @@
 
 s32 func_800A2BDC();                          /* extern */
 void func_800A9A0C();                      /* extern */
-s32 func_800ADDA0(); /* extern */
-void func_801716A4(); /* extern */
+s32 dungeonRelinkEntityAndClearHighFlag(); /* extern */
+void dungeonAdvanceActorTurnPath(); /* extern */
 
 typedef struct S_80172114_0 {
     u8 pad_00[0x46];
@@ -14,10 +14,10 @@ typedef struct S_80172114_0 {
     u8 unk_71;
     u8 pad_72[0x28];
     s8 unk_9A;
-} S_80172114_0;   /* held_arg0 in func_80172114 */
+} S_80172114_0;   /* held_arg0 in dungeonDispatchActorActionState */
 
 /* Updates object state and flags according to the state handler result. */
-s32 func_80172114(void *object, s32 state_input_a, s32 state_input_b) {
+s32 dungeonDispatchActorActionState(void *object, s32 state_input_a, s32 state_input_b) {
     s32 saved_input_a;
     s32 saved_input_b;
     void *saved_object;
@@ -27,7 +27,7 @@ s32 func_80172114(void *object, s32 state_input_a, s32 state_input_b) {
     saved_input_a = state_input_a;
     saved_input_b = state_input_b;
     saved_object = object;
-    call_result = func_800ADDA0(saved_input_a, saved_input_b, saved_object, 2, 4, saved_object + 0x9C);
+    call_result = dungeonRelinkEntityAndClearHighFlag(saved_input_a, saved_input_b, saved_object, 2, 4, saved_object + 0x9C);
     call_result <<= 16;
     state = call_result >> 16;
     call_result = 0;
@@ -38,7 +38,7 @@ s32 func_80172114(void *object, s32 state_input_a, s32 state_input_b) {
             func_800A9A0C(saved_object);
             return 0;
         case 2:
-            func_801716A4(saved_object, saved_input_a, saved_input_b, saved_object);
+            dungeonAdvanceActorTurnPath(saved_object, saved_input_a, saved_input_b, saved_object);
             return 0;
         case 1:
             ((S_80172114_0 *)saved_object)->unk_71 =

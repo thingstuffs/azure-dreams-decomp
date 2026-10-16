@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Maps value 0x39 to 2 and returns other values unchanged. */
-s32 func_800B5E10(s32 value) {
+s32 townNormalizeMonsterStatusSpeciesCode(s32 value) {
     s32 mapped_value;
 
     mapped_value = 2;

@@ -8,7 +8,7 @@ typedef struct {
 } MemoryPage;
 
 /* Set the bitmap bit selected by the low 16 bits of the ID, skipping IDs 0 and 1. */
-void func_80033AA8(s32 bit_id) {
+void setResidentBitmapBit(s32 bit_id) {
     u32 bit_value = bit_id;
     u32 bit_index = bit_value & 0xFFFF;
 

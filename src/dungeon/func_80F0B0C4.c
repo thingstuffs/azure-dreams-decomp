@@ -42,11 +42,11 @@ extern u8 D_80170F74[];
 extern u8 D_80173D58[];
 
 void func_80047784(void *, u8, s32);
-void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-void func_800A2B04(void *, u8, u8);
-void func_800A4ACC(void *);
+void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
+void dungeonAdvanceStatusTimers(void *);
 void func_800A56E0(s32);
-void func_800AD594(void *, s32);
+void dungeonReduceActorFoodMeter(void *, s32);
 
 /* Advance the actor action through animation setup, delay, and completion. */
 void func_801728C4(S_func_801728C4_0 *action, S_func_801728C4_1 *motion, S_func_801728C4_2 *animation,
@@ -62,7 +62,7 @@ void func_801728C4(S_func_801728C4_0 *action, S_func_801728C4_1 *motion, S_func_
         if (animation->unk_14 & 0x8000) {
             action->unk_9B = 3;
             animation->unk_14 |= 0x6000;
-            func_8009C12C(actor, animation, actor->unk_2A, 1);
+            dungeonResolveAttackDamageAndEffects(actor, animation, actor->unk_2A, 1);
             return;
         }
         motion->unk_14 = 0;
@@ -82,18 +82,18 @@ void func_801728C4(S_func_801728C4_0 *action, S_func_801728C4_1 *motion, S_func_
             return;
         }
         func_800A56E0(0x804);
-        func_8009C12C(actor, animation, actor->unk_2A, 1);
+        dungeonResolveAttackDamageAndEffects(actor, animation, actor->unk_2A, 1);
         action->unk_9B++;
         return;
     case 3:
         if (!(animation->unk_14 & 0xE000)) {
             return;
         }
-        func_800A2B04(motion, animation->unk_24, animation->unk_25);
-        func_800AD594(actor, 0x100);
+        dungeonSetRecordIntegerTileCenter(motion, animation->unk_24, animation->unk_25);
+        dungeonReduceActorFoodMeter(actor, 0x100);
         action->unk_8C = D_80170F74;
         dungeonStatus.unk_0C = 0;
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         if (actor->unk_6D == 0) {
             actor->unk_46 &= 0x7FFF;
             return;

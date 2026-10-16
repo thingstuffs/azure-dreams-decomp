@@ -22,17 +22,17 @@ typedef struct TownTransition {
 } TownTransition;
 
 extern Vec3i D_80100D98;
-extern void func_800A4D4C(void *first_ptr, void *second_ptr);
-extern void func_800A48F8(Vec3i *setting);
+extern void townRestartOrUpdateMidpointTracking(void *first_ptr, void *second_ptr);
+extern void townApplyAndStoreSetting(Vec3i *setting);
 
 // Initializes the town transition callback, targets, and position from D_80100D98.
-void func_800A4CE8(TownTransition *state) {
-    state->callback = func_800A4D4C;
+void townInitializeTransitionState(TownTransition *state) {
+    state->callback = townRestartOrUpdateMidpointTracking;
     state->target = &D_80100D98;
     state->previous_target = &D_80100D98;
     state->other = &D_80100D98;
     state->x = D_80100D98.x;
     state->y = state->other->y;
     state->z = state->other->z;
-    func_800A48F8((Vec3i *)&state->x);
+    townApplyAndStoreSetting((Vec3i *)&state->x);
 }

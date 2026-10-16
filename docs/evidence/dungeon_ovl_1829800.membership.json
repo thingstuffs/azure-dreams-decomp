@@ -1,0 +1,97 @@
+{
+  "module": "dungeon_ovl_1829800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_7e7fb800.c",
+    "module_index": 158
+  },
+  "members": [
+    "dungeon/func_81809800",
+    "dungeon/func_81809970",
+    "dungeon/func_81809A0C",
+    "dungeon/func_8180A214",
+    "dungeon/func_8180A494",
+    "dungeon/func_8180A8C8",
+    "dungeon/func_8180A990",
+    "dungeon/func_8180AE3C",
+    "dungeon/func_8180AFF0",
+    "dungeon/func_8180B064",
+    "dungeon/func_8180B71C",
+    "dungeon/func_8180B768"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "One complete physical run in one observed loader bank. Historical object-file boundary is not observable.",
+  "basis": [
+    "The complete ledger group 158 is exactly twelve unique members in file order [0x1829800,0x182b920), with no gap, overlap, shared member or recipe transition.",
+    "xfer_dungeon_1829800 is a proven five-sector stream to 0x80025000. Its observed transfer and promoted byte-exact witness are retained in load_map. The successor at 0x182c000 is a distinct transfer, not part of this module.",
+    "The selection controller installs the motion, turn, object, grid-render and rectangle-render callbacks from this same run. Their shared D_80027156/58/5a/5c state and call/address edges supply cohesion independent of the invented ledger name.",
+    "The first twenty bytes are the five-target switch table owned by the third member func_8002520C. Removing the first row assembly prefix lets the compiler emit that table once, with body_offset=20 for func_80025014. No raw retail data are installed."
+  ],
+  "load_map": {
+    "schema": "azure-clean.rowbase.v1",
+    "region": "xfer_dungeon_1829800",
+    "foff_start": "0x1829800",
+    "foff_end": "0x182C000",
+    "delta": "0x7E7FB800",
+    "base_confidence": "proven",
+    "proof": "overlay-streamer transfer observed at runtime (capture_kit/loader_watch_remote.lua on PCSX-Redux, poll-record): CdRead of 5 sectors from disc LBA 24681 -> 0x80025000. Container dungeon foff 0x1829800 (LBA base 12310), so delta = 0x80025000 - 0x1829800 = 0x7E7FB800. CONFIRMED: RAM[0x80025000..+10240] in ram_auto_dungeon_1829A0C_lba24681.bin is 99.97% identical to the disc image's Mode2/Form1 user data at LBA 24681, i.e. the payload is verifiably resident at that base. Scoring-only: runtime DMA evidence, not a byte-exact recompile -- promote via rowbase.promote() when one lands.; PROMOTED solved->proven: byte-exact recompile func_8180B768 at true base 0x80026F68 (candidate sha 758f73c45fda @ 2.7.2-cdk-G0, linked-strict isolation compare, phase-2 item-3 hook)"
+  },
+  "internal_call_and_address_edges": {
+    "func_80025014": [],
+    "func_80025170": [
+      "func_80025014"
+    ],
+    "func_8002520C": [
+      "func_80026864"
+    ],
+    "func_80025A14": [],
+    "func_80025C94": [],
+    "func_800260C8": [],
+    "func_80026190": [
+      "func_80025170",
+      "func_8002520C",
+      "func_80025A14",
+      "func_80025C94",
+      "func_8002663C"
+    ],
+    "func_8002663C": [
+      "func_80026F68"
+    ],
+    "func_800267F0": [
+      "func_80026190"
+    ],
+    "func_80026864": [
+      "func_80026F1C"
+    ],
+    "func_80026F1C": [],
+    "func_80026F68": []
+  },
+  "owned_prefix": [
+    {
+      "section": ".rodata",
+      "foff": 25335808,
+      "vma": 2147635200,
+      "size": 20,
+      "kind": "switch_table",
+      "owner": "func_8002520C"
+    }
+  ],
+  "complete_body_sha256": {
+    "dungeon/func_81809800": "d1f7a6d045fcd9ec1caf2706b2eb0e6a7c39d61dfa2bb8bb17c6d78e29dd920c",
+    "dungeon/func_81809970": "2e6a7a1777d6483972dfc22705e5f8fb5b5b014a97d6c6e56262b062518a4b05",
+    "dungeon/func_81809A0C": "efd4dab4c11899c3e9fbeedbda176eb150cefe31c20b59971c84fb1501b408d6",
+    "dungeon/func_8180A214": "340a367daad287d106f178e130ecae20d62fc0500960a02b110811fd95b2602b",
+    "dungeon/func_8180A494": "3c7844b11588597a2aa02b895f2deeb26fe0aaef47434631bc3517fb69c3265f",
+    "dungeon/func_8180A8C8": "6dc6844a437f9836cdcd303a9aa30b3b0589aad97b2fc820b1f5b73f3044bee2",
+    "dungeon/func_8180A990": "bc0db3a6168e092a9eba71f10c2f249627779f6dc976623453bb91b9ee0a11e2",
+    "dungeon/func_8180AE3C": "c49ced1d9be0fed0f4954b8a6453843406cf65771f9ccb4081f046c7abb13ab9",
+    "dungeon/func_8180AFF0": "60d4dd85993e8bac5d9d313576044b6eaa1605b000b51a8ec264b86ecff6c805",
+    "dungeon/func_8180B064": "2dbded65cef4122636038d538a719d1fa4c4d92a067333741ed3c0608038214d",
+    "dungeon/func_8180B71C": "6e7e43e16313d6b9acb5b45ae083c5ffcd8b6b0dfbfc740a773b7502c15e2d8b",
+    "dungeon/func_8180B768": "a4b57d9e9169644d34cc9c0ee32348cc8737f065645eedd80963ee12752c9a9a"
+  },
+  "shared_members": [],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120"
+}

@@ -6,7 +6,7 @@ extern s32 D_80019184[];
 M2C_UNK func_80017BA0(s32, s32);                            /* extern */
 
 /* Call func_80017BA0, then return D_80019184. */
-s32 *func_80016E18(s32 first_input, s32 second_input) {
+s32 *townGetSceneResourceB(s32 first_input, s32 second_input) {
     func_80017BA0(first_input, second_input);
     return D_80019184;
 }

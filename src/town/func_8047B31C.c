@@ -5,6 +5,6 @@
 extern M2C_UNK D_8001B688;
 
 /* Returns the address of D_8001B688. */
-M2C_UNK *func_8047B31C(void) {
+M2C_UNK *townGetDataPointer1B688(void) {
     return &D_8001B688;
 }

@@ -5,8 +5,8 @@
 typedef s32 (*M2C_CALLBACK2)(s32, s32);
 typedef s32 (*M2C_CALLBACK0)(void);
 
-void func_800196A4();                            /* extern */
-void func_8001D048(void);                            /* extern */
+void townResetDispatchStateAndFlags();                            /* extern */
+void townProcessHistoryEntriesByMode(void);                            /* extern */
 M2C_UNK func_8001E578();                     /* extern */
 M2C_UNK func_8001E5F0();                     /* extern */
 s32 func_8001E670();                             /* extern */
@@ -19,16 +19,16 @@ typedef struct S_80019560_0 {
     void * unk_20;
     u8 pad_24[0x1C];
     s32 unk_40;
-} S_80019560_0;   /* *(void **)D_80016000 in func_80019560 */
+} S_80019560_0;   /* *(void **)D_80016000 in townRunEventOpcodeScript */
 
 /* Update script flags and dispatch opcodes until a handler returns a result. */
-void func_80019560(s32 setup_arg0, s32 setup_arg1, s32 setup_arg2, s32 setup_arg3) {
+void townRunEventOpcodeScript(s32 setup_arg0, s32 setup_arg1, s32 setup_arg2, s32 setup_arg3) {
     s32 opcode_result;
     u32 state_page_addr;
     u8 *state_page;
     M2C_CALLBACK0 *opcode_handlers;
 
-    func_8001D048();
+    townProcessHistoryEntriesByMode();
     if (func_8001E670(0xA3) != 0) {
         if (func_8001E670(0xAB) == 0) {
             func_8001E578(0x409);
@@ -63,6 +63,6 @@ void func_80019560(s32 setup_arg0, s32 setup_arg1, s32 setup_arg2, s32 setup_arg
     } while (opcode_result == 0);
     D_8001E95C[0] = opcode_result;
     if (func_8001E670(D_800178BA[0]) == 0) {
-        func_800196A4();
+        townResetDispatchStateAndFlags();
     }
 }

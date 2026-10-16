@@ -5,7 +5,7 @@
 
 typedef struct S_800CD474_0_pre {
     u16 unk_00;
-} S_800CD474_0_pre;   /* the 0x2 bytes before arg0 in func_800CD474, addressed as arg0[-1] */
+} S_800CD474_0_pre;   /* the 0x2 bytes before arg0 in dungeonAdvanceFallingTrapEffect, addressed as arg0[-1] */
 
 typedef struct S_800CD474_0 {
     s32 unk_00;
@@ -14,14 +14,14 @@ typedef struct S_800CD474_0 {
     s16 unk_08;
     union { s16 s; u16 u; } unk_0A;   /* accessed as both */
     u16 unk_0C;
-} S_800CD474_0;   /* arg0 in func_800CD474 */
+} S_800CD474_0;   /* arg0 in dungeonAdvanceFallingTrapEffect */
 
 typedef struct S_800CD474_1 {
     u8 pad_00[0x8];
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_800CD474_1;   /* arg1 in func_800CD474 */
+} S_800CD474_1;   /* arg1 in dungeonAdvanceFallingTrapEffect */
 
 typedef struct S_800CD474_2 {
     u8 pad_00[0xC];
@@ -31,20 +31,20 @@ typedef struct S_800CD474_2 {
         struct { u8 pad[0x1]; u8 v; } at01;
         struct { u8 pad[0x2]; u8 v; } at02;
     } unk_0C;   /* overlapping accesses */
-} S_800CD474_2;   /* arg2 in func_800CD474 */
+} S_800CD474_2;   /* arg2 in dungeonAdvanceFallingTrapEffect */
 
 typedef struct S_800CD474_3 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800CD474_3;   /* global_base in func_800CD474 */
+} S_800CD474_3;   /* global_base in dungeonAdvanceFallingTrapEffect */
 
 
 extern void func_800419EC();
 extern s32 func_800A56E0();
-extern void func_800CD6AC();
+extern void dungeonApplyModeSelectedTrapMask();
 
 /* Advance a falling effect through impact, flashing, and fade-out. */
-void func_800CD474(void *effect, S_800CD474_1 *motion, S_800CD474_2 *primitive) {
+void dungeonAdvanceFallingTrapEffect(void *effect, S_800CD474_1 *motion, S_800CD474_2 *primitive) {
     s16 state;
     s32 color;
     u16 sound_timer;
@@ -87,7 +87,7 @@ void func_800CD474(void *effect, S_800CD474_1 *motion, S_800CD474_2 *primitive) 
             primitive->unk_0C.at00.v = 0x808080;
             ((S_800CD474_0 *)effect)->unk_04 = (u16)((S_800CD474_0 *)effect)->unk_04 + 1;
             if (((S_800CD474_0 *)effect)->unk_08 == 0) {
-                func_800CD6AC(((S_800CD474_0 *)effect)->unk_00, 0x10);
+                dungeonApplyModeSelectedTrapMask(((S_800CD474_0 *)effect)->unk_00, 0x10);
             }
         }
     } else {

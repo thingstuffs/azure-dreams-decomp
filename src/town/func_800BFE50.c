@@ -17,14 +17,14 @@ typedef struct Func800BFE50Object {
 
 extern void func_8003DB94(void *, void *, s32);
 extern void func_8004491C(void *, void *);
-extern void func_8008F074(void *, void *, void *);
+extern void townConfigureTheSetModeN1(void *, void *, void *);
 extern u8 D_800BCE78[];
 extern u8 D_800D20CC[];
 extern s32 D_800D2130;
 extern u8 D_800E9E7C[];
 
 /* Initialize the object and dispatch setup according to its state. */
-void func_800BD5B0(Func800BFE50Object *object, s32 *params, void *dispatch_context) {
+void townInitializeObjectAndDispatchByState(Func800BFE50Object *object, s32 *params, void *dispatch_context) {
     u8 state;
 
     *(void **)((u8 *)object - 0x10) = D_800BCE78;
@@ -40,7 +40,7 @@ void func_800BD5B0(Func800BFE50Object *object, s32 *params, void *dispatch_conte
         return;
 
     case 0:
-        func_8008F074(object, params, D_800D20CC);
+        townConfigureTheSetModeN1(object, params, D_800D20CC);
         func_8003DB94(dispatch_context, D_800E9E7C, 0);
         object->field68 = 0;
         object->field48 = D_800D2130;

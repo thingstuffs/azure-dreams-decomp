@@ -2,7 +2,7 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
-s32 func_800A45D8();
+s32 dungeonCheckLeftTileAndCenterHeight();
 s32 func_800A7234();
 s32 func_800A7A7C();
 s16 func_800BCB04();
@@ -11,7 +11,7 @@ extern u8 D_80174708;
 
 typedef struct S_8016E528_0_pre {
     u16 unk_00;
-} S_8016E528_0_pre;   /* the 0x2 bytes before arg0 in func_8016E528, addressed as arg0[-1] */
+} S_8016E528_0_pre;   /* the 0x2 bytes before arg0 in dungeonUpdateObjectMotionAndLanding, addressed as arg0[-1] */
 
 typedef struct S_8016E528_0 {
     u8 pad_00[0x12];
@@ -34,7 +34,7 @@ typedef struct S_8016E528_0 {
     s32 unk_58;
     s32 unk_5C;
     s32 unk_60;
-} S_8016E528_0;   /* arg0 in func_8016E528 */
+} S_8016E528_0;   /* arg0 in dungeonUpdateObjectMotionAndLanding */
 
 typedef struct S_8016E528_1 {
     u8 pad_00[0x6];
@@ -45,7 +45,7 @@ typedef struct S_8016E528_1 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_8016E528_1;   /* arg2 in func_8016E528 */
+} S_8016E528_1;   /* arg2 in dungeonUpdateObjectMotionAndLanding */
 
 typedef struct S_8016E528_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -62,20 +62,20 @@ typedef struct S_8016E528_2 {
     s16 unk_12;
     u8 pad_14[0x2];
     s16 unk_16;
-} S_8016E528_2;   /* arg1 in func_8016E528 */
+} S_8016E528_2;   /* arg1 in dungeonUpdateObjectMotionAndLanding */
 
 typedef struct S_8016E528_3 {
     s16 unk_00;
     s16 unk_02;
-} S_8016E528_3;   /* temp_a1 in func_8016E528 */
+} S_8016E528_3;   /* temp_a1 in dungeonUpdateObjectMotionAndLanding */
 
 typedef struct S_8016E528_4 {
     u8 pad_00[0x2];
     u8 unk_02;
-} S_8016E528_4;   /* ((((S_8016E528_0 *)arg0)->unk_18 * 4) + table_base) in func_8016E528 */
+} S_8016E528_4;   /* ((((S_8016E528_0 *)arg0)->unk_18 * 4) + table_base) in dungeonUpdateObjectMotionAndLanding */
 
 /* Updates object motion, landing interpolation, and removal. */
-void func_8016E528(void *motion, void *position, void *object) {
+void dungeonUpdateObjectMotionAndLanding(void *motion, void *position, void *object) {
     u8 item_data[4];
     s32 fall_height;
     s16 move_height;
@@ -221,7 +221,7 @@ mark_removed:
                 next_tile = ((S_8016E528_0 *)motion)->unk_49 + ((S_8016E528_3 *)direction_step)->unk_02;
                 world_y = ((S_8016E528_2 *)position)->unk_04.at02.v;
                 if (next_tile == (world_y / 64)) {
-                    if (((func_800A45D8((u16) ((S_8016E528_2 *)position)->unk_00.at02.v,
+                    if (((dungeonCheckLeftTileAndCenterHeight((u16) ((S_8016E528_2 *)position)->unk_00.at02.v,
                         (u16) ((S_8016E528_2 *)position)->unk_04.at02.v, ((S_8016E528_2 *)position)->unk_08.at02.v) << 0x10) != 0) ||
                         func_800BCB04((u16) ((S_8016E528_2 *)position)->unk_00.at02.v,
                         (u16) ((S_8016E528_2 *)position)->unk_04.at02.v, ((S_8016E528_2 *)position)->unk_08.at02.v) >= 0x200) {

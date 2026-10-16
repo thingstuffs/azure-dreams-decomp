@@ -22,7 +22,9 @@ python3 - "$ROOT" "$B" <<'PY_SRC_VIEW'
 import os, sys
 from pathlib import Path
 root, build = map(Path, sys.argv[1:])
-canonical = root / "src/slus"
+sys.path.insert(0, str(root / "tools"))
+from source_layout import materialize_flat
+canonical = materialize_flat(build / "layout_flat", root) / "slus"
 view = build / "src"
 marker = build / ".partition_src_view"
 active = (root / "config/slus_partitions.json").is_file()

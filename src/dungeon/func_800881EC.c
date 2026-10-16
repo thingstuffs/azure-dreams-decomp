@@ -5,12 +5,12 @@
 #define NULL 0
 #endif
 
-extern void func_80094E34(void);
+extern void dungeonClearPlayerLinkedActionFlags(void);
 extern void func_80048A44(void *a0, s16 a1, s16 a2, s32 a3);
 
 extern u8 D_800DCFF0[8];
 
-void func_8008D94C(u8 *state_ptr, s32 value, u8 *target_ptr, u8 *angle_ptr) {
+void dungeonBeginWakeNearbyMonsters(u8 *state_ptr, s32 value, u8 *target_ptr, u8 *angle_ptr) {
     u16 flags;
     s32 index;
     u8 *table;
@@ -20,7 +20,7 @@ void func_8008D94C(u8 *state_ptr, s32 value, u8 *target_ptr, u8 *angle_ptr) {
     *(s8 *)(state_ptr + 0x9B) = 0;
     *(void **)(state_ptr + 0x8C) = NULL;
     *(u16 *)(state_ptr + 0xA2) = flags & 0xFEFF;
-    func_80094E34();
+    dungeonClearPlayerLinkedActionFlags();
 
     dungeonStatus.unk_04 = dungeonStatus.unk_04 * 2;
     table = &D_800DCFF0[0];

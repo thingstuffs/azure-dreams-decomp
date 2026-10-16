@@ -84,14 +84,14 @@ extern s32 *D_80174CCC;
 extern s8 D_801766F0[];
 
 extern s32 func_800A1618(s32, s32);
-extern s32 func_8017506C(s16 tile_x, s16 tile_y, s32 height, s16 direction, s16 *sample_out);
+extern s32 dungeonCheckAdjacentTileHeight(s16 tile_x, s16 tile_y, s32 height, s16 direction, s16 *sample_out);
 extern Object *func_8003FD64(s32, void *);
-extern void func_8003E02C(Vec3s *, Vec3s *);
+extern void projectVectorByViewAngle(Vec3s *, Vec3s *);
 extern void func_80047784(void *, s32, s32);
 extern void func_8004491C(Object *, void *);
 
 /* Find a reachable target tile and create an object with the source display and context. */
-void func_8017516C(u8 *owner_data, Position *position_arg, Source *source_arg, Context *context_arg) {
+void dungeonCreateKnockbackTravelObject(u8 *owner_data, Position *position_arg, Source *source_arg, Context *context_arg) {
     Vec3s world_offset;
     Vec3s local_offset;
     u16 hit;
@@ -126,10 +126,10 @@ void func_8017516C(u8 *owner_data, Position *position_arg, Source *source_arg, C
     }
 
     direction = (((s16)context_arg->f2A >> 9) + 4) & 7;
-    initial_result = (u16)func_8017506C(source_arg->x, source_arg->y, position_arg->z, direction, &hit) << 16;
+    initial_result = (u16)dungeonCheckAdjacentTileHeight(source_arg->x, source_arg->y, position_arg->z, direction, &hit) << 16;
     if (initial_result == 0) {
         for (trial_dir = 0; trial_dir < 8; trial_dir++) {
-            if ((s16)func_8017506C((s16)(source_arg->x + dirStepX[direction]),
+            if ((s16)dungeonCheckAdjacentTileHeight((s16)(source_arg->x + dirStepX[direction]),
                                    (s16)(source_arg->y + dirStepY[direction]),
                                    position_arg->z, (s16)trial_dir, &hit) != 0) {
                 target_x = ((u16 *)dirStepX)[trial_dir] + (source_arg->x + ((u16 *)dirStepX)[direction]);
@@ -167,7 +167,7 @@ void func_8017516C(u8 *owner_data, Position *position_arg, Source *source_arg, C
     offset_y_index = ((gameWork.view.viewAngle + context_arg->f2A + 0x100) >> 8) & 0xE;
     local_offset.y = D_801766F0[offset_y_index + 1];
     local_offset.z = 0;
-    func_8003E02C(&local_offset, &world_offset);
+    projectVectorByViewAngle(&local_offset, &world_offset);
 
     object->position->x = position_arg->x + world_offset.x;
     object->position->y = position_arg->y + world_offset.y;

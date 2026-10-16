@@ -1,7 +1,7 @@
 #include "modules/town_town_windows.h"
 
 /* Sets the object state for the selected mode and flags. */
-void func_8009DC8C(void *owner, void *object, s32 mode, s32 flags) {
+void townSetObjectStateForMode(void *owner, void *object, s32 mode, s32 flags) {
     if (mode == 2) {
         ((Rec_func_80094268_arg0 *)owner)->unk_93 = 1;
         (*(s32 *)((u8 *)object + (0x28))) = D_80081458[0];

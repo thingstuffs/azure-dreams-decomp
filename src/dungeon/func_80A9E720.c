@@ -3,8 +3,8 @@
 void func_80173F20(R08_80173F20_Actor *actor, s32 action, R08_80173F20_Entity *entity, R08_80173F20_MapObject *map_object)
 {
     if (func_800AC82C(actor, action, entity, map_object) != 0) {
-        if ((func_800AD9B4(entity, map_object) << 16) > 0) {
-            actor->unk_8C = ((u8 *)func_80170E7C);
+        if ((dungeonCheckActorFloorTrap(entity, map_object) << 16) > 0) {
+            actor->unk_8C = ((u8 *)dungeonUpdateActorBehaviorAndEffect);
             return;
         }
     } else if (entity->unk_2C == ((u8 *)D_80174C8C) &&

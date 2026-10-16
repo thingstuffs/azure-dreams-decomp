@@ -9,7 +9,7 @@ typedef struct S_804027F8_0 {
     s32 unk_10;
     u8 pad_14[0xC];
     s32 * unk_20;
-} S_804027F8_0;   /* arg0 in func_804027F8 */
+} S_804027F8_0;   /* arg0 in cardBootHandleMenuActionsAndRepeat */
 
 
 extern u8 D_80408ADE[];
@@ -20,7 +20,7 @@ extern void func_8040274C(void *menu);
 extern s32 func_8040343C(s32 value);
 
 /* Handles menu actions and directional selection with key repeat. */
-void func_804027F8(void *menu)
+void cardBootHandleMenuActionsAndRepeat(void *menu)
 {
     s32 held_buttons;
     s32 pressed_buttons;

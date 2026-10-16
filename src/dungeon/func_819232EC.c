@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7e6e1800.h"
 
-void func_80024AEC(Row_819232EC_S_80024AEC_1 *source, Rec_func_800247B8_arg1 *position, void *unused_sprite) {
+void dungeonCreatePositionedRenderEffect(Row_819232EC_S_80024AEC_1 *source, Rec_func_800247B8_arg1 *position, void *unused_sprite) {
     Row_819232EC_S_80024AEC_3 *render_state;
     void *effect;
     Row_819232EC_S_80024AEC_0 *effect_state;

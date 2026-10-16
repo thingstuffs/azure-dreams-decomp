@@ -3,10 +3,10 @@
 
 #include "common.h"
 
-void func_80035060();              /* extern */
+void runtimeSetRecordByteThree();              /* extern */
 extern u8 D_80082A38[];
 
-/* Passes the value to func_80035060 with the shared state. */
+/* Passes the value to runtimeSetRecordByteThree with the shared state. */
 void func_80035320(s32 value) {
-    func_80035060(&D_80082A38, value);
+    runtimeSetRecordByteThree(&D_80082A38, value);
 }

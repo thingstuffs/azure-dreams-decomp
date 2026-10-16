@@ -4,8 +4,8 @@
 
 
 
-/* Clears (*(s32 *)(&D_800287C8)) and runs func_800214A4. */
-void func_80020A0C(void) {
+/* Clears (*(s32 *)(&D_800287C8)) and runs cardBootDrainSoftwareEvents. */
+void cardBootResetOperationAndDrainEvents(void) {
     (*(s32 *)(&D_800287C8)) = 0;
-    func_800214A4();
+    cardBootDrainSoftwareEvents();
 }

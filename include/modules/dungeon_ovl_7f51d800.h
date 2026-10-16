@@ -59,5 +59,5 @@ typedef struct S_8014C878_4 {
 
 /* Allocates an object and initializes its state, placement, and callbacks. */
 
-void *func_8014C878(s16 init_flags, s16 grid_x, s16 grid_y, s16 type_id);
+void *dungeonAllocateObjectStateAndCallbacks(s16 init_flags, s16 grid_x, s16 grid_y, s16 type_id);
 #endif

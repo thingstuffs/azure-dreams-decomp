@@ -29,7 +29,7 @@ extern u8 D_80174880[9];
 
 #line 1 "a"
 /* Step the actor's walk animation: clear its 0x71 busy bit and, when the global 0x2000 mode is off and the ready query says 0, arm state 0x17, point the part at the direction table and advance the shared counters. */
-void func_801722E0(void *owner, void *unused, void *part, EntityRec *actor) {
+void dungeonAdvanceActorWalkAnimation(void *owner, void *unused, void *part, EntityRec *actor) {
     s32 original_value;
     s32 current_value;
     s32 adjusted_value;

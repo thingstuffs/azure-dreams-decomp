@@ -12,17 +12,17 @@ typedef struct S_8008C7B4_0 {
     u8 pad_90[0xA];
     s8 unk_9A;
     s8 unk_9B;
-} S_8008C7B4_0;   /* arg0 in func_8008C7B4 */
+} S_8008C7B4_0;   /* arg0 in dungeonBeginPlayerWaitTurn */
 
 
 extern M2C_UNK func_80048A44();
-extern void func_8009F644();
+extern void dungeonAppendPackedActionRecord();
 extern s32 func_800A5C70(void);
 extern u8 D_800DCFB0;
 extern M2C_UNK D_800DD0B8;
 
 /* Reset state, update control flags, and select the entity's directional sprite. */
-void func_8008C7B4(void *state, s32 mode, void *sprite, EntityRec *entity) {
+void dungeonBeginPlayerWaitTurn(void *state, s32 mode, void *sprite, EntityRec *entity) {
     void *entity_arg;
     GameWork *flags;
     s32 initial_state;
@@ -36,7 +36,7 @@ void func_8008C7B4(void *state, s32 mode, void *sprite, EntityRec *entity) {
         dungeonStatus.flags = (u16)(dungeonStatus.flags | 0x80);
     }
     entity_arg = entity;
-    func_8009F644(entity_arg, 0x10, 0, 0);
+    dungeonAppendPackedActionRecord(entity_arg, 0x10, 0, 0);
     {
         u8 *direction_table;
 

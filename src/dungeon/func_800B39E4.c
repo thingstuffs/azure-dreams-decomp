@@ -52,7 +52,7 @@ extern void func_8006658C(void *, void *, ...);
 extern void func_80067EF4(void *, s32, s32, ...);
 
 /* Build transformed textured quads from sprite parts and append them to the draw list. */
-void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
+void dungeonDrawTransformedSpriteParts(void *position, void *context, s32 depth, s16 draw_mode)
 {
     s32 (*callback)(void *, s32, void *, void *, void *);
     Scratch_800B39E4 *scratch = (Scratch_800B39E4 *)0x1F800000;

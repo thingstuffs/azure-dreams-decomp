@@ -59,12 +59,12 @@ extern s32 D_80073740[32];
 extern S_8005C2C0_slot D_80085458;
 extern s32 D_80085F98[4];
 extern S_8005C2C0_kind D_80086A40;
-extern void func_80056DB4(s32 request_index);
+extern void soundResetIndexedVoiceEnvelope(s32 request_index);
 extern void func_8005E97C(s32 a0, s32 a1);
 extern s32 func_8005EB78(s32 a0);
 extern void func_8005EC0C(void *a0);
 /* Initialize a sound voice with the requested volume, pitch, and note. */
-s16 func_8005C2C0(s16 sound_id, s32 voice_id, s16 note, unsigned short note_offset, u16 pitch, u16 left_volume,
+s16 audioConfigureExplicitVoice(s16 sound_id, s32 voice_id, s16 note, unsigned short note_offset, u16 pitch, u16 left_volume,
     u16 right_volume)
 {
     S_8005C2C0_req voice_attr;
@@ -79,7 +79,7 @@ s16 func_8005C2C0(s16 sound_id, s32 voice_id, s16 note, unsigned short note_offs
     D_80085F98[0] = 1;
     if (sound_id != (-1)) {
         if (voice_id < 0x18) {
-            func_80056DB4(voice_id);
+            soundResetIndexedVoiceEnvelope(voice_id);
             voice_masks = D_80073740;
             voice_mask = &voice_masks[voice_id];
             key_off_status = 2;

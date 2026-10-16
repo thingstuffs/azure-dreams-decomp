@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_spawns.h"
 
-void func_8001E18C(void)
+void populateFloorItemRecords(void)
 {
     u8 tile_x;
     u8 tile_y;
@@ -74,8 +74,8 @@ void func_8001E18C(void)
                 if (spawn_index >= 0) {
                     do {
                         do {
-                        } while ((s16)func_800A4E2C(&tile_x, &tile_y) < 0);
-                    } while (func_8001E110(spawn_index, tile_x, tile_y) != 0);
+                        } while ((s16)selectDungeonSpawnTile(&tile_x, &tile_y) < 0);
+                    } while (isFloorItemTileOccupied(spawn_index, tile_x, tile_y) != 0);
 
                     {
                         s32 *spawn_table = (s32 *)((u8 *)D_800E3548);
@@ -102,7 +102,7 @@ main_loop:
             goto cleanup;
         }
 
-        found_status = (s16)func_8001E660(&item_category, &item_subtype, 0, 0);
+        found_status = (s16)selectFloorItemWithSpecialOverrides(&item_category, &item_subtype, 0, 0);
         if (found_status != 0 || item_category != 0) {
             if (found_status == 0) {
                 special_flag = crystal_pending;
@@ -137,17 +137,17 @@ main_loop:
 
             item_state->kind = item_category;
             item_state->unk_00 = item_subtype;
-            func_8001E824(item_state);
+            initRandomFloorItemParameters(item_state);
 
             do {
-            } while ((s16)func_800A4E2C(&tile_x, &tile_y) < 0);
+            } while ((s16)selectDungeonSpawnTile(&tile_x, &tile_y) < 0);
 
-            if (func_8001E110(count, tile_x, tile_y) != 0) {
+            if (isFloorItemTileOccupied(count, tile_x, tile_y) != 0) {
                 item_state->kind = 0;
             } else {
                 item_record->x = tile_x;
                 item_record->y = tile_y;
-                item_record->field4 = func_800BCA68((tile_x << 6) | 0x20,
+                item_record->field4 = dungeonGetSurfaceHeightAtCoordinates((tile_x << 6) | 0x20,
                                                     (tile_y << 6) | 0x20);
                 item_record->field7 = 0;
                 func_8009A21C(tile_x, tile_y, 0x800);
@@ -157,8 +157,8 @@ main_loop:
     } else {
         tile_x = item_record->x;
         tile_y = item_record->y;
-        func_8001E824(item_state);
-        item_record->field4 = func_800BCA68((tile_x << 6) | 0x20,
+        initRandomFloorItemParameters(item_state);
+        item_record->field4 = dungeonGetSurfaceHeightAtCoordinates((tile_x << 6) | 0x20,
                                             (tile_y << 6) | 0x20);
         item_record->field7 = 0;
         func_8009A21C(tile_x, tile_y, 0x800);
@@ -187,7 +187,7 @@ cleanup_loop:
             goto cleanup_loop;
         }
     }
-    func_8001EC54();
+    generateRandomDungeonItemDrops();
 
     return;
 }

@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource12_slot0.h"
 
-void func_80173F38(void *effect) {
+void dungeonDimEffectAfterDelay(void *effect) {
     s16 state;
     u16 timer;
 

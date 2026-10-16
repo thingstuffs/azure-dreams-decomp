@@ -2,7 +2,7 @@
 
 extern u8 D_800E0000;
 
-s32 func_800B5128(void) {
+s32 dungeonFindFirstFreeMapEntry(void) {
     u8 *entry;
     s32 entry_index;
 

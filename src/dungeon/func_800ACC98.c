@@ -9,7 +9,7 @@ typedef struct S_800B23F8_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_800B23F8_0;   /* obj in func_800B23F8 */
+} S_800B23F8_0;   /* obj in dungeonCreateModeConfiguredObject */
 
 typedef struct S_800B23F8_1 {
     u8 pad_00[0x13];
@@ -17,12 +17,12 @@ typedef struct S_800B23F8_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_800B23F8_1;   /* work in func_800B23F8 */
+} S_800B23F8_1;   /* work in dungeonCreateModeConfiguredObject */
 
 typedef struct S_800B23F8_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_800B23F8_2;   /* part_a in func_800B23F8 */
+} S_800B23F8_2;   /* part_a in dungeonCreateModeConfiguredObject */
 
 typedef struct S_800B23F8_3 {
     u8 pad_00[0x8];
@@ -30,25 +30,25 @@ typedef struct S_800B23F8_3 {
     u8 pad_0C[0x18];
     s8 unk_24;
     s8 unk_25;
-} S_800B23F8_3;   /* (void *)reg_s2 in func_800B23F8 */
+} S_800B23F8_3;   /* (void *)reg_s2 in dungeonCreateModeConfiguredObject */
 
 typedef struct S_800B23F8_4 {
     u8 pad_00[0x9A];
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_800B23F8_4;   /* (void *)reg_s3 in func_800B23F8 */
+} S_800B23F8_4;   /* (void *)reg_s3 in dungeonCreateModeConfiguredObject */
 
 
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
-extern void func_800B22F0(void *, void *, void *, s16);
+extern void dungeonInitializeEntitySpriteEffect(void *, void *, void *, s16);
 extern s32 D_80083498;
 extern M2C_UNK D_800B274C;
 extern M2C_UNK D_800B2A60;
 
 /* Create an object and initialize its components and flags from the mode and supplied values. */
-void *func_800B23F8(s16 mode, s32 part_b_byte_24, s32 part_b_byte_25, s32 part_a_value,
+void *dungeonCreateModeConfiguredObject(s16 mode, s32 part_b_byte_24, s32 part_b_byte_25, s32 part_a_value,
                     s32 part_b_value)
 {
     s16 saved_byte_24;
@@ -101,7 +101,7 @@ void *func_800B23F8(s16 mode, s32 part_b_byte_24, s32 part_b_byte_25, s32 part_a
         ((S_800B23F8_1 *)work)->unk_1C = flags_1c;
 
 post_kind:
-        func_800B22F0(obj, part_a, (void *)value_or_part_b, init_mode);
+        dungeonInitializeEntitySpriteEffect(obj, part_a, (void *)value_or_part_b, init_mode);
         ((S_800B23F8_4 *)((void *)byte_or_work))->unk_9A = 0xFF;
         ((S_800B23F8_4 *)((void *)byte_or_work))->unk_9C = -1;
         (*(M2C_UNK * *)((u8 *)((void *)byte_or_work) + 0x8C)) = &D_800B2A60;

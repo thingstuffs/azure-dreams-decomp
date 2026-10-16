@@ -8,43 +8,43 @@ typedef void (*Callback)(void *, void *, void *, s32);
 
 typedef struct S_8009B6B4_2_pre {
     u16 unk_00;
-} S_8009B6B4_2_pre;   /* the 0x2 bytes before arg0 in func_8009B6B4, addressed as arg0[-1] */
+} S_8009B6B4_2_pre;   /* the 0x2 bytes before arg0 in townUpdateMotionAndHandleTerrainContact, addressed as arg0[-1] */
 
 typedef struct S_8009B6B4_2 {
     u8 pad_00[0x50];
     void * unk_50;
-} S_8009B6B4_2;   /* arg0 in func_8009B6B4 */
+} S_8009B6B4_2;   /* arg0 in townUpdateMotionAndHandleTerrainContact */
 
 
-extern void func_80095388(void *);
-extern void func_8009539C(void *);
-extern s16 func_8008F170(void *, void *);
-extern void func_8008F27C(void *, void *, s16);
-extern s32 func_8008F294(void *, void *);
-extern void func_8008F664(void *, void *);
-extern s32 func_8008C180(s16, s16);
-extern s32 func_800C1D44(u16);
+extern void townAddHex20000SSignedOffsetHex14(void *);
+extern void townAddMotionDeltasToPosition(void *);
+extern s16 townGetSmallerQueryResultCappedHex80WritesAssociatedOutput(void *, void *);
+extern void townSetTheStateFlagInitializeSFixedPointClearPairedField(void *, void *, s16);
+extern s32 townCallTheSameContextBothProcessingRoutines(void *, void *);
+extern void townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxis(void *, void *);
+extern s32 townReadMapCellAtWorldPosition(s16, s16);
+extern s32 townCheckMaskedValueInCurrentRange(u16);
 extern void SD_Call(u32);
 
 extern u8 D_8009B454[];
 extern s16 D_800D45AA[];
 
 /* Update object motion, handle contact, and play the tile height sound. */
-void func_8009B6B4(void *object, Rec_D_800CFCB4 *collision, EntityRec *motion, s32 callback_arg) {
+void townUpdateMotionAndHandleTerrainContact(void *object, Rec_D_800CFCB4 *collision, EntityRec *motion, s32 callback_arg) {
     s16 contact_height;
     s32 contact_height_ext;
 
-    func_80095388(motion);
+    townAddHex20000SSignedOffsetHex14(motion);
     if (motion->flags14 > 0x200000) {
         motion->flags14 = 0x200000;
     }
-    func_8009539C(motion);
-    contact_height = func_8008F170(motion, ((u8 *)&D_800FE488));
-    func_8008F294(collision, motion);
-    func_8008F664(collision, motion);
+    townAddMotionDeltasToPosition(motion);
+    contact_height = townGetSmallerQueryResultCappedHex80WritesAssociatedOutput(motion, ((u8 *)&D_800FE488));
+    townCallTheSameContextBothProcessingRoutines(collision, motion);
+    townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxis(collision, motion);
     contact_height_ext = contact_height;
     if (motion->z.w.i >= contact_height_ext) {
-        func_8008F27C(collision, motion, contact_height_ext);
+        townSetTheStateFlagInitializeSFixedPointClearPairedField(collision, motion, contact_height_ext);
         ((Callback *)(*(void **)((u8 *)object + 0x58)))[1](object, collision, motion, callback_arg);
     } else if (collision->unk_3B != 0) {
         motion->flags14 = 0;
@@ -54,7 +54,7 @@ void func_8009B6B4(void *object, Rec_D_800CFCB4 *collision, EntityRec *motion, s
         D_8009B454 == ((S_8009B6B4_2 *)object)->unk_50) {
         s32 tile_type;
 
-        tile_type = func_800C1D44((u16)func_8008C180(
+        tile_type = townCheckMaskedValueInCurrentRange((u16)townReadMapCellAtWorldPosition(
             motion->x.w.i, motion->y.w.i));
         if (tile_type != 0) {
             s16 *thresholds = D_800D45AA;

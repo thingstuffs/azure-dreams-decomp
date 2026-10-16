@@ -20,7 +20,7 @@ typedef struct S_80046F88 {
 } S_80046F88;
 
 /* Relocates embedded and array pointers after the object moves, returning the address delta. */
-s32 func_80046F88(void *object_addr)
+s32 relocateSpriteMetadataPointers(void *object_addr)
 {
     S_80046F88 *obj = (S_80046F88 *)object_addr;
     s32 delta;

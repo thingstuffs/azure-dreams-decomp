@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_18b8824.h"
 
-void func_80024370(void *entry, s32 unused, void *target)
+void dungeonAdvanceTheEntryCountersTriggerCountMilestonesUpdateTarget(void *entry, s32 unused, void *target)
 {
     ovl_18b8824_81898B70_S_80024370_1 *object;
     u16 count;
@@ -13,7 +13,7 @@ void func_80024370(void *entry, s32 unused, void *target)
 
     switch ((s16)count) {
     case 8:
-        func_80024264((s32)((ovl_18b8824_81898B70_S_80024370_0 *)entry)->unk_00, (Rec_func_80024264_arg1 *)unused);
+        createRandomizedGrayscaleEffect((s32)((ovl_18b8824_81898B70_S_80024370_0 *)entry)->unk_00, (Rec_func_80024264_arg1 *)unused);
         break;
     case 0x10:
     {

@@ -1,0 +1,17 @@
+{
+  "module": "dungeon_ovl_1829800",
+  "scope": "whole_tu",
+  "flags": [
+    "-q",
+    "-G0",
+    "-0"
+  ],
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "basis": [
+    "The whole natural-order TU already matches all 8480 retail bytes with the ordinary 2.7.2-cdk-G0 module recipe.",
+    "The first genuine probe without -0 inserted signed-divide overflow/zero checks at emitted div instructions. The supported genuine -0 flag disables those additional checks, as in the landed native-module example; no production per-member flags or assembler changes are made."
+  ]
+}

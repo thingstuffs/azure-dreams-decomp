@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19c088c.h"
 
-void func_800246F0(void *effect, Row_819A0EF0_S_800246F0_2 *motion, Rec_D_80082E80 *primitive)
+void dungeonFadeMovingEffect(void *effect, Row_819A0EF0_S_800246F0_2 *motion, Rec_D_80082E80 *primitive)
 {
     s32 brightness;
     s32 x;

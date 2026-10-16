@@ -5,15 +5,15 @@ extern s8 D_80080A84[];
 extern s8 D_80080A88[];
 
 
-extern void func_80020F18(void);
-extern void func_800585A0(void);
+extern void cardBootCloseEvents(void);
+extern void openTimer2UpdateEvent(void);
 extern void SD_Call(s32 flags);
 
 /* Set state 2, run setup, select sound behavior, and clear the high flag bit. */
-void func_80027BF4(void) {
+void cardBootCloseEventsAndResumeTimer(void) {
     D_80080A84[0] = 2;
-    func_80020F18();
-    func_800585A0();
+    cardBootCloseEvents();
+    openTimer2UpdateEvent();
     if (D_80082E60.mode == 1) {
         SD_Call(0x200);
     } else {

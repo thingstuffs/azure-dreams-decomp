@@ -84,10 +84,10 @@ void func_8002401C(EntityRec *effect_arg, void *motion_arg, Row_818E0800_S_818E0
         if (!(((Row_818E0800_S_818E0800_14 *)(((void *)effect_arg->y.v)))->unk_00 & 0x80)) {
             return;
         }
-        found_target = (s32)func_800A05A4(
+        found_target = (s32)dungeonScanMonsterAlongHeading(
             actor, ((Row_818E0800_S_818E0800_8 *)actor_data)->unk_24, ((Row_818E0800_S_818E0800_8 *)actor_data)->unk_25,
             ((Row_818E0800_S_818E0800_1 *)actor)->unk_2A,
-            (s16)func_800A3820(0x23));
+            (s16)dungeonGetDefinitionEntryByte13(0x23));
         ((Row_818E0800_S_818E0800_1 *)actor)->unk_60 = found_target;
         if (found_target == 0) {
             ((Row_818E0800_S_818E0800_1 *)actor)->unk_72.s = ((Row_818E0800_S_818E0800_8 *)actor_data)->unk_24;
@@ -176,7 +176,7 @@ void func_8002401C(EntityRec *effect_arg, void *motion_arg, Row_818E0800_S_818E0
     case 0xF0:
         func_80024784(((Row_818E0800_S_818E0800_1 *)actor)->unk_60, ((s16)effect_arg->unk_50));
         if (((s16)effect_arg->unk_50) == 2 &&
-            !func_8009D218(((Row_818E0800_S_818E0800_1 *)actor)->unk_60, 2, actor)) {
+            !dungeonTryTriggerTargetRecordEffect(((Row_818E0800_S_818E0800_1 *)actor)->unk_60, 2, actor)) {
             if (((Row_818E0800_S_818E0800_15 *)(((Row_818E0800_S_818E0800_1 *)actor)->unk_60))->unk_14 & 1) {
                 if (((Row_818E0800_S_818E0800_1 *)actor)->unk_60 != 0) {
                     hit_effect = (((Row_818E0800_S_818E0800_11 *)D_800E3D68)->unk_00 == 0xFF) ? 0xFF : 0x10;

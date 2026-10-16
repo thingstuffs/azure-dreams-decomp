@@ -7,17 +7,17 @@
 typedef struct S_800C9A98_0 {
     u8 pad_00[0x6C];
     u16 unk_6C;
-} S_800C9A98_0;   /* arg0 in func_800C9A98 */
+} S_800C9A98_0;   /* arg0 in townDecrementReactionTimerAndReinitialize */
 
 
-void func_800C9CDC(S_800C9A98_0 *, void *, s32);
-/* Decrement the object countdown and call func_800C9CDC when it expires. */
-void func_800C9A98(S_800C9A98_0 *object, void *context, s32 param) {
+void townInitializeReactionMovement(S_800C9A98_0 *, void *, s32);
+/* Decrement the object countdown and call townInitializeReactionMovement when it expires. */
+void townDecrementReactionTimerAndReinitialize(S_800C9A98_0 *object, void *context, s32 param) {
     u16 countdown;
 
     countdown = object->unk_6C - 1;
     object->unk_6C = countdown;
     if ((countdown << 0x10) <= 0) {
-        func_800C9CDC(object, context, param);
+        townInitializeReactionMovement(object, context, param);
     }
 }

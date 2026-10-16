@@ -13,7 +13,7 @@
 
 
 /* Add amount to active entries at the given coordinates in both arrays. */
-void func_800CDE40(s16 x, s16 y, s32 amount)
+void dungeonAddValueToActiveEntriesAtTile(s16 x, s16 y, s32 amount)
 {
     s32 entry_index;
     s32 first_x;

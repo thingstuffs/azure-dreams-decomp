@@ -12,7 +12,7 @@ extern void func_80018594(s32);
 extern s32 func_8001868C(s32);
 
 /* Looks up an entry and applies special-case overrides for selectors 0xB and 0x1C. */
-void *func_8001662C(s32 entry_id, s32 unused_arg, s32 selector)
+void *townLookupEntryWithSelectorOverrides(s32 entry_id, s32 unused_arg, s32 selector)
 {
     void *entry_data;
     u8 *entry_table;

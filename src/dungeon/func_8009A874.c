@@ -4,7 +4,7 @@
 extern s16 func_8009FB34(s32, s32);
 
 /* Finds the first neighboring direction with a negative probe result. */
-s32 func_8009FFD4(u8 *entity, s16 *direction) {
+s32 dungeonFindNeighborWithNegativeTileProbe(u8 *entity, s16 *direction) {
     s32 neighbor;
 
     for (neighbor = 0; neighbor < 8; neighbor++) {

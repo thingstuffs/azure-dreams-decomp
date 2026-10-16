@@ -1,10 +1,10 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 func_8004CB2C();                         /* extern */
+s32 advanceTimedTaggedStream();                         /* extern */
 
 /* Process the embedded records at offsets 4 and 0x10. */
-void func_80026AE4(s32 record_addr) {
-    func_8004CB2C(record_addr + 4);
-    func_8004CB2C(record_addr + 0x10);
+void advanceCardBootStreamPair(s32 record_addr) {
+    advanceTimedTaggedStream(record_addr + 4);
+    advanceTimedTaggedStream(record_addr + 0x10);
 }

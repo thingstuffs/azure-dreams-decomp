@@ -7,6 +7,10 @@ from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from cc import listing, row_index, REPO
+import sys as _layout_sys
+_layout_root = next(p for p in Path(__file__).resolve().parents if (p / "tools/source_layout.py").is_file())
+_layout_sys.path.insert(0, str(_layout_root / "tools"))
+from source_layout import row_path as layout_row_path
 LANE = Path(__file__).resolve().parent.parent
 R = row_index()
 INC = LANE / "inc_full_d"          # inc_full with volumeScale spelled D_80084808
@@ -15,7 +19,7 @@ def absn(lines):
     f = lambda m: "0x%08X" % (int(m.group(2), 16) + int(m.group(3) or 0))
     return [re.sub(r"\b(D|func)_([0-9A-F]{8})([+-]\d+)?", f, l) for l in lines if not l.lstrip().startswith(".extern")]
 def one(rid):
-    src = REPO / "src" / (rid + ".c")
+    src = layout_row_path(rid, REPO)
     if not src.is_file(): return {"id": rid, "missing": True}
     r = dict(R.get(rid) or {"id": rid, "cfg": "2.7.2-cdk"}); r["kind"] = "overlay"
     d = LANE / "draft9" / (rid + ".c"); new = d.read_text() if d.is_file() else src.read_text(errors="replace")

@@ -5,6 +5,6 @@
 M2C_UNK func_80018ADC();                     /* extern */
 
 /* Calls func_80018ADC with the fixed value 0x5A4. */
-void func_80016EA8(void) {
+void townRunSceneAction5A4(void) {
     func_80018ADC(0x5A4);
 }

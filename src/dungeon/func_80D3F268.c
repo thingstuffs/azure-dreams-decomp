@@ -2,19 +2,19 @@
 #include "shared/game_work.h"
 
 extern s32 func_800AC82C(void *, s32, void *, void *);
-extern s32 func_800AD9B4(void *, void *);
+extern s32 dungeonCheckActorFloorTrap(void *, void *);
 extern void func_80047784(void *, u8, s32);
-extern void func_801708B8(void *, s32, void *);
+extern void createOwnerLinkedDirectionalObject(void *, s32, void *);
 
 extern u8 D_800E23E0[];
 extern u8 D_800E2428[];
 extern u8 D_80171A80[];
 
 /* Selects a response state or updates the sprite's directional animation. */
-void func_80174A68(void *state, s32 update_mode, void *sprite, void *entity)
+void dungeonUpdateActorActionTransition(void *state, s32 update_mode, void *sprite, void *entity)
 {
     if (func_800AC82C(state, update_mode, sprite, entity) != 0) {
-        if ((func_800AD9B4(sprite, entity) << 16) > 0) {
+        if ((dungeonCheckActorFloorTrap(sprite, entity) << 16) > 0) {
             *(void **)((u8 *)state + 0x8C) = D_80171A80;
             return;
         }
@@ -29,7 +29,7 @@ void func_80174A68(void *state, s32 update_mode, void *sprite, void *entity)
             direction_frames[((gameWork.view.viewAngle + *(s16 *)((u8 *)entity + 0x2A) + 0x100) >> 9) & 7],
             0);
         if (*(u8 *)((u8 *)state + 0xB0) == 0) {
-            func_801708B8(state, update_mode, sprite);
+            createOwnerLinkedDirectionalObject(state, update_mode, sprite);
         }
     }
 }

@@ -11,22 +11,22 @@ typedef struct S_80172F98_0 {
     union { s16 s; u16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_80172F98_0;   /* arg0 in func_80172F98 */
+} S_80172F98_0;   /* arg0 in dungeonUpdateDirectionalMotionAndTargetTile */
 
 
 
 
 
 
-extern void func_800A2B04();
-extern void func_800AAA54();
-extern void func_800AD4D0();
+extern void dungeonSetRecordIntegerTileCenter();
+extern void dungeonBeginActorDisplayAction();
+extern void dungeonApplyClampedActorValueDelta();
 
 extern u8 D_80170F74[];
 extern u8 D_80173D60[];
 
 /* Updates directional movement and returns the entity to its target tile. */
-void func_80172F98(S_80172F98_0 *action, EntityRec *motion, Rec_D_80082E80 *target, void *entity)
+void dungeonUpdateDirectionalMotionAndTargetTile(S_80172F98_0 *action, EntityRec *motion, Rec_D_80082E80 *target, void *entity)
 {
     s16 return_timer;
     s16 next_timer;
@@ -47,7 +47,7 @@ void func_80172F98(S_80172F98_0 *action, EntityRec *motion, Rec_D_80082E80 *targ
 
     switch (state) {
     case 0:
-        func_800AD4D0(entity);
+        dungeonApplyClampedActorValueDelta(entity);
         motion->unk_0C =
             ((s16 *)((s8 *)dirStepX))[direction] << 16;
         motion->unk_10 =
@@ -58,7 +58,7 @@ void func_80172F98(S_80172F98_0 *action, EntityRec *motion, Rec_D_80082E80 *targ
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(action, motion, target, D_80173D60);
+            dungeonBeginActorDisplayAction(action, motion, target, D_80173D60);
             return;
         }
         if (target->unk_14.at00_u16.v & 0x8000) {
@@ -100,7 +100,7 @@ void func_80172F98(S_80172F98_0 *action, EntityRec *motion, Rec_D_80082E80 *targ
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(action, motion, target, D_80173D60);
+            dungeonBeginActorDisplayAction(action, motion, target, D_80173D60);
         } else {
             action->unk_96.s = 8;
             action->unk_9B++;
@@ -130,7 +130,7 @@ void func_80172F98(S_80172F98_0 *action, EntityRec *motion, Rec_D_80082E80 *targ
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, target->unk_24, target->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, target->unk_24, target->unk_25);
 
         if (((s32)dungeonStatus.unk_10) == (s32)entity - 0x20) {
             *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;

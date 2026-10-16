@@ -5,31 +5,31 @@
 typedef struct S_800B6094_4 {
     u8 pad_00[0x38];
     void * unk_38;
-} S_800B6094_4;   /* temp_v1 in func_800B6094 */
+} S_800B6094_4;   /* temp_v1 in townPopulateDisplayRowWithIcon */
 
 typedef struct S_800B6094_5 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800B6094_5;   /* ((S_800B6094_4 *)temp_v1)->unk_38 in func_800B6094 */
+} S_800B6094_5;   /* ((S_800B6094_4 *)temp_v1)->unk_38 in townPopulateDisplayRowWithIcon */
 
 typedef struct S_800B6094_6 {
     u8 pad_00[0x8];
     s16 unk_08;
-} S_800B6094_6;   /* ((S_800B6094_5 *)(((S_800B6094_4 *)temp_v1)->unk_38))->unk_04 in func_800B6094 */
+} S_800B6094_6;   /* ((S_800B6094_5 *)(((S_800B6094_4 *)temp_v1)->unk_38))->unk_04 in townPopulateDisplayRowWithIcon */
 
 
-s32 func_800439BC();
+s32 runtimeTestTableBytePattern();
 M2C_UNK func_800498EC();
 s32 func_80049918();
-s32 func_80049944();
-void func_800B5264();
+s32 getLowFlagPriority();
+void townSetDisplayEntryTextAndPosition();
 M2C_UNK func_800B53BC();
-s32 func_800B6030();
+s32 townBuildEncodedDisplaySequence();
 
 typedef struct S_800B6094_0 {
     u8 unk_00;
     u8 unk_01;
-} S_800B6094_0;   /* held_arg0 in func_800B6094 */
+} S_800B6094_0;   /* held_arg0 in townPopulateDisplayRowWithIcon */
 
 typedef struct S_800B6094_1 {
     u8 pad_00[0x20];
@@ -38,13 +38,13 @@ typedef struct S_800B6094_1 {
     s32 unk_2C;
     u8 pad_30[0x8];
     s32 * unk_38;
-} S_800B6094_1;   /* temp_s1 in func_800B6094 */
+} S_800B6094_1;   /* temp_s1 in townPopulateDisplayRowWithIcon */
 
 typedef struct S_800B6094_2 {
     s32 unk_00;
     u8 pad_04[0xC];
     u8 unk_10;
-} S_800B6094_2;   /* temp_s0 in func_800B6094 */
+} S_800B6094_2;   /* temp_s0 in townPopulateDisplayRowWithIcon */
 
 typedef struct S_800B6094_3 {
     u8 pad_00[0x4];
@@ -53,10 +53,10 @@ typedef struct S_800B6094_3 {
     s16 unk_0A;
     u8 pad_0C[0x2C];
     void * unk_38;
-} S_800B6094_3;   /* temp_v1 in func_800B6094 */
+} S_800B6094_3;   /* temp_v1 in townPopulateDisplayRowWithIcon */
 
 /* Populate a display row with entry text and a positioned icon. */
-void func_800B6094(void *entry_data, s32 display_base, s32 row_index) {
+void townPopulateDisplayRowWithIcon(void *entry_data, s32 display_base, s32 row_index) {
     S_800B6094_0 *entry = entry_data;
     M2C_UNK text_buffer[3];
     s32 *icon_slot;
@@ -70,11 +70,11 @@ void func_800B6094(void *entry_data, s32 display_base, s32 row_index) {
     text_y = (row_index * 0x10) + 0xD8;
     row_data = (S_800B6094_1 *)((row_index * 4) + display_base);
     entry_info = (S_800B6094_2 *)((entry->unk_00 * 0x14) + ((u8 *)D_8006DE24));
-    func_800B5264(row_data->unk_20, entry_info->unk_00, 0, 0x58, text_y);
-    func_800B53BC(row_data->unk_2C, func_800B6030(entry->unk_01, text_buffer), 0, 0xA0, text_y);
-    icon_id = func_80049944(entry_info->unk_10);
+    townSetDisplayEntryTextAndPosition(row_data->unk_20, entry_info->unk_00, 0, 0x58, text_y);
+    func_800B53BC(row_data->unk_2C, townBuildEncodedDisplaySequence(entry->unk_01, text_buffer), 0, 0xA0, text_y);
+    icon_id = getLowFlagPriority(entry_info->unk_10);
     icon_slot = row_data->unk_38;
-    if (func_800439BC(entry->unk_00) != 0) {
+    if (runtimeTestTableBytePattern(entry->unk_00) != 0) {
         display_value = func_800498EC(icon_id);
     } else {
         display_value = func_80049918(icon_id);

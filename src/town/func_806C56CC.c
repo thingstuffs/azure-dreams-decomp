@@ -8,7 +8,7 @@ extern void func_80018C74(s32);
 extern s32 func_80018D6C(s32);
 
 /* Run func_80018C74, then forward the inputs if either queried condition is nonzero. */
-s32 func_800166CC(s32 primary_input, s32 unused, s32 secondary_input)
+s32 townRunEventPrerequisiteForwarder(s32 primary_input, s32 unused, s32 secondary_input)
 {
     func_80018C74(0x1463);
     if ((func_80018D6C(0xFDA) == 0) &&

@@ -13,7 +13,7 @@ typedef struct S_80088BD0_0 {
     union { s16 s16; void * p32; } unk_20;   /* accessed as both */
     u8 pad_24[0xA];
     s16 unk_2E;
-} S_80088BD0_0;   /* temp_v0 in func_80088BD0 */
+} S_80088BD0_0;   /* temp_v0 in mainCreateSettingsController */
 
 typedef struct S_80088BD0_1 {
     u8 pad_00[0x1A];
@@ -21,12 +21,12 @@ typedef struct S_80088BD0_1 {
     s16 unk_1C;
     u8 pad_1E[0x4];
     s16 unk_22;
-} S_80088BD0_1;   /* var_fp in func_80088BD0 */
+} S_80088BD0_1;   /* var_fp in mainCreateSettingsController */
 
 typedef struct S_80088BD0_2 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_80088BD0_2;   /* var_s5 in func_80088BD0 */
+} S_80088BD0_2;   /* var_s5 in mainCreateSettingsController */
 
 typedef struct S_80088BD0_3 {
     u8 pad_00[0x4];
@@ -38,23 +38,23 @@ typedef struct S_80088BD0_3 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_80088BD0_3;   /* temp_s1 in func_80088BD0 */
+} S_80088BD0_3;   /* temp_s1 in mainCreateSettingsController */
 
 typedef struct S_80088BD0_4 {
     s32 unk_00;
-} S_80088BD0_4;   /* (s8 *)stack_desc + (s32)var_s4 in func_80088BD0 */
+} S_80088BD0_4;   /* (s8 *)stack_desc + (s32)var_s4 in mainCreateSettingsController */
 
 typedef struct S_80088BD0_5 {
     u8 pad_00[0x20];
     void * unk_20;
-} S_80088BD0_5;   /* (s8 *)temp_s3 - 0x20 in func_80088BD0 */
+} S_80088BD0_5;   /* (s8 *)temp_s3 - 0x20 in mainCreateSettingsController */
 
 typedef struct S_80088BD0_6 {
     void * unk_00;
     u8 pad_04[0x6];
     s16 unk_0A;
     s16 unk_0C;
-} S_80088BD0_6;   /* temp_s3 in func_80088BD0 */
+} S_80088BD0_6;   /* temp_s3 in mainCreateSettingsController */
 
 typedef struct S_80088BD0_7 {
     u8 pad_00[0x4];
@@ -66,12 +66,12 @@ typedef struct S_80088BD0_7 {
     s16 unk_12;
     s16 unk_14;
     s16 unk_16;
-} S_80088BD0_7;   /* temp_v1 in func_80088BD0 */
+} S_80088BD0_7;   /* temp_v1 in mainCreateSettingsController */
 
 typedef struct S_80088BD0_8 {
     u8 pad_00[0x10];
     void * unk_10;
-} S_80088BD0_8;   /* (s8 *)var_fp + (var_s2 << 2) in func_80088BD0 */
+} S_80088BD0_8;   /* (s8 *)var_fp + (var_s2 << 2) in mainCreateSettingsController */
 
 typedef struct S_80088BD0_9 {
     u8 pad_00[0x2];
@@ -81,7 +81,7 @@ typedef struct S_80088BD0_9 {
     u8 pad_08[0x4];
     s32 unk_0C;
     s32 unk_10;
-} S_80088BD0_9;   /* ((S_80088BD0_0 *)temp_v0)->unk_08 in func_80088BD0 */
+} S_80088BD0_9;   /* ((S_80088BD0_0 *)temp_v0)->unk_08 in mainCreateSettingsController */
 
 
 M2C_UNK func_8003DB94();  /* extern */
@@ -91,17 +91,17 @@ extern s32 D_80053A88;
 extern s8 D_80080A84;
 extern M2C_UNK D_80088760;
 void func_80088B48();  /* extern */
-void func_80088EDC();  /* extern */
-void func_800890EC();  /* extern */
-void func_80089608();  /* extern */
-void func_80089A38();  /* extern */
+void mainUpdateSettingsEffectObject();  /* extern */
+void mainUpdateSettingsMenuAnimation();  /* extern */
+void mainUpdateSettingsEffect();  /* extern */
+void mainUpdateSettingsPhaseMotion();  /* extern */
 extern M2C_UNK D_8008B230;
 extern M2C_UNK D_8008B270;
 
 typedef struct { s32 a, b, c; } Desc3;
 
 /* Creates a controller and its linked sprites and effect objects. */
-void func_80088BD0(void) {
+void mainCreateSettingsController(void) {
     s32 sprite_ids[3];
     s32 child_index;
     s32 sprite_y;
@@ -122,8 +122,8 @@ void func_80088BD0(void) {
     object = func_8003FC64(0x11);
     if (object != NULL) {
         parent_state = object + 0x20;
-        ((S_80088BD0_0 *)object)->unk_10 = (void *)func_800890EC;
-        func_8004491C(object, func_8008896C);
+        ((S_80088BD0_0 *)object)->unk_10 = (void *)mainUpdateSettingsMenuAnimation;
+        func_8004491C(object, mainQueueSettingsSpriteGrid);
         ((S_80088BD0_1 *)parent_state)->unk_22 = 0x708;
         ((S_80088BD0_9 *)(((S_80088BD0_0 *)object)->unk_08))->unk_06 = 0xF0;
         ((S_80088BD0_1 *)parent_state)->unk_1A = 0;
@@ -141,7 +141,7 @@ void func_80088BD0(void) {
         if (object != NULL) {
             child_state = object + 0x20;
             sprite = ((S_80088BD0_0 *)object)->unk_0C;
-            ((S_80088BD0_0 *)object)->unk_10 = (void *)func_80088EDC;
+            ((S_80088BD0_0 *)object)->unk_10 = (void *)mainUpdateSettingsEffectObject;
             func_8004491C(object, &D_80044BB0);
             ((S_80088BD0_9 *)(((S_80088BD0_0 *)object)->unk_08))->unk_02 = -0x40;
             ((S_80088BD0_9 *)(((S_80088BD0_0 *)object)->unk_08))->unk_06 = sprite_y;
@@ -184,7 +184,7 @@ void func_80088BD0(void) {
         if (object != NULL) {
             child_state = object + 0x20;
             sprite = ((S_80088BD0_0 *)object)->unk_0C;
-            ((S_80088BD0_0 *)object)->unk_10 = (void *)func_80089A38;
+            ((S_80088BD0_0 *)object)->unk_10 = (void *)mainUpdateSettingsPhaseMotion;
             func_8004491C(object, &D_80044BB0);
             ((S_80088BD0_9 *)(((S_80088BD0_0 *)object)->unk_08))->unk_06 = 0xE9;
             if (child_index != 0) {
@@ -207,7 +207,7 @@ void func_80088BD0(void) {
     } while (child_index >= 0);
     object = func_8003FC64(1);
     if (object != NULL) {
-        ((S_80088BD0_0 *)object)->unk_10 = (void *)func_80089608;
+        ((S_80088BD0_0 *)object)->unk_10 = (void *)mainUpdateSettingsEffect;
         ((S_80088BD0_0 *)object)->unk_20.p32 = parent_state;
         ((S_80088BD0_0 *)object)->unk_2E = 0xE00;
     }

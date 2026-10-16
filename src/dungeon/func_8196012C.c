@@ -31,7 +31,7 @@ void func_8002592C(s16 x, s16 y, s16 z, s16 tile_col, s16 tile_row) {
     object = func_8003FC64(0x202);
     if (object != NULL) {
         ((S_8196012C_0 *)object)->unk_10 = func_80025460;
-        func_8004491C(object, (s32)func_800258D8);
+        func_8004491C(object, (s32)dungeonDrawLinkedObjectChain);
         position = ((S_8196012C_0 *)object)->unk_08;
         position->unk_02 = x;
         position->unk_06 = y;

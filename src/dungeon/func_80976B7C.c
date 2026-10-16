@@ -8,13 +8,13 @@ typedef struct S_8017237C_0 {
     u16 unk_46;
     u8 pad_48[0x29];
     u8 unk_71;
-} S_8017237C_0;   /* p3 in func_8017237C */
+} S_8017237C_0;   /* p3 in dungeonValidateActionAndApplyEffect */
 
 typedef struct S_8017237C_1 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_8017237C_1;   /* p2 in func_8017237C */
+} S_8017237C_1;   /* p2 in dungeonValidateActionAndApplyEffect */
 
 typedef struct S_8017237C_2 {
     u8 pad_00[0x8C];
@@ -24,7 +24,7 @@ typedef struct S_8017237C_2 {
     u8 pad_98[0x2];
     u8 unk_9A;
     u8 unk_9B;
-} S_8017237C_2;   /* p0 in func_8017237C */
+} S_8017237C_2;   /* p0 in dungeonValidateActionAndApplyEffect */
 
 typedef struct S_8017237C_3 {
     u8 pad_00[0x2A];
@@ -34,18 +34,18 @@ typedef struct S_8017237C_3 {
     u8 pad_6E[0x16];
     u8 unk_84;
     u8 unk_85;
-} S_8017237C_3;   /* call0 in func_8017237C */
+} S_8017237C_3;   /* call0 in dungeonValidateActionAndApplyEffect */
 
 
-extern void func_8009C93C(void *, void *, s32, s32, s32);
-extern s32 func_800A0134(s32, void *);
-extern s32 func_800A04F0(void *, u8, u8, s16);
+extern void dungeonPrepareDirectionalAttack(void *, void *, s32, s32, s32);
+extern s32 dungeonGetActorHeightDifference(s32, void *);
+extern s32 dungeonPlaceActorAtDirectionalNeighbor(void *, u8, u8, s16);
 extern s16 func_800A2B5C(void *);
 extern s16 func_800A2CB8(void *, s32);
-extern void func_800C7930(void *, void *, s32, s32);
+extern void dungeonApplyCameraOffsetAndSelectTarget(void *, void *, s32, s32);
 
 /* Validates an actor action, applies its effect, and updates the action state and remaining count. */
-s32 func_8017237C(S_8017237C_2 *action, void *effect, S_8017237C_1 *target, void *actor_data)
+s32 dungeonValidateActionAndApplyEffect(S_8017237C_2 *action, void *effect, S_8017237C_1 *target, void *actor_data)
 {
     void *actor = actor_data;
     s32 action_ready;
@@ -63,7 +63,7 @@ s32 func_8017237C(S_8017237C_2 *action, void *effect, S_8017237C_1 *target, void
             return -1;
         }
 
-        target_code = func_800A04F0(
+        target_code = dungeonPlaceActorAtDirectionalNeighbor(
             actor, target->unk_24, target->unk_25,
             ((S_8017237C_0 *)actor)->unk_2A);
         {
@@ -81,7 +81,7 @@ s32 func_8017237C(S_8017237C_2 *action, void *effect, S_8017237C_1 *target, void
                 }
             }
 
-            if ((u16)(0 - func_800A0134(target_code, actor) + 0x40) >= 0x81U) {
+            if ((u16)(0 - dungeonGetActorHeightDifference(target_code, actor) + 0x40) >= 0x81U) {
                 return action_ready;
             }
 
@@ -95,7 +95,7 @@ s32 func_8017237C(S_8017237C_2 *action, void *effect, S_8017237C_1 *target, void
                 return -1;
             }
 
-            func_800C7930((u8 *)actor - 0x20, effect, 8, 0x300);
+            dungeonApplyCameraOffsetAndSelectTarget((u8 *)actor - 0x20, effect, 8, 0x300);
 
             if (func_800A2B5C(actor) != 0) {
                 return -1;
@@ -117,7 +117,7 @@ s32 func_8017237C(S_8017237C_2 *action, void *effect, S_8017237C_1 *target, void
                 remaining_count = active_actor->unk_6D;
                 active_actor->unk_85 = 0;
                 active_actor->unk_6D = (u8)(remaining_count - 1);
-                func_8009C93C(active_actor, action_target, facing, 1, 0);
+                dungeonPrepareDirectionalAttack(active_actor, action_target, facing, 1, 0);
             }
 
             return result;

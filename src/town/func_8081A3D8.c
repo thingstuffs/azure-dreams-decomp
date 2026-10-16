@@ -28,10 +28,10 @@ extern u8 D_800F7DFC[];
 extern void func_80033B78(s32);
 extern void func_80033B9C(s32);
 extern void func_8003DB94(void *, void *, s32);
-extern void func_8003F540(s32, s32, s32, s32);
+extern void soundSetCdCueParameters(s32, s32, s32, s32);
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
-extern void func_800483AC(s32);
+extern void clearAlternateTextureRegions(s32);
 extern s32 SD_Call(s32);
 extern void tw_sd_sq_ld_call(s32, s32);
 
@@ -239,18 +239,18 @@ void func_800243D8(State8081A3D8 *controller)
         if ((s16)best_score < score_threshold) {
             s32 dialog_id;
             dialog_id = 0x2C3D;
-            func_8003F540(dialog_zero, dialog_id, 0x01000001, 0x01000271);
+            soundSetCdCueParameters(dialog_zero, dialog_id, 0x01000001, 0x01000271);
             SD_Call(0x300);
             D_800135BC[0] = controller->threshold;
             func_80033B9C(0x553);
         } else {
             s32 dialog_id;
             dialog_id = 0x2C3D;
-            func_8003F540(dialog_zero, dialog_id, dialog_zero, 0x01000290);
+            soundSetCdCueParameters(dialog_zero, dialog_id, dialog_zero, 0x01000290);
             SD_Call(0x300);
             func_80033B78(0x553);
         }
-        func_800483AC(1);
+        clearAlternateTextureRegions(1);
         func_80033B78(0xA5);
         controller->state = 5;
         controller->flags |= 2;

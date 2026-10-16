@@ -5,6 +5,6 @@
 
 
 /* Returns the current value of D_80083170. */
-s32 func_8003AAD4(void) {
+s32 runtimeGetStateValue83170(void) {
     return ((s32)gameWork.unk_010);
 }

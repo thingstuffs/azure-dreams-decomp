@@ -5,12 +5,12 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
-void func_80047738(void *, u8, s8);              /* extern */
+void selectIndirectTableEntry(void *, u8, s8);              /* extern */
 void func_80047784(void *, u8, s32);             /* extern */
 void func_800478B8(void *);                       /* extern */
 s32 func_800644B8(s32);                            /* extern */
-void func_800A020C(s32, void *);               /* extern */
-s32 func_800A9E70(void *, void *, void *, void *); /* extern */
+void dungeonApplyMonsterKoyawData(s32, void *);               /* extern */
+s32 dungeonRefreshActorFacingAndLifecycle(void *, void *, void *, void *); /* extern */
 s32 func_800AA36C(void *, void *, void *, void *); /* extern */
 s16 func_800BCB04(s32, s32, s16);                 /* extern */
 extern M2C_UNK D_80171400[3];
@@ -39,7 +39,7 @@ typedef struct S_80170BF8_0 {
     union { s8 s; u8 u; } unk_9D;   /* accessed as both */
     u8 pad_9E[0xA];
     s16 unk_A8;
-} S_80170BF8_0;   /* arg0 in func_80170BF8 */
+} S_80170BF8_0;   /* arg0 in dungeonUpdateActorCallbacksAndTerrain */
 
 typedef struct S_80170BF8_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -49,7 +49,7 @@ typedef struct S_80170BF8_1 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80170BF8_1;   /* arg1 in func_80170BF8 */
+} S_80170BF8_1;   /* arg1 in dungeonUpdateActorCallbacksAndTerrain */
 
 typedef struct S_80170BF8_2 {
     u8 pad_00[0x4];
@@ -61,7 +61,7 @@ typedef struct S_80170BF8_2 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_80170BF8_2;   /* arg2 in func_80170BF8 */
+} S_80170BF8_2;   /* arg2 in dungeonUpdateActorCallbacksAndTerrain */
 
 typedef struct S_80170BF8_3 {
     u8 pad_00[0x1C];
@@ -70,10 +70,10 @@ typedef struct S_80170BF8_3 {
     s16 unk_2A;
     u8 pad_2C[0x5C];
     union { u16 u; s16 s; } unk_88;   /* accessed as both */
-} S_80170BF8_3;   /* actor2 in func_80170BF8 */
+} S_80170BF8_3;   /* actor2 in dungeonUpdateActorCallbacksAndTerrain */
 
 /* Updates actor callbacks, movement, animation, and terrain-relative height. */
-void func_80170BF8(void *actor_arg, void *motion_arg, void *object_arg) {
+void dungeonUpdateActorCallbacksAndTerrain(void *actor_arg, void *motion_arg, void *object_arg) {
     u16 initial_flags = dungeonStatus.flags;
     s32 bob_offset = 0;
     void *actor_base = actor_arg;
@@ -116,7 +116,7 @@ void func_80170BF8(void *actor_arg, void *motion_arg, void *object_arg) {
         return;
     }
     state_or_facing = (s8) ((S_80170BF8_0 *)actor_arg)->unk_6D;
-    if (func_800A9E70(actor_arg, ((void *)(motion_arg)), object_arg, actor_arg) == 0) {
+    if (dungeonRefreshActorFacingAndLifecycle(actor_arg, ((void *)(motion_arg)), object_arg, actor_arg) == 0) {
         update_callback = ((S_80170BF8_0 *)actor_arg)->unk_8C;
         if (update_callback != NULL) {
             update_callback(actor_arg, ((void *)(motion_arg)), object_arg, actor_arg);
@@ -146,7 +146,7 @@ void func_80170BF8(void *actor_arg, void *motion_arg, void *object_arg) {
             facing = ((s32) (gameWork.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A + 0x100) >> 9) & 7;
             state_or_facing = (s16) facing;
             if (((S_80170BF8_0 *)actor_arg)->unk_94 != state_or_facing) {
-                func_80047738(object_arg, *(((S_80170BF8_2 *)object_arg)->unk_2C + state_or_facing),
+                selectIndirectTableEntry(object_arg, *(((S_80170BF8_2 *)object_arg)->unk_2C + state_or_facing),
                     ((S_80170BF8_2 *)object_arg)->unk_04);
                 ((S_80170BF8_0 *)actor_arg)->unk_94 = facing;
             }
@@ -158,7 +158,7 @@ void func_80170BF8(void *actor_arg, void *motion_arg, void *object_arg) {
             }
             ((S_80170BF8_2 *)object_arg)->unk_14 = (u16) facing_flags;
             if (((S_80170BF8_0 *)actor_arg)->unk_9A != 8) {
-                func_800A020C(((S_80170BF8_3 *)actor_base)->unk_1C, object_arg + 0xC);
+                dungeonApplyMonsterKoyawData(((S_80170BF8_3 *)actor_base)->unk_1C, object_arg + 0xC);
             }
             if (!(((S_80170BF8_3 *)actor_base)->unk_1C & 0x20)) {
                 if (!(((S_80170BF8_2 *)object_arg)->unk_14 & 0x40)) {

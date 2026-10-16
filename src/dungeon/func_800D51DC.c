@@ -4,19 +4,19 @@
 typedef struct S_800DA93C_0 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
-} S_800DA93C_0;   /* base->unk0 in func_800DA93C */
+} S_800DA93C_0;   /* base->unk0 in dungeonDrawLinkedTexturedQuads */
 
 typedef struct S_800DA93C_1_pre {
     s32 unk_00;
     u8 pad_04[0x4];
-} S_800DA93C_1_pre;   /* the 0x8 bytes before walker in func_800DA93C, addressed as walker[-1] */
+} S_800DA93C_1_pre;   /* the 0x8 bytes before walker in dungeonDrawLinkedTexturedQuads, addressed as walker[-1] */
 
 typedef struct S_800DA93C_1 {
     u8 pad_00[0x2];
     s16 unk_02;
     u16 unk_04;
     u16 unk_06;
-} S_800DA93C_1;   /* walker in func_800DA93C */
+} S_800DA93C_1;   /* walker in dungeonDrawLinkedTexturedQuads */
 
 typedef struct S_800DA93C_2 {
     u32 unk_00;
@@ -35,17 +35,17 @@ typedef struct S_800DA93C_2 {
     u8 pad_1E[0x6];
     s8 unk_24;
     s8 unk_25;
-} S_800DA93C_2;   /* record in func_800DA93C */
+} S_800DA93C_2;   /* record in dungeonDrawLinkedTexturedQuads */
 
 typedef struct S_800DA93C_3 {
     u8 pad_00[0xB0];
     u32 unk_B0;
-} S_800DA93C_3;   /* (u8 *)((u32)work + (u32)base->unk0) in func_800DA93C */
+} S_800DA93C_3;   /* (u8 *)((u32)work + (u32)base->unk0) in dungeonDrawLinkedTexturedQuads */
 
 typedef struct S_800DA93C_4 {
     u8 pad_00[0xB0];
     u32 unk_B0;
-} S_800DA93C_4;   /* (u8 *)work in func_800DA93C */
+} S_800DA93C_4;   /* (u8 *)work in dungeonDrawLinkedTexturedQuads */
 
 
 extern s32 func_80065420();
@@ -53,7 +53,7 @@ extern void func_80066640();
 extern void func_800666F4();
 
 /* Build textured quad packets from a linked list and insert them into the ordering table. */
-s32 func_800DA93C(void *first_quad) {
+s32 dungeonDrawLinkedTexturedQuads(void *first_quad) {
     void *quad_data;
     void *packet;
     GameWork *render_state;

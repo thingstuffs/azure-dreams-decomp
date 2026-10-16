@@ -62,7 +62,7 @@ typedef struct S_80E3C98C_7 {
 } S_80E3C98C_7;   /* ((S_80E3C98C_3_pre *)var_s1)[-1].unk_00 in func_8017618C */
 
 
-extern s32 func_8003F320();
+extern s32 drainCdCommandQueue();
 extern s32 func_80042640();
 extern s32 func_80042710();
 extern s32 func_8004397C();
@@ -70,7 +70,7 @@ extern void *(*func_800A0B94())(s32, u8, u8, s16);
 extern void *func_800A1618();
 extern s32 func_800A1BD0();
 extern s32 func_800A7A38();
-extern void *func_800B23F8();
+extern void *dungeonCreateModeConfiguredObject();
 extern s8 D_800E2968;
 
 /* Create an entity from spawn data and update its tracked reference. */
@@ -89,7 +89,7 @@ void *func_8017618C(void *unused0, void *unused1, S_80E3C98C_1 *position, Rec_D_
 
     source_ref = spawn_data->unk_60.as_s32;
     if (source_ref > 0) {
-        entity = func_800B23F8(((u32)spawn_data->unk_1C.at00_u32.v >> 0xD) & 1,
+        entity = dungeonCreateModeConfiguredObject(((u32)spawn_data->unk_1C.at00_u32.v >> 0xD) & 1,
                                position->unk_24, position->unk_25,
                                spawn_data->unk_88.as_s16,
                                func_800A7A38(((s32)(((u16)spawn_data->unk_60.as_s32 - 1) << 0x10) >> 0xE)
@@ -116,7 +116,7 @@ void *func_8017618C(void *unused0, void *unused1, S_80E3C98C_1 *position, Rec_D_
         }
         func_8004397C(source_entity);
         create_entity = func_800A0B94(((S_80E3C98C_3 *)source_entity)->unk_13, type_data, 1);
-        func_8003F320();
+        drainCdCommandQueue();
         spawn_mode = 4;
         if (spawn_data->unk_1C.at00_u32.v & 0x2000) {
             spawn_mode = 7;

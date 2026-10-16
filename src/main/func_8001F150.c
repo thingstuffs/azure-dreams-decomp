@@ -16,13 +16,13 @@ typedef struct S_func_8001F150_1 {
 } S_func_8001F150_1;
 
 extern void func_804032FC(void *object);
-extern void func_80406368(void);
+extern void mainHandleObjectMenuInput(void);
 extern void func_80405A64(void);
 extern void func_80405FC4(void);
 extern s32 D_8009DDD8[];
 
 /* Selects the object's next callback based on whether its indexed entry is active. */
-void func_80406150(void *object_state)
+void mainSelectObjectCallbackByEntry(void *object_state)
 {
     void (*next_callback)(void);
     S_func_8001F150_0 *object_base;
@@ -36,7 +36,7 @@ void func_80406150(void *object_state)
         next_callback = func_80405FC4;
         ((S_func_8001F150_0 *)((u8 *)object_state - 0x20))->unk_4C = entry_index;
     } else {
-        ((S_func_8001F150_0 *)((u8 *)object_state - 0x20))->unk_54 = func_80406368;
+        ((S_func_8001F150_0 *)((u8 *)object_state - 0x20))->unk_54 = mainHandleObjectMenuInput;
         func_804032FC(object_base);
         next_callback = func_80405A64;
     }

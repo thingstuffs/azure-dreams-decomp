@@ -94,18 +94,18 @@ typedef struct S_81087818_7 {
 } S_81087818_7;
 
 extern void func_800478B8(void *);
-extern void *func_8003DE58(void *, void *, u16 *, s32);
+extern void *resolveRecordOrientationOrFallback(void *, void *, u16 *, s32);
 extern s32 func_80069EF8(void);
 extern s32 func_800644B8(s16);
 extern s32 func_80064584(s16);
-extern void func_8009C12C(void *, void *, s16, s16);
-extern void func_800C77D0(s32 slot_id, void *target, s32 target_id, s16 slot_value);
-extern void func_80175A90(Vec3Work *, Vec3Work *);
+extern void dungeonResolveAttackDamageAndEffects(void *, void *, s16, s16);
+extern void dungeonSelectNearbyTargetAndInitializeSlot(s32 slot_id, void *target, s32 target_id, s16 slot_value);
+extern void dungeonDrawRandomizedShadedPolylines(Vec3Work *, Vec3Work *);
 
 extern u8 D_80175F68;
 
 /* Updates staged movement to a target and back to the actor's base position. */
-void func_80175018(S_81087818_0 *motion, Vec3Work *trajectory, void *context)
+void dungeonUpdateStagedTargetMotion(S_81087818_0 *motion, Vec3Work *trajectory, void *context)
 {
     LocalWork work;
 #define base work.base
@@ -120,7 +120,7 @@ void func_80175018(S_81087818_0 *motion, Vec3Work *trajectory, void *context)
     {
         S_81087818_1 *actor = motion->unk_48;
         if ((actor->unk_14 & 0x9FFF) == 0 &&
-            func_8003DE58(actor->unk_08, actor, delta, 3) != 0) {
+            resolveRecordOrientationOrFallback(actor->unk_08, actor, delta, 3) != 0) {
             ((S_81087818_4 *)&base)->unk_02.u += delta[0];
             ((S_81087818_4 *)&base)->unk_06.u += delta[1];
             ((S_81087818_4 *)&base)->unk_0A.u += delta[2];
@@ -256,7 +256,7 @@ void func_80175018(S_81087818_0 *motion, Vec3Work *trajectory, void *context)
         trajectory->y += trajectory->dy;
         trajectory->z += trajectory->dz;
         if (motion->unk_02.s < motion->unk_04.s) {
-            func_80175A90(&base, trajectory);
+            dungeonDrawRandomizedShadedPolylines(&base, trajectory);
             break;
         }
 
@@ -279,7 +279,7 @@ void func_80175018(S_81087818_0 *motion, Vec3Work *trajectory, void *context)
                 motion->unk_00.u++;
             }
         }
-        func_80175A90(&base, trajectory);
+        dungeonDrawRandomizedShadedPolylines(&base, trajectory);
         break;
     }
 
@@ -327,7 +327,7 @@ void func_80175018(S_81087818_0 *motion, Vec3Work *trajectory, void *context)
                 S_81087818_1 *actor = motion->unk_40;
                 if (actor->unk_AE == 2) {
                     S_81087818_2 *source = motion->unk_4C;
-                    func_8009C12C(source, motion->unk_48,
+                    dungeonResolveAttackDamageAndEffects(source, motion->unk_48,
                                   source->unk_2A.s, actor->unk_AC);
                 }
             }
@@ -338,7 +338,7 @@ void func_80175018(S_81087818_0 *motion, Vec3Work *trajectory, void *context)
 
             motion->unk_00.u++;
         }
-        func_80175A90(&base, trajectory);
+        dungeonDrawRandomizedShadedPolylines(&base, trajectory);
         break;
     }
 
@@ -351,7 +351,7 @@ void func_80175018(S_81087818_0 *motion, Vec3Work *trajectory, void *context)
             trajectory->x += trajectory->dx;
             trajectory->y += trajectory->dy;
             trajectory->z += trajectory->dz;
-            func_80175A90(&base, trajectory);
+            dungeonDrawRandomizedShadedPolylines(&base, trajectory);
             break;
         }
         trajectory->x = base.x;
@@ -385,7 +385,7 @@ void func_80175018(S_81087818_0 *motion, Vec3Work *trajectory, void *context)
     }
 
     if (motion->unk_00.s != 0) {
-        func_800C77D0((u8 *)motion - 0x20, trajectory, 8, 0x300);
+        dungeonSelectNearbyTargetAndInitializeSlot((u8 *)motion - 0x20, trajectory, 8, 0x300);
     }
 #undef delta
 #undef base

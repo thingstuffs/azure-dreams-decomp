@@ -8,7 +8,7 @@
 typedef struct S_80095538_4 {
     u8 pad_00[0x1];
     u8 unk_01;
-} S_80095538_4;   /* ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv in func_80095538 */
+} S_80095538_4;   /* ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv in dungeonDispatchSelectedItemUse */
 
 
 typedef struct S_80095538_0 {
@@ -17,22 +17,22 @@ typedef struct S_80095538_0 {
     u8 pad_08[0x5C];
     s32 unk_64;
     s32 unk_68;
-} S_80095538_0;   /* var_s1 in func_80095538; pointer addresses record offset 0x18 */
+} S_80095538_0;   /* var_s1 in dungeonDispatchSelectedItemUse; pointer addresses record offset 0x18 */
 
 typedef struct S_80095538_1 {
     union { s32 s; void * u; } unk_00;   /* accessed as both */
     s32 unk_04;
-} S_80095538_1;   /* &D_80082EB0 in func_80095538 */
+} S_80095538_1;   /* &D_80082EB0 in dungeonDispatchSelectedItemUse */
 
 
-s32 func_8008D388();    /* extern */
-void func_800982A8();              /* extern */
-void func_80098614();              /* extern */
-s32 func_80098920(); /* extern */
-s32 func_8009FADC();                             /* extern */
+s32 dungeonBeginTargetFlaggedAction();    /* extern */
+void dungeonEquipItemAndUpdateStatus();              /* extern */
+void dungeonChangeEquippedItemAndNotify();              /* extern */
+s32 dispatchDungeonCategoryAction(); /* extern */
+s32 dungeonSelectMonsterDataPointer();                             /* extern */
 
 /* Dispatches an item effect or equipment update according to the item type. */
-s32 func_80095538(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 other_item_id) {
+s32 dungeonDispatchSelectedItemUse(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 other_item_id) {
     s32 saved_x;
     s32 saved_y;
     s16 result;
@@ -45,9 +45,9 @@ s32 func_80095538(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 other_item_id)
     saved_x = ((S_80095538_0 *)((u8 *)actor_base - 0x18))->unk_00;
     saved_y = ((S_80095538_0 *)((u8 *)actor_base - 0x18))->unk_04;
     result = 1;
-    ((S_80095538_1 *)(&D_80082E80.unk_030))->unk_00.s = func_8009FADC(item_id);
+    ((S_80095538_1 *)(&D_80082E80.unk_030))->unk_00.s = dungeonSelectMonsterDataPointer(item_id);
     if (other_item_id != 0) {
-        ((S_80095538_1 *)(&D_80082E80.unk_030))->unk_04 = func_8009FADC(other_item_id);
+        ((S_80095538_1 *)(&D_80082E80.unk_030))->unk_04 = dungeonSelectMonsterDataPointer(other_item_id);
     } else {
         ((S_80095538_1 *)(&D_80082E80.unk_030))->unk_04 = 0;
     }
@@ -59,14 +59,14 @@ s32 func_80095538(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 other_item_id)
         if (((S_80095538_1 *)(&D_80082E80.unk_030))->unk_00.u != ((S_80095538_0 *)((u8 *)actor_base - 0x18))->unk_64) {
             equipment_item = ((S_80095538_1 *)(&D_80082E80.unk_030))->unk_00.u;
         }
-        func_800982A8(actor_base, equipment_item);
+        dungeonEquipItemAndUpdateStatus(actor_base, equipment_item);
         break;
     case 17:
         accessory_item = NULL;
         if (((S_80095538_1 *)(&D_80082E80.unk_030))->unk_00.u != ((S_80095538_0 *)((u8 *)actor_base - 0x18))->unk_68) {
             accessory_item = ((S_80095538_1 *)(&D_80082E80.unk_030))->unk_00.u;
         }
-        func_80098614(actor_base, accessory_item);
+        dungeonChangeEquippedItemAndNotify(actor_base, accessory_item);
         break;
     case 1:
     case 2:
@@ -82,11 +82,11 @@ s32 func_80095538(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 other_item_id)
     case 12:
     case 13:
     case 14:
-        result = func_80098920(actor_base, ((S_80095538_1 *)(&D_80082E80.unk_030))->unk_00.u, 3, 0);
+        result = dispatchDungeonCategoryAction(actor_base, ((S_80095538_1 *)(&D_80082E80.unk_030))->unk_00.u, 3, 0);
         break;
     case 18:
         actor->unk_BC = (void *) ((S_80095538_1 *)(&D_80082E80.unk_030))->unk_00.u;
-        func_8008D388(actor, saved_x, saved_y, actor_base);
+        dungeonBeginTargetFlaggedAction(actor, saved_x, saved_y, actor_base);
         break;
     case 19:
     case 20:

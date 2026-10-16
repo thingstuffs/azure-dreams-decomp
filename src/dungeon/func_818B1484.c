@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_18d0850.h"
 
-s32 func_80024C84(ovl_18d0850_818B1484_S_818B1484_1 *effect, ovl_18d0850_818B1484_S_818B1484_3 *target, void *context) {
+s32 dungeonFadeEffectSpriteToBlack(ovl_18d0850_818B1484_S_818B1484_1 *effect, ovl_18d0850_818B1484_S_818B1484_3 *target, void *context) {
     void *effect_arg;
     s32 wave_table[34];
     s32 *table_ptr;
@@ -37,7 +37,7 @@ s32 func_80024C84(ovl_18d0850_818B1484_S_818B1484_1 *effect, ovl_18d0850_818B148
             effect_arg = effect;
             entry_offset = ((ovl_18d0850_818B1484_S_818B1484_2 *)entry_ptr)->unk_1A;
             entry_arg = entry_index << 0x11;
-            func_80024610(effect_arg, target, context, entry_scale,
+            dungeonDrawN16ShadedLineSegmentsLinkThemOrderingTableDepth(effect_arg, target, context, entry_scale,
                          (s32) (s16) (target->unk_0A - entry_offset),
                          table_ptr, 0xFF, entry_arg >> 0x10);
             entry_ptr += 2;

@@ -14,6 +14,10 @@ sys.path.insert(0, str(Path(__file__).parent))
 from cc import row_index, REPO
 from fold10 import fold
 from respell10 import respell, pre8333C, t3flag
+import sys as _layout_sys
+_layout_root = next(p for p in Path(__file__).resolve().parents if (p / "tools/source_layout.py").is_file())
+_layout_sys.path.insert(0, str(_layout_root / "tools"))
+from source_layout import row_path as layout_row_path, source_items as layout_source_items
 LANE = Path(__file__).resolve().parent.parent; R = row_index()
 SKIP = {"slus/code", "slus/code2", "slus/w_8003E34C", "dungeon/func_800AFA68", "slus/w_8004D5D0"}
 PINFREE = {"dungeon/func_8195A480": ["ASM_MEM_BARRIER"]}   # pins2 (results/pins10.jsonl): freed by the typed objectFlagBlock access
@@ -33,7 +37,7 @@ def variants(t):
     out += base
     return out, bool(nr)
 def one(rid):
-    src = REPO / "src" / (rid + ".c"); t = src.read_text(errors="replace"); sha = hashlib.sha256(src.read_bytes()).hexdigest()
+    src = layout_row_path(rid, REPO); t = src.read_text(errors="replace"); sha = hashlib.sha256(src.read_bytes()).hexdigest()
     vs, need_r = variants(t)
     rec = {"id": rid, "src_sha": sha, "need_r": need_r, "tries": []}
     from check import check
@@ -55,9 +59,9 @@ def one(rid):
     return rec
 if __name__ == "__main__":
     ids = set(json.loads(l)["id"] for l in open(LANE / "census/views10.jsonl"))
-    for p in glob.glob(str(REPO / "src/*/*.c")):
+    for rid, p in layout_source_items(REPO):
         t = open(p, errors="replace").read()
-        if re.search(r"gameWork|D_8008333C|GameWork", t) and (respell(t)[1] or pre8333C(t)[1]) or t3flag(t)[1]: ids.add(p.split("/src/")[1][:-2])
+        if re.search(r"gameWork|D_8008333C|GameWork", t) and (respell(t)[1] or pre8333C(t)[1]) or t3flag(t)[1]: ids.add(rid)
     ids = sorted(i for i in ids if i in R and i not in SKIP)
     import shutil
     if (LANE / "draft10").exists(): shutil.rmtree(LANE / "draft10")

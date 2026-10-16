@@ -28,11 +28,11 @@ extern void func_8004A24C(S_8004A330_Sub20 *a0, s32 a1, s32 a2,
                           s16 a3, s16 a4, s16 a5);
 extern void func_8004491C(void *a0, void *a1);
 extern void func_8004CAA0(void);
-extern void func_80049F2C(void *a0);
+extern void menuMoveThePositionHalfwayTowardTargetPosition(void *a0);
 extern s32 D_800814A0_load[3];
 
 /* Allocate and initialize an entity with a resource buffer and position targets. */
-S_8004A330_Entity *func_8004A330(s32 style_flags, s16 start_x, s16 start_y, s16 target_x,
+S_8004A330_Entity *windowCreateAnimatedContentPanel(s32 style_flags, s16 start_x, s16 start_y, s16 target_x,
                                  s16 target_y, s16 width, s32 flags, s32 content_id) {
     S_8004A330_Entity *entity;
     S_8004A330_Sub20 *state;
@@ -56,7 +56,7 @@ S_8004A330_Entity *func_8004A330(s32 style_flags, s16 start_x, s16 start_y, s16 
                           (s16)width);
             entity->field_c = &entity->sub50;
             func_8004491C(entity, func_8004CAA0);
-            entity->update_fn = func_80049F2C;
+            entity->update_fn = menuMoveThePositionHalfwayTowardTargetPosition;
         } else {
             entity_flags = entity->flags;
             entity->flags = entity_flags | 0x8000;

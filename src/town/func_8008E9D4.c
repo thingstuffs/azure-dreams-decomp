@@ -9,10 +9,10 @@ typedef struct S_8008C134_0 {
     u8 pad_16[0x2];
     u16 unk_18;
     u16 unk_1A;
-} S_8008C134_0;   /* temp_a2 in func_8008C134 */
+} S_8008C134_0;   /* temp_a2 in townReadMapCellAtTile */
 
 /* Read the low 14 bits of the map entry at masked tile coordinates. */
-s32 func_8008C134(s32 tile_x, s32 tile_y) {
+s32 townReadMapCellAtTile(s32 tile_x, s32 tile_y) {
     GameWork *map_state;
     u8 *map_layout;
 

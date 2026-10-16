@@ -8,7 +8,7 @@ typedef struct {
 extern void func_800478B8(s32);
 
 /* Copies an entry's record, decrements its count, and flags exhaustion. */
-void func_80022B80(u8 *entry, CopyRecord *out_record, s32 update_arg)
+void townCopySceneEffectUntilTimerExpires(u8 *entry, CopyRecord *out_record, s32 update_arg)
 {
     CopyRecord *source_record;
     u16 remaining;

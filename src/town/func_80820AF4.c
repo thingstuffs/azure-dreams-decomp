@@ -9,17 +9,17 @@ typedef struct S_800232F4_0 {
     void * unk_0C;
     u8 pad_10[0x6];
     s16 unk_16;
-} S_800232F4_0;   /* obj in func_800232F4 */
+} S_800232F4_0;   /* obj in townUpdateMinigameOutboundMotion */
 
 typedef struct S_800232F4_1 {
     u8 pad_00[0x5C];
     s16 unk_5C;
-} S_800232F4_1;   /* owner in func_800232F4 */
+} S_800232F4_1;   /* owner in townUpdateMinigameOutboundMotion */
 
 
-extern void func_800537D0(s32 value, s32 width, char *buf);
+extern void formatDecimalFieldSpacePadded(s32 value, s32 width, char *buf);
 /* Updates the display value, then moves the object outward and flags it when out of bounds. */
-void func_800232F4(void *object)
+void townUpdateMinigameOutboundMotion(void *object)
 {
     u8 *obj;
     void *owner;
@@ -33,7 +33,7 @@ void func_800232F4(void *object)
     switch (state) {
     case 0:
     step = *((S_800232F4_0 *)obj)->unk_08;
-    func_800537D0(step * 100, 5,
+    formatDecimalFieldSpacePadded(step * 100, 5,
                   ((S_800232F4_0 *)obj)->unk_04 + 4);
     if (((S_800232F4_1 *)owner)->unk_5C != 3) {
         return;

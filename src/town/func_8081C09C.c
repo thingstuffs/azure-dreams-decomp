@@ -4,7 +4,7 @@
 extern void func_800478B8();
 
 /* Advances and darkens a moving effect, updates its visual, and propagates status flags. */
-void func_8002609C(u8 *effect, u8 *motion, u8 *visual)
+void townAdvanceFadingParticleUntilAnimationBoundary(u8 *effect, u8 *motion, u8 *visual)
 {
     s32 velocity;
     u8 shade;

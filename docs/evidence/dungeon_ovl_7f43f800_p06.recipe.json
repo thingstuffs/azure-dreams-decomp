@@ -1,0 +1,17 @@
+{
+  "module": "dungeon_ovl_7f43f800_p06",
+  "scope": "whole_tu",
+  "flags": [
+    "-q",
+    "-G0",
+    "-0"
+  ],
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "basis": [
+    "One original compiler/assembler recipe for the complete run.",
+    "Same entire GCC stream compared with genuine ASPSX 2.79 -0 and unmasked retail bytes."
+  ]
+}

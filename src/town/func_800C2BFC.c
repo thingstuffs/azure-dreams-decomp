@@ -19,7 +19,7 @@ typedef struct S_800C035C_0 {
     void * unk_54;
     s32 unk_58;
     s32 unk_5C;
-} S_800C035C_0;   /* arg0 in func_800C035C */
+} S_800C035C_0;   /* arg0 in townUpdatePlayerMinigameMotion */
 
 typedef struct S_800C035C_1 {
     s32 unk_00;
@@ -28,7 +28,7 @@ typedef struct S_800C035C_1 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800C035C_1;   /* arg1 in func_800C035C */
+} S_800C035C_1;   /* arg1 in townUpdatePlayerMinigameMotion */
 
 typedef struct S_800C035C_2 {
     u8 pad_00[0x2E];
@@ -37,7 +37,7 @@ typedef struct S_800C035C_2 {
     s16 unk_38;
     u8 pad_3A[0x2];
     s16 unk_3C;
-} S_800C035C_2;   /* temp_s5 in func_800C035C */
+} S_800C035C_2;   /* temp_s5 in townUpdatePlayerMinigameMotion */
 
 typedef struct S_800C035C_3 {
     u8 pad_00[0x8];
@@ -46,33 +46,33 @@ typedef struct S_800C035C_3 {
     s32 unk_10;
     u8 pad_14[0xB4];
     union { s16 s; s16 u; u16 p; } unk_C8;   /* accessed as both */
-} S_800C035C_3;   /* temp_s3 in func_800C035C */
+} S_800C035C_3;   /* temp_s3 in townUpdatePlayerMinigameMotion */
 
 typedef struct S_800C035C_4 {
     s16 unk_00;
     s16 unk_02;
-} S_800C035C_4;   /* temp_s4 in func_800C035C */
+} S_800C035C_4;   /* temp_s4 in townUpdatePlayerMinigameMotion */
 
 typedef struct S_800C035C_5 {
     u8 pad_00[0x30];
     u16 unk_30;
-} S_800C035C_5;   /* ((temp_v1_6 * 2) + (s8 *) temp_s5) in func_800C035C */
+} S_800C035C_5;   /* ((temp_v1_6 * 2) + (s8 *) temp_s5) in townUpdatePlayerMinigameMotion */
 
 typedef struct S_800C035C_6 {
     u8 pad_00[0x30];
     s16 unk_30;
-} S_800C035C_6;   /* ((temp_s0 * 2) + (s8 *) temp_s5) in func_800C035C */
+} S_800C035C_6;   /* ((temp_s0 * 2) + (s8 *) temp_s5) in townUpdatePlayerMinigameMotion */
 
 typedef struct S_800C035C_7 {
     u8 pad_00[0x30];
     u16 unk_30;
-} S_800C035C_7;   /* ((temp_v1_9 * 2) + (s8 *) temp_s5) in func_800C035C */
+} S_800C035C_7;   /* ((temp_v1_9 * 2) + (s8 *) temp_s5) in townUpdatePlayerMinigameMotion */
 
 
 typedef struct S_800C035C_10 {
     u8 pad_00[0x30];
     s16 unk_30;
-} S_800C035C_10;   /* ((((S_800C035C_4 *)temp_s4)->unk_00 * 2) + (s8 *) temp_s5) in func_800C035C */
+} S_800C035C_10;   /* ((((S_800C035C_4 *)temp_s4)->unk_00 * 2) + (s8 *) temp_s5) in townUpdatePlayerMinigameMotion */
 
 
 typedef struct {
@@ -83,22 +83,22 @@ typedef struct {
     s32 w[5];
 } Blk20;
 
-void func_80022F34();              /* extern */
-void func_800239A0();     /* extern */
+void townAdvanceBoundedEntryIndex();              /* extern */
+void townFillEligibleNegativeSlots();     /* extern */
 M2C_UNK func_80033B9C();              /* extern */
 M2C_UNK change_map();                       /* extern */
-void func_800489F4();     /* extern */
+void textureHandleInstallsSelectedAnimationFrameSecondaryPointerUpdatesAnimationFlags();     /* extern */
 M2C_UNK func_80048AC8(void *, s32);             /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 M2C_UNK reserve_tw_mon_load();     /* extern */
-void func_8009539C();                      /* extern */
-void func_800953D0();                      /* extern */
-void func_800954F4();                      /* extern */
-void func_80095910();                   /* extern */
-void func_800A48B0();           /* extern */
-void func_800ABD74();                      /* extern */
-s16 func_800C2AE8();                      /* extern */
+void townAddMotionDeltasToPosition();                      /* extern */
+void townApplyTheEnabledMovementOffsetsAddingZOffsetOnlyPositive();                      /* extern */
+void townClearGlobalSlotN5CopySourceSlotN2GlobalSlotN2();                      /* extern */
+void townUpdateTheSField10UsingCallee8008FE90();                   /* extern */
+void townCopyEntityRecordFields();           /* extern */
+void townSpawnPersonRadialEffects();                      /* extern */
+s16 townQueryLoweredTransformPosition();                      /* extern */
 extern s32 D_800135B4;
 extern M2C_UNK D_8006CCF8;
 extern M2C_UNK D_80089960;
@@ -107,7 +107,7 @@ extern M2C_UNK D_800FE490;
 extern M2C_UNK D_80100D98;
 
 /* Updates movement, jumping, course progress, and sprite orientation from player input. */
-void func_800C035C(void *actor, S_800C035C_1 *motion, Rec_D_80082E80 *sprite) {
+void townUpdatePlayerMinigameMotion(void *actor, S_800C035C_1 *motion, Rec_D_80082E80 *sprite) {
     Blk24 ground_probe;
     Blk20 event_params;
     s32 prev_stage;
@@ -136,9 +136,9 @@ void func_800C035C(void *actor, S_800C035C_1 *motion, Rec_D_80082E80 *sprite) {
     controls = ((M2C_UNK *)&gameWork.unk_000);
     course = ((S_800C035C_0 *)actor)->unk_54;
     progress = (s8 *)actor + 0x50;
-    func_800953D0(motion);
-    func_80095910(&D_800FE490);
-    func_8009539C(motion);
+    townApplyTheEnabledMovementOffsetsAddingZOffsetOnlyPositive(motion);
+    townUpdateTheSField10UsingCallee8008FE90(&D_800FE490);
+    townAddMotionDeltasToPosition(motion);
     motion->unk_00 = (s32) (motion->unk_00 + ((S_800C035C_0 *)actor)->unk_58);
     motion->unk_04 = (s32) (motion->unk_04 + ((S_800C035C_0 *)actor)->unk_5C);
     ((S_800C035C_0 *)actor)->unk_58 = (s32) ((s32) ((S_800C035C_0 *)actor)->unk_58 >> 1);
@@ -148,12 +148,12 @@ void func_800C035C(void *actor, S_800C035C_1 *motion, Rec_D_80082E80 *sprite) {
     if ((course_type == 2) || (course_type == 6)) {
         ground_probe.w[2] = 0xFE000000;
     }
-    ground_height = func_800C2AE8(&ground_probe);
+    ground_height = townQueryLoweredTransformPosition(&ground_probe);
     if ((ground_height << 0x10) > 0) {
         ground_height = 0;
     }
     if ((controls->unk_10 & 0x20) && (((S_800C035C_0 *)actor)->unk_48 <= 0x200000)) {
-        func_800ABD74(motion);
+        townSpawnPersonRadialEffects(motion);
         ((S_800C035C_0 *)actor)->unk_48 = (s32) (((S_800C035C_0 *)actor)->unk_48 + 0x80000);
     }
     if (controls->unk_10 & 0x40) {
@@ -248,13 +248,13 @@ void func_800C035C(void *actor, S_800C035C_1 *motion, Rec_D_80082E80 *sprite) {
     if (turn_size >= 0xA0) {
         if (ground_height <= (motion->unk_08.at02.v + 2)) {
             if (((S_800C035C_0 *)actor)->unk_48 > 0xC0000) {
-                func_800ABD74(motion);
+                townSpawnPersonRadialEffects(motion);
             }
         }
     }
     if (D_800CFCEE != 0) {
         motion->unk_14 = 0;
-        func_800954F4(motion);
+        townClearGlobalSlotN5CopySourceSlotN2GlobalSlotN2(motion);
     }
     if (motion->unk_08.at02.v > ground_height) {
         motion->unk_08.at02.v = ground_height;
@@ -262,7 +262,7 @@ void func_800C035C(void *actor, S_800C035C_1 *motion, Rec_D_80082E80 *sprite) {
             motion->unk_14 = 0;
         }
         if (((S_800C035C_0 *)actor)->unk_4C & 1) {
-            func_800ABD74(motion);
+            townSpawnPersonRadialEffects(motion);
         }
         motion_adjustment = -2;
         motion_flags = ((S_800C035C_0 *)actor)->unk_4C & motion_adjustment;
@@ -306,8 +306,8 @@ void func_800C035C(void *actor, S_800C035C_1 *motion, Rec_D_80082E80 *sprite) {
         break;
     case 3:
         prev_stage = progress->unk_00;
-        func_80022F34(motion, progress);
-        func_800239A0(course, progress, 0);
+        townAdvanceBoundedEntryIndex(motion, progress);
+        townFillEligibleNegativeSlots(course, progress, 0);
         if (progress->unk_00 != prev_stage) {
             s32 *best_time;
 
@@ -344,7 +344,7 @@ void func_800C035C(void *actor, S_800C035C_1 *motion, Rec_D_80082E80 *sprite) {
     ((S_800C035C_0 *)actor)->unk_10.s = (u16) ((((S_800C035C_0 *)actor)->unk_10.s + 0x2000) & 0xFFF);
     if (((S_800C035C_0 *)actor)->unk_12 != angle_delta) {
         if (sprite->unk_2C.as_s32 != 0) {
-            func_800489F4(sprite, ((u8 *)((S_800C035C_0 *)actor)->unk_1C)[angle_delta], sprite->unk_04.as_s8, 0);
+            textureHandleInstallsSelectedAnimationFrameSecondaryPointerUpdatesAnimationFlags(sprite, ((u8 *)((S_800C035C_0 *)actor)->unk_1C)[angle_delta], sprite->unk_04.as_s8, 0);
         }
         ((S_800C035C_0 *)actor)->unk_12 = (s16) angle_delta;
     }
@@ -354,6 +354,6 @@ void func_800C035C(void *actor, S_800C035C_1 *motion, Rec_D_80082E80 *sprite) {
         sprite->unk_14.at00_u16.v &= 0xFFFE;
     }
     func_80048AC8(sprite, 0);
-    func_800A48B0(&D_80100D98, motion);
+    townCopyEntityRecordFields(&D_80100D98, motion);
     ((Rec_D_80100D98 *)(&D_80100D98))->unk_08 = 0;
 }

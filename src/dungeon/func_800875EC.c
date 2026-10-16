@@ -10,7 +10,7 @@ typedef struct S_8008CD4C_0 {
     union { u8 s; u8 u; } unk_25;   /* accessed as both */
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_8008CD4C_0;   /* arg2 in func_8008CD4C */
+} S_8008CD4C_0;   /* arg2 in dungeonBeginPlayerPush */
 
 
 typedef struct S_8008CD4C_2 {
@@ -20,31 +20,31 @@ typedef struct S_8008CD4C_2 {
     union { u16 s; s16 u; } unk_2A;   /* accessed as both */
     u8 pad_2C[0x5C];
     s16 unk_88;
-} S_8008CD4C_2;   /* actor in func_8008CD4C */
+} S_8008CD4C_2;   /* actor in dungeonBeginPlayerPush */
 
 typedef struct S_8008CD4C_3 {
     u8 pad_00[0x2];
     u16 unk_02;
     s16 unk_04;
-} S_8008CD4C_3;   /* control in func_8008CD4C */
+} S_8008CD4C_3;   /* control in dungeonBeginPlayerPush */
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((u8 *)(expr) + (offset)))
 
 M2C_UNK func_80048A44();
-s16 func_80094ED4();
+s16 dungeonCheckTileEntryAtAdjustedHeight();
 void func_8009A21C();
 void func_8009A3D0();
-s32 func_8009ADB8();
-s32 func_8009B25C();
-void func_8009F644();
+s32 dungeonCanPushAdjacentActor();
+s32 findEligibleActorAtTileAndHeight();
+void dungeonAppendPackedActionRecord();
 s32 func_800A56E0();
 
 extern u8 D_800DCFB8[];
 extern u8 D_800DD018[];
 
 /* Checks the next tile and updates the actor's movement state and directional animation. */
-void func_8008CD4C(Rec_func_8008ACDC_arg0 *action, s32 context, S_8008CD4C_0 *sprite, S_8008CD4C_2 *actor,
+void dungeonBeginPlayerPush(Rec_func_8008ACDC_arg0 *action, s32 context, S_8008CD4C_0 *sprite, S_8008CD4C_2 *actor,
     s16 move_state) {
     s16 state;
     s32 direction_offset;
@@ -66,10 +66,10 @@ void func_8008CD4C(Rec_func_8008ACDC_arg0 *action, s32 context, S_8008CD4C_0 *sp
         next_x = sprite->unk_24 + *x_step;
         y_step = (u16 *)((u8 *)dirStepY + direction_offset);
         next_y = sprite->unk_25.s + *y_step;
-        target = func_8009B25C(actor, next_x & 0xFFFF, next_y & 0xFFFF,
+        target = findEligibleActorAtTileAndHeight(actor, next_x & 0xFFFF, next_y & 0xFFFF,
                                actor->unk_88);
         if (target != 0) {
-            if ((func_8009ADB8(actor, target, (s16)next_x, (s16)next_y,
+            if ((dungeonCanPushAdjacentActor(actor, target, (s16)next_x, (s16)next_y,
                                actor->unk_88) << 16) != 0) {
                 action->unk_124 = target;
                 func_8009A3D0(sprite->unk_24,
@@ -87,9 +87,9 @@ void func_8008CD4C(Rec_func_8008ACDC_arg0 *action, s32 context, S_8008CD4C_0 *sp
                 action->unk_9B.as_u8 = 0x10;
                 sprite->unk_2C = D_800DCFB8;
                 action->unk_96.as_s16 = 4;
-                func_8009F644(actor, 8, 0, 0);
+                dungeonAppendPackedActionRecord(actor, 8, 0, 0);
                 func_800A56E0(0x50B);
-                func_80094ED4(action, context, sprite, actor);
+                dungeonCheckTileEntryAtAdjustedHeight(action, context, sprite, actor);
             }
         }
     }

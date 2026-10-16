@@ -336,10 +336,11 @@ def matched_source(root, group, row):
         if len(parts) != 3 or parts[0] != 'overlays' or parts[2] != 'first_pass_matched':
             raise ValueError('unknown missing matched source facade: ' + group['source_dir'])
         unit = {'dungeon_engine':'dungeon', 'dungeon_engine_pilot_only':'dungeon_engine'}.get(parts[1], parts[1])
-        path = root / 'src' / unit / filename
+        from source_layout import row_path
+        path = row_path({'container': unit, 'c_path': filename}, root)
         if not _is_file(path):
             raise ValueError('canonical matched source missing: ' + str(path))
-    return str(path.resolve().relative_to((root / 'src').resolve().parent))
+    return (Path('src') / path.resolve().relative_to((root / 'src').resolve())).as_posix()
 
 def identities(root, versions, G):
     # Conservative tool universe: additions/removals participate too. Both

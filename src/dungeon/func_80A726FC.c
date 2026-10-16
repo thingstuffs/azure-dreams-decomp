@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource07_slot0.h"
 
-void func_80171EFC(void *effect, s32 *position, void *sprite, void *source)
+void dungeonInitializeOppositeFacingEffect(void *effect, s32 *position, void *sprite, void *source)
 {
     s32 direction;
     s16 *direction_x;

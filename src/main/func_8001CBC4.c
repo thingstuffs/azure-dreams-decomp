@@ -13,7 +13,7 @@ extern void func_8007BFE0(void *object, s32 size);
 extern void func_80403AC8(void *object, s32 value);
 extern s32 func_80403AA0(void *ptr);
 extern void func_80403B84(void *object, s32 option_param);
-extern void func_804034D8(void *object);
+extern void cardAnimateSelectionMarkerRows(void *object);
 
 extern u8 D_804005A0[];
 extern u8 D_804005C8[];
@@ -28,7 +28,7 @@ typedef struct S_8001CBC4_0 {
 } S_8001CBC4_0;   /* subobject in func_8001CBC4 */
 
 /* Initializes or retrieves the memory card options object. */
-s32 func_80403BC4(s32 option_param) {
+s32 initCardOptionsObject(s32 option_param) {
     s32 object_status;
     u8 *object = D_80409C90;
     u8 *subobject;
@@ -53,7 +53,7 @@ s32 func_80403BC4(s32 option_param) {
     (*(void * *)((u8 *)object + (0xC))) = subobject + 0x1A8;
     ((S_8001CBC4_0 *)subobject)->unk_1B4 = func_80403AA0(subobject + 0x1B8);
     func_80403B84(subobject, option_param);
-    (*(Callback *)((u8 *)object + (0x10))) = func_804034D8;
-    func_804034D8(subobject);
+    (*(Callback *)((u8 *)object + (0x10))) = cardAnimateSelectionMarkerRows;
+    cardAnimateSelectionMarkerRows(subobject);
     return (s32)object;
 }

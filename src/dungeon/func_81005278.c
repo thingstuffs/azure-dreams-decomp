@@ -10,11 +10,11 @@ extern u8 D_80171058[];
 extern u8 D_80174880[9];
 extern Callback D_80174900[];
 
-extern void func_80047738(void *, u8, s8);
+extern void selectIndirectTableEntry(void *, u8, s8);
 extern void func_800478B8(void *);
 extern s32 func_800644B8(s32);
-extern void func_800A020C(s32, void *);
-extern s32 func_800A9E70(void *, void *, void *, void *);
+extern void dungeonApplyMonsterKoyawData(s32, void *);
+extern s32 dungeonRefreshActorFacingAndLifecycle(void *, void *, void *, void *);
 extern void func_800AA36C(void *, void *, void *, void *);
 extern s32 func_800BCB04(s32 x, s32 y, s16 min_height);
 
@@ -27,7 +27,7 @@ typedef struct S_80170A78_0 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80170A78_0;   /* arg1 in func_80170A78 */
+} S_80170A78_0;   /* arg1 in dungeonUpdateObjectMovementFacingTerrain */
 
 typedef struct S_80170A78_1 {
     u8 pad_00[0x4];
@@ -39,7 +39,7 @@ typedef struct S_80170A78_1 {
     u8 unk_25;
     u8 pad_26[0x6];
     union { u8 * p; void * p2; } unk_2C;   /* accessed as both */
-} S_80170A78_1;   /* arg2 in func_80170A78 */
+} S_80170A78_1;   /* arg2 in dungeonUpdateObjectMovementFacingTerrain */
 
 typedef struct S_80170A78_2 {
     u8 pad_00[0x1C];
@@ -48,10 +48,10 @@ typedef struct S_80170A78_2 {
     s16 unk_2A;
     u8 pad_2C[0x5C];
     u16 unk_88;
-} S_80170A78_2;   /* state in func_80170A78 */
+} S_80170A78_2;   /* state in dungeonUpdateObjectMovementFacingTerrain */
 
 /* Updates object callbacks, movement, facing, and terrain-relative height. */
-void func_80170A78(void *obj, void *input_motion, void *input_part)
+void dungeonUpdateObjectMovementFacingTerrain(void *obj, void *input_motion, void *input_part)
 {
     void *state = obj;
     s32 mode_or_dir;
@@ -81,7 +81,7 @@ void func_80170A78(void *obj, void *input_motion, void *input_part)
     }
 
     saved_mode = *(s8 *)((u8 *)obj + 0x6D);
-    if (func_800A9E70(obj, input_motion, input_part, obj) != 0) {
+    if (dungeonRefreshActorFacingAndLifecycle(obj, input_motion, input_part, obj) != 0) {
         return;
     }
 
@@ -123,7 +123,7 @@ void func_80170A78(void *obj, void *input_motion, void *input_part)
         mode_or_dir = (u16)direction;
         mode_or_dir = (s16)mode_or_dir;
         if ((*(s16 *)((u8 *)obj + 0x94)) != mode_or_dir) {
-            func_80047738(input_part,
+            selectIndirectTableEntry(input_part,
                 *(u8 *)(((S_80170A78_1 *)input_part)->unk_2C.p + mode_or_dir),
                 ((S_80170A78_1 *)input_part)->unk_04);
             (*(s16 *)((u8 *)obj + 0x94)) = direction;
@@ -138,7 +138,7 @@ void func_80170A78(void *obj, void *input_motion, void *input_part)
 
         ((S_80170A78_1 *)input_part)->unk_14 = value_bits;
 
-        func_800A020C(((S_80170A78_2 *)state)->unk_1C, (u8 *)input_part + 0xC);
+        dungeonApplyMonsterKoyawData(((S_80170A78_2 *)state)->unk_1C, (u8 *)input_part + 0xC);
         if (!(((S_80170A78_2 *)state)->unk_1C & 0x20)) {
             if (!(((S_80170A78_1 *)input_part)->unk_14 & 0x40)) {
                 func_800478B8(input_part);

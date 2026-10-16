@@ -3,7 +3,7 @@
 #include "shared/object_flags.h"
 
 /* Increments three state bytes while the first is below 0x80, otherwise sets flag bits. */
-s32 func_8016ABC8(u16 *words)
+s32 dungeonAdvanceThreeStateBytes(u16 *words)
 {
     u8 state_value = gameWork.view.unk_090;
 

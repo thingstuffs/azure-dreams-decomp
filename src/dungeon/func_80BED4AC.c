@@ -2,5 +2,5 @@
 
 void func_80172CAC(void *state, void *motion, void *position, void *actor)
 {
-    func_800AD058(state, motion, position, actor);
+    dungeonUpdateActorDefeatRemoval(state, motion, position, actor);
 }

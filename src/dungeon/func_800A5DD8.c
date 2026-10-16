@@ -8,7 +8,7 @@ typedef struct S_800AB538_0 {
     union { s16 s; u16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_800AB538_0;   /* p0 in func_800AB538 */
+} S_800AB538_0;   /* p0 in dungeonUpdateActorHopAndShrink */
 
 typedef struct S_800AB538_1 {
     u8 pad_00[0x1C];
@@ -16,14 +16,14 @@ typedef struct S_800AB538_1 {
     u8 pad_20[0x68];
     u16 unk_88;
     u16 unk_8A;
-} S_800AB538_1;   /* p3 in func_800AB538 */
+} S_800AB538_1;   /* p3 in dungeonUpdateActorHopAndShrink */
 
 typedef struct S_800AB538_2 {
     u8 pad_00[0x2];
     union { s16 s; u16 u; } unk_02;   /* accessed as both */
     u8 pad_04[0x2];
     union { s16 s; u16 u; } unk_06;   /* accessed as both */
-} S_800AB538_2;   /* base in func_800AB538 */
+} S_800AB538_2;   /* base in dungeonUpdateActorHopAndShrink */
 
 typedef struct S_800AB538_3 {
     u8 pad_00[0x2];
@@ -35,13 +35,13 @@ typedef struct S_800AB538_3 {
     u8 pad_0C[0x4];
     s32 unk_10;
     s32 unk_14;
-} S_800AB538_3;   /* p1 in func_800AB538 */
+} S_800AB538_3;   /* p1 in dungeonUpdateActorHopAndShrink */
 
 typedef struct S_800AB538_4 {
     u8 pad_00[0x1C];
     u16 unk_1C;
     u16 unk_1E;
-} S_800AB538_4;   /* p2 in func_800AB538 */
+} S_800AB538_4;   /* p2 in dungeonUpdateActorHopAndShrink */
 
 
 extern s32 func_800644B8();
@@ -50,7 +50,7 @@ extern u8 D_80083780[];
 extern s16 D_8008378A;
 
 /* Move toward the target while shrinking, then mark the animation complete. */
-s32 func_800AB538(void *animation, void *motion, void *scale, void *render)
+s32 dungeonUpdateActorHopAndShrink(void *animation, void *motion, void *scale, void *render)
 {
     s32 move_frames;
     s16 frames_left;

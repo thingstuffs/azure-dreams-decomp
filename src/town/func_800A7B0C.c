@@ -13,13 +13,13 @@ typedef struct S_800A526C_1 {
     s32 unk_18;
     u8 pad_1C[0x4];
     void * unk_20;
-} S_800A526C_1;   /* arg0 in func_800A526C */
+} S_800A526C_1;   /* arg0 in townInterpolateViewComponents */
 
 
 extern u8 D_800A51CC[16];
 
 /* Interpolate three state components toward their targets and advance the transition when complete. */
-void func_800A526C(S_800A526C_1 *transition)
+void townInterpolateViewComponents(S_800A526C_1 *transition)
 {
     GameWork *state_base;
     s32 ticks_left;

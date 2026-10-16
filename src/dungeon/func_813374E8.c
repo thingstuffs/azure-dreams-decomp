@@ -17,14 +17,14 @@ typedef struct S_8016E4E8_0 {
     u16 unk_1A;
     s16 unk_1C;
     u16 unk_1E;
-} S_8016E4E8_0;   /* arg0 in func_8016E4E8 */
+} S_8016E4E8_0;   /* arg0 in dungeonEmitMultiFormRingGeometry */
 
 typedef struct S_8016E4E8_1 {
     u8 pad_00[0xC];
     u8 unk_0C;
     u8 unk_0D;
     u8 unk_0E;
-} S_8016E4E8_1;   /* arg2 in func_8016E4E8 */
+} S_8016E4E8_1;   /* arg2 in dungeonEmitMultiFormRingGeometry */
 
 typedef struct S_8016E4E8_2 {
     u8 pad_00[0x18];
@@ -38,14 +38,14 @@ typedef struct S_8016E4E8_2 {
     s16 unk_84;
     u8 pad_86[0x4];
     s16 unk_8A;
-} S_8016E4E8_2;   /* part in func_8016E4E8 */
+} S_8016E4E8_2;   /* part in dungeonEmitMultiFormRingGeometry */
 
 typedef struct S_8016E4E8_3 {
     u8 pad_00[0x8];
     s32 * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_8016E4E8_3;   /* object in func_8016E4E8 */
+} S_8016E4E8_3;   /* object in dungeonEmitMultiFormRingGeometry */
 
 typedef struct S_8016E4E8_4 {
     u8 pad_00[0x6];
@@ -61,15 +61,15 @@ typedef struct S_8016E4E8_4 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_8016E4E8_4;   /* effect in func_8016E4E8 */
+} S_8016E4E8_4;   /* effect in dungeonEmitMultiFormRingGeometry */
 
 typedef struct S_8016E4E8_5 {
     u16 unk_00;
-} S_8016E4E8_5;   /* dst_word in func_8016E4E8 */
+} S_8016E4E8_5;   /* dst_word in dungeonEmitMultiFormRingGeometry */
 
 typedef struct S_8016E4E8_6 {
     u16 unk_00;
-} S_8016E4E8_6;   /* src_word in func_8016E4E8 */
+} S_8016E4E8_6;   /* src_word in dungeonEmitMultiFormRingGeometry */
 
 
 typedef struct {
@@ -85,7 +85,7 @@ extern u8 D_8016E4A4[];
 extern Data12 D_80173B4C;
 
 /* Advances the color fade and creates two rows of animated textured geometry. */
-void func_8016E4E8(void *animation, s32 *origin, void *color)
+void dungeonEmitMultiFormRingGeometry(void *animation, s32 *origin, void *color)
 {
     s32 bottom_y;
     u16 tick_count;

@@ -21,7 +21,7 @@ typedef struct S_8016F160_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_8016F160_0;   /* obj in func_8016F160 */
+} S_8016F160_0;   /* obj in dungeonAllocateBossActor */
 
 typedef struct S_8016F160_1 {
     u8 pad_00[0x13];
@@ -29,12 +29,12 @@ typedef struct S_8016F160_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_8016F160_1;   /* work in func_8016F160 */
+} S_8016F160_1;   /* work in dungeonAllocateBossActor */
 
 typedef struct S_8016F160_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_8016F160_2;   /* part_a in func_8016F160 */
+} S_8016F160_2;   /* part_a in dungeonAllocateBossActor */
 
 typedef struct S_8016F160_3 {
     u8 pad_00[0x14];
@@ -44,7 +44,7 @@ typedef struct S_8016F160_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_8016F160_3;   /* part_b in func_8016F160 */
+} S_8016F160_3;   /* part_b in dungeonAllocateBossActor */
 
 typedef struct S_8016F160_4 {
     u8 pad_00[0x8C];
@@ -55,10 +55,10 @@ typedef struct S_8016F160_4 {
     s8 unk_9C;
     u8 pad_9D[0x13];
     s16 unk_B0;
-} S_8016F160_4;   /* tail_ptr in func_8016F160 */
+} S_8016F160_4;   /* tail_ptr in dungeonAllocateBossActor */
 
 /* Allocate an actor, initialize its parts and mode flags, and return its work area. */
-void *func_8016F160(s16 mode, s16 config_24, s16 config_25, s16 config_0a)
+void *dungeonAllocateBossActor(s16 mode, s16 config_24, s16 config_25, s16 config_0a)
 {
     s16 mode_kind;
     void *obj;

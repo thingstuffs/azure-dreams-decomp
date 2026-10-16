@@ -4,7 +4,7 @@
 
 
 /* Initialize D_800D4740 with selector 6 and run the follow-up setup. */
-void func_800C22A4(void) {
+void townInitializeResourceSelectorSix(void) {
     Control_CD(6, &D_800D4740, 0);
-    func_8003F320();
+    drainCdCommandQueue();
 }

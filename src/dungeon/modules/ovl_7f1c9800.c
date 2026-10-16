@@ -1,7 +1,7 @@
 #include "common.h"
 #include "modules/dungeon_ovl_fa7000.h"
 void *(*const dungeon_fa7000_entry)(s16,s16,s16,s16) = func_80170880;
-void (*const dungeon_fa7000_update)(void *,void *,void *) = func_80170A70;
+void (*const dungeon_fa7000_update)(void *,void *,void *) = dungeonUpdateBankActorMovement;
 #include "../func_80F87000.c"
 #include "../func_80F87270.c"
 #include "../func_80F87938.c"

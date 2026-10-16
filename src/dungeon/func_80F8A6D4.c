@@ -3,11 +3,11 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
-extern s32 func_800ACE34();
+extern s32 dungeonUpdateActorFadeIn();
 /* Restore the bank actor callback after the resident state check succeeds. */
-void func_80173ED4(BankActorState *state, s32 action, SpriteFrameState *source, EntityRec *target) {
-    if (func_800ACE34(state, action, source, target) != 0) {
-        state->callback = func_80171138;
+void dungeonRestoreBankActorCallbackD(BankActorState *state, s32 action, SpriteFrameState *source, EntityRec *target) {
+    if (dungeonUpdateActorFadeIn(state, action, source, target) != 0) {
+        state->callback = dungeonUpdateBankActorState;
     }
 }
 

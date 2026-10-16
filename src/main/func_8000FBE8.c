@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Record the maximum string length and last nonempty slot across five strings. */
-void func_80022BE8(u8 *text_block)
+void cardBootMeasureFiveLineMessage(u8 *text_block)
 {
     u8 **strings;
     u8 *text;

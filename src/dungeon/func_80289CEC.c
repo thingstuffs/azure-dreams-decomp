@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void func_8001CCEC(s16 side, s16 *out_x, s16 *out_y, floor_generate_isolated_80289CEC_Entry *room) {
+void dungeonPickRelativeRoomEdgePoint(s16 side, s16 *out_x, s16 *out_y, floor_generate_isolated_80289CEC_Entry *room) {
     if (room->fieldA == 0) {
         *out_x = 0;
         *out_y = 0;

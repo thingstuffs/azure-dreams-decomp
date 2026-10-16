@@ -10,18 +10,18 @@ M2C_UNK func_8009451C();
 void func_800945B8();
 M2C_UNK func_80094660();
 M2C_UNK func_800946A0();
-void func_80094944();
-void func_80094984();
-void func_80094C1C();
-void func_80094C74();
-void func_80095094();
-s32 func_8009567C();
-s32 func_80095760();
-s16 func_80095978();
-void func_80095A94();
-void func_80095C80();
+void townTriggerEventHex519IntervalMultiplesEnabled();
+void townCallTheHandlerSelectsNonzeroEntry();
+void townStoreTheValidSharedAngleInOffsetHex10();
+void townHandleAdjustVectorTowardSelectedAngleLimitMagnitude();
+void townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero();
+s32 townSelectAnAvailableEntryMatchingDirectionReturnsStatus();
+s32 townGetStatusActiveEntryMatchingDirection();
+s16 townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated();
+void townComputeAndClampsVectorBasedAdjustmentUpdatesTown();
+void townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile();
 M2C_UNK func_800988C8();
-s32 func_8009FF50();
+s32 townIsUnk18N12Unk1ABetweenN37N41();
 s32 func_800A9D74();
 
 extern M2C_UNK D_80093B00;
@@ -38,21 +38,21 @@ typedef struct S_80092A84_1 {
     s32 unk_08;
     u8 pad_0C[0x4];
     s32 unk_10;
-} S_80092A84_1;   /* state in func_80092A84 */
+} S_80092A84_1;   /* state in townUpdateActorPositionAndInteraction */
 
 
 typedef struct S_80092A84_3 {
     u8 pad_00[0x50];
     void * unk_50;
-} S_80092A84_3;   /* entity in func_80092A84 */
+} S_80092A84_3;   /* entity in townUpdateActorPositionAndInteraction */
 
 typedef struct S_80092A84_4 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_80092A84_4;   /* base in func_80092A84 */
+} S_80092A84_4;   /* base in townUpdateActorPositionAndInteraction */
 
 /* Updates the actor's position and dispatches town actions from input and interaction state. */
-void func_80092A84(Rec_func_80094268_arg0 *actor, EntityRec *body, s32 context) {
+void townUpdateActorPositionAndInteraction(Rec_func_80094268_arg0 *actor, EntityRec *body, s32 context) {
     GameWork *input_state;
     u8 *position_data;
     s32 *interaction_ctrl;
@@ -64,18 +64,18 @@ void func_80092A84(Rec_func_80094268_arg0 *actor, EntityRec *body, s32 context) 
     S_80092A84_4 *interaction_state;
 
     input_state = &gameWork;
-    func_80095C80(body);
-    func_80095094(body);
+    townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(body);
+    townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero(body);
 
     position_data = ((u8 *)&D_800FE488);
-    position = func_80095978(body, position_data);
+    position = townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(body, position_data);
     if ((position - body->z.w.i) >= 4) {
         if (D_800CFCEF == 0) {
             func_80094660(actor, body, context);
             return;
         }
     } else if (D_800CFCEF == 0) {
-        func_80095A94(body, position, position_data);
+        townComputeAndClampsVectorBasedAdjustmentUpdatesTown(body, position, position_data);
     }
 
     input_flags = ((s32)input_state->unk_010);
@@ -89,10 +89,10 @@ void func_80092A84(Rec_func_80094268_arg0 *actor, EntityRec *body, s32 context) 
     }
 
     interaction_ctrl = &D_800CFCB4;
-    if ((func_80095760(interaction_ctrl) == -1) && (func_8009FF50() == 0)) {
-        func_8009567C(interaction_ctrl);
-        func_80094C1C(actor);
-        func_80094984(&D_800D0128, actor, context);
+    if ((townGetStatusActiveEntryMatchingDirection(interaction_ctrl) == -1) && (townIsUnk18N12Unk1ABetweenN37N41() == 0)) {
+        townSelectAnAvailableEntryMatchingDirectionReturnsStatus(interaction_ctrl);
+        townStoreTheValidSharedAngleInOffsetHex10(actor);
+        townCallTheHandlerSelectsNonzeroEntry(&D_800D0128, actor, context);
         func_800988C8(actor, body, context);
 
         entity = actor->unk_2C;
@@ -117,9 +117,9 @@ void func_80092A84(Rec_func_80094268_arg0 *actor, EntityRec *body, s32 context) 
     if (input_state->buttons & 0xF000) {
         position = actor->unk_3E.as_u16 - 1;
         actor->unk_3E.as_u16 = position;
-        func_80094944(position, 0xC);
-        func_80094C1C(actor);
-        func_80094C74(body);
+        townTriggerEventHex519IntervalMultiplesEnabled(position, 0xC);
+        townStoreTheValidSharedAngleInOffsetHex10(actor);
+        townHandleAdjustVectorTowardSelectedAngleLimitMagnitude(body);
         return;
     }
 

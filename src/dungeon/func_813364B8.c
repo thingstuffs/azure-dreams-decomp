@@ -26,10 +26,10 @@ extern u8 D_8016A36C[];
 
 extern void func_80047784(void *, s32, s32);
 extern s32 func_800AC82C(void *, s32, void *, void *);
-extern s32 func_800AD9B4(void *, void *);
+extern s32 dungeonCheckActorFloorTrap(void *, void *);
 
 /* Selects the mode table and updates the dungeon object state. */
-void func_8016D4B8(DungeonObject *object, s32 update_param, DungeonState *state, DungeonInput *input) {
+void dungeonUpdateMultiFormActorMovement(DungeonObject *object, s32 update_param, DungeonState *state, DungeonInput *input) {
     s32 mode;
     u8 *mode_table;
     u8 *current_table;
@@ -63,7 +63,7 @@ void func_8016D4B8(DungeonObject *object, s32 update_param, DungeonState *state,
 
 call_common:
     if (func_800AC82C(object, update_param, state, input) != 0) {
-        if ((func_800AD9B4(state, input) << 0x10) > 0) {
+        if ((dungeonCheckActorFloorTrap(state, input) << 0x10) > 0) {
             object->field_8C = D_8016A36C;
         }
     }

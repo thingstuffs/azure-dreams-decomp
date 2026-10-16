@@ -3,12 +3,12 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern void func_800C4174(void *object, void *update_context, s32 setup_context);
+extern void townApplyObjectSetupAndUpdate(void *object, void *update_context, s32 setup_context);
 
 /* Updates and clamps record motion, delegating when the lower bound is reached. */
 void func_800C5100(void *context, EntityRec *record, s32 callback_arg) {
     if (record->z.v == -0x08000000) {
-        func_800C4174(context, record, callback_arg);
+        townApplyObjectSetupAndUpdate(context, record, callback_arg);
         return;
     }
 

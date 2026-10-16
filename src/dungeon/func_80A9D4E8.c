@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource08_slot0.h"
 
-void func_80172CE8(void *action, EntityRec *motion, void *actor, EntityRec *object) {
+void dungeonUpdateItemActivationAndCleanup(void *action, EntityRec *motion, void *actor, EntityRec *object) {
     u16 position[3];
     s16 is_special;
     u8 *item_slot;
@@ -66,7 +66,7 @@ void func_80172CE8(void *action, EntityRec *motion, void *actor, EntityRec *obje
 
 
 
-                        (object->target) = func_800A05A4(
+                        (object->target) = dungeonScanMonsterAlongHeading(
                             object,
                             ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_24,
                             ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_25,
@@ -82,10 +82,10 @@ void func_80172CE8(void *action, EntityRec *motion, void *actor, EntityRec *obje
             position[0] = ((u16)motion->x.w.i);
             position[1] = ((u16)motion->y.w.i);
             position[2] = ((u16)motion->z.w.i);
-            if (func_800A94A0(object, item_slot, is_special, (u8 *)action + 0x98)) {
+            if (dungeonCreateActorSpellEffect(object, item_slot, is_special, (u8 *)action + 0x98)) {
                 ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_14 &= 0xF7FF;
                 func_800A56E0(0x703);
-                func_800DA840(position, (s16)((*item_slot - 1) % 3));
+                dungeonCreateTwoRowObjectGroup(position, (s16)((*item_slot - 1) % 3));
                 ((R08_80172CE8_S_80172CE8_0 *)action)->unk_9B++;
                 return;
             }
@@ -95,15 +95,15 @@ void func_80172CE8(void *action, EntityRec *motion, void *actor, EntityRec *obje
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_24, ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_24, ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_25);
         dungeonStatus.unk_0C = 0;
         {
             u8 *active_object = (u8 *)D_800814A8;
             (*(u16 *)((u8 *)active_object + 0xA6))--;
         }
-        func_800A4ACC(object);
+        dungeonAdvanceStatusTimers(object);
         (((u8)object->unk_6D))--;
-        ((R08_80172CE8_S_80172CE8_0 *)action)->unk_8C = ((void *)func_80170E7C);
+        ((R08_80172CE8_S_80172CE8_0 *)action)->unk_8C = ((void *)dungeonUpdateActorBehaviorAndEffect);
         (((u8)object->unk_73)) = 0;
         (((u8)object->unk_72)) = 0;
         (object->unk_46) &= 0x7FFF;
@@ -122,7 +122,7 @@ void func_80172CE8(void *action, EntityRec *motion, void *actor, EntityRec *obje
         return;
 
     case 2:
-        if (func_8003F270()) {
+        if (getCdCommandQueueDepth()) {
             ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_14 |= 0x800;
             return;
         }
@@ -155,7 +155,7 @@ void func_80172CE8(void *action, EntityRec *motion, void *actor, EntityRec *obje
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_24, ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_24, ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_25);
 
         if (((R08_80172CE8_S_80172CE8_3 *)actor)->unk_2C != ((u8 *)D_80174C3C)) {
             (*(void * *)((u8 *)actor + 0x2C)) = ((u8 *)D_80174C3C);
@@ -172,8 +172,8 @@ void func_80172CE8(void *action, EntityRec *motion, void *actor, EntityRec *obje
             dungeonStatus.unk_0A--;
         }
         ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_14 &= 0xF7FF;
-        ((R08_80172CE8_S_80172CE8_0 *)action)->unk_8C = ((void *)func_80170E7C);
-        func_800A4ACC(object);
+        ((R08_80172CE8_S_80172CE8_0 *)action)->unk_8C = ((void *)dungeonUpdateActorBehaviorAndEffect);
+        dungeonAdvanceStatusTimers(object);
         if ((object->unk_6D) > 0) {
             (((u8)object->unk_6D))--;
         }

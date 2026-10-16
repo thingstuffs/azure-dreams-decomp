@@ -33,7 +33,7 @@ typedef struct S_800206C8_1 {
 } S_800206C8_1;   /* slot_state in func_800206C8 */
 
 /* Initializes the memory card slot object and its working state. */
-void *func_804076C8(s32 init_option)
+void *initCardSlotObject(s32 init_option)
 {
     void *base;
     void *slot_state;

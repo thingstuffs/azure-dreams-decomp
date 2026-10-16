@@ -4,18 +4,18 @@ typedef struct S_801745BC_0_pre {
     void * unk_00;
     void * unk_04;
     u8 pad_08[0x10];
-} S_801745BC_0_pre;   /* the 0x18 bytes before head in func_801745BC, addressed as head[-1] */
+} S_801745BC_0_pre;   /* the 0x18 bytes before head in dungeonProcessNodesAtTargetTile, addressed as head[-1] */
 
 typedef struct S_801745BC_0 {
     u8 pad_00[0x5C];
     void * unk_5C;
-} S_801745BC_0;   /* head in func_801745BC */
+} S_801745BC_0;   /* head in dungeonProcessNodesAtTargetTile */
 
 typedef struct S_801745BC_1_pre {
     void * unk_00;
     void * unk_04;
     u8 pad_08[0x10];
-} S_801745BC_1_pre;   /* the 0x18 bytes before node in func_801745BC, addressed as node[-1] */
+} S_801745BC_1_pre;   /* the 0x18 bytes before node in dungeonProcessNodesAtTargetTile, addressed as node[-1] */
 
 typedef struct S_801745BC_1 {
     u8 pad_00[0x13];
@@ -26,25 +26,25 @@ typedef struct S_801745BC_1 {
     void * unk_5C;
     u8 pad_60[0x4];
     s16 unk_64;
-} S_801745BC_1;   /* node in func_801745BC */
+} S_801745BC_1;   /* node in dungeonProcessNodesAtTargetTile */
 
 typedef struct S_801745BC_2 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_801745BC_2;   /* data in func_801745BC */
+} S_801745BC_2;   /* data in dungeonProcessNodesAtTargetTile */
 
 typedef struct S_801745BC_3 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_801745BC_3;   /* node_position in func_801745BC */
+} S_801745BC_3;   /* node_position in dungeonProcessNodesAtTargetTile */
 
 typedef struct S_801745BC_4 {
     u8 pad_00[0x14];
     s16 unk_14;
     u8 pad_16[0x14];
     u16 unk_2A;
-} S_801745BC_4;   /* owner in func_801745BC */
+} S_801745BC_4;   /* owner in dungeonProcessNodesAtTargetTile */
 
 typedef struct S_801745BC_5 {
     u8 pad_00[0x2];
@@ -53,7 +53,7 @@ typedef struct S_801745BC_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_801745BC_5;   /* position in func_801745BC */
+} S_801745BC_5;   /* position in dungeonProcessNodesAtTargetTile */
 
 
 typedef struct OffsetPair {
@@ -68,12 +68,12 @@ typedef struct OffsetTable {
 extern OffsetTable D_80170884;
 
 extern void func_800419EC(u16, u32);
-extern void func_80099C58(s16, s16, s16, s16, s32);
-extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void dungeonSpawnRadialParticleBurst(s16, s16, s16, s16, s32);
+extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void func_800A56E0(s32);
 
 /* Process nodes at the target tile and height, triggering type-specific effects. */
-void func_801745BC(void *node, s32 target_x, s32 target_y, s32 target_height)
+void dungeonProcessNodesAtTargetTile(void *node, s32 target_x, s32 target_y, s32 target_height)
 {
     OffsetTable offsets = D_80170884;
     void *head = node;
@@ -118,7 +118,7 @@ void func_801745BC(void *node, s32 target_x, s32 target_y, s32 target_height)
                         angle = ((S_801745BC_4 *)owner)->unk_2A;
                         offset = (OffsetPair *)((u8 *)&offsets +
                             (((s16)angle >> 7) & 0x1C));
-                        func_80099C58(
+                        dungeonSpawnRadialParticleBurst(
                             (s16)(((S_801745BC_5 *)position)->unk_02 + (offset->x * 32)),
                             (s16)(((S_801745BC_5 *)position)->unk_06 +
                                   ((s32)(offset->y << 16) >> 11)),
@@ -126,7 +126,7 @@ void func_801745BC(void *node, s32 target_x, s32 target_y, s32 target_height)
                             ((S_801745BC_4 *)owner)->unk_14,
                             (s32)(s16)angle);
                     } else {
-                        func_8009C12C(owner, owner_data,
+                        dungeonResolveAttackDamageAndEffects(owner, owner_data,
                             (s16)((S_801745BC_4 *)owner)->unk_2A, 1);
                     }
                 }

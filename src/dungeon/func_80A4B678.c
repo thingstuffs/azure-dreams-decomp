@@ -1,13 +1,13 @@
 #include "modules/dungeon_resource06_slot0.h"
 
-void func_80174E78(R06_80174E78_Source *source, R06_80174E78_Vec3i *center, void *unused_context)
+void dungeonCreateSixteenSegmentRing(R06_80174E78_Source *source, R06_80174E78_Vec3i *center, void *unused_context)
 {
     s16 segment_index;
     void (*update_callback)(void);
     s32 base_level;
 
     segment_index = 0;
-    update_callback = func_80174934;
+    update_callback = dungeonUpdateFadingFourStripEffect;
     base_level = 32;
     for (; segment_index < 16; segment_index++) {
         R06_80174E78_Entity *entity;

@@ -3,6 +3,6 @@
 #include "common.h"
 #include "records/Rec_func_8001CE44_arg0.h"
 
-void func_8001D4AC(Rec_func_8001CE44_arg0 *region, s32 update_id);
-void func_8001E824(void *entity_data);
+void dungeonChooseRandomRegionFeature(Rec_func_8001CE44_arg0 *region, s32 update_id);
+void initRandomFloorItemParameters(void *entity_data);
 #endif

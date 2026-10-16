@@ -18,25 +18,25 @@ typedef struct {
     s32 field_34;
 } Entity;
 
-extern void func_80026294();
-extern void func_800285B0();
-extern void func_80026B94();
+extern void inventoryProcessResourcesAndSetFlags();
+extern void dungeonRetireMenuObject();
+extern void dungeonCleanupObjectResources();
 extern void func_8004A464();
-extern void func_800DBF5C();
+extern void dungeonSetStateFlagWhenClear();
 extern void strcpy();
 
 /* Processes entity fields and copies its string for selected type and state values. */
 void func_800253C0(Entity *entity) {
     s32 state;
 
-    func_80026294(entity->field_20);
-    func_800285B0(entity->field_24);
-    func_80026B94(entity->field_28);
+    inventoryProcessResourcesAndSetFlags(entity->field_20);
+    dungeonRetireMenuObject(entity->field_24);
+    dungeonCleanupObjectResources(entity->field_28);
     func_8004A464(entity->field_2C, 0);
     func_8004A464(entity->field_30, 0);
     func_8004A464(entity->field_34, 0);
     if (D_80082E60.mode != 1) {
-        func_800DBF5C();
+        dungeonSetStateFlagWhenClear();
     }
     if (entity->field_14 == 0x13) {
         state = entity->field_1C;

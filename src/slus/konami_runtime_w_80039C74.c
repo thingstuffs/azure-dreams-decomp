@@ -7,15 +7,15 @@ typedef struct Func80039C74State {
     u8 *read_ptr;
 } Func80039C74State;
 
-extern s32 func_80033B2C(s32 bit_id);
+extern s32 testResidentBitmapBit(s32 bit_id);
 
 /* Jump the event script to the encoded address if the signed operand check returns zero. */
-void func_80039C74(Func80039C74State *state) {
+void vmOp43JumpIfFlagBitClear(Func80039C74State *state) {
     u8 *operand_ptr = state->read_ptr;
     s32 operand = operand_ptr[0] + (operand_ptr[1] << 8);
 
     state->read_ptr = operand_ptr + 2;
-    if (func_80033B2C((s16)operand) == 0) {
+    if (testResidentBitmapBit((s16)operand) == 0) {
         u8 *target_ptr = state->read_ptr;
 
         state->read_ptr = (u8 *)(target_ptr[0] + (target_ptr[1] << 8) +

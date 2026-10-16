@@ -55,10 +55,10 @@ extern u8 D_801739B0[];
 extern u8 D_8016A36C[];
 
 extern void func_80047784(DungeonObject *, u8, s32);
-extern void func_800A2B04(DungeonWork *, u8, u8);
+extern void dungeonSetRecordIntegerTileCenter(DungeonWork *, u8, u8);
 extern void func_800A56E0(s32);
-extern void func_801676CC(DungeonWork *);
-extern void func_801685CC(DungeonState *, DungeonWork *, DungeonObject *, u8 *, s32);
+extern void dungeonCreateLayeredSpritePulse(DungeonWork *);
+extern void dungeonCreateTargetedRibbonTrail(DungeonState *, DungeonWork *, DungeonObject *, u8 *, s32);
 
 static __inline__ void set_direction_table(DungeonObject *object, DungeonInput *input, u8 *table) {
     u32 direction_index;
@@ -69,7 +69,7 @@ static __inline__ void set_direction_table(DungeonObject *object, DungeonInput *
 }
 
 /* Advance the timed dungeon object sequence and update its direction table. */
-void func_8016D754(DungeonState *state, DungeonWork *work,
+void dungeonRunTimedThreeEffectSequence(DungeonState *state, DungeonWork *work,
                    DungeonObject *object, DungeonInput *input) {
     u32 state_index;
     state_index = state->state;
@@ -93,7 +93,7 @@ void func_8016D754(DungeonState *state, DungeonWork *work,
             break;
         }
     }
-        func_801676CC(work);
+        dungeonCreateLayeredSpritePulse(work);
         state->timer.unsigned_value = 6;
         state->state = state->state + 1;
         func_800A56E0(0x703);
@@ -118,12 +118,12 @@ void func_8016D754(DungeonState *state, DungeonWork *work,
         timer = state->timer.unsigned_value + 1;
         state->timer.unsigned_value = timer;
         if ((s16)timer == 1) {
-            func_801685CC(state, work, object, ((u8 *)(&D_80083780)), 0);
+            dungeonCreateTargetedRibbonTrail(state, work, object, ((u8 *)(&D_80083780)), 0);
             current_timer = state->timer.signed_value;
             if (current_timer == (s16)timer) {
-                func_801685CC(state, work, object, ((u8 *)(&D_80083780)), current_timer);
+                dungeonCreateTargetedRibbonTrail(state, work, object, ((u8 *)(&D_80083780)), current_timer);
                 if (state->timer.signed_value == current_timer)
-                    func_801685CC(state, work, object, ((u8 *)(&D_80083780)), 2);
+                    dungeonCreateTargetedRibbonTrail(state, work, object, ((u8 *)(&D_80083780)), 2);
             }
         }
         if (state->timer.signed_value == 0xB) {
@@ -144,7 +144,7 @@ void func_8016D754(DungeonState *state, DungeonWork *work,
         work->unk_14 = 0;
         work->unk_10 = 0;
         work->unk_0C = 0;
-        func_800A2B04(work, object->unk_24, object->unk_25);
+        dungeonSetRecordIntegerTileCenter(work, object->unk_24, object->unk_25);
         mode = state->mode;
         switch (mode) {
         case 0:

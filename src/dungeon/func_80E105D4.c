@@ -17,18 +17,18 @@ typedef struct S_80173DD4_3 {
 extern s32 func_80042900(void *, s32);
 extern void func_80042B68(void *, s32);
 extern void func_80047784(void *, u8, s32);
-extern s32 func_8009A180(void *, void *);
-extern s32 func_8009FD40(void *, void *);
+extern s32 dungeonCheckEntityRelation(void *, void *);
+extern s32 dungeonGetTileChebyshevDistance(void *, void *);
 extern s32 func_800A2C34(void *);
 extern s32 func_800A6D30(void);
 extern void func_800A9A04(void *);
 extern void func_800A9A0C(void *);
-extern void func_800AA258(void *, void *, void *, void *);
-extern s32 func_800AA6B4(void *, void *, void *, s32);
-extern void func_800AA79C(void *, void *, void *, void *);
+extern void dungeonBeginPushedActorMove(void *, void *, void *, void *);
+extern s32 dungeonBeginReadyActorDirectionalAction(void *, void *, void *, s32);
+extern void dungeonAdvanceActorPendingAction(void *, void *, void *, void *);
 extern void func_800AA888(void *, void *, void *, void *);
 extern void func_80174520(void *, void *, void *, void *);
-extern void func_80175060(void *, void *);
+extern void dungeonCreateRandomizedMotionObject(void *, void *);
 
 extern u8 D_80171094[];
 extern u8 D_80176470[];
@@ -50,10 +50,10 @@ void func_80173DD4(void *controller, void *context_in, void *object, EntityRec *
     switch (state) {
     case 0:
         if (!(((Rec_D_80082E80 *)object)->unk_14.at00_u16.v & 0xE000)) {
-            func_80175060(controller, context_in);
-            func_80175060(controller, context_in);
-            func_80175060(controller, context_in);
-            func_80175060(controller, context_in);
+            dungeonCreateRandomizedMotionObject(controller, context_in);
+            dungeonCreateRandomizedMotionObject(controller, context_in);
+            dungeonCreateRandomizedMotionObject(controller, context_in);
+            dungeonCreateRandomizedMotionObject(controller, context_in);
             break;
         }
         (*(void * *)((u8 *)object + 0x2C)) = D_80176470;
@@ -91,7 +91,7 @@ void func_80173DD4(void *controller, void *context_in, void *object, EntityRec *
                 break;
             }
             if (actor->unk_64 != 0) {
-                if (func_800AA6B4(controller, context_in, object, 0) != 0) {
+                if (dungeonBeginReadyActorDirectionalAction(controller, context_in, object, 0) != 0) {
                     break;
                 }
             }
@@ -99,7 +99,7 @@ void func_80173DD4(void *controller, void *context_in, void *object, EntityRec *
                 if (global_base->flags & 0x2008) {
                     break;
                 }
-                func_800AA79C(controller, context_in, object, actor);
+                dungeonAdvanceActorPendingAction(controller, context_in, object, actor);
                 break;
             }
             if ((func_800A2C34(actor) << 16) != 0) {
@@ -107,7 +107,7 @@ void func_80173DD4(void *controller, void *context_in, void *object, EntityRec *
             }
             actor_flags = actor->flags1C;
             if (actor_flags & 0x100) {
-                func_800AA258(controller, context_in, object, actor);
+                dungeonBeginPushedActorMove(controller, context_in, object, actor);
                 break;
             }
             if (actor_flags & 0x80000) {
@@ -126,7 +126,7 @@ void func_80173DD4(void *controller, void *context_in, void *object, EntityRec *
             if ((func_800A2C34(actor) << 16) != 0) {
                 EntityRec *owner = D_800814A8;
 
-                if ((func_8009A180(actor,
+                if ((dungeonCheckEntityRelation(actor,
                         (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
                     break;
                 }
@@ -138,7 +138,7 @@ void func_80173DD4(void *controller, void *context_in, void *object, EntityRec *
                 s8 tile = ((Rec_D_80082E80 *)object)->unk_26.as_s8;
 
                 if (((tile == origin->unk_026) && (tile >= 0)) ||
-                    ((s16)func_8009FD40(origin, object) < 2)) {
+                    ((s16)dungeonGetTileChebyshevDistance(origin, object) < 2)) {
                     if (!(func_800A6D30() & 7)) {
                         func_80042B68(actor, 1);
                     }
@@ -172,10 +172,10 @@ void func_80173DD4(void *controller, void *context_in, void *object, EntityRec *
             ((S_80173DD4_3 *)counter_base)->unk_0A--;
             ((Rec_func_80173DD4_arg0 *)controller)->unk_8C = D_80171094;
         } else {
-            func_80175060(controller, context_in);
-            func_80175060(controller, context_in);
-            func_80175060(controller, context_in);
-            func_80175060(controller, context_in);
+            dungeonCreateRandomizedMotionObject(controller, context_in);
+            dungeonCreateRandomizedMotionObject(controller, context_in);
+            dungeonCreateRandomizedMotionObject(controller, context_in);
+            dungeonCreateRandomizedMotionObject(controller, context_in);
         }
         break;
     }

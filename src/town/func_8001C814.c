@@ -1,0 +1,32 @@
+/* Relink of matched town/func_800BC77C; every changed retail word is a paired relocation. */
+#include "common.h"
+#include "shared/object_flags.h"
+
+typedef struct {
+    s8 pad00[0x98];
+    u8 *field_98;
+    u8 *field_9C;
+} Obj;
+
+typedef struct {
+    u8 pad00[0x1A];
+    u16 field_1A;
+} State;
+
+extern void func_80033D08(void *block_data);
+
+/* Mark inactive objects or advance their wrapped 12-bit state value. */
+void func_800B9F74(Obj *obj, void *unused, State *state)
+{
+    s32 t;
+    if (*obj->field_98 == 0) {
+        func_80033D08(obj);
+        *(u16 *)((u8 *)obj - 2) |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
+        return;
+    }
+
+    state->field_1A += *(s8 *)(obj->field_9C + 0x97);
+    t = state->field_1A;
+    state->field_1A = t & 0xFFF;
+}

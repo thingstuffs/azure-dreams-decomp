@@ -6,14 +6,14 @@ typedef struct S_8004F884_arg {
     s32 count;     /* 0x24 */
 } S_8004F884_arg;
 
-extern void func_8004F684(S_8004F884_arg *a0);
-extern void func_8004F780(S_8004F884_arg *a0);
+extern void interpolateSelectionMenuEntryCoordinates(S_8004F884_arg *a0);
+extern void interpolateSelectionMenuEntryShade(S_8004F884_arg *a0);
 extern void func_8004AFC8(void *base, s32 count, s32 size, int (*compar)(void *, void *));
-extern int func_8004F85C(void *a0, void *a1);
-extern void func_80044AAC(void *a0, void *a1);
+extern int compareSelectionMenuEntryOrder(void *a0, void *a1);
+extern void linkTypedListNode(void *a0, void *a1);
 
 /* Sorts and relinks the list entries, then runs the list update hooks. */
-void func_8004F884(S_8004F884_arg *list) {
+void reorderAndInterpolateSelectionMenuEntries(S_8004F884_arg *list) {
     void *sorted[4];
     s32 index;
     void **dest;
@@ -33,7 +33,7 @@ void func_8004F884(S_8004F884_arg *list) {
         } while (index < list->count);
     }
 
-    func_8004AFC8(sorted, list->count, 4, func_8004F85C);
+    func_8004AFC8(sorted, list->count, 4, compareSelectionMenuEntryOrder);
 
     index = 0;
     if (list->count - 1 > 0) {
@@ -42,11 +42,11 @@ void func_8004F884(S_8004F884_arg *list) {
             void *current = pair[0];
             void *next = pair[1];
             pair++;
-            func_80044AAC(current, next);
+            linkTypedListNode(current, next);
             index++;
         } while (index < list->count - 1);
     }
 
-    func_8004F684(list);
-    func_8004F780(list);
+    interpolateSelectionMenuEntryCoordinates(list);
+    interpolateSelectionMenuEntryShade(list);
 }

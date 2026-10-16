@@ -11,7 +11,7 @@ typedef struct S_80171960_0 {
     union { s8 s; u8 u; } unk_71;   /* accessed as both */
     u8 pad_72[0x18];
     union { s16 s; u16 u; } unk_8A;   /* accessed as both */
-} S_80171960_0;   /* arg3 in func_80171960 */
+} S_80171960_0;   /* arg3 in dungeonAdvanceStoredActorPath */
 
 typedef struct S_80171960_1 {
     u8 pad_00[0x24];
@@ -19,7 +19,7 @@ typedef struct S_80171960_1 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_80171960_1;   /* arg2 in func_80171960 */
+} S_80171960_1;   /* arg2 in dungeonAdvanceStoredActorPath */
 
 typedef struct S_80171960_2 {
     u8 pad_00[0x96];
@@ -28,26 +28,26 @@ typedef struct S_80171960_2 {
     u8 unk_9A;
     u8 pad_9B[0xD];
     s16 unk_A8;
-} S_80171960_2;   /* arg0 in func_80171960 */
+} S_80171960_2;   /* arg0 in dungeonAdvanceStoredActorPath */
 
 typedef struct S_80171960_3 {
     u8 pad_00[0x74];
     u8 unk_74;
     u8 pad_75[0x7];
     u8 unk_7C;
-} S_80171960_3;   /* (u8 *)arg3 + ((S_80171960_0 *)arg3)->unk_8A.s in func_80171960 */
+} S_80171960_3;   /* (u8 *)arg3 + ((S_80171960_0 *)arg3)->unk_8A.s in dungeonAdvanceStoredActorPath */
 
 
 extern s32 func_80047784();
 extern s32 func_8009A21C();
 extern s32 func_8009A3D0();
-extern s16 func_800A0818();
+extern s16 dungeonGetRoundedFacingAndRoundingFlag();
 
 extern u8 D_80175140[];
 extern u8 D_80175148[];
 
 /* Advance the actor along its stored path and update movement direction and timing. */
-void func_80171960(void *motion, s32 unused, void *actor, void *move_state)
+void dungeonAdvanceStoredActorPath(void *motion, s32 unused, void *actor, void *move_state)
 {
     u8 *direction_table;
     s32 old_x;
@@ -95,7 +95,7 @@ void func_80171960(void *motion, s32 unused, void *actor, void *move_state)
     }
     func_8009A21C(new_x, new_y, tile_mask);
 
-    ((S_80171960_0 *)move_state)->unk_2A = func_800A0818(
+    ((S_80171960_0 *)move_state)->unk_2A = dungeonGetRoundedFacingAndRoundingFlag(
         old_x, old_y, ((S_80171960_1 *)actor)->unk_24, ((S_80171960_1 *)actor)->unk_25,
         (u8 *)motion + 0x98);
     ((S_80171960_0 *)move_state)->unk_1C.u |= 0x40000000;

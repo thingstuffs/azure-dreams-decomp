@@ -59,12 +59,12 @@ typedef struct AnimData {
 
 extern s32 rand(void);
 extern void func_8003DB94(Anim *, void *, s32);
-extern void func_8008F074(Actor *, Motion *, void *);
-extern void func_8008F134(Actor *);
+extern void townConfigureTheSetModeN1(Actor *, Motion *, void *);
+extern void townUnlinkSceneListNode(Actor *);
 extern void func_80033D08(Actor *);
 extern void SD_Call(s32);
 extern void func_800478B8(Anim *);
-extern s32 func_800A2A18(void *, Motion *);
+extern s32 townTestThreeAxisBoxOverlap(void *, Motion *);
 
 extern u8 D_800F7DD4[];
 extern u8 D_800F7D64[];
@@ -210,7 +210,7 @@ void func_80024B48(Actor *actor, Motion *motion, Anim *anim)
             anim->value6 = 0;
             actor->callback48 = D_800200FC;
             actor->flagsA4 |= 2;
-            func_8008F074(actor, motion, D_80026F38);
+            townConfigureTheSetModeN1(actor, motion, D_80026F38);
             owner->count8++;
         }
         if (actor->timerA2 == 3) {
@@ -276,7 +276,7 @@ void func_80024B48(Actor *actor, Motion *motion, Anim *anim)
 
     case 8:
         if (actor->timerA2 <= 0) {
-            func_8008F134(actor);
+            townUnlinkSceneListNode(actor);
             if (actor->ptr98 != 0) {
                 *actor->ptr98 = 0;
             }
@@ -301,7 +301,7 @@ void func_80024B48(Actor *actor, Motion *motion, Anim *anim)
 
     }
     func_800478B8(anim);
-    if ((actor->flagsA4 & 2) && func_800A2A18(D_80026F38, motion)) {
+    if ((actor->flagsA4 & 2) && townTestThreeAxisBoxOverlap(D_80026F38, motion)) {
         motion->vz = 0;
         motion->vy = 0;
         motion->vx = 0;

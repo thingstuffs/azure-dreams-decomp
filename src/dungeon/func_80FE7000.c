@@ -7,7 +7,7 @@ typedef struct S_80FE7000_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80FE7000_0;   /* created in func_801648A8 */
+} S_80FE7000_0;   /* created in dungeonCreateOverlayEffectObject1007000 */
 
 typedef struct S_80FE7000_1 {
     u8 pad_00[0x13];
@@ -15,12 +15,12 @@ typedef struct S_80FE7000_1 {
     u32 unk_14;
     u8 pad_18[0x4];
     u32 unk_1C;
-} S_80FE7000_1;   /* result in func_801648A8 */
+} S_80FE7000_1;   /* result in dungeonCreateOverlayEffectObject1007000 */
 
 typedef struct S_80FE7000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80FE7000_2;   /* position in func_801648A8 */
+} S_80FE7000_2;   /* position in dungeonCreateOverlayEffectObject1007000 */
 
 typedef struct S_80FE7000_3 {
     u8 pad_00[0x24];
@@ -28,7 +28,7 @@ typedef struct S_80FE7000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80FE7000_3;   /* part_b in func_801648A8 */
+} S_80FE7000_3;   /* part_b in dungeonCreateOverlayEffectObject1007000 */
 
 typedef struct S_80FE7000_4 {
     u8 pad_00[0x8C];
@@ -37,7 +37,7 @@ typedef struct S_80FE7000_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_80FE7000_4;   /* actor in func_801648A8 */
+} S_80FE7000_4;   /* actor in dungeonCreateOverlayEffectObject1007000 */
 
 #if 0 /* rowbase_rename_reverify precondition marker: dead declaration, never
          seen by the real compiler; satisfies the tool's textual defines()
@@ -57,7 +57,7 @@ extern u8 D_80164A7C[];
 extern u8 D_80164EA8[];
 extern u8 D_80168038[];
 extern u8 D_80168088[];
-extern void *func_801648A8(s16, s32, s32, s32);
+extern void *dungeonCreateOverlayEffectObject1007000(s16, s32, s32, s32);
 extern u8 D_801652B8[];
 extern u8 D_801652E4[];
 extern u8 D_80165264[];
@@ -74,13 +74,13 @@ extern u8 D_80166A64[];
 
 
 
-void *func_801648A8(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
+void *dungeonCreateOverlayEffectObject1007000(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
 #ifdef __mips__
     #endif
     ;
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
-void *func_801648A8(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
+void *dungeonCreateOverlayEffectObject1007000(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
 {
     void *result = 0;
     void *created;

@@ -12,13 +12,13 @@ typedef struct S_800168B4_1 {
     s16 unk_0A;
 } S_800168B4_1;   /* (temp_a1 & 0x7E0) +
                           *((s32 *)((u8 *)((s32)D_80016000->unk_30) +
-                                    (temp_a3 * 4))) in func_800168B4 */
+                                    (temp_a3 * 4))) in townBuildObjectSetAndSelectListsRevB */
 
 
 typedef struct S_800168B4_3 {
     u8 pad_00[0x4];
     s32 unk_04;
-} S_800168B4_3;   /* var_v1 in func_800168B4 */
+} S_800168B4_3;   /* var_v1 in townBuildObjectSetAndSelectListsRevB */
 
 
 typedef struct TownEntry {
@@ -37,7 +37,7 @@ typedef struct TownBucket {
     u8 pad_1c[4];
 } TownBucket;
 
-extern s32 func_80016818(void *);
+extern s32 townRunFlagTestCallbacks(void *);
 extern s32 func_8001643C(s32, s32, s32, s32);
 extern void func_800163B8(void *, void *);
 
@@ -50,7 +50,7 @@ extern s32 D_80016FC8;
 extern s32 D_80016FCC;
 
 /* Build object-set records and object-select lists, then report their counts and the CD-header count. */
-void func_800168B4(s32 *entries, s32 ost_w, s32 *osel_w)
+void townBuildObjectSetAndSelectListsRevB(s32 *entries, s32 ost_w, s32 *osel_w)
 {
     s32 p;
     s32 entry_index;
@@ -74,7 +74,7 @@ void func_800168B4(s32 *entries, s32 ost_w, s32 *osel_w)
                                     (bank_bits * 4)))))->unk_0A != 0) ||
                 (bank_bits != 0)) {
                 if (entry->active != 0) {
-                    s32 choice_index = func_80016818(entry);
+                    s32 choice_index = townRunFlagTestCallbacks(entry);
                     s32 choice_flags =
                         (entry->flags & ~0xFF) | (choice_index & 0xFF);
                     s32 next_record;

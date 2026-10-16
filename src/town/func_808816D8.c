@@ -28,7 +28,7 @@ extern void func_80700EB4(void);
 
 
 /* Devkit list redraw: raise the busy flag, rebuild the list and re-key every row. */
-void func_808816D8(void) {
+void townRedrawBusyEntryList(void) {
     u8 *row_cursor;
     u8 *row_base;
 

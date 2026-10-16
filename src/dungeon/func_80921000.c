@@ -16,8 +16,8 @@ typedef struct {
 } CoordBuf;
 
 s32 func_80033BC0(s32);
-void func_8003F80C(void *, s32, s32, s32);
-s32 func_800A4E2C(u8 *, u8 *);
+void uploadVramRowAndCache(void *, s32, s32, s32);
+s32 selectDungeonSpawnTile(u8 *, u8 *);
 s32 func_800A7A38(u8 *item);
 void func_800A7A7C(u8, u8, s16, s32, void *);
 s16 func_800BCB04(s32, s32, s16);
@@ -46,7 +46,7 @@ void func_80921020(EntityRec *state) {
         if ((s16) anim_offset >= 0x70) {
             state->y.w.i = 0U;
         }
-        func_8003F80C(D_800F6D48 + ((s16) ((u16)state->y.w.i) * 4), 0x7380, 1, 2);
+        uploadVramRowAndCache(D_800F6D48 + ((s16) ((u16)state->y.w.i) * 4), 0x7380, 1, 2);
     }
     if ((func_80033BC0(0xA2) != 0) && ((func_800F61BC(6, 3) << 0x10) == 0) && ((func_800F6208(6, 3) << 0x10) == 0)) {
         u8 *mode;
@@ -67,7 +67,7 @@ void func_80921020(EntityRec *state) {
             spawn_data.d = 0;
             do {
 
-            } while ((func_800A4E2C(&spawn_tile.x, &spawn_tile.y) << 0x10) < 0);
+            } while ((selectDungeonSpawnTile(&spawn_tile.x, &spawn_tile.y) << 0x10) < 0);
             height_result = func_800BCB04((spawn_tile.x << 6) | 0x20, (spawn_tile.y << 6) | 0x20, -0x400);
             spawn_height = height_result;
             func_800A7A7C(spawn_tile.x, spawn_tile.y, spawn_height, func_800A7A38(&spawn_data), &spawn_data);

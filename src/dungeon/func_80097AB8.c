@@ -10,11 +10,11 @@ void *func_800CB82C();
 typedef struct S_8009D218_1_pre {
     s32 unk_00;
     u8 pad_04[0x14];
-} S_8009D218_1_pre;   /* the 0x18 bytes before entity in func_8009D218, addressed as entity[-1] */
+} S_8009D218_1_pre;   /* the 0x18 bytes before entity in dungeonTryTriggerTargetRecordEffect, addressed as entity[-1] */
 
 /* extern */
 
-s32 func_8009D218(EntityRec *entity, s32 flags, Rec_D_800287A4 *record) {
+s32 dungeonTryTriggerTargetRecordEffect(EntityRec *entity, s32 flags, Rec_D_800287A4 *record) {
     u8 *value_ptr;
 
     if (!(flags & 8) && (record != NULL)) {

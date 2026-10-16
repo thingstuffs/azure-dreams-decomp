@@ -3,32 +3,32 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 M2C_UNK func_80033D08();                      /* extern */
-void func_8008F134();                      /* extern */
-s32 func_8009CFE0(Rec_func_80094268_arg0 *, s32);                                /* extern */
-void func_800C30A4();                      /* extern */
-void func_800C321C();    /* extern */
+void townUnlinkSceneListNode();                      /* extern */
+s32 townClassifyObjectAgainstBounds(Rec_func_80094268_arg0 *, s32);                                /* extern */
+void townClearObjectSlotAndMarkRemoved();                      /* extern */
+void townUpdateObjectMotionAndFlags();    /* extern */
 extern M2C_UNK D_800C3960;
 
 
 /* Update the object motion or clear its state and clean it up when the position check fails. */
-void func_800C3174(Rec_func_80094268_arg0 *object, s32 position, s32 motion) {
+void townUpdateObjectPositionOrCleanup(Rec_func_80094268_arg0 *object, s32 position, s32 motion) {
     s32 check_result;
     s8 *state_flag;
 
-    check_result = func_8009CFE0(object, position);
+    check_result = townClassifyObjectAgainstBounds(object, position);
     if (check_result != 0) {
         if ((check_result != 2) || (object->unk_50.as_s32 != &D_800C3960)) {
-            func_8008F134(object);
+            townUnlinkSceneListNode(object);
             state_flag = object->unk_98;
             if (state_flag != NULL) {
                 *state_flag = 0;
             }
             func_80033D08(object);
-            func_800C30A4(object);
+            townClearObjectSlotAndMarkRemoved(object);
             return;
         }
-        func_800C321C(object, position, motion);
+        townUpdateObjectMotionAndFlags(object, position, motion);
         return;
     }
-    func_800C321C(object, position, motion);
+    townUpdateObjectMotionAndFlags(object, position, motion);
 }

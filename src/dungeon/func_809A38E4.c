@@ -6,7 +6,7 @@ static __inline__ s16 project_ring_coordinate(s32 radius, s32 trig, u16 center)
 }
 
 /* Emit colored quads between two concentric elliptical arcs. */
-void func_801750E4(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_y,
+void dungeonEmitConcentricEllipseQuads(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_y,
                    u16 center_x, s16 center_y, s32 *color_b_ptr, s32 *color_a_ptr,
                    s32 draw_bucket, s32 start_segment, s32 end_segment)
 {

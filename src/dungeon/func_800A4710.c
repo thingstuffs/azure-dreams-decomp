@@ -5,13 +5,13 @@
 #include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
-extern s32 func_800A9E38(void *record);
+extern s32 dungeonUsesDirectActorSpriteFrames(void *record);
 extern s32 func_800A2BDC(void *entity);
 extern void func_8003DB94(void *state, s32 entries, s8 index);
-extern void func_80047738(void *state, u8 table_index, s8 entry_index);
+extern void selectIndirectTableEntry(void *state, u8 table_index, s8 entry_index);
 extern void func_800478B8(void *entity);
-extern void func_800ACB98(void *entity, s32 unused, void *status, void *event_state);
-extern void func_800ACD74(void *object_state, s32 unused_context, void *properties, void *status);
+extern void dungeonBeginActorFlaggedAction(void *entity, s32 unused, void *status, void *event_state);
+extern void dungeonInitializeActorObjectAction(void *object_state, s32 unused_context, void *properties, void *status);
 
 extern s16 D_800DCE68;
 
@@ -22,7 +22,7 @@ typedef struct S_800A9E70_2 {
     u16 unk_14;
     u8 pad_16[0x16];
     union { s32 * p; u8 * p2; } unk_2C;   /* accessed as both */
-} S_800A9E70_2;   /* arg2 in func_800A9E70 */
+} S_800A9E70_2;   /* arg2 in dungeonRefreshActorFacingAndLifecycle */
 
 typedef struct S_800A9E70_3 {
     u8 pad_00[0x2];
@@ -32,10 +32,10 @@ typedef struct S_800A9E70_3 {
     u8 pad_0A[0x2];
     void * unk_0C;
     s32 unk_10;
-} S_800A9E70_3;   /* state in func_800A9E70 */
+} S_800A9E70_3;   /* state in dungeonRefreshActorFacingAndLifecycle */
 
 /* Updates entity facing and applies pending animation changes. */
-s32 func_800A9E70(Rec_func_800A9E70_arg0 *anim, s32 action_arg, S_800A9E70_2 *sprite, EntityRec *entity) {
+s32 dungeonRefreshActorFacingAndLifecycle(Rec_func_800A9E70_arg0 *anim, s32 action_arg, S_800A9E70_2 *sprite, EntityRec *entity) {
     void *active_entity;
     s32 entity_flags;
     s32 direction;
@@ -45,12 +45,12 @@ s32 func_800A9E70(Rec_func_800A9E70_arg0 *anim, s32 action_arg, S_800A9E70_2 *sp
     if (entity->flags14 & 0x100000) {
         direction = ((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
         if (anim->unk_94 != direction) {
-            if (func_800A9E38(entity) != 0) {
+            if (dungeonUsesDirectActorSpriteFrames(entity) != 0) {
                 func_8003DB94(sprite, sprite->unk_2C.p[direction],
                               sprite->unk_04);
                 anim->unk_94 = direction;
             } else {
-                func_80047738(sprite, sprite->unk_2C.p2[direction],
+                selectIndirectTableEntry(sprite, sprite->unk_2C.p2[direction],
                               sprite->unk_04);
                 anim->unk_94 = direction;
             }
@@ -79,11 +79,11 @@ s32 func_800A9E70(Rec_func_800A9E70_arg0 *anim, s32 action_arg, S_800A9E70_2 *sp
     if (!(sprite->unk_14 & 0x8000)) {
         if (anim->unk_98 & 0x400) {
             direction = ((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
-            if (func_800A9E38(entity) != 0) {
+            if (dungeonUsesDirectActorSpriteFrames(entity) != 0) {
                 func_8003DB94(sprite, sprite->unk_2C.p[direction],
                               sprite->unk_04);
             } else {
-                func_80047738(sprite, sprite->unk_2C.p2[direction],
+                selectIndirectTableEntry(sprite, sprite->unk_2C.p2[direction],
                               sprite->unk_04);
             }
             anim->unk_98 &= 0xFBFF;
@@ -122,7 +122,7 @@ s32 func_800A9E70(Rec_func_800A9E70_arg0 *anim, s32 action_arg, S_800A9E70_2 *sp
                     entity->flags1C &= 0xFFBFFFFF;
                     if (entity_flags & 0x20000000) {
                         entity->flags14 = entity_flags | 0x400000;
-                        func_800ACB98(anim, action_arg, sprite, entity);
+                        dungeonBeginActorFlaggedAction(anim, action_arg, sprite, entity);
                         return 0;
                     }
                     entity->flags14 = entity_flags & 0xFFBFFFFF;
@@ -141,7 +141,7 @@ s32 func_800A9E70(Rec_func_800A9E70_arg0 *anim, s32 action_arg, S_800A9E70_2 *sp
                     entity->unk_71 = 0;
                     entity->flags1C &= 0xFDFFFFFF;
                     if (entity->flags14 & 0x20000000) {
-                        func_800ACD74(anim, action_arg, sprite, entity);
+                        dungeonInitializeActorObjectAction(anim, action_arg, sprite, entity);
                         return 0;
                     }
                     anim->unk_9A.as_u8 = 0;

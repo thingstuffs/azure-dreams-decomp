@@ -3,11 +3,11 @@
 #include "shared/game_work.h"
 
 extern s32 func_80064584(s32 wave_input);
-extern void func_80094378(void *controller, void *object, s32 update_value);
-extern void func_80095094(void *record);
-extern s16 func_80095978(void *position, void *out_value);
-extern void func_80095A94(void *obj, s16 base_value, void *vec_ptr);
-extern void func_80095C80(void *position);
+extern void dungeonInitializeActionObject(void *controller, void *object, s32 update_value);
+extern void townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero(void *record);
+extern s16 townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(void *position, void *out_value);
+extern void townComputeAndClampsVectorBasedAdjustmentUpdatesTown(void *obj, s16 base_value, void *vec_ptr);
+extern void townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(void *position);
 extern void func_800A9F14(void *origin);
 extern void func_800AAA58(void *controller, void *object, s32 update_value);
 
@@ -30,17 +30,17 @@ void func_800AA5F8(void *controller, void *object, s32 update_arg) {
 
     saved_arg = update_arg;
     buttons = &gameWork;
-    func_80095C80(object);
-    func_80095094(object);
-    angle = func_80095978(object, ((u8 *)&D_800FE488));
+    townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(object);
+    townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero(object);
+    angle = townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(object, ((u8 *)&D_800FE488));
     if (angle - *(s16 *)((u8 *)object + 0xA) >= 4) {
         if (D_800CFCEF == 0) {
-            func_80094378(controller, object, saved_arg);
+            dungeonInitializeActionObject(controller, object, saved_arg);
             D_800D0B14 = 0;
             return;
         }
     } else if (D_800CFCEF == 0) {
-        func_80095A94(object, angle, ((u8 *)&D_800FE488));
+        townComputeAndClampsVectorBasedAdjustmentUpdatesTown(object, angle, ((u8 *)&D_800FE488));
     }
 
     if ((((s32)buttons->unk_010) & 0x40) && D_80100D1C >= 0x800) {

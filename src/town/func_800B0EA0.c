@@ -9,7 +9,7 @@ typedef struct CallbackNode {
 #endif
 
 /* Invoke the node callback with the node itself when present. */
-void func_800AE600(CallbackNode *node) {
+void townInvokeItemMenuNodeCallback(CallbackNode *node) {
     if (node->callback != NULL) {
         node->callback(node);
     }

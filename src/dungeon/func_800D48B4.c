@@ -17,15 +17,15 @@ typedef struct S_800DA014_0 {
 extern s32 func_80042900(void *, s32);
 extern void func_80042B68(void *, s32);
 extern void func_8003DB94(void *, s32, s32);
-extern s32 func_8009A180(void *, void *);
-extern s16 func_8009FD40(void *, void *);
+extern s32 dungeonCheckEntityRelation(void *, void *);
+extern s16 dungeonGetTileChebyshevDistance(void *, void *);
 extern s32 func_800A2C34(void *);
 extern s32 func_800A6D30(void);
 extern void func_800A9A04(void *);
 extern void func_800A9A0C(void *);
-extern void func_800AA258(void *, void *, void *, void *);
-extern s32 func_800AA6B4(void *, void *, void *, void *);
-extern void func_800AA79C(void *, void *, void *, void *);
+extern void dungeonBeginPushedActorMove(void *, void *, void *, void *);
+extern s32 dungeonBeginReadyActorDirectionalAction(void *, void *, void *, void *);
+extern void dungeonAdvanceActorPendingAction(void *, void *, void *, void *);
 extern void func_800AA888(void *, void *, void *, void *);
 extern void func_800DA660(void *, void *, void *, void *);
 
@@ -65,7 +65,7 @@ void func_800DA014(void *controller, void *action_context, void *sprite, EntityR
         }
 
         if ((actor->unk_64 != 0) &&
-            (func_800AA6B4(controller, action_context, sprite, 0) != 0)) {
+            (dungeonBeginReadyActorDirectionalAction(controller, action_context, sprite, 0) != 0)) {
             return;
         }
 
@@ -73,7 +73,7 @@ void func_800DA014(void *controller, void *action_context, void *sprite, EntityR
             if (system_base->flags & 0x2008) {
                 return;
             }
-            func_800AA79C(controller, action_context, sprite, actor);
+            dungeonAdvanceActorPendingAction(controller, action_context, sprite, actor);
             return;
         }
 
@@ -83,7 +83,7 @@ void func_800DA014(void *controller, void *action_context, void *sprite, EntityR
 
         actor_flags = actor->flags1C;
         if (actor_flags & 0x100) {
-            func_800AA258(controller, action_context, sprite, actor);
+            dungeonBeginPushedActorMove(controller, action_context, sprite, actor);
             return;
         }
 
@@ -98,7 +98,7 @@ void func_800DA014(void *controller, void *action_context, void *sprite, EntityR
         }
 
         if ((func_800A2C34(actor) << 16) != 0) {
-            if ((func_8009A180(actor,
+            if ((dungeonCheckEntityRelation(actor,
                     (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
                 return;
             }
@@ -115,7 +115,7 @@ void func_800DA014(void *controller, void *action_context, void *sprite, EntityR
             coordinate = ((Rec_D_80082E80 *)sprite)->unk_26.as_s8;
             if ((((coordinate == reference_sprite->unk_026) &&
                         (coordinate >= 0)) ||
-                 (func_8009FD40(reference_sprite, sprite) < 2)) &&
+                 (dungeonGetTileChebyshevDistance(reference_sprite, sprite) < 2)) &&
                 ((func_800A6D30() & 7) == 0)) {
                 func_80042B68(actor, 1);
             }

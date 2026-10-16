@@ -54,13 +54,13 @@ extern u8 D_80174684[];
 extern u8 D_801746C4[];
 extern u8 D_801746CC[];
 
-extern s32 func_800A2B04();
-extern s32 func_800AAA54();
-extern s32 func_800AD4D0();
+extern s32 dungeonSetRecordIntegerTileCenter();
+extern s32 dungeonBeginActorDisplayAction();
+extern s32 dungeonApplyClampedActorValueDelta();
 extern s32 func_80047784();
 
 /* Updates timed movement, returns the entity to its tile, and restores its animation. */
-void func_8016D204(S_func_81325A04_0 *action, S_func_81325A04_1 *motion, S_func_81325A04_2 *entity,
+void dungeonUpdateTimedMovementAndRestoreAnimation(S_func_81325A04_0 *action, S_func_81325A04_1 *motion, S_func_81325A04_2 *entity,
     S_func_81325A04_3 *actor) {
     s32 state;
     s16 timer;
@@ -84,7 +84,7 @@ void func_8016D204(S_func_81325A04_0 *action, S_func_81325A04_1 *motion, S_func_
     state = action->unk_9B;
     switch (state) {
     case 0:
-        func_800AD4D0(actor);
+        dungeonApplyClampedActorValueDelta(actor);
         action->unk_96.s = 12;
         action->unk_9B = (u8)(action->unk_9B + 1);
         if (actor->unk_28 == 0) {
@@ -97,7 +97,7 @@ void func_8016D204(S_func_81325A04_0 *action, S_func_81325A04_1 *motion, S_func_
                 return;
             }
             action->unk_9B = 0;
-            func_800AAA54(action, motion, entity, D_801746CC);
+            dungeonBeginActorDisplayAction(action, motion, entity, D_801746CC);
             return;
         }
         final_state = (u8 *)3;
@@ -178,14 +178,14 @@ void func_8016D204(S_func_81325A04_0 *action, S_func_81325A04_1 *motion, S_func_
         motion->unk_14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, entity->unk_24, entity->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, entity->unk_24, entity->unk_25);
         if (actor->unk_28 == 0) {
             motion->unk_14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
             if (action->unk_B4 == 0) {
                 action->unk_9B = 0;
-                func_800AAA54(action, motion, entity, D_801746CC);
+                dungeonBeginActorDisplayAction(action, motion, entity, D_801746CC);
                 return;
             } else {
                 u8 *result_bits = D_8016B778;

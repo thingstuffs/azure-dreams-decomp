@@ -17,13 +17,13 @@ extern Packed12 D_80173B34;
 typedef struct S_8016604C_0 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_8016604C_0;   /* arg0 in func_8016604C */
+} S_8016604C_0;   /* arg0 in dungeonScatterLandingSparksOnGrid */
 
 typedef struct S_8016604C_1 {
     u8 pad_00[0xC];
     s32 unk_0C;
     s32 unk_10;
-} S_8016604C_1;   /* temp_v0_2 in func_8016604C */
+} S_8016604C_1;   /* temp_v0_2 in dungeonScatterLandingSparksOnGrid */
 
 typedef struct S_8016604C_2 {
     u8 pad_00[0x8];
@@ -36,7 +36,7 @@ typedef struct S_8016604C_2 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_8016604C_2;   /* temp_s0 in func_8016604C */
+} S_8016604C_2;   /* temp_s0 in dungeonScatterLandingSparksOnGrid */
 
 typedef struct S_8016604C_3 {
     u8 pad_00[0x2];
@@ -45,7 +45,7 @@ typedef struct S_8016604C_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8016604C_3;   /* ((S_8016604C_0 *)arg0)->unk_08 in func_8016604C */
+} S_8016604C_3;   /* ((S_8016604C_0 *)arg0)->unk_08 in dungeonScatterLandingSparksOnGrid */
 
 typedef struct S_8016604C_4 {
     u8 pad_00[0x2];
@@ -56,10 +56,10 @@ typedef struct S_8016604C_4 {
     s16 unk_0A;
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_8016604C_4;   /* (*(void **)((u8 *)temp_v0 + 8)) in func_8016604C */
+} S_8016604C_4;   /* (*(void **)((u8 *)temp_v0 + 8)) in dungeonScatterLandingSparksOnGrid */
 
 /* Spawn particles at random positions in a grid around the source. */
-void func_8016604C(S_8016604C_0 *source) {
+void dungeonScatterLandingSparksOnGrid(S_8016604C_0 *source) {
     s32 x_base;
     s32 y_base;
     s32 y_random;

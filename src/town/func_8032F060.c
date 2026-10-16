@@ -1,11 +1,11 @@
 #include "common.h"
 
-extern void func_8001ACE8(s16 bit_index);
-extern void func_8001AD60(s16 bit_index);
-extern s32 func_8001ADE0(s16 flagIndex);
+extern void townSetScriptFlagBit(s16 bit_index);
+extern void townClearScriptFlagBit(s16 bit_index);
+extern s32 townGetScriptFlagMask(s16 flagIndex);
 
 /* Updates two dependent IDs according to the checked ID's status, then updates the checked ID. */
-void func_80019860(s16 checked_id, s16 first_id, s16 second_id)
+void townUpdateDependentEntryIds(s16 checked_id, s16 first_id, s16 second_id)
 {
     s16 saved_first_id;
     u16 first_id_copy;
@@ -17,11 +17,11 @@ void func_80019860(s16 checked_id, s16 first_id, s16 second_id)
     saved_checked_id = checked_id;
     first_id_copy = saved_first_id;
 
-    if (func_8001ADE0(checked_id) != 0) {
-        func_8001ACE8(saved_first_id);
-        func_8001ACE8(saved_second_id);
+    if (townGetScriptFlagMask(checked_id) != 0) {
+        townSetScriptFlagBit(saved_first_id);
+        townSetScriptFlagBit(saved_second_id);
     } else {
-        func_8001AD60(first_id_copy);
+        townClearScriptFlagBit(first_id_copy);
     }
-    func_8001ACE8(saved_checked_id);
+    townSetScriptFlagBit(saved_checked_id);
 }

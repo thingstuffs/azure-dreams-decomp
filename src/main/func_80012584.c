@@ -4,7 +4,7 @@
 typedef struct S_80025584_0_pre {
     s32 * unk_00;
     u8 pad_04[0xC];
-} S_80025584_0_pre;   /* the 0x10 bytes before menu in func_80025584, addressed as menu[-1] */
+} S_80025584_0_pre;   /* the 0x10 bytes before menu in cardBootUpdateCopyDestinationSelection, addressed as menu[-1] */
 
 typedef struct S_80025584_0 {
     u8 pad_00[0x20];
@@ -13,22 +13,22 @@ typedef struct S_80025584_0 {
     s32 unk_28;
     u8 pad_2C[0x4];
     s32 unk_30;
-} S_80025584_0;   /* menu in func_80025584 */
+} S_80025584_0;   /* menu in cardBootUpdateCopyDestinationSelection */
 
 
 extern s32 D_80024FFC;
 
-extern s32 func_8002168C(void);
+extern s32 cardBootDebounceCardStatusEvents(void);
 extern void func_80021904(void);
 extern void func_800250E8(void *menu);
-extern void func_800254E4(void *context);
-extern void func_80025D34(void *object);
-extern void func_80027AFC(s32 request, s32 mode);
-extern s32 func_80049DE8(s32 index, s32 delta, s32 limit);
+extern void cardBootPrepareCopyDestinationMessage(void *context);
+extern void cardBootDestroySlotSelectionMenu(void *object);
+extern void initCardBootRequestObject(s32 request, s32 mode);
+extern s32 advanceIndexWithSingleWrap(s32 index, s32 delta, s32 limit);
 extern void SD_Call(s32 flags);
 
 /* Handle menu input, selection repeat, and transition completion. */
-void func_80025584(u8 *menu)
+void cardBootUpdateCopyDestinationSelection(u8 *menu)
 {
     s32 selection_delta;
     s32 transition_status;
@@ -44,7 +44,7 @@ void func_80025584(u8 *menu)
         buttons = ((s32)gameWork.unk_010);
         if (buttons & 0x40) {
             SD_Call(0x503);
-            func_800254E4(menu);
+            cardBootPrepareCopyDestinationMessage(menu);
         } else if (gameWork.buttons & 0x5000) {
             if (buttons & 0x5000) {
                 ((S_80025584_0 *)menu)->unk_30 = 0;
@@ -73,12 +73,12 @@ void func_80025584(u8 *menu)
         if (selection_delta != 0) {
             SD_Call(0x502);
             ((S_80025584_0 *)menu)->unk_28 =
-                func_80049DE8(((S_80025584_0 *)menu)->unk_28, selection_delta, 5);
+                advanceIndexWithSingleWrap(((S_80025584_0 *)menu)->unk_28, selection_delta, 5);
             func_800250E8(menu);
         }
     }
 
-    transition_status = func_8002168C();
+    transition_status = cardBootDebounceCardStatusEvents();
     func_80021904();
     if (transition_status == 0) {
         return;
@@ -86,6 +86,6 @@ void func_80025584(u8 *menu)
     if (transition_status == 1) {
         return;
     }
-    func_80025D34(menu - 0x20);
-    func_80027AFC(((S_80025584_0 *)menu)->unk_20, 0);
+    cardBootDestroySlotSelectionMenu(menu - 0x20);
+    initCardBootRequestObject(((S_80025584_0 *)menu)->unk_20, 0);
 }

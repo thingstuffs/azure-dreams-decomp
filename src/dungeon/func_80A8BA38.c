@@ -13,7 +13,7 @@ typedef struct S_8015B238_1 {
     union { s16 s; u16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_8015B238_1;   /* arg0 in func_8015B238 */
+} S_8015B238_1;   /* arg0 in dungeonSettleDirectionalActorMotion */
 
 typedef struct S_8015B238_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -22,20 +22,20 @@ typedef struct S_8015B238_2 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_8015B238_2;   /* arg1 in func_8015B238 */
+} S_8015B238_2;   /* arg1 in dungeonSettleDirectionalActorMotion */
 
 
 extern void func_80047784(void *, s32, s32);
-extern void func_800A2B04(void *, s32, s32);
-extern void func_800AAA54(void *actor, void *unused, void *display, u8 *facing_variants);
-extern void func_800AD4D0(void *);
+extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
+extern void dungeonBeginActorDisplayAction(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void dungeonApplyClampedActorValueDelta(void *);
 
 extern u8 D_80158E54;
 extern u8 D_8015C150[];
 extern u8 D_8015C178[];
 
 /* Updates directional movement and settles the actor at its tile center. */
-void func_8015B238(void *motion_state, void *motion, void *map_actor, void *actor)
+void dungeonSettleDirectionalActorMotion(void *motion_state, void *motion, void *map_actor, void *actor)
 {
     s32 state;
     s32 direction;
@@ -46,7 +46,7 @@ void func_8015B238(void *motion_state, void *motion, void *map_actor, void *acto
     state = ((S_8015B238_1 *)motion_state)->unk_9B;
     switch (state) {
     case 0:
-        func_800AD4D0(actor);
+        dungeonApplyClampedActorValueDelta(actor);
         ((S_8015B238_2 *)motion)->unk_0C = ((s16 *)((s8 *)dirStepX))[direction] << 18;
         ((S_8015B238_2 *)motion)->unk_10 = ((s16 *)((s8 *)dirStepY))[direction] << 18;
         ((S_8015B238_1 *)motion_state)->unk_9B++;
@@ -55,7 +55,7 @@ void func_8015B238(void *motion_state, void *motion, void *map_actor, void *acto
             ((S_8015B238_2 *)motion)->unk_14 = 0;
             ((S_8015B238_2 *)motion)->unk_10 = 0;
             ((S_8015B238_2 *)motion)->unk_0C = 0;
-            func_800AAA54(motion_state, motion, map_actor, D_8015C178);
+            dungeonBeginActorDisplayAction(motion_state, motion, map_actor, D_8015C178);
             return;
         }
         if (((Rec_D_80082E80 *)map_actor)->unk_14.at00_u16.v & 0x8000) {
@@ -91,7 +91,7 @@ void func_8015B238(void *motion_state, void *motion, void *map_actor, void *acto
             ((S_8015B238_2 *)motion)->unk_14 = 0;
             ((S_8015B238_2 *)motion)->unk_10 = 0;
             ((S_8015B238_2 *)motion)->unk_0C = 0;
-            func_800AAA54(motion_state, motion, map_actor, D_8015C178);
+            dungeonBeginActorDisplayAction(motion_state, motion, map_actor, D_8015C178);
             return;
         } else {
             (*(u8 * *)((u8 *)map_actor + 0x2C)) = D_8015C150;
@@ -146,7 +146,7 @@ void func_8015B238(void *motion_state, void *motion, void *map_actor, void *acto
         ((S_8015B238_2 *)motion)->unk_0C = 0;
         ((S_8015B238_2 *)motion)->unk_00.at00.v = ((((Rec_D_80082E80 *)map_actor)->unk_24 << 6) + 0x20) << 16;
         ((S_8015B238_2 *)motion)->unk_04.at00.v = ((((Rec_D_80082E80 *)map_actor)->unk_25 << 6) + 0x20) << 16;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)map_actor)->unk_24, ((Rec_D_80082E80 *)map_actor)->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)map_actor)->unk_24, ((Rec_D_80082E80 *)map_actor)->unk_25);
 
         tracked_actor = ((s32)dungeonStatus.unk_10);
         if (tracked_actor == (s32)((u8 *)actor - 0x20)) {

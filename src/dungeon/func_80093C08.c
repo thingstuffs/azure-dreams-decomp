@@ -5,14 +5,14 @@
 typedef struct { u8 unk0; u8 unk1; s8 unk2; u8 unk3; } FuncData;
 extern void *func_8003AD08();
 extern void *func_80099194();
-extern void *func_800992A8();
-extern void *func_800992E8();
+extern void *dungeonAppendSignedValueBytes();
+extern void *dungeonCopySelectedTextWithoutTerminator();
 extern u8 *D_800DD720;
 extern s32 D_800DD72C[];
 extern s32 D_800DD784[];
 
 /* Appends formatted data with type-specific affixes and a numeric value to the buffer. */
-u8 *func_80099368(FuncData *data, u8 *buffer) {
+u8 *dungeonAppendTypedFormattedValue(FuncData *data, u8 *buffer) {
     s32 prefix_id;
     s32 suffix_id;
     s32 value;
@@ -32,7 +32,7 @@ u8 *func_80099368(FuncData *data, u8 *buffer) {
             out = func_80099194(prefix_id, out);
         }
     }
-    out = func_800992E8(data, out);
+    out = dungeonCopySelectedTextWithoutTerminator(data, out);
     if (!(D_800E3D7C->flags1C & 0x10)) {
         suffix_kind = data->unk1;
         suffix_id = D_800DD784[suffix_kind];
@@ -62,7 +62,7 @@ u8 *func_80099368(FuncData *data, u8 *buffer) {
             if (!(data->unk3 & 0x80)) {
                 value = data->unk2;
                 if (value != 0) {
-                    out = func_800992A8(value, out);
+                    out = dungeonAppendSignedValueBytes(value, out);
                     if (value < 0)
                         value = -value;
                     out = func_8003AD08(value, out);

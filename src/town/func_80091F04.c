@@ -9,12 +9,12 @@ extern int abs(int);
 #define SCU8(p, o)   (*(u8 *)((u8 *)(p) + (o)))
 #define SCPTR(p, o)  (*(void **)((u8 *)(p) + (o)))
 
-extern void func_8008F55C(void *, void *, void *);
+extern void townApplyTheEntryAdjustmentIncrementSlotCountStoreSlot(void *, void *, void *);
 extern void func_8008F5B4(void *, void *, void *);
 extern void func_8008F60C(void *, void *, void *);
 
 /* Resolve bounding-box overlaps with linked colliders along the least-penetrating axis. */
-void func_8008F664(void *collider, void *position) {
+void townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxis(void *collider, void *position) {
     u8 *scratch;
     void *bounds;
     void *other_bounds;
@@ -289,7 +289,7 @@ void func_8008F664(void *collider, void *position) {
                         continue;
                     }
                 }
-                func_8008F55C(collider, position, scratch);
+                townApplyTheEntryAdjustmentIncrementSlotCountStoreSlot(collider, position, scratch);
                 continue;
             }
             z_depth = VSC32(scratch, 0x20);

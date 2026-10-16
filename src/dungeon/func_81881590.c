@@ -10,7 +10,7 @@ typedef struct S_80024D90_0 {
     void * unk_08;
     void * unk_0C;
     s32 * unk_10;
-} S_80024D90_0;   /* temp_v0 in func_80024D90 */
+} S_80024D90_0;   /* temp_v0 in dungeonSpawnRingEffects */
 
 typedef struct S_80024D90_1 {
     u8 pad_00[0x2];
@@ -19,7 +19,7 @@ typedef struct S_80024D90_1 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80024D90_1;   /* saved_arg0 in func_80024D90 */
+} S_80024D90_1;   /* saved_arg0 in dungeonSpawnRingEffects */
 
 typedef struct S_80024D90_2 {
     u8 pad_00[0x2];
@@ -28,7 +28,7 @@ typedef struct S_80024D90_2 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_80024D90_2;   /* temp_s1 in func_80024D90 */
+} S_80024D90_2;   /* temp_s1 in dungeonSpawnRingEffects */
 
 typedef struct S_80024D90_3 {
     u8 pad_00[0xC];
@@ -39,7 +39,7 @@ typedef struct S_80024D90_3 {
     u8 pad_1A[0x2];
     s16 unk_1C;
     s16 unk_1E;
-} S_80024D90_3;   /* component in func_80024D90 */
+} S_80024D90_3;   /* component in dungeonSpawnRingEffects */
 
 typedef struct S_80024D90_4 {
     u8 pad_00[0x14];
@@ -48,13 +48,13 @@ typedef struct S_80024D90_4 {
     s16 unk_1E;
     u8 pad_20[0x4];
     s16 unk_24;
-} S_80024D90_4;   /* temp_a0 in func_80024D90 */
+} S_80024D90_4;   /* temp_a0 in dungeonSpawnRingEffects */
 
 
 
 
 /* Spawns sixteen effects in a ring around the source position. */
-void *func_80024D90(void *source_pos, s16 effect_param) {
+void *dungeonSpawnRingEffects(void *source_pos, s16 effect_param) {
     register void *origin = source_pos;
     register s16 state_param = effect_param;
     register s32 effect_index = 0;

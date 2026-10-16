@@ -3,23 +3,23 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-   /* scratch in func_80024C3C */
+   /* scratch in dungeonProjectHeightGridObjectQuad */
 
-   /* arg1 in func_80024C3C */
+   /* arg1 in dungeonProjectHeightGridObjectQuad */
 
-   /* table in func_80024C3C */
+   /* table in dungeonProjectHeightGridObjectQuad */
 
-   /* table2 in func_80024C3C */
+   /* table2 in dungeonProjectHeightGridObjectQuad */
 
-   /* base in func_80024C3C */
+   /* base in dungeonProjectHeightGridObjectQuad */
 
-   /* object in func_80024C3C */
+   /* object in dungeonProjectHeightGridObjectQuad */
 
-   /* texture in func_80024C3C */
+   /* texture in dungeonProjectHeightGridObjectQuad */
 
-   /* packet in func_80024C3C */
+   /* packet in dungeonProjectHeightGridObjectQuad */
 
-   /* *global in func_80024C3C */
+   /* *global in dungeonProjectHeightGridObjectQuad */
 
 
 #define VFIELD(p, type, offset) (*(volatile type *)((u8 *)(p) + (offset)))
@@ -33,7 +33,7 @@ static __inline__ void set_v_width(s32 *rect, s32 v, s32 width)
 }
 
 /* Project a textured object quad onto the height grid and add it to the ordering table. */
-void func_80024C3C(void *unused, void *origin, u8 *object, s16 tile_x, s16 tile_y)
+void dungeonProjectHeightGridObjectQuad(void *unused, void *origin, u8 *object, s16 tile_x, s16 tile_y)
 {
     u8 **render_state = (u8 **)((u8 *)(&gameWork));
     u8 *scratch = (u8 *)0x1F800000;

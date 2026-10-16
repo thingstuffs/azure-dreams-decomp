@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-s32 func_80019894(s16 resource_index) {
+s32 dungeonLoadGenerationResourceSlot(s16 resource_index) {
     s16 slot_index;
     s32 resource_id;
     u8 *loaded_id;
@@ -23,11 +23,11 @@ s32 func_80019894(s16 resource_index) {
     (*(s32 *)D_80081480) = ((Rec_D_80082E80 *)(&(*(M2C_UNK *)D_8008148C)))->unk_00;
     Control_CD(6, cd_data, 0);
     Control_CD(6, resource->unk_04, 0);
-    func_8003F320();
+    drainCdCommandQueue();
     func_8003F5E0((*(M2C_UNK *)D_8008148C));
     SD_Call(((2 << slot_index) | 0x10) & 0xFFFF);
     func_800542BC();
     do {
-    } while (func_8005405C((s16) resource->unk_00) != 1);
+    } while (testSoundChannelAvailability((s16) resource->unk_00) != 1);
     return 1;
 }

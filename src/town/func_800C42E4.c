@@ -5,7 +5,7 @@
 extern unsigned char D_800717D0[16];
 extern M2C_UNK D_800D42CC;
 
-/* Passes the global buffer and data address to func_8003AF58. */
+/* Passes the global buffer and data address to appendTownMovieListNode. */
 void func_800C1A44(void) {
-    func_8003AF58(D_800717D0, &D_800D42CC);
+    appendTownMovieListNode(D_800717D0, &D_800D42CC);
 }

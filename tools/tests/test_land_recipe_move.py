@@ -58,6 +58,15 @@ def make_tree():
     (b / "tools").symlink_to(T / "tools/build")
     (b / "include").symlink_to(ROOT / "include")
     shutil.copy(ROOT / "build_slus/build.ninja", b / "build.ninja")
+    # Current module/partition adapters need their frozen raw provenance and
+    # the same manifest context in both authority and exported view.
+    (T / "config").symlink_to(b / "config", target_is_directory=True)
+    (T / "raw").symlink_to(ROOT / "raw", target_is_directory=True)
+    (b / "raw").symlink_to(T / "raw", target_is_directory=True)
+    # Keep this fixture's before/after recipe transition independent of later
+    # real-tree landings of the sample row.
+    with L.rooted(T):
+        L.common.set_row_cfgs([(OVL_ROW, "2.7.2", "test fixture starting recipe")])
     return T
 
 

@@ -1,10 +1,6 @@
-#include "common.h"
-#include "shared/game_work.h"
+#include "modules/dungeon_ovl_1829800.h"
 
-extern void func_800BC4D4();
-
-/* Sets the scratchpad offset to the negated global coordinates before forwarding the call. */
-void func_80026F1C(s32 call_value, s32 call_option, s16 call_mode, s32 call_extra)
+void dungeonSetNegatedCoordinateScratch(s32 call_value, s32 call_option, s16 call_mode, s32 call_extra)
 {
     s16 *scratch = (s16 *)0x1F800000;
     GameWork *g = &gameWork;

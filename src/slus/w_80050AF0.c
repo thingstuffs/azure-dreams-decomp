@@ -2,7 +2,7 @@
 
 extern s32 func_80049004(s32 *a0, s32 a1, s32 a2);
 extern s32 *func_80049150(s32 *a0, u32 a1, s32 a2);
-extern s32 func_80050A58(s32 *a0, s32 a1);
+extern s32 slusInitializeSeventeenObjectPointers(s32 *a0, s32 a1);
 extern s32 func_80048FBC(s32 *a0, s32 a1);
 
 typedef struct S_80050AF0 {
@@ -25,7 +25,7 @@ s32 func_80050AF0(S_80050AF0 *state, s32 allocation_arg)
     if (buffer_address != 0) {
         buffer_address = (s32)func_80049150(sub_buffers, 9, 0xC);
         if (buffer_address != 0) {
-            func_80050A58((s32 *)state->unk68, buffer_address);
+            slusInitializeSeventeenObjectPointers((s32 *)state->unk68, buffer_address);
             buffer_address = func_80048FBC(sub_buffers, 0xC);
             success = (buffer_address != 0);
             state->unk2C = buffer_address;

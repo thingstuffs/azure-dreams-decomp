@@ -3,7 +3,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
-   /* fields in func_800240F8 */
+   /* fields in dungeonCreateRandomlyRotatedSpriteObject */
 
 
 
@@ -17,7 +17,7 @@ extern s32 rand(void);
 extern u8 D_80025308[];
 
 /* Create an object with a randomly rotated sprite and initialize its copied data. */
-void *func_800240F8(void *context, B22_818928F8_Copy24 *src_data, s16 state_value)
+void *dungeonCreateRandomlyRotatedSpriteObject(void *context, B22_818928F8_Copy24 *src_data, s16 state_value)
 {
     B22_818928F8_Object *obj;
     B22_818928F8_S_818928F8_0 *state;

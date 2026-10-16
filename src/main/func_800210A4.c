@@ -2,7 +2,7 @@
 #include "common.h"
 
 extern void func_80400948(void);
-extern s32 func_804016D0(void);
+extern s32 cardDevkitPollStableSlotState(void);
 extern void func_804018FC(void);
 extern s32 func_804010E0(void);
 extern void func_8040311C(void *left, void *right);
@@ -13,7 +13,7 @@ extern s32 D_804090C8[];
 extern s32 D_804090E0[];
 
 /* Updates the object's state and callback and performs a one-time transition. */
-void func_804080A4(void *object_data)
+void cardBootUpdateObjectStateAndCallback(void *object_data)
 {
     s32 *object;
     s32 state_index;
@@ -28,7 +28,7 @@ void func_804080A4(void *object_data)
         return;
     }
 
-    state_index = func_804016D0();
+    state_index = cardDevkitPollStableSlotState();
     table_offset = state_index * 4;
     func_8003FA78(D_80400848, object[3], D_804090C8[state_index]);
     func_804018FC();

@@ -8,7 +8,7 @@
 
 
 /* Raise the entity toward the queried ground height and set flags when the countdown expires. */
-void func_8002515C(PointRecord *state, EntityRec *position)
+void dungeonRaiseEntityToGround(PointRecord *state, EntityRec *position)
 {
     u16 countdown;
 

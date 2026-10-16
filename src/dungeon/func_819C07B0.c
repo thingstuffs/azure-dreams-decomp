@@ -17,7 +17,7 @@ typedef struct S_80025FB0_0 {
     s8 unk_13;
     s8 unk_14;
     s8 unk_15;
-} S_80025FB0_0;   /* arg1 in func_80025FB0 */
+} S_80025FB0_0;   /* arg1 in dungeonCopyAndExpandEffectRecord */
 
 typedef struct S_80025FB0_1 {
     u8 pad_00[0x10];
@@ -26,10 +26,10 @@ typedef struct S_80025FB0_1 {
     s32 unk_14;
     s32 unk_18;
     s32 unk_1C;
-} S_80025FB0_1;   /* arg0 in func_80025FB0 */
+} S_80025FB0_1;   /* arg0 in dungeonCopyAndExpandEffectRecord */
 
 /* Copy a compact record, widen its signed fields, and apply zero values when its flag is clear. */
-void func_80025FB0(S_80025FB0_1 *dst, S_80025FB0_0 *src) {
+void dungeonCopyAndExpandEffectRecord(S_80025FB0_1 *dst, S_80025FB0_0 *src) {
     s32 zero_args[4];
     s32 signed_field;
 

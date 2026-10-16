@@ -17,10 +17,10 @@ typedef struct TownVec {
 } TownVec;
 
 extern s8 D_800CFCE9;
-void func_800954F4(TownObj *source);
+void townClearGlobalSlotN5CopySourceSlotN2GlobalSlotN2(TownObj *source);
 
 /* Computes and clamps a vector-based adjustment, then updates the town object. */
-void func_80095A94(TownObj *obj, s32 base_value, TownVec **vec_ptr)
+void townComputeAndClampsVectorBasedAdjustmentUpdatesTown(TownObj *obj, s32 base_value, TownVec **vec_ptr)
 {
     TownVec *vec;
     s32 x;
@@ -63,5 +63,5 @@ void func_80095A94(TownObj *obj, s32 base_value, TownVec **vec_ptr)
             obj->value14 = -0xCC000;
         }
     }
-    func_800954F4(obj);
+    townClearGlobalSlotN5CopySourceSlotN2GlobalSlotN2(obj);
 }

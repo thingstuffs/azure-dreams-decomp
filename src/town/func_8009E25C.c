@@ -17,13 +17,13 @@ typedef void (*DispatchFn)(void *, void *, void *, s32);
 typedef struct S_8009B9BC_1 {
     u8 pad_00[0xC];
     void * unk_0C;
-} S_8009B9BC_1;   /* arg1 in func_8009B9BC */
+} S_8009B9BC_1;   /* arg1 in townResolveOwnerPositionAndDispatch */
 
 
 typedef struct S_8009B9BC_3 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_8009B9BC_3;   /* ((S_8009B9BC_1 *)arg1)->unk_0C in func_8009B9BC */
+} S_8009B9BC_3;   /* ((S_8009B9BC_1 *)arg1)->unk_0C in townResolveOwnerPositionAndDispatch */
 
 typedef struct S_8009B9BC_4 {
     u8 pad_00[0x8];
@@ -31,7 +31,7 @@ typedef struct S_8009B9BC_4 {
     s32 unk_0C;
     void * unk_10;
     s32 unk_14;
-} S_8009B9BC_4;   /* ((Rec_D_80082D58 *)arg0)->unk_58 in func_8009B9BC */
+} S_8009B9BC_4;   /* ((Rec_D_80082D58 *)arg0)->unk_58 in townResolveOwnerPositionAndDispatch */
 
 
 extern TownState D_800834B8;
@@ -52,16 +52,16 @@ extern s32 D_800933FC;
 extern s32 D_80093638;
 extern s32 D_800AA5F8;
 
-extern void func_8008F170(void *, void *);
-extern void func_8008F294(void *, void *);
-extern void func_8008F664(void *, void *);
+extern void townGetSmallerQueryResultCappedHex80WritesAssociatedOutput(void *, void *);
+extern void townCallTheSameContextBothProcessingRoutines(void *, void *);
+extern void townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxis(void *, void *);
 extern s32 func_800352FC();
-extern s32 func_8009B120(void *);
+extern s32 townCheckObjectTypeAndDataTag(void *);
 extern void func_8009C340(void *, void *, void *, s32);
-extern void func_800C172C(void);
+extern void townRetrySoundSequenceWhenReady(void);
 
 /* Resolve the owner position and dispatch its handler for the current town state. */
-void func_8009B9BC(void *object, S_8009B9BC_1 *owner, EntityRec *resolved_pos, s32 dispatch_param)
+void townResolveOwnerPositionAndDispatch(void *object, S_8009B9BC_1 *owner, EntityRec *resolved_pos, s32 dispatch_param)
 {
     TownState *state = &D_800834B8;
     s32 *offset = D_800D0420;
@@ -74,9 +74,9 @@ void func_8009B9BC(void *object, S_8009B9BC_1 *owner, EntityRec *resolved_pos, s
     resolved_pos->y.v = D_80083780.y.v;
     resolved_pos->z.v = D_80083780.z.v + offset[2];
 
-    func_8008F170(resolved_pos, ((u8 *)&D_800FE488));
-    func_8008F294(owner, resolved_pos);
-    func_8008F664(owner, resolved_pos);
+    townGetSmallerQueryResultCappedHex80WritesAssociatedOutput(resolved_pos, ((u8 *)&D_800FE488));
+    townCallTheSameContextBothProcessingRoutines(owner, resolved_pos);
+    townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxis(owner, resolved_pos);
 
     target_z = D_80083780.z.v + offset[2];
     if (target_z - resolved_pos->z.v >= 0x10) {
@@ -112,7 +112,7 @@ void func_8009B9BC(void *object, S_8009B9BC_1 *owner, EntityRec *resolved_pos, s
             dispatched = 0;
         }
     }
-    if (dispatched != 0 && func_8009B120((u8 *)object + 0x4C) != 0) {
-        func_800C172C();
+    if (dispatched != 0 && townCheckObjectTypeAndDataTag((u8 *)object + 0x4C) != 0) {
+        townRetrySoundSequenceWhenReady();
     }
 }

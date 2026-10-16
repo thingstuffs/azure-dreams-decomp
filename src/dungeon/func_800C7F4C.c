@@ -6,7 +6,7 @@ M2C_UNK func_800C8900();            /* extern */
 
 
 /* Apply the global-mode mask to the target with a fixed value of 0x10. */
-void func_800CD6AC(target)
+void dungeonApplyModeSelectedTrapMask(target)
 M2C_UNK target;
 {
     M2C_UNK mode_mask;

@@ -19,11 +19,11 @@ typedef struct EffectRecord {
 /* The render data the header's unk_0C points at. */
 
 
-extern void func_800B835C();
+extern void dungeonDrawTexturedEllipse();
 extern u8 D_8002746C[9];
 
 /* Allocate and initialize an effect object from the supplied part data. */
-void *func_800244C4(EntityRec *source_pos, s32 offset_base) {
+void *dungeonAllocateInitializedEffectObject(EntityRec *source_pos, s32 offset_base) {
     s32 init_data[2];
     ObjectNodeHeader *object;
     EntityRec *pos;
@@ -34,10 +34,10 @@ void *func_800244C4(EntityRec *source_pos, s32 offset_base) {
     if (object != NULL) {
         init_data[0] = 0x01000340;
         init_data[1] = 0x00200020;
-        func_800B835C(D_8002746C, init_data, 1, 0);
+        dungeonDrawTexturedEllipse(D_8002746C, init_data, 1, 0);
 
         pos = object->unk_08;
-        object->unk_10 = func_80024328;
+        object->unk_10 = dungeonAdvanceEffectPhases;
         pos->x.w.i = (u16)source_pos->x.w.i;
         pos->y.w.i = (u16)source_pos->y.w.i;
         pos->z.w.i = (u16)source_pos->z.w.i;

@@ -10,7 +10,7 @@ typedef struct S_800D58D8_0_pre {
     void * unk_00;
     u8 pad_04[0xE];
     u16 unk_12;
-} S_800D58D8_0_pre;   /* the 0x14 bytes before arg0 in func_800D58D8, addressed as arg0[-1] */
+} S_800D58D8_0_pre;   /* the 0x14 bytes before arg0 in dungeonUpdateFacingAndSpawnExpiredEffect, addressed as arg0[-1] */
 
 typedef struct S_800D58D8_0 {
     u8 pad_00[0x2A];
@@ -18,7 +18,7 @@ typedef struct S_800D58D8_0 {
     u8 pad_2C[0x68];
     s16 unk_94;
     u16 unk_96;
-} S_800D58D8_0;   /* arg0 in func_800D58D8 */
+} S_800D58D8_0;   /* arg0 in dungeonUpdateFacingAndSpawnExpiredEffect */
 
 
 typedef struct S_800D58D8_2 {
@@ -26,7 +26,7 @@ typedef struct S_800D58D8_2 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_800D58D8_2;   /* temp_v0_3 in func_800D58D8 */
+} S_800D58D8_2;   /* temp_v0_3 in dungeonUpdateFacingAndSpawnExpiredEffect */
 
 typedef struct S_800D58D8_3 {
     u8 pad_00[0x6];
@@ -42,7 +42,7 @@ typedef struct S_800D58D8_3 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_800D58D8_3;   /* temp_a0 in func_800D58D8 */
+} S_800D58D8_3;   /* temp_a0 in dungeonUpdateFacingAndSpawnExpiredEffect */
 
 typedef struct S_800D58D8_4 {
     u8 pad_00[0x2];
@@ -51,7 +51,7 @@ typedef struct S_800D58D8_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800D58D8_4;   /* temp_s0_2 in func_800D58D8 */
+} S_800D58D8_4;   /* temp_s0_2 in dungeonUpdateFacingAndSpawnExpiredEffect */
 
 typedef struct S_800D58D8_5 {
     u8 pad_00[0x2];
@@ -60,12 +60,12 @@ typedef struct S_800D58D8_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800D58D8_5;   /* arg1 in func_800D58D8 */
+} S_800D58D8_5;   /* arg1 in dungeonUpdateFacingAndSpawnExpiredEffect */
 
 typedef struct S_800D58D8_6 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_800D58D8_6;   /* temp_a1 in func_800D58D8 */
+} S_800D58D8_6;   /* temp_a1 in dungeonUpdateFacingAndSpawnExpiredEffect */
 
 
 typedef struct {
@@ -75,15 +75,15 @@ typedef struct {
 } Vec3u16;
 
 M2C_UNK func_8003DB94();  /* extern */
-s32 func_8003DE58(void *, void *, Vec3u16 *, s32);     /* extern */
+s32 resolveRecordOrientationOrFallback(void *, void *, Vec3u16 *, s32);     /* extern */
 s32 func_8004491C();           /* extern */
-void func_80047738();              /* extern */
+void selectIndirectTableEntry();              /* extern */
 M2C_UNK func_800478B8();                      /* extern */
 extern s32 D_800D586C[];
 extern s32 D_800DE870[];
 
 /* Update sprite facing and animation, then spawn an effect when the countdown expires. */
-void func_800D58D8(void *state, void *position, void *sprite) {
+void dungeonUpdateFacingAndSpawnExpiredEffect(void *state, void *position, void *sprite) {
     Vec3u16 delta;
     s16 facing;
     void *direction_frames;
@@ -97,7 +97,7 @@ void func_800D58D8(void *state, void *position, void *sprite) {
     if (((S_800D58D8_0 *)state)->unk_94 != facing) {
         direction_frames = ((Rec_D_80082E80 *)sprite)->unk_2C.as_s32;
         if (direction_frames != 0) {
-            func_80047738(sprite, *((u8 *)direction_frames + facing), ((Rec_D_80082E80 *)sprite)->unk_04.as_s8);
+            selectIndirectTableEntry(sprite, *((u8 *)direction_frames + facing), ((Rec_D_80082E80 *)sprite)->unk_04.as_s8);
         }
         ((S_800D58D8_0 *)state)->unk_94 = facing;
     }
@@ -124,7 +124,7 @@ void func_800D58D8(void *state, void *position, void *sprite) {
             ((S_800D58D8_3 *)effect_render)->unk_06 = (u16) ((Rec_D_80082E80 *)sprite)->unk_06.as_u16;
             ((S_800D58D8_2 *)effect)->unk_10 = &D_800D586C;
             owner = ((S_800D58D8_0_pre *)state)[-1].unk_00;
-            if (func_8003DE58(((S_800D58D8_6 *)owner)->unk_08, owner, &delta, 0) != 0) {
+            if (resolveRecordOrientationOrFallback(((S_800D58D8_6 *)owner)->unk_08, owner, &delta, 0) != 0) {
                 ((S_800D58D8_4 *)effect_pos)->unk_02 = (u16) (((S_800D58D8_4 *)effect_pos)->unk_02 + delta.x);
                 ((S_800D58D8_4 *)effect_pos)->unk_06 = (u16) (((S_800D58D8_4 *)effect_pos)->unk_06 + delta.y);
                 ((S_800D58D8_4 *)effect_pos)->unk_0A = (u16) (((S_800D58D8_4 *)effect_pos)->unk_0A + delta.z);

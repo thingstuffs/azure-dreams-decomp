@@ -22,12 +22,12 @@ extern u8 D_800DED28[];
 extern u8 D_800DEB28[];
 extern u8 D_800DE870[];
 
-extern s32 func_800249F0(void *, void *, void *, void *, s32, s32, s32, s32);
+extern s32 dungeonCreateAnCopiedPositionPackedDataInitializeRenderingState(void *, void *, void *, void *, s32, s32, s32, s32);
 extern s32 func_800243D8(void *, void *, void *);
 extern s32 func_800B8FC8(void *, void *, void *, s32, s32);
 extern s32 func_8003DF74(void *, void *, void *, s32);
 extern s32 func_80069EF8(void);
-extern s32 func_80024798(void *, s32, s32, s32, s16, s16, s16);
+extern s32 dungeonHandleSpawnInitializeRandomizedOffsetParent(void *, s32, s32, s32, s16, s16, s16);
 extern s32 func_8004491C(void *, void *);
 extern s32 func_80053EF0(s32);
 extern void func_800A56E0(s32);
@@ -81,9 +81,9 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
         initial_color = 0x00808080;
         F(D_800814A8, s32, 0xF4) = 0;
         F(((u8 *)(&D_80082E80)), u16, 6) = 6;
-        F(effect, void *, 0x64) = func_800249F0(effect, position, effect_context, D_80025704,
+        F(effect, void *, 0x64) = dungeonCreateAnCopiedPositionPackedDataInitializeRenderingState(effect, position, effect_context, D_80025704,
                                                      enabled, 0x1000, 0x1000, initial_color);
-        F(effect, void *, 0x68) = func_800249F0(effect, position, effect_context, D_80025710,
+        F(effect, void *, 0x68) = dungeonCreateAnCopiedPositionPackedDataInitializeRenderingState(effect, position, effect_context, D_80025710,
                                                      2, 0xE00, 0xE00, 0x00E0E0E0);
         old_state = F(effect, u16, 0xA);
         F(D_8002571C, u16, 0) = (u16)enabled;
@@ -154,7 +154,7 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
                     particle_level = F(effect, s16, 0x26);
                     particle_x = F(effect, s16, 0xC);
                     particle_color |= 0x20F0;
-                    func_80024798((u8 *)D_800814A8 - 0x20,
+                    dungeonHandleSpawnInitializeRandomizedOffsetParent((u8 *)D_800814A8 - 0x20,
                                   particle_level, particle_color,
                                   sprite_rgb,
                                   particle_x, F(effect, s16, 0xE),
@@ -242,7 +242,7 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
                         particle_level = F(effect, s16, 0x26);
                         particle_x = F(effect, s16, 0x18);
                         particle_color |= 0x20F0;
-                        func_80024798((u8 *)D_800814A8 - 0x20,
+                        dungeonHandleSpawnInitializeRandomizedOffsetParent((u8 *)D_800814A8 - 0x20,
                                       particle_level, particle_color,
                                       sprite_rgb,
                                       particle_x, F(effect, s16, 0x1A),

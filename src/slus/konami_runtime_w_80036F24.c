@@ -17,7 +17,7 @@ typedef struct {
 } FuncOutput;
 
 extern s32 func_80037534(FuncInput *input);
-extern void func_80036C7C(u32 *texture_pos, u32 *src, void *dst);
+extern void copyTextureDescriptorWithPageOffsets(u32 *texture_pos, u32 *src, void *dst);
 
 extern u32 D_8006A958[3];
 extern u32 D_8006A964[3];
@@ -36,9 +36,9 @@ void func_80036F24(FuncInput *input, s32 unused, FuncOutput *output) {
         return;
     }
 
-    func_80036C7C(input->data + 3, D_8006A958, D_80082B50);
-    func_80036C7C(input->data + 3, D_8006A964, D_80082B60);
-    func_80036C7C(input->data + 3, D_8006A970, D_80082B70);
+    copyTextureDescriptorWithPageOffsets(input->data + 3, D_8006A958, D_80082B50);
+    copyTextureDescriptorWithPageOffsets(input->data + 3, D_8006A964, D_80082B60);
+    copyTextureDescriptorWithPageOffsets(input->data + 3, D_8006A970, D_80082B70);
 
     data = input->data;
     flags = ((u8 *)data + input->data_index)[0x4C];

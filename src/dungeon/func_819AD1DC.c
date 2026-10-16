@@ -80,14 +80,14 @@ void *func_800249DC(void *src)
     S_819AD1DC_2 *coords;
 
     i = 0;
-    handler = func_800245A0;
+    handler = dungeonRunWarpCutscene;
     sub_handler = &D_80027460;
     last_index = 8;
     do {
         obj = func_8003FC64(18);
         if (obj != NULL) {
             ((S_819AD1DC_0 *)obj)->unk_10 = handler;
-            func_8004491C(obj, func_800CEEFC);
+            func_8004491C(obj, dungeonProcessLinkedMeshStatesMode0);
             coords = ((S_819AD1DC_0 *)obj)->unk_08;
             x = ((S_819AD1DC_1 *)src)->unk_02;
             part = obj + 0x20;

@@ -9,22 +9,22 @@ typedef struct S_80023258_0 {
     s32 unk_8C;
     u8 pad_90[0x114];
     void * unk_1A4;
-} S_80023258_0;   /* arg0 in func_80023258 */
+} S_80023258_0;   /* arg0 in cardBootAnimateThreeRowSelection */
 
 typedef struct S_80023258_1 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_80023258_1;   /* initial_node in func_80023258 */
+} S_80023258_1;   /* initial_node in cardBootAnimateThreeRowSelection */
 
 typedef struct S_80023258_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80023258_2;   /* initial_data in func_80023258 */
+} S_80023258_2;   /* initial_data in cardBootAnimateThreeRowSelection */
 
 typedef struct S_80023258_3 {
     u8 pad_00[0x7C];
     u8 unk_7C;
-} S_80023258_3;   /* cursor1 in func_80023258 */
+} S_80023258_3;   /* cursor1 in cardBootAnimateThreeRowSelection */
 
 typedef struct S_80023258_4 {
     u8 pad_00[0x1A8];
@@ -35,62 +35,62 @@ typedef struct S_80023258_4 {
     void * unk_1C8;
     u8 pad_1CC[0xC];
     void * unk_1D8;
-} S_80023258_4;   /* cursor4 in func_80023258 */
+} S_80023258_4;   /* cursor4 in cardBootAnimateThreeRowSelection */
 
 typedef struct S_80023258_5 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_80023258_5;   /* node in func_80023258 */
+} S_80023258_5;   /* node in cardBootAnimateThreeRowSelection */
 
 typedef struct S_80023258_6 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_80023258_6;   /* ((S_80023258_4 *)cursor4)->unk_1C8 in func_80023258 */
+} S_80023258_6;   /* ((S_80023258_4 *)cursor4)->unk_1C8 in cardBootAnimateThreeRowSelection */
 
 typedef struct S_80023258_7 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_80023258_7;   /* ((S_80023258_4 *)cursor4)->unk_1D8 in func_80023258 */
+} S_80023258_7;   /* ((S_80023258_4 *)cursor4)->unk_1D8 in cardBootAnimateThreeRowSelection */
 
 typedef struct S_80023258_8 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_80023258_8;   /* ((S_80023258_4 *)cursor4)->unk_1A8 in func_80023258 */
+} S_80023258_8;   /* ((S_80023258_4 *)cursor4)->unk_1A8 in cardBootAnimateThreeRowSelection */
 
 typedef struct S_80023258_9 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_80023258_9;   /* ((S_80023258_4 *)cursor4)->unk_1B8 in func_80023258 */
+} S_80023258_9;   /* ((S_80023258_4 *)cursor4)->unk_1B8 in cardBootAnimateThreeRowSelection */
 
 typedef struct S_80023258_10 {
     u8 pad_00[0x2];
     u8 unk_02;
-} S_80023258_10;   /* ((S_80023258_5 *)node)->unk_04 in func_80023258 */
+} S_80023258_10;   /* ((S_80023258_5 *)node)->unk_04 in cardBootAnimateThreeRowSelection */
 
 typedef struct S_80023258_11 {
     u8 unk_00;
     u8 unk_01;
     u8 pad_02[0x6];
     s16 unk_08;
-} S_80023258_11;   /* ((S_80023258_6 *)(((S_80023258_4 *)cursor4)->unk_1C8))->unk_04 in func_80023258 */
+} S_80023258_11;   /* ((S_80023258_6 *)(((S_80023258_4 *)cursor4)->unk_1C8))->unk_04 in cardBootAnimateThreeRowSelection */
 
 typedef struct S_80023258_12 {
     u8 pad_00[0x8];
     s16 unk_08;
-} S_80023258_12;   /* ((S_80023258_7 *)(((S_80023258_4 *)cursor4)->unk_1D8))->unk_04 in func_80023258 */
+} S_80023258_12;   /* ((S_80023258_7 *)(((S_80023258_4 *)cursor4)->unk_1D8))->unk_04 in cardBootAnimateThreeRowSelection */
 
 typedef struct S_80023258_13 {
     u8 pad_00[0x8];
     s16 unk_08;
-} S_80023258_13;   /* ((S_80023258_8 *)(((S_80023258_4 *)cursor4)->unk_1A8))->unk_04 in func_80023258 */
+} S_80023258_13;   /* ((S_80023258_8 *)(((S_80023258_4 *)cursor4)->unk_1A8))->unk_04 in cardBootAnimateThreeRowSelection */
 
 typedef struct S_80023258_14 {
     u8 pad_00[0x8];
     s16 unk_08;
-} S_80023258_14;   /* ((S_80023258_9 *)(((S_80023258_4 *)cursor4)->unk_1B8))->unk_04 in func_80023258 */
+} S_80023258_14;   /* ((S_80023258_9 *)(((S_80023258_4 *)cursor4)->unk_1B8))->unk_04 in cardBootAnimateThreeRowSelection */
 
 /* Animate the selection marker and entry offsets, then advance the frame counter. */
-s32 func_80023258(S_80023258_0 *state)
+s32 cardBootAnimateThreeRowSelection(S_80023258_0 *state)
 {
     s32 start_index;
     s32 index_delta;

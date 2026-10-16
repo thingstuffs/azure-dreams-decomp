@@ -23,16 +23,16 @@ typedef struct SinkActionWork {
 extern u8 D_8014FFD0[];
 extern u8 D_8014FFB8[];
 extern s32 D_8014CF68;
-void func_800A2B04();
+void dungeonSetRecordIntegerTileCenter();
 s16 func_800A48F0();
-s32 func_800A4ACC();
+s32 dungeonAdvanceStatusTimers();
 s32 func_800A56E0();
 s32 func_800A6D30();
 extern u8 D_8014FFD8[];
 extern u8 D_8014FFE0[];
 
 /* Run the actor's eight-step sink animation, advancing its phase and swapping the sprite each step. */
-void func_8014FC5C(SinkActionWork *work, EntityRec *motion, Rec_D_80082E80 *sprite, EntityRec *actor) {
+void dungeonAdvanceEightStepSinkAnimation(SinkActionWork *work, EntityRec *motion, Rec_D_80082E80 *sprite, EntityRec *actor) {
     s32 sinkStep;
     u16 flags;
     s32 phase;
@@ -93,7 +93,7 @@ void func_8014FC5C(SinkActionWork *work, EntityRec *motion, Rec_D_80082E80 *spri
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, sprite->unk_24, sprite->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, sprite->unk_24, sprite->unk_25);
         sprite->unk_2C.as_pu8 = D_8014FFE0;
         func_80047784(sprite, D_8014FFE0[((s32)(gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         work->phase++;
@@ -113,7 +113,7 @@ void func_8014FC5C(SinkActionWork *work, EntityRec *motion, Rec_D_80082E80 *spri
         sprite->unk_2C.as_pu8 = D_8014FFB8;
         func_80047784(sprite, D_8014FFB8[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         actor->unk_6D = 0;
         actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
         work->handler = &D_8014CF68;

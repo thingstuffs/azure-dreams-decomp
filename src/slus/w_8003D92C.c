@@ -47,7 +47,7 @@ int func_8003D92C(void)
     if ((0x78 / D_80080A84) < D_80080ABC) {
         D_80080ABE = 0;
         D_80080ABC = 0;
-        func_8003F320();
+        drainCdCommandQueue();
         while (func_80053EF0(4) == 0x100) {
             func_8003E758();
             func_80044618(2);
@@ -59,7 +59,7 @@ int func_8003D92C(void)
             func_80044618(2);
         }
 
-        func_8003F320();
+        drainCdCommandQueue();
         func_80040AA0(3);
         {
             saved_setting = D_80080A94;
@@ -68,12 +68,12 @@ int func_8003D92C(void)
             D_80080A88 = 0;
             D_80080AA0 = 0;
             D_80082E60.field_0 = flags & ~2;
-            func_80053DCC(saved_setting);
+            soundSetCdPlaybackVolumeScale(saved_setting);
         }
-        func_80053DF0(D_80080A98);
-        func_80053E14(D_80080A9C);
+        soundSetSequenceVolumeScale(D_80080A98);
+        soundSetVoiceGainScale(D_80080A9C);
         SD_Call(0x7F);
-        func_8003D468();
+        resetGameStatePreservingSessionFields();
         D_80080A84 = 2;
         return 1;
     }

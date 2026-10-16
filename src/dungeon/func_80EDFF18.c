@@ -7,7 +7,7 @@ typedef struct S_80171718_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80171718_0;   /* object in func_80171718 */
+} S_80171718_0;   /* object in dungeonCreateOverlayEffectObject */
 
 typedef struct S_80171718_1 {
     u8 pad_00[0x13];
@@ -15,12 +15,12 @@ typedef struct S_80171718_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80171718_1;   /* result in func_80171718 */
+} S_80171718_1;   /* result in dungeonCreateOverlayEffectObject */
 
 typedef struct S_80171718_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80171718_2;   /* part0 in func_80171718 */
+} S_80171718_2;   /* part0 in dungeonCreateOverlayEffectObject */
 
 typedef struct S_80171718_3 {
     u8 pad_00[0x24];
@@ -28,7 +28,7 @@ typedef struct S_80171718_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80171718_3;   /* part1 in func_80171718 */
+} S_80171718_3;   /* part1 in dungeonCreateOverlayEffectObject */
 
 typedef struct S_80171718_4 {
     u8 pad_00[0x8C];
@@ -37,7 +37,7 @@ typedef struct S_80171718_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_80171718_4;   /* result_copy in func_80171718 */
+} S_80171718_4;   /* result_copy in dungeonCreateOverlayEffectObject */
 
 
 extern void *func_8003FD64(s32, void *);
@@ -53,7 +53,7 @@ extern u8 D_80174EB8[];
 extern u8 D_80174F00[];
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
-void *func_80171718(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
+void *dungeonCreateOverlayEffectObject(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
 {
     s32 kind;
     s32 flags0;

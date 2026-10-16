@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1831cd8.h"
 
-s32 func_80028284(ovl_1831cd8_81813284_Unk818110CC *object, s32 buffer_param)
+s32 dungeonAllocateMenuObjectBuffers(ovl_1831cd8_81813284_Unk818110CC *object, s32 buffer_param)
 {
     s32 success = 0;
     s32 *buffers = object->unk8C;
@@ -15,7 +15,7 @@ s32 func_80028284(ovl_1831cd8_81813284_Unk818110CC *object, s32 buffer_param)
             object->unk6C[0] = D_8002E5E8.unk0;
             object->unk6C[1] = D_8002E5E8.unk4;
             object->unk6C[2] = D_8002E5E8.unk8;
-            func_800491CC(object->unk88, object->unk6C, 15);
+            textureSetTheFieldOffsetHex8InEachEntryPointerArray(object->unk88, object->unk6C, 15);
             success = 1;
         }
     }

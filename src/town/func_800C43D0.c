@@ -6,10 +6,10 @@ typedef struct {
     u16 flag;
 } S800083498;
 
-extern void func_800511B4(void *related_entity);
+extern void createLinkedZukanTask(void *related_entity);
 
 /* Set up zukan_func_set after clearing flag bit 0x2000. */
 void zukan_func_set(void) {
     D_80083498.flags &= 0xDFFF;
-    func_800511B4(((S800083498 *)&D_80083498));
+    createLinkedZukanTask(((S800083498 *)&D_80083498));
 }

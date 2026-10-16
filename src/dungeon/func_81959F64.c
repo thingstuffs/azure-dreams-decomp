@@ -6,7 +6,7 @@ extern s16 func_800BCB04(u16, u16, s16);
 extern u16 D_800281F8[];
 
 /* Update position, reduce movement speed, and flag completion when speed runs out. */
-void func_81959F64(void *motion_data, s16 *position)
+void dungeonUpdateSpeedDampedEffect(void *motion_data, s16 *position)
 {
     s16 *motion = motion_data;
     s16 next_speed;

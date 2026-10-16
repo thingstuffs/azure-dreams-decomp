@@ -9,27 +9,27 @@ typedef struct S_800B6FB8_0 {
     s16 unk_1A;
     s16 unk_1C;
     s16 unk_1E;
-} S_800B6FB8_0;   /* draw in func_800B6FB8 */
+} S_800B6FB8_0;   /* draw in townInitializeBuildingGraphics */
 
 typedef struct S_800B6FB8_1 {
     u8 pad_00[0x16];
     u16 unk_16;
-} S_800B6FB8_1;   /* status in func_800B6FB8 */
+} S_800B6FB8_1;   /* status in townInitializeBuildingGraphics */
 
 typedef struct S_800B6FB8_2 {
     u8 pad_00[0x1DC];
     void * unk_1DC;
-} S_800B6FB8_2;   /* base in func_800B6FB8 */
+} S_800B6FB8_2;   /* base in townInitializeBuildingGraphics */
 
-extern void func_80046E38();
+extern void runtimeLoadPackedResourceChunks();
 extern void func_80067014();
 extern void func_8006733C();
-extern void func_800B73D0();
+extern void townUpdateActiveBuildingEntries();
 
 extern u8 D_80083160[], D_80110EC8[], D_801116C8[], D_80111EC8[], D_8012F004[], D_80162004[];
 extern u16 D_80111FA8[];
 /* Initialize drawing state and upload image and palette data. */
-void func_800B6FB8(void)
+void townInitializeBuildingGraphics(void)
 {
     u8 *base, *status;
     u16 *image_rect, *first_rect, *palette_rect;
@@ -79,6 +79,6 @@ void func_800B6FB8(void)
 
     draw_buffer = D_80162004;
     ((S_800B6FB8_2 *)base)->unk_1DC = draw_buffer;
-    func_800B73D0();
-    func_80046E38(0, D_8012F004);
+    townUpdateActiveBuildingEntries();
+    runtimeLoadPackedResourceChunks(0, D_8012F004);
 }

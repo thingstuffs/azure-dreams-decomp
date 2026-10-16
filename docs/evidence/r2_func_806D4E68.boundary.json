@@ -1,0 +1,41 @@
+{
+  "schema": "azure-clean.recovered-function.v1",
+  "id": "town/func_806D4E68",
+  "group": "ovl_6541c0.c#55",
+  "foff": 6639208,
+  "size": 56,
+  "true_name": "func_80016E68",
+  "boundary_basis": "Fourteen decoded instructions form a complete one-argument service +0x208(0) wrapper, with its own stack/ra frame and jr-ra/nop, ending exactly at the pre-existing 0x654EA0 pointer setter. This is code-boundary evidence only; it grants no data-ownership or native certificate claim.",
+  "raw_source": "raw/town/func_806D4E68.c",
+  "raw_sha256": "7a285f2ded2dcbe5a46c8c490e35108365f4e108a1f4c882c022bab2586ae970",
+  "byte_proof": {
+    "exact": true,
+    "byte_exact": true,
+    "comparison_mode": "linked-strict",
+    "config": "2.7.2-cdk-G0",
+    "source_sha": "7a285f2ded2dcbe5a46c8c490e35108365f4e108a1f4c882c022bab2586ae970",
+    "target_sha": "60940b2ec51c61a5a178ffb07e6ce3e24bc53e117ff4c75677fc05705fe9f8b3",
+    "aligned": {
+      "indels": 0,
+      "substitutions": 0,
+      "total": 0
+    }
+  },
+  "review": "pending",
+  "retail_words": [
+    "0x3C028001",
+    "0x8C426000",
+    "0x27BDFFE8",
+    "0xAFBF0010",
+    "0x8C420020",
+    "0x00000000",
+    "0x8C420208",
+    "0x00000000",
+    "0x0040F809",
+    "0x00002021",
+    "0x8FBF0010",
+    "0x27BD0018",
+    "0x03E00008",
+    "0x00000000"
+  ]
+}

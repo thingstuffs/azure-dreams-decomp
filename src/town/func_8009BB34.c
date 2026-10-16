@@ -4,15 +4,15 @@
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/town_handler.h"
 
-void func_80099754();                     
+void townClearEntityRecordFields();                     
 extern s8 D_80082668;
 extern s32 D_80098078;
 extern s32 D_800D0150;
 
 void func_80099294(Rec_func_80094268_arg0 *object, s32 followUpArg, void *ptr2) {
-    func_80094984((s32 *) &D_800D0150, object, ptr2);
+    townCallTheHandlerSelectsNonzeroEntry((s32 *) &D_800D0150, object, ptr2);
     D_80082668 = 0;
     object->unk_04.as_pm = &D_80098078;
     object->unk_0A.as_s16 = 4;
-    func_80099754(followUpArg);
+    townClearEntityRecordFields(followUpArg);
 }

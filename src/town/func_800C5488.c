@@ -17,10 +17,10 @@ typedef struct {
 extern TownState D_800CFCB4;
 extern s16 D_800D5078[];
 
-extern s16 func_800C2B88(s16 x, s16 z, s32 origin);
+extern s16 townClampTransformCoordinateDeltas(s16 x, s16 z, s32 origin);
 
 /* Return the current object's cached value or look it up at the town coordinates. */
-s16 func_800C2BE8(void *object, s32 lookup_mode)
+s16 townGetCachedOrCoordinateTransformValue(void *object, s32 lookup_mode)
 {
     TownState *state = &D_800CFCB4;
 
@@ -30,5 +30,5 @@ s16 func_800C2BE8(void *object, s32 lookup_mode)
         return D_800D5078[state->object_index];
     }
 
-    return func_800C2B88(D_80083780.x.w.i, D_80083780.y.w.i, lookup_mode);
+    return townClampTransformCoordinateDeltas(D_80083780.x.w.i, D_80083780.y.w.i, lookup_mode);
 }

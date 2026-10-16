@@ -18,7 +18,7 @@ typedef struct {
 } Context;
 
 // Position ten objects in two columns of five rows.
-void func_800AF2F8(Context *context)
+void townLayoutItemMenuLowerPairColumns(Context *context)
 {
     s32 objectIndex;
 

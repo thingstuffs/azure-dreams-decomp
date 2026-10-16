@@ -1,7 +1,7 @@
 #include "modules/town_town_windows.h"
 
 /* Sets object type fields and selects the corresponding resource. */
-void func_8009E504(void *object, s32 index, void *output)
+void townSetObjectTypesAndResource(void *object, s32 index, void *output)
 {
     u32 resource;
     u8 mode;
@@ -9,19 +9,19 @@ void func_8009E504(void *object, s32 index, void *output)
 
     mode = BU(object, 0x94);
     if (mode == 0) {
-        func_8008F0D4(object, index, D_800D073C);
-        func_8009B218(object, index, output, D_800D076C);
+        townConfigureTheSetModeN4(object, index, D_800D073C);
+        townInitializeOptionalObjectState(object, index, output, D_800D076C);
         BU(object, 0x4C) = BU(object, 0x95);
         BU(object, 0x4D) = BU(object, 0x96);
     } else
     if ((s8)mode == -1) {
-        func_8008F104(object, index, D_800D073C);
-        func_8009B218(object, index, output, 0);
+        townConfigureTheSetModeN3(object, index, D_800D073C);
+        townInitializeOptionalObjectState(object, index, output, 0);
         BU(object, 0x4C) = BU(object, 0x95);
         BU(object, 0x4D) = BU(object, 0x96);
     } else {
-        func_8008F0D4(object, index, D_800D073C);
-        func_8009B218(object, index, output, D_800D0788);
+        townConfigureTheSetModeN4(object, index, D_800D073C);
+        townInitializeOptionalObjectState(object, index, output, D_800D0788);
         {
             u8 *type_table;
 
@@ -31,14 +31,14 @@ void func_8009E504(void *object, s32 index, void *output)
             BU(object, 0x4E) = type_table[BU(object, 0x95) * 4 + 0x982];
             BU(object, 0x4F) = type_table[BU(object, 0x95) * 4 + 0x983];
         }
-        func_8009F148(object, object, index, output);
+        townInitializeEntityFlagsTransformTypeDependentVariant(object, object, index, output);
     }
 
-    if (func_8009FF50() == 0) {
-        resource = (u32)&func_8009DD40;
+    if (townIsUnk18N12Unk1ABetweenN37N41() == 0) {
+        resource = (u32)&townCleanupOrDispatchObject;
         PP(object, -0x10) = (u8 *)resource;
     } else {
-        resource = (u32)func_8009DEBC;
+        resource = (u32)townDispatchObjectOrSwitchAlternateState;
         PP(object, -0x10) = (u8 *)resource;
     }
     if ((u32)(BU(object, 0x4D) - 0x12) < 2U) {
@@ -51,7 +51,7 @@ void func_8009E504(void *object, s32 index, void *output)
     } else if (type == 0x13) {
         u8 *data_base = (u8 *)0x80010000;
 
-        func_8009DC8C(
+        townSetObjectStateForMode(
             object,
             output,
             BU(object, 0x4C),
@@ -60,7 +60,7 @@ void func_8009E504(void *object, s32 index, void *output)
                     + 0xA94]);
         return;
     } else {
-        resource = func_8004A658(BU(object, 0x4D), BU(object, 0x4C));
+        resource = lookupItemCategoryMappedValue(BU(object, 0x4D), BU(object, 0x4C));
     }
     WD(output, 8) = resource;
 }

@@ -22,7 +22,7 @@ typedef struct S_80048B8C {
 } S_80048B8C;
 
 /* Mark unprocessed type-2 node sequences and set the low six value bits to 14. */
-void func_80048B8C(S_80048B8C *entries) {
+void textureMarkUnprocessedTypeN2NodeSequencesSetLowSixBitsN14(S_80048B8C *entries) {
     u8 *entry_pos;
     S_80048B8C_node *node;
     S_80048B8C_entry *entry;

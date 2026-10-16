@@ -42,14 +42,14 @@ typedef struct Pair {
 
 Object *func_8003FD64();
 void func_8004491C();
-void func_800B835C();
+void dungeonDrawTexturedEllipse();
 extern u8 D_80025AC4[12];
 extern u8 D_800281FC[12];
 extern u8 D_80028238[12];
 extern u8 D_80028250[12];
 
 /* Creates an object at its owner's position and initializes its sprite and angle. */
-void func_8195A35C(Object *owner, s16 angle) {
+void dungeonCreateOwnerPositionedSprite(Object *owner, s16 angle) {
     Pair rect;
     Object *spawned;
     Node *node;
@@ -74,7 +74,7 @@ void func_8195A35C(Object *owner, s16 angle) {
         tail->angle = angle;
         rect.first = 0x01400340;
         rect.second = 0x200020;
-        func_800B835C(D_80028238, &rect, 0, 0);
-        func_800B835C(D_80028250, &rect, 1, 0);
+        dungeonDrawTexturedEllipse(D_80028238, &rect, 0, 0);
+        dungeonDrawTexturedEllipse(D_80028250, &rect, 1, 0);
     }
 }

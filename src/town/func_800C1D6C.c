@@ -19,7 +19,7 @@ typedef struct S1 {
 } S1;
 
 extern s32 func_800352FC(s32, s32 *, S1 *);
-extern s32 func_800C2AB4(S0 *);
+extern s32 townCheckTransformIdentifierAndHook(S0 *);
 extern void SD_Call(s32);
 static s32 state;
 
@@ -64,7 +64,7 @@ void func_800BF4CC(S0 *self, s32 *position, S1 *target) {
         if (func_800352FC(target_x, position, target) == 0) {
             return;
         }
-        if (func_800C2AB4(object) == 0) {
+        if (townCheckTransformIdentifierAndHook(object) == 0) {
             return;
         }
         SD_Call(0x50B);
@@ -90,7 +90,7 @@ void func_800BF4CC(S0 *self, s32 *position, S1 *target) {
     case 2:
     case 5:
         if (func_800352FC((s32)self, position, target) != 0) {
-            if (func_800C2AB4(object) != 0) {
+            if (townCheckTransformIdentifierAndHook(object) != 0) {
                 return;
             }
         }

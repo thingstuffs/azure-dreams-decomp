@@ -10,7 +10,7 @@
 extern u8 D_80080B68[1];
 
 /* Registers the object or its fallback in the next slot and advances the slot counter. */
-void func_8004DCA8(void *object)
+void runtimeRegisterObjectOrFallbackSlot(void *object)
 {
     void *registered_ptr = object;
     if (registered_ptr == 0) {

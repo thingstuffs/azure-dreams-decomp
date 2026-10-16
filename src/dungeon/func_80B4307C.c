@@ -23,7 +23,7 @@ void *func_8017087C(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
     obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         work = (R12_8017087C_Work *)((u8 *)obj + 0x20);
-        ((R12_8017087C_S_8017087C_0 *)obj)->unk_10 = ((u8 *)func_80170A44);
+        ((R12_8017087C_S_8017087C_0 *)obj)->unk_10 = ((u8 *)createDirectionalTemplateEffect);
         work->byte13 = 0xC;
         func_8004491C(obj, func_80045340);
 

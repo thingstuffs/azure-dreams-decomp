@@ -5,7 +5,7 @@
 
 extern void func_80047784(void *, s32, s32);
 extern s32 func_800644B8(s32);
-extern void func_800A2B04(void *, u8, u8);
+extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
 
 extern u8 D_80174A7C[];
 extern u8 D_80170000[];
@@ -22,7 +22,7 @@ typedef struct S_801740F8_0 {
     s16 unk_9E;
     u8 pad_A0[0x4];
     s32 unk_A4;
-} S_801740F8_0;   /* arg0 in func_801740F8 */
+} S_801740F8_0;   /* arg0 in dungeonUpdateBossTimedAnimation */
 
 typedef struct S_801740F8_1 {
     u8 pad_00[0x24];
@@ -30,18 +30,18 @@ typedef struct S_801740F8_1 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_801740F8_1;   /* arg2 in func_801740F8 */
+} S_801740F8_1;   /* arg2 in dungeonUpdateBossTimedAnimation */
 
 typedef struct S_801740F8_2 {
     u8 pad_00[0x1C];
     s32 unk_1C;
     u8 pad_20[0xA];
     s16 unk_2A;
-} S_801740F8_2;   /* arg3 in func_801740F8 */
+} S_801740F8_2;   /* arg3 in dungeonUpdateBossTimedAnimation */
 
 
 /* Updates a timed animation offset and restores the actor's directional animation. */
-void func_801740F8(void *actor, EntityRec *transform, void *animation, void *motion)
+void dungeonUpdateBossTimedAnimation(void *actor, EntityRec *transform, void *animation, void *motion)
 {
     s32 timer;
     s16 next_timer;
@@ -89,7 +89,7 @@ void func_801740F8(void *actor, EntityRec *transform, void *animation, void *mot
         transform->flags14 = 0;
         transform->unk_10 = 0;
         transform->unk_0C = 0;
-        func_800A2B04(transform, ((S_801740F8_1 *)animation)->unk_24, ((S_801740F8_1 *)animation)->unk_25);
+        dungeonSetRecordIntegerTileCenter(transform, ((S_801740F8_1 *)animation)->unk_24, ((S_801740F8_1 *)animation)->unk_25);
         ((S_801740F8_0 *)actor)->unk_9B++;
         return;
     case 3:

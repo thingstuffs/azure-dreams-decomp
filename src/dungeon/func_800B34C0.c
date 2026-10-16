@@ -29,14 +29,14 @@ typedef struct Object_800B34C0 {
 } Object_800B34C0;
 
 struct S_800B8830_1;
-extern void func_800B8830(void *motion, S_800B8830_3 *coords, struct S_800B8830_1 *render);
+extern void dungeonUpdateArcingEffect(void *motion, S_800B8830_3 *coords, struct S_800B8830_1 *render);
 extern u8 D_800DF2F8[];
 extern u8 D_800DF334[];
 
 extern void * func_8003FD64();
 
 /* Create an object with default child and tail data when none are supplied. */
-void func_800B8C20(void *owner, s32 value, void *child_data, void *tail_data)
+void dungeonCreateTimedModelEffect(void *owner, s32 value, void *child_data, void *tail_data)
 {
     Object_800B34C0 *object;
     Child *child;
@@ -53,7 +53,7 @@ void func_800B8C20(void *owner, s32 value, void *child_data, void *tail_data)
     }
     if (object != 0) {
         child = object->child;
-        object->state = func_800B8830;
+        object->state = dungeonUpdateArcingEffect;
 
         if (child_data != 0) {
             child->value8 = child_data;

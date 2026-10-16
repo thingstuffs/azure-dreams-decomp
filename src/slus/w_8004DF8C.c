@@ -9,7 +9,7 @@ extern s32 D_80081548;
 extern s32 D_8008154C;
 
 /* Builds and dispatches a control-coded string, then resets its referenced words. */
-void func_8004DF8C(char *text)
+void runtimeDispatchAndResetControlString(char *text)
 {
     char *buffer;
     char *cursor;

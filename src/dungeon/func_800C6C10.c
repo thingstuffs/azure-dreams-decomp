@@ -10,30 +10,30 @@
 #define U32(p, o) (*(u32 *)((u8 *)(p) + (o)))
 
 extern s16 D_8006CCD8[], D_8006CCE8[];
-extern s32 func_8009B390();
+extern s32 dungeonFindObjectNearTileHeight();
 extern void func_8009CE1C();
-extern s16 func_800B500C();
+extern s16 dungeonFindEntryAtTileCoordinates();
 extern s16 func_800A70E4();
-extern s32 func_800CCC20(void *object, s16 slot);
+extern s32 dungeonTakeMapItemSlot(void *object, s16 slot);
 
 
 /* Advance the effect, process collisions, and mark it finished when its steps run out. */
-void func_800CC370(void *effect)
+void dungeonAdvanceTrapEffectAndProcessCollisions(void *effect)
 {
     s32 target;
     s16 entry_index;
 
     U16(effect, 0) += D_8006CCD8[U8(effect, 6)];
     U16(effect, 2) += D_8006CCE8[U8(effect, 6)];
-    target = func_8009B390(U16(effect, 0), U16(effect, 2), S16(effect, 4));
+    target = dungeonFindObjectNearTileHeight(U16(effect, 0), U16(effect, 2), S16(effect, 4));
     if (target) {
         func_8009CE1C(target, 6, U8(((u8 *)D_800E3D7C), 0x11), 9,
                       (s16)(U8(effect, 6) << 9), 0, 3);
     }
-    entry_index = func_800B500C(S16(effect, 0), S16(effect, 2), S16(effect, 4));
+    entry_index = dungeonFindEntryAtTileCoordinates(S16(effect, 0), S16(effect, 2), S16(effect, 4));
     if (entry_index >= 0) {
         if (((u8 *)D_800E3648)[entry_index * 4] == 7) {
-            func_800CCC20(0, entry_index);
+            dungeonTakeMapItemSlot(0, entry_index);
         } else {
             U32(D_800E3648, entry_index * 4) = 0;
         }

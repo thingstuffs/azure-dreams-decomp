@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1831370.h"
 
-void func_80026B44(ovl_1831370_81811B44_S_80026B44_0 *owner) {
+void dungeonReleaseObjectHandle(ovl_1831370_81811B44_S_80026B44_0 *owner) {
     s32 handle;
 
     handle = *owner->unk_0C;

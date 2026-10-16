@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_188898c.h"
 
-void func_80024730(void *state_ref, void *unused, void *effect) {
+void shrinkAndBrightenEffect(void *state_ref, void *unused, void *effect) {
     u16 scale;
     u8 brightness;
     void *state;

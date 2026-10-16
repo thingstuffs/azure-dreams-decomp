@@ -44,14 +44,14 @@ typedef struct S_800D8590_3 {
 extern void func_8003DB94();
 extern void func_80042B68();
 extern void bzero();
-extern void func_80094E34();
+extern void dungeonClearPlayerLinkedActionFlags();
 
 extern u8 D_800D8728[];
 extern u8 D_800D8C64[];
 extern void *D_800E262C[];
 
 /* Reset the entity state and animation, then update its child flags. */
-void *func_800D8590(void *entity)
+void *dungeonResetActorAnimationState(void *entity)
 {
     u8 *child;
     u8 *map;
@@ -69,7 +69,7 @@ void *func_800D8590(void *entity)
 
     child = ((S_800D8590_0 *)parent)->unk_0C;
     if (((S_800D8590_1 *)entity)->unk_13 == 0) {
-        func_80094E34();
+        dungeonClearPlayerLinkedActionFlags();
         ((S_800D8590_3 *)child)->unk_14 |= 0x8000;
         ((S_800D8590_3 *)child)->unk_12 = 0;
         ((S_800D8590_3 *)child)->unk_14 &= 0xFFF3;

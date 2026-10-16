@@ -69,7 +69,7 @@ typedef struct S_81263000_6 {
     s32 unk_08;
 } S_81263000_6;   /* callee_part in func_8015E898 */
 
-extern s32 func_8003DE58(s32, void *, s16 *, s16);
+extern s32 resolveRecordOrientationOrFallback(s32, void *, s16 *, s16);
 extern void func_800478B8(void *);
 extern void func_800A56E0(s32);
 
@@ -104,7 +104,7 @@ void func_8015E898(void *root, void *output_pos, void *target_data)
     ((S_81263000_4 *)output_pos)->unk_0A = pos_data->unk_0A;
 
     motion_part = owner->unk_0C;
-    if (func_8003DE58(motion_part->unk_08, motion_part, offset,
+    if (resolveRecordOrientationOrFallback(motion_part->unk_08, motion_part, offset,
                       ((S_81263000_0 *)root)->unk_B6) != 0) {
         ((S_81263000_4 *)output_pos)->unk_02 +=
             (offset[0] + ((S_81263000_0 *)root)->unk_B0) / 2;

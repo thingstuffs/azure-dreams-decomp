@@ -10,7 +10,7 @@ extern S_80081490 *D_80081490;
 extern S_80081490 *D_80081498;
 
 /* Returns whether free nodes plus active nodes flagged 0x200 reach the limit. */
-s32 func_8003FA44(s32 limit) {
+s32 hasEnoughAvailableRuntimeNodes(s32 limit) {
     S_80081490 *node;
     s32 count;
 

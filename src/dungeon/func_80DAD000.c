@@ -9,7 +9,7 @@ typedef struct S_80DAD000_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80DAD000_0;   /* temp_v0 in func_80152874 */
+} S_80DAD000_0;   /* temp_v0 in dungeonAllocateObjectWithFlagsAndPlacement */
 
 typedef struct S_80DAD000_1 {
     u8 pad_00[0x13];
@@ -17,12 +17,12 @@ typedef struct S_80DAD000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80DAD000_1;   /* var_s0 in func_80152874 */
+} S_80DAD000_1;   /* var_s0 in dungeonAllocateObjectWithFlagsAndPlacement */
 
 typedef struct S_80DAD000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80DAD000_2;   /* temp_s4 in func_80152874 */
+} S_80DAD000_2;   /* temp_s4 in dungeonAllocateObjectWithFlagsAndPlacement */
 
 typedef struct S_80DAD000_3 {
     u8 pad_00[0x24];
@@ -30,7 +30,7 @@ typedef struct S_80DAD000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80DAD000_3;   /* temp_s2 in func_80152874 */
+} S_80DAD000_3;   /* temp_s2 in dungeonAllocateObjectWithFlagsAndPlacement */
 
 typedef struct S_80DAD000_4 {
     u8 pad_00[0x8C];
@@ -39,7 +39,7 @@ typedef struct S_80DAD000_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_80DAD000_4;   /* temp_s5 in func_80152874 */
+} S_80DAD000_4;   /* temp_s5 in dungeonAllocateObjectWithFlagsAndPlacement */
 
 
 
@@ -54,9 +54,9 @@ extern M2C_UNK D_80152A3C;
 extern M2C_UNK D_80152E68;
 extern M2C_UNK D_8015586C;
 
-void *func_80152874(s16 spawn_flags, s16 spawn_x, s16 spawn_y, s16 initial_value) ;
+void *dungeonAllocateObjectWithFlagsAndPlacement(s16 spawn_flags, s16 spawn_x, s16 spawn_y, s16 initial_value) ;
 /* Allocates and initializes a dungeon object with the requested flags and placement. */
-void *func_80152874(s16 spawn_flags, s16 spawn_x, s16 spawn_y, s16 initial_value) {
+void *dungeonAllocateObjectWithFlagsAndPlacement(s16 spawn_flags, s16 spawn_x, s16 spawn_y, s16 initial_value) {
     s32 global_byte;
     s32 unused_slot;
     s32 spawn_mode;

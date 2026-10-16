@@ -14,7 +14,7 @@ typedef struct S_801656F8_2 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_801656F8_2;   /* temp_v0 in func_801656F8 */
+} S_801656F8_2;   /* temp_v0 in dungeonCreateShortLivedChildParticle */
 
 
 typedef struct S_801656F8_4 {
@@ -27,7 +27,7 @@ typedef struct S_801656F8_4 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_801656F8_4;   /* ((S_801656F8_2 *)temp_v0)->unk_08 in func_801656F8 */
+} S_801656F8_4;   /* ((S_801656F8_2 *)temp_v0)->unk_08 in dungeonCreateShortLivedChildParticle */
 
 typedef struct S_801656F8_5 {
     u8 pad_00[0x2];
@@ -36,12 +36,12 @@ typedef struct S_801656F8_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_801656F8_5;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_801656F8 */
+} S_801656F8_5;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in dungeonCreateShortLivedChildParticle */
 
 typedef struct S_801656F8_6 {
     u8 pad_00[0x6];
     s16 unk_06;
-} S_801656F8_6;   /* ((S_801656F8_2 *)temp_v0)->unk_0C in func_801656F8 */
+} S_801656F8_6;   /* ((S_801656F8_2 *)temp_v0)->unk_0C in dungeonCreateShortLivedChildParticle */
 
 
 void *func_8003FD64();
@@ -55,7 +55,7 @@ typedef struct S_801656F8_0 {
     void * unk_10;
     u8 pad_14[0xC];
     s32 unk_20;
-} S_801656F8_0;   /* temp_v0 in func_801656F8 */
+} S_801656F8_0;   /* temp_v0 in dungeonCreateShortLivedChildParticle */
 
 typedef struct S_801656F8_1 {
     u8 pad_00[0x8];
@@ -65,10 +65,10 @@ typedef struct S_801656F8_1 {
     u8 pad_16[0x1C];
     s16 unk_32;
     s16 unk_34;
-} S_801656F8_1;   /* temp_s0 in func_801656F8 */
+} S_801656F8_1;   /* temp_s0 in dungeonCreateShortLivedChildParticle */
 
 /* Creates an effect offset from its source with randomized motion. */
-void func_801656F8(EntityRec *source, s16 effect_param, s32 state_value, s16 offset_x, s16 offset_y,
+void dungeonCreateShortLivedChildParticle(EntityRec *source, s16 effect_param, s32 state_value, s16 offset_x, s16 offset_y,
                    s16 offset_z, s32 motion_z)
 {
     S_801656F8_1 *effect_state;

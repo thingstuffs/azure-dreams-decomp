@@ -21,10 +21,10 @@ typedef struct TownTransition {
     Vec3i *other;
 } TownTransition;
 
-extern void func_800A4D4C(void *state);
+extern void townRestartOrUpdateMidpointTracking(void *state);
 
 /* Reset on target changes or move toward the midpoint of the two targets. */
-void func_800A4E1C(TownTransition *state) {
+void townResetOrAdvanceTargetMidpoint(TownTransition *state) {
     Vec3i *target;
 
     target = state->target;
@@ -34,7 +34,7 @@ void func_800A4E1C(TownTransition *state) {
         state->unk18 = 0;
         state->unk1C = 0;
         state->previous_target = state->target;
-        func_800A4D4C(state);
+        townRestartOrUpdateMidpointTracking(state);
         return;
     }
 
@@ -48,6 +48,6 @@ void func_800A4E1C(TownTransition *state) {
         state->steps;
     state->steps--;
     if (state->steps <= 0) {
-        state->callback = func_800A4D4C;
+        state->callback = townRestartOrUpdateMidpointTracking;
     }
 }

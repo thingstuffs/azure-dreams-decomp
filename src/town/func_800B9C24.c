@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Clear a 128 by 128 grid of signed halfwords. */
-void func_800B7384(s16 *grid) {
+void townClearHalfwordGrid128(s16 *grid) {
     s16 *cell;
     s16 next_row;
     s16 next_column;

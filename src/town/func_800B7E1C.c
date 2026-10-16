@@ -11,7 +11,7 @@ typedef struct {
 char *func_8004E5A0();      /* extern */
 char *func_8004E634();             /* extern */
 char *strcat();           /* extern */
-s32 func_800B555C();               /* extern */
+s32 townCompareValuesToDisplayCode();               /* extern */
 extern M2C_UNK D_800892D8;
 extern Vec3s D_800892F0;
 extern M2C_UNK D_800892F4;
@@ -21,7 +21,7 @@ extern M2C_UNK D_80089304;
 
 
 /* Formats two pairs of stat values with comparison indicators. */
-void *func_800B557C(void *text, EntityRec *stats) {
+void *townFormatComparedStatPairs(void *text, EntityRec *stats) {
     M2C_UNK format_buf[3];
     s32 first_indicator;
     s32 second_indicator;
@@ -29,7 +29,7 @@ void *func_800B557C(void *text, EntityRec *stats) {
 
     prefix = &D_800892F0;
     *(Vec3s *)text = *prefix;
-    first_indicator = func_800B555C(stats->unk_68, stats->unk_26);
+    first_indicator = townCompareValuesToDisplayCode(stats->unk_68, stats->unk_26);
     if (first_indicator != 0) {
         strcat(text, &D_800892F4);
         strcat(text, func_8004E634(first_indicator, &format_buf));
@@ -40,7 +40,7 @@ void *func_800B557C(void *text, EntityRec *stats) {
     strcat(text, &D_800892F4);
     strcat(text, func_8004E634(0, &format_buf));
     strcat(text, &D_800892FC);
-    second_indicator = func_800B555C(stats->unk_69, stats->unk_27);
+    second_indicator = townCompareValuesToDisplayCode(stats->unk_69, stats->unk_27);
     if (second_indicator != 0) {
         strcat(text, &D_800892F4);
         strcat(text, func_8004E634(second_indicator, &format_buf));

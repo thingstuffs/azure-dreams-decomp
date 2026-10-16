@@ -51,7 +51,7 @@ extern void func_80066708(void *);
 extern void func_80067F20(void *, s32, s32, u16, s32);
 
 /* Queue two adjoining shaded quads whose vertices fall within the screen margin. */
-void func_800A8EE8(Func800AB788Arg *strip)
+void townQueueAdjacentShadedQuads(Func800AB788Arg *strip)
 {
     Func800AB788Poly *poly;
     u8 *tpage;

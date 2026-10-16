@@ -24,7 +24,7 @@ extern u8 D_800786DC[];
 extern u8 D_800786E8[];
 
 /* Updates both outputs and their flags from the current state and limit. */
-void func_800AF784(Object *obj)
+void townUpdateItemMenuPageBounds(Object *obj)
 {
     register State *state;
     s32 clear_mask;

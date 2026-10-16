@@ -8,18 +8,18 @@
 typedef struct S_80035068_3 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_80035068_3;   /* ((Rec_func_80034F58_arg0 *)arg0)->unk_10 in func_80035068 */
+} S_80035068_3;   /* ((Rec_func_80034F58_arg0 *)arg0)->unk_10 in runtimePrependDoublyLinkedNode */
 
 
 typedef struct S_80035068_0 {
     u8 pad_00[0x4];
     s32 unk_04;
     void * unk_08;
-} S_80035068_0;   /* arg1 in func_80035068 */
+} S_80035068_0;   /* arg1 in runtimePrependDoublyLinkedNode */
 
 
 /* Insert a node at the front of the owner's doubly linked list. */
-void func_80035068(void *owner, S_80035068_0 *node) {
+void runtimePrependDoublyLinkedNode(void *owner, S_80035068_0 *node) {
     node->unk_04 = (s32) (owner + 8);
     node->unk_08 = (void *) ((Rec_func_80034F58_arg0 *)owner)->unk_10;
     ((S_80035068_3 *)(((Rec_func_80034F58_arg0 *)owner)->unk_10))->unk_04 = node;

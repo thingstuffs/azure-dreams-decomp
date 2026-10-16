@@ -24,6 +24,7 @@ import time
 ROOT = Path(__file__).resolve().parents[2]
 sys.path[:0] = [str(ROOT / 'tools'), str(ROOT / 'tools/build')]
 from common import parse_cfg, read_jsonl, sha_file, write_jsonl
+from source_layout import slus_source as layout_slus_source
 from row_db import edges_of, slus_edges
 from slus_module_context import modules, partition_context
 from slus_modules import module_for_row
@@ -42,7 +43,7 @@ def json_write(path, value):
     os.replace(temp, path)
 
 def source_path(root, source):
-    return root / 'src/slus' / Path(source).relative_to('src')
+    return layout_slus_source(source, root)
 
 def tu_catalog(root):
     """Physical owners from the registered recipe; never invent a logical row."""

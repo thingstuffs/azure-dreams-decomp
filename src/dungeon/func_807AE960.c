@@ -46,8 +46,8 @@ typedef struct S_807AE960_6 {
 
 extern void *D_800F6000[];
 M2C_UNK Control_CD();
-s32 func_8003F270();
-void func_8003F540();
+s32 getCdCommandQueueDepth();
+void soundSetCdCueParameters();
 int func_800445E0();
 s32 func_80053EF0();
 extern M2C_UNK D_80010000;
@@ -76,7 +76,7 @@ void func_800F6160(u8 *state, u8 *actor, u8 *target) {
     switch (dispatch_index + 1) {
     case 1:
     case 2:
-        if (func_8003F270() != 0) {
+        if (getCdCommandQueueDepth() != 0) {
             return;
         }
         if (((S_807AE960_1 *)state)->unk_10 == 0) {
@@ -125,7 +125,7 @@ void func_800F6160(u8 *state, u8 *actor, u8 *target) {
         break;
     case 4:
         if (((S_807AE960_1 *)state)->unk_10 == 0) {
-            func_8003F540(0, D_8006CD58, 0x0600065E, 0x030008B6);
+            soundSetCdCueParameters(0, D_8006CD58, 0x0600065E, 0x030008B6);
             Control_CD(0x15, func_800445E0(), 0);
         }
         ((S_807AE960_1 *)state)->unk_04.s = 0x60;

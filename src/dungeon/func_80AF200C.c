@@ -7,14 +7,14 @@ void func_8017380C(void *action, EntityRec *motion, void *entity, EntityRec *act
     state = ((R10_8017380C_S_8017380C_0 *)action)->unk_9B;
     switch (state) {
     case 0:
-        func_800AD4D0(actor);
+        dungeonApplyClampedActorValueDelta(actor);
         ((R10_8017380C_S_8017380C_0 *)action)->unk_96.s = 4;
         ((R10_8017380C_S_8017380C_0 *)action)->unk_9B++;
         if (actor->unk_28 == 0) {
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(action, motion, entity, ((u8 *)D_801759C8));
+            dungeonBeginActorDisplayAction(action, motion, entity, ((u8 *)D_801759C8));
             return;
         }
         if (!(((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000)) {
@@ -58,7 +58,7 @@ void func_8017380C(void *action, EntityRec *motion, void *entity, EntityRec *act
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(action, motion, entity, ((u8 *)D_801759C8));
+            dungeonBeginActorDisplayAction(action, motion, entity, ((u8 *)D_801759C8));
             return;
         }
         {
@@ -91,7 +91,7 @@ void func_8017380C(void *action, EntityRec *motion, void *entity, EntityRec *act
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)entity)->unk_24, ((Rec_D_80082E80 *)entity)->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)entity)->unk_24, ((Rec_D_80082E80 *)entity)->unk_25);
         if (((Rec_D_80082E80 *)entity)->unk_2C.as_pv == ((u8 *)D_80175998)) {
             u8 *direction_table;
 

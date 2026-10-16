@@ -104,13 +104,13 @@ void func_8002401C(u8 *effect, u8 *motion, void *context_arg) {
             s32 delta_x;
             s32 abs_y;
             if ((U16(S32(effect, 4), 0) & 0x80) != 0) {
-                if (func_8003DE58(S32(S32(actor_header, 12), 8), S32(actor_header, 12), offset, 0) == 0) {
+                if (resolveRecordOrientationOrFallback(S32(S32(actor_header, 12), 8), S32(actor_header, 12), offset, 0) == 0) {
                     offset[1] = 0;
                     offset[0] = 0;
                     offset[2] = (U16(actor_data, 20) & 0x8000) ? -48 : 0;
                 }
-                target = func_800A05A4(actor, U8(actor_data, 36), U8(actor_data, 37), S16(actor, 42),
-                                       (s16)func_800A3820(36));
+                target = dungeonScanMonsterAlongHeading(actor, U8(actor_data, 36), U8(actor_data, 37), S16(actor, 42),
+                                       (s16)dungeonGetDefinitionEntryByte13(36));
                 S32(actor, 96) = target;
                 if (target == 0) {
                     U8(actor, 114) = U8(actor_data, 36);
@@ -128,7 +128,7 @@ void func_8002401C(u8 *effect, u8 *motion, void *context_arg) {
                 }
                 {
                     u8 *effect_header = effect - 32;
-                    u8 *callback = func_80024798;
+                    u8 *callback = dungeonHandleSpawnInitializeRandomizedOffsetParent;
                     S32(motion, 0) = S32(S32(actor_header, 8), 0) + ((s32)offset[0] << 16);
                     S32(motion, 4) = S32(S32(actor_header, 8), 4) + ((s32)offset[1] << 16);
                     S32(motion, 8) = S32(S32(actor_header, 8), 8) + ((s32)offset[2] << 16);
@@ -248,8 +248,8 @@ void func_8002401C(u8 *effect, u8 *motion, void *context_arg) {
             return;
 
         case 241:
-            func_8002506C(S32(actor, 96), S16(effect, 80));
-            if (S16(effect, 80) == 6 && func_8009D218(S32(actor, 96), 4, actor) == 0 &&
+            copySelectedTablePair(S32(actor, 96), S16(effect, 80));
+            if (S16(effect, 80) == 6 && dungeonTryTriggerTargetRecordEffect(S32(actor, 96), 4, actor) == 0 &&
                 S32(actor, 96) != 0) {
                 func_800C8900(S32(actor, 96), U8(D_800E3D68, 0) == 255 ? 255 : 16, 4);
             }

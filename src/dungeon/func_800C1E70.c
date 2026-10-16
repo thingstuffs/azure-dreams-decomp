@@ -7,7 +7,7 @@ extern u8 D_800E3D20[];
 extern u16 D_800E58F8[];
 
 /* Update target tracking and smoothly approach its position and transition value. */
-void func_800C75D0(void *tracker) {
+void dungeonUpdateTargetTrackingAndTransition(void *tracker) {
     GameView *state = &gameWork.view;
     s16 frames_left;
     s16 next_frames;

@@ -4,7 +4,7 @@
 
 
 /* Decrements an entity's countdown and finalizes it when the countdown expires. */
-void func_800C1EC4(u16 *entity) {
+void dungeonTickHeightRestoreEffect(u16 *entity) {
     s16 remainingTicks;
     u16 *destination;
 

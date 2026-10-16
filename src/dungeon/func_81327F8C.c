@@ -8,17 +8,17 @@
 #include "records/Rec_D_80082E80.h"
 
 void func_80047784();         /* extern */
-s32 func_8009A180();                     /* extern */
+s32 dungeonCheckEntityRelation();                     /* extern */
 s8 func_8009FB34();                           /* extern */
 void func_800A9A0C();                      /* extern */
-void func_800AA258(); /* extern */
-s32 func_800AA6B4(); /* extern */
+void dungeonBeginPushedActorMove(); /* extern */
+s32 dungeonBeginReadyActorDirectionalAction(); /* extern */
 void func_800AA888(); /* extern */
 M2C_UNK func_8016FA84();                            /* extern */
-void func_8016FCE4(); /* extern */
-s32 func_80170224(); /* extern */
+void dungeonAdvanceBossActorMovementState(); /* extern */
+s32 dungeonUpdateBossActionResult(); /* extern */
 s32 func_8017092C(); /* extern */
-s32 func_80174320();     /* extern */
+s32 dungeonAdvanceBossCommandStream();     /* extern */
 extern u8 D_80174A2C[];
 extern u8 D_80174A64[];
 
@@ -29,10 +29,10 @@ typedef struct S_8016F78C_0 {
     u8 pad_94[0x4];
     u16 unk_98;
     u8 unk_9A;
-} S_8016F78C_0;   /* arg0 in func_8016F78C */
+} S_8016F78C_0;   /* arg0 in dungeonUpdateBossActorAction */
 
 /* Updates actor state, directional animation, and action handling. */
-void func_8016F78C(void *actor, void *context, void *sprite, EntityRec *entity) {
+void dungeonUpdateBossActorAction(void *actor, void *context, void *sprite, EntityRec *entity) {
     u8 stack_pad[8];
     u8 current_state;
     s32 next_state;
@@ -44,7 +44,7 @@ void func_8016F78C(void *actor, void *context, void *sprite, EntityRec *entity) 
     }
     if (!(dungeonStatus.flags & 0x2000)) {
         if (entity->flags1C & 0x100) {
-            func_800AA258(actor, context, sprite, entity);
+            dungeonBeginPushedActorMove(actor, context, sprite, entity);
             return;
         }
         current_state = ((S_8016F78C_0 *)actor)->unk_9A;
@@ -57,7 +57,7 @@ void func_8016F78C(void *actor, void *context, void *sprite, EntityRec *entity) 
             ((S_8016F78C_0 *)actor)->unk_9A = next_state;
         }
         ((S_8016F78C_0 *)actor)->unk_98 = (u16) (((S_8016F78C_0 *)actor)->unk_98 & 0xFFF3);
-        if (!((((EntityRec *)entity)->unk_64 == 0) || (func_800AA6B4(actor, context, sprite, D_80174A64) == 0))) {
+        if (!((((EntityRec *)entity)->unk_64 == 0) || (dungeonBeginReadyActorDirectionalAction(actor, context, sprite, D_80174A64) == 0))) {
             return;
         }
         if (entity->flags1C & 0x80000) {
@@ -77,16 +77,16 @@ void func_8016F78C(void *actor, void *context, void *sprite, EntityRec *entity) 
             return;
         }
         if (!(entity->unk_46 & 0x8000)) {
-            if (!(dungeonStatus.flags & 0x2000) || ((func_8009A180(entity, ((s32)D_800814A8->unk_58) + 0x20) << 0x10)
+            if (!(dungeonStatus.flags & 0x2000) || ((dungeonCheckEntityRelation(entity, ((s32)D_800814A8->unk_58) + 0x20) << 0x10)
                 == 0)) {
                 if (D_80013714 & 8) {
-                    func_80174320(actor, context, sprite);
+                    dungeonAdvanceBossCommandStream(actor, context, sprite);
                     entity->unk_71 = (u8) (entity->unk_71 & 0x7F);
                     func_800A9A0C(entity);
                     entity->unk_46 = (u16) (entity->unk_46 & 0x7FFF);
                     return;
                 }
-                if ((func_80170224(actor, context, sprite, 0) << 0x10) == 0) {
+                if ((dungeonUpdateBossActionResult(actor, context, sprite, 0) << 0x10) == 0) {
                     return;
                 }
                 entity->unk_46 = (u16) (entity->unk_46 | 0x4000);
@@ -97,6 +97,6 @@ void func_8016F78C(void *actor, void *context, void *sprite, EntityRec *entity) 
         entity->unk_46 = (u16) (entity->unk_46 & 0x7FFF);
         entity->unk_71 = (u8) (entity->unk_71 & 0x7F);
         func_800A9A0C(entity);
-        func_8016FCE4(actor, context, sprite, entity);
+        dungeonAdvanceBossActorMovementState(actor, context, sprite, entity);
     }
 }

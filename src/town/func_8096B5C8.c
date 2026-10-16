@@ -3,7 +3,7 @@
 
 M2C_UNK func_80067014();                     /* extern */
 M2C_UNK func_800671A8(); /* extern */
-s32 func_80123200();                             /* extern */
+s32 townIsCatalogEntryAvailable();                             /* extern */
 void func_80123928();               /* extern */
 void func_801239B8(); /* extern */
 extern M2C_UNK D_8011ACD8;
@@ -46,7 +46,7 @@ void func_80123A60(void *object_data) {
     if (test_category == 3) {
         slot = category;
         second_image_id = slot * 0x10;
-        if (func_80123200(second_image_id & 0xF0) & 0xFF) {
+        if (townIsCatalogEntryAvailable(second_image_id & 0xF0) & 0xFF) {
             u8 *image_base = (u8 *)D_80126E98;
             void **image_ptr;
             image_ptr = (void **)((((slot << 5) + second_image_id) << 2) +
@@ -54,7 +54,7 @@ void func_80123A60(void *object_data) {
             func_80123928(*image_ptr, 0x180, 0x80);
         }
         second_image_id += 1;
-        if (func_80123200(second_image_id & 0xFF) & 0xFF) {
+        if (townIsCatalogEntryAvailable(second_image_id & 0xFF) & 0xFF) {
             func_80123928(D_80126E98[second_image_id].image, 0x1A4, 0xA0);
         }
     } else {
@@ -64,7 +64,7 @@ void func_80123A60(void *object_data) {
         image_entry = (ImageEntry *)(((((grid_category << 5) + image_id) << 2)) +
                                 (u32)loop_image_base);
         do {
-            if (func_80123200(image_id & 0xFF) & 0xFF) {
+            if (townIsCatalogEntryAvailable(image_id & 0xFF) & 0xFF) {
                 func_80123928(image_entry->image, (s16) (((slot % 3) * 0x12) + 0x180),
                     (s16) (((slot / 3) * 0x10) + 0x80));
             }

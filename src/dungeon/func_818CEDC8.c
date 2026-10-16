@@ -25,7 +25,7 @@ void func_800245C8(void *state, B32_818CEDC8_S_818CEDC8_0 *position, Rec_D_80082
 
     position->unk_00.at00.v = (s32) (position->unk_00.at00.v + ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_4C);
     ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_4C = (s32) (((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_4C + ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_58);
-    if ((func_800A45D8(position->unk_00.at02.v, position->unk_04.at02.v,
+    if ((dungeonCheckLeftTileAndCenterHeight(position->unk_00.at02.v, position->unk_04.at02.v,
                        (collision_z = position->unk_08.at02.v, D_80025924[0] = 1, collision_z)) << 0x10) != 0) {
         position->unk_00.at00.v = (s32) (position->unk_00.at00.v - ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_4C);
         ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_4C = 0;
@@ -33,7 +33,7 @@ void func_800245C8(void *state, B32_818CEDC8_S_818CEDC8_0 *position, Rec_D_80082
     }
     position->unk_04.at00.v = (s32) (position->unk_04.at00.v + ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_50);
     ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_50 = (s32) (((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_50 + ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_5C);
-    if ((func_800A45D8(position->unk_00.at02.v, position->unk_04.at02.v, position->unk_08.at02.v) << 0x10) != 0) {
+    if ((dungeonCheckLeftTileAndCenterHeight(position->unk_00.at02.v, position->unk_04.at02.v, position->unk_08.at02.v) << 0x10) != 0) {
         position->unk_04.at00.v = (s32) (position->unk_04.at00.v - ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_50);
         ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_50 = 0;
         ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_5C = 0;

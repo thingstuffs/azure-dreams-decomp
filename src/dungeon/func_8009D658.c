@@ -7,8 +7,8 @@
 #endif
 
 
-extern void func_800A2D68(u8 *record, u16 amount);
-extern void * func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
+extern void accumulateExperienceAward(u8 *record, u16 amount);
+extern void * createActorValuePopup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
 
 typedef struct S_800A2DB8_0 {
@@ -20,46 +20,46 @@ typedef struct S_800A2DB8_0 {
     s32 unk_54;
     u8 pad_58[0x8];
     void * unk_60;
-} S_800A2DB8_0;   /* arg0 in func_800A2DB8 */
+} S_800A2DB8_0;   /* arg0 in distributeExperienceAwards */
 
 typedef struct S_800A2DB8_1 {
     u8 pad_00[0x13];
     s8 unk_13;
     u8 pad_14[0x40];
     s32 unk_54;
-} S_800A2DB8_1;   /* initial_target in func_800A2DB8 */
+} S_800A2DB8_1;   /* initial_target in distributeExperienceAwards */
 
 typedef struct S_800A2DB8_2 {
     u8 pad_00[0xAC];
     void * unk_AC;
-} S_800A2DB8_2;   /* slot in func_800A2DB8 */
+} S_800A2DB8_2;   /* slot in distributeExperienceAwards */
 
 typedef struct S_800A2DB8_3 {
     u8 pad_00[0x11];
     u8 unk_11;
     u8 pad_12[0x16];
     u8 unk_28;
-} S_800A2DB8_3;   /* member in func_800A2DB8 */
+} S_800A2DB8_3;   /* member in distributeExperienceAwards */
 
 typedef struct S_800A2DB8_5 {
     u8 pad_00[0xAC];
     void * unk_AC;
-} S_800A2DB8_5;   /* (u8 *)D_800E3D7C[0] + index * 4 in func_800A2DB8 */
+} S_800A2DB8_5;   /* (u8 *)D_800E3D7C[0] + index * 4 in distributeExperienceAwards */
 
 typedef struct S_800A2DB8_6 {
     u8 pad_00[0x3D7C];
     void * unk_3D7C;
-} S_800A2DB8_6;   /* global_page in func_800A2DB8 */
+} S_800A2DB8_6;   /* global_page in distributeExperienceAwards */
 
 typedef struct S_800A2DB8_7 {
     u8 pad_00[0x11];
     u8 unk_11;
     u8 pad_12[0x16];
     u8 unk_28;
-} S_800A2DB8_7;   /* global_member in func_800A2DB8 */
+} S_800A2DB8_7;   /* global_member in distributeExperienceAwards */
 
 /* Award experience to the target or its party and display experience popups. */
-s32 func_800A2DB8(S_800A2DB8_0 *source)
+s32 distributeExperienceAwards(S_800A2DB8_0 *source)
 {
     void *initial_target;
     EntityRec *target;
@@ -121,8 +121,8 @@ s32 func_800A2DB8(S_800A2DB8_0 *source)
                         bonus_shift = (level_delta < 2) ^ 1;
                         award = experience + (experience >> bonus_shift);
                     }
-                    func_800B4C7C(0x82, member, (s16)award, 1);
-                    func_800A2D68(member, award & 0xFFFF);
+                    createActorValuePopup(0x82, member, (s16)award, 1);
+                    accumulateExperienceAward(member, award & 0xFFFF);
                 }
                 member_index--;
             } while (member_index >= 0);
@@ -138,19 +138,19 @@ s32 func_800A2DB8(S_800A2DB8_0 *source)
                 bonus_shift = (level_delta < 2) ^ 1;
                 award = experience + (experience >> bonus_shift);
             }
-            func_800A2D68(global_member, award & 0xFFFF);
-            func_800B4C7C(0x82, ((S_800A2DB8_6 *)global_page)->unk_3D7C, (s16)award, 1);
+            accumulateExperienceAward(global_member, award & 0xFFFF);
+            createActorValuePopup(0x82, ((S_800A2DB8_6 *)global_page)->unk_3D7C, (s16)award, 1);
             return award;
         }
 
         experience = source->unk_06.u;
-        func_800A2D68(target, experience);
+        accumulateExperienceAward(target, experience);
         final_target = source->unk_60;
         popup_code = 0x83;
         if (final_target->flags14 & 0x2000) {
             popup_code = 0x82;
         }
-        func_800B4C7C(popup_code, final_target, source->unk_06.s, 1);
+        createActorValuePopup(popup_code, final_target, source->unk_06.s, 1);
     }
     return experience;
 }

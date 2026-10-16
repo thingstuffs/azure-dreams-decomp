@@ -35,7 +35,7 @@ extern s32 func_80098F70(void *, void *);
 extern s32 func_8009EB30(void *, void *);
 extern s32 func_800A1904(void *);
 extern s32 func_800A59E8();
-extern void func_800A86BC(void *);
+extern void townUpdateFadingEffectMotion(void *);
 extern void func_800A86C4(void *);
 extern void func_800A8F10(void *, void *, void *, void *);
 extern s32 func_800A936C(void *, void *, void *, s32);
@@ -50,7 +50,7 @@ extern u8 D_80172EC4[];
 extern u8 D_80172ECC[];
 
 /* Advances the actor state sequence and selects effects for its facing direction. */
-void func_80171EC4(ActorActionWork *action, void *context, Rec_D_80082E80 *entity, EntityRec *actor)
+void dungeonAdvanceTheActorStateSequenceSelectsEffectsFacingDirection(ActorActionWork *action, void *context, Rec_D_80082E80 *entity, EntityRec *actor)
 {
     s32 direction;
     u8 *directionFrame;
@@ -188,7 +188,7 @@ void func_80171EC4(ActorActionWork *action, void *context, Rec_D_80082E80 *entit
             }
 
             func_800A86C4(actor);
-            func_800A86BC(actor);
+            townUpdateFadingEffectMotion(actor);
             if ((func_800424C4(actor, 1) << 16) != 0) {
                 TileObject *room_base = &D_80081490;
                 s8 room_id = entity->unk_26.as_s8;

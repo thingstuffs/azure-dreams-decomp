@@ -9,7 +9,7 @@ typedef struct S_801750F8_0 {
     union { u16 s; s16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_801750F8_0;   /* arg0 in func_801750F8 */
+} S_801750F8_0;   /* arg0 in dungeonAdvanceDeformingActionAnimation */
 
 typedef struct S_801750F8_1 {
     u8 pad_00[0x14];
@@ -18,7 +18,7 @@ typedef struct S_801750F8_1 {
     s16 unk_2A;
     u8 pad_2C[0x1A];
     u16 unk_46;
-} S_801750F8_1;   /* arg3 in func_801750F8 */
+} S_801750F8_1;   /* arg3 in dungeonAdvanceDeformingActionAnimation */
 
 typedef struct S_801750F8_2 {
     u8 pad_00[0x14];
@@ -26,15 +26,15 @@ typedef struct S_801750F8_2 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_801750F8_2;   /* arg2 in func_801750F8 */
+} S_801750F8_2;   /* arg2 in dungeonAdvanceDeformingActionAnimation */
 
 
 
 extern s32 func_801744E0(void *);
 extern void func_80047784(void *, s32, s32);
 extern void func_800A56E0(s32);
-extern void func_800AD594(void *, s32);
-extern void func_80174D98(void *, void *, void *, void *);
+extern void dungeonReduceActorFoodMeter(void *, s32);
+extern void createRandomizedItemObject(void *, void *, void *, void *);
 
 extern u8 D_801716F4[];
 extern u8 D_8017555C[];
@@ -43,7 +43,7 @@ extern u8 D_801755C4[];
 extern u8 D_801755CC[];
 
 /* Advances a timed action animation, deforming the sprite and restoring it on completion. */
-void func_801750F8(void *action_in, void *direction_data_in, void *sprite_in, void *actor_in)
+void dungeonAdvanceDeformingActionAnimation(void *action_in, void *direction_data_in, void *sprite_in, void *actor_in)
 {
     void *direction_data = direction_data_in;
     void *sprite = sprite_in;
@@ -165,7 +165,7 @@ void func_801750F8(void *action_in, void *direction_data_in, void *sprite_in, vo
             D_801755C4[((gameWork.view.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         func_800A56E0(0x509);
-        func_80174D98(action_in, direction_data, sprite, actor);
+        createRandomizedItemObject(action_in, direction_data, sprite, actor);
         return;
     }
 
@@ -190,7 +190,7 @@ void func_801750F8(void *action_in, void *direction_data_in, void *sprite_in, vo
         func_80047784(sprite,
             D_8017555C[((gameWork.view.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
-        func_800AD594(actor, 0x1000);
+        dungeonReduceActorFoodMeter(actor, 0x1000);
         ((S_801750F8_0 *)action_in)->unk_8C = D_801716F4;
         dungeonStatus.unk_0C = 0;
         ((S_801750F8_1 *)actor)->unk_46 &= 0x7FFF;

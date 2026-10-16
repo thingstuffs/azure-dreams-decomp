@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource16_slot0.h"
 
-void func_801725A4(void *owner, void *motion, void *actor, void *object_in)
+void dungeonUpdateOverlayObjectAction(void *owner, void *motion, void *actor, void *object_in)
 {
     void *object = object_in;
     register s32 is_special;
@@ -85,7 +85,7 @@ void func_801725A4(void *owner, void *motion, void *actor, void *object_in)
                         ((R16_801725A4_S_801725A4_1 *)object)->unk_73.s = x;
                     }
                 } else {
-                    spawn = func_800A05A4(
+                    spawn = dungeonScanMonsterAlongHeading(
                         object,(u8)(((R16_801725A4_S_801725A4_2 *)actor)->unk_24),(u8)(((R16_801725A4_S_801725A4_2 *)actor)->unk_25),(s16)(((R16_801725A4_S_801725A4_1 *)object)->unk_2A),
                         0x10);
                     ((R16_801725A4_S_801725A4_1 *)object)->unk_60 = spawn;
@@ -99,11 +99,11 @@ void func_801725A4(void *owner, void *motion, void *actor, void *object_in)
                 }
             }
 
-            if (func_800A94A0(object, action_data, is_special,
+            if (dungeonCreateActorSpellEffect(object, action_data, is_special,
                               (u16 *)((u8 *)owner + 0x98)) == 0) {
                 return;
             }
-            func_800BB044(object);
+            dungeonCreateActorLinkedEffect(object);
             ((R16_801725A4_S_801725A4_0 *)owner)->unk_9B++;
             return;
         }
@@ -111,10 +111,10 @@ void func_801725A4(void *owner, void *motion, void *actor, void *object_in)
         ((R16_801725A4_S_801725A4_3 *)motion)->unk_14 = 0;
         ((R16_801725A4_S_801725A4_3 *)motion)->unk_10 = 0;
         ((R16_801725A4_S_801725A4_3 *)motion)->unk_0C = 0;
-        func_800A2B04(motion,(u8)(((R16_801725A4_S_801725A4_2 *)actor)->unk_24),(u8)(((R16_801725A4_S_801725A4_2 *)actor)->unk_25));
+        dungeonSetRecordIntegerTileCenter(motion,(u8)(((R16_801725A4_S_801725A4_2 *)actor)->unk_24),(u8)(((R16_801725A4_S_801725A4_2 *)actor)->unk_25));
         dungeonStatus.unk_0C = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
-        func_800A4ACC(object);
+        dungeonAdvanceStatusTimers(object);
         ((R16_801725A4_S_801725A4_1 *)object)->unk_6D--;
         ((R16_801725A4_S_801725A4_0 *)owner)->unk_8C = ((u8 *)func_80171014);
         ((R16_801725A4_S_801725A4_1 *)object)->unk_73.s = 0;
@@ -123,7 +123,7 @@ void func_801725A4(void *owner, void *motion, void *actor, void *object_in)
         return;
 
     case 1:
-        if (func_8003F270() != 0) {
+        if (getCdCommandQueueDepth() != 0) {
             ((R16_801725A4_S_801725A4_2 *)actor)->unk_14 |= 0x0800;
             return;
         }
@@ -144,7 +144,7 @@ void func_801725A4(void *owner, void *motion, void *actor, void *object_in)
         ((R16_801725A4_S_801725A4_3 *)motion)->unk_14 = 0;
         ((R16_801725A4_S_801725A4_3 *)motion)->unk_10 = 0;
         ((R16_801725A4_S_801725A4_3 *)motion)->unk_0C = 0;
-        func_800A2B04(motion,(u8)(((R16_801725A4_S_801725A4_2 *)actor)->unk_24),(u8)(((R16_801725A4_S_801725A4_2 *)actor)->unk_25));
+        dungeonSetRecordIntegerTileCenter(motion,(u8)(((R16_801725A4_S_801725A4_2 *)actor)->unk_24),(u8)(((R16_801725A4_S_801725A4_2 *)actor)->unk_25));
 
         {
             u8 *direction_table = ((u8 *)D_8017420C);
@@ -163,7 +163,7 @@ void func_801725A4(void *owner, void *motion, void *actor, void *object_in)
             dungeonStatus.unk_0A--;
         }
         ((R16_801725A4_S_801725A4_0 *)owner)->unk_8C = ((u8 *)func_80171014);
-        func_800A4ACC(object);
+        dungeonAdvanceStatusTimers(object);
         ((R16_801725A4_S_801725A4_1 *)object)->unk_73.s = 0;
         ((R16_801725A4_S_801725A4_1 *)object)->unk_72.s = 0;
         ((R16_801725A4_S_801725A4_1 *)object)->unk_6D--;

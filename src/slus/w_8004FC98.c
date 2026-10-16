@@ -3,11 +3,11 @@
 #include "common.h"
 
 extern s32 func_80018174(s32, s32, s32, s32, s32);
-extern void func_8004F884(void *);
+extern void reorderAndInterpolateSelectionMenuEntries(void *);
 extern u8 D_80071784[];
 
 /* Initializes items using the selected table row, then activates and updates the state. */
-s32 func_8004FC98(void *state) {
+s32 createAnimatedSelectionMenuEntries(void *state) {
     s32 item_result;
     s32 item_index;
     u8 position;
@@ -39,6 +39,6 @@ loop:
 
     *(s32 *)((u8 *)state + 0x2C) = 1;
     *(s32 *)((u8 *)state + 0x28) = 1;
-    func_8004F884(state);
+    reorderAndInterpolateSelectionMenuEntries(state);
     return 1;
 }

@@ -2,10 +2,10 @@
 #include "shared/entity_objects.h"
 
 extern u16 D_800E58F8[];
-extern s32 func_800C77D0(s32 slot_id, void *target, s32 target_id, s32 slot_value);
+extern s32 dungeonSelectNearbyTargetAndInitializeSlot(s32 slot_id, void *target, s32 target_id, s32 slot_value);
 
 /* Process the midpoint of two objects when it is near the reference position. */
-void func_800C7A3C(u8 *start_obj, u8 *end_obj, s16 start_height, s16 end_height, s16 call_param, s32 call_arg) {
+void dungeonProcessNearbyObjectMidpoint(u8 *start_obj, u8 *end_obj, s16 start_height, s16 end_height, s16 call_param, s32 call_arg) {
     s32 frame_pad[2];
     s32 coord;
     s32 mid_coord;
@@ -41,7 +41,7 @@ void func_800C7A3C(u8 *start_obj, u8 *end_obj, s16 start_height, s16 end_height,
         if (y_adjust < 0xC1) {
             midpoint[3] = mid_coord;
             midpoint[5] = start_height + ((end_height - start_height) / 2);
-            func_800C77D0(0, midpoint, call_param, call_arg);
+            dungeonSelectNearbyTargetAndInitializeSlot(0, midpoint, call_param, call_arg);
         }
     }
 }

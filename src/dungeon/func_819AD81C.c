@@ -121,15 +121,15 @@ void func_800649A0();
 void func_80064A40();
 void func_80065450();
 void func_8009CE1C();
-s32 func_800A07D0();
-s32 func_800A45D8();
-void func_800B653C();
+s32 dungeonForwardMonsterCoordinateDelta();
+s32 dungeonCheckLeftTileAndCenterHeight();
+void dungeonSpawnOppositeOffsetEffect();
 extern s8 D_8002758C[];
 extern u8 D_800287A2;
 extern s32 D_800287A4;
 
 /* Per-frame homing-projectile step: fade in/out, fly toward the target tile, wake anything it passes and expire. */
-void func_8002501C(void *entity, void *motion, void *gfx) {
+void dungeonUpdateWarpCameraAndEffects(void *entity, void *motion, void *gfx) {
     typedef struct Local20 {
         s16 unk0;
         u16 unk2;
@@ -221,9 +221,9 @@ void func_8002501C(void *entity, void *motion, void *gfx) {
         ((S_819AD81C_2 *)motion)->unk_08.at00.v = (s32) (((S_819AD81C_2 *)motion)->unk_08.at00.v
             + ((S_819AD81C_2 *)motion)->unk_14);
         ((S_819AD81C_1 *)gfx)->unk_16 = 0x400U;
-        ((S_819AD81C_1 *)gfx)->unk_1A = (u16) (func_800A07D0(0, 0, ((S_819AD81C_2 *)motion)->unk_0C.at02.v,
+        ((S_819AD81C_1 *)gfx)->unk_1A = (u16) (dungeonForwardMonsterCoordinateDelta(0, 0, ((S_819AD81C_2 *)motion)->unk_0C.at02.v,
             ((S_819AD81C_2 *)motion)->unk_10.at02.v) - 0x400);
-        func_80025840(gfx, entity + 0x32, ((S_819AD81C_0 *)entity)->unk_38, ((S_819AD81C_0 *)entity)->unk_36);
+        dungeonAdvanceAnimationIndexWithinBounds(gfx, entity + 0x32, ((S_819AD81C_0 *)entity)->unk_38, ((S_819AD81C_0 *)entity)->unk_36);
         func_800257D0(entity, ((S_819AD81C_1 *)gfx)->unk_00);
         if (((S_819AD81C_1 *)gfx)->unk_14 & 0x4000) {
             ((S_819AD81C_1 *)gfx)->unk_04 = 0;
@@ -233,7 +233,7 @@ void func_8002501C(void *entity, void *motion, void *gfx) {
             tile_y = (s16) ((S_819AD81C_2 *)motion)->unk_04.at02.v / 64;
             ((S_819AD81C_0 *)entity)->unk_3C.at02.v = (s16) tile_y;
             if (((S_819AD81C_0 *)entity)->unk_40.at00.v != ((S_819AD81C_0 *)entity)->unk_3C.at00u.v) {
-                if ((func_800A45D8(((((S_819AD81C_0 *)entity)->unk_3C.at00.v << 6) + 0x20) & 0xFFE0,
+                if ((dungeonCheckLeftTileAndCenterHeight(((((S_819AD81C_0 *)entity)->unk_3C.at00.v << 6) + 0x20) & 0xFFE0,
                     ((tile_y << 6) + 0x20) & 0xFFE0, ((S_819AD81C_2 *)motion)->unk_08.at02.v) << 0x10) != 0) {
                     ((S_819AD81C_0 *)entity)->unk_30 = 4;
                     ((S_819AD81C_0 *)entity)->unk_2C.s = 3;
@@ -278,7 +278,7 @@ void func_8002501C(void *entity, void *motion, void *gfx) {
         }
         func_80025FCC(((S_819AD81C_2 *)motion)->unk_00.at02.v, ((S_819AD81C_2 *)motion)->unk_04.at02.v,
             ((S_819AD81C_2 *)motion)->unk_08.at02.v, ((S_819AD81C_0 *)entity)->unk_34);
-        func_80025B78(entity, motion, gfx);
+        dungeonCreateCopiedEffectObject(entity, motion, gfx);
         return;
     } else {
         attached = (void *) ((s32) link | 0x80000000);
@@ -315,9 +315,9 @@ void func_8002501C(void *entity, void *motion, void *gfx) {
             warp_params.unkC = func_80064584(((S_819AD81C_3 *)node)->unk_34) * 0x10;
             warp_params.unk10 = func_800644B8(((S_819AD81C_3 *)node)->unk_34) * 0x10;
             warp_params.unk14 = 0;
-            func_800B653C(&warp_params, ((S_819AD81C_3 *)node)->unk_34);
+            dungeonSpawnOppositeOffsetEffect(&warp_params, ((S_819AD81C_3 *)node)->unk_34);
         }
-        func_8002590C(gfx, ((S_819AD81C_4 *)info)->unk_04);
+        dungeonSetAnimationEntryAddress(gfx, ((S_819AD81C_4 *)info)->unk_04);
         func_800257D0(entity, ((S_819AD81C_1 *)gfx)->unk_00);
     }
 }

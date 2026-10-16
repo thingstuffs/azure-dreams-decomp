@@ -4,7 +4,7 @@
 
 
 /* Waits for a countdown or global state change before resetting the object's handler. */
-void func_80092DFC(void *object) {
+void dungeonUpdatePlayerPickupPause(void *object) {
     GameWork *shared_data = &gameWork;
     u8 state = *(u8 *)((u8 *)object + 0x9B);
     u16 timer;
@@ -26,7 +26,7 @@ void func_80092DFC(void *object) {
             }
         }
         *(s32 *)((u8 *)object + 0x124) = 0;
-        *(void **)((u8 *)object + 0x8C) = func_8008ACDC;
+        *(void **)((u8 *)object + 0x8C) = dungeonHandlePlayerInput;
         break;
     }
 }

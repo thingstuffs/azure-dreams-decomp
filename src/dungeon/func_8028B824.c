@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_spawns.h"
 
-void func_8001E824(void *entity_data) {
+void initRandomFloorItemParameters(void *entity_data) {
     u8 *entity = entity_data;
     s16 output_flags;
     s16 combined_flags;

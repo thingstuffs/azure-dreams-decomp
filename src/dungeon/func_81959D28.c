@@ -14,7 +14,7 @@ typedef struct {
 extern u16 D_800281F8;
 
 /* Advance and damp motion, flagging completion when the timer expires or motion slows. */
-void func_81959D28(void *actor, Motion *motion) {
+void dungeonAdvanceDampedMotion(void *actor, Motion *motion) {
     s32 x_velocity;
     s32 y_velocity;
     s32 speed;

@@ -1,0 +1,88 @@
+{
+  "scope": "row-admission-only; no native storage ownership claimed",
+  "absolute_symbols": [
+    {
+      "symbol": "D_80016000",
+      "kind": "data",
+      "vma": 2147573760
+    },
+    {
+      "symbol": "D_8001601C",
+      "kind": "data",
+      "vma": 2147573788
+    },
+    {
+      "symbol": "D_80016178",
+      "kind": "data",
+      "vma": 2147574136
+    },
+    {
+      "symbol": "D_800161C0",
+      "kind": "data",
+      "vma": 2147574208
+    },
+    {
+      "symbol": "D_8001624C",
+      "kind": "data",
+      "vma": 2147574348
+    },
+    {
+      "symbol": "D_80017720",
+      "kind": "data",
+      "vma": 2147579680
+    },
+    {
+      "symbol": "D_80017774",
+      "kind": "data",
+      "vma": 2147579764
+    },
+    {
+      "symbol": "D_800177C8",
+      "kind": "data",
+      "vma": 2147579848
+    },
+    {
+      "symbol": "D_8001781C",
+      "kind": "data",
+      "vma": 2147579932
+    },
+    {
+      "symbol": "D_80017870",
+      "kind": "data",
+      "vma": 2147580016
+    },
+    {
+      "symbol": "D_8001794C",
+      "kind": "data",
+      "vma": 2147580236
+    },
+    {
+      "symbol": "D_80017B88",
+      "kind": "data",
+      "vma": 2147580808
+    },
+    {
+      "symbol": "D_80017E66",
+      "kind": "data",
+      "vma": 2147581542
+    },
+    {
+      "symbol": "D_8001802A",
+      "kind": "data",
+      "vma": 2147581994
+    },
+    {
+      "symbol": "D_8001857C",
+      "kind": "data",
+      "vma": 2147583356
+    },
+    {
+      "symbol": "func_800175E0",
+      "kind": "function",
+      "vma": 2147579360
+    }
+  ],
+  "native_hold": "Some data addresses lie beyond the next bank header. Extending the code delta would overlap a different proven bank map. Their actual resident/asset mapping must be established before native ownership certification.",
+  "next_discriminator": "Inspect the script/data loader and pointer tables for the out-of-bank addresses. See evidence/load_bank_header_extents.json and evidence/package_3ef1c8.log.",
+  "retail_address_evidence": "The strict linked row proofs preserve every call/data address; this does not prove which asset owns an external runtime address."
+}

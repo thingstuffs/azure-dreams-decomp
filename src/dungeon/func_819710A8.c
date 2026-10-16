@@ -26,7 +26,7 @@ typedef struct Bank1990800_19910a8_EffectRecord {
 extern s32 rand();
 
 /* Spawn and initialize an effect at a randomly offset position relative to the source. */
-void func_800248A8(
+void dungeonSpawnRandomOffsetEffectRecord(
     ObjectNodeHeader *source,
     s32 property_34,
     s32 property_28,
@@ -61,7 +61,7 @@ void func_800248A8(
         record->unk_14 = property_34;
         record->size = property_52;
         record->size_max = property_52;
-        func_8004491C(effect, (s32)func_80024598);
+        func_8004491C(effect, (s32)dungeonProjectScaledColoredPoint);
         record->unk_48 = rand() + 0x10000;
         record->unk_08 = property_28;
     }

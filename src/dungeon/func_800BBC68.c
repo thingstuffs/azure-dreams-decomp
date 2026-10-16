@@ -14,48 +14,48 @@ typedef struct S_800C13C8_0 {
     s16 unk_9C;
     u8 pad_9E[0x86];
     s32 unk_124;
-} S_800C13C8_0;   /* arg0 in func_800C13C8; pointer addresses record offset 0x14 */
+} S_800C13C8_0;   /* arg0 in dungeonUseItemToDrawFlameCircle; pointer addresses record offset 0x14 */
 
 typedef struct S_800C13C8_1 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800C13C8_1;   /* state in func_800C13C8 */
+} S_800C13C8_1;   /* state in dungeonUseItemToDrawFlameCircle */
 
 typedef struct S_800C13C8_2 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800C13C8_2;   /* temp_v0 in func_800C13C8 */
+} S_800C13C8_2;   /* temp_v0 in dungeonUseItemToDrawFlameCircle */
 
 
-void func_8008D344(); /* extern */
-s32 func_80098864(s32, s32);           /* extern */
-void func_80098B38();                         /* extern */
+void dungeonBeginModeSelectedItemAction(); /* extern */
+s32 dungeonProcessRecordAndUpdateLinkedState(s32, s32);           /* extern */
+void dungeonClearSlotAndUpdateLinkedState();                         /* extern */
 void func_800997FC();                   /* extern */
 void func_800A5F38();                 /* extern */
 void func_800A6480();            /* extern */
-s32 func_800AD6FC();                /* extern */
-s32 func_800BBA40(); /* extern */
+s32 dungeonApplyActorFoodPreference();                /* extern */
+s32 dungeonCreateFivePointEffect(); /* extern */
 extern M2C_UNK D_800C135C;
 extern M2C_UNK D_800DEAE0;
 extern M2C_UNK D_800E1482;
 
 /* Handles an object operation and updates its state or triggers its effect. */
-s32 func_800C13C8(void *object, s32 value, s16 operation, s32 context) {
+s32 dungeonUseItemToDrawFlameCircle(void *object, s32 value, s16 operation, s32 context) {
     S_800C13C8_2 *object_data;
     s32 result;
 
     if (operation == 0xD) {
-        return func_80098864(value, context);
+        return dungeonProcessRecordAndUpdateLinkedState(value, context);
     }
     if (object == D_800E3D7C) {
         ((S_800C13C8_0 *)((u8 *)object - 0x14))->unk_124 = value;
-        func_8008D344(object, &D_80083780.x.v, &D_80082E80.unk_000, 0);
+        dungeonBeginModeSelectedItemAction(object, &D_80083780.x.v, &D_80082E80.unk_000, 0);
         return 0;
     }
     if ((u32) object <= 0x9FFFFFFFU) {
         func_800A6480(object, value, operation);
-        if (func_800AD6FC(object, D_800DDE84[((S_800C13C8_0 *)((u8 *)object - 0x14))->unk_27] & 3, value) == 0) {
+        if (dungeonApplyActorFoodPreference(object, D_800DDE84[((S_800C13C8_0 *)((u8 *)object - 0x14))->unk_27] & 3, value) == 0) {
             func_800A5F38(object, value);
             return 1;
         }
@@ -63,14 +63,14 @@ s32 func_800C13C8(void *object, s32 value, s16 operation, s32 context) {
         dungeonStatus.unk_0A--;
     } else {
         object_data = ((S_800C13C8_0 *)((u8 *)object - 0x14))->unk_00;
-        if (func_800BBA40(object_data->unk_24, object_data->unk_25, ((S_800C13C8_0 *)((u8 *)object - 0x14))->unk_9C,
+        if (dungeonCreateFivePointEffect(object_data->unk_24, object_data->unk_25, ((S_800C13C8_0 *)((u8 *)object - 0x14))->unk_9C,
             &D_800DEAE0, 0x5000, 0x202080, &D_800C135C) == 0) {
             result = 0;
             return result;
         }
         func_800997FC(&D_800E1482);
     }
-    func_80098B38(value);
+    dungeonClearSlotAndUpdateLinkedState(value);
     result = 1;
     return result;
 }

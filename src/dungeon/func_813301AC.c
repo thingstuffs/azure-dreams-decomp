@@ -9,22 +9,22 @@ typedef struct S_801671AC_0 {
     s8 unk_0E;
     u8 pad_0F[0x5];
     u16 unk_14;
-} S_801671AC_0;   /* arg2 in func_801671AC */
+} S_801671AC_0;   /* arg2 in dungeonUpdateColorCyclingPulse */
 
 typedef struct S_801671AC_1_pre {
     u16 unk_00;
-} S_801671AC_1_pre;   /* the 0x2 bytes before obj in func_801671AC, addressed as obj[-1] */
+} S_801671AC_1_pre;   /* the 0x2 bytes before obj in dungeonUpdateColorCyclingPulse, addressed as obj[-1] */
 
 typedef struct S_801671AC_1 {
     u8 pad_00[0x18];
     u16 unk_18;
     u8 pad_1A[0x2];
     u16 unk_1C;
-} S_801671AC_1;   /* obj in func_801671AC */
+} S_801671AC_1;   /* obj in dungeonUpdateColorCyclingPulse */
 
 
 /* Pulse the color through three phases and mark the effect finished when its timer expires. */
-void func_801671AC(void *state_data, void *unused, void *color) {
+void dungeonUpdateColorCyclingPulse(void *state_data, void *unused, void *color) {
     void *state;
     s16 phase;
     s16 remaining;

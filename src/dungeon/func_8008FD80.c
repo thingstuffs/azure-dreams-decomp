@@ -2,7 +2,7 @@
 
 extern u8 D_800E3648[];
 
-s32 func_800954E0(void *actor) {
+s32 dungeonRevealTriggeredTrap(void *actor) {
     s32 cursor;
     s32 result;
     u8 *base;

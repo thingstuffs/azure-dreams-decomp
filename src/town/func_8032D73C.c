@@ -1,19 +1,19 @@
 #include "common.h"
 
-extern u32 func_80019C68(s32 object, s32 entryIndex);
-extern void func_8001AD60(s32 bit_index);
+extern u32 townProcessCheckedEntry(s32 object, s32 entryIndex);
+extern void townClearScriptFlagBit(s32 bit_index);
 extern u8 D_8001F15A[];
 
 /* Record whether the check returned zero and invoke the handler when it did. */
 s32 func_80017F3C(s32 check_input_1, s32 check_input_2) {
     s32 result;
 
-    result = func_80019C68(check_input_1, check_input_2);
+    result = townProcessCheckedEntry(check_input_1, check_input_2);
     if (result != 0) {
         D_8001F15A[0] = 0;
     } else {
         D_8001F15A[0] = 1;
-        func_8001AD60(0xD7A);
+        townClearScriptFlagBit(0xD7A);
     }
     return result;
 }

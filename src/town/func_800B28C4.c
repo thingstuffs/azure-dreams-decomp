@@ -17,16 +17,16 @@ typedef struct Obj {
 
 extern u8 D_80078CDC[];
 
-extern void func_800AFDD0(void *record);
-extern void func_800AF36C(void *object);
-extern void func_800AF4AC(void *context);
-extern void func_800AF600(void *context);
-extern void func_800AF734(void *record);
-extern void func_800AF2F8(void *context);
-extern void func_800AFFA8(void *record);
+extern void townInitializeItemMenuPanelRectangle(void *record);
+extern void townSetItemMenuEntryCoordinates(void *object);
+extern void townLayoutItemMenuUpperPairColumns(void *context);
+extern void townLayoutItemMenuLowerItemColumns(void *context);
+extern void townPositionItemMenuSideIndicators(void *record);
+extern void townLayoutItemMenuLowerPairColumns(void *context);
+extern void townProcessItemMenuSelectedEntry(void *record);
 
 /* Initialize four object slots with shared or embedded data and paired offsets. */
-void func_800B0024(Obj *object) {
+void townInitializeItemMenuObjectSlots(Obj *object) {
     Obj *obj = object;
     s32 slot_index;
 
@@ -35,17 +35,17 @@ void func_800B0024(Obj *object) {
         obj->unk0xA8[slot_index]->unk04->unk08 = slot_index << 7;
     }
 
-    func_800AFDD0((u8 *)obj + 0x28);
+    townInitializeItemMenuPanelRectangle((u8 *)obj + 0x28);
 
     for (slot_index = 2; slot_index < 4; slot_index++) {
         obj->unk0xA8[slot_index]->unk00 = (u8 *)obj + 0x28;
         obj->unk0xA8[slot_index]->unk04->unk08 = (slot_index - 2) << 7;
     }
 
-    func_800AF36C(obj);
-    func_800AF4AC(obj->unk0xA8);
-    func_800AF600(obj->unk0xA8);
-    func_800AF734(obj->unk0xA8);
-    func_800AF2F8(obj->unk0xA8);
-    func_800AFFA8(obj);
+    townSetItemMenuEntryCoordinates(obj);
+    townLayoutItemMenuUpperPairColumns(obj->unk0xA8);
+    townLayoutItemMenuLowerItemColumns(obj->unk0xA8);
+    townPositionItemMenuSideIndicators(obj->unk0xA8);
+    townLayoutItemMenuLowerPairColumns(obj->unk0xA8);
+    townProcessItemMenuSelectedEntry(obj);
 }

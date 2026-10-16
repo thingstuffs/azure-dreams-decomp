@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7e6b7800.h"
 
-void func_80024918(void *object) {
+void dungeonAdvanceObjectMotionAndAnimation(void *object) {
     s16 next_tick;
     s32 velocity_y;
     s32 velocity_z;
@@ -16,7 +16,7 @@ void func_80024918(void *object) {
     velocity_z = ((Row_8194D118_S_80024918_0 *)object)->unk_48;
     ((Row_8194D118_S_80024918_0 *)object)->unk_38 = position_y + velocity_y;
     ((Row_8194D118_S_80024918_0 *)object)->unk_3C += velocity_z;
-    func_80024700(object);
+    dungeonCreateTexturedOffsetObject(object);
     next_tick = (s16)((Row_8194D118_S_80024918_0 *)object)->unk_74 + 1;
     ((Row_8194D118_S_80024918_0 *)object)->unk_74 = next_tick;
     if (next_tick >= 9) {

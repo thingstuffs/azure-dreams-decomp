@@ -3,17 +3,17 @@
 
 typedef void (*Callback)(void *, s32, s32);
 
-extern u32 func_8009CFE0(void *, s32);
-extern void func_8008F134(void *);
+extern u32 townClassifyObjectAgainstBounds(void *, s32);
+extern void townUnlinkSceneListNode(void *);
 extern void func_80033D08(void *);
 
 /* Clears and flags the object when the check succeeds, or invokes its callback. */
-void func_800C25C0(void *object, s32 check_value, s32 callback_value) {
+void townFinalizeTransformObjectOrCallback(void *object, s32 check_value, s32 callback_value) {
     u16 *object_flags;
     s8 *status_byte;
 
-    if (func_8009CFE0(object, check_value) != 0) {
-        func_8008F134(object);
+    if (townClassifyObjectAgainstBounds(object, check_value) != 0) {
+        townUnlinkSceneListNode(object);
         status_byte = *(s8 **)((u8 *)object + 0x98);
         if (status_byte != 0) {
             *status_byte = 0;

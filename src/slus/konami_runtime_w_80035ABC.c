@@ -6,18 +6,18 @@
 typedef struct S_80035ABC_0 {
     u8 pad_00[0x2];
     u16 unk_02;
-} S_80035ABC_0;   /* arg1 in func_80035ABC */
+} S_80035ABC_0;   /* arg1 in shrinkWindowExtentToTwo */
 
 typedef struct S_80035ABC_1 {
     u8 pad_00[0x68];
     M2C_UNK * unk_68;
-} S_80035ABC_1;   /* arg0 in func_80035ABC */
+} S_80035ABC_1;   /* arg0 in shrinkWindowExtentToTwo */
 
 
 extern M2C_UNK func_80035AF8;
 
 /* Decreases the entry value by 16, clamping it to 2 and switching handlers below 2. */
-void func_80035ABC(S_80035ABC_1 *state, S_80035ABC_0 *entry) {
+void shrinkWindowExtentToTwo(S_80035ABC_1 *state, S_80035ABC_0 *entry) {
     u16 reduced_value;
 
     reduced_value = entry->unk_02 - 0x10;

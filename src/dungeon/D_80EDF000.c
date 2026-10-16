@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern void func_80171718(void);
+extern void dungeonCreateOverlayEffectObject(void);
 
 /* entry; owner-unresolved. */
 const u32 D_80170800[1] __attribute__((aligned(4))) = {
-    (u32)func_80171718
+    (u32)dungeonCreateOverlayEffectObject
 };

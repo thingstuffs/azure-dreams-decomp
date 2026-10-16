@@ -21,7 +21,7 @@ typedef struct {
 extern s32 D_8016B778;
 
 /* Set the object state pointer, decrement the shared count, and clear the target flag. */
-void func_8016D1CC(S_func_813259CC_0 *object, void *unused_1, void *unused_2, S_func_813259CC_1 *target) {
+void dungeonCompleteActorMotionAndClearAction(S_func_813259CC_0 *object, void *unused_1, void *unused_2, S_func_813259CC_1 *target) {
 
     object->unk_8C = &D_8016B778;
     dungeonStatus.unk_0A--;

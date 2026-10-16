@@ -20,7 +20,7 @@ extern CallbackOwner *D_A0700F58;
 extern OverlayWork D_000012F0;
 
 /* Set the overlay work kind from the callback result using a copy of the stored word. */
-void func_808B34B0(void)
+void townSetOverlayKindFromCallback(void)
 {
     UnalignedWord callback_input;
     unsigned long work_offset;

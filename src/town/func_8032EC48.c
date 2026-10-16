@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Copy a zero-terminated string and return the destination. */
-u8 *func_80019448(u8 *destination, u8 *source) {
+u8 *townCopyString(u8 *destination, u8 *source) {
     u8 *destination_start;
     u8 *write_ptr;
     u8 *read_ptr;

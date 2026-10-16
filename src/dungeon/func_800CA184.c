@@ -135,14 +135,14 @@ typedef struct DrawSettings {
 } DrawSettings;
 
 s32 func_80046884();
-s32 func_80046C20();
+s32 runtimeInitializePolygonEdges();
 s32 func_80064624();
 s32 func_80064D20();
 s32 func_80064D50();
 s16 func_800BCB04();
 
 /* Render visible dungeon cells as lit, textured polygons in the ordering table. */
-void func_800CF8E4(void) {
+void dungeonRenderMapCellMesh(void) {
     RenderScratch *scratch;
     RenderScratch *view_scratch;
     u16 view_corners[23];
@@ -412,7 +412,7 @@ void func_800CF8E4(void) {
             scratch->last_normal = 0xFFFF;
             scratch->packet_end = (s32)render_buffer;
             scratch->active_edges = 4U;
-            scratch->cur_y = (s16)func_80046C20(render_input, coord_offset, edge_count, render_buffer);
+            scratch->cur_y = (s16)runtimeInitializePolygonEdges(render_input, coord_offset, edge_count, render_buffer);
         }
         if (scratch->active_edges != 0) {
             s32 tag_mask;

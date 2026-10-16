@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7e6e1800.h"
 
-void func_800247B8(Rec_func_800247B8_arg0 *source, Rec_func_800247B8_arg1 *origin, void *unused_sprite)
+void dungeonCreateRandomizedRadialEffect(Rec_func_800247B8_arg0 *source, Rec_func_800247B8_arg1 *origin, void *unused_sprite)
 {
     s32 elevation;
     s32 planar_radius;
@@ -16,7 +16,7 @@ void func_800247B8(Rec_func_800247B8_arg0 *source, Rec_func_800247B8_arg1 *origi
         state = effect + 0x20;
         state->unk_5A = 10;
         state->unk_5C = 10;
-        random_value = func_8002406C(8);
+        random_value = dungeonProjectAndQueueVisibleShadedQuad(8);
         state->unk_18.at00.v = 0x303030;
         if (random_value & 1) {
             state->unk_18.at00u.v = 0x90;
@@ -47,9 +47,9 @@ void func_800247B8(Rec_func_800247B8_arg0 *source, Rec_func_800247B8_arg1 *origi
         state->unk_20.s = ((s16)planar_radius * func_80064584(azimuth)) >> 12;
         state->unk_22.s = ((s16)planar_radius * func_800644B8(azimuth)) >> 12;
 
-        state->unk_26 = state->unk_20.u + func_8002406C(0x10) - 8;
-        state->unk_28 = state->unk_22.u + func_8002406C(0x10) - 8;
-        random_value = func_8002406C(0x10);
+        state->unk_26 = state->unk_20.u + dungeonProjectAndQueueVisibleShadedQuad(0x10) - 8;
+        state->unk_28 = state->unk_22.u + dungeonProjectAndQueueVisibleShadedQuad(0x10) - 8;
+        random_value = dungeonProjectAndQueueVisibleShadedQuad(0x10);
         state->unk_36 = 0;
         state->unk_34 = 0;
         state->unk_32 = 0;

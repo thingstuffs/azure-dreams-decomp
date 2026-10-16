@@ -2,7 +2,7 @@
 
 void func_80173BCC(Resource03CallbackState *state, void *motion, void *position, void *actor)
 {
-    if (func_800ACE34(state, motion, position, actor)) {
+    if (dungeonUpdateActorFadeIn(state, motion, position, actor)) {
         state->callback = func_80170E54;
     }
 }

@@ -1,15 +1,15 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void func_8008F074();         /* extern */
-s32 func_800C296C();                         /* extern */
+void townConfigureTheSetModeN1();         /* extern */
+s32 townGetTransformEntryByIndex();                         /* extern */
 extern s32 D_8006ADD4;
 extern M2C_UNK D_800C2A10;
 
 typedef struct S_800C2988_0 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_800C2988_0;   /* motion in func_800C2988 */
+} S_800C2988_0;   /* motion in townUpdateTransformMotionPage */
 
 typedef struct S_800C2988_1 {
     u8 pad_00[0x16];
@@ -18,10 +18,10 @@ typedef struct S_800C2988_1 {
     M2C_UNK * unk_50;
     u8 pad_54[0x1E];
     u16 unk_72;
-} S_800C2988_1;   /* object in func_800C2988 */
+} S_800C2988_1;   /* object in townUpdateTransformMotionPage */
 
 /* Sets the motion page and updates the object state and orientation. */
-void func_800C2988(void *object_data, void *motion_data) {
+void townUpdateTransformMotionPage(void *object_data, void *motion_data) {
     register S_800C2988_0 *motion = motion_data;
 
     u32 page;
@@ -31,7 +31,7 @@ void func_800C2988(void *object_data, void *motion_data) {
     } else {
         motion->unk_08 = 0xFFE00000;
     }
-    func_8008F074(((S_800C2988_1 *)(object_data)), motion, func_800C296C(0));
+    townConfigureTheSetModeN1(((S_800C2988_1 *)(object_data)), motion, townGetTransformEntryByIndex(0));
     ((S_800C2988_1 *)(object_data))->unk_50 = &D_800C2A10;
     ((S_800C2988_1 *)(object_data))->unk_16 = (s16) ((((S_800C2988_1 *)(object_data))->unk_72 - 0x800) & 0xFFF);
 }

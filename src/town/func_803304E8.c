@@ -3,7 +3,7 @@
 
 
 /* Sets the indexed bit in the global bitfield, ignoring index zero. */
-void func_8001ACE8(s32 bit_index)
+void townSetScriptFlagBit(s32 bit_index)
 {
     s32 value;
     s32 *dst_word;

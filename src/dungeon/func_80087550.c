@@ -6,7 +6,7 @@ extern void func_80048A44(void *, u8, s32, s32);
 extern u8 D_800DD000[];
 
 /* Enters state 0x17, selects its directional animation, and resets state progress. */
-void func_8008CCB0(void *state, void *unused, void *animation, void *orientation) {
+void dungeonEnterDirectionalState17(void *state, void *unused, void *animation, void *orientation) {
     u8 next_state = 0x17;
 
     if (*(u8 *)((s8 *)state + 0x9A) != next_state) {

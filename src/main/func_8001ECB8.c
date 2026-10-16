@@ -17,12 +17,12 @@ extern s32 func_80402154(s32 index, s32 data_ptr);
 extern void func_8040325C(void *object_base);
 extern void func_80405C44(s32 value);
 extern void func_80400908(void);
-extern void func_80406368(void);
+extern void mainHandleObjectMenuInput(void);
 extern void func_80405A3C(void);
 extern void func_80405C4C(void);
 
 // Selects the next callback based on the operation result and clears the context's state field.
-void func_80405CB8(void *context)
+void mainCompleteObjectOperation(void *context)
 {
     void (*next_callback)(void);
     S_func_80405CB8_0 *object_base;
@@ -31,7 +31,7 @@ void func_80405CB8(void *context)
     operation_result = func_80402154(((S_func_80405CB8_0 *)((u8 *)context - 0x20))->unk_48, 0x80010000);
     object_base = (S_func_80405CB8_0 *)((u8 *)context - 0x20);
     if (operation_result == 0) {
-        ((S_func_80405CB8_0 *)((u8 *)context - 0x20))->unk_54 = func_80406368;
+        ((S_func_80405CB8_0 *)((u8 *)context - 0x20))->unk_54 = mainHandleObjectMenuInput;
         func_8040325C(object_base);
         next_callback = func_80405A3C;
     } else {

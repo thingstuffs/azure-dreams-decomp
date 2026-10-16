@@ -6,7 +6,7 @@ extern M2C_UNK D_80097D2C;
 extern s32 D_800CFCC4;
 
 /* Check whether both the requested identifier and the global pointer match. */
-s32 func_800C2AB4(s32 requested_id) {
+s32 townCheckTransformIdentifierAndHook(s32 requested_id) {
     s32 matches;
 
     matches = 0;

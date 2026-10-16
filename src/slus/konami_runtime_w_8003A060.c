@@ -10,7 +10,7 @@ typedef struct {
 } Func8003A060State;
 
 /* Load an indexed little-endian 32-bit memory value into the selected event-script slot. */
-void func_8003A060(Func8003A060State *state) {
+void vmOp54LoadImmediateIndexedWord(Func8003A060State *state) {
     u8 *operand_ptr;
     u8 *address_bytes;
     u8 dst_index;

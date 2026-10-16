@@ -17,7 +17,7 @@ typedef struct S_800BB030_0 {
 } S_800BB030_0;   /* arg0 in func_800BB030 */
 
 
-extern s32 func_8009CFE0(void *, void *);
+extern s32 townClassifyObjectAgainstBounds(void *, void *);
 
 /* Updates a four-phase animation and clears its activity flag on completion. */
 void func_800BB030(void *entity, void *context) {
@@ -27,7 +27,7 @@ void func_800BB030(void *entity, void *context) {
     s32 quarter_ticks;
     s8 intensity;
 
-    if (func_8009CFE0(entity, context) != 0) {
+    if (townClassifyObjectAgainstBounds(entity, context) != 0) {
         activity_flag = ((S_800BB030_0 *)entity)->unk_98;
         if (activity_flag != 0) {
             *activity_flag = 0;

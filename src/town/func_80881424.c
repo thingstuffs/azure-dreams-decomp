@@ -10,7 +10,7 @@ extern void func_80700ED8(s32, s32);
 
 
 /* Devkit scene step: reset the cursor, rebuild the list, latch its length and redraw. */
-s32 func_80881424(void) {
+s32 townResetCursorAndRedrawList(void) {
     s32 list_length;
 
     func_80700868(0);

@@ -24,7 +24,7 @@ typedef struct S_8182718C_1 {
 
 
 /* Advance a timed two-state action and propagate target status flags. */
-void func_8002498C(void *state_data, void *unused, Rec_D_80082E80 *target) {
+void dungeonAdvanceTwoStateAction(void *state_data, void *unused, Rec_D_80082E80 *target) {
     s16 state;
     u16 timer;
     u16 ticks_left;

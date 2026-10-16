@@ -14,7 +14,7 @@ typedef struct S_800CC4F0_0 {
     u16 unk_0E;
     u8 pad_10[0x2];
     u16 unk_12;
-} S_800CC4F0_0;   /* arg1 in func_800CC4F0 */
+} S_800CC4F0_0;   /* arg1 in dungeonUpdateDirectionalTrapEffect */
 
 typedef struct S_800CC4F0_1 {
     u16 unk_00;
@@ -22,15 +22,15 @@ typedef struct S_800CC4F0_1 {
     u16 unk_04;
     s16 unk_06;
     s16 unk_08;
-} S_800CC4F0_1;   /* arg0 in func_800CC4F0; pointer addresses record offset 0x2 */
+} S_800CC4F0_1;   /* arg0 in dungeonUpdateDirectionalTrapEffect; pointer addresses record offset 0x2 */
 
 
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
-extern void * func_800CC5F0(s16 tile_x, s16 tile_y, s16 z, s16 tail_value, s16 render_mode, u16 tail_config);
+extern void * dungeonCreateTileCenterQuadEffect(s16 tile_x, s16 tile_y, s16 z, s16 tail_value, s16 render_mode, u16 tail_config);
 
 /* Updates directional motion, emits paired effects, and marks completion when the timer expires. */
-void func_800CC4F0(void *effect_data, S_800CC4F0_0 *position) {
+void dungeonUpdateDirectionalTrapEffect(void *effect_data, S_800CC4F0_0 *position) {
     u16 ticks_left;
 
     position->unk_0E = (u16) (position->unk_0E + (func_80064584(((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_06)
@@ -38,9 +38,9 @@ void func_800CC4F0(void *effect_data, S_800CC4F0_0 *position) {
     position->unk_12 = (u16) (position->unk_12 + (func_800644B8(((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_06)
         >> 6));
     if (((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_08 == 0) {
-        func_800CC5F0((u16) position->unk_02 >> 6, (u16) position->unk_06 >> 6, position->unk_0A,
+        dungeonCreateTileCenterQuadEffect((u16) position->unk_02 >> 6, (u16) position->unk_06 >> 6, position->unk_0A,
             ((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_06, 0, 1);
-        func_800CC5F0((u16) position->unk_02 >> 6, (u16) position->unk_06 >> 6, position->unk_0A,
+        dungeonCreateTileCenterQuadEffect((u16) position->unk_02 >> 6, (u16) position->unk_06 >> 6, position->unk_0A,
             ((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_06, 1, 1);
     }
     ticks_left = ((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_04 - 1;

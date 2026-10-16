@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Count consecutive nonzero entries, up to twenty. */
-s32 func_8009F9A4(void) {
+s32 townCountConsecutiveNonzeroEntriesUpTwenty(void) {
     s32 *entry;
     s32 i;
 

@@ -5,12 +5,12 @@
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 
-void func_80095DD0(); /* extern */
-void func_800A2B04();              /* extern */
+void dungeonBeginPlayerTrapTrigger(); /* extern */
+void dungeonSetRecordIntegerTileCenter();              /* extern */
 extern M2C_UNK D_80096384;
 
 /* Move the actor toward the destination tile and finish movement when the timer expires. */
-void func_8009704C(Rec_func_8008ACDC_arg0 *actor, EntityRec *motion, Rec_D_80082E80 *destination, M2C_UNK context) {
+void dungeonMoveActorToDestinationTile(Rec_func_8008ACDC_arg0 *actor, EntityRec *motion, Rec_D_80082E80 *destination, M2C_UNK context) {
     s16 frames_left;
     u16 actor_flags;
     M2C_UNK saved_context;
@@ -36,10 +36,10 @@ void func_8009704C(Rec_func_8008ACDC_arg0 *actor, EntityRec *motion, Rec_D_80082
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, destination->unk_24, destination->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, destination->unk_24, destination->unk_25);
         destination->unk_14.at00_u16.v = (u16) (destination->unk_14.at00_u16.v | 0x4000);
         if (actor->unk_100 >= 0) {
-            func_80095DD0(actor, motion, destination, saved_context);
+            dungeonBeginPlayerTrapTrigger(actor, motion, destination, saved_context);
             return;
         }
         actor->unk_8C.as_pm = &D_80096384;

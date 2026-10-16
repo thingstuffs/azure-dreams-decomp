@@ -5,7 +5,7 @@ s32 func_800173CC();                    /* extern */
 s32 func_80017FEC();                                /* extern */
 
 /* Check the supplied inputs only when the prerequisite value is at least 2. */
-s32 func_80016250(s32 check_value, M2C_UNK check_data) {
+s32 townCheckInputsAfterThresholdTwo(s32 check_value, M2C_UNK check_data) {
     s32 check_passed;
 
     check_passed = 0;

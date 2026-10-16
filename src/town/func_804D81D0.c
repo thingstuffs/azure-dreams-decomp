@@ -16,7 +16,7 @@ extern s32 func_800176F4(s32);
 extern s32 func_80017868(s32);
 
 /* Initialize callback data, invoke the owner callback, and dispatch conditional updates. */
-void func_800161D0(void)
+void townCheckInputsAfterThresholdFive(void)
 {
     s32 zero = 0;
     s32 (*callback)(s32);

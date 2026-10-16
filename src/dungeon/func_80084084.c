@@ -18,7 +18,7 @@ typedef struct Entry {
     u8 data[1];
 } Entry;
 
-extern s32 func_80045310(s32);
+extern s32 isFramePacketArenaOverflowed(s32);
 
 extern Callback D_80083360[0x20];
 extern Entry *D_800833E0[0x20];
@@ -26,7 +26,7 @@ extern Callback D_800DCF80[];
 extern u8 D_800E0000[];
 
 /* Dispatch eligible entry_m callbacks according to the current mode. */
-void func_800897E4(void)
+void dungeonDispatchObjectRenderers(void)
 {
     Entry *entry_m;
     Callback callback;
@@ -133,7 +133,7 @@ loop_third:
             if (entry_m != 0) {
                 if (!(entry_m->flags & 0x800)) {
                     callback(entry_m->data, entry_m->value1, entry_m->value2);
-                    stop_dispatch = func_80045310(
+                    stop_dispatch = isFramePacketArenaOverflowed(
                         *(s32 *)((u8 *)gameWork.unk_000 + 0x8D0));
                     if (stop_dispatch != 0) {
                         return;

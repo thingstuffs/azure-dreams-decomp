@@ -6,7 +6,7 @@
 
 typedef struct S_800B7C14_1_pre {
     u16 unk_00;
-} S_800B7C14_1_pre;   /* the 0x2 bytes before arg0 in func_800B7C14, addressed as arg0[-1] */
+} S_800B7C14_1_pre;   /* the 0x2 bytes before arg0 in dungeonAdvanceEffectFadeAndRemove, addressed as arg0[-1] */
 
 typedef struct S_800B7C14_1 {
     u8 pad_00[0x8];
@@ -16,7 +16,7 @@ typedef struct S_800B7C14_1 {
     s16 unk_12;
     u16 unk_14;
     u16 unk_16;
-} S_800B7C14_1;   /* arg0 in func_800B7C14 */
+} S_800B7C14_1;   /* arg0 in dungeonAdvanceEffectFadeAndRemove */
 
 typedef struct S_800B7C14_2 {
     s32 unk_00;
@@ -25,14 +25,14 @@ typedef struct S_800B7C14_2 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800B7C14_2;   /* arg1 in func_800B7C14 */
+} S_800B7C14_2;   /* arg1 in dungeonAdvanceEffectFadeAndRemove */
 
 
 M2C_UNK func_8003DB94();        /* extern */
 M2C_UNK func_800478B8();                      /* extern */
 
 /* Advance effect motion, fade its primitive, and mark it for removal when its lifetime ends. */
-void func_800B7C14(void *effect, void *motion, void *primitive) {
+void dungeonAdvanceEffectFadeAndRemove(void *effect, void *motion, void *primitive) {
     s32 velocity_x;
     u16 life_left;
     u8 brightness;

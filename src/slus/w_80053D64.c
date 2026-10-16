@@ -5,7 +5,7 @@ extern int CdControl(unsigned char com, unsigned char *param, unsigned char *res
 extern int CdPosToInt(unsigned char *loc);
 
 /* Reads the CD position when the sync status is 2 and converts the position to a sector number. */
-int func_80053D64(void) {
+int soundGetCdSectorPosition(void) {
     unsigned char cd_position[4];
 
     if (CdSync(1, 0) == 2) {

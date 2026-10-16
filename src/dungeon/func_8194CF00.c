@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7e6b7800.h"
 
-void func_80024700(void *source_object)
+void dungeonCreateTexturedOffsetObject(void *source_object)
 {
     s16 local_offset[3];
     u16 world_offset[3];

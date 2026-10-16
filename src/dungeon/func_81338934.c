@@ -11,7 +11,7 @@ extern DungeonState *D_80175D58[];
 extern DungeonState *D_80175D5C[];
 
 /* Increments the selected state counter and clears its timer. */
-void func_8016F934(s32 state_selector) {
+void dungeonAdvanceEncounterOverlayPhase(s32 state_selector) {
     if (state_selector == 0) {
         DungeonState *state_zero;
 

@@ -9,19 +9,19 @@ typedef struct S_8014C8E8_0 {
     s16 unk_98;
     u8 pad_9A[0x12];
     s16 unk_AC;
-} S_8014C8E8_0;   /* arg0 in func_8014C8E8; pointer addresses record offset 0x2 */
+} S_8014C8E8_0;   /* arg0 in dungeonFadeCountdownColor; pointer addresses record offset 0x2 */
 
 
 typedef struct S_8014C8E8_2 {
     s32 unk_00;
-} S_8014C8E8_2;   /* D_800814A0 in func_8014C8E8 */
+} S_8014C8E8_2;   /* D_800814A0 in dungeonFadeCountdownColor */
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 extern void func_800478B8(void *color);
 /* Scale the color by the remaining countdown, then decrement it and flag completion. */
-void func_8014C8E8(void *record_data, void *unused, Rec_D_80082E80 *color)
+void dungeonFadeCountdownColor(void *record_data, void *unused, Rec_D_80082E80 *color)
 {
     s16 ticks_left;
     s32 intensity;

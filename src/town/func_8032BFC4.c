@@ -1,8 +1,8 @@
 #include "common.h"
 
-s32 func_8001AF7C();                                /* extern */
+s32 townSumEnabledRecordWeights();                                /* extern */
 
-/* Returns whether func_8001AF7C reports a value of at least two. */
-s32 func_800167C4(void) {
-    return func_8001AF7C() >= 2;
+/* Returns whether townSumEnabledRecordWeights reports a value of at least two. */
+s32 townCheckStateAtLeastTwo(void) {
+    return townSumEnabledRecordWeights() >= 2;
 }

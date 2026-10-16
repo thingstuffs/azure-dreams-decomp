@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource06_slot0.h"
 
-void func_80170BB8(u8 *actor, u8 *motion, u8 *entity)
+void dungeonCreateAnchoredDirectionalObject(u8 *actor, u8 *motion, u8 *entity)
 {
     u8 *subject = actor;
     s16 state_index;
@@ -42,7 +42,7 @@ void func_80170BB8(u8 *actor, u8 *motion, u8 *entity)
 
         raw_state = (*(u8 *)((u8 *)actor + 0x6D));
         state_index = (s8)raw_state;
-        if (func_800A9E70(actor, motion, entity, actor) == 0) {
+        if (dungeonRefreshActorFacingAndLifecycle(actor, motion, entity, actor) == 0) {
             {
                 R06_80170BB8_Callback actor_callback;
 
@@ -153,7 +153,7 @@ void func_80170BB8(u8 *actor, u8 *motion, u8 *entity)
                 {
 
                     if ((*(s16 *)((u8 *)actor + 0x94)) != (view_dir = (s16)state_index)) {
-                        func_80047738(entity,
+                        selectIndirectTableEntry(entity,
                                       (*(u8 *)((u8 *)(((R06_80170BB8_S_80170BB8_4 *)entity)->unk_2C) + view_dir)),
                                       ((R06_80170BB8_S_80170BB8_4 *)entity)->unk_04);
                         (*(s16 *)((u8 *)actor + 0x94)) = state_index;
@@ -167,7 +167,7 @@ void func_80170BB8(u8 *actor, u8 *motion, u8 *entity)
                 }
 
                 if ((*(u8 *)((u8 *)actor + 0x9A)) != 8) {
-                    func_800A020C(((R06_80170BB8_S_80170BB8_1 *)subject)->unk_1C.s, entity + 0xC);
+                    dungeonApplyMonsterKoyawData(((R06_80170BB8_S_80170BB8_1 *)subject)->unk_1C.s, entity + 0xC);
                 }
 
                 if (!(((R06_80170BB8_S_80170BB8_1 *)subject)->unk_1C.s & 0x20)) {

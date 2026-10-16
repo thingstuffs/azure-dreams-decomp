@@ -65,10 +65,10 @@ typedef struct S_80169C1C_0 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_80169C1C_0;   /* sub in func_80169C1C */
+} S_80169C1C_0;   /* sub in dungeonCreatePlayerCenteredSequenceEffect */
 
 /* Create and initialize an object at the global position. */
-void func_80169C1C(void)
+void dungeonCreatePlayerCenteredSequenceEffect(void)
 {
     void *object;
     S_80169C1C_0 *sub_object;

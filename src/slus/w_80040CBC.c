@@ -35,12 +35,12 @@ extern s32 D_801B8EB8;
 extern s8 D_80080A86;
 extern u8 D_800E6000[];
 extern u8 D_80126804[];
-extern void func_8003F6D4(int a0, int a1, int *a2, int a3);
+extern void packTaggedResourceDescriptor(int a0, int a1, int *a2, int a3);
 extern int Control_CD(int a0, void *a1, int a2);
-extern void func_8003F320(void);
-extern void func_800418B4(void);
+extern void drainCdCommandQueue(void);
+extern void loadSharedResourceOnce(void);
 /* Loads the entry's resource data and selects its working buffer. */
-void func_80040CBC(s16 entry_index)
+void loadSceneResourceGroup(s16 entry_index)
 {
     struct S_8006CE80 *entry;
     s32 resource_type;
@@ -66,14 +66,14 @@ void func_80040CBC(s16 entry_index)
                     offset_mask = 0x7FFFFF;
                     next_request = request_b;
                     do {
-                        func_8003F6D4(0x100, (resource_info[0] & offset_mask) + (block_offset << 11), request_a,
+                        packTaggedResourceDescriptor(0x100, (resource_info[0] & offset_mask) + (block_offset << 11), request_a,
                             resource_info[1] + block_offset);
                         Control_CD(6, request_a, 0);
                         block_offset += 0x100;
-                        func_8003F6D4(0x100, (resource_info[0] & offset_mask) + (block_offset << 11), next_request,
+                        packTaggedResourceDescriptor(0x100, (resource_info[0] & offset_mask) + (block_offset << 11), next_request,
                             resource_info[1] + block_offset);
                         Control_CD(6, next_request, 0);
-                        func_8003F320();
+                        drainCdCommandQueue();
                         block_offset += 0x100;
                     }
                     while (block_offset < (block_count - 0x200));
@@ -82,16 +82,16 @@ void func_80040CBC(s16 entry_index)
                     u32 packed_info = resource_info[0];
                     block_count = packed_info >> 23;
                     if (block_count != 0) {
-                        func_8003F6D4(block_count, (packed_info & 0x7FFFFF) + (block_offset << 11), request_a,
+                        packTaggedResourceDescriptor(block_count, (packed_info & 0x7FFFFF) + (block_offset << 11), request_a,
                             resource_info[1] + block_offset);
                         Control_CD(6, request_a, 0);
                     }
-                    func_8003F320();
+                    drainCdCommandQueue();
                 }
             }
         }
         else {
-            func_800418B4();
+            loadSharedResourceOnce();
             D_801B8EB8 = *entry->field8->f0;
             D_80189394 = entry->field8->f1;
         }

@@ -24,7 +24,7 @@ typedef struct S_8016E998_0 {
     s16 unk_86;
     s16 unk_88;
     s16 unk_8A;
-} S_8016E998_0;   /* temp_s0 in func_8016E998 */
+} S_8016E998_0;   /* temp_s0 in dungeonCreateMultiFormSegmentRing */
 
 typedef struct S_8016E998_1 {
     u8 pad_00[0x8];
@@ -33,20 +33,20 @@ typedef struct S_8016E998_1 {
     M2C_UNK * unk_10;
     u8 pad_14[0xC];
     s8 unk_20;
-} S_8016E998_1;   /* temp_v0 in func_8016E998 */
+} S_8016E998_1;   /* temp_v0 in dungeonCreateMultiFormSegmentRing */
 
 typedef struct S_8016E998_2 {
     u8 pad_00[0x10];
     s16 unk_10;
     u8 pad_12[0x2];
     u16 unk_14;
-} S_8016E998_2;   /* temp_a1 in func_8016E998 */
+} S_8016E998_2;   /* temp_a1 in dungeonCreateMultiFormSegmentRing */
 
 typedef struct S_8016E998_3 {
     s32 unk_00;
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
     s32 unk_08;
-} S_8016E998_3;   /* temp_v1 in func_8016E998 */
+} S_8016E998_3;   /* temp_v1 in dungeonCreateMultiFormSegmentRing */
 
 
 typedef struct S_8016E998_5 {
@@ -57,7 +57,7 @@ typedef struct S_8016E998_5 {
     u8 pad_0F[0xD];
     s16 unk_1C;
     s16 unk_1E;
-} S_8016E998_5;   /* temp_a1_3 in func_8016E998 */
+} S_8016E998_5;   /* temp_a1_3 in dungeonCreateMultiFormSegmentRing */
 
 
 s32 func_8004491C();           /* extern */
@@ -67,7 +67,7 @@ extern M2C_UNK D_8016E4E8;
 extern void *D_80175D78;
 
 /* Creates sixteen radial effect segments around the supplied position. */
-void func_8016E998(EntityRec *origin) {
+void dungeonCreateMultiFormSegmentRing(EntityRec *origin) {
     s32 origin_z;
     s32 start_angle;
     s32 end_x;

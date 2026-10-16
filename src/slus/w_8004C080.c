@@ -42,7 +42,7 @@ typedef struct Tint8004C080 {
     u8 cd;
 } Tint8004C080;
 
-extern s32 func_8004C010(u8 *dst, Tint8004C080 *tint);
+extern s32 multiplyRgbTintSaturated(u8 *dst, Tint8004C080 *tint);
 extern void *func_8004BDDC(Tint8004C080 *tint0, Tint8004C080 *tint1,
                            u8 *packet, void *record, u8 *command);
 extern void SetTexWindow(void *packet, s16 *values);
@@ -68,8 +68,8 @@ void *func_8004C080(Tint8004C080 *tint0, Tint8004C080 *tint1,
     if (primitive_type == 0x28) {
         packet_color = packet + 4;
         ((S_8004C080_1 *)packet)->unk_04.at00.v = ((S_8004C080_0 *)command)->unk_04.at00.v;
-        func_8004C010(packet_color, tint0);
-        func_8004C010(packet_color, tint1);
+        multiplyRgbTintSaturated(packet_color, tint0);
+        multiplyRgbTintSaturated(packet_color, tint1);
         ((S_8004C080_1 *)packet)->unk_03 = 5;
         ((S_8004C080_1 *)packet)->unk_0C = ((S_8004C080_1 *)packet)->unk_10;
         ((S_8004C080_1 *)packet)->unk_10 = ((S_8004C080_1 *)packet)->unk_18;
@@ -78,8 +78,8 @@ void *func_8004C080(Tint8004C080 *tint0, Tint8004C080 *tint1,
     } else if (primitive_type == 0x48) {
         packet_color = packet + 4;
         ((S_8004C080_1 *)packet)->unk_04.at00.v = ((S_8004C080_0 *)command)->unk_04.at00.v;
-        func_8004C010(packet_color, tint0);
-        func_8004C010(packet_color, tint1);
+        multiplyRgbTintSaturated(packet_color, tint0);
+        multiplyRgbTintSaturated(packet_color, tint1);
         ((S_8004C080_1 *)packet)->unk_03 = 5;
         ((S_8004C080_1 *)packet)->unk_14 = 0x55555555;
         ((S_8004C080_1 *)packet)->unk_04.at03.v = ((S_8004C080_0 *)command)->unk_01;
@@ -89,8 +89,8 @@ void *func_8004C080(Tint8004C080 *tint0, Tint8004C080 *tint1,
     } else if (primitive_type == 0x38) {
         packet_color = packet + 4;
         ((S_8004C080_1 *)packet)->unk_04.at00.v = ((S_8004C080_0 *)command)->unk_04.at00.v;
-        func_8004C010(packet_color, tint0);
-        func_8004C010(packet_color, tint1);
+        multiplyRgbTintSaturated(packet_color, tint0);
+        multiplyRgbTintSaturated(packet_color, tint1);
         record = (u8 *)record + 0xC;
         length_or_code = 8;
         packet_color = packet + 0xC;
@@ -98,16 +98,16 @@ void *func_8004C080(Tint8004C080 *tint0, Tint8004C080 *tint1,
         ((S_8004C080_1 *)packet)->unk_04.at03.v = primitive_type;
         ((S_8004C080_1 *)packet)->unk_04.at03.v = ((S_8004C080_0 *)command)->unk_01;
         ((S_8004C080_1 *)packet)->unk_0C = ((S_8004C080_2 *)record)->unk_00;
-        func_8004C010(packet_color, tint0);
-        func_8004C010(packet_color, tint1);
+        multiplyRgbTintSaturated(packet_color, tint0);
+        multiplyRgbTintSaturated(packet_color, tint1);
         packet_color = packet + 0x14;
         ((S_8004C080_1 *)packet)->unk_14 = ((S_8004C080_2 *)record)->unk_04;
-        func_8004C010(packet_color, tint0);
-        func_8004C010(packet_color, tint1);
+        multiplyRgbTintSaturated(packet_color, tint0);
+        multiplyRgbTintSaturated(packet_color, tint1);
         packet_color = packet + 0x1C;
         ((S_8004C080_1 *)packet)->unk_1C = ((S_8004C080_2 *)record)->unk_08;
-        func_8004C010(packet_color, tint0);
-        func_8004C010(packet_color, tint1);
+        multiplyRgbTintSaturated(packet_color, tint0);
+        multiplyRgbTintSaturated(packet_color, tint1);
         return record;
     } else if (primitive_type == 0x3C) {
         record = func_8004BDDC(tint0, tint1, packet, record, command);

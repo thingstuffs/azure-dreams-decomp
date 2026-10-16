@@ -48,23 +48,23 @@ typedef struct S_80170E5C_2 {
 
 
 extern void func_80047784(void *, s32, s32);
-extern s32 func_8009A180(void *, void *);
+extern s32 dungeonCheckEntityRelation(void *, void *);
 extern s32 func_8009FB34(s32, s32);
-extern s32 func_8009FD7C(s32, s32, s32, s32);
-extern s32 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern s32 dungeonCompareMonsterNeighborValues(s32, s32, s32, s32);
+extern s32 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern s32 func_800A1C58(void *);
 extern void func_800A9A0C(void *);
-extern void func_800AA258(void *, void *, void *, void *);
-extern s32 func_800AA6B4(void *, void *, void *, void *);
-extern void func_800AA79C(void *, void *, void *, void *);
+extern void dungeonBeginPushedActorMove(void *, void *, void *, void *);
+extern s32 dungeonBeginReadyActorDirectionalAction(void *, void *, void *, void *);
+extern void dungeonAdvanceActorPendingAction(void *, void *, void *, void *);
 extern void func_800AA888(void *, void *, void *, void *);
-extern s32 func_800AA924(void *actor, s32 unused, void *sprite, u8 *direction_frames);
-extern void func_800AAB10(void *, void *, void *, void *);
-extern void func_800AAF00(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state);
+extern s32 dungeonResetActorActionState(void *actor, s32 unused, void *sprite, u8 *direction_frames);
+extern void dungeonProcessSelectedActorRecord(void *, void *, void *, void *);
+extern void dungeonBeginActorSpellAction(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state);
 extern void func_801713D4(void *, void *, void *, void *);
 extern void func_8017162C(void *, void *, void *, void *);
 extern s32 func_80171DD8(void *, void *, void *, void *);
-extern void func_80171F9C(void *, void *, void *, void *);
+extern void dungeonSelectAndStartTargetAction(void *, void *, void *, void *);
 extern s32 func_801720B4(void *, void *, void *, s32);
 extern void func_80173AC0(void *, void *, void *, void *);
 
@@ -93,7 +93,7 @@ void func_80170E5C(void *actor, void *context, void *sprite, void *status)
 
 
     if (((S_80170E5C_1 *)status)->unk_25 == 0) {
-        func_800AA79C(actor, context, sprite, status);
+        dungeonAdvanceActorPendingAction(actor, context, sprite, status);
         if (((S_80170E5C_2 *)sprite)->unk_2C == D_80173D4C) {
             return;
         }
@@ -112,14 +112,14 @@ void func_80170E5C(void *actor, void *context, void *sprite, void *status)
             ((S_80170E5C_1 *)status)->unk_1C &= ~0x40000;
             return;
         }
-        if (func_800AA924(actor, context, sprite, D_80173D44)) {
+        if (dungeonResetActorActionState(actor, context, sprite, D_80173D44)) {
             return;
         }
     }
 
     if (!(dungeonStatus.flags & 0x2000)) {
         if (((S_80170E5C_1 *)status)->unk_1C & 0x100) {
-            func_800AA258(actor, context, sprite, status);
+            dungeonBeginPushedActorMove(actor, context, sprite, status);
             return;
         }
 
@@ -140,7 +140,7 @@ void func_80170E5C(void *actor, void *context, void *sprite, void *status)
 
         ((S_80170E5C_0 *)actor)->unk_98 &= 0xFFF3;
         if (((S_80170E5C_1 *)status)->unk_64 != 0) {
-            if (func_800AA6B4(actor, context, sprite, D_80173D1C)) {
+            if (dungeonBeginReadyActorDirectionalAction(actor, context, sprite, D_80173D1C)) {
                 return;
             }
         }
@@ -152,7 +152,7 @@ void func_80170E5C(void *actor, void *context, void *sprite, void *status)
         }
 
         if ((s16)func_800A1C58(status) != 0) {
-            func_800AAB10(actor, context, sprite, status);
+            dungeonProcessSelectedActorRecord(actor, context, sprite, status);
         }
     }
 
@@ -170,7 +170,7 @@ void func_80170E5C(void *actor, void *context, void *sprite, void *status)
         }
         if (!(((S_80170E5C_1 *)status)->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
-                if ((s16)func_8009A180(status,
+                if ((s16)dungeonCheckEntityRelation(status,
                     (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
                     return;
                 }
@@ -189,7 +189,7 @@ void func_80170E5C(void *actor, void *context, void *sprite, void *status)
         case 7:
         case 8:
             if ((s16)func_80171DD8(actor, context, sprite, status) == 0) {
-                func_80171F9C(actor, context, sprite, status);
+                dungeonSelectAndStartTargetAction(actor, context, sprite, status);
             }
             return;
 
@@ -200,14 +200,14 @@ void func_80170E5C(void *actor, void *context, void *sprite, void *status)
                 EntityRec *global_actor;
                 s32 direction;
 
-                direction = func_800A0818(
+                direction = dungeonGetRoundedFacingAndRoundingFlag(
                     ((S_80170E5C_2 *)sprite)->unk_24.at00.v, ((S_80170E5C_2 *)sprite)->unk_24.at01.v,
                     D_80082E80.tileX, D_80082E80.tileY,
                     &direction_aux);
                 global_actor = D_800814A8;
                 ((S_80170E5C_1 *)status)->unk_2A = direction;
                 if (global_actor->unk_9A == 0x11) {
-                    func_800AAF00(actor, context, sprite, D_80173D3C, func_80170E5C);
+                    dungeonBeginActorSpellAction(actor, context, sprite, D_80173D3C, func_80170E5C);
                     return;
                 }
             }
@@ -219,7 +219,7 @@ void func_80170E5C(void *actor, void *context, void *sprite, void *status)
         case 0:
         case 1:
         case 2:
-            func_800AAF00(actor, context, sprite, D_80173D3C, func_80170E5C);
+            dungeonBeginActorSpellAction(actor, context, sprite, D_80173D3C, func_80170E5C);
             return;
 
         case 3:
@@ -239,10 +239,10 @@ void func_80170E5C(void *actor, void *context, void *sprite, void *status)
             !(D_800E2970[room_index].flags & 2)) {
             if (!(((S_80170E5C_1 *)status)->unk_1C & 0x430)) {
 
-                if ((s16)func_8009FD7C(((S_80170E5C_2 *)sprite)->unk_24.at00.v,
+                if ((s16)dungeonCompareMonsterNeighborValues(((S_80170E5C_2 *)sprite)->unk_24.at00.v,
                     ((S_80170E5C_2 *)sprite)->unk_24.at01.v, D_80082E80.tileX,
                     D_80082E80.tileY) != 0) {
-                    ((S_80170E5C_1 *)status)->unk_2A = func_800A0818(
+                    ((S_80170E5C_1 *)status)->unk_2A = dungeonGetRoundedFacingAndRoundingFlag(
                         ((S_80170E5C_2 *)sprite)->unk_24.at00.v, ((S_80170E5C_2 *)sprite)->unk_24.at01.v,
                         D_80082E80.tileX, D_80082E80.tileY,
                         &direction_aux);

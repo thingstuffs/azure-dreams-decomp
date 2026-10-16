@@ -54,24 +54,24 @@ extern char D_800E0AFA[];
 extern char D_800E0B07[];
 
 s32 func_800A70E4(s32, s32, s32);
-void func_80095DD0(Ctx *, char *, Item *, Unit *);
+void dungeonBeginPlayerTrapTrigger(Ctx *, char *, Item *, Unit *);
 s32 func_800990FC(void);
-char *func_8009929C(s8 value, s8 *dest);
+char *dungeonWriteTextByteAndAdvance(s8 value, s8 *dest);
 char *func_80099194(char *, char *);
-char *func_80099368(DungeonItemEntry *, char *);
+char *dungeonAppendTypedFormattedValue(DungeonItemEntry *, char *);
 void func_80099290(char *);
 void func_800A5720(s8 *text);
-s32 func_80098FB0(void);
+s32 dungeonFindLastZeroEntryRunStart(void);
 s32 func_80098FF8(void);
-void func_8009F644(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
-u8 *func_8009F868(void);
-void func_8009F988(void);
+void dungeonAppendPackedActionRecord(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
+u8 *dungeonAdvanceMonsterTimedSequence(void);
+void dungeonReadMonsterScriptEntry(void);
 s32 func_800438E4(DungeonItemEntry *);
-void func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
+void createActorValuePopup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 void func_8009A3D0(s32, s32, s32);
 
 /* Picks up an item, applying special effects or moving it into inventory. */
-s32 func_80094F74(Ctx *ctx, char *text, Item *item, Unit *unit) {
+s32 dungeonCollectGroundItem(Ctx *ctx, char *text, Item *item, Unit *unit) {
     GameWork *sys;
     s32 item_lookup;
     s16 item_id;
@@ -107,34 +107,34 @@ s32 func_80094F74(Ctx *ctx, char *text, Item *item, Unit *unit) {
         if (ctx->mode < 0) {
             return 1;
         }
-        func_80095DD0(ctx, text, item, unit);
+        dungeonBeginPlayerTrapTrigger(ctx, text, item, unit);
         return 0;
     }
     message_handle = func_800990FC();
-    message = func_8009929C(8, message_handle);
+    message = dungeonWriteTextByteAndAdvance(8, message_handle);
     if (D_80081485[0] != 0) {
-        func_80099290(func_80099194(D_80088A80, func_80099368(&D_800E3548[item_id], func_80099194(D_800E0A76,
+        func_80099290(func_80099194(D_80088A80, dungeonAppendTypedFormattedValue(&D_800E3548[item_id], func_80099194(D_800E0A76,
             message))));
         func_800A5720(message_handle);
         return 1;
     }
-    free_slot = func_80098FB0();
+    free_slot = dungeonFindLastZeroEntryRunStart();
     free_entry = func_80098FF8();
     if ((D_80013714 & 1) == 0) {
         if ((sys->buttons & 0x20) != 0) {
-            func_8009F644(unit, 64, 0, 0);
-            func_80099290(func_80099194(D_80088A80, func_80099368(&D_800E3548[item_id], func_80099194(D_800E0A83,
+            dungeonAppendPackedActionRecord(unit, 64, 0, 0);
+            func_80099290(func_80099194(D_80088A80, dungeonAppendTypedFormattedValue(&D_800E3548[item_id], func_80099194(D_800E0A83,
                 message))));
             func_800A5720(message_handle);
             return 1;
         }
     } else {
-        active_effect = func_8009F868();
+        active_effect = dungeonAdvanceMonsterTimedSequence();
         if (active_effect != 0) {
             if ((active_effect[1] & 0xF8) == 0x40) {
                 return 1;
             }
-            func_8009F988();
+            dungeonReadMonsterScriptEntry();
         }
     }
     ground_items = D_800E3548;
@@ -142,7 +142,7 @@ s32 func_80094F74(Ctx *ctx, char *text, Item *item, Unit *unit) {
     if ((ground_item->kind == 14) || ((ground_item->kind == 12) && (ground_item->unk_00 == 4))
         || ((ground_item->kind == 18) && (ground_item->unk_00 == 1))) {
         named_item = &D_800E3548[(s16) item_lookup];
-        message = func_80099368(named_item, message);
+        message = dungeonAppendTypedFormattedValue(named_item, message);
         if (named_item->kind == 14) {
             message = func_80099194(D_80088A84, message);
         } else {
@@ -153,7 +153,7 @@ s32 func_80094F74(Ctx *ctx, char *text, Item *item, Unit *unit) {
         special_item = &special_items[(s16) item_lookup];
         item_kind = special_item->kind;
         if (item_kind == 12) {
-            message = func_80099194(D_800E0ABC, func_8009929C(10, func_80099194(D_800E0AA1, func_8009929C(10,
+            message = func_80099194(D_800E0ABC, dungeonWriteTextByteAndAdvance(10, func_80099194(D_800E0AA1, dungeonWriteTextByteAndAdvance(10,
                 message))));
             ctx->done = 1;
             state_page = (u16 *) 0x80010000;
@@ -166,7 +166,7 @@ s32 func_80094F74(Ctx *ctx, char *text, Item *item, Unit *unit) {
         } else if (item_kind == 14) {
             pickup_value = func_800438E4(special_item);
             ctx->total += pickup_value;
-            func_800B4C7C(151, unit, (s16) pickup_value, 1);
+            createActorValuePopup(151, unit, (s16) pickup_value, 1);
         }
         consumed_id = (s16) item_lookup;
         pickup_slot = (u32 *) 0x80010298;
@@ -181,12 +181,12 @@ s32 func_80094F74(Ctx *ctx, char *text, Item *item, Unit *unit) {
         slot_index = free_slot;
         entry_index = free_entry;
         if ((slot_index < 0) || (entry_index < 0)) {
-            message = func_80099194(D_80088A80, func_80099368(&D_800E3548[(s16) item_lookup], func_80099194(D_800E0AFA,
-                func_8009929C(10, func_80099194(D_800E0AD8, message)))));
+            message = func_80099194(D_80088A80, dungeonAppendTypedFormattedValue(&D_800E3548[(s16) item_lookup], func_80099194(D_800E0AFA,
+                dungeonWriteTextByteAndAdvance(10, func_80099194(D_800E0AD8, message)))));
         } else {
             stored_id = item_lookup;
             stored_item = &D_800E3548[stored_id];
-            message = func_80099194(D_800E0B07, func_80099368(stored_item, message));
+            message = func_80099194(D_800E0B07, dungeonAppendTypedFormattedValue(stored_item, message));
             inventory_slot = (void **) 0x80010248 + slot_index;
             *inventory_slot = *(void **) stored_item;
             inventory_page = (u8 *) 0x80010000;

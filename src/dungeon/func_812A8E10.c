@@ -8,11 +8,11 @@ typedef struct { u8 pad0[0x14]; u16 flags14; u8 pad16[0x0E]; u8 x24; u8 y25; } S
 typedef struct { u8 pad0[0x28]; u8 flag28; u8 pad29[0x41]; u16 index6A; } S_D;
 
 extern u8 D_80171FA4[];
-extern void func_800A2B04(S_B *, u8, u8);
-extern void func_800AD4D0(S_D *);
+extern void dungeonSetRecordIntegerTileCenter(S_B *, u8, u8);
+extern void dungeonApplyClampedActorValueDelta(S_D *);
 
 /* Updates staged motion and snaps to the target tile when the countdown ends. */
-void func_80174610(S_A *motion_state, S_B *motion, S_C *target, S_D *actor) {
+void dungeonAdvanceStagedMotionAndSnapTile(S_A *motion_state, S_B *motion, S_C *target, S_D *actor) {
     s16 ticks_left;
     s32 target_pos;
     s32 current_pos;
@@ -24,7 +24,7 @@ void func_80174610(S_A *motion_state, S_B *motion, S_C *target, S_D *actor) {
     active_flag = 1;
     switch (state) {
     case 0:
-        func_800AD4D0(actor);
+        dungeonApplyClampedActorValueDelta(actor);
         motion_state->state9b = (u8)(motion_state->state9b + 1);
         if (actor->flag28 == 0) {
             actor->flag28 = (u8)active_flag;
@@ -69,7 +69,7 @@ void func_80174610(S_A *motion_state, S_B *motion, S_C *target, S_D *actor) {
             motion->dz14 = 0;
             motion->dy10 = 0;
             motion->dxC = 0;
-            func_800A2B04(motion, target->x24, target->y25);
+            dungeonSetRecordIntegerTileCenter(motion, target->x24, target->y25);
             if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)actor - 0x20)) {
                 *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
                 motion_state->field8c = D_80171FA4;

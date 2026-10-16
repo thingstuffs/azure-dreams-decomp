@@ -5,7 +5,7 @@ void func_80057A94(S_80057A94 *command) {
     S_80057A94_msg message;
     u32 operation;
 
-    cell = (S_80057A94_cell *)func_80057A50(command, command->f4D & 0xF);
+    cell = (S_80057A94_cell *)audioGetCurrentBankToneRecord(command, command->f4D & 0xF);
     operation = command->f4C;
     switch (operation) {
     case 1:

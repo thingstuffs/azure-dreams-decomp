@@ -9,7 +9,7 @@ extern s32 func_800A6D30(void);
 
 
 
-s32 func_800CDC18(void *ptr, s32 unused1, s32 unused2, s32 unused3)
+s32 dungeonRollTrapTriggerChance(void *ptr, s32 unused1, s32 unused2, s32 unused3)
 {
     s32 source_value;
     register s16 divisor;

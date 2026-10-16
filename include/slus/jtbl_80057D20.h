@@ -94,15 +94,15 @@ extern s32 D_80073740[64];
 extern S_80084960 D_80084960[16];
 extern S_80085458 D_80085458[64];
 extern void func_80055E7C();
-extern void func_800564A8();
-extern void func_80056654(S_80085458 *e, s32 value);
+extern void audioRefreshSequenceVoiceVolumes();
+extern void audioUpdateVoicePitch(S_80085458 *e, s32 value);
 extern void func_80057A94(S_80084960 *e);
-extern void func_800561D8(S_80085458 *e, S_80084960 *rec);
-extern s32 func_800563B0(s32 a0, u16 a1, u16 a2);
-extern void func_80056A08(void);
+extern void audioComputeVoiceStereoVolumes(S_80085458 *e, S_80084960 *rec);
+extern s32 soundSetIndexedVoiceVolumes(s32 a0, u16 a1, u16 a2);
+extern void audioResetSequenceTracksAndChannels(void);
 extern void func_8005E97C(s32 a0, s32 a1);
 extern s32 func_8005EB78(s32 a0);
 /* Applies a channel control change and updates affected voices. */
-void func_80057D20(u8 channel, u8 control, u32 value);
+void audioApplyChannelControl(u8 channel, u8 control, u32 value);
 
 #endif

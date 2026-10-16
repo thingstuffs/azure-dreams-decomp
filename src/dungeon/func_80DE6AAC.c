@@ -9,7 +9,7 @@ s32 func_801742AC(E_801742AC_S_80DE6AAC_2 *source, void *initial_position, E_801
     effect = func_8003FC64(0x212);
     if (effect != NULL) {
         effect_state = effect + 0x20;
-        ((E_801742AC_S_80DE6AAC_0 *)effect)->unk_10 = func_80174254;
+        ((E_801742AC_S_80DE6AAC_0 *)effect)->unk_10 = dungeonAdvanceEffectRecordCounters;
         ((E_801742AC_S_80DE6AAC_0 *)effect)->unk_20 = 0;
         effect_state->unk_02 = (s16)(((u16)source->unk_2A >> 9) & 7);
         sprite = ((E_801742AC_S_80DE6AAC_0 *)effect)->unk_0C;

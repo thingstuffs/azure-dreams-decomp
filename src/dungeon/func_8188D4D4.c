@@ -48,7 +48,7 @@ typedef struct {
 } Flag;
 
 void func_8002522C();
-void func_800262AC();
+void dungeonCreateEffectObjectGroups();
 extern Counter D_80026472;
 extern Flag D_80026474;
 
@@ -119,5 +119,5 @@ void func_80024CD4(void *effect, S_80024CD4_2 *transform, S_80024CD4_1 *visual) 
     visual->unk_0C = 0x20;
     visual->unk_0D = 0xE0;
     visual->unk_0E = 0x40;
-    func_800262AC(transform->unk_02, transform->unk_06, transform->unk_0A);
+    dungeonCreateEffectObjectGroups(transform->unk_02, transform->unk_06, transform->unk_0A);
 }

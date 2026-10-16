@@ -5,7 +5,7 @@ typedef struct S_8009F1C0_0 {
     u8 pad_00[0x14];
     s8 unk_14;
     s8 unk_15;
-} S_8009F1C0_0;   /* arg1 in func_8009F1C0 */
+} S_8009F1C0_0;   /* arg1 in townInitializeTheEntitySActionCopySelectedStateHex13 */
 
 
 extern u32 D_8009EF88;
@@ -18,7 +18,7 @@ extern Record84 D_80100AF8;
 
 
 /* Initialize the entity's action and copy its selected record for state 0x13. */
-void func_8009F1C0(Rec_func_8009EE9C_arg0 *entity, S_8009F1C0_0 *action)
+void townInitializeTheEntitySActionCopySelectedStateHex13(Rec_func_8009EE9C_arg0 *entity, S_8009F1C0_0 *action)
 {
     u8 state;
     void *callback;

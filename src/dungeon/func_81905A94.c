@@ -3,7 +3,7 @@
 /* Effect record: the object header precedes it. */
 
 /* Decrement the record counter and set completion flags when it reaches zero. */
-void func_80025294(CountdownRecord *record)
+void dungeonTickEffectRecord(CountdownRecord *record)
 {
     u16 counter;
 

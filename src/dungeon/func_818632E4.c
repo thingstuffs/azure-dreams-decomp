@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_188298c.h"
 
-void func_80024AE4(ovl_188298c_818632E4_Controller *ctrl, ovl_188298c_818632E4_Motion *motion, void *render_data)
+void dungeonMoveToLinkedObjectAndApplyArrivalEffects(ovl_188298c_818632E4_Controller *ctrl, ovl_188298c_818632E4_Motion *motion, void *render_data)
 {
     u8 *root;
     ovl_188298c_818632E4_RootPrefix *prefix;
@@ -43,7 +43,7 @@ void func_80024AE4(ovl_188298c_818632E4_Controller *ctrl, ovl_188298c_818632E4_M
 
     case 1:
         prefix = (ovl_188298c_818632E4_RootPrefix *)(root - 0x20);
-        if (func_8003DE58(prefix->lookup->key, prefix->lookup, delta, 0) == 0) {
+        if (resolveRecordOrientationOrFallback(prefix->lookup->key, prefix->lookup, delta, 0) == 0) {
             if (!(prefix->lookup->flags & 0x8000)) {
                 break;
             }
@@ -102,7 +102,7 @@ void func_80024AE4(ovl_188298c_818632E4_Controller *ctrl, ovl_188298c_818632E4_M
             final_y = cell_y;
 
             do {
-                if ((s16)func_800A44E0(((s16)cell_x << 6) & 0xFFC0,
+                if ((s16)dungeonCheckLayerOffsetHeight(((s16)cell_x << 6) & 0xFFC0,
                                        ((s16)cell_y << 6) & 0xFFC0,
                                        *(s16 *)(root + 0x88),
                                        (s16)(ctrl->angle << 9)) != 0) {
@@ -177,13 +177,13 @@ void func_80024AE4(ovl_188298c_818632E4_Controller *ctrl, ovl_188298c_818632E4_M
         motion->x.val += motion->dx.val;
         motion->y.val += motion->dy.val;
         motion->z.val += motion->dz.val;
-        func_800246D8(ctrl, render_data);
+        dungeonProjectAndQueueShadedLine(ctrl, render_data);
         if (ctrl->timer < 15) {
             break;
         }
         ctrl->timer = 0;
         ctrl->state++;
-        func_80024428(ctrl, motion, 0, &ctrl->slots[0]);
+        dungeonCreateRadiusDirectionalEffects(ctrl, motion, 0, &ctrl->slots[0]);
         break;
 
     case 3:
@@ -192,7 +192,7 @@ void func_80024AE4(ovl_188298c_818632E4_Controller *ctrl, ovl_188298c_818632E4_M
 
         effect_tick = (u16)ctrl->timer;
         if ((effect_tick & 7) == 0) {
-            func_80024428(ctrl, motion, (s16)effect_tick >> 3, &ctrl->slots[0]);
+            dungeonCreateRadiusDirectionalEffects(ctrl, motion, (s16)effect_tick >> 3, &ctrl->slots[0]);
         }
     }
         if (ctrl->timer < 24) {

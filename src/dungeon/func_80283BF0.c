@@ -1,6 +1,6 @@
 #include "modules/dungeon_dungeon_setup.h"
 
-void func_80016BF0(s16 start_x, s16 start_y, s16 width, s16 height)
+void dungeonApplyTileFlagsToRectangle(s16 start_x, s16 start_y, s16 width, s16 height)
 {
     s32 tile_y;
     s32 tile_x;

@@ -7,7 +7,7 @@ typedef struct S_800A2000_0 {
     s32 unk_10;
     u8 pad_14[0xC];
     s32 unk_20;
-} S_800A2000_0;   /* obj in func_800A2000 */
+} S_800A2000_0;   /* obj in townAllocateAndInitializeDisplayObject */
 
 typedef struct S_800A2000_1 {
     u8 pad_00[0x10];
@@ -17,7 +17,7 @@ typedef struct S_800A2000_1 {
     s16 unk_20;
     u8 pad_22[0x1E];
     s32 unk_40;
-} S_800A2000_1;   /* payload in func_800A2000 */
+} S_800A2000_1;   /* payload in townAllocateAndInitializeDisplayObject */
 
 typedef struct S_800A2000_2 {
     u8 pad_00[0xC];
@@ -32,13 +32,13 @@ typedef struct S_800A2000_2 {
     s16 unk_1C;
     s16 unk_1E;
     s16 unk_20;
-} S_800A2000_2;   /* display in func_800A2000 */
+} S_800A2000_2;   /* display in townAllocateAndInitializeDisplayObject */
 
 
 extern void *func_8003FD64();
 
 /* Allocate an object and initialize its payload, display transform, and color. */
-void *func_800A2000(s32 object_key, s32 payload_value, s32 payload_param, s32 payload_halfword, s32 object_param,
+void *townAllocateAndInitializeDisplayObject(s32 object_key, s32 payload_value, s32 payload_param, s32 payload_halfword, s32 object_param,
     s32 object_value) {
     void *obj = func_8003FD64(0x136, object_key - 0x20);
     S_800A2000_2 *display;

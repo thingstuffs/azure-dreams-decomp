@@ -23,10 +23,10 @@ typedef struct
 Vec3u16;
 extern void func_8004491C(void *object, void *callback);
 extern void func_80047784(void *object, s32 kind, s32 value);
-extern void *func_8003DE58(void *ptr, void *ptr1, Vec3u16 *out, s32 value3);
+extern void *resolveRecordOrientationOrFallback(void *ptr, void *ptr1, Vec3u16 *out, s32 value3);
 extern u8 D_80175978;
 /* Create a render object and initialize its position and motion toward a directional target. */
-void *func_80175F60(void *emitter, Copy24 *position, void *source)
+void *dungeonCreateDirectionalTargetObject(void *emitter, Copy24 *position, void *source)
 {
     void *emitter_copy;
     Copy24 target_position;
@@ -67,7 +67,7 @@ void *func_80175F60(void *emitter, Copy24 *position, void *source)
         position_offset.z = 0;
         position_offset.y = 0;
         position_offset.x = 0;
-        if (func_8003DE58(*((void **) (((u8 *) source_copy) + 8)), source_copy, &position_offset, 1) != 0) {
+        if (resolveRecordOrientationOrFallback(*((void **) (((u8 *) source_copy) + 8)), source_copy, &position_offset, 1) != 0) {
             *((u16 *) (((u8 *) position_data) + 6)) += position_offset.x;
             *((u16 *) (((u8 *) transform) + 2)) = *((u16 *) (((u8 *) position_data) + 6));
             *((u16 *) (((u8 *) position_data) + 0xA)) += position_offset.y;

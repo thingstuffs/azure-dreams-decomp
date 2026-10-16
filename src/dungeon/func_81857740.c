@@ -5,7 +5,7 @@
 
 typedef struct S_80024F40_0_pre {
     u16 unk_00;
-} S_80024F40_0_pre;   /* the 0x2 bytes before arg0 in func_80024F40, addressed as arg0[-1] */
+} S_80024F40_0_pre;   /* the 0x2 bytes before arg0 in dungeonFadePackedObjectColorToZero, addressed as arg0[-1] */
 
 typedef struct S_80024F40_0 {
     void * unk_00;
@@ -15,18 +15,18 @@ typedef struct S_80024F40_0 {
     s16 unk_42;
     u8 pad_44[0x6];
     union { s16 s; u16 u; } unk_4A;   /* accessed as both */
-} S_80024F40_0;   /* arg0 in func_80024F40 */
+} S_80024F40_0;   /* arg0 in dungeonFadePackedObjectColorToZero */
 
 typedef struct S_80024F40_1 {
     u8 pad_00[0x52];
     u16 unk_52;
-} S_80024F40_1;   /* temp_v0 in func_80024F40 */
+} S_80024F40_1;   /* temp_v0 in dungeonFadePackedObjectColorToZero */
 
 s16 func_8006649C();
 s32 func_80069EF8();
 
 /* Fades the object's packed color to zero, then sets completion flags. */
-void func_80024F40(void *object) {
+void dungeonFadePackedObjectColorToZero(void *object) {
     s16 fade_state;
     void *linked_object;
 

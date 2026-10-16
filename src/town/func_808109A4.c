@@ -77,7 +77,7 @@ extern void func_80050BD8(s32);
 extern void func_80050BFC(s32);
 
 /* Updates timed object spawning, result displays, and the stored best value. */
-void func_8052B5A4(TownState *self) {
+void townRunMenuEntryAnimation(TownState *self) {
     void *result_data;
     s16 level_period;
     s16 spawn_period;

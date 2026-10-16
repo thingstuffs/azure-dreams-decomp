@@ -1,6 +1,6 @@
 #include "slus/gp_order_bytes_owner.h"
 
-void func_80049F68(S_80049F68_Obj *obj)
+void soundInitializeOrderedElements(S_80049F68_Obj *obj)
 {
     s32 i;
     S_80049F68_Link *tail;

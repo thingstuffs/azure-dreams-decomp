@@ -14,7 +14,7 @@ typedef struct {
 extern Entry *func_800A1618(s16 requested_id, s16 requested_type);
 
 /* Normalize the entry type and increment the matching entry and dungeon counts. */
-s32 func_800A152C(s16 entry_type, s16 entry_key) {
+s32 retainSpawnResource(s16 entry_type, s16 entry_key) {
     s16 type;
     Entry *entry;
 

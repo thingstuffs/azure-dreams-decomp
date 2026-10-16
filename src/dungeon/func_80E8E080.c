@@ -10,14 +10,14 @@ typedef struct S_80173880_0 {
     void * unk_8C;
     u8 pad_90[0xB];
     u8 unk_9B;
-} S_80173880_0;   /* arg0 in func_80173880 */
+} S_80173880_0;   /* arg0 in dungeonAdvanceAnActorSActionStateUpdatingDirectionalAnimationsStatusTransitions */
 
 typedef struct S_80173880_1 {
     u8 pad_00[0x14];
     u16 unk_14;
     u8 pad_16[0x10];
     s8 unk_26;
-} S_80173880_1;   /* arg2 in func_80173880 */
+} S_80173880_1;   /* arg2 in dungeonAdvanceAnActorSActionStateUpdatingDirectionalAnimationsStatusTransitions */
 
 typedef struct S_80173880_2 {
     u8 pad_00[0x1C];
@@ -30,21 +30,21 @@ typedef struct S_80173880_2 {
     s16 unk_64;
     u8 pad_66[0x7];
     s8 unk_6D;
-} S_80173880_2;   /* arg3 in func_80173880 */
+} S_80173880_2;   /* arg3 in dungeonAdvanceAnActorSActionStateUpdatingDirectionalAnimationsStatusTransitions */
 
 
 extern s32 func_80042900(void *, s32);
 extern void func_80042B68(void *, s32);
 extern void func_80047784(void *, s32, s32);
-extern s32 func_8009A180(void *, void *);
-extern s16 func_8009FD40(void *, void *);
+extern s32 dungeonCheckEntityRelation(void *, void *);
+extern s16 dungeonGetTileChebyshevDistance(void *, void *);
 extern s32 func_800A2C34(void *);
 extern s32 func_800A6D30(void);
 extern void func_800A9A04(void *);
 extern void func_800A9A0C(void *);
-extern void func_800AA258(void *, void *, void *, void *);
-extern s32 func_800AA6B4(void *, void *, void *, s32);
-extern void func_800AA79C(void *, void *, void *, void *);
+extern void dungeonBeginPushedActorMove(void *, void *, void *, void *);
+extern s32 dungeonBeginReadyActorDirectionalAction(void *, void *, void *, s32);
+extern void dungeonAdvanceActorPendingAction(void *, void *, void *, void *);
 extern void func_800AA888(void *, void *, void *, void *);
 extern void func_80174060(void *, void *, void *, void *);
 
@@ -54,7 +54,7 @@ extern u8 D_80174F48[];
 extern u8 D_80174F50[];
 
 /* Advances an actor's action state, updating directional animations and status transitions. */
-void func_80173880(void *in_action, void *in_context, void *in_sprite, void *in_actor)
+void dungeonAdvanceAnActorSActionStateUpdatingDirectionalAnimationsStatusTransitions(void *in_action, void *in_context, void *in_sprite, void *in_actor)
 {
     void *context = in_context;
     void *actor = in_actor;
@@ -123,7 +123,7 @@ void func_80173880(void *in_action, void *in_context, void *in_sprite, void *in_
             }
 
             if (((S_80173880_2 *)actor)->unk_64 != 0) {
-                if (func_800AA6B4(in_action, context, in_sprite, 0) != 0) {
+                if (dungeonBeginReadyActorDirectionalAction(in_action, context, in_sprite, 0) != 0) {
                     return;
                 }
             }
@@ -132,7 +132,7 @@ void func_80173880(void *in_action, void *in_context, void *in_sprite, void *in_
                 if (input_state->flags & 0x2008) {
                     return;
                 }
-                func_800AA79C(in_action, context, in_sprite, actor);
+                dungeonAdvanceActorPendingAction(in_action, context, in_sprite, actor);
                 return;
             }
 
@@ -142,7 +142,7 @@ void func_80173880(void *in_action, void *in_context, void *in_sprite, void *in_
 
             actor_flags = ((S_80173880_2 *)actor)->unk_1C.s;
             if (actor_flags & 0x100) {
-                func_800AA258(in_action, context, in_sprite, actor);
+                dungeonBeginPushedActorMove(in_action, context, in_sprite, actor);
                 return;
             }
 
@@ -157,7 +157,7 @@ void func_80173880(void *in_action, void *in_context, void *in_sprite, void *in_
             }
 
             if ((func_800A2C34(actor) << 16) != 0) {
-                if ((func_8009A180(actor,
+                if ((dungeonCheckEntityRelation(actor,
                         (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
@@ -174,7 +174,7 @@ void func_80173880(void *in_action, void *in_context, void *in_sprite, void *in_
                 coordinate = ((S_80173880_1 *)in_sprite)->unk_26;
                 if ((((coordinate == origin->unk_026) &&
                             (coordinate >= 0)) ||
-                     (func_8009FD40(origin, in_sprite) < 2)) &&
+                     (dungeonGetTileChebyshevDistance(origin, in_sprite) < 2)) &&
                     ((func_800A6D30() & 7) == 0)) {
                     func_80042B68(actor, 1);
                 }

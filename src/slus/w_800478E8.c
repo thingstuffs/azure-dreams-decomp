@@ -27,7 +27,7 @@ typedef struct S_800478E8_2 {
 } S_800478E8_2;
 
 /* Set the value of active entries with the matching ID in type-2 table slots. */
-void func_800478E8(S_800478E8_0 *owner, s32 value, s32 entry_id) {
+void textureSetTheActiveEntriesMatchingIDInTypeN2TableSlots(S_800478E8_0 *owner, s32 value, s32 entry_id) {
     u32 slot_addr;
     S_Entry *entry;
     S_800478E8_1 *table;

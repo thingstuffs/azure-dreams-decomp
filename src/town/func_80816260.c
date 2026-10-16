@@ -8,18 +8,18 @@ typedef struct S_80020260_0 {
     s32 unk_08;
     u8 pad_0C[0xA];
     u16 unk_16;
-} S_80020260_0;   /* arg0 in func_80020260 */
+} S_80020260_0;   /* arg0 in townFadeSceneTileAcrossTerminalPhase */
 
 typedef struct S_80020260_1 {
     u8 pad_00[0x2A];
     u16 unk_2A;
     u8 pad_2C[0xA];
     s16 unk_36;
-} S_80020260_1;   /* object in func_80020260 */
+} S_80020260_1;   /* object in townFadeSceneTileAcrossTerminalPhase */
 
 
 /* Fades an effect in and out around an object event, then marks completion. */
-void func_80020260(void *effect) {
+void townFadeSceneTileAcrossTerminalPhase(void *effect) {
     s16 state;
     s32 color;
     s32 faded_color;

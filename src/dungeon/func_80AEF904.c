@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource10_slot0.h"
 
-void func_80171104(u8 *actor, u8 *motion, u8 *object)
+void dungeonUpdateActorCallbacksAnimationAndGround(u8 *actor, u8 *motion, u8 *object)
 {
     u8 *actor_copy;
     R10_80171104_ActorCallback callback;
@@ -32,7 +32,7 @@ void func_80171104(u8 *actor, u8 *motion, u8 *object)
 
 
     old_direction = (*(s8 *)((u8 *)actor + 0x6D));
-    if (func_800A9E70(actor, motion, object, actor) != 0) {
+    if (dungeonRefreshActorFacingAndLifecycle(actor, motion, object, actor) != 0) {
         return;
     }
 
@@ -135,7 +135,7 @@ void func_80171104(u8 *actor, u8 *motion, u8 *object)
         if ((*(s16 *)((u8 *)actor + 0x94)) != view_index) {
             animation = ((R10_80171104_S_80171104_0 *)object)->unk_2C;
             if (animation != 0) {
-                func_80047738(object, animation[view_index], ((R10_80171104_S_80171104_0 *)object)->unk_04);
+                selectIndirectTableEntry(object, animation[view_index], ((R10_80171104_S_80171104_0 *)object)->unk_04);
             }
             (*(s16 *)((u8 *)actor + 0x94)) = old_direction;
         }
@@ -152,7 +152,7 @@ void func_80171104(u8 *actor, u8 *motion, u8 *object)
         } else {
             ((R10_80171104_S_80171104_0 *)object)->unk_14 |= 0x7000;
         }
-        func_800A020C(((R10_80171104_S_80171104_1 *)actor_copy)->unk_1C.s, object + 0xC);
+        dungeonApplyMonsterKoyawData(((R10_80171104_S_80171104_1 *)actor_copy)->unk_1C.s, object + 0xC);
     } else if (flags & 0x800) {
         ((R10_80171104_S_80171104_0 *)object)->unk_14 = flags & 0x8FFF;
     } else {

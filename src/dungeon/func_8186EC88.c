@@ -8,9 +8,9 @@ extern s32 rand(void);
 extern s32 func_8002416C(PointRecord *, EntityRec *);
 extern void func_800243BC();
 
-/* Retail 8186EC88 (func_80024488): spawn an effect object under the parent node, placed at the parent's
+/* Retail 8186EC88 (dungeonSpawnParentAttachedEffect): spawn an effect object under the parent node, placed at the parent's
  * position plus a random jitter (0..31 per axis) and the given offsets (minus half the jitter range). */
-void func_80024488(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x,
+void dungeonSpawnParentAttachedEffect(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x,
                    s16 offset_y, s16 offset_z) {
     ObjectNodeHeader *source_obj = parent;
     u32 saved_field_28 = field_28;

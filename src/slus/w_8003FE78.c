@@ -17,7 +17,7 @@ extern struct {
     int force_large;
 } D_80081490;
 
-extern void func_8003DB4C(int *p, int n);
+extern void zeroWords(int *p, int n);
 
 inline s32 inline_fn(s32 value)
 {
@@ -25,7 +25,7 @@ inline s32 inline_fn(s32 value)
 }
 
 /* Initializes a node, links it at the active list head, and assigns optional tail storage. */
-void *func_8003FE78(s32 flags_or_addr, S_8003FE78 *buffer, s16 word_count)
+void *initializeSceneObjectInBuffer(s32 flags_or_addr, S_8003FE78 *buffer, s16 word_count)
 {
     s32 flags = flags_or_addr | 0x80;
     S_8003FE78 *old_head;
@@ -34,7 +34,7 @@ void *func_8003FE78(s32 flags_or_addr, S_8003FE78 *buffer, s16 word_count)
 
     flags_or_addr = (s32)buffer;
     node = buffer;
-    func_8003DB4C((int *)flags_or_addr, word_count);
+    zeroWords((int *)flags_or_addr, word_count);
     old_head = D_80081490.active_head;
     D_80081498 = node;
     node->prev = 0;

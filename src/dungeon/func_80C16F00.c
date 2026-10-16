@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource17_slot0.h"
 
-void func_80172700(void *action, void *motion, void *sprite, void *actor)
+void updateStagedMovementAndDirection(void *action, void *motion, void *sprite, void *actor)
 {
     s32 step_x;
     s32 step_y;
@@ -30,7 +30,7 @@ void func_80172700(void *action, void *motion, void *sprite, void *actor)
         if (flags & 0x8000) {
             F8(action, 0x9B) = 0xFF;
             F16(sprite, 0x14) |= 0x6000;
-            func_8009C12C(turn_actor, sprite,(s16)(FS16(turn_actor, 0x2A)),(s16)(1));
+            dungeonResolveAttackDamageAndEffects(turn_actor, sprite,(s16)(FS16(turn_actor, 0x2A)),(s16)(1));
             return;
         }
         if (!(flags & 0xE000))
@@ -90,7 +90,7 @@ void func_80172700(void *action, void *motion, void *sprite, void *actor)
         turn_actor = actor;
         if (FS16(action, 0x96) > 0)
             return;
-        func_8009C12C(turn_actor, sprite,(s16)(FS16(turn_actor, 0x2A)),(s16)(1));
+        dungeonResolveAttackDamageAndEffects(turn_actor, sprite,(s16)(FS16(turn_actor, 0x2A)),(s16)(1));
 
         F8(action, 0x9B)++;
         return;
@@ -128,11 +128,11 @@ void func_80172700(void *action, void *motion, void *sprite, void *actor)
         F32(motion, 0x10) = 0;
         F32(motion, 0xC) = 0;
         F32(actor, 0x1C) |= 0x40000;
-        func_800A2B04(motion, F8(sprite, 0x24), F8(sprite, 0x25));
-        func_800AD594(actor, 0x100);
+        dungeonSetRecordIntegerTileCenter(motion, F8(sprite, 0x24), F8(sprite, 0x25));
+        dungeonReduceActorFoodMeter(actor, 0x100);
         FPTR(action, 0x8C) = ((u8 *)func_801713A8);
         dungeonStatus.unk_0C = 0;
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         FPTR(sprite, 0x2C) = ((u8 *)D_8017449C);
         func_80047784(sprite, ((u8 *)D_8017449C)[((gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
         if (FS8(actor, 0x6D) == 0) {

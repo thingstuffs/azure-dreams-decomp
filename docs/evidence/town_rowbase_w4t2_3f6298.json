@@ -1,0 +1,83 @@
+{
+  "key": "3f6298",
+  "groups": [
+    "ovl_3f6298.c#17"
+  ],
+  "foff_start": "0x3f6298",
+  "foff_end": "0x3f86e8",
+  "delta": "0x7fc21000",
+  "method": "two exact local jump destinations; independent assertion-string delta corroboration",
+  "jump_anchors": [
+    {
+      "site": "0x3f64b0",
+      "retail_word": "0x8005d45",
+      "target": "0x80017514",
+      "destination_file": "0x3f6514",
+      "solved_delta": "0x7fc21000",
+      "destination_words": [
+        "0xae220000",
+        "0x8fbf0020",
+        "0x8fb1001c",
+        "0x8fb00018"
+      ]
+    },
+    {
+      "site": "0x3f67bc",
+      "retail_word": "0x8005df3",
+      "target": "0x800177cc",
+      "destination_file": "0x3f67cc",
+      "solved_delta": "0x7fc21000",
+      "destination_words": [
+        "0x3e00008",
+        "0x0",
+        "0x27bdffe8",
+        "0x3c028002"
+      ]
+    }
+  ],
+  "recompile": {
+    "source": "src/town/func_804767B0.c",
+    "source_sha256": "2da5153da727b1dc18527f0a76283a15f141fb24df74481dcd5be1c41f1ae063",
+    "foff": "0x3f67b0",
+    "size": 36,
+    "function": "func_800177B0",
+    "cfg": "2.7.2-cdk-G0",
+    "require_linked": true,
+    "masked": 0,
+    "retail_sha256": "ba9ef9e4db9a12a5c926a5583c9a016e8a940be53a4705e4252093d01d335787",
+    "results": [
+      {
+        "base": "0x800177b0",
+        "error": null,
+        "bytes": 36,
+        "exact": true,
+        "sha256": "ba9ef9e4db9a12a5c926a5583c9a016e8a940be53a4705e4252093d01d335787",
+        "word_diffs": []
+      },
+      {
+        "base": "0x800187b0",
+        "error": null,
+        "bytes": 36,
+        "exact": false,
+        "sha256": "7a3e3c0210b63b8e9ba75568f087ca983eac4d35afb29ffb461c93bbe6ff4eb2",
+        "word_diffs": [
+          {
+            "offset": 12,
+            "retail": "f35d0008",
+            "got": "f3610008"
+          }
+        ]
+      }
+    ]
+  },
+  "exact": true,
+  "discriminating": true,
+  "bounded_mapping": {
+    "foff_start": "0x3f6298",
+    "foff_end": "0x3f86e8",
+    "delta": "0x7fc21000"
+  },
+  "scope": "Scoring/load-map proof. Historical object membership is not claimed.",
+  "negative_control_note": "A +0x1000 link-base control discriminates local-j fixtures. Non-discriminating fixtures are explicitly marked; the two static local-j destinations and independent assertion-pointer evidence determine the base.",
+  "assertion_delta_source": "docs/evidence/konami_assertion_sites.md section 5"
+}

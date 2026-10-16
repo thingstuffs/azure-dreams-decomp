@@ -37,7 +37,7 @@ extern void func_800478B8(void *);
 extern int abs(int);
 
 /* Updates phased motion and marks completion when stopped or out of bounds. */
-void func_80089A38(State *state, Motion *motion, void *update_data)
+void mainUpdateSettingsPhaseMotion(State *state, Motion *motion, void *update_data)
 {
     Owner *owner;
     s16 step;

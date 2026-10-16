@@ -16,7 +16,7 @@ typedef struct {
 
 
 /* Decrement the countdown, adjust both state values, and flag completion or cancellation. */
-void func_80171030(Obj0 *countdown, s32 unused, Obj2 *state)
+void dungeonAdvanceTimedActionCounter(Obj0 *countdown, s32 unused, Obj2 *state)
 {
     u16 next_value;
 

@@ -4,7 +4,7 @@
 extern void func_800478B8(void *state);
 
 /* Increment the object's counter, update state, and propagate status flags. */
-void func_81977C8C(void *object_slot, s32 unused, void *state) {
+void dungeonHandleIncrementSCounterUpdateStatePropagateStatusFlags(void *object_slot, s32 unused, void *state) {
     u8 *object;
 
     object = *(u8 **)((u8 *)object_slot + 0x0);

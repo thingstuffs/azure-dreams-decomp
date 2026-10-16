@@ -3,7 +3,7 @@
 
 
 /* Returns the indexed flag mask, with indices 0 and 1 yielding constant false and true. */
-s32 func_8001ADE0(s32 flagIndex) {
+s32 townGetScriptFlagMask(s32 flagIndex) {
     s32 wordOffsetOrBitIndex;
     s32 addressOrMask;
     s32 *flagWord;

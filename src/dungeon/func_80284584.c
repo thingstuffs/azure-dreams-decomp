@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-s16 func_80017584(s16 start_x, s16 start_y, s16 width, s16 height) {
+s16 dungeonFindFirstNonzeroRectangleField(s16 start_x, s16 start_y, s16 width, s16 height) {
     MapGrid *config;
     s32 shifted_x;
     s32 shifted_width;

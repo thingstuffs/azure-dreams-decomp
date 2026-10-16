@@ -13,15 +13,15 @@ typedef struct S_func_800A6C4C_1 {
     u16 unk_00;
 } S_func_800A6C4C_1;
 
-extern s32 func_8009CFE0(void *, s32);
+extern s32 townClassifyObjectAgainstBounds(void *, s32);
 extern void func_80033D08(void *object);
 
 /* Clears and marks a handled object, or dispatches to its callback. */
-void func_800A6C4C(S_func_800A6C4C_0 *object, s32 input, s32 callback_data) {
+void townClearHandledObjectOrCallback(S_func_800A6C4C_0 *object, s32 input, s32 callback_data) {
     s8 *status_flag;
     s32 (*callback)(void *, s32, s32);
 
-    if (func_8009CFE0(object, input) != 0) {
+    if (townClassifyObjectAgainstBounds(object, input) != 0) {
         status_flag = object->unk_98;
         if (status_flag != 0) {
             *status_flag = 0;

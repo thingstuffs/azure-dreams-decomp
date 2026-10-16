@@ -16,25 +16,25 @@ typedef struct {
 #define M2C_FIELD(expr, type_ptr, offset) \
 (*(type_ptr)((s8 *)(expr) + (offset)))
 
-void func_8008D330();
-void func_80098B38();
-void func_80099844();
-s32 func_800A2424();
+void dungeonBeginDeferredItemAction();
+void dungeonClearSlotAndUpdateLinkedState();
+void dungeonAdjustSourceValueAndFinalize();
+s32 lowerEntityLevel();
 void func_800A5F38();
 void func_800A63B8();
-s32 func_800AD6FC();
+s32 dungeonApplyActorFoodPreference();
 extern M2C_UNK D_800E173A;
 
 /* Processes an entity's item interaction and consumes the item when finished. */
-s32 func_800C333C(EntityRec *entity, s32 item, s16 action) {
+s32 dungeonUseItemToLowerLevel(EntityRec *entity, s32 item, s16 action) {
     if (entity == ((s32)D_800E3D7C)) {
         entity->unk_110 = item;
-        func_8008D330(entity, &D_80083780.x.v, &D_80082E80.unk_000, entity);
+        dungeonBeginDeferredItemAction(entity, &D_80083780.x.v, &D_80082E80.unk_000, entity);
         return 0;
     }
     if ((u32) entity <= 0x9FFFFFFFU) {
         func_800A63B8(entity, item, action);
-        if (func_800AD6FC(
+        if (dungeonApplyActorFoodPreference(
                 entity,
                 (D_800DDE84[(*(u8 *)((u8 *)&entity->unk_10 + 3))] >> 6) & 3,
                 0) == 0) {
@@ -42,10 +42,10 @@ s32 func_800C333C(EntityRec *entity, s32 item, s16 action) {
             return 1;
         }
     }
-    if (func_800A2424(entity, 1) == 0) {
-        func_80099844(entity, &D_800E173A);
+    if (lowerEntityLevel(entity, 1) == 0) {
+        dungeonAdjustSourceValueAndFinalize(entity, &D_800E173A);
     }
-    func_80098B38(item);
+    dungeonClearSlotAndUpdateLinkedState(item);
     {
         dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     }

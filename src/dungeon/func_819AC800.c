@@ -39,12 +39,12 @@ extern s16 D_800287A0;
 extern u8 D_800287A2;
 extern s32 D_800287A4;
 
-extern void func_8003F80C(void *, s32, s32, s32);
-extern void func_80040490(void *, void *);
+extern void uploadVramRowAndCache(void *, s32, s32, s32);
+extern void decodeAndUploadImage(void *, void *);
 
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol func_80024000).  The state table of the switch below follows
+ * (retail 0x80024000, the row symbol dungeonAddFlagAdjustedTargetValue).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
 
 /* Advances a dungeon event through setup, activation, timed color fades, and cleanup. */
@@ -63,8 +63,8 @@ void func_80024020(EventState *event) {
 
         setup[0] = 0x010003A0;
         setup[1] = 0x00400020;
-        func_80040490(D_80028260, setup);
-        func_8003F80C(D_80028780, 0x7AC0, 1, 2);
+        decodeAndUploadImage(D_80028260, setup);
+        uploadVramRowAndCache(D_80028780, 0x7AC0, 1, 2);
         object = D_800814A8;
         D_800287A0 = 1;
         event_option = ((u8 *)event)[9];
@@ -80,7 +80,7 @@ void func_80024020(EventState *event) {
         if ((**(u16 **)((u8 *)event + 4) & 0x80) == 0) {
             break;
         }
-        event->result = (s32)func_800244C4(*(void **)(*(u8 **)event - 0x18), *(void **)event);
+        event->result = (s32)dungeonAllocateInitializedEffectObject(*(void **)(*(u8 **)event - 0x18), *(void **)event);
         if (event->result == 0) {
             break;
         }

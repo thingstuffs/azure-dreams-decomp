@@ -14,11 +14,11 @@ s32 func_8004450C(s16 state_index)
             Control_CD(6, state_callback, 0);
         }
         D_80080AF3 = (s8)state_index;
-        func_8003F320();
+        drainCdCommandQueue();
         func_8003F5E0(D_8008148C);
         SD_Call(0x11);
         func_800542BC();
-        while (func_8005405C(0) != 1) {
+        while (testSoundChannelAvailability(0) != 1) {
         }
         return 0;
     }

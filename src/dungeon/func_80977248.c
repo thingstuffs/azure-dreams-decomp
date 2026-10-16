@@ -6,14 +6,14 @@ extern int abs(int);
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 
-extern s32 func_8003F270(void);
+extern s32 getCdCommandQueueDepth(void);
 extern void func_80047784(void *, s32, s32);
-extern void *func_800A05A4(void *, u8, u8, s16, s32);
-extern void func_800A2B04(void *, u8, u8);
-extern void func_800A4ACC(void *);
+extern void *dungeonScanMonsterAlongHeading(void *, u8, u8, s16, s32);
+extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A56E0(s32);
-extern s32 func_800A94A0(void *actor, EntityRec *effect_record, s16 mode, void *context);
-extern void func_80170A44(void *, void *, void *, void *);
+extern s32 dungeonCreateActorSpellEffect(void *actor, EntityRec *effect_record, s16 mode, void *context);
+extern void createDirectionalTemplateEffect(void *, void *, void *, void *);
 
 extern s32 D_801714D4[];
 extern u8 D_801740E0[];
@@ -34,18 +34,18 @@ typedef struct S_80172A48_0 {
     u16 unk_9E;
     u8 pad_A0[0x2];
     s16 unk_A2;
-} S_80172A48_0;   /* arg0 in func_80172A48 */
+} S_80172A48_0;   /* arg0 in dungeonAdvanceItemUseAndCleanup */
 
 typedef struct S_80172A48_1_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_80172A48_1_pre;   /* the 0x14 bytes before active in func_80172A48, addressed as active[-1] */
+} S_80172A48_1_pre;   /* the 0x14 bytes before active in dungeonAdvanceItemUseAndCleanup, addressed as active[-1] */
 
 typedef struct S_80172A48_2 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_80172A48_2;   /* linked in func_80172A48 */
+} S_80172A48_2;   /* linked in dungeonAdvanceItemUseAndCleanup */
 
 typedef struct S_80172A48_3 {
     u8 pad_00[0x14];
@@ -55,10 +55,10 @@ typedef struct S_80172A48_3 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_80172A48_3;   /* arg2 in func_80172A48 */
+} S_80172A48_3;   /* arg2 in dungeonAdvanceItemUseAndCleanup */
 
 /* Advance item use through effect activation, actor animation, and cleanup. */
-void func_80172A48(void *action, EntityRec *motion, void *actor, void *item)
+void dungeonAdvanceItemUseAndCleanup(void *action, EntityRec *motion, void *actor, void *item)
 {
     register u8 *effect_slot;
     s16 is_special;
@@ -143,7 +143,7 @@ void func_80172A48(void *action, EntityRec *motion, void *actor, void *item)
                         s32 dx;
                         s32 dy;
 
-                        target = func_800A05A4(
+                        target = dungeonScanMonsterAlongHeading(
                             item, ((S_80172A48_3 *)actor)->unk_24, ((S_80172A48_3 *)actor)->unk_25,
                             (*(s16 *)((u8 *)item + 0x2A)), 0x10);
                         (*(void * *)((u8 *)item + 0x60)) = target;
@@ -156,7 +156,7 @@ void func_80172A48(void *action, EntityRec *motion, void *actor, void *item)
             }
 
             effect_special = is_special;
-            if (func_800A94A0(item, effect_slot, effect_special, (u8 *)action + 0x98) == 0) {
+            if (dungeonCreateActorSpellEffect(item, effect_slot, effect_special, (u8 *)action + 0x98) == 0) {
                 return;
             }
             ((S_80172A48_0 *)action)->unk_96.u = 0;
@@ -177,10 +177,10 @@ void func_80172A48(void *action, EntityRec *motion, void *actor, void *item)
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, ((S_80172A48_3 *)actor)->unk_24, ((S_80172A48_3 *)actor)->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, ((S_80172A48_3 *)actor)->unk_24, ((S_80172A48_3 *)actor)->unk_25);
         dungeonStatus.unk_0C = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
-        func_800A4ACC(item);
+        dungeonAdvanceStatusTimers(item);
         (*(u8 *)((u8 *)item + 0x6D))--;
         ((S_80172A48_0 *)action)->unk_8C = D_801714D4;
         (*(u8 *)((u8 *)item + 0x73)) = 0;
@@ -189,7 +189,7 @@ void func_80172A48(void *action, EntityRec *motion, void *actor, void *item)
         return;
 
     case 1:
-        if (func_8003F270()) {
+        if (getCdCommandQueueDepth()) {
             ((S_80172A48_3 *)actor)->unk_14 |= 0x800;
             return;
         }
@@ -236,7 +236,7 @@ void func_80172A48(void *action, EntityRec *motion, void *actor, void *item)
         return;
 
     case 4:
-        func_80170A44(action, motion, actor, item);
+        createDirectionalTemplateEffect(action, motion, actor, item);
         {
             s16 timer;
 
@@ -283,7 +283,7 @@ void func_80172A48(void *action, EntityRec *motion, void *actor, void *item)
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, ((S_80172A48_3 *)actor)->unk_24, ((S_80172A48_3 *)actor)->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, ((S_80172A48_3 *)actor)->unk_24, ((S_80172A48_3 *)actor)->unk_25);
         ((S_80172A48_0 *)action)->unk_9B++;
         if (((S_80172A48_3 *)actor)->unk_2C == D_801740E0) {
             return;
@@ -308,7 +308,7 @@ void func_80172A48(void *action, EntityRec *motion, void *actor, void *item)
         }
         dungeonStatus.unk_0A--;
         ((S_80172A48_0 *)action)->unk_8C = D_801714D4;
-        func_800A4ACC(item);
+        dungeonAdvanceStatusTimers(item);
         (*(u8 *)((u8 *)item + 0x73)) = 0;
         (*(u8 *)((u8 *)item + 0x72)) = 0;
         (*(u8 *)((u8 *)item + 0x6D))--;
@@ -318,7 +318,7 @@ void func_80172A48(void *action, EntityRec *motion, void *actor, void *item)
         return;
 
     case 16:
-        if (func_8003F270()) {
+        if (getCdCommandQueueDepth()) {
             ((S_80172A48_3 *)actor)->unk_14 |= 0x800;
             return;
         }
@@ -365,7 +365,7 @@ void func_80172A48(void *action, EntityRec *motion, void *actor, void *item)
         return;
 
     case 19:
-        func_80170A44(action, motion, actor, item);
+        createDirectionalTemplateEffect(action, motion, actor, item);
         {
             s16 timer;
 
@@ -385,7 +385,7 @@ void func_80172A48(void *action, EntityRec *motion, void *actor, void *item)
     case 20:
         ((S_80172A48_3 *)actor)->unk_14 |= 0x800;
         if (((S_80172A48_0 *)action)->unk_96.s < 5) {
-            func_80170A44(action, motion, actor, item);
+            createDirectionalTemplateEffect(action, motion, actor, item);
         }
         {
             s16 timer;

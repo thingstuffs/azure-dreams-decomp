@@ -3,7 +3,7 @@
 
 typedef struct S_81251000_0_pre {
     u16 unk_00;
-} S_81251000_0_pre;   /* the 0x2 bytes before root in func_80170898, addressed as root[-1] */
+} S_81251000_0_pre;   /* the 0x2 bytes before root in dungeonUpdateActorPartBrightness, addressed as root[-1] */
 
 typedef struct S_81251000_0 {
     u8 pad_00[0xAC];
@@ -12,7 +12,7 @@ typedef struct S_81251000_0 {
     s16 unk_B2;
     s16 unk_B4;
     s16 unk_B6;
-} S_81251000_0;   /* root in func_80170898 */
+} S_81251000_0;   /* root in dungeonUpdateActorPartBrightness */
 
 typedef struct S_81251000_1 {
     u8 pad_00[0x8];
@@ -20,7 +20,7 @@ typedef struct S_81251000_1 {
     void * unk_0C;
     u8 pad_10[0xE];
     u16 unk_1E;
-} S_81251000_1;   /* owner in func_80170898 */
+} S_81251000_1;   /* owner in dungeonUpdateActorPartBrightness */
 
 typedef struct S_81251000_2 {
     u8 pad_00[0x4];
@@ -30,7 +30,7 @@ typedef struct S_81251000_2 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_81251000_2;   /* part in func_80170898 */
+} S_81251000_2;   /* part in dungeonUpdateActorPartBrightness */
 
 typedef struct S_81251000_3 {
     u8 pad_00[0x8];
@@ -43,7 +43,7 @@ typedef struct S_81251000_3 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_81251000_3;   /* dst in func_80170898 */
+} S_81251000_3;   /* dst in dungeonUpdateActorPartBrightness */
 
 typedef struct S_81251000_4 {
     u8 pad_00[0x2];
@@ -52,7 +52,7 @@ typedef struct S_81251000_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_81251000_4;   /* out in func_80170898 */
+} S_81251000_4;   /* out in dungeonUpdateActorPartBrightness */
 
 typedef struct S_81251000_5 {
     u8 pad_00[0x1];
@@ -62,25 +62,25 @@ typedef struct S_81251000_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_81251000_5;   /* copy in func_80170898 */
+} S_81251000_5;   /* copy in dungeonUpdateActorPartBrightness */
 
 typedef struct S_81251000_6 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_81251000_6;   /* callee_part in func_80170898 */
+} S_81251000_6;   /* callee_part in dungeonUpdateActorPartBrightness */
 
 
-extern s32 func_8003DE58(s32, void *, s16 *, s16);
+extern s32 resolveRecordOrientationOrFallback(s32, void *, s16 *, s16);
 extern void func_800478B8(void *);
 extern void func_800A56E0(s32);
 
 
 
 
-void func_80170898(void *root_data, void *position_out, void *part_out)
+void dungeonUpdateActorPartBrightness(void *root_data, void *position_out, void *part_out)
 ;
 /* Copies part state, smooths position offsets, and applies phase-dependent brightness. */
-void func_80170898(void *root_data, void *position_out, void *part_out)
+void dungeonUpdateActorPartBrightness(void *root_data, void *position_out, void *part_out)
 {
     s16 offset[3];
     register void *output_pos = position_out;
@@ -104,7 +104,7 @@ void func_80170898(void *root_data, void *position_out, void *part_out)
     ((S_81251000_4 *)output_pos)->unk_0A = transform->unk_0A;
 
     motion_part = owner->unk_0C;
-    if (func_8003DE58(motion_part->unk_08, motion_part, offset,
+    if (resolveRecordOrientationOrFallback(motion_part->unk_08, motion_part, offset,
                       ((S_81251000_0 *)root_data)->unk_B6) != 0) {
         ((S_81251000_4 *)output_pos)->unk_02 +=
             (offset[0] + ((S_81251000_0 *)root_data)->unk_B0) / 2;

@@ -8,20 +8,20 @@
 typedef void (*Callback)(void *, s32, void *);
 
 extern void func_80033D08(void *, s32);
-/* garbage-passthru: a2/a3 survive func_800AAFE0; explicit arguments add saves/reloads absent from retail. */
+/* garbage-passthru: a2/a3 survive townLoadRecordHalfwords3; explicit arguments add saves/reloads absent from retail. */
 extern s32 func_800352FC(void);
 extern void func_800AAF5C(void);
-extern void func_800AAFE0(void *, s32);
-extern void func_800C2C80(void *, void *, s32, s32);
-extern void func_800C2CB0(void *, void *, void *, s8);
-extern s32 func_800C2E1C(s16, s16);
-extern s32 func_800C2F14(s16, s16);
+extern void townLoadRecordHalfwords3(void *, s32);
+extern void townDispatchObjectWhenIdle(void *, void *, s32, s32);
+extern void townClearObjectStatusAndDispatchTarget(void *, void *, void *, s8);
+extern s32 townQuantizeHeadingToSector(s16, s16);
+extern s32 townCheckHeadingPastHalfSector(s16, s16);
 
 extern s32 D_800834A8;
 
 
 
-void func_800AB1E0(void *ptr, s32 value, Rec_D_80082E80 *record) {
+void townUpdatePersonViewAndRecord(void *ptr, s32 value, Rec_D_80082E80 *record) {
     GameWork *work = &gameWork;
     s16 buf[12];
     s32 index;
@@ -34,7 +34,7 @@ void func_800AB1E0(void *ptr, s32 value, Rec_D_80082E80 *record) {
         return;
     }
 
-    func_800AAFE0(buf, 0);
+    townLoadRecordHalfwords3(buf, 0);
     if (buf[1] != D_80083780.x.w.i || buf[3] != D_80083780.y.w.i ||
         buf[5] != D_80083780.z.w.i || func_800352FC() != 0 ||
         (work->buttons & 0xF000) != 0) {
@@ -51,15 +51,15 @@ void func_800AB1E0(void *ptr, s32 value, Rec_D_80082E80 *record) {
         return;
     }
 
-    index = func_800C2E1C((*(s16 *)((u8 *)ptr + (0x72))), (*(s16 *)((u8 *)ptr + (0x64))));
+    index = townQuantizeHeadingToSector((*(s16 *)((u8 *)ptr + (0x72))), (*(s16 *)((u8 *)ptr + (0x64))));
     if ((*(s16 *)((u8 *)ptr + (0x74))) != index) {
-        func_800C2CB0(ptr, record, ((void **)(*(void * *)((u8 *)ptr + (0x78))))[index],
+        townClearObjectStatusAndDispatchTarget(ptr, record, ((void **)(*(void * *)((u8 *)ptr + (0x78))))[index],
                       record->unk_04.as_s8);
         (*(s16 *)((u8 *)ptr + (0x74))) = index;
     }
 
     if (((*(u8 *)((u8 *)ptr + (0x71))) & 1) == 0) {
-        if ((s16)func_800C2F14((*(s16 *)((u8 *)ptr + (0x72))),
+        if ((s16)townCheckHeadingPastHalfSector((*(s16 *)((u8 *)ptr + (0x72))),
                                (*(s16 *)((u8 *)ptr + (0x64)))) == 0) {
             flag_value = record->unk_14.at00_u16.v;
                          /* MATCH: keep each clear load in its own arm. */
@@ -68,7 +68,7 @@ void func_800AB1E0(void *ptr, s32 value, Rec_D_80082E80 *record) {
             flag_value = record->unk_14.at00_u16.v | 1;
         }
     } else {
-        if ((s16)func_800C2F14((*(s16 *)((u8 *)ptr + (0x72))),
+        if ((s16)townCheckHeadingPastHalfSector((*(s16 *)((u8 *)ptr + (0x72))),
                                (*(s16 *)((u8 *)ptr + (0x64)))) != 0) {
             flag_value = record->unk_14.at00_u16.v;
 
@@ -80,5 +80,5 @@ void func_800AB1E0(void *ptr, s32 value, Rec_D_80082E80 *record) {
 
          /* MATCH: keep the flag store in the common tail. */
     record->unk_14.at00_u16.v = flag_value;
-    func_800C2C80(ptr, record, 0, 0);
+    townDispatchObjectWhenIdle(ptr, record, 0, 0);
 }

@@ -3,7 +3,7 @@
 extern s32 func_80065F90(s32, s32);
 
 /* Checks successive angular gaps between four vectors, accepting zero vectors. */
-s32 func_8008CC90(
+s32 townCheckFourVectorHalfTurnGaps(
     s16 x_a, s16 y_a, s16 x_b, s16 y_b,
     u16 x_c, u16 y_c, u16 x_d, u16 y_d)
 {

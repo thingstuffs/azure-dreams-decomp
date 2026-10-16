@@ -8,7 +8,7 @@ typedef struct S_80172438_1 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_80172438_1;   /* arg2 in func_80172438 */
+} S_80172438_1;   /* arg2 in dungeonSearchAheadAndStartAction */
 
 typedef struct S_80172438_2 {
     u8 pad_00[0x8C];
@@ -18,22 +18,22 @@ typedef struct S_80172438_2 {
     s8 unk_9B;
     u8 pad_9C[0x16];
     u16 unk_B2;
-} S_80172438_2;   /* arg0 in func_80172438 */
+} S_80172438_2;   /* arg0 in dungeonSearchAheadAndStartAction */
 
 
-extern s32 func_800A44E0(s32, s32, s16, s32);
+extern s32 dungeonCheckLayerOffsetHeight(s32, s32, s16, s32);
 extern s16 func_800BCB04(u16, u16, s16);
-extern s32 func_8009B4B0(void *, u16, u16);
+extern s32 dungeonFindEligibleEntryAtCoordinates(void *, u16, u16);
 extern s32 func_800A2CB8(void *, void *);
 extern s32 func_800A2B5C(void *);
-extern void func_800C7930(void *, void *, s32, s32);
+extern void dungeonApplyCameraOffsetAndSelectTarget(void *, void *, s32, s32);
 extern void func_80047784(void *, u8, s32);
-extern void func_800A4ACC(void *);
+extern void dungeonAdvanceStatusTimers(void *);
 
 extern u8 D_801764A0[];
 
 /* Searches up to four tiles ahead for a target and starts the actor's action. */
-s32 func_80172438(void *action_state, void *action_context, void *sprite, EntityRec *actor) {
+s32 dungeonSearchAheadAndStartAction(void *action_state, void *action_context, void *sprite, EntityRec *actor) {
     s32 attempt;
     s32 tile_x;
     s32 tile_y;
@@ -68,7 +68,7 @@ s32 func_80172438(void *action_state, void *action_context, void *sprite, Entity
         s32 floor_y;
 
         ((S_80172438_2 *)action_state)->unk_B2++;
-        if ((func_800A44E0((try_x << 6) & 0xFFC0,
+        if ((dungeonCheckLayerOffsetHeight((try_x << 6) & 0xFFC0,
                            (try_y << 6) & 0xFFC0,
                            actor->unk_88, call_direction << 9)
              << 16) != 0) {
@@ -94,7 +94,7 @@ s32 func_80172438(void *action_state, void *action_context, void *sprite, Entity
 
         next_x = tile_x + *(u16 *)x_step;
         next_y = tile_y + *(u16 *)y_step;
-        target = func_8009B4B0(actor, (u16)next_x, (u16)next_y);
+        target = dungeonFindEligibleEntryAtCoordinates(actor, (u16)next_x, (u16)next_y);
         actor->target = target;
         if (target != 0) {
             break;
@@ -121,7 +121,7 @@ s32 func_80172438(void *action_state, void *action_context, void *sprite, Entity
         return -1;
     }
 
-    func_800C7930((u8 *)actor - 0x20, action_context, 8, 0x300);
+    dungeonApplyCameraOffsetAndSelectTarget((u8 *)actor - 0x20, action_context, 8, 0x300);
     if ((func_800A2B5C(actor) << 16) != 0) {
         return -1;
     }
@@ -133,7 +133,7 @@ s32 func_80172438(void *action_state, void *action_context, void *sprite, Entity
     func_80047784(sprite,
                   D_801764A0[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                   0);
-    func_800A4ACC(actor);
+    dungeonAdvanceStatusTimers(actor);
     (*(u8 *)&actor->unk_6D)--;
     return 1;
 }

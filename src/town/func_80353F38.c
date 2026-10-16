@@ -1,9 +1,8 @@
-#include "common.h"
-#include "m2c_compat.h"
+#include "modules/town_ovl_2d3f0c.h"
 
-void func_8001A9B8(); /* extern */
+/* extern */
 
-/* Calls func_8001A9B8 with fixed arguments (7, 1, -1, 2). */
-void func_80353F38(void) {
-    func_8001A9B8(7, 1, -1, 2);
+/* Calls townBlendPositionAndTrace with fixed arguments (7, 1, -1, 2). */
+void townSetNegativeRecordParameters(void) {
+    townBlendPositionAndTrace(7, 1, -1, 2);
 }

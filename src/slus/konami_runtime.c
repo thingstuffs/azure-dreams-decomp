@@ -25,35 +25,35 @@ void func_80038A08(void) {
 }
 
 /* Returns without performing any work. */
-void func_8003919C(void) {
+void vmOp02Noop(void) {
 }
 
 /* Returns without performing any work. */
-void func_800391A4(void) {
+void vmOp03Noop(void) {
 }
 
 /* Returns without performing any work. */
-void func_800391AC(void) {
+void vmOp04Noop(void) {
 }
 
 /* Returns without performing any work. */
-void func_800391B4(void) {
+void vmSharedNoop(void) {
 }
 
 /* Returns without performing any work. */
-void func_8003929C(void) {
+void vmOp14Noop(void) {
 }
 
 /* Returns without performing any work. */
-void func_80039560(void) {
+void vmOp16Noop(void) {
 }
 
 /* Returns without performing any work. */
-void func_800395E8(void) {
+void vmOp20Noop(void) {
 }
 
 /* Returns without performing any work. */
-void func_800397A0(void) {
+void vmOp27Noop(void) {
 }
 
 /* Returns without performing any work. */
@@ -61,23 +61,23 @@ void func_80039AE8(void) {
 }
 
 /* Returns without performing any work. */
-void func_80039B64(void) {
+void vmOp31Noop(void) {
 }
 
 /* Returns without performing any work. */
-void func_80039B6C(void) {
+void vmOp32Noop(void) {
 }
 
 /* Returns without performing any work. */
-void func_80039B74(void) {
+void vmOp33Noop(void) {
 }
 
 /* Returns without performing any work. */
-void func_80039B7C(void) {
+void vmOp34Noop(void) {
 }
 
 /* Returns without performing any work. */
-void func_80039D40(void) {
+void vmOp45Noop(void) {
 }
 
 /* Returns without performing any work. */

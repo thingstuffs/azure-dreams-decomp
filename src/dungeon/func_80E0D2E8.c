@@ -62,16 +62,16 @@ extern u8 D_80176460[8];
 extern u8 D_80176490[8];
 extern ActorCallback D_801766B8[];
 
-extern void func_80047738(Entity *, u8, s8);
+extern void selectIndirectTableEntry(Entity *, u8, s8);
 extern void func_800478B8(Entity *);
 extern s32 func_800644B8(s32);
-extern void func_800A020C(s32, void *);
-extern s32 func_800A9E70(Actor *, Motion *, Entity *, Actor *);
+extern void dungeonApplyMonsterKoyawData(s32, void *);
+extern s32 dungeonRefreshActorFacingAndLifecycle(Actor *, Motion *, Entity *, Actor *);
 extern void func_800AA36C(Actor *, Motion *, Entity *, Actor *);
 extern s32 func_800BCB04(s32, s32, s16);
 
 /* Updates actor direction, callbacks, motion, and ground height. */
-void func_80170AE8(Actor *input_actor, Motion *input_motion, Entity *input_entity)
+void dungeonUpdateActorDirectionAndGround(Actor *input_actor, Motion *input_motion, Entity *input_entity)
 {
     Actor *subject = input_actor;
     s16 direction;
@@ -98,7 +98,7 @@ void func_80170AE8(Actor *input_actor, Motion *input_motion, Entity *input_entit
 
 
     old_type = (s8)input_actor->type;
-    if (func_800A9E70(input_actor, input_motion, input_entity, input_actor) != 0) {
+    if (dungeonRefreshActorFacingAndLifecycle(input_actor, input_motion, input_entity, input_actor) != 0) {
         return;
     }
 
@@ -109,7 +109,7 @@ void func_80170AE8(Actor *input_actor, Motion *input_motion, Entity *input_entit
 
         if (input_actor->direction94 != direction) {
             if (input_entity->data != 0) {
-                func_80047738(input_entity, input_entity->data[direction], input_entity->kind);
+                selectIndirectTableEntry(input_entity, input_entity->data[direction], input_entity->kind);
             }
             input_actor->direction94 = direction;
         }
@@ -124,7 +124,7 @@ void func_80170AE8(Actor *input_actor, Motion *input_motion, Entity *input_entit
             }
             input_entity->flags14 = updated_flags;
         }
-        func_800A020C(subject->flags, input_entity->position0C);
+        dungeonApplyMonsterKoyawData(subject->flags, input_entity->position0C);
         if (!(subject->flags & 0x20)) {
             if (!(input_entity->flags14 & 0x40)) {
                 func_800478B8(input_entity);

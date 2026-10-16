@@ -59,5 +59,5 @@ typedef struct S_8016A878_4 {
 
 /* Allocate and initialize an object with its placement, flags, and runtime state. */
 
-void *func_8016A878(s16 init_flags, s16 tile_x, s16 tile_y, s16 object_id);
+void *dungeonCreateFlaggedActorObject(s16 init_flags, s16 tile_x, s16 tile_y, s16 object_id);
 #endif

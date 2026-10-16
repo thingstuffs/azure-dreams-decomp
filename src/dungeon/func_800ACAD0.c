@@ -26,18 +26,18 @@ typedef struct {
 extern s32 func_8004491C();
 extern void func_8003DB94(RenderPart *part, void *data, s32 index);
 
-extern void func_800B21B8(void *counter_state, void *accumulator, s32 update_arg);
+extern void dungeonAdvancePanelAccumulator(void *counter_state, void *accumulator, s32 update_arg);
 extern u8 D_800DEC70[16];
 
 /* Creates an object from the source block and initializes its render part. */
-void func_800B2230(CopyBlock *source)
+void dungeonCreateRenderedPanelObject(CopyBlock *source)
 {
     Object *object;
     RenderPart *part;
 
     object = (Object *)func_8003FC64(0x212);
     if (object != 0) {
-        object->callback = func_800B21B8;
+        object->callback = dungeonAdvancePanelAccumulator;
         func_8004491C(object, func_80045340);
         *object->copy_dst = *source;
 

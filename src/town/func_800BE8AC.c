@@ -13,7 +13,7 @@ typedef struct S_800BC00C_0 {
     u16 unk_4A;
     u8 pad_4C[0x2];
     s16 unk_4E;
-} S_800BC00C_0;   /* arg0 in func_800BC00C; pointer addresses record offset 0x2 */
+} S_800BC00C_0;   /* arg0 in townUpdateEffectMotionSizeAndBrightness; pointer addresses record offset 0x2 */
 
 
 typedef struct S_800BC00C_2 {
@@ -23,7 +23,7 @@ typedef struct S_800BC00C_2 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800BC00C_2;   /* arg1 in func_800BC00C */
+} S_800BC00C_2;   /* arg1 in townUpdateEffectMotionSizeAndBrightness */
 
 
 typedef struct {
@@ -38,7 +38,7 @@ typedef struct {
 M2C_UNK func_800478B8();                      /* extern */
 
 /* Update effect motion, size and brightness, then mark it finished. */
-s32 func_800BC00C(void *effect_fields, S_800BC00C_2 *position, Rec_D_80082E80 *sprite) {
+s32 townUpdateEffectMotionSizeAndBrightness(void *effect_fields, S_800BC00C_2 *position, Rec_D_80082E80 *sprite) {
     s16 state;
     s32 fade_end_state;
     s32 global_flags;

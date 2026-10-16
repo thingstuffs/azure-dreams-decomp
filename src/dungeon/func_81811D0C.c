@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1831cd8.h"
 
-void func_80026D0C(ovl_1831cd8_81811D0C_S_80026D0C_0 *display, s32 cell_index) {
+void dungeonPositionMenuGridEntries(ovl_1831cd8_81811D0C_S_80026D0C_0 *display, s32 cell_index) {
     s32 row_y;
     s32 x_offset;
     s32 column_x;

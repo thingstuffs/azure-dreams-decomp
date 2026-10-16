@@ -22,7 +22,7 @@ typedef struct S_8016AD00_0 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_8016AD00_0;   /* part1 in func_8016AD00 */
+} S_8016AD00_0;   /* part1 in dungeonAllocateType12Object */
 
 typedef struct S_8016AD00_1 {
     u8 pad_00[0x8];
@@ -33,10 +33,10 @@ typedef struct S_8016AD00_1 {
     u8 pad_0F[0xD];
     s16 unk_1C;
     s16 unk_1E;
-} S_8016AD00_1;   /* part2 in func_8016AD00 */
+} S_8016AD00_1;   /* part2 in dungeonAllocateType12Object */
 
 /* Allocate a type 0x12 object and initialize its state and default data. */
-void func_8016AD00(void)
+void dungeonAllocateType12Object(void)
 {
     void *object;
     S_8016AD00_0 *primary_state;

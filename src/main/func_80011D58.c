@@ -17,8 +17,8 @@ typedef struct S_80024D58_1 {
 } S_80024D58_1;   /* work in func_80024D58 */
 
 
-extern s32 func_8004B4A8(void *object);
-extern void *func_8003FE78(s32 value0, void *object, s32 value1);
+extern s32 findActiveListNode(void *object);
+extern void *initializeSceneObjectInBuffer(s32 value0, void *object, s32 value1);
 extern void func_8004491C(void *entry, void *registration_id);
 extern void func_80024EEC(void *object);
 extern void bzero(void *ptr, s32 size);
@@ -37,8 +37,8 @@ void *func_80024D58(s32 parent, s32 context, s32 mode)
 
     base = D_8002A990;
     work = D_8002A990 + 0x20;
-    if (func_8004B4A8(base) == 0) {
-        base = func_8003FE78(0, base, 0x394);
+    if (findActiveListNode(base) == 0) {
+        base = initializeSceneObjectInBuffer(0, base, 0x394);
         func_8004491C(base, D_80027DD0);
     } else {
         func_80024EEC(base);

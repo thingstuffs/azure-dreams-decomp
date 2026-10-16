@@ -13,7 +13,7 @@ typedef struct S_80027070_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_80027070_0;   /* temp_v0 in func_80027070 */
+} S_80027070_0;   /* temp_v0 in dungeonCreatePositionedGraphicObject */
 
 typedef struct S_80027070_1 {
     u8 pad_00[0x2];
@@ -22,7 +22,7 @@ typedef struct S_80027070_1 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_80027070_1;   /* temp_v0_2 in func_80027070 */
+} S_80027070_1;   /* temp_v0_2 in dungeonCreatePositionedGraphicObject */
 
 typedef struct S_80027070_2 {
     u8 pad_00[0x8];
@@ -34,17 +34,17 @@ typedef struct S_80027070_2 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_80027070_2;   /* temp_a0 in func_80027070 */
+} S_80027070_2;   /* temp_a0 in dungeonCreatePositionedGraphicObject */
 
 typedef struct S_80027070_3 {
     u8 pad_00[0x4];
     s32 unk_04;
     u8 pad_08[0x5E];
     s16 unk_66;
-} S_80027070_3;   /* temp_v1 in func_80027070 */
+} S_80027070_3;   /* temp_v1 in dungeonCreatePositionedGraphicObject */
 
 /* Creates an object with the given position, graphic index, and state value. */
-void *func_80027070(s16 x, s16 y, s16 z, s16 graphic_index, s32 state_value) {
+void *dungeonCreatePositionedGraphicObject(s16 x, s16 y, s16 z, s16 graphic_index, s32 state_value) {
     S_80027070_2 *graphics;
     void *object;
     S_80027070_1 *position;

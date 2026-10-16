@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f469800_p01.h"
 
 /* Updates effect motion, handles collisions, grows the sprite, and flags expiration. */
-void func_80170F94(void *effect, void *position, void *sprite)
+void dungeonUpdateGrowingBouncingEffect(void *effect, void *position, void *sprite)
 {
     s32 height;
     u16 frame_count;
@@ -11,7 +11,7 @@ void func_80170F94(void *effect, void *position, void *sprite)
 
     ((T_80170F94_S_80170F94_0 *)position)->unk_00.at00.v += ((T_80170F94_S_80170F94_1 *)effect)->unk_40;
     ((T_80170F94_S_80170F94_1 *)effect)->unk_40 += ((T_80170F94_S_80170F94_1 *)effect)->unk_4C;
-    if (func_800A45D8(((T_80170F94_S_80170F94_0 *)position)->unk_00.at02.v,
+    if (dungeonCheckLeftTileAndCenterHeight(((T_80170F94_S_80170F94_0 *)position)->unk_00.at02.v,
                       ((T_80170F94_S_80170F94_0 *)position)->unk_04.at02.v,
                       ((T_80170F94_S_80170F94_0 *)position)->unk_08.at02.v) << 16) {
         ((T_80170F94_S_80170F94_0 *)position)->unk_00.at00.v -= ((T_80170F94_S_80170F94_1 *)effect)->unk_40;
@@ -21,7 +21,7 @@ void func_80170F94(void *effect, void *position, void *sprite)
 
     ((T_80170F94_S_80170F94_0 *)position)->unk_04.at00.v += ((T_80170F94_S_80170F94_1 *)effect)->unk_44;
     ((T_80170F94_S_80170F94_1 *)effect)->unk_44 += ((T_80170F94_S_80170F94_1 *)effect)->unk_50;
-    if (func_800A45D8(((T_80170F94_S_80170F94_0 *)position)->unk_00.at02.v,
+    if (dungeonCheckLeftTileAndCenterHeight(((T_80170F94_S_80170F94_0 *)position)->unk_00.at02.v,
                       ((T_80170F94_S_80170F94_0 *)position)->unk_04.at02.v,
                       ((T_80170F94_S_80170F94_0 *)position)->unk_08.at02.v) << 16) {
         ((T_80170F94_S_80170F94_0 *)position)->unk_04.at00.v -= ((T_80170F94_S_80170F94_1 *)effect)->unk_44;

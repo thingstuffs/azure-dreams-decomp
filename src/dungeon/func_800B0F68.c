@@ -17,12 +17,12 @@ typedef struct DungeonEffect {
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 rand(void);
-extern void func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern void func_800B653C(DungeonEffect *, s16);
-extern void func_800B6814(void *);
+extern void getOffsetMapCellValueAndFlags(s16 x, s16 y, s16 offset_index, u16 *flags);
+extern void dungeonSpawnOppositeOffsetEffect(DungeonEffect *, s16);
+extern void dungeonSpawnRandomizedRadialBurst(void *);
 
 /* Emits scattered effects at evenly spaced angles unless the tile to the left blocks them. */
-void func_800B66C8(void *source)
+void dungeonEmitScatteredEffectsUnlessBlocked(void *source)
 {
     DungeonEffect effect;
     s32 tile_x;
@@ -35,9 +35,9 @@ void func_800B66C8(void *source)
 
     tile_x = *(s16 *)((u8 *)source + 2) / 64 - 1;
     tile_y = *(s16 *)((u8 *)source + 6) / 64;
-    func_8009A350(tile_x, tile_y, 0, &effect.flags);
+    getOffsetMapCellValueAndFlags(tile_x, tile_y, 0, &effect.flags);
     if (effect.flags & 0x400) {
-        func_800B6814(source);
+        dungeonSpawnRandomizedRadialBurst(source);
         return;
     }
 
@@ -54,7 +54,7 @@ void func_800B66C8(void *source)
                    (rand() & 0x1F) - 0x10;
         effect.field_C = func_80064584(angle) << 5;
         effect.field_10 = func_800644B8(angle) << 5;
-        func_800B653C(&effect, angle);
+        dungeonSpawnOppositeOffsetEffect(&effect, angle);
         angle += angle_step;
     }
 }

@@ -4,16 +4,16 @@
 typedef struct S_8009C648_6 {
     u8 pad_00[0xC];
     void * unk_0C;
-} S_8009C648_6;   /* temp_v0 in func_8009C648 */
+} S_8009C648_6;   /* temp_v0 in townSpawnRandomizedEffectParts */
 
 typedef struct S_8009C648_7 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_8009C648_7;   /* ((S_8009C648_6 *)temp_v0)->unk_0C in func_8009C648 */
+} S_8009C648_7;   /* ((S_8009C648_6 *)temp_v0)->unk_0C in townSpawnRandomizedEffectParts */
 
 
 extern s32 rand(void);
-extern void *func_8009C390(void *, M2C_UNK, s32, s32);
+extern void *townCreateTownEffectObject(void *, M2C_UNK, s32, s32);
 extern void func_8009C46C(void *, void *, void *);
 extern u8 D_80088D78[8];
 extern M2C_UNK D_800D06C8[3];
@@ -21,29 +21,29 @@ extern M2C_UNK D_800D06C8[3];
 typedef struct S_8009C648_0 {
     s32 unk_00;
     s32 unk_04;
-} S_8009C648_0;   /* var_s4 in func_8009C648 */
+} S_8009C648_0;   /* var_s4 in townSpawnRandomizedEffectParts */
 
 typedef struct S_8009C648_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_8009C648_1;   /* temp_v0 in func_8009C648 */
+} S_8009C648_1;   /* temp_v0 in townSpawnRandomizedEffectParts */
 
 typedef struct S_8009C648_2 {
     u8 pad_00[0x80];
     s32 unk_80;
-} S_8009C648_2;   /* held_arg0 in func_8009C648 */
+} S_8009C648_2;   /* held_arg0 in townSpawnRandomizedEffectParts */
 
 typedef struct S_8009C648_3 {
     u8 pad_00[0x60];
     s32 unk_60;
-} S_8009C648_3;   /* temp_s1 in func_8009C648 */
+} S_8009C648_3;   /* temp_s1 in townSpawnRandomizedEffectParts */
 
 typedef struct S_8009C648_4 {
     u8 pad_00[0xC];
     s32 unk_0C;
     s32 unk_10;
-} S_8009C648_4;   /* temp_s0 in func_8009C648 */
+} S_8009C648_4;   /* temp_s0 in townSpawnRandomizedEffectParts */
 
 typedef struct S_8009C648_5 {
     s32 unk_00;
@@ -52,10 +52,10 @@ typedef struct S_8009C648_5 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_8009C648_5;   /* tail_s0 in func_8009C648 */
+} S_8009C648_5;   /* tail_s0 in townSpawnRandomizedEffectParts */
 
 /* Spawns up to six parts with source-selected data and randomized motion. */
-void func_8009C648(u8 *source_data, M2C_UNK spawn_arg) {
+void townSpawnRandomizedEffectParts(u8 *source_data, M2C_UNK spawn_arg) {
     s8 part_indices[6];
     s32 velocity_bias;
     M2C_UNK *part_params;
@@ -73,7 +73,7 @@ void func_8009C648(u8 *source_data, M2C_UNK spawn_arg) {
     part_params = D_800D06C8;
     do {
         source_object = (u8 *)source_data - 0x20;
-        part_object = func_8009C390(source_object, spawn_arg, ((S_8009C648_0 *)part_params)->unk_00,
+        part_object = townCreateTownEffectObject(source_object, spawn_arg, ((S_8009C648_0 *)part_params)->unk_00,
             ((S_8009C648_0 *)part_params)->unk_04);
         if (part_object == NULL) {
             break;

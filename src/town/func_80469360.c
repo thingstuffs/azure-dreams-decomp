@@ -13,7 +13,7 @@ typedef struct S_8001A360_0 {
 } S_8001A360_0;
 
 /* Process the first entry whose paired checks pass and fail, returning its index or zero. */
-s32 func_8001A360(void) {
+s32 townFindFirstEnabledPairedEntry(void) {
     s32 entry_index;
     u8 *entry;
     u8 *table_base;

@@ -5,15 +5,15 @@ extern s32 D_800A5A98;
 extern s16 D_800D01F8[];
 extern u8 D_80100D98[];
 
-extern void func_800489F4(void *, u8, s8, s32);
+extern void textureHandleInstallsSelectedAnimationFrameSecondaryPointerUpdatesAnimationFlags(void *, u8, s8, s32);
 extern void func_80048AC8(void *, s32);
-extern s16 func_80094AA0(s32, s32, s32);
-extern s32 func_80095360(s16);
-extern void func_80095544(void *);
-extern void func_800A48B0(void *, void *);
+extern s16 townStepAngle12Toward(s32, s32, s32);
+extern s32 townViewRelativeAngleSector(s16);
+extern void townClearMotionAlongBlockedDirectionsUpdateAffectedAxes(void *);
+extern void townCopyEntityRecordFields(void *, void *);
 
 /* Turn the entity toward its target angle and update its directional sprite. */
-void func_800A573C(void *entity, void *transform, void *sprite) {
+void townTurnEntityTowardTarget(void *entity, void *transform, void *sprite) {
     GameWork *input_state;
     void *transform_arg;
     s32 direction;
@@ -22,7 +22,7 @@ void func_800A573C(void *entity, void *transform, void *sprite) {
 
     transform_arg = transform;
     input_state = &gameWork;
-    func_80095544(transform_arg);
+    townClearMotionAlongBlockedDirectionsUpdateAffectedAxes(transform_arg);
     {
         void *entity_type;
 
@@ -31,21 +31,21 @@ void func_800A573C(void *entity, void *transform, void *sprite) {
             target_angle = *(s16 *)((u8 *)entity + 0x10);
             current_angle = *(s16 *)((u8 *)entity + 0x18);
             target_angle -= 0x200;
-            *(s16 *)((u8 *)entity + 0x18) = func_80094AA0(current_angle, target_angle, 0x200);
+            *(s16 *)((u8 *)entity + 0x18) = townStepAngle12Toward(current_angle, target_angle, 0x200);
         } else if (entity_type == (u8 *)&D_800A5A98 && (input_state->buttons & 0x8000)) {
             target_angle = *(s16 *)((u8 *)entity + 0x10);
             current_angle = *(s16 *)((u8 *)entity + 0x18);
             target_angle += 0x200;
-            *(s16 *)((u8 *)entity + 0x18) = func_80094AA0(current_angle, target_angle, 0x200);
+            *(s16 *)((u8 *)entity + 0x18) = townStepAngle12Toward(current_angle, target_angle, 0x200);
         } else {
             current_angle = *(s16 *)((u8 *)entity + 0x18);
             target_angle = *(s16 *)((u8 *)entity + 0x10);
-            *(s16 *)((u8 *)entity + 0x18) = func_80094AA0(current_angle, target_angle, 0x200);
+            *(s16 *)((u8 *)entity + 0x18) = townStepAngle12Toward(current_angle, target_angle, 0x200);
         }
     }
-    direction = func_80095360(*(s16 *)((u8 *)entity + 0x18));
+    direction = townViewRelativeAngleSector(*(s16 *)((u8 *)entity + 0x18));
     if (*(s16 *)((u8 *)entity + 0x12) != direction) {
-        func_800489F4(sprite,
+        textureHandleInstallsSelectedAnimationFrameSecondaryPointerUpdatesAnimationFlags(sprite,
                       *(u8 *)(*(u8 **)((u8 *)entity + 0x1C) + direction),
                       *(s8 *)((u8 *)sprite + 4), 0);
         *(s16 *)((u8 *)entity + 0x12) = direction;
@@ -64,7 +64,7 @@ void func_800A573C(void *entity, void *transform, void *sprite) {
     {
         u8 *render_state = D_80100D98;
 
-        func_800A48B0(render_state, transform);
+        townCopyEntityRecordFields(render_state, transform);
         *(s32 *)(render_state + 8) = 0;
     }
 }

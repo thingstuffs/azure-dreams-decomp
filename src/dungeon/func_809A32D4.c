@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_9c32d4.h"
 
-void func_80174AD4(u8 *actor_data, u8 *output_data, u8 *effect_data)
+void dungeonUpdateActorRenderEffectAndPosition(u8 *actor_data, u8 *output_data, u8 *effect_data)
 {
     ovl_9c32d4_809A32D4_LocalArgs draw_region;
     ovl_9c32d4_809A32D4_Actor *actor;
@@ -51,7 +51,7 @@ void func_80174AD4(u8 *actor_data, u8 *output_data, u8 *effect_data)
         }
         draw_region.v = draw_y;
 
-        func_801750E4(0x10, 0x10, 0, 0, texture_u, draw_region.v,
+        dungeonEmitConcentricEllipseQuads(0x10, 0x10, 0, 0, texture_u, draw_region.v,
                       actor, (u8 *)actor + 4, packet_list, 0, 0x20);
 
         rect_page = DUNGEON_FROM_PAGE;
@@ -76,7 +76,7 @@ void func_80174AD4(u8 *actor_data, u8 *output_data, u8 *effect_data)
         func_8006658C(packet_list, region_packet);
         actor->state++;
     } else if (state == 1) {
-        func_8004491C((u8 *)actor - 0x20, func_800CEEFC);
+        func_8004491C((u8 *)actor - 0x20, dungeonProcessLinkedMeshStatesMode0);
         actor->state++;
     } else if (state == 3) {
         decay_level = ((ovl_9c32d4_809A32D4_S_80174AD4_4 *)effect_data)->unk_0C;

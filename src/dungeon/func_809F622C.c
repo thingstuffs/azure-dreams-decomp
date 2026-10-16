@@ -10,15 +10,15 @@
 extern s32 func_80042900(void *, s32);
 extern void func_80042B68(void *, s32);
 extern void func_80047784(void *, u8, s32);
-extern s32 func_8009A180(void *, void *);
-extern s32 func_8009FD40(void *, void *);
+extern s32 dungeonCheckEntityRelation(void *, void *);
+extern s32 dungeonGetTileChebyshevDistance(void *, void *);
 extern s32 func_800A2C34(void *);
 extern s32 func_800A6D30(void);
 extern void func_800A9A04(void *);
 extern void func_800A9A0C(void *);
-extern void func_800AA258(void *, void *, void *, void *);
-extern s32 func_800AA6B4(void *, void *, void *, s32);
-extern void func_800AA79C(void *, void *, void *, void *);
+extern void dungeonBeginPushedActorMove(void *, void *, void *, void *);
+extern s32 dungeonBeginReadyActorDirectionalAction(void *, void *, void *, s32);
+extern void dungeonAdvanceActorPendingAction(void *, void *, void *, void *);
 extern void func_800AA888(void *, void *, void *, void *);
 extern void func_80174218(void *, void *, void *, void *);
 
@@ -39,11 +39,11 @@ typedef struct S_80173A2C_0 {
     u8 unk_9B;
     u8 pad_9C[0xC];
     s16 unk_A8;
-} S_80173A2C_0;   /* arg0 in func_80173A2C */
+} S_80173A2C_0;   /* arg0 in dungeonUpdateActorActionAndAnimation */
 
 
 /* Updates an actor's action state and animation before restoring its default callback. */
-void func_80173A2C(void *controller_in, EntityRec *motion, void *sprite, EntityRec *actor)
+void dungeonUpdateActorActionAndAnimation(void *controller_in, EntityRec *motion, void *sprite, EntityRec *actor)
 {
     s32 actor_flags;
     u16 ticks_left;
@@ -89,7 +89,7 @@ void func_80173A2C(void *controller_in, EntityRec *motion, void *sprite, EntityR
                 return;
             }
             if (actor->unk_64 != 0) {
-                if (func_800AA6B4(controller_in, motion, sprite, 0) != 0) {
+                if (dungeonBeginReadyActorDirectionalAction(controller_in, motion, sprite, 0) != 0) {
                     return;
                 }
             }
@@ -97,7 +97,7 @@ void func_80173A2C(void *controller_in, EntityRec *motion, void *sprite, EntityR
                 if (dungeonStatus.flags & 0x2008) {
                     return;
                 }
-                func_800AA79C(controller_in, motion, sprite, actor);
+                dungeonAdvanceActorPendingAction(controller_in, motion, sprite, actor);
                 return;
             }
             if ((func_800A2C34(actor) << 16) != 0) {
@@ -105,7 +105,7 @@ void func_80173A2C(void *controller_in, EntityRec *motion, void *sprite, EntityR
             }
             actor_flags = actor->flags1C;
             if (actor_flags & 0x100) {
-                func_800AA258(controller_in, motion, sprite, actor);
+                dungeonBeginPushedActorMove(controller_in, motion, sprite, actor);
                 return;
             }
             if (actor_flags & 0x80000) {
@@ -120,7 +120,7 @@ void func_80173A2C(void *controller_in, EntityRec *motion, void *sprite, EntityR
             if ((func_800A2C34(actor) << 16) != 0) {
                 EntityRec *owner = D_800814A8;
 
-                if ((func_8009A180(actor,
+                if ((dungeonCheckEntityRelation(actor,
                         (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
@@ -132,7 +132,7 @@ void func_80173A2C(void *controller_in, EntityRec *motion, void *sprite, EntityR
                 s8 tile = ((Rec_D_80082E80 *)sprite)->unk_26.as_s8;
 
                 if (((tile == origin->unk_026) && (tile >= 0)) ||
-                    ((s16)func_8009FD40(origin, sprite) < 2)) {
+                    ((s16)dungeonGetTileChebyshevDistance(origin, sprite) < 2)) {
                     if (!(func_800A6D30() & 7)) {
                         func_80042B68(actor, 1);
                     }

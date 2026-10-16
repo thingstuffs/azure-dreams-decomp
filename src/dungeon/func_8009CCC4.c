@@ -11,13 +11,13 @@ extern s32 func_80041E70();
 extern s32 func_800647A0();
 extern s32 func_800990FC();
 extern s32 func_80099194();
-extern s32 func_80099254();
+extern s32 dungeonCopyFourTextBytes();
 extern void * func_80099290(s8 *byte_ptr);
-extern s32 func_8009929C();
+extern s32 dungeonWriteTextByteAndAdvance();
 extern s32 func_80099734();
 extern s32 func_800A56E0();
 extern s32 func_800A5720();
-extern void * func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
+extern void * createActorValuePopup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
 extern u8 D_8006D168[];
 extern s32 D_800835E8[];
@@ -28,7 +28,7 @@ extern M2C_UNK D_800E09B2;
 extern M2C_UNK D_800E09BB;
 
 /* Lower an entity by one level, adjust its stats and spells, and optionally show a message. */
-s32 func_800A2424(void *entity_data, s32 show_message) {
+s32 lowerEntityLevel(void *entity_data, s32 show_message) {
     u8 spell_lowered[3];
     u8 *entity;
     u8 *stat_growth;
@@ -298,12 +298,12 @@ loop_0:
             D_800DCF4F[0] = 1;
             dungeonStatus.unk_0A++;
         }
-        func_800B4C7C(0x8003, entity, -3, 1);
+        createActorValuePopup(0x8003, entity, -3, 1);
         func_800A56E0(0x615);
 
         message_start = func_800990FC();
         message_end = func_80099194(&D_800E098B, message_start);
-        message_end = func_8009929C(0xA, message_end);
+        message_end = dungeonWriteTextByteAndAdvance(0xA, message_end);
         message_end = func_80099734(entity, message_end);
         message_end = func_80099194(&D_800E099A, message_end);
         message_end = func_8003AD08(entity[0x11], message_end);
@@ -313,7 +313,7 @@ loop_0:
             spell_index = 0;
             do {
                 if (spell_lowered[spell_index] != 0) {
-                    message_end = func_8009929C(0xA, message_end);
+                    message_end = dungeonWriteTextByteAndAdvance(0xA, message_end);
                     message_end = func_80099194(*(s32 *)(((u8 *)D_8006DE24) + entity[8] * 0x14), message_end);
                     message_end = func_80099194(&D_800E09B2, message_end);
                     message_end = func_80099194(&D_800E09BB, message_end);
@@ -323,9 +323,9 @@ loop_0:
         }
 
         if (!(D_80013714 & 1)) {
-            message_end = func_8009929C(0x11, message_end);
-            message_end = func_8009929C(0x4C, message_end);
-            message_end = func_80099254(&D_800E0458, message_end);
+            message_end = dungeonWriteTextByteAndAdvance(0x11, message_end);
+            message_end = dungeonWriteTextByteAndAdvance(0x4C, message_end);
+            message_end = dungeonCopyFourTextBytes(&D_800E0458, message_end);
         }
         func_80099290(message_end);
         func_800A5720(message_start);

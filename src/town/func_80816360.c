@@ -3,7 +3,7 @@
 
 typedef struct S_80020360_0_pre {
     u16 unk_00;
-} S_80020360_0_pre;   /* the 0x2 bytes before arg0 in func_80020360, addressed as arg0[-1] */
+} S_80020360_0_pre;   /* the 0x2 bytes before arg0 in townShowDelayedSceneTileUntilComplete, addressed as arg0[-1] */
 
 typedef struct S_80020360_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -11,21 +11,21 @@ typedef struct S_80020360_0 {
     void * unk_04;
     u8 pad_08[0xE];
     u16 unk_16;
-} S_80020360_0;   /* arg0 in func_80020360 */
+} S_80020360_0;   /* arg0 in townShowDelayedSceneTileUntilComplete */
 
 typedef struct S_80020360_1 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_80020360_1;   /* data in func_80020360 */
+} S_80020360_1;   /* data in townShowDelayedSceneTileUntilComplete */
 
 typedef struct S_80020360_2 {
     u8 pad_00[0x14A0];
     s32 unk_14A0;
-} S_80020360_2;   /* (void *)page in func_80020360 */
+} S_80020360_2;   /* (void *)page in townShowDelayedSceneTileUntilComplete */
 
 
 /* Advances the countdown state, then sets object and global flags when the status bit is set. */
-void func_80020360(void *object)
+void townShowDelayedSceneTileUntilComplete(void *object)
 {
     s16 state;
     S_80020360_1 *status_data;

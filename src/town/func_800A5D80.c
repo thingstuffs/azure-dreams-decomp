@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 /* Call the object's first virtual method. */
-void func_800A34E0(void *obj)
+void townDispatchMenuStateCallback(void *obj)
 {
     s32 (**vtable)(void *);
     s32 (*handler)(void *);

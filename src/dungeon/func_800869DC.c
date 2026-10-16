@@ -14,7 +14,7 @@ typedef struct S_8008C13C_2 {
     u16 unk_98;
     s8 unk_9A;
     s8 unk_9B;
-} S_8008C13C_2;   /* arg0 in func_8008C13C */
+} S_8008C13C_2;   /* arg0 in dungeonTryMoveCarryingPlayer */
 
 
 extern u8 D_8008EAC8[];
@@ -22,20 +22,20 @@ extern u8 D_800DCFD8[8];
 extern u8 D_800DD0B8[8];
 
 extern void func_80048A44(void *, s32, s32, s32);
-extern void func_80094ED4(void *, s32, void *, void *);
-extern void func_80099F04(s32);
-extern void func_80099F70(s32);
+extern void dungeonCheckTileEntryAtAdjustedHeight(void *, s32, void *, void *);
+extern void dungeonProcessUnflaggedLinkedEntries(s32);
+extern void dungeonProcessUnflaggedLinkedEntriesAlt(s32);
 extern void func_8009A21C(s16 x, s16 y, u16 flags);
 extern void func_8009A3D0(s32, s32, s32);
-extern s16 func_8009ABA0(s16, s32, void *, s16, s32);
-extern void func_8009F644(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
+extern s16 dungeonClassifyAdjacentTileHeight(s16, s32, void *, s16, s32);
+extern void dungeonAppendPackedActionRecord(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
 extern s32 func_800A5C70(void);
 extern void func_800A67F4(void);
 
 
-/* Synthetic batch key: func_800869DC; true rowbase link symbol: func_8008C13C. */
+/* Synthetic batch key: func_800869DC; true rowbase link symbol: dungeonTryMoveCarryingPlayer. */
 /* Attempts a move and updates the actor position, animation, and movement state. */
-void func_8008C13C(void *controller, s32 actor_id, void *actor, EntityRec *actor_data) {
+void dungeonTryMoveCarryingPlayer(void *controller, s32 actor_id, void *actor, EntityRec *actor_data) {
     GameWork *dungeon_state;
     s16 move_result;
     u8 direction_index;
@@ -43,7 +43,7 @@ void func_8008C13C(void *controller, s32 actor_id, void *actor, EntityRec *actor
     u8 *x_offsets;
 
     dungeon_state = &gameWork;
-    move_result = func_8009ABA0(actor_data->facing, actor_id, actor,
+    move_result = dungeonClassifyAdjacentTileHeight(actor_data->facing, actor_id, actor,
                            actor_data->unk_88, 0x20);
 
     if (move_result > 0) {
@@ -75,25 +75,25 @@ void func_8008C13C(void *controller, s32 actor_id, void *actor, EntityRec *actor
                 direction_index = ((gameWork.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7;
                 func_80048A44(actor, D_800DCFD8[direction_index], 0, 1);
             }
-            func_80099F70(actor_data->unk_5C);
-            func_80099F04(actor_data->unk_5C);
+            dungeonProcessUnflaggedLinkedEntriesAlt(actor_data->unk_5C);
+            dungeonProcessUnflaggedLinkedEntries(actor_data->unk_5C);
             dungeonStatus.unk_04 = 8;
             ((S_8008C13C_2 *)controller)->unk_9A = 0x1D;
         } else {
             ((S_8008C13C_2 *)controller)->unk_98 |= 0xC;
             ((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v |= 0x4000;
-            func_80094ED4(controller, actor_id, actor, actor_data);
+            dungeonCheckTileEntryAtAdjustedHeight(controller, actor_id, actor, actor_data);
             if (move_result == 2) {
                 ((S_8008C13C_2 *)controller)->unk_9B = 8;
             }
             dungeonStatus.unk_04 = 8;
             ((S_8008C13C_2 *)controller)->unk_9A = 0x1E;
             actor_data->flags1C |= 0x40000000;
-            func_8009F644(actor_data, 8, 0, 0);
+            dungeonAppendPackedActionRecord(actor_data, 8, 0, 0);
             return;
         }
 
-        func_8009F644(actor_data, 8, 0, 0);
+        dungeonAppendPackedActionRecord(actor_data, 8, 0, 0);
     } else {
         ((Rec_D_80082E80 *)actor)->unk_2C.as_pv = D_800DD0B8;
         direction_index = ((dungeon_state->view.viewAngle + actor_data->facing + 0x100) >> 9) & 7;
@@ -103,7 +103,7 @@ void func_8008C13C(void *controller, s32 actor_id, void *actor, EntityRec *actor
     }
 
     func_800A67F4();
-    func_80094ED4(controller, actor_id, actor, actor_data);
+    dungeonCheckTileEntryAtAdjustedHeight(controller, actor_id, actor, actor_data);
     actor_data->flags1C |= 0x40000000;
     dungeonStatus.flags |= 0x812;
 }

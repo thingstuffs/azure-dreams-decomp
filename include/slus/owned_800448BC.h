@@ -15,6 +15,6 @@ extern S_80081508 *D_80081508;
 
 /* Returns whether the terminated record array contains both input values truncated to 16 bits. */
 
-s32 func_800448BC(s32 first_value, s32 second_value);
+s32 hasRuntimeKeyPair(s32 first_value, s32 second_value);
 
 #endif

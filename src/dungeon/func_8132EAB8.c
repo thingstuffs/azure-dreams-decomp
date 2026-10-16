@@ -15,7 +15,7 @@ typedef struct S_80165AB8_0 {
     s32 unk_54;
     u8 pad_58[0x8];
     s32 unk_60;
-} S_80165AB8_0;   /* arg0 in func_80165AB8 */
+} S_80165AB8_0;   /* arg0 in dungeonUpdateLandingParticleFade */
 
 typedef struct S_80165AB8_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -29,7 +29,7 @@ typedef struct S_80165AB8_1 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80165AB8_1;   /* arg1 in func_80165AB8 */
+} S_80165AB8_1;   /* arg1 in dungeonUpdateLandingParticleFade */
 
 typedef struct S_80165AB8_2 {
     u8 pad_00[0xC];
@@ -43,10 +43,10 @@ typedef struct S_80165AB8_2 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_80165AB8_2;   /* arg2 in func_80165AB8 */
+} S_80165AB8_2;   /* arg2 in dungeonUpdateLandingParticleFade */
 
 /* Updates object motion, landing, and fading before marking it finished. */
-void func_80165AB8(u8 *object, u8 *motion, u8 *sprite)
+void dungeonUpdateLandingParticleFade(u8 *object, u8 *motion, u8 *sprite)
 {
     s32 height;
     u32 state;

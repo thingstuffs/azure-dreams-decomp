@@ -8,12 +8,12 @@ typedef struct {
     s32 unk10;
 } Func8009990CState;
 
-extern s32 func_80096FF4(Func8009990CState *);
+extern s32 townUpdateObjectAndClearStatusFields(Func8009990CState *);
 
 /* Process the state when either trailing field is nonzero, otherwise return zero. */
 s32 func_8009706C(Func8009990CState *state) {
     if (state->unk0c != 0 || state->unk10 != 0) {
-        return func_80096FF4(state);
+        return townUpdateObjectAndClearStatusFields(state);
     }
     return 0;
 }

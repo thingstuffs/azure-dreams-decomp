@@ -1,0 +1,5 @@
+#include "common.h"
+#include "m2c_compat.h"
+
+extern s32 D_80017B40;
+void func_800172E0(s32 value) { D_80017B40 = value; }

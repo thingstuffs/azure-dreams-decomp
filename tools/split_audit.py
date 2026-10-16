@@ -93,6 +93,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent / "gate"))
 from common import ROOT, LEDGER, rows, raw_path
+from source_layout import row_path as layout_row_path
 from pin_census import arm_labels, HAS_PP_RE, asm_blocker
 # The demanded (row, target) pairs are levels.py's, so use ITS detector rather than a second copy:
 # tail_jump_targets reads a definition-header-blanked, declaration-blanked, comment-stripped,
@@ -570,7 +571,7 @@ def main():
         todo = todo[:a.limit]
     for r in todo:
         fam = r["container"]
-        cp = ROOT / "src" / fam / Path(r["c_path"]).name
+        cp = layout_row_path(r, ROOT)
         p = cp if cp.exists() else raw_path(r)
         if not p.exists():
             continue

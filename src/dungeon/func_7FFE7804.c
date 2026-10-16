@@ -9,7 +9,7 @@ extern s32 D_80086AD8;
 
 typedef struct S_7FFE7804_0_pre {
     u16 unk_00;
-} S_7FFE7804_0_pre;   /* the 0x2 bytes before arg0 in func_7FFE7804, addressed as arg0[-1] */
+} S_7FFE7804_0_pre;   /* the 0x2 bytes before arg0 in dungeonAdvanceCenteredFadingEffect, addressed as arg0[-1] */
 
 typedef struct S_7FFE7804_0 {
     u8 pad_00[0xC];
@@ -25,24 +25,24 @@ typedef struct S_7FFE7804_0 {
     u8 pad_2C[0xC];
     u16 unk_38;
     u16 unk_3A;
-} S_7FFE7804_0;   /* arg0 in func_7FFE7804 */
+} S_7FFE7804_0;   /* arg0 in dungeonAdvanceCenteredFadingEffect */
 
 typedef struct S_7FFE7804_1 {
     u8 pad_00[0x2];
     s16 unk_02;
     u8 pad_04[0x2];
     s16 unk_06;
-} S_7FFE7804_1;   /* arg1 in func_7FFE7804 */
+} S_7FFE7804_1;   /* arg1 in dungeonAdvanceCenteredFadingEffect */
 
 typedef struct S_7FFE7804_2 {
     u8 pad_00[0xC];
     s8 unk_0C;
     s8 unk_0D;
     s8 unk_0E;
-} S_7FFE7804_2;   /* arg2 in func_7FFE7804 */
+} S_7FFE7804_2;   /* arg2 in dungeonAdvanceCenteredFadingEffect */
 
 /* Advance the effect around its center, fade its color, and flag it when its lifetime ends. */
-void func_7FFE7804(void *effect, void *position, void *color) {
+void dungeonAdvanceCenteredFadingEffect(void *effect, void *position, void *color) {
     s32 life_left;
     s32 arithmetic;
     s32 product;

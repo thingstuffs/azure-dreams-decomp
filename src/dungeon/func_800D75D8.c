@@ -10,15 +10,15 @@ typedef struct {
 
 extern s32 func_8004B404(s32);
 extern void func_8004491C(void *, void *);
-extern void func_800DC988(void *);
-extern s32 func_800DCBE4(void *, s32);
-extern void func_800DCCF4(void *, s32);
+extern void dungeonInitializeComplementedState(void *);
+extern s32 dungeonRunObjectSetupAndFinalize(void *, s32);
+extern void dungeonInitializeObjectTables(void *, s32);
 extern u8 D_8004CAA0[];
 extern u8 D_800DC8F8[];
 extern void *D_800E5910[];
 
 /* Allocate and initialize an object, marking allocation failure in the status flags. */
-void *func_800DCD38(void) {
+void *dungeonAllocateObjectWithFailureFlag(void) {
     s32 allocation;
     register ObjectHeader *header;
     s32 *status_page;
@@ -33,11 +33,11 @@ void *func_800DCD38(void) {
         header = (ObjectHeader *)(object + 0x20);
         if (allocation != 0) {
             data = object + 0x5C;
-            func_800DCCF4(data, allocation);
+            dungeonInitializeObjectTables(data, allocation);
             source_table = (s32 *)0x800133A0;
             header->field_38 = source_table;
-            *(s32 *)(object + 0xC) = func_800DCBE4(data, source_table[0]);
-            func_800DC988(object);
+            *(s32 *)(object + 0xC) = dungeonRunObjectSetupAndFinalize(data, source_table[0]);
+            dungeonInitializeComplementedState(object);
             *(u8 **)(object + 0x10) = D_800DC8F8;
             func_8004491C(object, D_8004CAA0);
             return object;

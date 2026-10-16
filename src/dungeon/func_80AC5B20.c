@@ -6,10 +6,10 @@
 typedef void (*Callback)(void *, void *, void *, void *);
 
 
-extern void func_80047738();
+extern void selectIndirectTableEntry();
 extern void func_800478B8();
-extern void func_800A020C();
-extern s32 func_800A9E70();
+extern void dungeonApplyMonsterKoyawData();
+extern s32 dungeonRefreshActorFacingAndLifecycle();
 extern void func_800AA36C();
 extern s16 func_800BCB04();
 
@@ -74,7 +74,7 @@ void func_80171320(void *entity, S_80171320_2 *motion, void *monster)
 
 
     old_direction = (s8)(*(u8 *)((u8 *)entity + 0x6D));
-    if (func_800A9E70(entity, motion, monster, entity) != 0) {
+    if (dungeonRefreshActorFacingAndLifecycle(entity, motion, monster, entity) != 0) {
         return;
     }
 
@@ -99,7 +99,7 @@ void func_80171320(void *entity, S_80171320_2 *motion, void *monster)
         if ((*(s16 *)((u8 *)entity + 0x94)) != direction_index) {
             u8 *tile_map = ((S_80171320_0 *)monster)->unk_2C;
             if (tile_map != 0) {
-                func_80047738(monster, tile_map[direction_index], ((S_80171320_0 *)monster)->unk_04);
+                selectIndirectTableEntry(monster, tile_map[direction_index], ((S_80171320_0 *)monster)->unk_04);
             }
             (*(s16 *)((u8 *)entity + 0x94)) = direction;
         }
@@ -118,7 +118,7 @@ void func_80171320(void *entity, S_80171320_2 *motion, void *monster)
             ((S_80171320_0 *)monster)->unk_14 |= 0x7000;
         }
 
-        func_800A020C(((S_80171320_1 *)actor)->unk_1C, (u8 *)monster + 0xC);
+        dungeonApplyMonsterKoyawData(((S_80171320_1 *)actor)->unk_1C, (u8 *)monster + 0xC);
     } else {
         if (monster_flags & 0x0800) {
             ((S_80171320_0 *)monster)->unk_14 = monster_flags & 0x8FFF;

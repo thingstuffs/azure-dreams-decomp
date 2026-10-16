@@ -7,7 +7,7 @@ typedef struct S_801710E0_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_801710E0_0;   /* object in func_801710E0 */
+} S_801710E0_0;   /* object in dungeonSpawnConfiguredActionObject */
 
 typedef struct S_801710E0_1 {
     u8 pad_00[0x13];
@@ -15,12 +15,12 @@ typedef struct S_801710E0_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_801710E0_1;   /* result in func_801710E0 */
+} S_801710E0_1;   /* result in dungeonSpawnConfiguredActionObject */
 
 typedef struct S_801710E0_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_801710E0_2;   /* part0 in func_801710E0 */
+} S_801710E0_2;   /* part0 in dungeonSpawnConfiguredActionObject */
 
 typedef struct S_801710E0_3 {
     u8 pad_00[0x24];
@@ -28,7 +28,7 @@ typedef struct S_801710E0_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_801710E0_3;   /* part1 in func_801710E0 */
+} S_801710E0_3;   /* part1 in dungeonSpawnConfiguredActionObject */
 
 typedef struct S_801710E0_4 {
     u8 pad_00[0x8C];
@@ -37,7 +37,7 @@ typedef struct S_801710E0_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_801710E0_4;   /* result_copy in func_801710E0 */
+} S_801710E0_4;   /* result_copy in dungeonSpawnConfiguredActionObject */
 
 
 extern void *func_8003FD64(s32, void *);
@@ -53,7 +53,7 @@ extern u8 D_80175554[];
 extern u8 D_801755A4[];
 
 /* Spawn the overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
-void *func_801710E0(s16 flags, s16 kind_id, s16 variant, s32 spawn_value)
+void *dungeonSpawnConfiguredActionObject(s16 flags, s16 kind_id, s16 variant, s32 spawn_value)
 {
     s32 kind;
     s32 flags0;

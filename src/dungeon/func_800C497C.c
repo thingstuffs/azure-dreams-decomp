@@ -3,7 +3,7 @@
 #include "records/Rec_func_800C9F34_arg0.h"
 
 
-extern s16 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern s16 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 
 
 typedef struct S_800CA0DC_0 {
@@ -54,7 +54,7 @@ void func_800CA0DC(void *motion, s32 unused, void *position, void *path)
     ((S_800CA0DC_0 *)path)->unk_8A.u++;
 
     ((S_800CA0DC_0 *)path)->unk_2A =
-        func_800A0818(old_x, old_y, ((S_800CA0DC_1 *)position)->unk_24,
+        dungeonGetRoundedFacingAndRoundingFlag(old_x, old_y, ((S_800CA0DC_1 *)position)->unk_24,
                       ((S_800CA0DC_1 *)position)->unk_25, (u8 *)motion + 0x98);
     ((S_800CA0DC_0 *)path)->unk_1C |= 0x40000000;
     ((Rec_func_800C9F34_arg0 *)motion)->unk_9A.as_u8 = 0xF;

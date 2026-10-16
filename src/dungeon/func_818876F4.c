@@ -39,7 +39,7 @@ extern u32 func_800654B0(
 extern void func_80066708(void *);
 
 /* Builds shaded quads from adjacent vertex rows and adds them to the ordering table. */
-s32 func_80024EF4(void)
+s32 dungeonBuildShadedQuadsAdjacentVertexRowsAddsThemOrderingTable(void)
 {
     s32 quad_index = 0;
     Scratch *scratch = (Scratch *)0x1F800000;

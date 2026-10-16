@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7e6e1800.h"
 
-void func_80024198(void *quad, void *position, void *render_state, s16 depth_bias)
+void dungeonProjectAndQueueShadedQuad(void *quad, void *position, void *render_state, s16 depth_bias)
 {
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet;

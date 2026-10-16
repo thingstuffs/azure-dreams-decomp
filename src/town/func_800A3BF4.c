@@ -8,8 +8,8 @@
 extern s32 func_80069EF8(void);
 extern void func_80066844(void *);
 extern void func_80066640(void *, s32);
-extern void func_800A130C(void *, void *);
-extern void func_800A1330(void *, void *);
+extern void townCopyOddHalfwords3(void *, void *);
+extern void townCopyMenuVectorHalfwords(void *, void *);
 extern s32 func_800654B0(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern void func_8006658C(void *, void *);
 extern u16 func_80066460(s32, s32, s32, s32);
@@ -30,9 +30,9 @@ typedef struct S_800A1354_1 {
     u16 unk_F2;
     u16 unk_F4;
     u16 unk_F6;
-} S_800A1354_1;   /* scratch in func_800A1354 */
+} S_800A1354_1;   /* scratch in townDrawRandomTintedQuadPair */
 
-   /* ctx in func_800A1354 */
+   /* ctx in townDrawRandomTintedQuadPair */
 
 typedef struct S_800A1354_3 {
     u8 pad_00[0x4];
@@ -68,32 +68,32 @@ typedef struct S_800A1354_3 {
     } unk_1C;   /* overlapping accesses */
     u16 unk_20;
     u16 unk_22;
-} S_800A1354_3;   /* poly in func_800A1354 */
+} S_800A1354_3;   /* poly in townDrawRandomTintedQuadPair */
 
 typedef struct S_800A1354_4 {
     u8 pad_00[0x54];
     u8 * unk_54;
     u8 * unk_58;
     u8 * unk_5C;
-} S_800A1354_4;   /* obj in func_800A1354 */
+} S_800A1354_4;   /* obj in townDrawRandomTintedQuadPair */
 
 typedef struct S_800A1354_5 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_800A1354_5;   /* ((S_800A1354_4 *)obj)->unk_54 in func_800A1354 */
+} S_800A1354_5;   /* ((S_800A1354_4 *)obj)->unk_54 in townDrawRandomTintedQuadPair */
 
 typedef struct S_800A1354_6 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_800A1354_6;   /* ((S_800A1354_4 *)obj)->unk_58 in func_800A1354 */
+} S_800A1354_6;   /* ((S_800A1354_4 *)obj)->unk_58 in townDrawRandomTintedQuadPair */
 
 typedef struct S_800A1354_7 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_800A1354_7;   /* ((S_800A1354_4 *)obj)->unk_5C in func_800A1354 */
+} S_800A1354_7;   /* ((S_800A1354_4 *)obj)->unk_5C in townDrawRandomTintedQuadPair */
 
 /* Draw two translucent quads with random vertex colors scaled by the effect intensity. */
-void func_800A1354(u8 *effect)
+void townDrawRandomTintedQuadPair(u8 *effect)
 {
     u8 **render_ctx_addr = (u8 **)((u8 *)(&gameWork));
     s32 vertex_index = 0;
@@ -139,10 +139,10 @@ void func_800A1354(u8 *effect)
         func_80066844(quad);
         func_80066640(quad, 1);
 
-        func_800A130C(scratch + 0x74, ((S_800A1354_5 *)(((S_800A1354_4 *)vertex_group)->unk_54))->unk_08);
-        func_800A130C(scratch + 0x7C, ((S_800A1354_6 *)(((S_800A1354_4 *)vertex_group)->unk_58))->unk_08);
-        func_800A130C(scratch + 0x84, ((S_800A1354_7 *)(((S_800A1354_4 *)vertex_group)->unk_5C))->unk_08);
-        func_800A1330(scratch + 0x8C, scratch + 0x74);
+        townCopyOddHalfwords3(scratch + 0x74, ((S_800A1354_5 *)(((S_800A1354_4 *)vertex_group)->unk_54))->unk_08);
+        townCopyOddHalfwords3(scratch + 0x7C, ((S_800A1354_6 *)(((S_800A1354_4 *)vertex_group)->unk_58))->unk_08);
+        townCopyOddHalfwords3(scratch + 0x84, ((S_800A1354_7 *)(((S_800A1354_4 *)vertex_group)->unk_5C))->unk_08);
+        townCopyMenuVectorHalfwords(scratch + 0x8C, scratch + 0x74);
         ((S_800A1354_1 *)scratch)->unk_C4 = func_800654B0(
             scratch + 0x74, scratch + 0x7C, scratch + 0x84, scratch + 0x8C, scratch + 0xE8, scratch + 0xEC,
             scratch + 0xF0, scratch + 0xF4, scratch + 0x94, scratch + 0x98) - 0x30;

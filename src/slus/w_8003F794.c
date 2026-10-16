@@ -2,7 +2,7 @@
 #include "shared/transition_slots.h"
 
 /* Initializes the last free slot and returns its index, or -1 if all eight slots are occupied. */
-s16 func_8003F794(s16 slot_id, s16 slot_value)
+s16 reserveRuntimeSlot(s16 slot_id, s16 slot_value)
 {
     s32 slot_index;
     TransitionSlot *slot;

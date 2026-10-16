@@ -8,16 +8,16 @@ typedef struct S_80174600_0 {
     u8 unk_0E;
     u8 pad_0F[0xB];
     u16 unk_1A;
-} S_80174600_0;   /* arg2 in func_80174600 */
+} S_80174600_0;   /* arg2 in dungeonAnimateEffectColors */
 
 typedef struct S_80174600_1 {
     u8 pad_00[0x1A];
     union { s16 s; u16 u; } unk_1A;   /* accessed as both */
-} S_80174600_1;   /* p in func_80174600 */
+} S_80174600_1;   /* p in dungeonAnimateEffectColors */
 
 
 /* Animate primitive colors and mark the effect finished when its timer expires. */
-void func_80174600(void *effect_state, s32 unused, void *primitive)
+void dungeonAnimateEffectColors(void *effect_state, s32 unused, void *primitive)
 {
     u8 *state = effect_state;
     s16 frames_left;

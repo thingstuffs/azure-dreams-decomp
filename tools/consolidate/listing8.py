@@ -7,6 +7,10 @@ from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from cc import listing, row_index, REPO
+import sys as _layout_sys
+_layout_root = next(p for p in Path(__file__).resolve().parents if (p / "tools/source_layout.py").is_file())
+_layout_sys.path.insert(0, str(_layout_root / "tools"))
+from source_layout import row_path as layout_row_path
 LANE = Path(__file__).resolve().parent.parent
 R = row_index()
 strip = lambda s: [l for l in (s or "").splitlines() if not l.lstrip().startswith((".file", "#"))]
@@ -17,7 +21,7 @@ def ids(arg):
         return sorted({"%s/%s" % (Path(f).parent.name, Path(f).stem) for f in fs} | {str(p.relative_to(LANE / "draft8"))[:-2] for p in (LANE / "draft8").rglob("*.c")})
     return [l.split()[0] for l in open(arg) if l.strip()]
 def one(rid):
-    src = REPO / "src" / (rid + ".c")
+    src = layout_row_path(rid, REPO)
     if not src.is_file(): return {"id": rid, "missing": True}
     r = dict(R.get(rid) or {"id": rid, "cfg": "2.7.2-cdk"}); r["kind"] = "overlay"
     d = LANE / "draft8" / (rid + ".c"); new = d.read_text() if d.is_file() else src.read_text(errors="replace")

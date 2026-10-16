@@ -4,12 +4,12 @@
 /* Runs the state update, then allocates a slot and advances the callback if enabled, or invokes the fallback. */
 void func_80041BE4(void)
 {
-    func_80041CBC();
+    renderSceneFrameWithTiming();
     if (D_80082E60.unk_0E != 0) {
         if (D_80083120[D_800814E8].type == 0) {
-            D_800814E8 = func_8003F794(6, 8);
+            D_800814E8 = reserveRuntimeSlot(6, 8);
         }
-        func_80040A88((int) func_80041C64);
+        setScenePhaseCallback((int) func_80041C64);
     } else {
         func_8003D92C();
     }

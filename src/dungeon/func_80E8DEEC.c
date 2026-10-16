@@ -10,12 +10,12 @@ typedef s32 M2C_UNK;
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 func_800A56E0();
-extern s32 func_800AD058();
-extern void func_80174D48();
+extern s32 dungeonUpdateActorDefeatRemoval();
+extern void dungeonCreateAndInitializesDisplaySourcePositionAppearance();
 
 
 /* Initializes the visual effect and advances its action state. */
-void func_801736EC(Rec_func_800AD058_arg0 *action, s32 context, Rec_func_800AD058_arg2 *visual, EntityRec *entity) {
+void dungeonInitializeTheVisualEffectAdvancesActionState(Rec_func_800AD058_arg0 *action, s32 context, Rec_func_800AD058_arg2 *visual, EntityRec *entity) {
     s32 one;
     s32 phase;
 
@@ -29,7 +29,7 @@ void func_801736EC(Rec_func_800AD058_arg0 *action, s32 context, Rec_func_800AD05
         action->unk_9B = (u8)one;
     case 1:
         if (entity->unk_49 != 0) {
-            func_80174D48(context, visual, entity);
+            dungeonCreateAndInitializesDisplaySourcePositionAppearance(context, visual, entity);
             entity->unk_48 = 0;
             entity->unk_49 = 0U;
         }
@@ -44,7 +44,7 @@ void func_801736EC(Rec_func_800AD058_arg0 *action, s32 context, Rec_func_800AD05
         func_800A56E0(0x805);
         return;
     case 2:
-        func_800AD058(action, context, visual, entity);
+        dungeonUpdateActorDefeatRemoval(action, context, visual, entity);
         return;
     }
 }

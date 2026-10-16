@@ -22,7 +22,7 @@ typedef struct {
 } FuncData;
 
 extern void func_8004491C(s32, void *);
-extern void func_8008F104(s32, void *, void *);
+extern void townConfigureTheSetModeN3(s32, void *, void *);
 extern u8 D_80046398[];
 extern u8 D_800D1BDC[];
 
@@ -47,5 +47,5 @@ void func_800BB57C(s32 object_id, void *object, FuncData *state) {
     state->unkE = gameWork.view.unk_092;
     *(s32 *)((u8 *)object + 8) += 0x200000;
 
-    func_8008F104(object_id, object, D_800D1BDC);
+    townConfigureTheSetModeN3(object_id, object, D_800D1BDC);
 }

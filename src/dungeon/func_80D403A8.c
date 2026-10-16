@@ -26,7 +26,7 @@ typedef struct S_80175BA8_0 {
     s8 unk_B3;
     s8 unk_B4;
     s8 unk_B5;
-} S_80175BA8_0;   /* arg0 in func_80175BA8 */
+} S_80175BA8_0;   /* arg0 in dungeonEnterActorAuraMode */
 
 typedef struct S_80175BA8_1 {
     u8 pad_00[0x2];
@@ -37,28 +37,28 @@ typedef struct S_80175BA8_1 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80175BA8_1;   /* arg1 in func_80175BA8 */
+} S_80175BA8_1;   /* arg1 in dungeonEnterActorAuraMode */
 
 typedef struct S_80175BA8_2 {
     u8 pad_00[0x2A];
     s16 unk_2A;
     u8 pad_2C[0x5C];
     u16 unk_88;
-} S_80175BA8_2;   /* arg3 in func_80175BA8 */
+} S_80175BA8_2;   /* arg3 in dungeonEnterActorAuraMode */
 
 typedef struct S_80175BA8_3 {
     u8 pad_00[0x6];
     s16 unk_06;
     u8 pad_08[0xC];
     u16 unk_14;
-} S_80175BA8_3;   /* arg2 in func_80175BA8 */
+} S_80175BA8_3;   /* arg2 in dungeonEnterActorAuraMode */
 
 typedef struct S_80175BA8_4 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80175BA8_4;   /* temp_v0_3 in func_80175BA8 */
+} S_80175BA8_4;   /* temp_v0_3 in dungeonEnterActorAuraMode */
 
 typedef struct S_80175BA8_5 {
     u8 pad_00[0x38];
@@ -66,7 +66,7 @@ typedef struct S_80175BA8_5 {
     u8 pad_3A[0x6];
     void * unk_40;
     void * unk_44;
-} S_80175BA8_5;   /* temp_v0_4 in func_80175BA8 */
+} S_80175BA8_5;   /* temp_v0_4 in dungeonEnterActorAuraMode */
 
 typedef struct S_80175BA8_6 {
     u8 pad_00[0x8];
@@ -81,7 +81,7 @@ typedef struct S_80175BA8_6 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_80175BA8_6;   /* temp_a0 in func_80175BA8 */
+} S_80175BA8_6;   /* temp_a0 in dungeonEnterActorAuraMode */
 
 typedef struct S_80175BA8_7 {
     u8 pad_00[0x2];
@@ -90,7 +90,7 @@ typedef struct S_80175BA8_7 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80175BA8_7;   /* temp_v1_2 in func_80175BA8 */
+} S_80175BA8_7;   /* temp_v1_2 in dungeonEnterActorAuraMode */
 
 
 extern void *func_8003FD64();
@@ -107,7 +107,7 @@ extern u8 D_80170CEC[];
 extern u8 D_80171A80[];
 
 /* Updates the actor's height offset, spawns an effect, and advances its animation phases. */
-void func_80175BA8(void *actor_state, void *position, void *sprite, void *actor_info) {
+void dungeonEnterActorAuraMode(void *actor_state, void *position, void *sprite, void *actor_info) {
     s16 target_offset;
     u16 next_offset;
     u16 phase_ticks;

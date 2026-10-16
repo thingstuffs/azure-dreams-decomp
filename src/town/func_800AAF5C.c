@@ -9,17 +9,17 @@ typedef struct S_800A86BC_0 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800A86BC_0;   /* arg1 in func_800A86BC */
+} S_800A86BC_0;   /* arg1 in townUpdateFadingEffectMotion */
 
 typedef struct S_800A86BC_1_pre {
     u16 unk_00;
-} S_800A86BC_1_pre;   /* the 0x2 bytes before arg0 in func_800A86BC, addressed as arg0[-1] */
+} S_800A86BC_1_pre;   /* the 0x2 bytes before arg0 in townUpdateFadingEffectMotion, addressed as arg0[-1] */
 
 typedef struct S_800A86BC_1 {
     u8 pad_00[0x2];
     u16 unk_02;
     s32 unk_04;
-} S_800A86BC_1;   /* arg0 in func_800A86BC */
+} S_800A86BC_1;   /* arg0 in townUpdateFadingEffectMotion */
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -27,7 +27,7 @@ typedef struct S_800A86BC_1 {
 extern void func_800478B8();
 
 /* Update effect motion, fade its primitive, and flag expiration when its timer ends. */
-void func_800A86BC(void *effect, S_800A86BC_0 *motion, Rec_D_80082E80 *primitive) {
+void townUpdateFadingEffectMotion(void *effect, S_800A86BC_0 *motion, Rec_D_80082E80 *primitive) {
     u8 shade;
     u16 ticks_left;
 

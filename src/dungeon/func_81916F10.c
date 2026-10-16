@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1936800.h"
 
-void func_80024710(Row_81916F10_S_80024710_0 *object, Row_81916F10_S_80024710_2 *position) {
+void dungeonAdvanceTheCounterOffsetPositionUsingTwoAngles(Row_81916F10_S_80024710_0 *object, Row_81916F10_S_80024710_2 *position) {
     s32 angle_scale_x;
     s32 angle_scale_y;
     Row_81916F10_S_80024710_1 *state;

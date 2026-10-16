@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_cb3000.h"
 
-void func_80170920(void *effect, void *unused, void *visual)
+void dungeonExpandThenShrinkEffect(void *effect, void *unused, void *visual)
 {
     s16 state;
     s32 fade_brightness;

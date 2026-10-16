@@ -5,7 +5,7 @@ s32 func_80174954(void *initial_state, void *context, void *data) {
     void *next_node;
 
     for (;;) {
-        func_80174618(state, context, data,(s16)(0));
+        dungeonTransformAndQueueLinePackets(state, context, data,(s16)(0));
         next_node = *((void **)state - 2);
         if (next_node == 0) {
             return 0;

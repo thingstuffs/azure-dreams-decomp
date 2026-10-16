@@ -8,12 +8,12 @@ typedef struct S_800DC82C_0 {
     s32 unk_54;
     u8 pad_58[0x4];
     s32 unk_5C;
-} S_800DC82C_0;   /* arg0 in func_800DC82C */
+} S_800DC82C_0;   /* arg0 in dungeonUpdateStateActivityFlags */
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 /* Updates the low flag bits and activity field from the referenced state. */
-void func_800DC82C(S_800DC82C_0 *record) {
+void dungeonUpdateStateActivityFlags(S_800DC82C_0 *record) {
     s32 state_or_flags;
     s32 flag_value;
 

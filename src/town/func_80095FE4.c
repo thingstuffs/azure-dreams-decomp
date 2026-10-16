@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern u32 func_8009368C(void *record, s32 first_value, s32 second_value);
-extern void func_80098868(void *record, s32 setup_value, s32 init_value);
+extern u32 townGetLinkedCarryItemData(void *record, s32 first_value, s32 second_value);
+extern void townInitializeRecordAndSelectActiveData(void *record, s32 setup_value, s32 init_value);
 
 extern s32 D_800834B8;
 extern s32 D_8009C340;
@@ -22,10 +22,10 @@ void plt_carry_item_del_ext(void) {
     second_value = *(s32 *)((u8 *)input_values + 0xC);
     saved_object = *(u8 **)(base + 0x2C);
 
-    if (func_8009368C(context, first_value, second_value) != 0) {
+    if (townGetLinkedCarryItemData(context, first_value, second_value) != 0) {
         u8 *linked_object;
 
-        func_80098868(base, first_value, second_value);
+        townInitializeRecordAndSelectActiveData(base, first_value, second_value);
         do {
             linked_object = *(u8 **)(base + 0x2C);
         } while (0);

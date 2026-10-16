@@ -10,11 +10,11 @@ typedef struct {
 
 extern s32 D_800280B4[3];
 
-extern void func_8002225C();
-extern void func_800223B4();
+extern void cardBootMeasureDialogChoiceWord();
+extern void cardBootPositionDialogSelectionMarker();
 
 /* Processes the last word of an enabled table entry for the supplied object. */
-void func_80022488(void *object) {
+void cardBootUpdateMessageChoiceHighlight(void *object) {
     s32 result_first;
     s32 result_second;
     s32 result_third;
@@ -28,7 +28,7 @@ void func_80022488(void *object) {
     entry = (EntryT *)(table_index * 0x18 + table_base);
     last_index = entry->count17 - 1;
     if (entry->flag14 != 0) {
-        func_8002225C(entry->words[last_index], *(s32 *)object, &result_first, &result_second, &result_third);
-        func_800223B4(object, result_first, result_second, last_index, result_third);
+        cardBootMeasureDialogChoiceWord(entry->words[last_index], *(s32 *)object, &result_first, &result_second, &result_third);
+        cardBootPositionDialogSelectionMarker(object, result_first, result_second, last_index, result_third);
     }
 }

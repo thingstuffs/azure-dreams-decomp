@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void func_800177A8(void) {
+void dungeonClearGenerationRegionEntries(void) {
     s32 i;
 
     for (i = 0x23; i >= 0; i--) {

@@ -7,7 +7,7 @@ typedef s32 (*Callback)(s32, s32);
 
 extern void func_80016CC4(void);
 extern s32 func_8001991C(s32, void *);
-extern void func_80019988(void);
+extern void townUpdateEntryFlags(void);
 extern void func_8001A554(s32);
 extern s32 func_8001A64C(s32);
 
@@ -38,7 +38,7 @@ s32 func_800182FC(s32 kind, void *param)
             *(void **)((s8 *)ptr + 0x40) = (s8 *)D_8001D7A0;
         }
     } else {
-        func_80019988();
+        townUpdateEntryFlags();
         if (func_8001991C(kind, param) != 0) {
             return 1;
         }

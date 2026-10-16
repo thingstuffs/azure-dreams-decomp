@@ -11,7 +11,7 @@ typedef struct {
 
 
 /* Returns the grid entry value at the selected offset and writes its flags. */
-s16 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags)
+s16 getOffsetMapCellValueAndFlags(s16 x, s16 y, s16 offset_index, u16 *flags)
 {
     s32 grid_x;
     s32 grid_y;

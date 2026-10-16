@@ -2,11 +2,11 @@
 #include "shared/position_query.h"
 #include "common.h"
 
-extern void func_80095C80(void *object);
-extern void func_80095094(void *object);
-extern s16 func_80095978(void *object, void *data);
-extern void func_80095A94(void *object, s16 value, void *data);
-extern void func_80094378(void *state, void *object, s32 context);
+extern void townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(void *object);
+extern void townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero(void *object);
+extern s16 townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(void *object, void *data);
+extern void townComputeAndClampsVectorBasedAdjustmentUpdatesTown(void *object, s16 value, void *data);
+extern void dungeonInitializeActionObject(void *state, void *object, s32 context);
 extern void func_800942B0(void *state, void *object, s32 context);
 
 extern u8 D_800CFCEF[];
@@ -15,17 +15,17 @@ void func_80091F64(void *state, void *object, s32 context) {
     s16 target_value;
     u16 countdown;
 
-    func_80095C80(object);
-    func_80095094(object);
-    target_value = func_80095978(object, ((u8 *)&D_800FE488));
+    townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(object);
+    townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero(object);
+    target_value = townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(object, ((u8 *)&D_800FE488));
     if (target_value - *(s16 *)((u8 *)object + 0xA) >= 4) {
         if (D_800CFCEF[0] == 0) {
-            func_80094378(state, object, context);
+            dungeonInitializeActionObject(state, object, context);
             return;
         }
     } else {
         if (D_800CFCEF[0] == 0) {
-            func_80095A94(object, target_value, ((u8 *)&D_800FE488));
+            townComputeAndClampsVectorBasedAdjustmentUpdatesTown(object, target_value, ((u8 *)&D_800FE488));
         }
     }
 

@@ -3,15 +3,15 @@
 
 extern void func_8004491C();
 extern s16 func_8006649C();
-extern s32 func_800DA93C(void *first_quad);
-extern void func_800DAB50(void *effect_data);
+extern s32 dungeonDrawLinkedTexturedQuads(void *first_quad);
+extern void dungeonUpdateRotatingEffectVertices(void *effect_data);
 
 typedef struct {
     u32 words[2];
 } __attribute__((packed)) Copy8;
 
 /* Creates up to sixteen objects in two rows with a shared payload. */
-void func_800DA840(void *payload, s16 value_scale) {
+void dungeonCreateTwoRowObjectGroup(void *payload, s16 value_scale) {
     s32 row = 1;
     s32 column;
     do {
@@ -25,8 +25,8 @@ void func_800DA840(void *payload, s16 value_scale) {
                 *(s16 *)(data + 0xA) = (column << 9) + (row == 0 ? 0x100 : 0);
                 *(Copy8 *)(object + 0x40) = *(Copy8 *)payload;
                 *(s16 *)(data + 6) = func_8006649C(value_scale << 4, 0x1F8);
-                *(s32 **)(object + 0x10) = func_800DAB50;
-                func_8004491C(object, func_800DA93C);
+                *(s32 **)(object + 0x10) = dungeonUpdateRotatingEffectVertices;
+                func_8004491C(object, dungeonDrawLinkedTexturedQuads);
             }
         }
         row--;

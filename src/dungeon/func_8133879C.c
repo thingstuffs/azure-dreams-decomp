@@ -12,15 +12,15 @@ extern s16 func_8016F428(void *arg);
 typedef struct S_8016F79C_0 {
     u8 pad_00[0x2A];
     s16 unk_2A;
-} S_8016F79C_0;   /* s0 in func_8016F79C */
+} S_8016F79C_0;   /* s0 in dungeonApplyScriptDirectionRecord */
 
 typedef struct S_8016F79C_1 {
     u8 pad_00[0x2A];
     s16 unk_2A;
-} S_8016F79C_1;   /* s2 in func_8016F79C */
+} S_8016F79C_1;   /* s2 in dungeonApplyScriptDirectionRecord */
 
 /* Sets the target field from the record or source field and restores two record words. */
-void func_8016F79C(void *unused_0, u8 *record, void *unused_2) {
+void dungeonApplyScriptDirectionRecord(void *unused_0, u8 *record, void *unused_2) {
     u8 *source_base = (u8 *)(&D_80083498.next);
     register u8 *source_data = (u8 *)(source_base + 0x20);
     u8 *target_base = D_80175D50[1];

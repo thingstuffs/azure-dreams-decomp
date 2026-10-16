@@ -12,12 +12,12 @@ typedef struct {
     s32 field_20;
 } TownRecord;
 
-extern s32 func_800ADFBC(s32);
+extern s32 townCountEntriesUntilSecondByteZero(s32);
 
 /* Refresh the entry count, clamp the selection, and update five-entry page indices. */
-void func_800ADFE8(TownRecord *record) {
+void townRefreshPagedSelectionState(TownRecord *record) {
     if (record != 0) {
-        if ((record->field_08 = func_800ADFBC(record->field_20)) != 0) {
+        if ((record->field_08 = townCountEntriesUntilSecondByteZero(record->field_20)) != 0) {
             record->field_10 = (record->field_08 - 1) / 5;
             if (record->field_04 >= record->field_08) {
                 record->field_04 = record->field_08 - 1;

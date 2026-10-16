@@ -4,7 +4,7 @@
 
 
 /* Increment the object and global counters and flag the object after 256 counts. */
-void func_800247AC(u16 *object)
+void advanceObjectAndGlobalCounters(u16 *object)
 {
     u16 object_count;
     s32 counter;

@@ -19,13 +19,13 @@ typedef struct {
     s32 unused_10;
 } Work;
 
-extern s32 func_800374F4();
-extern void func_80097AD0();
-extern void func_800A895C();
+extern s32 scaleRandomToUnsignedHalfwordLimit();
+extern void townSpawnRadialObjects();
+extern void townSpawnRadialEffectObjects();
 extern Pair D_80089128;
 
 /* Process a position and its raised copy using a local vector pair. */
-void func_800A8ADC(s32 unused_arg, s32 *position) {
+void townProcessRaisedPositionPair(s32 unused_arg, s32 *position) {
     Pair pair;
     Work raised_pos;
 
@@ -33,6 +33,6 @@ void func_800A8ADC(s32 unused_arg, s32 *position) {
     raised_pos.x = position[0];
     raised_pos.y = position[1];
     raised_pos.z = position[2] + 0x100000;
-    func_800A895C(position, &pair, (func_800374F4(2) & 0xFFFF) + 2);
-    func_80097AD0(&raised_pos, &pair, (func_800374F4(2) & 0xFFFF) + 2);
+    townSpawnRadialEffectObjects(position, &pair, (scaleRandomToUnsignedHalfwordLimit(2) & 0xFFFF) + 2);
+    townSpawnRadialObjects(&raised_pos, &pair, (scaleRandomToUnsignedHalfwordLimit(2) & 0xFFFF) + 2);
 }

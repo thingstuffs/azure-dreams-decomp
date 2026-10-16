@@ -2,9 +2,9 @@
 #include "records/Rec_func_800AB030_arg0.h"
 
 
-extern s32 func_800AAE98(void *);
-extern void func_800AAFE0(void *, s32);
-extern s32 func_800AB030(void *);
+extern s32 townGetPersonLookupStep(void *);
+extern void townLoadRecordHalfwords3(void *, s32);
+extern s32 townAdvancePersonLookupValue(void *);
 extern u8 D_800AB408[];
 extern u8 D_800AB708[];
 
@@ -22,10 +22,10 @@ typedef struct S_800AB5C0_1 {
     u16 unk_12;
     u8 pad_14[0x2];
     u16 unk_16;
-} S_800AB5C0_1;   /* arg1 in func_800AB5C0 */
+} S_800AB5C0_1;   /* arg1 in townApproachPersonSample */
 
 /* Smooth coordinates toward the adjusted sample, snapping to it when the timer expires. */
-void func_800AB5C0(Rec_func_800AB030_arg0 *state, S_800AB5C0_1 *coords) {
+void townApproachPersonSample(Rec_func_800AB030_arg0 *state, S_800AB5C0_1 *coords) {
     s16 sampled_coords[12];
     s32 z_offset;
     u16 ticks_left;
@@ -33,9 +33,9 @@ void func_800AB5C0(Rec_func_800AB030_arg0 *state, S_800AB5C0_1 *coords) {
     if (state->unk_90 < 100) {
         state->unk_50 = D_800AB708;
     }
-    func_800AAFE0(sampled_coords, 4);
-    z_offset = func_800AAE98(coords);
-    sampled_coords[5] -= z_offset + func_800AB030(state);
+    townLoadRecordHalfwords3(sampled_coords, 4);
+    z_offset = townGetPersonLookupStep(coords);
+    sampled_coords[5] -= z_offset + townAdvancePersonLookupValue(state);
     ticks_left = state->unk_6C - 1;
     state->unk_6C = ticks_left;
     if ((s16)ticks_left < 0) {

@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_80044AAC();
+extern void linkTypedListNode();
 extern u8 D_800D162C[];
 extern u8 D_800D1630[];
 
@@ -64,8 +64,8 @@ void func_800B1DCC(void **pair_state)
         item_index++;
     } while (item_index < 2);
     if (coords[0] > coords[second_index]) {
-        func_80044AAC(pair_state[second_index], pair_state[0]);
+        linkTypedListNode(pair_state[second_index], pair_state[0]);
     } else {
-        func_80044AAC(pair_state[0], pair_state[second_index]);
+        linkTypedListNode(pair_state[0], pair_state[second_index]);
     }
 }

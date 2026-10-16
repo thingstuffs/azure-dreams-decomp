@@ -15,7 +15,7 @@ typedef struct S_80174428_0 {
     u8 unk_6D;
     u8 pad_6E[0x1A];
     s16 unk_88;
-} S_80174428_0;   /* object in func_80174428 */
+} S_80174428_0;   /* object in dungeonUpdateMovementDestinationSelectionRecoveryAnimation */
 
 typedef struct S_80174428_1 {
     u8 pad_00[0x8C];
@@ -24,7 +24,7 @@ typedef struct S_80174428_1 {
     union { u16 s; s16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_80174428_1;   /* state in func_80174428 */
+} S_80174428_1;   /* state in dungeonUpdateMovementDestinationSelectionRecoveryAnimation */
 
 typedef struct S_80174428_2 {
     u8 pad_00[0x14];
@@ -37,14 +37,14 @@ typedef struct S_80174428_2 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_80174428_2;   /* actor in func_80174428 */
+} S_80174428_2;   /* actor in dungeonUpdateMovementDestinationSelectionRecoveryAnimation */
 
 typedef struct S_80174428_3 {
     u8 pad_00[0xA];
     u16 unk_0A;
     s32 unk_0C;
     s32 unk_10;
-} S_80174428_3;   /* motion in func_80174428 */
+} S_80174428_3;   /* motion in dungeonUpdateMovementDestinationSelectionRecoveryAnimation */
 
 extern s16 D_80081468[3];
 extern u8 D_801710F4[];
@@ -57,16 +57,16 @@ extern u16 D_80174FD4[];
 extern void func_80047784(void *, s32, s32);
 extern void func_8009A21C(s16 x, s16 y, u16 flags);
 extern void func_8009A3D0(s32, s32, s32);
-extern void func_800A2B04(void *, s32, s32);
-extern void func_800A4ACC(void *);
-extern s16 func_800A4E2C(u8 *, u8 *);
+extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
+extern void dungeonAdvanceStatusTimers(void *);
+extern s16 selectDungeonSpawnTile(u8 *, u8 *);
 extern void func_800A56E0(s32);
 extern void func_800AA53C(u8 *context);
-extern void func_800AD594(void *, s32);
+extern void dungeonReduceActorFoodMeter(void *, s32);
 extern s16 func_800BCB04(s32, s32, s16);
 
 /* Updates movement, destination selection, and recovery animation for the object. */
-void func_80174428(void *state, void *motion, void *actor, void *object)
+void dungeonUpdateMovementDestinationSelectionRecoveryAnimation(void *state, void *motion, void *actor, void *object)
 {
     s32 y_step;
     s32 x_step;
@@ -176,7 +176,7 @@ void func_80174428(void *state, void *motion, void *actor, void *object)
                 ((S_80174428_1 *)state)->unk_9B++;
                 return;
             }
-            direction_offset = func_800A4E2C(actor + 0x24, actor + 0x25);
+            direction_offset = selectDungeonSpawnTile(actor + 0x24, actor + 0x25);
             if (direction_offset < 0) {
                 continue;
             }
@@ -214,17 +214,17 @@ void func_80174428(void *state, void *motion, void *actor, void *object)
                 (s16)(((S_80174428_3 *)motion)->unk_0A - 0x80));
             ((S_80174428_0 *)object)->unk_88 = height;
             ((S_80174428_2 *)actor)->unk_2C = D_80174F00;
-            func_800AD594(object, 0x200);
+            dungeonReduceActorFoodMeter(object, 0x200);
             func_80047784(actor,
                 ((S_80174428_2 *)actor)->unk_2C[((gameWork.view.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100)
                     >> 9) & 7], 0);
             func_8009A21C(((S_80174428_2 *)actor)->unk_24, ((S_80174428_2 *)actor)->unk_25,
                 (((S_80174428_0 *)object)->unk_1C & 0x2000) ? 0x300 : 0x3000);
-            func_800A2B04(motion, ((S_80174428_2 *)actor)->unk_24, ((S_80174428_2 *)actor)->unk_25);
+            dungeonSetRecordIntegerTileCenter(motion, ((S_80174428_2 *)actor)->unk_24, ((S_80174428_2 *)actor)->unk_25);
             ((S_80174428_2 *)actor)->unk_1E = 0x1000;
             ((S_80174428_2 *)actor)->unk_1C = 0x1000;
             ((S_80174428_1 *)state)->unk_8C = D_801710F4;
-            func_800A4ACC(object);
+            dungeonAdvanceStatusTimers(object);
             ((S_80174428_0 *)object)->unk_6D = 0;
             ((S_80174428_0 *)object)->unk_46 &= 0x7FFF;
             return;

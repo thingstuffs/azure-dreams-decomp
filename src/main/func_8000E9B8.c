@@ -10,7 +10,7 @@ typedef struct {
 
 
 /* Returns the blocks remaining after summing the entry sizes in 8192-byte units. */
-s32 func_800219B8(s32 entry_count) {
+s32 cardBootCalcRemaining8kBlocks(s32 entry_count) {
     func_8000E9B8_EntryT *entry;
     s32 total_size;
     s32 entry_index;

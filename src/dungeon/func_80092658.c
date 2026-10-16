@@ -23,11 +23,11 @@ typedef struct {
 extern u8 D_80096384[];
 extern u8 D_80097C78;
 extern s32 func_80042900(void *, s32);
-extern void func_80099F04(s32);
-extern void func_80099F70(s32);
+extern void dungeonProcessUnflaggedLinkedEntries(s32);
+extern void dungeonProcessUnflaggedLinkedEntriesAlt(s32);
 extern s32 func_800A5C70(void);
 
-void func_80097DB8(Object *object, s32 unused1, s32 unused2, Resource *resource) {
+void dungeonUpdateTimedActorAction(Object *object, s32 unused1, s32 unused2, Resource *resource) {
     s32 state;
         /* MATCH: Keep the guard result in v0 across argument setup. */
     s32 guard;
@@ -63,16 +63,16 @@ void func_80097DB8(Object *object, s32 unused1, s32 unused2, Resource *resource)
                 dungeonStatus.unk_0A += 1;
                 object->state += 1;
             } else {
-                func_80099F70(resource->value);
-                func_80099F04(resource->value);
+                dungeonProcessUnflaggedLinkedEntriesAlt(resource->value);
+                dungeonProcessUnflaggedLinkedEntries(resource->value);
                 dungeonStatus.flags |= 0x812;
             }
         }
         break;
     case 2:
         resource->flags &= ~0x200;
-        func_80099F70(resource->value);
-        func_80099F04(resource->value);
+        dungeonProcessUnflaggedLinkedEntriesAlt(resource->value);
+        dungeonProcessUnflaggedLinkedEntries(resource->value);
         dungeonStatus.flags |= 0x812;
         object->callback = D_80096384;
         dungeonStatus.unk_0A -= 1;

@@ -9,7 +9,7 @@ extern void *func_80017B0C(void *, void *, s32, s32);
 extern s32 func_80017A54(void *, s32, s32);
 
 /* Looks up an entry and applies conditional overrides for IDs 0x2D and 0x2F. */
-void *func_80016224(s32 lookup_key, s32 unused, s32 entry_id)
+void *townLookupVariantWithSpecialOverrides(s32 lookup_key, s32 unused, s32 entry_id)
 {
     void *entry;
 

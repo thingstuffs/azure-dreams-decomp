@@ -133,7 +133,7 @@ u16 angle;
         *slot = new_object;
         if (new_object != 0) {
             color = 0x800000;
-            new_object->part10 = (void *)func_80025800;
+            new_object->part10 = (void *)dungeonUpdateOwnerFollowingEffect;
             color |= 0x8080;
             data_entry_2 = (u8 *)&direction_offsets + ((angle >> 7) & 0x1C);
             x_offset = ((S_80025CE8_0 *)data_entry_2)->unk_00;

@@ -10,7 +10,7 @@ extern void func_80025058(void);
 extern void func_80025068(void);
 extern void func_80025078(void);
 extern void func_8002510C(void);
-extern void func_8002515C(void);
+extern void dungeonRaiseEntityToGround(void);
 extern void func_80025674(void);
 extern void func_80025730(void);
 extern void func_80025770(void);
@@ -34,7 +34,7 @@ __attribute__((section(".text.func_8184A800"))) = {
     func_80025080,
     0,
     func_8002510C,
-    func_8002515C,
+    dungeonRaiseEntityToGround,
     func_80025674,
     func_80025730,
     func_80025770,

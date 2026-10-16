@@ -7,7 +7,7 @@
 extern void * func_8003FD64(s32 flags, void **list_head);
 extern s32 func_8004491C(void *entry, s32 registration_id);
 extern s32 func_800A7A38(u8 *item);
-extern void func_800BC26C(void *, s32, s32, s32);
+extern void dungeonCreateTrackedEffect(void *, s32, s32, s32);
 
 /* Create a sprite object with the supplied position and default color and scale. */
 void *func_800A8608(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z) {
@@ -29,7 +29,7 @@ void *func_800A8608(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z) {
         F(sprite, s16 *, 0x1E) = 0x1000;
         F(sprite, s16 *, 0x1C) = 0x1000;
         F(sprite, s32 *, 8) = func_800A7A38((void *)sprite_source);
-        func_800BC26C(object, 0, 0, 0);
+        dungeonCreateTrackedEffect(object, 0, 0, 0);
     }
     return object;
 }

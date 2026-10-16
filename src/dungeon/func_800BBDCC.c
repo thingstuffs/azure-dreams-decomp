@@ -1,18 +1,18 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 
-extern s32 func_8003FA44(u32);
+extern s32 hasEnoughAvailableRuntimeNodes(u32);
 extern void func_800C1A44(u8, u8, s16);
 
 
-/* Processes the two object slots if func_8003FA44(2) succeeds. */
-s32 func_800C152C(void)
+/* Processes the two object slots if hasEnoughAvailableRuntimeNodes(2) succeeds. */
+s32 dungeonBeginFamiliarRestorationEffects(void)
 {
     s32 slot;
     u8 *object;
     u8 *linked_object;
 
-    if (func_8003FA44(2) == 0) {
+    if (hasEnoughAvailableRuntimeNodes(2) == 0) {
         return 0;
     }
 

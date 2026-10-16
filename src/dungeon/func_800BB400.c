@@ -6,18 +6,18 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
-extern void func_8008D330();
+extern void dungeonBeginDeferredItemAction();
 extern void func_800A63B8();
-extern s32 func_800AD6FC();
+extern s32 dungeonApplyActorFoodPreference();
 extern void func_800A5F38();
-extern void func_800D4FC8();
+extern void dungeonCreateColoredEffectWithSound();
 extern void func_80042984();
 extern void *func_800990FC(void);
 extern u8 *func_80099194();
 extern u8 *func_80099734();
 extern void func_80099290();
 extern void func_800A5720();
-extern void func_80098B38();
+extern void dungeonClearSlotAndUpdateLinkedState();
 
 extern u8 D_800E13FB[];
 extern u8 D_800E1402[];
@@ -27,7 +27,7 @@ extern u8 D_80089380[];
 extern u8 D_800E140A[];
 
 /* Changes the target's element, updates its slots, and displays the result. */
-s32 func_800C0B60(u8 *target, u8 *event, s32 value)
+s32 dungeonApplyGenusChangeItem(u8 *target, u8 *event, s32 value)
 {
     
     u8 *message;
@@ -37,12 +37,12 @@ s32 func_800C0B60(u8 *target, u8 *event, s32 value)
 
     if (target == ((u8 *)D_800E3D7C)) {
         *(u8 **)(target + 0x110) = event;
-        func_8008D330(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
+        dungeonBeginDeferredItemAction(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
         return 0;
     }
     if ((u32)target <= 0x9FFFFFFF) {
         func_800A63B8(target, event, (s16)value);
-        if (func_800AD6FC(target, (D_800DDE84[target[0x13]] >> 6) & 3, 0) == 0) {
+        if (dungeonApplyActorFoodPreference(target, (D_800DDE84[target[0x13]] >> 6) & 3, 0) == 0) {
             func_800A5F38(target, event);
             return 1;
         }
@@ -76,7 +76,7 @@ s32 func_800C0B60(u8 *target, u8 *event, s32 value)
                 *(s32 *)(target + 0x14) |= 4;
                 *(s32 *)(target + 0x1C) |= 4;
             }
-            func_800D4FC8(effect_target, color_mask, effect_code);
+            dungeonCreateColoredEffectWithSound(effect_target, color_mask, effect_code);
         }
         func_80042984(target);
 
@@ -120,7 +120,7 @@ s32 func_800C0B60(u8 *target, u8 *event, s32 value)
         func_800A5720(message_start);
     }
 
-    func_80098B38(event);
+    dungeonClearSlotAndUpdateLinkedState(event);
     dungeonStatus.unk_0A -= 1;
     return 1;
 }

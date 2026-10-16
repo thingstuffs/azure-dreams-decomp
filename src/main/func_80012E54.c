@@ -1,10 +1,10 @@
 #include "common.h"
 
-s32 func_80033B2C();                             /* extern */
+s32 testResidentBitmapBit();                             /* extern */
 extern s16 D_80028010[8];
 
-/* Return a bitmask of the eight entries for which func_80033B2C is nonzero. */
-s32 func_80025E54(void) {
+/* Return a bitmask of the eight entries for which testResidentBitmapBit is nonzero. */
+s32 cardBootBuildEightEntryPresenceMask(void) {
     s16 *entry;
     s32 index;
     s32 result_mask;
@@ -15,7 +15,7 @@ s32 func_80025E54(void) {
     bit = 1;
     entry = D_80028010;
     do {
-        if (func_80033B2C(*entry) != 0) {
+        if (testResidentBitmapBit(*entry) != 0) {
             result_mask += bit << index;
         }
         index += 1;

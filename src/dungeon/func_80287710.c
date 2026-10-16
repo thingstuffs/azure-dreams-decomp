@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void func_8001A710(void) {
+void dungeonResetGenerationLinkScratch(void) {
     s32 entry_index;
 
     ((u8 *)D_8001F6A4)[0] = ((u8 *)D_8001F6A4)[1] = ((u8 *)D_8001F6A4)[2] = ((u8 *)D_8001F6A4)[3] = 0;

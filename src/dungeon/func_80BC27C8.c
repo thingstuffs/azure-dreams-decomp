@@ -12,7 +12,7 @@ typedef struct S_80171FC8_0 {
     u8 pad_72[0x16];
     u16 unk_88;
     union { s16 s; u16 u; } unk_8A;   /* accessed as both */
-} S_80171FC8_0;   /* arg3 in func_80171FC8 */
+} S_80171FC8_0;   /* arg3 in dungeonAdvanceEntityPathState */
 
 typedef struct S_80171FC8_1 {
     u8 pad_00[0x24];
@@ -20,14 +20,14 @@ typedef struct S_80171FC8_1 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_80171FC8_1;   /* arg2 in func_80171FC8 */
+} S_80171FC8_1;   /* arg2 in dungeonAdvanceEntityPathState */
 
 typedef struct S_80171FC8_2 {
     u8 pad_00[0x74];
     u8 unk_74;
     u8 pad_75[0x7];
     u8 unk_7C;
-} S_80171FC8_2;   /* tile in func_80171FC8 */
+} S_80171FC8_2;   /* tile in dungeonAdvanceEntityPathState */
 
 typedef struct S_80171FC8_3 {
     u8 pad_00[0x8C];
@@ -38,25 +38,25 @@ typedef struct S_80171FC8_3 {
     u16 unk_96;
     u8 pad_98[0x2];
     s8 unk_9A;
-} S_80171FC8_3;   /* arg0 in func_80171FC8 */
+} S_80171FC8_3;   /* arg0 in dungeonAdvanceEntityPathState */
 
 typedef struct S_80171FC8_4 {
     u8 pad_00[0x74];
     u8 unk_74;
     u8 pad_75[0x7];
     u8 unk_7C;
-} S_80171FC8_4;   /* (u8 *)arg3 + ((S_80171FC8_0 *)arg3)->unk_8A.s in func_80171FC8 */
+} S_80171FC8_4;   /* (u8 *)arg3 + ((S_80171FC8_0 *)arg3)->unk_8A.s in dungeonAdvanceEntityPathState */
 
 
 extern s32 func_80047784();
 extern s32 func_8009A21C();
 extern s32 func_8009A3D0();
-extern s16 func_800A0818();
+extern s16 dungeonGetRoundedFacingAndRoundingFlag();
 
 extern u8 D_80174634[];
 
 /* Advance the entity along its path and update its movement state. */
-void func_80171FC8(void *motion_state, s32 unused, void *entity, void *path_state)
+void dungeonAdvanceEntityPathState(void *motion_state, s32 unused, void *entity, void *path_state)
 {
     s32 distance;
     s32 flags;
@@ -112,7 +112,7 @@ void func_80171FC8(void *motion_state, s32 unused, void *entity, void *path_stat
                       (((S_80171FC8_0 *)path_state)->unk_1C & 0x2000) ? 0x300 : 0x3000);
 
         ((S_80171FC8_0 *)path_state)->unk_2A =
-            func_800A0818(old_x, old_y, ((S_80171FC8_1 *)entity)->unk_24,
+            dungeonGetRoundedFacingAndRoundingFlag(old_x, old_y, ((S_80171FC8_1 *)entity)->unk_24,
                           ((S_80171FC8_1 *)entity)->unk_25, (u8 *)motion_state + 0x98);
     }
 

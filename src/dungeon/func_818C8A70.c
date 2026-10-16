@@ -5,23 +5,23 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
-   /* the 0x2 bytes before arg0 in func_80024270, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases, addressed as arg0[-1] */
 
-   /* arg0 in func_80024270 */
+   /* arg0 in dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases */
 
-   /* temp_s4 in func_80024270 */
+   /* temp_s4 in dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases */
 
-   /* temp_v0 in func_80024270 */
+   /* temp_v0 in dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases */
 
-   /* temp_s0 in func_80024270 */
+   /* temp_s0 in dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases */
 
-   /* arg1 in func_80024270 */
+   /* arg1 in dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases */
 
-   /* temp_s2 in func_80024270 */
+   /* temp_s2 in dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases */
 
-   /* temp_s7 in func_80024270 */
+   /* temp_s7 in dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases */
 
-   /* the 0x18 bytes before ((B31_818C8A70_S_818C8A70_0 *)arg0)->unk_30 in func_80024270, addressed as ((B31_818C8A70_S_818C8A70_0 *)arg0)->unk_30[-1] */
+   /* the 0x18 bytes before ((B31_818C8A70_S_818C8A70_0 *)arg0)->unk_30 in dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases, addressed as ((B31_818C8A70_S_818C8A70_0 *)arg0)->unk_30[-1] */
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -30,7 +30,7 @@ extern u8 D_800DEC00[];
 extern u8 D_800E3D68;
 
 /* Updates a moving effect, spawns particles, and advances its timed phases. */
-void func_80024270(void *effect, B31_818C8A70_S_818C8A70_4 *position) {
+void dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases(void *effect, B31_818C8A70_S_818C8A70_4 *position) {
     M2C_UNK effect_mode;
     s16 coord;
     s16 coord_2;
@@ -199,7 +199,7 @@ void func_80024270(void *effect, B31_818C8A70_S_818C8A70_4 *position) {
         if ((s16) ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 >= 0x29) {
             ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_00 = 2;
             ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 = 0U;
-            if (func_8009D218(source->unk_60, 1, source) == 0) {
+            if (dungeonTryTriggerTargetRecordEffect(source->unk_60, 1, source) == 0) {
                 s16 random_bonus;
                 u32 effect_scale;
                 random_bonus = func_800A6D30();
@@ -212,7 +212,7 @@ void func_80024270(void *effect, B31_818C8A70_S_818C8A70_4 *position) {
                 if (D_800E3D68 == 0xFF) {
                     effect_mode = 0xFF;
                 }
-                func_800C8CD8(((B31_818C8A70_S_818C8A70_0 *)effect)->unk_30, effect_mode, effect_value);
+                dungeonTryApplyConfusionStatus(((B31_818C8A70_S_818C8A70_0 *)effect)->unk_30, effect_mode, effect_value);
             }
         }
     }

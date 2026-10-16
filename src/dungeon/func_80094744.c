@@ -18,7 +18,7 @@ typedef struct {
 } Entity94744;
 
 /* Apply scaled velocity and reset the entity motion state. */
-void func_80099EA4(Entity94744 *entity) {
+void dungeonApplyScaledEntityVelocity(Entity94744 *entity) {
     entity->field_71 = 0x80;
     entity->value_6C += ((s32)(entity->velocity_6E * dungeonStatus.unk_00)) >> 8;
     entity->field_42 = 0;

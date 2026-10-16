@@ -4,12 +4,12 @@
 typedef struct S_8001C7A0_0 {
     u8 pad_00[0x1C];
     void * unk_1C;
-} S_8001C7A0_0;   /* root in func_8001C7A0 */
+} S_8001C7A0_0;   /* root in townSelectRecordByFourFlags */
 
 typedef struct S_8001C7A0_1 {
     u8 pad_00[0x10];
     union { s32 s; void * u; } unk_10;   /* accessed as both */
-} S_8001C7A0_1;   /* owner in func_8001C7A0 */
+} S_8001C7A0_1;   /* owner in townSelectRecordByFourFlags */
 
 
 extern s32 func_8001E670(s32);
@@ -24,7 +24,7 @@ typedef struct {
 extern TownRecord D_800186C0[];
 
 /* Selects the first record matching all four flag checks, or the default data. */
-void func_8001C7A0(void)
+void townSelectRecordByFourFlags(void)
 {
     if (D_800186C0[0].next != 0) {
         s16 *check_values = D_80018740;

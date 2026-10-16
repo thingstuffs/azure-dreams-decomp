@@ -10,7 +10,7 @@ typedef struct S_81977B40_0 {
     void * unk_10;
     u8 pad_14[0xC];
     s32 unk_20;
-} S_81977B40_0;   /* object in func_81977B40 */
+} S_81977B40_0;   /* object in dungeonCreateAnN30RandomizedEntriesSpreadAcrossSixAngularDirections */
 
 typedef struct S_81977B40_1 {
     u8 pad_00[0x4];
@@ -24,7 +24,7 @@ typedef struct S_81977B40_1 {
     s16 unk_46;
     u8 pad_48[0x3A];
     s16 unk_82;
-} S_81977B40_1;   /* base in func_81977B40 */
+} S_81977B40_1;   /* base in dungeonCreateAnN30RandomizedEntriesSpreadAcrossSixAngularDirections */
 
 
 extern void *func_8003FD64();
@@ -42,10 +42,10 @@ typedef struct S_81977B40_2 {
     s16 unk_0A[30];
     s16 unk_46[30];
     s16 unk_82[30];
-} S_81977B40_2;   /* object data in func_81977B40 */
+} S_81977B40_2;   /* object data in dungeonCreateAnN30RandomizedEntriesSpreadAcrossSixAngularDirections */
 
 /* Creates an object with 30 randomized entries spread across six angular directions. */
-void func_81977B40(void *source_data)
+void dungeonCreateAnN30RandomizedEntriesSpreadAcrossSixAngularDirections(void *source_data)
 {
     s32 entry_index;
     void *object;

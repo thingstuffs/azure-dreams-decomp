@@ -1,0 +1,255 @@
+{
+  "module": "town_ovl_2d3f0c",
+  "ledger_group": {
+    "container": "town",
+    "module": "ovl_2d3f0c.c",
+    "module_index": 10
+  },
+  "members": [
+    "town/func_80353F0C",
+    "town/func_80353F38",
+    "town/func_80353F64"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Historical object boundary is not observable; this is the complete assigned ledger cohort, not a claim that all native code in the script is owned.",
+  "basis": [
+    "Complete pre-existing ledger group, unchanged membership and extent, reviewed against ledger/splits/town.jsonl.",
+    "All members are contiguous, complete functions at a single 2.7.2-cdk-G0 recipe. Neighboring native functions remain separate and external.",
+    "No allocated data or rodata emitted by this TU. The first group imports the script lookup tables; all groups import the shared runtime pointer.",
+    "Authenticated retail CD bank maps contain every complete member; return/delay-slot boundaries and both nearest registered neighbors are recorded below. Script-bank boundaries and native-TU cohort boundaries are distinct."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120",
+  "complete_body_sha256": {
+    "town/func_80353F0C": "d2a6852afaa3802d478d75104e28e7ad04e6198a9112ddf8b6954180f4541e60",
+    "town/func_80353F38": "0e8531686f416ee350b07da517b90fd8e5bcb29176ab305d34431e3d18041382",
+    "town/func_80353F64": "b9f6250bde90f4e5fa7b331e4f508257037dccdc369d397bae93559187af7081"
+  },
+  "owned_prefix": [],
+  "physical_extent": {
+    "file_start": 2965260,
+    "file_end": 2965388,
+    "code_bytes": 128,
+    "load_file_start": 2957312,
+    "load_file_end": 2965504,
+    "load_delta": 2144648400,
+    "evidence": "docs/evidence/town_ovl_2d3f0c.rowbase.json"
+  },
+  "recipe_census": [
+    {
+      "id": "town/func_80353F0C",
+      "cfg": "2.7.2-cdk-G0",
+      "row_asflags": ""
+    },
+    {
+      "id": "town/func_80353F38",
+      "cfg": "2.7.2-cdk-G0",
+      "row_asflags": ""
+    },
+    {
+      "id": "town/func_80353F64",
+      "cfg": "2.7.2-cdk-G0",
+      "row_asflags": ""
+    }
+  ],
+  "function_boundaries": [
+    {
+      "id": "town/func_80353F0C",
+      "start": 2965260,
+      "end": 2965304,
+      "sha256": "d2a6852afaa3802d478d75104e28e7ad04e6198a9112ddf8b6954180f4541e60",
+      "entry": [
+        {
+          "vma": 2147613660,
+          "word": "0x27bdffe8",
+          "instruction": "addiu $sp, $sp, -0x18"
+        },
+        {
+          "vma": 2147613664,
+          "word": "0xafbf0010",
+          "instruction": "sw $ra, 0x10($sp)"
+        },
+        {
+          "vma": 2147613668,
+          "word": "0x24040007",
+          "instruction": "addiu $a0, $zero, 7"
+        },
+        {
+          "vma": 2147613672,
+          "word": "0x24050001",
+          "instruction": "addiu $a1, $zero, 1"
+        }
+      ],
+      "exit": [
+        {
+          "vma": 2147613688,
+          "word": "0x8fbf0010",
+          "instruction": "lw $ra, 0x10($sp)"
+        },
+        {
+          "vma": 2147613692,
+          "word": "0x27bd0018",
+          "instruction": "addiu $sp, $sp, 0x18"
+        },
+        {
+          "vma": 2147613696,
+          "word": "0x03e00008",
+          "instruction": "jr $ra"
+        },
+        {
+          "vma": 2147613700,
+          "word": "0x00000000",
+          "instruction": "nop "
+        }
+      ]
+    },
+    {
+      "id": "town/func_80353F38",
+      "start": 2965304,
+      "end": 2965348,
+      "sha256": "0e8531686f416ee350b07da517b90fd8e5bcb29176ab305d34431e3d18041382",
+      "entry": [
+        {
+          "vma": 2147613704,
+          "word": "0x27bdffe8",
+          "instruction": "addiu $sp, $sp, -0x18"
+        },
+        {
+          "vma": 2147613708,
+          "word": "0xafbf0010",
+          "instruction": "sw $ra, 0x10($sp)"
+        },
+        {
+          "vma": 2147613712,
+          "word": "0x24040007",
+          "instruction": "addiu $a0, $zero, 7"
+        },
+        {
+          "vma": 2147613716,
+          "word": "0x24050001",
+          "instruction": "addiu $a1, $zero, 1"
+        }
+      ],
+      "exit": [
+        {
+          "vma": 2147613732,
+          "word": "0x8fbf0010",
+          "instruction": "lw $ra, 0x10($sp)"
+        },
+        {
+          "vma": 2147613736,
+          "word": "0x27bd0018",
+          "instruction": "addiu $sp, $sp, 0x18"
+        },
+        {
+          "vma": 2147613740,
+          "word": "0x03e00008",
+          "instruction": "jr $ra"
+        },
+        {
+          "vma": 2147613744,
+          "word": "0x00000000",
+          "instruction": "nop "
+        }
+      ]
+    },
+    {
+      "id": "town/func_80353F64",
+      "start": 2965348,
+      "end": 2965388,
+      "sha256": "b9f6250bde90f4e5fa7b331e4f508257037dccdc369d397bae93559187af7081",
+      "entry": [
+        {
+          "vma": 2147613748,
+          "word": "0x3c028001",
+          "instruction": "lui $v0, 0x8001"
+        },
+        {
+          "vma": 2147613752,
+          "word": "0x8c446000",
+          "instruction": "lw $a0, 0x6000($v0)"
+        },
+        {
+          "vma": 2147613756,
+          "word": "0x00000000",
+          "instruction": "nop "
+        },
+        {
+          "vma": 2147613760,
+          "word": "0x8c83001c",
+          "instruction": "lw $v1, 0x1c($a0)"
+        }
+      ],
+      "exit": [
+        {
+          "vma": 2147613772,
+          "word": "0x8c83001c",
+          "instruction": "lw $v1, 0x1c($a0)"
+        },
+        {
+          "vma": 2147613776,
+          "word": "0x24020012",
+          "instruction": "addiu $v0, $zero, 0x12"
+        },
+        {
+          "vma": 2147613780,
+          "word": "0x03e00008",
+          "instruction": "jr $ra"
+        },
+        {
+          "vma": 2147613784,
+          "word": "0xac620008",
+          "instruction": "sw $v0, 8($v1)"
+        }
+      ]
+    }
+  ],
+  "adjacent_registered_rows": [
+    {
+      "side": "before",
+      "id": "town/func_803334D4",
+      "foff": 2831572,
+      "size": 160,
+      "row_kind": "function",
+      "cfg": "2.7.2-cdk-G0",
+      "row_asflags": "",
+      "assignment": {
+        "id": "town/func_803334D4",
+        "container": "town",
+        "module": "ovl_2b34d4.c",
+        "module_index": 9,
+        "confidence": "weak"
+      },
+      "ownership": "external; excluded from this native TU"
+    },
+    {
+      "side": "after",
+      "id": "town/func_8035A5E4",
+      "foff": 2991588,
+      "size": 56,
+      "row_kind": "function",
+      "cfg": "2.7.2-cdk-G0",
+      "row_asflags": "",
+      "assignment": {
+        "id": "town/func_8035A5E4",
+        "container": "town",
+        "module": "ovl_2da5e4.c",
+        "module_index": 11,
+        "confidence": "weak"
+      },
+      "ownership": "external; excluded from this native TU"
+    }
+  ],
+  "recipe_split": {
+    "required": false,
+    "reason": "Every member in the complete original ledger cohort has cfg 2.7.2-cdk-G0 and empty row_asflags. No recipe boundary occurs inside this cohort."
+  },
+  "storage": {
+    "owned_data": [],
+    "owned_rodata": [],
+    "emitted_sections": "text only",
+    "imports_evidence": "docs/evidence/town_ovl_2d3f0c.imports.json",
+    "prefix": "No prefix allocation is part of the declared cohort."
+  }
+}

@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1830850.h"
 
-void *func_80025C6C(void *entryBuffer) {
+void *inventoryInitializeFiveSharedEntries(void *entryBuffer) {
     s32 entryIndex;
     s32 sharedEntryValue;
     ovl_1830850_81810C6C_Entry *entries;

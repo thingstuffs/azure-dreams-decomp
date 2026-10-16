@@ -13,7 +13,7 @@ s32 func_8002443C(s32 owner, void *origin, s16 motion, s16 frame) {
 
     node = func_8003FC64(0x212);
     if (node != NULL) {
-        node_type = (void *)func_800242E0;
+        node_type = (void *)dungeonAdvanceHeightOffsetAndPlacement;
         ((ovl_18d0850_818B0C3C_S_8002443C_0 *)node)->unk_20 = owner;
         owner = (s32)(node + 0x20);
         ((ovl_18d0850_818B0C3C_S_8002443C_0 *)node)->unk_10 = node_type;

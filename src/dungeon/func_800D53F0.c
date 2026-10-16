@@ -7,7 +7,7 @@
 
 typedef struct S_800DAB50_0_pre {
     u16 unk_00;
-} S_800DAB50_0_pre;   /* the 0x2 bytes before var_s2 in func_800DAB50, addressed as var_s2[-1] */
+} S_800DAB50_0_pre;   /* the 0x2 bytes before var_s2 in dungeonUpdateRotatingEffectVertices, addressed as var_s2[-1] */
 
 typedef struct S_800DAB50_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -29,7 +29,7 @@ typedef struct S_800DAB50_0 {
         u16 unk_04;
         u16 unk_06;
     } points[4];
-} S_800DAB50_0;   /* var_s2 in func_800DAB50 */
+} S_800DAB50_0;   /* var_s2 in dungeonUpdateRotatingEffectVertices */
 
 
 typedef struct WorkBlock {
@@ -57,10 +57,10 @@ typedef struct WorkBlock {
 extern s32 func_800644B8();
 extern s32 func_80066460();
 struct Struct_800D6330;
-extern void func_800DBA90(struct Struct_800D6330 *transform);
+extern void dungeonTransformRotatedVertices(struct Struct_800D6330 *transform);
 
 /* Update the effect vertices, animate their color, and advance the rotation. */
-void func_800DAB50(void *effect_data) {
+void dungeonUpdateRotatingEffectVertices(void *effect_data) {
     WorkBlock work;
     s32 index;
     s32 color_step;
@@ -92,7 +92,7 @@ void func_800DAB50(void *effect_data) {
     work.unkC = phase_value;
     for (index = 0; index < 2; index++) {
         work.unk4 = (s16 *)&((S_800DAB50_0 *)effect_data)->points[index * 2];
-        func_800DBA90(&work);
+        dungeonTransformRotatedVertices(&work);
         work.unkC += 0x200;
     }
 

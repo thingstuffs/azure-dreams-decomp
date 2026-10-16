@@ -6,11 +6,11 @@ typedef struct {
     u16 value14;
 } Func800CF16CArg;
 
-extern s32 func_800D1A80(void *first_ptr, void *second_ptr, Func800CF16CArg *record, s32 value);
+extern s32 dungeonFadeActorToRemoval(void *first_ptr, void *second_ptr, Func800CF16CArg *record, s32 value);
 extern void func_800A56C0(void);
 
-void func_800D48CC(void *first_ptr, void *second_ptr, Func800CF16CArg *record, s32 value) {
-    if (func_800D1A80(first_ptr, second_ptr, record, value) != 0) {
+void dungeonInitializeActorActionData(void *first_ptr, void *second_ptr, Func800CF16CArg *record, s32 value) {
+    if (dungeonFadeActorToRemoval(first_ptr, second_ptr, record, value) != 0) {
         func_800A56C0();
         return;
     }

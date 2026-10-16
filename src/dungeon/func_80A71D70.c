@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource07_slot0.h"
 
-void func_80171570(void *action, s32 action_id, void *entity, void *move_state) {
+void dungeonAdvanceStoredPathMotion(void *action, s32 action_id, void *entity, void *move_state) {
     void *state = move_state;
     s32 tile_mask;
     s16 move_result;
@@ -32,9 +32,9 @@ void func_80171570(void *action, s32 action_id, void *entity, void *move_state) 
     }
     func_8009A3D0(x, y, tile_mask);
 
-    direction = ((s16)func_800A0818((s16)(x),(s16)(y),(s16)(((R07_80171570_S_80171570_3 *)((u8 *)state + ((R07_80171570_S_80171570_0 *)state)->unk_8A))->unk_74),(s16)(((R07_80171570_S_80171570_3 *)((u8 *)state + ((R07_80171570_S_80171570_0 *)state)->unk_8A))->unk_7C),
+    direction = ((s16)dungeonGetRoundedFacingAndRoundingFlag((s16)(x),(s16)(y),(s16)(((R07_80171570_S_80171570_3 *)((u8 *)state + ((R07_80171570_S_80171570_0 *)state)->unk_8A))->unk_74),(s16)(((R07_80171570_S_80171570_3 *)((u8 *)state + ((R07_80171570_S_80171570_0 *)state)->unk_8A))->unk_7C),
         (u8 *)action + 0x98));
-    move_result = ((s16)func_8009A66C((s16)(direction), entity, state, 0x20));
+    move_result = ((s16)dungeonCheckMovementClearanceAndHeight((s16)(direction), entity, state, 0x20));
 
     ((Rec_D_80082E80 *)entity)->unk_24 =
         ((R07_80171570_S_80171570_3 *)((u8 *)state + ((R07_80171570_S_80171570_0 *)state)->unk_8A))->unk_74;
@@ -53,7 +53,7 @@ void func_80171570(void *action, s32 action_id, void *entity, void *move_state) 
 
     if (move_result == 3 && !(dungeonStatus.flags & 0x80)
         && !(((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000)) {
-        func_80171EFC(action, action_id, entity, state);
+        dungeonInitializeOppositeFacingEffect(action, action_id, entity, state);
         ((R07_80171570_S_80171570_2 *)action)->unk_8C = 0;
     } else {
         ((R07_80171570_S_80171570_2 *)action)->unk_9A = 0x0F;

@@ -5,12 +5,12 @@ typedef struct S_80404364_0 {
     void * unk_0C;
     u8 pad_10[0xE];
     u16 unk_1E;
-} S_80404364_0;   /* record in func_80404364 */
+} S_80404364_0;   /* record in initCardWindowSlotObject */
 
 typedef struct S_80404364_1 {
     u8 pad_00[0x1D4];
     s32 unk_1D4;
-} S_80404364_1;   /* body in func_80404364 */
+} S_80404364_1;   /* body in initCardWindowSlotObject */
 
 
 extern s32 func_80047FD8(void *record);
@@ -31,7 +31,7 @@ extern u8 D_8040861C[];
 extern u8 D_8040A0F0[];
 
 /* Create or reset a slot record, initialize its body, and install its callback. */
-void func_80404364(s32 init_value, s32 slot_index)
+void initCardWindowSlotObject(s32 init_value, s32 slot_index)
 {
     u8 *record;
     u8 *body;

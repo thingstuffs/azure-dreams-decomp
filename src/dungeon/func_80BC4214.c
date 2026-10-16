@@ -10,26 +10,26 @@ typedef struct S_80173A14_0 {
     union { s16 s; u16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_80173A14_0;   /* arg0 in func_80173A14 */
+} S_80173A14_0;   /* arg0 in dungeonAdvanceActionDelayAndHandler */
 
 
-extern void func_800A2B04();
-extern void func_800AAA54();
-extern void func_800AD4D0();
+extern void dungeonSetRecordIntegerTileCenter();
+extern void dungeonBeginActorDisplayAction();
+extern void dungeonApplyClampedActorValueDelta();
 
 extern s32 D_801719DC;
 extern s32 D_8017466C;
 
 
 /* Advance the action delay, reset motion, and select the next handler. */
-void func_80173A14(S_80173A14_0 *action, EntityRec *motion, Rec_D_80082E80 *action_info, EntityRec *actor_data)
+void dungeonAdvanceActionDelayAndHandler(S_80173A14_0 *action, EntityRec *motion, Rec_D_80082E80 *action_info, EntityRec *actor_data)
 {
     s16 delay;
     s32 tracked_actor;
 
     switch (action->unk_9B) {
     case 0:
-        func_800AD4D0(actor_data);
+        dungeonApplyClampedActorValueDelta(actor_data);
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         action->unk_9B++;
@@ -38,7 +38,7 @@ void func_80173A14(S_80173A14_0 *action, EntityRec *motion, Rec_D_80082E80 *acti
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(action, motion, action_info, &D_8017466C);
+            dungeonBeginActorDisplayAction(action, motion, action_info, &D_8017466C);
             return;
         }
         if (action_info->unk_14.at00_u16.v & 0x8000) {
@@ -69,7 +69,7 @@ void func_80173A14(S_80173A14_0 *action, EntityRec *motion, Rec_D_80082E80 *acti
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(action, motion, action_info, &D_8017466C);
+            dungeonBeginActorDisplayAction(action, motion, action_info, &D_8017466C);
             return;
         } else {
             action->unk_96.s = 2;
@@ -90,7 +90,7 @@ void func_80173A14(S_80173A14_0 *action, EntityRec *motion, Rec_D_80082E80 *acti
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, action_info->unk_24, action_info->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, action_info->unk_24, action_info->unk_25);
 
         tracked_actor = ((s32)dungeonStatus.unk_10);
         if (tracked_actor == (s32)((u8 *)actor_data - 0x20)) {

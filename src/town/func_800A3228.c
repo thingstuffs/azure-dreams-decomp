@@ -1,7 +1,7 @@
 #include "modules/town_door.h"
 
 /* Finds the first node with the required key and value whose 0x400 flag is clear. */
-void *func_800A0988(s32 requested_value)
+void *townFindDoorKeyedNode(s32 requested_value)
 {
     Node *node;
     Node *next_node;
@@ -12,7 +12,7 @@ void *func_800A0988(s32 requested_value)
 
     node = D_80081498.head;
     if (node != 0) {
-        required_node_key = (s32)&func_800A0708;
+        required_node_key = (s32)&townHandleDoorCheckResult;
         do {
             node_key = node->field_10;
             next_node = node->next;

@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7e6e1800.h"
 
-void func_80024E5C(void *effect, void *motion, void *sprite) {
+void dungeonUpdateEffectCycleAndBursts(void *effect, void *motion, void *sprite) {
     s32 delta_x;
     s16 reduced_scale;
     u8 *height_table;
@@ -182,7 +182,7 @@ void func_80024E5C(void *effect, void *motion, void *sprite) {
             if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u >= 5) {
                 trail_index = 0;
                 do {
-                    func_80024D34(effect, motion, sprite);
+                    dungeonCreateRandomOffsetEffect(effect, motion, sprite);
                     next_trail = trail_index + 1;
                     trail_index = next_trail;
                 } while (next_trail < 4);
@@ -200,7 +200,7 @@ update_impact:
         impact_frame = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u + 1;
         ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u = impact_frame;
         if ((s16) impact_frame == impact_state) {
-            func_80024AEC(effect, motion, sprite);
+            dungeonCreatePositionedRenderEffect(effect, motion, sprite);
             func_800A56E0(0x300);
         }
         if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u >= 0xA) {
@@ -217,12 +217,12 @@ update_impact:
         }
         if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u >= 0x1E) {
             ((Row_8192365C_S_80024E5C_0 *)effect)->unk_56 = (u16) (((Row_8192365C_S_80024E5C_0 *)effect)->unk_56 + 3);
-            func_800247B8(effect, motion, sprite);
+            dungeonCreateRandomizedRadialEffect(effect, motion, sprite);
             if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u >= 0x28) {
-                func_800247B8(effect, motion, sprite);
+                dungeonCreateRandomizedRadialEffect(effect, motion, sprite);
             }
             if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u >= 0x2D) {
-                func_800247B8(effect, motion, sprite);
+                dungeonCreateRandomizedRadialEffect(effect, motion, sprite);
             }
         }
         if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u >= 0x32) {
@@ -238,7 +238,7 @@ update_impact:
             burst_index = 0;
             ((Row_8192365C_S_80024E5C_0 *)effect)->unk_56 = (u16) (((Row_8192365C_S_80024E5C_0 *)effect)->unk_56 - 3);
             do {
-                func_800247B8(effect, motion, sprite);
+                dungeonCreateRandomizedRadialEffect(effect, motion, sprite);
                 next_burst = burst_index + 1;
                 burst_index = next_burst;
             } while (next_burst < 5);
@@ -246,7 +246,7 @@ update_impact:
         if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u == 0x10) {
             pair_index = 0;
             do {
-                func_800247B8(effect, motion, sprite);
+                dungeonCreateRandomizedRadialEffect(effect, motion, sprite);
                 next_pair = pair_index + 1;
                 pair_index = next_pair;
             } while (next_pair < 2);
@@ -254,7 +254,7 @@ update_impact:
         triple_index = 0;
         if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u == 0x11) {
             do {
-                func_800247B8(effect, motion, sprite);
+                dungeonCreateRandomizedRadialEffect(effect, motion, sprite);
                 next_triple = triple_index + 1;
                 triple_index = next_triple;
             } while (next_triple < 3);
@@ -262,7 +262,7 @@ update_impact:
         quad_index = 0;
         if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u == 0x12) {
             do {
-                func_800247B8(effect, motion, sprite);
+                dungeonCreateRandomizedRadialEffect(effect, motion, sprite);
                 next_quad = quad_index + 1;
                 quad_index = next_quad;
             } while (next_quad < 4);

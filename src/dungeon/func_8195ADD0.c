@@ -18,7 +18,7 @@ typedef struct {
 } Object;
 
 /* Selects a 24-byte entry and resets the object state and flags. */
-void func_8195ADD0(Object *object, s16 entry_index) {
+void dungeonSelectEntryAndResetState(Object *object, s16 entry_index) {
     s32 entry_base;
     object->unk4 = (s8)entry_index;
     object->unk5 = 0;

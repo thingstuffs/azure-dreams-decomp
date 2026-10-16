@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void func_8001DD48(void *step_state, s32 update_id)
+void dungeonRetreatGenerationStepPair(void *step_state, s32 update_id)
 {
     if (((s16 *) step_state)[2] > 0) {
         ((u16 *) step_state)[0] = (u16) (((u16 *) step_state)[0] - 1);

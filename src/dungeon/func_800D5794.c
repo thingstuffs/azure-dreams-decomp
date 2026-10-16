@@ -8,12 +8,12 @@ typedef struct S_800DAEF4_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_800DAEF4_0;   /* object in func_800DAEF4 */
+} S_800DAEF4_0;   /* object in dungeonSpawnScatteredTimedObjects */
 
 typedef struct S_800DAEF4_1 {
     u8 pad_00[0x2];
     u16 unk_02;
-} S_800DAEF4_1;   /* part in func_800DAEF4 */
+} S_800DAEF4_1;   /* part in dungeonSpawnScatteredTimedObjects */
 
 typedef struct S_800DAEF4_2 {
     u8 pad_00[0x2];
@@ -21,25 +21,25 @@ typedef struct S_800DAEF4_2 {
     u8 pad_04[0x2];
     u16 unk_06;
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_800DAEF4_2;   /* params in func_800DAEF4 */
+} S_800DAEF4_2;   /* params in dungeonSpawnScatteredTimedObjects */
 
 typedef struct S_800DAEF4_3_pre {
     u16 unk_00;
-} S_800DAEF4_3_pre;   /* the 0x2 bytes before owner in func_800DAEF4, addressed as owner[-1] */
+} S_800DAEF4_3_pre;   /* the 0x2 bytes before owner in dungeonSpawnScatteredTimedObjects, addressed as owner[-1] */
 
 typedef struct S_800DAEF4_3 {
     u8 pad_00[0x10];
     union { u16 s; s16 u; } unk_10;   /* accessed as both */
     u8 pad_12[0x36];
     u16 unk_48;
-} S_800DAEF4_3;   /* owner in func_800DAEF4 */
+} S_800DAEF4_3;   /* owner in dungeonSpawnScatteredTimedObjects */
 
 typedef struct S_800DAEF4_4 {
     u8 pad_00[0x10];
     u16 unk_10;
     u8 pad_12[0x36];
     u16 unk_48;
-} S_800DAEF4_4;   /* work in func_800DAEF4 */
+} S_800DAEF4_4;   /* work in dungeonSpawnScatteredTimedObjects */
 
 typedef struct S_800DAEF4_5 {
     void * unk_00;
@@ -54,12 +54,12 @@ typedef struct S_800DAEF4_5 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_800DAEF4_5;   /* node in func_800DAEF4 */
+} S_800DAEF4_5;   /* node in dungeonSpawnScatteredTimedObjects */
 
 typedef struct S_800DAEF4_6 {
     u8 pad_00[0x4];
     s32 unk_04;
-} S_800DAEF4_6;   /* link in func_800DAEF4 */
+} S_800DAEF4_6;   /* link in dungeonSpawnScatteredTimedObjects */
 
 typedef struct S_800DAEF4_7 {
     u8 pad_00[0x6];
@@ -68,17 +68,17 @@ typedef struct S_800DAEF4_7 {
     u16 unk_0A;
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_800DAEF4_7;   /* ((S_800DAEF4_0 *)object)->unk_08 in func_800DAEF4 */
+} S_800DAEF4_7;   /* ((S_800DAEF4_0 *)object)->unk_08 in dungeonSpawnScatteredTimedObjects */
 
 
 extern void *func_8003FD64();
 extern void func_8004491C();
 extern s32 func_80069EF8(void);
-extern void func_800DB164(void *effect, void *motion, void *visual);
+extern void dungeonUpdateTimedEffectAnimation(void *effect, void *motion, void *visual);
 extern s32 D_800DEA68;
 
 /* Spawns up to 13 scattered objects and marks the owner finished when its timer expires. */
-void func_800DAEF4(void *source_owner, void *spawn_params)
+void dungeonSpawnScatteredTimedObjects(void *source_owner, void *spawn_params)
 {
     s32 remaining;
     u8 *link;
@@ -100,7 +100,7 @@ void func_800DAEF4(void *source_owner, void *spawn_params)
     do {
         object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
         if (object != 0) {
-            ((S_800DAEF4_0 *)object)->unk_10 = func_800DB164;
+            ((S_800DAEF4_0 *)object)->unk_10 = dungeonUpdateTimedEffectAnimation;
             func_8004491C(object, func_80045340);
             node = ((S_800DAEF4_0 *)object)->unk_0C;
             work = (u8 *)object;

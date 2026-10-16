@@ -26,12 +26,12 @@ extern void func_800AA36C(void *, void *, void *, void *);
 
 extern void func_80045340(void);
 extern void func_80170B40(void);
-extern void func_8017112C(void);
+extern void dungeonUpdateActorMovementAndHeight(void);
 extern void func_80171198(void);
 extern void func_8017126C(void);
 extern void func_801713FC(void);
 extern void func_80171444(void);
-extern void func_801716D8(void);
+extern void dungeonAdvancePathMotion(void);
 extern void func_80171740(void);
 extern void func_80171784(void);
 extern void func_80171794(void);
@@ -40,12 +40,12 @@ extern void func_80172EA8(void);
 extern void func_80172EB0(void);
 extern void func_80172EB8(void);
 extern void func_80172EF8(void);
-extern void func_80172F00(void);
+extern void dungeonRestoreBankActorTile(void);
 extern void func_80172F08(void);
 extern void func_80172F10(void);
 extern void func_80175258(void);
 extern void func_80175298(void);
-extern void func_80170F6C(void);
+extern void dungeonUpdateLongActorAction(void);
 
 void *func_801708A4(s16, s32, s16, s16);
 
@@ -139,7 +139,7 @@ void *func_801708A4(s16 mode, s32 value1, s16 value2, s16 value3)
         value = (*(u16 *)((u8 *)monster + 0x12));
         (*(u8 *)((u8 *)actor + 0x9A)) = 0xFF;
         (*(s8 *)((u8 *)actor + 0x9C)) = -1;
-        (*(Callback *)((u8 *)actor + 0x8C)) = func_80170F6C;
+        (*(Callback *)((u8 *)actor + 0x8C)) = dungeonUpdateLongActorAction;
         (*(s16 *)((u8 *)actor + 0xAE)) = value;
 
         entry = (*(u8 * *)((u8 *)monster + 8));

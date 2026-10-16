@@ -11,10 +11,10 @@ typedef struct S_800BDDD0_0 {
     u8 pad_16[0x2];
     u16 unk_18;
     s16 unk_1A;
-} S_800BDDD0_0;   /* temp_t3 in func_800BDDD0 */
+} S_800BDDD0_0;   /* temp_t3 in townFillWrappedFourByFourGrid */
 
 /* Writes values 1 through 16 in row order into a wrapped 4x4 grid region. */
-void func_800BDDD0(s32 start_x, s16 start_y, s32 unused_value) {
+void townFillWrappedFourByFourGrid(s32 start_x, s16 start_y, s32 unused_value) {
     s16 cell_value;
     s32 y;
     s32 x;

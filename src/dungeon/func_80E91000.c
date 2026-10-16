@@ -6,8 +6,8 @@
 #define M2C_BREAK() ((void)0)
 #define M2C_SYNC() ((void)0)
 
-extern void func_80098B38(void *);
-extern void *func_800A04F0(void *, u8, u8, s16);
+extern void dungeonClearSlotAndUpdateLinkedState(void *);
+extern void *dungeonPlaceActorAtDirectionalNeighbor(void *, u8, u8, s16);
 extern s32 func_800A6D30(void);
 extern s16 func_800A70E4(s16, s16, s16);
 extern s32 func_800C8310(void *, void *);
@@ -17,9 +17,9 @@ extern s32 D_8016EFE4[];
 
 
 
- s32 func_8016A908(void *, void *) ;
+ s32 dungeonClearActorActionMarkers(void *, void *) ;
 /* Selects an item from the adjacent tile or target inventory and transfers it for processing. */
- s32 func_8016A908(void *origin, void *actor)
+ s32 dungeonClearActorActionMarkers(void *origin, void *actor)
 {
     u8 *origin_bytes = (u8 *)origin;
     u8 *actor_bytes = (u8 *)actor;
@@ -41,7 +41,7 @@ extern s32 D_8016EFE4[];
         return (s32)D_8016EFE4;
     }
 
-    target = func_800A04F0(actor, *(u8 *)(origin_bytes + 0x24), *(u8 *)(origin_bytes + 0x25),
+    target = dungeonPlaceActorAtDirectionalNeighbor(actor, *(u8 *)(origin_bytes + 0x24), *(u8 *)(origin_bytes + 0x25),
                            *(s16 *)(actor_bytes + 0x2A));
     if (target != NULL) {
         if (target == (void *)D_800E3D7C[0]) {
@@ -89,7 +89,7 @@ scan_loop:
                     item_slot += item_offset;
                     item_data = *(s32 *)item_slot;
                     D_8016EFE4[0] = item_data;
-                    func_80098B38(item_slot);
+                    dungeonClearSlotAndUpdateLinkedState(item_slot);
                     return (s32)D_8016EFE4;
                 }
             }

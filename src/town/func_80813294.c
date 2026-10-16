@@ -4,19 +4,19 @@ typedef struct S_80813294_0 {
     void * unk_00;
     union { s16 s; u16 u; u16 p; } unk_04;   /* accessed as both */
     u16 unk_06;
-} S_80813294_0;   /* arg0 in func_8052DE94 */
+} S_80813294_0;   /* arg0 in townAnimateHudGauge */
 
 typedef struct S_80813294_1 {
     u8 pad_00[0x16];
     union { u16 s; u16 u; } unk_16;   /* accessed as both */
-} S_80813294_1;   /* arg2 in func_8052DE94 */
+} S_80813294_1;   /* arg2 in townAnimateHudGauge */
 
 typedef struct S_80813294_2 {
     u8 pad_00[0x5C];
     s16 unk_5C;
-} S_80813294_2;   /* ((S_80813294_0 *)arg0)->unk_00 in func_8052DE94 */
+} S_80813294_2;   /* ((S_80813294_0 *)arg0)->unk_00 in townAnimateHudGauge */
 
-void func_8052DE94(S_80813294_0 *record, s32 unused, S_80813294_1 *value_record) {
+void townAnimateHudGauge(S_80813294_0 *record, s32 unused, S_80813294_1 *value_record) {
     s32 state;
 
     state = record->unk_04.s;

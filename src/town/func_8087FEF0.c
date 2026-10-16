@@ -26,7 +26,7 @@ extern u8 D_80700B30[];
 extern u8 D_80700B44[];
 
 /* Runs the flag test, stores and returns its result, and marks flgtst.c line 201. */
-s32 func_8087FEF0(void) {
+s32 devDispatchFlagTestAndGetResult(void) {
     s32 *test_data = D_807013A4;
 
     func_80700BC4(test_data[0]);

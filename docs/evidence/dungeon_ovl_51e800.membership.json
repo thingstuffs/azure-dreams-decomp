@@ -1,0 +1,19 @@
+{
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_51e800.c",
+    "module_index": 2
+  },
+  "members": [
+    "dungeon/func_804FE87C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": "Complete assigned ledger cohort; file-order extents are contiguous, bounded by the independently registered preceding data head and following split function. Single compiler/assembler recipe. No missing member is elided.",
+  "boundaries": {
+    "start": 5367932,
+    "end": 5368280
+  },
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120"
+}

@@ -2,15 +2,15 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_800165F4_arg0.h"
 
-s32 func_80019B54();             /* extern */
-void func_8001ACE8();                         /* extern */
-s32 func_8001B0C8();                                /* extern */
+s32 townApplySelectedEntryValues();             /* extern */
+void townSetScriptFlagBit();                         /* extern */
+s32 townGetLinkedRecordField2D60();                                /* extern */
 
 
-/* Conditionally process the record ID before passing the record to func_80019B54. */
-void func_80017490(Rec_func_800165F4_arg0 *record, s32 handler_context) {
-    if (func_8001B0C8() != 0) {
-        func_8001ACE8(record->unk_18);
+/* Conditionally process the record ID before passing the record to townApplySelectedEntryValues. */
+void townApplyRecordValueWhenEnabled(Rec_func_800165F4_arg0 *record, s32 handler_context) {
+    if (townGetLinkedRecordField2D60() != 0) {
+        townSetScriptFlagBit(record->unk_18);
     }
-    func_80019B54(record, handler_context);
+    townApplySelectedEntryValues(record, handler_context);
 }

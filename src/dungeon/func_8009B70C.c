@@ -8,9 +8,9 @@ extern s16 D_8006CD00[];
 extern u16 D_800DCEAC[];
 extern u16 D_800DCEBC[];
 
-extern Elem *func_8009FCAC(s16);
+extern Elem *dungeonGetConditionalMonsterEntry(s16);
 extern s32 func_800A6D30(void);
-extern s32 func_800A0818(s16, s16, s16, s16, u16 *);
+extern s32 dungeonGetRoundedFacingAndRoundingFlag(s16, s16, s16, s16, u16 *);
 extern s32 func_800BCB04(s32, s32, s16);
 
 static __inline__ u8 direction_matches(Elem *entry, u8 direction) {
@@ -30,7 +30,7 @@ static __inline__ u8 direction_matches(Elem *entry, u8 direction) {
 }
 
 /* Rebuild the actor's reachable-tile bitmap for its current move kind and hand back the chosen step. */
-s32 func_800A0E6C(u8 *actor_held, s32 kind, u8 *work_p, u16 *out) {
+s32 dungeonRebuildMonsterReachableTiles(u8 *actor_held, s32 kind, u8 *work_p, u16 *out) {
     Elem *s1;
     Elem *scan_entry;
     Elem *entry;
@@ -52,7 +52,7 @@ s32 func_800A0E6C(u8 *actor_held, s32 kind, u8 *work_p, u16 *out) {
             work_p[0x72] = 0;
             work_p[0x67] = 0;
             actor_held[0x27] = 0xFF;
-            s1 = func_8009FCAC(*(s8 *)(actor_held + 0x26));
+            s1 = dungeonGetConditionalMonsterEntry(*(s8 *)(actor_held + 0x26));
             if (s1 != 0) {
                 count = D_800E2970[(s8)actor_held[0x26]].unk_0E;
                 for (i = 0; i < count; i++) {
@@ -89,7 +89,7 @@ s32 func_800A0E6C(u8 *actor_held, s32 kind, u8 *work_p, u16 *out) {
         }
 
         if ((actor_held[0x24] == b72) && (actor_held[0x25] == b73)) {
-            s1 = func_8009FCAC(*(s8 *)(actor_held + 0x26));
+            s1 = dungeonGetConditionalMonsterEntry(*(s8 *)(actor_held + 0x26));
             if (s1 != 0) {
                 s0 = dungeonStatus.unk_1E;
                 if (c3 = D_800E2970[*(s8 *)(actor_held + 0x26)].unk_0E, type = actor_held[0x26], c3 > 0) {
@@ -125,7 +125,7 @@ s32 func_800A0E6C(u8 *actor_held, s32 kind, u8 *work_p, u16 *out) {
             bitmap[d] = 1;
             bitmap[(d + 1) & 7] = 1;
             bitmap[(d - 1) & 7] = 1;
-            angle = func_800A0818(actor_held[0x24], actor_held[0x25], *(s8 *)(work_p + 0x72), *(s8 *)(work_p + 0x73),
+            angle = dungeonGetRoundedFacingAndRoundingFlag(actor_held[0x24], actor_held[0x25], *(s8 *)(work_p + 0x72), *(s8 *)(work_p + 0x73),
                 out) & 0xFFF;
             d = ((angle >> 9) - 4) & 7;
             bitmap[d] = 1;
@@ -153,7 +153,7 @@ L_BCB8:
         work_p[0x72] = s1[s0].b0;
         work_p[0x73] = s1[s0].b1;
         work_p[0x67] = s1[s0].b2;
-        *(u16 *)(work_p + 0x2A) = func_800A0818(actor_held[0x24], actor_held[0x25], *(s8 *)(work_p + 0x72), *(s8 *)(work_p + 0x73), out);
+        *(u16 *)(work_p + 0x2A) = dungeonGetRoundedFacingAndRoundingFlag(actor_held[0x24], actor_held[0x25], *(s8 *)(work_p + 0x72), *(s8 *)(work_p + 0x73), out);
         actor_held[0x27] = s0;
     } else {
         s32 dir;

@@ -9,7 +9,7 @@ extern u8 D_801114C8[];
 extern void LoadImage(void *, void *);
 
 /* Advance the animation tick and upload the selected frame to VRAM. */
-void func_800B7E78(u16 *frame_tick) {
+void townAdvanceBuildingAnimationFrame(u16 *frame_tick) {
     u16 next_tick;
     s32 tick_index;
     void *rect;

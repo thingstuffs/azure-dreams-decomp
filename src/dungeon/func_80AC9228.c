@@ -17,10 +17,10 @@ extern s32 D_80171728;
 extern u8 D_80174DEC[];
 
 extern void func_80047784(void *, s32, s32);
-extern void func_800A2B04(void *, s32, s32);
+extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
 extern void func_800A56E0(s32);
-extern void func_800AD594(void *, s32);
-extern void func_801745BC(void *, s32, s32, s32);
+extern void dungeonReduceActorFoodMeter(void *, s32);
+extern void dungeonProcessNodesAtTargetTile(void *, s32, s32, s32);
 extern void func_80174800(void *, s32, s32, s32);
 
 
@@ -31,7 +31,7 @@ typedef struct S_80174A28_0 {
     s16 unk_96;
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_80174A28_0;   /* arg0 in func_80174A28 */
+} S_80174A28_0;   /* arg0 in dungeonAdvanceDirectionalEffectAction */
 
 typedef struct S_80174A28_1 {
     u8 pad_00[0xA];
@@ -39,7 +39,7 @@ typedef struct S_80174A28_1 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80174A28_1;   /* arg1 in func_80174A28 */
+} S_80174A28_1;   /* arg1 in dungeonAdvanceDirectionalEffectAction */
 
 typedef struct S_80174A28_2 {
     u8 pad_00[0x14];
@@ -49,15 +49,15 @@ typedef struct S_80174A28_2 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_80174A28_2;   /* arg2 in func_80174A28 */
+} S_80174A28_2;   /* arg2 in dungeonAdvanceDirectionalEffectAction */
 
 typedef struct S_80174A28_3 {
     u8 pad_00[0x2A];
     union { u16 u; s16 s; } unk_2A;   /* accessed as both */
-} S_80174A28_3;   /* arg3 in func_80174A28 */
+} S_80174A28_3;   /* arg3 in dungeonAdvanceDirectionalEffectAction */
 
 /* Advances a timed directional action, triggers its effects, and resets the actor state. */
-void func_80174A28(void *action, void *motion, void *sprite, void *actor)
+void dungeonAdvanceDirectionalEffectAction(void *action, void *motion, void *sprite, void *actor)
 {
     OffsetTable offsets = D_80170884;
     s32 coord_value;
@@ -120,7 +120,7 @@ void func_80174A28(void *action, void *motion, void *sprite, void *actor)
             y_offset = offset->y;
             coord_value = ((S_80174A28_2 *)sprite)->unk_25 + y_offset;
             x = x_sum & 0xFFFF;
-            func_801745BC(actor, x, coord_value & 0xFFFF, height);
+            dungeonProcessNodesAtTargetTile(actor, x, coord_value & 0xFFFF, height);
         }
         if ((((S_80174A28_0 *)action)->unk_96 <= 0) ||
             (((S_80174A28_2 *)sprite)->unk_14 & 0x8000)) {
@@ -134,7 +134,7 @@ void func_80174A28(void *action, void *motion, void *sprite, void *actor)
             ((S_80174A28_1 *)motion)->unk_14 = 0;
             ((S_80174A28_1 *)motion)->unk_10 = 0;
             ((S_80174A28_1 *)motion)->unk_0C = 0;
-            func_800A2B04(motion,
+            dungeonSetRecordIntegerTileCenter(motion,
                 ((S_80174A28_2 *)sprite)->unk_24, ((S_80174A28_2 *)sprite)->unk_25);
             if (((S_80174A28_2 *)sprite)->unk_2C != D_80174DEC) {
                 ((S_80174A28_2 *)sprite)->unk_2C = D_80174DEC;
@@ -149,7 +149,7 @@ void func_80174A28(void *action, void *motion, void *sprite, void *actor)
         break;
 
     case 3:
-        func_800AD594(actor, 0x400);
+        dungeonReduceActorFoodMeter(actor, 0x400);
         ((S_80174A28_0 *)action)->unk_8C = &D_80171728;
         dungeonStatus.unk_0C = 0;
         (*(u16 *)((u8 *)actor + (0x46))) &= 0x7FFF;

@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_18ca83c.h"
 
-void func_80024660(void *effect, void *motion, void *appearance) {
+void dungeonAdvanceTargetTravelEffect(void *effect, void *motion, void *appearance) {
     ovl_18ca83c_818AAE60_Func818AAE60Scratch scratch;
     s16 *target_dist_cursor;
     s16 *path_dist_cursor;
@@ -36,7 +36,7 @@ void func_80024660(void *effect, void *motion, void *appearance) {
     case 1:
         source_record = source - 0x20;
         source_info = ((ovl_18ca83c_818AAE60_S_80024660_3 *)source_record)->unk_0C;
-        if (func_8003DE58(((ovl_18ca83c_818AAE60_S_80024660_4 *)source_info)->unk_08, source_info, &scratch.dist[0], 0) == 0) {
+        if (resolveRecordOrientationOrFallback(((ovl_18ca83c_818AAE60_S_80024660_4 *)source_info)->unk_08, source_info, &scratch.dist[0], 0) == 0) {
             if (!(((ovl_18ca83c_818AAE60_S_80024660_12 *)(((ovl_18ca83c_818AAE60_S_80024660_3 *)source_record)->unk_0C))->unk_14 & 0x8000)) {
                 ((Rec_func_800243B8_arg0 *)effect)->unk_14 = 0;
                 return;
@@ -122,7 +122,7 @@ void func_80024660(void *effect, void *motion, void *appearance) {
             while (index < 8) {
                 grid_x = (s16)path_x;
                 grid_y = (s16)path_y;
-                if ((s16)func_800A44E0((grid_x << 6) & 0xFFC0, (grid_y << 6) & 0xFFC0,
+                if ((s16)dungeonCheckLayerOffsetHeight((grid_x << 6) & 0xFFC0, (grid_y << 6) & 0xFFC0,
                         ((ovl_18ca83c_818AAE60_S_80024660_1 *)source)->unk_88,
                         (s16)(((Rec_func_800243B8_arg0 *)effect)->unk_0E << 9)) != 0) {
                     break;
@@ -181,7 +181,7 @@ void func_80024660(void *effect, void *motion, void *appearance) {
         index = 0x1F;
         tile_x = effect + 0x7C;
         do {
-            ((ovl_18ca83c_818AAE60_S_80024660_10 *)tile_x)->unk_18 = func_800243B8(effect, motion, destination, (s16)index);
+            ((ovl_18ca83c_818AAE60_S_80024660_10 *)tile_x)->unk_18 = dungeonCreateRandomizedTargetEffect(effect, motion, destination, (s16)index);
             index -= 1;
             tile_x -= 4;
         } while (index >= 0);

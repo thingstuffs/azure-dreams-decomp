@@ -6,10 +6,10 @@ typedef struct S_80024274_0 {
     s32 unk_224;
     u8 pad_228[0x58];
     s32 * unk_280;
-} S_80024274_0;   /* temp_v1 in func_80024274 */
+} S_80024274_0;   /* temp_v1 in cardBootClearSlotSelectionMarker */
 
 /* Initialize the object's embedded state and clear its referenced word. */
-void func_80024274(s32 object_addr) {
+void cardBootClearSlotSelectionMarker(s32 object_addr) {
     S_80024274_0 *state;
 
     if (object_addr != 0) {

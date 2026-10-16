@@ -15,16 +15,16 @@ typedef struct S_809A0A34_1 {
 
 void func_80047784();         /* extern */
 typedef struct Ent Ent;
-Ent *func_8009C93C(); /* extern */
+Ent *dungeonPrepareDirectionalAttack(); /* extern */
 s32 func_800A2B5C();                          /* extern */
-s32 func_800C7930(); /* extern */
+s32 dungeonApplyCameraOffsetAndSelectTarget(); /* extern */
 extern u8 D_80175E70;
 
 /* Clears the actor flag and conditionally updates its state and directional animation. */
 void func_809A0A34(void *controller, void *action_context, void *sprite, EntityRec *actor) {
     actor->unk_71 = (u8) (actor->unk_71 & 0x7F);
     if (!(dungeonStatus.flags & 0x2000) && ((func_800A2B5C(actor) << 0x10) == 0)) {
-        func_800C7930((u8 *)actor - 0x20, action_context, 8, 0x300);
+        dungeonApplyCameraOffsetAndSelectTarget((u8 *)actor - 0x20, action_context, 8, 0x300);
         if ((func_800A2B5C(actor) << 0x10) == 0) {
             ((S_809A0A34_1 *)controller)->unk_9A = 0x17;
             (*(s32 *)((u8 *)controller + 0x8C)) = 0;
@@ -34,7 +34,7 @@ void func_809A0A34(void *controller, void *action_context, void *sprite, EntityR
                 + &D_80175E70), 0);
             actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
             ((S_809A0A34_1 *)controller)->unk_98 = (u16) (((S_809A0A34_1 *)controller)->unk_98 | 8);
-            func_8009C93C(actor, sprite, actor->facing, 1, 0);
+            dungeonPrepareDirectionalAttack(actor, sprite, actor->facing, 1, 0);
             actor->unk_84 = 0x7C;
             actor->unk_85 = 0;
         }

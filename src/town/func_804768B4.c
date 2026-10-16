@@ -13,7 +13,7 @@ typedef struct TownContext {
 } TownContext;
 
 s32 func_800175B0(void);
-s32 func_80017620(s32);
+s32 townCopyIndexedEntryValue(s32);
 s32 func_8001764C(void);
 s32 func_800176D4(void);
 extern s32 D_80019BB0;
@@ -34,7 +34,7 @@ s32 func_800178B4(TownContext *context, s32 entry_index) {
         selected_value = func_800176D4();
     }
 
-    entry_value = func_80017620(selected_value);
+    entry_value = townCopyIndexedEntryValue(selected_value);
     D_80019BB4 = selected_value;
     context->entries[entry_index].unk8 = entry_value;
     return 0;

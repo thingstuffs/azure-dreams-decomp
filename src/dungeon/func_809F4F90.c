@@ -20,7 +20,7 @@ typedef struct S_80172790_0 {
     u16 unk_46;
     u8 pad_48[0x25];
     s8 unk_6D;
-} S_80172790_0;   /* arg3 in func_80172790 */
+} S_80172790_0;   /* arg3 in dungeonUpdateStagedActorMovement */
 
 typedef struct S_80172790_1 {
     u8 pad_00[0x8C];
@@ -34,13 +34,13 @@ typedef struct S_80172790_1 {
     u8 unk_9B;
     u8 pad_9C[0xC];
     s16 unk_A8;
-} S_80172790_1;   /* arg0 in func_80172790 */
+} S_80172790_1;   /* arg0 in dungeonUpdateStagedActorMovement */
 
 typedef struct S_80172790_2 {
     u8 pad_00[0xC];
     void * unk_0C;
     void * unk_10;
-} S_80172790_2;   /* object in func_80172790 */
+} S_80172790_2;   /* object in dungeonUpdateStagedActorMovement */
 
 typedef struct S_80172790_3 {
     u8 pad_00[0xC];
@@ -55,7 +55,7 @@ typedef struct S_80172790_3 {
     s16 unk_48;
     u8 pad_4A[0x2];
     s16 unk_4C;
-} S_80172790_3;   /* part in func_80172790 */
+} S_80172790_3;   /* part in dungeonUpdateStagedActorMovement */
 
 typedef struct S_80172790_4 {
     u8 pad_00[0x2];
@@ -67,7 +67,7 @@ typedef struct S_80172790_4 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80172790_4;   /* arg1 in func_80172790 */
+} S_80172790_4;   /* arg1 in dungeonUpdateStagedActorMovement */
 
 typedef struct S_80172790_5 {
     u8 pad_00[0x4];
@@ -75,7 +75,7 @@ typedef struct S_80172790_5 {
     s8 unk_05;
     u8 pad_06[0x2];
     s32 unk_08;
-} S_80172790_5;   /* sprite in func_80172790 */
+} S_80172790_5;   /* sprite in dungeonUpdateStagedActorMovement */
 
 typedef struct S_80172790_6 {
     u8 pad_00[0x14];
@@ -83,17 +83,17 @@ typedef struct S_80172790_6 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_80172790_6;   /* arg2 in func_80172790 */
+} S_80172790_6;   /* arg2 in dungeonUpdateStagedActorMovement */
 
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, s32, s32);
 extern s32 rand(void);
-extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void func_800A2B04(void *, s32, s32);
-extern void func_800A4ACC(void *);
+extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A56E0(s32);
-extern void func_800AD594(void *, s32);
+extern void dungeonReduceActorFoodMeter(void *, s32);
 
 extern u8 D_800DEC28[];
 extern void *D_800E3DE8;
@@ -103,7 +103,7 @@ extern u8 D_80175148[];
 extern u8 D_80175160[];
 
 /* Updates an actor's staged movement, particle effects, and return to its tile. */
-void func_80172790(void *action, void *motion, void *tile, void *actor)
+void dungeonUpdateStagedActorMovement(void *action, void *motion, void *tile, void *actor)
 {
     s32 particle_x_offset;
     u8 *move_frames;
@@ -209,7 +209,7 @@ void func_80172790(void *action, void *motion, void *tile, void *actor)
         if (flags & 0x8000) {
             ((S_80172790_1 *)action)->unk_9B = 0xFF;
             ((S_80172790_6 *)tile)->unk_14 |= 0x6000;
-            func_8009C12C(actor, tile, ((S_80172790_0 *)actor)->unk_2A.u, 1);
+            dungeonResolveAttackDamageAndEffects(actor, tile, ((S_80172790_0 *)actor)->unk_2A.u, 1);
             return;
         }
         if (flags & 0xE000) {
@@ -267,7 +267,7 @@ void func_80172790(void *action, void *motion, void *tile, void *actor)
             ((S_80172790_4 *)motion)->unk_0C = 0;
         }
         if (((S_80172790_1 *)action)->unk_96.u == 1) {
-            func_8009C12C(actor, tile, ((S_80172790_0 *)actor)->unk_2A.u, 1);
+            dungeonResolveAttackDamageAndEffects(actor, tile, ((S_80172790_0 *)actor)->unk_2A.u, 1);
             func_800A56E0(0x808);
         }
         if (((S_80172790_1 *)action)->unk_96.u <= 0) {
@@ -301,11 +301,11 @@ void func_80172790(void *action, void *motion, void *tile, void *actor)
         ((S_80172790_4 *)motion)->unk_10 = 0;
         ((S_80172790_4 *)motion)->unk_0C = 0;
         ((S_80172790_0 *)actor)->unk_1C |= 0x40000;
-        func_800A2B04(motion, ((S_80172790_6 *)tile)->unk_24, ((S_80172790_6 *)tile)->unk_25);
-        func_800AD594(actor, 0x100);
+        dungeonSetRecordIntegerTileCenter(motion, ((S_80172790_6 *)tile)->unk_24, ((S_80172790_6 *)tile)->unk_25);
+        dungeonReduceActorFoodMeter(actor, 0x100);
         ((S_80172790_1 *)action)->unk_8C = D_80171400;
         dungeonStatus.unk_0C = 0;
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         ((S_80172790_4 *)motion)->unk_14 = 0;
         ((S_80172790_1 *)action)->unk_98 &= 0xFFF7;
         ((S_80172790_0 *)actor)->unk_1C |= 0x08000000;

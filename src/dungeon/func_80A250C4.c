@@ -95,22 +95,22 @@ extern u8 D_8016AE84[];
 extern u8 D_8016E820[];
 extern u8 D_8016E850[];
 
-extern s32 func_8003F270();
-extern s32 func_8003DE58(void *, void *, void *, s32);
+extern s32 getCdCommandQueueDepth();
+extern s32 resolveRecordOrientationOrFallback(void *, void *, void *, s32);
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_80045340(void);
 extern void func_80047784(void *, s32, s32);
 extern s32 func_80069EF8(void);
-extern void *func_800A05A4(void *, s32, s32, s32, s32);
-extern void func_800A2B04(void *, s32, s32);
-extern void func_800A4ACC(void *);
+extern void *dungeonScanMonsterAlongHeading(void *, s32, s32, s32, s32);
+extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A56E0(s32);
-extern s32 func_800A94A0(void *actor, EntityRec *effect_record, s16 mode, void *context);
-extern void func_800DA840(void *payload, s16 value_scale);
+extern s32 dungeonCreateActorSpellEffect(void *actor, EntityRec *effect_record, s16 mode, void *context);
+extern void dungeonCreateTwoRowObjectGroup(void *payload, s16 value_scale);
 extern void func_8016E0FC(void);
 
-void func_8016C8C4(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
+void dungeonUpdateDungeonItemAction(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
 {
     u16 position[3];
     u16 effect_offset[3];
@@ -196,7 +196,7 @@ void func_8016C8C4(void *action, EntityRec *motion, void *sprite, EntityRec *act
                         actor->unk_73 = ((ImpactSpriteView *)target_sprite)->tileY;
                     }
                 } else {
-                    actor->target = func_800A05A4(
+                    actor->target = dungeonScanMonsterAlongHeading(
                         actor, ((ActionSpriteView *)sprite)->tileX, ((ActionSpriteView *)sprite)->tileY,
                         actor->facing, 0x10);
                     abs_x = abs(actor->unk_72);
@@ -209,10 +209,10 @@ void func_8016C8C4(void *action, EntityRec *motion, void *sprite, EntityRec *act
             position[0] = ((u16)motion->x.w.i);
             position[1] = ((u16)motion->y.w.i);
             position[2] = ((u16)motion->z.w.i);
-            if (func_800A94A0(actor, item_slot, special_mode, &((ItemActionState *)action)->flags) != 0) {
+            if (dungeonCreateActorSpellEffect(actor, item_slot, special_mode, &((ItemActionState *)action)->flags) != 0) {
                 ((ActionSpriteView *)sprite)->flags &= 0xF7FF;
                 func_800A56E0(0x703);
-                func_800DA840(position, (s16)((*item_slot - 1) % 3));
+                dungeonCreateTwoRowObjectGroup(position, (s16)((*item_slot - 1) % 3));
                 current_state = ((ItemActionState *)action)->phase;
                 ((ItemActionState *)action)->timer = 30000;
                 ((ItemActionState *)action)->phase = current_state + 1;
@@ -223,11 +223,11 @@ void func_8016C8C4(void *action, EntityRec *motion, void *sprite, EntityRec *act
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800A2B04(motion, ((ActionSpriteView *)sprite)->tileX, ((ActionSpriteView *)sprite)->tileY);
+            dungeonSetRecordIntegerTileCenter(motion, ((ActionSpriteView *)sprite)->tileX, ((ActionSpriteView *)sprite)->tileY);
             player_state = ((u8 *)D_800814A8);
             dungeonStatus.unk_0C = 0;
             ((PlayerActionCountView *)player_state)->remainingActions--;
-            func_800A4ACC(actor);
+            dungeonAdvanceStatusTimers(actor);
             (*(u8 *)&actor->unk_6D)--;
             ((ItemActionState *)action)->nextBehavior = D_8016AE84;
             actor->unk_73 = 0;
@@ -236,14 +236,14 @@ void func_8016C8C4(void *action, EntityRec *motion, void *sprite, EntityRec *act
             return;
         }
     case 1:
-        if (func_8003F270() != 0) {
+        if (getCdCommandQueueDepth() != 0) {
             ((ActionSpriteView *)sprite)->flags |= 0x800;
             return;
         }
         ((ActionSpriteView *)sprite)->flags &= 0xF7FF;
         ((ItemActionState *)action)->phase++;
     case 2:
-        if (func_8003DE58(((ActionSpriteView *)sprite)->animation, sprite, effect_offset, 0) == 0) {
+        if (resolveRecordOrientationOrFallback(((ActionSpriteView *)sprite)->animation, sprite, effect_offset, 0) == 0) {
             effect_offset[0] = effect_offset[1] = effect_offset[2] = 0;
         }
         if ((((ActionSpriteView *)sprite)->animationState == 3 && (((ActionSpriteView *)sprite)->flags & 0x1000)) ||
@@ -342,7 +342,7 @@ void func_8016C8C4(void *action, EntityRec *motion, void *sprite, EntityRec *act
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, ((ActionSpriteView *)sprite)->tileX, ((ActionSpriteView *)sprite)->tileY);
+        dungeonSetRecordIntegerTileCenter(motion, ((ActionSpriteView *)sprite)->tileX, ((ActionSpriteView *)sprite)->tileY);
         if (((ActionSpriteView *)sprite)->animationTable != D_8016E820) {
             ((ActionSpriteView *)sprite)->animationTable = D_8016E820;
             func_80047784(
@@ -354,7 +354,7 @@ void func_8016C8C4(void *action, EntityRec *motion, void *sprite, EntityRec *act
             dungeonStatus.unk_0A--;
             ((ActionSpriteView *)sprite)->flags &= 0xF7FF;
             ((ItemActionState *)action)->nextBehavior = D_8016AE84;
-            func_800A4ACC(actor);
+            dungeonAdvanceStatusTimers(actor);
             if (actor->unk_6D > 0) {
                 (*(u8 *)&actor->unk_6D)--;
             }

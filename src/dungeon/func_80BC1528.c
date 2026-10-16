@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_be1084.h"
 
-void func_80170D28(
+void dungeonCreateParentReturnEffect(
     void *parent_obj, s16 effect_param, s32 initial_value, s16 duration,
     s16 offset_x, s16 offset_y, s16 offset_z)
 {
@@ -15,7 +15,7 @@ void func_80170D28(
 
     effect = func_8003FD64(0x211, parent);
     if (effect != 0) {
-        ((S_80BC1528_0 *)effect)->unk_10 = func_80170A64;
+        ((S_80BC1528_0 *)effect)->unk_10 = dungeonAdvanceEffectTowardTarget;
 
         ((S_80BC1528_3 *)(((S_80BC1528_0 *)effect)->unk_08))->unk_02 =
             ((S_80BC1528_4 *)(parent->unk_08))->unk_02 + offset_x;

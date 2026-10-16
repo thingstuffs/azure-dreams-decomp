@@ -7,9 +7,9 @@ typedef struct State {
 
 extern s32 func_800A48F0(State *, s32, s8);
 extern s32 func_800A6D30(void);
-extern s32 func_800C7FFC(State *);
+extern s32 dungeonCheckEntityFlag20000000(State *);
 
-s32 func_800C8844(State *state_ptr, s16 limit_input, s8 byte_input) {
+s32 dungeonRollThresholdEffectVariantA(State *state_ptr, s16 limit_input, s8 byte_input) {
     State *state = state_ptr;
     s16 limit = limit_input;
     s8 byte_value = byte_input;
@@ -17,7 +17,7 @@ s32 func_800C8844(State *state_ptr, s16 limit_input, s8 byte_input) {
     s32 dividend;
     s32 dispatch_v1;
 
-    if (func_800C7FFC(state) != 0) {
+    if (dungeonCheckEntityFlag20000000(state) != 0) {
         result = 0;
         return result;
     }

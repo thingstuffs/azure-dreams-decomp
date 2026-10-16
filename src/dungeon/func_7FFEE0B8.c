@@ -21,7 +21,7 @@ void func_8008B818(s32 mode, s32 *list, u8 *init_context, u8 *target_object) {
     if (list != 0) {
         list_value = *list;
     }
-    func_80033C1C(object, list_value);
+    runtimeInitializeStateValue(object, list_value);
     mode_table = D_800CFB74;
     *(u8 **)(context + 0x20) = object;
     *(u32 *)(object + 0x60) = 2;

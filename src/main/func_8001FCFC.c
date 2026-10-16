@@ -8,7 +8,7 @@ extern void func_80406C2C(void);
 extern void func_80406B9C(void);
 extern u8 D_8009DDD8[];
 
-void func_80406CFC(void *ptr) {
+void mainResetMenuObjectState(void *ptr) {
     s32 idx;
 
     idx = *(s32 *)((u8 *)ptr + 0x2C);

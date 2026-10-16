@@ -7,7 +7,7 @@ typedef struct S_80FA5000_0 {
     void ** unk_08;
     void ** unk_0C;
     void * unk_10;
-} S_80FA5000_0;   /* obj in func_80152880 */
+} S_80FA5000_0;   /* obj in createFlaggedDungeonObject */
 
 typedef struct S_80FA5000_1 {
     u8 pad_00[0x13];
@@ -15,12 +15,12 @@ typedef struct S_80FA5000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80FA5000_1;   /* work in func_80152880 */
+} S_80FA5000_1;   /* work in createFlaggedDungeonObject */
 
 typedef struct S_80FA5000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80FA5000_2;   /* part_a in func_80152880 */
+} S_80FA5000_2;   /* part_a in createFlaggedDungeonObject */
 
 typedef struct S_80FA5000_3 {
     u8 pad_00[0x24];
@@ -28,7 +28,7 @@ typedef struct S_80FA5000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80FA5000_3;   /* part_b in func_80152880 */
+} S_80FA5000_3;   /* part_b in createFlaggedDungeonObject */
 
 typedef struct S_80FA5000_4 {
     u8 pad_00[0x8C];
@@ -41,7 +41,7 @@ typedef struct S_80FA5000_4 {
     s8 unk_9C;
     u8 pad_9D[0x3];
     s16 unk_A0;
-} S_80FA5000_4;   /* actor in func_80152880 */
+} S_80FA5000_4;   /* actor in createFlaggedDungeonObject */
 
 
 extern void *func_8003FD64();
@@ -56,12 +56,12 @@ extern u8 D_80156AD4[];
 extern u8 D_80156AFC[];
 extern u8 D_80153138[];
 
-void *func_80152880(s16, s16, s16, s16)
+void *createFlaggedDungeonObject(s16, s16, s16, s16)
 #ifdef __mips__
 #endif
 ;
 
-void *func_80152880(s16 mask, s16 value_24, s16 value_25, s16 value_0A)
+void *createFlaggedDungeonObject(s16 mask, s16 value_24, s16 value_25, s16 value_0A)
 {
     s32 kind;
     void *work = 0;

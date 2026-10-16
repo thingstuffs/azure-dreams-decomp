@@ -6,7 +6,7 @@
 
 extern s32 rand(void);
 extern s32 func_80024124(PointRecord *, EntityRec *);
-extern void func_80024374(void *);
+extern void dungeonAdvanceCounterAndPropagateTargetFlags(void *);
 
 /* Retail 8196ABC4 (func_800243C4): spawn an effect object under the parent node, placed at the parent's
  * position plus a random jitter (0..15 in x/y, 0..31 in z) and the given offsets (minus half the jitter range). */
@@ -20,7 +20,7 @@ void func_800243C4(ObjectNodeHeader *parent, s32 state_14_value, s32 state_08_va
     /* the parent's next slot is the list head the new node links behind */
     spawned = func_8003FD64(0x211, (ObjectNodeHeader **)parent);
     if (spawned != 0) {
-        spawned->unk_10 = (void *)func_80024374;
+        spawned->unk_10 = (void *)dungeonAdvanceCounterAndPropagateTargetFlags;
         /* Retail uses unsigned high-half arithmetic; the u16 store also
          * preserves CDK combine/scheduling before the next rand call. */
         jitter = rand();

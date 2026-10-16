@@ -5,13 +5,13 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-extern void *func_8003FE78();
+extern void *initializeSceneObjectInBuffer();
 extern void func_8008EF58();
-extern void func_8008F01C();
+extern void townHandleInsertInitializeTwoValuesStatusFlags();
 extern void func_8008FCE0();
-extern void func_8008FD48();
-extern void func_8009550C();
-extern s16 func_800C2AE8();
+extern void townInitializeTheStoreTwoValuesSetStateFlags();
+extern void townRunTheThreeUpdateRoutinesContext();
+extern s16 townQueryLoweredTransformPosition();
 
 extern M2C_UNK D_8006ADBC;
 extern M2C_UNK D_800C02C4;
@@ -25,28 +25,28 @@ typedef struct S_800C01DC_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_800C01DC_0;   /* temp_v0 in func_800C01DC */
+} S_800C01DC_0;   /* temp_v0 in townInitializeObjectAtCurrentPosition */
 
 typedef struct S_800C01DC_1 {
     u8 pad_00[0x10];
     u16 * unk_10;
     u16 unk_14;
     u16 unk_16;
-} S_800C01DC_1;   /* base in func_800C01DC */
+} S_800C01DC_1;   /* base in townInitializeObjectAtCurrentPosition */
 
 /* Initializes the town object and sets its position from the current position entry. */
-void func_800C01DC(void) {
+void townInitializeObjectAtCurrentPosition(void) {
     S_800C01DC_0 *object;
 
     D_800D0438 = 0;
-    object = func_8003FE78(0, ((void *)&D_80083498.next), 0x22);
+    object = initializeSceneObjectInBuffer(0, ((void *)&D_80083498.next), 0x22);
     object->unk_10 = &D_800C02C4;
     object->unk_0C = &D_80082E80.unk_000;
     object->unk_08 = &D_80083780.x.v;
     func_8008EF58();
-    func_8008F01C(&D_800CFCB4, &D_80083780.x.v, &D_800D0420);
+    townHandleInsertInitializeTwoValuesStatusFlags(&D_800CFCB4, &D_80083780.x.v, &D_800D0420);
     func_8008FCE0();
-    func_8008FD48(&D_800FE490, &D_80083780.x.v, &D_800D0420);
+    townInitializeTheStoreTwoValuesSetStateFlags(&D_800FE490, &D_80083780.x.v, &D_800D0420);
     {
         s8 *position_data;
         u16 *position_entry;
@@ -55,7 +55,7 @@ void func_800C01DC(void) {
         position_entry = ((S_800C01DC_1 *)position_data)->unk_10;
         D_80083780.x.w.i = (s16) (((S_800C01DC_1 *)position_data)->unk_14 + position_entry[0]);
         D_80083780.y.w.i = (s16) (((S_800C01DC_1 *)position_data)->unk_16 + position_entry[1]);
-        D_80083780.z.w.i = func_800C2AE8(&D_80083780.x.v);
+        D_80083780.z.w.i = townQueryLoweredTransformPosition(&D_80083780.x.v);
     }
-    func_8009550C(&D_80083780.x.v);
+    townRunTheThreeUpdateRoutinesContext(&D_80083780.x.v);
 }

@@ -87,13 +87,13 @@ void func_80024128(void *self, void *output)
         target = (void *)D_800814A8;
         if (target != NULL) {
             void *lookup_origin = target;
-            while ((target = func_800A3F28(D_80082E80.tileX, D_80082E80.tileY, lookup_origin, target)) != NULL) {
+            while ((target = dungeonFindEligibleNearbyEntry(D_80082E80.tileX, D_80082E80.tileY, lookup_origin, target)) != NULL) {
                 if ((((S_81934928_4 *)target)->unk_1C & 0x2000) == 0) {
                     copy_src = (Copy24 *)(u32)((S_81934928_0 *)self)->unk_09;
                     func_8009CE1C(target, 0x20, (s32)copy_src, 0xA,
                                   ((S_81934928_5 *)effect)->unk_2A, effect, 2);
                 }
-                func_80024004(target);
+                decrementFlaggedItemParameters(target);
             }
         }
     }

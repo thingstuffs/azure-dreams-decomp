@@ -35,15 +35,15 @@ extern u8 D_8007947C[];
 extern s16 D_800834C8[8];
 
 
-extern s16 func_800C2AE8(void *position);
-extern void func_80093864(void);
-extern s32 func_800A2A18(void *box, void *offset);
+extern s16 townQueryLoweredTransformPosition(void *position);
+extern void townInitializeTownContextAction(void);
+extern s32 townTestThreeAxisBoxOverlap(void *box, void *offset);
 extern s16 SD_Call(s32 value);
-extern void *func_800B1BEC(s32 setup_value, s32 x, s32 y);
+extern void *townCreateDualBufferObject(s32 setup_value, s32 x, s32 y);
 extern void *func_80093C70(void);
-extern void func_800B1DBC(void *object);
+extern void townSetObjectDataPointer(void *object);
 extern void func_8004491C(void *entry, void *registration_id);
-extern void func_8008F074(void *record, void *setup_value, void *setup_param);
+extern void townConfigureTheSetModeN1(void *record, void *setup_value, void *setup_param);
 
 
 typedef struct ReelSlotCursor {
@@ -110,7 +110,7 @@ typedef struct SlotBody {
 } SlotBody;
 
 /* Updates slot machine bets, reel stops, winning lines, and coin payouts. */
-void func_80022768(State8081FF68 *state, void *position)
+void townProcessSlotMachineState(State8081FF68 *state, void *position)
 {
     GameWork *input = &gameWork;
     u8 *payout_callback;
@@ -127,10 +127,10 @@ void func_80022768(State8081FF68 *state, void *position)
     if ((u32)((u16)state->mode.u - 2) < 5U) {
         EntityRec *angles = &D_80083780;
 
-        angle = func_800C2AE8(angles);
+        angle = townQueryLoweredTransformPosition(angles);
         if (angle > 0) {
             angles->z.v = 0xFFEE0000;
-            angle = func_800C2AE8(angles);
+            angle = townQueryLoweredTransformPosition(angles);
         } else {
             s16 current_angle = angles->z.w.i;
             angle_delta = angle - current_angle;
@@ -146,7 +146,7 @@ void func_80022768(State8081FF68 *state, void *position)
     case 0:
         state->flags = 0;
         state->count = 0;
-        func_80093864();
+        townInitializeTownContextAction();
         state->mode.s = 1;
     case 1:
     {
@@ -154,11 +154,11 @@ void func_80022768(State8081FF68 *state, void *position)
         if ((u32)money[0] < 100U) {
             return;
         }
-        if (func_800A2A18(D_80024470, position) == 0) {
+        if (townTestThreeAxisBoxOverlap(D_80024470, position) == 0) {
             return;
         }
         SD_Call(0x523);
-        D_80024638[0] = (s32)func_800B1BEC(0, -80, 64);
+        D_80024638[0] = (s32)townCreateDualBufferObject(0, -80, 64);
         D_800834C8[0] = 0;
         func_80093C70();
         money[0] -= 100;
@@ -227,7 +227,7 @@ void func_80022768(State8081FF68 *state, void *position)
             return;
         }
         D_80012D5C[0] += state->count * 100;
-        func_800B1DBC((void *)D_80024638[0]);
+        townSetObjectDataPointer((void *)D_80024638[0]);
         state->mode.s = 0;
         return;
     }
@@ -448,7 +448,7 @@ void func_80022768(State8081FF68 *state, void *position)
     case 7:
         state->timer.u++;
         if ((s16)state->timer.u == 9) {
-            func_80093864();
+            townInitializeTownContextAction();
         }
         if ((state->timer.u & 3) != 0) {
             return;
@@ -459,7 +459,7 @@ void func_80022768(State8081FF68 *state, void *position)
                 if ((state->flags & 2) == 0) {
                     void *bet_display = (void *)D_80024638[0];
                     state->count = 0;
-                    func_800B1DBC(bet_display);
+                    townSetObjectDataPointer(bet_display);
                     state->timer.u = 10;
                     state->mode.s = 3;
                 }
@@ -516,7 +516,7 @@ void func_80022768(State8081FF68 *state, void *position)
                 }
                 ((SlotPayout *)payout_state)->unk_00 = state;
                 ((SlotPayout *)payout_state)->unk_50 = payout_callback;
-                func_8008F074(payout_state + 8, ((SlotObject *)coin)->unk_08.p2, D_80024488);
+                townConfigureTheSetModeN1(payout_state + 8, ((SlotObject *)coin)->unk_08.p2, D_80024488);
             }
         }
     }

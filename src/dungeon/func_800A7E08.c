@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Cap and return the adjustment so the base plus adjustment stays within the limit. */
-s16 func_800AD568(void *entry) {
+s16 dungeonCapPendingActorValueDelta(void *entry) {
     s16 adjustment;
     u8 base;
     u8 limit;

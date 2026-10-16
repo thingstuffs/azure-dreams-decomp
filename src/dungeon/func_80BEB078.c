@@ -23,7 +23,7 @@ void *func_80170878(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
     if (created != 0) {
 
         result = (u8 *)created + 0x20;
-        ((R16_80170878_S_80170878_0 *)created)->unk_10 = func_80170A58;
+        ((R16_80170878_S_80170878_0 *)created)->unk_10 = dungeonUpdateEntityFacingAndGround;
         ((R16_80170878_S_80170878_1 *)result)->unk_13 = 0x10;
         func_8004491C(created, func_80045340);
 

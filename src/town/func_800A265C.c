@@ -1,13 +1,13 @@
 #include "common.h"
 
 extern u32 func_800B28A0(void);
-extern void func_8009FD68(void *record_ref);
-extern void func_80033AA8(s32 bit_id);
+extern void townLoadASharedBufferProcessWriteBack(void *record_ref);
+extern void setResidentBitmapBit(s32 bit_id);
 extern s32 D_800D0728[];
 extern s16 D_800D253C[];
 
 /* Processes entries in state 19 and triggers their associated sounds. */
-void func_8009FDBC(void) {
+void townProcessEntriesInStateN19TriggersAssociatedSounds(void) {
     s32 entry_count;
     s32 entry_index;
     s16 *sound_id;
@@ -25,8 +25,8 @@ loop:
         state = entry[0x981];
         if (state != 0) {
             if (state == 19) {
-                func_8009FD68((void *)(0x80010A80 + ((entry[0x983] & 0x3F) * 84)));
-                func_80033AA8(*sound_id);
+                townLoadASharedBufferProcessWriteBack((void *)(0x80010A80 + ((entry[0x983] & 0x3F) * 84)));
+                setResidentBitmapBit(*sound_id);
             }
         }
         sound_id++;

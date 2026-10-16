@@ -21,7 +21,7 @@ extern void func_8004E994(void *ptr_a, void *ptr_b);
 extern void func_8004B1A4(void *ptr);
 
 /* Advance the inner value and mark completion when it exceeds the object's threshold. */
-void func_800B1D00(Obj_800B45A0 *obj)
+void townAdvanceInnerValueAndComplete(Obj_800B45A0 *obj)
 {
     Inner_800B45A0 *inner;
     u16 old_value;

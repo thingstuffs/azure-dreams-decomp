@@ -6,11 +6,11 @@ typedef struct S_80165164_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
     s32 unk_08;
-} S_80165164_0;   /* arg1 in func_80165164 */
+} S_80165164_0;   /* arg1 in dungeonUpdateConvergingFadingParticle */
 
 typedef struct S_80165164_1_pre {
     u16 unk_00;
-} S_80165164_1_pre;   /* the 0x2 bytes before arg0 in func_80165164, addressed as arg0[-1] */
+} S_80165164_1_pre;   /* the 0x2 bytes before arg0 in dungeonUpdateConvergingFadingParticle, addressed as arg0[-1] */
 
 typedef struct S_80165164_1 {
     u8 unk_00;
@@ -36,7 +36,7 @@ typedef struct S_80165164_1 {
     s32 unk_58;
     s32 unk_5C;
     s32 unk_60;
-} S_80165164_1;   /* arg0 in func_80165164 */
+} S_80165164_1;   /* arg0 in dungeonUpdateConvergingFadingParticle */
 
 
 #define M2C_BREAK() ((void)0)
@@ -44,7 +44,7 @@ typedef struct S_80165164_1 {
 
 
 /* Update effect motion and color, flagging it near its target or when fully faded. */
-void func_80165164(void *effect, void *position) {
+void dungeonUpdateConvergingFadingParticle(void *effect, void *position) {
     s16 fade_level;
     s32 scaled_red;
     s32 scaled_green;

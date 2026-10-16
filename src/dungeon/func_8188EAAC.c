@@ -6,7 +6,7 @@ typedef struct S_800262AC_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_800262AC_0;   /* object in func_800262AC */
+} S_800262AC_0;   /* object in dungeonCreateEffectObjectGroups */
 
 typedef struct S_800262AC_1 {
     u8 pad_00[0x2];
@@ -21,7 +21,7 @@ typedef struct S_800262AC_1 {
     s16 unk_12;
     u8 pad_14[0x2];
     s16 unk_16;
-} S_800262AC_1;   /* coords in func_800262AC */
+} S_800262AC_1;   /* coords in dungeonCreateEffectObjectGroups */
 
 typedef struct S_800262AC_2 {
     u8 pad_00[0x6];
@@ -34,7 +34,7 @@ typedef struct S_800262AC_2 {
     u8 pad_16[0x6];
     u16 unk_1C;
     union { u16 s; u16 u; } unk_1E;   /* accessed as both */
-} S_800262AC_2;   /* render in func_800262AC */
+} S_800262AC_2;   /* render in dungeonCreateEffectObjectGroups */
 
 typedef struct S_800262AC_3 {
     u8 pad_00[0x1A];
@@ -48,10 +48,10 @@ typedef struct S_800262AC_3 {
     s16 unk_60;
     u8 pad_62[0x2];
     s16 unk_64;
-} S_800262AC_3;   /* state in func_800262AC */
+} S_800262AC_3;   /* state in dungeonCreateEffectObjectGroups */
 
 
-extern s32 func_8003FA44(s32);
+extern s32 hasEnoughAvailableRuntimeNodes(s32);
 extern void func_8004491C(void *, void *);
 
 extern s32 D_80025E48;
@@ -59,7 +59,7 @@ extern s32 D_80026490;
 extern s32 D_800CEEFC[3];
 
 /* Creates three groups of sixteen objects at the supplied coordinates. */
-void *func_800262AC(s16 x, s16 y, s16 z)
+void *dungeonCreateEffectObjectGroups(s16 x, s16 y, s16 z)
 {
     s32 group_index;
     s32 object_index;
@@ -73,7 +73,7 @@ void *func_800262AC(s16 x, s16 y, s16 z)
     void *callback;
     void *texture;
 
-    if (func_8003FA44(0x30) == 0) {
+    if (hasEnoughAvailableRuntimeNodes(0x30) == 0) {
         return 0;
     }
     group_index = 2;

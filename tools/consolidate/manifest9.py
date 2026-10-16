@@ -3,6 +3,10 @@
    proven by listing9 against the complete post-apply include tree + the apply's partition / image gates)."""
 import json, hashlib, shutil, random, collections
 from pathlib import Path
+import sys as _layout_sys
+_layout_root = next(p for p in Path(__file__).resolve().parents if (p / "tools/source_layout.py").is_file())
+_layout_sys.path.insert(0, str(_layout_root / "tools"))
+from source_layout import row_path as layout_row_path
 LANE = Path(__file__).resolve().parent.parent; REPO = LANE.parent.parent.parent
 plan = json.load(open(LANE / "results/plan9.json"))
 fin = {json.loads(l)["id"]: json.loads(l) for l in open(LANE / "results/final9.jsonl")}
@@ -12,12 +16,12 @@ rows = []
 for rid, rec in sorted(fin.items()):
     if not rec["ok"]: continue
     d = LANE / "draft9" / (rid + ".c"); assert hashlib.sha256(d.read_bytes()).hexdigest() == rec["cand_sha"], rid
-    assert hashlib.sha256((REPO / "src" / (rid + ".c")).read_bytes()).hexdigest() == rec["src_sha"], "src moved: " + rid
+    assert hashlib.sha256((layout_row_path(rid, REPO)).read_bytes()).hexdigest() == rec["src_sha"], "src moved: " + rid
     p = out / (rid + ".c"); p.parent.mkdir(parents=True, exist_ok=True); shutil.copy(d, p)
     flag = "opt" + (",rebaseline" if rec.get("rebaseline_slus") else "")
     rows.append((rid, rid + ".c", rec["src_sha"], "+".join(plan[rid]["stages"]), flag))
 rid = "slus/code"; d = LANE / "draft9/slus/code.c"; p = out / "slus/code.c"; shutil.copy(d, p)
-rows.append((rid, "slus/code.c", hashlib.sha256((REPO / "src/slus/code.c").read_bytes()).hexdigest(), "t1", "hdr"))
+rows.append((rid, "slus/code.c", hashlib.sha256(layout_row_path("slus/code", REPO).read_bytes()).hexdigest(), "t1", "hdr"))
 with open(out / "MANIFEST.tsv", "w") as fh:
     fh.write("# row\tcandidate (under cand9/)\tsrc sha256 it was verified against\tplan\tflag\n")
     for r in rows: fh.write("\t".join(r) + "\n")

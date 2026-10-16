@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource06_slot0.h"
 
-void func_80171964(void *motion, void *unused, void *actor, void *path_state)
+void dungeonUpdateActorObjectMotion(void *motion, void *unused, void *actor, void *path_state)
 {
     u8 *direction_table;
     s32 old_x;
@@ -47,7 +47,7 @@ void func_80171964(void *motion, void *unused, void *actor, void *path_state)
     }
     func_8009A21C(new_x, new_y, tile_mask);
 
-    ((R06_80171964_S_8017169C_0 *)path_state)->unk_2A = ((s16)func_800A0818(
+    ((R06_80171964_S_8017169C_0 *)path_state)->unk_2A = ((s16)dungeonGetRoundedFacingAndRoundingFlag(
         old_x, old_y, ((R06_80171964_S_8017169C_1 *)actor)->unk_24, ((R06_80171964_S_8017169C_1 *)actor)->unk_25,
         (u8 *)motion + 0x98));
     ((R06_80171964_S_8017169C_0 *)path_state)->unk_1C.u |= 0x40000000;

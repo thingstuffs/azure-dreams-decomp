@@ -6,7 +6,7 @@
 typedef struct S_801745F0_3 {
     u8 pad_00[0x1C];
     void * unk_1C;
-} S_801745F0_3;   /* arg0 in func_801745F0 */
+} S_801745F0_3;   /* arg0 in dungeonCopyLinkedPositionAndCheckStatus */
 
 typedef struct S_801745F0_4 {
     u8 pad_00[0x2];
@@ -15,7 +15,7 @@ typedef struct S_801745F0_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_801745F0_4;   /* ((S_801745F0_3 *)arg0)->unk_1C in func_801745F0 */
+} S_801745F0_4;   /* ((S_801745F0_3 *)arg0)->unk_1C in dungeonCopyLinkedPositionAndCheckStatus */
 
 
 typedef struct S_801745F0_0 {
@@ -25,18 +25,18 @@ typedef struct S_801745F0_0 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_801745F0_0;   /* arg1 in func_801745F0 */
+} S_801745F0_0;   /* arg1 in dungeonCopyLinkedPositionAndCheckStatus */
 
 
 typedef struct S_801745F0_2 {
     u16 unk_00;
-} S_801745F0_2;   /* arg0 in func_801745F0; pointer addresses record offset 0x2 */
+} S_801745F0_2;   /* arg0 in dungeonCopyLinkedPositionAndCheckStatus; pointer addresses record offset 0x2 */
 
 
 M2C_UNK func_800478B8();                      /* extern */
 
 /* Copy three object fields and set object and global flags from the processed status. */
-void func_801745F0(void *object, S_801745F0_0 *dest, Rec_D_80082E80 *status) {
+void dungeonCopyLinkedPositionAndCheckStatus(void *object, S_801745F0_0 *dest, Rec_D_80082E80 *status) {
     dest->unk_02 = (u16) ((S_801745F0_4 *)(((S_801745F0_3 *)object)->unk_1C))->unk_02;
     dest->unk_06 = (u16) ((S_801745F0_4 *)(((S_801745F0_3 *)object)->unk_1C))->unk_06;
     dest->unk_0A = (u16) ((S_801745F0_4 *)(((S_801745F0_3 *)object)->unk_1C))->unk_0A;

@@ -14,7 +14,7 @@ extern s32 D_8009DDD8[];
 extern s32 D_8009EB58[];
 
 /* Run the slot operation to completion and update its counters. */
-s32 func_804022C8(s32 slot_index)
+s32 cardDevRunSlotOperation(s32 slot_index)
 {
     u8 state[32];
     s32 count;

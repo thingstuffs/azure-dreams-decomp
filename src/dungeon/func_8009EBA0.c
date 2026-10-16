@@ -9,17 +9,17 @@
 extern u8 D_80081470[];
 extern u8 D_800E3648[];
 
-extern s32 func_800A4474(u8, u8);
-extern s16 func_800B500C(u8, u8, s16);
+extern s32 dungeonLookupDefinitionPairValue(u8, u8);
+extern s16 dungeonFindEntryAtTileCoordinates(u8, u8, s16);
 extern s16 func_800A70E4(u8, u8, s16);
 
 typedef struct S_800A4300_2 {
     u8 pad_00[0xF0];
     union { void * p; s32 i; } unk_F0;   /* accessed as both */
-} S_800A4300_2;   /* D_800814A8[0] in func_800A4300 */
+} S_800A4300_2;   /* D_800814A8[0] in dungeonSelectPositionDataAndUpdateOwner */
 
 /* Selects data at the entity's position and updates the owner's map or floor entry. */
-void func_800A4300(Rec_D_80082E80 *entity, EntityRec *search_state) {
+void dungeonSelectPositionDataAndUpdateOwner(Rec_D_80082E80 *entity, EntityRec *search_state) {
     s32 lookup_code;
     void *owner;
     u32 map_index_bits, floor_index_bits;
@@ -27,13 +27,13 @@ void func_800A4300(Rec_D_80082E80 *entity, EntityRec *search_state) {
     s16 floor_index, map_index;
     u8 *floor_entry, *map_entry;
 
-    lookup_code = func_800A4474(entity->unk_24, entity->unk_25);
+    lookup_code = dungeonLookupDefinitionPairValue(entity->unk_24, entity->unk_25);
     if ((lookup_code << 16) != 0) {
         *(s16 *)D_80081470 = (s16)(lookup_code | 0x1400);
         D_800814A8->unk_F0 = 0;
         return;
     } else {
-        map_index_bits = (u32)func_800B500C(entity->unk_24,
+        map_index_bits = (u32)dungeonFindEntryAtTileCoordinates(entity->unk_24,
                                             entity->unk_25,
                                             search_state->unk_88) << 16;
         map_index = (s16)((s32)map_index_bits >> 16);

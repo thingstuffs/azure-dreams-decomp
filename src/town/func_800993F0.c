@@ -9,7 +9,7 @@ typedef struct {
     s32 unk10;
 } State;
 
-void func_80096A90();                 /* extern */
+void townExpandBoundsToInsetRectangle();                 /* extern */
 extern s16 D_8006ADD6;
 extern s32 D_800FE508[4];
 extern State D_800FE520;
@@ -23,7 +23,7 @@ void func_80096B50(s32 *entries) {
     D_800FE508[1] = 0;
     D_800FE508[3] = 0;
     for (; *entries != 0; entries++) {
-        func_80096A90(D_800FE508, *entries);
+        townExpandBoundsToInsetRectangle(D_800FE508, *entries);
     }
     mode = D_8006ADD6;
     if (mode == 8) {

@@ -29,7 +29,7 @@ typedef struct TownObject {
     TownSlots *town;
 } TownObject;
 
-extern void func_80123C18(TownObject *);
+extern void townDrawCatalogPrimaryDetail(TownObject *);
 extern u8 D_80126A01;
 extern void *D_80126988[4];
 extern u8 D_80128038[16];
@@ -37,9 +37,9 @@ extern ImageEntry D_80126E98[];
 extern DisplayPair *D_80129748;
 
 /* Select the town object's digit graphic and adjust its display offset for width. */
-void func_801247F8(TownObject *obj)
+void townRefreshCatalogPrimaryDetail(TownObject *obj)
 {
-    func_80123C18(obj);
+    townDrawCatalogPrimaryDetail(obj);
     D_80126A01 = 0;
 
     if (obj->digit == 0x31) {

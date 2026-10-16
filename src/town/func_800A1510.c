@@ -1,13 +1,13 @@
 #include "common.h"
 
-extern s32 func_8009FF8C(s32 record_set, void *target);
-extern void func_800A00E8(s32 entryIndex);
+extern s32 townGetNearestUnflaggedSResultN1NoneAvailable(s32 record_set, void *target);
+extern void townSelectATownEntryWritesRootRelativeCoordinatesOutput(s32 entryIndex);
 extern s32 func_800B28A0(void);
 extern s32 D_8009ED7C;
 extern u8 D_80100B3B;
 
-/* Resets object state and passes the selected result to func_800A00E8. */
-void func_8009EC70(void *object, void *status, void *context) {
+/* Resets object state and passes the selected result to townSelectATownEntryWritesRootRelativeCoordinatesOutput. */
+void townResetObjectStatePassesSelectedResultCallee800A00E8(void *object, void *status, void *context) {
     s32 result;
     *((s8 *)status + 0x15) = 0;
     *(s32 *)((u8 *)context + 0xC) = 0;
@@ -18,7 +18,7 @@ void func_8009EC70(void *object, void *status, void *context) {
     if (*((u8 *)object + 0x4D) == 0x13) {
         result = D_80100B3B;
     } else {
-        result = func_8009FF8C(func_800B28A0(), context);
+        result = townGetNearestUnflaggedSResultN1NoneAvailable(func_800B28A0(), context);
     }
-    func_800A00E8(result);
+    townSelectATownEntryWritesRootRelativeCoordinatesOutput(result);
 }

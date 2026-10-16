@@ -7,6 +7,6 @@
 extern u8 D_80017478[];
 extern void *D_80017548[];
 extern void func_80017350();
-void func_80016100(void);
+void townInvokeCallbackAndSetSharedPointer(void);
 s16 func_80016158(void);
 #endif

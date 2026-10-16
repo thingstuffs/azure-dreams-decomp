@@ -1,0 +1,49 @@
+{
+  "schema": "azure-clean.recovered-function.v1",
+  "id": "town/func_806D4920",
+  "group": "ovl_6541c0.c#55",
+  "foff": 6637856,
+  "size": 88,
+  "true_name": "func_80016920",
+  "boundary_basis": "Twenty-two decoded instructions save both real input words in s0/s1, query the explicit event, conditionally read a signed halfword at request +0x18 and call the one-argument helper, then dispatch the original two inputs. Independent ra/s1/s0/sp restoration and jr-ra/nop delimit the entire routine. This is code-boundary evidence only; it grants no data-ownership or native certificate claim.",
+  "raw_source": "raw/town/func_806D4920.c",
+  "raw_sha256": "9ce0369a290c225760724a574fe80cb803965739f74026d13e9f2903ab8054b3",
+  "byte_proof": {
+    "exact": true,
+    "byte_exact": true,
+    "comparison_mode": "linked-strict",
+    "config": "2.7.2-cdk-G0",
+    "source_sha": "9ce0369a290c225760724a574fe80cb803965739f74026d13e9f2903ab8054b3",
+    "target_sha": "8777ed11048ab4816b7250640a2f6b03bb6856153ed09572563be8133940ec93",
+    "aligned": {
+      "indels": 0,
+      "substitutions": 0,
+      "total": 0
+    }
+  },
+  "review": "pending",
+  "retail_words": [
+    "0x27BDFFE0",
+    "0xAFB00010",
+    "0x00808021",
+    "0xAFB10014",
+    "0x00A08821",
+    "0xAFBF0018",
+    "0x0C0061A3",
+    "0x24041455",
+    "0x10400005",
+    "0x02002021",
+    "0x86040018",
+    "0x0C006165",
+    "0x00000000",
+    "0x02002021",
+    "0x0C005DF3",
+    "0x02202821",
+    "0x8FBF0018",
+    "0x8FB10014",
+    "0x8FB00010",
+    "0x27BD0020",
+    "0x03E00008",
+    "0x00000000"
+  ]
+}

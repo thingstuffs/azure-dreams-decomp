@@ -202,10 +202,10 @@ void func_80024104(void *owner);
 void func_800243D8(void *source, void *unused_position, void *unused_sprite);
 s32 func_800244E4(PointRecord *first_point, EntityRec *first_position);
 void func_80024734(Entity *entity, State *state);
-void func_80024798(Object *source, s32 state_14_value, s32 state_08_value, s32 state_32_value, s16 x_offset, s16 y_offset, s16 z_offset);
-void func_800248B8(void *countdownState, s32 unused, void *animationState);
+void dungeonHandleSpawnInitializeRandomizedOffsetParent(Object *source, s32 state_14_value, s32 state_08_value, s32 state_32_value, s16 x_offset, s16 y_offset, s16 z_offset);
+void dungeonAdvanceAnimationValuesSetCompletionFlagsCountdownExpires(void *countdownState, s32 unused, void *animationState);
 void func_8002492C(DungeonObject *object, s32 unused, void *handlerContext);
 void func_800249A0(void *object);
-void *func_800249F0(void *source, void *unused_1, void *unused_2, void *packed_data, s32 render_param, s32 render_x, s32 render_y, s32 render_mode);
+void *dungeonCreateAnCopiedPositionPackedDataInitializeRenderingState(void *source, void *unused_1, void *unused_2, void *packed_data, s32 render_param, s32 render_x, s32 render_y, s32 render_mode);
 void func_80024B38(void *effect, void *effect_pos, void *effect_data);
 #endif

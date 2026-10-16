@@ -1,9 +1,9 @@
 #include "common.h"
 
-extern s32 func_8004A658(s32 a0, s32 a1);
+extern s32 lookupItemCategoryMappedValue(s32 a0, s32 a1);
 
 /* Fills ten output slots from the current page of records, zeroing unused slots. */
-void func_800B2FF8(s32 **outputs, s32 *page_info, s32 record_table) {
+void townFillTenPagedOutputSlots(s32 **outputs, s32 *page_info, s32 record_table) {
     s32 slot;
     s32 page;
     s32 record_index;
@@ -21,7 +21,7 @@ void func_800B2FF8(s32 **outputs, s32 *page_info, s32 record_table) {
         slot++;
         record = *record_ptr;
         record_ptr++;
-        *(*output_ptr) = func_8004A658(record[1], record[0]);
+        *(*output_ptr) = lookupItemCategoryMappedValue(record[1], record[0]);
         output_ptr++;
     }
     for (; slot < 10; slot++) {

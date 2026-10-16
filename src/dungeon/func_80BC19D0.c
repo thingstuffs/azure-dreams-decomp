@@ -10,7 +10,7 @@ typedef struct S_801711D0_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_801711D0_0;   /* obj in func_801711D0 */
+} S_801711D0_0;   /* obj in dungeonSpawnConfiguredActorObject */
 
 typedef struct S_801711D0_1 {
     u8 pad_00[0x13];
@@ -18,12 +18,12 @@ typedef struct S_801711D0_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_801711D0_1;   /* work in func_801711D0 */
+} S_801711D0_1;   /* work in dungeonSpawnConfiguredActorObject */
 
 typedef struct S_801711D0_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_801711D0_2;   /* part_a in func_801711D0 */
+} S_801711D0_2;   /* part_a in dungeonSpawnConfiguredActorObject */
 
 typedef struct S_801711D0_3 {
     u8 pad_00[0x24];
@@ -31,7 +31,7 @@ typedef struct S_801711D0_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_801711D0_3;   /* part_b in func_801711D0 */
+} S_801711D0_3;   /* part_b in dungeonSpawnConfiguredActorObject */
 
 typedef struct S_801711D0_4 {
     u8 pad_00[0x8C];
@@ -40,7 +40,7 @@ typedef struct S_801711D0_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_801711D0_4;   /* actor in func_801711D0 */
+} S_801711D0_4;   /* actor in dungeonSpawnConfiguredActorObject */
 
 
 extern void *func_8003FD64();
@@ -54,7 +54,7 @@ extern M2C_UNK D_801719DC;
 extern u8 D_80174634[];
 extern u8 D_80174684[];
 
-void *func_801711D0(s16 flags, s16 value_24, s16 value_25, s16 value_0A)
+void *dungeonSpawnConfiguredActorObject(s16 flags, s16 value_24, s16 value_25, s16 value_0A)
 {
     s32 kind;
     void *obj;

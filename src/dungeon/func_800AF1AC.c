@@ -7,7 +7,7 @@
 
 typedef struct S_800B490C_0_pre {
     u16 unk_00;
-} S_800B490C_0_pre;   /* the 0x2 bytes before arg0 in func_800B490C, addressed as arg0[-1] */
+} S_800B490C_0_pre;   /* the 0x2 bytes before arg0 in dungeonUpdateAttachedFadingEffect, addressed as arg0[-1] */
 
 typedef struct S_800B490C_0 {
     void * unk_00;
@@ -22,12 +22,12 @@ typedef struct S_800B490C_0 {
     u16 unk_18;
     u16 unk_1A;
     u16 unk_1C;
-} S_800B490C_0;   /* arg0 in func_800B490C */
+} S_800B490C_0;   /* arg0 in dungeonUpdateAttachedFadingEffect */
 
 typedef struct S_800B490C_1 {
     u8 pad_00[0x1E];
     u16 unk_1E;
-} S_800B490C_1;   /* temp_v0 in func_800B490C */
+} S_800B490C_1;   /* temp_v0 in dungeonUpdateAttachedFadingEffect */
 
 typedef struct S_800B490C_2 {
     u8 pad_00[0x2];
@@ -37,12 +37,12 @@ typedef struct S_800B490C_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_800B490C_2;   /* arg1 in func_800B490C */
+} S_800B490C_2;   /* arg1 in dungeonUpdateAttachedFadingEffect */
 
 typedef struct S_800B490C_3 {
     u8 pad_00[0x2];
     u16 unk_02;
-} S_800B490C_3;   /* temp_v0_2 in func_800B490C */
+} S_800B490C_3;   /* temp_v0_2 in dungeonUpdateAttachedFadingEffect */
 
 typedef struct S_800B490C_4 {
     u8 pad_00[0xC];
@@ -55,7 +55,7 @@ typedef struct S_800B490C_4 {
     u8 pad_10[0xC];
     u16 unk_1C;
     u16 unk_1E;
-} S_800B490C_4;   /* arg2 in func_800B490C */
+} S_800B490C_4;   /* arg2 in dungeonUpdateAttachedFadingEffect */
 
 typedef struct S_800B490C_5 {
     u8 pad_00[0x2];
@@ -64,7 +64,7 @@ typedef struct S_800B490C_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800B490C_5;   /* ((S_800B490C_0 *)arg0)->unk_14 in func_800B490C */
+} S_800B490C_5;   /* ((S_800B490C_0 *)arg0)->unk_14 in dungeonUpdateAttachedFadingEffect */
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -73,7 +73,7 @@ s32 func_8004491C();
 extern s32 D_80044C54;
 
 /* Update an attached effect with damped vertical motion, fading, shrinking, and flashing. */
-void func_800B490C(void *effect, S_800B490C_2 *motion, S_800B490C_4 *sprite) {
+void dungeonUpdateAttachedFadingEffect(void *effect, S_800B490C_2 *motion, S_800B490C_4 *sprite) {
     s32 phase;
     s16 next_phase;
     s32 rebound_speed;

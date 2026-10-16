@@ -9,10 +9,10 @@
 typedef struct S_8009CD58_1 {
     u8 unk_00;
     u8 unk_01;
-} S_8009CD58_1;   /* temp_a0_3 in func_8009CD58 */
+} S_8009CD58_1;   /* temp_a0_3 in dungeonGetMaskedRecordFlags */
 
 /* Returns masked record flags augmented by the selected kind. */
-s32 func_8009CD58(EntityRec *record, s32 mask, s32 mode) {
+s32 dungeonGetMaskedRecordFlags(EntityRec *record, s32 mask, s32 mode) {
     s32 shifted_mode;
     s32 base_flags;
     s32 flags;

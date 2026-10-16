@@ -1,0 +1,23 @@
+#include "common.h"
+
+typedef struct { u8 pad[0xE]; u16 flags; } SpriteOwner;
+typedef struct { u16 flags; u16 unused; SpriteOwner *owner; } OwnerLink;
+typedef struct { u8 pad[0xC]; u8 r, g, b; u8 padF[5]; u16 flags; } Render;
+typedef struct { s32 flags; } GlobalFlags;
+extern GlobalFlags D_800814A0;
+extern void func_800478B8(Render *);
+extern s32 func_80069EF8(void);
+
+/* Randomize color and mark the owner complete when the render flags request it. */
+void func_80024928(SpriteOwner **action, void *unused, Render *render) {
+    (*action)->flags |= 0x8000;
+    func_800478B8(render);
+    render->r = (func_80069EF8() & 0x7F) + 0x20;
+    render->g = (func_80069EF8() & 0x7F) + 0x20;
+    render->b = (func_80069EF8() & 0x7F) + 0x20;
+    if (render->flags & 0x6000) {
+        GlobalFlags *status = &D_800814A0;
+        ((OwnerLink *)((u8 *)action - 4))->unused |= 0x8000;
+        status->flags |= 0x8000;
+    }
+}

@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_12c50ac.h"
 
-void *func_801708AC(s16 entity_id, s16 tile_x, u16 tile_y, u16 height) {
+void *dungeonCreateAndInitializesEntityCenterSpecifiedTile(s16 entity_id, s16 tile_x, u16 tile_y, u16 height) {
     Func812A5000Parent *parent;
     Func812A5000Child *tile_state;
     Func812A5000Child *position;

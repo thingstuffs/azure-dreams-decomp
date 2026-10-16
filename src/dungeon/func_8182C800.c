@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_184c800.h"
 
-/* The stack frame of the launch/trail states: a target point, a launch offset, a particle spec handed to func_800DBA90
+/* The stack frame of the launch/trail states: a target point, a launch offset, a particle spec handed to dungeonTransformRotatedVertices
  * and the particle's velocity vector (offsets are from the frame base; the frame starts at sp+0x20). */
 typedef struct ParticleSpec {
     s16 *vec_a;         /* 0x40: both point at vel_x */
@@ -127,7 +127,7 @@ void func_8002401C(void *effect, void *motion, void *sprite) {
     case 0:
         if (*(*(u16 * *)&((EntityRec *)effect)->y) & 0x80) {
             target_x = owner_object->unk_0C;
-            if (func_8003DE58(target_x->unk_08, target_x, &frame.launch_x, 0) == 0) {
+            if (resolveRecordOrientationOrFallback(target_x->unk_08, target_x, &frame.launch_x, 0) == 0) {
                 frame.launch_y = 0;
                 frame.launch_x = 0;
                 height_offset = 0;
@@ -157,21 +157,21 @@ void func_8002401C(void *effect, void *motion, void *sprite) {
             ((S_8182C800_6 *)sprite_or_step_x)->unk_08 = launch_tpage;
             sprite_color = ((S_8182C800_6 *)sprite_or_step_x)->unk_14 | 0xC;
             ((S_8182C800_6 *)sprite_or_step_x)->unk_14 = sprite_color;
-            target = func_800A05A4(owner, owner_sprite->unk_24, owner_sprite->unk_25, ((S_8182C800_1 *)owner)->unk_2A.u,
-                (s16) (sprite_work = func_800A3820(5, launch_tpage)));
+            target = dungeonScanMonsterAlongHeading(owner, owner_sprite->unk_24, owner_sprite->unk_25, ((S_8182C800_1 *)owner)->unk_2A.u,
+                (s16) (sprite_work = dungeonGetDefinitionEntryByte13(5, launch_tpage)));
             ((S_8182C800_1 *)owner)->unk_60 = target;
             if (target == 0) {
                 distance_sum = 0;
                 step_y = 0;
                 sprite_or_step_x = 0;
-                while (distance_sum < func_800A3820(5)) {
+                while (distance_sum < dungeonGetDefinitionEntryByte13(5)) {
                     tile_origin_x = (owner_sprite->unk_24 + sprite_or_step_x) << 6;
                     distance_x = tile_origin_x + 0x20;
                     tile_origin_y = (owner_sprite->unk_25 + step_y) << 6;
                     motion_extent = tile_origin_y + 0x20;
                     probe_y = (u16) motion_extent;
                     probe_x = (u16)distance_x;
-                    if ((func_800A4688(probe_x, probe_y, (s16)func_800BCB04(probe_x, probe_y, -0x400),
+                    if ((dungeonCheckEnabledNeighborHeight(probe_x, probe_y, (s16)func_800BCB04(probe_x, probe_y, -0x400),
                         ((S_8182C800_1 *)owner)->unk_2A.u, ((S_8182C800_1 *)owner)->unk_60) << 0x10) != 0) {
                         break;
                     }
@@ -267,7 +267,7 @@ spawn_trail:
         object = func_8003FD64(0x312, (ObjectNodeHeader **)&D_80083498);
         if (object != NULL) {
             sprite_work = (s32)(((S_8182C800_8 *)object)->unk_0C);
-            ((S_8182C800_8 *)object)->unk_10 = (void *)func_80024D44;
+            ((S_8182C800_8 *)object)->unk_10 = (void *)dungeonMoveTheEffectCountDownTimerFadeSpriteBlack;
             frame.vel_x = 0 - ((motion_extent = func_80069EF8()) & 0x1FF);
             frame.vel_z = 0;
             frame.vel_y = 0;
@@ -304,7 +304,7 @@ spawn_trail:
             frame.spec.w2 = 0;
             frame.spec.flag = 1;
             frame.spec.zero = 0;
-            func_800DBA90(&frame.spec);
+            dungeonTransformRotatedVertices(&frame.spec);
             ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_00 =
                 (s32) (((S_8182C800_5 *)motion)->unk_00.at00.v + ((((motion_extent = func_80069EF8()) & 0x1FF) - 0xFF) << 9));
             ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_04 =
@@ -409,7 +409,7 @@ spawn_trail:
                     object = func_8003FD64(0x312, (ObjectNodeHeader **)&D_80083498);
                     if (object != NULL) {
                         burst_sprite = ((S_8182C800_8 *)object)->unk_0C;
-                        ((S_8182C800_8 *)object)->unk_10 = (void *)func_80024E98;
+                        ((S_8182C800_8 *)object)->unk_10 = (void *)dungeonAdvanceMotionDampingDownwardAccelerationCountDownFadeEffect;
                         ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_00 =
                             (s32) (((S_8182C800_5 *)motion)->unk_00.at00.v
                                 + ((((sprite_work = func_80069EF8()) & 0x3FF) - 0x1FF) << 0xD));

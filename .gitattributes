@@ -1,0 +1,11 @@
+# Linguist hints only (GitHub language statistics and diff collapsing).
+# No text/eol rules on purpose: they would rewrite checked-out files that the
+# byte-exact gates hash.
+ledger/**            linguist-generated
+raw/**               linguist-vendored
+docs/evidence/**     linguist-documentation
+docs/history/**      linguist-documentation
+STATUS.md            linguist-generated
+src/*/INDEX.md       linguist-generated
+config/overlays/*.yaml linguist-generated
+tools/maspsx/**      linguist-vendored

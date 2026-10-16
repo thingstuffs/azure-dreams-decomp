@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource03_slot0.h"
 
-void func_80172F14(R03_80172F14_S_80172F14_1 *controller, EntityRec *motion, Rec_D_80082E80 *entity, void *source)
+void dungeonSlowDirectionalMovementToTile(R03_80172F14_S_80172F14_1 *controller, EntityRec *motion, Rec_D_80082E80 *entity, void *source)
 {
     s16 timer;
     s32 direction;
@@ -11,7 +11,7 @@ void func_80172F14(R03_80172F14_S_80172F14_1 *controller, EntityRec *motion, Rec
 
     switch (controller->unk_9B) {
     case 0:
-        func_800AD4D0(source);
+        dungeonApplyClampedActorValueDelta(source);
         motion->unk_0C =
             *(s16 *)((u8 *)((s8 *)dirStepX) + direction * 2) << 19;
         motion->unk_10 =
@@ -22,7 +22,7 @@ void func_80172F14(R03_80172F14_S_80172F14_1 *controller, EntityRec *motion, Rec
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(controller, motion, entity, ((s32 *)D_80173CC4));
+            dungeonBeginActorDisplayAction(controller, motion, entity, ((s32 *)D_80173CC4));
             return;
         }
         if (entity->unk_14.at00_u16.v & 0x8000) {
@@ -101,7 +101,7 @@ void func_80172F14(R03_80172F14_S_80172F14_1 *controller, EntityRec *motion, Rec
         }
         if (((EntityRec *)source)->unk_28 == 0) {
             motion->flags14 = 0;
-            func_800AAA54(controller, motion, entity, ((s32 *)D_80173CC4));
+            dungeonBeginActorDisplayAction(controller, motion, entity, ((s32 *)D_80173CC4));
             return;
         }
         controller->unk_96.s = 8;
@@ -133,7 +133,7 @@ void func_80172F14(R03_80172F14_S_80172F14_1 *controller, EntityRec *motion, Rec
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, entity->unk_24,
+        dungeonSetRecordIntegerTileCenter(motion, entity->unk_24,
                       entity->unk_25);
 
         tracked_object = ((s32)dungeonStatus.unk_10);

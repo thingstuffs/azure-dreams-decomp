@@ -6,7 +6,7 @@
 
 
 /* Waits for the effect delay, then moves and fades the sprite until it expires. */
-void func_80024688(void *effect, DelayPosition *motion, void *sprite) {
+void dungeonAdvanceDelayedFadingSprite(void *effect, DelayPosition *motion, void *sprite) {
     void *owner;
     s16 phase;
     u16 delay;

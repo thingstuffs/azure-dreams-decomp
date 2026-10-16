@@ -11,7 +11,7 @@ typedef struct {
 extern Record D_80100E40[];
 
 /* Fill eight records with the selected values from the two global arrays. */
-void func_800AAEFC(void) {
+void townFillPersonRecords(void) {
     s32 record_index;
     EntityRec *primary_values;
     u16 *secondary_values;

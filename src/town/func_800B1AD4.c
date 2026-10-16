@@ -1,9 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void func_800AE56C();                         /* extern */
+void townDispatchItemMenuEntryCallback();                         /* extern */
 
-/* Calls func_800AE56C with the offset increased by 0x20. */
-void func_800AF234(s32 offset) {
-    func_800AE56C(offset + 0x20);
+/* Calls townDispatchItemMenuEntryCallback with the offset increased by 0x20. */
+void townInvokeItemMenuOffsetHandler(s32 offset) {
+    townDispatchItemMenuEntryCallback(offset + 0x20);
 }

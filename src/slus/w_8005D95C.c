@@ -1,7 +1,7 @@
 #include "slus/sound_range_records.h"
 
 /* Returns whether a non-skipped block contains the address or starts at or beyond it. */
-s32 func_8005D95C(u32 address) {
+s32 audioGetWhetherNonSkippedBlockContainsAddressStartsBeyond(u32 address) {
     S_800799BC *entry;
     u32 block_start;
     u32 skip_mask;

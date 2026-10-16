@@ -8,7 +8,7 @@ typedef struct {
 
 
 /* Returns the table field selected by the byte at offset 8 of a three-byte entry. */
-u8 func_800A35A4(s32 entry_addr, s32 entry_index) {
+u8 dungeonGetDefinitionFieldFromTriple(s32 entry_addr, s32 entry_index) {
     S_D_8006DE24 *lookup_table = D_8006DE24;
 
     entry_addr = entry_addr + entry_index * 3;

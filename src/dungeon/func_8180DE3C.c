@@ -5,27 +5,27 @@ typedef s32 M2C_UNK;
 
 typedef struct S_80026E3C_0_pre {
     u16 unk_00;
-} S_80026E3C_0_pre;   /* the 0x2 bytes before arg0 in func_80026E3C, addressed as arg0[-1] */
+} S_80026E3C_0_pre;   /* the 0x2 bytes before arg0 in dungeonAlternateEffectShadeAndDecay, addressed as arg0[-1] */
 
 typedef struct S_80026E3C_0 {
     u8 pad_00[0x66];
     u16 unk_66;
     u16 unk_68;
     union { u8 u8; u16 u16; } unk_6A;   /* accessed as both */
-} S_80026E3C_0;   /* arg0 in func_80026E3C */
+} S_80026E3C_0;   /* arg0 in dungeonAlternateEffectShadeAndDecay */
 
 typedef struct S_80026E3C_1 {
     u8 pad_00[0xC];
     s8 unk_0C;
     s8 unk_0D;
     s8 unk_0E;
-} S_80026E3C_1;   /* arg2 in func_80026E3C */
+} S_80026E3C_1;   /* arg2 in dungeonAlternateEffectShadeAndDecay */
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 
 /* Alternate the effect shade, decay its intensity, and flag expiration. */
-void func_80026E3C(void *effect, M2C_UNK ticks_left, S_80026E3C_1 *color)
+void dungeonAlternateEffectShadeAndDecay(void *effect, M2C_UNK ticks_left, S_80026E3C_1 *color)
 {
     u16 frame;
     u16 intensity;

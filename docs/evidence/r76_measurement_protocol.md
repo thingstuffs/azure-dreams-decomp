@@ -73,7 +73,7 @@ holds the Agent prompt in `PROMPT.txt` (`record_usage.py --prompt`, the r73 kit 
 Agent instruction is one line: `Read <REPO>/work/native_lane/<lane>/PROMPT.txt and follow it exactly.` At each
 completion the coordinator records the harness's usage (the lane cannot measure itself):
 `python3 tools/lanes/record_usage.py <lane> --tokens <subagent_tokens> --tool-uses <n> --duration-ms <ms>`, or once at the
-end `python3 tools/lanes/record_usage.py --backfill ~/.claude/projects/-home-user-project/<session>.jsonl --lane-glob 'r76*'`.
+end `python3 tools/lanes/record_usage.py --backfill ~/.claude/projects/<project-dir>/<session>.jsonl --lane-glob 'r76*'`.
 
 ## Analysis
 

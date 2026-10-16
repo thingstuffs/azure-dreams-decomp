@@ -77,7 +77,7 @@ sign_flags:
         item_index >>= 16;
         flags = item_index;
 call_tile:
-        func_8003F80C(src, vram_offset, palette_count, flags);
+        uploadVramRowAndCache(src, vram_offset, palette_count, flags);
         DrawSync(0);
         break;
         case 2:

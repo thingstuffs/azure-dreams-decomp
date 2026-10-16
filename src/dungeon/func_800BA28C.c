@@ -11,22 +11,22 @@ extern s32 D_800835E8[];
 extern u8 D_800E131C[];
 
 extern s32 func_80042900(void *, s32);
-extern void func_8008D344(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
-extern s32 func_80098864(s32, s32);
-extern void func_80098B38(s32);
+extern void dungeonBeginModeSelectedItemAction(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
+extern s32 dungeonProcessRecordAndUpdateLinkedState(s32, s32);
+extern void dungeonClearSlotAndUpdateLinkedState(s32);
 extern void func_800997FC(void *);
-extern void func_800A1D4C(void *, s32);
+extern void raiseEntityLevel(void *, s32);
 extern void func_800A5F38(void *, s32);
 extern void func_800A6480(void *, s32, s16);
-extern s32 func_800AD6FC(void *, s32, s32);
-extern void func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
-extern void func_800C4D78(s32, s16);
+extern s32 dungeonApplyActorFoodPreference(void *, s32, s32);
+extern void createActorValuePopup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
+extern void dungeonCreateViewColorFlash(s32, s16);
 
 
 typedef struct S_800BF9EC_2_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800BF9EC_2_pre;   /* the 0x14 bytes before node in func_800BF9EC, addressed as node[-1] */
+} S_800BF9EC_2_pre;   /* the 0x14 bytes before node in dungeonUseItemToLevelUpEligibleActors, addressed as node[-1] */
 
 typedef struct S_800BF9EC_2 {
     u8 pad_00[0x11];
@@ -37,37 +37,37 @@ typedef struct S_800BF9EC_2 {
     s32 unk_1C;
     u8 pad_20[0x3C];
     void * unk_5C;
-} S_800BF9EC_2;   /* node in func_800BF9EC */
+} S_800BF9EC_2;   /* node in dungeonUseItemToLevelUpEligibleActors */
 
 typedef struct S_800BF9EC_3 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_800BF9EC_3;   /* ((S_800BF9EC_2_pre *)node)[-1].unk_00 in func_800BF9EC */
+} S_800BF9EC_3;   /* ((S_800BF9EC_2_pre *)node)[-1].unk_00 in dungeonUseItemToLevelUpEligibleActors */
 
 /* Applies an action to the target or eligible list nodes and updates action state. */
-s32 func_800BF9EC(EntityRec *target, s32 action_id, s16 action_type, s32 action_param)
+s32 dungeonUseItemToLevelUpEligibleActors(EntityRec *target, s32 action_id, s16 action_type, s32 action_param)
 {
     EntityRec *head;
     void *node;
 
     if (action_type == 13) {
-        return func_80098864(action_id, action_param);
+        return dungeonProcessRecordAndUpdateLinkedState(action_id, action_param);
     }
 
     if (target == ((u8 *)D_800E3D7C)) {
         target->unk_110 = action_id;
-        func_8008D344(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
+        dungeonBeginModeSelectedItemAction(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
         return 0;
     }
 
     if ((u32)target <= 0x9FFFFFFF) {
         func_800A6480(target, action_id, action_type);
-        if (func_800AD6FC(target, D_800DDE84[(*(u8 *)((u8 *)&target->unk_10 + 3))] & 3, action_id) == 0) {
+        if (dungeonApplyActorFoodPreference(target, D_800DDE84[(*(u8 *)((u8 *)&target->unk_10 + 3))] & 3, action_id) == 0) {
             func_800A5F38(target, action_id);
             return 1;
         }
     } else {
-        func_800C4D78(0x2020C0, 1);
+        dungeonCreateViewColorFlash(0x2020C0, 1);
         func_800997FC(D_800E131C);
 
         head = D_800814A8;
@@ -78,13 +78,13 @@ s32 func_800BF9EC(EntityRec *target, s32 action_id, s16 action_type, s32 action_
                      (func_80042900(node, 12) << 16) != 0) &&
                     (*(u8 *)((u8 *)&target->unk_10 + 1)) < 99) {
                     ((S_800BF9EC_2 *)node)->unk_18 = D_800835E8[((S_800BF9EC_2 *)node)->unk_11];
-                    func_800A1D4C(node, 0);
+                    raiseEntityLevel(node, 0);
                     if ((((S_800BF9EC_3 *)(((S_800BF9EC_2_pre *)node)[-1].unk_00))->unk_14 & 0x8000) == 0) {
                         s32 effect_id = 0x8003;
                         if (((S_800BF9EC_2 *)node)->unk_14 & 0x2000) {
                             effect_id = 0x8002;
                         }
-                        func_800B4C7C(effect_id, node, -2, 1);
+                        createActorValuePopup(effect_id, node, -2, 1);
                     }
                 }
                 node = (u8 *)((S_800BF9EC_2 *)node)->unk_5C + 0x20;
@@ -92,7 +92,7 @@ s32 func_800BF9EC(EntityRec *target, s32 action_id, s16 action_type, s32 action_
         }
     }
 
-    func_80098B38(action_id);
+    dungeonClearSlotAndUpdateLinkedState(action_id);
     dungeonStatus.unk_0A--;
     return 1;
 }

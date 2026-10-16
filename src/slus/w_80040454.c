@@ -14,7 +14,7 @@ typedef struct S_80040454 {
 extern S_80040454 *D_80081498;
 
 /* Clear flag bits 0xC00 in every node of the global list. */
-void func_80040454(void)
+void clearFlagsOnResourceList(void)
 {
     S_80040454 *node = D_80081498;
 

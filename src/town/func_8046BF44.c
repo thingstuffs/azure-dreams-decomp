@@ -7,7 +7,7 @@ extern u8 D_8001CED4;
 extern u8 D_8001CF1C;
 
 /* Invoke one of two callbacks using the current state index. */
-void func_8001CF44(void)
+void townInvokeEventStateCallback(void)
 {
     TownCallback callbacks[2] = {
         (TownCallback)&D_8001CED4,

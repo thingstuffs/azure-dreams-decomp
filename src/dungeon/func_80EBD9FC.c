@@ -1,0 +1,169 @@
+/* Relink of matched dungeon/func_80EB79FC; every changed retail word is a paired relocation. */
+#include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
+#include "shared/dir_step.h"
+
+#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
+
+typedef s32 M2C_UNK;
+
+void func_8009A028();
+void func_8009A3D0();
+void func_800A2FE0();
+s32 func_800A32A4();
+s32 func_800A56E0();
+void dungeonAnnounceFamiliarDefeat();
+s16 func_800BCB04();
+
+
+typedef struct S_801731FC_0 {
+    u8 pad_00[0x96];
+    u16 unk_96;
+    u16 unk_98;
+    u8 pad_9A[0x1];
+    u8 unk_9B;
+} S_801731FC_0;   /* arg0 in func_8016D1FC */
+
+typedef struct S_801731FC_1_pre {
+    u16 unk_00;
+} S_801731FC_1_pre;   /* the 0x2 bytes before arg3 in func_8016D1FC, addressed as arg3[-1] */
+
+typedef struct S_801731FC_1 {
+    u8 pad_00[0x14];
+    s32 unk_14;
+    u8 pad_18[0x4];
+    union { u32 u; s32 s; } unk_1C;   /* accessed as both */
+    u8 pad_20[0x4A];
+    u16 unk_6A;
+} S_801731FC_1;   /* arg3 in func_8016D1FC */
+
+typedef struct S_801731FC_2 {
+    u8 pad_00[0x2];
+    u16 unk_02;
+    u8 pad_04[0x2];
+    u16 unk_06;
+    u8 pad_08[0x2];
+    s16 unk_0A;
+    s32 unk_0C;
+    s32 unk_10;
+    s32 unk_14;
+} S_801731FC_2;   /* arg1 in func_8016D1FC */
+
+typedef struct S_801731FC_3 {
+    u8 pad_00[0xC];
+    u8 unk_0C;
+    u8 unk_0D;
+    u8 unk_0E;
+    u8 pad_0F[0x1];
+    s16 unk_10;
+    u16 unk_12;
+    u16 unk_14;
+    u8 pad_16[0xE];
+    u8 unk_24;
+    u8 unk_25;
+} S_801731FC_3;   /* arg2 in func_8016D1FC */
+
+typedef struct S_801731FC_4 {
+    u8 pad_00[0x10];
+    s32 unk_10;
+} S_801731FC_4;   /* global_ptr in func_8016D1FC */
+
+/* Advance an entity through motion, fading, and removal. */
+void func_8016D1FC(S_801731FC_0 *state, S_801731FC_2 *motion, S_801731FC_3 *sprite, void *entity) {
+    s32 sound_flags;
+    s32 velocity_x;
+    s32 velocity_y;
+    s32 direction_offset;
+    s32 status_flags;
+    u16 next_brightness;
+    u32 phase;
+    u32 sound_x;
+    u32 sound_y;
+    u8 brightness;
+
+    phase = state->unk_9B;
+    direction_offset = ((u16) ((S_801731FC_1 *)entity)->unk_6A >> 8) & 0xE;
+    velocity_x = *(s16 *)((u8 *)((s8 *)dirStepX) + direction_offset);
+    velocity_y = *(s16 *)((u8 *)((s8 *)dirStepY) + direction_offset);
+    switch (phase) {
+    case 0:
+    {
+        u32 clear_bit_27 = 0xF7FFFFFF;
+        u32 clear_bit_18;
+        u32 entity_flags;
+        u16 state_flags;
+
+        state_flags = state->unk_98;
+        clear_bit_18 = 0xFFFBFFFF;
+        state_flags |= 8;
+        state->unk_98 = state_flags;
+        entity_flags = ((S_801731FC_1 *)entity)->unk_1C.u;
+        entity_flags &= clear_bit_27;
+        entity_flags &= clear_bit_18;
+        ((S_801731FC_1 *)entity)->unk_1C.u = entity_flags;
+        motion->unk_0C = velocity_x << 0x10;
+        motion->unk_10 = velocity_y << 0x10;
+        motion->unk_14 = 0xFFF40000;
+        state->unk_9B = state->unk_9B + 1;
+    }
+    case 1:
+        motion->unk_14 += 0x1C000;
+        if (func_800BCB04(motion->unk_02, motion->unk_06, motion->unk_0A) >= 0x200) {
+            motion->unk_14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+        }
+        if (dungeonStatus.unk_0A != 0) {
+            return;
+        }
+        state->unk_9B = state->unk_9B + 1;
+    case 2:
+        status_flags = ((S_801731FC_1 *)entity)->unk_14;
+        if (status_flags & 0x4000) {
+            if (!(status_flags & 0x20000000)) {
+                dungeonAnnounceFamiliarDefeat(entity);
+            }
+        }
+        func_800A56E0(0x805);
+        sprite->unk_10 = 0x20;
+        sprite->unk_14 |= 0xC;
+        sprite->unk_12 -= 0x80;
+        state->unk_9B = state->unk_9B + 1;
+    case 3:
+        motion->unk_14 += 0x1C000;
+        if (!(sprite->unk_14 & 0x6000)) {
+            return;
+        }
+        state->unk_96 = 0x80U;
+        state->unk_9B = state->unk_9B + 1;
+        return;
+    case 4:
+        ((S_801731FC_1 *)entity)->unk_1C.s |= 0x10000000;
+        brightness = (u8)state->unk_96;
+        sprite->unk_0E = brightness;
+        sprite->unk_0D = brightness;
+        sprite->unk_0C = brightness;
+        next_brightness = state->unk_96 - 0x18;
+        state->unk_96 = next_brightness;
+        if ((s16)next_brightness >= 0x18) {
+            return;
+        }
+        if (((s32)dungeonStatus.unk_10) == (entity - 0x20)) {
+            *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
+        }
+        func_800A2FE0(entity);
+        func_800A32A4(entity);
+        sound_x = sprite->unk_24;
+        sound_y = sprite->unk_25;
+        sound_flags = 0x3000;
+        if (((S_801731FC_1 *)entity)->unk_1C.s & 0x2000) {
+            sound_flags = 0x300;
+        }
+        func_8009A3D0(sound_x, sound_y, sound_flags);
+        func_8009A028(entity);
+        ((S_801731FC_1_pre *)entity)[-1].unk_00 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
+        return;
+    }
+}

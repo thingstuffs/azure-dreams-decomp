@@ -5,7 +5,7 @@
 extern u8 *D_80175D50[3];
 
 /* Return the direction from the reference position to the node position. */
-s32 func_80170408(void) {
+s32 dungeonGetScriptActorPlayerOctant(void) {
     s16 *node_pos = *(s16 **)(D_80175D50[0] + 8);
     s16 ref_x = D_80083780.x.w.i;
     s16 node_x = node_pos[1];

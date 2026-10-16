@@ -4,7 +4,7 @@
 
 
 /* Fade RGB toward black and set flags when red falls below eight. */
-void func_80025A34(void *owner, s32 unused, void *color_data) {
+void dungeonFadeColorToBlack(void *owner, s32 unused, void *color_data) {
     u8 red;
     u8 green;
     u8 blue;

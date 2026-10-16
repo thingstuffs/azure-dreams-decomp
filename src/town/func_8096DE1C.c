@@ -26,20 +26,20 @@ typedef struct TownObject {
 extern Entry *D_80129728[28];
 
 extern void func_80123754(void);
-extern void func_80124728(TownObject *);
+extern void townRefreshCatalogSecondaryDetail(TownObject *);
 extern void func_801235EC(void);
-extern void func_801247F8(TownObject *);
+extern void townRefreshCatalogPrimaryDetail(TownObject *);
 
 /* Resets the object or updates entry values and words according to its state. */
-void func_801262B4(TownObject *obj)
+void townAnimateCatalogNextDetail(TownObject *obj)
 {
     switch ((s16)(obj->state - 1)) {
     case 0:
         *obj->context->slot70 = 0;
         func_80123754();
-        func_80124728(obj);
+        townRefreshCatalogSecondaryDetail(obj);
         func_801235EC();
-        func_801247F8(obj);
+        townRefreshCatalogPrimaryDetail(obj);
         break;
 
     case 7:

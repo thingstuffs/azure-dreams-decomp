@@ -5,9 +5,9 @@
 
 
 /* Waits for both card channels and requests information for the selected channel. */
-void func_80020984(void) {
-    func_800214A4();
+void cardBootRecheckSelectedChannel(void) {
+    cardBootDrainSoftwareEvents();
     _card_wait(0);
     _card_wait(1);
-    func_800213C4((*(s32 *)(&D_800287CC)));
+    cardBootRequestInfo((*(s32 *)(&D_800287CC)));
 }

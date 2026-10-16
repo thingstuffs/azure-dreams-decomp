@@ -19,7 +19,7 @@ typedef struct {
     u32 value;
 } __attribute__((packed)) Unaligned32;
 
-extern void func_8016F140(void *state);
+extern void dungeonClearActorPendingUpdateMarkers(void *state);
 extern void func_8009A028(void *node);
 
 extern void *D_80174AB4[3];
@@ -70,7 +70,7 @@ void func_801712C4(void)
         void *entry = *(void **)((u8 *)D_800E3D7C + entry_index * 4 + 0xAC);
 
         if (entry != 0) {
-            func_8016F140(entry);
+            dungeonClearActorPendingUpdateMarkers(entry);
             func_8009A028(*(void **)((u8 *)D_800E3D7C + entry_index * 4 + 0xAC));
             entry_header = *(u8 **)((u8 *)D_800E3D7C + entry_index * 4 + 0xAC);
             entry_header -= 0x20;

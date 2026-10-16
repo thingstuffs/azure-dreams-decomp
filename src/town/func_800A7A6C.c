@@ -19,7 +19,7 @@ typedef struct S_800A51CC_0 {
     s32 unk_18;
     u8 pad_1C[0x4];
     void * unk_20;
-} S_800A51CC_0;   /* arg0 in func_800A51CC */
+} S_800A51CC_0;   /* arg0 in townUpdateCurrentAndSavedCoordinates */
 
 typedef struct S_800A51CC_1 {
     u8 pad_00[0xAC];
@@ -29,13 +29,13 @@ typedef struct S_800A51CC_1 {
         struct { u8 pad[0x2]; u16 v; } at02;
     } unk_AC;   /* overlapping accesses */
     union { s16 s; u16 u; } unk_B0;   /* accessed as both */
-} S_800A51CC_1;   /* base in func_800A51CC */
+} S_800A51CC_1;   /* base in townUpdateCurrentAndSavedCoordinates */
 
 
 extern u8 D_800A526C[16];
 
 /* Update current and saved coordinates from the reference, or set state 9 if they differ. */
-void func_800A51CC(S_800A51CC_0 *object)
+void townUpdateCurrentAndSavedCoordinates(S_800A51CC_0 *object)
 {
     u8 *reference;
     s32 position_pair;

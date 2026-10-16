@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19a332c.h"
 
-void func_800245F8(void *effect_data, void *motion_data, void *sprite_data)
+void dungeonMoveFadeAndExpandEffect(void *effect_data, void *motion_data, void *sprite_data)
 {
     ovl_19a332c_81982DF8_Arg2 *sprite = (ovl_19a332c_81982DF8_Arg2 *) sprite_data;
     void *effect = effect_data;

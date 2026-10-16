@@ -178,10 +178,10 @@ typedef struct ovl_9c32d4_809A38E4_RingRadii {
 extern void func_8004491C(void *, void *);
 extern void func_8006658C(void *, void *);
 extern void func_80067E2C(void *, void *);
-void func_801750E4(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_y,
+void dungeonEmitConcentricEllipseQuads(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_y,
                    u16 center_x, s16 center_y, s32 *color_b_ptr, s32 *color_a_ptr,
                    s32 draw_bucket, s32 start_segment, s32 end_segment);
-extern void func_800CEEFC(void);
+extern void dungeonProcessLinkedMeshStatesMode0(void);
 extern u8 D_801C9E40[16];
 extern void *func_8003FD64();
 extern u8 D_80175F90[12];
@@ -195,8 +195,8 @@ extern u8 D_80175F9C[12];
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern void func_8006671C(void *);
-void func_80174AD4(u8 *actor_data, u8 *output_data, u8 *effect_data);
-void func_80174DA0(EntityRec *parent, s32 effect_param, u8 *effect_data);
+void dungeonUpdateActorRenderEffectAndPosition(u8 *actor_data, u8 *output_data, u8 *effect_data);
+void dungeonCreateParentPositionEffect(EntityRec *parent, s32 effect_param, u8 *effect_data);
 void func_80174E98(ovl_9c32d4_809A3698_MotionState *state, ovl_9c32d4_809A3698_MotionPosition *position);
 void func_80174FC0(ovl_9c32d4_809A37C0_MotionObject *parent, s16 direction, s32 value);
 static __inline__ s16 project_ring_coordinate(s32 radius, s32 trig, u16 center);

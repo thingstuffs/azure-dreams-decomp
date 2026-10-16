@@ -5,16 +5,16 @@
 typedef struct S_800B62A4_0 {
     u8 pad_00[0x8];
     u8 unk_08;
-} S_800B62A4_0;   /* var_s2 in func_800B62A4 */
+} S_800B62A4_0;   /* var_s2 in townFillDisplaySlots */
 
 
 M2C_UNK bzero();            /* extern */
-void func_800B58B8();             /* extern */
-void func_800B6094();            /* extern */
-void func_800B61C0();            /* extern */
+void townCollectSelectedRecordValues();             /* extern */
+void townPopulateDisplayRowWithIcon();            /* extern */
+void townPopulateDisplayRow();            /* extern */
 
 /* Fill up to three output slots from source entries and clear unused slots. */
-void func_800B62A4(EntityRec *source, s32 output) {
+void townFillDisplaySlots(EntityRec *source, s32 output) {
     void *entries[3];
     s32 index;
     s32 slot_count;
@@ -31,7 +31,7 @@ void func_800B62A4(EntityRec *source, s32 output) {
     source_cursor = source;
     do {
         if (((S_800B62A4_0 *)source_cursor)->unk_08 != 0) {
-            func_800B6094((u8 *)source + scan_base, output, slot_count);
+            townPopulateDisplayRowWithIcon((u8 *)source + scan_base, output, slot_count);
             slot_count += 1;
         }
         scan_base += 3;
@@ -39,7 +39,7 @@ void func_800B62A4(EntityRec *source, s32 output) {
         source_cursor += 3;
     } while (index < 3);
     bzero(entries, 0xC);
-    func_800B58B8(entries, source);
+    townCollectSelectedRecordValues(entries, source);
     index = 0;
     has_room = slot_count < 3;
     scan_base = slot_count;
@@ -48,7 +48,7 @@ void func_800B62A4(EntityRec *source, s32 output) {
         do {
             entry = *(void **)source_cursor;
             if (entry != NULL) {
-                func_800B61C0(entry, output, slot_count);
+                townPopulateDisplayRow(entry, output, slot_count);
                 slot_count += 1;
             }
             index += 1;
@@ -56,7 +56,7 @@ void func_800B62A4(EntityRec *source, s32 output) {
         } while ((index + scan_base) < 3);
     }
     if ((slot_count < 3) && (source->unk_49 != 0)) {
-        func_800B61C0((u8 *)source + 0x48, output, slot_count);
+        townPopulateDisplayRow((u8 *)source + 0x48, output, slot_count);
         slot_count += 1;
     }
     index = slot_count;

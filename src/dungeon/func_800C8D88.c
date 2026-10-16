@@ -16,12 +16,12 @@ typedef struct S_800CE4E8_0 {
     u8 pad_6A[0x2];
     s16 unk_6C;
     union { u16 s; s16 u; } unk_6E;   /* accessed as both */
-} S_800CE4E8_0;   /* temp_s3 in func_800CE4E8 */
+} S_800CE4E8_0;   /* temp_s3 in dungeonCreateDualGridTrapEffect */
 
 typedef struct S_800CE4E8_1 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800CE4E8_1;   /* global_base in func_800CE4E8 */
+} S_800CE4E8_1;   /* global_base in dungeonCreateDualGridTrapEffect */
 
 
 typedef struct {
@@ -33,13 +33,13 @@ typedef struct {
 } GridEffectObject;
 
 extern void func_800419EC();
-extern s32 func_800A6DA4(s32, s32);
-extern s32 func_800BCA68(s32, s32);
+extern s32 randomDungeonRange16(s32, s32);
+extern s32 dungeonGetSurfaceHeightAtCoordinates(s32, s32);
 
 extern u8 D_800CE028[];
 
 /* Creates a dungeon object with two 5x5 value grids and sets its effect flags. */
-s32 func_800CE4E8(s32 center_x, s32 center_y, s16 unused_value, void *unused_data, s32 reverse_offset)
+s32 dungeonCreateDualGridTrapEffect(s32 center_x, s32 center_y, s16 unused_value, void *unused_data, s32 reverse_offset)
 {
     u16 offset_mode;
     s32 reverse_flag;
@@ -76,7 +76,7 @@ s32 func_800CE4E8(s32 center_x, s32 center_y, s16 unused_value, void *unused_dat
                 base_row = grid_data;
                 origin_x = ((S_800CE4E8_0 *)base_row)->unk_00;
                 origin_y = ((S_800CE4E8_0 *)base_row)->unk_02;
-                tile_value = func_800BCA68(
+                tile_value = dungeonGetSurfaceHeightAtCoordinates(
                     ((col + origin_x) << 6) & 0xFFC0,
                     ((row + origin_y) << 6) & 0xFFC0);
                 rand_max = 3;
@@ -84,7 +84,7 @@ s32 func_800CE4E8(s32 center_x, s32 center_y, s16 unused_value, void *unused_dat
                 base_cell = (u16 *)((unsigned long)(col * 2) +
                     (unsigned long)base_row);
                 *base_cell = -tile_value;
-                random_offset = func_800A6DA4(1, rand_max);
+                random_offset = randomDungeonRange16(1, rand_max);
                 random_offset = (random_offset & 0xFFFF) << 5;
                 *offset_cell = random_offset;
                 if (reverse_flag != 0) {

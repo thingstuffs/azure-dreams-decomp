@@ -6,13 +6,13 @@
 struct FadeEndpoints; struct FadeSettings;
 struct S_8002569C_2; struct S_80025160_1;
 struct Actor; struct Motion; struct EffectColor;
-ObjectNodeHeader *func_80024DE8(struct FadeEndpoints *, struct FadeSettings *);
+ObjectNodeHeader *dungeonHandleRetailN818875E8Callee80024DE8CreatesFadeUpdatedEachFrameCallee80024D70Start(struct FadeEndpoints *, struct FadeSettings *);
 void *func_8002569C(struct S_8002569C_2 *, s16, s16, s16, s32);
-void func_80025160(void *, s32, struct S_80025160_1 *);
-s32 func_80025340(void *, void *, void *);
-void func_80025868(struct Actor *, struct Motion *, struct EffectColor *);
-void func_80025A58(void *, void *, void *);
-s32 func_80025E4C(void *);
+void dungeonAdvanceTheEffectStateUpdatesMotionSetsDisplayColor(void *, s32, struct S_80025160_1 *);
+s32 dungeonBuildAndEnqueueInterpolatedDepthSortedShadedLinesLinkedList(void *, void *, void *);
+void dungeonAdvanceAndFadeEffectFlaggingExpirationTimerRunsOut(struct Actor *, struct Motion *, struct EffectColor *);
+void dungeonHandleRotateMoveEffectQuadFadeColorsFlagLifetimeEnds(void *, void *, void *);
+s32 dungeonHandleProjectLinkedQuadsQueueShadedPrimitivesDrawModesDepth(void *);
 #include "modules/dungeon_native_abi.h"
 #include "m2c_compat.h"
 extern u16 D_80026324[];
@@ -23,9 +23,9 @@ extern u8 D_80026470[];
 extern u8 D_80026474[];
 extern u8 D_80026478[];
 
-void *func_80024C80();
+void *dungeonCreateAnCopiesThreeSourceFieldsChildRunsN16ChildSetup();
 void func_80024804();
-s32 func_80024EF4(void);
+s32 dungeonBuildShadedQuadsAdjacentVertexRowsAddsThemOrderingTable(void);
 
 s32 func_80066460(s32, s32, s32, s32);
 void func_8006658C();

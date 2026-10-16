@@ -21,13 +21,13 @@ extern s8 D_800172A3[];
 extern s8 D_800173E4[];
 extern s8 D_80017501[];
 
-extern s32 func_8001A5D0(void);
+extern s32 townCountListedEnabledRecords(void);
 extern void func_8001E578(s32);
 extern s32 func_8001E670(s32);
 extern s32 func_8001E82C(void);
 
 /* Pick the next town dialogue line from the progress flags and money, marking each line seen as it is used. */
-s8 *func_8001C884(void) {
+s8 *townSelectNextDialogueLine(void) {
     s32 initial;
     s32 state_one;
     s32 state_five;
@@ -103,10 +103,10 @@ s8 *func_8001C884(void) {
                     state_one = state->dispatchState;
                     if (state_one == 1) {
                         if ((*(StateQuery *)((u8 *)*(void **)((u8 *)D_80016000 + 0x20) + 0x2D4))(0) == state_five) {
-                            if (func_8001A5D0() >= 3) {
+                            if (townCountListedEnabledRecords() >= 3) {
                                 return D_80016D77;
                             }
-                            if (func_8001A5D0() == state_one) {
+                            if (townCountListedEnabledRecords() == state_one) {
                                 {
                                     TownEventState *state;
 

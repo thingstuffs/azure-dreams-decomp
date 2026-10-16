@@ -5,15 +5,15 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern void func_80093D48();
-extern void func_80095C80();
+extern void townInitializeSceneActionRecord();
+extern void townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile();
 
 /* Advance interpolation toward the target and finish when the countdown expires. */
-void func_80091EB4(Rec_func_80094268_arg0 *state, EntityRec *motion, s32 context) {
+void townInterpolateActorHeightUntilTimeout(Rec_func_80094268_arg0 *state, EntityRec *motion, s32 context) {
     s32 target_pos;
     u16 ticks_left;
 
-    func_80095C80(motion);
+    townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(motion);
     ticks_left = state->unk_0A.as_u16 - 1;
     target_pos = state->unk_34.as_s16 << 0x10;
     state->unk_0A.as_u16 = ticks_left;
@@ -22,7 +22,7 @@ void func_80091EB4(Rec_func_80094268_arg0 *state, EntityRec *motion, s32 context
         motion->unk_10 = 0;
         motion->flags14 = 0;
         motion->z.v = (s32) (state->unk_34.as_s16 << 0x10);
-        func_80093D48(state, motion, context);
+        townInitializeSceneActionRecord(state, motion, context);
         return;
     }
     motion->flags14 =

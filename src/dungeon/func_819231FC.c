@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7e6e1800.h"
 
-void func_800249FC(void *object, s32 unused, Row_819231FC_S_800249FC_0 *effect) {
+void dungeonUpdateEffectValuesAndExpire(void *object, s32 unused, Row_819231FC_S_800249FC_0 *effect) {
     s32 ticks_left;
     s16 next_ticks;
     s16 check_result;
@@ -23,7 +23,7 @@ void func_800249FC(void *object, s32 unused, Row_819231FC_S_800249FC_0 *effect) 
         }
     }
 
-    check_result = func_8002406C(3);
+    check_result = dungeonProjectAndQueueVisibleShadedQuad(3);
     flags = effect->unk_14;
     if ((flags & 0x80) || check_result != 0) {
         effect->unk_14 = flags & 0xFF7F;

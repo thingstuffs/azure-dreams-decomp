@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 
 /* Update the four saved vectors and return 1 if any coordinate changed, otherwise return 0. */
-s32 func_80044724(void)
+s32 runtimeUpdateSavedVectors(void)
 {
     GameView *source;
     struct S_80083178State *saved;

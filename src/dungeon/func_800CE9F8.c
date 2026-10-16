@@ -18,7 +18,7 @@ typedef struct S_800D4158_1 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800D4158_1;   /* arg1 in func_800D4158 */
+} S_800D4158_1;   /* arg1 in dungeonUpdateActorMotionAndBrightness */
 
 typedef struct S_800D4158_2 {
     u8 pad_00[0x90];
@@ -28,10 +28,10 @@ typedef struct S_800D4158_2 {
     u8 pad_9A[0x3];
     union { u8 u; s8 s; } unk_9D;   /* accessed as both */
     u16 unk_9E;
-} S_800D4158_2;   /* arg0 in func_800D4158 */
+} S_800D4158_2;   /* arg0 in dungeonUpdateActorMotionAndBrightness */
 
 /* Updates entity callbacks, motion, ground contact, and sprite brightness. */
-void func_800D4158(void *entity, S_800D4158_1 *motion, Rec_D_80082E80 *sprite) {
+void dungeonUpdateActorMotionAndBrightness(void *entity, S_800D4158_1 *motion, Rec_D_80082E80 *sprite) {
     void *entity_ref = entity;
     u16 motion_flags;
     u32 entity_flags;

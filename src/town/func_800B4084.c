@@ -1,17 +1,17 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void func_800B09EC();                 /* extern */
+void townSetShopSlotColors();                 /* extern */
 
 typedef struct S_800B17E4_0 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_800B17E4_0;   /* temp_a0 in func_800B17E4 */
+} S_800B17E4_0;   /* temp_a0 in townProcessShopObjectData */
 
-/* Pass the object's data at offset 0x20 and its unk_08 value to func_800B09EC. */
-void func_800B17E4(s32 object_addr) {
+/* Pass the object's data at offset 0x20 and its unk_08 value to townSetShopSlotColors. */
+void townProcessShopObjectData(s32 object_addr) {
     S_800B17E4_0 *data;
 
     data = object_addr + 0x20;
-    func_800B09EC(data, data->unk_08);
+    townSetShopSlotColors(data, data->unk_08);
 }

@@ -3,7 +3,7 @@
 
 
 /* Checks the entity or its two linked objects for the 0x20000000 state flag. */
-s32 func_800C7FFC(u8 *entity) {
+s32 dungeonCheckEntityFlag20000000(u8 *entity) {
     s32 slot_index;
     u32 state_mask;
     unsigned long slots_base;

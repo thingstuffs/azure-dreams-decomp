@@ -1,7 +1,7 @@
 #include "modules/town_town_windows.h"
 
 /* Creates an object with the supplied data, position, and callback mode. */
-void *func_8009DFD8(void *object_data, void *source_position, s32 alternate_callback)
+void *townCreateConfiguredObject(void *object_data, void *source_position, s32 alternate_callback)
 {
     void *created;
     void *render_state;
@@ -43,11 +43,11 @@ void *func_8009DFD8(void *object_data, void *source_position, s32 alternate_call
         D_80100AF8 = *copy_src;
     }
 
-    func_8008F0D4(object, position, D_800D073C);
+    townConfigureTheSetModeN4(object, position, D_800D073C);
     if (alternate_callback != 0) {
-        func_8009B218(object, position, render_state, D_800D0788);
+        townInitializeOptionalObjectState(object, position, render_state, D_800D0788);
     } else {
-        func_8009B218(object, position, render_state, D_800D076C);
+        townInitializeOptionalObjectState(object, position, render_state, D_800D076C);
     }
 
     if ((u32)(BYTE_AT(object, 0x4D) - 0x12) < 2) {
@@ -58,14 +58,14 @@ void *func_8009DFD8(void *object_data, void *source_position, s32 alternate_call
     if (type == 0x12) {
         POINTER_AT(render_state, 8) = &D_8006E240;
     } else if (type == 0x13) {
-        func_8009DC8C(object, render_state, BYTE_AT(object, 0x4C), D_80100B0C);
+        townSetObjectStateForMode(object, render_state, BYTE_AT(object, 0x4C), D_80100B0C);
     } else {
-        POINTER_AT(render_state, 8) = (void *)func_8004A658(
+        POINTER_AT(render_state, 8) = (void *)lookupItemCategoryMappedValue(
             BYTE_AT(object, 0x4D), BYTE_AT(object, 0x4C));
     }
 
-    POINTER_AT(created, 0x10) = func_8009DEBC;
-    func_8009C1B4(object, object, position, render_state);
+    POINTER_AT(created, 0x10) = townDispatchObjectOrSwitchAlternateState;
+    townInitializeObjectAndMaybePlaySound(object, object, position, render_state);
     del_t_item_w_ptr(object_data);
     return created;
 }

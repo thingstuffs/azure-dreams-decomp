@@ -42,7 +42,7 @@ extern s32 func_80064584(s32);
 extern s32 rand(void);
 
 /* Updates effect brightness, paired color values, and motion through three stages. */
-void func_800C4640(EffectState *state, EffectWork *work, EffectColor *color) {
+void dungeonAnimateOrbitingEffectParticle(EffectState *state, EffectWork *work, EffectColor *color) {
     s16 stage;
 
     stage = state->type;

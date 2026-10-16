@@ -2,8 +2,8 @@
 
 extern int abs(int);
 extern s32 Control_CD();
-extern s32 func_8003F320();
-extern s32 func_8003F6D4();
+extern s32 drainCdCommandQueue();
+extern s32 packTaggedResourceDescriptor();
 
 extern s8 D_800E3DA0[];
 extern u8 D_800E58A8[];
@@ -64,11 +64,11 @@ s32 func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read) {
             disc_offset = asset_offset + slot_part;
         }
         cd_params = D_800E58A8;
-        func_8003F6D4(read_size, data, cd_params, disc_offset);
+        packTaggedResourceDescriptor(read_size, data, cd_params, disc_offset);
         Control_CD(6, cd_params, 0);
 
         if ((wait_mode << 0x10) != 0) {
-            func_8003F320();
+            drainCdCommandQueue();
             if (entry[0] != 2) {
                 D_800E3DA0[entry[3]] = asset_id;
                 result = *(s32 *)data;

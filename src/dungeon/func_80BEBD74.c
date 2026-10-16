@@ -56,7 +56,7 @@ void func_80171574(void *motion_state, s32 unused, void *entity, void *path_stat
                       (((R16_80171574_S_80171FC8_0 *)path_state)->unk_1C & 0x2000) ? 0x300 : 0x3000);
 
         ((R16_80171574_S_80171FC8_0 *)path_state)->unk_2A =
-            ((s16)func_800A0818(old_x, old_y, ((R16_80171574_S_80171FC8_1 *)entity)->unk_24,
+            ((s16)dungeonGetRoundedFacingAndRoundingFlag(old_x, old_y, ((R16_80171574_S_80171FC8_1 *)entity)->unk_24,
                           ((R16_80171574_S_80171FC8_1 *)entity)->unk_25, (u8 *)motion_state + 0x98));
     }
 

@@ -11,23 +11,23 @@ typedef struct S_800164E0_1 {
     s32 unk_04;
     u8 pad_08[0x8];
     s32 unk_10;
-} S_800164E0_1;   /* temp_v1 in func_800164E0 */
+} S_800164E0_1;   /* temp_v1 in townInitializeEventPositionState */
 
 typedef struct S_800164E0_3 {
     u8 pad_00[0x4];
     s32 unk_04;
     u8 pad_08[0x10];
     s32 unk_18;
-} S_800164E0_3;   /* temp_v1_3 in func_800164E0 */
+} S_800164E0_3;   /* temp_v1_3 in townInitializeEventPositionState */
 
 typedef struct S_800164E0_6 {
     u8 pad_00[0x1C];
     void * unk_1C;
-} S_800164E0_6;   /* (*(void * *)((u8 *)D_80016000 + 0)) in func_800164E0 */
+} S_800164E0_6;   /* (*(void * *)((u8 *)D_80016000 + 0)) in townInitializeEventPositionState */
 
 
 /* Run two callbacks and initialize offset and saved coordinates from the current position. */
-void func_800164E0(void) {
+void townInitializeEventPositionState(void) {
     void *offset_x_state;
     TownPositionState *offset_y_state;
     void *saved_x_state;

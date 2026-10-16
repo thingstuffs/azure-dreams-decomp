@@ -6,7 +6,7 @@ typedef struct SpawnSlot {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} SpawnSlot;   /* slot in func_80814D60 */
+} SpawnSlot;   /* slot in townSpawnOffsetSeedEffect */
 
 typedef struct SpawnMotion {
     s32 unk_00;
@@ -15,14 +15,14 @@ typedef struct SpawnMotion {
     s32 unk_0C;
     u8 pad_10[0x4];
     s32 unk_14;
-} SpawnMotion;   /* motion in func_80814D60 */
+} SpawnMotion;   /* motion in townSpawnOffsetSeedEffect */
 
 typedef struct SpawnSeed {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
     s32 unk_0C;
-} SpawnSeed;   /* seed in func_80814D60 */
+} SpawnSeed;   /* seed in townSpawnOffsetSeedEffect */
 
 
 void *func_800373DC();                       /* extern */
@@ -34,7 +34,7 @@ extern s32 D_802843EC[];
 extern u8 D_8052FA64[];
 
 /* Spawn a 0x136 effect at the seed's offset position with a randomised vertical kick. */
-void func_80814D60(SpawnSeed *seed) {
+void townSpawnOffsetSeedEffect(SpawnSeed *seed) {
     u32 page;
     u16 flags;
     s32 global_word;

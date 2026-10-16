@@ -12,12 +12,12 @@ extern s32 D_801131E4;
 
 extern void func_80053CFC(u32 *, s32);
 extern void func_8008AC84(s32);
-extern s32 func_8008ACE8(s32);
-extern void func_8008AD90(s32, s32);
-extern u32 *func_8008AF2C(s32, s32, s32);
+extern s32 townSumResourceBytes(s32);
+extern void townShiftResourceEntriesAndData(s32, s32);
+extern u32 *townFindPackedResourceDescriptor(s32, s32, s32);
 
 /* Make room for an allocation, record its metadata, and transfer its data. */
-s32 func_8008AFB0(s32 kind, s32 state, s32 value, s32 start_index)
+s32 townInstallResourceDescriptorAtFront(s32 kind, s32 state, s32 value, s32 start_index)
 {
     s32 alloc_size;
     s32 available;
@@ -29,13 +29,13 @@ s32 func_8008AFB0(s32 kind, s32 state, s32 value, s32 start_index)
     TownAllocEntry *table;
 
     index = start_index;
-    allocation = func_8008AF2C(kind, state, value);
+    allocation = townFindPackedResourceDescriptor(kind, state, value);
     if (allocation == 0) {
         return 0;
     }
 
     alloc_size = ((*allocation >> 11) + 1) << 11;
-    available = 0x8000 - func_8008ACE8(index);
+    available = 0x8000 - townSumResourceBytes(index);
     if (alloc_size > 0x7FFF) {
         index = 0;
         func_8008AC84(index);
@@ -53,7 +53,7 @@ s32 func_8008AFB0(s32 kind, s32 state, s32 value, s32 start_index)
         }
     }
 
-    func_8008AD90(index, alloc_size);
+    townShiftResourceEntriesAndData(index, alloc_size);
     func_8008AC84(index + 1);
     table = (TownAllocEntry *)D_800CF720;
     table[0].kind = kind;

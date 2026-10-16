@@ -10,10 +10,10 @@ typedef struct {
 
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
-extern s16 func_80094BC8(s32, s16);
+extern s16 townInputAngleWithOffset(s32, s16);
 
 /* Reduce object coordinates toward direction-dependent limits without overshooting. */
-void func_80094DA8(TownObject *object) {
+void townReduceObjectCoordinatesTowardDirectionDependentLimitsWithoutOvershooting(TownObject *object) {
     s16 direction;
     s32 y_direction;
     s32 component_x;
@@ -34,7 +34,7 @@ void func_80094DA8(TownObject *object) {
     s32 clamp_work_y;
     s32 clamp_abs_y;
 
-    direction = func_80094BC8(gameWork.buttons, gameWork.view.viewAngle);
+    direction = townInputAngleWithOffset(gameWork.buttons, gameWork.view.viewAngle);
     if (direction != -1) {
         component_x = func_800644B8(direction);
         current_abs_x = object->x;

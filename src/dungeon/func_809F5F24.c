@@ -12,7 +12,7 @@ void func_8009A3D0();
 void func_800A2FE0();
 s32 func_800A32A4();
 s32 func_800A56E0();
-void func_800ACF88();
+void dungeonAnnounceFamiliarDefeat();
 
 
 typedef struct S_80173724_0 {
@@ -21,11 +21,11 @@ typedef struct S_80173724_0 {
     u16 unk_98;
     u8 pad_9A[0x1];
     u8 unk_9B;
-} S_80173724_0;   /* arg0 in func_80173724 */
+} S_80173724_0;   /* arg0 in dungeonAdvanceFadingDirectionalEntity */
 
 typedef struct S_80173724_1_pre {
     u16 unk_00;
-} S_80173724_1_pre;   /* the 0x2 bytes before arg3 in func_80173724, addressed as arg3[-1] */
+} S_80173724_1_pre;   /* the 0x2 bytes before arg3 in dungeonAdvanceFadingDirectionalEntity, addressed as arg3[-1] */
 
 typedef struct S_80173724_1 {
     u8 pad_00[0x14];
@@ -34,14 +34,14 @@ typedef struct S_80173724_1 {
     union { u32 u; s32 s; } unk_1C;   /* accessed as both */
     u8 pad_20[0x4A];
     u16 unk_6A;
-} S_80173724_1;   /* arg3 in func_80173724 */
+} S_80173724_1;   /* arg3 in dungeonAdvanceFadingDirectionalEntity */
 
 typedef struct S_80173724_2 {
     u8 pad_00[0xC];
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80173724_2;   /* arg1 in func_80173724 */
+} S_80173724_2;   /* arg1 in dungeonAdvanceFadingDirectionalEntity */
 
 typedef struct S_80173724_3 {
     u8 pad_00[0xC];
@@ -55,15 +55,15 @@ typedef struct S_80173724_3 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_80173724_3;   /* arg2 in func_80173724 */
+} S_80173724_3;   /* arg2 in dungeonAdvanceFadingDirectionalEntity */
 
 typedef struct S_80173724_4 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_80173724_4;   /* global_ptr in func_80173724 */
+} S_80173724_4;   /* global_ptr in dungeonAdvanceFadingDirectionalEntity */
 
 /* Advance an entity through directional motion, fading, and removal. */
-void func_80173724(void *anim_state, void *motion, void *sprite, void *entity) {
+void dungeonAdvanceFadingDirectionalEntity(void *anim_state, void *motion, void *sprite, void *entity) {
     s32 sound_flags;
     s32 direction_x;
     s32 direction_y;
@@ -111,7 +111,7 @@ void func_80173724(void *anim_state, void *motion, void *sprite, void *entity) {
         status_flags = ((S_80173724_1 *)entity)->unk_14;
         if (status_flags & 0x4000) {
             if (!(status_flags & 0x20000000)) {
-                func_800ACF88(entity);
+                dungeonAnnounceFamiliarDefeat(entity);
             }
         }
         ((S_80173724_3 *)sprite)->unk_10 = 0x60;

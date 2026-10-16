@@ -6,7 +6,7 @@
 
 
 /* Mark and process entries without flag 0x4000, then set the global update flag. */
-void func_8009A078(void)
+void dungeonProcessUnflaggedEntriesAndSetUpdate(void)
 {
     void *entry;
     void *node;

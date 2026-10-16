@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1831370.h"
 
-void func_8002640C(ovl_1831370_8181140C_MenuState *menu) {
+void dungeonUpdateMenuSelectionFromInput(ovl_1831370_8181140C_MenuState *menu) {
     s32 direction = 0;
     s32 buttons;
     s32 repeat_ticks;
@@ -32,9 +32,9 @@ void func_8002640C(ovl_1831370_8181140C_MenuState *menu) {
 
         if (direction != 0) {
             SD_Call(0x502);
-            selection = func_80026388(direction, menu->field8, menu->field10);
+            selection = dungeonAdjustSelectionByItemCount(direction, menu->field8, menu->field10);
             menu->field8 = selection;
-            func_80026370(menu->field70, selection);
+            dungeonSetIndexedObjectField(menu->field70, selection);
         }
     }
 }

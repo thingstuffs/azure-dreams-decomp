@@ -41,7 +41,7 @@ typedef struct S_800BF3F0_4_pre {
 
 
 extern void func_8004491C(void *, void *);
-extern void func_8008F074(void *, void *, void *);
+extern void townConfigureTheSetModeN1(void *, void *, void *);
 
 extern u8 D_80046398[];
 extern u8 D_800BF1C8[];
@@ -78,7 +78,7 @@ void func_800BF3F0(void *caller_data)
         transform_value = D_800D2344[0];
         position->unk_08 = 0xFFC00000;
         transform->unk_48 = transform_value;
-        func_8008F074(transform, position, D_800D232C);
+        townConfigureTheSetModeN1(transform, position, D_800D232C);
     }
     ((S_800BF3F0_4_pre *)caller_data)[-1].unk_00 |= 0x8000;
     objectFlagBlock.flags |= 0x8000;

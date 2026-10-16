@@ -10,14 +10,14 @@ typedef struct S_8001A3FC_1 {
     u8 unk_00;
     u8 pad_01[0xF];
     s32 unk_10;
-} S_8001A3FC_1;   /* entry in func_8001A3FC */
+} S_8001A3FC_1;   /* entry in townSaveContextAndDispatchEntryType */
 
 
 extern s32 D_8001C370;
 extern s32 D_8001C374;
 
 /* Save the current context value and dispatch the selected entry's type callback. */
-void func_8001A3FC(void) {
+void townSaveContextAndDispatchEntryType(void) {
     s32 *entry_base;
     S_8001A3FC_1 *entry;
     s32 type;

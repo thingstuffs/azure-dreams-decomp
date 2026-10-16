@@ -13,11 +13,11 @@ typedef void (*Callback)(void *, void *, void *, void *);
 
 extern void func_800353F4();
 extern void func_80042B68();
-extern void func_80047738();
+extern void selectIndirectTableEntry();
 extern void func_800478B8();
-extern void func_800A020C();
+extern void dungeonApplyMonsterKoyawData();
 extern void func_800A48F0();
-extern s32 func_800A9E70();
+extern s32 dungeonRefreshActorFacingAndLifecycle();
 extern void func_800AA36C();
 extern s32 func_800BCB04();
 extern void D_8016A36C();
@@ -29,17 +29,17 @@ extern u8 D_80173DDC[];
 typedef struct S_80169EC0_0 {
     u8 pad_00[0xAC];
     void * unk_AC;
-} S_80169EC0_0;   /* scan in func_80169EC0 */
+} S_80169EC0_0;   /* scan in updateActorCallbacksAndMotion */
 
 typedef struct S_80169EC0_1_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_80169EC0_1_pre;   /* the 0x14 bytes before entry in func_80169EC0, addressed as entry[-1] */
+} S_80169EC0_1_pre;   /* the 0x14 bytes before entry in updateActorCallbacksAndMotion, addressed as entry[-1] */
 
 typedef struct S_80169EC0_2 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_80169EC0_2;   /* record in func_80169EC0 */
+} S_80169EC0_2;   /* record in updateActorCallbacksAndMotion */
 
 typedef struct S_80169EC0_3 {
     u8 pad_00[0x1C];
@@ -52,7 +52,7 @@ typedef struct S_80169EC0_3 {
     u8 unk_71;
     u8 pad_72[0x16];
     union { u16 u; s16 s; } unk_88;   /* accessed as both */
-} S_80169EC0_3;   /* actor in func_80169EC0 */
+} S_80169EC0_3;   /* actor in updateActorCallbacksAndMotion */
 
 typedef struct S_80169EC0_4 {
     u8 pad_00[0x4];
@@ -64,7 +64,7 @@ typedef struct S_80169EC0_4 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_80169EC0_4;   /* data in func_80169EC0 */
+} S_80169EC0_4;   /* data in updateActorCallbacksAndMotion */
 
 typedef struct S_80169EC0_5 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -74,10 +74,10 @@ typedef struct S_80169EC0_5 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80169EC0_5;   /* motion in func_80169EC0 */
+} S_80169EC0_5;   /* motion in updateActorCallbacksAndMotion */
 
 /* Updates actor callbacks, facing, movement, and terrain height. */
-void func_80169EC0(void *owner_arg, void *motion, void *data)
+void updateActorCallbacksAndMotion(void *owner_arg, void *motion, void *data)
 {
     void *actor = owner_arg;
     s16 initial_state;
@@ -141,7 +141,7 @@ void func_80169EC0(void *owner_arg, void *motion, void *data)
         void *call_data = data;
 
         initial_state = (s8)((S_80169EC0_3 *)actor)->unk_6D.u;
-        if (func_800A9E70(call_owner, call_motion, call_data, actor) != 0) {
+        if (dungeonRefreshActorFacingAndLifecycle(call_owner, call_motion, call_data, actor) != 0) {
             return;
         }
     }
@@ -165,7 +165,7 @@ void func_80169EC0(void *owner_arg, void *motion, void *data)
         if ((*(s16 *)((u8 *)owner_arg + (0x94))) != direction) {
             u8 *facing_steps = ((S_80169EC0_4 *)data)->unk_2C;
             if (facing_steps != NULL) {
-                func_80047738(data, facing_steps[direction], ((S_80169EC0_4 *)data)->unk_04);
+                selectIndirectTableEntry(data, facing_steps[direction], ((S_80169EC0_4 *)data)->unk_04);
             }
             (*(s16 *)((u8 *)owner_arg + (0x94))) = direction;
         }
@@ -180,7 +180,7 @@ void func_80169EC0(void *owner_arg, void *motion, void *data)
         } else {
             ((S_80169EC0_4 *)data)->unk_14 = cleared_status | 0x7000;
         }
-        func_800A020C(((S_80169EC0_3 *)actor)->unk_1C, (u8 *)data + 0xC);
+        dungeonApplyMonsterKoyawData(((S_80169EC0_3 *)actor)->unk_1C, (u8 *)data + 0xC);
     } else {
         ((S_80169EC0_4 *)data)->unk_14 = (status & 0x800) ?
                                 (status & 0x8FFF) : (status | 0x7000);

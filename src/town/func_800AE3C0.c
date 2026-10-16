@@ -10,20 +10,20 @@ typedef struct S_800ABB20_0 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800ABB20_0;   /* arg1 in func_800ABB20 */
+} S_800ABB20_0;   /* arg1 in townUpdatePersonEffectFade */
 
 typedef struct S_800ABB20_1 {
     u16 unk_00;
     u8 pad_02[0x2];
     u16 unk_04;
     s16 unk_06;
-} S_800ABB20_1;   /* arg0 in func_800ABB20; pointer addresses record offset 0x2 */
+} S_800ABB20_1;   /* arg0 in townUpdatePersonEffectFade; pointer addresses record offset 0x2 */
 
 
 extern void func_800478B8(void *primitive);
 
 /* Update effect motion, fade its brightness, and mark it expired when its timer ends. */
-void func_800ABB20(void *effect_record, S_800ABB20_0 *motion, Rec_D_80082E80 *primitive) {
+void townUpdatePersonEffectFade(void *effect_record, S_800ABB20_0 *motion, Rec_D_80082E80 *primitive) {
     u16 ticks_left;
     u8 brightness;
 

@@ -52,6 +52,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 from common import rows, current_text, read_jsonl, write_jsonl, CACHE, LEDGER  # noqa: E402
+from source_layout import row_path as layout_row_path, source_files as layout_source_files
 
 DETECTOR = "sf-2"
 WINDOW = 48
@@ -429,7 +430,7 @@ def known_addresses():
         s_ = {a for a in data_slus if a < 0x80080000}
         d = ROOT / "src" / c
         if d.is_dir():
-            for p_ in d.glob("*.c"):
+            for p_ in layout_source_files(c, ROOT):
                 for m in tok.finditer(p_.read_text(errors="replace")):
                     a = int(m.group(1), 16)
                     if RAM_LO <= a < RAM_HI: s_.add(a)
@@ -600,7 +601,7 @@ def reloc_mode(args):
         stem = path.stem; rid = "slus/" + stem
         if rid not in R: continue
         r = R[rid]; cell = r["cell"] + (" -mmips-as" if "-mmips-as" in (r["flags"] or "") else "")
-        src = ROOT / "src/slus" / f"{stem}.c"
+        src = layout_row_path(r, ROOT)
         if not src.exists(): fp[(cell, "nosrc", "_rows")] += 1; continue
         status = "pinned" if sites_of(src.read_text(errors="replace")) else "pinfree"
         kinds = set()

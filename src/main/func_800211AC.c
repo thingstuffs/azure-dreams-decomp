@@ -17,21 +17,21 @@ extern void func_8003FD58(s32 value0, s32 value1, s32 value2, s32 value3);
 extern void func_80063FF8(s32 sound_code);
 extern void func_804008A0(s32 slot_index);
 extern void func_80400EF8(void);
-extern StatePair *func_804017EC(void);
+extern StatePair *cardDevkitDebounceChannelStatus(void);
 extern void func_804018FC(void);
 extern void func_80407830(s32 slot_addr, s32 slot_value);
 extern void func_8040787C(s32 slot_addr, StatePair *display_state, s32 *state_changed);
-extern void func_804080A4(void);
-extern void func_804084DC(void *object);
+extern void cardBootUpdateObjectStateAndCallback(void);
+extern void memoryProcessHandlesAndMarkObject(void *object);
 
 
 typedef struct S_804081AC_0 {
     u8 pad_00[0x1E];
     u16 unk_1E;
-} S_804081AC_0;   /* object in func_804081AC */
+} S_804081AC_0;   /* object in cardBootHandleMenuSelectionInput */
 
 /* Handles menu selection input and refreshes the displayed state pair. */
-void func_804081AC(void *menu)
+void cardBootHandleMenuSelectionInput(void *menu)
 {
     s32 state_changed[2];
     StatePair *state;
@@ -49,7 +49,7 @@ void func_804081AC(void *menu)
             s32 *linked_object;
 
             func_80063FF8(0x515);
-            func_804084DC((u8 *)menu - 0x20);
+            memoryProcessHandlesAndMarkObject((u8 *)menu - 0x20);
             D_8008CA34 = 2;
             func_80400EF8();
             func_8003FD58(0, 0xF, 0, 0);
@@ -59,7 +59,7 @@ void func_804081AC(void *menu)
             func_80063FF8(0x514);
             func_804008A0((*(s32 *)((u8 *)menu + 0xC)));
             (*(s32 *)((u8 *)menu + 0x34)) = 0;
-            (*(void * *)((u8 *)menu + -0x10)) = func_804080A4;
+            (*(void * *)((u8 *)menu + -0x10)) = cardBootUpdateObjectStateAndCallback;
             return;
         } else if (buttons & 0xA000) {
             if (buttons & 0x8000) {
@@ -83,7 +83,7 @@ void func_804081AC(void *menu)
         }
     }
 
-    state = func_804017EC();
+    state = cardDevkitDebounceChannelStatus();
     state_changed[0] = state->first != (*(s32 *)((u8 *)menu + 0x18));
     state_changed[1] = state->second != (*(s32 *)((u8 *)menu + 0x1C));
     display_state = state;

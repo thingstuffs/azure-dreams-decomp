@@ -33,7 +33,7 @@ extern s16 D_80025308;
 extern u8 D_800DEAE0[];
 
 /* Updates a moving effect, its particles, target color animation, and cleanup. */
-void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
+void dungeonUpdateMovingEffectParticlesAndCleanup(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
     s16 origin_offset[4];
     OffsetPair direction_offsets[8];
     u8 *display = effect_display;
@@ -213,7 +213,7 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
                 particle_color = 0x002020E0;
                 random &= 0xFF;
                 particle_param = random | 0x80;
-                func_80024488(task, S16_AT(effect_data, 0x7E), particle_color, particle_param, 0, 0, 0);
+                dungeonSpawnParentAttachedEffect(task, S16_AT(effect_data, 0x7E), particle_color, particle_param, 0, 0, 0);
             }
         }
 
@@ -312,7 +312,7 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
             copy_source = PTR_AT(PTR_AT(owner, 0x60), -0x18);
             S32_AT(entity, 0x4C) = S32_AT(copy_source, 0x00);
             S32_AT(entity, 0x50) = S32_AT(copy_source, 0x04);
-            S32_AT(source, 0x10) = (s32)func_800245A8;
+            S32_AT(source, 0x10) = (s32)dungeonAdvanceRotatingFadingEffect;
             func_8004491C(source, func_80045340);
 
             {
@@ -381,7 +381,7 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
                     particle_color = 0x002020E0;
                     random &= 0xFF;
                     particle_param = random | 0x80;
-                    func_80024488(task, S16_AT(effect_data, 0x7E), particle_color, particle_param, 0, 0, 0);
+                    dungeonSpawnParentAttachedEffect(task, S16_AT(effect_data, 0x7E), particle_color, particle_param, 0, 0, 0);
                 }
             }
         }

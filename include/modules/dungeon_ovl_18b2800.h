@@ -315,7 +315,7 @@ typedef struct B22_81892800_Aux {
     u16 angle;
 } B22_81892800_Aux;
 void func_80024028(B22_81892800_Entity *entity, B22_81892800_Motion *motion, B22_81892800_Aux *aux);
-void *func_800240F8(void *context, B22_818928F8_Copy24 *src_data, s16 state_value);
+void *dungeonCreateRandomlyRotatedSpriteObject(void *context, B22_818928F8_Copy24 *src_data, s16 state_value);
 void func_8002420C(void *step_state, void *accumulator, void *target);
 void *func_800242F0(s32 state_value, B22_81892AF0_Copy24 *source_transform, s16 variant);
 void func_800243F8(void *counterState);
@@ -324,7 +324,7 @@ void *func_80024824(s32 object_arg, void *source_data, s16 initial_value, s16 fi
 void func_800248F8(void *state, M2C_UNK draw_context, M2C_UNK update_context);
 void func_800249B8(void *entry, B22_818931B8_S_818931B8_2 *source, Rec_D_80082E80 *target);
 void func_80024A44(s32 source, B22_81893244_Func81893244Data *initial_data, s16 status_param);
-void func_80024C74(B22_81893474_EffectState *effect_state, B22_81893474_Motion *effect_motion, B22_81893474_ColorPart *color_part);
+void dungeonUpdateEffectLaunchTravelImpactCleanup(B22_81893474_EffectState *effect_state, B22_81893474_Motion *effect_motion, B22_81893474_ColorPart *color_part);
 void func_8003DB94(void *, void *, s32);
 extern void func_80067F20(void *, s32, s32, s32, s32);
 extern s32 func_80066460(s32, s32, s32, s32);
@@ -333,12 +333,12 @@ extern s32 func_80064584(s32);
 extern s32 func_800644B8(s32);
 extern s32 func_800A6D30(void);
 extern void func_80042640(void *, s32);
-extern void *func_800D1C70(u8, s16, s16, s16);
+extern void *dungeonCreateActorAtTile(u8, s16, s16, s16);
 extern void func_800419EC(s32, s32);
 extern s32 func_800A5690(void);
-extern s32 func_800A45D8(s32, s32, s32);
-extern s32 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern s16 func_800BCAD0(void *);
-extern s32 func_8003DE58(void *, void *, void *, s32);
-extern s16 func_800A0818(u8, u8, s16, s16, s16 *);
+extern s32 dungeonCheckLeftTileAndCenterHeight(s32, s32, s32);
+extern s32 getOffsetMapCellValueAndFlags(s16 x, s16 y, s16 offset_index, u16 *flags);
+extern s16 dungeonGetSurfaceHeightAtRecord(void *);
+extern s32 resolveRecordOrientationOrFallback(void *, void *, void *, s32);
+extern s16 dungeonGetRoundedFacingAndRoundingFlag(u8, u8, s16, s16, s16 *);
 #endif

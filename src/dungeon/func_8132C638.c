@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Return the stored count and optionally increment it up to 9999. */
-s32 func_80173E38(s32 read_only) {
+s32 dungeonReadOrIncrementCappedCounter(s32 read_only) {
     register u32 high_byte;
     register u32 low_byte;
     u32 shifted;

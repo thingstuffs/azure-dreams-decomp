@@ -14,7 +14,7 @@ extern void func_800A5720(s8 *text);
 extern u8 D_80176440[9];
 extern u8 D_80176455[9];
 /* Builds and displays a message containing the record's name between fixed text. */
-void func_80175DA4(s32 record, s32 unused_1, s32 unused_2, s32 unused_3)
+void dungeonDisplayRecordNameMessage(s32 record, s32 unused_1, s32 unused_2, s32 unused_3)
 {
     s32 text_arg;
     s32 message;

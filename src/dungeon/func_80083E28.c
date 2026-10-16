@@ -5,12 +5,12 @@
 
 typedef struct S_80089588_3 {
     s32 unk_00;
-} S_80089588_3;   /* temp_s1 in func_80089588 */
+} S_80089588_3;   /* temp_s1 in dungeonQueueFramebufferStripQuads */
 
 typedef struct S_80089588_4 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
-} S_80089588_4;   /* ((S_80089588_3 *)temp_s1)->unk_00 in func_80089588 */
+} S_80089588_4;   /* ((S_80089588_3 *)temp_s1)->unk_00 in dungeonQueueFramebufferStripQuads */
 
 
 typedef struct S_80089588_1 {
@@ -25,11 +25,11 @@ typedef struct S_80089588_1 {
     s16 unk_12;
     s16 unk_14;
     s16 unk_16;
-} S_80089588_1;   /* temp_s2 in func_80089588 */
+} S_80089588_1;   /* temp_s2 in dungeonQueueFramebufferStripQuads */
 
 typedef struct S_80089588_2 {
     s32 unk_00;
-} S_80089588_2;   /* temp_s1 in func_80089588 */
+} S_80089588_2;   /* temp_s1 in dungeonQueueFramebufferStripQuads */
 
 
 struct S_8003E2D8;
@@ -41,7 +41,7 @@ M2C_UNK func_80067EF4();
 M2C_UNK func_80067F20();
 
 /* Queue draw settings and horizontal strips for both ordering tables. */
-void func_80089588(void) {
+void dungeonQueueFramebufferStripQuads(void) {
     s32 draw_area[2];
     u8 alternate_buffer;
     s16 saved_alternate;

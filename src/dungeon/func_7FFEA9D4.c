@@ -4,12 +4,12 @@
 typedef struct S_7FFEA9D4_4 {
     u8 pad_00[0xC];
     void * unk_0C;
-} S_7FFEA9D4_4;   /* temp_v0_2 in func_7FFEA9D4 */
+} S_7FFEA9D4_4;   /* temp_v0_2 in dungeonSpawnYoungEmitterParticles */
 
 typedef struct S_7FFEA9D4_5 {
     u8 pad_00[0xC];
     s32 unk_0C;
-} S_7FFEA9D4_5;   /* ((S_7FFEA9D4_4 *)temp_v0_2)->unk_0C in func_7FFEA9D4 */
+} S_7FFEA9D4_5;   /* ((S_7FFEA9D4_4 *)temp_v0_2)->unk_0C in dungeonSpawnYoungEmitterParticles */
 
 
 typedef struct S_7FFEA9D4_0 {
@@ -18,7 +18,7 @@ typedef struct S_7FFEA9D4_0 {
     u16 unk_16;
     u8 pad_18[0x6];
     u16 unk_1E;
-} S_7FFEA9D4_0;   /* arg0 in func_7FFEA9D4 */
+} S_7FFEA9D4_0;   /* arg0 in dungeonSpawnYoungEmitterParticles */
 
 typedef struct S_7FFEA9D4_1 {
     u8 pad_00[0x8];
@@ -30,7 +30,7 @@ typedef struct S_7FFEA9D4_1 {
     s16 unk_40;
     u8 pad_42[0x1E];
     u16 unk_60;
-} S_7FFEA9D4_1;   /* temp_v0_2 in func_7FFEA9D4 */
+} S_7FFEA9D4_1;   /* temp_v0_2 in dungeonSpawnYoungEmitterParticles */
 
 typedef struct S_7FFEA9D4_2 {
     u8 pad_00[0x2];
@@ -39,12 +39,12 @@ typedef struct S_7FFEA9D4_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_7FFEA9D4_2;   /* temp_s0 in func_7FFEA9D4 */
+} S_7FFEA9D4_2;   /* temp_s0 in dungeonSpawnYoungEmitterParticles */
 
 typedef struct S_7FFEA9D4_3 {
     u8 pad_00[0x13];
     u8 unk_13;
-} S_7FFEA9D4_3;   /* temp_s1 in func_7FFEA9D4 */
+} S_7FFEA9D4_3;   /* temp_s1 in dungeonSpawnYoungEmitterParticles */
 
 
 void *func_7003CF18();                       /* extern */
@@ -56,7 +56,7 @@ extern u16 D_80094422;
 extern M2C_UNK D_8010C994;
 
 /* Spawns randomized particles while the emitter is young and marks it inactive when its timer expires. */
-void func_7FFEA9D4(void *emitter, M2C_UNK init_param_1, M2C_UNK init_param_2) {
+void dungeonSpawnYoungEmitterParticles(void *emitter, M2C_UNK init_param_1, M2C_UNK init_param_2) {
     s32 z_offset;
     s32 spawn_count;
     s32 rand_value;

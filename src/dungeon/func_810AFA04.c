@@ -16,36 +16,36 @@ typedef struct S_80173204_1 {
     s8 unk_26;
     u8 pad_27[0x5];
     u8 * unk_2C;
-} S_80173204_1;   /* arg2 in func_80173204 */
+} S_80173204_1;   /* arg2 in dungeonUpdateEntityAnimationAndColorFade */
 
 
 typedef struct S_80173204_7 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_80173204_7;   /* counter in func_80173204 */
+} S_80173204_7;   /* counter in dungeonUpdateEntityAnimationAndColorFade */
 
 
 extern s32 func_80042900(void *, s32);
 extern void func_80042B68(void *, s32);
 extern void func_80047784(void *, u8, s32);
-extern s32 func_8009A180(void *, s32);
-extern s16 func_8009FD40(void *, void *);
+extern s32 dungeonCheckEntityRelation(void *, s32);
+extern s16 dungeonGetTileChebyshevDistance(void *, void *);
 extern s32 func_800A2C34(void *);
 extern s32 func_800A6D30(void);
 extern void func_800A9A04(void *);
 extern void func_800A9A0C(void *);
-extern void func_800AA258(void *, s32, void *, void *);
-extern s32 func_800AA6B4(void *, s32, void *, s32);
-extern void func_800AA79C(void *, s32, void *, void *);
+extern void dungeonBeginPushedActorMove(void *, s32, void *, void *);
+extern s32 dungeonBeginReadyActorDirectionalAction(void *, s32, void *, s32);
+extern void dungeonAdvanceActorPendingAction(void *, s32, void *, void *);
 extern void func_800AA888(void *, s32, void *, void *);
-extern void func_80173A20(void *, s32, void *, void *);
+extern void dungeonAdvanceActorStateWithChild(void *, s32, void *, void *);
 
 extern u8 D_80170E54;
 extern u8 D_80173C9C[];
 extern u8 D_80173CA4[];
 
 /* Updates entity state, directional animation, and color fading. */
-void func_80173204(Rec_func_80173204_arg0 *controller, s32 update_mode, S_80173204_1 *sprite, EntityRec *entity)
+void dungeonUpdateEntityAnimationAndColorFade(Rec_func_80173204_arg0 *controller, s32 update_mode, S_80173204_1 *sprite, EntityRec *entity)
 {
     s32 state;
     s32 flags;
@@ -102,7 +102,7 @@ void func_80173204(Rec_func_80173204_arg0 *controller, s32 update_mode, S_801732
             return;
         }
         if (entity->unk_64 != 0) {
-            if (func_800AA6B4(controller, update_mode, sprite, 0) != 0) {
+            if (dungeonBeginReadyActorDirectionalAction(controller, update_mode, sprite, 0) != 0) {
                 return;
             }
         }
@@ -110,7 +110,7 @@ void func_80173204(Rec_func_80173204_arg0 *controller, s32 update_mode, S_801732
             if (dungeonStatus.flags & 0x2008) {
                 return;
             }
-            func_800AA79C(controller, update_mode, sprite, entity);
+            dungeonAdvanceActorPendingAction(controller, update_mode, sprite, entity);
             return;
         }
         if ((func_800A2C34(entity) << 16) != 0) {
@@ -119,19 +119,19 @@ void func_80173204(Rec_func_80173204_arg0 *controller, s32 update_mode, S_801732
 
         flags = entity->flags1C;
         if (flags & 0x100) {
-            func_800AA258(controller, update_mode, sprite, entity);
+            dungeonBeginPushedActorMove(controller, update_mode, sprite, entity);
             return;
         }
         if (flags & 0x80000) {
             func_800AA888(controller, update_mode, sprite, entity);
-            func_80173A20(controller, update_mode, sprite, entity);
+            dungeonAdvanceActorStateWithChild(controller, update_mode, sprite, entity);
             return;
         }
         if (entity->unk_6D == 0) {
             return;
         }
         if ((func_800A2C34(entity) << 16) != 0) {
-            if ((func_8009A180(
+            if ((dungeonCheckEntityRelation(
                      entity,
                      ((s32)D_800814A8->unk_58) + 0x20) << 16) != 0) {
                 return;
@@ -143,7 +143,7 @@ void func_80173204(Rec_func_80173204_arg0 *controller, s32 update_mode, S_801732
             floor_base = &D_80082E80;
             floor = sprite->unk_26;
             if (((floor == floor_base->unk_026) && (floor >= 0)) ||
-                func_8009FD40(floor_base, sprite) < 2) {
+                dungeonGetTileChebyshevDistance(floor_base, sprite) < 2) {
                 if ((func_800A6D30() & 7) == 0) {
                     func_80042B68(entity, 1);
                 }

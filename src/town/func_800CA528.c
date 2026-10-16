@@ -9,10 +9,10 @@ typedef struct S_800C7C88_0 {
     s16 unk_86;
     u8 pad_88[0xC];
     s8 unk_94;
-} S_800C7C88_0;   /* arg0 in func_800C7C88 */
+} S_800C7C88_0;   /* arg0 in townInitializeMotherEventDefaults */
 
 /* Initializes the object's state fields to fixed defaults. */
-void func_800C7C88(S_800C7C88_0 *object) {
+void townInitializeMotherEventDefaults(S_800C7C88_0 *object) {
     object->unk_84 = 0x520;
     object->unk_86 = 0x2A0;
     object->unk_94 = 2;

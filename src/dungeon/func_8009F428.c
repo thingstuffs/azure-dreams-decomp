@@ -8,30 +8,30 @@ typedef struct S_800A4B88_0_pre {
     s32 unk_00;
     void * unk_04;
     u8 pad_08[0x10];
-} S_800A4B88_0_pre;   /* the 0x18 bytes before arg0 in func_800A4B88, addressed as arg0[-1] */
+} S_800A4B88_0_pre;   /* the 0x18 bytes before arg0 in dungeonApplyEntityActionFlags, addressed as arg0[-1] */
 
 
 typedef struct S_800A4B88_1 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800A4B88_1;   /* temp_s0 in func_800A4B88 */
+} S_800A4B88_1;   /* temp_s0 in dungeonApplyEntityActionFlags */
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 void func_8003DB94();     /* extern */
 M2C_UNK func_8003E188();            /* extern */
 void func_80041E70();                      /* extern */
-void func_80096088();              /* extern */
+void dungeonRestorePlayerControlCallback();              /* extern */
 void func_8009A21C();             /* extern */
 void func_8009A3D0();             /* extern */
-void func_800ACB98(); /* extern */
-void *func_800D8590();                      /* extern */
+void dungeonBeginActorFlaggedAction(); /* extern */
+void *dungeonResetActorAnimationState();                      /* extern */
 extern s32 D_80083110[];
 extern u8 D_800DD274[];
 
 /* Applies an action to the object's flags and tile state, then updates the object. */
-void func_800A4B88(void *object, s32 action) {
+void dungeonApplyEntityActionFlags(void *object, s32 action) {
     s32 clear_mask;
     s32 enable_clear_mask;
     s32 set_mask;
@@ -118,15 +118,15 @@ void func_800A4B88(void *object, s32 action) {
     case 9:
         func_8003E188(0x2E, 0);
         if (((EntityRec *)object)->flags14 & 0x20000000) {
-            func_800ACB98(object, ((S_800A4B88_0_pre *)object)[-1].unk_00, ((S_800A4B88_0_pre *)object)[-1].unk_04,
+            dungeonBeginActorFlaggedAction(object, ((S_800A4B88_0_pre *)object)[-1].unk_00, ((S_800A4B88_0_pre *)object)[-1].unk_04,
                 object);
             return;
         }
-        func_800D8590(object);
+        dungeonResetActorAnimationState(object);
         if ((*(u8 *)((u8 *)&((EntityRec *)object)->unk_10 + 3)) != 0) {
             break;
         }
-        func_80096088(object, object);
+        dungeonRestorePlayerControlCallback(object, object);
         update_state = &D_80082E80;
         (((M2C_UNK *)update_state->unk_02C)) = D_800DD274;
         func_8003DB94(update_state, *(s32 *)(D_800DD274 + ((((s32) (gameWork.view.viewAngle + (*(s16 *)((u8 *)object

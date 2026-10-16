@@ -23,7 +23,7 @@ extern u8 D_801765E8[9];
 extern void func_80047784(Context *, s16, s16);
 
 // Initializes state and applies a table value selected by the combined indices.
-void func_80171DCC(State *state, s32 unused, Context *context, IndexSource *indexSource)
+void dungeonInitializeDirectionalStateSprite(State *state, s32 unused, Context *context, IndexSource *indexSource)
 {
     state->unk9A = 0x10;
     state->unk9B = 0;

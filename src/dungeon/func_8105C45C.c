@@ -18,28 +18,28 @@ typedef struct S_80173C5C_0 {
     s32 unk_A0;
     u8 pad_A4[0xA];
     s16 unk_AE;
-} S_80173C5C_0;   /* work in func_80173C5C */
+} S_80173C5C_0;   /* work in dungeonRunTheActorSEightStepSinkAnimationAdvancingStateSwapping */
 
 
 typedef struct S_80173C5C_4 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_80173C5C_4;   /* counters in func_80173C5C */
+} S_80173C5C_4;   /* counters in dungeonRunTheActorSEightStepSinkAnimationAdvancingStateSwapping */
 
 
 extern u8 D_80173FD0[];
 extern u8 D_80173FB8[];
 extern s32 D_80170F68;
-void func_800A2B04();
+void dungeonSetRecordIntegerTileCenter();
 s16 func_800A48F0();
-s32 func_800A4ACC();
+s32 dungeonAdvanceStatusTimers();
 s32 func_800A56E0();
 s32 func_800A6D30();
 extern u8 D_80173FD8;
 extern M2C_UNK D_80173FE0;
 
 /* Run the actor's eight-step sink animation, advancing its state and swapping the sprite each step. */
-void func_80173C5C(S_80173C5C_0 *work, EntityRec *part_a, Rec_D_80082E80 *part_b, EntityRec *actor) {
+void dungeonRunTheActorSEightStepSinkAnimationAdvancingStateSwapping(S_80173C5C_0 *work, EntityRec *part_a, Rec_D_80082E80 *part_b, EntityRec *actor) {
     u8 *unused_ptr;
     s32 value;
     u16 flags;
@@ -100,7 +100,7 @@ void func_80173C5C(S_80173C5C_0 *work, EntityRec *part_a, Rec_D_80082E80 *part_b
         part_a->flags14 = 0;
         part_a->unk_10 = 0;
         part_a->unk_0C = 0;
-        func_800A2B04(part_a, part_b->unk_24, part_b->unk_25);
+        dungeonSetRecordIntegerTileCenter(part_a, part_b->unk_24, part_b->unk_25);
         part_b->unk_2C.as_pu8 = &D_80173FE0;
         func_80047784(part_b, ((u8 *) ((u32) ((((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
             + (u32) &D_80173FE0)))[0], 0);
@@ -121,7 +121,7 @@ void func_80173C5C(S_80173C5C_0 *work, EntityRec *part_a, Rec_D_80082E80 *part_b
         part_b->unk_2C.as_pu8 = D_80173FB8;
         func_80047784(part_b, D_80173FB8[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         actor->unk_6D = 0;
         actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
         work->unk_8C = &D_80170F68;

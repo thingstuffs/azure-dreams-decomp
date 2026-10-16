@@ -18,7 +18,7 @@ typedef struct Bank19de800_19e0860_EntryCursor {
 } Bank19de800_19e0860_EntryCursor;
 
 /* Resolve the current entry, apply an index step, and enforce the index bounds. */
-void func_80026060(void *object, s16 *index_step, s32 min_index, s32 max_index) {
+void dungeonResolveAndStepEntryIndex(void *object, s16 *index_step, s32 min_index, s32 max_index) {
     s16 step;
     u32 clamp_flags;
     u8 index;

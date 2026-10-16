@@ -8,13 +8,13 @@ typedef struct S_80172CC8_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_80172CC8_0;   /* temp_v1 in func_80172CC8 */
+} S_80172CC8_0;   /* temp_v1 in dungeonCreateBossDisplayVariant */
 
 typedef struct S_80172CC8_1 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_80172CC8_1;   /* arg0 in func_80172CC8 */
+} S_80172CC8_1;   /* arg0 in dungeonCreateBossDisplayVariant */
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -50,7 +50,7 @@ extern M2C_UNK D_800DEDB0[3];
 extern M2C_UNK D_80170D60[3];
 
 /* Creates a node at an offset from the origin and configures its display variant. */
-void func_80172CC8(S_80172CC8_1 *origin, s16 x_offset, s16 y_offset, s16 z_offset, s16 variant) {
+void dungeonCreateBossDisplayVariant(S_80172CC8_1 *origin, s16 x_offset, s16 y_offset, s16 z_offset, s16 variant) {
     Sub *setup_sub;
     Sub *display_sub;
     Node *node;

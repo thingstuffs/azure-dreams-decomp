@@ -191,7 +191,7 @@ typedef struct S_func_800CDFD8_9 {
 } S_func_800CDFD8_9;
 
 /* Project sprite parts into textured quads and link visible quads into the ordering table. */
-void func_800D3738(void *unused, S_func_800CDFD8_2 *position, S_func_800CDFD8_5 *sprite, s16 depth_bias) {
+void dungeonRenderActorSpriteParts(void *unused, S_func_800CDFD8_2 *position, S_func_800CDFD8_5 *sprite, s16 depth_bias) {
     s32 screen_y3;
     s16 left_x;
     s32 first_three_visible;

@@ -9,10 +9,10 @@ typedef struct S_80098CC0_0 {
     M2C_UNK * unk_04;
     u8 pad_08[0x8];
     s16 unk_10;
-} S_80098CC0_0;   /* arg0 in func_80098CC0 */
+} S_80098CC0_0;   /* arg0 in townSetHandlerAndCountdown800 */
 
 /* Initialize the state's data pointer and value to D_80098140 and 0x800. */
-void func_80098CC0(S_80098CC0_0 *state) {
+void townSetHandlerAndCountdown800(S_80098CC0_0 *state) {
     state->unk_04 = &D_80098140;
     state->unk_10 = 0x800;
 }

@@ -4,7 +4,7 @@
 M2C_UNK func_8004E99C();                         /* extern */
 
 /* Pass the first value of each pointed-to entry, starting at slot 20, to func_8004E99C. */
-void func_800AF0E0(s32 entryTableAddress, s32 entryCount) {
+void townSendItemMenuPageEntriesToFormatter(s32 entryTableAddress, s32 entryCount) {
     s32 **entryCursor;
     s32 *entry;
     s32 endIndex;

@@ -9,19 +9,19 @@ typedef struct {
     u8 flags;
 } DungeonEntry;
 
-extern s16 func_8009FD40(void *, void *);
+extern s16 dungeonGetTileChebyshevDistance(void *, void *);
 extern void func_800A9A0C(void *);
-extern void func_800AAA28(void *, void *);
-extern s16 func_800B500C(u8, u8, s16);
+extern void dungeonBeginActorFloorTrapAction(void *, void *);
+extern s16 dungeonFindEntryAtTileCoordinates(u8, u8, s16);
 
 extern DungeonEntry D_800E3648[];
 
 typedef struct S_800AD9B4_0_pre {
     u16 unk_00;
-} S_800AD9B4_0_pre;   /* the 0x2 bytes before arg1 in func_800AD9B4, addressed as arg1[-1] */
+} S_800AD9B4_0_pre;   /* the 0x2 bytes before arg1 in dungeonCheckActorFloorTrap, addressed as arg1[-1] */
 
 /* Process an eligible dungeon entry and apply its state updates. */
-s32 func_800AD9B4(Rec_D_80082E80 *actor, EntityRec *target)
+s32 dungeonCheckActorFloorTrap(Rec_D_80082E80 *actor, EntityRec *target)
 {
     TileObject *player;
     DungeonGlobalStatus *dungeon_state;
@@ -35,14 +35,14 @@ s32 func_800AD9B4(Rec_D_80082E80 *actor, EntityRec *target)
         return 1;
     }
     player = &D_80082E80;
-    if (player->unk_026 != actor->unk_26.as_s8 && func_8009FD40(player, actor) >= 7) {
+    if (player->unk_026 != actor->unk_26.as_s8 && dungeonGetTileChebyshevDistance(player, actor) >= 7) {
         return 1;
     }
     if (target->tileY == 0) {
         return 1;
     }
 
-    entry_index = func_800B500C(actor->unk_24,
+    entry_index = dungeonFindEntryAtTileCoordinates(actor->unk_24,
                                   actor->unk_25,
                                   target->unk_88);
     result = 1;
@@ -65,7 +65,7 @@ s32 func_800AD9B4(Rec_D_80082E80 *actor, EntityRec *target)
         }
 
         func_800A9A0C(target);
-        func_800AAA28(actor, target);
+        dungeonBeginActorFloorTrapAction(actor, target);
         result = 0;
     }
     return result;

@@ -14,7 +14,7 @@ typedef struct S_81977D08_0 {
     s32 * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_81977D08_0;   /* temp_v0 in func_81977D08 */
+} S_81977D08_0;   /* temp_v0 in dungeonCreateAnOwnerLinkedSpriteEffectPositionVerticalOffset */
 
 typedef struct S_81977D08_1 {
     u8 pad_00[0xC];
@@ -28,29 +28,29 @@ typedef struct S_81977D08_1 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_81977D08_1;   /* temp_s0 in func_81977D08 */
+} S_81977D08_1;   /* temp_s0 in dungeonCreateAnOwnerLinkedSpriteEffectPositionVerticalOffset */
 
 typedef struct S_81977D08_2 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_81977D08_2;   /* temp_a2 in func_81977D08 */
+} S_81977D08_2;   /* temp_a2 in dungeonCreateAnOwnerLinkedSpriteEffectPositionVerticalOffset */
 
 typedef struct S_81977D08_3 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_81977D08_3;   /* arg1 in func_81977D08 */
+} S_81977D08_3;   /* arg1 in dungeonCreateAnOwnerLinkedSpriteEffectPositionVerticalOffset */
 
 typedef struct S_81977D08_4 {
     u8 pad_00[0x14];
     void * unk_14;
-} S_81977D08_4;   /* arg0 in func_81977D08 */
+} S_81977D08_4;   /* arg0 in dungeonCreateAnOwnerLinkedSpriteEffectPositionVerticalOffset */
 
 typedef struct S_81977D08_5 {
     u8 pad_00[0x13];
     u8 unk_13;
-} S_81977D08_5;   /* ((S_81977D08_4 *)arg0)->unk_14 in func_81977D08 */
+} S_81977D08_5;   /* ((S_81977D08_4 *)arg0)->unk_14 in dungeonCreateAnOwnerLinkedSpriteEffectPositionVerticalOffset */
 
 
 extern s32 func_8003DB94();
@@ -61,7 +61,7 @@ extern s32 D_8002548C;
 extern s32 D_800DEB70;
 
 /* Create an owner-linked sprite effect at the supplied position with a vertical offset. */
-void func_81977D08(S_81977D08_4 *owner, S_81977D08_3 *position)
+void dungeonCreateAnOwnerLinkedSpriteEffectPositionVerticalOffset(S_81977D08_4 *owner, S_81977D08_3 *position)
 {
     S_81977D08_2 *effect_pos;
     S_81977D08_1 *sprite;

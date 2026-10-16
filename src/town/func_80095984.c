@@ -3,41 +3,41 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
-void func_80093D48();     /* extern */
-void func_80093ED8();     /* extern */
+void townInitializeSceneActionRecord();     /* extern */
+void townInitializeMotionAction();     /* extern */
 void func_800942B0();     /* extern */
-M2C_UNK func_80094378();     /* extern */
-void func_80095094();                      /* extern */
-s16 func_80095978();               /* extern */
-void func_80095A94();      /* extern */
-void func_80095C80();                      /* extern */
-s32 func_8009FF50();                                /* extern */
+M2C_UNK dungeonInitializeActionObject();     /* extern */
+void townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero();                      /* extern */
+s16 townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated();               /* extern */
+void townComputeAndClampsVectorBasedAdjustmentUpdatesTown();      /* extern */
+void townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile();                      /* extern */
+s32 townIsUnk18N12Unk1ABetweenN37N41();                                /* extern */
 extern u8 D_800CFCEF;
 
 
 typedef struct S_800930E4_0 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_800930E4_0;   /* target in func_800930E4 */
+} S_800930E4_0;   /* target in townUpdateActorInteractionActions */
 
 typedef struct S_800930E4_1 {
     u8 unk_00;
-} S_800930E4_1;   /* &D_800CFCEF in func_800930E4 */
+} S_800930E4_1;   /* &D_800CFCEF in townUpdateActorInteractionActions */
 
 typedef struct S_800930E4_2 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800930E4_2;   /* self in func_800930E4 */
+} S_800930E4_2;   /* self in townUpdateActorInteractionActions */
 
 typedef struct S_800930E4_3 {
     u8 pad_00[0x8];
     s32 unk_08;
     u8 pad_0C[0x4];
     s32 unk_10;
-} S_800930E4_3;   /* state in func_800930E4 */
+} S_800930E4_3;   /* state in townUpdateActorInteractionActions */
 
 /* Updates the target and dispatches actions based on its value, a countdown, and state flags. */
-void func_800930E4(void *self_arg, void *target_arg, M2C_UNK context_arg) {
+void townUpdateActorInteractionActions(void *self_arg, void *target_arg, M2C_UNK context_arg) {
     void *self;
     M2C_UNK context;
     s16 target_value;
@@ -48,25 +48,25 @@ void func_800930E4(void *self_arg, void *target_arg, M2C_UNK context_arg) {
     context = context_arg;
     state = &gameWork;
 
-    func_80095C80(target_arg);
+    townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(target_arg);
     self = self_arg;
 
-    func_80095094(target_arg);
-    if (func_8009FF50() == 0) {
-        target_value = func_80095978(target_arg, ((u8 *)&D_800FE488));
+    townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero(target_arg);
+    if (townIsUnk18N12Unk1ABetweenN37N41() == 0) {
+        target_value = townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(target_arg, ((u8 *)&D_800FE488));
         if ((target_value - ((S_800930E4_0 *)target_arg)->unk_0A) >= 4) {
             if (((S_800930E4_1 *)(&D_800CFCEF))->unk_00 == 0) {
-                func_80094378(self, target_arg, context);
+                dungeonInitializeActionObject(self, target_arg, context);
                 return;
             }
         } else if (((S_800930E4_1 *)(&D_800CFCEF))->unk_00 == 0) {
-            func_80095A94(target_arg, target_value, ((u8 *)&D_800FE488));
+            townComputeAndClampsVectorBasedAdjustmentUpdatesTown(target_arg, target_value, ((u8 *)&D_800FE488));
         }
         countdown = ((S_800930E4_2 *)self)->unk_0A - 1;
         ((S_800930E4_2 *)self)->unk_0A = countdown;
         if ((s16) countdown >= 0) {
             if (state->buttons & 0xF000) {
-                func_80093ED8(self, target_arg, context);
+                townInitializeMotionAction(self, target_arg, context);
                 return;
             }
             if (((s32)state->unk_010) & 0x10) {
@@ -82,5 +82,5 @@ void func_800930E4(void *self_arg, void *target_arg, M2C_UNK context_arg) {
             return;
         }
     }
-    func_80093D48(self, target_arg, context);
+    townInitializeSceneActionRecord(self, target_arg, context);
 }

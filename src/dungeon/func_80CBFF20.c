@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 
 extern s32 func_800AC82C(void *, void *, void *, void *);
-extern s32 func_800AD9B4(void *, void *);
+extern s32 dungeonCheckActorFloorTrap(void *, void *);
 extern void func_80047784(void *, u8, s32);
 
 extern u8 D_80170F20[];
@@ -13,14 +13,14 @@ extern u8 D_80176328[];
 extern u8 D_80176360[];
 
 /* Updates object state or selects a source table entry from the target direction. */
-void func_80173720(void *object_arg, void *context, void *source_arg, void *target_arg) {
+void dungeonUpdateObjectOrSelectDirectionalData(void *object_arg, void *context, void *source_arg, void *target_arg) {
     void *object = object_arg;
     void *source = source_arg;
     void *target = target_arg;
     void *state_table;
 
     if (func_800AC82C(object_arg, context, source_arg, target_arg) != 0) {
-        if ((func_800AD9B4(source, target) << 0x10) > 0) {
+        if ((dungeonCheckActorFloorTrap(source, target) << 0x10) > 0) {
             if (*(u8 *)((u8 *)object + 0xA7) != 0) {
                 *(void **)((u8 *)object + 0x8C) = D_80173B98;
             } else {

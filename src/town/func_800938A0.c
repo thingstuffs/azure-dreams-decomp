@@ -5,42 +5,42 @@
 #include "shared/entity.h"
 
 void func_800942B0();        /* extern */
-void func_80094378();        /* extern */
-void func_80094C1C();                         /* extern */
-void func_80095094();                      /* extern */
-s16 func_80095978();               /* extern */
-void func_80095A94();      /* extern */
-void func_80095C80();                      /* extern */
+void dungeonInitializeActionObject();        /* extern */
+void townStoreTheValidSharedAngleInOffsetHex10();                         /* extern */
+void townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero();                      /* extern */
+s16 townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated();               /* extern */
+void townComputeAndClampsVectorBasedAdjustmentUpdatesTown();      /* extern */
+void townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile();                      /* extern */
 extern M2C_UNK D_800CFCEF;
 
 
 typedef struct S_80091000_1 {
     u8 unk_00;
-} S_80091000_1;   /* &D_800CFCEF in func_80091000 */
+} S_80091000_1;   /* &D_800CFCEF in townUpdateActorGroundAndInput */
 
 typedef struct S_80091000_2 {
     u8 pad_00[0x8];
     s32 unk_08;
     u8 pad_0C[0x4];
     s32 unk_10;
-} S_80091000_2;   /* state in func_80091000 */
+} S_80091000_2;   /* state in townUpdateActorGroundAndInput */
 
 /* Update the actor against ground height, then dispatch input actions. */
-void func_80091000(s32 controller, EntityRec *actor, s32 context) {
+void townUpdateActorGroundAndInput(s32 controller, EntityRec *actor, s32 context) {
     s16 ground_height;
     GameWork *input_state = &gameWork;
 
-    func_80095C80(actor);
-    func_80095094(actor);
-    ground_height = func_80095978(actor, &D_800FE488);
+    townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(actor);
+    townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero(actor);
+    ground_height = townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(actor, &D_800FE488);
     if ((ground_height - actor->z.w.i) >= 4) {
         if (((S_80091000_1 *)(&D_800CFCEF))->unk_00 == 0) {
-            func_80094378(controller, actor, context);
+            dungeonInitializeActionObject(controller, actor, context);
             return;
         }
     } else {
         if (((S_80091000_1 *)(&D_800CFCEF))->unk_00 == 0) {
-            func_80095A94(actor, ground_height, &D_800FE488);
+            townComputeAndClampsVectorBasedAdjustmentUpdatesTown(actor, ground_height, &D_800FE488);
         }
     }
     if (((s32)input_state->unk_010) & 0x10) {
@@ -48,6 +48,6 @@ void func_80091000(s32 controller, EntityRec *actor, s32 context) {
         return;
     }
     if (input_state->buttons & 0xF000) {
-        func_80094C1C(controller);
+        townStoreTheValidSharedAngleInOffsetHex10(controller);
     }
 }

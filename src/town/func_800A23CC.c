@@ -1,8 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void *func_8003C06C();        /* extern */
-M2C_UNK func_800422DC();            /* extern */
+void *runtimeGetModeIndexedValue();        /* extern */
+M2C_UNK buildEntitySlotSnapshot();            /* extern */
 M2C_UNK func_800423C0();      /* extern */
 M2C_UNK func_80042640();               /* extern */
 M2C_UNK memset(); /* extern */
@@ -23,23 +23,23 @@ typedef struct S_8009FB2C_0 {
     u8 unk_01;
     u8 unk_02;
     u8 unk_03;
-} S_8009FB2C_0;   /* temp_v0 in func_8009FB2C */
+} S_8009FB2C_0;   /* temp_v0 in townCopyAnEntrySlotCreatingAssociatedTypeHex13 */
 
 typedef struct S_8009FB2C_1 {
     u8 unk_00;
     u8 unk_01;
     u8 unk_02;
     u8 unk_03;
-} S_8009FB2C_1;   /* arg1 in func_8009FB2C */
+} S_8009FB2C_1;   /* arg1 in townCopyAnEntrySlotCreatingAssociatedTypeHex13 */
 
 typedef struct S_8009FB2C_2 {
     u8 pad_00[0x29C];
     void * unk_29C;
     s32 unk_2A0;
-} S_8009FB2C_2;   /* temp_v1 in func_8009FB2C */
+} S_8009FB2C_2;   /* temp_v1 in townCopyAnEntrySlotCreatingAssociatedTypeHex13 */
 
 /* Copies an entry into a slot, creating an associated record for type 0x13. */
-void *func_8009FB2C(s32 slot_index, S_8009FB2C_1 *source_entry) {
+void *townCopyAnEntrySlotCreatingAssociatedTypeHex13(s32 slot_index, S_8009FB2C_1 *source_entry) {
     u8 *copy_dst;
     u8 *copy_src;
     s32 record_index;
@@ -62,13 +62,13 @@ void *func_8009FB2C(s32 slot_index, S_8009FB2C_1 *source_entry) {
             u8 *record_buffer;
             record_buffer = (u8 *)&D_80100AF8;
             copy_src = record_buffer;
-            func_800422DC(record_buffer, &D_80100A10);
+            buildEntitySlotSnapshot(record_buffer, &D_80100A10);
         }
         record_index = func_8009F970((void *)0x800102F0, 0x14);
         copy_dst = (record_index * 0x54) + (u8 *)0x800102F0;
         *(Record84 *)copy_dst = *(Record84 *)copy_src;
         detail_dst = (record_index * 0x54) + (u8 *)0x80010324;
-        detail_src = func_8003C06C(entry->unk_00);
+        detail_src = runtimeGetModeIndexedValue(entry->unk_00);
         *(Copy10 *)detail_dst = *(Copy10 *)detail_src;
         entry->unk_03 = (u8) ((entry->unk_03 & 0xC0) | record_index);
     }

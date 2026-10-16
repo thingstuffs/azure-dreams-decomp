@@ -10,7 +10,7 @@ extern s32 func_800175BC(void *, void *, s32);
 extern s32 func_80017F7C(s16);
 
 /* Selects a result for the object, using its status to choose an override. */
-void *func_800166C4(void *object, s32 unused, s32 mode)
+void *townSelectStatusOverrideResult(void *object, s32 unused, s32 mode)
 {
     void *base;
     void *result;

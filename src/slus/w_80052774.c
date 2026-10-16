@@ -19,7 +19,7 @@ typedef struct {
 } LineF2;
 
 /* Draw a shaded horizontal line with dimmer translucent lines above and below. */
-void func_80052774(s16 x, s16 y, s16 width, s16 shade_step)
+void drawShadedHorizontalLine(s16 x, s16 y, s16 width, s16 shade_step)
 {
     GameWork *render_state;
     LineF2 *center_line;

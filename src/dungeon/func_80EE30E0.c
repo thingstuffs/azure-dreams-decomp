@@ -24,12 +24,12 @@ extern u8 D_80174F18[];
 
 extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, s32, s32);
-extern void func_800A2B04(void *, s32, s32);
+extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
 extern void func_800A56E0(s32);
-extern void func_800AD594(void *, s32);
+extern void dungeonReduceActorFoodMeter(void *, s32);
 
 /* Spawns a moving actor and advances the action through animation and recovery. */
-void func_801748E0(void *action_work, void *position, void *sprite, void *actor) {
+void dungeonSpawnMovingActor(void *action_work, void *position, void *sprite, void *actor) {
     Copy32 direction_vectors = D_80170808;
     s32 state;
     u16 timer;
@@ -137,7 +137,7 @@ void func_801748E0(void *action_work, void *position, void *sprite, void *actor)
         S32_AT(position, 0x14) = 0;
         S32_AT(position, 0x10) = 0;
         S32_AT(position, 0x0C) = 0;
-        func_800A2B04(position, U8_AT(sprite, 0x24), U8_AT(sprite, 0x25));
+        dungeonSetRecordIntegerTileCenter(position, U8_AT(sprite, 0x24), U8_AT(sprite, 0x25));
         if (PTR_AT(sprite, 0x2C) == D_80174EB8) {
             return;
         }
@@ -149,7 +149,7 @@ void func_801748E0(void *action_work, void *position, void *sprite, void *actor)
         return;
     case 3:
         if (S16_AT(action_work, 0xA4) != 0x4D) {
-            func_800AD594(actor, 0x2000);
+            dungeonReduceActorFoodMeter(actor, 0x2000);
             PTR_AT(action_work, 0x8C) = &D_80171CE8;
             dungeonStatus.unk_0C = 0;
             U16_AT(actor, 0x46) &= 0x7FFF;

@@ -76,17 +76,17 @@ typedef union WideProduct {
     } word;
 } WideProduct;
 
-extern s32 func_8003DE58();
-extern s32 func_800A44E0();
+extern s32 resolveRecordOrientationOrFallback();
+extern s32 dungeonCheckLayerOffsetHeight();
 extern s32 func_800BCB04();
-extern void func_800247D4();
+extern void dungeonDrawAnimatedShadedLines();
 extern Child *func_80024628();
 extern void func_800A56E0();
 extern void func_80024060();
 extern void func_800244D4(void);
 
 /* Moves to a target cell, runs child effects, and retires the controller. */
-void func_80024C88(Controller *ctrl, Motion *motion, void *render_data)
+void dungeonMoveToTargetAndRunChildEffects(Controller *ctrl, Motion *motion, void *render_data)
 {
     u8 *root;
     RootPrefix *prefix;
@@ -130,7 +130,7 @@ void func_80024C88(Controller *ctrl, Motion *motion, void *render_data)
 
     case 1:
         prefix = (RootPrefix *)(root - 0x20);
-        if (func_8003DE58(prefix->lookup->key, prefix->lookup, delta, 0) == 0) {
+        if (resolveRecordOrientationOrFallback(prefix->lookup->key, prefix->lookup, delta, 0) == 0) {
             if (!(prefix->lookup->flags & 0x8000)) {
                 break;
             }
@@ -189,7 +189,7 @@ void func_80024C88(Controller *ctrl, Motion *motion, void *render_data)
             target_cell_y[0] = cell_y;
 
             do {
-                if ((s16)func_800A44E0(((s16)cell_x << 6) & 0xFFC0,
+                if ((s16)dungeonCheckLayerOffsetHeight(((s16)cell_x << 6) & 0xFFC0,
                                        ((s16)cell_y << 6) & 0xFFC0,
                                        *(s16 *)(root + 0x88),
                                        (s16)(ctrl->angle << 9)) != 0) {
@@ -263,7 +263,7 @@ void func_80024C88(Controller *ctrl, Motion *motion, void *render_data)
         motion->x.val += motion->dx.val;
         motion->y.val += motion->dy.val;
         motion->z.val += motion->dz.val;
-        func_800247D4(ctrl, render_data);
+        dungeonDrawAnimatedShadedLines(ctrl, render_data);
         if (ctrl->timer < 15) {
             break;
         }

@@ -345,7 +345,7 @@ def measure(rid, tsvrow, scratch, out_dir):
                 if pick != cfg:
                     rec["best"]["recipe"] = pick; rec["best"]["tie_rule"] = "neighbours' cell %s" % parse_cfg(pick)[0]
             if ex:
-                bad = landing_refusal(ctext, text, "src/%s/%s" % (c, Path(row["c_path"]).name), row=row)
+                bad = landing_refusal(ctext, text, clean_path(row).relative_to(ROOT).as_posix(), row=row)
                 rec["best"]["landing_refusal"] = (bad or None) and bad.replace(str(ROOT), "<repo>")[:300]
     # slus: the genuine-ASPSX small-data model (measurement of step-3 decision 3; never staged)
     if gp_scored:
@@ -403,7 +403,7 @@ def nearband(rid, tsvrow, scratch, out_dir, prev, max_resid=6, top=5):
             q = {"label": label, "recipe": cfg, "pins_after": pins, "exact": s["exact"], "total": s["total"]}
             if s["exact"]:
                 c = rid.split("/")[0]
-                bad = landing_refusal(ctext, text, "src/%s/%s" % (c, Path(row["c_path"]).name), row=row) if ctext != text else None
+                bad = landing_refusal(ctext, text, clean_path(row).relative_to(ROOT).as_posix(), row=row) if ctext != text else None
                 q["landing_refusal"] = (bad or None) and bad.replace(str(ROOT), "<repo>")[:300]
                 pth = Path(out_dir) / "cands" / c / ("%s.nb.%s.c" % (Path(row["c_path"]).stem, re.sub(r"[^A-Za-z0-9_.+-]", "_", label)[:60]))
                 pth.parent.mkdir(parents=True, exist_ok=True); pth.write_text(ctext)

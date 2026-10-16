@@ -3,16 +3,16 @@
 
 typedef struct S_80025B60_0 {
     M2C_UNK * unk_00;
-} S_80025B60_0;   /* arg0 in func_80025B60; pointer addresses record offset 0x10 */
+} S_80025B60_0;   /* arg0 in cardBootEnterSlotSelectionInput; pointer addresses record offset 0x10 */
 
 
-void func_80020984();                            /* extern */
-void func_80025030(void *);                            /* extern */
+void cardBootRecheckSelectedChannel();                            /* extern */
+void cardBootRefreshFiveSlotSelection(void *);                            /* extern */
 extern M2C_UNK D_8002593C;
 
 /* Update the record, run the shared follow-up, and install its next table. */
-void func_80025B60(void *record_data) {
-    func_80025030(record_data);
-    func_80020984();
+void cardBootEnterSlotSelectionInput(void *record_data) {
+    cardBootRefreshFiveSlotSelection(record_data);
+    cardBootRecheckSelectedChannel();
     ((S_80025B60_0 *)((u8 *)record_data - 0x10))->unk_00 = &D_8002593C;
 }

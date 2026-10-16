@@ -4,6 +4,10 @@ import json, re, sys, collections
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from consolidate import code_spans
+import sys as _layout_sys
+_layout_root = next(p for p in Path(__file__).resolve().parents if (p / "tools/source_layout.py").is_file())
+_layout_sys.path.insert(0, str(_layout_root / "tools"))
+from source_layout import row_path as layout_row_path
 LANE = Path(__file__).resolve().parent.parent; REPO = LANE.parent.parent.parent
 def prim(t, i):
     """end of a primary/postfix expression starting at i (skipping spaces)."""
@@ -29,7 +33,7 @@ def prim(t, i):
     return i, j
 out = []
 for l in open(LANE / "census/views10.jsonl"):
-    r = json.loads(l); t = (REPO / "src" / (r["id"] + ".c")).read_text(errors="replace")
+    r = json.loads(l); t = (layout_row_path(r, REPO)).read_text(errors="replace")
     spans = code_spans(t)
     for o, V, n in r["hits"]:
         for m in re.finditer(r"\(\s*(?:struct\s+)?%s\s*\*\s*\)" % re.escape(V), t):

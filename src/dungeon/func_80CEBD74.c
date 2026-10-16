@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f469800_p07.h"
 
 /* Updates the actor's directional animation and advances its action state. */
-void func_80175574(T_80175574_Obj0 *controller, void *context, T_80175574_Obj2 *animation, T_80175574_Obj3 *actor)
+void dungeonUpdateActorActionAnimationState(T_80175574_Obj0 *controller, void *context, T_80175574_Obj2 *animation, T_80175574_Obj3 *actor)
 {
     unsigned long table_entry;
 
@@ -129,7 +129,7 @@ void func_80175574(T_80175574_Obj0 *controller, void *context, T_80175574_Obj2 *
                 return;
             }
             if (((EntityRec *)actor)->unk_64 != 0) {
-                if (func_800AA6B4(controller, context, animation, 0) != 0) {
+                if (dungeonBeginReadyActorDirectionalAction(controller, context, animation, 0) != 0) {
                     return;
                 }
             }
@@ -140,12 +140,12 @@ void func_80175574(T_80175574_Obj0 *controller, void *context, T_80175574_Obj2 *
                 s32 actor_flags = ((EntityRec *)actor)->flags1C;
 
                 if (actor_flags & 0x100) {
-                    func_800AA258(controller, context, animation, actor);
+                    dungeonBeginPushedActorMove(controller, context, animation, actor);
                     return;
                 }
                 if (actor_flags & 0x80000) {
                     func_800AA888(controller, context, animation, actor);
-                    func_801759A0(controller, context, animation, actor);
+                    dungeonUpdateDirectionalActionDisplay(controller, context, animation, actor);
                     return;
                 }
             }
@@ -153,7 +153,7 @@ void func_80175574(T_80175574_Obj0 *controller, void *context, T_80175574_Obj2 *
                 return;
             }
             if ((func_800A2C34(actor) << 16) != 0) {
-                if ((func_8009A180(actor,
+                if ((dungeonCheckEntityRelation(actor,
                         (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
@@ -210,7 +210,7 @@ increment_state:
 
             counter_base->unk_0A--;
         }
-        ((T_80175574_S_80175574_0 *)controller)->unk_8C = func_801724BC;
+        ((T_80175574_S_80175574_0 *)controller)->unk_8C = dungeonUpdateActorBehavior;
         return;
 
     default:

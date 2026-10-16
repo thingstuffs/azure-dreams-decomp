@@ -19,7 +19,7 @@ typedef struct S_80172494_0 {
     u16 unk_46;
     u8 pad_48[0x25];
     s8 unk_6D;
-} S_80172494_0;   /* arg3_reg in func_80172494 */
+} S_80172494_0;   /* arg3_reg in dungeonUpdateBankStagedMovement */
 
 typedef struct S_80172494_1 {
     u8 pad_00[0x8C];
@@ -30,7 +30,7 @@ typedef struct S_80172494_1 {
     u16 unk_98;
     u8 pad_9A[0x1];
     u8 unk_9B;
-} S_80172494_1;   /* arg0 in func_80172494 */
+} S_80172494_1;   /* arg0 in dungeonUpdateBankStagedMovement */
 
 
 typedef struct S_80172494_3 {
@@ -43,13 +43,13 @@ typedef struct S_80172494_3 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80172494_3;   /* arg1 in func_80172494 */
+} S_80172494_3;   /* arg1 in dungeonUpdateBankStagedMovement */
 
 typedef struct S_80172494_4 {
     u8 pad_00[0xC];
     void * unk_0C;
     void * unk_10;
-} S_80172494_4;   /* temp_v0_2 in func_80172494 */
+} S_80172494_4;   /* temp_v0_2 in dungeonUpdateBankStagedMovement */
 
 typedef struct S_80172494_5 {
     u8 pad_00[0x4];
@@ -66,7 +66,7 @@ typedef struct S_80172494_5 {
     u16 unk_18;
     u8 pad_1A[0x2E];
     s16 unk_48;
-} S_80172494_5;   /* temp_s0_2 in func_80172494 */
+} S_80172494_5;   /* temp_s0_2 in dungeonUpdateBankStagedMovement */
 
 typedef struct S_80172494_6 {
     void * unk_00;
@@ -81,28 +81,28 @@ typedef struct S_80172494_6 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_80172494_6;   /* temp_s1 in func_80172494 */
+} S_80172494_6;   /* temp_s1 in dungeonUpdateBankStagedMovement */
 
 typedef struct S_80172494_7 {
     u8 pad_00[0x4];
     s32 unk_04;
-} S_80172494_7;   /* temp_fp in func_80172494 */
+} S_80172494_7;   /* temp_fp in dungeonUpdateBankStagedMovement */
 
 typedef struct S_80172494_8 {
     u8 pad_00[0x3DE8];
     void * unk_3DE8;
-} S_80172494_8;   /* (void *)temp_v1 in func_80172494 */
+} S_80172494_8;   /* (void *)temp_v1 in dungeonUpdateBankStagedMovement */
 
 
 extern s32 rand(void);
-extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void func_800A2B04(void *, u8, u8);
+extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
 extern u8 D_800DEC28[];
 extern void *D_800E3DE8;
 extern u8 D_80174AE4[];
 
 /* Updates a staged movement action, spawns particles, and restores the actor when finished. */
-void func_80172494(void *action, void *motion, void *map_actor, void *actor_arg) {
+void dungeonUpdateBankStagedMovement(void *action, void *motion, void *map_actor, void *actor_arg) {
     s32 direction_x;
     s32 direction_y;
     s32 setup_value;
@@ -147,7 +147,7 @@ void func_80172494(void *action, void *motion, void *map_actor, void *actor_arg)
         if (((Rec_D_80082E80 *)map_actor)->unk_14.at00_u16.v & 0x8000) {
             ((S_80172494_1 *)action)->unk_9B = 0xFF;
             ((Rec_D_80082E80 *)map_actor)->unk_14.at00_u16.v |= 0x6000;
-            func_8009C12C(actor_arg, map_actor, ((S_80172494_0 *)actor_arg)->unk_2A.u, 1);
+            dungeonResolveAttackDamageAndEffects(actor_arg, map_actor, ((S_80172494_0 *)actor_arg)->unk_2A.u, 1);
             return;
         }
         setup_value = 0xF7FFFFFF;
@@ -216,7 +216,7 @@ void func_80172494(void *action, void *motion, void *map_actor, void *actor_arg)
             return;
         }
         func_800A56E0(0x808);
-        func_8009C12C(actor_arg, map_actor, ((S_80172494_0 *)actor_arg)->unk_2A.u, 1);
+        dungeonResolveAttackDamageAndEffects(actor_arg, map_actor, ((S_80172494_0 *)actor_arg)->unk_2A.u, 1);
 
         ((S_80172494_1 *)action)->unk_9B++;
         return;
@@ -252,7 +252,7 @@ void func_80172494(void *action, void *motion, void *map_actor, void *actor_arg)
                 if (particle != NULL) {
                     func_8004491C(particle, func_80045340);
                     particle_motion = (u8 *)particle + 0x20;
-                    ((S_80172494_4 *)particle)->unk_10 = func_80173F0C;
+                    ((S_80172494_4 *)particle)->unk_10 = dungeonUpdateBankEffectFade;
                     particle_sprite = ((S_80172494_4 *)particle)->unk_0C;
                     ((S_80172494_5 *)particle_motion)->unk_0C =
                         ((S_80172494_3 *)motion)->unk_02.u - (direction_x * 0x28);
@@ -289,15 +289,15 @@ void func_80172494(void *action, void *motion, void *map_actor, void *actor_arg)
         }
         ((S_80172494_3 *)motion)->unk_10 = 0;
         ((S_80172494_3 *)motion)->unk_0C = 0;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)map_actor)->unk_24,
+        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)map_actor)->unk_24,
                       ((Rec_D_80082E80 *)map_actor)->unk_25);
-        func_800AD594(actor_arg, 0x100);
-        ((S_80172494_1 *)action)->unk_8C = func_80171138;
+        dungeonReduceActorFoodMeter(actor_arg, 0x100);
+        ((S_80172494_1 *)action)->unk_8C = dungeonUpdateBankActorState;
         dungeonStatus.unk_0C = 0;
         (*(void * *)((u8 *)map_actor + 0x2C)) = D_80174AD4;
         direction_index_2 = (gameWork.view.viewAngle + ((S_80172494_0 *)actor_arg)->unk_2A.u + 0x100) >> 9;
         func_80047784(map_actor, D_80174AD4[direction_index_2 & 7], 0);
-        func_800A4ACC(actor_arg);
+        dungeonAdvanceStatusTimers(actor_arg);
         if (((S_80172494_0 *)actor_arg)->unk_6D == 0) {
             ((S_80172494_0 *)actor_arg)->unk_46 &= 0x7FFF;
             return;

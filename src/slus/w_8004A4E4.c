@@ -8,7 +8,7 @@ typedef struct S_8004A4E4 {
 } S_8004A4E4;
 
 /* Applies a signed correction and optional fivefold multiplier to the base value, with a minimum of one. */
-s32 func_8004A4E4(s32 base_value, S_8004A4E4 *modifier) {
+s32 applyScaledByteModifierClampOne(s32 base_value, S_8004A4E4 *modifier) {
     s32 result = base_value + ((u32)base_value / 10) * modifier->field_2;
 
     if (modifier->field_3 & 0x40) {

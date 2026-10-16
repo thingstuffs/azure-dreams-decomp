@@ -90,7 +90,7 @@ typedef struct S_8195281C_10 {
 
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol func_80024000).  The switch table follows it at 0x80024008
+ * (retail 0x80024000, the row symbol dungeonAddFlagAdjustedTargetValue).  The switch table follows it at 0x80024008
  * (gcc's .align 3 for jump tables), and the code starts after the table. */
 
 void (*const dungeon_1972800_entry)(void *, void *) = func_8002401C;
@@ -118,11 +118,11 @@ void func_8002401C(void *effect, void *color_data) {
     case 0:
         upload_rect[0] = 0x01000340;
         upload_rect[1] = 0x200020;
-        func_800B835C(D_800DF334, upload_rect, 1, 0);
+        dungeonDrawTexturedEllipse(D_800DF334, upload_rect, 1, 0);
         upload_rect[0] = 0x01000360;
-        func_800B835C(D_80024980, upload_rect, 1, 0);
+        dungeonDrawTexturedEllipse(D_80024980, upload_rect, 1, 0);
         ((S_8195281C_10 *)(((S_8195281C_1 *)((int *)(&D_800814A8)))->unk_00.i))->unk_F4 = D_80024998;
-        func_800B8C20(((S_8195281C_0 *)effect)->unk_00 - 0x20, ((S_8195281C_0 *)effect)->unk_04, 0, 0);
+        dungeonCreateTimedModelEffect(((S_8195281C_0 *)effect)->unk_00 - 0x20, ((S_8195281C_0 *)effect)->unk_04, 0, 0);
         ((S_8195281C_0 *)effect)->unk_0A.s = (s16) ((u16) ((S_8195281C_0 *)effect)->unk_0A.s + 1);
     case 1:
         actor_slot = (void **) ((int *)(&D_800814A8));
@@ -153,7 +153,7 @@ void func_8002401C(void *effect, void *color_data) {
         }
         model_owner = ((S_8195281C_1 *)((int *)(&D_800814A8)))->unk_00.p;
         ((S_8195281C_0 *)effect)->unk_18 = 0x20;
-        func_80024908(effect - 0x20, ((S_8195281C_0 *)effect)->unk_14.s, ((S_8195281C_0 *)effect)->unk_09,
+        allocateAndInitializeEffectObject(effect - 0x20, ((S_8195281C_0 *)effect)->unk_14.s, ((S_8195281C_0 *)effect)->unk_09,
             model_owner->unk_60);
         ((S_8195281C_0 *)effect)->unk_0A.s = (u16) ((S_8195281C_0 *)effect)->unk_0A.s + 1;
         break;

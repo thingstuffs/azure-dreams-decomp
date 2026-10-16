@@ -13,7 +13,7 @@ typedef struct {
 } Reader;
 
 /* Copies an event-script table value from the source slot to the destination slot. */
-void func_80039F80(Reader *reader) {
+void vmOp51CopyValue(Reader *reader) {
     u8 *script_ptr = reader->read_ptr;
     u8 destination;
     u8 source;

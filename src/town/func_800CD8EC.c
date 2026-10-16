@@ -6,7 +6,7 @@
 typedef struct S_800CB04C_1 {
     u8 pad_00[0x4];
     M2C_UNK * unk_04;
-} S_800CB04C_1;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_80 in func_800CB04C */
+} S_800CB04C_1;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_80 in townSetRecordDataPointer */
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -14,6 +14,6 @@ extern M2C_UNK D_800D6924;
 
 
 /* Sets the record's associated data pointer to D_800D6924. */
-void func_800CB04C(Rec_func_80094268_arg0 *record) {
+void townSetRecordDataPointer(Rec_func_80094268_arg0 *record) {
     ((S_800CB04C_1 *)(record->unk_80))->unk_04 = &D_800D6924;
 }

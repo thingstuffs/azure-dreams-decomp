@@ -15,7 +15,7 @@ extern void *func_8003FD64(s32, s32);
 extern void func_8004491C(void *, void *);
 extern s32 rand(void);
 extern void func_80047784(void *, s32, s32);
-extern s32 func_8003DE58(s32, void *, u16 *, s32);
+extern s32 resolveRecordOrientationOrFallback(s32, void *, u16 *, s32);
 extern u8 D_80175018;
 
 
@@ -24,7 +24,7 @@ typedef struct S_8017589C_0 {
     Copy24 * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_8017589C_0;   /* object in func_8017589C */
+} S_8017589C_0;   /* object in dungeonCreateRandomizedOffsetObject */
 
 typedef struct S_8017589C_1 {
     u8 pad_00[0x6];
@@ -38,7 +38,7 @@ typedef struct S_8017589C_1 {
     void * unk_44;
     void * unk_48;
     s32 unk_4C;
-} S_8017589C_1;   /* work in func_8017589C */
+} S_8017589C_1;   /* work in dungeonCreateRandomizedOffsetObject */
 
 typedef struct S_8017589C_2 {
     u8 pad_00[0xC];
@@ -54,13 +54,13 @@ typedef struct S_8017589C_2 {
     s16 unk_1E;
     u8 pad_20[0x8];
     s32 unk_28;
-} S_8017589C_2;   /* node in func_8017589C */
+} S_8017589C_2;   /* node in dungeonCreateRandomizedOffsetObject */
 
 
 typedef struct S_8017589C_4 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_8017589C_4;   /* source in func_8017589C */
+} S_8017589C_4;   /* source in dungeonCreateRandomizedOffsetObject */
 
 typedef struct S_8017589C_5 {
     u8 pad_00[0x2];
@@ -69,10 +69,10 @@ typedef struct S_8017589C_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8017589C_5;   /* copy in func_8017589C */
+} S_8017589C_5;   /* copy in dungeonCreateRandomizedOffsetObject */
 
 /* Creates an object with randomized initial state and source-derived offsets. */
-void *func_8017589C(s32 allocation_param, Copy24 *initial_data, Rec_D_80082E80 *source_node)
+void *dungeonCreateRandomizedOffsetObject(s32 allocation_param, Copy24 *initial_data, Rec_D_80082E80 *source_node)
 {
     u16 delta[3];
     s32 random_value;
@@ -117,7 +117,7 @@ void *func_8017589C(s32 allocation_param, Copy24 *initial_data, Rec_D_80082E80 *
         delta[1] = 0;
         delta[0] = 0;
         source = work->unk_48;
-        if (func_8003DE58(source->unk_08, source, delta, 3) != 0) {
+        if (resolveRecordOrientationOrFallback(source->unk_08, source, delta, 3) != 0) {
             ((S_8017589C_5 *)copy)->unk_02 += delta[0];
             ((S_8017589C_5 *)copy)->unk_06 += delta[1];
             ((S_8017589C_5 *)copy)->unk_0A += delta[2];

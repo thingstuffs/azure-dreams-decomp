@@ -11,7 +11,7 @@ typedef struct S_800C542C_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_800C542C_0;   /* object in func_800C542C */
+} S_800C542C_0;   /* object in dungeonCreateOrbitingTeleportEffect */
 
 typedef struct S_800C542C_1 {
     u8 pad_00[0x6];
@@ -20,13 +20,13 @@ typedef struct S_800C542C_1 {
     s32 unk_0C;
     u8 pad_10[0x10];
     s16 unk_20;
-} S_800C542C_1;   /* display in func_800C542C */
+} S_800C542C_1;   /* display in dungeonCreateOrbitingTeleportEffect */
 
 typedef struct S_800C542C_2_pre {
     void * unk_00;
     s32 unk_04;
     u8 pad_08[0x10];
-} S_800C542C_2_pre;   /* the 0x18 bytes before arg0 in func_800C542C, addressed as arg0[-1] */
+} S_800C542C_2_pre;   /* the 0x18 bytes before arg0 in dungeonCreateOrbitingTeleportEffect, addressed as arg0[-1] */
 
 
 typedef struct S_800C542C_3 {
@@ -36,7 +36,7 @@ typedef struct S_800C542C_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800C542C_3;   /* target in func_800C542C */
+} S_800C542C_3;   /* target in dungeonCreateOrbitingTeleportEffect */
 
 typedef struct S_800C542C_4 {
     u8 pad_00[0x2];
@@ -45,7 +45,7 @@ typedef struct S_800C542C_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800C542C_4;   /* source in func_800C542C */
+} S_800C542C_4;   /* source in dungeonCreateOrbitingTeleportEffect */
 
 typedef struct S_800C542C_5 {
     u8 pad_00[0x1C];
@@ -60,7 +60,7 @@ typedef struct S_800C542C_5 {
     s16 unk_32;
     u8 pad_34[0x2];
     s16 unk_36;
-} S_800C542C_5;   /* record in func_800C542C */
+} S_800C542C_5;   /* record in dungeonCreateOrbitingTeleportEffect */
 
 
 extern u8 D_800C4F20[];
@@ -72,7 +72,7 @@ extern int rand(void);
 extern void func_800A56E0(s32);
 
 /* Creates and initializes a display object linked to its owner. */
-void *func_800C542C(void *owner, s16 effect_value, s16 direction, s16 effect_mode)
+void *dungeonCreateOrbitingTeleportEffect(void *owner, s16 effect_value, s16 direction, s16 effect_mode)
 {
     void *object;
     S_800C542C_1 *display;

@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f469800_p01.h"
 
 /* Creates and initializes an object at an offset from the supplied position. */
-void func_80171928(void *unused, s32 *position) {
+void dungeonSpawnGrowingRotatingFlash(void *unused, s32 *position) {
     T_80171928_Object *object;
     T_80171928_Header *header;
     T_80171928_Child *child;
@@ -12,7 +12,7 @@ void func_80171928(void *unused, s32 *position) {
         header = (T_80171928_Header *)((u8 *)object + 0x20);
         header->value18 = 0x1C;
         header->value1a = 0x1C;
-        object->field10 = &func_80170EF4;
+        object->field10 = &dungeonUpdateGrowingRotatingFlash;
         func_8004491C(object, func_80045340);
         child = object->child;
         child->value10 = 0x60;

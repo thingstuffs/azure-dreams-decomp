@@ -3,7 +3,7 @@
 
 
 /* Advance and damp effect motion, fade its colors, and flag expiration. */
-void func_800D5CA0(u8 *effect, s32 *motion)
+void dungeonAdvanceDampedEffectAndExpire(u8 *effect, s32 *motion)
 {
     s16 ticks_left;
 

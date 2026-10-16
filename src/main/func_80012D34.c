@@ -7,13 +7,13 @@ typedef struct UnkStruct1E {
 
 extern int D_800814A0;
 
-extern void func_8004F52C(UnkStruct1E *a0);
+extern void slusSetObjectCleanupFlag(UnkStruct1E *a0);
 extern void func_80023A00(s32 record);
 extern void func_80024EEC(s32 object);
 extern void func_80024184(s32 object);
 
 /* Processes the object's linked resources and five handles, then sets its and the global 0x8000 flags. */
-void func_80025D34(UnkStruct1E *object)
+void cardBootDestroySlotSelectionMenu(UnkStruct1E *object)
 {
     s32 handle;
     s32 handle_count;
@@ -22,7 +22,7 @@ void func_80025D34(UnkStruct1E *object)
     handle_cursor = (u8 *)object + 0x20;
     if (object != 0) {
         handle_count = 0;
-        func_8004F52C(*(UnkStruct1E **)((u8 *)object + 0x20));
+        slusSetObjectCleanupFlag(*(UnkStruct1E **)((u8 *)object + 0x20));
         func_80023A00(*(s32 *)((u8 *)handle_cursor + 0x18));
         func_80024EEC(*(s32 *)((u8 *)handle_cursor + 0x1C));
         do {

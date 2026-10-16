@@ -11,7 +11,7 @@ typedef struct {
     u8 padA[22];
 } Record;
 
-extern s32 func_80033B2C(s32);
+extern s32 testResidentBitmapBit(s32);
 extern Record D_800D2644[];
 extern u8 D_800D2EA4[];
 
@@ -40,7 +40,7 @@ s8 *slots_out;
         record = records + (record_key & 0xFF);
     }
     slots_start = slots_out;
-    if (func_80033B2C(record->field8) == 0) {
+    if (testResidentBitmapBit(record->field8) == 0) {
         return 0;
     }
 

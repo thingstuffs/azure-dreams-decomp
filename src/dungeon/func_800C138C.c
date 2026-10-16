@@ -6,15 +6,15 @@ typedef struct Func800C138CData {
     void *data;
 } Func800C138CData;
 
-extern void func_800C6B40(s32 context, void *position, void *sprite, s16 depth_bias);
+extern void dungeonDrawSpritePartsAsQuadGrid(s32 context, void *position, void *sprite, s16 depth_bias);
 
-/* Process each linked state with func_800C6B40 in mode zero. */
-s32 func_800C6AEC(void *initial_state, void *context, void *data) {
+/* Process each linked state with dungeonDrawSpritePartsAsQuadGrid in mode zero. */
+s32 dungeonProcessLinkedStatesModeZero(void *initial_state, void *context, void *data) {
     void *state = initial_state;
     void *next_node;
 
     for (;;) {
-        func_800C6B40(state, context, data, 0);
+        dungeonDrawSpritePartsAsQuadGrid(state, context, data, 0);
         next_node = *((void **)state - 2);
         if (next_node == 0) {
             return 0;

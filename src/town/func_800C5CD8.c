@@ -4,18 +4,18 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 M2C_UNK func_80033CD8();                   /* extern */
-void func_8008F074();  /* extern */
-void func_800C2CB0(); /* extern */
-void func_800C337C();    /* extern */
+void townConfigureTheSetModeN1();  /* extern */
+void townClearObjectStatusAndDispatchTarget(); /* extern */
+void townDispatchObjectState();    /* extern */
 extern M2C_UNK D_800D5028;
 
 
 /* Initialize the object and its animation, then dispatch its current state. */
-void func_800C3438(Rec_func_80094268_arg0 *object, s32 context, s32 animation) {
+void townInitializePersonObject(Rec_func_80094268_arg0 *object, s32 context, s32 animation) {
     func_80033CD8(object, func_80045340);
     object->unk_8C = 0x40;
     object->unk_8E = 0x40;
-    func_800C2CB0(object, animation, **object->unk_7C.as_pps32, 0);
-    func_8008F074(object, context, &D_800D5028);
-    func_800C337C(object, context, animation);
+    townClearObjectStatusAndDispatchTarget(object, animation, **object->unk_7C.as_pps32, 0);
+    townConfigureTheSetModeN1(object, context, &D_800D5028);
+    townDispatchObjectState(object, context, animation);
 }

@@ -11,13 +11,13 @@ typedef struct S_800265B8_0 {
 } S_800265B8_0;   /* menu in func_800265B8 */
 
 
-extern s32 func_8002168C(void);
+extern s32 cardBootDebounceCardStatusEvents(void);
 extern void func_80021904(void);
-extern void func_80025DC8(void *state);
-extern void func_8002651C(void *context);
+extern void cardBootHighlightSelectedLoadSlot(void *state);
+extern void mainRouteSaveSlotValidation(void *context);
 extern void func_80026920(void *object);
-extern void func_80027AFC(s32 request, s32 mode);
-extern s32 func_80049DE8(s32 index, s32 delta, s32 limit);
+extern void initCardBootRequestObject(s32 request, s32 mode);
+extern s32 advanceIndexWithSingleWrap(s32 index, s32 delta, s32 limit);
 extern void SD_Call(s32 flags);
 
 /* Handles menu navigation with button repeat and dispatches the selected action. */
@@ -36,12 +36,12 @@ void func_800265B8(u8 *menu)
         if (pressed_buttons & 0x20) {
             SD_Call(0x515);
             func_80026920(menu - 0x20);
-            func_80027AFC(((S_800265B8_0 *)menu)->unk_20, ((S_800265B8_0 *)menu)->unk_24);
+            initCardBootRequestObject(((S_800265B8_0 *)menu)->unk_20, ((S_800265B8_0 *)menu)->unk_24);
             return;
         }
         if (pressed_buttons & 0x40) {
             SD_Call(0x503);
-            func_8002651C(menu);
+            mainRouteSaveSlotValidation(menu);
         } else {
             if (held_buttons & 0x5000) {
                 if (pressed_buttons & 0x5000) {
@@ -71,12 +71,12 @@ void func_800265B8(u8 *menu)
         if (status != 0) {
             SD_Call(0x502);
             ((S_800265B8_0 *)menu)->unk_2C =
-                func_80049DE8(((S_800265B8_0 *)menu)->unk_2C, status, 5);
-            func_80025DC8(menu);
+                advanceIndexWithSingleWrap(((S_800265B8_0 *)menu)->unk_2C, status, 5);
+            cardBootHighlightSelectedLoadSlot(menu);
         }
     }
 
-    status = func_8002168C();
+    status = cardBootDebounceCardStatusEvents();
     func_80021904();
     if (status == 0) {
         return;
@@ -86,5 +86,5 @@ void func_800265B8(u8 *menu)
     }
 
     func_80026920(menu - 0x20);
-    func_80027AFC(((S_800265B8_0 *)menu)->unk_20, ((S_800265B8_0 *)menu)->unk_24);
+    initCardBootRequestObject(((S_800265B8_0 *)menu)->unk_20, ((S_800265B8_0 *)menu)->unk_24);
 }

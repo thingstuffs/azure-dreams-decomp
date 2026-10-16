@@ -5,7 +5,7 @@ extern u16 D_80162004[];
 static __inline__ u16 *grid_base(void) { return D_80162004; }
 
 /* Copies a width-and-height-prefixed block to the destination grid, skipping zero entries. */
-void func_800B7868(s16 dst_x, s16 dst_y, u16 *src) {
+void townBlitNonzeroU16BlockToGrid(s16 dst_x, s16 dst_y, u16 *src) {
     s16 next_row;
     s16 next_col;
     s16 row;

@@ -1,0 +1,157 @@
+/* Relink of matched dungeon/func_80AC8164; every changed retail word is a paired relocation. */
+#define D_80171728 D_8016B728
+#define D_80174DEC D_8016EDEC
+#define D_80174DFC D_8016EDFC
+#define D_80174E24 D_8016EE24
+#include "common.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_status.h"
+#include "shared/dir_step.h"
+#include "shared/entity.h"
+#include "records/Rec_D_80082E80.h"
+
+typedef struct S_80173964_0 {
+    u8 pad_00[0x8C];
+    void * unk_8C;
+    u8 pad_90[0x6];
+    union { s16 s; u16 u; } unk_96;   /* accessed as both */
+    u8 pad_98[0x3];
+    u8 unk_9B;
+} S_80173964_0;   /* arg0 in func_8016D964 */
+
+
+extern void func_80047784(void *, s32, s32);
+extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
+extern void dungeonBeginActorDisplayAction(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void dungeonApplyClampedActorValueDelta(void *);
+
+extern s32 D_8016B728;
+extern u8 D_8016EDEC[];
+extern u8 D_8016EDFC[];
+extern u8 D_8016EE24[];
+
+/* Applies a brief directional movement, then returns the actor to its grid position. */
+void func_8016D964(void *action, EntityRec *motion, void *actor, EntityRec *entity)
+{
+    s32 state;
+    s16 timer;
+    u16 timer_bits;
+    u8 next_state;
+    s32 target_x;
+    s32 current_x;
+    s32 target_y;
+    s32 current_y;
+    s32 tracked_entity;
+
+    state = ((S_80173964_0 *)action)->unk_9B;
+    switch (state) {
+    case 0:
+        dungeonApplyClampedActorValueDelta(entity);
+        ((S_80173964_0 *)action)->unk_96.s = 12;
+        ((S_80173964_0 *)action)->unk_9B++;
+        if (entity->unk_28 == 0) {
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            dungeonBeginActorDisplayAction(action, motion, actor, D_8016EE24);
+            return;
+        }
+        if (((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x8000) {
+            ((S_80173964_0 *)action)->unk_96.s = 0;
+            ((S_80173964_0 *)action)->unk_9B = 3;
+        }
+        return;
+
+    case 1:
+        timer_bits = ((S_80173964_0 *)action)->unk_96.u - 1;
+        ((S_80173964_0 *)action)->unk_96.u = timer_bits;
+        timer = timer_bits;
+        if (timer >= 11) {
+            motion->unk_0C =
+                *(s16 *)((u8 *)((s8 *)dirStepX) +
+                         ((entity->unk_6A >> 8) & 0xE)) << 20;
+            motion->unk_10 =
+                *(s16 *)((u8 *)((s8 *)dirStepY) +
+                         ((entity->unk_6A >> 8) & 0xE)) << 20;
+            ((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v |= 0x800;
+            return;
+        }
+        if (timer >= 7) {
+            motion->unk_0C /= 4;
+            motion->unk_10 /= 4;
+            return;
+        }
+        if (timer >= 2) {
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            return;
+        }
+        if (timer == state) {
+            ((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v &= 0xF7FF;
+            return;
+        }
+        if (timer != 0) {
+            return;
+        }
+        next_state = ((S_80173964_0 *)action)->unk_9B;
+        timer = 4;
+        ((S_80173964_0 *)action)->unk_96.s = timer;
+        ((S_80173964_0 *)action)->unk_9B = next_state + 1;
+        return;
+
+    case 2:
+        if (entity->unk_28 == 0) {
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            dungeonBeginActorDisplayAction(action, motion, actor, D_8016EE24);
+            return;
+        }
+        timer = ((S_80173964_0 *)action)->unk_96.s;
+        if (timer != 0) {
+            target_x = ((Rec_D_80082E80 *)actor)->unk_24 << 6;
+            current_x = motion->x.w.i - 0x20;
+            motion->unk_0C = ((target_x - current_x) << 16) / timer;
+            target_y = ((Rec_D_80082E80 *)actor)->unk_25 << 6;
+            current_y = motion->y.w.i - 0x20;
+            motion->unk_10 =
+                ((target_y - current_y) << 16) / ((S_80173964_0 *)action)->unk_96.s;
+        }
+        timer_bits = ((S_80173964_0 *)action)->unk_96.u;
+        ((S_80173964_0 *)action)->unk_96.u = timer_bits - 1;
+        if ((s32)(timer_bits << 16) > 0) {
+            return;
+        }
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        next_state = ((S_80173964_0 *)action)->unk_9B;
+        ((S_80173964_0 *)action)->unk_9B = next_state + 1;
+        return;
+    case 3:
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25);
+        if (((Rec_D_80082E80 *)actor)->unk_2C.as_pv == D_8016EDFC) {
+            (*(void * *)((u8 *)actor + 0x2C)) = D_8016EDEC;
+            func_80047784(
+                actor,
+                D_8016EDEC[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                0);
+        }
+        tracked_entity = ((s32)dungeonStatus.unk_10);
+        if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
+            dungeonStatus.unk_10 = tracked_entity & 0x7FFFFFFF;
+        }
+        ((S_80173964_0 *)action)->unk_8C = &D_8016B728;
+
+        return;
+    default:
+        return;
+    }
+}
+
+/* MECHANISM: Four live arguments naturally produce the 0x28 frame and s1/s0/s2/s3 save roles.
+   A distinct u8 next_state plus timer-held constant 4 fixes v0/v1 lifetimes and the bgtz store slot.
+   The named D_80083460 pointer forces retail's split lui/addiu base before the final field load. */

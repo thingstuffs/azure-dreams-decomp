@@ -14,7 +14,7 @@ extern void func_800A56E0(s32);
 extern M2C_UNK D_800D4DE8;
 extern M2C_UNK D_800DECF8[3];
 /* Creates a colored effect at the source position and optionally plays a sound. */
-void func_800D4FC8(void *source, s32 color, unsigned short sound_id)
+void dungeonCreateColoredEffectWithSound(void *source, s32 color, unsigned short sound_id)
 {
     DungeonGlobalStatus *effect_state;
     s32 *color_ptr;

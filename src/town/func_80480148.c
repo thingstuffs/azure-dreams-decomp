@@ -5,6 +5,6 @@
 extern s32 D_8001968C;
 
 /* Returns the address of D_8001968C. */
-M2C_UNK *func_80480148(void) {
+M2C_UNK *func_80016148(void) {
     return &D_8001968C;
 }

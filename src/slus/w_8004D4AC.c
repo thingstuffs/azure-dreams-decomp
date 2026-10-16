@@ -37,7 +37,7 @@ extern void SetTransMatrix(MATRIX *m);
 extern void TransMatrix(MATRIX *m, VECTOR *v);
 extern void RotTrans(SVECTOR *v0, VECTOR *v1, s32 *flg);
 extern void CompMatrix(MATRIX *m0, MATRIX *m1, MATRIX *m2);
-extern void func_80041900(MATRIX *m);
+extern void advanceTimedEntityMotion(MATRIX *m);
 
 /* Build and install the combined rotation and translation from global transform state. */
 void func_8004D4AC(void)
@@ -70,7 +70,7 @@ void func_8004D4AC(void)
     SetTransMatrix(&base_mat);
     RotTrans((SVECTOR *)&transform->unk_094, &rotated_pos, &gte_flags);
     TransMatrix(&base_mat, &rotated_pos);
-    func_80041900(&base_mat);
+    advanceTimedEntityMotion(&base_mat);
     CompMatrix(&base_mat, &offset_mat, &combined_mat);
     SetTransMatrix(&combined_mat);
     SetRotMatrix(&combined_mat);

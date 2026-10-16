@@ -22,12 +22,12 @@ extern void func_800B2E3C(void *ptr);
 extern void func_800B2F88(void *ptr);
 extern void func_800B3108(void *ptr);
 extern void func_800B331C(void *ptr);
-extern void func_800B2DCC(void *objects);
-extern void func_800B2F38(void *record);
-extern void func_800B3440(void *record);
+extern void townArrangeTenObjectsInColumns(void *objects);
+extern void townApplyLinkedRecordDefaults(void *record);
+extern void townUpdateAndFinalizeRecord(void *record);
 
 /* Initialize slot data pointers and offsets, then set up the object. */
-void func_800B3734(Obj *object) {
+void townInitializeFourSlotObjectVariant(Obj *object) {
     Obj *obj = object;
     s32 slot_index;
 
@@ -47,7 +47,7 @@ void func_800B3734(Obj *object) {
     func_800B2F88((u8 *)obj->unk0xA8 + 0x18);
     func_800B3108((u8 *)obj->unk0xA8 + 0x40);
     func_800B331C(obj->unk0xA8);
-    func_800B2DCC((u8 *)obj->unk0xA8 + 0x68);
-    func_800B2F38(obj);
-    func_800B3440(obj);
+    townArrangeTenObjectsInColumns((u8 *)obj->unk0xA8 + 0x68);
+    townApplyLinkedRecordDefaults(obj);
+    townUpdateAndFinalizeRecord(obj);
 }

@@ -5,7 +5,7 @@
 
 
 /* Set the current object's inner values to 1696 and 1184. */
-void func_80016FDC(void) {
+void townSetSceneObjectInnerOffsets(void) {
     ((TownPositionState *)D_80016000->unk_1C)->x = 1696;
     ((TownPositionState *)D_80016000->unk_1C)->y = 1184;
 }

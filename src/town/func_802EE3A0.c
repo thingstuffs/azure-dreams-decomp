@@ -36,7 +36,7 @@ typedef struct S_802EE3A0_1 {
 } S_802EE3A0_1;   /* temp_v1 in func_802EE3A0 */
 
 /* Builds count-dependent text and sets its display position. */
-void func_804053A0(s32 panel_addr) {
+void townBuildMemoryTaskText(s32 panel_addr) {
     s32 panel_base;
     s32 count;
     Local64 count_text;

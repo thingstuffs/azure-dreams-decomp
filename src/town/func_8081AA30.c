@@ -3,23 +3,23 @@
 
 typedef struct S_80024A30_0_pre {
     u16 unk_00;
-} S_80024A30_0_pre;   /* the 0x2 bytes before arg0 in func_80024A30, addressed as arg0[-1] */
+} S_80024A30_0_pre;   /* the 0x2 bytes before arg0 in townFadeSceneTileAfterCompletionFlag, addressed as arg0[-1] */
 
 typedef struct S_80024A30_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
     u8 pad_02[0x2];
     void * unk_04;
     s32 unk_08;
-} S_80024A30_0;   /* arg0 in func_80024A30 */
+} S_80024A30_0;   /* arg0 in townFadeSceneTileAfterCompletionFlag */
 
 typedef struct S_80024A30_1 {
     u8 pad_00[0xC];
     u16 unk_0C;
-} S_80024A30_1;   /* temp_v0 in func_80024A30 */
+} S_80024A30_1;   /* temp_v0 in townFadeSceneTileAfterCompletionFlag */
 
 
 /* Waits for a trigger flag, then decreases the level and sets completion flags. */
-void func_80024A30(void *state) {
+void townFadeSceneTileAfterCompletionFlag(void *state) {
     S_80024A30_1 *trigger;
     s16 phase;
     s32 level;

@@ -8,7 +8,7 @@
 typedef struct S_80022290_0 {
     u8 pad_00[0x10];
     void * unk_10;
-} S_80022290_0;   /* obj1 in func_80022290 */
+} S_80022290_0;   /* obj1 in townInitializeMinigameDisplay */
 
 typedef struct S_80022290_1 {
     u8 pad_00[0x8];
@@ -19,12 +19,12 @@ typedef struct S_80022290_1 {
     s16 unk_12;
     u8 pad_14[0x2];
     s16 unk_16;
-} S_80022290_1;   /* data1 in func_80022290 */
+} S_80022290_1;   /* data1 in townInitializeMinigameDisplay */
 
 typedef struct S_80022290_2 {
     u8 pad_00[0x10];
     void * unk_10;
-} S_80022290_2;   /* obj2 in func_80022290 */
+} S_80022290_2;   /* obj2 in townInitializeMinigameDisplay */
 
 typedef struct S_80022290_3 {
     u8 pad_00[0x4];
@@ -35,7 +35,7 @@ typedef struct S_80022290_3 {
     s16 unk_16;
     s16 unk_18;
     s16 unk_1A;
-} S_80022290_3;   /* data2 in func_80022290 */
+} S_80022290_3;   /* data2 in townInitializeMinigameDisplay */
 
 
 typedef struct {
@@ -44,7 +44,7 @@ typedef struct {
 
 extern void func_8004491C(void *, void *);
 extern void *func_8004DA74(void *, void *, s32);
-extern void func_800BC1DC(void *, void *, void *);
+extern void townCreatePositionedCallbackObject(void *, void *, void *);
 
 extern Packed8 D_8002021C;
 extern u8 D_800223D8[8];
@@ -57,7 +57,7 @@ extern s32 D_80053A88;
 extern u8 D_800782EC[8];
 
 /* Initializes display resources and creates rectangle and image objects. */
-void func_80022290(void *context)
+void townInitializeMinigameDisplay(void *context)
 {
     Packed8 setup_words;
     void *rect_obj;
@@ -67,9 +67,9 @@ void func_80022290(void *context)
     void *image_resource;
 
     setup_words = D_8002021C;
-    func_800BC1DC(&setup_words, D_800223D8,
+    townCreatePositionedCallbackObject(&setup_words, D_800223D8,
                   func_8004DA74(context, D_8002446C, 0));
-    func_800BC1DC((u8 *)&setup_words + 4, D_800223D8, D_800782EC);
+    townCreatePositionedCallbackObject((u8 *)&setup_words + 4, D_800223D8, D_800782EC);
 
     rect_obj = func_8003FC64(1);
     if (rect_obj != NULL) {

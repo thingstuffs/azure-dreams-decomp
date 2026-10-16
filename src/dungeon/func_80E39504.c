@@ -13,21 +13,21 @@ typedef struct S_80172D04_0 {
     u8 unk_9B;
     u8 pad_9C[0xC];
     union { s16 s; u16 u; } unk_A8;   /* accessed as both */
-} S_80172D04_0;   /* script in func_80172D04 */
+} S_80172D04_0;   /* script in dungeonUpdateActorKnockback */
 
 
-extern void func_800A2B04(void *, u8, u8);
+extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
 extern s32 func_800A6D30(void);
-extern void func_800AAA54(void *actor, void *unused, void *display, u8 *facing_variants);
-extern void func_800AD4D0(void *);
-extern void func_8017516C(void *, void *, void *, void *);
-extern void func_80176480(void *, void *);
+extern void dungeonBeginActorDisplayAction(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void dungeonApplyClampedActorValueDelta(void *);
+extern void dungeonCreateKnockbackTravelObject(void *, void *, void *, void *);
+extern void dungeonHandleSpawnsUpSixteenParticlesRandomizedOffsetsVelocities(void *, void *);
 
 extern u8 D_80170EE4[];
 extern u8 D_80176640[];
 
 /* Three-stage knockback script driven by the 0x9B step byte: stage 0 seeds the velocity from the facing table and picks the timer, stage 1 decays that velocity a quarter per frame, stage 2 steers back to the tile centre and ends by clearing the motion record. */
-void func_80172D04(S_80172D04_0 *script, EntityRec *motion, Rec_D_80082E80 *tile, EntityRec *actor)
+void dungeonUpdateActorKnockback(S_80172D04_0 *script, EntityRec *motion, Rec_D_80082E80 *tile, EntityRec *actor)
 {
     s16 timer;
     s32 value;
@@ -41,8 +41,8 @@ void func_80172D04(S_80172D04_0 *script, EntityRec *motion, Rec_D_80082E80 *tile
     one = 1;
     switch (state) {
     case 0:
-        func_80176480(motion, tile);
-        func_800AD4D0(actor);
+        dungeonHandleSpawnsUpSixteenParticlesRandomizedOffsetsVelocities(motion, tile);
+        dungeonApplyClampedActorValueDelta(actor);
         motion->unk_0C =
             -*(s16 *)((u8 *)((s8 *)dirStepX) +
                 ((actor->unk_6A >> 8) & 0xE)) << 15;
@@ -55,13 +55,13 @@ void func_80172D04(S_80172D04_0 *script, EntityRec *motion, Rec_D_80082E80 *tile
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(script, motion, tile, D_80176640);
+            dungeonBeginActorDisplayAction(script, motion, tile, D_80176640);
             return;
         }
         random = func_800A6D30() & 3;
         if (tile->unk_14.at00_u16.v & 0x8000) {
             if (random == 0) {
-                func_8017516C(script, motion, tile, actor);
+                dungeonCreateKnockbackTravelObject(script, motion, tile, actor);
             }
             script->unk_A8.s = -1;
             script->unk_96.s = 0;
@@ -94,7 +94,7 @@ void func_80172D04(S_80172D04_0 *script, EntityRec *motion, Rec_D_80082E80 *tile
         timer = script->unk_A8.u - 1;
         script->unk_A8.u = timer;
         if ((timer << 16) == 0) {
-            func_8017516C(script, motion, tile, actor);
+            dungeonCreateKnockbackTravelObject(script, motion, tile, actor);
         }
 
         if (script->unk_96.s > 0) {
@@ -110,7 +110,7 @@ void func_80172D04(S_80172D04_0 *script, EntityRec *motion, Rec_D_80082E80 *tile
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(script, motion, tile, D_80176640);
+            dungeonBeginActorDisplayAction(script, motion, tile, D_80176640);
         } else {
             script->unk_96.s = 8;
             script->unk_9B++;
@@ -133,7 +133,7 @@ void func_80172D04(S_80172D04_0 *script, EntityRec *motion, Rec_D_80082E80 *tile
         timer = script->unk_A8.u - 1;
         script->unk_A8.u = timer;
         if ((timer << 16) == 0) {
-            func_8017516C(script, motion, tile, actor);
+            dungeonCreateKnockbackTravelObject(script, motion, tile, actor);
         }
 
         timer = script->unk_96.u - 1;
@@ -145,7 +145,7 @@ void func_80172D04(S_80172D04_0 *script, EntityRec *motion, Rec_D_80082E80 *tile
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, tile->unk_24,
+        dungeonSetRecordIntegerTileCenter(motion, tile->unk_24,
             tile->unk_25);
         {
 

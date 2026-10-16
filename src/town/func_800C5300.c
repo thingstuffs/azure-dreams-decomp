@@ -5,7 +5,7 @@ extern s32 D_80097D2C;
 extern void *D_800CFCC4;
 
 /* True when the active object shares its 0x60 field with `other` and the global hook is the default. */
-s32 func_800C2A60(void *other) {
+s32 townCheckActiveTransformObject(void *other) {
     s32 result;
 
     if (D_800CFCC4 != 0) {

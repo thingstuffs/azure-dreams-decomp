@@ -6,7 +6,7 @@ typedef s32 (*Func)(s32, s32);
 
 typedef struct S_80025480_0_pre {
     u16 unk_00;
-} S_80025480_0_pre;   /* the 0x2 bytes before arg0 in func_80025480, addressed as arg0[-1] */
+} S_80025480_0_pre;   /* the 0x2 bytes before arg0 in dungeonProcessModeGatedEntity, addressed as arg0[-1] */
 
 
 typedef struct {
@@ -24,7 +24,7 @@ extern Func D_800294A8[];
 extern struct { s32 v; s32 pad[2]; } D_800814A0;
 
 /* Process an entity and set entity and global flags when the mode or callback permits. */
-void func_80025480(Entity *entity) {
+void dungeonProcessModeGatedEntity(Entity *entity) {
     if (entity) {
         func_800253C0(entity);
         if (D_80082E60.mode == 1 || D_800294A8[entity->field_18](entity->field_0, entity->field_10)) {

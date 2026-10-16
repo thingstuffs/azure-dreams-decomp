@@ -30,7 +30,7 @@ typedef struct S_8004A940_CategoryEntry {
 extern S_8004A940_CategoryEntry itemCategoryTable[];
 
 /* Assign consecutive 19-byte data blocks to the items selected by the category/index table. */
-void func_8004A940(void)
+void tableHandleAssignConsecutiveN19ByteDataBlocksItemsSelectedCategoryIndex(void)
 {
     S_8004A940_Pair *item_pair = (S_8004A940_Pair *)0x80013564;
     void *item_data = (void *)0x800133E8;

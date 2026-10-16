@@ -17,21 +17,21 @@ typedef struct S_800D991C_0 {
     u8 unk_9B;
     u8 pad_9C[0x8];
     s32 unk_A4;
-} S_800D991C_0;   /* arg0 in func_800D991C */
+} S_800D991C_0;   /* arg0 in dungeonUpdateActorLanding */
 
 
 void func_8003DB94();        /* extern */
-s16 func_800A0818();       /* extern */
-void func_800A2B04();              /* extern */
-s32 func_800A4ACC();                      /* extern */
+s16 dungeonGetRoundedFacingAndRoundingFlag();       /* extern */
+void dungeonSetRecordIntegerTileCenter();              /* extern */
+s32 dungeonAdvanceStatusTimers();                      /* extern */
 M2C_UNK func_800A9A04();                      /* extern */
-void func_800AD594();             /* extern */
-s32 func_800AD9B4();                  /* extern */
+void dungeonReduceActorFoodMeter();             /* extern */
+s32 dungeonCheckActorFloorTrap();                  /* extern */
 extern M2C_UNK D_800D8C64;
 extern void *D_800E262C[];
 
 /* Update airborne movement toward a map tile and finish the landing transition. */
-void func_800D991C(void *motion_state, EntityRec *transform, void *map_entity, EntityRec *actor) {
+void dungeonUpdateActorLanding(void *motion_state, EntityRec *transform, void *map_entity, EntityRec *actor) {
     s32 direction_aux;
     void **animation_table;
     s32 frames_left;
@@ -83,7 +83,7 @@ void func_800D991C(void *motion_state, EntityRec *transform, void *map_entity, E
             transform->flags14 = 0;
             transform->unk_10 = 0;
             transform->unk_0C = 0;
-            func_800A2B04(transform, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
+            dungeonSetRecordIntegerTileCenter(transform, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
             animation_table = D_800E262C;
             (*(void **)((u8 *)map_entity + 0x2C)) = animation_table;
             func_8003DB94(map_entity, *(void **)((u8 *)animation_table + (((s32) (gameWork.view.viewAngle
@@ -97,9 +97,9 @@ void func_800D991C(void *motion_state, EntityRec *transform, void *map_entity, E
             transform->flags14 = 0;
             transform->unk_10 = 0;
             transform->unk_0C = 0;
-            func_800A2B04(transform, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
-            func_800AD594(actor, 4);
-            func_800A4ACC(actor);
+            dungeonSetRecordIntegerTileCenter(transform, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
+            dungeonReduceActorFoodMeter(actor, 4);
+            dungeonAdvanceStatusTimers(actor);
             if (dungeonStatus.unk_08 != 0) {
                 dungeonStatus.unk_08 = (s16) ((u16) dungeonStatus.unk_08 - 1);
             }
@@ -107,12 +107,12 @@ void func_800D991C(void *motion_state, EntityRec *transform, void *map_entity, E
             if (!(actor_flags & 0x2000)) {
                 if (!(actor_flags & 0x410)) {
                     if (actor_flags & 0x20000) {
-                        actor->facing = func_800A0818(((Rec_D_80082E80 *)map_entity)->unk_24,
+                        actor->facing = dungeonGetRoundedFacingAndRoundingFlag(((Rec_D_80082E80 *)map_entity)->unk_24,
                             ((Rec_D_80082E80 *)map_entity)->unk_25, D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
                     }
                 }
             }
-            if ((func_800AD9B4(map_entity, actor) << 0x10) > 0) {
+            if ((dungeonCheckActorFloorTrap(map_entity, actor) << 0x10) > 0) {
                 ((S_800D991C_0 *)motion_state)->unk_8C = &D_800D8C64;
                 func_800A9A04(actor);
             }

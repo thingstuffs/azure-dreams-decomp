@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Computes a signed cyclic comparison score for two three-bit masks. */
-s32 func_800A35D8(s32 left_mask, s32 right_mask) {
+s32 dungeonCompareThreeBitMasksCyclically(s32 left_mask, s32 right_mask) {
     s16 score;
     s16 left_bits;
     s16 right_bits;

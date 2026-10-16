@@ -33,7 +33,7 @@ typedef struct S_52CE0_Ent {
     u16 flags;
 } S_52CE0_Ent;
 
-extern void func_80052774(s16 a0, s16 a1, s16 a2, s16 a3);
+extern void drawShadedHorizontalLine(s16 a0, s16 a1, s16 a2, s16 a3);
 extern void MoveImage(S_52CE0_Rect *rect, s32 x, s32 y);
 
 /* Advance the entity animation, moving its position and copying image rows in VRAM. */

@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_8004FE78(void *entity);
+extern void destroyAnimatedSelectionMenu(void *entity);
 
 extern int D_800814A0;
 
@@ -11,12 +11,12 @@ typedef struct {
 } S_8004F558;
 
 /* Recycles the object's data and sets bit 0x8000 in its flags and the global flags. */
-void func_8004F558(void *object)
+void destroyAnimatedSelectionMenuOwner(void *object)
 {
     S_8004F558 *data_slot = (S_8004F558 *)((unsigned char *)object + 0x4);
     unsigned short *flags = (unsigned short *)((unsigned char *)object - 0x2);
 
-    func_8004FE78(data_slot->field_04);
+    destroyAnimatedSelectionMenu(data_slot->field_04);
     *flags |= 0x8000;
     D_800814A0 |= 0x8000;
 }

@@ -9,7 +9,7 @@ extern s16 D_A0700F34[];
 extern u8 *D_A0700F40;
 
 /* Dispatch a callback based on the number of leading set flags in the ID list. */
-void func_808B2D90(void) {
+void townDispatchByLeadingIdFlags(void) {
     CallbackTable callbacks;
     s16 *flag_cursor;
     s32 set_count;

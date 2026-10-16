@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_f7d070_p01.h"
 
 /* Allocates an object, initializes its parts and actor state, and returns its work area. */
-void *func_80170870(s16 kind_flags, s16 x, s16 y, s16 part_value)
+void *dungeonAllocateActorEffectObject(s16 kind_flags, s16 x, s16 y, s16 part_value)
 {
     s32 kind;
     void *obj;

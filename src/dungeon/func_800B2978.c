@@ -8,7 +8,7 @@ typedef struct S_800B80D8_0 {
     u8 pad_A6[0xA];
     s16 unk_B0;
     s16 unk_B2;
-} S_800B80D8_0;   /* arg0 in func_800B80D8 */
+} S_800B80D8_0;   /* arg0 in dungeonAnimateObjectMotionAndScale */
 
 typedef struct S_800B80D8_1 {
     u8 pad_00[0x14];
@@ -16,21 +16,21 @@ typedef struct S_800B80D8_1 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_800B80D8_1;   /* arg2 in func_800B80D8 */
+} S_800B80D8_1;   /* arg2 in dungeonAnimateObjectMotionAndScale */
 
 typedef struct S_800B80D8_2 {
     u8 pad_00[0x8];
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_800B80D8_2;   /* arg1 in func_800B80D8 */
+} S_800B80D8_2;   /* arg1 in dungeonAnimateObjectMotionAndScale */
 
 
 extern void func_800A7A7C(s32, s32, s32, void *, void *);
 extern s32 D_8006E240;
 
 /* Animate object motion and scale, then signal completion. */
-void func_800B80D8(void *object, void *motion, void *display)
+void dungeonAnimateObjectMotionAndScale(void *object, void *motion, void *display)
 {
     s16 state;
     s32 velocity;

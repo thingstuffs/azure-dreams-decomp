@@ -16,7 +16,7 @@ void *func_80170A5C(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
     if (object != 0) {
         result = (u8 *)object;
         result += 0x20;
-        ((CB_80170A5C_S_80170A5C_0 *)object)->unk_10 = func_80170C24;
+        ((CB_80170A5C_S_80170A5C_0 *)object)->unk_10 = dungeonSetBossEffectFlag;
         ((CB_80170A5C_S_80170A5C_1 *)result)->unk_13 = 20;
         func_8004491C(object, func_80045340);
 

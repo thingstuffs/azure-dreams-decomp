@@ -4,7 +4,7 @@ extern s32 func_800990FC(void);
 extern s32 func_80099194(u8 *src, u8 *dst);
 extern s32 func_80099290(s8 *byte_ptr);
 extern s32 func_80099734(void *record, u8 *out);
-extern s32 func_80099844(void *, void *);
+extern s32 dungeonAdjustSourceValueAndFinalize(void *, void *);
 extern s32 func_800A48F0(void *, s32, s32);
 extern void func_800A5720(s8 *text);
 extern s32 func_800A6D30(void);
@@ -18,7 +18,7 @@ extern s32 D_800E1996[];
 extern s32 D_800E19AA[];
 
 /* Toggle the 0xB/0xC status pair between attacker and target: roll the attacker's 0x3 chance plus its 0x11 bonus against 0x30, apply or clear the status on the target, and report whether the attempt did not fail. */
-u32 func_800C857C(void *attacker, void *target) {
+u32 dungeonToggleAttackerTargetStatusPair(void *attacker, void *target) {
     s32 roll;
     s32 status;
     s32 shifted;
@@ -28,7 +28,7 @@ u32 func_800C857C(void *attacker, void *target) {
     status = -1;
     if (func_800C8500(target) != 0) {
         if (*(s32 *)((s8 *)target + 0x14) & 0x4000) {
-            func_80099844(target, &D_800E196F);
+            dungeonAdjustSourceValueAndFinalize(target, &D_800E196F);
         }
         return 0;
     }
@@ -68,7 +68,7 @@ u32 func_800C857C(void *attacker, void *target) {
                 if ((status << 0x10) < 0) {
                     goto block_error;
                 }
-                func_80099844(target, &D_800E1996);
+                dungeonAdjustSourceValueAndFinalize(target, &D_800E1996);
             }
         }
     }
@@ -76,7 +76,7 @@ u32 func_800C857C(void *attacker, void *target) {
     if (shifted < 0) {
 block_error:
         if (*(s32 *)((s8 *)target + 0x14) & 0x4000) {
-            func_80099844(target, &D_800E19AA);
+            dungeonAdjustSourceValueAndFinalize(target, &D_800E19AA);
         }
         shifted = status << 0x10;
     }

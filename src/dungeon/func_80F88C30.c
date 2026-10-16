@@ -3,12 +3,12 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
-extern s32 func_800AD9B4();
-extern s32 func_800AB378();
+extern s32 dungeonCheckActorFloorTrap();
+extern s32 dungeonUpdateLinkedActorMotion();
 /* Select the bank actor callback when the resident checks succeed. */
-void func_80172430(BankActorState *state, s32 action, SpriteFrameState *source, EntityRec *target) {
-    if ((func_800AB378(state, action, source, target) != 0) && ((func_800AD9B4(source, target) << 0x10) > 0)) {
-        state->callback = func_80171138;
+void dungeonSelectBankActorCallback(BankActorState *state, s32 action, SpriteFrameState *source, EntityRec *target) {
+    if ((dungeonUpdateLinkedActorMotion(state, action, source, target) != 0) && ((dungeonCheckActorFloorTrap(source, target) << 0x10) > 0)) {
+        state->callback = dungeonUpdateBankActorState;
     }
 }
 

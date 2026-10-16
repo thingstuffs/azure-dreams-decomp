@@ -7,7 +7,7 @@
 
 
 /* Updates effect motion and advances its timed sprite animation. */
-void func_80024B58(void *effect, void *motion, void *sprite) {
+void dungeonUpdateTimedSpriteEffect(void *effect, void *motion, void *sprite) {
     s32 state;
     s32 rounded_x;
     s32 rounded_y;

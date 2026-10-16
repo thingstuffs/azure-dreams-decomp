@@ -10,7 +10,7 @@ typedef struct Bank7ce_18_Pair {
     s32 second;
 } Bank7ce_18_Pair;
 
-extern void func_800B835C();
+extern void dungeonDrawTexturedEllipse();
 extern u8 D_800FBE30[12];
 extern u8 D_800FBE3C[12];
 
@@ -68,6 +68,6 @@ void func_800F784C(void *parent_data) {
         child_data->unk_0C = 0x30;
         texture_rect.second = rect_size;
         texture_rect.first = rect_origin;
-        func_800B835C(D_800FBE3C, rect_ptr, 1, 0);
+        dungeonDrawTexturedEllipse(D_800FBE3C, rect_ptr, 1, 0);
     }
 }

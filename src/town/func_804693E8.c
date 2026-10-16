@@ -3,10 +3,10 @@
 #include "m2c_compat.h"
 
 
-u8 func_8001A414(void);                                     /* extern */
+u8 townAdvanceToNextEnabledEntry(void);                                     /* extern */
 
-/* Set unk_02 to 0xFF before forwarding three values to func_8001A414. */
-void func_8001A3E8(void) {
+/* Set unk_02 to 0xFF before forwarding three values to townAdvanceToNextEnabledEntry. */
+void townResetEventSelectionAndAdvance(void) {
     D_8001E950->unk_02 = 0xFF;
-    func_8001A414();
+    townAdvanceToNextEnabledEntry();
 }

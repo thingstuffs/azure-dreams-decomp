@@ -12,12 +12,12 @@ typedef struct {
 
 extern void func_8009A21C(s16 x, s16 y, u16 flags);
 extern void func_8009A3D0(s32, s32, s32);
-extern void func_800A2B04(s32, s32, s32);
+extern void dungeonSetRecordIntegerTileCenter(s32, s32, s32);
 extern Copy12 D_8016A858[];
 extern u8 *D_80174704;
 
 /* Reposition the current object using an indexed offset from the reference coordinates. */
-void func_8016E138(s32 offset_index) {
+void dungeonRepositionObjectByIndexedOffset(s32 offset_index) {
     Copy12 offsets = D_8016A858[0];
     s32 old_tile_mask;
     u8 *offset_bytes;
@@ -51,7 +51,7 @@ void func_8016E138(s32 offset_index) {
     xy_offset = (s16 *)(offset_bytes + offset_pos);
     object[0x24] = origin->tileX + ((u8 *)xy_offset)[0];
     object[0x25] = origin->tileY + ((u8 *)xy_offset)[1];
-    func_800A2B04(object_handle, object[0x24], object[0x25]);
+    dungeonSetRecordIntegerTileCenter(object_handle, object[0x24], object[0x25]);
     status_flags = *(s32 *)&status->flags;
     x = object[0x24];
     updated_y = object[0x25];

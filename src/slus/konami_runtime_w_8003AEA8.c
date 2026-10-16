@@ -3,7 +3,7 @@
 #include "common.h"
 
 /* Zero the requested number of 32-bit words. */
-void func_8003AEA8(s32 *words, s32 count) {
+void zeroWordBuffer(s32 *words, s32 count) {
     s32 *word;
     s32 remaining;
 

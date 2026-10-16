@@ -7,7 +7,7 @@ typedef struct S_80F93000_0 {
     void ** unk_08;
     void ** unk_0C;
     void * unk_10;
-} S_80F93000_0;   /* obj in func_80164880 */
+} S_80F93000_0;   /* obj in dungeonCreateConfiguredOverlayActorThird */
 
 typedef struct S_80F93000_1 {
     u8 pad_00[0x13];
@@ -15,12 +15,12 @@ typedef struct S_80F93000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80F93000_1;   /* work in func_80164880 */
+} S_80F93000_1;   /* work in dungeonCreateConfiguredOverlayActorThird */
 
 typedef struct S_80F93000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80F93000_2;   /* part_a in func_80164880 */
+} S_80F93000_2;   /* part_a in dungeonCreateConfiguredOverlayActorThird */
 
 typedef struct S_80F93000_3 {
     u8 pad_00[0x24];
@@ -28,7 +28,7 @@ typedef struct S_80F93000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80F93000_3;   /* part_b in func_80164880 */
+} S_80F93000_3;   /* part_b in dungeonCreateConfiguredOverlayActorThird */
 
 typedef struct S_80F93000_4 {
     u8 pad_00[0x8C];
@@ -41,7 +41,7 @@ typedef struct S_80F93000_4 {
     s8 unk_9C;
     u8 pad_9D[0x3];
     s16 unk_A0;
-} S_80F93000_4;   /* actor in func_80164880 */
+} S_80F93000_4;   /* actor in dungeonCreateConfiguredOverlayActorThird */
 
 
 extern void *func_8003FD64();
@@ -56,13 +56,13 @@ extern u8 D_80168AD4[];
 extern u8 D_80168AFC[];
 extern u8 D_80165138[];
 
-void *func_80164880(s16, s16, s16, s16)
+void *dungeonCreateConfiguredOverlayActorThird(s16, s16, s16, s16)
 #ifdef __mips__
 #endif
 ;
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
-void *func_80164880(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
+void *dungeonCreateConfiguredOverlayActorThird(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     s32 kind;
     void *work = 0;

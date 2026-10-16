@@ -16,7 +16,7 @@ typedef struct
 }
 S_8003E39C_blk16;
 /* Waits for queue space, fills an entry, and advances the write index. */
-S_80083968 *func_8003E39C(s16 entry_type, s32 entry_value, s32 payload)
+S_80083968 *enqueueCdCommandRecord(s16 entry_type, s32 entry_value, s32 payload)
 {
     u8 write_index;
     s32 sentinel;

@@ -11,21 +11,21 @@ typedef struct S_80172B00_0 {
     s16 unk_96;
     u8 pad_98[0x14];
     s32 unk_AC;
-} S_80172B00_0;   /* temp_s3 in func_80172B00 */
+} S_80172B00_0;   /* temp_s3 in dungeonCreateBossChildEffect */
 
 typedef struct S_80172B00_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_80172B00_1;   /* temp_v0 in func_80172B00 */
+} S_80172B00_1;   /* temp_v0 in dungeonCreateBossChildEffect */
 
 typedef struct S_80172B00_2 {
     u8 pad_00[0x2A];
     union { u16 s; s16 u; } unk_2A;   /* accessed as both */
     u8 pad_2C[0x84];
     u8 unk_B0;
-} S_80172B00_2;   /* arg0 in func_80172B00 */
+} S_80172B00_2;   /* arg0 in dungeonCreateBossChildEffect */
 
 typedef struct S_80172B00_3 {
     u8 pad_00[0x6];
@@ -39,12 +39,12 @@ typedef struct S_80172B00_3 {
     u16 unk_1E;
     u8 pad_20[0xC];
     u8 * unk_2C;
-} S_80172B00_3;   /* temp_s1 in func_80172B00 */
+} S_80172B00_3;   /* temp_s1 in dungeonCreateBossChildEffect */
 
 typedef struct S_80172B00_4 {
     u8 pad_00[0xC8];
     s16 unk_C8;
-} S_80172B00_4;   /* base_83160 in func_80172B00 */
+} S_80172B00_4;   /* base_83160 in dungeonCreateBossChildEffect */
 
 typedef struct S_80172B00_5 {
     u8 pad_00[0x2];
@@ -53,7 +53,7 @@ typedef struct S_80172B00_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80172B00_5;   /* temp_v1 in func_80172B00 */
+} S_80172B00_5;   /* temp_v1 in dungeonCreateBossChildEffect */
 
 typedef struct S_80172B00_6 {
     u8 pad_00[0x2];
@@ -62,19 +62,19 @@ typedef struct S_80172B00_6 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80172B00_6;   /* arg1 in func_80172B00 */
+} S_80172B00_6;   /* arg1 in dungeonCreateBossChildEffect */
 
 typedef struct S_80172B00_7 {
     u8 pad_00[0x1C];
     u16 unk_1C;
     u16 unk_1E;
-} S_80172B00_7;   /* arg2 in func_80172B00 */
+} S_80172B00_7;   /* arg2 in dungeonCreateBossChildEffect */
 
 
 void *func_8003FD64();                  /* extern */
 s32 func_8004491C(); /* extern */
 M2C_UNK func_80047784();         /* extern */
-void * func_800BC26C(); /* extern */
+void * dungeonCreateTrackedEffect(); /* extern */
 extern s8 D_800DCECC[];
 extern M2C_UNK D_80172610;
 extern u8 D_80174C74[];
@@ -88,7 +88,7 @@ typedef struct {
 } Copy48;
 
 /* Creates a child effect with copied position and sprite data and direction-dependent appearance. */
-void func_80172B00(void *parent_data, S_80172B00_6 *source_pos, void *sprite_template) {
+void dungeonCreateBossChildEffect(void *parent_data, S_80172B00_6 *source_pos, void *sprite_template) {
     s32 parent_object;
     void *sprite;
     void *effect_data;
@@ -137,6 +137,6 @@ void func_80172B00(void *parent_data, S_80172B00_6 *source_pos, void *sprite_tem
         direction_index &= 7;
         ((S_80172B00_3 *)sprite)->unk_06 = (s16) (D_800DCECC[direction_index] * 4);
         ((S_80172B00_2 *)parent_data)->unk_B0 = (u8) (((S_80172B00_2 *)parent_data)->unk_B0 + 1);
-        func_800BC26C(effect_object, setup_mode, sprite + 0x2C, effect_data + 0x2A);
+        dungeonCreateTrackedEffect(effect_object, setup_mode, sprite + 0x2C, effect_data + 0x2A);
     }
 }

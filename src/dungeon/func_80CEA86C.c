@@ -67,7 +67,7 @@ void func_8017406C(T_8017406C_S_8017406C_0 *animation, EntityRec *motion, Rec_D_
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800A2B04(motion, tile->unk_24, tile->unk_25);
+            dungeonSetRecordIntegerTileCenter(motion, tile->unk_24, tile->unk_25);
             animation->unk_9B++;
         }
         break;
@@ -84,9 +84,9 @@ void func_8017406C(T_8017406C_S_8017406C_0 *animation, EntityRec *motion, Rec_D_
     motion->flags14 = 0;
     motion->unk_10 = 0;
     motion->unk_0C = 0;
-    func_800A2B04(motion, tile->unk_24, tile->unk_25);
-    func_800AD594(actor, 4);
-    func_800A4ACC(actor);
+    dungeonSetRecordIntegerTileCenter(motion, tile->unk_24, tile->unk_25);
+    dungeonReduceActorFoodMeter(actor, 4);
+    dungeonAdvanceStatusTimers(actor);
 
     global_base = &dungeonStatus;
     if (global_base->unk_08 != 0) {
@@ -100,7 +100,7 @@ void func_8017406C(T_8017406C_S_8017406C_0 *animation, EntityRec *motion, Rec_D_
         }
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
-            actor->facing = func_800A0818(
+            actor->facing = dungeonGetRoundedFacingAndRoundingFlag(
                 tile->unk_24,
                 tile->unk_25,
                 D_80082E80.tileX,
@@ -108,8 +108,8 @@ void func_8017406C(T_8017406C_S_8017406C_0 *animation, EntityRec *motion, Rec_D_
                 &coord_result);
         }
     }
-    if ((func_800AD9B4(tile, actor) << 16) > 0) {
-        animation->unk_8C = func_801724BC;
+    if ((dungeonCheckActorFloorTrap(tile, actor) << 16) > 0) {
+        animation->unk_8C = dungeonUpdateActorBehavior;
         func_800A9A04(actor);
     }
 }

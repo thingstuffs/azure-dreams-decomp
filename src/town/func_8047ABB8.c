@@ -1,6 +1,6 @@
 #include "common.h"
 
 /* Returns zero. */
-s32 func_8047ABB8(void) {
+s32 func_800173B8(void) {
     return 0;
 }

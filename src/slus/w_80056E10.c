@@ -177,12 +177,12 @@ extern s32 D_80073734_late[4] __asm__("D_80073734");  /* second view: retail hoi
 extern Req D_80084918;
 extern s16 D_80084930[];
 
-extern void func_80056DB4(s32 request_index);
+extern void soundResetIndexedVoiceEnvelope(s32 request_index);
 extern void func_8005E97C(s32 mode, s32 mask);
 extern s32 func_8005EB78(s32 mask);
 extern void func_80055E74(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
-extern void func_800561D8(Voice *a0, Chan *a1);
-extern s32 func_800565D8(Voice *a0, s32 a1);
+extern void audioComputeVoiceStereoVolumes(Voice *a0, Chan *a1);
+extern s32 audioComputePitchBendOffset(Voice *a0, s32 a1);
 extern void func_8005E4A0(s32 a0, s32 a1);
 extern s32 func_8005E78C(void);
 extern void func_8005EC0C(Req *a0);
@@ -264,7 +264,7 @@ void func_80056E10(u8 channel_id, s16 note, u8 velocity)
                 }
                 if (voice_idx != -1) {
                     if (D_80085458[voice_idx].f1A == 0) {
-                        func_80056DB4(voice_idx);
+                        soundResetIndexedVoiceEnvelope(voice_idx);
                         func_8005E97C(0, D_80073740[voice_idx]);
                     } else {
                         voice_held = 1;
@@ -398,7 +398,7 @@ void func_80056E10(u8 channel_id, s16 note, u8 velocity)
             if (voice_idx != -1) {
                 voice = &D_80085458[voice_idx];
                 if (channel->f98 == 0) {
-                    func_80056DB4(voice_idx);
+                    soundResetIndexedVoiceEnvelope(voice_idx);
                     func_8005E97C(0, D_80073740[voice_idx]);
                     func_80055E74(voice_idx, note & 0xFF, channel_id, D_80084918.f08, D_80084918.f0A);
                 }
@@ -471,7 +471,7 @@ void func_80056E10(u8 channel_id, s16 note, u8 velocity)
                 voice->f40 = channel->f78;
                 voice->f48 = 0;
                 voice->f58 = 0;
-                func_800561D8(&D_80085458[voice_idx], &D_80084960[channel_id]);
+                audioComputeVoiceStereoVolumes(&D_80085458[voice_idx], &D_80084960[channel_id]);
                 D_80084918.f08 = voice->f10;
                 D_80084918.f0A = voice->f12;
                 voice->f1D = channel->f18;
@@ -481,7 +481,7 @@ void func_80056E10(u8 channel_id, s16 note, u8 velocity)
                 if (channel->f28 < 0x40) {
                     s32 semitone;
                     s16 pitch = voice->f3C + (channel->f3A + channel->f52);
-                    pitch = pitch + ((voice->f0C << 7) + func_800565D8(voice, channel->f1C));
+                    pitch = pitch + ((voice->f0C << 7) + audioComputePitchBendOffset(voice, channel->f1C));
                     semitone = ((s32)(pitch << 16)) >> 23;
                     pitch = (pitch & 0x7F) + (semitone << 8);
                     D_80084918.f16 = pitch;

@@ -1,0 +1,310 @@
+/* Relink of matched dungeon/func_80F5FAA4; every changed retail word is a paired relocation. */
+#define D_80170E68 D_8014CE68
+#define D_801741DC D_801501DC
+#define D_801741E4 D_801501E4
+#define D_801741EC D_801501EC
+#define D_801741F4 D_801501F4
+#define D_801741FC D_801501FC
+#define func_80171F94 func_8014DF94
+#define dungeonAdvanceActorEffectSequence func_8014FCEC
+#include "common.h"
+#include "shared/object_node.h"
+#include "shared/tile_object.h"
+#include "shared/entity.h"
+#include "shared/record_ptrs.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_status.h"
+#include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
+#include "records/Rec_func_801732A4_arg0.h"
+
+
+typedef struct S_801732A4_2 {
+    u8 pad_00[0x14];
+    s32 unk_14;
+    u8 pad_18[0x4];
+    s32 unk_1C;
+    u8 pad_20[0x5];
+    u8 unk_25;
+    u8 pad_26[0x4];
+    s16 unk_2A;
+    u8 pad_2C[0x38];
+    s16 unk_64;
+    u8 pad_66[0x4];
+    u16 unk_6A;
+    u8 pad_6C[0x1];
+    s8 unk_6D;
+} S_801732A4_2;   /* arg3 in func_8014F2A4 */
+
+typedef struct S_801732A4_3 {
+    u8 pad_00[0x2];
+    u16 unk_02;
+    u8 pad_04[0x6];
+    u16 unk_0A;
+} S_801732A4_3;   /* var_v0 in func_8014F2A4 */
+
+
+typedef struct S_801732A4_5 {
+    u8 pad_00[0x26];
+    s8 unk_26;
+} S_801732A4_5;   /* temp_base_2 in func_8014F2A4 */
+
+typedef struct S_801732A4_6 {
+    u8 pad_00[0xC8];
+    s16 unk_C8;
+} S_801732A4_6;   /* temp_base in func_8014F2A4 */
+
+typedef struct S_801732A4_7 {
+    u8 pad_00[0xC];
+    s32 unk_0C;
+    u8 pad_10[0x2];
+    u16 unk_12;
+    u16 unk_14;
+    u8 pad_16[0x6];
+    s16 unk_1C;
+    s16 unk_1E;
+    u8 pad_20[0x8];
+    s32 unk_28;
+    u8 * unk_2C;
+} S_801732A4_7;   /* temp_a0 in func_8014F2A4 */
+
+typedef struct S_801732A4_8 {
+    u8 pad_00[0xBB];
+    u8 unk_BB;
+} S_801732A4_8;   /* temp_v1_7 in func_8014F2A4 */
+
+typedef struct Copy24 { u32 words[6]; } Copy24;
+
+void *func_8003FD64();
+s32 func_80042900();
+void func_80042B68();
+s32 func_8004491C();
+void func_80047784();
+s32 dungeonCheckEntityRelation();
+s16 dungeonGetTileChebyshevDistance();
+s32 func_800A2C34();
+s32 func_800A56E0();
+s32 func_800A6D30();
+M2C_UNK func_800A9A04();
+void func_800A9A0C();
+void dungeonBeginPushedActorMove();
+s32 dungeonBeginReadyActorDirectionalAction();
+s32 dungeonAdvanceActorPendingAction();
+void func_800AA888();
+void dungeonApplyClampedActorValueDelta();
+extern void func_8014DF94(void *, void *, void *, void *);
+extern void func_8014FCEC(void *, s32, void *, void *);
+extern u8 D_800D7960[];
+extern u8 D_8014CE68[];
+extern u8 D_801501DC[];
+extern u8 D_801501E4[];
+extern u8 D_801501EC[];
+extern u8 D_801501F4[];
+extern u8 D_801501FC[];
+
+/* Advances the actor effect sequence, updating directional animation and its attached effect. */
+void func_8014F2A4(void *actor, void *transform, void *sprite, void *actor_state) {
+    s32 actor_flags;
+    s32 action_flags;
+    s32 sprite_data;
+    s8 region_id;
+    u16 count;
+    u16 sprite_flags;
+    u16 effect_flags;
+    u8 phase;
+    void *effect_sprite;
+    void *new_effect;
+    void *effect_transform;
+    void *active_effect;
+    TileObject *player_sprite;
+
+    phase = ((Rec_func_801732A4_arg0 *)actor)->unk_9B;
+    switch (phase) {
+    default:
+        return;
+    case 0:
+        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000))
+            return;
+        (*(u8 **)((u8 *)sprite + 0x2C)) = D_801501DC;
+        func_80047784(sprite, D_801501DC[((gameWork.view.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
+            >> 9) & 7], 0);
+        dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) - 1);
+        ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
+        return;
+    case 1:
+        sprite_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v;
+        if (!(sprite_flags & 0x8000)) {
+            if (sprite_flags & 0x6000) {
+                ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16)(sprite_flags & 0x9FFF);
+                count = ((Rec_func_801732A4_arg0 *)actor)->unk_96 + 1;
+                ((Rec_func_801732A4_arg0 *)actor)->unk_96 = count;
+                if (count & 1) {
+                    func_800A56E0(0x51B);
+                }
+            }
+        }
+        if (dungeonStatus.flags & 0x1000)
+            return;
+        if ((func_80042900(actor_state, 1) << 0x10) == 0) {
+            (*(u8 **)((u8 *)sprite + 0x2C)) = D_801501E4;
+            func_80047784(sprite, D_801501E4[((gameWork.view.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
+                >> 9) & 7], 0);
+            if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+                if (((Rec_func_801732A4_arg0 *)actor)->unk_98 & 0x8000) {
+                    count = ((u16)dungeonStatus.unk_0A) + 1;
+                    dungeonStatus.unk_0A = count;
+                    ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
+                    return;
+                }
+                ((S_801732A4_2 *)actor_state)->unk_1C = (s32)(((S_801732A4_2 *)actor_state)->unk_1C & ~0x200);
+                ((Rec_func_801732A4_arg0 *)actor)->unk_8C = D_8014CE68;
+                return;
+            }
+            dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) + 1);
+            ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
+            return;
+        }
+        if (((S_801732A4_2 *)actor_state)->unk_64 != 0) {
+            if (dungeonBeginReadyActorDirectionalAction(actor, transform, sprite, 0) != 0) {
+                ((Rec_func_801732A4_arg0 *)actor)->unk_98 = (u16)(((Rec_func_801732A4_arg0 *)actor)->unk_98 | 0x8000);
+                if (((S_801732A4_2 *)actor_state)->unk_25 == 0) {
+                    if (dungeonStatus.flags & 0x2008)
+                        return;
+                    dungeonAdvanceActorPendingAction(actor, transform, sprite, actor_state);
+                    return;
+                }
+                ((Rec_func_801732A4_arg0 *)actor)->unk_AA = (u16)((((S_801732A4_2 *)actor_state)->unk_6A
+                    + 0x800) & 0xFFF);
+                return;
+            }
+        }
+        actor_flags = ((S_801732A4_2 *)actor_state)->unk_14;
+        if (!(actor_flags & 0x8000)) {
+            ((S_801732A4_2 *)actor_state)->unk_14 = (s32)(actor_flags | 0x8000);
+            ((S_801732A4_2 *)actor_state)->unk_64 = (s16)((u16)((S_801732A4_2 *)actor_state)->unk_64 + 1);
+            dungeonApplyClampedActorValueDelta(actor_state);
+        }
+        if ((func_800A2C34(actor_state) << 0x10) != 0)
+            return;
+        action_flags = ((S_801732A4_2 *)actor_state)->unk_1C;
+        if (action_flags & 0x100) {
+            dungeonBeginPushedActorMove(actor, transform, sprite, actor_state);
+            return;
+        }
+        if (action_flags & 0x80000) {
+            func_800AA888(actor, transform, sprite, actor_state);
+            func_8014FCEC(actor, transform, sprite, actor_state);
+            return;
+        }
+        if (((S_801732A4_2 *)actor_state)->unk_6D == 0)
+            return;
+        if ((func_800A2C34(actor_state) << 0x10) != 0) {
+            if ((dungeonCheckEntityRelation(actor_state, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0)
+                return;
+        }
+        func_800A9A0C(actor_state);
+        func_800A9A04(actor_state);
+        if ((func_80042900(actor_state, 1) << 0x10) != 0) {
+            player_sprite = &D_80082E80;
+            region_id = ((Rec_D_80082E80 *)sprite)->unk_26.as_s8;
+            if (region_id == player_sprite->unk_026 && region_id >= 0) {
+                if (!(func_800A6D30() & 7)) {
+                    func_80042B68(actor_state, 1);
+                }
+            } else if (dungeonGetTileChebyshevDistance(player_sprite, sprite) < 2) {
+                if (!(func_800A6D30() & 7)) {
+                    func_80042B68(actor_state, 1);
+                }
+            }
+            if (((Rec_func_801732A4_arg0 *)actor)->unk_98 & 0x8000) {
+                func_80042B68(actor_state, 1);
+            }
+        }
+        if ((func_80042900(actor_state, 1) << 0x10) != 0)
+            return;
+        (*(u8 **)((u8 *)sprite + 0x2C)) = D_801501E4;
+        func_80047784(sprite, D_801501E4[((gameWork.view.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
+            >> 9) & 7], 0);
+        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+            if (!(((Rec_func_801732A4_arg0 *)actor)->unk_98 & 0x8000)) {
+                ((S_801732A4_2 *)actor_state)->unk_1C = (s32)(((S_801732A4_2 *)actor_state)->unk_1C & ~0x200);
+                ((Rec_func_801732A4_arg0 *)actor)->unk_8C = D_8014CE68;
+                return;
+            }
+            {
+                actor_flags = ((u16)dungeonStatus.unk_0A) + 1;
+                dungeonStatus.unk_0A = actor_flags;
+            }
+            ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
+            return;
+        }
+        {
+            actor_flags = ((u16)dungeonStatus.unk_0A);
+            dungeonStatus.unk_0A = (u16)(actor_flags + 1);
+        }
+        ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
+        return;
+    case 2:
+        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000))
+            return;
+        (*(u8 **)((u8 *)sprite + 0x2C)) = D_801501EC;
+        func_80047784(sprite, D_801501EC[((gameWork.view.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
+            >> 9) & 7], 0);
+        ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
+        return;
+    case 3:
+        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000))
+            return;
+        ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = D_801501F4;
+        func_80047784(sprite, D_801501F4[((gameWork.view.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
+            >> 9) & 7], 0);
+        ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
+        new_effect = func_8003FD64(0x112, ((void *)&D_80083498.next));
+        ((Rec_func_801732A4_arg0 *)actor)->unk_A0 = new_effect;
+        actor = new_effect;
+        if (actor == NULL)
+            return;
+        func_8004491C(actor, func_80045340);
+        effect_transform = ((Rec_func_801732A4_arg0 *)actor)->unk_08;
+        ((Rec_func_801732A4_arg0 *)actor)->unk_10 = D_800D7960;
+        *(Copy24 *)effect_transform = *(Copy24 *)transform;
+        ((Rec_func_801732A4_arg0 *)actor)->unk_BB = 0;
+        effect_sprite = ((Rec_func_801732A4_arg0 *)actor)->unk_0C;
+        ((Rec_func_801732A4_arg0 *)actor)->unk_4A = (u16)((S_801732A4_2 *)actor_state)->unk_2A;
+        sprite_data = ((Rec_D_80082E80 *)sprite)->unk_28.at00_s32.v;
+        ((S_801732A4_7 *)effect_sprite)->unk_1E = 0x1000;
+        ((S_801732A4_7 *)effect_sprite)->unk_1C = 0x1000;
+        ((S_801732A4_7 *)effect_sprite)->unk_28 = sprite_data;
+        ((S_801732A4_7 *)effect_sprite)->unk_14 = (u16)((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v;
+        ((S_801732A4_7 *)effect_sprite)->unk_12 = (u16)((Rec_D_80082E80 *)sprite)->unk_12.at00_u16.v;
+        ((S_801732A4_7 *)effect_sprite)->unk_0C = (s32)((Rec_D_80082E80 *)sprite)->unk_0C.at00_s32.v;
+        ((S_801732A4_7 *)effect_sprite)->unk_2C = D_801501FC;
+        func_80047784(effect_sprite, D_801501FC[((gameWork.view.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A
+            + 0x100) >> 9) & 7], 0);
+        return;
+    case 4:
+        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000))
+            return;
+        active_effect = ((Rec_func_801732A4_arg0 *)actor)->unk_A0;
+        if (active_effect != NULL) {
+            ((S_801732A4_8 *)active_effect)->unk_BB = 0xFF;
+            ((Rec_func_801732A4_arg0 *)actor)->unk_A0 = NULL;
+        }
+        dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) - 1);
+        ((S_801732A4_2 *)actor_state)->unk_1C = (s32)(((S_801732A4_2 *)actor_state)->unk_1C & ~0x200);
+        effect_flags = ((Rec_func_801732A4_arg0 *)actor)->unk_98;
+        if (effect_flags & 0x8000) {
+            ((Rec_func_801732A4_arg0 *)actor)->unk_98 = (u16)(effect_flags & 0x7FFF);
+            ((S_801732A4_2 *)actor_state)->unk_2A = (s16)((Rec_func_801732A4_arg0 *)actor)->unk_AA;
+            ((S_801732A4_2 *)actor_state)->unk_6D = (s8)((u8)((S_801732A4_2 *)actor_state)->unk_6D + 1);
+            ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
+            return;
+        }
+        ((Rec_func_801732A4_arg0 *)actor)->unk_8C = D_8014CE68;
+        return;
+    case 5:
+        func_8014DF94(actor, transform, sprite, actor_state);
+        return;
+    }
+}

@@ -27,12 +27,12 @@ typedef struct S_80172258_4 {
 
 
 void func_80047784();
-s16 func_800A0818();
-void func_800A2B04();
-s32 func_800A4ACC();
+s16 dungeonGetRoundedFacingAndRoundingFlag();
+void dungeonSetRecordIntegerTileCenter();
+s32 dungeonAdvanceStatusTimers();
 M2C_UNK func_800A9A04();
-void func_800AD594();
-s32 func_800AD9B4();
+void dungeonReduceActorFoodMeter();
+s32 dungeonCheckActorFloorTrap();
 
 extern u8 D_80170E54;
 extern u8 D_801739E0[];
@@ -97,7 +97,7 @@ void func_80172258(void *jump, void *motion, void *sprite, void *actor) {
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801739E8;
             func_80047784(
                 sprite,
@@ -115,9 +115,9 @@ void func_80172258(void *jump, void *motion, void *sprite, void *actor) {
         ((EntityRec *)motion)->flags14 = 0;
         ((EntityRec *)motion)->unk_10 = 0;
         ((EntityRec *)motion)->unk_0C = 0;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-        func_800AD594(actor, 4);
-        func_800A4ACC(actor);
+        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        dungeonReduceActorFoodMeter(actor, 4);
+        dungeonAdvanceStatusTimers(actor);
         {
 
             if (dungeonStatus.unk_08 != 0) {
@@ -133,14 +133,14 @@ void func_80172258(void *jump, void *motion, void *sprite, void *actor) {
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
 
-                ((EntityRec *)actor)->facing = func_800A0818(
+                ((EntityRec *)actor)->facing = dungeonGetRoundedFacingAndRoundingFlag(
                     ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
                     D_80082E80.tileX, D_80082E80.tileY, &facing_aux);
             }
         }
 
 finish:
-        if ((func_800AD9B4(sprite, actor) << 16) > 0) {
+        if ((dungeonCheckActorFloorTrap(sprite, actor) << 16) > 0) {
             ((S_80172258_0 *)jump)->unk_8C = &D_80170E54;
             func_800A9A04(actor);
         }

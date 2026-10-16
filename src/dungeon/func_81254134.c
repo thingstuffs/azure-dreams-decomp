@@ -3,7 +3,7 @@
 
 
 /* Returns whether bit 0x10 is set in D_80013714[0]. */
-s32 func_81254134(void) {
+s32 dungeonIsGlobalEffectEnabled(void) {
     if (D_80013714 & 0x10) {
         return 1;
     }

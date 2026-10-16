@@ -49,7 +49,7 @@ typedef void (*RuntimeCallback)(RuntimeState *, void *);
 extern void func_800A0560(void);
 extern PairRecord *func_800C1034(s16, s16);
 extern void func_80041094(u16, s16, s16, s32, s32);
-extern s32 func_80034FE4(void *);
+extern s32 runtimeIsRecordHandlerChanged(void *);
 
 extern RuntimeState D_8006ADBC;
 extern RuntimeState D_8006ADEC;
@@ -136,7 +136,7 @@ void change_map(InputRecord *input)
 
     D_80013714[0] &= 0xFFFD;
     {
-        s32 check_result = func_80034FE4(D_80082A38);
+        s32 check_result = runtimeIsRecordHandlerChanged(D_80082A38);
         if (check_result != 0) {
             D_8006ADE8[0] = 1;
         } else {

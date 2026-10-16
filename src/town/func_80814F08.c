@@ -21,7 +21,7 @@ typedef struct SpawnMotion {
     s32 unk_0C;
     u8 pad_10[0x4];
     s32 unk_14;
-} SpawnMotion;   /* motion in func_80814F08 */
+} SpawnMotion;   /* motion in townSpawnScatteredSeedEffect */
 
 typedef struct SpawnSeed {
     u8 pad_00[0x2];
@@ -31,10 +31,10 @@ typedef struct SpawnSeed {
     u8 pad_08[0x2];
     u16 unk_0A;
     s32 unk_0C;
-} SpawnSeed;   /* seed in func_80814F08 */
+} SpawnSeed;   /* seed in townSpawnScatteredSeedEffect */
 
 /* Spawn a 0x136 effect scattered +-20 around the seed, with a randomised vertical kick. */
-void func_80814F08(SpawnSeed *seed) {
+void townSpawnScatteredSeedEffect(SpawnSeed *seed) {
     void *sprite;
     SpawnMotion *motion;
     void *slot;

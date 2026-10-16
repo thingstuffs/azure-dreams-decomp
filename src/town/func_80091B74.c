@@ -1,22 +1,22 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 func_8008F3CC();                           /* extern */
+s32 townHandleEvaluatePositionAfterSubtractingStoredOffsetFirstComponent();                           /* extern */
 s32 func_8008F41C();                           /* extern */
-void func_8008F50C();             /* extern */
-void func_8008F520();             /* extern */
+void townSetTheControlFlagInitializesClearedTrailingField();             /* extern */
+void townSetTheFlagInitializesState();             /* extern */
 
 /* Apply upper and lower boundary adjustments to a fixed-point value. */
-void func_8008F2D4(s32 context, s32 *value) {
+void townApplyUpperLowerBoundaryAdjustmentsFixedPoint(s32 context, s32 *value) {
     s32 upper_bound;
     s32 lower_bound;
 
-    upper_bound = func_8008F3CC(value) << 0x10;
+    upper_bound = townHandleEvaluatePositionAfterSubtractingStoredOffsetFirstComponent(value) << 0x10;
     if (*value >= upper_bound) {
-        func_8008F50C(context, value, upper_bound);
+        townSetTheControlFlagInitializesClearedTrailingField(context, value, upper_bound);
     }
     lower_bound = (func_8008F41C(value) << 0x10) - 1;
     if (lower_bound >= *value) {
-        func_8008F520(context, value, lower_bound);
+        townSetTheFlagInitializesState(context, value, lower_bound);
     }
 }

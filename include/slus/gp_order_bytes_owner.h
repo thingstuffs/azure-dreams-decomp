@@ -56,6 +56,6 @@ extern u8 D_80080B30[4];
 
 /* Initialize element defaults and link elements in the configured order. */
 
-void func_80049F68(S_80049F68_Obj *obj);
+void soundInitializeOrderedElements(S_80049F68_Obj *obj);
 
 #endif

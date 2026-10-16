@@ -41,7 +41,7 @@ typedef struct S_80024578_3 {
 } S_80024578_3;   /* effect in func_80024578 */
 
 
-extern s32 func_800B835C();
+extern s32 dungeonDrawTexturedEllipse();
 extern u8 D_800243C4[9];
 extern u8 D_80028208[9];
 extern u8 D_800DF334[9];
@@ -58,7 +58,7 @@ void *func_80024578(S_80024578_2 *source_part, s32 offset_base) {
     if (object != NULL) {
         init_data[0] = 0x01000340;
         init_data[1] = 0x00200020;
-        func_800B835C(D_800DF334, init_data, 1, 0);
+        dungeonDrawTexturedEllipse(D_800DF334, init_data, 1, 0);
 
         part = ((S_80024578_0 *)object)->unk_08;
         ((S_80024578_0 *)object)->unk_10 = D_800243C4;

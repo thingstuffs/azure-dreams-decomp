@@ -44,8 +44,8 @@ typedef struct S_800B328C_4 {
 } S_800B328C_4;   /* ((S_800B328C_0 *)arg0)->unk_00 in func_800B328C */
 
 
-s32 func_8003DE58();     /* extern */
-void func_800B8EA8(); /* extern */
+s32 resolveRecordOrientationOrFallback();     /* extern */
+void dungeonCreateAttenuatingMovingEffect(); /* extern */
 
 /* Update the position from a base and offset, and mark completion or timeout. */
 void func_800B328C(void *state, void *position) {
@@ -62,7 +62,7 @@ void func_800B328C(void *state, void *position) {
     void *offset_source;
 
     offset_source = ((S_800B328C_4 *)(((S_800B328C_0 *)state)->unk_00))->unk_0C;
-    if (func_8003DE58(((S_800B328C_1 *)offset_source)->unk_08, offset_source, offset, 0) != 0) {
+    if (resolveRecordOrientationOrFallback(((S_800B328C_1 *)offset_source)->unk_08, offset_source, offset, 0) != 0) {
         base_position = ((S_800B328C_4 *)(((S_800B328C_0 *)state)->unk_00))->unk_08;
         if (((S_800B328C_0 *)state)->unk_8C != 0) {
             old_x = (s16) ((S_800B328C_2 *)position)->unk_02;
@@ -77,7 +77,7 @@ void func_800B328C(void *state, void *position) {
             new_z = ((S_800B328C_3 *)base_position)->unk_0A + offset[2];
             ((S_800B328C_2 *)position)->unk_0A = new_z;
             new_position[2] = new_z;
-            func_800B8EA8(((S_800B328C_0 *)state)->unk_00, old_x, old_y, old_z_shifted >> 0x10, new_position,
+            dungeonCreateAttenuatingMovingEffect(((S_800B328C_0 *)state)->unk_00, old_x, old_y, old_z_shifted >> 0x10, new_position,
                 ((S_800B328C_0 *)state)->unk_04, 2, 0x800, 1);
         } else {
             ((S_800B328C_2 *)position)->unk_02 = (u16) (((S_800B328C_3 *)base_position)->unk_02 + offset[0]);

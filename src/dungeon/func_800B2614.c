@@ -9,7 +9,7 @@ typedef struct S_800B7D74_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_800B7D74_0;   /* temp_v0 in func_800B7D74 */
+} S_800B7D74_0;   /* temp_v0 in dungeonSpawnVariantEffectWithRandomMotion */
 
 typedef struct S_800B7D74_1 {
     u8 pad_00[0x2];
@@ -22,7 +22,7 @@ typedef struct S_800B7D74_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_10;   /* overlapping accesses */
     u8 pad_14[0x2];
     s16 unk_16;
-} S_800B7D74_1;   /* temp_s1 in func_800B7D74 */
+} S_800B7D74_1;   /* temp_s1 in dungeonSpawnVariantEffectWithRandomMotion */
 
 typedef struct S_800B7D74_2 {
     u8 pad_00[0x8];
@@ -32,7 +32,7 @@ typedef struct S_800B7D74_2 {
     s16 unk_12;
     s16 unk_14;
     s16 unk_16;
-} S_800B7D74_2;   /* temp_s2 in func_800B7D74 */
+} S_800B7D74_2;   /* temp_s2 in dungeonSpawnVariantEffectWithRandomMotion */
 
 typedef struct S_800B7D74_3 {
     u8 pad_00[0x8];
@@ -43,7 +43,7 @@ typedef struct S_800B7D74_3 {
     u8 pad_0F[0xD];
     s16 unk_1C;
     s16 unk_1E;
-} S_800B7D74_3;   /* temp_s0 in func_800B7D74 */
+} S_800B7D74_3;   /* temp_s0 in dungeonSpawnVariantEffectWithRandomMotion */
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -70,7 +70,7 @@ extern M2C_UNK D_8006E5D4;
 extern M2C_UNK D_800B7C14;
 
 /* Spawns an effect at the given position with variant-specific graphics and randomized motion. */
-void func_800B7D74(s32 pos_x, s32 pos_y, s32 pos_z, u32 variant) {
+void dungeonSpawnVariantEffectWithRandomMotion(s32 pos_x, s32 pos_y, s32 pos_z, u32 variant) {
     GameView *game_state = &gameWork.view;
     s32 velocity_y;
     S_800B7D74_3 *sprite;

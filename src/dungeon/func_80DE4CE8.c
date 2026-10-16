@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_e0365c.h"
 
-void func_801724E8(void *anim, EntityRec *motion, void *actor, EntityRec *actor_state)
+void dungeonUpdateActorHopToTile(void *anim, EntityRec *motion, void *actor, EntityRec *actor_state)
 {
     s32 facing_aux;
     s32 hop_frames;
@@ -53,7 +53,7 @@ void func_801724E8(void *anim, EntityRec *motion, void *actor, EntityRec *actor_
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800A2B04(motion, ((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25);
+            dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25);
             (*(void * *)((u8 *)actor + 0x2C)) = D_80174520;
             func_80047784(
                 actor,
@@ -72,9 +72,9 @@ void func_801724E8(void *anim, EntityRec *motion, void *actor, EntityRec *actor_
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25);
-        func_800AD594(actor_state, 4);
-        func_800A4ACC(actor_state);
+        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25);
+        dungeonReduceActorFoodMeter(actor_state, 4);
+        dungeonAdvanceStatusTimers(actor_state);
 
         if (dungeonStatus.unk_08 != 0) {
             dungeonStatus.unk_08--;
@@ -88,14 +88,14 @@ void func_801724E8(void *anim, EntityRec *motion, void *actor, EntityRec *actor_
         } else {
             if (!(actor_flags & 0x410)) {
                 if (actor_flags & 0x20000) {
-                    actor_state->facing = func_800A0818(
+                    actor_state->facing = dungeonGetRoundedFacingAndRoundingFlag(
                         ((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25,
                         D_80082E80.tileX, D_80082E80.tileY, &facing_aux);
                 }
             }
         }
 
-        if ((func_800AD9B4(actor, actor_state) << 16) > 0) {
+        if ((dungeonCheckActorFloorTrap(actor, actor_state) << 16) > 0) {
             ((E_801724E8_S_801724E8_0 *)anim)->unk_8C = func_80170E5C;
             func_800A9A04(actor_state);
         }

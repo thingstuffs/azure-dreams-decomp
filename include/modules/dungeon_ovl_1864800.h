@@ -215,17 +215,17 @@ typedef struct {
 extern u8 D_800DEA68[];
 extern u8 D_800DECF8[];
 extern s32 func_80069EF8(void);
-extern s32 func_800A3820(s16 entry_index);
-extern void *func_800A05A4(void *, u8, u8, s16, s16);
+extern s32 dungeonGetDefinitionEntryByte13(s16 entry_index);
+extern void *dungeonScanMonsterAlongHeading(void *, u8, u8, s16, s16);
 extern void func_8009CE1C(void *, s32, s32, s32, s32, void *, s32);
-extern void *func_8003DE58(void *, void *, Vec3 *, s32);
+extern void *resolveRecordOrientationOrFallback(void *, void *, Vec3 *, s32);
 extern s32 func_80065420(Packed8 *, Coord *, Coord *, Coord *);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern s32 func_8006649C(s32, s32);
 extern void func_80066640(void *, s32);
 extern void func_800666F4(void *);
 void func_80024020(void *effect, void *motion, void *source_render);
-void func_8002472C(s32 effect_or_count);
+void dungeonUpdateEffectBaseState(s32 effect_or_count);
 s32 func_80024868(u8 *first_node);
-void func_80024C84(void *effect, VecState *motion, void *sprite);
+void dungeonFadeEffectSpriteToBlack(void *effect, VecState *motion, void *sprite);
 #endif

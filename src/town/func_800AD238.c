@@ -25,7 +25,7 @@ extern s16 D_80100D82;
 void func_800AA998(void **object, InitPosition *start_position, void *ptr2) {
         s32 *position;
 
-    func_80094984((s32 *) D_800D0130, (Rec_func_80094268_arg0 *) object, ptr2);
+    townCallTheHandlerSelectsNonzeroEntry((s32 *) D_800D0130, (Rec_func_80094268_arg0 *) object, ptr2);
     *object = D_800AA5F8;
     D_80100D1C = 0;
     D_80100D80 = 8;

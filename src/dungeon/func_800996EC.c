@@ -4,7 +4,7 @@
 extern u8 D_800E50A8[];
 
 /* Returns the masked nibble at the given grid coordinates. */
-s32 func_8009EE4C(s16 x, s16 y) {
+s32 dungeonGetMaskedGridNibble(s16 x, s16 y) {
     u32 cell_index;
     u8 *cell_pair;
     u8 packed_cells;

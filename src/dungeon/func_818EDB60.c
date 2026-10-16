@@ -3,7 +3,7 @@
 
 typedef struct S_80025360_0_pre {
     u16 unk_00;
-} S_80025360_0_pre;   /* the 0x2 bytes before obj in func_80025360, addressed as obj[-1] */
+} S_80025360_0_pre;   /* the 0x2 bytes before obj in dungeonUpdateATimedRectangleEffectFadingColorInOutMarkingCompletion, addressed as obj[-1] */
 
 typedef struct S_80025360_0 {
     s16 unk_00;
@@ -12,7 +12,7 @@ typedef struct S_80025360_0 {
     void * unk_40;
     u8 pad_44[0x4];
     s32 unk_48;
-} S_80025360_0;   /* obj in func_80025360 */
+} S_80025360_0;   /* obj in dungeonUpdateATimedRectangleEffectFadingColorInOutMarkingCompletion */
 
 typedef struct S_80025360_1 {
     u8 pad_00[0xC];
@@ -21,12 +21,12 @@ typedef struct S_80025360_1 {
     s8 unk_0E;
     u8 pad_0F[0x5];
     u16 unk_14;
-} S_80025360_1;   /* dest in func_80025360 */
+} S_80025360_1;   /* dest in dungeonUpdateATimedRectangleEffectFadingColorInOutMarkingCompletion */
 
 typedef struct S_80025360_2 {
     u8 pad_00[0x9C];
     s16 unk_9C;
-} S_80025360_2;   /* ((S_80025360_0 *)obj)->unk_40 in func_80025360 */
+} S_80025360_2;   /* ((S_80025360_0 *)obj)->unk_40 in dungeonUpdateATimedRectangleEffectFadingColorInOutMarkingCompletion */
 
 
 extern s32 func_80024A5C();
@@ -47,7 +47,7 @@ extern Rect D_80024048;
 extern s16 D_80026428;
 
 /* Updates a timed rectangle effect, fading its color in and out and marking completion. */
-void func_80025360(void *effect_arg, void *unused, void *sprite_arg)
+void dungeonUpdateATimedRectangleEffectFadingColorInOutMarkingCompletion(void *effect_arg, void *unused, void *sprite_arg)
 {
     Work work;
     s16 next_frame;

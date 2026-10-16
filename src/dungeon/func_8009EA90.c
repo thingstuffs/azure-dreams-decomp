@@ -1,10 +1,10 @@
 #include "common.h"
 
 extern s32 func_80042900(void *entity, s32 effect_id);
-extern s32 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
+extern s32 getOffsetMapCellValueAndFlags(s16 x, s16 y, s16 offset_index, u16 *flags);
 
 /* Checks entity eligibility using status flags and the linked entity's position. */
-s32 func_800A41F0(void *entity) {
+s32 dungeonCheckEntityEligibility(void *entity) {
     u16 tile_flags;
     void *linked_entity;
     s32 check_result;
@@ -12,7 +12,7 @@ s32 func_800A41F0(void *entity) {
     if ((*(u8 *)((u8 *)entity + 0x28) + *(s16 *)((u8 *)entity + 0x64)) > 0) {
         if (*(s32 *)((u8 *)entity + 0x1C) & 0x2000) {
             linked_entity = *(void **)((u8 *)entity - 0x14);
-            func_8009A350(*(u8 *)((u8 *)linked_entity + 0x24) - 1,
+            getOffsetMapCellValueAndFlags(*(u8 *)((u8 *)linked_entity + 0x24) - 1,
                           *(u8 *)((u8 *)linked_entity + 0x25), 0, &tile_flags);
             if (tile_flags & 2) {
                 return 0;

@@ -3,7 +3,7 @@
 extern u8 D_800D2644[];
 
 /* Clears record flags, then marks records referenced by nonzero indices in the strided list. */
-void func_800B8A9C(void) {
+void townMarkReferencedBuildingRecords(void) {
     s32 entryIndex;
     u8 *recordCursor;
     u8 *indexPageCursor;

@@ -6,9 +6,9 @@
 
 
 extern void func_800553D4(s32 a0);
-extern void func_8005B418();
-extern void func_80055C50(s16 a0);
-extern void func_8005A428(void);
+extern void dispatchCombinedDriverFlags();
+extern void releaseEnabledSoundChannel(s16 a0);
+extern void audioResetAndReleaseSequenceBanks(void);
 extern void func_8005A4B8(void);
 
 /* Stops active playback, releases all four channels, and runs audio cleanup. */
@@ -20,12 +20,12 @@ void func_80054228(void)
         func_800553D4(0x71);
     }
 
-    func_8005B418(0);
+    dispatchCombinedDriverFlags(0);
 
     for (channel = 0; channel < 4; channel++) {
-        func_80055C50(channel);
+        releaseEnabledSoundChannel(channel);
     }
 
-    func_8005A428();
+    audioResetAndReleaseSequenceBanks();
     func_8005A4B8();
 }

@@ -5,6 +5,6 @@
 
 
 /* Returns whether the global record's unk_104 field is zero. */
-s32 func_800B14B4(void) {
+s32 dungeonCheckGlobalRecordFieldZero(void) {
     return D_800E3D7C->unk_104 == 0;
 }

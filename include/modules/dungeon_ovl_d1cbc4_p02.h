@@ -37,7 +37,7 @@ extern u8 D_80163E64[8];
 
 extern void func_80047784(Obj2 *, u8, s32);
 extern s32 func_800AC82C(Obj0 *, void *, Obj2 *, Obj3 *);
-extern s32 func_800AD9B4(Obj2 *, Obj3 *);
+extern s32 dungeonCheckActorFloorTrap(Obj2 *, Obj3 *);
 
-void func_801639A0(Obj0 *owner, void *context, Obj2 *display_arg, Obj3 *state_arg);
+void dungeonUpdateKind13To15DirectionTables(Obj0 *owner, void *context, Obj2 *display_arg, Obj3 *state_arg);
 #endif

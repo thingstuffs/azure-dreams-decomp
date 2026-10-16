@@ -50,6 +50,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent)); sys.path.insert(0, str(HERE))
 import common  # noqa: E402
 from common import parse_cfg, is_stock_cfg, sha_text, read_jsonl  # noqa: E402
+from source_layout import row_path as layout_row_path
 
 SPLIT_CELLS = {"2.7.2-cdk", "2.8.0", "2.8.1", "2.91.66", "2.95.2"}
 OFF_SWITCHES = {"-mmips-as", "-mno-split-addresses"}
@@ -251,7 +252,7 @@ class Lander:
         ok = []
         for e, row, cand, cur, rule2 in out:
             if cand != cur:
-                bad = landing_refusal(cand, cur, "src/%s/%s" % (row["container"], Path(row["c_path"]).name), row=row)
+                bad = landing_refusal(cand, cur, layout_row_path(row, self.root).relative_to(self.root).as_posix(), row=row)
                 if bad:
                     self.log("skip landing refusal", row["id"], bad[:120]); continue
             ok.append((e, row, cand, cur, rule2))
@@ -262,7 +263,7 @@ class Lander:
         r = self.root
         files = [r / "ledger/rows.jsonl", r / "ledger/recipe_trades.jsonl", r / "ledger/sweeps" / ("recipe_move_%s.jsonl" % self.tag)]
         for _e, row, _c, _cur, _r2 in moves:
-            files.append(r / "src" / row["container"] / Path(row["c_path"]).name)
+            files.append(layout_row_path(row, r))
             if row["kind"] == "slus":
                 files += [r / "ledger/splits/slus.jsonl", r / "ledger/splits/slus.build.ninja",
                           r / "tools/build/configure.py", r / "build_slus/build.ninja"]
@@ -362,7 +363,7 @@ class Lander:
         journal = self.root / "ledger/sweeps" / ("recipe_move_%s.jsonl" % self.tag)
         journal.parent.mkdir(parents=True, exist_ok=True)
         for e, row, cand, cur, rule2 in moves:
-            p = self.root / "src" / row["container"] / Path(row["c_path"]).name
+            p = layout_row_path(row, self.root)
             if cand != cur:
                 p.write_text(cand)
             common.append_jsonl(journal, {"id": row["id"], "transform": "recipe_move_" + self.tag, "in_sha": sha_text(cur),

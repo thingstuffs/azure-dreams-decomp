@@ -13,7 +13,7 @@ s32 func_80096190();
 s32 func_80096200();
 s32 func_8009635C();
 s32 func_800A2BDC();
-void func_800DC888();
+void dungeonAdvanceWrappedCycleIndex();
 extern u16 D_800120A0[5];
 extern s16 D_800DD26C[];
 s32 func_8004D7A8(s32 enable);
@@ -84,7 +84,7 @@ s32 func_80096100(void *actor)
         }
         if ((*((s32 *) (((s8 *) base) + 8))) & 0x10) {
             if ((*((s32 *) (((s8 *) base) + 0x10))) & 2) {
-                func_800DC888();
+                dungeonAdvanceWrappedCycleIndex();
             }
         }
         if (func_80033BC0(0xA2) != 0) {

@@ -29,10 +29,10 @@ typedef struct ScratchHeader_800AFBFC {
 
 extern s32 func_800644B8(s32 value);
 extern s32 func_80064584(s32 value);
-extern s32 func_800AFFB4(void *origin, void *unused, s16 *scratch, s32 previous, s32 side);
+extern s32 dungeonProjectDepthStripsAndQuads(void *origin, void *unused, s16 *scratch, s32 previous, s32 side);
 
 /* Processes circular segments in both directions and saves the last successful result. */
-s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
+s32 dungeonProcessCircularSegments(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
     s32 last_result = 0;
     s32 result;
     s16 angle;
@@ -108,7 +108,7 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
             scratch[0x78 / 2] = coord;
             scratch[0x8a / 2] = end_y;
             scratch[0x7a / 2] = end_y;
-            result = func_800AFFB4((void *)call_value, call_segment, call_scratch, last_result, 0);
+            result = dungeonProjectDepthStripsAndQuads((void *)call_value, call_segment, call_scratch, last_result, 0);
             next_angle += 0x80;
             if (result == 0)
                 break;
@@ -126,7 +126,7 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
             scratch[0x78 / 2] = end_x;
             scratch[0x8a / 2] = scaled_coord;
             scratch[0x7a / 2] = scaled_coord;
-            result = func_800AFFB4(shape, segment, scratch, last_result, 1);
+            result = dungeonProjectDepthStripsAndQuads(shape, segment, scratch, last_result, 1);
             if (result == 0)
                 break;
             last_result = result;
@@ -169,7 +169,7 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
             scratch[0x70 / 2] = coord;
             scratch[0x82 / 2] = end_y;
             scratch[0x72 / 2] = end_y;
-            result = func_800AFFB4((void *)call_value, call_segment, call_scratch, call_previous, 1);
+            result = dungeonProjectDepthStripsAndQuads((void *)call_value, call_segment, call_scratch, call_previous, 1);
             next_angle -= 0x80;
             if (result == 0)
                 break;
@@ -192,7 +192,7 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
             scratch[0x82 / 2] = scaled_coord;
             scratch[0x72 / 2] = scaled_coord;
             next_angle = 0;
-            result = func_800AFFB4((void *)call_value, call_segment, call_scratch, call_previous, next_angle);
+            result = dungeonProjectDepthStripsAndQuads((void *)call_value, call_segment, call_scratch, call_previous, next_angle);
             if (result == 0)
                 break;
             last_result = result;

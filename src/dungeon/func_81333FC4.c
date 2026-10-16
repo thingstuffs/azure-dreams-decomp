@@ -11,21 +11,21 @@ typedef struct S_8016AFC4_3 {
     u8 unk_74;
     u8 pad_75[0x7];
     u8 unk_7C;
-} S_8016AFC4_3;   /* entry in func_8016AFC4 */
+} S_8016AFC4_3;   /* entry in dungeonAdvanceMultiFormTurnPath */
 
 typedef struct S_8016AFC4_4 {
     u8 pad_00[0x74];
     u8 unk_74;
     u8 pad_75[0x7];
     u8 unk_7C;
-} S_8016AFC4_4;   /* (u8 *)arg3 + ((S_8016AFC4_0 *)arg3)->unk_8A.s in func_8016AFC4 */
+} S_8016AFC4_4;   /* (u8 *)arg3 + ((S_8016AFC4_0 *)arg3)->unk_8A.s in dungeonAdvanceMultiFormTurnPath */
 
 
 extern s32 func_80047784();
 extern s32 func_8009A21C();
 extern s32 func_8009A3D0();
-extern s32 func_8009A66C();
-extern s16 func_800A0818();
+extern s32 dungeonCheckMovementClearanceAndHeight();
+extern s16 dungeonGetRoundedFacingAndRoundingFlag();
 
 extern u8 D_801739C0[8];
 extern u8 D_801739C8[8];
@@ -33,7 +33,7 @@ extern u8 D_801739D0[8];
 extern u8 D_801739D8[8];
 
 /* Advance the actor along its path and update its animation, facing, and movement timing. */
-void func_8016AFC4(void *actor, s32 unused, void *sprite, EntityRec *movement)
+void dungeonAdvanceMultiFormTurnPath(void *actor, s32 unused, void *sprite, EntityRec *movement)
 {
     s32 move_mode;
     s32 behavior;
@@ -98,9 +98,9 @@ void func_8016AFC4(void *actor, s32 unused, void *sprite, EntityRec *movement)
     func_8009A3D0(old_x, old_y, move_mode);
 
     path_step = (u8 *)movement + movement->unk_8A;
-    direction = func_800A0818(old_x, old_y, ((S_8016AFC4_3 *)path_step)->unk_74,
+    direction = dungeonGetRoundedFacingAndRoundingFlag(old_x, old_y, ((S_8016AFC4_3 *)path_step)->unk_74,
                               ((S_8016AFC4_3 *)path_step)->unk_7C, (u8 *)actor + 0x98);
-    func_8009A66C(direction, sprite, movement, 0x20);
+    dungeonCheckMovementClearanceAndHeight(direction, sprite, movement, 0x20);
 
     ((Rec_D_80082E80 *)sprite)->unk_24 =
         ((S_8016AFC4_4 *)((u8 *)movement + movement->unk_8A))->unk_74;

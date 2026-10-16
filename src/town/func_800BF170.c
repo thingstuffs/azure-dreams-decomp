@@ -7,19 +7,19 @@
 typedef struct S_800BC8D0_1_pre {
     void * unk_00;
     u8 pad_04[0xC];
-} S_800BC8D0_1_pre;   /* the 0x10 bytes before arg0 in func_800BC8D0, addressed as arg0[-1] */
+} S_800BC8D0_1_pre;   /* the 0x10 bytes before arg0 in townInitializeObjectWithDefaultData, addressed as arg0[-1] */
 
 
 extern void func_8003DB94(void *, s32, s32);
 extern void func_8004491C(void *, void *);
-extern void func_8008F104(void *, s32, void *);
+extern void townConfigureTheSetModeN3(void *, s32, void *);
 extern u8 D_80089634[];
 extern u8 D_800BE0D4[];
 extern s32 D_800D20E8[];
 extern u8 D_800D20F4[];
 
 /* Initializes the object with default data and updates its associated state. */
-void func_800BC8D0(void *object, s32 init_arg, Rec_D_80082E80 *state)
+void townInitializeObjectWithDefaultData(void *object, s32 init_arg, Rec_D_80082E80 *state)
 {
     s32 *defaults;
 
@@ -33,6 +33,6 @@ void func_800BC8D0(void *object, s32 init_arg, Rec_D_80082E80 *state)
     ((Rec_D_800CFCB4 *)object)->unk_A0 = defaults[0];
     ((Rec_D_800CFCB4 *)object)->unk_A4 = defaults[1];
     ((Rec_D_800CFCB4 *)object)->unk_A8 = defaults[2];
-    func_8008F104(object, init_arg, D_800D20F4);
+    townConfigureTheSetModeN3(object, init_arg, D_800D20F4);
     func_8003DB94(state, defaults[2], 0);
 }

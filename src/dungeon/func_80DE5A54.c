@@ -33,7 +33,7 @@ void func_80173254(void *action, void *context, void *sprite, EntityRec *entity)
             }
 
             if ((entity->unk_64 != 0) &&
-                (func_800AA6B4(action, context, sprite, 0) != 0)) {
+                (dungeonBeginReadyActorDirectionalAction(action, context, sprite, 0) != 0)) {
                 return;
             }
 
@@ -41,7 +41,7 @@ void func_80173254(void *action, void *context, void *sprite, EntityRec *entity)
                 if (dungeonStatus.flags & 0x2008) {
                     return;
                 }
-                func_800AA79C(action, context, sprite, entity);
+                dungeonAdvanceActorPendingAction(action, context, sprite, entity);
                 return;
             }
 
@@ -51,7 +51,7 @@ void func_80173254(void *action, void *context, void *sprite, EntityRec *entity)
 
             entity_flags = entity->flags1C;
             if (entity_flags & 0x100) {
-                func_800AA258(action, context, sprite, entity);
+                dungeonBeginPushedActorMove(action, context, sprite, entity);
                 return;
             }
 
@@ -66,7 +66,7 @@ void func_80173254(void *action, void *context, void *sprite, EntityRec *entity)
             }
 
             if ((func_800A2C34(entity) << 16) != 0) {
-                if ((func_8009A180(entity,
+                if ((dungeonCheckEntityRelation(entity,
                         (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
@@ -83,7 +83,7 @@ void func_80173254(void *action, void *context, void *sprite, EntityRec *entity)
                 coordinate = ((Rec_D_80082E80 *)sprite)->unk_26.as_s8;
                 if ((((coordinate == origin->unk_026) &&
                             (coordinate >= 0)) ||
-                     (func_8009FD40(origin, sprite) < 2)) &&
+                     (dungeonGetTileChebyshevDistance(origin, sprite) < 2)) &&
                     ((func_800A6D30() & 7) == 0)) {
                     func_80042B68(entity, 1);
                 }

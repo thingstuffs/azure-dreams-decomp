@@ -118,7 +118,7 @@ void func_80042BDC(S_80042BDC *ent, s16 action) {
             func_8004397C(ent);
 
             create_entity = func_800A0B94(ent->x13, spawn_result, 1);
-            func_8003F320();
+            drainCdCommandQueue();
             spawn_result_2 = create_entity(is_registered, child->x24, child->x25, ent->x88);
 
             spawn_result_2->x14 = 0;

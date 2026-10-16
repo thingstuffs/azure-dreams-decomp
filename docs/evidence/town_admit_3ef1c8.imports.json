@@ -1,0 +1,383 @@
+{
+  "scope": "row-admission-only; no native storage ownership claimed",
+  "absolute_symbols": [
+    {
+      "symbol": "D_80016000",
+      "kind": "data",
+      "vma": 2147573760
+    },
+    {
+      "symbol": "D_8001A91E",
+      "kind": "data",
+      "vma": 2147592478
+    },
+    {
+      "symbol": "D_8001A92C",
+      "kind": "data",
+      "vma": 2147592492
+    },
+    {
+      "symbol": "D_8001A934",
+      "kind": "data",
+      "vma": 2147592500
+    },
+    {
+      "symbol": "D_8001A93C",
+      "kind": "data",
+      "vma": 2147592508
+    },
+    {
+      "symbol": "D_8001A944",
+      "kind": "data",
+      "vma": 2147592516
+    },
+    {
+      "symbol": "D_8001A94C",
+      "kind": "data",
+      "vma": 2147592524
+    },
+    {
+      "symbol": "D_8001A954",
+      "kind": "data",
+      "vma": 2147592532
+    },
+    {
+      "symbol": "D_8001A95C",
+      "kind": "data",
+      "vma": 2147592540
+    },
+    {
+      "symbol": "D_8001A964",
+      "kind": "data",
+      "vma": 2147592548
+    },
+    {
+      "symbol": "D_8001A96C",
+      "kind": "data",
+      "vma": 2147592556
+    },
+    {
+      "symbol": "D_8001A974",
+      "kind": "data",
+      "vma": 2147592564
+    },
+    {
+      "symbol": "D_8001A97C",
+      "kind": "data",
+      "vma": 2147592572
+    },
+    {
+      "symbol": "D_8001A984",
+      "kind": "data",
+      "vma": 2147592580
+    },
+    {
+      "symbol": "D_8001A98C",
+      "kind": "data",
+      "vma": 2147592588
+    },
+    {
+      "symbol": "D_8001A994",
+      "kind": "data",
+      "vma": 2147592596
+    },
+    {
+      "symbol": "D_8001A99C",
+      "kind": "data",
+      "vma": 2147592604
+    },
+    {
+      "symbol": "D_8001A9A4",
+      "kind": "data",
+      "vma": 2147592612
+    },
+    {
+      "symbol": "D_8001A9AC",
+      "kind": "data",
+      "vma": 2147592620
+    },
+    {
+      "symbol": "D_8001A9B4",
+      "kind": "data",
+      "vma": 2147592628
+    },
+    {
+      "symbol": "D_8001A9BC",
+      "kind": "data",
+      "vma": 2147592636
+    },
+    {
+      "symbol": "D_8001A9C4",
+      "kind": "data",
+      "vma": 2147592644
+    },
+    {
+      "symbol": "D_8001AB4C",
+      "kind": "data",
+      "vma": 2147593036
+    },
+    {
+      "symbol": "D_8001AB54",
+      "kind": "data",
+      "vma": 2147593044
+    },
+    {
+      "symbol": "D_8001AB5C",
+      "kind": "data",
+      "vma": 2147593052
+    },
+    {
+      "symbol": "D_8001AB94",
+      "kind": "data",
+      "vma": 2147593108
+    },
+    {
+      "symbol": "D_8001ABE8",
+      "kind": "data",
+      "vma": 2147593192
+    },
+    {
+      "symbol": "D_8001AC3C",
+      "kind": "data",
+      "vma": 2147593276
+    },
+    {
+      "symbol": "D_8001B1F8",
+      "kind": "data",
+      "vma": 2147594744
+    },
+    {
+      "symbol": "D_8001B1FC",
+      "kind": "data",
+      "vma": 2147594748
+    },
+    {
+      "symbol": "D_8001B208",
+      "kind": "data",
+      "vma": 2147594760
+    },
+    {
+      "symbol": "D_8001B320",
+      "kind": "data",
+      "vma": 2147595040
+    },
+    {
+      "symbol": "D_8001B63C",
+      "kind": "data",
+      "vma": 2147595836
+    },
+    {
+      "symbol": "D_8001B6D0",
+      "kind": "data",
+      "vma": 2147595984
+    },
+    {
+      "symbol": "D_8001B718",
+      "kind": "data",
+      "vma": 2147596056
+    },
+    {
+      "symbol": "D_8001B7AE",
+      "kind": "data",
+      "vma": 2147596206
+    },
+    {
+      "symbol": "D_8001B81C",
+      "kind": "data",
+      "vma": 2147596316
+    },
+    {
+      "symbol": "D_8001B824",
+      "kind": "data",
+      "vma": 2147596324
+    },
+    {
+      "symbol": "D_8001C5FB",
+      "kind": "data",
+      "vma": 2147599867
+    },
+    {
+      "symbol": "D_8001C64E",
+      "kind": "data",
+      "vma": 2147599950
+    },
+    {
+      "symbol": "D_8001CDF2",
+      "kind": "data",
+      "vma": 2147601906
+    },
+    {
+      "symbol": "D_8001CFB4",
+      "kind": "data",
+      "vma": 2147602356
+    },
+    {
+      "symbol": "D_8001D270",
+      "kind": "data",
+      "vma": 2147603056
+    },
+    {
+      "symbol": "D_8001E2F8",
+      "kind": "data",
+      "vma": 2147607288
+    },
+    {
+      "symbol": "D_8001E634",
+      "kind": "data",
+      "vma": 2147608116
+    },
+    {
+      "symbol": "D_8001E79C",
+      "kind": "data",
+      "vma": 2147608476
+    },
+    {
+      "symbol": "D_8001E9C0",
+      "kind": "data",
+      "vma": 2147609024
+    },
+    {
+      "symbol": "D_8001EB10",
+      "kind": "data",
+      "vma": 2147609360
+    },
+    {
+      "symbol": "D_8001EC04",
+      "kind": "data",
+      "vma": 2147609604
+    },
+    {
+      "symbol": "D_8001EDD0",
+      "kind": "data",
+      "vma": 2147610064
+    },
+    {
+      "symbol": "D_8001EF6C",
+      "kind": "data",
+      "vma": 2147610476
+    },
+    {
+      "symbol": "D_8001F543",
+      "kind": "data",
+      "vma": 2147611971
+    },
+    {
+      "symbol": "D_8001F560",
+      "kind": "data",
+      "vma": 2147612000
+    },
+    {
+      "symbol": "D_8001F690",
+      "kind": "data",
+      "vma": 2147612304
+    },
+    {
+      "symbol": "D_8001FB7F",
+      "kind": "data",
+      "vma": 2147613567
+    },
+    {
+      "symbol": "D_80020E5C",
+      "kind": "data",
+      "vma": 2147618396
+    },
+    {
+      "symbol": "D_800211DC",
+      "kind": "data",
+      "vma": 2147619292
+    },
+    {
+      "symbol": "func_80016164",
+      "kind": "function",
+      "vma": 2147574116
+    },
+    {
+      "symbol": "func_800187AC",
+      "kind": "function",
+      "vma": 2147583916
+    },
+    {
+      "symbol": "func_80018F74",
+      "kind": "function",
+      "vma": 2147585908
+    },
+    {
+      "symbol": "func_80019618",
+      "kind": "function",
+      "vma": 2147587608
+    },
+    {
+      "symbol": "func_800196F4",
+      "kind": "function",
+      "vma": 2147587828
+    },
+    {
+      "symbol": "func_80019778",
+      "kind": "function",
+      "vma": 2147587960
+    },
+    {
+      "symbol": "func_8001979C",
+      "kind": "function",
+      "vma": 2147587996
+    },
+    {
+      "symbol": "func_80019814",
+      "kind": "function",
+      "vma": 2147588116
+    },
+    {
+      "symbol": "func_80019880",
+      "kind": "function",
+      "vma": 2147588224
+    },
+    {
+      "symbol": "func_80019928",
+      "kind": "function",
+      "vma": 2147588392
+    },
+    {
+      "symbol": "func_80019A04",
+      "kind": "function",
+      "vma": 2147588612
+    },
+    {
+      "symbol": "func_80019ABC",
+      "kind": "function",
+      "vma": 2147588796
+    },
+    {
+      "symbol": "func_8001A220",
+      "kind": "function",
+      "vma": 2147590688
+    },
+    {
+      "symbol": "func_8001A418",
+      "kind": "function",
+      "vma": 2147591192
+    },
+    {
+      "symbol": "func_8001A490",
+      "kind": "function",
+      "vma": 2147591312
+    },
+    {
+      "symbol": "func_8001A510",
+      "kind": "function",
+      "vma": 2147591440
+    },
+    {
+      "symbol": "func_8001A7B0",
+      "kind": "function",
+      "vma": 2147592112
+    },
+    {
+      "symbol": "func_8001A7F8",
+      "kind": "function",
+      "vma": 2147592184
+    }
+  ],
+  "native_hold": "Some data addresses lie beyond the next bank header. Extending the code delta would overlap a different proven bank map. Their actual resident/asset mapping must be established before native ownership certification.",
+  "next_discriminator": "Inspect the script/data loader and pointer tables for the out-of-bank addresses. See evidence/load_bank_header_extents.json and evidence/package_3ef1c8.log.",
+  "retail_address_evidence": "The strict linked row proofs preserve every call/data address; this does not prove which asset owns an external runtime address."
+}

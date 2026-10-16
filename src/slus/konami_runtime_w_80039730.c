@@ -12,16 +12,16 @@ typedef struct Func80039730State {
     u8 byte_27;
 } Func80039730State;
 
-extern void func_80038570(void *state);
+extern void slusClearTwoStateFields(void *state);
 
-/* Read an event-script byte and select func_80038570 as the handler. */
-void func_80039730(Func80039730State *state) {
+/* Read an event-script byte and select slusClearTwoStateFields as the handler. */
+void handleVmOpcode25(Func80039730State *state) {
     u32 operand = (u32)state->read_ptr;
     u32 read_addr = operand;
 
     operand = *(u8 *)operand;
     state->read_ptr = (u8 *)(read_addr + 1);
     state->byte_27 = 0;
-    state->func_10 = func_80038570;
+    state->func_10 = slusClearTwoStateFields;
     state->byte_26 = (u8)operand;
 }

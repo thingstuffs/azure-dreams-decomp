@@ -1,17 +1,6 @@
-#include "shared/town_root.h"
-#include "common.h"
-#include "shared/record_ptrs.h"
+#include "modules/town_ovl_6f48d0.h"
 
-typedef void (*Callback)(void);
-
-typedef struct CallbackEntry {
-    Callback callback;
-    void *data;
-} CallbackEntry;
-
-extern void func_80016128(s32 value0, s32 value1);
-
-void func_800160D0(s32 value0, s32 value1)
+void dispatchTownCallbackOrFallback(s32 value0, s32 value1)
 {
     void *ptr;
     s32 callbackIndex;

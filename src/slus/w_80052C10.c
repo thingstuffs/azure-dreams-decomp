@@ -17,7 +17,7 @@ typedef struct S_80052C10_Arg1 {
 } S_80052C10_Arg1;
 
 extern s32 ClearImage(S_80052C10_RECT *rect, u8 r, u8 g, u8 b); /* extern PSY-Q libgpu */
-extern void func_80052A90(u8 *str, s16 x, s16 y); /* extern */
+extern void drawDoubleByteText(u8 *str, s16 x, s16 y); /* extern */
 
 /* Clears two 64x16 VRAM text regions and draws the two strings at the given row. */
 void func_80052C10(s16 row, S_80052C10_Arg1 *texts) {
@@ -36,6 +36,6 @@ void func_80052C10(s16 row, S_80052C10_Arg1 *texts) {
     right_rect.h = 0x10;
     ClearImage(&right_rect, 0, 0, 0);
 
-    func_80052A90(texts->text8, 0x380, row * 0x10);
-    func_80052A90(texts->textC, 0x3C0, row * 0x10);
+    drawDoubleByteText(texts->text8, 0x380, row * 0x10);
+    drawDoubleByteText(texts->textC, 0x3C0, row * 0x10);
 }

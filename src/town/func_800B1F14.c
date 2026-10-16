@@ -10,21 +10,21 @@ typedef struct S_800AF674_2 {
     u8 pad_14[0x8];
     s32 unk_1C;
     s32 * unk_20;
-} S_800AF674_2;   /* ((Rec_func_800AF254_arg1 *)arg0)->unk_00 in func_800AF674 */
+} S_800AF674_2;   /* ((Rec_func_800AF254_arg1 *)arg0)->unk_00 in townPopulateCurrentItemMenuPage */
 
 
 typedef struct S_800AF674_0 {
     u8 pad_00[0xA8];
     union { s32 s; s32 * u; } unk_A8;   /* accessed as both */
-} S_800AF674_0;   /* arg0 in func_800AF674 */
+} S_800AF674_0;   /* arg0 in townPopulateCurrentItemMenuPage */
 
 
 s32 func_8004AC3C();
 s32 func_8004DC14();
-void func_800B0318();
+void townClearItemMenuEntryGroups();
 
 /* Initialize the output and fill up to ten slots with converted entries from the current page. */
-void func_800AF674(S_800AF674_0 *state) {
+void townPopulateCurrentItemMenuPage(S_800AF674_0 *state) {
     s32 conversion_aux;
     s32 *output_slot;
     s32 entry_value;
@@ -33,7 +33,7 @@ void func_800AF674(S_800AF674_0 *state) {
     s32 slot_index;
 
     slot_index = 0x10;
-    func_800B0318(state->unk_A8.s);
+    townClearItemMenuEntryGroups(state->unk_A8.s);
     entry_index = ((S_800AF674_2 *)(((Rec_func_800AF254_arg1 *)state)->unk_00))->unk_10 * 0xA;
     while (slot_index < 0x1A && entry_index < ((S_800AF674_2 *)(((Rec_func_800AF254_arg1 *)state)->unk_00))->unk_1C) {
         entry_value = ((S_800AF674_2 *)(((Rec_func_800AF254_arg1 *)state)->unk_00))->unk_20[entry_index];

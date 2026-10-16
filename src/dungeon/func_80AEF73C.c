@@ -16,7 +16,7 @@ void *func_80170F3C(s16 flags, s16 kind_id, s16 variant, s32 spawn_value)
     if (object != 0) {
         result = (u8 *)object;
         result += 0x20;
-        ((R10_80170F3C_S_80170F3C_0 *)object)->unk_10 = ((u8 *)func_80171104);
+        ((R10_80170F3C_S_80170F3C_0 *)object)->unk_10 = ((u8 *)dungeonUpdateActorCallbacksAnimationAndGround);
         ((R10_80170F3C_S_80170F3C_1 *)result)->unk_13 = 10;
         func_8004491C(object, func_80045340);
 

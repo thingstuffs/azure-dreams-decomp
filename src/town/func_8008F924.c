@@ -11,7 +11,7 @@ extern s32 D_800FE480[];
 extern s32 D_800FE484[];
 
 /* Set the two view scales from the stored shift counts. */
-void func_8008D084(void)
+void townUpdateMapWorldExtents(void)
 {
     TownViewState *state;
 

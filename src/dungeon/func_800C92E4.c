@@ -29,23 +29,23 @@ extern u8 D_800E1C3A;
 extern s8 D_800E2968;
 
 
-extern s32 func_8003FA44(s32);
+extern s32 hasEnoughAvailableRuntimeNodes(s32);
 extern void func_800419EC();
 extern void func_80042640(void *, s32);
 extern void func_8004437C(s32, s32);
 extern void SD_Call(s32);
 extern void func_800997FC();
-extern s32 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
+extern s32 getOffsetMapCellValueAndFlags(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern SpawnFunc func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read);
-extern void func_800A152C(s16 entry_type, s16 entry_key);
+extern void retainSpawnResource(s16 entry_type, s16 entry_key);
 extern s32 func_800A1618(s32, s32);
-extern void func_800A1D4C(void *, s32);
+extern void raiseEntityLevel(void *, s32);
 extern s32 func_800A56E0();
 extern s32 func_800A6D30(void);
-extern s32 func_800A6DA4(s32, s32);
+extern s32 randomDungeonRange16(s32, s32);
 
 /* Spawns and levels monster den monsters, then advances the event delays and cleanup. */
-void func_800CEA44(void *den_event) {
+void advanceMonsterDenSequence(void *den_event) {
     u16 flags;
     s16 area_index;
     s16 state;
@@ -77,7 +77,7 @@ void func_800CEA44(void *den_event) {
             count = ((DungeonSlot *)D_800E3648)[*(s16 *)(den_event + 0xC)].count;
             if (count >= 0) {
                 do {
-                    if (func_8003FA44(3) == 0) {
+                    if (hasEnoughAvailableRuntimeNodes(3) == 0) {
                         ((DungeonSlot *)D_800E3648)[*(s16 *)(den_event + 0xC)].count -= count;
                         return;
                     }
@@ -93,8 +93,8 @@ void func_800CEA44(void *den_event) {
                         areas = (AreaRecord *)D_800E2970;
                         area = (u8 *)&areas[area_index];
                         do {
-                            spawn_x = func_800A6DA4(0, (u16)(((AreaRecord *)area)->width - 1));
-                            y = func_800A6DA4(0, (u16)(((AreaRecord *)area)->height - 1));
+                            spawn_x = randomDungeonRange16(0, (u16)(((AreaRecord *)area)->width - 1));
+                            y = randomDungeonRange16(0, (u16)(((AreaRecord *)area)->height - 1));
                             area_x = area[0];
                             entry_y = area[2];
                             spawn_x += area_x;
@@ -103,7 +103,7 @@ void func_800CEA44(void *den_event) {
                             entry_y = spawn_x;
                             entry_y &= 0xFF;
                             entry_y--;
-                            if (!(((s16)func_8009A350(entry_y, (u8)y, 0,
+                            if (!(((s16)getOffsetMapCellValueAndFlags(entry_y, (u8)y, 0,
                                                       &flags) == 0) ||
                                   ((flags & 0xB700) != 0))) {
                                 break;
@@ -119,7 +119,7 @@ void func_800CEA44(void *den_event) {
                             monster = func_800A0B94(spawn_type, spawn_availability, 1)
                             (0, (u8)spawn_x, (u8)y, -0x400);
                             if (monster != 0) {
-                                func_800A152C(spawn_type, 1);
+                                retainSpawnResource(spawn_type, 1);
                                 func_80042640(monster, spawn_type);
                                 ((u8 *)monster)[0x43] = func_800A6D30();
                                 ((u8 *)monster)[0x12] = 0;
@@ -135,7 +135,7 @@ void func_800CEA44(void *den_event) {
                                     if (entry_y == 0) {
                                         level_thresholds = (u32 *)area_calc;
                                         do {
-                                            func_800A1D4C(monster, 0);
+                                            raiseEntityLevel(monster, 0);
                                         } while (level_thresholds[((u8 *)monster)[0x11]] <=
                                                  *(u32 *)((u8 *)monster + 0x18));
                                     }

@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void func_8001D328(floor_generate_isolated_8028A328_S_8001D328_0 *region, s32 setup_arg1) {
+void dungeonMarkRandomEligibleRegionTiles(floor_generate_isolated_8028A328_S_8001D328_0 *region, s32 setup_arg1) {
     s32 random_bits;
     u16 tile_flags;
     s16 count;
@@ -34,13 +34,13 @@ void func_8001D328(floor_generate_isolated_8028A328_S_8001D328_0 *region, s32 se
         coords_offset = entry_index * 0xC;
         coords = (floor_generate_isolated_8028A328_S_8001D328_1 *)(coords_offset + coords_base);
 loop:
-            x_offset = func_800A6DA4(0, (region->unk_04 - 1) & 0xFFFF) & 0xFFFF;
-            y_offset = func_800A6DA4(0, (region->unk_06 - 1) & 0xFFFF) & 0xFFFF;
+            x_offset = randomDungeonRange16(0, (region->unk_04 - 1) & 0xFFFF) & 0xFFFF;
+            y_offset = randomDungeonRange16(0, (region->unk_06 - 1) & 0xFFFF) & 0xFFFF;
             coords->unk_00 = region->unk_00 + x_offset;
             coords->unk_01 = region->unk_02 + y_offset;
-            if (((func_8009A350(coords->unk_00 - 1, coords->unk_01, 0, &tile_flags) << 16) == 0) || !(tile_flags & 0xFF20)) {
+            if (((getOffsetMapCellValueAndFlags(coords->unk_00 - 1, coords->unk_01, 0, &tile_flags) << 16) == 0) || !(tile_flags & 0xFF20)) {
                 func_8009A21C(coords->unk_00, coords->unk_01, 0x800);
-                func_8001E660(state, state_prefix, 0, 1);
+                selectFloorItemWithSpecialOverrides(state, state_prefix, 0, 1);
             }
             state_prefix -= 4;
             state -= 4;

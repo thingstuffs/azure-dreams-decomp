@@ -8,7 +8,7 @@ extern M2C_UNK D_80024830;
 typedef struct S_80024908_0 {
     u8 pad_00[0x10];
     void (*unk_10)(void *);
-} S_80024908_0;   /* temp_v0 in func_80024908 */
+} S_80024908_0;   /* temp_v0 in allocateAndInitializeEffectObject */
 
 typedef struct S_80024908_1 {
     u8 pad_00[0xC];
@@ -19,16 +19,16 @@ typedef struct S_80024908_1 {
     s16 unk_2C;
     u8 pad_2E[0x2];
     s16 unk_30;
-} S_80024908_1;   /* temp_v0_2 in func_80024908 */
+} S_80024908_1;   /* temp_v0_2 in allocateAndInitializeEffectObject */
 
 /* Allocate an object and initialize its handler and state fields. */
-void func_80024908(s32 alloc_arg, s16 value_26, s16 value_30, s32 value_0c) {
+void allocateAndInitializeEffectObject(s32 alloc_arg, s16 value_26, s16 value_30, s32 value_0c) {
     void *object;
     S_80024908_1 *state;
 
     object = func_8003FD64(0x200, (ObjectNodeHeader **)alloc_arg);
     if (object != NULL) {
-        ((S_80024908_0 *)object)->unk_10 = func_80024830;
+        ((S_80024908_0 *)object)->unk_10 = processEffectModesAndCompletion;
         state = object + 0x20;
         state->unk_26 = value_26;
         state->unk_0C = value_0c;

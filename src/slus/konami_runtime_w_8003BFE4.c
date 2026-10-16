@@ -4,7 +4,7 @@
 #include "common.h"
 
 extern u8 D_80082D08[0x100];
-extern void func_8003BE1C(u16 *, s32, s32);
+extern void runtimeScaleFourPointsAboutCenter(u16 *, s32, s32);
 
 /* Copies three fields from each of six records and processes the destination buffer. */
 void func_8003BFE4(void)
@@ -30,5 +30,5 @@ void func_8003BFE4(void)
         dst_third += 4;
     } while (record_count < 6);
 
-    func_8003BE1C((u16 *)D_80082D08, 6, 4);
+    runtimeScaleFourPointsAboutCenter((u16 *)D_80082D08, 6, 4);
 }

@@ -3,7 +3,7 @@
 
 
 /* Returns the quarter-turn sector of the stored angle relative to the offset input angle. */
-u32 func_800C2D0C(s32 angle) {
+u32 townGetFacingSector(s32 angle) {
     s32 angle_delta;
 
     angle -= 0x600;

@@ -14,14 +14,14 @@ typedef struct S_80172D1C_0 {
     union { s16 s; u16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_80172D1C_0;   /* arg0 in func_80172D1C */
+} S_80172D1C_0;   /* arg0 in dungeonUpdateActorMovementAndEmitParticles */
 
 typedef struct S_80172D1C_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80172D1C_1;   /* obj in func_80172D1C */
+} S_80172D1C_1;   /* obj in dungeonUpdateActorMovementAndEmitParticles */
 
 typedef struct S_80172D1C_2 {
     u8 pad_00[0x2];
@@ -33,12 +33,12 @@ typedef struct S_80172D1C_2 {
     union { s32 s; s32 u; } unk_0C;   /* accessed as both */
     union { s32 s; s32 u; } unk_10;   /* accessed as both */
     s32 unk_14;
-} S_80172D1C_2;   /* arg1 in func_80172D1C */
+} S_80172D1C_2;   /* arg1 in dungeonUpdateActorMovementAndEmitParticles */
 
 typedef struct S_80172D1C_3 {
     u8 pad_00[0x48];
     s16 unk_48;
-} S_80172D1C_3;   /* (u8 *)calc_other in func_80172D1C */
+} S_80172D1C_3;   /* (u8 *)calc_other in dungeonUpdateActorMovementAndEmitParticles */
 
 
 typedef struct S_80172D1C_5 {
@@ -52,13 +52,13 @@ typedef struct S_80172D1C_5 {
     s16 unk_1E;
     u8 pad_20[0x8];
     s32 unk_28;
-} S_80172D1C_5;   /* part in func_80172D1C */
+} S_80172D1C_5;   /* part in dungeonUpdateActorMovementAndEmitParticles */
 
 
 typedef struct S_80172D1C_7 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_80172D1C_7;   /* global_base in func_80172D1C */
+} S_80172D1C_7;   /* global_base in dungeonUpdateActorMovementAndEmitParticles */
 
 typedef struct S_80172D1C_8 {
     u8 pad_00[0x2];
@@ -70,16 +70,16 @@ typedef struct S_80172D1C_8 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80172D1C_8;   /* ((S_80172D1C_1 *)obj)->unk_08 in func_80172D1C */
+} S_80172D1C_8;   /* ((S_80172D1C_1 *)obj)->unk_08 in dungeonUpdateActorMovementAndEmitParticles */
 
 
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_80047784();
 extern s32 rand(void);
-extern void func_800A2B04(void *, s32, s32);
-extern void func_800AAA54(void *actor, void *unused, void *display, u8 *facing_variants);
-extern void func_800AD4D0(void *);
+extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
+extern void dungeonBeginActorDisplayAction(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void dungeonApplyClampedActorValueDelta(void *);
 
 extern u8 D_801711A4[];
 extern u8 D_8017406C[];
@@ -87,7 +87,7 @@ extern u8 D_8017418C[];
 extern u8 D_80174194[];
 
 /* Updates actor movement, emits particles, and settles the actor onto its tile. */
-void func_80172D1C(void *actor, void *motion, void *sprite, void *entity) {
+void dungeonUpdateActorMovementAndEmitParticles(void *actor, void *motion, void *sprite, void *entity) {
     void *particle;
     void *particle_sprite;
     void *particle_update;
@@ -152,12 +152,12 @@ void func_80172D1C(void *actor, void *motion, void *sprite, void *entity) {
     state = ((S_80172D1C_0 *)actor)->unk_9B;
     switch (state) {
     case 0:
-        func_800AD4D0(entity);
+        dungeonApplyClampedActorValueDelta(entity);
         if (((EntityRec *)entity)->unk_28 == 0) {
             ((S_80172D1C_2 *)motion)->unk_14 = 0;
             ((S_80172D1C_2 *)motion)->unk_10.s = 0;
             ((S_80172D1C_2 *)motion)->unk_0C.s = 0;
-            func_800AAA54(actor, motion, sprite, D_80174194);
+            dungeonBeginActorDisplayAction(actor, motion, sprite, D_80174194);
             break;
         }
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
@@ -199,7 +199,7 @@ void func_80172D1C(void *actor, void *motion, void *sprite, void *entity) {
             ((S_80172D1C_2 *)motion)->unk_14 = 0;
             ((S_80172D1C_2 *)motion)->unk_10.s = 0;
             ((S_80172D1C_2 *)motion)->unk_0C.s = 0;
-            func_800AAA54(actor, motion, sprite, D_80174194);
+            dungeonBeginActorDisplayAction(actor, motion, sprite, D_80174194);
             break;
         }
         ((S_80172D1C_0 *)actor)->unk_96.s = 8;
@@ -239,7 +239,7 @@ void func_80172D1C(void *actor, void *motion, void *sprite, void *entity) {
             ((S_80172D1C_2 *)motion)->unk_14 = 0;
             ((S_80172D1C_2 *)motion)->unk_10.s = 0;
             ((S_80172D1C_2 *)motion)->unk_0C.s = 0;
-            func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
             (*(void * *)((u8 *)sprite + 0x2C)) = D_8017418C;
             func_80047784(sprite,
                           D_8017418C[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],

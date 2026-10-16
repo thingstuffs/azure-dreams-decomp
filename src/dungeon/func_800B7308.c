@@ -3,7 +3,7 @@
 
 
 // Return the negated value of an occupied grid entry at the coordinates, or 0x400.
-s16 func_800BCA68(s32 xCoord, s32 yCoord) {
+s16 dungeonGetSurfaceHeightAtCoordinates(s32 xCoord, s32 yCoord) {
     GameWork *gridState = &gameWork;
     u32 cellIndex;
     u8 *cellEntry;

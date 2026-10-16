@@ -17,30 +17,30 @@ typedef struct S_801743DC_0 {
     s16 unk_9E;
     u8 pad_A0[0x2];
     u16 unk_A2;
-} S_801743DC_0;   /* arg0 in func_801743DC */
+} S_801743DC_0;   /* arg0 in dungeonAdvanceActorAction */
 
 
 extern s32 func_80042900(void *, s32);
 extern void func_80042B68(void *, s32);
 extern void func_80047784(void *, u8, s32);
-extern s32 func_8009A180(void *, void *);
-extern s32 func_8009FD40(void *, void *);
+extern s32 dungeonCheckEntityRelation(void *, void *);
+extern s32 dungeonGetTileChebyshevDistance(void *, void *);
 extern s32 func_800A2C34(void *);
 extern s32 func_800A6D30(void);
 extern void func_800A9A04(void *);
 extern void func_800A9A0C(void *);
-extern void func_800AA258(void *, void *, void *, void *);
-extern s32 func_800AA6B4(void *, void *, void *, s32);
-extern void func_800AA79C(void *, void *, void *, void *);
+extern void dungeonBeginPushedActorMove(void *, void *, void *, void *);
+extern s32 dungeonBeginReadyActorDirectionalAction(void *, void *, void *, s32);
+extern void dungeonAdvanceActorPendingAction(void *, void *, void *, void *);
 extern void func_800AA888(void *, void *, void *, void *);
-extern void func_80174A68(void *, void *, void *, void *);
+extern void dungeonUpdateActorActionTransition(void *, void *, void *, void *);
 
 extern u8 D_800E2428[];
 extern u8 D_800E2430[];
 extern u8 D_80171A80[];
 
 /* Advances the entity action through animation, behavior, and callback transitions. */
-void func_801743DC(void *action, void *context, void *sprite, EntityRec *entity)
+void dungeonAdvanceActorAction(void *action, void *context, void *sprite, EntityRec *entity)
 {
     s32 entity_flags;
     u16 action_value;
@@ -71,7 +71,7 @@ void func_801743DC(void *action, void *context, void *sprite, EntityRec *entity)
             return;
         }
         if (entity->unk_64 != 0) {
-            if (func_800AA6B4(action, context, sprite, 0) != 0) {
+            if (dungeonBeginReadyActorDirectionalAction(action, context, sprite, 0) != 0) {
                 return;
             }
         }
@@ -79,7 +79,7 @@ void func_801743DC(void *action, void *context, void *sprite, EntityRec *entity)
             if (global_base->flags & 0x2008) {
                 return;
             }
-            func_800AA79C(action, context, sprite, entity);
+            dungeonAdvanceActorPendingAction(action, context, sprite, entity);
             return;
         }
         if ((func_800A2C34(entity) << 16) != 0) {
@@ -87,7 +87,7 @@ void func_801743DC(void *action, void *context, void *sprite, EntityRec *entity)
         }
         entity_flags = entity->flags1C;
         if (entity_flags & 0x100) {
-            func_800AA258(action, context, sprite, entity);
+            dungeonBeginPushedActorMove(action, context, sprite, entity);
             return;
         }
         if (entity_flags & 0x80000) {
@@ -97,7 +97,7 @@ void func_801743DC(void *action, void *context, void *sprite, EntityRec *entity)
             ((S_801743DC_0 *)action)->unk_A2 = 0;
             ((S_801743DC_0 *)action)->unk_9E = 0;
             ((S_801743DC_0 *)action)->unk_92 = action_value - value_offset;
-            func_80174A68(action, context, sprite, entity);
+            dungeonUpdateActorActionTransition(action, context, sprite, entity);
             return;
         }
         if (entity->unk_6D == 0) {
@@ -106,7 +106,7 @@ void func_801743DC(void *action, void *context, void *sprite, EntityRec *entity)
         if ((func_800A2C34(entity) << 16) != 0) {
             EntityRec *owner = D_800814A8;
 
-            if ((func_8009A180(entity,
+            if ((dungeonCheckEntityRelation(entity,
                     (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
                 return;
             }
@@ -118,7 +118,7 @@ void func_801743DC(void *action, void *context, void *sprite, EntityRec *entity)
             s8 tile = ((Rec_D_80082E80 *)sprite)->unk_26.as_s8;
 
             if (((tile == origin->unk_026) && (tile >= 0)) ||
-                ((s16)func_8009FD40(origin, sprite) < 2)) {
+                ((s16)dungeonGetTileChebyshevDistance(origin, sprite) < 2)) {
                 if (!(func_800A6D30() & 7)) {
                     func_80042B68(entity, 1);
                 }

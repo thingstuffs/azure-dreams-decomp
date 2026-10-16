@@ -7,12 +7,12 @@ typedef void (*TownCall3)(void *, void *, s32);
 typedef void (*TownCall1)(s32);
 
 
-extern void func_800193F4(s8 *buffer, s32 length);
+extern void townClearBytes(s8 *buffer, s32 length);
 extern u8 D_80016034[16];
 extern u8 D_8001605C[];
 
 /* Returns the first unused shop slot address, asserting on duplicate entries or a full slot table. */
-s32 func_80018F20(s32 *slot_list)
+s32 townFindUnusedShopSlot(s32 *slot_list)
 {
     u8 used_slots[0x100];
     s32 *slot_cursor;
@@ -30,7 +30,7 @@ s32 func_80018F20(s32 *slot_list)
     initial_root = D_80016000;
     loaded_base = initial_root->unk_38;
     slot_base = (s32)loaded_base->slots;
-    func_800193F4(used_slots, 0x14);
+    townClearBytes(used_slots, 0x14);
     if (*slot_cursor != 0) {
         u8 *page;
         u8 *message;

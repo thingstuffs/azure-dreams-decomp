@@ -5,7 +5,7 @@
 #define M2C_BREAK() ((void)0)
 #define M2C_SYNC() ((void)0)
 
-void func_800B3B18(u8 *channels);                    /* extern */
+void townMoveColorChannelsTowardNeutral(u8 *channels);                    /* extern */
 
 typedef struct S_800B3C74_0 {
     u8 pad_00[0xC];
@@ -44,7 +44,7 @@ void func_800B3C74(void *state) {
             entry = (s32 *)(slot_offset + (s32)table);
             resource_addr = *entry;
             count_cursor += 4;
-            func_800B3B18(((S_800B3C74_2 *)((s32 *)resource_addr))->unk_04);
+            townMoveColorChannelsTowardNeutral(((S_800B3C74_2 *)((s32 *)resource_addr))->unk_04);
         } else {
             countdown--;
             ((S_800B3C74_0 *)count_cursor)->unk_0C = countdown;

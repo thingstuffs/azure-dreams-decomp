@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1930844.h"
 
-void func_800253F4(ovl_1930844_81911BF4_Obj81911BF4 *effect, s32 *position)
+void dungeonUpdateTheFiveOrbitingPointsAdvanceEffectAnimation(ovl_1930844_81911BF4_Obj81911BF4 *effect, s32 *position)
 {
     s32 point_index;
     s32 brightness;
@@ -26,7 +26,7 @@ void func_800253F4(ovl_1930844_81911BF4_Obj81911BF4 *effect, s32 *position)
 
     switch (state) {
     case 0:
-        func_8002429C(effect, position, effect->timer, effect->duration);
+        dungeonBuildAndDepthSortsFiveRadialLineSegmentsEffect(effect, position, effect->timer, effect->duration);
         if (effect->timer < effect->duration) {
             return;
         }
@@ -36,7 +36,7 @@ void func_800253F4(ovl_1930844_81911BF4_Obj81911BF4 *effect, s32 *position)
         return;
 
     case 1:
-        func_800246C0(effect, position, effect->timer, effect->duration);
+        dungeonBuildAndEnqueueFiveTranslucentQuadsBetweenInterpolatedPoints(effect, position, effect->timer, effect->duration);
         if (effect->timer < effect->duration) {
             return;
         }
@@ -46,8 +46,8 @@ void func_800253F4(ovl_1930844_81911BF4_Obj81911BF4 *effect, s32 *position)
         return;
 
     case 2:
-        func_800246C0(effect, position, 0, 0);
-        func_80024ACC(effect, position, effect->timer, effect->duration);
+        dungeonBuildAndEnqueueFiveTranslucentQuadsBetweenInterpolatedPoints(effect, position, 0, 0);
+        dungeonBuildAndQueueInterpolatedVerticalQuadsAroundFivePerimeterPoints(effect, position, effect->timer, effect->duration);
         if (effect->timer < effect->duration) {
             return;
         }
@@ -63,8 +63,8 @@ void func_800253F4(ovl_1930844_81911BF4_Obj81911BF4 *effect, s32 *position)
         signed_angle = effect->angle;
         effect->field10 += 0x10;
         effect->angle = signed_angle % 0x1000;
-        func_800246C0(effect, position, 0, 0);
-        func_80024ACC(effect, position, 0, 0);
+        dungeonBuildAndEnqueueFiveTranslucentQuadsBetweenInterpolatedPoints(effect, position, 0, 0);
+        dungeonBuildAndQueueInterpolatedVerticalQuadsAroundFivePerimeterPoints(effect, position, 0, 0);
         if (effect->timer < effect->duration) {
             return;
         }
@@ -90,12 +90,12 @@ void func_800253F4(ovl_1930844_81911BF4_Obj81911BF4 *effect, s32 *position)
             angle_dividend += 0xFFF;
         }
         effect->angle = signed_angle - ((angle_dividend >> 12) << 12);
-        func_800246C0(effect, position, 0, 0);
-        func_80024ACC(effect, position, 0, 0);
+        dungeonBuildAndEnqueueFiveTranslucentQuadsBetweenInterpolatedPoints(effect, position, 0, 0);
+        dungeonBuildAndQueueInterpolatedVerticalQuadsAroundFivePerimeterPoints(effect, position, 0, 0);
         if (effect->timer < effect->duration) {
             return;
         }
-        func_8002539C(effect);
+        dungeonCreateObjectHex212InitializeDataPointerMode(effect);
         effect->timer = 0;
         effect->duration = 0x20;
         effect->state++;
@@ -120,7 +120,7 @@ void func_800253F4(ovl_1930844_81911BF4_Obj81911BF4 *effect, s32 *position)
             angle_dividend += 0xFFF;
         }
         effect->angle = signed_angle - ((angle_dividend >> 12) << 12);
-        func_800246C0(effect, position, 0, 0);
+        dungeonBuildAndEnqueueFiveTranslucentQuadsBetweenInterpolatedPoints(effect, position, 0, 0);
         effect->scale = (u16)effect->scale * 2;
 
         for (point_index = 0; point_index < 5; point_index++) {
@@ -128,7 +128,7 @@ void func_800253F4(ovl_1930844_81911BF4_Obj81911BF4 *effect, s32 *position)
             effect->y[point_index] = position[1] + (((func_80064584(point_index * 0x333 + effect->angle) >> 4) * effect->scale) << 9);
         }
 
-        func_80024ACC(effect, position, 0, 0);
+        dungeonBuildAndQueueInterpolatedVerticalQuadsAroundFivePerimeterPoints(effect, position, 0, 0);
         effect->scale = ((s32)(u16)effect->scale << 16) >> 17;
         if (effect->timer < effect->duration) {
             return;

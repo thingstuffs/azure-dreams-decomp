@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_be1084.h"
 
-void func_80170F2C(void *parent_arg, register s16 effect_param_arg, register s32 state_value_arg,
+void dungeonSpawnParentOffsetRandomMotionEffect(void *parent_arg, register s16 effect_param_arg, register s32 state_value_arg,
     register s32 unused_arg, register s32 offset_x_arg, register s32 offset_y_arg, register s32 offset_z_arg) {
     register void *parent = parent_arg;
     register s16 effect_param = effect_param_arg;

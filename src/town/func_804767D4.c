@@ -7,7 +7,7 @@ extern s32 func_800198D0(s32 condition_id);
 extern s32 func_80019A8C(void);
 
 // Resets D_80019BB0[0] and returns whether the paired-ID check or threshold check succeeds.
-s32 func_800177D4(void) {
+s32 townGetCurrentStateResult(void) {
     D_80019BB0[0] = 0;
 
     if ((func_800198D0(0x145B) != 0) &&

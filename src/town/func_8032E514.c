@@ -9,14 +9,14 @@ typedef void (*TownCall1)(s32);
 typedef struct S_80018D14_0 {
     u8 pad_00[0x6000];
     u8 * unk_6000;
-} S_80018D14_0;   /* page in func_80018D14 */
+} S_80018D14_0;   /* page in townClearShopObjectAndLink */
 
 
 extern u8 D_80016034[16];
 extern u8 D_8001605C[];
 
 /* Clear a shop object and its linked state after asserting that the reference matches. */
-void func_80018D14(u8 *object_ref)
+void townClearShopObjectAndLink(u8 *object_ref)
 {
     void **global_page;
     Rec_D_80016000 *context;

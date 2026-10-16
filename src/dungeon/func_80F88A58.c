@@ -4,17 +4,17 @@
 
 s32 func_800A2BDC();
 void func_800A9A0C();
-s32 func_800ADDA0();
+s32 dungeonRelinkEntityAndClearHighFlag();
 /* Update entity state and flags according to the state query result. */
 s32 func_80172258(EntityRec *actor, void *primary_context, void *secondary_context, s32 force_move) {
     s16 state_type;
     s32 result;
     EntityRec *entity = actor;   /* the copy is load-bearing: it changes the callee-save order */
 
-    state_type = (s16)func_800ADDA0(primary_context, secondary_context, entity, 3, 6, entity->pad_9C);
+    state_type = (s16)dungeonRelinkEntityAndClearHighFlag(primary_context, secondary_context, entity, 3, 6, entity->pad_9C);
     if (state_type < 0) return 0;
     if ((force_move << 0x10) != 0) {
-        func_8017182C(entity, primary_context, secondary_context, entity);
+        dungeonSelectBankActorMovement(entity, primary_context, secondary_context, entity);
         result = 0;
         return result;
     }
@@ -25,7 +25,7 @@ s32 func_80172258(EntityRec *actor, void *primary_context, void *secondary_conte
         result = 0;
         return result;
     case 2:
-        func_8017182C(entity, primary_context, secondary_context, entity);
+        dungeonSelectBankActorMovement(entity, primary_context, secondary_context, entity);
         result = 0;
         return result;
     case 1:

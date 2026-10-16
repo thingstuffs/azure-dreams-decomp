@@ -23,6 +23,6 @@ extern s16 D_80080B00[4];
  * (num_blocks & 0xFFFF) into a2 early and LICM-hoists tile<<6 into s3. */
 /* Upload image blocks to VRAM at offsets selected by the tile and block indices. */
 
-void func_8004713C(s32 image_addr, s32 tile_id, s32 num_blocks);
+void runtimeUploadImageBlocksVRAMOffsetsSelectedTileBlockIndices(s32 image_addr, s32 tile_id, s32 num_blocks);
 
 #endif

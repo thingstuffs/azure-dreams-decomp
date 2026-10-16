@@ -2,7 +2,7 @@
 
 extern s16 D_80100D80;
 extern s16 D_80100D82;
-extern void func_8009539C(void *arg);
+extern void townAddMotionDeltasToPosition(void *arg);
 
 typedef struct {
     s32 unk0[3];
@@ -11,8 +11,8 @@ typedef struct {
 } Object;
 
 /* Applies the global offsets scaled by 64 to the object and updates it. */
-void func_800AADB0(void *unused_first, void *unused_second, Object *object) {
+void townApplyPersonGlobalOffsets(void *unused_first, void *unused_second, Object *object) {
     object->x += D_80100D80 << 6;
     object->y += D_80100D82 << 6;
-    func_8009539C(object);
+    townAddMotionDeltasToPosition(object);
 }

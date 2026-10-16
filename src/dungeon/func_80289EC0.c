@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void func_8001CEC0(floor_generate_isolated_80289EC0_Rect *rect, s32 rng_input_1)
+void dungeonAdjustRandomParityTileHeights(floor_generate_isolated_80289EC0_Rect *rect, s32 rng_input_1)
 {
     MapGrid *dungeon = &gameWork.map;
     s32 parity;

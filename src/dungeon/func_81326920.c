@@ -6,6 +6,6 @@
 extern EntityRec *D_80174704;
 
 /* Return whether the current record's unk_D2 field is zero. */
-s32 func_8016E120(void) {
+s32 dungeonIsActiveEncounterReady(void) {
     return D_80174704->unk_D2 == 0;
 }

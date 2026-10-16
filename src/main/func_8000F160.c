@@ -4,7 +4,7 @@
 
 
 /* Counts nonzero entries across five records. */
-s32 func_80022160(void) {
+s32 cardBootCountCachedSlots(void) {
     s32 i;
     s32 active_count;
 

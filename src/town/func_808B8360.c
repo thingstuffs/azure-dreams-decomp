@@ -5,7 +5,7 @@ extern s32 D_000045F8[];
 extern s32 D_00004148[];
 
 /* Call func_80003BCC and return the base value plus its adjustment. */
-s32 func_808B8360(void) {
+s32 townCallAdjustmentAndAddBase(void) {
     s32 base_value;
     s32 adjustment;
     s32 result;

@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource08_slot0.h"
 
-void func_80174648(void *effect_state, EntityRec *position, Rec_D_80082E80 *entity, void *actor)
+void dungeonAdvanceEffectAndChildAnimation(void *effect_state, EntityRec *position, Rec_D_80082E80 *entity, void *actor)
 {
     u8 state;
     s32 effect_id;
@@ -38,12 +38,12 @@ void func_80174648(void *effect_state, EntityRec *position, Rec_D_80082E80 *enti
             return;
         }
         func_80041588((u8 *)((void * *)D_80174CFC) - 8, (u8 *)((void * *)D_80174D1C) - 4, 1);
-        func_8003F540(0, ((s32 *)D_8006CD58)[0], 0x04000AD4, 0x05000CC4);
+        soundSetCdCueParameters(0, ((s32 *)D_8006CD58)[0], 0x04000AD4, 0x05000CC4);
         effect_id = func_800445E0();
         Control_CD(0x15, effect_id, 0);
         ((u8 *)D_80174D19)[0] = 0;
         Control_CD(0xFF, ((s32 *)D_8003E140), ((u8 *)D_80174D19));
-        func_800C77D0((u8 *)actor - 0x20, position, 8, 0x300);
+        dungeonSelectNearbyTargetAndInitializeSlot((u8 *)actor - 0x20, position, 8, 0x300);
         ((R08_80174648_S_80174648_0 *)effect_state)->unk_96.s = 0x10;
         ((R08_80174648_S_80174648_0 *)effect_state)->unk_9B++;
 
@@ -65,7 +65,7 @@ void func_80174648(void *effect_state, EntityRec *position, Rec_D_80082E80 *enti
                 }
                 return;
             }
-            target_color = ((void * *)D_800DCEEC)[func_800498A0(actor)];
+            target_color = ((void * *)D_800DCEEC)[lookupMaskedByteTable(actor)];
             effect_work->unk_A8 += (((R08_80174648_S_80174648_3 *)target_color)->unk_00
                 - effect_work->unk_A8) / ((R08_80174648_S_80174648_0 *)effect_state)->unk_96.s;
             effect_work->unk_A9 += (((R08_80174648_S_80174648_3 *)target_color)->unk_01
@@ -86,7 +86,7 @@ void func_80174648(void *effect_state, EntityRec *position, Rec_D_80082E80 *enti
                 return;
             }
             effect_work->unk_10.p = ((u8 *)func_8017451C);
-            func_8004491C(effect_work, ((u8 *)func_801740F4));
+            func_8004491C(effect_work, ((u8 *)dungeonStartBankActorHitReaction));
             color = 0x00808080;
             ((R08_80174648_S_80174648_0 *)effect_state)->unk_AC = effect_work;
             ((R08_80174648_S_80174648_9 *)(effect_work->unk_08))->unk_00 = position->x.v;
@@ -97,7 +97,7 @@ void func_80174648(void *effect_state, EntityRec *position, Rec_D_80082E80 *enti
             effect_work->unk_1E = 0x1000;
             effect_work->unk_1C = 0x1000;
             effect_work->unk_0C.i = color;
-            variant = func_800498A0(actor) - 1;
+            variant = lookupMaskedByteTable(actor) - 1;
             if (variant < 0) {
                 variant = func_80069EF8() % 3;
             }
@@ -105,7 +105,7 @@ void func_80174648(void *effect_state, EntityRec *position, Rec_D_80082E80 *enti
             entity->unk_14.at00_u16.v |= 0x80;
             ((R08_80174648_S_80174648_0 *)effect_state)->unk_96.s = 0;
             ((R08_80174648_S_80174648_0 *)effect_state)->unk_9B++;
-            func_801743BC(effect_state, position, entity);
+            dungeonCreatePositionedSpriteEffect(effect_state, position, entity);
             return;
         }
 
@@ -116,7 +116,7 @@ void func_80174648(void *effect_state, EntityRec *position, Rec_D_80082E80 *enti
             if (effect_work->unk_14 & 0xE000) {
                 ((R08_80174648_S_80174648_0 *)effect_state)->unk_96.s = 0x10;
                 ((R08_80174648_S_80174648_0 *)effect_state)->unk_9B++;
-                func_800A18E8(((R08_80174648_S_80174648_1 *)actor)->unk_13, 3);
+                dungeonDecrementMonsterEntryCount(((R08_80174648_S_80174648_1 *)actor)->unk_13, 3);
                 func_8009A3D0(entity->unk_24, entity->unk_25, 0x300);
                 func_8009A028(actor);
                 effect_work = (u8 *)actor - 0x20;
@@ -129,12 +129,12 @@ void func_80174648(void *effect_state, EntityRec *position, Rec_D_80082E80 *enti
         }
 
         {
-            if (func_800ADC4C(position, ((void * *)D_80174D1C)[0], ((s16 *)D_80174D14)[0], ((s32 *)D_800DCF5C)) == 0) {
+            if (dungeonCreateStatusLinkedRenderEffect(position, ((void * *)D_80174D1C)[0], ((s16 *)D_80174D14)[0], ((s32 *)D_800DCF5C)) == 0) {
                 return;
             }
             ((R08_80174648_S_80174648_0 *)effect_state)->unk_96.s = 0x10;
             ((R08_80174648_S_80174648_0 *)effect_state)->unk_9B++;
-            func_800A18E8(((R08_80174648_S_80174648_1 *)actor)->unk_13, 3);
+            dungeonDecrementMonsterEntryCount(((R08_80174648_S_80174648_1 *)actor)->unk_13, 3);
             func_8009A3D0(entity->unk_24, entity->unk_25, 0x300);
             func_8009A028(actor);
             effect_work = (u8 *)actor - 0x20;
@@ -148,7 +148,7 @@ void func_80174648(void *effect_state, EntityRec *position, Rec_D_80082E80 *enti
             R08_80174648_S_80174648_7 *child_sprite;
             s32 direction;
 
-            if ((((R08_80174648_S_80174648_1 *)actor)->unk_60.p = func_800A504C(entity, actor)) == 0) {
+            if ((((R08_80174648_S_80174648_1 *)actor)->unk_60.p = dungeonAdvanceStagedEntityLoad(entity, actor)) == 0) {
                 return;
             }
             ((R08_80174648_S_80174648_0 *)effect_state)->unk_96.s = 0x10;
@@ -159,7 +159,7 @@ void func_80174648(void *effect_state, EntityRec *position, Rec_D_80082E80 *enti
             child_or_angle = ((R08_80174648_S_80174648_6 *)((void *)child_or_angle))->unk_2A;
             direction = (gameWork.view.viewAngle + child_or_angle + 0x100) >> 9;
             direction &= 7;
-            func_80047738(child_sprite, ((R08_80174648_S_80174648_11 *)(child_sprite->unk_2C + direction))->unk_00,
+            selectIndirectTableEntry(child_sprite, ((R08_80174648_S_80174648_11 *)(child_sprite->unk_2C + direction))->unk_00,
                 child_sprite->unk_04);
             child_sprite->unk_14 &= 0xFFFE;
         }

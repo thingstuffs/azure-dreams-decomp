@@ -3,8 +3,8 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 M2C_UNK func_800941D8();    /* extern */
-void func_80094984();  /* extern */
-void func_80095C80();                     /* extern */
+void townCallTheHandlerSelectsNonzeroEntry();  /* extern */
+void townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile();                     /* extern */
 extern M2C_UNK D_800D00E0;
 
 
@@ -12,9 +12,9 @@ extern M2C_UNK D_800D00E0;
 void func_80091CE0(Rec_func_80094268_arg0 *state, s32 update_ctx, s32 handler_ctx) {
     s16 countdown;
 
-    func_80095C80(update_ctx);
+    townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(update_ctx);
     if (state->unk_0A.as_s16 == 0) {
-        func_80094984(&D_800D00E0, state, handler_ctx);
+        townCallTheHandlerSelectsNonzeroEntry(&D_800D00E0, state, handler_ctx);
     }
     countdown = (u16) state->unk_0A.as_s16 - 1;
     state->unk_0A.as_s16 = countdown;

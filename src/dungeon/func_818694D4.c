@@ -40,7 +40,7 @@ void func_80024CD4(ovl_188898c_818694D4_Controller *input_ctrl, ovl_188898c_8186
 
     case 1:
         root_prefix = (ovl_188898c_818694D4_RootPrefix *)(root - 0x20);
-        if (func_8003DE58(root_prefix->lookup->key, root_prefix->lookup, offsets, 0) == 0) {
+        if (resolveRecordOrientationOrFallback(root_prefix->lookup->key, root_prefix->lookup, offsets, 0) == 0) {
             if (!(root_prefix->lookup->flags & 0x8000)) {
                 break;
             }
@@ -103,7 +103,7 @@ void func_80024CD4(ovl_188898c_818694D4_Controller *input_ctrl, ovl_188898c_8186
         end_y = cell_y;
 
         do {
-            if ((s16)func_800A44E0(((s16)cell_x << 6) & 0xFFC0,
+            if ((s16)dungeonCheckLayerOffsetHeight(((s16)cell_x << 6) & 0xFFC0,
                 ((s16)cell_y << 6) & 0xFFC0,
                 *(s16 *)(root + 0x88),
                 (s16)(input_ctrl->angle << 9)) != 0) {
@@ -173,13 +173,13 @@ void func_80024CD4(ovl_188898c_818694D4_Controller *input_ctrl, ovl_188898c_8186
         input_motion->x.val += input_motion->dx.val;
         input_motion->y.val += input_motion->dy.val;
         input_motion->z.val += input_motion->dz.val;
-        func_800248C8(input_ctrl, render_data);
+        interpolateShadeAndQueueLine(input_ctrl, render_data);
         if (input_ctrl->timer < 15) {
             break;
         }
         input_ctrl->timer = 0;
         input_ctrl->state++;
-        func_800247DC(input_ctrl, input_motion);
+        dungeonDelayAndFadeParticle(input_ctrl, input_motion);
         func_800A56E0(0x300);
         break;
 
@@ -190,7 +190,7 @@ void func_80024CD4(ovl_188898c_818694D4_Controller *input_ctrl, ovl_188898c_8186
         input_ctrl->timer = 0;
         input_ctrl->ready = 0;
         input_ctrl->state++;
-        func_80024684(input_ctrl, input_motion);
+        createCoordinateSpriteObject(input_ctrl, input_motion);
         break;
 
     case 4:

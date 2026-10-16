@@ -431,3 +431,18 @@ def rewrite_funcaddr(text, obj):
     m = re.search(r'^#include "common.h"[^\n]*\n', text, re.M)
     pos = m.end() if m else 0
     return text[:pos] + inc + text[pos:], "D_X -> " + fn
+
+# ------------------------------------------------------------------ T0: file-local view unification
+
+def fold_types(text, catalog, row_id, choices=None):
+    """Fold equal-size local views into shared/record types; return text, folds, holds.
+
+    `catalog` is typefold.Catalog(root); constructing it once amortises header and
+    provenance parsing across a module. No filesystem mutation occurs here.
+    """
+    return catalog.fold(text, row_id, choices)
+
+
+if __name__ == '__main__':
+    from typefold_cli import main
+    main()

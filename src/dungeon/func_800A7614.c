@@ -13,7 +13,7 @@ extern s32 D_800C6AEC;
 
 
 /* Resets object state, runs object setup, and updates property and status flags. */
-void func_800ACD74(void *object_state, void *unused_context, Rec_D_80082E80 *properties, EntityRec *status) {
+void dungeonInitializeActorObjectAction(void *object_state, void *unused_context, Rec_D_80082E80 *properties, EntityRec *status) {
     void *object;
 
     ((Rec_func_800A9E70_arg0 *)object_state)->unk_9A.as_s8 = 0x13;

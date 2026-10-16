@@ -12,34 +12,34 @@ typedef struct S_8016EE8C_0 {
     s8 unk_AB;
     u8 pad_AC[0x3];
     s8 unk_AF;
-} S_8016EE8C_0;   /* temp_a3 in func_8016EE8C */
+} S_8016EE8C_0;   /* temp_a3 in dungeonBeginMultiFormRingScript */
 
 typedef struct S_8016EE8C_1 {
     u8 pad_00[0x296C];
     s32 unk_296C;
-} S_8016EE8C_1;   /* page_800e in func_8016EE8C */
+} S_8016EE8C_1;   /* page_800e in dungeonBeginMultiFormRingScript */
 
 typedef struct S_8016EE8C_2 {
     u8 pad_00[0x3714];
     u16 unk_3714;
     u8 pad_3716[0x6];
     s32 unk_371C;
-} S_8016EE8C_2;   /* page_8001 in func_8016EE8C */
+} S_8016EE8C_2;   /* page_8001 in dungeonBeginMultiFormRingScript */
 
 
 typedef struct S_8016EE8C_4 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_8016EE8C_4;   /* temp_v1 in func_8016EE8C */
+} S_8016EE8C_4;   /* temp_v1 in dungeonBeginMultiFormRingScript */
 
 typedef struct S_8016EE8C_5 {
     u8 pad_00[0xAC];
     s32 unk_AC;
-} S_8016EE8C_5;   /* (temp_s0 + ((Rec_D_800E3D7C *)(&D_800E3D7C))->unk_00.at00_s32.v) in func_8016EE8C */
+} S_8016EE8C_5;   /* (temp_s0 + ((Rec_D_800E3D7C *)(&D_800E3D7C))->unk_00.at00_s32.v) in dungeonBeginMultiFormRingScript */
 
 
 void func_8009A028();                         /* extern */
-void func_8016E998();                   /* extern */
+void dungeonCreateMultiFormSegmentRing();                   /* extern */
 extern s32 D_80173C94;
 extern s32 D_80173D5C;
 extern s32 D_80175D50;
@@ -47,7 +47,7 @@ extern s32 D_80175DC4;
 extern s16 D_80175DC8;
 
 /* Reset shared state and update the two occupied object slots. */
-void func_8016EE8C(void) {
+void dungeonBeginMultiFormRingScript(void) {
     s32 object_data;
     s32 slot_offset;
     s32 slot_index;
@@ -82,7 +82,7 @@ void func_8016EE8C(void) {
         }
         slot_index += 1;
     } while (slot_index < 2);
-    func_8016E998(&D_80083780.x.v);
+    dungeonCreateMultiFormSegmentRing(&D_80083780.x.v);
 }
 
 /* MECHANISM: A 40-byte frame falls out naturally from s0-s3: s2 holds the

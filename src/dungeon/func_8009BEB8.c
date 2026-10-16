@@ -1,6 +1,6 @@
 #include "common.h"
 #define F(p,t,o) (*(t *)((u8 *)(p) + (o)))
-extern void func_80048224(s16);
+extern void retainSpriteResourceInCache(s16);
 extern u8 D_800E3DA0[];
 extern u8 D_800E3DB0[];
 extern u8 D_800E3DE0[];
@@ -109,6 +109,6 @@ scan:
         } while (slot_index < 6);
     }
     if (candidate)
-        func_80048224((s16)slot_id);
+        retainSpriteResourceInCache((s16)slot_id);
     return candidate;
 }

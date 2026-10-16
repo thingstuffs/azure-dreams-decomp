@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_18b8824.h"
 
-void *func_80024264(s32 object_tag, Rec_func_80024264_arg1 *initial_state)
+void *createRandomizedGrayscaleEffect(s32 object_tag, Rec_func_80024264_arg1 *initial_state)
 {
     ovl_18b8824_81898A64_S_80024264_2 *state;
     ovl_18b8824_81898A64_S_80024264_1 *appearance;
@@ -8,7 +8,7 @@ void *func_80024264(s32 object_tag, Rec_func_80024264_arg1 *initial_state)
 
     object = func_8003FC64(0x212);
     if (object != NULL) {
-        object->unk_10 = (void *)func_800241D8;
+        object->unk_10 = (void *)dungeonHandleIncrementEntryCountersProcessTargetPropagateStatusFlags;
         appearance = object->unk_0C;
         object->unk_20 = object_tag;
         object->unk_24 = 0;

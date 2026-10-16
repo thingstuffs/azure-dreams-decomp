@@ -35,11 +35,11 @@ extern s32 D_80073740[64];
 extern S_8005BAB0_85458 D_80085458[64];
 extern s32 D_80085F98[4]; /* forced hi/lo access via size > 8 */
 
-extern s32 func_80056D44(s32 a0, S_8005BAB0_85458 *a1);
+extern s32 soundApplyIndexedVoiceEnvelope(s32 a0, S_8005BAB0_85458 *a1);
 extern void func_8005E97C(s32 a0, s32 a1);
 
 /* Clears matching active indirect-channel slots, redispatches each twice, and applies their combined flags. */
-void func_8005BAB0(s32 packed_key, s32 packed_channel)
+void audioStopMatchingEffectVoices(s32 packed_key, s32 packed_channel)
 {
     S_8005BAB0_85458 *slot;
     s32 *slot_flags;
@@ -59,9 +59,9 @@ loop:
             combined_flags |= *slot_flags;
             slot->f1a = 0;
             slot->f0a = 0;
-            func_80056D44(slot_index, slot);
+            soundApplyIndexedVoiceEnvelope(slot_index, slot);
             func_8005E97C(0, *slot_flags);
-            func_80056D44(slot_index, slot);
+            soundApplyIndexedVoiceEnvelope(slot_index, slot);
             func_8005E97C(0, *slot_flags);
             combined_flags |= *slot_flags;
         }

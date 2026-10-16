@@ -6,12 +6,12 @@
 typedef struct S_80166204_3 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_80166204_3;   /* temp_v0 in func_80166204 */
+} S_80166204_3;   /* temp_v0 in dungeonCreateShortLivedRedSpark */
 
 typedef struct S_80166204_4 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_80166204_4;   /* arg0 in func_80166204 */
+} S_80166204_4;   /* arg0 in dungeonCreateShortLivedRedSpark */
 
 typedef struct S_80166204_5 {
     u8 pad_00[0x2];
@@ -23,7 +23,7 @@ typedef struct S_80166204_5 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80166204_5;   /* ((S_80166204_3 *)temp_v0)->unk_08 in func_80166204 */
+} S_80166204_5;   /* ((S_80166204_3 *)temp_v0)->unk_08 in dungeonCreateShortLivedRedSpark */
 
 typedef struct S_80166204_6 {
     u8 pad_00[0x2];
@@ -32,14 +32,14 @@ typedef struct S_80166204_6 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80166204_6;   /* ((S_80166204_4 *)arg0)->unk_08 in func_80166204 */
+} S_80166204_6;   /* ((S_80166204_4 *)arg0)->unk_08 in dungeonCreateShortLivedRedSpark */
 
 
 typedef struct S_80166204_0 {
     u8 pad_00[0xC];
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_80166204_0;   /* temp_v0 in func_80166204 */
+} S_80166204_0;   /* temp_v0 in dungeonCreateShortLivedRedSpark */
 
 typedef struct S_80166204_1 {
     u8 pad_00[0x14];
@@ -51,7 +51,7 @@ typedef struct S_80166204_1 {
     u16 unk_42;
     u16 unk_44;
     u16 unk_46;
-} S_80166204_1;   /* temp_s0 in func_80166204 */
+} S_80166204_1;   /* temp_s0 in dungeonCreateShortLivedRedSpark */
 
 typedef struct S_80166204_2 {
     u8 pad_00[0xC];
@@ -64,7 +64,7 @@ typedef struct S_80166204_2 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_80166204_2;   /* temp_a0 in func_80166204 */
+} S_80166204_2;   /* temp_a0 in dungeonCreateShortLivedRedSpark */
 
 
 M2C_UNK func_8003DB94();  /* extern */
@@ -74,7 +74,7 @@ extern M2C_UNK D_800DE870;
 extern M2C_UNK D_80165A0C;
 
 /* Creates an offset effect with randomized motion and initializes its display properties. */
-void func_80166204(S_80166204_4 *source, s16 effect_value, s32 unused, s16 offset_x, s16 offset_y, s16 offset_z,
+void dungeonCreateShortLivedRedSpark(S_80166204_4 *source, s16 effect_value, s32 unused, s16 offset_x, s16 offset_y, s16 offset_z,
     s32 velocity_z) {
     s32 color_component;
     s32 sprite_flags;

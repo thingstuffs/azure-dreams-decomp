@@ -49,7 +49,7 @@ typedef struct S_800E3E48 S_800E3E48;
 extern S_800E3E48 D_800E3E48[];
 extern s32 D_800E3DF0[];
 extern void func_80042B68(void *, s32);
-extern void func_800A18E8();
+extern void dungeonDecrementMonsterEntryCount();
 extern void func_800A31D0();
 
 /* Detach a record from its slot, preserve its data, and update its count and state. */
@@ -147,7 +147,7 @@ scan_slots:
         }
     }
     if (!(((EntityRec *)record)->flags14 & 0x20000000)) {
-        func_800A18E8((*(u8 *)((u8 *)&((EntityRec *)record)->unk_10 + 3)), update_mode);
+        dungeonDecrementMonsterEntryCount((*(u8 *)((u8 *)&((EntityRec *)record)->unk_10 + 3)), update_mode);
     }
     return (s32)entry;
 }

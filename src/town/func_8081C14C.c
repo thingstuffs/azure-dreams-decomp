@@ -14,9 +14,9 @@ extern int abs(int);
 #define U32(p, o) (*(u32 *)((u8 *)(p) + (o)))
 #define PTR(p, o) (*(u8 **)((u8 *)(p) + (o)))
 
-extern void func_800252B8();
-extern void func_800267DC();
-extern void func_80026978();
+extern void townCreateTintedAnimatedParticle();
+extern void townCreateRandomizedTrailParticle();
+extern void townCreateBriefRandomizedParticle();
 extern void func_8004491C();
 extern void SD_Call();
 extern s32 rand();
@@ -59,7 +59,7 @@ void func_8002614C(void *state_data, void *position_data, void *sprite_data)
             remaining = 3;
 loop_0:
             {
-                func_800267DC(position);
+                townCreateRandomizedTrailParticle(position);
                 remaining--;
             }
             if (remaining >= 0)
@@ -69,7 +69,7 @@ loop_0:
             U16(sprite, 0x14) |= 0xC;
             remaining = 2;
             do {
-                func_80026978(position);
+                townCreateBriefRandomizedParticle(position);
                 remaining--;
             } while (remaining >= 0);
             break;
@@ -174,7 +174,7 @@ loop_0:
         do {
             x_jitter = (rand() & 0xFF) - 0x80;
             particle_x = *position + (x_jitter << 14);
-            func_800252B8(0, particle_x, position[1] + 0x80000,
+            townCreateTintedAnimatedParticle(0, particle_x, position[1] + 0x80000,
                 ((rand() % 80) << 16) + 0xFFB00000);
             remaining--;
         } while (remaining >= 0);
@@ -197,7 +197,7 @@ loop_0:
         do {
             burst_x = (((rand() & 0xFF) - 0x80) << 14) + 0x5600000;
             burst_velocity = ((rand() & 0x3F) << 16) | 0xFFC00000;
-            func_800252B8(0, burst_x, position[1] + 0x80000, burst_velocity);
+            townCreateTintedAnimatedParticle(0, burst_x, position[1] + 0x80000, burst_velocity);
             remaining--;
         } while (remaining >= 0);
 common_countdown:

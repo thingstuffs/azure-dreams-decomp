@@ -1,7 +1,7 @@
 #include "modules/town_town_windows.h"
 
 /* Sets up town state and runs initialization and list callbacks. */
-void func_8009D5C0(void **entries) {
+void townInitAndPublishScriptState(void **entries) {
     s16 mode;
     void **entry_cursor;
     u8 *state_buffer;
@@ -35,13 +35,13 @@ void func_8009D5C0(void **entries) {
         state->field40 = (void *)0x80013188;
         state->field3C = D_800D2EA4;
         TOWN_SYSTEM_SCRATCH->state = (void *)state;
-        func_80034F88(system_work, (void *)TOWN_SYSTEM_SCRATCH->payload);
+        runtimeSetRecordValueAndBuffer(system_work, (void *)TOWN_SYSTEM_SCRATCH->payload);
         *(s32 *)(system_work + 0x84) = 0;
         init_object = D_80082BC0;
         init_callback = *(func_8009FE60_InitCallback *)(init_object + 0x10);
         init_callback(init_object + 0x20, 0, 0);
         func_8008AC84(0);
-        func_8008B23C(state->field34);
+        townEnsurePackedResourceList(state->field34);
     }
     while ((entry = *entry_cursor) != 0) {
         entry_callback = *(func_8009FE60_ListCallback *)((u8 *)entry + 0x10);
@@ -49,5 +49,5 @@ void func_8009D5C0(void **entries) {
             entry_callback();
         entry_cursor++;
     }
-    func_80034F88(D_80082A38, *(void **)((u8 *)D_80082A38 + 0x88));
+    runtimeSetRecordValueAndBuffer(D_80082A38, *(void **)((u8 *)D_80082A38 + 0x88));
 }

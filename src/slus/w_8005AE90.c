@@ -19,14 +19,14 @@ extern s32 D_80085FA4[4];  /* forced hi/lo access via size > 8 */
 extern s32 D_800737A4[4];  /* forced hi/lo access via size > 8 */
 extern s32 D_80085F98[4];  /* forced hi/lo access via size > 8 */
 
-extern void func_80056A08(void);
+extern void audioResetSequenceTracksAndChannels(void);
 extern void func_800599B0(void);
 
 /* Activates an occupied slot with the requested sub-id and mode. */
-void func_8005AE90(s16 slot_index, u8 mode, s16 sub_id)
+void soundActivateLoadedSequenceSlot(s16 slot_index, u8 mode, s16 sub_id)
 {
     if (slot_index != -1) {
-        func_80056A08();
+        audioResetSequenceTracksAndChannels();
         if (D_80086C00[slot_index].field_0 != -1) {
             D_80086D50[0] = D_80086C00[slot_index].field_0;
             D_80086D48[0] = sub_id;

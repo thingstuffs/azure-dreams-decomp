@@ -11,7 +11,7 @@ typedef struct {
 extern S_80047B80 D_80083D08[6];
 
 /* Returns the first free slot index in D_80083D08, or -1 if all slots are occupied. */
-s32 func_80047B80(void)
+s32 findFreeSpriteResourceSlot(void)
 {
     s32 free_index = -1;
     s32 slot_index = 0;

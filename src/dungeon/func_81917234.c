@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1936800.h"
 
-void func_80024A34(void *object, Rec_func_80024600_arg1 *position, Rec_D_80082E80 *visual) {
+void dungeonInitializeTheSVisualStateApplyRandomSphericalPositionOffset(void *object, Rec_func_80024600_arg1 *position, Rec_D_80082E80 *visual) {
     s16 azimuth;
     s16 polar_angle;
     s32 radial_x;
@@ -60,5 +60,5 @@ void func_80024A34(void *object, Rec_func_80024600_arg1 *position, Rec_D_80082E8
     radial_y = func_800644B8(polar_angle);
     position->unk_04 = (s32) (position->unk_04 + ((radial_y >> 4) * (func_80064584(azimuth) >> 4) * 0x10));
     position->unk_08 = (s32) (position->unk_08 + ((func_80064584(polar_angle) >> 4) << 0xC));
-    func_80024600(object, position);
+    dungeonCreateAnDefaultRenderingSettingsCopiesInitialData(object, position);
 }

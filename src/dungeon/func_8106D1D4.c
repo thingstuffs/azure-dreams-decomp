@@ -8,14 +8,14 @@ extern int abs(int);
 extern s32 D_8015EF68;
 extern u8 D_80161FB8[8];
 
-extern s32 func_8003F270();
+extern s32 getCdCommandQueueDepth();
 extern void func_80047784();
-extern void *func_800A05A4();
-extern void func_800A2B04();
-extern void func_800A4ACC();
+extern void *dungeonScanMonsterAlongHeading();
+extern void dungeonSetRecordIntegerTileCenter();
+extern void dungeonAdvanceStatusTimers();
 extern void func_800A56E0();
-extern s32 func_800A94A0();
-extern void func_800DA840();
+extern s32 dungeonCreateActorSpellEffect();
+extern void dungeonCreateTwoRowObjectGroup();
 
 typedef struct ItemSlots {
     u8 pad_00[8];
@@ -44,7 +44,7 @@ typedef struct ActionState {
 typedef struct ObjectHeaderTail {
     void * sprite;
     u8 pad_04[0x10];
-} ObjectHeaderTail;   /* the 0x14 bytes before root in func_801609D4, addressed as root[-1] */
+} ObjectHeaderTail;   /* the 0x14 bytes before root in advanceActorAnimationAndResetMotion, addressed as root[-1] */
 
 typedef struct TilePosition {
     u8 pad_00[0x24];
@@ -65,7 +65,7 @@ typedef struct ActorSprite {
 } ActorSprite;
 
 /* Advance the actor animation state and reset movement when it finishes. */
-void func_801609D4(ActionState *action, EntityRec *motion, ActorSprite *sprite, EntityRec *actor)
+void advanceActorAnimationAndResetMotion(ActionState *action, EntityRec *motion, ActorSprite *sprite, EntityRec *actor)
 {
     u16 position[3];
     u8 *animation;
@@ -137,7 +137,7 @@ void func_801609D4(ActionState *action, EntityRec *motion, ActorSprite *sprite, 
                 actor->unk_72 = ((TilePosition *)target_source)->tileX;
                 actor->unk_73 = ((TilePosition *)target_source)->tileY;
             } else {
-                new_target = func_800A05A4(
+                new_target = dungeonScanMonsterAlongHeading(
                     actor, sprite->tileX, sprite->tileY,
                     actor->facing, 0x10);
                 actor->target = new_target;
@@ -149,10 +149,10 @@ void func_801609D4(ActionState *action, EntityRec *motion, ActorSprite *sprite, 
             position[0] = ((u16)motion->x.w.i);
             position[1] = ((u16)motion->y.w.i);
             position[2] = ((u16)motion->z.w.i);
-            if (func_800A94A0(actor, animation, use_player_target, &action->flags) != 0) {
+            if (dungeonCreateActorSpellEffect(actor, animation, use_player_target, &action->flags) != 0) {
                 sprite->flags &= 0xF7FF;
                 func_800A56E0(0x703);
-                func_800DA840(position, (s16)((*animation - 1) % 3));
+                dungeonCreateTwoRowObjectGroup(position, (s16)((*animation - 1) % 3));
                 action->phase++;
                 return;
             }
@@ -161,10 +161,10 @@ void func_801609D4(ActionState *action, EntityRec *motion, ActorSprite *sprite, 
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, sprite->tileX, sprite->tileY);
+        dungeonSetRecordIntegerTileCenter(motion, sprite->tileX, sprite->tileY);
         dungeonStatus.unk_0C = 0;
         ((PlayerActionCounter *)D_800814A8)->pendingActions--;
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         (*(u8 *)&actor->unk_6D)--;
         action->handler = &D_8015EF68;
         actor->unk_73 = 0;
@@ -173,7 +173,7 @@ void func_801609D4(ActionState *action, EntityRec *motion, ActorSprite *sprite, 
         return;
 
     case 1:
-        if (func_8003F270() != 0) {
+        if (getCdCommandQueueDepth() != 0) {
             sprite->flags |= 0x800;
             return;
         }
@@ -198,7 +198,7 @@ void func_801609D4(ActionState *action, EntityRec *motion, ActorSprite *sprite, 
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800A2B04(motion, sprite->tileX, sprite->tileY);
+            dungeonSetRecordIntegerTileCenter(motion, sprite->tileX, sprite->tileY);
             if (sprite->directionFrames != D_80161FB8) {
                 (*(void * *)((u8 *)sprite + (0x2C))) = D_80161FB8;
                 func_80047784(
@@ -210,7 +210,7 @@ void func_801609D4(ActionState *action, EntityRec *motion, ActorSprite *sprite, 
                 dungeonStatus.unk_0A--;
                 sprite->flags &= 0xF7FF;
                 action->handler = &D_8015EF68;
-                func_800A4ACC(actor);
+                dungeonAdvanceStatusTimers(actor);
                 if (actor->unk_6D > 0) {
                     (*(u8 *)&actor->unk_6D)--;
                 }

@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 void func_800169F8();                            /* extern */
-s32 func_80017F8C();         /* extern */
+s32 townInvokeSystemCallback21C();         /* extern */
 s32 func_80018044(); /* extern */
 s32 func_8001894C();                             /* extern */
 extern s16 D_80018AEA;
@@ -14,7 +14,7 @@ s32 func_80016A4C(s32 input, M2C_UNK unused, M2C_UNK aux_input) {
     s32 result;
 
     result = func_80018044(&D_80018B28, &D_80018E38, input, aux_input);
-    if ((func_8001894C(D_80018AEA) == 0) && (func_80017F8C(&D_80018B28, input, aux_input) == 0)) {
+    if ((func_8001894C(D_80018AEA) == 0) && (townInvokeSystemCallback21C(&D_80018B28, input, aux_input) == 0)) {
         func_800169F8();
     }
     return result;

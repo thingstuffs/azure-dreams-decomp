@@ -7,13 +7,13 @@ typedef struct {
 
 extern UA32 D_80028064;
 
-s32 func_80025E54();
-s32 func_80025ECC(void);
-void func_80025F0C(void *record, s32 index);
+s32 cardBootBuildEightEntryPresenceMask();
+s32 cardBootSumSlotLookupValues(void);
+void cardBootBuildSaveDescription(void *record, s32 index);
 void func_80025FFC(void *dest, s32 record_index);
 
 /* Copies the initial word into the buffer and initializes state for the selected mode. */
-void func_80026128(UA32 *buffer, s32 config, s32 mode) {
+void cardBootPrepareSaveBuffer(UA32 *buffer, s32 config, s32 mode) {
     u8 *state_base;
     s16 is_mode_two;
 
@@ -23,8 +23,8 @@ void func_80026128(UA32 *buffer, s32 config, s32 mode) {
     *(s16 *)(state_base + 0x208) = is_mode_two;
     *(s16 *)(state_base + 0x20A) = is_mode_two;
     *(s32 *)(state_base + 0x224) = *(u32 *)(state_base + 0x2D5C);
-    *(s32 *)(state_base + 0x230) = func_80025E54();
-    *(s32 *)(state_base + 0x228) = func_80025ECC();
-    func_80025F0C(buffer, config);
+    *(s32 *)(state_base + 0x230) = cardBootBuildEightEntryPresenceMask();
+    *(s32 *)(state_base + 0x228) = cardBootSumSlotLookupValues();
+    cardBootBuildSaveDescription(buffer, config);
     func_80025FFC(buffer, config);
 }

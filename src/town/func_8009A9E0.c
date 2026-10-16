@@ -2,9 +2,9 @@
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void func_80098988(void *, s32);                            /* extern */
+void townInitializeTargetAndHandlerTable(void *, s32);                            /* extern */
 
-/* Forward the state and value to func_80098988. */
-void func_80098140(void *state, s32 value) {
-    func_80098988(state, value);
+/* Forward the state and value to townInitializeTargetAndHandlerTable. */
+void townForwardStateValueToHandlerA(void *state, s32 value) {
+    townInitializeTargetAndHandlerTable(state, value);
 }

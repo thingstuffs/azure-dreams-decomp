@@ -23,7 +23,7 @@ typedef struct {
 } Vec3;
 
 /* Updates effect motion and color fading, flagging completion near its target or at zero brightness. */
-void func_80170C70(Effect *effect, Vec3 *position) {
+void dungeonUpdateFadingSpriteEffect(Effect *effect, Vec3 *position) {
     s16 next_scale;
 
     position->xyz[0] += effect->pos[0];

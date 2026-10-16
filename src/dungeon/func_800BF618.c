@@ -22,15 +22,15 @@ typedef struct S_800C4D78_0 {
     s32 unk_20;
     u8 pad_24[0x2];
     s16 unk_26;
-} S_800C4D78_0;   /* temp_v0 in func_800C4D78 */
+} S_800C4D78_0;   /* temp_v0 in dungeonCreateViewColorFlash */
 
 typedef struct S_800C4D78_1 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800C4D78_1;   /* counter_base in func_800C4D78 */
+} S_800C4D78_1;   /* counter_base in dungeonCreateViewColorFlash */
 
 /* Creates an object with the supplied payload, optionally triggers an event, and increments the counter. */
-void func_800C4D78(s32 payload, s16 trigger_event) {
+void dungeonCreateViewColorFlash(s32 payload, s16 trigger_event) {
     S_800C4D78_0 *object;
     s16 held_event = trigger_event;
 

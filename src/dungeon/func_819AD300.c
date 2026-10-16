@@ -16,7 +16,7 @@
 
 
 /* Update position, reduce movement speed, and flag completion when speed runs out. */
-void func_80024B00(MotionRecord *motion, EntityRec *position)
+void dungeonAdvanceEffectMotionAndSpeed(MotionRecord *motion, EntityRec *position)
 {
     s16 next_speed;
     u16 update_count = D_80027452[0];

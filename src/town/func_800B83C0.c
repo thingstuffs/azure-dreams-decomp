@@ -14,10 +14,10 @@ typedef struct S_800B5B20_0 {
     u8 unk_09;
     u8 unk_0A;
     u8 unk_0B;
-} S_800B5B20_0;   /* temp_s0 in func_800B5B20 */
+} S_800B5B20_0;   /* temp_s0 in townCompleteDisplayTransfer */
 
 /* Transfer pending texture and palette data, then clear the transfer state. */
-void func_800B5B20(void *texture_state) {
+void townCompleteDisplayTransfer(void *texture_state) {
     s32 table_index;
     struct { s16 x; s16 y; s16 w; s16 h; } rect;
     void *state = texture_state;

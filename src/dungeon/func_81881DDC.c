@@ -6,7 +6,7 @@
 
 
 /* Fade the effect color and set completion flags when red falls below eight. */
-void func_800255DC(u16 *effect_data, s32 unused, EffectColor *color) {
+void dungeonFadeEffectColorBelowEight(u16 *effect_data, s32 unused, EffectColor *color) {
     u8 red;
     u8 green;
     u8 blue;

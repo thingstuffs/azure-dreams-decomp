@@ -21,12 +21,13 @@ mkdir -p "$B/overlays" "$B/config" "$B/work/s3_splat" "$B/work/overlay_recon" "$
 # MAIN-only SDK twin is absent from the SLUS split.
 python3 "$ROOT/tools/build/main_sdk_asm.py" --root "$ROOT"
 rm -rf "$B/asm"; ln -sfn "$ROOT/build_slus/asm" "$B/asm"
+GATE_SRCROOT="$(python3 "$ROOT/tools/source_layout.py" --root "$ROOT" project "$B/layout_flat" --source-root "$SRCROOT")"
 for o in main town dungeon dungeon_engine ovmovie; do
   mkdir -p "$B/overlays/$o"
-  src="$SRCROOT/$o"
+  src="$GATE_SRCROOT/$o"
   # the engine window is a second proof over the dungeon rows in file 0xA0000-0x100000 at the
   # synthetic 0x80080000 base; its roster is folded into the dungeon rows, so it reads src/dungeon
-  [ "$o" = dungeon_engine ] && src="$SRCROOT/dungeon"
+  [ "$o" = dungeon_engine ] && src="$GATE_SRCROOT/dungeon"
   ln -sfn "$src" "$B/overlays/$o/first_pass_matched"
 done
 python3 "$ROOT/tools/row_db.py" export "$B" >/dev/null

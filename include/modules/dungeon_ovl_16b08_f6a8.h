@@ -18,5 +18,5 @@ typedef struct ovl_16b08_f6a8_7FFEF6A8_S_7FFEF6A8_0 {
     s32 unk_98;
 } ovl_16b08_f6a8_7FFEF6A8_S_7FFEF6A8_0;
 s32 func_80065F90();
-s32 func_8008CE08(ovl_16b08_f6a8_7FFEF6A8_S_7FFEF6A8_0 *poly);
+s32 townCheckScratchQuadHalfTurnGaps(ovl_16b08_f6a8_7FFEF6A8_S_7FFEF6A8_0 *poly);
 #endif

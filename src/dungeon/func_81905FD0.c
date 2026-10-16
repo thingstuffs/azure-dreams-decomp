@@ -310,7 +310,7 @@ update_coords:
             if (upper_effect != 0) {
                 child_data = (S_func_81905FD0_7 *)((u8 *)upper_effect + 0x20);
                 child_data->unk_02 = 120;
-                upper_effect->unk_10 = (void *)func_80025294;
+                upper_effect->unk_10 = (void *)dungeonTickEffectRecord;
                 func_8004491C(upper_effect, func_80045340);
                 child_render = upper_effect->unk_0C;
                 {
@@ -352,7 +352,7 @@ update_coords:
             if (lower_effect != 0) {
                 child_data = (S_func_81905FD0_7 *)((u8 *)lower_effect + 0x20);
                 child_data->unk_02 = 140;
-                lower_effect->unk_10 = (void *)func_800252E4;
+                lower_effect->unk_10 = (void *)dungeonUpdateEffectBrightnessPulse;
                 func_8004491C(lower_effect, func_80045340);
                 child_render = lower_effect->unk_0C;
                 child_render->unk_14 &= 0xFFF3;
@@ -387,7 +387,7 @@ update_coords:
             if (ring_effect != 0) {
                 child_data = (S_func_81905FD0_7 *)((u8 *)ring_effect + 0x20);
                 child_data->unk_02 = 120;
-                ring_effect->unk_10 = (void *)func_800251A0;
+                ring_effect->unk_10 = (void *)dungeonUpdateEffectAnimationSlots;
                 func_8004491C(ring_effect, func_80045340);
                 child_render = ring_effect->unk_0C;
                 {

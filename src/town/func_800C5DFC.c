@@ -1,8 +1,8 @@
 #include "common.h"
 
 
-extern s32 func_800C30E0(void *object, s32 request_data, s32 request_param, s32 check_param);
-extern s16 func_800C2B38(void *object, s32 step_x, s32 step_y);
+extern s32 townSelectObjectSetupPath(void *object, s32 request_data, s32 request_param, s32 check_param);
+extern s16 townGetClampedTransformCoordinate(void *object, s32 step_x, s32 step_y);
 extern void func_800C37C4(void *object, void *unusedArg, void *initializationArg);
 extern int abs(int);
 
@@ -27,7 +27,7 @@ typedef struct S_800C355C_0 {
     s16 unk_0A;
     s32 unk_0C;
     s32 unk_10;
-} S_800C355C_0;   /* arg1 in func_800C355C */
+} S_800C355C_0;   /* arg1 in townAdvanceBoundedMotion */
 
 typedef struct S_800C355C_1 {
     u8 pad_00[0x72];
@@ -38,10 +38,10 @@ typedef struct S_800C355C_1 {
     u8 pad_88[0x4];
     union { s16 s; u16 u; } unk_8C;   /* accessed as both */
     union { s16 s; u16 u; } unk_8E;   /* accessed as both */
-} S_800C355C_1;   /* arg0 in func_800C355C */
+} S_800C355C_1;   /* arg0 in townAdvanceBoundedMotion */
 
 /* Advance motion, clamp at the facing boundary, and update directional speed. */
-void func_800C355C(S_800C355C_1 *entity, void *motion, void *context, s32 check_param)
+void townAdvanceBoundedMotion(S_800C355C_1 *entity, void *motion, void *context, s32 check_param)
 {
     s32 pos_x;
     s32 step_y;
@@ -51,7 +51,7 @@ void func_800C355C(S_800C355C_1 *entity, void *motion, void *context, s32 check_
     s32 max_speed;
     s32 *motion_words;
 
-    if (func_800C30E0(entity, (s32)motion, (s32)context, check_param) != 0) {
+    if (townSelectObjectSetupPath(entity, (s32)motion, (s32)context, check_param) != 0) {
         return;
     }
 
@@ -64,7 +64,7 @@ void func_800C355C(S_800C355C_1 *entity, void *motion, void *context, s32 check_
     speed += step_y;
     ((S_800C355C_0 *)motion)->unk_00.at00.v = pos_x;
     ((S_800C355C_0 *)motion)->unk_04.at00.v = speed;
-    ((S_800C355C_0 *)motion)->unk_0A = func_800C2B38(motion, max_speed, step_y);
+    ((S_800C355C_0 *)motion)->unk_0A = townGetClampedTransformCoordinate(motion, max_speed, step_y);
 
     angle = 0x400 - entity->unk_72;
     quadrant = (angle / 0x400) & 3;

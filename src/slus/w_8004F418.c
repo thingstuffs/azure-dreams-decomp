@@ -16,28 +16,28 @@ extern S_8004F418_Node D_80084138;
 extern u8 D_801C9E40[0x10900];
 extern u8 D_80027DD0[16];
 
-extern void *func_8004B4A8(void *);
-extern void func_8004F52C(void *);
-extern void *func_8003FE78(s32, void *, s32);
+extern void *findActiveListNode(void *);
+extern void slusSetObjectCleanupFlag(void *);
+extern void *initializeSceneObjectInBuffer(s32, void *, s32);
 extern void func_8004491C(void *, void *);
-extern void func_8004F330(void *, s32);
+extern void initializeMenuBackdropDisplayNodes(void *, s32);
 extern void bzero(void *, s32);
-extern void *func_8004F308(void *);
-extern void func_8004F3D8(void *, s32);
-extern void func_8004EEBC(S_8004EEBC_Obj *);
+extern void *linkMenuBackdropDisplayNodes(void *);
+extern void initializeMenuBackdropLayout(void *, s32);
+extern void updateMenuBackdropVariant(S_8004EEBC_Obj *);
 
 /* Initialize or reset the shared node, link its owner and state, and select its active sub-object. */
-void *func_8004F418(s32 owner, s32 state)
+void *createOrResetSevenEntryMenuBackdrop(s32 owner, s32 state)
 {
     S_8004F418_Node *node = &D_80084138;
     u8 *body = node->body;
     u8 *template_node;
 
-    if (func_8004B4A8(node) == 0) {
-        node = func_8003FE78(0, node, 0xCF);
+    if (findActiveListNode(node) == 0) {
+        node = initializeSceneObjectInBuffer(0, node, 0xCF);
         func_8004491C(node, D_80027DD0);
     } else {
-        func_8004F52C(node);
+        slusSetObjectCleanupFlag(node);
         node->flags &= 0x7FFF;
         bzero(body, 0x31C);
     }
@@ -48,14 +48,14 @@ void *func_8004F418(s32 owner, s32 state)
     D_801C9E40[0x108ED] = 0;
     D_801C9E40[0x108EE] = 0;
     D_801C9E40[0x108EF] = 0;
-    func_8004F330(body, 7);
+    initializeMenuBackdropDisplayNodes(body, 7);
 
     template_node = body + 0x210;
     node->unkC = template_node;
-    *(void **)(body + 0x21C) = func_8004F308(body + 0x220);
+    *(void **)(body + 0x21C) = linkMenuBackdropDisplayNodes(body + 0x220);
     *(s32 *)(body + 4) = state;
-    func_8004F3D8(body, owner);
-    node->unk10 = func_8004EEBC;
-    func_8004EEBC((S_8004EEBC_Obj *)body);
+    initializeMenuBackdropLayout(body, owner);
+    node->unk10 = updateMenuBackdropVariant;
+    updateMenuBackdropVariant((S_8004EEBC_Obj *)body);
     return node;
 }

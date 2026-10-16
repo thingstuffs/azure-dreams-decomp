@@ -12,5 +12,5 @@ void func_80053CFC(S_80053CFC *source, s32 packed_value)
     command = (s32 *)&D_80081568;
     *command = ((((u32)*command + 0x7FF) >> 11) << 23) | low_bits;
     Control_CD(6, (void *)command, saved_value);
-    func_8003F320();
+    drainCdCommandQueue();
 }

@@ -24,7 +24,7 @@ typedef struct S_80173D78_1 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_80173D78_1;   /* arg2 in func_80173D78 */
+} S_80173D78_1;   /* arg2 in dungeonUpdateActorTargetEffectAction */
 
 typedef struct S_80173D78_2 {
     u8 pad_00[0x14];
@@ -41,22 +41,22 @@ typedef struct S_80173D78_2 {
     u8 unk_6D;
     u8 pad_6E[0x1A];
     s16 unk_88;
-} S_80173D78_2;   /* arg3 in func_80173D78 */
+} S_80173D78_2;   /* arg3 in dungeonUpdateActorTargetEffectAction */
 
 typedef struct S_80173D78_3 {
     u8 pad_00[0x13];
     u8 unk_13;
-} S_80173D78_3;   /* found in func_80173D78 */
+} S_80173D78_3;   /* found in dungeonUpdateActorTargetEffectAction */
 
 typedef struct S_80173D78_4 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_80173D78_4;   /* counter_base in func_80173D78 */
+} S_80173D78_4;   /* counter_base in dungeonUpdateActorTargetEffectAction */
 
 typedef struct S_80173D78_5 {
     u8 pad_00[0x10];
     u32 unk_10;
-} S_80173D78_5;   /* base in func_80173D78 */
+} S_80173D78_5;   /* base in dungeonUpdateActorTargetEffectAction */
 
 
 extern s32 D_800C6AEC;
@@ -70,22 +70,22 @@ void func_80044A50();
 s32 func_800990FC();
 s32 func_80099194();
 void func_80099290();
-s32 func_8009929C();
+s32 dungeonWriteTextByteAndAdvance();
 s32 func_80099734();
 void func_8009A028();
 void func_8009A21C();
 void func_8009A3D0();
-void *func_8009B25C();
+void *findEligibleActorAtTileAndHeight();
 void func_800A56E0();
 void func_800A5720();
 s16 func_800A70E4();
 void func_800A9A0C();
-void func_800BC318();
-void func_80175DD0();
+void dungeonRetireTrackedEffectById();
+void dungeonSpawnOffsetMotionObject();
 void *func_8017618C();
 
 /* Updates target selection, effect creation, and the sprite fade-out sequence. */
-void func_80173D78(void *action, void *context, S_80173D78_1 *sprite, S_80173D78_2 *actor)
+void dungeonUpdateActorTargetEffectAction(void *action, void *context, S_80173D78_1 *sprite, S_80173D78_2 *actor)
 {
     S_80173D78_3 *target;
     void *effect;
@@ -129,8 +129,8 @@ void func_80173D78(void *action, void *context, S_80173D78_1 *sprite, S_80173D78
     case 1:
         if (!(((Rec_func_80173D78_arg0 *)action)->unk_96 & 3)) {
             if (!(sprite->unk_14 & 0x8000)) {
-                func_80175DD0(action, context, sprite, 0);
-                func_80175DD0(action, context, sprite, 1);
+                dungeonSpawnOffsetMotionObject(action, context, sprite, 0);
+                dungeonSpawnOffsetMotionObject(action, context, sprite, 1);
             }
         }
         ticks_left = ((Rec_func_80173D78_arg0 *)action)->unk_96 - 1;
@@ -145,7 +145,7 @@ void func_80173D78(void *action, void *context, S_80173D78_1 *sprite, S_80173D78
         actor->unk_60.i = 0;
 
         if (((Rec_func_80173D78_arg0 *)action)->unk_AC == 0) {
-            target = func_8009B25C(actor, target_x & 0xFFFF, target_y & 0xFFFF,
+            target = findEligibleActorAtTileAndHeight(actor, target_x & 0xFFFF, target_y & 0xFFFF,
                                    actor->unk_88);
             actor->unk_60.p = target;
             if (target != 0) {
@@ -157,7 +157,7 @@ void func_80173D78(void *action, void *context, S_80173D78_1 *sprite, S_80173D78
                     func_80099290(
                         func_80099194(&D_80170898,
                             func_80099734(target,
-                                func_8009929C(0xA,
+                                dungeonWriteTextByteAndAdvance(0xA,
                                     func_80099194(&D_8017086C, random_value)))));
                     func_800A5720(saved_random);
                     func_800A56E0(0x506);
@@ -245,7 +245,7 @@ void func_80173D78(void *action, void *context, S_80173D78_1 *sprite, S_80173D78
 
         object = (s8 *)action - 0x20;
         func_80044A50(object);
-        func_800BC318(object);
+        dungeonRetireTrackedEffectById(object);
         sprite->unk_0C.at03.v = 0;
         sprite->unk_0C.at00u.v = 0x00808080;
         sprite->unk_14 |= 0x800;

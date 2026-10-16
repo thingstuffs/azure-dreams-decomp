@@ -10,7 +10,7 @@ typedef struct S_800CCDA0_0 {
     union { u16 s; s16 u; } unk_06;   /* accessed as both */
     s16 unk_08;
     s16 unk_0A;
-} S_800CCDA0_0;   /* arg0 in func_800CCDA0 */
+} S_800CCDA0_0;   /* arg0 in dungeonUpdateBouncingTrapEffect */
 
 typedef struct S_800CCDA0_1 {
     s32 unk_00;
@@ -19,12 +19,12 @@ typedef struct S_800CCDA0_1 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800CCDA0_1;   /* arg1 in func_800CCDA0 */
+} S_800CCDA0_1;   /* arg1 in dungeonUpdateBouncingTrapEffect */
 
 typedef struct S_800CCDA0_2 {
     u8 pad_00[0xC8];
     s16 unk_C8;
-} S_800CCDA0_2;   /* base in func_800CCDA0 */
+} S_800CCDA0_2;   /* base in dungeonUpdateBouncingTrapEffect */
 
 typedef struct S_800CCDA0_3 {
     u8 pad_00[0xC];
@@ -35,7 +35,7 @@ typedef struct S_800CCDA0_3 {
     u16 unk_14;
     u8 pad_16[0x4];
     union { u16 s; u16 u; } unk_1A;   /* accessed as both */
-} S_800CCDA0_3;   /* arg2 in func_800CCDA0 */
+} S_800CCDA0_3;   /* arg2 in dungeonUpdateBouncingTrapEffect */
 
 
 extern s32 func_800644B8(s32);
@@ -47,7 +47,7 @@ extern s32 func_800A56E0();
 
 
 /* Updates a bouncing effect's motion, rotation, and fading until its lifetime expires. */
-void func_800CCDA0(void *effect, void *motion, void *sprite)
+void dungeonUpdateBouncingTrapEffect(void *effect, void *motion, void *sprite)
 {
     u16 ticks_or_angle;
 

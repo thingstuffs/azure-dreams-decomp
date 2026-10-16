@@ -9,7 +9,7 @@ typedef struct S_func_80158898_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_func_80158898_0;   /* temp_v0 in func_80158898 */
+} S_func_80158898_0;   /* temp_v0 in dungeonUpdateVariantPartBrightness */
 
 typedef struct S_func_80158898_1 {
     u8 pad_00[0x13];
@@ -19,12 +19,12 @@ typedef struct S_func_80158898_1 {
     s32 unk_1C;
     u8 pad_20[0x78];
     u16 unk_98;
-} S_func_80158898_1;   /* var_s0 in func_80158898 */
+} S_func_80158898_1;   /* var_s0 in dungeonUpdateVariantPartBrightness */
 
 typedef struct S_func_80158898_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_func_80158898_2;   /* temp_s4 in func_80158898 */
+} S_func_80158898_2;   /* temp_s4 in dungeonUpdateVariantPartBrightness */
 
 typedef struct S_func_80158898_3 {
     u8 pad_00[0x14];
@@ -34,7 +34,7 @@ typedef struct S_func_80158898_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     M2C_UNK * unk_2C;
-} S_func_80158898_3;   /* temp_s2 in func_80158898 */
+} S_func_80158898_3;   /* temp_s2 in dungeonUpdateVariantPartBrightness */
 
 typedef struct S_func_80158898_4 {
     u8 pad_00[0x8C];
@@ -45,7 +45,7 @@ typedef struct S_func_80158898_4 {
     s8 unk_9C;
     u8 pad_9D[0xD];
     s16 unk_AA;
-} S_func_80158898_4;   /* temp_s5 in func_80158898 */
+} S_func_80158898_4;   /* temp_s5 in dungeonUpdateVariantPartBrightness */
 
 void *func_8003FD64();
 s32 func_8004491C();
@@ -61,7 +61,7 @@ extern M2C_UNK D_8015C000;
 
 
 /* Allocate a dungeon object and initialize its placement, flags, and behavior. */
- void *func_80158898(s16 spawn_flags, s16 x, s16 y, s16 config_value) {
+ void *dungeonUpdateVariantPartBrightness(s16 spawn_flags, s16 x, s16 y, s16 config_value) {
     S_func_80158898_1 *object_state;
     s32 mode_or_roll;
     u16 state_flags;

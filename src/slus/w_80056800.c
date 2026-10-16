@@ -12,10 +12,10 @@ typedef struct S_80056800_0 {
     s16 unk_3A;
     u8 pad_3C[0x4];
     s16 unk_40;
-} S_80056800_0;   /* arg0 in func_80056800 */
+} S_80056800_0;   /* arg0 in soundStepBipolarOscillation */
 
 /* Step the enabled oscillation between its limits, or reset its value to zero. */
-void func_80056800(S_80056800_0 *state) {
+void soundStepBipolarOscillation(S_80056800_0 *state) {
     s32 next_value;
     s32 lower_limit;
 

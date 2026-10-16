@@ -1,7 +1,7 @@
 #include "modules/town_town_windows.h"
 
 /* Classify an object using its state and two positions relative to the geometry bounds. */
-s32 func_8009CFE0(func_8009F880_S_8009CFE0_0 *object, void *position_data)
+s32 townClassifyObjectAgainstBounds(func_8009F880_S_8009CFE0_0 *object, void *position_data)
 {
     func_8009F880_S_8009CFE0_2 *position = position_data;
     s32 result;
@@ -13,11 +13,11 @@ s32 func_8009CFE0(func_8009F880_S_8009CFE0_0 *object, void *position_data)
     state = object->unk_98;
     if (state != NULL) {
         if (!(state->unk_01 & 1)) {
-            if (func_80033B2C(state->unk_02) == 0) {
+            if (testResidentBitmapBit(state->unk_02) == 0) {
                 return 1;
             }
         } else {
-            state_result = func_80033B2C(state->unk_02);
+            state_result = testResidentBitmapBit(state->unk_02);
             one = 1;
             if (state_result == one) {
                 result = 1;
@@ -33,7 +33,7 @@ s32 func_8009CFE0(func_8009F880_S_8009CFE0_0 *object, void *position_data)
             return result;
         }
     }
-    if (func_8008CC90(
+    if (townCheckFourVectorHalfTurnGaps(
             (s16)(D_80082D08[0] - position->unk_02),
             (s16)(D_80082D08[1] - position->unk_06),
             (s16)(D_80082D08[4] - position->unk_02),
@@ -42,7 +42,7 @@ s32 func_8009CFE0(func_8009F880_S_8009CFE0_0 *object, void *position_data)
             (s32)(s16)(D_80082D08[9] - position->unk_06),
             (s32)(s16)(D_80082D08[0xC] - position->unk_02),
             (s32)(s16)(D_80082D08[0xD] - position->unk_06)) == 0) {
-        geometry_result = func_8008CC90(
+        geometry_result = townCheckFourVectorHalfTurnGaps(
             (s16)(D_80082D08[0] - object->unk_84),
             (s16)(D_80082D08[1] - object->unk_86),
             (s16)(D_80082D08[4] - object->unk_84),

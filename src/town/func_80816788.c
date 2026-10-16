@@ -4,7 +4,7 @@
 typedef struct S_80020788_0 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_80020788_0;   /* object in func_80020788 */
+} S_80020788_0;   /* object in townCreateSceneObjectWithRecordPayload */
 
 
 typedef struct {
@@ -16,7 +16,7 @@ extern void func_8004491C();
 extern s32 D_80053A88;
 
 /* Allocate an object, copy its record, set its value, and pass it for initialization. */
-void func_80020788(s32 object_value, void *record) {
+void townCreateSceneObjectWithRecordPayload(s32 object_value, void *record) {
     void *object;
 
     object = func_8003FD64(1, ((u8 *)(&D_80083498)));

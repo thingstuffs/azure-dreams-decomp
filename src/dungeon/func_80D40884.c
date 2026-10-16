@@ -19,22 +19,22 @@ typedef struct S_80176084_0 {
     u8 pad_B2[0x2];
     u8 unk_B4;
     s8 unk_B5;
-} S_80176084_0;   /* arg0 in func_80176084 */
+} S_80176084_0;   /* arg0 in dungeonLeaveActorAuraMode */
 
 
 extern void func_80042B68();
 extern void func_80047784();
-extern void func_800A2B04();
+extern void dungeonSetRecordIntegerTileCenter();
 extern s32 func_800A56E0();
 extern s32 func_800AA36C();
-extern M2C_UNK func_801708B8();
+extern M2C_UNK createOwnerLinkedDirectionalObject();
 
 extern u8 D_800E23E0[];
 extern u8 D_800E2448[];
 extern u8 D_80171A80[];
 
 /* Advance a two-phase animation transition and finalize the entity state. */
-void func_80176084(void *state, EntityRec *motion, void *sprite, EntityRec *entity) {
+void dungeonLeaveActorAuraMode(void *state, EntityRec *motion, void *sprite, EntityRec *entity) {
     u16 start_ticks;
     u16 finish_ticks;
     u8 phase;
@@ -69,7 +69,7 @@ void func_80176084(void *state, EntityRec *motion, void *sprite, EntityRec *enti
                 motion->flags14 = 0;
                 motion->unk_10 = 0;
                 motion->unk_0C = 0;
-                func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+                dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
                 entity->flags1C |= 0x40000;
                 ((S_80176084_0 *)state)->unk_B5 = 0;
                 ((S_80176084_0 *)state)->unk_98 |= 8;
@@ -80,7 +80,7 @@ void func_80176084(void *state, EntityRec *motion, void *sprite, EntityRec *enti
                 ((S_80176084_0 *)state)->unk_9B++;
                 ((S_80176084_0 *)state)->unk_B1++;
                 if (((S_80176084_0 *)state)->unk_B0 == 0) {
-                    func_801708B8(state, motion, sprite);
+                    createOwnerLinkedDirectionalObject(state, motion, sprite);
                 }
             }
         }

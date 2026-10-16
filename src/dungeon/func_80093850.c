@@ -5,10 +5,10 @@
 typedef struct S_80098FB0_0 {
     u8 pad_00[0x249];
     u8 unk_249;
-} S_80098FB0_0;   /* var_a0 in func_80098FB0 */
+} S_80098FB0_0;   /* var_a0 in dungeonFindLastZeroEntryRunStart */
 
 /* Find the start of the last contiguous run of zero entries. */
-s32 func_80098FB0(void) {
+s32 dungeonFindLastZeroEntryRunStart(void) {
     s8 *entry_address;
     s32 run_start;
     s32 shifted_index;

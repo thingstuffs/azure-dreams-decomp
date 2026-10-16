@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1831cd8.h"
 
-void func_80027BBC(void *entry_table, void *resource_names)
+void dungeonRefreshMenuEntryResources(void *entry_table, void *resource_names)
 {
     ovl_1831cd8_81812BBC_Work name_buffer;
     s32 name_offset;

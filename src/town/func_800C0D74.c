@@ -14,8 +14,8 @@ typedef union
 SpBuf;
 extern void strcpy(void *, s32);
 extern s32 strlen(void *);
-extern void func_8008F074(void *, s32, void *);
-extern s16 func_800C2AE8(s32 *);
+extern void townConfigureTheSetModeN1(void *, s32, void *);
+extern s16 townQueryLoweredTransformPosition(s32 *);
 extern s16 D_8006CCD8[][2];
 extern s16 D_8006CCE8[][2];
 extern u8 *D_80073600[];
@@ -30,7 +30,7 @@ extern u8 D_800D225C[];
 extern u8 D_80112070[];
 extern void strcpy(void *, s32);
 extern s32 strlen(void *);
-extern void func_8008F074(void *, s32, void *);
+extern void townConfigureTheSetModeN1(void *, s32, void *);
 
 /* town_map_mod_yorozu_item: Creates a town object by type and initializes its position and display data. */
 void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
@@ -64,7 +64,7 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
         return;
 
     case 7:
-        func_800BDDD0((s16)x_or_object.coord, (s16)y_or_state.coord, (s16)spawn_param);
+        townFillWrappedFourByFourGrid((s16)x_or_object.coord, (s16)y_or_state.coord, (s16)spawn_param);
         return;
 
     case 15:
@@ -85,7 +85,7 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
         position.w[1] = ((y_or_state.coord << 6) + (D_8006CCD8[direction][0] << 3)) << 16;
         position.w[2] = 0;
         variant_row = D_800D2134[entry_index];
-        x_or_object.object = func_800BDBD0(position.w, func_800BDE7C, direction << 10, *variant_row);
+        x_or_object.object = townCreatePositionedVisualObject(position.w, townUpdateRecordOutputGrid, direction << 10, *variant_row);
         y_or_state.object = x_or_object.object + 0x20;
         *((s32 **) (y_or_state.object + 0xA0)) = variant_row;
         break;
@@ -99,7 +99,7 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
         position.w[1] = y_or_state.coord << 22;
         position.w[2] = -0x80000;
         do {
-            func_800BDBD0(position.w, func_800BDF98, 0, D_800D214C[entry_index][part_index]);
+            townCreatePositionedVisualObject(position.w, townNoOpEffectCallback, 0, D_800D214C[entry_index][part_index]);
             part_index--;
         }
         while (part_index >= 0);
@@ -112,7 +112,7 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
         position.w[1] = y_or_state.coord << 22;
         position.w[2] = -0x80000;
         do {
-            func_800BDBD0(position.w, func_800BDF98, 0, D_800D215C[entry_index]);
+            townCreatePositionedVisualObject(position.w, townNoOpEffectCallback, 0, D_800D215C[entry_index]);
             entry_index--;
         }
         while (entry_index >= 0);
@@ -122,7 +122,7 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
         {
             s32 shifted_type = object_type << 16;
             u8 *type_table = (u8 *) D_800D21B4;
-            x_or_object.object = func_800BDB20(position.w, func_800BDF98, *((s32 *) (type_table + (shifted_type >> 14))));
+            x_or_object.object = townCreatePositionedGraphicObject(position.w, townNoOpEffectCallback, *((s32 *) (type_table + (shifted_type >> 14))));
         }
         y_or_state.object = x_or_object.object + 0x20;
         *((s16 *) (((u8 *) (*((void **) (x_or_object.object + 0xC)))) + 6)) = 0x18;
@@ -136,11 +136,11 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
     case 30:
         position.w[0] = (x_or_object.coord << 22) + 0x200000;
         position.w[1] = (y_or_state.coord << 22) + 0x200000;
-        position.h[5] = func_800C2AE8(position.w);
+        position.h[5] = townQueryLoweredTransformPosition(position.w);
         if (position.w[2] > 0) {
             position.w[2] = 0;
         }
-        x_or_object.object = func_800BDB20(position.w, func_800BDF98, D_800D21B4[object_type]);
+        x_or_object.object = townCreatePositionedGraphicObject(position.w, townNoOpEffectCallback, D_800D21B4[object_type]);
         y_or_state.object = x_or_object.object + 0x20;
         if (object_type == 0xA) {
             display_data = *((void **) (x_or_object.object + 0xC));
@@ -163,8 +163,8 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
     case 2:
         position.w[0] = (x_or_object.coord << 22) + 0x200000;
         position.w[1] = (y_or_state.coord << 22) + 0x200000;
-        position.h[5] = func_800C2AE8(position.w);
-        x_or_object.object = func_800BDB20(position.w, func_800BDFA0, D_800D21B4[(s16) object_type]);
+        position.h[5] = townQueryLoweredTransformPosition(position.w);
+        x_or_object.object = townCreatePositionedGraphicObject(position.w, townInitializeRecordVisualState, D_800D21B4[(s16) object_type]);
         y_or_state.object = x_or_object.object + 0x20;
         *((s32 *) (y_or_state.object + 0xA0)) = D_800D216C[entry_index][0];
         *((s32 *) (y_or_state.object + 0xA4)) = D_800D216C[entry_index][1];
@@ -182,8 +182,8 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
     case 22:
         position.w[0] = (x_or_object.coord << 22) + 0x200000;
         position.w[1] = (y_or_state.coord << 22) + 0x200000;
-        position.h[5] = func_800C2AE8(position.w);
-        x_or_object.object = func_800BDB20(position.w, func_800BE0D4, D_800D21B4[(s16) object_type]);
+        position.h[5] = townQueryLoweredTransformPosition(position.w);
+        x_or_object.object = townCreatePositionedGraphicObject(position.w, townCopyRecordStateToDestination, D_800D21B4[(s16) object_type]);
         y_or_state.object = x_or_object.object + 0x20;
         *((s32 *) (y_or_state.object + 0xA0)) = D_800D219C[entry_index][0];
         *((s32 *) (y_or_state.object + 0xA4)) = D_800D219C[entry_index][1];
@@ -199,11 +199,11 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
     case 17:
         position.w[0] = (x_or_object.coord << 22) + 0x200000;
         position.w[1] = (y_or_state.coord << 22) + 0x200000;
-        position.h[5] = func_800C2AE8(position.w);
+        position.h[5] = townQueryLoweredTransformPosition(position.w);
         {
             s32 shifted_type = object_type << 16;
             u8 *type_table = (u8 *) D_800D21B4;
-            x_or_object.object = func_800BDB20(position.w, func_800BE214, *((s32 *) (type_table + (shifted_type >> 14))));
+            x_or_object.object = townCreatePositionedGraphicObject(position.w, townAdvanceActorAnimationPose, *((s32 *) (type_table + (shifted_type >> 14))));
         }
         y_or_state.object = x_or_object.object + 0x20;
         *((s32 *) (y_or_state.object + 0xA0)) = position.h[5];
@@ -221,5 +221,5 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
     name_buffer[entry_index] = 1;
     *((void **) (((u8 *) y_or_state.object) + 0x48)) = name_buffer;
     object_state = (s32 *) y_or_state.object;
-    func_8008F074(object_state, *((s32 *) (x_or_object.object + 8)), D_800D225C + (D_800D2238[object_type] * 0x18));
+    townConfigureTheSetModeN1(object_state, *((s32 *) (x_or_object.object + 8)), D_800D225C + (D_800D2238[object_type] * 0x18));
 }

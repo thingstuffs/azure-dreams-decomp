@@ -22,7 +22,7 @@ typedef struct {
 extern Root D_8040B4F8;
 
 /* Initializes the memory card information object and its working state. */
-void *func_804057F0(s32 init_option, s32 info_value) {
+void *initCardInfoObject(s32 init_option, s32 info_value) {
     void *base;
     void *card_state;
 

@@ -9,7 +9,7 @@ typedef struct S_80036988_0 {
     s16 unk_0A;
     u16 unk_0C;
     u16 unk_0E;
-} S_80036988_0;   /* arg0 in func_80036988 */
+} S_80036988_0;   /* arg0 in copyWindowOffsetRectangle */
 
 typedef struct S_80036988_1 {
     u16 unk_00;
@@ -19,11 +19,11 @@ typedef struct S_80036988_1 {
     u16 unk_0A;
     u16 unk_0C;
     u16 unk_0E;
-} S_80036988_1;   /* arg1 in func_80036988 */
+} S_80036988_1;   /* arg1 in copyWindowOffsetRectangle */
 
 
 /* Copy four fields, adding the source offsets to the first two. */
-void func_80036988(S_80036988_0 *destination, S_80036988_1 *source) {
+void copyWindowOffsetRectangle(S_80036988_0 *destination, S_80036988_1 *source) {
     destination->unk_08 = (s16) (source->unk_00 + source->unk_08);
     destination->unk_0A = (s16) (source->unk_02 + source->unk_0A);
     destination->unk_0C = (u16) source->unk_0C;

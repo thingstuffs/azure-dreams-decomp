@@ -73,7 +73,7 @@ void func_80024654(void *anchor, s16 angle, s16 unused, void *target, s32 mirror
     if (D_800249A4 != 0) return;
     node = (SpawnNode *)func_8003FD64(0x212, (ObjectNodeHeader **)anchor);
     if (node == 0) return;
-    node->header.callback = func_8002434C;
+    node->header.callback = updateSpiralingEffectGrowthAndFade;
     func_8004491C(node, (s32)D_800CEEFC);
     position = node->header.position;
     sprite = node->header.sprite;

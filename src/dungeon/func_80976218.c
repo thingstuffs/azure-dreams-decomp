@@ -51,7 +51,7 @@ typedef struct S_80171A18_4 {
 extern s32 func_80047784();
 extern s32 func_8009A21C();
 extern s32 func_8009A3D0();
-extern s16 func_800A0818();
+extern s16 dungeonGetRoundedFacingAndRoundingFlag();
 
 extern u8 D_801740E0[];
 extern u8 D_801740E8[];
@@ -115,7 +115,7 @@ void func_80171A18(void *motion, s32 unused, void *actor, void *move_state) {
         }
         func_8009A21C(new_x, new_y, occupancy_mask);
 
-        ((S_80171A18_0 *)move_state)->unk_2A = func_800A0818(
+        ((S_80171A18_0 *)move_state)->unk_2A = dungeonGetRoundedFacingAndRoundingFlag(
             old_x, old_y, ((S_80171A18_1 *)actor)->unk_24, ((S_80171A18_1 *)actor)->unk_25,
             (u8 *)motion + 0x98);
     }

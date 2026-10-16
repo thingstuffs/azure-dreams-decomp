@@ -18,23 +18,23 @@ typedef struct S_800224E0_0 {
     } unk_20;   /* overlapping accesses */
     u8 pad_24[0x4];
     s16 unk_28;
-} S_800224E0_0;   /* obj in func_800224E0 */
+} S_800224E0_0;   /* obj in townCreateMinigameDisplayObjects */
 
 typedef struct S_800224E0_1 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_800224E0_1;   /* prim in func_800224E0 */
+} S_800224E0_1;   /* prim in townCreateMinigameDisplayObjects */
 
 typedef struct S_800224E0_2 {
     u8 pad_00[0x48];
     void * unk_48;
-} S_800224E0_2;   /* parent in func_800224E0 */
+} S_800224E0_2;   /* parent in townCreateMinigameDisplayObjects */
 
 typedef struct S_800224E0_3 {
     u8 pad_00[0x4C];
     void * unk_4C;
-} S_800224E0_3;   /* slot in func_800224E0 */
+} S_800224E0_3;   /* slot in townCreateMinigameDisplayObjects */
 
 typedef struct S_800224E0_4 {
     s32 unk_00;
@@ -52,7 +52,7 @@ typedef struct S_800224E0_4 {
     s16 unk_1C;
     s16 unk_1E;
     s16 unk_20;
-} S_800224E0_4;   /* draw in func_800224E0 */
+} S_800224E0_4;   /* draw in townCreateMinigameDisplayObjects */
 
 
 extern u8 D_80020224[];
@@ -69,15 +69,15 @@ extern u8 D_80024680[];
 extern u8 D_800246E0[];
 extern u8 D_80046398[];
 
-extern void func_80022290();
+extern void townInitializeMinigameDisplay();
 extern void func_80033B9C();
 extern void func_8004491C();
 extern void func_8004E9E4();
 extern void func_8006733C();
-extern void func_8008F104();
+extern void townConfigureTheSetModeN3();
 
 /* Creates parent and child display objects and uploads their graphics data. */
-void func_800224E0(void)
+void townCreateMinigameDisplayObjects(void)
 {
     s16 upload_rect[4];
     s32 child_index;
@@ -96,7 +96,7 @@ void func_800224E0(void)
     callback = D_80020224;
     func_8004E9E4();
     D_80024628[0] = 0;
-    func_80022290(D_800246E0);
+    townInitializeMinigameDisplay(D_800246E0);
     func_80033B9C(0xA4);
 
     obj = func_8003FC64(0x32);
@@ -107,7 +107,7 @@ void func_800224E0(void)
         ((S_800224E0_1 *)prim)->unk_00 = 0x04600000;
         ((S_800224E0_1 *)prim)->unk_04 = 0x03600000;
         ((S_800224E0_2 *)parent_state)->unk_48 = callback;
-        func_8008F104(parent_state, prim, D_80024470);
+        townConfigureTheSetModeN3(parent_state, prim, D_80024470);
     }
 
     child_index = 2;
@@ -154,7 +154,7 @@ void func_800224E0(void)
         object_state = obj + 0x20;
         ((S_800224E0_1 *)prim)->unk_08 = 0;
         (*(void * volatile *)((u8 *)object_state + 0x50)) = callback;
-        func_8008F104(render_state, ((S_800224E0_0 *)obj)->unk_08, D_800244A0);
+        townConfigureTheSetModeN3(render_state, ((S_800224E0_0 *)obj)->unk_08, D_800244A0);
     }
 
     child_index = 4;

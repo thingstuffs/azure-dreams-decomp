@@ -18,6 +18,7 @@ from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import ROOT, rows
+from source_layout import row_path as layout_row_path
 
 DECL = re.compile(r"^\s*extern\s+([^;()]*?)\b(D_[0-9A-F]{8}|[A-Za-z_][A-Za-z0-9_]*)\s*(\[[^\]]*\])?\s*;", re.M)
 PROTO = re.compile(r"^\s*(?:extern\s+)?([A-Za-z_][\w\s\*]*?)\b([A-Za-z_][A-Za-z0-9_]*)\s*\(([^;{]*)\)\s*(?:__attribute__\s*\(\([^)]*\)\)\s*)?;", re.M)
@@ -56,7 +57,7 @@ def main():
         data = collections.defaultdict(lambda: {"types": collections.defaultdict(list), "records": []})
         for r in rows():
             if r["container"] != cont: continue
-            p = ROOT / "src" / cont / Path(r["c_path"]).name
+            p = layout_row_path(r, ROOT)
             if not p.exists(): continue
             t = strip(p.read_text(errors="replace"))
             for m in DEF.finditer(t):

@@ -90,7 +90,7 @@ typedef struct S_func_80024064_9 {
 } S_func_80024064_9;   /* planes + ((S_func_80024064_4 *)current)->unk_10 * 8 in func_80024064 */
 
 
-extern s32 func_800BCE7C(void *);
+extern s32 dungeonAreQuadCornerTurnsWithinHalfRevolution(void *);
 
 
 
@@ -180,7 +180,7 @@ void *func_80024064(s32 world_x, s32 world_y, s16 min_height) {
                     ((S_func_80024064_0 *)scratch)->unk_160.at02.v =
                         ((S_func_80024064_0 *)scratch)->unk_160.at02u.v - cell_y;
 
-                    if (func_800BCE7C(scratch) != 0) {
+                    if (dungeonAreQuadCornerTurnsWithinHalfRevolution(scratch) != 0) {
                         plane =
                             (u8 *)((unsigned long)((S_func_80024064_4 *)polygon)->unk_10 *
                                    8 +

@@ -62,19 +62,19 @@ typedef struct PlayerActionCountView {
 
 extern int abs(int);
 
-extern s32 func_8003F270(void);
+extern s32 getCdCommandQueueDepth(void);
 extern void func_80047784(void *, s32, s32);
-extern void *func_800A05A4(void *, u8, u8, s16, s32);
-extern void func_800A2B04(void *, u8, u8);
-extern void func_800A4ACC(void *);
+extern void *dungeonScanMonsterAlongHeading(void *, u8, u8, s16, s32);
+extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A56E0(s32);
-extern s32 func_800A94A0(void *actor, EntityRec *effect_record, s16 mode, void *context);
-extern void func_800DA840(void *, s16);
+extern s32 dungeonCreateActorSpellEffect(void *actor, EntityRec *effect_record, s16 mode, void *context);
+extern void dungeonCreateTwoRowObjectGroup(void *, s16);
 
 extern u8 D_8014CF74[];
 extern u8 D_8014FD30[];
 
-void func_8014EAA8(ActorActionView *action, EntityRec *transform, ActorSpriteView *sprite, EntityRec *actor)
+void dungeonAdvancePlayerActionAndAnimation(ActorActionView *action, EntityRec *transform, ActorSpriteView *sprite, EntityRec *actor)
 {
     u16 saved_position[4];
     u8 *action_slot;
@@ -149,7 +149,7 @@ void func_8014EAA8(ActorActionView *action, EntityRec *transform, ActorSpriteVie
                     }
                 } else {
                     actor->target =
-                        func_800A05A4(actor, sprite->position.tile.x, sprite->position.tile.y,
+                        dungeonScanMonsterAlongHeading(actor, sprite->position.tile.x, sprite->position.tile.y,
                                       actor->facing, 0x10);
                     actor->unk_72 = abs(actor->unk_72);
                     actor->unk_73 = abs(actor->unk_73);
@@ -158,13 +158,13 @@ void func_8014EAA8(ActorActionView *action, EntityRec *transform, ActorSpriteVie
             saved_position[0] = ((u16)transform->x.w.i);
             saved_position[1] = ((u16)transform->y.w.i);
             saved_position[2] = ((u16)transform->z.w.i);
-            action_started = func_800A94A0(actor, action_slot, use_player_target, &action->flags);
+            action_started = dungeonCreateActorSpellEffect(actor, action_slot, use_player_target, &action->flags);
             if (action_started == 0) {
                 return;
             }
             sprite->flags &= 0xF7FF;
             func_800A56E0(0x703);
-            func_800DA840(saved_position, (*action_slot - 1) % 3);
+            dungeonCreateTwoRowObjectGroup(saved_position, (*action_slot - 1) % 3);
             action->phase = action->phase + 1;
             return;
         }
@@ -172,10 +172,10 @@ void func_8014EAA8(ActorActionView *action, EntityRec *transform, ActorSpriteVie
         transform->flags14 = 0;
         transform->unk_10 = 0;
         transform->unk_0C = 0;
-        func_800A2B04(transform, sprite->position.tile.x, sprite->position.tile.y);
+        dungeonSetRecordIntegerTileCenter(transform, sprite->position.tile.x, sprite->position.tile.y);
         dungeonStatus.unk_0C = 0;
         ((PlayerActionCountView *)D_800814A8)->remaining = ((PlayerActionCountView *)D_800814A8)->remaining - 1;
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         actor->unk_6D = ((u8)actor->unk_6D) - 1;
         action->nextAction.record = D_8014CF74;
         actor->unk_73 = 0;
@@ -184,7 +184,7 @@ void func_8014EAA8(ActorActionView *action, EntityRec *transform, ActorSpriteVie
         return;
 
     case 1:
-        if (func_8003F270() != 0) {
+        if (getCdCommandQueueDepth() != 0) {
             sprite->flags |= 0x800;
             return;
         }
@@ -210,7 +210,7 @@ void func_8014EAA8(ActorActionView *action, EntityRec *transform, ActorSpriteVie
         transform->flags14 = 0;
         transform->unk_10 = 0;
         transform->unk_0C = 0;
-        func_800A2B04(transform, sprite->position.tile.x, sprite->position.tile.y);
+        dungeonSetRecordIntegerTileCenter(transform, sprite->position.tile.x, sprite->position.tile.y);
         {
             u8 *direction_frames = D_8014FD30;
 
@@ -228,7 +228,7 @@ void func_8014EAA8(ActorActionView *action, EntityRec *transform, ActorSpriteVie
         status->unk_0A = status->unk_0A - 1;
         sprite->flags &= 0xF7FF;
         action->nextAction.record = D_8014CF74;
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         if (actor->unk_6D > 0) {
             actor->unk_6D = ((u8)actor->unk_6D) - 1;
         }

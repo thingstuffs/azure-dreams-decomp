@@ -22,7 +22,7 @@ struct S_80082E60 {
 
 
 /* Stores the value in D_80082E60 and clears its two flag bytes. */
-void func_80040A88(int value) {
+void setScenePhaseCallback(int value) {
     struct S_80082E60 *state = ((struct S_80082E60 *)&D_80082E60);
 
     state->field_4 = value;
@@ -38,7 +38,7 @@ extern struct {
 } D_8006CE34;
 
 /* Stores four values in consecutive fields of D_8006CE34. */
-void func_8003F540(int value_0, int value_1, int value_2, int value_3)
+void soundSetCdCueParameters(int value_0, int value_1, int value_2, int value_3)
 {
     struct { int f0; int f1; int f2; int f3; } *values = &D_8006CE34;
     values->f0 = value_0;
@@ -47,32 +47,32 @@ void func_8003F540(int value_0, int value_1, int value_2, int value_3)
     values->f3 = value_3;
 }
 
-/* func_800410FC */
+/* resetSceneFrameCallbackList */
 
 extern int D_80083C68[8];
 extern void *D_800814E0;
 
 /* Points D_800814E0 at D_80083C68 and clears its first word. */
-void func_800410FC(void) {
+void resetSceneFrameCallbackList(void) {
     D_800814E0 = D_80083C68;
     D_80083C68[0] = 0;
 }
 
 /* func_8004D0C8 */
 
-void func_8004D09C(void);
+void copyViewHalfwordTriplet(void);
 
-/* Registers the state pointer and the default callback func_8004D09C. */
+/* Registers the state pointer and the default callback copyViewHalfwordTriplet. */
 void func_8004D0C8(void *state)
 {
     D_80083178.slot[0].unk_24 = state;
-    D_80083178.slot[0].callback = func_8004D09C;
+    D_80083178.slot[0].callback = copyViewHalfwordTriplet;
 }
 
 /* func_800419EC */
 /* Struct at D_80083CA8 (also referenced elsewhere as D_80083CAE at offset 6):
  * offset 0: int  (rate/quotient, decremented each tick by other code)
- * offset 4: int  (accumulator, used by func_80041900)
+ * offset 4: int  (accumulator, used by advanceTimedEntityMotion)
  * offset 6: short (aka D_80083CAE - value copied from a1)
  * offset 8: short (countdown counter, copied from a0)
  * Declared >8 bytes so hi/lo addressing is used. */
@@ -92,19 +92,19 @@ void func_800419EC(unsigned short countdown, unsigned int amount) {
 
 /* func_8004D110 */
 
-void func_8004D0E4(void);
+void copyGlobalShortTriplet(void);
 
-/* Registers the state pointer and the default callback func_8004D0E4. */
+/* Registers the state pointer and the default callback copyGlobalShortTriplet. */
 void func_8004D110(void *state)
 {
     D_80083178.slot[0].unk_04 = state;
-    D_80083178.slot[0].callback = func_8004D0E4;
+    D_80083178.slot[0].callback = copyGlobalShortTriplet;
 }
 
 extern unsigned char D_8007382A[16];
 
 /* Sets D_8007382A to 1 and returns 1. */
-int func_8005A3E0(void) {
+int audioEnableMonoMix(void) {
     unsigned char *flag = &D_8007382A[0];
     int enabled = 1;
     *flag = enabled;
@@ -123,7 +123,7 @@ typedef struct {
 extern Struct80085FA8 D_80085FA8[];
 
 /* Sets both value fields of every active entry in D_80085FA8. */
-void func_8005C818(int unused, int value) {
+void audioSetAllTrackTempoSteps(int unused, int value) {
     unsigned int index;
     unsigned int count;
 
@@ -203,7 +203,7 @@ typedef struct {
 extern Entry8007359C *D_8007359C[4];
 
 /* Returns the word at offset 4 of the indexed D_8007359C entry. */
-int func_8004AC18(int index)
+int monsterGetSpeciesNameText(int index)
 {
     Entry8007359C *entries = D_8007359C[0];
     return entries[index].unk4;
@@ -212,7 +212,7 @@ int func_8004AC18(int index)
 extern int D_80082EC0[128];
 
 /* Clears all 128 words of D_80082EC0 in reverse order. */
-void func_8003F7E4(void) {
+void clearRuntimeSlotWordTable(void) {
     s32 index;
 
     for (index = 0x7F; index >= 0; index--) {
@@ -223,14 +223,14 @@ void func_8003F7E4(void) {
 /* --- v6 (LEAD 1: maspsx un-fills jr-delay sp-restore at 2+ callee-saved) --- */
 typedef struct { short unk0, unk2, flags4, id6; } D8Elem;
 extern D8Elem D_80083D08[6];
-extern int func_80047BC0(short);
+extern int findSpriteResourceSlotById(short);
 
 struct Target_827C { char pad[0x28]; void *entry; };
 struct Source_827C { char pad[0xC]; struct Target_827C *target; };
 
 /* Assigns the resolved D_80083D08 entry to the source target and returns the source. */
-struct Source_827C *func_8004827C(struct Source_827C *source, short entry_id) {
-    source->target->entry = &D_80083D08[func_80047BC0(entry_id)];
+struct Source_827C *bindSpriteResourceSlotRecord(struct Source_827C *source, short entry_id) {
+    source->target->entry = &D_80083D08[findSpriteResourceSlotById(entry_id)];
     return source;
 }
 
@@ -241,7 +241,7 @@ extern TableValuePair D_80013564[];
 extern int func_8004A6C0(int first_value, int second_value);
 
 /* Clears both shorts of the selected D_80013564 entry when its index is below 20. */
-void func_8004A8D8(int first_value, int second_value)
+void itemClearRecordedCategoryPair(int first_value, int second_value)
 {
     int index = func_8004A6C0(first_value, second_value);
     if (index < 0x14) {
@@ -265,13 +265,13 @@ typedef struct {
 } Entry80084960;
 extern Entry80084960 D_80084960[];
 
-extern void func_80040BB4(void);
+extern void activateSceneResourceAndClearViewCallbacks(void);
 
-/* Copies field_B into field_18 of D_80082E60, then calls func_80040BB4. */
-void func_80040B88(void)
+/* Copies field_B into field_18 of D_80082E60, then calls activateSceneResourceAndClearViewCallbacks. */
+void sceneSavePreviousModeAndResetCallbacks(void)
 {
     D_80082E60.field_18 = ((signed char)D_80082E60.field_B);
-    func_80040BB4();
+    activateSceneResourceAndClearViewCallbacks();
 }
 
 extern u8 D_80080B18[16];
@@ -292,14 +292,14 @@ u8 func_80048DA0(s32 index, s32 count)
 extern char D_8006ADC0[16]; /* >8B forces hi/lo addressing (pointer stored at offset 0) */
 extern char D_800812C8[16]; /* >8B forces hi/lo addressing (address-of target) */
 
-extern void func_80053C6C(void);
+extern void resourceLoadCurrentOptionalDescriptor(void);
 
-/* Stores the address of D_800812C8 in D_8006ADC0, then calls func_80053C6C. */
+/* Stores the address of D_800812C8 in D_8006ADC0, then calls resourceLoadCurrentOptionalDescriptor. */
 void func_80053CA4(void)
 {
     char **pointer_slot = (char **)D_8006ADC0;
     *pointer_slot = D_800812C8;
-    func_80053C6C();
+    resourceLoadCurrentOptionalDescriptor();
 }
 
 /* Ring buffer of 32 history entries, each 0x18 (24) bytes; only offset 0 is
@@ -313,7 +313,7 @@ extern u8 D_800814D0;
 extern Struct80083968 D_80083968[32];
 
 /* Returns the previous history entry byte, wrapping the ring index modulo 32. */
-u8 func_8003F240(void) {
+u8 getPreviousCdCommandByte(void) {
     return D_80083968[(D_800814D0 + 0x1F) & 0x1F].unk00;
 }
 
@@ -323,7 +323,7 @@ extern void func_8005D88C(int value);
 extern void func_8005E450(int value);
 
 /* Clears D_8007382B and calls both reset routines with zero. */
-void func_8005B348(void)
+void audioDisableReverb(void)
 {
     D_8007382B[0] = 0;
     func_8005D88C(0);
@@ -331,21 +331,21 @@ void func_8005B348(void)
 }
 
 /* Returns the word at offset 4 of the indexed D_80084960 entry. */
-int func_8005C8B8(int unused, short index)
+int audioGetChannelPan(int unused, short index)
 {
     return D_80084960[index].unk04;
 }
 
 /* Returns the word at offset 0x1C of the indexed D_80084960 entry. */
-int func_8005C918(int unused, short index) {
+int audioGetChannelPitchBend(int unused, short index) {
     return D_80084960[index].unk1C;
 }
 
 /* D_80084960 is an array of structs, each 0x9C (156) bytes; offset 0x1C
-   holds a 32-bit field (getter func_8005C918 does a plain lw from +0x1C). */
+   holds a 32-bit field (getter audioGetChannelPitchBend does a plain lw from +0x1C). */
 
 /* Stores the low seven bits of value in the indexed D_80084960 entry. */
-void func_8005C94C(s32 unused, s16 index, s32 value) {
+void audioSetChannelPitchBendValue(s32 unused, s16 index, s32 value) {
     D_80084960[index].unk1C = value & 0x7F;
 }
 
@@ -364,7 +364,7 @@ extern StructADBC D_8006ADBC;
 extern void func_80053C3C(s32 a0);
 
 /* Copies field4 to field0 of D_8006ADBC and forwards nonzero values to func_80053C3C. */
-void func_80053C6C(void) {
+void resourceLoadCurrentOptionalDescriptor(void) {
     s32 value = D_8006ADBC.field4;
 
     D_8006ADBC.field0 = value;

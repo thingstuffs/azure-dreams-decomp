@@ -1,0 +1,108 @@
+{
+  "module": "dungeon_ovl_7f511800_p04",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_7f511800_p04.c",
+    "module_index": 128304
+  },
+  "members": [
+    "dungeon/func_80C427F4",
+    "dungeon/func_80C4286C",
+    "dungeon/func_80C429A0",
+    "dungeon/func_80C42B74"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "original_group": "ovl_7f511800.c#83",
+  "original_members": [
+    "dungeon/func_80C40E64",
+    "dungeon/func_80C412B4",
+    "dungeon/func_80C4194C",
+    "dungeon/func_80C41C50",
+    "dungeon/func_80C427F4",
+    "dungeon/func_80C4286C",
+    "dungeon/func_80C429A0",
+    "dungeon/func_80C42B74"
+  ],
+  "boundary_parts": [
+    {
+      "name": "ovl_7f511800_p01.c",
+      "module_index": 128301,
+      "ready": true,
+      "rows": [
+        "dungeon/func_80C40E64"
+      ]
+    },
+    {
+      "name": "ovl_7f511800_p02.c",
+      "module_index": 128302,
+      "ready": false,
+      "rows": [
+        "dungeon/func_80C412B4"
+      ]
+    },
+    {
+      "name": "ovl_7f511800_p03.c",
+      "module_index": 128303,
+      "ready": true,
+      "rows": [
+        "dungeon/func_80C4194C",
+        "dungeon/func_80C41C50"
+      ]
+    },
+    {
+      "name": "ovl_7f511800_p04.c",
+      "module_index": 128304,
+      "ready": true,
+      "rows": [
+        "dungeon/func_80C427F4",
+        "dungeon/func_80C4286C",
+        "dungeon/func_80C429A0",
+        "dungeon/func_80C42B74"
+      ]
+    }
+  ],
+  "split_rationale": "Refine weak region bucket at physical gaps and independently emitted storage boundaries. Every assigned row remains in exactly one complete new cohort; native code runs claim no omitted row or gap storage. Historical original TU identity is not asserted.",
+  "tu_boundary": "Native boundary at a complete covered contiguous run. Historical original compiler object boundary is not observable.",
+  "basis": [
+    "Every original assigned row is accounted for once in the guarded boundary refinement.",
+    "This complete new ledger cohort is contiguous in retail order, has one recipe and authenticated load base, and shares no member.",
+    "The covered actor/state/effect functions use the same bank-local callback and table environment. Imported functions, tables and runtime objects retain separate ownership.",
+    "Whole TU natural-order code, genuine ASPSX and retail bytes agree with zero masks. Gaps and independently emitted tables are not filled or claimed."
+  ],
+  "complete_body_sha256": {
+    "dungeon/func_80C427F4": "bb04b5f7395d789e19f8969200280af2f107e1c36901aff77ee4b0d8b081b974",
+    "dungeon/func_80C4286C": "4d3458d0a1333a6dd7e0914b45a776e4bb4c5e78fd85ef82b4605e117c2cad01",
+    "dungeon/func_80C429A0": "abc5b01d760565cbb291d57451874ab4288bfec727d69bcebb68a5e7a4b97bba",
+    "dungeon/func_80C42B74": "9aa84e925fca7ee0d2fbac3bc6f8dd7339bea862b39965afd8f7a52681140ac0"
+  },
+  "call_graph": {
+    "functions": [
+      "func_80173FF4",
+      "func_8017406C",
+      "func_801741A0",
+      "func_80174374"
+    ],
+    "imports": [
+      "func_8003DB94",
+      "func_8003FC64",
+      "func_8004491C",
+      "func_80045340",
+      "func_800478B8",
+      "func_800644B8",
+      "func_80064584",
+      "rand"
+    ]
+  },
+  "data_cohesion": {
+    "external_asset_views": [
+      "D_800DEC00",
+      "D_800DEC70"
+    ],
+    "runtime_views": [
+      "D_800814A0"
+    ]
+  },
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120"
+}

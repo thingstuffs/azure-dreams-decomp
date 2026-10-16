@@ -8,9 +8,9 @@
 
 s32 func_80042900(void *, s32);
 s32 func_800A1C58(void *);
-void func_800A1D4C(void *, s32);
+void raiseEntityLevel(void *, s32);
 void func_800A56E0(s32);
-void func_800C77D0(s32 slot_id, void *target, s32 target_id, s16 slot_value);
+void dungeonSelectNearbyTargetAndInitializeSlot(s32 slot_id, void *target, s32 target_id, s16 slot_value);
 extern s32 D_8007359C;
 extern s8 D_80080A88;
 extern s8 D_80080AA0;
@@ -22,17 +22,17 @@ typedef struct S_800AAB10_0 {
     u8 pad_04[0x6];
     s16 unk_0A;
     s32 unk_0C;
-} S_800AAB10_0;   /* state in func_800AAB10 */
+} S_800AAB10_0;   /* state in dungeonProcessSelectedActorRecord */
 
 
 typedef struct S_800AAB10_2_pre {
     u16 unk_00;
     u8 pad_02[0x12];
-} S_800AAB10_2_pre;   /* the 0x14 bytes before ((temp_a0 * 0x14) + D_8007359C) in func_800AAB10, addressed as ((temp_a0 * 0x14) + D_8007359C)[-1] */
+} S_800AAB10_2_pre;   /* the 0x14 bytes before ((temp_a0 * 0x14) + D_8007359C) in dungeonProcessSelectedActorRecord, addressed as ((temp_a0 * 0x14) + D_8007359C)[-1] */
 
 
 /* Processes the selected record, checks eligibility, and clears completed state. */
-s32 func_800AAB10(s32 buffer_addr, M2C_UNK source, M2C_UNK unused, EntityRec *record) {
+s32 dungeonProcessSelectedActorRecord(s32 buffer_addr, M2C_UNK source, M2C_UNK unused, EntityRec *record) {
     s32 eligible;
     u8 type_id;
 
@@ -42,8 +42,8 @@ s32 func_800AAB10(s32 buffer_addr, M2C_UNK source, M2C_UNK unused, EntityRec *re
             if (((s32)dungeonStatus.unk_0C) == record) {
                 if (dungeonStatus.unk_0A == 0) {
                     if (!(dungeonStatus.flags & 8)) {
-                        func_800C77D0((void *)(buffer_addr - 0x20), source, 8, 0x300);
-                        func_800A1D4C(record, 1);
+                        dungeonSelectNearbyTargetAndInitializeSlot((void *)(buffer_addr - 0x20), source, 8, 0x300);
+                        raiseEntityLevel(record, 1);
                         func_800A56E0(0x201);
                         if (!(D_80013714 & 2)) {
                             D_80080AA0 = 1;

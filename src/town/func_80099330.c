@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Expands fixed-point bounds to include the inset rectangle. */
-void func_80096A90(s32 *bounds, s16 *rect) {
+void townExpandBoundsToInsetRectangle(s32 *bounds, s16 *rect) {
     s32 left;
     s32 top;
     s32 right;

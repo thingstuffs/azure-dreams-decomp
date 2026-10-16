@@ -8,14 +8,14 @@
 extern s32 func_8004491C();
 void func_800A56E0(s32);
 extern int func_80046398();
-extern void func_800B1F34(S_800B1F34_0 *animation, S_800B1F34_1 *motion);
+extern void dungeonAdvanceTimedPanelMotion(S_800B1F34_0 *animation, S_800B1F34_1 *motion);
 
 typedef struct S_800B2074_0 {
     u8 pad_00[0x1DC];
     s32 unk_1DC;
     u8 pad_1E0[0x10];
     s16 unk_1F0;
-} S_800B2074_0;   /* temp_s4 in func_800B2074 */
+} S_800B2074_0;   /* temp_s4 in dungeonCreateMapPositionObject */
 
 typedef struct S_800B2074_1 {
     u8 pad_00[0x8];
@@ -24,7 +24,7 @@ typedef struct S_800B2074_1 {
     M2C_UNK * unk_10;
     u8 pad_14[0xC];
     u16 * unk_20;
-} S_800B2074_1;   /* temp_v0 in func_800B2074 */
+} S_800B2074_1;   /* temp_v0 in dungeonCreateMapPositionObject */
 
 typedef struct S_800B2074_2 {
     u8 pad_00[0x8];
@@ -34,7 +34,7 @@ typedef struct S_800B2074_2 {
     s16 unk_1C;
     s16 unk_1E;
     s16 unk_20;
-} S_800B2074_2;   /* temp_v1 in func_800B2074 */
+} S_800B2074_2;   /* temp_v1 in dungeonCreateMapPositionObject */
 
 typedef struct S_800B2074_3 {
     u8 pad_00[0x2];
@@ -45,24 +45,24 @@ typedef struct S_800B2074_3 {
     s16 unk_0A;
     u8 pad_0C[0xA];
     s16 unk_16;
-} S_800B2074_3;   /* temp_a1 in func_800B2074 */
+} S_800B2074_3;   /* temp_a1 in dungeonCreateMapPositionObject */
 
 typedef struct S_800B2074_4 {
     s16 unk_00;
     u16 unk_02;
     u16 unk_04;
-} S_800B2074_4;   /* temp_s0 in func_800B2074 */
+} S_800B2074_4;   /* temp_s0 in dungeonCreateMapPositionObject */
 
 typedef struct S_800B2074_5 {
     u8 pad_00[0xE];
     u16 unk_0E;
     u8 pad_10[0x1A];
     u16 unk_2A;
-} S_800B2074_5;   /* temp_dest in func_800B2074 */
+} S_800B2074_5;   /* temp_dest in dungeonCreateMapPositionObject */
 
 typedef union { void *pointer; u32 word; } InitSlot;
 /* Creates an object at the given map position and updates its tile record. */
-s32 func_800B2074(s32 world_x, s32 world_z) {
+s32 dungeonCreateMapPositionObject(s32 world_x, s32 world_z) {
     s32 tile_addr;
     void *object;
     s32 pos_x;
@@ -82,7 +82,7 @@ s32 func_800B2074(s32 world_x, s32 world_z) {
     if (object != NULL) {
         init_object = object;
         {
-            InitSlot slot = { func_800B1F34 };
+            InitSlot slot = { dungeonAdvanceTimedPanelMotion };
             init_data = func_80046398;
             ((S_800B2074_1 *)object)->unk_10 = slot.pointer;
             func_8004491C(init_object, init_data);

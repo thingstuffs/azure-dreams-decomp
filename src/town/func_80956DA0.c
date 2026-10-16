@@ -5,7 +5,7 @@
 typedef struct S_80956DA0_3 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_80956DA0_3;   /* temp_v0 in func_80956DA0 */
+} S_80956DA0_3;   /* temp_v0 in townCreateUserDataObject */
 
 typedef struct S_80956DA0_4 {
     u8 pad_00[0x2];
@@ -14,7 +14,7 @@ typedef struct S_80956DA0_4 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_80956DA0_4;   /* ((S_80956DA0_3 *)temp_v0)->unk_08 in func_80956DA0 */
+} S_80956DA0_4;   /* ((S_80956DA0_3 *)temp_v0)->unk_08 in townCreateUserDataObject */
 
 
 s32 func_8004491C();           /* extern */
@@ -26,12 +26,12 @@ typedef struct S_80956DA0_0 {
     u8 pad_00[0xC];
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_80956DA0_0;   /* temp_v0 in func_80956DA0 */
+} S_80956DA0_0;   /* temp_v0 in townCreateUserDataObject */
 
 typedef struct S_80956DA0_1 {
     u8 pad_00[0x4];
     s32 unk_04;
-} S_80956DA0_1;   /* temp_v2 in func_80956DA0 */
+} S_80956DA0_1;   /* temp_v2 in townCreateUserDataObject */
 
 typedef struct S_80956DA0_2 {
     u8 pad_00[0x4];
@@ -45,10 +45,10 @@ typedef struct S_80956DA0_2 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_80956DA0_2;   /* temp_v1 in func_80956DA0 */
+} S_80956DA0_2;   /* temp_v1 in townCreateUserDataObject */
 
 /* Creates an object with user data and initializes its position and rendering state. */
-void func_80956DA0(s32 user_data) {
+void townCreateUserDataObject(s32 user_data) {
     void *object;
     S_80956DA0_2 *render_state;
     S_80956DA0_1 *instance_data;

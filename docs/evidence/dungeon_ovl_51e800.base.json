@@ -1,0 +1,13 @@
+{
+  "method": "existing observed CdRead transfer",
+  "record": {
+    "schema": "azure-clean.rowbase.v1",
+    "region": "xfer_dungeon_51E800",
+    "foff_start": "0x51E800",
+    "foff_end": "0x528000",
+    "delta": "0x7FAF7800",
+    "base_confidence": "solved",
+    "proof": "overlay-streamer transfer observed at runtime (capture_kit/loader_watch_remote.lua on PCSX-Redux, poll-record): CdRead of 19 sectors from disc LBA 14931 -> 0x80016000. Container dungeon foff 0x51E800 (LBA base 12310), so delta = 0x80016000 - 0x51E800 = 0x7FAF7800. CONFIRMED: RAM[0x80016000..+38912] in ram_dungeon_f1.bin is 99.90% identical to the disc image's Mode2/Form1 user data at LBA 14931, i.e. the payload is verifiably resident at that base. Scoring-only: runtime DMA evidence, not a byte-exact recompile -- promote via rowbase.promote() when one lands."
+  },
+  "basis": "Promote existing runtime-observed base after fresh unmasked byte proof; no inferred runtime capture."
+}

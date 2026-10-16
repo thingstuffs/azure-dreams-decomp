@@ -31,9 +31,9 @@ typedef struct S_800A6620_3 {
 } S_800A6620_3;   /* owner in func_800A6620 */
 
 
-extern void func_800422DC(void *ptr, void *object);
+extern void buildEntitySlotSnapshot(void *ptr, void *object);
 extern s32 func_80042900(void *object, s32 value);
-extern void func_80098B38(void *handle);
+extern void dungeonClearSlotAndUpdateLinkedState(void *handle);
 extern void func_8009A028(void *object);
 extern void func_8009A3D0(u8 sound_x, u8 sound_y, s32 sound_mode);
 extern s16 func_800A1BD0(void *object);
@@ -63,7 +63,7 @@ s16 func_800A6620(void *handle, s32 extra_cleanup)
 
     if (index < 0x40) {
         ((S_800A6620_1 *)object)->unk_44 = 0;
-        func_800422DC((void *)(0x80010A80 + index * 0x54), object);
+        buildEntitySlotSnapshot((void *)(0x80010A80 + index * 0x54), object);
     }
 
     if (((u8 *)handle)[3] & 0x20) {
@@ -93,6 +93,6 @@ s16 func_800A6620(void *handle, s32 extra_cleanup)
         objectFlagBlock.flags |= 0x8000;
     }
 
-    func_80098B38(handle);
+    dungeonClearSlotAndUpdateLinkedState(handle);
     return index;
 }

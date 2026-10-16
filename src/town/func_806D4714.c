@@ -7,13 +7,13 @@ typedef struct S_80016714_1 {
     u8 pad_00[0x4];
     u8 unk_04;
 } S_80016714_1;   /* ((Rec_D_80016000 *)D_80016000)->unk_08.at00_s32.v * 8 +
-              ((Rec_D_80016000 *)D_80016000)->unk_40.as_pu8 in func_80016714 */
+              ((Rec_D_80016000 *)D_80016000)->unk_40.as_pu8 in townLookupEventDataWithOverrides */
 
 typedef struct S_80016714_2 {
     u8 pad_00[0x4];
     u8 unk_04;
 } S_80016714_2;   /* ((Rec_D_80016000 *)D_80016000)->unk_08.at00_s32.v * 8 +
-                  ((Rec_D_80016000 *)D_80016000)->unk_40.as_pu8 in func_80016714 */
+                  ((Rec_D_80016000 *)D_80016000)->unk_40.as_pu8 in townLookupEventDataWithOverrides */
 
 
 extern u8 D_800189DC[16];
@@ -27,7 +27,7 @@ extern void func_80018594(s32);
 extern s32 func_8001868C(s32);
 
 /* Looks up event data and applies special-event state updates and overrides. */
-void *func_80016714(s32 entry_id, s32 unused, s32 event_id)
+void *townLookupEventDataWithOverrides(s32 entry_id, s32 unused, s32 event_id)
 {
     void *event_data;
     u8 *event_table;

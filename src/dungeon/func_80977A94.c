@@ -14,9 +14,9 @@ typedef struct S_80173294_0 {
 } S_80173294_0;   /* arg0 in func_80173294 */
 
 
-extern void func_800A2B04(void *, u8, u8);
-extern void func_800AAA54(void *actor, void *unused, void *display, u8 *facing_variants);
-extern void func_800AD4D0(void *);
+extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
+extern void dungeonBeginActorDisplayAction(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void dungeonApplyClampedActorValueDelta(void *);
 
 extern u8 D_801714D4;
 extern u8 D_80174148;
@@ -33,7 +33,7 @@ void func_80173294(S_80173294_0 *motion_state, EntityRec *motion, Rec_D_80082E80
 
     switch (motion_state->unk_9B) {
     case 0:
-        func_800AD4D0(entity);
+        dungeonApplyClampedActorValueDelta(entity);
         motion->unk_0C =
             -*(s16 *)((u8 *)((s8 *)dirStepX) +
                 ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 15;
@@ -46,7 +46,7 @@ void func_80173294(S_80173294_0 *motion_state, EntityRec *motion, Rec_D_80082E80
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(motion_state, motion, tile_state, &D_80174148);
+            dungeonBeginActorDisplayAction(motion_state, motion, tile_state, &D_80174148);
             return;
         }
         if (tile_state->unk_14.at00_u16.v & 0x8000) {
@@ -86,7 +86,7 @@ void func_80173294(S_80173294_0 *motion_state, EntityRec *motion, Rec_D_80082E80
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(motion_state, motion, tile_state, &D_80174148);
+            dungeonBeginActorDisplayAction(motion_state, motion, tile_state, &D_80174148);
             return;
         }
         motion_state->unk_96.s = 8;
@@ -120,7 +120,7 @@ void func_80173294(S_80173294_0 *motion_state, EntityRec *motion, Rec_D_80082E80
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, tile_state->unk_24,
+        dungeonSetRecordIntegerTileCenter(motion, tile_state->unk_24,
             tile_state->unk_25);
         {
 

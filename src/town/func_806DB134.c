@@ -1,6 +1,6 @@
 #include "modules/town_ovl_65b134.h"
 
-u32 func_80016134(s32 unused_query, s32 unused_param) {
+u32 townSubmitSceneCommandPair(s32 unused_query, s32 unused_param) {
     s8 command[2];
 
     command[1] = 0x17;

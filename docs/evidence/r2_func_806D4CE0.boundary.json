@@ -1,0 +1,41 @@
+{
+  "schema": "azure-clean.recovered-function.v1",
+  "id": "town/func_806D4CE0",
+  "group": "ovl_6541c0.c#55",
+  "foff": 6638816,
+  "size": 56,
+  "true_name": "func_80016CE0",
+  "boundary_basis": "Fourteen decoded instructions form a complete service +0x218 wrapper with an explicitly materialized address argument, independent stack/ra frame and jr-ra/nop. It ends at the existing aggregate-copy function entry. This is code-boundary evidence only; it grants no data-ownership or native certificate claim.",
+  "raw_source": "raw/town/func_806D4CE0.c",
+  "raw_sha256": "e264a0d228604526b64c164b8e96744d92f17cafc5d8aaac2742f7bfda2d9976",
+  "byte_proof": {
+    "exact": true,
+    "byte_exact": true,
+    "comparison_mode": "linked-strict",
+    "config": "2.7.2-cdk-G0",
+    "source_sha": "e264a0d228604526b64c164b8e96744d92f17cafc5d8aaac2742f7bfda2d9976",
+    "target_sha": "eb32f44d98bdd297555ff24f4fbc3de7aab46fd4f17aa6edb0ed880fb7e00580",
+    "aligned": {
+      "indels": 0,
+      "substitutions": 0,
+      "total": 0
+    }
+  },
+  "review": "pending",
+  "retail_words": [
+    "0x3C028001",
+    "0x8C426000",
+    "0x27BDFFE8",
+    "0xAFBF0010",
+    "0x8C420020",
+    "0x3C048002",
+    "0x8C420218",
+    "0x00000000",
+    "0x0040F809",
+    "0x24848B44",
+    "0x8FBF0010",
+    "0x27BD0018",
+    "0x03E00008",
+    "0x00000000"
+  ]
+}

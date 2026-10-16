@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_188898c.h"
 
-void func_800247DC(s32 value, void *source_data) {
+void dungeonDelayAndFadeParticle(s32 value, void *source_data) {
     ovl_188898c_81868FDC_Object *obj;
     ovl_188898c_81868FDC_Sprite *sprite;
     u16 *dst;
@@ -8,7 +8,7 @@ void func_800247DC(s32 value, void *source_data) {
 
     obj = (ovl_188898c_81868FDC_Object *)func_8003FC64(0x212);
     if (obj != 0) {
-        obj->callback = (void *)func_80024730;
+        obj->callback = (void *)shrinkAndBrightenEffect;
         sprite = obj->sprite;
         obj->value = value;
         sprite->b = 0x80;

@@ -9,10 +9,10 @@ typedef struct DungeonState {
 } DungeonState;
 
 extern u8 D_8016B778[];
-extern void func_8016AD00(void);
+extern void dungeonAllocateType12Object(void);
 
 /* Advances the object's counter and switches its script when the dungeon is ready. */
-void func_8016D5B4(void *object, s32 unused_1, s32 unused_2, s32 state_base)
+void dungeonAdvanceObjectScriptWhenReady(void *object, s32 unused_1, s32 unused_2, s32 state_base)
 {
     u8 previous_count;
     u8 count;
@@ -32,7 +32,7 @@ void func_8016D5B4(void *object, s32 unused_1, s32 unused_2, s32 state_base)
 
         *(u8 *)((u8 *)object + 0x9B) = previous_count;
         if (dungeonStatus.unk_0A == 0) {
-            func_8016AD00();
+            dungeonAllocateType12Object();
             *(s8 *)((u8 *)object + 0xB4) = 1;
             dungeonStatus.unk_0A = (u16)dungeonStatus.unk_0A + 1;
             *(u8 *)((u8 *)object + 0x9B) = 0;

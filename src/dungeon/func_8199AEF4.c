@@ -26,7 +26,7 @@ typedef struct Child {
 } Child;
 
 
-#define D_800242D4 ((char *)func_800242D4)
+#define D_800242D4 ((char *)dungeonUpdateSourceRelativePositionDelaysMovementAdvancesArcTowardTarget)
 extern char D_80024A8C[];
 
 /* Allocate a node and initialize its child with supplied values and shared source data. */

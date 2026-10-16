@@ -9,19 +9,19 @@
 
 extern void func_80042B68(void *, s32);
 extern void func_80047784(void *, s32, s32);
-extern s32 func_8009A180(void *, void *);
+extern s32 dungeonCheckEntityRelation(void *, void *);
 extern s32 func_8009FB34(s32, s32);
-extern s32 func_8009FD7C(s32, s32, s32, s32);
-extern s32 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern s32 dungeonCompareMonsterNeighborValues(s32, s32, s32, s32);
+extern s32 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern s32 func_800A1C58(void *);
 extern void func_800A9A0C(void *);
-extern void func_800AA258(void *, void *, void *, void *);
-extern s32 func_800AA6B4(void *, void *, void *, void *);
-extern void func_800AA79C(void *, void *, void *, void *);
+extern void dungeonBeginPushedActorMove(void *, void *, void *, void *);
+extern s32 dungeonBeginReadyActorDirectionalAction(void *, void *, void *, void *);
+extern void dungeonAdvanceActorPendingAction(void *, void *, void *, void *);
 extern void func_800AA888(void *, void *, void *, void *);
-extern s32 func_800AA924(void *actor, s32 unused, void *sprite, u8 *direction_frames);
-extern void func_800AAB10(void *, void *, void *, void *);
-extern void func_800AAF00(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state);
+extern s32 dungeonResetActorActionState(void *actor, s32 unused, void *sprite, u8 *direction_frames);
+extern void dungeonProcessSelectedActorRecord(void *, void *, void *, void *);
+extern void dungeonBeginActorSpellAction(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state);
 extern void func_8015F510(void *, void *, void *, void *);
 extern void func_8015F768(u8 *move_work, void *entry_context, u8 *position, u8 *actor);
 extern s32 func_8015FF24(void *, void *, void *, void *);
@@ -66,7 +66,7 @@ typedef struct ActorSprite {
 } ActorSprite;
 
 /* Updates a dungeon actor's behavior, facing, and animation from its current state. */
-void func_8015EF68(void *actor, void *context, ActorSprite *sprite, CreatureState *entity)
+void updateDungeonActorBehaviorAndAnimation(void *actor, void *context, ActorSprite *sprite, CreatureState *entity)
 {
     u8 *anim_table;
     s32 tile_id;
@@ -82,7 +82,7 @@ void func_8015EF68(void *actor, void *context, ActorSprite *sprite, CreatureStat
     if (entity->tileY == 0) {
         u8 *inactive_anims;
 
-        func_800AA79C(actor, context, sprite, entity);
+        dungeonAdvanceActorPendingAction(actor, context, sprite, entity);
         if (sprite->directionFrames != D_80162000) {
             inactive_anims = D_80161FF8;
             sprite->directionFrames = inactive_anims;
@@ -104,14 +104,14 @@ void func_8015EF68(void *actor, void *context, ActorSprite *sprite, CreatureStat
             entity->flags &= ~0x40000;
             return;
         }
-        if (func_800AA924(actor, context, sprite, D_80161FF8)) {
+        if (dungeonResetActorActionState(actor, context, sprite, D_80161FF8)) {
             return;
         }
     }
 
     if (!(dungeonStatus.flags & 0x2000)) {
         if (entity->flags & 0x100) {
-            func_800AA258(actor, context, sprite, entity);
+            dungeonBeginPushedActorMove(actor, context, sprite, entity);
             return;
         }
 
@@ -131,7 +131,7 @@ void func_8015EF68(void *actor, void *context, ActorSprite *sprite, CreatureStat
 
         ((Rec_func_800A9E70_arg0 *)actor)->unk_98 &= 0xFFF3;
         if (entity->reaction != 0) {
-            if (func_800AA6B4(actor, context, sprite, D_80161FC0)) {
+            if (dungeonBeginReadyActorDirectionalAction(actor, context, sprite, D_80161FC0)) {
                     return;
             }
         }
@@ -143,7 +143,7 @@ void func_8015EF68(void *actor, void *context, ActorSprite *sprite, CreatureStat
         }
 
         if ((s16)func_800A1C58(entity) != 0) {
-            func_800AAB10(actor, context, sprite, entity);
+            dungeonProcessSelectedActorRecord(actor, context, sprite, entity);
         }
     }
 
@@ -162,7 +162,7 @@ void func_8015EF68(void *actor, void *context, ActorSprite *sprite, CreatureStat
         }
         if (!(entity->action & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
-                if ((s16)func_8009A180(entity,
+                if ((s16)dungeonCheckEntityRelation(entity,
                         (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
                     return;
                 }
@@ -194,14 +194,14 @@ void func_8015EF68(void *actor, void *context, ActorSprite *sprite, CreatureStat
                 EntityRec *player;
                 s32 direction;
 
-                direction = func_800A0818(
+                direction = dungeonGetRoundedFacingAndRoundingFlag(
                     sprite->position.tile.x, sprite->position.tile.y,
                     D_80082E80.tileX, D_80082E80.tileY,
                     &direction_aux);
                 player = D_800814A8;
                 entity->facing = direction;
                 if (player->unk_9A == 0x11) {
-                    func_800AAF00(actor, context, sprite, D_80161FF0, &D_8015EF68);
+                    dungeonBeginActorSpellAction(actor, context, sprite, D_80161FF0, &D_8015EF68);
                     return;
                 }
             }
@@ -212,7 +212,7 @@ void func_8015EF68(void *actor, void *context, ActorSprite *sprite, CreatureStat
         case 1:
         case 2:
         case 3:
-            func_800AAF00(actor, context, sprite, D_80161FF0, &D_8015EF68);
+            dungeonBeginActorSpellAction(actor, context, sprite, D_80161FF0, &D_8015EF68);
             return;
         default:
             func_8015F768(actor, context, sprite, entity);
@@ -224,10 +224,10 @@ void func_8015EF68(void *actor, void *context, ActorSprite *sprite, CreatureStat
         if ((record_index < 0) || !(D_800E2970[record_index].flags & 2)) {
             if (!(entity->flags & 0x430)) {
 
-                if ((s16)func_8009FD7C(sprite->position.tile.x,
+                if ((s16)dungeonCompareMonsterNeighborValues(sprite->position.tile.x,
                         sprite->position.tile.y, D_80082E80.tileX,
                         D_80082E80.tileY) != 0) {
-                    entity->facing = func_800A0818(
+                    entity->facing = dungeonGetRoundedFacingAndRoundingFlag(
                         sprite->position.tile.x,
                             sprite->position.tile.y,
                         D_80082E80.tileX, D_80082E80.tileY,

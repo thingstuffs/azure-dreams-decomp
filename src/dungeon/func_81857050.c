@@ -6,9 +6,9 @@
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
 
-/* Retail 81857050 (func_80024850): updates the effect's motion, waits for its timer, then fades its sprite to
+/* Retail 81857050 (dungeonAdvanceMotionAndFadeSprite): updates the effect's motion, waits for its timer, then fades its sprite to
  * black and marks the effect (header and global flags) finished. */
-void func_80024850(EffectRecord *effect, EffectMotion *motion, SpriteEntry *sprite) {
+void dungeonAdvanceMotionAndFadeSprite(EffectRecord *effect, EffectMotion *motion, SpriteEntry *sprite) {
     EffectOwner *owner = effect->owner;
     s32 z_velocity;
     s16 state;

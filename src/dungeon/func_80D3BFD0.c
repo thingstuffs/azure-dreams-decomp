@@ -21,44 +21,44 @@ typedef struct S_801717D0_0 {
     u8 unk_6D;
     u8 pad_6E[0x3];
     u8 unk_71;
-} S_801717D0_0;   /* self in func_801717D0 */
+} S_801717D0_0;   /* self in dungeonPrepareActorDirectionalAction */
 
 
 typedef struct S_801717D0_2 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_801717D0_2;   /* counter_base in func_801717D0 */
+} S_801717D0_2;   /* counter_base in dungeonPrepareActorDirectionalAction */
 
 typedef struct S_801717D0_3 {
     u8 pad_00[0x98];
     union { s32 s32; u16 u16; } unk_98;   /* accessed as both */
     u8 pad_9C[0xA];
     u16 unk_A6;
-} S_801717D0_3;   /* player in func_801717D0 */
+} S_801717D0_3;   /* player in dungeonPrepareActorDirectionalAction */
 
 
 typedef struct S_801717D0_5 {
     u8 pad_00[0x12];
     u8 unk_12;
     u8 unk_13;
-} S_801717D0_5;   /* entry in func_801717D0 */
+} S_801717D0_5;   /* entry in dungeonPrepareActorDirectionalAction */
 
 typedef struct S_801717D0_6 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_801717D0_6;   /* call_arg2 in func_801717D0 */
+} S_801717D0_6;   /* call_arg2 in dungeonPrepareActorDirectionalAction */
 
 
 extern void func_80047784(void *, u8, s32);
-extern s32 func_800A05A4(void *, u8, u8, s16, u8);
+extern s32 dungeonScanMonsterAlongHeading(void *, u8, u8, s16, u8);
 extern s32 func_800A2B5C(void *);
-extern void func_800A4ACC(void *);
+extern void dungeonAdvanceStatusTimers(void *);
 extern s32 func_800A6D30(void);
-extern void func_800C77D0(s32 slot_id, void *target, s32 target_id, s16 slot_value);
+extern void dungeonSelectNearbyTargetAndInitializeSlot(s32 slot_id, void *target, s32 target_id, s16 slot_value);
 
 /* Prepares an entity action, updates its directional animation, and advances the counter. */
-void func_801717D0(u8 *entity, s32 action_param, u8 *action_sprite, u8 *frame_table, s32 fallback_state)
+void dungeonPrepareActorDirectionalAction(u8 *entity, s32 action_param, u8 *action_sprite, u8 *frame_table, s32 fallback_state)
 {
     u8 *self;
     u8 *player;
@@ -92,7 +92,7 @@ void func_801717D0(u8 *entity, s32 action_param, u8 *action_sprite, u8 *frame_ta
             ((S_801717D0_3 *)player)->unk_98.u16 |= 0x1000;
             dungeonStatus.unk_0A++;
         } else {
-            func_800A4ACC(self);
+            dungeonAdvanceStatusTimers(self);
             ((S_801717D0_0 *)self)->unk_6D--;
             ((Rec_func_800A9E70_arg0 *)entity)->unk_8C = fallback_state;
             return;
@@ -105,7 +105,7 @@ void func_801717D0(u8 *entity, s32 action_param, u8 *action_sprite, u8 *frame_ta
             return;
         }
 
-        func_800C77D0(self - 0x20, action_param, 8, 0x300);
+        dungeonSelectNearbyTargetAndInitializeSlot(self - 0x20, action_param, 8, 0x300);
         if ((func_800A2B5C(self) << 16) != 0) {
             return;
         }
@@ -132,7 +132,7 @@ void func_801717D0(u8 *entity, s32 action_param, u8 *action_sprite, u8 *frame_ta
             action_entry = action_table + entry_index * 20;
             if (((S_801717D0_5 *)action_entry)->unk_12 == 2) {
                 ((S_801717D0_0 *)self)->unk_60 =
-                    func_800A05A4(self,
+                    dungeonScanMonsterAlongHeading(self,
                                   ((S_801717D0_6 *)action_sprite)->unk_24,
                                   ((S_801717D0_6 *)action_sprite)->unk_25,
                                   ((S_801717D0_0 *)self)->unk_2A.s,

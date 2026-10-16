@@ -1,35 +1,35 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void func_80702670();                         /* extern */
-void func_807026C0();                         /* extern */
-s32 func_80702714();                             /* extern */
+void townShopSetIndexedFlag();                         /* extern */
+void townShopClearIndexedFlag();                         /* extern */
+s32 townShopTestIndexedFlag();                             /* extern */
 extern u8 D_80700000[];
 
 typedef struct S_8070207C_0 {
     u8 pad_00[0x1DCC];
     u16 unk_1DCC;
     u16 unk_1DCE;
-} S_8070207C_0;   /* (D_80700000 + temp_s0) in func_8070207C */
+} S_8070207C_0;   /* (D_80700000 + temp_s0) in townShopDispatchEntryValue */
 
 typedef struct S_8070207C_1 {
     u8 pad_00[0x1DCC];
     u16 unk_1DCC;
-} S_8070207C_1;   /* (D_80700000 + final_index) in func_8070207C */
+} S_8070207C_1;   /* (D_80700000 + final_index) in townShopDispatchEntryValue */
 
 /* Dispatches the entry's second value based on its first, then processes the first. */
-void func_8070207C(s32 entry_index) {
+void townShopDispatchEntryValue(s32 entry_index) {
     s32 entry_offset;
     s32 saved_index;
     s32 final_offset;
 
     saved_index = entry_index;
     entry_offset = entry_index * 4;
-    if (func_80702714(((S_8070207C_0 *)(D_80700000 + entry_offset))->unk_1DCC) != 0) {
-        func_80702670(((S_8070207C_0 *)(D_80700000 + entry_offset))->unk_1DCE);
+    if (townShopTestIndexedFlag(((S_8070207C_0 *)(D_80700000 + entry_offset))->unk_1DCC) != 0) {
+        townShopSetIndexedFlag(((S_8070207C_0 *)(D_80700000 + entry_offset))->unk_1DCE);
     } else {
-        func_807026C0(((S_8070207C_0 *)(D_80700000 + saved_index * 4))->unk_1DCE);
+        townShopClearIndexedFlag(((S_8070207C_0 *)(D_80700000 + saved_index * 4))->unk_1DCE);
     }
     final_offset = saved_index * 4;
-    func_80702670(((S_8070207C_1 *)(D_80700000 + final_offset))->unk_1DCC);
+    townShopSetIndexedFlag(((S_8070207C_1 *)(D_80700000 + final_offset))->unk_1DCC);
 }

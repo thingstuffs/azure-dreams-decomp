@@ -19,7 +19,7 @@ s32 func_80064584(s16);                          /* extern */
 
 
 /* Updates a rotating dungeon effect through delay, contraction, fade, and completion. */
-void func_800245A8(DungeonState *anim, S_8186EDA8_0 *position, DungeonEffect *input_effect) {
+void dungeonAdvanceRotatingFadingEffect(DungeonState *anim, S_8186EDA8_0 *position, DungeonEffect *input_effect) {
     s16 phase;
     s16 fade_angle;
     s16 shrink_angle;

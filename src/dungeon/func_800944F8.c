@@ -25,7 +25,7 @@ typedef struct S_80099C58_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80099C58_0;   /* obj in func_80099C58 */
+} S_80099C58_0;   /* obj in dungeonSpawnRadialParticleBurst */
 
 typedef struct S_80099C58_1 {
     u8 pad_00[0x2];
@@ -37,7 +37,7 @@ typedef struct S_80099C58_1 {
     s32 unk_0C;
     u8 pad_10[0x4];
     s32 unk_14;
-} S_80099C58_1;   /* s1 in func_80099C58 */
+} S_80099C58_1;   /* s1 in dungeonSpawnRadialParticleBurst */
 
 typedef struct S_80099C58_2 {
     u8 pad_00[0xE];
@@ -46,15 +46,15 @@ typedef struct S_80099C58_2 {
     s16 unk_12;
     s16 unk_14;
     s16 unk_16;
-} S_80099C58_2;   /* s2 in func_80099C58 */
+} S_80099C58_2;   /* s2 in dungeonSpawnRadialParticleBurst */
 
 typedef struct S_80099C58_3 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_80099C58_3;   /* v1 in func_80099C58 */
+} S_80099C58_3;   /* v1 in dungeonSpawnRadialParticleBurst */
 
 /* Spawns a central particle and sixteen particles moving radially from the given position. */
-void func_80099C58(s16 x, s16 y, s16 z, s16 flags)
+void dungeonSpawnRadialParticleBurst(s16 x, s16 y, s16 z, s16 flags)
 {
     void *particle;
     S_80099C58_1 *motion;

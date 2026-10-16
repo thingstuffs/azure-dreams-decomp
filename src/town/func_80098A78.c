@@ -2,11 +2,11 @@
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void func_80096208();                         /* extern */
+void townApplyFixedPointBoundaryCorrectionsAccordingGlobal800FE5CC();                         /* extern */
 M2C_UNK func_800962B8(s32);                            /* extern */
 
-/* Pass the input to func_800962B8, then func_80096208. */
-void func_800961D8(s32 input_value) {
+/* Pass the input to func_800962B8, then townApplyFixedPointBoundaryCorrectionsAccordingGlobal800FE5CC. */
+void townCallTheCallee800962B8Callee80096208(s32 input_value) {
     func_800962B8(input_value);
-    func_80096208(input_value);
+    townApplyFixedPointBoundaryCorrectionsAccordingGlobal800FE5CC(input_value);
 }

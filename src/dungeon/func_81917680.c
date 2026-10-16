@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1936800.h"
 
-void *func_80024E80(void *owner, Rec_func_80024E80_arg1 *start_pos) {
+void *dungeonCreateAnOrientedEffectBetweenPositionOwner(void *owner, Rec_func_80024E80_arg1 *start_pos) {
     void *effect;
     Row_81917680_S_80024E80_2 *state;
     Row_81917680_S_80024E80_3 *render;

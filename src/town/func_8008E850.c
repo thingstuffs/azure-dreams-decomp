@@ -3,7 +3,7 @@
 extern void func_8008BF0C(void **);
 
 /* Increase the record value by 0x200, clamp at 0x800, and handle the upper limit. */
-void func_8008BFB0(void **record_ref) {
+void increaseTownRecordValue(void **record_ref) {
     void *record;
     void *first_record;
     u16 value;

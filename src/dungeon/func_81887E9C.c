@@ -86,8 +86,8 @@ void *func_8002569C(S_8002569C_2 *origin, s16 angle, s16 radius, s16 height_offs
 
     object = func_8003FD64(0x202, alloc_arg);
     if (object != NULL) {
-        ((S_8002569C_0 *)object)->unk_10 = (s32 *)func_80025160;
-        func_8004491C(object, (s32 *)func_80025340);
+        ((S_8002569C_0 *)object)->unk_10 = (s32 *)dungeonAdvanceTheEffectStateUpdatesMotionSetsDisplayColor;
+        func_8004491C(object, (s32 *)dungeonBuildAndEnqueueInterpolatedDepthSortedShadedLinesLinkedList);
         positions = ((S_8002569C_0 *)object)->unk_08;
         positions->unk_02 = (s16) (origin->unk_02 + ((s32) (func_80064584(angle) * radius) >> 0xF));
         positions->unk_06 = (s16) (origin->unk_06 + ((s32) (func_800644B8(angle) * radius) >> 0xF));

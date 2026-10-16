@@ -4,24 +4,24 @@
 typedef struct S_80026C94_3 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_80026C94_3;   /* temp_a2 in func_80026C94 */
+} S_80026C94_3;   /* temp_a2 in cardBootLayoutLeftRightLabels */
 
 typedef struct S_80026C94_4 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_80026C94_4;   /* temp_a2_2 in func_80026C94 */
+} S_80026C94_4;   /* temp_a2_2 in cardBootLayoutLeftRightLabels */
 
 typedef struct S_80026C94_5 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_80026C94_5;   /* ((S_80026C94_3 *)temp_a2)->unk_04 in func_80026C94 */
+} S_80026C94_5;   /* ((S_80026C94_3 *)temp_a2)->unk_04 in cardBootLayoutLeftRightLabels */
 
 typedef struct S_80026C94_6 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_80026C94_6;   /* ((S_80026C94_4 *)temp_a2_2)->unk_04 in func_80026C94 */
+} S_80026C94_6;   /* ((S_80026C94_4 *)temp_a2_2)->unk_04 in cardBootLayoutLeftRightLabels */
 
 extern M2C_UNK D_80028418;
 extern M2C_UNK D_80028430;
@@ -30,18 +30,18 @@ typedef struct S_80026C94_0 {
     u8 pad_00[0x60];
     void * unk_60;
     void * unk_64;
-} S_80026C94_0;   /* arg0 in func_80026C94 */
+} S_80026C94_0;   /* arg0 in cardBootLayoutLeftRightLabels */
 
 typedef struct S_80026C94_1 {
     M2C_UNK * unk_00;
-} S_80026C94_1;   /* temp_a2 in func_80026C94 */
+} S_80026C94_1;   /* temp_a2 in cardBootLayoutLeftRightLabels */
 
 typedef struct S_80026C94_2 {
     M2C_UNK * unk_00;
-} S_80026C94_2;   /* temp_a2_2 in func_80026C94 */
+} S_80026C94_2;   /* temp_a2_2 in cardBootLayoutLeftRightLabels */
 
 /* Set the positions and data pointers for the left and right entries. */
-void func_80026C94(S_80026C94_0 *owner) {
+void cardBootLayoutLeftRightLabels(S_80026C94_0 *owner) {
     S_80026C94_1 *left_entry;
 
     left_entry = owner->unk_60;

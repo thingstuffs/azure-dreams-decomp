@@ -33,7 +33,7 @@ void func_80025A80(void *effect, void *position, void *sprite) {
         check_y = ((S_8196C280_0 *)position)->unk_04.at02.v;
         check_z = ((S_8196C280_0 *)position)->unk_08.at02.v;
         D_800269B4 = 1;
-        if ((func_800A45D8(check_x, check_y, check_z) << 0x10) != 0) {
+        if ((dungeonCheckLeftTileAndCenterHeight(check_x, check_y, check_z) << 0x10) != 0) {
             ((S_8196C280_0 *)position)->unk_00.at00.v -= ((S_8196C280_1 *)effect)->unk_8C;
             ((S_8196C280_1 *)effect)->unk_8C = 0;
             ((S_8196C280_1 *)effect)->unk_98 = 0;
@@ -41,7 +41,7 @@ void func_80025A80(void *effect, void *position, void *sprite) {
     }
     ((S_8196C280_0 *)position)->unk_04.at00.v += ((S_8196C280_1 *)effect)->unk_90;
     ((S_8196C280_1 *)effect)->unk_90 += ((S_8196C280_1 *)effect)->unk_9C;
-    if ((func_800A45D8(((S_8196C280_0 *)position)->unk_00.at02.v, ((S_8196C280_0 *)position)->unk_04.at02.v,
+    if ((dungeonCheckLeftTileAndCenterHeight(((S_8196C280_0 *)position)->unk_00.at02.v, ((S_8196C280_0 *)position)->unk_04.at02.v,
         ((S_8196C280_0 *)position)->unk_08.at02.v) << 0x10) != 0) {
         ((S_8196C280_0 *)position)->unk_04.at00.v -= ((S_8196C280_1 *)effect)->unk_90;
         ((S_8196C280_1 *)effect)->unk_90 = 0;

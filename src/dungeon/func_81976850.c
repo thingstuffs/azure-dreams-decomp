@@ -82,7 +82,7 @@ typedef struct Vec16 {
 
 extern u8 *D_800E3D18;
 
-extern s32 func_8003DE58(void *, void *, Vec16 *, s16);
+extern s32 resolveRecordOrientationOrFallback(void *, void *, Vec16 *, s16);
 extern void func_8004491C(void *, void *);
 extern s32 func_800644B8(s32);
 
@@ -113,7 +113,7 @@ void func_81976850(void *effect, void *motion, void *visual)
     case 1:
         source = ((S_81976850_8 *)(((S_81976850_0 *)effect)->unk_00))->unk_0C;
         if ((((S_81976850_1 *)source)->unk_14 & 0x8000) ||
-            func_8003DE58(((S_81976850_1 *)source)->unk_08, source, &delta, 0)) {
+            resolveRecordOrientationOrFallback(((S_81976850_1 *)source)->unk_08, source, &delta, 0)) {
             source_pos = ((S_81976850_8 *)(((S_81976850_0 *)effect)->unk_00))->unk_08;
             ((S_81976850_2 *)motion)->unk_00.at02.v = ((S_81976850_3 *)source_pos)->unk_02;
             ((S_81976850_2 *)motion)->unk_04.at02.v = ((S_81976850_3 *)source_pos)->unk_06;
@@ -151,7 +151,7 @@ void func_81976850(void *effect, void *motion, void *visual)
 
         table_entry = ((gameWork.view.viewAngle + scene->facing + 0x100) >> 7) & 0x1C;
         table_entry += (s32)D_800E3D18;
-        if (func_8003DE58(
+        if (resolveRecordOrientationOrFallback(
                 ((S_81976850_7 *)((void *)table_entry))->unk_00,
                 &D_80082E80,
                 &delta,

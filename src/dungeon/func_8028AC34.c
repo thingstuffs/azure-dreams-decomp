@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void func_8001DC34(floor_generate_isolated_8028AC34_S_8001DC34_0 *region)
+void dungeonClearRegionGridRectangle(floor_generate_isolated_8028AC34_S_8001DC34_0 *region)
 {
     s16 row;
     s16 cells_left;

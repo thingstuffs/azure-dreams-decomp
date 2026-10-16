@@ -1,6 +1,6 @@
 #include "common.h"
 /* Updates an object's movement, blinking, and removal flags from its animation state. */
-void func_80088EDC(void *object, void *motion, void *sprite) {
+void mainUpdateSettingsEffectObject(void *object, void *motion, void *sprite) {
     void *owner = *(void **)object;
     s16 state;
 

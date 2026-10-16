@@ -2,7 +2,7 @@
 
 void advanceEffectState(void)
 {
-    func_80046F88(&D_80016000);
-    func_80047054(&D_80016000, 0xB, 0x7900, 0xD);
+    relocateSpriteMetadataPointers(&D_80016000);
+    patchSpritePacketTextureAndPaletteIds(&D_80016000, 0xB, 0x7900, 0xD);
     D_8008152C = &D_80016000;
 }

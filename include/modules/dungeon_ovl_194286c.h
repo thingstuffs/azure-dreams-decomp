@@ -6,5 +6,5 @@
 /* Samples a random value below the limit, yielding zero for nonpositive limits. */
 s32 func_80069EF8(void);
 
-s32 func_8002406C(s32 limit);
+s32 dungeonProjectAndQueueVisibleShadedQuad(s32 limit);
 #endif

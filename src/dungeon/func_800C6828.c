@@ -7,7 +7,7 @@
 extern s32 D_800CBDB4;
 extern u8 D_800E1B5D;
 
-extern s32 func_8003FA44(s32 a0);
+extern s32 hasEnoughAvailableRuntimeNodes(s32 a0);
 extern s32 func_80042900();
 extern s16 func_800A48F0();
 extern void func_800419EC();
@@ -15,7 +15,7 @@ extern s32 func_800A56E0();
 extern void func_800997FC();
 
 /* Creates an effect for the active entity or displays its status message. */
-s32 func_800CBF88(s32 entity)
+s32 dungeonCreateActiveEntityEffectOrMessage(s32 entity)
 {
     void *effect;
     s32 status;
@@ -23,7 +23,7 @@ s32 func_800CBF88(s32 entity)
     register s32 effect_id_half;
 
     if (entity == ((s32)D_800E3D7C)) {
-        if (func_8003FA44(1) == 0) {
+        if (hasEnoughAvailableRuntimeNodes(1) == 0) {
             return 0;
         }
         status = func_80042900(entity, 0x1C);

@@ -1,0 +1,16 @@
+/* Relink of matched main/func_800105A0; every changed retail word is a paired relocation. */
+#include "common.h"
+
+extern void func_80049D80(s32 target, s16 *rect);
+
+/* Apply a centered rectangle with the given width and height and return the target. */
+s32 func_80023BE4(s32 target, s32 width, s32 height) {
+    s16 rect[4];
+
+    rect[0] = (s16) (-width / 2);
+    rect[2] = (s16) width;
+    rect[1] = (s16) (-height / 2);
+    rect[3] = (s16) height;
+    func_80049D80(target, rect);
+    return target;
+}

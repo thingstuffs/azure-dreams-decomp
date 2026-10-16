@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_be1084.h"
 
-void func_80170A64(void *effect, void *position) {
+void dungeonAdvanceEffectTowardTarget(void *effect, void *position) {
     s16 fade_level;
     s32 scaled_red;
     s32 scaled_green;

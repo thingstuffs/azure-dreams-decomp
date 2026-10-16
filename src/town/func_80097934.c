@@ -11,7 +11,7 @@ s32 func_80065F90(s32, s32);             /* extern */
 static __inline__ s32 clamp_min(s32 value, s32 bound) { if (bound < value) return value; return bound; }
 
 /* Move both components toward zero by direction-dependent steps, clamping at zero. */
-void func_80095094(EntityRec *record) {
+void townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero(EntityRec *record) {
     s32 clamped_x;
     s32 clamped_y;
     s32 min_component;

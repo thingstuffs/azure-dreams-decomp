@@ -16,7 +16,7 @@ typedef struct S_8004DA24_src {
 } S_8004DA24_src;
 
 /* Adds the first two source bytes and copies the next two into the destination when the source exists. */
-void func_8004DA24(S_8004DA24_dst *destination, S_8004DA24_src *source) {
+void addBytePairAndCopyBytePair(S_8004DA24_dst *destination, S_8004DA24_src *source) {
     if (source != 0) {
         destination->f8 += source->f0;
         destination->f9 += source->f1;

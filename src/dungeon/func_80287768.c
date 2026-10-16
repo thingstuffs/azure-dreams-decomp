@@ -2,7 +2,7 @@
 
 /* C89 default promotions keep the public final argument a word while this
  * definition gives the filter its original signed-halfword view. */
-s16 func_8001A768(facing, origin_x, origin_y, tiles, search_arg, radius, filter_arg)
+s16 dungeonSearchOutwardForEligibleTile(facing, origin_x, origin_y, tiles, search_arg, radius, filter_arg)
 u16 *facing;
 s32 origin_x, origin_y;
 s8 *tiles;
@@ -58,7 +58,7 @@ s16 filter_arg;
         tile_index = (s16)tile_index_u16;
         tile = tiles[tile_index];
         if (tile > 0) {
-            if (func_8001ABC8(tile_index, (s16)filter_arg) == 0) {
+            if (dungeonHasGenerationLinkWithinPair(tile_index, (s16)filter_arg) == 0) {
                 return tile_index;
             }
             failures = 1;
@@ -117,7 +117,7 @@ s16 filter_arg;
                                 continue;
                             }
                             if (tile > 0) {
-                                if (func_8001ABC8(tile_index, (s16)saved_filter) == 0) {
+                                if (dungeonHasGenerationLinkWithinPair(tile_index, (s16)saved_filter) == 0) {
                                     *facing = turn_dir;
                                     return tile_index;
                                 }
@@ -133,7 +133,7 @@ s16 filter_arg;
     }
 
     if (failures < 3) {
-        return func_8001A768(facing, (s16)start_x, (s16)start_y, tiles, search_arg,
+        return dungeonSearchOutwardForEligibleTile(facing, (s16)start_x, (s16)start_y, tiles, search_arg,
                              (s16)(saved_radius + 1), (s16)saved_filter);
     }
     return -1;

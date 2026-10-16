@@ -1,7 +1,7 @@
 #include "modules/town_door.h"
 
 /* Changes maps using direct map data or a selected table entry. */
-void func_800A0B74(void *map_source, s32 *map_table) {
+void townChangeDoorMap(void *map_source, s32 *map_table) {
     u8 selection_mode;
 
     selection_mode = *((u8 *)((s8 *)map_source + 0x96));

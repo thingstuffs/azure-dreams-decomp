@@ -6,7 +6,7 @@
 extern void func_80033D08(void *);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
-extern void func_8008F134(void *);
+extern void townUnlinkSceneListNode(void *);
 
 
 typedef struct S_800B9D64_1 {
@@ -28,7 +28,7 @@ void func_800B9D64(void *object, void *offset_state)
     s32 phase_value;
 
     if (*((Rec_D_80082D58 *)object)->unk_98.as_pu8 == 0) {
-        func_8008F134(object);
+        townUnlinkSceneListNode(object);
         func_80033D08(object);
         (*(u16 *)((u8 *)object + (-2))) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;

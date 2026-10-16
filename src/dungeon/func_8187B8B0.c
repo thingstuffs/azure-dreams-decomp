@@ -96,7 +96,7 @@ void func_800250B0(
 
         z_jitter = rand();
         init_obj = spawned_obj;
-        init_data = func_80024DA0;
+        init_data = projectColoredPointToOrderingTable;
         z_jitter &= 0x1F;
         z_pos = ((S_func_800250B0_1 *)source_obj->unk_08)->unk_0A;
         actor_data = (S_func_800250B0_3 *)((u8 *)spawned_obj + 0x20);

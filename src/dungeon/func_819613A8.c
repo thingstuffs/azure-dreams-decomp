@@ -11,10 +11,10 @@
 
 
 
-   /* arg2 in func_80026BA8 */
+   /* arg2 in dungeonCreateTerrainTileQuad */
 
 /* Creates a terrain tile quad using grid heights and the supplied origin. */
-void func_80026BA8(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
+void dungeonCreateTerrainTileQuad(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
     s16 left_x;
     s16 right_x;
     s16 top_y;
@@ -47,7 +47,7 @@ void func_80026BA8(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
         s32 local_height;
         s32 local_y;
         object->field10 = func_800264D4;
-        func_8004491C(object, func_800269CC);
+        func_8004491C(object, dungeonProjectAndQueueSemitransparentQuad);
         column = (s16) tile_x;
         x_offset = (column - 3);
         x_offset <<= 6;

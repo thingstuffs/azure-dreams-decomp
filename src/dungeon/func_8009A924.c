@@ -4,7 +4,7 @@
 extern s16 func_8009FB34(s32, s32);
 
 /* Finds a valid neighboring direction and reports whether one was found. */
-s32 func_800A0084(u8 *object, s16 *direction_out) {
+s32 dungeonFindNeighborWithNonnegativeTileProbe(u8 *object, s16 *direction_out) {
     s32 direction;
 
     for (direction = 0; direction < 8; direction++) {

@@ -25,13 +25,13 @@ typedef struct S_80036880_0 {
 
 
 M2C_UNK SD_Call();                     /* extern */
-void func_80036484();
+void runtimeDecrementCountdownAndReset();
 
 /* Save the object's flags, install state 0x11 and its handler, and set flag 0x80. */
 void func_80036880(S_80036880_0 *object) {
     ((S_80036880_2 *)(((S_80036880_1 *)object)->unk_74))->unk_27 = (u8) object->unk_4D;
     object->unk_64 = 0x11;
-    object->unk_68 = &func_80036484;
+    object->unk_68 = &runtimeDecrementCountdownAndReset;
     object->unk_4D = (u8) (object->unk_4D | 0x80);
     SD_Call(0x503);
 }

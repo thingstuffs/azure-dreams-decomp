@@ -11,7 +11,7 @@ typedef struct S_800BE6F0_0_pre {
     void * unk_04;
     u8 pad_08[0xE];
     u16 unk_16;
-} S_800BE6F0_0_pre;   /* the 0x18 bytes before arg0 in func_800BE6F0, addressed as arg0[-1] */
+} S_800BE6F0_0_pre;   /* the 0x18 bytes before arg0 in dungeonApplyMonsterEggReversionItem, addressed as arg0[-1] */
 
 
 typedef struct S_800BE6F0_1 {
@@ -21,27 +21,27 @@ typedef struct S_800BE6F0_1 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800BE6F0_1;   /* record1 in func_800BE6F0 */
+} S_800BE6F0_1;   /* record1 in dungeonApplyMonsterEggReversionItem */
 
 typedef struct S_800BE6F0_3 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800BE6F0_3;   /* record2 in func_800BE6F0 */
+} S_800BE6F0_3;   /* record2 in dungeonApplyMonsterEggReversionItem */
 
 typedef struct S_800BE6F0_5 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800BE6F0_5;   /* state_base2 in func_800BE6F0 */
+} S_800BE6F0_5;   /* state_base2 in dungeonApplyMonsterEggReversionItem */
 
 
 s32 func_80042900();
-s32 func_8008D330();
-s32 func_80098B38();
+s32 dungeonBeginDeferredItemAction();
+s32 dungeonClearSlotAndUpdateLinkedState();
 s32 func_800990FC();
 s32 func_80099194();
 s32 func_80099290();
-s32 func_80099368();
+s32 dungeonAppendTypedFormattedValue();
 s32 func_80099734();
 s32 func_8009A028();
 s32 func_8009A3D0();
@@ -51,15 +51,15 @@ s32 func_800A5F38();
 s32 func_800A63B8();
 s32 func_800A6620();
 s32 func_800A6D30();
-s32 func_800A90E8();
-s32 func_800B8228();
+s32 clearSelectedItemFlag400();
+s32 dungeonCreateEffectOrFallback();
 
 extern u8 D_80089360[];
 extern u8 D_800E1095[0x1E];
 extern u8 D_800E10B3[];
 
 /* Handles entity removal, displays its message, and updates dungeon state. */
-s32 func_800BE6F0(void *entity, s32 source, s16 reason)
+s32 dungeonApplyMonsterEggReversionItem(void *entity, s32 source, s16 reason)
 {
     u8 spawn_data[4];
     s32 text_buffer;
@@ -79,7 +79,7 @@ s32 func_800BE6F0(void *entity, s32 source, s16 reason)
 
     if (entity == ((u8 *)D_800E3D7C)) {
         ((EntityRec *)entity)->unk_110 = source;
-        func_8008D330(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
+        dungeonBeginDeferredItemAction(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
         return 0;
     }
 
@@ -95,7 +95,7 @@ s32 func_800BE6F0(void *entity, s32 source, s16 reason)
         } else {
             text_end = func_80099734(entity, text_buffer);
             text_end = func_80099194(D_800E10B3, text_end);
-            text_end = func_80099368(source, text_end);
+            text_end = dungeonAppendTypedFormattedValue(source, text_end);
             text_end = func_80099194(D_80089360, text_end);
         }
         func_80099290(text_end);
@@ -114,10 +114,10 @@ s32 func_800BE6F0(void *entity, s32 source, s16 reason)
         spawn_data[1] = 0x12;
         spawn_data[2] = (func_800A6D30() & 0xF) + 0xA;
         spawn_data[3] = 0;
-        func_800A90E8(spawn_data);
+        clearSelectedItemFlag400(spawn_data);
 
         position = ((S_800BE6F0_0_pre *)entity)[-1].unk_00;
-        func_800B8228(
+        dungeonCreateEffectOrFallback(
             position->unk_02,
             position->unk_06,
             position->unk_0A,
@@ -158,7 +158,7 @@ s32 func_800BE6F0(void *entity, s32 source, s16 reason)
         func_800A5F38(entity, source);
         return 1;
     }
-    func_80098B38(source);
+    dungeonClearSlotAndUpdateLinkedState(source);
     dungeonStatus.unk_0A--;
     return 1;
 }

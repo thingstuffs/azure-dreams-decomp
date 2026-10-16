@@ -1,5 +1,5 @@
 #include "modules/dungeon_ovl_198a800.h"
-void (*const dungeon_198a800_entry)(Work *, s32, s32) = func_80025D68;
+void (*const dungeon_198a800_entry)(Work *, s32, s32) = updateStagedParticleEffect;
 const NativeOffsets58 D_80024004 = {{{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1}}};
 const RectTable D_80024024 = {{{832,320,64,64},{832,384,64,64},{832,448,64,64},{896,256,64,64},{896,320,64,64},{896,384,64,64},{896,448,64,64},{832,256,64,64}}};
 #include "../func_8196A800.c"

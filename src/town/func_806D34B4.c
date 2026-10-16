@@ -4,6 +4,6 @@
 extern M2C_UNK D_80016E1C;
 
 /* Returns the address of D_80016E1C. */
-M2C_UNK *func_80016CB4(void) {
+M2C_UNK *townGetFlagTestTableAddress(void) {
     return &D_80016E1C;
 }

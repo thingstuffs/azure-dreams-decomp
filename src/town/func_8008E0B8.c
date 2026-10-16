@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void func_80033C1C();
+void runtimeInitializeStateValue();
 void func_80033D08();
 void func_800375C0();
 void func_8003DB94(void *, void *, s16);
@@ -36,7 +36,7 @@ void func_8008B818(s32 type_id, s32 *init_value_ptr, void *object, void *context
     if (init_value_ptr != 0) {
         init_value = *init_value_ptr;
     }
-    func_80033C1C(context, init_value);
+    runtimeInitializeStateValue(context, init_value);
     {
         s32 context_mode;
         context_mode = 2;

@@ -4,7 +4,7 @@
 
 typedef struct S_800D6C18_0_pre {
     u16 unk_00;
-} S_800D6C18_0_pre;   /* the 0x2 bytes before arg0 in func_800D6C18, addressed as arg0[-1] */
+} S_800D6C18_0_pre;   /* the 0x2 bytes before arg0 in dungeonUpdateExpiringSpriteEffect, addressed as arg0[-1] */
 
 typedef struct S_800D6C18_0 {
     u8 pad_00[0xC];
@@ -16,30 +16,30 @@ typedef struct S_800D6C18_0 {
     u8 pad_18[0x3C];
     s16 unk_54;
     s16 unk_56;
-} S_800D6C18_0;   /* arg0 in func_800D6C18 */
+} S_800D6C18_0;   /* arg0 in dungeonUpdateExpiringSpriteEffect */
 
 typedef struct S_800D6C18_1 {
     u8 pad_00[0x14];
     u32 unk_14;
-} S_800D6C18_1;   /* temp_v1 in func_800D6C18 */
+} S_800D6C18_1;   /* temp_v1 in dungeonUpdateExpiringSpriteEffect */
 
 typedef struct S_800D6C18_2 {
     u8 pad_00[0x14];
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_14;   /* overlapping accesses */
-} S_800D6C18_2;   /* arg1 in func_800D6C18 */
+} S_800D6C18_2;   /* arg1 in dungeonUpdateExpiringSpriteEffect */
 
 typedef struct S_800D6C18_3 {
     u8 pad_00[0x44];
     s16 unk_44;
     u8 pad_46[0x6];
     s16 unk_4C;
-} S_800D6C18_3;   /* var_a0 in func_800D6C18 */
+} S_800D6C18_3;   /* var_a0 in dungeonUpdateExpiringSpriteEffect */
 
 
-void func_800D6AD4(); /* extern */
+void dungeonCreateOffsetSpriteEffect(); /* extern */
 
 /* Updates effect size and offsets, emits a sequence, and flags expiration. */
-void func_800D6C18(void *effect, S_800D6C18_2 *size_state) {
+void dungeonUpdateExpiringSpriteEffect(void *effect, S_800D6C18_2 *size_state) {
     s16 display_size;
     s16 ticks_left;
     s32 index;
@@ -82,7 +82,7 @@ void func_800D6C18(void *effect, S_800D6C18_2 *size_state) {
 
             delta = 0xE0E0E0;
                         /*A*/
-            func_800D6AD4((void *)((s8 *)effect - 0x20), delta, 0, 0, emit_offset >> 0x10, (s16) index);
+            dungeonCreateOffsetSpriteEffect((void *)((s8 *)effect - 0x20), delta, 0, 0, emit_offset >> 0x10, (s16) index);
             delta = -0x40000;
             emit_offset += delta;
             index += 1;

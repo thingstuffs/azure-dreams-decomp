@@ -6,7 +6,7 @@ extern u8 D_8008EAC8[];
 extern u8 D_80096384[];
 
 /* Selects the target dispatch pointer from the source type and flags. */
-void func_80096088(void *target, void *source) {
+void dungeonRestorePlayerControlCallback(void *target, void *source) {
 
     {
         s32 type_match;
@@ -25,7 +25,7 @@ void func_80096088(void *target, void *source) {
 
                     {
                         u8 *default_dispatch;
-                        default_dispatch = (u8 *)func_8008ACDC;
+                        default_dispatch = (u8 *)dungeonHandlePlayerInput;
                         *(void **)((u8 *)target + 0x8C) = default_dispatch;
                     }
                 }

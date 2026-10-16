@@ -9,11 +9,11 @@ extern u8 D_800DF870[];
 extern s32 func_800A6D30(void);
 extern void func_800A6508();
 extern s32 func_800A56E0();
-extern void func_800C8DB0(void *, s32, s32);
+extern void dungeonAttemptActionSixIfEligible(void *, s32, s32);
 extern void func_800C5E5C(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound);
 
 /* Applies a chance-based effect, with visual and sound feedback for unflagged entries. */
-s32 func_800CDD0C(void *state, s32 rng_arg1, s32 rng_arg2, s32 rng_arg3)
+s32 dungeonApplyChanceBasedTrapEffect(void *state, s32 rng_arg1, s32 rng_arg2, s32 rng_arg3)
 {
     s16 roll;
     s32 random_value;
@@ -34,7 +34,7 @@ s32 func_800CDD0C(void *state, s32 rng_arg1, s32 rng_arg2, s32 rng_arg3)
         if (D_800E3D40 != 0) {
             effect_amount = 0x400;
         }
-        func_800C8DB0(state, effect_amount, 0x10);
+        dungeonAttemptActionSixIfEligible(state, effect_amount, 0x10);
 
         entry = *(Entry **)((u8 *)state - 0x14);
         if (!(entry->flags & 0x8000)) {

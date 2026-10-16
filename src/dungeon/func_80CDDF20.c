@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 
 extern s32 func_800AC82C(void *, void *, void *, void *);
-extern s32 func_800AD9B4(void *, void *);
+extern s32 dungeonCheckActorFloorTrap(void *, void *);
 extern void func_80047784(void *, u8, s32);
 
 extern u8 D_80152F20[];
@@ -13,14 +13,14 @@ extern u8 D_80158328[];
 extern u8 D_80158360[];
 
 /* Updates the owner's animation or selects a sprite frame for the actor's direction. */
-void func_80155720(void *owner_arg, void *context, void *sprite_arg, void *actor_arg) {
+void dungeonUpdateOwnerAnimationOrDirectionFrame(void *owner_arg, void *context, void *sprite_arg, void *actor_arg) {
     void *owner = owner_arg;
     void *sprite = sprite_arg;
     void *actor = actor_arg;
     void *frame_set;
 
     if (func_800AC82C(owner_arg, context, sprite_arg, actor_arg) != 0) {
-        if ((func_800AD9B4(sprite, actor) << 0x10) > 0) {
+        if ((dungeonCheckActorFloorTrap(sprite, actor) << 0x10) > 0) {
             if (*(u8 *)((u8 *)owner + 0xA7) != 0) {
                 *(void **)((u8 *)owner + 0x8C) = D_80155B98;
             } else {

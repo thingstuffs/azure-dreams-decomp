@@ -46,7 +46,7 @@ typedef struct ActionState {
 typedef struct ObjectHeaderTail {
     void * sprite;
     u8 pad_04[0x10];
-} ObjectHeaderTail;   /* the 0x14 bytes before obj in func_8015ADEC, addressed as obj[-1] */
+} ObjectHeaderTail;   /* the 0x14 bytes before obj in dungeonUpdateItemSlotAction, addressed as obj[-1] */
 
 typedef struct TilePosition {
     u8 pad_00[0x24];
@@ -54,20 +54,20 @@ typedef struct TilePosition {
     u8 tileY;
 } TilePosition;
 
-extern s32 func_8003F270(void);
+extern s32 getCdCommandQueueDepth(void);
 extern void func_80047784(void *, s32, s32);
-extern void *func_800A05A4(void *, u8, u8, s16, s32);
-extern void func_800A2B04(void *, u8, u8);
-extern void func_800A4ACC(void *);
+extern void *dungeonScanMonsterAlongHeading(void *, u8, u8, s16, s32);
+extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A56E0(s32);
-extern s32 func_800A94A0(void *actor, EntityRec *effect_record, s16 mode, void *context);
-extern void func_800DB2DC(void *, void *, void *, s32);
+extern s32 dungeonCreateActorSpellEffect(void *actor, EntityRec *effect_record, s16 mode, void *context);
+extern void dungeonCreateTwoEffectGroups(void *, void *, void *, s32);
 
 extern u8 D_80158F6C[];
 extern u8 D_8015D258[];
 
 /* Advances an actor action through item_slot selection, execution, and recovery. */
-void func_8015ADEC(ActionState *action_state, EntityRec *transform, ActorSprite *sprite, EntityRec *actor)
+void dungeonUpdateItemSlotAction(ActionState *action_state, EntityRec *transform, ActorSprite *sprite, EntityRec *actor)
 {
     u16 saved_position[3];
     u8 *item_slot;
@@ -141,7 +141,7 @@ void func_8015ADEC(ActionState *action_state, EntityRec *transform, ActorSprite 
                     }
                 } else {
                     actor->target =
-                        func_800A05A4(actor, sprite->tileX, sprite->tileY,
+                        dungeonScanMonsterAlongHeading(actor, sprite->tileX, sprite->tileY,
                                       actor->facing, 0x10);
                     abs_x = abs(actor->unk_72);
                     abs_y = abs(actor->unk_73);
@@ -152,12 +152,12 @@ void func_8015ADEC(ActionState *action_state, EntityRec *transform, ActorSprite 
             saved_position[0] = ((u16)transform->x.w.i);
             saved_position[1] = ((u16)transform->y.w.i);
             saved_position[2] = ((u16)transform->z.w.i);
-            if (func_800A94A0(actor, item_slot, use_global_target, &action_state->flags) == 0) {
+            if (dungeonCreateActorSpellEffect(actor, item_slot, use_global_target, &action_state->flags) == 0) {
                 return;
             }
             sprite->flags &= 0xF7FF;
             func_800A56E0(0x703);
-            func_800DB2DC(transform, sprite, actor, 0x10);
+            dungeonCreateTwoEffectGroups(transform, sprite, actor, 0x10);
             action_state->phase = action_state->phase + 1;
             return;
         }
@@ -165,10 +165,10 @@ void func_8015ADEC(ActionState *action_state, EntityRec *transform, ActorSprite 
         transform->flags14 = 0;
         transform->unk_10 = 0;
         transform->unk_0C = 0;
-        func_800A2B04(transform, sprite->tileX, sprite->tileY);
+        dungeonSetRecordIntegerTileCenter(transform, sprite->tileX, sprite->tileY);
         dungeonStatus.unk_0C = 0;
         ((PlayerActionCounter *)D_800814A8)->pendingActions = ((PlayerActionCounter *)D_800814A8)->pendingActions - 1;
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         actor->unk_6D = ((u8)actor->unk_6D) - 1;
         action_state->handler = D_80158F6C;
         actor->unk_73 = 0;
@@ -177,7 +177,7 @@ void func_8015ADEC(ActionState *action_state, EntityRec *transform, ActorSprite 
         return;
 
     case 1:
-        if (func_8003F270() != 0) {
+        if (getCdCommandQueueDepth() != 0) {
             sprite->flags |= 0x800;
             return;
         }
@@ -204,7 +204,7 @@ void func_8015ADEC(ActionState *action_state, EntityRec *transform, ActorSprite 
         transform->flags14 = 0;
         transform->unk_10 = 0;
         transform->unk_0C = 0;
-        func_800A2B04(transform, sprite->tileX, sprite->tileY);
+        dungeonSetRecordIntegerTileCenter(transform, sprite->tileX, sprite->tileY);
         {
             u8 *direction_table = D_8015D258;
 
@@ -221,7 +221,7 @@ void func_8015ADEC(ActionState *action_state, EntityRec *transform, ActorSprite 
         dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
         sprite->flags &= 0xF7FF;
         action_state->handler = D_80158F6C;
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         if (actor->unk_6D > 0) {
             actor->unk_6D = ((u8)actor->unk_6D) - 1;
         }

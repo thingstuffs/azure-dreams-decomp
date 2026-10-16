@@ -7,8 +7,8 @@
 #include "m2c_compat.h"
 extern void func_80041E70(void *);
 extern void func_80042B68(void *, s8);
-extern void func_8008D330(void *, u8 *, u8 *, void *);
-extern void func_80098B38(s32);
+extern void dungeonBeginDeferredItemAction(void *, u8 *, u8 *, void *);
+extern void dungeonClearSlotAndUpdateLinkedState(s32);
 extern s32 func_800990FC(void);
 extern s32 func_80099194(u8 *src, u8 *dst);
 extern void func_80099290(s8 *byte_ptr);
@@ -16,12 +16,12 @@ extern s32 func_80099734(void *record, u8 *out);
 extern void func_800A5720(s8 *text);
 extern void func_800A5F38(void *, s32);
 extern void func_800A63B8(void *, s32, s16);
-extern s32 func_800AD6FC(void *, s32, s32);
-extern void func_800C4AFC(s32, s32, void *);
+extern s32 dungeonApplyActorFoodPreference(void *, s32, s32);
+extern void dungeonCreateTimedPairedParticleEmitter(s32, s32, void *);
 extern M2C_UNK D_800E0EB4;
 extern M2C_UNK D_800E0EC9;
 /* Kill one actor: the player takes the game-over path, others drop their message, clear their slots and decrement the live count. */
-s32 func_800BD86C(void *actor, s32 cause, s16 amount)
+s32 dungeonUseItemToResetActorStatuses(void *actor, s32 cause, s16 amount)
 {
     s32 handle;
     s32 msg_value;
@@ -31,17 +31,17 @@ s32 func_800BD86C(void *actor, s32 cause, s16 amount)
     s32 slot;
     if (actor == (((u8 *)D_800E3D7C))) {
         *((s32 *) (((s8 *) actor) + 0x110)) = cause;
-        func_8008D330(actor, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), actor);
+        dungeonBeginDeferredItemAction(actor, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), actor);
         return 0;
     }
     if (((u32) actor) <= 0x9FFFFFFFU) {
         func_800A63B8(actor, cause, amount);
-        if (func_800AD6FC(actor, (D_800DDE84[*((u8 *) (((s8 *) actor) + 0x13))] >> 6) & 3, 0) == 0) {
+        if (dungeonApplyActorFoodPreference(actor, (D_800DDE84[*((u8 *) (((s8 *) actor) + 0x13))] >> 6) & 3, 0) == 0) {
             func_800A5F38(actor, cause);
             return 1;
         }
     }
-    func_800C4AFC(*((s32 *) (((s8 *) actor) + (-0x18))), 0x20C0C0, actor);
+    dungeonCreateTimedPairedParticleEmitter(*((s32 *) (((s8 *) actor) + (-0x18))), 0x20C0C0, actor);
 
     if ((*((s32 *) (((s8 *) actor) + 0x14))) & 0x4000) {
         handle = func_800990FC();
@@ -64,7 +64,7 @@ s32 func_800BD86C(void *actor, s32 cause, s16 amount)
     while (slot < 0x21);
     *((s32 *) (((s8 *) actor) + 0x1C)) = (s32) ((*((s32 *) (((s8 *) actor) + 0x1C))) & 0xFBFFE10F);
     func_80041E70(actor);
-    func_80098B38(cause);
+    dungeonClearSlotAndUpdateLinkedState(cause);
     counters = &dungeonStatus;
     *((u16 *) (((s8 *) counters) + 0xA)) = (u16) ((*((u16 *) (((s8 *) counters) + 0xA))) - 1);
     return 1;

@@ -3,7 +3,7 @@
 extern s32 D_800FE520[];
 
 /* Push the point to the nearest edge of each containing rectangle and return the hit side flags. */
-s32 func_80096E9C(s32 *x, s32 *y) {
+s32 townPushPointToContainingEdges(s32 *x, s32 *y) {
     s32 nearest_side[2];
     s32 edge_dist[4];
     s32 *bounds;

@@ -6,7 +6,7 @@ typedef s32 M2C_UNK;
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern void func_800A2B04();
+extern void dungeonSetRecordIntegerTileCenter();
 extern s32 func_800A56E0();
 extern M2C_UNK D_80170E94;
 
@@ -18,7 +18,7 @@ typedef struct S_8017346C_0 {
     u8 unk_9B;
     u8 pad_9C[0x12];
     s8 unk_AE;
-} S_8017346C_0;   /* arg0 in func_8017346C */
+} S_8017346C_0;   /* arg0 in dungeonInitializeActorMotionTransition */
 
 typedef struct S_8017346C_1 {
     u8 pad_00[0x4];
@@ -28,16 +28,16 @@ typedef struct S_8017346C_1 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_8017346C_1;   /* arg2 in func_8017346C */
+} S_8017346C_1;   /* arg2 in dungeonInitializeActorMotionTransition */
 
 
 typedef struct S_8017346C_3 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_8017346C_3;   /* arg3 in func_8017346C */
+} S_8017346C_3;   /* arg3 in dungeonInitializeActorMotionTransition */
 
 /* Initialize actor motion and transition its handler when action flags are set. */
-void func_8017346C(S_8017346C_0 *actor, EntityRec *motion, S_8017346C_1 *action, S_8017346C_3 *status) {
+void dungeonInitializeActorMotionTransition(S_8017346C_0 *actor, EntityRec *motion, S_8017346C_1 *action, S_8017346C_3 *status) {
     u8 phase;
 
     phase = actor->unk_9B;
@@ -65,7 +65,7 @@ void func_8017346C(S_8017346C_0 *actor, EntityRec *motion, S_8017346C_1 *action,
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, action->unk_24, action->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, action->unk_24, action->unk_25);
         actor->unk_8C = &D_80170E94;
         dungeonStatus.unk_0C = 0;
     }

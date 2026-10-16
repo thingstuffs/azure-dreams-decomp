@@ -77,12 +77,12 @@ typedef struct {
 
 extern s32 D_800DEA68[];
 
-extern s32 func_8003DE58(void *entry, void *table, void *scratch, s32 a3);
+extern s32 resolveRecordOrientationOrFallback(void *entry, void *table, void *scratch, s32 a3);
 extern s32 func_800644B8(s32 angle);
 extern s32 func_80069EF8(void);
 
 /* Advance the actor animation, move toward the entry position, and spawn trailing particles. */
-void func_800246C0(Actor *actor, Vec3 *target, Sprite *sprite) {
+void dungeonBuildAndEnqueueFiveTranslucentQuadsBetweenInterpolatedPoints(Actor *actor, Vec3 *target, Sprite *sprite) {
     u16 entry_pos[3];
     u16 start_pos[3];
 
@@ -101,7 +101,7 @@ void func_800246C0(Actor *actor, Vec3 *target, Sprite *sprite) {
             sprite->bottom = sprite->bottom + 0x78;
             sprite->top = sprite->bottom;
         }
-        if (func_8003DE58(((void *)D_80082E80.unk_008), ((EntryTable *)&D_80082E80), entry_pos, 0) != 0) {
+        if (resolveRecordOrientationOrFallback(((void *)D_80082E80.unk_008), ((EntryTable *)&D_80082E80), entry_pos, 0) != 0) {
             target->x.word += ((((s16)entry_pos[0] + D_80083780.x.w.i) - (s16)target->x.half.coord) << 14);
             target->y.word += ((((s16)entry_pos[1] + D_80083780.y.w.i) - (s16)target->y.half.coord) << 14);
             target->z.word += ((((s16)entry_pos[2] + D_80083780.z.w.i) - (s16)target->z.half.coord) << 14);
@@ -113,7 +113,7 @@ void func_800246C0(Actor *actor, Vec3 *target, Sprite *sprite) {
         }
         break;
     case 1:
-        if (func_8003DE58(((void *)D_80082E80.unk_008), ((EntryTable *)&D_80082E80), entry_pos, 0) != 0) {
+        if (resolveRecordOrientationOrFallback(((void *)D_80082E80.unk_008), ((EntryTable *)&D_80082E80), entry_pos, 0) != 0) {
             target->x.word += ((((s16)entry_pos[0] + D_80083780.x.w.i) - (s16)target->x.half.coord) << 15);
             target->y.word += ((((s16)entry_pos[1] + D_80083780.y.w.i) - (s16)target->y.half.coord) << 15);
             target->z.word += ((((s16)entry_pos[2] + D_80083780.z.w.i) - (s16)target->z.half.coord) << 15);

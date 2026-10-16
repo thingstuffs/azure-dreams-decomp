@@ -10,14 +10,14 @@ typedef struct S_801730B4_0 {
     void * unk_8C;
     u8 pad_90[0xB];
     u8 unk_9B;
-} S_801730B4_0;   /* arg0 in func_801730B4 */
+} S_801730B4_0;   /* arg0 in dungeonUpdateActorStatusCallback */
 
 typedef struct S_801730B4_1 {
     u8 pad_00[0x14];
     u16 unk_14;
     u8 pad_16[0x10];
     s8 unk_26;
-} S_801730B4_1;   /* arg2 in func_801730B4 */
+} S_801730B4_1;   /* arg2 in dungeonUpdateActorStatusCallback */
 
 typedef struct S_801730B4_2 {
     u8 pad_00[0x1C];
@@ -30,7 +30,7 @@ typedef struct S_801730B4_2 {
     s16 unk_64;
     u8 pad_66[0x7];
     s8 unk_6D;
-} S_801730B4_2;   /* arg3 in func_801730B4 */
+} S_801730B4_2;   /* arg3 in dungeonUpdateActorStatusCallback */
 
 typedef struct S_801730B4_5 {
     u8 pad_00[0x92];
@@ -39,21 +39,21 @@ typedef struct S_801730B4_5 {
     u16 unk_A6;
     u8 pad_A8[0xA];
     u16 unk_B2;
-} S_801730B4_5;   /* copy_arg0 in func_801730B4 */
+} S_801730B4_5;   /* copy_arg0 in dungeonUpdateActorStatusCallback */
 
 
 extern s32 func_80042900(void *, s32);
 extern void func_80042B68(void *, s32);
 extern void func_80047784(void *, u8, s32);
-extern s32 func_8009A180(void *, void *);
-extern s32 func_8009FD40(void *, void *);
+extern s32 dungeonCheckEntityRelation(void *, void *);
+extern s32 dungeonGetTileChebyshevDistance(void *, void *);
 extern s32 func_800A2C34(void *);
 extern s32 func_800A6D30(void);
 extern void func_800A9A04(void *);
 extern void func_800A9A0C(void *);
-extern void func_800AA258(void *, void *, void *, void *);
-extern s32 func_800AA6B4(void *, void *, void *, s32);
-extern void func_800AA79C(void *, void *, void *, void *);
+extern void dungeonBeginPushedActorMove(void *, void *, void *, void *);
+extern s32 dungeonBeginReadyActorDirectionalAction(void *, void *, void *, s32);
+extern void dungeonAdvanceActorPendingAction(void *, void *, void *, void *);
 extern void func_800AA888(void *, void *, void *, void *);
 extern void func_80173834(void *, void *, void *, void *);
 
@@ -62,7 +62,7 @@ extern u8 D_801748E0[];
 extern u8 D_801748E8[];
 
 /* Updates actor state, animation, and callback according to entity status flags. */
-void func_801730B4(void *actor_in, void *context_in, void *sprite_in, void *entity_in)
+void dungeonUpdateActorStatusCallback(void *actor_in, void *context_in, void *sprite_in, void *entity_in)
 {
     void *context = context_in;
     s32 status_flags;
@@ -116,7 +116,7 @@ void func_801730B4(void *actor_in, void *context_in, void *sprite_in, void *enti
                 return;
             }
             if (((S_801730B4_2 *)entity_in)->unk_64 != 0) {
-                if (func_800AA6B4(actor_in, context, sprite_in, 0) != 0) {
+                if (dungeonBeginReadyActorDirectionalAction(actor_in, context, sprite_in, 0) != 0) {
                     return;
                 }
             }
@@ -124,7 +124,7 @@ void func_801730B4(void *actor_in, void *context_in, void *sprite_in, void *enti
                 if (dungeonStatus.flags & 0x2008) {
                     return;
                 }
-                func_800AA79C(actor_in, context, sprite_in, entity_in);
+                dungeonAdvanceActorPendingAction(actor_in, context, sprite_in, entity_in);
                 return;
             }
             if ((func_800A2C34(entity_in) << 16) != 0) {
@@ -132,7 +132,7 @@ void func_801730B4(void *actor_in, void *context_in, void *sprite_in, void *enti
             }
             status_flags = ((S_801730B4_2 *)entity_in)->unk_1C.u;
             if (status_flags & 0x100) {
-                func_800AA258(actor_in, context, sprite_in, entity_in);
+                dungeonBeginPushedActorMove(actor_in, context, sprite_in, entity_in);
                 return;
             }
             if (status_flags & 0x80000) {
@@ -152,7 +152,7 @@ void func_801730B4(void *actor_in, void *context_in, void *sprite_in, void *enti
             if ((func_800A2C34(entity_in) << 16) != 0) {
                 EntityRec *owner = D_800814A8;
 
-                if ((func_8009A180(entity_in,
+                if ((dungeonCheckEntityRelation(entity_in,
                         (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
@@ -164,7 +164,7 @@ void func_801730B4(void *actor_in, void *context_in, void *sprite_in, void *enti
                 s8 tile = ((S_801730B4_1 *)sprite_in)->unk_26;
 
                 if (((tile == origin->unk_026) && (tile >= 0)) ||
-                    ((s16)func_8009FD40(origin, sprite_in) < 2)) {
+                    ((s16)dungeonGetTileChebyshevDistance(origin, sprite_in) < 2)) {
                     if (!(func_800A6D30() & 7)) {
                         func_80042B68(entity_in, 1);
                     }

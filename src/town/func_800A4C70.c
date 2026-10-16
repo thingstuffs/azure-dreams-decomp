@@ -9,13 +9,13 @@ typedef struct S_800A23D0_0 {
     s32 unk_08;
     u8 pad_0C[0xE];
     s16 unk_1A;
-} S_800A23D0_0;   /* arg2 in func_800A23D0 */
+} S_800A23D0_0;   /* arg2 in townInitializeObjectPositionState */
 
 typedef struct S_800A23D0_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
     s32 unk_08;
-} S_800A23D0_1;   /* arg1 in func_800A23D0 */
+} S_800A23D0_1;   /* arg1 in townInitializeObjectPositionState */
 
 typedef struct S_800A23D0_2 {
     M2C_UNK * unk_00;
@@ -23,13 +23,13 @@ typedef struct S_800A23D0_2 {
     void * unk_14;
     u8 pad_18[0x8];
     s16 unk_20;
-} S_800A23D0_2;   /* arg0 in func_800A23D0 */
+} S_800A23D0_2;   /* arg0 in townInitializeObjectPositionState */
 
 typedef struct S_800A23D0_3 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_800A23D0_3;   /* ((S_800A23D0_2 *)arg0)->unk_14 in func_800A23D0 */
+} S_800A23D0_3;   /* ((S_800A23D0_2 *)arg0)->unk_14 in townInitializeObjectPositionState */
 
 
 extern s32 func_8004491C();
@@ -38,7 +38,7 @@ extern M2C_UNK D_800A24A8;
 extern M2C_UNK D_800D0A48;
 
 /* Initialize object state and copy its position with an offset. */
-void func_800A23D0(void *object, S_800A23D0_1 *position, S_800A23D0_0 *state) {
+void townInitializeObjectPositionState(void *object, S_800A23D0_1 *position, S_800A23D0_0 *state) {
     M2C_UNK *value_table;
     state->unk_00 = 0;
     state->unk_04 = 0;

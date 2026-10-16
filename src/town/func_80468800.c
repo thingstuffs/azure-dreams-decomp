@@ -12,14 +12,14 @@ typedef struct S_func_80019800_1 {
     s16 unk_02;
 } S_func_80019800_1;
 
-extern void *func_80019AFC();
+extern void *townSelectEventDataTable();
 
 /* Checks the active event and dispatches the 0x27/0x200 handler when matched. */
-s32 func_80019800(void) {
+s32 townDispatchActiveEvent27(void) {
     S_func_80019800_1 *event;
 
     if ((u8) D_8001E950->dispatchState < 2U) {
-        event = func_80019AFC(D_8001E950->dispatchState,
+        event = townSelectEventDataTable(D_8001E950->dispatchState,
                               D_8001E950->unk_05);
         if (event->unk_00 == 0x27) {
             if (event->unk_02 == 0x200) {

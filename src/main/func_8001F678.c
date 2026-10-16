@@ -23,10 +23,10 @@ extern StructA_8001F678 *func_8003C714(s32 value, s32 value2, s32 value3);
 extern void func_80406570(void *ptr, s32 value);
 extern void func_804023C4(void);
 extern void func_80402214(void);
-extern s32 func_80404C84(StructA_8001F678 *state, s32 *value_ptr);
-extern s32 func_80403BC4(StructA_8001F678 *state);
-extern s32 func_804057F0(StructA_8001F678 *state, s32 value);
-extern void func_804065CC(void);
+extern s32 initCardBackgroundObject(StructA_8001F678 *state, s32 *value_ptr);
+extern s32 initCardOptionsObject(StructA_8001F678 *state);
+extern s32 initCardInfoObject(StructA_8001F678 *state, s32 value);
+extern void cardDevkitBuildSaveSlotWindows(void);
 extern u8 D_8040C628[0x1C];
 
 /* Creates and initializes state and installs its update callback. */
@@ -38,10 +38,10 @@ StructA_8001F678 *func_8001F678(s32 init_value) {
     func_804023C4();
     func_80402214();
     state->unk68 = 1;
-    state->unk20 = func_80404C84(state, &state->unk68);
-    state->unk38 = func_80403BC4(state);
-    state->unk3C = func_804057F0(state, state->unk48);
+    state->unk20 = initCardBackgroundObject(state, &state->unk68);
+    state->unk38 = initCardOptionsObject(state);
+    state->unk3C = initCardInfoObject(state, state->unk48);
     state->unk44 = 0;
-    state->unk10 = func_804065CC;
+    state->unk10 = cardDevkitBuildSaveSlotWindows;
     return state;
 }

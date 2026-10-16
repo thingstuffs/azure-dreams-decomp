@@ -11,31 +11,31 @@ typedef struct S_800233D0_1 {
     void * unk_1C8;
     u8 pad_1CC[0xC];
     void * unk_1D8;
-} S_800233D0_1;   /* cursor in func_800233D0 */
+} S_800233D0_1;   /* cursor in cardBootBindCommandPanelResources */
 
 typedef struct S_800233D0_2 {
     s32 unk_00;
-} S_800233D0_2;   /* ((Rec_func_800233D0_arg0 *)arg0)->unk_1A0 in func_800233D0 */
+} S_800233D0_2;   /* ((Rec_func_800233D0_arg0 *)arg0)->unk_1A0 in cardBootBindCommandPanelResources */
 
 typedef struct S_800233D0_3 {
     void * unk_00;
-} S_800233D0_3;   /* ((Rec_func_800233D0_arg0 *)arg0)->unk_1A4 in func_800233D0 */
+} S_800233D0_3;   /* ((Rec_func_800233D0_arg0 *)arg0)->unk_1A4 in cardBootBindCommandPanelResources */
 
 typedef struct S_800233D0_4 {
     void * unk_00;
-} S_800233D0_4;   /* ((S_800233D0_1 *)cursor)->unk_1A8 in func_800233D0 */
+} S_800233D0_4;   /* ((S_800233D0_1 *)cursor)->unk_1A8 in cardBootBindCommandPanelResources */
 
 typedef struct S_800233D0_5 {
     void * unk_00;
-} S_800233D0_5;   /* ((S_800233D0_1 *)cursor)->unk_1B8 in func_800233D0 */
+} S_800233D0_5;   /* ((S_800233D0_1 *)cursor)->unk_1B8 in cardBootBindCommandPanelResources */
 
 typedef struct S_800233D0_6 {
     void * unk_00;
-} S_800233D0_6;   /* ((S_800233D0_1 *)cursor)->unk_1C8 in func_800233D0 */
+} S_800233D0_6;   /* ((S_800233D0_1 *)cursor)->unk_1C8 in cardBootBindCommandPanelResources */
 
 typedef struct S_800233D0_7 {
     void * unk_00;
-} S_800233D0_7;   /* ((S_800233D0_1 *)cursor)->unk_1D8 in func_800233D0 */
+} S_800233D0_7;   /* ((S_800233D0_1 *)cursor)->unk_1D8 in cardBootBindCommandPanelResources */
 
 
 extern s32 func_80049E6C(s32 kind);
@@ -45,7 +45,7 @@ extern u8 D_80077EFC[];
 
 
 /* Initialize the object's shared references and three data block references. */
-void func_800233D0(void *object)
+void cardBootBindCommandPanelResources(void *object)
 {
     u8 *slot_cursor;
     void *shared_data;

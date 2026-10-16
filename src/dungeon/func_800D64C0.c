@@ -7,12 +7,12 @@ typedef struct {
     s16 fourth;
 } DrawRecord;
 
-extern void func_8004E57C(s32 value, u16 width, char *buf);
+extern void formatReversedDecimalSpacePadded(s32 value, u16 width, char *buf);
 extern void func_800673A0(void *record, s32 y, s32 x);
 extern u8 D_800808ED[];
 
 /* Draws the first formatted number with mode-dependent padding glyphs. */
-void func_800DBC20(s32 first_number, s32 second_number, u16 width, s16 y, u16 x, s16 mode)
+void dungeonDrawPaddedFirstNumber(s32 first_number, s32 second_number, u16 width, s16 y, u16 x, s16 mode)
 {
     DrawRecord record;
     char first_buf[16];
@@ -21,8 +21,8 @@ void func_800DBC20(s32 first_number, s32 second_number, u16 width, s16 y, u16 x,
     s16 padding_mode;
 
     cursor = (u8 *)first_buf;
-    func_8004E57C(first_number, width, first_buf);
-    func_8004E57C(second_number, width, second_buf);
+    formatReversedDecimalSpacePadded(first_number, width, first_buf);
+    formatReversedDecimalSpacePadded(second_number, width, second_buf);
     if (first_buf[0] != 0) {
         padding_mode = mode;
         do {

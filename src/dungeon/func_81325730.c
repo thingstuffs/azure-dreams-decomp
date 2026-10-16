@@ -50,15 +50,15 @@ extern u8 D_800F93AA[];
 
 extern void func_800353F4(void *);
 extern void func_80047784(Arg2 *, u8, s32);
-extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void func_800A4ACC(Arg3 *);
+extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void dungeonAdvanceStatusTimers(Arg3 *);
 extern void func_800A56E0(s32);
-extern void func_8016A908(u8 *state);
-extern void func_8016AD00(void);
+extern void dungeonClearActorActionMarkers(u8 *state);
+extern void dungeonAllocateType12Object(void);
 extern void func_8016D11C(void) __attribute__((noreturn));
 
 /* Advances the dungeon transition animation and resets entry resources when it completes. */
-void func_8016CF30(DungeonState *state, Arg1 *motion, Arg2 *animation, Arg3 *actor) {
+void dungeonAdvanceTransitionAnimation(DungeonState *state, Arg1 *motion, Arg2 *animation, Arg3 *actor) {
     s32 stage;
 
     stage = state->unk9b;
@@ -80,7 +80,7 @@ void func_8016CF30(DungeonState *state, Arg1 *motion, Arg2 *animation, Arg3 *act
     case 2:
         state->unk96 = state->unk96 + 1;
         if ((s16)state->unk96 == 10 || (animation->flags & 0x8000)) {
-            func_8009C12C(actor, animation, actor->unk2a, 1);
+            dungeonResolveAttackDamageAndEffects(actor, animation, actor->unk2a, 1);
             state->unk96 = 0;
             state->unk9b = state->unk9b + 1;
         }
@@ -95,7 +95,7 @@ void func_8016CF30(DungeonState *state, Arg1 *motion, Arg2 *animation, Arg3 *act
                 s32 resource_flag;
                 void *effect;
 
-                func_8016AD00();
+                dungeonAllocateType12Object();
                 effect = D_800F93AA;
                 state->unk8c = D_8016B778;
                 dungeonStatus.unk_0C = 0;
@@ -116,7 +116,7 @@ void func_8016CF30(DungeonState *state, Arg1 *motion, Arg2 *animation, Arg3 *act
                     if (entry->unkac != 0) {
                         u32 *resource_header;
 
-                        func_8016A908(entry->unkac);
+                        dungeonClearActorActionMarkers(entry->unkac);
                         entry = (DungeonEntry *)((u32)(entry_index * 4) + (u32)((DungeonEntry *)D_800E3D7C));
                         resource_header = (u32 *)(entry->unkac - 0x20);
                         resource_header[4] = resource_header[4] | resource_flag;
@@ -129,7 +129,7 @@ void func_8016CF30(DungeonState *state, Arg1 *motion, Arg2 *animation, Arg3 *act
             } else {
                 state->unk8c = D_8016B778;
                 dungeonStatus.unk_0C = 0;
-                func_800A4ACC(actor);
+                dungeonAdvanceStatusTimers(actor);
                 actor->flags46 = actor->flags46 & 0x7FFF;
             }
         }

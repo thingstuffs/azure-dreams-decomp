@@ -21,7 +21,7 @@ typedef struct S_8004B364_Node {
 extern void func_8004B324(void *a0, void *a1);
 
 /* Allocates a pool node, installs its record and callback when both values exist, and returns its payload or NULL. */
-void *func_8004B364(void *second_value, void *first_value)
+void *createCallbackPairPayload(void *second_value, void *first_value)
 {
     S_8004B364_Node *node = (S_8004B364_Node *)func_8003FC64(0);
 

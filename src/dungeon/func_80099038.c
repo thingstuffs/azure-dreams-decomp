@@ -3,7 +3,7 @@
 #include "shared/game_work.h"
 #include "records/Rec_D_80083160.h"
 
-   /* state in func_8009E798 */
+   /* state in dungeonBuildTransformedSpriteQuads */
 
 typedef struct S_8009E798_1 {
     union { u16 u; s16 s; } unk_00;   /* accessed as both */
@@ -53,7 +53,7 @@ typedef struct S_8009E798_1 {
     u8 pad_F0[0x10];
     u16 unk_100;
     u16 unk_102;
-} S_8009E798_1;   /* scratch in func_8009E798 */
+} S_8009E798_1;   /* scratch in dungeonBuildTransformedSpriteQuads */
 
 typedef struct S_8009E798_2 {
     u8 pad_00[0x2];
@@ -62,7 +62,7 @@ typedef struct S_8009E798_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_8009E798_2;   /* arg1 in func_8009E798 */
+} S_8009E798_2;   /* arg1 in dungeonBuildTransformedSpriteQuads */
 
 typedef struct S_8009E798_3 {
     u8 pad_00[0x8];
@@ -79,7 +79,7 @@ typedef struct S_8009E798_3 {
     u16 unk_22;
     u8 pad_24[0x1];
     u8 unk_25;
-} S_8009E798_3;   /* var_s2 in func_8009E798 */
+} S_8009E798_3;   /* var_s2 in dungeonBuildTransformedSpriteQuads */
 
 
 typedef struct S_8009E798_5_pre {
@@ -91,7 +91,7 @@ typedef struct S_8009E798_5_pre {
     u8 pad_14[0x4];
     u32 unk_18;
     u8 pad_1C[0x4];
-} S_8009E798_5_pre;   /* the 0x20 bytes before var_s1 in func_8009E798, addressed as var_s1[-1] */
+} S_8009E798_5_pre;   /* the 0x20 bytes before var_s1 in dungeonBuildTransformedSpriteQuads, addressed as var_s1[-1] */
 
 typedef struct S_8009E798_5 {
     u8 pad_00[0x2];
@@ -116,7 +116,7 @@ typedef struct S_8009E798_5 {
     u32 unk_0C;
     u32 unk_10;
     u32 unk_14;
-} S_8009E798_5;   /* var_s1 in func_8009E798 */
+} S_8009E798_5;   /* var_s1 in dungeonBuildTransformedSpriteQuads */
 
 typedef struct S_8009E798_6 {
     u8 pad_00[0x4];
@@ -127,7 +127,7 @@ typedef struct S_8009E798_6 {
     u8 pad_10[0x12];
     u16 unk_22;
     u16 unk_24;
-} S_8009E798_6;   /* packet in func_8009E798 */
+} S_8009E798_6;   /* packet in dungeonBuildTransformedSpriteQuads */
 
 typedef struct S_8009E798_7 {
     u8 pad_00[0x4];
@@ -135,13 +135,13 @@ typedef struct S_8009E798_7 {
     u16 unk_06;
     u16 unk_08;
     u16 unk_0A;
-} S_8009E798_7;   /* var_s4 in func_8009E798 */
+} S_8009E798_7;   /* var_s4 in dungeonBuildTransformedSpriteQuads */
 
-   /* ret_state in func_8009E798 */
+   /* ret_state in dungeonBuildTransformedSpriteQuads */
 
 
 
-extern void func_8003DB6C(void *, void *, s32);
+extern void copyWordsForward(void *, void *, s32);
 extern void func_800649A0(void);
 extern void func_80064A40(void);
 extern void *func_80064BC0(void *, void *);
@@ -158,7 +158,7 @@ extern void func_80067F20(void *, s32, s32, s32, s32);
 extern u8 D_801C9E40[16];
 
 /* Build and enqueue transformed sprite quads and restore the drawing area. */
-s32 func_8009E798(void *draw_area, void *placement, void *sprite)
+s32 dungeonBuildTransformedSpriteQuads(void *draw_area, void *placement, void *sprite)
 {
     u8 **state_ptr = (u8 **)((u8 *)(&gameWork));
     u8 *state = *state_ptr;
@@ -263,7 +263,7 @@ s32 func_8009E798(void *draw_area, void *placement, void *sprite)
     func_800666F4(packet);
 
     copy = packet + 0x28;
-    func_8003DB6C(copy, packet, 0xA);
+    copyWordsForward(copy, packet, 0xA);
     ((S_8009E798_6 *)packet)->unk_04.at03.v |= 2;
     packet = copy;
     prim = packet + 0x28;

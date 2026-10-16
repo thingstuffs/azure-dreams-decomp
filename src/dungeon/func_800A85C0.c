@@ -10,12 +10,12 @@ typedef struct S_800ADD20_0 {
     s32 unk_14;
     u8 pad_18[0x80];
     u16 unk_98;
-} S_800ADD20_0;   /* arg0 in func_800ADD20 */
+} S_800ADD20_0;   /* arg0 in dungeonRollActorFlagOnce */
 
 
 extern s32 func_800A6D30(void);
 /* Once per object, set flag 0x100 if the computed low 16 bits are divisible by divisor. */
-void func_800ADD20(S_800ADD20_0 *object, s32 divisor, s32 calc_arg2, s32 calc_arg3) {
+void dungeonRollActorFlagOnce(S_800ADD20_0 *object, s32 divisor, s32 calc_arg2, s32 calc_arg3) {
     s32 state_flags;
     u16 result_flags;
 

@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7e765800.h"
 
-void func_80024264(Row_8189EA64_S_80024264_0 *sequence, s32 unused, Rec_D_80082E80 *record)
+void createRandomizedGrayscaleEffect(Row_8189EA64_S_80024264_0 *sequence, s32 unused, Rec_D_80082E80 *record)
 {
     s16 word_or_frame;
     s16 state;

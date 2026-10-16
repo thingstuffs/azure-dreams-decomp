@@ -1,0 +1,160 @@
+/* Relink of matched dungeon/func_80D3BFD0; every changed retail word is a paired relocation. */
+#include "common.h"
+#include "shared/def_table.h"
+#include "shared/entity.h"
+#include "shared/record_ptrs.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_status.h"
+#include "records/Rec_func_800A9E70_arg0.h"
+
+typedef struct S_801717D0_0 {
+    u8 pad_00[0x14];
+    s32 unk_14;
+    u8 pad_18[0x4];
+    s32 unk_1C;
+    u8 pad_20[0xA];
+    union { u16 u; s16 s; } unk_2A;   /* accessed as both */
+    u8 pad_2C[0x1A];
+    s16 unk_46;
+    u8 pad_48[0x18];
+    s32 unk_60;
+    u8 pad_64[0x9];
+    u8 unk_6D;
+    u8 pad_6E[0x3];
+    u8 unk_71;
+} S_801717D0_0;   /* self in func_801657D0 */
+
+
+typedef struct S_801717D0_2 {
+    u8 pad_00[0xA];
+    u16 unk_0A;
+} S_801717D0_2;   /* counter_base in func_801657D0 */
+
+typedef struct S_801717D0_3 {
+    u8 pad_00[0x98];
+    union { s32 s32; u16 u16; } unk_98;   /* accessed as both */
+    u8 pad_9C[0xA];
+    u16 unk_A6;
+} S_801717D0_3;   /* player in func_801657D0 */
+
+
+typedef struct S_801717D0_5 {
+    u8 pad_00[0x12];
+    u8 unk_12;
+    u8 unk_13;
+} S_801717D0_5;   /* entry in func_801657D0 */
+
+typedef struct S_801717D0_6 {
+    u8 pad_00[0x24];
+    u8 unk_24;
+    u8 unk_25;
+} S_801717D0_6;   /* call_arg2 in func_801657D0 */
+
+
+extern void func_80047784(void *, u8, s32);
+extern s32 dungeonScanMonsterAlongHeading(void *, u8, u8, s16, u8);
+extern s32 func_800A2B5C(void *);
+extern void dungeonAdvanceStatusTimers(void *);
+extern s32 func_800A6D30(void);
+extern void dungeonSelectNearbyTargetAndInitializeSlot(s32 slot_id, void *target, s32 target_id, s16 slot_value);
+
+/* Prepares an entity action, updates its directional animation, and advances the counter. */
+void func_801657D0(u8 *entity, s32 action_param, u8 *action_sprite, u8 *frame_table, s32 fallback_state)
+{
+    u8 *self;
+    u8 *player;
+    u8 *action_slot;
+    u8 *action_table;
+    u8 *action_entry;
+    u16 *action_flags;
+    s32 action_word;
+    u16 counter;
+    s32 special_action;
+    s32 selection_index;
+    s32 entry_index;
+    s32 state_flags;
+
+    special_action = 0;
+    self = entity;
+    ((S_801717D0_0 *)self)->unk_71 &= 0x7F;
+
+    if ((((S_801717D0_0 *)self)->unk_1C & 0x2000) && ((((S_801717D0_0 *)self)->unk_46 & 0x3FFF) >= 5)) {
+        special_action = 1;
+        if ((*(u16 *)((u8 *)&((EntityRec *)((u8 *)D_800E3D7C))->unk_A4 + 2)) == 2) {
+            counter = ((u16)dungeonStatus.unk_0A);
+            counter--;
+            dungeonStatus.unk_0A = counter;
+        }
+
+        player = ((u8 *)D_800E3D7C);
+        if ((((S_801717D0_3 *)player)->unk_98.s32 & 0x3000) == 0x2000 &&
+            ((S_801717D0_3 *)player)->unk_A6 != special_action) {
+            ((S_801717D0_3 *)player)->unk_A6 = special_action;
+            ((S_801717D0_3 *)player)->unk_98.u16 |= 0x1000;
+            dungeonStatus.unk_0A++;
+        } else {
+            dungeonAdvanceStatusTimers(self);
+            ((S_801717D0_0 *)self)->unk_6D--;
+            ((Rec_func_800A9E70_arg0 *)entity)->unk_8C = fallback_state;
+            return;
+        }
+    } else {
+        if (dungeonStatus.flags & 8) {
+            return;
+        }
+        if ((func_800A2B5C(self) << 16) != 0) {
+            return;
+        }
+
+        dungeonSelectNearbyTargetAndInitializeSlot(self - 0x20, action_param, 8, 0x300);
+        if ((func_800A2B5C(self) << 16) != 0) {
+            return;
+        }
+    }
+    if (special_action == 0) {
+        if (((S_801717D0_0 *)self)->unk_1C & 0x400) {
+            state_flags = ((S_801717D0_0 *)self)->unk_14;
+            if (!(state_flags & 0x80000000)) {
+                state_flags |= 0x80000000;
+                ((S_801717D0_0 *)self)->unk_14 = state_flags;
+                ((S_801717D0_0 *)self)->unk_2A.u += (func_800A6D30() & 7) << 9;
+            }
+        }
+
+        action_flags = (u16 *)(self + 0x46);
+        if (!(*action_flags & 0x4000)) {
+            action_word = *action_flags;
+            selection_index = action_word & 0x3FFF;
+            entry_index = selection_index - 1;
+            action_table = D_8006DE24;
+            action_slot = self;
+            action_slot += entry_index * 3;
+            entry_index = action_slot[8];
+            action_entry = action_table + entry_index * 20;
+            if (((S_801717D0_5 *)action_entry)->unk_12 == 2) {
+                ((S_801717D0_0 *)self)->unk_60 =
+                    dungeonScanMonsterAlongHeading(self,
+                                  ((S_801717D0_6 *)action_sprite)->unk_24,
+                                  ((S_801717D0_6 *)action_sprite)->unk_25,
+                                  ((S_801717D0_0 *)self)->unk_2A.s,
+                                  ((S_801717D0_5 *)action_entry)->unk_13);
+            }
+        }
+        ((Rec_func_800A9E70_arg0 *)entity)->unk_9A.as_u8 = 0x12;
+    } else {
+        ((Rec_func_800A9E70_arg0 *)entity)->unk_9A.as_u8 = 0x12;
+    }
+
+    ((Rec_func_800A9E70_arg0 *)entity)->unk_9B.as_u8 = 0;
+    ((Rec_func_800A9E70_arg0 *)entity)->unk_8C = 0;
+
+    if (frame_table != 0) {
+        (*(u8 * *)((u8 *)action_sprite + 0x2C)) = frame_table;
+        selection_index = (gameWork.view.viewAngle + ((S_801717D0_0 *)self)->unk_2A.s + 0x100) >> 9;
+        func_80047784(action_sprite, frame_table[selection_index & 7], 0);
+    }
+
+    ((S_801717D0_2 *)((u8 *)&dungeonStatus.unk_00))->unk_0A++;
+
+    return;
+}

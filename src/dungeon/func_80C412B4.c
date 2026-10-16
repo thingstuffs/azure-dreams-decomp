@@ -13,7 +13,7 @@ typedef struct S_80172AB4_0 {
     u16 unk_98;
     u8 pad_9A[0x1];
     u8 unk_9B;
-} S_80172AB4_0;   /* arg0 in func_80172AB4 */
+} S_80172AB4_0;   /* arg0 in updateActorMoveAnimationAndRecovery */
 
 typedef struct S_80172AB4_1 {
     u8 pad_00[0x1C];
@@ -29,18 +29,18 @@ typedef struct S_80172AB4_1 {
     u8 pad_6E[0x4];
     union { u8 s; s8 u; } unk_72;   /* accessed as both */
     union { u8 s; s8 u; } unk_73;   /* accessed as both */
-} S_80172AB4_1;   /* arg3 in func_80172AB4 */
+} S_80172AB4_1;   /* arg3 in updateActorMoveAnimationAndRecovery */
 
 typedef struct S_80172AB4_2_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_80172AB4_2_pre;   /* the 0x14 bytes before object in func_80172AB4, addressed as object[-1] */
+} S_80172AB4_2_pre;   /* the 0x14 bytes before object in updateActorMoveAnimationAndRecovery, addressed as object[-1] */
 
 typedef struct S_80172AB4_3 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_80172AB4_3;   /* record in func_80172AB4 */
+} S_80172AB4_3;   /* record in updateActorMoveAnimationAndRecovery */
 
 typedef struct S_80172AB4_4 {
     u8 pad_00[0x4];
@@ -52,7 +52,7 @@ typedef struct S_80172AB4_4 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_80172AB4_4;   /* arg2 in func_80172AB4 */
+} S_80172AB4_4;   /* arg2 in updateActorMoveAnimationAndRecovery */
 
 typedef struct S_80172AB4_5 {
     u8 pad_00[0x2];
@@ -64,23 +64,23 @@ typedef struct S_80172AB4_5 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80172AB4_5;   /* arg1 in func_80172AB4 */
+} S_80172AB4_5;   /* arg1 in updateActorMoveAnimationAndRecovery */
 
 typedef struct S_80172AB4_6 {
     u8 pad_00[0xA];
     u16 unk_0A;
     s32 unk_0C;
-} S_80172AB4_6;   /* globals in func_80172AB4 */
+} S_80172AB4_6;   /* globals in updateActorMoveAnimationAndRecovery */
 
 
-extern s32 func_8003F270();
+extern s32 getCdCommandQueueDepth();
 extern void func_80047784(void *, s32, s32);
-extern void *func_800A05A4(void *, u8, u8, s16, s32);
-extern void func_800A2B04(void *, s32, s32);
-extern void func_800A4ACC(void *);
+extern void *dungeonScanMonsterAlongHeading(void *, u8, u8, s16, s32);
+extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A56E0(s32);
-extern s32 func_800A94A0(void *, u8 *, s32, u16 *);
-extern void func_800DA840(void *payload, s16 value_scale);
+extern s32 dungeonCreateActorSpellEffect(void *, u8 *, s32, u16 *);
+extern void dungeonCreateTwoRowObjectGroup(void *payload, s16 value_scale);
 
 extern u8 D_80170E7C;
 extern u8 D_80174D4C[];
@@ -89,7 +89,7 @@ extern u8 D_80174D9C[];
 extern u8 D_80174DA4[];
 
 /* Updates the actor's move, animation, and recovery state. */
-void func_80172AB4(void *action, void *motion, void *sprite, void *actor)
+void updateActorMoveAnimationAndRecovery(void *action, void *motion, void *sprite, void *actor)
 {
     u8 *move_id;
     s32 state;
@@ -161,7 +161,7 @@ void func_80172AB4(void *action, void *motion, void *sprite, void *actor)
                 }
             } else {
                 ((S_80172AB4_1 *)actor)->unk_60 =
-                    func_800A05A4(actor,
+                    dungeonScanMonsterAlongHeading(actor,
                                   ((S_80172AB4_4 *)sprite)->unk_24,
                                   ((S_80172AB4_4 *)sprite)->unk_25,
                                   ((S_80172AB4_1 *)actor)->unk_2A, 0x10);
@@ -172,13 +172,13 @@ void func_80172AB4(void *action, void *motion, void *sprite, void *actor)
             position[0] = ((S_80172AB4_5 *)motion)->unk_02;
             position[1] = ((S_80172AB4_5 *)motion)->unk_06;
             position[2] = ((S_80172AB4_5 *)motion)->unk_0A;
-            if (func_800A94A0(actor, move_id, use_player,
+            if (dungeonCreateActorSpellEffect(actor, move_id, use_player,
                               (u16 *)((u8 *)action + 0x98)) == 0) {
                 return;
             }
             ((S_80172AB4_4 *)sprite)->unk_14 &= 0xF7FF;
             func_800A56E0(0x703);
-            func_800DA840(position, (s16)(((s32)*move_id - 1) % 3));
+            dungeonCreateTwoRowObjectGroup(position, (s16)(((s32)*move_id - 1) % 3));
             ((S_80172AB4_0 *)action)->unk_9B++;
             return;
         }
@@ -186,10 +186,10 @@ void func_80172AB4(void *action, void *motion, void *sprite, void *actor)
         ((S_80172AB4_5 *)motion)->unk_14 = 0;
         ((S_80172AB4_5 *)motion)->unk_10 = 0;
         ((S_80172AB4_5 *)motion)->unk_0C = 0;
-        func_800A2B04(motion, ((S_80172AB4_4 *)sprite)->unk_24, ((S_80172AB4_4 *)sprite)->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, ((S_80172AB4_4 *)sprite)->unk_24, ((S_80172AB4_4 *)sprite)->unk_25);
         dungeonStatus.unk_0C = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         ((S_80172AB4_1 *)actor)->unk_6D.s--;
         ((S_80172AB4_0 *)action)->unk_8C = &D_80170E7C;
         ((S_80172AB4_1 *)actor)->unk_73.s = 0;
@@ -234,7 +234,7 @@ void func_80172AB4(void *action, void *motion, void *sprite, void *actor)
         return;
 
     case 3:
-        if (func_8003F270() != 0) {
+        if (getCdCommandQueueDepth() != 0) {
             ((S_80172AB4_4 *)sprite)->unk_14 |= 0x800;
             return;
         }
@@ -282,7 +282,7 @@ void func_80172AB4(void *action, void *motion, void *sprite, void *actor)
         ((S_80172AB4_5 *)motion)->unk_14 = 0;
         ((S_80172AB4_5 *)motion)->unk_10 = 0;
         ((S_80172AB4_5 *)motion)->unk_0C = 0;
-        func_800A2B04(motion, ((S_80172AB4_4 *)sprite)->unk_24, ((S_80172AB4_4 *)sprite)->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, ((S_80172AB4_4 *)sprite)->unk_24, ((S_80172AB4_4 *)sprite)->unk_25);
         if (((S_80172AB4_4 *)sprite)->unk_2C != D_80174D4C) {
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174D4C;
             func_80047784(
@@ -299,7 +299,7 @@ void func_80172AB4(void *action, void *motion, void *sprite, void *actor)
         }
         ((S_80172AB4_4 *)sprite)->unk_14 &= 0xF7FF;
         ((S_80172AB4_0 *)action)->unk_8C = &D_80170E7C;
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         if (((S_80172AB4_1 *)actor)->unk_6D.u > 0) {
             ((S_80172AB4_1 *)actor)->unk_6D.s--;
         }

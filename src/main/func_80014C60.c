@@ -1,13 +1,13 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void func_80020EA0();                            /* extern */
-void func_8005863C();                            /* extern */
+void cardBootInitServer();                            /* extern */
+void closeTimer2UpdateEvent();                            /* extern */
 extern s8 D_80080A84;
 
 /* Run setup callbacks and set the active flag. */
-void func_80027C60(void) {
-    func_8005863C();
+void cardBootStopTimerAndInitServer(void) {
+    closeTimer2UpdateEvent();
     D_80080A84 = 1;
-    func_80020EA0();
+    cardBootInitServer();
 }

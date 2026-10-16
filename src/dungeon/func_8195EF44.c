@@ -10,14 +10,14 @@
 
 
 
-   /* work in func_80024744 */
+   /* work in dungeonAllocateMapCellObject */
 
-   /* render in func_80024744 */
+   /* render in dungeonAllocateMapCellObject */
 
-   /* coord in func_80024744 */
+   /* coord in dungeonAllocateMapCellObject */
 
 /* Allocate and initialize an object using the map cell at the supplied position. */
-void *func_80024744(s16 world_x, s16 world_y, s16 world_z, s16 coord_60)
+void *dungeonAllocateMapCellObject(s16 world_x, s16 world_y, s16 world_z, s16 coord_60)
 {
     void *obj;
     S_8195EF44_2 *work;

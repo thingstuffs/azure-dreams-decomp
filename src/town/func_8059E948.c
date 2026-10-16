@@ -10,14 +10,14 @@ typedef struct TownEntry {
     s16 pad_06;
 } TownEntry;
 
-extern s32 func_800168A0(void);
-extern void func_800168E0(void);
+extern s32 checkTownEventFlagsClear(void);
+extern void resetTownEventState(void);
 extern void func_8001886C(s32);
 extern s32 func_80018964(s32);
 extern TownEntry D_80019088[7];
 
 /* Advance through town events and dispatch the next eligible entry. */
-void func_80016948(void)
+void advanceTownEventsAndDispatchEntry(void)
 {
     TownEntry *event_entry;
     TownEventCursor *event_state;
@@ -26,9 +26,9 @@ void func_80016948(void)
     event_state = &((TownProgressState *)D_80016000->unk_40)->eventCursor;
     event_state->eventIndex += 1;
     event_state->eventIndex %= 7;
-    func_800168E0();
+    resetTownEventState();
 
-    if (func_800168A0() != 0) {
+    if (checkTownEventFlagsClear() != 0) {
         checked_count = 0;
         do {
             if ((func_80018964(D_80019088[event_state->eventIndex].check) == 0) !=

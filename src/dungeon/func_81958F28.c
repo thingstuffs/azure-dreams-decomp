@@ -32,18 +32,18 @@ typedef struct {
 typedef struct S_81958F28_0 {
     u8 pad_00[0x8];
     void *unk_08;
-} S_81958F28_0;   /* state in func_80024728 */
+} S_81958F28_0;   /* state in dungeonTintEffectAndAdvanceMotion */
 
 typedef struct S_81958F28_1 {
     u8 pad_00[0x8];
     void *unk_08;
     void *unk_0C;
-} S_81958F28_1;   /* node in func_80024728 */
+} S_81958F28_1;   /* node in dungeonTintEffectAndAdvanceMotion */
 
 extern void func_80024024(void *, s16, Vec3i *);
 extern void func_80024654(s16 from_x, s16 from_y, s16 from_z, s16 to_x, s16 to_y, s16 to_z, s16 *angles);
 extern s32 func_80025344(s16, s16, s16, s16);
-extern void func_8003DE58(s32, u8 *, Vec3s *, s32);
+extern void resolveRecordOrientationOrFallback(s32, u8 *, Vec3s *, s32);
 extern void func_8004491C(void *, void *);
 
 extern u16 D_800281F8;
@@ -193,7 +193,7 @@ void func_81958F28(AnimState *state, void *pos, void *tint) {
                     tableAddress =
                         ((gameWork.view.viewAngle + S16(((u8 *)D_800E3D7C), 0x2A) + 0x100) >> 7) & 0x1C;
                     tableAddress += (s32)D_800E3D18;
-                    func_8003DE58(
+                    resolveRecordOrientationOrFallback(
                         *(s32 *)tableAddress,
                         ((u8 *)(&D_80082E80)),
                         &effect,

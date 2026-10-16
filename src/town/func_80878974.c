@@ -30,7 +30,7 @@ extern u8 D_807028D4[];
 extern u8 D_807028E8[];
 
 /* Copies the scene record to overlay work, reports both kinds, and marks sn_main.c line 47. */
-void func_80878974(s32 *p) {
+void devCopyOverlayWorkAndTrace47(s32 *p) {
     *(SceneRecord *)(D_807030AC - 0xC) = *(SceneRecord *)p;
 
     D_807030B8.value->func68(D_807028B0, D_807028BC, ((SceneRecord *)p)->kind);

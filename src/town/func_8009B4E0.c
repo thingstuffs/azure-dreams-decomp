@@ -3,15 +3,15 @@
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/town_handler.h"
 
-void func_80099754();                     /* extern */
+void townClearEntityRecordFields();                     /* extern */
 extern M2C_UNK D_80098078;
 extern M2C_UNK D_800D0170;
 
 
 /* Initialize the record, assign its handler and count, and apply the setup value. */
-void func_80098C40(Rec_func_80094268_arg0 *record, s32 setup_value, void *ptr2) {
-    func_80094984((s32 *) &D_800D0170, record, ptr2);
+void townInitializeRecordWithHandlerAndCount(Rec_func_80094268_arg0 *record, s32 setup_value, void *ptr2) {
+    townCallTheHandlerSelectsNonzeroEntry((s32 *) &D_800D0170, record, ptr2);
     record->unk_04.as_pm = &D_80098078;
     record->unk_0A.as_s16 = 0x10;
-    func_80099754(setup_value);
+    townClearEntityRecordFields(setup_value);
 }

@@ -1,29 +1,6 @@
-#include "common.h"
-#include "shared/game_work.h"
+#include "modules/dungeon_ovl_7f43f800_p04.h"
 
-typedef struct {
-    u8 pad00[0x9A];
-    u8 unk9A;
-    u8 unk9B;
-    u8 pad9C[2];
-    s16 unk9E;
-} State;
-
-typedef struct {
-    u8 pad00[0x2C];
-    u8 *unk2C;
-} Context;
-
-typedef struct {
-    u8 pad00[0x2A];
-    s16 unk2A;
-} IndexSource;
-
-extern u8 D_80174EA0[9];
-extern void func_80047784(Context *, s16, s16);
-
-// Initializes the state and applies a table entry selected by the combined source and global index.
-void func_80172664(State *state, s32 unused, Context *context, IndexSource *source)
+void func_80172664(T_80172664_State *state, s32 unused, T_80172664_Context *context, T_80172664_IndexSource *source)
 {
     state->unk9A = 0x10;
     state->unk9B = 0;

@@ -9,9 +9,9 @@
 extern s32 func_80047784();
 extern s32 func_8009A21C();
 extern s32 func_8009A3D0();
-extern s16 func_8009A66C();
-extern s16 func_800A0818();
-extern s32 func_80172688();
+extern s16 dungeonCheckMovementClearanceAndHeight();
+extern s16 dungeonGetRoundedFacingAndRoundingFlag();
+extern s32 dungeonInitializeActorFacingSprite();
 
 extern u8 D_80174DE4[];
 
@@ -25,7 +25,7 @@ typedef struct S_80171CD4_0 {
     union { s8 s; u8 u; } unk_71;   /* accessed as both */
     u8 pad_72[0x18];
     union { s16 s; u16 u; } unk_8A;   /* accessed as both */
-} S_80171CD4_0;   /* state in func_80171CD4 */
+} S_80171CD4_0;   /* state in dungeonAdvanceEntityAlongStoredPath */
 
 
 typedef struct S_80171CD4_4 {
@@ -33,10 +33,10 @@ typedef struct S_80171CD4_4 {
     u8 unk_74;
     u8 pad_75[0x7];
     u8 unk_7C;
-} S_80171CD4_4;   /* (u8 *)state + ((S_80171CD4_0 *)state)->unk_8A.s in func_80171CD4 */
+} S_80171CD4_4;   /* (u8 *)state + ((S_80171CD4_0 *)state)->unk_8A.s in dungeonAdvanceEntityAlongStoredPath */
 
 /* Advance the entity along its stored path and update movement timing. */
-void func_80171CD4(void *movement, void *motion, void *entity, void *path_state) {
+void dungeonAdvanceEntityAlongStoredPath(void *movement, void *motion, void *entity, void *path_state) {
     void *state = path_state;
     s32 move_flags;
     s16 heading;
@@ -74,13 +74,13 @@ void func_80171CD4(void *movement, void *motion, void *entity, void *path_state)
     }
     func_8009A3D0(x, y, move_flags);
 
-    heading = func_800A0818(
+    heading = dungeonGetRoundedFacingAndRoundingFlag(
         x,
         y,
         ((S_80171CD4_4 *)((u8 *)state + ((S_80171CD4_0 *)state)->unk_8A.s))->unk_74,
         ((S_80171CD4_4 *)((u8 *)state + ((S_80171CD4_0 *)state)->unk_8A.s))->unk_7C,
         (u8 *)movement + 0x98);
-    move_result = func_8009A66C(heading, entity, state, 0x20);
+    move_result = dungeonCheckMovementClearanceAndHeight(heading, entity, state, 0x20);
 
     ((Rec_D_80082E80 *)entity)->unk_24 =
         ((S_80171CD4_4 *)((u8 *)state + ((S_80171CD4_0 *)state)->unk_8A.s))->unk_74;
@@ -102,7 +102,7 @@ void func_80171CD4(void *movement, void *motion, void *entity, void *path_state)
     ((S_80171CD4_0 *)state)->unk_2A = heading;
     if (move_result == 3) {
         if (!(dungeonStatus.flags & 0x80) && !(((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000)) {
-            func_80172688(movement, motion, entity, state);
+            dungeonInitializeActorFacingSprite(movement, motion, entity, state);
             ((Rec_func_80171CD4_arg0 *)movement)->unk_8C = 0;
         } else {
             ((Rec_func_80171CD4_arg0 *)movement)->unk_9A.as_u8 = 0xF;

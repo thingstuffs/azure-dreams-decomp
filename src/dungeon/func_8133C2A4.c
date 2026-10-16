@@ -39,14 +39,14 @@ struct Aux {
 };
 
 extern s32 func_80047784(Aux *, u8, s32);
-extern s16 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern s16 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void func_800A56E0(s32);
 extern void func_800A9A0C(Entity *);
-extern void func_8016B230(u8 *movement_in, void *action_ctx, u8 *position, u8 *actor);
-extern void func_8016D6F8(Entity *, s32, Aux *, Entity *);
-extern void func_8016DAC0(Entity *, s32, Aux *, Entity *);
-extern void func_8016EB68(void);
-extern void func_80170510(void);
+extern void dungeonAdvanceActorMovementStep(u8 *movement_in, void *action_ctx, u8 *position, u8 *actor);
+extern void dungeonCompleteActorFacingAction(Entity *, s32, Aux *, Entity *);
+extern void dungeonStartActorDirectionalAction(Entity *, s32, Aux *, Entity *);
+extern void dungeonAdvanceMultiFormRingPhase(void);
+extern void dungeonAdvanceSecondaryObjectState(void);
 extern void func_80170838(void);
 
 extern u8 D_801739A0[];
@@ -112,17 +112,17 @@ top:
             goto top;
 
         case 0x08:
-            func_8016B230(entity, action_value, aux, actor);
+            dungeonAdvanceActorMovementStep(entity, action_value, aux, actor);
             return 0;
 
         case 0xF0:
-            func_8016DAC0(entity, action_value, aux, actor);
+            dungeonStartActorDirectionalAction(entity, action_value, aux, actor);
             return 0;
 
         case 0xE8:
-            actor->angle = func_800A0818(aux->x24, aux->y25,
+            actor->angle = dungeonGetRoundedFacingAndRoundingFlag(aux->x24, aux->y25,
                 D_80082E80.tileX, D_80082E80.tileY, angle_out);
-            func_8016D6F8(entity, action_value, aux, actor);
+            dungeonCompleteActorFacingAction(entity, action_value, aux, actor);
             return 0;
 
         case 0x10:
@@ -239,8 +239,8 @@ top:
                 timer = (u16)(entity->timer + 1);
                 entity->timer = timer;
                 if ((s16)timer == 0x1A) {
-                    func_80170510();
-                    func_8016EB68();
+                    dungeonAdvanceSecondaryObjectState();
+                    dungeonAdvanceMultiFormRingPhase();
                     D_80173AF8 = event_state;
                     func_80170838();
                 }
@@ -271,7 +271,7 @@ top:
                 entity->timer = 0;
                 entity->direction = 0;
             case 1:
-                actor->angle = func_800A0818(aux->x24, aux->y25,
+                actor->angle = dungeonGetRoundedFacingAndRoundingFlag(aux->x24, aux->y25,
                     D_80082E80.tileX, D_80082E80.tileY, angle_out);
                 timer = (u16)(entity->timer + 1);
                 entity->timer = timer;
@@ -289,7 +289,7 @@ top:
             state = entity->state;
             switch (state) {
             case 0:
-                actor->angle = func_800A0818(aux->x24, aux->y25,
+                actor->angle = dungeonGetRoundedFacingAndRoundingFlag(aux->x24, aux->y25,
                     D_80082E80.tileX, D_80082E80.tileY, angle_out);
                 entity->state++;
                 entity->timer = 0;
@@ -306,7 +306,7 @@ top:
                 if ((s16)timer >= 4) {
                     entity->timer = 0;
                     entity->state = (u8)(entity->state + 1);
-                    actor->angle = func_800A0818(aux->x24, aux->y25,
+                    actor->angle = dungeonGetRoundedFacingAndRoundingFlag(aux->x24, aux->y25,
                         D_80082E80.tileX, D_80082E80.tileY, angle_out);
                     idle_sequence = D_801739A0;
                     angle_base = &gameWork.view.viewAngle;
@@ -318,7 +318,7 @@ top:
                 }
             }
             case 2:
-                actor->angle = func_800A0818(aux->x24, aux->y25,
+                actor->angle = dungeonGetRoundedFacingAndRoundingFlag(aux->x24, aux->y25,
                     D_80082E80.tileX, D_80082E80.tileY, angle_out);
                 break;
             }

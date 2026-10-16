@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_f95070.h"
 
 /* Allocate an actor and initialize its parts and behavior from the kind flags. */
-void *func_80158870(s16 kind_flags, s16 part_value_24, s16 part_value_25, s16 part_value_0a)
+void *dungeonCreateKindActor(s16 kind_flags, s16 part_value_24, s16 part_value_25, s16 part_value_0a)
 {
     s32 kind;
     void *obj;
@@ -64,7 +64,7 @@ init_actor:
         func_800A9C18(init_obj, part_a, part_b, kind_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &func_80158E68;
+        actor->unk_8C = &dungeonDispatchAbilityAction;
         part_b->unk_14 |= 0xC;
         func_800AA36C(actor, part_a, part_b, work);
     }

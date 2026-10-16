@@ -9,17 +9,17 @@
 typedef struct S_80024078_2_pre {
     void * unk_00;
     u8 pad_04[0x14];
-} S_80024078_2_pre;   /* the 0x18 bytes before parent in func_80024078, addressed as parent[-1] */
+} S_80024078_2_pre;   /* the 0x18 bytes before parent in dungeonAdvanceScreenTransition, addressed as parent[-1] */
 
 typedef struct S_80024078_3 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80024078_3;   /* arg0 in func_80024078 */
+} S_80024078_3;   /* arg0 in dungeonAdvanceScreenTransition */
 
 typedef struct S_80024078_4 {
     u8 pad_00[0x2C];
     s16 unk_2C;
-} S_80024078_4;   /* arg0->child in func_80024078 */
+} S_80024078_4;   /* arg0->child in dungeonAdvanceScreenTransition */
 
 
 typedef struct {
@@ -44,8 +44,8 @@ typedef struct {
     s16 timer_22;
 } State;
 
-extern s32 func_80040490(u8 *, Rect *);
-extern s32 func_8003F80C();
+extern s32 decodeAndUploadImage(u8 *, Rect *);
+extern s32 uploadVramRowAndCache();
 extern void *func_80024578(void *, s32);
 extern s32 func_80053EF0(s32);
 extern void func_800A56E0(s32);
@@ -59,7 +59,7 @@ extern u16 D_800281F8[];
 extern u8 D_800281FC[12];
 
 /* Advances the screen transition, updates fade timers, and releases completed state. */
-void func_80024078(State *ctx)
+void dungeonAdvanceScreenTransition(State *ctx)
 {
     GameWork *screen = &gameWork;
     s32 rect_words[2];
@@ -74,8 +74,8 @@ void func_80024078(State *ctx)
 
     rect_words[0] = 0x010003A0;
     rect_words[1] = 0x00400020;
-    func_80040490(D_80028F68, (Rect *)rect_words);
-    func_8003F80C(D_8002964C, 0x7AC0, 1, 2);
+    decodeAndUploadImage(D_80028F68, (Rect *)rect_words);
+    uploadVramRowAndCache(D_8002964C, 0x7AC0, 1, 2);
     D_8002966C[0] = 1;
     D_8002966E[0] = ctx->field_9;
     D_80029670[0] = (s32)ctx->field_0;

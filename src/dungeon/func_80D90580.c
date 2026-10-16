@@ -7,16 +7,16 @@
 
 
 extern s32 func_80047784();
-extern s32 func_8009C93C();
-extern s32 func_800A0134();
-extern s32 func_800A04F0();
+extern s32 dungeonPrepareDirectionalAttack();
+extern s32 dungeonGetActorHeightDifference();
+extern s32 dungeonPlaceActorAtDirectionalNeighbor();
 extern s32 func_800A2B5C();
 extern s32 func_800A2CB8();
-extern s32 func_800C7930();
+extern s32 dungeonApplyCameraOffsetAndSelectTarget();
 extern u8 D_8017386C[];
 
 /* Attempt an actor transition and update its state and sprite on success. */
-s32 func_80171D80(void *state, s32 action_id, void *sprite, EntityRec *actor)
+s32 dungeonAttemptActorTransition(void *state, s32 action_id, void *sprite, EntityRec *actor)
 {
     u16 *status;
     s32 transitioned;
@@ -26,7 +26,7 @@ s32 func_80171D80(void *state, s32 action_id, void *sprite, EntityRec *actor)
     status = ((u16 *)(&dungeonStatus));
     transitioned = 0;
     if (!(((u16 *)status)[1] & 0x2000)) {
-        target = func_800A04F0(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
+        target = dungeonPlaceActorAtDirectionalNeighbor(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
                                ((Rec_D_80082E80 *)sprite)->unk_25, actor->facing);
         if ((func_800A2CB8(actor, target) << 16) == 0) {
             goto return_zero;
@@ -41,7 +41,7 @@ s32 func_80171D80(void *state, s32 action_id, void *sprite, EntityRec *actor)
                 return -1;
             }
         }
-        if ((s16)(-func_800A0134(target, actor) + 0x40) >= 0x81U) {
+        if ((s16)(-dungeonGetActorHeightDifference(target, actor) + 0x40) >= 0x81U) {
             return transitioned;
         }
 
@@ -49,7 +49,7 @@ s32 func_80171D80(void *state, s32 action_id, void *sprite, EntityRec *actor)
         if ((func_800A2B5C(actor) << 16) != 0) {
             return -1;
         }
-        func_800C7930((u8 *)actor - 0x20, action_id, 8, 0x300);
+        dungeonApplyCameraOffsetAndSelectTarget((u8 *)actor - 0x20, action_id, 8, 0x300);
         if ((func_800A2B5C(actor) << 16) == 0) {
             goto transition_ok;
         }
@@ -82,7 +82,7 @@ transition_ok:
     if (((Rec_func_800A9E70_arg0 *)state)->unk_9A.as_u8 != 0x11) {
         return transitioned;
     }
-    func_8009C93C(actor, sprite, actor->facing, 1, 0);
+    dungeonPrepareDirectionalAttack(actor, sprite, actor->facing, 1, 0);
     return transitioned;
 
 return_zero:

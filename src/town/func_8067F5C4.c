@@ -8,7 +8,7 @@ extern PackedWord D_80018880;
 extern s32 func_80018594(s32);
 
 /* Copy the header, initialize 32 entries with conditional flags, append a terminator, and return the original buffer. */
-u8 * func_8067F5C4(u8 *entries) {
+u8 * townDispatchEventD8A(u8 *entries) {
     s32 index;
     s32 marker;
     s32 tail_offset;

@@ -8,11 +8,11 @@
 typedef struct S_80019A34_0 {
     u8 unk_00;
     u8 unk_01;
-} S_80019A34_0;   /* temp_v0 in func_80019A34 */
+} S_80019A34_0;   /* temp_v0 in townCheckCallbackRecordBytes */
 
 
 /* Checks whether the callback's record matches the two expected bytes. */
-s32 func_80019A34(s32 expected_second, s32 expected_first) {
+s32 townCheckCallbackRecordBytes(s32 expected_second, s32 expected_first) {
     S_80019A34_0 *record;
 
     record = D_80016000->unk_20->callback_074(0);

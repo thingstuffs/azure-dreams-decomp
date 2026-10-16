@@ -12,7 +12,7 @@ typedef struct S_80172610_0 {
     u8 unk_9A;
     u8 pad_9B[0x11];
     u8 * unk_AC;
-} S_80172610_0;   /* actor in func_80172610 */
+} S_80172610_0;   /* actor in dungeonUpdateBossActorDirectionState */
 
 typedef struct S_80172610_1 {
     u8 pad_00[0x8];
@@ -20,14 +20,14 @@ typedef struct S_80172610_1 {
     u8 * unk_0C;
     u8 pad_10[0xE];
     u16 unk_1E;
-} S_80172610_1;   /* owner in func_80172610 */
+} S_80172610_1;   /* owner in dungeonUpdateBossActorDirectionState */
 
 typedef struct S_80172610_2 {
     u8 pad_00[0x1C];
     union { void * p; u32 i; } unk_1C;   /* accessed as both */
     u8 pad_20[0xA];
     union { s16 s; u16 u; } unk_2A;   /* accessed as both */
-} S_80172610_2;   /* base in func_80172610 */
+} S_80172610_2;   /* base in dungeonUpdateBossActorDirectionState */
 
 typedef struct S_80172610_3 {
     u8 pad_00[0x12];
@@ -38,7 +38,7 @@ typedef struct S_80172610_3 {
     u16 unk_1E;
     u8 pad_20[0xC];
     u8 * unk_2C;
-} S_80172610_3;   /* linked in func_80172610 */
+} S_80172610_3;   /* linked in dungeonUpdateBossActorDirectionState */
 
 typedef struct S_80172610_4 {
     u8 pad_00[0x6];
@@ -51,12 +51,12 @@ typedef struct S_80172610_4 {
     u16 unk_1E;
     u8 pad_20[0xC];
     u8 * unk_2C;
-} S_80172610_4;   /* context in func_80172610 */
+} S_80172610_4;   /* context in dungeonUpdateBossActorDirectionState */
 
 typedef struct S_80172610_5 {
     u8 pad_00[0xC8];
     s16 unk_C8;
-} S_80172610_5;   /* state in func_80172610 */
+} S_80172610_5;   /* state in dungeonUpdateBossActorDirectionState */
 
 typedef struct S_80172610_6 {
     u8 pad_00[0x2];
@@ -65,7 +65,7 @@ typedef struct S_80172610_6 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80172610_6;   /* output in func_80172610 */
+} S_80172610_6;   /* output in dungeonUpdateBossActorDirectionState */
 
 typedef struct S_80172610_7 {
     u8 pad_00[0x2];
@@ -74,23 +74,23 @@ typedef struct S_80172610_7 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80172610_7;   /* source in func_80172610 */
+} S_80172610_7;   /* source in dungeonUpdateBossActorDirectionState */
 
 typedef struct S_80172610_8 {
     u8 pad_00[0x9A];
     u8 unk_9A;
-} S_80172610_8;   /* saved_base in func_80172610 */
+} S_80172610_8;   /* saved_base in dungeonUpdateBossActorDirectionState */
 
 
 extern void func_80047784(void *, s32, s32);
 extern void func_800478B8(void *);
-extern void func_800A020C(void *, void *);
+extern void dungeonApplyMonsterKoyawData(void *, void *);
 
 extern s8 D_800DCECC[];
 extern u8 D_80174C6C[];
 
 /* Update actor direction, copy linked output state, and propagate status flags. */
-void func_80172610(void *actor_data, void *output_data, void *context_data)
+void dungeonUpdateBossActorDirectionState(void *actor_data, void *output_data, void *context_data)
 {
     u8 *actor;
     u8 *output;
@@ -123,7 +123,7 @@ void func_80172610(void *actor_data, void *output_data, void *context_data)
         return;
     }
 
-    func_800A020C(((S_80172610_2 *)base)->unk_1C.p, context + 0xC);
+    dungeonApplyMonsterKoyawData(((S_80172610_2 *)base)->unk_1C.p, context + 0xC);
     if ((((S_80172610_2 *)base)->unk_1C.i & 0x20) == 0) {
         func_800478B8(context);
     }

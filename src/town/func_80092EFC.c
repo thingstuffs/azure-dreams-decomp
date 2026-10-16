@@ -1,6 +1,6 @@
 #include "modules/town_player_init.h"
 
-void func_8009065C(void *context, void *input, void *record) {
+void townProcessSceneRecordUpdate(void *context, void *input, void *record) {
     GameWork *work = &gameWork;
     void *callback;
     s32 initial_flags;
@@ -8,7 +8,7 @@ void func_8009065C(void *context, void *input, void *record) {
     s32 movement;
     s32 index;
 
-    func_80095544(input);
+    townClearMotionAlongBlockedDirectionsUpdateAffectedAxes(input);
 
     if (D_80100DB0[0] == 0) {
         if (((u16)work->view.viewAngle) >= 0x800) {
@@ -16,13 +16,13 @@ void func_8009065C(void *context, void *input, void *record) {
         }
 
         callback = *(void **)context;
-                /* garbage-passthru: a1/a2/a3 are caller-saved residue after func_80095544. */
+                /* garbage-passthru: a1/a2/a3 are caller-saved residue after townClearMotionAlongBlockedDirectionsUpdateAffectedAxes. */
         if (callback == (void *)D_80097D2C || callback == (void *)&func_80090A64 ||
             func_800352FC() != 0) {
             if (D_8006ADD4[0] == 12) {
                 func_800909A0();
             } else if (*(s16 *)((u8 *)input + 6) < 0x400) {
-                func_80090A04(input);
+                townClearRecordStateOrUpdate(input);
             }
         } else if (D_8006ADD4[0] == 12) {
             initial_flags = work->buttons;
@@ -40,9 +40,9 @@ void func_8009065C(void *context, void *input, void *record) {
                 func_800909A0();
             }
         } else if (*(s16 *)((u8 *)input + 6) < 0x400) {
-            func_80090A04(input);
+            townClearRecordStateOrUpdate(input);
         } else {
-            movement = func_8003BD84(*(s32 *)((u8 *)input + 0xC),
+            movement = runtimeEstimateVectorLength(*(s32 *)((u8 *)input + 0xC),
                                      *(s32 *)((u8 *)input + 0x10));
             if (movement == 0) {
                 work->view.viewAngle =
@@ -63,14 +63,14 @@ void func_8009065C(void *context, void *input, void *record) {
     if ((callback == (void *)&D_80091260) ||
         (callback == (void *)&D_80091528)) {
         *(s16 *)((u8 *)context + 0x18) =
-            func_80094AA0(*(s16 *)((u8 *)context + 0x18),
+            townStepAngle12Toward(*(s16 *)((u8 *)context + 0x18),
                           *(s16 *)((u8 *)context + 0x10), 0x200);
     } else {
         *(s16 *)((u8 *)context + 0x18) = *(u16 *)((u8 *)context + 0x10);
     }
-    index = func_80095360(*(s16 *)((u8 *)context + 0x18));
+    index = townViewRelativeAngleSector(*(s16 *)((u8 *)context + 0x18));
     if (*(s16 *)((u8 *)context + 0x12) != index) {
-        func_800489F4(record,
+        textureHandleInstallsSelectedAnimationFrameSecondaryPointerUpdatesAnimationFlags(record,
                       *(u8 *)(*(u8 **)((u8 *)context + 0x1C) + index),
                       *(s8 *)((u8 *)record + 4), 0);
         *(s16 *)((u8 *)context + 0x12) = index;
@@ -84,13 +84,13 @@ void func_8009065C(void *context, void *input, void *record) {
             *(u16 *)((u8 *)record + 0x14) &= 0xFFFE;
         }
     }
-    func_80096868(context, input, record);
+    townDispatchToMatchingFallbackHandlerUsingSentinelTerminatedKeyLists(context, input, record);
     func_80048AC8(record, 0);
 
     {
         u8 *state = D_80100D98;
 
-        func_800A48B0(state, input);
+        townCopyEntityRecordFields(state, input);
         if (D_80100E18[0] == 0) {
             *(s32 *)(state + 8) = 0;
             return;

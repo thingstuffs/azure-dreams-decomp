@@ -79,7 +79,7 @@ extern s32 func_80066460(s32, s32, s32, s32);
 extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *, void *);
 
 /* Project and queue a textured triangle with per-vertex colors. */
-s32 func_81976CB0(s32 vertex_color0, s32 vertex_color1, s32 vertex_color2)
+s32 dungeonHandleProjectQueueTexturedTrianglePerVertexColors(s32 vertex_color0, s32 vertex_color1, s32 vertex_color2)
 {
     State81976CB0 *state;
     Packet81976CB0 *packet;

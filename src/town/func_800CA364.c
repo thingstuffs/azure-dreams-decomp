@@ -7,16 +7,16 @@ typedef struct S_800C7AC4_1 {
     s16 unk_02;
     u8 pad_04[0x2];
     s16 unk_06;
-} S_800C7AC4_1;   /* bounds in func_800C7AC4 */
+} S_800C7AC4_1;   /* bounds in townChooseMotherEventDirection */
 
 
-extern s32 func_800374F4(s32);
-extern void func_800C2E84(void *, s32, void *);
+extern s32 scaleRandomToUnsignedHalfwordLimit(s32);
+extern void townInitializeObjectEntries(void *, s32, void *);
 extern s32 D_800C7674;
 extern s32 D_800D5FE8;
 
 /* Try random directions against the bounds, then initialize the entity state. */
-void func_800C7AC4(Rec_func_80094268_arg0 *entity, void *bounds_arg, s32 context_arg)
+void townChooseMotherEventDirection(Rec_func_80094268_arg0 *entity, void *bounds_arg, s32 context_arg)
 {
     s32 context;
     s32 attempts;
@@ -25,7 +25,7 @@ void func_800C7AC4(Rec_func_80094268_arg0 *entity, void *bounds_arg, s32 context
     context = context_arg;
     attempts = 0;
     do {
-        direction = func_800374F4(4) & 0xFFFF;
+        direction = scaleRandomToUnsignedHalfwordLimit(4) & 0xFFFF;
         if (direction == 0) {
             s32 upper_edge;
             s32 bound_test;
@@ -87,7 +87,7 @@ void func_800C7AC4(Rec_func_80094268_arg0 *entity, void *bounds_arg, s32 context
         attempts++;
     } while (attempts < 0x10);
 
-    func_800C2E84(entity, context, &D_800D5FE8);
+    townInitializeObjectEntries(entity, context, &D_800D5FE8);
     entity->unk_50.as_pv = &D_800C7674;
 }
 

@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s16 func_8008CF48();
+extern s16 townForwardSurfaceQueryWithArgument();
 
 typedef struct {
     s32 unk0;
@@ -12,7 +12,7 @@ typedef struct {
 } Unk800C5388;
 
 /* Queries the position after lowering its third coordinate by eight fixed-point units. */
-s16 func_800C2AE8(void *position) {
+s16 townQueryLoweredTransformPosition(void *position) {
     Unk800C5388 adjusted_position;
     long long result_storage;
     long long *result_ptr;
@@ -21,7 +21,7 @@ s16 func_800C2AE8(void *position) {
     adjusted_position.unk4 = *(s32 *)((s8 *)position + 4);
     result_ptr = &result_storage;
     adjusted_position.unk8 = *(s32 *)((s8 *)position + 8) + 0xFFF80000;
-    return func_8008CF48(&adjusted_position, &result_ptr);
+    return townForwardSurfaceQueryWithArgument(&adjusted_position, &result_ptr);
 }
 
 /* MECHANISM: A 24-byte escaped record plus an 8-byte pointee force the retail 0x40 frame.

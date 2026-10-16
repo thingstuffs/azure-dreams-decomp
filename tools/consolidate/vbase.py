@@ -6,9 +6,13 @@ LANE = Path(__file__).resolve().parent.parent; REPO = LANE.parent.parent.parent
 sys.path.insert(0, str(REPO / "tools")); os.chdir(REPO)
 from common import rows, ROOT
 from verify import verify
+import sys as _layout_sys
+_layout_root = next(p for p in Path(__file__).resolve().parents if (p / "tools/source_layout.py").is_file())
+_layout_sys.path.insert(0, str(_layout_root / "tools"))
+from source_layout import row_path as layout_row_path
 R = {r["id"]: r for r in rows()}
 def one(rid):
-    v = verify(R[rid], ROOT / "src" / R[rid]["container"] / (rid.split("/", 1)[1] + ".c"), include_root=ROOT / "include")
+    v = verify(R[rid], layout_row_path(R[rid], ROOT), include_root=ROOT / "include")
     return {"id": rid, "exact": bool(v.get("exact")), "status": v.get("status"), "total": v.get("total"), "err": (v.get("err") or "")[-200:]}
 t0 = time.time(); bad = 0
 with ThreadPoolExecutor(16) as ex, open(LANE / "results/verify_baseline9.jsonl", "w") as fh:

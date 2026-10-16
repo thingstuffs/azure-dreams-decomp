@@ -8,14 +8,14 @@ typedef struct {
 } Config24;
 extern u8 D_8016A87C[];
 extern void func_8009A3D0(u8, u8, s32);
-extern void func_800A2B04(s32, u8, u8);
+extern void dungeonSetRecordIntegerTileCenter(s32, u8, u8);
 extern void func_8009A21C(s16 x, s16 y, u16 flags);
 
 typedef struct S_80171168_0 {
     u8 pad_00[0x8];
     s32 unk_08;
     void * unk_0C;
-} S_80171168_0;   /* *D_80174CD8 in func_80171168 */
+} S_80171168_0;   /* *D_80174CD8 in dungeonMoveBossEffectToOffset */
 
 typedef struct S_80171168_1 {
     u8 pad_00[0x14];
@@ -23,15 +23,15 @@ typedef struct S_80171168_1 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_80171168_1;   /* temp_s0 in func_80171168 */
+} S_80171168_1;   /* temp_s0 in dungeonMoveBossEffectToOffset */
 
 typedef struct S_80171168_2 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_80171168_2;   /* temp_s2 in func_80171168 */
+} S_80171168_2;   /* temp_s2 in dungeonMoveBossEffectToOffset */
 
 /* Move the entity to a selected offset from the origin and update its cell flags. */
-void func_80171168(s32 offset_index) {
+void dungeonMoveBossEffectToOffset(s32 offset_index) {
     const Config24 *offset_table;
     Config24 offsets;
     M2C_UNK old_cell_mask;
@@ -66,7 +66,7 @@ void func_80171168(s32 offset_index) {
     offset_bytes = (u8 *)offset_pair;
     entity->unk_24 = (u8) (origin->tileX + offset_bytes[0]);
     entity->unk_25 = (u8) (origin->tileY + offset_bytes[1]);
-    func_800A2B04(entity_id, entity->unk_24, entity->unk_25);
+    dungeonSetRecordIntegerTileCenter(entity_id, entity->unk_24, entity->unk_25);
     new_x = entity->unk_24;
     new_y = entity->unk_25;
     new_cell_mask = 0x3000;

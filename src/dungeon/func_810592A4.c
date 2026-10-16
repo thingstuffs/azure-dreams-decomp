@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f0f7800_p01.h"
 
 /* Updates entity callbacks, directional animation, movement, and ground contact. */
-void func_80170AA4(void *actor, T_80170AA4_S_80170AA4_2 *motion, void *part)
+void dungeonUpdateEntityCallbacksDirectionalAnimationMovementGroundContact(void *actor, T_80170AA4_S_80170AA4_2 *motion, void *part)
 {
     void *entity = actor;
     s16 state_direction;
@@ -42,7 +42,7 @@ void func_80170AA4(void *actor, T_80170AA4_S_80170AA4_2 *motion, void *part)
     previous_state_2 = (*(u8 *)((u8 *)actor + 0x6D));
     call_self = actor;
     state_direction = (s8)previous_state_2;
-    if (func_800A9E70(call_entity, call_motion, call_part, call_self) != 0) {
+    if (dungeonRefreshActorFacingAndLifecycle(call_entity, call_motion, call_part, call_self) != 0) {
         return;
     }
 
@@ -90,7 +90,7 @@ void func_80170AA4(void *actor, T_80170AA4_S_80170AA4_2 *motion, void *part)
         direction_index = (u16)state_direction;
         if (previous_direction != state_direction) {
             if (((T_80170AA4_S_80170AA4_0 *)part)->unk_2C != 0) {
-                func_80047738(part,
+                selectIndirectTableEntry(part,
                               ((T_80170AA4_S_80170AA4_0 *)part)->unk_2C[state_direction],
                               ((T_80170AA4_S_80170AA4_0 *)part)->unk_04);
             }
@@ -110,7 +110,7 @@ void func_80170AA4(void *actor, T_80170AA4_S_80170AA4_2 *motion, void *part)
         } else {
             ((T_80170AA4_S_80170AA4_0 *)part)->unk_14.v |= 0x7000;
         }
-        func_800A020C(((T_80170AA4_S_80170AA4_1 *)entity)->unk_1C, (u8 *)part + 0xC);
+        dungeonApplyMonsterKoyawData(((T_80170AA4_S_80170AA4_1 *)entity)->unk_1C, (u8 *)part + 0xC);
     } else {
         if (part_flags & 0x800) {
             new_part_flags = part_flags & 0x8FFF;

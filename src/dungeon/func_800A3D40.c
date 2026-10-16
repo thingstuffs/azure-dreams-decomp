@@ -17,7 +17,7 @@ typedef struct S_800A94A0_0 {
     void * unk_78;
     u8 pad_7C[0x24];
     s16 unk_A0;
-} S_800A94A0_0;   /* arg0 in func_800A94A0; pointer addresses record offset 0x18 */
+} S_800A94A0_0;   /* arg0 in dungeonCreateActorSpellEffect; pointer addresses record offset 0x18 */
 
 
 typedef struct S_800A94A0_2 {
@@ -28,14 +28,14 @@ typedef struct S_800A94A0_2 {
     u8 pad_14[0xA];
     u16 unk_1E;
     void * unk_20;
-} S_800A94A0_2;   /* temp_v0 in func_800A94A0 */
+} S_800A94A0_2;   /* temp_v0 in dungeonCreateActorSpellEffect */
 
 typedef struct S_800A94A0_3 {
     u8 pad_00[0x4];
     void * unk_04;
     u8 unk_08;
     u8 unk_09;
-} S_800A94A0_3;   /* temp_v0_3 in func_800A94A0 */
+} S_800A94A0_3;   /* temp_v0_3 in dungeonCreateActorSpellEffect */
 
 typedef struct S_800A94A0_4 {
     u8 pad_00[0x2];
@@ -44,7 +44,7 @@ typedef struct S_800A94A0_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800A94A0_4;   /* temp_s0 in func_800A94A0 */
+} S_800A94A0_4;   /* temp_s0 in dungeonCreateActorSpellEffect */
 
 typedef struct S_800A94A0_5 {
     u8 pad_00[0x2];
@@ -53,16 +53,16 @@ typedef struct S_800A94A0_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800A94A0_5;   /* temp_v1 in func_800A94A0 */
+} S_800A94A0_5;   /* temp_v1 in dungeonCreateActorSpellEffect */
 
 typedef struct S_800A94A0_6 {
     s32 unk_00;
-} S_800A94A0_6;   /* temp_v0_4 in func_800A94A0; pointer addresses record offset 0x14 */
+} S_800A94A0_6;   /* temp_v0_4 in dungeonCreateActorSpellEffect; pointer addresses record offset 0x14 */
 
 typedef struct S_800A94A0_7 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_800A94A0_7;   /* temp_s5 in func_800A94A0 */
+} S_800A94A0_7;   /* temp_s5 in dungeonCreateActorSpellEffect */
 
 typedef struct S_800A94A0_8 {
     u8 pad_00[0x14];
@@ -70,14 +70,14 @@ typedef struct S_800A94A0_8 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_800A94A0_8;   /* temp_t0 in func_800A94A0 */
+} S_800A94A0_8;   /* temp_t0 in dungeonCreateActorSpellEffect */
 
 typedef struct S_800A94A0_9 {
     u8 pad_00[0x2A];
     u16 unk_2A;
     u8 pad_2C[0x5C];
     s16 unk_88;
-} S_800A94A0_9;   /* *D_800E3D7C in func_800A94A0 */
+} S_800A94A0_9;   /* *D_800E3D7C in dungeonCreateActorSpellEffect */
 
 
 extern u8 D_800E3CC8[];
@@ -90,14 +90,14 @@ s32 func_800990FC();
 s32 func_80099194();
 void *func_80099290();
 s32 func_80099734();
-s16 func_8009FD40();
+s16 dungeonGetTileChebyshevDistance();
 s32 func_800A5720();
-s16 func_800A9400();
-s32 func_800A982C();
-s32 func_800C77D0();
-void func_800C78A0();
-void func_800C7A3C();
-void func_800AD594();
+s16 dungeonResolveAlternateSpellId();
+s32 dungeonLoadSpellEffectCode();
+s32 dungeonSelectNearbyTargetAndInitializeSlot();
+void dungeonSetupObjectWithinPlanarRange();
+void dungeonProcessNearbyObjectMidpoint();
+void dungeonReduceActorFoodMeter();
 extern M2C_UNK D_80089080;
 extern u8 D_800DD880[];
 extern u8 D_800DD8B4[];
@@ -105,7 +105,7 @@ extern M2C_UNK D_800E1C58;
 extern u8 D_800E3D68;
 
 /* Creates an effect for an actor, sets its position and scale, and builds its message. */
-void *func_800A94A0(void *actor, EntityRec *effect_record, s16 mode, void *context) {
+void *dungeonCreateActorSpellEffect(void *actor, EntityRec *effect_record, s16 mode, void *context) {
     s32 message;
     s32 name_text;
     s32 effect_data;
@@ -135,7 +135,7 @@ void *func_800A94A0(void *actor, EntityRec *effect_record, s16 mode, void *conte
             effect_id = (*(u8 *)&effect_record->x);
             entry_variant = (*(u8 *)((u8 *)&effect_record->x + 1));
             D_800E3D68 = entry_variant;
-            effect_data = func_800A982C((u8) effect_id, mode_arg, ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_2B);
+            effect_data = dungeonLoadSpellEffectCode((u8) effect_id, mode_arg, ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_2B);
         }
         if (effect_data == 0) {
             effect_flags = ((S_800A94A0_2 *)effect)->unk_1E | 0x8000;
@@ -163,14 +163,14 @@ void *func_800A94A0(void *actor, EntityRec *effect_record, s16 mode, void *conte
             if (!((u16) *((s16 *)&D_80013714) & 1)) {
                 linked_object = ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_78;
                 if (linked_object != NULL) {
-                    func_8009FD40(((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_04,
+                    dungeonGetTileChebyshevDistance(((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_04,
                         ((S_800A94A0_6 *)((u8 *)linked_object - 0x14))->unk_00);
-                    func_800C77D0(effect, effect_position, 8, 0x300);
+                    dungeonSelectNearbyTargetAndInitializeSlot(effect, effect_position, 8, 0x300);
                 } else {
-                    func_800C77D0(effect, effect_position, 8, 0x300);
+                    dungeonSelectNearbyTargetAndInitializeSlot(effect, effect_position, 8, 0x300);
                 }
             } else {
-                func_800C77D0(effect, effect_position, 8, 0x300);
+                dungeonSelectNearbyTargetAndInitializeSlot(effect, effect_position, 8, 0x300);
             }
             if (text_context) {
                 /* retail evidence: the test's operands survive (the arm compiled away); reconstructed as a conditional update of a local nothing reads in the retail build - any dead local set reproduces the bytes (lane r118_fable_f4; decision 45, docs/evidence/r97_decisions.md) */
@@ -180,28 +180,28 @@ void *func_800A94A0(void *actor, EntityRec *effect_record, s16 mode, void *conte
             map_state = &D_80082E80;
             if (!(actor_state->unk_14 & 0x8000)) {
                 if (!(map_state->unk_014 & 0x8000)) {
-                    func_800C7A3C(map_state, actor_state, ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_88,
+                    dungeonProcessNearbyObjectMidpoint(map_state, actor_state, ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_88,
                         ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_A0, 8, 0x300);
                     goto set_effect_scale;
                 }
             }
             direction_offset = ((u16) ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_2A >> 8) & 0xE;
-            func_800C78A0(actor - 0x20, (map_state->tileX << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEAC + direction_offset)
+            dungeonSetupObjectWithinPlanarRange(actor - 0x20, (map_state->tileX << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEAC + direction_offset)
                 << 0x10) >> 0x11) + 0x20, (map_state->tileY << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEBC
                 + direction_offset) << 0x10) >> 0x11) + 0x20, ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_88, 8, 0x300);
         }
 set_effect_scale:
         if ((mode << 0x10) != 0) {
-            func_800AD594(actor, D_800DD8B4[effect_id] << 6);
+            dungeonReduceActorFoodMeter(actor, D_800DD8B4[effect_id] << 6);
         } else {
-            func_800AD594(actor, D_800DD880[effect_id] << 8);
+            dungeonReduceActorFoodMeter(actor, D_800DD880[effect_id] << 8);
         }
         if ((effect != NULL) && ((s8) ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_2B > 0)) {
             new_text_context = func_800990FC();
             message = func_80099734(actor, new_text_context);
             message = func_80099194(&D_800E1C58, message);
             if (((u32)(u16)mode << 0x10) != 0) {
-                effect_id = func_800A9400(effect_id);
+                effect_id = dungeonResolveAlternateSpellId(effect_id);
                 name_text = D_8006DE24[effect_id].unk_08;
                 message = func_80099194(name_text, message);
             } else {

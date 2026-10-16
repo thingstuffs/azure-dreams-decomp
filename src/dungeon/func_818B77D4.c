@@ -20,7 +20,7 @@ void func_80024FD4(B28_818B77D4_Arg0818B77D4 *source, B28_818B77D4_Arg1818B77D4 
 
     obj = (B28_818B77D4_Obj818B77D4 *)func_8003FC64(0x212);
     if (obj != 0) {
-        obj->unk10 = func_800242FC;
+        obj->unk10 = dungeonCycleSevenColorFade;
         state = &obj->unk20;
         state->unk0 = source->unk0;
         state->unk6 = 0;
@@ -31,6 +31,6 @@ void func_80024FD4(B28_818B77D4_Arg0818B77D4 *source, B28_818B77D4_Arg1818B77D4 
         state->unkE = rand() % 0x1000;
         state->unk10 = source->unk18;
         *(B28_818B77D4_Arg1818B77D4 *)obj->unk8 = *payload;
-        func_8004491C(obj, func_80024A64);
+        func_8004491C(obj, dungeonDrawTwoRadialEffectBands);
     }
 }

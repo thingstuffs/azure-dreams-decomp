@@ -11,7 +11,7 @@ typedef struct S_80174A6C_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80174A6C_0;   /* obj in func_80174A6C */
+} S_80174A6C_0;   /* obj in dungeonCreatePrimitiveStateObject */
 
 typedef struct S_80174A6C_1 {
     u8 pad_00[0x6];
@@ -29,7 +29,7 @@ typedef struct S_80174A6C_1 {
     s16 unk_1E;
     u8 pad_20[0x8];
     s32 unk_28;
-} S_80174A6C_1;   /* prim in func_80174A6C */
+} S_80174A6C_1;   /* prim in dungeonCreatePrimitiveStateObject */
 
 typedef struct S_80174A6C_4 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -38,21 +38,21 @@ typedef struct S_80174A6C_4 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80174A6C_4;   /* dst in func_80174A6C */
+} S_80174A6C_4;   /* dst in dungeonCreatePrimitiveStateObject */
 
 typedef struct S_80174A6C_5 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_80174A6C_5;   /* query_arg in func_80174A6C */
+} S_80174A6C_5;   /* query_arg in dungeonCreatePrimitiveStateObject */
 
 extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, s32, s32);
-extern s32 func_8003DE58(s32, void *, u16 *, s32);
+extern s32 resolveRecordOrientationOrFallback(s32, void *, u16 *, s32);
 
 extern u8 D_80174A00[9];
 
 /* Creates an object, initializes its primitive, copies state, and applies queried offsets. */
-s32 func_80174A6C(void *unused, Rec_func_80172D08_arg1 *src_state, Rec_D_80082E80 *source)
+s32 dungeonCreatePrimitiveStateObject(void *unused, Rec_func_80172D08_arg1 *src_state, Rec_D_80082E80 *source)
 {
     u16 offsets[3];
     S_80174A6C_0 *obj;
@@ -88,7 +88,7 @@ s32 func_80174A6C(void *unused, Rec_func_80172D08_arg1 *src_state, Rec_D_80082E8
             offsets[2] = 0;
             offsets[1] = 0;
             offsets[0] = 0;
-            if (func_8003DE58(query_arg->unk_08, query_arg,
+            if (resolveRecordOrientationOrFallback(query_arg->unk_08, query_arg,
                               query_out, 0) != 0) {
                 dst_state->unk_00.at02.v += offsets[0];
                 dst_state->unk_04.at02.v += offsets[1];

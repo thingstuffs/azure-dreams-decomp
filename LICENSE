@@ -1,3 +1,22 @@
+Scope of this licence
+=====================
+
+The dedication below (The Unlicense) applies to this project's ORIGINAL
+contributions: the tools and build scripts, the documentation, the names,
+types and annotations recovered for the game, and the contributors' own
+expression in the C source files, to the extent the contributors hold rights
+in them.
+
+It does NOT apply to, and grants no rights in, material that belongs to
+Konami or other third parties: Azure Dreams itself (its program code, data,
+art, sound, text, names and trademarks), any game bytes, and third-party
+software that carries its own licence (for example tools/maspsx/, which is MIT
+licensed; see NOTICE). See NOTICE for the full statement.
+
+This text is a plain description of the intent, not legal advice.
+
+----------------------------------------------------------------------------
+
 This is free and unencumbered software released into the public domain.
 
 Anyone is free to copy, modify, publish, use, compile, sell, or

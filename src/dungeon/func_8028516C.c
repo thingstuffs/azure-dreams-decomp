@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-s16 func_8001816C(s16 record_id, s16 *out_x, s16 *out_y, s32 search_mode)
+s16 dungeonFindFirstQualifyingCell(s16 record_id, s16 *out_x, s16 *out_y, s32 search_mode)
 {
     s16 rows_left;
     s16 cols_left;

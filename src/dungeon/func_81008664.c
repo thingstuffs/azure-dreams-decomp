@@ -103,11 +103,11 @@ void func_80047784();
 void func_8009A21C();
 s32 func_8009A2B8();
 void func_8009A3D0();
-s32 func_800A4ACC();
-s32 func_800A4E2C();
+s32 dungeonAdvanceStatusTimers();
+s32 selectDungeonSpawnTile();
 s32 func_800A56E0();
 void func_800AA53C();
-void func_800AD594();
+void dungeonReduceActorFoodMeter();
 s16 func_800BCB04();
 extern s16 D_8008146E;
 extern M2C_UNK D_80171058;
@@ -327,7 +327,7 @@ void func_81008664(S_func_81008664_1 *actor, S_func_81008664_5 *motion, S_func_8
                 partner_sprite->unk_25 = saved_y;
                 goto place_actors;
             }
-            tile_type = (s16) func_800A4E2C(tile_x_ptr, &partner_sprite->unk_25);
+            tile_type = (s16) selectDungeonSpawnTile(tile_x_ptr, &partner_sprite->unk_25);
             if (tile_type < 0) {
                 continue;
             }
@@ -446,14 +446,14 @@ place_actors:
         motion->unk_04 = final_y;
         saved_handler = actor->unk_AC;
         partner_actor->unk_8C = saved_handler;
-        func_800AD594(reset_entity, 0x100);
+        dungeonReduceActorFoodMeter(reset_entity, 0x100);
         next_handler = &D_80171058;
         actor->unk_8C = next_handler;
         active_count = ((u16)dungeonStatus.unk_0A);
         finish_entity = entity;
         active_count -= 1;
         dungeonStatus.unk_0A = active_count;
-        func_800A4ACC(finish_entity);
+        dungeonAdvanceStatusTimers(finish_entity);
         *(u16 *)((u8 *)actor + 0x98) = (u16) (actor->unk_98 & 0xFFF3);
 
         {

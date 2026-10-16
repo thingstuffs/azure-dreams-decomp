@@ -12,26 +12,26 @@ typedef struct S_80174764_0 {
     u16 unk_98;
     u8 pad_9A[0x1];
     u8 unk_9B;
-} S_80174764_0;   /* arg0 in func_80174764 */
+} S_80174764_0;   /* arg0 in dungeonAdvanceTargetInteraction */
 
 
 typedef struct S_80174764_3 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_80174764_3;   /* target in func_80174764 */
+} S_80174764_3;   /* target in dungeonAdvanceTargetInteraction */
 
 typedef struct S_80174764_4 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_80174764_4;   /* ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv in func_80174764 */
+} S_80174764_4;   /* ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv in dungeonAdvanceTargetInteraction */
 
 
 extern void func_80047784(void *, s16, s16);
-extern void func_800A2B04(void *, u8, u8);
+extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
 extern void func_800A56E0(s32);
-extern void func_800AD594(void *, s32);
+extern void dungeonReduceActorFoodMeter(void *, s32);
 extern void func_80175AF4(void *, void *, void *);
-extern s32 func_801761AC(void *);
+extern s32 dungeonRequestRandomSlotEffect(void *);
 extern s32 func_80176258(void *);
 extern void func_801762A4(s32, void *);
 extern void func_80176330(s32, void *);
@@ -41,7 +41,7 @@ extern u8 D_80171094;
 extern u8 D_80176460[8];
 
 /* Advances the timed target interaction and updates the directional animation. */
-void func_80174764(void *action, void *scene, void *sprite, void *actor)
+void dungeonAdvanceTargetInteraction(void *action, void *scene, void *sprite, void *actor)
 {
     u16 sprite_flags;
     u16 timer;
@@ -62,13 +62,13 @@ void func_80174764(void *action, void *scene, void *sprite, void *actor)
             } else {
                 target = ((EntityRec *)actor)->target;
                 if (((S_80174764_3 *)target)->unk_14 & 0x4000) {
-                    if (func_801761AC(target)) {
+                    if (dungeonRequestRandomSlotEffect(target)) {
                         func_80176330(1, ((EntityRec *)actor)->target);
                     } else {
                         func_80176330(0, ((EntityRec *)actor)->target);
                     }
                 } else {
-                    func_801761AC(target);
+                    dungeonRequestRandomSlotEffect(target);
                 }
             }
             ((S_80174764_0 *)action)->unk_9B = 2;
@@ -111,13 +111,13 @@ void func_80174764(void *action, void *scene, void *sprite, void *actor)
             } else {
                 target = ((EntityRec *)actor)->target;
                 if (((S_80174764_3 *)target)->unk_14 & 0x4000) {
-                    if (func_801761AC(target)) {
+                    if (dungeonRequestRandomSlotEffect(target)) {
                         func_80176330(1, ((EntityRec *)actor)->target);
                     } else {
                         func_80176330(0, ((EntityRec *)actor)->target);
                     }
                 } else {
-                    func_801761AC(target);
+                    dungeonRequestRandomSlotEffect(target);
                 }
             }
             ((S_80174764_0 *)action)->unk_96 = 4;
@@ -129,8 +129,8 @@ void func_80174764(void *action, void *scene, void *sprite, void *actor)
         timer = ((S_80174764_0 *)action)->unk_96 - 1;
         ((S_80174764_0 *)action)->unk_96 = timer;
         if ((timer << 16) == 0 || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-            func_800AD594(actor, 0x400);
-            func_800A2B04(scene, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            dungeonReduceActorFoodMeter(actor, 0x400);
+            dungeonSetRecordIntegerTileCenter(scene, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
             ((S_80174764_0 *)action)->unk_8C = &D_80171094;
             dungeonStatus.unk_0C = 0;
             (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;

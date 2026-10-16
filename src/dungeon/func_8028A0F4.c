@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void func_8001D0F4(floor_generate_isolated_8028A0F4_DungeonRect *rect, s32 update_id)
+void placeRoomTrapRecords(floor_generate_isolated_8028A0F4_DungeonRect *rect, s32 update_id)
 {
     u16 tile_flags;
     s32 slot_limit_calc;
@@ -29,9 +29,9 @@ void func_8001D0F4(floor_generate_isolated_8028A0F4_DungeonRect *rect, s32 updat
 
 
         for (; slot_index >= 0; slot_index--) {
-            x_offset = func_800A6DA4(0, (rect->width - 1) & 0xFFFF) & 0xFFFF;
-            y_offset = func_800A6DA4(0, (rect->height - 1) & 0xFFFF) & 0xFFFF;
-            func_8009A350((s16)(rect->x + x_offset - 1),
+            x_offset = randomDungeonRange16(0, (rect->width - 1) & 0xFFFF) & 0xFFFF;
+            y_offset = randomDungeonRange16(0, (rect->height - 1) & 0xFFFF) & 0xFFFF;
+            getOffsetMapCellValueAndFlags((s16)(rect->x + x_offset - 1),
                           (s16)(rect->y + y_offset), 0, &tile_flags);
             if (!(tile_flags & 0x8820)) {
                 ((floor_generate_isolated_8028A0F4_DungeonSpot *)D_800E39C8)[slot_index].px = (u8)rect->x + x_offset;

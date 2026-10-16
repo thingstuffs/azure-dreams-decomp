@@ -9,7 +9,7 @@ typedef struct {
 extern TownState D_8006ADBC;
 
 /* Returns whether the town state matches one of the accepted state pairs. */
-s32 func_800937F8(void) {
+s32 townIsTownStatePairAccepted(void) {
     s32 isAcceptedStatePair;
     s16 primaryState;
     s16 secondaryState;

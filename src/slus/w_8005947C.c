@@ -30,11 +30,11 @@ typedef struct {
 } S_80085FA8;
 
 extern s32 D_800737DC[16];
-extern s32 func_800589B8(S_80085FA8 *a0);
+extern s32 slusReadNextByteAndFinish(S_80085FA8 *a0);
 extern void func_80058E64(u8 status);
 extern void func_80058E6C(S_80085FA8 *a0, s32 a1);
-extern void func_800590E0(S_80085FA8 *a0);
-extern s32 func_8005914C(S_80085FA8 *a0, s32 a1, s32 a2, s32 a3);
+extern void skipVlqPayloadUntilF7(S_80085FA8 *a0);
+extern s32 audioDispatchMidiEvent(S_80085FA8 *a0, s32 a1, s32 a2, s32 a3);
 
 /* Read and dispatch the next event, reusing the previous status when needed. */
 s32 func_8005947C(S_80085FA8 *stream)
@@ -49,7 +49,7 @@ s32 func_8005947C(S_80085FA8 *stream)
     s32 subcommand;
 
     second_data = 0;
-    input_byte = func_800589B8(stream);
+    input_byte = slusReadNextByteAndFinish(stream);
     event_byte = input_byte;
     if (!(input_byte & 0x80)) {
         status = stream->f4a;
@@ -68,22 +68,22 @@ s32 func_8005947C(S_80085FA8 *stream)
         if (stream->f49 != 0) {
             first_data = event_byte;
         } else {
-            first_data = func_800589B8(stream);
+            first_data = slusReadNextByteAndFinish(stream);
         }
         if (data_count == 2) {
-            second_data = func_800589B8(stream);
+            second_data = slusReadNextByteAndFinish(stream);
         }
-        func_8005914C(stream, status & 0xFF, first_data, second_data & 0xFF);
+        audioDispatchMidiEvent(stream, status & 0xFF, first_data, second_data & 0xFF);
         return 0;
     }
     if (event_byte != 0xF0) {
         if (event_byte == 0xFF) {
-            subcommand = func_800589B8(stream);
+            subcommand = slusReadNextByteAndFinish(stream);
             func_80058E6C(stream, subcommand & 0xFF);
             return 0;
         }
     } else {
-        func_800590E0(stream);
+        skipVlqPayloadUntilF7(stream);
         return 0;
     }
     func_80058E64(event_byte);

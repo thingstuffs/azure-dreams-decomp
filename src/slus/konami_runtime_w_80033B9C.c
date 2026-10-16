@@ -3,9 +3,9 @@
 
 #include "common.h"
 
-void func_80033AA8();                         /* extern */
+void setResidentBitmapBit();                         /* extern */
 
-/* Forwards a signed 16-bit value to func_80033AA8. */
+/* Forwards a signed 16-bit value to setResidentBitmapBit. */
 void func_80033B9C(s16 value) {
-    func_80033AA8(value);
+    setResidentBitmapBit(value);
 }

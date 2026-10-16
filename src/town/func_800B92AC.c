@@ -5,8 +5,8 @@
 
 s32 func_8004491C();           /* extern */
 M2C_UNK func_8004B248();                      /* extern */
-s32 func_800B677C();                             /* extern */
-void func_800B691C(); /* extern */
+s32 townLinkMonsterStatusDisplayEntries();                             /* extern */
+void townInitializeEntryObject(); /* extern */
 s32 func_800B6990();                 /* extern */
 extern M2C_UNK D_8004CAA0;
 extern M2C_UNK D_800B6754;
@@ -36,8 +36,8 @@ void *func_800B6A0C(s32 resource_id, s32 slot_index, s32 x, s32 y, s32 z) {
     if (object != NULL) {
         if (func_800B6990(state, 0x18) != 0) {
             ((S_800B6A0C_0 *)object)->unk_0C = (void *) (object + 0xA8);
-            state->unk_94 = func_800B677C(state->unk_98);
-            func_800B691C(state, resource_id, slot_index, x, y, z);
+            state->unk_94 = townLinkMonsterStatusDisplayEntries(state->unk_98);
+            townInitializeEntryObject(state, resource_id, slot_index, x, y, z);
             ((S_800B6A0C_0 *)object)->unk_10 = &D_800B6754;
             func_8004491C(object, &D_8004CAA0);
             return object;

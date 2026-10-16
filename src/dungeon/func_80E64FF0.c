@@ -23,7 +23,7 @@ typedef struct S_801747F0_0 {
     s32 unk_60;
     s32 unk_64;
     s32 unk_68;
-} S_801747F0_0;   /* arg0 in func_801747F0 */
+} S_801747F0_0;   /* arg0 in dungeonUpdateMotionAndTerrainCollision */
 
 typedef struct S_801747F0_1 {
     union {
@@ -49,7 +49,7 @@ typedef struct S_801747F0_1 {
     s16 unk_12;
     u8 pad_14[0x2];
     s16 unk_16;
-} S_801747F0_1;   /* arg1 in func_801747F0 */
+} S_801747F0_1;   /* arg1 in dungeonUpdateMotionAndTerrainCollision */
 
 typedef struct S_801747F0_2 {
     u8 pad_00[0x6];
@@ -60,23 +60,23 @@ typedef struct S_801747F0_2 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_801747F0_2;   /* arg2 in func_801747F0 */
+} S_801747F0_2;   /* arg2 in dungeonUpdateMotionAndTerrainCollision */
 
 typedef struct S_801747F0_3 {
     s16 unk_00;
     s16 unk_02;
-} S_801747F0_3;   /* tile in func_801747F0 */
+} S_801747F0_3;   /* tile in dungeonUpdateMotionAndTerrainCollision */
 
 
 extern u8 D_801755E0[16];
 
-extern s32 func_800A45D8(u16, u16, s16);
+extern s32 dungeonCheckLeftTileAndCenterHeight(u16, u16, s16);
 extern s32 func_800A7234(s8, s8, s16, s16 *, s16 *, s16 *);
 extern void func_800A7A7C(s16, s16, s16, s32, u8 *);
 extern s16 func_800BCB04(s32, s32, s16);
 
 /* Update motion and terrain collisions, then settle at a target or finish falling. */
-void func_801747F0(void *motion, void *position, void *object)
+void dungeonUpdateMotionAndTerrainCollision(void *motion, void *position, void *object)
 {
     u8 colors[4];
     s32 move_frames;
@@ -223,7 +223,7 @@ flight:
         next_cell_y = ((S_801747F0_0 *)motion)->unk_51.s + direction->unk_02;
         y = ((S_801747F0_1 *)position)->unk_04.at02.v;
         if (next_cell_y == (y / 64)) {
-            if (((func_800A45D8(((S_801747F0_1 *)position)->unk_00.at02u.v, ((S_801747F0_1 *)position)->unk_04.at02u.v,
+            if (((dungeonCheckLeftTileAndCenterHeight(((S_801747F0_1 *)position)->unk_00.at02u.v, ((S_801747F0_1 *)position)->unk_04.at02u.v,
                                ((S_801747F0_1 *)position)->unk_08.at02.v) << 16) != 0) ||
                 func_800BCB04(((S_801747F0_1 *)position)->unk_00.at02u.v, ((S_801747F0_1 *)position)->unk_04.at02u.v,
                               ((S_801747F0_1 *)position)->unk_08.at02.v) >= 0x200) {

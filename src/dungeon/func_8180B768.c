@@ -1,20 +1,10 @@
-#include "common.h"
-#include "shared/game_work.h"
-
+#include "modules/dungeon_ovl_1829800.h"
 #define U8(base, offset) (*(u8 *)((u8 *)(base) + (offset)))
 #define S16(base, offset) (*(s16 *)((u8 *)(base) + (offset)))
 #define U16(base, offset) (*(u16 *)((u8 *)(base) + (offset)))
 #define S32(base, offset) (*(s32 *)((u8 *)(base) + (offset)))
 #define PTR(base, offset) (*(u8 **)((u8 *)(base) + (offset)))
-
-
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_8006658C(void *, void *);
-extern void func_80066708(void *);
-extern void func_80067F20(void *, s32, s32, s32, s32);
-
-/* Queues four shaded quadrants and a draw-mode packet for each linked rectangle. */
-s32 func_80026F68(void *rect_arg, void *owner_arg)
+s32 dungeonQueueFourShadedQuadrants(void *rect_arg, void *owner_arg)
 {
     u8 *rect_data;
     u8 *owner;

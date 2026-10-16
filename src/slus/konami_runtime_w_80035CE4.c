@@ -19,7 +19,7 @@ typedef struct {
 extern void func_80035D38(void);
 
 /* Decreases value by 0x20, clamps it to 2, and updates the callback and data flag at the lower limit. */
-void func_80035CE4(FuncState *state, FuncValue *value_state) {
+void shrinkWindowAndSignalLinkedRecord(FuncState *state, FuncValue *value_state) {
     u16 value;
 
     value = value_state->value - 0x20;

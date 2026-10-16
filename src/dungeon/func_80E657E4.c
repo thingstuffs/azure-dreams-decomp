@@ -4,14 +4,14 @@
 
 
 extern void func_80047784(void *, s32, s32);
-extern void func_80099EA4(void *);
-extern void func_800A4ACC(void *);
+extern void dungeonApplyScaledEntityVelocity(void *);
+extern void dungeonAdvanceStatusTimers(void *);
 
 extern u8 D_801755B4[];
 extern u8 D_80175660[];
 
 /* Starts a direction-based action when the object's state and global flags allow it. */
-void func_80174FE4(void *action_state, void *unused, void *animation, void *object)
+void dungeonStartDirectionBasedAction(void *action_state, void *unused, void *animation, void *object)
 {
     u8 *state_data;
     register s32 data_page;
@@ -21,7 +21,7 @@ void func_80174FE4(void *action_state, void *unused, void *animation, void *obje
     state_data = D_80175660;
     *(u16 *)(state_data + 0x6C) = *(u16 *)((u8 *)object + 0x6C);
     *(u16 *)(state_data + 0x6E) = *(u16 *)((u8 *)object + 0x6E);
-    func_80099EA4(state_data);
+    dungeonApplyScaledEntityVelocity(state_data);
 
     if (*(s8 *)(state_data + 0x6D) != 0) {
         u8 *state_data;
@@ -37,7 +37,7 @@ void func_80174FE4(void *action_state, void *unused, void *animation, void *obje
             *(u8 **)((u8 *)animation + 0x2C) = direction_table;
             data_page = (gameWork.view.viewAngle + *(s16 *)((u8 *)object + 0x2A) + 0x100) >> 9;
             func_80047784(animation, direction_table[data_page & 7], 0);
-            func_800A4ACC(object);
+            dungeonAdvanceStatusTimers(object);
             *(u8 *)((u8 *)object + 0x6D) -= 1;
             *(u16 *)(state_data + 0xA) += 1;
         }

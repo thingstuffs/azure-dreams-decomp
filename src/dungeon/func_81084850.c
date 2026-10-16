@@ -12,13 +12,13 @@ typedef struct S_80172050_0 {
     u8 pad_72[0x12];
     s8 unk_84;
     s8 unk_85;
-} S_80172050_0;   /* actor in func_80172050 */
+} S_80172050_0;   /* actor in dungeonAttemptActorActionAndDisplay */
 
 typedef struct S_80172050_1 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_80172050_1;   /* actor_info in func_80172050 */
+} S_80172050_1;   /* actor_info in dungeonAttemptActorActionAndDisplay */
 
 typedef struct S_80172050_2 {
     u8 pad_00[0x8C];
@@ -26,28 +26,28 @@ typedef struct S_80172050_2 {
     u8 pad_90[0xA];
     s8 unk_9A;
     s8 unk_9B;
-} S_80172050_2;   /* out in func_80172050 */
+} S_80172050_2;   /* out in dungeonAttemptActorActionAndDisplay */
 
 typedef struct S_80172050_3 {
     u8 pad_00[0x2A];
     s16 unk_2A;
     u8 pad_2C[0x41];
     u8 unk_6D;
-} S_80172050_3;   /* acting_actor in func_80172050 */
+} S_80172050_3;   /* acting_actor in dungeonAttemptActorActionAndDisplay */
 
 
 extern void func_80047784(void *, s32, s32);
-extern void func_8009C93C(void *, void *, s32, s32, s32);
-extern s32 func_800A0134(s32, void *);
-extern s32 func_800A04F0(void *, s32, s32, s32);
+extern void dungeonPrepareDirectionalAttack(void *, void *, s32, s32, s32);
+extern s32 dungeonGetActorHeightDifference(s32, void *);
+extern s32 dungeonPlaceActorAtDirectionalNeighbor(void *, s32, s32, s32);
 extern s32 func_800A2B5C(void *);
 extern s32 func_800A2CB8(void *, s32);
-extern void func_800C7930(void *, s32, s32, s32);
+extern void dungeonApplyCameraOffsetAndSelectTarget(void *, s32, s32, s32);
 
 extern u8 D_80175F48;
 
 /* Attempts an actor action and initializes its output and directional display on success. */
-s32 func_80172050(void *action_out, s32 action_param, void *actor_info, void *acting_actor)
+s32 dungeonAttemptActorActionAndDisplay(void *action_out, s32 action_param, void *actor_info, void *acting_actor)
 {
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
     u8 *direction_table;
@@ -62,7 +62,7 @@ s32 func_80172050(void *action_out, s32 action_param, void *actor_info, void *ac
         return result;
     }
 
-    computed_angle = func_800A04F0(acting_actor, ((S_80172050_1 *)actor_info)->unk_24,
+    computed_angle = dungeonPlaceActorAtDirectionalNeighbor(acting_actor, ((S_80172050_1 *)actor_info)->unk_24,
         ((S_80172050_1 *)actor_info)->unk_25, ((S_80172050_0 *)acting_actor)->unk_2A);
     if ((func_800A2CB8(((void *)(acting_actor)), computed_angle) << 16) == 0) {
         result = 0;
@@ -81,7 +81,7 @@ s32 func_80172050(void *action_out, s32 action_param, void *actor_info, void *ac
         }
     }
 
-    if ((u16)(-func_800A0134(computed_angle, acting_actor) + 0x3F) >= 0x7F) {
+    if ((u16)(-dungeonGetActorHeightDifference(computed_angle, acting_actor) + 0x3F) >= 0x7F) {
         result = 0;
         return result;
     }
@@ -90,7 +90,7 @@ s32 func_80172050(void *action_out, s32 action_param, void *actor_info, void *ac
         return result;
     }
 
-    func_800C7930((u8 *)acting_actor - 0x20, action_param, 8, 0x300);
+    dungeonApplyCameraOffsetAndSelectTarget((u8 *)acting_actor - 0x20, action_param, 8, 0x300);
     if ((func_800A2B5C(acting_actor) << 16) != 0) {
         result = -1;
     } else {
@@ -106,7 +106,7 @@ s32 func_80172050(void *action_out, s32 action_param, void *actor_info, void *ac
             direction_table[((gameWork.view.viewAngle + ((S_80172050_0 *)acting_actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80172050_3 *)acting_actor)->unk_6D--;
-        func_8009C93C(acting_actor, actor_info, ((S_80172050_3 *)acting_actor)->unk_2A, 1, 0);
+        dungeonPrepareDirectionalAttack(acting_actor, actor_info, ((S_80172050_3 *)acting_actor)->unk_2A, 1, 0);
         result = 1;
     }
     return result;

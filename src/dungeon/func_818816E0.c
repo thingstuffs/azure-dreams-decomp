@@ -24,7 +24,7 @@ typedef struct {
 
 
 /* Moves and fades an effect, marking it inactive when its brightness falls below the cutoff. */
-void func_80024EE0(void *effect_data, void *position_data, void *visual_data) {
+void dungeonMoveAndFadeEffect(void *effect_data, void *position_data, void *visual_data) {
     Func818816E0Arg0 *effect;
     Func818816E0Arg1 *position;
     register Func818816E0Arg2 *visual;

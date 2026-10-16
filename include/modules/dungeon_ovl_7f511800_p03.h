@@ -48,17 +48,17 @@ typedef struct T_80173450_S_80173450_3 {
 
 
 
-extern void func_800A2B04();
-extern void func_800AAA54();
-extern void func_800AD4D0();
+extern void dungeonSetRecordIntegerTileCenter();
+extern void dungeonBeginActorDisplayAction();
+extern void dungeonApplyClampedActorValueDelta();
 extern void func_8009A028(void *);
 extern void func_8009A3D0(s32, s32, s32);
 extern void func_800A2FE0(void *);
 extern void func_800A32A4(void *);
 extern void func_800A56E0(s32);
-extern void func_800ACF88(void *);
+extern void dungeonAnnounceFamiliarDefeat(void *);
 extern u8 D_80170E7C;
 extern u8 D_80174D5C;
-void func_8017314C(T_8017314C_S_8017314C_1 *action, EntityRec *motion, Rec_D_80082E80 *actor, void *source);
-void func_80173450(void *action, void *unused, void *sprite, void *entity);
+void updateDirectionalMotionAndRecenterActor(T_8017314C_S_8017314C_1 *action, EntityRec *motion, Rec_D_80082E80 *actor, void *source);
+void fadeAndRemoveEntitySprite(void *action, void *unused, void *sprite, void *entity);
 #endif

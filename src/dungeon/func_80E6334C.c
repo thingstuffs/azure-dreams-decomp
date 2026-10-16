@@ -18,17 +18,17 @@ typedef struct S_80172B4C_0 {
     union { s16 s; u16 u; } unk_9E;   /* accessed as both */
     u8 pad_A0[0x4];
     s32 unk_A4;
-} S_80172B4C_0;   /* arg0 in func_80172B4C */
+} S_80172B4C_0;   /* arg0 in dungeonAdvanceArcingActorMove */
 
 
 extern void func_80047784(void *, s32, s32);
 extern s32 func_800644B8(s32);
-extern s16 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern void func_800A2B04(void *, s32, s32);
-extern void func_800A4ACC(void *);
+extern s16 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A9A04(void *);
-extern void func_800AD594(void *, s32);
-extern s32 func_800AD9B4(void *, void *);
+extern void dungeonReduceActorFoodMeter(void *, s32);
+extern s32 dungeonCheckActorFloorTrap(void *, void *);
 
 extern u8 D_801716F4[];
 extern u8 D_80175554[];
@@ -36,7 +36,7 @@ extern u8 D_80175574[];
 extern u8 D_8017557C[];
 
 /* Updates an actor's arcing move to its tile and finishes the action when its timer expires. */
-void func_80172B4C(void *action, void *motion, void *sprite, void *actor)
+void dungeonAdvanceArcingActorMove(void *action, void *motion, void *sprite, void *actor)
 {
     s32 state;
     s32 move_ticks;
@@ -117,7 +117,7 @@ void func_80172B4C(void *action, void *motion, void *sprite, void *actor)
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
             phase_anims = D_8017557C;
             (*(u8 * *)((u8 *)sprite + 0x2C)) = phase_anims;
             func_80047784(sprite,
@@ -150,9 +150,9 @@ void func_80172B4C(void *action, void *motion, void *sprite, void *actor)
     ((EntityRec *)motion)->unk_10 = 0;
     ((EntityRec *)motion)->unk_0C = 0;
     ((Rec_D_80082E80 *)sprite)->unk_1C.at02_s16.v = 0x1000;
-    func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-    func_800AD594(actor, 3);
-    func_800A4ACC(actor);
+    dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+    dungeonReduceActorFoodMeter(actor, 3);
+    dungeonAdvanceStatusTimers(actor);
 
     action_globals = &dungeonStatus;
     if (action_globals->unk_08 != 0) {
@@ -167,7 +167,7 @@ void func_80172B4C(void *action, void *motion, void *sprite, void *actor)
     } else {
         if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
-                ((EntityRec *)actor)->facing = func_800A0818(
+                ((EntityRec *)actor)->facing = dungeonGetRoundedFacingAndRoundingFlag(
                     ((Rec_D_80082E80 *)sprite)->unk_24,
                     ((Rec_D_80082E80 *)sprite)->unk_25,
                     D_80082E80.tileX,
@@ -177,7 +177,7 @@ void func_80172B4C(void *action, void *motion, void *sprite, void *actor)
         }
     }
 
-    if ((func_800AD9B4(sprite, actor) << 16) > 0) {
+    if ((dungeonCheckActorFloorTrap(sprite, actor) << 16) > 0) {
         ((S_80172B4C_0 *)action)->unk_8C = D_801716F4;
         func_800A9A04(actor);
     }

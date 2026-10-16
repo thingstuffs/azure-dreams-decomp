@@ -10,7 +10,7 @@ extern void func_80067F20(void *, s32, s32, u16, s32);
 
 
 
- s32 func_8016A8A4(u8 *node_data, u16 *position) ;
+ s32 dungeonCreateActorWithPartsAndFlags(u8 *node_data, u16 *position) ;
 
 
 typedef struct Scratch {
@@ -45,7 +45,7 @@ typedef struct Packet {
 } Packet;
 
 /* Projects a point and queues its tile and draw mode in the ordering table. */
- s32 func_8016A8A4(u8 *node_data, u16 *position)
+ s32 dungeonCreateActorWithPartsAndFlags(u8 *node_data, u16 *position)
 {
     Scratch *scratch = (Scratch *)0x1F800000;
     void **global_state = ((void * *)(&gameWork));

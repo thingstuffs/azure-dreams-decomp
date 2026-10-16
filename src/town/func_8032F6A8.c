@@ -7,13 +7,13 @@ typedef struct {
     s16 unk6;
 } TownRecord;
 
-extern void func_8001ACE8(s32);
-extern void func_8001AD60(s32);
-extern s32 func_8001ADE0(s32);
+extern void townSetScriptFlagBit(s32);
+extern void townClearScriptFlagBit(s32);
+extern s32 townGetScriptFlagMask(s32);
 extern s16 D_8001B8A8[3];
 
 /* Processes town records according to global and per-record conditions. */
-void func_80019EA8(s32 records_addr, s32 record_count)
+void townProcessTownRecords(s32 records_addr, s32 record_count)
 {
     s32 record_index;
     TownRecord *record;
@@ -23,16 +23,16 @@ void func_80019EA8(s32 records_addr, s32 record_count)
         condition_ids = D_8001B8A8;
         do {
             record = (TownRecord *)((record_index * 8) + records_addr);
-            func_8001AD60(record->unk2);
-            if (func_8001ADE0(condition_ids[1]) == 0) {
-                func_8001AD60(record->unk4);
+            townClearScriptFlagBit(record->unk2);
+            if (townGetScriptFlagMask(condition_ids[1]) == 0) {
+                townClearScriptFlagBit(record->unk4);
             } else {
                 record = (TownRecord *)((record_index * 8) + records_addr);
-                if (func_8001ADE0(record->unk0) != 0) {
-                    func_8001ACE8(record->unk4);
+                if (townGetScriptFlagMask(record->unk0) != 0) {
+                    townSetScriptFlagBit(record->unk4);
                 }
             }
-            func_8001AD60(((TownRecord *)((record_index * 8) + records_addr))->unk0);
+            townClearScriptFlagBit(((TownRecord *)((record_index * 8) + records_addr))->unk0);
             record_index++;
             if (record_index >= record_count) {
                 break;

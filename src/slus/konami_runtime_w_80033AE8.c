@@ -8,7 +8,7 @@ typedef struct {
 } MemoryPage;
 
 /* Clears the indexed bit in the fixed flag array, except for indices zero and one. */
-void func_80033AE8(s32 flag_id) {
+void clearResidentBitmapBit(s32 flag_id) {
     u32 flag_value = flag_id;
     u32 flag_index = flag_value & 0xFFFF;
     u32 bit_mask = 1;

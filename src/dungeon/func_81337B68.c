@@ -3,7 +3,7 @@
 extern s32 D_80175D78[];
 
 /* Clear one state field and increment the counter for each of sixteen objects. */
-void func_8016EB68(void) {
+void dungeonAdvanceMultiFormRingPhase(void) {
     s32 *object_entry;
     s32 object_index;
     void *state;

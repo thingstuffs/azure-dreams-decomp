@@ -10,16 +10,16 @@ void func_80024024(EntityRec *target, s32 gain_param, s32 ignored_context) {
     s32 base_gain;
     register s32 gain;
 
-    if (func_8009D218(target, 1) == 0) {
+    if (dungeonTryTriggerTargetRecordEffect(target, 1) == 0) {
         base_gain = func_800A6870(gain_param & 0xFF) + 8;
         gain = base_gain;
         if (target->unk_28 & 1) {
             gain = base_gain << 1;
         }
         target->unk_64 = (u16) (((u16)target->unk_64) + gain);
-        func_800AD568(target);
+        dungeonCapPendingActorValueDelta(target);
         base_gain = 0x8004;
-        func_800B4C7C(base_gain, target, (s16) ((u16)target->unk_64), 1);
-        func_800AD4D0(target);
+        createActorValuePopup(base_gain, target, (s16) ((u16)target->unk_64), 1);
+        dungeonApplyClampedActorValueDelta(target);
     }
 }

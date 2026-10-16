@@ -1,10 +1,10 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-u8 *func_80022D60();   /* extern */
+u8 *cardBootCreateOrResetMessageDialog();   /* extern */
 
-/* Calls func_80022D60 with the supplied value, 10, and two zero arguments. */
-void func_80022FDC(s32 value) {
+/* Calls cardBootCreateOrResetMessageDialog with the supplied value, 10, and two zero arguments. */
+void cardBootShowInsufficientSpaceCardAdvice(s32 value) {
     s32 zero = 0;
-    func_80022D60(value, 0xa, zero, zero);
+    cardBootCreateOrResetMessageDialog(value, 0xa, zero, zero);
 }

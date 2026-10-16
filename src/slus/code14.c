@@ -1,7 +1,7 @@
-/* gcc 2.8.1 -O2 — own TU (func_8004D0E4: callback fwd-decl conflict) */
+/* gcc 2.8.1 -O2 — own TU (copyGlobalShortTriplet: callback fwd-decl conflict) */
 /* Registers/copies a 3-short position (x,y,z) from a nested pointer into the
  * global state table D_80083160 at offsets 0xBC/0xBE/0xC0. Sibling of
- * func_8004D09C (same D_80083160 fields):
+ * copyViewHalfwordTriplet (same D_80083160 fields):
  * a0 is a pointer to a struct whose offset 0 holds a pointer to a small
  * struct of three shorts at offsets 0x0/0x2/0x4. */
 
@@ -24,7 +24,7 @@ extern struct {
 } D_80083160;
 
 /* Copies the nested position into the global state. */
-void func_8004D0E4(struct S_Src *object)
+void copyGlobalShortTriplet(struct S_Src *object)
 {
     struct Vec3s *position = object->ptr;
 

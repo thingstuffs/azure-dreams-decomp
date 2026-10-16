@@ -64,11 +64,11 @@ extern S_80084960 D_80084960[16];
 extern S_80085458 D_80085458[64];
 extern S_80085FA8 D_80085FA8[32];
 
-extern s32 func_80056DB4(s32 request_index);
+extern s32 soundResetIndexedVoiceEnvelope(s32 request_index);
 extern void func_8005E97C(s32 key_on, s32 voices);
 
 /* Resets global state tables and applies per-entry and combined flags. */
-void func_80056A08(void) {
+void audioResetSequenceTracksAndChannels(void) {
     s32 combined_flags;
     s32 entry_index;
     s32 entry_flags;
@@ -118,7 +118,7 @@ void func_80056A08(void) {
             D_80085458[entry_index].f70 = 0x40;
             D_80085458[entry_index].f74 = 0x40;
             entry_flags = D_80073740[entry_index];
-            func_80056DB4(entry_index);
+            soundResetIndexedVoiceEnvelope(entry_index);
             combined_flags |= entry_flags;
             func_8005E97C(0, entry_flags);
         }

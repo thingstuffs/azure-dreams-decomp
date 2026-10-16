@@ -37,7 +37,7 @@ void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
             object = (u8 *)allocated + 0x20;
             init_root = allocated;
             setup = func_80045340;
-            ((R17_8017089C_S_8017089C_0 *)init_root)->unk_10 = ((u8 *)func_80170BB8);
+            ((R17_8017089C_S_8017089C_0 *)init_root)->unk_10 = ((u8 *)dungeonCreateAnchoredDirectionalObject);
             ((R17_8017089C_S_8017089C_1 *)object)->unk_13 = 17;
             func_8004491C(init_root, setup);
         }
@@ -139,7 +139,7 @@ void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
                     item_offset += 0x30;
                     item_index++;
                     ((R17_8017089C_S_8017089C_6 *)(void *)saved_kind)->unk_06 = 1;
-                    func_800478E8(part, ((u8 *)D_800D71A8), 1);
+                    textureSetTheActiveEntriesMatchingIDInTypeN2TableSlots(part, ((u8 *)D_800D71A8), 1);
                     more_items = item_index < ((R17_8017089C_S_8017089C_6 *)(void *)saved_kind)->unk_02;
                     ((R17_8017089C_S_8017089C_6 *)(void *)saved_kind)->unk_98 = (u8 *)root + 0x1E;
                 } while (more_items);

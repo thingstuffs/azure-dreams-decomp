@@ -16,23 +16,23 @@ typedef struct S_80168C88_0 {
     u8 pad_1A[0x2];
     s16 unk_1C;
     u16 unk_1E;
-} S_80168C88_0;   /* arg0 in func_80168C88 */
+} S_80168C88_0;   /* arg0 in dungeonUpdateAnimatedTexturedRibbon */
 
 typedef struct S_80168C88_1 {
     u8 pad_00[0xC];
     u8 unk_0C;
     u8 unk_0D;
     u8 unk_0E;
-} S_80168C88_1;   /* arg2 in func_80168C88 */
+} S_80168C88_1;   /* arg2 in dungeonUpdateAnimatedTexturedRibbon */
 
 typedef struct S_80168C88_2 {
     u8 pad_00[0x54];
     s16 unk_54;
-} S_80168C88_2;   /* temp_v0 in func_80168C88 */
+} S_80168C88_2;   /* temp_v0 in dungeonUpdateAnimatedTexturedRibbon */
 
 typedef struct S_80168C88_3 {
     s16 unk_00;
-} S_80168C88_3;   /* (void *)temp_a1 in func_80168C88 */
+} S_80168C88_3;   /* (void *)temp_a1 in dungeonUpdateAnimatedTexturedRibbon */
 
 typedef struct S_80168C88_4 {
     s8 unk_00;
@@ -53,33 +53,33 @@ typedef struct S_80168C88_4 {
     u8 pad_0F[0x9];
     s16 unk_18;
     s16 unk_1A;
-} S_80168C88_4;   /* temp_s0 in func_80168C88 */
+} S_80168C88_4;   /* temp_s0 in dungeonUpdateAnimatedTexturedRibbon */
 
 typedef struct S_80168C88_5 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80168C88_5;   /* temp_v0_2 in func_80168C88 */
+} S_80168C88_5;   /* temp_v0_2 in dungeonUpdateAnimatedTexturedRibbon */
 
 typedef struct S_80168C88_6 {
     u8 pad_00[0x10];
     s16 unk_10;
     u8 pad_12[0x2];
     u16 unk_14;
-} S_80168C88_6;   /* temp_a3 in func_80168C88 */
+} S_80168C88_6;   /* temp_a3 in dungeonUpdateAnimatedTexturedRibbon */
 
 typedef struct S_80168C88_7 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_80168C88_7;   /* temp_v1_3 in func_80168C88 */
+} S_80168C88_7;   /* temp_v1_3 in dungeonUpdateAnimatedTexturedRibbon */
 
 typedef struct S_80168C88_8 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_80168C88_8;   /* arg1 in func_80168C88 */
+} S_80168C88_8;   /* arg1 in dungeonUpdateAnimatedTexturedRibbon */
 
 typedef struct S_80168C88_9 {
     u8 pad_00[0x6];
@@ -91,23 +91,23 @@ typedef struct S_80168C88_9 {
     u8 pad_0F[0xD];
     s16 unk_1C;
     s16 unk_1E;
-} S_80168C88_9;   /* temp_a3_2 in func_80168C88 */
+} S_80168C88_9;   /* temp_a3_2 in dungeonUpdateAnimatedTexturedRibbon */
 
 typedef struct S_80168C88_10 {
     u8 unk_00;
     u8 unk_01;
     u8 unk_02;
-} S_80168C88_10;   /* var_a0 in func_80168C88 */
+} S_80168C88_10;   /* var_a0 in dungeonUpdateAnimatedTexturedRibbon */
 
 typedef struct S_80168C88_11 {
     u8 pad_00[0x8];
     u8 unk_08;
-} S_80168C88_11;   /* temp_a0_3 in func_80168C88 */
+} S_80168C88_11;   /* temp_a0_3 in dungeonUpdateAnimatedTexturedRibbon */
 
 typedef struct S_80168C88_12 {
     u8 pad_00[0x9];
     u8 unk_09;
-} S_80168C88_12;   /* temp_a0_4 in func_80168C88 */
+} S_80168C88_12;   /* temp_a0_4 in dungeonUpdateAnimatedTexturedRibbon */
 
 
 extern void func_8004491C();
@@ -123,7 +123,7 @@ static __inline__ s16 interpolate_value(s32 delta, s32 step, u16 start)
 }
 
 /* Builds seven colored effect segments from interpolated coordinates and decrements their source effect lifetime. */
-void func_80168C88(u8 *effect, void *origin, void *color_in)
+void dungeonUpdateAnimatedTexturedRibbon(u8 *effect, void *origin, void *color_in)
 {
     s16 phase;
     s32 red_scaled;

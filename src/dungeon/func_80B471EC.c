@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource12_slot0.h"
 
-void func_801749EC(void *effect, void *origin, void *tint) {
+void dungeonBuildAnimatedSphericalWireframe(void *effect, void *origin, void *tint) {
     s16 ring_angles[10];
     s32 coordinate;
     u32 scale;
@@ -158,7 +158,7 @@ void func_801749EC(void *effect, void *origin, void *tint) {
             meridian_line = meridian_object + 0x20;
             ((R12_801749EC_S_801749EC_6 *)meridian_line)->unk_1A = 1;
             ((R12_801749EC_S_801749EC_6 *)meridian_line)->unk_1C = 1;
-            ((R12_801749EC_S_801749EC_7 *)meridian_object)->unk_10 = ((u8 *)func_801749A8);
+            ((R12_801749EC_S_801749EC_7 *)meridian_object)->unk_10 = ((u8 *)dungeonUpdateTurningFadeEffectAndModel);
             func_8004491C(meridian_object, &func_80174954);
             meridian_render = ((R12_801749EC_S_801749EC_7 *)meridian_object)->unk_0C;
             ((R12_801749EC_S_801749EC_8 *)meridian_render)->unk_10 = 0x20;
@@ -202,7 +202,7 @@ void func_801749EC(void *effect, void *origin, void *tint) {
                 meridian_line = ring_object + 0x20;
                 ((R12_801749EC_S_801749EC_14 *)meridian_line)->unk_1A = 1;
                 ((R12_801749EC_S_801749EC_14 *)meridian_line)->unk_1C = 1;
-                ((R12_801749EC_S_801749EC_15 *)ring_object)->unk_10 = ((u8 *)func_801749A8);
+                ((R12_801749EC_S_801749EC_15 *)ring_object)->unk_10 = ((u8 *)dungeonUpdateTurningFadeEffectAndModel);
                 func_8004491C(ring_object, &func_80174954);
                 ring_render = ((R12_801749EC_S_801749EC_15 *)ring_object)->unk_0C;
                 {

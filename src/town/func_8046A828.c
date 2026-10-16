@@ -9,14 +9,14 @@ typedef struct S_8001B828_0 {
     u8 unk_04;
     u8 pad_05[0x1B];
     void * unk_20;
-} S_8001B828_0;   /* obj in func_8001B828 */
+} S_8001B828_0;   /* obj in townDispatchEventRequest */
 
 
-extern void func_80019730(void);
-extern s8 func_8001A4F0(void);
-extern s32 func_8001A58C(s32);
-extern void *func_8001B6E4(s32);
-extern void *func_8001B6F8();
+extern void townAdvanceDispatchStateToTwo(void);
+extern s8 townFindFirstEnabledEntryId(void);
+extern s32 townCheckEventValueInList(s32);
+extern void *townClearEventResourceStateAndGetBuffer(s32);
+extern void *townResolveEventResponseKey();
 extern void func_8001E5F0(s32);
 
 extern s32 D_8001601C;
@@ -25,7 +25,7 @@ extern u8 D_8001914C[];
 
 
 /* Dispatches requests by mode, refreshing the state code before selecting a response. */
-void *func_8001B828(s32 request, void *data, s32 mode) {
+void *townDispatchEventRequest(s32 request, void *data, s32 mode) {
     u8 new_code;
     s32 status;
     void *context;
@@ -34,7 +34,7 @@ void *func_8001B828(s32 request, void *data, s32 mode) {
     if (mode == 0) {
         func_8001E5F0(0x402);
         context = D_8001E950;
-        status = func_8001A58C(((S_8001B828_0 *)context)->unk_04);
+        status = townCheckEventValueInList(((S_8001B828_0 *)context)->unk_04);
         if (status == 0) {
             context = D_80016000;
             context = ((S_8001B828_0 *)context)->unk_20;
@@ -42,18 +42,18 @@ void *func_8001B828(s32 request, void *data, s32 mode) {
             if (status != 2) {
                 return D_8001914C;
             }
-            new_code = func_8001A4F0();
+            new_code = townFindFirstEnabledEntryId();
             D_8001E950->unk_04 = new_code;
         }
         state = D_8001E950;
         if (state->unk_04 != 0) {
-            return func_8001B6E4(state->unk_04);
+            return townClearEventResourceStateAndGetBuffer(state->unk_04);
         }
         return D_8001914C;
     }
     if (mode == 1) {
-        func_80019730();
-        return func_8001B6F8(request, data, 1);
+        townAdvanceDispatchStateToTwo();
+        return townResolveEventResponseKey(request, data, 1);
     }
     if (mode == 5) {
         return D_80017774;
@@ -61,5 +61,5 @@ void *func_8001B828(s32 request, void *data, s32 mode) {
     if (mode == 4) {
         return &D_8001601C;
     }
-    return func_8001B6F8(request, data);
+    return townResolveEventResponseKey(request, data);
 }

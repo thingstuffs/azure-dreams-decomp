@@ -31,7 +31,7 @@ typedef struct {
     TownSlots *town;
 } TownObject;
 
-extern void func_80123ECC(TownObject *);
+extern void townDrawCatalogSecondaryDetail(TownObject *);
 
 extern u8 D_80126A01[16];
 extern u8 D_80126A0D[16];
@@ -41,9 +41,9 @@ extern u8 D_80128038[16];
 extern DisplayPair *D_80129780[3];
 
 /* Select the town object's image and update its sprite field from the image entry. */
-void func_80124728(TownObject *town_obj)
+void townRefreshCatalogSecondaryDetail(TownObject *town_obj)
 {
-    func_80123ECC(town_obj);
+    townDrawCatalogSecondaryDetail(town_obj);
     D_80126A0D[0] = D_80126A01[0];
 
     if (town_obj->index == 0x31) {

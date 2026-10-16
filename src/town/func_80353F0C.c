@@ -1,9 +1,8 @@
-#include "common.h"
-#include "m2c_compat.h"
+#include "modules/town_ovl_2d3f0c.h"
 
-void func_8001A9B8(); /* extern */
+/* extern */
 
-/* Calls func_8001A9B8 with the fixed parameters (7, 1, 1, 2). */
-void func_80353F0C(void) {
-    func_8001A9B8(7, 1, 1, 2);
+/* Calls townBlendPositionAndTrace with the fixed parameters (7, 1, 1, 2). */
+void townSetFixedRecordParameters(void) {
+    townBlendPositionAndTrace(7, 1, 1, 2);
 }

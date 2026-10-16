@@ -12,18 +12,18 @@ typedef struct {
     InitPair pair[8];
 } __attribute__((packed)) InitBlock;
 void func_800419EC();            /* extern */
-void func_80047738();              /* extern */
+void selectIndirectTableEntry();              /* extern */
 void func_80047784();         /* extern */
 void func_800478B8();  /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80069EF8();                                /* extern */
 s32 func_800A56E0();                     /* extern */
-void func_80170C3C();                            /* extern */
-void func_80171A10(); /* extern */
-void func_80172A14();      /* extern */
-void func_80172B00();      /* extern */
-void func_80172CC8(); /* extern */
-void func_80172F44(); /* extern */
+void dungeonReleaseSecondaryOverlayObject();                            /* extern */
+void dungeonCreateBossDirectionalEffect(); /* extern */
+void dungeonCreateBossLinkedEffect();      /* extern */
+void dungeonCreateBossChildEffect();      /* extern */
+void dungeonCreateBossDisplayVariant(); /* extern */
+void dungeonCreateBossRandomizedEffect(); /* extern */
 extern InitBlock D_8016A894;
 extern u8 D_80174C64[];
 extern u8 D_80174C6C[];
@@ -83,7 +83,7 @@ typedef struct S_func_8132B8AC_3 {
 } S_func_8132B8AC_3;
 
 /* Updates Beldo's scripted movement, idle animation, and particle effects. */
-void func_801730AC(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *motion, S_func_8132B8AC_2 *sprite) {
+void advanceScriptedActorMotion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *motion, S_func_8132B8AC_2 *sprite) {
 
     InitBlock direction_vectors;
     s32 path_angle;
@@ -187,7 +187,7 @@ void func_801730AC(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *motion, S_func_8
         func_80047784(sprite, D_80174C64[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
         actor->unk_96 = 0U;
         actor->unk_9A = (u8) (actor->unk_9A + 1);
-        func_80172B00(actor, motion, sprite);
+        dungeonCreateBossChildEffect(actor, motion, sprite);
         break;
     case 7:
         motion->unk_0A = (u16) (motion->unk_0A - 8);
@@ -257,7 +257,7 @@ void func_801730AC(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *motion, S_func_8
             path_particle_count = 0;
             func_800A56E0(0x706);
             do {
-                func_80171A10((u8 *)actor - 0x20, beldo->unk_2A.s, 0x8080FF, (func_80069EF8() & 0xFF) | 0x80, 0);
+                dungeonCreateBossDirectionalEffect((u8 *)actor - 0x20, beldo->unk_2A.s, 0x8080FF, (func_80069EF8() & 0xFF) | 0x80, 0);
                 path_particle_count += 1;
             } while (path_particle_count < 0x14);
             actor->unk_96 = (u16) (actor->unk_96 - 1);
@@ -274,7 +274,7 @@ void func_801730AC(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *motion, S_func_8
             end_particle_count = 0;
             func_800A56E0(0x706);
             do {
-                func_80171A10((u8 *)actor - 0x20, beldo->unk_2A.s, 0x8080FF, (func_80069EF8() & 0xFF) | 0x80, 0);
+                dungeonCreateBossDirectionalEffect((u8 *)actor - 0x20, beldo->unk_2A.s, 0x8080FF, (func_80069EF8() & 0xFF) | 0x80, 0);
                 end_particle_count += 1;
             } while (end_particle_count < 0x14);
         }
@@ -354,7 +354,7 @@ void func_801730AC(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *motion, S_func_8
             func_800A56E0(0x706);
             wait_particle_mode = 1;
             do {
-                func_80171A10((u8 *)actor - 0x20, beldo->unk_2A.s, 0x8080FF, (func_80069EF8() & 0xFF) | 0x80, wait_particle_mode);
+                dungeonCreateBossDirectionalEffect((u8 *)actor - 0x20, beldo->unk_2A.s, 0x8080FF, (func_80069EF8() & 0xFF) | 0x80, wait_particle_mode);
                 wait_particle_count += 1;
             } while (wait_particle_count < 0x14);
         }
@@ -376,16 +376,16 @@ void func_801730AC(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *motion, S_func_8
             actor->unk_9A = (u8) (actor->unk_9A + 1);
             motion->unk_0C.unk_0E.unk_0E = 4;
             motion->unk_10.unk_12.unk_12 = 0;
-            func_80172CC8(motion, -0x50, 0, -0x10, 0);
-            func_80172CC8(motion, -0x28, 0, -8, 0);
-            func_80172CC8(motion, -0x1C, 0, -0x1E, 0);
+            dungeonCreateBossDisplayVariant(motion, -0x50, 0, -0x10, 0);
+            dungeonCreateBossDisplayVariant(motion, -0x28, 0, -8, 0);
+            dungeonCreateBossDisplayVariant(motion, -0x1C, 0, -0x1E, 0);
             func_800419EC(6, 0xC);
             func_800A56E0(0x601);
         }
         if ((s16) actor->unk_96 == 8) {
-            func_80172CC8(motion, -0x30, 0, -0xA, 1);
-            func_80172CC8(motion, -0x18, 0, -0x18, 1);
-            func_80172CC8(motion, 0, 0, -0x10, 1);
+            dungeonCreateBossDisplayVariant(motion, -0x30, 0, -0xA, 1);
+            dungeonCreateBossDisplayVariant(motion, -0x18, 0, -0x18, 1);
+            dungeonCreateBossDisplayVariant(motion, 0, 0, -0x10, 1);
             func_800419EC(6, 0xC);
             func_800A56E0(0x601);
         }
@@ -403,7 +403,7 @@ void func_801730AC(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *motion, S_func_8
             func_800A56E0(0x706);
             move_particle_mode = 1;
             do {
-                func_80171A10((u8 *)actor - 0x20, beldo->unk_2A.s, 0x8080FF, (func_80069EF8() & 0xFF) | 0x80, move_particle_mode);
+                dungeonCreateBossDirectionalEffect((u8 *)actor - 0x20, beldo->unk_2A.s, 0x8080FF, (func_80069EF8() & 0xFF) | 0x80, move_particle_mode);
                 move_particle_count += 1;
             } while (move_particle_count < 0x14);
         }
@@ -437,8 +437,8 @@ void func_801730AC(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *motion, S_func_8
             motion->unk_0C.unk_0E.unk_0E = 0;
         }
         if ((actor->unk_96 & 3) == 1) {
-            func_80172F44(motion, -0x10, 0, -4);
-            func_80172F44(motion, 0xC, 0, -0xC);
+            dungeonCreateBossRandomizedEffect(motion, -0x10, 0, -4);
+            dungeonCreateBossRandomizedEffect(motion, 0xC, 0, -0xC);
         }
         break;
     case 18:
@@ -447,14 +447,14 @@ void func_801730AC(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *motion, S_func_8
         if ((s16) idle_timer >= 0x3C) {
             actor->unk_96 = 4U;
             actor->unk_9A = (u8) (actor->unk_9A + 1);
-            func_80172A14(actor, motion, sprite);
+            dungeonCreateBossLinkedEffect(actor, motion, sprite);
             *(u8 **)((u8 *)sprite + 0x2C) = D_80174C7C;
             func_80047784(sprite, D_80174C7C[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
             func_800A56E0(0x800);
         }
         if ((actor->unk_96 & 3) == 1) {
-            func_80172F44(motion, -0x10, 0, -4);
-            func_80172F44(motion, 0xC, 0, -0xC);
+            dungeonCreateBossRandomizedEffect(motion, -0x10, 0, -4);
+            dungeonCreateBossRandomizedEffect(motion, 0xC, 0, -0xC);
         }
         break;
     case 19:
@@ -468,7 +468,7 @@ void func_801730AC(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *motion, S_func_8
         func_80047784(sprite, D_80174C84[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
         break;
     case 20:
-        func_80170C3C();
+        dungeonReleaseSecondaryOverlayObject();
         break;
     default:
         break;
@@ -479,7 +479,7 @@ void func_801730AC(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *motion, S_func_8
     final_direction = ((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7;
     sprite_direction = final_direction;
     if (actor->unk_94 != sprite_direction) {
-        func_80047738(sprite, sprite->unk_2C[sprite_direction], sprite->unk_04);
+        selectIndirectTableEntry(sprite, sprite->unk_2C[sprite_direction], sprite->unk_04);
         actor->unk_94 = sprite_direction;
     }
     if (dirSpriteFlag[sprite_direction] != 0) {

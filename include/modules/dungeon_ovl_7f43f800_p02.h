@@ -3,8 +3,8 @@
 #include "common.h"
 #ifndef NULL
 #define NULL 0
-extern void func_80171760();
-extern void func_80170D2C();
+extern void dungeonUpdateActorBehaviorAndDirection();
+extern void dungeonCreateTimedOffsetMotionEffect();
 #endif
 #include "shared/object_flags.h"
 
@@ -163,10 +163,10 @@ extern void func_800AA36C();
 extern u8 D_80171358[];
 extern u8 D_80174E88[];
 extern u8 D_80174EF0[];
-void func_80170F0C(T_80170F0C_S_func_80D1170C_1 *effect, T_80170F0C_S_func_80D1170C_2 *position);
-void func_80171020(EntityRec *parent, s16 effect_id, s32 effect_param, s32 unused, s16 x_offset,
+void dungeonMoveFadeAndAccelerateEffect(T_80170F0C_S_func_80D1170C_1 *effect, T_80170F0C_S_func_80D1170C_2 *position);
+void dungeonSpawnRandomVelocityOffsetEffect(EntityRec *parent, s16 effect_id, s32 effect_param, s32 unused, s16 x_offset,
     s16 y_offset, s16 z_offset);
 void * func_80171190(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);
-extern void func_80171760();
-extern void func_80170D2C();
+extern void dungeonUpdateActorBehaviorAndDirection();
+extern void dungeonCreateTimedOffsetMotionEffect();
 #endif

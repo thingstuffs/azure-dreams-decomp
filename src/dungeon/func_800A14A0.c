@@ -7,10 +7,10 @@
 s32 func_8004491C(void *entry, s32 registration_id);
 s32 func_8004DA74();
 void func_800A6BBC();
-void func_800B1320();
-void func_800B135C();
-void func_800B13CC();
-void func_800B1400();
+void dungeonOffsetRecordCoordinates();
+void dungeonSetRecordFlagsAndNegateX();
+void dungeonApplyRecordFlagsThroughEnd();
+void dungeonSetRecordByteFlagsThroughEnd();
 extern M2C_UNK D_80089074;
 extern M2C_UNK D_800A6B70;
 extern M2C_UNK D_800B06F0;
@@ -77,11 +77,11 @@ void *func_800A6C00(void) {
         ((S_800A6C00_0 *)object)->unk_20 = (void *)(object + 0xF0);
         render_state->unk_04 = (void *)(object + 0xC0);
         ((S_800A6C00_0 *)object)->unk_F0 = func_8004DA74(sprite, &D_80089074, 0) & 0x7FFFFFFF;
-        func_800B1320(sprite, 0xA8, (s16)((0 - (s8)sprite->unk_03) + 8));
+        dungeonOffsetRecordCoordinates(sprite, 0xA8, (s16)((0 - (s8)sprite->unk_03) + 8));
         func_800A6BBC(sprite, 4);
-        func_800B135C(sprite, 8);
-        func_800B13CC(sprite, 0x20);
-        func_800B1400(sprite, 2);
+        dungeonSetRecordFlagsAndNegateX(sprite, 8);
+        dungeonApplyRecordFlagsThroughEnd(sprite, 0x20);
+        dungeonSetRecordByteFlagsThroughEnd(sprite, 2);
         ((S_800A6C00_0 *)object)->unk_C0 = 0x808080;
         ((S_800A6C00_0 *)object)->unk_F4 = 0;
     }

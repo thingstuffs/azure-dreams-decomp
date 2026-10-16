@@ -1,0 +1,152 @@
+{
+  "module": "dungeon_ovl_7f43f800_p08",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_7f43f800_p08.c",
+    "module_index": 129408
+  },
+  "members": [
+    "dungeon/func_80D14F6C",
+    "dungeon/func_80D150D0"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "original_group": "ovl_7f43f800.c#94",
+  "original_members": [
+    "dungeon/func_80D112D0",
+    "dungeon/func_80D1170C",
+    "dungeon/func_80D11820",
+    "dungeon/func_80D11990",
+    "dungeon/func_80D11F60",
+    "dungeon/func_80D12E64",
+    "dungeon/func_80D1336C",
+    "dungeon/func_80D137FC",
+    "dungeon/func_80D13E4C",
+    "dungeon/func_80D14F6C",
+    "dungeon/func_80D150D0"
+  ],
+  "boundary_parts": [
+    {
+      "name": "ovl_7f43f800_p01.c",
+      "module_index": 129401,
+      "ready": true,
+      "rows": [
+        "dungeon/func_80D112D0"
+      ]
+    },
+    {
+      "name": "ovl_7f43f800_p02.c",
+      "module_index": 129402,
+      "ready": true,
+      "rows": [
+        "dungeon/func_80D1170C",
+        "dungeon/func_80D11820",
+        "dungeon/func_80D11990"
+      ]
+    },
+    {
+      "name": "ovl_7f43f800_p03.c",
+      "module_index": 129403,
+      "ready": false,
+      "rows": [
+        "dungeon/func_80D11F60"
+      ]
+    },
+    {
+      "name": "ovl_7f43f800_p04.c",
+      "module_index": 129404,
+      "ready": true,
+      "rows": [
+        "dungeon/func_80D12E64"
+      ]
+    },
+    {
+      "name": "ovl_7f43f800_p05.c",
+      "module_index": 129405,
+      "ready": true,
+      "rows": [
+        "dungeon/func_80D1336C"
+      ]
+    },
+    {
+      "name": "ovl_7f43f800_p06.c",
+      "module_index": 129406,
+      "ready": true,
+      "rows": [
+        "dungeon/func_80D137FC"
+      ]
+    },
+    {
+      "name": "ovl_7f43f800_p07.c",
+      "module_index": 129407,
+      "ready": false,
+      "rows": [
+        "dungeon/func_80D13E4C"
+      ]
+    },
+    {
+      "name": "ovl_7f43f800_p08.c",
+      "module_index": 129408,
+      "ready": true,
+      "rows": [
+        "dungeon/func_80D14F6C",
+        "dungeon/func_80D150D0"
+      ]
+    }
+  ],
+  "split_rationale": "Refine weak region bucket at physical gaps and independently emitted storage boundaries. Every assigned row remains in exactly one complete new cohort; native code runs claim no omitted row or gap storage. Historical original TU identity is not asserted.",
+  "tu_boundary": "Native boundary at a complete covered contiguous run. Historical original compiler object boundary is not observable.",
+  "basis": [
+    "Every original assigned row is accounted for once in the guarded boundary refinement.",
+    "This complete new ledger cohort is contiguous in retail order, has one recipe and authenticated load base, and shares no member.",
+    "The covered actor/state/effect functions use the same bank-local callback and table environment. Imported functions, tables and runtime objects retain separate ownership.",
+    "Whole TU natural-order code, genuine ASPSX and retail bytes agree with zero masks. Gaps and independently emitted tables are not filled or claimed."
+  ],
+  "complete_body_sha256": {
+    "dungeon/func_80D14F6C": "ea3aa336dcb46c6b20c4e80e295154db1fe2a34e162b6ba08c7506eb6bf839d8",
+    "dungeon/func_80D150D0": "c264bc0f22db9819e9bfcee91aeb6116001dd99553ed90512664f70e8211fa93"
+  },
+  "call_graph": {
+    "functions": [
+      "func_8017476C",
+      "func_801748D0"
+    ],
+    "imports": [
+      "func_8003DE58",
+      "func_8003FD64",
+      "func_8004491C",
+      "func_80045340",
+      "func_80047784",
+      "func_80065420",
+      "func_8009B25C",
+      "func_800A2B04",
+      "func_800A2B5C",
+      "func_800A4ACC",
+      "func_800A56E0",
+      "func_800AD594",
+      "func_800C7930",
+      "func_800C8788"
+    ],
+    "callback_entries": [
+      "func_80170AD0",
+      "func_80171760"
+    ]
+  },
+  "data_cohesion": {
+    "external_asset_views": [
+      "D_8006CCD8",
+      "D_8006CCE8",
+      "D_800DCECC",
+      "D_80174E88",
+      "D_80174EC8",
+      "D_80174ED0"
+    ],
+    "runtime_views": [
+      "D_80083160",
+      "D_80083460",
+      "D_80083498"
+    ]
+  },
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120"
+}

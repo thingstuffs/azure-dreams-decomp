@@ -1,0 +1,33 @@
+# r121_rem_opus bounded C window: TOWN bank copy at link delta 0x7FC31000.
+# BASE PROOF: Existing rowbase sweep_3EA000 (delta 0x7FC31000) covers this file range; the function-local j at 0x3EAB9C lands inside [0x3EAB90, 0x3EABB4) only at this base. Byte-exact recompile at this base.
+# Do NOT add to configure.py / build.ninja; run via tools/overlay_local_gate.py --clean.
+name: town_r121o_3EAB90_true_8001BB90
+sha1: b946a57aa5fc8cec29db3ecabad6e6b76df418b7
+options:
+  basename: town_r121o_3EAB90_true_8001BB90
+  target_path: work/s3_splat/extract/TOWN_TOWN.BIN
+  base_path: ..
+  platform: psx
+  compiler: GCC
+  subalign: 4
+  find_file_boundaries: false
+  gp_value: 0x80080994
+standalone_build:
+  work_dir: work/s3_splat
+  extract:
+    extractor: work/overlay_recon/extract_bins.py
+    disc_path: bin/Azure Dreams.bin
+    out_dir: work/s3_splat/extract
+    container_path: work/s3_splat/extract/TOWN_TOWN.BIN
+  window:
+    file_start: 0x3EAB90
+    file_end: 0x3EABB4
+    vram_start: 0x8001BB90
+    true_vram_start: 0x8001BB90
+    base_confidence: proven-rowbase
+  split_results: overlays/town/overlay_first_pass_results.json
+  matched_sources:
+  - name: overlays/town
+    results: overlays/town/overlay_first_pass_results.json
+    source_dir: overlays/town/first_pass_matched
+    skip_rerun: true

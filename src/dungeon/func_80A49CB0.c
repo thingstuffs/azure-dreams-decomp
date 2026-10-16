@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource06_slot0.h"
 
-void func_801734B0(void *in_actor, void *in_context, void *in_sprite, void *in_entity)
+void dungeonUpdateActorStateByFlags(void *in_actor, void *in_context, void *in_sprite, void *in_entity)
 {
     void *context = in_context;
     s32 entity_flags;
@@ -54,7 +54,7 @@ void func_801734B0(void *in_actor, void *in_context, void *in_sprite, void *in_e
                 return;
             }
             if (((R06_801734B0_S_801734B0_2 *)in_entity)->unk_64 != 0) {
-                if (func_800AA6B4(in_actor, context, in_sprite, 0) != 0) {
+                if (dungeonBeginReadyActorDirectionalAction(in_actor, context, in_sprite, 0) != 0) {
                     return;
                 }
             }
@@ -62,7 +62,7 @@ void func_801734B0(void *in_actor, void *in_context, void *in_sprite, void *in_e
                 if (dungeonStatus.flags & 0x2008) {
                     return;
                 }
-                func_800AA79C(in_actor, context, in_sprite, in_entity);
+                dungeonAdvanceActorPendingAction(in_actor, context, in_sprite, in_entity);
                 return;
             }
             if ((func_800A2C34(in_entity) << 16) != 0) {
@@ -70,7 +70,7 @@ void func_801734B0(void *in_actor, void *in_context, void *in_sprite, void *in_e
             }
             entity_flags = ((R06_801734B0_S_801734B0_2 *)in_entity)->unk_1C.u;
             if (entity_flags & 0x100) {
-                func_800AA258(in_actor, context, in_sprite, in_entity);
+                dungeonBeginPushedActorMove(in_actor, context, in_sprite, in_entity);
                 return;
             }
             if (entity_flags & 0x80000) {
@@ -90,7 +90,7 @@ void func_801734B0(void *in_actor, void *in_context, void *in_sprite, void *in_e
             if ((func_800A2C34(in_entity) << 16) != 0) {
                 EntityRec *owner = D_800814A8;
 
-                if ((func_8009A180(in_entity,
+                if ((dungeonCheckEntityRelation(in_entity,
                         (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
@@ -102,7 +102,7 @@ void func_801734B0(void *in_actor, void *in_context, void *in_sprite, void *in_e
                 s8 tile = ((R06_801734B0_S_801734B0_1 *)in_sprite)->unk_26;
 
                 if (((tile == origin->unk_026) && (tile >= 0)) ||
-                    ((s16)func_8009FD40(origin, in_sprite) < 2)) {
+                    ((s16)dungeonGetTileChebyshevDistance(origin, in_sprite) < 2)) {
                     if (!(func_800A6D30() & 7)) {
                         func_80042B68(in_entity, 1);
                     }

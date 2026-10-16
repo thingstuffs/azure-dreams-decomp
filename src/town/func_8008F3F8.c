@@ -2,7 +2,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-s16 func_8008C610();               
+s16 dungeonEvaluateSummedPositionMinusYOffset();               
 
 s16 func_8008CB58(s32 context, s32 data, s32 count) {
     s16 value;
@@ -13,7 +13,7 @@ s16 func_8008CB58(s32 context, s32 data, s32 count) {
     index = 0;
     if (count > 0) {
         do {
-            value = func_8008C610(context, data, index);
+            value = dungeonEvaluateSummedPositionMinusYOffset(context, data, index);
             if ((value << 0x10) < (minimum << 0x10)) {
                 minimum = value;
             }

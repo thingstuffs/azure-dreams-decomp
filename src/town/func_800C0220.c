@@ -54,12 +54,12 @@ s32 event_tori_in(void *source) {
     object = func_8003FD64(0x202, ((M2C_UNK *)&D_80083498.next));
     if (object != NULL) {
         child_slot = object + 0x20;
-        (*(void (**)(void *))((u8 *)object + 0x10)) = func_800BD688;
+        (*(void (**)(void *))((u8 *)object + 0x10)) = townRandomizePairedObjectMotion;
         (*(Copy16 *)((u8 *)object + 0x28)) = (*(Copy16 *)((u8 *)source_data + 0));
         (*(Copy8 *)((u8 *)object + 0x38)) = (*(Copy8 *)((u8 *)source_data + 0x10));
     }
     child_index = 1;
-    child_handler = func_800BD898;
+    child_handler = townAdvanceMotionAndFlagZeroVelocity;
     x_step = 0x300000;
     child_slot = child_slot + 4;
     do {

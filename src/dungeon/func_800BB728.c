@@ -11,12 +11,12 @@ extern int abs(int);
 typedef struct S_800C0E88_1 {
     u8 pad_00[0x2];
     union { s8 s; u8 u; } unk_02;   /* accessed as both */
-} S_800C0E88_1;   /* data in func_800C0E88 */
+} S_800C0E88_1;   /* data in dungeonUseMagicBall */
 
 typedef struct S_800C0E88_2_pre {
     u8 * unk_00;
     u8 pad_04[0x10];
-} S_800C0E88_2_pre;   /* the 0x14 bytes before object in func_800C0E88, addressed as object[-1] */
+} S_800C0E88_2_pre;   /* the 0x14 bytes before object in dungeonUseMagicBall, addressed as object[-1] */
 
 typedef struct S_800C0E88_2 {
     u8 pad_00[0x8];
@@ -31,37 +31,37 @@ typedef struct S_800C0E88_2 {
     u8 pad_64[0xE];
     s8 unk_72;
     s8 unk_73;
-} S_800C0E88_2;   /* object in func_800C0E88 */
+} S_800C0E88_2;   /* object in dungeonUseMagicBall */
 
 typedef struct S_800C0E88_3 {
     u8 pad_00[0x9];
     u8 unk_09;
     u8 unk_0A;
-} S_800C0E88_3;   /* scan in func_800C0E88 */
+} S_800C0E88_3;   /* scan in dungeonUseMagicBall */
 
 typedef struct S_800C0E88_4 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800C0E88_4;   /* tail_status in func_800C0E88 */
+} S_800C0E88_4;   /* tail_status in dungeonUseMagicBall */
 
 
-extern s32 func_8003F270(void);
-extern void func_8008D344(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
-extern s32 func_80098864();
-extern void func_80098B38();
+extern s32 getCdCommandQueueDepth(void);
+extern void dungeonBeginModeSelectedItemAction(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
+extern s32 dungeonProcessRecordAndUpdateLinkedState();
+extern void dungeonClearSlotAndUpdateLinkedState();
 extern s32 func_800990FC(void);
 extern s32 func_80099194();
 extern void func_80099290();
-extern s32 func_800992E8();
+extern s32 dungeonCopySelectedTextWithoutTerminator();
 extern s32 func_80099734();
 extern void func_800997FC();
-extern void *func_800A05A4();
+extern void *dungeonScanMonsterAlongHeading();
 extern void func_800A5720();
 extern s32 func_800A57B4();
 extern void func_800A5F38();
 extern void func_800A6480();
-extern s32 func_800A94A0();
-extern s32 func_800AD6FC();
+extern s32 dungeonCreateActorSpellEffect();
+extern s32 dungeonApplyActorFoodPreference();
 
 extern u8 *D_80073470[];
 extern u16 D_800DF4B0[];
@@ -71,7 +71,7 @@ extern u8 D_800E1456[];
 extern u8 D_800E146F[];
 
 /* Applies data to an object, updates its slots, and handles delayed consumption. */
-s32 func_800C0E88(u8 *object, u8 *data, s16 action, void *context)
+s32 dungeonUseMagicBall(u8 *object, u8 *data, s16 action, void *context)
 {
     u8 *slot_scan;
     u8 *object_record;
@@ -91,7 +91,7 @@ s32 func_800C0E88(u8 *object, u8 *data, s16 action, void *context)
 
 
     if (action == 13) {
-        return func_80098864(data, context);
+        return dungeonProcessRecordAndUpdateLinkedState(data, context);
     }
 
     current_object = D_800E3D7C;
@@ -100,7 +100,7 @@ s32 func_800C0E88(u8 *object, u8 *data, s16 action, void *context)
         data[3] |= 0x20;
         active_object = D_800E3D7C;
         active_object->unk_110 = data;
-        func_8008D344(active_object, callback, ((u8 *)(&D_80082E80)), active_object);
+        dungeonBeginModeSelectedItemAction(active_object, callback, ((u8 *)(&D_80082E80)), active_object);
         return 0;
     }
 
@@ -110,7 +110,7 @@ s32 func_800C0E88(u8 *object, u8 *data, s16 action, void *context)
         if (((S_800C0E88_1 *)data)->unk_02.s >= 10 && data[0] < 16) {
             slot = ((data[0] - 1) * 3) + 1;
             if ((s16)func_800A57B4(object, slot) >= 0) {
-                func_80098B38(data);
+                dungeonClearSlotAndUpdateLinkedState(data);
                 tail_status = (u8 *)0x80080000;
             } else {
                 message_table = D_8006DE24;
@@ -150,16 +150,16 @@ scan_next:
                         goto scan_next;
                     }
                 }
-                func_80098B38(data);
+                dungeonClearSlotAndUpdateLinkedState(data);
                 tail_status = (u8 *)0x80080000;
             }
         } else {
-            if (func_800AD6FC(object,
+            if (dungeonApplyActorFoodPreference(object,
                               D_800DDE84[object[0x13]] & 3, 0) == 0) {
                 func_800A5F38(object, data);
                 return 1;
             }
-            func_80098B38(data);
+            dungeonClearSlotAndUpdateLinkedState(data);
             tail_status = (u8 *)0x80080000;
         }
         tail_status += 0x3460;
@@ -184,14 +184,14 @@ scan_next:
 
         object_record = ((S_800C0E88_2_pre *)object)[-1].unk_00;
         object = (u8 *)((u32)object & 0xDFFFFFFF);
-        ((S_800C0E88_2 *)object)->unk_60 = func_800A05A4(
+        ((S_800C0E88_2 *)object)->unk_60 = dungeonScanMonsterAlongHeading(
             object, object_record[0x24], object_record[0x25], ((S_800C0E88_2 *)object)->unk_2A, 16);
 
         ((S_800C0E88_2 *)object)->unk_72 = abs(((S_800C0E88_2 *)object)->unk_72);
         ((S_800C0E88_2 *)object)->unk_73 = abs(((S_800C0E88_2 *)object)->unk_73);
 
         if (data[3] & 0x20) {
-            if (func_800A94A0(object, object + 8, 0,
+            if (dungeonCreateActorSpellEffect(object, object + 8, 0,
                               ((u8 *)D_800E3D7C) + 0x98) == 0) {
                 return 0;
             }
@@ -206,7 +206,7 @@ scan_next:
         }
 
         D_800DF4B0[0] = 0;
-        if (func_8003F270() != 0) {
+        if (getCdCommandQueueDepth() != 0) {
             return 0;
         }
 
@@ -216,7 +216,7 @@ scan_next:
         ((S_800C0E88_1 *)data)->unk_02.u--;
 
         message_start = func_800990FC();
-        message_end = func_800992E8(data, message_start);
+        message_end = dungeonCopySelectedTextWithoutTerminator(data, message_start);
         message_end = func_80099194(D_800E146F, message_end);
         func_80099290(message_end);
         func_800A5720(message_start);

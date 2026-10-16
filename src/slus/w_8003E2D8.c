@@ -13,10 +13,10 @@ typedef struct {
 } Hist_8003E2D8;
 
 
-extern s32 func_8003E240(s32 a0);
+extern s32 readCombinedControllerButtons(s32 a0);
 
 /* Updates controller state, clears invalid readings, and records newly pressed buttons. */
-void func_8003E2D8(void)
+void updateControllerButtonsAndTriggers(void)
 {
     GameWork *pad_state = &gameWork;
     Hist_8003E2D8 *history = (Hist_8003E2D8 *)&pad_state->buttons;
@@ -24,7 +24,7 @@ void func_8003E2D8(void)
     s32 buttons;
 
     history->old = prev_buttons;
-    pad_state->buttons = func_8003E240(0);
+    pad_state->buttons = readCombinedControllerButtons(0);
 
     if ((pad_state->buttons & 0xF000) == 0xF000) {
         pad_state->buttons = 0;

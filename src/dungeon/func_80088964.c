@@ -8,9 +8,9 @@
 #include "shared/entity.h"
 
 extern u8 D_800E3CD0[9];
-void func_800945E8();
-void func_800948BC();
-void func_80099844();
+void dungeonSnapshotInventoryAndFamiliars();
+void dungeonSnapshotInventoryFamiliarRecords();
+void dungeonAdjustSourceValueAndFinalize();
 extern M2C_UNK D_800E0672;
 
 
@@ -21,19 +21,19 @@ typedef struct S_8008E0C4_0 {
     u16 unk_96;
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_8008E0C4_0;   /* context in func_8008E0C4 */
+} S_8008E0C4_0;   /* context in advanceActorDeathTransition */
 
 typedef struct S_8008E0C4_1 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_8008E0C4_1;   /* input in func_8008E0C4 */
+} S_8008E0C4_1;   /* input in advanceActorDeathTransition */
 
 typedef struct S_8008E0C4_2 {
     u8 unk_00;
-} S_8008E0C4_2;   /* D_800E3CD0 in func_8008E0C4 */
+} S_8008E0C4_2;   /* D_800E3CD0 in advanceActorDeathTransition */
 
 
-void func_8008E0C4(S_8008E0C4_0 *context, void *unused, S_8008E0C4_1 *input, EntityRec *entity) {
+void advanceActorDeathTransition(S_8008E0C4_0 *context, void *unused, S_8008E0C4_1 *input, EntityRec *entity) {
     GameWork *work;
     u16 remaining;
     s32 state;
@@ -43,7 +43,7 @@ void func_8008E0C4(S_8008E0C4_0 *context, void *unused, S_8008E0C4_1 *input, Ent
     switch (state) {
     case 0:
         if (input->unk_14 & 0xE000) {
-            func_80099844(entity, &D_800E0672);
+            dungeonAdjustSourceValueAndFinalize(entity, &D_800E0672);
             context->unk_96 = 0x80;
             context->unk_9B++;
         }
@@ -62,8 +62,8 @@ void func_8008E0C4(S_8008E0C4_0 *context, void *unused, S_8008E0C4_1 *input, Ent
                 break;
             }
         } else {
-            func_800945E8(context);
-            func_800948BC();
+            dungeonSnapshotInventoryAndFamiliars(context);
+            dungeonSnapshotInventoryFamiliarRecords();
             D_80082E60.flags16 = 0xC000;
             func_80041094(6, 0, 0, 0, 0xC000);
             context->unk_9B++;
@@ -78,7 +78,7 @@ void func_8008E0C4(S_8008E0C4_0 *context, void *unused, S_8008E0C4_1 *input, Ent
         if (input->unk_14 & 0xE000) {
             entity->unk_28 = entity->unk_29;
             entity->facing = 0x400 - ((((u16)work->view.viewAngle) + 0x100) & 0xE00);
-            context->unk_8C =func_8008ACDC;
+            context->unk_8C =dungeonHandlePlayerInput;
             dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
         }
         break;

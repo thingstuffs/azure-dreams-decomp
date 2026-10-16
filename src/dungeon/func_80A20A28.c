@@ -108,12 +108,12 @@ extern s32 func_80065420();
 extern s16 func_80066460();
 extern void func_80066640();
 extern void func_800666F4(void *);
-extern void func_800DBA90();
+extern void dungeonTransformRotatedVertices();
 
 extern u8 D_8017087C[];
 
 /* Render linked items as shaded textured strips using projected bounds and a mirrored height profile. */
-s32 func_80174228(u8 *item_data)
+s32 dungeonRenderLinkedItemsAsTexturedStrips(u8 *item_data)
 {
     u8 storage[0x80];
     s32 depth;
@@ -212,7 +212,7 @@ loop_0:
         __builtin_memcpy(storage + 0x38, item, 8);
         ((S_func_80174228_0 *)storage)->unk_40 = 4;
         ((S_func_80174228_0 *)storage)->unk_42 = 0;
-        func_800DBA90((S_func_80174228_0 *)render_arg, left_x, prev_depth, vertex_depth);
+        dungeonTransformRotatedVertices((S_func_80174228_0 *)render_arg, left_x, prev_depth, vertex_depth);
         min_xy &= 0xFFFF;
         max_xy &= 0xFFFF;
         i = 3;

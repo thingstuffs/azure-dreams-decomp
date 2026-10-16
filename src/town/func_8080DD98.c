@@ -6,7 +6,7 @@ extern void func_80526E4C(void *, void *, void *, void *);
 extern s32 func_8006A3A4(s32);
 extern s32 func_8006A470(s32);
 /* Draw three stacked rotating square outlines with complementary grayscale colors. */
-void func_80528998(u8 *object)
+void townDrawRotatingCollectionFrame(u8 *object)
 {
     Vec3s edge[2];
     Vec3s corner[4];

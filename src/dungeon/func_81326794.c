@@ -13,8 +13,8 @@ typedef struct {
 } SysWork;
 
 extern void func_8009A028(void *);
-extern u16 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern void func_8016A908(u8 *state);
+extern u16 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern void dungeonClearActorActionMarkers(u8 *state);
 
 extern u16 D_800834E2;
 extern s8 D_800DCF4D;
@@ -25,7 +25,7 @@ extern s32 *D_80174CCC;
 extern s16 D_80174CD0;
 
 /* Reset map state, update coordinate lookup values, and process both active entries. */
-void func_8016DF94(void) {
+void dungeonResetMapStateAndProcessEntries(void) {
     s32 coord_aux;
     s16 entry_slot;
     s32 slot_offset;
@@ -53,7 +53,7 @@ void func_8016DF94(void) {
     map_object = *(u8 **)(active_object + 0xC);
     D_800DCF4D = -1;
     map_data = active_object + 0x20;
-    coord_result = func_800A0818(map_object[0x24], map_object[0x25],
+    coord_result = dungeonGetRoundedFacingAndRoundingFlag(map_object[0x24], map_object[0x25],
                            D_80082E80.tileX, D_80082E80.tileY, &coord_aux);
     *(u16 *)(map_data + 0x2A) = coord_result;
     D_80174CD0 = 0;
@@ -64,7 +64,7 @@ loop:
     entry = *(u8 **)&(*(u8 **)(entry_page + 0x3D7C))[slot_offset + 0xAC];
     if (entry != 0) {
 
-        func_8016A908(entry);
+        dungeonClearActorActionMarkers(entry);
         func_8009A028(*(u8 **)&(*(u8 **)(entry_page + 0x3D7C))[slot_offset + 0xAC]);
         entry = *(u8 **)&(*(u8 **)(entry_page + 0x3D7C))[slot_offset + 0xAC];
         entry -= 0x20;

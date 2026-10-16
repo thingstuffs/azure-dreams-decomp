@@ -60,10 +60,10 @@ typedef struct {
 } DungeonTableEntry;
 
 extern s16 D_8006CD00[];
-s32 func_800A0E6C();
-s32 func_800A19E4();
+s32 dungeonRebuildMonsterReachableTiles();
+s32 dungeonUpdateActorProximityFlag();
 void func_800A9A0C();
-s32 func_8009A180();
+s32 dungeonCheckEntityRelation();
 s16 func_800BCB04();
 s32 func_800CA1E0();
 
@@ -86,12 +86,12 @@ void func_800CA444(void *motion, s32 unused, S_800CA444_0 *tile, void *actor) {
     if (!(dungeonStatus.flags & 0x2000)) {
         return;
     }
-    func_800A19E4(tile, actor, 3, 6, motion + 0x9C);
+    dungeonUpdateActorProximityFlag(tile, actor, 3, 6, motion + 0x9C);
     tile_type = tile->unk_26;
     if (tile_type >= 0 && (D_800E2970[tile_type].flags & 2)) {
-        func_800A0E6C(tile, ((S_800CA444_2 *)motion)->unk_9C, actor, motion + 0x98);
+        dungeonRebuildMonsterReachableTiles(tile, ((S_800CA444_2 *)motion)->unk_9C, actor, motion + 0x98);
     } else if (!(((S_800CA444_1 *)actor)->unk_46 & 0x8000)) {
-        func_800A0E6C(tile, ((S_800CA444_2 *)motion)->unk_9C, actor, motion + 0x98);
+        dungeonRebuildMonsterReachableTiles(tile, ((S_800CA444_2 *)motion)->unk_9C, actor, motion + 0x98);
     }
     scan_result = 0;
     heading_offsets = D_8006CD00;
@@ -116,7 +116,7 @@ void func_800CA444(void *motion, s32 unused, S_800CA444_0 *tile, void *actor) {
             break;
         }
         if (scan_result == 0 && *(u16 *)(&map_state->tileX) != tile->unk_24.at00u.v) {
-            if ((func_8009A180(actor, ((S_800CA444_4 *)(((int)D_800814A8)))->unk_58 + 0x20) << 0x10) != 0) {
+            if ((dungeonCheckEntityRelation(actor, ((S_800CA444_4 *)(((int)D_800814A8)))->unk_58 + 0x20) << 0x10) != 0) {
                 return;
             }
         }

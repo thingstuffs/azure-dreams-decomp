@@ -4,7 +4,7 @@
 extern s32 func_80033BC0(s32);
 extern s32 func_800A697C(s32, s32);
 extern s32 func_800A6D30(void);
-extern s32 func_800A6DA4(s32, s32);
+extern s32 randomDungeonRange16(s32, s32);
 
 extern s32 D_80012090[];
 extern s16 D_8008146C;
@@ -52,7 +52,7 @@ s32 func_800A9230(void *actor)
         return result;
     }
 
-    index = func_800A6DA4(1, 0x1F) & 0xFFFF;
+    index = randomDungeonRange16(1, 0x1F) & 0xFFFF;
     base = ((u8 *)D_800E3548);
     entry = &base[index * 4];
     kind = entry[1];

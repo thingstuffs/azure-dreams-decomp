@@ -4,17 +4,17 @@
 #include "shared/dungeon_status.h"
 
 void func_80048A44();
-s32 func_80094F74();
-s32 func_80099F04();
-s32 func_80099F70();
-s32 func_800A2B04();
+s32 dungeonCollectGroundItem();
+s32 dungeonProcessUnflaggedLinkedEntries();
+s32 dungeonProcessUnflaggedLinkedEntriesAlt();
+s32 dungeonSetRecordIntegerTileCenter();
 extern s32 D_8008EAC8;
 extern u8 D_800DD040[];
 extern u8 D_800DD058[];
 extern u8 D_800DD0C8[];
 
 /* Updates timed movement and directional animation, then selects the next handler. */
-void func_8008FF18(u8 *entity_in, s32 *motion_in, u16 *sprite_in, s32 *actor_in) {
+void dungeonUpdateCarryingPlayerStep(u8 *entity_in, s32 *motion_in, u16 *sprite_in, s32 *actor_in) {
     u8 *entity = entity_in;
     s32 *motion = motion_in;
     u16 *sprite = sprite_in;
@@ -52,8 +52,8 @@ void func_8008FF18(u8 *entity_in, s32 *motion_in, u16 *sprite_in, s32 *actor_in)
             anim_table = D_800DD040;
         }
         *(u8 **)((u8 *)sprite + 0x2C) = anim_table;
-        func_80099F70(*(s32 *)((u8 *)actor + 0x5C));
-        func_80099F04(*(s32 *)((u8 *)actor + 0x5C));
+        dungeonProcessUnflaggedLinkedEntriesAlt(*(s32 *)((u8 *)actor + 0x5C));
+        dungeonProcessUnflaggedLinkedEntries(*(s32 *)((u8 *)actor + 0x5C));
         dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x812);
         *(u16 *)((u8 *)entity + 0x98) = (u16) (*(u16 *)((u8 *)entity + 0x98) & 0xFFF3);
         func_80048A44(sprite, *(*(u8 **)((u8 *)sprite + 0x2C) + (((s32) (gameWork.view.viewAngle + *(s16 *)((u8 *)actor
@@ -83,9 +83,9 @@ void func_8008FF18(u8 *entity_in, s32 *motion_in, u16 *sprite_in, s32 *actor_in)
         dungeonStatus.unk_04 = 0;
         *(s32 *)((u8 *)motion + 0x10) = 0;
         *(s32 *)((u8 *)motion + 0xC) = 0;
-        func_800A2B04(motion, *(u8 *)((u8 *)sprite + 0x24), *(u8 *)((u8 *)sprite + 0x25));
+        dungeonSetRecordIntegerTileCenter(motion, *(u8 *)((u8 *)sprite + 0x24), *(u8 *)((u8 *)sprite + 0x25));
         if (*(s32 *)((u8 *)actor + 0x1C) & 0x100000) {
-            if ((func_80094F74(entity, motion, sprite, actor) << 0x10) <= 0) {
+            if ((dungeonCollectGroundItem(entity, motion, sprite, actor) << 0x10) <= 0) {
                 return;
             }
             next_handler = (u8 *)&D_8008EAC8;
@@ -93,10 +93,10 @@ void func_8008FF18(u8 *entity_in, s32 *motion_in, u16 *sprite_in, s32 *actor_in)
             return;
         }
         if ((u8) *(u8 *)(entity + 0x9B) < 0xAU) {
-        if ((func_80094F74(entity, motion, sprite, actor) << 0x10) <= 0) {
+        if ((dungeonCollectGroundItem(entity, motion, sprite, actor) << 0x10) <= 0) {
             return;
         }
-        next_handler = (u8 *)func_8008ACDC;
+        next_handler = (u8 *)dungeonHandlePlayerInput;
         *(u8 **)((u8 *)entity + 0x8C) = next_handler;
         return;
         }
@@ -113,10 +113,10 @@ block_19:
         }
         dungeonStatus.unk_04 = 0;
 block_22:
-        if ((func_80094F74(entity, motion, sprite, actor) << 0x10) <= 0) {
+        if ((dungeonCollectGroundItem(entity, motion, sprite, actor) << 0x10) <= 0) {
             return;
         }
-        next_handler = (u8 *)func_8008ACDC;
+        next_handler = (u8 *)dungeonHandlePlayerInput;
 block_24:
         *(u8 **)((u8 *)entity + 0x8C) = next_handler;
         return;

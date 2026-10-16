@@ -2,6 +2,7 @@
 """Generate STATUS.md from the ledger (rows, baseline, census, levels)."""
 import collections, json, re, time
 from common import LEDGER, ROOT, rows, read_jsonl, PARKED_CONTAINERS
+from source_layout import row_path as layout_row_path
 from pin_census import sites_of, hidden_asm, strip_composite_asm, composite_asm_spans
 import levels as _levels   # the live L5 predicates: the clean column reuses them, never a second copy
 from census import _fakedep, _real_tail_count
@@ -200,7 +201,7 @@ def main():
     with cache.phase("dependencies"):
         facts = FactInputs(ROOT, _levels)
     def cur_facts(r):
-        cp = ROOT / "src" / r["container"] / _P(r["c_path"]).name
+        cp = layout_row_path(r, ROOT)
         p = cp if cp.exists() else ROOT / "raw" / r["container"] / _P(r["c_path"]).name
         if not p.exists(): return None
         t = p.read_text(errors="replace")
@@ -320,7 +321,7 @@ def main():
         def _union_line(kind, label):
             sites = [u for u in unions if u.get("kind") == kind]
             per_row = collections.Counter(u["id"] for u in sites)
-            live = sum(1 for r in per_row if (ROOT / "src" / (r + ".c")).exists() and "union" in (ROOT / "src" / (r + ".c")).read_text(errors="replace"))
+            live = sum(1 for r in per_row if (layout_row_path(r, ROOT)).exists() and "union" in (layout_row_path(r, ROOT)).read_text(errors="replace"))
             top = ", ".join(f"{r.split('/')[-1]} {n}" for r, n in per_row.most_common(4))
             return f"{label}: {len(sites):,} sites in {len(per_row):,} rows ({live:,} rows still carry a union; most: {top})"
         out.append("Union trades (`ledger/union_trades.jsonl`, owner 2026-10-13: kept as nicer-than-a-pin but TRACKED - their "
@@ -383,7 +384,7 @@ def main():
             for k in keys:
                 pt_sites += [s for s in audit_sites().get(k, []) if s.startswith("PASSTHRU_NO_ARGS|")]
             if not pt_sites: continue
-            cpv = ROOT / "src" / r["container"] / _P(r["c_path"]).name
+            cpv = layout_row_path(r, ROOT)
             pv = cpv if cpv.exists() else ROOT / "raw" / r["container"] / _P(r["c_path"]).name
             if not pv.exists(): continue
             textv = pv.read_text(errors="replace")

@@ -19,9 +19,9 @@ typedef struct {
 } DungeonCounters;
 
 extern void func_8009A028(void *);
-extern u16 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern u16 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void func_80164BA4(void *);
-extern void func_8017394C(void);
+extern void dungeonUploadEncounterTexture(void);
 
 extern u16 D_800834E2;
 extern u8 D_80173C8C[];
@@ -31,7 +31,7 @@ extern s32 D_80175DC4;
 extern s16 D_80175DC8;
 
 /* Set up the active object's handler and direction, then update its two linked entries. */
-void func_8016EFAC(void)
+void dungeonBeginMultiFormDirectionalScript(void)
 {
     s32 unused_result;
     s32 slot;
@@ -63,7 +63,7 @@ void func_8016EFAC(void)
     position_data = *(u8 **)(active_object + 0xC);
     D_800E296C |= 0x200000;
     object_state = active_object + 0x20;
-    direction = func_800A0818(position_data[0x24], position_data[0x25],
+    direction = dungeonGetRoundedFacingAndRoundingFlag(position_data[0x24], position_data[0x25],
                               D_80082E80.tileX, D_80082E80.tileY, &unused_result);
     *(u16 *)(object_state + 0x2A) = direction;
     direction >>= 7;
@@ -87,7 +87,7 @@ void func_8016EFAC(void)
         }
         slot++;
     } while (slot < 2);
-    func_8017394C();
+    dungeonUploadEncounterTexture();
 }
 
 /* MECHANISM (stock 2.7.2-cdk -O2 -G0, no bridge):

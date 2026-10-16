@@ -2,15 +2,15 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 
-extern s32 func_800422A8(void *, void *, s32, s32);
-extern s32 func_80098FB0(void);
+extern s32 getBoundedStrideIndex(void *, void *, s32, s32);
+extern s32 dungeonFindLastZeroEntryRunStart(void);
 extern s32 func_80098FF8(void);
 extern void *func_800990FC(void);
 extern s32 func_80099194(u8 *src, u8 *dst);
 extern void func_80099290(s8 *byte_ptr);
-extern s32 func_8009929C(s8 value, s8 *dest);
-extern s32 func_80099368(void *, s32);
-extern s32 func_8009955C(void *, s32);
+extern s32 dungeonWriteTextByteAndAdvance(s8 value, s8 *dest);
+extern s32 dungeonAppendTypedFormattedValue(void *, s32);
+extern s32 dungeonApplyTypeBasedEntryAdjustments(void *, s32);
 extern void func_8009A3D0(u8, u8, s32);
 extern void func_800A56E0(s32);
 extern void func_800A5720(s8 *text);
@@ -20,7 +20,7 @@ extern void *D_80081484;
 extern u8 D_800E07EF[];
 extern u8 D_800E36C8[];
 
-void *func_80097F84(void *target, void *ptr1, void *ptr2, s16 flag)
+void *dungeonRegisterItemObjectInFreeSlot(void *target, void *ptr1, void *ptr2, s16 flag)
 {
     s16 held_flag = flag;
     s32 first;
@@ -40,22 +40,22 @@ void *func_80097F84(void *target, void *ptr1, void *ptr2, s16 flag)
     if (target == (void *)&D_80081484 ||
         target == (void *)D_80081470 ||
         target == *(void **)((u8 *)D_800814A8 + 0xF0)) {
-    first = func_80098FB0();
+    first = dungeonFindLastZeroEntryRunStart();
     second = func_80098FF8();
     index = (s16)first;
 
     if (index < 0 || (s16)second < 0) {
         object = func_800990FC();
         func_80099290(func_80099194(ptr2,
-            func_8009955C(target,
-                func_80099194(ptr1, func_8009929C(8, object)))));
+            dungeonApplyTypeBasedEntryAdjustments(target,
+                func_80099194(ptr1, dungeonWriteTextByteAndAdvance(8, object)))));
         func_800A5720(object);
         return 0;
     }
 
     object = func_800990FC();
     func_80099290(func_80099194(D_800E07EF,
-        func_80099368(target, object)));
+        dungeonAppendTypedFormattedValue(target, object)));
     if (held_flag != 0) {
         func_800A5720(object);
     }
@@ -71,7 +71,7 @@ void *func_80097F84(void *target, void *ptr1, void *ptr2, s16 flag)
         *(u32 *)((u8 *)global_object + 0x1C) = flags & 0xFFEFFFFF;
     } else {
 
-        found = (s16)func_800422A8(*(void **)(((u8 *)D_800E3D7C) + 0xF0),
+        found = (s16)getBoundedStrideIndex(*(void **)(((u8 *)D_800E3D7C) + 0xF0),
                                  ((u8 *)D_800E3548), 4, 0x40);
         if (found >= 0) {
             entry_base_s = (s32)D_800E36C8;

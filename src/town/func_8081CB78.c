@@ -14,7 +14,7 @@ typedef struct {
 
 
 /* Set object and global flags when the state is zero and subobject bit 3 is set. */
-void func_80026B78(S_8081CB78 *object) {
+void townRetireSceneLabelAfterExitFlag(S_8081CB78 *object) {
     s16 state = object->state;
     S_8081CB78_sub *sub = object->sub;
 

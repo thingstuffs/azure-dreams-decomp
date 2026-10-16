@@ -6,12 +6,12 @@
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
-extern void func_80047738(void *, u8, s8);
+extern void selectIndirectTableEntry(void *, u8, s8);
 extern void func_80047784(void *, u8, s32);
 extern void func_800478B8(void *);
 extern s32 func_800644B8(s32);
-extern void func_800A020C(s32, void *);
-extern s32 func_800A9E70(void *, void *, void *, void *);
+extern void dungeonApplyMonsterKoyawData(s32, void *);
+extern s32 dungeonRefreshActorFacingAndLifecycle(void *, void *, void *, void *);
 extern void func_800AA36C(void *, void *, void *, void *);
 extern s16 func_800BCB04(u16, u16, s16);
 
@@ -29,7 +29,7 @@ typedef struct S_8016ADA8_0 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_8016ADA8_0;   /* arg1 in func_8016ADA8 */
+} S_8016ADA8_0;   /* arg1 in dungeonUpdateEntityBehaviorMovementAndHeight */
 
 typedef struct S_8016ADA8_1 {
     u8 pad_00[0x4];
@@ -41,7 +41,7 @@ typedef struct S_8016ADA8_1 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_8016ADA8_1;   /* arg2 in func_8016ADA8 */
+} S_8016ADA8_1;   /* arg2 in dungeonUpdateEntityBehaviorMovementAndHeight */
 
 typedef struct S_8016ADA8_2 {
     u8 pad_00[0x1C];
@@ -50,10 +50,10 @@ typedef struct S_8016ADA8_2 {
     s16 unk_2A;
     u8 pad_2C[0x5C];
     u16 unk_88;
-} S_8016ADA8_2;   /* state in func_8016ADA8 */
+} S_8016ADA8_2;   /* state in dungeonUpdateEntityBehaviorMovementAndHeight */
 
 /* Updates entity behavior, movement, directional animation, and ground-relative height. */
-void func_8016ADA8(void *entity, void *motion, void *sprite)
+void dungeonUpdateEntityBehaviorMovementAndHeight(void *entity, void *motion, void *sprite)
 {
     void *entity_state = entity;
     s16 old_state_id;
@@ -82,7 +82,7 @@ void func_8016ADA8(void *entity, void *motion, void *sprite)
     }
 
     old_state_id = (s8)(*(u8 *)((u8 *)entity + 0x6D));
-    if (func_800A9E70(entity, motion, sprite, entity) != 0) {
+    if (dungeonRefreshActorFacingAndLifecycle(entity, motion, sprite, entity) != 0) {
         return;
     }
 
@@ -112,7 +112,7 @@ void func_8016ADA8(void *entity, void *motion, void *sprite)
         direction = ((gameWork.view.viewAngle + ((S_8016ADA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7;
         sprite_direction = direction;
         if ((*(s16 *)((u8 *)entity + 0x94)) != sprite_direction) {
-            func_80047738(sprite,
+            selectIndirectTableEntry(sprite,
                 (*(u8 *)((u8 *)(((S_8016ADA8_1 *)sprite)->unk_2C) + sprite_direction)),
                 ((S_8016ADA8_1 *)sprite)->unk_04.s8);
             (*(s16 *)((u8 *)entity + 0x94)) = direction;
@@ -126,7 +126,7 @@ void func_8016ADA8(void *entity, void *motion, void *sprite)
             }
             ((S_8016ADA8_1 *)sprite)->unk_14 = facing_flags;
         }
-        func_800A020C(((S_8016ADA8_2 *)entity_state)->unk_1C.s, (u8 *)sprite + 0xC);
+        dungeonApplyMonsterKoyawData(((S_8016ADA8_2 *)entity_state)->unk_1C.s, (u8 *)sprite + 0xC);
         if (!(((S_8016ADA8_2 *)entity_state)->unk_1C.u & 0x20)) {
             if (!(((S_8016ADA8_1 *)sprite)->unk_14 & 0x40)) {
                 func_800478B8(sprite);

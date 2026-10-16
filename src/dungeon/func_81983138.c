@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19a332c.h"
 
-void *func_80024938(s16 x, s16 y, s16 z, s16 angle, s32 unused_context) {
+void *dungeonSpawnThirtyTwoAngledParticles(s16 x, s16 y, s16 z, s16 angle, s32 unused_context) {
     s32 direction_x;
     s32 direction_y;
     s32 ring_angle;
@@ -17,7 +17,7 @@ void *func_80024938(s16 x, s16 y, s16 z, s16 angle, s32 unused_context) {
     do {
         particle = func_8003FC64(0x202);
         if (particle != NULL) {
-            ((ovl_19a332c_81983138_S_80024938_0 *)particle)->unk_10 = (void *)func_80024888;
+            ((ovl_19a332c_81983138_S_80024938_0 *)particle)->unk_10 = (void *)dungeonAdvanceEffectMotionAndColorFade;
             func_8004491C(particle, func_80045340);
             motion = ((ovl_19a332c_81983138_S_80024938_0 *)particle)->unk_08;
             motion->unk_02 = x;

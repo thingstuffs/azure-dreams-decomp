@@ -7,7 +7,7 @@ typedef struct S_800B14FC_0 {
     union { s16 s; u16 u; } unk_22;   /* accessed as both */
     s16 unk_24;
     union { s16 s; u16 u; } unk_26;   /* accessed as both */
-} S_800B14FC_0;   /* base in func_800B14FC */
+} S_800B14FC_0;   /* base in dungeonUpdateFadingEffectScale */
 
 typedef struct S_800B14FC_1 {
     u8 pad_00[0xC];
@@ -21,16 +21,16 @@ typedef struct S_800B14FC_1 {
     u16 unk_1E;
     u8 pad_20[0x30];
     void * unk_50;
-} S_800B14FC_1;   /* render.p in func_800B14FC */
+} S_800B14FC_1;   /* render.p in dungeonUpdateFadingEffectScale */
 
 typedef struct S_800B14FC_2 {
     u8 pad_00[0x28];
     void * unk_28;
-} S_800B14FC_2;   /* slot in func_800B14FC */
+} S_800B14FC_2;   /* slot in dungeonUpdateFadingEffectScale */
 
 typedef struct S_800B14FC_3_pre {
     u16 unk_00;
-} S_800B14FC_3_pre;   /* the 0x2 bytes before object in func_800B14FC, addressed as object[-1] */
+} S_800B14FC_3_pre;   /* the 0x2 bytes before object in dungeonUpdateFadingEffectScale, addressed as object[-1] */
 
 
 extern s32 (*D_800DF030[])(void);
@@ -38,7 +38,7 @@ extern s32 (*D_800DF030[])(void);
 extern void func_8004E994(void *object);
 
 /* Updates effect scale and brightness, then releases its objects when fading out ends. */
-void func_800B14FC(void *effect, s32 unused, void *render_arg)
+void dungeonUpdateFadingEffectScale(void *effect, s32 unused, void *render_arg)
 {
     struct { void *p; } render = {render_arg};
     s32 (**dispatch_table)(void);

@@ -16,7 +16,7 @@ typedef struct {
 extern void bzero(void *dst, s32 size);
 
 /* Initialize shared state once, run its update, and clear the reset fields. */
-void func_80020EA0(void) {
+void cardBootInitServer(void) {
     s32 *pair_words;
 
     if (D_80084130[0] == 0) {
@@ -29,7 +29,7 @@ void func_80020EA0(void) {
             bzero((*(u8 (*)[0x280])(&D_80083E98)), 0x280);
         }
     }
-    func_80020A80();
+    cardBootOpenEvents();
     (*(func_8000DEA0_Pair *)(&D_800287D0)).a = 0;
     pair_words = (s32 *)&(*(func_8000DEA0_Pair *)(&D_800287D0));
     pair_words[1] = 0;

@@ -4,7 +4,7 @@
 extern void func_80016CC4(void);
 extern void func_80016DBC(void);
 extern s32 func_8001991C(s32, s32);
-extern void func_80019988(void);
+extern void townUpdateEntryFlags(void);
 extern void func_8001A5CC(s32);
 extern s32 func_8001A64C(s32);
 
@@ -16,7 +16,7 @@ s32 func_80017240(s32 kind, s32 value) {
     func_80016DBC();
 
     if (func_8001A64C(0x943) != 0) {
-        func_80019988();
+        townUpdateEntryFlags();
         if (func_8001991C(kind, value) != 0) {
             func_8001A5CC(0x943);
             return 1;

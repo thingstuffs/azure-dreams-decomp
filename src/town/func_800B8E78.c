@@ -4,42 +4,42 @@
 typedef struct S_800B65D8_4 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800B65D8_4;   /* temp_s1 in func_800B65D8 */
+} S_800B65D8_4;   /* temp_s1 in townUpdateModeDisplaySpacing */
 
 typedef struct S_800B65D8_5 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_800B65D8_5;   /* ((S_800B65D8_4 *)temp_s1)->unk_04 in func_800B65D8 */
+} S_800B65D8_5;   /* ((S_800B65D8_4 *)temp_s1)->unk_04 in townUpdateModeDisplaySpacing */
 
 
 s32 func_80048DA0();                         /* extern */
 s32 func_80048DCC();                             /* extern */
 s32 func_80048DE8();                             /* extern */
-void func_800B6580();                    /* extern */
+void townSetMonsterStatusPanelHeight();                    /* extern */
 extern u8 D_80089344[];
 
 typedef struct S_800B65D8_0 {
     u8 pad_00[0x50];
     void * unk_50;
-} S_800B65D8_0;   /* var_s4 in func_800B65D8 */
+} S_800B65D8_0;   /* var_s4 in townUpdateModeDisplaySpacing */
 
 typedef struct S_800B65D8_1 {
     s32 unk_00;
     void * unk_04;
-} S_800B65D8_1;   /* temp_s1 in func_800B65D8 */
+} S_800B65D8_1;   /* temp_s1 in townUpdateModeDisplaySpacing */
 
 typedef struct S_800B65D8_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_800B65D8_2;   /* temp_ptr in func_800B65D8 */
+} S_800B65D8_2;   /* temp_ptr in townUpdateModeDisplaySpacing */
 
 typedef struct S_800B65D8_3 {
     u8 pad_00[0x5C];
     s32 * unk_5C;
-} S_800B65D8_3;   /* base in func_800B65D8 */
+} S_800B65D8_3;   /* base in townUpdateModeDisplaySpacing */
 
 /* Updates two display entries for the mode and adjusts their spacing. */
-void func_800B65D8(S_800B65D8_3 *base, s32 display_mode) {
+void townUpdateModeDisplaySpacing(S_800B65D8_3 *base, s32 display_mode) {
     s32 mode;
     s32 total_width;
     s32 entry_index;
@@ -78,5 +78,5 @@ void func_800B65D8(S_800B65D8_3 *base, s32 display_mode) {
     if (total_width != 0) {
         spacing = total_width - 0x14;
     }
-    func_800B6580(*base->unk_5C, spacing);
+    townSetMonsterStatusPanelHeight(*base->unk_5C, spacing);
 }

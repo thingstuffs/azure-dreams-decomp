@@ -17,7 +17,7 @@ typedef struct S_800D2664_0 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800D2664_0;   /* pos in func_800D2664 */
+} S_800D2664_0;   /* pos in dungeonUpdateActorGravity */
 
 typedef struct S_800D2664_1 {
     u8 pad_00[0x90];
@@ -30,7 +30,7 @@ typedef struct S_800D2664_1 {
     u16 unk_98;
     u8 pad_9A[0x3];
     u8 unk_9D;
-} S_800D2664_1;   /* obj in func_800D2664 */
+} S_800D2664_1;   /* obj in dungeonUpdateActorGravity */
 
 typedef struct S_800D2664_2 {
     u8 pad_00[0x14];
@@ -38,10 +38,10 @@ typedef struct S_800D2664_2 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_800D2664_2;   /* ent in func_800D2664 */
+} S_800D2664_2;   /* ent in dungeonUpdateActorGravity */
 
 /* Runs object callbacks, applies movement and gravity, and updates ground height. */
-void func_800D2664(void *object, void *motion, void *entity) {
+void dungeonUpdateActorGravity(void *object, void *motion, void *entity) {
     void *ent = entity;
     void *update_obj = object;
     DungeonCallback callback;

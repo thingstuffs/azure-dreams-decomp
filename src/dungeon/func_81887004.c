@@ -36,8 +36,8 @@ typedef struct {
 
 extern u8 D_80080A87[];
 
-extern void func_8002596C(s16 x, s16 y, s16 z);
-extern void func_80026010(void);
+extern void dungeonCreateASpriteEffectPositionRandomizedRotation(s16 x, s16 y, s16 z);
+extern void dungeonCreateQuadFragmentsVertexGridRandomizedMotionRotation(void);
 extern s32 func_80069EF8(void);
 
 /* Advances the effect through color buildup, flicker, and fade, then restores the object color. */
@@ -96,7 +96,7 @@ void func_80024804(EffectState *effect, Vec3s *pos)
         secondary_rgb[2] = effect->timer * 14;
 
         for (burst_index = 0; burst_index < 4; burst_index++) {
-            func_8002596C(pos->x, pos->y, pos->z);
+            dungeonCreateASpriteEffectPositionRandomizedRotation(pos->x, pos->y, pos->z);
         }
         if (effect->timer >= 0x10) {
             effect->timer = 0xA0;
@@ -114,7 +114,7 @@ void func_80024804(EffectState *effect, Vec3s *pos)
         random_rgb[1] = (func_80069EF8() % 0x3F) - 0x80;
         effect->timer -= D_80080A87[0];
         if (effect->timer <= 0) {
-            func_80026010();
+            dungeonCreateQuadFragmentsVertexGridRandomizedMotionRotation();
             effect->timer = 0x10;
             effect->state++;
         }

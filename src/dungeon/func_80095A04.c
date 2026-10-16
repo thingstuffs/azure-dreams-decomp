@@ -15,10 +15,10 @@ typedef struct {
     u8 y;
 } Arg2;
 
-extern s16 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
+extern s16 getOffsetMapCellValueAndFlags(s16 x, s16 y, s16 offset_index, u16 *flags);
 
 /* Checks the neighboring tile in the encoded direction for blocking flags and height. */
-s32 func_8009B164(u32 direction_bits, Arg1 *state_in, Arg2 *position_in) {
+s32 dungeonCheckNeighborTileBlocking(u32 direction_bits, Arg1 *state_in, Arg2 *position_in) {
     u16 tile_flags;
     Arg1 *state;
     Arg2 *position;
@@ -29,7 +29,7 @@ s32 func_8009B164(u32 direction_bits, Arg1 *state_in, Arg2 *position_in) {
     state = state_in;
     position = position_in;
     direction = (direction_bits >> 9) & 7;
-    if ((func_8009A350(position->x, position->y, direction, &tile_flags) << 0x10) != 0) {
+    if ((getOffsetMapCellValueAndFlags(position->x, position->y, direction, &tile_flags) << 0x10) != 0) {
         if (tile_flags & 0x8000) {
             return 0;
         }

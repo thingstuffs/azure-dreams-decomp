@@ -2,7 +2,7 @@
 
 
 /* Move the effect, count down its timer, then fade its sprite to black. */
-void func_80024D44(void *effect, S_8182D544_2 *motion, S_8182D544_3 *sprite)
+void dungeonMoveTheEffectCountDownTimerFadeSpriteBlack(void *effect, S_8182D544_2 *motion, S_8182D544_3 *sprite)
 {
     s16 state;
     s32 delta_y;

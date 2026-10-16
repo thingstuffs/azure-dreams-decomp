@@ -9,7 +9,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Brightens and accelerates an effect, spawns particles, then fades it out. */
-void func_800247D8(void *effect_arg, DelayMotion *motion, DelaySpriteColor *sprite) {
+void dungeonBrightenAccelerateAndFadeEffect(void *effect_arg, DelayMotion *motion, DelaySpriteColor *sprite) {
     s32 color;
     s32 phase;
     s32 z_velocity;
@@ -48,7 +48,7 @@ void func_800247D8(void *effect_arg, DelayMotion *motion, DelaySpriteColor *spri
         motion->unk_08 = (s32) (motion->unk_08 + z_velocity);
         count_or_step = 0x14;
         if ((s16) ((DelayParticle *)effect_arg)->unk_48 <= 0) {
-            particle_data = func_80024688;
+            particle_data = dungeonAdvanceDelayedFadingSprite;
             ((DelayParticle *)effect_arg)->unk_4C.s = (s16) ((u16) ((DelayParticle *)effect_arg)->unk_4C.s + 1);
             do {
                 particle = func_8003FD64(0x312, ((u8 *)(&D_80083498)));

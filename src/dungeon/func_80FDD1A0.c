@@ -102,16 +102,16 @@ typedef struct S_func_80FDD1A0_6 {
     s32 unk_0C;
 } S_func_80FDD1A0_6;
 
-extern s32 func_8003F270(void);
+extern s32 getCdCommandQueueDepth(void);
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, s32, s32);
-extern void *func_800A05A4(void *, u8, u8, s16, s32);
-extern void func_800A2B04(void *, u8, u8);
-extern void func_800A4ACC(void *);
+extern void *dungeonScanMonsterAlongHeading(void *, u8, u8, s16, s32);
+extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A56E0(s32);
-extern s32 func_800A94A0(void *, u8 *, s32, u16 *);
-extern void func_800DA840(void *, s16);
+extern s32 dungeonCreateActorSpellEffect(void *, u8 *, s32, u16 *);
+extern void dungeonCreateTwoRowObjectGroup(void *, s16);
 
 extern u8 D_800D7960[];
 extern u8 D_80170838[16];
@@ -208,7 +208,7 @@ void func_801729A0(S_func_80FDD1A0_1 *actor, VecData *motion, S_func_80FDD1A0_2 
                         s32 abs_y;
                         s32 target_y;
 
-                        target = func_800A05A4(
+                        target = dungeonScanMonsterAlongHeading(
                             actor_data,
                             sprite->unk_24,
                             sprite->unk_25,
@@ -272,24 +272,24 @@ void func_801729A0(S_func_80FDD1A0_1 *actor, VecData *motion, S_func_80FDD1A0_2 
                 direction = ((gameWork.view.viewAngle + actor_data->unk_2A.s + 0x100) >> 9) & 7;
                 func_80047784(effect_sprite, animations[direction], 0);
             }
-            if (func_800A94A0(actor_data, item_slot, use_player,
+            if (dungeonCreateActorSpellEffect(actor_data, item_slot, use_player,
                               &actor->unk_98) == 0) {
                 return;
             }
             actor->unk_98 &= 0xDFFF;
             sprite->unk_14 &= 0xF7FF;
             func_800A56E0(0x703);
-            func_800DA840(&sound_pos, (*item_slot - 1) % 3);
+            dungeonCreateTwoRowObjectGroup(&sound_pos, (*item_slot - 1) % 3);
             actor->unk_9B++;
             return;
         }
         motion->dz = 0;
         motion->dy = 0;
         motion->dx = 0;
-        func_800A2B04(motion, sprite->unk_24, sprite->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, sprite->unk_24, sprite->unk_25);
         dungeonStatus.unk_0C = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
-        func_800A4ACC(actor_data);
+        dungeonAdvanceStatusTimers(actor_data);
         actor_data->unk_6D.u--;
         actor->unk_8C = &D_80170EA8;
         actor_data->unk_73.u = 0;
@@ -298,7 +298,7 @@ void func_801729A0(S_func_80FDD1A0_1 *actor, VecData *motion, S_func_80FDD1A0_2 
         return;
 
     case 1:
-        if (func_8003F270() != 0) {
+        if (getCdCommandQueueDepth() != 0) {
             sprite->unk_14 |= 0x800;
             return;
         }
@@ -332,14 +332,14 @@ void func_801729A0(S_func_80FDD1A0_1 *actor, VecData *motion, S_func_80FDD1A0_2 
         motion->dz = 0;
         motion->dy = 0;
         motion->dx = 0;
-        func_800A2B04(motion, sprite->unk_24, sprite->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, sprite->unk_24, sprite->unk_25);
         if (((s32)dungeonStatus.unk_0C) != 0) {
             return;
         }
         dungeonStatus.unk_0A--;
         sprite->unk_14 &= 0xF7FF;
         actor->unk_8C = &D_80170EA8;
-        func_800A4ACC(actor_data);
+        dungeonAdvanceStatusTimers(actor_data);
         if (actor_data->unk_6D.s > 0) {
             actor_data->unk_6D.u--;
         }

@@ -10,12 +10,12 @@ extern s32 func_80041E70();
 extern s32 func_800647A0();
 extern s32 func_800990FC();
 extern s32 func_80099194();
-extern s32 func_80099254();
+extern s32 dungeonCopyFourTextBytes();
 extern void * func_80099290(s8 *byte_ptr);
-extern s32 func_8009929C();
+extern s32 dungeonWriteTextByteAndAdvance();
 extern s32 func_80099734();
 extern s32 func_800A5720();
-extern void * func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
+extern void * createActorValuePopup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
 extern u8 D_8006D168[];
 extern u8 D_800DDCBC[];
@@ -25,7 +25,7 @@ extern u8 D_800E0970[];
 extern u8 D_800E0979[];
 
 /* Raise the entity one level, update its stats, XP reward and abilities, and optionally display a message. */
-s32 func_800A1D4C(void *entity_data, s32 show_message) {
+s32 raiseEntityLevel(void *entity_data, s32 show_message) {
     u8 ability_gained[3];
     u8 *stat_growth;
     u8 *initial_stats;
@@ -315,11 +315,11 @@ loop_0:
             if ((*(s32 *)(((u8 *)entity_data) + 0x14) & 0x2000) != 0) {
                 stat_gain_m = 0x8002;
             }
-            func_800B4C7C(stat_gain_m, ((u8 *)entity_data), -2, 1);
+            createActorValuePopup(stat_gain_m, ((u8 *)entity_data), -2, 1);
 
             message = func_800990FC();
             text_end = func_80099194(D_800E0953, message);
-            text_end = func_8009929C(0xA, text_end);
+            text_end = dungeonWriteTextByteAndAdvance(0xA, text_end);
             text_end = func_80099734(((u8 *)entity_data), text_end);
             text_end = func_80099194(D_800E095F, text_end);
             text_end = func_8003AD08(((u8 *)entity_data)[0x11], text_end);
@@ -333,7 +333,7 @@ loop_0:
                 ability_slot = ((u8 *)entity_data);
                 do {
                     if (ability_gained[slot] != 0) {
-                        text_end = func_8009929C(0xA, text_end);
+                        text_end = dungeonWriteTextByteAndAdvance(0xA, text_end);
                         text_end = func_80099194(*(s32 *)(ability_table + ability_slot[8] * 0x14), text_end);
                         text_end = func_80099194(D_800E0970, text_end);
                         text_end = func_80099194(D_800E0979, text_end);
@@ -344,9 +344,9 @@ loop_0:
             }
 
             if (!(D_80013714 & 1)) {
-                text_end = func_8009929C(0x11, text_end);
-                text_end = func_8009929C(0x4C, text_end);
-                text_end = func_80099254(D_800E0458, text_end);
+                text_end = dungeonWriteTextByteAndAdvance(0x11, text_end);
+                text_end = dungeonWriteTextByteAndAdvance(0x4C, text_end);
+                text_end = dungeonCopyFourTextBytes(D_800E0458, text_end);
             }
             func_80099290(text_end);
             func_800A5720(message);

@@ -13,7 +13,7 @@
 
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol func_80024000).  The state table of the switch below follows
+ * (retail 0x80024000, the row symbol dungeonAddFlagAdjustedTargetValue).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
 void (*const dungeon_1858800_entry)(ProjectileState *, ProjectileMotion *, ProjectileSprite *) =
     func_80024020;
@@ -64,7 +64,7 @@ void func_80024020(ProjectileState *effect, ProjectileMotion *motion, Projectile
             particle_or_y = (s32)func_8003FD64(0x312, ((u8 *)(&D_80083498)));
             if (particle_or_y != 0) {
                 sprite_or_x = (s32)((ProjectileObject *)particle_or_y)->unk_0C;
-                ((ProjectileObject *)particle_or_y)->unk_10 = func_80024B58;
+                ((ProjectileObject *)particle_or_y)->unk_10 = dungeonUpdateTimedSpriteEffect;
                 ((ProjectileMotion *)((ProjectileObject *)particle_or_y)->unk_08)->unk_00.s =
                     motion->unk_00.s + (((func_80069EF8() & 0x3FF) - 511) << 9);
                 ((ProjectileMotion *)((ProjectileObject *)particle_or_y)->unk_08)->unk_04.s =
@@ -117,7 +117,7 @@ void func_80024020(ProjectileState *effect, ProjectileMotion *motion, Projectile
         if ((((AnimationFlags *)effect->unk_04)->unk_00 & 0x80) == 0) {
             return;
         }
-        if (func_8003DE58(((ProjectileSprite *)caster_obj->unk_0C)->unk_08,
+        if (resolveRecordOrientationOrFallback(((ProjectileSprite *)caster_obj->unk_0C)->unk_08,
                           caster_obj->unk_0C, launch_offset, 0) == 0) {
             launch_offset[1] = 0;
             launch_offset[0] = 0;
@@ -130,9 +130,9 @@ void func_80024020(ProjectileState *effect, ProjectileMotion *motion, Projectile
         motion->unk_08.s = ((ProjectileMotion *)caster_obj->unk_08)->unk_08.s +
                               ((s32)launch_offset[2] << 16);
         func_8004491C((u8 *)effect - 0x20, func_800248F8);
-        range = (s16)func_800A3820(7);
+        range = (s16)dungeonGetDefinitionEntryByte13(7);
         offset_y = caster_sprite->unk_24;
-        target = (void *)func_800A05A4(caster, offset_y,
+        target = (void *)dungeonScanMonsterAlongHeading(caster, offset_y,
                                        caster_sprite->unk_25,
                                        caster->unk_2A.s, range);
         caster->unk_60.p = target;
@@ -140,7 +140,7 @@ void func_80024020(ProjectileState *effect, ProjectileMotion *motion, Projectile
             distance = 0;
             tile_dy = distance;
             tile_dx = distance;
-            while (distance < func_800A3820(7)) {
+            while (distance < dungeonGetDefinitionEntryByte13(7)) {
                 index_or_x = (caster_sprite->unk_24 + tile_dx) * 64 + 32;
                 offset_y = (caster_sprite->unk_25 + tile_dy) * 64 + 32;
                 sprite_or_x = index_or_x & 0xFFFF;
@@ -152,7 +152,7 @@ void func_80024020(ProjectileState *effect, ProjectileMotion *motion, Projectile
                                        (s16)(((ProjectileMotion *)caster_obj->unk_08)->unk_08.h.unk_0A - 128));
                 }
                 particle_or_y = offset_y & 0xFFFF;
-                if ((s16)func_800A4688(sprite_or_x, particle_or_y, ground_z, caster->unk_2A.s,
+                if ((s16)dungeonCheckEnabledNeighborHeight(sprite_or_x, particle_or_y, ground_z, caster->unk_2A.s,
                                   caster->unk_60.s) != 0) {
                     break;
                 }

@@ -5,8 +5,12 @@ from pathlib import Path
 LANE = Path(__file__).resolve().parent.parent; REPO = LANE.parent.parent.parent
 sys.path.insert(0, str(LANE / "tools"))
 from respell8 import respell
+import sys as _layout_sys
+_layout_root = next(p for p in Path(__file__).resolve().parents if (p / "tools/source_layout.py").is_file())
+_layout_sys.path.insert(0, str(_layout_root / "tools"))
+from source_layout import row_path as layout_row_path
 def base(rid):
-    return respell((REPO / "src" / (rid + ".c")).read_text())[0]
+    return respell((layout_row_path(rid, REPO)).read_text())[0]
 def vec(expr):   # state_94.v[i].c on a GameView pointer/object -> the flat field
     def f(m):
         i, c = int(m.group(1)), m.group(2); off = 0x94 + 8 * i + {"x": 0, "y": 2, "z": 4}[c]
@@ -38,18 +42,18 @@ t = rep(t, "    struct S_80083178 *source;", "    GameView *source;")
 t = rep(t, "source = ((void *)&gameWork.view);", "source = &gameWork.view;")
 t = re.sub(r"= source->state_94\.v\[(\d)\];", lambda m: "= *(struct S_80083178Vector *)&source->unk_%03X;" % (0x94 + 8 * int(m.group(1))), t)
 E["slus/w_80044724"] = vec(t)
-t = (REPO / "src/slus/w_8004D5D0.c").read_text()
+t = layout_row_path("slus/w_8004D5D0", REPO).read_text()
 t = rep(t, '#include "shared/entity_objects.h"\n', '#include "shared/entity_objects.h"\n#include "shared/game_work.h"\n\n'
         '/* gameWork.view declared on its own: retail forms this TU\'s base at 0x80083178 itself (not gameWork + 0x18). */\n'
         'extern GameView D_80083178;\n')
 t = rep(t, "into D_80083178 and", "into D_80083178 (gameWork.view's position vector) and")
 E["slus/w_8004D5D0"] = vec(t)
-t = (REPO / "src/dungeon/func_800AFA68.c").read_text()
+t = layout_row_path("dungeon/func_800AFA68", REPO).read_text()
 t = rep(t, '#include "shared/game_work.h"\n', '#include "shared/game_work.h"\n\n'
         '/* gameWork.view declared on its own: this row forms its camera base as D_80083178 - 0x18 (as gameWork it misses). */\n'
         'extern GameView D_80083178;\n', 1)
 E["dungeon/func_800AFA68"] = t
-t = (REPO / "src/slus/code2.c").read_text()
+t = layout_row_path("slus/code2", REPO).read_text()
 t = rep(t, '#include "common.h"\n', '#include "common.h"\n#include "shared/game_work.h"\n\n'
         '/* gameWork.view declared on its own: func_8004D0C8 / func_8004D110 form their base at 0x80083178 (as gameWork the\n'
         ' * offsets and the schedule change: cc1 listing differs). */\n'

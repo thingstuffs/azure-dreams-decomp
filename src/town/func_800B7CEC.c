@@ -14,7 +14,7 @@ extern u8 D_800892E8[];
 extern u8 D_800892EC[];
 
 /* Builds a formatted marker string for the object's value, including an odd remainder. */
-void *func_800B544C(void *output, void *object)
+void *townFormatObjectValueMarker(void *output, void *object)
 {
     u32 value;
     s32 pair_test;

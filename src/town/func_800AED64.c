@@ -4,7 +4,7 @@
 #include "m2c_compat.h"
 
 extern void func_80046884(void *, void *, s32);
-extern s32 func_80046C20(s32, s32 *, u16 *);
+extern s32 runtimeInitializePolygonEdges(s32, s32 *, u16 *);
 extern void func_80064624(s32, s32);
 extern void func_80064D20(void *);
 extern void func_80064D50(void *);
@@ -345,7 +345,7 @@ void func_800AC4C4(void) {
     scratch.ptr->unk_14C = 0xFFFF;
     scratch.ptr->unk_174 = 4;
     scratch.ptr->unk_164 = (u8 *) packet + 0xCCCC;
-    scratch.ptr->unk_0C = (s16) func_80046C20((s32) work_ptr, (s32 *) coord_offset, (u16 *) edge_count);
+    scratch.ptr->unk_0C = (s16) runtimeInitializePolygonEdges((s32) work_ptr, (s32 *) coord_offset, (u16 *) edge_count);
     if (scratch.ptr->unk_174 != 0) {
         one = 1;
         vertex_input = (u8 *)scratch.ptr + 0xE0;

@@ -4,11 +4,11 @@ typedef struct S_800A4ACC_0 {
     u8 pad_00[0x2C];
     s8 unk_2C;
     s8 unk_2D;
-} S_800A4ACC_0;   /* var_s0 in func_800A4ACC */
+} S_800A4ACC_0;   /* var_s0 in dungeonAdvanceStatusTimers */
 
 typedef struct S_800A4ACC_1 {
     s32 unk_00;
-} S_800A4ACC_1;   /* arg0 in func_800A4ACC; pointer addresses record offset 0x18 */
+} S_800A4ACC_1;   /* arg0 in dungeonAdvanceStatusTimers; pointer addresses record offset 0x18 */
 
 
 extern void func_80042BDC();
@@ -17,7 +17,7 @@ extern void func_800A5DFC();
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 /* Advance four status timers toward zero and clear expired statuses. */
-s32 func_800A4ACC(void *record) {
+s32 dungeonAdvanceStatusTimers(void *record) {
     s32 slot_index;
     s8 status;
     s8 duration;

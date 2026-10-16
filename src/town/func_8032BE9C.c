@@ -1,12 +1,12 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void func_8001ACE8();                     /* extern */
+void townSetScriptFlagBit();                     /* extern */
 extern M2C_UNK D_8001DCD4;
 
-/* Passes two fixed IDs to func_8001ACE8 and returns the address of D_8001DCD4. */
-M2C_UNK *func_8001669C(void) {
-    func_8001ACE8(0xDAC);
-    func_8001ACE8(0xD77);
+/* Passes two fixed IDs to townSetScriptFlagBit and returns the address of D_8001DCD4. */
+M2C_UNK *townDispatchTwoEventsAndReturnBuffer(void) {
+    townSetScriptFlagBit(0xDAC);
+    townSetScriptFlagBit(0xD77);
     return &D_8001DCD4;
 }

@@ -3,16 +3,16 @@
 
 typedef void (*Callback)(void *, s32);
 
-extern void func_800B180C(void *);
+extern void townRefreshFormattedGlobalDisplay(void *);
 
 
 typedef struct S_800B1890_0 {
     u8 pad_00[0x8];
     union { s16 s; u16 u; } unk_08;   /* accessed as both */
-} S_800B1890_0;   /* temp_v1 in func_800B1890 */
+} S_800B1890_0;   /* temp_v1 in townLowerValueTowardTarget */
 
 /* Lowers the state's value toward the target, or snaps to it and switches callbacks. */
-void func_800B1890(void *object) {
+void townLowerValueTowardTarget(void *object) {
     S_800B1890_0 *state;
     s32 target_value;
     s32 current_value;
@@ -30,8 +30,8 @@ void func_800B1890(void *object) {
         state->unk_08.s = current_bits + adjustment;
     } else {
         state->unk_08.u = (*(u16 *)((u8 *)object + 4));
-        (*(Callback *)((u8 *)object + -0x10)) = func_800B180C;
+        (*(Callback *)((u8 *)object + -0x10)) = townRefreshFormattedGlobalDisplay;
     }
 
-    func_800B180C(object);
+    townRefreshFormattedGlobalDisplay(object);
 }

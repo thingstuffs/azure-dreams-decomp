@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1966800.h"
 
-void func_80024004(void *action, void *saved_position)
+void decrementFlaggedItemParameters(void *action, void *saved_position)
 {
     void *owner_work;
     u8 *owner;
@@ -44,7 +44,7 @@ void func_80024004(void *action, void *saved_position)
         effect = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
         if (effect != 0) {
             offset_part = *((void **) (((u8 *) owner) + 0xC));
-            if (func_8003DE58(*((s32 *) (((u8 *) offset_part) + 8)), offset_part, offsets, 0) == 0) {
+            if (resolveRecordOrientationOrFallback(*((s32 *) (((u8 *) offset_part) + 8)), offset_part, offsets, 0) == 0) {
                 offsets[2] = 0;
                 offsets[1] = 0;
                 offsets[0] = 0;

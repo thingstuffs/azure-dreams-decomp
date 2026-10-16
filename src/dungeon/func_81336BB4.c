@@ -11,14 +11,14 @@ extern u8 D_801739A0[];
 
 extern void func_800419EC(s32, s32, void *);
 extern void func_80047784(void *, u8, s32);
-extern void func_800A2B04(void *, u8, u8);
+extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
 extern void func_800A56E0(s32);
-extern void func_801676CC(void *);
-extern void func_801690D8(void *, void *, void *, void *);
-extern void func_80169C1C(void *, void *, void *);
+extern void dungeonCreateLayeredSpritePulse(void *);
+extern void dungeonCreateEightPartTexturedRibbon(void *, void *, void *, void *);
+extern void dungeonCreatePlayerCenteredSequenceEffect(void *, void *, void *);
 
 /* Advances a timed actor sequence, updating effects and directional animation before clearing completion flags. */
-void func_8016DBB4(u8 *sequence, u8 *transform, u8 *sprite_arg, u8 *actor_arg) {
+void dungeonAdvanceTimedActorEffectSequence(u8 *sequence, u8 *transform, u8 *sprite_arg, u8 *actor_arg) {
     u8 state;
     s32 anim_mode;
     u8 *anim_table;
@@ -33,7 +33,7 @@ void func_8016DBB4(u8 *sequence, u8 *transform, u8 *sprite_arg, u8 *actor_arg) {
     state = sequence[0x9B];
     switch (state) {
     case 0:
-        func_801676CC(transform);
+        dungeonCreateLayeredSpritePulse(transform);
         *(u16 *)(sequence + 0x96) = 5;
         sequence[0x9B] = sequence[0x9B] + 1;
         func_800A56E0(0x703);
@@ -55,7 +55,7 @@ void func_8016DBB4(u8 *sequence, u8 *transform, u8 *sprite_arg, u8 *actor_arg) {
         timer = *(u16 *)(sequence + 0x96) + 1;
         *(u16 *)(sequence + 0x96) = timer;
         if ((s16)timer == 1) {
-            func_801690D8(sequence, transform, sprite, ((u8 *)(&D_80083780)));
+            dungeonCreateEightPartTexturedRibbon(sequence, transform, sprite, ((u8 *)(&D_80083780)));
         }
         if (*(s16 *)(sequence + 0x96) == 2) {
             effect_actor = D_800814A8;
@@ -63,7 +63,7 @@ void func_8016DBB4(u8 *sequence, u8 *transform, u8 *sprite_arg, u8 *actor_arg) {
             effect_actor->unk_6A = ((u16)effect_actor->facing) + 0x800;
             func_800419EC(6, 0xC, effect_actor);
             func_800A56E0(0x601);
-            func_80169C1C(sequence, transform, sprite);
+            dungeonCreatePlayerCenteredSequenceEffect(sequence, transform, sprite);
         }
         if (*(s16 *)(sequence + 0x96) == 0xB) {
             state = sequence[0x9B];
@@ -80,7 +80,7 @@ void func_8016DBB4(u8 *sequence, u8 *transform, u8 *sprite_arg, u8 *actor_arg) {
         *(s32 *)(transform + 0x14) = 0;
         *(s32 *)(transform + 0x10) = 0;
         *(s32 *)(transform + 0x0C) = 0;
-        func_800A2B04(transform, sprite[0x24], sprite[0x25]);
+        dungeonSetRecordIntegerTileCenter(transform, sprite[0x24], sprite[0x25]);
         anim_mode = sequence[0xAC];
         switch (anim_mode) {
         case 0:

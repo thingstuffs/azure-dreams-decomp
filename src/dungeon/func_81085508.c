@@ -19,39 +19,39 @@ typedef struct S_80172D08_0 {
     s32 unk_A0;
     u8 pad_A4[0xB];
     u8 unk_AF;
-} S_80172D08_0;   /* arg0 in func_80172D08 */
+} S_80172D08_0;   /* arg0 in dungeonAdvanceActorHeightArc */
 
 
 typedef struct S_80172D08_4_pre {
     void * unk_00;
     u8 pad_04[0x14];
-} S_80172D08_4_pre;   /* the 0x18 bytes before owner in func_80172D08, addressed as owner[-1] */
+} S_80172D08_4_pre;   /* the 0x18 bytes before owner in dungeonAdvanceActorHeightArc, addressed as owner[-1] */
 
 typedef struct S_80172D08_4 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80172D08_4;   /* owner in func_80172D08 */
+} S_80172D08_4;   /* owner in dungeonAdvanceActorHeightArc */
 
 typedef struct S_80172D08_5 {
     u8 pad_00[0x13];
     u8 unk_13;
-} S_80172D08_5;   /* ((S_80172D08_2 *)arg3)->unk_60 in func_80172D08 */
+} S_80172D08_5;   /* ((S_80172D08_2 *)arg3)->unk_60 in dungeonAdvanceActorHeightArc */
 
 
 extern s32 func_800644B8(s32);
-extern s32 func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void func_800A2B04(void *, u8, u8);
-extern s16 func_800A44E0(u16 x, u16 y, s16 height, u32 flags);
-extern void func_800A4ACC(void *);
+extern s32 dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
+extern s16 dungeonCheckLayerOffsetHeight(u16 x, u16 y, s16 height, u32 flags);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A56E0(s32);
-extern void func_800AD594(void *, s32);
+extern void dungeonReduceActorFoodMeter(void *, s32);
 extern s32 func_800BCB04(s32, s32, s16);
-extern void func_80174A6C(void *, void *, void *);
+extern void dungeonCreatePrimitiveStateObject(void *, void *, void *);
 
 extern u8 D_80170E94;
 
 /* Advances the actor's movement state, height arc, and return to its tile. */
-void func_80172D08(void *action, void *motion, void *record, EntityRec *actor)
+void dungeonAdvanceActorHeightArc(void *action, void *motion, void *record, EntityRec *actor)
 {
     u8 state;
     s32 terrain_height;
@@ -65,14 +65,14 @@ void func_80172D08(void *action, void *motion, void *record, EntityRec *actor)
         if (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000) {
             ((S_80172D08_0 *)action)->unk_9B = 4;
             ((Rec_D_80082E80 *)record)->unk_14.at00_u16.v |= 0x6000;
-            func_8009C12C(actor, record, actor->facing, 1);
+            dungeonResolveAttackDamageAndEffects(actor, record, actor->facing, 1);
             return;
         }
 
         ((S_80172D08_0 *)action)->unk_AF = 0;
         if (actor->target == 0) {
             direction = (((u16)actor->facing) >> 9) & 7;
-            if ((s16)func_800A44E0(((Rec_D_80082E80 *)record)->unk_24 << 6,
+            if ((s16)dungeonCheckLayerOffsetHeight(((Rec_D_80082E80 *)record)->unk_24 << 6,
                                    ((Rec_D_80082E80 *)record)->unk_25 << 6,
                                    actor->unk_88,
                                    direction << 9) == 0) {
@@ -204,9 +204,9 @@ void func_80172D08(void *action, void *motion, void *record, EntityRec *actor)
         if (((((Rec_D_80082E80 *)record)->unk_04.as_s8 == 0xC) &&
              (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x1000)) ||
             (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0xE000)) {
-            if (func_8009C12C(actor, record, actor->facing, 1) != 0) {
+            if (dungeonResolveAttackDamageAndEffects(actor, record, actor->facing, 1) != 0) {
                 func_800A56E0(0x809);
-                func_80174A6C(action, motion, record);
+                dungeonCreatePrimitiveStateObject(action, motion, record);
             }
         }
 
@@ -294,15 +294,15 @@ void func_80172D08(void *action, void *motion, void *record, EntityRec *actor)
             ((Rec_func_80172D08_arg1 *)motion)->unk_14 = 0;
             ((Rec_func_80172D08_arg1 *)motion)->unk_10 = 0;
             ((Rec_func_80172D08_arg1 *)motion)->unk_0C = 0;
-            func_800A2B04(motion, ((Rec_D_80082E80 *)record)->unk_24,
+            dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)record)->unk_24,
                           ((Rec_D_80082E80 *)record)->unk_25);
-            func_800AD594(actor, 0x200);
+            dungeonReduceActorFoodMeter(actor, 0x200);
             ((S_80172D08_0 *)action)->unk_8C = &D_80170E94;
             dungeonStatus.unk_0C = 0;
             (actor->unk_46) &= 0x7FFF;
             ((S_80172D08_0 *)action)->unk_98 &= 0xFFF3;
             (*(u32 *)&actor->flags1C) |= 0x08000000;
-            func_800A4ACC(actor);
+            dungeonAdvanceStatusTimers(actor);
         }
     }
     }

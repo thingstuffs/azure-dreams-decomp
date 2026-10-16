@@ -5,7 +5,7 @@ typedef s32 M2C_UNK;
 typedef struct S_80024390_5 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_80024390_5;   /* assetSlot in func_80024390 */
+} S_80024390_5;   /* assetSlot in cardBootFormatSavedSlotDetails */
 
 typedef struct S_80024390_6 {
     u8 pad_00[0x8];
@@ -16,13 +16,13 @@ typedef struct S_80024390_6 {
     u32 unk_2C;
     u8 pad_30[0x4];
     s32 unk_34;
-} S_80024390_6;   /* ((((S_80024390_0 *)record)->unk_7C << 7) + recordBase) in func_80024390 */
+} S_80024390_6;   /* ((((S_80024390_0 *)record)->unk_7C << 7) + recordBase) in cardBootFormatSavedSlotDetails */
 
 typedef struct S_80024390_7 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_80024390_7;   /* ((S_80024390_5 *)assetSlot)->unk_04 in func_80024390 */
+} S_80024390_7;   /* ((S_80024390_5 *)assetSlot)->unk_04 in cardBootFormatSavedSlotDetails */
 
 
 typedef struct S_80024390_0 {
@@ -36,38 +36,38 @@ typedef struct S_80024390_0 {
     void * unk_B5C;
     void * unk_B60;
     void * unk_B64;
-} S_80024390_0;   /* record in func_80024390 */
+} S_80024390_0;   /* record in cardBootFormatSavedSlotDetails */
 
 typedef struct S_80024390_1 {
     union { void * s; s32 u; } unk_00;   /* accessed as both */
-} S_80024390_1;   /* assetSlot in func_80024390 */
+} S_80024390_1;   /* assetSlot in cardBootFormatSavedSlotDetails */
 
 typedef struct S_80024390_2 {
     u8 pad_00[0x8];
     M2C_UNK * unk_08;
     M2C_UNK * unk_0C;
-} S_80024390_2;   /* table_base in func_80024390 */
+} S_80024390_2;   /* table_base in cardBootFormatSavedSlotDetails */
 
 typedef struct S_80024390_3 {
     u8 pad_00[0x1C];
     u32 unk_1C;
     u8 pad_20[0x10];
     s32 unk_30;
-} S_80024390_3;   /* recordData in func_80024390 */
+} S_80024390_3;   /* recordData in cardBootFormatSavedSlotDetails */
 
 typedef struct S_80024390_4 {
     u8 pad_00[0xB68];
     void * unk_B68;
-} S_80024390_4;   /* recordCursor in func_80024390 */
+} S_80024390_4;   /* recordCursor in cardBootFormatSavedSlotDetails */
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 u8 *func_8003AD08(); /* extern */
 void *func_8004DA74(); /* extern */
-void *func_8004E298(); /* extern */
+void *buildPositionedTextGlyphs(); /* extern */
 char *func_8004E5A0(); /* extern */
 char *func_8004E5E8(); /* extern */
-u8 *func_8004E69C(); /* extern */
+u8 *remapFlaggedStringBytes(); /* extern */
 M2C_UNK func_80069E38();
 M2C_UNK func_80069E78();
 extern u8 D_800200A4[0x100];
@@ -77,7 +77,7 @@ extern u8 D_800282E8[0x100];
 extern u8 D_800283A8[0x100];
 extern u8 D_80083EA4[0x4000];
 
-void func_80024390(void *record) {
+void cardBootFormatSavedSlotDetails(void *record) {
     u8 textBuffer[256];
     u8 numberBuffer[16];
     s32 coordinate;
@@ -140,9 +140,9 @@ void func_80024390(void *record) {
     }
     assetSlot = ((S_80024390_0 *)record)->unk_B58;
     func_8004E5A0(((S_80024390_6 *)(((((S_80024390_0 *)record)->unk_7C << 7) + recordBase)))->unk_24, 0xA, &textBuffer);
-    func_8004E69C(&textBuffer);
+    remapFlaggedStringBytes(&textBuffer);
     asset3 = record + 0x504;
-    func_8004E298(asset3, &textBuffer, 1);
+    buildPositionedTextGlyphs(asset3, &textBuffer, 1);
     assetSlot->unk_00.s = asset3;
     ((S_80024390_7 *)(((S_80024390_5 *)assetSlot)->unk_04))->unk_08 = 0x148;
     ((S_80024390_7 *)(((S_80024390_5 *)assetSlot)->unk_04))->unk_0A = 0x110;
@@ -163,9 +163,9 @@ void func_80024390(void *record) {
     func_80069E38(&textBuffer, D_800200A4);
     func_8004E5E8(elapsedSeconds - (totalMinutes * 0x3C), 2, &numberBuffer);
     func_80069E38(&textBuffer, &numberBuffer);
-    func_8004E69C(&textBuffer);
+    remapFlaggedStringBytes(&textBuffer);
     asset4 = record + 0x684;
-    func_8004E298(asset4, &textBuffer, 1);
+    buildPositionedTextGlyphs(asset4, &textBuffer, 1);
     assetSlot->unk_00.s = asset4;
     ((S_80024390_7 *)(((S_80024390_5 *)assetSlot)->unk_04))->unk_08 = 0x150;
     ((S_80024390_7 *)(((S_80024390_5 *)assetSlot)->unk_04))->unk_0A = 0x120;
@@ -176,17 +176,17 @@ void func_80024390(void *record) {
         boundedValue = displayValue;
     }
     func_8004E5A0((s32) boundedValue, 3, &textBuffer);
-    func_8004E69C(&textBuffer);
+    remapFlaggedStringBytes(&textBuffer);
     asset5 = record + 0x804;
-    func_8004E298(asset5, &textBuffer, 1);
+    buildPositionedTextGlyphs(asset5, &textBuffer, 1);
     assetSlot->unk_00.s = asset5;
     ((S_80024390_7 *)(((S_80024390_5 *)assetSlot)->unk_04))->unk_08 = 0x100;
     ((S_80024390_7 *)(((S_80024390_5 *)assetSlot)->unk_04))->unk_0A = 0x120;
     assetSlot = ((S_80024390_0 *)record)->unk_B64;
     func_8004E5A0(((S_80024390_6 *)(((((S_80024390_0 *)record)->unk_7C << 7) + recordBase)))->unk_28, 2, &textBuffer);
-    func_8004E69C(&textBuffer);
+    remapFlaggedStringBytes(&textBuffer);
     asset6 = record + 0x984;
-    func_8004E298(asset6, &textBuffer, 1);
+    buildPositionedTextGlyphs(asset6, &textBuffer, 1);
     value = 0;
     loop_base = recordBase;
     global_table = D_80027FD4;

@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_d54c.h"
 
-u32 *func_8008AF2C(s32 key_flag, s32 key_high, s32 key_low) {
+u32 *townFindPackedResourceDescriptor(s32 key_flag, s32 key_high, s32 key_low) {
     u32 *value_ptr;
     u32 *entry;
     u32 packed_key;

@@ -3,7 +3,7 @@
 extern void func_800453E0(void *context, s32 position, void *entry, s32 depth_bias);
 
 /* Clears the scratchpad counter and processes each record in the linked chain. */
-s32 func_80175D74(u8 *record_data, s32 record_value, u8 *linked_data) {
+s32 dungeonDrawLinkedRecordChain(u8 *record_data, s32 record_value, u8 *linked_data) {
     *(s32 *)0x1F80013C = 0;
     for (;;) {
         func_800453E0(record_data, record_value, linked_data, -0x10);

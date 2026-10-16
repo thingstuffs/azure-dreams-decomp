@@ -41,7 +41,7 @@ typedef struct {
 } Header;
 
 /* Initialize the header and its two records from default templates. */
-void func_8012656C(Header *header, Template0 *primary_record, Record1 *secondary_record) {
+void townInitializeCatalogViewRecords(Header *header, Template0 *primary_record, Record1 *secondary_record) {
     Template0 *primary_defaults = &D_8002E5D8;
     Template1 *secondary_defaults = &D_8002E5E8;
     s32 *default_word;

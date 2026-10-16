@@ -4,7 +4,7 @@
 extern void func_800478B8(void *work);
 
 /* Advances object motion, decrements its timer, and flags expiration. */
-void func_801740FC(void *object_data, void *motion_data, void *work_data)
+void dungeonTickObjectMotionAndExpire(void *object_data, void *motion_data, void *work_data)
 {
     s32 *motion = motion_data;
     u8 *object = object_data;

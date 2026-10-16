@@ -41,7 +41,7 @@ extern int abs(int);
 extern s32 func_800352FC(void);
 extern void SD_Call(s32);
 extern void func_800673A0(void *, s32, s32);
-extern s32 func_800C2AB4(Obj *);
+extern s32 townCheckTransformIdentifierAndHook(Obj *);
 /* Advances the interaction state, animating the cursor and vertical position. */
 void func_800BF1C8(Obj *self, Arg1 *position, Arg2 *cursor_data) {
     EntryPair entries;
@@ -86,7 +86,7 @@ void func_800BF1C8(Obj *self, Arg1 *position, Arg2 *cursor_data) {
         if (func_800352FC() == 0) {
             return;
         }
-        if (func_800C2AB4(self) == 0) {
+        if (townCheckTransformIdentifierAndHook(self) == 0) {
             return;
         }
         SD_Call(0x50B);
@@ -111,7 +111,7 @@ void func_800BF1C8(Obj *self, Arg1 *position, Arg2 *cursor_data) {
 
     case 2:
     case 5:
-        if (func_800352FC() != 0 && func_800C2AB4(self) != 0) {
+        if (func_800352FC() != 0 && townCheckTransformIdentifierAndHook(self) != 0) {
             return;
         }
         {

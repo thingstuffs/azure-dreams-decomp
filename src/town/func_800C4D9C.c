@@ -1,13 +1,13 @@
 #include "modules/town_minigame_dispatch.h"
 #include "common.h"
 
-extern s32 func_80033B2C(s32 bit_id);
-extern void func_80033AA8(s32 bit_id);
-extern void func_80033AE8(s32 flag_id);
+extern s32 testResidentBitmapBit(s32 bit_id);
+extern void setResidentBitmapBit(s32 bit_id);
+extern void clearResidentBitmapBit(s32 flag_id);
 extern s16 D_800D4770[];
 
 /* Dispatches each table pair's second value according to the test of its first value. */
-void func_800C24FC(void) {
+void townDispatchConditionalTablePairs(void) {
     s16 *test_id;
     s16 *target_id;
 
@@ -16,10 +16,10 @@ void func_800C24FC(void) {
         s32 sentinel = -1;
         target_id = test_id + 1;
         do {
-            if (func_80033B2C(*test_id) != 0) {
-                func_80033AA8(*target_id);
+            if (testResidentBitmapBit(*test_id) != 0) {
+                setResidentBitmapBit(*target_id);
             } else {
-                func_80033AE8(*target_id);
+                clearResidentBitmapBit(*target_id);
             }
             test_id += 2;
             target_id += 2;

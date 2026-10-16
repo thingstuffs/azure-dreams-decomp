@@ -1,10 +1,6 @@
-#include "common.h"
+#include "modules/town_ovl_3ef1c8.h"
 
-extern s32 func_800196F4();
-extern s32 func_80019778();
-
-/* Return whether either check for (13, 3) passes. */
-s32 func_800169EC(void) {
+s32 townCheckInteraction13Type3(void) {
     s32 result = 0;
 
     if ((func_800196F4(13, 3) != 0) ||

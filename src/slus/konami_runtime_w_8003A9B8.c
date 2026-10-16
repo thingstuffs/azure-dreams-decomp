@@ -13,7 +13,7 @@ typedef struct Func8003A9B8State {
 } Func8003A9B8State;
 
 /* Redirects the event script stream to the table entry selected by the next byte. */
-void func_8003A9B8(Func8003A9B8State *vm) {
+void vmOp72JumpToValue(Func8003A9B8State *vm) {
     u8 index = *vm->stream;
     vm->stream++;
     vm->stream = vm->table->values[index];

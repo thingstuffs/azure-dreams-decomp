@@ -2,7 +2,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void *func_800196A8(void *, s32);                /* extern */
+void *townFindEntryByPairedKey(void *, s32);                /* extern */
 extern s8 D_8001DCCC[];
 
 typedef struct {
@@ -13,12 +13,12 @@ typedef struct {
 } Func8032EEE4Record;
 
 /* Find a record by its masked key and initialize it with the source data offset if empty. */
-Func8032EEE4Record *func_800196E4(void *context, Func8032EEE4Record *source) {
+Func8032EEE4Record *townFindMaskedRecordAndInitialize(void *context, Func8032EEE4Record *source) {
     s32 record_key;
     Func8032EEE4Record *record;
 
     record_key = source->unk0 & 0x3FFF0000;
-    record = (Func8032EEE4Record *) func_800196A8(context, record_key);
+    record = (Func8032EEE4Record *) townFindEntryByPairedKey(context, record_key);
     if (record->unk4 == NULL) {
         *source->unk8 = source->unkC - D_8001DCCC + 4;
         record->unk4 = source->unk8;

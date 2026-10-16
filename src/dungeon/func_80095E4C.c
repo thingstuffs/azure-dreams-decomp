@@ -10,8 +10,8 @@ typedef struct Spawned Spawned;
 
 extern u8 D_80081484[];
 
-extern s32 func_8009A540(s32 direction, s16 tile_x, s16 tile_y, s16 height);
-extern s32 func_800A4298(Spawned *);
+extern s32 dungeonCheckDiagonalSideHeight(s32 direction, s16 tile_x, s16 tile_y, s16 height);
+extern s32 dungeonFindType13SlotIndex(Spawned *);
 extern s32 func_800A70E4(s32, s32, s32);
 extern Spawned *func_800A8E74(void *, s32, s32, void *, void *, s32);
 extern void func_8009A3D0(s32 x, s32 y, u16 flags);
@@ -44,7 +44,7 @@ typedef struct Context {
 } Context;
 
 /* Spawns an object at the target position and updates the active source state. */
-void *func_8009B5AC(Source *source, s16 target_x, s16 target_y) {
+void *dungeonSpawnObjectAtTargetPosition(Source *source, s16 target_x, s16 target_y) {
     Source **active_source;
     Spawned *spawned;
     u8 *entry;
@@ -62,7 +62,7 @@ void *func_8009B5AC(Source *source, s16 target_x, s16 target_y) {
 
     direction = (source->index_field >> 9) & 7;
 
-    probe_result = func_8009A540(direction,
+    probe_result = dungeonCheckDiagonalSideHeight(direction,
                                  (s16)(target_x - dirStepX[direction]),
                                  (s16)(target_y - dirStepY[direction]),
                                  (s16)(source->height - 0x20));
@@ -82,7 +82,7 @@ void *func_8009B5AC(Source *source, s16 target_x, s16 target_y) {
             D_80081484[1] = 0x13;
             state_code = 0x14;
             if (spawned->flags & 0x4000) {
-                state_code = func_800A4298(spawned);
+                state_code = dungeonFindType13SlotIndex(spawned);
                 if ((s16)state_code < 0) {
                     state_code = 0x14;
                 }

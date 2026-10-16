@@ -13,7 +13,7 @@ extern struct {
 } D_80081498;
 
 /* Inserts node after anchor, sets flag 0x4000, and leaves prev null when anchor is the global head. */
-void func_80040060(S_80040060 *anchor, S_80040060 *node)
+void insertActiveNodeAfter(S_80040060 *anchor, S_80040060 *node)
 {
     S_80040060 *next_node;
 

@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f469800_p01.h"
 
 /* Fade the primitive color by one step and flag completion when the counter reaches zero. */
-void func_80170D40(void *fade_state, void *unused, T_80170D40_S_80170D40_1 *primitive)
+void dungeonUpdateSteppedRgbFlash(void *fade_state, void *unused, T_80170D40_S_80170D40_1 *primitive)
 {
     u16 steps_left;
     u8 red;

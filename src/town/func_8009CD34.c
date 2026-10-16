@@ -2,11 +2,11 @@
 #include "shared/object_index_slots.h"
 
 extern void func_80033D08(void *actor);
-extern void func_80098928(void *record, s32 setup_value, s32 init_value);
+extern void townInitializeRecordWithHandlerTable(void *record, s32 setup_value, s32 init_value);
 
 /* Clean up the actor, clear its indexed flag, and complete its current action. */
-void func_8009A494(void *actor, s32 motionState, s32 completionArg) {
+void townCompletePlayerAction(void *actor, s32 motionState, s32 completionArg) {
     func_80033D08(actor);
     *(((*(s32 *)((u8 *)actor + 0x40)) * 8) + ((u8 *)D_80082660)) = 0;
-    func_80098928(actor, motionState, completionArg);
+    townInitializeRecordWithHandlerTable(actor, motionState, completionArg);
 }

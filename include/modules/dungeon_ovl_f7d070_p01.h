@@ -57,5 +57,5 @@ extern u8 D_80170A3C[];
 extern s32 D_80170E68;
 extern u8 D_80174194[];
 extern u8 D_801741DC[];
-void * func_80170870(s16 kind_flags, s16 x, s16 y, s16 part_value);
+void * dungeonAllocateActorEffectObject(s16 kind_flags, s16 x, s16 y, s16 part_value);
 #endif

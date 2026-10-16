@@ -19,7 +19,7 @@ void func_80024874(void *motion, void *position, s32 update_id) {
     func_800478B8(update_id);
     ((S_8196B074_1 *)position)->unk_00.at00.v += ((S_8196B074_0 *)motion)->unk_8C;
     ((S_8196B074_0 *)motion)->unk_8C += ((S_8196B074_0 *)motion)->unk_98;
-    if ((func_800A45D8(((S_8196B074_1 *)position)->unk_00.at02.v, ((S_8196B074_1 *)position)->unk_04.at02.v,
+    if ((dungeonCheckLeftTileAndCenterHeight(((S_8196B074_1 *)position)->unk_00.at02.v, ((S_8196B074_1 *)position)->unk_04.at02.v,
         ((S_8196B074_1 *)position)->unk_08.at02.v) << 16) != 0) {
         ((S_8196B074_1 *)position)->unk_00.at00.v -= ((S_8196B074_0 *)motion)->unk_8C;
         ((S_8196B074_0 *)motion)->unk_8C = 0;
@@ -27,7 +27,7 @@ void func_80024874(void *motion, void *position, s32 update_id) {
     }
     ((S_8196B074_1 *)position)->unk_04.at00.v += ((S_8196B074_0 *)motion)->unk_90;
     ((S_8196B074_0 *)motion)->unk_90 += ((S_8196B074_0 *)motion)->unk_9C;
-    if ((func_800A45D8(((S_8196B074_1 *)position)->unk_00.at02.v, ((S_8196B074_1 *)position)->unk_04.at02.v,
+    if ((dungeonCheckLeftTileAndCenterHeight(((S_8196B074_1 *)position)->unk_00.at02.v, ((S_8196B074_1 *)position)->unk_04.at02.v,
         ((S_8196B074_1 *)position)->unk_08.at02.v) << 16) != 0) {
         ((S_8196B074_1 *)position)->unk_04.at00.v -= ((S_8196B074_0 *)motion)->unk_90;
         ((S_8196B074_0 *)motion)->unk_90 = 0;

@@ -5,7 +5,7 @@ extern u8 D_800E3DD0[];
 extern u8 D_800E3DE0[];
 
 /* Returns an entry selected by type and ID, or null if no match is found. */
-u8 *func_800A17E8(s16 entry_id, s32 entry_type) {
+u8 *dungeonFindMonsterEntryByTypeAndId(s16 entry_id, s32 entry_type) {
     s16 entry_index;
     u8 *entry;
     s16 next_index;

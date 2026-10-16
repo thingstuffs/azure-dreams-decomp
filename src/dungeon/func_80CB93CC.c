@@ -70,7 +70,7 @@ void func_8014EBCC(CL_CD7000_80172BCC_S_func_80C953CC_1 *work, CL_CD7000_80172BC
                 s32 target_y;
 
                 actor->unk_60 =
-                    func_800A05A4(actor, entity->unk_24,
+                    dungeonScanMonsterAlongHeading(actor, entity->unk_24,
                                   entity->unk_25,
                                   actor->unk_2A, 0x10);
                 target_x = abs(actor->unk_72.s8);
@@ -79,7 +79,7 @@ void func_8014EBCC(CL_CD7000_80172BCC_S_func_80C953CC_1 *work, CL_CD7000_80172BC
                 actor->unk_73.u8 = target_y;
             }
 
-            if (func_800A94A0(actor, part, alternate, (u8 *)work + 0x98) != 0) {
+            if (dungeonCreateActorSpellEffect(actor, part, alternate, (u8 *)work + 0x98) != 0) {
                 work->unk_9B++;
             }
         } else {
@@ -88,12 +88,12 @@ void func_8014EBCC(CL_CD7000_80172BCC_S_func_80C953CC_1 *work, CL_CD7000_80172BC
             position->unk_14 = 0;
             position->unk_10 = 0;
             position->unk_0C = 0;
-            func_800A2B04(position, entity->unk_24,
+            dungeonSetRecordIntegerTileCenter(position, entity->unk_24,
                           entity->unk_25);
             active_actor = D_800814A8;
             dungeonStatus.unk_0C = 0;
             (*(u16 *)((u8 *)active_actor + 0xA6))--;
-            func_800A4ACC(actor);
+            dungeonAdvanceStatusTimers(actor);
             actor->unk_6D--;
             work->unk_8C = func_8014D02C;
             actor->unk_73.u8 = 0;
@@ -103,7 +103,7 @@ void func_8014EBCC(CL_CD7000_80172BCC_S_func_80C953CC_1 *work, CL_CD7000_80172BC
         break;
 
     case 1:
-        if (func_8003F270() != 0) {
+        if (getCdCommandQueueDepth() != 0) {
             entity->unk_14 |= 0x800;
             break;
         }
@@ -159,7 +159,7 @@ void func_8014EBCC(CL_CD7000_80172BCC_S_func_80C953CC_1 *work, CL_CD7000_80172BC
         position->unk_14 = 0;
         position->unk_10 = 0;
         position->unk_0C = 0;
-        func_800A2B04(position, entity->unk_24,
+        dungeonSetRecordIntegerTileCenter(position, entity->unk_24,
                       entity->unk_25);
         if (entity->unk_2C != D_801512B4) {
             s32 direction;
@@ -174,7 +174,7 @@ void func_8014EBCC(CL_CD7000_80172BCC_S_func_80C953CC_1 *work, CL_CD7000_80172BC
 
         part->unk_0A--;
         work->unk_8C = func_8014D02C;
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         actor->unk_73.u8 = 0;
         actor->unk_72.u8 = 0;
         actor->unk_6D--;

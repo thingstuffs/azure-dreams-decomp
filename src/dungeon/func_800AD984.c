@@ -23,7 +23,7 @@ extern void func_8009A3D0(u8, u8, s32);
 extern void func_8009A028(Entity *);
 
 /* Update an entity using source bytes and a flag-dependent mask, then set completion flags. */
-void func_800B30E4(void *unused_0, void *unused_1, Source *source, Entity *entity) {
+void dungeonUpdateFlagMaskedEntity(void *unused_0, void *unused_1, Source *source, Entity *entity) {
     s32 update_mask;
     u8 source_24;
     u8 source_25;

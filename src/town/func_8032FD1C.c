@@ -9,22 +9,22 @@
 typedef struct S_8001A51C_0 {
     u8 pad_00[0x1DC];
     u16 * unk_1DC;
-} S_8001A51C_0;   /* temp_v0 in func_8001A51C */
+} S_8001A51C_0;   /* temp_v0 in townBlitNonzeroU16Rectangle */
 
 typedef struct S_8001A51C_1 {
     s16 unk_00;
     s16 unk_02;
     s16 unk_04;
     s16 unk_06;
-} S_8001A51C_1;   /* arg1 in func_8001A51C */
+} S_8001A51C_1;   /* arg1 in townBlitNonzeroU16Rectangle */
 
 typedef struct S_8001A51C_2 {
     u8 pad_00[0x14];
     s16 unk_14;
-} S_8001A51C_2;   /* var_t2 in func_8001A51C */
+} S_8001A51C_2;   /* var_t2 in townBlitNonzeroU16Rectangle */
 
 /* Copy nonzero 16-bit values from the source into the destination rectangle. */
-void func_8001A51C(u16 *source, S_8001A51C_1 *rect) {
+void townBlitNonzeroU16Rectangle(u16 *source, S_8001A51C_1 *rect) {
     s32 col;
     s32 row;
     s32 dst_index;

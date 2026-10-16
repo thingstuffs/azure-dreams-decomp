@@ -1,9 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-u8 *func_80402F84();   /* extern */
+u8 *initCardMessageObject();   /* extern */
 
-/* Forwards the input to func_80402F84 with arguments 0xC, 0, and 0. */
+/* Forwards the input to initCardMessageObject with arguments 0xC, 0, and 0. */
 void func_8001C284(M2C_UNK input) {
-    func_80402F84(input, 0xc, 0, 0);
+    initCardMessageObject(input, 0xc, 0, 0);
 }

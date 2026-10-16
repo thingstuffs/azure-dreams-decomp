@@ -4,19 +4,19 @@
 #include "shared/entity.h"
 
 
-extern s32 func_8009C93C();
+extern s32 dungeonPrepareDirectionalAttack();
 extern s32 func_800A2B5C();
-extern void func_800C7930();
-extern void func_80175F44();
+extern void dungeonApplyCameraOffsetAndSelectTarget();
+extern void dungeonBeginActorExclusiveAction();
 
 
 /* Start the actor action and reset its state when ready, or dispatch the alternate action. */
-void func_80172D88(Rec_func_800A9E70_arg0 *state, s32 world_pos, s32 tile_pos, EntityRec *actor)
+void dungeonBeginActorAction(Rec_func_800A9E70_arg0 *state, s32 world_pos, s32 tile_pos, EntityRec *actor)
 {
     if (state->unk_B5 == 0) {
         actor->unk_71 &= 0x7F;
         if (!(dungeonStatus.flags & 0x2000) && ((func_800A2B5C(actor) << 16) == 0)) {
-            func_800C7930((u8 *)actor - 0x20, world_pos, 8, 0x300);
+            dungeonApplyCameraOffsetAndSelectTarget((u8 *)actor - 0x20, world_pos, 8, 0x300);
             if ((func_800A2B5C(actor) << 16) == 0) {
                 state->unk_8C = 0;
                 state->unk_9A.as_s8 = 0x11;
@@ -24,13 +24,13 @@ void func_80172D88(Rec_func_800A9E70_arg0 *state, s32 world_pos, s32 tile_pos, E
                 state->unk_96.as_s16 = 0;
                 actor->unk_6D--;
                 state->unk_98 |= 8;
-                func_8009C93C(actor, tile_pos, actor->facing, 1, 0);
+                dungeonPrepareDirectionalAttack(actor, tile_pos, actor->facing, 1, 0);
                 actor->unk_84 = 0x7C;
                 actor->unk_85 = 0;
                 return;
             }
         }
     } else {
-        func_80175F44(state, world_pos, tile_pos, 1, 1);
+        dungeonBeginActorExclusiveAction(state, world_pos, tile_pos, 1, 1);
     }
 }

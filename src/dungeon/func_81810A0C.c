@@ -1,16 +1,16 @@
 #include "modules/dungeon_ovl_1830850.h"
 
-void func_80025A0C(ovl_1830850_81810A0C_DungeonArg *menu) {
+void inventoryHandleMenuActionsAndRepeat(ovl_1830850_81810A0C_DungeonArg *menu) {
     ovl_1830850_81810A0C_DungeonState *input = D_80083160;
     s32 selection_step;
 
     if (input->unk8 != 0 && menu->unk10 != 0) {
         if (input->unk10 & 0x20) {
             SD_Call(0x515);
-            func_80025514(menu->unk14);
-            func_800258B8(menu);
+            dungeonSetObjectDataPointer(menu->unk14);
+            restoreItemTextBeforeEdit(menu);
         } else if (input->unk10 & 0x40) {
-            if (func_800258B0(menu) != 0 || func_800259CC(menu) != 0) {
+            if (func_800258B0(menu) != 0 || inventoryCheckTypeFourLinkedObject(menu) != 0) {
                 SD_Call(0x506);
             } else {
                 if (menu->unk8 == 4) {
@@ -18,11 +18,11 @@ void func_80025A0C(ovl_1830850_81810A0C_DungeonArg *menu) {
                 } else {
                     SD_Call(0x514);
                 }
-                func_80025850(menu, menu->unk8);
+                inventoryDispatchIndexedHandler(menu, menu->unk8);
             }
         } else if (input->unk10 & 0x10) {
             menu->unk8 = 4;
-            func_80025888(menu->unk54, menu->unk8);
+            inventorySetPairedIndexOffset(menu->unk54, menu->unk8);
         } else if (input->unk8 & 0x5000) {
             selection_step = 0;
             if (input->unk10 & 0x5000) {
@@ -46,11 +46,11 @@ void func_80025A0C(ovl_1830850_81810A0C_DungeonArg *menu) {
             }
             if (selection_step != 0) {
                 SD_Call(0x502);
-                menu->unk8 = func_80049DE8(selection_step, menu->unk8, 5);
-                func_80025888(menu->unk54, menu->unk8);
+                menu->unk8 = advanceIndexWithSingleWrap(selection_step, menu->unk8, 5);
+                inventorySetPairedIndexOffset(menu->unk54, menu->unk8);
             }
         }
     }
 
-    func_80025964(menu);
+    inventorySelectNullOrDefaultData(menu);
 }

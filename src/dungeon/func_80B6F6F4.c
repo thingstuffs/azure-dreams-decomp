@@ -17,9 +17,9 @@ typedef struct S_80172EF4_1 {
 
 
 extern void func_80047784();
-extern void func_800A2B04();
-extern void func_800AAA54();
-extern void func_800AD4D0();
+extern void dungeonSetRecordIntegerTileCenter();
+extern void dungeonBeginActorDisplayAction();
+extern void dungeonApplyClampedActorValueDelta();
 
 extern u8 D_80170E5C[];
 extern u8 D_80173D0C[];
@@ -48,7 +48,7 @@ void func_80172EF4(void *action, EntityRec *motion, void *sprite, EntityRec *act
 
     switch (((S_80172EF4_1 *)action)->unk_9B) {
     case 0:
-        func_800AD4D0(actor);
+        dungeonApplyClampedActorValueDelta(actor);
         x_steps = (s16 *)((s8 *)dirStepX);
         initial_step_offset = direction * 2;
         motion->unk_0C =
@@ -61,7 +61,7 @@ void func_80172EF4(void *action, EntityRec *motion, void *sprite, EntityRec *act
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(action, motion, sprite, &D_80173D24);
+            dungeonBeginActorDisplayAction(action, motion, sprite, &D_80173D24);
             return;
         }
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
@@ -107,7 +107,7 @@ void func_80172EF4(void *action, EntityRec *motion, void *sprite, EntityRec *act
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(action, motion, sprite, &D_80173D24);
+            dungeonBeginActorDisplayAction(action, motion, sprite, &D_80173D24);
             return;
         }
         ((S_80172EF4_1 *)action)->unk_96.s = 4;
@@ -133,7 +133,7 @@ void func_80172EF4(void *action, EntityRec *motion, void *sprite, EntityRec *act
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
 
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80173D0C;
         func_80047784(sprite,

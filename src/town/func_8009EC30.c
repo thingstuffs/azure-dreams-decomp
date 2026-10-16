@@ -15,26 +15,26 @@ typedef struct S_8009C390_0 {
     void * unk_08;
     void * unk_0C;
     s32 unk_10;
-} S_8009C390_0;   /* temp_v0 in func_8009C390 */
+} S_8009C390_0;   /* temp_v0 in townCreateTownEffectObject */
 
 typedef struct S_8009C390_1 {
     u8 pad_00[0x50];
     s32 unk_50;
     u8 pad_54[0x48];
     s32 unk_9C;
-} S_8009C390_1;   /* temp_a0 in func_8009C390 */
+} S_8009C390_1;   /* temp_a0 in townCreateTownEffectObject */
 
 typedef struct S_8009C390_2 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_8009C390_2;   /* temp_a1 in func_8009C390 */
+} S_8009C390_2;   /* temp_a1 in townCreateTownEffectObject */
 
 typedef struct S_8009C390_3 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_8009C390_3;   /* arg1 in func_8009C390 */
+} S_8009C390_3;   /* arg1 in townCreateTownEffectObject */
 
 typedef struct S_8009C390_4 {
     u8 pad_00[0xC];
@@ -42,10 +42,10 @@ typedef struct S_8009C390_4 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_8009C390_4;   /* temp_a2 in func_8009C390 */
+} S_8009C390_4;   /* temp_a2 in townCreateTownEffectObject */
 
 /* Creates a type 0x116 object with an optional parent and position, and initializes its rendering. */
-void *func_8009C390(s32 parent, S_8009C390_3 *position, s32 object_value, s32 state_value) {
+void *townCreateTownEffectObject(s32 parent, S_8009C390_3 *position, s32 object_value, s32 state_value) {
     S_8009C390_1 *state;
     S_8009C390_2 *object_position;
     S_8009C390_4 *render;

@@ -4,22 +4,22 @@
 typedef struct S_8016EC04_0 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_8016EC04_0;   /* entity in func_8016EC04 */
+} S_8016EC04_0;   /* entity in dungeonRelocateMultiFormActor */
 
 typedef struct S_8016EC04_1 {
     u8 pad_00[0x1C];
     u32 unk_1C;
-} S_8016EC04_1;   /* state in func_8016EC04 */
+} S_8016EC04_1;   /* state in dungeonRelocateMultiFormActor */
 
 
 extern u8 *D_80175D50;
 
 extern void func_8009A3D0(s32, s32, s32);
-extern void func_800A2B04(void *, s32, s32);
+extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
 extern void func_8009A21C(s16 x, s16 y, u16 flags);
 
 /* Reposition the current entity relative to the origin using the selected offset. */
-void func_8016EC04(s32 offset_index)
+void dungeonRelocateMultiFormActor(s32 offset_index)
 {
     s16 delta[2] = { 0, -12 };
     u8 *object;
@@ -44,7 +44,7 @@ void func_8016EC04(s32 offset_index)
     entity[0x24] = origin->tileX + step[0];
     entity[0x25] = origin->tileY + step[2];
 
-    func_800A2B04(motion, entity[0x24], entity[0x25]);
+    dungeonSetRecordIntegerTileCenter(motion, entity[0x24], entity[0x25]);
 
     func_8009A21C(entity[0x24], entity[0x25],
                   (((S_8016EC04_1 *)state)->unk_1C & 0x2000) ? 0x300 : 0x3000);

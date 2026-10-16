@@ -5,8 +5,8 @@ void func_80027D7C(s32 *state) {
     state[0]++;
     if (state[1] < state[0]) {
         func_80026CF0(state[34], state[19]);
-        func_80026D0C(state[34], state[2]);
-        state[-4] = (u32)(void *)func_80027A88;
+        dungeonPositionMenuGridEntries(state[34], state[2]);
+        state[-4] = (u32)(void *)dungeonHandleMenuRecordCheck;
     }
-    func_80027A20(state);
+    dungeonInvokeEnabledMenuCallback(state);
 }

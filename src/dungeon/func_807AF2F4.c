@@ -11,7 +11,7 @@ typedef struct {
 
 
 
-extern void func_80043B4C(void);
+extern void setScaledCellFlags8000(void);
 
 /* Mark fixed dungeon cells and initialize global coordinates and flags. */
 void func_800F6AF4(void)
@@ -53,7 +53,7 @@ void func_800F6AF4(void)
     ((DungeonCell *)(cells + (0x23 << dungeon->shiftX) * 6 + 0xBA))->flags |= 0x8000;
     ((DungeonCell *)(cells + (0x23 << dungeon->shiftX) * 6 + 0xC0))->flags |= 0x8000;
 
-    func_80043B4C();
+    setScaledCellFlags8000();
 
     global_state = &D_80082E60;
     global_state->unk_10 = 0x1F;

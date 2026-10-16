@@ -6,7 +6,7 @@
 
 typedef struct S_819ACB28_0_pre {
     u16 unk_00;
-} S_819ACB28_0_pre;   /* the 0x2 bytes before object in func_80024328, addressed as object[-1] */
+} S_819ACB28_0_pre;   /* the 0x2 bytes before object in dungeonAdvanceEffectPhases, addressed as object[-1] */
 
 typedef struct S_819ACB28_0 {
     u8 pad_00[0x8];
@@ -18,14 +18,14 @@ typedef struct S_819ACB28_0 {
     u8 pad_2A[0x2];
     union { s16 s; u16 u; } unk_2C;   /* accessed as both */
     s16 unk_2E;
-} S_819ACB28_0;   /* object in func_80024328 */
+} S_819ACB28_0;   /* object in dungeonAdvanceEffectPhases */
 
 typedef struct S_819ACB28_1 {
     u8 pad_00[0x8];
     void * unk_08;
     u8 pad_0C[0x8];
     u16 unk_14;
-} S_819ACB28_1;   /* data_ptr in func_80024328 */
+} S_819ACB28_1;   /* data_ptr in dungeonAdvanceEffectPhases */
 
 
 typedef struct S_819ACB28_3 {
@@ -35,18 +35,18 @@ typedef struct S_819ACB28_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_819ACB28_3;   /* offsets in func_80024328 */
+} S_819ACB28_3;   /* offsets in dungeonAdvanceEffectPhases */
 
 typedef struct S_819ACB28_4 {
     u8 pad_00[0xC];
     union { u8 u8; u32 u32; } unk_0C;   /* accessed as both */
-} S_819ACB28_4;   /* packed_value in func_80024328 */
+} S_819ACB28_4;   /* packed_value in dungeonAdvanceEffectPhases */
 
 typedef struct S_819ACB28_5 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_819ACB28_5;   /* ((S_819ACB28_0 *)object)->unk_08 in func_80024328 */
+} S_819ACB28_5;   /* ((S_819ACB28_0 *)object)->unk_08 in dungeonAdvanceEffectPhases */
 
 
 
@@ -61,7 +61,7 @@ typedef struct FlagsView {
 } FlagsView;
 
 
-void func_80024328(void *object, Rec_func_800249DC_arg0 *record, S_819ACB28_4 *packed_value)
+void dungeonAdvanceEffectPhases(void *object, Rec_func_800249DC_arg0 *record, S_819ACB28_4 *packed_value)
 {
     s16 mode;
     u16 mode_value;
@@ -75,7 +75,7 @@ void func_80024328(void *object, Rec_func_800249DC_arg0 *record, S_819ACB28_4 *p
     if (mode == 0) {
         data_ptr = ((S_819ACB28_5 *)(((S_819ACB28_0 *)object)->unk_08))->unk_0C;
         if (((S_819ACB28_0 *)object)->unk_2E == 0) {
-            if (func_8003DE58(data_ptr->unk_08, data_ptr,
+            if (resolveRecordOrientationOrFallback(data_ptr->unk_08, data_ptr,
                               (u8 *)object + 0x24, 0) == 0) {
                 if (data_ptr->unk_14 & 0x8000) {
                     ((S_819ACB28_0 *)object)->unk_28.s = -0x40;

@@ -93,7 +93,7 @@ typedef struct {
 } DirectionVector;
 
 extern void func_8004491C(Entity *, void *);
-extern s32 func_801745B4(DungeonArg *selection, u8 *context);
+extern s32 selectRandomReplacementItem(DungeonArg *selection, u8 *context);
 
 extern DungeonGroup D_80073414[];
 extern s32 D_8007361C[256];
@@ -101,7 +101,7 @@ extern s32 D_801747F0;
 extern DirectionVector D_801755E0[];
 
 /* Creates a dungeon entity with the supplied position, direction, and object data. */
-void func_80174D98(void *owner, SourcePosition *source_pos, void *unused,
+void createRandomizedItemObject(void *owner, SourcePosition *source_pos, void *unused,
                    DungeonObjectArg *object)
 {
     Entity *entity;
@@ -126,7 +126,7 @@ void func_80174D98(void *owner, SourcePosition *source_pos, void *unused,
     work = &entity->work;
     work->owner = owner;
     work->arg = object->arg;
-    func_801745B4(&work->arg, object);
+    selectRandomReplacementItem(&work->arg, object);
     object->arg.index = 0;
     object->arg.group = 0;
 

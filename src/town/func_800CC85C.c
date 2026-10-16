@@ -11,7 +11,7 @@ typedef struct {
 extern void func_800CA60C(TownObject *obj, s32 update_input_1, s32 update_input_2);
 
 /* Raise output as the timer counts down, then set it to the base value plus 0x800. */
-void func_800C9FBC(TownObject *obj, s32 update_input_1, s32 update_input_2) {
+void townRaiseReactionOutputUntilExpiry(TownObject *obj, s32 update_input_1, s32 update_input_2) {
     u16 timer;
     u16 output_value;
 

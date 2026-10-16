@@ -38,7 +38,7 @@ extern B32_818CFB74_PackedTemplate D_80025900;
 
 
 /* Spawns and follows an entity effect, then completes its delayed cleanup. */
-void func_80025374(B32_818CFB74_State *state, B32_818CFB74_Vec12 *position, B32_818CFB74_Graphic *graphic)
+void dungeonFollowEntityEffectAndCleanup(B32_818CFB74_State *state, B32_818CFB74_Vec12 *position, B32_818CFB74_Graphic *graphic)
 {
     B32_818CFB74_ShortVec delta;
     B32_818CFB74_PackedOffsets offsets;
@@ -170,7 +170,7 @@ void func_80025374(B32_818CFB74_State *state, B32_818CFB74_Vec12 *position, B32_
             }
 
             state->advance86 = 0;
-            spawn->update10 = func_800248E8;
+            spawn->update10 = dungeonUpdateChasingStarEffect;
             func_8004491C(spawn, func_80045340);
             graphic = spawn->graphicC;
             graphic->field10 = 0;

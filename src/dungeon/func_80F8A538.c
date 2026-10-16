@@ -5,16 +5,16 @@
 #include "shared/sprite_frame_state.h"
 
 extern s32 func_800AC82C(BankActorState *, s32, SpriteFrameState *, EntityRec *);
-extern s32 func_800AD9B4(SpriteFrameState *, EntityRec *);
+extern s32 dungeonCheckActorFloorTrap(SpriteFrameState *, EntityRec *);
 extern u8 D_80174AD4[9];
 extern u8 D_80174AFC[9];
 
 /* Update actor and sprite state after checking the target entity. */
-void func_80173D38(BankActorState *actor, s32 action, SpriteFrameState *sprite, EntityRec *target)
+void dungeonUpdateBankActorSpriteState(BankActorState *actor, s32 action, SpriteFrameState *sprite, EntityRec *target)
 {
     if (func_800AC82C(actor, action, sprite, target) != 0) {
-        if ((func_800AD9B4(sprite, target) << 16) > 0) {
-            actor->callback = func_80171138;
+        if ((dungeonCheckActorFloorTrap(sprite, target) << 16) > 0) {
+            actor->callback = dungeonUpdateBankActorState;
             return;
         }
     } else if (sprite->frameTable == D_80174AFC &&

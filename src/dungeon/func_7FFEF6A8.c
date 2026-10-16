@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_16b08_f6a8.h"
 
-s32 func_8008CE08(ovl_16b08_f6a8_7FFEF6A8_S_7FFEF6A8_0 *poly) {
+s32 townCheckScratchQuadHalfTurnGaps(ovl_16b08_f6a8_7FFEF6A8_S_7FFEF6A8_0 *poly) {
     s32 delta_3;
     s32 angle_1;
     s32 delta_1;

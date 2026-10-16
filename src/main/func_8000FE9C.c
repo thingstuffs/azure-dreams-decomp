@@ -1,10 +1,10 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-u8 *func_80022D60();   /* extern */
+u8 *cardBootCreateOrResetMessageDialog();   /* extern */
 
 /* Initialize the context in mode 1 with zero optional arguments. */
-void func_80022E9C(s32 context) {
+void cardBootShowNoMemoryCardNotice(s32 context) {
     s32 zero = 0;
-    func_80022D60(context, 1, zero, zero);
+    cardBootCreateOrResetMessageDialog(context, 1, zero, zero);
 }

@@ -4,7 +4,7 @@ void func_80024FA0(Row_818ED7A0_ParticleNode *owner, s32 age, s32 color, s32 lif
     Row_818ED7A0_ParticleNode *node = func_8003FD64(0x211, owner);
     NewParticleWork *work;
     if (node != 0) {
-        node->update = func_80024ED4;
+        node->update = dungeonCreateLinkedEffectSegments;
         node->position->x = owner->position->x + (rand() & 31) + (dx - 16);
         node->position->y = owner->position->y + (rand() & 31) + (dy - 16);
         node->position->z = owner->position->z + (rand() & 31) + (dz - 16);

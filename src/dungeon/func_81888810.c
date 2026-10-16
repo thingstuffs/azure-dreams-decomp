@@ -70,7 +70,7 @@ extern Cell D_800264F8[];
 #define READ_COUNT_PAGE() (*(s16 *)count_page)
 
 /* Create quad fragments from the vertex grid with randomized motion and rotation. */
-void func_80026010(void) {
+void dungeonCreateQuadFragmentsVertexGridRandomizedMotionRotation(void) {
     Cell *vertices;
     Cell *lower_right;
     Cell *lower_left;
@@ -99,8 +99,8 @@ void func_80026010(void) {
         fragment = func_8003FC64(0x202);
         if (fragment != NULL) {
             object_or_x = (s32)fragment;
-            fragment->unk_10 = func_80025A58;
-            func_8004491C((void *)object_or_x, (s32)func_80025E4C);
+            fragment->unk_10 = dungeonHandleRotateMoveEffectQuadFadeColorsFlagLifetimeEnds;
+            func_8004491C((void *)object_or_x, (s32)dungeonHandleProjectLinkedQuadsQueueShadedPrimitivesDrawModesDepth);
 
             row_start = quad_index & ~0xF;
             column_or_coord = (quad_index + 1) & 0xF;

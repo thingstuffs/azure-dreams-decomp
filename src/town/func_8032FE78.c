@@ -4,17 +4,17 @@
 
 typedef struct S_8001A678_1 {
     void * unk_00;
-} S_8001A678_1;   /* entry_ptr in func_8001A678 */
+} S_8001A678_1;   /* entry_ptr in townSetPositionFromTileAndEntryOffsets */
 
 typedef struct S_8001A678_2 {
     u8 pad_00[0xC];
     s16 unk_0C;
     s16 unk_0E;
-} S_8001A678_2;   /* (void *)index in func_8001A678 */
+} S_8001A678_2;   /* (void *)index in townSetPositionFromTileAndEntryOffsets */
 
 
 /* Set the position from coordinates scaled by 64 and the selected entry offsets. */
-void func_8001A678(s32 unused, u32 x, u32 y)
+void townSetPositionFromTileAndEntryOffsets(s32 unused, u32 x, u32 y)
 {
     u8 *root = ((u8 *)D_80016000);
     S_8001A678_1 *entry_table;

@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_18b8824.h"
 
-void func_800241D8(void *entry, void *unused, void *target)
+void dungeonHandleIncrementEntryCountersProcessTargetPropagateStatusFlags(void *entry, void *unused, void *target)
 {
     void *object;
 

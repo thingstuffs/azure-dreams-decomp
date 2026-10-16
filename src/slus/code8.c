@@ -72,13 +72,13 @@ s32 func_80049918(s32 index) {
 /* extern decls */
 extern void *D_8006ADC0[4];
 extern int D_800812D0[4];
-extern void func_80053C6C(void);
+extern void resourceLoadCurrentOptionalDescriptor(void);
 
 /* Set the list tail to D_800812D0 and process the list. */
 void func_80053CD0(void)
 {
     D_8006ADC0[0] = (void *)D_800812D0;
-    func_80053C6C();
+    resourceLoadCurrentOptionalDescriptor();
 }
 
 /* size >8B to force %hi/%lo (not gp_rel) codegen for all three globals */
@@ -86,7 +86,7 @@ extern u32 D_80081478[3];
 extern u8 D_801C9E40[16];
 
 /* Return whether the state-selected table value is below the unsigned limit. */
-s32 func_80045310(u32 limit)
+s32 isFramePacketArenaOverflowed(u32 limit)
 {
     u32 *values = &D_80081478[0];
     u32 *selected_value = values;
@@ -107,13 +107,13 @@ void func_8005845C(unsigned char entry_index, unsigned char value) {
     D_80084960[entry_index].unk00 = value;
 }
 
-extern int func_8004AA34(int *a0, int *a1);
+extern int subtractPointedIntValues(int *a0, int *a1);
 extern void func_8004AFC8(void *base, int count, int size, int (*compar)(int *, int *));
 
-/* Sort the array of four-byte elements using func_8004AA34. */
+/* Sort the array of four-byte elements using subtractPointedIntValues. */
 void func_8004AA44(int count, void *base)
 {
-    func_8004AFC8(base, count, 4, func_8004AA34);
+    func_8004AFC8(base, count, 4, subtractPointedIntValues);
 }
 
 /* Return the word at offset 0xC in the selected table entry. */

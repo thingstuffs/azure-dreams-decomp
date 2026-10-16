@@ -18,7 +18,7 @@ typedef struct S_80169D28_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_80169D28_0;   /* obj in func_80169D28 */
+} S_80169D28_0;   /* obj in dungeonCreateMultiFormActor */
 
 typedef struct S_80169D28_1 {
     u8 pad_00[0x13];
@@ -36,12 +36,12 @@ typedef struct S_80169D28_1 {
     s8 unk_AA;
     u8 pad_AB[0x1];
     s8 unk_AC;
-} S_80169D28_1;   /* child in func_80169D28 */
+} S_80169D28_1;   /* child in dungeonCreateMultiFormActor */
 
 typedef struct S_80169D28_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80169D28_2;   /* first in func_80169D28 */
+} S_80169D28_2;   /* first in dungeonCreateMultiFormActor */
 
 typedef struct S_80169D28_3 {
     u8 pad_00[0x14];
@@ -51,9 +51,9 @@ typedef struct S_80169D28_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     M2C_UNK * unk_2C;
-} S_80169D28_3;   /* second in func_80169D28 */
+} S_80169D28_3;   /* second in dungeonCreateMultiFormActor */
 
-u8 *func_80169D28(s16 init_flags, s32 value24, s32 value25, s32 value0A) {
+u8 *dungeonCreateMultiFormActor(s16 init_flags, s32 value24, s32 value25, s32 value0A) {
     u8 *result;
     s32 mode;
     u8 *obj;

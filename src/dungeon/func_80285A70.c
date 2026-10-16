@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void func_80018A70(void) {
+void dungeonSetupRunAndLoadTrack(void) {
     floor_generate_isolated_80285A70_State13710 *state;
     floor_generate_isolated_80285A70_Page8001 *page1;
     floor_generate_isolated_80285A70_TrackRecord *track;
@@ -58,11 +58,11 @@ void func_80018A70(void) {
 
     srand((*(floor_generate_isolated_80285A70_SaveHead *)D_80081468).seed);
     func_800A6D98((*(floor_generate_isolated_80285A70_SaveHead *)D_80081468).seed);
-    func_800A0E44();
+    dungeonStoreMonsterDirectionNibble();
     D_80082E60.flags16 = 0;
     D_800E3D6C = 0;
-    func_8001F32C();
-    func_8001E96C();
+    clearDungeonObjectEntries();
+    clearDungeonCellEntries();
 
     i = 3;
     clearp = ((s16 *)D_800E3CD8);
@@ -78,56 +78,56 @@ void func_80018A70(void) {
         page1->level = 99;
     }
 
-    track_no = func_80018E80();
+    track_no = setupDungeonFloorEncounters();
     if (track_no != 0) {
         floor_generate_isolated_80285A70_TrackRecord *tracks;
 
         track_no--;
-        func_80017560();
+        dungeonClearThirtySixTableFields();
         tracks = D_8001F62C;
         track = &tracks[track_no];
-        func_800B0544(track->track);
+        dungeonCreateDefaultStateObject(track->track);
         file_load_com(D_8001F588[track->table_index]);
-        func_80046E38(track->kind, D_800F0000);
-        func_8001744C();
-        func_800177A8();
+        runtimeLoadPackedResourceChunks(track->kind, D_800F0000);
+        dungeonClearGenerationCellGrid();
+        dungeonClearGenerationRegionEntries();
         if (track->arg != 0) {
             func_80018464(track->arg);
         }
         if (track->special == 0) {
             ((floor_generate_isolated_80285A70_Page800E *)0x800E0000)->flags &= ~0x20000000;
         } else {
-            func_800C7D54(track->special - 1);
+            dungeonRunIndexedCallbackList(track->special - 1);
             ((floor_generate_isolated_80285A70_Page800E *)0x800E0000)->flags &= ~0x20000000;
         }
     } else {
         if (page1->mode != 2) {
-            func_800B0544(D_8001F584 % 24 + 3);
+            dungeonCreateDefaultStateObject(D_8001F584 % 24 + 3);
             action = D_8001F594[D_8001F584 % 24];
         } else {
             s32 random_remainder;
 
             random_remainder = func_800A6D30() & 0xFFFF;
             random_remainder %= 24;
-            func_800B0544((s16)(random_remainder + 3));
+            dungeonCreateDefaultStateObject((s16)(random_remainder + 3));
             action = D_8001F594[random_remainder];
         }
 
         file_load_com(action);
         ((floor_generate_isolated_80285A70_Page800E *)0x800E0000)->flags |= 0x20000000;
-        func_80046E38(0x29, D_800F0000, (floor_generate_isolated_80285A70_Page800E *)0x800E0000);
-        func_800BC228(2);
+        runtimeLoadPackedResourceChunks(0x29, D_800F0000, (floor_generate_isolated_80285A70_Page800E *)0x800E0000);
+        dungeonCreateWrappedTextureScroll(2);
 
         do {
-            func_8001744C();
-            func_800177A8();
-        } while ((func_80019AF8() << 16) != 0 || (*(floor_generate_isolated_80285A70_SaveHead *)D_80081468).ready == 0);
+            dungeonClearGenerationCellGrid();
+            dungeonClearGenerationRegionEntries();
+        } while ((dungeonGenerateFloorLayout() << 16) != 0 || (*(floor_generate_isolated_80285A70_SaveHead *)D_80081468).ready == 0);
 
     }
-    func_80016E6C();
+    dungeonApplyStateIndexTileMasks();
     if (D_8001F586 == 0) {
-        func_8001784C();
+        placeRandomFloorElevators();
     }
-    func_80017A9C();
+    dungeonInitializeGridBorderCells();
 }
 

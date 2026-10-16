@@ -4,10 +4,10 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 M2C_UNK func_80020298();                            /* extern */
-void func_800C2444();                            /* extern */
+void townFinalizeTownResourceOperation();                            /* extern */
 
 /* Run the two handlers for town script call 100. */
-void func_800C2478(void) {
-    func_800C2444();
+void scrFuncSnCasino(void) {
+    townFinalizeTownResourceOperation();
     func_80020298();
 }

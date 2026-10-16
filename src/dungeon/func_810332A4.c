@@ -83,23 +83,23 @@ typedef struct {
 } Pair16;
 
 extern void func_8009A21C(s32, s32, s32);
-extern void func_8009A350(s32, s32, s32, u16 *);
+extern void getOffsetMapCellValueAndFlags(s32, s32, s32, u16 *);
 extern void func_8009A3D0(s32, s32, s32);
 extern void func_8009CE1C();
-extern void func_800A2B04(void *, s32, s32);
-extern s32 func_800A45D8(u16, u16, s16);
+extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
+extern s32 dungeonCheckLeftTileAndCenterHeight(u16, u16, s16);
 extern void func_800A56E0(s32);
 extern void func_800AA53C(void *);
 extern s16 func_800BCB04(u16, u16, s16);
-extern void func_801744DC();
-extern void func_801746EC();
-extern void *func_801748FC(void *, s32, s32, s16);
+extern void dungeonSpawnDirectionalParticle();
+extern void dungeonSpawnDirectionalEffect();
+extern void *dungeonFindNearbyEligibleEntry(void *, s32, s32, s16);
 extern s32 func_80174A00(void *, s32, s32, s16);
 
 extern Pair16 D_8017610C[];
 
 /* Update a moving effect, its pushed objects, and its collision and end animations. */
-void func_80174AA4(S_func_810332A4_1 *effect, S_func_810332A4_2 *motion, S_func_810332A4_3 *sprite)
+void dungeonUpdateMovingItemEffect(S_func_810332A4_1 *effect, S_func_810332A4_2 *motion, S_func_810332A4_3 *sprite)
 {
     u16 collision_flags;
     S_func_810332A4_4 *owner;
@@ -171,7 +171,7 @@ void func_80174AA4(S_func_810332A4_1 *effect, S_func_810332A4_2 *motion, S_func_
         if ((effect->unk_4C.s << 6) + 0x20 == motion->unk_00.half.unk_02) {
             if ((effect->unk_4D.s << 6) + 0x20 == motion->unk_04.half.unk_06) {
                 effect->unk_26 = 0;
-                func_8009A350(effect->unk_4C.s, effect->unk_4D.s,
+                getOffsetMapCellValueAndFlags(effect->unk_4C.s, effect->unk_4D.s,
                               effect->unk_1C, &collision_flags);
                 if (collision_flags & 0x8400) {
                     effect->unk_26 = 1;
@@ -193,7 +193,7 @@ void func_80174AA4(S_func_810332A4_1 *effect, S_func_810332A4_2 *motion, S_func_
                 if (hit_state == 0) {
                     check_x = (u16)coord_base;
                     check_y = object_y;
-                    if ((func_800A45D8(check_x, (u16)check_y,
+                    if ((dungeonCheckLeftTileAndCenterHeight(check_x, (u16)check_y,
                                        motion->unk_0A.s) << 16) != 0) {
                         effect->unk_26 = 1;
                     }
@@ -232,7 +232,7 @@ void func_80174AA4(S_func_810332A4_1 *effect, S_func_810332A4_2 *motion, S_func_
                     state = object_data->unk_14;
                     state &= cleanup_mask;
                     object_data->unk_14 = state;
-                    func_800A2B04(transform, display->unk_24, display->unk_25);
+                    dungeonSetRecordIntegerTileCenter(transform, display->unk_24, display->unk_25);
                     func_8009A21C(display->unk_24, display->unk_25,
                                   (object_data->unk_1C & 0x2000) ? 0x300 : 0x3000);
                     func_800AA53C(object_data);
@@ -240,7 +240,7 @@ void func_80174AA4(S_func_810332A4_1 *effect, S_func_810332A4_2 *motion, S_func_
                 }
 
                 if (effect->unk_2C == 0) {
-                    new_object = func_801748FC(owner,
+                    new_object = dungeonFindNearbyEligibleEntry(owner,
                                 (u16)(s8)effect->unk_4C.u,
                                 (u16)(s8)effect->unk_4D.u,
                                 motion->unk_0A.s);
@@ -266,7 +266,7 @@ void func_80174AA4(S_func_810332A4_1 *effect, S_func_810332A4_2 *motion, S_func_
                 transform->unk_00.half.unk_02) {
                 if ((((volatile S_func_810332A4_6 *)display)->unk_25 << 6) + 0x20 ==
                     transform->unk_04.half.unk_06) {
-                    func_8009A350(display->unk_24, display->unk_25,
+                    getOffsetMapCellValueAndFlags(display->unk_24, display->unk_25,
                                   effect->unk_1C, &collision_flags);
                     blocked = (collision_flags & 0x8400) != 0;
                     display->unk_24 += (u8)D_8017610C[effect->unk_1C].x;
@@ -275,7 +275,7 @@ void func_80174AA4(S_func_810332A4_1 *effect, S_func_810332A4_2 *motion, S_func_
                     object_y = (((S_func_810332A4_6 *)display)->unk_25 << 6) + 0x20;
 
                     if (!blocked) {
-                        if ((func_800A45D8((u16)coord_base, (u16)object_y,
+                        if ((dungeonCheckLeftTileAndCenterHeight((u16)coord_base, (u16)object_y,
                                            transform->unk_0A.s) << 16) != 0) {
                             blocked = 1;
                         }
@@ -299,7 +299,7 @@ void func_80174AA4(S_func_810332A4_1 *effect, S_func_810332A4_2 *motion, S_func_
                         }
                     }
 
-                    if (func_801748FC(object_data, display->unk_24,
+                    if (dungeonFindNearbyEligibleEntry(object_data, display->unk_24,
                                       display->unk_25, object_data->unk_88) != 0) {
                         blocked = 1;
                     }
@@ -310,7 +310,7 @@ void func_80174AA4(S_func_810332A4_1 *effect, S_func_810332A4_2 *motion, S_func_
                             (u8)D_8017610C[effect->unk_1C].x;
                         display->unk_25 -=
                             (u8)D_8017610C[effect->unk_1C].y;
-                        func_800A2B04(transform, display->unk_24, ((S_func_810332A4_6 *)display)->unk_25);
+                        dungeonSetRecordIntegerTileCenter(transform, display->unk_24, ((S_func_810332A4_6 *)display)->unk_25);
                         func_8009A21C(display->unk_24, display->unk_25,
                                       (object_data->unk_1C & 0x2000) ? 0x300 : 0x3000);
                         func_800AA53C(object_data);
@@ -330,7 +330,7 @@ void func_80174AA4(S_func_810332A4_1 *effect, S_func_810332A4_2 *motion, S_func_
                         display = object->unk_0C;
                         transform = object->unk_08;
                         object_data->unk_14 &= stop_mask;
-                        func_800A2B04(transform, display->unk_24, display->unk_25);
+                        dungeonSetRecordIntegerTileCenter(transform, display->unk_24, display->unk_25);
                         func_8009A21C(display->unk_24, display->unk_25,
                                       (object_data->unk_1C & 0x2000) ? 0x300 : 0x3000);
                         func_800AA53C(object_data);
@@ -412,10 +412,10 @@ secondary_object:
 
     case 10:
         for (burst_index = 0; burst_index < 16; burst_index++) {
-            func_801744DC(effect, motion, sprite);
+            dungeonSpawnDirectionalParticle(effect, motion, sprite);
         }
         for (burst_index = 0; burst_index < 16; burst_index++) {
-            func_801746EC(effect, motion, sprite);
+            dungeonSpawnDirectionalEffect(effect, motion, sprite);
         }
         func_800A56E0(0x80B);
         effect->unk_1E.u = 0;

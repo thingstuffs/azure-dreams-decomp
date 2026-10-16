@@ -1,11 +1,11 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void func_8002290C();                         /* extern */
-void *func_80022A30();                    /* extern */
+void cardBootCenterMessageDialogDisplay();                         /* extern */
+void *cardBootBuildPairedDialogPackets();                    /* extern */
 
 /* Processes the embedded data and then updates the record. */
-void func_80022AE8(s32 record) {
-    func_80022A30(record + 0x24, record);
-    func_8002290C(record);
+void cardBootInitializeDialogPacketsAndDisplay(s32 record) {
+    cardBootBuildPairedDialogPackets(record + 0x24, record);
+    cardBootCenterMessageDialogDisplay(record);
 }

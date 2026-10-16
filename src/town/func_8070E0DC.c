@@ -11,7 +11,7 @@
 extern M2C_UNK func_80016CC4();
 extern void func_80016DBC();
 extern s32 func_8001991C();
-extern s32 func_80019988();
+extern s32 townUpdateEntryFlags();
 extern M2C_UNK func_8001A554();
 extern M2C_UNK func_8001A5CC();
 extern s32 func_8001A64C();
@@ -26,7 +26,7 @@ s32 func_800170DC(s32 kind, s32 value) {
         D_80016000->unk_20->callback_2F8(0xE, 0x200);
         return 0;
     }
-    func_80019988();
+    townUpdateEntryFlags();
     if (func_8001991C(kind, value) == 0) {
         D_80016000->unk_20->callback_2F8(0xE, 0x200);
         return 0;

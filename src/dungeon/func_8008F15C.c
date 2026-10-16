@@ -7,10 +7,10 @@ typedef struct DungeonSlot {
 } DungeonSlot;
 
 extern DungeonSlot *D_800E3DF0[];
-extern void func_800422DC(DungeonSlot *slot, DungeonSlot *other);
+extern void buildEntitySlotSnapshot(DungeonSlot *slot, DungeonSlot *other);
 
 /* Resets slot state and updates slots referenced by records of type 0x13. */
-void func_800948BC(void)
+void dungeonSnapshotInventoryFamiliarRecords(void)
 {
     DungeonSlot *slot;
     u8 *record;
@@ -40,7 +40,7 @@ loop_1:
             if (linked_slot != 0) {
                 u32 slot_base;
                 slot_base = 0x800102F0;
-                func_800422DC((DungeonSlot *)(slot_base + slot_index * 0x54), linked_slot);
+                buildEntitySlotSnapshot((DungeonSlot *)(slot_base + slot_index * 0x54), linked_slot);
             }
         }
         count++;

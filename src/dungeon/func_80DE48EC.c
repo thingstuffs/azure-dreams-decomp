@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_e0365c.h"
 
-s32 func_801720EC(void *action_state, void *source_pos, void *sprite, void *actor)
+s32 dungeonCheckActorAheadHeight(void *action_state, void *source_pos, void *sprite, void *actor)
 {
     void *output;
     s16 next_x;   /* never assigned: read only in the decision-46 dead arm below */
@@ -36,7 +36,7 @@ s32 func_801720EC(void *action_state, void *source_pos, void *sprite, void *acto
     }
 
     output = (u8 *)actor - 0x20;
-    func_800C7930((s32)output, source_pos, 8, 0x300);
+    dungeonApplyCameraOffsetAndSelectTarget((s32)output, source_pos, 8, 0x300);
     if ((s16)func_800A2B5C(actor) != 0) {
         return -1;
     }
@@ -46,7 +46,7 @@ s32 func_801720EC(void *action_state, void *source_pos, void *sprite, void *acto
     x = base_x;
     y = base_y;
     direction = (((E_801720EC_S_801720EC_0 *)actor)->unk_2A.s >> 9) & 7;
-    if ((s16)func_800A44E0(x << 6, y << 6, ((E_801720EC_S_801720EC_0 *)actor)->unk_88.s, direction << 9) != 0) {
+    if ((s16)dungeonCheckLayerOffsetHeight(x << 6, y << 6, ((E_801720EC_S_801720EC_0 *)actor)->unk_88.s, direction << 9) != 0) {
 return_tail:
         return result;
     }
@@ -59,7 +59,7 @@ return_tail:
         s32 step_x;
         step_x = *x_delta;
         step_y = *y_delta;
-        if (func_8009B4B0(actor, (base_x + step_x) & 0xffff,
+        if (dungeonFindEligibleEntryAtCoordinates(actor, (base_x + step_x) & 0xffff,
                           (base_y + step_y) & 0xffff) != 0) {
             goto return_tail;
         }
@@ -85,7 +85,7 @@ return_tail:
     func_80047784(sprite,
                   D_80174558[((gameWork.view.viewAngle + ((E_801720EC_S_801720EC_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
                   0);
-    func_800A4ACC(actor);
+    dungeonAdvanceStatusTimers(actor);
     /* Decision 46 (owner 2026-10-13): post-combine dead arm. result is never reassigned, so combine folds this test
      * only after flow has counted the arm; scheduling, allocation and reload see it (x_delta's second set, the spilled
      * next_x/next_y slots retail's frame reserves) and jump2 deletes it - no code. The arm's BODY is a reconstruction:
@@ -98,7 +98,7 @@ return_tail:
         s32 update_flags = 0x300;
         step_y = 8;
         ((E_801720EC_S_801720EC_0 *)actor)->unk_6D--;
-        func_800C77D0((s32)output, source_pos, step_y, update_flags);
+        dungeonSelectNearbyTargetAndInitializeSlot((s32)output, source_pos, step_y, update_flags);
     }
     return 1;
 }

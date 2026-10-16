@@ -3,11 +3,11 @@
 #include "shared/entity.h"
 
 
-extern void func_80099844();
+extern void dungeonAdjustSourceValueAndFinalize();
 extern void func_800A6508();
-extern void * func_800C5BBC();
-extern s32 func_800C8844();
-extern void func_800DC1B8();
+extern void * dungeonSpawnRandomizedParticleBurst();
+extern s32 dungeonRollThresholdEffectVariantA();
+extern void dungeonWrapPositionAndSetStateValue();
 extern s32 D_800DCF1C;
 extern M2C_UNK D_800E1C14;
 
@@ -16,7 +16,7 @@ extern M2C_UNK D_800E1C14;
 typedef struct S_800CD384_0_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800CD384_0_pre;   /* the 0x14 bytes before object in func_800CD384, addressed as object[-1] */
+} S_800CD384_0_pre;   /* the 0x14 bytes before object in dungeonAttemptTrapRequestEightSlots, addressed as object[-1] */
 
 
 typedef struct S_800CD384_1 {
@@ -25,10 +25,10 @@ typedef struct S_800CD384_1 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_800CD384_1;   /* entry in func_800CD384 */
+} S_800CD384_1;   /* entry in dungeonAttemptTrapRequestEightSlots */
 
 /* Run the 8-slot request for the object with the budget the global mode picks; on refusal give the fallback cue, otherwise apply the effect and raise the tile marker unless the owning entry is flagged. */
-s32 func_800CD384(void *object) {
+s32 dungeonAttemptTrapRequestEightSlots(void *object) {
     s32 amount;
     S_800CD384_1 *entry;
 
@@ -36,20 +36,20 @@ s32 func_800CD384(void *object) {
     if (D_800E3D40 != 0) {
         amount = 0x400;
     }
-    if (func_800C8844(object, amount, 8) == 0) {
+    if (dungeonRollThresholdEffectVariantA(object, amount, 8) == 0) {
         if (((EntityRec *)object)->flags14 & 0x4000) {
             func_800A6508();
             return 1;
         }
         return 1;
     }
-    func_80099844(object, &D_800E1C14);
+    dungeonAdjustSourceValueAndFinalize(object, &D_800E1C14);
     if ((*(u8 *)((u8 *)&((EntityRec *)object)->unk_10 + 3)) == 0) {
-        func_800DC1B8(D_800DCF1C);
+        dungeonWrapPositionAndSetStateValue(D_800DCF1C);
     }
     entry = ((S_800CD384_0_pre *)object)[-1].unk_00;
     if (!(entry->unk_14 & 0x8000)) {
-        func_800C5BBC((entry->unk_24 << 6) | 0x20,
+        dungeonSpawnRandomizedParticleBurst((entry->unk_24 << 6) | 0x20,
                       (entry->unk_25 << 6) | 0x20,
                       ((EntityRec *)object)->unk_88, 0x802080, 0x20, 1);
     }

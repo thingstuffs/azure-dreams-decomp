@@ -13,7 +13,7 @@ extern struct {
 
 
 /* Sets entity state 0x14, resets progress, sets status flags, and increments the global counter. */
-void func_800ACB98(Rec_func_800A9E70_arg0 *entity, void *unused, Rec_D_80082E80 *status, EntityRec *event_state) {
+void dungeonBeginActorFlaggedAction(Rec_func_800A9E70_arg0 *entity, void *unused, Rec_D_80082E80 *status, EntityRec *event_state) {
     entity->unk_9A.as_s8 = 0x14;
     entity->unk_9B.as_s8 = 0;
     entity->unk_8C = 0;

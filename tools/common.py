@@ -11,6 +11,7 @@ swap-over (docs/SWAPOVER.md).
 from __future__ import annotations
 import hashlib, json, os, re, subprocess, time
 from pathlib import Path
+from source_layout import row_path as layout_row_path
 
 ROOT = Path(__file__).resolve().parents[1]
 def _upstream():
@@ -57,7 +58,7 @@ def raw_path(row) -> Path:
 
 def clean_path(row) -> Path:
     """The row's clean file (every registered row has one: tools/complete_tree.py)."""
-    return ROOT / "src" / row["container"] / Path(row["c_path"]).name
+    return layout_row_path(row, ROOT)
 
 def current_text(row) -> str:
     p = clean_path(row)

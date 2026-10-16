@@ -21,10 +21,10 @@ typedef struct S_80016818_0 {
     s32 unk_14;
     u8 pad_18[0x2];
     s16 unk_1A;
-} S_80016818_0;   /* arg0 in func_80016818 */
+} S_80016818_0;   /* arg0 in townRunFlagTestCallbacks */
 
 /* Run callbacks until one returns zero, then return its index. */
-s32 func_80016818(S_80016818_0 *context) {
+s32 townRunFlagTestCallbacks(S_80016818_0 *context) {
     s32 callback_index;
 
     if ((((s32) context->unk_00 >> 0x17) & 1) ||

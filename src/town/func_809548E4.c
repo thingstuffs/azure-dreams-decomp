@@ -38,7 +38,7 @@ typedef struct MinigameSlot {
 
 
 void func_80021120();   /* extern */
-s32 func_8002263C(); /* extern */
+s32 townResolveActorZoneCollisions(); /* extern */
 void func_80023E6C();   /* extern */
 void func_80033B78();                     /* extern */
 void func_80033B9C();                     /* extern */
@@ -46,9 +46,9 @@ short SD_Call(); /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();           /* extern */
 s32 rand();                      /* extern */
-void func_800ABD74();                       /* extern */
-s32 func_800B1BEC();       /* extern */
-void func_800B1DBC();              /* extern */
+void townSpawnPersonRadialEffects();                       /* extern */
+s32 townCreateDualBufferObject();       /* extern */
+void townSetObjectDataPointer();              /* extern */
 extern s32 D_80012D5C[0xB58];
 extern u8 D_80022514[0x100];
 extern s32 D_80024338[3];
@@ -72,7 +72,7 @@ typedef struct DialogArgs {
 
 
 /* Updates the minigame state, pays out gold, and resolves object collisions. */
-s32 func_800218E4(MinigameState *game) {
+s32 townUpdateKeimaMinigame(MinigameState *game) {
     DialogArgs dialog_args;
     s32 motion_mode;
     s32 init_flags;
@@ -220,7 +220,7 @@ loop_3:
                 fall_position->x.v = pair_value;
                 fall_random = rand(fall_position);
                 if (fall_random == ((fall_random / 3) * 3)) {
-                    func_800ABD74(game->rec[object_index]);
+                    townSpawnPersonRadialEffects(game->rec[object_index]);
                 }
                 object_index -= 1;
             } while (object_index >= 0);
@@ -245,7 +245,7 @@ loop_3:
             drop_position->x.v += 0xFFF00000;
             drop_random = rand();
             if (drop_random == ((drop_random / 3) * 3)) {
-                func_800ABD74(game->rec[object_index]);
+                townSpawnPersonRadialEffects(game->rec[object_index]);
             }
             object_index -= 1;
         } while (object_index >= 0);
@@ -341,7 +341,7 @@ loop_3:
             s32 stage;
 
             if (D_80113158[0] != 0) {
-                D_80024338[0] = func_800B1BEC(0, -0x50, 0x40);
+                D_80024338[0] = townCreateDualBufferObject(0, -0x50, 0x40);
             }
             stage = game->stage.u;
                                      /* MATCH: the state load precedes timer materialization. */
@@ -413,7 +413,7 @@ loop_3:
                 payout_handle = D_80024338[0];
                 gold_total += gold_remaining;
                 D_80012D5C[0] = gold_total;
-                func_800B1DBC(payout_handle);
+                townSetObjectDataPointer(payout_handle);
             }
             stage = game->stage.u;
                                      /* MATCH: the state load precedes timer materialization. */
@@ -600,7 +600,7 @@ object_collision:
         object_index += 1;
         object_slot = (MinigameSlot *) ((u8 *) object_slot + 4);   /* one pointer slot */
         if (object_index >= 3) {
-            other_x = func_8002263C(game->rec[0], &game->slot[0], &base_object->unk_58, &base_object->unk_5C);
+            other_x = townResolveActorZoneCollisions(game->rec[0], &game->slot[0], &base_object->unk_58, &base_object->unk_5C);
             if (other_x != 0) {
                 base_object->unk_48 = 0;
             }
@@ -608,7 +608,7 @@ object_collision:
             do {
                 moving_object = game->node[object_index - 1];
                 object_motion = (MinigameBody *)(moving_object + 1);
-                x_step = func_8002263C(game->rec[object_index], &game->slot[object_index],
+                x_step = townResolveActorZoneCollisions(game->rec[object_index], &game->slot[object_index],
                     &object_motion->unk_0C, &object_motion->unk_10);
                 if (x_step != 0) {
                     object_motion->unk_04 = 0;

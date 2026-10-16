@@ -5,7 +5,7 @@
 
 
 /* Update a dungeon effect's motion, flickering vertices, and fade state. */
-void func_800245B4(DungeonObj *obj)
+void dungeonUpdateFlickeringEffectVertices(DungeonObj *obj)
 {
     s32 height_or_index;
     s32 old_timer;
@@ -125,7 +125,7 @@ void func_800245B4(DungeonObj *obj)
             packet.height = packet_height;
             packet.type = 4;
             packet.pad1A = 0;
-            func_800DBA90(packet_ptr);
+            dungeonTransformRotatedVertices(packet_ptr);
         }
         return;
     }

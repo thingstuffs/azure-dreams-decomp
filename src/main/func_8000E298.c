@@ -10,7 +10,7 @@ extern s32 func_80069C18(s32 slot_selector);
 extern s32 func_80069C38(s32 slot_selector);
 
 /* Updates the operation state and returns its status, clearing the selected slot in state 3. */
-s32 func_80021298(void)
+s32 cardPollSelectedOperationState(void)
 {
     s32 state;
     s32 status;
@@ -26,7 +26,7 @@ s32 func_80021298(void)
         }
         goto invalid_state;
     }
-    func_80021538();
+    cardBootDrainHardwareEvents();
     if (func_80069C38((*(s32 *)(&D_800287CC))) != 0) {
         if ((func_80069C18((*(s32 *)(&D_800287CC)) != 0) & 4) != 0) {
             (*(s32 *)(&D_800287E0)) = state;

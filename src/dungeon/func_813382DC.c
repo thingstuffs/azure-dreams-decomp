@@ -9,10 +9,10 @@ typedef struct S_8016F2DC_0 {
     u8 pad_98[0x2];
     u8 unk_9A;
     s8 unk_9B;
-} S_8016F2DC_0;   /* temp_v0 in func_8016F2DC */
+} S_8016F2DC_0;   /* temp_v0 in dungeonAdvanceMultiFormActorAction */
 
 /* Clear two state fields and advance the byte counter. */
-void func_8016F2DC(void) {
+void dungeonAdvanceMultiFormActorAction(void) {
     S_8016F2DC_0 *state;
 
     state = D_80175D50 + 0x20;

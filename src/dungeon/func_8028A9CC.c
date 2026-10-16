@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void func_8001D9CC(s16 left_x, s16 top_y, s16 right_x, s16 bottom_y, s32 tile_value_base) {
+void dungeonWriteRectangularBorder(s16 left_x, s16 top_y, s16 right_x, s16 bottom_y, s32 tile_value_base) {
     s16 *tile;
     s16 *opposite_tile;
     u8 *info_page;

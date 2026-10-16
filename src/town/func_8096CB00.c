@@ -28,16 +28,16 @@ typedef struct {
 } TownState;
 
 extern void SD_Call(s32);
-extern s32 func_80123200(u8);
+extern s32 townIsCatalogEntryAvailable(u8);
 extern void func_801237A4(TownState *);
-extern void func_801248C0(TownState *);
-extern void func_80124908(TownState *);
+extern void townResetCatalogScrollIndicators(TownState *);
+extern void townUpdateCatalogScrollAvailability(TownState *);
 
 extern u8 D_801269F8[];
 extern ImageList D_801278B0[];
 
 /* Handles selection navigation, scrolling, transitions, and the idle toggle timer. */
-void func_80124F98(TownState *state)
+void townHandleCatalogDetailInput(TownState *state)
 {
     u32 buttons;
     s32 max_scroll;
@@ -49,7 +49,7 @@ void func_80124F98(TownState *state)
 
     if (((u32)gameWork.unk_010) & 0x20) {
         SD_Call(0x702);
-        func_801248C0(state);
+        townResetCatalogScrollIndicators(state);
         state->state = 9;
         state->field4 = 1;
         state->field6 = 0x19;
@@ -66,8 +66,8 @@ void func_80124F98(TownState *state)
         } else {
             selection[9] = 0;
         }
-        func_801248C0(state);
-        func_80124908(state);
+        townResetCatalogScrollIndicators(state);
+        townUpdateCatalogScrollAvailability(state);
         return;
     }
 
@@ -82,8 +82,8 @@ void func_80124F98(TownState *state)
         } else {
             selection[9] = max_scroll;
         }
-        func_801248C0(state);
-        func_80124908(state);
+        townResetCatalogScrollIndicators(state);
+        townUpdateCatalogScrollAvailability(state);
         return;
     }
 
@@ -95,7 +95,7 @@ void func_80124F98(TownState *state)
                 state->index = index_count;
             }
             state->index--;
-        } while (!(func_80123200(state->index) & 0xFF) &&
+        } while (!(townIsCatalogEntryAvailable(state->index) & 0xFF) &&
             state->index != state->old_index);
 
         if (state->index == 0x31) {
@@ -119,7 +119,7 @@ void func_80124F98(TownState *state)
         previous_index = state->old_index;
         if (current_index < previous_index) {
             SD_Call(0x702);
-            func_801248C0(state);
+            townResetCatalogScrollIndicators(state);
             state->side ^= 1;
             func_801237A4(state);
             side_choice = state->choices[state->side];
@@ -134,7 +134,7 @@ void func_80124F98(TownState *state)
         }
         if (previous_index < current_index) {
             SD_Call(0x702);
-            func_801248C0(state);
+            townResetCatalogScrollIndicators(state);
             state->side ^= 1;
             func_801237A4(state);
             if (state->choices[state->side] == state->index) {
@@ -157,7 +157,7 @@ void func_80124F98(TownState *state)
             if ((next_index & 0xFF) == wrap_limit) {
                 state->index = 0;
             }
-        } while (!(func_80123200(state->index) & 0xFF) &&
+        } while (!(townIsCatalogEntryAvailable(state->index) & 0xFF) &&
             state->index != state->old_index);
 
         if (state->index == 0x31) {
@@ -181,7 +181,7 @@ void func_80124F98(TownState *state)
         previous_index = state->old_index;
         if (current_index < previous_index) {
             SD_Call(0x702);
-            func_801248C0(state);
+            townResetCatalogScrollIndicators(state);
             state->side ^= 1;
             func_801237A4(state);
             if (state->choices[state->side] != state->index) {
@@ -195,7 +195,7 @@ void func_80124F98(TownState *state)
         }
         if (previous_index < current_index) {
             SD_Call(0x702);
-            func_801248C0(state);
+            townResetCatalogScrollIndicators(state);
             state->side ^= 1;
             func_801237A4(state);
             if (state->choices[state->side] == state->index) {
@@ -216,7 +216,7 @@ void func_80124F98(TownState *state)
         state->toggleC ^= 1;
     }
 
-    func_80124908(state);
+    townUpdateCatalogScrollAvailability(state);
 
     return;
 }

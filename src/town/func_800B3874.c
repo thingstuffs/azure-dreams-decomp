@@ -15,18 +15,18 @@ typedef struct S_800B0FD4_2 {
 
 s32 get_item_sell_money();                             /* extern */
 s32 get_item_buy_money();                         /* extern */
-s32 func_8004A658();                          /* extern */
+s32 lookupItemCategoryMappedValue();                          /* extern */
 s32 func_8004AC3C();                      /* extern */
 s32 func_8004DC14();                        /* extern */
 char *func_8004E5A0();     /* extern */
-u8 *func_8004E69C();                   /* extern */
+u8 *remapFlaggedStringBytes();                   /* extern */
 s32 func_8004E928();              /* extern */
 char *strcat();        /* extern */
-void func_800B0BD0();                      /* extern */
-void func_800B0D7C();                      /* extern */
-s32 func_800B0F30();                             /* extern */
-s32 func_800B0F94();                             /* extern */
-void func_800B15B8(void *);                            /* extern */
+void townUpdateCurrentShopPage();                      /* extern */
+void townUpdateShopStateFlags();                      /* extern */
+s32 townAllocateAndInitializeShopObject();                             /* extern */
+s32 townCheckShopEntryTypeAndFlags();                             /* extern */
+void townResetFiveShopSlots(void *);                            /* extern */
 extern M2C_UNK D_800D1600;
 
 typedef struct S_800B0FD4_0 {
@@ -58,7 +58,7 @@ void func_800B0FD4(S_800B0FD4_0 *ctx) {
     s32 row;
     S_800B0FD4_1 *item;
 
-    func_800B15B8(ctx);
+    townResetFiveShopSlots(ctx);
     row = 0;
     page = ctx->unk_10;
     row_offset = 0;
@@ -66,27 +66,27 @@ void func_800B0FD4(S_800B0FD4_0 *ctx) {
     item_offset = page * 0x14;
     while (row < 5 && item_index < ctx->unk_0C) {
         item = item_offset + ctx->unk_24;
-        *((S_800B0FD4_2 *)((row_offset + ctx->unk_CC)))->unk_10 = func_8004A658(item->unk_01, item->unk_00);
+        *((S_800B0FD4_2 *)((row_offset + ctx->unk_CC)))->unk_10 = lookupItemCategoryMappedValue(item->unk_01, item->unk_00);
         *((S_800B0FD4_2 *)((row_offset + ctx->unk_CC)))->unk_38 =
             func_8004DC14(func_8004AC3C(ctx->unk_24 + item_offset, &item_info), item_info);
-        if (func_800B0F94(ctx->unk_24 + item_offset) != 0) {
+        if (townCheckShopEntryTypeAndFlags(ctx->unk_24 + item_offset) != 0) {
             if (ctx->unk_18 == 0) {
                 item_value = get_item_buy_money(ctx->unk_24 + item_offset);
             } else {
                 item_value = get_item_sell_money(ctx->unk_24 + item_offset);
             }
             func_8004E5A0(item_value, 8, &price_text);
-            func_8004E69C(&price_text);
+            remapFlaggedStringBytes(&price_text);
             strcat(&price_text, &D_800D1600);
             *((S_800B0FD4_2 *)((row_offset + ctx->unk_CC)))->unk_4C = func_8004E928(&price_text, 0);
         }
         row += 1;
         item_index += 1;
-        item_value = func_800B0F30(ctx->unk_24 + item_offset);
+        item_value = townAllocateAndInitializeShopObject(ctx->unk_24 + item_offset);
         item_offset += 4;
         *((S_800B0FD4_2 *)((row_offset + ctx->unk_CC)))->unk_60 = item_value;
         row_offset += 4;
     }
-    func_800B0D7C(ctx);
-    func_800B0BD0(ctx);
+    townUpdateShopStateFlags(ctx);
+    townUpdateCurrentShopPage(ctx);
 }

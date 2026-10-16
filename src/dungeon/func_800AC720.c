@@ -1,16 +1,16 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void func_8003F80C(); /* extern */
+void uploadVramRowAndCache(); /* extern */
 extern u8 D_800DF068[];
 
 typedef struct S_800B1E80_0 {
     u16 unk_00;
     u16 unk_02;
-} S_800B1E80_0;   /* arg0 in func_800B1E80 */
+} S_800B1E80_0;   /* arg0 in dungeonAdvanceCyclicPanelEntry */
 
 /* Advance the cyclic table index every four ticks and apply the selected entry. */
-void func_800B1E80(S_800B1E80_0 *state) {
+void dungeonAdvanceCyclicPanelEntry(S_800B1E80_0 *state) {
     u16 ticks_left;
     u16 entry_index;
 
@@ -23,6 +23,6 @@ void func_800B1E80(S_800B1E80_0 *state) {
         if ((s16) entry_index >= 0x60) {
             state->unk_02 = 0U;
         }
-        func_8003F80C(((s16) state->unk_02 * 4) + D_800DF068, 0x7340, 1, 2);
+        uploadVramRowAndCache(((s16) state->unk_02 * 4) + D_800DF068, 0x7340, 1, 2);
     }
 }

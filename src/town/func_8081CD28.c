@@ -3,20 +3,20 @@
 
 typedef struct S_80026D28_0_pre {
     u16 unk_00;
-} S_80026D28_0_pre;   /* the 0x2 bytes before arg0 in func_80026D28, addressed as arg0[-1] */
+} S_80026D28_0_pre;   /* the 0x2 bytes before arg0 in townTickTimedSound, addressed as arg0[-1] */
 
 typedef struct S_80026D28_0 {
     u8 pad_00[0x50];
     union { s16 s; u16 u; } unk_50;   /* accessed as both */
     u16 unk_52;
-} S_80026D28_0;   /* arg0 in func_80026D28 */
+} S_80026D28_0;   /* arg0 in townTickTimedSound */
 
 
 extern s32 SD_Call();
 
 
 /* Starts a timed state and sets completion flags when its countdown expires. */
-void func_80026D28(void *object)
+void townTickTimedSound(void *object)
 {
     s16 state;
     u16 timer;

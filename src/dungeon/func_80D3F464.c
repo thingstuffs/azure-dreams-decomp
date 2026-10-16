@@ -8,8 +8,8 @@ typedef struct {
     signed short y;
 } DirectionDelta;
 
-extern signed short func_800D5F80(void *, void *);
-extern void func_8009D8A4(void);
+extern signed short dungeonCheckForwardCollisionAndHeight(void *, void *);
+extern void dungeonPackAndSubmitCellHeightLevels(void);
 extern void func_800A56E0(s32);
 extern s32 func_800BCB04(u16, u16, signed short);
 
@@ -34,23 +34,23 @@ typedef struct S_80174C64_0 {
     u8 unk_B2;
     u8 unk_B3;
     u8 unk_B4;
-} S_80174C64_0;   /* arg0 in func_80174C64 */
+} S_80174C64_0;   /* arg0 in dungeonUpdateActorMovementHistory */
 
 
 typedef struct S_80174C64_2 {
     u8 pad_00[0x62];
     u16 unk_62;
     u16 unk_64;
-} S_80174C64_2;   /* (u8 *)((unsigned long)base + (i << 2)) in func_80174C64 */
+} S_80174C64_2;   /* (u8 *)((unsigned long)base + (i << 2)) in dungeonUpdateActorMovementHistory */
 
 typedef struct S_80174C64_3 {
     u8 pad_00[0x62];
     u16 unk_62;
     u16 unk_64;
-} S_80174C64_3;   /* (u8 *)((unsigned long)base + ((i - 1) << 2)) in func_80174C64 */
+} S_80174C64_3;   /* (u8 *)((unsigned long)base + ((i - 1) << 2)) in dungeonUpdateActorMovementHistory */
 
 /* Updates movement, turning, position history, and timed stop states. */
-void func_80174C64(S_80174C64_0 *motion, void *position, Rec_D_80082E80 *record, void *object)
+void dungeonUpdateActorMovementHistory(S_80174C64_0 *motion, void *position, Rec_D_80082E80 *record, void *object)
 {
     u16 angle;
     u16 next_angle;
@@ -86,7 +86,7 @@ void func_80174C64(S_80174C64_0 *motion, void *position, Rec_D_80082E80 *record,
                     break;
                 }
             } else if ((angle & 0x3FF) == 0) {
-                if (func_800D5F80(position, object) != 0) {
+                if (dungeonCheckForwardCollisionAndHeight(position, object) != 0) {
                     u16 next_state;
 
                     next_state = 0x1E;
@@ -147,7 +147,7 @@ void func_80174C64(S_80174C64_0 *motion, void *position, Rec_D_80082E80 *record,
                 motion->unk_B3 = 2;
                 break;
             }
-            if (func_800D5F80(position, object) != 0) {
+            if (dungeonCheckForwardCollisionAndHeight(position, object) != 0) {
                 motion->unk_96 = 0x1E;
                 motion->unk_B2 = 0;
                 motion->unk_B1 = 0;
@@ -244,7 +244,7 @@ void func_80174C64(S_80174C64_0 *motion, void *position, Rec_D_80082E80 *record,
             switch (motion->unk_B1) {
             case 0:
 state1_call:
-                if (func_800D5F80(position, object) == 0) {
+                if (dungeonCheckForwardCollisionAndHeight(position, object) == 0) {
                     motion->unk_B1 = 2;
                     motion->unk_B2 = 0;
                     goto state1_case2;
@@ -342,7 +342,7 @@ state1_case2:
                     if ((next_angle << 16) < 0) {
                         (*(u16 *)((u8 *)object + 0x2A)) = saved_angle + 0xC00;
                     }
-                    if (func_800D5F80(position, object) != 0) {
+                    if (dungeonCheckForwardCollisionAndHeight(position, object) != 0) {
                         motion->unk_B2 = 0;
                         motion->unk_B1 = 0;
                         (*(u16 *)((u8 *)object + 0x2A)) = saved_angle;
@@ -410,7 +410,7 @@ state1_minus_angle:
         motion->unk_B1 = 0;
         motion->unk_96 = 0;
         motion->unk_A2 = 0;
-        func_8009D8A4();
+        dungeonPackAndSubmitCellHeightLevels();
         D_800E296C |= 0x800000;
         func_800A56E0(0x80F);
     }
@@ -475,7 +475,7 @@ state3_test:
             motion->unk_B1 = 0;
             motion->unk_96 = 0;
             motion->unk_A2 = 0;
-            func_8009D8A4();
+            dungeonPackAndSubmitCellHeightLevels();
             D_800E296C |= 0x800000;
             func_800A56E0(0x80F);
 

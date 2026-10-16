@@ -1,7 +1,7 @@
 #include "modules/town_town_windows.h"
 
 /* Initializes an object with default transform and global state values. */
-void func_8009CD18(s32 slot_id, void *object, s32 object_id)
+void townInitializeObjectTransformAndState(s32 slot_id, void *object, s32 object_id)
 {
 
     *(s16 *)((u8 *)object + 0x20) = 0x1000;

@@ -8,14 +8,14 @@
 
 
 /* Updates the indexed flag after four consecutive repeats of a nonzero state. */
-s32 *func_800217D4(void)
+s32 *cardBootDebounceCardPresence(void)
 {
     s32 current_state;
     s32 state_index;
 
-    current_state = func_80021410();
+    current_state = cardBootPollSoftwareEvents();
     if (current_state != 0) {
-        state_index = func_8002190C();
+        state_index = cardBootHasSelectedChannel();
         if (D_80028548[state_index] == current_state) {
             D_80028540[state_index]++;
         } else {
@@ -42,7 +42,7 @@ s32 *func_800217D4(void)
                 D_80028548[state_index] = 0;
             }
         }
-        func_800209C4();
+        cardBootToggleChannel();
     }
     return (*(s32 (*)[])(&D_800287D8));
 }

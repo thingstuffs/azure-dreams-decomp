@@ -139,7 +139,7 @@ def genuine_comparison():
     """Compare the staged module's three functions with genuine ASPSX 2.79."""
     import verify
     import aspsx_diff as A
-    from slus_module_context import compilation_source
+    from slus_module_context import source_path, compilation_source
 
     dest = HERE / "context_genuine"
     if dest.exists():
@@ -204,7 +204,7 @@ def main():
             continue
         assert staged == production, staged["name"]
         for source in [staged["source"], *(m["source"] for m in staged["members"])]:
-            assert (STAGE / source).read_bytes() == (ROOT / "src/slus" / Path(source).name).read_bytes(), source
+            assert (STAGE / source).read_bytes() == source_path(source, ROOT).read_bytes(), source
         for header in staged["headers"]:
             assert (STAGE / header).read_bytes() == (ROOT / header).read_bytes(), header
 

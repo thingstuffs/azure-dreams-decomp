@@ -82,7 +82,7 @@ typedef struct ActorSpriteView {
 } ActorSpriteView;
 
 /* Advances an actor's action phase, updating its target, animation, and completion. */
-void func_8015F56C(ActorActionWork *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor)
+void advanceActorActionAndCompletion(ActorActionWork *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor)
 {
     s32 usePlayerTarget = 0;
     u8 *actionEntry;

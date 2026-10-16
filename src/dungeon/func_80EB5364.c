@@ -6,10 +6,10 @@
 typedef s32 M2C_UNK;
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-void func_80047738();
+void selectIndirectTableEntry();
 M2C_UNK func_800478B8();
-void func_800A020C();
-s32 func_800A9E70();
+void dungeonApplyMonsterKoyawData();
+s32 dungeonRefreshActorFacingAndLifecycle();
 s32 func_800AA36C();
 s32 func_800BCB04();
 extern M2C_UNK D_801711A4[];
@@ -44,7 +44,7 @@ typedef struct S_80170B64_0 {
     s16 unk_A8;
     u8 pad_AA[0x2];
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_AC;   /* overlapping accesses */
-} S_80170B64_0;   /* arg0 in func_80170B64 */
+} S_80170B64_0;   /* arg0 in dungeonUpdateActorCallbacksMovementAndTerrain */
 
 typedef struct S_80170B64_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -54,7 +54,7 @@ typedef struct S_80170B64_1 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80170B64_1;   /* arg1 in func_80170B64 */
+} S_80170B64_1;   /* arg1 in dungeonUpdateActorCallbacksMovementAndTerrain */
 
 typedef struct S_80170B64_2 {
     u8 pad_00[0x4];
@@ -66,7 +66,7 @@ typedef struct S_80170B64_2 {
     u8 unk_25;
     u8 pad_26[0x6];
     union { void * p; s32 i; } unk_2C;   /* accessed as both */
-} S_80170B64_2;   /* arg2 in func_80170B64 */
+} S_80170B64_2;   /* arg2 in dungeonUpdateActorCallbacksMovementAndTerrain */
 
 typedef struct S_80170B64_3 {
     u8 pad_00[0x1C];
@@ -75,10 +75,10 @@ typedef struct S_80170B64_3 {
     s16 unk_2A;
     u8 pad_2C[0x5C];
     u16 unk_88;
-} S_80170B64_3;   /* work in func_80170B64 */
+} S_80170B64_3;   /* work in dungeonUpdateActorCallbacksMovementAndTerrain */
 
 /* Update actor callbacks, movement, sprite direction, and terrain-relative height. */
-void func_80170B64(void *actor, void *motion, void *sprite_arg)
+void dungeonUpdateActorCallbacksMovementAndTerrain(void *actor, void *motion, void *sprite_arg)
 {
     void *actor_base = actor;
     M2C_UNK (*update_callback)(void *, void *, void *, void *);
@@ -108,7 +108,7 @@ void func_80170B64(void *actor, void *motion, void *sprite_arg)
 
 
     previous_state = (s8)((S_80170B64_0 *)actor)->unk_6D;
-    if (func_800A9E70(actor, motion, sprite_arg, actor) == 0) {
+    if (dungeonRefreshActorFacingAndLifecycle(actor, motion, sprite_arg, actor) == 0) {
         update_callback = ((S_80170B64_0 *)actor)->unk_8C;
         if (update_callback != 0) {
             update_callback(actor, motion, sprite_arg, actor);
@@ -135,7 +135,7 @@ void func_80170B64(void *actor, void *motion, void *sprite_arg)
         if (!(sprite_flags & 0x8000)) {
             view_direction = ((gameWork.view.viewAngle + ((S_80170B64_3 *)actor_base)->unk_2A + 0x100) >> 9) & 7;
             if (((S_80170B64_0 *)actor)->unk_94 != view_direction) {
-                func_80047738(sprite_arg,
+                selectIndirectTableEntry(sprite_arg,
                     *(((u8 *)((S_80170B64_2 *)sprite_arg)->unk_2C.p) + view_direction),
                     ((S_80170B64_2 *)sprite_arg)->unk_04.s8);
                 ((S_80170B64_0 *)actor)->unk_94 = view_direction;
@@ -145,7 +145,7 @@ void func_80170B64(void *actor, void *motion, void *sprite_arg)
             } else {
                 ((S_80170B64_2 *)sprite_arg)->unk_14 &= 0xFFFE;
             }
-            func_800A020C(((S_80170B64_3 *)actor_base)->unk_1C.s, sprite_arg + 0xC);
+            dungeonApplyMonsterKoyawData(((S_80170B64_3 *)actor_base)->unk_1C.s, sprite_arg + 0xC);
             if (!(((S_80170B64_3 *)actor_base)->unk_1C.s & 0x20)) {
                 if (!(((S_80170B64_2 *)sprite_arg)->unk_14 & 0x40)) {
                     func_800478B8(sprite_arg);

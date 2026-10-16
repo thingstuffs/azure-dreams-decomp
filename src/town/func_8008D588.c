@@ -3,7 +3,7 @@
 extern s32 D_800CF720[];
 
 /* Sum the second word of each requested table entry. */
-s32 func_8008ACE8(s32 entry_count) {
+s32 townSumResourceBytes(s32 entry_count) {
     s32 *entry;
     s32 sum;
     s32 i;

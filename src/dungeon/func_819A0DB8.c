@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19c088c.h"
 
-void func_800245B8(void *object_data)
+void dungeonUpdateEffectCountdownFields(void *object_data)
 {
     s32 phase_index;
     s32 pair_offset;

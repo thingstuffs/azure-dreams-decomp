@@ -27,7 +27,7 @@ void func_8016AC24(void *entity, CL_CB9000_80170C24_S_80170C24_2 *motion, void *
 
 
     old_direction = (s8)(*(u8 *)((u8 *)entity + 0x6D));
-    if (func_800A9E70(entity, motion, monster, entity) != 0) {
+    if (dungeonRefreshActorFacingAndLifecycle(entity, motion, monster, entity) != 0) {
         return;
     }
 
@@ -52,7 +52,7 @@ void func_8016AC24(void *entity, CL_CB9000_80170C24_S_80170C24_2 *motion, void *
         if ((*(s16 *)((u8 *)entity + 0x94)) != direction_index) {
             u8 *tile_map = ((CL_CB9000_80170C24_S_80170C24_0 *)monster)->unk_2C;
             if (tile_map != 0) {
-                func_80047738(monster, tile_map[direction_index], ((CL_CB9000_80170C24_S_80170C24_0 *)monster)->unk_04);
+                selectIndirectTableEntry(monster, tile_map[direction_index], ((CL_CB9000_80170C24_S_80170C24_0 *)monster)->unk_04);
             }
             (*(s16 *)((u8 *)entity + 0x94)) = direction;
         }
@@ -71,7 +71,7 @@ void func_8016AC24(void *entity, CL_CB9000_80170C24_S_80170C24_2 *motion, void *
             ((CL_CB9000_80170C24_S_80170C24_0 *)monster)->unk_14 |= 0x7000;
         }
 
-        func_800A020C(((CL_CB9000_80170C24_S_80170C24_1 *)actor)->unk_1C, (u8 *)monster + 0xC);
+        dungeonApplyMonsterKoyawData(((CL_CB9000_80170C24_S_80170C24_1 *)actor)->unk_1C, (u8 *)monster + 0xC);
     } else {
         if (monster_flags & 0x0800) {
             ((CL_CB9000_80170C24_S_80170C24_0 *)monster)->unk_14 = monster_flags & 0x8FFF;

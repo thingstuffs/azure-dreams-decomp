@@ -13,7 +13,7 @@ typedef struct {
 } Reader;
 
 /* Divide the first event-script variable by the second, store the quotient, and return it. */
-s32 func_8003AA34(Reader *script) {
+s32 vmOp74DivideValues(Reader *script) {
     u8 *read_ptr = script->read_ptr;
     u8 left_index;
     u8 right_index;

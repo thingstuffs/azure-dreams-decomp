@@ -11,18 +11,18 @@ typedef struct S_80173420_0 {
     union { u16 s; s16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_80173420_0;   /* arg0 in func_80173420 */
+} S_80173420_0;   /* arg0 in dungeonUpdateDirectionalMotionSettleEntityGridPosition */
 
 
-extern void func_800A2B04();
-extern void func_800AAA54();
-extern void func_800AD4D0();
+extern void dungeonSetRecordIntegerTileCenter();
+extern void dungeonBeginActorDisplayAction();
+extern void dungeonApplyClampedActorValueDelta();
 
 extern u8 D_801710F4[];
 extern u8 D_80174F10[];
 
 /* Update directional motion, then settle the entity at its grid position. */
-void func_80173420(S_80173420_0 *action, EntityRec *motion, Rec_D_80082E80 *grid_pos, EntityRec *entity)
+void dungeonUpdateDirectionalMotionSettleEntityGridPosition(S_80173420_0 *action, EntityRec *motion, Rec_D_80082E80 *grid_pos, EntityRec *entity)
 {
     s16 *direction_y;
     s32 velocity_y;
@@ -48,7 +48,7 @@ void func_80173420(S_80173420_0 *action, EntityRec *motion, Rec_D_80082E80 *grid
     action->unk_96.s = ticks_left;
     switch (phase) {
     case 0:
-        func_800AD4D0(entity);
+        dungeonApplyClampedActorValueDelta(entity);
         directions_x = (s16 *)((s8 *)dirStepX);
         launch_offset = direction * 2;
         motion->unk_0C =
@@ -61,7 +61,7 @@ void func_80173420(S_80173420_0 *action, EntityRec *motion, Rec_D_80082E80 *grid
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(action, motion, grid_pos, D_80174F10);
+            dungeonBeginActorDisplayAction(action, motion, grid_pos, D_80174F10);
             return;
         }
         if (grid_pos->unk_14.at00_u16.v & 0x8000) {
@@ -101,7 +101,7 @@ void func_80173420(S_80173420_0 *action, EntityRec *motion, Rec_D_80082E80 *grid
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(action, motion, grid_pos, D_80174F10);
+            dungeonBeginActorDisplayAction(action, motion, grid_pos, D_80174F10);
         } else {
             action->unk_96.s = 6;
             action->unk_9B++;
@@ -124,7 +124,7 @@ void func_80173420(S_80173420_0 *action, EntityRec *motion, Rec_D_80082E80 *grid
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, grid_pos->unk_24, grid_pos->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, grid_pos->unk_24, grid_pos->unk_25);
 
         tracked_entity = ((s32)dungeonStatus.unk_10);
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {

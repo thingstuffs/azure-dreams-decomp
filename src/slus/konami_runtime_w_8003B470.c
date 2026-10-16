@@ -12,7 +12,7 @@ typedef struct MainMemoryPage {
     u16 flags_3714;
 } MainMemoryPage;
 
-extern void func_8003AF8C(void *object);
+extern void clearTownMovieObjectField(void *object);
 extern void func_8008EF58(void);
 extern void func_8008FCE0(void);
 extern void func_800A03DC(void);
@@ -20,7 +20,7 @@ extern void obj_disp23_cancel_sw_set(s32 value);
 extern void func_8003B42C(s32 value);
 extern void func_8003B988(void);
 extern void func_8003B92C(void);
-extern s32 func_80033B2C(s32 bit_id);
+extern s32 testResidentBitmapBit(s32 bit_id);
 extern void func_8003BA60(void);
 extern void func_8003BA9C(void);
 extern void func_8003B9B8(void);
@@ -45,13 +45,13 @@ extern u32 D_80080EA0;
 
 
 /* Handles change_map / chg_map_second_house_sel setup and clears the handled runtime flags. */
-void func_8003B470(void)
+void dispatchTownTransition(void)
 {
     u16 runtime_flags;
     MainMemoryPage *page;
 
-    func_8003AF8C(D_800717D0);
-    func_8003AF8C(D_800717E8);
+    clearTownMovieObjectField(D_800717D0);
+    clearTownMovieObjectField(D_800717E8);
     func_8008EF58();
     func_8008FCE0();
     func_800A03DC();
@@ -69,10 +69,10 @@ void func_8003B470(void)
     } else if (runtime_flags & 0x8000) {
         func_8003B42C(1);
         func_8003B92C();
-        if ((func_80033B2C(0x1391) == 0) ||
-            (func_80033B2C(0xA2) != 0)) {
+        if ((testResidentBitmapBit(0x1391) == 0) ||
+            (testResidentBitmapBit(0xA2) != 0)) {
             func_8003BA60();
-        } else if (func_80033B2C(0xA3) == 0) {
+        } else if (testResidentBitmapBit(0xA3) == 0) {
             func_8003BA9C();
         } else {
             chg_map_second_house_sel();

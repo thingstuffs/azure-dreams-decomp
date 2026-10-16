@@ -6,7 +6,7 @@ extern u8 D_807009B8[];
 extern u8 D_807009BA[];
 
 /* Process six pairs of 16-bit table entries starting at byte offset four. */
-void func_8087FE98(void) {
+void townGridProcessSixEntryPairsA(void) {
     s32 byte_offset;
     u16 second_entry;
 

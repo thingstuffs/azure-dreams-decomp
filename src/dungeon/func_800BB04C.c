@@ -49,11 +49,11 @@ extern u8 D_800DF4A4[];
 
 extern EntityFields *func_8003FD64(s32, EntityFields *);
 extern void func_80044A50(EntityFields *);
-extern void func_800BC318(EntityFields *);
+extern void dungeonRetireTrackedEffectById(EntityFields *);
 extern void func_8004491C(EntityFields *, void *);
 
 /* Creates and configures an entity, copies source fields, and links it to the source. */
-void *func_800C07AC(EntityFields *source) {
+void *dungeonCreateLinkedActorFadeEffect(EntityFields *source) {
     EntityFields *entity;
     CopyFields *source_fields;
     CopyFields *entity_fields;
@@ -65,7 +65,7 @@ void *func_800C07AC(EntityFields *source) {
     entity = func_8003FD64(2, source);
     if (entity != NULL) {
         func_80044A50(source);
-        func_800BC318(source);
+        dungeonRetireTrackedEffectById(source);
         entity->field10 = D_800C0404;
         func_8004491C(entity, func_80045340);
 

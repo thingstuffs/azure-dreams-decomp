@@ -6,7 +6,7 @@
 extern s32 func_80047784();
 extern s32 func_8009A21C();
 extern s32 func_8009A3D0();
-extern s16 func_800A0818();
+extern s16 dungeonGetRoundedFacingAndRoundingFlag();
 
 extern u8 D_80173E8C[8];
 
@@ -21,7 +21,7 @@ typedef struct S_801719C0_0 {
     u8 pad_72[0x16];
     u16 unk_88;
     union { s16 s; u16 u; } unk_8A;   /* accessed as both */
-} S_801719C0_0;   /* arg3 in func_801719C0 */
+} S_801719C0_0;   /* arg3 in dungeonAdvanceQueuedMovementStep */
 
 typedef struct S_801719C0_1 {
     u8 pad_00[0x5];
@@ -31,7 +31,7 @@ typedef struct S_801719C0_1 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_801719C0_1;   /* arg2 in func_801719C0 */
+} S_801719C0_1;   /* arg2 in dungeonAdvanceQueuedMovementStep */
 
 typedef struct S_801719C0_2 {
     u8 pad_00[0x8C];
@@ -46,24 +46,24 @@ typedef struct S_801719C0_2 {
     s16 unk_9E;
     u8 pad_A0[0x2];
     s16 unk_A2;
-} S_801719C0_2;   /* arg0 in func_801719C0 */
+} S_801719C0_2;   /* arg0 in dungeonAdvanceQueuedMovementStep */
 
 typedef struct S_801719C0_3 {
     u8 pad_00[0x74];
     u8 unk_74;
     u8 pad_75[0x7];
     u8 unk_7C;
-} S_801719C0_3;   /* entry in func_801719C0 */
+} S_801719C0_3;   /* entry in dungeonAdvanceQueuedMovementStep */
 
 typedef struct S_801719C0_4 {
     u8 pad_00[0x74];
     u8 unk_74;
     u8 pad_75[0x7];
     u8 unk_7C;
-} S_801719C0_4;   /* (u8 *)arg3 + ((S_801719C0_0 *)arg3)->unk_8A.s in func_801719C0 */
+} S_801719C0_4;   /* (u8 *)arg3 + ((S_801719C0_0 *)arg3)->unk_8A.s in dungeonAdvanceQueuedMovementStep */
 
 /* Advances a queued movement step and updates position, direction, and timing. */
-void func_801719C0(void *motion, s32 unused, void *sprite, void *path)
+void dungeonAdvanceQueuedMovementStep(void *motion, s32 unused, void *sprite, void *path)
 {
     s32 tile_mask;
     s32 step_count;
@@ -115,7 +115,7 @@ void func_801719C0(void *motion, s32 unused, void *sprite, void *path)
                       (((S_801719C0_0 *)path)->unk_1C & 0x2000) ? 0x300 : 0x3000);
 
         ((S_801719C0_0 *)path)->unk_2A =
-            func_800A0818(old_x, old_y, ((S_801719C0_1 *)sprite)->unk_24,
+            dungeonGetRoundedFacingAndRoundingFlag(old_x, old_y, ((S_801719C0_1 *)sprite)->unk_24,
                           ((S_801719C0_1 *)sprite)->unk_25, (u8 *)motion + 0x98);
     }
     ((S_801719C0_2 *)motion)->unk_9A = 0xF;

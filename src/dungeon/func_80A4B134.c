@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource06_slot0.h"
 
-void func_80174934(u8 *effect, R06_80174934_Vec3w *origin, u8 *render_data)
+void dungeonUpdateFadingFourStripEffect(u8 *effect, R06_80174934_Vec3w *origin, u8 *render_data)
 {
     s16 phase;
     u16 phase_bits;
@@ -81,7 +81,7 @@ void func_80174934(u8 *effect, R06_80174934_Vec3w *origin, u8 *render_data)
             strip_data = strip_obj + 0x20;
             ((R06_80174934_S_80174934_1 *)strip_data)->unk_1A = 1;
             ((R06_80174934_S_80174934_1 *)strip_data)->unk_1C = 1;
-            ((R06_80174934_S_80174934_2 *)strip_obj)->unk_10 = ((u8 *)func_801748F0);
+            ((R06_80174934_S_80174934_2 *)strip_obj)->unk_10 = ((u8 *)dungeonAdvanceRecordCountdown);
             func_8004491C(init_obj, callback);
 
             render_ctl = ((R06_80174934_S_80174934_2 *)strip_obj)->unk_0C;

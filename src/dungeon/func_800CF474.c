@@ -8,20 +8,20 @@ typedef struct S_800D4BD4_0 {
     s32 unk_0C;
     u8 pad_10[0x14];
     void * unk_24;
-} S_800D4BD4_0;   /* state in func_800D4BD4 */
+} S_800D4BD4_0;   /* state in dungeonInitializeEffectObjectState */
 
 typedef struct S_800D4BD4_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_800D4BD4_1;   /* arg0 in func_800D4BD4 */
+} S_800D4BD4_1;   /* arg0 in dungeonInitializeEffectObjectState */
 
 typedef struct S_800D4BD4_2 {
     u8 pad_00[0x10];
     s16 unk_10;
     u8 pad_12[0x2];
     u16 unk_14;
-} S_800D4BD4_2;   /* temp_a0 in func_800D4BD4 */
+} S_800D4BD4_2;   /* temp_a0 in dungeonInitializeEffectObjectState */
 
 typedef struct S_800D4BD4_3 {
     u8 pad_00[0x2];
@@ -30,7 +30,7 @@ typedef struct S_800D4BD4_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800D4BD4_3;   /* temp_v1 in func_800D4BD4 */
+} S_800D4BD4_3;   /* temp_v1 in dungeonInitializeEffectObjectState */
 
 
 typedef struct S_800D4BD4_5 {
@@ -42,7 +42,7 @@ typedef struct S_800D4BD4_5 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_800D4BD4_5;   /* temp_a0_2 in func_800D4BD4 */
+} S_800D4BD4_5;   /* temp_a0_2 in dungeonInitializeEffectObjectState */
 
 
 extern void func_8004491C(void *, void *);
@@ -50,7 +50,7 @@ extern void func_8003DB94(void *, void *, s32);
 extern s32 D_800DECF8;
 
 /* Initialize object state and rendering data from the source and position. */
-void func_800D4BD4(void *object, Rec_func_800D4BD4_arg1 *source, Rec_func_800D4BD4_arg2 *position)
+void dungeonInitializeEffectObjectState(void *object, Rec_func_800D4BD4_arg1 *source, Rec_func_800D4BD4_arg2 *position)
 {
     S_800D4BD4_2 *render_config;
     S_800D4BD4_5 *render_data;

@@ -8,20 +8,20 @@ typedef struct S_80165018_0 {
     void * unk_10;
     u8 pad_14[0xC];
     s32 unk_20;
-} S_80165018_0;   /* obj in func_80165018 */
+} S_80165018_0;   /* obj in dungeonCreateJitteredChildEffect */
 
 
 typedef struct S_80165018_2 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_80165018_2;   /* state in func_80165018 */
+} S_80165018_2;   /* state in dungeonCreateJitteredChildEffect */
 
 typedef struct S_80165018_3 {
     u8 pad_00[0xC];
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80165018_3;   /* pos in func_80165018 */
+} S_80165018_3;   /* pos in dungeonCreateJitteredChildEffect */
 
 typedef struct S_80165018_4 {
     u8 pad_00[0x8];
@@ -29,7 +29,7 @@ typedef struct S_80165018_4 {
     u8 pad_0C[0x26];
     s16 unk_32;
     s16 unk_34;
-} S_80165018_4;   /* tail in func_80165018 */
+} S_80165018_4;   /* tail in dungeonCreateJitteredChildEffect */
 
 typedef struct S_80165018_5 {
     u8 pad_00[0x2];
@@ -38,7 +38,7 @@ typedef struct S_80165018_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80165018_5;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_80165018 */
+} S_80165018_5;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in dungeonCreateJitteredChildEffect */
 
 typedef struct S_80165018_6 {
     u8 pad_00[0x2];
@@ -47,14 +47,14 @@ typedef struct S_80165018_6 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_80165018_6;   /* ((S_80165018_0 *)obj)->unk_08 in func_80165018 */
+} S_80165018_6;   /* ((S_80165018_0 *)obj)->unk_08 in dungeonCreateJitteredChildEffect */
 
 typedef struct S_80165018_7 {
     u8 pad_00[0x6];
     s16 unk_06;
     u8 pad_08[0x8];
     s16 unk_10;
-} S_80165018_7;   /* ((S_80165018_0 *)obj)->unk_0C in func_80165018 */
+} S_80165018_7;   /* ((S_80165018_0 *)obj)->unk_0C in dungeonCreateJitteredChildEffect */
 
 
 extern void *func_8003FD64(s32, void *);
@@ -65,7 +65,7 @@ extern u8 D_80164DA4[];
 
 
 /* Create an effect at a randomized offset from its parent and initialize its state. */
-void func_80165018(EntityRec *parent, s32 effect_value, s16 effect_size, s16 offset_x, s16 offset_y,
+void dungeonCreateJitteredChildEffect(EntityRec *parent, s32 effect_value, s16 effect_size, s16 offset_x, s16 offset_y,
                    s16 offset_z) {
     void *effect;
     S_80165018_2 *state;

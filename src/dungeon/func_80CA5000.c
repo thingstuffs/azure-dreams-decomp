@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_cc5000.h"
 
-void func_8015E87C(CL_CC5000_8017087C_Object *object, s32 field60_value, CL_CC5000_8017087C_CopyFields *source_coords)
+void createRandomizedFlaggedObject(CL_CC5000_8017087C_Object *object, s32 field60_value, CL_CC5000_8017087C_CopyFields *source_coords)
 {
     CL_CC5000_8017087C_Part *part;
     CL_CC5000_8017087C_CopyFields *copy;

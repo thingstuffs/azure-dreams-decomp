@@ -50,11 +50,11 @@ typedef struct {
 extern u8 D_800B2A60[];
 
 extern void func_8009A028(Entity *);
-extern void func_800A2B04(Motion *, u8, u8);
-extern void func_800AD4D0(Entity *);
+extern void dungeonSetRecordIntegerTileCenter(Motion *, u8, u8);
+extern void dungeonApplyClampedActorValueDelta(Entity *);
 
 /* Initializes and slows entity motion, then stops it or moves it to the target tile. */
-void func_800B2CA0(StateObj *motion_state, Motion *motion, Params *params, Entity *entity) {
+void dungeonInitializeSlowTargetMotion(StateObj *motion_state, Motion *motion, Params *params, Entity *entity) {
     s32 state;
     s16 initial_delay;
     s32 velocity_x;
@@ -65,7 +65,7 @@ void func_800B2CA0(StateObj *motion_state, Motion *motion, Params *params, Entit
     state = motion_state->state;
     switch (state) {
     case 0:
-        func_800AD4D0(entity);
+        dungeonApplyClampedActorValueDelta(entity);
         motion->dx = (-*(s16 *)(((u8 *)dirStepX) + ((entity->key6a >> 8) & 0xe))) << 0xf;
         motion->dy = (-*(s16 *)(((u8 *)dirStepY) + ((entity->key6a >> 8) & 0xe))) << 0xf;
         motion_state->state++;
@@ -159,7 +159,7 @@ void func_800B2CA0(StateObj *motion_state, Motion *motion, Params *params, Entit
         motion->unk14 = 0;
         motion->dy = 0;
         motion->dx = 0;
-        func_800A2B04(motion, params->x, params->y);
+        dungeonSetRecordIntegerTileCenter(motion, params->x, params->y);
         {
             if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)entity - 0x20)) {
                 *(s32 *)&dungeonStatus.unk_10 &= 0x7fffffff;

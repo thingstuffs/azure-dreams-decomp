@@ -18,7 +18,7 @@ extern S_8004A658_CategoryEntry itemCategoryTable[];
 extern s32 D_8007361C[256];
 
 /* Returns the word-table value selected by an item record in the given category. */
-s32 func_8004A658(s32 category_index, s32 record_index)
+s32 lookupItemCategoryMappedValue(s32 category_index, s32 record_index)
 {
     return D_8007361C[(&itemCategoryTable[category_index])->kind == 0
         ? ((S_8004A658_RecB *)(&itemCategoryTable[category_index])->records)[record_index].f1

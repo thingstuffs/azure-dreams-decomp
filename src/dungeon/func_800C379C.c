@@ -8,7 +8,7 @@ extern s32 func_80099734(void *record, u8 *out);
 extern s32 func_800A56E0(s32);
 extern s32 func_800A5720(s8 *text);
 extern s32 func_800A6D30(void);
-extern s32 func_800C8078(void *);
+extern s32 dungeonCheckEntityFlag4000(void *);
 
 extern char D_800E1A88[];
 extern char D_800E1A9D[];
@@ -16,7 +16,7 @@ extern char D_800E1AC2[];
 extern char D_800E1AD0[];
 
 /* Roll the actor's stack-split chance; on a hit decrement the stack and post the split message. */
-s32 func_800C8EFC(void *actor, s32 chance)
+s32 dungeonRollActorStackSplit(void *actor, s32 chance)
 {
     s32 mod;
     s32 handle;
@@ -24,7 +24,7 @@ s32 func_800C8EFC(void *actor, s32 chance)
     u8 count;
     s32 signed_arg;
 
-    if (func_800C8078(actor) != 0) {
+    if (dungeonCheckEntityFlag4000(actor) != 0) {
         return 0;
     }
 

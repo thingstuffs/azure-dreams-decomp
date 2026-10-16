@@ -9,7 +9,7 @@ typedef struct S_80174978_0 {
     u8 pad_9C[0xC];
     s16 unk_A8;
     s16 unk_AA;
-} S_80174978_0;   /* arg0 in func_80174978 */
+} S_80174978_0;   /* arg0 in dungeonUpdateATimedMovementAnimationMarksCompletion */
 
 typedef struct S_80174978_1 {
     u8 pad_00[0x8];
@@ -19,7 +19,7 @@ typedef struct S_80174978_1 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_80174978_1;   /* arg2 in func_80174978 */
+} S_80174978_1;   /* arg2 in dungeonUpdateATimedMovementAnimationMarksCompletion */
 
 typedef struct S_80174978_2 {
     u8 pad_00[0x2];
@@ -29,13 +29,13 @@ typedef struct S_80174978_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_80174978_2;   /* arg1 in func_80174978 */
+} S_80174978_2;   /* arg1 in dungeonUpdateATimedMovementAnimationMarksCompletion */
 
 
 extern void func_800A7A7C(s16, s16, s16, s32, void *);
 
 /* Updates a timed movement animation and marks its completion. */
-void func_80174978(void *actor, void *motion, void *visual) {
+void dungeonUpdateATimedMovementAnimationMarksCompletion(void *actor, void *motion, void *visual) {
     s32 state;
     s32 z_step;
     s32 speed_or_z;

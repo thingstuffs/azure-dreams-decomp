@@ -11,7 +11,7 @@ typedef struct S_8017085C_0 {
     s8 unk_59;
     u8 pad_5A[0x2];
     s32 unk_5C;
-} S_8017085C_0;   /* arg0 in func_8017085C */
+} S_8017085C_0;   /* arg0 in dungeonUpdateVerticalMotionAndEffect */
 
 typedef struct S_8017085C_1 {
     u8 pad_00[0x2];
@@ -21,19 +21,19 @@ typedef struct S_8017085C_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_8017085C_1;   /* arg1 in func_8017085C */
+} S_8017085C_1;   /* arg1 in dungeonUpdateVerticalMotionAndEffect */
 
 typedef struct S_8017085C_2 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_8017085C_2;   /* arg2 in func_8017085C */
+} S_8017085C_2;   /* arg2 in dungeonUpdateVerticalMotionAndEffect */
 
 
 extern s32 func_800644B8();
 extern void func_800A7A7C();
 
 /* Updates vertical animation and triggers an effect upon reaching the resting height. */
-void func_8017085C(void *motion, void *position, void *effect) {
+void dungeonUpdateVerticalMotionAndEffect(void *motion, void *position, void *effect) {
     s8 effect_args[4];
     s16 world_z;
     s16 state;

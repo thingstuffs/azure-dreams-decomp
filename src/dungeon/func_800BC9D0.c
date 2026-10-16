@@ -7,24 +7,24 @@
 #include "shared/dungeon_status.h"
 
 
-extern s32 func_8008D344();
-extern s32 func_80098864();
-extern void func_80098B38();
+extern s32 dungeonBeginModeSelectedItemAction();
+extern s32 dungeonProcessRecordAndUpdateLinkedState();
+extern void dungeonClearSlotAndUpdateLinkedState();
 extern s32 func_800990FC();
 extern s32 func_80099194();
 extern void func_80099290();
 extern void func_800A5720();
 extern void func_800A5F38();
 extern void func_800A6480();
-extern s32 func_800AD6FC();
-extern void func_800C4D78();
+extern s32 dungeonApplyActorFoodPreference();
+extern void dungeonCreateViewColorFlash();
 
 extern u8 D_800E1567[];
 extern u8 D_800E3648[];
 
 
 /* Apply an entity event or mark eligible slots, then finish the event. */
-s32 func_800C2130(EntityRec *entity, s32 event, s16 event_type, s32 event_arg) {
+s32 dungeonMakeFloorTrapsInvisible(EntityRec *entity, s32 event, s16 event_type, s32 event_arg) {
     s32 message_arg;
     u8 *slot;
     u8 *event_state;
@@ -34,16 +34,16 @@ s32 func_800C2130(EntityRec *entity, s32 event, s16 event_type, s32 event_arg) {
     s32 slot_index;
 
     if (event_type == 0xD) {
-        return func_80098864(event, event_arg);
+        return dungeonProcessRecordAndUpdateLinkedState(event, event_arg);
     }
     if (entity == ((u8 *)D_800E3D7C)) {
         entity->unk_110 = event;
-        func_8008D344(entity, &D_80083780.x.v, &D_80082E80.unk_000, entity);
+        dungeonBeginModeSelectedItemAction(entity, &D_80083780.x.v, &D_80082E80.unk_000, entity);
         return 0;
     }
     if ((u32)entity <= 0x9FFFFFFF) {
         func_800A6480(entity, event);
-        if (func_800AD6FC(
+        if (dungeonApplyActorFoodPreference(
                 entity,
                 D_800DDE84[(*(u8 *)((u8 *)&entity->unk_10 + 3))] & 3,
                 event) == 0) {
@@ -51,7 +51,7 @@ s32 func_800C2130(EntityRec *entity, s32 event, s16 event_type, s32 event_arg) {
             return 1;
         }
     } else {
-        func_800C4D78(0xC02020, 1);
+        dungeonCreateViewColorFlash(0xC02020, 1);
         message_buf = func_800990FC();
 
         message_arg = message_buf;
@@ -75,6 +75,6 @@ s32 func_800C2130(EntityRec *entity, s32 event, s16 event_type, s32 event_arg) {
     event_state = (u8 *)&dungeonStatus.unk_00;
     pending_count = (u16 *)(event_state + 0xA);
     *pending_count = *pending_count - 1;
-    func_80098B38(event);
+    dungeonClearSlotAndUpdateLinkedState(event);
     return 1;
 }

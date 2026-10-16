@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1830850.h"
 
-void func_80025850(void *context, s32 handler_index) {
+void inventoryDispatchIndexedHandler(void *context, s32 handler_index) {
     DispatchFunc *table;
     DispatchFunc *handler_entry;
 

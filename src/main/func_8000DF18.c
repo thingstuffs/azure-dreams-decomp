@@ -15,7 +15,7 @@ extern s32 CloseEvent(void *event);
 
 
 /* Closes memory card events, exiting if any close fails. */
-void func_80020F18(void)
+void cardBootCloseEvents(void)
 {
     func_8006A084();
     if (CloseEvent((*(void * *)(&D_80028550))) == 0) {

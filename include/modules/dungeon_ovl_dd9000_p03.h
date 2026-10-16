@@ -193,12 +193,12 @@ extern void func_80064D80();
 extern u32 func_80065420();
 extern void func_800654B0();
 extern void func_80065820();
-extern void func_80170A78();
+extern void dungeonUpdateObjectMovementFacingTerrain();
 extern s32 func_80170B40();
 extern s32 func_80170BAC();
 extern s32 func_80170DF8();
 extern s32 func_80170E48();
 extern s32 func_80170F78();
 extern s32 D_8006CD30[];
-void func_80170874(T_80170874_S_80DB9000_1 *sprite_size, T_80170874_S_80DB9000_2 *position, T_80170874_S_80DB9000_3 *sprite, s16 depth_bias);
+void dungeonProjectSpriteEntriesToQuads(T_80170874_S_80DB9000_1 *sprite_size, T_80170874_S_80DB9000_2 *position, T_80170874_S_80DB9000_3 *sprite, s16 depth_bias);
 #endif

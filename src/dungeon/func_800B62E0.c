@@ -7,11 +7,11 @@ extern void func_8003DB94();
 extern void * func_8003FD64();
 extern s32 func_8004491C();
 extern s32 func_800A56E0();
-void func_800BB2E4(); /* extern */
-extern s32 func_800C77D0();
+void dungeonDrawContentOrRect(); /* extern */
+extern s32 dungeonSelectNearbyTargetAndInitializeSlot();
 struct S_800BB55C_2;
-extern void func_800BB55C(void *effect, struct S_800BB55C_2 *position, s32 restore_link);
-extern s32 func_800BBA20(u8 *buffer, s32 value, void *data);
+extern void dungeonUpdateFivePointEffect(void *effect, struct S_800BB55C_2 *position, s32 restore_link);
+extern s32 dungeonProcessLinkedMenuEffect(u8 *buffer, s32 value, void *data);
 extern M2C_UNK D_800DF3C0;
 
 typedef struct S_800BBA40_0 {
@@ -19,7 +19,7 @@ typedef struct S_800BBA40_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_800BBA40_0;   /* temp_v0 in func_800BBA40 */
+} S_800BBA40_0;   /* temp_v0 in dungeonCreateFivePointEffect */
 
 typedef struct S_800BBA40_1 {
     u8 pad_00[0x2];
@@ -28,7 +28,7 @@ typedef struct S_800BBA40_1 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800BBA40_1;   /* temp_v1 in func_800BBA40 */
+} S_800BBA40_1;   /* temp_v1 in dungeonCreateFivePointEffect */
 
 typedef struct S_800BBA40_2 {
     u8 pad_00[0x6];
@@ -38,7 +38,7 @@ typedef struct S_800BBA40_2 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_800BBA40_2;   /* temp_v1_2 in func_800BBA40 */
+} S_800BBA40_2;   /* temp_v1_2 in dungeonCreateFivePointEffect */
 
 typedef struct S_800BBA40_3 {
     u8 pad_00[0x18];
@@ -51,10 +51,10 @@ typedef struct S_800BBA40_3 {
     u8 pad_3E[0x1E];
     s32 unk_5C;
     s32 unk_60;
-} S_800BBA40_3;   /* var_v1 in func_800BBA40 */
+} S_800BBA40_3;   /* var_v1 in dungeonCreateFivePointEffect */
 
 /* Creates an effect at the tile center and initializes its rendering and five angles. */
-void *func_800BBA40(s16 tile_x, s16 tile_y, s16 pos_z, void *transform_data, s16 scale, s32 setup_word_5c,
+void *dungeonCreateFivePointEffect(s16 tile_x, s16 tile_y, s16 pos_z, void *transform_data, s16 scale, s32 setup_word_5c,
     s32 setup_word_60) {
     s32 call_data[2];
     s16 angle;
@@ -67,15 +67,15 @@ void *func_800BBA40(s16 tile_x, s16 tile_y, s16 pos_z, void *transform_data, s16
 
     call_data[0] = 0x01000340;
     call_data[1] = 0x01000080;
-    func_800BB2E4(0, 0, call_data, 1, 0);
+    dungeonDrawContentOrRect(0, 0, call_data, 1, 0);
     effect = func_8003FD64(0x12, ((M2C_UNK *)&D_80083498.next));
     if (effect != NULL) {
         s32 angle_index;
         void *setup_cursor;
 
         func_800A56E0(0x704);
-        ((S_800BBA40_0 *)effect)->unk_10 = func_800BB55C;
-        func_8004491C(effect, func_800BBA20);
+        ((S_800BBA40_0 *)effect)->unk_10 = dungeonUpdateFivePointEffect;
+        func_8004491C(effect, dungeonProcessLinkedMenuEffect);
         position = ((S_800BBA40_0 *)effect)->unk_08;
         position->unk_02 = (s16) (((s32) (tile_x << 0x10) >> 0xA) + 0x20);
         position->unk_06 = (s16) (((s32) (tile_y << 0x10) >> 0xA) + 0x20);
@@ -105,7 +105,7 @@ loop_0:
         }
         if (angle_index < 5)
             goto loop_0;
-        func_800C77D0(((M2C_UNK *)&D_80083498.next), &D_80083780.x.v, 8, 0x300);
+        dungeonSelectNearbyTargetAndInitializeSlot(((M2C_UNK *)&D_80083498.next), &D_80083780.x.v, 8, 0x300);
     }
     return effect;
 }

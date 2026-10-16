@@ -27,7 +27,7 @@ typedef struct {
 } Record;
 
 extern void func_80024770(s32, s32, s32);
-extern void func_80024A30(s32, s32, s32, s32);
+extern void townFadeSceneTileAfterCompletionFlag(s32, s32, s32, s32);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 
@@ -196,7 +196,7 @@ shade:
         vertices[18] = ((s16 *)record)[segment + 72] << 16;
         vertices[22] = prev_z;
         vertices[26] = ((s16 *)record)[segment + 66] << 16;
-        func_80024A30(prev_lower_color, lower_color, saved_upper_color, upper_color);
+        townFadeSceneTileAfterCompletionFlag(prev_lower_color, lower_color, saved_upper_color, upper_color);
     }
 
     vertices[12] = vertices[16];

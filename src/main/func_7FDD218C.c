@@ -29,8 +29,8 @@ typedef struct Obj {
 extern u8 D_80080A84[];
 extern u8 D_80080A78[];
 
-extern s32 func_80053428();
-extern s32 func_80053604();
+extern s32 renderScreenFadeDecreasingIntensity();
+extern s32 renderScreenFadeIncreasingIntensity();
 extern void func_80053da8();
 extern void *func_8003fc64();
 extern void func_8003d468();
@@ -38,7 +38,7 @@ extern void func_80040aa0();
 extern void func_80089c24();
 
 /* Updates menu animation, selection, and idle demo transitions. */
-void func_800890EC(Obj *obj, s32 *position) {
+void mainUpdateSettingsMenuAnimation(Obj *obj, s32 *position) {
     int frames_left;
     int slot;
     u16 next_state;
@@ -54,7 +54,7 @@ void func_800890EC(Obj *obj, s32 *position) {
             obj->state = 16;
             return;
         }
-        if ((s16) func_80053428((u8 *) obj + 24)) {
+        if ((s16) renderScreenFadeDecreasingIntensity((u8 *) obj + 24)) {
             obj->f26 &= ~1;
             obj->state = 1;
         }
@@ -130,7 +130,7 @@ void func_800890EC(Obj *obj, s32 *position) {
         obj->state = 17;
                         /* fallthrough */
     case 17:
-        if ((s16) func_80053604((u8 *) obj + 24)) {
+        if ((s16) renderScreenFadeIncreasingIntensity((u8 *) obj + 24)) {
             position[1] = 0;
             obj->f1a = 0;
             obj->state = 18;
@@ -138,7 +138,7 @@ void func_800890EC(Obj *obj, s32 *position) {
         return;
 
     case 18:
-        if ((s16) func_80053428((u8 *) obj + 24)) {
+        if ((s16) renderScreenFadeDecreasingIntensity((u8 *) obj + 24)) {
             obj->f1a = 0;
             obj->state = 19;
         }
@@ -172,7 +172,7 @@ void func_800890EC(Obj *obj, s32 *position) {
                 obj->state = next_state;
                 break;
             }
-            *(void **) ((u8 *) child + 16) = (void *) func_80088930;
+            *(void **) ((u8 *) child + 16) = (void *) mainAssignObjectDescriptorOnCheck;
             obj->state = 253;
             break;
         case 1:

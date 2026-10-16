@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-s32 func_8001ABC8(s16 value_a, s16 value_b)
+s32 dungeonHasGenerationLinkWithinPair(s16 value_a, s16 value_b)
 {
     s32 pair_index;
     s32 first;

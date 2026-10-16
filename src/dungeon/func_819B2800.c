@@ -9,9 +9,9 @@
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 func_8003DE58();     /* extern */
+s32 resolveRecordOrientationOrFallback();     /* extern */
 void func_8009CE1C(); /* extern */
-void *func_800A3F28();           /* extern */
+void *dungeonFindEligibleNearbyEntry();           /* extern */
 s32 func_800A56E0();                     /* extern */
 
 typedef struct S_func_819B2800_0 {
@@ -95,7 +95,7 @@ typedef struct S_func_819B2800_8 {
 void func_8002401C(S_func_819B2800_0 *effect, S_func_819B2800_1 *position);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol func_80024000).  The phase table of the switch below follows
+ * (retail 0x80024000, the row symbol dungeonAddFlagAdjustedTargetValue).  The phase table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
 void (*const dungeon_19d2800_entry)(S_func_819B2800_0 *, S_func_819B2800_1 *) = func_8002401C;
 
@@ -142,14 +142,14 @@ void func_8002401C(S_func_819B2800_0 *effect, S_func_819B2800_1 *position) {
         object_data = (S_func_819B2800_2 *) func_8003FD64(0x302, ((u8 *)(&D_80083498)));
         if (object_data != NULL) {
             model = location->unk_0C;
-            if (func_8003DE58(model->unk_08, model, offset, 0) == 0) {
+            if (resolveRecordOrientationOrFallback(model->unk_08, model, offset, 0) == 0) {
                 offset[2] = 0;
                 offset[1] = 0;
                 offset[0] = 0;
             }
             visual = (S_func_819B2800_4 *) ((u8 *) object_data + 0x20);
-            object_data->unk_10 = func_8002466C;
-            func_8004491C(object_data, func_80024440);
+            object_data->unk_10 = dungeonUpdateAnimatedTargetEffect;
+            func_8004491C(object_data, dungeonDrawLinkedSpriteEffectQuads);
             pos_x = ((S_func_819B2800_1 *) location->unk_08)->unk_00 + (offset[0] << 0x10);
             position->unk_00 = pos_x;
             visual->unk_1C = pos_x;
@@ -193,7 +193,7 @@ void func_8002401C(S_func_819B2800_0 *effect, S_func_819B2800_1 *position) {
         if (object_data != NULL) {
             visual = (S_func_819B2800_4 *) ((u8 *) object_data + 0x20);
             object_data->unk_10 = func_80024B48;
-            func_8004491C(data_bytes, func_80024C14);
+            func_8004491C(data_bytes, dungeonDrawFadingRadialEffectGrid);
             data_bytes = ((u8 *)(&D_80082E80));
             direction = ((u16) ((S_func_819B2800_5 *) ((s32*)((int *)(&D_800814A8)))[0])->unk_2A >> 9) & 7;
             offset[0] = direction;
@@ -215,7 +215,7 @@ void func_8002401C(S_func_819B2800_0 *effect, S_func_819B2800_1 *position) {
             if (target != 0) {
                 location = (S_func_819B2800_3 *) ((u8 *)(&D_80082E80));
 next_target:
-                target = func_800A3F28(location->unk_24, location->unk_25, position, (void *) target);
+                target = dungeonFindEligibleNearbyEntry(location->unk_24, location->unk_25, position, (void *) target);
                 if (target != 0) {
                     if (!(((S_func_819B2800_5 *) target)->unk_1C & 0x2000)) {
                         func_8009CE1C((void *) target, 0x10, effect->unk_09, 0xC, (s32) object_data->unk_2A,

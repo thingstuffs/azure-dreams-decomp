@@ -1,21 +1,9 @@
-#include "common.h"
-#include "m2c_compat.h"
+#include "modules/town_ovl_3ef1c8.h"
 
-s32 func_8001628C();           /* extern */
-s32 func_80017E98(s32, M2C_UNK);                                /* extern */
-s32 func_80019A04();         /* extern */
-s32 func_80019ABC(); /* extern */
-s32 func_8001A510();                         /* extern */
-extern M2C_UNK D_8001A97C;
-extern s32 D_8001B1FC;
-extern s32 D_8001B63C;
-extern M2C_UNK D_8001CDF2;
-
-/* Select dialogue from the table, state override, or fallback. */
-s32 func_80016D28(s32 speaker, M2C_UNK interaction, M2C_UNK dialogue_id) {
+s32 townSelectDialogueWith799Override(s32 speaker, s32 interaction, s32 dialogue_id) {
     s32 dialogue;
 
-    if (func_80017E98(speaker, interaction) != 0) {
+    if (townCheckTableResultBelowMinus47(speaker, interaction) != 0) {
 
         return &D_8001B63C;
     }

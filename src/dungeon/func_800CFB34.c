@@ -9,7 +9,7 @@
 typedef struct S_800D5294_5 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_800D5294_5;   /* temp_a0 in func_800D5294 */
+} S_800D5294_5;   /* temp_a0 in dungeonEmitRandomizedRelativeParticles */
 
 typedef struct S_800D5294_6 {
     u8 pad_00[0x2];
@@ -18,26 +18,26 @@ typedef struct S_800D5294_6 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800D5294_6;   /* ((S_800D5294_5 *)temp_a0)->unk_08 in func_800D5294 */
+} S_800D5294_6;   /* ((S_800D5294_5 *)temp_a0)->unk_08 in dungeonEmitRandomizedRelativeParticles */
 
 
 typedef struct S_800D5294_0_pre {
     u16 unk_00;
-} S_800D5294_0_pre;   /* the 0x2 bytes before arg0 in func_800D5294, addressed as arg0[-1] */
+} S_800D5294_0_pre;   /* the 0x2 bytes before arg0 in dungeonEmitRandomizedRelativeParticles, addressed as arg0[-1] */
 
 
 typedef struct S_800D5294_2 {
     u8 pad_00[0x1E];
     s16 unk_1E;
     s16 unk_20;
-} S_800D5294_2;   /* temp_v0_3 in func_800D5294 */
+} S_800D5294_2;   /* temp_v0_3 in dungeonEmitRandomizedRelativeParticles */
 
 typedef struct S_800D5294_3 {
     u8 pad_00[0x8];
     void * unk_08;
     u8 pad_0C[0x4];
     M2C_UNK * unk_10;
-} S_800D5294_3;   /* temp_v0_2 in func_800D5294 */
+} S_800D5294_3;   /* temp_v0_2 in dungeonEmitRandomizedRelativeParticles */
 
 typedef struct S_800D5294_4 {
     u8 pad_00[0x2];
@@ -48,16 +48,16 @@ typedef struct S_800D5294_4 {
     s16 unk_0A;
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_800D5294_4;   /* temp_s0 in func_800D5294 */
+} S_800D5294_4;   /* temp_s0 in dungeonEmitRandomizedRelativeParticles */
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 rand();                                /* extern */
-void func_800D4BD4(); /* extern */
+void dungeonInitializeEffectObjectState(); /* extern */
 extern M2C_UNK D_800D50FC[3];
 
 /* Emit randomized particles at the parent-relative position and expire the emitter when its lifetime ends. */
-void func_800D5294(void *emitter, Rec_func_800D4BD4_arg2 *position, M2C_UNK spawn_context) {
+void dungeonEmitRandomizedRelativeParticles(void *emitter, Rec_func_800D4BD4_arg2 *position, M2C_UNK spawn_context) {
     s32 particle_index;
     u16 tick_or_offset;
     u16 life_left;
@@ -85,7 +85,7 @@ void func_800D5294(void *emitter, Rec_func_800D4BD4_arg2 *position, M2C_UNK spaw
         do {
             particle = func_8003FC64(0x212);
             if (particle != NULL) {
-                func_800D4BD4(particle, emitter, position, spawn_context);
+                dungeonInitializeEffectObjectState(particle, emitter, position, spawn_context);
                 particle_state = particle + 0x20;
                 particle_state->unk_1E = particle_size;
                 particle_state->unk_20 = particle_size;

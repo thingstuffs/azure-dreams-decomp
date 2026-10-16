@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_18c4828.h"
 
-void *func_80024264(s32 context_value, Row_818A4A64_S_818A4A64_2 *initial_position) {
+void *createRandomizedGrayscaleEffect(s32 context_value, Row_818A4A64_S_818A4A64_2 *initial_position) {
     Row_818A4A64_S_818A4A64_1 *render_state;
     Row_818A4A64_S_818A4A64_0 *object;
     Row_818A4A64_S_818A4A64_3 *position;

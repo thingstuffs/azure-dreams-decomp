@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Returns the sign of a two-component dot product using record coefficients truncated from 12-bit fractional values. */
-s32 func_8008C3B8(s32 recordTableAddress, s32 recordIndexOrCoefficient, s32 componentsOrSum) {
+s32 townDotSignWithTruncatedQ12Coefficients(s32 recordTableAddress, s32 recordIndexOrCoefficient, s32 componentsOrSum) {
     s32 firstScale;
     s32 firstProduct;
     s32 secondScale;

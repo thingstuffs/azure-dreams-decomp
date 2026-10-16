@@ -7,13 +7,13 @@
 #define P32(p,o) (*(void **)((u8 *)(p)+(o)))
 extern s32 func_800A6D30(void);
 extern s16 func_800A48F0();
-extern void * func_800C5BBC();
+extern void * dungeonSpawnRandomizedParticleBurst();
 extern s32 func_800A56E0();
-extern void func_80099844();
+extern void dungeonAdjustSourceValueAndFinalize();
 
 extern u8 D_800E1BBC[];
 /* Attempts a random status effect and plays its visual and sound effects on success. */
-s32 func_800CC058(void *entity, s32 rng_input_a, s32 rng_input_b, s32 rng_input_c)
+s32 dungeonAttemptRandomStatusEffect(void *entity, s32 rng_input_a, s32 rng_input_b, s32 rng_input_c)
 {
     u8 notify_failure = 0;
     s32 random_value;
@@ -33,13 +33,13 @@ s32 func_800CC058(void *entity, s32 rng_input_a, s32 rng_input_b, s32 rng_input_
     if (roll_or_failure < 0x30 && (func_800A48F0(entity, 7, -0x10) << 16) >= 0) {
         parent = P32(entity, -0x14);
         if (!(U16(parent, 0x14) & 0x8000)) {
-            func_800C5BBC((U8(parent, 0x24) << 6) | 0x20,
+            dungeonSpawnRandomizedParticleBurst((U8(parent, 0x24) << 6) | 0x20,
                           (U8(parent, 0x25) << 6) | 0x20,
                           S16(entity, 0x88), 0x202020, 0x40, 0);
             func_800A56E0(0x615);
         }
         if (U32(entity, 0x14) & 0x4000) {
-            func_80099844(entity, D_800E1BBC);
+            dungeonAdjustSourceValueAndFinalize(entity, D_800E1BBC);
         }
     } else {
         roll_or_failure = U8(entity, 0x13) == 0;

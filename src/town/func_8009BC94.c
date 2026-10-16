@@ -5,14 +5,14 @@
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/town_handler.h"
 
-void func_80099754();                     
+void townClearEntityRecordFields();                     
 extern s32 D_80098608;
 extern s32 D_800D00A8;
 
 void func_800993F4(Rec_func_80094268_arg0 *object, s32 context, void *ptr2) {
-    func_80094984((s32 *) &D_800D00A8, object, ptr2);
+    townCallTheHandlerSelectsNonzeroEntry((s32 *) &D_800D00A8, object, ptr2);
     D_80082660[object->unk_40].unk_00 = 0;
     object->unk_0A.as_s16 = 0xA;
-    func_80099754(context);
+    townClearEntityRecordFields(context);
     object->unk_04.as_pm = &D_80098608;
 }

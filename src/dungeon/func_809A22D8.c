@@ -8,14 +8,14 @@
 #define FIELD_S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define FIELD_PTR(p, o) (*(void **)((u8 *)(p) + (o)))
 
-extern void func_800A2B04(void *, u8, u8);
-extern void func_800AAA54(void *actor, void *unused, void *display, u8 *facing_variants);
-extern void func_800AD4D0(void *);
+extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
+extern void dungeonBeginActorDisplayAction(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void dungeonApplyClampedActorValueDelta(void *);
 extern s32 D_801710EC[];
 extern u8 D_80175E90[];
 
 /* Decays motion, then aligns the actor with its grid position. */
-void func_80173AD8(void *action, void *motion, void *actor, void *source) {
+void dungeonDecayMotionAndAlignActor(void *action, void *motion, void *actor, void *source) {
     s32 state;
     s32 x_velocity;
     s32 z_velocity;
@@ -29,13 +29,13 @@ void func_80173AD8(void *action, void *motion, void *actor, void *source) {
 
     switch (FIELD_U8(action, 0x9B)) {
     case 0:
-        func_800AD4D0(source);
+        dungeonApplyClampedActorValueDelta(source);
         FIELD_U8(action, 0x9B) = FIELD_U8(action, 0x9B) + 1;
         if (FIELD_U8(source, 0x28) == 0) {
             FIELD_S32(motion, 0x14) = 0;
             FIELD_S32(motion, 0x10) = 0;
             FIELD_S32(motion, 0xC) = 0;
-            func_800AAA54(action, motion, actor, D_80175E90);
+            dungeonBeginActorDisplayAction(action, motion, actor, D_80175E90);
             return;
         }
         if (FIELD_U16(actor, 0x14) & 0x8000) {
@@ -77,7 +77,7 @@ void func_80173AD8(void *action, void *motion, void *actor, void *source) {
             FIELD_S32(motion, 0x14) = 0;
             FIELD_S32(motion, 0x10) = 0;
             FIELD_S32(motion, 0xC) = 0;
-            func_800AAA54(action, motion, actor, D_80175E90);
+            dungeonBeginActorDisplayAction(action, motion, actor, D_80175E90);
             return;
         }
         state = FIELD_U8(action, 0x9B);
@@ -107,7 +107,7 @@ void func_80173AD8(void *action, void *motion, void *actor, void *source) {
         FIELD_S32(motion, 0x14) = 0;
         FIELD_S32(motion, 0x10) = 0;
         FIELD_S32(motion, 0xC) = 0;
-        func_800A2B04(motion, FIELD_U8(actor, 0x24), FIELD_U8(actor, 0x25));
+        dungeonSetRecordIntegerTileCenter(motion, FIELD_U8(actor, 0x24), FIELD_U8(actor, 0x25));
         if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)source - 0x20)) {
             *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
         }

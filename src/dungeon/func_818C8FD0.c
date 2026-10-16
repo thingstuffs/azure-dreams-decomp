@@ -39,7 +39,7 @@ extern u8 D_800DEC00[];
 
 
 /* Updates an effect through attachment, motion, and timed cleanup. */
-void func_800247D0(B31_818C8FD0_S_func_818C8FD0_1 *state, B31_818C8FD0_S_func_818C8FD0_4 *output_pos, B31_818C8FD0_S_func_818C8FD0_5 *part)
+void dungeonUpdateAnEffectThroughAttachmentMotionTimedCleanup(B31_818C8FD0_S_func_818C8FD0_1 *state, B31_818C8FD0_S_func_818C8FD0_4 *output_pos, B31_818C8FD0_S_func_818C8FD0_5 *part)
 {
     s16 delta[3];
     s32 mode;
@@ -200,7 +200,7 @@ void func_800247D0(B31_818C8FD0_S_func_818C8FD0_1 *state, B31_818C8FD0_S_func_81
                     state->unk_86 = effect->unk_02.s16 + 0x1E;
                 }
 
-                effect_node->unk_10 = func_80024270;
+                effect_node->unk_10 = dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases;
                 {
                     effect_pos = effect_node->unk_08;
 

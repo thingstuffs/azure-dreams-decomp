@@ -12,7 +12,7 @@ typedef union PackedOffsets {
 struct Actor33;
 struct Motion33;
 struct Render33;
-void func_80024668(struct Actor33 *, struct Motion33 *, struct Render33 *);
+void updateActorEffectParticlesAndCleanup(struct Actor33 *, struct Motion33 *, struct Render33 *);
 s32 func_80024044(void *, void *);
 void func_80024294(void *, void *);
 void func_80024394(ObjectNodeHeader *, s32, s32, s32, s32, s32, s32);

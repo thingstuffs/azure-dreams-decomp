@@ -12,7 +12,7 @@ typedef struct S_800255B8_0 {
     u8 * unk_08;
     u8 * unk_0C;
     void * unk_10;
-} S_800255B8_0;   /* *cur in func_800255B8 */
+} S_800255B8_0;   /* *cur in dungeonCreateLinkedSpritePieces */
 
 typedef struct S_800255B8_1 {
     u8 pad_00[0x2];
@@ -21,7 +21,7 @@ typedef struct S_800255B8_1 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800255B8_1;   /* partA in func_800255B8 */
+} S_800255B8_1;   /* partA in dungeonCreateLinkedSpritePieces */
 
 typedef struct S_800255B8_2 {
     u8 pad_00[0x8];
@@ -36,7 +36,7 @@ typedef struct S_800255B8_2 {
     s16 unk_1C;
     s16 unk_1E;
     s16 unk_20;
-} S_800255B8_2;   /* partB in func_800255B8 */
+} S_800255B8_2;   /* partB in dungeonCreateLinkedSpritePieces */
 
 typedef struct S_800255B8_3 {
     u8 pad_00[0x20];
@@ -54,20 +54,20 @@ typedef struct S_800255B8_3 {
     u8 pad_44[0x2];
     s16 unk_46;
     s16 unk_48;
-} S_800255B8_3;   /* tail in func_800255B8 */
+} S_800255B8_3;   /* tail in dungeonCreateLinkedSpritePieces */
 
 
 extern u8 D_800274C0[];
 extern u8 D_80027580[];
 
-extern s32 func_8003FA44(s32);
+extern s32 hasEnoughAvailableRuntimeNodes(s32);
 
 static __inline__ s16 dir_step(s16 *table, u16 offset) {
     return *(s16 *)(offset + (u32)table);
 }
 
 /* Creates twelve linked sprite pieces at an offset from the given position and angle. */
-void *func_800255B8(s16 x, s16 y, s16 z, s16 heading) {
+void *dungeonCreateLinkedSpritePieces(s16 x, s16 y, s16 z, s16 heading) {
     void *objects[12];
     s32 piece_index;
     s16 *x_offsets;
@@ -82,7 +82,7 @@ void *func_800255B8(s16 x, s16 y, s16 z, s16 heading) {
     s32 y_offset;
     u16 sprite_flags;
 
-    if (func_8003FA44(12) == 0) {
+    if (hasEnoughAvailableRuntimeNodes(12) == 0) {
         return 0;
     }
 
@@ -100,7 +100,7 @@ void *func_800255B8(s16 x, s16 y, s16 z, s16 heading) {
             }
             objects[piece_index] = func_8003FD64(2, template);
         }
-        ((S_800255B8_0 *)objects[piece_index])->unk_10 = func_8002501C;
+        ((S_800255B8_0 *)objects[piece_index])->unk_10 = dungeonUpdateWarpCameraAndEffects;
         func_8004491C(objects[piece_index], func_800C9034);
 
         offset_addr = (heading >> 8) & 0xE;

@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void func_8001784C(void) {
+void placeRandomFloorElevators(void) {
     s32 state;
     u8 x;
     u8 y;
@@ -26,7 +26,7 @@ void func_8001784C(void) {
         do {
 retry:
         do {
-        } while ((s16)func_800A4E2C(&x, &y) < 0);
+        } while ((s16)selectDungeonSpawnTile(&x, &y) < 0);
 
         {
             u8 *meta;

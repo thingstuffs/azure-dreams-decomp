@@ -42,9 +42,9 @@ typedef struct S_800C4F6C_4 {
 } S_800C4F6C_4;   /* temp_a1 in func_800C4F6C */
 
 
-void func_800A47A8();                     /* extern */
-void func_800A48B0();            /* extern */
-void func_800C3050(); /* extern */
+void townCreateResourceDisplayObject();                     /* extern */
+void townCopyEntityRecordFields();            /* extern */
+void townInitializeObjectAndRegisterSlot(); /* extern */
 void *func_800C5214();                      /* extern */
 extern M2C_UNK D_800C5064;
 extern M2C_UNK D_800D50DC;
@@ -58,7 +58,7 @@ extern M2C_UNK D_80100D98;
 void func_800C4F6C(void *object, S_800C4F6C_0 *position, S_800C4F6C_2 *display_state) {
     EntityRec *shared_position;
 
-    func_800C3050(object, 0x1D, &D_800D5120, &D_800D5124,
+    townInitializeObjectAndRegisterSlot(object, 0x1D, &D_800D5120, &D_800D5124,
                   &D_800D50F0, &D_800D50F8);
     position->unk_08 = 0xFF800000;
     ((S_800C4F6C_6 *)(((S_800C4F6C_5 *)object)->unk_80))->unk_04 = &D_800D50DC;
@@ -66,8 +66,8 @@ void func_800C4F6C(void *object, S_800C4F6C_0 *position, S_800C4F6C_2 *display_s
     display_state->unk_10 = 0;
     display_state->unk_14 = (u16) (display_state->unk_14 | 0xC);
     func_800C5214(object - 0x20);
-    func_800A47A8(0);
-    func_800A47A8(1);
+    townCreateResourceDisplayObject(0);
+    townCreateResourceDisplayObject(1);
     display_state->unk_1E = 0x800;
     display_state->unk_1C = 0x800;
     position->unk_04 = 0x04300000;
@@ -75,5 +75,5 @@ void func_800C4F6C(void *object, S_800C4F6C_0 *position, S_800C4F6C_2 *display_s
     shared_position = &D_80083780;
     shared_position->y.v = (s32) position->unk_04;
     shared_position->z.v = (s32) position->unk_08;
-    func_800A48B0(&D_80100D98, shared_position);
+    townCopyEntityRecordFields(&D_80100D98, shared_position);
 }

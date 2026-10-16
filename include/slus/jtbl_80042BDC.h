@@ -69,7 +69,7 @@ extern void           func_800D5460(void *p, int a1, int a2);
 extern void          *func_800A1618(int a0, s16 a1);
 extern void           func_8009A3D0(int a0, int a1, int a2);
 extern Ctor_80042BDC  func_800A0B94(int a0, void *a1, int a2);
-extern void           func_8003F320(void);
+extern void           drainCdCommandQueue(void);
 extern void           func_8004397C(S_80042BDC *ent);
 extern void           func_80042710(S_80042BDC *obj, S_80042BDC *ent);
 extern void           func_80042984(S_80042BDC *obj);

@@ -1,15 +1,15 @@
 #include "common.h"
 #include "shared/dir_step.h"
 
-extern s32 func_8009A350(s16, s16, s16, u16 *);
+extern s32 getOffsetMapCellValueAndFlags(s16, s16, s16, u16 *);
 extern s16 func_800BCB04(s32, s32, s16);
 
 /* Checks the adjacent tile's flags and whether its sampled value is below 0x200. */
-s32 func_8017506C(s16 tile_x, s16 tile_y, s32 height, s16 direction, s16 *sample_out) {
+s32 dungeonCheckAdjacentTileHeight(s16 tile_x, s16 tile_y, s32 height, s16 direction, s16 *sample_out) {
     u16 tile_flags;
     s16 sample;
 
-    if ((func_8009A350(tile_x, tile_y, direction, &tile_flags) << 16) == 0) {
+    if ((getOffsetMapCellValueAndFlags(tile_x, tile_y, direction, &tile_flags) << 16) == 0) {
         return 0;
     }
     if (!(tile_flags & 0xB700)) {

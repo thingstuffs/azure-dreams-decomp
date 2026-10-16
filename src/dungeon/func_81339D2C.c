@@ -17,14 +17,14 @@ typedef struct S_80170D2C_0 {
     s32 unk_68;
     s32 unk_6C;
     s32 unk_70;
-} S_80170D2C_0;   /* work in func_80170D2C */
+} S_80170D2C_0;   /* work in dungeonCreateTimedOffsetMotionEffect */
 
 typedef struct S_80170D2C_1 {
     u8 pad_00[0x8];
     u8 * unk_08;
     u8 * unk_0C;
     void * unk_10;
-} S_80170D2C_1;   /* obj in func_80170D2C */
+} S_80170D2C_1;   /* obj in dungeonCreateTimedOffsetMotionEffect */
 
 typedef struct S_80170D2C_2 {
     u8 pad_00[0x6];
@@ -40,19 +40,19 @@ typedef struct S_80170D2C_2 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_80170D2C_2;   /* packet in func_80170D2C */
+} S_80170D2C_2;   /* packet in dungeonCreateTimedOffsetMotionEffect */
 
 typedef struct S_80170D2C_3 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_80170D2C_3;   /* prim in func_80170D2C */
+} S_80170D2C_3;   /* prim in dungeonCreateTimedOffsetMotionEffect */
 
 typedef struct S_80170D2C_4 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_80170D2C_4;   /* D_80083780 in func_80170D2C */
+} S_80170D2C_4;   /* D_80083780 in dungeonCreateTimedOffsetMotionEffect */
 
 
 extern s32 func_8004491C();
@@ -60,7 +60,7 @@ extern u8 D_80170BB0[];
 extern u8 D_80173B88[];
 
 /* Create an offset object and initialize its motion and render data. */
-void func_80170D2C(s32 unused, s16 duration, s32 offset_x, s32 offset_y, s32 offset_z) {
+void dungeonCreateTimedOffsetMotionEffect(s32 unused, s16 duration, s32 offset_x, s32 offset_y, s32 offset_z) {
     s32 fixed_value;
     u8 *obj;
     u8 *work;

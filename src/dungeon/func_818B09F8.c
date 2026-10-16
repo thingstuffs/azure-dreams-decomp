@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_18d0850.h"
 
-ovl_18d0850_818B09F8_MainObj *func_800241F8(s32 object_value, ovl_18d0850_818B09F8_VecObj *source_vec) {
+ovl_18d0850_818B09F8_MainObj *dungeonCreateAnInitializedRenderStateCopyVector(s32 object_value, ovl_18d0850_818B09F8_VecObj *source_vec) {
     ovl_18d0850_818B09F8_MainObj *obj = (ovl_18d0850_818B09F8_MainObj *)func_8003FC64(530);
     ovl_18d0850_818B09F8_SubObj *sub;
     ovl_18d0850_818B09F8_VecObj *vec;

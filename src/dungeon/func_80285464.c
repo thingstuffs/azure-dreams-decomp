@@ -23,7 +23,7 @@ void func_80018464(s16 layout_number)
     cfg = &gameWork.map;
     map = ((floor_generate_isolated_80285464_MapCell *)cfg->cells);
     Control_CD(6, layout_id, 0);
-    func_8003F320();
+    drainCdCommandQueue();
     entry_index = 0;
 
     room_header = (u16 *)(data_2 + 4);
@@ -74,7 +74,7 @@ void func_80018464(s16 layout_number)
         entry_index++;
         data += 4;
     }
-    if (func_800199C8(entry_index) != 0) {
+    if (tryAddSecondTowerEntry(entry_index) != 0) {
         entry_index++;
     }
     D_8001F586 = 1;
@@ -149,7 +149,7 @@ void func_80018464(s16 layout_number)
     func_8004068C(data, ((u8 *)D_800EA000));
     for (entry_index = 0; D_800E3548[entry_index].kind != 0; entry_index++) {
         placed_record = &((floor_generate_isolated_80285464_RecB *)D_800E36C8)[entry_index];
-        map_value = func_800BCA68(placed_record->f0 << 6, placed_record->f1 << 6);
+        map_value = dungeonGetSurfaceHeightAtCoordinates(placed_record->f0 << 6, placed_record->f1 << 6);
         placed_record->f4 = map_value;
         *(s16 *)&placed_record->f2 = map_value;
     }

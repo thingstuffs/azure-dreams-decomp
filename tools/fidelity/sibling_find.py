@@ -25,6 +25,8 @@ import struct
 import subprocess
 import sys
 import time
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from source_layout import row_path as layout_row_path
 
 sys.dont_write_bytecode = True
 VERSION = 'sibling-find-2'
@@ -493,7 +495,7 @@ class Workspace:
         return z.stdout
 
     def source(self, row):
-        return self.repo/'src'/row['container']/Path(row['c_path']).name
+        return layout_row_path(row, self.repo)
 
     def build_inventory(self, jp_lane=None, external=None):
         records=[];missing=[];source_dir=self.big/'sources';source_dir.mkdir(exist_ok=True)
@@ -588,7 +590,7 @@ class Workspace:
             for debug in (False,True):
                 tag='debug' if debug else 'production'
                 argv=[d/'gcc','-B'+str(d)+'/', '-S',*flags,*(['-g'] if debug else []),
-                      '-I'+str(self.repo/'include'),'-I'+str(self.repo/'src'/row['container']),'-w',out/'input.c','-o',out/(tag+'.cc1.s')]
+                      '-I'+str(self.repo/'include'),'-I'+str(self.source(row).parent),'-w',out/'input.c','-o',out/(tag+'.cc1.s')]
                 self.run(argv,out)
                 s=(out/(tag+'.cc1.s')).read_text()
                 s=self.run([sys.executable,self.repo/'tools/build/ccproc.py'],out,s)

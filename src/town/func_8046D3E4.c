@@ -4,6 +4,6 @@
 extern s32 D_8001E960;
 
 /* Stores the supplied value in D_8001E960. */
-void func_8046D3E4(s32 value) {
+void func_8001E3E4(s32 value) {
     D_8001E960 = value;
 }

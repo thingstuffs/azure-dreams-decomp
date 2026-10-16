@@ -7,10 +7,10 @@ extern s16 D_800160B2;
 typedef struct S_80016584_0 {
     u8 pad_00[0x18];
     s16 unk_18;
-} S_80016584_0;   /* arg0 in func_80016584 */
+} S_80016584_0;   /* arg0 in townCheckFlagTestRecord */
 
 /* Check the record flag only when the global flag is clear. */
-s32 func_80016584(S_80016584_0 *record) {
+s32 townCheckFlagTestRecord(S_80016584_0 *record) {
     s32 flag_set;
 
     flag_set = 0;

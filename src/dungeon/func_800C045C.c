@@ -8,7 +8,7 @@ M2C_UNK func_8003DB94();  /* extern */
 extern s32 func_8004491C();
 s32 rand();                                /* extern */
 extern s32 func_800A56E0();
-extern void func_800C5A64(void *effect, s32 *motion, void *primitive);
+extern void dungeonDampEffectMotionAndFade(void *effect, s32 *motion, void *primitive);
 extern M2C_UNK D_800DEA68;
 
 typedef struct S_800C5BBC_0 {
@@ -16,7 +16,7 @@ typedef struct S_800C5BBC_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_800C5BBC_0;   /* temp_v0 in func_800C5BBC */
+} S_800C5BBC_0;   /* temp_v0 in dungeonSpawnRandomizedParticleBurst */
 
 typedef struct S_800C5BBC_1 {
     u8 pad_00[0x2];
@@ -28,7 +28,7 @@ typedef struct S_800C5BBC_1 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800C5BBC_1;   /* temp_s0 in func_800C5BBC */
+} S_800C5BBC_1;   /* temp_s0 in dungeonSpawnRandomizedParticleBurst */
 
 typedef struct S_800C5BBC_2 {
     u8 pad_00[0xC];
@@ -39,22 +39,22 @@ typedef struct S_800C5BBC_2 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_800C5BBC_2;   /* temp_s0_2 in func_800C5BBC */
+} S_800C5BBC_2;   /* temp_s0_2 in dungeonSpawnRandomizedParticleBurst */
 
 typedef struct S_800C5BBC_3 {
     u8 pad_00[0xC];
     s16 unk_0C;
     u8 pad_0E[0x2];
     s16 unk_10;
-} S_800C5BBC_3;   /* temp_v1 in func_800C5BBC */
+} S_800C5BBC_3;   /* temp_v1 in dungeonSpawnRandomizedParticleBurst */
 
 typedef struct S_800C5BBC_4 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800C5BBC_4;   /* var_s5 in func_800C5BBC */
+} S_800C5BBC_4;   /* var_s5 in dungeonSpawnRandomizedParticleBurst */
 
 /* Spawn a burst of randomized particles and return the first particle. */
-void *func_800C5BBC(s16 x, s16 y, s16 z, s32 sprite_data, u16 sprite_id, s16 play_sound) {
+void *dungeonSpawnRandomizedParticleBurst(s16 x, s16 y, s16 z, s32 sprite_data, u16 sprite_id, s16 play_sound) {
     M2C_UNK alloc_flags;
     s32 particle_index;
     s32 remaining;
@@ -78,7 +78,7 @@ void *func_800C5BBC(s16 x, s16 y, s16 z, s32 sprite_data, u16 sprite_id, s16 pla
             }
             particle = func_8003FC64(alloc_flags);
             if (particle != NULL) {
-                ((S_800C5BBC_0 *)particle)->unk_10 = func_800C5A64;
+                ((S_800C5BBC_0 *)particle)->unk_10 = dungeonDampEffectMotionAndFade;
                 func_8004491C(particle, func_80045340);
                 position = ((S_800C5BBC_0 *)particle)->unk_08;
                 position->unk_02 = (u16) x;

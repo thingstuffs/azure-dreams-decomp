@@ -14,11 +14,11 @@ extern s32 func_800990FC(void);
 extern s32 func_80099194(u8 *src, u8 *dst);
 extern void func_80099290(s8 *byte_ptr);
 extern s32 func_80099734(void *record, u8 *out);
-extern void *func_800A05A4(void *, u8, u8, s16, s32);
-extern void func_800A4ACC(void *);
+extern void *dungeonScanMonsterAlongHeading(void *, u8, u8, s16, s32);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A56E0(s32);
 extern void func_800A5720(s8 *text);
-extern void func_800AD594(void *, s32);
+extern void dungeonReduceActorFoodMeter(void *, s32);
 extern void func_800C8A3C(void *, s32, s32);
 
 extern void *D_800E3DE8;
@@ -43,7 +43,7 @@ void func_80173614(void *work, void *part_a, void *part_b, void *actor)
         first = result;
         func_80099290(func_80099194(D_80170854, first));
         func_800A5720(saved_first);
-        object = func_800A05A4(actor, U8(part_b, 0x24), U8(part_b, 0x25),
+        object = dungeonScanMonsterAlongHeading(actor, U8(part_b, 0x24), U8(part_b, 0x25),
                                S16(actor, 0x2A), 0x10);
         PTR(actor, 0x60) = object;
         PTR(part_b, 0x2C) = D_801738A4;
@@ -60,10 +60,10 @@ void func_80173614(void *work, void *part_a, void *part_b, void *actor)
         if (!(U16(part_b, 0x14) & 0xE000)) {
             return;
         }
-        func_800AD594(actor, 0xC00);
+        dungeonReduceActorFoodMeter(actor, 0xC00);
         PTR(work, 0x8C) = &D_80170E68;
         dungeonStatus.unk_0C = 0;
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         if (S8(actor, 0x6D) == 0) {
             U16(actor, 0x46) &= 0x7FFF;
         } else {

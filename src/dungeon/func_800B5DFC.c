@@ -5,10 +5,10 @@
 
 extern s32 func_800644B8(s32, ...);
 extern s32 func_80064584(s32, ...);
-s16 func_800A07D0();
+s16 dungeonForwardMonsterCoordinateDelta();
 extern s32 func_800A56E0();
-void func_800BB2E4();
-extern void * func_800BC0A8(s16 x, s16 y, s16 z, s16 angle, s16 value_50, s16 value_58, s32 state_word, s16 value_48);
+void dungeonDrawContentOrRect();
+extern void * dungeonCreateOrbitingColorParticle(s16 x, s16 y, s16 z, s16 angle, s16 value_50, s16 value_58, s32 state_word, s16 value_48);
 
 typedef struct DungeonWork {
     u8 pad_00[0x30];
@@ -22,7 +22,7 @@ typedef struct S_800BB55C_0_pre {
     s32 unk_00;
     u8 pad_04[0xE];
     u16 unk_12;
-} S_800BB55C_0_pre;   /* the 0x14 bytes before arg0 in func_800BB55C, addressed as arg0[-1] */
+} S_800BB55C_0_pre;   /* the 0x14 bytes before arg0 in dungeonUpdateFivePointEffect, addressed as arg0[-1] */
 
 typedef struct S_800BB55C_0 {
     u8 pad_00[0x4A];
@@ -36,7 +36,7 @@ typedef struct S_800BB55C_0 {
     s32 unk_5C;
     s32 (*unk_60)();
     u16 unk_64;
-} S_800BB55C_0;   /* arg0 in func_800BB55C */
+} S_800BB55C_0;   /* arg0 in dungeonUpdateFivePointEffect */
 
 typedef struct S_800BB55C_2 {
     u8 pad_00[0x2];
@@ -45,21 +45,21 @@ typedef struct S_800BB55C_2 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800BB55C_2;   /* arg1 in func_800BB55C */
+} S_800BB55C_2;   /* arg1 in dungeonUpdateFivePointEffect */
 
 typedef struct S_800BB55C_3 {
     u8 unk_00;
     u8 unk_01;
     u8 unk_02;
-} S_800BB55C_3;   /* temp_a0 in func_800BB55C */
+} S_800BB55C_3;   /* temp_a0 in dungeonUpdateFivePointEffect */
 
 typedef struct S_800BB55C_4 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800BB55C_4;   /* global_ptr in func_800BB55C */
+} S_800BB55C_4;   /* global_ptr in dungeonUpdateFivePointEffect */
 
 /* Draws a growing five-point pattern and updates its rotating fade-out effect. */
-void func_800BB55C(void *effect, S_800BB55C_2 *position, s32 restore_link) {
+void dungeonUpdateFivePointEffect(void *effect, S_800BB55C_2 *position, s32 restore_link) {
     s32 draw_params[2];
     s16 start_xy[2];
     s16 end_xy[2];
@@ -90,7 +90,7 @@ void func_800BB55C(void *effect, S_800BB55C_2 *position, s32 restore_link) {
     func_800478B8(packet_or_angle_2);
     saved_link = restore_link;
     ((S_800BB55C_0_pre *)effect)[-1].unk_00 = packet_or_angle_2;
-    func_800BB2E4(NULL, NULL, draw_params, 0, effect);
+    dungeonDrawContentOrRect(NULL, NULL, draw_params, 0, effect);
     base_angle = start_angle;
     for (point_index = 0; point_index < 5; point_index++) {
         packet_or_angle = base_angle << 0x10;
@@ -101,7 +101,7 @@ void func_800BB55C(void *effect, S_800BB55C_2 *position, s32 restore_link) {
         end_xy[0] = (func_80064584(packet_or_angle) >> 7) + 0x362;
         end_y = (func_800644B8(packet_or_angle) >> 7) + 0x122;
         end_xy[1] = end_y;
-        arc_angle = func_800A07D0(start_xy[0], start_xy[1], end_xy[0], end_y);
+        arc_angle = dungeonForwardMonsterCoordinateDelta(start_xy[0], start_xy[1], end_xy[0], end_y);
         line_angle = arc_angle;
         end_xy[0] = (u16) start_xy[0] + ((s32) (func_80064584(line_angle) * ((DungeonWork *)effect)->field_30[point_index])
             >> 0xB);
@@ -109,7 +109,7 @@ void func_800BB55C(void *effect, S_800BB55C_2 *position, s32 restore_link) {
             >> 0xB);
         ((DungeonWork *)effect)->field_3C[point_index] = base_angle;
         base_angle += 0x999;
-        func_800BB2E4(start_xy, end_xy, draw_params, 0, NULL);
+        dungeonDrawContentOrRect(start_xy, end_xy, draw_params, 0, NULL);
     }
     base_angle = start_angle;
     for (point_index = 0; point_index < 5; point_index++) {
@@ -125,7 +125,7 @@ void func_800BB55C(void *effect, S_800BB55C_2 *position, s32 restore_link) {
             packet_or_angle >>= 16;
             end_xy[0] = (func_80064584(packet_or_angle) >> 7) + 0x362;
             end_xy[1] = (func_800644B8((s16)packet_or_angle) >> 7) + 0x122;
-            func_800BB2E4(start_xy, end_xy, draw_params, 0, NULL);
+            dungeonDrawContentOrRect(start_xy, end_xy, draw_params, 0, NULL);
             start_xy[0] = (u16) end_xy[0];
             start_xy[1] = (u16) end_xy[1];
         }
@@ -144,7 +144,7 @@ void func_800BB55C(void *effect, S_800BB55C_2 *position, s32 restore_link) {
             ((S_800BB55C_0 *)effect)->unk_4C = 0x20;
         }
     }
-    func_800BB2E4(NULL, NULL, draw_params, 1, NULL);
+    dungeonDrawContentOrRect(NULL, NULL, draw_params, 1, NULL);
     ((S_800BB55C_0_pre *)effect)[-1].unk_00 = saved_link;
     if (((S_800BB55C_0 *)effect)->unk_4A.s != 0) {
         ((S_800BB55C_0 *)effect)->unk_4E = (u16) (((S_800BB55C_0 *)effect)->unk_4E + 0x100);
@@ -153,7 +153,7 @@ void func_800BB55C(void *effect, S_800BB55C_2 *position, s32 restore_link) {
             point_index = point_index + 1;
             rotation = ((S_800BB55C_0 *)effect)->unk_4E + 0x400;
             ((S_800BB55C_0 *)effect)->unk_4E = rotation;
-            func_800BC0A8(position->unk_02, position->unk_06, position->unk_0A, (s16) rotation,
+            dungeonCreateOrbitingColorParticle(position->unk_02, position->unk_06, position->unk_0A, (s16) rotation,
                 (s32) ((S_800BB55C_0 *)effect)->unk_50, (s32) ((S_800BB55C_0 *)effect)->unk_58,
                 ((S_800BB55C_0 *)effect)->unk_5C, 6);
         } while (point_index < 4);

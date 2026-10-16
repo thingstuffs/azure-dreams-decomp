@@ -1,0 +1,20 @@
+{
+  "module": "town_ovl_6f48d0",
+  "maps": {},
+  "views": {},
+  "runtime_views": {
+    "D_80016000": {
+      "symbol": "D_80016000",
+      "kind": "runtime_data",
+      "vma": 2147573760,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_ovl_6f48d0.imports.json",
+      "declaration": "include/shared/record_ptrs.h"
+    }
+  },
+  "basis": [
+    "include/shared/record_ptrs.h establishes one 4-byte runtime pointer below the SLUS load image, also passed as a transfer buffer by resident SLUS code. This module imports the pointer word, not its pointee allocation.",
+    "The direct call target 0x80016128 is decoded from retail and has the matching two-integer call signature."
+  ]
+}

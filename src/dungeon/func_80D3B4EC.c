@@ -10,14 +10,14 @@ typedef struct S_80170CEC_0 {
     s16 unk_38;
     u8 pad_3A[0x6];
     void * unk_40;
-} S_80170CEC_0;   /* arg0 in func_80170CEC */
+} S_80170CEC_0;   /* arg0 in dungeonUpdateRotatingActorAura */
 
 typedef struct S_80170CEC_1 {
     u8 pad_00[0xC];
     void * unk_0C;
     u8 pad_10[0xE];
     u16 unk_1E;
-} S_80170CEC_1;   /* entity_base in func_80170CEC */
+} S_80170CEC_1;   /* entity_base in dungeonUpdateRotatingActorAura */
 
 typedef struct S_80170CEC_2 {
     u8 pad_00[0x6];
@@ -27,7 +27,7 @@ typedef struct S_80170CEC_2 {
     u16 unk_1E;
     u8 pad_20[0xC];
     void * unk_2C;
-} S_80170CEC_2;   /* record in func_80170CEC */
+} S_80170CEC_2;   /* record in dungeonUpdateRotatingActorAura */
 
 typedef struct S_80170CEC_3 {
     u8 pad_00[0x6];
@@ -40,7 +40,7 @@ typedef struct S_80170CEC_3 {
     u16 unk_1A;
     u16 unk_1C;
     u16 unk_1E;
-} S_80170CEC_3;   /* arg2 in func_80170CEC */
+} S_80170CEC_3;   /* arg2 in dungeonUpdateRotatingActorAura */
 
 typedef struct S_80170CEC_4 {
     u8 pad_00[0x14];
@@ -49,24 +49,24 @@ typedef struct S_80170CEC_4 {
     u8 unk_9A;
     u8 pad_9B[0x1A];
     u8 unk_B5;
-} S_80170CEC_4;   /* entity_saved in func_80170CEC */
+} S_80170CEC_4;   /* entity_saved in dungeonUpdateRotatingActorAura */
 
 typedef struct S_80170CEC_5 {
     u8 pad_00[0x9A];
     u8 unk_9A;
-} S_80170CEC_5;   /* entity in func_80170CEC */
+} S_80170CEC_5;   /* entity in dungeonUpdateRotatingActorAura */
 
 typedef struct S_80170CEC_6 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_80170CEC_6;   /* arg1 in func_80170CEC */
+} S_80170CEC_6;   /* arg1 in dungeonUpdateRotatingActorAura */
 
 typedef struct S_80170CEC_7 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_80170CEC_7;   /* copy_source in func_80170CEC */
+} S_80170CEC_7;   /* copy_source in dungeonUpdateRotatingActorAura */
 
 
 extern s32 func_80042900();
@@ -74,7 +74,7 @@ extern u8 D_800E23F8[];
 extern u8 D_800E2408[];
 
 /* Update the effect rotation, position, and fade, marking it finished when needed. */
-void func_80170CEC(void *effect, void *position, void *visual) {
+void dungeonUpdateRotatingActorAura(void *effect, void *position, void *visual) {
     void *entity;
     void *entity_saved;
     void *source_position;

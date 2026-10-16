@@ -8,7 +8,7 @@ extern u8 D_800DD84C[];
 extern u8 D_800DD850[];
 
 /* Selects koyaw data from the flags and applies it unless disabled. */
-void func_800A020C(s32 flags, s8 *dst) {
+void dungeonApplyMonsterKoyawData(s32 flags, s8 *dst) {
     if (!(flags & 0x10000000)) {
         void *koyaw_data;
         if (flags & 8) {

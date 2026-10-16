@@ -11,15 +11,15 @@ typedef struct S_800A3508_1 {
     u8 pad_28[0x8];
     s32 unk_30;
     s32 unk_34;
-} S_800A3508_1;   /* obj in func_800A3508 */
+} S_800A3508_1;   /* obj in townInitializeRandomizedMotionVector */
 
 
-extern s32 func_800374F4(s32);
+extern s32 scaleRandomToUnsignedHalfwordLimit(s32);
 extern void func_8003DB94(void *, s32, s32);
 extern void func_8004491C(void *, void *);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
-extern void func_8009539C(void *);
+extern void townAddMotionDeltasToPosition(void *);
 
 extern u8 D_800A378C[];
 extern s16 D_800D0B18[];
@@ -27,7 +27,7 @@ extern s32 D_800D0B20[];
 extern s32 D_800D0B50[];
 
 /* Initializes the object record and a randomized motion vector. */
-void func_800A3508(u8 *obj, s32 *vec, Rec_D_80082E80 *record)
+void townInitializeRandomizedMotionVector(u8 *obj, s32 *vec, Rec_D_80082E80 *record)
 {
     s32 tilt_angle;
     s32 scale;
@@ -56,14 +56,14 @@ void func_800A3508(u8 *obj, s32 *vec, Rec_D_80082E80 *record)
     func_8004491C(obj - 0x20, func_80045340);
 
     if (((S_800A3508_1 *)obj)->unk_22 < 4) {
-        init_value = func_800374F4(0x1000);
+        init_value = scaleRandomToUnsignedHalfwordLimit(0x1000);
         tilt_angle = 0x400;
         direction_angle = D_800D0B18[((S_800A3508_1 *)obj)->unk_22] + (init_value & 0xFFFF);
     } else {
-        direction_angle = func_800374F4(0x1000) & 0xFFFF;
-        tilt_angle = func_800374F4(0x1000) & 0xFFFF;
+        direction_angle = scaleRandomToUnsignedHalfwordLimit(0x1000) & 0xFFFF;
+        tilt_angle = scaleRandomToUnsignedHalfwordLimit(0x1000) & 0xFFFF;
     }
-    scale_sample = func_800374F4(0x1000) & 0xFFFF;
+    scale_sample = scaleRandomToUnsignedHalfwordLimit(0x1000) & 0xFFFF;
     scale_numerator = scale_sample + 0x1000;
     if (scale_numerator < 0) {
         scale_numerator = scale_sample + 0x101F;
@@ -90,6 +90,6 @@ void func_800A3508(u8 *obj, s32 *vec, Rec_D_80082E80 *record)
     ((S_800A3508_1 *)obj)->unk_24 = 0x18;
     ((S_800A3508_1 *)obj)->unk_00 = D_800A378C;
 
-    func_8009539C(vec);
-    func_8009539C(vec);
+    townAddMotionDeltasToPosition(vec);
+    townAddMotionDeltasToPosition(vec);
 }

@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_18ca83c.h"
 
-void func_800240D8(void *effect, void *position, void *sprite)
+void dungeonUpdateRotatingFadingEffect(void *effect, void *position, void *sprite)
 {
     s32 quarter_turn;
     s32 rot;

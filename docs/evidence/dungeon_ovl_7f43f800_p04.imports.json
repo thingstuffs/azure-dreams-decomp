@@ -1,0 +1,80 @@
+{
+  "module": "dungeon_ovl_7f43f800_p04",
+  "maps": {
+    "native_bank": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "kind": "rowbase",
+      "region": "native_slot_d31000_80170800",
+      "file_start": 13832192,
+      "file_end": 13856768,
+      "delta": 2135160832,
+      "basis": "Authenticated retail normal slot transfer in docs/evidence/dungeon_slot_d31000_80170800.load.json"
+    },
+    "dungeon_resident": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "kind": "rowbase",
+      "region": "xfer_dungeon_A3000",
+      "file_start": 667648,
+      "file_end": 1050624,
+      "delta": 2147374944,
+      "basis": "Existing proven resident transfer map."
+    },
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "kind": "psx_exe",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "basis": "PS-X EXE header."
+    }
+  },
+  "views": {
+    "D_80174EA0": {
+      "symbol": "D_80174EA0",
+      "kind": "data",
+      "vma": 2149011104,
+      "foff": 13850272,
+      "view_bytes": 9,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_bank",
+      "evidence": "docs/evidence/dungeon_ovl_7f43f800_p04.imports.json"
+    }
+  },
+  "runtime_views": {
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 512,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_7f43f800_p04.imports.json",
+      "declaration": "include/shared/game_work.h"
+    }
+  },
+  "functions": {
+    "func_80047784": {
+      "vma": 2147776388,
+      "foff": 110468,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "source_clients": [
+        "src/dungeon/func_80D12E64.c"
+      ],
+      "basis": "Existing direct call/address declaration; linked whole-cohort instruction proof resolves this entry without masks."
+    }
+  },
+  "source_access_bounds": {
+    "D_80174EA0": {
+      "view_bytes": 9,
+      "sha256": "6c5a8be8130ca8c7bc856cc53321c0a7728cd45b28492d656588658461abaafc",
+      "bytes_hex": "0c0b0a0b0c0d0e0d11",
+      "sources": [
+        "src/dungeon/func_80D12E64.c"
+      ],
+      "basis": "Scalar/explicit-array declaration view when known. An unsized imported table uses the remaining authenticated byte interval as an opaque external asset view, not one claimed allocation. No filler or initialization object is introduced; typed clients and resolved relocations remain in the proof."
+    }
+  },
+  "review": "pending",
+  "reviewer": null
+}

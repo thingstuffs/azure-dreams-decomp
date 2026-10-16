@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource17_slot0.h"
 
-void func_80172C18(R17_80172C18_State *state, R17_80172C18_Position *pos, R17_80172C18_Actor *actor, R17_80172C18_Entity *ent)
+void updateEntityItemActionAndIdleReturn(R17_80172C18_State *state, R17_80172C18_Position *pos, R17_80172C18_Actor *actor, R17_80172C18_Entity *ent)
 {
     u8 *item_slot;
     s32 state_index;
@@ -91,7 +91,7 @@ void func_80172C18(R17_80172C18_State *state, R17_80172C18_Position *pos, R17_80
                 s32 offset_y;
                 s32 offset_x;
 
-                ent->f60 = func_800A05A4(
+                ent->f60 = dungeonScanMonsterAlongHeading(
                     ent,(u8)(actor->f24),(u8)(actor->f25),(s16)(ent->f2A), 0x10);
                 offset_x = __builtin_abs(ent->f72);
                 offset_y = __builtin_abs(ent->f73);
@@ -105,11 +105,11 @@ void func_80172C18(R17_80172C18_State *state, R17_80172C18_Position *pos, R17_80
                 actor_base,
                 ((u8 *)D_801744E4)[((gameWork.view.viewAngle + ent->f2A + 0x100) >> 9) & 7],
                 0);
-            if (!func_800A94A0(ent, item_slot, use_main_link, &state->flags98)) {
+            if (!dungeonCreateActorSpellEffect(ent, item_slot, use_main_link, &state->flags98)) {
                 return;
             }
             actor->flags14 &= 0xF7FF;
-            func_800DAE44(pos, 5);
+            dungeonCreateSourcePositionedObject(pos, 5);
             func_800A56E0(0x703);
             state->state9B++;
             state->flags98 |= 8;
@@ -121,7 +121,7 @@ void func_80172C18(R17_80172C18_State *state, R17_80172C18_Position *pos, R17_80
         pos->f14 = 0;
         pos->f10 = 0;
         pos->fC = 0;
-        func_800A2B04(pos,(u8)(actor->f24),(u8)(actor->f25));
+        dungeonSetRecordIntegerTileCenter(pos,(u8)(actor->f24),(u8)(actor->f25));
         {
             R17_80172C18_MainObj *main_obj;
 
@@ -129,7 +129,7 @@ void func_80172C18(R17_80172C18_State *state, R17_80172C18_Position *pos, R17_80
             dungeonStatus.unk_0C = 0;
             main_obj->fA6--;
         }
-        func_800A4ACC(ent);
+        dungeonAdvanceStatusTimers(ent);
         ent->f6D--;
         state->f8C = (void (*)(void))((u8 *)func_801713A8);
         ent->f73 = 0;
@@ -153,7 +153,7 @@ void func_80172C18(R17_80172C18_State *state, R17_80172C18_Position *pos, R17_80
 
 
     case 2:
-        if (func_8003F270()) {
+        if (getCdCommandQueueDepth()) {
             actor->flags14 |= 0x800;
             return;
         }
@@ -179,7 +179,7 @@ void func_80172C18(R17_80172C18_State *state, R17_80172C18_Position *pos, R17_80
         pos->f14 = 0;
         pos->f10 = 0;
         pos->fC = 0;
-        func_800A2B04(pos,(u8)(actor->f24),(u8)(actor->f25));
+        dungeonSetRecordIntegerTileCenter(pos,(u8)(actor->f24),(u8)(actor->f25));
         state->flags98 &= 0xFFF7;
         ent->flags1C |= 0x08000000;
         ent->flags1C |= 0x00040000;
@@ -206,7 +206,7 @@ void func_80172C18(R17_80172C18_State *state, R17_80172C18_Position *pos, R17_80
         }
         actor->flags14 &= 0xF7FF;
         state->f8C = (void (*)(void))((u8 *)func_801713A8);
-        func_800A4ACC(ent);
+        dungeonAdvanceStatusTimers(ent);
         if (ent->f6D > 0) {
             ent->f6D--;
         }

@@ -16,7 +16,7 @@ struct Func8003A01CState {
 };
 
 /* Handles event-script opcode 53 by copying an indirect table value into the selected VM value slot. */
-void func_8003A01C(Func8003A01CContext *context) {
+void vmOp53LoadTablePointerValue(Func8003A01CContext *context) {
     u8 *cursor = context->cursor;
     Func8003A01CState *state = context->state;
     u8 value_index;

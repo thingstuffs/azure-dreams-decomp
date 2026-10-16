@@ -29,7 +29,7 @@ extern void func_80047784(Object *object, u8 value, s32 entry_index);
 extern u8 D_80174F08[];
 
 /* Clears the state flag and, when allowed, resets the entity and selects a directional object value. */
-void func_80174B14(Entity *entity, s32 unused, Object *object, State *state) {
+void dungeonClearTheStateFlagAllowedResetsEntitySelectsDirectional(Entity *entity, s32 unused, Object *object, State *state) {
     DungeonGlobalStatus *flags = &dungeonStatus;
 
     state->unk71 &= 0x7F;

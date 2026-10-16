@@ -12,7 +12,7 @@ typedef struct {
 extern void func_80047784(void *, s32, s32);
 
 /* Resets actor action state and selects a sprite frame for its facing direction. */
-s32 func_800AA924(void *actor, s32 unused, void *sprite, u8 *direction_frames)
+s32 dungeonResetActorActionState(void *actor, s32 unused, void *sprite, u8 *direction_frames)
 {
 
     *(u8 *)((u8 *)actor + 0x71) &= 0x7F;

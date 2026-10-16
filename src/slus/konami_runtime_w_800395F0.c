@@ -8,18 +8,18 @@ typedef struct S_800395F0_0 {
     void * unk_1C;
     u8 pad_20[0x5C];
     s32 * unk_7C;
-} S_800395F0_0;   /* arg0 in func_800395F0 */
+} S_800395F0_0;   /* arg0 in vmOp21CallAbsolute */
 
 typedef struct S_800395F0_1 {
     u8 unk_00;
     u8 unk_01;
     u8 unk_02;
     u8 unk_03;
-} S_800395F0_1;   /* temp_a2 in func_800395F0 */
+} S_800395F0_1;   /* temp_a2 in vmOp21CallAbsolute */
 
 
 /* Push the event-script return address and jump to the encoded destination. */
-void func_800395F0(S_800395F0_0 *script) {
+void vmOp21CallAbsolute(S_800395F0_0 *script) {
     S_800395F0_1 *target_bytes;
 
     *script->unk_7C = script->unk_1C + 4;

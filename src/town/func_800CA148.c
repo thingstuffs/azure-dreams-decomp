@@ -1,20 +1,20 @@
 #include "common.h"
 
-extern s32 *func_8008FAC0(void *object, void *ptr);
-extern void func_800C3780(void *object, void *position, s32 update_arg);
+extern s32 *townGetSmallestSignedOverlapAxisAmountTwoIntersectingBoxes(void *object, void *ptr);
+extern void townInstallStoredValueHandler(void *object, void *position, s32 update_arg);
 extern void func_800C7C3C(void *object, void *position, s32 update_arg);
-extern void func_800C7CAC(void *object, void *position, s32 update_arg);
+extern void townClearMotherEventRecordField(void *object, void *position, s32 update_arg);
 
 extern u8 D_800CFCB4[];
 extern s32 D_80113220[];
 
 /* Applies a motion offset or interpolates the position toward the object coordinates. */
-void func_800C78A8(void *object, void *position, s32 update_arg) {
+void townApplyMotherEventMotionOffset(void *object, void *position, s32 update_arg) {
     s32 *motion_entry;
     s32 state;
     s32 frames_left;
 
-    motion_entry = func_8008FAC0(object, D_800CFCB4);
+    motion_entry = townGetSmallestSignedOverlapAxisAmountTwoIntersectingBoxes(object, D_800CFCB4);
     if (motion_entry != 0) {
         state = motion_entry[0];
         if (state != 2) {
@@ -30,8 +30,8 @@ void func_800C78A8(void *object, void *position, s32 update_arg) {
 
     frames_left = --D_80113220[0];
     if (frames_left <= 0) {
-        func_800C3780(object, position, update_arg);
-        func_800C7CAC(object, position, update_arg);
+        townInstallStoredValueHandler(object, position, update_arg);
+        townClearMotherEventRecordField(object, position, update_arg);
         *(u16 *)((u8 *)position + 2) = *(u16 *)((u8 *)object + 0x84);
         *(u16 *)((u8 *)position + 6) = *(u16 *)((u8 *)object + 0x86);
         return;

@@ -11,7 +11,7 @@ extern void func_8009A3D0();
 extern void func_800A9C18();
 
 /* Create and initialize an object at the supplied coordinates and store it globally. */
-void func_80171594(u16 x, u16 y, s32 z) {
+void dungeonCreateLinkedFacingSprite(u16 x, u16 y, s32 z) {
     u8 saved_x = x;
     u8 saved_y = y;
     void *object, *state ASM_REG("$19"), *position ASM_REG("$17"), *sprite ASM_REG("$16");

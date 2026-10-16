@@ -8,10 +8,10 @@ typedef struct S_8017178C_0 {
     s16 unk_12;
     u8 pad_14[0x4];
     s16 unk_18;
-} S_8017178C_0;   /* state in func_8017178C */
+} S_8017178C_0;   /* state in dungeonSetEncounterCameraState */
 
 /* Stores the value at offset 0x12 and clears the field at offset 0x18. */
-void func_8017178C(s16 value) {
+void dungeonSetEncounterCameraState(s16 value) {
     S_8017178C_0 *state;
 
     state = D_80175D60 + 0x20;

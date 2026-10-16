@@ -18,14 +18,14 @@ void func_800161D8(void) {
     init_block->unk1A = block_extent;
     state->unkA8 = color_command;
     state->unk1DC.unk00 = (u32)D_800EA000;
-    func_80018A70();
+    dungeonSetupRunAndLoadTrack();
     flag_page = D_80080AA0 - 0xAA0;
     flag_page[0xAA0] = 0;
     {
         flag_page = D_800E3D20 - 0x3D20;
 
         flag_page[0x3D20] = 0;
-        func_80099188(D_800EA000 - 0x9C14);
+        dungeonSetContinuationValue(D_800EA000 - 0x9C14);
     }
 }
 

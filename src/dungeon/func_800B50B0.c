@@ -5,36 +5,36 @@
 
 typedef struct S_800BA810_0 {
     void * unk_00;
-} S_800BA810_0;   /* arg0 in func_800BA810; pointer addresses record offset 0x18 */
+} S_800BA810_0;   /* arg0 in dungeonUpdateSelectionTileMarkers; pointer addresses record offset 0x18 */
 
 typedef struct S_800BA810_1 {
     u8 pad_00[0x2];
     u16 unk_02;
     u8 pad_04[0x2];
     u16 unk_06;
-} S_800BA810_1;   /* temp_v1 in func_800BA810 */
+} S_800BA810_1;   /* temp_v1 in dungeonUpdateSelectionTileMarkers */
 
 typedef struct S_800BA810_2 {
     void * unk_00;
-} S_800BA810_2;   /* temp_a0_2 in func_800BA810; pointer addresses record offset 0x18 */
+} S_800BA810_2;   /* temp_a0_2 in dungeonUpdateSelectionTileMarkers; pointer addresses record offset 0x18 */
 
 typedef struct S_800BA810_3 {
     u8 pad_00[0x2];
     u16 unk_02;
     u8 pad_04[0x2];
     u16 unk_06;
-} S_800BA810_3;   /* temp_v0_4 in func_800BA810 */
+} S_800BA810_3;   /* temp_v0_4 in dungeonUpdateSelectionTileMarkers */
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void func_800BA6B8(void *channel_config, void *unused, void *output);
-void func_800403BC(s32 *);                  /* extern */
+extern void dungeonUpdatePulsingSpriteColor(void *channel_config, void *unused, void *output);
+void markActiveNodesByCallback(s32 *);                  /* extern */
 typedef struct S_8006DE24_Entry {
     u8 pad[0x12];
     u8 type;
     u8 pad13;
 } S_8006DE24_Entry;
-extern void * func_800BA764(u16 tile_x, u16 tile_y, s16 coord_z, s32 user_data);
+extern void * dungeonCreatePulsingTileSprite(u16 tile_x, u16 tile_y, s16 coord_z, s32 user_data);
 s16 func_800BCB04();                   /* extern */
 typedef struct S_800B50B0_Entity {
     u8 pad00[0x13];
@@ -54,7 +54,7 @@ extern u16 D_800DF37A;
 extern u8 D_800DF380[];
 
 /* Updates marked dungeon tiles for the selected entity, mode, and facing. */
-void func_800BA810(S_800B50B0_Entity *entity, s32 selection) {
+void dungeonUpdateSelectionTileMarkers(S_800B50B0_Entity *entity, s32 selection) {
     s32 height;
     s16 forward_height;
     s16 adjacent_height;
@@ -77,16 +77,16 @@ void func_800BA810(S_800B50B0_Entity *entity, s32 selection) {
 
     if (entity == NULL) {
         D_800DF374 = NULL;
-        func_800403BC(func_800BA6B8);
+        markActiveNodesByCallback(dungeonUpdatePulsingSpriteColor);
         return;
     }
-    tile_list = func_800BA6B8;
+    tile_list = dungeonUpdatePulsingSpriteColor;
     if (D_800DF374 != entity || D_800DF37A != (s16) entity->angle2a || D_800DF378 != (selection & 0xFFFF)) {
         angle = entity->angle2a;
         D_800DF374 = entity;
         D_800DF378 = selection;
         D_800DF37A = angle;
-        func_800403BC(func_800BA6B8);
+        markActiveNodesByCallback(dungeonUpdatePulsingSpriteColor);
         direction = (entity->angle2a >> 9) & 7;
         mode = selection & 0x3FFF;
         position = ((S_800BA810_0 *)((u8 *)entity - 0x18))->unk_00;
@@ -109,7 +109,7 @@ void func_800BA810(S_800B50B0_Entity *entity, s32 selection) {
                     if (height >= 0x201) {
                         break;
                     }
-                    func_800BA764(tile_x & 0xFFFF, tile_z & 0xFFFF, height, 0xFF);
+                    dungeonCreatePulsingTileSprite(tile_x & 0xFFFF, tile_z & 0xFFFF, height, 0xFF);
                     forward_steps -= 1;
                 } while (forward_steps > 0);
             } else {
@@ -128,13 +128,13 @@ void func_800BA810(S_800B50B0_Entity *entity, s32 selection) {
                 if (height >= 0x201) {
                     break;
                 }
-                func_800BA764(tile_x & 0xFFFF, tile_z & 0xFFFF, height, 0xFF00);
+                dungeonCreatePulsingTileSprite(tile_x & 0xFFFF, tile_z & 0xFFFF, height, 0xFF00);
                 adjacent_steps -= 1;
             } while (adjacent_steps > 0);
             return;
         }
         if (mode_index == 12) {
-            func_800BA764(tile_x & 0xFFFF, tile_z & 0xFFFF, height, 0xFFFF);
+            dungeonCreatePulsingTileSprite(tile_x & 0xFFFF, tile_z & 0xFFFF, height, 0xFFFF);
             return;
         }
         if ((u32) (mode - 1) >= 3U) {
@@ -155,7 +155,7 @@ void func_800BA810(S_800B50B0_Entity *entity, s32 selection) {
                     if (height >= 0x201) {
                         break;
                     }
-                    func_800BA764(tile_x & 0xFFFF, tile_z & 0xFFFF, height, 0xFF);
+                    dungeonCreatePulsingTileSprite(tile_x & 0xFFFF, tile_z & 0xFFFF, height, 0xFF);
                     forward_steps -= 1;
                 } while (forward_steps > 0);
             }
@@ -163,7 +163,7 @@ void func_800BA810(S_800B50B0_Entity *entity, s32 selection) {
             child = entity->child60;
             if (child != NULL) {
                 child_position = ((S_800BA810_2 *)((u8 *)child - 0x18))->unk_00;
-                func_800BA764((u16) child_position->unk_02 >> 6, (u16) child_position->unk_06 >> 6,
+                dungeonCreatePulsingTileSprite((u16) child_position->unk_02 >> 6, (u16) child_position->unk_06 >> 6,
                     ((S_800B50B0_Entity *)child)->height88, 0xFF);
             }
         }

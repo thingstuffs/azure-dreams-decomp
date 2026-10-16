@@ -8,12 +8,12 @@ typedef struct S_800C2824_0 {
     void * unk_00;
     s16 unk_04;
     s16 unk_06;
-} S_800C2824_0;   /* effect in func_800C2824 */
+} S_800C2824_0;   /* effect in dungeonUpdateReturnMagicSacrifice */
 
 typedef struct S_800C2824_1 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_800C2824_1;   /* object_base in func_800C2824 */
+} S_800C2824_1;   /* object_base in dungeonUpdateReturnMagicSacrifice */
 
 typedef struct S_800C2824_2 {
     u8 pad_00[0x2];
@@ -22,7 +22,7 @@ typedef struct S_800C2824_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800C2824_2;   /* object_vertices in func_800C2824 */
+} S_800C2824_2;   /* object_vertices in dungeonUpdateReturnMagicSacrifice */
 
 typedef struct S_800C2824_3 {
     u8 pad_00[0x2];
@@ -37,7 +37,7 @@ typedef struct S_800C2824_3 {
     u16 unk_12;
     u8 pad_14[0x2];
     u16 unk_16;
-} S_800C2824_3;   /* vertices in func_800C2824 */
+} S_800C2824_3;   /* vertices in dungeonUpdateReturnMagicSacrifice */
 
 typedef struct S_800C2824_4 {
     u8 pad_00[0x8];
@@ -54,91 +54,91 @@ typedef struct S_800C2824_4 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_800C2824_4;   /* sprite in func_800C2824 */
+} S_800C2824_4;   /* sprite in dungeonUpdateReturnMagicSacrifice */
 
 typedef struct S_800C2824_5 {
     u8 pad_00[0xA93];
     s8 unk_A93;
-} S_800C2824_5;   /* page_base + (object_slot * 0x54) in func_800C2824 */
+} S_800C2824_5;   /* page_base + (object_slot * 0x54) in dungeonUpdateReturnMagicSacrifice */
 
 typedef struct S_800C2824_6_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800C2824_6_pre;   /* the 0x14 bytes before c2_object in func_800C2824, addressed as c2_object[-1] */
+} S_800C2824_6_pre;   /* the 0x14 bytes before c2_object in dungeonUpdateReturnMagicSacrifice, addressed as c2_object[-1] */
 
 typedef struct S_800C2824_6 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_800C2824_6;   /* c2_object in func_800C2824 */
+} S_800C2824_6;   /* c2_object in dungeonUpdateReturnMagicSacrifice */
 
 typedef struct S_800C2824_7 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800C2824_7;   /* (void *)c2_coord in func_800C2824 */
+} S_800C2824_7;   /* (void *)c2_coord in dungeonUpdateReturnMagicSacrifice */
 
 typedef struct S_800C2824_8 {
     u8 pad_00[0x88];
     s16 unk_88;
-} S_800C2824_8;   /* effect_object in func_800C2824 */
+} S_800C2824_8;   /* effect_object in dungeonUpdateReturnMagicSacrifice */
 
 typedef struct S_800C2824_9_pre {
     u16 unk_00;
-} S_800C2824_9_pre;   /* the 0x2 bytes before c3_object in func_800C2824, addressed as c3_object[-1] */
+} S_800C2824_9_pre;   /* the 0x2 bytes before c3_object in dungeonUpdateReturnMagicSacrifice, addressed as c3_object[-1] */
 
 typedef struct S_800C2824_10 {
     u8 pad_00[0x14A0];
     s32 unk_14A0;
-} S_800C2824_10;   /* c3_page in func_800C2824 */
+} S_800C2824_10;   /* c3_page in dungeonUpdateReturnMagicSacrifice */
 
 typedef struct S_800C2824_11 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800C2824_11;   /* object_coords in func_800C2824 */
+} S_800C2824_11;   /* object_coords in dungeonUpdateReturnMagicSacrifice */
 
 typedef struct S_800C2824_12_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800C2824_12_pre;   /* the 0x14 bytes before c17_object in func_800C2824, addressed as c17_object[-1] */
+} S_800C2824_12_pre;   /* the 0x14 bytes before c17_object in dungeonUpdateReturnMagicSacrifice, addressed as c17_object[-1] */
 
 typedef struct S_800C2824_12 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_800C2824_12;   /* c17_object in func_800C2824 */
+} S_800C2824_12;   /* c17_object in dungeonUpdateReturnMagicSacrifice */
 
 typedef struct S_800C2824_13 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800C2824_13;   /* (void *)c17_coord in func_800C2824 */
+} S_800C2824_13;   /* (void *)c17_coord in dungeonUpdateReturnMagicSacrifice */
 
 typedef struct S_800C2824_14_pre {
     u16 unk_00;
-} S_800C2824_14_pre;   /* the 0x2 bytes before finished_object in func_800C2824, addressed as finished_object[-1] */
+} S_800C2824_14_pre;   /* the 0x2 bytes before finished_object in dungeonUpdateReturnMagicSacrifice, addressed as finished_object[-1] */
 
 typedef struct S_800C2824_15 {
     u8 pad_00[0x1E];
     u16 unk_1E;
-} S_800C2824_15;   /* c17_final_ptr in func_800C2824 */
+} S_800C2824_15;   /* c17_final_ptr in dungeonUpdateReturnMagicSacrifice */
 
 typedef struct S_800C2824_16 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_800C2824_16;   /* ((S_800C2824_0 *)effect)->unk_00 in func_800C2824 */
+} S_800C2824_16;   /* ((S_800C2824_0 *)effect)->unk_00 in dungeonUpdateReturnMagicSacrifice */
 
 s32 func_80042900();
 s32 func_8004491C();
 void func_80044A50();
-void func_80099844();
+void dungeonAdjustSourceValueAndFinalize();
 void func_8009A028();
 void func_8009A3D0();
 void *func_800A32A4();
 s32 func_800A56E0();
 s32 func_800A6620();
 void func_800B8FC8();
-s32 func_800BBA40(u8, u8, s16, void *, s32, s32, void *);
-void func_800BC318();
+s32 dungeonCreateFivePointEffect(u8, u8, s16, void *, s32, s32, void *);
+void dungeonRetireTrackedEffectById();
 extern M2C_UNK D_800C0180;
 extern M2C_UNK D_800C27F0;
 extern M2C_UNK D_800CEF54;
@@ -156,7 +156,7 @@ typedef struct {
 } StackArgs;
 
 /* Advance the object effect through fading, tile cleanup, and completion. */
-void func_800C2824(void *effect, void *vertices, void *sprite) {
+void dungeonUpdateReturnMagicSacrifice(void *effect, void *vertices, void *sprite) {
     StackArgs effect_args;
     s32 object_slot;
     s32 release_flags;
@@ -207,7 +207,7 @@ void func_800C2824(void *effect, void *vertices, void *sprite) {
         func_800B8FC8(((S_800C2824_0 *)effect)->unk_00, &effect_args.clip_origin_xy, &effect_args.screen_x, 1, 2);
         object_base = ((S_800C2824_0 *)effect)->unk_00 - 0x20;
         func_80044A50(object_base);
-        func_800BC318(object_base);
+        dungeonRetireTrackedEffectById(object_base);
         object_vertices = ((S_800C2824_1 *)object_base)->unk_08;
         vertex_x = ((S_800C2824_2 *)object_vertices)->unk_02;
         ((S_800C2824_3 *)vertices)->unk_02 = vertex_x;
@@ -265,7 +265,7 @@ void func_800C2824(void *effect, void *vertices, void *sprite) {
             func_8009A3D0(release_x, release_coord, release_flags);
         }
         func_8009A028(((S_800C2824_0 *)effect)->unk_00);
-        func_80099844(((S_800C2824_0 *)effect)->unk_00, &D_800E1640);
+        dungeonAdjustSourceValueAndFinalize(((S_800C2824_0 *)effect)->unk_00, &D_800E1640);
         ((S_800C2824_0 *)effect)->unk_04 = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
         return;
     case 3:
@@ -274,7 +274,7 @@ void func_800C2824(void *effect, void *vertices, void *sprite) {
         object_coords = ((u8 *)(&D_80082E80));
         effect_object = D_800E3D7C;
         D_800DF55C = effect_object;
-        if (func_800BBA40(((u8 *)object_coords)[0x24], ((u8 *)object_coords)[0x25],
+        if (dungeonCreateFivePointEffect(((u8 *)object_coords)[0x24], ((u8 *)object_coords)[0x25],
             ((S_800C2824_8 *)effect_object)->unk_88, &D_800DF45C, 0x2800, 0x208020, &D_800C0180) == 0) {
             return;
         }
@@ -295,7 +295,7 @@ void func_800C2824(void *effect, void *vertices, void *sprite) {
         effect_object = source_object;
         effect_param = ((S_800C2824_8 *)effect_object)->unk_88;
         D_800DF55C = effect_object;
-        if (func_800BBA40(((S_800C2824_11 *)object_coords)->unk_24, ((S_800C2824_11 *)object_coords)->unk_25,
+        if (dungeonCreateFivePointEffect(((S_800C2824_11 *)object_coords)->unk_24, ((S_800C2824_11 *)object_coords)->unk_25,
             effect_param, &D_800DF45C, 0x2800, 0x208020, &D_800C27F0) == 0) {
             return;
         }

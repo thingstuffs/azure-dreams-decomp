@@ -3,7 +3,7 @@
 typedef struct S_801748FC_0_pre {
     u8 * unk_00;
     u8 pad_04[0x10];
-} S_801748FC_0_pre;   /* the 0x14 bytes before current in func_801748FC, addressed as current[-1] */
+} S_801748FC_0_pre;   /* the 0x14 bytes before current in dungeonFindNearbyEligibleEntry, addressed as current[-1] */
 
 typedef struct S_801748FC_0 {
     u8 pad_00[0x13];
@@ -12,19 +12,19 @@ typedef struct S_801748FC_0 {
     s32 unk_5C;
     u8 pad_60[0x28];
     s16 unk_88;
-} S_801748FC_0;   /* current in func_801748FC */
+} S_801748FC_0;   /* current in dungeonFindNearbyEligibleEntry */
 
 typedef struct S_801748FC_1 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_801748FC_1;   /* object in func_801748FC */
+} S_801748FC_1;   /* object in dungeonFindNearbyEligibleEntry */
 
 
-extern s32 func_800A41F0(void *);
+extern s32 dungeonCheckEntityEligibility(void *);
 
 /* Find the first eligible entry matching both object filters within 32 units of the target height. */
-void *func_801748FC(u8 *current, s32 wanted_24, s32 wanted_25, s32 height_center)
+void *dungeonFindNearbyEligibleEntry(u8 *current, s32 wanted_24, s32 wanted_25, s32 height_center)
 {
     u8 *entry;
     s32 target_height;
@@ -54,7 +54,7 @@ void *func_801748FC(u8 *current, s32 wanted_24, s32 wanted_25, s32 height_center
                  height <= target_height + 0x20) &&
                 (height >= min_height) &&
                 ((u32)(((S_801748FC_0 *)current)->unk_13 - 0x33) >= 4U)) {
-                scratch = func_800A41F0(current);
+                scratch = dungeonCheckEntityEligibility(current);
                 scratch <<= 0x10;
                 if (scratch != 0) {
                     return entry;

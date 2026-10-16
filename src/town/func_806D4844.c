@@ -8,13 +8,13 @@ typedef struct S_80016844_2 {
     u8 pad_00[0x4];
     s8 unk_04;
 } S_80016844_2;   /* ((((S_80016844_1 *)(D_80016000[0]))->unk_08 * 8) +
-                   ((S_80016844_1 *)(D_80016000[0]))->unk_40) in func_80016844 */
+                   ((S_80016844_1 *)(D_80016000[0]))->unk_40) in townRunObjectHandlerAndClearEntry */
 
 typedef struct S_80016844_3 {
     u8 pad_00[0x4];
     s8 unk_04;
 } S_80016844_3;   /* ((((S_80016844_1 *)(D_80016000[0]))->unk_08 * 8) +
-                       ((S_80016844_1 *)(D_80016000[0]))->unk_40) in func_80016844 */
+                       ((S_80016844_1 *)(D_80016000[0]))->unk_40) in townRunObjectHandlerAndClearEntry */
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -27,10 +27,10 @@ extern s32 func_8001868C();
 typedef struct S_80016844_0 {
     u8 pad_00[0x18];
     s16 unk_18;
-} S_80016844_0;   /* arg0 in func_80016844 */
+} S_80016844_0;   /* arg0 in townRunObjectHandlerAndClearEntry */
 
 /* Runs the selected object handler and clears the current entry status. */
-s32 func_80016844(S_80016844_0 *object, s32 context) {
+s32 townRunObjectHandlerAndClearEntry(S_80016844_0 *object, s32 context) {
     s32 result;
 
     result = 0;

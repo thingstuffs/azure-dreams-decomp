@@ -6,7 +6,7 @@ typedef s32 (*func_80018760_fn)(void *);
 extern s32 D_8001BE60;
 
 /* Deducts the computed cost from the available balance if sufficient funds remain. */
-s32 func_80018760(void) {
+s32 townDeductComputedCost(void) {
     void *context;
     void *costProvider;
     func_80018760_fn getCost;

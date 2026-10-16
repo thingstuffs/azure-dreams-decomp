@@ -5,6 +5,6 @@
 M2C_UNK func_800197D8();                     /* extern */
 
 /* Calls func_800197D8 with 0x400. */
-void func_80477018(void) {
+void func_80018018(void) {
     func_800197D8(0x400);
 }

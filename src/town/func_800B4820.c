@@ -3,7 +3,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_800B1DCC_arg0.h"
 
-s32 func_80049E1C(s32 index, s32 step, s32 count);
+s32 advanceIndexWithDirectionalClamp(s32 index, s32 step, s32 count);
 void func_800B1F10(s32 context, s32 handler_index);
 void func_800B1F48(s32 context, s32 handler_index);
 
@@ -25,7 +25,7 @@ void func_800B1F80(s8 *state, s32 input) {
     S_800B1F80_1 *entry;
 
     entry = state + ((((Rec_func_800B1DCC_arg0 *)state)->unk_0C * 0x10) + 0x1C);
-    index_result = func_80049E1C(entry->unk_08, input, entry->unk_0C);
+    index_result = advanceIndexWithDirectionalClamp(entry->unk_08, input, entry->unk_0C);
     next_index = index_result;
     if (next_index >= entry->unk_0C) {
         entry->unk_08 = 0;

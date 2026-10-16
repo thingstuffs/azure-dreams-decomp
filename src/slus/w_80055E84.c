@@ -40,7 +40,7 @@ extern s16 D_80084920[8];
 extern s32 D_80073740[];
 extern s32 func_8005F134(S_80084918 *arg);
 /* Advance volume modulation and apply the updated channel volumes. */
-void func_80055E84(S_80055E84 *voice)
+void audioUpdateVoiceTremolo(S_80055E84 *voice)
 {
     s32 scaled_offset;
     s8 phase;

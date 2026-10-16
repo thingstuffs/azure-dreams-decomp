@@ -26,7 +26,7 @@ void func_80025080(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 fie
     /* the parent's next slot is the list head the new node links behind */
     spawned = func_8003FD64(0x211, (ObjectNodeHeader **)source_obj);
     if (spawned != 0) {
-        spawned->unk_10 = (void *)func_80024FB4;
+        spawned->unk_10 = (void *)dungeonRaiseEffectToHeightLimit;
         jitter_x = rand() & 0x1F;
         position_x = ((EntityRec *)source_obj->unk_08)->x.w.i;
         dest_x = spawned->unk_08;
@@ -54,7 +54,7 @@ void func_80025080(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 fie
         dest_z->z.w.i = position_z;
         fields->unk_14 = field_34;
         fields->brightness = saved_field_52;
-        func_8004491C(spawned, (s32)func_80024D64);
+        func_8004491C(spawned, (s32)dungeonDrawBrightnessScaledLinkedTiles);
         fields->color = saved_field_28;
     }
 }

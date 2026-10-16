@@ -5,11 +5,11 @@
 #include "records/Rec_D_80082E80.h"
 
 extern void func_80047784(void *, s32, s32);
-extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void func_800A2B04(void *, u8, u8);
+extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
 extern void func_800A56E0(s32);
-extern void func_800AD594(void *, s32);
-extern s32 func_8017589C(void *, void *, void *);
+extern void dungeonReduceActorFoodMeter(void *, s32);
+extern s32 dungeonCreateRandomizedOffsetObject(void *, void *, void *);
 
 extern void D_80170E94;
 extern u8 D_80175F10[8];
@@ -25,7 +25,7 @@ typedef struct S_801735BC_0 {
     u8 unk_AE;
     u8 pad_AF[0x1];
     s32 unk_B0;
-} S_801735BC_0;   /* state_work in func_801735BC */
+} S_801735BC_0;   /* state_work in dungeonAdvanceMultiStageActorEffect */
 
 typedef struct S_801735BC_1 {
     u8 pad_00[0x14];
@@ -34,9 +34,9 @@ typedef struct S_801735BC_1 {
     s16 unk_2A;
     u8 pad_2C[0x1A];
     u16 unk_46;
-} S_801735BC_1;   /* actor in func_801735BC */
+} S_801735BC_1;   /* actor in dungeonAdvanceMultiStageActorEffect */
 
-void func_801735BC(void *incoming_state_work, void *incoming_entity, void *incoming_object, void *incoming_actor)
+void dungeonAdvanceMultiStageActorEffect(void *incoming_state_work, void *incoming_entity, void *incoming_object, void *incoming_actor)
 {
         /* MATCH: the local state join must retain state_work in retail's s2. */
     void *state_work = incoming_state_work;
@@ -74,7 +74,7 @@ void func_801735BC(void *incoming_state_work, void *incoming_entity, void *incom
             if (((S_801735BC_0 *)state_work)->unk_AE != 2) {
                 return;
             }
-            func_8009C12C(actor, object, ((S_801735BC_1 *)actor)->unk_2A, 1);
+            dungeonResolveAttackDamageAndEffects(actor, object, ((S_801735BC_1 *)actor)->unk_2A, 1);
             return;
         }
         if (((Rec_D_80082E80 *)object)->unk_04.as_s8 != 2) {
@@ -84,7 +84,7 @@ void func_801735BC(void *incoming_state_work, void *incoming_entity, void *incom
             return;
         }
         func_800A56E0(0x808);
-        ((S_801735BC_0 *)state_work)->unk_B0 = func_8017589C(state_work, entity, object);
+        ((S_801735BC_0 *)state_work)->unk_B0 = dungeonCreateRandomizedOffsetObject(state_work, entity, object);
         ((S_801735BC_0 *)state_work)->unk_9B++;
         return;
 
@@ -123,8 +123,8 @@ Ladvance:
         entity->flags14 = 0;
         entity->unk_10 = 0;
         entity->unk_0C = 0;
-        func_800A2B04(entity, ((Rec_D_80082E80 *)object)->unk_24, ((Rec_D_80082E80 *)object)->unk_25);
-        func_800AD594(actor, 0x800);
+        dungeonSetRecordIntegerTileCenter(entity, ((Rec_D_80082E80 *)object)->unk_24, ((Rec_D_80082E80 *)object)->unk_25);
+        dungeonReduceActorFoodMeter(actor, 0x800);
         ((S_801735BC_1 *)actor)->unk_46 &= 0x7FFF;
         (*(void * *)((u8 *)state_work + (0x8C))) = &D_80170E94;
         dungeonStatus.unk_0C = 0;
@@ -143,8 +143,8 @@ Ladvance:
         entity->flags14 = 0;
         entity->unk_10 = 0;
         entity->unk_0C = 0;
-        func_800A2B04(entity, ((Rec_D_80082E80 *)object)->unk_24, ((Rec_D_80082E80 *)object)->unk_25);
-        func_800AD594(actor, 0x800);
+        dungeonSetRecordIntegerTileCenter(entity, ((Rec_D_80082E80 *)object)->unk_24, ((Rec_D_80082E80 *)object)->unk_25);
+        dungeonReduceActorFoodMeter(actor, 0x800);
         ((S_801735BC_1 *)actor)->unk_46 &= 0x7FFF;
         (*(void * *)((u8 *)state_work + (0x8C))) = &D_80170E94;
         dungeonStatus.unk_0C = 0;

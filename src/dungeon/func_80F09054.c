@@ -10,7 +10,7 @@ typedef struct S_80170854_0 {
     void ** unk_08;
     void ** unk_0C;
     void * unk_10;
-} S_80170854_0;   /* object in func_80170854 */
+} S_80170854_0;   /* object in dungeonSpawnModeDependent112Object */
 
 typedef struct S_80170854_1 {
     u8 pad_00[0x13];
@@ -18,12 +18,12 @@ typedef struct S_80170854_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80170854_1;   /* result in func_80170854 */
+} S_80170854_1;   /* result in dungeonSpawnModeDependent112Object */
 
 typedef struct S_80170854_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80170854_2;   /* part0 in func_80170854 */
+} S_80170854_2;   /* part0 in dungeonSpawnModeDependent112Object */
 
 typedef struct S_80170854_3 {
     u8 pad_00[0x10];
@@ -35,7 +35,7 @@ typedef struct S_80170854_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80170854_3;   /* part1 in func_80170854 */
+} S_80170854_3;   /* part1 in dungeonSpawnModeDependent112Object */
 
 typedef struct S_80170854_4 {
     u8 pad_00[0x8C];
@@ -47,7 +47,7 @@ typedef struct S_80170854_4 {
     u8 pad_9D[0x7];
     s16 unk_A4;
     s16 unk_A6;
-} S_80170854_4;   /* actor in func_80170854 */
+} S_80170854_4;   /* actor in dungeonSpawnModeDependent112Object */
 
 
 extern u8 D_80170A8C[];
@@ -62,15 +62,15 @@ extern s16 func_800A48F0();
 extern void func_800A9C18();
 extern s32 func_800AA36C();
 extern void func_80044A50();
-extern void func_800BC318();
+extern void dungeonRetireTrackedEffectById();
 
 #define BODY_STORAGE
 #define BODY_ATTR
 
-BODY_STORAGE void *func_80170854(s16 flags, s16 kind_id, s16 variant, s16 spawn_value) BODY_ATTR;
+BODY_STORAGE void *dungeonSpawnModeDependent112Object(s16 flags, s16 kind_id, s16 variant, s16 spawn_value) BODY_ATTR;
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select, then finish through the mode branch that either zeroes or arms the actor's 0xA6 state. */
-BODY_STORAGE void *func_80170854(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
+BODY_STORAGE void *dungeonSpawnModeDependent112Object(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     s32 kind;
     s32 mode;
@@ -127,7 +127,7 @@ BODY_STORAGE void *func_80170854(s16 flags, s16 kind_id, s16 variant, s16 spawn_
             part1->unk_14 |= 0xC;
             part1->unk_12 -= 0x80;
             func_80044A50(object_base);
-            func_800BC318(object_base);
+            dungeonRetireTrackedEffectById(object_base);
         }
         func_800AA36C(actor, part0, part1, result);
     }

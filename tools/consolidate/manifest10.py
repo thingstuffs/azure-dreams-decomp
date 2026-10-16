@@ -4,6 +4,10 @@
    GameWork member); post = needs the new headers, optional (full run only)."""
 import json, hashlib, shutil, random, collections
 from pathlib import Path
+import sys as _layout_sys
+_layout_root = next(p for p in Path(__file__).resolve().parents if (p / "tools/source_layout.py").is_file())
+_layout_sys.path.insert(0, str(_layout_root / "tools"))
+from source_layout import row_path as layout_row_path
 LANE = Path(__file__).resolve().parent.parent; REPO = LANE.parent.parent.parent
 sha = lambda b: hashlib.sha256(b).hexdigest()
 plan = json.load(open(LANE / "results/plan10.json"))
@@ -13,7 +17,7 @@ rows = []
 for rid, rec in sorted(plan.items()):
     if not rec.get("ok"): continue
     d = LANE / "draft10" / (rid + ".c"); assert sha(d.read_bytes()) == rec["cand_sha"], rid
-    assert sha((REPO / "src" / (rid + ".c")).read_bytes()) == rec["src_sha"], "src moved: " + rid
+    assert sha((layout_row_path(rid, REPO)).read_bytes()) == rec["src_sha"], "src moved: " + rid
     p = out / (rid + ".c"); p.parent.mkdir(parents=True, exist_ok=True); shutil.copy(d, p)
     rows.append((rid, rid + ".c", rec["src_sha"], rec["stages"], rec["flag"] + (",rebaseline" if rec.get("rebaseline") else "")))
 with open(out / "MANIFEST.tsv", "w") as fh:

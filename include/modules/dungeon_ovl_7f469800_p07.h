@@ -52,7 +52,7 @@ typedef struct T_80175050_S_80175050_4 {
 
 
 
-#define func_80171BEC_returning func_80171BEC
+#define func_80171BEC_returning dungeonCreateTrackedAttachmentSprite
 
 
 
@@ -126,19 +126,19 @@ typedef struct {
 extern s32 func_80042900();
 extern void func_80042B68();
 extern void func_80047784();
-extern s32 func_8009A180();
-extern s16 func_8009FD40();
+extern s32 dungeonCheckEntityRelation();
+extern s16 dungeonGetTileChebyshevDistance();
 extern s32 func_800A2C34();
 extern s32 func_800A6D30();
 extern s32 func_800A9A04();
 extern void func_800A9A0C();
-extern void func_800AA258();
-extern s32 func_800AA6B4();
-extern s32 func_800AA79C();
+extern void dungeonBeginPushedActorMove();
+extern s32 dungeonBeginReadyActorDirectionalAction();
+extern s32 dungeonAdvanceActorPendingAction();
 extern void func_800AA888();
-extern void func_80171BEC();
+extern void dungeonCreateTrackedAttachmentSprite();
 extern s32 func_800AC82C(T_801759A0_Obj0 *, void *, T_801759A0_Obj2 *, T_801759A0_Obj3 *);
-extern s32 func_800AD9B4(T_801759A0_Obj2 *, T_801759A0_Obj3 *);
+extern s32 dungeonCheckActorFloorTrap(T_801759A0_Obj2 *, T_801759A0_Obj3 *);
 extern u8 D_80175E54[];
 extern u8 D_80175E5C[];
 extern u8 D_80175E64[];
@@ -151,8 +151,8 @@ extern s32 D_80175DD4;
 extern u8 D_80175E24[];
 extern u8 D_80175E2C[];
 extern u8 D_80175E34[];
-void func_80175050(void *task, s32 task_id, void *sprite_in, void *actor_in);
-void func_80175574(T_80175574_Obj0 *controller, void *context, T_80175574_Obj2 *animation, T_80175574_Obj3 *actor);
-void func_801759A0(T_801759A0_Obj0 *actor, void *context, T_801759A0_Obj2 *display_arg, T_801759A0_Obj3 *state_arg);
-extern void func_801724BC();
+void dungeonUpdateActorActivityState(void *task, s32 task_id, void *sprite_in, void *actor_in);
+void dungeonUpdateActorActionAnimationState(T_80175574_Obj0 *controller, void *context, T_80175574_Obj2 *animation, T_80175574_Obj3 *actor);
+void dungeonUpdateDirectionalActionDisplay(T_801759A0_Obj0 *actor, void *context, T_801759A0_Obj2 *display_arg, T_801759A0_Obj3 *state_arg);
+extern void dungeonUpdateActorBehavior();
 #endif

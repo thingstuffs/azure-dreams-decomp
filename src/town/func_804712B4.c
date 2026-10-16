@@ -5,6 +5,6 @@ extern s32 D_8001B210;
 extern s32 D_8001B218[];
 
 /* Store the result of calling func_800189FC with D_8001B218 and zero. */
-void func_804712B4(void) {
+void func_800182B4(void) {
     D_8001B210 = func_800189FC(D_8001B218, 0);
 }

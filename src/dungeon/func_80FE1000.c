@@ -7,7 +7,7 @@ typedef struct S_80FE1000_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80FE1000_0;   /* obj in func_8016A8A8 */
+} S_80FE1000_0;   /* obj in createDungeonObjectWithParts */
 
 typedef struct S_80FE1000_1 {
     u8 pad_00[0x13];
@@ -15,12 +15,12 @@ typedef struct S_80FE1000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80FE1000_1;   /* work in func_8016A8A8 */
+} S_80FE1000_1;   /* work in createDungeonObjectWithParts */
 
 typedef struct S_80FE1000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80FE1000_2;   /* part_a in func_8016A8A8 */
+} S_80FE1000_2;   /* part_a in createDungeonObjectWithParts */
 
 typedef struct S_80FE1000_3 {
     u8 pad_00[0x24];
@@ -28,7 +28,7 @@ typedef struct S_80FE1000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80FE1000_3;   /* part_b in func_8016A8A8 */
+} S_80FE1000_3;   /* part_b in createDungeonObjectWithParts */
 
 typedef struct S_80FE1000_4 {
     u8 pad_00[0x8C];
@@ -37,7 +37,7 @@ typedef struct S_80FE1000_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_80FE1000_4;   /* actor in func_8016A8A8 */
+} S_80FE1000_4;   /* actor in createDungeonObjectWithParts */
 
 
 extern void *func_8003FD64();
@@ -55,7 +55,7 @@ extern u8 D_8016AEA8[];
 
 
 /* Creates a dungeon object and initializes its kind flags and part parameters. */
-void *func_8016A8A8(s16 kind_flags, s32 part_value_24, s32 part_value_25, s16 part_value_0a)
+void *createDungeonObjectWithParts(s16 kind_flags, s32 part_value_24, s32 part_value_25, s16 part_value_0a)
 {
     s32 kind;
     void *obj;

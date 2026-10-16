@@ -4,7 +4,7 @@
 
 typedef struct S_8002017C_0_pre {
     u16 unk_00;
-} S_8002017C_0_pre;   /* the 0x2 bytes before arg0 in func_8002017C, addressed as arg0[-1] */
+} S_8002017C_0_pre;   /* the 0x2 bytes before arg0 in townFadeDelayedSceneTileOnCompletion, addressed as arg0[-1] */
 
 typedef struct S_8002017C_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -13,16 +13,16 @@ typedef struct S_8002017C_0 {
     s32 unk_08;
     u8 pad_0C[0xA];
     u16 unk_16;
-} S_8002017C_0;   /* arg0 in func_8002017C */
+} S_8002017C_0;   /* arg0 in townFadeDelayedSceneTileOnCompletion */
 
 typedef struct S_8002017C_1 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_8002017C_1;   /* sub in func_8002017C */
+} S_8002017C_1;   /* sub in townFadeDelayedSceneTileOnCompletion */
 
 
 /* Advance a delayed fade after the linked object signals, then flag completion. */
-void func_8002017C(void *effect) {
+void townFadeDelayedSceneTileOnCompletion(void *effect) {
     s16 state;
     s32 fade_rgb;
     u16 delay;

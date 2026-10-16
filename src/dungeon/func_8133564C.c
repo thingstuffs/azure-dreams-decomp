@@ -55,11 +55,11 @@ typedef struct S_func_8016C64C_5 {
     s16 unk_00;
 } S_func_8016C64C_5;
 
-extern s16 func_800A0818(u8, u8, u8, u8, s16 *);
+extern s16 dungeonGetRoundedFacingAndRoundingFlag(u8, u8, u8, u8, s16 *);
 extern void func_80047784(void *, u8, s32);
 extern void func_800A56E0(s32);
-extern void func_800AAA54(void *actor, void *unused, void *display, u8 *facing_variants);
-extern void func_800A2B04(void *, u8, u8);
+extern void dungeonBeginActorDisplayAction(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
 
 extern u8 D_8016A36C[];
 extern u8 D_801739A0[];
@@ -74,7 +74,7 @@ extern u8 D_80175DC0;
 extern u8 D_80175DC1;
 
 /* Move the actor back to its tile, update its animation, and advance its recovery state. */
-void func_8016C64C(S_func_8016C64C_0 *action, S_func_8016C64C_1 *motion, S_func_8016C64C_2 *sprite,
+void advanceActorRecoverySequence(S_func_8016C64C_0 *action, S_func_8016C64C_1 *motion, S_func_8016C64C_2 *sprite,
     S_func_8016C64C_3 *actor)
 {
     s16 target_distance;
@@ -94,7 +94,7 @@ void func_8016C64C(S_func_8016C64C_0 *action, S_func_8016C64C_1 *motion, S_func_
         if (action->unk_B0 < 2) {
             return;
         }
-        actor->unk_2A = func_800A0818(
+        actor->unk_2A = dungeonGetRoundedFacingAndRoundingFlag(
             sprite->unk_24, sprite->unk_25,
             D_80082E80.tileX, D_80082E80.tileY, &target_distance);
         action->unk_94 = 1;
@@ -226,16 +226,16 @@ void func_8016C64C(S_func_8016C64C_0 *action, S_func_8016C64C_1 *motion, S_func_
             motion->unk_0C = 0;
             switch (action->unk_AC) {
             case 0:
-                func_800AAA54(action, motion, sprite, D_80173A20);
+                dungeonBeginActorDisplayAction(action, motion, sprite, D_80173A20);
                 return;
             case 1:
-                func_800AAA54(action, motion, sprite, D_80173A28);
+                dungeonBeginActorDisplayAction(action, motion, sprite, D_80173A28);
                 return;
             case 2:
-                func_800AAA54(action, motion, sprite, D_80173A30);
+                dungeonBeginActorDisplayAction(action, motion, sprite, D_80173A30);
                 return;
             case 3:
-                func_800AAA54(action, motion, sprite, D_80173A38);
+                dungeonBeginActorDisplayAction(action, motion, sprite, D_80173A38);
                 return;
             default:
                 return;
@@ -245,7 +245,7 @@ void func_8016C64C(S_func_8016C64C_0 *action, S_func_8016C64C_1 *motion, S_func_
         motion->unk_14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, sprite->unk_24, sprite->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, sprite->unk_24, sprite->unk_25);
         world_state = &dungeonStatus;
         if (((u8 *)world_state->unk_10) == (u8 *)actor - 0x20) {
             (*(u32 *)&world_state->unk_10) &= 0x7FFFFFFF;

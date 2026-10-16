@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-s32 func_8001CE14(s16 value, s32 lower_bound, s16 upper_bound)
+s32 dungeonIsValueWithinInclusiveBounds(s16 value, s32 lower_bound, s16 upper_bound)
 {
     s32 in_range;
     s32 scaled_lower_bound;

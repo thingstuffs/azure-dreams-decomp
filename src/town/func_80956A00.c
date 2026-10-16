@@ -22,7 +22,7 @@ typedef struct {
     s32 words[6];
 } Copy24;
 
-extern void func_800211C4(void *, void *, void *);
+extern void townUpdateDirectionalRecord(void *, void *, void *);
 extern void func_80047784(void *, s32, s32);
 extern void func_800478B8(void *);
 
@@ -103,7 +103,7 @@ void func_80023A00(void *object, void *output, void *entity_data)
     }
 
     if (((S_80023A00_0 *)object)->unk_18.s != 0) {
-        func_800211C4(caller_obj, object, entity_data);
+        townUpdateDirectionalRecord(caller_obj, object, entity_data);
     }
 
     return;

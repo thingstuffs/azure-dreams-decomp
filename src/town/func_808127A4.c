@@ -3,7 +3,7 @@
 
 typedef struct S_808127A4_0_pre {
     u16 unk_00;
-} S_808127A4_0_pre;   /* the 0x2 bytes before arg0 in func_8052D3A4, addressed as arg0[-1] */
+} S_808127A4_0_pre;   /* the 0x2 bytes before arg0 in townAnimateLinkedValueThreshold, addressed as arg0[-1] */
 
 typedef struct S_808127A4_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -13,18 +13,18 @@ typedef struct S_808127A4_0 {
     void * unk_0C;
     u8 pad_10[0x6];
     union { s16 s; u16 u; } unk_16;   /* accessed as both */
-} S_808127A4_0;   /* arg0 in func_8052D3A4 */
+} S_808127A4_0;   /* arg0 in townAnimateLinkedValueThreshold */
 
 typedef struct S_808127A4_1 {
     u8 pad_00[0x5C];
     s16 unk_5C;
-} S_808127A4_1;   /* temp_s1 in func_8052D3A4 */
+} S_808127A4_1;   /* temp_s1 in townAnimateLinkedValueThreshold */
 
 
 M2C_UNK func_80058588();           /* extern */
 extern s32 D_80084D5C;
 
-void func_8052D3A4(void *record_ptr) {
+void townAnimateLinkedValueThreshold(void *record_ptr) {
     s16 state;
     u16 threshold_value;
     void *related_record;

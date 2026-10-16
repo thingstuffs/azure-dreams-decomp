@@ -10,7 +10,7 @@ extern void func_800185C0(s32);
 extern void func_80018548(s32);
 
 /* Selects IDs 0x9AF-0x9B6 from two entry codes and returns the match count. */
-s32 func_80016B5C(void)
+s32 townSelectEntryEventFlags(void)
 {
     s32 match_count;
     s32 entry_index;

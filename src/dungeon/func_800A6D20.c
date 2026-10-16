@@ -3,7 +3,7 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-void func_800A2B04();              /* extern */
+void dungeonSetRecordIntegerTileCenter();              /* extern */
 s16 func_800BCB04();                   /* extern */
 
 typedef struct S_800AC480_0 {
@@ -11,27 +11,27 @@ typedef struct S_800AC480_0 {
     u16 unk_92;
     u8 pad_94[0x2];
     s16 unk_96;
-} S_800AC480_0;   /* arg0 in func_800AC480 */
+} S_800AC480_0;   /* arg0 in dungeonInterpolateActorToTerrainTile */
 
 typedef struct S_800AC480_1 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800AC480_1;   /* arg2 in func_800AC480 */
+} S_800AC480_1;   /* arg2 in dungeonInterpolateActorToTerrainTile */
 
 
 typedef struct S_800AC480_3 {
     u8 pad_00[0x88];
     u16 unk_88;
-} S_800AC480_3;   /* arg3 in func_800AC480 */
+} S_800AC480_3;   /* arg3 in dungeonInterpolateActorToTerrainTile */
 
 typedef struct S_800AC480_4 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800AC480_4;   /* global_base in func_800AC480 */
+} S_800AC480_4;   /* global_base in dungeonInterpolateActorToTerrainTile */
 
 /* Update movement toward the target tile and finalize position and height when the timer expires. */
-s32 func_800AC480(S_800AC480_0 *move_state, EntityRec *motion, S_800AC480_1 *target_tile, S_800AC480_3 *height_state) {
+s32 dungeonInterpolateActorToTerrainTile(S_800AC480_0 *move_state, EntityRec *motion, S_800AC480_1 *target_tile, S_800AC480_3 *height_state) {
     s32 delta;
     s32 coord;
     s32 x_step;
@@ -59,7 +59,7 @@ s32 func_800AC480(S_800AC480_0 *move_state, EntityRec *motion, S_800AC480_1 *tar
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, target_tile->unk_24, target_tile->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, target_tile->unk_24, target_tile->unk_25);
         target_height = func_800BCB04((target_tile->unk_24 << 6) | 0x20, (target_tile->unk_25 << 6) | 0x20,
             (s16) (height_state->unk_88 - 0x20));
         if (target_height < 0x200) {

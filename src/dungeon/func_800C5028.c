@@ -27,11 +27,11 @@ typedef struct S_800CA788_3 {
 } S_800CA788_3;   /* object in func_800CA788 */
 
 
-extern s32 func_8009B4B0(u8 *entry, s16 x, s16 y);
-extern void func_8009C93C(void *, void *, s32, s32, s32);
-extern s32 func_800A0134(s32, void *);
+extern s32 dungeonFindEligibleEntryAtCoordinates(u8 *entry, s16 x, s16 y);
+extern void dungeonPrepareDirectionalAttack(void *, void *, s32, s32, s32);
+extern s32 dungeonGetActorHeightDifference(s32, void *);
 extern s32 func_800A2B5C(void *);
-extern void func_800C7930(void *, void *, s32, s32);
+extern void dungeonApplyCameraOffsetAndSelectTarget(void *, void *, s32, s32);
 
 /* Attempt an action toward the target and decrement the actor counter on success. */
 s32 func_800CA788(void *object_ptr, void *action_context, void *target_ptr, void *actor_ptr)
@@ -53,7 +53,7 @@ s32 func_800CA788(void *object_ptr, void *action_context, void *target_ptr, void
 
         ((S_800CA788_1 *)actor)->unk_14 |= 0x2000;
         ((S_800CA788_1 *)actor)->unk_1C |= 0x2000;
-        target_direction = func_8009B4B0(actor, ((S_800CA788_2 *)target)->unk_24, ((S_800CA788_2 *)target)->unk_25);
+        target_direction = dungeonFindEligibleEntryAtCoordinates(actor, ((S_800CA788_2 *)target)->unk_24, ((S_800CA788_2 *)target)->unk_25);
         clear_action_flag = ~0x2000;
         ((S_800CA788_1 *)actor)->unk_14 &= clear_action_flag;
         ((S_800CA788_1 *)actor)->unk_1C &= clear_action_flag;
@@ -69,14 +69,14 @@ check_flag_8:
         goto fail;
     }
 
-    if ((u32)((-func_800A0134(target_direction, actor) + 0x40) & 0xFFFF) >= 0x81U) {
+    if ((u32)((-dungeonGetActorHeightDifference(target_direction, actor) + 0x40) & 0xFFFF) >= 0x81U) {
         return 0;
     }
     if ((func_800A2B5C(actor) << 16) != 0) {
         goto fail;
     }
 
-    func_800C7930(actor - 0x20, context, 8, 0x300);
+    dungeonApplyCameraOffsetAndSelectTarget(actor - 0x20, context, 8, 0x300);
     if ((func_800A2B5C(actor) << 16) != 0) {
         goto fail;
     }
@@ -98,7 +98,7 @@ check_flag_8:
         actor[0x85] = 0;
         ((S_800CA788_1 *)actor)->unk_14 |= 0x2000;
         ((S_800CA788_1 *)actor)->unk_1C |= 0x2000;
-        func_8009C93C(action_actor, action_target, actor_param, action_mode, 0);
+        dungeonPrepareDirectionalAttack(action_actor, action_target, actor_param, action_mode, 0);
     }
     ((S_800CA788_1 *)actor)->unk_14 &= clear_action_flag;
     ((S_800CA788_1 *)actor)->unk_1C &= clear_action_flag;

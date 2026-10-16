@@ -10,20 +10,20 @@ typedef struct S_800B2FAC_0 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_800B2FAC_0;   /* arg2 in func_800B2FAC */
+} S_800B2FAC_0;   /* arg2 in dungeonUpdateFlaggedTargetTile */
 
 typedef struct S_800B2FAC_1_pre {
     u16 unk_00;
-} S_800B2FAC_1_pre;   /* the 0x2 bytes before arg3 in func_800B2FAC, addressed as arg3[-1] */
+} S_800B2FAC_1_pre;   /* the 0x2 bytes before arg3 in dungeonUpdateFlaggedTargetTile, addressed as arg3[-1] */
 
 
 void func_8009A028();                      /* extern */
 void func_8009A3D0();             /* extern */
-s32 func_800A2DB8();                      /* extern */
+s32 distributeExperienceAwards();                      /* extern */
 s32 func_800A32A4();                      /* extern */
 
 /* Update a flagged target and its tile state, then mark it dirty. */
-void func_800B2FAC(void *unused_0, void *unused_1, void *source, void *target) {
+void dungeonUpdateFlaggedTargetTile(void *unused_0, void *unused_1, void *source, void *target) {
     s32 update_mask;
     s32 target_flags;
     u8 tile_x;
@@ -33,7 +33,7 @@ void func_800B2FAC(void *unused_0, void *unused_1, void *source, void *target) {
         if (((s32)dungeonStatus.unk_10) == (target - 0x20)) {
             dungeonStatus.unk_10 = ((s32)dungeonStatus.unk_10) & 0x7FFFFFFF;
         }
-        func_800A2DB8(target);
+        distributeExperienceAwards(target);
         func_800A32A4(target);
         target_flags = ((Rec_D_80082E80 *)target)->unk_1C.at00_s32.v;
         tile_x = ((S_800B2FAC_0 *)source)->unk_24;

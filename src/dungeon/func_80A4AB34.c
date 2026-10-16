@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource06_slot0.h"
 
-void func_80174334(void *quad, void *position, void *draw_state, s16 depth_bias)
+void dungeonProjectAndQueueTexturedQuad(void *quad, void *position, void *draw_state, s16 depth_bias)
 {
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet;

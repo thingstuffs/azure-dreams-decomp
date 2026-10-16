@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 
 extern s32 func_800AC82C(void *, void *, void *, void *);
-extern s32 func_800AD9B4(void *, void *);
+extern s32 dungeonCheckActorFloorTrap(void *, void *);
 extern void func_80047784(void *, u8, s32);
 
 extern u8 D_80164F20[];
@@ -13,14 +13,14 @@ extern u8 D_8016A328[];
 extern u8 D_8016A360[];
 
 /* Updates object state or switches the sprite table and selects a directional frame. */
-void func_80167720(void *state_arg, void *context, void *sprite_arg, void *actor_arg) {
+void updateObjectStateOrDirectionalSprite(void *state_arg, void *context, void *sprite_arg, void *actor_arg) {
     void *state = state_arg;
     void *sprite = sprite_arg;
     void *actor = actor_arg;
     void *active_table;
 
     if (func_800AC82C(state_arg, context, sprite_arg, actor_arg) != 0) {
-        if ((func_800AD9B4(sprite, actor) << 0x10) > 0) {
+        if ((dungeonCheckActorFloorTrap(sprite, actor) << 0x10) > 0) {
             if (*(u8 *)((u8 *)state + 0xA7) != 0) {
                 *(void **)((u8 *)state + 0x8C) = D_80167B98;
             } else {

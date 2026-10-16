@@ -8,7 +8,7 @@ extern u8 D_80089490[9];
 extern void func_800673A0(void *, s32, s32);
 
 /* Passes a local copy of the global eight-byte data with fixed arguments. */
-void func_800DBE98(void) {
+void dungeonPassGlobalDataWithFixedArgs(void) {
     Copy8 copy;
 
     copy = *(Copy8 *)D_80089490;

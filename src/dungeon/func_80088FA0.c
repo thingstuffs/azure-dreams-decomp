@@ -7,13 +7,13 @@
 typedef struct S_8008E700_0 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_8008E700_0;   /* entity in func_8008E700 */
+} S_8008E700_0;   /* entity in dungeonUpdatePlayerJump */
 
 extern void func_80048A44(void *a0, u8 a1, s32 a2, s32 a3);
-extern void func_80099F04(s32 a0);
-extern void func_80099F70(s32 a0);
-extern s16 func_8009AF18(s16 a0, void *a1, void *a2, s32 a3);
-extern void func_8009F644(void *a0, s32 a1, s16 a2, s32 a3);
+extern void dungeonProcessUnflaggedLinkedEntries(s32 a0);
+extern void dungeonProcessUnflaggedLinkedEntriesAlt(s32 a0);
+extern s16 dungeonMeasureDirectionalStoppingDistance(s16 a0, void *a1, void *a2, s32 a3);
+extern void dungeonAppendPackedActionRecord(void *a0, s32 a1, s16 a2, s32 a3);
 extern void func_800A56E0(s32 a0);
 
 extern s32 D_80081484;
@@ -25,7 +25,7 @@ extern u8 D_800DD0C8[8];
 extern s32 D_800E3540[3];
 
 /* Advance the entity action through its motion, animation, and linked-child effects. */
-void func_8008E700(u8 *action, u8 *motion, u8 *sprite, u8 *entity) {
+void dungeonUpdatePlayerJump(u8 *action, u8 *motion, u8 *sprite, u8 *entity) {
     s16 effect_id;
     s32 entity_flags;
     s32 direction;
@@ -74,7 +74,7 @@ void func_8008E700(u8 *action, u8 *motion, u8 *sprite, u8 *entity) {
 
         if ((*(s32 *)(entity + 0x1C) & 0x300000) == 0x100000) {
             if (!((*(u16 *)0x80013714) & 1)) {
-                effect_id = func_8009AF18(*(s16 *)(entity + 0x2A), motion, sprite, 8);
+                effect_id = dungeonMeasureDirectionalStoppingDistance(*(s16 *)(entity + 0x2A), motion, sprite, 8);
                 if ((effect_id << 16) != 0) {
                     child = *(u8 **)(action + 0x124);
                     *(s32 *)(child + 0x1C) |= 0x200000;
@@ -82,7 +82,7 @@ void func_8008E700(u8 *action, u8 *motion, u8 *sprite, u8 *entity) {
                     *(s16 *)(*(u8 **)(action + 0x124) + 0x8A) = effect_id;
                     *(u8 *)(*(u8 **)(action + 0x124) + 0x84) = 0x78;
                     *(u8 *)(*(u8 **)(action + 0x124) + 0x85) = 2;
-                    func_8009F644(entity, 0x30, *(s16 *)(action + 0x96), 0);
+                    dungeonAppendPackedActionRecord(entity, 0x30, *(s16 *)(action + 0x96), 0);
 
                     {
                         s32 saved_state;
@@ -113,10 +113,10 @@ void func_8008E700(u8 *action, u8 *motion, u8 *sprite, u8 *entity) {
             if (entity_flags & 0x200000) {
                 *(s32 *)(entity + 0x1C) = entity_flags & 0xFFDFFFFF;
                 dungeonStatus.flags |= 0x412;
-                func_80099F70(*(s32 *)(entity + 0x5C));
-                func_80099F04(*(s32 *)(entity + 0x5C));
+                dungeonProcessUnflaggedLinkedEntriesAlt(*(s32 *)(entity + 0x5C));
+                dungeonProcessUnflaggedLinkedEntries(*(s32 *)(entity + 0x5C));
             }
-            *(s32 **)(action + 0x8C) = func_8008ACDC;
+            *(s32 **)(action + 0x8C) = dungeonHandlePlayerInput;
         }
     }
 }

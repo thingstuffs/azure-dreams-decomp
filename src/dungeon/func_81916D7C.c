@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1936800.h"
 
-void func_8002457C(void *object_slot, void *unused, void *target)
+void dungeonUpdateTheTargetRecordsCountsFlagsStatus(void *object_slot, void *unused, void *target)
 {
     void *post_object;
     void *pre_object;

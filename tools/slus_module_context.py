@@ -78,7 +78,8 @@ def membership(row, root=ROOT):
 
 def source_path(source, root=ROOT):
     """Manifest source paths are relative to the exported build's src/ directory."""
-    return Path(root) / "src/slus" / Path(source).relative_to("src")
+    from source_layout import slus_source
+    return slus_source(source, root)
 
 
 def input_paths(module, root=ROOT):

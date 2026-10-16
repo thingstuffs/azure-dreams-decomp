@@ -1,0 +1,120 @@
+{
+  "key": "5ff1d0",
+  "groups": [
+    "ovl_5ff1d0.c#39",
+    "ovl_5ff4a0.c#40",
+    "ovl_5ff500.c#41"
+  ],
+  "foff_start": "0x5ff1d0",
+  "foff_end": "0x5ff674",
+  "delta": "0x7fa17000",
+  "method": "two exact local jump destinations; independent assertion-string delta corroboration",
+  "jump_anchors": [
+    {
+      "site": "0x5ff180",
+      "retail_word": "0x800586b",
+      "target": "0x800161ac",
+      "destination_file": "0x5ff1ac",
+      "solved_delta": "0x7fa17000",
+      "destination_words": [
+        "0x2401021",
+        "0x8fbf0020",
+        "0x8fb3001c",
+        "0x8fb20018"
+      ]
+    },
+    {
+      "site": "0x5ff194",
+      "retail_word": "0x800586b",
+      "target": "0x800161ac",
+      "destination_file": "0x5ff1ac",
+      "solved_delta": "0x7fa17000",
+      "destination_words": [
+        "0x2401021",
+        "0x8fbf0020",
+        "0x8fb3001c",
+        "0x8fb20018"
+      ]
+    }
+  ],
+  "recompile": {
+    "source": "docs/evidence/town_rowbase_w4t2_5ff1d0.fixture.c",
+    "source_sha256": "91c0dca9d593541c59ff6e925d475f6abb62f04e1fa1b38a8e8623eee4f38d5e",
+    "foff": "0x5ff0f8",
+    "size": 216,
+    "function": "func_800160F8",
+    "cfg": "2.7.2-cdk-G0",
+    "require_linked": true,
+    "masked": 0,
+    "retail_sha256": "b1b4c8d83ebd1ffbb3ebee458842c11ac6553fe2cd279c010ec445c466bcbca5",
+    "results": [
+      {
+        "base": "0x800160f8",
+        "error": null,
+        "bytes": 216,
+        "exact": true,
+        "sha256": "b1b4c8d83ebd1ffbb3ebee458842c11ac6553fe2cd279c010ec445c466bcbca5",
+        "word_diffs": []
+      },
+      {
+        "base": "0x800170f8",
+        "error": null,
+        "bytes": 216,
+        "exact": false,
+        "sha256": "464d5d9291f512771afc8550535bf5c19e1c869e6354ca893bb3da634ff402be",
+        "word_diffs": [
+          {
+            "offset": 136,
+            "retail": "6b580008",
+            "got": "6b5c0008"
+          },
+          {
+            "offset": 156,
+            "retail": "6b580008",
+            "got": "6b5c0008"
+          }
+        ]
+      }
+    ]
+  },
+  "exact": true,
+  "discriminating": true,
+  "bounded_mapping": {
+    "foff_start": "0x5ff1d0",
+    "foff_end": "0x5ff674",
+    "delta": "0x7fa17000"
+  },
+  "scope": "Scoring/load-map proof. Historical object membership is not claimed.",
+  "negative_control_note": "A +0x1000 link-base control discriminates local-j fixtures. Non-discriminating fixtures are explicitly marked; the two static local-j destinations and independent assertion-pointer evidence determine the base.",
+  "assertion_delta_source": "docs/evidence/konami_assertion_sites.md section 5",
+  "registered_row_recompile": {
+    "source": "src/town/func_8067F1D0.c",
+    "source_sha256": "9386a8a542d49caf54f74b50722ee1b69b42d9f8e3b121a0b75ae6518f87df37",
+    "foff": "0x5ff1d0",
+    "size": 96,
+    "function": "func_8067F1D0",
+    "cfg": "2.7.2-cdk-G0",
+    "require_linked": true,
+    "masked": 0,
+    "retail_sha256": "ea8c10f1829d070ea30ac7b9c775a02ff2d1b8812f03838f092d851dc4d4301f",
+    "results": [
+      {
+        "base": "0x800161d0",
+        "error": null,
+        "bytes": 96,
+        "exact": true,
+        "sha256": "ea8c10f1829d070ea30ac7b9c775a02ff2d1b8812f03838f092d851dc4d4301f",
+        "word_diffs": []
+      },
+      {
+        "base": "0x800171d0",
+        "error": null,
+        "bytes": 96,
+        "exact": true,
+        "sha256": "ea8c10f1829d070ea30ac7b9c775a02ff2d1b8812f03838f092d851dc4d4301f",
+        "word_diffs": []
+      }
+    ]
+  },
+  "fixture_kind": "Separately reconstructed ordinary C witness, not a registered production row; no raw substitution or relocation masks."
+}

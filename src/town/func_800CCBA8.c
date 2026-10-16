@@ -3,10 +3,10 @@
 #include "shared/entity.h"
 
 
-extern void func_800C4174(void *object, void *update_context, s32 setup_context);
+extern void townApplyObjectSetupAndUpdate(void *object, void *update_context, s32 setup_context);
 
 /* Ease the position toward its target, snapping to it when the timer expires. */
-void func_800CA308(Rec_func_80094268_arg0 *state, EntityRec *position, s32 update_arg) {
+void townEaseReactionPositionToTarget(Rec_func_80094268_arg0 *state, EntityRec *position, s32 update_arg) {
     s32 x_delta;
     s32 y_delta;
     s32 z_delta;
@@ -15,7 +15,7 @@ void func_800CA308(Rec_func_80094268_arg0 *state, EntityRec *position, s32 updat
     timer = state->unk_6C.as_u16 - 1;
     state->unk_6C.as_u16 = timer;
     if ((timer << 16) <= 0) {
-        func_800C4174(state, position, update_arg);
+        townApplyObjectSetupAndUpdate(state, position, update_arg);
         position->x.w.i = state->unk_84.as_u16;
         position->y.w.i = state->unk_86.as_u16;
         position->z.w.i = 0;

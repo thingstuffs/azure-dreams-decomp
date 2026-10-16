@@ -2,7 +2,7 @@
 
 
 /* Updates a timed brightness pulse and clears the linked object flag on completion. */
-void func_800252E4(u8 *effect, void *unused, u8 *target)
+void dungeonUpdateEffectBrightnessPulse(u8 *effect, void *unused, u8 *target)
 {
     u8 *object;
     u8 *linked_object;

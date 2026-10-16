@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 
-void func_800C2E84();          /* extern */
+void townInitializeObjectEntries();          /* extern */
 extern M2C_UNK D_800C907C;
 extern M2C_UNK D_800D6268;
 
@@ -21,7 +21,7 @@ void func_800C8FF0(Rec_func_80094268_arg0 *entity, S_800C8FF0_1 *motion, M2C_UNK
     entity->unk_6C.as_u16 = ticks_left;
     transition_context = context;
     if ((s16) ticks_left < 0) {
-        func_800C2E84(entity, transition_context, &D_800D6268);
+        townInitializeObjectEntries(entity, transition_context, &D_800D6268);
         entity->unk_6C.as_u16 = 3U;
         entity->unk_50.as_pm = &D_800C907C;
         entity->unk_72.as_s16 = 0xC00;

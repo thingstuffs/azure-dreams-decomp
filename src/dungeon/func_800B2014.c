@@ -22,19 +22,19 @@ void func_800424E0(); /* extern */
 s32 func_800990FC();
 s32 func_80099194();
 void *func_80099290();
-s32 func_8009929C();
+s32 dungeonWriteTextByteAndAdvance();
 s32 func_80099734();
 void func_800997FC(); /* extern */
-s32 func_8009B88C();
+s32 dungeonFindValidNearbyPosition();
 s32 *(*func_800A0B94())(s32, s16, s16, s16); /* extern */
 s32 func_800A1618();
-s32 func_800A1D4C(); /* extern */
-s32 func_800A384C();
-s32 func_800A3D18();
+s32 raiseEntityLevel(); /* extern */
+s32 dungeonChooseUsableAbilityOrAttack();
+s32 dungeonChooseBestEligibleEntry();
 s16 func_800A48F0(); /* extern */
 s32 func_800A5720(); /* extern */
-void func_800A90E8();
-void func_8009A180(s32 *, u8 *);
+void clearSelectedItemFlag400();
+void dungeonCheckEntityRelation(s32 *, u8 *);
 extern M2C_UNK D_800E0A42;
 extern M2C_UNK D_800E0A56;
 extern M2C_UNK D_800E0A6A;
@@ -42,7 +42,7 @@ extern M2C_UNK D_800E0A6A;
 
 typedef struct S_800B7774_0_pre {
     u16 unk_00;
-} S_800B7774_0_pre;   /* the 0x2 bytes before arg0 in func_800B7774, addressed as arg0[-1] */
+} S_800B7774_0_pre;   /* the 0x2 bytes before arg0 in advanceEggBombSequence, addressed as arg0[-1] */
 
 typedef struct S_800B7774_0 {
     u8 unk_00;
@@ -52,19 +52,19 @@ typedef struct S_800B7774_0 {
     union { s16 s; u16 u; } unk_0A;   /* accessed as both */
     u16 unk_0C;
     s16 unk_0E;
-} S_800B7774_0;   /* arg0 in func_800B7774 */
+} S_800B7774_0;   /* arg0 in advanceEggBombSequence */
 
 typedef struct S_800B7774_1 {
     u8 pad_00[0x2];
     u16 unk_02;
     u8 pad_04[0x6];
     u16 unk_0A;
-} S_800B7774_1;   /* controls_base in func_800B7774 */
+} S_800B7774_1;   /* controls_base in advanceEggBombSequence */
 
 typedef struct S_800B7774_2_pre {
     s32 unk_00;
     u8 pad_04[0x10];
-} S_800B7774_2_pre;   /* the 0x14 bytes before temp_v0 in func_800B7774, addressed as temp_v0[-1] */
+} S_800B7774_2_pre;   /* the 0x14 bytes before temp_v0 in advanceEggBombSequence, addressed as temp_v0[-1] */
 
 typedef struct S_800B7774_2 {
     u8 pad_00[0x11];
@@ -82,25 +82,25 @@ typedef struct S_800B7774_2 {
     union { u16 u; s16 s; } unk_46;   /* accessed as both */
     u8 pad_48[0x18];
     s32 unk_60;
-} S_800B7774_2;   /* temp_v0 in func_800B7774 */
+} S_800B7774_2;   /* temp_v0 in advanceEggBombSequence */
 
 
 typedef struct S_800B7774_4 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_800B7774_4;   /* arg2 in func_800B7774 */
+} S_800B7774_4;   /* arg2 in advanceEggBombSequence */
 
 typedef struct S_800B7774_5 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_800B7774_5;   /* state_base in func_800B7774 */
+} S_800B7774_5;   /* state_base in advanceEggBombSequence */
 
 typedef struct S_800B7774_6_pre {
     u16 unk_00;
-} S_800B7774_6_pre;   /* the 0x2 bytes before temp_v0_6 in func_800B7774, addressed as temp_v0_6[-1] */
+} S_800B7774_6_pre;   /* the 0x2 bytes before temp_v0_6 in advanceEggBombSequence, addressed as temp_v0_6[-1] */
 
 /* Spawns and levels the egg bomb monster, then advances its activation and cleanup. */
-void func_800B7774(void *egg_bomb, Coord *position, void *effect) {
+void advanceEggBombSequence(void *egg_bomb, Coord *position, void *effect) {
     s16 spawn_x;
     s16 spawn_y;
     s32 held_x;
@@ -122,7 +122,7 @@ void func_800B7774(void *egg_bomb, Coord *position, void *effect) {
     phase = ((S_800B7774_0 *)egg_bomb)->unk_0A.s;
     switch (phase) {
     case 0:
-        if ((func_8009B88C(0, (u16) coord_arg->x >> 6, (u16) coord_arg->y >> 6, &spawn_x, &spawn_y) << 0x10) == 0) {
+        if ((dungeonFindValidNearbyPosition(0, (u16) coord_arg->x >> 6, (u16) coord_arg->y >> 6, &spawn_x, &spawn_y) << 0x10) == 0) {
             {
                 dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
             }
@@ -138,7 +138,7 @@ void func_800B7774(void *egg_bomb, Coord *position, void *effect) {
         ((S_800B7774_0 *)egg_bomb)->unk_04 = monster;
         if (monster != NULL) {
             func_8003E188(((S_800B7774_2 *)monster)->unk_13, 0);
-            func_800A90E8(egg_bomb);
+            clearSelectedItemFlag400(egg_bomb);
             func_80042640(monster, ((S_800B7774_2 *)monster)->unk_13);
             func_800424E0(monster, ((S_800B7774_2 *)monster)->unk_13, 0);
             ((S_800B7774_2 *)monster)->unk_43 = 0xFE;
@@ -160,7 +160,7 @@ void func_800B7774(void *egg_bomb, Coord *position, void *effect) {
                     if ((u32) target_experience >= (u32) D_800835E8[((S_800B7774_2 *)monster)->unk_11]) {
                         s32 *loop_base = D_800835E8;
                         do {
-                            func_800A1D4C(monster, 0);
+                            raiseEntityLevel(monster, 0);
                         } while ((u32) loop_base[((S_800B7774_2 *)monster)->unk_11]
                             <= (u32) ((S_800B7774_2 *)monster)->unk_18);
                         scan_arg = monster;
@@ -170,8 +170,8 @@ void func_800B7774(void *egg_bomb, Coord *position, void *effect) {
                 first_call_mode = 8;
                 first_call_arg = raw_first_result;
                 message_id = first_call_arg;
-                raw_first_result = func_8009929C(first_call_mode, first_call_arg);
-                func_80099290(func_80099194(&D_800E0A6A, func_8009929C(0xA, func_80099734(monster,
+                raw_first_result = dungeonWriteTextByteAndAdvance(first_call_mode, first_call_arg);
+                func_80099290(func_80099194(&D_800E0A6A, dungeonWriteTextByteAndAdvance(0xA, func_80099734(monster,
                     func_80099194(&D_800E0A56, raw_first_result)))));
             }
             func_800A5720(message_id);
@@ -181,7 +181,7 @@ void func_800B7774(void *egg_bomb, Coord *position, void *effect) {
                 call_obj = monster;
                 call_state = ((u8 *)D_800E3D7C);
                 ((S_800B7774_0 *)egg_bomb)->unk_0C = 0x10U;
-                func_8009A180(call_obj, call_state);
+                dungeonCheckEntityRelation(call_obj, call_state);
             }
             ((S_800B7774_0 *)egg_bomb)->unk_0A.u = (u16) (((S_800B7774_0 *)egg_bomb)->unk_0A.u + 1);
         }
@@ -199,14 +199,14 @@ void func_800B7774(void *egg_bomb, Coord *position, void *effect) {
     case 2:
         monster = ((S_800B7774_0 *)egg_bomb)->unk_04;
         if (((S_800B7774_0 *)egg_bomb)->unk_0E == 0) {
-            ((S_800B7774_2 *)monster)->unk_60 = func_800A3D18(((S_800B7774_2_pre *)monster)[-1].unk_00, monster, 2);
+            ((S_800B7774_2 *)monster)->unk_60 = dungeonChooseBestEligibleEntry(((S_800B7774_2_pre *)monster)[-1].unk_00, monster, 2);
             {
                 dungeonStatus.flags = (u16) (dungeonStatus.flags | 2);
             }
             action_data = ((S_800B7774_2 *)monster)->unk_60;
             ((S_800B7774_2 *)monster)->unk_46.u = 0x800C;
             if (action_data != 0) {
-                action_id = func_800A384C(monster, action_data, &action_parameter, 1);
+                action_id = dungeonChooseUsableAbilityOrAttack(monster, action_data, &action_parameter, 1);
                 ((S_800B7774_2 *)monster)->unk_2A = action_parameter;
                 if ((s16) action_id >= 0) {
                     ((S_800B7774_2 *)monster)->unk_46.s = (s16) (action_id | 0x8000);

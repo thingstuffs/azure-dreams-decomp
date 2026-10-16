@@ -5,6 +5,6 @@
 M2C_UNK func_800198D0();                     /* extern */
 
 /* Calls func_800198D0 with argument 0x15. */
-void func_8047AB38(void) {
+void func_80017338(void) {
     func_800198D0(0x15);
 }

@@ -7,7 +7,7 @@
 
 
 /* Initialize both linked record values to 0x4E0. */
-void func_80016F1C(void) {
+void townSetSceneRecordBaseOffsets(void) {
     ((TownPositionState *)D_80016000->unk_1C)->x = 0x4E0;
     ((TownPositionState *)D_80016000->unk_1C)->y = 0x4E0;
 }

@@ -1,0 +1,147 @@
+{
+  "schema": "azure-clean.unrelocated-object-map.v1",
+  "group": "ovl_83b5ec.c#81",
+  "representative": "town/func_808BB5EC",
+  "town_sha256": "907725012d8d9e1deab18c28b62f4d304057e86a6415df605b9ffb87cfb2fe18",
+  "address_domain": "unrelocated object coordinates, using the existing neighboring code projection convention",
+  "runtime_placement": "UNPROVEN: no loader destination, relocation table or RAM observation is claimed",
+  "local_jump_equations": [
+    {
+      "foff": 8630736,
+      "word": "0x0800027F",
+      "target": 2147486204,
+      "physical_target": 8630780,
+      "delta": 2138855424,
+      "target_words": [
+        "0x0C000306",
+        "0x24040278",
+        "0x0C00028E",
+        "0x00000000"
+      ]
+    },
+    {
+      "foff": 8630796,
+      "word": "0x08000289",
+      "target": 2147486244,
+      "physical_target": 8630820,
+      "delta": 2138855424,
+      "target_words": [
+        "0x8FBF0014",
+        "0x8FB00010",
+        "0x27BD0018",
+        "0x03E00008"
+      ]
+    },
+    {
+      "foff": 8670248,
+      "word": "0x0800030F",
+      "target": 2147486780,
+      "physical_target": 8670268,
+      "delta": 2138816512,
+      "target_words": [
+        "0x03E00008",
+        "0x00000000",
+        "0x3C070000",
+        "0x24E70E50"
+      ]
+    },
+    {
+      "foff": 8670256,
+      "word": "0x0800030F",
+      "target": 2147486780,
+      "physical_target": 8670268,
+      "delta": 2138816512,
+      "target_words": [
+        "0x03E00008",
+        "0x00000000",
+        "0x3C070000",
+        "0x24E70E50"
+      ]
+    }
+  ],
+  "independently_located_unrelocated_homologues": [
+    {
+      "foff": 8631788,
+      "size": 236,
+      "object_base": 8628224,
+      "section_offset": 3564,
+      "code_projection_vma": 2147487212,
+      "code_projection_delta": 2138855424,
+      "data_coordinate_delta": -8628224,
+      "assert_format": {
+        "section_offset": 1684,
+        "foff": 8629908
+      },
+      "assert_file": {
+        "section_offset": 1724,
+        "foff": 8629948,
+        "text": "tobjs.c"
+      },
+      "assert_line": 75,
+      "local_callee": {
+        "section_offset": 3528,
+        "foff": 8631752
+      },
+      "retail_sha256": "68d109d4513462ec2fe9d0fcf609e08af8114a7881bd691002a896f14115676b"
+    },
+    {
+      "foff": 8670384,
+      "size": 236,
+      "object_base": 8667136,
+      "section_offset": 3248,
+      "code_projection_vma": 2147486896,
+      "code_projection_delta": 2138816512,
+      "data_coordinate_delta": -8667136,
+      "assert_format": {
+        "section_offset": 1840,
+        "foff": 8668976
+      },
+      "assert_file": {
+        "section_offset": 1880,
+        "foff": 8669016,
+        "text": "tobjs.c"
+      },
+      "assert_line": 75,
+      "local_callee": {
+        "section_offset": 3212,
+        "foff": 8670348
+      },
+      "retail_sha256": "bcc7474bd0f4f959da93a5ed2892ef05242204350b2b5c5371b57929d894abd6"
+    }
+  ],
+  "homologue_word_difference_indices": [
+    1,
+    6,
+    8,
+    10,
+    16,
+    24,
+    25,
+    28,
+    30,
+    33,
+    44
+  ],
+  "homologue_basis": "All eleven differing words carry object-specific absolute operands; all other opcodes, registers, stack offsets, branch displacements, callback slots, line 75 and loop stride agree. Linked 0x8070 variants were separately found at 0x8016D8 and 0x803548 and are not treated as these unrelocated instances.",
+  "metadata_instances_note": "The registry count is preserved as 2. It was not used to infer physical offsets or as proof that two runtime loads exist. Two unrelocated homologues were independently located by their complete instruction shape and confirmed string operands. Only the assigned representative receives an authoritative rowbase record.",
+  "boundaries": "The representative follows the known 36-byte helper at 0x83B5C8, whose last two words are jr-ra/store. It owns a complete 236-byte function ending jr-ra/nop at 0x83B6D0; the following object data are not claimed.",
+  "references": [
+    "docs/evidence/konami_assertion_sites.md#7-the-devkit-blob-in-townbin",
+    "docs/evidence/r121m_ovl_83b058.rowbase.json"
+  ],
+  "review": "pending",
+  "byte_reproof": {
+    "exact": true,
+    "byte_exact": true,
+    "comparison_mode": "linked-strict",
+    "config": "2.7.2",
+    "source_sha": "973ad660f5be7fedee98361c39c28fffa6f7ee1470f342a05396d7df6aa82c9d",
+    "target_sha": "68d109d4513462ec2fe9d0fcf609e08af8114a7881bd691002a896f14115676b",
+    "aligned": {
+      "indels": 0,
+      "substitutions": 0,
+      "total": 0
+    }
+  },
+  "retained_hold": "Actual runtime relocation/ownership and native recipe support remain unproved. Existing goto retained after the ordinary structured-loop candidate measured 12 off; no new goto or pin was added."
+}

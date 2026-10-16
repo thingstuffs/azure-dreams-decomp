@@ -10,7 +10,7 @@ typedef struct {
 extern Entry D_800E3CD8[4];
 
 // Returns the value for a matching pair, stopping at the first value below two.
-s16 func_800A4474(s16 firstKey, s16 secondKey) {
+s16 dungeonLookupDefinitionPairValue(s16 firstKey, s16 secondKey) {
     s32 entryIndex;
     s16 entryValue;
 

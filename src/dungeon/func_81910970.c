@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1930844.h"
 
-s32 func_80024170(Rec_func_80024170_arg0 *owner, void *source_position)
+s32 dungeonCreateAnEffectPositionRandomizedSpriteAngle(Rec_func_80024170_arg0 *owner, void *source_position)
 {
     s32 random_value;
     s32 initial_z;

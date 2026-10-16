@@ -17,7 +17,7 @@ typedef struct S_80092018_0 {
     s16 unk_9E;
     u8 pad_A0[0x84];
     void * unk_124;
-} S_80092018_0;   /* arg0 in func_80092018 */
+} S_80092018_0;   /* arg0 in dungeonUpdatePlayerPush */
 
 
 typedef struct S_80092018_2 {
@@ -25,7 +25,7 @@ typedef struct S_80092018_2 {
     s16 unk_2A;
     u8 pad_2C[0x30];
     s32 unk_5C;
-} S_80092018_2;   /* arg3 in func_80092018 */
+} S_80092018_2;   /* arg3 in dungeonUpdatePlayerPush */
 
 typedef struct S_80092018_3 {
     u8 pad_00[0x2];
@@ -36,41 +36,41 @@ typedef struct S_80092018_3 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_0C;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_10;   /* overlapping accesses */
     s32 unk_14;
-} S_80092018_3;   /* arg1 in func_80092018 */
+} S_80092018_3;   /* arg1 in dungeonUpdatePlayerPush */
 
 typedef struct S_80092018_4 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_80092018_4;   /* temp_v1_2 in func_80092018 */
+} S_80092018_4;   /* temp_v1_2 in dungeonUpdatePlayerPush */
 
 typedef struct S_80092018_5 {
     u8 pad_00[0x4];
     s16 unk_04;
-} S_80092018_5;   /* temp_s4 in func_80092018 */
+} S_80092018_5;   /* temp_s4 in dungeonUpdatePlayerPush */
 
 typedef struct S_80092018_7 {
     u8 pad_00[0x60];
     void * unk_60;
     u8 pad_64[0x6];
     u16 unk_6A;
-} S_80092018_7;   /* ((S_80092018_0 *)arg0)->unk_124 in func_80092018 */
+} S_80092018_7;   /* ((S_80092018_0 *)arg0)->unk_124 in dungeonUpdatePlayerPush */
 
 
 struct D83460_VIEW { s16 pad[3]; s16 divisor[1]; };
 
 void func_80048A44();
-s32 func_8009074C();
-s32 func_80094EA4();
-void func_80099F04();
-void func_80099F70();
-void func_800A2B04();
-void func_800B653C();
+s32 dungeonResolvePlayerInputFacing();
+s32 dungeonHasActionInputWithoutModifier();
+void dungeonProcessUnflaggedLinkedEntries();
+void dungeonProcessUnflaggedLinkedEntriesAlt();
+void dungeonSetRecordIntegerTileCenter();
+void dungeonSpawnOppositeOffsetEffect();
 extern u8 D_800DD018[];
 extern u8 D_800DD020[];
 extern u8 D_800DD028[];
 
 /* Updates actor movement and animation through the action states. */
-void func_80092018(void *actor, void *motion, void *sprite, void *model) {
+void dungeonUpdatePlayerPush(void *actor, void *motion, void *sprite, void *model) {
     s16 settle_frames;
     s16 move_frames_left;
     s32 heading_or_coord;
@@ -92,18 +92,18 @@ void func_80092018(void *actor, void *motion, void *sprite, void *model) {
                 return;
             }
         } else {
-            heading_or_coord = func_8009074C(((S_80092018_0 *)actor)->unk_9E, actor + 0xA2, model + 0x2A) << 0x10;
+            heading_or_coord = dungeonResolvePlayerInputFacing(((S_80092018_0 *)actor)->unk_9E, actor + 0xA2, model + 0x2A) << 0x10;
             if ((heading_or_coord >> 0x10) == 0xFFF) {
                 return;
             }
             if ((((u16) ((S_80092018_2 *)model)->unk_2A >> 9) & 7) == ((heading_or_coord >> 0x19) & 7)) {
                 return;
             }
-            if ((func_80094EA4(heading_or_coord) << 0x10) == 0) {
+            if ((dungeonHasActionInputWithoutModifier(heading_or_coord) << 0x10) == 0) {
                 return;
             }
         }
-        ((S_80092018_0 *)actor)->unk_8C = func_8008ACDC;
+        ((S_80092018_0 *)actor)->unk_8C = dungeonHandlePlayerInput;
         return;
     case 16:
         ((S_80092018_3 *)motion)->unk_0C.at02.v = (s16) (*((s16 *)(((u8 *)dirStepX)
@@ -162,7 +162,7 @@ void func_80092018(void *actor, void *motion, void *sprite, void *model) {
             }
         }
         if (!((u16) ((S_80092018_5 *)move_state)->unk_04 & 3)) {
-            func_800B653C(motion, ((S_80092018_2 *)model)->unk_2A);
+            dungeonSpawnOppositeOffsetEffect(motion, ((S_80092018_2 *)model)->unk_2A);
         }
         move_frames_left = (u16) ((S_80092018_5 *)move_state)->unk_04 - 1;
         ((S_80092018_5 *)move_state)->unk_04 = move_frames_left;
@@ -222,9 +222,9 @@ void func_80092018(void *actor, void *motion, void *sprite, void *model) {
         ((S_80092018_3 *)motion)->unk_14 = 0;
         ((S_80092018_3 *)motion)->unk_10.at00.v = 0;
         ((S_80092018_3 *)motion)->unk_0C.at00.v = 0;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-        func_80099F70(((S_80092018_2 *)model)->unk_5C);
-        func_80099F04(((S_80092018_2 *)model)->unk_5C);
+        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        dungeonProcessUnflaggedLinkedEntriesAlt(((S_80092018_2 *)model)->unk_5C);
+        dungeonProcessUnflaggedLinkedEntries(((S_80092018_2 *)model)->unk_5C);
         {
             DungeonGlobalStatus *action_status = &dungeonStatus;
             u16 action_flags;
@@ -232,7 +232,7 @@ void func_80092018(void *actor, void *motion, void *sprite, void *model) {
             action_flags = (u16) (action_flags | 0x812);
             action_status->flags = action_flags;
         }
-        ((S_80092018_0 *)actor)->unk_8C = func_8008ACDC;
+        ((S_80092018_0 *)actor)->unk_8C = dungeonHandlePlayerInput;
         return;
     default:
         return;

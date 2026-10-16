@@ -11,18 +11,18 @@ typedef struct S_800C5A64_1 {
     union { s16 s; u16 u; } unk_10;   /* accessed as both */
     u8 pad_12[0xA];
     s16 unk_1C;
-} S_800C5A64_1;   /* arg0 in func_800C5A64 */
+} S_800C5A64_1;   /* arg0 in dungeonDampEffectMotionAndFade */
 
 typedef struct S_800C5A64_2 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800C5A64_2;   /* counter_base in func_800C5A64 */
+} S_800C5A64_2;   /* counter_base in dungeonDampEffectMotionAndFade */
 
 
 extern void func_800478B8();
 
 /* Advance and damp effect motion, fade its primitive, and mark it expired when its lifetime ends. */
-void func_800C5A64(void *effect, s32 *motion, void *primitive)
+void dungeonDampEffectMotionAndFade(void *effect, s32 *motion, void *primitive)
 {
     s16 remaining;
 

@@ -17,7 +17,7 @@ void func_80052CE0(S_52CE0 *anim, S_52CE0_Pos *position, S_52CE0_Ent *entity)
             entity->flags &= 0xFF7F;
             position->x = anim->unkA << 16;
             position->y = anim->unkC << 16;
-            func_80052774(anim->unk10, anim->unkC + 15, anim->unkE, 0);
+            drawShadedHorizontalLine(anim->unk10, anim->unkC + 15, anim->unkE, 0);
         }
         break;
     case 1:
@@ -26,7 +26,7 @@ void func_80052CE0(S_52CE0 *anim, S_52CE0_Pos *position, S_52CE0_Ent *entity)
             anim->timer = 0;
             anim->state++;
         }
-        func_80052774(anim->unk10, anim->unkC + 15, anim->unkE, 0);
+        drawShadedHorizontalLine(anim->unk10, anim->unkC + 15, anim->unkE, 0);
         break;
     case 2:
         anim->unk10 += 6;
@@ -36,14 +36,14 @@ void func_80052CE0(S_52CE0 *anim, S_52CE0_Pos *position, S_52CE0_Ent *entity)
             anim->state++;
         }
         position->x = anim->unkA << 16;
-        func_80052774(anim->unk10, anim->unkC + 15, anim->unkE, 0);
+        drawShadedHorizontalLine(anim->unk10, anim->unkC + 15, anim->unkE, 0);
         break;
     case 3:
         if (anim->timer >= 0x50) {
             anim->timer = 0;
             anim->state++;
         }
-        func_80052774(anim->unk10, anim->unkC + 15, anim->unkE, 0);
+        drawShadedHorizontalLine(anim->unk10, anim->unkC + 15, anim->unkE, 0);
         break;
     case 4:
         anim->timer++;
@@ -57,7 +57,7 @@ void func_80052CE0(S_52CE0 *anim, S_52CE0_Pos *position, S_52CE0_Ent *entity)
             MoveImage(&source_rect, 0x380, (anim->unk8 + 1) * 16 - anim->unk4);
             if (anim->unk4 < 16) {
                 row_offset = anim->unk4 - 15;
-                func_80052774(anim->unk10, anim->unkC - row_offset, anim->unkE,
+                drawShadedHorizontalLine(anim->unk10, anim->unkC - row_offset, anim->unkE,
                               anim->timer + anim->unk4 * 2);
             } else {
                 anim->timer = 0;
@@ -66,7 +66,7 @@ void func_80052CE0(S_52CE0 *anim, S_52CE0_Pos *position, S_52CE0_Ent *entity)
             }
         } else {
             row_offset = anim->unk4 - 15;
-            func_80052774(anim->unk10, anim->unkC - row_offset, anim->unkE,
+            drawShadedHorizontalLine(anim->unk10, anim->unkC - row_offset, anim->unkE,
                           anim->timer + anim->unk4 * 2);
         }
         break;

@@ -5,16 +5,16 @@ typedef struct {
     unsigned char pad04[0];
 } Unknown;
 
-extern void func_80099754(void *);
+extern void townClearEntityRecordFields(void *);
 extern signed char D_80082668;
 extern int D_80098764;
 extern int D_800D01B8[];
 
 /* Initializes an object from the supplied data and sets its handler and state. */
-void func_80099468(void *object, void *initializationData, void *ptr2) {
+void townInitializeObjectFromMotionData(void *object, void *initializationData, void *ptr2) {
     unsigned short secondaryValue;
 
-    func_80094984((s32 *) D_800D01B8, object, ptr2);
+    townCallTheHandlerSelectsNonzeroEntry((s32 *) D_800D01B8, object, ptr2);
     D_80082668 = 0;
     *(unsigned short *)((unsigned char *)object + 0x30) =
         *(unsigned short *)((unsigned char *)initializationData + 2);
@@ -22,5 +22,5 @@ void func_80099468(void *object, void *initializationData, void *ptr2) {
     *(short *)((unsigned char *)object + 0xA) = 8;
     *(int **)((unsigned char *)object + 4) = &D_80098764;
     *(unsigned short *)((unsigned char *)object + 0x32) = secondaryValue;
-    func_80099754(initializationData);
+    townClearEntityRecordFields(initializationData);
 }

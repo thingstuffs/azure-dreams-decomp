@@ -1,0 +1,49 @@
+{
+  "schema": "azure-clean.recovered-function.v1",
+  "id": "town/func_806D4978",
+  "group": "ovl_6541c0.c#55",
+  "foff": 6637944,
+  "size": 88,
+  "true_name": "func_80016978",
+  "boundary_basis": "A complete twenty-two-instruction wrapper saves incoming a0/a2 in s1/s0 across a real one-argument call to the independently assigned 0x80016D98. Only the null path dispatches two explicit address anchors and the saved inputs; both paths share the full independent epilogue. This is code-boundary evidence only; it grants no data-ownership or native certificate claim.",
+  "raw_source": "raw/town/func_806D4978.c",
+  "raw_sha256": "bac52d7072cc6a432beb2dc1a0a86fe27cf762f314f9e8dc281e3e71db49556a",
+  "byte_proof": {
+    "exact": true,
+    "byte_exact": true,
+    "comparison_mode": "linked-strict",
+    "config": "2.7.2-cdk-G0",
+    "source_sha": "bac52d7072cc6a432beb2dc1a0a86fe27cf762f314f9e8dc281e3e71db49556a",
+    "target_sha": "35d49745f0038979c927c55a245ba59ce8cb17f4e7066dfd45b32aca6768885b",
+    "aligned": {
+      "indels": 0,
+      "substitutions": 0,
+      "total": 0
+    }
+  },
+  "review": "pending",
+  "retail_words": [
+    "0x27BDFFE0",
+    "0xAFB10014",
+    "0x00808821",
+    "0xAFB00010",
+    "0x00C08021",
+    "0xAFBF0018",
+    "0x0C005B66",
+    "0x02002021",
+    "0x14400007",
+    "0x3C048002",
+    "0x248489EC",
+    "0x3C058002",
+    "0x24A58B98",
+    "0x02203021",
+    "0x0C005E58",
+    "0x02003821",
+    "0x8FBF0018",
+    "0x8FB10014",
+    "0x8FB00010",
+    "0x27BD0020",
+    "0x03E00008",
+    "0x00000000"
+  ]
+}

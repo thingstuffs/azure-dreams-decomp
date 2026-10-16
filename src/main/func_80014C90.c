@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern void func_8004F52C(s32);
-extern void func_80026FB4(s32);
+extern void slusSetObjectCleanupFlag(s32);
+extern void cardBootMarkObjectComplete(s32);
 extern void func_800A6104(void);
 extern s32 D_800814A0;
 
@@ -16,11 +16,11 @@ typedef struct {
 } Struct80014C90;
 
 /* Process the entry's values and set its local and global status flags. */
-void func_80027C90(Struct80014C90 *entry) {
+void cardBootDestroyCardChooser(Struct80014C90 *entry) {
     Struct80014C90 *entry_data = (Struct80014C90 *)((s8 *)entry + 0x20);
 
-    func_8004F52C(entry_data->unk20);
-    func_80026FB4(entry_data->unk24);
+    slusSetObjectCleanupFlag(entry_data->unk20);
+    cardBootMarkObjectComplete(entry_data->unk24);
     if (entry->unk20 == 2) {
         func_800A6104();
     }

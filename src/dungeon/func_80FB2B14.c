@@ -12,20 +12,20 @@ typedef struct S_80172314_2 {
     u16 unk_98;
     u8 unk_9A;
     u8 unk_9B;
-} S_80172314_2;   /* arg0 in func_80172314 */
+} S_80172314_2;   /* arg0 in dungeonValidateTransitionAndUpdateAction */
 
 
 extern s32 func_80047784();
-extern s32 func_8009C93C();
-extern s32 func_800A0134();
-extern s32 func_800A04F0();
+extern s32 dungeonPrepareDirectionalAttack();
+extern s32 dungeonGetActorHeightDifference();
+extern s32 dungeonPlaceActorAtDirectionalNeighbor();
 extern s32 func_800A2B5C();
 extern s32 func_800A2CB8();
-extern s32 func_800C7930();
+extern s32 dungeonApplyCameraOffsetAndSelectTarget();
 extern u8 D_80175258[];
 
 /* Validate an actor transition and update its state and directional animation on success. */
-s32 func_80172314(void *state, s32 transition_id, void *sprite, EntityRec *actor)
+s32 dungeonValidateTransitionAndUpdateAction(void *state, s32 transition_id, void *sprite, EntityRec *actor)
 {
     s16 transitioned;
     s32 target_heading;
@@ -35,7 +35,7 @@ s32 func_80172314(void *state, s32 transition_id, void *sprite, EntityRec *actor
     if (dungeonStatus.flags & 0x2000) {
         return -1;
     }
-    target_heading = func_800A04F0(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
+    target_heading = dungeonPlaceActorAtDirectionalNeighbor(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
                            ((Rec_D_80082E80 *)sprite)->unk_25, actor->facing);
     if ((func_800A2CB8(actor, target_heading) << 16) == 0) {
         return 0;
@@ -46,7 +46,7 @@ s32 func_80172314(void *state, s32 transition_id, void *sprite, EntityRec *actor
     if (!(actor->unk_46 & 0x8000) && (dungeonStatus.flags & 8)) {
         return -1;
     }
-    if ((u16)(-func_800A0134(target_heading, actor) + 0x40) >= 0x81U) {
+    if ((u16)(-dungeonGetActorHeightDifference(target_heading, actor) + 0x40) >= 0x81U) {
         return transitioned;
     }
 
@@ -54,7 +54,7 @@ s32 func_80172314(void *state, s32 transition_id, void *sprite, EntityRec *actor
     if ((func_800A2B5C(actor) << 16) != 0) {
         return -1;
     }
-    func_800C7930((u8 *)actor - 0x20, transition_id, 8, 0x300);
+    dungeonApplyCameraOffsetAndSelectTarget((u8 *)actor - 0x20, transition_id, 8, 0x300);
     if ((func_800A2B5C(actor) << 16) != 0) {
         return -1;
     }
@@ -80,7 +80,7 @@ s32 func_80172314(void *state, s32 transition_id, void *sprite, EntityRec *actor
                   D_80175258[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                   0);
     actor->unk_6D--;
-    func_8009C93C(actor, sprite, actor->facing, 1, 0);
+    dungeonPrepareDirectionalAttack(actor, sprite, actor->facing, 1, 0);
     return transitioned;
 }
 

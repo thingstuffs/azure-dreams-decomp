@@ -8,14 +8,14 @@
 typedef struct S_8001ACA0_4 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_8001ACA0_4;   /* ((S_8001ACA0_3 *)(((Rec_D_80016000 *)D_80016000)->unk_24))->unk_68 in func_8001ACA0 */
+} S_8001ACA0_4;   /* ((S_8001ACA0_3 *)(((Rec_D_80016000 *)D_80016000)->unk_24))->unk_68 in townCopyCurrentRecordComponents3 */
 
 
 typedef struct S_8001ACA0_0 {
     u16 unk_00;
     u16 unk_02;
     u16 unk_04;
-} S_8001ACA0_0;   /* arg0 in func_8001ACA0 */
+} S_8001ACA0_0;   /* arg0 in townCopyCurrentRecordComponents3 */
 
 typedef struct S_8001ACA0_1 {
     u8 pad_00[0x2];
@@ -24,10 +24,10 @@ typedef struct S_8001ACA0_1 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8001ACA0_1;   /* temp_v1 in func_8001ACA0 */
+} S_8001ACA0_1;   /* temp_v1 in townCopyCurrentRecordComponents3 */
 
 /* Copy three 16-bit components from the current nested record to the output. */
-void func_8001ACA0(S_8001ACA0_0 *components) {
+void townCopyCurrentRecordComponents3(S_8001ACA0_0 *components) {
     S_8001ACA0_1 *source_record;
 
     source_record = ((S_8001ACA0_4 *)(((TownResourceLinks *)D_80016000->unk_24)->unk_68))->unk_08;

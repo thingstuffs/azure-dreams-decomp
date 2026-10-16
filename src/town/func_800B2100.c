@@ -2,18 +2,18 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_800AF254_arg1.h"
 
-void func_800AF254();                 /* extern */
-void func_800AF520(Rec_func_800AF254_arg1 *);                            /* extern */
-void func_800AF674();                      /* extern */
-void func_800AF784();                      /* extern */
-void func_800AF858();                 /* extern */
+void townPopulateItemMenuPageEntries();                 /* extern */
+void townPopulateItemMenuLowerEntries(Rec_func_800AF254_arg1 *);                            /* extern */
+void townPopulateCurrentItemMenuPage();                      /* extern */
+void townUpdateItemMenuPageBounds();                      /* extern */
+void townItemMenuNoOp();                 /* extern */
 
 
 /* Run the record update sequence and process its stored value. */
-void func_800AF860(Rec_func_800AF254_arg1 *record) {
-    func_800AF520(record);
-    func_800AF784(record);
-    func_800AF674(record);
-    func_800AF254(record->unk_A8.as_s32, record);
-    func_800AF858(record->unk_A8.as_s32, record);
+void townUpdateItemMenuRecord(Rec_func_800AF254_arg1 *record) {
+    townPopulateItemMenuLowerEntries(record);
+    townUpdateItemMenuPageBounds(record);
+    townPopulateCurrentItemMenuPage(record);
+    townPopulateItemMenuPageEntries(record->unk_A8.as_s32, record);
+    townItemMenuNoOp(record->unk_A8.as_s32, record);
 }

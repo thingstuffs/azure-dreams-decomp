@@ -6,28 +6,28 @@
 typedef struct S_80094270_3 {
     u8 pad_00[0xFA];
     u8 unk_FA;
-} S_80094270_3;   /* (actor + (s16) slot) in func_80094270 */
+} S_80094270_3;   /* (actor + (s16) slot) in dungeonRequestFamiliarDeploymentChange */
 
 typedef struct S_80094270_4 {
     u8 pad_00[0xAC];
     void * unk_AC;
-} S_80094270_4;   /* entry in func_80094270 */
+} S_80094270_4;   /* entry in dungeonRequestFamiliarDeploymentChange */
 
 typedef struct S_80094270_5 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_80094270_5;   /* ((S_80094270_4 *)entry)->unk_AC in func_80094270 */
+} S_80094270_5;   /* ((S_80094270_4 *)entry)->unk_AC in dungeonRequestFamiliarDeploymentChange */
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 D_800E3DF0[];
-s16 func_8009402C(); /* extern */
-s32 func_80094208();                         /* extern */
-void func_80094E34();                      /* extern */
+s16 dungeonCheckFamiliarDeploymentPlacement(); /* extern */
+s32 dungeonRejectForbiddenFamiliarRecall();                         /* extern */
+void dungeonClearPlayerLinkedActionFlags();                      /* extern */
 s32 func_800990FC();                          /* extern */
 s32 func_80099194();                  /* extern */
 void * func_80099290();                    /* extern */
-s32 func_8009929C();                    /* extern */
+s32 dungeonWriteTextByteAndAdvance();                    /* extern */
 s32 func_80099734();                        /* extern */
 void func_800997FC();                   /* extern */
 s32 func_800A56E0();                     /* extern */
@@ -47,15 +47,15 @@ extern M2C_UNK D_800E078A;
 typedef struct S_80094270_1 {
     u8 pad_00[0xD0];
     s32 unk_D0;
-} S_80094270_1;   /* entry in func_80094270 */
+} S_80094270_1;   /* entry in dungeonRequestFamiliarDeploymentChange */
 
 typedef struct S_80094270_2 {
     u8 pad_00[0x3];
     u8 unk_03;
-} S_80094270_2;   /* item in func_80094270 */
+} S_80094270_2;   /* item in dungeonRequestFamiliarDeploymentChange */
 
 /* Use or equip the item in the given slot: build the result message for the outcome, or fall through to the failure path. */
-s32 func_80094270(void *actor, s32 param_a, void *param_b, S_80094270_2 *item, s32 slot) {
+s32 dungeonRequestFamiliarDeploymentChange(void *actor, s32 param_a, void *param_b, S_80094270_2 *item, s32 slot) {
     s16 out_a;
     s16 out_b;
     s16 kind;
@@ -68,7 +68,7 @@ s32 func_80094270(void *actor, s32 param_a, void *param_b, S_80094270_2 *item, s
     void *hdr3;
 
     ((Rec_func_8008ACDC_arg0 *)actor)->unk_8A = (s16) slot;
-    if (func_80094208(0) == 0) {
+    if (dungeonRejectForbiddenFamiliarRecall(0) == 0) {
         if (((S_80094270_3 *)((actor + (s16) slot)))->unk_FA == 2) {
             func_800997FC(&D_800E0633);
             return 1;
@@ -89,20 +89,20 @@ s32 func_80094270(void *actor, s32 param_a, void *param_b, S_80094270_2 *item, s
                 func_80099290(call_result);
                 goto finish;
             } else {
-                func_80094E34();
+                dungeonClearPlayerLinkedActionFlags();
                 D_80082E80.unk_030 = 0;
-                func_8008DB0C(actor, param_a, param_b, 0, 0);
+                dungeonBeginFamiliarDeploymentChange(actor, param_a, param_b, 0, 0);
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_60 = 0;
             }
         } else {
-            kind = func_8009402C(actor, param_a, param_b, &out_a, &out_b, item);
+            kind = dungeonCheckFamiliarDeploymentPlacement(actor, param_a, param_b, &out_a, &out_b, item);
             hdr3 = (void *)((s32) actor);
             if (kind != 0) {
                 msg = func_800990FC();
                 if (kind == 1) {
                     kind = item->unk_03 & 0x1F;
                     text = func_80099194(&D_800E0747, msg);
-                    text = func_8009929C(0xA, text);
+                    text = dungeonWriteTextByteAndAdvance(0xA, text);
                     call_result = func_80099734(D_800E3DF0[kind], text);
                     text = func_80099194(&D_800E0766, call_result);
                 } else if (kind == 2) {
@@ -128,8 +128,8 @@ finish:
             }
             ((Rec_func_8008ACDC_arg0 *)hdr3)->unk_C8 = 0;
             D_80082E80.unk_030 = (s32) item;
-            func_8008DB0C(actor, param_a, param_b, out_a, (s32) out_b);
-            func_80094E34();
+            dungeonBeginFamiliarDeploymentChange(actor, param_a, param_b, out_a, (s32) out_b);
+            dungeonClearPlayerLinkedActionFlags();
         }
         return 0;
     }

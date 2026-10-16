@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_188898c.h"
 
-void func_80024684(void *owner, ovl_188898c_81868E84_S_81868E84_3 *coords) {
+void createCoordinateSpriteObject(void *owner, ovl_188898c_81868E84_S_81868E84_3 *coords) {
     u32 owner_value;
     u16 x;
     u16 y;

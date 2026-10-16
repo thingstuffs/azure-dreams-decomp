@@ -20,7 +20,7 @@ extern s32 func_800644B8(s32, s32);
 
 
 /* Updates position history, motion and shading, and flags objects whose positions have settled. */
-void func_800260DC(u8 *obj, u8 *coords_out, u8 *rgb)
+void dungeonUpdatePositionHistoryAndShading(u8 *obj, u8 *coords_out, u8 *rgb)
 {
     u8 *linked_obj;
     u8 *linked_data;

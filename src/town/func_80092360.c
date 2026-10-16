@@ -18,7 +18,7 @@ typedef struct {
 extern Result92360 D_800CFE60[];
 
 /* Returns the smallest signed overlap axis and amount for two intersecting object boxes. */
-Result92360 *func_8008FAC0(Object92360 *box_a, Object92360 *box_b)
+Result92360 *townGetSmallestSignedOverlapAxisAmountTwoIntersectingBoxes(Object92360 *box_a, Object92360 *box_b)
 {
     register s32 *a_bounds = box_a->parts.part1;
     register s32 *b_bounds = box_b->parts.part1;

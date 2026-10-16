@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void func_8001DE2C(void) {
+void dungeonUpdateActiveAreaTiles(void) {
     floor_generate_isolated_8028AE2C_DungeonArea *area;
     MapGrid *map_config = &gameWork.map;
     s16 *tile_id;
@@ -33,26 +33,26 @@ outer_loop:
             if (x < x_end) {
 x_loop_done:
                 tile_id = (s16 *)&((u8 *)D_800EA000)[((y << map_config->shiftX) + x) * 6];
-                if (func_8001CE14(*tile_id, 0x13, 0x1C) != 0) {
+                if (dungeonIsValueWithinInclusiveBounds(*tile_id, 0x13, 0x1C) != 0) {
                     func_8001E108(x, y, tile_id, 0x13, amount_small);
                     if ((y & 1) ? (x & 1) : !(x & 1)) {
                         *tile_id += 10;
                     }
-                } else if (func_8001CE14(*tile_id, 0x27, 0x30) != 0) {
+                } else if (dungeonIsValueWithinInclusiveBounds(*tile_id, 0x27, 0x30) != 0) {
                     func_8001E108(x, y, tile_id, 0x27, amount_small);
-                } else if (func_8001CE14(*tile_id, 0x31, 0x3A) != 0) {
+                } else if (dungeonIsValueWithinInclusiveBounds(*tile_id, 0x31, 0x3A) != 0) {
                     func_8001E108(x, y, tile_id, 0x31, amount_small);
-                } else if (func_8001CE14(*tile_id, 0x3B, 0x44) != 0) {
+                } else if (dungeonIsValueWithinInclusiveBounds(*tile_id, 0x3B, 0x44) != 0) {
                     func_8001E108(x, y, tile_id, 0x3B, amount_small);
-                } else if (func_8001CE14(*tile_id, 0x45, 0x4E) != 0) {
+                } else if (dungeonIsValueWithinInclusiveBounds(*tile_id, 0x45, 0x4E) != 0) {
                     func_8001E108(x, y, tile_id, 0x45, amount_small);
-                } else if (func_8001CE14(*tile_id, 0x6B, 0x6F) != 0) {
+                } else if (dungeonIsValueWithinInclusiveBounds(*tile_id, 0x6B, 0x6F) != 0) {
                     func_8001E108(x, y, tile_id, 0x6B, amount_large);
-                } else if (func_8001CE14(*tile_id, 0x70, 0x74) != 0) {
+                } else if (dungeonIsValueWithinInclusiveBounds(*tile_id, 0x70, 0x74) != 0) {
                     func_8001E108(x, y, tile_id, 0x70, amount_large);
-                } else if (func_8001CE14(*tile_id, 0x75, 0x79) != 0) {
+                } else if (dungeonIsValueWithinInclusiveBounds(*tile_id, 0x75, 0x79) != 0) {
                     func_8001E108(x, y, tile_id, 0x75, amount_large);
-                } else if (func_8001CE14(*tile_id, 0x7A, 0x7E) != 0) {
+                } else if (dungeonIsValueWithinInclusiveBounds(*tile_id, 0x7A, 0x7E) != 0) {
                     func_8001E108(x, y, tile_id, 0x7A, amount_large);
                 }
                 x++;

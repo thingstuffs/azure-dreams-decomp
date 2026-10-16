@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void func_8001CFB8(void *room, s32 rng_arg1)
+void dungeonInitializeRandomRoomSlot(void *room, s32 rng_arg1)
 {
     u8 *slot_data;
     s16 raw_size;
@@ -25,8 +25,8 @@ void func_8001CFB8(void *room, s32 rng_arg1)
             slot_info = (u8 *)((u32 *)((u8 *)D_800E3648) + slot_index);
             slot_data = (u8 *)((u8 *)D_800E39C8) + slot_index * 0x18;
             if ((*((u8 *) (((s8 *) slot_info) + 1))) == 0) {
-                x_offset = func_800A6DA4(0, ((*((u16 *) (((s8 *) room) + 4))) - 1) & 0xFFFF) & 0xFFFF;
-                y_roll = func_800A6DA4(0, ((*((u16 *) (((s8 *) room) + 6))) - 1) & 0xFFFF);
+                x_offset = randomDungeonRange16(0, ((*((u16 *) (((s8 *) room) + 4))) - 1) & 0xFFFF) & 0xFFFF;
+                y_roll = randomDungeonRange16(0, ((*((u16 *) (((s8 *) room) + 6))) - 1) & 0xFFFF);
                 y_offset = y_roll & 0xFFFF;
                 *((s8 *) (((s8 *) slot_data) + 6)) = (s8) ((*((u8 *) (((s8 *) room) + 0))) + x_offset);
                 *((s8 *) (((s8 *) slot_data) + 7)) = (s8) ((*((u8 *) (((s8 *) room) + 2))) + y_offset);

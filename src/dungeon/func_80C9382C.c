@@ -8,11 +8,11 @@ void func_8017102C(CB_8017102C_S_8017102C_0 *state, void *motion, CB_8017102C_S_
  u16 flags;
  if(dungeonStatus.flags & 0x1000) {
   state->unk_9A=14;
-  func_80171590(state,motion,sprite,actor);
+  dungeonAdvanceActorStoredPath(state,motion,sprite,actor);
   return;
  }
  if(actor->unk_25==0) {
-  func_800AA79C(state,motion,sprite,actor);
+  dungeonAdvanceActorPendingAction(state,motion,sprite,actor);
   if(sprite->unk_2C==D_801752FC) return;
   sprite->unk_2C=D_801752F4;
   func_80047784(sprite,D_801752F4[((gameWork.view.viewAngle+actor->unk_2A+0x100)>>9)&7],0);
@@ -27,11 +27,11 @@ void func_8017102C(CB_8017102C_S_8017102C_0 *state, void *motion, CB_8017102C_S_
     actor->unk_1C &= 0xFFFBFFFF;
     return;
    }
-   if(func_800AA924(state,motion,sprite,D_801752F4)!=0) return;
+   if(dungeonResetActorActionState(state,motion,sprite,D_801752F4)!=0) return;
   }
   if(!(dungeonStatus.flags & 0x2000)) {
    if(actor->unk_1C & 0x100) {
-    func_800AA258(state,motion,sprite,actor);
+    dungeonBeginPushedActorMove(state,motion,sprite,actor);
     return;
    }
    if(state->unk_9A!=14) {
@@ -42,13 +42,13 @@ void func_8017102C(CB_8017102C_S_8017102C_0 *state, void *motion, CB_8017102C_S_
     state->unk_9A=14;
    }
    state->unk_98 &= 0xFFF3;
-   if(actor->unk_64!=0 && func_800AA6B4(state,motion,sprite,D_801752BC)!=0) return;
+   if(actor->unk_64!=0 && dungeonBeginReadyActorDirectionalAction(state,motion,sprite,D_801752BC)!=0) return;
    if(actor->unk_1C & 0x80000) {
     func_800AA888(state,motion,sprite,actor);
     func_80173A38(state,motion,sprite,actor);
     return;
    }
-   if((func_800A1C58(actor)<<16)!=0 && (func_800AAB10(state,motion,sprite,actor)<<16)!=0)
+   if((func_800A1C58(actor)<<16)!=0 && (dungeonProcessSelectedActorRecord(state,motion,sprite,actor)<<16)!=0)
     func_80174B3C(state,motion,sprite,actor);
   }
   room=func_8009FB34(sprite->tile.bytes.x,sprite->tile.bytes.y);
@@ -63,7 +63,7 @@ void func_8017102C(CB_8017102C_S_8017102C_0 *state, void *motion, CB_8017102C_S_
     return;
    }
    if(!(actor->unk_46 & 0x8000)) {
-    if((!(dungeonStatus.flags & 0x2000) || (func_8009A180(actor,((CB_8017102C_S_8017102C_3 *)D_800814A8)->unk_58+0x20)<<16)==0)
+    if((!(dungeonStatus.flags & 0x2000) || (dungeonCheckEntityRelation(actor,((CB_8017102C_S_8017102C_3 *)D_800814A8)->unk_58+0x20)<<16)==0)
        && (func_80172298(state,motion,sprite,0)<<16)!=0) {
      flags=actor->unk_46 | 0x4000;
      actor->unk_46=flags;
@@ -79,9 +79,9 @@ void func_8017102C(CB_8017102C_S_8017102C_0 *state, void *motion, CB_8017102C_S_
      func_80172180(state,motion,sprite,actor);
     return;
    case 5: case 6: case 7:
-    actor->unk_2A=func_800A0818(sprite->tile.bytes.x,sprite->tile.bytes.y,D_80082E80.tileX,D_80082E80.tileY,&terrain_flags);
+    actor->unk_2A=dungeonGetRoundedFacingAndRoundingFlag(sprite->tile.bytes.x,sprite->tile.bytes.y,D_80082E80.tileX,D_80082E80.tileY,&terrain_flags);
     if(((CB_8017102C_S_8017102C_3 *)D_800814A8)->unk_9A==17) {
-     func_800AAF00(state,motion,sprite,D_801752EC,func_8017102C);
+     dungeonBeginActorSpellAction(state,motion,sprite,D_801752EC,func_8017102C);
      return;
     }
     /* A failed pursuit falls through to the same completion path as action 12. */
@@ -89,7 +89,7 @@ void func_8017102C(CB_8017102C_S_8017102C_0 *state, void *motion, CB_8017102C_S_
     func_800A9A0C(actor);
     return;
    case 1: case 2: case 3:
-    func_800AAF00(state,motion,sprite,D_801752EC,func_8017102C);
+    dungeonBeginActorSpellAction(state,motion,sprite,D_801752EC,func_8017102C);
     return;
    default:
     func_80171810(state,motion,sprite,actor);
@@ -98,8 +98,8 @@ void func_8017102C(CB_8017102C_S_8017102C_0 *state, void *motion, CB_8017102C_S_
   }
   actor_flags=actor->unk_1C;
   if(!(actor_flags & 0x2000) && ((s8)room<0 || !(((CB_8017102C_S_8017102C_5 *)((u8 *)D_800E2970+(s8)room*20))->unk_0C & 2)) && !(actor_flags & 0x430)) {
-   if((func_8009FD7C(sprite->tile.bytes.x,sprite->tile.bytes.y,D_80082E80.tileX,D_80082E80.tileY)<<16)!=0)
-    actor->unk_2A=func_800A0818(sprite->tile.bytes.x,sprite->tile.bytes.y,D_80082E80.tileX,D_80082E80.tileY,&terrain_flags);
+   if((dungeonCompareMonsterNeighborValues(sprite->tile.bytes.x,sprite->tile.bytes.y,D_80082E80.tileX,D_80082E80.tileY)<<16)!=0)
+    actor->unk_2A=dungeonGetRoundedFacingAndRoundingFlag(sprite->tile.bytes.x,sprite->tile.bytes.y,D_80082E80.tileX,D_80082E80.tileY,&terrain_flags);
   }
   if((dungeonStatus.flags & 0x2000) || (sprite->unk_14 & 0x40)) return;
   frames=D_801752B4;

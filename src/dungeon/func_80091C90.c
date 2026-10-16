@@ -28,17 +28,17 @@ typedef struct {
     Actor *field0C;
 } DungeonState;
 
-extern void func_8009C93C(Actor *, s32, s16, s32, s32);
+extern void dungeonPrepareDirectionalAttack(Actor *, s32, s16, s32, s32);
 extern s32 func_800A6D30(void);
-extern void func_80099F70(u32);
-extern void func_8009F644(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
+extern void dungeonProcessUnflaggedLinkedEntriesAlt(u32);
+extern void dungeonAppendPackedActionRecord(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
 extern s32 func_800A5C70(void);
 
 /* Reset the entity state and initialize the active dungeon actor. */
-s32 func_800973F0(Entity *entity, s32 unused, s32 action_param, Actor *actor) {
+s32 dungeonBeginActorAttack(Entity *entity, s32 unused, s32 action_param, Actor *actor) {
 
     entity->field98 |= 0x2000;
-    func_8009C93C(actor, action_param, actor->field2A, 1, 0);
+    dungeonPrepareDirectionalAttack(actor, action_param, actor->field2A, 1, 0);
     if (actor->field1C & 0x400) {
         actor->field2A = (u16)actor->field2A + (func_800A6D30() & 0xE00);
     }
@@ -47,8 +47,8 @@ s32 func_800973F0(Entity *entity, s32 unused, s32 action_param, Actor *actor) {
     entity->field8C = 0;
     dungeonStatus.unk_0C = actor;
     entity->fieldA6 = 0;
-    func_80099F70(actor->field5C);
-    func_8009F644(actor, 0x18, 0, 0);
+    dungeonProcessUnflaggedLinkedEntriesAlt(actor->field5C);
+    dungeonAppendPackedActionRecord(actor, 0x18, 0, 0);
     if (func_800A5C70() != 0) {
         dungeonStatus.flags |= 0x80;
     }

@@ -16,7 +16,7 @@ typedef struct S_80170700_1 {
     s32 * unk_10;
     u8 pad_14[0x24];
     s16 unk_38;
-} S_80170700_1;   /* temp_v0 in func_80170700 */
+} S_80170700_1;   /* temp_v0 in dungeonCreateSecondaryEncounterObject */
 
 typedef struct S_80170700_2 {
     u8 pad_00[0x6];
@@ -32,7 +32,7 @@ typedef struct S_80170700_2 {
     s16 unk_1E;
     u8 pad_20[0xC];
     u8 * unk_2C;
-} S_80170700_2;   /* temp_s0_2 in func_80170700 */
+} S_80170700_2;   /* temp_s0_2 in dungeonCreateSecondaryEncounterObject */
 
 typedef struct S_80170700_3 {
     u8 pad_00[0x2];
@@ -41,7 +41,7 @@ typedef struct S_80170700_3 {
     s16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80170700_3;   /* temp_a0 in func_80170700 */
+} S_80170700_3;   /* temp_a0 in dungeonCreateSecondaryEncounterObject */
 
 
 extern s32 func_8004491C();
@@ -55,7 +55,7 @@ extern void *D_80175D50;
 extern void *D_80175D64;
 
 /* Creates an object from the current object's data and initializes its position and appearance. */
-void func_80170700(void) {
+void dungeonCreateSecondaryEncounterObject(void) {
     s32 data_index;
     S_80170700_3 *position;
     void *source_data;

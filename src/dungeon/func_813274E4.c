@@ -6,7 +6,7 @@
 typedef struct S_8016ECE4_0 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_8016ECE4_0;   /* base in func_8016ECE4 */
+} S_8016ECE4_0;   /* base in dungeonSpawnConditionalSourceEffect */
 
 typedef struct S_8016ECE4_1 {
     u8 pad_00[0x12];
@@ -28,14 +28,14 @@ typedef struct S_8016ECE4_1 {
     s32 unk_54;
     u8 pad_58[0x8];
     s32 unk_60;
-} S_8016ECE4_1;   /* temp_s1 in func_8016ECE4 */
+} S_8016ECE4_1;   /* temp_s1 in dungeonSpawnConditionalSourceEffect */
 
 typedef struct S_8016ECE4_2 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_8016ECE4_2;   /* temp_v0 in func_8016ECE4 */
+} S_8016ECE4_2;   /* temp_v0 in dungeonSpawnConditionalSourceEffect */
 
 typedef struct S_8016ECE4_3 {
     u8 pad_00[0x6];
@@ -49,7 +49,7 @@ typedef struct S_8016ECE4_3 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_8016ECE4_3;   /* temp_a0 in func_8016ECE4 */
+} S_8016ECE4_3;   /* temp_a0 in dungeonSpawnConditionalSourceEffect */
 
 typedef struct S_8016ECE4_4 {
     u8 pad_00[0x2];
@@ -58,7 +58,7 @@ typedef struct S_8016ECE4_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_8016ECE4_4;   /* temp_v1 in func_8016ECE4 */
+} S_8016ECE4_4;   /* temp_v1 in dungeonSpawnConditionalSourceEffect */
 
 typedef struct S_8016ECE4_5 {
     u8 pad_00[0x2];
@@ -67,14 +67,14 @@ typedef struct S_8016ECE4_5 {
     union { u16 s; s16 u; } unk_06;   /* accessed as both */
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8016ECE4_5;   /* temp_s2 in func_8016ECE4 */
+} S_8016ECE4_5;   /* temp_s2 in dungeonSpawnConditionalSourceEffect */
 
 typedef struct S_8016ECE4_6 {
     u8 pad_00[0x2A];
     u16 unk_2A;
     u8 pad_2C[0x7E];
     s16 unk_AA;
-} S_8016ECE4_6;   /* temp_s3 in func_8016ECE4 */
+} S_8016ECE4_6;   /* temp_s3 in dungeonSpawnConditionalSourceEffect */
 
 
 typedef struct {
@@ -91,7 +91,7 @@ extern TableEntry D_80174708[];
 
 
 /* Spawn and initialize an effect at the source position when its mode and status allow it. */
-void func_8016ECE4(void) {
+void dungeonSpawnConditionalSourceEffect(void) {
     s32 rounded_x;
     s32 rounded_y;
     u8 high_byte;

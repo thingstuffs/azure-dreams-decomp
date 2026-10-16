@@ -1,0 +1,142 @@
+{
+  "module": "dungeon_ovl_51e800",
+  "maps": {
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "kind": "psx_exe",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "basis": "PS-X EXE load header"
+    },
+    "dungeon_resident": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "kind": "rowbase",
+      "region": "xfer_dungeon_A3000",
+      "file_start": 667648,
+      "file_end": 1050624,
+      "delta": 2147374944,
+      "basis": "Existing proven runtime transfer map xfer_dungeon_A3000"
+    }
+  },
+  "views": {
+    "D_800DDC7C": {
+      "symbol": "D_800DDC7C",
+      "kind": "data",
+      "vma": 2148392060,
+      "foff": 1017116,
+      "view_bytes": 1,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_ovl_51e800.imports.json"
+    }
+  },
+  "runtime_views": {
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 512,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_51e800.imports.json",
+      "declaration": "include/shared/game_work.h"
+    },
+    "D_80083460": {
+      "symbol": "D_80083460",
+      "kind": "runtime_data",
+      "vma": 2148021344,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_51e800.imports.json",
+      "declaration": "include/shared/dungeon_status.h"
+    },
+    "D_801C9E40": {
+      "symbol": "D_801C9E40",
+      "kind": "runtime_data",
+      "vma": 2149359168,
+      "view_bytes": 28,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_51e800.imports.json",
+      "declaration": "include/modules/dungeon_ovl_51e800.h"
+    },
+    "D_801DA714": {
+      "symbol": "D_801DA714",
+      "kind": "runtime_data",
+      "vma": 2149426964,
+      "view_bytes": 28,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_51e800.imports.json",
+      "declaration": "include/modules/dungeon_ovl_51e800.h"
+    }
+  },
+  "functions": {
+    "func_80064624": {
+      "vma": 2147894820,
+      "foff": 228900,
+      "map": "slus_load",
+      "basis": "Direct retail callee at this load-mapped address; no imported storage ownership."
+    },
+    "func_80064D20": {
+      "vma": 2147896608,
+      "foff": 230688,
+      "map": "slus_load",
+      "basis": "Direct retail callee at this load-mapped address; no imported storage ownership."
+    },
+    "func_80064D50": {
+      "vma": 2147896656,
+      "foff": 230736,
+      "map": "slus_load",
+      "basis": "Direct retail callee at this load-mapped address; no imported storage ownership."
+    },
+    "func_80064EC0": {
+      "vma": 2147897024,
+      "foff": 231104,
+      "map": "slus_load",
+      "basis": "Direct retail callee at this load-mapped address; no imported storage ownership."
+    },
+    "func_80064EE0": {
+      "vma": 2147897056,
+      "foff": 231136,
+      "map": "slus_load",
+      "basis": "Direct retail callee at this load-mapped address; no imported storage ownership."
+    },
+    "func_80064F00": {
+      "vma": 2147897088,
+      "foff": 231168,
+      "map": "slus_load",
+      "basis": "Direct retail callee at this load-mapped address; no imported storage ownership."
+    },
+    "func_80064F20": {
+      "vma": 2147897120,
+      "foff": 231200,
+      "map": "slus_load",
+      "basis": "Direct retail callee at this load-mapped address; no imported storage ownership."
+    }
+  },
+  "review": "pending",
+  "reviewer": null,
+  "access_bounds": {
+    "D_800DDC7C": {
+      "view_bytes": 1,
+      "sha256": "2f0fd1e89b8de1d57292742ec380ea47066e307ad645f5bc3adad8a06ff58608",
+      "basis": "Largest statically indexed byte span in the module; pointer-only imports use a one-byte address view, not an allocation extent."
+    }
+  },
+  "runtime_buffer_evidence": {
+    "basis": "Resident SLUS graphics code initializes and alternates these two graphics-environment buffers, 0x108d4 bytes apart. The module writes only offsets 0x19..0x1b of each; the 28-byte imports are address views, not native allocations.",
+    "references": {
+      "src/slus/w_8003CB08.c": "45ddf9a568f15d8d7e22e79b85c61ba1b6c4db6c183467a1f9ff4c68861ebf14",
+      "src/slus/w_8003D7DC.c": "f4451b9c771f7452ce0333402b8f0ebbec03b0d6e36d45b7fc2bd0f5f109a306",
+      "src/slus/w_8004F418.c": "6044b0ebc18552c1d0849e0538f0baaed4112ee37569bf16f11a0b789b41ec25"
+    },
+    "buffer_stride": 67796,
+    "first": 2149359168,
+    "second": 2149426964,
+    "source_access_offsets": [
+      25,
+      26,
+      27
+    ]
+  }
+}

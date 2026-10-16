@@ -75,7 +75,7 @@ typedef struct Resource {
 
 extern u8 D_800DEC00[];
 
-extern s32 func_8003DE58(void *, void *, s16 *, s32);
+extern s32 resolveRecordOrientationOrFallback(void *, void *, s16 *, s32);
 extern s32 func_800644B8(s32);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern s32 func_8006649C(s32, s32);
@@ -110,7 +110,7 @@ void func_80024648(MainObject *obj)
         obj->state++;
     case 1:
         state_count = 14;
-        if (func_8003DE58(((void *)D_80082E80.unk_008), &D_80082E80, hit, 0)) {
+        if (resolveRecordOrientationOrFallback(((void *)D_80082E80.unk_008), &D_80082E80, hit, 0)) {
             obj->x += (hit[0] + D_80083780.x.w.i - *(s16 *)((u8 *)obj + 0x1E)) << 14;
             obj->y += (hit[1] + D_80083780.y.w.i - *(s16 *)((u8 *)obj + 0x22)) << 14;
             obj->z += (hit[2] + D_80083780.z.w.i - *(s16 *)((u8 *)obj + 0x26)) << 14;
@@ -127,7 +127,7 @@ void func_80024648(MainObject *obj)
             state_count = 4;
         }
         obj->angle += 2;
-        if (func_8003DE58(((void *)D_80082E80.unk_008), &D_80082E80, hit, 0)) {
+        if (resolveRecordOrientationOrFallback(((void *)D_80082E80.unk_008), &D_80082E80, hit, 0)) {
             obj->x += (hit[0] + D_80083780.x.w.i - *(s16 *)((u8 *)obj + 0x1E)) << 15;
             obj->y += (hit[1] + D_80083780.y.w.i - *(s16 *)((u8 *)obj + 0x22)) << 15;
             obj->z += (hit[2] + D_80083780.z.w.i - *(s16 *)((u8 *)obj + 0x26)) << 15;
@@ -158,7 +158,7 @@ void func_80024648(MainObject *obj)
         return;
     }
 
-    callback = func_80024AA4;
+    callback = dungeonMarkReferencedObjectAndUpdateFlags;
     resource = (Resource *)D_800DEC00;
     do {
         effect = (EffectObject *)func_8003FD64(0x312, ((u8 *)(&D_80083498)));

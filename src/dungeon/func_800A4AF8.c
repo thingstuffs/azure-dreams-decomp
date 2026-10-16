@@ -9,7 +9,7 @@ typedef struct S_800AA258_2 {
     u8 pad_00[0x24];
     u8 unk_24;
     union { u8 s; u8 u; } unk_25;   /* accessed as both */
-} S_800AA258_2;   /* arg2 in func_800AA258 */
+} S_800AA258_2;   /* arg2 in dungeonBeginPushedActorMove */
 
 
 void func_8009A21C();                 /* extern */
@@ -21,7 +21,7 @@ extern struct {
 } D_80083460;
 
 /* Move the position one step in the actor's direction and update movement state. */
-void func_800AA258(Rec_func_800A9E70_arg0 *state, void *unused, S_800AA258_2 *position, EntityRec *actor) {
+void dungeonBeginPushedActorMove(Rec_func_800A9E70_arg0 *state, void *unused, S_800AA258_2 *position, EntityRec *actor) {
     s32 next_x;
     s32 direction_index;
     s32 tile_mask;

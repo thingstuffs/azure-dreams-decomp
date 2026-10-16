@@ -11,12 +11,12 @@ typedef struct S_80038394_0 {
 } S_80038394_0;   /* arg0 in func_80038394 */
 
 
-s32 func_80033B2C();                             /* extern */
+s32 testResidentBitmapBit();                             /* extern */
 void func_80038A10();
 
 /* Sets the object's handler when its status check succeeds. */
 void func_80038394(S_80038394_0 *object) {
-    if (func_80033B2C(object->unk_30) != 0) {
+    if (testResidentBitmapBit(object->unk_30) != 0) {
         object->unk_10 = &func_80038A10;
     }
 }

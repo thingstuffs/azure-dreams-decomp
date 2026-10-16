@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource17_slot0.h"
 
-void func_801718D0(void *motion, s32 unused, void *entity, void *path_state)
+void advanceEntityAlongPath(void *motion, s32 unused, void *entity, void *path_state)
 {
     u8 *direction_table;
     s32 old_x;
@@ -48,7 +48,7 @@ void func_801718D0(void *motion, s32 unused, void *entity, void *path_state)
     }
     func_8009A21C(new_x, new_y, occupancy_mask);
 
-    ((R17_801718D0_S_801718D0_0 *)path_state)->unk_2A = ((s16)func_800A0818(
+    ((R17_801718D0_S_801718D0_0 *)path_state)->unk_2A = ((s16)dungeonGetRoundedFacingAndRoundingFlag(
         old_x, old_y, ((R17_801718D0_S_801718D0_1 *)entity)->unk_24, ((R17_801718D0_S_801718D0_1 *)entity)->unk_25,
         (u8 *)motion + 0x98));
     ((R17_801718D0_S_801718D0_0 *)path_state)->unk_1C.u |= 0x40000000;

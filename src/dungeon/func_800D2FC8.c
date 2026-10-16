@@ -8,8 +8,8 @@ typedef void (*Callback)();
 extern void func_8003DB94();
 extern void func_800478B8();
 extern s32 func_80069EF8(void);
-extern void func_800A020C();
-extern s32 func_800A9E70();
+extern void dungeonApplyMonsterKoyawData();
+extern s32 dungeonRefreshActorFacingAndLifecycle();
 extern void func_800AA36C();
 extern s16 func_800BCB04();
 
@@ -92,7 +92,7 @@ typedef struct S_func_800D8728_2 {
 } S_func_800D8728_2;
 
 /* Update entity callbacks, facing, movement, and floor contact. */
-void func_800D8728(S_func_800D8728_0 *entity, S_func_800D8728_1 *motion, S_func_800D8728_2 *monster)
+void dungeonUpdateActorMovementAndContact(S_func_800D8728_0 *entity, S_func_800D8728_1 *motion, S_func_800D8728_2 *monster)
 {
     S_func_800D8728_0 *actor;
     s16 previous_direction;
@@ -117,7 +117,7 @@ void func_800D8728(S_func_800D8728_0 *entity, S_func_800D8728_1 *motion, S_func_
     }
 
     previous_direction = (s8)entity->unk_6D;
-    if (func_800A9E70(entity, motion, monster, entity) != 0) {
+    if (dungeonRefreshActorFacingAndLifecycle(entity, motion, monster, entity) != 0) {
         return;
     }
 
@@ -164,7 +164,7 @@ void func_800D8728(S_func_800D8728_0 *entity, S_func_800D8728_1 *motion, S_func_
             ((S_func_800D8728_2 *)monster)->unk_14 |= 0x7000;
         }
 
-        func_800A020C(actor->unk_1C, (u8 *)monster + 0xC);
+        dungeonApplyMonsterKoyawData(actor->unk_1C, (u8 *)monster + 0xC);
     } else if (model_flags & 0x800) {
         monster->unk_14 = model_flags & 0x8FFF;
     } else {

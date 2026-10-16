@@ -6,7 +6,7 @@ typedef struct S_80020F68_0 {
     s32 unk_48;
     s32 unk_4C;
     s32 unk_50;
-} S_80020F68_0;   /* ptr in func_80407F68; pointer addresses record offset 0x10 */
+} S_80020F68_0;   /* ptr in cardBootInitializeMenuPointer; pointer addresses record offset 0x10 */
 
 
 /* Unknown field access, like `*(type_ptr) &expr->unk_offset` */
@@ -22,7 +22,7 @@ extern void func_8040316C(void *first_ptr, void *second_ptr);
 extern void *D_804081AC;
 extern void *D_80407F40;
 
-void func_80407F68(void *ptr) {
+void cardBootInitializeMenuPointer(void *ptr) {
     if (((S_80020F68_0 *)((u8 *)ptr - 0x10))->unk_4C != 0) {
         ((S_80020F68_0 *)((u8 *)ptr - 0x10))->unk_00 = &D_804081AC;
         return;

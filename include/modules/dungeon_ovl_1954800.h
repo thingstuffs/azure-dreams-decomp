@@ -175,16 +175,16 @@ extern M2C_UNK D_800DEE38;
 
 extern void (*const D_80024000)(void *, void *);
 
-s32 func_800C80F0(void);
+s32 dungeonIsLinkedObjectFlagged10000(void);
 void *func_8003FD64(s32, void *);
 void func_8004491C(void *, void *);
 s32 rand(void);
 void func_8009CE1C(void *, s32, s32, s32, s32, void *, s32);
-void *func_800A3F28(s32, s32, void *, void *);
+void *dungeonFindEligibleNearbyEntry(s32, s32, void *, void *);
 void func_800A56E0(s32);
 s32 func_80069EF8();
 s16 func_800BCB04();
-s32 func_80024004(DungeonObject *object);
+s32 decrementFlaggedItemParameters(DungeonObject *object);
 void func_80024128(void *self, void *output);
 void func_8002445C(void *effect);
 #endif

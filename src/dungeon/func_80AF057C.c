@@ -38,13 +38,13 @@ void func_80171D7C(void *movement, void *motion, void *entity, void *path_state)
     }
     func_8009A3D0(x, y, move_flags);
 
-    heading = ((s16)func_800A0818(
+    heading = ((s16)dungeonGetRoundedFacingAndRoundingFlag(
         x,
         y,
         ((R10_80171D7C_S_80171CD4_4 *)((u8 *)state + ((R10_80171D7C_S_80171CD4_0 *)state)->unk_8A.s))->unk_74,
         ((R10_80171D7C_S_80171CD4_4 *)((u8 *)state + ((R10_80171D7C_S_80171CD4_0 *)state)->unk_8A.s))->unk_7C,
         (u8 *)movement + 0x98));
-    move_result = ((s16)func_8009A66C(heading, entity, state, 0x20));
+    move_result = ((s16)dungeonCheckMovementClearanceAndHeight(heading, entity, state, 0x20));
 
     ((Rec_D_80082E80 *)entity)->unk_24 =
         ((R10_80171D7C_S_80171CD4_4 *)((u8 *)state + ((R10_80171D7C_S_80171CD4_0 *)state)->unk_8A.s))->unk_74;

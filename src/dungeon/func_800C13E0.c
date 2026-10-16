@@ -21,7 +21,7 @@ typedef struct S_800C6B40_0 {
     u16 unk_1C;
     u8 pad_1E[0x2];
     u16 unk_20;
-} S_800C6B40_0;   /* arg2 in func_800C6B40 */
+} S_800C6B40_0;   /* arg2 in dungeonDrawSpritePartsAsQuadGrid */
 
 typedef struct S_800C6B40_1 {
     u8 unk_00;
@@ -35,7 +35,7 @@ typedef struct S_800C6B40_1 {
         struct { u8 pad[0x2]; u8 v; } at02;
         struct { u8 pad[0x3]; u8 v; } at03;
     } unk_08;   /* overlapping accesses */
-} S_800C6B40_1;   /* var_s3 in func_800C6B40 */
+} S_800C6B40_1;   /* var_s3 in dungeonDrawSpritePartsAsQuadGrid */
 
 typedef struct {
     u8 pad_00[0x3];
@@ -87,7 +87,7 @@ extern void func_8006658C(void *, void *);
 extern s32 D_8006CD30[];
 
 /* Draws sprite parts as a 4-by-4 grid of textured quads, invoking custom part callbacks. */
-void func_800C6B40(s32 context, void *position, void *sprite, s16 depth_bias) {
+void dungeonDrawSpritePartsAsQuadGrid(s32 context, void *position, void *sprite, s16 depth_bias) {
     u8 *scratch = (u8 *)0x1F800000;
     u8 *state;
     GameWork *render_globals;

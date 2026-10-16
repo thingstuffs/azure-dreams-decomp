@@ -15,7 +15,7 @@ extern unsigned char D_80126A01[];
 extern struct Tbl D_801278B0[];
 
 /* Update entry flags from the global value and the entry's table threshold. */
-void func_80124908(struct Ent *entry)
+void townUpdateCatalogScrollAvailability(struct Ent *entry)
 {
     unsigned char flags;
 

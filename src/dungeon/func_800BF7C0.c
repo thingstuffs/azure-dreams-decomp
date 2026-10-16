@@ -9,14 +9,14 @@ typedef struct S_800C4F20_10 {
     void * unk_1C;
     u8 pad_20[0x4];
     void * unk_24;
-} S_800C4F20_10;   /* arg0 in func_800C4F20 */
+} S_800C4F20_10;   /* arg0 in dungeonUpdateOrbitingTeleportEffect */
 
 typedef struct S_800C4F20_11 {
     u8 pad_00[0x14];
     s32 unk_14;
     u8 pad_18[0x70];
     s16 unk_88;
-} S_800C4F20_11;   /* ((S_800C4F20_10 *)arg0)->unk_24 in func_800C4F20 */
+} S_800C4F20_11;   /* ((S_800C4F20_10 *)arg0)->unk_24 in dungeonUpdateOrbitingTeleportEffect */
 
 typedef struct S_800C4F20_12 {
     u8 pad_00[0x2];
@@ -25,12 +25,12 @@ typedef struct S_800C4F20_12 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800C4F20_12;   /* ((S_800C4F20_10 *)arg0)->unk_1C in func_800C4F20 */
+} S_800C4F20_12;   /* ((S_800C4F20_10 *)arg0)->unk_1C in dungeonUpdateOrbitingTeleportEffect */
 
 
 typedef struct S_800C4F20_0_pre {
     u16 unk_00;
-} S_800C4F20_0_pre;   /* the 0x2 bytes before arg0 in func_800C4F20, addressed as arg0[-1] */
+} S_800C4F20_0_pre;   /* the 0x2 bytes before arg0 in dungeonUpdateOrbitingTeleportEffect, addressed as arg0[-1] */
 
 typedef struct S_800C4F20_0 {
     u8 pad_00[0x20];
@@ -44,7 +44,7 @@ typedef struct S_800C4F20_0 {
     s16 unk_32;
     u8 pad_34[0x2];
     s16 unk_36;
-} S_800C4F20_0;   /* arg0 in func_800C4F20 */
+} S_800C4F20_0;   /* arg0 in dungeonUpdateOrbitingTeleportEffect */
 
 typedef struct S_800C4F20_1 {
     u8 pad_00[0x1A];
@@ -52,19 +52,19 @@ typedef struct S_800C4F20_1 {
     u16 unk_1C;
     u16 unk_1E;
     u16 unk_20;
-} S_800C4F20_1;   /* arg2 in func_800C4F20 */
+} S_800C4F20_1;   /* arg2 in dungeonUpdateOrbitingTeleportEffect */
 
 typedef struct S_800C4F20_2 {
     u8 pad_00[0x1C];
     u16 unk_1C;
     u16 unk_1E;
-} S_800C4F20_2;   /* temp_a1_2 in func_800C4F20 */
+} S_800C4F20_2;   /* temp_a1_2 in dungeonUpdateOrbitingTeleportEffect */
 
 typedef struct S_800C4F20_3 {
     u8 pad_00[0x1C];
     u16 unk_1C;
     u16 unk_1E;
-} S_800C4F20_3;   /* tail_ptr in func_800C4F20 */
+} S_800C4F20_3;   /* tail_ptr in dungeonUpdateOrbitingTeleportEffect */
 
 typedef struct S_800C4F20_5 {
     u8 pad_00[0x2];
@@ -73,24 +73,24 @@ typedef struct S_800C4F20_5 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800C4F20_5;   /* arg1 in func_800C4F20 */
+} S_800C4F20_5;   /* arg1 in dungeonUpdateOrbitingTeleportEffect */
 
 typedef struct S_800C4F20_6 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800C4F20_6;   /* (void *) c2_v0 in func_800C4F20 */
+} S_800C4F20_6;   /* (void *) c2_v0 in dungeonUpdateOrbitingTeleportEffect */
 
 typedef struct S_800C4F20_7 {
     u8 pad_00[0x1C];
     u16 unk_1C;
     u16 unk_1E;
-} S_800C4F20_7;   /* temp_a1_4 in func_800C4F20 */
+} S_800C4F20_7;   /* temp_a1_4 in dungeonUpdateOrbitingTeleportEffect */
 
 typedef struct S_800C4F20_8 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_800C4F20_8;   /* temp_a0_7 in func_800C4F20 */
+} S_800C4F20_8;   /* temp_a0_7 in dungeonUpdateOrbitingTeleportEffect */
 
 
 s32 func_800644B8();
@@ -99,7 +99,7 @@ s32 func_80069EF8();
 s32 func_800A56E0();
 
 /* Updates an object's staged scale and position animation. */
-void func_800C4F20(void *anim, S_800C4F20_5 *position, S_800C4F20_1 *transform) {
+void dungeonUpdateOrbitingTeleportEffect(void *anim, S_800C4F20_5 *position, S_800C4F20_1 *transform) {
     s16 exit_mode;
     s16 move_ticks;
     s16 rise_ticks;

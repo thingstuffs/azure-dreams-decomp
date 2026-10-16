@@ -5,18 +5,18 @@ typedef struct S_80026FB0_0 {
     u8 pad_00[0x64];
     union { s16 s; u16 u; } unk_64;   /* accessed as both */
     s16 unk_66;
-} S_80026FB0_0;   /* arg0 in func_80026FB0 */
+} S_80026FB0_0;   /* arg0 in dungeonFadeColorTowardHalfAndComplete */
 
 typedef struct S_80026FB0_1 {
     u8 pad_00[0xC];
     u8 unk_0C;
     u8 unk_0D;
     u8 unk_0E;
-} S_80026FB0_1;   /* arg2 in func_80026FB0 */
+} S_80026FB0_1;   /* arg2 in dungeonFadeColorTowardHalfAndComplete */
 
 
 /* Waits, then fades the color channels toward 0x80 and flags completion. */
-void func_80026FB0(void *effect, s32 unused, void *color)
+void dungeonFadeColorTowardHalfAndComplete(void *effect, s32 unused, void *color)
 {
     s16 phase;
     s32 frames_left;

@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Append the source string to the destination and return the destination start. */
-u8 *func_80019484(u8 *dst, u8 *src) {
+u8 *townAppendString(u8 *dst, u8 *src) {
     u8 *dst_start = dst;
 
     while (*dst != 0) {

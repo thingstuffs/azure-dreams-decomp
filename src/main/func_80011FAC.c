@@ -3,19 +3,19 @@
 
 typedef struct S_80024FAC_0 {
     M2C_UNK * unk_00;
-} S_80024FAC_0;   /* arg0 in func_80024FAC; pointer addresses record offset 0x10 */
+} S_80024FAC_0;   /* arg0 in cardBootPollStatusAndDismissDialog; pointer addresses record offset 0x10 */
 
 
-s32 func_8002168C();                                /* extern */
-s32 func_800231E4();                     /* extern */
-void func_80024F7C(void *);                            /* extern */
+s32 cardBootDebounceCardStatusEvents();                                /* extern */
+s32 cardBootCloseMessageDialog();                     /* extern */
+void cardBootRestoreSavedSelectionCallback(void *);                            /* extern */
 extern M2C_UNK D_8002593C;
 
 /* Update the record and switch its table when the status reaches four. */
-void func_80024FAC(void *record_data) {
-    func_80024F7C(record_data);
-    if (func_8002168C() >= 4) {
-        func_800231E4(0);
+void cardBootPollStatusAndDismissDialog(void *record_data) {
+    cardBootRestoreSavedSelectionCallback(record_data);
+    if (cardBootDebounceCardStatusEvents() >= 4) {
+        cardBootCloseMessageDialog(0);
         ((S_80024FAC_0 *)((u8 *)record_data - 0x10))->unk_00 = &D_8002593C;
     }
 }

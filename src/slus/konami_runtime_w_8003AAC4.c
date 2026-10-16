@@ -5,6 +5,6 @@
 
 
 /* Returns the current value of D_80083168. */
-s32 func_8003AAC4(void) {
+s32 runtimeGetStateValue83168(void) {
     return gameWork.buttons;
 }

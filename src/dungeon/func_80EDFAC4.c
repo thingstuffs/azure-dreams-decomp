@@ -33,7 +33,7 @@ typedef struct S_801712C4_1 {
 } S_801712C4_1;   /* arg1 in func_801712C4 */
 
 
-extern void func_801710B8(void *, void *, s32);
+extern void dungeonSteerEffectTowardTarget(void *, void *, s32);
 
 /* Advance the effect, then move and fade it until its timer expires. */
 void func_801712C4(void *effect, void *position, s32 update_param)
@@ -44,8 +44,8 @@ void func_801712C4(void *effect, void *position, s32 update_param)
     ((S_801712C4_0 *)effect)->unk_32.u = ((S_801712C4_0 *)effect)->unk_32.u - 1;
     switch (state) {
     case 0:
-        func_801710B8(effect, position, update_param);
-        func_801710B8(effect, position, update_param);
+        dungeonSteerEffectTowardTarget(effect, position, update_param);
+        dungeonSteerEffectTowardTarget(effect, position, update_param);
         if (((S_801712C4_0 *)effect)->unk_32.s == 0) {
             ((S_801712C4_0 *)effect)->unk_32.u = 0x10;
             ((S_801712C4_0 *)effect)->unk_34 = 0x10;

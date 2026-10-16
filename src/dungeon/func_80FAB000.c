@@ -10,7 +10,7 @@ typedef struct S_80FAB000_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80FAB000_0;   /* obj in func_8014C880 */
+} S_80FAB000_0;   /* obj in dungeonCreateActorKindObject */
 
 typedef struct S_80FAB000_1 {
     u8 pad_00[0x13];
@@ -18,12 +18,12 @@ typedef struct S_80FAB000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80FAB000_1;   /* work in func_8014C880 */
+} S_80FAB000_1;   /* work in dungeonCreateActorKindObject */
 
 typedef struct S_80FAB000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80FAB000_2;   /* part_a in func_8014C880 */
+} S_80FAB000_2;   /* part_a in dungeonCreateActorKindObject */
 
 typedef struct S_80FAB000_3 {
     u8 pad_00[0x24];
@@ -31,7 +31,7 @@ typedef struct S_80FAB000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80FAB000_3;   /* part_b in func_8014C880 */
+} S_80FAB000_3;   /* part_b in dungeonCreateActorKindObject */
 
 typedef struct S_80FAB000_4 {
     u8 pad_00[0x8C];
@@ -44,7 +44,7 @@ typedef struct S_80FAB000_4 {
     s8 unk_9C;
     u8 pad_9D[0x3];
     s16 unk_A0;
-} S_80FAB000_4;   /* actor in func_8014C880 */
+} S_80FAB000_4;   /* actor in dungeonCreateActorKindObject */
 
 
 extern void *func_8003FD64();
@@ -62,9 +62,9 @@ extern u8 D_80150AFC[];
 
 
 
-void *func_8014C880(s16 flags, s16 field24_input, s16 field25_input, s16 field0A_input)
+void *dungeonCreateActorKindObject(s16 flags, s16 field24_input, s16 field25_input, s16 field0A_input)
 ;
-void *func_8014C880(s16 flags, s16 field24_input, s16 field25_input, s16 field0A_input)
+void *dungeonCreateActorKindObject(s16 flags, s16 field24_input, s16 field25_input, s16 field0A_input)
 {
     s32 kind;
     void *obj;

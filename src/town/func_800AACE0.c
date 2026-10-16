@@ -8,13 +8,13 @@ typedef struct S_800A8440_1 {
     u16 unk_00;
     u8 pad_02[0x2];
     u16 unk_04;
-} S_800A8440_1;   /* arg0 in func_800A8440; pointer addresses record offset 0x2 */
+} S_800A8440_1;   /* arg0 in townFadeTimedPrimitive; pointer addresses record offset 0x2 */
 
 
 M2C_UNK func_800478B8();                      /* extern */
 
 /* Fades the primitive and sets completion flags when the countdown expires. */
-void func_800A8440(void *record_fields, void *unused, Rec_D_80082E80 *primitive) {
+void townFadeTimedPrimitive(void *record_fields, void *unused, Rec_D_80082E80 *primitive) {
     u16 ticks_left;
     u8 brightness;
     u8 unused_byte;

@@ -14,7 +14,7 @@ typedef struct {
 } UnkTarget;
 
 /* Initialize data pointers and layout values for three targets. */
-void func_80023D64(void *context) {
+void cardBootLayoutAlternateSlotWindow(void *context) {
     UnkTarget *target;
 
     target = *(UnkTarget **)((u8 *)context + 0x274);

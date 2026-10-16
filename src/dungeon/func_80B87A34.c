@@ -1,0 +1,64 @@
+/* Relink of matched dungeon/func_80B6FA34; every changed retail word is a paired relocation. */
+#include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
+
+extern void func_8009A028(void *node);
+extern void func_8009A3D0(s32 x, s32 y, s32 flag_mask);
+extern void func_800A2FE0(void *entity);
+extern void func_800A32A4(void *record);
+extern void func_800A56E0(s32 query_value);
+extern void dungeonAnnounceFamiliarDefeat(void *input_data);
+
+
+/* Advance the action phase and process the actor when the tile flags are set. */
+void func_8015B234(u8 *action, s32 unused, u8 *tile, u8 *actor)
+{
+    s32 status_flags;
+    s32 actor_flags;
+    s32 strength;
+    s32 x;
+    s32 y;
+    u8 phase;
+
+    phase = action[0x9B];
+    switch (phase) {
+    case 0:
+        if (dungeonStatus.unk_0A != 0) {
+            return;
+        }
+        status_flags = *(s32 *)(actor + 0x14);
+        if (status_flags & 0x4000) {
+            if (!(status_flags & 0x20000000)) {
+                dungeonAnnounceFamiliarDefeat(actor);
+            }
+        }
+
+        action[0x9B]++;
+        func_800A56E0(0x805);
+        /* fall through */
+    case 1:
+        if (*(u16 *)(tile + 0x14) & 0xE000) {
+            if (((s32)dungeonStatus.unk_10) == (s32)(actor - 0x20)) {
+                *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
+            }
+
+            func_800A2FE0(actor);
+            func_800A32A4(actor);
+
+            actor_flags = *(s32 *)(actor + 0x1C);
+            x = tile[0x24];
+            y = tile[0x25];
+            strength = 0x3000;
+            if (actor_flags & 0x2000) {
+                strength = 0x300;
+            }
+            func_8009A3D0(x, y, strength);
+            func_8009A028(actor);
+
+            *(u16 *)(actor - 2) |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
+        }
+        break;
+    }
+}

@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_cb3000.h"
 
-void func_801729A8(void *action, void *motion, void *sprite, void *actor)
+void dungeonCompleteTimedActorAnimation(void *action, void *motion, void *sprite, void *actor)
 {
     s32 state;
     s32 next_state;
@@ -17,7 +17,7 @@ void func_801729A8(void *action, void *motion, void *sprite, void *actor)
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
             ((CB_801729A8_S_801729A8_0 *)action)->unk_9B = 3;
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
-            func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
+            dungeonResolveAttackDamageAndEffects(actor, sprite, ((EntityRec *)actor)->facing, 1);
             return;
         }
 
@@ -37,7 +37,7 @@ void func_801729A8(void *action, void *motion, void *sprite, void *actor)
         timer = ((CB_801729A8_S_801729A8_0 *)action)->unk_96.s + 1;
         ((CB_801729A8_S_801729A8_0 *)action)->unk_96.s = timer;
         if ((s16)timer == 7 || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-            func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
+            dungeonResolveAttackDamageAndEffects(actor, sprite, ((EntityRec *)actor)->facing, 1);
         }
         if (((CB_801729A8_S_801729A8_0 *)action)->unk_96.u == 6) {
             func_800A56E0(0x808);
@@ -55,10 +55,10 @@ void func_801729A8(void *action, void *motion, void *sprite, void *actor)
         return;
     case 3:
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
-            func_800AD594(actor, 0x100);
+            dungeonReduceActorFoodMeter(actor, 0x100);
             ((CB_801729A8_S_801729A8_0 *)action)->unk_8C = func_8017102C;
             dungeonStatus.unk_0C = 0;
-            func_800A4ACC(actor);
+            dungeonAdvanceStatusTimers(actor);
             ((EntityRec *)actor)->unk_46 &= 0x7FFF;
         }
         return;

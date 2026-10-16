@@ -11,7 +11,7 @@ extern s32 D_800E4938[];
 extern void func_800A56E0(u32);
 
 /* Initialize the actor action state or signal that the action is blocked. */
-void func_8008CF6C(void *actor, s32 unused_1, s32 unused_2, s32 action_value) {
+void dungeonBeginPlayerMenuAction(void *actor, s32 unused_1, s32 unused_2, s32 action_value) {
     if (!(D_80013714 & 1)) {
         if (D_800E296C & 0x200000) {
             if (((s32)gameWork.unk_010) & 0x80) {

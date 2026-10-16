@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_188298c.h"
 
-void func_8002418C(ovl_188298c_8186298C_Arg0Ent *state, void *unused, ovl_188298c_8186298C_Arg2Ent *effect)
+void advanceFadingEffect(ovl_188298c_8186298C_Arg0Ent *state, void *unused, ovl_188298c_8186298C_Arg2Ent *effect)
 {
     u16 size;
     u8 brightness;

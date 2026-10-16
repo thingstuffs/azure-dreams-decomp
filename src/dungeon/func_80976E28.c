@@ -4,8 +4,8 @@
 
 s32 func_800A2BDC();                          /* extern */
 void func_800A9A0C();                      /* extern */
-s32 func_800ADDA0(); /* extern */
-void func_80171C34(); /* extern */
+s32 dungeonRelinkEntityAndClearHighFlag(); /* extern */
+void dungeonSelectMovementDirectionAndAdvance(); /* extern */
 
 typedef struct S_80172628_0 {
     u8 pad_00[0x46];
@@ -14,18 +14,18 @@ typedef struct S_80172628_0 {
     u8 unk_71;
     u8 pad_72[0x28];
     s8 unk_9A;
-} S_80172628_0;   /* hold_arg0 in func_80172628 */
+} S_80172628_0;   /* hold_arg0 in dungeonUpdateEntityStateFromQuery */
 
 /* Update entity state and flags according to the state query result. */
-s32 func_80172628(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
+s32 dungeonUpdateEntityStateFromQuery(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
     void *entity = entity_arg;
 
-    state_type = (s16)func_800ADDA0(primary_context_arg, secondary_context_arg, entity, 3, 6, entity + 0x9C);
+    state_type = (s16)dungeonRelinkEntityAndClearHighFlag(primary_context_arg, secondary_context_arg, entity, 3, 6, entity + 0x9C);
     if (state_type < 0) return 0;
     if ((force_state_arg << 0x10) != 0) {
-        func_80171C34(entity, primary_context_arg, secondary_context_arg, entity);
+        dungeonSelectMovementDirectionAndAdvance(entity, primary_context_arg, secondary_context_arg, entity);
         result = 0;
         return result;
     }
@@ -36,7 +36,7 @@ s32 func_80172628(void *entity_arg, void *primary_context_arg, void *secondary_c
         result = 0;
         return result;
     case 2:
-        func_80171C34(entity, primary_context_arg, secondary_context_arg, entity);
+        dungeonSelectMovementDirectionAndAdvance(entity, primary_context_arg, secondary_context_arg, entity);
         result = 0;
         return result;
     case 1:

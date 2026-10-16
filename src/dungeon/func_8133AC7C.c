@@ -28,22 +28,22 @@ typedef struct S_80171C7C_0 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_80171C7C_0;   /* temp_a3 in func_80171C7C */
+} S_80171C7C_0;   /* temp_a3 in dungeonCreateEncounterCameraController */
 
 typedef struct S_80171C7C_1 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_80171C7C_1;   /* temp_a0 in func_80171C7C */
+} S_80171C7C_1;   /* temp_a0 in dungeonCreateEncounterCameraController */
 
 typedef struct S_80171C7C_2 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_80171C7C_2;   /* temp_v1 in func_80171C7C */
+} S_80171C7C_2;   /* temp_v1 in dungeonCreateEncounterCameraController */
 
 /* Creates an object with default coordinates and initializes its rendering state. */
-void func_80171C7C(void) {
+void dungeonCreateEncounterCameraController(void) {
     S_80171C7C_1 *coords;
     S_80171C7C_0 *render_state;
     void *object;

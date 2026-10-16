@@ -14,7 +14,7 @@ static __inline__ void set_light_vectors(u8 *view_state, s16 x, s16 y)
 }
 
 /* Initialize projection, lighting, colors, and view bounds. */
-void func_8001607C(void) {
+void initDungeonView(void) {
     u8 *render_data;
     u8 *view_state;
     s32 default_scale;

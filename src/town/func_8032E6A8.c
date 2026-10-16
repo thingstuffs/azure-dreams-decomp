@@ -6,7 +6,7 @@
 
 
 /* Compacts the zero-terminated entry list by removing entries equal to -1. */
-void func_80018EA8(void) {
+void townCompactLshopEntryList(void) {
     s8 *entries;
     s32 entry;
     s32 read_index;

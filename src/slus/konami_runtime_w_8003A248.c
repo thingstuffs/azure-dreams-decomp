@@ -10,7 +10,7 @@ typedef struct {
 } RuntimeState;
 
 /* Copies an event-script slot value using source and destination indices read from the script. */
-void func_8003A248(RuntimeState *state) {
+void vmOp55CopyValueSourceFirst(RuntimeState *state) {
     u32 source = *state->read_ptr++;
     u32 destination = *state->read_ptr++;
 

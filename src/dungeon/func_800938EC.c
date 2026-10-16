@@ -1,5 +1,5 @@
 #include "common.h"
-s32 func_8009904C(s32 target_value) {
+s32 dungeonFindTableValueIndex(s32 target_value) {
     s32 *table = (s32 *)0x80010000;
     s32 entry_index;
     for (entry_index = 0; entry_index < 20; entry_index++) {

@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1831cd8.h"
 
-void *func_80028654(void *packet, void *coords) {
+void *dungeonBuildMenuDrawPackets(void *packet, void *coords) {
     u32 packet_type;
     u8 *coord_bytes = (u8 *)coords;
 

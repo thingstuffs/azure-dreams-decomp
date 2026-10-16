@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1831cd8.h"
 
-void func_800285B0(void *object)
+void dungeonRetireMenuObject(void *object)
 {
     u8 *objectData;
     u16 objectFlags;
@@ -8,7 +8,7 @@ void func_800285B0(void *object)
 
     if (object != 0) {
         objectData = (u8 *)object + 0x20;
-        func_80028534(*(void **)(objectData + 0x88));
+        dungeonFormatMenuReferencedValues(*(void **)(objectData + 0x88));
         func_8004B1A4(*(void **)(objectData + 0x40));
         func_8004B248((u8 *)object + 0xAC);
         objectFlags = *(u16 *)((u8 *)object + 0x1E);

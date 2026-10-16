@@ -4,11 +4,11 @@
 
 extern void *func_8003FD64(s32 flags, s32 list_head);
 extern void func_8004DCE0(s32 value);
-extern void func_8004DCEC(void);
-extern void func_800AE414(void *parameters);
-extern s32 func_800B0214(void *init_value);
+extern void runtimeCallSelectedModeHandler(void);
+extern void townStartItemMenuObjectProcessing(void *parameters);
+extern s32 townCreateItemMenuChildObject(void *init_value);
 extern s32 func_800B0718(void);
-extern s32 func_800B1BEC(void *setup_value, s32 x, s32 y);
+extern s32 townCreateDualBufferObject(void *setup_value, s32 x, s32 y);
 
 
 typedef struct S_800AE324_0 {
@@ -21,15 +21,15 @@ typedef struct S_800AE324_0 {
     void * unk_20;
     u8 pad_24[0x50];
     s32 unk_74;
-} S_800AE324_0;   /* state in func_800AE324 */
+} S_800AE324_0;   /* state in townCreateItemMenuObject */
 
 typedef struct S_800AE324_1 {
     u8 pad_00[0x20];
     s32 unk_20;
-} S_800AE324_1;   /* object in func_800AE324 */
+} S_800AE324_1;   /* object in townCreateItemMenuObject */
 
 /* Create an object and initialize its state, releasing the state if setup fails. */
-s32 func_800AE324(s32 selector) {
+s32 townCreateItemMenuObject(s32 selector) {
     void *object;
     S_800AE324_0 *state;
     void *initializer;
@@ -53,22 +53,22 @@ s32 func_800AE324(s32 selector) {
             state->unk_14 = (count - 1) / 10;
         }
         func_8004DCE0(1);
-        func_8004DCEC();
-        result = func_800B0214(object);
+        runtimeCallSelectedModeHandler();
+        result = townCreateItemMenuChildObject(object);
         ((S_800AE324_1 *)object)->unk_20 = result;
         if (result == 0) {
             goto failure;
         }
-        result = func_800B1BEC(object, 0x48, -0x5C);
+        result = townCreateDualBufferObject(object, 0x48, -0x5C);
         state->unk_08 = result;
         if (result == 0) {
-            func_800AE414(state);
+            townStartItemMenuObjectProcessing(state);
             return 0;
         }
     }
     return (s32)object;
 failure:
-    func_800AE414(state);
+    townStartItemMenuObjectProcessing(state);
     return 0;
 }
 

@@ -9,7 +9,7 @@ extern u8 D_8001632C[];
 extern void func_80018FC8(Data40 *, u8 *, s32, s32);
 
 /* Pass a local copy of the global data and the shared byte table to func_80018FC8. */
-void func_804762B8(s32 first_value, s32 unused, s32 second_value)
+void func_800172B8(s32 first_value, s32 unused, s32 second_value)
 {
     Data40 data_copy;
 

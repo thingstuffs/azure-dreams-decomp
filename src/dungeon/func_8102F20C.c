@@ -10,18 +10,18 @@ typedef struct S_8102F20C_0 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8102F20C_0;   /* arg1 in func_80170A0C */
+} S_8102F20C_0;   /* arg1 in dungeonApplyRelativeProjectedDepth */
 
 typedef struct S_8102F20C_1_pre {
     u16 unk_00;
-} S_8102F20C_1_pre;   /* the 0x2 bytes before arg0 in func_80170A0C, addressed as arg0[-1] */
+} S_8102F20C_1_pre;   /* the 0x2 bytes before arg0 in dungeonApplyRelativeProjectedDepth, addressed as arg0[-1] */
 
 typedef struct S_8102F20C_1 {
     u8 pad_00[0x1C];
     s16 unk_1C;
     u8 pad_1E[0xA];
     void * unk_28;
-} S_8102F20C_1;   /* arg0 in func_80170A0C */
+} S_8102F20C_1;   /* arg0 in dungeonApplyRelativeProjectedDepth */
 
 typedef struct S_8102F20C_2 {
     u8 pad_00[0x2];
@@ -30,14 +30,14 @@ typedef struct S_8102F20C_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8102F20C_2;   /* temp_v1 in func_80170A0C */
+} S_8102F20C_2;   /* temp_v1 in dungeonApplyRelativeProjectedDepth */
 
 typedef struct S_8102F20C_3 {
     u8 pad_00[0x6];
     s16 unk_06;
     u8 pad_08[0xC];
     u16 unk_14;
-} S_8102F20C_3;   /* out in func_80170A0C */
+} S_8102F20C_3;   /* out in dungeonApplyRelativeProjectedDepth */
 
 
 typedef struct {
@@ -51,7 +51,7 @@ extern s32 func_80065420(void *, void *, void *, void *);
 extern void func_800478B8(void *);
 
 /* Apply a relative projected depth with a direction bias and propagate output status flags. */
-void func_80170A0C(void *entity, S_8102F20C_0 *position, void *output) {
+void dungeonApplyRelativeProjectedDepth(void *entity, S_8102F20C_0 *position, void *output) {
     Stack3 coords;
     M2C_UNK projection_flags;
     M2C_UNK depth_cue;

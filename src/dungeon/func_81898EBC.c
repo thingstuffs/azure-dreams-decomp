@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_18b8824.h"
 
-void func_800246BC(ovl_18b8824_81898EBC_EffectState *state, ovl_18b8824_81898EBC_Motion *motion, ovl_18b8824_81898EBC_ColorPart *part)
+void dungeonAdvanceLaunchedEffect(ovl_18b8824_81898EBC_EffectState *state, ovl_18b8824_81898EBC_Motion *motion, ovl_18b8824_81898EBC_ColorPart *part)
 {
     void *owner;
     void *owner_data;
@@ -27,7 +27,7 @@ void func_800246BC(ovl_18b8824_81898EBC_EffectState *state, ovl_18b8824_81898EBC
         {
             void *node = ovl_18b8824_81898EBC_PTR_AT((u8 *)owner - 0x20, 0xC);
             s32 dir = (ovl_18b8824_81898EBC_U16_AT(D_800814A8, 0x2A) >> 9) & 7;
-            ovl_18b8824_81898EBC_U16_AT(owner, 0x2A) = func_800A0818(ovl_18b8824_81898EBC_U8_AT(node, 0x24), ovl_18b8824_81898EBC_U8_AT(node, 0x25),
+            ovl_18b8824_81898EBC_U16_AT(owner, 0x2A) = dungeonGetRoundedFacingAndRoundingFlag(ovl_18b8824_81898EBC_U8_AT(node, 0x24), ovl_18b8824_81898EBC_U8_AT(node, 0x25),
                 origin[0x24] + dirStepX[dir], origin[0x25] + dirStepY[dir], &ovl_18b8824_81898EBC_result);
         }
         state->timer = 0;
@@ -39,7 +39,7 @@ void func_800246BC(ovl_18b8824_81898EBC_EffectState *state, ovl_18b8824_81898EBC
     case 1:
         owner_data = (u8 *)owner - 0x20;
         owner_node = ovl_18b8824_81898EBC_PTR_AT(owner_data, 0xC);
-        if (func_8003DE58(ovl_18b8824_81898EBC_PTR_AT(owner_node, 8), owner_node, ovl_18b8824_81898EBC_probe, 0) == 0) {
+        if (resolveRecordOrientationOrFallback(ovl_18b8824_81898EBC_PTR_AT(owner_node, 8), owner_node, ovl_18b8824_81898EBC_probe, 0) == 0) {
             if (!(ovl_18b8824_81898EBC_U16_AT(ovl_18b8824_81898EBC_PTR_AT(owner_data, 0xC), 0x14) & 0x8000)) {
                 break;
             }
@@ -85,9 +85,9 @@ void func_800246BC(ovl_18b8824_81898EBC_EffectState *state, ovl_18b8824_81898EBC
                 ovl_18b8824_81898EBC_S16_AT(target_pos, 6) = tile_coord * 64 + 0x20;
                 ovl_18b8824_81898EBC_S16_AT(target_pos, 0xA) = ((s16 *)height_node)[0x44] - 0x20;
             }
-            ovl_18b8824_81898EBC_S16_AT(target_pos, 0xA) = func_800BCAD0(target_pos);
+            ovl_18b8824_81898EBC_S16_AT(target_pos, 0xA) = dungeonGetSurfaceHeightAtRecord(target_pos);
             state->z = ovl_18b8824_81898EBC_S16_AT(target_pos, 0xA);
-            func_8009A350(state->x - 1, state->y, 0, &ovl_18b8824_81898EBC_map_flags);
+            getOffsetMapCellValueAndFlags(state->x - 1, state->y, 0, &ovl_18b8824_81898EBC_map_flags);
             if (ovl_18b8824_81898EBC_map_flags & 0x3300) {
                 s32 fallback_value;
 
@@ -105,7 +105,7 @@ void func_800246BC(ovl_18b8824_81898EBC_EffectState *state, ovl_18b8824_81898EBC
                         ((s16 *)ovl_18b8824_81898EBC_PTR_AT(global_page, 0x14A8))[0x44] << 16;
                     ovl_18b8824_81898EBC_S32_AT((u8 *)target_pos, 8) = fallback_value;
                     state->state = 6;
-                } else if ((func_800A45D8(ovl_18b8824_81898EBC_U16_AT(target_pos, 2), ovl_18b8824_81898EBC_U16_AT(target_pos, 6), target_z) << 16) != 0) {
+                } else if ((dungeonCheckLeftTileAndCenterHeight(ovl_18b8824_81898EBC_U16_AT(target_pos, 2), ovl_18b8824_81898EBC_U16_AT(target_pos, 6), target_z) << 16) != 0) {
                     s32 fallback_value;
 
                     fallback_value =
@@ -186,9 +186,9 @@ void func_800246BC(ovl_18b8824_81898EBC_EffectState *state, ovl_18b8824_81898EBC
                 ovl_18b8824_81898EBC_S32_AT(motion, 0x14) =
                     (ovl_18b8824_81898EBC_S32_AT(target_pos, 8) - raised_z) / state->duration;
             }
-            func_800240CC(state, motion, state->duration);
-            func_800240CC(state, motion, state->duration);
-            func_800240CC(state, motion, state->duration);
+            dungeonCreateASpriteRandomRotationCopiesInitialData(state, motion, state->duration);
+            dungeonCreateASpriteRandomRotationCopiesInitialData(state, motion, state->duration);
+            dungeonCreateASpriteRandomRotationCopiesInitialData(state, motion, state->duration);
             state->timer = 0;
             break;
         }
@@ -220,7 +220,7 @@ void func_800246BC(ovl_18b8824_81898EBC_EffectState *state, ovl_18b8824_81898EBC
             break;
         }
         if (state->status != 0) {
-            void *effect = func_800D24A8(state->status, state->x, state->y,
+            void *effect = dungeonCreateActorSpriteAtTile(state->status, state->x, state->y,
                                          state->z);
             s32 intensity;
             s16 clamped_intensity;

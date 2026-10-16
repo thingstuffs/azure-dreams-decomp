@@ -11,7 +11,7 @@ typedef struct S_800B8228_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_800B8228_0;   /* temp_v0 in func_800B8228 */
+} S_800B8228_0;   /* temp_v0 in dungeonCreateEffectOrFallback */
 
 typedef struct S_800B8228_1 {
     u8 pad_00[0x2];
@@ -22,7 +22,7 @@ typedef struct S_800B8228_1 {
     s16 unk_0A;
     u8 pad_0C[0xA];
     s16 unk_16;
-} S_800B8228_1;   /* temp_v1 in func_800B8228 */
+} S_800B8228_1;   /* temp_v1 in dungeonCreateEffectOrFallback */
 
 typedef struct S_800B8228_2 {
     u8 pad_00[0x8];
@@ -31,13 +31,13 @@ typedef struct S_800B8228_2 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_800B8228_2;   /* temp_s0 in func_800B8228 */
+} S_800B8228_2;   /* temp_s0 in dungeonCreateEffectOrFallback */
 
 typedef struct S_800B8228_3 {
     u8 pad_00[0xB0];
     s16 unk_B0;
     s16 unk_B2;
-} S_800B8228_3;   /* temp_v1_2 in func_800B8228 */
+} S_800B8228_3;   /* temp_v1_2 in dungeonCreateEffectOrFallback */
 
 
 typedef struct {
@@ -49,13 +49,13 @@ extern void func_8004491C(void *, void *);
 extern void func_800A56E0(s32);
 extern s32 func_800A7A38(void *, s32);
 extern void func_800A7A7C(s32, s32, s32, void *, void *);
-extern void func_800BC26C(void *, s32, s32, s32);
+extern void dungeonCreateTrackedEffect(void *, s32, s32, s32);
 
 extern u8 D_8006E240[9];
 extern u8 D_800B80D8[];
 
 /* Creates and initializes an effect, or invokes its fallback if allocation fails. */
-void *func_800B8228(u32 x, u32 y, s32 z, void *effect_data) {
+void *dungeonCreateEffectOrFallback(u32 x, u32 y, s32 z, void *effect_data) {
     S_800B8228_2 *appearance;
     void *effect;
     S_800B8228_1 *position;
@@ -79,7 +79,7 @@ void *func_800B8228(u32 x, u32 y, s32 z, void *effect_data) {
         grid_position->unk_B0 = x >> 6;
         grid_position->unk_B2 = y >> 6;
         *(PackedWord *)((u8 *)effect + 0xB8) = *(PackedWord *)effect_data;
-        func_800BC26C(effect, 0, 0, 0);
+        dungeonCreateTrackedEffect(effect, 0, 0, 0);
         func_800A56E0(0x51C);
     } else {
         func_800A7A7C((s32)(x << 0xA) >> 0x10,

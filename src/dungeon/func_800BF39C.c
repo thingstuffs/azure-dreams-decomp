@@ -16,14 +16,14 @@ typedef struct S_800C4AFC_0 {
     u16 unk_24;
     u8 pad_26[0x2];
     s32 unk_28;
-} S_800C4AFC_0;   /* state in func_800C4AFC */
+} S_800C4AFC_0;   /* state in dungeonCreateTimedPairedParticleEmitter */
 
 typedef struct S_800C4AFC_1 {
     u8 pad_00[0x8];
     void * unk_08;
     u8 pad_0C[0x4];
     void * unk_10;
-} S_800C4AFC_1;   /* object in func_800C4AFC */
+} S_800C4AFC_1;   /* object in dungeonCreateTimedPairedParticleEmitter */
 
 typedef struct S_800C4AFC_2 {
     u8 pad_00[0x2];
@@ -32,7 +32,7 @@ typedef struct S_800C4AFC_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800C4AFC_2;   /* arg0 in func_800C4AFC */
+} S_800C4AFC_2;   /* arg0 in dungeonCreateTimedPairedParticleEmitter */
 
 typedef struct S_800C4AFC_3 {
     u8 pad_00[0x2];
@@ -41,18 +41,18 @@ typedef struct S_800C4AFC_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800C4AFC_3;   /* (void *)temp in func_800C4AFC */
+} S_800C4AFC_3;   /* (void *)temp in dungeonCreateTimedPairedParticleEmitter */
 
 
 extern void *func_8003FD64(s32, void *);
-extern void func_800B835C(void *, s32 *, s32, s32);
+extern void dungeonDrawTexturedEllipse(void *, s32 *, s32, s32);
 extern void func_800A56E0(s32);
-extern void func_800C4944(void);
+extern void dungeonTickPairedParticleEmitter(void);
 
 extern u8 D_800DCF78[12];
 
 /* Create an effect object, copy its source components, and initialize its state. */
-void func_800C4AFC(S_800C4AFC_2 *source, s32 effect_param, s32 state_param)
+void dungeonCreateTimedPairedParticleEmitter(S_800C4AFC_2 *source, s32 effect_param, s32 state_param)
 {
     s32 effect_init[2];
     void *object;
@@ -76,11 +76,11 @@ void func_800C4AFC(S_800C4AFC_2 *source, s32 effect_param, s32 state_param)
     effect_init[1] = init_value;
     effect = D_800DCF78;
     effect -= 0x10;
-    func_800B835C(effect, effect_init, 1, 0);
+    dungeonDrawTexturedEllipse(effect, effect_init, 1, 0);
 
     state = (u8 *)object + 0x20;
     ((S_800C4AFC_0 *)state)->unk_02 = 0x40;
-    ((S_800C4AFC_1 *)object)->unk_10 = (void *)func_800C4944;
+    ((S_800C4AFC_1 *)object)->unk_10 = (void *)dungeonTickPairedParticleEmitter;
     components = ((S_800C4AFC_1 *)object)->unk_08;
     component_x = source->unk_02;
     components->unk_02 = component_x;
@@ -99,5 +99,5 @@ void func_800C4AFC(S_800C4AFC_2 *source, s32 effect_param, s32 state_param)
 }
 
 /* MECHANISM: The 0x30 frame, s1/s2/s3 argument holds, two-word init record, and callee ABIs
-   reproduce the retail structure. Moving init[1]'s store immediately before func_800B835C
+   reproduce the retail structure. Moving init[1]'s store immediately before dungeonDrawTexturedEllipse
    schedules move a3,zero at word 25 and the stack store into the jal delay slot at word 28. */

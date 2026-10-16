@@ -7,7 +7,7 @@ M2C_UNK func_80064CF0();                     /* extern */
 M2C_UNK func_80064D80();                     /* extern */
 M2C_UNK func_80065450(); /* extern */
 M2C_UNK func_80065820();                /* extern */
-void func_800AA044();            /* extern */
+void townCopyEvenHalfwords3();            /* extern */
 extern s32 D_800D11C0[4];
 
 /* Apply rotation, scale, and translation to a vector and copy the result back. */
@@ -20,5 +20,5 @@ void func_800AA068(s32 transform, void *vector, void *transformed) {
     func_80064CF0(0x1F800054);
     func_80064D80(0x1F800054);
     func_80065450(vector, transformed, &flags);
-    func_800AA044(vector, transformed);
+    townCopyEvenHalfwords3(vector, transformed);
 }

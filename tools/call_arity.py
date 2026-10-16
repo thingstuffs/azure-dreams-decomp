@@ -16,6 +16,7 @@ filter and cached (tests inject their own with `DefIndex.from_texts`).
 import re, collections
 from pathlib import Path
 from common import ROOT, rows
+from source_layout import source_files as layout_source_files
 
 _KW = {"if", "while", "for", "switch", "return", "sizeof"}
 _TYPE_WORDS = {"void", "s32", "u32", "s16", "u16", "u8", "s8", "f32", "int", "char", "short", "long",
@@ -177,7 +178,7 @@ class DefIndex:
     def from_tree(cls):
         x = cls()
         for cdir in ("main", "town", "dungeon", "slus"):
-            for f in sorted((ROOT / "src" / cdir).glob("*.c")):
+            for f in layout_source_files(cdir, ROOT):
                 x.add_text(cdir, f.stem, f.read_text(errors="replace"))
         return x
 

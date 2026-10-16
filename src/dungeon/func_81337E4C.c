@@ -6,7 +6,7 @@ extern s32 D_80175DC4;
 extern s16 D_80175DC8;
 
 /* Select a table entry, reset its counter, and record the active index in object state. */
-void func_8016EE4C(s32 table_index) {
+void dungeonStartMultiFormActionScript(s32 table_index) {
     s8 *state;
 
     D_80175DC8 = 0;

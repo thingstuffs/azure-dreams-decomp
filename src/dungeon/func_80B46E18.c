@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource12_slot0.h"
 
-void func_80174618(R12_80174618_S_80174618_4 *endpoints, R12_80174618_S_80174618_1 *position, void *render_params, s16 depth_bias)
+void dungeonTransformAndQueueLinePackets(R12_80174618_S_80174618_4 *endpoints, R12_80174618_S_80174618_1 *position, void *render_params, s16 depth_bias)
 {
     u8 *line_packet;
     u8 *scratch = (u8 *)0x1F800000;

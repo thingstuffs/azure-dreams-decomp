@@ -14,31 +14,31 @@ typedef struct S_80172160_1 {
     u8 pad_00[0x16];
     s16 unk_16;
     s16 unk_18;
-} S_80172160_1;   /* temp_v1 in func_80172160 */
+} S_80172160_1;   /* temp_v1 in dungeonSpawnRisingTrailEmitter */
 
 typedef struct S_80172160_2 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_80172160_2;   /* temp_v0 in func_80172160 */
+} S_80172160_2;   /* temp_v0 in dungeonSpawnRisingTrailEmitter */
 
 typedef struct S_80172160_3 {
     u8 pad_00[0x6];
     s16 unk_06;
-} S_80172160_3;   /* temp_a0 in func_80172160 */
+} S_80172160_3;   /* temp_a0 in dungeonSpawnRisingTrailEmitter */
 
 typedef struct S_80172160_4 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
     s32 unk_08;
-} S_80172160_4;   /* temp_s0 in func_80172160 */
+} S_80172160_4;   /* temp_s0 in dungeonSpawnRisingTrailEmitter */
 
 typedef struct S_80172160_5 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_80172160_5;   /* temp_s2 in func_80172160 */
+} S_80172160_5;   /* temp_s2 in dungeonSpawnRisingTrailEmitter */
 
 typedef struct S_80172160_6 {
     u8 pad_00[0xC];
@@ -50,7 +50,7 @@ typedef struct S_80172160_6 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_80172160_6;   /* temp_a0_2 in func_80172160 */
+} S_80172160_6;   /* temp_a0_2 in dungeonSpawnRisingTrailEmitter */
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((u8 *)(expr) + (offset)))
@@ -63,7 +63,7 @@ extern M2C_UNK D_801720D0;
 extern Rec_D_80174CD8 *D_80174CD8;
 
 /* Spawn and initialize an effect at a random offset from the source position. */
-void func_80172160(void)
+void dungeonSpawnRisingTrailEmitter(void)
 {
     S_80172160_3 *sprite_header;
     S_80172160_6 *sprite;

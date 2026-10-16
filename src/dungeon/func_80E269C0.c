@@ -1,0 +1,44 @@
+/* Relink of matched dungeon/func_80E0E9C0; every changed retail word is a paired relocation. */
+#define D_80176480 D_8015E480
+#include "common.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_status.h"
+#include "m2c_compat.h"
+#include "shared/entity.h"
+typedef struct Ent Ent;
+
+
+typedef struct S_801721C0_1 {
+    u8 pad_00[0x98];
+    u16 unk_98;
+    s8 unk_9A;
+    s8 unk_9B;
+} S_801721C0_1;   /* arg0 in func_8015A1C0 */
+
+
+void func_80047784();         /* extern */
+Ent *dungeonPrepareDirectionalAttack(); /* extern */
+s32 func_800A2B5C();                          /* extern */
+s32 dungeonApplyCameraOffsetAndSelectTarget(); /* extern */
+extern u8 D_8015E480;
+
+/* Update the actor action state and directional animation when both checks pass. */
+void func_8015A1C0(void *action_state, s32 action_ctx, void *sprite, EntityRec *actor) {
+    actor->unk_71 = (u8) (actor->unk_71 & 0x7F);
+    if (!(dungeonStatus.flags & 0x2000) && ((func_800A2B5C(actor) << 0x10) == 0)) {
+        dungeonApplyCameraOffsetAndSelectTarget((u8 *)actor - 0x20, action_ctx, 8, 0x300);
+        if ((func_800A2B5C(actor) << 0x10) == 0) {
+            ((S_801721C0_1 *)action_state)->unk_9A = 0x11;
+            (*(s32 *)((u8 *)action_state + 0x8C)) = 0;
+            ((S_801721C0_1 *)action_state)->unk_9B = 0;
+            (*(u8 **)((u8 *)sprite + 0x2C)) = &D_8015E480;
+            func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
+                + &D_8015E480), 0);
+            actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
+            ((S_801721C0_1 *)action_state)->unk_98 = (u16) (((S_801721C0_1 *)action_state)->unk_98 | 8);
+            actor->unk_84 = 0x7C;
+            actor->unk_85 = 0;
+            dungeonPrepareDirectionalAttack(actor, sprite, actor->facing, 1, 0);
+        }
+    }
+}

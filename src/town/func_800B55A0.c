@@ -10,7 +10,7 @@ typedef struct S_800B2D00_0 {
 } S_800B2D00_0;
 
 /* Convert up to ten entries from the selected page into the output slots. */
-void func_800B2D00(s32 **outputs, S_800B2D00_0 *page_info, s32 entries_base) {
+void townFillTenPagedEntrySlots(s32 **outputs, S_800B2D00_0 *page_info, s32 entries_base) {
     s32 **output_slot;
     s32 *entry_ptr;
     s32 entry;

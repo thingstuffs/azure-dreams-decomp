@@ -9,14 +9,14 @@ typedef struct S_80810F98_0 {
     u8 pad_02[0x2];
     void * unk_04;
     s32 unk_08;
-} S_80810F98_0;   /* ptr in func_8052BB98 */
+} S_80810F98_0;   /* ptr in townFadeSceneColorAfterLinkedFlag */
 
 typedef struct S_80810F98_1 {
     u8 pad_00[0xC];
     u16 unk_0C;
-} S_80810F98_1;   /* object in func_8052BB98 */
+} S_80810F98_1;   /* object in townFadeSceneColorAfterLinkedFlag */
 
-void func_8052BB98(S_80810F98_0 *ptr)
+void townFadeSceneColorAfterLinkedFlag(S_80810F98_0 *ptr)
 {
     s16 state;
     S_80810F98_1 *object;

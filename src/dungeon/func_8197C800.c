@@ -146,7 +146,7 @@ extern u8 D_800DEDB0[];
 extern u8 D_800DE9D0[];
 extern u8 D_800DEC00[];
 
-extern s32 func_8003DE58(void *, void *, void *, s32);
+extern s32 resolveRecordOrientationOrFallback(void *, void *, void *, s32);
 extern s32 func_80053EF0(s32);
 extern s32 func_80069EF8(void);
 extern void func_8009CE1C(void *, s32, s32, s32, s16, void *, s32);
@@ -167,7 +167,7 @@ static __inline__ s32 jitter_coordinate_32(s32 grid, s32 random)
 void func_8002401C(void *input, void *output);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol func_80024000).  The state table of the switch below follows
+ * (retail 0x80024000, the row symbol dungeonAddFlagAdjustedTargetValue).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
 void (*const dungeon_199c800_entry)(void *, void *) = func_8002401C;
 
@@ -231,14 +231,14 @@ void func_8002401C(void *input, void *output)
     scene->unk_A8 = ((S_FUNC_8197C800_BODY_0 *)input)->unk_08;
     particle = func_8003FD64(0x312, &D_80083498.next);
     if (particle != 0) {
-        if (func_8003DE58(((S_FUNC_8197C800_BODY_22 *)(((S_FUNC_8197C800_BODY_3 *)owner)->unk_0C))->unk_08,
+        if (resolveRecordOrientationOrFallback(((S_FUNC_8197C800_BODY_22 *)(((S_FUNC_8197C800_BODY_3 *)owner)->unk_0C))->unk_08,
                           ((S_FUNC_8197C800_BODY_3 *)owner)->unk_0C, offsets, 0) == 0) {
             offsets[2] = 0;
             offsets[1] = 0;
             offsets[0] = 0;
         }
         particle_data = (u8 *)particle + 0x20;
-        ((S_FUNC_8197C800_BODY_5 *)particle)->unk_10 = (void *)func_800246C0;
+        ((S_FUNC_8197C800_BODY_5 *)particle)->unk_10 = (void *)dungeonBuildAndEnqueueFiveTranslucentQuadsBetweenInterpolatedPoints;
         func_8004491C(particle, (s32)func_80045340);
         random_value = 0x00800000u;
         sprite = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_0C;
@@ -375,7 +375,7 @@ void func_8002401C(void *input, void *output)
         } while (remaining >= 0);
 
         remaining = 9;
-        particle_script_debris = (void *)func_80024C68;
+        particle_script_debris = (void *)dungeonUpdateRisingLandingEffect;
         debris_origin = &D_80082E80;
         do {
             particle = func_8003FD64(0x312, &D_80083498.next);

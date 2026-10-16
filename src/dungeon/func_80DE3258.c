@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_e0365c.h"
 
-void func_80170A58(void *entity, E_80170A58_S_80170A58_2 *motion, void *monster)
+void dungeonUpdateEntityFacingAndGround(void *entity, E_80170A58_S_80170A58_2 *motion, void *monster)
 {
     void *actor = entity;
     s32 direction;
@@ -27,7 +27,7 @@ void func_80170A58(void *entity, E_80170A58_S_80170A58_2 *motion, void *monster)
 
 
     old_direction = (*(s8 *)((u8 *)entity + 0x6D));
-    if (func_800A9E70(entity, motion, monster, entity) != 0) {
+    if (dungeonRefreshActorFacingAndLifecycle(entity, motion, monster, entity) != 0) {
         return;
     }
 
@@ -41,7 +41,7 @@ void func_80170A58(void *entity, E_80170A58_S_80170A58_2 *motion, void *monster)
         if ((*(s16 *)((u8 *)entity + 0x94)) != direction_index) {
             u8 *tile_map = ((E_80170A58_S_80170A58_0 *)monster)->unk_2C;
             if (tile_map != 0) {
-                func_80047738(monster, tile_map[direction_index], ((E_80170A58_S_80170A58_0 *)monster)->unk_04);
+                selectIndirectTableEntry(monster, tile_map[direction_index], ((E_80170A58_S_80170A58_0 *)monster)->unk_04);
             }
             (*(s16 *)((u8 *)entity + 0x94)) = direction;
         }
@@ -56,10 +56,10 @@ void func_80170A58(void *entity, E_80170A58_S_80170A58_2 *motion, void *monster)
             if (!(((E_80170A58_S_80170A58_0 *)monster)->unk_14 & 0x40)) {
                 func_800478B8(monster);
             }
-            func_800A020C(((E_80170A58_S_80170A58_1 *)actor)->unk_1C, (u8 *)monster + 0xC);
+            dungeonApplyMonsterKoyawData(((E_80170A58_S_80170A58_1 *)actor)->unk_1C, (u8 *)monster + 0xC);
         } else {
             ((E_80170A58_S_80170A58_0 *)monster)->unk_14 |= 0x7000;
-            func_800A020C(((E_80170A58_S_80170A58_1 *)actor)->unk_1C, (u8 *)monster + 0xC);
+            dungeonApplyMonsterKoyawData(((E_80170A58_S_80170A58_1 *)actor)->unk_1C, (u8 *)monster + 0xC);
         }
     } else {
         if (monster_flags & 0x0800) {

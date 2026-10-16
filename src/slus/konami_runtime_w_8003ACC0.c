@@ -3,7 +3,7 @@
 #include "common.h"
 
 /* Reverse the buffer bytes in place and return the original buffer pointer. */
-void *func_8003ACC0(u8 *buffer, u16 length)
+void *reverseTownMovieBufferBytes(u8 *buffer, u16 length)
 {
     u8 *buffer_start = buffer;
     u8 *last_byte = buffer_start + (length - 1);

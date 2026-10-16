@@ -12,7 +12,7 @@ typedef struct {
     u8 pad6[6];
 } PositionEntry;
 
-extern s16 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
+extern s16 getOffsetMapCellValueAndFlags(s16 x, s16 y, s16 offset_index, u16 *flags);
 
 
 /* Finds an active entry at the given tile within 64 height units if the left tile has flag 0x800. */
@@ -32,7 +32,7 @@ s32 func_800A70E4(s32 input_x, s32 input_y, s32 input_z) {
 
     held_x = input_x;
     held_z = input_z;
-    func_8009A350((s16)(held_x - 1), (held_y = (s16)input_y), 0, &tile_flags);
+    getOffsetMapCellValueAndFlags((s16)(held_x - 1), (held_y = (s16)input_y), 0, &tile_flags);
     entry_index = 0;
     if (tile_flags & 0x800) {
         goto scan;

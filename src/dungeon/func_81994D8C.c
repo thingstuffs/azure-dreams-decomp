@@ -92,7 +92,7 @@ extern s32 func_8003DF74(void *, AnimationState *, s16 *, s32);
 
 extern s32 func_80053EF0(s32);
 
-extern void func_800B835C(PaletteControl *, RectWords *, s32, s32);
+extern void dungeonDrawTexturedEllipse(PaletteControl *, RectWords *, s32, s32);
 
 /* Five-stage palette/particle transition, reconstructed from the complete
  * retail instruction span. The object views cover only fields used here.
@@ -143,7 +143,7 @@ void func_8002458C(TransitionState *state, void *context, void *parameters) {
         D_8002536C.high_b = 0xFF;
         upload_rect.xy = 0x01000340;
         upload_rect.wh = 0x400040;
-        func_800B835C(&D_8002536C, &upload_rect, 1, 0);
+        dungeonDrawTexturedEllipse(&D_8002536C, &upload_rect, 1, 0);
         D_80025384 = 1;
         state->phase++;
         /* fallthrough */
@@ -157,7 +157,7 @@ void func_8002458C(TransitionState *state, void *context, void *parameters) {
             state->phase++;
             state->ticks = 0;
             state->facing = actor_facing;
-            func_800243E4(state, context, parameters);
+            dungeonCreateAnLinkedParentInitializePositionPartData(state, context, parameters);
             if (state->part_b != 0) {
                 source_rect[0] = 0x340;
                 source_rect[1] = 0x100;
@@ -217,7 +217,7 @@ void func_8002458C(TransitionState *state, void *context, void *parameters) {
                 particle_scratch = &particle->payload;
                 if (particle != 0) {
                     particle_scratch->lifetime = 1;
-                    particle->header.unk_10 = (void *)func_800244F0;
+                    particle->header.unk_10 = (void *)dungeonFadeThePrimitiveFlagEffectCountdownExpires;
                     func_8004491C(particle, (s32)func_80045340);
                     render_part = (TransitionRenderPart *)particle->header.unk_0C;
                     render_part->mode = PARTICLE_MODE_ADDITIVE;
@@ -247,7 +247,7 @@ void func_8002458C(TransitionState *state, void *context, void *parameters) {
                 particle_scratch = &particle->payload;
                 if (particle != 0) {
                     particle_scratch->lifetime = 0xC;
-                    particle->header.unk_10 = (void *)func_800244F0;
+                    particle->header.unk_10 = (void *)dungeonFadeThePrimitiveFlagEffectCountdownExpires;
                     func_8004491C(particle, (s32)func_80045340);
                     render_part = (TransitionRenderPart *)particle->header.unk_0C;
                     render_part->mode = PARTICLE_MODE_ADDITIVE;
@@ -273,7 +273,7 @@ spawn_depth_particle:
                 particle = (TransitionParticle *)func_8003FC64(PARTICLE_ALLOC_ID);
                 if (particle != 0) {
                     particle->payload.lifetime = 1;
-                    particle->header.unk_10 = (void *)func_800244F0;
+                    particle->header.unk_10 = (void *)dungeonFadeThePrimitiveFlagEffectCountdownExpires;
                     func_8004491C(particle, (s32)func_80045340);
                     render_part = (TransitionRenderPart *)particle->header.unk_0C;
                     render_part->mode = PARTICLE_MODE_ADDITIVE;
@@ -305,7 +305,7 @@ spawn_depth_particle:
                 particle_scratch = &particle->payload;
                 if (particle != 0) {
                     particle_scratch->lifetime = 0xC;
-                    particle->header.unk_10 = (void *)func_800244F0;
+                    particle->header.unk_10 = (void *)dungeonFadeThePrimitiveFlagEffectCountdownExpires;
                     func_8004491C(particle, (s32)func_80045340);
                     render_part = (TransitionRenderPart *)particle->header.unk_0C;
                     render_part->mode = PARTICLE_MODE_ADDITIVE;
@@ -360,7 +360,7 @@ spawn_depth_particle:
                 if (state->countdown != 0xD) {
                     particle_scratch->lifetime = 1;
                 }
-                particle->header.unk_10 = (void *)func_800244F0;
+                particle->header.unk_10 = (void *)dungeonFadeThePrimitiveFlagEffectCountdownExpires;
                 func_8004491C(particle, (s32)func_80045340);
                 render_part = (TransitionRenderPart *)particle->header.unk_0C;
                 render_part->mode = PARTICLE_MODE_ADDITIVE;
@@ -388,7 +388,7 @@ spawn_depth_particle:
                 particle = (TransitionParticle *)func_8003FC64(PARTICLE_ALLOC_ID);
                 if (particle != 0) {
                     particle->payload.lifetime = 1;
-                    particle->header.unk_10 = (void *)func_800244F0;
+                    particle->header.unk_10 = (void *)dungeonFadeThePrimitiveFlagEffectCountdownExpires;
                     func_8004491C(particle, (s32)func_80045340);
                     render_part = (TransitionRenderPart *)particle->header.unk_0C;
                     render_part->mode = PARTICLE_MODE_ADDITIVE;
@@ -467,7 +467,7 @@ spawn_depth_particle:
         first_palette->high_g = upload_value;
         first_palette->high_b = upload_value;
         upload_rect = (RectWords){0x01400380, 0x00400040};
-        func_800B835C(&D_8002536C, &upload_rect, 1, 0);
+        dungeonDrawTexturedEllipse(&D_8002536C, &upload_rect, 1, 0);
         if (state->ticks >= 0xF) {
             if (!(state->countdown & 1)) {
                 D_8002536C.low_r = 0;
@@ -486,7 +486,7 @@ spawn_depth_particle:
             }
             upload_rect.xy = 0x01800380;
             upload_rect.wh = 0x400040;
-            func_800B835C(&D_8002536C, &upload_rect, 1, 0);
+            dungeonDrawTexturedEllipse(&D_8002536C, &upload_rect, 1, 0);
         }
     }
 }

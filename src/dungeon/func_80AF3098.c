@@ -75,7 +75,7 @@ void func_80174898(void *action, void *position, void *sprite, EntityRec *entity
             ((R10_80174898_S_80174898_1 *)position)->unk_14 = 0;
             ((R10_80174898_S_80174898_1 *)position)->unk_10 = 0;
             ((R10_80174898_S_80174898_1 *)position)->unk_0C = 0;
-            func_800A2B04(position,
+            dungeonSetRecordIntegerTileCenter(position,
                 ((R10_80174898_S_80174898_2 *)sprite)->unk_24, ((R10_80174898_S_80174898_2 *)sprite)->unk_25);
             if (((R10_80174898_S_80174898_2 *)sprite)->unk_2C != ((u8 *)D_80175988)) {
                 ((R10_80174898_S_80174898_2 *)sprite)->unk_2C = ((u8 *)D_80175988);
@@ -90,7 +90,7 @@ void func_80174898(void *action, void *position, void *sprite, EntityRec *entity
         break;
 
     case 3:
-        func_800AD594(entity, 0x400);
+        dungeonReduceActorFoodMeter(entity, 0x400);
         ((R10_80174898_S_80174898_0 *)action)->unk_8C = ((void *)func_801717F4);
         dungeonStatus.unk_0C = 0;
         (entity->unk_46) &= 0x7FFF;

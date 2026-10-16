@@ -17,7 +17,7 @@ extern void func_8005497C(u16 a0);
 extern void func_800549FC(u16 a0);
 extern void func_800553D4(u8 a0);
 extern void func_80054104(void);
-extern void func_80054E00(s32 a0);
+extern void audioHandleStreamControlEvent(s32 a0);
 extern void func_80054A7C(u8 a0);
 extern void func_80054F9C(u32 a0, void *a1);
 
@@ -41,7 +41,7 @@ void func_80054788(s32 event) {
             func_80054104();
         }
         if (event_bits & 4) {
-            func_80054E00(0x74);
+            audioHandleStreamControlEvent(0x74);
         }
         break;
     case 0xE0:
@@ -49,7 +49,7 @@ void func_80054788(s32 event) {
             func_800553D4(0xE1);
         }
         if (event_bits & 4) {
-            func_80054E00(0xE4);
+            audioHandleStreamControlEvent(0xE4);
         }
         break;
     case 0xF0:
@@ -57,7 +57,7 @@ void func_80054788(s32 event) {
             func_800553D4(0xF1);
         }
         if (event_bits & 4) {
-            func_80054E00(0xF4);
+            audioHandleStreamControlEvent(0xF4);
         }
         break;
     case 0xB0:

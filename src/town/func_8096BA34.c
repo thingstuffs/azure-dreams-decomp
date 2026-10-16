@@ -32,7 +32,7 @@ extern ImageEntry D_80126E98[];
 extern ImageList D_801278B0[];
 
 /* Clear display regions and draw the selected entry images and numbered label. */
-void func_80123ECC(void *state)
+void townDrawCatalogSecondaryDetail(void *state)
 {
     Rect clear_rect;
     char label[16];

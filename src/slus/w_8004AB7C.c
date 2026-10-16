@@ -17,21 +17,21 @@ extern s32 D_80012090;
 
 extern s32 D_80013628;
 
-extern void func_8003E1FC(void);
-extern void func_8003F320(void);
+extern void queueModeSelectedResourceTable(void);
+extern void drainCdCommandQueue(void);
 extern void func_800A6D60(s32 a0);
 extern void func_800A6D98(s32 a0);
 extern void func_8004AA78(s32 a0);
-extern void func_8004A940(void);
+extern void tableHandleAssignConsecutiveN19ByteDataBlocksItemsSelectedCategoryIndex(void);
 
 /* Shuffles item pointers in enabled categories and restores item-effect links. */
-void func_8004AB7C(void)
+void shuffleEnabledItemCategoryPointers(void)
 {
     s32 category_id;
     S_8004AB7C_CategoryEntry *category;
 
-    func_8003E1FC();
-    func_8003F320();
+    queueModeSelectedResourceTable();
+    drainCdCommandQueue();
     func_800A6D60(1);
     func_800A6D98(D_80013628);
 
@@ -42,6 +42,6 @@ void func_8004AB7C(void)
         }
     }
 
-    func_8004A940();
+    tableHandleAssignConsecutiveN19ByteDataBlocksItemsSelectedCategoryIndex();
     func_800A6D60(0);
 }

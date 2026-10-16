@@ -7,7 +7,7 @@ extern void func_8009A3D0(s32 x, s32 y, s32 flag_mask);
 extern void func_800A2FE0(void *entity);
 extern void func_800A32A4(void *record);
 extern void func_800A56E0(s32 query_value);
-extern void func_800ACF88(void *input_data);
+extern void dungeonAnnounceFamiliarDefeat(void *input_data);
 
 
 /* Advance the action phase and process the actor when the tile flags are set. */
@@ -29,7 +29,7 @@ void func_80173234(u8 *action, s32 unused, u8 *tile, u8 *actor)
         status_flags = *(s32 *)(actor + 0x14);
         if (status_flags & 0x4000) {
             if (!(status_flags & 0x20000000)) {
-                func_800ACF88(actor);
+                dungeonAnnounceFamiliarDefeat(actor);
             }
         }
 

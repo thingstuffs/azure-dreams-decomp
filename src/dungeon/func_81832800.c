@@ -16,8 +16,8 @@ void *func_8003FD64();                     /* extern */
 s32 func_8004491C();                /* extern */
 s32 func_80069EF8();                /* extern */
 void func_8009CE1C(); /* extern */
-void *func_800A05A4();      /* extern */
-s32 func_800A3820(s16);                         /* extern */
+void *dungeonScanMonsterAlongHeading();      /* extern */
+s32 dungeonGetDefinitionEntryByte13(s16);                         /* extern */
 s32 func_800A56E0();                     /* extern */
 s32 func_800BCB04(s32, s32, s16);                   /* extern */
 
@@ -105,11 +105,11 @@ typedef struct S_func_81832800_9 {
 } S_func_81832800_9;
 
 
-void (*const dungeon_1852800_entry)(S_func_81832800_1 *, S_func_81832800_4 *, void *) = func_80024004;
+void (*const dungeon_1852800_entry)(S_func_81832800_1 *, S_func_81832800_4 *, void *) = decrementFlaggedItemParameters;
 
-void func_80024004(S_func_81832800_1 *effect, S_func_81832800_4 *position, void *effect_sprite);
+void decrementFlaggedItemParameters(S_func_81832800_1 *effect, S_func_81832800_4 *position, void *effect_sprite);
 /* Advance the effect state, move toward its target, and animate spawned particles. */
-void func_80024004(S_func_81832800_1 *effect, S_func_81832800_4 *position, void *effect_sprite) {
+void decrementFlaggedItemParameters(S_func_81832800_1 *effect, S_func_81832800_4 *position, void *effect_sprite) {
     S_func_81832800_3 *source_object;
     s32 step_x;
     s32 step_y;
@@ -239,8 +239,8 @@ void func_80024004(S_func_81832800_1 *effect, S_func_81832800_4 *position, void 
     switch (state) {
     case 0:
         if (*effect->unk_04 & 0x80) {
-            found_target = func_800A05A4(source, source_sprite->unk_24, source_sprite->unk_25, source->facing,
-                (s32)(s16) func_800A3820(6));
+            found_target = dungeonScanMonsterAlongHeading(source, source_sprite->unk_24, source_sprite->unk_25, source->facing,
+                (s32)(s16) dungeonGetDefinitionEntryByte13(6));
             source->target = found_target;
             if (found_target == NULL) {
                 source->unk_72 = (u8) source_sprite->unk_24;

@@ -4,10 +4,10 @@
 
 
 extern s32 func_800A2B5C(void *);
-extern void func_800A4ACC(void *);
+extern void dungeonAdvanceStatusTimers(void *);
 
 /* Resets actor state and updates entity flags when global and entity checks allow it. */
-void func_801754AC(void *actor, void *unused_1, void *unused_2, void *entity) {
+void dungeonCompleteActorAction(void *actor, void *unused_1, void *unused_2, void *entity) {
     s32 *global_page;
     s32 global_flags;
     u16 actor_flags;
@@ -31,7 +31,7 @@ void func_801754AC(void *actor, void *unused_1, void *unused_2, void *entity) {
         actor_flags |= 8;
         global_page[0x296C / 4] = global_flags;
         *(u16 *)((u8 *)actor + 0x98) = actor_flags;
-        func_800A4ACC(entity);
+        dungeonAdvanceStatusTimers(entity);
         *(u8 *)((u8 *)entity + 0x6D) -= 1;
     }
 }

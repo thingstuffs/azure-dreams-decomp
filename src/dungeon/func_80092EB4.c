@@ -1,13 +1,13 @@
 #include "common.h"
 
-extern void func_800483AC(s32);
+extern void clearAlternateTextureRegions(s32);
 extern void func_800485B8(s32);
-extern u8 *func_80097F84(void *target, void *ptr1, void *ptr2, s16 flag);
+extern u8 *dungeonRegisterItemObjectInFreeSlot(void *target, void *ptr1, void *ptr2, s16 flag);
 extern s32 func_800990FC(void);
 extern s32 func_80099194(u8 *src, u8 *dst);
 extern void func_80099290(s8 *byte_ptr);
-extern s32 func_8009929C(s8 value, s8 *dest);
-extern s32 func_80099368(void *, s32);
+extern s32 dungeonWriteTextByteAndAdvance(s8 value, s8 *dest);
+extern s32 dungeonAppendTypedFormattedValue(void *, s32);
 extern void func_800A56E0(s32);
 extern void func_800A5720(s8 *text);
 
@@ -27,10 +27,10 @@ typedef struct S_80098614_0 {
     union { u8 * p; void * p2; } unk_50;   /* accessed as both */
     u8 pad_54[0x32];
     u8 unk_86;
-} S_80098614_0;   /* arg0 in func_80098614 */
+} S_80098614_0;   /* arg0 in dungeonChangeEquippedItemAndNotify */
 
 /* Changes the actor's equipped item and displays status messages. */
-void func_80098614(S_80098614_0 *actor, u8 *requested_item)
+void dungeonChangeEquippedItemAndNotify(S_80098614_0 *actor, u8 *requested_item)
 {
     u8 *item;
     u8 *equipped_item;
@@ -45,7 +45,7 @@ void func_80098614(S_80098614_0 *actor, u8 *requested_item)
     equipped = 0;
 
     if (item != 0) {
-        item = func_80097F84(item, D_800E07C0, D_800E07D3, 0);
+        item = dungeonRegisterItemObjectInFreeSlot(item, D_800E07C0, D_800E07D3, 0);
         if (item == 0) {
             return;
         }
@@ -57,8 +57,8 @@ void func_80098614(S_80098614_0 *actor, u8 *requested_item)
         if (item_flags & 0x40) {
             func_800A56E0(0x70A);
             state = func_800990FC();
-            text_end = func_8009929C(8, state);
-            text_end = func_80099368(equipped_item, text_end);
+            text_end = dungeonWriteTextByteAndAdvance(8, state);
+            text_end = dungeonAppendTypedFormattedValue(equipped_item, text_end);
             text_end = func_80099194(D_800E0874, text_end);
             func_80099290(text_end);
             func_800A5720(state);
@@ -76,8 +76,8 @@ void func_80098614(S_80098614_0 *actor, u8 *requested_item)
         item[3] &= 0x7F;
         item_id = item[0];
         state = func_800990FC();
-        text_end = func_8009929C(8, state);
-        text_end = func_80099368(item, text_end);
+        text_end = dungeonWriteTextByteAndAdvance(8, state);
+        text_end = dungeonAppendTypedFormattedValue(item, text_end);
         text_end = func_80099194(D_800E089C, text_end);
         func_80099290(text_end);
         func_800A5720(state);
@@ -86,7 +86,7 @@ void func_80098614(S_80098614_0 *actor, u8 *requested_item)
             actor->unk_1C |= 0x800;
             func_800A56E0(0x70A);
             state = func_800990FC();
-            text_end = func_80099368(item, state);
+            text_end = dungeonAppendTypedFormattedValue(item, state);
             text_end = func_80099194(D_800E08AB, text_end);
             func_80099290(text_end);
             func_800A5720(state);
@@ -97,8 +97,8 @@ void func_80098614(S_80098614_0 *actor, u8 *requested_item)
         item_id = 0;
         if (had_equipped != 0) {
             state = func_800990FC();
-            text_end = func_8009929C(8, state);
-            text_end = func_80099368(actor->unk_50.p2, text_end);
+            text_end = dungeonWriteTextByteAndAdvance(8, state);
+            text_end = dungeonAppendTypedFormattedValue(actor->unk_50.p2, text_end);
             text_end = func_80099194(D_800E08BA, text_end);
             func_80099290(text_end);
             func_800A5720(state);
@@ -114,5 +114,5 @@ void func_80098614(S_80098614_0 *actor, u8 *requested_item)
         func_800485B8(text_end);
         return;
     }
-    func_800483AC(0);
+    clearAlternateTextureRegions(0);
 }

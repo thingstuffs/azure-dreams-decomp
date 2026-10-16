@@ -5,10 +5,10 @@ typedef struct {
     void *unk_54;
 } Struct800350B0;
 
-extern void func_80035068(void *owner, void *node);
+extern void runtimePrependDoublyLinkedNode(void *owner, void *node);
 
-/* Store a self-reference and pass its address to func_80035068. */
+/* Store a self-reference and pass its address to runtimePrependDoublyLinkedNode. */
 void func_800350B0(void *context, Struct800350B0 *object) {
     object->unk_54 = object;
-    func_80035068(context, &object->unk_54);
+    runtimePrependDoublyLinkedNode(context, &object->unk_54);
 }

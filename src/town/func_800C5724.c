@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern void func_800C2CB0(void *object, int target, int value, s16 flags);
-extern s32 func_800C2E1C(s16 referenceAngle, s16 sectorCount);
+extern void townClearObjectStatusAndDispatchTarget(void *object, int target, int value, s16 flags);
+extern s32 townQuantizeHeadingToSector(s16 referenceAngle, s16 sectorCount);
 
 typedef struct {
     /* 0x64 */ char pad0[0x64];
@@ -13,7 +13,7 @@ typedef struct {
 } Struct800C5724;
 
 /* Store and count a zero-terminated entry list, then initialize the output with a selected entry. */
-void func_800C2E84(Struct800C5724 *state, s8 *output, s32 *entries) {
+void townInitializeObjectEntries(Struct800C5724 *state, s8 *output, s32 *entries) {
     s32 *entry_end;
     s16 entry_count;
 
@@ -27,6 +27,6 @@ void func_800C2E84(Struct800C5724 *state, s8 *output, s32 *entries) {
         } while (*entry_end != 0);
     }
     state->unk64 = entry_count;
-    func_800C2CB0(state, output, state->unk78[func_800C2E1C(state->unk72, entry_count)], 0);
+    townClearObjectStatusAndDispatchTarget(state, output, state->unk78[townQuantizeHeadingToSector(state->unk72, entry_count)], 0);
     output[5] = 0;
 }

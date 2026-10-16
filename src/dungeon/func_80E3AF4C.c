@@ -20,7 +20,7 @@ typedef struct S_8017474C_0 {
     s16 unk_2C;
     s16 unk_2E;
     s16 unk_30;
-} S_8017474C_0;   /* arg0 in func_8017474C */
+} S_8017474C_0;   /* arg0 in dungeonUpdateTerrainScaledActorEffect */
 
 typedef struct S_8017474C_1 {
     u8 pad_00[0x1C];
@@ -29,12 +29,12 @@ typedef struct S_8017474C_1 {
     s8 unk_87;
     u8 pad_88[0x4];
     void * unk_8C;
-} S_8017474C_1;   /* object in func_8017474C */
+} S_8017474C_1;   /* object in dungeonUpdateTerrainScaledActorEffect */
 
 typedef struct S_8017474C_2 {
     u8 pad_00[0x1E];
     u16 unk_1E;
-} S_8017474C_2;   /* base in func_8017474C */
+} S_8017474C_2;   /* base in dungeonUpdateTerrainScaledActorEffect */
 
 typedef struct S_8017474C_3 {
     u8 pad_00[0x2];
@@ -43,14 +43,14 @@ typedef struct S_8017474C_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8017474C_3;   /* sample in func_8017474C */
+} S_8017474C_3;   /* sample in dungeonUpdateTerrainScaledActorEffect */
 
 typedef struct S_8017474C_4 {
     u8 pad_00[0x2];
     u16 unk_02;
     u8 pad_04[0x6];
     u16 unk_0A;
-} S_8017474C_4;   /* position in func_8017474C */
+} S_8017474C_4;   /* position in dungeonUpdateTerrainScaledActorEffect */
 
 typedef struct S_8017474C_5 {
     u8 pad_00[0x2];
@@ -59,7 +59,7 @@ typedef struct S_8017474C_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8017474C_5;   /* arg1 in func_8017474C */
+} S_8017474C_5;   /* arg1 in dungeonUpdateTerrainScaledActorEffect */
 
 typedef struct S_8017474C_6 {
     u8 pad_00[0xC];
@@ -69,21 +69,21 @@ typedef struct S_8017474C_6 {
     u8 pad_14[0x8];
     u16 unk_1C;
     u16 unk_1E;
-} S_8017474C_6;   /* arg2 in func_8017474C */
+} S_8017474C_6;   /* arg2 in dungeonUpdateTerrainScaledActorEffect */
 
 typedef struct S_8017474C_7 {
     u8 pad_00[0x6];
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8017474C_7;   /* ((S_8017474C_0 *)arg0)->unk_18 in func_8017474C */
+} S_8017474C_7;   /* ((S_8017474C_0 *)arg0)->unk_18 in dungeonUpdateTerrainScaledActorEffect */
 
 typedef struct S_8017474C_8 {
     u8 pad_00[0xC];
     s32 unk_0C;
     u8 pad_10[0x2];
     u16 unk_12;
-} S_8017474C_8;   /* ((S_8017474C_0 *)arg0)->unk_14 in func_8017474C */
+} S_8017474C_8;   /* ((S_8017474C_0 *)arg0)->unk_14 in dungeonUpdateTerrainScaledActorEffect */
 
 
 extern s32 func_80042900(void *, s32);
@@ -94,7 +94,7 @@ extern s32 func_800BCB04(u16, u16, s16);
 extern u8 D_8017398C[];
 
 /* Updates effect position and animated scales, flagging invalid or fully expanded effects. */
-void func_8017474C(void *effect, void *out_position, void *out_render)
+void dungeonUpdateTerrainScaledActorEffect(void *effect, void *out_position, void *out_render)
 {
     void *owner_base;
     void *owner;

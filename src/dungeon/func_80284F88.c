@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-s16 func_80017F88(s16 rect_index, s16 *out_x, s16 *out_y, s16 check_flags)
+s16 dungeonFindHighestEligibleSample(s16 rect_index, s16 *out_x, s16 *out_y, s16 check_flags)
 {
     s16 best_value;
     s16 rows_left;

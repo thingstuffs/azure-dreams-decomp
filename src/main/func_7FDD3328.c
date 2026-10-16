@@ -40,15 +40,15 @@ extern s32 D_80080A98;
 extern s32 D_80080A9C;
 extern s32 D_8008B2F0[3];
 extern s32 D_80081494;
-extern s32 func_80053428();
-extern s32 func_80053604();
+extern s32 renderScreenFadeDecreasingIntensity();
+extern s32 renderScreenFadeIncreasingIntensity();
 extern void SD_Call();
-extern void func_80053DCC();
-extern void func_80053DF0();
-extern void func_80053E14();
-extern void func_80088BD0();
+extern void soundSetCdPlaybackVolumeScale();
+extern void soundSetSequenceVolumeScale();
+extern void soundSetVoiceGainScale();
+extern void mainCreateSettingsController();
 /* Handles the options menu, adjusting audio levels and applying display settings. */
-void func_8008A288(Menu *menu)
+void mainHandleSettingsMenuInput(Menu *menu)
 {
     GameWork *pad;
     s32 buttons;
@@ -81,7 +81,7 @@ void func_8008A288(Menu *menu)
         menu->state = ((u16) menu->state) + 1;
 
     case 1:
-        if ((func_80053428(menu) << 16) == 0) {
+        if ((renderScreenFadeDecreasingIntensity(menu) << 16) == 0) {
             return;
         }
         menu->timer = 300;
@@ -161,9 +161,9 @@ void func_8008A288(Menu *menu)
                     volume_or_red = level << 7;
                 }
                 *volume_c = volume_or_red;
-                func_80053DF0(*((s16 *) volume_a));
-                func_80053E14(*((s16 *) volume_b));
-                func_80053DCC(*((s16 *) (&D_80080A94)));
+                soundSetSequenceVolumeScale(*((s16 *) volume_a));
+                soundSetVoiceGainScale(*((s16 *) volume_b));
+                soundSetCdPlaybackVolumeScale(*((s16 *) (&D_80080A94)));
                 break;
             case 4:
             case 5:
@@ -258,10 +258,10 @@ void func_8008A288(Menu *menu)
         menu->state = ((u16) menu->state) + 1;
 
     case 4:
-        if ((func_80053604(menu) << 16) == 0) {
+        if ((renderScreenFadeIncreasingIntensity(menu) << 16) == 0) {
             return;
         }
-        func_80088BD0();
+        mainCreateSettingsController();
         settings_flags = &objectFlagBlock;
         ((u16 *) menu)[-1] |= 0x8000;
         settings_flags->flags |= 0x8000;

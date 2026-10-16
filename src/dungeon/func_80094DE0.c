@@ -3,12 +3,12 @@ extern s16 D_800DCEBC[];
 extern s16 D_800DCEAC[];
 #include "common.h"
 
-extern s16 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
+extern s16 getOffsetMapCellValueAndFlags(s16 x, s16 y, s16 offset_index, u16 *flags);
 
 
 
 /* Checks the sides of a diagonal direction for terrain above 0x200. */
-s32 func_8009A540(s32 direction, s16 tile_x, s16 tile_y, s16 height)
+s32 dungeonCheckDiagonalSideHeight(s32 direction, s16 tile_x, s16 tile_y, s16 height)
 {
     s32 tile_flags;
     s32 side;
@@ -24,7 +24,7 @@ s32 func_8009A540(s32 direction, s16 tile_x, s16 tile_y, s16 height)
         x = tile_x;
         y = tile_y;
         for (side = -1; side < 2; side += 2) {
-            if (func_8009A350(x, y, (saved + side) & 7, &tile_flags) != 0) {
+            if (getOffsetMapCellValueAndFlags(x, y, (saved + side) & 7, &tile_flags) != 0) {
                 dir = ((u16)saved + side) & 7;
                 if (map_height_wrapped((x << 6) + 0x20 + ((u16 *)D_800DCEAC)[dir], (y << 6) + 0x20 + ((u16 *)D_800DCEBC)[dir], h) > 0x200) {
                     break;

@@ -14,11 +14,11 @@ void func_800240AC(void *,s32,void *);
 struct PointRecord; struct EntityRec;
 s32 func_80024154(struct PointRecord *,struct EntityRec *);
 struct EffectRecord; struct EntityRec;
-void func_800243A4(struct EffectRecord *,struct EntityRec *);
-void func_80024470(ObjectNodeHeader *,s16,s32,s16,s16,s16,s16);
-s32 func_80024590(s32);
-void func_800246B4(void *,s32 *,void *);
+void dungeonHandleRaisePositionTowardQueriedHeightSetFlagsCountdownExpires(struct EffectRecord *,struct EntityRec *);
+void dungeonHandleRetailN8190AC70Callee80024470SpawnEffectUnderParentNodePlacedParent(ObjectNodeHeader *,s16,s32,s16,s16,s16,s16);
+s32 dungeonGetARandomInN0LimitZeroLimitZeroRejectionSampling(s32);
+void dungeonAdvanceTheAnimationDrawsRectanglesInRandomizedOrder(void *,s32 *,void *);
 struct S_func_8190B2D0_0;
-void func_80024AD0(struct S_func_8190B2D0_0 *,void *,void *);
+void dungeonUpdateAMovingEffectTargetAnimationCleanupState(struct S_func_8190B2D0_0 *,void *,void *);
 void func_800B8FC8(void *,void *,void *,s32,s32);
 #endif

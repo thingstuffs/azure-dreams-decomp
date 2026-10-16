@@ -9,19 +9,19 @@ typedef struct S_80098544_0 {
     u8 pad_0C[0x2A];
     s16 unk_36;
     s16 unk_38;
-} S_80098544_0;   /* arg0 in func_80098544 */
+} S_80098544_0;   /* arg0 in townAdvanceCoordinatesTowardTarget */
 
 typedef struct S_80098544_1 {
     s32 unk_00;
     s32 unk_04;
-} S_80098544_1;   /* out in func_80098544 */
+} S_80098544_1;   /* out in townAdvanceCoordinatesTowardTarget */
 
 
-void func_80099754();
+void townClearEntityRecordFields();
 extern M2C_UNK D_800984AC;
 
 /* Advance the fixed-point coordinates toward their targets and finish when the countdown expires. */
-void func_80098544(S_80098544_0 *state, S_80098544_1 *position) {
+void townAdvanceCoordinatesTowardTarget(S_80098544_0 *state, S_80098544_1 *position) {
     s32 remaining;
     s32 current_coord;
     s32 current_coord_2;
@@ -42,6 +42,6 @@ void func_80098544(S_80098544_0 *state, S_80098544_1 *position) {
     }
     position->unk_00 = (s32) (state->unk_36 << 0x10);
     position->unk_04 = (s32) (state->unk_38 << 0x10);
-    func_80099754(position);
+    townClearEntityRecordFields(position);
     state->unk_04 = &D_800984AC;
 }

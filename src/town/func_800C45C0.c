@@ -1,9 +1,9 @@
 #include "common.h"
 
 extern s32 D_800D456C;
-void func_800C1C68(s32 value, s16 **range_groups);
+void townFindContainingRangeGroup(s32 value, s16 **range_groups);
 
-/* Passes the value and shared data address to func_800C1C68. */
-void func_800C1D20(s32 value) {
-    func_800C1C68(value, &D_800D456C);
+/* Passes the value and shared data address to townFindContainingRangeGroup. */
+void townPassValueAndRangeGroups(s32 value) {
+    townFindContainingRangeGroup(value, &D_800D456C);
 }

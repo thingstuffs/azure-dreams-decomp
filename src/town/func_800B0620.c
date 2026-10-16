@@ -1,16 +1,16 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-extern s32 func_80049E1C(s32 selection, s32 step, s32 count);
+extern s32 advanceIndexWithDirectionalClamp(s32 selection, s32 step, s32 count);
 extern void SD_Call(s32 sound_id);
-extern void func_800ADB30(void *menu);
+extern void townPassIndexedEntryAddress(void *menu);
 extern void close_twin_shop(void *shop);
-extern void func_800B1778(s32 menu_context, s32 row, s32 selection);
-extern void func_800B17C0(s32 menu_context, s32 selection);
+extern void townSetShopSubrecordValues(s32 menu_context, s32 row, s32 selection);
+extern void townStoreShopEmbeddedValue(s32 menu_context, s32 selection);
 extern s32 D_80082AB8;
 
 /* Handles grid menu navigation, confirmation, and cancellation. */
-void func_800ADD80(s32 *menu) {
+void townHandleGridMenuInput(s32 *menu) {
     GameWork *pad_state;
     s32 held_buttons;
     s32 pressed_buttons;
@@ -77,7 +77,7 @@ void func_800ADD80(s32 *menu) {
             return;
         }
     }
-    selection = func_80049E1C(menu[1], selection_step, menu[2]);
+    selection = advanceIndexWithDirectionalClamp(menu[1], selection_step, menu[2]);
     row = selection / 5;
     if (selection == menu[1])
         return;
@@ -85,8 +85,8 @@ void func_800ADD80(s32 *menu) {
     menu[1] = selection;
     if (row != menu[3]) {
         menu[3] = row;
-        func_800B1778(menu[10], row, selection);
+        townSetShopSubrecordValues(menu[10], row, selection);
     }
-    func_800B17C0(menu[10], selection);
-    func_800ADB30(menu);
+    townStoreShopEmbeddedValue(menu[10], selection);
+    townPassIndexedEntryAddress(menu);
 }

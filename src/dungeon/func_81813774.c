@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1831cd8.h"
 
-ovl_1831cd8_81813774_UnalignedBlock12 *func_80028774(ovl_1831cd8_81813774_UnalignedBlock12 *dest) {
+ovl_1831cd8_81813774_UnalignedBlock12 *dungeonCopyMenuRecordTemplate(ovl_1831cd8_81813774_UnalignedBlock12 *dest) {
     dest[0] = D_80029550.chunks[0];
     dest[1] = D_80029550.chunks[1];
     return dest;

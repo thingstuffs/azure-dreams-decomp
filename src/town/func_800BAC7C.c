@@ -24,7 +24,7 @@ typedef struct {
     u8 padA[22];
 } Record;
 
-extern s32 func_80033B2C(s32);
+extern s32 testResidentBitmapBit(s32);
 extern Record D_800D2644[];
 extern u8 D_800D2EA4[];
 
@@ -53,7 +53,7 @@ s32 CheckBuildBuildingLand(s32 record_key) {
         record = records + (key & 0xFF);
     }
     has_match = 0;
-    if (func_80033B2C(record->field8) == 0)
+    if (testResidentBitmapBit(record->field8) == 0)
         return 0;
     switch (record->kind) {
     case 4:

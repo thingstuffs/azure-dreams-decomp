@@ -9,11 +9,11 @@ typedef struct S_800D34CC_0 {
     s16 unk_96;
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_800D34CC_0;   /* state in func_800D34CC */
+} S_800D34CC_0;   /* state in dungeonUpdateActorFadeState */
 
 typedef struct S_800D34CC_1_pre {
     u16 unk_00;
-} S_800D34CC_1_pre;   /* the 0x2 bytes before entity in func_800D34CC, addressed as entity[-1] */
+} S_800D34CC_1_pre;   /* the 0x2 bytes before entity in dungeonUpdateActorFadeState, addressed as entity[-1] */
 
 
 typedef struct S_800D34CC_2 {
@@ -33,12 +33,12 @@ typedef struct S_800D34CC_2 {
     u8 pad_20[0x4];
     u8 unk_24;
     u8 unk_25;
-} S_800D34CC_2;   /* data in func_800D34CC */
+} S_800D34CC_2;   /* data in dungeonUpdateActorFadeState */
 
 typedef struct S_800D34CC_3 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_800D34CC_3;   /* var_v0 in func_800D34CC */
+} S_800D34CC_3;   /* var_v0 in dungeonUpdateActorFadeState */
 
 
 s32 func_80042900();                 /* extern */
@@ -48,7 +48,7 @@ void func_800A32A4(void *);                 /* extern */
 void func_800A56C0();                            /* extern */
 s32 func_800A56E0();                     /* extern */
 
-void func_800D34CC(void *state, void *unused, void *data, void *entity) {
+void dungeonUpdateActorFadeState(void *state, void *unused, void *data, void *entity) {
     s32 selectedValue;
     s16 countdown;
     s16 countdownNext;

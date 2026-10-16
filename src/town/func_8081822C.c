@@ -10,18 +10,18 @@ typedef struct S_8002222C_0 {
     u8 pad_00[0xB0];
     OtTag ot[0x208];
     u8 * unk_8D0;
-} S_8002222C_0;   /* arena in func_8002222C */
+} S_8002222C_0;   /* arena in townDrawTranslucentGradientLineList */
 
 typedef struct S_8002222C_1_pre {
     s32 unk_00;
     u8 pad_04[0x4];
-} S_8002222C_1_pre;   /* the 0x8 bytes before var_s3 in func_8002222C, addressed as var_s3[-1] */
+} S_8002222C_1_pre;   /* the 0x8 bytes before var_s3 in townDrawTranslucentGradientLineList, addressed as var_s3[-1] */
 
 typedef struct S_8002222C_1 {
     u8 pad_00[0x18];
     s32 unk_18;
     s32 unk_1C;
-} S_8002222C_1;   /* var_s3 in func_8002222C */
+} S_8002222C_1;   /* var_s3 in townDrawTranslucentGradientLineList */
 
 typedef struct S_8002222C_2 {
     s32 unk_00;
@@ -29,17 +29,17 @@ typedef struct S_8002222C_2 {
     s32 unk_08;
     s32 unk_0C;
     s32 unk_10;
-} S_8002222C_2;   /* temp_s0 in func_8002222C */
+} S_8002222C_2;   /* temp_s0 in townDrawTranslucentGradientLineList */
 
 typedef struct S_8002222C_3 {
     s32 unk_00;
     s32 unk_04;
-} S_8002222C_3;   /* scratch in func_8002222C */
+} S_8002222C_3;   /* scratch in townDrawTranslucentGradientLineList */
 
 typedef struct S_8002222C_4 {
     u16 unk_00;
     u16 unk_02;
-} S_8002222C_4;   /* scratch100 in func_8002222C */
+} S_8002222C_4;   /* scratch100 in townDrawTranslucentGradientLineList */
 
 
 extern void func_80065770(void *, void *, void *, void *, void *, s32);
@@ -49,7 +49,7 @@ extern void func_800667D0(void *);
 extern void func_80067F20(void *, s32, s32, s32, s32);
 
 /* Build line and draw-mode packets for each entry and link them into the ordering table. */
-s32 func_8002222C(void *first_entry) {
+s32 townDrawTranslucentGradientLineList(void *first_entry) {
     u8 *line_packet;
     u8 *mode_packet;
     s32 next;

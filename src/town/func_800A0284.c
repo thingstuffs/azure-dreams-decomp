@@ -1,7 +1,7 @@
 #include "modules/town_town_windows.h"
 
 /* Builds four corner vertices from a rectangle with position offsets. */
-void func_8009D9E4(func_800A0284_S_8009D9E4_0 *rectangle, func_800A0284_S_8009D9E4_1 *vertices) {
+void townRectangleToFourCorners(func_800A0284_S_8009D9E4_0 *rectangle, func_800A0284_S_8009D9E4_1 *vertices) {
     s16 left;
     s16 right;
     s16 top;

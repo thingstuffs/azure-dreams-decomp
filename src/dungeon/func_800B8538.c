@@ -11,8 +11,8 @@ extern u8 D_800E0F65[];
 extern u8 D_800E0F85[];
 
 extern void func_80041E70(void *);
-extern void func_8008D330(void *, void *, void *, void *);
-extern void func_80098B38(s32);
+extern void dungeonBeginDeferredItemAction(void *, void *, void *, void *);
+extern void dungeonClearSlotAndUpdateLinkedState(s32);
 extern s32 func_800990FC(void);
 extern s32 func_80099194(u8 *src, u8 *dst);
 extern s32 func_80099290(s8 *byte_ptr);
@@ -22,7 +22,7 @@ extern void func_800A56E0(s32);
 extern void func_800A5720(s8 *text);
 extern void func_800A5F38(void *, s32);
 extern void func_800A63B8(void *, s32, s16);
-extern s32 func_800AD6FC(void *, s32, s32);
+extern s32 dungeonApplyActorFoodPreference(void *, s32, s32);
 extern void func_800D5460(void *source, s32 color, unsigned short event_id);
 
 /* Applies an entity action, updates its state, and displays the result. */
@@ -35,7 +35,7 @@ s32 func_800BDC98(void *entity, s32 action_id, s16 action_arg) {
     match_state = 0;
     if (entity == ((u8 *)D_800E3D7C)) {
         *(s32 *)((u8 *)entity + 0x110) = action_id;
-        func_8008D330(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
+        dungeonBeginDeferredItemAction(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
         return 0;
     }
 
@@ -47,7 +47,7 @@ s32 func_800BDC98(void *entity, s32 action_id, s16 action_arg) {
         }
 
         type_flags = D_800DDE84[((u8 *)entity)[0x13]];
-        if ((func_800AD6FC(entity, ((u32)type_flags >> 8) & 3, action_id) << 16) == 0) {
+        if ((dungeonApplyActorFoodPreference(entity, ((u32)type_flags >> 8) & 3, action_id) << 16) == 0) {
             func_800A5F38(entity, action_id);
             return 1;
         }
@@ -82,7 +82,7 @@ s32 func_800BDC98(void *entity, s32 action_id, s16 action_arg) {
         }
 
         func_800D5460((u8 *)entity - 0x20, 0x20A0A0, 0x702);
-        func_80098B38(action_id);
+        dungeonClearSlotAndUpdateLinkedState(action_id);
     } else {
         func_800997FC(D_800E0F85);
         func_800A56E0(0x506);

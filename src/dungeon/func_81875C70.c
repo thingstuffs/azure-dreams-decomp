@@ -13,7 +13,7 @@ typedef struct {
 extern UnkCopy12 D_80026658;
 
 /* Per-state particle step: the c4 state spawns 0x20 randomised sparks in one do-while. */
-void func_80025470(u8 *data, void *unused, u8 *context)
+void dungeonSpawnRandomizedSparkBurst(u8 *data, void *unused, u8 *context)
 {
     u8 *p = data;
     s16 old;

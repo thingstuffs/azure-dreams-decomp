@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1936800.h"
 
-void func_800241E4(void *motion, void *position, M2C_UNK update_context)
+void dungeonAdvanceMotionCountersPositionSetCompletionFlagsPastLifetime(void *motion, void *position, M2C_UNK update_context)
 {
     s32 y_step;
     void *motion_state;

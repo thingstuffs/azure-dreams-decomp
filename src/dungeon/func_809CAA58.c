@@ -58,7 +58,7 @@ void func_80172258(void *jump, void *motion, void *map_entity, void *actor) {
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            func_800A2B04(motion, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
+            dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
             (*(u8 * *)((u8 *)map_entity + 0x2C)) = ((u8 *)D_80173C9C);
             func_80047784(
                 map_entity,
@@ -76,9 +76,9 @@ void func_80172258(void *jump, void *motion, void *map_entity, void *actor) {
         ((EntityRec *)motion)->flags14 = 0;
         ((EntityRec *)motion)->unk_10 = 0;
         ((EntityRec *)motion)->unk_0C = 0;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
-        func_800AD594(actor, 4);
-        func_800A4ACC(actor);
+        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
+        dungeonReduceActorFoodMeter(actor, 4);
+        dungeonAdvanceStatusTimers(actor);
         {
             u32 count_unsigned;
             s32 count_signed;
@@ -99,14 +99,14 @@ void func_80172258(void *jump, void *motion, void *map_entity, void *actor) {
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
 
-                ((EntityRec *)actor)->facing = ((s16)func_800A0818(
+                ((EntityRec *)actor)->facing = ((s16)dungeonGetRoundedFacingAndRoundingFlag(
                     ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25,
                     D_80082E80.tileX, D_80082E80.tileY, &facing_distance));
             }
         }
 
 finish:
-        if ((func_800AD9B4(map_entity, actor) << 16) > 0) {
+        if ((dungeonCheckActorFloorTrap(map_entity, actor) << 16) > 0) {
             ((R03_80172258_S_80172258_0 *)jump)->unk_8C = ((void *)func_80170E54);
             func_800A9A04(actor);
         }

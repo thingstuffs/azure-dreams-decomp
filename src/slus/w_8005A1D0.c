@@ -6,9 +6,9 @@ typedef struct {
 } S_800869C0;
 
 extern S_800869C0 D_800869C0[16];
-extern void func_80059DAC(void);
+extern void slusSortEntriesByKey(void);
 
-/* Removes the first matching entry from D_800869C0, shifts later entries down, and calls func_80059DAC. */
+/* Removes the first matching entry from D_800869C0, shifts later entries down, and calls slusSortEntriesByKey. */
 void func_8005A1D0(u32 addr)
 {
     s32 i;
@@ -22,7 +22,7 @@ void func_8005A1D0(u32 addr)
                     break;
                 }
             }
-            func_80059DAC();
+            slusSortEntriesByKey();
             return;
         }
     }

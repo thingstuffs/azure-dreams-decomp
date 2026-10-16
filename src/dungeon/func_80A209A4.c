@@ -12,7 +12,7 @@ typedef struct {
 
 
 /* Advance motion and set completion flags when the countdown expires. */
-void func_801741A4(Func80A209A4Data *motion) {
+void dungeonAdvanceEffectMotionAndComplete(Func80A209A4Data *motion) {
     Func80A209A4Data *data = motion;
     u16 ticks_left;
 

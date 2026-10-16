@@ -16,7 +16,7 @@ extern s32 D_800B7E78;
 extern s32 D_800B7F8C;
 
 /* Initialize the object's selection and assign a handler based on the selected entry's kind. */
-void func_800B81AC(void) {
+void townInitializeBuildingSelectionHandler(void) {
     Obj *obj;
     u8 *entry_table;
     u8 *entry_indices;

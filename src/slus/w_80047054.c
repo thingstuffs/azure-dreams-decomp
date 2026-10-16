@@ -6,19 +6,19 @@ typedef struct S_80047054_0 {
     s32 unk_00;
     s32 unk_04;
     u32 unk_08;
-} S_80047054_0;   /* header in func_80047054 */
+} S_80047054_0;   /* header in patchSpritePacketTextureAndPaletteIds */
 
 typedef struct S_80047054_1_pre {
     s16 unk_00;
-} S_80047054_1_pre;   /* the 0x2 bytes before entry in func_80047054, addressed as entry[-1] */
+} S_80047054_1_pre;   /* the 0x2 bytes before entry in patchSpritePacketTextureAndPaletteIds, addressed as entry[-1] */
 
 typedef struct S_80047054_1 {
     u8 * unk_00;
-} S_80047054_1;   /* entry in func_80047054 */
+} S_80047054_1;   /* entry in patchSpritePacketTextureAndPaletteIds */
 
 
 /* Offset coordinates in unprocessed type-2 part chains and mark them processed. */
-void func_80047054(void *data, s32 flagged_x_offset, s32 y_offset, s32 x_offset)
+void patchSpritePacketTextureAndPaletteIds(void *data, s32 flagged_x_offset, s32 y_offset, s32 x_offset)
 {
     void *header = data;
     s32 skip_bytes;

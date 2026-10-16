@@ -5,6 +5,6 @@
 extern M2C_UNK D_80019682;
 
 /* Returns the address of D_80019682. */
-M2C_UNK *func_8048013C(void) {
+M2C_UNK *func_8001613C(void) {
     return &D_80019682;
 }

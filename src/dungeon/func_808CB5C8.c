@@ -4,7 +4,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 M2C_UNK func_80067014();
 M2C_UNK func_800671A8();
-s32 func_80123200();
+s32 townIsCatalogEntryAvailable();
 void func_80123928();
 void func_801239B8();
 extern M2C_UNK D_8011ACD8;
@@ -37,12 +37,12 @@ void func_80123A60(S_80123A60_0 *state) {
     if (state->unk_0F == 3) {
         slot = state->unk_0F;
         entry_id = slot * 0x10;
-        if (func_80123200(entry_id & 0xF0) & 0xFF) {
+        if (townIsCatalogEntryAvailable(entry_id & 0xF0) & 0xFF) {
             entry_table = &D_80126E98;
             func_80123928(*(((slot * 0x20) + entry_id) + entry_table), 0x180, 0x80);
         }
         entry_id += 1;
-        if (func_80123200(entry_id & 0xFF) & 0xFF) {
+        if (townIsCatalogEntryAvailable(entry_id & 0xFF) & 0xFF) {
             entry_table_2 = &D_80126E98;
             func_80123928(*((entry_id * 3) + entry_table_2), 0x1A4, 0xA0);
         }
@@ -55,7 +55,7 @@ void func_80123A60(S_80123A60_0 *state) {
     entry = ((group * 0x20) + entry_id) + entry_table_3;
 loop_0:
     {
-        if (func_80123200(entry_id & 0xFF) & 0xFF) {
+        if (townIsCatalogEntryAvailable(entry_id & 0xFF) & 0xFF) {
             func_80123928(*entry, (s16) (((slot % 3) * 0x12) + 0x180), (s16) (((slot / 3) * 0x10) + 0x80));
         }
         slot += 1;

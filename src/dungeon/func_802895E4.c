@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-s16 func_8001C5E4(floor_generate_isolated_802895E4_Pos *start, floor_generate_isolated_802895E4_Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
+s16 dungeonCarveCorridorTowardDestination(floor_generate_isolated_802895E4_Pos *start, floor_generate_isolated_802895E4_Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
                   floor_generate_isolated_802895E4_Walker *walker, s32 *cost) {
     s16 count;
     s16 cx;
@@ -109,7 +109,7 @@ s16 func_8001C5E4(floor_generate_isolated_802895E4_Pos *start, floor_generate_is
         } else {
             wx = dst_x;
         }
-        r = func_800A07D0(cx, cy, wx, wy);
+        r = dungeonForwardMonsterCoordinateDelta(cx, cy, wx, wy);
         dir = (r >> 9) & 6;
         for (;;) {
             s32 iy;
@@ -139,7 +139,7 @@ s16 func_8001C5E4(floor_generate_isolated_802895E4_Pos *start, floor_generate_is
     }
 
     if (wx != dst_x || wy != dst_y) {
-        r = func_800A07D0(cx, cy, dst_x, dst_y);
+        r = dungeonForwardMonsterCoordinateDelta(cx, cy, dst_x, dst_y);
         dir = (r >> 9) & 6;
         for (;;) {
             s32 iy;

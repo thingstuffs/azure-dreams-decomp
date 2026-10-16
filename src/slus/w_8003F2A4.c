@@ -14,7 +14,7 @@ typedef struct {
 } S_8003F2A4_pair;
 
 /* Copy a type 6 ring-head entry's pair to globals and repoint it there, or clear the entry's type. */
-void func_8003F2A4(SlusCdQueueEntry *entry) {
+void updateCdQueueHeadEntry(SlusCdQueueEntry *entry) {
     if (entry->unk00 != 6 ||
         entry != &D_80083968[D_800814D0]) {
         entry->unk00 = 0;

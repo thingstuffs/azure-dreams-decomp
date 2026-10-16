@@ -3,7 +3,7 @@
 extern u8 initialStatsTable[24];
 
 /* Finds a record slot matching an initial-stat value group, or returns -1. */
-s32 func_8002773C(u8 *record) {
+s32 dungeonFindMatchingInitialStatSlot(u8 *record) {
     s32 initial_index;
     s32 initial_value;
     s32 entry_index;

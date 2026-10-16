@@ -9,7 +9,7 @@ typedef struct Func800A4A20Object {
 } Func800A4A20Object;
 
 /* Set object and global flags when the state is zero, otherwise invoke the callback. */
-void func_800A2180(Func800A4A20Object *object)
+void townUpdateMenuNodeOrRetireOnZeroState(Func800A4A20Object *object)
 {
     u8 *state;
 

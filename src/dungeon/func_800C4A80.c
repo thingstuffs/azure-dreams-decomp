@@ -13,8 +13,8 @@ typedef struct S_800CA1E0_2 {
 
 extern u16 D_800DCEAC[];
 extern u16 D_800DCEBC[];
-s16 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
-s32 func_8009A540(s32 direction, s16 tile_x, s16 tile_y, s16 height);
+s16 getOffsetMapCellValueAndFlags(s16 x, s16 y, s16 offset_index, u16 *flags);
+s32 dungeonCheckDiagonalSideHeight(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 s32 func_8009FB34(s32 point_x, s32 point_y);
 s32 func_800BCB04(s32 x, s32 y, s16 min_height);
 
@@ -45,12 +45,12 @@ s32 func_800CA1E0(u32 action_flags, EntityRec *position, S_800CA1E0_2 *object, u
     target_x = world_x + 0x20;
     height = object->unk_88;
     target_y = world_y + 0x20;
-    if ((func_8009A540((u16)direction, target_x >> 6, target_y >> 6, (s16)(height - height_offset)) << 16) == 0) {
+    if ((dungeonCheckDiagonalSideHeight((u16)direction, target_x >> 6, target_y >> 6, (s16)(height - height_offset)) << 16) == 0) {
         return 0;
     }
     target_x = D_800DCEAC[direction] + target_x;
     target_y = D_800DCEBC[direction] + target_y;
-    func_8009A350(position->tileX, position->tileY, direction, &tile_flags);
+    getOffsetMapCellValueAndFlags(position->tileX, position->tileY, direction, &tile_flags);
     if (tile_flags & 0x8002) {
         return 0;
     }

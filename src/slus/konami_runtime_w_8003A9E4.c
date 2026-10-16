@@ -8,7 +8,7 @@ typedef struct Decoder {
 } Decoder;
 
 /* Multiply the first event-script variable by the second and store the result in the first. */
-void func_8003A9E4(Decoder *script) {
+void vmOp73MultiplyValues(Decoder *script) {
     u8 *read_ptr = script->read_ptr;
     u8 left_index = *read_ptr;
     u8 right_index;

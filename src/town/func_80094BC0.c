@@ -5,53 +5,53 @@
 #include "shared/entity.h"
 #include "records/Rec_func_80094268_arg0.h"
 
-s32 func_80033B2C();                         /* extern */
+s32 testResidentBitmapBit();                         /* extern */
 M2C_UNK func_80094088();     /* extern */
 void func_800942B0();     /* extern */
-M2C_UNK func_80094378();     /* extern */
+M2C_UNK dungeonInitializeActionObject();     /* extern */
 void func_80094414();     /* extern */
 M2C_UNK func_80094474();     /* extern */
-M2C_UNK func_800944BC();     /* extern */
+M2C_UNK dungeonInitializeActionObjectWithCounter();     /* extern */
 M2C_UNK func_8009451C();     /* extern */
-void func_80094C1C();                      /* extern */
-void func_80095094();                      /* extern */
-s32 func_8009567C(void *);            /* extern */
-s32 func_80095840();               /* extern */
-s16 func_80095978();               /* extern */
-void func_80095A94();      /* extern */
-void func_80095C80();                      /* extern */
+void townStoreTheValidSharedAngleInOffsetHex10();                      /* extern */
+void townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero();                      /* extern */
+s32 townSelectAnAvailableEntryMatchingDirectionReturnsStatus(void *);            /* extern */
+s32 townSelectAnEligibleSourceEntryStoresPointerInDestination();               /* extern */
+s16 townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated();               /* extern */
+void townComputeAndClampsVectorBasedAdjustmentUpdatesTown();      /* extern */
+void townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile();                      /* extern */
 extern M2C_UNK D_800CFCB4;
 extern M2C_UNK D_800CFCEF;
 
 
 typedef struct S_80092320_1 {
     u8 unk_00;
-} S_80092320_1;   /* &D_800CFCEF in func_80092320 */
+} S_80092320_1;   /* &D_800CFCEF in townUpdateActorMovementActions */
 
 typedef struct S_80092320_2 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_80092320_2;   /* state in func_80092320 */
+} S_80092320_2;   /* state in townUpdateActorMovementActions */
 
 
 /* Update the actor and select an action from the reference value, state flags, and timer. */
-void func_80092320(Rec_func_80094268_arg0 *action, EntityRec *actor, s32 context) {
+void townUpdateActorMovementActions(Rec_func_80094268_arg0 *action, EntityRec *actor, s32 context) {
     GameWork *state = &gameWork;
     s16 reference_value;
     s32 action_result;
     u16 ticks_left;
 
-    func_80095C80(actor);
-    func_80094C1C(action);
-    func_80095094(actor);
-    reference_value = func_80095978(actor, &D_800FE488);
+    townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(actor);
+    townStoreTheValidSharedAngleInOffsetHex10(action);
+    townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero(actor);
+    reference_value = townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(actor, &D_800FE488);
     if ((reference_value - actor->z.w.i) >= 4) {
         if (((S_80092320_1 *)(&D_800CFCEF))->unk_00 == 0) {
-            func_80094378(action, actor, context);
+            dungeonInitializeActionObject(action, actor, context);
             return;
         }
     } else if (((S_80092320_1 *)(&D_800CFCEF))->unk_00 == 0) {
-        func_80095A94(actor, reference_value, &D_800FE488);
+        townComputeAndClampsVectorBasedAdjustmentUpdatesTown(actor, reference_value, &D_800FE488);
     }
     if (((s32)state->unk_010) & 0x10) {
         func_800942B0(action, actor, context);
@@ -64,20 +64,20 @@ void func_80092320(Rec_func_80094268_arg0 *action, EntityRec *actor, s32 context
         return;
     }
     if (((s32)state->unk_010) & 0x40) {
-        action_result = func_80095840(action, &D_800CFCB4);
+        action_result = townSelectAnEligibleSourceEntryStoresPointerInDestination(action, &D_800CFCB4);
         if (action_result != 0) {
             if (action_result == 2) {
                 func_8009451C(action, actor, context);
                 return;
             }
-            func_800944BC(action, actor, context);
+            dungeonInitializeActionObjectWithCounter(action, actor, context);
             return;
         }
-        if (func_80033B2C(0xA4) != 0) {
+        if (testResidentBitmapBit(0xA4) != 0) {
             func_80094088(action, actor, context);
             return;
         }
-    } else if (func_8009567C(&D_800CFCB4) <= 0) {
+    } else if (townSelectAnAvailableEntryMatchingDirectionReturnsStatus(&D_800CFCB4) <= 0) {
         func_80094474(action, actor, context);
     }
     return;

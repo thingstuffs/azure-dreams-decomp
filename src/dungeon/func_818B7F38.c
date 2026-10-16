@@ -6,35 +6,35 @@
 #include "m2c_compat.h"
 extern int abs(int);
 
-   /* arg0 in func_80025738 */
+   /* arg0 in dungeonAdvanceMovementTowardReachableTile */
 
-   /* temp_s7 in func_80025738 */
+   /* temp_s7 in dungeonAdvanceMovementTowardReachableTile */
 
-   /* arg2 in func_80025738 */
+   /* arg2 in dungeonAdvanceMovementTowardReachableTile */
 
-   /* temp_s2 in func_80025738 */
+   /* temp_s2 in dungeonAdvanceMovementTowardReachableTile */
 
-   /* temp_a1 in func_80025738 */
+   /* temp_a1 in dungeonAdvanceMovementTowardReachableTile */
 
-   /* arg1 in func_80025738 */
+   /* arg1 in dungeonAdvanceMovementTowardReachableTile */
 
-   /* temp_v1_2 in func_80025738 */
+   /* temp_v1_2 in dungeonAdvanceMovementTowardReachableTile */
 
-   /* temp_a3 in func_80025738 */
+   /* temp_a3 in dungeonAdvanceMovementTowardReachableTile */
 
-   /* temp_v0 in func_80025738 */
+   /* temp_v0 in dungeonAdvanceMovementTowardReachableTile */
 
-   /* var_a1 in func_80025738 */
+   /* var_a1 in dungeonAdvanceMovementTowardReachableTile */
 
-   /* temp_v1_4 in func_80025738 */
+   /* temp_v1_4 in dungeonAdvanceMovementTowardReachableTile */
 
-   /* var_a2 in func_80025738 */
+   /* var_a2 in dungeonAdvanceMovementTowardReachableTile */
 
-   /* ((B28_818B7F38_S_80025738_3 *)temp_s2)->unk_0C in func_80025738 */
+   /* ((B28_818B7F38_S_80025738_3 *)temp_s2)->unk_0C in dungeonAdvanceMovementTowardReachableTile */
 
-   /* the 0x18 bytes before ((B28_818B7F38_S_80025738_1 *)temp_s7)->unk_60 in func_80025738, addressed as ((B28_818B7F38_S_80025738_1 *)temp_s7)->unk_60[-1] */
+   /* the 0x18 bytes before ((B28_818B7F38_S_80025738_1 *)temp_s7)->unk_60 in dungeonAdvanceMovementTowardReachableTile, addressed as ((B28_818B7F38_S_80025738_1 *)temp_s7)->unk_60[-1] */
 
-   /* ((B28_818B7F38_S_80025738_1 *)temp_s7)->unk_60 in func_80025738 */
+   /* ((B28_818B7F38_S_80025738_1 *)temp_s7)->unk_60 in dungeonAdvanceMovementTowardReachableTile */
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -42,7 +42,7 @@ extern int abs(int);
 
 
 /* Advance movement toward a target or a reachable tile, then finish the timed action. */
-void func_80025738(void *state, void *motion_in, void *render) {
+void dungeonAdvanceMovementTowardReachableTile(void *state, void *motion_in, void *render) {
     B28_818B7F38_LocalFrame frame;
     u16 *target_delta_cursor;
     u16 *path_delta_cursor;
@@ -88,7 +88,7 @@ void func_80025738(void *state, void *motion_in, void *render) {
     case 1:
         source_header = owner - 0x20;
         source_data = ((B28_818B7F38_S_80025738_3 *)source_header)->unk_0C;
-        if (func_8003DE58(((B28_818B7F38_S_80025738_4 *)source_data)->unk_08, source_data, frame.delta, 0) != 0) {
+        if (resolveRecordOrientationOrFallback(((B28_818B7F38_S_80025738_4 *)source_data)->unk_08, source_data, frame.delta, 0) != 0) {
             source_position = ((B28_818B7F38_S_80025738_3 *)source_header)->unk_08;
             ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at02.v = (u16) ((B28_818B7F38_S_80025738_6 *)source_position)->unk_02;
             ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at02.v = (u16) ((B28_818B7F38_S_80025738_6 *)source_position)->unk_06;
@@ -162,7 +162,7 @@ void func_80025738(void *state, void *motion_in, void *render) {
             ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_14 =
                 (s32) ((s32) ((((B28_818B7F38_S_80025738_14 *)(((B28_818B7F38_S_80025738_1 *)owner)->unk_60))->unk_88 << 0x10)
                 - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at00.v) / (s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12);
-            func_800253D0(state, motion_in);
+            dungeonSpawnOwnerRandomVariantEffect(state, motion_in);
             next_phase = (u16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0A + 1;
         } else {
             index = 0;
@@ -174,7 +174,7 @@ void func_80025738(void *state, void *motion_in, void *render) {
             while (index < 8) {
                 grid_x = (s16)tile_x;
                 grid_y = (s16)tile_y;
-                if ((s16)func_800A44E0((grid_x << 6) & 0xFFC0, (grid_y << 6) & 0xFFC0, ((B28_818B7F38_S_80025738_1 *)owner)->unk_88,
+                if ((s16)dungeonCheckLayerOffsetHeight((grid_x << 6) & 0xFFC0, (grid_y << 6) & 0xFFC0, ((B28_818B7F38_S_80025738_1 *)owner)->unk_88,
                     (s16) (((B28_818B7F38_S_80025738_0 *)state)->unk_0E << 9)) != 0) {
                     break;
                 }
@@ -225,7 +225,7 @@ void func_80025738(void *state, void *motion_in, void *render) {
                 - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at00.v) / (s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12);
             ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_14 = (s32) ((s32) (((B28_818B7F38_S_80025738_7 *)destination)->unk_08.at00.v
                 - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at00.v) / (s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12);
-            func_80025614(state, motion_in);
+            dungeonSpawnOwnedRandomSpinEffect(state, motion_in);
             next_phase = 6;
         }
         ((B28_818B7F38_S_80025738_0 *)state)->unk_0A = next_phase;

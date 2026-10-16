@@ -17,13 +17,13 @@ typedef struct S_800A7C98_0 {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void func_80033CD8();
-extern void func_800C2CB0();
+extern void townClearObjectStatusAndDispatchTarget();
 extern s32 D_800A7DF8;
 extern s32 D_800F8F88;
 
 void func_800A7D48(void *object, s32 unused, s32 context) {
     ((S_800A7C98_0_pre *)object)[-1].unk_00 = &D_800A7DF8;
     ((S_800A7C98_0 *)object)->unk_50 = 0;
-    func_800C2CB0(object, context, &D_800F8F88, 0);
+    townClearObjectStatusAndDispatchTarget(object, context, &D_800F8F88, 0);
     func_80033CD8(object, func_80045340);
 }

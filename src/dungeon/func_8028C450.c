@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_spawns.h"
 
-void func_8001F450(void)
+void drawDungeonValueAndLabel(void)
 {
     u8 digits[2];
     u8 *digit_ptr;
@@ -21,11 +21,11 @@ void func_8001F450(void)
     }
 
     if (special_label != 0) {
-        func_8001F354(0xAA, 0x78, 0, special_label);
+        createTintedDungeonObject(0xAA, 0x78, 0, special_label);
         return;
     }
 
-    func_8001F354(0xAA, 0x78, draw_mode, D_80077DE8);
+    createTintedDungeonObject(0xAA, 0x78, draw_mode, D_80077DE8);
     do {
         digit_ptr = digits;
     } while (0);
@@ -42,7 +42,7 @@ void func_8001F450(void)
         do {
             digit = *digit_ptr;
             if (digit != blank_code) {
-                func_8001F354(draw_x, draw_y_fixed >> 16, draw_mode, D_8001F5B4[digit]);
+                createTintedDungeonObject(draw_x, draw_y_fixed >> 16, draw_mode, D_8001F5B4[digit]);
             }
             digit_ptr++;
             draw_x += 0x12;

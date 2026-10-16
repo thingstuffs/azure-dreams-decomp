@@ -59,5 +59,5 @@ extern s32 func_800A2BDC();
 extern s32 func_800A5720();
 extern u8 D_80170854[];
 extern u8 D_80173FD0[];
-void func_80173AD4(void *work_in, void *part_a, void *part_b_in, void *actor);
+void dungeonHandleKillActorClearFlagsFireBurstTilePostDeathMessage(void *work_in, void *part_a, void *part_b_in, void *actor);
 #endif

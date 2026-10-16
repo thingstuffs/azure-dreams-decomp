@@ -9,25 +9,25 @@
 
 extern void func_8003DB94(void *, void *, s32);
 extern s32 func_8009FB34(s32, s32);
-extern s32 func_8009FD7C(s32, s32, s32, s32);
-extern s32 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern s32 dungeonCompareMonsterNeighborValues(s32, s32, s32, s32);
+extern s32 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern s32 func_800A1C58(void *);
 extern void func_800A9A0C(void *);
-extern void func_800AA258(void *, void *, void *, void *);
-extern s32 func_800AA6B4(void *, void *, void *, s32);
-extern void func_800AA79C(void *, void *, void *, void *);
+extern void dungeonBeginPushedActorMove(void *, void *, void *, void *);
+extern s32 dungeonBeginReadyActorDirectionalAction(void *, void *, void *, s32);
+extern void dungeonAdvanceActorPendingAction(void *, void *, void *, void *);
 extern void func_800AA888(void *, void *, void *, void *);
-extern s32 func_800AA924(void *actor, s32 unused, void *sprite, u8 *direction_frames);
-extern void func_800AAB10(void *, void *, void *, void *);
-extern void func_800D904C(void *, void *, void *, void *);
-extern void func_800D92C0(void *, void *, void *, void *);
+extern s32 dungeonResetActorActionState(void *actor, s32 unused, void *sprite, u8 *direction_frames);
+extern void dungeonProcessSelectedActorRecord(void *, void *, void *, void *);
+extern void dungeonAdvanceActorQueuedPath(void *, void *, void *, void *);
+extern void dungeonAdvanceActorTraversableHeading(void *, void *, void *, void *);
 extern void func_800DA660(void *, void *, void *, void *);
 
 extern void *D_800E262C[];
 
 
 /* Updates actor state, facing, and directional animation. */
-void func_800D8C64(void *actor, EntityRec *motion, void *sprite, EntityRec *status)
+void dungeonUpdateActorFacingAnimation(void *actor, EntityRec *motion, void *sprite, EntityRec *status)
 {
     void **anim_table;
     s32 cell_record;
@@ -35,14 +35,14 @@ void func_800D8C64(void *actor, EntityRec *motion, void *sprite, EntityRec *stat
 
     if (dungeonStatus.flags & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xE;
-        func_800D904C(actor, motion, sprite, status);
+        dungeonAdvanceActorQueuedPath(actor, motion, sprite, status);
         return;
     }
 
     if (status->tileY == 0) {
         void *current_anim;
 
-        func_800AA79C(actor, motion, sprite, status);
+        dungeonAdvanceActorPendingAction(actor, motion, sprite, status);
         current_anim = ((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pv;
         anim_table = D_800E262C;
         if (current_anim == anim_table) {
@@ -58,14 +58,14 @@ void func_800D8C64(void *actor, EntityRec *motion, void *sprite, EntityRec *stat
                 status->flags1C &= ~0x40000;
                 return;
             }
-            if (func_800AA924(actor, motion, sprite, 0)) {
+            if (dungeonResetActorActionState(actor, motion, sprite, 0)) {
                 return;
             }
         }
 
         if (!(dungeonStatus.flags & 0x2000)) {
             if (((u32)status->flags1C) & 0x100) {
-                func_800AA258(actor, motion, sprite, status);
+                dungeonBeginPushedActorMove(actor, motion, sprite, status);
                 return;
             }
 
@@ -85,7 +85,7 @@ void func_800D8C64(void *actor, EntityRec *motion, void *sprite, EntityRec *stat
 
             ((Rec_func_800A9E70_arg0 *)actor)->unk_98 &= 0xFFF3;
             if (status->unk_64 != 0) {
-                if (func_800AA6B4(actor, motion, sprite, 0)) {
+                if (dungeonBeginReadyActorDirectionalAction(actor, motion, sprite, 0)) {
                     return;
                 }
             }
@@ -100,7 +100,7 @@ void func_800D8C64(void *actor, EntityRec *motion, void *sprite, EntityRec *stat
             }
 
             if ((s16)func_800A1C58(status) != 0) {
-                func_800AAB10(actor, motion, sprite, status);
+                dungeonProcessSelectedActorRecord(actor, motion, sprite, status);
             }
         }
 
@@ -113,7 +113,7 @@ void func_800D8C64(void *actor, EntityRec *motion, void *sprite, EntityRec *stat
                 func_800A9A0C(status);
                 return;
             }
-            func_800D92C0(actor, motion, sprite, status);
+            dungeonAdvanceActorTraversableHeading(actor, motion, sprite, status);
             return;
         }
 
@@ -124,10 +124,10 @@ void func_800D8C64(void *actor, EntityRec *motion, void *sprite, EntityRec *stat
                 !(D_800E2970[record_index].flags & 2)) {
                 if (!(((u32)status->flags1C) & 0x430)) {
 
-                    if ((s16)func_8009FD7C(((Rec_func_800AA258_arg2 *)sprite)->unk_24,
+                    if ((s16)dungeonCompareMonsterNeighborValues(((Rec_func_800AA258_arg2 *)sprite)->unk_24,
                             ((Rec_func_800AA258_arg2 *)sprite)->unk_25, D_80082E80.tileX,
                             D_80082E80.tileY) != 0) {
-                        status->facing = func_800A0818(
+                        status->facing = dungeonGetRoundedFacingAndRoundingFlag(
                             ((Rec_func_800AA258_arg2 *)sprite)->unk_24, ((Rec_func_800AA258_arg2 *)sprite)->unk_25,
                             D_80082E80.tileX, D_80082E80.tileY,
                             &direction_aux);

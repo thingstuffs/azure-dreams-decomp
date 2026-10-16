@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_e0365c.h"
 
-void *func_80170854(s16 flags,s16 attr_x,s16 attr_y,s16 attr_height) {
+void *dungeonSpawnModeDependent112Object(s16 flags,s16 attr_x,s16 attr_y,s16 attr_height) {
  E_80170854_SpawnActor *actor=0;
  E_80170854_SpawnObject *object;
  E_80170854_SpawnMotion *motion;
@@ -44,7 +44,7 @@ void *func_80170854(s16 flags,s16 attr_x,s16 attr_y,s16 attr_height) {
   } else { actor->handler=func_80170E5C;
    sprite->frames=D_80174510;
   }
-  object->update=func_80170A58;
+  object->update=dungeonUpdateEntityFacingAndGround;
   func_800A9C18(object,motion,sprite,saved_flags);
   state->action_id=0xFF;
   state->direction=-1;

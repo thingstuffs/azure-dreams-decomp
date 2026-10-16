@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Set the two entries' RGB values to bright or dim gray according to the object's flag. */
-void func_800B3DC4(void *object) {
+void townSetPairedEntryBrightness(void *object) {
     void **dim_entry;
     void **bright_entry;
     u8 *bright_rgb;

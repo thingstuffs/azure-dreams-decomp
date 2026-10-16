@@ -5,6 +5,6 @@
 
 
 /* Invoke the callback at offset 0x278 with settings (1, 1, 0, 0x1E). */
-void func_800181A0(void) {
+void townInvokeRenderCallbackPresetB(void) {
     D_80016000->unk_20->callback_278(1, 1, 0, 0x1E);
 }

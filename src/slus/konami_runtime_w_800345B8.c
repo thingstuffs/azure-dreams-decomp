@@ -25,7 +25,7 @@ extern u8 D_8006CD30[32];
 extern s32 D_8006CD4C[];
 
 /* Renders linked textured sprites with dimmed offset copies near the screen center. */
-s32 func_800345B8(u8 *node_data, u8 *position, u8 *render_state)
+s32 runtimeRenderLinkedTexturedSprites(u8 *node_data, u8 *position, u8 *render_state)
 {
     u8 *scratch;
     void *fixed_matrix;

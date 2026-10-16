@@ -12,12 +12,12 @@ typedef struct S_80095A10_0 {
     u16 unk_96;
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_80095A10_0;   /* arg0 in func_80095A10 */
+} S_80095A10_0;   /* arg0 in dungeonUpdateFamiliarSummoning */
 
 typedef struct S_80095A10_1 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_80095A10_1;   /* arg2 in func_80095A10 */
+} S_80095A10_1;   /* arg2 in dungeonUpdateFamiliarSummoning */
 
 typedef struct S_80095A10_2 {
     u8 pad_00[0x2A];
@@ -30,23 +30,23 @@ typedef struct S_80095A10_2 {
     s8 unk_73;
     u8 pad_74[0x14];
     u16 unk_88;
-} S_80095A10_2;   /* arg3 in func_80095A10 */
+} S_80095A10_2;   /* arg3 in dungeonUpdateFamiliarSummoning */
 
 typedef struct S_80095A10_3 {
     u8 unk_00;
     u8 pad_01[0x2];
     u8 unk_03;
-} S_80095A10_3;   /* temp_s1 in func_80095A10 */
+} S_80095A10_3;   /* temp_s1 in dungeonUpdateFamiliarSummoning */
 
 typedef struct S_80095A10_4 {
     u8 unk_00;
-} S_80095A10_4;   /* &D_800E3E40 in func_80095A10 */
+} S_80095A10_4;   /* &D_800E3E40 in dungeonUpdateFamiliarSummoning */
 
 typedef struct S_80095A10_5_pre {
     void * unk_00;
     void * unk_04;
     u8 pad_08[0x10];
-} S_80095A10_5_pre;   /* the 0x18 bytes before temp_v0_3 in func_80095A10, addressed as temp_v0_3[-1] */
+} S_80095A10_5_pre;   /* the 0x18 bytes before temp_v0_3 in dungeonUpdateFamiliarSummoning, addressed as temp_v0_3[-1] */
 
 typedef struct S_80095A10_5 {
     u8 pad_00[0x13];
@@ -55,13 +55,13 @@ typedef struct S_80095A10_5 {
     s32 unk_1C;
     u8 pad_20[0x5];
     u8 unk_25;
-} S_80095A10_5;   /* temp_v0_3 in func_80095A10 */
+} S_80095A10_5;   /* temp_v0_3 in dungeonUpdateFamiliarSummoning */
 
 typedef struct S_80095A10_6 {
     u8 pad_00[0x1C];
     s16 unk_1C;
     s16 unk_1E;
-} S_80095A10_6;   /* temp_v1 in func_80095A10 */
+} S_80095A10_6;   /* temp_v1 in dungeonUpdateFamiliarSummoning */
 
 typedef struct S_80095A10_7 {
     u8 pad_00[0x2];
@@ -70,7 +70,7 @@ typedef struct S_80095A10_7 {
     u16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_80095A10_7;   /* temp_v1_2 in func_80095A10 */
+} S_80095A10_7;   /* temp_v1_2 in dungeonUpdateFamiliarSummoning */
 
 typedef struct S_80095A10_8 {
     u8 pad_00[0x2];
@@ -79,17 +79,17 @@ typedef struct S_80095A10_8 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80095A10_8;   /* arg1 in func_80095A10 */
+} S_80095A10_8;   /* arg1 in dungeonUpdateFamiliarSummoning */
 
 typedef struct S_80095A10_9 {
     u8 pad_00[0x2];
     u16 unk_02;
-} S_80095A10_9;   /* temp_v1_4 in func_80095A10 */
+} S_80095A10_9;   /* temp_v1_4 in dungeonUpdateFamiliarSummoning */
 
 typedef struct S_80095A10_10 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_80095A10_10;   /* ((S_80095A10_2 *)arg3)->unk_60 in func_80095A10 */
+} S_80095A10_10;   /* ((S_80095A10_2 *)arg3)->unk_60 in dungeonUpdateFamiliarSummoning */
 
 
 s32 Control_CD();
@@ -97,15 +97,15 @@ void func_800424E0();
 void func_80042560();
 M2C_UNK func_80042640();
 void func_80042B68();
-void func_80043914();
+void runtimeMapType16EntryCode();
 s32 func_80047DB8();
-void func_80047DF0();
+void runtimeNoOpCallback();
 void func_80048A44();
 void func_80093C70();
-void func_80093D8C();
-void func_800956B8();
-void func_80099F04();
-void func_80099F70();
+void dungeonCreateFamiliarDeploymentOverlay();
+void dungeonResolveFamiliarDeploymentRequest();
+void dungeonProcessUnflaggedLinkedEntries();
+void dungeonProcessUnflaggedLinkedEntriesAlt();
 void *(*func_800A0B94())(s32, s8, s8, s16);
 s32 func_800A1618();
 s32 func_800A56E0();
@@ -118,7 +118,7 @@ extern void *D_800E3DF0[];
 extern s8 D_800E3E40;
 
 /* Advances the resource loading, object creation, and animation sequence. */
-void func_80095A10(u8 *actor, void *position, void *animation, u8 *context) {
+void dungeonUpdateFamiliarSummoning(u8 *actor, void *position, void *animation, u8 *context) {
 
     u8 *animation_table;
     s32 load_resource;
@@ -145,7 +145,7 @@ void func_80095A10(u8 *actor, void *position, void *animation, u8 *context) {
             >> 9) & 7) + D_800DD138), 0, 1);
         ((S_80095A10_1 *)animation)->unk_14 = (u16) (((S_80095A10_1 *)animation)->unk_14 | 0x200);
         func_80093C70(actor, position, animation);
-        func_80093D8C(actor, position, animation);
+        dungeonCreateFamiliarDeploymentOverlay(actor, position, animation);
         previous_state = ((S_80095A10_0 *)actor)->unk_9B;
         ((S_80095A10_0 *)actor)->unk_9B = (u8) (previous_state + 1);
         return;
@@ -167,7 +167,7 @@ void func_80095A10(u8 *actor, void *position, void *animation, u8 *context) {
         if (((S_80095A10_4 *)(&D_800E3E40))->unk_00 == 0) {
             return;
         }
-        func_80047DF0(state);
+        runtimeNoOpCallback(state);
         previous_state = ((S_80095A10_0 *)actor)->unk_9B;
         ((S_80095A10_0 *)actor)->unk_9B = (u8) (previous_state + 1);
         return;
@@ -176,7 +176,7 @@ void func_80095A10(u8 *actor, void *position, void *animation, u8 *context) {
         if (spawn_resource == 0) {
             return;
         }
-        func_80043914(((u8 *)D_80082E80.unk_030));
+        runtimeMapType16EntryCode(((u8 *)D_80082E80.unk_030));
         object = func_800A0B94(((S_80095A10_3 *)resource_info)->unk_00, spawn_resource, 1)(6,
             ((S_80095A10_2 *)context)->unk_72, ((S_80095A10_2 *)context)->unk_73,
             (s16) (((S_80095A10_2 *)context)->unk_88 - 0x20));
@@ -243,10 +243,10 @@ store_next_state:
         if (((S_80095A10_10 *)(((S_80095A10_2 *)context)->unk_60))->unk_14 & 0x100000) {
             return;
         }
-        func_800956B8(actor, position, animation, resource_info);
-        ((S_80095A10_0 *)actor)->unk_8C = func_8008ACDC;
-        func_80099F70(((S_80095A10_2 *)context)->unk_5C);
-        func_80099F04(((S_80095A10_2 *)context)->unk_5C);
+        dungeonResolveFamiliarDeploymentRequest(actor, position, animation, resource_info);
+        ((S_80095A10_0 *)actor)->unk_8C = dungeonHandlePlayerInput;
+        dungeonProcessUnflaggedLinkedEntriesAlt(((S_80095A10_2 *)context)->unk_5C);
+        dungeonProcessUnflaggedLinkedEntries(((S_80095A10_2 *)context)->unk_5C);
         dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x812);
         return;
     }

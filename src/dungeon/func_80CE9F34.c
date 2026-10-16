@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f469800_p03.h"
 
 /* Initializes an actor action and resolves its target and chained effects. */
-s32 func_80173734(void *action_state, s32 facing, void *origin, void *actor)
+s32 dungeonCheckAndPrepareActorMove(void *action_state, s32 facing, void *origin, void *actor)
 {
     void *initial_target;
     s32 result = 0;
@@ -16,7 +16,7 @@ s32 func_80173734(void *action_state, s32 facing, void *origin, void *actor)
         return -1;
     }
 
-    initial_target = func_800A04F0(actor, ((T_80173734_S_80173734_2 *)origin)->unk_24,
+    initial_target = dungeonPlaceActorAtDirectionalNeighbor(actor, ((T_80173734_S_80173734_2 *)origin)->unk_24,
                             ((T_80173734_S_80173734_2 *)origin)->unk_25,
                             ((T_80173734_S_80173734_0 *)actor)->unk_2A);
     if ((func_800A2CB8(actor, initial_target) << 16) == 0) {
@@ -29,7 +29,7 @@ s32 func_80173734(void *action_state, s32 facing, void *origin, void *actor)
         (dungeonStatus.flags & 8)) {
         return -1;
     }
-    if ((u16)(-func_800A0134(initial_target, actor) + 0x40) >= 0x81) {
+    if ((u16)(-dungeonGetActorHeightDifference(initial_target, actor) + 0x40) >= 0x81) {
         return result;
     }
 
@@ -37,7 +37,7 @@ s32 func_80173734(void *action_state, s32 facing, void *origin, void *actor)
     if ((func_800A2B5C(actor) << 16) != 0) {
         return -1;
     }
-    func_800C7930((u8 *)actor - 0x20, facing, 8, 0x300);
+    dungeonApplyCameraOffsetAndSelectTarget((u8 *)actor - 0x20, facing, 8, 0x300);
     if ((func_800A2B5C(actor) << 16) != 0) {
         return -1;
     }
@@ -65,15 +65,15 @@ s32 func_80173734(void *action_state, s32 facing, void *origin, void *actor)
     if (((T_80173734_S_80173734_0 *)actor)->unk_48 == 15) {
 
         ((T_80173734_S_80173734_0 *)actor)->unk_60 =
-            func_800A05A4(actor, ((T_80173734_S_80173734_2 *)origin)->unk_24,
+            dungeonScanMonsterAlongHeading(actor, ((T_80173734_S_80173734_2 *)origin)->unk_24,
                           ((T_80173734_S_80173734_2 *)origin)->unk_25, ((T_80173734_S_80173734_0 *)actor)->unk_2A, 10);
         ((T_80173734_S_80173734_3 *)action_state)->unk_AC = 0;
         if (((T_80173734_S_80173734_0 *)actor)->unk_60 != 0) {
             {
-                s16 target_distance = func_8009FD40(
+                s16 target_distance = dungeonGetTileChebyshevDistance(
                     ((T_80173734_S_80173734_4_pre *)(((T_80173734_S_80173734_0 *)actor)->unk_60))[-1].unk_00, origin);
                 ((T_80173734_S_80173734_3 *)action_state)->unk_AA = target_distance;
-                func_8009C93C(actor, origin, ((T_80173734_S_80173734_0 *)actor)->unk_2A, target_distance,
+                dungeonPrepareDirectionalAttack(actor, origin, ((T_80173734_S_80173734_0 *)actor)->unk_2A, target_distance,
                               ((T_80173734_S_80173734_0 *)actor)->unk_60);
             }
 
@@ -85,31 +85,31 @@ s32 func_80173734(void *action_state, s32 facing, void *origin, void *actor)
 loop:
                 next_x = ((T_80173734_S_80173734_0 *)actor)->unk_72;
                 next_y = ((T_80173734_S_80173734_0 *)actor)->unk_73;
-                func_8009C12C(actor, origin, ((T_80173734_S_80173734_0 *)actor)->unk_2A,
+                dungeonResolveAttackDamageAndEffects(actor, origin, ((T_80173734_S_80173734_0 *)actor)->unk_2A,
                               ((T_80173734_S_80173734_3 *)action_state)->unk_AA);
                 range_left -= ((T_80173734_S_80173734_3 *)action_state)->unk_AA;
                 if (range_left != 0) {
                     ((T_80173734_S_80173734_2 *)origin)->unk_24 = next_x;
                     ((T_80173734_S_80173734_2 *)origin)->unk_25 = next_y;
                     ((T_80173734_S_80173734_0 *)actor)->unk_60 =
-                        func_800A05A4(actor, ((T_80173734_S_80173734_2 *)origin)->unk_24,
+                        dungeonScanMonsterAlongHeading(actor, ((T_80173734_S_80173734_2 *)origin)->unk_24,
                                       ((T_80173734_S_80173734_2 *)origin)->unk_25,
                                       ((T_80173734_S_80173734_0 *)actor)->unk_2A, (s16)range_left);
                     if (((T_80173734_S_80173734_0 *)actor)->unk_60 != 0) {
                         ((T_80173734_S_80173734_2 *)origin)->unk_24 = origin_x;
                         ((T_80173734_S_80173734_2 *)origin)->unk_25 = origin_y;
                         {
-                            s16 target_distance = func_8009FD40(
+                            s16 target_distance = dungeonGetTileChebyshevDistance(
                                 ((T_80173734_S_80173734_4_pre *)(((T_80173734_S_80173734_0 *)actor)->unk_60))[-1].unk_00, origin);
                             ((T_80173734_S_80173734_3 *)action_state)->unk_AA = target_distance;
-                            func_8009C93C(actor, origin, ((T_80173734_S_80173734_0 *)actor)->unk_2A, target_distance,
+                            dungeonPrepareDirectionalAttack(actor, origin, ((T_80173734_S_80173734_0 *)actor)->unk_2A, target_distance,
                                           ((T_80173734_S_80173734_0 *)actor)->unk_60);
                         }
                         if (((T_80173734_S_80173734_0 *)actor)->unk_14 & 0x04000000) {
                             goto loop;
                         }
                     } else {
-                        func_8009C93C(actor, origin, ((T_80173734_S_80173734_0 *)actor)->unk_2A, 1, 0);
+                        dungeonPrepareDirectionalAttack(actor, origin, ((T_80173734_S_80173734_0 *)actor)->unk_2A, 1, 0);
                         ((T_80173734_S_80173734_3 *)action_state)->unk_AA = 1;
                     }
                 }
@@ -117,13 +117,13 @@ loop:
                 ((T_80173734_S_80173734_2 *)origin)->unk_25 = origin_y;
             }
         } else {
-            func_8009C93C(actor, origin, ((T_80173734_S_80173734_0 *)actor)->unk_2A, 1, 0);
+            dungeonPrepareDirectionalAttack(actor, origin, ((T_80173734_S_80173734_0 *)actor)->unk_2A, 1, 0);
             ((T_80173734_S_80173734_3 *)action_state)->unk_AA = 1;
         }
 
         {
             u32 direction_offset = (((T_80173734_S_80173734_0 *)actor)->unk_6A >> 8) & 0xE;
-            func_800C78A0(
+            dungeonSetupObjectWithinPlanarRange(
                 (u8 *)actor - 0x20,
                 (((T_80173734_S_80173734_2 *)origin)->unk_24 << 6) +
                     ((s16)*(u16 *)((u8 *)D_800DCEAC + direction_offset) >> 1) + 0x20,
@@ -132,7 +132,7 @@ loop:
                 ((T_80173734_S_80173734_0 *)actor)->unk_88, 8, 0x300);
         }
     } else {
-        func_8009C93C(actor, origin, ((T_80173734_S_80173734_0 *)actor)->unk_2A, 1, 0);
+        dungeonPrepareDirectionalAttack(actor, origin, ((T_80173734_S_80173734_0 *)actor)->unk_2A, 1, 0);
         ((T_80173734_S_80173734_3 *)action_state)->unk_AA = 1;
     }
 

@@ -1,25 +1,8 @@
-#include "common.h"
-#include "shared/record_ptrs.h"
+#include "modules/town_ovl_3fe0d0_p00.h"
 
-typedef void (*Callback)(void);
-
-typedef struct {
-    Callback callback;
-    s32 unused;
-} CallbackEntry;
-
-typedef struct {
-    u8 pad0[8];
-    s32 callbackIndex;
-    u8 padC[0x34];
-    CallbackEntry *callbacks;
-} Runtime;
-
-extern void func_80016130(s32 value0, s32 value1);
-
-void func_800160D8(s32 value0, s32 value1)
+void dispatchTownCallbackOrDefault(s32 value0, s32 value1)
 {
-    Callback callback;
+    SceneCallType2 callback;
 
     callback = ((Runtime *)D_80016000)->callbacks[((Runtime *)D_80016000)->callbackIndex].callback;
     if (callback == 0) {

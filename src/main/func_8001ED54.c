@@ -4,7 +4,7 @@ extern s32 D_8009DDD8[];
 extern void func_804031E4(void *, void *);
 extern void func_804032FC(void *);
 extern void func_80405D2C(void);
-extern void func_80406368(void);
+extern void mainHandleObjectMenuInput(void);
 extern void func_80405A64(void);
 
 /* Arm the task's next callback: ready slot -> attach the sub-object, otherwise detach it. */
@@ -24,7 +24,7 @@ void func_8001ED54(void *task)
         callback = func_80405D2C;
         *(s32 *)((u8 *)task + 0x40) = one;
     } else {
-        *(void (**)(void))((u8 *)task + 0x34) = func_80406368;
+        *(void (**)(void))((u8 *)task + 0x34) = mainHandleObjectMenuInput;
         func_804032FC(owner);
         callback = func_80405A64;
     }

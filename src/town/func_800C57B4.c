@@ -3,7 +3,7 @@
 
 
 /* Return whether the rounded, wrapped angle difference exceeds half the divisions. */
-s32 func_800C2F14(s32 angle, s16 divisions) {
+s32 townCheckHeadingPastHalfSector(s32 angle, s16 divisions) {
     GameWork *angle_data;
     s16 step;
     s32 shifted_divisions;

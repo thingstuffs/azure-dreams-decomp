@@ -3,10 +3,10 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s8 D_80082680;
-void func_800C7C88(void *);                            /* extern */
+void townInitializeMotherEventDefaults(void *);                            /* extern */
 
-/* Clear D_80082680 and pass the object to func_800C7C88. */
-void func_800C80FC(void *object) {
+/* Clear D_80082680 and pass the object to townInitializeMotherEventDefaults. */
+void townResetMotherEventGlobalState(void *object) {
     D_80082680 = 0;
-    func_800C7C88(object);
+    townInitializeMotherEventDefaults(object);
 }

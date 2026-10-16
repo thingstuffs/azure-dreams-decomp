@@ -6,19 +6,19 @@ typedef struct S_80023158_0 {
     u8 pad_04[0x14];
     union { s16 s; u16 u; } unk_18;   /* accessed as both */
     u16 unk_1A;
-} S_80023158_0;   /* arg0 in func_80023158 */
+} S_80023158_0;   /* arg0 in townRunTimedValueDecrease */
 
 typedef struct S_80023158_1 {
     u8 pad_00[0x2C];
     s16 unk_2C;
-} S_80023158_1;   /* obj in func_80023158 */
+} S_80023158_1;   /* obj in townRunTimedValueDecrease */
 
 
 extern s32 rand(void);
-extern void func_800ABD74(void *);
+extern void townSpawnPersonRadialEffects(void *);
 
 /* Runs a 24-tick value decrease with random callbacks, then waits to reset. */
-void func_80023158(S_80023158_0 *sequence, EntityRec *target)
+void townRunTimedValueDecrease(S_80023158_0 *sequence, EntityRec *target)
 {
     s16 state;
     s32 ticks_left;
@@ -45,7 +45,7 @@ void func_80023158(S_80023158_0 *sequence, EntityRec *target)
     case 1:
         target->y.v += 0xFFF00000;
         if (!(rand() & 7)) {
-            func_800ABD74(target);
+            townSpawnPersonRadialEffects(target);
         }
         ticks_left = sequence->unk_1A - 1;
         sequence->unk_1A = ticks_left;

@@ -3,7 +3,7 @@
 
 
 /* Propagate bit 15 from the linked record when the record status is zero. */
-void func_800204AC(void *record) {
+void townPropagateLinkedFlagIfClear(void *record) {
     void *linked_record = *(void **)((u8 *)record + 0xC);
 
     if (*(s16 *)record == 0 &&

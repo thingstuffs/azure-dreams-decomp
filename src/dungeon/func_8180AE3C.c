@@ -1,16 +1,8 @@
-#include "common.h"
-#include "shared/object_flags.h"
-
+#include "modules/dungeon_ovl_1829800.h"
 #define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define U8_AT(p, o) (*(u8 *)((u8 *)(p) + (o)))
-
-extern s32 D_80026F68;
-
-void func_8004491C(void *, void *);
-
-/* Initializes an effect, fades its color in and out, and flags completion. */
-void func_8002663C(void *effect, void *control)
+void dungeonInitializeFadingEffect(void *effect, void *control)
 {
     s16 state;
     s16 dark_frames;
@@ -25,7 +17,7 @@ void func_8002663C(void *effect, void *control)
     state = S16_AT(effect, 0xE);
     switch (state) {
     case 0:
-        func_8004491C((u8 *)effect - 0x20, &D_80026F68);
+        func_8004491C((u8 *)effect - 0x20, &dungeonQueueFourShadedQuadrants);
         S16_AT(effect, 0) = 0x50;
         S16_AT(effect, 4) = 0xA0;
         S16_AT(effect, 2) = 0x58;

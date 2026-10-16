@@ -1,6 +1,5 @@
-#include "common.h"
+#include "modules/town_ovl_3fe0d0_p00.h"
 
-/* Returns zero. */
-s32 func_8047E0D0(void) {
+s32 dispatchTownCallbackOrFallback(void) {
     return 0;
 }

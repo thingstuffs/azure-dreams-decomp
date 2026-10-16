@@ -11,7 +11,7 @@ typedef struct S_801740F4_1 {
     u8 pad_90[0xA];
     s8 unk_9A;
     s8 unk_9B;
-} S_801740F4_1;   /* work in func_801740F4 */
+} S_801740F4_1;   /* work in dungeonStartBankActorHitReaction */
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -29,7 +29,7 @@ const u8 D_80170854[20] = {129,64,130,146,130,143,130,129,130,146,130,133,130,13
 extern u8 D_80174B0C[];
 
 /* Start the actor's hit reaction, then build and post the damage message for it. */
-void func_801740F4(void *work, void *part_a, void *part_b, EntityRec *actor) {
+void dungeonStartBankActorHitReaction(void *work, void *part_a, void *part_b, EntityRec *actor) {
     s32 flags;
     void *call_arg;
     u32 pass_result;
@@ -51,7 +51,7 @@ void func_801740F4(void *work, void *part_a, void *part_b, EntityRec *actor) {
                 actor->facing = (u16)(((u16)actor->facing) + ((func_800A6D30() & 7) << 9));
             }
         }
-        field_60 = func_800A04F0(actor, ((Rec_D_80082E80 *)part_b)->unk_24, ((Rec_D_80082E80 *)part_b)->unk_25,
+        field_60 = dungeonPlaceActorAtDirectionalNeighbor(actor, ((Rec_D_80082E80 *)part_b)->unk_24, ((Rec_D_80082E80 *)part_b)->unk_25,
             (s16)((u16)actor->facing));
         table_base = D_80174B0C;
         actor->target = field_60;

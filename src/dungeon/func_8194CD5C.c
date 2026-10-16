@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7e6b7800.h"
 
-void func_8002455C(void *effect, void *position, void *sprite) {
+void dungeonUpdateRotatingEffectAndFade(void *effect, void *position, void *sprite) {
     Row_8194CD5C_InputVector local_offset;
     Row_8194CD5C_OutputVector rotated_offset;
     s32 y_product;

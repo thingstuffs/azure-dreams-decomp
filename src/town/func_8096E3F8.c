@@ -15,9 +15,9 @@ typedef struct S_80126890_0 {
 extern void func_8004491C(void *, void *);
 extern void func_8004B248(void *);
 extern void SD_Call(s32);
-extern void func_80123130(void);
-extern s32 func_801264AC(void *);
-extern void func_80126620(void *);
+extern void townInitializeCatalogGlyphCache(void);
+extern s32 townInitializeCatalogDisplayNodes(void *);
+extern void townInitializeCatalogState(void *);
 
 extern s32 D_8004CAA0;
 extern s8 D_80080A84;
@@ -32,11 +32,11 @@ static void *func_80126890(void *data) {
     if (node != 0) {
         ((S_80126890_0 *)node)->unk_20 = data;
         payload = (u8 *)node + 0x20;
-        if (func_801264AC(payload) != 0) {
+        if (townInitializeCatalogDisplayNodes(payload) != 0) {
             D_80080A84 = 1;
-            func_80123130();
+            townInitializeCatalogGlyphCache();
             ((S_80126890_0 *)node)->unk_0C = (u8 *)node + 0x68;
-            func_80126620(payload);
+            townInitializeCatalogState(payload);
             func_8004491C(node, &D_8004CAA0);
             ((S_80126890_0 *)node)->unk_10 = &D_80126704;
             SD_Call(0x701);

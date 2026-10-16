@@ -3,7 +3,7 @@
 extern void bzero(void *dst, int n);
 extern void *func_8004B404(u32 size);
 extern s32 allocBufferArray(s32 *a0, s32 a1);
-extern void func_8004CC38(s32 *a0, s32 a1);
+extern void applyBlock16TemplateToNodes(s32 *a0, s32 a1);
 
 /* Rebuilds the pointer buffer and links corresponding records from two sub-buffer banks. */
 s32 *reallocField0Buffer(s32 *buffer_slot, s32 entry_count, s32 clear_words)
@@ -50,7 +50,7 @@ s32 *reallocField0Buffer(s32 *buffer_slot, s32 entry_count, s32 clear_words)
                         entry_slot++;
                     } while (entry_index < entry_count);
                 }
-                func_8004CC38(entries, entry_count);
+                applyBlock16TemplateToNodes(entries, entry_count);
             }
         }
     }

@@ -6,8 +6,8 @@
 #define M2C_BREAK() ((void)0)
 #define M2C_SYNC() ((void)0)
 
-extern void func_80098B38(void *);
-extern void *func_800A04F0(void *, u8, u8, s16);
+extern void dungeonClearSlotAndUpdateLinkedState(void *);
+extern void *dungeonPlaceActorAtDirectionalNeighbor(void *, u8, u8, s16);
 extern s32 func_800A6D30(void);
 extern s16 func_800A70E4(s16, s16, s16);
 extern s32 func_800C8310(void *, void *);
@@ -40,7 +40,7 @@ extern s32 D_80150FE4[];
         return (s32)D_80150FE4;
     }
 
-    target = func_800A04F0(actor, *(u8 *)(origin_bytes + 0x24), *(u8 *)(origin_bytes + 0x25),
+    target = dungeonPlaceActorAtDirectionalNeighbor(actor, *(u8 *)(origin_bytes + 0x24), *(u8 *)(origin_bytes + 0x25),
                            *(s16 *)(actor_bytes + 0x2A));
     if (target != NULL) {
         if (target == (void *)D_800E3D7C[0]) {
@@ -87,7 +87,7 @@ scan_loop:
                     item_ptr += slot_offset;
                     item_word = *(s32 *)item_ptr;
                     D_80150FE4[0] = item_word;
-                    func_80098B38(item_ptr);
+                    dungeonClearSlotAndUpdateLinkedState(item_ptr);
                     return (s32)D_80150FE4;
                 }
             }

@@ -1,11 +1,6 @@
-#include "common.h"
+#include "modules/town_ovl_3ef1c8.h"
 
-extern s32 func_80019928(void);
-extern void func_8001A418(s32);
-extern void func_8001A490(s32);
-
-/* Select a handler based on the queried status and return that status. */
-s32 func_80016980(void) {
+s32 townDispatchCode7A0ByStatus(void) {
     s32 status;
 
     status = func_80019928();

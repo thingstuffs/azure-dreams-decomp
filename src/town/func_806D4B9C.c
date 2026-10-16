@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_80016D98(s32);
+extern s32 townGetSpecialDataForLowValueId(s32);
 extern s32 func_800178A8(void *, s32, s32);
 extern s32 func_80017904(void *, s32, s32);
 extern s32 func_80017960(void *, void *, s32, s32);
@@ -15,7 +15,7 @@ extern u8 D_8001B333[];
 extern u8 D_8001B3D2[];
 
 /* Selects a response and advances the four-state counter for event 11. */
-s32 func_80016B9C(s32 context, s32 unused, s32 event_id)
+s32 townSelectEvent11Response(s32 context, s32 unused, s32 event_id)
 {
     u8 *event_table;
     s32 result;
@@ -25,7 +25,7 @@ s32 func_80016B9C(s32 context, s32 unused, s32 event_id)
         return (s32) D_8001B3D2;
     }
 
-    result = func_80016D98(event_id);
+    result = townGetSpecialDataForLowValueId(event_id);
     if (result != 0) {
         return result;
     }

@@ -5,17 +5,17 @@
 
 
 extern s32 func_80042900();
-extern s32 func_8003FA44(s32);
+extern s32 hasEnoughAvailableRuntimeNodes(s32);
 extern void func_800C5E5C(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound);
 extern s32 func_800A56E0();
 extern void func_800A6508();
 extern s32 func_800A6D30(void);
-extern s32 func_800CD994(EntityRec *entity, s8 action_arg);
+extern s32 dungeonRunActionTenIfEligible(EntityRec *entity, s8 action_arg);
 extern u8 D_800CD910[];
 extern u8 D_800DF820[];
 
 /* Step trigger: stop when all four 0x2C slots are taken, then roll the object's 0x3 chance and either spawn the 0x613 effect object over the owning tile (returning -1) or give the fallback cue. */
-s32 func_800CDA70(void *object) {
+s32 dungeonTriggerStepTrapEffect(void *object) {
     s16 index;
     s32 seed;
     s32 result;
@@ -46,11 +46,11 @@ s32 func_800CDA70(void *object) {
         if (index < 0x40) {
             entry = *(void **)((u8 *)object - 0x14);
             if (*(u16 *)((u8 *)entry + 0x14) & 0x8000) {
-                func_800CD994(object, 0x10);
+                dungeonRunActionTenIfEligible(object, 0x10);
                 return -1;
             }
             result = 0;
-            if (func_8003FA44(2) != 0) {
+            if (hasEnoughAvailableRuntimeNodes(2) != 0) {
                 effect = func_8003FC64(2);
                 *(u8 **)((u8 *)effect + 0x10) = D_800CD910;
                 *(void **)((u8 *)effect + 0x20) = object;

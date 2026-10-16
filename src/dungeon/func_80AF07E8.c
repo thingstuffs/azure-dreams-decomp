@@ -28,13 +28,13 @@ void func_80171FE8(void *move_data, void *context, void *position_data, void *ac
         return;
     }
 
-    func_800A19E4(position_data, actor_data, 3, 6, (u8 *)move_data + 0x9C);
+    dungeonUpdateActorProximityFlag(position_data, actor_data, 3, 6, (u8 *)move_data + 0x9C);
     actor_flags = ((R10_80171FE8_S_80171C34_1 *)actor_data)->unk_1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
-            current_angle = (s32)func_800A02AC(actor_data,(u8)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at00.v),(u8)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at01.v));
+            current_angle = (s32)dungeonFindValidMonsterNeighbor(actor_data,(u8)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at00.v),(u8)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at01.v));
             if (((void *)current_angle) != 0) {
-                s16 target_angle = ((s16)func_800A0818((s16)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at00.v),(s16)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at01.v),(s16)(((R10_80171FE8_S_80171C34_7 *)(((R10_80171FE8_S_80171C34_3_pre *)((void *)current_angle))[-1].unk_00))->unk_24),(s16)(((R10_80171FE8_S_80171C34_7 *)(((R10_80171FE8_S_80171C34_3_pre *)((void *)current_angle))[-1].unk_00))->unk_25),
+                s16 target_angle = ((s16)dungeonGetRoundedFacingAndRoundingFlag((s16)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at00.v),(s16)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at01.v),(s16)(((R10_80171FE8_S_80171C34_7 *)(((R10_80171FE8_S_80171C34_3_pre *)((void *)current_angle))[-1].unk_00))->unk_24),(s16)(((R10_80171FE8_S_80171C34_7 *)(((R10_80171FE8_S_80171C34_3_pre *)((void *)current_angle))[-1].unk_00))->unk_25),
                     (u8 *)move_data + 0x98));
                 ((R10_80171FE8_S_80171C34_1 *)actor_data)->unk_2A.s = target_angle;
                 ((R10_80171FE8_S_80171C34_1 *)actor_data)->unk_71.u &= 0x7F;
@@ -46,7 +46,7 @@ void func_80171FE8(void *move_data, void *context, void *position_data, void *ac
                     (func_800A6D30() & 7) << 9;
             }
         } else {
-            if (func_800A04F0(actor_data,(u8)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at00.v),(u8)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at01.v),(s16)(((R10_80171FE8_S_80171C34_1 *)actor_data)->unk_2A.s)) != 0) {
+            if (dungeonPlaceActorAtDirectionalNeighbor(actor_data,(u8)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at00.v),(u8)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at01.v),(s16)(((R10_80171FE8_S_80171C34_1 *)actor_data)->unk_2A.s)) != 0) {
                 ((R10_80171FE8_S_80171C34_1 *)actor_data)->unk_71.u &= 0x7F;
                 return;
             }
@@ -76,31 +76,31 @@ void func_80171FE8(void *move_data, void *context, void *position_data, void *ac
                 }
 
                 turn_data = (u8 *)move_data + 0x98;
-                target_angle = ((s16)func_800A0818((s16)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at00.v),(s16)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at01.v),(s16)((s16)target_x),(s16)((s16)target_y), turn_data));
+                target_angle = ((s16)dungeonGetRoundedFacingAndRoundingFlag((s16)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at00.v),(s16)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at01.v),(s16)((s16)target_x),(s16)((s16)target_y), turn_data));
                 ((R10_80171FE8_S_80171C34_1 *)actor_data)->unk_2A.s = target_angle;
-                if (((s16)func_8009A66C((s16)(target_angle), position_data, actor_data, 0x20)) <= 0) {
-                    ((R10_80171FE8_S_80171C34_1 *)actor_data)->unk_2A.s = ((s16)func_800A0818((s16)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at00.v),(s16)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at01.v),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY), turn_data));
+                if (((s16)dungeonCheckMovementClearanceAndHeight((s16)(target_angle), position_data, actor_data, 0x20)) <= 0) {
+                    ((R10_80171FE8_S_80171C34_1 *)actor_data)->unk_2A.s = ((s16)dungeonGetRoundedFacingAndRoundingFlag((s16)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at00.v),(s16)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at01.v),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY), turn_data));
                 }
-                if (((s16)func_8009FD7C(
+                if (((s16)dungeonCompareMonsterNeighborValues(
                         ((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at00.v, ((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at01.v,
                         D_80082E80.tileX, D_80082E80.tileY)) != 0) {
                     limit_detour = 1;
                 }
             } else {
-                func_800A0E6C(position_data, ((R10_80171FE8_S_80171C34_5 *)move_data)->unk_9C.s, actor_data,
+                dungeonRebuildMonsterReachableTiles(position_data, ((R10_80171FE8_S_80171C34_5 *)move_data)->unk_9C.s, actor_data,
                               (u8 *)move_data + 0x98);
             }
         }
     } else if (((R10_80171FE8_S_80171C34_2 *)position_data)->unk_26.s >= 0 &&
                ((R10_80171FE8_DungeonRecord *)D_800E2970)[((R10_80171FE8_S_80171C34_2 *)position_data)->unk_26.s].flags & 2) {
-        func_800A0E6C(position_data, ((R10_80171FE8_S_80171C34_5 *)move_data)->unk_9C.s, actor_data,
+        dungeonRebuildMonsterReachableTiles(position_data, ((R10_80171FE8_S_80171C34_5 *)move_data)->unk_9C.s, actor_data,
                       (u8 *)move_data + 0x98);
     } else if (!(((R10_80171FE8_S_80171C34_1 *)actor_data)->unk_46 & 0x8000)) {
-        current_angle = (s32)func_800A04F0(actor_data,(u8)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at00.v),(u8)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at01.v),(s16)(((R10_80171FE8_S_80171C34_1 *)actor_data)->unk_2A.s));
+        current_angle = (s32)dungeonPlaceActorAtDirectionalNeighbor(actor_data,(u8)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at00.v),(u8)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at01.v),(s16)(((R10_80171FE8_S_80171C34_1 *)actor_data)->unk_2A.s));
         if (((void *)current_angle) != 0 &&
             (((R10_80171FE8_S_80171C34_3 *)((void *)current_angle))->unk_1C & 0x2000) &&
-            (s16)((s16)func_800A0134((void *)current_angle, actor_data)) < 0x81) {
-            if (((s16)func_8009A540(
+            (s16)((s16)dungeonGetActorHeightDifference((void *)current_angle, actor_data)) < 0x81) {
+            if (((s16)dungeonCheckDiagonalSideHeight(
                     ((s16)((R10_80171FE8_S_80171C34_1 *)actor_data)->unk_2A.u >> 9) & 0xFFFF,(s16)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at00.v),(s16)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at01.v),(s16)((s16)(((R10_80171FE8_S_80171C34_1 *)actor_data)->unk_88.u - 0x20)))) != 0) {
                 ((R10_80171FE8_S_80171C34_1 *)actor_data)->unk_71.u &= 0x7F;
                 return;
@@ -109,12 +109,12 @@ void func_80171FE8(void *move_data, void *context, void *position_data, void *ac
 
         if (((R10_80171FE8_S_80171C34_1 *)actor_data)->unk_1C & 0x20000) {
             TileObject *target_position = &D_80082E80;
-            ((R10_80171FE8_S_80171C34_1 *)actor_data)->unk_2A.s = ((s16)func_800A0818((s16)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at00.v),(s16)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at01.v),(s16)(target_position->tileX),(s16)(target_position->tileY), (u8 *)move_data + 0x98));
-            if (((s16)func_8009FD7C(
+            ((R10_80171FE8_S_80171C34_1 *)actor_data)->unk_2A.s = ((s16)dungeonGetRoundedFacingAndRoundingFlag((s16)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at00.v),(s16)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at01.v),(s16)(target_position->tileX),(s16)(target_position->tileY), (u8 *)move_data + 0x98));
+            if (((s16)dungeonCompareMonsterNeighborValues(
                     ((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at00.v, ((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at01.v,
                     target_position->tileX, target_position->tileY)) != 0) {
-                if (((s16)func_800A0134(D_800814A8, actor_data)) < 0x81) {
-                    if (((s16)func_8009A540(
+                if (((s16)dungeonGetActorHeightDifference(D_800814A8, actor_data)) < 0x81) {
+                    if (((s16)dungeonCheckDiagonalSideHeight(
                             ((s16)((R10_80171FE8_S_80171C34_1 *)actor_data)->unk_2A.u >> 9) & 0xFFFF,(s16)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at00.v),(s16)(((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at01.v),(s16)((s16)(((R10_80171FE8_S_80171C34_1 *)actor_data)->unk_88.u - 0x20)))) != 0) {
                         ((R10_80171FE8_S_80171C34_1 *)actor_data)->unk_71.u &= 0x7F;
                         return;
@@ -122,7 +122,7 @@ void func_80171FE8(void *move_data, void *context, void *position_data, void *ac
                 }
             }
         } else {
-            func_800A0E6C(position_data, ((R10_80171FE8_S_80171C34_5 *)move_data)->unk_9C.s, actor_data,
+            dungeonRebuildMonsterReachableTiles(position_data, ((R10_80171FE8_S_80171C34_5 *)move_data)->unk_9C.s, actor_data,
                           (u8 *)move_data + 0x98);
         }
     }
@@ -139,7 +139,7 @@ void func_80171FE8(void *move_data, void *context, void *position_data, void *ac
             trial_angle = current_angle + turn_table[turn_index];
         }
 
-        if (((s16)func_8009A66C((s16)(trial_angle), position_data, actor_data, 0x20)) > 0) {
+        if (((s16)dungeonCheckMovementClearanceAndHeight((s16)(trial_angle), position_data, actor_data, 0x20)) > 0) {
             if (turn_index >= 3) {
                 detour_check = limit_detour;
                 if (detour_check != 0) {
@@ -175,7 +175,7 @@ void func_80171FE8(void *move_data, void *context, void *position_data, void *ac
 
         if (turn_index == 0 &&
             *(u16 *)(&D_80082E80.tileX) != ((R10_80171FE8_S_80171C34_2 *)position_data)->unk_24.at00u.v) {
-            if (((s16)func_8009A180(actor_data,
+            if (((s16)dungeonCheckEntityRelation(actor_data,
                     (u8 *)D_800814A8->unk_58 + 0x20)) != 0) {
                 do {
                     return;

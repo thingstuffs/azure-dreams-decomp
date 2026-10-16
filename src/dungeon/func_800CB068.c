@@ -59,7 +59,7 @@ typedef struct S_800D07C8_0 {
     u8 pad_106[0x2];
     u16 unk_108;
     u16 unk_10A;
-} S_800D07C8_0;   /* scratch in func_800D07C8 */
+} S_800D07C8_0;   /* scratch in dungeonTransformSpritePartsToQuads */
 
 typedef struct S_800D07C8_1 {
     u8 pad_00[0x2];
@@ -68,9 +68,9 @@ typedef struct S_800D07C8_1 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800D07C8_1;   /* arg1 in func_800D07C8 */
+} S_800D07C8_1;   /* arg1 in dungeonTransformSpritePartsToQuads */
 
-   /* global_page->table[0] in func_800D07C8 */
+   /* global_page->table[0] in dungeonTransformSpritePartsToQuads */
 
 typedef struct S_800D07C8_3 {
     u8 pad_00[0x8];
@@ -86,16 +86,16 @@ typedef struct S_800D07C8_3 {
     u16 unk_1E;
     u16 unk_20;
     u16 unk_22;
-} S_800D07C8_3;   /* arg2 in func_800D07C8 */
+} S_800D07C8_3;   /* arg2 in dungeonTransformSpritePartsToQuads */
 
 typedef struct S_800D07C8_4 {
     union { u8 u; s8 s; } unk_00;   /* accessed as both */
-} S_800D07C8_4;   /* temp_s3 in func_800D07C8 */
+} S_800D07C8_4;   /* temp_s3 in dungeonTransformSpritePartsToQuads */
 
 typedef struct S_800D07C8_5_pre {
     s8 unk_00;
     u8 pad_01[0x3];
-} S_800D07C8_5_pre;   /* the 0x4 bytes before temp_s0 in func_800D07C8, addressed as temp_s0[-1] */
+} S_800D07C8_5_pre;   /* the 0x4 bytes before temp_s0 in dungeonTransformSpritePartsToQuads, addressed as temp_s0[-1] */
 
 typedef struct S_800D07C8_5 {
     u8 unk_00;
@@ -106,12 +106,12 @@ typedef struct S_800D07C8_5 {
     u8 pad_1F[0xA];
     u8 unk_29;
     u8 unk_2A;
-} S_800D07C8_5;   /* temp_s0 in func_800D07C8 */
+} S_800D07C8_5;   /* temp_s0 in dungeonTransformSpritePartsToQuads */
 
-   /* table[0] in func_800D07C8 */
+   /* table[0] in dungeonTransformSpritePartsToQuads */
 
 /* Transform sprite parts into textured quads, queue visible quads, and invoke part callbacks. */
-void func_800D07C8(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
+void dungeonTransformSpritePartsToQuads(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
     u8 matrix[32];
     u8 *scratch = (u8 *)0x1F800000;
     u8 *part_uv;

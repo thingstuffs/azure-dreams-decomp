@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1831370.h"
 
-void *func_80026708(ovl_1831370_81811708_Packet *packet, s32 variant) {
+void *dungeonInitializeVariantPacket(ovl_1831370_81811708_Packet *packet, s32 variant) {
     s32 payload;
 
     packet->unk1 = 0x28;

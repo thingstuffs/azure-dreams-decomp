@@ -6,19 +6,19 @@ typedef struct S_81814C48_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_81814C48_0;   /* arg1 in func_81814C48 */
+} S_81814C48_0;   /* arg1 in updateRandomizedMotionAndCompletion */
 
 typedef struct S_81814C48_1 {
     u8 pad_00[0x14];
     s16 unk_14;
     u8 pad_16[0x1C];
     s16 unk_32;
-} S_81814C48_1;   /* arg0 in func_81814C48 */
+} S_81814C48_1;   /* arg0 in updateRandomizedMotionAndCompletion */
 
 typedef struct S_81814C48_2 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_81814C48_2;   /* arg2 in func_81814C48 */
+} S_81814C48_2;   /* arg2 in updateRandomizedMotionAndCompletion */
 
 
 extern s32 rand();
@@ -26,7 +26,7 @@ extern s16 func_800BCB04();
 extern s16 D_80025338;
 
 /* Updates a position with randomized motion, reduces speed, and flags completion. */
-void func_81814C48(void *state, void *position, void *linked_state)
+void updateRandomizedMotionAndCompletion(void *state, void *position, void *linked_state)
 {
     s16 speed;
     s32 x_step;

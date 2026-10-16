@@ -9,7 +9,7 @@
 
 
 extern void func_8009A21C(s16 x, s16 y, u16 flags);
-extern void func_800A4300(void *entity, void *search_state);
+extern void dungeonSelectPositionDataAndUpdateOwner(void *entity, void *search_state);
 
 typedef struct {
     u8 x;
@@ -78,7 +78,7 @@ void func_800A77AC(FuncObj *obj, FuncVec *pos, FuncVec *target) {
             entry->value4 = height;
             entry->value8 = target->z;
             func_8009A21C(obj->fieldAA, obj->fieldAC, 0x800);
-            func_800A4300(&D_80082E80.unk_000, ((s32)D_800E3D7C));
+            dungeonSelectPositionDataAndUpdateOwner(&D_80082E80.unk_000, ((s32)D_800E3D7C));
         }
         dungeonStatus.unk_0A--;
                 /* the u16 two bytes BEFORE the object: a negative offset, which the field-typing

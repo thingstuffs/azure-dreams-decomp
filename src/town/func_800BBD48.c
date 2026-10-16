@@ -8,7 +8,7 @@ extern M2C_UNK D_800D1D24;
 extern M2C_UNK D_800D1D2C;
 
 /* Build a null-terminated list with one or three entries for the current event. */
-void func_800B94A8(void) {
+void townBuildCurrentEventEntryList(void) {
     M2C_UNK **entries;
     s32 entry_count;
 

@@ -14,9 +14,9 @@ void func_8009A3D0();
 void func_800A2FE0(); /* extern */
 s32 func_800A32A4(); /* extern */
 s32 func_800A56E0(); /* extern */
-void func_800ACF88(); /* extern */
+void dungeonAnnounceFamiliarDefeat(); /* extern */
 s32 func_80042900();
-void *func_800B8228();
+void *dungeonCreateEffectOrFallback();
 
 
 typedef struct S_800AD058_1 {
@@ -38,11 +38,11 @@ typedef struct S_800AD058_1 {
     u8 unk_25;
     u8 pad_26[0x1];
     u8 unk_27;
-} S_800AD058_1;   /* arg2 in func_800AD058 */
+} S_800AD058_1;   /* arg2 in dungeonUpdateActorDefeatRemoval */
 
 typedef struct S_800AD058_2_pre {
     u16 unk_00;
-} S_800AD058_2_pre;   /* the 0x2 bytes before arg3_local in func_800AD058, addressed as arg3_local[-1] */
+} S_800AD058_2_pre;   /* the 0x2 bytes before arg3_local in dungeonUpdateActorDefeatRemoval, addressed as arg3_local[-1] */
 
 typedef struct S_800AD058_2 {
     u8 pad_00[0x13];
@@ -56,16 +56,16 @@ typedef struct S_800AD058_2 {
     u8 unk_4B;
     u8 pad_4C[0x3C];
     s16 unk_88;
-} S_800AD058_2;   /* arg3_local in func_800AD058 */
+} S_800AD058_2;   /* arg3_local in dungeonUpdateActorDefeatRemoval */
 
 typedef struct S_800AD058_3 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
-} S_800AD058_3;   /* arg1 in func_800AD058 */
+} S_800AD058_3;   /* arg1 in dungeonUpdateActorDefeatRemoval */
 
 
 /* Fades or spirals an entity away, then removes it and updates dungeon state. */
-s32 func_800AD058(u8 *state, s32 *position, u8 *sprite, u8 *entity_data) {
+s32 dungeonUpdateActorDefeatRemoval(u8 *state, s32 *position, u8 *sprite, u8 *entity_data) {
     s32 sound_id;
     s32 tile_x;
     s32 tile_y;
@@ -131,13 +131,13 @@ s32 func_800AD058(u8 *state, s32 *position, u8 *sprite, u8 *entity_data) {
                 func_800A2FE0(entity);
                 func_800A32A4(entity);
                 if (((S_800AD058_2 *)entity)->unk_49 != 0 && !(((S_800AD058_2 *)entity)->unk_4B & 0x20)) {
-                    func_800B8228(((S_800AD058_3 *)position)->unk_00.at02.v, ((S_800AD058_3 *)position)->unk_04.at02.v,
+                    dungeonCreateEffectOrFallback(((S_800AD058_3 *)position)->unk_00.at02.v, ((S_800AD058_3 *)position)->unk_04.at02.v,
                         ((S_800AD058_2 *)entity)->unk_88, entity + 0x48);
                 }
                 break;
             }
             if (!(entity_flags & 0x20000000)) {
-                func_800ACF88(entity);
+                dungeonAnnounceFamiliarDefeat(entity);
             }
             func_800A2FE0(entity);
             func_800A32A4(entity);

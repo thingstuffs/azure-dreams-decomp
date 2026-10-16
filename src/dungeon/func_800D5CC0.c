@@ -35,7 +35,7 @@ extern void func_80047784(void *, s32, s32);
 extern void func_800478B8();
 
 /* Jitter the position and advance the effect through its modes and countdown. */
-void func_800DB420(D_800DB420_Obj *state, D_800DB420_RngOut *position, D_800DB420_Effect *effect) {
+void dungeonAdvanceJitteredEffectModes(D_800DB420_Obj *state, D_800DB420_RngOut *position, D_800DB420_Effect *effect) {
     position->x = state->random_data[1] + (rand() % 11) - 5;
     position->y = state->random_data[3] + (rand() % 11) - 5;
     position->z = state->random_data[5] + (rand() % 11) - 5;

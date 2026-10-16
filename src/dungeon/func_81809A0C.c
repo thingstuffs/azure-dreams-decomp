@@ -1,194 +1,6 @@
-/* cfail-repair: tf7-phase1-cache-v3 */
-#include "common.h"
-#include "shared/entity.h"
-#include "shared/record_ptrs.h"
-#include "shared/game_work.h"
-#include "shared/object_flags.h"
-#include "shared/dir_step.h"
-#include "m2c_compat.h"
+#include "modules/dungeon_ovl_1829800.h"
 
-typedef struct S_8002520C_22 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-} S_8002520C_22;   /* ((side_index * 4) + arg0) in func_8002520C */
-
-typedef struct S_8002520C_23 {
-    u8 pad_00[0x2094];
-    u16 unk_2094;
-} S_8002520C_23;   /* ((temp_a0_8 * 2) + counter_page) in func_8002520C */
-
-typedef struct S_8002520C_24 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-} S_8002520C_24;   /* ((((S_8002520C_0 *)arg0)->unk_26 * 4) + arg0) in func_8002520C */
-
-typedef struct S_8002520C_25 {
-    u8 pad_00[0xB6];
-    s16 unk_B6;
-} S_8002520C_25;   /* ((S_8002520C_24 *)(((((S_8002520C_0 *)arg0)->unk_26 * 4) + arg0)))->unk_0C in func_8002520C */
-
-
-typedef struct S_8002520C_0_pre {
-    u16 unk_00;
-} S_8002520C_0_pre;   /* the 0x2 bytes before arg0 in func_8002520C, addressed as arg0[-1] */
-
-typedef struct S_8002520C_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x8];
-    void * unk_14;
-    u8 pad_18[0x4];
-    s16 unk_1C;
-    s16 unk_1E;
-    u16 unk_20;
-    s16 unk_22;
-    s16 unk_24;
-    s16 unk_26;
-} S_8002520C_0;   /* arg0 in func_8002520C */
-
-typedef struct S_8002520C_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    union { s16 s; u16 u; } unk_0A;   /* accessed as both */
-    u8 pad_0C[0xA];
-    u16 unk_16;
-} S_8002520C_1;   /* temp_s1 in func_8002520C */
-
-typedef struct S_8002520C_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x7];
-    u16 unk_16;
-    u8 pad_18[0x2];
-    u16 unk_1A;
-    u16 unk_1C;
-    u16 unk_1E;
-} S_8002520C_2;   /* arg2_local in func_8002520C */
-
-
-typedef struct S_8002520C_4 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_8002520C_4;   /* state_base in func_8002520C */
-
-typedef struct S_8002520C_5_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_8002520C_5_pre;   /* the 0x14 bytes before dest in func_8002520C, addressed as dest[-1] */
-
-typedef struct S_8002520C_5 {
-    u8 pad_00[0x96];
-    s16 unk_96;
-} S_8002520C_5;   /* dest in func_8002520C */
-
-typedef struct S_8002520C_6 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_8002520C_6;   /* cell in func_8002520C */
-
-typedef struct S_8002520C_7 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-} S_8002520C_7;   /* *var_v0_4 in func_8002520C */
-
-typedef struct S_8002520C_8 {
-    u8 pad_00[0x1E];
-    u16 unk_1E;
-    u8 pad_20[0x4];
-    u8 unk_24;
-    u8 unk_25;
-} S_8002520C_8;   /* (void *) slot_a0 in func_8002520C */
-
-typedef struct S_8002520C_9 {
-    u8 pad_00[0x3D7C];
-    s32 unk_3D7C;
-} S_8002520C_9;   /* world_page in func_8002520C */
-
-typedef struct S_8002520C_10 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-} S_8002520C_10;   /* world_node in func_8002520C */
-
-typedef struct S_8002520C_11 {
-    u8 pad_00[0xAC];
-    void * unk_AC;
-} S_8002520C_11;   /* (void *) world_off in func_8002520C */
-
-typedef struct S_8002520C_12 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_8002520C_12;   /* world_cell in func_8002520C */
-
-typedef struct S_8002520C_13 {
-    u8 pad_00[0x2094];
-    u16 unk_2094;
-} S_8002520C_13;   /* counter_ptr in func_8002520C */
-
-typedef struct S_8002520C_14 {
-    u8 pad_00[0x45];
-    s8 unk_45;
-} S_8002520C_14;   /* temp_s1_2 in func_8002520C */
-
-typedef struct S_8002520C_15 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-} S_8002520C_15;   /* var_v1_4 in func_8002520C */
-
-typedef struct S_8002520C_16 {
-    u8 pad_00[0xB6];
-    s16 unk_B6;
-} S_8002520C_16;   /* temp_v0_4 in func_8002520C */
-
-typedef struct S_8002520C_17 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-    u8 pad_10[0x1490];
-    s32 unk_14A0;
-} S_8002520C_17;   /* slot_a2 in func_8002520C */
-
-typedef struct S_8002520C_18 {
-    u8 pad_00[0x1E];
-    u16 unk_1E;
-} S_8002520C_18;   /* (void *) slot_v1 in func_8002520C */
-
-typedef struct S_8002520C_19 {
-    u8 pad_00[0x14A0];
-    s32 unk_14A0;
-} S_8002520C_19;   /* slot_a3 in func_8002520C */
-
-typedef struct S_8002520C_20 {
-    u8 pad_00[0x1E];
-    u16 unk_1E;
-} S_8002520C_20;   /* (void *) slot_a1 in func_8002520C */
-
-typedef struct S_8002520C_21 {
-    u8 pad_00[0x14A0];
-    s32 unk_14A0;
-} S_8002520C_21;   /* (s32 *) slot_v0 in func_8002520C */
-
-
-s32 func_8004491C();           /* extern */
-s32 func_800644B8();                        /* extern */
-s32 func_8009074C();               /* extern */
-void func_8009F644();      /* extern */
-u32 func_800A0818(); /* extern */
-s32 func_800A56E0();                     /* extern */
-extern void *D_80025000[];
-extern u8 D_80026864[16];
-extern s16 D_80027156[5];
-extern u16 D_80027158[5];
-extern s16 D_8002715C[5];
-extern u8 D_80080A87[16];
-
-/* Update the selection menu animation, side positions, and facing directions. */
-void func_8002520C(void *menu_in, void *motion_in, void *appearance_in) {
+void dungeonUpdateSelectionMenuAnimation(void *menu_in, void *motion_in, void *appearance_in) {
     s32 *side_ptr;
     u16 target_y;
     u16 entry_counter;
@@ -241,7 +53,7 @@ void func_8002520C(void *menu_in, void *motion_in, void *appearance_in) {
     state = ((S_8002520C_0 *)menu)->unk_1C;
     switch ((u32)state) {
     case 0:
-        func_8004491C(menu - 0x20, &D_80026864);
+        func_8004491C(menu - 0x20, &dungeonRenderThreeByThreeTerrainGrid);
         motion->unk_02 = -0x180;
         motion->unk_06 = -0x20;
         appearance->unk_16 = 0x1000U;
@@ -280,7 +92,7 @@ void func_8002520C(void *menu_in, void *motion_in, void *appearance_in) {
         }
         if (D_80027156[0] == 0) {
             S_8002520C_6 *cell;
-            input_angle = func_8009074C(((u16) appearance->unk_1A >> 9) & 7,
+            input_angle = dungeonResolvePlayerInputFacing(((u16) appearance->unk_1A >> 9) & 7,
                 ((EntityRec *)(((u8 *)(&D_800E3D7C))))->x.v + 0xA2, 0) & 0xFFFF;
             if ((input_angle != 0xFFF) && (((s32)state_base->unk_010) & 0xF000)) {
                 s32 step_or_cell;
@@ -386,7 +198,7 @@ void func_8002520C(void *menu_in, void *motion_in, void *appearance_in) {
                     side_offset += (s32)side_ptr;
                     cell = (S_8002520C_6 *)(world_node->unk_0C);
                     actor = ((S_8002520C_11 *)((void *) side_offset))->unk_AC;
-                    direction = (func_800A0818(1, 1, ((S_8002520C_12 *)cell)->unk_24, ((S_8002520C_12 *)cell)->unk_25,
+                    direction = (dungeonGetRoundedFacingAndRoundingFlag(1, 1, ((S_8002520C_12 *)cell)->unk_24, ((S_8002520C_12 *)cell)->unk_25,
                         &target_y) >> 9) & 7;
                 }
                 {
@@ -401,7 +213,7 @@ void func_8002520C(void *menu_in, void *motion_in, void *appearance_in) {
                         direction = (direction - 2) & 7;
                         ((S_8002520C_13 *)direction_entry)->unk_2094 = direction;
                         actor->unk_45 = (s8) direction;
-                        func_8009F644(((S_8002520C_9 *)world_page)->unk_3D7C, 0x90, ((S_8002520C_0 *)menu)->unk_26,
+                        dungeonAppendPackedActionRecord(((S_8002520C_9 *)world_page)->unk_3D7C, 0x90, ((S_8002520C_0 *)menu)->unk_26,
                             direction);
                         selected_side = ((S_8002520C_0 *)menu)->unk_26;
                         other_dir = (u16 *)0x80012094;

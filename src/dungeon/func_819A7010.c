@@ -8,7 +8,7 @@
 typedef struct S_80024810_2 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_80024810_2;   /* temp_v1 in func_80024810 */
+} S_80024810_2;   /* temp_v1 in dungeonUpdateJitteredEffectPoints */
 
 typedef struct S_80024810_3 {
     u8 pad_00[0x2];
@@ -17,12 +17,12 @@ typedef struct S_80024810_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80024810_3;   /* ((S_80024810_2 *)temp_v1)->unk_08 in func_80024810 */
+} S_80024810_3;   /* ((S_80024810_2 *)temp_v1)->unk_08 in dungeonUpdateJitteredEffectPoints */
 
 
 typedef struct S_80024810_0_pre {
     u16 unk_00;
-} S_80024810_0_pre;   /* the 0x2 bytes before arg0 in func_80024810, addressed as arg0[-1] */
+} S_80024810_0_pre;   /* the 0x2 bytes before arg0 in dungeonUpdateJitteredEffectPoints, addressed as arg0[-1] */
 
 typedef struct S_80024810_0 {
     void * unk_00;
@@ -41,20 +41,20 @@ typedef struct S_80024810_0 {
     u8 pad_38[0x4];
     s16 unk_3C;
     u16 unk_3E;
-} S_80024810_0;   /* arg0 in func_80024810 */
+} S_80024810_0;   /* arg0 in dungeonUpdateJitteredEffectPoints */
 
 typedef struct S_80024810_1 {
     u8 pad_00[0x52];
     u16 unk_52;
-} S_80024810_1;   /* temp_a0 in func_80024810 */
+} S_80024810_1;   /* temp_a0 in dungeonUpdateJitteredEffectPoints */
 
 
 /* micro-lane E 2026-08-14: true base 0x80024810 (delta 0x7E65D800) */
-s32 func_8003DE58();       /* extern */
+s32 resolveRecordOrientationOrFallback();       /* extern */
 s32 rand();                                /* extern */
 
 /* Update the effect's jittered points between endpoints and advance its animation. */
-void func_80024810(void *effect) {
+void dungeonUpdateJitteredEffectPoints(void *effect) {
     u16 coord_delta[3];
     s32 phase;
     s32 point_index;
@@ -71,7 +71,7 @@ void func_80024810(void *effect) {
     ((S_80024810_0 *)effect)->unk_04 = (u16) D_80083780.x.w.i;
     ((S_80024810_0 *)effect)->unk_06 = (u16) D_80083780.y.w.i;
     ((S_80024810_0 *)effect)->unk_08 = (u16) D_80083780.z.w.i;
-    if (func_8003DE58(D_80082E80.unk_008, ((s32 *)(&D_80082E80)), coord_delta, 0) != 0) {
+    if (resolveRecordOrientationOrFallback(D_80082E80.unk_008, ((s32 *)(&D_80082E80)), coord_delta, 0) != 0) {
         ((S_80024810_0 *)effect)->unk_04 = (u16) (((S_80024810_0 *)effect)->unk_04 + coord_delta[0]);
         ((S_80024810_0 *)effect)->unk_06 = (u16) (((S_80024810_0 *)effect)->unk_06 + coord_delta[1]);
         ((S_80024810_0 *)effect)->unk_08 = (u16) (((S_80024810_0 *)effect)->unk_08 + coord_delta[2]);

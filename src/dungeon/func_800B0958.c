@@ -21,14 +21,14 @@ typedef struct {
 } D_800E39C8_entry;
 extern D_800E3648_entry D_800E3648[];
 extern u8 D_800DF258[];
-s32 func_800B500C();                   /* extern */
-s32 func_800B5128();                                /* extern */
-void func_800B5F80();                         /* extern */
+s32 dungeonFindEntryAtTileCoordinates();                   /* extern */
+s32 dungeonFindFirstFreeMapEntry();                                /* extern */
+void dungeonClearSlotAndDetachEntity();                         /* extern */
 extern void func_8009A21C();
 extern D_800E39C8_entry D_800E39C8[];
 
 /* Selects and initializes an entry at the given position, returning its slot. */
-s32 func_800B60B8(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value) {
+s32 dungeonSelectAndInitializeEntryAtPosition(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value) {
     s32 slot;
     s32 slot_sign;
     s32 entry_type;
@@ -36,10 +36,10 @@ s32 func_800B60B8(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value) {
     D_800E3648_entry *entry;
 
     entry_type = type_id;
-    slot = func_800B500C(x, y, z);
+    slot = dungeonFindEntryAtTileCoordinates(x, y, z);
     slot_sign = slot << 0x10;
     if (slot_sign < 0) {
-        slot = func_800B5128();
+        slot = dungeonFindFirstFreeMapEntry();
         slot_sign = slot << 0x10;
         if (slot_sign < 0) {
             slot = 0x1F;
@@ -47,7 +47,7 @@ s32 func_800B60B8(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value) {
     }
     slot = slot << 0x10;
     slot = slot >> 0x10;
-    func_800B5F80(slot);
+    dungeonClearSlotAndDetachEntity(slot);
     entries = D_800E3648;
     entry = &entries[slot];
     entry->field1 = 0x15;
