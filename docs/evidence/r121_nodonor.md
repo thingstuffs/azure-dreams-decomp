@@ -1,6 +1,6 @@
 # r121_nodonor evidence: no-donor decompilation rows
 
-Lane r121_nodonor (Opus), base c5a0a9c (B3 content). 221 new exact C rows / 51352 bytes, all TOWN. Receipt: `docs/evidence/r121_nodonor.receipt.json`.
+Lane r121_nodonor (Opus), base c5a0a9c (B3 content). 294 new exact C rows / 69328 bytes, all TOWN. Receipt: `docs/evidence/r121_nodonor.receipt.json`.
 
 Every row: raw/ = genuine spimdisasm singleFileDisasm -> m2c (rev 708d2d2) first pass (commands and sha in the receipt), src/ = hand C,
 scored exact (tools/verify.verify_overlay, total 0) at the recipe in the split record, production window gate MATCH with the row compiled
@@ -262,6 +262,79 @@ as a C segment. No inline asm, volatile, NON_MATCHING, pragma, goto or m2c lefto
 | v0 | town/func_808B84D0 | func_80003CD0 | 0x8384D0 | 252 | 2.6.3-G0 | town_r121nd_8384D0_true_80003CD0.overlay.yaml |
 | v0 | town/func_808C4A88 | func_80000A88 | 0x844A88 | 84 | 2.6.3-G0 | town_r121nd_844A88_true_80000A88.overlay.yaml |
 | t2 | town/func_8088332C | func_80700B2C | 0x80332C | 84 | 2.6.3-G0 | town_r121nd_80332C_true_80700B2C.overlay.yaml |
+| t3 | dungeon/func_809AA57C | func_8016FD7C | 0x9CA57C | 196 | 2.7.2-cdk-G0 | dungeon_r121nd_9CA57C_true_8016FD7C.overlay.yaml |
+| t3 | dungeon/func_809B057C | func_80169D7C | 0x9D057C | 196 | 2.7.2-cdk-G0 | dungeon_r121nd_9D057C_true_80169D7C.overlay.yaml |
+| t3 | dungeon/func_809B657C | func_80163D7C | 0x9D657C | 196 | 2.7.2-cdk-G0 | dungeon_r121nd_9D657C_true_80163D7C.overlay.yaml |
+| t3 | dungeon/func_809BC57C | func_8015DD7C | 0x9DC57C | 196 | 2.7.2-cdk-G0 | dungeon_r121nd_9DC57C_true_8015DD7C.overlay.yaml |
+| t3 | dungeon/func_809C857C | func_80151D7C | 0x9E857C | 196 | 2.7.2-cdk-G0 | dungeon_r121nd_9E857C_true_80151D7C.overlay.yaml |
+| t3 | dungeon/func_80ACB5DC | func_8016ADDC | 0xAEB5DC | 580 | 2.7.2-cdk-G0 | dungeon_r121nd_AEB5DC_true_8016ADDC.overlay.yaml |
+| t3 | dungeon/func_80AD15DC | func_80164DDC | 0xAF15DC | 580 | 2.7.2-cdk-G0 | dungeon_r121nd_AF15DC_true_80164DDC.overlay.yaml |
+| t3 | dungeon/func_80AD75DC | func_8015EDDC | 0xAF75DC | 580 | 2.7.2-cdk-G0 | dungeon_r121nd_AF75DC_true_8015EDDC.overlay.yaml |
+| t3 | dungeon/func_80ADD5DC | func_80158DDC | 0xAFD5DC | 580 | 2.7.2-cdk-G0 | dungeon_r121nd_AFD5DC_true_80158DDC.overlay.yaml |
+| t3 | dungeon/func_80AE35DC | func_80152DDC | 0xB035DC | 580 | 2.7.2-cdk-G0 | dungeon_r121nd_B035DC_true_80152DDC.overlay.yaml |
+| t3 | dungeon/func_80AE95DC | func_8014CDDC | 0xB095DC | 580 | 2.7.2-cdk-G0 | dungeon_r121nd_B095DC_true_8014CDDC.overlay.yaml |
+| t3 | dungeon/func_80AF54F8 | func_8016ACF8 | 0xB154F8 | 580 | 2.7.2-cdk-G0 | dungeon_r121nd_B154F8_true_8016ACF8.overlay.yaml |
+| t3 | dungeon/func_80AFB4F8 | func_80164CF8 | 0xB1B4F8 | 580 | 2.7.2-cdk-G0 | dungeon_r121nd_B1B4F8_true_80164CF8.overlay.yaml |
+| t3 | dungeon/func_80B014F8 | func_8015ECF8 | 0xB214F8 | 580 | 2.7.2-cdk-G0 | dungeon_r121nd_B214F8_true_8015ECF8.overlay.yaml |
+| t3 | dungeon/func_80B074F8 | func_80158CF8 | 0xB274F8 | 580 | 2.7.2-cdk-G0 | dungeon_r121nd_B274F8_true_80158CF8.overlay.yaml |
+| t3 | dungeon/func_80B0D4F8 | func_80152CF8 | 0xB2D4F8 | 580 | 2.7.2-cdk-G0 | dungeon_r121nd_B2D4F8_true_80152CF8.overlay.yaml |
+| t3 | dungeon/func_80B134F8 | func_8014CCF8 | 0xB334F8 | 580 | 2.7.2-cdk-G0 | dungeon_r121nd_B334F8_true_8014CCF8.overlay.yaml |
+| t3 | dungeon/func_812B006C | func_8016F86C | 0x12D006C | 248 | 2.7.2-cdk-G0 | dungeon_r121nd_12D006C_true_8016F86C.overlay.yaml |
+| t3 | dungeon/func_812B606C | func_8016986C | 0x12D606C | 248 | 2.7.2-cdk-G0 | dungeon_r121nd_12D606C_true_8016986C.overlay.yaml |
+| t3 | dungeon/func_812BC06C | func_8016386C | 0x12DC06C | 248 | 2.7.2-cdk-G0 | dungeon_r121nd_12DC06C_true_8016386C.overlay.yaml |
+| t3 | dungeon/func_812C206C | func_8015D86C | 0x12E206C | 248 | 2.7.2-cdk-G0 | dungeon_r121nd_12E206C_true_8015D86C.overlay.yaml |
+| t3 | town/func_8067F770 | func_80016770 | 0x5FF770 | 44 | 2.7.2-cdk-G0 | town_r121nd_5FF770_true_80016770.overlay.yaml |
+| t3 | town/func_8067F79C | func_8001679C | 0x5FF79C | 44 | 2.7.2-cdk-G0 | town_r121nd_5FF79C_true_8001679C.overlay.yaml |
+| t3 | town/func_8067F7C8 | func_800167C8 | 0x5FF7C8 | 40 | 2.7.2-cdk-G0 | town_r121nd_5FF7C8_true_800167C8.overlay.yaml |
+| t3 | town/func_8067F7F0 | func_800167F0 | 0x5FF7F0 | 40 | 2.7.2-cdk-G0 | town_r121nd_5FF7F0_true_800167F0.overlay.yaml |
+| t3 | town/func_8067F818 | func_80016818 | 0x5FF818 | 40 | 2.7.2-cdk-G0 | town_r121nd_5FF818_true_80016818.overlay.yaml |
+| t3 | town/func_8067F840 | func_80016840 | 0x5FF840 | 16 | 2.7.2-cdk-G0 | town_r121nd_5FF840_true_80016840.overlay.yaml |
+| t3 | town/func_80353EE4 | func_8001FBB4 | 0x2D3EE4 | 8 | 2.7.2-cdk-G0 | town_r121nd_2D3EE4_true_8001FBB4.overlay.yaml |
+| t3 | town/func_80353F04 | func_8001FBD4 | 0x2D3F04 | 8 | 2.7.2-cdk-G0 | town_r121nd_2D3F04_true_8001FBD4.overlay.yaml |
+| t3 | town/func_8080E594 | func_80529194 | 0x78E594 | 8 | 2.7.2-cdk-G0 | town_r121nd_78E594_true_80529194.overlay.yaml |
+| t3 | town/func_80875510 | func_80701510 | 0x7F5510 | 8 | 2.7.2-cdk-G0 | town_r121nd_7F5510_true_80701510.overlay.yaml |
+| t3 | town/func_80875798 | func_80701798 | 0x7F5798 | 8 | 2.7.2-cdk-G0 | town_r121nd_7F5798_true_80701798.overlay.yaml |
+| t3 | town/func_80875800 | func_80701800 | 0x7F5800 | 8 | 2.7.2-cdk-G0 | town_r121nd_7F5800_true_80701800.overlay.yaml |
+| t3 | town/func_80880090 | func_80701090 | 0x800090 | 80 | 2.6.3 | town_r121nd_800090_true_80701090.overlay.yaml |
+| t3 | town/func_808800E0 | func_807010E0 | 0x8000E0 | 84 | 2.6.3 | town_r121nd_8000E0_true_807010E0.overlay.yaml |
+| t3 | town/func_808833D8 | func_80700BD8 | 0x8033D8 | 80 | 2.6.3 | town_r121nd_8033D8_true_80700BD8.overlay.yaml |
+| t3 | town/func_80883428 | func_80700C28 | 0x803428 | 84 | 2.6.3 | town_r121nd_803428_true_80700C28.overlay.yaml |
+| t3 | town/func_808B2E6C | func_8070066C | 0x832E6C | 8 | 2.7.2-cdk-G0 | town_r121nd_832E6C_true_8070066C.overlay.yaml |
+| t3 | town/func_808B3218 | func_80700A18 | 0x833218 | 8 | 2.7.2-cdk-G0 | town_r121nd_833218_true_80700A18.overlay.yaml |
+| t3 | town/func_808B96AC | func_A07006AC | 0x8396AC | 80 | 2.6.3 | town_r121nd_8396AC_true_A07006AC.overlay.yaml |
+| t3 | town/func_808B96FC | func_A07006FC | 0x8396FC | 84 | 2.6.3 | town_r121nd_8396FC_true_A07006FC.overlay.yaml |
+| t3 | town/func_8094D4D8 | func_800164D8 | 0x8CD4D8 | 88 | 2.7.2-G0 | town_r121nd_8CD4D8_true_800164D8.overlay.yaml |
+| t3 | town/func_8094E4D8 | func_800164D8 | 0x8CE4D8 | 88 | 2.7.2-G0 | town_r121nd_8CE4D8_true_800164D8.overlay.yaml |
+| t3 | town/func_8094F4D4 | func_800164D4 | 0x8CF4D4 | 88 | 2.7.2-G0 | town_r121nd_8CF4D4_true_800164D4.overlay.yaml |
+| t3 | town/func_809504D4 | func_800164D4 | 0x8D04D4 | 88 | 2.7.2-G0 | town_r121nd_8D04D4_true_800164D4.overlay.yaml |
+| t3 | town/func_809514D4 | func_800164D4 | 0x8D14D4 | 88 | 2.7.2-G0 | town_r121nd_8D14D4_true_800164D4.overlay.yaml |
+| t3 | town/func_80956E64 | func_80023E64 | 0x8D6E64 | 8 | 2.7.2-cdk-G0 | town_r121nd_8D6E64_true_80023E64.overlay.yaml |
+| t3 | town/func_808B97B0 | func_A07007B0 | 0x8397B0 | 252 | 2.7.2-G0 | town_r121nd_8397B0_true_A07007B0.overlay.yaml |
+| v0 | town/func_808B8720 | func_80003F20 | 0x838720 | 48 | 2.6.3 | town_r121nd_838720_true_80003F20.overlay.yaml |
+| v0 | town/func_808BB6D8 | func_80000ED8 | 0x83B6D8 | 48 | 2.6.3 | town_r121nd_83B6D8_true_80000ED8.overlay.yaml |
+| t3 | town/func_8035A5AC | func_8001EA7C | 0x2DA5AC | 56 | 2.7.2-cdk-G0 | town_r121nd_2DA5AC_true_8001EA7C.overlay.yaml |
+| t3 | town/func_808817C4 | func_80700FC4 | 0x8017C4 | 48 | 2.6.3 | town_r121nd_8017C4_true_80700FC4.overlay.yaml |
+| t3 | town/func_808B2AA4 | func_807002A4 | 0x832AA4 | 48 | 2.6.3 | town_r121nd_832AA4_true_807002A4.overlay.yaml |
+| t3 | town/func_808B3488 | func_80700C88 | 0x833488 | 8 | 2.7.2-cdk-G0 | town_r121nd_833488_true_80700C88.overlay.yaml |
+| t3 | town/func_808B356C | func_80700D6C | 0x83356C | 84 | 2.6.3 | town_r121nd_83356C_true_80700D6C.overlay.yaml |
+| t3 | town/func_808B98D0 | func_A07008D0 | 0x8398D0 | 260 | 2.6.3-G0 | town_r121nd_8398D0_true_A07008D0.overlay.yaml |
+| t3 | town/func_80952598 | func_80016598 | 0x8D2598 | 88 | 2.7.2-G0 | town_r121nd_8D2598_true_80016598.overlay.yaml |
+| t3 | dungeon/func_80D71810 | func_80165010 | 0xD91810 | 460 | 2.7.2-cdk-G0 | dungeon_r121nd_D91810_true_80165010.overlay.yaml |
+| t3 | dungeon/func_80D71C5C | func_8016545C | 0xD91C5C | 512 | 2.7.2-cdk-G0 | dungeon_r121nd_D91C5C_true_8016545C.overlay.yaml |
+| t3 | dungeon/func_80D77810 | func_8015F010 | 0xD97810 | 460 | 2.7.2-cdk-G0 | dungeon_r121nd_D97810_true_8015F010.overlay.yaml |
+| t3 | dungeon/func_80D77C5C | func_8015F45C | 0xD97C5C | 512 | 2.7.2-cdk-G0 | dungeon_r121nd_D97C5C_true_8015F45C.overlay.yaml |
+| t3 | dungeon/func_80D7D810 | func_80159010 | 0xD9D810 | 460 | 2.7.2-cdk-G0 | dungeon_r121nd_D9D810_true_80159010.overlay.yaml |
+| t3 | dungeon/func_80D7DC5C | func_8015945C | 0xD9DC5C | 512 | 2.7.2-cdk-G0 | dungeon_r121nd_D9DC5C_true_8015945C.overlay.yaml |
+| t3 | dungeon/func_80D83810 | func_80153010 | 0xDA3810 | 460 | 2.7.2-cdk-G0 | dungeon_r121nd_DA3810_true_80153010.overlay.yaml |
+| t3 | dungeon/func_80D83C5C | func_8015345C | 0xDA3C5C | 512 | 2.7.2-cdk-G0 | dungeon_r121nd_DA3C5C_true_8015345C.overlay.yaml |
+| t3 | dungeon/func_80D89810 | func_8014D010 | 0xDA9810 | 460 | 2.7.2-cdk-G0 | dungeon_r121nd_DA9810_true_8014D010.overlay.yaml |
+| t3 | dungeon/func_80D89C5C | func_8014D45C | 0xDA9C5C | 512 | 2.7.2-cdk-G0 | dungeon_r121nd_DA9C5C_true_8014D45C.overlay.yaml |
+| t3 | dungeon/func_80E42C80 | func_80170480 | 0xE62C80 | 336 | 2.7.2-cdk-G0 | dungeon_r121nd_E62C80_true_80170480.overlay.yaml |
+| t3 | dungeon/func_80E48C80 | func_8016A480 | 0xE68C80 | 336 | 2.7.2-cdk-G0 | dungeon_r121nd_E68C80_true_8016A480.overlay.yaml |
+| t3 | dungeon/func_80E4EC80 | func_80164480 | 0xE6EC80 | 336 | 2.7.2-cdk-G0 | dungeon_r121nd_E6EC80_true_80164480.overlay.yaml |
+| t3 | dungeon/func_80E54C80 | func_8015E480 | 0xE74C80 | 336 | 2.7.2-cdk-G0 | dungeon_r121nd_E74C80_true_8015E480.overlay.yaml |
+| t3 | dungeon/func_80E5AC80 | func_80158480 | 0xE7AC80 | 336 | 2.7.2-cdk-G0 | dungeon_r121nd_E7AC80_true_80158480.overlay.yaml |
+| t3 | dungeon/func_80E60C80 | func_80152480 | 0xE80C80 | 336 | 2.7.2-cdk-G0 | dungeon_r121nd_E80C80_true_80152480.overlay.yaml |
 
 Batches: p1 = in production window town_deep_t8_03ea (proven w4t2 bank regions); p2 = proven rowbase region, minted per-row true-base window; p3 = new rowbase record from the TOWN script-module loader evidence (module header + descriptor sectors); p4 = new rowbase record from in-row local j + jal entry witnesses / authenticated bank map; p5 = new rowbase record from string-operand witnesses in the devkit image (sn_main.c); t1 = near-twin sample: copies of module-0 helpers / siblings with field or constant differences.
 
@@ -286,3 +359,19 @@ Batches: p1 = in production window town_deep_t8_03ea (proven w4t2 bank regions);
   15 of 37 rows break (in-row j), 22 are link-placement-invariant and rest on the image-level evidence. Code starts one function
   earlier than the census heuristic (0x837D44 / 0x83AEC4 / 0x844760, jal-called entries right after the .rodata strings); the three
   data_segment split views covering them are shortened to end there (evidence_note on each).
+
+## Placement pass 2 (holds of the continuation)
+
+- Bank-grid: a DUNGEON census run laid out on a 0x6000 file grid, each cell holding one PROVEN per-floor image; the rule (every
+  proven region inside a cell carries that cell's K) is checked on all proven regions of the run (0 disagree, 0 crossing a cell
+  boundary, >= 2 outside the census image extents) before any record is minted.
+- Twin-stride: the floor-bank family repeats every 0x6000 file bytes and links 0x6000 lower per bank, so a copy i banks after a
+  proven twin derives delta_twin - i*0xC000; admitted only when that equals the K of the adjacent PROVEN census image (two
+  independent sources); checked on the independently proven i=1 member of the D8B family.
+- Town: bracketing by same-delta proven regions within 0x400 bytes on both sides of one jr-ra code run; unreferenced TOWN module
+  headers 0x8CD000..0x8D2000 bounded by the next header; the authenticated CD bank map 0x2D9800..0x2DA800; devkit image headers
+  (word 0 = entry pointer onto a complete entry, extent to the next header, KSEG0/KSEG1 aliases of one link base).
+- 0x5FF770 verdict (decision 51): module 24 (header 0x5FF000, 6 sectors to 0x602000) owns 0x5FF770..0x5FF850 at base 0x7FA17000;
+  module 23 (header 0x5DB800, 5 sectors) ends at 0x5DE000. The jal to 0x80016A4C lands on a prologue only at 0x7FA17000, the
+  stored word 0x800188C8 lies inside module 24. The six r121_remnant_5FF7xx records are corrected (corrected_by: r121_nodonor),
+  their wrong-base NOMATCH split views dropped, and three stale load_base fields (0x5FF4A0/C0/E0) fixed.

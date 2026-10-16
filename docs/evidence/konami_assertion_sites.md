@@ -599,8 +599,20 @@ flagged `cross-container (rdata absent from TOWN.BIN)` in the CSV.
 
 ## 7. The devkit blob in TOWN.BIN
 
-TOWN.BIN file `0x7F7F00`–`0x845000` (at least; the pools run from `0x7F7FCC` to `0x844730`) is not shipped game code. It holds several link images of a
-Konami scene-authoring / test tool:
+TOWN.BIN file `0x7F7F00`–`0x845000` (at least; the pools run from `0x7F7FCC` to `0x844730`) holds several link images of the town facility
+scenario scripts (NPC dialogue and event scripts with native scene-setup code). Correction (2026-10-16): an earlier version of this section called the
+whole range "not shipped game code" and the images a scene-authoring / test tool. The investigation in `work/native_lane/_r120/vram0/SCENES.md`
+(with `work/native_lane/_r120/vram0/REPORT.md`) shows:
+
+- The images linked at `0x80700000` are retail: they lie inside records of the scene table at TOWN `0x564A0` (25 records of 8 bytes, loaded by
+  Control_CD case 6 in `func_8003E758`), so the shipped game loads them. The scripts are the theater (the Fon manzai routine), the
+  archaeologist professor's house (library facility) and the clinic doctor (hospital facility).
+- The zero-base images (link address 0, listed below as unrelocated) are older alternate builds of those same scenario scripts. Their text is a strict
+  subset of the retail records and they call service slots `+0x64`/`+0x70` where retail uses `+0x68`/`+0x74`. No scene-table record, LBA or loader
+  path reaches them, so they are unreachable leftovers; they are admitted as code in the repository under decision 52 of `docs/evidence/r97_decisions.md`.
+- The pool table below is unchanged; only the "test tool" description and the "not shipped" claim are corrected.
+
+Link images in this range:
 
 | pool foff | base | link address | note |
 |---|---|---|---|
